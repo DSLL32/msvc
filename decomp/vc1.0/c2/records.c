@@ -8,7 +8,8 @@ FunctionSymbol **pending_insertion;
 void __fastcall read_global_records(Function *function)
 {
     ScopeHash *scope;
-    SymbolHeader *parent_type, *existing;
+    SymbolHeader *existing;
+    int retain_locals;
     FunctionSymbol *symbol;
     FunctionSymbol **insertion;
     Segment *segment;
@@ -18,10 +19,10 @@ void __fastcall read_global_records(Function *function)
     int kind;
     if (!function) {
         scope = &global_scope;
-        parent_type = NULL;
+        retain_locals = 0;
     } else {
         scope = function->scope;
-        parent_type = type_of_symbol(function->symbol, 1);
+        retain_locals = function_retains_symbols((FunctionSymbol *)function->symbol, 1);
     }
     if (codeview_debug && function) {
         current_debug_scope = arena_alloc(1, sizeof(DebugScope));
@@ -30,7 +31,7 @@ void __fastcall read_global_records(Function *function)
         current_debug_scope->line = 0;
     }
     for (;;) {
-        symbol = (FunctionSymbol *)read_symbol(parent_type);
+        symbol = (FunctionSymbol *)read_symbol(retain_locals);
         debug_scope = current_debug_scope;
         if (!symbol) return;
         kind = symbol->symbol.kind;
@@ -45,7 +46,7 @@ void __fastcall read_global_records(Function *function)
                 !(symbol->symbol.field0e & 0x4a0))
                 queue_symbol_debug(&symbol->symbol);
             update_symbol_storage(&symbol->symbol);
-            if (parent_type && !(symbol->symbol.kind == 1 &&
+            if (retain_locals && !(symbol->symbol.kind == 1 &&
                 ((symbol->field24 & 0x70) == 0x10 || (symbol->field24 & 0x70) == 0x30)) && symbol->symbol.kind != 19) {
                 existing = lookup_symbol(scope->previous, symbol->symbol.identifier);
                 if (existing) symbol = (FunctionSymbol *)existing;
@@ -123,4 +124,18 @@ void __fastcall record_filename(SymbolHeader *symbol)
     entry->name = symbol->name;
     entry->next = filename_entries;
     filename_entries = entry;
+}
+
+/* Original [00063f40,00063f60). Flags select persistent local records. */
+int __fastcall function_retains_symbols(FunctionSymbol *symbol, int conditional)
+{
+    return (symbol->flags52 & 0x80) || (conditional && (symbol->flags52 & 0x40)) ? 1 : 0;
+}
+
+/* Original [0004e510,0004e530). Input identifiers must name a known file. */
+char *__fastcall lookup_filename(unsigned identifier)
+{
+    FilenameEntry *entry = filename_entries;
+    while (entry->identifier != identifier) entry = entry->next;
+    return entry->name;
 }

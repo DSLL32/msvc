@@ -1,8 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-collect_machine_symbols, original VA 00068870. Object generation is not reconstructed
-yet. No completed C2 output-equivalence claim is made.
+apply_function_options, original VA 00026b70. Object generation is incomplete. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -80,8 +79,16 @@ and machine/frame reset now reach the function reader. machine-opcodes.def recor
 the encountered instruction operand counts with named opcodes; it contains no
 original pointer table or opaque data snapshot.
 
-The current checkpoint has 95 reconstructed source functions and 154 recorded
-matching trap frontiers. All 154 frontiers replay successfully with the matching binary CRT default. Callback stubs
+Function and expression input are now in function-input.c and tree-input.c.
+expression-fields.c and control-input.c express the encountered stream recipes
+as semantic field lists, with complete record/control dispatch in C. nodes.c
+owns node/expression reuse; leaves.c owns canonical symbol and constant tables.
+The reader reaches per-function option setup for the minimal case. The 182
+expression recipes, 47 control recipes and 182 semantic shape entries were
+checked against the original classifications.
+
+The current checkpoint has 115 reconstructed source functions and 176 recorded
+matching trap frontiers. All 176 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -95,3 +102,11 @@ one callee-cleaned stack argument, matching original RET 4. Diagnostic handling
 is still a named trapping stub; the current success-path cases and graph audit
 do not validate diagnostic failure behavior. Unreached
 function stubs deliberately use INT3 as required by the reconstruction process.
+
+The leaf interner has an ordinary C varargs interface whose argument count
+depends on the opcode. Original-compiler probes confirm an eight-byte raw
+double struct returns in EDX:EAX. Twelve-byte Extended input uses __stdcall
+so the callee pops the hidden result pointer (RET 4); a normal cdecl struct
+return would use caller cleanup. Original and rebuilt calls/returns agree.
+See cases/input-abi.json. The floating-input helper bodies remain trapped;
+these static checks and the integer case do not validate floating input.

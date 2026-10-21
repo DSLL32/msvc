@@ -116,3 +116,23 @@ void _freebuf(FILE *stream)
         stream->_cnt = 0;
     }
 }
+
+extern int _flush(FILE *stream);
+/* Original [00071f00,00071fa0), before the later CRT seek fast paths. */
+int fseek(FILE *stream, long offset, int origin)
+{
+    if (!(stream->_flag & 0x83) ||
+        (origin != SEEK_SET && origin != SEEK_CUR && origin != SEEK_END)) {
+        errno = 22;
+        return -1;
+    }
+    stream->_flag &= ~0x10;
+    if (origin == SEEK_CUR) {
+        offset += ftell(stream);
+        origin = SEEK_SET;
+    }
+    _flush(stream);
+    if (stream->_flag & 0x80) stream->_flag &= ~3;
+    else if ((stream->_flag & 9) == 9) stream->_bufsiz = 512;
+    return _lseek(stream->_file, offset, origin) == -1 ? -1 : 0;
+}

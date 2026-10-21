@@ -61,3 +61,40 @@ unsigned next_symbol_identifier(void)
     if (!next_serial) compiler_report(0x37);
     return next_serial++;
 }
+
+/* Each function scope chains to the module's 64-bucket scope. */
+ScopeHash *new_scope(void)
+{
+    ScopeHash *scope;
+    unsigned i;
+    scope = arena_alloc(0, sizeof(ScopeHash));
+    scope->previous = &global_scope;
+    for (i = 0; i != 64; ++i) scope->buckets[i] = 0;
+    return scope;
+}
+
+/* Original [0004d210,0004d240). Search the enclosing scopes in order. */
+SymbolHeader *__fastcall lookup_symbol(ScopeHash *scope, unsigned identifier)
+{
+    SymbolHeader *symbol;
+    unsigned bucket;
+    if (!scope) return 0;
+    bucket = identifier & 63;
+    do {
+        symbol = scope->buckets[bucket];
+        while (symbol) {
+            if (symbol->identifier == identifier) return symbol;
+            symbol = symbol->hash_next;
+        }
+        scope = scope->previous;
+    } while (scope);
+    return 0;
+}
+
+/* Original [0004e3a0,0004e3d0). */
+void __fastcall activate_scope(ScopeHash *scope)
+{
+    if (scope->previous != &global_scope)
+        compiler_internal_error("@(#)p2symtab.c:1.89", 0x4a8);
+    current_scope = scope;
+}

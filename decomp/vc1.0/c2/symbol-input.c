@@ -9,7 +9,7 @@ long il_option_flags;
 char *auxiliary_prefix;
 FILE *aux_expression_file, *aux_symbol_file;
 /* Original [0004d240,0004da40), including the kind-dispatch table. */
-SymbolHeader *__fastcall read_symbol(SymbolHeader *parent_type)
+SymbolHeader *__fastcall read_symbol(int retain_locals)
 {
     FunctionSymbol temporary, *symbol;
     SymbolHeader *target;
@@ -71,7 +71,7 @@ SymbolHeader *__fastcall read_symbol(SymbolHeader *parent_type)
         }
         if (*name) temporary.symbol.name = intern_symbol_name(&temporary.symbol, name, 0);
         storage = temporary.field24 & 0x70;
-        if ((!parent_type || (temporary.symbol.kind == 1 && (storage == 0x10 || storage == 0x30)) ||
+        if ((!retain_locals || (temporary.symbol.kind == 1 && (storage == 0x10 || storage == 0x30)) ||
             temporary.symbol.kind == 19) && flag > 0) arena = 1;
         symbol = allocate_descriptor((signed char)kind, arena);
         bytes = descriptor_size((signed char)kind);
@@ -193,7 +193,7 @@ SymbolHeader *__fastcall read_symbol(SymbolHeader *parent_type)
             aux_symbol_file = open_intermediate(auxiliary_prefix, "", "r", "Pch sym il");
         }
         count = (signed char)input_byte();
-        while (count--) apply_il_option((signed char)input_byte());
+        while (count--) read_module_directive((signed char)input_byte());
         return NULL;
     case 11:
         if ((signed char)input_byte() > 0) arena = 1;

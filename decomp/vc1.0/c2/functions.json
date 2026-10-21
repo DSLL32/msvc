@@ -158,7 +158,29 @@
     "@write_initializer_listing@4",
     "_reset_machine_state",
     "_reset_stack_frame",
-    "_initialize_stack_alignment"
+    "_initialize_stack_alignment",
+    "@read_function@4",
+    "@read_function_body@4",
+    "_new_scope",
+    "_fseek",
+    "__lseek",
+    "import:SetFilePointer",
+    "@function_retains_symbols@8",
+    "@read_expression@4",
+    "@read_expression_record@4",
+    "_input_expression_opcode",
+    "@decode_expression@8",
+    "@new_node@4",
+    "@read_control_fields@4",
+    "@release_node@4",
+    "@lookup_filename@4",
+    "_new_expression",
+    "@lookup_symbol@8",
+    "_intern_leaf",
+    "@needs_return_temp@12",
+    "@read_node_type@4",
+    "@encode_node_type@8",
+    "@activate_scope@4"
   ],
   "driver": [
     {
@@ -456,8 +478,7 @@
     {
       "name": "@read_function@4",
       "start": 312832,
-      "end": 312833,
-      "provisional": true
+      "end": 312848
     },
     {
       "name": "@format_function_name@4",
@@ -474,8 +495,7 @@
     {
       "name": "@activate_scope@4",
       "start": 320416,
-      "end": 320417,
-      "provisional": true
+      "end": 320464
     },
     {
       "name": "@apply_function_options@4",
@@ -598,10 +618,9 @@
       "provisional": true
     },
     {
-      "name": "@type_of_symbol@8",
+      "name": "@function_retains_symbols@8",
       "start": 409408,
-      "end": 409409,
-      "provisional": true
+      "end": 409440
     },
     {
       "name": "@read_symbol@4",
@@ -611,8 +630,7 @@
     {
       "name": "@lookup_symbol@8",
       "start": 315920,
-      "end": 315921,
-      "provisional": true
+      "end": 315968
     },
     {
       "name": "@put_symbol@8",
@@ -675,7 +693,7 @@
       "end": 461968
     },
     {
-      "name": "@apply_il_option@4",
+      "name": "@read_module_directive@4",
       "start": 314896,
       "end": 314897,
       "provisional": true
@@ -1474,6 +1492,169 @@
       "name": "_initialize_stack_alignment",
       "start": 159248,
       "end": 159280
+    },
+    {
+      "name": "@read_function_body@4",
+      "start": 323904,
+      "end": 324672
+    },
+    {
+      "name": "_new_scope",
+      "start": 320368,
+      "end": 320416
+    },
+    {
+      "name": "@read_expression@4",
+      "start": 323536,
+      "end": 323840
+    },
+    {
+      "name": "@needs_return_temp@12",
+      "start": 324784,
+      "end": 324976
+    },
+    {
+      "name": "@create_temporary@28",
+      "start": 320576,
+      "end": 320577,
+      "provisional": true
+    },
+    {
+      "name": "@release_node@4",
+      "start": 324752,
+      "end": 324784
+    },
+    {
+      "name": "@decode_inline_assembly@8",
+      "start": 108912,
+      "end": 108913,
+      "provisional": true
+    },
+    {
+      "name": "_new_expression",
+      "start": 324672,
+      "end": 324752
+    },
+    {
+      "name": "_fseek",
+      "start": 466688,
+      "end": 466848
+    },
+    {
+      "name": "_ftell",
+      "start": 466256,
+      "end": 466688
+    },
+    {
+      "name": "@read_expression_record@4",
+      "start": 323840,
+      "end": 323904
+    },
+    {
+      "name": "_input_expression_opcode",
+      "start": 326832,
+      "end": 326896
+    },
+    {
+      "name": "@decode_expression@8",
+      "start": 312896,
+      "end": 313952
+    },
+    {
+      "name": "@new_node@4",
+      "start": 325440,
+      "end": 325520
+    },
+    {
+      "name": "@read_node_type@4",
+      "start": 313952,
+      "end": 314064
+    },
+    {
+      "name": "@read_control_fields@4",
+      "start": 314368,
+      "end": 314896
+    },
+    {
+      "name": "_intern_leaf",
+      "start": 325520,
+      "end": 326240
+    },
+    {
+      "name": "@intern_typed_label@8",
+      "start": 326240,
+      "end": 326241,
+      "provisional": true
+    },
+    {
+      "name": "_input_extended@0",
+      "start": 458688,
+      "end": 458689,
+      "provisional": true
+    },
+    {
+      "name": "_input_double_bits",
+      "start": 458640,
+      "end": 458641,
+      "provisional": true
+    },
+    {
+      "name": "_extended_format",
+      "start": 463232,
+      "end": 463233,
+      "provisional": true
+    },
+    {
+      "name": "_extended_to_float",
+      "start": 463569,
+      "end": 463570,
+      "provisional": true
+    },
+    {
+      "name": "_extended_to_double",
+      "start": 463604,
+      "end": 463605,
+      "provisional": true
+    },
+    {
+      "name": "_float_to_extended",
+      "start": 463665,
+      "end": 463666,
+      "provisional": true
+    },
+    {
+      "name": "_double_to_extended",
+      "start": 463697,
+      "end": 463698,
+      "provisional": true
+    },
+    {
+      "name": "@input_counted_string@8",
+      "start": 458928,
+      "end": 458929,
+      "provisional": true
+    },
+    {
+      "name": "@lookup_filename@4",
+      "start": 320784,
+      "end": 320816
+    },
+    {
+      "name": "_compare_extended",
+      "start": 464300,
+      "end": 464301,
+      "provisional": true
+    },
+    {
+      "name": "@is_register_return_size@4",
+      "start": 456080,
+      "end": 456081,
+      "provisional": true
+    },
+    {
+      "name": "@encode_node_type@8",
+      "start": 314064,
+      "end": 314224
     }
   ],
   "cases": {

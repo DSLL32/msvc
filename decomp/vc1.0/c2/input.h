@@ -4,6 +4,7 @@
 extern FILE *input_file;
 unsigned char input_byte(void);
 unsigned short input_word(void);
+unsigned short input_type(void);
 unsigned long input_dword(void);
 unsigned long input_varuint(void);
 long input_compact_signed(void);

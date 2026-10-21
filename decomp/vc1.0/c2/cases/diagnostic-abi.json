@@ -11,19 +11,19 @@
     {
       "parent": "_parse_options",
       "original_call": 158534,
-      "reconstructed_call": 72775,
+      "reconstructed_call": 72911,
       "caller_extra_pop": false
     },
     {
       "parent": "@open_intermediate@16",
       "original_call": 459213,
-      "reconstructed_call": 75066,
+      "reconstructed_call": 75202,
       "caller_extra_pop": false
     },
     {
       "parent": "_coff_open_module",
       "original_call": 444494,
-      "reconstructed_call": 90747,
+      "reconstructed_call": 99143,
       "caller_extra_pop": false
     }
   ],
@@ -32,8 +32,8 @@
   "validation": [
     "original and rebuilt RET 4 verified",
     "three original/rebuilt call sites have no extra caller pop",
-    "all 95 reconstructed source graph audits pass",
-    "all 154 recorded matching logical trap frontiers replayed after the ABI correction",
+    "all 115 reconstructed source graph audits pass",
+    "all 176 recorded matching logical trap frontiers replayed",
     "clean original-toolchain GNU Make -j2 frontier build passed"
   ],
   "remaining_assembly": "Two documented x87/ESI blocks in extended.c; trapping stubs use INT3."

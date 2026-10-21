@@ -43,10 +43,10 @@ Node *null_node, *scratch_node, *sentinel_node;
 void initialize_backend(void)
 {
     backend_arena_handle = configure_arena(5, 2, 64000);
-    null_node = arena_calloc(5, sizeof(Node));
-    null_node->opcode = 0x4c;
-    scratch_node = arena_calloc(5, sizeof(Node));
     sentinel_node = arena_calloc(5, sizeof(Node));
+    sentinel_node->opcode = 0x4c;
+    scratch_node = arena_calloc(5, sizeof(Node));
+    null_node = arena_calloc(5, sizeof(Node));
 }
 
 #include "symbols.h"

@@ -3,7 +3,12 @@
 #include "c2.h"
 typedef struct Node {
     unsigned opcode;
-    unsigned field04, field08, field0c, field10, field14, field18;
+    union { unsigned value; struct { unsigned short type, flags; } words; } attributes;
+    union { unsigned value; struct { short identifier; unsigned short flags; } words; } info;
+    union { unsigned value; struct Node *node; void *pointer; short word; } left;
+    union { unsigned value; struct Node *node; } second;
+    union { unsigned value; struct Node *node; struct FunctionSymbol *function; struct SymbolHeader *symbol; void *pointer; } right;
+    union { unsigned value; struct SymbolHeader *symbol; struct { short code; unsigned short flags; } control; } detail;
 } Node;
 extern Node *null_node, *scratch_node, *sentinel_node;
 unsigned __fastcall descriptor_size(int kind);

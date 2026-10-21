@@ -1,0 +1,70 @@
+{
+  "leaf_interner": {
+    "original_start": 325520,
+    "signature": "Node *__cdecl intern_leaf(unsigned opcode, ...)",
+    "arguments": {
+      "0x4c": [
+        "opcode"
+      ],
+      "0x26": [
+        "opcode",
+        "flags",
+        "symbol",
+        "offset",
+        "type only when symbol is null"
+      ],
+      "0x33": [
+        "opcode",
+        "flags",
+        "type",
+        "value or extended-value pointer"
+      ],
+      "0xa2": [
+        "opcode",
+        "flags",
+        "type",
+        "signed value"
+      ]
+    },
+    "original_call_evidence": {
+      "one_argument_call": 327442,
+      "four_argument_call": 313790,
+      "five_argument_call": 352049,
+      "conditional_fifth_argument_read": 325768
+    }
+  },
+  "double_bits_input": {
+    "original_start": 458640,
+    "signature": "DoubleBits input_double_bits(void)",
+    "size": 8,
+    "return_registers": [
+      "EAX: low",
+      "EDX: high"
+    ],
+    "compiler_probe": "pair-return-probe.c/.asm in ~/.ai-tmp/vc1.0-c2",
+    "helper_reconstructed": false
+  },
+  "extended_input": {
+    "original_start": 458688,
+    "signature": "Extended __stdcall input_extended(void)",
+    "size": 12,
+    "hidden_result_pointer": "stack, returned in EAX",
+    "callee_stack_pop_bytes": 4,
+    "original_caller": 313394,
+    "caller_extra_pop": false,
+    "original_and_reconstructed_ret4_verified": true,
+    "compiler_probes": [
+      "extended-return-probe.c/.asm",
+      "extended-stdcall-probe.c/.asm"
+    ],
+    "helper_reconstructed": false
+  },
+  "floating_input_branch_executed": false,
+  "semantic_data_validation": {
+    "expression_recipes": 182,
+    "control_recipes": 47,
+    "tree_shapes": 182,
+    "contextual_scalar_initializers": 5
+  },
+  "note": "Probes and static ABI checks validate declarations and callers. Unreconstructed helper bodies and floating-input behavior remain trapped and untested."
+}

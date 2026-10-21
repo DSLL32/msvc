@@ -5,7 +5,14 @@ typedef struct Extended {
     unsigned long low, high;
     unsigned short exponent, format;
 } Extended;
+typedef struct DoubleBits { unsigned long low, high; } DoubleBits;
 extern Extended extended_zero, extended_one;
+int compare_extended(unsigned operation, const Extended *left, const Extended *right);
+int extended_format(const Extended *number);
+int extended_to_float(const Extended *number, float *result);
+int extended_to_double(const Extended *number, DoubleBits *result);
+void float_to_extended(const float *number, Extended *result);
+void double_to_extended(const DoubleBits *number, Extended *result);
 void integer_to_extended(const int *integer, Extended *number);
 void store_extended(void); /* private ABI: ESI destination, ST(0) value */
 #endif

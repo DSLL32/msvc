@@ -14,8 +14,8 @@ typedef struct DebugScope {
     struct DebugScope *next;
 } DebugScope;
 
-SymbolHeader *__fastcall type_of_symbol(SymbolHeader *symbol, int unwrap);
-SymbolHeader *__fastcall read_symbol(SymbolHeader *parent_type);
+int __fastcall function_retains_symbols(FunctionSymbol *symbol, int conditional);
+SymbolHeader *__fastcall read_symbol(int retain_locals);
 SymbolHeader *__fastcall lookup_symbol(ScopeHash *scope, unsigned identifier);
 SymbolHeader *__fastcall put_symbol(ScopeHash *scope, SymbolHeader *symbol);
 void __fastcall queue_symbol_debug(SymbolHeader *symbol);
@@ -28,6 +28,6 @@ char *__fastcall intern_symbol_name(SymbolHeader *symbol, char *name, int arena)
 SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier);
 void __fastcall clone_alias_symbol(SymbolHeader *symbol);
 char *__fastcall arena_strdup(char *string, unsigned arena);
-void __fastcall apply_il_option(int option);
+void __fastcall read_module_directive(int kind);
 void __cdecl compiler_warning(int level, int code, ...);
 #endif

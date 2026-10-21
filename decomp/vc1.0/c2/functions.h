@@ -11,12 +11,17 @@ typedef struct FunctionSymbol {
     unsigned char flags52, field53;
 } FunctionSymbol;
 typedef struct WorkItem { struct WorkItem *next; } WorkItem;
+typedef struct Expression {
+    struct Expression *next;
+    Node *tree;
+    unsigned field08, source_location;
+} Expression;
 typedef struct Function {
     Node *root;
     SymbolHeader *symbol;
     SymbolHeader *return_temp;
     WorkItem *work;
-    void *expressions;
+    Expression *expressions;
     ScopeHash *scope;
     unsigned field18, options, state;
     struct DebugScope *debug_scope;
@@ -30,6 +35,7 @@ extern Node *(__fastcall *tree_transform)(Node *node);
 void __fastcall read_global_records(Function *function);
 void emit_backend_work(void);
 Function *__fastcall read_function(FunctionSymbol *symbol);
+Function *__fastcall read_function_body(FunctionSymbol *symbol);
 char *__fastcall format_function_name(FunctionSymbol *symbol);
 void __cdecl ide_message(int code, ...);
 void __fastcall activate_scope(ScopeHash *scope);

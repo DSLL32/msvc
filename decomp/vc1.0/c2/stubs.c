@@ -6,6 +6,10 @@
 #include "segments.h"
 #include "initializers.h"
 #include "functions.h"
+#include "function-input.h"
+#include "tree-input.h"
+#include "expression-fields.h"
+#include "control-input.h"
 #include "records.h"
 #include "backend-passes.h"
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
@@ -22,10 +26,23 @@ Initializer *__fastcall new_initializer(int kind) { __asm int 3 }
 void __fastcall read_initializer_body(Initializer *initializer) { __asm int 3 }
 void __fastcall insert_initializer(Initializer *initializer) { __asm int 3 }
 void __fastcall release_initializer(Initializer *initializer) { __asm int 3 }
-Function *__fastcall read_function(FunctionSymbol *symbol) { __asm int 3 }
+void __fastcall read_module_directive(int kind) { __asm int 3 }
+short __fastcall input_counted_string(char *buffer, unsigned limit) { __asm int 3 }
+int compare_extended(unsigned operation, const Extended *left, const Extended *right) { __asm int 3 }
+Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 3 }
+Extended __stdcall input_extended(void) { __asm int 3 }
+DoubleBits input_double_bits(void) { __asm int 3 }
+int extended_format(const Extended *number) { __asm int 3 }
+int extended_to_float(const Extended *number, float *result) { __asm int 3 }
+int extended_to_double(const Extended *number, DoubleBits *result) { __asm int 3 }
+void float_to_extended(const float *number, Extended *result) { __asm int 3 }
+void double_to_extended(const DoubleBits *number, Extended *result) { __asm int 3 }
+int __fastcall is_register_return_size(unsigned bytes) { __asm int 3 }
+TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, long size,
+    short storage, unsigned arena, signed char subclass, unsigned short attributes) { __asm int 3 }
+void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
 char *__fastcall format_function_name(FunctionSymbol *symbol) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
-void __fastcall activate_scope(ScopeHash *scope) { __asm int 3 }
 void __fastcall apply_function_options(unsigned options) { __asm int 3 }
 void __fastcall initialize_function_state(unsigned state) { __asm int 3 }
 void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
@@ -46,14 +63,11 @@ void generate_work(void) { __asm int 3 }
 void __fastcall free_work(WorkItem *work) { __asm int 3 }
 void reset_work(void) { __asm int 3 }
 void release_function_symbols(void) { __asm int 3 }
-SymbolHeader *__fastcall type_of_symbol(SymbolHeader *symbol, int unwrap) { __asm int 3 }
-SymbolHeader *__fastcall lookup_symbol(ScopeHash *scope, unsigned identifier) { __asm int 3 }
 void __fastcall queue_symbol_debug(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall reserve_symbol_storage(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall apply_il_option(int option) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
 int __fastcall is_constant_symbol(SymbolHeader *symbol) { __asm int 3 }
@@ -159,3 +173,5 @@ Initializer *__fastcall find_initializer(unsigned identifier) { __asm int 3 }
 void __fastcall emit_initializer(Initializer *initializer) { __asm int 3 }
 void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int 3 }
 #include "frame.h"
+
+long ftell(FILE *stream) { __asm int 3 }
