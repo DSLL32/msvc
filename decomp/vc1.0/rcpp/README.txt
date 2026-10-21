@@ -2,8 +2,9 @@ RCPP.EXE, MSVC 1.0 NT / vc1.0
 ============================
 
 Status: partial reconstruction. The resources-rich case currently reaches a
-matching trap at rc_initialize_preprocessor (original 01009d90). Startup,
-argument transport, top-level option matching and option actions are recovered;
+matching trap at rc_parse_directive (original 0100d4f0). Startup, argument
+transport, option matching/actions, command-line macro storage, encoding
+detection, buffered input setup and #line emission are recovered;
 no successful preprocessing output is claimed yet. The oracle is 336,686 exact
 bytes, exit zero and empty stdout/stderr. No fields or paths are normalized.
 
@@ -11,6 +12,8 @@ bytes, exit zero and empty stdout/stderr. No fields or paths are normalized.
     make -j2 replay
     python3 prove-library.py
     python3 audit-graph.py
+    python3 audit-data.py
+    python3 identify-runtime.py
 
 Builds use the original CL.EXE and LINK.EXE from toolchains/1.0-nt. Scratch,
 Wine prefix, paired case directories and debugger logs are under
@@ -54,13 +57,16 @@ and malloc implementations remain because they are straightforward and work.
 
 The current milestone has not needed to exercise the relaxed graph exception:
 every accepted non-import function still has equal direct/indirect call-target
-sets. Future compatible CRT substitutions may use it, and must be recorded in
+sets. Compatible stdio variants use different private buffer sizes; these are
+recorded separately in crt-boundaries.json, without claiming byte identity. Future compatible CRT substitutions may use it, and must be recorded in
 crt-boundaries.json; that file initially records no substitutions.
 
 IOINIT and STDENVP are linked from the shipped LIBC.LIB. prove-library.py checks
 all code bytes outside relocation fields, every REL32 call destination, every
 DIR32 data reference, and all 392 initial IOINIT data bytes against the target.
-STRNCPY is an exact 37-byte object match. library-proof.json records these
+STRNCPY is an exact 37-byte object match. Additional FOPEN, STREAM, _OPEN,
+_FLSBUF, LSEEK and FGETC objects have all code and relocation targets checked.
+library-proof.json records these
 checks. Shared runtime data comes from the original library, not copied target
 data. Any new routine must be individually classified and its layout/semantics
 assessed before taking advantage of the CRT exception.
@@ -78,3 +84,21 @@ diagnostic and alternate option paths remain trapping stubs where not reached.
 A matching trap is a reconstruction checkpoint, not evidence of complete branch
 coverage or final artifact equivalence. Further focused/error cases follow the
 broad starting case. No preprocessing output has passed reconstruction yet.
+
+Current input milestone
+-----------------------
+
+62 recorded logical frontiers replay to the directive-parser stub. The 48
+accepted non-import functions have equal native/CRT call-target sets. No full
+preprocessed output has been accepted. Macro entries are typed linked nodes;
+input files use typed 40-byte saved contexts and shared segmented byte/word
+buffers. The lexer tables contain encountered semantic categories and radix/
+identifier flags, verified independently against original initial values.
+Their only original .text data encountered so far is the begin-line switch
+jump table; its explicit accepted range is recorded with that function.
+
+identify-runtime.py inventories LIBC and LIBCMT byte candidates in scratch.
+Its output is explicitly identification evidence, never automatic acceptance
+or a claim of behavioral equivalence. The original file-open disposition
+checks differ from CL/later LIBC and are implemented as readable C with the
+RCPP-specific invalid combinations retained.

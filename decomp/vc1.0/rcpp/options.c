@@ -10,7 +10,7 @@ RcOptions rc_options = {
 };
 RcStringOptions rc_definitions = { 100 };
 RcStringOptions rc_include_directories = { 100 };
-int rc_input_depth = -1;
+int rc_conditional_depth = -1;
 
 char *rc_current_option;
 /* Original [01007440,0100753c). '#' captures an attached or following value;

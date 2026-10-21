@@ -7,7 +7,7 @@ static char **argument_vector;
 char rc_diagnostic_buffer[256];
 char *rc_message_format;
 int rc_error_count, rc_preprocessing_started;
-char rc_source_name[128];
+char rc_source_name[260];
 
 int rc_main(int argc, char **argv, char **envp)
 {
@@ -77,13 +77,13 @@ int rc_main(int argc, char **argv, char **envp)
     rc_preprocessing_started = 1;
     if (!rc_options.preprocess_lines && !rc_options.preprocess_plain)
         rc_options.preprocess_lines = 1;
-    strncpy(rc_source_name, rc_options.input_name, sizeof(rc_source_name));
+    strncpy(rc_source_name, rc_options.input_name, 128);
     SetConsoleCtrlHandler(rc_control_handler, TRUE);
     rc_initialize_preprocessor(rc_options.input_name, rc_options.output_name,
                                &rc_definitions);
     rc_emit_tokens();
     SetConsoleCtrlHandler(rc_control_handler, FALSE);
-    if (rc_input_depth >= 0) {
+    if (rc_conditional_depth >= 0) {
         rc_message_format = rc_message(1022);
         rc_format(rc_diagnostic_buffer, rc_message_format);
         rc_fatal(1022);

@@ -143,5 +143,227 @@
     "code_start": 16845480,
     "code_bytes": 37,
     "all_bytes_equal": true
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "stdio\\obj\\i386\\FOPEN.OBJ",
+    "member_sha256": "d59a4c832e3d388cb2c4c8faeb4e38e2edde0593ba9fe86726f27cce7769ba78",
+    "code_start": 16837680,
+    "code_bytes": 80,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 1,
+        "kind": "REL32",
+        "symbol": "__getstream",
+        "target": 16837776
+      },
+      {
+        "offset": 33,
+        "kind": "REL32",
+        "symbol": "__openfile",
+        "target": 16837872
+      },
+      {
+        "offset": 61,
+        "kind": "REL32",
+        "symbol": "__fsopen",
+        "target": 16837680
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "stdio\\obj\\i386\\STREAM.OBJ",
+    "member_sha256": "6ba84b67daf5a8cb74c9b931718f894093539b1a234638e4fed3f4e5d5b5d335",
+    "code_start": 16837776,
+    "code_bytes": 80,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 1,
+        "kind": "DIR32",
+        "symbol": "__iob",
+        "target": 16903840
+      },
+      {
+        "offset": 9,
+        "kind": "DIR32",
+        "symbol": "__lastiob",
+        "target": 16904480
+      },
+      {
+        "offset": 30,
+        "kind": "DIR32",
+        "symbol": "__lastiob",
+        "target": 16904480
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "stdio\\obj\\i386\\_OPEN.OBJ",
+    "member_sha256": "f947bda4e9bc32e668e22680bf4139256d5bde85296787497c50b840a3a4e935",
+    "code_start": 16837872,
+    "code_bytes": 496,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 6,
+        "kind": "DIR32",
+        "symbol": "__commode",
+        "target": 16907392
+      },
+      {
+        "offset": 417,
+        "kind": "REL32",
+        "symbol": "__sopen",
+        "target": 16838416
+      },
+      {
+        "offset": 441,
+        "kind": "DIR32",
+        "symbol": "__cflush",
+        "target": 16905824
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "stdio\\obj\\i386\\_FLSBUF.OBJ",
+    "member_sha256": "7512a7ea444b23f4ed7126f2aaf0446678db143424731768405d801edd8aad9b",
+    "code_start": 16812976,
+    "code_bytes": 304,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 91,
+        "kind": "DIR32",
+        "symbol": "__iob",
+        "target": 16903872
+      },
+      {
+        "offset": 99,
+        "kind": "DIR32",
+        "symbol": "__iob",
+        "target": 16903904
+      },
+      {
+        "offset": 107,
+        "kind": "REL32",
+        "symbol": "__isatty",
+        "target": 16813392
+      },
+      {
+        "offset": 120,
+        "kind": "REL32",
+        "symbol": "__getbuf",
+        "target": 16813296
+      },
+      {
+        "offset": 164,
+        "kind": "REL32",
+        "symbol": "__write",
+        "target": 16811632
+      },
+      {
+        "offset": 194,
+        "kind": "DIR32",
+        "symbol": "__osfile",
+        "target": 16905416
+      },
+      {
+        "offset": 207,
+        "kind": "REL32",
+        "symbol": "__lseek",
+        "target": 16812224
+      },
+      {
+        "offset": 238,
+        "kind": "REL32",
+        "symbol": "__write",
+        "target": 16811632
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "lowio\\obj\\i386\\LSEEK.OBJ",
+    "member_sha256": "f5ece71b9f632d3bf1f9f11a9782d097d4150b82fcc74b100b2879c2d521f998",
+    "code_start": 16812224,
+    "code_bytes": 128,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 8,
+        "kind": "DIR32",
+        "symbol": "__nhandle",
+        "target": 16905408
+      },
+      {
+        "offset": 16,
+        "kind": "DIR32",
+        "symbol": "_errno",
+        "target": 16905072
+      },
+      {
+        "offset": 26,
+        "kind": "DIR32",
+        "symbol": "__doserrno",
+        "target": 16905076
+      },
+      {
+        "offset": 56,
+        "kind": "REL32",
+        "symbol": "__get_osfhandle",
+        "target": 16810992
+      },
+      {
+        "offset": 65,
+        "kind": "REL32",
+        "symbol": "_SetFilePointer@16",
+        "target": 16812368
+      },
+      {
+        "offset": 82,
+        "kind": "REL32",
+        "symbol": "_GetLastError@0",
+        "target": 16810000
+      },
+      {
+        "offset": 92,
+        "kind": "REL32",
+        "symbol": "__dosmaperr",
+        "target": 16810016
+      },
+      {
+        "offset": 114,
+        "kind": "DIR32",
+        "symbol": "__osfile",
+        "target": 16905416
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "stdio\\obj\\i386\\FGETC.OBJ",
+    "member_sha256": "705b45a7a9fba30468137788172aa924729edd2264571ac33e237f9f03fbff19",
+    "code_start": 16836800,
+    "code_bytes": 64,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 25,
+        "kind": "REL32",
+        "symbol": "__filbuf",
+        "target": 16836880
+      },
+      {
+        "offset": 54,
+        "kind": "REL32",
+        "symbol": "_fgetc",
+        "target": 16836800
+      }
+    ]
   }
 ]
