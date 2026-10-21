@@ -1,0 +1,306 @@
+{
+  "target": {
+    "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "base": 65536,
+    "entry": 472176
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "__heap_init",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "__setargv",
+    "import:GetModuleFileNameA",
+    "_parse_cmdline",
+    "_malloc",
+    "__heap_search",
+    "__heap_grow",
+    "__heap_new_region",
+    "import:VirtualAlloc",
+    "__heap_grow_region",
+    "__heap_addblock",
+    "__heap_findaddr",
+    "__heap_grow_emptylist",
+    "__before",
+    "__heap_split_block",
+    "__setenvp",
+    "__cinit",
+    "__fpmath",
+    "__cfltcvt_init",
+    "__setdefaultprecision",
+    "__controlfp",
+    "__control87",
+    "__abstract_cw",
+    "__hw_cw",
+    "__initterm",
+    "__onexitinit",
+    "_main",
+    "import:SetConsoleCtrlHandler",
+    "_atexit",
+    "__onexit",
+    "__msize",
+    "_getenv",
+    "__strnicmp",
+    "@append_environment_arguments@4",
+    "_copy_arguments",
+    "_parse_options",
+    "_next_argument",
+    "@match_option@16",
+    "@apply_option@12",
+    "@parse_number@4",
+    "_strtol",
+    "_strtoxl",
+    "@consume_string@4",
+    "_initialize_limits",
+    "@open_intermediate@16",
+    "_fopen",
+    "__fsopen",
+    "__getstream",
+    "__openfile",
+    "__sopen",
+    "__alloc_osfhnd",
+    "import:CreateFileA",
+    "__set_osfhnd",
+    "_initialize_frontend_data",
+    "_read_frontend_header",
+    "_input_byte",
+    "__filbuf",
+    "__getbuf",
+    "__read",
+    "import:ReadFile",
+    "_input_word",
+    "_input_dword",
+    "_initialize_backend",
+    "@configure_arena@12",
+    "@arena_calloc@8",
+    "@compiler_allocate@8",
+    "_initialize_symbols",
+    "_initialize_output",
+    "@allocate_descriptor@8",
+    "@descriptor_size@4",
+    "@arena_alloc@8"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 311552,
+      "end": 312000
+    },
+    {
+      "name": "_compiler_control@4",
+      "start": 312672,
+      "end": 312704
+    },
+    {
+      "name": "_compiler_cleanup",
+      "start": 312544,
+      "end": 312672
+    },
+    {
+      "name": "@append_environment_arguments@4",
+      "start": 463088,
+      "end": 463232
+    },
+    {
+      "name": "_parse_options",
+      "start": 158224,
+      "end": 158560
+    },
+    {
+      "name": "_initialize_debugging",
+      "start": 455536,
+      "end": 455712
+    },
+    {
+      "name": "_initialize_limits",
+      "start": 465536,
+      "end": 465552
+    },
+    {
+      "name": "@open_intermediate@16",
+      "start": 459040,
+      "end": 459232
+    },
+    {
+      "name": "_initialize_frontend_data",
+      "start": 312528,
+      "end": 312544
+    },
+    {
+      "name": "_initialize_backend",
+      "start": 325344,
+      "end": 325440
+    },
+    {
+      "name": "_initialize_symbols",
+      "start": 320272,
+      "end": 320304
+    },
+    {
+      "name": "_initialize_output",
+      "start": 320752,
+      "end": 320768
+    },
+    {
+      "name": "_initialize_codegen",
+      "start": 359392,
+      "end": 359600
+    },
+    {
+      "name": "_initialize_registers",
+      "start": 158800,
+      "end": 158928
+    },
+    {
+      "name": "_initialize_types",
+      "start": 434560,
+      "end": 434768
+    },
+    {
+      "name": "_initialize_globals",
+      "start": 321584,
+      "end": 321728
+    },
+    {
+      "name": "_compile_functions",
+      "start": 312000,
+      "end": 312528
+    },
+    {
+      "name": "_finish_output",
+      "start": 320768,
+      "end": 320864
+    },
+    {
+      "name": "_finish_debugging",
+      "start": 430768,
+      "end": 431104
+    },
+    {
+      "name": "_finish_globals",
+      "start": 166192,
+      "end": 166352
+    },
+    {
+      "name": "@compiler_internal_error@8",
+      "start": 457584,
+      "end": 457616
+    },
+    {
+      "name": "_copy_arguments",
+      "start": 463024,
+      "end": 463088
+    },
+    {
+      "name": "_next_argument",
+      "start": 312848,
+      "end": 312896
+    },
+    {
+      "name": "@match_option@16",
+      "start": 461968,
+      "end": 462272
+    },
+    {
+      "name": "_compiler_report",
+      "start": 459360,
+      "end": 459440
+    },
+    {
+      "name": "@consume_string@4",
+      "start": 158560,
+      "end": 158576
+    },
+    {
+      "name": "_report_context_error",
+      "start": 460864,
+      "end": 460912
+    },
+    {
+      "name": "@apply_option@12",
+      "start": 462272,
+      "end": 462768
+    },
+    {
+      "name": "@suffix_matches@12",
+      "start": 462768,
+      "end": 462864
+    },
+    {
+      "name": "@parse_number@4",
+      "start": 462864,
+      "end": 463024
+    },
+    {
+      "name": "__sopen",
+      "start": 483312,
+      "end": 484320
+    },
+    {
+      "name": "_read_frontend_header",
+      "start": 319056,
+      "end": 319264
+    },
+    {
+      "name": "_input_byte",
+      "start": 457616,
+      "end": 457664
+    },
+    {
+      "name": "_input_word",
+      "start": 457888,
+      "end": 458000
+    },
+    {
+      "name": "_input_dword",
+      "start": 458400,
+      "end": 458592
+    },
+    {
+      "name": "__filbuf",
+      "start": 470720,
+      "end": 470944
+    },
+    {
+      "name": "@configure_arena@12",
+      "start": 461520,
+      "end": 461536
+    },
+    {
+      "name": "@arena_calloc@8",
+      "start": 461760,
+      "end": 461808
+    },
+    {
+      "name": "@compiler_allocate@8",
+      "start": 461696,
+      "end": 461760
+    },
+    {
+      "name": "@allocate_descriptor@8",
+      "start": 318640,
+      "end": 318688
+    },
+    {
+      "name": "@descriptor_size@4",
+      "start": 318864,
+      "end": 319056
+    },
+    {
+      "name": "@arena_alloc@8",
+      "start": 461536,
+      "end": 461696
+    }
+  ],
+  "cases": {
+    "minimal": {
+      "arguments": "",
+      "accepted_from": 0
+    }
+  }
+}

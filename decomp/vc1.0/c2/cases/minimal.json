@@ -1,0 +1,18 @@
+{
+  "case": "minimal-c",
+  "status": "in progress",
+  "fixture_manifest": "../fixtures/minimal-c/manifest.json",
+  "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
+  "accepted_frontiers": 79,
+  "reconstructed_functions": 27,
+  "current_frontier": {
+    "name": "_initialize_codegen",
+    "original_va": 359392
+  },
+  "validation": [
+    "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
+    "all 79 recorded matching logical trap frontiers replayed",
+    "27 reconstructed source functions have matching direct, indirect and tail-call graph edges"
+  ],
+  "complete_object_comparison": false
+}
