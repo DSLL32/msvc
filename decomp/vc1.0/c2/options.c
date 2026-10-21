@@ -1,5 +1,6 @@
 /* Backend switches and their storage, introduced with parse_options. */
 #include "options.h"
+#include "functions.h"
 #include <string.h>
 char *source_filename, *assembly_filename, *debug_filename, *listing_filename;
 char *object_filename, *unknown_option, *assembly_options, *error_filename, *language_options;
@@ -256,4 +257,26 @@ long __fastcall parse_number(char *text)
 void __fastcall consume_string(char *string)
 {
     if (string) while (*string) ++string;
+}
+
+int function_optimization;      /* 000806ac */
+int global_optimization_active; /* 00080680 */
+int optimize_weak_inverse;      /* 00080690 */
+/* Original [00026b70,00026c50). Restore the frontend's per-function options. */
+void __fastcall apply_function_options(unsigned bits)
+{
+    function_optimization = (bits & 0x80000000U) != 0;
+    optimize_alias = (bits & 0x02000000) != 0;
+    optimize_weak = (bits & 0x01000000) != 0;
+    optimize_speed = (bits & 0x00800000) != 0;
+    optimize_global = (bits & 0x00200000) != 0;
+    optimize_precision = (bits & 0x00040000) != 0;
+    omit_frame_pointer = (bits & 0x00000800) != 0;
+    if (optimize_global) global_optimization_active = 1;
+    optimize_weak_inverse = !optimize_weak;
+    if (optimize_weak) optimize_alias = 1;
+    if (seh_disabled && (current_symbol->symbol.field0e & 0x1000)) {
+        global_optimization_active = 0;
+        optimize_global = 0;
+    }
 }

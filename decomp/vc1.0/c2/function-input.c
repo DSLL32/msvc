@@ -72,7 +72,7 @@ Function *__fastcall read_function_body(FunctionSymbol *symbol)
                 node->opcode = 1;
                 break;
             case 0x23:
-                function->state = node->right.value;
+                function->warning_state = node->right.pointer;
                 node->opcode = 1;
                 break;
             }

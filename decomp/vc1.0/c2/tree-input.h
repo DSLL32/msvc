@@ -1,14 +1,22 @@
 #ifndef TREE_INPUT_H
 #define TREE_INPUT_H
 #include "function-input.h"
-/* Only the arity and self-contained-record properties encountered by the
-   postfix reader are defined here. Other original opcode flags are separate. */
-typedef enum NodeShape {
-    LEAF, UNARY, BINARY, CHAIN,
-    COMPLETE_LEAF, COMPLETE_UNARY, COMPLETE_BINARY, COMPLETE_CHAIN
-} NodeShape;
+/* Define opcode properties only as their uses are encountered. */
+typedef enum NodeArity { NODE_BINARY, NODE_UNARY, NODE_LEAF, NODE_CHAIN } NodeArity;
 #define NODE_ARITY 3
 #define NODE_COMPLETE 4
+#define NODE_HAS_SECOND 8
+#define NODE_WRITES_LEFT 16
+typedef enum NodeShape {
+    BINARY = NODE_BINARY | NODE_HAS_SECOND,
+    UNARY = NODE_UNARY, LEAF = NODE_LEAF,
+    CHAIN = NODE_CHAIN | NODE_HAS_SECOND,
+    COMPLETE_BINARY = BINARY | NODE_COMPLETE,
+    COMPLETE_UNARY = UNARY | NODE_COMPLETE,
+    COMPLETE_LEAF = LEAF | NODE_COMPLETE,
+    COMPLETE_CHAIN = CHAIN | NODE_COMPLETE,
+    ASSIGNMENT = BINARY | NODE_WRITES_LEFT
+} NodeShape;
 #define NODE_OPCODE_COUNT 182
 extern const unsigned char node_shapes[NODE_OPCODE_COUNT];
 extern int expression_eof;

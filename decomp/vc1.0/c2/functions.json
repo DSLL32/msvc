@@ -180,7 +180,17 @@
     "@needs_return_temp@12",
     "@read_node_type@4",
     "@encode_node_type@8",
-    "@activate_scope@4"
+    "@activate_scope@4",
+    "@apply_function_options@4",
+    "@apply_warning_state@4",
+    "@canonicalize_function@4",
+    "@canonicalize_tree@8",
+    "@prepare_target_tree@4",
+    "@rewrite_expression@4",
+    "@rewrite_subtree@12",
+    "@rewrite_before_children@12",
+    "@rewrite_after_left@12",
+    "@analyze_tree_references@8"
   ],
   "driver": [
     {
@@ -500,14 +510,12 @@
     {
       "name": "@apply_function_options@4",
       "start": 158576,
-      "end": 158577,
-      "provisional": true
+      "end": 158800
     },
     {
-      "name": "@initialize_function_state@4",
+      "name": "@apply_warning_state@4",
       "start": 365296,
-      "end": 365297,
-      "provisional": true
+      "end": 365392
     },
     {
       "name": "@prepare_inline_function@4",
@@ -518,8 +526,7 @@
     {
       "name": "@canonicalize_function@4",
       "start": 312704,
-      "end": 312705,
-      "provisional": true
+      "end": 312768
     },
     {
       "name": "@finish_inline_function@4",
@@ -1655,6 +1662,167 @@
       "name": "@encode_node_type@8",
       "start": 314064,
       "end": 314224
+    },
+    {
+      "name": "@set_warning_override@8",
+      "start": 460320,
+      "end": 460321,
+      "provisional": true
+    },
+    {
+      "name": "@canonicalize_tree@8",
+      "start": 328176,
+      "end": 328448
+    },
+    {
+      "name": "@rewrite_expression@4",
+      "start": 333488,
+      "end": 333536
+    },
+    {
+      "name": "@prepare_target_tree@4",
+      "start": 159216,
+      "end": 159232
+    },
+    {
+      "name": "@canonicalize_node@12",
+      "start": 328448,
+      "end": 328449,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_subtree@12",
+      "start": 334176,
+      "end": 334400
+    },
+    {
+      "name": "@analyze_tree_references@8",
+      "start": 333536,
+      "end": 334176
+    },
+    {
+      "name": "@rewrite_before_children@12",
+      "start": 335392,
+      "end": 336080
+    },
+    {
+      "name": "@rewrite_after_left@12",
+      "start": 334400,
+      "end": 335392
+    },
+    {
+      "name": "@rewrite_short_circuit@4",
+      "start": 336624,
+      "end": 336625,
+      "provisional": true
+    },
+    {
+      "name": "_splice_expressions",
+      "start": 336080,
+      "end": 336081,
+      "provisional": true
+    },
+    {
+      "name": "@skip_node_conversions@4",
+      "start": 360384,
+      "end": 360385,
+      "provisional": true
+    },
+    {
+      "name": "@can_keep_conditional@4",
+      "start": 336368,
+      "end": 336369,
+      "provisional": true
+    },
+    {
+      "name": "@lower_conditional@8",
+      "start": 336448,
+      "end": 336449,
+      "provisional": true
+    },
+    {
+      "name": "@lower_comma@8",
+      "start": 336256,
+      "end": 336257,
+      "provisional": true
+    },
+    {
+      "name": "@materialize_expression@4",
+      "start": 336320,
+      "end": 336321,
+      "provisional": true
+    },
+    {
+      "name": "@extract_assembly_labels@4",
+      "start": 161872,
+      "end": 161873,
+      "provisional": true
+    },
+    {
+      "name": "@convert_node_type@8",
+      "start": 337200,
+      "end": 337201,
+      "provisional": true
+    },
+    {
+      "name": "@new_temporary_reference@8",
+      "start": 361888,
+      "end": 361889,
+      "provisional": true
+    },
+    {
+      "name": "_build_tree",
+      "start": 327184,
+      "end": 327185,
+      "provisional": true
+    },
+    {
+      "name": "@map_assignment_opcode@8",
+      "start": 361440,
+      "end": 361441,
+      "provisional": true
+    },
+    {
+      "name": "@copy_tree@4",
+      "start": 361696,
+      "end": 361697,
+      "provisional": true
+    },
+    {
+      "name": "@assignment_value@4",
+      "start": 336784,
+      "end": 336785,
+      "provisional": true
+    },
+    {
+      "name": "@clone_node@4",
+      "start": 328128,
+      "end": 328129,
+      "provisional": true
+    },
+    {
+      "name": "@lower_bitfield_reference@4",
+      "start": 364720,
+      "end": 364721,
+      "provisional": true
+    },
+    {
+      "name": "@release_tree@4",
+      "start": 326544,
+      "end": 326545,
+      "provisional": true
+    },
+    {
+      "name": "@lower_target_address@4",
+      "start": 456192,
+      "end": 456193,
+      "provisional": true
+    },
+    {
+      "name": "@lower_bitfield_assignment@4",
+      "start": 364944,
+      "end": 364945,
+      "provisional": true
     }
   ],
   "cases": {

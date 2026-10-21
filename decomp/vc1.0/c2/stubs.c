@@ -10,6 +10,7 @@
 #include "tree-input.h"
 #include "expression-fields.h"
 #include "control-input.h"
+#include "tree-rewrite.h"
 #include "records.h"
 #include "backend-passes.h"
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
@@ -43,10 +44,28 @@ TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, lo
 void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
 char *__fastcall format_function_name(FunctionSymbol *symbol) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
-void __fastcall apply_function_options(unsigned options) { __asm int 3 }
-void __fastcall initialize_function_state(unsigned state) { __asm int 3 }
+void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
 void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
-void __fastcall canonicalize_function(Function *function) { __asm int 3 }
+Node *__fastcall canonicalize_node(Function *function, Node *node, unsigned flags) { __asm int 3 }
+Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
+void __cdecl splice_expressions(const char *order, ...) { __asm int 3 }
+Node *__fastcall skip_node_conversions(Node *node) { __asm int 3 }
+int __fastcall can_keep_conditional(Node *node) { __asm int 3 }
+Node *__fastcall lower_conditional(Node *node, Node *container) { __asm int 3 }
+Node *__fastcall lower_comma(Node *node, Node *container) { __asm int 3 }
+Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
+Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
+Node *__fastcall convert_node_type(Node *node, unsigned short type) { __asm int 3 }
+Node *__fastcall new_temporary_reference(unsigned bytes, unsigned flags) { __asm int 3 }
+Node *__cdecl build_tree(const char *format, ...) { __asm int 3 }
+unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse) { __asm int 3 }
+Node *__fastcall copy_tree(Node *node) { __asm int 3 }
+Node *__fastcall assignment_value(Node *node) { __asm int 3 }
+Node *__fastcall clone_node(Node *node) { __asm int 3 }
+void __fastcall lower_bitfield_reference(Node *node) { __asm int 3 }
+void __fastcall release_tree(Node *node) { __asm int 3 }
+Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
+void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 void __fastcall prepare_function_codegen(Function *function) { __asm int 3 }
 Node *__fastcall optimize_tree_global(Node *node) { __asm int 3 }

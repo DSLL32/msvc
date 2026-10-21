@@ -3,7 +3,7 @@
 typedef enum ControlField {
     CONTROL_END, CONTROL_INVALID, CONTROL_SOURCE_LINE, CONTROL_SOURCE_FILE,
     CONTROL_DIRECTIVE, CONTROL_STRING, CONTROL_UNSUPPORTED, CONTROL_WORD,
-    CONTROL_LONG, CONTROL_SIGNED_WORD, CONTROL_VALUE, CONTROL_PAIRS
+    CONTROL_LONG, CONTROL_SIGNED_WORD, CONTROL_VALUE, CONTROL_WARNING_STATE
 } ControlField;
 static const ControlField source_line_fields[] = {CONTROL_SOURCE_LINE, CONTROL_END};
 static const ControlField source_file_fields[] = {CONTROL_SOURCE_FILE, CONTROL_END};
@@ -13,7 +13,7 @@ static const ControlField unsupported_fields[] = {CONTROL_UNSUPPORTED, CONTROL_E
 static const ControlField word_fields[] = {CONTROL_WORD, CONTROL_END};
 static const ControlField long_fields[] = {CONTROL_LONG, CONTROL_END};
 static const ControlField signed_word_fields[] = {CONTROL_SIGNED_WORD, CONTROL_END};
-static const ControlField pair_fields[] = {CONTROL_PAIRS, CONTROL_END};
+static const ControlField warning_state_fields[] = {CONTROL_WARNING_STATE, CONTROL_END};
 static const ControlField invalid_fields[] = {CONTROL_INVALID, CONTROL_END};
 static const ControlField two_invalid_fields[] = {CONTROL_INVALID, CONTROL_INVALID, CONTROL_END};
 unsigned pragma_value, saved_pragma_value;
@@ -37,7 +37,7 @@ void __fastcall read_control_fields(Node *node)
     case 0x18: fields = word_fields; break;
     case 0x1f: fields = long_fields; break;
     case 0x20: fields = signed_word_fields; break;
-    case 0x23: fields = pair_fields; break;
+    case 0x23: fields = warning_state_fields; break;
     case 4: case 5: case 6: case 0x0a: case 0x0c: case 0x0d:
     case 0x0e: case 0x13: case 0x14: case 0x15: case 0x1e: case 0x21:
         fields = invalid_fields; break;
@@ -71,7 +71,7 @@ void __fastcall read_control_fields(Node *node)
         case CONTROL_VALUE:
             pragma_value = saved_pragma_value = input_varuint();
             break;
-        case CONTROL_PAIRS:
+        case CONTROL_WARNING_STATE:
             pairs = (unsigned char *)buffer;
             bytes = 2;
             for (;;) {

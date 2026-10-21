@@ -2,6 +2,7 @@
 #define FUNCTIONS_H
 #include "backend.h"
 #include "symbols.h"
+#include "warnings.h"
 typedef struct FunctionSymbol {
     SymbolHeader symbol;
     unsigned field20, field24, field28, field2c, field30, field34;
@@ -23,7 +24,8 @@ typedef struct Function {
     WorkItem *work;
     Expression *expressions;
     ScopeHash *scope;
-    unsigned field18, options, state;
+    unsigned field18, options;
+    const SavedWarning *warning_state;
     struct DebugScope *debug_scope;
     unsigned field28;
 } Function;
@@ -40,9 +42,10 @@ char *__fastcall format_function_name(FunctionSymbol *symbol);
 void __cdecl ide_message(int code, ...);
 void __fastcall activate_scope(ScopeHash *scope);
 void __fastcall apply_function_options(unsigned options);
-void __fastcall initialize_function_state(unsigned state);
 void __fastcall prepare_inline_function(Function *function);
 void __fastcall canonicalize_function(Function *function);
+Node *__fastcall canonicalize_tree(Function *function, Node *node);
+void __fastcall rewrite_expression(Expression *expression);
 void __fastcall finish_inline_function(Function *function);
 void __fastcall prepare_function_codegen(Function *function);
 Node *__fastcall optimize_tree_global(Node *node);

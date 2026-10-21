@@ -3,20 +3,22 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 176,
-  "reconstructed_functions": 115,
+  "accepted_frontiers": 186,
+  "reconstructed_functions": 125,
   "current_frontier": {
-    "name": "@apply_function_options@4",
-    "original_va": 158576
+    "name": "@canonicalize_node@12",
+    "original_va": 328448
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 176 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "115 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 186 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "125 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000",
     "182 expression recipes, 47 control recipes and 182 semantic tree shapes match original classifications",
     "five encountered scalar initializers match original .data values",
-    "input_extended hidden result pointer uses callee RET4 with no extra caller pop"
+    "input_extended hidden result pointer uses callee RET4 with no extra caller pop",
+    "all four encountered tree properties agree across 182 opcodes",
+    "four intrinsic operand-reference entries agree across the original valid descriptor table"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"

@@ -64,7 +64,22 @@
     "expression_recipes": 182,
     "control_recipes": 47,
     "tree_shapes": 182,
-    "contextual_scalar_initializers": 5
+    "contextual_scalar_initializers": 5,
+    "tree_properties": [
+      "arity",
+      "complete record",
+      "second operand",
+      "writes left operand"
+    ],
+    "intrinsic_reference_entries": 4
   },
-  "note": "Probes and static ABI checks validate declarations and callers. Unreconstructed helper bodies and floating-input behavior remain trapped and untested."
+  "note": "Probes and static ABI checks validate declarations and callers. Unreconstructed helper bodies and floating-input behavior remain trapped and untested.",
+  "saved_warning_record": {
+    "size": 3,
+    "number": "signed short at offset 0",
+    "level": "signed byte at offset 2",
+    "terminator": "number -1 without a following level byte",
+    "setter_reconstructed": false,
+    "nonempty_state_executed": false
+  }
 }

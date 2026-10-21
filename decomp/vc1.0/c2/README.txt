@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-apply_function_options, original VA 00026b70. Object generation is incomplete. No completed C2 output-equivalence claim is made.
+canonicalize_node, original VA 00050300. Object generation is incomplete. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -83,12 +83,16 @@ Function and expression input are now in function-input.c and tree-input.c.
 expression-fields.c and control-input.c express the encountered stream recipes
 as semantic field lists, with complete record/control dispatch in C. nodes.c
 owns node/expression reuse; leaves.c owns canonical symbol and constant tables.
-The reader reaches per-function option setup for the minimal case. The 182
+Per-function options and packed saved warning state now reach tree
+canonicalization for the minimal case. canonicalize.c preserves expression
+effects and source markers; tree-lowering.c reconstructs compound assignments,
+volatile post-increment sequencing and bitfield paths. tree-references.c walks
+the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 115 reconstructed source functions and 176 recorded
-matching trap frontiers. All 176 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 125 reconstructed source functions and 186 recorded
+matching trap frontiers. All 186 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -110,3 +114,12 @@ so the callee pops the hidden result pointer (RET 4); a normal cdecl struct
 return would use caller cleanup. Original and rebuilt calls/returns agree.
 See cases/input-abi.json. The floating-input helper bodies remain trapped;
 these static checks and the integer case do not validate floating input.
+
+The tree classification table defines arity, self-contained records, second
+operands and left-operand writes as those properties are encountered. Its
+182 entries match those original properties; it does not copy the packed
+original opcode flags. Reference propagation records the four intrinsic
+descriptors that carry an operand reference, without importing their name,
+implementation or argument-format tables. Saved warning state uses packed
+three-byte records. Its setter remains a trap; nonempty warning overrides
+have not yet been exercised by the minimal case.

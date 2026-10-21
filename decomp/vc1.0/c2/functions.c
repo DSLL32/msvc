@@ -1,5 +1,6 @@
 /* Per-function compilation pipeline. */
 #include "functions.h"
+#include "function-input.h"
 #include "input.h"
 extern int optimize_global, generate_disabled;
 FunctionSymbol *pending_functions, *current_symbol;
@@ -39,7 +40,7 @@ void compile_functions(void)
             ide_message(4, format_function_name(current_symbol));
         activate_scope(function->scope);
         apply_function_options(function->options);
-        initialize_function_state(function->state);
+        apply_warning_state(function->warning_state);
         backend_stage = 1;
         inline_function = function->symbol && (function->symbol->field0e & 0x1000);
         if (inline_function) prepare_inline_function(function);
@@ -81,5 +82,18 @@ void compile_functions(void)
         }
         reset_work();
         release_function_symbols();
+    }
+}
+
+/* Original [0004c580,0004c5c0). Save the next link before rewriting. */
+void __fastcall canonicalize_function(Function *function)
+{
+    Expression *expression = function->expressions, *next;
+    while (expression) {
+        next = expression->next;
+        if (expression->source_location) current_source_location = expression->source_location;
+        expression->tree = canonicalize_tree(function, expression->tree);
+        rewrite_expression(expression);
+        expression = next;
     }
 }
