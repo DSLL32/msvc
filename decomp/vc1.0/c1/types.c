@@ -436,3 +436,58 @@ unsigned short __stdcall merge_type_attributes(unsigned short existing, unsigned
     }
     return existing | added;
 }
+
+/* Original 0x40000..0x4001d. */
+CType *__stdcall remove_type_prefix(CType *type)
+{
+    if (type && type->related && !(type->related->flags & 7))
+        type = drop_first_type_shape(type);
+    return type;
+}
+
+/* Original 0x401c0..0x40211. A transient copy leaves the interned source
+   descriptor untouched when removing its first shape. */
+CType *__stdcall drop_first_type_shape(CType *type)
+{
+    CType *copy;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+    copy = (CType *)pool->next;
+    pool->remaining -= sizeof(CType);
+    pool->next += sizeof(CType);
+    *copy = *type;
+    copy->related = type->related->related;
+    return copy;
+}
+
+/* Original 0x32d50..0x32dcf. Prefix shapes carry qualifiers, not size. */
+int __stdcall type_size(CType *type)
+{
+    TypeShape *shape = type->related;
+    int element, size;
+    unsigned count;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (!shape) return base_type_size(type->flags, (void *)type->field08);
+    if ((shape->flags & 7) != 2) return pointer_type_size(shape->attributes);
+    element = array_element_size(type->flags, (void *)type->field08, shape);
+    count = shape->field08;
+    size = (int)((unsigned)element * count);
+    if (element > size && count) {
+        report_syntax_error(148);
+        shape->field08 = 1;
+    }
+    return size;
+}
+
+/* Original 0x32e30..0x32e76. Primitive flags encode their byte size in
+   the low nibble; record tags keep their computed size in the tag payload. */
+int __stdcall base_type_size(unsigned short flags, void *information)
+{
+    FrontendSymbol *tag = information;
+    if (flags & 0x400) {
+        if ((tag->kind & 0x1f) != 4) tag = (FrontendSymbol *)tag->type->field08;
+        return (int)tag->detail.value;
+    }
+    if (flags & 0x200) return 4;
+    return flags & 15;
+}

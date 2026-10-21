@@ -48,6 +48,8 @@ def indexes():
     cfg = json.loads(Path('functions.json').read_text())
     assert hashlib.sha256(orig.data).hexdigest() == cfg['target']['sha256'], 'target changed'
     driver_addresses = {r['start'] for r in cfg['driver']}
+    assert len(driver_addresses) == len(cfg['driver']), 'duplicate source-function entry address'
+    assert len({r['name'] for r in cfg['driver']}) == len(cfg['driver']), 'duplicate logical source-function name'
     original = [r for r in json.loads(Path('runtime.json').read_text())
                 if r['start'] not in driver_addresses]
     original += imports(orig) + cfg['driver']

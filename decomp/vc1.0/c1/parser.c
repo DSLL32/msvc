@@ -37,12 +37,12 @@ unsigned array_bound; /* original 0x65398 */
 /* A label stack cell is shared by loop, switch, and branch contexts. */
 typedef struct LabelStack {
     struct LabelStack *next;
-    FrontendSymbol *label;
+    IrToken *label;
 } LabelStack;
 LabelStack *continue_labels, *break_labels, *do_labels;
 LabelStack *switch_labels, *default_labels;
 int label_stack_count;
-FrontendSymbol *default_label;
+IrToken *default_label;
 
 /* Expression nodes use the same twenty-byte header/payload as IrToken.
    The eight-byte payload is a string value, two children, or symbol pointer. */
@@ -672,7 +672,7 @@ read_action:
             break;
         case 133:
         case 134:
-            emit_code_label(right[-1].symbol);
+            emit_code_label(right[-1].node);
             break;
         case 135:
         case 138:
@@ -824,15 +824,15 @@ read_action:
             }
             break;
         case 168:
-            parser_value.symbol = make_internal_label(30);
-            if (right[-1].node) emit_conditional_branch(right[-1].node, parser_value.symbol, 0);
+            parser_value.node = make_internal_label(30);
+            if (right[-1].node) emit_conditional_branch(right[-1].node, parser_value.node, 0);
             POP_DECLARATION();
             CLEAR_DECLARATION_FLAGS();
             break;
         case 169:
-            parser_value.symbol = make_internal_label(30);
-            write_ir_record(0x3a, parser_value.symbol);
-            emit_code_label(right[-2].symbol);
+            parser_value.node = make_internal_label(30);
+            write_ir_record(0x3a, parser_value.node);
+            emit_code_label(right[-2].node);
             record_line_information(1);
             CLEAR_DECLARATION_FLAGS();
             break;
@@ -1214,4 +1214,25 @@ void __stdcall prepare_function_definition(DeclarationSpec *declaration, Fronten
             } while (parameter != first);
         }
     }
+}
+
+IrToken *function_exit_label; /* original 0x60084 */
+unsigned short function_scope_level; /* original 0x6bfec */
+
+/* Original 0x2a880..0x2a915. */
+FrontendSymbol *__stdcall initialize_function_definition(FrontendSymbol *symbol)
+{
+    inline_candidate = default_inline_candidate;
+    function_call_seen = 0;
+    function_not_inlinable = 0;
+    if (normalized_Ol && options.option_qc) reset_inline_function_state();
+    function_exit_label = make_internal_label(31);
+    function_return_type = function_result_type(symbol);
+    parser_flags &= ~0x8000;
+    if (!(scanner_flags & 0x40)) begin_parameter_list(function_parameter_declarations);
+    global_record_kind = 1;
+    parameter_nesting = 1;
+    function_scope_level = 1;
+    string_record_count = 0;
+    return symbol;
 }

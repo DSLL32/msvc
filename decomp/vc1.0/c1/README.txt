@@ -3,8 +3,8 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-initialize_function_definition, original VA 0x2a880. There are 118
-reconstructed source functions and 187 accepted trap frontiers, all replayed
+initialize_function_definition, original VA 0x2a9e0. There are 118
+reconstructed source functions and 195 accepted trap frontiers, all replayed
 in order on the current shared-state implementation. The case has parsed
 `int main ()`, classified its empty parameter list, constructed and interned
 its function type, restored the outer scope, and declared its global symbol.

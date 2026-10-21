@@ -37,7 +37,7 @@ enum GlobalField {
     GF_RESERVED_BYTE = 32,
     GF_PRAGMA_VALUES = 33,
     GF_SOURCE_FILE = 34,
-    GF_FUNCTION_LINE = 35,
+    GF_PARAMETER_COUNT = 35,
     GF_RESERVED_36 = 36,
     GF_SYMBOL_COUNT32 = 37
 };
@@ -47,7 +47,9 @@ typedef struct PragmaValue {
     unsigned char *value;
 } PragmaValue;
 typedef struct FunctionIrState {
-    unsigned complexity, line, local_bytes, frame_bytes;
+    unsigned complexity;
+    unsigned short parameter_count, reserved;
+    unsigned local_bytes, frame_bytes;
     int no_inline;
 } FunctionIrState;
 extern unsigned char global_record_kind;
@@ -65,7 +67,6 @@ extern CType *declaration_type_stack;
 extern unsigned short declaration_type_index;
 extern unsigned *source_file_index, source_file_counter;
 extern char last_record_source[256];
-CType *__stdcall remove_outer_type(CType *type);
 int __stdcall type_size(CType *type);
 void __stdcall require_complete_type(CType *type);
 int __stdcall parameter_stack_bytes(FrontendSymbol *symbol);

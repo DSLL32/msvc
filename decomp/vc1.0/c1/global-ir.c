@@ -92,7 +92,7 @@ void __stdcall write_global_record(unsigned tag, FrontendSymbol *symbol)
         if (kind == 5)
             goto formats;
         if (symbol->attributes & 2) {
-            type = intern_type(remove_outer_type(type));
+            type = intern_type(drop_first_type_shape(type));
             shape = type->related;
         }
         if ((symbol->storage[0] & 7) == 7) {
@@ -103,7 +103,7 @@ void __stdcall write_global_record(unsigned tag, FrontendSymbol *symbol)
         if (array_type && tag == 1)
             tag = 2;
         if (shape && (shape->flags & 7) == 4)
-            inner_type = remove_outer_type(type);
+            inner_type = drop_first_type_shape(type);
         if (symbol->attributes & 2) {
             tag_symbol = (FrontendSymbol *)symbol->type->related->field08;
             if ((tag_symbol->kind & 31) == 13 && !(tag_symbol->flags & 2) && !global_record_kind)
@@ -454,8 +454,8 @@ formats:
             right = source_filename;
             do { *left++ = *right++; } while (left[-1]);
             break;
-        case GF_FUNCTION_LINE:
-            GLOBAL_SHORT(function_ir.line);
+        case GF_PARAMETER_COUNT:
+            GLOBAL_SHORT(function_ir.parameter_count);
             break;
         case GF_SYMBOL_COUNT32:
             fwrite(&next_symbol_index, 4, 1, stream);

@@ -117,8 +117,6 @@ int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { 
 void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 
 
-CType *__stdcall remove_outer_type(CType *type) { __asm { int 3 } return 0; }
-int __stdcall type_size(CType *type) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 int __stdcall parameter_stack_bytes(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0; }
@@ -289,7 +287,6 @@ void __stdcall finish_type_description(CType *type) { __asm { int 3 } }
 void __stdcall report_declaration_error(unsigned code, DeclarationSpec *declaration) { __asm { int 3 } }
 
 /* Original 0x2c4a0. */
-void __stdcall reference_label(FrontendSymbol *label) { __asm { int 3 } }
 
 /* Original 0x2c500. */
 FrontendSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
@@ -301,7 +298,6 @@ FrontendSymbol *__stdcall declare_label(char *name) { __asm { int 3 } return 0; 
 void __stdcall emit_named_label(char *name) { __asm { int 3 } }
 
 /* Original 0x2c600. */
-FrontendSymbol *__stdcall make_internal_label(unsigned flags) { __asm { int 3 } return 0; }
 
 /* Original 0x2c7b0. */
 IrToken *__stdcall make_sizeof_expression(IrToken *operand) { __asm { int 3 } return 0; }
@@ -426,10 +422,10 @@ void finish_compound_statement(void) { __asm { int 3 } }
 void __stdcall emit_expression_statement(IrToken *expression) { __asm { int 3 } }
 
 /* Original 0x39d10. */
-void __stdcall emit_conditional_branch(IrToken *condition, FrontendSymbol *label, int sense) { __asm { int 3 } }
+void __stdcall emit_conditional_branch(IrToken *condition, IrToken *label, int sense) { __asm { int 3 } }
 
 /* Original 0x39e60. */
-void __stdcall emit_code_label(FrontendSymbol *label) { __asm { int 3 } }
+void __stdcall emit_code_label(IrToken *label) { __asm { int 3 } }
 
 /* Original 0x3c750. */
 IrToken *__stdcall make_binary_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
@@ -486,11 +482,9 @@ void __stdcall report_type_syntax_error(unsigned code, CType *type) { __asm { in
 
 void abort_function_definition(void) { __asm { int 3 } }
 void __stdcall replace_function_parameters(FrontendSymbol *symbol, ParameterInfo *parameters) { __asm { int 3 } }
-FrontendSymbol *__stdcall initialize_function_definition(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 void browser_begin_function_scope(void) { __asm { int 3 } }
 void __stdcall browser_function_parameters(FrontendSymbol *symbol) { __asm { int 3 } }
 
-CType *__stdcall function_result_type(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
 int __stdcall is_record_type(CType *type) { __asm { int 3 } return 0; }
 FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
@@ -511,3 +505,9 @@ void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeS
 
 int __stdcall declaration_conflict(FrontendSymbol *existing, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall commit_redeclaration(FrontendSymbol *existing, FrontendSymbol *symbol) { __asm { int 3 } }
+
+void reset_inline_function_state(void) { __asm { int 3 } }
+
+
+int __stdcall array_element_size(unsigned short flags, void *information, TypeShape *shape) { __asm { int 3 } return 0; }
+int __stdcall pointer_type_size(unsigned short attributes) { __asm { int 3 } return 0; }

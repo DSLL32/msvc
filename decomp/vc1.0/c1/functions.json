@@ -191,7 +191,15 @@
     "_find_scope_declaration@12",
     "_lookup_symbol_chain@8",
     "_reconcile_declarations@8",
-    "_insert_current_scope_symbol@4"
+    "_insert_current_scope_symbol@4",
+    "_initialize_function_definition@4",
+    "_make_internal_label@4",
+    "_reference_label@4",
+    "_function_result_type@4",
+    "_remove_type_prefix@4",
+    "_drop_first_type_shape@4",
+    "_type_size@4",
+    "_base_type_size@8"
   ],
   "driver": [
     {
@@ -824,14 +832,14 @@
       ]
     },
     {
-      "name": "_remove_outer_type@4",
+      "name": "_drop_first_type_shape@4",
       "start": 262592,
       "end": 262673
     },
     {
       "name": "_type_size@4",
       "start": 208208,
-      "end": 208209
+      "end": 208335
     },
     {
       "name": "_require_complete_type@4",
@@ -1258,7 +1266,7 @@
     {
       "name": "_reference_label@4",
       "start": 181408,
-      "end": 181409
+      "end": 181503
     },
     {
       "name": "_find_label@4",
@@ -1278,7 +1286,7 @@
     {
       "name": "_make_internal_label@4",
       "start": 181760,
-      "end": 181761
+      "end": 181892
     },
     {
       "name": "_make_sizeof_expression@4",
@@ -1664,7 +1672,7 @@
     {
       "name": "_initialize_function_definition@4",
       "start": 174208,
-      "end": 174209
+      "end": 174357
     },
     {
       "name": "_browser_begin_function_scope",
@@ -1679,7 +1687,7 @@
     {
       "name": "_function_result_type@4",
       "start": 174128,
-      "end": 174129
+      "end": 174203
     },
     {
       "name": "_report_symbol_error@8",
@@ -1785,6 +1793,31 @@
       "name": "_commit_redeclaration@8",
       "start": 215680,
       "end": 215681
+    },
+    {
+      "name": "_reset_inline_function_state",
+      "start": 189301,
+      "end": 189302
+    },
+    {
+      "name": "_remove_type_prefix@4",
+      "start": 262144,
+      "end": 262173
+    },
+    {
+      "name": "_base_type_size@8",
+      "start": 208432,
+      "end": 208502
+    },
+    {
+      "name": "_array_element_size@12",
+      "start": 207888,
+      "end": 207889
+    },
+    {
+      "name": "_pointer_type_size@4",
+      "start": 208592,
+      "end": 208593
     }
   ],
   "cases": {

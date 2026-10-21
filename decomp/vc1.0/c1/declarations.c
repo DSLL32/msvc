@@ -584,3 +584,60 @@ FrontendSymbol *__stdcall reconcile_declarations(FrontendSymbol *existing, Front
     symbol->flags |= 0x80;
     return symbol;
 }
+
+typedef char FrontendSymbol_must_be_forty_four_bytes[(sizeof(FrontendSymbol) == 44) ? 1 : -1];
+typedef char CType_must_be_sixteen_bytes[(sizeof(CType) == 16) ? 1 : -1];
+
+/* Original 0x2c600..0x2c684. Return an expression leaf for a new label,
+   retaining its symbol as the payload consumed by the IR writer. */
+IrToken *__stdcall make_internal_label(unsigned flags)
+{
+    FrontendSymbol *symbol;
+    IrToken *node;
+    ArenaPool *pool = &compiler_arena.pools[1];
+    if (pool->remaining < (int)sizeof(FrontendSymbol)) refill_arena(&compiler_arena, pool);
+    symbol = (FrontendSymbol *)pool->next;
+    pool->remaining -= sizeof(FrontendSymbol);
+    pool->next += sizeof(FrontendSymbol);
+    symbol->kind = 8;
+    symbol->detail.value = flags;
+    symbol->type = type_0064;
+    reference_label(symbol);
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    node = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    node->flags = 4;
+    node->kind = 2;
+    node->value.pointer = symbol;
+    node->type = symbol->type;
+    return node;
+}
+
+FrontendSymbol *label_symbols; /* original 0x6c0c0 */
+
+/* Original 0x2c4a0..0x2c4ff. */
+void __stdcall reference_label(FrontendSymbol *label)
+{
+    if (!label->index) {
+        if (next_symbol_index >= 0x7fffffff) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+        label->index = next_symbol_index++;
+    }
+    label->next = label_symbols;
+    label_symbols = label;
+}
+
+/* Original 0x2a830..0x2a87b. Canonicalize the result of a function type. */
+CType *__stdcall function_result_type(FrontendSymbol *symbol)
+{
+    TypeDescription *description = copy_type_description(
+        drop_first_type_shape(remove_type_prefix(symbol->type)));
+    unsigned short attributes = description->attributes & ~7;
+    CType *result;
+    description->attributes = attributes;
+    description->attributes = normalize_type_attributes(1, 0) | attributes;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}
