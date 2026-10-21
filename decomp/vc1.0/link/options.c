@@ -24,7 +24,7 @@ extern char *dos_stub_template;
 extern unsigned long dos_stub_size;
 void link_usage(void);
 
-void process_options(Image *image,unsigned char directives,const char *module_name,const char *context)
+void process_options(Image *image,unsigned char directives,unsigned char library_member,const char *context)
 {
     Argument *argument=switches.first;
     ParsedSwitch *option;
@@ -353,4 +353,50 @@ missing_value:
 bad_option:
         fatal_message(program_name,0x14,text); goto next;
     }
+}
+
+/* Original [0001c830,0001c8d0). Parse switches embedded in a .drectve section. */
+void process_directives(char *text,Image *image,const char *display,unsigned char library_member)
+{
+    char *token;
+    const char *delimiters=option_delimiters;
+    switches.first=switches.last=NULL;
+    switches.count=0;
+    token=tokenize_response(text,delimiters,NULL);
+    while (token) {
+        if (*token=='/' || *token=='-') {
+            if (token[1]=='?') ++token;
+            ++token;
+            append_argument(&switches,duplicate_string(token));
+        }
+        token=tokenize_response(NULL,delimiters,NULL);
+    }
+    process_options(image,1,library_member,display);
+}
+
+/* Original [00035890,00035910). Append each requested default library once. */
+void add_default_library(const char *name,LibraryList *libraries)
+{
+    DefaultLibrary **link;
+    if (libraries->exclude_defaults) return;
+    link=&libraries->default_libraries;
+    while (*link) {
+        if (matches_default_library(name,*link)) return;
+        link=&(*link)->next;
+    }
+    *link=allocate_checked(sizeof(**link));
+    (*link)->next=NULL;
+    (*link)->name=duplicate_string(name);
+    (*link)->enabled=1;
+    if (verbose_link) fprintf(stdout,"Processed -defaultlib:%s\n",name);
+}
+
+/* Original [00035910,000359c0). Default-library names ignore a final .lib. */
+unsigned char matches_default_library(const char *name,DefaultLibrary *library)
+{
+    unsigned short length=(unsigned short)strlen(name);
+    unsigned short other=(unsigned short)strlen(library->name);
+    if (length>=4 && !_strcmpi(name+length-4,".lib")) length-=4;
+    if (other>=4 && !_strcmpi(library->name+other-4,".lib")) other-=4;
+    return length==other && !_strnicmp(name,library->name,length);
 }

@@ -982,5 +982,23 @@
     "name": "mac_jump_table",
     "size": 4,
     "owner": "link-pass.c"
+  },
+  {
+    "address": 376944,
+    "name": "mac_data_references",
+    "size": 24,
+    "owner": "object.c"
+  },
+  {
+    "address": 519604,
+    "name": "mac_section_code_fixups",
+    "size": 4,
+    "owner": "object.c"
+  },
+  {
+    "address": 519608,
+    "name": "mac_section_data_fixups",
+    "size": 4,
+    "owner": "object.c"
   }
 ]

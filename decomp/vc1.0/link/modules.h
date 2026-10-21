@@ -57,7 +57,7 @@ struct Section {
     char *name;
     unsigned long rva, file_end, raw_size, virtual_size, file_offset;
     unsigned long line_offset, relocation_offset, contribution_count, characteristics;
-    unsigned long alignment;
+    unsigned long source_name_capacity;
     unsigned short line_count, index;
     unsigned long mac_resource_id, mac_type, mac_attributes;
     Section *merge;
@@ -65,10 +65,15 @@ struct Section {
     Section *next;
 };
 typedef struct SectionList { Section *first, **tail; } SectionList;
+typedef struct DefaultLibrary {
+    struct DefaultLibrary *next;
+    char *name;
+    unsigned char enabled;
+} DefaultLibrary;
 typedef struct LibraryList {
     Library *first, **tail;
-    unsigned char flags;
-    void *default_libraries;
+    unsigned char exclude_defaults;
+    DefaultLibrary *default_libraries;
 } LibraryList;
 typedef struct SectionEnumerator {
     unsigned char (*next)(struct SectionEnumerator *);

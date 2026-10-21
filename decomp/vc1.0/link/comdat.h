@@ -24,6 +24,8 @@ typedef struct ComdatRoot {
     unsigned short kind;
 } ComdatRoot;
 extern ComdatRoot *comdat_roots;
+extern ComdatNode *comdat_nodes;
+void attach_comdat_node(Module *,Contribution *,const char *);
 ComdatRoot *add_comdat_root(const char *,External *,Contribution *,ComdatRoot **);
 void initialize_comdat(void (*)(char *,int,char *));
 ComdatModule *create_comdat_module(Module *);

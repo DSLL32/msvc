@@ -48,3 +48,23 @@ ComdatNode *create_comdat_node(Contribution *contribution,ComdatModule *module,
     *list=node;
     return node;
 }
+
+/* Original [000238e0,00023910). A module owns the ordinary section nodes. */
+void attach_comdat_node(Module *module,Contribution *contribution,const char *name)
+{
+    contribution->graph=create_comdat_node(contribution,module->comdat,name,&comdat_nodes,0);
+}
+
+/* Original [000173a0,00017420). Roots may name a symbol or bind a graph item. */
+ComdatRoot *add_comdat_root(const char *name,External *external,
+    Contribution *contribution,ComdatRoot **list)
+{
+    ComdatRoot *root=allocate_arena(&comdat_heap,sizeof(*root));
+    if (!root) comdat_error(NULL,5,"");
+    if (name) { root->target.name=name; root->kind=3; }
+    else if (external) { root->target.external=external; root->kind=2; }
+    else if (contribution) { root->target.contribution=contribution; root->kind=1; }
+    if (*list) root->next=*list;
+    *list=root;
+    return root;
+}

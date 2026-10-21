@@ -1,6 +1,20 @@
 #ifndef LINK_OBJECT_H
 #define LINK_OBJECT_H
 #include "pass-one.h"
+typedef struct MacRelocationRef { Contribution *contribution; unsigned long offset; } MacRelocationRef;
+typedef struct MacFixupList {
+    MacRelocationRef *records;
+    unsigned long capacity,count,used;
+    struct MacFixupList *last,*next;
+} MacFixupList;
+PIMAGE_RELOCATION allocate_coff_relocations(unsigned long);
+unsigned read_coff_relocations(int,PIMAGE_RELOCATION,unsigned long);
+void release_coff_relocations(PIMAGE_RELOCATION);
+void add_relocation_edge(SymbolTable *,Contribution *,PIMAGE_SYMBOL,PIMAGE_RELOCATION);
+void validate_mac_code_relocation(unsigned short);
+void append_mac_fixup(MacFixupList *,Contribution *,unsigned long);
+void record_mac_symbol_reference(unsigned long,Section *,unsigned long);
+void record_mac_data_reference(Contribution *,unsigned long,unsigned long);
 void process_object_section(Image *,Module *,unsigned char,unsigned short,PIMAGE_SYMBOL);
 void filter_debug_contribution(Contribution *,ImageOptions *);
 unsigned long align_contribution(unsigned long,unsigned long);

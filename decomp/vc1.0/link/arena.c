@@ -23,3 +23,11 @@ void *allocate_arena(ArenaBlock **arena,unsigned long size)
     block->available-=size;
     return result;
 }
+
+/* Original [000219b0,000219d0). Shared checked heap allocation. */
+void *allocate_checked(unsigned long size)
+{
+    void *memory=malloc(size);
+    if (!memory) out_of_memory();
+    return memory;
+}

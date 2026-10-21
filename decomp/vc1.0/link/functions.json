@@ -184,7 +184,16 @@
     "_read_section_header",
     "_coff_section_name",
     "_filter_debug_contribution",
-    "_align_contribution"
+    "_align_contribution",
+    "_attach_comdat_node",
+    "_add_comdat_root",
+    "_format_module_name",
+    "_process_directives",
+    "_add_default_library",
+    "_allocate_checked",
+    "_matches_default_library",
+    "_classify_contribution",
+    "_read_contribution_relocations"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -340,7 +349,7 @@
       "end": 106064,
       "implementation": "C",
       "source": "options.c",
-      "abi": "cdecl void process_options(Image *image,unsigned char directives,const char *module_name,const char *context)",
+      "abi": "cdecl void(Image *,unsigned char directives,unsigned char library_member,const char *context)",
       "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
@@ -628,10 +637,12 @@
     {
       "name": "_allocate_checked",
       "start": 137648,
-      "end": 137649,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl void *(unsigned long size)"
+      "end": 137680,
+      "implementation": "C",
+      "source": "arena.c",
+      "abi": "cdecl void *(unsigned long)",
+      "evidence": "matching minimal-C traps; complete extent through RET 000219cc and alignment before 000219d0",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_find_library_file",
@@ -668,10 +679,12 @@
     {
       "name": "_add_default_library",
       "start": 219280,
-      "end": 219281,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl void(const char *name,LibraryList *libraries)"
+      "end": 219408,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl void(const char *,LibraryList *)",
+      "evidence": "matching minimal-C traps; complete extent through RET 00035903 and alignment before 00035910",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_append_text",
@@ -806,10 +819,12 @@
     {
       "name": "_add_comdat_root",
       "start": 95136,
-      "end": 95137,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl ComdatRoot *(External *external,Section *section,Contribution *contribution,ComdatRoot **list)"
+      "end": 95264,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl ComdatRoot *(const char *,External *,Contribution *,ComdatRoot **)",
+      "evidence": "matching minimal-C traps at original 000173a0; extent through RET 00017412 and alignment before 00017420",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_resolve_comdat_edges",
@@ -1889,26 +1904,38 @@
     {
       "name": "_process_directives",
       "start": 116784,
-      "end": 116785,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(char *text,Image *image,const char *name,unsigned char library)"
+      "end": 116944,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl void(char *,Image *,const char *,unsigned char)",
+      "evidence": "matching minimal-C traps; complete extent through RET 0001c8c1 and alignment before 0001c8d0",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_classify_contribution",
       "start": 143312,
-      "end": 143313,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(Contribution *contribution,ImageOptions *options)"
+      "end": 143392,
+      "implementation": "C",
+      "source": "object.c",
+      "abi": "cdecl void(Contribution *,ImageOptions *)",
+      "evidence": "matching minimal-C traps; extent through RET 00023014 and alignment before the distinct function at 00023020",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_read_contribution_relocations",
       "start": 143552,
-      "end": 143553,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(Image *image,Contribution *contribution,PIMAGE_SYMBOL symbols)"
+      "end": 144484,
+      "implementation": "C",
+      "source": "object.c",
+      "abi": "cdecl void(Image *,Contribution *,PIMAGE_SYMBOL)",
+      "shared": [
+        [
+          144484,
+          144672
+        ]
+      ],
+      "evidence": "matching minimal-C traps; RET at 00023461; 47-entry Macintosh relocation switch table occupies 00023464..00023520",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_filter_debug_contribution",
@@ -1922,10 +1949,12 @@
     {
       "name": "_attach_comdat_node",
       "start": 145632,
-      "end": 145633,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(Module *module,Contribution *contribution,const char *name)"
+      "end": 145680,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(Module *,Contribution *,const char *)",
+      "evidence": "matching minimal-C traps at original 000238e0; complete extent through RET 00023906 and alignment before 00023910",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_select_comdat",
@@ -1965,10 +1994,12 @@
     {
       "name": "_format_module_name",
       "start": 241472,
-      "end": 241473,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl char *(Module *module,char *name)"
+      "end": 241840,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl char *(Module *,char *)",
+      "evidence": "matching minimal-C traps; complete extent through RET 0003b0a9 and alignment before 0003b0b0",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
     },
     {
       "name": "_out_of_memory",
@@ -1977,6 +2008,80 @@
       "implementation": "stub-C",
       "source": "diagnostics.c",
       "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_matches_default_library",
+      "start": 219408,
+      "end": 219584,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl unsigned char(const char *,DefaultLibrary *)",
+      "evidence": "matching minimal-C traps; extent through RET 000359b9 and alignment before 000359c0",
+      "validation": "matching minimal-C acceptance plus replay of new frontiers, exact help regression, call/callback/data audits"
+    },
+    {
+      "name": "_allocate_coff_relocations",
+      "start": 151376,
+      "end": 151377,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl PIMAGE_RELOCATION(unsigned long count)"
+    },
+    {
+      "name": "_read_coff_relocations",
+      "start": 152112,
+      "end": 152113,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_RELOCATION records,unsigned long count)"
+    },
+    {
+      "name": "_release_coff_relocations",
+      "start": 151424,
+      "end": 151425,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(PIMAGE_RELOCATION records)"
+    },
+    {
+      "name": "_add_relocation_edge",
+      "start": 143392,
+      "end": 143393,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,PIMAGE_RELOCATION relocation)"
+    },
+    {
+      "name": "_validate_mac_code_relocation",
+      "start": 238208,
+      "end": 238209,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(unsigned short type)"
+    },
+    {
+      "name": "_append_mac_fixup",
+      "start": 225664,
+      "end": 225665,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(MacFixupList *list,Contribution *contribution,unsigned long offset)"
+    },
+    {
+      "name": "_record_mac_symbol_reference",
+      "start": 233776,
+      "end": 233777,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(unsigned long symbol,Section *section,unsigned long flags)"
+    },
+    {
+      "name": "_record_mac_data_reference",
+      "start": 225952,
+      "end": 225953,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(Contribution *contribution,unsigned long offset,unsigned long symbol)"
     }
   ],
   "c_stub_references": [
@@ -2073,6 +2178,15 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

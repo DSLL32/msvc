@@ -8,9 +8,12 @@ void process_object_symbols(Image *image,Module *module,unsigned char *new_exter
 void release_coff_strings(char *strings) { __asm { int 3 } }
 void release_coff_symbols(PIMAGE_SYMBOL symbols) { __asm { int 3 } }
 unsigned char select_comdat(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,unsigned short section,char **name) { __asm { int 3 } return 0; }
-void attach_comdat_node(Module *module,Contribution *contribution,const char *name) { __asm { int 3 } }
-void classify_contribution(Contribution *contribution,ImageOptions *options) { __asm { int 3 } }
-void read_contribution_relocations(Image *image,Contribution *contribution,PIMAGE_SYMBOL symbols) { __asm { int 3 } }
-char * format_module_name(Module *module,char *name) { __asm { int 3 } return 0; }
-void process_directives(char *text,Image *image,const char *name,unsigned char library) { __asm { int 3 } }
-ComdatRoot * add_comdat_root(const char *name,External *external,Contribution *contribution,ComdatRoot **list) { __asm { int 3 } return 0; }
+
+PIMAGE_RELOCATION allocate_coff_relocations(unsigned long count) { __asm { int 3 } return 0; }
+unsigned read_coff_relocations(int file,PIMAGE_RELOCATION records,unsigned long count) { __asm { int 3 } return 0; }
+void release_coff_relocations(PIMAGE_RELOCATION records) { __asm { int 3 } }
+void add_relocation_edge(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,PIMAGE_RELOCATION relocation) { __asm { int 3 } }
+void validate_mac_code_relocation(unsigned short type) { __asm { int 3 } }
+void append_mac_fixup(MacFixupList *list,Contribution *contribution,unsigned long offset) { __asm { int 3 } }
+void record_mac_symbol_reference(unsigned long symbol,Section *section,unsigned long flags) { __asm { int 3 } }
+void record_mac_data_reference(Contribution *contribution,unsigned long offset,unsigned long symbol) { __asm { int 3 } }

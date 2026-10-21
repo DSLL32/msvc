@@ -13,6 +13,7 @@ typedef struct ArenaBlock {
 } ArenaBlock;
 
 void out_of_memory(void);
+void *allocate_checked(unsigned long);
 void reserve_text(TextBuffer *,unsigned long);
 unsigned long append_text(TextBuffer *,const void *,unsigned long);
 void release_text(TextBuffer *);

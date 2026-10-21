@@ -22,12 +22,12 @@ extern unsigned char base_pair,no_entry,verbose_link,mapped_debug,split_image,nt
 extern unsigned char old_library_format;
 extern unsigned short warning_level;
 void add_default_library(const char *,LibraryList *);
+unsigned char matches_default_library(const char *,DefaultLibrary *);
 void exclude_default_library(const char *,LibraryList *);
 void exclude_all_default_libraries(const char *,LibraryList *);
 char *find_library_file(const char *,const char *,ArgumentList *);
 unsigned char read_switch_number(ParsedSwitch *,unsigned short,unsigned long *);
 External *lookup_external(SymbolTable *,unsigned short,const char *,unsigned char *,unsigned char *);
-void *allocate_checked(unsigned long);
 typedef void (*FatalRoutine)(const char *,int,...);
 typedef void (*WarningRoutine)(const char *,unsigned,...);
 void initialize_order(FatalRoutine,WarningRoutine);

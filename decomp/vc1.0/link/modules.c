@@ -1,5 +1,6 @@
 /* Input modules and libraries, output sections, and sorted contribution groups. */
 #include "modules.h"
+#pragma intrinsic(strcat)
 extern unsigned char mac_image, mac_small_model;
 void (*module_error)(char *,int,char *);
 char split_section_name[9], split_group_name[9];
@@ -337,4 +338,24 @@ unsigned char next_module(ModuleEnumerator *scan)
     if (scan->library)
         scan->current=scan->current ? scan->current->next : scan->library->modules;
     return scan->current!=NULL;
+}
+
+/* Original [0003af40,0003b0b0). Archive members display as library(member). */
+char *format_module_name(Module *module,char *display)
+{
+    char filename[_MAX_FNAME],extension[_MAX_EXT];
+    display[0]=0;
+    if (module) {
+        if (module->library->name) {
+            _splitpath(module->library->name,NULL,NULL,filename,extension);
+            strcat(display,filename);
+            strcat(display,extension);
+            strcat(display,"(");
+        }
+        _splitpath(module->path,NULL,NULL,filename,extension);
+        strcat(display,filename);
+        strcat(display,extension);
+        if (module->library->name) strcat(display,")");
+    }
+    return display;
 }

@@ -28,7 +28,7 @@ void create_image(Image **output)
     initialize_symbols(&image->symbols);
     image->libraries.first=NULL;
     image->libraries.tail=&image->libraries.first;
-    image->libraries.flags=0;
+    image->libraries.exclude_defaults=0;
     image->libraries.default_libraries=NULL;
     image->sections.first=NULL;
     image->sections.tail=&image->sections.first;

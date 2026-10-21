@@ -21,7 +21,7 @@ typedef struct Image {
     SymbolTable *symbols;
 } Image;
 void create_image(Image **);
-void process_options(Image *,unsigned char,const char *,const char *);
+void process_options(Image *,unsigned char,unsigned char,const char *);
 int link_passes(Image *,unsigned char *);
 void initialize_machine(Image *);
 void select_machine(struct Argument *,unsigned short,Image *);

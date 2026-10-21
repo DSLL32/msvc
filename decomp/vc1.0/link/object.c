@@ -116,3 +116,112 @@ unsigned long align_contribution(unsigned long offset,unsigned long flags)
     }
     return (offset&mask) ? (offset&~mask)+mask+1 : offset;
 }
+
+/* Original [00022fd0,00023020). Reserve line and CodeView source information. */
+void classify_contribution(Contribution *contribution,ImageOptions *options)
+{
+    Section *section;
+    if (!options->rom && contribution->line_count &&
+        (options->debug_level==2 || options->debug_level==3)) {
+        section=contribution->group->section;
+        section->line_count+=contribution->line_count;
+        if ((options->debug_types&2) && (options->debug_types&4))
+            section->source_name_capacity+=261;
+    }
+}
+
+/* Macintosh fixup lists are independent state objects, not part of debug_flags. */
+MacFixupList mac_data_references;
+MacFixupList *mac_section_code_fixups,*mac_section_data_fixups;
+
+/* Original code [000230c0,00023464), switch table [00023464,00023520). */
+void read_contribution_relocations(Image *image,Contribution *contribution,PIMAGE_SYMBOL symbols)
+{
+    unsigned long count=contribution->relocation_count,index,offset;
+    PIMAGE_RELOCATION records,relocation;
+    unsigned char standalone_code;
+    Section *section;
+    if (!count) return;
+    records=allocate_coff_relocations(count);
+    seek_file(incremental_file,contribution->relocation_offset+incremental_section_header_offset,SEEK_SET);
+    read_coff_relocations(incremental_file,records,count);
+    switch (image->file.Machine) {
+    case IMAGE_FILE_MACHINE_I386:
+        for (index=0,relocation=records;index<count;++index,++relocation) {
+            if (image->options.eliminate_unreferenced)
+                add_relocation_edge(image->symbols,contribution,symbols,relocation);
+            if (!image->options.fixed && relocation->Type==IMAGE_REL_I386_DIR32)
+                ++image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
+        }
+        break;
+    case IMAGE_FILE_MACHINE_I860:
+        for (index=0,relocation=records;index<count;++index,++relocation) {
+            if (image->options.eliminate_unreferenced)
+                add_relocation_edge(image->symbols,contribution,symbols,relocation);
+            if (!image->options.fixed) {
+                if (relocation->Type==IMAGE_REL_I860_HIGHADJ)
+                    image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size+=2;
+                else if (relocation->Type==IMAGE_REL_I860_DIR32 || relocation->Type==IMAGE_REL_I860_HIGH)
+                    ++image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
+            }
+        }
+        break;
+    case 0x268: /* Macintosh 680x0 relocation records. */
+        section=contribution->group->section;
+        standalone_code=(section->characteristics&IMAGE_SCN_CNT_CODE) && section->mac_type!=0x45444f43;
+        for (index=0,relocation=records;index<count;++index,++relocation) {
+            if (standalone_code) validate_mac_code_relocation(relocation->Type);
+            if (image->options.eliminate_unreferenced)
+                add_relocation_edge(image->symbols,contribution,symbols,relocation);
+            offset=relocation->VirtualAddress-contribution->input_rva;
+            switch (relocation->Type) {
+            case 1: case 8: case 25: case 28:
+                if (!standalone_code) record_mac_symbol_reference(relocation->SymbolTableIndex,section,0xc0000000UL);
+                break;
+            case 3: case 26: case 47:
+                if (!standalone_code) record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x40000000UL);
+                break;
+            case 4:
+                append_mac_fixup(&mac_data_references,contribution,offset);
+                break;
+            case 5: case 27:
+                append_mac_fixup(&mac_data_references,contribution,offset);
+                if (!standalone_code) record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x40000000UL);
+                break;
+            case 7:
+                if (!standalone_code) record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x80000000UL);
+                break;
+            case 10:
+                append_mac_fixup(&mac_section_data_fixups[(unsigned short)section->mac_resource_id],contribution,offset);
+                break;
+            case 11: case 29:
+                if (!standalone_code) record_mac_symbol_reference(relocation->SymbolTableIndex,section,0);
+                record_mac_data_reference(contribution,offset,relocation->SymbolTableIndex);
+                break;
+            case 12:
+                if (!standalone_code) record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x40000000UL);
+                append_mac_fixup(&mac_section_data_fixups[(unsigned short)section->mac_resource_id],contribution,offset);
+                break;
+            case 20:
+                if (!standalone_code) record_mac_symbol_reference(relocation->SymbolTableIndex,section,0);
+                break;
+            case 22:
+                record_mac_data_reference(contribution,offset,relocation->SymbolTableIndex);
+                break;
+            case 35: record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x81000000UL); break;
+            case 36: record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x82000000UL); break;
+            case 37: record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x84000000UL); break;
+            case 38: record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x01000000UL); break;
+            case 39: record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x02000000UL); break;
+            case 40: record_mac_symbol_reference(relocation->SymbolTableIndex,section,0x04000000UL); break;
+            case 41: record_mac_symbol_reference(relocation->SymbolTableIndex,NULL,0x00800000UL); break;
+            case 42:
+                append_mac_fixup(&mac_section_code_fixups[(unsigned short)section->mac_resource_id],contribution,offset);
+                record_mac_symbol_reference(relocation->SymbolTableIndex,NULL,0x00800000UL);
+                break;
+            }
+        }
+        break;
+    }
+    release_coff_relocations(records);
+}
