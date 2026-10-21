@@ -1,0 +1,33 @@
+#ifndef RESOURCE_IDS_H
+#define RESOURCE_IDS_H
+#include <features.h>
+#define IDR_MENU 101
+#define IDD_MAIN 102
+#define IDI_MAIN 103
+#define IDB_PATTERN 104
+#define IDC_POINTER 105
+#define IDR_ACCEL 106
+#define IDR_RAW 107
+#define IDR_PAYLOAD 108
+#define IDR_MESSAGES 109
+#define IDR_CUSTOM 110
+#define IDR_DLGINCLUDE 111
+#define IDM_OPEN 201
+#define IDM_EXIT 202
+#define IDM_CHECKED 203
+#define IDC_EDIT 301
+#define IDC_LIST 302
+#define IDC_COMBO 303
+#define IDC_GROUP 304
+#define IDC_CHECK 305
+#define IDC_RADIO 306
+#define IDC_SCROLL 307
+#define IDC_GENERIC 308
+#define IDS_TITLE 401
+#define IDS_ACTIVE 402
+#define IDS_CONDITIONAL 403
+#define IDS_STRINGIZED 404
+#define IDS_ESCAPED 405
+#define IDS_CONTINUED 406
+#define IDS_FAR_BLOCK 450
+#endif

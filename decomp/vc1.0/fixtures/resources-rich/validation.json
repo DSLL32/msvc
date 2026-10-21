@@ -1,0 +1,176 @@
+{
+  "exact_bytes": true,
+  "ignored_fields": [],
+  "phases": {
+    "rc": {
+      "exit": 0,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "output_bytes": 3684,
+      "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d",
+      "resources": [
+        {
+          "type": 4,
+          "name": 101,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 190,
+          "sha256": "b42a3c831631ec66362427c72e36f7b7b5864faf35980a23c52533bbcf7ca730"
+        },
+        {
+          "type": 5,
+          "name": 102,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 506,
+          "sha256": "394c4836a3c0231a3cf54f6bb4c4805d4d42c40758934e000b26965e13219af6"
+        },
+        {
+          "type": 5,
+          "name": "\"NAMEDDIALOG\"",
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 144,
+          "sha256": "9473b8bf14632e6805d494bc803d8b4e2022d8fef993b7db698a9a507955572b"
+        },
+        {
+          "type": 9,
+          "name": 106,
+          "language": 1033,
+          "flags": 48,
+          "bytes": 24,
+          "sha256": "e068f8082b3d90ae3f2261f3d677cd12c8ac85e51756ae1fb3c0eda4d9c58ff1"
+        },
+        {
+          "type": 3,
+          "name": 1,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 176,
+          "sha256": "9973b0c0ecd369c91d9cbb977882f56d8568c0cfe1d2d587ed5f5cd6dfcfd051"
+        },
+        {
+          "type": 3,
+          "name": 2,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 304,
+          "sha256": "daaf192b4d192258b7cc4a121edc638dc7917ac08c04b6c7bb23194dc90615e9"
+        },
+        {
+          "type": 14,
+          "name": 103,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 34,
+          "sha256": "8763ff6bcc130594731e442bc2fb4fa37d4594cd852bc5b93c94749d63af117a"
+        },
+        {
+          "type": 2,
+          "name": 104,
+          "language": 1033,
+          "flags": 48,
+          "bytes": 232,
+          "sha256": "85ef8d44152c31167f504ac4d5c21d42a244442bf1bccbadb2c94eda59b3598d"
+        },
+        {
+          "type": 1,
+          "name": 3,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 180,
+          "sha256": "b595ff4910524b12609dec449646fb11f9d3cc353738579a7af454a4c2137238"
+        },
+        {
+          "type": 12,
+          "name": 105,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 20,
+          "sha256": "5b723af3ff642e3bba79bfee885a048da953a9c797eaa458d5d8901b27eea824"
+        },
+        {
+          "type": 10,
+          "name": 107,
+          "language": 1033,
+          "flags": 48,
+          "bytes": 40,
+          "sha256": "6894018b3c0d886043a92d045d9bd720cf68608b1fd7ad9615db1fe8202369e1"
+        },
+        {
+          "type": 256,
+          "name": 108,
+          "language": 1033,
+          "flags": 48,
+          "bytes": 50,
+          "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
+        },
+        {
+          "type": "\"CUSTOMTYPE\"",
+          "name": 110,
+          "language": 1033,
+          "flags": 48,
+          "bytes": 50,
+          "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
+        },
+        {
+          "type": 17,
+          "name": 111,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 22,
+          "sha256": "6267963d7cafe01873cfc69ddcdb034df268576ab97e6ae988c6acdfd9ff37e1"
+        },
+        {
+          "type": 11,
+          "name": 109,
+          "language": 1033,
+          "flags": 48,
+          "bytes": 48,
+          "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
+        },
+        {
+          "type": 16,
+          "name": 1,
+          "language": 1033,
+          "flags": 48,
+          "bytes": 504,
+          "sha256": "e422a8834e07b8a701b21befb855db82d6a29be867f3c53d1e6b6687045264a6"
+        },
+        {
+          "type": 6,
+          "name": 26,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 302,
+          "sha256": "c87aa7ae6603a55132b78502b9aae855172fd35d6e77eb2c25248acf0ff5f713"
+        },
+        {
+          "type": 6,
+          "name": 29,
+          "language": 1033,
+          "flags": 4144,
+          "bytes": 84,
+          "sha256": "3bcfee21aeda4a2b2da80f7f256d010c3fc3361e39c77823018bbd379ec24a08"
+        },
+        {
+          "type": 6,
+          "name": 26,
+          "language": 1036,
+          "flags": 4144,
+          "bytes": 72,
+          "sha256": "32b6e8decdfb59f46556d1258d8d8f05bb6622c00a7e90bfd2afd90b8969fd07"
+        }
+      ]
+    },
+    "rcpp": {
+      "exit": 0,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "output_bytes": 336686,
+      "sha256": "a4600f6681973b55ad820fb1cc624b04d8ea4490cdaae3613812767dcb765762"
+    }
+  },
+  "manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
+  "command": "python3 decomp/vc1.0/fixtures/resources-rich/verify.py"
+}
