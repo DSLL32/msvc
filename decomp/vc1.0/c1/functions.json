@@ -1,0 +1,251 @@
+{
+  "target": {
+    "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+    "base": 65536,
+    "entry": 330160
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "__heap_init",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "__setargv",
+    "import:GetModuleFileNameA",
+    "_parse_cmdline",
+    "_malloc",
+    "__heap_search",
+    "__heap_grow",
+    "__heap_new_region",
+    "import:VirtualAlloc",
+    "__heap_grow_region",
+    "__heap_addblock",
+    "__heap_findaddr",
+    "__heap_grow_emptylist",
+    "__before",
+    "__heap_split_block",
+    "__setenvp",
+    "__cinit",
+    "__initterm",
+    "_main",
+    "_signal",
+    "import:SetConsoleCtrlHandler",
+    "_message_text",
+    "_parse_options",
+    "_initialize_packing",
+    "_new_packing_stack",
+    "_allocate_permanent@4",
+    "_new_permanent_page",
+    "_new_bitset@4",
+    "_push_packing",
+    "_initialize_checksums",
+    "_initialize_lead_bytes",
+    "import:GetConsoleCP",
+    "import:GetCPInfo",
+    "_mark_lead_byte_ranges",
+    "_getenv",
+    "__strnicmp",
+    "_read_env_arguments",
+    "_extend_argument_vector",
+    "_checked_malloc@4",
+    "_new_vector@8",
+    "_refill_arena@8",
+    "_next_argument",
+    "_match_option",
+    "_prefix_character",
+    "_apply_option",
+    "_parse_option_number",
+    "_atol",
+    "_match_option_suffix",
+    "_append_vector@8",
+    "__fullpath",
+    "__getdcwd",
+    "import:GetCurrentDirectoryA",
+    "_finalize_options",
+    "_free",
+    "_guarded_compile"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 276560,
+      "end": 276680
+    },
+    {
+      "name": "_message_text",
+      "start": 312144,
+      "end": 312178
+    },
+    {
+      "name": "_compiler_signal",
+      "start": 278176,
+      "end": 278195
+    },
+    {
+      "name": "_parse_options",
+      "start": 185600,
+      "end": 186223
+    },
+    {
+      "name": "_guarded_compile",
+      "start": 276688,
+      "end": 276814
+    },
+    {
+      "name": "_compile_translation_unit",
+      "start": 276816,
+      "end": 277689
+    },
+    {
+      "name": "_initialize_packing",
+      "start": 124128,
+      "end": 124193
+    },
+    {
+      "name": "_initialize_checksums",
+      "start": 311104,
+      "end": 311322
+    },
+    {
+      "name": "_initialize_lead_bytes",
+      "start": 185520,
+      "end": 185568
+    },
+    {
+      "name": "_read_env_arguments",
+      "start": 308400,
+      "end": 308602
+    },
+    {
+      "name": "_initialize_japanese_characters",
+      "start": 185568,
+      "end": 185569
+    },
+    {
+      "name": "_next_argument",
+      "start": 185376,
+      "end": 185411
+    },
+    {
+      "name": "_match_option",
+      "start": 307344,
+      "end": 307629
+    },
+    {
+      "name": "_fatal_error",
+      "start": 305872,
+      "end": 305873
+    },
+    {
+      "name": "_finalize_options",
+      "start": 186224,
+      "end": 186384,
+      "shared": [
+        [
+          186384,
+          186464
+        ]
+      ]
+    },
+    {
+      "name": "_new_vector@8",
+      "start": 206016,
+      "end": 206205
+    },
+    {
+      "name": "_new_packing_stack",
+      "start": 124096,
+      "end": 124117
+    },
+    {
+      "name": "_push_packing",
+      "start": 124032,
+      "end": 124090
+    },
+    {
+      "name": "_allocate_permanent@4",
+      "start": 281504,
+      "end": 281578
+    },
+    {
+      "name": "_new_permanent_page",
+      "start": 281344,
+      "end": 281466
+    },
+    {
+      "name": "_new_bitset@4",
+      "start": 205744,
+      "end": 205824
+    },
+    {
+      "name": "_clear_packing",
+      "start": 124944,
+      "end": 124969
+    },
+    {
+      "name": "_mark_lead_byte_ranges",
+      "start": 185424,
+      "end": 185513
+    },
+    {
+      "name": "_extend_argument_vector",
+      "start": 308304,
+      "end": 308393
+    },
+    {
+      "name": "_checked_malloc@4",
+      "start": 304496,
+      "end": 304532
+    },
+    {
+      "name": "_refill_arena@8",
+      "start": 304640,
+      "end": 304811
+    },
+    {
+      "name": "_prefix_character",
+      "start": 308176,
+      "end": 308208
+    },
+    {
+      "name": "_match_option_suffix",
+      "start": 308208,
+      "end": 308298
+    },
+    {
+      "name": "_apply_option",
+      "start": 307632,
+      "end": 308011
+    },
+    {
+      "name": "_parse_option_number",
+      "start": 308016,
+      "end": 308173
+    },
+    {
+      "name": "_append_vector@8",
+      "start": 206720,
+      "end": 206760
+    },
+    {
+      "name": "_grow_vector@4",
+      "start": 206208,
+      "end": 206353
+    },
+    {
+      "name": "_compiler_warning",
+      "start": 306176,
+      "end": 306177
+    }
+  ],
+  "cases": {
+    "minimal": {
+      "arguments": "",
+      "accepted_from": 0
+    }
+  }
+}
