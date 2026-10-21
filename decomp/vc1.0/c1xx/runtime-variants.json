@@ -1,0 +1,88 @@
+{
+  "targets": {
+    "c1_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+    "c1xx_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "variants": [
+    {
+      "initial_data_words_equal": true,
+      "name": "sopen",
+      "original_c1_range": [
+        "0x50f50",
+        "0x51340"
+      ],
+      "original_c1xx_range": [
+        "0x80a80",
+        "0x80e70"
+      ],
+      "instructions": 300,
+      "all_nonrelocated_instruction_bytes_equal": true,
+      "internal_control_flow_equal": true,
+      "external_calls": [
+        "__alloc_osfhnd",
+        "__chsize",
+        "__close",
+        "__dosmaperr",
+        "__lseek",
+        "__read",
+        "__set_osfhnd",
+        "import:CloseHandle",
+        "import:CreateFileA",
+        "import:GetFileType",
+        "import:GetLastError"
+      ],
+      "data_address_aliases_preserved": true,
+      "data_aliases": {
+        "0x7333c": "0xaa3bc",
+        "0x739cc": "0xaaa4c",
+        "0x739d0": "0xaaa50",
+        "0x739d4": "0xaaa54",
+        "0x73af0": "0xaab70"
+      }
+    },
+    {
+      "initial_data_words_equal": true,
+      "name": "setvbuf",
+      "original_c1_range": [
+        "0x529b0",
+        "0x52a6f"
+      ],
+      "original_c1xx_range": [
+        "0x82580",
+        "0x8263f"
+      ],
+      "instructions": 73,
+      "all_nonrelocated_instruction_bytes_equal": true,
+      "internal_control_flow_equal": true,
+      "external_calls": [
+        "__flush",
+        "__freebuf",
+        "_malloc"
+      ],
+      "data_address_aliases_preserved": true,
+      "data_aliases": {
+        "0x7727c": "0xae314"
+      }
+    },
+    {
+      "initial_data_words_equal": true,
+      "name": "freebuf",
+      "original_c1_range": [
+        "0x572d0",
+        "0x57306"
+      ],
+      "original_c1xx_range": [
+        "0x877c0",
+        "0x877f6"
+      ],
+      "instructions": 17,
+      "all_nonrelocated_instruction_bytes_equal": true,
+      "internal_control_flow_equal": true,
+      "external_calls": [
+        "_free"
+      ],
+      "data_address_aliases_preserved": true,
+      "data_aliases": {}
+    }
+  ]
+}

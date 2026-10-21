@@ -36,7 +36,7 @@ Run all independent original phases with:
 
     python3 decomp/vc1.0/fixtures/cpp-basic/verify.py
 
-The verifier builds ../minimal-c/run-phase.c with the original toolchain,
+The verifier builds run-phase.c with the original toolchain,
 reproducing the explicit one-variable environment for compiler phases and
 inherited environment for LINK. It uses private scratch and Wine prefix
 under ~/.ai-tmp/vc1.0-c1xx/replay. A c1, c2 or link argument selects one phase;
@@ -45,3 +45,9 @@ under ~/.ai-tmp/vc1.0-c1xx/replay. A c1, c2 or link argument selects one phase;
 This fixture is an exact frontend oracle. It does not claim that the C1XX
 reconstruction has yet reproduced these outputs; see ../../c1xx/README.txt
 for the currently accepted reconstruction frontier.
+
+command_line_template preserves the actual executable spelling in argv[0]
+while permitting the toolchain root to move. The launcher passes that command
+line independently of lpApplicationName. The paired reconstruction uses the
+same original argv[0] for both images, preventing executable filenames from
+changing the CRT argument-buffer allocations between the pair.

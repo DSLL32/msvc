@@ -1,5 +1,6 @@
 /* Named, unaccepted reconstruction frontiers. */
 #include "initialization.h"
+#include "inline-vector.h"
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
@@ -30,14 +31,7 @@ void close_intermediate(FILE *file) { __asm { int 3 } }
 void finish_browser_output(void) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
 void cleanup_precompiled_files(void) { __asm { int 3 } }
-void initialize_preprocessor(void) { __asm { int 3 } }
-void initialize_keyword_table(void) { __asm { int 3 } }
-void initialize_floating_point(void) { __asm { int 3 } }
-PackingEntry *top_packing(PackingStack *stack) { __asm { int 3 } return 0; }
-void __stdcall disable_keyword(char *name) { __asm { int 3 } }
-void initialize_cpp_context_stack(void) { __asm { int 3 } }
 void begin_browser_output(void) { __asm { int 3 } }
-FILE *open_intermediate(char *prefix, char *extension, char *mode) { __asm { int 3 } return 0; }
 void open_expression_intermediate(void) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
@@ -55,3 +49,4 @@ void __stdcall define_command_line_macros(Vector *definitions) { __asm { int 3 }
 void initialize_operators(void) { __asm { int 3 } }
 void declare_runtime_helpers(void) { __asm { int 3 } }
 void initialize_purecall(void) { __asm { int 3 } }
+InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 0; }

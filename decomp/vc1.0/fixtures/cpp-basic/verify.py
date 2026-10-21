@@ -49,7 +49,7 @@ def main():
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
     launcher = SCRATCH / 'run-phase.exe'
     obj = SCRATCH / 'run-phase.obj'
-    for command in ([TC / 'bin/CL.EXE', '/nologo', '/c', '/Od', '/G3', '/Fo'+windows(obj), windows(HERE.parent/'minimal-c/run-phase.c')],
+    for command in ([TC / 'bin/CL.EXE', '/nologo', '/c', '/Od', '/G3', '/Fo'+windows(obj), windows(HERE/'run-phase.c')],
                     [TC / 'bin/LINK.EXE', '/nologo', '/subsystem:console', '/out:'+windows(launcher), windows(obj)]):
         result = invoke(command, env, cwd=SCRATCH)
         if result.returncode:
@@ -84,8 +84,8 @@ def main():
                                            lib=windows(TC/'lib'))
                           for key, value in case['environment'].items()})
         arguments = [launcher, windows(target)]
-        if case['arguments']:
-            arguments.append(' '.join(case['arguments']))
+        arguments.append(' '.join(case['arguments']))
+        arguments.append(case['command_line_template'].format(bin=windows(TC/'bin')))
         result = invoke(arguments, phase_env, cwd=work)
         assert result.returncode == case['expected_exit'], (name, result.returncode)
         assert result.stdout == case['expected_stdout'].encode(), (name, result.stdout)

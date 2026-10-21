@@ -36,3 +36,9 @@ PackingEntry *push_packing(PackingStack *stack)
     stack->active = entry;
     return entry;
 }
+
+/* Original 0x214c0..0x214c7. */
+PackingEntry *top_packing(PackingStack *stack)
+{
+    return stack->active;
+}

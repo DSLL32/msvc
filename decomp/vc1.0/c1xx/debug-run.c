@@ -15,8 +15,8 @@ int main(int argc, char **argv)
     void *environment = 0;
     int loader_break = 0;
 
-    if (argc < 6 || argc > 8) return 2;
-    if (argc == 8) {
+    if (argc < 6 || argc > 9) return 2;
+    if (argc >= 8) {
         if (strlen(argv[7]) + 2 > sizeof(child_environment)) return 2;
         strcpy(child_environment, argv[7]);
         child_environment[strlen(argv[7]) + 1] = 0;
@@ -37,7 +37,12 @@ int main(int argc, char **argv)
     si.hStdOutput = out;
     si.hStdError = err;
     si.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
-    sprintf(command, "\"%s\" %s", argv[1], argv[2]);
+    if (argc == 9) {
+        if (strlen(argv[8]) + strlen(argv[2]) + 2 > sizeof(command)) return 2;
+        strcpy(command, argv[8]);
+        if (*argv[2]) { strcat(command, " "); strcat(command, argv[2]); }
+    } else
+        sprintf(command, "\"%s\" %s", argv[1], argv[2]);
     if (!CreateProcessA(argv[1], command, 0, 0, TRUE,
                         DEBUG_ONLY_THIS_PROCESS, environment, argc >= 7 ? argv[6] : 0, &si, &pi)) {
         sprintf(line, "create-error %lu\n", GetLastError());

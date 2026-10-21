@@ -98,7 +98,8 @@ def run(label, exe, case=''):
     args = ['wine', 'build/debug-run.exe', wt.windows(exe), case,
             wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
             wt.windows(str(stem)+'.events'), wt.windows(directory),
-            'MSC_CMD_FLAGS=' + flags]
+            'MSC_CMD_FLAGS=' + flags,
+            CASE['command_line_template'].format(bin=wt.windows(wt.TC/'bin'))]
     subprocess.run(args, env=wt.environment(), check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return Path(str(stem)+'.events').read_text()

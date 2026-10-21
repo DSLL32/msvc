@@ -88,5 +88,10 @@
     "exit_status": 0,
     "stdout": "",
     "stderr": ""
+  },
+  "verified_command_line_templates": {
+    "c1": "{bin}\\c1xx3232.exe",
+    "c2": "{bin}\\c23232.exe",
+    "link": "{bin}\\link.exe -link @link.rsp"
   }
 }

@@ -62,7 +62,8 @@
           "sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c",
           "output_name": "irgl"
         }
-      ]
+      ],
+      "command_line_template": "{bin}\\c1xx3232.exe"
     },
     "c2": {
       "target": "toolchains/1.0-nt/bin/C23232.EXE",
@@ -115,7 +116,8 @@
           ],
           "normalized_sha256": "538e01b67563612d02e2ed2e84e55db22b04e413ad86f453d7b244d8d9a962ed"
         }
-      ]
+      ],
+      "command_line_template": "{bin}\\c23232.exe"
     },
     "link": {
       "target": "toolchains/1.0-nt/bin/LINK.EXE",
@@ -182,7 +184,8 @@
           "path": "toolchains/1.0-nt/lib/LIBC.LIB",
           "sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334"
         }
-      ]
+      ],
+      "command_line_template": "{bin}\\link.exe -link @link.rsp"
     }
   }
 }

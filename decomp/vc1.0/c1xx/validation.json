@@ -1,12 +1,20 @@
 {
   "status": "partial",
-  "accepted_frontiers": 69,
-  "native_functions": 31,
-  "current_frontier": "_initialize_preprocessor",
-  "original_frontier_va": "0x1db80",
+  "accepted_frontiers": 96,
+  "driver_functions": 43,
+  "older_crt_functions": 3,
+  "reconstructed_source_functions": 46,
+  "current_frontier": "_open_expression_intermediate",
+  "original_frontier_va": "0x6c4d0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "dcff350259345f1391191d2459ac4684f4e69fc72025172b3aa0fe24a063aee9",
-  "call_graph_audit_functions": 31,
+  "replay_log_sha256": "f186f36f984fe9f9377ed1da8506855e3996a86e22dee15dd86d6613365f8b68",
+  "call_graph_audit_functions": 46,
+  "data_audits": {
+    "option_rules": 98,
+    "keywords": 81,
+    "declspec_entries": 4,
+    "typed_configuration_bytes": 764
+  },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
     {
@@ -17,5 +25,6 @@
       "object": "BINMODE.OBJ"
     }
   ],
+  "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false
 }
