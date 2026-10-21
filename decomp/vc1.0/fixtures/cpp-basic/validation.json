@@ -1,0 +1,92 @@
+{
+  "c1": {
+    "exit_status": 0,
+    "stdout_matches": true,
+    "stderr_matches": true,
+    "outputs": [
+      {
+        "file": "irex",
+        "bytes": 1136,
+        "exact_match": true,
+        "differing_byte_offsets": [],
+        "actual_sha256": "cd3d4ab5354050a0997c10d4c43133104a2b49378c6390df6a6229b097195e10",
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irsy",
+        "bytes": 123,
+        "exact_match": true,
+        "differing_byte_offsets": [],
+        "actual_sha256": "22314515a46999c51e34592b941ea095e45bb4fa40ea7202290350deb43dfe01",
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irin",
+        "bytes": 9,
+        "exact_match": true,
+        "differing_byte_offsets": [],
+        "actual_sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f",
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irgl",
+        "bytes": 137,
+        "exact_match": true,
+        "differing_byte_offsets": [],
+        "actual_sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c",
+        "permitted_volatile_fields": []
+      }
+    ]
+  },
+  "c2": {
+    "exit_status": 0,
+    "stdout_matches": true,
+    "stderr_matches": true,
+    "outputs": [
+      {
+        "file": "cpp-basic.obj",
+        "bytes": 479,
+        "exact_match": false,
+        "differing_byte_offsets": [
+          4
+        ],
+        "actual_sha256": "14c538d9b692138723a62a9f6b7c839537e911b374a2664212e60c4cb23891ce",
+        "permitted_volatile_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ]
+      }
+    ]
+  },
+  "link": {
+    "exit_status": 0,
+    "stdout_matches": true,
+    "stderr_matches": true,
+    "outputs": [
+      {
+        "file": "cpp-basic.exe",
+        "bytes": 2097152,
+        "exact_match": false,
+        "differing_byte_offsets": [
+          136
+        ],
+        "actual_sha256": "ede33724dc21b401c052be67cb0f623b6ff7166202b7b9941d60dc57946c7edc",
+        "permitted_volatile_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          }
+        ]
+      }
+    ]
+  },
+  "generated_program": {
+    "exit_status": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}
