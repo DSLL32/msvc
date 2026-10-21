@@ -23,6 +23,8 @@ Then, for some case:
  - On no trap: 
    * if case successful - producing identical output to the original - move on to another and repeat this process. Else, debug, fix, and rerun.
 
+Reconstruct program logic as readable, idiomatic (for the time period and platform) C, recovering meaningful function signatures, types, structures, and control flow. Do not use mechanically copied or generated assembly as the reconstructed implementation. Use inline assembly only where required to preserve behavior or an ABI that the original C toolchain cannot express, and document the reason. Disassemblers, decompilers, and generated assembly listings are permitted for analysis and verification; this restriction applies to reconstruction source.
+
 Do not bulk copy data sections into the reconstruction in any format. Define data as it is encountered during reconstruction, placing it somewhere that makes sense in the current context.
 Keep ordinary string literals at their point of use. Introduce named string objects only when sharing, mutation, or observable address identity requires them.
 While we must preserve the original function graph, you have full ownership of source layout, identifiers, libraries, headers, etc. Code in a style faithful to the reconstruction target. Feel free to reorganize code or update function, type, and field names as your knowledge of the target grows during reconstruction.
