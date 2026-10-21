@@ -2,7 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
 
-.PHONY: all clean check prefix replay audit
+.PHONY: all clean check prefix replay audit probe
 all: build/original.exe build/reconstructed.exe build/debug-run.exe build/gui-check.exe
 
 prefix:
@@ -50,6 +50,17 @@ build/debug-run.exe: build/debug-run.obj
 
 build/gui-check.exe: build/gui-check.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< $(TC)/lib/USER32.LIB $(TC)/lib/GDI32.LIB
+
+build/trace-run.exe: build/trace-run.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+
+build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe &: build/pass-helper.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:build/pass-proxy.exe $<
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:build/fail-pass.exe $<
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:build/wait-pass.exe $<
+
+probe: all build/trace-run.exe build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe
+	$(PYTHON) probe-cases.py
 
 clean:
 	rm -rf build

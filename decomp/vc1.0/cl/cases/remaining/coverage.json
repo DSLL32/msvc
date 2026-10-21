@@ -1,0 +1,935 @@
+{
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "method": "Original-only one-shot function-entry breakpoints; no reconstruction acceptance",
+  "remaining_functions_at_start": [
+    "_usage",
+    "_fatal",
+    "_warning",
+    "_read_response_file",
+    "_ide_message",
+    "_control_handler@4",
+    "_warn_override",
+    "_option_callback_19014",
+    "_option_callback_19198",
+    "_option_callback_1920c",
+    "_option_callback_19228",
+    "_copy_item",
+    "_driver_switch_17010",
+    "_driver_switch_170a0",
+    "_driver_switch_1713c",
+    "_driver_switch_1719c",
+    "_driver_switch_17368",
+    "_driver_switch_173ac",
+    "_output_stem",
+    "_map_filename",
+    "_any_match",
+    "_initialize_ide",
+    "_start_timer",
+    "_report_timer",
+    "_write_omf_response"
+  ],
+  "cases": [
+    {
+      "id": "usage",
+      "arguments": "",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_usage"
+      ],
+      "intended_targets": [
+        "_usage"
+      ],
+      "missed_targets": [],
+      "stdout": "usage: cl [ option... ] filename... [ -link linkoption... ]\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 00008f2b",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "missing-input",
+      "arguments": "/nologo",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [
+        "_fatal"
+      ],
+      "intended_targets": [
+        "_fatal"
+      ],
+      "missed_targets": [],
+      "stdout": "",
+      "stderr": "Command line error D2003 : missing source filename\r\n",
+      "events": [
+        "hit 0000a757",
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "invalid-number",
+      "arguments": "/W5 /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_warning"
+      ],
+      "intended_targets": [
+        "_warning"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4014 : invalid value '5' for '/W'; assuming '1'\r\n",
+      "events": [
+        "hit 0000ab77",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "missing-option-value",
+      "arguments": "/Tc",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [
+        "_option_callback_1920c",
+        "_fatal"
+      ],
+      "intended_targets": [
+        "_option_callback_1920c",
+        "_fatal"
+      ],
+      "missed_targets": [],
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line error D2004 : '/Tc' requires an argument\r\n",
+      "events": [
+        "hit 0000920c",
+        "hit 0000a757",
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "unknown-option",
+      "arguments": "/not_a_switch /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_warning"
+      ],
+      "intended_targets": [
+        "_warning"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4002 : ignoring unknown option '/not_a_switch'\r\n",
+      "events": [
+        "hit 0000ab77",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "conflicting-options",
+      "arguments": "/O1 /O2 /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_warn_override",
+        "_warning"
+      ],
+      "intended_targets": [
+        "_warn_override",
+        "_warning"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4025 : overriding '/O1' with '/O2'\r\n",
+      "events": [
+        "hit 00007f2a",
+        "hit 0000ab77",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "override-side-effects",
+      "arguments": "/Ge /O2 /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_copy_item"
+      ],
+      "intended_targets": [
+        "_copy_item"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 000076d4",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "incompatible-options",
+      "arguments": "/Za /Ze /c test.c",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [
+        "_warn_override",
+        "_fatal"
+      ],
+      "intended_targets": [
+        "_warn_override",
+        "_fatal"
+      ],
+      "missed_targets": [],
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line error D2016 : '/Za' and '/Ze' command-line options are incompatible\r\n",
+      "events": [
+        "hit 00007f2a",
+        "hit 0000a757",
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "nested-response",
+      "arguments": "@outer.rsp",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_read_response_file"
+      ],
+      "intended_targets": [
+        "_read_response_file"
+      ],
+      "missed_targets": [],
+      "stdout": "space name.c\r\n",
+      "stderr": "",
+      "events": [
+        "hit 0000842b",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "missing-response",
+      "arguments": "@absent.rsp",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [
+        "_read_response_file",
+        "_fatal"
+      ],
+      "intended_targets": [
+        "_read_response_file",
+        "_fatal"
+      ],
+      "missed_targets": [],
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line error D2022 : cannot open 'absent.rsp'\r\n",
+      "events": [
+        "hit 0000842b",
+        "hit 0000a757",
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "response-cycle",
+      "arguments": "@loop.rsp",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [
+        "_read_response_file",
+        "_fatal"
+      ],
+      "intended_targets": [
+        "_read_response_file",
+        "_fatal"
+      ],
+      "missed_targets": [],
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\ncl @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\nCommand line error D2035 : response files nested too deeply\r\n",
+      "events": [
+        "hit 0000842b",
+        "hit 0000a757",
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "link-tail",
+      "arguments": "test.c /link /nologo /subsystem:console",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_option_callback_19014"
+      ],
+      "intended_targets": [
+        "_option_callback_19014"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "",
+      "events": [
+        "hit 00009014",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "link-attached",
+      "arguments": "test.c /link/subsystem:console /nologo",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_option_callback_19014"
+      ],
+      "intended_targets": [
+        "_option_callback_19014"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "",
+      "events": [
+        "hit 00009014",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "force-c",
+      "arguments": "/c /Tcforced.src",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_option_callback_1920c"
+      ],
+      "intended_targets": [
+        "_option_callback_1920c"
+      ],
+      "missed_targets": [],
+      "stdout": "forced.src\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000920c",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "force-cpp",
+      "arguments": "/c /Tp cplusplus.src",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_option_callback_19228"
+      ],
+      "intended_targets": [
+        "_option_callback_19228"
+      ],
+      "missed_targets": [],
+      "stdout": "cplusplus.src\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 00009228",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "force-object",
+      "arguments": "/To object.blob /Feobject.exe",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_option_callback_19198"
+      ],
+      "intended_targets": [
+        "_option_callback_19198"
+      ],
+      "missed_targets": [],
+      "stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n-out:object.exe \r\nobject.blob \r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 00009198",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "undefine-predefines",
+      "arguments": "/u /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_170a0"
+      ],
+      "intended_targets": [
+        "_driver_switch_170a0"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 000070a0",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "preprocess-stdout",
+      "arguments": "/E /I\"include dir\" preprocess.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_17368"
+      ],
+      "intended_targets": [
+        "_driver_switch_17368"
+      ],
+      "missed_targets": [],
+      "stdout": "#line 1 \"preprocess.c\"\r\n#line 1 \"include dir\\\\settings.h\"\r\n\r\n#line 2 \"preprocess.c\"\r\nint main(void) { return 42 - 42; }\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\npreprocess.c\r\n",
+      "events": [
+        "hit 00007368",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "preprocess-file",
+      "arguments": "/P /I\"include dir\" preprocess.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_17368"
+      ],
+      "intended_targets": [
+        "_driver_switch_17368"
+      ],
+      "missed_targets": [],
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\npreprocess.c\r\n",
+      "events": [
+        "hit 00007368",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "prototype-only",
+      "arguments": "/Zg test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_17368"
+      ],
+      "intended_targets": [
+        "_driver_switch_17368"
+      ],
+      "missed_targets": [],
+      "stdout": "extern int main(void);\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\ntest.c\r\n",
+      "events": [
+        "hit 00007368",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "syntax-only",
+      "arguments": "/Zs test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_17368"
+      ],
+      "intended_targets": [
+        "_driver_switch_17368"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 00007368",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "assembly-listing",
+      "arguments": "/FAsc /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_173ac"
+      ],
+      "intended_targets": [
+        "_driver_switch_173ac"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 000073ac",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "required-option-present",
+      "arguments": "/C /E test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_17368",
+        "_any_match"
+      ],
+      "intended_targets": [
+        "_any_match"
+      ],
+      "missed_targets": [],
+      "stdout": "#line 1 \"test.c\"\r\nint main () { return 0; }\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\ntest.c\r\n",
+      "events": [
+        "hit 00007368",
+        "hit 00008fd6",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "required-option-missing",
+      "arguments": "/C /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_any_match",
+        "_warning"
+      ],
+      "intended_targets": [
+        "_any_match",
+        "_warning"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4007 : '/C' requires '/E, /EP or /P'; option ignored\r\n",
+      "events": [
+        "hit 00008fd6",
+        "hit 0000ab77",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "map-and-renamed-output",
+      "arguments": "/Fm\"output dir/custom.map\" /Fe\"output dir/custom.exe\" test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_map_filename"
+      ],
+      "intended_targets": [
+        "_map_filename"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\nMicrosoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n\"-map:output dir/custom.map\" \r\n\"-out:output dir/custom.exe\" \r\ntest.obj \r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 00009f3c",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "dll-output",
+      "arguments": "/LD /Fedemo.dll dll.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_17010",
+        "_output_stem"
+      ],
+      "intended_targets": [
+        "_driver_switch_17010",
+        "_output_stem"
+      ],
+      "missed_targets": [],
+      "stdout": "dll.c\r\nMicrosoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n-dll \r\n-implib:demo.lib \r\n-out:demo.dll \r\ndll.obj \r\n   Creating library demo.lib and object demo.exp ...\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 00007010",
+        "hit 0000a2fc",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "dll-exp-input",
+      "arguments": "/Bz /Bk:temp /LD test.c sample.exp",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_17010"
+      ],
+      "intended_targets": [
+        "_driver_switch_17010"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il :temp -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -D_MT -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include'\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il :temp -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -MT'\r\n-out:test.dll\r\n-debug:none\r\n-dll\r\ntest.obj\r\nsample.exp\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @:templk'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 00007010",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "replace-passes",
+      "arguments": "/B1{bin}\\C13232.EXE /B2{bin}\\C23232.EXE /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_1713c"
+      ],
+      "intended_targets": [
+        "_driver_switch_1713c"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000713c",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "pass-loader",
+      "arguments": "/Bp1{proxy} /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_driver_switch_1719c"
+      ],
+      "intended_targets": [
+        "_driver_switch_1719c"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000719c",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "child-failure",
+      "arguments": "/B1{fail} /c test.c",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [
+        "_driver_switch_1713c"
+      ],
+      "intended_targets": [
+        "_driver_switch_1713c"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000713c",
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "child-not-found",
+      "arguments": "/B1does-not-exist.exe /c test.c",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [
+        "_driver_switch_1713c",
+        "_fatal"
+      ],
+      "intended_targets": [
+        "_driver_switch_1713c",
+        "_fatal"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\nCommand line error D2027 : cannot execute 'does-not-exist.exe'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000713c",
+        "hit 0000a757",
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "ide-feedback",
+      "arguments": "/FEEDBACK /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_initialize_ide",
+        "_ide_message"
+      ],
+      "intended_targets": [
+        "_initialize_ide",
+        "_ide_message"
+      ],
+      "missed_targets": [],
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n@I0@I1Microsoft (R)  32-bit C/C++ Optimizing Compiler Version  8.00      \r\n@I2\r\nCopyright (c) Microsoft Corp  1984-1993. All rights reserved.\r\n\r\n\r\ntest.c\r\n@I3Compiling: test.c\r\n@I4Z:\\root\\.ai-tmp\\vc1.0-cl\\probes\\ide-feedback\\test.c\r\n@I51\r\n@I62\r\n@I4main",
+      "events": [
+        "hit 0000ac84",
+        "hit 0000ad08",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "timing",
+      "arguments": "/Bt /c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_start_timer",
+        "_report_timer"
+      ],
+      "intended_targets": [
+        "_start_timer",
+        "_report_timer"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=0.181s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=0.181s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000abc3",
+        "hit 0000abd1",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "two-sources",
+      "arguments": "call.c helper.c /Fetwo.exe",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [],
+      "intended_targets": [],
+      "missed_targets": [],
+      "stdout": "call.c\r\nhelper.c\r\nMicrosoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n-out:two.exe \r\ncall.obj \r\nhelper.obj \r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "environment-precedence",
+      "arguments": "/c test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_warn_override",
+        "_warning"
+      ],
+      "intended_targets": [],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Command line warning D4025 : overriding '/O1' with '/O2'\r\n",
+      "events": [
+        "hit 00007f2a",
+        "hit 0000ab77",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "include-search-list",
+      "arguments": "/c /X preprocess.c",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [],
+      "intended_targets": [],
+      "missed_targets": [],
+      "stdout": "preprocess.c\r\npreprocess.c(1) : fatal error C1034: settings.h: no include path set\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "include-search-expansion",
+      "arguments": "/c preprocess.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [],
+      "intended_targets": [],
+      "missed_targets": [],
+      "stdout": "preprocess.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "include-unquoted-space",
+      "arguments": "/c preprocess.c",
+      "launcher_status": 0,
+      "exit_status": 2,
+      "reached": [],
+      "intended_targets": [],
+      "missed_targets": [],
+      "stdout": "preprocess.c\r\nfatal error C1007: unrecognized flag 'dir' in 'c1'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "exit 00000002"
+      ],
+      "verified": true
+    },
+    {
+      "id": "legacy-omf-selector",
+      "arguments": "/Bz /Bk:temp /omf test.c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [],
+      "intended_targets": [
+        "_write_omf_response"
+      ],
+      "missed_targets": [
+        "_write_omf_response"
+      ],
+      "stdout": "test.c\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il :temp -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include'\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il :temp -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML'\r\n-out:test.exe\r\n-debug:none\r\n-out:mf.exe\r\ntest.obj\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @:templk'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "mixed-ordering",
+      "arguments": "test.c /DVALUE=42 helper.c /c",
+      "launcher_status": 0,
+      "exit_status": 0,
+      "reached": [
+        "_warning"
+      ],
+      "intended_targets": [
+        "_warning"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\nhelper.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4026 : options apply to entire command line\r\n",
+      "events": [
+        "hit 0000ab77",
+        "exit 00000000"
+      ],
+      "verified": true
+    },
+    {
+      "id": "interrupt-idle",
+      "arguments": "/?",
+      "launcher_status": 0,
+      "exit_status": 4,
+      "reached": [
+        "_control_handler@4"
+      ],
+      "intended_targets": [
+        "_control_handler@4"
+      ],
+      "missed_targets": [],
+      "stdout": "                            C COMPILER OPTIONS\r\n\r\n                              -OPTIMIZATION-\r\n/O1 minimize space                       /Op[-] improve floating-pt consistency\r\n/O2 maximize speed                       /Os favor code space\r\n/Oa assume no aliasing                   /Ot favor code speed\r\n/Ob<n> inline expansion (default n=0)    /Ow assume cross-function aliasing\r\n/Od disable optimizations (default)      /Ox maximum opts. (/Ogityb1 /Gs)\r\n/Og enable global optimization           /Oy[-] enable frame pointer omission\r\n/Oi enable intrinsic functions\r\n                             -CODE GENERATION-\r\n/G3 optimize for 80386                   /Ge enable stack checking calls\r\n/G4 optimize for 80486 (default)         /Gs[num] disable stack checking calls\r\n/G5 optimize for Pentium                 /Gf enable string pooling\r\n/Gd __cdecl calling convention           /Gy separate functions for linker\r\n/Gr __fastcall calling convention        /Gh enable hook function call\r\n/Gz __stdcall calling convention\r\n                              -OUTPUT FILES-\r\n/Fa[file] name assembly listing file     /Fo<file> name object file\r\n/FA[sc] configure assembly listing       /Fp<file> name precompiled header file\r\n/Fd[file] name .PDB file                 /Fr[file] name source browser file\r\n/Fe<file> name executable file           /FR[file] name extended .SBR file\r\n/Fm[file] name map file\r\n                              -PREPROCESSOR-\r\n  (press <return> to continue)",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000afcc",
+        "child-running 00000000",
+        "exit 00000004"
+      ],
+      "verified": true
+    },
+    {
+      "id": "interrupt-child",
+      "arguments": "/B1{wait} /c test.c",
+      "launcher_status": 0,
+      "exit_status": 4,
+      "reached": [
+        "_driver_switch_1713c",
+        "_control_handler@4"
+      ],
+      "intended_targets": [
+        "_control_handler@4"
+      ],
+      "missed_targets": [],
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "events": [
+        "hit 0000713c",
+        "hit 0000afcc",
+        "child-running 00000001",
+        "exit 00000004"
+      ],
+      "verified": true
+    }
+  ],
+  "reached_functions": [
+    "_any_match",
+    "_control_handler@4",
+    "_copy_item",
+    "_driver_switch_17010",
+    "_driver_switch_170a0",
+    "_driver_switch_1713c",
+    "_driver_switch_1719c",
+    "_driver_switch_17368",
+    "_driver_switch_173ac",
+    "_fatal",
+    "_ide_message",
+    "_initialize_ide",
+    "_map_filename",
+    "_option_callback_19014",
+    "_option_callback_19198",
+    "_option_callback_1920c",
+    "_option_callback_19228",
+    "_output_stem",
+    "_read_response_file",
+    "_report_timer",
+    "_start_timer",
+    "_usage",
+    "_warn_override",
+    "_warning"
+  ],
+  "unreached_functions": [
+    "_write_omf_response"
+  ],
+  "inputs_sha256": {
+    "cases/remaining/catalog.json": "5bf783d35ad86a9c1e953bee8058af8ec522df0a6658ffe1f7ccbf7f3d83889e",
+    "trace-run.c": "105e4b99c6a87d4e6d560e5a5fa922617ec7a33323b825bf8c64a7234c89f8e6",
+    "pass-helper.c": "0505173058a7969478de5ae344691432c8f220bbf56bc5937108044e97c9b476",
+    "probe-cases.py": "fe5af4756b37b4e83e902769ba1c18aa1638d0103a5318d4f1e57c81a30692a1",
+    "functions.json": "c96cb3bf2c79a1bc0fbae3a1c62da4a018d6cf5be3aedf37a669084f4ac69eee"
+  },
+  "existing_reconstruction_checks": {
+    "command": "make -j2 check",
+    "passed": true,
+    "source_functions_audited": 76,
+    "cases": [
+      "/?",
+      "test.c",
+      "/O2 /G5 hello.c"
+    ],
+    "artifact_and_gui_checks_passed": true
+  }
+}

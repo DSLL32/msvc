@@ -56,6 +56,13 @@ object; the optimized window case produces a 2,289-byte object. Both executables
 are 2,097,152 bytes. /O2 /G5 exercises detaching overridden options from the
 option list. Other paths remain incomplete and will encounter named INT3 stubs.
 
+cases/remaining/catalog.json contains 42 additional candidate cases. Original-only
+entry probes reached 24 of the 25 remaining named driver functions; the legacy
+OMF response writer remains unreached. Run make -j2 probe to repeat discovery.
+cases/remaining/README.txt explains the cases, recommended starting set, and
+measurement limits; coverage.json preserves the observed streams and events.
+These are reconstruction inputs, not additional completed reconstruction cases.
+
 cl.c contains the driver main and its SEH frame. driver.c contains reconstructed
 argument parsing, option grammar expansion, option-list handling, setup, help
 display, compiler/linker invocation, response-file generation, and cleanup.
