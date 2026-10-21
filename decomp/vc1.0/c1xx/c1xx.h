@@ -3,7 +3,6 @@
 extern int argument_count;
 extern char **argument_vector;
 extern char *fatal_error_label;
-extern int unguarded_compilation;
 char *message_text(unsigned code);
 void parse_options(int argc, char **argv);
 int guarded_compile(void);

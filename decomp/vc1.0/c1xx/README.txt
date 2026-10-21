@@ -6,12 +6,11 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 48 accepted paired frontiers, including 16 native
-source functions covering driver/options setup, scope/packing state, permanent
-allocation, checksum initialization and environment argument transport. The next
-matching named trap is _new_vector@8 at original VA 0x4e810. The complete
-frontend case is not yet reconstructed or claimed equivalent. The option table
-is still a placeholder protected by its named trapping parser frontier.
+PARTIAL reconstruction: 69 accepted paired frontiers, including 31 native
+source functions. The option grammar, complete frontend orchestration, and
+compiler work-stack initialization are reconstructed. The next matching named
+trap is _initialize_preprocessor at original VA 0x1db80. The complete frontend
+case is not yet reconstructed or claimed equivalent.
 
 Build and check the current frontier using the original toolchain:
 
@@ -39,3 +38,10 @@ The only inline assembly currently used in native source is INT3 in named
 unreconstructed stubs, as required by the reconstruction protocol. Native
 implementations use readable C; original CRT code is linked from the original
 library after exact matching. No executable data sections are copied into C.
+
+The original CRT __fmode is 0x8000 at VA 0xaa3bc. BINMODE.OBJ supplies that
+same binary-default setting to this reconstruction; compare.py checks the
+original and rebuilt globals against the recorded value. The PCH configuration
+snapshot is represented by the typed CompilerConfiguration structure, with an
+asserted size of 764 bytes. Its two path buffers and known flags are named;
+remaining fields retain offsets until their consumers are reconstructed.

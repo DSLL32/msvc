@@ -6,10 +6,10 @@ void initialize_packing(void)
     PackingEntry *entry;
     packing_stack = new_packing_stack();
     entry = push_packing(packing_stack);
-    if (packing_alignment == -1)
+    if (options.option_Zp == -1)
         entry->alignment = 8;
     else
-        entry->alignment = packing_alignment;
+        entry->alignment = options.option_Zp;
     entry->field08 = 0;
 }
 

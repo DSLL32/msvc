@@ -7,11 +7,11 @@ prefix:
 	$(TOOL) --init
 build:
 	mkdir -p $@
-build/%.obj: %.c c1xx.h options.h characters.h | build prefix
+build/%.obj: %.c c1xx.h options.h characters.h configuration.h frontend.h initialization.h | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
-OBJECTS = build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj build/scopes.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj
-build/c1xx.exe: $(OBJECTS) Makefile
-	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1xx.map /out:$@ $(OBJECTS)
+OBJECTS = build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj build/scopes.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/option-data.obj build/frontend.obj build/initialization.obj
+build/c1xx.exe: $(OBJECTS) $(TC)/lib/BINMODE.OBJ Makefile
+	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1xx.map /out:$@ $(OBJECTS) $(TC)/lib/BINMODE.OBJ
 runtime.json: identify-runtime.py binary.py $(TC)/bin/C1XX3232.EXE $(TC)/lib/LIBC.LIB $(TC)/lib/SETARGV.OBJ
 	$(PYTHON) identify-runtime.py
 build/runtime.json: build/c1xx.exe identify-runtime.py binary.py

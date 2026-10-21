@@ -1,12 +1,21 @@
 {
   "status": "partial",
-  "accepted_frontiers": 48,
-  "native_functions": 16,
-  "current_frontier": "_new_vector@8",
-  "original_frontier_va": "0x4e810",
+  "accepted_frontiers": 69,
+  "native_functions": 31,
+  "current_frontier": "_initialize_preprocessor",
+  "original_frontier_va": "0x1db80",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "6298f915e3873c503273bcc477f9c7024efc6e5979447119dedba012faf4e68e",
-  "call_graph_audit_functions": 16,
+  "replay_log_sha256": "dcff350259345f1391191d2459ac4684f4e69fc72025172b3aa0fe24a063aee9",
+  "call_graph_audit_functions": 31,
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
+  "runtime_globals_checked": [
+    {
+      "name": "__fmode",
+      "original": 697276,
+      "value": 32768,
+      "bytes": 4,
+      "object": "BINMODE.OBJ"
+    }
+  ],
   "complete_case_equivalence": false
 }

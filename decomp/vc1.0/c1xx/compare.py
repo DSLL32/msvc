@@ -53,6 +53,10 @@ def indexes():
     original += imports(orig) + cfg['driver']
     reconstructed = json.loads(Path('build/runtime.json').read_text()) + imports(rec)
     names = publics()
+    for value in cfg.get('runtime_data', []):
+        expected = value['value'].to_bytes(value['bytes'], 'little')
+        assert orig.read(value['original'], value['bytes']) == expected, 'original CRT global changed'
+        assert rec.read(names[value['name']], value['bytes']) == expected, 'reconstructed CRT global differs: '+value['name']
     driver_publics = {names[r['name']] for r in cfg['driver'] if r['name'] in names}
     reconstructed = [r for r in reconstructed
                      if r['start'] not in driver_publics and
@@ -145,6 +149,8 @@ def compare(accepted_count=None, case='', baseline=True):
     assert {p.name for p in left.iterdir()} == {p.name for p in right.iterdir()}, 'frontier file sets differ'
     for path in left.iterdir():
         assert path.read_bytes() == (right / path.name).read_bytes(), 'frontier file differs: ' + path.name
+    for stream in ('stdout', 'stderr'):
+        assert Path('build/original.'+stream).read_bytes() == Path('build/reconstructed.'+stream).read_bytes(), 'frontier '+stream+' differs'
     if al.startswith('exit:'):
         for stream in ('stdout','stderr'):
             assert Path('build/original.'+stream).read_bytes() == Path('build/reconstructed.'+stream).read_bytes(), stream+' differs'

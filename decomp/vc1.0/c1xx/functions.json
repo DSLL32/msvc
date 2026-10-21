@@ -52,7 +52,28 @@
     "__strnicmp",
     "_read_env_arguments",
     "_extend_argument_vector",
-    "_checked_malloc@4"
+    "_checked_malloc@4",
+    "_new_vector@8",
+    "_refill_arena@8",
+    "_next_argument",
+    "_match_option",
+    "_prefix_character",
+    "_apply_option",
+    "_parse_option_number",
+    "_atol",
+    "_match_option_suffix",
+    "_append_vector@8",
+    "__fullpath",
+    "__getdcwd",
+    "import:GetCurrentDirectoryA",
+    "_finalize_options",
+    "_free",
+    "_guarded_compile",
+    "_compile_translation_unit",
+    "_initialize_frontend",
+    "import:SetHandleCount",
+    "_initialize_work_stack@4",
+    "_reset_work_stack@4"
   ],
   "driver": [
     {
@@ -78,7 +99,7 @@
     {
       "name": "_compile_translation_unit",
       "start": 431920,
-      "end": 431921
+      "end": 432791
     },
     {
       "name": "_interrupt_compile",
@@ -113,12 +134,12 @@
     {
       "name": "_new_vector@8",
       "start": 321552,
-      "end": 321553
+      "end": 321741
     },
     {
       "name": "_match_option",
       "start": 473152,
-      "end": 473153
+      "end": 473437
     },
     {
       "name": "_next_argument",
@@ -184,6 +205,306 @@
       "name": "_checked_malloc@4",
       "start": 470304,
       "end": 470340
+    },
+    {
+      "name": "_refill_arena@8",
+      "start": 470448,
+      "end": 470619
+    },
+    {
+      "name": "_prefix_character",
+      "start": 473984,
+      "end": 474016
+    },
+    {
+      "name": "_match_option_suffix",
+      "start": 474016,
+      "end": 474106
+    },
+    {
+      "name": "_apply_option",
+      "start": 473440,
+      "end": 473819
+    },
+    {
+      "name": "_parse_option_number",
+      "start": 473824,
+      "end": 473981
+    },
+    {
+      "name": "_append_vector@8",
+      "start": 322256,
+      "end": 322296
+    },
+    {
+      "name": "_grow_vector@4",
+      "start": 321744,
+      "end": 321745
+    },
+    {
+      "name": "_compiler_warning",
+      "start": 471984,
+      "end": 471985
+    },
+    {
+      "name": "_initialize_frontend",
+      "start": 429280,
+      "end": 431649
+    },
+    {
+      "name": "_pack_option_flags",
+      "start": 476816,
+      "end": 476817
+    },
+    {
+      "name": "_preprocess_translation_unit",
+      "start": 433312,
+      "end": 433313
+    },
+    {
+      "name": "_record_version_token@4",
+      "start": 181552,
+      "end": 181553
+    },
+    {
+      "name": "_emit_version_token@4",
+      "start": 379840,
+      "end": 379841
+    },
+    {
+      "name": "_compare_filenames",
+      "start": 149568,
+      "end": 149569
+    },
+    {
+      "name": "_begin_automatic_pch",
+      "start": 440880,
+      "end": 440881
+    },
+    {
+      "name": "_begin_debug_info",
+      "start": 448096,
+      "end": 448097
+    },
+    {
+      "name": "_load_precompiled_header",
+      "start": 143808,
+      "end": 143809
+    },
+    {
+      "name": "_open_forced_include@8",
+      "start": 145584,
+      "end": 145585
+    },
+    {
+      "name": "_parse_translation_unit",
+      "start": 157936,
+      "end": 157937
+    },
+    {
+      "name": "_release_arena@4",
+      "start": 470352,
+      "end": 470353
+    },
+    {
+      "name": "_finish_declarations",
+      "start": 318816,
+      "end": 318817
+    },
+    {
+      "name": "_finish_types",
+      "start": 317472,
+      "end": 317473
+    },
+    {
+      "name": "_finish_inline_functions",
+      "start": 504896,
+      "end": 504897
+    },
+    {
+      "name": "_finish_expression_output",
+      "start": 351072,
+      "end": 351073
+    },
+    {
+      "name": "_write_ir_record@8",
+      "start": 368288,
+      "end": 368289
+    },
+    {
+      "name": "_make_integer_constant@4",
+      "start": 182192,
+      "end": 182193
+    },
+    {
+      "name": "_finish_debug_info",
+      "start": 448192,
+      "end": 448193
+    },
+    {
+      "name": "_write_global_header",
+      "start": 355584,
+      "end": 355585
+    },
+    {
+      "name": "_generate_inline_queries",
+      "start": 280276,
+      "end": 280277
+    },
+    {
+      "name": "_close_intermediate",
+      "start": 475920,
+      "end": 475921
+    },
+    {
+      "name": "_finish_browser_output",
+      "start": 180304,
+      "end": 180305
+    },
+    {
+      "name": "_report_error",
+      "start": 471536,
+      "end": 471537
+    },
+    {
+      "name": "_cleanup_precompiled_files",
+      "start": 446528,
+      "end": 446529
+    },
+    {
+      "name": "_initialize_work_stack@4",
+      "start": 206480,
+      "end": 206577
+    },
+    {
+      "name": "_initialize_preprocessor",
+      "start": 121728,
+      "end": 121729
+    },
+    {
+      "name": "_initialize_keyword_table",
+      "start": 127872,
+      "end": 127873
+    },
+    {
+      "name": "_initialize_floating_point",
+      "start": 478000,
+      "end": 478001
+    },
+    {
+      "name": "_top_packing",
+      "start": 136384,
+      "end": 136385
+    },
+    {
+      "name": "_disable_keyword@4",
+      "start": 128064,
+      "end": 128065
+    },
+    {
+      "name": "_initialize_cpp_context_stack",
+      "start": 189984,
+      "end": 189985
+    },
+    {
+      "name": "_begin_browser_output",
+      "start": 180192,
+      "end": 180193
+    },
+    {
+      "name": "_open_intermediate",
+      "start": 475728,
+      "end": 475729
+    },
+    {
+      "name": "_open_expression_intermediate",
+      "start": 443600,
+      "end": 443601
+    },
+    {
+      "name": "_initialize_inline_queries",
+      "start": 280112,
+      "end": 280113
+    },
+    {
+      "name": "_report_fatal",
+      "start": 471616,
+      "end": 471617
+    },
+    {
+      "name": "_initialize_type_table",
+      "start": 400992,
+      "end": 400993
+    },
+    {
+      "name": "_initialize_global_scope",
+      "start": 331280,
+      "end": 331281
+    },
+    {
+      "name": "_initialize_declaration_table",
+      "start": 204544,
+      "end": 204545
+    },
+    {
+      "name": "_intern_type@4",
+      "start": 401536,
+      "end": 401537
+    },
+    {
+      "name": "_make_function_type@8",
+      "start": 402000,
+      "end": 402001
+    },
+    {
+      "name": "_make_tagged_type@4",
+      "start": 406576,
+      "end": 406577
+    },
+    {
+      "name": "_normalize_type_attributes@8",
+      "start": 244752,
+      "end": 244753
+    },
+    {
+      "name": "_make_qualified_type@16",
+      "start": 403168,
+      "end": 403169
+    },
+    {
+      "name": "_initialize_intermediate_output",
+      "start": 250640,
+      "end": 250641
+    },
+    {
+      "name": "_initialize_translation_state",
+      "start": 348112,
+      "end": 348113
+    },
+    {
+      "name": "_define_command_line_macros@4",
+      "start": 126928,
+      "end": 126929
+    },
+    {
+      "name": "_initialize_operators",
+      "start": 490832,
+      "end": 490833
+    },
+    {
+      "name": "_declare_runtime_helpers",
+      "start": 232400,
+      "end": 232401
+    },
+    {
+      "name": "_initialize_purecall",
+      "start": 232448,
+      "end": 232449
+    },
+    {
+      "name": "_reset_work_stack@4",
+      "start": 206448,
+      "end": 206470
     }
   ],
   "cases": {
@@ -191,5 +512,14 @@
       "arguments": "",
       "accepted_from": 0
     }
-  }
+  },
+  "runtime_data": [
+    {
+      "name": "__fmode",
+      "original": 697276,
+      "value": 32768,
+      "bytes": 4,
+      "object": "BINMODE.OBJ"
+    }
+  ]
 }

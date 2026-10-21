@@ -73,3 +73,11 @@ char **extend_argument_vector(void)
     }
     return end;
 }
+
+/* Original 0x3cec0..0x3cee3. */
+char *next_argument(void)
+{
+    if (--argument_count <= 0)
+        return 0;
+    return *++argument_vector;
+}

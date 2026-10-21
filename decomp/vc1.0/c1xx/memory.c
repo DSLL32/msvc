@@ -73,3 +73,33 @@ void *__stdcall checked_malloc(unsigned bytes)
         fatal_error(59);
     return result;
 }
+
+Arena compiler_arena = { 0x3ff4, 0 }; /* original 0xa2740 */
+Arena diagnostic_arena; /* original 0xa27c0 */
+
+/* Original 0x72db0..0x72e5b. */
+void __stdcall refill_arena(Arena *arena, ArenaPool *pool)
+{
+    ArenaBlock *block = arena->free_blocks;
+    unsigned i;
+    if (block)
+        arena->free_blocks = block->next;
+    else {
+        block = malloc(arena->block_bytes + 12);
+        if (!block)
+            fatal_error(arena == &diagnostic_arena ? 60 : 59);
+        block->bytes = arena->block_bytes;
+    }
+    block->next = 0;
+    for (i = 0; i < block->bytes; ++i)
+        block->data[i] = 0;
+    if (pool->last) {
+        pool->last->next = block;
+        pool->last->bytes = arena->block_bytes - pool->remaining;
+    }
+    pool->last = block;
+    if (!pool->first)
+        pool->first = block;
+    pool->remaining = arena->block_bytes;
+    pool->next = block->data;
+}
