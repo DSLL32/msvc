@@ -42,28 +42,28 @@ CType *__stdcall intern_type(TypeDescription *description)
 }
 
 /* Pointer shape cache and reusable descriptors, original 0x6b73c/0x66340/0x66350. */
-TypeShape *pointer_shapes[37];
-CType pointer_type_scratch;
-TypeShape pointer_shape_scratch;
+TypeShape *function_shapes[37];
+CType function_type_scratch;
+TypeShape function_shape_scratch;
 
 /* Original 0x3ff30..0x3fffd. */
-CType *__stdcall make_pointer_type(unsigned short attributes, CType *base)
+CType *__stdcall make_function_type(unsigned short attributes, CType *base)
 {
     unsigned index = ((attributes & 0x70) >> 4) * 3 + (attributes & 15);
     TypeShape *shape;
-    if (!pointer_shapes[index])
-        pointer_shapes[index] = intern_type_shape(new_type_shape(4,
+    if (!function_shapes[index])
+        function_shapes[index] = intern_type_shape(new_type_shape(4,
             normalize_type_attributes(4, attributes), 0));
     if (base->related) {
-        pointer_shape_scratch = *pointer_shapes[index];
-        pointer_shape_scratch.related = intern_type_shape(base->related);
-        shape = intern_type_shape(&pointer_shape_scratch);
+        function_shape_scratch = *function_shapes[index];
+        function_shape_scratch.related = intern_type_shape(base->related);
+        shape = intern_type_shape(&function_shape_scratch);
     } else
-        shape = pointer_shapes[index];
-    pointer_type_scratch.related = shape;
-    pointer_type_scratch.flags = base->flags;
-    pointer_type_scratch.attributes = shape->attributes;
-    return intern_type(&pointer_type_scratch);
+        shape = function_shapes[index];
+    function_type_scratch.related = shape;
+    function_type_scratch.flags = base->flags;
+    function_type_scratch.attributes = shape->attributes;
+    return intern_type(&function_type_scratch);
 }
 
 int active_plmn_pragma, active_plmf_pragma; /* original 0x6b7ec/0x6b7f0 */

@@ -3,6 +3,9 @@
 #include "ir.h"
 #include "types.h"
 #include "builtins.h"
+#include "macros.h"
+#include "global-ir.h"
+#include "source-input.h"
 
 /* Original 0x43ea0. */
 void compiler_signal(int signal_number) { __asm { int 3 } }
@@ -17,7 +20,6 @@ void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
 void compiler_warning(unsigned category, unsigned code, ...) { __asm { int 3 } }
 
 /* Original 0x4bee0. */
-unsigned pack_option_flags(void) { __asm { int 3 } return 0; }
 
 /* Original 0x43ec0. */
 void preprocess_translation_unit(void) { __asm { int 3 } }
@@ -59,7 +61,6 @@ void finish_declarations(void) { __asm { int 3 } }
 void finish_debug_info(void) { __asm { int 3 } }
 
 /* Original 0x36b30. */
-void write_backend_tables(void) { __asm { int 3 } }
 
 /* Original 0x2e414. */
 void generate_inline_queries(void) { __asm { int 3 } }
@@ -89,7 +90,6 @@ void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
 
 /* Original 0x1bf70. */
-void __stdcall define_command_line_macros(Vector *definitions) { __asm { int 3 } }
 
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 
@@ -106,3 +106,38 @@ void browser_index_overflow(void) { __asm { int 3 } }
 void __stdcall browser_builtin(FrontendSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall create_scope_buckets(SymbolScope *scope, FrontendSymbol *symbol) { __asm { int 3 } }
+
+
+
+void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
+
+void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
+int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
+int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
+void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
+
+
+CType *__stdcall remove_outer_type(CType *type) { __asm { int 3 } return 0; }
+int __stdcall type_size(CType *type) { __asm { int 3 } return 0; }
+void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
+int __stdcall parameter_stack_bytes(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0; }
+void __stdcall emit_symbol_declaration(FrontendSymbol *symbol) { __asm { int 3 } }
+FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall write_decorated_name(FILE *stream, FrontendSymbol *symbol) { __asm { int 3 } }
+void write_ir_filename(char *text) { __asm { int 3 } }
+void write_ir_string(char *text) { __asm { int 3 } }
+void write_ir_index(unsigned *index) { __asm { int 3 } }
+
+long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return -1; }
+void emit_line_directive(void) { __asm { int 3 } }
+void report_ide_source(void) { __asm { int 3 } }
+void __stdcall record_line_information(unsigned flags) { __asm { int 3 } }
+void browser_include_begin(void) { __asm { int 3 } }
+void browser_open_file(void) { __asm { int 3 } }
+
+void release_input_handle(void) { __asm { int 3 } }
+
+char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
+
+int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }

@@ -38,9 +38,9 @@ typedef struct ParameterList {
 extern TypeEntry **type_descriptor_buckets;
 extern TypeShapeEntry **type_shape_buckets;
 extern ParameterEntry **parameter_buckets;
-extern TypeShape *pointer_shapes[37];
-extern CType pointer_type_scratch;
-extern TypeShape pointer_shape_scratch;
+extern TypeShape *function_shapes[37];
+extern CType function_type_scratch;
+extern TypeShape function_shape_scratch;
 extern int active_plmn_pragma, active_plmf_pragma;
 ParameterInfo *__stdcall build_parameter_info(void *parameters, unsigned short *flags);
 ParameterInfo *empty_parameter_info(void);

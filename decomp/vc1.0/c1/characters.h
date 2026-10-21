@@ -35,6 +35,10 @@ enum CharacterClass {
     CC_LEFT_PAREN = 32,
     CC_SEMICOLON = 34,
     CC_TILDE = 35,
+    CC_MACRO_PARAMETER = 36,
+    CC_MACRO_STRING = 37,
+    CC_MACRO_TOKEN = 38,
+    CC_MACRO_END = 39,
     CC_IDENTIFIER = 40,
     CC_AT = 41,
     CC_LEAD_BYTE = 42,
@@ -43,4 +47,9 @@ enum CharacterClass {
 };
 
 extern unsigned char character_class[256];
+enum CharacterFlags {
+    CF_NUMBER = 1, CF_OCTAL = 2, CF_DECIMAL = 4, CF_HEX = 8,
+    CF_IDENTIFIER = 16, CF_RADIX_SUFFIX = 32, CF_SPACE = 64, CF_STOP = 128
+};
+extern unsigned char character_flags[256];
 #endif

@@ -14,16 +14,16 @@ int normalized_Gs, normalized_PLMN, normalized_PLMF, normalized_Zr;
 int normalized_Oq, normalized_Gn, normalized_Ol;
 int target_cpu, target_cpu_mask;
 char token_buffer[7936]; /* original scanner buffer 0x5d5bc..0x5f4bc */
-char *token_read_cursor = token_buffer, *token_write_cursor = token_buffer;
-int browser_full, browser_enabled;
-char *browser_filename;
+char *source_filename = token_buffer, *source_buffer_cursor = token_buffer;
+int browser_full, browser_enabled; /* original 0x6bc3c / 0x6bc38 */
+char *browser_filename; /* original 0x5b588 */
 FILE *diagnostic_trace_file, *listing_file, *preprocessor_stream;
 CType *type_0000, *type_4041, *type_0064;
 CType *type_4064_first, *type_4064_second;
 CType *type_0042, *type_0044, *type_4044;
 CType *type_0108, *type_0802, *type_0080;
 CType *type_0041_q1000, *type_4041_q1000, *type_0064_q1000;
-CType *type_pointer_0064, *type_tagged_0080;
+CType *type_implicit_int_function, *type_tagged_0080;
 CType *type_indirect_0080_2, *type_indirect_0080_1, *type_4041_q1;
 
 /* Original 0x42f30..0x43850. */
@@ -137,11 +137,11 @@ void initialize_frontend(void)
         disable_keyword("cdecl");
         disable_keyword("near");
     }
-    token_read_cursor = options.source_file;
+    source_filename = options.source_file;
     do {
-        *token_write_cursor++ = *token_read_cursor++;
-    } while (token_write_cursor[-1]);
-    token_read_cursor = token_buffer;
+        *source_buffer_cursor++ = *source_filename++;
+    } while (source_buffer_cursor[-1]);
+    source_filename = token_buffer;
     if (options.option_FR) {
         options.option_Fr = options.option_FR;
         browser_full = 1;
@@ -222,7 +222,7 @@ void initialize_frontend(void)
         description->flags = integer_flags;
         type_0064_q1000 = intern_type(description);
         description->attributes = 0;
-        type_pointer_0064 = make_pointer_type(0, type_0064);
+        type_implicit_int_function = make_function_type(0, type_0064);
         type_tagged_0080 = make_tagged_type(0x80);
         type_indirect_0080_2 = make_qualified_type(type_0080, 1, normalize_type_attributes(1, 2), 0);
         type_indirect_0080_1 = make_qualified_type(type_0080, 1, normalize_type_attributes(1, 1), 0);

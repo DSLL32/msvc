@@ -1,5 +1,7 @@
 /* Runtime entries whose linked bodies differ from shipped LIBC.LIB. */
 #include <stdio.h>
+#include <string.h>
+#include <time.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <windows.h>
@@ -144,4 +146,82 @@ int fseek(FILE *stream, long offset, int origin)
     else if ((stream->_flag & 1) && (stream->_flag & 8))
         stream->_bufsiz = 512;
     return _lseek(stream->_file, offset, origin) == -1 ? -1 : 0;
+}
+
+/* Original 0x59e20..0x59f7b. This version leaves the default PST/PDT
+   settings when TZ is absent; the shipped library queries Windows instead. */
+static char *saved_timezone;
+void __tzset(void)
+{
+    char *zone = getenv("TZ");
+    char *left, *right;
+    int negative = 0;
+    if (!zone || !*zone)
+        return;
+    if (saved_timezone) {
+        left = zone;
+        right = saved_timezone;
+        while (*left && *left == *right) {
+            ++left;
+            ++right;
+        }
+        if (*left == *right)
+            return;
+    }
+    free(saved_timezone);
+    saved_timezone = _strdup(zone);
+    strncpy(_tzname[0], zone, 3);
+    zone += 3;
+    if (*zone == '-') {
+        negative = 1;
+        ++zone;
+    }
+    _timezone = atol(zone) * 3600;
+    while (*zone == '+' || (*zone >= '0' && *zone <= '9'))
+        ++zone;
+    if (*zone == ':') {
+        ++zone;
+        _timezone += atol(zone) * 60;
+        while (*zone >= '0' && *zone <= '9')
+            ++zone;
+        if (*zone == ':') {
+            ++zone;
+            _timezone += atol(zone);
+            while (*zone >= '0' && *zone <= '9')
+                ++zone;
+        }
+    }
+    if (negative)
+        _timezone = -_timezone;
+    _daylight = (signed char)*zone;
+    if (_daylight)
+        strncpy(_tzname[1], zone, 3);
+    else
+        _tzname[1][0] = 0;
+}
+
+extern int _days[];
+
+/* Original 0x59f80..0x5a043. Historical US daylight-saving rules. */
+int _isindst(struct tm *time)
+{
+    int year = time->tm_year;
+    int month = time->tm_mon;
+    int sunday;
+    if (year < 67 || month < 3 || month > 9)
+        return 0;
+    if (month > 3 && month < 9)
+        return 1;
+    if (year > 86 && month == 3)
+        sunday = _days[month] + 7;
+    else
+        sunday = _days[month + 1];
+    if (!(year & 3))
+        ++sunday;
+    sunday -= (((year - 1) >> 2) + 365 * year + sunday - 0x63db) % 7;
+    if (month == 3)
+        return sunday < time->tm_yday ||
+            (sunday == time->tm_yday && time->tm_hour >= 2);
+    return sunday > time->tm_yday ||
+        (sunday == time->tm_yday && time->tm_hour < 1);
 }

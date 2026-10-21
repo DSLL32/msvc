@@ -88,7 +88,7 @@ int compile_translation_unit(void)
         write_ir_record(0x4d, 0);
         if (!options.option_E && options.debug_info)
             finish_debug_info();
-        write_backend_tables();
+        write_global_header();
     }
     if (options.option_Ol && options.option_qc)
         generate_inline_queries();

@@ -2,13 +2,13 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-The captured minimal-C case currently reaches matching traps at
-define_command_line_macros, original VA 0x1bf70. There are 64 reconstructed
-source functions and 121 accepted trap frontiers. Startup, option handling,
-frontend orchestration, builtin types, and intrinsic registration have been
-reconstructed. Macro processing, parsing test.c, and producing the final
-four intermediate files remain unfinished. This is a reconstruction
-checkpoint, not a completed compiler case.
+The captured minimal-C case currently reaches matching traps at scan_token,
+original VA 0x199a0. There are 81 reconstructed source functions and 150
+accepted trap frontiers. Startup, options, frontend initialization, builtin
+types, intrinsic registration, predefined/command-line macros, global IR
+serialization, and initial source-file input have been reconstructed.
+Token scanning, parsing test.c, and completing the four intermediate files
+remain unfinished. This is a checkpoint, not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -59,15 +59,20 @@ diagnostics.c: typed diagnostic vocabulary lookup table.
 frontend.c / initialization.c: translation-unit driver, startup state,
   intermediate stream creation, and builtin type initialization.
 preprocessor.c / keywords.c: identifier/keyword interning and vocabulary.
-types.c / parameters.c: type and shape interning, pointer/function types,
+types.c / parameters.c: type and shape interning, function types,
   descriptor stack, and parameter-list construction.
 scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,
   and typed intrinsic definitions.
 constants.c / ir.c / ir-formats.c: integer nodes and schema-driven IR writer.
 intermediate.c: intermediate stream opening and expression-header reservation.
 runtime.c: encountered old CRT variants whose shipped LIBC implementations
-  differ, including binary-mode open and stream seek/buffering behavior.
+  differ, including binary-mode open, stream seek/buffering, timezone
+  initialization, and the original US daylight-saving rules.
 floating.c: startup floating-point control.
+macros.c: predefined names, timestamp formatting, macro interning, and -D.
+source-input.c: file opening and overlapping buffered include windows.
+global-ir.c / global-formats.c: global/symbol IR schema serialization.
+option-state.c: optimization-state bit packing.
 stubs.c: named, trapping entries for functions not yet reconstructed.
 
 Data are defined in the owning subsystem as they are encountered. There

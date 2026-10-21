@@ -42,8 +42,8 @@ void initialize_translation_state(void)
 {
     translation_sentinel = allocate_permanent(sizeof(FrontendSymbol));
     translation_sentinel->kind = 8;
-    translation_sentinel->intrinsic_operation = 0;
-    translation_sentinel->intrinsic_flags = 0;
+    translation_sentinel->detail.intrinsic.operation = 0;
+    translation_sentinel->detail.intrinsic.flags = 0;
     translation_sentinel->type = type_0000;
     translation_sentinel->attributes |= 0x20;
     translation_sentinel->flags |= 1;

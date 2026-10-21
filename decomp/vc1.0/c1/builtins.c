@@ -4,7 +4,6 @@
 
 unsigned next_symbol_index = 100; /* original 0x6b7f4 */
 unsigned browser_symbol_limit = 65535; /* original 0x6b7f8 */
-int suppress_floating_intrinsics; /* original 0x6c048 */
 unsigned char current_storage[3]; /* original 0x5b258 */
 
 /* Original 0x2d860..0x2da99. */
@@ -41,7 +40,7 @@ void initialize_intermediate_output(void)
             symbol->name = interned;
             if (next_symbol_index >= 0x7fffffffUL)
                 fatal_error(55);
-            if (next_symbol_index >= browser_symbol_limit && browser_enabled)
+            if (next_symbol_index >= browser_symbol_limit && browser_filename)
                 browser_index_overflow();
             symbol->index = next_symbol_index++;
             mark_builtin(symbol, index);
@@ -57,9 +56,9 @@ void initialize_intermediate_output(void)
                     normalize_type_attributes(shape, (unsigned short)(underscore ? 0 : 0)), 0);
             } else
                 description->related = 0;
-            symbol->type = make_pointer_type((unsigned short)0x10, description);
+            symbol->type = make_function_type((unsigned short)0x10, description);
             insert_scope_symbol(global_scope, symbol);
-            if (browser_enabled)
+            if (browser_filename)
                 browser_builtin(symbol);
             if (definition->flags & 0x80)
                 symbol->attributes |= 1;
@@ -79,7 +78,7 @@ int __stdcall builtin_enabled(unsigned index)
     if (options.option_Oi) {
         if (!options.z_a && (definition->flags & 0x40))
             return 0;
-        if (suppress_floating_intrinsics && !(definition->return_type & 0x100))
+        if (normalized_Op && !(definition->return_type & 0x100))
             return 0;
         return 1;
     }
@@ -95,6 +94,6 @@ void __stdcall mark_builtin(FrontendSymbol *symbol, unsigned index)
     symbol->storage[0] = (current_storage[0] & ~7) | (storage & 7);
     symbol->storage[1] = current_storage[1];
     symbol->storage[2] = current_storage[2];
-    symbol->intrinsic_operation = (unsigned short)builtin_definitions[index].operation;
-    symbol->intrinsic_flags = builtin_definitions[index].flags;
+    symbol->detail.intrinsic.operation = (unsigned short)builtin_definitions[index].operation;
+    symbol->detail.intrinsic.flags = builtin_definitions[index].flags;
 }

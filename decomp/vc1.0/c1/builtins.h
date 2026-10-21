@@ -10,7 +10,12 @@ struct FrontendSymbol {
     unsigned index, attributes;
     unsigned short references;
     unsigned char storage[3], field1d;
-    unsigned short field1e, intrinsic_operation, intrinsic_flags;
+    unsigned short field1e;
+    union {
+        struct { unsigned short operation, flags; } intrinsic;
+        unsigned value;
+        char *text;
+    } detail;
     unsigned field24, field28;
 };
 typedef struct BuiltinDefinition {
@@ -21,7 +26,6 @@ typedef struct BuiltinDefinition {
 extern BuiltinDefinition builtin_definitions[51];
 extern unsigned char builtin_group_boundaries[29];
 extern unsigned next_symbol_index, browser_symbol_limit;
-extern int suppress_floating_intrinsics;
 extern unsigned char current_storage[3];
 int __stdcall builtin_enabled(unsigned index);
 void __stdcall mark_builtin(FrontendSymbol *symbol, unsigned index);

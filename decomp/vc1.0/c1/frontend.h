@@ -25,6 +25,8 @@ typedef struct SavedConfiguration {
 } SavedConfiguration;
 
 extern unsigned initial_option_flags, precompiled_option_flags;
+extern int optimization_enabled;
+extern int *packed_option_values[21];
 extern SavedConfiguration saved_configuration;
 extern int version_directive_emitted, current_function, error_count;
 extern char version_string[256];
@@ -52,7 +54,7 @@ void __stdcall write_ir_record(unsigned tag, void *value);
 IrToken *__stdcall make_integer_constant(unsigned value);
 IrToken *__stdcall new_integer_constant(unsigned value);
 void finish_debug_info(void);
-void write_backend_tables(void);
+void write_global_header(void);
 void generate_inline_queries(void);
 void close_intermediate(FILE *file);
 void finish_browser_output(void);

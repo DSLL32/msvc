@@ -104,3 +104,27 @@ void __stdcall refill_arena(Arena *arena, ArenaPool *pool)
     pool->remaining = arena->block_bytes;
     pool->next = block->data;
 }
+
+/* Original 0x4bce0..0x4bd44. */
+void *__stdcall copy_arena_bytes(void *source, int arena, unsigned bytes)
+{
+    unsigned allocation = (bytes + 3) & ~3;
+    unsigned char *destination;
+    ArenaPool *pool;
+    unsigned i;
+    if (!arena)
+        destination = allocate_permanent(allocation);
+    else {
+        if (arena == -1)
+            arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)allocation)
+            refill_arena(&compiler_arena, pool);
+        destination = pool->next;
+        pool->remaining -= allocation;
+        pool->next += allocation;
+    }
+    for (i = 0; i < bytes; ++i)
+        destination[i] = ((unsigned char *)source)[i];
+    return destination;
+}
