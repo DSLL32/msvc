@@ -315,20 +315,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "??3@YAXPAX@Z",
-    "start": 16839216,
-    "end": 16839232,
-    "object": "heap\\obj\\i386\\DELETE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??2@YAPAXI@Z",
-    "start": 16839216,
-    "end": 16839232,
-    "object": "heap\\obj\\i386\\NEW.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "__inc",
     "start": 16839216,
     "end": 16839232,
@@ -396,20 +382,6 @@
     "start": 16842496,
     "end": 16842512,
     "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??3@YAXPAX@Z",
-    "start": 16842512,
-    "end": 16842528,
-    "object": "heap\\obj\\i386\\DELETE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??2@YAPAXI@Z",
-    "start": 16842512,
-    "end": 16842528,
-    "object": "heap\\obj\\i386\\NEW.OBJ",
     "library": "LIBC.LIB"
   },
   {
@@ -648,20 +620,6 @@
     "start": 16852576,
     "end": 16852592,
     "object": "dos\\obj\\i386\\UNLINK.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??3@YAXPAX@Z",
-    "start": 16852576,
-    "end": 16852592,
-    "object": "heap\\obj\\i386\\DELETE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??2@YAPAXI@Z",
-    "start": 16852576,
-    "end": 16852592,
-    "object": "heap\\obj\\i386\\NEW.OBJ",
     "library": "LIBC.LIB"
   },
   {

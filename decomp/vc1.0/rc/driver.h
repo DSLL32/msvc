@@ -14,7 +14,7 @@ BOOL WINAPI interrupt_resource(DWORD);
 int __stdcall switch_character(char);
 int __cdecl rc_toupper(int);
 BOOL __stdcall prepare_input(char *);
-void __stdcall initialize_lexer(FILE *);
+BOOL __stdcall initialize_lexer(FILE *);
 void __cdecl compile_resources(void);
 long __stdcall seek_file(FILE *, long, int);
 void __stdcall write_file(FILE *, void *, unsigned int);

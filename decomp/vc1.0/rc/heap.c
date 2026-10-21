@@ -24,7 +24,7 @@ void * __cdecl malloc(unsigned int size)
 
 void __cdecl free(void *block)
 {
-    __asm int 3
+    HeapFree(resource_heap, 0, block);
 }
 void * __cdecl calloc(unsigned int count, unsigned int size)
 {

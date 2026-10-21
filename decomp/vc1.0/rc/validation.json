@@ -1,11 +1,11 @@
 {
   "status": "incomplete",
   "case": "resources-rich",
-  "accepted_frontiers": 57,
-  "replayed_frontiers": 58,
-  "current_frontier": "_detect_encoding@4",
+  "accepted_frontiers": 96,
+  "replayed_frontiers": 97,
+  "current_frontier": "_compile_resources",
   "exact_final_product_verified": false,
-  "source_functions_audited": 24,
+  "source_functions_audited": 47,
   "checks": [
     "all accepted paired frontiers replayed from masked entry",
     "direct call vertices, callback references and RET cleanup agree for accepted source functions"
@@ -16,9 +16,9 @@
     "image_base": 16777216,
     "entry": 16849232
   },
-  "reconstruction_sha256": "e8ce0d43eff88e34e8f19ce6bce261e1a8b664713e6c6a2358e03c1a30d9aa3c",
+  "reconstruction_sha256": "3d4f37bd1a7eb44e5c626c1668355a4bf1458f6b42b208f7875d5c479c713301",
   "fixture_manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
-  "frontier_log_sha256": "fc1dee1f1edfe8fb8627fd3d5060eb2d9a131e5ada75bd4f87d6b001a2b624d6",
+  "frontier_log_sha256": "30bff3279e9d05429af79588ff205c864794700f6761525b5f0fa8eb2237048f",
   "graph_audit": {
     "_mainCRTStartup": {
       "original_calls": {
@@ -60,34 +60,34 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17760": [
+        "0x190a0": [
           "import:GetVersion"
         ],
-        "0x14c40": [
+        "0x169e0": [
           "__ioinit"
         ],
-        "0x14720": [
+        "0x164c0": [
           "__cinit"
         ],
-        "0x17766": [
+        "0x190a6": [
           "import:GetEnvironmentStrings"
         ],
         "0x11188": [
           "__heap_init"
         ],
-        "0x1776c": [
+        "0x190ac": [
           "import:GetCommandLineA"
         ],
-        "0x14b70": [
+        "0x16910": [
           "__setenvp"
         ],
-        "0x14750": [
+        "0x164f0": [
           "_exit"
         ],
-        "0x14770": [
+        "0x16510": [
           "__exit"
         ],
-        "0x14a10": [
+        "0x167b0": [
           "__XcptFilter"
         ],
         "0x11354": [
@@ -109,7 +109,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17772": [
+        "0x190b2": [
           "import:GetProcessHeap"
         ]
       },
@@ -191,73 +191,73 @@
         ]
       },
       "reconstructed_calls": {
-        "0x14d80": [
-          "_fflush"
-        ],
-        "0x17784": [
-          "import:SetConsoleCtrlHandler"
-        ],
-        "0x14484": [
-          "_write_file@12"
-        ],
-        "0x11304": [
-          "_interrupt_resource@4"
-        ],
-        "0x11287": [
-          "_resource_alloc@4"
-        ],
-        "0x11319": [
-          "_resource_finish"
-        ],
-        "0x14f20": [
-          "__spawnvp"
-        ],
-        "0x11325": [
-          "_initialize_lexer@4"
-        ],
-        "0x1252c": [
-          "__splitpath"
-        ],
-        "0x150b0": [
-          "__strupr"
-        ],
-        "0x11333": [
-          "_compile_resources"
-        ],
-        "0x1133f": [
-          "_seek_file@12"
-        ],
-        "0x14f40": [
-          "__spawnv"
-        ],
-        "0x1274a": [
-          "__makepath"
-        ],
-        "0x112cc": [
-          "_switch_character@4"
-        ],
-        "0x14ee0": [
+        "0x16c80": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x14fe0": [
+        "0x16d80": [
           "__mktemp"
         ],
-        "0x14d60": [
+        "0x16b00": [
           "_fopen"
         ],
-        "0x14f60": [
+        "0x15180": [
+          "_write_file@12"
+        ],
+        "0x16d00": [
           "__getenv_lk",
           "_getenv"
         ],
-        "0x12ee4": [
-          "_prepare_input@4"
+        "0x16e80": [
+          "_sscanf"
+        ],
+        "0x11310": [
+          "_interrupt_resource@4"
+        ],
+        "0x12916": [
+          "__makepath"
+        ],
+        "0x11296": [
+          "_resource_alloc@4"
+        ],
+        "0x16b20": [
+          "_fflush"
+        ],
+        "0x11325": [
+          "_resource_finish"
+        ],
+        "0x11331": [
+          "_compile_resources"
+        ],
+        "0x1133d": [
+          "_seek_file@12"
+        ],
+        "0x16cc0": [
+          "__spawnvp"
+        ],
+        "0x190ca": [
+          "import:SetConsoleCtrlHandler"
+        ],
+        "0x16e50": [
+          "__strupr"
+        ],
+        "0x112d8": [
+          "_switch_character@4"
+        ],
+        "0x16ce0": [
+          "__spawnv"
         ],
         "0x12360": [
           "_rc_toupper"
         ],
-        "0x150e0": [
-          "_sscanf"
+        "0x137e4": [
+          "_prepare_input@4"
+        ],
+        "0x15ff0": [
+          "_initialize_lexer@4"
+        ],
+        "0x126f8": [
+          "__splitpath"
         ]
       },
       "stack_cleanup": [
@@ -272,7 +272,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17778": [
+        "0x190b8": [
           "import:HeapAlloc"
         ]
       },
@@ -297,17 +297,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x11412": [
-          "_parse_cmdline"
-        ],
         "0x1117c": [
           "__amsg_exit"
         ],
+        "0x11412": [
+          "_parse_cmdline"
+        ],
+        "0x190c4": [
+          "import:GetModuleFileNameA"
+        ],
         "0x1119d": [
           "_malloc"
-        ],
-        "0x1777e": [
-          "import:GetModuleFileNameA"
         ]
       },
       "stack_cleanup": [
@@ -347,17 +347,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x15130": [
+        "0x16ed0": [
           "__isctype"
         ],
-        "0x1778a": [
-          "import:WideCharToMultiByte"
+        "0x190dc": [
+          "import:MultiByteToWideChar"
         ],
-        "0x17790": [
+        "0x190d6": [
           "import:LCMapStringW"
         ],
-        "0x17796": [
-          "import:MultiByteToWideChar"
+        "0x190d0": [
+          "import:WideCharToMultiByte"
         ]
       },
       "stack_cleanup": [
@@ -372,7 +372,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x151f0": [
+        "0x16f90": [
           "_strncpy"
         ]
       },
@@ -399,11 +399,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x11319": [
-          "_resource_finish"
-        ],
-        "0x11213": [
+        "0x11222": [
           "_calloc"
+        ],
+        "0x11325": [
+          "_resource_finish"
         ]
       },
       "stack_cleanup": [
@@ -446,36 +446,52 @@
         ]
       },
       "reconstructed_calls": {
-        "0x15400": [
+        "0x171a0": [
           "__alloca_probe",
           "__chkstk"
         ],
-        "0x14d60": [
+        "0x16b00": [
           "_fopen"
         ],
-        "0x15320": [
-          "_fclose"
-        ],
-        "0x14484": [
+        "0x15180": [
           "_write_file@12"
         ],
-        "0x13205": [
+        "0x170c0": [
+          "_fclose"
+        ],
+        "0x13e25": [
           "_trim_token@4"
         ],
-        "0x131c6": [
+        "0x13ae7": [
           "_detect_encoding@4"
         ],
-        "0x15390": [
+        "0x17130": [
           "_sprintf"
         ],
-        "0x15130": [
+        "0x13cb1": [
+          "_read_source_line@12"
+        ],
+        "0x16ed0": [
           "__isctype"
         ],
-        "0x131f0": [
+        "0x13db8": [
           "_prefix_matches@8"
-        ],
-        "0x131db": [
-          "_read_source_line@12"
+        ]
+      },
+      "stack_cleanup": [
+        4
+      ],
+      "indirect_calls": false
+    },
+    "_initialize_lexer@4": {
+      "original_calls": {
+        "0x10083c0": [
+          "_advance_character"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x160aa": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -493,15 +509,31 @@
         ]
       },
       "reconstructed_calls": {
-        "0x11319": [
-          "_resource_finish"
-        ],
-        "0x144bc": [
+        "0x15200": [
           "_fwrite"
+        ],
+        "0x11325": [
+          "_resource_finish"
         ]
       },
       "stack_cleanup": [
         12
+      ],
+      "indirect_calls": false
+    },
+    "_free": {
+      "original_calls": {
+        "0x100f360": [
+          "import:HeapFree"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x190be": [
+          "import:HeapFree"
+        ]
+      },
+      "stack_cleanup": [
+        0
       ],
       "indirect_calls": false
     },
@@ -512,7 +544,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17778": [
+        "0x190b8": [
           "import:HeapAlloc"
         ]
       },
@@ -558,38 +590,38 @@
         ]
       },
       "reconstructed_calls": {
-        "0x152a0": [
+        "0x17040": [
           "__dosmaperr"
         ],
-        "0x15220": [
+        "0x16fc0": [
           "__lseek"
         ],
-        "0x177a2": [
-          "import:CloseHandle"
-        ],
-        "0x12ea0": [
-          "__read"
-        ],
-        "0x177a8": [
-          "import:GetFileType"
-        ],
-        "0x12e8a": [
-          "__close"
-        ],
-        "0x177ae": [
-          "import:CreateFileA"
-        ],
-        "0x12d3c": [
-          "__alloc_osfhnd"
-        ],
-        "0x12eb6": [
-          "__chsize"
-        ],
-        "0x1779c": [
+        "0x190e2": [
           "import:GetLastError"
         ],
-        "0x12d9e": [
+        "0x12f08": [
+          "__alloc_osfhnd"
+        ],
+        "0x190e8": [
+          "import:CloseHandle"
+        ],
+        "0x12f6a": [
           "__set_osfhnd"
+        ],
+        "0x190ee": [
+          "import:GetFileType"
+        ],
+        "0x13151": [
+          "__close"
+        ],
+        "0x190f4": [
+          "import:CreateFileA"
+        ],
+        "0x13236": [
+          "__read"
+        ],
+        "0x1357e": [
+          "__chsize"
         ]
       },
       "stack_cleanup": [
@@ -612,12 +644,188 @@
         ]
       },
       "reconstructed_calls": {
-        "0x177b4": [
+        "0x190fa": [
           "import:SetStdHandle"
         ]
       },
       "stack_cleanup": [
         0
+      ],
+      "indirect_calls": false
+    },
+    "__free_osfhnd": {
+      "original_calls": {
+        "0x100fb90": [
+          "import:SetStdHandle"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x190fa": [
+          "import:SetStdHandle"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__get_osfhandle": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__close": {
+      "original_calls": {
+        "0x100faa0": [
+          "__get_osfhandle"
+        ],
+        "0x100e1a0": [
+          "import:GetLastError"
+        ],
+        "0x100e310": [
+          "__dosmaperr"
+        ],
+        "0x100fa30": [
+          "__free_osfhnd"
+        ],
+        "0x100ebb0": [
+          "import:CloseHandle"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x17040": [
+          "__dosmaperr"
+        ],
+        "0x190e2": [
+          "import:GetLastError"
+        ],
+        "0x190e8": [
+          "import:CloseHandle"
+        ],
+        "0x1302a": [
+          "__free_osfhnd"
+        ],
+        "0x130f9": [
+          "__get_osfhandle"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__read": {
+      "original_calls": {
+        "0x10102a0": [
+          "import:ReadFile"
+        ],
+        "0x100e310": [
+          "__dosmaperr"
+        ],
+        "0x100fe40": [
+          "__lseek"
+        ],
+        "0x100e1a0": [
+          "import:GetLastError"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x19100": [
+          "import:ReadFile"
+        ],
+        "0x190e2": [
+          "import:GetLastError"
+        ],
+        "0x17040": [
+          "__dosmaperr"
+        ],
+        "0x16fc0": [
+          "__lseek"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_detect_encoding@4": {
+      "original_calls": {
+        "0x100fee0": [
+          "_fgetc"
+        ],
+        "0x1012260": [
+          "_ftell"
+        ],
+        "0x1012060": [
+          "_fread"
+        ],
+        "0x10121c0": [
+          "_fseek"
+        ],
+        "0x10082d0": [
+          "_native_byte_order"
+        ],
+        "0x100deb0": [
+          "__isctype"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x13f01": [
+          "_native_byte_order"
+        ],
+        "0x15461": [
+          "_ftell"
+        ],
+        "0x15664": [
+          "_fseek"
+        ],
+        "0x171d0": [
+          "_fgetc"
+        ],
+        "0x16ed0": [
+          "__isctype"
+        ],
+        "0x15718": [
+          "_fread"
+        ]
+      },
+      "stack_cleanup": [
+        4
+      ],
+      "indirect_calls": false
+    },
+    "_read_source_line@12": {
+      "original_calls": {
+        "0x100fee0": [
+          "_fgetc"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x171d0": [
+          "_fgetc"
+        ]
+      },
+      "stack_cleanup": [
+        12
+      ],
+      "indirect_calls": false
+    },
+    "_prefix_matches@8": {
+      "original_calls": {
+        "0x1013a50": [
+          "_rc_toupper"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x12360": [
+          "_rc_toupper"
+        ]
+      },
+      "stack_cleanup": [
+        8
       ],
       "indirect_calls": false
     },
@@ -643,23 +851,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x14420": [
-          "_get_int_arg"
-        ],
-        "0x143a5": [
+        "0x150a1": [
           "_write_multi_char"
         ],
-        "0x14446": [
+        "0x15142": [
           "_get_short_arg"
         ],
-        "0x1446f": [
+        "0x1516b": [
           "_wctomb"
         ],
-        "0x14332": [
+        "0x1502e": [
           "_write_char"
         ],
-        "0x143dc": [
+        "0x150d8": [
           "_write_string"
+        ],
+        "0x1511c": [
+          "_get_int_arg"
         ]
       },
       "stack_cleanup": [
@@ -674,7 +882,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x15430": [
+        "0x17210": [
           "__flsbuf"
         ]
       },
@@ -690,7 +898,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x14332": [
+        "0x1502e": [
           "_write_char"
         ]
       },
@@ -706,7 +914,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x14332": [
+        "0x1502e": [
           "_write_char"
         ]
       },
@@ -736,14 +944,48 @@
         ]
       },
       "reconstructed_calls": {
-        "0x14dd0": [
+        "0x16b70": [
           "__flush"
         ],
-        "0x15430": [
+        "0x17210": [
           "__flsbuf"
         ],
-        "0x12ecc": [
+        "0x13594": [
           "__write"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__write": {
+      "original_calls": {
+        "0x100fe40": [
+          "__lseek"
+        ],
+        "0x100e310": [
+          "__dosmaperr"
+        ],
+        "0x100fe30": [
+          "import:WriteFile"
+        ],
+        "0x100e1a0": [
+          "import:GetLastError"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x16fc0": [
+          "__lseek"
+        ],
+        "0x190e2": [
+          "import:GetLastError"
+        ],
+        "0x17040": [
+          "__dosmaperr"
+        ],
+        "0x19106": [
+          "import:WriteFile"
         ]
       },
       "stack_cleanup": [
@@ -766,6 +1008,331 @@
         0
       ],
       "indirect_calls": false
+    },
+    "_native_byte_order": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_ftell": {
+      "original_calls": {
+        "0x100fe40": [
+          "__lseek"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x16fc0": [
+          "__lseek"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_fseek": {
+      "original_calls": {
+        "0x1012260": [
+          "_ftell"
+        ],
+        "0x100fe40": [
+          "__lseek"
+        ],
+        "0x100f7b0": [
+          "__flush"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x16b70": [
+          "__flush"
+        ],
+        "0x15461": [
+          "_ftell"
+        ],
+        "0x16fc0": [
+          "__lseek"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_fread": {
+      "original_calls": {
+        "0x1010060": [
+          "__read"
+        ],
+        "0x100ff30": [
+          "__filbuf"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x158bc": [
+          "__filbuf"
+        ],
+        "0x13236": [
+          "__read"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__filbuf": {
+      "original_calls": {
+        "0x1010000": [
+          "__getbuf"
+        ],
+        "0x1010060": [
+          "__read"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x153e8": [
+          "__getbuf"
+        ],
+        "0x13236": [
+          "__read"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__freebuf": {
+      "original_calls": {
+        "0x100f330": [
+          "_free"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x11207": [
+          "_free"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__cenvarg": {
+      "original_calls": {
+        "0x100f2f0": [
+          "_malloc"
+        ],
+        "0x100f330": [
+          "_free"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1119d": [
+          "_malloc"
+        ],
+        "0x11207": [
+          "_free"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__dospawn": {
+      "original_calls": {
+        "0x100e1a0": [
+          "import:GetLastError"
+        ],
+        "0x100ebc0": [
+          "import:CreateProcessA"
+        ],
+        "0x100e200": [
+          "__exit"
+        ],
+        "0x100ebe0": [
+          "import:WaitForSingleObject"
+        ],
+        "0x100f250": [
+          "_calloc"
+        ],
+        "0x100e310": [
+          "__dosmaperr"
+        ],
+        "0x100f330": [
+          "_free"
+        ],
+        "0x100ebb0": [
+          "import:CloseHandle"
+        ],
+        "0x100ebd0": [
+          "import:GetExitCodeProcess"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x17040": [
+          "__dosmaperr"
+        ],
+        "0x11222": [
+          "_calloc"
+        ],
+        "0x190e2": [
+          "import:GetLastError"
+        ],
+        "0x11207": [
+          "_free"
+        ],
+        "0x190e8": [
+          "import:CloseHandle"
+        ],
+        "0x1910c": [
+          "import:GetExitCodeProcess"
+        ],
+        "0x16510": [
+          "__exit"
+        ],
+        "0x19112": [
+          "import:WaitForSingleObject"
+        ],
+        "0x19118": [
+          "import:CreateProcessA"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_advance_character": {
+      "original_calls": {
+        "0x1008470": [
+          "_read_source_character"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1618e": [
+          "_read_source_character"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_read_buffered_character": {
+      "original_calls": {
+        "0x1007090": [
+          "_read_file@12"
+        ],
+        "0x100f630": [
+          "_fclose"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x170c0": [
+          "_fclose"
+        ],
+        "0x151b6": [
+          "_read_file@12"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_read_source_character": {
+      "original_calls": {
+        "0x1008400": [
+          "_read_buffered_character"
+        ],
+        "0x1013890": [
+          "_rc_tolower"
+        ],
+        "0x10094f0": [
+          "_lexical_error@8"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x16102": [
+          "_read_buffered_character"
+        ],
+        "0x164a4": [
+          "_lexical_error@8"
+        ],
+        "0x1252c": [
+          "_rc_tolower"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_rc_tolower": {
+      "original_calls": {
+        "0x100deb0": [
+          "__isctype"
+        ],
+        "0x1013a30": [
+          "import:WideCharToMultiByte"
+        ],
+        "0x1013a20": [
+          "import:LCMapStringW"
+        ],
+        "0x100df90": [
+          "import:MultiByteToWideChar"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x16ed0": [
+          "__isctype"
+        ],
+        "0x190dc": [
+          "import:MultiByteToWideChar"
+        ],
+        "0x190d6": [
+          "import:LCMapStringW"
+        ],
+        "0x190d0": [
+          "import:WideCharToMultiByte"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_read_file@12": {
+      "original_calls": {
+        "0x1012060": [
+          "_fread"
+        ],
+        "0x1007dd0": [
+          "_resource_finish"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x15718": [
+          "_fread"
+        ],
+        "0x11325": [
+          "_resource_finish"
+        ]
+      },
+      "stack_cleanup": [
+        12
+      ],
+      "indirect_calls": false
     }
+  },
+  "prepared_rcpp_input": {
+    "exact_bytes": true,
+    "bytes": 3381,
+    "sha256": "bcf079a08386aee55016e382db7490301ed690f72e1e84e3d5b1f7cde2b8231e"
   }
 }

@@ -9,12 +9,12 @@ build:
 	mkdir -p $@
 build/%.obj: %.c $(wildcard *.h) | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
-OBJECTS = build/startup.obj build/heap.obj build/stubs.obj build/arguments.obj build/driver.obj build/characters.obj build/paths.obj build/open.obj build/lowio.obj build/prepare.obj build/format.obj build/files.obj build/stdio.obj
+OBJECTS = build/startup.obj build/heap.obj build/stubs.obj build/arguments.obj build/driver.obj build/characters.obj build/paths.obj build/open.obj build/lowio.obj build/prepare.obj build/format.obj build/files.obj build/stdio.obj build/process.obj build/lexer.obj
 build/rc.exe: $(OBJECTS) Makefile
 	$(TOOL) LINK.EXE /nologo /entry:mainCRTStartup /subsystem:console /map:build/rc.map /out:$@ $(OBJECTS) $(TC)/lib/LIBC.LIB
-runtime.json: identify-runtime.py binary.py $(TC)/bin/RC.EXE $(TC)/lib/LIBC.LIB
+runtime.json: functions.json identify-runtime.py binary.py $(TC)/bin/RC.EXE $(TC)/lib/LIBC.LIB
 	$(PYTHON) identify-runtime.py
-build/runtime.json: build/rc.exe identify-runtime.py binary.py
+build/runtime.json: functions.json build/rc.exe identify-runtime.py binary.py
 	$(PYTHON) identify-runtime.py build/rc.exe $@
 build/original.exe build/reconstructed.exe &: build/rc.exe build/runtime.json runtime.json functions.json compare.py binary.py
 	$(PYTHON) compare.py --mask-only

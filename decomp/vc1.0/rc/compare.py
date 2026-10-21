@@ -116,6 +116,13 @@ def compare(count=None):
     ol, rl = logical(oe, original, oi), logical(revents, reconstruction, ri)
     print('original: %s; reconstruction: %s' % (ol, rl), flush=True)
     assert ol == rl, 'logical trap mismatch\n' + oe + revents
+    if ol == '__freebuf':
+        expected = (FIXTURE / 'rcpp/RC000360').read_bytes()
+        for label in ('original', 'reconstructed'):
+            temporary = list((SCRATCH / ('case-' + label)).glob('RC[0-9]*'))
+            assert len(temporary) == 1, (label, 'missing prepared RCPP input')
+            assert temporary[0].read_bytes() == expected, (label, 'prepared RCPP input differs')
+        print('Both prepared RCPP inputs match the captured 3,381 bytes exactly.')
     if ol.startswith('exit:'):
         assert ol == 'exit:0'
         for stream in ('stdout', 'stderr'):

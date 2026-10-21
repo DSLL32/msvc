@@ -5,6 +5,7 @@
 #pragma intrinsic(strlen)
 
 int input_encoding;
+int __cdecl native_byte_order(void);
 BOOL __stdcall prepare_input(char *filename)
 {
     FILE *input, *output;
@@ -55,21 +56,89 @@ BOOL __stdcall prepare_input(char *filename)
 
 int __stdcall detect_encoding(FILE *input)
 {
-    __asm int 3
-    return 0;
+    char sample[40];
+    int odd_zeros = 0, even_zeros = 0, printable = 0, total = 0;
+    int encoding = 0, order = native_byte_order(), length, index, threshold;
+    long position = ftell(input);
+
+    if (position % 2)
+        fgetc(input);
+    do {
+        length = fread(sample, 1, sizeof(sample), input);
+        for (index = 0; index < length; ++index) {
+            if (!sample[index]) {
+                if (index % 2)
+                    ++odd_zeros;
+                else
+                    ++even_zeros;
+            }
+            if ((unsigned short)__mb_cur_max > 1 ?
+                _isctype(sample[index], 0x157) : (_pctype[sample[index]] & 0x157))
+                ++printable;
+        }
+        total += length;
+        threshold = total * 4 / 5;
+        if (printable > threshold)
+            encoding = 1;
+        else if (odd_zeros > threshold / 2)
+            encoding = order == 1 ? 2 : 3;
+        else if (even_zeros > threshold / 2)
+            encoding = order == 1 ? 3 : 2;
+    } while (length == sizeof(sample) && !encoding);
+    fseek(input, position, SEEK_SET);
+    return encoding;
 }
 BOOL __stdcall read_source_line(char *line, int capacity, FILE *input)
 {
-    __asm int 3
-    return 0;
+    char *next = line;
+    int remaining = capacity - 1, character = 0, spaces, index;
+    while (remaining) {
+        character = fgetc(input);
+        if (character == EOF || character == '\n')
+            break;
+        if (character == '\t') {
+            spaces = 8 - ((next - line) & 7);
+            if (spaces >= remaining)
+                spaces = remaining;
+            remaining -= spaces;
+            for (index = spaces; index-- > 0; )
+                *next++ = ' ';
+            /* The original decrements the exhausted loop counter once more,
+             * then subtracts it, restoring one unit of remaining capacity. */
+            ++remaining;
+        } else if (character != '\r') {
+            *next++ = (char)character;
+            --remaining;
+        }
+    }
+    *next = 0;
+    return character != EOF || next != line;
 }
 BOOL __stdcall prefix_matches(char *prefix, char *text)
 {
-    __asm int 3
-    return 0;
+    while (*prefix) {
+        if (!*text || rc_toupper(*prefix) != rc_toupper(*text))
+            return 0;
+        ++prefix;
+        ++text;
+    }
+    return -1;
 }
+
 char * __stdcall trim_token(char *text)
 {
-    __asm int 3
-    return 0;
+    char *start;
+    while (*text && isspace(*text))
+        ++text;
+    start = text;
+    while (*text && !isspace(*text))
+        ++text;
+    *text = 0;
+    return start;
+}
+
+/* Original 0x010082d0..0x010082fc. Both compiled branches return one. */
+int __cdecl native_byte_order(void)
+{
+    return 1;
 }

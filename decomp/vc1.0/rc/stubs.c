@@ -15,10 +15,6 @@ void __cdecl resource_finish(char *format, ...)
 {
     __asm int 3
 }
-void __stdcall initialize_lexer(FILE *input)
-{
-    __asm int 3
-}
 void __cdecl compile_resources(void)
 {
     __asm int 3

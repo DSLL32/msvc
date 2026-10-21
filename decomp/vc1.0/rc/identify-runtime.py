@@ -3,6 +3,7 @@
 import json
 import struct
 import sys
+import re
 from collections import defaultdict
 from pathlib import Path
 from importlib.machinery import SourceFileLoader
@@ -57,6 +58,16 @@ for library, name, data in objects:
                 candidates.append((fragment, start, records))
 
 import_targets = {r['name'][7:]: r['start'] for r in imports(pe)}
+configuration = json.loads(Path('functions.json').read_text())
+source_names = {r['name'] for r in configuration['driver']}
+if Path(path).resolve() == (wt.TC / 'bin/RC.EXE').resolve():
+    source_targets = {r['name']: r['start'] for r in configuration['driver']}
+else:
+    source_targets = {}
+    for line in Path('build/rc.map').read_text().splitlines():
+        match = re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})', line)
+        if match and match[1] in source_names:
+            source_targets[match[1]] = int(match[2], 16)
 # Identical masked code can call unrelated functions: remove/rmdir, new/delete,
 # setargv/getpid and spawnv/spawnvp are examples. Resolve those relocations.
 while True:
@@ -80,6 +91,8 @@ while True:
                 if name.startswith('_') and '@' in name:
                     target = import_targets.get(name[1:].rsplit('@', 1)[0])
                     expected = set() if target is None else {target}
+                elif name in source_targets:
+                    expected = {source_targets[name]}
                 elif name in known:
                     expected = known[name]
             if expected is not None and actual - addend not in expected:

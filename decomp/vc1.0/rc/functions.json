@@ -92,8 +92,7 @@
     {
       "name": "_initialize_lexer@4",
       "start": 16810752,
-      "end": 16810753,
-      "pending_extent": true
+      "end": 16810906
     },
     {
       "name": "_compile_resources",
@@ -140,26 +139,22 @@
     {
       "name": "__free_osfhnd",
       "start": 16841264,
-      "end": 16841265,
-      "pending_extent": true
+      "end": 16841374
     },
     {
       "name": "__get_osfhandle",
       "start": 16841376,
-      "end": 16841377,
-      "pending_extent": true
+      "end": 16841434
     },
     {
       "name": "__close",
       "start": 16840368,
-      "end": 16840369,
-      "pending_extent": true
+      "end": 16840524
     },
     {
       "name": "__read",
       "start": 16842848,
-      "end": 16842849,
-      "pending_extent": true
+      "end": 16843393
     },
     {
       "name": "__chsize",
@@ -170,26 +165,22 @@
     {
       "name": "_detect_encoding@4",
       "start": 16810352,
-      "end": 16810353,
-      "pending_extent": true
+      "end": 16810692
     },
     {
       "name": "_read_source_line@12",
       "start": 16843440,
-      "end": 16843441,
-      "pending_extent": true
+      "end": 16843599
     },
     {
       "name": "_prefix_matches@8",
       "start": 16839536,
-      "end": 16839537,
-      "pending_extent": true
+      "end": 16839626
     },
     {
       "name": "_trim_token@4",
       "start": 16809264,
-      "end": 16809265,
-      "pending_extent": true
+      "end": 16809413
     },
     {
       "name": "__output",
@@ -246,13 +237,88 @@
     {
       "name": "__write",
       "start": 16841712,
-      "end": 16841713,
-      "pending_extent": true
+      "end": 16842261
     },
     {
       "name": "__getbuf",
       "start": 16842752,
       "end": 16842831
+    },
+    {
+      "name": "_native_byte_order",
+      "start": 16810704,
+      "end": 16810748
+    },
+    {
+      "name": "_ftell",
+      "start": 16851552,
+      "end": 16851860
+    },
+    {
+      "name": "_fseek",
+      "start": 16851392,
+      "end": 16851525
+    },
+    {
+      "name": "_fread",
+      "start": 16851040,
+      "end": 16851372
+    },
+    {
+      "name": "__filbuf",
+      "start": 16842544,
+      "end": 16842732
+    },
+    {
+      "name": "__freebuf",
+      "start": 16841632,
+      "end": 16841686
+    },
+    {
+      "name": "__cenvarg",
+      "start": 16836272,
+      "end": 16836928
+    },
+    {
+      "name": "__dospawn",
+      "start": 16836944,
+      "end": 16837534
+    },
+    {
+      "name": "_advance_character",
+      "start": 16810944,
+      "end": 16811003,
+      "pending_extent": false
+    },
+    {
+      "name": "_read_buffered_character",
+      "start": 16811008,
+      "end": 16811117,
+      "pending_extent": false
+    },
+    {
+      "name": "_read_source_character",
+      "start": 16811120,
+      "end": 16811685,
+      "pending_extent": false
+    },
+    {
+      "name": "_rc_tolower",
+      "start": 16857232,
+      "end": 16857604,
+      "pending_extent": false
+    },
+    {
+      "name": "_read_file@12",
+      "start": 16806032,
+      "end": 16806081,
+      "pending_extent": false
+    },
+    {
+      "name": "_lexical_error@8",
+      "start": 16815344,
+      "end": 16815345,
+      "pending_extent": true
     }
   ],
   "accepted": [
@@ -312,7 +378,46 @@
     "_write_file@12",
     "_fwrite",
     "__flsbuf",
-    "__getbuf"
+    "__getbuf",
+    "_detect_encoding@4",
+    "_native_byte_order",
+    "_ftell",
+    "__lseek",
+    "__get_osfhandle",
+    "import:SetFilePointer",
+    "_fread",
+    "__filbuf",
+    "__read",
+    "import:ReadFile",
+    "_fseek",
+    "__flush",
+    "_read_source_line@12",
+    "_fgetc",
+    "_prefix_matches@8",
+    "__write",
+    "import:WriteFile",
+    "_fclose",
+    "__freebuf",
+    "_free",
+    "import:HeapFree",
+    "__close",
+    "import:CloseHandle",
+    "__free_osfhnd",
+    "__spawnv",
+    "__spawnve",
+    "_strrchr",
+    "_comexecmd",
+    "__cenvarg",
+    "__dospawn",
+    "import:CreateProcessA",
+    "import:WaitForSingleObject",
+    "import:GetExitCodeProcess",
+    "_initialize_lexer@4",
+    "_advance_character",
+    "_read_source_character",
+    "_read_buffered_character",
+    "_read_file@12",
+    "_rc_tolower"
   ],
   "cases": {
     "resources-rich": {
