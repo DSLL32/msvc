@@ -71,7 +71,7 @@ int classify_input(char *);
 void add_input(char *, int);
 char *format_message(unsigned *, char *, va_list);
 int unsigned_digits(unsigned, char *, unsigned);
-void ide_message(int, ...);
+int ide_message(int, ...);
 BOOL WINAPI control_handler(DWORD);
 typedef struct OptionRule {
     char *syntax, *expansion, *requires, *conflicts;
@@ -113,7 +113,7 @@ struct PassRecord {
     char *executable, *alternate, *parameter;
     int enabled;
     unsigned letter_prefix;
-    void *field14;
+    void *loader;
 };
 typedef struct Profile { char *extension; int link; PassRecord *passes; } Profile;
 extern Profile profiles[];
@@ -138,4 +138,7 @@ int is_space(int);
 void write_coff_response(Driver *);
 void write_omf_response(Driver *);
 void file_message(FILE *, char *, ...);
+void write_message_list(int, char *, va_list);
+char *diagnostic_text(char *, int);
+void force_input(char *, char **, int *, int);
 #endif

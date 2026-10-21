@@ -1,0 +1,4580 @@
+{
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+  "method": "Concurrent paired masked-image execution, followed by the unmodified original; exact streams and product bytes except parsed timestamps",
+  "accepted_frontiers": 233,
+  "implemented_source_functions": 110,
+  "native_driver_functions": 104,
+  "historical_original_cases": [
+    "help",
+    "compile",
+    "hello"
+  ],
+  "cases": [
+    {
+      "id": "usage",
+      "arguments": "",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {},
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "usage: cl [ option... ] filename... [ -link linkoption... ]\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "3e3ec1003d4a88953c25d34c70b87b9f9d53bcdbbf25026c330ac029d1f2976f",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "missing-input",
+      "arguments": "/nologo",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {},
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "",
+      "stderr": "Command line error D2003 : missing source filename\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "db17e93d73851944c304fb7ca318ba74bcbb18ced86994141b05f25c3790f47a"
+      }
+    },
+    {
+      "id": "invalid-number",
+      "arguments": "/W5 /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "af48c5b7d9291391b2d2f9d5ca8fc58eecf25e65ec49ceca025ec11cfcc2e321",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "af48c5b7d9291391b2d2f9d5ca8fc58eecf25e65ec49ceca025ec11cfcc2e321",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "fcf9a154cb64ed831e4c5680a24fea1859fdc635078ca777b219867f25e7a0b3",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4014 : invalid value '5' for '/W'; assuming '1'\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "c7011662932f5735781526b0f3a4b8d45209afc04ea4e01851131e50ce08001f"
+      }
+    },
+    {
+      "id": "missing-option-value",
+      "arguments": "/Tc",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {},
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line error D2004 : '/Tc' requires an argument\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "140063a6d4669c0dda681b2fd4795e356a56660bab0396e3b67a43d00820e35b"
+      }
+    },
+    {
+      "id": "unknown-option",
+      "arguments": "/not_a_switch /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "3d87acc24b412be276523de37186a13b28edfe07a93a73614c3d015e2fd204ad",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "3d87acc24b412be276523de37186a13b28edfe07a93a73614c3d015e2fd204ad",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "191f70837d8cd3537e0f5053aa87004a264596434ea9f1da1e9f8644cf6c86d3",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4002 : ignoring unknown option '/not_a_switch'\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "ba9d62af969d4b0f39e83f7d81085fe818f0fb22b09974f7472220c55b7ded61"
+      }
+    },
+    {
+      "id": "conflicting-options",
+      "arguments": "/O1 /O2 /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 404,
+            "sha256": "9e3ea370b337df99cf703a6b803ff2cfa7cd6dd3861e2fb9e966c95cb47371f3",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 404,
+            "sha256": "9e3ea370b337df99cf703a6b803ff2cfa7cd6dd3861e2fb9e966c95cb47371f3",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 404,
+            "sha256": "c3e70fa90bb9027db58e0f08abfa41a368f48cd4affac28f34d09a7e5a22080a",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4025 : overriding '/O1' with '/O2'\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "607fc63be84c0cdf6e3e8e0590a37035574589df1d2952cbf3e2ad201c721d2e"
+      }
+    },
+    {
+      "id": "override-side-effects",
+      "arguments": "/Ge /O2 /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 404,
+            "sha256": "87d7aa14d259017a499183eb21fa7979b029cb79978185a498cf01f48ab64694",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 404,
+            "sha256": "87d7aa14d259017a499183eb21fa7979b029cb79978185a498cf01f48ab64694",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 404,
+            "sha256": "71c8f64b69248f7336a8156ae62065326d04b69ad517faf984b24e8d89a6ff05",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "incompatible-options",
+      "arguments": "/Za /Ze /c test.c",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line error D2016 : '/Za' and '/Ze' command-line options are incompatible\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "0c49b5244d29de85bf0c878e4f03cdb1509e1ef1182db7857cd42d27accb1d84"
+      }
+    },
+    {
+      "id": "nested-response",
+      "arguments": "@outer.rsp",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "inner.rsp": {
+          "original": {
+            "bytes": 52,
+            "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+            "normalized_sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 52,
+            "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+            "normalized_sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 52,
+            "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+            "normalized_sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+            "ignored_fields": []
+          }
+        },
+        "outer.rsp": {
+          "original": {
+            "bytes": 20,
+            "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+            "normalized_sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 20,
+            "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+            "normalized_sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 20,
+            "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+            "normalized_sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+            "ignored_fields": []
+          }
+        },
+        "space name.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "space output.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "954528811ecc8f552c656f1c93781e19dc15f55cb871a9ff9a3cfc90370c3bef",
+            "normalized_sha256": "282f4be03a8fdff08244adeea776df4f73970a06ac2315fdf2da3541dbe6e977",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "954528811ecc8f552c656f1c93781e19dc15f55cb871a9ff9a3cfc90370c3bef",
+            "normalized_sha256": "282f4be03a8fdff08244adeea776df4f73970a06ac2315fdf2da3541dbe6e977",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "bcbae074143fbd32f2eceae10ff387312ebfcb9fefffc1f11c3ed58981d67dba",
+            "normalized_sha256": "282f4be03a8fdff08244adeea776df4f73970a06ac2315fdf2da3541dbe6e977",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "space name.c\r\n",
+      "stderr": "",
+      "streams": {
+        "stdout": "db2f540c598623cbcc65b5e5d65c365da6560419519c53cc5b00989c3ed3a0a9",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "missing-response",
+      "arguments": "@absent.rsp",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {},
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line error D2022 : cannot open 'absent.rsp'\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "7b249ee55fb961ae9db65a8b7261bd6c1d09149589917eaed6cd55314fc62ce7"
+      }
+    },
+    {
+      "id": "response-cycle",
+      "arguments": "@loop.rsp",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "loop.rsp": {
+          "original": {
+            "bytes": 11,
+            "sha256": "3c1cd880d423706ef733bb6869261c99294aa1da9f7429a792a23e465aea93ea",
+            "normalized_sha256": "3c1cd880d423706ef733bb6869261c99294aa1da9f7429a792a23e465aea93ea",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 11,
+            "sha256": "3c1cd880d423706ef733bb6869261c99294aa1da9f7429a792a23e465aea93ea",
+            "normalized_sha256": "3c1cd880d423706ef733bb6869261c99294aa1da9f7429a792a23e465aea93ea",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 11,
+            "sha256": "3c1cd880d423706ef733bb6869261c99294aa1da9f7429a792a23e465aea93ea",
+            "normalized_sha256": "3c1cd880d423706ef733bb6869261c99294aa1da9f7429a792a23e465aea93ea",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\ncl @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\n   @loop.rsp\r\nCommand line error D2035 : response files nested too deeply\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e1534dfae9a8bedc5a91b4e9e21641216d3fc6c5b93f97ed77a5edc545765fc7"
+      }
+    },
+    {
+      "id": "link-tail",
+      "arguments": "test.c /link /nologo /subsystem:console",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.exe": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "367fd643f9c72615fffd818b2c95858b0a280fc1faaa429b65632d4ff347f366",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "367fd643f9c72615fffd818b2c95858b0a280fc1faaa429b65632d4ff347f366",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "116690a121752532fc05d73c8999704d061d39c531e4c67d787385da3e40c5f7",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "663eff0179df9e006dcad266f7fa12f2ee6ce2f3aa9ad134e219d062f63cd1d4",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "663eff0179df9e006dcad266f7fa12f2ee6ce2f3aa9ad134e219d062f63cd1d4",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "213119fe2cb3749df1deef64ea3fce16527393c531b38749b363272f051ce169",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "link-attached",
+      "arguments": "test.c /link/subsystem:console /nologo",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.exe": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "14c1173b9cd957aad90eff5c52afcddab271e6b80acb3b7658e1701e2b849f22",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "14c1173b9cd957aad90eff5c52afcddab271e6b80acb3b7658e1701e2b849f22",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "82f3ce819eb0dd03e2313909b0e294fa4b26717cbead589ce8bceb693d4f66f3",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "ebdbe7c756b9109e9c513c581eb1bb1f0d35e652c70f1fc57fce8398dcab1b84",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "ebdbe7c756b9109e9c513c581eb1bb1f0d35e652c70f1fc57fce8398dcab1b84",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "3e4a3417ab145974c76f8e9a08178ba490bcd8e9f261cc9ebf0a4016fc841309",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "force-c",
+      "arguments": "/c /Tcforced.src",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "forced.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "25c779f9b8f43445966fc0b3926e8cc9b91f698d5f13c203b09af63cdef503d4",
+            "normalized_sha256": "42c2adc18e16d63815fff0c02e9b1ee8f4da44e133cf69cf3bdf24521e7dd32d",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "25c779f9b8f43445966fc0b3926e8cc9b91f698d5f13c203b09af63cdef503d4",
+            "normalized_sha256": "42c2adc18e16d63815fff0c02e9b1ee8f4da44e133cf69cf3bdf24521e7dd32d",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "df4b1b18ce0e8aa262a206ea2408f497c2d02b7d5ff3cbc2d5a176c03e2b831d",
+            "normalized_sha256": "42c2adc18e16d63815fff0c02e9b1ee8f4da44e133cf69cf3bdf24521e7dd32d",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "forced.src": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "forced.src\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "d1529bc276269cdf804a445676205d079bc823615e93c6b151884e3ab98a6019",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "force-cpp",
+      "arguments": "/c /Tp cplusplus.src",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "cplusplus.obj": {
+          "original": {
+            "bytes": 697,
+            "sha256": "b43f412893cbe8bcfd52db66a16cbe0c32dd7cbff36d2112e42bc957da343ef3",
+            "normalized_sha256": "0678abefce964aa5cbdc7ecb4f4f5abebbc415ff039c62321edf58ea5ee9c8ed",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 697,
+            "sha256": "b43f412893cbe8bcfd52db66a16cbe0c32dd7cbff36d2112e42bc957da343ef3",
+            "normalized_sha256": "0678abefce964aa5cbdc7ecb4f4f5abebbc415ff039c62321edf58ea5ee9c8ed",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 697,
+            "sha256": "e8c34c1303cb9710ccf3060e30e1f48884bb5dc4563f52c311340766a447fbd6",
+            "normalized_sha256": "0678abefce964aa5cbdc7ecb4f4f5abebbc415ff039c62321edf58ea5ee9c8ed",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "cplusplus.src": {
+          "original": {
+            "bytes": 183,
+            "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+            "normalized_sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 183,
+            "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+            "normalized_sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 183,
+            "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+            "normalized_sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "cplusplus.src\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "55344ce5ccaeb8915366a92b0e95ce02acdffc3a0d407f9fc7e2a682a1ee3017",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "force-object",
+      "arguments": "/To object.blob /Feobject.exe",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "object.blob": {
+          "original": {
+            "bytes": 286,
+            "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "object.exe": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "1090128a2919c82dd18de98891e92562b2442cb8c7451acb8218c4fd8dd20c59",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "1090128a2919c82dd18de98891e92562b2442cb8c7451acb8218c4fd8dd20c59",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "e6bffdc04cc07a92a440811380b28bb2e4bb71b8f825b6fc6241f2f849c4d2a1",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n-out:object.exe \r\nobject.blob \r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "25c968bfe86e1d56f9f0dd8cff188b4048bfe4deb1f5e65c2c52d4611201f01f",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "undefine-predefines",
+      "arguments": "/u /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "320ab9ea4ec05e5a7ded16e756384c04a5713a901e295750f73565edc3da3538",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "320ab9ea4ec05e5a7ded16e756384c04a5713a901e295750f73565edc3da3538",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "0ed2bb61908ce5bc57c1bdb262a50cb1dca73a7e02a6f461bb5f7123f5555f8d",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "preprocess-stdout",
+      "arguments": "/E /I\"include dir\" preprocess.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "include dir/settings.h": {
+          "original": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          }
+        },
+        "preprocess.c": {
+          "original": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "#line 1 \"preprocess.c\"\r\n#line 1 \"include dir\\\\settings.h\"\r\n\r\n#line 2 \"preprocess.c\"\r\nint main(void) { return 42 - 42; }\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\npreprocess.c\r\n",
+      "streams": {
+        "stdout": "6147c8f45f583946848966bcdf4dc4ade4f2181f1197306885ec39a99f859ac9",
+        "stderr": "1b1da16d8b23a926437f8360ab85cfba1e0c60dfad16c6562783455adc78cdf7"
+      }
+    },
+    {
+      "id": "preprocess-file",
+      "arguments": "/P /I\"include dir\" preprocess.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "include dir/settings.h": {
+          "original": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          }
+        },
+        "preprocess.c": {
+          "original": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          }
+        },
+        "preprocess.i": {
+          "original": {
+            "bytes": 121,
+            "sha256": "6147c8f45f583946848966bcdf4dc4ade4f2181f1197306885ec39a99f859ac9",
+            "normalized_sha256": "6147c8f45f583946848966bcdf4dc4ade4f2181f1197306885ec39a99f859ac9",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 121,
+            "sha256": "6147c8f45f583946848966bcdf4dc4ade4f2181f1197306885ec39a99f859ac9",
+            "normalized_sha256": "6147c8f45f583946848966bcdf4dc4ade4f2181f1197306885ec39a99f859ac9",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 121,
+            "sha256": "6147c8f45f583946848966bcdf4dc4ade4f2181f1197306885ec39a99f859ac9",
+            "normalized_sha256": "6147c8f45f583946848966bcdf4dc4ade4f2181f1197306885ec39a99f859ac9",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\npreprocess.c\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "1b1da16d8b23a926437f8360ab85cfba1e0c60dfad16c6562783455adc78cdf7"
+      }
+    },
+    {
+      "id": "prototype-only",
+      "arguments": "/Zg test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "extern int main(void);\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\ntest.c\r\n",
+      "streams": {
+        "stdout": "4548e690132d264c9c68859aeb4a3b3dfbd5290bb9c73d54f750cc9d67776f84",
+        "stderr": "f92b8f3241c7ab729a2b848501c85fffdf62c62ea813e415dc2e87cf03ce2f20"
+      }
+    },
+    {
+      "id": "syntax-only",
+      "arguments": "/Zs test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "assembly-listing",
+      "arguments": "/FAsc /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.cod": {
+          "original": {
+            "bytes": 837,
+            "sha256": "623da8c7fa87ef161d7237ee22b0bef671a287148d4d071ea5c71ed544391802",
+            "normalized_sha256": "623da8c7fa87ef161d7237ee22b0bef671a287148d4d071ea5c71ed544391802",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 837,
+            "sha256": "623da8c7fa87ef161d7237ee22b0bef671a287148d4d071ea5c71ed544391802",
+            "normalized_sha256": "623da8c7fa87ef161d7237ee22b0bef671a287148d4d071ea5c71ed544391802",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 837,
+            "sha256": "623da8c7fa87ef161d7237ee22b0bef671a287148d4d071ea5c71ed544391802",
+            "normalized_sha256": "623da8c7fa87ef161d7237ee22b0bef671a287148d4d071ea5c71ed544391802",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "101d45146eee73b701615eae11be85c117ca9d28d60a957ef219fdd058a06abf",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "101d45146eee73b701615eae11be85c117ca9d28d60a957ef219fdd058a06abf",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "1e1b1db92cfe3b336b1d571fef1247ffe0bacc8ae77e4a9866c1f98e1fdc2abc",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "required-option-present",
+      "arguments": "/C /E test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "#line 1 \"test.c\"\r\nint main () { return 0; }\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\ntest.c\r\n",
+      "streams": {
+        "stdout": "bb64c6594f6d22d7881a576899ae98ffd10470b1512598348ba39a5140f569b6",
+        "stderr": "f92b8f3241c7ab729a2b848501c85fffdf62c62ea813e415dc2e87cf03ce2f20"
+      }
+    },
+    {
+      "id": "required-option-missing",
+      "arguments": "/C /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "71c6da1347a2f0b2e44ecec78ae0313bfbb9f55139de4dabe5d91f89d81035da",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "71c6da1347a2f0b2e44ecec78ae0313bfbb9f55139de4dabe5d91f89d81035da",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "67ea8adf10e5d605af548698093516d22b4bf60ce354f12b5001ec42c3eb2f0b",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4007 : '/C' requires '/E, /EP or /P'; option ignored\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "bd5deff52484a7c645bc6e70ea67e783742261904928262b5e02f8db0b2570a9"
+      }
+    },
+    {
+      "id": "map-and-renamed-output",
+      "arguments": "/Fm\"output dir/custom.map\" /Fe\"output dir/custom.exe\" test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "output dir/.keep": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "output dir/custom.exe": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "85d6bff582e9bd8e831ecd5cfe70db1e5e638bc0a22f4eb57c576e3255caf54f",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "85d6bff582e9bd8e831ecd5cfe70db1e5e638bc0a22f4eb57c576e3255caf54f",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "09b5cbca0ad1b8e95c0db6014a70c24f16b97068b9278ec1006fa4439bbc44b3",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "output dir/custom.map": {
+          "original": {
+            "bytes": 10568,
+            "sha256": "6397167cf634df5ba5661bf1892768a1131fc1654d99c9cfee897a9f632cfabc",
+            "normalized_sha256": "56f960e1035164f46e14bd5c55d2e30c0ea47a79618abdbe60aba2a0bdbd1288",
+            "ignored_fields": [
+              {
+                "offset": 11,
+                "size": 49,
+                "reason": "map timestamp line"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 10568,
+            "sha256": "6397167cf634df5ba5661bf1892768a1131fc1654d99c9cfee897a9f632cfabc",
+            "normalized_sha256": "56f960e1035164f46e14bd5c55d2e30c0ea47a79618abdbe60aba2a0bdbd1288",
+            "ignored_fields": [
+              {
+                "offset": 11,
+                "size": 49,
+                "reason": "map timestamp line"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 10568,
+            "sha256": "b876a5f9765f69110344754349f6896939847be1ebe3b2e1b574c66131f41167",
+            "normalized_sha256": "56f960e1035164f46e14bd5c55d2e30c0ea47a79618abdbe60aba2a0bdbd1288",
+            "ignored_fields": [
+              {
+                "offset": 11,
+                "size": 49,
+                "reason": "map timestamp line"
+              }
+            ]
+          }
+        },
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "177e7517f0345cd7e1aee3a514f789ef82e8eef3272330d1191a140ca5768f70",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "177e7517f0345cd7e1aee3a514f789ef82e8eef3272330d1191a140ca5768f70",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "02d39215a7cc0083013764cadf8410da178a26507b1d19b0e15e92397817f81a",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\nMicrosoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n\"-map:output dir/custom.map\" \r\n\"-out:output dir/custom.exe\" \r\ntest.obj \r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "b667460a0f4c0a3bd4fc4b29a16ff3a4504b1c82a274a5453f917088133fb7cc",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "dll-output",
+      "arguments": "/LD /Fedemo.dll dll.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "demo.dll": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "211ac0fa71524acbaa75808e8db16b18728923779e8fb701f779a78415761800",
+            "normalized_sha256": "ef14ed75b5c9cdd1329f36bdeddded958bd9380fde3f5d925a8e41f25f375e85",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              },
+              {
+                "offset": 11780,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "211ac0fa71524acbaa75808e8db16b18728923779e8fb701f779a78415761800",
+            "normalized_sha256": "ef14ed75b5c9cdd1329f36bdeddded958bd9380fde3f5d925a8e41f25f375e85",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              },
+              {
+                "offset": 11780,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "04e945890fc6f0955132089f895cf848b95e7a15584e50af3d0a2c627de5833f",
+            "normalized_sha256": "ef14ed75b5c9cdd1329f36bdeddded958bd9380fde3f5d925a8e41f25f375e85",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              },
+              {
+                "offset": 11780,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "demo.exp": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "a209d2b2b9f90a8bf1a3f0295af22152a996343a16a739107142a7169bbcece1",
+            "normalized_sha256": "e0ae877a17b8dafbf8e6ebf9cefae4042a53c4268d37259d033fe2a0ff1ff6b4",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 64,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "a209d2b2b9f90a8bf1a3f0295af22152a996343a16a739107142a7169bbcece1",
+            "normalized_sha256": "e0ae877a17b8dafbf8e6ebf9cefae4042a53c4268d37259d033fe2a0ff1ff6b4",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 64,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "624fb2b9f3a97417030befae927d3ab53ecc769227f0703866a9cc9202c7644f",
+            "normalized_sha256": "e0ae877a17b8dafbf8e6ebf9cefae4042a53c4268d37259d033fe2a0ff1ff6b4",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 64,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "demo.lib": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "bf2b44edea37404b7be9b4ea12728a86db57f2beb9b5bdf2539ffed4e520f05e",
+            "normalized_sha256": "21c70f6b1ca82289dc5bea66bc371b7c80e1f62fb100b2245234b1e009943b40",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 216,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 420,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 468,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1062,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1110,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1248,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1296,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1460,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1508,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1568,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              },
+              {
+                "offset": 1860,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1908,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "bf2b44edea37404b7be9b4ea12728a86db57f2beb9b5bdf2539ffed4e520f05e",
+            "normalized_sha256": "21c70f6b1ca82289dc5bea66bc371b7c80e1f62fb100b2245234b1e009943b40",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 216,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 420,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 468,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1062,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1110,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1248,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1296,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1460,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1508,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1568,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              },
+              {
+                "offset": 1860,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1908,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "f34329f07c8194da9fd841aeba43dfadd73cd0aa8d1e84851a2421a8a177bfe4",
+            "normalized_sha256": "21c70f6b1ca82289dc5bea66bc371b7c80e1f62fb100b2245234b1e009943b40",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 216,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 420,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 468,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1062,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1110,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1248,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1296,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1460,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1508,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1568,
+                "size": 4,
+                "reason": "export-directory TimeDateStamp"
+              },
+              {
+                "offset": 1860,
+                "size": 12,
+                "reason": "archive-member decimal modification timestamp"
+              },
+              {
+                "offset": 1908,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "dll.c": {
+          "original": {
+            "bytes": 163,
+            "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+            "normalized_sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 163,
+            "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+            "normalized_sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 163,
+            "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+            "normalized_sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+            "ignored_fields": []
+          }
+        },
+        "dll.obj": {
+          "original": {
+            "bytes": 360,
+            "sha256": "92d177cc3eb23ae583fff95de0750b635b8a5cd6ad935dd3acb191c100b6ab52",
+            "normalized_sha256": "b56599c3fe4a9a90790832db77502af7d796e57ca4d74fb7713bc2b3be9cfc28",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 360,
+            "sha256": "92d177cc3eb23ae583fff95de0750b635b8a5cd6ad935dd3acb191c100b6ab52",
+            "normalized_sha256": "b56599c3fe4a9a90790832db77502af7d796e57ca4d74fb7713bc2b3be9cfc28",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 360,
+            "sha256": "ead2b515104a683f8b72e6c319dfb4643d39397364dad4743006d530bd78c785",
+            "normalized_sha256": "b56599c3fe4a9a90790832db77502af7d796e57ca4d74fb7713bc2b3be9cfc28",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "dll.c\r\nMicrosoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n-dll \r\n-implib:demo.lib \r\n-out:demo.dll \r\ndll.obj \r\n   Creating library demo.lib and object demo.exp ...\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "3324ac0cde088dac10759786c4b1d9d2f3814979362e4349422cbfa4bd4d65bb",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "dll-exp-input",
+      "arguments": "/Bz /Bk:temp /LD test.c sample.exp",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "sample.exp": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il :temp -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -D_MT -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include'\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il :temp -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -MT'\r\n-out:test.dll\r\n-debug:none\r\n-dll\r\ntest.obj\r\nsample.exp\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @:templk'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "2a0bc0f3e0ab6636fa4fbbabe0f418512f6c3e0ddc76a8d65248f4f3bd46b097",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "replace-passes",
+      "arguments": "/B1{bin}\\C13232.EXE /B2{bin}\\C23232.EXE /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "5267dd9c126696c8c6e4663838dbdcd57e14ba7fb725bd4f106813243510fe88",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "5267dd9c126696c8c6e4663838dbdcd57e14ba7fb725bd4f106813243510fe88",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "6f4fe771adb2f0b2f4cb31cf7ab024515d875e22493c9161d22df1388a9028a9",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "pass-loader",
+      "arguments": "/Bp1{proxy} /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "f38af202af26bf30659ac82e39aaa792b823b133b68bcb6b553062f06abb3999",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "f38af202af26bf30659ac82e39aaa792b823b133b68bcb6b553062f06abb3999",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "fe6aed3edc91fa4849d74ebc04986c2d61a9a3698edc1d568498ca8f27cf274c",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "child-failure",
+      "arguments": "/B1{fail} /c test.c",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "child-not-found",
+      "arguments": "/B1does-not-exist.exe /c test.c",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "test.c\r\nCommand line error D2027 : cannot execute 'does-not-exist.exe'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "088398997dfb806421de4ea85ddd3a02e8374e978b00ec4e593c111c55c73836",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "ide-feedback",
+      "arguments": "/FEEDBACK /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "f77198838b9a7b858e9c0e23c5ec21c40e41717ed355121a79848b0e8aba8a05",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "f77198838b9a7b858e9c0e23c5ec21c40e41717ed355121a79848b0e8aba8a05",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "485842223a371ce6cac2ea8bc3d958e04eb8290cdc796ba50e68e73c290b2ed2",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n@I0@I1Microsoft (R)  32-bit C/C++ Optimizing Compiler Version  8.00      \r\n@I2\r\nCopyright (c) Microsoft Corp  1984-1993. All rights reserved.\r\n\r\n\r\ntest.c\r\n@I3Compiling: test.c\r\n@I4Q:\\ide-feedback\\test.c\r\n@I51\r\n@I62\r\n@I4main",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "e17832726a93c29fc44247d113c63e230e7e631de464faa9c7d5fc475f553d77"
+      }
+    },
+    {
+      "id": "timing",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "e9d1062df3b3579e9e4c2c5fdd8e837f5b9e0a09170417be2ce115fea3c7fd27",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "e9d1062df3b3579e9e4c2c5fdd8e837f5b9e0a09170417be2ce115fea3c7fd27",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "d1d6a3d9d9d716ca5455b5aa48f48fcc12502876c1fa07617211d1ebdfafe2a8",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "two-sources",
+      "arguments": "call.c helper.c /Fetwo.exe",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "call.c": {
+          "original": {
+            "bytes": 60,
+            "sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
+            "normalized_sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 60,
+            "sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
+            "normalized_sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 60,
+            "sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
+            "normalized_sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
+            "ignored_fields": []
+          }
+        },
+        "call.obj": {
+          "original": {
+            "bytes": 326,
+            "sha256": "50afba5df387eddbb8c701c6868b86bec7e2f54796dd31c9e87786b39e89e6c0",
+            "normalized_sha256": "6b4ed6d053358831cfda7cbb624dbaf08c99d5463dfda105d4696a600c8406de",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 326,
+            "sha256": "50afba5df387eddbb8c701c6868b86bec7e2f54796dd31c9e87786b39e89e6c0",
+            "normalized_sha256": "6b4ed6d053358831cfda7cbb624dbaf08c99d5463dfda105d4696a600c8406de",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 326,
+            "sha256": "37d6b5d2239794aae0551f69dbf6e1e7b778a6dc6a95543fe7547bbf3ca827a3",
+            "normalized_sha256": "6b4ed6d053358831cfda7cbb624dbaf08c99d5463dfda105d4696a600c8406de",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "helper.c": {
+          "original": {
+            "bytes": 32,
+            "sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "normalized_sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 32,
+            "sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "normalized_sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 32,
+            "sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "normalized_sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "ignored_fields": []
+          }
+        },
+        "helper.obj": {
+          "original": {
+            "bytes": 289,
+            "sha256": "4d53b3b51e99cdf1950606424dd574b29169bfd7984a8d2d48f0f3c868c0a0e0",
+            "normalized_sha256": "47d9697e2478c21ce70abc66700eb7dce79dcfd353d0cf3303afe5c6185645e7",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 289,
+            "sha256": "4d53b3b51e99cdf1950606424dd574b29169bfd7984a8d2d48f0f3c868c0a0e0",
+            "normalized_sha256": "47d9697e2478c21ce70abc66700eb7dce79dcfd353d0cf3303afe5c6185645e7",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 289,
+            "sha256": "e3029afaa03d1fc5c0daf4a1e7a23e3ee71c1dd5de2484619e7974119b3aeb05",
+            "normalized_sha256": "47d9697e2478c21ce70abc66700eb7dce79dcfd353d0cf3303afe5c6185645e7",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "two.exe": {
+          "original": {
+            "bytes": 2097152,
+            "sha256": "3b81822cc18c546c55c9fa31237cfcff6036bbba8f3e2fcaf8803dd6670798a8",
+            "normalized_sha256": "ffc6ad9f0148c2ee120d2fd4252d25dacac4bc9d205e7342231867bca8a2772c",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 2097152,
+            "sha256": "3b81822cc18c546c55c9fa31237cfcff6036bbba8f3e2fcaf8803dd6670798a8",
+            "normalized_sha256": "ffc6ad9f0148c2ee120d2fd4252d25dacac4bc9d205e7342231867bca8a2772c",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 2097152,
+            "sha256": "5070b4c84c88f4dc7ad095e5ddc1f75a2f73736712de34867fa7914b98ca746f",
+            "normalized_sha256": "ffc6ad9f0148c2ee120d2fd4252d25dacac4bc9d205e7342231867bca8a2772c",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "size": 4,
+                "reason": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "call.c\r\nhelper.c\r\nMicrosoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n-out:two.exe \r\ncall.obj \r\nhelper.obj \r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "0e6754f050bd06046a0159725d7ada91476afae065399657c7d970d51b88ef63",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "environment-precedence",
+      "arguments": "/c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 404,
+            "sha256": "0595e60b8c09e0f483728e3b064e0eb6f856e6440fe8fcdd22ca177f022ed71c",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 404,
+            "sha256": "0595e60b8c09e0f483728e3b064e0eb6f856e6440fe8fcdd22ca177f022ed71c",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 404,
+            "sha256": "b2e25854fbb04d1b0d731a4064d5ce9d9b2c591da03ea50a7ca60c41b4eeb7b8",
+            "normalized_sha256": "6df20ae5bd99eea46235eab18b59a9e15fc373185ab2070a74b82d28f5f1d224",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Command line warning D4025 : overriding '/O1' with '/O2'\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "a7f02c25f213435a1096202179b9611e5287783057ec6f2fade70604df1b90b6"
+      }
+    },
+    {
+      "id": "include-search-list",
+      "arguments": "/c /X preprocess.c",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "include dir/settings.h": {
+          "original": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          }
+        },
+        "preprocess.c": {
+          "original": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "preprocess.c\r\npreprocess.c(1) : fatal error C1034: settings.h: no include path set\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "743bb46286796e4a53f36481a5018962a3729425eb1aa5c48823fe1559c1ef39",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "include-search-expansion",
+      "arguments": "/c preprocess.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "include-here/settings.h": {
+          "original": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          }
+        },
+        "preprocess.c": {
+          "original": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          }
+        },
+        "preprocess.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "3bfd95dd3442c0430de251fdb751a6ebea91127870a5727faf0d538cddcc0d15",
+            "normalized_sha256": "97c3747ada0404ce1815c58f34cef2e184252b683f3dffd48bab4cd861c617e4",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "3bfd95dd3442c0430de251fdb751a6ebea91127870a5727faf0d538cddcc0d15",
+            "normalized_sha256": "97c3747ada0404ce1815c58f34cef2e184252b683f3dffd48bab4cd861c617e4",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "6f99caf12486f2004f329297ee6680f9a61ebb7e27fe6fb8a9a3df0dd478ed9d",
+            "normalized_sha256": "97c3747ada0404ce1815c58f34cef2e184252b683f3dffd48bab4cd861c617e4",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "preprocess.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "f2b7d15199a6fdb9d69bb5e059ce29e927cc307331c1c1d2f1e20b37f12daa0c",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "include-unquoted-space",
+      "arguments": "/c preprocess.c",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "include dir/settings.h": {
+          "original": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 17,
+            "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "normalized_sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+            "ignored_fields": []
+          }
+        },
+        "preprocess.c": {
+          "original": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 60,
+            "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "normalized_sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 2\n",
+        "reconstructed": "exit 2\n",
+        "baseline": "exit 2\n"
+      },
+      "stdout": "preprocess.c\r\nfatal error C1007: unrecognized flag 'dir' in 'c1'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "8565d6d5c6ab04b98ee5e090b8b5012569d933e58ba7bbd94b397ccc508f878e",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "legacy-omf-selector",
+      "arguments": "/Bz /Bk:temp /omf test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il :temp -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include'\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il :temp -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML'\r\n-out:test.exe\r\n-debug:none\r\n-out:mf.exe\r\ntest.obj\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @:templk'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "e79167bd28d3185050fd9418f5d0cec2bc22ba43abe02e276daec97dca884001",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "mixed-ordering",
+      "arguments": "test.c /DVALUE=42 helper.c /c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "helper.c": {
+          "original": {
+            "bytes": 32,
+            "sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "normalized_sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 32,
+            "sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "normalized_sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 32,
+            "sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "normalized_sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+            "ignored_fields": []
+          }
+        },
+        "helper.obj": {
+          "original": {
+            "bytes": 289,
+            "sha256": "3c57c2efc0d14594190e904a576cb2ec4a9e564929449cfe05397c7bfecc7685",
+            "normalized_sha256": "47d9697e2478c21ce70abc66700eb7dce79dcfd353d0cf3303afe5c6185645e7",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 289,
+            "sha256": "3c57c2efc0d14594190e904a576cb2ec4a9e564929449cfe05397c7bfecc7685",
+            "normalized_sha256": "47d9697e2478c21ce70abc66700eb7dce79dcfd353d0cf3303afe5c6185645e7",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 289,
+            "sha256": "18f0cecf9409e45a44ddbe775b070386899e70a6331c86eca8799ea395c8b793",
+            "normalized_sha256": "47d9697e2478c21ce70abc66700eb7dce79dcfd353d0cf3303afe5c6185645e7",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        },
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "94b2d45ec293d9327ea7d1342687683d6b6e7dc9d8899b3d5cf93237d1837831",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "94b2d45ec293d9327ea7d1342687683d6b6e7dc9d8899b3d5cf93237d1837831",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "991faf04a1a9178206ea4d22642475494211858e2b5f4ea0f74f497dac17bb51",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": null,
+      "internal_state": null,
+      "events": {
+        "original": "exit 0\n",
+        "reconstructed": "exit 0\n",
+        "baseline": "exit 0\n"
+      },
+      "stdout": "test.c\r\nhelper.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line warning D4026 : options apply to entire command line\r\n",
+      "streams": {
+        "stdout": "38547e68c7d6e9c22181f21120ffaf9512107d134e1186a1ecb1fd7cd0efd029",
+        "stderr": "ec7392fac372384ecca235ee372ff5a7570534ae9950978cd26c026b2d3060df"
+      }
+    },
+    {
+      "id": "interrupt-idle",
+      "arguments": "/?",
+      "exit_status": 4,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {},
+      "mode": "handler-idle",
+      "internal_state": null,
+      "events": {
+        "original": "child-running 00000000\nexit 00000004\n",
+        "reconstructed": "child-running 00000000\nexit 00000004\n",
+        "baseline": "child-running 00000000\nexit 00000004\n"
+      },
+      "stdout": "                            C COMPILER OPTIONS\r\n\r\n                              -OPTIMIZATION-\r\n/O1 minimize space                       /Op[-] improve floating-pt consistency\r\n/O2 maximize speed                       /Os favor code space\r\n/Oa assume no aliasing                   /Ot favor code speed\r\n/Ob<n> inline expansion (default n=0)    /Ow assume cross-function aliasing\r\n/Od disable optimizations (default)      /Ox maximum opts. (/Ogityb1 /Gs)\r\n/Og enable global optimization           /Oy[-] enable frame pointer omission\r\n/Oi enable intrinsic functions\r\n                             -CODE GENERATION-\r\n/G3 optimize for 80386                   /Ge enable stack checking calls\r\n/G4 optimize for 80486 (default)         /Gs[num] disable stack checking calls\r\n/G5 optimize for Pentium                 /Gf enable string pooling\r\n/Gd __cdecl calling convention           /Gy separate functions for linker\r\n/Gr __fastcall calling convention        /Gh enable hook function call\r\n/Gz __stdcall calling convention\r\n                              -OUTPUT FILES-\r\n/Fa[file] name assembly listing file     /Fo<file> name object file\r\n/FA[sc] configure assembly listing       /Fp<file> name precompiled header file\r\n/Fd[file] name .PDB file                 /Fr[file] name source browser file\r\n/Fe<file> name executable file           /FR[file] name extended .SBR file\r\n/Fm[file] name map file\r\n                              -PREPROCESSOR-\r\n  (press <return> to continue)",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "afd6494988447462e90fdd2bb91be57e11222c7ebb117624ceef69703b3e64a3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "interrupt-child",
+      "arguments": "/B1{wait} /c test.c",
+      "exit_status": 4,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "child-ready": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "release-pass": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": "handler-child",
+      "internal_state": null,
+      "events": {
+        "original": "child-running 00000001\nexit 00000004\n",
+        "reconstructed": "child-running 00000001\nexit 00000004\n",
+        "baseline": "child-running 00000001\nexit 00000004\n"
+      },
+      "stdout": "test.c\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "internal-omf-dryrun",
+      "arguments": "/Bz /Bk:temp /Femodule.exe test.c /link /legacy:option",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": "omf-state",
+      "internal_state": "At accepted link_pass entry, set coff_format to zero. The current pass record is retained.",
+      "events": {
+        "original": "internal-omf-state 00000000\nexit 00000000\n",
+        "reconstructed": "internal-omf-state 00000000\nexit 00000000\n",
+        "baseline": "internal-omf-state 00000000\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il :temp -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include'\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe -ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il :temp -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML'\r\n\"test.obj\"\r\n\"module.exe\"\r\n\"nul.map\"\r\n-debug:none -out:module.exe /legacy:option;\r\n`Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe @:templk'\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "95a5de0f2817b4424c20fca7553a51b334e8826f98d457e87e89d35f34fea8a1",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "internal-omf-file",
+      "arguments": "/Bk:temp /Bl{fail} /Felegacy.exe first.obj second.obj first.lib second.lib first.def second.def /link /legacy:option",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        ":templk": {
+          "original": {
+            "bytes": 154,
+            "sha256": "2e96e8a074ca39b73b98f488297a080f7fb5c6ee8daf21b9114b3a4976de50c1",
+            "normalized_sha256": "2e96e8a074ca39b73b98f488297a080f7fb5c6ee8daf21b9114b3a4976de50c1",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 154,
+            "sha256": "2e96e8a074ca39b73b98f488297a080f7fb5c6ee8daf21b9114b3a4976de50c1",
+            "normalized_sha256": "2e96e8a074ca39b73b98f488297a080f7fb5c6ee8daf21b9114b3a4976de50c1",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 154,
+            "sha256": "2e96e8a074ca39b73b98f488297a080f7fb5c6ee8daf21b9114b3a4976de50c1",
+            "normalized_sha256": "2e96e8a074ca39b73b98f488297a080f7fb5c6ee8daf21b9114b3a4976de50c1",
+            "ignored_fields": []
+          }
+        },
+        "first.def": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "first.lib": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "first.obj": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "second.def": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "second.lib": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        },
+        "second.obj": {
+          "original": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": "omf-state",
+      "internal_state": "At accepted link_pass entry, set coff_format to zero. A controlled linker returns 7 without reading the generated response, and /Bk preserves it.",
+      "events": {
+        "original": "internal-omf-state 00000000\nexit 00000002\n",
+        "reconstructed": "internal-omf-state 00000000\nexit 00000002\n",
+        "baseline": "internal-omf-state 00000000\nexit 00000002\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "internal-ide-null-buffer",
+      "arguments": "/FEEDBACK /c test.c",
+      "exit_status": 2,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": null,
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        }
+      },
+      "mode": "ide-null-buffer",
+      "internal_state": "At accepted ide_message entry, clear the installed frame-buffer pointer to exercise its registered assertion callback.",
+      "events": {
+        "original": "internal-ide-null-buffer 00000000\nexit 00000002\n",
+        "reconstructed": "internal-ide-null-buffer 00000000\nexit 00000002\n",
+        "baseline": "internal-ide-null-buffer 00000000\nexit 00000002\n"
+      },
+      "stdout": "",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\nCommand line error D2000 : UNKNOWN COMMAND-LINE ERROR\r\n    Please choose the Technical Support command on the Visual Workbench\r\n    Help menu, or open the Technical Support help file for more information\r\n",
+      "streams": {
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "59edb5e7f2c0d00ca1cf3f10d300b58831f5fd1d726fba7d1c90dcfc9049460b"
+      }
+    },
+    {
+      "id": "timing-utc",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "160e6b4fb8c3fce1f9d24176099dc1a2ce4c7d5f3e65439f05dcef3cc907eee6",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "160e6b4fb8c3fce1f9d24176099dc1a2ce4c7d5f3e65439f05dcef3cc907eee6",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "0a116dcd3e51d4c48c367d205184f9c40d0f13362a671c637cdecc0107b48671",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-positive-sign",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "90e2ff44580fe13793d2c30a91644a17e0aa09eed1992df463ec4e0946d823d9",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "90e2ff44580fe13793d2c30a91644a17e0aa09eed1992df463ec4e0946d823d9",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "bc4a73afdae04a5f1a5f16e840a734b1e01c022c29c2b02cba631cfd8801f46e",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-negative-offset",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "09dfdd20938e225a78b50172d59e9be3acba974640176280c38a4b64b23959e0",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "09dfdd20938e225a78b50172d59e9be3acba974640176280c38a4b64b23959e0",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "ed9167cabf96a75413c98ae635b88476afe79c0648de0a5df71c98745ebf01e7",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-dst-start-before",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        4,
+        5,
+        1
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "dd83d7e0250aca8d84326b3fcdf8c1e71cd59484a4ee2e1deeb2578491fbaf24",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "dd83d7e0250aca8d84326b3fcdf8c1e71cd59484a4ee2e1deeb2578491fbaf24",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "7ed05eb0432814594fe5132b1937c0af3ba4bd0da6e356f9617d5d1ae465d437",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-dst-start-after",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        4,
+        5,
+        3
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "293e0d05bc2912b81d1c21eb3f69500fdcf485d30ae593149a8cefb8728cc9c3",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "293e0d05bc2912b81d1c21eb3f69500fdcf485d30ae593149a8cefb8728cc9c3",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "81105393497dc105b039ae263455798a542e41de3f70376413b41c850ca47e06",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-dst-end-before",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        10,
+        25,
+        0
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "45d08e95aadf99a55d66b23135b78ed5f19dff91c7aabe72ed724e2cbdd75e79",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "45d08e95aadf99a55d66b23135b78ed5f19dff91c7aabe72ed724e2cbdd75e79",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "7d2a5abeddc29413a61c41f2921c03b73df820f1d9d3cbdaa54375d269b7b4fa",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-dst-end-after",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        2026,
+        10,
+        25,
+        2
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "3a3f97e283ca9123611967f8847b3b5bac6512d5bcea5dd667b4895edb5bea94",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "3a3f97e283ca9123611967f8847b3b5bac6512d5bcea5dd667b4895edb5bea94",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "da839a7dc9ed49cf3572d3a1559173af2eb5dc44436f8ccc70c5057e0dd9560e",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-early-year",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        1960,
+        7,
+        15,
+        0
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "19d126f1d87d8f42fd85bc78386de2dd24c4d5dacd6f00ef35897d1a125199d5",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "19d126f1d87d8f42fd85bc78386de2dd24c4d5dacd6f00ef35897d1a125199d5",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "d1e392386d1233bc3eca2707ec87d2668b2a10548de39f234ad8d6e23f30bbb8",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=4294967295.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=0.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "72f5620eefe4bf36c369c9810cb87d6255725ff730cab221ecb31fb36fa77f16",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    },
+    {
+      "id": "timing-old-april-rule",
+      "arguments": "/Bt /c test.c",
+      "exit_status": 0,
+      "accepted_count": 233,
+      "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+      "reconstruction_sha256": "f00b7bfe48e47aba829ae5f6b2d143dcf4e7047adb08e671fb6915f6a799cc37",
+      "controlled_clock_calendar": [
+        1980,
+        4,
+        27,
+        3
+      ],
+      "products": {
+        "test.c": {
+          "original": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "reconstructed": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          },
+          "baseline": {
+            "bytes": 26,
+            "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+            "ignored_fields": []
+          }
+        },
+        "test.obj": {
+          "original": {
+            "bytes": 286,
+            "sha256": "034c7608ad1bab913ba205e5a958eb3eef7d24be221467d0c682d91a5705d214",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "reconstructed": {
+            "bytes": 286,
+            "sha256": "034c7608ad1bab913ba205e5a958eb3eef7d24be221467d0c682d91a5705d214",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          "baseline": {
+            "bytes": 286,
+            "sha256": "f8be95fbf42b851465f192842d302ac0363cd6f2b556d1f9ea436a6d54ec069c",
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "size": 4,
+                "reason": "COFF TimeDateStamp"
+              }
+            ]
+          }
+        }
+      },
+      "mode": "clock",
+      "internal_state": null,
+      "events": {
+        "original": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "reconstructed": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n",
+        "baseline": "clock-call 00000001\nclock-call 00000002\nclock-call 00000003\nclock-call 00000004\nexit 00000000\n"
+      },
+      "stdout": "test.c\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe)=1.225s\r\ntime(Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe)=1.225s\r\n",
+      "stderr": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 8.00      \r\nCopyright (c) Microsoft Corp 1984-1993. All rights reserved.\r\n\r\n",
+      "streams": {
+        "stdout": "7139f1994ff781160e5a998d2173af8d982482c3072cfe9992c688bd82a38af3",
+        "stderr": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
+      }
+    }
+  ]
+}

@@ -180,7 +180,59 @@
     "__fileno",
     "__spawnvp",
     "_driver_exit",
-    "_detach_item"
+    "_detach_item",
+    "_usage",
+    "_option_callback_1920c",
+    "_force_input",
+    "_fatal",
+    "_diagnostic_text",
+    "_atoi",
+    "_atol",
+    "_write_message_list",
+    "_warning",
+    "_warn_override",
+    "_copy_item",
+    "_driver_switch_17368",
+    "_any_match",
+    "_read_response_file",
+    "_memmove",
+    "_option_callback_19014",
+    "_option_callback_19228",
+    "_option_callback_19198",
+    "_driver_switch_170a0",
+    "_driver_switch_1713c",
+    "_driver_switch_1719c",
+    "_driver_switch_17010",
+    "_output_stem",
+    "__makepath",
+    "_map_filename",
+    "_driver_switch_173ac",
+    "_initialize_ide",
+    "_ide_install",
+    "_ide_descriptor",
+    "_ide_message",
+    "_sprintf",
+    "__output",
+    "_get_int_arg",
+    "_write_multi_char",
+    "_write_string",
+    "_write_char",
+    "_ide_write",
+    "_start_timer",
+    "__ftime",
+    "___tzset",
+    "import:GetLocalTime",
+    "_mktime",
+    "__make_time_t",
+    "_localtime",
+    "_gmtime",
+    "__isindst",
+    "_report_timer",
+    "_control_handler@4",
+    "_write_omf_response",
+    "_ide_abort",
+    "__getpath",
+    "_memcpy"
   ],
   "driver": [
     {
@@ -276,7 +328,7 @@
     {
       "name": "_warning",
       "start": 109431,
-      "end": 109654
+      "end": 109507
     },
     {
       "name": "_driver_exit",
@@ -356,7 +408,7 @@
     {
       "name": "_ide_message",
       "start": 109832,
-      "end": 109962
+      "end": 110156
     },
     {
       "name": "_control_handler@4",
@@ -431,7 +483,7 @@
     {
       "name": "_option_callback_19014",
       "start": 102420,
-      "end": 102421
+      "end": 102608
     },
     {
       "name": "_option_callback_190d0",
@@ -441,17 +493,17 @@
     {
       "name": "_option_callback_19198",
       "start": 102808,
-      "end": 102809
+      "end": 102836
     },
     {
       "name": "_option_callback_1920c",
       "start": 102924,
-      "end": 102925
+      "end": 102952
     },
     {
       "name": "_option_callback_19228",
       "start": 102952,
-      "end": 102953
+      "end": 102980
     },
     {
       "name": "_validate_value",
@@ -516,22 +568,22 @@
     {
       "name": "_driver_switch_17010",
       "start": 94224,
-      "end": 94225
+      "end": 94368
     },
     {
       "name": "_driver_switch_170a0",
       "start": 94368,
-      "end": 94369
+      "end": 94464
     },
     {
       "name": "_driver_switch_1713c",
       "start": 94524,
-      "end": 94525
+      "end": 94620
     },
     {
       "name": "_driver_switch_1719c",
       "start": 94620,
-      "end": 94621
+      "end": 94716
     },
     {
       "name": "_driver_switch_171fc",
@@ -551,12 +603,12 @@
     {
       "name": "_driver_switch_17368",
       "start": 95080,
-      "end": 95081
+      "end": 95148
     },
     {
       "name": "_driver_switch_173ac",
       "start": 95148,
-      "end": 95149
+      "end": 95575
     },
     {
       "name": "_is_for_pass",
@@ -687,6 +739,51 @@
       "name": "_file_message",
       "start": 108854,
       "end": 108937
+    },
+    {
+      "name": "_write_message_list",
+      "start": 108816,
+      "end": 108854
+    },
+    {
+      "name": "_diagnostic_text",
+      "start": 109155,
+      "end": 109431
+    },
+    {
+      "name": "_force_input",
+      "start": 102836,
+      "end": 102924
+    },
+    {
+      "name": "_ide_abort",
+      "start": 109767,
+      "end": 109780
+    },
+    {
+      "name": "_ide_write",
+      "start": 109780,
+      "end": 109824
+    },
+    {
+      "name": "_ide_descriptor",
+      "start": 109824,
+      "end": 109832
+    },
+    {
+      "name": "_ide_install",
+      "start": 110156,
+      "end": 110181
+    },
+    {
+      "name": "___tzset",
+      "start": 131456,
+      "end": 131803
+    },
+    {
+      "name": "__isindst",
+      "start": 131808,
+      "end": 132003
     }
   ],
   "target": {
@@ -710,6 +807,330 @@
       "arguments": "/O2 /G5 hello.c",
       "accepted_from": 180,
       "accepted_count": 181
+    },
+    "remaining-usage": {
+      "arguments": "",
+      "catalog_id": "usage",
+      "accepted_from": 181,
+      "accepted_count": 182
+    },
+    "remaining-missing-option-value": {
+      "arguments": "/Tc",
+      "catalog_id": "missing-option-value",
+      "accepted_from": 182,
+      "accepted_count": 189
+    },
+    "remaining-missing-input": {
+      "arguments": "/nologo",
+      "catalog_id": "missing-input",
+      "accepted_from": 189,
+      "accepted_count": 189
+    },
+    "remaining-invalid-number": {
+      "arguments": "/W5 /c test.c",
+      "catalog_id": "invalid-number",
+      "accepted_from": 189,
+      "accepted_count": 190
+    },
+    "remaining-conflicting-options": {
+      "arguments": "/O1 /O2 /c test.c",
+      "catalog_id": "conflicting-options",
+      "accepted_from": 190,
+      "accepted_count": 191
+    },
+    "remaining-override-side-effects": {
+      "arguments": "/Ge /O2 /c test.c",
+      "catalog_id": "override-side-effects",
+      "accepted_from": 191,
+      "accepted_count": 192
+    },
+    "remaining-unknown-option": {
+      "arguments": "/not_a_switch /c test.c",
+      "catalog_id": "unknown-option",
+      "accepted_from": 192,
+      "accepted_count": 192
+    },
+    "remaining-incompatible-options": {
+      "arguments": "/Za /Ze /c test.c",
+      "catalog_id": "incompatible-options",
+      "accepted_from": 192,
+      "accepted_count": 192
+    },
+    "remaining-required-option-present": {
+      "arguments": "/C /E test.c",
+      "catalog_id": "required-option-present",
+      "accepted_from": 192,
+      "accepted_count": 194
+    },
+    "remaining-mixed-ordering": {
+      "arguments": "test.c /DVALUE=42 helper.c /c",
+      "catalog_id": "mixed-ordering",
+      "accepted_from": 192,
+      "accepted_count": 192
+    },
+    "remaining-nested-response": {
+      "arguments": "@outer.rsp",
+      "catalog_id": "nested-response",
+      "accepted_from": 194,
+      "accepted_count": 196
+    },
+    "remaining-missing-response": {
+      "arguments": "@absent.rsp",
+      "catalog_id": "missing-response",
+      "accepted_from": 196,
+      "accepted_count": 196
+    },
+    "remaining-response-cycle": {
+      "arguments": "@loop.rsp",
+      "catalog_id": "response-cycle",
+      "accepted_from": 196,
+      "accepted_count": 196
+    },
+    "remaining-link-tail": {
+      "arguments": "test.c /link /nologo /subsystem:console",
+      "catalog_id": "link-tail",
+      "accepted_from": 196,
+      "accepted_count": 197
+    },
+    "remaining-force-cpp": {
+      "arguments": "/c /Tp cplusplus.src",
+      "catalog_id": "force-cpp",
+      "accepted_from": 197,
+      "accepted_count": 198
+    },
+    "remaining-force-object": {
+      "arguments": "/To object.blob /Feobject.exe",
+      "catalog_id": "force-object",
+      "accepted_from": 198,
+      "accepted_count": 199
+    },
+    "remaining-undefine-predefines": {
+      "arguments": "/u /c test.c",
+      "catalog_id": "undefine-predefines",
+      "accepted_from": 199,
+      "accepted_count": 200
+    },
+    "remaining-replace-passes": {
+      "arguments": "/B1{bin}\\C13232.EXE /B2{bin}\\C23232.EXE /c test.c",
+      "catalog_id": "replace-passes",
+      "accepted_from": 200,
+      "accepted_count": 201
+    },
+    "remaining-pass-loader": {
+      "arguments": "/Bp1{proxy} /c test.c",
+      "catalog_id": "pass-loader",
+      "accepted_from": 201,
+      "accepted_count": 202
+    },
+    "remaining-dll-output": {
+      "arguments": "/LD /Fedemo.dll dll.c",
+      "catalog_id": "dll-output",
+      "accepted_from": 202,
+      "accepted_count": 205
+    },
+    "remaining-map-and-renamed-output": {
+      "arguments": "/Fm\"output dir/custom.map\" /Fe\"output dir/custom.exe\" test.c",
+      "catalog_id": "map-and-renamed-output",
+      "accepted_from": 205,
+      "accepted_count": 206
+    },
+    "remaining-assembly-listing": {
+      "arguments": "/FAsc /c test.c",
+      "catalog_id": "assembly-listing",
+      "accepted_from": 206,
+      "accepted_count": 207
+    },
+    "remaining-ide-feedback": {
+      "arguments": "/FEEDBACK /c test.c",
+      "catalog_id": "ide-feedback",
+      "accepted_from": 207,
+      "accepted_count": 218
+    },
+    "remaining-timing": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing",
+      "accepted_from": 218,
+      "accepted_count": 228
+    },
+    "remaining-interrupt-child": {
+      "arguments": "/B1{wait} /c test.c",
+      "catalog_id": "interrupt-child",
+      "accepted_from": 228,
+      "accepted_count": 229
+    },
+    "remaining-interrupt-idle": {
+      "arguments": "/?",
+      "catalog_id": "interrupt-idle",
+      "accepted_from": 229,
+      "accepted_count": 229
+    },
+    "remaining-internal-omf-dryrun": {
+      "arguments": "/Bz /Bk:temp /Femodule.exe test.c /link /legacy:option",
+      "catalog_id": "internal-omf-dryrun",
+      "accepted_from": 229,
+      "accepted_count": 230
+    },
+    "remaining-internal-omf-file": {
+      "arguments": "/Bk:temp /Bl{fail} /Felegacy.exe first.obj second.obj first.lib second.lib first.def second.def /link /legacy:option",
+      "catalog_id": "internal-omf-file",
+      "accepted_from": 230,
+      "accepted_count": 230
+    },
+    "remaining-internal-ide-null-buffer": {
+      "arguments": "/FEEDBACK /c test.c",
+      "catalog_id": "internal-ide-null-buffer",
+      "accepted_from": 230,
+      "accepted_count": 231
+    },
+    "remaining-link-attached": {
+      "arguments": "test.c /link/subsystem:console /nologo",
+      "catalog_id": "link-attached",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-force-c": {
+      "arguments": "/c /Tcforced.src",
+      "catalog_id": "force-c",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-preprocess-stdout": {
+      "arguments": "/E /I\"include dir\" preprocess.c",
+      "catalog_id": "preprocess-stdout",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-preprocess-file": {
+      "arguments": "/P /I\"include dir\" preprocess.c",
+      "catalog_id": "preprocess-file",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-prototype-only": {
+      "arguments": "/Zg test.c",
+      "catalog_id": "prototype-only",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-syntax-only": {
+      "arguments": "/Zs test.c",
+      "catalog_id": "syntax-only",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-required-option-missing": {
+      "arguments": "/C /c test.c",
+      "catalog_id": "required-option-missing",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-dll-exp-input": {
+      "arguments": "/Bz /Bk:temp /LD test.c sample.exp",
+      "catalog_id": "dll-exp-input",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-child-failure": {
+      "arguments": "/B1{fail} /c test.c",
+      "catalog_id": "child-failure",
+      "accepted_from": 231,
+      "accepted_count": 231
+    },
+    "remaining-child-not-found": {
+      "arguments": "/B1does-not-exist.exe /c test.c",
+      "catalog_id": "child-not-found",
+      "accepted_from": 231,
+      "accepted_count": 232
+    },
+    "remaining-two-sources": {
+      "arguments": "call.c helper.c /Fetwo.exe",
+      "catalog_id": "two-sources",
+      "accepted_from": 232,
+      "accepted_count": 232
+    },
+    "remaining-environment-precedence": {
+      "arguments": "/c test.c",
+      "catalog_id": "environment-precedence",
+      "accepted_from": 232,
+      "accepted_count": 232
+    },
+    "remaining-include-search-list": {
+      "arguments": "/c /X preprocess.c",
+      "catalog_id": "include-search-list",
+      "accepted_from": 232,
+      "accepted_count": 232
+    },
+    "remaining-include-search-expansion": {
+      "arguments": "/c preprocess.c",
+      "catalog_id": "include-search-expansion",
+      "accepted_from": 232,
+      "accepted_count": 233
+    },
+    "remaining-include-unquoted-space": {
+      "arguments": "/c preprocess.c",
+      "catalog_id": "include-unquoted-space",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-legacy-omf-selector": {
+      "arguments": "/Bz /Bk:temp /omf test.c",
+      "catalog_id": "legacy-omf-selector",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-utc": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-utc",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-positive-sign": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-positive-sign",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-negative-offset": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-negative-offset",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-dst-start-before": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-dst-start-before",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-dst-start-after": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-dst-start-after",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-dst-end-before": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-dst-end-before",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-dst-end-after": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-dst-end-after",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-early-year": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-early-year",
+      "accepted_from": 233,
+      "accepted_count": 233
+    },
+    "remaining-timing-old-april-rule": {
+      "arguments": "/Bt /c test.c",
+      "catalog_id": "timing-old-april-rule",
+      "accepted_from": 233,
+      "accepted_count": 233
     }
   }
 }

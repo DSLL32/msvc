@@ -366,7 +366,7 @@ int parse_option(char **args, int *index)
         free_items(expanded);
         for (p = removed; p; p = p->next) {
             if (p->origin) {
-                old_rule = ((Item *)p->origin)->origin;
+                old_rule = p->origin;
                 if (old_rule->conflicts) {
                     expanded = expand_options(old_rule->conflicts, p);
                     free_items(select_options(&result, expanded, NULL));
@@ -1136,7 +1136,7 @@ void initialize_pass(Driver *d)
     int kind = d->current_input->kind, index = d->pass_index;
     char *directory;
     if (!d->programs[kind][index]) d->programs[kind][index] = join_path(d->directory, pass->executable);
-    if (pass->field14) d->loaders[kind][index] = join_path(d->directory, pass->field14);
+    if (pass->loader) d->loaders[kind][index] = join_path(d->directory, pass->loader);
     if (pass->alternate) {
         directory = program_directory(d->programs[kind][index]);
         d->message_files[kind][index] = join_path(directory, pass->alternate);

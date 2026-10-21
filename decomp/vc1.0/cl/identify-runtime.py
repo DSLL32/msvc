@@ -7,7 +7,7 @@ from collections import defaultdict
 from pathlib import Path
 from importlib.machinery import SourceFileLoader
 from binary import PE, COFF, archive, match_section
-from compare import imports
+from compare import imports, publics
 
 wt = SourceFileLoader('wine_tool', 'wine-tool.py').load_module()
 path = sys.argv[1] if len(sys.argv) > 1 else wt.TC / 'bin/CL.EXE'
@@ -36,6 +36,10 @@ for name, data in objects:
             candidates.append((text, start, records))
 
 import_targets = {r['name'][7:]: r['start'] for r in imports(pe)}
+config = json.loads(Path('functions.json').read_text())
+is_original = str(path).endswith('bin/CL.EXE')
+source_targets = ({r['name']: r['start'] for r in config['driver']} if is_original else
+                  {name: address for name, address in publics().items() if name in {r['name'] for r in config['driver']}})
 # Identical masked code can call unrelated functions: remove/rmdir, new/delete,
 # setargv/getpid and spawnv/spawnvp are examples. Resolve those relocations.
 while True:
@@ -59,6 +63,8 @@ while True:
                 if name.startswith('_') and '@' in name:
                     target = import_targets.get(name[1:].rsplit('@', 1)[0])
                     expected = set() if target is None else {target}
+                elif name in source_targets:
+                    expected = {source_targets[name]}
                 elif name in known:
                     expected = known[name]
             if expected is not None and actual - addend not in expected:

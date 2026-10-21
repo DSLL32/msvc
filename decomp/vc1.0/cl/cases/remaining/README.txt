@@ -1,31 +1,38 @@
 Candidate cases for the remainder of CL.EXE
 ==========================================
 
-42 cases were run against the original 1.0-nt CL.EXE. Function-entry breakpoints
-observed 24 of the 25 remaining named driver functions. All cases reached their
-expected targets and exit statuses, except the explicitly marked OMF investigation
-which confirmed that its intended target was not reached. coverage.json records
-each run's raw stdout, stderr, entry events, exit status and target list.
+All 42 catalog cases now pass paired masked-original/reconstruction verification,
+as do three explicit internal-state cases and nine additional timezone cases.
+The reconstruction has 110 source functions: all 104 native driver functions
+and six differing CRT functions. functions.json records 233 accepted frontiers
+across these and the three original cases. make replay verifies every frontier;
+make check verifies every completed case. No indexed source function is stubbed.
 
-This is discovery evidence, not reconstruction acceptance or branch coverage.
-The reconstruction still has 76 source functions and 181 accepted frontiers
-across the existing help, minimal-C and optimized Win32 cases. No new functions
-were accepted by these probes. The remaining-function denominator comes from
-functions.json's driver list; it does not count every unreached CRT function.
+coverage.json preserves the earlier original-only entry-probe observations,
+which reached 24 of the then-known 25 remaining driver entries. Further paired
+traps identified additional diagnostic, IDE and forced-input helpers and two
+older CRT routines. That historical report is discovery evidence. validation.json
+is the completed paired-case evidence; neither report is branch coverage.
 
 Run from decomp/vc1.0/cl:
 
-    make -j2 probe
-    python3 probe-cases.py nested-response conflicting-options
-    python3 probe-cases.py --update interrupt-idle interrupt-child
+    make -j2 check
+    make replay
+    python3 remaining.py nested-response conflicting-options
+    python3 remaining.py --replay timing
+    python3 remaining.py --all
 
-make probe builds the debugger and controlled pass helpers with the original
-toolchain. A positional list selects cases; --update retains unselected results
-from the last scratch report. Reports, captured streams, prepared inputs and
-generated artifacts live under ~/.ai-tmp/vc1.0-cl/probes. The runner uses CL's
-private Wine prefix. It verifies the original executable's SHA-256, patches only
-the running process, and never modifies the executable on disk. Normal make
-check still checks the three completed paired reconstruction cases.
+Original-only entry discovery remains available with make -j2 probe and
+probe-cases.py. It does not accept reconstruction functions.
+
+The original toolchain builds paired-run.c, debug-run.c and the controlled pass
+helpers. Each original/reconstruction pair runs concurrently. Three private Wine
+prefixes under ~/.ai-tmp/vc1.0-cl/remaining expose separate storage at the same
+Q: working path; this permits exact comparison of IDE and preprocessor filenames.
+The base private prefix is used only for building tools and the original cases.
+No original executable on disk is modified. Runtime masks are rebuilt from the
+verified original hash and accepted function ranges. Per-case streams, events,
+products and validation records remain under the same scratch directory.
 
 Case groups
 -----------
@@ -81,46 +88,88 @@ Control handler:
   until the callback completes. The traces verify child_running=0 and 1,
   respectively, and both CL processes return 4. These test callback behavior;
   they do not test OS console-event delivery, which did not work in this Wine
-  environment. They will need equivalent dispatch in the paired harness.
+  environment. paired-run.c supplies the same dispatch to both masked images and
+  the unmodified original, asserting each child_running state.
 
-Unreached legacy path:
+Legacy selector investigation:
   legacy-omf-selector.
   /omf does not select OMF here: CL interprets it as /o mf and retains COFF
   output. The grammar's internal ^omf selector is gated during fixed default
   parsing; user arguments, environment arguments and response files do not
   expose it in the paths inspected. No public selector has been found for
-  _write_omf_response. A separate internal-state case would be needed to reach
-  that legacy writer. The catalog marks this as an investigation, not coverage.
+  _write_omf_response. The catalog retains this as an investigation case. The
+  writer is now reconstructed and verified by the internal-state cases below.
 
-Suggested reconstruction order
-------------------------------
+Compact behavioral subset
+-------------------------
 
-The following 17 observed cases collectively reach all 24 newly reached function
-entries. This is a greedy compact starting set, not a claim of branch coverage:
+The following 17 catalog cases were the original compact starting set. They
+remain a useful subset, while make check and make replay retain all distinct
+success, failure and environment cases:
 
     missing-option-value conflicting-options required-option-present dll-output
     ide-feedback timing interrupt-child usage override-side-effects
     nested-response link-tail force-cpp force-object undefine-predefines
     assembly-listing map-and-renamed-output pass-loader
 
-Start with usage and diagnostic cases, then option/response handling, then pass
-dispatch and output cases. Add interrupt-idle to cover the other handler state,
-and retain the other candidates for their distinct behavior and failure paths.
-For each case, use the established masked-original/INT3 reconstruction workflow;
-the probe itself must not add entries to the accepted list.
+Paired validation
+-----------------
 
-Future paired verification
---------------------------
+Each completed case compares its exit status, raw stdout/stderr, the complete
+set of input/output filenames and every product byte with the masked and
+unmodified original. validation.json records raw and normalized product hashes,
+stream contents/hashes, debugger events, and exact excluded timestamp offsets.
+The expected nonzero statuses are intentional: diagnostic/compiler failures
+return 2; interrupt callbacks return 4. The original INCLUDE-space failure is
+preserved. The original C1/C2/LINK children are used for successful builds.
 
-The expected nonzero exits are intentional: diagnostics and compiler failures
-return 2, and the controlled interrupt cases return 4. The catalog records each
-expected status. Only legacy-omf-selector is allowed to miss its target.
+Artifact normalization excludes only parsed timestamp fields:
+  - Four-byte COFF TimeDateStamp fields in objects and PE headers.
+  - Four-byte export-directory TimeDateStamp fields in DLLs and .edata objects.
+  - Twelve-byte archive-member decimal modification times and the preceding
+    COFF/export timestamp fields in embedded object members.
+  - The LINK map's single " Timestamp is ..." line, containing its hexadecimal
+    timestamp and textual calendar rendering.
+All remaining bytes, including linker padding, symbol records, listing text,
+preprocessor output and retained linker responses, must match exactly. No path
+normalization is used. The original three cases also run the generated minimal
+program and validate the GUI paint/close behavior.
 
-/Bt measures wall-clock duration; strict output comparison needs a controlled
-clock in both processes. IDE feedback includes the absolute Windows working
-directory, so paired cases need identical visible paths with isolated storage.
-Recorded timing and path output are observations, not portable golden bytes.
-DLL, import-library, map and object products need their own documented artifact
-oracles, accounting precisely for timestamp fields. These probes assert entry
-hits and process completion; they do not yet assert artifact equivalence for
-the new cases. Successful compilation uses the original C1/C2/LINK children.
+/Bt receives a controlled GetLocalTime API result. The debugger supplies the
+same date and 00.900s initial time to each process, then advances by 1.225s per
+API call. This exercises the millisecond borrow in report_timer and preserves
+execution of the timer, timezone parser, DST logic and time conversions. Four
+clock calls must occur per two-pass case. extra.json adds UTC, signed offsets
+with minutes/seconds, April and October transition dates, a pre-1967 date, and
+the older pre-1987 April rule. These are the original CRT rules, not modern OS
+DST policy. /FEEDBACK uses identical visible Q: paths in independent prefixes.
+
+Explicit internal-state cases
+----------------------------
+
+internal.json documents the exact state inputs; they are not public selector
+claims. paired-run.c installs a one-shot entry breakpoint only when the relevant
+function is already accepted. A masked entry remains an ordinary frontier.
+
+internal-omf-dryrun:
+  At link_pass entry, set coff_format to zero in both processes and the baseline.
+  Retain the current pass record. /Bz prints the positional legacy response,
+  including the supplied raw linker option, without invoking a linker.
+
+internal-omf-file:
+  Apply the same selector input, then write the response with two object, two
+  library and two definition inputs. A replacement linker returns 7 without
+  reading these dummy inputs, making CL return 2. /Bk:temp retains the response;
+  this original syntax includes the colon in its prefix, yielding :templk.
+  The retained response must match byte for byte with no normalization.
+
+internal-ide-null-buffer:
+  At ide_message entry, clear the installed frame pointer. The original and
+  reconstructed registered assertion callbacks then invoke fatal(0), emit the
+  same D2000 diagnostic, and return process status 2.
+
+The two interrupt catalog cases are controlled callback tests. They verify the
+registered stdcall callback, child state and status 4; OS console-event delivery
+is outside their assertion. Unvisited CRT text remains masked, so future cases
+may still discover additional library frontiers even though all native driver
+functions are reconstructed.

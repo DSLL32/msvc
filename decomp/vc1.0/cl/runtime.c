@@ -141,3 +141,61 @@ int _filbuf(FILE *stream)
     --stream->_cnt;
     return (unsigned char)*stream->_ptr++;
 }
+
+/* [00020180,000202db): older timezone parser, reached by the timer. */
+#include <time.h>
+void __tzset(void)
+{
+    static char *previous;
+    char *zone = getenv("TZ"), *a, *b;
+    int negative = 0, difference;
+    if (!zone || !*zone) return;
+    if (previous) {
+        a = zone; b = previous;
+        do {
+            difference = (unsigned char)*a - (unsigned char)*b;
+            if (difference || !*a) break;
+            ++a; ++b;
+        } while (1);
+        if (!difference) return;
+    }
+    free(previous);
+    previous = strdup(zone);
+    strncpy(_tzname[0], zone, 3);
+    zone += 3;
+    if (*zone == '-') { negative = 1; ++zone; }
+    _timezone = atol(zone) * 3600;
+    while (*zone == '+' || (*zone >= '0' && *zone <= '9')) ++zone;
+    if (*zone == ':') {
+        ++zone;
+        _timezone += atol(zone) * 60;
+        while (*zone >= '0' && *zone <= '9') ++zone;
+        if (*zone == ':') {
+            ++zone;
+            _timezone += atol(zone);
+            while (*zone >= '0' && *zone <= '9') ++zone;
+        }
+    }
+    if (negative) _timezone = -_timezone;
+    _daylight = *zone;
+    if (_daylight) strncpy(_tzname[1], zone, 3);
+    else _tzname[1][0] = 0;
+}
+
+/* [000202e0,000203a3) */
+int _isindst(struct tm *value)
+{
+    static int month_days[] = { -1, 30, 58, 89, 119, 150, 180, 211, 242, 272, 303, 333, 364 };
+    int year = value->tm_year, month = value->tm_mon, transition;
+    if (year < 67 || month < 3 || month > 9) return 0;
+    if (month > 3 && month < 9) return 1;
+    if (year > 86 && month == 3) transition = month_days[month] + 7;
+    else transition = month_days[month + 1];
+    if (!(year & 3)) ++transition;
+    transition -= (365 * year + (year - 1) / 4 + transition - 25563) % 7;
+    if (month == 3)
+        return transition < value->tm_yday ||
+               (transition == value->tm_yday && value->tm_hour >= 2);
+    return transition > value->tm_yday ||
+           (transition == value->tm_yday && value->tm_hour < 1);
+}

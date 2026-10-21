@@ -1,6 +1,8 @@
 Visual C++ 1.0 for NT: CL.EXE reconstruction
 
-Completed cases: CL.EXE /?; CL.EXE test.c; CL.EXE /O2 /G5 hello.c
+Completed cases: CL.EXE /?; CL.EXE test.c; CL.EXE /O2 /G5 hello.c;
+all 42 cases in cases/remaining/catalog.json. Nine additional timezone cases
+and three explicitly internal-state cases also pass paired verification.
 test.c contains: int main () { return 0; }
 hello.c includes windows.h and draws "Hello, world!" in a Win32 window.
 Its pragma library directives select USER32.LIB and GDI32.LIB.
@@ -22,11 +24,11 @@ The normal build produces build/original.exe and build/reconstructed.exe.
 Every code-section byte starts as INT3; only the functions recorded as accepted
 in functions.json, and their shared code/data ranges, are restored. The original
 file's hash is checked before masking. build/cl.exe is the unmasked intermediate
-linked by the original compiler/toolchain. Source stubs are in stubs.c.
+linked by the original compiler/toolchain. stubs.c is reserved for future named stubs.
 
 make check runs the masked original and reconstruction concurrently under the
-small NT debugger in debug-run.c. It compares logical trap sites, or compares
-exit status and both raw output streams on completion. A completed run is also
+NT debuggers in debug-run.c and paired-run.c. They compare logical trap sites,
+or compare exit status and both raw output streams on completion. A completed run is also
 checked against the unmodified original. Child stdin is closed and stdout and
 stderr are captured separately; this preserves CL's help pagination prompts
 and CRLF translation. Compile runs use separate working directories under
@@ -43,29 +45,53 @@ The compiler phases and linker invoked as child processes are the original
 toolchain binaries. This reconstruction targets the CL driver.
 
 make replay restores the accepted list one function at a time, beginning with
-both entry points masked. It asserts the 140 help frontiers, then the 40 new
-compile frontiers, then the one new hello frontier, and checks each completed
-case. functions.json records the
-case boundaries. Its output can be saved outside build/ if it needs to survive
-make clean.
+both entry points masked. It asserts all 233 recorded frontiers: the original
+140 help, 40 compile and one hello frontiers, followed by 52 frontiers across
+the remaining cases. It then checks each completed case. functions.json records
+the case boundaries; every accepted frontier belongs to exactly one replay case.
+Its output can be saved outside build/ if it needs to survive make clean.
 
 The /? case prints 3,192 bytes to stdout and 131 bytes to stderr, with exit 0.
-The implementation includes 76 source functions and passes 181 recorded trap
-frontiers across three cases. The minimal compile case produces a 286-byte
-object; the optimized window case produces a 2,289-byte object. Both executables
+The implementation includes 110 source functions and passes 233 recorded trap
+frontiers across 57 cases. All 104 native driver functions in the contiguous
+[00017010,0001b081) region are reconstructed, as are six differing CRT routines.
+Accepted function extents cover 37,136 of the original 40,966 .text bytes
+(90.65%); these figures measure accepted extents, not executed branch coverage.
+The minimal compile case produces a 286-byte object; the optimized window case produces a 2,289-byte object. Both executables
 are 2,097,152 bytes. /O2 /G5 exercises detaching overridden options from the
-option list. Other paths remain incomplete and will encounter named INT3 stubs.
+option list. The remaining .text bytes belong to unvisited CRT paths and stay
+masked. New cases may therefore still encounter CRT frontiers.
 
-cases/remaining/catalog.json contains 42 additional candidate cases. Original-only
-entry probes reached 24 of the 25 remaining named driver functions; the legacy
-OMF response writer remains unreached. Run make -j2 probe to repeat discovery.
-cases/remaining/README.txt explains the cases, recommended starting set, and
-measurement limits; coverage.json preserves the observed streams and events.
-These are reconstruction inputs, not additional completed reconstruction cases.
+cases/remaining/catalog.json contains 42 catalog cases; internal.json adds the
+OMF and IDE assertion cases, and extra.json adds timezone/DST cases. make check
+runs all of them. remaining.py prepares each original/reconstruction pair in
+parallel, with independent Wine prefixes exposing identical Q: working paths.
+Every completed case compares exit status, raw stdout/stderr, product filenames,
+and all product bytes against the unmodified original. Only parsed COFF, PE
+export-directory, archive-member and map timestamp fields are excluded from
+artifact comparison. validation.json under cases/remaining records the results.
+
+/Bt uses a controlled GetLocalTime API input, stepping from 00.900s in 1.225s
+increments. The CL timer, older CRT timezone parser, DST routine, and time
+conversion routines execute normally. Additional dates exercise the original
+April/October rules, pre-1967 behavior, and signed offsets with minutes/seconds.
+Both interrupt cases call the registered stdcall handler on a new thread; they
+verify child_running=0 and 1 and exit 4, without claiming OS console delivery.
+
+/omf is still parsed as /o mf by this binary. The legacy OMF writer is verified
+by setting coff_format=0 at accepted link_pass entry in both processes, retaining
+the current pass record. One case prints the response; another writes it with
+multiple object/library/definition inputs and substitutes a controlled linker
+that returns 7. A third internal case clears the installed IDE frame pointer to
+reach its assertion callback. These cases do not claim public reachability.
+See cases/remaining/README.txt for the exact harness behavior and commands.
+coverage.json remains the initial original-only discovery record.
 
 cl.c contains the driver main and its SEH frame. driver.c contains reconstructed
 argument parsing, option grammar expansion, option-list handling, setup, help
 display, compiler/linker invocation, response-file generation, and cleanup.
+remaining.c contains the additional switch handlers, response-file parsing,
+diagnostics, IDE transport, timers, control callback and legacy OMF writer.
 data.c contains the original option grammar and mutable compiler
 pass profiles. cl.h records the 32-bit layouts and calling conventions.
 
@@ -81,17 +107,20 @@ The strcat and strcpy entries share an implementation, which is recorded as a
 separate shared range so accepting strcat does not silently accept strcpy's
 entry point.
 
-Four CRT functions differ from the shipped library and are implemented in
-runtime.c: setvbuf, _freebuf, _sopen, and _filbuf. The stream routines preserve
-CL's older buffer flags; _sopen preserves the original exact one-byte read test
-before inspecting a trailing control-Z. audit-graph.py compares the direct
-callee sets and presence of indirect calls for every implemented source
+Six reached CRT functions differ from the shipped library and are implemented
+in runtime.c: setvbuf, _freebuf, _sopen, _filbuf, __tzset, and _isindst. The stream
+routines preserve CL's older buffer flags; _sopen preserves the original exact one-byte read test
+before inspecting a trailing control-Z. The older timezone parser uses the TZ
+string and retains the original defaults when it is absent; the older DST
+routine implements its original April/October rules. identify-runtime.py also
+checks relocations against source replacements when validating library callers.
+audit-graph.py compares the direct callee sets and presence of indirect calls for every implemented source
 function. The grammar and callback data preserve indirect dispatch.
 
 functions.json is the durable progress record. Addresses are original virtual
-addresses at image base 0x10000; the entry point is 0x1c750. Unknown callees have
-named stubs. One-byte ranges on some unreconstructed callbacks identify entry
-sites only; their complete extents must be established when reached.
+addresses at image base 0x10000; the entry point is 0x1c750. All indexed source
+functions have full extents and implementations. stubs.c is now empty. Unvisited library routines remain masked; future non-library callees
+should receive named trapping stubs until reconstructed.
 
 To continue, build and run another case with:
 
@@ -107,3 +136,13 @@ advances through exact original-library matches, asserting each matching trap
 before accepting it. This defaults to /?; supply --case for another case.
 Use make replay for all recorded case sequences. cases/help.json,
 cases/compile.json, and cases/hello.json record output hashes and validation.
+
+To repeat a completed additional case, use:
+
+    python3 remaining.py nested-response
+    python3 remaining.py --all
+    python3 remaining.py --replay timing
+
+Original-only discovery is still available with make probe. The historical
+coverage report is not the reconstruction acceptance record; functions.json and
+paired replay provide that record.
