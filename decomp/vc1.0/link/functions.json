@@ -1,0 +1,530 @@
+{
+  "accepted": [
+    "_mainCRTStartup",
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "__heap_init",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "__setargv",
+    "import:GetModuleFileNameA",
+    "_parse_cmdline",
+    "_malloc",
+    "__heap_search",
+    "__heap_grow",
+    "__heap_new_region",
+    "import:VirtualAlloc",
+    "__heap_grow_region",
+    "__heap_addblock",
+    "__heap_findaddr",
+    "__heap_grow_emptylist",
+    "__before",
+    "__heap_split_block",
+    "__setenvp",
+    "__cinit",
+    "__fpmath",
+    "__cfltcvt_init",
+    "__setdefaultprecision",
+    "__controlfp",
+    "__control87",
+    "__abstract_cw",
+    "__hw_cw",
+    "__initterm",
+    "_main",
+    "import:SetConsoleCtrlHandler",
+    "_strncmp",
+    "_debug_initialize",
+    "_getenv",
+    "__strnicmp",
+    "_debug_enabled",
+    "_files_initialize",
+    "import:GetModuleHandleA",
+    "import:GetProcAddress",
+    "import:LoadLibraryA",
+    "_new_page",
+    "_calloc",
+    "_new_file_slot",
+    "__splitpath",
+    "_strncpy",
+    "__strupr",
+    "_setvbuf",
+    "__flush",
+    "__freebuf",
+    "_linker_main",
+    "_initialize_log",
+    "_create_image",
+    "_initialize_symbols",
+    "_initialize_hash",
+    "_collect_arguments",
+    "_collect_search_path",
+    "_strtok",
+    "_append_argument",
+    "_append_argument_node",
+    "_classify_argument",
+    "_process_options",
+    "_parse_switch",
+    "_strchr",
+    "_link_usage",
+    "_free",
+    "_print_banner",
+    "_printf",
+    "__stbuf",
+    "__isatty",
+    "__output",
+    "_write_char",
+    "__flsbuf",
+    "__write",
+    "import:WriteFile",
+    "_get_int_arg",
+    "_write_multi_char",
+    "_write_string",
+    "__ftbuf",
+    "_fflush",
+    "_exit",
+    "_doexit",
+    "__endstdio",
+    "__flushall",
+    "_flsall",
+    "__rmtmp",
+    "import:ExitProcess"
+  ],
+  "target": {
+    "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+  },
+  "driver": [
+    {
+      "name": "_main",
+      "start": 158528,
+      "end": 159712,
+      "implementation": "C",
+      "abi": "cdecl int(int argc,char **argv)"
+    },
+    {
+      "name": "_linker_main",
+      "start": 97952,
+      "end": 98800,
+      "implementation": "assembly",
+      "source": "linker.c",
+      "abi": "cdecl int(int argc,char **argv)"
+    },
+    {
+      "name": "_library_main",
+      "start": 188464,
+      "end": 188465
+    },
+    {
+      "name": "_dumper_main",
+      "start": 196320,
+      "end": 196321
+    },
+    {
+      "name": "_editor_main",
+      "start": 161952,
+      "end": 161953
+    },
+    {
+      "name": "_helper_main",
+      "start": 159712,
+      "end": 159824
+    },
+    {
+      "name": "_driver_usage",
+      "start": 159824,
+      "end": 159984
+    },
+    {
+      "name": "_control_handler@4",
+      "start": 159984,
+      "end": 160000,
+      "implementation": "C",
+      "abi": "stdcall BOOL(DWORD event); callee pops 4 bytes"
+    },
+    {
+      "name": "_link_cleanup",
+      "start": 251504,
+      "end": 251505
+    },
+    {
+      "name": "_debug_initialize",
+      "start": 239440,
+      "end": 239744,
+      "implementation": "C",
+      "abi": "cdecl void(char *flags,char *environment_variable)"
+    },
+    {
+      "name": "_debug_enabled",
+      "start": 240000,
+      "end": 240016,
+      "implementation": "C",
+      "abi": "cdecl int(int flag)"
+    },
+    {
+      "name": "_files_initialize",
+      "start": 245792,
+      "end": 246192,
+      "implementation": "C",
+      "abi": "cdecl void(int pages,int mapped_limit,int mapped_open,int normal_limit,int normal_open,int mapped,void (*failure)(char *,int,char *))"
+    },
+    {
+      "name": "_file_failure",
+      "start": 158480,
+      "end": 158528
+    },
+    {
+      "name": "_print_banner",
+      "start": 152816,
+      "end": 152992,
+      "implementation": "C",
+      "source": "usage.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_new_page",
+      "start": 250112,
+      "end": 250176,
+      "implementation": "C",
+      "abi": "cdecl Page *(void)"
+    },
+    {
+      "name": "_new_file_slot",
+      "start": 246192,
+      "end": 246256,
+      "implementation": "C",
+      "abi": "cdecl FileSlot *(void)"
+    },
+    {
+      "name": "__cfltcvt_init",
+      "start": 339200,
+      "end": 339264,
+      "library": "LIBC.LIB",
+      "evidence": "fpinit.obj relocation-only initialization"
+    },
+    {
+      "name": "_process_options",
+      "start": 99280,
+      "end": 106064,
+      "implementation": "assembly",
+      "source": "options.c",
+      "abi": "cdecl void(Image *image,int from_directives,int unused2,int unused3)"
+    },
+    {
+      "name": "_create_image",
+      "start": 94208,
+      "end": 94368,
+      "implementation": "assembly",
+      "source": "image.c",
+      "abi": "cdecl void(Image **output)"
+    },
+    {
+      "name": "_unreconstructed_000181f0",
+      "start": 98800,
+      "end": 98801,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0001a620",
+      "start": 108064,
+      "end": 108065,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0001f390",
+      "start": 127888,
+      "end": 127889,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0001f770",
+      "start": 128880,
+      "end": 128881,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_initialize_log",
+      "start": 130144,
+      "end": 130416,
+      "implementation": "assembly",
+      "source": "repro.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_unreconstructed_0001fe00",
+      "start": 130560,
+      "end": 130561,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_link_usage",
+      "start": 131424,
+      "end": 131888,
+      "implementation": "C",
+      "source": "usage.c",
+      "abi": "cdecl void(void); exits with status 3"
+    },
+    {
+      "name": "_collect_arguments",
+      "start": 132080,
+      "end": 132432,
+      "implementation": "assembly",
+      "source": "arguments.c",
+      "abi": "cdecl void(int argc,char **argv,char *environment_variable)"
+    },
+    {
+      "name": "_unreconstructed_00020d70",
+      "start": 134512,
+      "end": 134513,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_00021830",
+      "start": 137264,
+      "end": 137265,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_00027130",
+      "start": 160048,
+      "end": 160049,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0003c470",
+      "start": 246896,
+      "end": 246897,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0003c6d0",
+      "start": 247504,
+      "end": 247505,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0003c870",
+      "start": 247920,
+      "end": 247921,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0003caf0",
+      "start": 248560,
+      "end": 248561,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0003cc20",
+      "start": 248864,
+      "end": 248865,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_setvbuf",
+      "start": 336688,
+      "end": 336880,
+      "implementation": "C",
+      "abi": "cdecl int(FILE *stream,char *buffer,int mode,unsigned size)"
+    },
+    {
+      "name": "__freebuf",
+      "start": 349840,
+      "end": 349904,
+      "implementation": "C",
+      "abi": "cdecl void(FILE *stream)"
+    },
+    {
+      "name": "_fatal_message",
+      "start": 137424,
+      "end": 137425,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_out_of_memory",
+      "start": 137616,
+      "end": 137617,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_initialize_symbols",
+      "start": 156048,
+      "end": 156128,
+      "implementation": "assembly",
+      "source": "symbols.c",
+      "abi": "cdecl void(SymbolTable **output)"
+    },
+    {
+      "name": "_unreconstructed_00026220",
+      "start": 156192,
+      "end": 156193,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_initialize_hash",
+      "start": 157136,
+      "end": 157360,
+      "implementation": "assembly",
+      "source": "symbols.c",
+      "abi": "cdecl void(HashTable **output,unsigned size,unsigned buckets,HashFunction callback,unsigned flags)"
+    },
+    {
+      "name": "_collect_search_path",
+      "start": 131888,
+      "end": 132080,
+      "implementation": "assembly",
+      "source": "arguments.c",
+      "abi": "cdecl void(char *environment_variable,ArgumentList *output)"
+    },
+    {
+      "name": "_unreconstructed_00020550",
+      "start": 132432,
+      "end": 132433,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_classify_argument",
+      "start": 132832,
+      "end": 133488,
+      "implementation": "assembly",
+      "source": "arguments.c",
+      "abi": "cdecl void(char *text,int copy)"
+    },
+    {
+      "name": "_unreconstructed_000219d0",
+      "start": 137680,
+      "end": 137681,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_append_argument",
+      "start": 133584,
+      "end": 133616,
+      "implementation": "assembly",
+      "source": "arguments.c",
+      "abi": "cdecl void(ArgumentList *list,char *text)"
+    },
+    {
+      "name": "_append_argument_node",
+      "start": 133488,
+      "end": 133584,
+      "implementation": "assembly",
+      "source": "arguments.c",
+      "abi": "cdecl Argument *(ArgumentList *list,char *text,char *original)"
+    },
+    {
+      "name": "_unreconstructed_00020630",
+      "start": 132656,
+      "end": 132657,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_000210d0",
+      "start": 135376,
+      "end": 135377,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_00017a60",
+      "start": 96864,
+      "end": 96865,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0001fd70",
+      "start": 130416,
+      "end": 130417,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_000219b0",
+      "start": 137648,
+      "end": 137649,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_00025830",
+      "start": 153648,
+      "end": 153649,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_00025cd0",
+      "start": 154832,
+      "end": 154833,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_000357a0",
+      "start": 219040,
+      "end": 219041,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_000357d0",
+      "start": 219088,
+      "end": 219089,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_00035890",
+      "start": 219280,
+      "end": 219281,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_append_text",
+      "start": 221520,
+      "end": 221521,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_parse_switch",
+      "start": 238976,
+      "end": 239376,
+      "implementation": "C",
+      "source": "parse-switch.c",
+      "abi": "cdecl ParsedSwitch *(char *text)"
+    },
+    {
+      "name": "_unreconstructed_0003a710",
+      "start": 239376,
+      "end": 239377,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_0003b9d0",
+      "start": 244176,
+      "end": 244177,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_00051550",
+      "start": 333136,
+      "end": 333137,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_unreconstructed_000516b0",
+      "start": 333488,
+      "end": 333489,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "_release_text",
+      "start": 221600,
+      "end": 221601,
+      "implementation": "stub-asm"
+    },
+    {
+      "name": "__lseek",
+      "start": 351152,
+      "end": 351153,
+      "implementation": "runtime-stub",
+      "abi": "cdecl long(int fd,long offset,int origin); entry only until reached"
+    }
+  ],
+  "c_stub_references": [
+    "_release_text"
+  ]
+}

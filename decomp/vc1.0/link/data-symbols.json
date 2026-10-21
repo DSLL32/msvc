@@ -1,0 +1,1070 @@
+[
+  {
+    "address": 377892,
+    "name": "tool_name",
+    "size": 4,
+    "owner": "link.c"
+  },
+  {
+    "address": 377896,
+    "name": "executable_path",
+    "size": 4,
+    "owner": "link.c"
+  },
+  {
+    "address": 377964,
+    "name": "tool_kind",
+    "size": 4,
+    "owner": "link.c"
+  },
+  {
+    "address": 522432,
+    "name": "program_name",
+    "size": 4,
+    "owner": "link.c"
+  },
+  {
+    "address": 376840,
+    "name": "debug_flags",
+    "size": 256,
+    "owner": "driver.c"
+  },
+  {
+    "address": 506336,
+    "name": "abort_link",
+    "size": 1,
+    "owner": "link.c"
+  },
+  {
+    "address": 505972,
+    "name": "abort_file",
+    "size": 256,
+    "owner": "link.c"
+  },
+  {
+    "address": 505968,
+    "name": "abort_phase",
+    "size": 4,
+    "owner": "link.c"
+  },
+  {
+    "address": 506296,
+    "name": "debug_requested",
+    "size": 1,
+    "owner": "link.c"
+  },
+  {
+    "address": 377912,
+    "name": "debug_display",
+    "size": 4,
+    "owner": "link.c"
+  },
+  {
+    "address": 376832,
+    "name": "files",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 453944,
+    "name": "file_limit",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 453948,
+    "name": "open_limit",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 453956,
+    "name": "statistics",
+    "size": 60,
+    "owner": "files.c"
+  },
+  {
+    "address": 520572,
+    "name": "mapping_create",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520576,
+    "name": "mapping_map",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520580,
+    "name": "mapping_unmap",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520592,
+    "name": "free_pages",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520604,
+    "name": "file_count",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520612,
+    "name": "page_limit",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520616,
+    "name": "page_count",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520620,
+    "name": "free_files",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520636,
+    "name": "failure",
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "address": 520640,
+    "name": "mapped_files",
+    "size": 1,
+    "owner": "files.c"
+  },
+  {
+    "address": 544848,
+    "name": "_iob",
+    "size": 640,
+    "owner": "LIBC.LIB"
+  },
+  {
+    "address": 377064,
+    "name": "incremental_file",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 377860,
+    "name": "image_output",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 377876,
+    "name": "link_phase",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 500364,
+    "name": "incremental_requested",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 500384,
+    "name": "vxd_image",
+    "size": 1,
+    "owner": "linker.c"
+  },
+  {
+    "address": 500392,
+    "name": "debug_options",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 500436,
+    "name": "link_environment",
+    "size": 5,
+    "owner": "linker.c"
+  },
+  {
+    "address": 505692,
+    "name": "empty_argument",
+    "size": 1,
+    "owner": "linker.c"
+  },
+  {
+    "address": 505708,
+    "name": "output_name",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 505744,
+    "name": "map_stream",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 505912,
+    "name": "output_file_size",
+    "size": 4,
+    "owner": "linker.c"
+  },
+  {
+    "address": 505944,
+    "name": "small_alignment",
+    "size": 1,
+    "owner": "linker.c"
+  },
+  {
+    "address": 506400,
+    "name": "incremental_explicit",
+    "size": 1,
+    "owner": "linker.c"
+  },
+  {
+    "address": 505160,
+    "name": "image_option_defaults",
+    "size": 72,
+    "owner": "image.c"
+  },
+  {
+    "address": 505232,
+    "name": "file_header_defaults",
+    "size": 20,
+    "owner": "image.c"
+  },
+  {
+    "address": 505256,
+    "name": "optional_header_defaults",
+    "size": 224,
+    "owner": "image.c"
+  },
+  {
+    "address": 505152,
+    "name": "dll_extension",
+    "size": 5,
+    "owner": "image.c"
+  },
+  {
+    "address": 377956,
+    "name": "repro_stream",
+    "size": 4,
+    "owner": "repro.c"
+  },
+  {
+    "address": 377960,
+    "name": "repro_directory",
+    "size": 4,
+    "owner": "repro.c"
+  },
+  {
+    "address": 502436,
+    "name": "repro_environment",
+    "size": 11,
+    "owner": "repro.c"
+  },
+  {
+    "address": 502448,
+    "name": "current_directory",
+    "size": 2,
+    "owner": "repro.c"
+  },
+  {
+    "address": 502452,
+    "name": "repro_filename",
+    "size": 10,
+    "owner": "repro.c"
+  },
+  {
+    "address": 502464,
+    "name": "repro_open_mode",
+    "size": 3,
+    "owner": "repro.c"
+  },
+  {
+    "address": 377868,
+    "name": "first_argument",
+    "size": 4,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 503380,
+    "name": "library_environment",
+    "size": 4,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 503384,
+    "name": "response_open_mode",
+    "size": 3,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 505840,
+    "name": "search_paths",
+    "size": 12,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 503372,
+    "name": "path_separator",
+    "size": 2,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 503376,
+    "name": "next_path_separator",
+    "size": 2,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 377884,
+    "name": "_pgmptr",
+    "size": 4,
+    "owner": "LIBC.LIB"
+  },
+  {
+    "address": 378288,
+    "name": "stub_stream",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 495836,
+    "name": "option_delimiters",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500356,
+    "name": "dos_stub_template",
+    "size": 4,
+    "owner": "dos-stub.c"
+  },
+  {
+    "address": 500360,
+    "name": "dos_stub_size",
+    "size": 4,
+    "owner": "dos-stub.c"
+  },
+  {
+    "address": 500380,
+    "name": "strict_options",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 500388,
+    "name": "no_pack",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 500396,
+    "name": "section_overrides",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 505688,
+    "name": "system_image",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 505716,
+    "name": "export_definition",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 505724,
+    "name": "import_library_name",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 505740,
+    "name": "map_filename",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 505776,
+    "name": "switches",
+    "size": 12,
+    "owner": "options.c"
+  },
+  {
+    "address": 505792,
+    "name": "nondefault_libraries",
+    "size": 12,
+    "owner": "options.c"
+  },
+  {
+    "address": 505856,
+    "name": "included_symbols",
+    "size": 12,
+    "owner": "options.c"
+  },
+  {
+    "address": 505888,
+    "name": "merged_sections",
+    "size": 12,
+    "owner": "options.c"
+  },
+  {
+    "address": 505936,
+    "name": "verbose_link",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 505940,
+    "name": "rom_image",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 506292,
+    "name": "cvpack_program",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 506360,
+    "name": "image_comments",
+    "size": 12,
+    "owner": "options.c"
+  },
+  {
+    "address": 506372,
+    "name": "no_default_libraries",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 506396,
+    "name": "resource_filename",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 506404,
+    "name": "force_unresolved",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 506408,
+    "name": "warning_level",
+    "size": 2,
+    "owner": "options.c"
+  },
+  {
+    "address": 500520,
+    "name": "repro_option_format",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500528,
+    "name": "help_option",
+    "size": 2,
+    "owner": "options.c"
+  },
+  {
+    "address": 500532,
+    "name": "option_batch",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500540,
+    "name": "option_comment",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500548,
+    "name": "option_nopack",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500556,
+    "name": "option_nologo",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500564,
+    "name": "option_strict",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500572,
+    "name": "option_export",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500580,
+    "name": "option_defaultlib",
+    "size": 11,
+    "owner": "options.c"
+  },
+  {
+    "address": 500592,
+    "name": "option_opt",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500596,
+    "name": "option_ref",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500600,
+    "name": "option_noref",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500608,
+    "name": "option_nodefaultlib",
+    "size": 13,
+    "owner": "options.c"
+  },
+  {
+    "address": 500624,
+    "name": "option_nod",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500628,
+    "name": "option_out",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500632,
+    "name": "option_out_repro_format",
+    "size": 11,
+    "owner": "options.c"
+  },
+  {
+    "address": 500644,
+    "name": "option_release",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500652,
+    "name": "option_base",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500660,
+    "name": "option_txt",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500668,
+    "name": "option_base_repro_format",
+    "size": 16,
+    "owner": "options.c"
+  },
+  {
+    "address": 500684,
+    "name": "option_file_mode_7a3cc",
+    "size": 3,
+    "owner": "options.c"
+  },
+  {
+    "address": 500688,
+    "name": "scan_long_7a3d0",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500692,
+    "name": "scan_long_7a3d4",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500696,
+    "name": "scan_long_7a3d8",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500704,
+    "name": "option_brepro",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500712,
+    "name": "option_cvpack",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500720,
+    "name": "option_debug",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500728,
+    "name": "option_mapped",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500736,
+    "name": "option_notmapped",
+    "size": 10,
+    "owner": "options.c"
+  },
+  {
+    "address": 500748,
+    "name": "option_full",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500756,
+    "name": "option_partial",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500764,
+    "name": "option_minimal",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500772,
+    "name": "option_none",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500780,
+    "name": "option_merge",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500788,
+    "name": "option_ntbeta1",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500796,
+    "name": "option_debugtype",
+    "size": 10,
+    "owner": "options.c"
+  },
+  {
+    "address": 500808,
+    "name": "option_coff",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500816,
+    "name": "option_cv",
+    "size": 3,
+    "owner": "options.c"
+  },
+  {
+    "address": 500820,
+    "name": "option_cvnew",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500828,
+    "name": "option_both",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500836,
+    "name": "option_fpo",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500840,
+    "name": "option_fixup",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500848,
+    "name": "option_entry",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500856,
+    "name": "option_force",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500864,
+    "name": "option_fixed",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 500872,
+    "name": "option_absolutesfrom",
+    "size": 15,
+    "owner": "options.c"
+  },
+  {
+    "address": 500888,
+    "name": "option_map",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500892,
+    "name": "option_map_repro_format",
+    "size": 11,
+    "owner": "options.c"
+  },
+  {
+    "address": 500904,
+    "name": "option_dll",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500908,
+    "name": "option_system",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500916,
+    "name": "option_noentry",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500924,
+    "name": "option_implib",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 500932,
+    "name": "option_def",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 500940,
+    "name": "option_include",
+    "size": 9,
+    "owner": "options.c"
+  },
+  {
+    "address": 500952,
+    "name": "option_oldlib",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 500960,
+    "name": "option_version",
+    "size": 9,
+    "owner": "options.c"
+  },
+  {
+    "address": 500972,
+    "name": "option_liborder_before",
+    "size": 17,
+    "owner": "options.c"
+  },
+  {
+    "address": 500992,
+    "name": "scan_long_7a500",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 500996,
+    "name": "scan_long_7a504",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 501000,
+    "name": "option_subsystem",
+    "size": 11,
+    "owner": "options.c"
+  },
+  {
+    "address": 501012,
+    "name": "option_native",
+    "size": 7,
+    "owner": "options.c"
+  },
+  {
+    "address": 501020,
+    "name": "option_windows",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 501028,
+    "name": "option_console",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 501036,
+    "name": "option_posix",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 501044,
+    "name": "scan_long_7a534",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 501048,
+    "name": "scan_long_7a538",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 501052,
+    "name": "option_stack",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 501060,
+    "name": "option_heap",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 501068,
+    "name": "option_machine",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 501076,
+    "name": "option_i386",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 501084,
+    "name": "option_ix86",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 501092,
+    "name": "option_i860",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 501100,
+    "name": "option_m68k",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 501108,
+    "name": "option_mips",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 501116,
+    "name": "option_ix86_m68k_or_mips",
+    "size": 20,
+    "owner": "options.c"
+  },
+  {
+    "address": 501136,
+    "name": "option_align",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 501144,
+    "name": "option_gpsize",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 501152,
+    "name": "scan_long_7a5a0",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 501156,
+    "name": "option_section",
+    "size": 9,
+    "owner": "options.c"
+  },
+  {
+    "address": 501168,
+    "name": "option_verbose",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 501176,
+    "name": "option_rom",
+    "size": 4,
+    "owner": "options.c"
+  },
+  {
+    "address": 501180,
+    "name": "option_stub",
+    "size": 6,
+    "owner": "options.c"
+  },
+  {
+    "address": 501188,
+    "name": "option_file_mode_7a5c4",
+    "size": 3,
+    "owner": "options.c"
+  },
+  {
+    "address": 501192,
+    "name": "option_file_mode_7a5c8",
+    "size": 3,
+    "owner": "options.c"
+  },
+  {
+    "address": 501196,
+    "name": "option_order",
+    "size": 8,
+    "owner": "options.c"
+  },
+  {
+    "address": 501204,
+    "name": "option_order_repro_format",
+    "size": 14,
+    "owner": "options.c"
+  },
+  {
+    "address": 501220,
+    "name": "option_warn",
+    "size": 5,
+    "owner": "options.c"
+  },
+  {
+    "address": 503416,
+    "name": "wildcard_characters",
+    "size": 3,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 503420,
+    "name": "object_extension",
+    "size": 5,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 505760,
+    "name": "input_files",
+    "size": 12,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 505808,
+    "name": "library_files",
+    "size": 12,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 505824,
+    "name": "other_inputs",
+    "size": 12,
+    "owner": "arguments.c"
+  },
+  {
+    "address": 505696,
+    "name": "default_output_name",
+    "size": 9,
+    "owner": "linker.c"
+  },
+  {
+    "address": 522424,
+    "name": "initial_program_name",
+    "size": 7,
+    "owner": "link.c"
+  },
+  {
+    "address": 505952,
+    "name": "setup_phase",
+    "size": 11,
+    "owner": "link.c"
+  },
+  {
+    "address": 505636,
+    "name": "whitespace_delimiters",
+    "size": 3,
+    "owner": "options.c"
+  },
+  {
+    "address": 505720,
+    "name": "empty_import_name",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 505736,
+    "name": "empty_map_name",
+    "size": 1,
+    "owner": "options.c"
+  },
+  {
+    "address": 506280,
+    "name": "cvpack_default",
+    "size": 11,
+    "owner": "options.c"
+  },
+  {
+    "address": 500088,
+    "name": "default_dos_stub",
+    "size": 132,
+    "owner": "dos-stub.c"
+  }
+]

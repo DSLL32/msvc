@@ -1,0 +1,33 @@
+{
+  "case": "LINK.EXE /?",
+  "stdin": "closed",
+  "argv0": "LINK.EXE",
+  "target": {
+    "path": "toolchains/1.0-nt/bin/LINK.EXE",
+    "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+    "image_base": "0x10000",
+    "entry": "0x509d0",
+    "case": "/?"
+  },
+  "exit_status": 3,
+  "streams": {
+    "stdout": {
+      "bytes": 884,
+      "sha256": "957c1782d7ebeed2733e7596f4502ffb6ffd5ffc01858add77f54c7fb4b8dff4"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "validation": {
+    "clean_parallel_build": "make clean && make -j2 check",
+    "trap_replay": "make replay",
+    "matching_trap_frontiers": 90,
+    "source_and_runtime_functions_with_matching_callee_sets": 29,
+    "assembly_functions_with_matching_instructions": 11,
+    "contextual_data_definitions": 176,
+    "unmodified_original_matches": true,
+    "replay_log_sha256": "de1947302b454d35b01b7536f11cff7cce488be002a5536da9e077210c5bc1e4"
+  }
+}

@@ -1,0 +1,2319 @@
+[
+  {
+    "name": "__fgetwchar",
+    "start": 94544,
+    "end": 94560,
+    "object": "stdio\\obj\\i386\\FGETWCHR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___inittime",
+    "start": 94544,
+    "end": 94560,
+    "object": "time\\obj\\i386\\CLOCK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 95728,
+    "end": 95744,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 96624,
+    "end": 96640,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 96752,
+    "end": 96768,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 96848,
+    "end": 96864,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 99264,
+    "end": 99280,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 116464,
+    "end": 116480,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 122256,
+    "end": 122272,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_dummy",
+    "start": 126496,
+    "end": 126512,
+    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_collate",
+    "start": 126496,
+    "end": 126512,
+    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__matherr",
+    "start": 126496,
+    "end": 126512,
+    "object": "obj\\i386\\matherr.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 127600,
+    "end": 127616,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 127872,
+    "end": 127888,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 131152,
+    "end": 131168,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__unlink",
+    "start": 137168,
+    "end": 137184,
+    "object": "dos\\obj\\i386\\UNLINK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_getc",
+    "start": 137168,
+    "end": 137184,
+    "object": "stdio\\obj\\i386\\FGETC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__inc",
+    "start": 137168,
+    "end": 137184,
+    "object": "stdio\\obj\\i386\\WINPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 150832,
+    "end": 150848,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 152800,
+    "end": 152816,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 153088,
+    "end": 153104,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 155680,
+    "end": 155696,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 155952,
+    "end": 155968,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 156784,
+    "end": 156800,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 156832,
+    "end": 156848,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 165776,
+    "end": 165792,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 165856,
+    "end": 165872,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 198576,
+    "end": 198592,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 199568,
+    "end": 199584,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 210992,
+    "end": 211008,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 215104,
+    "end": 215120,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_dummy",
+    "start": 218512,
+    "end": 218528,
+    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_collate",
+    "start": 218512,
+    "end": 218528,
+    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__matherr",
+    "start": 218512,
+    "end": 218528,
+    "object": "obj\\i386\\matherr.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__scalb",
+    "start": 219888,
+    "end": 219920,
+    "object": "obj\\i386\\ieeemisc.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 219952,
+    "end": 219968,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_dummy",
+    "start": 225424,
+    "end": 225440,
+    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_collate",
+    "start": 225424,
+    "end": 225440,
+    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__matherr",
+    "start": 225424,
+    "end": 225440,
+    "object": "obj\\i386\\matherr.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_dummy",
+    "start": 225472,
+    "end": 225488,
+    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_collate",
+    "start": 225472,
+    "end": 225488,
+    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__matherr",
+    "start": 225472,
+    "end": 225488,
+    "object": "obj\\i386\\matherr.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_dummy",
+    "start": 225520,
+    "end": 225536,
+    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_collate",
+    "start": 225520,
+    "end": 225536,
+    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__matherr",
+    "start": 225520,
+    "end": 225536,
+    "object": "obj\\i386\\matherr.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 233312,
+    "end": 233328,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 233440,
+    "end": 233456,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 234576,
+    "end": 234592,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 236640,
+    "end": 236656,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 238832,
+    "end": 238848,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 239360,
+    "end": 239376,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 243760,
+    "end": 243776,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 244880,
+    "end": 244896,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 245232,
+    "end": 245248,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 245328,
+    "end": 245344,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 245440,
+    "end": 245456,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 245536,
+    "end": 245552,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 245680,
+    "end": 245696,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 245776,
+    "end": 245792,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 249952,
+    "end": 249968,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 250096,
+    "end": 250112,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 253152,
+    "end": 253168,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 256144,
+    "end": 256160,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 272304,
+    "end": 272320,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 279168,
+    "end": 279184,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 279968,
+    "end": 279984,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 281680,
+    "end": 281696,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 286672,
+    "end": 286688,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 291648,
+    "end": 291664,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 291872,
+    "end": 291888,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 297680,
+    "end": 297696,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 309728,
+    "end": 309744,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 322448,
+    "end": 322464,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 324832,
+    "end": 324848,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 328416,
+    "end": 328432,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_mainCRTStartup",
+    "start": 330192,
+    "end": 330464,
+    "object": "startup\\obj\\i386\\CRT0.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__amsg_exit",
+    "start": 330464,
+    "end": 330512,
+    "object": "startup\\obj\\i386\\CRT0.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__amsg_exit",
+    "start": 330464,
+    "end": 330512,
+    "object": "startup\\obj\\i386\\DLLCRT0.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 330496,
+    "end": 330512,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_calloc",
+    "start": 330512,
+    "end": 330576,
+    "object": "heap\\obj\\i386\\CALLOC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_realloc",
+    "start": 330576,
+    "end": 330848,
+    "object": "heap\\obj\\i386\\REALLOC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__expand",
+    "start": 330848,
+    "end": 331152,
+    "object": "heap\\obj\\i386\\REALLOC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_expand_block",
+    "start": 331152,
+    "end": 331264,
+    "object": "heap\\obj\\i386\\REALLOC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fflush",
+    "start": 331264,
+    "end": 331344,
+    "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__flush",
+    "start": 331344,
+    "end": 331456,
+    "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__flushall",
+    "start": 331456,
+    "end": 331472,
+    "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_flsall",
+    "start": 331472,
+    "end": 331584,
+    "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__endstdio",
+    "start": 331584,
+    "end": 331616,
+    "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_printf",
+    "start": 331616,
+    "end": 331680,
+    "object": "stdio\\obj\\i386\\PRINTF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_free",
+    "start": 331680,
+    "end": 331776,
+    "object": "heap\\obj\\i386\\FREE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fclose",
+    "start": 331776,
+    "end": 331888,
+    "object": "stdio\\obj\\i386\\FCLOSE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fgets",
+    "start": 331888,
+    "end": 332000,
+    "object": "stdio\\obj\\i386\\FGETS.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strchr",
+    "start": 332000,
+    "end": 332038,
+    "object": "string\\obj\\i386\\STRCHR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fsopen",
+    "start": 332048,
+    "end": 332096,
+    "object": "stdio\\obj\\i386\\FOPEN.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fopen",
+    "start": 332096,
+    "end": 332128,
+    "object": "stdio\\obj\\i386\\FOPEN.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_malloc",
+    "start": 332128,
+    "end": 332304,
+    "object": "heap\\obj\\i386\\MALLOC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_split_block",
+    "start": 332304,
+    "end": 332400,
+    "object": "heap\\obj\\i386\\MALLOC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fprintf",
+    "start": 332400,
+    "end": 332464,
+    "object": "stdio\\obj\\i386\\FPRINTF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strncpy",
+    "start": 332464,
+    "end": 332501,
+    "object": "string\\obj\\i386\\STRNCPY.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__makepath",
+    "start": 332512,
+    "end": 332672,
+    "object": "misc\\obj\\i386\\MAKEPATH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__splitpath",
+    "start": 332672,
+    "end": 333024,
+    "object": "misc\\obj\\i386\\SPLITPAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_sprintf",
+    "start": 333024,
+    "end": 333136,
+    "object": "stdio\\obj\\i386\\SPRINTF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cinit",
+    "start": 333600,
+    "end": 333648,
+    "object": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_exit",
+    "start": 333648,
+    "end": 333680,
+    "object": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__exit",
+    "start": 333680,
+    "end": 333712,
+    "object": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cexit",
+    "start": 333712,
+    "end": 333728,
+    "object": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__c_exit",
+    "start": 333728,
+    "end": 333744,
+    "object": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_doexit",
+    "start": 333744,
+    "end": 333872,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
+    "name": "__initterm",
+    "start": 333872,
+    "end": 333920,
+    "object": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_sscanf",
+    "start": 333920,
+    "end": 334000,
+    "object": "stdio\\obj\\i386\\SSCANF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strtok",
+    "start": 334000,
+    "end": 334224,
+    "object": "string\\obj\\i386\\STRTOK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strncmp",
+    "start": 334224,
+    "end": 334281,
+    "object": "string\\obj\\i386\\STRNCMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_qsort",
+    "start": 334288,
+    "end": 334656,
+    "object": "misc\\obj\\i386\\QSORT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_shortsort",
+    "start": 334656,
+    "end": 334752,
+    "object": "misc\\obj\\i386\\QSORT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_swap",
+    "start": 334752,
+    "end": 334800,
+    "object": "misc\\obj\\i386\\QSORT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fullpath",
+    "start": 334800,
+    "end": 335632,
+    "object": "dos\\obj\\i386\\FULLPATH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_time",
+    "start": 335632,
+    "end": 335728,
+    "object": "time\\obj\\i386\\TIME.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strncat",
+    "start": 336288,
+    "end": 336338,
+    "object": "string\\obj\\i386\\STRNCAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__spawnvp",
+    "start": 336352,
+    "end": 336384,
+    "object": "exec\\obj\\i386\\SPAWNVP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_getenv",
+    "start": 336384,
+    "end": 336512,
+    "object": "misc\\obj\\i386\\GETENV.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_system",
+    "start": 336512,
+    "end": 336688,
+    "object": "exec\\obj\\i386\\SYSTEM.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___setargv",
+    "start": 336880,
+    "end": 337072,
+    "object": "startup\\obj\\i386\\_SETARGV.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__find",
+    "start": 337472,
+    "end": 337616,
+    "object": "startup\\obj\\i386\\_SETARGV.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strrchr",
+    "start": 337616,
+    "end": 337656,
+    "object": "string\\obj\\i386\\STRRCHR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strpbrk",
+    "start": 337656,
+    "end": 337718,
+    "object": "string\\obj\\i386\\STRPBRK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__setjmp",
+    "start": 337720,
+    "end": 337783,
+    "object": "misc\\obj\\i386\\SETJMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_longjmp",
+    "start": 337783,
+    "end": 337869,
+    "object": "misc\\obj\\i386\\SETJMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_raisex",
+    "start": 337869,
+    "end": 337928,
+    "object": "misc\\obj\\i386\\SETJMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_remove",
+    "start": 337936,
+    "end": 337984,
+    "object": "dos\\obj\\i386\\UNLINK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__unlink",
+    "start": 337984,
+    "end": 338000,
+    "object": "dos\\obj\\i386\\UNLINK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_getc",
+    "start": 337984,
+    "end": 338000,
+    "object": "stdio\\obj\\i386\\FGETC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_atol",
+    "start": 338000,
+    "end": 338176,
+    "object": "convert\\obj\\i386\\ATOX.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_atoi",
+    "start": 338176,
+    "end": 338192,
+    "object": "convert\\obj\\i386\\ATOX.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fputc",
+    "start": 338192,
+    "end": 338240,
+    "object": "stdio\\obj\\i386\\FPUTC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_putc",
+    "start": 338240,
+    "end": 338272,
+    "object": "stdio\\obj\\i386\\FPUTC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__toupper",
+    "start": 338272,
+    "end": 338288,
+    "object": "convert\\obj\\i386\\TOUPPER.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_bsearch",
+    "start": 338656,
+    "end": 338832,
+    "object": "misc\\obj\\i386\\BSEARCH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_memmove",
+    "start": 338832,
+    "end": 339166,
+    "object": "string\\obj\\i386\\MEMMOVE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpmath",
+    "start": 339168,
+    "end": 339184,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpmath",
+    "start": 339168,
+    "end": 339184,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
+    "name": "__fpclear",
+    "start": 339184,
+    "end": 339200,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "?_set_new_handler@@YAP6AHI@ZP6AHI@Z@Z",
+    "start": 339264,
+    "end": 339280,
+    "object": "heap\\obj\\i386\\HANDLER.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___setfflag",
+    "start": 339264,
+    "end": 339280,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__except_handler2",
+    "start": 339284,
+    "end": 339487,
+    "object": "misc\\obj\\i386\\EXSUP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__global_unwind2",
+    "start": 339487,
+    "end": 339519,
+    "object": "misc\\obj\\i386\\EXSUP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__unwind_handler",
+    "start": 339519,
+    "end": 339557,
+    "object": "misc\\obj\\i386\\EXSUP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__local_unwind2",
+    "start": 339557,
+    "end": 339659,
+    "object": "misc\\obj\\i386\\EXSUP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__abnormal_termination",
+    "start": 339659,
+    "end": 339702,
+    "object": "misc\\obj\\i386\\EXSUP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_ctime",
+    "start": 339712,
+    "end": 339744,
+    "object": "time\\obj\\i386\\CTIME.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__snprintf",
+    "start": 339744,
+    "end": 339856,
+    "object": "stdio\\obj\\i386\\SNPRINTF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_rename",
+    "start": 340336,
+    "end": 340400,
+    "object": "dos\\obj\\i386\\RENAME.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_dummy",
+    "start": 340384,
+    "end": 340400,
+    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__init_collate",
+    "start": 340384,
+    "end": 340400,
+    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__matherr",
+    "start": 340384,
+    "end": 340400,
+    "object": "obj\\i386\\matherr.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__isctype",
+    "start": 340400,
+    "end": 340592,
+    "object": "convert\\obj\\i386\\ISCTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__strnicmp",
+    "start": 340592,
+    "end": 340678,
+    "object": "string\\obj\\i386\\STRNICMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__write",
+    "start": 340688,
+    "end": 341248,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
+    "name": "__heap_init",
+    "start": 341248,
+    "end": 341280,
+    "object": "heap\\obj\\i386\\HEAPINIT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_term",
+    "start": 341280,
+    "end": 341392,
+    "object": "heap\\obj\\i386\\HEAPINIT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_grow_emptylist",
+    "start": 341392,
+    "end": 341488,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
+    "name": "_vfprintf",
+    "start": 341488,
+    "end": 341552,
+    "object": "stdio\\obj\\i386\\VFPRINTF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_setbuf",
+    "start": 341552,
+    "end": 341616,
+    "object": "stdio\\obj\\i386\\SETBUF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_perror",
+    "start": 341616,
+    "end": 341760,
+    "object": "misc\\obj\\i386\\PERROR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strcspn",
+    "start": 341760,
+    "end": 341818,
+    "object": "string\\obj\\i386\\STRCSPN.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__chsize",
+    "start": 341824,
+    "end": 342160,
+    "object": "lowio\\obj\\i386\\CHSIZE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__strdup",
+    "start": 342160,
+    "end": 342199,
+    "object": "string\\obj\\i386\\STRDUP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_wcscmp",
+    "start": 342208,
+    "end": 342288,
+    "object": "string\\obj\\i386\\WCSCMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fwrite",
+    "start": 342288,
+    "end": 342656,
+    "object": "stdio\\obj\\i386\\FWRITE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_fgetc",
+    "start": 342656,
+    "end": 342704,
+    "object": "stdio\\obj\\i386\\FGETC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 342688,
+    "end": 342704,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__unlink",
+    "start": 342704,
+    "end": 342720,
+    "object": "dos\\obj\\i386\\UNLINK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_getc",
+    "start": 342704,
+    "end": 342720,
+    "object": "stdio\\obj\\i386\\FGETC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_rewind",
+    "start": 342720,
+    "end": 342784,
+    "object": "stdio\\obj\\i386\\REWIND.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__chkstk",
+    "start": 342784,
+    "end": 342829,
+    "object": "startup\\obj\\i386\\CHKSTK.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__flsbuf",
+    "start": 343056,
+    "end": 343360,
+    "object": "stdio\\obj\\i386\\_FLSBUF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__alloc_osfhnd",
+    "start": 343360,
+    "end": 343424,
+    "object": "lowio\\obj\\i386\\OSFINFO.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__set_osfhnd",
+    "start": 343424,
+    "end": 343568,
+    "object": "lowio\\obj\\i386\\OSFINFO.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__get_osfhandle",
+    "start": 343680,
+    "end": 343744,
+    "object": "lowio\\obj\\i386\\OSFINFO.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__open_osfhandle",
+    "start": 343744,
+    "end": 343904,
+    "object": "lowio\\obj\\i386\\OSFINFO.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strtoxl",
+    "start": 343904,
+    "end": 344496,
+    "object": "convert\\obj\\i386\\STRTOL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strtol",
+    "start": 344496,
+    "end": 344528,
+    "object": "convert\\obj\\i386\\STRTOL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strtoul",
+    "start": 344528,
+    "end": 344560,
+    "object": "convert\\obj\\i386\\STRTOL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strstr",
+    "start": 344560,
+    "end": 344652,
+    "object": "string\\obj\\i386\\STRSTR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__XcptFilter",
+    "start": 344656,
+    "end": 344960,
+    "object": "misc\\obj\\i386\\WINXFLTR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_xcptlookup",
+    "start": 344960,
+    "end": 345008,
+    "object": "misc\\obj\\i386\\WINXFLTR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__setenvp",
+    "start": 345008,
+    "end": 345216,
+    "object": "startup\\obj\\i386\\STDENVP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__setargv",
+    "start": 345216,
+    "end": 345392,
+    "object": "startup\\obj\\i386\\STDARGV.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_parse_cmdline",
+    "start": 345392,
+    "end": 345760,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
+    "name": "__fpclear",
+    "start": 345744,
+    "end": 345760,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ioinit",
+    "start": 345760,
+    "end": 346000,
+    "object": "lowio\\obj\\i386\\IOINIT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__FF_MSGBANNER",
+    "start": 346000,
+    "end": 346048,
+    "object": "startup\\obj\\i386\\CRT0MSG.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_abort",
+    "start": 346192,
+    "end": 346208,
+    "object": "heap\\obj\\i386\\HPABORT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_grow",
+    "start": 346208,
+    "end": 346320,
+    "object": "heap\\obj\\i386\\HEAPGROW.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_new_region",
+    "start": 346320,
+    "end": 346464,
+    "object": "heap\\obj\\i386\\HEAPGROW.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_grow_region",
+    "start": 346464,
+    "end": 346656,
+    "object": "heap\\obj\\i386\\HEAPGROW.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_free_region",
+    "start": 346656,
+    "end": 346736,
+    "object": "heap\\obj\\i386\\HEAPGROW.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fcloseall",
+    "start": 346832,
+    "end": 346896,
+    "object": "stdio\\obj\\i386\\CLOSEALL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 346880,
+    "end": 346896,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__stbuf",
+    "start": 346896,
+    "end": 347056,
+    "object": "stdio\\obj\\i386\\_SFTBUF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ftbuf",
+    "start": 347056,
+    "end": 347136,
+    "object": "stdio\\obj\\i386\\_SFTBUF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__output",
+    "start": 347136,
+    "end": 349440,
+    "object": "stdio\\obj\\i386\\OUTPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_write_char",
+    "start": 349440,
+    "end": 349520,
+    "object": "stdio\\obj\\i386\\OUTPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_write_multi_char",
+    "start": 349520,
+    "end": 349584,
+    "object": "stdio\\obj\\i386\\OUTPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_write_string",
+    "start": 349584,
+    "end": 349648,
+    "object": "stdio\\obj\\i386\\OUTPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_get_int_arg",
+    "start": 349648,
+    "end": 349664,
+    "object": "stdio\\obj\\i386\\CPRINTF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_get_int_arg",
+    "start": 349648,
+    "end": 349664,
+    "object": "stdio\\obj\\i386\\OUTPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_get_int_arg",
+    "start": 349648,
+    "end": 349664,
+    "object": "stdio\\obj\\i386\\WOUTPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_get_short_arg",
+    "start": 349664,
+    "end": 349680,
+    "object": "stdio\\obj\\i386\\OUTPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__getstream",
+    "start": 350240,
+    "end": 350320,
+    "object": "stdio\\obj\\i386\\STREAM.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_search",
+    "start": 350320,
+    "end": 350592,
+    "object": "heap\\obj\\i386\\HEAPSRCH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 351136,
+    "end": 351152,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__input",
+    "start": 351280,
+    "end": 354208,
+    "object": "stdio\\obj\\i386\\INPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__hextodec",
+    "start": 354208,
+    "end": 354272,
+    "object": "stdio\\obj\\i386\\CSCANF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__hextodec",
+    "start": 354208,
+    "end": 354272,
+    "object": "stdio\\obj\\i386\\INPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__inc",
+    "start": 354272,
+    "end": 354320,
+    "object": "stdio\\obj\\i386\\INPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__un_inc",
+    "start": 354320,
+    "end": 354352,
+    "object": "stdio\\obj\\i386\\INPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__whiteout",
+    "start": 354352,
+    "end": 354400,
+    "object": "stdio\\obj\\i386\\INPUT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__getcwd",
+    "start": 354400,
+    "end": 354432,
+    "object": "dos\\obj\\i386\\GETCWD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__getdcwd",
+    "start": 354432,
+    "end": 354704,
+    "object": "dos\\obj\\i386\\GETCWD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__validdrive",
+    "start": 354704,
+    "end": 354736,
+    "object": "dos\\obj\\i386\\GETCWD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 354720,
+    "end": 354736,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__getdrive",
+    "start": 354736,
+    "end": 354800,
+    "object": "dos\\obj\\i386\\DRIVE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__chdrive",
+    "start": 354800,
+    "end": 355024,
+    "object": "dos\\obj\\i386\\DRIVE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___gmtotime_t",
+    "start": 355024,
+    "end": 355168,
+    "object": "time\\obj\\i386\\DTOXTIME.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_comexecmd",
+    "start": 355568,
+    "end": 355680,
+    "object": "exec\\obj\\i386\\SPAWNVE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__spawnve",
+    "start": 355680,
+    "end": 356240,
+    "object": "exec\\obj\\i386\\SPAWNVE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__access",
+    "start": 356240,
+    "end": 356320,
+    "object": "dos\\obj\\i386\\ACCESS.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cwild",
+    "start": 356320,
+    "end": 356592,
+    "object": "startup\\obj\\i386\\WILD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_match",
+    "start": 356592,
+    "end": 357040,
+    "object": "startup\\obj\\i386\\WILD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_add",
+    "start": 357040,
+    "end": 357120,
+    "object": "startup\\obj\\i386\\WILD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__dosmaperr",
+    "start": 357184,
+    "end": 357312,
+    "object": "dos\\obj\\i386\\DOSMAP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__setdefaultprecision",
+    "start": 357312,
+    "end": 357344,
+    "object": "obj\\i386\\fp8.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__forcdecpt",
+    "start": 357344,
+    "end": 357456,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cropzeros",
+    "start": 357456,
+    "end": 357552,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__positive",
+    "start": 357552,
+    "end": 357584,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fassign",
+    "start": 357584,
+    "end": 357632,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cftoe",
+    "start": 357632,
+    "end": 357952,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cftoe_g",
+    "start": 357952,
+    "end": 358000,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cftof",
+    "start": 358000,
+    "end": 358256,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cftof_g",
+    "start": 358256,
+    "end": 358304,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cftog",
+    "start": 358304,
+    "end": 358496,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__cfltcvt",
+    "start": 358496,
+    "end": 358608,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__shift",
+    "start": 358608,
+    "end": 358656,
+    "object": "obj\\i386\\cvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_store_dt",
+    "start": 358656,
+    "end": 358704,
+    "object": "time\\obj\\i386\\ASCTIME.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_asctime",
+    "start": 358704,
+    "end": 358912,
+    "object": "time\\obj\\i386\\ASCTIME.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_localtime",
+    "start": 358912,
+    "end": 359344,
+    "object": "time\\obj\\i386\\LOCALTIM.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__setmode",
+    "start": 359344,
+    "end": 359504,
+    "object": "lowio\\obj\\i386\\SETMODE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 359488,
+    "end": 359504,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strcpy",
+    "start": 359508,
+    "end": 359653,
+    "object": "string\\obj\\i386\\STRCAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_strlen",
+    "start": 359656,
+    "end": 359733,
+    "object": "string\\obj\\i386\\STRLEN.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__getbuf",
+    "start": 359744,
+    "end": 359824,
+    "object": "stdio\\obj\\i386\\_GETBUF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__isatty",
+    "start": 359824,
+    "end": 359856,
+    "object": "lowio\\obj\\i386\\ISATTY.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heapadd",
+    "start": 359856,
+    "end": 359904,
+    "object": "heap\\obj\\i386\\HEAPADD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_addblock",
+    "start": 359904,
+    "end": 360400,
+    "object": "heap\\obj\\i386\\HEAPADD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__before",
+    "start": 360400,
+    "end": 360544,
+    "object": "heap\\obj\\i386\\HEAPADD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__open",
+    "start": 360704,
+    "end": 360736,
+    "object": "lowio\\obj\\i386\\OPEN.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isalpha",
+    "start": 361904,
+    "end": 361968,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isupper",
+    "start": 361968,
+    "end": 362032,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_islower",
+    "start": 362032,
+    "end": 362096,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isdigit",
+    "start": 362096,
+    "end": 362160,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isxdigit",
+    "start": 362160,
+    "end": 362224,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isspace",
+    "start": 362224,
+    "end": 362288,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_ispunct",
+    "start": 362288,
+    "end": 362352,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isalnum",
+    "start": 362352,
+    "end": 362416,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isprint",
+    "start": 362416,
+    "end": 362480,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_isgraph",
+    "start": 362480,
+    "end": 362544,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_iscntrl",
+    "start": 362544,
+    "end": 362608,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___isascii",
+    "start": 362608,
+    "end": 362640,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 362624,
+    "end": 362640,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___toascii",
+    "start": 362640,
+    "end": 362656,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___iscsymf",
+    "start": 362656,
+    "end": 362736,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___iscsym",
+    "start": 362736,
+    "end": 362816,
+    "object": "convert\\obj\\i386\\_CTYPE.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_ungetc",
+    "start": 362816,
+    "end": 362960,
+    "object": "stdio\\obj\\i386\\UNGETC.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_findenv",
+    "start": 363408,
+    "end": 363504,
+    "object": "misc\\obj\\i386\\PUTENV.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__getpath",
+    "start": 363504,
+    "end": 363632,
+    "object": "misc\\obj\\i386\\GETPATH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__dospawn",
+    "start": 363632,
+    "end": 364224,
+    "object": "exec\\obj\\i386\\DOSPAWN.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__strcmpi",
+    "start": 365104,
+    "end": 365171,
+    "object": "string\\obj\\i386\\STRICMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__control87",
+    "start": 365248,
+    "end": 365312,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
+    "name": "__controlfp",
+    "start": 365312,
+    "end": 365344,
+    "object": "obj\\i386\\ieee87.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpreset",
+    "start": 365344,
+    "end": 365392,
+    "object": "obj\\i386\\ieee87.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__abstract_cw",
+    "start": 365392,
+    "end": 365568,
+    "object": "obj\\i386\\ieee87.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__hw_cw",
+    "start": 365568,
+    "end": 365744,
+    "object": "obj\\i386\\ieee87.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 365728,
+    "end": 365744,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__abstract_sw",
+    "start": 365744,
+    "end": 365808,
+    "object": "obj\\i386\\ieee87.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fptrap",
+    "start": 365808,
+    "end": 365824,
+    "object": "startup\\obj\\i386\\CRT0FP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__tolower",
+    "start": 365824,
+    "end": 365840,
+    "object": "convert\\obj\\i386\\TOLOWER.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ZeroTail",
+    "start": 366208,
+    "end": 366320,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__IncMan",
+    "start": 366320,
+    "end": 366432,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__RoundMan",
+    "start": 366432,
+    "end": 366608,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__CopyMan",
+    "start": 366608,
+    "end": 366640,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__FillZeroMan",
+    "start": 366640,
+    "end": 366672,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__IsZeroMan",
+    "start": 366672,
+    "end": 366704,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ShrMan",
+    "start": 366704,
+    "end": 366880,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ld12cvt",
+    "start": 366880,
+    "end": 367344,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ld12tod",
+    "start": 367344,
+    "end": 367376,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ld12tof",
+    "start": 367376,
+    "end": 367408,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ld12told",
+    "start": 367408,
+    "end": 367552,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 367536,
+    "end": 367552,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__atodbl",
+    "start": 367552,
+    "end": 367616,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__atoldbl",
+    "start": 367616,
+    "end": 367680,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__atoflt",
+    "start": 367680,
+    "end": 367744,
+    "object": "obj\\i386\\intrncvt.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fptostr",
+    "start": 367744,
+    "end": 367888,
+    "object": "convert\\obj\\i386\\_FPTOSTR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fltout",
+    "start": 367888,
+    "end": 368000,
+    "object": "obj\\i386\\cfout.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___dtold",
+    "start": 368000,
+    "end": 368224,
+    "object": "obj\\i386\\cfout.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fpclear",
+    "start": 368208,
+    "end": 368224,
+    "object": "obj\\i386\\fpinit.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_gmtime",
+    "start": 368224,
+    "end": 368560,
+    "object": "time\\obj\\i386\\GMTIME.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__heap_findaddr",
+    "start": 368560,
+    "end": 368688,
+    "object": "heap\\obj\\i386\\FINDADDR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___addl",
+    "start": 368816,
+    "end": 368864,
+    "object": "obj\\i386\\mantold.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___add_12",
+    "start": 368864,
+    "end": 368976,
+    "object": "obj\\i386\\mantold.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___shl_12",
+    "start": 368976,
+    "end": 369056,
+    "object": "obj\\i386\\mantold.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___shr_12",
+    "start": 369056,
+    "end": 369136,
+    "object": "obj\\i386\\mantold.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___mtold12",
+    "start": 369136,
+    "end": 369376,
+    "object": "obj\\i386\\mantold.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_$I10_OUTPUT",
+    "start": 371280,
+    "end": 372208,
+    "object": "obj\\i386\\x10fout.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___ld12mul",
+    "start": 372208,
+    "end": 372976,
+    "object": "obj\\i386\\tenpow.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "___multtenpow12",
+    "start": 372976,
+    "end": 373104,
+    "object": "obj\\i386\\tenpow.obj",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__spawnlp",
+    "start": 373440,
+    "end": 373472,
+    "object": "exec\\obj\\i386\\SPAWNLP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__spawnl",
+    "start": 373472,
+    "end": 373504,
+    "object": "exec\\obj\\i386\\SPAWNL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__tempnam",
+    "start": 373504,
+    "end": 374096,
+    "object": "stdio\\obj\\i386\\TEMPNAM.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__stripquote",
+    "start": 374096,
+    "end": 374192,
+    "object": "stdio\\obj\\i386\\TEMPNAM.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__strupr",
+    "start": 374192,
+    "end": 374225,
+    "object": "string\\obj\\i386\\STRUPR.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "_xtoa",
+    "start": 374240,
+    "end": 374352,
+    "object": "convert\\obj\\i386\\XTOA.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__itoa",
+    "start": 374352,
+    "end": 374416,
+    "object": "convert\\obj\\i386\\XTOA.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ltoa",
+    "start": 374416,
+    "end": 374464,
+    "object": "convert\\obj\\i386\\XTOA.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__ultoa",
+    "start": 374464,
+    "end": 374496,
+    "object": "convert\\obj\\i386\\XTOA.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__mktemp",
+    "start": 374496,
+    "end": 374704,
+    "object": "lowio\\obj\\i386\\MKTEMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__stat",
+    "start": 374928,
+    "end": 375696,
+    "object": "dos\\obj\\i386\\STAT.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__tell",
+    "start": 375696,
+    "end": 375728,
+    "object": "lowio\\obj\\i386\\TELL.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__fileno",
+    "start": 375728,
+    "end": 375744,
+    "object": "stdio\\obj\\i386\\FILENO.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__getpid",
+    "start": 375744,
+    "end": 375760,
+    "object": "dos\\obj\\i386\\GETPID.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__inc",
+    "start": 375744,
+    "end": 375760,
+    "object": "stdio\\obj\\i386\\CSCANF.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__rmtmp",
+    "start": 375760,
+    "end": 375824,
+    "object": "stdio\\obj\\i386\\RMTMP.OBJ",
+    "library": "LIBC.LIB"
+  }
+]
