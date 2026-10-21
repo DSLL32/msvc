@@ -1,0 +1,210 @@
+{
+  "target": {
+    "path": "toolchains/1.0-nt/bin/RCPP.EXE",
+    "sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "image_base": 16777216,
+    "entry_rva": 36224
+  },
+  "accepted": [
+    "_rcpp_start",
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "_rc_heap_initialize",
+    "import:GetProcessHeap",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "_rc_setargv",
+    "import:GetModuleFileNameA",
+    "_rc_parse_command",
+    "_malloc",
+    "import:HeapAlloc",
+    "__setenvp",
+    "_rc_initialize_c",
+    "_rc_initterm",
+    "_rc_main",
+    "_rc_next_argument",
+    "_rc_parse_option@16",
+    "_rc_apply_option@12",
+    "_strncpy",
+    "import:SetConsoleCtrlHandler"
+  ],
+  "functions": [
+    {
+      "name": "_rcpp_start",
+      "start": 16813440,
+      "end": 16813782,
+      "status": "source"
+    },
+    {
+      "name": "_rc_heap_initialize",
+      "start": 16812528,
+      "end": 16812539,
+      "status": "source"
+    },
+    {
+      "name": "__ioinit",
+      "start": 16811344,
+      "end": 16811584,
+      "status": "library",
+      "library": "LIBC.LIB",
+      "object": "lowio\\obj\\i386\\IOINIT.OBJ",
+      "evidence": "library-proof.json"
+    },
+    {
+      "name": "_rc_setargv",
+      "start": 16815104,
+      "end": 16815266,
+      "status": "source"
+    },
+    {
+      "name": "__setenvp",
+      "start": 16815680,
+      "end": 16815888,
+      "status": "library",
+      "library": "LIBC.LIB",
+      "object": "startup\\obj\\i386\\STDENVP.OBJ",
+      "evidence": "library-proof.json"
+    },
+    {
+      "name": "_rc_initialize_c",
+      "start": 16808640,
+      "end": 16808688,
+      "status": "source"
+    },
+    {
+      "name": "_rc_main",
+      "start": 16805936,
+      "end": 16806314,
+      "status": "source"
+    },
+    {
+      "name": "_rc_exit",
+      "start": 16808688,
+      "end": 16808718,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_cexit",
+      "start": 16808720,
+      "end": 16808750,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_exception_filter",
+      "start": 16814064,
+      "end": 16814416,
+      "status": "stub"
+    },
+    {
+      "name": "_malloc",
+      "start": 16812384,
+      "end": 16812448,
+      "status": "source"
+    },
+    {
+      "name": "__amsg_exit",
+      "start": 16813792,
+      "end": 16813825,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_parse_command",
+      "start": 16815280,
+      "end": 16815644,
+      "status": "source"
+    },
+    {
+      "name": "_rc_initterm",
+      "start": 16808912,
+      "end": 16808946,
+      "status": "source"
+    },
+    {
+      "name": "_rc_next_argument",
+      "start": 16805888,
+      "end": 16805923,
+      "status": "source"
+    },
+    {
+      "name": "_rc_parse_option@16",
+      "start": 16806976,
+      "end": 16807228,
+      "status": "source"
+    },
+    {
+      "name": "_rc_message@4",
+      "start": 16806496,
+      "end": 16806555,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_format",
+      "start": 16806560,
+      "end": 16806868,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_fatal@4",
+      "start": 16809072,
+      "end": 16809115,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_control_handler@4",
+      "start": 16806320,
+      "end": 16806343,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_initialize_preprocessor@12",
+      "start": 16817552,
+      "end": 16818057,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_emit_tokens",
+      "start": 16806352,
+      "end": 16806482,
+      "status": "stub"
+    },
+    {
+      "name": "_strncpy",
+      "start": 16845480,
+      "end": 16845517,
+      "status": "library"
+    },
+    {
+      "name": "_rc_apply_option@12",
+      "start": 16807232,
+      "end": 16807779,
+      "status": "source"
+    },
+    {
+      "name": "_rc_match_suffix@8",
+      "start": 16808032,
+      "end": 16808126,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_parse_option_number@4",
+      "start": 16807792,
+      "end": 16807981,
+      "status": "stub"
+    },
+    {
+      "name": "_strdup",
+      "start": 16808376,
+      "end": 16808415,
+      "status": "library"
+    }
+  ],
+  "cases": {
+    "resources-rich": {
+      "fixture": "../fixtures/resources-rich",
+      "arguments": "-f RC000360 -g RD000360 -D RC_INVOKED -pc \\:/ -E -Iinclude -IT:\\include -DCASE_FROM_COMMAND=7"
+    }
+  }
+}

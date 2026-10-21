@@ -1,0 +1,7 @@
+{
+  "scope": "RCPP.EXE only",
+  "authorization": "User permits different internal function graphs for individually identified embedded CRT routines, preserving their ABI, observable behavior and shared data contracts.",
+  "originating_runtime": "Unidentified; differs from the shipped LIBC/LIBCMT/MSVCRT10 allocator implementation.",
+  "native_function_graph_relaxed": false,
+  "substitutions_using_graph_exception": []
+}

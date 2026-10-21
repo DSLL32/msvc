@@ -1,0 +1,147 @@
+[
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "lowio\\obj\\i386\\IOINIT.OBJ",
+    "member_sha256": "2246da2e59d691fd87126321bf4d8524a5fc9aa453d8ac7d9c473aa100cec33d",
+    "code_start": 16811344,
+    "code_bytes": 240,
+    "data_start": 16905408,
+    "data_bytes": 392,
+    "all_nonrelocation_bytes_equal": true,
+    "initial_data_exact": true,
+    "relocations": [
+      {
+        "offset": 11,
+        "kind": "REL32",
+        "symbol": "_GetStartupInfoA@4",
+        "target": 16811600
+      },
+      {
+        "offset": 47,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905416
+      },
+      {
+        "offset": 98,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905480
+      },
+      {
+        "offset": 114,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905480
+      },
+      {
+        "offset": 125,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905480
+      },
+      {
+        "offset": 152,
+        "kind": "REL32",
+        "symbol": "_GetStdHandle@4",
+        "target": 16811616
+      },
+      {
+        "offset": 165,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905416
+      },
+      {
+        "offset": 172,
+        "kind": "REL32",
+        "symbol": "_GetFileType@4",
+        "target": 16811232
+      },
+      {
+        "offset": 188,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905416
+      },
+      {
+        "offset": 202,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905416
+      },
+      {
+        "offset": 211,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905416
+      },
+      {
+        "offset": 222,
+        "kind": "DIR32",
+        "symbol": ".data",
+        "target": 16905488
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "startup\\obj\\i386\\STDENVP.OBJ",
+    "member_sha256": "996aba8b6f5269876000924f0bd20600a9df30e574eaa1045dce3a84a2798aaf",
+    "code_start": 16815680,
+    "code_bytes": 208,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 9,
+        "kind": "DIR32",
+        "symbol": "__aenvptr",
+        "target": 16851364
+      },
+      {
+        "offset": 50,
+        "kind": "REL32",
+        "symbol": "_malloc",
+        "target": 16812384
+      },
+      {
+        "offset": 61,
+        "kind": "DIR32",
+        "symbol": "__environ",
+        "target": 16905140
+      },
+      {
+        "offset": 72,
+        "kind": "REL32",
+        "symbol": "__amsg_exit",
+        "target": 16813792
+      },
+      {
+        "offset": 81,
+        "kind": "DIR32",
+        "symbol": "__aenvptr",
+        "target": 16851364
+      },
+      {
+        "offset": 117,
+        "kind": "REL32",
+        "symbol": "_malloc",
+        "target": 16812384
+      },
+      {
+        "offset": 134,
+        "kind": "REL32",
+        "symbol": "__amsg_exit",
+        "target": 16813792
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "string\\obj\\i386\\STRNCPY.OBJ",
+    "member_sha256": "2cd9a191ae357e99225dfef8f84bc00758e2142ba1b51ba8cc08a4df06aa68fe",
+    "code_start": 16845480,
+    "code_bytes": 37,
+    "all_bytes_equal": true
+  }
+]
