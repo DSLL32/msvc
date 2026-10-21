@@ -1,0 +1,12 @@
+{
+  "case": "minimal-c",
+  "status": "active",
+  "fixture": "../fixtures/minimal-c/manifest.json",
+  "phase": "link",
+  "arguments": [
+    "-link",
+    "@link.rsp"
+  ],
+  "normalization": "Only the four-byte PE COFF timestamp at file offset 0x88",
+  "regression": "/?"
+}

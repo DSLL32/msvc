@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     char command[2048], line[256];
     int loader_break = 0;
 
-    if (argc != 6) return 2;
+    if (argc != 6 && argc != 7) return 2;
     memset(&si, 0, sizeof(si));
     memset(&sa, 0, sizeof(sa));
     sa.nLength = sizeof(sa);
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     si.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
     sprintf(command, "\"LINK.EXE\" %s", argv[2]);
     if (!CreateProcessA(argv[1], command, 0, 0, TRUE,
-                        DEBUG_ONLY_THIS_PROCESS, 0, 0, &si, &pi)) {
+                        DEBUG_ONLY_THIS_PROCESS, 0, argc == 7 ? argv[6] : 0, &si, &pi)) {
         sprintf(line, "create-error %lu\n", GetLastError());
         WriteFile(log, line, strlen(line), &written, 0);
         return 3;

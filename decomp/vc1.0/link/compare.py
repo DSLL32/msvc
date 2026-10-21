@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import subprocess
+import shutil
 from pathlib import Path
 from importlib.machinery import SourceFileLoader
 from binary import PE, u32
@@ -74,14 +75,66 @@ def mask(pe, records, accepted, output):
                 data[a:b] = pe.data[a:b]
     Path(output).write_bytes(data)
 
-def run(label, exe, case='/?'):
+def fixture(case):
+    if case not in ('minimal-c', 'hello-win32'): return None
+    root = Path('../fixtures') / case
+    return root, json.loads((root / 'manifest.json').read_text())['phases']['link']
+
+def case_directory(case, label):
+    return Path('build/cases') / case / label
+
+def run(label, exe, case='/?', cwd=None, arguments=None):
     stem = Path('build') / label
-    args = ['wine', 'build/debug-run.exe', wt.windows(exe), case,
+    env = wt.environment()
+    item = fixture(case)
+    if item:
+        root, phase = item
+        cwd = case_directory(case, label)
+        cwd.mkdir(parents=True, exist_ok=True)
+        for spec in phase['outputs']:
+            (cwd / spec['output_name']).unlink(missing_ok=True)
+        for spec in phase['inputs']:
+            source = root / spec['path']
+            contents = source.read_bytes()
+            assert len(contents) == spec['bytes'] and hashlib.sha256(contents).hexdigest() == spec['sha256']
+            shutil.copyfile(source, cwd / source.name)
+        for key in phase['unset_environment']: env.pop(key, None)
+        env['LIB'] = wt.windows(wt.TC / 'lib')
+        arguments = ' '.join(phase['arguments'])
+    args = ['wine', 'build/debug-run.exe', wt.windows(exe), case if arguments is None else arguments,
             wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
             wt.windows(str(stem)+'.events')]
-    subprocess.run(args, env=wt.environment(), check=True, timeout=45,
+    if cwd is not None: args.append(wt.windows(cwd))
+    subprocess.run(args, env=env, check=True, timeout=45,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return Path(str(stem)+'.events').read_text()
+
+def check_artifacts(case, labels):
+    item = fixture(case)
+    if not item: return
+    root, phase = item
+    for label in labels:
+        for stream in ('stdout', 'stderr'):
+            assert Path('build/'+label+'.'+stream).read_bytes() == phase['expected_'+stream].encode(), label+' unexpected '+stream
+        assert Path('build/'+label+'.events').read_text() == 'exit %d\n' % phase['expected_exit']
+        for spec in phase['outputs']:
+            path = case_directory(case, label) / spec['output_name']
+            contents = bytearray(path.read_bytes())
+            expected = bytearray((root / spec['path']).read_bytes())
+            assert len(contents) == spec['bytes']
+            for field in spec.get('ignored_fields', []):
+                start, size = field['offset'], field['bytes']
+                contents[start:start+size] = expected[start:start+size] = bytes(size)
+            assert contents == expected, label+' generated '+spec['output_name']+' differs'
+            assert hashlib.sha256(contents).hexdigest() == spec['normalized_sha256']
+        program = phase.get('generated_program')
+        if program:
+            path = case_directory(case, label) / phase['outputs'][0]['output_name']
+            event = run(label+'-program', path, case='', arguments='', cwd=path.parent)
+            assert event == 'exit %d\n' % program['exit_status']
+            for stream in ('stdout','stderr'):
+                assert Path('build/'+label+'-program.'+stream).read_bytes() == program[stream].encode()
+    print('Fixture artifacts and generated program match.')
 
 def logical(events, pe, records):
     m = re.search(r'exception ([0-9a-f]+) rva ([0-9a-f]+)', events)
@@ -123,6 +176,7 @@ def compare(accepted_count=None, case='/?', baseline=True):
             for stream in ('stdout', 'stderr'):
                 assert Path('build/baseline.'+stream).read_bytes() == Path('build/original.'+stream).read_bytes(), 'unmodified original '+stream+' differs'
             print('Unmodified original also matches byte for byte.')
+        check_artifacts(case, ['original', 'reconstructed'] + (['baseline'] if baseline else []))
     return al
 
 if __name__ == '__main__':
@@ -141,7 +195,8 @@ if __name__ == '__main__':
         cfg = json.loads(Path('functions.json').read_text())
         for count, expected in enumerate(cfg['accepted']):
             print('frontier %d/%d: %s' % (count, len(cfg['accepted']), expected), flush=True)
-            actual = compare(count, args.case, baseline=False)
+            case = cfg.get('frontier_cases', ['/?'] * len(cfg['accepted']))[count]
+            actual = compare(count, case, baseline=False)
             assert actual == expected, 'recorded frontier changed: '+actual+' != '+expected
         final_site = compare(case=args.case)
         if args.require_exit: assert final_site.startswith('exit:'), 'case incomplete: '+final_site
@@ -152,9 +207,10 @@ if __name__ == '__main__':
         orig, rec, cfg, oi, ri = indexes()
         record = next((r for r in oi if r['name'] == site and 'library' in r),None)
         if record is None:
-            record = next((r for r in cfg['driver'] if r['name'] == site and r.get('implementation') in ('C','assembly')), None)
+            record = next((r for r in cfg['driver'] if r['name'] == site and r.get('implementation') == 'C'), None)
         if record is None: break
         cfg['accepted'].append(site)
+        cfg.setdefault('frontier_cases', ['/?'] * (len(cfg['accepted'])-1)).append(args.case)
         Path('functions.json').write_text(json.dumps(cfg,indent=2)+'\n')
         with Path('build/progress.log').open('a') as f:
             f.write('%08x %s %s\n' % (record['start'],site,record.get('library',record.get('implementation','source'))))

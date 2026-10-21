@@ -1,530 +1,5 @@
 [
   {
-    "name": "__fgetwchar",
-    "start": 94544,
-    "end": 94560,
-    "object": "stdio\\obj\\i386\\FGETWCHR.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "___inittime",
-    "start": 94544,
-    "end": 94560,
-    "object": "time\\obj\\i386\\CLOCK.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 95728,
-    "end": 95744,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 96624,
-    "end": 96640,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 96752,
-    "end": 96768,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 96848,
-    "end": 96864,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 99264,
-    "end": 99280,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 116464,
-    "end": 116480,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 122256,
-    "end": 122272,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_dummy",
-    "start": 126496,
-    "end": 126512,
-    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_collate",
-    "start": 126496,
-    "end": 126512,
-    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__matherr",
-    "start": 126496,
-    "end": 126512,
-    "object": "obj\\i386\\matherr.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 127600,
-    "end": 127616,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 127872,
-    "end": 127888,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 131152,
-    "end": 131168,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__unlink",
-    "start": 137168,
-    "end": 137184,
-    "object": "dos\\obj\\i386\\UNLINK.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "_getc",
-    "start": 137168,
-    "end": 137184,
-    "object": "stdio\\obj\\i386\\FGETC.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__inc",
-    "start": 137168,
-    "end": 137184,
-    "object": "stdio\\obj\\i386\\WINPUT.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 150832,
-    "end": 150848,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 152800,
-    "end": 152816,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 153088,
-    "end": 153104,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 155680,
-    "end": 155696,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 155952,
-    "end": 155968,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 156784,
-    "end": 156800,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 156832,
-    "end": 156848,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 165776,
-    "end": 165792,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 165856,
-    "end": 165872,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 198576,
-    "end": 198592,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 199568,
-    "end": 199584,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 210992,
-    "end": 211008,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 215104,
-    "end": 215120,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_dummy",
-    "start": 218512,
-    "end": 218528,
-    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_collate",
-    "start": 218512,
-    "end": 218528,
-    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__matherr",
-    "start": 218512,
-    "end": 218528,
-    "object": "obj\\i386\\matherr.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__scalb",
-    "start": 219888,
-    "end": 219920,
-    "object": "obj\\i386\\ieeemisc.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 219952,
-    "end": 219968,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_dummy",
-    "start": 225424,
-    "end": 225440,
-    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_collate",
-    "start": 225424,
-    "end": 225440,
-    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__matherr",
-    "start": 225424,
-    "end": 225440,
-    "object": "obj\\i386\\matherr.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_dummy",
-    "start": 225472,
-    "end": 225488,
-    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_collate",
-    "start": 225472,
-    "end": 225488,
-    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__matherr",
-    "start": 225472,
-    "end": 225488,
-    "object": "obj\\i386\\matherr.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_dummy",
-    "start": 225520,
-    "end": 225536,
-    "object": "misc\\obj\\i386\\SETLOCAL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__init_collate",
-    "start": 225520,
-    "end": 225536,
-    "object": "misc\\obj\\i386\\INITCOLL.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__matherr",
-    "start": 225520,
-    "end": 225536,
-    "object": "obj\\i386\\matherr.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 233312,
-    "end": 233328,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 233440,
-    "end": 233456,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 234576,
-    "end": 234592,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 236640,
-    "end": 236656,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 238832,
-    "end": 238848,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 239360,
-    "end": 239376,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 243760,
-    "end": 243776,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 244880,
-    "end": 244896,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 245232,
-    "end": 245248,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 245328,
-    "end": 245344,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 245440,
-    "end": 245456,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 245536,
-    "end": 245552,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 245680,
-    "end": 245696,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 245776,
-    "end": 245792,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 249952,
-    "end": 249968,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 250096,
-    "end": 250112,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 253152,
-    "end": 253168,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 256144,
-    "end": 256160,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 272304,
-    "end": 272320,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 279168,
-    "end": 279184,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 279968,
-    "end": 279984,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 281680,
-    "end": 281696,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 286672,
-    "end": 286688,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 291648,
-    "end": 291664,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 291872,
-    "end": 291888,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 297680,
-    "end": 297696,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 309728,
-    "end": 309744,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 322448,
-    "end": 322464,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 324832,
-    "end": 324848,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 328416,
-    "end": 328432,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "_mainCRTStartup",
     "start": 330192,
     "end": 330464,
@@ -1239,6 +714,13 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "__free_osfhnd",
+    "start": 343568,
+    "end": 343680,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
     "name": "__get_osfhandle",
     "start": 343680,
     "end": 343744,
@@ -1456,6 +938,13 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "__close",
+    "start": 349680,
+    "end": 349840,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
+  },
+  {
     "name": "__getstream",
     "start": 350240,
     "end": 350320,
@@ -1468,6 +957,13 @@
     "end": 350592,
     "object": "heap\\obj\\i386\\HEAPSRCH.OBJ",
     "library": "LIBC.LIB"
+  },
+  {
+    "name": "__read",
+    "start": 350592,
+    "end": 351152,
+    "library": "LIBC.LIB",
+    "evidence": "equivalent register allocation; manually disassembled"
   },
   {
     "name": "__fpclear",
@@ -1610,6 +1106,13 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "_sort",
+    "start": 357120,
+    "end": 357184,
+    "object": "startup\\obj\\i386\\WILD.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
     "name": "__dosmaperr",
     "start": 357184,
     "end": 357312,
@@ -1712,13 +1215,6 @@
     "start": 358704,
     "end": 358912,
     "object": "time\\obj\\i386\\ASCTIME.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "_localtime",
-    "start": 358912,
-    "end": 359344,
-    "object": "time\\obj\\i386\\LOCALTIM.OBJ",
     "library": "LIBC.LIB"
   },
   {
@@ -2272,6 +1768,13 @@
     "start": 374496,
     "end": 374704,
     "object": "lowio\\obj\\i386\\MKTEMP.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
+    "name": "__dtoxmode",
+    "start": 374704,
+    "end": 374928,
+    "object": "dos\\obj\\i386\\STAT.OBJ",
     "library": "LIBC.LIB"
   },
   {

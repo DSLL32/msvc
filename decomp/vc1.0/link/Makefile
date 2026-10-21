@@ -1,9 +1,10 @@
 PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
-OBJECTS = $(addprefix build/,$(addsuffix .obj,link stubs driver files runtime crt-anchors linker repro image symbols arguments options parse-switch usage dos-stub assembly-stubs))
+HEADERS = $(wildcard *.h)
+OBJECTS = $(addprefix build/,$(addsuffix .obj,link stubs driver files runtime crt-anchors linker repro image symbols arguments options parse-switch usage dos-stub link-pass pass-one machine coff-io object comdat arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs comdat-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs))
 
-.PHONY: all clean check prefix replay audit regenerate
+.PHONY: all clean check prefix replay audit
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
 
 prefix:
@@ -23,19 +24,16 @@ check: all audit
 
 audit: build/runtime.json runtime.json
 	$(PYTHON) audit-graph.py
-	$(PYTHON) audit-assembly.py
+	$(PYTHON) audit-callbacks.py
 	$(PYTHON) audit-data.py
 
 replay: all audit
 	$(PYTHON) compare.py --replay --require-exit
 
-regenerate: runtime.json
-	$(PYTHON) lift.py
-
 build:
 	mkdir -p $@
 
-build/%.obj: %.c link.h | build prefix
+build/%.obj: %.c $(HEADERS) | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
 
 build/link.exe: $(OBJECTS) Makefile
@@ -44,12 +42,57 @@ build/link.exe: $(OBJECTS) Makefile
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 
-build/linker.obj: linker-asm.inc
-build/repro.obj: repro-asm.inc
-build/image.obj: image-asm.inc
-build/symbols.obj: symbols-asm.inc
-build/arguments.obj: arguments-asm.inc
-build/options.obj: options-asm.inc
+build/linker.obj: image.h arguments.h linker-types.h
+build/repro.obj: linker-types.h
+build/image.obj: image.h modules.h symbols.h linker-types.h
+build/symbols.obj: symbols.h linker-types.h
+build/arguments.obj: arguments.h linker-types.h
+build/options.obj: options.h pass-one.h image.h modules.h linker-types.h
 
 clean:
 	rm -rf build
+
+build/text-buffer.obj: linker-types.h
+
+build/link-pass.obj: link-pass.h object.h options.h comdat.h modules.h image.h dos-stub.h
+
+build/modules.obj: modules.h linker-types.h
+
+build/comdat.obj: comdat.h modules.h linker-types.h
+
+build/arena.obj: linker-types.h
+
+build/pass-one.obj: pass-one.h machine.h comdat.h image.h modules.h linker-types.h
+
+build/files.obj: files.h linker-types.h
+
+build/machine.obj: machine.h image.h modules.h arguments.h comdat.h linker-types.h
+
+build/coff-io.obj: linker-types.h
+
+build/object.obj: object.h pass-one.h image.h modules.h comdat.h linker-types.h
+
+build/usage.obj: linker-types.h
+
+build/diagnostics.obj: linker-types.h
+
+build/argument-stubs.obj: arguments.h linker-types.h
+build/files-stubs.obj: files.h linker-types.h
+build/parse-switch.obj: options.h image.h modules.h linker-types.h
+
+build/module-stubs.obj: modules.h linker-types.h
+
+build/comdat-stubs.obj: comdat.h modules.h linker-types.h
+
+build/driver-stubs.obj: image.h modules.h symbols.h linker-types.h
+
+build/machine-stubs.obj: machine.h image.h modules.h linker-types.h
+
+build/pass-stubs.obj: pass-one.h image.h modules.h linker-types.h
+
+build/object-stubs.obj: object.h pass-one.h image.h modules.h comdat.h linker-types.h
+
+build/option-stubs.obj: options.h image.h modules.h linker-types.h
+
+build/link-pass-stubs.obj: link-pass.h object.h options.h comdat.h modules.h image.h
+build/dos-stub.obj: dos-stub.h

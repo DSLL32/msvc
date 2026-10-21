@@ -12,6 +12,7 @@ text = next(s for s in pe.sections if s['name'] == '.text')
 code = pe.data[text['off']:text['off']+text['virtual_size']]
 records = []
 candidates = []
+alias_groups = []
 objects = list(archive(wt.TC / 'lib/LIBC.LIB'))
 
 for name, data in objects:
@@ -23,6 +24,9 @@ for name, data in objects:
                         if s['section'] == section['index'] and
                         (s['type'] == 0x20 or s['storage'] == 2) and
                         not s['name'].startswith('.')), key=lambda s:s['value'])
+        by_value = {}
+        for sym in funcs: by_value.setdefault(sym['value'],set()).add(sym['name'])
+        alias_groups.extend(group for group in by_value.values() if len(group)>1)
         for i, sym in enumerate(funcs):
             a = sym['value']
             b = funcs[i+1]['value'] if i+1 < len(funcs) else len(section['data'])
@@ -34,6 +38,9 @@ for name, data in objects:
             part['bias'] = a
             for off in matches:
                 start = pe.base + text['rva'] + off
+                # LINK's app code precedes the separately linked CRT block.
+                # Tiny push/call/ret wrappers are otherwise ambiguous.
+                if len(sys.argv)==1 and start < 0x509d0: continue
                 record=dict(name=sym['name'],start=start,end=start+b-a,
                             object=name,library='LIBC.LIB')
                 candidates.append((part,start,[record]))
@@ -55,6 +62,9 @@ while True:
             if r['name'] in linked:known[r['name']].add(linked[r['name']])
     for name,start in [('__fpmath',0x52ce0),('_parse_cmdline',0x54530),('__heap_grow_emptylist',0x53590),('__control87',0x592c0)]:
         if len(sys.argv)==1: known[name].add(start)
+    for aliases in alias_groups:
+        addresses=set().union(*(known.get(name,set()) for name in aliases))
+        for name in aliases: known[name].update(addresses)
     remaining=[]
     for part,start,group in candidates:
         valid=True
@@ -86,7 +96,7 @@ for r in records:
 # These routines have the same ABI and control flow as LIBC.LIB; LINK used
 # different register allocation. Ranges were checked instruction by instruction.
 if len(sys.argv) == 1:
-    for name, start, end in [('__fpmath',0x52ce0,0x52cf0), ('_parse_cmdline',0x54530,0x546a0), ('__heap_grow_emptylist',0x53590,0x535f0), ('__control87',0x592c0,0x59300), ('__write',0x532d0,0x53500), ('_doexit',0x517b0,0x51830)]:
+    for name, start, end in [('__fpmath',0x52ce0,0x52cf0), ('_parse_cmdline',0x54530,0x546a0), ('__heap_grow_emptylist',0x53590,0x535f0), ('__control87',0x592c0,0x59300), ('__write',0x532d0,0x53500), ('_doexit',0x517b0,0x51830), ('__read',0x55980,0x55bb0), ('__close',0x555f0,0x55690), ('__free_osfhnd',0x53e10,0x53e80)]:
         records.append(dict(name=name,start=start,end=end,library='LIBC.LIB',
                             evidence='equivalent register allocation; manually disassembled'))
 if len(sys.argv)==1:

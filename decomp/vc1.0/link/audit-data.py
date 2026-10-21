@@ -30,6 +30,11 @@ for r in symbols:
         if start<=q and q+4<=start+size:
             value=u32(expected,q-start)
             matches=[s for s in symbols if s['address']<=value<s['address']+s['size']]
+            if not matches and q-start in r.get('string_pointers',[]):
+                target_pointer=u32(actual,q-start)
+                assert a.string(value)==b.string(target_pointer),name+' pointed-to string differs'
+                struct.pack_into('<I',expected,q-start,target_pointer)
+                continue
             assert matches,'name pointed-to data %08x referenced by %s'%(value,name)
             target=min(matches,key=lambda s:s['size'])
             new=names['_'+target['name']]+value-target['address']

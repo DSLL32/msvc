@@ -1,0 +1,24 @@
+#ifndef LINK_PASS_ONE_H
+#define LINK_PASS_ONE_H
+#include "image.h"
+#include "arguments.h"
+void pass_one(Image *);
+void process_input_argument(Argument *,Image *);
+void recognize_input_file(Argument *,Library *,Image *,Module **);
+Module *read_object_module(Argument *,unsigned short,Image *,Library *);
+void reproduce_input(const char *,unsigned char);
+void check_explicit_modules(Image *,Library *);
+void mark_external_symbols(SymbolTable *,unsigned long);
+void infer_subsystem(Image *);
+void search_libraries(Image *);
+unsigned char create_import_library(Image *,const char *,const char *);
+void warn_unused_libraries(Library *);
+void apply_section_overrides(Image *);
+void apply_section_merges(Image *);
+void free_pointer(void **);
+void begin_library(Library *,Image *);
+void convert_object(Argument *,unsigned short *,Image *);
+void convert_omf(Argument *,unsigned short *,ImageOptions *);
+long tell_file(int);
+void process_object(Image *,unsigned char *,unsigned char *,Module *,unsigned char,unsigned short);
+#endif

@@ -1,9 +1,6 @@
 /* Banner and linker help, original 000254f0 and 00020160. */
-#include "link.h"
-typedef struct TextBuffer { char *data; unsigned long length, capacity; } TextBuffer;
+#include "linker-types.h"
 TextBuffer command_trace;
-extern void append_text(TextBuffer *,const char *,unsigned);
-extern void release_text(TextBuffer *);
 void print_banner(void)
 {
     char *description;
@@ -22,7 +19,7 @@ void print_banner(void)
         release_text(&command_trace);
     }
     fflush(stdout);
-    abort_link=0;
+    banner_pending=0;
 }
 static const char *help_lines[] = {
     "   options:\n\n",
@@ -60,7 +57,7 @@ void link_usage(void)
 {
     unsigned i;
     setvbuf(stdout,NULL,0,1);
-    if (abort_link) print_banner();
+    if (banner_pending) print_banner();
     printf("usage: %s [options] [files] [@commandfile]\n\n",program_name);
     for (i=0;i<sizeof(help_lines)/sizeof(help_lines[0]);++i) printf(help_lines[i]);
     exit(3);

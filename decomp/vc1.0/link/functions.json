@@ -89,7 +89,102 @@
     "__flushall",
     "_flsall",
     "__rmtmp",
-    "import:ExitProcess"
+    "import:ExitProcess",
+    "_fopen",
+    "__fsopen",
+    "__getstream",
+    "__openfile",
+    "__sopen",
+    "__alloc_osfhnd",
+    "import:CreateFileA",
+    "__set_osfhnd",
+    "_fgets",
+    "__filbuf",
+    "__getbuf",
+    "__read",
+    "import:ReadFile",
+    "_parse_response_line",
+    "_tokenize_response",
+    "_append_text",
+    "_reserve_text",
+    "_realloc",
+    "_duplicate_string",
+    "__strdup",
+    "_strlen",
+    "_strcpy",
+    "_strpbrk",
+    "__access",
+    "import:GetFileAttributesA",
+    "_fclose",
+    "__close",
+    "__get_osfhandle",
+    "import:CloseHandle",
+    "__free_osfhnd",
+    "__strcmpi",
+    "_release_text",
+    "_link_passes",
+    "_initialize_modules",
+    "_initialize_comdat",
+    "_create_contribution",
+    "_split_section_group",
+    "_create_section",
+    "_find_section",
+    "_normalize_section_flags",
+    "_initialize_section_enumerator",
+    "_next_section",
+    "_resolve_section",
+    "_create_group",
+    "_find_group",
+    "_initialize_group_enumerator",
+    "_next_group",
+    "_create_comdat_node",
+    "_allocate_arena",
+    "_pass_one",
+    "_open_file",
+    "_find_cached_file",
+    "_acquire_file_slot",
+    "_move_file_slot",
+    "_open_mapped_file",
+    "_map_file",
+    "_create_library",
+    "_find_library",
+    "_initialize_library_enumerator",
+    "_next_library",
+    "_process_input_argument",
+    "__stat",
+    "__getdrive",
+    "import:GetCurrentDirectoryA",
+    "_toupper",
+    "import:FindFirstFileA",
+    "import:FileTimeToSystemTime",
+    "___gmtotime_t",
+    "import:FindClose",
+    "__dtoxmode",
+    "_strrchr",
+    "_recognize_input_file",
+    "_read_file",
+    "_read_mapped_file",
+    "_read_object_module",
+    "_select_machine",
+    "_validate_machine",
+    "_seek_file",
+    "_seek_mapped_file",
+    "_read_coff_header",
+    "_create_module",
+    "_find_module",
+    "_initialize_module_enumerator",
+    "_next_module",
+    "_create_comdat_module",
+    "_initialize_machine",
+    "_process_object",
+    "_read_coff_strings",
+    "_file_size",
+    "_read_coff_symbols",
+    "_process_object_section",
+    "_read_section_header",
+    "_coff_section_name",
+    "_filter_debug_contribution",
+    "_align_contribution"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -100,78 +195,110 @@
       "start": 158528,
       "end": 159712,
       "implementation": "C",
-      "abi": "cdecl int(int argc,char **argv)"
+      "abi": "cdecl int main(int argc, char **argv)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "link.c"
     },
     {
       "name": "_linker_main",
       "start": 97952,
       "end": 98800,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "linker.c",
-      "abi": "cdecl int(int argc,char **argv)"
+      "abi": "cdecl int linker_main(int argc,char **argv)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
       "name": "_library_main",
       "start": 188464,
-      "end": 188465
+      "end": 188465,
+      "implementation": "stub-C",
+      "source": "stubs.c",
+      "abi": "cdecl int(int argc,char **argv)"
     },
     {
       "name": "_dumper_main",
       "start": 196320,
-      "end": 196321
+      "end": 196321,
+      "implementation": "stub-C",
+      "source": "stubs.c",
+      "abi": "cdecl int(int argc,char **argv)"
     },
     {
       "name": "_editor_main",
       "start": 161952,
-      "end": 161953
+      "end": 161953,
+      "implementation": "stub-C",
+      "source": "stubs.c",
+      "abi": "cdecl int(int argc,char **argv)"
     },
     {
       "name": "_helper_main",
       "start": 159712,
-      "end": 159824
+      "end": 159824,
+      "implementation": "stub-C",
+      "source": "stubs.c",
+      "abi": "cdecl int(int argc,char **argv)"
     },
     {
       "name": "_driver_usage",
       "start": 159824,
-      "end": 159984
+      "end": 159984,
+      "implementation": "stub-C",
+      "source": "stubs.c",
+      "abi": "cdecl int(void)"
     },
     {
       "name": "_control_handler@4",
       "start": 159984,
       "end": 160000,
       "implementation": "C",
-      "abi": "stdcall BOOL(DWORD event); callee pops 4 bytes"
+      "abi": "stdcall BOOL WINAPI control_handler(DWORD event)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "driver.c"
     },
     {
       "name": "_link_cleanup",
       "start": 251504,
-      "end": 251505
+      "end": 251505,
+      "implementation": "stub-C",
+      "source": "stubs.c",
+      "abi": "cdecl void(void)"
     },
     {
       "name": "_debug_initialize",
       "start": 239440,
       "end": 239744,
       "implementation": "C",
-      "abi": "cdecl void(char *flags,char *environment_variable)"
+      "abi": "cdecl void debug_initialize(char *text,char *variable)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "driver.c"
     },
     {
       "name": "_debug_enabled",
       "start": 240000,
       "end": 240016,
       "implementation": "C",
-      "abi": "cdecl int(int flag)"
+      "abi": "cdecl int debug_enabled(int index)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "driver.c"
     },
     {
       "name": "_files_initialize",
       "start": 245792,
       "end": 246192,
       "implementation": "C",
-      "abi": "cdecl void(int pages,int mapped_limit,int mapped_open,int normal_limit,int normal_open,int mapped,void (*failure)(char *,int,char *))"
+      "abi": "cdecl void files_initialize(int pages,int mapped_limit,int mapped_open,int normal_limit,int normal_open,int mapped,void (*error)(char *,int,char *))",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "files.c"
     },
     {
       "name": "_file_failure",
       "start": 158480,
-      "end": 158528
+      "end": 158528,
+      "implementation": "stub-C",
+      "source": "stubs.c",
+      "abi": "cdecl void(char *,int,char *)"
     },
     {
       "name": "_print_banner",
@@ -179,21 +306,26 @@
       "end": 152992,
       "implementation": "C",
       "source": "usage.c",
-      "abi": "cdecl void(void)"
+      "abi": "cdecl void print_banner(void)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
       "name": "_new_page",
       "start": 250112,
       "end": 250176,
       "implementation": "C",
-      "abi": "cdecl Page *(void)"
+      "abi": "cdecl Page *new_page(void)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "files.c"
     },
     {
       "name": "_new_file_slot",
       "start": 246192,
       "end": 246256,
       "implementation": "C",
-      "abi": "cdecl FileSlot *(void)"
+      "abi": "cdecl FileSlot *new_file_slot(void)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "files.c"
     },
     {
       "name": "__cfltcvt_init",
@@ -206,55 +338,69 @@
       "name": "_process_options",
       "start": 99280,
       "end": 106064,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "options.c",
-      "abi": "cdecl void(Image *image,int from_directives,int unused2,int unused3)"
+      "abi": "cdecl void process_options(Image *image,unsigned char directives,const char *module_name,const char *context)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
       "name": "_create_image",
       "start": 94208,
       "end": 94368,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "image.c",
-      "abi": "cdecl void(Image **output)"
+      "abi": "cdecl void create_image(Image **output)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_000181f0",
+      "name": "_run_cvpack",
       "start": 98800,
       "end": 98801,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl int(ImageOptions *)"
     },
     {
-      "name": "_unreconstructed_0001a620",
+      "name": "_link_passes",
       "start": 108064,
-      "end": 108065,
-      "implementation": "stub-asm"
+      "end": 116480,
+      "implementation": "C",
+      "source": "link-pass.c",
+      "abi": "cdecl int link_passes(Image *image,unsigned char *pack)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_0001f390",
+      "name": "_select_entry_point",
       "start": 127888,
       "end": 127889,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl void(Image *,unsigned char)"
     },
     {
-      "name": "_unreconstructed_0001f770",
+      "name": "_set_subsystem_version",
       "start": 128880,
       "end": 128881,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl void(IMAGE_OPTIONAL_HEADER *)"
     },
     {
       "name": "_initialize_log",
       "start": 130144,
       "end": 130416,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "repro.c",
-      "abi": "cdecl void(void)"
+      "abi": "cdecl void initialize_log(void)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_0001fe00",
+      "name": "_close_trace_file",
       "start": 130560,
       "end": 130561,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl void(void)"
     },
     {
       "name": "_link_usage",
@@ -262,221 +408,279 @@
       "end": 131888,
       "implementation": "C",
       "source": "usage.c",
-      "abi": "cdecl void(void); exits with status 3"
+      "abi": "cdecl void link_usage(void)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
       "name": "_collect_arguments",
       "start": 132080,
       "end": 132432,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "arguments.c",
-      "abi": "cdecl void(int argc,char **argv,char *environment_variable)"
+      "abi": "cdecl void collect_arguments(int argc,char **argv,const char *environment)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_00020d70",
+      "name": "_free_argument_names",
       "start": 134512,
       "end": 134513,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl void(void)"
     },
     {
-      "name": "_unreconstructed_00021830",
+      "name": "_warning_message",
       "start": 137264,
       "end": 137265,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "diagnostics.c",
+      "abi": "cdecl void(const char *,unsigned,...)"
     },
     {
-      "name": "_unreconstructed_00027130",
+      "name": "_write_map",
       "start": 160048,
       "end": 160049,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl void(int,Image *,const char *)"
     },
     {
-      "name": "_unreconstructed_0003c470",
+      "name": "_open_file",
       "start": 246896,
-      "end": 246897,
-      "implementation": "stub-asm"
+      "end": 247088,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl int open_file(const char *name,int mode,int permission)"
     },
     {
-      "name": "_unreconstructed_0003c6d0",
+      "name": "_close_file",
       "start": 247504,
       "end": 247505,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "files-stubs.c",
+      "abi": "cdecl int(int,unsigned char)"
     },
     {
-      "name": "_unreconstructed_0003c870",
+      "name": "_close_all_files",
       "start": 247920,
       "end": 247921,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl void(void)"
     },
     {
-      "name": "_unreconstructed_0003caf0",
+      "name": "_seek_file",
       "start": 248560,
-      "end": 248561,
-      "implementation": "stub-asm"
+      "end": 248608,
+      "implementation": "C",
+      "abi": "cdecl long seek_file(int handle,long offset,int origin)",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_0003cc20",
+      "name": "_read_file",
       "start": 248864,
-      "end": 248865,
-      "implementation": "stub-asm"
+      "end": 248912,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl unsigned read_file(int handle,void *buffer,unsigned size)"
     },
     {
       "name": "_setvbuf",
       "start": 336688,
       "end": 336880,
       "implementation": "C",
-      "abi": "cdecl int(FILE *stream,char *buffer,int mode,unsigned size)"
+      "abi": "cdecl int setvbuf(FILE *stream, char *buffer, int mode, size_t size)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "runtime.c"
     },
     {
       "name": "__freebuf",
       "start": 349840,
       "end": 349904,
       "implementation": "C",
-      "abi": "cdecl void(FILE *stream)"
+      "abi": "cdecl void _freebuf(FILE *stream)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "runtime.c"
     },
     {
       "name": "_fatal_message",
       "start": 137424,
       "end": 137425,
-      "implementation": "stub-asm"
-    },
-    {
-      "name": "_out_of_memory",
-      "start": 137616,
-      "end": 137617,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "diagnostics.c",
+      "abi": "cdecl void(const char *,int,...)"
     },
     {
       "name": "_initialize_symbols",
       "start": 156048,
       "end": 156128,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "symbols.c",
-      "abi": "cdecl void(SymbolTable **output)"
+      "abi": "cdecl void initialize_symbols(SymbolTable **output)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_00026220",
+      "name": "_symbol_key",
       "start": 156192,
       "end": 156193,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "symbols.c",
+      "abi": "cdecl const char *(const void *,void *)"
     },
     {
       "name": "_initialize_hash",
       "start": 157136,
       "end": 157360,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "symbols.c",
-      "abi": "cdecl void(HashTable **output,unsigned size,unsigned buckets,HashFunction callback,unsigned flags)"
+      "abi": "cdecl void initialize_hash(HashTable **output,unsigned long buckets, unsigned long segments,HashKey key,unsigned short flags)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
       "name": "_collect_search_path",
       "start": 131888,
       "end": 132080,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "arguments.c",
-      "abi": "cdecl void(char *environment_variable,ArgumentList *output)"
+      "abi": "cdecl void collect_search_path(const char *environment,ArgumentList *list)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_00020550",
+      "name": "_parse_response_line",
       "start": 132432,
-      "end": 132433,
-      "implementation": "stub-asm"
+      "end": 132656,
+      "implementation": "C",
+      "source": "arguments.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void parse_response_line(char *line)"
     },
     {
       "name": "_classify_argument",
       "start": 132832,
       "end": 133488,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "arguments.c",
-      "abi": "cdecl void(char *text,int copy)"
+      "abi": "cdecl void classify_argument(char *text,unsigned char copy)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_000219d0",
+      "name": "_duplicate_string",
       "start": 137680,
-      "end": 137681,
-      "implementation": "stub-asm"
+      "end": 137712,
+      "implementation": "C",
+      "source": "arguments.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl char *duplicate_string(const char *text)"
     },
     {
       "name": "_append_argument",
       "start": 133584,
       "end": 133616,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "arguments.c",
-      "abi": "cdecl void(ArgumentList *list,char *text)"
+      "abi": "cdecl void append_argument(ArgumentList *list,char *text)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
       "name": "_append_argument_node",
       "start": 133488,
       "end": 133584,
-      "implementation": "assembly",
+      "implementation": "C",
       "source": "arguments.c",
-      "abi": "cdecl Argument *(ArgumentList *list,char *text,char *original)"
+      "abi": "cdecl void append_argument_node(ArgumentList *list,char *text,char *original)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_00020630",
+      "name": "_expand_wildcards",
       "start": 132656,
       "end": 132657,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "argument-stubs.c",
+      "abi": "cdecl void(const char *)"
     },
     {
-      "name": "_unreconstructed_000210d0",
+      "name": "_is_library_file",
       "start": 135376,
       "end": 135377,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "argument-stubs.c",
+      "abi": "cdecl unsigned char(const char *,int)"
     },
     {
-      "name": "_unreconstructed_00017a60",
+      "name": "_initialize_order",
       "start": 96864,
       "end": 96865,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl void(void (*fatal)(const char *,int,...),void (*warning)(const char *,unsigned,...))"
     },
     {
-      "name": "_unreconstructed_0001fd70",
+      "name": "_reproduce_input",
       "start": 130416,
       "end": 130417,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(const char *name,unsigned char input)"
     },
     {
-      "name": "_unreconstructed_000219b0",
+      "name": "_allocate_checked",
       "start": 137648,
       "end": 137649,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl void *(unsigned long size)"
     },
     {
-      "name": "_unreconstructed_00025830",
+      "name": "_find_library_file",
       "start": 153648,
       "end": 153649,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl char *(const char *name,const char *extension,ArgumentList *paths)"
     },
     {
-      "name": "_unreconstructed_00025cd0",
+      "name": "_lookup_external",
       "start": 154832,
       "end": 154833,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl External *(SymbolTable *table,unsigned short short_name,const char *name,unsigned char *created,unsigned char *flags)"
     },
     {
-      "name": "_unreconstructed_000357a0",
+      "name": "_exclude_default_library",
       "start": 219040,
       "end": 219041,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl void(const char *name,LibraryList *libraries)"
     },
     {
-      "name": "_unreconstructed_000357d0",
+      "name": "_exclude_all_default_libraries",
       "start": 219088,
       "end": 219089,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl void(const char *name,LibraryList *libraries)"
     },
     {
-      "name": "_unreconstructed_00035890",
+      "name": "_add_default_library",
       "start": 219280,
       "end": 219281,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl void(const char *name,LibraryList *libraries)"
     },
     {
       "name": "_append_text",
       "start": 221520,
-      "end": 221521,
-      "implementation": "stub-asm"
+      "end": 221600,
+      "implementation": "C",
+      "source": "text-buffer.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl unsigned long append_text(TextBuffer *buffer,const void *bytes,unsigned long size)"
     },
     {
       "name": "_parse_switch",
@@ -484,37 +688,50 @@
       "end": 239376,
       "implementation": "C",
       "source": "parse-switch.c",
-      "abi": "cdecl ParsedSwitch *(char *text)"
+      "abi": "cdecl ParsedSwitch *parse_switch(char *text)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_unreconstructed_0003a710",
+      "name": "_read_switch_number",
       "start": 239376,
       "end": 239377,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl unsigned char(ParsedSwitch *option,unsigned short index,unsigned long *value)"
     },
     {
-      "name": "_unreconstructed_0003b9d0",
+      "name": "_find_library",
       "start": 244176,
-      "end": 244177,
-      "implementation": "stub-asm"
+      "end": 244512,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Library *find_library(const char *name,Library *first,unsigned char basename)"
     },
     {
-      "name": "_unreconstructed_00051550",
+      "name": "_crt_fread",
       "start": 333136,
       "end": 333137,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl unsigned(void *buffer,unsigned size,unsigned count,FILE *stream)"
     },
     {
-      "name": "_unreconstructed_000516b0",
+      "name": "_crt_filelength",
       "start": 333488,
       "end": 333489,
-      "implementation": "stub-asm"
+      "implementation": "stub-C",
+      "source": "option-stubs.c",
+      "abi": "cdecl long(int file)"
     },
     {
       "name": "_release_text",
       "start": 221600,
-      "end": 221601,
-      "implementation": "stub-asm"
+      "end": 221648,
+      "implementation": "C",
+      "source": "text-buffer.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void release_text(TextBuffer *buffer)"
     },
     {
       "name": "__lseek",
@@ -522,9 +739,1434 @@
       "end": 351153,
       "implementation": "runtime-stub",
       "abi": "cdecl long(int fd,long offset,int origin); entry only until reached"
+    },
+    {
+      "name": "__openfile",
+      "start": 349904,
+      "end": 350240,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl FILE *_openfile(const char *name, const char *mode, int sharing, FILE *stream)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "__sopen",
+      "start": 360736,
+      "end": 361680,
+      "implementation": "C",
+      "abi": "cdecl int _sopen(const char *name, int mode, int sharing, ...)",
+      "source": "runtime.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "__filbuf",
+      "start": 342832,
+      "end": 343056,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl int _filbuf(FILE *stream)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_tokenize_response",
+      "start": 153312,
+      "end": 153648,
+      "implementation": "C",
+      "source": "arguments.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl char *tokenize_response(char *text,const char *delimiters,unsigned char *quoted)"
+    },
+    {
+      "name": "_reserve_text",
+      "start": 221440,
+      "end": 221520,
+      "implementation": "C",
+      "source": "text-buffer.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void reserve_text(TextBuffer *buffer,unsigned long required)"
+    },
+    {
+      "name": "_initialize_comdat",
+      "start": 94448,
+      "end": 94544,
+      "implementation": "C",
+      "source": "comdat.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void initialize_comdat(void (*error)(char *,int,char *))"
+    },
+    {
+      "name": "_create_comdat_node",
+      "start": 94672,
+      "end": 94880,
+      "implementation": "C",
+      "source": "comdat.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl ComdatNode *create_comdat_node(Contribution *contribution,ComdatModule *module, const char *name,ComdatNode **list,unsigned char synthetic)"
+    },
+    {
+      "name": "_add_comdat_root",
+      "start": 95136,
+      "end": 95137,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl ComdatRoot *(External *external,Section *section,Contribution *contribution,ComdatRoot **list)"
+    },
+    {
+      "name": "_resolve_comdat_edges",
+      "start": 95264,
+      "end": 95265,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(SymbolTable *table,ComdatNode *nodes)"
+    },
+    {
+      "name": "_print_comdat_graph",
+      "start": 96048,
+      "end": 96049,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(ComdatNode *nodes)"
+    },
+    {
+      "name": "_visit_comdat_roots",
+      "start": 96208,
+      "end": 96209,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(ComdatRoot *roots,SymbolTable *table)"
+    },
+    {
+      "name": "_dump_symbols",
+      "start": 97760,
+      "end": 97761,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(SymbolTable *table)"
+    },
+    {
+      "name": "_allocate_common_symbols",
+      "start": 106064,
+      "end": 106065,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_count_modules",
+      "start": 106576,
+      "end": 106577,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned long(Library *libraries)"
+    },
+    {
+      "name": "_count_output_sections",
+      "start": 106704,
+      "end": 106705,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned short(Image *image)"
+    },
+    {
+      "name": "_finish_pe_image",
+      "start": 107040,
+      "end": 107041,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image,void *zeroes)"
+    },
+    {
+      "name": "_pad_contribution",
+      "start": 107712,
+      "end": 107713,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Contribution *contribution)"
+    },
+    {
+      "name": "_order_sections",
+      "start": 107984,
+      "end": 107985,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_pass_two",
+      "start": 116480,
+      "end": 116481,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_pass_one",
+      "start": 118192,
+      "end": 118912,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void pass_one(Image *image)"
+    },
+    {
+      "name": "_emit_base_relocations",
+      "start": 126784,
+      "end": 126785,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(IMAGE_OPTIONAL_HEADER *header)"
+    },
+    {
+      "name": "_emit_rom_relocations",
+      "start": 127616,
+      "end": 127617,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_resolve_entry_symbol",
+      "start": 128128,
+      "end": 128129,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(SymbolTable *table)"
+    },
+    {
+      "name": "_collect_symbol_layout",
+      "start": 130576,
+      "end": 130577,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image,unsigned long *first,unsigned long *last)"
+    },
+    {
+      "name": "_assign_external_addresses",
+      "start": 131168,
+      "end": 131169,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(unsigned long first,unsigned long *last,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options)"
+    },
+    {
+      "name": "_layout_sections",
+      "start": 137712,
+      "end": 137713,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image,unsigned long mask,unsigned long *rva,unsigned long *file,unsigned long *fpo,unsigned long *lines,unsigned long *state)"
+    },
+    {
+      "name": "_write_section_headers",
+      "start": 140816,
+      "end": 140817,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(unsigned long mask,unsigned long *state,unsigned long *rva,Image *image)"
+    },
+    {
+      "name": "_emit_externals",
+      "start": 141456,
+      "end": 141457,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(SymbolTable *table,unsigned char output,unsigned char all,unsigned char define,ImageOptions *options)"
+    },
+    {
+      "name": "_read_absolute_symbols",
+      "start": 149728,
+      "end": 149729,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(const char *file,External **sorted,SymbolTable *table)"
+    },
+    {
+      "name": "_mark_external_symbols",
+      "start": 150256,
+      "end": 150257,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(SymbolTable *symbols,unsigned long flags)"
+    },
+    {
+      "name": "_sort_externals",
+      "start": 150384,
+      "end": 150385,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(SymbolTable *table)"
+    },
+    {
+      "name": "_emit_symbol_class",
+      "start": 150880,
+      "end": 150881,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned char(unsigned short storage_class,ImageOptions *options)"
+    },
+    {
+      "name": "_emit_string_table",
+      "start": 151296,
+      "end": 151297,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(SymbolTable *table)"
+    },
+    {
+      "name": "_write_coff_header",
+      "start": 151648,
+      "end": 151649,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(int file,IMAGE_FILE_HEADER *header)"
+    },
+    {
+      "name": "_write_optional_header",
+      "start": 151744,
+      "end": 151745,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)"
+    },
+    {
+      "name": "_make_section_header",
+      "start": 151792,
+      "end": 151793,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Section *section,IMAGE_SECTION_HEADER *header)"
+    },
+    {
+      "name": "_write_section_header",
+      "start": 151984,
+      "end": 151985,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(int file,IMAGE_SECTION_HEADER *header)"
+    },
+    {
+      "name": "_compare_fpo_records",
+      "start": 152576,
+      "end": 152577,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl int(const void *left,const void *right)"
+    },
+    {
+      "name": "_replace_extension",
+      "start": 152592,
+      "end": 152593,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl char *(const char *name,const char *extension)"
+    },
+    {
+      "name": "_update_checksum",
+      "start": 154720,
+      "end": 154721,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(int file)"
+    },
+    {
+      "name": "_find_external",
+      "start": 155104,
+      "end": 155105,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl External *(SymbolTable *table,unsigned char short_name,const char *name)"
+    },
+    {
+      "name": "_set_external_defined",
+      "start": 155168,
+      "end": 155169,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(External *external,unsigned char defined,SymbolTable *table)"
+    },
+    {
+      "name": "_count_externals",
+      "start": 156240,
+      "end": 156241,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned long(SymbolTable *table)"
+    },
+    {
+      "name": "_emit_codeview",
+      "start": 215120,
+      "end": 215121,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_build_mac_resources",
+      "start": 223056,
+      "end": 223057,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_write_mac_swapper",
+      "start": 223344,
+      "end": 223345,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_mac_loader",
+      "start": 226432,
+      "end": 226433,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_finalize_mac_debug",
+      "start": 228208,
+      "end": 228209,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_write_mac_debug",
+      "start": 228480,
+      "end": 228481,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_initialize_mac_exports",
+      "start": 234592,
+      "end": 234593,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_set_mac_export_mode",
+      "start": 234880,
+      "end": 234881,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(unsigned char mode)"
+    },
+    {
+      "name": "_size_mac_jump_table",
+      "start": 235824,
+      "end": 235825,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned long(SymbolTable *table)"
+    },
+    {
+      "name": "_finalize_mac_fixups",
+      "start": 236080,
+      "end": 236081,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_size_mac_data_fixups",
+      "start": 236480,
+      "end": 236481,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned long(Image *image,unsigned long file)"
+    },
+    {
+      "name": "_initialize_mac_section_numbers",
+      "start": 236832,
+      "end": 236833,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(unsigned short count)"
+    },
+    {
+      "name": "_write_mac_resources",
+      "start": 237328,
+      "end": 237329,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_mac_resources",
+      "start": 237392,
+      "end": 237393,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_modules",
+      "start": 241248,
+      "end": 241472,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void initialize_modules(void (*error)(char *,int,char *),Module **output)"
+    },
+    {
+      "name": "_create_contribution",
+      "start": 241840,
+      "end": 242096,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Contribution *create_contribution(const char *name,unsigned long raw_size, unsigned short relocations,unsigned short lines,unsigned long relocation_offset, unsigned long line_offset,unsigned long data_offset,unsigned long flags, unsigned long section_flags,unsigned long rva,Module *module,unsigned char synthetic, SectionList *sections,IMAGE_OPTIONAL_HEADER *header)"
+    },
+    {
+      "name": "_create_section",
+      "start": 243072,
+      "end": 243312,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Section *create_section(const char *name,unsigned long flags,SectionList *list,IMAGE_OPTIONAL_HEADER *header)"
+    },
+    {
+      "name": "_find_section_by_name",
+      "start": 243360,
+      "end": 243361,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl Section *(const char *name,SectionList *sections)"
+    },
+    {
+      "name": "_find_section",
+      "start": 243472,
+      "end": 243616,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Section *find_section(const char *name,unsigned long flags,SectionList *list,IMAGE_OPTIONAL_HEADER *header)"
+    },
+    {
+      "name": "_assign_section_numbers",
+      "start": 243824,
+      "end": 243825,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(SectionList *sections)"
+    },
+    {
+      "name": "_find_group",
+      "start": 244048,
+      "end": 244176,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Group *find_group(Section *section,const char *name)"
+    },
+    {
+      "name": "_move_section_last",
+      "start": 245088,
+      "end": 245089,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Section *section,SectionList *sections)"
+    },
+    {
+      "name": "_tell_file",
+      "start": 248912,
+      "end": 248913,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl long(int file)"
+    },
+    {
+      "name": "_write_file",
+      "start": 249488,
+      "end": 249489,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned(int file,const void *data,unsigned size)"
+    },
+    {
+      "name": "_crt_tzset",
+      "start": 335728,
+      "end": 335729,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_release_comdat_storage",
+      "start": 94544,
+      "end": 94545,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_split_section_group",
+      "start": 242096,
+      "end": 242224,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void split_section_group(const char *name,char **section,char **group)"
+    },
+    {
+      "name": "_create_group",
+      "start": 242864,
+      "end": 243072,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Group *create_group(const char *name,Section *section)"
+    },
+    {
+      "name": "_set_mac_resource",
+      "start": 139408,
+      "end": 139409,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(const char *name,Section *section,unsigned char apply)"
+    },
+    {
+      "name": "_normalize_section_flags",
+      "start": 145424,
+      "end": 145632,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void normalize_section_flags(unsigned long *flags,const char *name,IMAGE_OPTIONAL_HEADER *header)"
+    },
+    {
+      "name": "_initialize_mac_section",
+      "start": 228144,
+      "end": 228145,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(Section *section)"
+    },
+    {
+      "name": "_resolve_section",
+      "start": 243616,
+      "end": 243680,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Section *resolve_section(Section *section)"
+    },
+    {
+      "name": "_initialize_section_enumerator",
+      "start": 245344,
+      "end": 245392,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void initialize_section_enumerator(SectionEnumerator *scan,SectionList *list)"
+    },
+    {
+      "name": "_next_section",
+      "start": 245392,
+      "end": 245440,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl unsigned char next_section(SectionEnumerator *scan)"
+    },
+    {
+      "name": "_end_section_enumerator",
+      "start": 245440,
+      "end": 245441,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(SectionEnumerator *scan)"
+    },
+    {
+      "name": "_initialize_group_enumerator",
+      "start": 245456,
+      "end": 245488,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void initialize_group_enumerator(GroupEnumerator *scan,Section *section)"
+    },
+    {
+      "name": "_next_group",
+      "start": 245488,
+      "end": 245536,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl unsigned char next_group(GroupEnumerator *scan)"
+    },
+    {
+      "name": "_end_group_enumerator",
+      "start": 245536,
+      "end": 245537,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(GroupEnumerator *scan)"
+    },
+    {
+      "name": "_duplicate_comdat_name",
+      "start": 94368,
+      "end": 94369,
+      "implementation": "stub-C",
+      "source": "comdat-stubs.c",
+      "abi": "cdecl char *(const char *)"
+    },
+    {
+      "name": "_allocate_arena",
+      "start": 221648,
+      "end": 221776,
+      "implementation": "C",
+      "source": "arena.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void *allocate_arena(ArenaBlock **arena,unsigned long size)"
+    },
+    {
+      "name": "_apply_section_merges",
+      "start": 96896,
+      "end": 96897,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_apply_section_overrides",
+      "start": 107408,
+      "end": 107409,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_search_libraries",
+      "start": 117296,
+      "end": 117297,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_warn_unused_libraries",
+      "start": 117994,
+      "end": 117995,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Library *library)"
+    },
+    {
+      "name": "_check_explicit_modules",
+      "start": 118096,
+      "end": 118097,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Image *image,Library *library)"
+    },
+    {
+      "name": "_process_input_argument",
+      "start": 118912,
+      "end": 119072,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void process_input_argument(Argument *argument,Image *image)"
+    },
+    {
+      "name": "_infer_subsystem",
+      "start": 128448,
+      "end": 128449,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_create_import_library",
+      "start": 129008,
+      "end": 129009,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl unsigned char(Image *image,const char *library,const char *tool)"
+    },
+    {
+      "name": "_free_pointer",
+      "start": 221808,
+      "end": 221809,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(void **pointer)"
+    },
+    {
+      "name": "_create_library",
+      "start": 242496,
+      "end": 242656,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Library *create_library(const char *name,unsigned long flags,unsigned char search,LibraryList *list)"
+    },
+    {
+      "name": "_initialize_library_enumerator",
+      "start": 245152,
+      "end": 245184,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void initialize_library_enumerator(LibraryEnumerator *scan,Library *first)"
+    },
+    {
+      "name": "_next_library",
+      "start": 245184,
+      "end": 245232,
+      "implementation": "C",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl unsigned char next_library(LibraryEnumerator *scan)"
+    },
+    {
+      "name": "_acquire_file_slot",
+      "start": 246368,
+      "end": 246464,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl FileSlot *acquire_file_slot(void)"
+    },
+    {
+      "name": "_find_cached_file",
+      "start": 246464,
+      "end": 246592,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl FileSlot *find_cached_file(const char *name)"
+    },
+    {
+      "name": "_open_buffered_file",
+      "start": 247088,
+      "end": 247089,
+      "implementation": "stub-C",
+      "abi": "cdecl int(FileSlot *,int,int,unsigned char)",
+      "source": "files-stubs.c"
+    },
+    {
+      "name": "_open_mapped_file",
+      "start": 250464,
+      "end": 250800,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl int open_mapped_file(FileSlot *file,int mode,unsigned char fresh)"
+    },
+    {
+      "name": "_move_file_slot",
+      "start": 250304,
+      "end": 250464,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void move_file_slot(FileSlot *file,FileSlot **from,FileSlot **from_tail, FileSlot **to,FileSlot **to_tail,unsigned char append)"
+    },
+    {
+      "name": "_release_file_slot",
+      "start": 247632,
+      "end": 247633,
+      "implementation": "stub-C",
+      "abi": "cdecl int(FileSlot *)",
+      "source": "files-stubs.c"
+    },
+    {
+      "name": "_seek_mapped_file",
+      "start": 250800,
+      "end": 250896,
+      "implementation": "C",
+      "abi": "cdecl long seek_mapped_file(FileSlot *file,long offset,int origin)",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_map_file",
+      "start": 251328,
+      "end": 251504,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl int map_file(FileSlot *file)"
+    },
+    {
+      "name": "_end_library_enumerator",
+      "start": 245232,
+      "end": 245233,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(LibraryEnumerator *scan)"
+    },
+    {
+      "name": "_initialize_machine",
+      "start": 116944,
+      "end": 117296,
+      "implementation": "C",
+      "abi": "cdecl void initialize_machine(Image *image)",
+      "source": "machine.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_recognize_input_file",
+      "start": 119712,
+      "end": 120112,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void recognize_input_file(Argument *argument,Library *library,Image *image,Module **output)"
+    },
+    {
+      "name": "_process_object",
+      "start": 148272,
+      "end": 148624,
+      "implementation": "C",
+      "abi": "cdecl void process_object(Image *image,unsigned char *new_externals,unsigned char *symbols_changed,Module *module, unsigned char explicit_input,unsigned short member)",
+      "source": "object.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_toupper",
+      "start": 338288,
+      "end": 338656,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl int toupper(int c)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_begin_library",
+      "start": 119072,
+      "end": 119073,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Library *library,Image *image)"
+    },
+    {
+      "name": "_convert_object",
+      "start": 119136,
+      "end": 119137,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Argument *argument,unsigned short *machine,Image *image)"
+    },
+    {
+      "name": "_convert_omf",
+      "start": 119232,
+      "end": 119233,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Argument *argument,unsigned short *machine,ImageOptions *options)"
+    },
+    {
+      "name": "_read_object_module",
+      "start": 119328,
+      "end": 119712,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl Module *read_object_module(Argument *argument,unsigned short machine,Image *image,Library *library)"
+    },
+    {
+      "name": "_read_buffered_file",
+      "start": 248672,
+      "end": 248673,
+      "implementation": "stub-C",
+      "abi": "cdecl unsigned(FileSlot *,void *,unsigned)",
+      "source": "files-stubs.c"
+    },
+    {
+      "name": "_read_mapped_file",
+      "start": 250896,
+      "end": 250992,
+      "implementation": "C",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl unsigned read_mapped_file(FileSlot *file,void *buffer,unsigned size)"
+    },
+    {
+      "name": "_grow_mapping",
+      "start": 251248,
+      "end": 251249,
+      "implementation": "stub-C",
+      "abi": "cdecl void(FileSlot *,long)",
+      "source": "files-stubs.c"
+    },
+    {
+      "name": "_create_comdat_module",
+      "start": 94560,
+      "end": 94672,
+      "implementation": "C",
+      "abi": "cdecl ComdatModule *create_comdat_module(Module *module)",
+      "source": "comdat.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_select_machine",
+      "start": 134624,
+      "end": 134752,
+      "implementation": "C",
+      "source": "machine.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void select_machine(Argument *argument,unsigned short machine,Image *image)"
+    },
+    {
+      "name": "_read_coff_header",
+      "start": 151616,
+      "end": 151648,
+      "implementation": "C",
+      "abi": "cdecl unsigned read_coff_header(int file,IMAGE_FILE_HEADER *header)",
+      "source": "coff-io.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_create_module",
+      "start": 242224,
+      "end": 242496,
+      "implementation": "C",
+      "abi": "cdecl Module *create_module(const char *display_name,const char *path, unsigned long member_offset,unsigned short machine,unsigned long symbol_offset, unsigned long symbol_count,unsigned short optional_size,unsigned short characteristics, unsigned short sections,Library *library,unsigned char *inserted)",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_validate_machine",
+      "start": 134896,
+      "end": 135072,
+      "implementation": "C",
+      "source": "machine.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "abi": "cdecl void validate_machine(const char *file,unsigned short machine,Image *image)"
+    },
+    {
+      "name": "_apply_i386_relocations",
+      "start": 220368,
+      "end": 220369,
+      "implementation": "stub-C",
+      "source": "machine-stubs.c",
+      "abi": "cdecl void(Contribution *,void *,PIMAGE_SYMBOL,Contribution **)"
+    },
+    {
+      "name": "_apply_m68k_relocations",
+      "start": 228992,
+      "end": 228993,
+      "implementation": "stub-C",
+      "source": "machine-stubs.c",
+      "abi": "cdecl void(Contribution *,void *,PIMAGE_SYMBOL,Contribution **)"
+    },
+    {
+      "name": "_seek_buffered_file",
+      "start": 248320,
+      "end": 248321,
+      "implementation": "stub-C",
+      "abi": "cdecl long(FileSlot *,long,int)",
+      "source": "files-stubs.c"
+    },
+    {
+      "name": "_find_module",
+      "start": 244512,
+      "end": 244688,
+      "implementation": "C",
+      "abi": "cdecl Module *find_module(Library *library,const char *path,unsigned long member_offset)",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_initialize_module_enumerator",
+      "start": 245248,
+      "end": 245280,
+      "implementation": "C",
+      "abi": "cdecl void initialize_module_enumerator(ModuleEnumerator *scan,Library *library)",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_next_module",
+      "start": 245280,
+      "end": 245328,
+      "implementation": "C",
+      "abi": "cdecl unsigned char next_module(ModuleEnumerator *scan)",
+      "source": "modules.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_end_module_enumerator",
+      "start": 245328,
+      "end": 245329,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(ModuleEnumerator *scan)"
+    },
+    {
+      "name": "_process_object_section",
+      "start": 145680,
+      "end": 146480,
+      "implementation": "C",
+      "abi": "cdecl void process_object_section(Image *image,Module *module,unsigned char explicit_input, unsigned short index,PIMAGE_SYMBOL symbols)",
+      "source": "object.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_process_object_symbols",
+      "start": 146688,
+      "end": 146689,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(Image *,Module *,unsigned char *new_externals,unsigned char *symbols_changed,PIMAGE_SYMBOL,unsigned short)"
+    },
+    {
+      "name": "_read_coff_strings",
+      "start": 150992,
+      "end": 151280,
+      "implementation": "C",
+      "abi": "cdecl char *read_coff_strings(const char *path,unsigned long offset,unsigned long *size)",
+      "source": "coff-io.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_release_coff_strings",
+      "start": 151280,
+      "end": 151281,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(char *strings)"
+    },
+    {
+      "name": "_read_coff_symbols",
+      "start": 151440,
+      "end": 151520,
+      "implementation": "C",
+      "abi": "cdecl PIMAGE_SYMBOL read_coff_symbols(unsigned long offset,unsigned long count)",
+      "source": "coff-io.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_release_coff_symbols",
+      "start": 151520,
+      "end": 151521,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL symbols)"
+    },
+    {
+      "name": "_process_mac_object_symbols",
+      "start": 226272,
+      "end": 226273,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(SymbolTable *table,PIMAGE_SYMBOL symbols,char *strings)"
+    },
+    {
+      "name": "_initialize_mac_object_symbols",
+      "start": 233744,
+      "end": 233745,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(unsigned long count)"
+    },
+    {
+      "name": "_finish_mac_object_symbols",
+      "start": 235808,
+      "end": 235809,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_file_size",
+      "start": 248608,
+      "end": 248672,
+      "implementation": "C",
+      "abi": "cdecl long file_size(int handle)",
+      "source": "files.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_process_directives",
+      "start": 116784,
+      "end": 116785,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(char *text,Image *image,const char *name,unsigned char library)"
+    },
+    {
+      "name": "_classify_contribution",
+      "start": 143312,
+      "end": 143313,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(Contribution *contribution,ImageOptions *options)"
+    },
+    {
+      "name": "_read_contribution_relocations",
+      "start": 143552,
+      "end": 143553,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(Image *image,Contribution *contribution,PIMAGE_SYMBOL symbols)"
+    },
+    {
+      "name": "_filter_debug_contribution",
+      "start": 144672,
+      "end": 144992,
+      "implementation": "C",
+      "abi": "cdecl void filter_debug_contribution(Contribution *contribution,ImageOptions *options)",
+      "source": "object.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_attach_comdat_node",
+      "start": 145632,
+      "end": 145633,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(Module *module,Contribution *contribution,const char *name)"
+    },
+    {
+      "name": "_select_comdat",
+      "start": 148736,
+      "end": 148737,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl unsigned char(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,unsigned short section,char **name)"
+    },
+    {
+      "name": "_read_section_header",
+      "start": 151952,
+      "end": 151984,
+      "implementation": "C",
+      "abi": "cdecl unsigned read_section_header(int file,IMAGE_SECTION_HEADER *header)",
+      "source": "coff-io.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_coff_section_name",
+      "start": 152992,
+      "end": 153104,
+      "implementation": "C",
+      "abi": "cdecl char *coff_section_name(const char name[8],char *strings)",
+      "source": "coff-io.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_align_contribution",
+      "start": 153104,
+      "end": 153264,
+      "implementation": "C",
+      "abi": "cdecl unsigned long align_contribution(unsigned long offset,unsigned long flags)",
+      "source": "object.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_format_module_name",
+      "start": 241472,
+      "end": 241473,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl char *(Module *module,char *name)"
+    },
+    {
+      "name": "_out_of_memory",
+      "start": 137616,
+      "end": 137617,
+      "implementation": "stub-C",
+      "source": "diagnostics.c",
+      "abi": "cdecl void(void)"
     }
   ],
   "c_stub_references": [
     "_release_text"
+  ],
+  "frontier_cases": [
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c"
   ]
 }

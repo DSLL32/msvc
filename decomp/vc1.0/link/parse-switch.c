@@ -1,14 +1,5 @@
 /* Split name[:[key=]value,...], original [0003a580,0003a710). */
-#include "link.h"
-typedef struct SwitchValue { char *key, *value; } SwitchValue;
-typedef struct ParsedSwitch {
-    char *name;
-    unsigned short count;
-    unsigned short reserved;
-    SwitchValue values[1];
-} ParsedSwitch;
-extern void out_of_memory(void);
-extern void fatal_message(char *,int,...);
+#include "options.h"
 ParsedSwitch *parse_switch(char *text)
 {
     char *colon = strchr(text, ':'), *scan, *copy, *value, *next, *equals;

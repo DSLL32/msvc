@@ -1,0 +1,56 @@
+Source and verification notes
+
+Program logic is C, including argument parsing, option processing, the driver,
+COMDAT allocation, mapped-file/cache handling, COFF readers, module/library and
+section/group lists, object processing, and link-pass orchestration. Functions
+remain separate at the original graph boundaries. Source declarations recover
+cdecl stack arguments and returns; Win32 callbacks and mapped-file API pointers
+use WINAPI. The native compiler expresses the dispatcher's structured exception
+handling and the console handler's stdcall ABI. No implementation required an
+assembly ABI exception. INT3 in pending stubs is part of the required workflow.
+
+functions.json stores original virtual addresses and known extents, the ordered
+accepted history, and the case that exposed each frontier. Source replacement
+does not create a new acceptance: affected historical frontiers are replayed.
+An entry-only range on a pending stub is not a claim to know its full extent.
+Determine that extent when the stub is reached before accepting its C body.
+The known extents include original intra-function constants where applicable.
+
+Internal C layouts belong to this reconstruction. ImageOptions models named
+settings rather than preserving unused original-layout slots. FileSlot, Page,
+Contribution, Module, Library, Section, Group, symbol tables, and enumerators
+have contextual types and named fields. Some unreached consumers still need
+further semantic recovery. COFF/PE structures and the serialized DOS stub use
+the target platform's file-format layouts. The DOS message program is output
+file data, described by fields; it is not an execution mechanism for LINK.
+
+Data is defined with its owner. There are no original section snapshots or
+anonymous image arrays. Ordinary strings occur at use sites. The two named
+ordinary string arrays are sentinels: pass one compares output_name against
+coff.out by address, and the CVPACK launcher distinguishes its default program
+object by address. Section-default records combine names and flags used by
+multiple callers. The dispatch/help tables retain their actual table roles.
+The debug-flags array ends at original 0005c06c, where independent Macintosh
+state begins; it no longer doubles as storage for unrelated linker globals.
+
+The original LIBC.LIB supplies verified static runtime routines. The matcher
+checks COFF bytes and relocation targets, including external calls, and treats
+same-address aliases as one vertex. Older CRT differences in the executable
+have C equivalents in runtime.c. CRT globals such as _iob, _osfile, locale data,
+and heap state use the linked library's named globals. crt-anchors.c requests
+the original floating-point/termination members without copying library data.
+
+The graph audit compares calls including indirect calls and tail calls. The
+callback audit compares relocated function addresses embedded in each accepted
+source routine, including enumerator methods and qsort/CRT callbacks. The data
+audit checks named initial values and pointers; pointers to ordinary literals
+are compared by string value where address identity is not significant.
+These static checks complement execution, rather than proving every future path.
+
+The /? regression is complete. Minimal-C currently has only reached the next
+COMDAT attachment helper; subsequent symbol, archive, layout, and output helpers
+remain named traps. Do not claim generated-image equivalence until that case
+exits and its fixture executable passes byte comparison and execution. Normalize
+only the four-byte PE COFF timestamp specified by each fixture manifest.
+hello-win32 follows minimal-C and additionally needs its GUI window/paint/close
+check from the shared fixture verifier. Fixture input files must remain untouched.

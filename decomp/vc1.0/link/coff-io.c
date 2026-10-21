@@ -1,0 +1,62 @@
+/* COFF file-format reads and reusable symbol/string buffers. */
+#include "linker-types.h"
+TextBuffer coff_string_buffer, coff_symbol_buffer;
+unsigned char coff_strings_cached, coff_symbols_cached;
+char section_name_buffer[9];
+
+unsigned read_coff_header(int file,IMAGE_FILE_HEADER *header)
+{
+    return read_file(file,header,sizeof(*header));
+}
+
+unsigned read_section_header(int file,IMAGE_SECTION_HEADER *header)
+{
+    return read_file(file,header,sizeof(*header));
+}
+
+char *coff_section_name(const char name[8],char *strings)
+{
+    unsigned long offset;
+    strncpy(section_name_buffer,name,8);
+    section_name_buffer[8]=0;
+    if (section_name_buffer[0]=='/' &&
+        sscanf(section_name_buffer+1,"%7lu",&offset)==1)
+        return strings+offset;
+    return section_name_buffer;
+}
+
+char *read_coff_strings(const char *path,unsigned long offset,unsigned long *size)
+{
+    unsigned long length;
+    char *strings=NULL;
+    coff_strings_cached=1;
+    if (!offset) return NULL;
+    length=file_size(incremental_file);
+    if (offset+4 <= length) {
+        seek_file(incremental_file,offset,SEEK_SET);
+        read_file(incremental_file,size,4);
+        if (offset+*size <= length) {
+            if (offset && *size && *size!=4) {
+                reserve_text(&coff_string_buffer,*size+1);
+                strings=coff_string_buffer.data;
+                seek_file(incremental_file,offset,SEEK_SET);
+                read_file(incremental_file,strings,*size);
+                if (strings[*size-1]) warning_message(path,90,"","");
+            } else *size=0;
+            return strings;
+        }
+    }
+    warning_message(path,111,"","");
+    *size=0;
+    return NULL;
+}
+
+PIMAGE_SYMBOL read_coff_symbols(unsigned long offset,unsigned long count)
+{
+    unsigned long bytes=count*IMAGE_SIZEOF_SYMBOL;
+    seek_file(incremental_file,offset,SEEK_SET);
+    coff_symbols_cached=1;
+    reserve_text(&coff_symbol_buffer,bytes);
+    read_file(incremental_file,coff_symbol_buffer.data,bytes);
+    return (PIMAGE_SYMBOL)coff_symbol_buffer.data;
+}

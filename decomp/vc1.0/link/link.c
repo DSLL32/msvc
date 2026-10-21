@@ -2,14 +2,12 @@
 #include "link.h"
 extern int _fltused;
 int *floating_runtime = &_fltused;
-char initial_program_name[] = "CVTRES";
-char *executable_path, *program_name = initial_program_name, *tool_name;
+char *executable_path, *program_name = "CVTRES", *tool_name;
 int tool_kind, debug_display;
 unsigned char debug_requested;
-unsigned char abort_link = 1;
+unsigned char banner_pending = 1;
 char abort_file[256];
-char setup_phase[] = "SetupPhase";
-char *abort_phase = setup_phase;
+char *abort_phase = "SetupPhase";
 Tool tools[] = {
  {"Linker",4,0,1,linker_main}, {"Library Manager",3,0,2,library_main},
  {"Dumper",4,0,3,dumper_main}, {"Editor",4,0,4,editor_main},
@@ -72,7 +70,7 @@ int main(int argc, char **argv)
         tool_name=tools[index].name; tool_kind=tools[index].kind;
         return tools[index].run(argc,argv);
     } __except (1) {
-        if (abort_link) print_banner();
+        if (banner_pending) print_banner();
         fprintf(stdout,"\n\n***** %s INTERNAL ERROR during %s",tools[index].name,abort_phase);
         if (abort_file[0]) fprintf(stdout," while processing file %s\n",abort_file);
         fprintf(stdout," *****\n\n");

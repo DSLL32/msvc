@@ -11,7 +11,7 @@ extern Tool tools[];
 extern char *executable_path, *program_name, *tool_name;
 extern int tool_kind, debug_display;
 extern char debug_flags[];
-extern unsigned char abort_link;
+extern unsigned char banner_pending;
 extern char abort_file[];
 extern char *abort_phase;
 extern unsigned char debug_requested;
