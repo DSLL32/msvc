@@ -19,12 +19,14 @@ build/original.exe build/reconstructed.exe &: build/cl.exe build/runtime.json ru
 
 check: all audit
 	$(PYTHON) compare.py
+	$(PYTHON) compare.py --case=test.c
 
 audit: build/runtime.json runtime.json
 	$(PYTHON) audit-graph.py
 
 replay: all
 	$(PYTHON) compare.py --replay
+	$(PYTHON) compare.py --replay --case=test.c
 
 build:
 	mkdir -p $@

@@ -1,8 +1,9 @@
 Visual C++ 1.0 for NT: CL.EXE reconstruction
 
-Completed case: CL.EXE /?
+Completed cases: CL.EXE /?; CL.EXE test.c
+test.c contains: int main () { return 0; }
 Target/toolchain: ../../../toolchains/1.0-nt
-Original compiler version: 8.00; linker version: 2.23.
+Toolchain compiler banner: 8.00; linker banner: 1.00.
 
 Build and verification (from this directory):
 
@@ -25,28 +26,40 @@ small NT debugger in debug-run.c. It compares logical trap sites, or compares
 exit status and both raw output streams on completion. A completed run is also
 checked against the unmodified original. Child stdin is closed and stdout and
 stderr are captured separately; this preserves CL's help pagination prompts
-and CRLF translation. All run products are under build/.
+and CRLF translation. Compile runs use separate working directories under
+build/compile-{original,reconstructed,baseline}. The generated test.obj and
+test.exe are compared after zeroing only their four-byte COFF timestamp fields;
+all other bytes must match. Each generated executable must run without output
+and return 0. build/compile-validation.json records raw and normalized hashes.
+The compiler phases and linker invoked as child processes are the original
+toolchain binaries. This reconstruction targets the CL driver.
 
 make replay restores the accepted list one function at a time, beginning with
-both entry points masked. It asserts each recorded frontier, then leaves the
-final executables restored and checks the completed case. Its output can be
-saved outside build/ if it needs to survive make clean.
+both entry points masked. It asserts the 140 help frontiers, then the 40 new
+compile frontiers, and checks each completed case. functions.json records the
+case boundaries. Its output can be saved outside build/ if it needs to survive
+make clean.
 
 The /? case prints 3,192 bytes to stdout and 131 bytes to stderr, with exit 0.
-The implementation includes 55 source functions and passes 140 recorded trap
-frontiers. Other paths remain incomplete and will encounter named INT3 stubs.
-This is a reconstruction of this case, not yet a working C/C++ compilation path.
+The implementation includes 75 source functions and passes 180 recorded trap
+frontiers across both cases. The compile case produces a 286-byte object and
+a 2,097,152-byte executable. Other paths remain incomplete and will encounter
+named INT3 stubs.
 
 cl.c contains the driver main and its SEH frame. driver.c contains reconstructed
-argument parsing, option grammar expansion, option-list handling, setup, and
-help display. data.c contains the original option grammar and mutable compiler
+argument parsing, option grammar expansion, option-list handling, setup, help
+display, compiler/linker invocation, response-file generation, and cleanup.
+data.c contains the original option grammar and mutable compiler
 pass profiles. cl.h records the 32-bit layouts and calling conventions.
 
 The static CRT is linked from this toolchain's LIBC.LIB and SETARGV.OBJ.
-identify-runtime.py matches COFF sections against the executable, disregarding
-only relocation operands. Small jump wrappers are additionally checked against
-their actual target. runtime.json records the original addresses and object
-provenance; build/runtime.json records the current reconstruction's addresses.
+identify-runtime.py matches COFF sections against the executable, masking
+relocation operands before checking REL32 destinations against library symbols
+and imported functions. This distinguishes otherwise identical wrappers such as
+remove/rmdir and spawnv/spawnvp. The original's two identical memcpy/memmove
+bodies are recorded as separate graph vertices. runtime.json records original
+addresses and object provenance; build/runtime.json records the reconstruction's
+addresses.
 The strcat and strcpy entries share an implementation, which is recorded as a
 separate shared range so accepting strcat does not silently accept strcpy's
 entry point.
@@ -75,5 +88,5 @@ rerun. Keep calls to other unreconstructed functions as named traps.
 
 advances through exact original-library matches, asserting each matching trap
 before accepting it. This defaults to /?; supply --case for another case.
-Use make replay for the recorded /? order. cases/help.json records final
-output hashes and validation results.
+Use make replay for both recorded case sequences. cases/help.json and
+cases/compile.json record output hashes and validation results.

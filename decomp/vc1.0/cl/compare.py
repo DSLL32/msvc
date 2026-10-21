@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import subprocess
+import shutil
 from pathlib import Path
 from importlib.machinery import SourceFileLoader
 from binary import PE, u32
@@ -79,7 +80,14 @@ def run(label, exe, case='/?'):
     args = ['wine', 'build/debug-run.exe', wt.windows(exe), case,
             wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
             wt.windows(str(stem)+'.events')]
-    subprocess.run(args, env=wt.environment(), check=True, timeout=45,
+    if case == 'test.c':
+        directory = Path('build') / ('compile-' + label)
+        if directory.exists():
+            shutil.rmtree(directory)
+        directory.mkdir()
+        shutil.copyfile('cases/test.c', directory / 'test.c')
+        args.append(wt.windows(directory))
+    subprocess.run(args, env=wt.environment(), check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return Path(str(stem)+'.events').read_text()
 
@@ -104,6 +112,51 @@ def prepare(accepted_count=None):
     mask(rec, ri, accepted, 'build/reconstructed.exe')
     return orig, rec, cfg, oi, ri
 
+def artifact_bytes(path):
+    """Ignore only the COFF timestamp, which depends on the run's wall clock."""
+    data = bytearray(path.read_bytes())
+    if path.suffix == '.obj':
+        assert data[:2] == b'\x4c\x01', 'expected i386 COFF object'
+        offset = 4
+    else:
+        assert data[:2] == b'MZ', 'expected PE executable'
+        header = u32(data, 0x3c)
+        assert data[header:header+4] == b'PE\0\0', 'expected PE signature'
+        offset = header + 8
+    data[offset:offset+4] = b'\0'*4
+    return bytes(data), offset
+
+def check_artifacts(baseline):
+    labels = ['original', 'reconstructed'] + (['baseline'] if baseline else [])
+    report = {}
+    for label in labels:
+        directory = Path('build') / ('compile-' + label)
+        assert {p.name for p in directory.iterdir()} == {'test.c', 'test.obj', 'test.exe'}, 'unexpected compile products: '+label
+    for name in ('test.obj', 'test.exe'):
+        report[name] = {}
+        reference = None
+        for label in labels:
+            path = Path('build') / ('compile-' + label) / name
+            normalized, offset = artifact_bytes(path)
+            if reference is None:
+                reference = normalized
+            assert normalized == reference, name+' differs beyond COFF timestamp: '+label
+            raw = path.read_bytes()
+            report[name][label] = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                                      normalized_sha256=hashlib.sha256(normalized).hexdigest(),
+                                      timestamp_offset=offset)
+    # The generated program is part of the case, not just a file comparison.
+    with concurrent.futures.ThreadPoolExecutor(len(labels)) as pool:
+        runs = [pool.submit(run, 'program-'+label,
+                            Path('build') / ('compile-'+label) / 'test.exe', '')
+                for label in labels]
+        for label, result in zip(labels, runs):
+            assert result.result().strip() == 'exit 0', 'generated executable failed: '+label
+            for stream in ('stdout', 'stderr'):
+                assert not Path('build/program-'+label+'.'+stream).read_bytes(), 'generated executable produced output'
+    Path('build/compile-validation.json').write_text(json.dumps(report, indent=2)+'\n')
+    print('Object and executable match (excluding COFF timestamps); generated programs exit 0.')
+
 def compare(accepted_count=None, case='/?', baseline=True):
     orig, rec, cfg, oi, ri = prepare(accepted_count)
     with concurrent.futures.ThreadPoolExecutor(2) as pool:
@@ -122,7 +175,10 @@ def compare(accepted_count=None, case='/?', baseline=True):
             assert events == ae, 'unmodified original exit status differs'
             for stream in ('stdout', 'stderr'):
                 assert Path('build/baseline.'+stream).read_bytes() == Path('build/original.'+stream).read_bytes(), 'unmodified original '+stream+' differs'
-            print('Unmodified original also matches byte for byte.')
+            print('Unmodified original output streams and exit status also match.')
+        if case == 'test.c':
+            assert al == 'exit:0', 'compile case failed'
+            check_artifacts(baseline)
     return al
 
 if __name__ == '__main__':
@@ -138,8 +194,11 @@ if __name__ == '__main__':
         raise SystemExit(0)
     if args.replay:
         cfg = json.loads(Path('functions.json').read_text())
-        for count, expected in enumerate(cfg['accepted']):
-            print('frontier %d/%d: %s' % (count, len(cfg['accepted']), expected), flush=True)
+        case = next(c for c in cfg['cases'].values() if c['arguments'] == args.case)
+        first, last = case.get('accepted_from', 0), case.get('accepted_count', len(cfg['accepted']))
+        for count in range(first, last):
+            expected = cfg['accepted'][count]
+            print('frontier %d/%d: %s' % (count, last, expected), flush=True)
             actual = compare(count, args.case, baseline=False)
             assert actual == expected, 'recorded frontier changed: '+actual+' != '+expected
         compare(case=args.case)

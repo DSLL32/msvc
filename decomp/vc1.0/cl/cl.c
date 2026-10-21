@@ -9,6 +9,7 @@ int main(int argc, char **argv, char **envp)
     char **ide_args, **before_args, **after_args;
     int ide_count, before_count, after_count, count;
     Item *item;
+    Input *input;
     char *joined;
     __try {
         setbuf(stdout, NULL);
@@ -52,10 +53,10 @@ int main(int argc, char **argv, char **envp)
         }
         prepare_inputs();
         if (!driver->inputs) fatal(2003);
-        for (item = driver->inputs; item; item = item->next) {
-            if (item->value.kind == 7) {
-                if (preprocess) item->value.kind = 0;
-                else { item->value.kind = 3; warning(4024, item->flags); }
+        for (input = driver->inputs; input; input = input->next) {
+            if (input->kind == 7) {
+                if (preprocess) input->kind = 0;
+                else { input->kind = 3; warning(4024, input->filename); }
             }
         }
         prepare_execution();

@@ -6,22 +6,8 @@ void usage(void) { __asm { int 3 } }
 void fatal(int code, ...) { __asm { int 3 } }
 /* 0001ab77 */
 void warning(int code, ...) { __asm { int 3 } }
-/* 0001a7b3 */
-void driver_exit(int status) { __asm { int 3 } }
-/* 0001a3c7 */
-char *append_string(char *dst, char *src) { __asm { int 3 }; return 0; }
-/* 00018a85 */
-void prepare_inputs(void) { __asm { int 3 } }
-/* 0001b007 */
-void prepare_execution(void) { __asm { int 3 } }
-/* 000193cd */
-void run_driver(Driver *d) { __asm { int 3 } }
 /* 0001842b */
 void read_response_file(char *name) { __asm { int 3 } }
-/* 00017557 */
-int classify_input(char *name) { __asm { int 3 }; return 0; }
-/* 000175dd */
-void add_input(char *name, int kind) { __asm { int 3 } }
 /* 0001ad08 */
 void ide_message(int code, ...) { __asm { int 3 } }
 /* 0001afcc */
@@ -56,3 +42,13 @@ void driver_switch_173ac(Item *item) { __asm { int 3 } }
 char *output_stem(char *out, char *name) { __asm { int 3 }; return 0; }
 /* 00019f3c */
 char *map_filename(char *out, char *name) { __asm { int 3 }; return 0; }
+/* 00018fd6 */
+int any_match(Item *items, Item *patterns) { __asm { int 3 }; return 0; }
+/* 0001ac84 */
+void initialize_ide(void) { __asm { int 3 } }
+/* 0001abc3 */
+void start_timer(void) { __asm { int 3 } }
+/* 0001abd1 */
+void report_timer(char *program) { __asm { int 3 } }
+/* 00019ae1 */
+void write_omf_response(Driver *d) { __asm { int 3 } }

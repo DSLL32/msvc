@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdarg.h>
 #include <io.h>
+#include <process.h>
+#include <errno.h>
 
 typedef struct Item {
     struct Item *next;
@@ -14,12 +16,22 @@ typedef struct Item {
     char *name, *extra;
     void *origin;
 } Item;
+typedef struct Input {
+    struct Input *next;
+    char *filename;
+    int kind;
+} Input;
+typedef struct PassRecord PassRecord;
 typedef struct Driver {
-    Item *options, *other_options, *field08, *field0c, *inputs;
-    void *current_input;
-    unsigned field18;
+    Item *options, *other_options;
+    int pass_index;
+    PassRecord *current_pass;
+    Input *inputs, *current_input;
+    Input *first_link;
     char *temporary, *include_path, *directory, *error_file;
-    char remainder[0x170 - 0x2c];
+    char *programs[9][3];
+    char *message_files[9][3];
+    char *loaders[9][3];
 } Driver;
 extern Driver driver_storage, *driver;
 extern int show_commands, quiet, errors, help_mode, preprocess;
@@ -97,13 +109,33 @@ char *expand_filename(char *, char *, Driver *);
 char *filename_stem(char *, char *);
 char *output_stem(char *, char *);
 char *map_filename(char *, char *);
-typedef struct PassRecord {
+struct PassRecord {
     char *executable, *alternate, *parameter;
     int enabled;
     unsigned letter_prefix;
     void *field14;
-} PassRecord;
+};
 typedef struct Profile { char *extension; int link; PassRecord *passes; } Profile;
 extern Profile profiles[];
 int console_rows(void);
+Input *new_input(char *, int);
+extern int input_count;
+int any_match(Item *, Item *);
+int run_passes(PassRecord *, Driver *, int (__cdecl *)(Driver *));
+void initialize_pass(Driver *);
+int compile_pass(Driver *);
+int link_pass(Driver *);
+void cleanup_files(void);
+void initialize_ide(void);
+extern int output_produced;
+unsigned expanded_length(char *, Driver *);
+unsigned nonblank_length(char *);
+char *quote_if_space(char *, char *);
+int spawn_pass(int, char *, char *, char **);
+void start_timer(void);
+void report_timer(char *);
+int is_space(int);
+void write_coff_response(Driver *);
+void write_omf_response(Driver *);
+void file_message(FILE *, char *, ...);
 #endif

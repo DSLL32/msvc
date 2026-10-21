@@ -251,6 +251,7 @@ static PassRecord passes_272a0[] = {
     { "link.exe", NULL, NULL, 1, 0x2d43, NULL },
     { NULL, NULL, NULL, 0, 0, NULL }
 };
+static PassRecord passes_272e8[] = { { NULL, NULL, NULL, 0, 0, NULL } };
 Profile profiles[] = {
     { "c", 0, passes_27210 },
     { "cpp", 0, passes_27258 },
@@ -259,5 +260,7 @@ Profile profiles[] = {
     { "lib", 1, passes_272a0 },
     { "def", 1, passes_272a0 },
     { "exp", 1, passes_272a0 },
-    { NULL, 0, NULL }
+    { NULL, 1, passes_272a0 },
+    { NULL, 2, passes_272e8 },
+    { NULL, -1, NULL }
 };

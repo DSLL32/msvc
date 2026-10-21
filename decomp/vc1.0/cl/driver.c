@@ -279,18 +279,18 @@ void *allocate(unsigned size)
 
 
 /* [00018335,0001842b) */
-void *option_group;
+int input_count;
 int mixed_options, mixed_warning;
 void parse_arguments(char **args, int count)
 {
     int i = 0;
     char *arg;
-    void *previous;
+    int previous;
     AttachedOption *kind;
     while (i < count) {
         arg = args[i];
         if (*arg == '@') { read_response_file(arg + 1); ++i; continue; }
-        previous = option_group;
+        previous = input_count;
         if (*arg != '-' && *arg != '/') {
             add_input(arg, classify_input(arg));
             ++i;
@@ -298,9 +298,9 @@ void parse_arguments(char **args, int count)
             kind = scan_option_kind(arg[1]);
             if (kind && arg[2]) { ++i; parse_attached_option(kind, arg); }
             else parse_option(args, &i);
-            if (option_group && option_group == previous) mixed_options = 1;
+            if (input_count && input_count == previous) mixed_options = 1;
         }
-        if (mixed_options && option_group != previous && !mixed_warning) {
+        if (mixed_options && input_count != previous && !mixed_warning) {
             warning(4026);
             mixed_warning = 1;
         }
@@ -443,7 +443,7 @@ Item *read_option(OptionRule *rule, char **args, int *index)
     }
     if (*spec == '?') {
         flags = 2; ++spec;
-        memcpy(name + 1, name, 31);
+        memmove(name + 1, name, 31);
         name[0] = args[*index][0];
     }
     switch (*spec++) {
@@ -835,8 +835,7 @@ int is_for_pass(Item *item, void *pass)
 /* [00019d9f,00019f3c) */
 char *expand_filename(char *out, char *spec, Driver *d)
 {
-    struct Input { struct Input *next; char *filename; int kind; };
-    struct Input *input = d->current_input;
+    Input *input = d->current_input;
     char *filename = input ? input->filename : "";
     int kind = input ? input->kind : 7;
     char buffer[260], *p = out, *s, *temporary;
@@ -855,7 +854,7 @@ char *expand_filename(char *out, char *spec, Driver *d)
             p = append_optional(p, buffer);
             break;
         case 'e':
-            s = ((char **)((char *)d + 0x98))[(unsigned)d->field08 + kind * 3];
+            s = d->message_files[kind][d->pass_index];
             p = append_optional(p, s ? s : "");
             break;
         case 'f': p = append_optional(p, filename); break;
@@ -891,7 +890,7 @@ void driver_switch_171fc(Item *item)
 {
     char *p;
     if (*item->extra) {
-        if ((int)option_group >= 2) {
+        if ((int)input_count >= 2) {
             p = strchr(item->extra, ' ');
             *p++ = 0;
             if (!strstr(p, "%b") && !strchr("\\/", p[strlen(p)-1]))
@@ -970,4 +969,523 @@ int console_rows(void)
     if (!ok) return 25;
     rows = info.srWindow.Bottom - info.srWindow.Top + 1;
     return rows > 0 ? rows : 1;
+}
+
+/* [00017557,000175ae) */
+int classify_input(char *name)
+{
+    char *extension = name + strlen(name);
+    int kind;
+    while (extension >= name) {
+        if (*extension == '.') {
+            ++extension;
+            for (kind = 0; profiles[kind].extension; ++kind)
+                if (!stricmp(extension, profiles[kind].extension)) return kind;
+            break;
+        }
+        --extension;
+    }
+    return 7;
+}
+
+
+/* [000175dd,0001761c) */
+void add_input(char *name, int kind)
+{
+    Input *input = new_input(name, kind), **tail = &driver->inputs;
+    while (*tail) tail = &(*tail)->next;
+    *tail = input;
+    if (!profiles[kind].link) ++input_count;
+}
+
+
+/* [000175ae,000175dd) */
+Input *new_input(char *name, int kind)
+{
+    Input *input = allocate(12);
+    input->kind = kind;
+    input->filename = copy_string(name);
+    input->next = NULL;
+    return input;
+}
+
+
+/* [00018a85,00018bdd): resolve option prerequisites after driver actions. */
+void prepare_inputs(void)
+{
+    Item *item, *requirements, *p, *expanded;
+    OptionRule *rule;
+    char *name, *description;
+    for (item = driver->other_options; item; item = item->next) {
+        rule = item->origin;
+        if ((item->flags & 0x10) || !rule->special || !rule->expansion) continue;
+        requirements = expand_options(rule->special, item);
+        if (!any_match(driver->other_options, requirements)) {
+            if (!item->flags) {
+                name = allocate(80);
+                description = allocate(80);
+                name[0] = '/';
+                strcpy(name + 1, item->name);
+                for (p = requirements; p; p = p->next) {
+                    if (p == requirements) strcpy(description, "/");
+                    else strcat(description, p->next ? ", /" : " or /");
+                    strcat(description, p->name);
+                }
+                warning(4007, name, description);
+                release(description);
+                release(name);
+            }
+            expanded = expand_options(rule->expansion, item);
+            free_items(select_options(driver, expanded, NULL));
+            free_items(expanded);
+        }
+        free_items(requirements);
+    }
+}
+
+
+/* [0001b007,0001b01d) */
+void prepare_execution(void)
+{
+    extern int global_26078;
+    if (global_26078) dup2(1, 2);
+}
+
+
+/* [000193cd,0001959e) */
+void run_driver(Driver *d)
+{
+    extern int global_22400;
+    Input *input, *next, *created;
+    PassRecord *passes;
+    int failed = 0;
+    if (global_22400) { initialize_ide(); banner(1); }
+    for (input = d->inputs; input; input = next) {
+        next = input->next;
+        if (input->kind == 3 && !d->first_link) d->first_link = input;
+        if (!profiles[input->kind].link) {
+            d->current_input = input;
+            write_message(2, input->filename);
+            write_message(2, "\n");
+            if (global_22400) {
+                sprintf(ide_buffer, "Compiling: %s\n", input->filename);
+                ide_message(3, ide_buffer);
+            }
+            passes = profiles[input->kind].passes;
+            if (passes) {
+                errors = run_passes(passes, d, compile_pass);
+                if (errors) failed = errors;
+                finish_options(d);
+                if (object_file) {
+                    created = new_input(object_file, 3);
+                    created->next = input->next;
+                    input->next = created;
+                    if (!d->first_link) d->first_link = created;
+                }
+                cleanup_files();
+            }
+        }
+    }
+    if (failed) { errors = failed; return; }
+    d->current_input = d->first_link ? d->first_link : d->inputs;
+    finish_options(d);
+    passes = profiles[3].passes;
+    if (passes) {
+        errors = run_passes(passes, d, link_pass);
+        if (errors) return;
+        if (executable_file) {
+            created = new_input(executable_file, 8);
+            created->next = d->inputs->next;
+            d->inputs->next = created;
+        }
+    }
+    for (input = d->inputs; input; input = next) {
+        next = input->next;
+        if (profiles[input->kind].link == 2) {
+            d->current_input = input;
+            passes = profiles[input->kind].passes;
+            if (passes) {
+                errors = run_passes(passes, d, compile_pass);
+                if (errors) return;
+            }
+        }
+    }
+}
+
+
+/* [00019383,000193cd) */
+int run_passes(PassRecord *passes, Driver *d, int (__cdecl *callback)(Driver *))
+{
+    int index;
+    for (index = 0; passes[index].executable; ++index) {
+        if (!passes[index].enabled) continue;
+        d->pass_index = index;
+        d->current_pass = &passes[index];
+        initialize_pass(d);
+        errors = callback(d);
+        if (errors) break;
+    }
+    return errors;
+}
+
+
+/* [00019306,00019383) */
+void initialize_pass(Driver *d)
+{
+    PassRecord *pass = d->current_pass;
+    int kind = d->current_input->kind, index = d->pass_index;
+    char *directory;
+    if (!d->programs[kind][index]) d->programs[kind][index] = join_path(d->directory, pass->executable);
+    if (pass->field14) d->loaders[kind][index] = join_path(d->directory, pass->field14);
+    if (pass->alternate) {
+        directory = program_directory(d->programs[kind][index]);
+        d->message_files[kind][index] = join_path(directory, pass->alternate);
+        release(directory);
+    }
+}
+
+
+/* [0001959e,00019980): construct and invoke one compiler phase. */
+int compile_pass(Driver *d)
+{
+    extern int global_2601c, global_26040, global_26034, global_2607c;
+    char *expanded = allocate(260), *quoted = allocate(260);
+    PassRecord *pass = d->current_pass;
+    int kind = d->current_input->kind, index = d->pass_index;
+    char *program = d->programs[kind][index], *loader = d->loaders[kind][index];
+    unsigned size = strlen(program) + 1, count = 0, length;
+    Item *item;
+    char **arguments, **tail, **trace;
+    char *storage, *pos, *part, *separator;
+    int result = 0;
+    output_produced = 1;
+    if (loader) { size += strlen(loader) + 1; ++count; }
+    for (item = d->options; item; item = item->next) {
+        if (!is_for_pass(item, pass)) continue;
+        ++count;
+        size += expanded_length(item->name, d) + 2;
+        if (item->extra) { ++count; size += expanded_length(item->extra, d) + 2; }
+    }
+    if (d->include_path && global_2601c) {
+        count += 2;
+        size += nonblank_length(d->include_path) + 6;
+        part = d->include_path;
+        while ((separator = strchr(part, ';')) != NULL) {
+            count += 2; size += 6; part = separator + 1;
+        }
+    }
+    arguments = allocate(count * 4 + 8);
+    tail = arguments;
+    storage = pos = allocate(size);
+    if (loader) { *tail++ = pos; pos = append_string(pos, loader) + 1; }
+    *tail++ = pos;
+    pos = append_string(pos, program);
+    for (item = d->options; item; item = item->next) {
+        if (!is_for_pass(item, pass)) continue;
+        *tail++ = ++pos;
+        if (!(item->flags & 8)) *pos++ = (char)(pass->letter_prefix >> 8);
+        expand_filename(expanded, item->name, d);
+        pos = append_string(pos, expanded);
+        if (item->extra) {
+            if (!(item->flags & 4)) *tail++ = ++pos;
+            expand_filename(quoted, item->extra, d);
+            quote_if_space(expanded, quoted);
+            pos = append_string(pos, expanded);
+        }
+    }
+    if (d->include_path && global_2601c &&
+        ((char)pass->letter_prefix == '1' || (char)pass->letter_prefix == 'P')) {
+        part = d->include_path;
+        for (;;) {
+            separator = strchr(part, ';');
+            length = separator ? (unsigned)(separator - part) : strlen(part);
+            if (length > strspn(part, " \t")) {
+                *tail++ = ++pos;
+                pos = append_string(pos, "-I") + 1;
+                *tail++ = pos;
+                if (separator) {
+                    memcpy(pos, part, length);
+                    pos[length] = 0;
+                    pos += length + 1;
+                } else pos = append_string(pos, part);
+            }
+            if (!separator) break;
+            part = separator + 1;
+        }
+    }
+    *tail = NULL;
+    if (global_26040) {
+        trace = arguments;
+        write_message(2, "`");
+        if (loader) { write_message(2, "%s ", loader); ++trace; }
+        write_message(2, "%s", program);
+        for (++trace; *trace; ++trace) write_message(2, " %s", *trace);
+        write_message(2, "'\n");
+    }
+    if (!global_26034) {
+        if (global_2607c) start_timer();
+        result = spawn_pass(loader ? 3 : 0, loader ? loader : program,
+                            loader ? NULL : pass->parameter, arguments);
+        if (global_2607c) report_timer(program);
+    }
+    release(arguments);
+    release(storage);
+    release(quoted);
+    release(expanded);
+    return result;
+}
+
+
+/* [0001a1d1,0001a2de): reserve enough room for expansion and quoting. */
+unsigned expanded_length(char *text, Driver *d)
+{
+    char buffer[260], *filename = d->current_input ? d->current_input->filename : "", *s;
+    int kind = d->current_input ? d->current_input->kind : 7;
+    unsigned length = 0;
+    while (*text) {
+        switch (*text++) {
+        case '"': case '\\': length += 2; break;
+        case '%':
+            switch (*text++) {
+            case 'B': case 'b':
+                filename_stem(buffer, filename);
+                length += nonblank_length(buffer);
+                break;
+            case 'X': length += 3; break;
+            case 'e':
+                s = d->message_files[kind][d->pass_index];
+                if (s) length += nonblank_length(s);
+                break;
+            case 'f': length += nonblank_length(filename); break;
+            case 'm': length += 260; break;
+            case 't': length += nonblank_length(d->temporary); break;
+            case 'x':
+                output_stem(buffer, executable_file);
+                length += nonblank_length(buffer);
+                break;
+            }
+            break;
+        default: ++length; break;
+        }
+    }
+    return length;
+}
+
+
+/* [0001a455,0001a4ae): size after command-line escaping. */
+unsigned nonblank_length(char *text)
+{
+    unsigned length = 0, slashes = 0;
+    int quoted = 0;
+    for (; *text; ++text) {
+        if (is_space(*text)) quoted = 1;
+        if (*text == '"') length += slashes + 1;
+        if (*text == '\\') ++slashes;
+        else slashes = 0;
+        ++length;
+    }
+    if (quoted) length += slashes + 2;
+    return length;
+}
+
+
+/* [0001a366,0001a382) */
+int is_space(int c)
+{
+    return c == ' ' || c == '\t';
+}
+
+
+/* [0001a3c7,0001a3e8) */
+char *append_string(char *dst, char *src)
+{
+    strcpy(dst, src);
+    return dst + strlen(dst);
+}
+
+
+/* [0001a4ae,0001a54d) */
+char *quote_if_space(char *out, char *text)
+{
+    char *p = out;
+    int slashes = 0, quoted = 0;
+    while (*text) {
+        if (is_space(*text)) quoted = 1;
+        if (*text == '"') while (slashes-- >= 0) *p++ = '\\';
+        if (*text == '\\') ++slashes;
+        else slashes = 0;
+        *p++ = *text++;
+    }
+    if (quoted) {
+        memmove(out + 1, out, p - out);
+        *out = '"';
+        ++p;
+        while (slashes-- > 0) *p++ = '\\';
+        *p++ = '"';
+    }
+    *p = 0;
+    return out;
+}
+
+
+/* [0001ae65,0001afcc): run a pass using its environment-variable protocol. */
+int child_running, child_interrupted;
+int spawn_pass(int mode, char *program, char *environment, char **arguments)
+{
+    char buffer[2048], *environment_block[2], *short_arguments[2], *p;
+    char **arg;
+    int inherited, result;
+    switch (mode) {
+    case 0:
+        inherited = 0;
+        if (environment) {
+            p = append_string(buffer, environment);
+            for (arg = arguments + 1; *arg; ++arg) {
+                p = append_string(p, *arg);
+                *p++ = ' ';
+            }
+            *p = 0;
+            environment_block[0] = buffer;
+            environment_block[1] = NULL;
+            short_arguments[0] = arguments[0];
+            short_arguments[1] = NULL;
+            arguments = short_arguments;
+        } else environment_block[0] = NULL;
+        break;
+    case 1: case 3: inherited = 1; break;
+    default: fatal(0); inherited = 0;
+    }
+    flushall();
+    errno = 0;
+    child_interrupted = 0;
+    child_running = 1;
+    if (inherited) result = spawnvp(0, program, (const char * const *)arguments);
+    else result = spawnvpe(0, program, (const char * const *)arguments,
+                           (const char * const *)environment_block);
+    child_running = 0;
+    if (child_interrupted || ((result >> 8) & 255) == 0x80) {
+        driver_exit(4);
+        fatal(0);
+    }
+    if (result < 0 && errno) { fatal(2027, program); return 4; }
+    if (result) {
+        if (result == 525) fatal(2030, program);
+        result = 2;
+    }
+    return result;
+}
+
+
+/* [0001a6b8,0001a757) */
+void cleanup_files(void)
+{
+    extern int global_2602c;
+    static char *extensions[] = { "ex", "sy", "gl", "in", "st", "db", "lk", "df.def", NULL };
+    char buffer[260], *end, **extension;
+    if (global_2602c || !driver->temporary) return;
+    if (strlen(driver->temporary) >= 260) fatal(0);
+    strcpy(buffer, driver->temporary);
+    end = buffer + strlen(buffer);
+    for (extension = extensions; *extension; ++extension) {
+        strcpy(end, *extension);
+        unlink(buffer);
+    }
+}
+
+
+/* [00019980,00019ae1): write a response file and invoke a linker. */
+int link_pass(Driver *d)
+{
+    extern int global_26040, global_26034, global_2607c;
+    char command[2048], *pos = command, **arguments;
+    int kind = d->current_input->kind, index = d->pass_index, result = 0;
+    PassRecord *pass = d->current_pass;
+    char *program = d->programs[kind][index], *loader = d->loaders[kind][index];
+    output_produced = 1;
+    if (loader) pos = append_string(pos, loader);
+    pos = append_string(pos, program);
+    if (coff_format) {
+        write_coff_response(d);
+        pos = append_string(pos, " -link");
+    } else write_omf_response(d);
+    *pos++ = ' ';
+    *pos = 0;
+    pos = append_string(pos, "@");
+    pos = append_string(pos, d->temporary);
+    append_string(pos, "lk");
+    if (strlen(command) >= 2048) fatal(0);
+    arguments = split_arguments(command);
+    if (global_26040) write_message(2, "`%s'\n", command);
+    if (!global_26034) {
+        if (global_2607c) start_timer();
+        result = spawn_pass(1, loader ? loader : program, loader ? NULL : pass->parameter, arguments);
+        if (global_2607c) report_timer(program);
+    }
+    release(arguments);
+    return result;
+}
+
+
+/* [00019ffe,0001a1d1) */
+void write_coff_response(Driver *d)
+{
+    extern int global_26034;
+    char *buffer = allocate(260), *expanded = allocate(260);
+    PassRecord *pass = d->current_pass;
+    FILE *file;
+    Item *item;
+    Input *input;
+    strcpy(buffer, d->temporary);
+    strcat(buffer, "lk");
+    if (global_26034) file = NULL;
+    else {
+        file = fopen(buffer, "w");
+        if (!file) fatal(2018);
+    }
+    for (item = d->options; item; item = item->next) {
+        if (!is_for_pass(item, pass)) continue;
+        if (!(item->flags & 8)) file_message(file, "%c", (char)(pass->letter_prefix >> 8));
+        file_message(file, "%s", expand_filename(buffer, item->name, d));
+        if (item->extra) {
+            if (!(item->flags & 4)) file_message(file, " ");
+            quote_if_space(buffer, expand_filename(expanded, item->extra, d));
+            file_message(file, "%s", buffer);
+        }
+        file_message(file, "\n");
+    }
+    for (input = d->inputs; input; input = input->next) {
+        if (input->kind != 5) continue;
+        quote_if_space(buffer, input->filename);
+        file_message(file, "%cdef:%s\n", (char)(pass->letter_prefix >> 8), buffer);
+    }
+    for (input = d->inputs; input; input = input->next) {
+        if (profiles[input->kind].link != 1 || input->kind == 5) continue;
+        quote_if_space(buffer, input->filename);
+        file_message(file, "%s\n", buffer);
+    }
+    if (file) fclose(file);
+    release(expanded);
+    release(buffer);
+}
+
+
+/* [0001a936,0001a989) */
+void file_message(FILE *file, char *format, ...)
+{
+    extern int global_26040;
+    unsigned length;
+    char *message;
+    va_list ap;
+    va_start(ap, format);
+    message = format_message(&length, format, ap);
+    if (file) write(fileno(file), message, length);
+    if (global_26040) write(2, message, length);
+}
+
+
+/* [0001a7b3,0001a7c5) */
+void driver_exit(int status)
+{
+    cleanup_files();
+    exit(status);
 }

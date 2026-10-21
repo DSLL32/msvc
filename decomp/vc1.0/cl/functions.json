@@ -139,7 +139,47 @@
     "__flushall",
     "_flsall",
     "_fflush",
-    "import:ExitProcess"
+    "import:ExitProcess",
+    "_classify_input",
+    "__strcmpi",
+    "_add_input",
+    "_new_input",
+    "_prepare_inputs",
+    "_prepare_execution",
+    "__dup2",
+    "import:SetStdHandle",
+    "import:GetCurrentProcess",
+    "import:DuplicateHandle",
+    "_run_driver",
+    "_run_passes",
+    "_initialize_pass",
+    "_compile_pass",
+    "_expanded_length",
+    "_nonblank_length",
+    "_is_space",
+    "_append_string",
+    "_quote_if_space",
+    "_strspn",
+    "_spawn_pass",
+    "__spawnvpe",
+    "__spawnve",
+    "_comexecmd",
+    "__cenvarg",
+    "__dospawn",
+    "_calloc",
+    "import:CreateProcessA",
+    "import:WaitForSingleObject",
+    "import:GetExitCodeProcess",
+    "_cleanup_files",
+    "__unlink",
+    "_remove",
+    "import:DeleteFileA",
+    "_link_pass",
+    "_write_coff_response",
+    "_file_message",
+    "__fileno",
+    "__spawnvp",
+    "_driver_exit"
   ],
   "driver": [
     {
@@ -265,7 +305,7 @@
     {
       "name": "_run_driver",
       "start": 103373,
-      "end": 103941
+      "end": 103838
     },
     {
       "name": "_program_directory",
@@ -295,7 +335,7 @@
     {
       "name": "_classify_input",
       "start": 95575,
-      "end": 95709
+      "end": 95662
     },
     {
       "name": "_add_input",
@@ -556,6 +596,96 @@
       "name": "__filbuf",
       "start": 115424,
       "end": 115648
+    },
+    {
+      "name": "_new_input",
+      "start": 95662,
+      "end": 95709
+    },
+    {
+      "name": "_any_match",
+      "start": 102358,
+      "end": 102420
+    },
+    {
+      "name": "_run_passes",
+      "start": 103299,
+      "end": 103373
+    },
+    {
+      "name": "_initialize_pass",
+      "start": 103174,
+      "end": 103299
+    },
+    {
+      "name": "_compile_pass",
+      "start": 103838,
+      "end": 104832
+    },
+    {
+      "name": "_link_pass",
+      "start": 104832,
+      "end": 105185
+    },
+    {
+      "name": "_cleanup_files",
+      "start": 108216,
+      "end": 108375
+    },
+    {
+      "name": "_initialize_ide",
+      "start": 109700,
+      "end": 109767
+    },
+    {
+      "name": "_expanded_length",
+      "start": 106961,
+      "end": 107230
+    },
+    {
+      "name": "_nonblank_length",
+      "start": 107605,
+      "end": 107694
+    },
+    {
+      "name": "_quote_if_space",
+      "start": 107694,
+      "end": 107853
+    },
+    {
+      "name": "_spawn_pass",
+      "start": 110181,
+      "end": 110540
+    },
+    {
+      "name": "_start_timer",
+      "start": 109507,
+      "end": 109521
+    },
+    {
+      "name": "_report_timer",
+      "start": 109521,
+      "end": 109654
+    },
+    {
+      "name": "_is_space",
+      "start": 107366,
+      "end": 107394
+    },
+    {
+      "name": "_write_coff_response",
+      "start": 106494,
+      "end": 106961
+    },
+    {
+      "name": "_write_omf_response",
+      "start": 105185,
+      "end": 105887
+    },
+    {
+      "name": "_file_message",
+      "start": 108854,
+      "end": 108937
     }
   ],
   "target": {
@@ -564,5 +694,16 @@
     "image_base": "0x10000",
     "entry": "0x1c750",
     "case": "/?"
+  },
+  "cases": {
+    "help": {
+      "arguments": "/?",
+      "accepted_count": 140
+    },
+    "compile": {
+      "arguments": "test.c",
+      "accepted_from": 140,
+      "accepted_count": 180
+    }
   }
 }

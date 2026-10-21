@@ -56,20 +56,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "__spawnv",
-    "start": 112224,
-    "end": 112256,
-    "object": "exec\\obj\\i386\\SPAWNV.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__spawnvp",
-    "start": 112224,
-    "end": 112256,
-    "object": "exec\\obj\\i386\\SPAWNVP.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "_strtoul",
     "start": 112256,
     "end": 112288,
@@ -94,13 +80,6 @@
     "start": 112292,
     "end": 112437,
     "object": "string\\obj\\i386\\STRCAT.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "_memcpy",
-    "start": 112440,
-    "end": 112774,
-    "object": "string\\obj\\i386\\MEMCPY.OBJ",
     "library": "LIBC.LIB"
   },
   {
@@ -300,13 +279,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "_memmove",
-    "start": 114924,
-    "end": 115258,
-    "object": "string\\obj\\i386\\MEMMOVE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "__makepath",
     "start": 115264,
     "end": 115424,
@@ -325,20 +297,6 @@
     "start": 115824,
     "end": 115840,
     "object": "convert\\obj\\i386\\ATOX.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??3@YAXPAX@Z",
-    "start": 115824,
-    "end": 115840,
-    "object": "heap\\obj\\i386\\DELETE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??2@YAPAXI@Z",
-    "start": 115824,
-    "end": 115840,
-    "object": "heap\\obj\\i386\\NEW.OBJ",
     "library": "LIBC.LIB"
   },
   {
@@ -881,13 +839,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "__rmdir",
-    "start": 129824,
-    "end": 129872,
-    "object": "dos\\obj\\i386\\RMDIR.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "_remove",
     "start": 129824,
     "end": 129872,
@@ -899,20 +850,6 @@
     "start": 129872,
     "end": 129888,
     "object": "dos\\obj\\i386\\UNLINK.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??3@YAXPAX@Z",
-    "start": 129872,
-    "end": 129888,
-    "object": "heap\\obj\\i386\\DELETE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??2@YAPAXI@Z",
-    "start": 129872,
-    "end": 129888,
-    "object": "heap\\obj\\i386\\NEW.OBJ",
     "library": "LIBC.LIB"
   },
   {
@@ -934,13 +871,6 @@
     "start": 130080,
     "end": 130480,
     "object": "exec\\obj\\i386\\SPAWNVPE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__spawnv",
-    "start": 130480,
-    "end": 130512,
-    "object": "exec\\obj\\i386\\SPAWNV.OBJ",
     "library": "LIBC.LIB"
   },
   {
