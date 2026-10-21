@@ -67,7 +67,65 @@
     "import:GetCurrentDirectoryA",
     "_finalize_options",
     "_free",
-    "_guarded_compile"
+    "_guarded_compile",
+    "_compile_translation_unit",
+    "_initialize_frontend",
+    "import:SetHandleCount",
+    "_initialize_work_stack@4",
+    "_reset_work_stack@4",
+    "_initialize_preprocessor",
+    "_initialize_macro_text",
+    "_initialize_keyword_table",
+    "_intern_keyword@4",
+    "_strncmp",
+    "_initialize_floating_point",
+    "__control87",
+    "__abstract_cw",
+    "__hw_cw",
+    "_top_packing",
+    "_disable_keyword@4",
+    "_intern_identifier@4",
+    "_open_intermediate",
+    "_fopen",
+    "__fsopen",
+    "__getstream",
+    "__openfile",
+    "__sopen",
+    "__alloc_osfhnd",
+    "import:CreateFileA",
+    "__set_osfhnd",
+    "_setvbuf",
+    "__flush",
+    "__freebuf",
+    "_open_expression_intermediate",
+    "_make_integer_constant@4",
+    "_new_integer_constant@4",
+    "_write_ir_record@8",
+    "__flsbuf",
+    "_fseek",
+    "__write",
+    "import:WriteFile",
+    "__lseek",
+    "__get_osfhandle",
+    "import:SetFilePointer",
+    "_fputc",
+    "_initialize_type_table",
+    "_initialize_global_scope",
+    "_intern_type@4",
+    "_make_pointer_type@8",
+    "_normalize_type_attributes@8",
+    "_new_type_shape@12",
+    "_build_parameter_info@8",
+    "_empty_parameter_info",
+    "_intern_type_shape@4",
+    "_make_tagged_type@4",
+    "_make_qualified_type@16",
+    "_copy_type_description@4",
+    "_initialize_intermediate_output",
+    "_builtin_enabled@4",
+    "_mark_builtin@8",
+    "_insert_scope_symbol@8",
+    "_initialize_translation_state"
   ],
   "driver": [
     {
@@ -240,6 +298,372 @@
       "name": "_compiler_warning",
       "start": 306176,
       "end": 306177
+    },
+    {
+      "name": "_initialize_frontend",
+      "start": 274224,
+      "end": 276560
+    },
+    {
+      "name": "_pack_option_flags",
+      "start": 311008,
+      "end": 311009
+    },
+    {
+      "name": "_preprocess_translation_unit",
+      "start": 278208,
+      "end": 278209
+    },
+    {
+      "name": "_record_version_token@4",
+      "start": 161472,
+      "end": 161473
+    },
+    {
+      "name": "_emit_version_token@4",
+      "start": 245888,
+      "end": 245889
+    },
+    {
+      "name": "_compare_filenames",
+      "start": 136176,
+      "end": 136177
+    },
+    {
+      "name": "_begin_automatic_pch",
+      "start": 284800,
+      "end": 284801
+    },
+    {
+      "name": "_begin_debug_info",
+      "start": 291920,
+      "end": 291921
+    },
+    {
+      "name": "_load_precompiled_header",
+      "start": 130464,
+      "end": 130465
+    },
+    {
+      "name": "_open_forced_include@8",
+      "start": 132240,
+      "end": 132241
+    },
+    {
+      "name": "_scan_token",
+      "start": 104864,
+      "end": 104865
+    },
+    {
+      "name": "_unget_token@4",
+      "start": 101328,
+      "end": 101329
+    },
+    {
+      "name": "_parse_translation_unit",
+      "start": 143762,
+      "end": 143763
+    },
+    {
+      "name": "_finish_declarations",
+      "start": 221888,
+      "end": 221889
+    },
+    {
+      "name": "_write_ir_record@8",
+      "start": 234992,
+      "end": 236648,
+      "shared": [
+        [
+          236648,
+          236816
+        ]
+      ]
+    },
+    {
+      "name": "_make_integer_constant@4",
+      "start": 162032,
+      "end": 162055
+    },
+    {
+      "name": "_finish_debug_info",
+      "start": 292016,
+      "end": 292017
+    },
+    {
+      "name": "_write_backend_tables",
+      "start": 224048,
+      "end": 224049
+    },
+    {
+      "name": "_generate_inline_queries",
+      "start": 189460,
+      "end": 189461
+    },
+    {
+      "name": "_close_intermediate",
+      "start": 310112,
+      "end": 310113
+    },
+    {
+      "name": "_finish_browser_output",
+      "start": 160272,
+      "end": 160273
+    },
+    {
+      "name": "_report_error",
+      "start": 305728,
+      "end": 305729
+    },
+    {
+      "name": "_report_syntax_error",
+      "start": 305616,
+      "end": 305617
+    },
+    {
+      "name": "_cleanup_precompiled_files",
+      "start": 290352,
+      "end": 290353
+    },
+    {
+      "name": "_initialize_work_stack@4",
+      "start": 171248,
+      "end": 171343
+    },
+    {
+      "name": "_initialize_preprocessor",
+      "start": 110000,
+      "end": 110029
+    },
+    {
+      "name": "_initialize_keyword_table",
+      "start": 115504,
+      "end": 115689
+    },
+    {
+      "name": "_initialize_floating_point",
+      "start": 312192,
+      "end": 312205
+    },
+    {
+      "name": "_top_packing",
+      "start": 123984,
+      "end": 123991
+    },
+    {
+      "name": "_disable_keyword@4",
+      "start": 115696,
+      "end": 115739
+    },
+    {
+      "name": "_begin_browser_output",
+      "start": 160160,
+      "end": 160161
+    },
+    {
+      "name": "_open_intermediate",
+      "start": 309920,
+      "end": 310109
+    },
+    {
+      "name": "_open_expression_intermediate",
+      "start": 287472,
+      "end": 287745
+    },
+    {
+      "name": "_initialize_inline_queries",
+      "start": 189296,
+      "end": 189297
+    },
+    {
+      "name": "_report_fatal",
+      "start": 305808,
+      "end": 305809
+    },
+    {
+      "name": "_initialize_type_table",
+      "start": 260896,
+      "end": 260942
+    },
+    {
+      "name": "_initialize_global_scope",
+      "start": 210576,
+      "end": 210662
+    },
+    {
+      "name": "_intern_type@4",
+      "start": 261472,
+      "end": 261683
+    },
+    {
+      "name": "_make_pointer_type@8",
+      "start": 261936,
+      "end": 262141
+    },
+    {
+      "name": "_make_tagged_type@4",
+      "start": 265056,
+      "end": 265226
+    },
+    {
+      "name": "_normalize_type_attributes@8",
+      "start": 183088,
+      "end": 183784
+    },
+    {
+      "name": "_make_qualified_type@16",
+      "start": 263008,
+      "end": 263074
+    },
+    {
+      "name": "_initialize_intermediate_output",
+      "start": 186464,
+      "end": 187033
+    },
+    {
+      "name": "_initialize_translation_state",
+      "start": 219536,
+      "end": 219681
+    },
+    {
+      "name": "_define_command_line_macros@4",
+      "start": 114544,
+      "end": 114545
+    },
+    {
+      "name": "_reset_work_stack@4",
+      "start": 171216,
+      "end": 171238
+    },
+    {
+      "name": "_initialize_macro_text",
+      "start": 112016,
+      "end": 112037
+    },
+    {
+      "name": "_intern_keyword@4",
+      "start": 111712,
+      "end": 112007
+    },
+    {
+      "name": "_intern_identifier@4",
+      "start": 111408,
+      "end": 111697
+    },
+    {
+      "name": "_setvbuf",
+      "start": 338352,
+      "end": 338543
+    },
+    {
+      "name": "__sopen",
+      "start": 331600,
+      "end": 332608
+    },
+    {
+      "name": "__freebuf",
+      "start": 357072,
+      "end": 357136
+    },
+    {
+      "name": "_prepare_pch_output@4",
+      "start": 130800,
+      "end": 130801
+    },
+    {
+      "name": "_fseek",
+      "start": 343952,
+      "end": 344102
+    },
+    {
+      "name": "_new_integer_constant@4",
+      "start": 161952,
+      "end": 162021
+    },
+    {
+      "name": "_emit_record_node@12",
+      "start": 222704,
+      "end": 222705
+    },
+    {
+      "name": "_reference_ir_symbol@4",
+      "start": 237264,
+      "end": 237265
+    },
+    {
+      "name": "_get_ir_symbol_index",
+      "start": 237632,
+      "end": 237633
+    },
+    {
+      "name": "_ftell",
+      "start": 333792,
+      "end": 333793
+    },
+    {
+      "name": "_new_type_shape@12",
+      "start": 263616,
+      "end": 263995
+    },
+    {
+      "name": "_intern_type_shape@4",
+      "start": 261696,
+      "end": 261929
+    },
+    {
+      "name": "_build_parameter_info@8",
+      "start": 264224,
+      "end": 264917
+    },
+    {
+      "name": "_empty_parameter_info",
+      "start": 264160,
+      "end": 264211
+    },
+    {
+      "name": "_void_parameter_info",
+      "start": 264096,
+      "end": 264150
+    },
+    {
+      "name": "_hash_parameters@4",
+      "start": 264000,
+      "end": 264081
+    },
+    {
+      "name": "_copy_type_description@4",
+      "start": 263472,
+      "end": 263520
+    },
+    {
+      "name": "_builtin_enabled@4",
+      "start": 187344,
+      "end": 187477
+    },
+    {
+      "name": "_mark_builtin@8",
+      "start": 187184,
+      "end": 187274
+    },
+    {
+      "name": "_insert_scope_symbol@8",
+      "start": 218784,
+      "end": 218872
+    },
+    {
+      "name": "_browser_index_overflow",
+      "start": 161088,
+      "end": 161126
+    },
+    {
+      "name": "_browser_builtin@4",
+      "start": 161232,
+      "end": 161247
+    },
+    {
+      "name": "_create_scope_buckets@8",
+      "start": 218608,
+      "end": 218609
     }
   ],
   "cases": {

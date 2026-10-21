@@ -45,7 +45,9 @@ def instructions(pe, function):
 def edges(pe, records, function):
     calls = set()
     for ins in instructions(pe, function):
-        if ins.mnemonic == 'call':
+        if ins.mnemonic == 'call' or (ins.mnemonic == 'jmp' and
+            re.fullmatch(r'0x[0-9a-f]+', ins.op_str) and
+            not function['start'] <= int(ins.op_str, 16) < function['end']):
             if re.fullmatch(r'0x[0-9a-f]+', ins.op_str):
                 calls.add(at(int(ins.op_str, 16), records))
             else:

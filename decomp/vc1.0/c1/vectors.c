@@ -1,5 +1,6 @@
 /* Short-count pointer vectors allocated from the compiler's arenas. */
-#include "options.h"
+#include <stdlib.h>
+#include "initialization.h"
 
 /* Original 0x324c0..0x3257d. */
 Vector *__stdcall new_vector(short capacity, int arena)
@@ -46,4 +47,29 @@ void __stdcall append_vector(Vector *vector, void *item)
     if (vector->count == vector->capacity)
         grow_vector(vector);
     vector->items[vector->count++] = item;
+}
+
+/* Original 0x29cf0..0x29d4f. */
+void __stdcall initialize_work_stack(WorkingStack **stack)
+{
+    WorkingStack *state = *stack;
+    if (!state) {
+        state = malloc(sizeof(WorkingStack));
+        state->storage = malloc(2048);
+        *(unsigned *)(state->storage + 2040) = 0;
+        *(unsigned *)(state->storage + 2044) = 0;
+        *stack = state;
+        reset_work_stack(state);
+    } else {
+        *(unsigned *)(state->storage + 2044) = 0;
+        reset_work_stack(state);
+    }
+}
+
+/* Original 0x29cd0..0x29ce6. */
+void __stdcall reset_work_stack(WorkingStack *stack)
+{
+    stack->read = stack->storage;
+    stack->count = 0;
+    stack->next = stack->storage;
 }

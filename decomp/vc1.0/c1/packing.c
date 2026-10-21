@@ -36,3 +36,9 @@ PackingEntry *push_packing(PackingStack *stack)
     stack->active = entry;
     return entry;
 }
+
+/* Original 0x1e450..0x1e457. */
+PackingEntry *top_packing(PackingStack *stack)
+{
+    return stack->active;
+}

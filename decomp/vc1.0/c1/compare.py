@@ -47,12 +47,16 @@ def indexes():
     rec = PE('build/c1.exe')
     cfg = json.loads(Path('functions.json').read_text())
     assert hashlib.sha256(orig.data).hexdigest() == cfg['target']['sha256'], 'target changed'
-    original = json.loads(Path('runtime.json').read_text())
+    driver_addresses = {r['start'] for r in cfg['driver']}
+    original = [r for r in json.loads(Path('runtime.json').read_text())
+                if r['start'] not in driver_addresses]
     original += imports(orig) + cfg['driver']
     reconstructed = json.loads(Path('build/runtime.json').read_text()) + imports(rec)
     names = publics()
+    driver_publics = {names[r['name']] for r in cfg['driver'] if r['name'] in names}
     reconstructed = [r for r in reconstructed
-                     if r['name'].startswith('import:') or names.get(r['name'],r['start']) == r['start']]
+                     if r['start'] not in driver_publics and
+                     (r['name'].startswith('import:') or names.get(r['name'],r['start']) == r['start'])]
     # Driver extents come from the compiler's next public function (or code end).
     code_end = max(rec.base+s['rva']+s['virtual_size'] for s in rec.sections if s['flags']&0x20)
     addresses = sorted(set(names.values()) | {code_end})
@@ -92,7 +96,7 @@ def run(label, exe, case=''):
             wt.windows(str(stem)+'.events'), wt.windows(directory),
             'MSC_CMD_FLAGS=' + flags]
     subprocess.run(args, env=wt.environment(), check=True, timeout=90,
-                   stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                   stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return Path(str(stem)+'.events').read_text()
 
 def logical(events, pe, records):
@@ -135,6 +139,12 @@ def compare(accepted_count=None, case='', baseline=True):
     al, bl = logical(ae,orig,oi), logical(be,rec,ri)
     print('original: %s; reconstruction: %s' % (al,bl), flush=True)
     if al != bl: raise RuntimeError('logical trap mismatch\n'+ae+be)
+    # At each matched frontier, compare the visible file writes made so far.
+    left = Path('build/minimal-original')
+    right = Path('build/minimal-reconstructed')
+    assert {p.name for p in left.iterdir()} == {p.name for p in right.iterdir()}, 'frontier file sets differ'
+    for path in left.iterdir():
+        assert path.read_bytes() == (right / path.name).read_bytes(), 'frontier file differs: ' + path.name
     if al.startswith('exit:'):
         for stream in ('stdout','stderr'):
             assert Path('build/original.'+stream).read_bytes() == Path('build/reconstructed.'+stream).read_bytes(), stream+' differs'

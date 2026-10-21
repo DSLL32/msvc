@@ -1,0 +1,7 @@
+{
+  "case": "../fixtures/hello-win32/manifest.json phases.c1",
+  "status": "queued",
+  "after": "minimal",
+  "requested_driver_case": "CL.EXE /O2 /G5 hello.c",
+  "notes": "Use the captured phase command exactly, including -D_M_IX86=500 and -G4. Compare all four intermediate files byte for byte."
+}

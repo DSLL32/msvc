@@ -1,0 +1,100 @@
+/* Compiler intrinsic declarations and their scope registration. */
+#include "builtins.h"
+#include "keywords.h"
+
+unsigned next_symbol_index = 100; /* original 0x6b7f4 */
+unsigned browser_symbol_limit = 65535; /* original 0x6b7f8 */
+int suppress_floating_intrinsics; /* original 0x6c048 */
+unsigned char current_storage[3]; /* original 0x5b258 */
+
+/* Original 0x2d860..0x2da99. */
+void initialize_intermediate_output(void)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    TypeDescription *description;
+    FrontendSymbol *symbol;
+    BuiltinDefinition *definition;
+    char name[1024], *source, *destination, *interned;
+    unsigned group, index;
+    unsigned short flags, shape;
+    int underscore;
+    if (pool->remaining < (int)sizeof(TypeDescription))
+        refill_arena(&compiler_arena, pool);
+    description = (TypeDescription *)pool->next;
+    pool->remaining -= sizeof(TypeDescription);
+    pool->next += sizeof(TypeDescription);
+    description->field08 = 0;
+    for (group = 0; group < 28; ++group) {
+        for (index = builtin_group_boundaries[group];
+             index < builtin_group_boundaries[group + 1]; ++index) {
+            definition = &builtin_definitions[index];
+            if (options.option_MT && !definition->argument_flags)
+                continue;
+            if (!builtin_enabled(index))
+                continue;
+            name[0] = (char)(group + '_');
+            source = definition->name + 1;
+            destination = name + 1;
+            do { *destination++ = *source++; } while (destination[-1]);
+            interned = intern_identifier(name);
+            symbol = allocate_permanent(sizeof(FrontendSymbol));
+            symbol->name = interned;
+            if (next_symbol_index >= 0x7fffffffUL)
+                fatal_error(55);
+            if (next_symbol_index >= browser_symbol_limit && browser_enabled)
+                browser_index_overflow();
+            symbol->index = next_symbol_index++;
+            mark_builtin(symbol, index);
+            flags = definition->return_type;
+            if ((flags & 0x2fdf) == 0x41 && options.z_a && options.option_J && !(flags & 0x8000))
+                flags |= 0x4000;
+            description->flags = flags;
+            underscore = options.option_MT || (interned[0] == '_' && interned[1] == 'f');
+            shape = definition->return_shape;
+            if (shape) {
+                shape &= 7;
+                description->related = new_type_shape(shape,
+                    normalize_type_attributes(shape, (unsigned short)(underscore ? 0 : 0)), 0);
+            } else
+                description->related = 0;
+            symbol->type = make_pointer_type((unsigned short)0x10, description);
+            insert_scope_symbol(global_scope, symbol);
+            if (browser_enabled)
+                browser_builtin(symbol);
+            if (definition->flags & 0x80)
+                symbol->attributes |= 1;
+        }
+    }
+}
+
+/* Original 0x2dbd0..0x2dc55. */
+int __stdcall builtin_enabled(unsigned index)
+{
+    BuiltinDefinition *definition;
+    if ((options.option_M & 4) && index >= 172 && index <= 173)
+        return 0;
+    definition = &builtin_definitions[index];
+    if (definition->flags & 0x80)
+        return 1;
+    if (options.option_Oi) {
+        if (!options.z_a && (definition->flags & 0x40))
+            return 0;
+        if (suppress_floating_intrinsics && !(definition->return_type & 0x100))
+            return 0;
+        return 1;
+    }
+    return 0;
+}
+
+/* Original 0x2db30..0x2db8a. */
+void __stdcall mark_builtin(FrontendSymbol *symbol, unsigned index)
+{
+    unsigned char storage;
+    symbol->kind = 6;
+    storage = (symbol->storage[0] & 0xf9) | 1;
+    symbol->storage[0] = (current_storage[0] & ~7) | (storage & 7);
+    symbol->storage[1] = current_storage[1];
+    symbol->storage[2] = current_storage[2];
+    symbol->intrinsic_operation = (unsigned short)builtin_definitions[index].operation;
+    symbol->intrinsic_flags = builtin_definitions[index].flags;
+}

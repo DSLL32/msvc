@@ -29,14 +29,13 @@ replay: all
 build:
 	mkdir -p $@
 
-build/c1.obj: c1.c c1.h | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/c1.obj c1.c
-
-build/%.obj: %.c c1.h options.h | build prefix
+build/%.obj: %.c c1.h options.h frontend.h characters.h initialization.h preprocessor.h keywords.h ir.h types.h scopes.h builtins.h | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
 
-build/c1.exe: build/c1.obj build/stubs.obj build/diagnostics.obj build/options.obj build/option-data.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1.map /out:$@ $^
+OBJECTS = build/c1.obj build/stubs.obj build/diagnostics.obj build/options.obj build/option-data.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/keywords.obj build/floating.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/parameters.obj build/builtins.obj build/builtin-data.obj
+
+build/c1.exe: $(OBJECTS) $(TC)/lib/BINMODE.OBJ Makefile
+	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1.map /out:$@ $(OBJECTS) $(TC)/lib/BINMODE.OBJ
 
 build/debug-run.obj: debug-run.c | build prefix
 	$(TOOL) CL.EXE /nologo /c /O1 /G3 /Fobuild/debug-run.obj debug-run.c

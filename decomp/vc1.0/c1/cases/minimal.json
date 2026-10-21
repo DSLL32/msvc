@@ -1,10 +1,11 @@
 {
   "case": "../fixtures/minimal-c/manifest.json phases.c1",
   "status": "incomplete",
-  "accepted_frontiers": 63,
-  "reconstructed_source_functions": 26,
-  "current_matching_trap": "_compile_translation_unit",
-  "original_va": "0x43950",
-  "replay": "All 63 prior frontiers replayed in order; final matching trap verified.",
-  "artifact_verification": "Pending completion; fixture outputs not embedded in reconstruction."
+  "accepted_frontiers": 121,
+  "reconstructed_source_functions": 64,
+  "current_matching_trap": "_define_command_line_macros@4",
+  "original_va": "0x1bf70",
+  "replay": "All 121 accepted frontiers replayed in order; final matching macro-setup trap verified.",
+  "artifact_verification": "Pending completion; fixture outputs not embedded in reconstruction.",
+  "frontier_artifacts": "Visible file sets and raw contents match at every checked frontier."
 }

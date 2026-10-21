@@ -3,9 +3,11 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-compile_translation_unit, original VA 0x43950. Startup and command-line
-processing have been reconstructed; parsing test.c and producing the four
-frontend intermediate files remain unfinished. This is a reconstruction
+define_command_line_macros, original VA 0x1bf70. There are 64 reconstructed
+source functions and 121 accepted trap frontiers. Startup, option handling,
+frontend orchestration, builtin types, and intrinsic registration have been
+reconstructed. Macro processing, parsing test.c, and producing the final
+four intermediate files remain unfinished. This is a reconstruction
 checkpoint, not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
@@ -27,6 +29,8 @@ launches the two executables concurrently and requires the same logical
 trap. check verifies the current frontier and audits the reconstructed
 call graph. replay repeats every recorded frontier before restoring the
 current accepted set. An unfinished matched trap is reported explicitly.
+Each matching frontier also requires identical visible working-directory
+files and raw file contents.
 
 The case comes from ../fixtures/minimal-c/manifest.json, captured at the
 original CL CreateProcessA boundary. Each executable receives only the
@@ -52,6 +56,18 @@ checksums.c: checksum transform table initialization.
 packing.c: structure-packing stack.
 memory.c / vectors.c: original permanent and temporary allocation schemes.
 diagnostics.c: typed diagnostic vocabulary lookup table.
+frontend.c / initialization.c: translation-unit driver, startup state,
+  intermediate stream creation, and builtin type initialization.
+preprocessor.c / keywords.c: identifier/keyword interning and vocabulary.
+types.c / parameters.c: type and shape interning, pointer/function types,
+  descriptor stack, and parameter-list construction.
+scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,
+  and typed intrinsic definitions.
+constants.c / ir.c / ir-formats.c: integer nodes and schema-driven IR writer.
+intermediate.c: intermediate stream opening and expression-header reservation.
+runtime.c: encountered old CRT variants whose shipped LIBC implementations
+  differ, including binary-mode open and stream seek/buffering behavior.
+floating.c: startup floating-point control.
 stubs.c: named, trapping entries for functions not yet reconstructed.
 
 Data are defined in the owning subsystem as they are encountered. There
@@ -65,6 +81,6 @@ match individual public functions when a neighboring function in the same
 library section differs. Recognition alone does not accept a function:
 compare.py advances the accepted list only after its matching trap.
 
-audit-graph.py compares direct call targets and the presence of indirect
+audit-graph.py compares direct call and tail-jump targets and the presence of indirect
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
