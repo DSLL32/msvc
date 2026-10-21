@@ -5,11 +5,6 @@
 #include "comdat.h"
 #include <time.h>
 typedef struct SectionDefault { char *name; unsigned long flags; } SectionDefault;
-struct External {
-    IMAGE_SYMBOL symbol;
-    Contribution *contribution;
-    unsigned long final_value, symbol_index, archive_offset, flags;
-};
 typedef struct Fixup { unsigned long type,offset,rva; } Fixup;
 typedef struct FixupBlock { struct FixupBlock *next; Fixup records[341]; } FixupBlock;
 typedef struct BaseFixup BaseFixup;
@@ -22,12 +17,13 @@ extern Section *base_relocation_section,*debug_section;
 extern ComdatNode *comdat_nodes;
 extern ComdatRoot *comdat_roots;
 extern External *entry_symbol;
-extern unsigned long bss_size,symbol_count,common_symbol_count,string_table_size;
+extern unsigned long bss_size,symbol_count,weak_symbol_count,string_table_size,local_symbol_count;
+extern unsigned long mac_far_bss_offset;
+extern Contribution *mac_far_bss;
 extern unsigned long symbol_record_size,pe_header_offset;
 extern int output_file;
 char *replace_extension(const char *,const char *);
 void allocate_common_symbols(Image *);
-void set_external_defined(External *,unsigned char,SymbolTable *);
 void sort_externals(SymbolTable *);
 void read_absolute_symbols(const char *,External **,SymbolTable *);
 void resolve_entry_symbol(SymbolTable *);
@@ -70,7 +66,7 @@ void pass_two(Image *);
 void emit_rom_relocations(void);
 void emit_base_relocations(IMAGE_OPTIONAL_HEADER *);
 unsigned long count_externals(SymbolTable *);
-unsigned char emit_symbol_class(unsigned short,ImageOptions *);
+unsigned char emit_symbol_class(unsigned char,ImageOptions *);
 void emit_string_table(SymbolTable *);
 void emit_codeview(Image *);
 int compare_fpo_records(const void *,const void *);

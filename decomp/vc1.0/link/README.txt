@@ -11,8 +11,8 @@ to stderr. Both streams and status match the unmodified original byte for byte.
 The stdout SHA-256 is:
 957c1782d7ebeed2733e7596f4502ffb6ffd5ffc01858add77f54c7fb4b8dff4
 
-The ordered history contains 194 accepted frontiers. The active minimal-C link
-case stops in both programs at process_object_symbols, original address 00023d00.
+The ordered history contains 205 accepted frontiers. The active minimal-C link
+case stops in both programs at close_file, original address 0003c6d0.
 It has not yet produced a validated executable. The hello-win32 link fixture
 is queued after minimal-C. The fixtures are shared, immutable inputs under
 ../fixtures; cases/ records the queue and exact invocation.
@@ -28,12 +28,13 @@ The original binary's entire code section is masked with INT3. The harness
 restores accepted function extents and runs both variants concurrently, asserting
 that each trap names the same logical function. The reconstruction's entry point
 and all unaccepted functions are masked as well. The clean parallel build and full
-case-aware replay passed at the 185-frontier cleanup checkpoint. Nine subsequent
-minimal-C frontiers have each been reached, reconstructed in C, and replayed.
+case-aware replay passed at the 205-frontier symbol-processing checkpoint. The subsequent
+minimal-C frontiers cover object symbols, weak/undefined external state, segmented
+hashing and pooled nodes, and COFF symbol/string buffer release.
 
 The static audits compare direct calls, tail calls, indirect-call presence, and
-relocated callback references. The current all-C build checks 104 source/runtime
-call graphs, 95 source callback-reference sets, and 160 contextual data objects.
+relocated callback references. The current all-C build checks 115 source/runtime
+call graphs, 106 source callback-reference sets, and 166 contextual data objects.
 These checks and the frontier replay cover the reached paths; pending helpers
 still trap, and unexecuted output-format branches need later case coverage.
 

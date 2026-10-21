@@ -47,10 +47,21 @@ audit checks named initial values and pointers; pointers to ordinary literals
 are compared by string value where address identity is not significant.
 These static checks complement execution, rather than proving every future path.
 
-The /? regression is complete. Minimal-C has advanced through COMDAT roots, .drectve parsing, default-library
-registration, and contribution relocation scanning. Its current symbol-processing
-frontier and later archive, layout, and output helpers remain named traps. Do not claim generated-image equivalence until that case
-exits and its fixture executable passes byte comparison and execution. Normalize
-only the four-byte PE COFF timestamp specified by each fixture manifest.
-hello-win32 follows minimal-C and additionally needs its GUI window/paint/close
-check from the shared fixture verifier. Fixture input files must remain untouched.
+External symbols have a COFF symbol record and named owner/value unions for
+contributions, reference lists, final values, and undefined-list back links.
+Their private C layout omits fields whose consumers have not yet been reached;
+COFF records themselves retain the required 18-byte file layout. The weak-symbol
+counter is shared by override handling and definition transitions. Hash nodes and
+interned-name nodes draw from the retained small-allocation pool; this is mutable
+allocator state, not copied executable data. The streaming reader similarly owns
+one typed, reusable IMAGE_SYMBOL object.
+
+The /? regression is complete. Minimal-C has advanced through COMDAT roots,
+.drectve parsing, default-library registration, contribution relocation scanning,
+object-symbol merging, and initial hash lookup/insertion. It currently stops at
+close_file. Later archive, layout, and output helpers remain named traps. Do not
+claim generated-image equivalence until that case exits and its fixture executable
+passes byte comparison and execution. Normalize only the four-byte PE COFF timestamp
+specified by each fixture manifest. hello-win32 follows minimal-C and additionally
+needs its GUI window/paint/close check from the shared fixture verifier. Fixture
+input files must remain untouched.

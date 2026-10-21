@@ -193,7 +193,18 @@
     "_allocate_checked",
     "_matches_default_library",
     "_classify_contribution",
-    "_read_contribution_relocations"
+    "_read_contribution_relocations",
+    "_process_object_symbols",
+    "_next_coff_symbol",
+    "_emit_symbol_class",
+    "_lookup_external",
+    "_find_hash_entry",
+    "_hash_bucket",
+    "_allocate_pool_block",
+    "_set_external_defined",
+    "_define_external",
+    "_release_coff_strings",
+    "_release_coff_symbols"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -655,10 +666,11 @@
     {
       "name": "_lookup_external",
       "start": 154832,
-      "end": 154833,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl External *(SymbolTable *table,unsigned short short_name,const char *name,unsigned char *created,unsigned char *flags)"
+      "end": 155104,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl External *(SymbolTable *table,unsigned short short_name,const char *name,unsigned char *created,unsigned char *flags)",
+      "evidence": "Matching minimal-C frontier; complete lookup/creation body 25cd0..25de0."
     },
     {
       "name": "_exclude_default_library",
@@ -996,7 +1008,7 @@
       "abi": "cdecl void(const char *file,External **sorted,SymbolTable *table)"
     },
     {
-      "name": "_mark_external_symbols",
+      "name": "_resolve_weak_externals",
       "start": 150256,
       "end": 150257,
       "implementation": "stub-C",
@@ -1014,10 +1026,11 @@
     {
       "name": "_emit_symbol_class",
       "start": 150880,
-      "end": 150881,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl unsigned char(unsigned short storage_class,ImageOptions *options)"
+      "end": 150992,
+      "implementation": "C",
+      "source": "link-pass.c",
+      "abi": "cdecl unsigned char(unsigned char storage_class,ImageOptions *options)",
+      "evidence": "Matching minimal-C frontier; full leaf extent 24d60..24dd0."
     },
     {
       "name": "_emit_string_table",
@@ -1094,10 +1107,11 @@
     {
       "name": "_set_external_defined",
       "start": 155168,
-      "end": 155169,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(External *external,unsigned char defined,SymbolTable *table)"
+      "end": 155616,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(External *external,unsigned char defined,SymbolTable *table)",
+      "evidence": "Matching minimal-C frontier; full state/list transition body 25e20..25fe0, including sorted old-library insertion and reference ownership."
     },
     {
       "name": "_count_externals",
@@ -1829,10 +1843,11 @@
     {
       "name": "_process_object_symbols",
       "start": 146688,
-      "end": 146689,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(Image *,Module *,unsigned char *new_externals,unsigned char *symbols_changed,PIMAGE_SYMBOL,unsigned short)"
+      "end": 148272,
+      "implementation": "C",
+      "source": "object.c",
+      "abi": "cdecl void(Image *,Module *,unsigned char *new_externals,unsigned char *import_symbols,PIMAGE_SYMBOL,unsigned short)",
+      "evidence": "matching minimal-C traps; full extent through RET 00024323 and alignment before 00024330"
     },
     {
       "name": "_read_coff_strings",
@@ -1846,10 +1861,11 @@
     {
       "name": "_release_coff_strings",
       "start": 151280,
-      "end": 151281,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(char *strings)"
+      "end": 151296,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl void(char *strings)",
+      "evidence": "Matching minimal-C frontier; cached string buffer release flag leaf 24ef0..24f00."
     },
     {
       "name": "_read_coff_symbols",
@@ -1863,10 +1879,11 @@
     {
       "name": "_release_coff_symbols",
       "start": 151520,
-      "end": 151521,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(PIMAGE_SYMBOL symbols)"
+      "end": 151536,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL symbols)",
+      "evidence": "Matching minimal-C frontier; cached symbol buffer release flag leaf 24fe0..24ff0."
     },
     {
       "name": "_process_mac_object_symbols",
@@ -2082,6 +2099,131 @@
       "implementation": "stub-C",
       "source": "object-stubs.c",
       "abi": "cdecl void(Contribution *contribution,unsigned long offset,unsigned long symbol)"
+    },
+    {
+      "name": "_next_coff_symbol",
+      "start": 151536,
+      "end": 151584,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl PIMAGE_SYMBOL(PIMAGE_SYMBOL *cursor,unsigned char auxiliary)",
+      "evidence": "Matching minimal-C frontier; cached record advance or shared streaming record, 24ff0..25020."
+    },
+    {
+      "name": "_process_mac_static_symbol",
+      "start": 234304,
+      "end": 234305,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(Contribution *contribution,PIMAGE_SYMBOL symbol,unsigned long index)"
+    },
+    {
+      "name": "_record_mac_external",
+      "start": 234016,
+      "end": 234017,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(External *external,unsigned long index)"
+    },
+    {
+      "name": "_format_input_reference",
+      "start": 152320,
+      "end": 152321,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(char *display,const char *library,const char *file)"
+    },
+    {
+      "name": "_prepend_external",
+      "start": 153264,
+      "end": 153265,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(ExternalLink **list,External *external)"
+    },
+    {
+      "name": "_record_undefined_reference",
+      "start": 155696,
+      "end": 155697,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(External *external,Module *module)"
+    },
+    {
+      "name": "_process_weak_external",
+      "start": 144992,
+      "end": 144993,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBOL symbol,External *external,Module *module,unsigned char *new_externals,unsigned char created,unsigned char *imports,unsigned short member)"
+    },
+    {
+      "name": "_define_external",
+      "start": 146480,
+      "end": 146576,
+      "implementation": "C",
+      "source": "object.c",
+      "abi": "cdecl void(External *external,Contribution *contribution,unsigned long value,short section,unsigned short type,unsigned short member,SymbolTable *table)",
+      "evidence": "Matching minimal-C frontier; definition transition and COFF fields, full 23c30..23c90."
+    },
+    {
+      "name": "_mark_import_contributions",
+      "start": 146576,
+      "end": 146577,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(Module *module)"
+    },
+    {
+      "name": "_read_coff_symbol",
+      "start": 152016,
+      "end": 152017,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_SYMBOL symbol)"
+    },
+    {
+      "name": "_intern_symbol_name",
+      "start": 150512,
+      "end": 150513,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl unsigned long(SymbolTable *table,const char *name)"
+    },
+    {
+      "name": "_find_hash_entry",
+      "start": 157472,
+      "end": 157792,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void **(const char *key,HashTable *table,unsigned char insert,void *context,unsigned char *created)",
+      "evidence": "Matching minimal-C frontier; complete segmented hash lookup/insert 26720..26860, threshold and callback recovered."
+    },
+    {
+      "name": "_hash_bucket",
+      "start": 157360,
+      "end": 157472,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned long(const char *key,HashTable *table)",
+      "evidence": "Matching minimal-C frontier; full hash and incremental bucket selection leaf 266b0..26720."
+    },
+    {
+      "name": "_expand_hash",
+      "start": 157792,
+      "end": 157793,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(HashTable *table,void *context)"
+    },
+    {
+      "name": "_allocate_pool_block",
+      "start": 221344,
+      "end": 221440,
+      "implementation": "C",
+      "source": "arena.c",
+      "abi": "cdecl void *(unsigned long size)",
+      "evidence": "Matching minimal-C frontier; shared retained allocation block refill 360a0..36100."
     }
   ],
   "c_stub_references": [
@@ -2178,6 +2320,17 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

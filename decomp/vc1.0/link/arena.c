@@ -31,3 +31,16 @@ void *allocate_checked(unsigned long size)
     if (!memory) out_of_memory();
     return memory;
 }
+
+/* Small symbol/hash nodes share this retained allocation block. */
+unsigned long pool_remaining,pool_capacity=4096,pool_saved_remaining;
+char *pool_block;
+
+void *allocate_pool_block(unsigned long size)
+{
+    if (pool_block) realloc(pool_block,pool_capacity-pool_remaining);
+    pool_block=calloc(pool_capacity,1);
+    if (!pool_block) out_of_memory();
+    pool_remaining=pool_capacity-size;
+    return pool_block;
+}

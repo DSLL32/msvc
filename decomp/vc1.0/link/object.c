@@ -1,7 +1,7 @@
 /* COFF sections and symbols read during pass one. */
-#include "object.h"
+#include "link-pass.h"
 #include "comdat.h"
-#pragma intrinsic(strcmp)
+#pragma intrinsic(strcmp,strcpy)
 char *coff_strings;
 unsigned long section_header_offset;
 void **mac_object_symbols;
@@ -224,4 +224,159 @@ void read_contribution_relocations(Image *image,Contribution *contribution,PIMAG
         break;
     }
     release_coff_relocations(records);
+}
+
+/* Original [00023d00,00024330). Merge defined, common, and weak COFF externals. */
+void process_object_symbols(Image *image,Module *module,unsigned char *new_externals,
+    unsigned char *import_symbols,PIMAGE_SYMBOL records,unsigned short member)
+{
+    PIMAGE_SYMBOL cursor=records,symbol;
+    unsigned long index=0,old_bss=bss_size,old_far_bss=mac_far_bss_offset;
+    unsigned long member_offset,module_bss,value,*total;
+    unsigned char imports=import_symbols?*import_symbols:0,created,define,auxiliary;
+    short section_number;
+    Contribution *contribution,*previous;
+    External *external;
+    char display[_MAX_PATH],previous_display[_MAX_PATH],local_name[9]={0};
+    char *name;
+    format_module_name(module,display);
+    member_offset=module->library->name ? module->name.member_offset : 0;
+    seek_file(incremental_file,module->symbol_offset+member_offset,SEEK_SET);
+    while (index!=module->symbol_count) {
+        symbol=next_coff_symbol(&cursor,0);
+        if (symbol->StorageClass==IMAGE_SYM_CLASS_EXTERNAL ||
+            symbol->StorageClass==IMAGE_SYM_CLASS_WEAK_EXTERNAL ||
+            symbol->StorageClass==LINK_SYM_CLASS_FAR_EXTERNAL) {
+            created=define=0;
+            if (!symbol->N.Name.Short) name=coff_strings+symbol->N.Name.Long;
+            else {
+                strncpy(local_name,(char *)symbol,8);
+                name=local_name;
+            }
+            external=lookup_external(image->symbols,(unsigned short)(symbol->N.Name.Short!=0),
+                name,&created,&imports);
+            if (mac_image) mac_object_symbols[index]=external;
+            if (!created && (external->flags&(EXTERNAL_WEAK|EXTERNAL_LAZY)) &&
+                symbol->StorageClass!=IMAGE_SYM_CLASS_WEAK_EXTERNAL) {
+                external->flags &= ~(EXTERNAL_WEAK|EXTERNAL_LAZY);
+                external->weak_default=NULL;
+                --weak_symbol_count;
+            }
+            if (created) {
+                external->symbol.Type=symbol->Type;
+                if (new_externals) *new_externals=1;
+            }
+            if (mac_image && tool_kind!=2) record_mac_external(external,index);
+            if (external->symbol.N.Name.Short)
+                name=strncpy(short_symbol_name,(char *)external,8);
+            else name=image->symbols->strings.data+external->symbol.N.Name.Long;
+            section_number=symbol->SectionNumber;
+            contribution=NULL;
+            value=0;
+            if (section_number>0) {
+                define=1;
+                contribution=&module->contributions[section_number-1];
+                if (external->flags&EXTERNAL_DEFINED) {
+                    if (external->flags&EXTERNAL_COMMON) {
+                        external->flags &= ~EXTERNAL_COMMON;
+                        bss_size-=external->symbol.Value;
+                    } else {
+                        define=0;
+                        previous=external->owner.contribution;
+                        if (!((contribution->flags&IMAGE_SCN_LNK_COMDAT) &&
+                              (previous->flags&IMAGE_SCN_LNK_COMDAT))) {
+                            if (!previous) strcpy(previous_display,"a previous module");
+                            else format_input_reference(previous_display,previous->module->library->name,
+                                previous->module->path);
+                            warning_message(display,0x4d,name,previous_display);
+                        }
+                    }
+                }
+                value=symbol->Value;
+            } else if (section_number==IMAGE_SYM_ABSOLUTE) {
+                value=symbol->Value;
+                define=1;
+                if ((external->flags&EXTERNAL_DEFINED) && external->symbol.Value!=value) {
+                    previous=external->owner.contribution;
+                    format_input_reference(previous_display,previous->module->library->name,previous->module->path);
+                    warning_message(display,0x4d,name,previous_display);
+                    define=0;
+                }
+            } else if (!section_number && symbol->Value) {
+                contribution=bss_contribution;
+                total=&bss_size;
+                if (mac_image && symbol->StorageClass==LINK_SYM_CLASS_FAR_EXTERNAL) {
+                    contribution=mac_far_bss;
+                    total=&mac_far_bss_offset;
+                }
+                if (!(external->flags&EXTERNAL_DEFINED) || (external->flags&EXTERNAL_COMMON)) {
+                    if (!(external->flags&EXTERNAL_COMMON)) prepend_external(&module->common_symbols,external);
+                    external->flags |= EXTERNAL_COMMON;
+                    if (mac_image) {
+                        if (!(external->flags&EXTERNAL_DEFINED)) external->symbol.StorageClass=symbol->StorageClass;
+                        if ((symbol->StorageClass==LINK_SYM_CLASS_FAR_EXTERNAL && external->symbol.StorageClass==IMAGE_SYM_CLASS_EXTERNAL) ||
+                            (symbol->StorageClass==IMAGE_SYM_CLASS_EXTERNAL && external->symbol.StorageClass==LINK_SYM_CLASS_FAR_EXTERNAL)) {
+                            warning_message(module->path,0x85,name,NULL);
+                            if (symbol->StorageClass==LINK_SYM_CLASS_FAR_EXTERNAL) total=&bss_size;
+                            else {
+                                external->symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
+                                contribution=bss_contribution;
+                                external->owner.contribution=contribution;
+                                mac_far_bss_offset-=external->symbol.Value;
+                                bss_size+=external->symbol.Value;
+                            }
+                        }
+                    }
+                    if (external->symbol.Value<symbol->Value) {
+                        if ((unsigned short)module->machine!=IMAGE_FILE_MACHINE_I386 && !mac_image && symbol->Value>=8)
+                            *total=(*total+7)&~7UL;
+                        symbol->Value=(symbol->Value+3)&~3UL;
+                        *total+=symbol->Value-external->symbol.Value;
+                        value=symbol->Value;
+                        define=1;
+                    }
+                }
+            } else if (!section_number && !(external->flags&EXTERNAL_DEFINED)) {
+                record_undefined_reference(external,module);
+                if (symbol->StorageClass==IMAGE_SYM_CLASS_WEAK_EXTERNAL) {
+                    ++index;
+                    process_weak_external(image->symbols,&cursor,symbol,external,module,
+                        new_externals,created,&imports,member);
+                }
+            }
+            if (define) define_external(external,contribution,value,section_number,symbol->Type,member,image->symbols);
+        } else if (mac_image && tool_kind!=2 && symbol->SectionNumber>0)
+            process_mac_static_symbol(&module->contributions[symbol->SectionNumber-1],symbol,index);
+        ++index;
+        if (emit_symbol_class(symbol->StorageClass,&image->options))
+            local_symbol_count+=1+symbol->NumberOfAuxSymbols;
+        for (auxiliary=0;auxiliary<symbol->NumberOfAuxSymbols;++auxiliary) {
+            next_coff_symbol(&cursor,1);
+            ++index;
+        }
+    }
+    if (mac_image && verbose_link) {
+        module_bss=bss_size-old_bss;
+        value=mac_far_bss_offset-old_far_bss;
+        if (module_bss) printf("NEARBSS :  %8lx bytes  (%s)\n",module_bss,display);
+        if (value) printf("FARBSS  :  %8lx bytes  (%s)\n",value,display);
+    }
+    if (imports) mark_import_contributions(module);
+    if (import_symbols) *import_symbols=imports;
+}
+
+void define_external(External *external,Contribution *contribution,unsigned long value,
+                     short section,unsigned short type,unsigned short member,SymbolTable *table)
+{
+    set_external_defined(external,1,table);
+    if (external->flags&0x40c0) {
+        external->flags &= ~0x40c0;
+        external->symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
+        --weak_symbol_count;
+    }
+    external->owner.contribution=contribution;
+    external->symbol.Value=value;
+    external->symbol.SectionNumber=section;
+    external->symbol.Type=type;
+    external->archive_member=member;
 }

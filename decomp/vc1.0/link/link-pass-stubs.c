@@ -2,7 +2,6 @@
 #include "link-pass.h"
 char * replace_extension(const char *name,const char *extension) { __asm { int 3 } return 0; }
 void allocate_common_symbols(Image *image) { __asm { int 3 } }
-void set_external_defined(External *external,unsigned char defined,SymbolTable *table) { __asm { int 3 } }
 void sort_externals(SymbolTable *table) { __asm { int 3 } }
 void read_absolute_symbols(const char *file,External **sorted,SymbolTable *table) { __asm { int 3 } }
 void resolve_entry_symbol(SymbolTable *table) { __asm { int 3 } }
@@ -45,7 +44,6 @@ void pass_two(Image *image) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }
 void emit_base_relocations(IMAGE_OPTIONAL_HEADER *header) { __asm { int 3 } }
 unsigned long count_externals(SymbolTable *table) { __asm { int 3 } return 0; }
-unsigned char emit_symbol_class(unsigned short storage_class,ImageOptions *options) { __asm { int 3 } return 0; }
 void emit_string_table(SymbolTable *table) { __asm { int 3 } }
 void emit_codeview(Image *image) { __asm { int 3 } }
 int compare_fpo_records(const void *left,const void *right) { __asm { int 3 } return 0; }

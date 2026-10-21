@@ -27,7 +27,6 @@ void exclude_default_library(const char *,LibraryList *);
 void exclude_all_default_libraries(const char *,LibraryList *);
 char *find_library_file(const char *,const char *,ArgumentList *);
 unsigned char read_switch_number(ParsedSwitch *,unsigned short,unsigned long *);
-External *lookup_external(SymbolTable *,unsigned short,const char *,unsigned char *,unsigned char *);
 typedef void (*FatalRoutine)(const char *,int,...);
 typedef void (*WarningRoutine)(const char *,unsigned,...);
 void initialize_order(FatalRoutine,WarningRoutine);

@@ -2,7 +2,7 @@
 #include "pass-one.h"
 void reproduce_input(const char *name,unsigned char input) { __asm { int 3 } }
 void check_explicit_modules(Image *image,Library *library) { __asm { int 3 } }
-void mark_external_symbols(SymbolTable *symbols,unsigned long flags) { __asm { int 3 } }
+void resolve_weak_externals(SymbolTable *symbols,unsigned long flags) { __asm { int 3 } }
 void infer_subsystem(Image *image) { __asm { int 3 } }
 void search_libraries(Image *image) { __asm { int 3 } }
 unsigned char create_import_library(Image *image,const char *library,const char *tool) { __asm { int 3 } return 0; }

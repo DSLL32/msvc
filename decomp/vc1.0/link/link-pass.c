@@ -16,7 +16,7 @@ ComdatRoot *comdat_roots;
 External *end_symbol,*header_symbol,*entry_symbol,*gp_symbol;
 Contribution *absolute_contribution;
 ModuleDebugInfo *module_debug_info;
-unsigned long bss_size,symbol_count,common_symbol_count,local_symbol_count,string_table_size;
+unsigned long bss_size,symbol_count,weak_symbol_count,local_symbol_count,string_table_size;
 Module *output_module;
 Contribution *bss_contribution,*codeview_contribution,*coff_debug_contribution;
 Contribution *fixup_contribution,*debug_directory_contribution;
@@ -101,15 +101,15 @@ int link_passes(Image *image,unsigned char *pack)
     header_symbol=lookup_external(image->symbols,1,"header",&created,&flags);
     if (header_symbol->flags&1) fatal_message(program_name,4,"Special symbol \"header\" already defined");
     set_external_defined(header_symbol,1,image->symbols);
-    header_symbol->final_value=header_symbol->symbol.Value=0;
+    header_symbol->value.final_value=header_symbol->symbol.Value=0;
     header_symbol->symbol.SectionNumber=-2;
-    header_symbol->contribution=absolute_contribution;
+    header_symbol->owner.contribution=absolute_contribution;
     end_symbol=lookup_external(image->symbols,1,"end",&created,&flags);
     if (end_symbol->flags&1) fatal_message(program_name,4,"Special symbol \"end\" already defined");
     set_external_defined(end_symbol,1,image->symbols);
-    end_symbol->symbol.Value=end_symbol->final_value=0;
+    end_symbol->symbol.Value=end_symbol->value.final_value=0;
     end_symbol->symbol.SectionNumber=-2;
-    end_symbol->contribution=absolute_contribution;
+    end_symbol->owner.contribution=absolute_contribution;
     local_symbol_count+=2;
     if (*absolute_symbols_file) {
         sort_externals(image->symbols);
@@ -267,7 +267,7 @@ int link_passes(Image *image,unsigned char *pack)
             free(full_name);
             finalize_mac_debug();
         }
-        if (entry_symbol) mac_entry_section=entry_symbol->contribution->group->section->index;
+        if (entry_symbol) mac_entry_section=entry_symbol->owner.contribution->group->section->index;
         else fatal_message("",0x3d,NULL);
         if (mac_loader_present) initialize_mac_loader();
     }
@@ -394,7 +394,7 @@ int link_passes(Image *image,unsigned char *pack)
     assign_external_addresses(externals_begin,&externals_end,header,&image->options);
     if (end_symbol) {
         end_symbol->symbol.Value=data_rva-header->ImageBase;
-        end_symbol->final_value=data_rva;
+        end_symbol->value.final_value=data_rva;
     }
     if (image->options.debug_level && (image->options.debug_types&2)) {
         module_debug_info=calloc(count_modules(image->libraries.first),76);
@@ -414,8 +414,8 @@ int link_passes(Image *image,unsigned char *pack)
     pass_two(image);
     abort_file[0]=0;
     external=find_external(image->symbols,1,"__tls_used");
-    if (external && external->contribution) {
-        header->DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress=external->final_value;
+    if (external && external->owner.contribution) {
+        header->DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress=external->value.final_value;
         header->DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].Size=24;
     }
     if (!image->options.fixed && image->file.Machine!=0x268) {
@@ -427,7 +427,7 @@ int link_passes(Image *image,unsigned char *pack)
     seek_file(output_file,symbol_start+symbol_record_size*symbol_count,SEEK_SET);
     if (count_externals(image->symbols) &&
         (emit_symbol_class(2,&image->options) || emit_symbol_class(0x44,&image->options))) {
-        if (common_symbol_count) mark_external_symbols(image->symbols,0x40c0);
+        if (weak_symbol_count) resolve_weak_externals(image->symbols,0x40c0);
         if (image->options.map_format==1) write_map(1,image,output_name);
         emit_externals(image->symbols,1,1,0,&image->options);
     }
@@ -564,7 +564,7 @@ int link_passes(Image *image,unsigned char *pack)
         section=find_section(".idata",idata_directory_defaults.flags,sections,header);
         header->DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].Size=section->file_end-section->file_offset;
     }
-    if (entry_symbol && (entry_symbol->flags&1)) header->AddressOfEntryPoint=entry_symbol->final_value;
+    if (entry_symbol && (entry_symbol->flags&1)) header->AddressOfEntryPoint=entry_symbol->value.final_value;
     failed=undefined_symbols && !image->options.force;
     *pack=!failed && image->options.debug_level==3 && (image->options.debug_types&2) && !image->options.no_pack;
     if (image->options.checksum && *pack) header->CheckSum=0xffffffffUL;
@@ -577,10 +577,30 @@ int link_passes(Image *image,unsigned char *pack)
         rom.bss_size=header->SizeOfUninitializedData; rom.entry=header->AddressOfEntryPoint;
         rom.code_base=header->BaseOfCode; rom.data_base=rom_data_start; rom.bss_base=bss_start;
         rom.gpr_mask=rom.cpr_mask[0]=rom.cpr_mask[1]=rom.cpr_mask[2]=rom.cpr_mask[3]=0;
-        rom.gp_value=gp_symbol?gp_symbol->final_value+rom.code_base:0;
+        rom.gp_value=gp_symbol?gp_symbol->value.final_value+rom.code_base:0;
         write_file(output_file,&rom,image->file.SizeOfOptionalHeader);
     } else write_optional_header(output_file,header,image->file.SizeOfOptionalHeader);
     if (failed) { fatal_message(output_name,0x17,undefined_symbols); return 0x17; }
     if (image->options.checksum && !*pack) update_checksum(output_file);
     return 0;
+}
+
+/* COFF-only debugging retains selected local and external symbol records. */
+unsigned char emit_symbol_class(unsigned char storage_class,ImageOptions *options)
+{
+    if (!options->debug_level || !(options->debug_types&1)) return 0;
+    switch (storage_class) {
+    case IMAGE_SYM_CLASS_EXTERNAL:
+    case LINK_SYM_CLASS_FAR_EXTERNAL:
+    case IMAGE_SYM_CLASS_WEAK_EXTERNAL:
+        return 1;
+    case IMAGE_SYM_CLASS_STATIC:
+    case IMAGE_SYM_CLASS_FILE:
+        return !options->rom;
+    case IMAGE_SYM_CLASS_UNDEFINED_LABEL:
+    case IMAGE_SYM_CLASS_UNDEFINED_STATIC:
+        return 0;
+    default:
+        return options->debug_level==3;
+    }
 }

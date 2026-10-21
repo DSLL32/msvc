@@ -8,7 +8,7 @@ void recognize_input_file(Argument *,Library *,Image *,Module **);
 Module *read_object_module(Argument *,unsigned short,Image *,Library *);
 void reproduce_input(const char *,unsigned char);
 void check_explicit_modules(Image *,Library *);
-void mark_external_symbols(SymbolTable *,unsigned long);
+void resolve_weak_externals(SymbolTable *,unsigned long);
 void infer_subsystem(Image *);
 void search_libraries(Image *);
 unsigned char create_import_library(Image *,const char *,const char *);

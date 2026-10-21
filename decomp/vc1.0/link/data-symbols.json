@@ -583,7 +583,7 @@
   },
   {
     "address": 505916,
-    "name": "common_symbol_count",
+    "name": "weak_symbol_count",
     "size": 4,
     "owner": "link-pass.c"
   },
@@ -1000,5 +1000,41 @@
     "name": "mac_section_data_fixups",
     "size": 4,
     "owner": "object.c"
+  },
+  {
+    "address": 377052,
+    "name": "short_symbol_name",
+    "size": 9,
+    "owner": "symbols.c"
+  },
+  {
+    "address": 452256,
+    "name": "streamed_symbol",
+    "size": 18,
+    "owner": "coff-io.c"
+  },
+  {
+    "name": "pool_remaining",
+    "address": 506412,
+    "size": 4,
+    "owner": "arena.c"
+  },
+  {
+    "name": "pool_capacity",
+    "address": 506416,
+    "size": 4,
+    "owner": "arena.c"
+  },
+  {
+    "name": "pool_block",
+    "address": 506420,
+    "size": 4,
+    "owner": "arena.c"
+  },
+  {
+    "name": "pool_saved_remaining",
+    "address": 377908,
+    "size": 4,
+    "owner": "arena.c"
   }
 ]

@@ -1,5 +1,5 @@
 /* COFF file-format reads and reusable symbol/string buffers. */
-#include "linker-types.h"
+#include "object.h"
 TextBuffer coff_string_buffer, coff_symbol_buffer;
 unsigned char coff_strings_cached, coff_symbols_cached;
 char section_name_buffer[9];
@@ -59,4 +59,28 @@ PIMAGE_SYMBOL read_coff_symbols(unsigned long offset,unsigned long count)
     reserve_text(&coff_symbol_buffer,bytes);
     read_file(incremental_file,coff_symbol_buffer.data,bytes);
     return (PIMAGE_SYMBOL)coff_symbol_buffer.data;
+}
+
+/* A single record is reused when symbol caching was not possible. */
+IMAGE_SYMBOL streamed_symbol;
+
+PIMAGE_SYMBOL next_coff_symbol(PIMAGE_SYMBOL *cursor,unsigned char auxiliary)
+{
+    PIMAGE_SYMBOL symbol=*cursor;
+    if (symbol) {
+        *cursor=symbol+1;
+        return symbol;
+    }
+    read_coff_symbol(incremental_file,&streamed_symbol);
+    return &streamed_symbol;
+}
+
+void release_coff_strings(char *strings)
+{
+    coff_strings_cached=0;
+}
+
+void release_coff_symbols(PIMAGE_SYMBOL symbols)
+{
+    coff_symbols_cached=0;
 }

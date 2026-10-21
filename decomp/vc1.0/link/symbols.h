@@ -1,11 +1,29 @@
 #ifndef LINK_SYMBOLS_H
 #define LINK_SYMBOLS_H
-#include "linker-types.h"
+#include "modules.h"
 
-typedef struct HashNode HashNode;
+typedef struct HashNode { void *value; struct HashNode *next; } HashNode;
 typedef struct HashCursor HashCursor;
 typedef struct External External;
 typedef struct StringNode StringNode;
+typedef struct ModuleReference { Module *module; struct ModuleReference *next; } ModuleReference;
+#define EXTERNAL_DEFINED 1
+#define EXTERNAL_COMMON 2
+#define EXTERNAL_MULTIPLE_REFERENCES 0x1000
+#define EXTERNAL_WEAK 0x40
+#define EXTERNAL_LAZY 0x80
+#define LINK_SYM_CLASS_FAR_EXTERNAL 0x44
+struct External {
+    IMAGE_SYMBOL symbol;
+    union { Contribution *contribution; Module *module; ModuleReference *references; } owner;
+    union { unsigned long final_value; External **previous; } value;
+    External *undefined_next;
+    unsigned long symbol_index,flags;
+    unsigned short archive_member;
+    External *weak_default;
+};
+struct ExternalLink { External *external; ExternalLink *next; };
+extern char short_symbol_name[9];
 typedef const char *(*HashKey)(const void *,void *);
 typedef struct HashSegment { HashNode **buckets; } HashSegment;
 typedef struct HashTable {
@@ -25,6 +43,12 @@ typedef struct SymbolTable {
     External **undefined_tail;
 } SymbolTable;
 
+unsigned long intern_symbol_name(SymbolTable *,const char *);
+unsigned long hash_bucket(const char *,HashTable *);
+void expand_hash(HashTable *,void *);
+void **find_hash_entry(const char *,HashTable *,unsigned char,void *,unsigned char *);
+void set_external_defined(External *,unsigned char,SymbolTable *);
+External *lookup_external(SymbolTable *,unsigned short,const char *,unsigned char *,unsigned char *);
 const char *symbol_key(const void *,void *);
 void initialize_hash(HashTable **,unsigned long,unsigned long,HashKey,unsigned short);
 void initialize_symbols(SymbolTable **);

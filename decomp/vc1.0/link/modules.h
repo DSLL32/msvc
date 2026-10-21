@@ -8,6 +8,7 @@ typedef struct Library Library;
 typedef struct Contribution Contribution;
 typedef struct Section Section;
 typedef struct Group Group;
+typedef struct ExternalLink ExternalLink;
 struct Contribution {
     unsigned long input_rva, rva, flags, raw_size;
     unsigned short relocation_count, line_count;
@@ -22,10 +23,11 @@ struct Contribution {
 struct Module {
     union { char *display_name; unsigned long member_offset; } name;
     char *path;
-    unsigned long timestamp, symbol_offset, symbol_count;
+    unsigned long machine, symbol_offset, symbol_count;
     unsigned short optional_header_size, characteristics;
     unsigned long section_count, contribution_count;
-    void *debug_info, *symbols;
+    ExternalLink *common_symbols;
+    void *symbols;
     ComdatModule *comdat;
     Contribution *contributions;
     Library *library;

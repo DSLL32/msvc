@@ -31,4 +31,7 @@ unsigned read_section_header(int,IMAGE_SECTION_HEADER *);
 char *read_coff_strings(const char *,unsigned long,unsigned long *);
 PIMAGE_SYMBOL read_coff_symbols(unsigned long,unsigned long);
 char *coff_section_name(const char [8],char *);
+extern unsigned long pool_remaining,pool_capacity,pool_saved_remaining;
+extern char *pool_block;
+void *allocate_pool_block(unsigned long);
 #endif

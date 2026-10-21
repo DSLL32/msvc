@@ -11,7 +11,7 @@ unsigned char machine_initialized;
 extern unsigned char verbose_link, mac_image;
 extern unsigned short warning_level;
 extern char *output_name,default_output_name[],*def_filename,*repro_directory;
-extern unsigned long common_symbol_count;
+extern unsigned long weak_symbol_count;
 
 void pass_one(Image *image)
 {
@@ -34,7 +34,7 @@ void pass_one(Image *image)
         argument=argument->next;
     }
     check_explicit_modules(image,explicit_input_library);
-    if (common_symbol_count) mark_external_symbols(image->symbols,0x40);
+    if (weak_symbol_count) resolve_weak_externals(image->symbols,0x40);
     infer_entry_point=tool_kind==1 && !image->optional.Subsystem && !mac_image &&
         !(image->file.Characteristics&IMAGE_FILE_DLL) && !image->options.rom;
     if (infer_entry_point) infer_subsystem(image);
@@ -48,9 +48,9 @@ void pass_one(Image *image)
     }
     output_file_handle=output_file;
     if (warning_level>1) warn_unused_libraries(image->libraries.first);
-    if (common_symbol_count) {
-        mark_external_symbols(image->symbols,0x4080);
-        if (common_symbol_count) mark_external_symbols(image->symbols,0x40);
+    if (weak_symbol_count) {
+        resolve_weak_externals(image->symbols,0x4080);
+        if (weak_symbol_count) resolve_weak_externals(image->symbols,0x40);
     }
     apply_section_overrides(image);
     apply_section_merges(image);
