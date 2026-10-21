@@ -3,13 +3,14 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-parse_translation_unit, original VA 0x23192. There are 86 reconstructed
-source functions and 155 accepted trap frontiers, all replayed in order.
-Startup, options, frontend initialization, builtin types and intrinsics,
-predefined/command-line macros, global IR serialization, source-file input,
-primitive lexical dispatch, identifier interning, and token pushback have
-been reconstructed. Parsing test.c and completing the four intermediate
-files remain unfinished. This is a checkpoint, not a completed compiler case.
+make_function_declaration, original VA 0x2b160. There are 97 reconstructed
+source functions and 166 accepted trap frontiers, all replayed in order.
+The LR translation-unit parser, declaration-specifier collection, type
+specifier folding, identifier interpretation, declarator allocation, and
+parameter-scope entry have joined the existing startup and lexical code.
+The case has read `int main ()` and is constructing its function declaration.
+The function body and completion of the four intermediate files remain
+unfinished. This is a checkpoint, not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -64,6 +65,11 @@ lexer.c / token-data.c / tokens.h: token pushback, lexical source dispatch,
   line beginnings, and named token categories.
 types.c / parameters.c: type and shape interning, function types,
   descriptor stack, and parameter-list construction.
+parser.c / parser.h: LR control flow, grammar semantic actions, declarator
+  construction, and parameter-scope setup.
+parser-grammar.c: logical token shifts, reduction exceptions, production
+  lengths, and nonterminal gotos, decoded from the encountered yacc tables.
+  The original compressed action/check layout is not reproduced.
 scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,
   and typed intrinsic definitions.
 constants.c / ir.c / ir-formats.c: integer nodes and schema-driven IR writer.

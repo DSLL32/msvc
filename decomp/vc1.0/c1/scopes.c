@@ -56,3 +56,22 @@ void initialize_translation_state(void)
     translation_placeholder->attributes |= 0x20;
     translation_placeholder->flags |= 1;
 }
+
+/* Original 0x36410..0x36424. */
+void __stdcall push_symbol_scope(SymbolScope *scope)
+{
+    scope->next = current_scope;
+    current_scope = scope;
+}
+
+unsigned char scope_depth; /* original 0x6ce6c */
+
+/* Original 0x36440..0x3648a. Empty scopes stay on the declaration chain,
+   but need no directory entry for symbol lookup. */
+void __stdcall activate_symbol_scope(SymbolScope *scope)
+{
+    if (scope_directory[scope_depth] != scope && scope->buckets) {
+        if (++scope_depth >= 128) fatal_error(61);
+        scope_directory[scope_depth] = scope;
+    }
+}

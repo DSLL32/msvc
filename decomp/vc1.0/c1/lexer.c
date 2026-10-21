@@ -2,8 +2,10 @@
 #include "lexer.h"
 #include "source-input.h"
 #include "characters.h"
+#include "parser.h"
 
-unsigned token_line; /* original 0x604b8 */
+struct FrontendSymbol *last_lookup_symbol; /* original 0x604b8 */
+typedef char LexicalToken_must_be_sixteen_bytes[(sizeof(LexicalToken) == 16) ? 1 : -1];
 unsigned scanner_flags; /* original 0x6bb44 */
 unsigned char current_token_code; /* original 0x6c008 */
 TokenValue current_token_value; /* original 0x5b150..0x5b158 */
@@ -421,8 +423,279 @@ void __stdcall unget_token(unsigned char category)
     token_stack_top->category = category;
     token_stack_top->code = current_token_code;
     token_stack_top->value = current_token_value;
-    token_stack_top->line = token_line;
+    token_stack_top->lookup_symbol = last_lookup_symbol;
     ++token_stack_top;
     if (token_stack_top >= initial_token_stack + 3)
         scanner_flags |= SCANNER_LOOKAHEAD_FULL;
+}
+
+/* Original 0x19600..0x19992. Interpret lexical categories in the current
+   declaration context before handing them to the LR grammar. */
+unsigned char read_parser_token(void)
+{
+    unsigned char category;
+    for (;;) {
+        if ((scanner_flags & (0x400000 | 0x10000)) || options.option_E)
+            return scan_token();
+        category = scan_token();
+        switch (category) {
+        case TOK_RIGHT_PAREN:
+            scanner_flags &= ~1;
+            if (!declaration_depth && !(scanner_flags & (0x20000000 | 0x200))) {
+                report_syntax_error(59, ")");
+                continue;
+            }
+            return category;
+        case TOK_IDENTIFIER:
+            category = lookup_identifier_token(0);
+            if (category == TOK_TYPEDEF_NAME) return resolve_identifier_token(category);
+            if (!(scanner_flags & 0x20000000)) declaration_spec_flags[declaration_depth] |= 2;
+            return category;
+        case TOK_VOLATILE:
+        case TOK_ENUM:
+        case TOK_STRUCT:
+        case TOK_UNION:
+        case TOK_SEGMENT:
+        case TOK_STORAGE_CLASS:
+        case TOK_TYPE:
+        case TOK_STORAGE_MODIFIER:
+        case TOK_DECLSPEC:
+        case TOK_CONST:
+            return resolve_identifier_token(category);
+        case TOK_BASED:
+        case TOK_SEGNAME:
+        case TOK_BIT_AND:
+        case TOK_LOGICAL_NOT:
+        case TOK_MINUS:
+        case TOK_MULTIPLY:
+        case TOK_PLUS:
+        case TOK_CONSTANT:
+        case TOK_INCREMENT_OPERATOR:
+        case TOK_MODIFIER:
+        case TOK_BIT_NOT:
+            if (!(scanner_flags & 0x20000000)) declaration_spec_flags[declaration_depth] |= 2;
+            return category;
+        case TOK_LEFT_PAREN:
+            if (scanner_flags & 0x200) return category;
+            if (!(scanner_flags & 0x20000000)) {
+                if (++declaration_depth >= 60) fatal_error(13);
+                declaration_spec_flags[declaration_depth] &= ~0x5f;
+                declaration_shapes[declaration_depth] = 0;
+            }
+            scanner_flags &= ~1;
+            return category;
+        case TOK_RETURN:
+            if (!(scanner_flags & 0x20000000)) declaration_spec_flags[declaration_depth] |= 3;
+            return category;
+        case TOK_SIZEOF:
+            ++unevaluated_expression_depth;
+            if (!(scanner_flags & 0x20000000)) declaration_spec_flags[declaration_depth] |= 2;
+            return category;
+        case TOK_TYPE_NAME:
+            if ((declaration_spec_flags[declaration_depth] & 2) &&
+                (scanner_flags & 0x10000000) && last_lookup_symbol) {
+                current_token_value.identifier = last_lookup_symbol->name;
+                current_token_code = TOK_IDENTIFIER;
+                return TOK_IDENTIFIER;
+            }
+            scanner_flags |= 1;
+            if (!(scanner_flags & 0x20000000)) declaration_spec_flags[declaration_depth] |= 2;
+            return category;
+        default:
+            return category;
+        }
+    }
+}
+
+/* Original 0x18f90..0x19530. Gather declaration specifiers, fold a named
+   type into its qualifiers, and leave the first declarator token pushed back. */
+unsigned char __stdcall resolve_identifier_token(unsigned char category)
+{
+    unsigned short flags = 0, attributes = 0, inherited_attributes;
+    unsigned char tag_category;
+    unsigned char storage[3];
+    unsigned consumed = 0, i;
+    unsigned code;
+    CType *type = 0;
+    TypeShape *shape;
+    KeywordSpec *keyword;
+    char *spelling;
+    storage[0] = current_storage[0] & ~7;
+    storage[1] = current_storage[1];
+    storage[2] = current_storage[2];
+    last_lookup_symbol = 0;
+    if (category != TOK_CLASS_HEAD) parser_flags &= ~0x4000;
+    for (;;) {
+        switch (category) {
+        case TOK_IDENTIFIER:
+            if (flags) {
+                scanner_flags |= 1;
+                goto finish_specifiers;
+            }
+            category = lookup_identifier_token(0);
+            if (category == TOK_TYPEDEF_NAME) goto named_type;
+            if (!consumed) return category;
+            goto finish_specifiers;
+        case TOK_CONST:
+        case TOK_VOLATILE:
+            if (!(parser_flags & 0x20) &&
+                ((declaration_spec_flags[declaration_depth] & 2) || (scanner_flags & 4))) {
+                current_token_code = category;
+                current_token_value.bytes[0] = category;
+                return category;
+            }
+            for (i = 0; declaration_codes[i].token != current_token_code; ++i)
+                ;
+            attributes = merge_type_attributes(attributes, declaration_codes[i].value);
+            break;
+        case TOK_SEGMENT:
+            type = merge_type_specifier(type, &flags, 0x802);
+            break;
+        case TOK_ENUM:
+        case TOK_STRUCT:
+        case TOK_UNION:
+            if (flags) unget_token(category);
+            tag_category = category;
+            parser_flags |= 0x10000;
+            for (i = 0; declaration_codes[i].token != category; ++i)
+                ;
+            category = read_tag_specifier(declaration_codes[i].value, &attributes);
+            parser_flags &= ~0x10000;
+            if (category == TOK_NEWLINE) {
+                category = scan_token();
+                return recover_parser_token(category, TOK_SEMICOLON, 1);
+            }
+            if (flags) {
+                keyword = keyword_specs;
+                while (keyword->name && keyword->token != tag_category) ++keyword;
+                report_syntax_error(236, keyword->name, current_token_value.symbol->name);
+                flags = 0;
+            }
+            type = merge_named_type(current_token_value.symbol, &flags, &attributes);
+            if (category == TOK_CLASS_HEAD) goto fold_specifiers;
+            if (category == TOK_ENUM_TAG) {
+                scanner_flags |= 1;
+                goto fold_specifiers;
+            }
+            break;
+        case TOK_STORAGE_CLASS:
+        case TOK_STORAGE_MODIFIER:
+            if (parser_flags & 0x20) {
+                if (current_token_code == TOK_SYSAPI) spelling = "__sysapi";
+                else {
+                    keyword = keyword_specs;
+                    while (keyword->name && keyword->token != current_token_code) ++keyword;
+                    spelling = keyword->name;
+                }
+                report_syntax_error(721, spelling);
+                storage[0] |= 8;
+            } else {
+                for (i = 0; declaration_codes[i].token != current_token_code; ++i)
+                    ;
+                code = declaration_codes[i].value;
+                if (category == TOK_STORAGE_CLASS) merge_storage_class(storage, code, 1, 0);
+                else merge_storage_class(storage, 0, code, 0);
+            }
+            break;
+        case TOK_TYPE:
+            for (i = 0; declaration_codes[i].token != current_token_code; ++i)
+                ;
+            type = merge_type_specifier(type, &flags, declaration_codes[i].value);
+            break;
+        case TOK_CLASS_HEAD:
+            type = (CType *)current_token_value.words.high;
+            last_lookup_symbol = (FrontendSymbol *)type->field08;
+            flags = type->flags;
+            attributes = type->attributes;
+            storage[0] = current_token_value.bytes[0];
+            storage[1] = current_token_value.bytes[1];
+            storage[2] = current_token_value.bytes[2];
+            break;
+        case TOK_DECLSPEC:
+            parse_declspec(storage);
+            break;
+        case TOK_TYPEDEF_NAME:
+named_type:
+            type = merge_named_type(current_token_value.symbol, &flags, &attributes);
+            break;
+        default:
+finish_specifiers:
+            unget_token(category);
+fold_specifiers:
+            if (!flags) {
+                storage[0] |= 0x10;
+                flags = 0x64;
+            }
+            shape = 0;
+            if (type) {
+                shape = type->related;
+                if (shape && !(shape->flags & 7)) shape = shape->related;
+                inherited_attributes = shape ? shape->attributes : type->attributes;
+                if (!((attributes ^ inherited_attributes) & 0x3000) || !(attributes & 0x3000))
+                    goto specifiers_ready;
+                type = copy_mutable_type(type);
+                if (shape) {
+                    if (attributes & inherited_attributes & 0x3000) {
+                        if (options.z_a) compiler_warning(1, 114);
+                        else report_syntax_error(289);
+                    }
+                    type = replace_outer_type_shape(type, shape->flags,
+                        (unsigned short)(shape->attributes | (attributes & 0x3000)), &shape->field08);
+                    attributes &= ~0x3000;
+                }
+            } else {
+                type = &type_description_stack[++type_description_depth];
+                type->flags = 0;
+                type->attributes = 0;
+                type->related = 0;
+                type->field08 = 0;
+                type->field0c = 0;
+                type->flags = flags | 0x1000;
+            }
+            type->attributes |= attributes;
+            type = finalize_type_description(type);
+specifiers_ready:
+            if (!(storage[0] & 7)) storage[0] |= 0x20;
+            current_token_value.words.high = (unsigned)type;
+            current_token_value.bytes[0] = storage[0];
+            current_token_value.bytes[1] = storage[1];
+            current_token_value.bytes[2] = storage[2];
+            if (category == TOK_CLASS_HEAD || category == TOK_ENUM_TAG) {
+                if (category == TOK_ENUM_TAG) scanner_flags |= 1;
+                if (storage[1] & 4) report_syntax_error(391, last_lookup_symbol->name);
+                return category;
+            }
+            if (attributes & 0x3000) current_token_value.bytes[0] &= ~0x10;
+            current_token_code = TOK_TYPE;
+            if (!(scanner_flags & 0x20000000)) declaration_spec_flags[declaration_depth] |= 2;
+            return TOK_TYPE_NAME;
+        }
+        ++consumed;
+        category = scan_token();
+    }
+}
+
+int browser_parameter_scope; /* original 0x5d5b8 */
+
+/* Original 0x19530..0x195f2. A declaration may force an identifier to stay
+   a name; otherwise typedef symbols acquire their grammar category. */
+unsigned char __stdcall lookup_identifier_token(FrontendSymbol *explicit_symbol)
+{
+    FrontendSymbol *symbol;
+    if (!(parser_flags & 1)) {
+        if (scanner_flags & 1) {
+            scanner_flags &= ~1;
+            return TOK_IDENTIFIER;
+        }
+        if ((declaration_spec_flags[declaration_depth] & 2) || (scanner_flags & 0x80))
+            return TOK_IDENTIFIER;
+        symbol = find_identifier_symbol(current_token_value.identifier);
+    } else symbol = explicit_symbol;
+    if (!symbol || !(symbol->flags & 4)) return TOK_IDENTIFIER;
+    if ((symbol->kind & 0x1f) == 4 && (declaration_spec_flags[declaration_depth] & 1) &&
+        !(parser_flags & 0x20)) return TOK_TYPEDEF_NAME;
+    if (browser_filename && (!parameter_nesting || browser_parameter_scope))
+        browser_symbol_reference(symbol);
+    current_token_value.symbol = symbol;
+    return TOK_TYPEDEF_NAME;
 }

@@ -16,14 +16,14 @@ typedef struct LexicalToken {
     unsigned char category, code;
     unsigned short flags;
     TokenValue value;
-    unsigned line;
+    struct FrontendSymbol *lookup_symbol;
 } LexicalToken;
 #pragma pack()
 
 #define SCANNER_SUPPRESS_POP 0x10000000UL
 #define SCANNER_LOOKAHEAD_FULL 0x40000000UL
 extern unsigned scanner_flags;
-extern unsigned token_line;
+extern struct FrontendSymbol *last_lookup_symbol;
 extern unsigned char current_token_code;
 extern TokenValue current_token_value;
 extern LexicalToken initial_token_stack[3];
@@ -32,6 +32,12 @@ extern int token_stack_count;
 extern unsigned parser_flags;
 extern unsigned char pch_output_written;
 extern char token_text[128];
+typedef struct DeclarationCode {
+    unsigned char token;
+    unsigned short value;
+} DeclarationCode;
+extern DeclarationCode declaration_codes[];
+extern unsigned declaration_code_count;
 int skip_source_comment(void);
 unsigned recover_special_character(void);
 unsigned recover_trigraph(void);

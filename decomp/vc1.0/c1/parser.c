@@ -1,0 +1,1059 @@
+/* Translation-unit LR driver and C grammar semantic actions.
+   Original function 0x23192..0x25dd3; semantic callees remain named traps
+   until reached independently by the differential reconstruction. */
+#include "parser.h"
+#include "source-input.h"
+#include "global-ir.h"
+
+ParserValue parser_value; /* original 0x5b1f0 */
+int parser_lookahead = -1; /* original 0x6b550 */
+char *parser_diagnostic_context; /* original 0x6d494 */
+unsigned char expression_storage[2052]; /* original 0x5f508..0x5fd0c */
+unsigned char *expression_next; /* original 0x6bff8 */
+unsigned constant_one; /* original 0x5ffc8 */
+int prototype_mode = -1; /* original 0x6bf94 */
+int unevaluated_expression_depth; /* original 0x6c02c */
+int parser_error_count; /* original 0x6b554 */
+short parser_recovery_count; /* original 0x6b558 */
+static short parser_state_stack[340]; /* original 0x650f0 */
+typedef char ParserValue_must_be_eight_bytes[(sizeof(ParserValue) == 8) ? 1 : -1];
+static ParserValue parser_value_stack[341]; /* original 0x653a0 */
+
+/* The declaration stack includes the entry immediately before depth zero;
+   storage-class lookahead may update that preceding declaration. */
+static DeclarationSpec declaration_spec_storage[61]; /* original 0x605a4 */
+DeclarationSpec *declaration_spec_stack = declaration_spec_storage + 1;
+int declaration_depth; /* original 0x60790 */
+TypeShape *declaration_shapes[60]; /* original 0x604bc */
+unsigned char declaration_spec_flags[60]; /* original 0x6079c */
+unsigned char parameter_nesting; /* original 0x5b13c */
+int parameter_depth; /* original 0x604a8 */
+int unevaluated_type_depth; /* original 0x6539c */
+unsigned enumerator_value = (unsigned)-1; /* original 0x6bfb8 */
+void *enumerator_context; /* original 0x6b648 */
+char *missing_parameter_name; /* original 0x6b680 */
+char *unnamed_parameter_name; /* original 0x6b698 */
+char *unnamed_enum_name; /* original 0x6b69c */
+CType *temporary_type; /* original 0x6b6b8 */
+CType *based_type; /* original 0x5ff10 */
+unsigned array_bound; /* original 0x65398 */
+
+/* A label stack cell is shared by loop, switch, and branch contexts. */
+typedef struct LabelStack {
+    struct LabelStack *next;
+    FrontendSymbol *label;
+} LabelStack;
+LabelStack *continue_labels, *break_labels, *do_labels;
+LabelStack *switch_labels, *default_labels;
+int label_stack_count;
+FrontendSymbol *default_label;
+
+/* Expression nodes use the same twenty-byte header/payload as IrToken.
+   The eight-byte payload is a string value, two children, or symbol pointer. */
+typedef struct ExpressionNode {
+    unsigned char kind, flags;
+    unsigned short attributes;
+    CType *type;
+    unsigned auxiliary;
+    union {
+        struct { unsigned low, high; } words;
+        struct { IrToken *left, *right; } children;
+        FrontendSymbol *symbol;
+    } value;
+} ExpressionNode;
+typedef char ExpressionNode_must_be_twenty_bytes[(sizeof(ExpressionNode) == 20) ? 1 : -1];
+
+/* The original yacc bound permits one state beyond its 340-element array.
+   That halfword aliases the following array-bound temporary at 0x65398. */
+#define PARSER_STACK_STATE(index) ((index) == 340 ? (short)array_bound : parser_state_stack[index])
+#define STORE_PARSER_STATE(index, value) do { \
+    if ((index) == 340) array_bound = (array_bound & 0xffff0000UL) | (unsigned short)(value); \
+    else parser_state_stack[index] = (value); \
+} while (0)
+
+#define POP_DECLARATION() do { if (declaration_depth > 0) --declaration_depth; } while (0)
+#define CLEAR_DECLARATION_FLAGS() (declaration_spec_flags[declaration_depth] &= ~3)
+#define RESET_EXPRESSION_ARENA() do { \
+    if (!parser_recovery_count) release_arena(2); \
+    expression_next = expression_storage; \
+} while (0)
+#define COPY_STORAGE(destination, source) do { \
+    (destination)[0] = (source)[0]; \
+    (destination)[1] = (source)[1]; \
+    (destination)[2] = (source)[2]; \
+} while (0)
+#define ALLOCATE_PARSER_NODE(destination, bytes, arena) do { \
+    allocation_arena = (arena); \
+    if (!allocation_arena) (destination) = allocate_permanent(bytes); \
+    else { \
+        if (allocation_arena == -1) allocation_arena = 0; \
+        pool = &compiler_arena.pools[allocation_arena]; \
+        if (pool->remaining < (int)(bytes)) refill_arena(&compiler_arena, pool); \
+        (destination) = (void *)pool->next; \
+        pool->remaining -= (bytes); \
+        pool->next += (bytes); \
+    } \
+} while (0)
+
+/* Original 0x23192..0x25dd3. */
+int parse_translation_unit(void)
+{
+    short state = 0, rule, next_state;
+    int depth = -1, i, recovery, allocation_arena;
+    unsigned char storage_kind;
+    ParserState *state_info;
+    ParserGoto *goto_info;
+    ParserProduction *production;
+    ParserTransition *transition;
+    ParserRecovery *repair;
+    ParserValue *right;
+    FrontendSymbol *symbol, *label;
+    CType *type;
+    TypeShape *shape;
+    ArenaPool *pool;
+    ExpressionNode *node;
+    unsigned has_function;
+    for (;;) {
+        if (++depth > 340) {
+            report_parser_error("yacc stack overflow");
+            return 1;
+        }
+        STORE_PARSER_STATE(depth, state);
+        parser_value_stack[depth] = parser_value;
+read_action:
+        state_info = &parser_states[state];
+        if (state_info->needs_token && parser_lookahead < 0)
+            parser_lookahead = read_parser_token();
+        transition = parser_shifts + state_info->first_shift;
+        for (i = 0; i < state_info->shift_count; ++i, ++transition) {
+            if (transition->symbol == parser_lookahead) {
+                state = transition->destination;
+                parser_lookahead = -1;
+                parser_value.token = current_token_value;
+                if (parser_recovery_count > 0) --parser_recovery_count;
+                goto push_state;
+            }
+        }
+        rule = state_info->default_rule;
+        transition = parser_exceptions + state_info->first_exception;
+        for (i = 0; i < state_info->exception_count; ++i, ++transition) {
+            if (transition->symbol == parser_lookahead) {
+                rule = transition->destination;
+                break;
+            }
+        }
+        if (rule < 0) return 0;
+        if (!rule) {
+            recovery = parser_recovery_count;
+            switch (recovery) {
+            case 0:
+                for (repair = parser_recoveries;
+                     repair->state != -1000 && repair->state < state; ++repair)
+                    ;
+                if (repair->state == state) {
+                    i = repair->token;
+                    if (i < 0) {
+                        ++parser_recovery_count;
+                        i = -i;
+                    }
+                    if (parser_recovery_count <= 1)
+                        report_expected_token((unsigned char)parser_lookahead, i);
+                    parser_value = recovery_token_value(i);
+                    state = repair->next_state;
+                    goto push_state;
+                }
+                report_parser_error("syntax error");
+                ++parser_error_count;
+                /* A reported error and a second failure both pop to an
+                   error-token transition before retrying the input token. */
+            case 1:
+            case 2:
+                parser_recovery_count = 3;
+                while (depth >= 0) {
+                    state_info = &parser_states[PARSER_STACK_STATE(depth)];
+                    transition = parser_shifts + state_info->first_shift;
+                    for (i = 0; i < state_info->shift_count; ++i, ++transition) {
+                        if (transition->symbol == PARSER_ERROR_TOKEN) {
+                            state = transition->destination;
+                            goto push_state;
+                        }
+                    }
+                    --depth;
+                }
+                return 1;
+            case 3:
+                if (!parser_lookahead) return 1;
+                parser_lookahead = -1;
+                goto read_action;
+            }
+        }
+        right = &parser_value_stack[depth];
+        production = &parser_productions[rule];
+        depth -= production->length;
+        parser_value = parser_value_stack[depth + 1];
+        goto_info = &parser_gotos[production->nonterminal];
+        state = goto_info->default_state;
+        transition = parser_goto_transitions + goto_info->first_transition;
+        for (i = 0; i < goto_info->transition_count; ++i, ++transition) {
+            if (transition->symbol == PARSER_STACK_STATE(depth)) {
+                state = transition->destination;
+                break;
+            }
+        }
+        switch (rule) {
+        case 3:
+            finish_external_declaration(parser_recovery_count);
+            break;
+        case 4:
+            parser_flags &= ~0x100;
+            if (right[-1].symbol) begin_function_definition();
+            break;
+        case 5:
+            if (right[-3].symbol) finish_function_definition();
+            parser_flags &= ~0x2000;
+            break;
+        case 6:
+            if (scanner_flags & 0x2000000) compiler_warning(4, 218);
+            break;
+        case 7:
+            if (!options.z_a) compiler_warning(4, 19);
+            break;
+        case 8:
+            if (!(scanner_flags & 0x2000000))
+                process_declaration(&right[-1].declaration);
+            break;
+        case 9:
+            parser_recovery_count = 0;
+            scanner_flags &= ~0x1000000;
+            declaration_depth = 0;
+            break;
+        case 10:
+            skip_declaration_tokens();
+            finish_compound_statement();
+            finish_function_definition();
+            parser_recovery_count = 0;
+            parser_lookahead = -1;
+            scanner_flags &= ~0x1000000;
+            declaration_depth = 0;
+            break;
+        case 12:
+            report_syntax_error(449);
+            skip_declaration_tokens();
+            if (source_text_cursor) ++source_text_cursor;
+            parser_recovery_count = 0;
+            parser_lookahead = -1;
+            break;
+        case 13:
+            scanner_flags &= ~0x2000000;
+            CLEAR_DECLARATION_FLAGS();
+            if (parser_lookahead == -1) parser_lookahead = read_parser_token();
+            else if (parser_lookahead == TOK_IDENTIFIER)
+                parser_lookahead = resolve_identifier_token((unsigned char)parser_lookahead);
+            switch (parser_lookahead) {
+            case TOK_CLASS_HEAD:
+            case TOK_TYPE_NAME:
+                if (right[0].symbol && !(right[0].symbol->attributes & 0x10)) {
+                    report_syntax_error(444, right[0].symbol->name);
+                    unget_token((unsigned char)parser_lookahead);
+                    current_token_code = TOK_SEMICOLON;
+                    parser_lookahead = current_token_code;
+                    parser_value.symbol = 0;
+                    parser_flags |= 0x2000;
+                    break;
+                }
+                /* A type name immediately following a declarator also
+                   serves as the first token of an old-style declaration. */
+            case TOK_LEFT_BRACE:
+                merge_declaration_symbol(&right[-1].declaration, right[0].symbol);
+                parser_value.symbol = right[0].symbol;
+                break;
+            case TOK_IDENTIFIER:
+                symbol = right[0].symbol;
+                if (!symbol) {
+                    report_syntax_error(61, current_token_value.identifier);
+                    current_token_code = TOK_SEMICOLON;
+                    parser_lookahead = current_token_code;
+                    break;
+                }
+                shape = symbol->type->related;
+                if (shape) {
+                    has_function = (shape->flags & 7) == 4;
+                    while (shape->related) {
+                        shape = shape->related;
+                        if ((shape->flags & 7) == 4) has_function = 1;
+                    }
+                    if ((shape->flags & 7) == 4) {
+                        if (symbol->attributes & 0x10)
+                            report_syntax_error(501, current_token_value.identifier);
+                        else report_syntax_error(280, current_token_value.identifier);
+                    } else if (has_function)
+                        report_syntax_error(281, symbol->name, current_token_value.identifier);
+                    else report_syntax_error(282, current_token_value.identifier);
+                } else report_syntax_error(282, current_token_value.identifier);
+                parser_lookahead = recover_parser_token((unsigned char)parser_lookahead,
+                    TOK_SEMICOLON, TOK_LEFT_BRACE, 1);
+                if (parser_lookahead == TOK_LEFT_BRACE) {
+                    skip_declaration_tokens();
+                    ++source_text_cursor;
+                    current_token_code = TOK_SEMICOLON;
+                    parser_lookahead = current_token_code;
+                }
+                parser_value.symbol = 0;
+                parser_flags |= 0x2000;
+                break;
+            default:
+                report_expected_token((unsigned char)parser_lookahead, TOK_LEFT_BRACE);
+                unget_token((unsigned char)parser_lookahead);
+                current_token_code = TOK_SEMICOLON;
+                parser_lookahead = current_token_code;
+                parser_value.symbol = 0;
+                parser_flags |= 0x2000;
+                break;
+            }
+            break;
+        case 14:
+            parser_flags |= 0x100;
+            break;
+        case 15:
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 21:
+            report_syntax_error(146, parser_diagnostic_context, right[0].name);
+            parser_recovery_count = 0;
+            parser_lookahead = -1;
+            break;
+        case 22:
+            set_declaration_name(&declaration_spec_stack[declaration_depth], right[0].name);
+            break;
+        case 23:
+            parser_value.declaration.type = type_0064;
+            parser_value.bytes[0] = (parser_value.bytes[0] & ~5) | 2;
+            storage_kind = parser_value.bytes[0] & 7;
+            COPY_STORAGE(parser_value.declaration.storage, current_storage);
+            parser_value.bytes[0] = (parser_value.bytes[0] & ~7) | storage_kind;
+            scanner_flags |= 0x2000000;
+            declaration_spec_stack[declaration_depth] = parser_value.declaration;
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 25:
+            if (parser_lookahead == TOK_LEFT_PAREN) {
+                declaration_spec_stack[declaration_depth - 1] = right[0].declaration;
+                declaration_spec_flags[declaration_depth - 1] |= 1;
+            } else {
+                declaration_spec_stack[declaration_depth] = right[0].declaration;
+                declaration_spec_flags[declaration_depth] |= 1;
+            }
+            break;
+        case 27:
+            current_token_value = parser_value.token;
+            parser_flags |= 1;
+            resolve_identifier_token(TOK_CLASS_HEAD);
+            parser_flags &= ~1;
+            parser_value.token = current_token_value;
+            break;
+        case 28:
+            parser_value.declaration.type = parse_struct_specifier();
+            break;
+        case 29:
+            parser_value.declaration.type = parse_enum_specifier();
+            break;
+        case 35:
+            enumerator_value = new_enumerator(right[0].name, enumerator_value);
+            add_enumerator(right[0].name, enumerator_context, enumerator_value);
+            break;
+        case 36:
+            add_enumerator(right[-2].name, enumerator_context, right[0].words.low);
+            if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
+            break;
+        case 39:
+            if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 40:
+            add_struct_member(&declaration_spec_stack[declaration_depth], 0);
+            break;
+        case 42:
+        case 43:
+            add_struct_member(&declaration_spec_stack[declaration_depth], right[0].symbol);
+            break;
+        case 44:
+        case 45:
+            parser_lookahead = recover_parser_token((unsigned char)parser_lookahead,
+                TOK_SEMICOLON, TOK_RIGHT_BRACE, 1);
+            if (parser_lookahead != TOK_SEMICOLON) {
+                unget_token((unsigned char)parser_lookahead);
+                parser_lookahead = TOK_SEMICOLON;
+            }
+            parser_recovery_count = 0;
+            break;
+        case 46:
+            parser_value.symbol->kind = 3;
+            break;
+        case 47:
+            parser_value.symbol->kind = 2;
+            ((unsigned char *)parser_value.symbol)[0x25] = right[0].bytes[0];
+            break;
+        case 48:
+            parser_value.symbol = new_declarator(0);
+            parser_value.symbol->name = missing_parameter_name;
+            break;
+        case 52:
+            apply_declarator_type(&declaration_spec_stack[declaration_depth], right[0].symbol);
+            break;
+        case 53:
+            if (!options.syntax_only) finish_initializer(right[-1].symbol, right[0].node);
+            if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
+            expression_next = expression_storage;
+            break;
+        case 54:
+            if (!options.syntax_only) begin_aggregate_initializer(right[0].node);
+            break;
+        case 55:
+            finish_aggregate_initializer(right[-5].symbol);
+            break;
+        case 56:
+            right[-1].symbol->attributes |= 4;
+            parser_value.symbol = declare_initialized_symbol(
+                apply_declarator_type(&declaration_spec_stack[declaration_depth], right[-1].symbol));
+            break;
+        case 57:
+            parser_value.symbol = 0;
+            report_declaration_error(513, &declaration_spec_stack[declaration_depth]);
+            break;
+        case 60:
+            if (!options.syntax_only) emit_initializer(right[0].node);
+            if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
+            expression_next = expression_storage;
+            break;
+        case 61:
+            if (!options.syntax_only) begin_nested_initializer();
+            break;
+        case 62:
+            if (!options.syntax_only) finish_nested_initializer();
+            break;
+        case 63:
+            parser_value.symbol = make_named_declarator(right[0].name);
+            break;
+        case 64:
+            parser_value.symbol = combine_declarators(make_named_declarator(right[0].name), right[-1].symbol);
+            break;
+        case 65:
+            parser_value.symbol = right[0].symbol;
+            attach_type_shape(parser_value.symbol, new_type_shape(1, 0, 0));
+            break;
+        case 66:
+            parser_value.symbol = right[0].symbol;
+            right[-2].shape->flags = 1;
+            attach_type_shape(parser_value.symbol, right[-2].shape);
+            break;
+        case 67:
+            array_bound = right[-1].words.low;
+            attach_type_shape(parser_value.symbol, new_type_shape(2, 0, &array_bound));
+            break;
+        case 68:
+            parser_value.symbol = finish_function_declarator(right[-1].symbol, right[0].symbol);
+            break;
+        case 70:
+            parser_value.symbol = right[-1].symbol;
+            POP_DECLARATION();
+            break;
+        case 71:
+            ++parameter_nesting;
+            ++parameter_depth;
+            ++unevaluated_type_depth;
+            begin_parameter_list(0);
+            break;
+        case 72:
+            if (right[-1].symbol) {
+                check_parameter(right[-1].symbol);
+                parser_value.words.low = (unsigned)append_parameter((FrontendSymbol *)right[-2].words.low,
+                    right[-1].symbol);
+            } else parser_value.words.low = right[-2].words.low;
+            --parameter_nesting;
+            --parameter_depth;
+            --unevaluated_type_depth;
+            POP_DECLARATION();
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 73:
+            parser_value.words.low = 0;
+            break;
+        case 74:
+            parser_value.words.low = (unsigned)append_parameter(0, right[0].symbol);
+            break;
+        case 75:
+            parser_value.words.low = (unsigned)append_parameter((FrontendSymbol *)right[-2].words.low,
+                right[0].symbol);
+            break;
+        case 76:
+            parser_value.symbol = make_parameter(right[0].name);
+            break;
+        case 78:
+            check_parameter(parser_value.symbol);
+            break;
+        case 79:
+            parser_value.words.low = 0;
+            parser_recovery_count = 0;
+            parser_lookahead = -1;
+            break;
+        case 80:
+            ++parameter_nesting;
+            ++parameter_depth;
+            ++unevaluated_type_depth;
+            begin_parameter_list(0);
+            break;
+        case 81:
+            if (right[-1].symbol) {
+                check_parameter(right[-1].symbol);
+                parser_value.words.low = (unsigned)append_parameter((FrontendSymbol *)right[-2].words.low,
+                    right[-1].symbol);
+            } else parser_value.words.low = right[-2].words.low;
+            --parameter_nesting;
+            --parameter_depth;
+            --unevaluated_type_depth;
+            POP_DECLARATION();
+            parser_value.words.low = right[-2].words.low;
+            break;
+        case 82:
+            parser_value.words.low = 0;
+            break;
+        case 83:
+            parser_value.words.low = (unsigned)append_parameter(0, right[0].symbol);
+            break;
+        case 84:
+            parser_value.words.low = (unsigned)append_parameter((FrontendSymbol *)right[-2].words.low,
+                right[0].symbol);
+            break;
+        case 86:
+            check_parameter(parser_value.symbol);
+            break;
+        case 87:
+            parser_value.words.low = 0;
+            parser_recovery_count = 0;
+            parser_lookahead = -1;
+            break;
+        case 88:
+            right[0].symbol->kind = 10;
+            COPY_STORAGE(right[0].symbol->storage, right[-1].declaration.storage);
+            parser_value.symbol = make_struct_tag(&right[-1].declaration, right[0].symbol);
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 89:
+            parser_value.symbol = right[0].symbol;
+            parser_value.symbol->kind = 11;
+            COPY_STORAGE(parser_value.symbol->storage, right[-1].declaration.storage);
+            parser_value.symbol->name = unnamed_enum_name;
+            finalize_symbol_type(right[-1].declaration.type, parser_value.symbol);
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 90:
+            parser_value.shape = new_type_shape(0, right[0].modifier, &based_type);
+            break;
+        case 91:
+            parser_value.shape = append_type_shape(right[-1].shape,
+                new_type_shape(0, right[0].modifier, &based_type));
+            break;
+        case 92:
+        case 93:
+        case 94:
+            for (i = 0; declaration_codes[i].token != right[0].bytes[0]; ++i)
+                ;
+            parser_value.modifier = declaration_codes[i].value;
+            break;
+        case 96:
+            scanner_flags |= 0x800;
+            POP_DECLARATION();
+            parser_value.modifier = right[-1].modifier;
+            break;
+        case 97:
+            parser_value.modifier = 5;
+            based_type = (CType *)right[0].symbol;
+            break;
+        case 99:
+            parser_value.modifier = 5;
+            based_type = (CType *)resolve_type_symbol(right[0].symbol);
+            if (!based_type) parser_value.modifier = 2;
+            break;
+        case 100:
+            parser_value.modifier = 4;
+            if (!(right[0].type_name.type->flags & 0x80)) report_syntax_error(218);
+            break;
+        case 101:
+            parser_value.modifier = based_string_modifier(right[-2].type_name.type->flags, right[0].symbol);
+            POP_DECLARATION();
+            break;
+        case 102:
+            parser_value.modifier = based_symbol_modifier(
+                right[-3].type_name.type->flags, right[0].symbol);
+            POP_DECLARATION();
+            break;
+        case 103:
+            parser_value.modifier = based_type_modifier(right[-2].type_name.type->flags);
+            POP_DECLARATION();
+            break;
+        case 106:
+            parser_value.symbol = new_declarator(0);
+            break;
+        case 107:
+            parser_value.symbol = new_declarator(right[0].name);
+            break;
+        case 108:
+            finish_parameter_scope();
+            parser_value.symbol = attach_function_parameters(new_declarator(0), right[0].symbol);
+            break;
+        case 109:
+            finish_parameter_scope();
+            parser_value.symbol = attach_function_parameters(new_declarator(right[-1].name), right[0].symbol);
+            break;
+        case 110:
+            parser_value.symbol = right[0].symbol;
+            attach_type_shape(parser_value.symbol, new_type_shape(1, 0, 0));
+            break;
+        case 111:
+            parser_value.symbol = right[0].symbol;
+            right[-2].shape->flags = 1;
+            attach_type_shape(parser_value.symbol, right[-2].shape);
+            break;
+        case 112:
+            array_bound = right[-1].words.low;
+            attach_type_shape(parser_value.symbol, new_type_shape(2, 0, &array_bound));
+            break;
+        case 113:
+            finish_parameter_scope();
+            parser_value.symbol = attach_function_parameters(right[-1].symbol, right[0].symbol);
+            break;
+        case 115:
+            parser_value.symbol = right[-1].symbol;
+            POP_DECLARATION();
+            break;
+        case 116:
+            parser_value.words.low = 0;
+            break;
+        case 117:
+            report_syntax_error(59, ")");
+            ALLOCATE_PARSER_NODE(parser_value.symbol, sizeof(FrontendSymbol), parameter_nesting != 0);
+            parser_value.symbol->kind = 10;
+            parser_value.symbol->name = unnamed_parameter_name;
+            parser_value.symbol->type = 0;
+            parser_value.symbol->flags |= 2;
+            break;
+        case 118:
+            ALLOCATE_PARSER_NODE(parser_value.symbol, sizeof(FrontendSymbol), parameter_nesting != 0);
+            parser_value.symbol->kind = 10;
+            parser_value.symbol->name = unnamed_parameter_name;
+            parser_value.symbol->type = 0;
+            parser_value.symbol->flags |= 2;
+            break;
+        case 119:
+            if (options.syntax_only || (scanner_flags & 0x1000000)) {
+                scanner_flags |= 0x1000000;
+                skip_declaration_tokens();
+            } else {
+                begin_compound_statement();
+                CLEAR_DECLARATION_FLAGS();
+            }
+            break;
+        case 120:
+            scope_serial = 0;
+            break;
+        case 121:
+            if (options.syntax_only || (scanner_flags & 0x1000000))
+                scanner_flags &= ~0x1000000;
+            else finish_compound_statement();
+            break;
+        case 124:
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 126:
+            process_declaration(&right[-1].declaration);
+            break;
+        case 127:
+            parser_recovery_count = 0;
+            break;
+        case 131:
+            emit_expression_statement(right[-1].node);
+            RESET_EXPRESSION_ARENA();
+            break;
+        case 133:
+        case 134:
+            emit_code_label(right[-1].symbol);
+            break;
+        case 135:
+        case 138:
+            if (normalized_Ol && options.option_qc) begin_inline_region(0);
+            break;
+        case 136:
+            begin_for_statement(0, right[-1].node, 0);
+            POP_DECLARATION();
+            break;
+        case 137:
+        case 141:
+            finish_for_statement();
+            if (normalized_Ol && options.option_qc) finish_inline_region();
+            break;
+        case 139:
+            begin_for_statement(right[-4].node, right[-2].node, right[0].node);
+            break;
+        case 140:
+            POP_DECLARATION();
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 142:
+            if (normalized_Ol && options.option_qc) begin_inline_region(0);
+            begin_do_statement();
+            break;
+        case 143:
+            emit_code_label(do_labels->label);
+            if (right[-2].node)
+                emit_conditional_branch(right[-2].node, continue_labels->label, 1);
+            record_line_information(1);
+            emit_code_label(break_labels->label);
+            continue_labels = continue_labels->next;
+            do_labels = do_labels->next;
+            break_labels = break_labels->next;
+            if (!(label_stack_count -= 3)) release_arena(3);
+            RESET_EXPRESSION_ARENA();
+            if (normalized_Ol && options.option_qc) finish_inline_region();
+            POP_DECLARATION();
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 144:
+            if (normalized_Ol && options.option_qc) begin_inline_region(16);
+            begin_switch_statement(right[-1].node);
+            scope_serial = 1;
+            POP_DECLARATION();
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 145:
+            record_line_information(1);
+            write_ir_record(0x3a, break_labels->label);
+            finish_switch_statement();
+            continue_labels = continue_labels->next;
+            break_labels = break_labels->next;
+            switch_labels = switch_labels->next;
+            default_labels = default_labels->next;
+            if (!(label_stack_count -= 4)) release_arena(3);
+            scope_serial = 0;
+            if (normalized_Ol && options.option_qc) finish_inline_region();
+            break;
+        case 146:
+            emit_default_statement();
+            break;
+        case 147:
+            if (break_labels) {
+                if (normalized_Ol && options.option_qc) emit_inline_jump(1);
+                write_ir_record(0x3a, break_labels->label);
+            } else report_syntax_error(43);
+            break;
+        case 148:
+            if (do_labels) {
+                if (normalized_Ol && options.option_qc) emit_inline_jump(2);
+                write_ir_record(0x3a, do_labels->label);
+            } else report_syntax_error(44);
+            break;
+        case 149:
+            emit_return_statement(0, 1);
+            break;
+        case 150:
+            emit_return_statement(right[-1].node, 1);
+            RESET_EXPRESSION_ARENA();
+            break;
+        case 151:
+            if (normalized_Ol && options.option_qc) emit_inline_jump(0);
+            label = find_label(right[-1].name);
+            if (!label) {
+                label = declare_label(right[-1].name);
+                reference_label(label);
+            }
+            write_ir_record(0x3a, make_symbol_reference(label));
+            RESET_EXPRESSION_ARENA();
+            break;
+        case 152:
+            parse_asm_statement();
+            break;
+        case 153:
+            emit_leave_statement();
+            break;
+        case 154:
+            begin_try_statement();
+            break;
+        case 155:
+            finish_try_statement();
+            break;
+        case 157:
+            report_syntax_error(181);
+            break;
+        case 158:
+            parser_recovery_count = 0;
+            break;
+        case 159:
+            begin_except_statement();
+            break;
+        case 160:
+            finish_except_statement();
+            break;
+        case 161:
+            begin_finally_statement();
+            break;
+        case 162:
+            set_except_filter(right[-1].node);
+            finish_finally_statement();
+            POP_DECLARATION();
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 163:
+            default_label = 0;
+            break;
+        case 165:
+            if (normalized_Ol && options.option_qc) emit_inline_jump(0);
+            emit_named_label(right[-1].name);
+            break;
+        case 166:
+            if (right[-1].node && switch_labels) {
+                scope_serial = 0;
+                emit_case_statement(right[-1].node);
+            } else report_syntax_error(46);
+            break;
+        case 167:
+            scope_serial = 0;
+            if (!default_labels) report_syntax_error(47);
+            else if (default_labels->label) report_syntax_error(48);
+            else {
+                if (default_label) default_labels->label = default_label;
+                else {
+                    default_labels->label = make_internal_label(20);
+                    default_label = default_labels->label;
+                }
+                emit_code_label(default_labels->label);
+            }
+            break;
+        case 168:
+            parser_value.symbol = make_internal_label(30);
+            if (right[-1].node) emit_conditional_branch(right[-1].node, parser_value.symbol, 0);
+            POP_DECLARATION();
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 169:
+            parser_value.symbol = make_internal_label(30);
+            write_ir_record(0x3a, parser_value.symbol);
+            emit_code_label(right[-2].symbol);
+            record_line_information(1);
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 170:
+            parser_value.words.low = 0;
+            break;
+        case 171:
+            if ((prototype_mode < 0 || !options.z_a) && !right[0].node)
+                report_syntax_error(466);
+            break;
+        case 172:
+            parser_value.node = make_full_expression(right[0].node);
+            break;
+        case 173:
+            parser_value.words.low = 0;
+            break;
+        case 175: case 176: case 177: case 178: case 179:
+        case 180: case 181: case 182: case 183: case 184:
+        case 185: case 186: case 187: case 188: case 189:
+            parser_value.node = make_binary_expression(right[-1].bytes[0], right[-2].node, right[0].node);
+            break;
+        case 190:
+            parser_value.node = make_binary_expression(right[-3].bytes[0], right[-4].node,
+                make_binary_expression(right[-1].bytes[0], right[-2].node, right[0].node));
+            break;
+        case 192:
+            constant_one = 1;
+            parser_value.node = make_binary_expression(right[0].bytes[0], right[-1].node,
+                make_constant_token(TOK_INT_CONSTANT, &constant_one));
+            break;
+        case 193:
+            parser_value.node = make_unary_expression(TOK_UNARY_PLUS, right[0].node);
+            break;
+        case 194:
+            parser_value.node = make_unary_expression(TOK_UNARY_MINUS, right[0].node);
+            break;
+        case 195:
+            parser_value.node = make_unary_expression(TOK_BIT_NOT, right[0].node);
+            break;
+        case 196:
+            parser_value.node = make_unary_expression(TOK_LOGICAL_NOT, right[0].node);
+            break;
+        case 197:
+            constant_one = 1;
+            right[-1].bytes[0] = right[-1].bytes[0] == TOK_PREINCREMENT ? TOK_POSTINCREMENT : TOK_POSTDECREMENT;
+            parser_value.node = make_binary_expression(right[-1].bytes[0], right[0].node,
+                make_constant_token(TOK_INT_CONSTANT, &constant_one));
+            break;
+        case 198:
+            parser_value.node = make_unary_expression(TOK_LEFT_PAREN, right[-1].node);
+            POP_DECLARATION();
+            break;
+        case 199:
+            parser_value.node = make_unary_expression(TOK_DEREFERENCE, right[0].node);
+            break;
+        case 200:
+            parser_value.node = make_unary_expression(TOK_BIT_AND, right[0].node);
+            break;
+        case 201:
+            if (right[0].node) parser_value.node = make_sizeof_expression(right[0].node);
+            else parser_value.node = 0;
+            --unevaluated_expression_depth;
+            break;
+        case 202:
+            parser_value.node = make_sizeof_type(right[0].symbol->type);
+            --unevaluated_expression_depth;
+            break;
+        case 204:
+            parser_value.node = make_cast_expression((CType *)right[-1].words.low, right[0].node);
+            break;
+        case 205:
+            parser_value.node = make_binary_expression(right[-2].bytes[0], right[-3].node, right[-1].node);
+            break;
+        case 206:
+            if ((scanner_flags & 0x800) && parser_value.symbol)
+                parser_value.symbol = finish_declarator(parser_value.symbol);
+            finish_type_description((CType *)parser_value.symbol);
+            POP_DECLARATION();
+            break;
+        case 207:
+            if (parser_value.symbol) {
+                parser_value.symbol->index = right[-1].words.low;
+                if (scanner_flags & 0x800) parser_value.symbol = finish_declarator(parser_value.symbol);
+            }
+            finish_type_description((CType *)parser_value.symbol);
+            POP_DECLARATION();
+            break;
+        case 208:
+            scanner_flags |= 0x80;
+            break;
+        case 209:
+            parser_value.node = make_function_call(right[-2].bytes[0], right[-3].node,
+                (void *)right[0].words.low);
+            scanner_flags &= ~0x80;
+            break;
+        case 210:
+            parser_value.node = make_member_expression(right[-2].node, right[0].name);
+            break;
+        case 211:
+            parser_value.node = make_identifier_expression(right[0].name);
+            break;
+        case 213:
+            record_version_token(right[0].node);
+            break;
+        case 214:
+            ALLOCATE_PARSER_NODE(node, sizeof(ExpressionNode), 2);
+            parser_value.node = (IrToken *)node;
+            node->flags = 4;
+            node->kind = 42;
+            node->value.symbol = right[0].symbol;
+            node->type = right[0].symbol->type;
+            break;
+        case 215:
+            parser_value.symbol = declare_temporary(intern_identifier(right[-1].node->value.text),
+                temporary_type, 8, 2);
+            POP_DECLARATION();
+            break;
+        case 216:
+            ALLOCATE_PARSER_NODE(node, sizeof(ExpressionNode), 2);
+            parser_value.node = (IrToken *)node;
+            node->flags = 5;
+            node->kind = 3;
+            node->value.words.low = right[0].words.low;
+            node->value.words.high = right[0].words.high;
+            break;
+        case 217:
+            concatenate_string_literals((char *)right[-1].node + 12, right);
+            break;
+        case 218:
+            ++unevaluated_type_depth;
+            break;
+        case 219:
+            parser_value.symbol = right[-1].symbol;
+            POP_DECLARATION();
+            break;
+        case 220:
+            parser_value.symbol = right[0].symbol;
+            finalize_symbol_type(right[-1].declaration.type, parser_value.symbol);
+            --unevaluated_type_depth;
+            CLEAR_DECLARATION_FLAGS();
+            break;
+        case 221:
+            parser_value.node = begin_sizeof_expression(right[-1].node);
+            break;
+        case 222:
+            parser_value.node = begin_alignof_expression(right[-1].node);
+            break;
+        case 223:
+            parser_value.words.low = (unsigned)append_argument(0, right[0].node, 0);
+            break;
+        case 224:
+            parser_value.words.low = (unsigned)append_argument((void *)right[-2].words.low, right[0].node, 0);
+            break;
+        }
+        goto push_state;
+push_state:
+        ;
+    }
+}
+
+/* Original 0x2cf00..0x2cf85. Declarators reserve a mutable type descriptor
+   in the expression arena, even when the symbol itself is permanent. */
+FrontendSymbol *__stdcall make_named_declarator(char *name)
+{
+    FrontendSymbol *symbol;
+    ArenaPool *pool;
+    if (!parameter_nesting) symbol = allocate_permanent(sizeof(FrontendSymbol));
+    else {
+        pool = &compiler_arena.pools[1];
+        if (pool->remaining < (int)sizeof(FrontendSymbol)) refill_arena(&compiler_arena, pool);
+        symbol = (FrontendSymbol *)pool->next;
+        pool->remaining -= sizeof(FrontendSymbol);
+        pool->next += sizeof(FrontendSymbol);
+    }
+    symbol->kind = 1;
+    symbol->name = name;
+    pool = &compiler_arena.pools[2];
+    if (pool->remaining < (int)sizeof(TypeDescription)) refill_arena(&compiler_arena, pool);
+    symbol->type = (TypeDescription *)pool->next;
+    pool->remaining -= sizeof(TypeDescription);
+    pool->next += sizeof(TypeDescription);
+    return symbol;
+}
+
+FrontendSymbol *current_parameter; /* original 0x60064 */
+
+/* Original 0x2b6a0..0x2b72a. */
+void __stdcall begin_parameter_list(FrontendSymbol *parameter)
+{
+    SymbolScope *context;
+    ArenaPool *pool = &compiler_arena.pools[1];
+    if (pool->remaining < (int)sizeof(SymbolScope)) refill_arena(&compiler_arena, pool);
+    context = (SymbolScope *)pool->next;
+    pool->remaining -= sizeof(SymbolScope);
+    pool->next += sizeof(SymbolScope);
+    context->bucket_mask = 0;
+    context->flags = (context->flags & 0xff00) | 1;
+    if (parameter) {
+        if (pool->remaining < (int)sizeof(ParameterList)) refill_arena(&compiler_arena, pool);
+        context->buckets = (FrontendSymbol **)pool->next;
+        pool->remaining -= sizeof(ParameterList);
+        pool->next += sizeof(ParameterList);
+        current_parameter = parameter;
+        context->buckets[0] = parameter;
+    }
+    push_symbol_scope(context);
+    activate_symbol_scope(context);
+}
+
+/* Original 0x2b1e0..0x2b227. A plain function declarator can introduce
+   a definition; a function nested in another type only supplies a shape. */
+FrontendSymbol *__stdcall finish_function_declarator(FrontendSymbol *symbol, FrontendSymbol *parameters)
+{
+    TypeShape *shape = symbol->type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (!shape && !(parser_flags & 0x100))
+        return make_function_declaration(symbol, parameters);
+    finish_parameter_scope();
+    return attach_function_parameters(symbol, parameters);
+}

@@ -48,7 +48,7 @@ void load_precompiled_header(void);
 int __stdcall open_forced_include(char *filename, int flags);
 unsigned char scan_token(void);
 void __stdcall unget_token(unsigned char token);
-void parse_translation_unit(void);
+int parse_translation_unit(void);
 void finish_declarations(void);
 void __stdcall write_ir_record(unsigned tag, void *value);
 IrToken *__stdcall make_integer_constant(unsigned value);

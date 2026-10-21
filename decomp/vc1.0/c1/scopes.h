@@ -12,5 +12,6 @@ typedef struct SymbolScope {
 extern SymbolScope *global_scope, *current_scope, *lookup_scope;
 extern SymbolScope **scope_directory;
 extern unsigned scope_serial;
+extern unsigned char scope_depth;
 void __stdcall create_scope_buckets(SymbolScope *scope, FrontendSymbol *symbol);
 #endif

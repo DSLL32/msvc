@@ -159,7 +159,18 @@
     "_scan_source_token",
     "_begin_source_line",
     "_scan_source_identifier",
-    "_unget_token@4"
+    "_unget_token@4",
+    "_parse_translation_unit",
+    "_read_parser_token",
+    "_resolve_identifier_token@4",
+    "_merge_type_specifier@12",
+    "_finalize_type_description@4",
+    "_lookup_identifier_token@4",
+    "_make_named_declarator@4",
+    "_begin_parameter_list@4",
+    "_push_symbol_scope@4",
+    "_activate_symbol_scope@4",
+    "_finish_function_declarator@8"
   ],
   "driver": [
     {
@@ -396,7 +407,13 @@
     {
       "name": "_parse_translation_unit",
       "start": 143762,
-      "end": 143763
+      "end": 155091,
+      "shared": [
+        [
+          154193,
+          155081
+        ]
+      ]
     },
     {
       "name": "_finish_declarations",
@@ -1036,6 +1053,556 @@
       "name": "_scan_continued_identifier",
       "start": 110432,
       "end": 110922
+    },
+    {
+      "name": "_resolve_identifier_token@4",
+      "start": 102288,
+      "end": 103728
+    },
+    {
+      "name": "_read_parser_token",
+      "start": 103936,
+      "end": 104850
+    },
+    {
+      "name": "_concatenate_string_literals@8",
+      "start": 137984,
+      "end": 137985
+    },
+    {
+      "name": "_report_expected_token@8",
+      "start": 142192,
+      "end": 142193
+    },
+    {
+      "name": "_recovery_token_value@4",
+      "start": 142534,
+      "end": 142535
+    },
+    {
+      "name": "_report_parser_error@4",
+      "start": 142658,
+      "end": 142659
+    },
+    {
+      "name": "_skip_declaration_tokens",
+      "start": 142989,
+      "end": 142990
+    },
+    {
+      "name": "_recover_parser_token",
+      "start": 143218,
+      "end": 143219
+    },
+    {
+      "name": "_finish_external_declaration@4",
+      "start": 143552,
+      "end": 143553
+    },
+    {
+      "name": "_resolve_type_symbol@4",
+      "start": 155184,
+      "end": 155185
+    },
+    {
+      "name": "_based_string_modifier@8",
+      "start": 155344,
+      "end": 155345
+    },
+    {
+      "name": "_based_symbol_modifier@8",
+      "start": 155536,
+      "end": 155537
+    },
+    {
+      "name": "_based_type_modifier@4",
+      "start": 155696,
+      "end": 155697
+    },
+    {
+      "name": "_finish_declarator@4",
+      "start": 156384,
+      "end": 156385
+    },
+    {
+      "name": "_make_constant_token@8",
+      "start": 161664,
+      "end": 161665
+    },
+    {
+      "name": "_parse_enum_specifier",
+      "start": 166512,
+      "end": 166513
+    },
+    {
+      "name": "_parse_struct_specifier",
+      "start": 166624,
+      "end": 166625
+    },
+    {
+      "name": "_new_enumerator@8",
+      "start": 168768,
+      "end": 168769
+    },
+    {
+      "name": "_add_enumerator@12",
+      "start": 168816,
+      "end": 168817
+    },
+    {
+      "name": "_add_struct_member@8",
+      "start": 169728,
+      "end": 169729
+    },
+    {
+      "name": "_make_function_call@12",
+      "start": 170352,
+      "end": 170353
+    },
+    {
+      "name": "_merge_declaration_symbol@8",
+      "start": 173360,
+      "end": 173361
+    },
+    {
+      "name": "_begin_function_definition",
+      "start": 174560,
+      "end": 174561
+    },
+    {
+      "name": "_finish_function_definition",
+      "start": 176400,
+      "end": 176401
+    },
+    {
+      "name": "_finish_function_declarator@8",
+      "start": 176608,
+      "end": 176679
+    },
+    {
+      "name": "_attach_function_parameters@8",
+      "start": 176688,
+      "end": 176689
+    },
+    {
+      "name": "_set_declaration_name@8",
+      "start": 177456,
+      "end": 177457
+    },
+    {
+      "name": "_make_parameter@4",
+      "start": 177680,
+      "end": 177681
+    },
+    {
+      "name": "_begin_parameter_list@4",
+      "start": 177824,
+      "end": 177962
+    },
+    {
+      "name": "_finish_parameter_scope",
+      "start": 177968,
+      "end": 177969
+    },
+    {
+      "name": "_append_parameter@8",
+      "start": 178048,
+      "end": 178049
+    },
+    {
+      "name": "_begin_sizeof_expression@4",
+      "start": 178112,
+      "end": 178113
+    },
+    {
+      "name": "_begin_alignof_expression@4",
+      "start": 178528,
+      "end": 178529
+    },
+    {
+      "name": "_append_argument@12",
+      "start": 179248,
+      "end": 179249
+    },
+    {
+      "name": "_finish_type_description@4",
+      "start": 180768,
+      "end": 180769
+    },
+    {
+      "name": "_report_declaration_error@8",
+      "start": 181152,
+      "end": 181153
+    },
+    {
+      "name": "_reference_label@4",
+      "start": 181408,
+      "end": 181409
+    },
+    {
+      "name": "_find_label@4",
+      "start": 181504,
+      "end": 181505
+    },
+    {
+      "name": "_declare_label@4",
+      "start": 181600,
+      "end": 181601
+    },
+    {
+      "name": "_emit_named_label@4",
+      "start": 181680,
+      "end": 181681
+    },
+    {
+      "name": "_make_internal_label@4",
+      "start": 181760,
+      "end": 181761
+    },
+    {
+      "name": "_make_sizeof_expression@4",
+      "start": 182192,
+      "end": 182193
+    },
+    {
+      "name": "_make_sizeof_type@4",
+      "start": 182400,
+      "end": 182401
+    },
+    {
+      "name": "_make_full_expression@4",
+      "start": 182512,
+      "end": 182513
+    },
+    {
+      "name": "_process_declaration@4",
+      "start": 182656,
+      "end": 182657
+    },
+    {
+      "name": "_make_named_declarator@4",
+      "start": 184064,
+      "end": 184197
+    },
+    {
+      "name": "_combine_declarators@8",
+      "start": 184208,
+      "end": 184209
+    },
+    {
+      "name": "_new_declarator@4",
+      "start": 184336,
+      "end": 184337
+    },
+    {
+      "name": "_make_identifier_expression@4",
+      "start": 184656,
+      "end": 184657
+    },
+    {
+      "name": "_begin_inline_region@4",
+      "start": 189465,
+      "end": 189466
+    },
+    {
+      "name": "_finish_inline_region",
+      "start": 189955,
+      "end": 189956
+    },
+    {
+      "name": "_emit_inline_jump@4",
+      "start": 191893,
+      "end": 191894
+    },
+    {
+      "name": "_begin_for_statement@12",
+      "start": 193296,
+      "end": 193297
+    },
+    {
+      "name": "_finish_for_statement",
+      "start": 193568,
+      "end": 193569
+    },
+    {
+      "name": "_declare_initialized_symbol@4",
+      "start": 196016,
+      "end": 196017
+    },
+    {
+      "name": "_finish_initializer@8",
+      "start": 196192,
+      "end": 196193
+    },
+    {
+      "name": "_begin_aggregate_initializer@4",
+      "start": 196800,
+      "end": 196801
+    },
+    {
+      "name": "_emit_initializer@4",
+      "start": 197024,
+      "end": 197025
+    },
+    {
+      "name": "_begin_nested_initializer",
+      "start": 200256,
+      "end": 200257
+    },
+    {
+      "name": "_finish_nested_initializer",
+      "start": 200384,
+      "end": 200385
+    },
+    {
+      "name": "_finish_aggregate_initializer@4",
+      "start": 201216,
+      "end": 201217
+    },
+    {
+      "name": "_emit_return_statement@8",
+      "start": 208656,
+      "end": 208657
+    },
+    {
+      "name": "_begin_do_statement",
+      "start": 209072,
+      "end": 209073
+    },
+    {
+      "name": "_begin_switch_statement@4",
+      "start": 209136,
+      "end": 209137
+    },
+    {
+      "name": "_finish_switch_statement",
+      "start": 209616,
+      "end": 209617
+    },
+    {
+      "name": "_emit_case_statement@4",
+      "start": 209760,
+      "end": 209761
+    },
+    {
+      "name": "_emit_default_statement",
+      "start": 210176,
+      "end": 210177
+    },
+    {
+      "name": "_set_except_filter@4",
+      "start": 210224,
+      "end": 210225
+    },
+    {
+      "name": "_begin_try_statement",
+      "start": 210304,
+      "end": 210305
+    },
+    {
+      "name": "_begin_except_statement",
+      "start": 210336,
+      "end": 210337
+    },
+    {
+      "name": "_finish_except_statement",
+      "start": 210416,
+      "end": 210417
+    },
+    {
+      "name": "_emit_leave_statement",
+      "start": 210480,
+      "end": 210481
+    },
+    {
+      "name": "_finish_try_statement",
+      "start": 210512,
+      "end": 210513
+    },
+    {
+      "name": "_begin_finally_statement",
+      "start": 210544,
+      "end": 210545
+    },
+    {
+      "name": "_finish_finally_statement",
+      "start": 210560,
+      "end": 210561
+    },
+    {
+      "name": "_apply_declarator_type@8",
+      "start": 210944,
+      "end": 210945
+    },
+    {
+      "name": "_make_struct_tag@8",
+      "start": 211440,
+      "end": 211441
+    },
+    {
+      "name": "_finalize_symbol_type@8",
+      "start": 213088,
+      "end": 213089
+    },
+    {
+      "name": "_check_parameter@4",
+      "start": 218528,
+      "end": 218529
+    },
+    {
+      "name": "_declare_temporary@16",
+      "start": 219808,
+      "end": 219809
+    },
+    {
+      "name": "_begin_compound_statement",
+      "start": 220784,
+      "end": 220785
+    },
+    {
+      "name": "_finish_compound_statement",
+      "start": 220976,
+      "end": 220977
+    },
+    {
+      "name": "_emit_expression_statement@4",
+      "start": 234352,
+      "end": 234353
+    },
+    {
+      "name": "_emit_conditional_branch@12",
+      "start": 236816,
+      "end": 236817
+    },
+    {
+      "name": "_emit_code_label@4",
+      "start": 237152,
+      "end": 237153
+    },
+    {
+      "name": "_make_binary_expression@12",
+      "start": 247632,
+      "end": 247633
+    },
+    {
+      "name": "_make_unary_expression@8",
+      "start": 251264,
+      "end": 251265
+    },
+    {
+      "name": "_make_symbol_reference@4",
+      "start": 259104,
+      "end": 259105
+    },
+    {
+      "name": "_make_member_expression@8",
+      "start": 260128,
+      "end": 260129
+    },
+    {
+      "name": "_append_type_shape@8",
+      "start": 260944,
+      "end": 260945
+    },
+    {
+      "name": "_attach_type_shape@8",
+      "start": 263520,
+      "end": 263521
+    },
+    {
+      "name": "_make_cast_expression@8",
+      "start": 267408,
+      "end": 267409
+    },
+    {
+      "name": "_release_arena@4",
+      "start": 304544,
+      "end": 304545
+    },
+    {
+      "name": "_parse_asm_statement",
+      "start": 320524,
+      "end": 320525
+    },
+    {
+      "name": "_lookup_identifier_token@4",
+      "start": 103728,
+      "end": 103922
+    },
+    {
+      "name": "_merge_type_specifier@12",
+      "start": 108912,
+      "end": 109704
+    },
+    {
+      "name": "_read_tag_specifier@8",
+      "start": 101776,
+      "end": 101777
+    },
+    {
+      "name": "_merge_named_type@12",
+      "start": 102048,
+      "end": 102049
+    },
+    {
+      "name": "_merge_storage_class@16",
+      "start": 109712,
+      "end": 109713
+    },
+    {
+      "name": "_parse_declspec",
+      "start": 101488,
+      "end": 101489
+    },
+    {
+      "name": "_copy_mutable_type@4",
+      "start": 261248,
+      "end": 261249
+    },
+    {
+      "name": "_finalize_type_description@4",
+      "start": 261280,
+      "end": 261463
+    },
+    {
+      "name": "_merge_type_attributes@8",
+      "start": 261008,
+      "end": 261009
+    },
+    {
+      "name": "_replace_outer_type_shape@16",
+      "start": 262208,
+      "end": 262209
+    },
+    {
+      "name": "_type_specifier_name@4",
+      "start": 270720,
+      "end": 270721
+    },
+    {
+      "name": "_find_identifier_symbol@4",
+      "start": 218880,
+      "end": 218881
+    },
+    {
+      "name": "_browser_symbol_reference@4",
+      "start": 161216,
+      "end": 161217
+    },
+    {
+      "name": "_push_symbol_scope@4",
+      "start": 222224,
+      "end": 222244
+    },
+    {
+      "name": "_activate_symbol_scope@4",
+      "start": 222272,
+      "end": 222346
+    },
+    {
+      "name": "_make_function_declaration@8",
+      "start": 176480,
+      "end": 176481
     }
   ],
   "cases": {

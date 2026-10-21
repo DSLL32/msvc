@@ -1,5 +1,5 @@
 /* Lexer code-to-category grammar table, original 0x6d627. */
-#include "tokens.h"
+#include "lexer.h"
 
 unsigned char token_categories[153] = {
     TOK_NONE, /* TOK_NONE */
@@ -156,3 +156,23 @@ unsigned char token_categories[153] = {
     TOK_DECLSPEC, /* TOK_DECLSPEC */
     TOK_ALIGNMENT_NOTIFIER, /* TOK_ALIGNMENT_NOTIFIER */
 };
+
+/* Declaration meanings of lexical codes. The original combined these flags
+   with expression opcodes in one token vocabulary; declarations own only
+   the storage classes, type specifiers, and qualifiers encountered here. */
+DeclarationCode declaration_codes[] = {
+    { TOK_AUTO, 4 }, { TOK_STATIC, 3 }, { TOK_EXTERN, 1 },
+    { TOK_INLINE, 14 }, { TOK_REGISTER, 5 }, { TOK_TYPEDEF, 7 },
+    { TOK_FORTRAN, 0x30 }, { TOK_PASCAL, 0x20 }, { TOK_CDECL, 0x10 },
+    { TOK_FASTCALL, 0x40 }, { TOK_SYSCALL, 0x50 }, { TOK_STDCALL, 0x60 },
+    { TOK_INTERRUPT, 0x100 }, { TOK_SAVEREGS, 0x200 }, { TOK_LOADDS, 0x800 },
+    { TOK_EXPORT, 0 }, { TOK_NEAR, 1 }, { TOK_FAR, 2 }, { TOK_FAR16, 3 },
+    { TOK_HUGE, 3 }, { TOK_CONST, 0x1000 }, { TOK_VOLATILE, 0x2000 },
+    { TOK_CHAR, 0x41 }, { TOK_INT, 0x64 }, { TOK_FLOAT, 0x104 },
+    { TOK_DOUBLE, 0x108 }, { TOK_SHORT, 0x42 }, { TOK_LONG, 0x44 },
+    { TOK_VOID, 0x80 }, { TOK_SEGMENT, 0x86 }, { TOK_SEGNAME, 0x69 },
+    { TOK_SIGNED, 0x8000 }, { TOK_UNSIGNED, 0x4000 },
+    { TOK_ENUM, 0x200 }, { TOK_STRUCT, 0x402 }, { TOK_UNION, 0x404 },
+    { TOK_MODIFIER, 0x9e }, { TOK_OLDCALL, 0 }, { TOK_SYSAPI, 0x96 }
+};
+unsigned declaration_code_count = sizeof(declaration_codes) / sizeof(declaration_codes[0]);

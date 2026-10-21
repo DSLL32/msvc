@@ -1,5 +1,7 @@
 /* Interned frontend types and related hash tables. */
 #include "types.h"
+#include "lexer.h"
+#include "builtins.h"
 
 TypeEntry **type_descriptor_buckets; /* original 0x6b7d0 */
 TypeShapeEntry **type_shape_buckets;  /* original 0x6b658 */
@@ -276,7 +278,7 @@ CType *__stdcall make_qualified_type(CType *base, unsigned short kind, unsigned 
 
 /* Original description stack at 0x5ff1c, followed by a separate global
    at 0x5ffbc. Entry zero is reserved by the pre-increment convention. */
-static TypeDescription type_description_stack[10];
+TypeDescription type_description_stack[10];
 
 /* Original 0x40530..0x40560. */
 TypeDescription *__stdcall copy_type_description(CType *type)
@@ -284,4 +286,111 @@ TypeDescription *__stdcall copy_type_description(CType *type)
     TypeDescription *description = &type_description_stack[++type_description_depth];
     *description = *type;
     return description;
+}
+
+/* Original 0x1a970..0x1ac86. Combine C type-specifier keywords while
+   retaining the spelling distinctions needed for duplicate diagnostics. */
+CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags, unsigned short added)
+{
+    unsigned short existing = *flags, sign = existing & 0xc000;
+    unsigned short next_sign = added & 0xc000, base;
+    int invalid = 0;
+    if (sign && next_sign) {
+        if (sign & next_sign) compiler_warning(1, 114);
+        else {
+            added &= 0x3fff;
+            report_syntax_error(42);
+        }
+        *flags |= added;
+        return type;
+    }
+    if (next_sign || (added & 0x4000)) {
+        *flags |= added;
+        return type;
+    }
+    if ((existing & 0xefff) == sign) {
+        *flags = existing | added;
+        return type;
+    }
+    existing &= 0x2fff;
+    base = added & 0x2fff;
+    if (existing & 0x400) {
+        report_syntax_error(628, last_lookup_symbol->name, type_specifier_name(base));
+        last_lookup_symbol = 0;
+        *flags = added;
+        return 0;
+    }
+    switch (existing) {
+    case 0x42:
+        if (base != 0x64) invalid = 1;
+        existing = 0x2042;
+        break;
+    case 0x44:
+        switch (base) {
+        case 0x64: existing = 0x2044; break;
+        case 0x104:
+            compiler_warning(1, 215);
+            existing = 0x108;
+            break;
+        case 0x108:
+            existing = 0x128;
+            compiler_warning(3, 69);
+            break;
+        default: invalid = 1; break;
+        }
+        break;
+    case 0x64:
+        if (base == 0x42) existing = 0x2042;
+        else if (base == 0x44) existing = 0x2044;
+        else invalid = 1;
+        break;
+    case 0x80:
+        report_syntax_error(120);
+        break;
+    case 0x104:
+        if (base == 0x44) {
+            compiler_warning(1, 216);
+            existing = 0x108;
+        } else invalid = 1;
+        break;
+    case 0x108:
+        if (base == 0x44) existing = 0x128;
+        else invalid = 1;
+        break;
+    default:
+        invalid = 1;
+        break;
+    }
+    if (invalid) {
+        report_syntax_error(632, type_specifier_name(existing), type_specifier_name(base));
+        type = 0;
+    }
+    *flags = existing | sign;
+    return type;
+}
+
+/* Original 0x3fca0..0x3fd57. Resolve omitted int and char signedness,
+   remove temporary spelling bits, and intern the completed description. */
+CType *__stdcall finalize_type_description(TypeDescription *description)
+{
+    unsigned short flags, base;
+    CType *type;
+    if (!description) return type_0064;
+    flags = description->flags;
+    base = flags & 0x2fdf;
+    if (base == 0x41) {
+        if (options.z_a && options.option_J && !(flags & 0x8000)) flags |= 0x4000;
+    } else if (!base) flags |= 0x64;
+    flags &= 0xcfff;
+    if (flags & 0xc000) {
+        if (!(flags & 0x840)) {
+            compiler_warning(1, 76, (flags & 0x4000) ? "unsigned" : "signed");
+            flags &= 0x3fff;
+        } else if (options.z_a || (flags & 0x2fdf) != 0x41)
+            flags &= 0x7fff;
+    }
+    description->flags = flags;
+    type = intern_type(description);
+    --type_description_depth;
+    return type;
 }
