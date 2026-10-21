@@ -148,7 +148,17 @@
     "@coff_write_data@8",
     "@coff_write_scope_data@8",
     "@coff_write_byte@4",
-    "@write_module_listing@4"
+    "@write_module_listing@4",
+    "@collect_machine_symbols@4",
+    "_collect_global_symbols",
+    "@emit_pending_symbols@4",
+    "_flush_queued_symbols",
+    "_write_symbol_declarations",
+    "@emit_static_initializers@4",
+    "@write_initializer_listing@4",
+    "_reset_machine_state",
+    "_reset_stack_frame",
+    "_initialize_stack_alignment"
   ],
   "driver": [
     {
@@ -282,9 +292,10 @@
       "end": 158576
     },
     {
-      "name": "_report_context_error",
+      "name": "@report_context_error@12",
       "start": 460864,
-      "end": 460912
+      "end": 460912,
+      "provisional": true
     },
     {
       "name": "@apply_option@12",
@@ -412,9 +423,10 @@
       "end": 322880
     },
     {
-      "name": "@adjust_initializer_debug@4",
+      "name": "@emit_initializer@4",
       "start": 430944,
-      "end": 431136
+      "end": 431136,
+      "provisional": true
     },
     {
       "name": "@release_initializer@4",
@@ -879,8 +891,7 @@
     {
       "name": "@collect_machine_symbols@4",
       "start": 428144,
-      "end": 428145,
-      "provisional": true
+      "end": 428464
     },
     {
       "name": "@calculate_machine_frame@8",
@@ -891,8 +902,7 @@
     {
       "name": "@emit_pending_symbols@4",
       "start": 426864,
-      "end": 426865,
-      "provisional": true
+      "end": 426896
     },
     {
       "name": "@write_function_listing@4",
@@ -921,8 +931,7 @@
     {
       "name": "_reset_machine_state",
       "start": 426752,
-      "end": 426753,
-      "provisional": true
+      "end": 426864
     },
     {
       "name": "@require_external_symbol@4",
@@ -1364,6 +1373,107 @@
       "start": 166096,
       "end": 166097,
       "provisional": true
+    },
+    {
+      "name": "_collect_global_symbols",
+      "start": 323264,
+      "end": 323520
+    },
+    {
+      "name": "@lookup_alias_target@4",
+      "start": 320240,
+      "end": 320241,
+      "provisional": true
+    },
+    {
+      "name": "@initializer_symbols_available@4",
+      "start": 322928,
+      "end": 322929,
+      "provisional": true
+    },
+    {
+      "name": "@queue_initializer_dependencies@4",
+      "start": 323104,
+      "end": 323105,
+      "provisional": true
+    },
+    {
+      "name": "_new_symbol_list_node",
+      "start": 323520,
+      "end": 323521,
+      "provisional": true
+    },
+    {
+      "name": "_flush_queued_symbols",
+      "start": 430848,
+      "end": 430896
+    },
+    {
+      "name": "_write_symbol_declarations",
+      "start": 166320,
+      "end": 166416
+    },
+    {
+      "name": "@emit_static_initializers@4",
+      "start": 430896,
+      "end": 430944
+    },
+    {
+      "name": "@write_initializer_listing@4",
+      "start": 170224,
+      "end": 170272
+    },
+    {
+      "name": "@for_each_symbol@8",
+      "start": 321520,
+      "end": 321521,
+      "provisional": true
+    },
+    {
+      "name": "@write_public_listing@4",
+      "start": 167360,
+      "end": 167361,
+      "provisional": true
+    },
+    {
+      "name": "@write_external_listing@4",
+      "start": 167104,
+      "end": 167105,
+      "provisional": true
+    },
+    {
+      "name": "@write_common_listing@4",
+      "start": 166448,
+      "end": 166449,
+      "provisional": true
+    },
+    {
+      "name": "@mark_listing_symbols@4",
+      "start": 166416,
+      "end": 166417,
+      "provisional": true
+    },
+    {
+      "name": "@find_initializer@4",
+      "start": 322880,
+      "end": 322881,
+      "provisional": true
+    },
+    {
+      "name": "@write_initializer_assembly@4",
+      "start": 170000,
+      "end": 170001,
+      "provisional": true
+    },
+    {
+      "name": "_reset_stack_frame",
+      "start": 159280,
+      "end": 159296
+    },
+    {
+      "name": "_initialize_stack_alignment",
+      "start": 159248,
+      "end": 159280
     }
   ],
   "cases": {

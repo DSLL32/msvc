@@ -1,6 +1,19 @@
 #ifndef RECORDS_H
 #define RECORDS_H
 #include "functions.h"
+typedef struct DebugLink {
+    struct DebugLink *next;
+    SymbolHeader *symbol;
+} DebugLink;
+typedef struct DebugScope {
+    short line;
+    unsigned short field02;
+    unsigned field04, field08;
+    DebugLink *records;
+    unsigned field10;
+    struct DebugScope *next;
+} DebugScope;
+
 SymbolHeader *__fastcall type_of_symbol(SymbolHeader *symbol, int unwrap);
 SymbolHeader *__fastcall read_symbol(SymbolHeader *parent_type);
 SymbolHeader *__fastcall lookup_symbol(ScopeHash *scope, unsigned identifier);

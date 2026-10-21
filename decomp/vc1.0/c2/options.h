@@ -12,6 +12,7 @@ extern Option compiler_options[];
 extern char *source_filename, *assembly_filename, *debug_filename, *listing_filename;
 extern char *object_filename, *unknown_option, *assembly_options, *error_filename, *language_options;
 extern int assembly_output, assembly_code, listing_output, assembly_source;
+extern int assembly_cleanup_pending;
 extern int byte_block_second, byte_block_first, identifier_limit;
 char *next_argument();
 int __fastcall match_option(Option *options, char *argument, char *(__cdecl *next)(void), int copy);

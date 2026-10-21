@@ -29,7 +29,7 @@ typedef struct OutputCallbacks {
     OutputRoutine finish_module;
     void (__fastcall *record)(ModuleDirective *);
     OutputRoutine relocation;
-    OutputRoutine mark_symbol;
+    void (__fastcall *mark_symbol)(SymbolHeader *);
 } OutputCallbacks;
 extern OutputCallbacks output_callbacks;
 extern char *target_segment_group;

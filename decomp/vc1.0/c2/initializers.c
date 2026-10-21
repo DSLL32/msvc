@@ -1,6 +1,7 @@
 /* Static initializer records from the frontend. */
 #include "initializers.h"
 #include "input.h"
+Initializer *global_initializers; /* 0007c14c */
 /* Original [0004e830,0004e840). */
 void initialize_globals(void)
 {
@@ -32,7 +33,7 @@ void __fastcall read_initializers(FILE *file)
             initializer->symbol_id = 0;
             initializer->value = input_compact_signed();
             read_initializer_body(initializer);
-            adjust_initializer_debug(initializer);
+            emit_initializer(initializer);
             release_initializer(initializer);
             break;
         default:

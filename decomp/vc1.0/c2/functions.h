@@ -19,7 +19,7 @@ typedef struct Function {
     void *expressions;
     ScopeHash *scope;
     unsigned field18, options, state;
-    void *debug_scope;
+    struct DebugScope *debug_scope;
     unsigned field28;
 } Function;
 extern FunctionSymbol *pending_functions, *current_symbol;

@@ -4,9 +4,9 @@
 char *source_filename, *assembly_filename, *debug_filename, *listing_filename;
 char *object_filename, *unknown_option, *assembly_options, *error_filename, *language_options;
 int assembly_output, assembly_code, listing_output, assembly_source, object_name_explicit;
+int assembly_cleanup_pending; /* 0008315c */
 int byte_block_second, byte_block_first, identifier_limit = 247;
 char *generated_source = "compiler generated";
-void report_context_error(void);
 
 /* Original [00026a10,00026b60). */
 void parse_options(void)
@@ -31,16 +31,10 @@ void parse_options(void)
     if (listing_filename) listing_output = 1;
     if (assembly_filename) {
         assembly_output = 1;
-        if (!freopen(assembly_filename, "wt", stdout)) {
-            /* Private ECX/EDX plus caller-cleaned variadic stack ABI. */
-            __asm {
-                push assembly_filename
-                mov edx, generated_source
-                mov ecx, 53h
-                call report_context_error
-                add esp, 4
-            }
-        }
+        if (!freopen(assembly_filename, "wt", stdout))
+            report_context_error(0x53, generated_source, assembly_filename);
+        assembly_cleanup_pending = 1;
+
     }
 }
 

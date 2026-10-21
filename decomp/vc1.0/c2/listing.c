@@ -41,3 +41,24 @@ void __fastcall write_module_listing(char *source)
     if (dos_object) printf("endif\n");
     listed_segment = 0;
 }
+
+/* Original [000289b0,00028a10). Listing declarations are emitted in phases. */
+void write_symbol_declarations(void)
+{
+    if (!listing_enabled) return;
+    for_each_symbol(0, write_public_listing);
+    for_each_symbol(0, write_external_listing);
+    for_each_symbol(1, write_external_listing);
+    for_each_symbol(0, write_common_listing);
+    for_each_symbol(1, write_common_listing);
+    for_each_symbol(0, mark_listing_symbols);
+}
+
+#include "symbol-output.h"
+/* Original [000298f0,00029920). */
+void __fastcall write_initializer_listing(BackendSymbolList *symbols)
+{
+    if (!listing_enabled) return;
+    for (; symbols; symbols = symbols->next)
+        write_initializer_assembly(find_initializer(symbols->symbol->identifier));
+}

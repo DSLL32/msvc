@@ -3,16 +3,16 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 144,
-  "reconstructed_functions": 85,
+  "accepted_frontiers": 154,
+  "reconstructed_functions": 95,
   "current_frontier": {
-    "name": "@collect_machine_symbols@4",
-    "original_va": 428144
+    "name": "@read_function@4",
+    "original_va": 312832
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 144 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "85 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 154 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "95 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000"
   ],
   "complete_object_comparison": false,

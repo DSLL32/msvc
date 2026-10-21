@@ -16,12 +16,11 @@ void finish_debugging(void) { __asm int 3 }
 void finish_globals(void) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
 void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
-__declspec(naked) void report_context_error(void) { __asm int 3 }
+void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
 Initializer *__fastcall new_initializer(int kind) { __asm int 3 }
 void __fastcall read_initializer_body(Initializer *initializer) { __asm int 3 }
 void __fastcall insert_initializer(Initializer *initializer) { __asm int 3 }
-void __fastcall adjust_initializer_debug(Initializer *initializer) { __asm int 3 }
 void __fastcall release_initializer(Initializer *initializer) { __asm int 3 }
 Function *__fastcall read_function(FunctionSymbol *symbol) { __asm int 3 }
 char *__fastcall format_function_name(FunctionSymbol *symbol) { __asm int 3 }
@@ -83,14 +82,11 @@ void __fastcall split_machine_instructions(MachineContext *context) { __asm int 
 void __fastcall schedule_i586_branches(MachineContext *context) { __asm int 3 }
 void __fastcall finish_machine_lowering(MachineContext *context) { __asm int 3 }
 void lower_unoptimized_machine(void) { __asm int 3 }
-BackendSymbolList *__fastcall collect_machine_symbols(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall calculate_machine_frame(MachineInstruction *instructions, unsigned flags) { __asm int 3 }
-void __fastcall emit_pending_symbols(BackendSymbolList *symbols) { __asm int 3 }
 void __fastcall write_function_listing(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall emit_machine_instructions(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned flags) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
-void reset_machine_state(void) { __asm int 3 }
 SymbolHeader *__fastcall require_external_symbol(char *name) { __asm int 3 }
 #include "output.h"
 __declspec(naked) void output_noop(void) { __asm int 3 }
@@ -148,3 +144,18 @@ unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
 void __fastcall write_segment_listing(Segment *segment, int definition) { __asm int 3 }
 int __fastcall close_segment_listing(Segment *segment) { __asm int 3 }
 char *__fastcall listing_segment_name(Segment *segment) { __asm int 3 }
+#include "machine.h"
+SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
+int __fastcall initializer_symbols_available(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall queue_initializer_dependencies(SymbolHeader *symbol) { __asm int 3 }
+BackendSymbolList *new_symbol_list_node(void) { __asm int 3 }
+#include "symbol-output.h"
+void __fastcall for_each_symbol(int local, SymbolVisitor visit) { __asm int 3 }
+void __fastcall write_public_listing(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_external_listing(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_common_listing(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall mark_listing_symbols(SymbolHeader *symbol) { __asm int 3 }
+Initializer *__fastcall find_initializer(unsigned identifier) { __asm int 3 }
+void __fastcall emit_initializer(Initializer *initializer) { __asm int 3 }
+void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int 3 }
+#include "frame.h"

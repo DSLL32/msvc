@@ -2,18 +2,6 @@
 #include "records.h"
 #include "segments.h"
 extern int codeview_debug, stack_alignment;
-typedef struct DebugLink {
-    struct DebugLink *next;
-    SymbolHeader *symbol;
-} DebugLink;
-typedef struct DebugScope {
-    short line;
-    unsigned short field02;
-    unsigned field04, field08;
-    DebugLink *records;
-    unsigned field10;
-    struct DebugScope *next;
-} DebugScope;
 DebugScope *current_debug_scope;
 FunctionSymbol **pending_insertion;
 /* Original [0004ceb0,0004d1a0), including its .text dispatch table. */

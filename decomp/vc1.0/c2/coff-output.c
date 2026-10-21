@@ -6,7 +6,6 @@
 extern int codeview_debug, line_debug;
 extern char *generated_source;
 extern unsigned next_symbol_identifier(void);
-void report_context_error(void);
 FILE *object_file; /* 00084fb0 */
 Segment *directive_segment; /* 00079144 */
 int object_generation_started; /* 00083158 */
@@ -14,18 +13,7 @@ void coff_open_module(void)
 {
     CoffConfiguration *configuration;
     object_file = fopen(object_filename, "w");
-    if (!object_file) {
-        /* The diagnostic ABI combines ECX/EDX with a caller-cleaned
-           variadic stack argument; this compiler cannot declare that ABI. */
-        __asm {
-            mov eax, object_filename
-            push eax
-            mov edx, generated_source
-            mov ecx, 53h
-            call report_context_error
-            add esp, 4
-        }
-    }
+    if (!object_file) report_context_error(0x53, generated_source, object_filename);
     object_generation_started = 1;
     configuration = arena_alloc(7, sizeof(CoffConfiguration));
     configuration->file = object_file;

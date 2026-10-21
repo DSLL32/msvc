@@ -29,4 +29,6 @@ void finish_output(void);
 void finish_debugging(void);
 void finish_globals(void);
 void __fastcall compiler_internal_error(char *source, unsigned code);
+/* Two register arguments and one callee-cleaned stack argument (RET 4). */
+void __fastcall report_context_error(unsigned code, char *source, char *filename);
 #endif

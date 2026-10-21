@@ -75,16 +75,23 @@ to the typed writer configuration, and coff-writer.c owns the encountered
 vectors, scopes, packed relocation/line buffers, section contributions and
 symbol records. coff-segments.c maps logical segments to COFF sections;
 listing.c contains module listing logic. Initial module directives now pass
-through the buffered data writer. It has reached machine-symbol collection.
+through the buffered data writer. Machine-symbol collection, initializer dependency discovery, pending-symbol output,
+and machine/frame reset now reach the function reader. machine-opcodes.def records
+the encountered instruction operand counts with named opcodes; it contains no
+original pointer table or opaque data snapshot.
 
-The current checkpoint has 85 reconstructed source functions and 144 recorded
-matching trap frontiers. All 144 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 95 reconstructed source functions and 154 recorded
+matching trap frontiers. All 154 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
 
 Reconstructed logic is period C. The earlier pure tail-call initialization
-adapters are ordinary C wrappers. The only functional inline assembly is the
-private ECX/EDX plus caller-cleaned variadic diagnostic ABI and the x87/ESI
-extended-float ABI, with reasons documented at their call sites. Unreached
+adapters are ordinary C wrappers. The only functional inline assembly is the x87/ESI extended-float ABI, whose
+raw ST(0) input and 80-bit memory result cannot be expressed by this compiler's
+8-byte long double. The two narrow blocks are documented in extended.c.
+Diagnostics use ordinary fixed three-argument __fastcall calls: ECX, EDX and
+one callee-cleaned stack argument, matching original RET 4. Diagnostic handling
+is still a named trapping stub; the current success-path cases and graph audit
+do not validate diagnostic failure behavior. Unreached
 function stubs deliberately use INT3 as required by the reconstruction process.

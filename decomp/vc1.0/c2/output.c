@@ -34,7 +34,7 @@ void initialize_output_callbacks(void)
     output_callbacks.finish_module = (OutputRoutine)output_noop;
     output_callbacks.relocation = (OutputRoutine)output_noop_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))output_noop_record;
-    output_callbacks.mark_symbol = (OutputRoutine)mark_unwritten_symbol;
+    output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))mark_unwritten_symbol;
         return;
     }
     if (coff_object) {
@@ -51,7 +51,7 @@ void initialize_output_callbacks(void)
     output_callbacks.finish_module = (OutputRoutine)coff_finish_module;
     output_callbacks.relocation = (OutputRoutine)coff_output_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))coff_output_record;
-    output_callbacks.mark_symbol = (OutputRoutine)coff_mark_symbol;
+    output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))coff_mark_symbol;
         if (codeview_debug || line_debug) {
     output_callbacks.debug_pair = (OutputRoutine)coff_output_debug_pair;
     output_callbacks.debug_record = (OutputRoutine)coff_output_debug_record;
@@ -73,7 +73,7 @@ void initialize_output_callbacks(void)
     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;
     output_callbacks.relocation = (OutputRoutine)omf_output_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))omf_output_record;
-    output_callbacks.mark_symbol = (OutputRoutine)omf_mark_symbol;
+    output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))omf_mark_symbol;
         if (codeview_debug || line_debug) {
     output_callbacks.debug_pair = (OutputRoutine)omf_output_debug_pair;
     output_callbacks.debug_record = (OutputRoutine)omf_output_debug_record;
