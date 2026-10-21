@@ -58,6 +58,8 @@ original compiler/linker, creates a private 32-bit prefix, and uses isolated
 working directories under ~/.ai-tmp/vc1.0-capture/. The launcher explicitly
 passes the single-variable environment block for C1/C2 and inherits the
 environment for LINK, reproducing CL's launch policy for each process.
+Use --fixture PATH to verify another captured case, such as ../hello-win32.
+The optimized window case also builds CL's GUI checker and runs it under Xvfb.
 
 Capture provenance:
 
@@ -77,3 +79,5 @@ the working directory must contain test.c. Run with closed stdin. Captures and
 scratch builds belong under ~/.ai-tmp. No original executable on disk is changed.
 The debugger restores its one-byte observation breakpoint before executing the
 original import thunk, then reinserts it for the next launch.
+To capture another source case, append the complete CL argument string and its
+object filename as two optional arguments; otherwise test.c/test.obj are used.

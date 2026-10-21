@@ -1,0 +1,37 @@
+{
+  "command": "python3 decomp/vc1.0/fixtures/minimal-c/verify.py --fixture decomp/vc1.0/fixtures/hello-win32",
+  "toolchain": "1.0-nt",
+  "environment": "MSC_CMD_FLAGS only for C1/C2; inherited for LINK",
+  "c1": {
+    "exit_status": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "outputs_match_capture_byte_for_byte": true,
+    "observed_SDK_header_dependencies": 36
+  },
+  "c2": {
+    "exit_status": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "object_matches_captured_pipeline_except_COFF_timestamp": true
+  },
+  "link": {
+    "exit_status": 0,
+    "stdout_bytes": 158,
+    "stderr_bytes": 0,
+    "executable_matches_captured_pipeline_except_PE_COFF_timestamp": true,
+    "gui": {
+      "width": 632,
+      "height": 326,
+      "dark_pixels": 300,
+      "bounds": [
+        276,
+        157,
+        354,
+        167
+      ],
+      "exit_status": 0
+    }
+  },
+  "minimal_c_fixture_regression_passed": true
+}

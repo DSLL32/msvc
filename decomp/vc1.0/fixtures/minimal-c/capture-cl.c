@@ -28,10 +28,10 @@ int main(int argc,char **argv)
     BYTE original,trap=0xcc; int stepping=0,n=0; unsigned i; char command[2048];
     char prefix[1024],source[1024],dest[1024],*p,*q;
     static char *extensions[]={"ex","sy","in","gl",NULL};
-    if(argc!=5) return 2;
+    if(argc!=5 && argc!=7) return 2;
     SetEnvironmentVariableA("TMP",argv[4]); SetEnvironmentVariableA("TEMP",argv[4]);
     memset(&si,0,sizeof(si)); si.cb=sizeof(si);
-    sprintf(command,"\"%s\" test.c",argv[1]);
+    sprintf(command,"\"%s\" %s",argv[1],argc==7?argv[5]:"test.c");
     if(!CreateProcessA(argv[1],command,0,0,TRUE,DEBUG_ONLY_THIS_PROCESS,0,argv[4],&si,&pi)) return 3;
     for(;;) {
         if(!WaitForDebugEvent(&ev,30000)) return 4;
@@ -58,7 +58,7 @@ int main(int argc,char **argv)
                     strcpy(source,p+1);
                     sprintf(dest,"%s\\link-input.rsp",argv[3]);
                     if(!CopyFileA(source,dest,FALSE)) return 20;
-                    sprintf(source,"%s\\test.obj",argv[4]);
+                    sprintf(source,"%s\\%s",argv[4],argc==7?argv[6]:"test.obj");
                     sprintf(dest,"%s\\link-input.obj",argv[3]);
                     if(!CopyFileA(source,dest,FALSE)) return 21;
                     i=GetEnvironmentVariableA("LIB",(char *)buffer,sizeof(buffer));
