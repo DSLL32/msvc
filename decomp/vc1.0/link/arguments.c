@@ -172,8 +172,8 @@ void classify_argument(char *text,unsigned char copy)
             }
             list=&input_files;
         } else {
-            incremental_file=open_file(text,0x8000,0);
-            if (is_library_file(text,incremental_file)) list=&other_inputs;
+            input_file=open_file(text,0x8000,0);
+            if (is_library_file(text,input_file)) list=&other_inputs;
             else {
                 list=&library_files;
                 if (!output_name[0]) {
@@ -182,7 +182,7 @@ void classify_argument(char *text,unsigned char copy)
                     if (dot) *dot=0;
                 }
             }
-            close_file(incremental_file,0);
+            close_file(input_file,0);
         }
     }
     if (copy) text=duplicate_string(text);

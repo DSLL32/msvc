@@ -25,7 +25,9 @@ def instructions(pe,record):
    continue
   instruction=decoded[0]
   for operand in instruction.operands:
-   if operand.type!=X86_OP_MEM or not operand.mem.index or operand.mem.scale!=4: continue
+   if operand.type!=X86_OP_MEM: continue
+   # /Od may shift the index before JMP [eax+table], with scale one.
+   if not ((operand.mem.index and operand.mem.scale==4) or instruction.mnemonic=='jmp'): continue
    table=operand.mem.disp
    count=0
    try:

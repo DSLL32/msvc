@@ -39,6 +39,8 @@ long seek_mapped_file(FileSlot *,long,int);
 int open_buffered_file(FileSlot *,int,int,unsigned char);
 unsigned read_buffered_file(FileSlot *,void *,unsigned);
 long seek_buffered_file(FileSlot *,long,int);
+void cache_closed_file(FileSlot *);
+int close_mapped_file(FileSlot *);
 int release_file_slot(FileSlot *);
 void grow_mapping(FileSlot *,long);
 #endif

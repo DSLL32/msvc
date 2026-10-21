@@ -31,16 +31,16 @@ char *read_coff_strings(const char *path,unsigned long offset,unsigned long *siz
     char *strings=NULL;
     coff_strings_cached=1;
     if (!offset) return NULL;
-    length=file_size(incremental_file);
+    length=file_size(input_file);
     if (offset+4 <= length) {
-        seek_file(incremental_file,offset,SEEK_SET);
-        read_file(incremental_file,size,4);
+        seek_file(input_file,offset,SEEK_SET);
+        read_file(input_file,size,4);
         if (offset+*size <= length) {
             if (offset && *size && *size!=4) {
                 reserve_text(&coff_string_buffer,*size+1);
                 strings=coff_string_buffer.data;
-                seek_file(incremental_file,offset,SEEK_SET);
-                read_file(incremental_file,strings,*size);
+                seek_file(input_file,offset,SEEK_SET);
+                read_file(input_file,strings,*size);
                 if (strings[*size-1]) warning_message(path,90,"","");
             } else *size=0;
             return strings;
@@ -54,10 +54,10 @@ char *read_coff_strings(const char *path,unsigned long offset,unsigned long *siz
 PIMAGE_SYMBOL read_coff_symbols(unsigned long offset,unsigned long count)
 {
     unsigned long bytes=count*IMAGE_SIZEOF_SYMBOL;
-    seek_file(incremental_file,offset,SEEK_SET);
+    seek_file(input_file,offset,SEEK_SET);
     coff_symbols_cached=1;
     reserve_text(&coff_symbol_buffer,bytes);
-    read_file(incremental_file,coff_symbol_buffer.data,bytes);
+    read_file(input_file,coff_symbol_buffer.data,bytes);
     return (PIMAGE_SYMBOL)coff_symbol_buffer.data;
 }
 
@@ -71,7 +71,7 @@ PIMAGE_SYMBOL next_coff_symbol(PIMAGE_SYMBOL *cursor,unsigned char auxiliary)
         *cursor=symbol+1;
         return symbol;
     }
-    read_coff_symbol(incremental_file,&streamed_symbol);
+    read_coff_symbol(input_file,&streamed_symbol);
     return &streamed_symbol;
 }
 

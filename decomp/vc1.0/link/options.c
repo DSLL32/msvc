@@ -400,3 +400,49 @@ unsigned char matches_default_library(const char *name,DefaultLibrary *library)
     if (other>=4 && !_strcmpi(library->name+other-4,".lib")) other-=4;
     return length==other && !_strnicmp(name,library->name,length);
 }
+
+Library *load_next_default_library(LibraryList *libraries)
+{
+    DefaultLibrary *candidate;
+    char drive[_MAX_DRIVE],directory[_MAX_DIR],filename[_MAX_FNAME];
+    char extension[_MAX_EXT],path[_MAX_PATH];
+    if (libraries->exclude_defaults) return NULL;
+    for (candidate=libraries->default_libraries;candidate;candidate=candidate->next) {
+        if (!candidate->enabled) continue;
+        candidate->enabled=0;
+        _splitpath(candidate->name,drive,directory,filename,extension);
+        if (!*extension) strcpy(extension,".lib");
+        _makepath(path,drive,directory,filename,extension);
+        if (!find_library(path,libraries->first,(unsigned char)(!*drive && !*directory)))
+            return create_library(find_library_file(candidate->name,".lib",&search_paths),0,0,libraries);
+    }
+    return NULL;
+}
+
+char *find_library_file(const char *name,const char *default_extension,ArgumentList *paths)
+{
+    char drive[_MAX_DRIVE],directory[_MAX_DIR],filename[_MAX_FNAME],extension[_MAX_EXT];
+    char with_extension[_MAX_PATH],candidate[_MAX_PATH];
+    Argument *path;
+    unsigned short index,length;
+    _splitpath(name,drive,directory,filename,extension);
+    if (!*extension && default_extension) {
+        _makepath(with_extension,drive,directory,filename,default_extension);
+        name=with_extension;
+        strcpy(extension,default_extension);
+    }
+    if (!_access(name,0)) return duplicate_string(name);
+    if (*drive || *directory) return duplicate_string(name);
+    path=paths->first;
+    for (index=0;index<paths->count;++index) {
+        strcpy(candidate,path->text);
+        length=(unsigned short)strlen(candidate);
+        candidate[length]='\\';
+        candidate[(unsigned short)(length+1)]=0;
+        strcat(candidate,filename);
+        strcat(candidate,extension);
+        if (!_access(candidate,0)) return duplicate_string(candidate);
+        path=path->next;
+    }
+    return duplicate_string(name);
+}

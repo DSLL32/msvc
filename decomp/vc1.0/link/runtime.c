@@ -218,3 +218,31 @@ int toupper(int c)
     if (count==1) return (signed char)bytes[0];
     return ((signed char)bytes[1] << 8) | (signed char)bytes[0];
 }
+
+/* [00059510,00059680). The older locale/code-page fast-path test. */
+#undef tolower
+int tolower(int c)
+{
+    char bytes[3];
+    WCHAR wide[2],mapped[2];
+    int count,upper;
+    if (!_lc_handle[2] && !_lc_codepage) {
+        upper=__mb_cur_max>1?_isctype(c,1):(_pctype[c]&1);
+        return upper?c+0x20:c;
+    }
+    if (c<0x100) {
+        upper=__mb_cur_max>1?_isctype(c,1):(_pctype[c]&1);
+        if (!upper) return c;
+    }
+    if (_pctype[(c&0xff00)>>8]&0x8000) {
+        bytes[0]=(char)(c>>8); bytes[1]=(char)c; bytes[2]=0;
+    } else { bytes[0]=(char)c; bytes[1]=0; }
+    count=MultiByteToWideChar(_lc_codepage,1,bytes,-1,wide,2);
+    if (!count) return c;
+    count=LCMapStringW(_lc_handle[2],0x100,wide,count,mapped,2);
+    if (!count) return c;
+    count=WideCharToMultiByte(_lc_codepage,0x210,mapped,count,bytes,2,NULL,NULL);
+    if (!count) return c;
+    if (count==1) return (signed char)bytes[0];
+    return ((signed char)bytes[1]<<8)|(signed char)bytes[0];
+}

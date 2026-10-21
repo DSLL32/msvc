@@ -204,7 +204,40 @@
     "_set_external_defined",
     "_define_external",
     "_release_coff_strings",
-    "_release_coff_symbols"
+    "_release_coff_symbols",
+    "_close_file",
+    "_cache_closed_file",
+    "_check_explicit_modules",
+    "_end_module_enumerator",
+    "_infer_subsystem",
+    "_symbol_key",
+    "_intern_symbol_name",
+    "_record_undefined_reference",
+    "_external_referenced_by",
+    "_initialize_reference_enumerator",
+    "_next_reference",
+    "_end_reference_enumerator",
+    "_set_subsystem_version",
+    "_select_entry_point",
+    "_search_libraries",
+    "_load_next_default_library",
+    "__makepath",
+    "_find_library_file",
+    "import:GetLastError",
+    "__dosmaperr",
+    "_tolower",
+    "_begin_library",
+    "_read_archive_index",
+    "_read_archive_header",
+    "_sscanf",
+    "__input",
+    "__whiteout",
+    "__inc",
+    "_isspace",
+    "__un_inc",
+    "_ungetc",
+    "_read_big_endian_dword",
+    "_tell_file"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -392,18 +425,20 @@
     {
       "name": "_select_entry_point",
       "start": 127888,
-      "end": 127889,
-      "implementation": "stub-C",
-      "source": "driver-stubs.c",
-      "abi": "cdecl void(Image *,unsigned char)"
+      "end": 128128,
+      "implementation": "C",
+      "source": "linker.c",
+      "abi": "cdecl void(Image *,unsigned char)",
+      "evidence": "Matching minimal-C frontier; default startup choice and deferred symbol-table lookup1f390..1f480."
     },
     {
       "name": "_set_subsystem_version",
       "start": 128880,
-      "end": 128881,
-      "implementation": "stub-C",
-      "source": "driver-stubs.c",
-      "abi": "cdecl void(IMAGE_OPTIONAL_HEADER *)"
+      "end": 129008,
+      "implementation": "C",
+      "source": "image.c",
+      "abi": "cdecl void(IMAGE_OPTIONAL_HEADER *)",
+      "evidence": "Matching minimal-C frontier; native/GUI/console/POSIX version defaults1f770..1f7f0."
     },
     {
       "name": "_initialize_log",
@@ -476,10 +511,11 @@
     {
       "name": "_close_file",
       "start": 247504,
-      "end": 247505,
-      "implementation": "stub-C",
-      "source": "files-stubs.c",
-      "abi": "cdecl int(int,unsigned char)"
+      "end": 247632,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl int(int,unsigned char)",
+      "evidence": "Matching minimal-C frontier; cache read-only input or release writable/explicitly closed slot, full3c6d0..3c750."
     },
     {
       "name": "_close_all_files",
@@ -545,10 +581,11 @@
     {
       "name": "_symbol_key",
       "start": 156192,
-      "end": 156193,
-      "implementation": "stub-C",
+      "end": 156240,
+      "implementation": "C",
       "source": "symbols.c",
-      "abi": "cdecl const char *(const void *,void *)"
+      "abi": "cdecl const char *(const void *symbol,void *strings)",
+      "evidence": "Matching minimal-C frontier; long string-table key or independent mutable short-name buffer, full26220..26250."
     },
     {
       "name": "_initialize_hash",
@@ -658,10 +695,11 @@
     {
       "name": "_find_library_file",
       "start": 153648,
-      "end": 153649,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl char *(const char *name,const char *extension,ArgumentList *paths)"
+      "end": 154240,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl char *(const char *name,const char *extension,ArgumentList *paths)",
+      "evidence": "Matching minimal-C frontier; extension fallback, current-directory access, and ordered search paths25830..25a80."
     },
     {
       "name": "_lookup_external",
@@ -1305,10 +1343,11 @@
     {
       "name": "_tell_file",
       "start": 248912,
-      "end": 248913,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl long(int file)"
+      "end": 248944,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl long(int file)",
+      "evidence": "Matching minimal-C frontier; mapped position or current buffered-page position3cc50..3cc70."
     },
     {
       "name": "_write_file",
@@ -1474,10 +1513,11 @@
     {
       "name": "_search_libraries",
       "start": 117296,
-      "end": 117297,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 117994,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching minimal-C frontier; explicit/default library rescanning with old-format restart and no-progress termination1ca30..1ccea."
     },
     {
       "name": "_warn_unused_libraries",
@@ -1490,10 +1530,11 @@
     {
       "name": "_check_explicit_modules",
       "start": 118096,
-      "end": 118097,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Image *image,Library *library)"
+      "end": 118192,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "abi": "cdecl void(Image *image,Library *library)",
+      "evidence": "Matching minimal-C frontier; explicit-module presence check and empty-input initialization, full1cd50..1cdb0."
     },
     {
       "name": "_process_input_argument",
@@ -1507,10 +1548,11 @@
     {
       "name": "_infer_subsystem",
       "start": 128448,
-      "end": 128449,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 128880,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching minimal-C frontier; full application-entry probe and subsystem/default-startup selection1f5c0..1f770."
     },
     {
       "name": "_create_import_library",
@@ -1672,10 +1714,11 @@
     {
       "name": "_begin_library",
       "start": 119072,
-      "end": 119073,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Library *library,Image *image)"
+      "end": 119136,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "abi": "cdecl void(Library *library,Image *image)",
+      "evidence": "Matching minimal-C frontier; reset archive walk after eight-byte archive signature and read index1d120..1d160."
     },
     {
       "name": "_convert_object",
@@ -1826,10 +1869,11 @@
     {
       "name": "_end_module_enumerator",
       "start": 245328,
-      "end": 245329,
-      "implementation": "stub-C",
-      "source": "module-stubs.c",
-      "abi": "cdecl void(ModuleEnumerator *scan)"
+      "end": 245344,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(ModuleEnumerator *scan)",
+      "evidence": "Matching minimal-C frontier; no-op iterator finalizer, RET plus alignment3be50..3be60."
     },
     {
       "name": "_process_object_section",
@@ -2144,10 +2188,11 @@
     {
       "name": "_record_undefined_reference",
       "start": 155696,
-      "end": 155697,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(External *external,Module *module)"
+      "end": 155824,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(External *external,Module *module)",
+      "evidence": "Matching minimal-C frontier; single or allocated linked module references26030..260b0."
     },
     {
       "name": "_process_weak_external",
@@ -2185,10 +2230,11 @@
     {
       "name": "_intern_symbol_name",
       "start": 150512,
-      "end": 150513,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl unsigned long(SymbolTable *table,const char *name)"
+      "end": 150784,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned long(SymbolTable *table,const char *name)",
+      "evidence": "Matching minimal-C frontier; full name-tree search/insertion and string-buffer allocation24bf0..24d00."
     },
     {
       "name": "_find_hash_entry",
@@ -2224,6 +2270,128 @@
       "source": "arena.c",
       "abi": "cdecl void *(unsigned long size)",
       "evidence": "Matching minimal-C frontier; shared retained allocation block refill 360a0..36100."
+    },
+    {
+      "name": "_cache_closed_file",
+      "start": 247808,
+      "end": 247920,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl void(FileSlot *file)",
+      "evidence": "Matching minimal-C frontier; mark cached slot and evict oldest on reaching cache limit, full3c800..3c870."
+    },
+    {
+      "name": "_close_mapped_file",
+      "start": 251088,
+      "end": 251089,
+      "implementation": "stub-C",
+      "source": "files-stubs.c",
+      "abi": "cdecl int(FileSlot *file)"
+    },
+    {
+      "name": "_external_referenced_by",
+      "start": 155968,
+      "end": 156048,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned char(External *external,Module *module)",
+      "evidence": "Matching minimal-C frontier; module-reference membership test26140..26190."
+    },
+    {
+      "name": "_initialize_reference_enumerator",
+      "start": 155824,
+      "end": 155872,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(ReferenceEnumerator *scan,External *external)",
+      "evidence": "Matching minimal-C frontier; typed reference iterator setup and callback slots260b0..260e0."
+    },
+    {
+      "name": "_next_reference",
+      "start": 155872,
+      "end": 155952,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned char(ReferenceEnumerator *scan)",
+      "evidence": "Matching minimal-C frontier; singleton/linked-list module reference traversal260e0..26130."
+    },
+    {
+      "name": "_end_reference_enumerator",
+      "start": 155952,
+      "end": 155968,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(ReferenceEnumerator *scan)",
+      "evidence": "Matching minimal-C frontier; no-op reference iterator finalizer26130..26140."
+    },
+    {
+      "name": "_load_next_default_library",
+      "start": 219584,
+      "end": 219872,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl Library *(LibraryList *libraries)",
+      "evidence": "Matching minimal-C frontier; lazy enabled default-library selection, path deduplication, and registration359c0..35ae0."
+    },
+    {
+      "name": "_search_library_members",
+      "start": 142144,
+      "end": 142145,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Image *image,Library *library,unsigned char *changed,unsigned char *unresolved)"
+    },
+    {
+      "name": "_tolower",
+      "start": 365840,
+      "end": 366208,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl int(int character)",
+      "evidence": "Matched original/native masked _tolower entry explicitly before reconstruction; older locale-aware conversion59510..59680."
+    },
+    {
+      "name": "_read_archive_index",
+      "start": 135472,
+      "end": 136848,
+      "implementation": "C",
+      "source": "archive.c",
+      "abi": "cdecl void(Library *library,unsigned short flags,Image *image)",
+      "evidence": "Matching minimal-C frontier; full first/second linker members, name-pointer index, long names, and image compatibility21130..21690."
+    },
+    {
+      "name": "_read_archive_header",
+      "start": 136848,
+      "end": 136960,
+      "implementation": "C",
+      "source": "archive.c",
+      "abi": "cdecl PIMAGE_ARCHIVE_MEMBER_HEADER(void)",
+      "evidence": "Matching minimal-C frontier; aligned member walk, shared typed sixty-byte header, and decimal member size21690..21700."
+    },
+    {
+      "name": "_read_big_endian_dword",
+      "start": 137120,
+      "end": 137168,
+      "implementation": "C",
+      "source": "archive.c",
+      "abi": "cdecl unsigned long(const void *bytes)",
+      "evidence": "Matching minimal-C frontier; four-byte archive word reversal leaf217a0..217d0."
+    },
+    {
+      "name": "_dump_archive_header",
+      "start": 199584,
+      "end": 199585,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Library *library,IMAGE_ARCHIVE_MEMBER_HEADER header,unsigned long offset)"
+    },
+    {
+      "name": "_read_optional_header",
+      "start": 151696,
+      "end": 151697,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl unsigned(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)"
     }
   ],
   "c_stub_references": [
@@ -2320,6 +2488,39 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

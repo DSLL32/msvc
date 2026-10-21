@@ -6,7 +6,7 @@ char *coff_strings;
 unsigned long section_header_offset;
 void **mac_object_symbols;
 extern unsigned char mac_image;
-extern unsigned long incremental_section_header_offset,string_table_size;
+extern unsigned long archive_data_offset,string_table_size;
 
 void process_object(Image *image,unsigned char *new_externals,unsigned char *symbols_changed,Module *module,
     unsigned char explicit_input,unsigned short member)
@@ -18,9 +18,9 @@ void process_object(Image *image,unsigned char *new_externals,unsigned char *sym
     name=module->library->name;
     if (!name) name=module->name.display_name;
     coff_strings=read_coff_strings(name,module->symbol_offset+module->symbol_count*18+
-        incremental_section_header_offset,&string_bytes);
+        archive_data_offset,&string_bytes);
     string_table_size+=string_bytes;
-    symbols=read_coff_symbols(module->symbol_offset+incremental_section_header_offset,
+    symbols=read_coff_symbols(module->symbol_offset+archive_data_offset,
         module->symbol_count);
     if (mac_image) mac_object_symbols=calloc(module->symbol_count,sizeof(void *));
     section_header_offset=module->optional_header_size+20;
@@ -46,8 +46,8 @@ void process_object_section(Image *image,Module *module,unsigned char explicit_i
     char display[_MAX_PATH];
     unsigned long member_offset;
     unsigned char alignment;
-    seek_file(incremental_file,section_header_offset+incremental_section_header_offset,SEEK_SET);
-    read_section_header(incremental_file,&header);
+    seek_file(input_file,section_header_offset+archive_data_offset,SEEK_SET);
+    read_section_header(input_file,&header);
     section_header_offset+=sizeof(header);
     contribution=create_contribution(coff_section_name(header.Name,coff_strings),
         header.SizeOfRawData,header.NumberOfRelocations,header.NumberOfLinenumbers,
@@ -70,10 +70,10 @@ void process_object_section(Image *image,Module *module,unsigned char explicit_i
     if (contribution->flags&IMAGE_SCN_LNK_INFO) {
         if (strcmp(".drectve",contribution->group->name)) return;
         member_offset=module->library->name ? module->name.member_offset : 0;
-        seek_file(incremental_file,contribution->data_offset+member_offset,SEEK_SET);
+        seek_file(input_file,contribution->data_offset+member_offset,SEEK_SET);
         directives=calloc(contribution->raw_size+1,1);
         if (!directives) out_of_memory();
-        read_file(incremental_file,directives,contribution->raw_size);
+        read_file(input_file,directives,contribution->raw_size);
         process_directives(directives,image,format_module_name(module,display),
             (unsigned char)(module->library->name!=NULL));
         free(directives);
@@ -143,8 +143,8 @@ void read_contribution_relocations(Image *image,Contribution *contribution,PIMAG
     Section *section;
     if (!count) return;
     records=allocate_coff_relocations(count);
-    seek_file(incremental_file,contribution->relocation_offset+incremental_section_header_offset,SEEK_SET);
-    read_coff_relocations(incremental_file,records,count);
+    seek_file(input_file,contribution->relocation_offset+archive_data_offset,SEEK_SET);
+    read_coff_relocations(input_file,records,count);
     switch (image->file.Machine) {
     case IMAGE_FILE_MACHINE_I386:
         for (index=0,relocation=records;index<count;++index,++relocation) {
@@ -241,7 +241,7 @@ void process_object_symbols(Image *image,Module *module,unsigned char *new_exter
     char *name;
     format_module_name(module,display);
     member_offset=module->library->name ? module->name.member_offset : 0;
-    seek_file(incremental_file,module->symbol_offset+member_offset,SEEK_SET);
+    seek_file(input_file,module->symbol_offset+member_offset,SEEK_SET);
     while (index!=module->symbol_count) {
         symbol=next_coff_symbol(&cursor,0);
         if (symbol->StorageClass==IMAGE_SYM_CLASS_EXTERNAL ||

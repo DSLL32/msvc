@@ -1,7 +1,8 @@
 /* Command-line driver and post-link CodeView packing. */
-#include "image.h"
+#include "link-pass.h"
+#pragma intrinsic(strlen)
 #include "arguments.h"
-int incremental_file;
+int input_file;
 unsigned long pe_header_offset;
 unsigned long symbol_record_size, output_file_size;
 char *entry_point;
@@ -66,10 +67,10 @@ int linker_main(int argc,char **argv)
         result=run_cvpack(&image->options);
         if (result) warning_message(program_name,0x62,"","");
         else if (output_file_size) {
-            incremental_file=open_file(output_name,0x8000,0);
-            seek_file(incremental_file,pe_header_offset+20,SEEK_SET);
-            read_file(incremental_file,&image->optional,image->file.SizeOfOptionalHeader);
-            close_file(incremental_file,1);
+            input_file=open_file(output_name,0x8000,0);
+            seek_file(input_file,pe_header_offset+20,SEEK_SET);
+            read_file(input_file,&image->optional,image->file.SizeOfOptionalHeader);
+            close_file(input_file,1);
         }
     }
     if (output_file_size && output_file_size<image->optional.SizeOfImage)
@@ -78,4 +79,31 @@ int linker_main(int argc,char **argv)
     fclose(map_stream);
     if (repro_directory) close_trace_file();
     return result;
+}
+
+void select_entry_point(Image *image,unsigned char machine_known)
+{
+    const char *startup=NULL;
+    unsigned char created=0,imports=0;
+    if (!entry_point) {
+        if (!image->options.rom) {
+            if (image->file.Characteristics&IMAGE_FILE_DLL) {
+                if (!no_entry) startup="__DllMainCRTStartup@12";
+            } else {
+                switch (image->optional.Subsystem) {
+                case IMAGE_SUBSYSTEM_WINDOWS_GUI: startup="_WinMainCRTStartup"; break;
+                case IMAGE_SUBSYSTEM_WINDOWS_CUI: startup="_mainCRTStartup"; break;
+                case IMAGE_SUBSYSTEM_POSIX_CUI: startup="_PsxProcessStartup"; break;
+                default: startup="_NtProcessStartup"; break;
+                }
+            }
+        }
+        if (startup) entry_point=duplicate_string(startup);
+    }
+    if (entry_point && machine_known) {
+        entry_symbol=lookup_external(image->symbols,(unsigned short)(strlen(entry_point)<9),
+            entry_point,&created,&imports);
+        /* The original retains the non-NULL marker after consuming the name. */
+        free(entry_point);
+    }
 }

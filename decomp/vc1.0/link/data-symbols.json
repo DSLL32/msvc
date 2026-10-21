@@ -157,7 +157,7 @@
   },
   {
     "address": 377064,
-    "name": "incremental_file",
+    "name": "input_file",
     "size": 4,
     "owner": "linker.c"
   },
@@ -805,7 +805,7 @@
   },
   {
     "address": 377848,
-    "name": "incremental_section_header_offset",
+    "name": "archive_data_offset",
     "size": 4,
     "owner": "pass-one.c"
   },
@@ -1036,5 +1036,41 @@
     "address": 377908,
     "size": 4,
     "owner": "arena.c"
+  },
+  {
+    "name": "main_symbol",
+    "address": 506328,
+    "size": 4,
+    "owner": "pass-one.c"
+  },
+  {
+    "name": "winmain_symbol",
+    "address": 506332,
+    "size": 4,
+    "owner": "pass-one.c"
+  },
+  {
+    "name": "hash_short_name",
+    "address": 504596,
+    "size": 9,
+    "owner": "symbols.c"
+  },
+  {
+    "name": "hash_short_name_buffer",
+    "address": 504608,
+    "size": 4,
+    "owner": "symbols.c"
+  },
+  {
+    "name": "archive_member_size",
+    "address": 377852,
+    "size": 4,
+    "owner": "pass-one.c"
+  },
+  {
+    "name": "archive_header",
+    "address": 451928,
+    "size": 60,
+    "owner": "archive.c"
   }
 ]

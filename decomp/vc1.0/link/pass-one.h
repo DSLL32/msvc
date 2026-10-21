@@ -11,6 +11,8 @@ void check_explicit_modules(Image *,Library *);
 void resolve_weak_externals(SymbolTable *,unsigned long);
 void infer_subsystem(Image *);
 void search_libraries(Image *);
+Library *load_next_default_library(LibraryList *);
+void search_library_members(Image *,Library *,unsigned char *,unsigned char *);
 unsigned char create_import_library(Image *,const char *,const char *);
 void warn_unused_libraries(Library *);
 void apply_section_overrides(Image *);

@@ -19,9 +19,7 @@ void process_mac_static_symbol(Contribution *contribution,PIMAGE_SYMBOL symbol,u
 void record_mac_external(External *external,unsigned long index) { __asm { int 3 } }
 void format_input_reference(char *display,const char *library,const char *file) { __asm { int 3 } }
 void prepend_external(ExternalLink **list,External *external) { __asm { int 3 } }
-void record_undefined_reference(External *external,Module *module) { __asm { int 3 } }
 void process_weak_external(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBOL symbol,External *external,Module *module,unsigned char *new_externals,unsigned char created,unsigned char *imports,unsigned short member) { __asm { int 3 } }
 void mark_import_contributions(Module *module) { __asm { int 3 } }
 unsigned read_coff_symbol(int file,PIMAGE_SYMBOL symbol) { __asm { int 3 } return 0; }
-unsigned long intern_symbol_name(SymbolTable *table,const char *name) { __asm { int 3 } return 0; }
 void expand_hash(HashTable *table,void *context) { __asm { int 3 } }

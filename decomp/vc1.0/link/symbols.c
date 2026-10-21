@@ -35,11 +35,16 @@ void initialize_symbols(SymbolTable **output)
     (*output)->undefined_tail=&(*output)->undefined;
 }
 
-/* Not yet reached. The key callback receives a symbol and string-buffer context. */
+/* Hash callbacks reuse a short-name buffer independently of lookup's key. */
+char hash_short_name[9]="        ";
+char *hash_short_name_buffer=hash_short_name;
 const char *symbol_key(const void *symbol,void *strings)
 {
-    __asm { int 3 }
-    return NULL;
+    const External *external=symbol;
+    TextBuffer *buffer=strings;
+    if (!external->symbol.N.Name.Short)
+        return buffer->data+external->symbol.N.Name.Long;
+    return strncpy(hash_short_name_buffer,(const char *)&external->symbol,8);
 }
 
 External *lookup_external(SymbolTable *table,unsigned short short_name,
@@ -165,4 +170,98 @@ void set_external_defined(External *external,unsigned char defined,SymbolTable *
         external->undefined_next->value.previous=&external->undefined_next;
     if (table->undefined_tail==position) table->undefined_tail=&external->undefined_next;
     external->owner.contribution=NULL;
+}
+
+struct StringNode {
+    unsigned long offset;
+    StringNode *lower,*upper;
+};
+
+unsigned long intern_symbol_name(SymbolTable *table,const char *name)
+{
+    StringNode **position=&table->string_tree,*node;
+    int order;
+    while ((node=*position)!=NULL) {
+        order=strcmp(name,table->strings.data+node->offset);
+        if (!order) return node->offset;
+        position=order<0?&node->lower:&node->upper;
+    }
+    pool_saved_remaining=pool_remaining;
+    if (pool_remaining<sizeof(*node)) node=allocate_pool_block(sizeof(*node));
+    else {
+        pool_remaining-=sizeof(*node);
+        node=(StringNode *)(pool_block+pool_capacity-pool_saved_remaining);
+    }
+    *position=node;
+    if (!table->strings.data) {
+        reserve_text(&table->strings,16384);
+        table->strings.length+=4;
+    }
+    node->offset=table->strings.length;
+    append_text(&table->strings,name,strlen(name)+1);
+    node->lower=node->upper=NULL;
+    return node->offset;
+}
+
+/* A lone reference fits in the owner union; subsequent ones form a list. */
+void record_undefined_reference(External *external,Module *module)
+{
+    ModuleReference *reference;
+    if (!(external->flags&EXTERNAL_MULTIPLE_REFERENCES)) {
+        if (!external->owner.module) {
+            external->owner.module=module;
+            return;
+        }
+        reference=malloc(sizeof(*reference));
+        if (!reference) out_of_memory();
+        reference->module=external->owner.module;
+        reference->next=NULL;
+        external->flags |= EXTERNAL_MULTIPLE_REFERENCES;
+        external->owner.references=reference;
+    }
+    reference=malloc(sizeof(*reference));
+    if (!reference) out_of_memory();
+    reference->module=module;
+    reference->next=external->owner.references;
+    external->owner.references=reference;
+}
+
+unsigned char external_referenced_by(External *external,Module *module)
+{
+    ReferenceEnumerator references;
+    initialize_reference_enumerator(&references,external);
+    while (next_reference(&references)) {
+        if (references.current==module) {
+            end_reference_enumerator(&references);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void initialize_reference_enumerator(ReferenceEnumerator *scan,External *external)
+{
+    scan->next=next_reference;
+    scan->end=end_reference_enumerator;
+    scan->external=external;
+    if (external->flags&EXTERNAL_MULTIPLE_REFERENCES)
+        scan->remaining=external->owner.references;
+}
+
+unsigned char next_reference(ReferenceEnumerator *scan)
+{
+    if (!scan->external) return 0;
+    if (!(scan->external->flags&EXTERNAL_MULTIPLE_REFERENCES)) {
+        scan->current=scan->external->owner.module;
+        scan->external=NULL;
+        return scan->current!=NULL;
+    }
+    if (!scan->remaining) return 0;
+    scan->current=scan->remaining->module;
+    scan->remaining=scan->remaining->next;
+    return 1;
+}
+
+void end_reference_enumerator(ReferenceEnumerator *scan)
+{
 }

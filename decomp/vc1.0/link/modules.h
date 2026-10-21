@@ -38,9 +38,10 @@ struct Library {
     char *name;
     unsigned long flags;
     unsigned long symbol_count;
-    char *symbol_names;
-    unsigned long *symbol_offsets, *member_offsets;
-    unsigned short *member_indices;
+    unsigned long *member_offsets;
+    unsigned short *symbol_indices;
+    char *symbol_name_buffer;
+    char **symbol_names;
     char *long_names;
     unsigned long search_flags;
     Module *modules;

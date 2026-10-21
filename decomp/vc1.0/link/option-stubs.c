@@ -2,7 +2,6 @@
 #include "options.h"
 void exclude_default_library(const char *name,LibraryList *libraries) { __asm { int 3 } }
 void exclude_all_default_libraries(const char *name,LibraryList *libraries) { __asm { int 3 } }
-char * find_library_file(const char *name,const char *extension,ArgumentList *paths) { __asm { int 3 } return 0; }
 unsigned char read_switch_number(ParsedSwitch *option,unsigned short index,unsigned long *value) { __asm { int 3 } return 0; }
 void initialize_order(FatalRoutine fatal,WarningRoutine warning) { __asm { int 3 } }
 long crt_filelength(int file) { __asm { int 3 } return 0; }

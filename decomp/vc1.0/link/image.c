@@ -33,3 +33,25 @@ void create_image(Image **output)
     image->sections.first=NULL;
     image->sections.tail=&image->sections.first;
 }
+
+void set_subsystem_version(IMAGE_OPTIONAL_HEADER *header)
+{
+    switch (header->Subsystem) {
+    case IMAGE_SUBSYSTEM_NATIVE:
+        header->MajorSubsystemVersion=1;
+        header->MinorSubsystemVersion=0;
+        break;
+    case IMAGE_SUBSYSTEM_WINDOWS_GUI:
+    case IMAGE_SUBSYSTEM_WINDOWS_CUI:
+        header->MajorSubsystemVersion=3;
+        header->MinorSubsystemVersion=10;
+        break;
+    case IMAGE_SUBSYSTEM_POSIX_CUI:
+        header->MajorSubsystemVersion=19;
+        header->MinorSubsystemVersion=90;
+        break;
+    default:
+        header->MajorSubsystemVersion=header->MinorSubsystemVersion=0;
+        break;
+    }
+}

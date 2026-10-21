@@ -23,6 +23,17 @@ struct External {
     External *weak_default;
 };
 struct ExternalLink { External *external; ExternalLink *next; };
+typedef struct ReferenceEnumerator {
+    unsigned char (*next)(struct ReferenceEnumerator *);
+    void (*end)(struct ReferenceEnumerator *);
+    External *external;
+    ModuleReference *remaining;
+    Module *current;
+} ReferenceEnumerator;
+void initialize_reference_enumerator(ReferenceEnumerator *,External *);
+unsigned char next_reference(ReferenceEnumerator *);
+void end_reference_enumerator(ReferenceEnumerator *);
+unsigned char external_referenced_by(External *,Module *);
 extern char short_symbol_name[9];
 typedef const char *(*HashKey)(const void *,void *);
 typedef struct HashSegment { HashNode **buckets; } HashSegment;

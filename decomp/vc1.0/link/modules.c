@@ -359,3 +359,7 @@ char *format_module_name(Module *module,char *display)
     }
     return display;
 }
+
+void end_module_enumerator(ModuleEnumerator *scan)
+{
+}

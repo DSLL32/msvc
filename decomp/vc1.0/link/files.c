@@ -250,3 +250,41 @@ long file_size(int handle)
     if (position!=size) seek_file(handle,position,SEEK_SET);
     return size;
 }
+
+int close_file(int handle,unsigned char release)
+{
+    FileSlot *file=files[handle];
+    if (!release && !(file->flags&2)) {
+        ++closed_file_count;
+        move_file_slot(file,&active_files,NULL,&closed_files,&closed_files_tail,1);
+        cache_closed_file(file);
+        return 0;
+    }
+    move_file_slot(file,&active_files,NULL,&free_files,NULL,0);
+    if (file->flags&8) return close_mapped_file(file);
+    return release_file_slot(file);
+}
+
+void cache_closed_file(FileSlot *file)
+{
+    FileSlot *oldest;
+    file->flags |= 4;
+    if (!(file->flags&8)) {
+        file->cursor.page->flags &= ~0x10UL;
+        file->cursor.page=NULL;
+    }
+    if (closed_file_count==page_limit) {
+        oldest=closed_files;
+        --closed_file_count;
+        move_file_slot(oldest,&closed_files,&closed_files_tail,&free_files,NULL,0);
+        if (oldest->flags&8) close_mapped_file(oldest);
+        else release_file_slot(oldest);
+    }
+}
+
+long tell_file(int handle)
+{
+    FileSlot *file=files[handle];
+    if (file->flags&8) return file->cursor.position;
+    return file->cursor.page->position;
+}

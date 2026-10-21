@@ -1,7 +1,6 @@
 /* Unreached module-list and Macintosh section operations. */
 #include "modules.h"
 void end_library_enumerator(LibraryEnumerator *scan) { __asm { int 3 } }
-void end_module_enumerator(ModuleEnumerator *scan) { __asm { int 3 } }
 void end_section_enumerator(SectionEnumerator *scan) { __asm { int 3 } }
 void end_group_enumerator(GroupEnumerator *scan) { __asm { int 3 } }
 void initialize_mac_section(Section *section) { __asm { int 3 } }
