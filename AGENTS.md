@@ -23,6 +23,7 @@ Then, for some case:
  - On no trap: 
    * if case successful - producing identical output to the original - move on to another and repeat this process. Else, debug, fix, and rerun.
 
+Do not bulk copy data sections into the reconstruction in any format. Define data as it is encountered during reconstruction, placing it somewhere that makes sense in the current context.
 While we must preserve the original function graph, you have full ownership of source layout, identifiers, libraries, headers, etc. Code in a style faithful to the reconstruction target. Feel free to reorganize code or update function, type, and field names as your knowledge of the target grows during reconstruction.
 Compile with the original toolchain that built the target. Create a GNU Makefile in the binary's folder to do the build - invoking the toolchain via wine - and ensure it supports parallelism (e.g. -j 2).
 Commit as you please, suggested is per function reconstruction or other substantial work.
