@@ -35,10 +35,10 @@ build:
 build/c2.obj: c2.c c2.h | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/c2.obj c2.c
 
-build/%.obj: %.c c2.h options.h input.h backend.h extended.h segments.h symbols.h initializers.h functions.h records.h | build prefix
+build/%.obj: %.c | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
 
-build/c2.exe: build/c2.obj build/stubs.obj build/arguments.obj build/options.obj build/initialize.obj build/input.obj build/runtime.obj build/memory.obj build/symbols.obj build/extended.obj build/segments.obj build/initializers.obj build/functions.obj build/records.obj build/symbol-input.obj build/names.obj build/segment-storage.obj
+build/c2.exe: build/c2.obj build/stubs.obj build/arguments.obj build/options.obj build/initialize.obj build/input.obj build/runtime.obj build/memory.obj build/symbols.obj build/extended.obj build/segments.obj build/initializers.obj build/functions.obj build/records.obj build/symbol-input.obj build/names.obj build/segment-storage.obj build/backend-flow.obj build/backend-symbols.obj build/output.obj build/coff-output.obj build/coff-writer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /include:__fltused /map:build/c2.map /out:$@ $^
 
 build/debug-run.obj: debug-run.c | build prefix
@@ -49,3 +49,11 @@ build/debug-run.exe: build/debug-run.obj
 
 clean:
 	rm -rf build
+
+# Keep header edits local while following transitive project includes.
+build/dependencies.mk: dependencies.py $(wildcard *.c) $(wildcard *.h) | build
+	$(PYTHON) dependencies.py
+
+ifneq ($(MAKECMDGOALS),clean)
+-include build/dependencies.mk
+endif

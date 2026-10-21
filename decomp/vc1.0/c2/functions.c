@@ -17,7 +17,7 @@ void compile_functions(void)
     input_file = global_file;
     read_global_records(NULL);
     fclose(global_file);
-    initialize_work_state();
+    emit_backend_work();
     for (;;) {
         backend_stage = 0;
         link = &pending_functions;
@@ -70,7 +70,7 @@ void compile_functions(void)
             backend_stage = 5;
             generate_work();
             backend_stage = 6;
-            initialize_work_state();
+            emit_backend_work();
             work = current_work;
         }
         current_work = work;

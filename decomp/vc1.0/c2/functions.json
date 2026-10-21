@@ -116,7 +116,18 @@
     "__close",
     "__get_osfhandle",
     "import:CloseHandle",
-    "__free_osfhnd"
+    "__free_osfhnd",
+    "_emit_backend_work",
+    "_prepare_backend_symbols",
+    "_initialize_output_callbacks",
+    "_default_runtime_library",
+    "@add_module_directive@8",
+    "_coff_open_module",
+    "@coff_initialize@4",
+    "@coff_new_vector@4",
+    "@coff_allocate@4",
+    "@coff_record_filename@4",
+    "@coff_vector_append@8"
   ],
   "driver": [
     {
@@ -405,10 +416,9 @@
       "end": 315808
     },
     {
-      "name": "_initialize_work_state",
+      "name": "_emit_backend_work",
       "start": 425920,
-      "end": 425921,
-      "provisional": true
+      "end": 426752
     },
     {
       "name": "@read_function@4",
@@ -680,6 +690,560 @@
       "name": "__freebuf",
       "start": 475936,
       "end": 476000
+    },
+    {
+      "name": "_prepare_backend_symbols",
+      "start": 207392,
+      "end": 207792
+    },
+    {
+      "name": "_initialize_output_callbacks",
+      "start": 429504,
+      "end": 430336
+    },
+    {
+      "name": "@write_module_listing@4",
+      "start": 165728,
+      "end": 165729,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_machine_context@4",
+      "start": 146992,
+      "end": 146993,
+      "provisional": true
+    },
+    {
+      "name": "@sync_machine_work@8",
+      "start": 428912,
+      "end": 428913,
+      "provisional": true
+    },
+    {
+      "name": "@scan_machine_context@4",
+      "start": 428528,
+      "end": 428529,
+      "provisional": true
+    },
+    {
+      "name": "@compact_machine_context@4",
+      "start": 428464,
+      "end": 428465,
+      "provisional": true
+    },
+    {
+      "name": "_optimize_machine_flow",
+      "start": 121968,
+      "end": 121969,
+      "provisional": true
+    },
+    {
+      "name": "@analyze_machine_instructions@8",
+      "start": 294976,
+      "end": 294977,
+      "provisional": true
+    },
+    {
+      "name": "_simplify_machine_data",
+      "start": 219312,
+      "end": 219313,
+      "provisional": true
+    },
+    {
+      "name": "_simplify_machine_branches",
+      "start": 219568,
+      "end": 219569,
+      "provisional": true
+    },
+    {
+      "name": "_combine_machine_instructions",
+      "start": 308048,
+      "end": 308049,
+      "provisional": true
+    },
+    {
+      "name": "_finish_tree_optimization",
+      "start": 421408,
+      "end": 421409,
+      "provisional": true
+    },
+    {
+      "name": "_allocate_machine_registers",
+      "start": 174720,
+      "end": 174721,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_machine_blocks@4",
+      "start": 190208,
+      "end": 190209,
+      "provisional": true
+    },
+    {
+      "name": "@set_machine_frame@8",
+      "start": 217504,
+      "end": 217505,
+      "provisional": true
+    },
+    {
+      "name": "@finalize_machine_context@4",
+      "start": 147168,
+      "end": 147169,
+      "provisional": true
+    },
+    {
+      "name": "@peephole_machine_33f50@4",
+      "start": 212816,
+      "end": 212817,
+      "provisional": true
+    },
+    {
+      "name": "@peephole_machine_33550@4",
+      "start": 210256,
+      "end": 210257,
+      "provisional": true
+    },
+    {
+      "name": "@peephole_machine_34520@4",
+      "start": 214304,
+      "end": 214305,
+      "provisional": true
+    },
+    {
+      "name": "@peephole_machine_34910@4",
+      "start": 215312,
+      "end": 215313,
+      "provisional": true
+    },
+    {
+      "name": "@peephole_machine_349e0@4",
+      "start": 215520,
+      "end": 215521,
+      "provisional": true
+    },
+    {
+      "name": "@schedule_machine_instructions@4",
+      "start": 258624,
+      "end": 258625,
+      "provisional": true
+    },
+    {
+      "name": "_finish_machine_schedule",
+      "start": 272672,
+      "end": 272673,
+      "provisional": true
+    },
+    {
+      "name": "@split_machine_instructions@4",
+      "start": 309584,
+      "end": 309585,
+      "provisional": true
+    },
+    {
+      "name": "@schedule_i586_branches@4",
+      "start": 291232,
+      "end": 291233,
+      "provisional": true
+    },
+    {
+      "name": "@finish_machine_lowering@4",
+      "start": 209712,
+      "end": 209713,
+      "provisional": true
+    },
+    {
+      "name": "_lower_unoptimized_machine",
+      "start": 204160,
+      "end": 204161,
+      "provisional": true
+    },
+    {
+      "name": "@collect_machine_symbols@4",
+      "start": 428144,
+      "end": 428145,
+      "provisional": true
+    },
+    {
+      "name": "@calculate_machine_frame@8",
+      "start": 427472,
+      "end": 427473,
+      "provisional": true
+    },
+    {
+      "name": "@emit_pending_symbols@4",
+      "start": 426864,
+      "end": 426865,
+      "provisional": true
+    },
+    {
+      "name": "@write_function_listing@4",
+      "start": 162976,
+      "end": 162977,
+      "provisional": true
+    },
+    {
+      "name": "@emit_machine_instructions@4",
+      "start": 426896,
+      "end": 426897,
+      "provisional": true
+    },
+    {
+      "name": "@emit_function_exception_table@8",
+      "start": 431168,
+      "end": 431169,
+      "provisional": true
+    },
+    {
+      "name": "@emit_function_inline_data@4",
+      "start": 419040,
+      "end": 419041,
+      "provisional": true
+    },
+    {
+      "name": "_reset_machine_state",
+      "start": 426752,
+      "end": 426753,
+      "provisional": true
+    },
+    {
+      "name": "@require_external_symbol@4",
+      "start": 321056,
+      "end": 321057,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop",
+      "start": 429360,
+      "end": 429361,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_pair",
+      "start": 429376,
+      "end": 429377,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_data",
+      "start": 429392,
+      "end": 429393,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_symbol",
+      "start": 429408,
+      "end": 429409,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_function",
+      "start": 429424,
+      "end": 429425,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_value",
+      "start": 429440,
+      "end": 429441,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_debug",
+      "start": 429456,
+      "end": 429457,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_relocation",
+      "start": 429472,
+      "end": 429473,
+      "provisional": true
+    },
+    {
+      "name": "_output_noop_record",
+      "start": 429488,
+      "end": 429489,
+      "provisional": true
+    },
+    {
+      "name": "_mark_unwritten_symbol",
+      "start": 430432,
+      "end": 430433,
+      "provisional": true
+    },
+    {
+      "name": "_end_debug_function",
+      "start": 430672,
+      "end": 430673,
+      "provisional": true
+    },
+    {
+      "name": "_begin_debug_function",
+      "start": 430608,
+      "end": 430609,
+      "provisional": true
+    },
+    {
+      "name": "_finish_debug_module",
+      "start": 430464,
+      "end": 430465,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_symbol",
+      "start": 447248,
+      "end": 447249,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_function",
+      "start": 447328,
+      "end": 447329,
+      "provisional": true
+    },
+    {
+      "name": "_coff_begin_function",
+      "start": 445120,
+      "end": 445121,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_data",
+      "start": 454704,
+      "end": 454705,
+      "provisional": true
+    },
+    {
+      "name": "_coff_select_segment",
+      "start": 444944,
+      "end": 444945,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_debug_pair",
+      "start": 447408,
+      "end": 447409,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_debug_record",
+      "start": 447472,
+      "end": 447473,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_value",
+      "start": 448000,
+      "end": 448001,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_bytes",
+      "start": 447728,
+      "end": 447729,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_address",
+      "start": 448048,
+      "end": 448049,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_offset",
+      "start": 448096,
+      "end": 448097,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_size",
+      "start": 448144,
+      "end": 448145,
+      "provisional": true
+    },
+    {
+      "name": "_coff_finish_module",
+      "start": 444832,
+      "end": 444833,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_relocation",
+      "start": 448176,
+      "end": 448177,
+      "provisional": true
+    },
+    {
+      "name": "_coff_output_record",
+      "start": 448944,
+      "end": 448945,
+      "provisional": true
+    },
+    {
+      "name": "_coff_mark_symbol",
+      "start": 445664,
+      "end": 445665,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_symbol",
+      "start": 440080,
+      "end": 440081,
+      "provisional": true
+    },
+    {
+      "name": "_omf_select_segment",
+      "start": 439968,
+      "end": 439969,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_data",
+      "start": 440000,
+      "end": 440001,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_debug_pair",
+      "start": 440112,
+      "end": 440113,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_debug_record",
+      "start": 440128,
+      "end": 440129,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_value",
+      "start": 441568,
+      "end": 441569,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_bytes",
+      "start": 438976,
+      "end": 438977,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_offset",
+      "start": 441584,
+      "end": 441585,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_size",
+      "start": 441600,
+      "end": 441601,
+      "provisional": true
+    },
+    {
+      "name": "_omf_finish_module",
+      "start": 436688,
+      "end": 436689,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_relocation",
+      "start": 438208,
+      "end": 438209,
+      "provisional": true
+    },
+    {
+      "name": "_omf_output_record",
+      "start": 440416,
+      "end": 440417,
+      "provisional": true
+    },
+    {
+      "name": "_omf_mark_symbol",
+      "start": 437024,
+      "end": 437025,
+      "provisional": true
+    },
+    {
+      "name": "_default_runtime_library",
+      "start": 162752,
+      "end": 162816
+    },
+    {
+      "name": "@add_module_directive@8",
+      "start": 430368,
+      "end": 430432
+    },
+    {
+      "name": "_coff_open_module",
+      "start": 444448,
+      "end": 444704
+    },
+    {
+      "name": "_omf_open_module",
+      "start": 435024,
+      "end": 435025,
+      "provisional": true
+    },
+    {
+      "name": "_initialize_codeview_output",
+      "start": 430336,
+      "end": 430337,
+      "provisional": true
+    },
+    {
+      "name": "_coff_timestamp",
+      "start": 444704,
+      "end": 444705,
+      "provisional": true
+    },
+    {
+      "name": "@coff_allocate@4",
+      "start": 444752,
+      "end": 444768
+    },
+    {
+      "name": "@coff_error@12",
+      "start": 444768,
+      "end": 444769,
+      "provisional": true
+    },
+    {
+      "name": "@coff_initialize@4",
+      "start": 449184,
+      "end": 449408
+    },
+    {
+      "name": "_write_module_directives",
+      "start": 431136,
+      "end": 431137,
+      "provisional": true
+    },
+    {
+      "name": "@coff_new_vector@4",
+      "start": 449696,
+      "end": 449792
+    },
+    {
+      "name": "@coff_record_filename@4",
+      "start": 449536,
+      "end": 449696
+    },
+    {
+      "name": "_coff_reset_scopes",
+      "start": 449472,
+      "end": 449473,
+      "provisional": true
+    },
+    {
+      "name": "@coff_new_scope@8",
+      "start": 449408,
+      "end": 449409,
+      "provisional": true
+    },
+    {
+      "name": "@coff_vector_append@8",
+      "start": 451888,
+      "end": 451968
     }
   ],
   "cases": {

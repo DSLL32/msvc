@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-initialize_work_state, original VA 00067fc0. Object generation is not reconstructed
+coff_reset_scopes, original VA 0006dbc0. Object generation is not reconstructed
 yet. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
@@ -65,5 +65,14 @@ has 2289 bytes, with only its COFF timestamp excluded from comparison.
 Symbol input now has contextual typed variants in symbol-input.c, scope/record
 registration in records.c, decoration in names.c, logical segment definitions
 in segments.c, and storage selection in segment-storage.c. The per-function
-driver is in functions.c. It has reached module/backend work initialization
-after reading the global symbol records and closing irgl.
+driver is in functions.c. Backend pass dispatch is in backend-flow.c;
+backend-symbols.c records module requirements. output.c constructs the named
+output callbacks and module directives; coff-output.c adapts those callbacks
+to the typed writer configuration, and coff-writer.c owns the encountered
+vector and filename-record structures. It has reached COFF scope setup.
+
+The current checkpoint has 64 reconstructed source functions and 123 recorded
+matching trap frontiers. All 123 frontiers replay successfully. Callback stubs
+remain trapped until reached; their signatures and extents are refined at that
+point. The Makefile follows transitive local-header dependencies and continues
+to compile and link entirely with the original toolchain.

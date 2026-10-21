@@ -28,7 +28,7 @@ extern Function *current_function;
 extern int backend_stage, global_work_enabled;
 extern Node *(__fastcall *tree_transform)(Node *node);
 void __fastcall read_global_records(Function *function);
-void initialize_work_state(void);
+void emit_backend_work(void);
 Function *__fastcall read_function(FunctionSymbol *symbol);
 char *__fastcall format_function_name(FunctionSymbol *symbol);
 void __cdecl ide_message(int code, ...);
