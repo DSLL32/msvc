@@ -1,10 +1,8 @@
 /* Expression-stream records. Buffer operations stay inside their original caller. */
-#include "ir.h"
+#include "global-ir.h"
 
-unsigned expression_record_count;
-IrToken *current_function_node;
-IrSymbol *current_label_symbol;
-int function_storage_seen, function_storage_compatible = 1;
+unsigned string_record_count; /* original 0x60040 */
+IrSymbol *current_label_symbol; /* original 0x60068 */
 
 #define PUT_IR_WORD(stream, value) do { \
     FILE *word_stream = (stream); \
@@ -47,7 +45,7 @@ void __stdcall write_ir_record(unsigned tag, void *value)
     unsigned index, storage;
     unsigned short attributes;
     putc(tag, expression_file);
-    ++expression_record_count;
+    ++function_ir.complexity;
     format = ir_record_formats[tag];
     if (!format)
         return;
@@ -67,9 +65,8 @@ void __stdcall write_ir_record(unsigned tag, void *value)
                 shape = shape->related;
             attributes = shape->attributes;
             if ((attributes & 7) == 1) {
-                function_storage_seen = 1;
-                function_storage_compatible &=
-                    ((((IrSymbol *)current_function_node->value.pointer)->type->attributes & 7) == 1);
+                function_call_seen = 1;
+                inline_candidate &= ((function_symbol->type->related->attributes & 7) == 1);
             }
             if (attributes & 0x100)
                 storage = 12;

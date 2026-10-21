@@ -34,10 +34,9 @@ typedef struct IrSymbol {
 } IrSymbol;
 
 extern unsigned char *ir_record_formats[191];
-extern unsigned expression_record_count;
-extern IrToken *current_function_node;
+extern unsigned string_record_count;
+extern struct FrontendSymbol *function_symbol;
 extern IrSymbol *current_label_symbol;
-extern int function_storage_seen, function_storage_compatible;
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode);
 void __stdcall reference_ir_symbol(IrSymbol *symbol);
 unsigned get_ir_symbol_index(IrSymbol *symbol);

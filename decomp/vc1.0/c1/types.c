@@ -394,3 +394,45 @@ CType *__stdcall finalize_type_description(TypeDescription *description)
     --type_description_depth;
     return type;
 }
+
+/* Original 0x40560..0x405b1. Prepend a mutable shape to a declarator. */
+void __stdcall attach_type_shape(FrontendSymbol *symbol, TypeShape *shape)
+{
+    FrontendSymbol *based;
+    shape->attributes &= ~0xa00;
+    if ((shape->attributes & 7) == 5) {
+        based = (FrontendSymbol *)shape->field08;
+        if ((based->kind & 0x1f) == 13 && (based->field24 & 0xff) == 8)
+            based->field24 = (based->field24 & ~0xffU) | 1;
+    }
+    shape->related = symbol->type->related;
+    symbol->type->related = shape;
+}
+
+/* Original 0x3fb90..0x3fc75. Merge qualifiers, pointer models, and calling
+   conventions, diagnosing conflicting explicit spellings. */
+unsigned short __stdcall merge_type_attributes(unsigned short existing, unsigned short added)
+{
+    if (existing & added & 0x3000) {
+        if (options.z_a) compiler_warning(1, 114);
+        else report_syntax_error(289);
+    }
+    if ((existing ^ added) & 15) {
+        if ((existing & 4) != (added & 4)) {
+            if (existing & 4) existing |= (unsigned short)(added << 14);
+            else {
+                existing |= (unsigned short)(existing << 14);
+                existing &= ~7;
+                existing |= added & 15;
+            }
+        } else if ((existing & 15) && (added & 15)) {
+            report_syntax_error(131);
+            existing &= ~7;
+        }
+    }
+    if (((existing ^ added) & 0x70) && (existing & 0x70) && (added & 0x70)) {
+        report_syntax_error(151);
+        existing &= ~0x70;
+    }
+    return existing | added;
+}

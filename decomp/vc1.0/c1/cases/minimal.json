@@ -1,11 +1,11 @@
 {
   "case": "../fixtures/minimal-c/manifest.json phases.c1",
   "status": "incomplete",
-  "accepted_frontiers": 166,
-  "reconstructed_source_functions": 97,
-  "current_matching_trap": "_make_function_declaration@8",
-  "original_va": "0x2b160",
-  "replay": "All 166 accepted frontiers replayed in order; final matching function-declaration trap verified.",
+  "accepted_frontiers": 187,
+  "reconstructed_source_functions": 118,
+  "current_matching_trap": "_initialize_function_definition@4",
+  "original_va": "0x2a880",
+  "replay": "All 187 accepted frontiers replayed in order on the consolidated shared-state build; final matching function-initialization trap verified.",
   "artifact_verification": "Pending completion; fixture outputs not embedded in reconstruction.",
   "frontier_artifacts": "Visible file sets and raw contents match at every checked frontier, including the initial global IR header."
 }

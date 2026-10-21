@@ -15,6 +15,7 @@ struct FrontendSymbol {
         struct { unsigned short operation, flags; } intrinsic;
         unsigned value;
         char *text;
+        struct FrontendSymbol *parameter_next;
     } detail;
     unsigned field24, field28;
 };
@@ -31,5 +32,5 @@ int __stdcall builtin_enabled(unsigned index);
 void __stdcall mark_builtin(FrontendSymbol *symbol, unsigned index);
 void __stdcall insert_scope_symbol(SymbolScope *scope, FrontendSymbol *symbol);
 void browser_index_overflow(void);
-void __stdcall browser_builtin(FrontendSymbol *symbol);
+void __stdcall browser_symbol_definition(FrontendSymbol *symbol);
 #endif

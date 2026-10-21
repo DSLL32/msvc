@@ -11,7 +11,7 @@ char *parser_diagnostic_context; /* original 0x6d494 */
 unsigned char expression_storage[2052]; /* original 0x5f508..0x5fd0c */
 unsigned char *expression_next; /* original 0x6bff8 */
 unsigned constant_one; /* original 0x5ffc8 */
-int prototype_mode = -1; /* original 0x6bf94 */
+int aggregate_depth = -1; /* original 0x6bf94 */
 int unevaluated_expression_depth; /* original 0x6c02c */
 int parser_error_count; /* original 0x6b554 */
 short parser_recovery_count; /* original 0x6b558 */
@@ -31,10 +31,6 @@ int parameter_depth; /* original 0x604a8 */
 int unevaluated_type_depth; /* original 0x6539c */
 unsigned enumerator_value = (unsigned)-1; /* original 0x6bfb8 */
 void *enumerator_context; /* original 0x6b648 */
-char *missing_parameter_name; /* original 0x6b680 */
-char *unnamed_parameter_name; /* original 0x6b698 */
-char *unnamed_enum_name; /* original 0x6b69c */
-CType *temporary_type; /* original 0x6b6b8 */
 CType *based_type; /* original 0x5ff10 */
 unsigned array_bound; /* original 0x65398 */
 
@@ -264,7 +260,7 @@ read_action:
                 /* A type name immediately following a declarator also
                    serves as the first token of an old-style declaration. */
             case TOK_LEFT_BRACE:
-                merge_declaration_symbol(&right[-1].declaration, right[0].symbol);
+                prepare_function_definition(&right[-1].declaration, right[0].symbol);
                 parser_value.symbol = right[0].symbol;
                 break;
             case TOK_IDENTIFIER:
@@ -395,7 +391,7 @@ read_action:
             break;
         case 48:
             parser_value.symbol = new_declarator(0);
-            parser_value.symbol->name = missing_parameter_name;
+            parser_value.symbol->name = name_alignment;
             break;
         case 52:
             apply_declarator_type(&declaration_spec_stack[declaration_depth], right[0].symbol);
@@ -465,7 +461,7 @@ read_action:
             break;
         case 72:
             if (right[-1].symbol) {
-                check_parameter(right[-1].symbol);
+                insert_current_scope_symbol(right[-1].symbol);
                 parser_value.words.low = (unsigned)append_parameter((FrontendSymbol *)right[-2].words.low,
                     right[-1].symbol);
             } else parser_value.words.low = right[-2].words.low;
@@ -489,7 +485,7 @@ read_action:
             parser_value.symbol = make_parameter(right[0].name);
             break;
         case 78:
-            check_parameter(parser_value.symbol);
+            insert_current_scope_symbol(parser_value.symbol);
             break;
         case 79:
             parser_value.words.low = 0;
@@ -504,7 +500,7 @@ read_action:
             break;
         case 81:
             if (right[-1].symbol) {
-                check_parameter(right[-1].symbol);
+                insert_current_scope_symbol(right[-1].symbol);
                 parser_value.words.low = (unsigned)append_parameter((FrontendSymbol *)right[-2].words.low,
                     right[-1].symbol);
             } else parser_value.words.low = right[-2].words.low;
@@ -525,7 +521,7 @@ read_action:
                 right[0].symbol);
             break;
         case 86:
-            check_parameter(parser_value.symbol);
+            insert_current_scope_symbol(parser_value.symbol);
             break;
         case 87:
             parser_value.words.low = 0;
@@ -535,14 +531,14 @@ read_action:
         case 88:
             right[0].symbol->kind = 10;
             COPY_STORAGE(right[0].symbol->storage, right[-1].declaration.storage);
-            parser_value.symbol = make_struct_tag(&right[-1].declaration, right[0].symbol);
+            parser_value.symbol = declare_symbol(&right[-1].declaration, right[0].symbol);
             CLEAR_DECLARATION_FLAGS();
             break;
         case 89:
             parser_value.symbol = right[0].symbol;
             parser_value.symbol->kind = 11;
             COPY_STORAGE(parser_value.symbol->storage, right[-1].declaration.storage);
-            parser_value.symbol->name = unnamed_enum_name;
+            parser_value.symbol->name = name_formal;
             finalize_symbol_type(right[-1].declaration.type, parser_value.symbol);
             CLEAR_DECLARATION_FLAGS();
             break;
@@ -633,14 +629,14 @@ read_action:
             report_syntax_error(59, ")");
             ALLOCATE_PARSER_NODE(parser_value.symbol, sizeof(FrontendSymbol), parameter_nesting != 0);
             parser_value.symbol->kind = 10;
-            parser_value.symbol->name = unnamed_parameter_name;
+            parser_value.symbol->name = name_ellipsis;
             parser_value.symbol->type = 0;
             parser_value.symbol->flags |= 2;
             break;
         case 118:
             ALLOCATE_PARSER_NODE(parser_value.symbol, sizeof(FrontendSymbol), parameter_nesting != 0);
             parser_value.symbol->kind = 10;
-            parser_value.symbol->name = unnamed_parameter_name;
+            parser_value.symbol->name = name_ellipsis;
             parser_value.symbol->type = 0;
             parser_value.symbol->flags |= 2;
             break;
@@ -844,7 +840,7 @@ read_action:
             parser_value.words.low = 0;
             break;
         case 171:
-            if ((prototype_mode < 0 || !options.z_a) && !right[0].node)
+            if ((aggregate_depth < 0 || !options.z_a) && !right[0].node)
                 report_syntax_error(466);
             break;
         case 172:
@@ -950,8 +946,8 @@ read_action:
             node->type = right[0].symbol->type;
             break;
         case 215:
-            parser_value.symbol = declare_temporary(intern_identifier(right[-1].node->value.text),
-                temporary_type, 8, 2);
+            parser_value.symbol = declare_named_entity(intern_identifier(right[-1].node->value.text),
+                name_unnamed, 8, 2);
             POP_DECLARATION();
             break;
         case 216:
@@ -1056,4 +1052,166 @@ FrontendSymbol *__stdcall finish_function_declarator(FrontendSymbol *symbol, Fro
         return make_function_declaration(symbol, parameters);
     finish_parameter_scope();
     return attach_function_parameters(symbol, parameters);
+}
+
+FrontendSymbol *function_parameter_declarations; /* original 0x5ff14 */
+int function_parameter_context; /* original 0x60228 */
+
+/* Original 0x2b160..0x2b1e0. */
+FrontendSymbol *__stdcall make_function_declaration(FrontendSymbol *symbol, FrontendSymbol *parameters)
+{
+    symbol = attach_function_parameters(symbol, parameters);
+    if (declaration_context == 2) {
+        compiler_warning(4, 131, symbol->name);
+        symbol->attributes |= 0x10;
+    } else symbol->attributes &= ~0x10;
+    symbol->type->related->attributes |= symbol->type->attributes;
+    symbol->attributes |= 0x80;
+    function_parameter_declarations = finish_parameter_scope();
+    if (symbol->type->related->flags & 0x4000) function_parameter_context = 5;
+    else function_parameter_context = declaration_context;
+    return symbol;
+}
+
+/* Original 0x2b230..0x2b276. */
+FrontendSymbol *__stdcall attach_function_parameters(FrontendSymbol *symbol, FrontendSymbol *parameters)
+{
+    FrontendSymbol *typed_parameters = 0;
+    declaration_context = classify_parameter_declarations(parameters);
+    if (declaration_context != 2) typed_parameters = parameters;
+    attach_type_shape(symbol, new_type_shape(4, 0, &typed_parameters));
+    return symbol;
+}
+
+/* Original 0x2b280..0x2b413. */
+int __stdcall classify_parameter_declarations(FrontendSymbol *parameters)
+{
+    FrontendSymbol *first = 0, *parameter;
+    int kind = 1;
+    for (parameter = parameters; parameter; parameter = parameter->next) {
+        if ((parameter->kind & 0x1f) == 10 || (parameter->kind & 0x1f) == 11) {
+            first = parameter->detail.parameter_next;
+            break;
+        }
+    }
+    parameter = first;
+    if (!parameter) return kind;
+    do {
+        switch (kind) {
+        case 1:
+            if ((parameter->kind & 0x1f) == 11) kind = 4;
+            else if ((parameter->kind & 0x1f) == 10)
+                kind = (parameter->attributes & 0x10) ? 2 : 3;
+            break;
+        case 2:
+            if ((parameter->kind & 0x1f) == 11)
+                report_type_syntax_error(122, parameter->type);
+            else if ((parameter->kind & 0x1f) == 10 && !(parameter->attributes & 0x10)) {
+                if (parameter->name == name_ellipsis && options.z_a)
+                    compiler_warning(4, 202);
+                else report_syntax_error(122, parameter->name);
+            }
+            break;
+        case 3:
+        case 4:
+            if ((parameter->kind & 0x1f) == 11) kind = 4;
+            else if ((parameter->kind & 0x1f) == 10 && (parameter->attributes & 0x10))
+                report_syntax_error(81, parameter->name);
+            break;
+        }
+        if (!parameter) break;
+        parameter = parameter->detail.parameter_next;
+    } while (parameter != first);
+    return kind;
+}
+
+/* Original 0x2b730..0x2b771. Return the circular parameter chain while
+   restoring the scope that preceded its temporary declaration context. */
+FrontendSymbol *finish_parameter_scope(void)
+{
+    FrontendSymbol *parameters = 0;
+    if ((current_scope->flags & 0xff) != 1 || current_scope->bucket_mask) return 0;
+    if (current_scope->buckets) parameters = current_scope->buckets[0];
+    deactivate_symbol_scope();
+    pop_symbol_scope();
+    return parameters;
+}
+
+FrontendSymbol *function_symbol; /* original 0x5b140 */
+CType *function_return_type; /* original 0x6b6c0 */
+ParameterInfo *prior_function_parameters; /* original 0x6b7b0 */
+int active_parameter_context; /* original 0x60798 */
+unsigned browser_macro_context; /* original 0x63868 */
+
+/* Original 0x2a530..0x2a82b. Bind a function declarator to the global
+   declaration, check its definition attributes, and enter function state. */
+void __stdcall prepare_function_definition(DeclarationSpec *declaration, FrontendSymbol *symbol)
+{
+    unsigned short attributes;
+    unsigned saved_browser_context;
+    FrontendSymbol *parameter, *first;
+    symbol->flags |= 1;
+    symbol = declare_symbol(declaration, symbol);
+    if ((symbol->kind & 0x1f) != 7) {
+        report_syntax_error((symbol->kind & 0x1f) == 6 ? 169 : 54, symbol->name);
+        symbol->flags |= 0x80;
+        abort_function_definition();
+        return;
+    }
+    if (!(symbol->attributes & 0x80)) {
+        report_syntax_error(206, symbol->name);
+        function_parameter_declarations = 0;
+    } else if (function_parameter_context == 4)
+        report_syntax_error(55, symbol->name);
+    attributes = symbol->type->related->attributes;
+    if ((((attributes & 0x70) == 0x40) && ((attributes & 7) == 2)) || (attributes & 0x200)) {
+        if (options.option_Gw || ((options.option_GA || options.option_GD) &&
+            ((attributes & 0x400) || options.option_GEf))) report_syntax_error(80);
+    }
+    if ((symbol->storage[2] & 4) && !(symbol->storage[2] & 8) &&
+        !(symbol->storage[1] & 1) && !(scanner_flags & 0x400))
+        report_syntax_error(491, symbol->name, "function");
+    if ((symbol->type->attributes & 7) == 3)
+        report_syntax_error(703, symbol->name, "_far16");
+    if (prior_function_parameters) {
+        if (symbol->attributes & 2) {
+            if ((ParameterInfo *)symbol->type->related->field08 != prior_function_parameters)
+                report_syntax_error(193, symbol->name);
+        } else replace_function_parameters(symbol, prior_function_parameters);
+    }
+    function_symbol = initialize_function_definition(symbol);
+    current_parameter = function_parameter_declarations;
+    active_parameter_context = function_parameter_context;
+    if (function_return_type->flags != 0x80 && !type_size(function_return_type))
+        report_syntax_error(79, function_symbol->name,
+            ((FrontendSymbol *)function_return_type->field08)->name);
+    if (browser_filename) {
+        saved_browser_context = browser_macro_context;
+        browser_macro_context = 0;
+        browser_begin_function_scope();
+        if (!function_symbol->index) {
+            if (next_symbol_index >= 0x7fffffff) fatal_error(55);
+            if (next_symbol_index >= browser_symbol_limit && browser_filename)
+                browser_index_overflow();
+            function_symbol->index = next_symbol_index++;
+        }
+        browser_symbol_definition(function_symbol);
+        browser_function_parameters(function_symbol);
+        browser_macro_context = saved_browser_context;
+        first = 0;
+        for (parameter = current_parameter; parameter; parameter = parameter->next) {
+            if ((parameter->kind & 0x1f) == 10 || (parameter->kind & 0x1f) == 11) {
+                first = parameter->detail.parameter_next;
+                break;
+            }
+        }
+        parameter = first;
+        if (parameter) {
+            do {
+                if (parameter->type) browser_symbol_definition(parameter);
+                if (!parameter) break;
+                parameter = parameter->detail.parameter_next;
+            } while (parameter != first);
+        }
+    }
 }

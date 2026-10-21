@@ -75,3 +75,44 @@ void __stdcall activate_symbol_scope(SymbolScope *scope)
         scope_directory[scope_depth] = scope;
     }
 }
+
+/* Original 0x36490..0x364b6. */
+void deactivate_symbol_scope(void)
+{
+    if (current_scope->buckets) {
+        scope_directory[scope_depth] = 0;
+        --scope_depth;
+    }
+}
+
+/* Original 0x36430..0x3643d. */
+void pop_symbol_scope(void)
+{
+    current_scope = current_scope->next;
+}
+
+/* Original 0x34650..0x3468c. The third argument is retained by the ABI;
+   this implementation uses interned-name identity for every lookup. */
+FrontendSymbol *__stdcall find_scope_declaration(SymbolScope *scope, char *name, int case_fold)
+{
+    unsigned index;
+    if (!scope || !scope->buckets) return 0;
+    index = (unsigned)name & scope->bucket_mask;
+    return lookup_symbol_chain(scope->buckets[index], name);
+}
+
+/* Original 0x35810..0x3583f. Tag names occupy a separate C namespace. */
+FrontendSymbol *__stdcall lookup_symbol_chain(FrontendSymbol *head, char *name)
+{
+    while (head) {
+        if (head->name == name && (head->kind & 0x1f) != 4) return head;
+        head = head->next;
+    }
+    return 0;
+}
+
+/* Original 0x355a0..0x355b3. */
+void __stdcall insert_current_scope_symbol(FrontendSymbol *symbol)
+{
+    insert_scope_symbol(current_scope, symbol);
+}

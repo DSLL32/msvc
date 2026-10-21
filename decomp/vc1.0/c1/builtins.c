@@ -59,7 +59,7 @@ void initialize_intermediate_output(void)
             symbol->type = make_function_type((unsigned short)0x10, description);
             insert_scope_symbol(global_scope, symbol);
             if (browser_filename)
-                browser_builtin(symbol);
+                browser_symbol_definition(symbol);
             if (definition->flags & 0x80)
                 symbol->attributes |= 1;
         }

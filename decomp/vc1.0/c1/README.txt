@@ -3,14 +3,13 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-make_function_declaration, original VA 0x2b160. There are 97 reconstructed
-source functions and 166 accepted trap frontiers, all replayed in order.
-The LR translation-unit parser, declaration-specifier collection, type
-specifier folding, identifier interpretation, declarator allocation, and
-parameter-scope entry have joined the existing startup and lexical code.
-The case has read `int main ()` and is constructing its function declaration.
-The function body and completion of the four intermediate files remain
-unfinished. This is a checkpoint, not a completed compiler case.
+initialize_function_definition, original VA 0x2a880. There are 118
+reconstructed source functions and 187 accepted trap frontiers, all replayed
+in order on the current shared-state implementation. The case has parsed
+`int main ()`, classified its empty parameter list, constructed and interned
+its function type, restored the outer scope, and declared its global symbol.
+Function initialization, the body, and completion of the four intermediate
+files remain unfinished. This is a checkpoint, not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -67,6 +66,8 @@ types.c / parameters.c: type and shape interning, function types,
   descriptor stack, and parameter-list construction.
 parser.c / parser.h: LR control flow, grammar semantic actions, declarator
   construction, and parameter-scope setup.
+declarations.c: symbol declaration, storage validation, type-shape folding,
+  qualifier propagation, and redeclaration lookup.
 parser-grammar.c: logical token shifts, reduction exceptions, production
   lengths, and nonterminal gotos, decoded from the encountered yacc tables.
   The original compressed action/check layout is not reproduced.
@@ -82,6 +83,9 @@ macros.c: predefined names, timestamp formatting, macro interning, and -D.
 source-input.c: file opening and overlapping buffered include windows.
 global-ir.c / global-formats.c: global/symbol IR schema serialization.
 option-state.c: optimization-state bit packing.
+The expression writer and function serializer share the original expression
+count and call/inline state; interned identifier globals are shared with
+predefined-macro initialization.
 stubs.c: named, trapping entries for functions not yet reconstructed.
 
 Data are defined in the owning subsystem as they are encountered. There

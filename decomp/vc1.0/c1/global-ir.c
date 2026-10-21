@@ -15,7 +15,8 @@ FILE *auxiliary_ir_stream; /* original 0x6e434 */
 FunctionIrState function_ir; /* original 0x60044..0x60058 */
 int hidden_frame_enabled; /* original 0x6bf64 */
 unsigned hidden_frame_bytes; /* original 0x6b804 */
-int function_instrumented; /* original 0x6bfb0 */
+int function_call_seen; /* original 0x6bfb0 */
+int default_inline_candidate = 1; /* original 0x6bfa8 */
 int inline_candidate = 1; /* original 0x6bfac */
 int function_not_inlinable; /* original 0x6bfb4 */
 int far_call_mode, prologue_mode; /* original 0x6bbc4 / 0x6bbc8 */
@@ -372,7 +373,7 @@ formats:
         case GF_OPTIMIZATION:
             code = ((symbol->attributes & 0x8000) ? 4 : 0) |
                 ((symbol->storage[1] & 1) ? 0x80 : 0) |
-                (function_instrumented ? 8 : 0) | (hidden_frame_enabled ? 1 : 0) |
+                (function_call_seen ? 8 : 0) | (hidden_frame_enabled ? 1 : 0) |
                 (function_ir.no_inline ? 0x20 : 0);
             no_inline = attributes & 0x800;
             function_not_inlinable = no_inline || (options.option_GA &&

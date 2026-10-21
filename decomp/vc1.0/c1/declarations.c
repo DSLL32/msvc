@@ -1,0 +1,586 @@
+/* Symbol declaration and redeclaration processing. */
+#include "parser.h"
+#include "global-ir.h"
+
+int default_thread_storage; /* original 0x6bc44 */
+
+/* Original 0x339f0..0x33cdb. */
+FrontendSymbol *__stdcall declare_symbol(DeclarationSpec *declaration, FrontendSymbol *symbol)
+{
+    unsigned char storage[3];
+    unsigned kind;
+    int member;
+    FrontendSymbol *existing, *tag;
+    if (!symbol || !declaration->type) return 0;
+    storage[0] = declaration->storage[0];
+    storage[1] = declaration->storage[1];
+    storage[2] = declaration->storage[2];
+    if ((storage[0] & 7) == 1) storage[1] |= 0x10;
+    kind = symbol->kind & 0x1f;
+    member = kind == 2 || kind == 3;
+    if (kind == 1) symbol->kind = 9;
+    symbol->storage[0] = storage[0];
+    symbol->storage[1] = storage[1];
+    symbol->storage[2] = storage[2];
+    finalize_symbol_type(declaration->type, symbol);
+    if ((declaration->storage[0] & 0x30) == 0x30) {
+        if ((symbol->kind & 0x1f) != 7 || function_result_type(symbol)->related)
+            report_syntax_error(501, symbol->name);
+    }
+    if (symbol->storage[2] & 1) {
+        if ((symbol->storage[1] & 1) && !(symbol->flags & 0x80))
+            compiler_warning(1, 271, symbol->name);
+        else if (member || (symbol->kind & 0x1f) != 7)
+            report_symbol_error(488, symbol);
+    } else if (parameter_nesting == 2 && function_symbol && (function_symbol->storage[2] & 1)) {
+        kind = symbol->storage[0] & 7;
+        if (kind >= 4 && kind <= 6 && (symbol->attributes & 4))
+            report_syntax_error(489, symbol->name);
+    }
+    kind = symbol->storage[0] & 7;
+    if (default_thread_storage && (symbol->kind & 0x1f) == 9 && kind >= 1 && kind <= 3)
+        symbol->storage[2] |= 2;
+    if (symbol->storage[2] & 2) {
+        kind = symbol->storage[0] & 7;
+        if ((symbol->kind & 0x1f) != 9 || kind < 1 || kind > 3) {
+            report_syntax_error(480, symbol->name);
+            symbol->storage[2] &= ~2;
+        }
+        if (symbol->storage[2] & 4) report_syntax_error(492, symbol->name);
+    }
+    if ((symbol->storage[0] & 7) == 7) {
+        symbol->flags |= 4;
+        if (symbol->name) SYMBOL_FROM_NAME(symbol->name)->flags |= 2;
+        if (!options.syntax_only && is_record_type(symbol->type)) {
+            tag = (FrontendSymbol *)symbol->type->field08;
+            if (tag->name == name_unnamed) tag->name = symbol->name;
+        }
+    }
+    if (member) return symbol;
+    existing = merge_global_declaration(symbol);
+    if (!existing) {
+        if (parameter_nesting >= 2) existing = merge_local_declaration(symbol);
+        else if (!options.z_a && (current_scope->flags & 0xff) == 1) {
+            existing = find_identifier_symbol(symbol->name);
+            if (existing && (existing->flags & 4)) compiler_warning(1, 224, symbol->name);
+            existing = 0;
+        }
+    }
+    if (existing) {
+        if (symbol->attributes & 0x80) existing->attributes |= 0x80;
+        return existing;
+    }
+    if (!symbol->index) {
+        if (next_symbol_index >= 0x7fffffff) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+        symbol->index = next_symbol_index++;
+    }
+    if (parameter_nesting >= 2) record_local_declaration(symbol);
+    insert_current_scope_symbol(symbol);
+    return symbol;
+}
+
+/* Original 0x34060..0x3460c; storage dispatch tables 0x3460c..0x34648. */
+void __stdcall finalize_symbol_type(CType *base, FrontendSymbol *symbol)
+{
+    unsigned char storage[3];
+    unsigned kind, storage_kind;
+    unsigned short attributes;
+    int void_declaration = 0;
+    CType *description = symbol->type;
+    TypeShape *shape;
+    FrontendSymbol *tag, *based;
+    char *name = symbol->name;
+    storage[0] = symbol->storage[0];
+    storage[1] = symbol->storage[1];
+    storage[2] = symbol->storage[2];
+    kind = symbol->kind & 0x1f;
+    storage_kind = storage[0] & 7;
+    if (kind == 2 || kind == 3) {
+        if ((storage_kind >= 4 && storage_kind <= 7) || storage_kind == 3 ||
+            storage_kind == 1 || (storage[2] & 4)) {
+            report_syntax_error(71, symbol->name);
+            storage[0] |= 8;
+            symbol->flags |= 0x80;
+        }
+    }
+    if (base) {
+        description->field08 = base->field08;
+        description->flags = base->flags;
+        merge_declarator_type(symbol, base, storage_kind == 7);
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 7)) shape = shape->related;
+        if (!shape && storage_kind != 7) {
+            description = symbol->type;
+            kind = symbol->kind & 0x1f;
+            if (description->flags == 0x80) {
+                if (kind != 12 && kind != 11) {
+                    report_syntax_error(182, name);
+                    symbol->type->flags = 0x64;
+                }
+                void_declaration = 1;
+            } else if (storage_kind != 1 && (description->flags & 0x400)) {
+                tag = (FrontendSymbol *)description->field08;
+                if (!(tag->flags & 1) && kind != 12 && kind != 11) {
+                    report_syntax_error(79, name, tag->name);
+                    symbol->type = type_0064;
+                }
+            }
+        }
+    }
+    description = symbol->type;
+    attributes = description->attributes;
+    if (symbol->flags & 0x80) storage[0] |= 8;
+    if ((symbol->kind & 0x1f) == 7) {
+        shape = description->related;
+        if (shape && !(shape->flags & 7)) shape = shape->related;
+        attributes = (attributes & 0xf488) | (shape->attributes & 0xb77);
+        switch (storage[0] & 7) {
+        case 0:
+        case 2:
+            storage[0] = (storage[0] & ~7) | 1 | 0x20;
+            break;
+        case 3:
+            if (storage[2] & 4) {
+                report_syntax_error(201, name);
+                storage[0] = (storage[0] & ~7) | 1 | 0x20;
+            }
+            if (parameter_nesting) {
+                report_declaration_context_error(205, 201, name);
+                storage[0] = (storage[0] & ~7) | 1 | 0x20;
+            }
+            break;
+        case 4:
+        case 5:
+        case 6:
+            compiler_warning(1, 42, name);
+            storage[0] = (storage[0] & ~7) | 1 | 0x20;
+            break;
+        case 7:
+            if (symbol->flags & 1) {
+                report_syntax_error(71, name);
+                storage[0] = (storage[0] & ~7) | 1;
+            }
+            break;
+        }
+        goto type_ready;
+    }
+    if (storage[1] & 1) {
+        storage[1] &= ~1;
+        kind = symbol->kind & 0x1f;
+        if (kind == 11) report_syntax_error(735, "__inline");
+        else if (kind == 12) report_syntax_error(736, "__inline");
+        else report_syntax_error(433, symbol->name, "__inline");
+    }
+    if (!options.syntax_only && !void_declaration && !(attributes & 0x70))
+        attributes |= options.option_Gz ? 0x60 : (options.option_Gc ? 0x20 : 0x10);
+    else if ((attributes & 0x70) == 0x40) {
+        compiler_warning(2, 8, symbol->name, "_fastcall");
+        attributes = (attributes & ~0x70) | 0x10;
+    }
+    if (attributes & 0xb00) {
+        compiler_warning(1, 105, name);
+        attributes &= ~0xb00;
+    }
+    if ((storage[0] & 7) == 5 && description->related && (description->related->attributes & 8)) {
+        compiler_warning(1, 42, name);
+        storage[0] &= ~7;
+    }
+    kind = symbol->kind & 0x1f;
+    storage_kind = storage[0] & 7;
+    if (kind == 10 || kind == 11) {
+        if (storage_kind != 5) {
+            if (storage_kind) compiler_warning(1, 42, name);
+            storage[0] = (storage[0] & ~7) | 4;
+        }
+        if ((storage[1] & 7) || (storage[2] & 7)) {
+            compiler_warning(1, 42, name);
+            storage_kind = storage[0] & 7;
+            storage[0] = (current_storage[0] & ~7) | storage_kind;
+            storage[1] = current_storage[1];
+            storage[2] = current_storage[2];
+        }
+    } else if (kind == 9) {
+        if (!(scanner_flags & 0x80000)) {
+            if (storage_kind >= 4 && storage_kind <= 6) {
+                compiler_warning(1, 42, name);
+                storage[0] = (storage[0] & ~7) | 2;
+            } else if (!storage_kind) {
+                if ((symbol->attributes & 0x400) && (symbol->attributes & 0x100) &&
+                    !(symbol->attributes & 4)) storage[0] = (storage[0] & ~7) | 1;
+                else storage[0] = (storage[0] & ~7) | 2;
+            }
+        } else if (!storage_kind) {
+            if (scanner_flags & 0x40) storage[0] = (storage[0] & ~7) | 2;
+            else if ((storage[2] & 4) && !(storage[2] & 8)) storage[0] = (storage[0] & ~7) | 1;
+            else storage[0] = (storage[0] & ~7) | 4;
+        }
+    }
+    switch (storage[0] & 7) {
+    case 3:
+        if (storage[2] & 4) {
+            report_syntax_error(201, name);
+            storage[2] &= ~12;
+            storage[0] |= 8;
+        }
+        /* Static, external, and global objects share based-address checks. */
+    case 1:
+    case 2:
+        shape = description->related;
+        if (!shape || (shape->flags & 7)) break;
+        attributes = (attributes & ~7) | 2;
+        if ((shape->attributes & 7) >= 5) {
+            based = (FrontendSymbol *)shape->field08;
+            if ((based->kind & 0x1f) == 13) {
+                if (based->index != 6) break;
+                report_syntax_error(185, name);
+            } else {
+                if ((storage[0] & 7) == 1 && !(symbol->attributes & 4)) break;
+                report_syntax_error(154, based->name);
+            }
+        } else report_syntax_error(185, name);
+        /* An invalid based address is normalized below after its diagnostic. */
+    case 0:
+    case 4:
+    case 5:
+    case 6:
+        if ((symbol->kind & 0x1f) != 12) attributes = normalize_symbol_storage(attributes, symbol);
+        break;
+    }
+    if ((storage[2] & 4) && (scanner_flags & 0x80000) && (storage[0] & 7) != 1)
+        report_syntax_error(71, symbol->name);
+type_ready:
+    if ((storage[0] & 7) != 7) description->attributes = attributes;
+    symbol->storage[0] = storage[0];
+    symbol->storage[1] = storage[1];
+    symbol->storage[2] = storage[2];
+    symbol->type = intern_type(description);
+}
+
+AggregateContext aggregate_contexts[16]; /* original 0x600a8 */
+typedef char ShapeCursor_must_be_eight_bytes[(sizeof(ShapeCursor) == 8) ? 1 : -1];
+
+/* Original 0x31520..0x31ad4. Fold the declarator's mutable shape chain
+   into the base type from the inside out, retaining prefix qualifiers. */
+void __stdcall merge_declarator_type(FrontendSymbol *symbol, CType *base, int is_typedef)
+{
+    TypeShape *head = symbol->type->related;
+    TypeShape *work = head, *prefix = 0, *base_shape = base->related;
+    TypeShape *next, *extra, *result;
+    unsigned short qualifiers = symbol->type->attributes & 0x3000, pointer_attributes;
+    ShapeCursor current, outer, inner, prepared_base;
+    unsigned category;
+    FrontendSymbol *tag;
+    char *convention;
+    prepared_base.shape = base_shape;
+    if (!prepare_declarator_shapes(symbol, base, &work, &prepared_base, &prefix, &head, is_typedef))
+        return;
+    base_shape = prepared_base.shape;
+    if (!work) {
+        work = base_shape;
+        current.flags = work ? work->flags : 0;
+        current.attributes = work ? work->attributes : 0;
+    } else {
+        for (;;) {
+            next = work->related;
+            if (next) {
+                outer.shape = next;
+                outer.flags = next->flags;
+                outer.attributes = next->attributes;
+                next->attributes &= ~0x3000;
+            } else {
+                outer.shape = 0;
+                outer.flags = 0;
+                outer.attributes = symbol->type->attributes;
+                symbol->type->attributes &= ~0x3000;
+                symbol->type->attributes |= base->attributes & 0x3000;
+            }
+            inner.shape = base_shape;
+            inner.flags = base_shape ? base_shape->flags : 0;
+            inner.attributes = base_shape ? base_shape->attributes : 0;
+            current.flags = work->flags;
+            current.attributes = work->attributes;
+            extra = 0;
+            switch (current.flags & 7) {
+            case 1:
+                if ((inner.flags & 7) == 4) {
+                    current.flags = (current.flags & ~4) | 3;
+                    current.flags |= inner.flags & 0xc800;
+                    if ((current.attributes & 0x70) == 0x60 && (current.flags & 0x8000))
+                        current.attributes &= ~0x70;
+                    current.attributes = merge_type_attributes(current.attributes, inner.attributes);
+                } else {
+                    convention = 0;
+                    switch (current.attributes & 0x70) {
+                    case 0x10: convention = "cdecl"; break;
+                    case 0x20: convention = "pascal"; break;
+                    case 0x40: convention = "_fastcall"; break;
+                    case 0x60: convention = "_stdcall"; break;
+                    }
+                    if (convention) report_syntax_error(165, convention);
+                    if (current.attributes & 0xf00) {
+                        compiler_warning(1, 105, symbol->name);
+                        current.attributes &= ~0xf00;
+                    }
+                    if ((current.attributes & 7) == 2) {
+                        report_syntax_error(165, "_far");
+                        current.attributes &= ~7;
+                    }
+                }
+                current.attributes = (current.attributes & ~0x3000) | (outer.attributes & 0x3000);
+                break;
+            case 2:
+                if ((inner.flags & 7) == 4) {
+                    report_syntax_error(92);
+                    extra = new_type_shape(3, 0, 0);
+                }
+                current.attributes = normalize_type_attributes(2,
+                    (unsigned short)((symbol->type->attributes & 7) | (inner.attributes & 0x3000)));
+                if (!inner.shape && (symbol->type->flags & 0x400)) {
+                    tag = (FrontendSymbol *)symbol->type->field08;
+                    if (tag->attributes & 0x100) report_syntax_error(233, symbol->name);
+                }
+                if ((outer.flags & 7) == 2 && !work->field08)
+                    report_syntax_error(87, symbol->name);
+                break;
+            case 4:
+                current.shape = work;
+                extra = merge_function_shape(symbol, inner, &current, outer, is_typedef);
+                work = current.shape;
+                break;
+            }
+            if (extra) {
+                extra->related = base_shape;
+                base_shape = intern_type_shape(extra);
+            }
+            category = current.flags & 7;
+            if (next || !is_typedef || (category != 4 && category != 2))
+                current.attributes = normalize_type_attributes(current.flags, current.attributes);
+            if (!next) {
+                if (category == 4) current.attributes &= ~0x3000;
+                else current.attributes |= qualifiers;
+            }
+            work->flags = current.flags;
+            work->attributes = current.attributes;
+            work->related = base_shape;
+            work = intern_type_shape(work);
+            if (!next) break;
+            base_shape = work;
+            work = next;
+        }
+    }
+    current.shape = work;
+    if (prefix) {
+        if (!is_typedef) check_declarator_prefix(symbol, prefix);
+        prefix->related = current.shape;
+        current.shape = intern_type_shape(prefix);
+    }
+    result = current.shape;
+    if ((symbol->attributes & 2) && current.shape->related) {
+        current.shape = current.shape->related;
+        current.flags = current.shape->flags;
+        current.attributes = current.shape->attributes;
+    }
+    category = current.flags & 7;
+    if (category == 4) {
+        if ((symbol->kind & 0x1f) == 9) symbol->kind = 7;
+        else {
+            if (symbol->kind >= 2 && symbol->kind <= 3) {
+                tag = aggregate_contexts[aggregate_depth].tag;
+                report_syntax_error(32, symbol->name, type_specifier_name(tag->type->flags), tag->name);
+            } else if (symbol->kind == 12) report_syntax_error(66);
+            pointer_attributes = normalize_type_attributes(3,
+                (unsigned short)(symbol->type->attributes & 15));
+            symbol->type->attributes &= ~7;
+            extra = new_type_shape(3, pointer_attributes, 0);
+            extra->related = result;
+            result = intern_type_shape(extra);
+        }
+    } else if (category == 2) finish_array_declarator(symbol, &result, current, is_typedef);
+    if (symbol->type->flags == 0x80 && (head->flags & 7) == 2)
+        report_syntax_error(182, symbol->name);
+    symbol->type->related = result;
+}
+
+/* Original 0x32090..0x323a6. Separate prefix qualifiers from the two
+   shape chains and reconcile their boundary before the folding pass. */
+int __stdcall prepare_declarator_shapes(FrontendSymbol *symbol, CType *base,
+    TypeShape **work, ShapeCursor *base_shape, TypeShape **prefix, TypeShape **tail, int is_typedef)
+{
+    TypeShape *node, *copy, *detached = 0;
+    unsigned short *attributes;
+    ArenaPool *pool;
+    if (!base_shape->shape) {
+        if (!*work) {
+            symbol->type->attributes = merge_type_attributes(symbol->type->attributes, base->attributes);
+            return 0;
+        }
+        node = extract_declarator_prefix(*work, prefix, symbol, is_typedef);
+        *work = symbol->type->related;
+        if (!node) symbol->type->attributes = merge_type_attributes(symbol->type->attributes, base->attributes);
+        else node->attributes = merge_type_attributes(node->attributes, (unsigned short)(base->attributes & 0xcfff));
+        *work = symbol->type->related;
+        return 1;
+    }
+    if ((base_shape->shape->flags & 7) == 2 && !base_shape->shape->field08 &&
+        *work && (((*work)->flags & 7) == 2)) {
+        report_syntax_error(87, symbol->name);
+        symbol->flags |= 0x80;
+    }
+    if ((base_shape->shape->flags & 7) == 4) {
+        node = symbol->type->related;
+        base_shape->attributes = merge_type_attributes(
+            (unsigned short)(node ? node->attributes : symbol->type->attributes), base_shape->shape->attributes);
+    } else base_shape->attributes = base_shape->shape->attributes;
+    base_shape->attributes = normalize_type_attributes(base_shape->shape->flags, base_shape->attributes);
+    if (base_shape->shape->attributes != base_shape->attributes) {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(TypeShape)) refill_arena(&compiler_arena, pool);
+        copy = (TypeShape *)pool->next;
+        pool->remaining -= sizeof(TypeShape);
+        pool->next += sizeof(TypeShape);
+        *copy = *base_shape->shape;
+        copy->attributes = base_shape->attributes;
+        base_shape->shape = intern_type_shape(copy);
+    }
+    *tail = base_shape->shape;
+    while ((*tail)->related) *tail = (*tail)->related;
+    if (!*work) {
+        base_shape->shape = extract_base_prefix(base_shape->shape, prefix, symbol,
+            is_typedef, &symbol->type->attributes);
+        symbol->type->attributes = merge_type_attributes(symbol->type->attributes, base->attributes);
+        return 1;
+    }
+    node = extract_declarator_prefix(*work, prefix, symbol, is_typedef);
+    *work = symbol->type->related;
+    if (!(base_shape->shape->flags & 7) && prefix && *prefix)
+        append_type_shape(*prefix, base_shape->shape);
+    attributes = node ? &node->attributes : &symbol->type->attributes;
+    base_shape->shape = extract_base_prefix(base_shape->shape, &detached, symbol, is_typedef, attributes);
+    if (node) {
+        node->attributes = merge_type_attributes(node->attributes, (unsigned short)(base->attributes & 0xcfff));
+        if (detached) append_type_shape(node, detached);
+    } else {
+        symbol->type->attributes = merge_type_attributes(symbol->type->attributes, base->attributes);
+        if (!*prefix && detached)
+            *prefix = new_type_shape(detached->flags, detached->attributes, &detached->field08);
+    }
+    return 1;
+}
+
+/* Original 0x31c00..0x31c72. */
+TypeShape *__stdcall extract_declarator_prefix(TypeShape *shape, TypeShape **prefix,
+    FrontendSymbol *symbol, int is_typedef)
+{
+    TypeShape *previous = 0;
+    if (!shape) return 0;
+    while (shape && (((shape->flags & 7) == 4) || ((shape->flags & 7) == 2))) {
+        previous = shape;
+        shape = shape->related;
+    }
+    if (shape && !(shape->flags & 7)) {
+        copy_shape_prefix(symbol, shape, prefix, is_typedef);
+        if (previous) previous->related = 0;
+        else symbol->type->related = 0;
+        return previous;
+    }
+    return shape;
+}
+
+/* Original 0x31e70..0x32089. Validate a function's result and combine
+   attributes from its surrounding declarator before interning the shape. */
+TypeShape *__stdcall merge_function_shape(FrontendSymbol *symbol, ShapeCursor base,
+    ShapeCursor *current, ShapeCursor next, int is_typedef)
+{
+    TypeShape *extra = 0;
+    char *convention = 0;
+    switch (base.flags & 7) {
+    case 2:
+        report_syntax_error(90);
+        extra = new_type_shape(1, 0, 0);
+        break;
+    case 4:
+        report_syntax_error(91);
+        extra = new_type_shape(3, 0, 0);
+        break;
+    case 1:
+        if (base.attributes & 8) {
+            report_syntax_error(263);
+            extra = new_type_shape(1, 0, 0);
+        }
+        break;
+    }
+    if ((next.flags & 7) == 1) {
+        current->attributes = merge_type_attributes(current->attributes,
+            (unsigned short)(next.attributes & 0xf77));
+        if (next.attributes & 12) next.shape->attributes &= ~15;
+    } else if (!next.shape) {
+        current->attributes = merge_type_attributes(current->attributes, next.attributes);
+        if (!base.shape) current->attributes &= ~0x1000;
+        if (symbol->flags & 1) {
+            if (function_parameter_context == 1) current->flags |= 0x4000;
+            if (is_typedef)
+                current->attributes = normalize_type_attributes(current->flags, current->attributes);
+        }
+    }
+    if (!(current->attributes & 0x70) && !(current->flags & 0x2000)) {
+        if ((options.option_Gr || options.option_Gc || options.option_Gz) && symbol->name == name_main) {
+            current->attributes = (current->attributes & ~0x70) | 0x10;
+            convention = "cdecl";
+        } else if ((options.option_Gr || options.option_Gc || options.option_Gd) &&
+            (symbol->name == name_winmain || symbol->name == name_dllmain)) {
+            current->attributes = (current->attributes & ~0x70) | 0x60;
+            convention = "_stdcall";
+        }
+        if (convention) compiler_warning(3, 7, symbol->name, convention);
+    }
+    if (current->attributes & 12) {
+        report_syntax_error(212, symbol->name);
+        current->attributes &= ~15;
+        if (next.shape && !(next.flags & 7)) {
+            next.shape = 0;
+            symbol->attributes &= ~2;
+        }
+    }
+    if ((current->attributes & 0x70) == 0x60 && (current->flags & 0x8000))
+        current->attributes &= ~0x70;
+    return extra;
+}
+
+/* Original 0x34690..0x346a3. */
+FrontendSymbol *__stdcall merge_global_declaration(FrontendSymbol *symbol)
+{
+    return merge_scoped_declaration(symbol, current_scope);
+}
+
+/* Original 0x346b0..0x346e6. */
+FrontendSymbol *__stdcall merge_scoped_declaration(FrontendSymbol *symbol, SymbolScope *scope)
+{
+    FrontendSymbol *existing = find_scope_declaration(scope, symbol->name,
+        (symbol->type->attributes & 0x70) == 0x20);
+    return reconcile_declarations(existing, symbol);
+}
+
+/* Original 0x346f0..0x347c4. */
+FrontendSymbol *__stdcall reconcile_declarations(FrontendSymbol *existing, FrontendSymbol *symbol)
+{
+    if (!existing) return 0;
+    if (options.z_a && (existing->storage[0] & 7) == 7 &&
+        (symbol->storage[0] & 7) == 7 && existing->type == symbol->type) {
+        compiler_warning(4, 209);
+        return existing;
+    }
+    if (!parameter_nesting) {
+        if (declaration_conflict(existing, symbol)) {
+            symbol->flags |= 0x80;
+            return symbol;
+        }
+        commit_redeclaration(existing, symbol);
+        return existing;
+    }
+    if ((existing->storage[0] & 7) == 1 && (symbol->storage[0] & 7) == 1) {
+        if (!declaration_conflict(existing, symbol)) return existing;
+    } else if (!declaration_conflict(existing, symbol)) report_syntax_error(86, symbol->name);
+    symbol->flags |= 0x80;
+    return symbol;
+}

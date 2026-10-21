@@ -675,7 +675,6 @@ specifiers_ready:
     }
 }
 
-int browser_parameter_scope; /* original 0x5d5b8 */
 
 /* Original 0x19530..0x195f2. A declaration may force an identifier to stay
    a name; otherwise typedef symbols acquire their grammar category. */
@@ -694,7 +693,7 @@ unsigned char __stdcall lookup_identifier_token(FrontendSymbol *explicit_symbol)
     if (!symbol || !(symbol->flags & 4)) return TOK_IDENTIFIER;
     if ((symbol->kind & 0x1f) == 4 && (declaration_spec_flags[declaration_depth] & 1) &&
         !(parser_flags & 0x20)) return TOK_TYPEDEF_NAME;
-    if (browser_filename && (!parameter_nesting || browser_parameter_scope))
+    if (browser_filename && (!parameter_nesting || options.option_FR))
         browser_symbol_reference(symbol);
     current_token_value.symbol = symbol;
     return TOK_TYPEDEF_NAME;

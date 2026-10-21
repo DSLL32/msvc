@@ -170,7 +170,28 @@
     "_begin_parameter_list@4",
     "_push_symbol_scope@4",
     "_activate_symbol_scope@4",
-    "_finish_function_declarator@8"
+    "_finish_function_declarator@8",
+    "_make_function_declaration@8",
+    "_attach_function_parameters@8",
+    "_classify_parameter_declarations@4",
+    "_attach_type_shape@8",
+    "_finish_parameter_scope",
+    "_deactivate_symbol_scope",
+    "_pop_symbol_scope",
+    "_prepare_function_definition@8",
+    "_declare_symbol@8",
+    "_finalize_symbol_type@8",
+    "_merge_declarator_type@12",
+    "_prepare_declarator_shapes@28",
+    "_extract_declarator_prefix@16",
+    "_merge_type_attributes@8",
+    "_merge_function_shape@28",
+    "_merge_global_declaration@4",
+    "_merge_scoped_declaration@8",
+    "_find_scope_declaration@12",
+    "_lookup_symbol_chain@8",
+    "_reconcile_declarations@8",
+    "_insert_current_scope_symbol@4"
   ],
   "driver": [
     {
@@ -707,7 +728,7 @@
       "end": 161126
     },
     {
-      "name": "_browser_builtin@4",
+      "name": "_browser_symbol_definition@4",
       "start": 161232,
       "end": 161247
     },
@@ -1160,9 +1181,9 @@
       "end": 170353
     },
     {
-      "name": "_merge_declaration_symbol@8",
+      "name": "_prepare_function_definition@8",
       "start": 173360,
-      "end": 173361
+      "end": 174123
     },
     {
       "name": "_begin_function_definition",
@@ -1182,7 +1203,7 @@
     {
       "name": "_attach_function_parameters@8",
       "start": 176688,
-      "end": 176689
+      "end": 176758
     },
     {
       "name": "_set_declaration_name@8",
@@ -1202,7 +1223,7 @@
     {
       "name": "_finish_parameter_scope",
       "start": 177968,
-      "end": 177969
+      "end": 178033
     },
     {
       "name": "_append_parameter@8",
@@ -1435,22 +1456,28 @@
       "end": 210945
     },
     {
-      "name": "_make_struct_tag@8",
+      "name": "_declare_symbol@8",
       "start": 211440,
-      "end": 211441
+      "end": 212187
     },
     {
       "name": "_finalize_symbol_type@8",
       "start": 213088,
-      "end": 213089
+      "end": 214540,
+      "shared": [
+        [
+          214540,
+          214600
+        ]
+      ]
     },
     {
-      "name": "_check_parameter@4",
+      "name": "_insert_current_scope_symbol@4",
       "start": 218528,
-      "end": 218529
+      "end": 218547
     },
     {
-      "name": "_declare_temporary@16",
+      "name": "_declare_named_entity@16",
       "start": 219808,
       "end": 219809
     },
@@ -1507,7 +1534,7 @@
     {
       "name": "_attach_type_shape@8",
       "start": 263520,
-      "end": 263521
+      "end": 263601
     },
     {
       "name": "_make_cast_expression@8",
@@ -1567,7 +1594,7 @@
     {
       "name": "_merge_type_attributes@8",
       "start": 261008,
-      "end": 261009
+      "end": 261237
     },
     {
       "name": "_replace_outer_type_shape@16",
@@ -1602,7 +1629,162 @@
     {
       "name": "_make_function_declaration@8",
       "start": 176480,
-      "end": 176481
+      "end": 176608
+    },
+    {
+      "name": "_classify_parameter_declarations@4",
+      "start": 176768,
+      "end": 177171
+    },
+    {
+      "name": "_report_type_syntax_error@8",
+      "start": 246144,
+      "end": 246145
+    },
+    {
+      "name": "_deactivate_symbol_scope",
+      "start": 222352,
+      "end": 222390
+    },
+    {
+      "name": "_pop_symbol_scope",
+      "start": 222256,
+      "end": 222269
+    },
+    {
+      "name": "_abort_function_definition",
+      "start": 173280,
+      "end": 173281
+    },
+    {
+      "name": "_replace_function_parameters@8",
+      "start": 263392,
+      "end": 263393
+    },
+    {
+      "name": "_initialize_function_definition@4",
+      "start": 174208,
+      "end": 174209
+    },
+    {
+      "name": "_browser_begin_function_scope",
+      "start": 161056,
+      "end": 161057
+    },
+    {
+      "name": "_browser_function_parameters@4",
+      "start": 161328,
+      "end": 161329
+    },
+    {
+      "name": "_function_result_type@4",
+      "start": 174128,
+      "end": 174129
+    },
+    {
+      "name": "_report_symbol_error@8",
+      "start": 210720,
+      "end": 210721
+    },
+    {
+      "name": "_is_record_type@4",
+      "start": 185312,
+      "end": 185313
+    },
+    {
+      "name": "_merge_global_declaration@4",
+      "start": 214672,
+      "end": 214691
+    },
+    {
+      "name": "_merge_local_declaration@4",
+      "start": 214992,
+      "end": 214993
+    },
+    {
+      "name": "_record_local_declaration@4",
+      "start": 215344,
+      "end": 215345
+    },
+    {
+      "name": "_merge_declarator_type@12",
+      "start": 202016,
+      "end": 203476
+    },
+    {
+      "name": "_report_declaration_context_error",
+      "start": 185168,
+      "end": 185169
+    },
+    {
+      "name": "_normalize_symbol_storage@8",
+      "start": 212768,
+      "end": 212769
+    },
+    {
+      "name": "_prepare_declarator_shapes@28",
+      "start": 204944,
+      "end": 205734
+    },
+    {
+      "name": "_check_declarator_prefix@8",
+      "start": 203664,
+      "end": 203665
+    },
+    {
+      "name": "_merge_function_shape@28",
+      "start": 204400,
+      "end": 204937
+    },
+    {
+      "name": "_finish_array_declarator@20",
+      "start": 204112,
+      "end": 204113
+    },
+    {
+      "name": "_extract_declarator_prefix@16",
+      "start": 203776,
+      "end": 203890
+    },
+    {
+      "name": "_extract_base_prefix@20",
+      "start": 203904,
+      "end": 203905
+    },
+    {
+      "name": "_copy_shape_prefix@16",
+      "start": 203488,
+      "end": 203489
+    },
+    {
+      "name": "_merge_scoped_declaration@8",
+      "start": 214704,
+      "end": 214758
+    },
+    {
+      "name": "_find_scope_declaration@12",
+      "start": 214608,
+      "end": 214668
+    },
+    {
+      "name": "_reconcile_declarations@8",
+      "start": 214768,
+      "end": 214980
+    },
+    {
+      "name": "_lookup_symbol_chain@8",
+      "start": 219152,
+      "end": 219199
+    },
+    {
+      "name": "_declaration_conflict@8",
+      "start": 216288,
+      "end": 216289
+    },
+    {
+      "name": "_commit_redeclaration@8",
+      "start": 215680,
+      "end": 215681
     }
   ],
   "cases": {

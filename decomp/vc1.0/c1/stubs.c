@@ -103,7 +103,7 @@ ParameterInfo *void_parameter_info(void) { __asm { int 3 } return 0; }
 unsigned __stdcall hash_parameters(ParameterInfo *parameters) { __asm { int 3 } return 0; }
 
 void browser_index_overflow(void) { __asm { int 3 } }
-void __stdcall browser_builtin(FrontendSymbol *symbol) { __asm { int 3 } }
+void __stdcall browser_symbol_definition(FrontendSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall create_scope_buckets(SymbolScope *scope, FrontendSymbol *symbol) { __asm { int 3 } }
 
@@ -249,7 +249,6 @@ void __stdcall add_struct_member(DeclarationSpec *declaration, FrontendSymbol *m
 IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, void *arguments) { __asm { int 3 } return 0; }
 
 /* Original 0x2a530. */
-void __stdcall merge_declaration_symbol(DeclarationSpec *declaration, FrontendSymbol *symbol) { __asm { int 3 } }
 
 /* Original 0x2a9e0. */
 void begin_function_definition(void) { __asm { int 3 } }
@@ -260,7 +259,6 @@ void finish_function_definition(void) { __asm { int 3 } }
 /* Original 0x2b1e0. */
 
 /* Original 0x2b230. */
-FrontendSymbol *__stdcall attach_function_parameters(FrontendSymbol *declarator, FrontendSymbol *parameters) { __asm { int 3 } return 0; }
 
 /* Original 0x2b530. */
 void __stdcall set_declaration_name(DeclarationSpec *declaration, char *name) { __asm { int 3 } }
@@ -271,7 +269,6 @@ FrontendSymbol *__stdcall make_parameter(char *name) { __asm { int 3 } return 0;
 /* Original 0x2b6a0. */
 
 /* Original 0x2b730. */
-FrontendSymbol *finish_parameter_scope(void) { __asm { int 3 } return 0; }
 
 /* Original 0x2b780. */
 FrontendSymbol *__stdcall append_parameter(FrontendSymbol *list, FrontendSymbol *parameter) { __asm { int 3 } return 0; }
@@ -411,16 +408,13 @@ void finish_finally_statement(void) { __asm { int 3 } }
 FrontendSymbol *__stdcall apply_declarator_type(DeclarationSpec *declaration, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 /* Original 0x339f0. */
-FrontendSymbol *__stdcall make_struct_tag(DeclarationSpec *declaration, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 /* Original 0x34060. */
-void __stdcall finalize_symbol_type(CType *type, FrontendSymbol *symbol) { __asm { int 3 } }
 
 /* Original 0x355a0. */
-void __stdcall check_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 
 /* Original 0x35aa0. */
-FrontendSymbol *__stdcall declare_temporary(char *name, CType *type, unsigned kind, int arena) { __asm { int 3 } return 0; }
+FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned kind, int arena) { __asm { int 3 } return 0; }
 
 /* Original 0x35e70. */
 void begin_compound_statement(void) { __asm { int 3 } }
@@ -453,7 +447,6 @@ IrToken *__stdcall make_member_expression(IrToken *operand, char *member) { __as
 TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 
 /* Original 0x40560. */
-void __stdcall attach_type_shape(FrontendSymbol *symbol, TypeShape *shape) { __asm { int 3 } }
 
 /* Original 0x41490. */
 IrToken *__stdcall make_cast_expression(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
@@ -477,7 +470,6 @@ void parse_declspec(unsigned char *storage) { __asm { int 3 } }
 TypeDescription *__stdcall copy_mutable_type(CType *type) { __asm { int 3 } return 0; }
 
 
-unsigned short __stdcall merge_type_attributes(unsigned short existing, unsigned short added) { __asm { int 3 } return 0; }
 
 CType *__stdcall replace_outer_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
 
@@ -487,4 +479,35 @@ FrontendSymbol *__stdcall find_identifier_symbol(char *name) { __asm { int 3 } r
 void __stdcall browser_symbol_reference(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
-FrontendSymbol *__stdcall make_function_declaration(FrontendSymbol *symbol, FrontendSymbol *parameters) { __asm { int 3 } return 0; }
+
+
+void __stdcall report_type_syntax_error(unsigned code, CType *type) { __asm { int 3 } }
+
+
+void abort_function_definition(void) { __asm { int 3 } }
+void __stdcall replace_function_parameters(FrontendSymbol *symbol, ParameterInfo *parameters) { __asm { int 3 } }
+FrontendSymbol *__stdcall initialize_function_definition(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+void browser_begin_function_scope(void) { __asm { int 3 } }
+void __stdcall browser_function_parameters(FrontendSymbol *symbol) { __asm { int 3 } }
+
+CType *__stdcall function_result_type(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
+int __stdcall is_record_type(CType *type) { __asm { int 3 } return 0; }
+FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall record_local_declaration(FrontendSymbol *symbol) { __asm { int 3 } }
+
+void report_declaration_context_error(unsigned code, unsigned detail, char *name) { __asm { int 3 } }
+unsigned short __stdcall normalize_symbol_storage(unsigned short attributes, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
+void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
+void __stdcall finish_array_declarator(FrontendSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
+
+TypeShape *__stdcall extract_base_prefix(TypeShape *shape, TypeShape **prefix, FrontendSymbol *symbol, int is_typedef, unsigned short *attributes) { __asm { int 3 } return 0; }
+
+void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
+
+
+
+
+int __stdcall declaration_conflict(FrontendSymbol *existing, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall commit_redeclaration(FrontendSymbol *existing, FrontendSymbol *symbol) { __asm { int 3 } }
