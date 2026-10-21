@@ -1,0 +1,108 @@
+CObject
+	CCmdTarget
+		CWinApp
+		CDocTemplate
+			CMultiDocTemplate
+			CSingleDocTemplate
+		CDocument
+			COleDocument
+				COleClientDoc
+				COleServerDoc
+		CWnd
+			CFrameWnd
+				CMDIChildWnd
+				CMDIFrameWnd
+			CControlBar
+				CToolBar
+				CStatusBar
+				CDialogBar
+			CView
+				CScrollView
+					CFormView
+					CPreviewView
+				CEditView
+			CDialog
+				CFileDialog
+				CColorDialog
+				CFontDialog
+				CPrintDialog
+				CFindReplaceDialog
+			CStatic
+			CButton
+				CBitmapButton
+			CListBox
+			CComboBox
+			CScrollBar
+			CEdit
+				CHEdit
+					CBEdit
+			CSplitterWnd
+
+	CArray<TYPE>
+		CByteArray
+		CWordArray
+		CUIntArray
+		CDWordArray
+		CPtrArray
+		CObArray
+		CStringArray
+	CList<TYPE>
+		CPtrList
+		CObList
+		CStringList
+	CMap<KEY,VALUE>
+		CMapPtrToPtr
+		CMapPtrToWord
+		CMapStringToOb
+		CMapStringToPtr
+		CMapStringToString
+		CMapWordToOb
+		CMapWordToPtr
+
+	CException
+		CMemoryException
+		CFileException
+		CArchiveException
+		CNotSupportedException
+		CResourceException
+		CUserException
+		COleException
+	CFile
+		CStdioFile
+		CMemFile
+			CSharedFile
+	CDC
+		CClientDC
+		CWindowDC
+		CPaintDC
+		CMetaFileDC
+		CPreviewDC
+	CGdiObject
+		CPen
+		CBrush
+		CFont
+		CBitmap
+		CPalette
+		CRgn
+	CDocItem
+		COleClientItem
+		COleServerItem
+	COleServer
+		COleTemplateServer
+	CMenu
+CArchive
+CDumpContext
+CRuntimeClass
+CCmdUI
+CDataExchange
+CString
+CTime
+CTimeSpan
+CPoint
+CSize
+CRect
+CFileStatus
+CMemoryState
+CPrintInfo
+CCreateContext
+CPrintPreviewState

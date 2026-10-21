@@ -1,0 +1,15 @@
+[Description]
+Name=Process Tree
+
+[System]
+Processes=Process
+
+[Process]
+Tasks=Thread
+
+[Thread]
+Top Level Windows=Window
+
+[Window]
+Child Windows=Window
+

@@ -1,0 +1,12 @@
+[Description]
+Name=Thread Tree
+
+[System]
+Tasks=Thread
+
+[Thread]
+Top Level Windows=Window
+
+[Window]
+Child Windows=Window
+

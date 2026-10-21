@@ -1,0 +1,9 @@
+[Description]
+Name=Window Tree
+
+[System]
+Top Level Windows=Window
+
+[Window]
+Child Windows=Window
+
