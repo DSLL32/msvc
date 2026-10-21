@@ -1,0 +1,771 @@
+{
+  "status": "incomplete",
+  "case": "resources-rich",
+  "accepted_frontiers": 57,
+  "replayed_frontiers": 58,
+  "current_frontier": "_detect_encoding@4",
+  "exact_final_product_verified": false,
+  "source_functions_audited": 24,
+  "checks": [
+    "all accepted paired frontiers replayed from masked entry",
+    "direct call vertices, callback references and RET cleanup agree for accepted source functions"
+  ],
+  "target": {
+    "path": "toolchains/1.0-nt/bin/RC.EXE",
+    "sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+    "image_base": 16777216,
+    "entry": 16849232
+  },
+  "reconstruction_sha256": "e8ce0d43eff88e34e8f19ce6bce261e1a8b664713e6c6a2358e03c1a30d9aa3c",
+  "fixture_manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
+  "frontier_log_sha256": "fc1dee1f1edfe8fb8627fd3d5060eb2d9a131e5ada75bd4f87d6b001a2b624d6",
+  "graph_audit": {
+    "_mainCRTStartup": {
+      "original_calls": {
+        "0x1011b00": [
+          "import:GetEnvironmentStrings"
+        ],
+        "0x100f2c0": [
+          "__heap_init"
+        ],
+        "0x1011d40": [
+          "__setargv"
+        ],
+        "0x1011f80": [
+          "__setenvp"
+        ],
+        "0x100e1e0": [
+          "_exit"
+        ],
+        "0x100e200": [
+          "__exit"
+        ],
+        "0x1011bc0": [
+          "__XcptFilter"
+        ],
+        "0x1011af0": [
+          "import:GetCommandLineA"
+        ],
+        "0x100ebf0": [
+          "__ioinit"
+        ],
+        "0x1011b10": [
+          "import:GetVersion"
+        ],
+        "0x100e1b0": [
+          "__cinit"
+        ],
+        "0x1007210": [
+          "_resource_main"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x17760": [
+          "import:GetVersion"
+        ],
+        "0x14c40": [
+          "__ioinit"
+        ],
+        "0x14720": [
+          "__cinit"
+        ],
+        "0x17766": [
+          "import:GetEnvironmentStrings"
+        ],
+        "0x11188": [
+          "__heap_init"
+        ],
+        "0x1776c": [
+          "import:GetCommandLineA"
+        ],
+        "0x14b70": [
+          "__setenvp"
+        ],
+        "0x14750": [
+          "_exit"
+        ],
+        "0x14770": [
+          "__exit"
+        ],
+        "0x14a10": [
+          "__XcptFilter"
+        ],
+        "0x11354": [
+          "__setargv"
+        ],
+        "0x116d8": [
+          "_resource_main"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__heap_init": {
+      "original_calls": {
+        "0x100f2e0": [
+          "import:GetProcessHeap"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x17772": [
+          "import:GetProcessHeap"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_resource_main": {
+      "original_calls": {
+        "0x100f400": [
+          "_switch_character@4"
+        ],
+        "0x1007000": [
+          "_resource_alloc@4"
+        ],
+        "0x1008300": [
+          "_initialize_lexer@4"
+        ],
+        "0x1007100": [
+          "_seek_file@12"
+        ],
+        "0x100ef90": [
+          "__splitpath"
+        ],
+        "0x100db90": [
+          "import:SetConsoleCtrlHandler"
+        ],
+        "0x1010390": [
+          "_fopen"
+        ],
+        "0x1007e90": [
+          "_prepare_input@4"
+        ],
+        "0x1012710": [
+          "_sscanf"
+        ],
+        "0x100dfa0": [
+          "__makepath"
+        ],
+        "0x100ed20": [
+          "__spawnvp"
+        ],
+        "0x1012540": [
+          "__getenv_lk",
+          "_getenv"
+        ],
+        "0x100f148": [
+          "__strupr"
+        ],
+        "0x100e3d0": [
+          "__spawnv",
+          "__spawnvp"
+        ],
+        "0x1010c50": [
+          "_fprintf",
+          "_fwprintf"
+        ],
+        "0x1013a50": [
+          "_rc_toupper"
+        ],
+        "0x1007dd0": [
+          "_resource_finish"
+        ],
+        "0x100e050": [
+          "__mktemp"
+        ],
+        "0x10070d0": [
+          "_write_file@12"
+        ],
+        "0x1007cd0": [
+          "_interrupt_resource@4"
+        ],
+        "0x100f760": [
+          "_fflush"
+        ],
+        "0x1009e70": [
+          "_compile_resources"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x14d80": [
+          "_fflush"
+        ],
+        "0x17784": [
+          "import:SetConsoleCtrlHandler"
+        ],
+        "0x14484": [
+          "_write_file@12"
+        ],
+        "0x11304": [
+          "_interrupt_resource@4"
+        ],
+        "0x11287": [
+          "_resource_alloc@4"
+        ],
+        "0x11319": [
+          "_resource_finish"
+        ],
+        "0x14f20": [
+          "__spawnvp"
+        ],
+        "0x11325": [
+          "_initialize_lexer@4"
+        ],
+        "0x1252c": [
+          "__splitpath"
+        ],
+        "0x150b0": [
+          "__strupr"
+        ],
+        "0x11333": [
+          "_compile_resources"
+        ],
+        "0x1133f": [
+          "_seek_file@12"
+        ],
+        "0x14f40": [
+          "__spawnv"
+        ],
+        "0x1274a": [
+          "__makepath"
+        ],
+        "0x112cc": [
+          "_switch_character@4"
+        ],
+        "0x14ee0": [
+          "_fprintf",
+          "_fwprintf"
+        ],
+        "0x14fe0": [
+          "__mktemp"
+        ],
+        "0x14d60": [
+          "_fopen"
+        ],
+        "0x14f60": [
+          "__getenv_lk",
+          "_getenv"
+        ],
+        "0x12ee4": [
+          "_prepare_input@4"
+        ],
+        "0x12360": [
+          "_rc_toupper"
+        ],
+        "0x150e0": [
+          "_sscanf"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_malloc": {
+      "original_calls": {
+        "0x100f2b0": [
+          "import:HeapAlloc"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x17778": [
+          "import:HeapAlloc"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": true
+    },
+    "__setargv": {
+      "original_calls": {
+        "0x1011f70": [
+          "import:GetModuleFileNameA"
+        ],
+        "0x1011df0": [
+          "_parse_cmdline"
+        ],
+        "0x100f2f0": [
+          "_malloc"
+        ],
+        "0x1011ab0": [
+          "__amsg_exit"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x11412": [
+          "_parse_cmdline"
+        ],
+        "0x1117c": [
+          "__amsg_exit"
+        ],
+        "0x1119d": [
+          "_malloc"
+        ],
+        "0x1777e": [
+          "import:GetModuleFileNameA"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_parse_cmdline": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_switch_character@4": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        4
+      ],
+      "indirect_calls": false
+    },
+    "_rc_toupper": {
+      "original_calls": {
+        "0x100deb0": [
+          "__isctype"
+        ],
+        "0x1013a30": [
+          "import:WideCharToMultiByte"
+        ],
+        "0x1013a20": [
+          "import:LCMapStringW"
+        ],
+        "0x100df90": [
+          "import:MultiByteToWideChar"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x15130": [
+          "__isctype"
+        ],
+        "0x1778a": [
+          "import:WideCharToMultiByte"
+        ],
+        "0x17790": [
+          "import:LCMapStringW"
+        ],
+        "0x17796": [
+          "import:MultiByteToWideChar"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__splitpath": {
+      "original_calls": {
+        "0x1013818": [
+          "_strncpy"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x151f0": [
+          "_strncpy"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__makepath": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_resource_alloc@4": {
+      "original_calls": {
+        "0x100f250": [
+          "_calloc"
+        ],
+        "0x1007dd0": [
+          "_resource_finish"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x11319": [
+          "_resource_finish"
+        ],
+        "0x11213": [
+          "_calloc"
+        ]
+      },
+      "stack_cleanup": [
+        4
+      ],
+      "indirect_calls": false
+    },
+    "_prepare_input@4": {
+      "original_calls": {
+        "0x1012690": [
+          "_sprintf"
+        ],
+        "0x1008170": [
+          "_detect_encoding@4"
+        ],
+        "0x1010390": [
+          "_fopen"
+        ],
+        "0x10070d0": [
+          "_write_file@12"
+        ],
+        "0x10102b0": [
+          "_read_source_line@12"
+        ],
+        "0x100deb0": [
+          "__isctype"
+        ],
+        "0x100f370": [
+          "_prefix_matches@8"
+        ],
+        "0x1007d30": [
+          "_trim_token@4"
+        ],
+        "0x100db98": [
+          "__alloca_probe",
+          "__chkstk"
+        ],
+        "0x100f630": [
+          "_fclose"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x15400": [
+          "__alloca_probe",
+          "__chkstk"
+        ],
+        "0x14d60": [
+          "_fopen"
+        ],
+        "0x15320": [
+          "_fclose"
+        ],
+        "0x14484": [
+          "_write_file@12"
+        ],
+        "0x13205": [
+          "_trim_token@4"
+        ],
+        "0x131c6": [
+          "_detect_encoding@4"
+        ],
+        "0x15390": [
+          "_sprintf"
+        ],
+        "0x15130": [
+          "__isctype"
+        ],
+        "0x131f0": [
+          "_prefix_matches@8"
+        ],
+        "0x131db": [
+          "_read_source_line@12"
+        ]
+      },
+      "stack_cleanup": [
+        4
+      ],
+      "indirect_calls": false
+    },
+    "_write_file@12": {
+      "original_calls": {
+        "0x10123b0": [
+          "_fwrite"
+        ],
+        "0x1007dd0": [
+          "_resource_finish"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x11319": [
+          "_resource_finish"
+        ],
+        "0x144bc": [
+          "_fwrite"
+        ]
+      },
+      "stack_cleanup": [
+        12
+      ],
+      "indirect_calls": false
+    },
+    "_calloc": {
+      "original_calls": {
+        "0x100f2b0": [
+          "import:HeapAlloc"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x17778": [
+          "import:HeapAlloc"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": true
+    },
+    "__sopen": {
+      "original_calls": {
+        "0x100f960": [
+          "__alloc_osfhnd"
+        ],
+        "0x1010a20": [
+          "import:CreateFileA"
+        ],
+        "0x100e1a0": [
+          "import:GetLastError"
+        ],
+        "0x100f9a0": [
+          "__set_osfhnd"
+        ],
+        "0x100fe40": [
+          "__lseek"
+        ],
+        "0x1010060": [
+          "__read"
+        ],
+        "0x100e310": [
+          "__dosmaperr"
+        ],
+        "0x100ecf0": [
+          "import:GetFileType"
+        ],
+        "0x100ebb0": [
+          "import:CloseHandle"
+        ],
+        "0x100f6b0": [
+          "__close"
+        ],
+        "0x1010a30": [
+          "__chsize"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x152a0": [
+          "__dosmaperr"
+        ],
+        "0x15220": [
+          "__lseek"
+        ],
+        "0x177a2": [
+          "import:CloseHandle"
+        ],
+        "0x12ea0": [
+          "__read"
+        ],
+        "0x177a8": [
+          "import:GetFileType"
+        ],
+        "0x12e8a": [
+          "__close"
+        ],
+        "0x177ae": [
+          "import:CreateFileA"
+        ],
+        "0x12d3c": [
+          "__alloc_osfhnd"
+        ],
+        "0x12eb6": [
+          "__chsize"
+        ],
+        "0x1779c": [
+          "import:GetLastError"
+        ],
+        "0x12d9e": [
+          "__set_osfhnd"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__alloc_osfhnd": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__set_osfhnd": {
+      "original_calls": {
+        "0x100fb90": [
+          "import:SetStdHandle"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x177b4": [
+          "import:SetStdHandle"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__output": {
+      "original_calls": {
+        "0x10117c0": [
+          "_get_int_arg"
+        ],
+        "0x1013de0": [
+          "_wctomb"
+        ],
+        "0x1011740": [
+          "_write_multi_char"
+        ],
+        "0x1011780": [
+          "_write_string"
+        ],
+        "0x10117d0": [
+          "_get_short_arg"
+        ],
+        "0x10116f0": [
+          "_write_char"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x14420": [
+          "_get_int_arg"
+        ],
+        "0x143a5": [
+          "_write_multi_char"
+        ],
+        "0x14446": [
+          "_get_short_arg"
+        ],
+        "0x1446f": [
+          "_wctomb"
+        ],
+        "0x14332": [
+          "_write_char"
+        ],
+        "0x143dc": [
+          "_write_string"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": true
+    },
+    "_write_char": {
+      "original_calls": {
+        "0x10117f0": [
+          "__flsbuf"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x15430": [
+          "__flsbuf"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_write_multi_char": {
+      "original_calls": {
+        "0x10116f0": [
+          "_write_char"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x14332": [
+          "_write_char"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_write_string": {
+      "original_calls": {
+        "0x10116f0": [
+          "_write_char"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x14332": [
+          "_write_char"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_get_int_arg": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_fwrite": {
+      "original_calls": {
+        "0x100f7b0": [
+          "__flush"
+        ],
+        "0x10117f0": [
+          "__flsbuf"
+        ],
+        "0x100fbf0": [
+          "__write"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x14dd0": [
+          "__flush"
+        ],
+        "0x15430": [
+          "__flsbuf"
+        ],
+        "0x12ecc": [
+          "__write"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__getbuf": {
+      "original_calls": {
+        "0x100f2f0": [
+          "_malloc"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1119d": [
+          "_malloc"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    }
+  }
+}

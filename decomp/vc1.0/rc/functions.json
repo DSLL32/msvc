@@ -1,0 +1,323 @@
+{
+  "target": {
+    "path": "toolchains/1.0-nt/bin/RC.EXE",
+    "sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+    "image_base": 16777216,
+    "entry": 16849232
+  },
+  "driver": [
+    {
+      "name": "_mainCRTStartup",
+      "start": 16849232,
+      "end": 16849574
+    },
+    {
+      "name": "__heap_init",
+      "start": 16839360,
+      "end": 16839371
+    },
+    {
+      "name": "_resource_main",
+      "start": 16806416,
+      "end": 16809058,
+      "shared": [
+        [
+          16809060,
+          16809164
+        ]
+      ]
+    },
+    {
+      "name": "_malloc",
+      "start": 16839408,
+      "end": 16839472
+    },
+    {
+      "name": "__amsg_exit",
+      "start": 16849584,
+      "end": 16849617
+    },
+    {
+      "name": "__setargv",
+      "start": 16850240,
+      "end": 16850402
+    },
+    {
+      "name": "_parse_cmdline",
+      "start": 16850416,
+      "end": 16850780
+    },
+    {
+      "name": "_switch_character@4",
+      "start": 16839680,
+      "end": 16839705
+    },
+    {
+      "name": "_rc_toupper",
+      "start": 16857680,
+      "end": 16858052
+    },
+    {
+      "name": "__splitpath",
+      "start": 16838544,
+      "end": 16838882
+    },
+    {
+      "name": "__makepath",
+      "start": 16834464,
+      "end": 16834616
+    },
+    {
+      "name": "_resource_alloc@4",
+      "start": 16805888,
+      "end": 16805926
+    },
+    {
+      "name": "_interrupt_resource@4",
+      "start": 16809168,
+      "end": 16809169,
+      "pending_extent": true
+    },
+    {
+      "name": "_resource_finish",
+      "start": 16809424,
+      "end": 16809425,
+      "pending_extent": true
+    },
+    {
+      "name": "_prepare_input@4",
+      "start": 16809616,
+      "end": 16810175
+    },
+    {
+      "name": "_initialize_lexer@4",
+      "start": 16810752,
+      "end": 16810753,
+      "pending_extent": true
+    },
+    {
+      "name": "_compile_resources",
+      "start": 16817776,
+      "end": 16817777,
+      "pending_extent": true
+    },
+    {
+      "name": "_seek_file@12",
+      "start": 16806144,
+      "end": 16806145,
+      "pending_extent": true
+    },
+    {
+      "name": "_write_file@12",
+      "start": 16806096,
+      "end": 16806143
+    },
+    {
+      "name": "_free",
+      "start": 16839472,
+      "end": 16839491
+    },
+    {
+      "name": "_calloc",
+      "start": 16839248,
+      "end": 16839317
+    },
+    {
+      "name": "__sopen",
+      "start": 16844352,
+      "end": 16845328
+    },
+    {
+      "name": "__alloc_osfhnd",
+      "start": 16841056,
+      "end": 16841109
+    },
+    {
+      "name": "__set_osfhnd",
+      "start": 16841120,
+      "end": 16841260
+    },
+    {
+      "name": "__free_osfhnd",
+      "start": 16841264,
+      "end": 16841265,
+      "pending_extent": true
+    },
+    {
+      "name": "__get_osfhandle",
+      "start": 16841376,
+      "end": 16841377,
+      "pending_extent": true
+    },
+    {
+      "name": "__close",
+      "start": 16840368,
+      "end": 16840369,
+      "pending_extent": true
+    },
+    {
+      "name": "__read",
+      "start": 16842848,
+      "end": 16842849,
+      "pending_extent": true
+    },
+    {
+      "name": "__chsize",
+      "start": 16845360,
+      "end": 16845361,
+      "pending_extent": true
+    },
+    {
+      "name": "_detect_encoding@4",
+      "start": 16810352,
+      "end": 16810353,
+      "pending_extent": true
+    },
+    {
+      "name": "_read_source_line@12",
+      "start": 16843440,
+      "end": 16843441,
+      "pending_extent": true
+    },
+    {
+      "name": "_prefix_matches@8",
+      "start": 16839536,
+      "end": 16839537,
+      "pending_extent": true
+    },
+    {
+      "name": "_trim_token@4",
+      "start": 16809264,
+      "end": 16809265,
+      "pending_extent": true
+    },
+    {
+      "name": "__output",
+      "start": 16846288,
+      "end": 16848363,
+      "shared": [
+        [
+          16848364,
+          16848612
+        ]
+      ]
+    },
+    {
+      "name": "_write_char",
+      "start": 16848624,
+      "end": 16848695,
+      "pending_extent": false
+    },
+    {
+      "name": "_write_multi_char",
+      "start": 16848704,
+      "end": 16848754,
+      "pending_extent": false
+    },
+    {
+      "name": "_write_string",
+      "start": 16848768,
+      "end": 16848824,
+      "pending_extent": false
+    },
+    {
+      "name": "_get_int_arg",
+      "start": 16848832,
+      "end": 16848847,
+      "pending_extent": false
+    },
+    {
+      "name": "_get_short_arg",
+      "start": 16848848,
+      "end": 16848864,
+      "pending_extent": false
+    },
+    {
+      "name": "_wctomb",
+      "start": 16858592,
+      "end": 16858593,
+      "pending_extent": true
+    },
+    {
+      "name": "_fwrite",
+      "start": 16851888,
+      "end": 16852260
+    },
+    {
+      "name": "__write",
+      "start": 16841712,
+      "end": 16841713,
+      "pending_extent": true
+    },
+    {
+      "name": "__getbuf",
+      "start": 16842752,
+      "end": 16842831
+    }
+  ],
+  "accepted": [
+    "_mainCRTStartup",
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "__heap_init",
+    "import:GetProcessHeap",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "__setargv",
+    "import:GetModuleFileNameA",
+    "_parse_cmdline",
+    "_malloc",
+    "import:HeapAlloc",
+    "__setenvp",
+    "__cinit",
+    "__initterm",
+    "_resource_main",
+    "_switch_character@4",
+    "_rc_toupper",
+    "__strupr",
+    "__splitpath",
+    "_strncpy",
+    "__makepath",
+    "_resource_alloc@4",
+    "_calloc",
+    "__mktemp",
+    "__getpid",
+    "import:GetCurrentProcessId",
+    "__access",
+    "import:GetFileAttributesA",
+    "import:GetLastError",
+    "__dosmaperr",
+    "import:SetConsoleCtrlHandler",
+    "_fopen",
+    "__fsopen",
+    "__getstream",
+    "__openfile",
+    "__sopen",
+    "__alloc_osfhnd",
+    "import:CreateFileA",
+    "__set_osfhnd",
+    "_getenv",
+    "__strnicmp",
+    "_prepare_input@4",
+    "__chkstk",
+    "_sprintf",
+    "__output",
+    "_write_char",
+    "_get_int_arg",
+    "_write_multi_char",
+    "_write_string",
+    "_write_file@12",
+    "_fwrite",
+    "__flsbuf",
+    "__getbuf"
+  ],
+  "cases": {
+    "resources-rich": {
+      "arguments": "/dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc",
+      "accepted_start": 0
+    }
+  }
+}

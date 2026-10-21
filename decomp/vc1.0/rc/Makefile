@@ -1,0 +1,34 @@
+PYTHON ?= python3
+TOOL = $(PYTHON) wine-tool.py
+TC = ../../../toolchains/1.0-nt
+.PHONY: all prefix check replay audit clean
+all: build/rcpp.exe build/original.exe build/reconstructed.exe build/debug-run.exe
+prefix:
+	$(TOOL) --init
+build:
+	mkdir -p $@
+build/%.obj: %.c $(wildcard *.h) | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
+OBJECTS = build/startup.obj build/heap.obj build/stubs.obj build/arguments.obj build/driver.obj build/characters.obj build/paths.obj build/open.obj build/lowio.obj build/prepare.obj build/format.obj build/files.obj build/stdio.obj
+build/rc.exe: $(OBJECTS) Makefile
+	$(TOOL) LINK.EXE /nologo /entry:mainCRTStartup /subsystem:console /map:build/rc.map /out:$@ $(OBJECTS) $(TC)/lib/LIBC.LIB
+runtime.json: identify-runtime.py binary.py $(TC)/bin/RC.EXE $(TC)/lib/LIBC.LIB
+	$(PYTHON) identify-runtime.py
+build/runtime.json: build/rc.exe identify-runtime.py binary.py
+	$(PYTHON) identify-runtime.py build/rc.exe $@
+build/original.exe build/reconstructed.exe &: build/rc.exe build/runtime.json runtime.json functions.json compare.py binary.py
+	$(PYTHON) compare.py --mask-only
+build/debug-run.exe: build/debug-run.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+check: all audit
+	$(PYTHON) compare.py
+replay: all audit
+	$(PYTHON) compare.py --replay
+clean:
+	rm -rf build
+
+build/rcpp.exe: $(TC)/bin/RCPP.EXE | build
+	ln -sf $(abspath $<) $@
+
+audit: build/runtime.json runtime.json
+	$(PYTHON) audit-graph.py
