@@ -1,11 +1,11 @@
 {
   "case": "../fixtures/minimal-c/manifest.json phases.c1",
   "status": "incomplete",
-  "accepted_frontiers": 150,
-  "reconstructed_source_functions": 81,
-  "current_matching_trap": "_scan_token",
-  "original_va": "0x199a0",
-  "replay": "All 150 accepted frontiers replayed in order; final matching token-scanner trap verified.",
+  "accepted_frontiers": 155,
+  "reconstructed_source_functions": 86,
+  "current_matching_trap": "_parse_translation_unit",
+  "original_va": "0x23192",
+  "replay": "All 155 accepted frontiers replayed in order; final matching LR-parser trap verified.",
   "artifact_verification": "Pending completion; fixture outputs not embedded in reconstruction.",
   "frontier_artifacts": "Visible file sets and raw contents match at every checked frontier, including the initial global IR header."
 }

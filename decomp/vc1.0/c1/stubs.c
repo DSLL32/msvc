@@ -6,6 +6,7 @@
 #include "macros.h"
 #include "global-ir.h"
 #include "source-input.h"
+#include "lexer.h"
 
 /* Original 0x43ea0. */
 void compiler_signal(int signal_number) { __asm { int 3 } }
@@ -46,10 +47,8 @@ void load_precompiled_header(void) { __asm { int 3 } }
 int __stdcall open_forced_include(char *filename, int flags) { __asm { int 3 } return 0; }
 
 /* Original 0x199a0. */
-unsigned char scan_token(void) { __asm { int 3 } return 0; }
 
 /* Original 0x18bd0. */
-void __stdcall unget_token(unsigned char token) { __asm { int 3 } }
 
 /* Original 0x23192. */
 void parse_translation_unit(void) { __asm { int 3 } }
@@ -141,3 +140,48 @@ void release_input_handle(void) { __asm { int 3 } }
 char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
+
+
+int skip_source_comment(void) { __asm { int 3 } return 0; }
+
+unsigned recover_special_character(void) { __asm { int 3 } return 0; }
+
+unsigned recover_trigraph(void) { __asm { int 3 } return 0; }
+
+int consume_line_escape(void) { __asm { int 3 } return 0; }
+
+unsigned char next_source_character(void) { __asm { int 3 } return 0; }
+
+
+void skip_source_line(void) { __asm { int 3 } }
+
+void __stdcall copy_quoted_literal(int delimiter) { __asm { int 3 } }
+
+unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
+
+void __stdcall scan_string_literal(int wide, int delimiter) { __asm { int 3 } }
+
+
+int scan_macro_identifier(void) { __asm { int 3 } return 0; }
+
+int __stdcall expand_macro(MacroDefinition *definition) { __asm { int 3 } return 0; }
+
+unsigned char close_source_file(void) { __asm { int 3 } return 0; }
+
+void finish_pch_output(void) { __asm { int 3 } }
+
+int __stdcall match_source_character(int character) { __asm { int 3 } return 0; }
+
+unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
+
+unsigned char __stdcall scan_number(int first_character) { __asm { int 3 } return 0; }
+
+unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
+
+unsigned char __stdcall scan_assembler_number(int first_character) { __asm { int 3 } return 0; }
+
+void report_ide_line(void) { __asm { int 3 } }
+void finish_pch_capture(void) { __asm { int 3 } }
+void preprocess_directive(void) { __asm { int 3 } }
+
+void scan_continued_identifier(char *start, unsigned hash) { __asm { int 3 } }

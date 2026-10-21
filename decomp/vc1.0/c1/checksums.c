@@ -15,7 +15,7 @@ void initialize_checksums(void)
         checksum_low[input] = checksum_high[input] = 0;
         for (bit = 0; bit < 8; ++bit) {
             low = high = 0;
-            for (tap = 0; ; ++tap) {
+            for (tap = 0; tap < sizeof(feedback_taps) / sizeof(feedback_taps[0]); ++tap) {
                 shift = feedback_taps[tap] + bit;
                 if (shift < 8)
                     low ^= (unsigned char)(input >> shift);

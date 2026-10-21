@@ -154,7 +154,12 @@
     "_fill_source_buffer",
     "__read",
     "import:ReadFile",
-    "_pack_option_flags"
+    "_pack_option_flags",
+    "_scan_token",
+    "_scan_source_token",
+    "_begin_source_line",
+    "_scan_source_identifier",
+    "_unget_token@4"
   ],
   "driver": [
     {
@@ -381,12 +386,12 @@
     {
       "name": "_scan_token",
       "start": 104864,
-      "end": 104865
+      "end": 105022
     },
     {
       "name": "_unget_token@4",
       "start": 101328,
-      "end": 101329
+      "end": 101430
     },
     {
       "name": "_parse_translation_unit",
@@ -894,6 +899,143 @@
       "name": "_read_work_stack@12",
       "start": 171520,
       "end": 171521
+    },
+    {
+      "name": "_scan_source_token",
+      "start": 105024,
+      "end": 108728,
+      "shared": [
+        [
+          108728,
+          108912
+        ]
+      ]
+    },
+    {
+      "name": "_skip_source_comment",
+      "start": 141600,
+      "end": 141601
+    },
+    {
+      "name": "_recover_special_character",
+      "start": 123664,
+      "end": 123665
+    },
+    {
+      "name": "_recover_trigraph",
+      "start": 123248,
+      "end": 123249
+    },
+    {
+      "name": "_consume_line_escape",
+      "start": 141872,
+      "end": 141873
+    },
+    {
+      "name": "_next_source_character",
+      "start": 142080,
+      "end": 142081
+    },
+    {
+      "name": "_begin_source_line",
+      "start": 138160,
+      "end": 138520,
+      "shared": [
+        [
+          138520,
+          138568
+        ]
+      ]
+    },
+    {
+      "name": "_skip_source_line",
+      "start": 135824,
+      "end": 135825
+    },
+    {
+      "name": "_copy_quoted_literal@4",
+      "start": 136336,
+      "end": 136337
+    },
+    {
+      "name": "_scan_character_literal@4",
+      "start": 136832,
+      "end": 136833
+    },
+    {
+      "name": "_scan_string_literal@8",
+      "start": 137520,
+      "end": 137521
+    },
+    {
+      "name": "_scan_source_identifier",
+      "start": 110032,
+      "end": 110422
+    },
+    {
+      "name": "_scan_macro_identifier",
+      "start": 110928,
+      "end": 110929
+    },
+    {
+      "name": "_expand_macro@4",
+      "start": 118848,
+      "end": 118849
+    },
+    {
+      "name": "_close_source_file",
+      "start": 113072,
+      "end": 113073
+    },
+    {
+      "name": "_finish_pch_output",
+      "start": 289392,
+      "end": 289393
+    },
+    {
+      "name": "_match_source_character@4",
+      "start": 140864,
+      "end": 140865
+    },
+    {
+      "name": "_read_number_text@4",
+      "start": 138576,
+      "end": 138577
+    },
+    {
+      "name": "_scan_number@4",
+      "start": 138672,
+      "end": 138673
+    },
+    {
+      "name": "_scan_float_tail@4",
+      "start": 139168,
+      "end": 139169
+    },
+    {
+      "name": "_scan_assembler_number@4",
+      "start": 318107,
+      "end": 318108
+    },
+    {
+      "name": "_report_ide_line",
+      "start": 115424,
+      "end": 115471
+    },
+    {
+      "name": "_finish_pch_capture",
+      "start": 284672,
+      "end": 284673
+    },
+    {
+      "name": "_preprocess_directive",
+      "start": 132528,
+      "end": 132529
+    },
+    {
+      "name": "_scan_continued_identifier",
+      "start": 110432,
+      "end": 110922
     }
   ],
   "cases": {

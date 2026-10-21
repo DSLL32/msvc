@@ -18,4 +18,5 @@ typedef struct PreprocessorKeyword {
 extern PreprocessorSymbol **preprocessor_buckets;
 extern unsigned char *macro_text_begin, *macro_text_next;
 void initialize_macro_text(void);
+void scan_continued_identifier(char *start, unsigned hash);
 #endif

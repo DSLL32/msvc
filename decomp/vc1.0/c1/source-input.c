@@ -153,7 +153,6 @@ char *normalize_input_name(char *filename)
     return result;
 }
 
-unsigned scanner_flags; /* original 0x6bb44 */
 int final_newline_emitted; /* original 0x6b140 */
 
 /* Original 0x1be70..0x1bf6b. */

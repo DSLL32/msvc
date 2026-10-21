@@ -2,13 +2,14 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-The captured minimal-C case currently reaches matching traps at scan_token,
-original VA 0x199a0. There are 81 reconstructed source functions and 150
-accepted trap frontiers. Startup, options, frontend initialization, builtin
-types, intrinsic registration, predefined/command-line macros, global IR
-serialization, and initial source-file input have been reconstructed.
-Token scanning, parsing test.c, and completing the four intermediate files
-remain unfinished. This is a checkpoint, not a completed compiler case.
+The captured minimal-C case currently reaches matching traps at
+parse_translation_unit, original VA 0x23192. There are 86 reconstructed
+source functions and 155 accepted trap frontiers, all replayed in order.
+Startup, options, frontend initialization, builtin types and intrinsics,
+predefined/command-line macros, global IR serialization, source-file input,
+primitive lexical dispatch, identifier interning, and token pushback have
+been reconstructed. Parsing test.c and completing the four intermediate
+files remain unfinished. This is a checkpoint, not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -59,6 +60,8 @@ diagnostics.c: typed diagnostic vocabulary lookup table.
 frontend.c / initialization.c: translation-unit driver, startup state,
   intermediate stream creation, and builtin type initialization.
 preprocessor.c / keywords.c: identifier/keyword interning and vocabulary.
+lexer.c / token-data.c / tokens.h: token pushback, lexical source dispatch,
+  line beginnings, and named token categories.
 types.c / parameters.c: type and shape interning, function types,
   descriptor stack, and parameter-list construction.
 scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,

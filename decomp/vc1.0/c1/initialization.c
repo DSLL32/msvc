@@ -4,6 +4,7 @@
 #include "initialization.h"
 
 WorkingStack *compiler_stack;
+int pch_mode; /* original 0x5b564: inactive, recording, replaying */
 int pch_separate_debug, pch_read_enabled, pch_write_enabled;
 int data_pointer_bytes, code_pointer_bytes;
 int data_pointer_alignment, code_pointer_alignment;
