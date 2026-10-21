@@ -1,0 +1,5 @@
+# Captured phase files are byte-exact oracles; preserve CRLF and avoid huge diffs.
+/rcpp/RC* -text -diff
+/rcpp/RD* -text -diff
+*.bin binary
+*.res binary
