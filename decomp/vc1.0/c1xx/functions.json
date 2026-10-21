@@ -1,0 +1,195 @@
+{
+  "target": {
+    "sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+    "base": 65536,
+    "entry": 525536
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "__heap_init",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "__setargv",
+    "import:GetModuleFileNameA",
+    "_parse_cmdline",
+    "_malloc",
+    "__heap_search",
+    "__heap_grow",
+    "__heap_new_region",
+    "import:VirtualAlloc",
+    "__heap_grow_region",
+    "__heap_addblock",
+    "__heap_findaddr",
+    "__heap_grow_emptylist",
+    "__before",
+    "__heap_split_block",
+    "__setenvp",
+    "__cinit",
+    "__initterm",
+    "_main",
+    "_signal",
+    "import:SetConsoleCtrlHandler",
+    "_message_text",
+    "_parse_options",
+    "_push_scope@4",
+    "_initialize_packing",
+    "_new_packing_stack",
+    "_allocate_permanent@4",
+    "_new_permanent_page",
+    "_new_bitset@4",
+    "_push_packing",
+    "_initialize_checksums",
+    "_initialize_lead_bytes",
+    "import:GetConsoleCP",
+    "import:GetCPInfo",
+    "_mark_lead_byte_ranges",
+    "_getenv",
+    "__strnicmp",
+    "_read_env_arguments",
+    "_extend_argument_vector",
+    "_checked_malloc@4"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 431664,
+      "end": 431784
+    },
+    {
+      "name": "_message_text",
+      "start": 477952,
+      "end": 477986
+    },
+    {
+      "name": "_parse_options",
+      "start": 249760,
+      "end": 250390
+    },
+    {
+      "name": "_guarded_compile",
+      "start": 431792,
+      "end": 431918
+    },
+    {
+      "name": "_compile_translation_unit",
+      "start": 431920,
+      "end": 431921
+    },
+    {
+      "name": "_interrupt_compile",
+      "start": 433280,
+      "end": 433299
+    },
+    {
+      "name": "_push_scope@4",
+      "start": 249136,
+      "end": 249186
+    },
+    {
+      "name": "_initialize_packing",
+      "start": 136528,
+      "end": 136593
+    },
+    {
+      "name": "_initialize_checksums",
+      "start": 476912,
+      "end": 477130
+    },
+    {
+      "name": "_initialize_lead_bytes",
+      "start": 249680,
+      "end": 249728
+    },
+    {
+      "name": "_read_env_arguments",
+      "start": 474208,
+      "end": 474410
+    },
+    {
+      "name": "_new_vector@8",
+      "start": 321552,
+      "end": 321553
+    },
+    {
+      "name": "_match_option",
+      "start": 473152,
+      "end": 473153
+    },
+    {
+      "name": "_next_argument",
+      "start": 249536,
+      "end": 249571
+    },
+    {
+      "name": "_initialize_japanese_characters",
+      "start": 249728,
+      "end": 249755
+    },
+    {
+      "name": "_finalize_options",
+      "start": 250400,
+      "end": 250640
+    },
+    {
+      "name": "_fatal_error",
+      "start": 471680,
+      "end": 471681
+    },
+    {
+      "name": "_new_packing_stack",
+      "start": 136496,
+      "end": 136517
+    },
+    {
+      "name": "_push_packing",
+      "start": 136432,
+      "end": 136490
+    },
+    {
+      "name": "_allocate_permanent@4",
+      "start": 437584,
+      "end": 437658
+    },
+    {
+      "name": "_new_permanent_page",
+      "start": 437424,
+      "end": 437546
+    },
+    {
+      "name": "_new_bitset@4",
+      "start": 321280,
+      "end": 321360
+    },
+    {
+      "name": "_clear_packing",
+      "start": 137344,
+      "end": 137369
+    },
+    {
+      "name": "_mark_lead_byte_ranges",
+      "start": 249584,
+      "end": 249673
+    },
+    {
+      "name": "_extend_argument_vector",
+      "start": 474112,
+      "end": 474201
+    },
+    {
+      "name": "_checked_malloc@4",
+      "start": 470304,
+      "end": 470340
+    }
+  ],
+  "cases": {
+    "cpp_basic": {
+      "arguments": "",
+      "accepted_from": 0
+    }
+  }
+}

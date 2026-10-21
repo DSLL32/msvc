@@ -1,0 +1,12 @@
+{
+  "status": "partial",
+  "accepted_frontiers": 48,
+  "native_functions": 16,
+  "current_frontier": "_new_vector@8",
+  "original_frontier_va": "0x4e810",
+  "all_accepted_frontiers_replayed": true,
+  "replay_log_sha256": "6298f915e3873c503273bcc477f9c7024efc6e5979447119dedba012faf4e68e",
+  "call_graph_audit_functions": 16,
+  "fixture_validation": "../fixtures/cpp-basic/validation.json",
+  "complete_case_equivalence": false
+}
