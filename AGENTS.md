@@ -1,5 +1,7 @@
 # AGENTS.md
 
+Use ~/.ai-tmp for scratch space, creating folders under here as required. Create your own wine prefix in this scratch space.
+
 ## Folder layout
 
  - toolchains/
@@ -21,5 +23,6 @@ Then, for some case:
  - On no trap: 
    * if case successful - producing identical output to the original - move on to another and repeat this process. Else, debug, fix, and rerun.
 
-While we must preserve the original function graph, you have full ownership of source layout, identifiers, libraries, headers, etc. Code in a style faithful to the reconstruction target.
+While we must preserve the original function graph, you have full ownership of source layout, identifiers, libraries, headers, etc. Code in a style faithful to the reconstruction target. Feel free to update function, type, and field names as your knowledge of the target grows during reconstruction.
+Compile with the original toolchain that built the target. Create a GNU Makefile in the binary's folder to do the build - invoking the toolchain via wine - and ensure it supports parallelism (e.g. -j 2).
 Commit as you please, suggested is per function reconstruction or other substantial work.
