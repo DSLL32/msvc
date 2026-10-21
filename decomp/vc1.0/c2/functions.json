@@ -127,7 +127,28 @@
     "@coff_new_vector@4",
     "@coff_allocate@4",
     "@coff_record_filename@4",
-    "@coff_vector_append@8"
+    "@coff_vector_append@8",
+    "_coff_reset_scopes",
+    "@coff_new_scope@8",
+    "_coff_new_data_block",
+    "_next_symbol_identifier",
+    "_write_module_directives",
+    "@coff_output_record@4",
+    "@coff_write_directive@12",
+    "@coff_select_segment@4",
+    "@coff_declare_segment@4",
+    "@coff_create_section@12",
+    "@coff_open_contribution@8",
+    "@coff_vector_get@8",
+    "@coff_record_contribution@4",
+    "@register_coff_segment@4",
+    "@coff_select_section@4",
+    "@coff_section_position@4",
+    "@coff_scope_position@4",
+    "@coff_write_data@8",
+    "@coff_write_scope_data@8",
+    "@coff_write_byte@4",
+    "@write_module_listing@4"
   ],
   "driver": [
     {
@@ -683,8 +704,7 @@
     {
       "name": "_next_symbol_identifier",
       "start": 319264,
-      "end": 319312,
-      "provisional": true
+      "end": 319312
     },
     {
       "name": "__freebuf",
@@ -704,8 +724,7 @@
     {
       "name": "@write_module_listing@4",
       "start": 165728,
-      "end": 165729,
-      "provisional": true
+      "end": 166096
     },
     {
       "name": "@prepare_machine_context@4",
@@ -1008,16 +1027,9 @@
       "provisional": true
     },
     {
-      "name": "_coff_output_data",
-      "start": 454704,
-      "end": 454705,
-      "provisional": true
-    },
-    {
-      "name": "_coff_select_segment",
+      "name": "@coff_select_segment@4",
       "start": 444944,
-      "end": 444945,
-      "provisional": true
+      "end": 445008
     },
     {
       "name": "_coff_output_debug_pair",
@@ -1074,10 +1086,9 @@
       "provisional": true
     },
     {
-      "name": "_coff_output_record",
+      "name": "@coff_output_record@4",
       "start": 448944,
-      "end": 448945,
-      "provisional": true
+      "end": 449072
     },
     {
       "name": "_coff_mark_symbol",
@@ -1215,8 +1226,7 @@
     {
       "name": "_write_module_directives",
       "start": 431136,
-      "end": 431137,
-      "provisional": true
+      "end": 431168
     },
     {
       "name": "@coff_new_vector@4",
@@ -1231,25 +1241,141 @@
     {
       "name": "_coff_reset_scopes",
       "start": 449472,
-      "end": 449473,
-      "provisional": true
+      "end": 449536
     },
     {
       "name": "@coff_new_scope@8",
       "start": 449408,
-      "end": 449409,
-      "provisional": true
+      "end": 449472
     },
     {
       "name": "@coff_vector_append@8",
       "start": 451888,
       "end": 451968
+    },
+    {
+      "name": "_coff_new_data_block",
+      "start": 455072,
+      "end": 455104
+    },
+    {
+      "name": "@coff_write_directive@12",
+      "start": 447552,
+      "end": 447728
+    },
+    {
+      "name": "@coff_write_comment@4",
+      "start": 454224,
+      "end": 454225,
+      "provisional": true
+    },
+    {
+      "name": "@coff_write_data@8",
+      "start": 454704,
+      "end": 454720
+    },
+    {
+      "name": "@coff_write_byte@4",
+      "start": 454608,
+      "end": 454640
+    },
+    {
+      "name": "@coff_declare_segment@4",
+      "start": 446480,
+      "end": 447248
+    },
+    {
+      "name": "@coff_select_section@4",
+      "start": 452656,
+      "end": 452752
+    },
+    {
+      "name": "@coff_section_position@4",
+      "start": 454080,
+      "end": 454224
+    },
+    {
+      "name": "@coff_fill_bytes@8",
+      "start": 455104,
+      "end": 455105,
+      "provisional": true
+    },
+    {
+      "name": "@coff_comdat_selection@4",
+      "start": 449120,
+      "end": 449121,
+      "provisional": true
+    },
+    {
+      "name": "@register_coff_segment@4",
+      "start": 449072,
+      "end": 449120
+    },
+    {
+      "name": "@coff_create_section@12",
+      "start": 451824,
+      "end": 451888
+    },
+    {
+      "name": "@coff_create_comdat_section@20",
+      "start": 451968,
+      "end": 451969,
+      "provisional": true
+    },
+    {
+      "name": "@coff_open_contribution@8",
+      "start": 452048,
+      "end": 452400
+    },
+    {
+      "name": "@coff_vector_get@8",
+      "start": 452480,
+      "end": 452560
+    },
+    {
+      "name": "@coff_record_contribution@4",
+      "start": 452400,
+      "end": 452480
+    },
+    {
+      "name": "@coff_scope_position@4",
+      "start": 450944,
+      "end": 450960
+    },
+    {
+      "name": "@coff_write_scope_data@8",
+      "start": 454288,
+      "end": 454608
+    },
+    {
+      "name": "@write_segment_listing@8",
+      "start": 165136,
+      "end": 165137,
+      "provisional": true
+    },
+    {
+      "name": "@close_segment_listing@4",
+      "start": 166112,
+      "end": 166113,
+      "provisional": true
+    },
+    {
+      "name": "@listing_segment_name@4",
+      "start": 166096,
+      "end": 166097,
+      "provisional": true
     }
   ],
   "cases": {
     "minimal": {
       "arguments": "",
       "accepted_from": 0
+    }
+  },
+  "crt_defaults": {
+    "__fmode": {
+      "address": 524288,
+      "value": 32768
     }
   }
 }

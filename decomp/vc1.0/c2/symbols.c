@@ -52,3 +52,12 @@ SymbolHeader *__fastcall put_symbol(ScopeHash *scope, SymbolHeader *symbol)
     scope->buckets[index] = symbol;
     return symbol;
 }
+
+#include "options.h"
+extern unsigned next_serial;
+/* Original [0004df20,0004df50). */
+unsigned next_symbol_identifier(void)
+{
+    if (!next_serial) compiler_report(0x37);
+    return next_serial++;
+}

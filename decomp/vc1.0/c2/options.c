@@ -32,6 +32,7 @@ void parse_options(void)
     if (assembly_filename) {
         assembly_output = 1;
         if (!freopen(assembly_filename, "wt", stdout)) {
+            /* Private ECX/EDX plus caller-cleaned variadic stack ABI. */
             __asm {
                 push assembly_filename
                 mov edx, generated_source

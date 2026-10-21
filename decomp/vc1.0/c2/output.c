@@ -33,7 +33,7 @@ void initialize_output_callbacks(void)
     output_callbacks.debug_record = (OutputRoutine)output_noop_debug;
     output_callbacks.finish_module = (OutputRoutine)output_noop;
     output_callbacks.relocation = (OutputRoutine)output_noop_relocation;
-    output_callbacks.record = (OutputRoutine)output_noop_record;
+    output_callbacks.record = (void (__fastcall *)(ModuleDirective *))output_noop_record;
     output_callbacks.mark_symbol = (OutputRoutine)mark_unwritten_symbol;
         return;
     }
@@ -41,7 +41,7 @@ void initialize_output_callbacks(void)
     output_callbacks.symbol = (OutputRoutine)coff_output_symbol;
     output_callbacks.function = (OutputRoutine)coff_output_function;
     output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, unsigned, int, unsigned))coff_begin_function;
-    output_callbacks.data = (OutputRoutine)coff_output_data;
+    output_callbacks.data = (OutputRoutine)coff_write_data;
     output_callbacks.select_segment = (OutputRoutine)coff_select_segment;
     output_callbacks.value = (OutputRoutine)coff_output_value;
     output_callbacks.bytes = (OutputRoutine)coff_output_bytes;
@@ -50,7 +50,7 @@ void initialize_output_callbacks(void)
     output_callbacks.size = (OutputRoutine)coff_output_size;
     output_callbacks.finish_module = (OutputRoutine)coff_finish_module;
     output_callbacks.relocation = (OutputRoutine)coff_output_relocation;
-    output_callbacks.record = (OutputRoutine)coff_output_record;
+    output_callbacks.record = (void (__fastcall *)(ModuleDirective *))coff_output_record;
     output_callbacks.mark_symbol = (OutputRoutine)coff_mark_symbol;
         if (codeview_debug || line_debug) {
     output_callbacks.debug_pair = (OutputRoutine)coff_output_debug_pair;
@@ -72,7 +72,7 @@ void initialize_output_callbacks(void)
     output_callbacks.size = (OutputRoutine)omf_output_size;
     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;
     output_callbacks.relocation = (OutputRoutine)omf_output_relocation;
-    output_callbacks.record = (OutputRoutine)omf_output_record;
+    output_callbacks.record = (void (__fastcall *)(ModuleDirective *))omf_output_record;
     output_callbacks.mark_symbol = (OutputRoutine)omf_mark_symbol;
         if (codeview_debug || line_debug) {
     output_callbacks.debug_pair = (OutputRoutine)omf_output_debug_pair;
@@ -112,4 +112,14 @@ void __fastcall add_module_directive(unsigned kind, char *text)
     *tail = arena_alloc(1, sizeof(ModuleDirective));
     (*tail)->kind = kind;
     (*tail)->text = text;
+}
+
+/* Original [00069420,00069440). */
+void write_module_directives(void)
+{
+    ModuleDirective *directive = module_directives;
+    while (directive) {
+        output_callbacks.record(directive);
+        directive = directive->next;
+    }
 }

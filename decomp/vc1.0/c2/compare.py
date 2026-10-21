@@ -46,11 +46,18 @@ def indexes():
     orig = PE(wt.TC / 'bin/C23232.EXE')
     rec = PE('build/c2.exe')
     cfg = json.loads(Path('functions.json').read_text())
+    assert len({r['start'] for r in cfg['driver']}) == len(cfg['driver']), 'duplicate driver entry address'
+    assert len({r['name'] for r in cfg['driver']}) == len(cfg['driver']), 'duplicate driver function name'
     assert hashlib.sha256(orig.data).hexdigest() == cfg['target']['sha256'], 'target changed'
     original = json.loads(Path('runtime.json').read_text())
     original += imports(orig) + cfg['driver']
     reconstructed = json.loads(Path('build/runtime.json').read_text()) + imports(rec)
     names = publics()
+    # C2 links BINMODE.OBJ: mode "w" must produce binary COFF output.
+    for name, setting in cfg.get('crt_defaults', {}).items():
+        assert u32(orig.read(setting['address'], 4), 0) == setting['value'], name + ' original default changed'
+        assert name in names, 'missing CRT global ' + name
+        assert u32(rec.read(names[name], 4), 0) == setting['value'], name + ' reconstruction default differs'
     reconstructed = [r for r in reconstructed
                      if r['name'].startswith('import:') or names.get(r['name'],r['start']) == r['start']]
     # Driver extents come from the compiler's next public function (or code end).

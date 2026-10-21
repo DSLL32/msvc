@@ -15,6 +15,8 @@ void coff_open_module(void)
     CoffConfiguration *configuration;
     object_file = fopen(object_filename, "w");
     if (!object_file) {
+        /* The diagnostic ABI combines ECX/EDX with a caller-cleaned
+           variadic stack argument; this compiler cannot declare that ABI. */
         __asm {
             mov eax, object_filename
             push eax
@@ -48,4 +50,53 @@ void coff_open_module(void)
 void *__fastcall coff_allocate(unsigned bytes)
 {
     return arena_alloc(7, bytes);
+}
+
+#include "output.h"
+int coff_precompiled_types; /* 0007e8c0 */
+/* Shared compiler identification used by object and CodeView records. */
+char compiler_identification[] = "@(#) Microsoft C/C++ 32 bits x86 Compiler Version 8.00.XXXX";
+/* Original [0006d9b0,0006da30). */
+void __fastcall coff_output_record(ModuleDirective *directive)
+{
+    switch (directive->kind) {
+    case 1: coff_write_comment(compiler_identification); break;
+    case 3: coff_write_directive("-?comment:", directive->text, 1); break;
+    case 4: coff_write_directive("-defaultlib:", directive->text, 0); break;
+    case 6: coff_write_comment(directive->text); break;
+    case 7: coff_precompiled_types = 1; break;
+    default: compiler_internal_error("@(#)coff.c:1.14", 0x3d1); break;
+    }
+}
+
+/* Original [0006d440,0006d4f0). */
+void __fastcall coff_write_directive(char *prefix, char *text, int quote)
+{
+    unsigned length;
+    coff_select_segment(directive_segment);
+    length = 0;
+    while (prefix[length]) ++length;
+    coff_write_data(prefix, length);
+    directive_segment->symbol.field04 += length;
+    if (quote) {
+        coff_write_byte('"');
+        length = 0;
+        while (text[length]) ++length;
+        coff_write_data(text, length);
+        coff_write_byte('"');
+        length += 2;
+    } else {
+        length = 0;
+        while (text[length]) ++length;
+        coff_write_data(text, length);
+    }
+    coff_write_byte(' ');
+    directive_segment->symbol.field04 += length + 1;
+}
+
+#include "coff-writer.h"
+/* Original [0006f030,0006f040): the distinct public data-output adapter. */
+void __fastcall coff_write_data(void *data, unsigned bytes)
+{
+    coff_write_scope_data(data, bytes);
 }

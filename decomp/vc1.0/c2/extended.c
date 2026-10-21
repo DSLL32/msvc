@@ -1,4 +1,6 @@
-/* The compiler's 80-bit arithmetic representation uses a private x87 ABI. */
+/* The compiler's 80-bit representation is absent from this C compiler's
+   scalar types. The shared store entry additionally receives its destination
+   in ESI and its value on ST(0), requiring this narrow inline-assembly bridge. */
 #include "extended.h"
 /* Original [00071391,000713b1). */
 void integer_to_extended(const int *integer, Extended *number)

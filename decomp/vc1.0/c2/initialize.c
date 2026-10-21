@@ -8,10 +8,10 @@ void initialize_limits(void)
 }
 
 void read_frontend_header(void);
-/* Original [0004c4d0,0004c4e0): a distinct tail-call graph vertex. */
-__declspec(naked) void initialize_frontend_data(void)
+/* Original [0004c4d0,0004c4e0): a distinct initialization adapter. */
+void initialize_frontend_data(void)
 {
-    __asm jmp read_frontend_header
+    read_frontend_header();
 }
 
 #include "input.h"
@@ -61,13 +61,9 @@ void initialize_symbols(void)
 
 void *__fastcall allocate_descriptor(signed char kind, unsigned arena);
 /* Original [0004e4f0,0004e500). */
-__declspec(naked) void *initialize_output(void)
+void *initialize_output(void)
 {
-    __asm {
-        xor edx, edx
-        mov ecx, 1
-        jmp allocate_descriptor
-    }
+    return allocate_descriptor(1, 0);
 }
 
 #include "extended.h"

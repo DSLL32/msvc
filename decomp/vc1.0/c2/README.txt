@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-coff_reset_scopes, original VA 0006dbc0. Object generation is not reconstructed
+collect_machine_symbols, original VA 00068870. Object generation is not reconstructed
 yet. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
@@ -39,7 +39,10 @@ establish CRT identity. Distinct compiler functions have named trapping stubs.
 
 The older _sopen, _filbuf and _freebuf CRT variants match those already reconstructed for
 CL. They are explicit source in runtime.c, with their C2 extents recorded.
-Floating-point CRT startup is retained by linking __fltused. The backend's own
+Floating-point CRT startup is retained by linking __fltused. The target links
+BINMODE.OBJ, giving _fmode = 0x8000; this matters because its COFF adapter opens
+object files with "w". The Makefile selects the same original runtime object,
+and compare.py checks this named CRT default in both images. The backend's own
 extended-float routines use explicit x87/ESI private ABIs in extended.c.
 
 Data definitions are introduced with the functions that encounter them:
@@ -69,10 +72,19 @@ driver is in functions.c. Backend pass dispatch is in backend-flow.c;
 backend-symbols.c records module requirements. output.c constructs the named
 output callbacks and module directives; coff-output.c adapts those callbacks
 to the typed writer configuration, and coff-writer.c owns the encountered
-vector and filename-record structures. It has reached COFF scope setup.
+vectors, scopes, packed relocation/line buffers, section contributions and
+symbol records. coff-segments.c maps logical segments to COFF sections;
+listing.c contains module listing logic. Initial module directives now pass
+through the buffered data writer. It has reached machine-symbol collection.
 
-The current checkpoint has 64 reconstructed source functions and 123 recorded
-matching trap frontiers. All 123 frontiers replay successfully. Callback stubs
+The current checkpoint has 85 reconstructed source functions and 144 recorded
+matching trap frontiers. All 144 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
+
+Reconstructed logic is period C. The earlier pure tail-call initialization
+adapters are ordinary C wrappers. The only functional inline assembly is the
+private ECX/EDX plus caller-cleaned variadic diagnostic ABI and the x87/ESI
+extended-float ABI, with reasons documented at their call sites. Unreached
+function stubs deliberately use INT3 as required by the reconstruction process.

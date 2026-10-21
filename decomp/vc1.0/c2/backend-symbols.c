@@ -8,14 +8,17 @@ SymbolHeader *__fastcall require_external_symbol(char *name);
 void prepare_backend_symbols(void)
 {
     char *name;
+    const char *expected;
     if (current_symbol && !coff_object) {
         name = current_symbol->symbol.name;
-        if ((*(unsigned *)name == *(unsigned *)"_main" &&
-             *(unsigned short *)(name + 4) == *(unsigned short *)("_main" + 4)) ||
-            (*(unsigned *)name == *(unsigned *)"_WinMain" &&
-             *(unsigned *)(name + 4) == *(unsigned *)("_WinMain" + 4) &&
-             name[8] == 0))
-            require_external_symbol("__acrtused");
+        expected = "_main";
+        while (*name && *name == *expected) { ++name; ++expected; }
+        if (*name != *expected) {
+            name = current_symbol->symbol.name;
+            expected = "_WinMain";
+            while (*name && *name == *expected) { ++name; ++expected; }
+        }
+        if (*name == *expected) require_external_symbol("__acrtused");
     }
     if (floating_point_used) require_external_symbol("__fltused");
     if (!floating_frontend) return;

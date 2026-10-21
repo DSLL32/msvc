@@ -1,11 +1,11 @@
 /* Intermediate file input. */
 #include "c2.h"
 void report_context_error(void);
-char *intermediate_error_source = "compiler intermediate";
 /* Original [00070120,000701e0). */
 FILE *__fastcall open_intermediate(char *prefix, char *suffix, char *mode, char *description)
 {
     char filename[260];
+    char *context = "compiler intermediate";
     char *destination = filename;
     char *source = prefix;
     FILE *file;
@@ -19,10 +19,12 @@ FILE *__fastcall open_intermediate(char *prefix, char *suffix, char *mode, char 
         compiler_internal_error("@(#)ioin.c:1.21", 0xd6);
     file = fopen(filename, mode);
     if (!file) {
+        /* The diagnostic ABI combines ECX/EDX with a caller-cleaned
+           variadic stack argument; this compiler cannot declare that ABI. */
         __asm {
             lea eax, filename
             push eax
-            mov edx, intermediate_error_source
+            mov edx, context
             mov ecx, 53h
             call report_context_error
             add esp, 4

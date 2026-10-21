@@ -1,3 +1,4 @@
+/* Unreached graph vertices trap deliberately for the paired reconstruction workflow. */
 #include "options.h"
 #include "input.h"
 #include "backend.h"
@@ -57,8 +58,6 @@ void __fastcall apply_il_option(int option) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
 int __fastcall is_constant_symbol(SymbolHeader *symbol) { __asm int 3 }
-unsigned next_symbol_identifier(void) { __asm int 3 }
-void __fastcall write_module_listing(char *source) { __asm int 3 }
 void __fastcall prepare_machine_context(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall sync_machine_work(WorkItem *work, MachineContext *context) { __asm int 3 }
 void __fastcall scan_machine_context(MachineContext *context) { __asm int 3 }
@@ -110,8 +109,6 @@ __declspec(naked) void finish_debug_module(void) { __asm int 3 }
 __declspec(naked) void coff_output_symbol(void) { __asm int 3 }
 __declspec(naked) void coff_output_function(void) { __asm int 3 }
 __declspec(naked) void coff_begin_function(void) { __asm int 3 }
-__declspec(naked) void coff_output_data(void) { __asm int 3 }
-__declspec(naked) void coff_select_segment(void) { __asm int 3 }
 __declspec(naked) void coff_output_debug_pair(void) { __asm int 3 }
 __declspec(naked) void coff_output_debug_record(void) { __asm int 3 }
 __declspec(naked) void coff_output_value(void) { __asm int 3 }
@@ -121,7 +118,6 @@ __declspec(naked) void coff_output_offset(void) { __asm int 3 }
 __declspec(naked) void coff_output_size(void) { __asm int 3 }
 __declspec(naked) void coff_finish_module(void) { __asm int 3 }
 __declspec(naked) void coff_output_relocation(void) { __asm int 3 }
-__declspec(naked) void coff_output_record(void) { __asm int 3 }
 __declspec(naked) void coff_mark_symbol(void) { __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { __asm int 3 }
@@ -140,8 +136,15 @@ void omf_open_module(void) { __asm int 3 }
 void initialize_codeview_output(void) { __asm int 3 }
 #include "coff-output.h"
 unsigned coff_timestamp(void) { __asm int 3 }
-void __fastcall coff_error(unsigned code, unsigned detail, void *context) { __asm int 3 }
-void write_module_directives(void) { __asm int 3 }
+void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm int 3 }
 #include "coff-writer.h"
-void coff_reset_scopes(void) { __asm int 3 }
-CoffScope *__fastcall coff_new_scope(unsigned kind, unsigned value) { __asm int 3 }
+void __fastcall coff_write_comment(char *text) { __asm int 3 }
+#include "coff-segments.h"
+void __fastcall coff_fill_bytes(unsigned char value, unsigned bytes) { __asm int 3 }
+unsigned char __fastcall coff_comdat_selection(unsigned char selection) { __asm int 3 }
+unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
+    unsigned char selection, unsigned short associated, int definition) { __asm int 3 }
+#include "listing.h"
+void __fastcall write_segment_listing(Segment *segment, int definition) { __asm int 3 }
+int __fastcall close_segment_listing(Segment *segment) { __asm int 3 }
+char *__fastcall listing_segment_name(Segment *segment) { __asm int 3 }

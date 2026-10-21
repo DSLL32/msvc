@@ -2,12 +2,9 @@
 #include "initializers.h"
 #include "input.h"
 /* Original [0004e830,0004e840). */
-__declspec(naked) void initialize_globals(void)
+void initialize_globals(void)
 {
-    __asm {
-        mov ecx, initializer_file
-        jmp read_initializers
-    }
+    read_initializers(initializer_file);
 }
 
 /* Original [0004e840,0004e8e0). */

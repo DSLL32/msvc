@@ -1,8 +1,14 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 #include "backend-flow.h"
+#include "segments.h"
 /* Callback slots 0007b8f0..0007b938. The register-only slot signatures
    are refined with their callers; no opaque image data is retained. */
+typedef struct ModuleDirective {
+    struct ModuleDirective *next;
+    unsigned kind;
+    char *text;
+} ModuleDirective;
 typedef void (__fastcall *OutputRoutine)(void);
 typedef struct OutputCallbacks {
     OutputRoutine debug_function;
@@ -21,17 +27,12 @@ typedef struct OutputCallbacks {
     OutputRoutine symbol;
     OutputRoutine finish_debug;
     OutputRoutine finish_module;
-    OutputRoutine record;
+    void (__fastcall *record)(ModuleDirective *);
     OutputRoutine relocation;
     OutputRoutine mark_symbol;
 } OutputCallbacks;
 extern OutputCallbacks output_callbacks;
 extern char *target_segment_group;
-typedef struct ModuleDirective {
-    struct ModuleDirective *next;
-    unsigned kind;
-    char *text;
-} ModuleDirective;
 extern ModuleDirective *module_directives;
 char *default_runtime_library(void);
 void __fastcall add_module_directive(unsigned kind, char *text);
@@ -54,8 +55,8 @@ void finish_debug_module(void);
 void coff_output_symbol(void);
 void coff_output_function(void);
 void coff_begin_function(void);
-void coff_output_data(void);
-void coff_select_segment(void);
+void __fastcall coff_write_data(void *data, unsigned bytes);
+void __fastcall coff_select_segment(Segment *segment);
 void coff_output_debug_pair(void);
 void coff_output_debug_record(void);
 void coff_output_value(void);
@@ -65,7 +66,7 @@ void coff_output_offset(void);
 void coff_output_size(void);
 void coff_finish_module(void);
 void coff_output_relocation(void);
-void coff_output_record(void);
+void __fastcall coff_output_record(ModuleDirective *directive);
 void coff_mark_symbol(void);
 void omf_output_symbol(void);
 void omf_select_segment(void);

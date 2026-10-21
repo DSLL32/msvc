@@ -9,7 +9,7 @@ typedef struct Segment {
     char *class_name;
     unsigned field2c, alignment;
     unsigned char format_flags, word_size, section_number, field37;
-    unsigned field38;
+    unsigned object_section;
     struct Segment *parent;
     union { unsigned order; SymbolHeader *owner; } identity;
     unsigned char selection, field45;
