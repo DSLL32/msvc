@@ -28,7 +28,7 @@ int main(int argc, char **argv, char **envp)
         output_state = initialize_output();
         initialize_codegen();
         initialize_registers();
-        initialize_types();
+        initialize_segments();
         initialize_globals();
         compile_functions();
         finish_output();

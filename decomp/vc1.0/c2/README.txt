@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-initialize_codegen, original VA 00057be0. Object generation is not reconstructed
+initialize_work_state, original VA 00067fc0. Object generation is not reconstructed
 yet. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
@@ -37,10 +37,10 @@ with unresolved call relocations are rejected. The original linked CRT group
 begins at freopen (00071aa0); generic RET/JMP shapes in backend code do not
 establish CRT identity. Distinct compiler functions have named trapping stubs.
 
-The older _sopen and _filbuf CRT variants match those already reconstructed for
+The older _sopen, _filbuf and _freebuf CRT variants match those already reconstructed for
 CL. They are explicit source in runtime.c, with their C2 extents recorded.
 Floating-point CRT startup is retained by linking __fltused. The backend's own
-extended-float helper routines are separate graph vertices and remain trapped.
+extended-float routines use explicit x87/ESI private ABIs in extended.c.
 
 Data definitions are introduced with the functions that encounter them:
 options.c contains named switch destinations, typed switch/suboption tables
@@ -49,7 +49,21 @@ arena descriptors; symbols.c owns descriptor bookkeeping. No original data
 section snapshots are linked into this reconstruction.
 
 The graph audit checks direct calls, indirect-call presence, and tail calls
-for accepted source functions. functions.json records accepted frontier order;
+for accepted source functions. It follows reachable code, switch-table targets,
+and MSVC SEH filter/handler entries, rather than decoding table data as code.
+functions.json records accepted frontier order;
 runtime.json records library function identities; unaccepted stub extents are
 provisional and are refined when reached. Completed functions are reconstructed
 in full, including branches not exercised by this case.
+
+Queued case: ../fixtures/hello-win32/manifest.json, phases.c2, captured from
+original CL /O2 /G5 hello.c. It follows the current minimal-C case. See
+cases/queue.json. It has four captured frontend files and no source-file input;
+the exact captured backend options include -Gs4096 -Gy -G5. The expected object
+has 2289 bytes, with only its COFF timestamp excluded from comparison.
+
+Symbol input now has contextual typed variants in symbol-input.c, scope/record
+registration in records.c, decoration in names.c, logical segment definitions
+in segments.c, and storage selection in segment-storage.c. The per-function
+driver is in functions.c. It has reached module/backend work initialization
+after reading the global symbol records and closing irgl.

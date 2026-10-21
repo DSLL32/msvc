@@ -79,3 +79,15 @@ void *__fastcall arena_alloc(unsigned arena, unsigned bytes)
     descriptor->remaining = 0;
     return block + 1;
 }
+
+/* Original [00070c40,00070c90). */
+char *__fastcall arena_strdup(char *string, unsigned arena)
+{
+    unsigned bytes = 0;
+    char *result, *destination;
+    while (string[bytes]) ++bytes;
+    result = arena_alloc(arena, bytes + 1);
+    destination = result;
+    while ((*destination++ = *string++) != 0) ;
+    return result;
+}

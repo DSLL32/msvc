@@ -105,3 +105,14 @@ int _filbuf(FILE *stream)
     --stream->_cnt;
     return (unsigned char)*stream->_ptr++;
 }
+
+/* Original [00074320,00074360), the earlier CRT buffer flags used by CL. */
+void _freebuf(FILE *stream)
+{
+    if ((stream->_flag & 0x83) && (stream->_flag & 8)) {
+        free(stream->_base);
+        stream->_flag &= ~8;
+        stream->_ptr = stream->_base = NULL;
+        stream->_cnt = 0;
+    }
+}

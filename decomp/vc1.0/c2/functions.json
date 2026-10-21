@@ -83,7 +83,40 @@
     "_initialize_output",
     "@allocate_descriptor@8",
     "@descriptor_size@4",
-    "@arena_alloc@8"
+    "@arena_alloc@8",
+    "_initialize_codegen",
+    "_integer_to_extended",
+    "_store_extended",
+    "_initialize_registers",
+    "_initialize_segments",
+    "@create_segment@12",
+    "@insert_symbol@8",
+    "@append_segment@4",
+    "@segment_defaults@4",
+    "_initialize_globals",
+    "@read_initializers@4",
+    "_input_varuint",
+    "_compile_functions",
+    "@read_global_records@4",
+    "@read_symbol@4",
+    "@input_string@8",
+    "@intern_symbol_name@12",
+    "@arena_strdup@8",
+    "@record_filename@4",
+    "@copy_symbol_type@4",
+    "_input_type",
+    "_input_compact_signed",
+    "_input_compact_short",
+    "@update_symbol_storage@4",
+    "@put_symbol@8",
+    "_fclose",
+    "__flush",
+    "__freebuf",
+    "_free",
+    "__close",
+    "__get_osfhandle",
+    "import:CloseHandle",
+    "__free_osfhnd"
   ],
   "driver": [
     {
@@ -149,22 +182,22 @@
     {
       "name": "_initialize_codegen",
       "start": 359392,
-      "end": 359600
+      "end": 359456
     },
     {
       "name": "_initialize_registers",
       "start": 158800,
-      "end": 158928
+      "end": 158848
     },
     {
-      "name": "_initialize_types",
+      "name": "_initialize_segments",
       "start": 434560,
-      "end": 434768
+      "end": 434960
     },
     {
       "name": "_initialize_globals",
       "start": 321584,
-      "end": 321728
+      "end": 321600
     },
     {
       "name": "_compile_functions",
@@ -179,7 +212,7 @@
     {
       "name": "_finish_debugging",
       "start": 430768,
-      "end": 431104
+      "end": 430784
     },
     {
       "name": "_finish_globals",
@@ -295,6 +328,358 @@
       "name": "@arena_alloc@8",
       "start": 461536,
       "end": 461696
+    },
+    {
+      "name": "_integer_to_extended",
+      "start": 463761,
+      "end": 463793
+    },
+    {
+      "name": "_store_extended",
+      "start": 464513,
+      "end": 464517
+    },
+    {
+      "name": "@create_segment@12",
+      "start": 434464,
+      "end": 434528
+    },
+    {
+      "name": "@segment_defaults@4",
+      "start": 434528,
+      "end": 434560
+    },
+    {
+      "name": "@insert_symbol@8",
+      "start": 315856,
+      "end": 315920
+    },
+    {
+      "name": "@append_segment@4",
+      "start": 434432,
+      "end": 434464
+    },
+    {
+      "name": "@read_initializers@4",
+      "start": 321600,
+      "end": 321760
+    },
+    {
+      "name": "@new_initializer@4",
+      "start": 322656,
+      "end": 322720
+    },
+    {
+      "name": "@read_initializer_body@4",
+      "start": 321792,
+      "end": 322656
+    },
+    {
+      "name": "@insert_initializer@4",
+      "start": 322720,
+      "end": 322880
+    },
+    {
+      "name": "@adjust_initializer_debug@4",
+      "start": 430944,
+      "end": 431136
+    },
+    {
+      "name": "@release_initializer@4",
+      "start": 321760,
+      "end": 321792
+    },
+    {
+      "name": "_input_varuint",
+      "start": 457664,
+      "end": 457888
+    },
+    {
+      "name": "_input_compact_signed",
+      "start": 458160,
+      "end": 458400
+    },
+    {
+      "name": "@read_global_records@4",
+      "start": 315056,
+      "end": 315808
+    },
+    {
+      "name": "_initialize_work_state",
+      "start": 425920,
+      "end": 425921,
+      "provisional": true
+    },
+    {
+      "name": "@read_function@4",
+      "start": 312832,
+      "end": 312833,
+      "provisional": true
+    },
+    {
+      "name": "@format_function_name@4",
+      "start": 319344,
+      "end": 319345,
+      "provisional": true
+    },
+    {
+      "name": "_ide_message",
+      "start": 455712,
+      "end": 455713,
+      "provisional": true
+    },
+    {
+      "name": "@activate_scope@4",
+      "start": 320416,
+      "end": 320417,
+      "provisional": true
+    },
+    {
+      "name": "@apply_function_options@4",
+      "start": 158576,
+      "end": 158577,
+      "provisional": true
+    },
+    {
+      "name": "@initialize_function_state@4",
+      "start": 365296,
+      "end": 365297,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_inline_function@4",
+      "start": 415456,
+      "end": 415457,
+      "provisional": true
+    },
+    {
+      "name": "@canonicalize_function@4",
+      "start": 312704,
+      "end": 312705,
+      "provisional": true
+    },
+    {
+      "name": "@finish_inline_function@4",
+      "start": 417072,
+      "end": 417073,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_function_codegen@4",
+      "start": 409440,
+      "end": 409441,
+      "provisional": true
+    },
+    {
+      "name": "@optimize_tree_global@4",
+      "start": 340624,
+      "end": 340625,
+      "provisional": true
+    },
+    {
+      "name": "@optimize_tree_local@4",
+      "start": 341248,
+      "end": 341249,
+      "provisional": true
+    },
+    {
+      "name": "@transform_function_trees@4",
+      "start": 312768,
+      "end": 312769,
+      "provisional": true
+    },
+    {
+      "name": "@optimize_function_flow@4",
+      "start": 362640,
+      "end": 362641,
+      "provisional": true
+    },
+    {
+      "name": "@build_global_work@4",
+      "start": 365728,
+      "end": 365729,
+      "provisional": true
+    },
+    {
+      "name": "@build_local_work@4",
+      "start": 324976,
+      "end": 324977,
+      "provisional": true
+    },
+    {
+      "name": "_optimize_work",
+      "start": 375408,
+      "end": 375409,
+      "provisional": true
+    },
+    {
+      "name": "_prepare_work",
+      "start": 421424,
+      "end": 421425,
+      "provisional": true
+    },
+    {
+      "name": "_finish_global_work",
+      "start": 401664,
+      "end": 401665,
+      "provisional": true
+    },
+    {
+      "name": "@finalize_work_trees@4",
+      "start": 422736,
+      "end": 422737,
+      "provisional": true
+    },
+    {
+      "name": "_generate_work",
+      "start": 94208,
+      "end": 94209,
+      "provisional": true
+    },
+    {
+      "name": "@free_work@4",
+      "start": 326912,
+      "end": 326913,
+      "provisional": true
+    },
+    {
+      "name": "_reset_work",
+      "start": 327056,
+      "end": 327057,
+      "provisional": true
+    },
+    {
+      "name": "_release_function_symbols",
+      "start": 320304,
+      "end": 320305,
+      "provisional": true
+    },
+    {
+      "name": "@type_of_symbol@8",
+      "start": 409408,
+      "end": 409409,
+      "provisional": true
+    },
+    {
+      "name": "@read_symbol@4",
+      "start": 315968,
+      "end": 318016
+    },
+    {
+      "name": "@lookup_symbol@8",
+      "start": 315920,
+      "end": 315921,
+      "provisional": true
+    },
+    {
+      "name": "@put_symbol@8",
+      "start": 315024,
+      "end": 315056
+    },
+    {
+      "name": "@queue_symbol_debug@4",
+      "start": 430784,
+      "end": 430785,
+      "provisional": true
+    },
+    {
+      "name": "@update_symbol_storage@4",
+      "start": 159408,
+      "end": 159872
+    },
+    {
+      "name": "@reserve_symbol_storage@4",
+      "start": 159872,
+      "end": 159873,
+      "provisional": true
+    },
+    {
+      "name": "@record_filename@4",
+      "start": 315808,
+      "end": 315856
+    },
+    {
+      "name": "@copy_symbol_type@4",
+      "start": 318016,
+      "end": 318064
+    },
+    {
+      "name": "@read_qualified_symbol@8",
+      "start": 318064,
+      "end": 318065,
+      "provisional": true
+    },
+    {
+      "name": "@intern_symbol_name@12",
+      "start": 318128,
+      "end": 318640
+    },
+    {
+      "name": "@lookup_global_symbol@4",
+      "start": 318688,
+      "end": 318689,
+      "provisional": true
+    },
+    {
+      "name": "@clone_alias_symbol@4",
+      "start": 318768,
+      "end": 318769,
+      "provisional": true
+    },
+    {
+      "name": "@arena_strdup@8",
+      "start": 461888,
+      "end": 461968
+    },
+    {
+      "name": "@apply_il_option@4",
+      "start": 314896,
+      "end": 314897,
+      "provisional": true
+    },
+    {
+      "name": "_compiler_warning",
+      "start": 459920,
+      "end": 459921,
+      "provisional": true
+    },
+    {
+      "name": "@input_string@8",
+      "start": 458752,
+      "end": 458848
+    },
+    {
+      "name": "_input_compact_short",
+      "start": 458000,
+      "end": 458160
+    },
+    {
+      "name": "@uppercase_name@4",
+      "start": 319312,
+      "end": 319344,
+      "provisional": true
+    },
+    {
+      "name": "_input_type",
+      "start": 459232,
+      "end": 459280
+    },
+    {
+      "name": "@is_constant_symbol@4",
+      "start": 159376,
+      "end": 159408,
+      "provisional": true
+    },
+    {
+      "name": "_next_symbol_identifier",
+      "start": 319264,
+      "end": 319312,
+      "provisional": true
+    },
+    {
+      "name": "__freebuf",
+      "start": 475936,
+      "end": 476000
     }
   ],
   "cases": {

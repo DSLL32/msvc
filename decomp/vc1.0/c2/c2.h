@@ -22,7 +22,7 @@ void initialize_symbols(void);
 void *initialize_output(void);
 void initialize_codegen(void);
 void initialize_registers(void);
-void initialize_types(void);
+void initialize_segments(void);
 void initialize_globals(void);
 void compile_functions(void);
 void finish_output(void);

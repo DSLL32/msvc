@@ -49,14 +49,14 @@ void initialize_backend(void)
     sentinel_node = arena_calloc(5, sizeof(Node));
 }
 
-unsigned symbol_count;
-void *symbol_buckets[64];
+#include "symbols.h"
+ScopeHash global_scope;
 /* Original [0004e310,0004e330). */
 void initialize_symbols(void)
 {
     unsigned i;
-    symbol_count = 0;
-    for (i = 0; i != 64; ++i) symbol_buckets[i] = NULL;
+    global_scope.previous = NULL;
+    for (i = 0; i != 64; ++i) global_scope.buckets[i] = NULL;
 }
 
 void *__fastcall allocate_descriptor(signed char kind, unsigned arena);
@@ -68,4 +68,26 @@ __declspec(naked) void *initialize_output(void)
         mov ecx, 1
         jmp allocate_descriptor
     }
+}
+
+#include "extended.h"
+Extended extended_zero, extended_one;
+/* Original [00057be0,00057c20). */
+void initialize_codegen(void)
+{
+    int integer = 0;
+    integer_to_extended(&integer, &extended_zero);
+    integer = 1;
+    integer_to_extended(&integer, &extended_one);
+}
+
+extern int cpu_model;
+unsigned backend_limit, initial_register_state;
+int stack_alignment = 4;
+/* Original [00026c50,00026c80). */
+void initialize_registers(void)
+{
+    backend_limit = 200;
+    initial_register_state = 7;
+    if (cpu_model >= 4) stack_alignment = 16;
 }
