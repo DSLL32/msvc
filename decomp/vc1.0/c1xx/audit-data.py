@@ -85,6 +85,14 @@ for table in cfg.get('tables', []):
     if kind == 'option':
         count = compare_grammar(old, new)
         print('%d option rules and their aliases/defaults match the original.' % count)
+    elif kind == 'schemas':
+        for index in range(table['count']):
+            a = word(original, old + index*table['original_stride'])
+            b = word(rebuilt, new + index*table['rebuilt_stride'])
+            assert bool(a) == bool(b), 'IR schema nullness differs'
+            if a:
+                assert original.string(a) == rebuilt.string(b), 'IR schema differs: %02x' % index
+        print('%d IR record field schemas match the original.' % table['count'])
     elif kind == 'configuration':
         assert read(original, old, table['bytes']) == read(rebuilt, new, table['bytes']), 'configuration defaults differ'
         print('%d-byte typed configuration defaults match the original.' % table['bytes'])

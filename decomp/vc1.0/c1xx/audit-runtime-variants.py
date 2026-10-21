@@ -14,7 +14,7 @@ def target(rs,address):
  matches=[r['name'] for r in rs if r['start']==address]
  return sorted(set(matches))[0] if matches else hex(address)
 cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
-pairs=[('sopen',0x50f50,0x51340,0x80a80,0x80e70),('setvbuf',0x529b0,0x52a6f,0x82580,0x8263f),('freebuf',0x572d0,0x57306,0x877c0,0x877f6)]
+pairs=[('sopen',0x50f50,0x51340,0x80a80,0x80e70),('setvbuf',0x529b0,0x52a6f,0x82580,0x8263f),('freebuf',0x572d0,0x57306,0x877c0,0x877f6),('fseek',0x53f90,0x54026,0x83e00,0x83e96)]
 def initial_word(pe,address):
  section=next(s for s in pe.sections if s['rva']<=address-pe.base<s['rva']+s['virtual_size'])
  if section['name']=='.bss':return 0

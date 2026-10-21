@@ -44,6 +44,7 @@ void finish_inline_functions(void);
 void finish_expression_output(void);
 void __stdcall write_ir_record(unsigned tag, void *value);
 IrToken *__stdcall make_integer_constant(unsigned value);
+IrToken *__stdcall new_integer_constant(unsigned value);
 void finish_debug_info(void);
 void write_global_header(void);
 void generate_inline_queries(void);

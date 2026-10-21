@@ -47,6 +47,12 @@ def indexes():
     rec = PE('build/c1xx.exe')
     cfg = json.loads(Path('functions.json').read_text())
     assert hashlib.sha256(orig.data).hexdigest() == cfg['target']['sha256'], 'target changed'
+    for function in cfg['driver']:
+        assert function['start'] < function['end'], 'invalid original extent: ' + function['name']
+        assert any(s['flags'] & 0x20 and
+                   orig.base + s['rva'] <= function['start'] < function['end'] <=
+                   orig.base + s['rva'] + s['virtual_size'] for s in orig.sections), \
+            'original extent outside code: ' + function['name']
     driver_addresses = {r['start'] for r in cfg['driver']}
     original = [r for r in json.loads(Path('runtime.json').read_text())
                 if r['start'] not in driver_addresses]

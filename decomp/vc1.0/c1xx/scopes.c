@@ -1,13 +1,17 @@
-/* Parser scope context stack, original 0x3cd30..0x3cd62. */
-#include "options.h"
+/* Frontend symbol scopes. */
+#include "scopes.h"
 
-int scope_depth = -1;
-Scope *scope_contexts[10];
+SymbolScope *global_scope, *current_scope, *lookup_scope;
+SymbolScope **scope_directory;
 
-void __stdcall push_scope(Scope *scope)
+/* Original 0x50e10..0x50e66. */
+void initialize_global_scope(void)
 {
-    ++scope_depth;
-    if (scope_depth == 10)
-        fatal_error(45);
-    scope_contexts[scope_depth] = scope;
+    global_scope = allocate_permanent(sizeof(SymbolScope));
+    global_scope->buckets = allocate_permanent(4096);
+    global_scope->bucket_mask = 1023;
+    current_scope = global_scope;
+    lookup_scope = global_scope;
+    scope_directory = allocate_permanent(512);
+    scope_directory[0] = global_scope;
 }

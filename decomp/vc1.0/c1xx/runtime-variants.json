@@ -83,6 +83,30 @@
       ],
       "data_address_aliases_preserved": true,
       "data_aliases": {}
+    },
+    {
+      "initial_data_words_equal": true,
+      "name": "fseek",
+      "original_c1_range": [
+        "0x53f90",
+        "0x54026"
+      ],
+      "original_c1xx_range": [
+        "0x83e00",
+        "0x83e96"
+      ],
+      "instructions": 60,
+      "all_nonrelocated_instruction_bytes_equal": true,
+      "internal_control_flow_equal": true,
+      "external_calls": [
+        "__flush",
+        "__lseek",
+        "_ftell"
+      ],
+      "data_address_aliases_preserved": true,
+      "data_aliases": {
+        "0x739cc": "0xaaa4c"
+      }
     }
   ]
 }

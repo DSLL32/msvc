@@ -6,11 +6,13 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 96 accepted paired frontiers, including 43 driver
-functions and three older CRT routines. Keyword interning, C++ context-stack
-setup, and intermediate file creation are reconstructed. The next matching
-named trap is _open_expression_intermediate at original VA 0x6c4d0. The complete
-frontend case is not yet reconstructed or claimed equivalent.
+PARTIAL reconstruction: 124 accepted paired frontiers, including 63 frontend
+functions and four older CRT routines. The expression record writer, builtin
+type interning, C++ function signatures, linkage stack, and initial scopes are
+reconstructed. The next matching named trap is _initialize_translation_state
+at original VA 0x54fd0. All 124 frontiers replay successfully; the expression
+stream begins with the exact six bytes 5b8034030000. The complete frontend
+case is not yet reconstructed or claimed equivalent.
 
 Build and check the current frontier using the original toolchain:
 
@@ -49,8 +51,14 @@ remaining fields retain offsets until their consumers are reconstructed.
 The launcher preserves the captured argv[0] identically for both images,
 independently of the selected application image. audit-data.py checks all 98
 option rules, their target sharing and defaults, the typed configuration, 81
-language keywords and four __declspec entries against the original binary.
-The older CRT _sopen, setvbuf and _freebuf bodies have readable C replacements;
+language keywords, four __declspec entries and all 191 IR record schemas against the original binary.
+The older CRT _sopen, setvbuf, _freebuf and fseek bodies have readable C replacements;
 audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
+
+The current full ordered replay is recorded in evidence/replay-types.log.
+The linkage stack records the extern-C/C++ language mode; it is separate from
+the symbol scope chain. C++ type descriptors are twelve bytes and include a
+signed short in their identity hash. Function signatures additionally intern
+default arguments and an associated type, rather than only declaration types.

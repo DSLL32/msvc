@@ -36,7 +36,7 @@
     "import:SetConsoleCtrlHandler",
     "_message_text",
     "_parse_options",
-    "_push_scope@4",
+    "_push_linkage@4",
     "_initialize_packing",
     "_new_packing_stack",
     "_allocate_permanent@4",
@@ -100,7 +100,35 @@
     "__set_osfhnd",
     "_setvbuf",
     "__flush",
-    "__freebuf"
+    "__freebuf",
+    "_open_expression_intermediate",
+    "_make_integer_constant@4",
+    "_new_integer_constant@4",
+    "_write_ir_record@8",
+    "__flsbuf",
+    "_fseek",
+    "__write",
+    "import:WriteFile",
+    "__lseek",
+    "__get_osfhandle",
+    "import:SetFilePointer",
+    "_fputc",
+    "_initialize_type_table",
+    "_initialize_global_scope",
+    "_initialize_declaration_table",
+    "_new_hash_table@16",
+    "_intern_type@4",
+    "_make_function_type@8",
+    "_normalize_type_attributes@8",
+    "_new_type_shape@12",
+    "_build_parameter_info@8",
+    "_void_parameter_list",
+    "_intern_function_parameters@4",
+    "_intern_type_shape@4",
+    "_make_tagged_type@4",
+    "_make_qualified_type@16",
+    "_copy_type_description@4",
+    "_initialize_intermediate_output"
   ],
   "driver": [
     {
@@ -134,7 +162,7 @@
       "end": 433299
     },
     {
-      "name": "_push_scope@4",
+      "name": "_push_linkage@4",
       "start": 249136,
       "end": 249186
     },
@@ -356,12 +384,12 @@
     {
       "name": "_write_ir_record@8",
       "start": 368288,
-      "end": 368289
+      "end": 370316
     },
     {
       "name": "_make_integer_constant@4",
       "start": 182192,
-      "end": 182193
+      "end": 182215
     },
     {
       "name": "_finish_debug_info",
@@ -446,7 +474,7 @@
     {
       "name": "_open_expression_intermediate",
       "start": 443600,
-      "end": 443601
+      "end": 443873
     },
     {
       "name": "_initialize_inline_queries",
@@ -461,42 +489,42 @@
     {
       "name": "_initialize_type_table",
       "start": 400992,
-      "end": 400993
+      "end": 401053
     },
     {
       "name": "_initialize_global_scope",
       "start": 331280,
-      "end": 331281
+      "end": 331366
     },
     {
       "name": "_initialize_declaration_table",
       "start": 204544,
-      "end": 204545
+      "end": 204563
     },
     {
       "name": "_intern_type@4",
       "start": 401536,
-      "end": 401537
+      "end": 401737
     },
     {
       "name": "_make_function_type@8",
       "start": 402000,
-      "end": 402001
+      "end": 402205
     },
     {
       "name": "_make_tagged_type@4",
       "start": 406576,
-      "end": 406577
+      "end": 406763
     },
     {
       "name": "_normalize_type_attributes@8",
       "start": 244752,
-      "end": 244753
+      "end": 245453
     },
     {
       "name": "_make_qualified_type@16",
       "start": 403168,
-      "end": 403169
+      "end": 403234
     },
     {
       "name": "_initialize_intermediate_output",
@@ -580,6 +608,93 @@
       "start": 554944,
       "end": 554998,
       "category": "runtime"
+    },
+    {
+      "name": "_prepare_pch_output@4",
+      "start": 144144,
+      "end": 144145
+    },
+    {
+      "name": "_fseek",
+      "start": 540160,
+      "end": 540310,
+      "category": "runtime"
+    },
+    {
+      "name": "_new_integer_constant@4",
+      "start": 182080,
+      "end": 182177
+    },
+    {
+      "name": "_builtin_integer_type",
+      "start": 507392,
+      "end": 507398
+    },
+    {
+      "name": "_emit_record_node@12",
+      "start": 353968,
+      "end": 353969
+    },
+    {
+      "name": "_reference_ir_symbol@4",
+      "start": 370864,
+      "end": 370865
+    },
+    {
+      "name": "_get_ir_symbol_index",
+      "start": 371232,
+      "end": 371233
+    },
+    {
+      "name": "_ftell",
+      "start": 529328,
+      "end": 529329,
+      "category": "runtime"
+    },
+    {
+      "name": "_new_hash_table@16",
+      "start": 322576,
+      "end": 322773
+    },
+    {
+      "name": "_intern_type_shape@4",
+      "start": 401744,
+      "end": 401986
+    },
+    {
+      "name": "_new_type_shape@12",
+      "start": 404528,
+      "end": 404963
+    },
+    {
+      "name": "_report_syntax_error",
+      "start": 471424,
+      "end": 471443
+    },
+    {
+      "name": "_build_parameter_info@8",
+      "start": 406064,
+      "end": 406454
+    },
+    {
+      "name": "_void_parameter_list",
+      "start": 405056,
+      "end": 405121
+    },
+    {
+      "name": "_intern_declaration_parameters",
+      "start": 405136,
+      "end": 405566
+    },
+    {
+      "name": "_intern_function_parameters@4",
+      "start": 405872,
+      "end": 406058
+    },
+    {
+      "name": "_copy_type_description@4",
+      "start": 403632,
+      "end": 403676
     }
   ],
   "cases": {
@@ -618,6 +733,14 @@
       "name": "_declspec_specs",
       "original": 647520,
       "kind": "declspec"
+    },
+    {
+      "name": "_ir_record_formats",
+      "original": 666380,
+      "kind": "schemas",
+      "count": 191,
+      "original_stride": 8,
+      "rebuilt_stride": 4
     }
   ]
 }

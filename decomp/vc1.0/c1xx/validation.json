@@ -1,19 +1,20 @@
 {
   "status": "partial",
-  "accepted_frontiers": 96,
-  "driver_functions": 43,
-  "older_crt_functions": 3,
-  "reconstructed_source_functions": 46,
-  "current_frontier": "_open_expression_intermediate",
-  "original_frontier_va": "0x6c4d0",
+  "accepted_frontiers": 124,
+  "driver_functions": 63,
+  "older_crt_functions": 4,
+  "reconstructed_source_functions": 67,
+  "current_frontier": "_initialize_translation_state",
+  "original_frontier_va": "0x54fd0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "f186f36f984fe9f9377ed1da8506855e3996a86e22dee15dd86d6613365f8b68",
-  "call_graph_audit_functions": 46,
+  "replay_log_sha256": "e5a840c23dfed9830726b120e44af7ce724fcb054395153a1b067a4ece1837e3",
+  "call_graph_audit_functions": 67,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
     "declspec_entries": 4,
-    "typed_configuration_bytes": 764
+    "typed_configuration_bytes": 764,
+    "ir_record_schemas": 191
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -26,5 +27,7 @@
     }
   ],
   "paired_command_line_uses_original_argv0": true,
-  "complete_case_equivalence": false
+  "complete_case_equivalence": false,
+  "replay_log": "evidence/replay-types.log",
+  "expression_stream_prefix": "5b8034030000"
 }

@@ -2,6 +2,7 @@
 #define OPTIONS_H
 #include "c1xx.h"
 #include "configuration.h"
+#include "linkage.h"
 typedef struct Vector {
     short count, capacity;
     int arena;
@@ -94,8 +95,6 @@ extern OptionRule option_rules[];
 extern unsigned char warning_levels[800];
 extern unsigned lowest_warning_700, highest_warning_700;
 extern char **argument_vector_allocation;
-typedef struct Scope Scope;
-void __stdcall push_scope(Scope *scope);
 void initialize_packing(void);
 void initialize_checksums(void);
 void initialize_lead_bytes(void);
@@ -134,6 +133,8 @@ void __stdcall append_vector(Vector *vector, void *item);
 void __stdcall grow_vector(Vector *vector);
 void initialize_japanese_characters(void);
 void finalize_options(void);
+extern int option_Au, option_Aw;
+void report_syntax_error(unsigned code, ...);
 void fatal_error(unsigned code, ...);
 void compiler_warning(int level, unsigned code, ...);
 #endif

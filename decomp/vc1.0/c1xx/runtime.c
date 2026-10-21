@@ -127,3 +127,23 @@ void _freebuf(FILE *stream)
         stream->_cnt = 0;
     }
 }
+
+/* Original 0x83e00..0x83e96. */
+int fseek(FILE *stream, long offset, int origin)
+{
+    if (!(stream->_flag & 0x83) || (origin != 0 && origin != 1 && origin != 2)) {
+        errno = 22;
+        return -1;
+    }
+    stream->_flag &= ~0x10;
+    if (origin == 1) {
+        offset += ftell(stream);
+        origin = 0;
+    }
+    _flush(stream);
+    if (stream->_flag & 0x80)
+        stream->_flag &= ~3;
+    else if ((stream->_flag & 1) && (stream->_flag & 8))
+        stream->_bufsiz = 512;
+    return _lseek(stream->_file, offset, origin) == -1 ? -1 : 0;
+}

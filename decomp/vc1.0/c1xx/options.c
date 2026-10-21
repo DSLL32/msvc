@@ -30,7 +30,7 @@ void parse_options(int argc, char **argv)
     unsigned length;
     WarningDefault *warning;
 
-    push_scope(0);
+    push_linkage(LINKAGE_DEFAULT);
     if (!packing_stack)
         initialize_packing();
     initialize_checksums();
