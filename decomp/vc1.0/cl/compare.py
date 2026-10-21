@@ -12,6 +12,11 @@ from binary import PE, u32
 
 wt = SourceFileLoader('wine_tool', 'wine-tool.py').load_module()
 
+COMPILE_CASES = {
+    'test.c': ('compile', 'test'),
+    '/O2 /G5 hello.c': ('hello', 'hello'),
+}
+
 def imports(pe):
     result = []
     p = pe.offset(pe.base + u32(pe.data, pe.optional + 104))
@@ -80,12 +85,13 @@ def run(label, exe, case='/?'):
     args = ['wine', 'build/debug-run.exe', wt.windows(exe), case,
             wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
             wt.windows(str(stem)+'.events')]
-    if case == 'test.c':
-        directory = Path('build') / ('compile-' + label)
+    if case in COMPILE_CASES:
+        prefix, source = COMPILE_CASES[case]
+        directory = Path('build') / (prefix + '-' + label)
         if directory.exists():
             shutil.rmtree(directory)
         directory.mkdir()
-        shutil.copyfile('cases/test.c', directory / 'test.c')
+        shutil.copyfile('cases/'+source+'.c', directory / (source+'.c'))
         args.append(wt.windows(directory))
     subprocess.run(args, env=wt.environment(), check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -126,17 +132,18 @@ def artifact_bytes(path):
     data[offset:offset+4] = b'\0'*4
     return bytes(data), offset
 
-def check_artifacts(baseline):
+def check_artifacts(baseline, case):
+    prefix, source = COMPILE_CASES[case]
     labels = ['original', 'reconstructed'] + (['baseline'] if baseline else [])
     report = {}
     for label in labels:
-        directory = Path('build') / ('compile-' + label)
-        assert {p.name for p in directory.iterdir()} == {'test.c', 'test.obj', 'test.exe'}, 'unexpected compile products: '+label
-    for name in ('test.obj', 'test.exe'):
+        directory = Path('build') / (prefix + '-' + label)
+        assert {p.name for p in directory.iterdir()} == {source+'.c', source+'.obj', source+'.exe'}, 'unexpected compile products: '+label
+    for name in (source+'.obj', source+'.exe'):
         report[name] = {}
         reference = None
         for label in labels:
-            path = Path('build') / ('compile-' + label) / name
+            path = Path('build') / (prefix + '-' + label) / name
             normalized, offset = artifact_bytes(path)
             if reference is None:
                 reference = normalized
@@ -145,6 +152,11 @@ def check_artifacts(baseline):
             report[name][label] = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
                                       normalized_sha256=hashlib.sha256(normalized).hexdigest(),
                                       timestamp_offset=offset)
+    Path('build/'+prefix+'-validation.json').write_text(json.dumps(report, indent=2)+'\n')
+    if prefix == 'hello':
+        check_gui(Path('build/hello-reconstructed/hello.exe'))
+        print('Object and executable match (excluding COFF timestamps); GUI paint and close checks pass.')
+        return
     # The generated program is part of the case, not just a file comparison.
     with concurrent.futures.ThreadPoolExecutor(len(labels)) as pool:
         runs = [pool.submit(run, 'program-'+label,
@@ -154,8 +166,19 @@ def check_artifacts(baseline):
             assert result.result().strip() == 'exit 0', 'generated executable failed: '+label
             for stream in ('stdout', 'stderr'):
                 assert not Path('build/program-'+label+'.'+stream).read_bytes(), 'generated executable produced output'
-    Path('build/compile-validation.json').write_text(json.dumps(report, indent=2)+'\n')
     print('Object and executable match (excluding COFF timestamps); generated programs exit 0.')
+
+def check_gui(executable):
+    bitmap = Path('build/hello-window.bmp')
+    report = Path('build/hello-window.json')
+    report.unlink(missing_ok=True)
+    subprocess.run(['xvfb-run', '-a', 'wine', 'build/gui-check.exe', wt.windows(executable),
+                    wt.windows(bitmap), wt.windows(report)], env=wt.environment(), check=True,
+                   timeout=45, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                   stderr=subprocess.DEVNULL)
+    result = json.loads(report.read_text())
+    assert result['exit_status'] == 0 and result['dark_pixels'] >= 20, result
+    print('Hello window painted; screenshot: '+str(bitmap))
 
 def compare(accepted_count=None, case='/?', baseline=True):
     orig, rec, cfg, oi, ri = prepare(accepted_count)
@@ -176,9 +199,9 @@ def compare(accepted_count=None, case='/?', baseline=True):
             for stream in ('stdout', 'stderr'):
                 assert Path('build/baseline.'+stream).read_bytes() == Path('build/original.'+stream).read_bytes(), 'unmodified original '+stream+' differs'
             print('Unmodified original output streams and exit status also match.')
-        if case == 'test.c':
+        if case in COMPILE_CASES:
             assert al == 'exit:0', 'compile case failed'
-            check_artifacts(baseline)
+            check_artifacts(baseline, case)
     return al
 
 if __name__ == '__main__':

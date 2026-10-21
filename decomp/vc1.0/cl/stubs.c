@@ -24,8 +24,6 @@ int option_callback_1920c(char **args, int *index) { __asm { int 3 }; return 0; 
 int option_callback_19228(char **args, int *index) { __asm { int 3 }; return 0; }
 /* 000176d4 */
 Item *copy_item(Item *item) { __asm { int 3 }; return 0; }
-/* 0001773c */
-Item *detach_item(Item **head, Item *item) { __asm { int 3 }; return 0; }
 /* 00017010 */
 void driver_switch_17010(Item *item) { __asm { int 3 } }
 /* 000170a0 */

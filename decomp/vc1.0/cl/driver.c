@@ -1489,3 +1489,19 @@ void driver_exit(int status)
     cleanup_files();
     exit(status);
 }
+
+/* [0001773c,00017767): unlink a known list member and return it alone. */
+Item *detach_item(Item **head, Item *item)
+{
+    Item *found = NULL;
+    while (*head) {
+        found = *head;
+        if (found == item) {
+            *head = found->next;
+            found->next = NULL;
+            break;
+        }
+        head = &found->next;
+    }
+    return found;
+}

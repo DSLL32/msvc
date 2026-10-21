@@ -179,7 +179,8 @@
     "_file_message",
     "__fileno",
     "__spawnvp",
-    "_driver_exit"
+    "_driver_exit",
+    "_detach_item"
   ],
   "driver": [
     {
@@ -704,6 +705,11 @@
       "arguments": "test.c",
       "accepted_from": 140,
       "accepted_count": 180
+    },
+    "hello": {
+      "arguments": "/O2 /G5 hello.c",
+      "accepted_from": 180,
+      "accepted_count": 181
     }
   }
 }

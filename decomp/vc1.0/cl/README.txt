@@ -1,7 +1,9 @@
 Visual C++ 1.0 for NT: CL.EXE reconstruction
 
-Completed cases: CL.EXE /?; CL.EXE test.c
+Completed cases: CL.EXE /?; CL.EXE test.c; CL.EXE /O2 /G5 hello.c
 test.c contains: int main () { return 0; }
+hello.c includes windows.h and draws "Hello, world!" in a Win32 window.
+Its pragma library directives select USER32.LIB and GDI32.LIB.
 Target/toolchain: ../../../toolchains/1.0-nt
 Toolchain compiler banner: 8.00; linker banner: 1.00.
 
@@ -11,8 +13,9 @@ Build and verification (from this directory):
     make -j2 check
     make replay
 
-Requires GNU Make 4.3+, Python 3, Wine with 32-bit support, and Python capstone
-for the call-target audit. The build creates a private 32-bit Wine prefix at
+Requires GNU Make 4.3+, Python 3, Wine with 32-bit support, Python capstone
+for the call-target audit, and xvfb-run for the window case. The build creates a
+private 32-bit Wine prefix at
 ~/.ai-tmp/vc1.0-cl/wine. No original toolchain files are changed.
 
 The normal build produces build/original.exe and build/reconstructed.exe.
@@ -31,20 +34,27 @@ build/compile-{original,reconstructed,baseline}. The generated test.obj and
 test.exe are compared after zeroing only their four-byte COFF timestamp fields;
 all other bytes must match. Each generated executable must run without output
 and return 0. build/compile-validation.json records raw and normalized hashes.
+The hello case uses build/hello-{original,reconstructed,baseline} and writes
+build/hello-validation.json, applying the same exact comparison rules to
+hello.obj and hello.exe. gui-check.c launches the resulting window under Xvfb,
+checks its title and painted client area, captures build/hello-window.bmp, then
+posts WM_CLOSE and requires exit 0. build/hello-window.json records the result.
 The compiler phases and linker invoked as child processes are the original
 toolchain binaries. This reconstruction targets the CL driver.
 
 make replay restores the accepted list one function at a time, beginning with
 both entry points masked. It asserts the 140 help frontiers, then the 40 new
-compile frontiers, and checks each completed case. functions.json records the
+compile frontiers, then the one new hello frontier, and checks each completed
+case. functions.json records the
 case boundaries. Its output can be saved outside build/ if it needs to survive
 make clean.
 
 The /? case prints 3,192 bytes to stdout and 131 bytes to stderr, with exit 0.
-The implementation includes 75 source functions and passes 180 recorded trap
-frontiers across both cases. The compile case produces a 286-byte object and
-a 2,097,152-byte executable. Other paths remain incomplete and will encounter
-named INT3 stubs.
+The implementation includes 76 source functions and passes 181 recorded trap
+frontiers across three cases. The minimal compile case produces a 286-byte
+object; the optimized window case produces a 2,289-byte object. Both executables
+are 2,097,152 bytes. /O2 /G5 exercises detaching overridden options from the
+option list. Other paths remain incomplete and will encounter named INT3 stubs.
 
 cl.c contains the driver main and its SEH frame. driver.c contains reconstructed
 argument parsing, option grammar expansion, option-list handling, setup, help
@@ -88,5 +98,5 @@ rerun. Keep calls to other unreconstructed functions as named traps.
 
 advances through exact original-library matches, asserting each matching trap
 before accepting it. This defaults to /?; supply --case for another case.
-Use make replay for both recorded case sequences. cases/help.json and
-cases/compile.json record output hashes and validation results.
+Use make replay for all recorded case sequences. cases/help.json,
+cases/compile.json, and cases/hello.json record output hashes and validation.
