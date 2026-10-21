@@ -1,0 +1,18 @@
+{
+  "command": "python3 decomp/vc1.0/fixtures/minimal-c/verify.py",
+  "toolchain": "1.0-nt",
+  "private_prefix": "~/.ai-tmp/vc1.0-capture/wine",
+  "environment_block": "MSC_CMD_FLAGS only",
+  "c1": {
+    "exit_status": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "outputs_match_capture_byte_for_byte": true
+  },
+  "c2": {
+    "exit_status": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "object_matches_full_CL_pipeline_except_COFF_timestamp": true
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "case": "CL.EXE test.c",
+  "source": "int main () { return 0; }\n",
+  "toolchain": "1.0-nt",
+  "capture": {
+    "method": "Debugger breakpoint at original CL CreateProcessA import thunk, original VA 0x21000, RVA 0x11000",
+    "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+    "arguments": "test.c",
+    "diagnostic_options": false,
+    "snapshot": "Copied intermediate files while CL was stopped immediately before launching C2",
+    "child_environment_keys": [
+      "MSC_CMD_FLAGS"
+    ],
+    "child_current_directory_parameter": null,
+    "inherited_working_directory": "/root/.ai-tmp/vc1.0-capture/run",
+    "stdin": "closed"
+  },
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I {include} "
+      },
+      "working_directory": "c1",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Z:\\root\\.ai-tmp\\vc1.0-capture\\run\\000924 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c1/test.c",
+          "bytes": 26,
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 866,
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
+          "output_name": "irex"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 13,
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "output_name": "irsy"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 3,
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "output_name": "irin"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 50,
+          "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
+          "output_name": "irgl"
+        }
+      ]
+    },
+    "c2": {
+      "target": "toolchains/1.0-nt/bin/C23232.EXE",
+      "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML "
+      },
+      "working_directory": "c2",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-capture\\run\\000924 -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 866,
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 13,
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 3,
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 50,
+          "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/test.obj",
+          "bytes": 286,
+          "sha256": "fb3521a0873d7538adb29c32d29691f490862c1efc3cebee742f5707682317b3",
+          "output_name": "test.obj",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929"
+        }
+      ]
+    }
+  }
+}
