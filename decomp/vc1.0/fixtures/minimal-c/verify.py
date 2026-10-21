@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run each captured compiler case independently using the original toolchain."""
+"""Run captured compiler/linker cases independently with the original toolchain."""
 import argparse
 import hashlib
 import json
@@ -26,7 +26,7 @@ def invoke(arguments, env, **kwargs):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('phase', nargs='?', choices=['c1', 'c2', 'all'], default='all')
+    parser.add_argument('phase', nargs='?', choices=['c1', 'c2', 'link', 'all'], default='all')
     parser.add_argument('--prefix', type=Path, default=SCRATCH / 'wine')
     args = parser.parse_args()
     env = os.environ.copy()
@@ -34,6 +34,8 @@ def main():
                INCLUDE=windows(TC / 'include'), LIB=windows(TC / 'lib'), WINEPATH=windows(TC / 'bin'))
     env.pop('CL', None)
     env.pop('_CL_', None)
+    env.pop('LINK', None)
+    env.pop('_LINK_', None)
     env.pop('MSC_CMD_FLAGS', None)
     SCRATCH.mkdir(parents=True, exist_ok=True)
     if not (args.prefix / 'system.reg').exists():
@@ -53,6 +55,8 @@ def main():
             continue
         target = ROOT / case['target']
         assert hashlib.sha256(target.read_bytes()).hexdigest() == case['sha256'], 'target changed'
+        for entry in case.get('toolchain_dependencies', []):
+            assert hashlib.sha256((ROOT / entry['path']).read_bytes()).hexdigest() == entry['sha256'], 'toolchain dependency changed'
         work = SCRATCH / ('verify-' + name)
         if work.exists():
             shutil.rmtree(work)
@@ -62,9 +66,13 @@ def main():
             assert hashlib.sha256(source.read_bytes()).hexdigest() == entry['sha256'], 'fixture changed'
             shutil.copyfile(source, work / source.name)
         phase_env = env.copy()
-        phase_env['MSC_CMD_FLAGS'] = case['environment']['MSC_CMD_FLAGS'].format(
-            bin=windows(TC/'bin'), include=windows(TC/'include'))
-        result = invoke([launcher, windows(target)], phase_env, cwd=work)
+        phase_env.update({key: value.format(bin=windows(TC/'bin'), include=windows(TC/'include'),
+                                           lib=windows(TC/'lib'))
+                          for key, value in case['environment'].items()})
+        arguments = [launcher, windows(target)]
+        if case['arguments']:
+            arguments.append(' '.join(case['arguments']))
+        result = invoke(arguments, phase_env, cwd=work)
         assert result.returncode == case['expected_exit'], (name, result.returncode)
         assert result.stdout == case['expected_stdout'].encode(), (name, result.stdout)
         assert result.stderr == case['expected_stderr'].encode(), (name, result.stderr)
@@ -78,8 +86,11 @@ def main():
             assert actual == expected, (name, entry['output_name'])
         expected_files = {Path(e['path']).name for e in case['inputs']} | {e['output_name'] for e in case['outputs']}
         assert {p.name for p in work.iterdir()} == expected_files, 'unexpected phase products'
-        print(name + ': exit 0, no output streams, all generated files match' +
-              (' (COFF timestamp excluded)' if name == 'c2' else ' byte for byte'))
+        if 'generated_program' in case:
+            program = invoke([work / 'test.exe'], env, cwd=work)
+            assert program.returncode == 0 and not program.stdout and not program.stderr, 'generated executable failed'
+        print(name + ': exit 0, output streams match, all generated files match' +
+              (' (COFF timestamp excluded)' if name != 'c1' else ' byte for byte'))
 
 
 if __name__ == '__main__':

@@ -53,6 +53,17 @@ int main(int argc,char **argv)
                 if(!ReadProcessMemory(pi.hProcess,(void *)ctx.Esp,stack,sizeof(stack),&wrote)) return 8;
                 i=read_string(pi.hProcess,stack[1]); save(argv[3],n,"application",buffer,i);
                 i=read_string(pi.hProcess,stack[2]); save(argv[3],n,"command",buffer,i);
+                if(n==3) {
+                    p=strchr((char *)buffer,'@'); if(!p) return 19;
+                    strcpy(source,p+1);
+                    sprintf(dest,"%s\\link-input.rsp",argv[3]);
+                    if(!CopyFileA(source,dest,FALSE)) return 20;
+                    sprintf(source,"%s\\test.obj",argv[4]);
+                    sprintf(dest,"%s\\link-input.obj",argv[3]);
+                    if(!CopyFileA(source,dest,FALSE)) return 21;
+                    i=GetEnvironmentVariableA("LIB",(char *)buffer,sizeof(buffer));
+                    save(argv[3],n,"LIB",buffer,i);
+                }
                 i=read_string(pi.hProcess,stack[8]); save(argv[3],n,"cwd",buffer,i);
                 if(stack[7]) {
                     flags=stack[6]; if(flags&0x400) return 13;
