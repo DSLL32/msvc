@@ -127,6 +127,11 @@ void __stdcall replace_function_parameters(FrontendSymbol *symbol, ParameterInfo
 FrontendSymbol *__stdcall initialize_function_definition(FrontendSymbol *symbol);
 void browser_begin_function_scope(void);
 void __stdcall browser_function_parameters(FrontendSymbol *symbol);
+extern FrontendSymbol *pending_global_symbols;
+void __stdcall emit_debug_type(CType *type);
+void flush_debug_types(void);
+void write_function_directory(void);
+FrontendSymbol *__stdcall prepare_initializer_symbol(FrontendSymbol *symbol);
 void finish_label_symbols(void);
 int defer_global_symbol(FrontendSymbol *symbol);
 int __stdcall serialize_scope(SymbolScope *scope);
@@ -267,4 +272,7 @@ void __stdcall concatenate_string_literals(void *left, void *right);
 IrToken *__stdcall begin_sizeof_expression(IrToken *operand);
 IrToken *__stdcall begin_alignof_expression(IrToken *operand);
 void *__stdcall append_argument(void *arguments, IrToken *argument, int flags);
+void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol);
+unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol);
+
 #endif

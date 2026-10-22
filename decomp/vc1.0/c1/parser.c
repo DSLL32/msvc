@@ -1498,3 +1498,27 @@ void __stdcall end_function_context(int direct_scope_exit)
     function_reserved_state = 0;
     function_scope_level = 0;
 }
+
+/* Original 0x230c0..0x23192. Return the parser to declaration context,
+   retaining arenas when this entry is used during error recovery. */
+void __stdcall finish_external_declaration(int recovering)
+{
+    if (!recovering) release_arena(1);
+    if (!recovering) release_arena(2);
+    expression_next = expression_storage;
+    function_symbol = 0;
+    function_parameter_declarations = 0;
+    current_parameter = function_parameter_declarations;
+    function_parameter_context = 0;
+    active_parameter_context = function_parameter_context;
+    scanner_flags &= ~0x02000000;
+    parser_flags &= ~0x2000;
+    declaration_spec_flags[declaration_depth] &= ~3;
+    if (current_function) {
+        scope_depth = 0;
+        current_scope = global_scope;
+        declaration_depth = 0;
+        global_record_kind = 0;
+        function_scope_level = 0;
+    }
+}

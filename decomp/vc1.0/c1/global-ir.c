@@ -1,6 +1,10 @@
 /* Global intermediate record serialization. */
 #include "global-ir.h"
 
+/* Shared name-formatting workspace, original 0x65e60. The diagnostic
+   name formatter truncates at 247 characters. */
+static char symbol_name_buffer[248];
+
 unsigned char global_record_kind; /* original 0x6003c */
 
 /* Original 0x36b30..0x36b4f. Rewritten at both startup and completion. */
@@ -13,8 +17,8 @@ void write_global_header(void)
 
 FILE *auxiliary_ir_stream; /* original 0x6e434 */
 FunctionIrState function_ir; /* original 0x60044..0x60058 */
-int hidden_frame_enabled; /* original 0x6bf64 */
-unsigned hidden_frame_bytes; /* original 0x6b804 */
+int function_in_pch; /* original 0x6bf64 */
+unsigned pch_symbol_offset_adjustment; /* original 0x6b804 */
 int function_call_seen; /* original 0x6bfb0 */
 int default_inline_candidate = 1; /* original 0x6bfa8 */
 int inline_candidate = 1; /* original 0x6bfac */
@@ -365,7 +369,7 @@ formats:
             break;
         case GF_STREAM_POSITIONS:
             GLOBAL_INTEGER(function_ir.expression_offset);
-            GLOBAL_INTEGER(function_ir.symbol_offset + (hidden_frame_enabled ? hidden_frame_bytes : 0));
+            GLOBAL_INTEGER(function_ir.symbol_offset + (function_in_pch ? pch_symbol_offset_adjustment : 0));
             break;
         case GF_COMPLEXITY:
             GLOBAL_SHORT(function_ir.complexity > 65535 ? -1 : (short)function_ir.complexity);
@@ -373,8 +377,8 @@ formats:
         case GF_OPTIMIZATION:
             code = ((symbol->attributes & 0x8000) ? 4 : 0) |
                 ((symbol->storage[1] & 1) ? 0x80 : 0) |
-                (function_call_seen ? 8 : 0) | (hidden_frame_enabled ? 1 : 0) |
-                (function_ir.no_inline ? 0x20 : 0);
+                (function_call_seen ? 8 : 0) | (function_in_pch ? 1 : 0) |
+                (function_ir.force_output ? 0x20 : 0);
             no_inline = attributes & 0x800;
             function_not_inlinable = no_inline || (options.option_GA &&
                 ((attributes & 0x400) || ((attributes & 7) == 2 && options.option_GEf)));
@@ -483,4 +487,38 @@ void write_ir_index(unsigned *index)
 void write_ir_filename(char *text)
 {
     do { putc((signed char)*text, auxiliary_ir_stream); } while (*text++);
+}
+
+/* Original 0x2e160..0x2e264. C names are already prefixed by the
+   declarator; stdcall and fastcall functions append their parameter bytes. */
+void __stdcall write_decorated_name(FILE *stream, FrontendSymbol *symbol)
+{
+    char *text = symbol->name;
+    unsigned kind = symbol->kind & 31;
+    unsigned convention;
+    int length;
+
+    while (*text) { GLOBAL_BYTE(stream, (signed char)*text); ++text; }
+    if (kind == 6 || kind == 7) {
+        convention = symbol->type->attributes & 0x70;
+        if (convention == 0x60 || convention == 0x40) {
+            if (!(symbol->attributes & 0x4000)) cache_parameter_bytes(symbol);
+            GLOBAL_BYTE(stream, '@');
+            length = format_integer(symbol->detail.value, symbol_name_buffer, 10);
+            symbol_name_buffer[length] = '\0';
+            text = symbol_name_buffer;
+            while (*text) { GLOBAL_BYTE(stream, (signed char)*text); ++text; }
+        }
+    }
+    GLOBAL_BYTE(stream, 0);
+}
+
+/* Original 0x36500..0x3653d. This global-record entry remains distinct
+   from expression_type_alignment despite their identical original bodies. */
+unsigned short __stdcall type_alignment(CType *type)
+{
+    if (type->related && (type->related->flags & 7) != 2) return 4;
+    if (type->flags & 0x400)
+        return (unsigned short)((((FrontendSymbol *)type->field08)->field24 >> 16) & 0xff);
+    return type->flags & 15;
 }

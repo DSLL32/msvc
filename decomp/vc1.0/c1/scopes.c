@@ -294,3 +294,21 @@ void clear_symbol_aliases(void)
 {
     symbol_aliases = 0;
 }
+
+/* Original 0x360a0..0x36107. A global type must wait for its
+   referenced declaration unless that declaration belongs to the PCH. */
+int defer_global_symbol(FrontendSymbol *symbol)
+{
+    unsigned kind;
+    FrontendSymbol *dependency;
+    if (pch_separate_debug) return 0;
+    kind = symbol->kind & 31;
+    if (kind == 4 || kind == 5)
+        return (symbol->flags & 2) && !(symbol->flags & 0x40);
+    if ((symbol->storage[0] & 7) == 7) {
+        dependency = (FrontendSymbol *)symbol->type->field08;
+        if (dependency && !(symbol->flags & 0x40) && defer_global_symbol(dependency))
+            return 1;
+    }
+    return 0;
+}

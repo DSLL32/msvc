@@ -659,3 +659,107 @@ void finish_label_symbols(void)
     }
     label_symbols = 0;
 }
+
+FrontendSymbol *pending_global_symbols; /* original 0x6b6bc */
+
+/* Original 0x362c0..0x3633c. Emit retained functions and global declarations,
+   followed by any deferred initializer expressions and final pragma state. */
+void finish_declarations(void)
+{
+    FrontendSymbol *symbol, *target;
+    IrToken *initializer;
+    global_record_kind = 0;
+    if (current_function) return;
+    for (symbol = pending_global_symbols; symbol; symbol = symbol->next)
+        emit_symbol_declaration(symbol);
+    write_function_directory();
+    serialize_scope(global_scope);
+    for (symbol = pending_global_symbols; symbol; symbol = symbol->next) {
+        if (symbol->field28) {
+            emit_symbol_declaration((FrontendSymbol *)symbol->field28);
+            initializer = make_symbol_reference(symbol);
+            target = prepare_initializer_symbol((FrontendSymbol *)symbol->field28);
+            finish_initializer(target, initializer);
+        }
+    }
+    write_global_record(10, 0);
+}
+
+/* Original 0x36b50..0x36df7. Emit each declaration once, separating
+   ordinary records from declarations retained in precompiled debug data. */
+void __stdcall emit_symbol_declaration(FrontendSymbol *symbol)
+{
+    unsigned kind = symbol->kind & 31;
+    unsigned storage;
+    int defer_debug = 0, imported_debug, tag;
+    FrontendSymbol *alias;
+
+    if (pch_separate_debug && !global_record_kind &&
+        !(kind >= 1 && kind <= 13 && kind != 5 && (symbol->attributes & 8)))
+        defer_debug = 1;
+    imported_debug = (symbol->flags & 0x40) &&
+        (options.pch_use || options.pch_use_file) &&
+        !options.pch_create && !options.pch_create_file;
+    if (current_function > 0 || (symbol->flags & 2)) return;
+    if (kind == 13) {
+        if (!defer_debug) {
+            write_global_record(9, symbol);
+            symbol->flags |= 2;
+        }
+        return;
+    }
+    if (kind == 4) {
+        if (options.debug_info && !(symbol->flags & 0x20)) {
+            symbol->type->field0c = (symbol->type->field0c & 0xffff0000UL) |
+                                    debug_symbol_type_index(symbol);
+            flush_debug_types();
+        }
+        if (defer_debug) { symbol->flags |= 0x40; return; }
+        if (!symbol->name || symbol->name == name_unnamed) return;
+        if (options.debug_info && !(symbol->flags & 0x20) && !imported_debug)
+            tag = 11;
+        else { symbol->flags |= 2; return; }
+    } else if (kind == 5) {
+        if (!options.debug_info) { symbol->flags |= 2; return; }
+        emit_debug_type(symbol->type);
+        flush_debug_types();
+        if (defer_debug) { symbol->flags |= 0x40; return; }
+        if (imported_debug) { symbol->flags |= 2; return; }
+        tag = 8;
+    } else {
+        storage = symbol->storage[0] & 7;
+        if (defer_debug) {
+            prepare_symbol_debug_type(symbol);
+            if (storage == 7) symbol->flags |= 0x40;
+            return;
+        }
+        if (storage == 7 && (symbol->flags & 0x40)) {
+            if (!imported_debug) write_global_record(11, symbol);
+            symbol->flags |= 2;
+            return;
+        }
+        if ((symbol->attributes & 0x40) && kind == 9) {
+            alias = symbol_alias(symbol);
+            alias->attributes = (alias->attributes & ~0x8004UL) |
+                                (symbol->attributes & 0x8004);
+            alias->detail.value = symbol->detail.value;
+            alias->attributes = (alias->attributes & ~2UL) | (symbol->attributes & 2);
+            alias->type = symbol->type;
+            if (!options.debug_info) return;
+            ++alias->references;
+            emit_debug_type(symbol->type);
+            flush_debug_types();
+            tag = 7;
+        } else {
+            if (!symbol->references) {
+                if (storage == 1 || kind == 6 || kind == 7 || storage == 7) return;
+                if (kind == 10) compiler_warning(4, 100, symbol->name);
+                else if (global_record_kind) compiler_warning(3, 101, symbol->name);
+            }
+            tag = (kind == 6 || kind == 7) ? 4 : 1;
+            if (options.debug_info) prepare_symbol_debug_type(symbol);
+        }
+    }
+    write_global_record(tag, symbol);
+    symbol->flags |= 2;
+}

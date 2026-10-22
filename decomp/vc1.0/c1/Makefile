@@ -22,6 +22,7 @@ check: all audit
 
 audit: build/runtime.json runtime.json
 	$(PYTHON) audit-graph.py
+	$(PYTHON) audit-state.py
 
 replay: all
 	$(PYTHON) compare.py --replay

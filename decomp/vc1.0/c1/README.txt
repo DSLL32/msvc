@@ -2,14 +2,12 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-The captured minimal-C case currently reaches matching traps at
-finish_external_declaration, original VA 0x230c0. There are 169 reconstructed
-source functions and 238 accepted trap frontiers, all replayed in order with
-exact pending-buffer comparison. The case has completed main's return path,
-closed its statement/parameter scopes, serialized its labels and scope records,
-and retained its typed function-directory entry. End-of-file handling, final
-directory emission, and output closure remain unfinished. This is a checkpoint,
-not a completed compiler case.
+The captured minimal-C case is complete: 179 reconstructed source functions
+and 258 accepted trap frontiers. Every frontier was replayed in order with
+exact pending-buffer and visible-file comparison. The reconstructed frontend
+exits 0 with empty stdout/stderr and produces all four captured intermediate
+files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodified
+original independently produces the same files and process result.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -114,3 +112,8 @@ compare.py advances the accepted list only after its matching trap.
 audit-graph.py compares direct call and tail-jump targets and the presence of indirect
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
+
+audit-state.py checks the initial bytes and address aliases of 26 encountered
+frontend state objects, including PCH ownership, function-directory state,
+parser defaults, and source/include state. These checks read the binaries
+for verification only; reconstructed code does not load original image data.

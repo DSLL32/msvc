@@ -4,7 +4,8 @@
 
 unsigned initial_option_flags, precompiled_option_flags;
 SavedConfiguration saved_configuration;
-int global_expression_scope_active, current_function, error_count;
+int global_expression_scope_active; /* original 0x5b25c */
+int current_function, error_count;
 char version_string[256];
 Vector *forced_source_inputs;
 short forced_source_index;

@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <share.h>
 #include "source-input.h"
+#include "lexer.h"
 #undef _fileno
 
 SourceFile *active_input, *root_input, *free_inputs;
@@ -14,7 +15,7 @@ int source_handle = -1; /* original 0x6a7d8 */
 char source_storage[3 * 4099]; /* original first guard at 0x60838 */
 char *source_text_cursor; /* original 0x5b14c */
 unsigned source_line_number; /* original 0x5b238 */
-unsigned include_pragma_state; /* original 0x6bf74 */
+unsigned include_pragma_state = (unsigned)-1; /* original 0x6bf74 */
 int macro_expansion_active; /* original 0x63854 */
 char *macro_saved_input_cursor; /* original 0x63958 */
 unsigned browser_file_cookie; /* original 0x63894 */
@@ -191,5 +192,89 @@ int fill_source_buffer(void)
         return 0;
     }
     buffer[0] = 0;
+    return 1;
+}
+
+/* Original 0x1b9b0..0x1bc6b. Pop an input file, restore its parent's
+   buffered position, and reopen an evicted parent handle when necessary. */
+unsigned char close_source_file(void)
+{
+    SourceFile *input, *parent;
+    PackingEntry *packing;
+    char *packing_warning = 0;
+    unsigned final_line;
+    long offset;
+    int handle;
+    if (include_depth == -1) return 0;
+    input = active_input;
+    if (!input->input_kind) {
+        _close(source_handle);
+        input = active_input;
+    }
+    if (input->saved_pragma != include_pragma_state) {
+        fatal_error(70, source_filename);
+        input = active_input;
+    }
+    if (include_depth) {
+        packing = top_packing(packing_stack);
+        input = active_input;
+        if (packing->alignment != input->saved_packing) packing_warning = source_filename;
+    }
+    if (browser_filename && !input->input_kind) {
+        browser_close_file();
+        input = active_input;
+    }
+    if (options.option_ide) {
+        report_ide_file_end();
+        input = active_input;
+    }
+    final_line = source_line_number;
+    source_text_cursor = input->saved_cursor;
+    source_buffer_cursor = input->filename;
+    source_line_number = input->saved_line;
+    parent = input->next;
+    active_input = parent;
+    input->next = free_inputs;
+    free_inputs = input;
+    if (--include_depth < 0) {
+        source_line_number = final_line;
+        source_filename = root_input->filename;
+        source_file_index = &root_input->index;
+        return 0;
+    }
+    source_filename = parent->filename;
+    source_file_index = &parent->index;
+    handle = parent->handle;
+    if (!include_depth && pch_include_state == 1) {
+        active_input = parent;
+        source_handle = handle;
+        if (!pch_output_written) {
+            prepare_pch_output(options.pch_create_file);
+            finish_pch_output();
+            parent = active_input;
+            handle = source_handle;
+        }
+    }
+    active_input = parent;
+    source_handle = handle;
+    if (handle == -1) {
+        offset = parent->offset;
+        parent->handle = open_input_handle(source_filename);
+        source_handle = active_input->handle;
+        if (source_handle == -1)
+            report_fatal(83, message_text(include_depth ? 343 : 341), source_filename);
+        if (_lseek(active_input->handle, offset, 0) == -1)
+            report_fatal(84, message_text(include_depth ? 343 : 341), source_filename);
+    }
+    if (packing_warning) compiler_warning(1, 103, packing_warning);
+    if (include_depth >= 2) fill_source_buffer();
+    if (!options.option_EP) emit_line_directive();
+    if (options.option_ide) report_ide_source();
+    if ((scanner_flags & 0x80000) && !(scanner_flags & 0x40) && !options.option_E)
+        record_line_information(2);
+    if (!include_depth && forced_source_inputs->count > forced_source_index) {
+        current_forced_source = forced_source_inputs->items[forced_source_index++];
+        open_forced_include(current_forced_source, 0);
+    }
     return 1;
 }

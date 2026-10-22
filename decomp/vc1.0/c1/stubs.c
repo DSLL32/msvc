@@ -56,7 +56,6 @@ int __stdcall open_forced_include(char *filename, int flags) { __asm { int 3 } r
 
 
 /* Original 0x362c0. */
-void finish_declarations(void) { __asm { int 3 } }
 
 /* Original 0x474b0. */
 void finish_debug_info(void) { __asm { int 3 } }
@@ -67,7 +66,6 @@ void finish_debug_info(void) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
 
 /* Original 0x4bb60. */
-void close_intermediate(FILE *file) { __asm { int 3 } }
 
 /* Original 0x27210. */
 void finish_browser_output(void) { __asm { int 3 } }
@@ -79,7 +77,6 @@ void report_error(unsigned code, ...) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 
 /* Original 0x46e30. */
-void cleanup_precompiled_files(void) { __asm { int 3 } }
 
 /* Original 0x271a0. */
 void begin_browser_output(void) { __asm { int 3 } }
@@ -116,10 +113,7 @@ void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 int __stdcall parameter_stack_bytes(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
-unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0; }
-void __stdcall emit_symbol_declaration(FrontendSymbol *symbol) { __asm { int 3 } }
 FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
-void __stdcall write_decorated_name(FILE *stream, FrontendSymbol *symbol) { __asm { int 3 } }
 void write_ir_string(char *text) { __asm { int 3 } }
 
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return -1; }
@@ -158,7 +152,6 @@ int scan_macro_identifier(void) { __asm { int 3 } return 0; }
 
 int __stdcall expand_macro(MacroDefinition *definition) { __asm { int 3 } return 0; }
 
-unsigned char close_source_file(void) { __asm { int 3 } return 0; }
 
 void finish_pch_output(void) { __asm { int 3 } }
 
@@ -200,7 +193,6 @@ void skip_declaration_tokens(void) { __asm { int 3 } }
 unsigned char recover_parser_token(unsigned char token, ...) { __asm { int 3 } return 0; }
 
 /* Original 0x230c0. */
-void __stdcall finish_external_declaration(int recovering) { __asm { int 3 } }
 
 /* Original 0x25e30. */
 FrontendSymbol *__stdcall resolve_type_symbol(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
@@ -539,4 +531,20 @@ void *__stdcall pop_work_list(void **head) { __asm { int 3 } return 0; }
 
 void finish_inline_function(void) { __asm { int 3 } }
 
-int defer_global_symbol(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
+void browser_close_file(void) { __asm { int 3 } }
+void report_ide_file_end(void) { __asm { int 3 } }
+
+FrontendSymbol *__stdcall prepare_initializer_symbol(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
+void __stdcall emit_debug_type(CType *type) { __asm { int 3 } }
+void flush_debug_types(void) { __asm { int 3 } }
+
+void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
+int format_integer(int value, char *destination, unsigned radix) { __asm { int 3 } return 0; }
+
+void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol) { __asm { int 3 } }
+unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
+int fclose(FILE *file) { __asm { int 3 } return 0; }
+int _unlink(const char *name) { __asm { int 3 } return 0; }

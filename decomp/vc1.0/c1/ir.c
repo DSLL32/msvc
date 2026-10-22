@@ -542,3 +542,63 @@ void __stdcall record_function_definition(FrontendSymbol *symbol)
         putc(0, line_file);
     }
 }
+
+/* Original 0x3a430..0x3a641. Emit retained function definitions after
+   resolving their final linkage, reference counts, and inline attributes. */
+void write_function_directory(void)
+{
+    unsigned saved_Oq = normalized_Oq;
+    unsigned count, index;
+    FunctionRecord *record;
+    FrontendSymbol *symbol;
+    while (function_records) {
+        count = function_records == last_function_records ? function_record_index + 1 : 20;
+        for (index = 0; index < count; ++index) {
+            record = &function_records->records[index];
+            symbol = record->symbol;
+            function_ir.expression_offset = record->expression_offset;
+            function_ir.symbol_offset = record->symbol_offset;
+            function_in_pch = (record->flags >> 4) & 1;
+            function_ir.complexity = record->complexity;
+            function_ir.parameter_count = record->parameter_count;
+            inline_candidate = (record->flags & 1) ? -1 : 0;
+            function_call_seen = (record->flags & 2) || ((symbol->type->related->attributes & 7) == 1);
+            function_not_inlinable = (record->flags & 4) ? -1 : 0;
+            /* The original reads Oq from the last block at the current
+               within-block index, even while emitting an earlier block. */
+            normalized_Oq = (last_function_records->records[index].flags & 8) ? -1 : 0;
+            function_ir.force_output = 0;
+            if (symbol->name == name_main || symbol->name == name_winmain || symbol->name == name_dllmain) {
+                if ((symbol->storage[0] & 7) == 3) {
+                    compiler_warning(3, 8, symbol->name, "static");
+                    symbol->storage[0] = (symbol->storage[0] & ~6) | 1;
+                }
+                if (symbol->storage[1] & 1) {
+                    compiler_warning(3, 8, symbol->name, "__inline");
+                    symbol->storage[1] &= ~1;
+                }
+                symbol->attributes |= 0x8000;
+                function_ir.force_output = 1;
+            } else if ((symbol->storage[0] & 7) != 3) {
+                if (symbol->storage[1] & 1) {
+                    symbol->storage[0] |= 0x40;
+                    if ((symbol->storage[1] & 0x10) ||
+                        ((symbol->storage[2] & 4) && (symbol->storage[2] & 8)))
+                        if (!(symbol->storage[2] & 4) || (symbol->storage[2] & 8)) function_ir.force_output = 1;
+                } else function_ir.force_output = 1;
+            }
+            if (symbol->storage[1] & 0x80) function_ir.force_output = 1;
+            if (!function_ir.force_output && !symbol->references) compiler_warning(4, 505, symbol->name);
+            else {
+                if (options.debug_info) {
+                    emit_debug_type(symbol->type);
+                    flush_debug_types();
+                }
+                write_global_record(14, symbol);
+            }
+            symbol->flags |= 2;
+        }
+        function_records = function_records->next;
+    }
+    normalized_Oq = saved_Oq;
+}

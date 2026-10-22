@@ -50,15 +50,15 @@ typedef struct FunctionIrState {
     unsigned complexity;
     unsigned short parameter_count, reserved;
     unsigned symbol_offset, expression_offset;
-    int no_inline;
+    int force_output;
 } FunctionIrState;
 extern unsigned char global_record_kind;
 extern unsigned char *global_record_formats[19];
 extern FILE *auxiliary_ir_stream;
 extern FunctionIrState function_ir;
-extern int hidden_frame_enabled, function_call_seen, inline_candidate, function_not_inlinable;
+extern int function_in_pch, function_call_seen, inline_candidate, function_not_inlinable;
 extern int default_inline_candidate;
-extern unsigned hidden_frame_bytes;
+extern unsigned pch_symbol_offset_adjustment;
 extern int far_call_mode, prologue_mode;
 extern unsigned pragma_record_number;
 extern char *pragma_text;
@@ -78,4 +78,8 @@ void write_ir_filename(char *text);
 void write_ir_string(char *text);
 void write_ir_index(unsigned *index);
 void __stdcall write_global_record(unsigned tag, FrontendSymbol *symbol);
+
+void __stdcall cache_parameter_bytes(FrontendSymbol *symbol);
+int format_integer(int value, char *destination, unsigned radix);
+
 #endif

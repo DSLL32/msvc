@@ -242,7 +242,27 @@
     "_finish_label_symbols",
     "_serialize_scope@4",
     "_record_function_definition@4",
-    "_clear_symbol_aliases"
+    "_clear_symbol_aliases",
+    "_finish_external_declaration@4",
+    "_close_source_file",
+    "__close",
+    "import:CloseHandle",
+    "__free_osfhnd",
+    "_finish_declarations",
+    "_write_function_directory",
+    "_write_decorated_name@8",
+    "_type_alignment@4",
+    "_defer_global_symbol",
+    "_emit_symbol_declaration@4",
+    "_close_intermediate",
+    "_fflush",
+    "_cleanup_precompiled_files",
+    "_exit",
+    "_doexit",
+    "__endstdio",
+    "__flushall",
+    "_flsall",
+    "import:ExitProcess"
   ],
   "driver": [
     {
@@ -490,7 +510,7 @@
     {
       "name": "_finish_declarations",
       "start": 221888,
-      "end": 221889
+      "end": 222012
     },
     {
       "name": "_write_ir_record@8",
@@ -526,7 +546,7 @@
     {
       "name": "_close_intermediate",
       "start": 310112,
-      "end": 310113
+      "end": 310213
     },
     {
       "name": "_finish_browser_output",
@@ -546,7 +566,7 @@
     {
       "name": "_cleanup_precompiled_files",
       "start": 290352,
-      "end": 290353
+      "end": 290601
     },
     {
       "name": "_initialize_work_stack@4",
@@ -912,7 +932,7 @@
     {
       "name": "_write_decorated_name@8",
       "start": 188768,
-      "end": 188769
+      "end": 189028
     },
     {
       "name": "_write_ir_filename",
@@ -1080,7 +1100,7 @@
     {
       "name": "_close_source_file",
       "start": 113072,
-      "end": 113073
+      "end": 113771
     },
     {
       "name": "_finish_pch_output",
@@ -1175,7 +1195,7 @@
     {
       "name": "_finish_external_declaration@4",
       "start": 143552,
-      "end": 143553
+      "end": 143762
     },
     {
       "name": "_resolve_type_symbol@4",
@@ -2138,13 +2158,74 @@
     {
       "name": "_defer_global_symbol",
       "start": 221344,
-      "end": 221345
+      "end": 221447
+    },
+    {
+      "name": "_browser_close_file",
+      "start": 161168,
+      "end": 161169
+    },
+    {
+      "name": "_report_ide_file_end",
+      "start": 115472,
+      "end": 115473
+    },
+    {
+      "name": "_write_function_directory",
+      "start": 238640,
+      "end": 239169
+    },
+    {
+      "name": "_prepare_initializer_symbol@4",
+      "start": 195888,
+      "end": 195889
+    },
+    {
+      "name": "_emit_debug_type@4",
+      "start": 292048,
+      "end": 292049
+    },
+    {
+      "name": "_flush_debug_types",
+      "start": 293600,
+      "end": 293601
+    },
+    {
+      "name": "_cache_parameter_bytes@4",
+      "start": 189184,
+      "end": 189282
+    },
+    {
+      "name": "_format_integer",
+      "start": 310224,
+      "end": 310345
+    },
+    {
+      "name": "_prepare_symbol_debug_type@4",
+      "start": 223984,
+      "end": 224047
+    },
+    {
+      "name": "_debug_symbol_type_index@4",
+      "start": 293056,
+      "end": 293057
+    },
+    {
+      "name": "_fclose",
+      "start": 338688,
+      "end": 338689
+    },
+    {
+      "name": "__unlink",
+      "start": 338848,
+      "end": 338849
     }
   ],
   "cases": {
     "minimal": {
       "arguments": "",
-      "accepted_from": 0
+      "accepted_from": 0,
+      "accepted_count": 258
     }
   },
   "buffered_streams": [
