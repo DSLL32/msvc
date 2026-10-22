@@ -67,7 +67,7 @@ else:
     for line in Path('build/rc.map').read_text().splitlines():
         match = re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})', line)
         if match and match[1] in source_names:
-            source_targets[match[1]] = int(match[2], 16)
+            source_targets.setdefault(match[1], int(match[2], 16))
 # Identical masked code can call unrelated functions: remove/rmdir, new/delete,
 # setargv/getpid and spawnv/spawnvp are examples. Resolve those relocations.
 while True:
@@ -86,7 +86,15 @@ while True:
             name = symbol['name']
             expected = None
             if symbol['section'] == text['index']:
-                expected = {start + symbol['value']}
+                # A separately matched function can move when another function
+                # in this CRT object was revised. Prove its named whole-function
+                # target rather than assuming the library's old section offset.
+                if symbol.get('type') == 0x20 and name in source_targets:
+                    expected = {source_targets[name]}
+                elif symbol.get('type') == 0x20 and name in known:
+                    expected = known[name]
+                else:
+                    expected = {start + symbol['value']}
             elif symbol['section'] == 0:
                 if name.startswith('_') and '@' in name:
                     target = import_targets.get(name[1:].rsplit('@', 1)[0])

@@ -127,6 +127,33 @@ def equivalent(left, right, oi, ri):
     return all(match(address, set()) for address in sorted(right, key=lambda a: len(candidates[a])))
 
 
+def audit_crt_tables(original, reconstruction, oi, ri, accepted):
+    """Compare callable initializer/termination entries, including their order.
+
+    Linker section alignment can add different numbers of null slots. The
+    callable sequence must match and every non-null entry must be accepted.
+    Original boundaries come from the recovered cinit/doexit call arguments.
+    """
+    oa, ra = aliases(oi), aliases(ri)
+    names = compare.publics()
+    report = {}
+    for label, begin, end in [('xc',0x101f000,0x101f010), ('xi',0x101f020,0x101f030),
+                              ('xp',0x101f040,0x101f060), ('xt',0x101f070,0x101f080)]:
+        left = [u32(original.read(a,4),0) for a in range(begin,end,4)]
+        first, last = names['___'+label+'_a'], names['___'+label+'_z']
+        right = [u32(reconstruction.read(a,4),0) for a in range(first,last,4)]
+        left, right = [a for a in left if a], [a for a in right if a]
+        assert len(left) == len(right), (label, 'CRT callback count differs')
+        entries = []
+        for a, b in zip(left, right):
+            shared = oa[a] & ra[b] & set(accepted)
+            assert shared, (label, 'unaccepted or different CRT callback', hex(a), hex(b))
+            entries.append(dict(names=sorted(shared), original=hex(a), reconstruction=hex(b)))
+        report[label] = dict(original_range=[hex(begin),hex(end)],
+                             reconstructed_range=[hex(first),hex(last)], callbacks=entries)
+    Path('build/runtime-tables.json').write_text(json.dumps(report,indent=2)+'\n')
+
+
 def main():
     original, reconstruction, cfg, oi, ri = compare.indexes()
     oa, ra = aliases(oi), aliases(ri)
@@ -152,6 +179,8 @@ def main():
                             stack_cleanup=sorted(left_returns),
                             indirect_calls=left['indirect'])
     Path('build/graph-audit.json').write_text(json.dumps(report, indent=2) + '\n')
+    if '_doexit' in cfg['accepted'] and '__endstdio' in cfg['accepted']:
+        audit_crt_tables(original, reconstruction, oi, ri, cfg['accepted'])
     print('%d accepted source functions: direct calls, function references and return cleanup agree.' % len(report))
 
 

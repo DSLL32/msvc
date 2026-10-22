@@ -2,7 +2,7 @@
 #include "menu.h"
 #include <string.h>
 #pragma intrinsic(memcpy)
-unsigned int current_menu_offset;
+unsigned int last_resource_item_offset;
 
 /* Original 0x0100c7d0..0x0100c970. */
 BOOL __stdcall parse_menu(int nested, struct ResourceInfo *resource)
@@ -45,9 +45,9 @@ BOOL __stdcall parse_menu(int nested, struct ResourceInfo *resource)
         case 78: /* POPUP */
             have_items = TRUE;
             parse_menu_item(TRUE);
-            saved = current_menu_offset;
+            saved = last_resource_item_offset;
             parse_menu(1, resource);
-            current_menu_offset = saved;
+            last_resource_item_offset = saved;
             break;
         default:
             parser_error("Unknown Menu SubType", "");
@@ -66,12 +66,12 @@ BOOL __stdcall parse_menu(int nested, struct ResourceInfo *resource)
 /* Original 0x0100ad20..0x0100ad2b. */
 void __cdecl mark_menu_item(void)
 {
-    current_menu_offset = resource_data_size;
+    last_resource_item_offset = resource_data_size;
 }
 /* Original 0x0100ad30..0x0100ad40. */
 void __cdecl finish_menu(void)
 {
-    resource_data[current_menu_offset] |= 0x80;
+    resource_data[last_resource_item_offset] |= 0x80;
 }
 /* Original 0x0100ad60..0x0100adb0. */
 void __stdcall put_menu_item(struct MenuItem *item)

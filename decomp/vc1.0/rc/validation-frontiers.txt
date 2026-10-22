@@ -184,3 +184,45 @@ original: _resource_free@4; reconstruction: _resource_free@4
 Both first dialog payloads match the captured 506 bytes exactly.
 original: _parse_string_table@4; reconstruction: _parse_string_table@4
 Both flushed output prefixes match the captured 852 bytes exactly.
+original: _copy_resource_memory@8; reconstruction: _copy_resource_memory@8
+original: _parse_accelerators@4; reconstruction: _parse_accelerators@4
+original: _accelerator_word_operators@4; reconstruction: _accelerator_word_operators@4
+original: _mark_accelerator; reconstruction: _mark_accelerator
+original: _finish_accelerators; reconstruction: _finish_accelerators
+original: _split_icon_file@12; reconstruction: _split_icon_file@12
+original: _read_resource_file; reconstruction: _read_resource_file
+original: _resolve_resource_path@12; reconstruction: _resolve_resource_path@12
+original: _resource_stream@4; reconstruction: _resource_stream@4
+original: _put_bytes@8; reconstruction: _put_bytes@8
+original: _put_byte@4; reconstruction: _put_byte@4
+original: _copy_file_bytes@12; reconstruction: _copy_file_bytes@12
+original: _read_bitmap_file_header; reconstruction: _read_bitmap_file_header
+original: _copy_file_to_end@8; reconstruction: _copy_file_to_end@8
+original: _parse_raw_data@4; reconstruction: _parse_raw_data@4
+original: _scan_wide_string; reconstruction: _scan_wide_string
+original: _parse_dialog_include@4; reconstruction: _parse_dialog_include@4
+original: _parse_version_info; reconstruction: _parse_version_info
+original: _parse_fixed_version; reconstruction: _parse_fixed_version
+original: _parse_version_number@4; reconstruction: _parse_version_number@4
+original: _parse_version_scalar@4; reconstruction: _parse_version_scalar@4
+original: _put_version_block@12; reconstruction: _put_version_block@12
+original: _resource_data_length; reconstruction: _resource_data_length
+original: _resource_data_end; reconstruction: _resource_data_end
+original: _parse_version_children; reconstruction: _parse_version_children
+original: _parse_version_value@4; reconstruction: _parse_version_value@4
+original: _parse_version_data@4; reconstruction: _parse_version_data@4
+original: _emit_string_tables@4; reconstruction: _emit_string_tables@4
+original: _release_resource_data; reconstruction: _release_resource_data
+original: _resource_finish; reconstruction: _resource_finish
+original: __fcloseall; reconstruction: __fcloseall
+original: _remove; reconstruction: _remove
+original: import:DeleteFileA; reconstruction: import:DeleteFileA
+original: _exit; reconstruction: _exit
+original: _doexit; reconstruction: _doexit
+original: __endstdio; reconstruction: __endstdio
+original: __flushall; reconstruction: __flushall
+original: _flsall; reconstruction: _flsall
+original: _fflush; reconstruction: _fflush
+original: import:ExitProcess; reconstruction: import:ExitProcess
+original: exit:0; reconstruction: exit:0
+Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.

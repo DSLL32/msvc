@@ -36,7 +36,9 @@ def publics():
     for line in Path('build/rc.map').read_text().splitlines():
         match = re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})', line)
         if match:
-            result[match[1]] = int(match[2], 16)
+            # Publics precede static symbols in this linker's map. Preserve a
+            # real public definition if a library has a same-named private copy.
+            result.setdefault(match[1], int(match[2], 16))
     return result
 
 
@@ -175,6 +177,12 @@ def compare(count=None):
         expected = (FIXTURE / 'rc/resources.res').read_bytes()
         for label in ('original', 'reconstructed'):
             assert (SCRATCH / ('case-' + label) / 'resources.res').read_bytes() == expected
+            inputs = {str(p.relative_to(FIXTURE / 'source')):p.read_bytes()
+                      for p in (FIXTURE / 'source').rglob('*') if p.is_file()}
+            products = dict(inputs, **{'resources.res':expected})
+            work = SCRATCH / ('case-' + label)
+            observed = {str(p.relative_to(work)):p.read_bytes() for p in work.rglob('*') if p.is_file()}
+            assert observed == products, (label, 'case files or product set differ')
         print('Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.')
     return ol
 

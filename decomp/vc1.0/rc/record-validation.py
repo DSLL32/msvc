@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Record a completed, successful frontier replay without claiming case completion."""
+"""Record paired frontier replay, graph audits and verified case completion."""
 import argparse
 import hashlib
 import json
 from pathlib import Path
+import compare
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('replay_log', type=Path)
@@ -29,10 +30,13 @@ if menu_verified:
 dialog_verified = '_resource_free@4' in configuration['accepted']
 if dialog_verified:
     assert 'Both first dialog payloads match the captured 506 bytes exactly.' in log
-report = dict(status='incomplete', case='resources-rich',
+case_complete = last == 'exit:0'
+if case_complete:
+    assert 'Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.' in log
+report = dict(status='case-complete' if case_complete else 'incomplete', case='resources-rich',
               accepted_frontiers=len(configuration['accepted']),
               replayed_frontiers=len(frontiers), current_frontier=last,
-              exact_final_product_verified=False,
+              exact_final_product_verified=case_complete,
               source_functions_audited=len(graph),
               checks=['all accepted paired frontiers replayed from masked entry',
                       'direct call vertices, callback references and RET cleanup agree for accepted source functions'],
@@ -41,6 +45,32 @@ report = dict(status='incomplete', case='resources-rich',
               fixture_manifest_sha256=hashlib.sha256(Path('../fixtures/resources-rich/manifest.json').read_bytes()).hexdigest(),
               frontier_log_sha256=hashlib.sha256(log.encode()).hexdigest(),
               graph_audit=graph)
+original, _, _, index, _ = compare.indexes()
+restored = set()
+total = 0
+for section in original.sections:
+    if not section['flags'] & 0x20:
+        continue
+    first, last_byte = original.base + section['rva'], original.base + section['rva'] + section['size']
+    total += section['size']
+    for record in index:
+        if record['name'] not in configuration['accepted']:
+            continue
+        for start, end in [(record['start'],record['end'])] + record.get('shared',[]):
+            restored.update(range(max(first,start),min(last_byte,end)))
+report['restored_text'] = dict(bytes=len(restored), total_bytes=total,
+                              percentage=round(100.0*len(restored)/total,2),
+                              definition='whole accepted functions and their text data; not dynamic branch coverage')
+report['unaccepted_named_functions'] = sorted(source - set(configuration['accepted']))
+if case_complete:
+    product = Path('../fixtures/resources-rich/rc/resources.res').read_bytes()
+    report['result'] = dict(exit=0, stdout_bytes=0, stderr_bytes=0,
+                          output_bytes=len(product), resource_records=19,
+                          sha256=hashlib.sha256(product).hexdigest(),
+                          exact_file_set=True)
+    report['runtime_callback_tables'] = json.loads(Path('build/runtime-tables.json').read_text())
+    report['checks'].extend(['CRT initializer and termination callback sequences agree',
+                             'raw streams, exit status, case files and complete product set match exactly'])
 if menu_verified:
     product = Path('../fixtures/resources-rich/rc/resources.res').read_bytes()
     report['first_menu_payload'] = dict(exact_bytes=True, bytes=190,

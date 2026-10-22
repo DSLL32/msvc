@@ -36,7 +36,6 @@ unsigned int __stdcall next_token(unsigned int flags)
     return current_token.kind;
 }
 
-void __cdecl scan_wide_string(void) { __asm int 3 }
 void __cdecl scan_kanji_string(void) { __asm int 3 }
 BOOL __stdcall scan_keyword_or_symbol(unsigned int flags)
 {

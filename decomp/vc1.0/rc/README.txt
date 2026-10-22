@@ -13,10 +13,11 @@ The read-only case and exact original oracle are in
 exact 3,684-byte resources.res with 19 records. Original RCPP is intentionally
 used as RC's child; a separate reconstruction owns that executable.
 
-This reconstruction is INCOMPLETE. Pending functions have typed named INT3
-stubs. A matching trap is a reconstruction frontier, not successful compilation.
-The accepted order and original function/code-data extents are in functions.json.
-validation.json records the latest durable replay milestone.
+The initial rich resource case completes with exactly the captured output. The
+binary remains partly reconstructed: pending functions have typed named INT3
+stubs, and this case does not establish coverage of every input or branch. The
+accepted order and original function/code-data extents are in functions.json;
+validation.json records the complete durable replay and remaining named stubs.
 
 Build and differential checks
 -----------------------------
@@ -37,7 +38,9 @@ interior trap. --accept NAME first verifies the matching current frontier,
 records that whole function, and reruns. --advance-runtime advances exact CRT
 and import matches one verified frontier at a time. make replay repeats every
 accepted frontier from a fully masked entry through the current stopping point.
-Successful final runs require exact raw streams, status and resources.res bytes.
+Successful final runs require exact raw streams, status and resources.res bytes,
+and the exact complete case file set, including unchanged input files and no
+unexpected products or leftover temporary files.
 
 Early PE section headers have VirtualSize=0. binary.py uses backed raw sizes
 for the code extent and returns zeros for uninitialized sections; BSS
@@ -68,14 +71,21 @@ address references and compares RET stack cleanup and indirect-call presence.
 It does not claim branch coverage or prove dataflow equivalence by itself;
 paired execution and final byte oracles remain required.
 
-The current resource frontier includes the top-level dispatcher, type interning,
-identifiers, LANGUAGE, numeric expressions, keyword lookup, memory flags and the
-binary payload construction, nested menus and the .res record writer. Both
-masked programs now stop at STRINGTABLE after both dialogs. The debugger
-snapshots payloads without changing execution: the menu matches all captured
-190 bytes and the first dialog matches all 506 bytes, including its 12 controls.
-Both flushed files match the captured first 852 bytes. Remaining resource
-parsers are still named traps; no final product is claimed yet.
+Recovered resource logic includes the dispatcher and type interning, identifiers,
+LANGUAGE, numeric expressions, keyword lookup, memory flags, nested menus,
+dialogs and controls, string tables, accelerators, icon/cursor splitting, Windows
+and OS/2 bitmap headers, raw/custom data, DLGINCLUDE, VERSIONINFO and the .res
+record writer. The debugger snapshots payloads without changing execution: the
+first menu matches all 190 captured bytes and the first dialog matches all 506
+bytes, including its 12 controls. Deferred multilingual string tables and normal
+cleanup produce the complete 3,684-byte product with 19 resource records.
+
+RC also predates shipped LIBC's termination state and private stream-flushing
+helper. Those variants are recovered C, preserving the shared callback walker,
+exit wrappers and stream graph. The graph audit separately verifies all CRT
+initializer/termination callback sequences, including the single __endstdio
+pretermination callback. Exact matched routines keep their original library
+implementation only where their complete bytes and named call targets agree.
 
 Dialog reconstruction preserves the original class/control parser functions,
 WORD-packed scratch layouts, style handling and private wide-number helpers.

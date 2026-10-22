@@ -7,7 +7,7 @@ struct MenuItem {
     WCHAR text[257];
     BYTE flags, popup;
 };
-extern unsigned int current_menu_offset;
+extern unsigned int last_resource_item_offset;
 void __stdcall parse_menu_item(BOOL);
 BOOL __stdcall parse_menu_flag(unsigned int, struct MenuItem *);
 void __cdecl mark_menu_item(void);

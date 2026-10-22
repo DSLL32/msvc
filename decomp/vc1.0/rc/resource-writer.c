@@ -142,14 +142,29 @@ long __stdcall copy_resource_data(FILE *output, void *data, long size, long file
     return size;
 }
 
-/* Pending file-copy graph vertices. */
+/* Original 0x01007150..0x010071b1. The old return is the final chunk size;
+ * no defined chunk result exists when the requested count is zero. */
 unsigned int __stdcall copy_file_bytes(FILE *input, FILE *output, unsigned int count)
 {
-    __asm int 3
-    return 0;
+    BYTE *buffer = resource_alloc(2048);
+    unsigned int chunk;
+    while (count) {
+        chunk = count > 2048 ? 2048 : count;
+        count -= chunk;
+        read_file(input, buffer, chunk);
+        write_file(output, buffer, chunk);
+    }
+    resource_free(buffer);
+    return chunk;
 }
+/* Original 0x010071c0..0x01007207. Read errors terminate this loop just as EOF
+ * does; this function deliberately uses fread rather than checked read_file. */
 BOOL __stdcall copy_file_to_end(FILE *input, FILE *output)
 {
-    __asm int 3
-    return FALSE;
+    BYTE *buffer = resource_alloc(2048);
+    unsigned int received;
+    while ((received = fread(buffer, 1, 2048, input)) != 0)
+        write_file(output, buffer, received);
+    resource_free(buffer);
+    return TRUE;
 }

@@ -9,7 +9,7 @@ DWORD default_resource_version, default_characteristics;
 unsigned int resource_count;
 WORD font_count, kanji_codes[4];
 BOOL font_directory_written;
-struct ResourceType *string_table_type;
+struct ResourceInfo *string_table_resource;
 void *dialog_scratch;
 
 BOOL __cdecl compile_resources(void)
@@ -193,8 +193,8 @@ next_resource:
     }
     if (!font_directory_written && font_count)
         emit_font_directory();
-    if (string_table_type)
-        emit_string_tables(string_table_type);
+    if (string_table_resource)
+        emit_string_tables(string_table_resource);
     release_resource_data();
     return current_token.attributes < 1;
 }

@@ -350,6 +350,13 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "__endstdio",
+    "start": 16840880,
+    "end": 16840912,
+    "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
     "name": "__open_osfhandle",
     "start": 16841440,
     "end": 16841600,

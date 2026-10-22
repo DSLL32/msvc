@@ -90,3 +90,14 @@ void __stdcall put_bytes(void *data, WORD length)
     while (length--)
         put_byte(*next++);
 }
+
+/* Original 0x0100b3d0..0x0100b3dc. */
+BYTE * __cdecl resource_data_end(void)
+{
+    return resource_data + resource_data_size;
+}
+/* Original 0x0100b3e0..0x0100b3e7. Only AX is the return value. */
+WORD __cdecl resource_data_length(void)
+{
+    return (WORD)resource_data_size;
+}

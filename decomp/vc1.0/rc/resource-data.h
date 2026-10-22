@@ -12,4 +12,6 @@ void __stdcall concatenate_wide_string(WCHAR *);
 void __stdcall put_bytes(void *, WORD);
 void __cdecl align_resource_data(void);
 FILE * __stdcall resource_stream(FILE *);
+BYTE * __cdecl resource_data_end(void);
+WORD __cdecl resource_data_length(void);
 #endif
