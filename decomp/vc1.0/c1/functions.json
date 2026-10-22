@@ -304,7 +304,13 @@
     "_push_macro_frame@4",
     "_begin_macro_replacement",
     "_recover_special_character",
-    "_pop_macro_frame"
+    "_pop_macro_frame",
+    "_classify_decimal_integer@4",
+    "_process_pragma",
+    "_read_pragma_token",
+    "_classify_pragma@4",
+    "_set_warning_level@8",
+    "_skip_inactive_literal@4"
   ],
   "driver": [
     {
@@ -1782,7 +1788,7 @@
       "end": 173281
     },
     {
-      "name": "_replace_function_parameters@8",
+      "name": "_assign_function_segment@8",
       "start": 263392,
       "end": 263393
     },
@@ -2039,7 +2045,7 @@
     {
       "name": "_classify_decimal_integer@4",
       "start": 139920,
-      "end": 139921
+      "end": 139941
     },
     {
       "name": "_classify_radix_integer@4",
@@ -2320,7 +2326,7 @@
     {
       "name": "_process_pragma",
       "start": 125936,
-      "end": 125937
+      "end": 130464
     },
     {
       "name": "_undefine_source_macro",
@@ -2586,6 +2592,91 @@
       "name": "_refill_source_boundary",
       "start": 123168,
       "end": 123248
+    },
+    {
+      "name": "_read_pragma_token",
+      "start": 124240,
+      "end": 124266
+    },
+    {
+      "name": "_classify_pragma@4",
+      "start": 115888,
+      "end": 116037
+    },
+    {
+      "name": "_read_pragma_argument@4",
+      "start": 124496,
+      "end": 124497
+    },
+    {
+      "name": "_read_parenthesized_pragma_argument@4",
+      "start": 124336,
+      "end": 124337
+    },
+    {
+      "name": "_pragma_open_parenthesis",
+      "start": 124272,
+      "end": 124273
+    },
+    {
+      "name": "_visit_pragma_names@4",
+      "start": 124368,
+      "end": 124369
+    },
+    {
+      "name": "_enable_intrinsic_function@4",
+      "start": 187488,
+      "end": 187489
+    },
+    {
+      "name": "_disable_intrinsic_function@4",
+      "start": 187616,
+      "end": 187617
+    },
+    {
+      "name": "_assign_allocated_text@4",
+      "start": 220512,
+      "end": 220513
+    },
+    {
+      "name": "_warn_expected_identifier",
+      "start": 185248,
+      "end": 185249
+    },
+    {
+      "name": "_process_pack_pragma",
+      "start": 125408,
+      "end": 125409
+    },
+    {
+      "name": "_emit_listing_directive@4",
+      "start": 131344,
+      "end": 131345
+    },
+    {
+      "name": "_pragma_message@4",
+      "start": 115344,
+      "end": 115345
+    },
+    {
+      "name": "_unpack_option_flags",
+      "start": 311056,
+      "end": 311057
+    },
+    {
+      "name": "_set_warning_level@8",
+      "start": 131216,
+      "end": 131341
+    },
+    {
+      "name": "_warn_bad_pragma",
+      "start": 124208,
+      "end": 124209
+    },
+    {
+      "name": "_synchronize_pch_pragma",
+      "start": 131008,
+      "end": 131009
     }
   ],
   "cases": {

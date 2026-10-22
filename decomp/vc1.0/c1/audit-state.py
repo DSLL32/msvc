@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check initial bytes and address aliases of encountered frontend state."""
 from compare import indexes, publics
+import struct
 
 original, rebuilt, _, _, _ = indexes()
 names = publics()
@@ -55,6 +56,39 @@ STATE = [
     ('_preprocessor_literal', 0x64d7c, 8),
     ('_lexer_text_storage', 0x5b158, 132),
     ('_lexer_text_storage', 0x5b1d8, 4, 128),
+    ('_normalized_Gs', 0x6bf8c, 4),
+    ('_normalized_Gn', 0x6bf90, 4),
+    ('_normalized_PLMN', 0x5b208, 4),
+    ('_normalized_PLMF', 0x5b204, 4),
+    ('_normalized_Zr', 0x5b20c, 4),
+    ('_normalized_Oq', 0x5b1fc, 4),
+    ('_normalized_Ol', 0x5b200, 4),
+    ('_normalized_Oa', 0x6c034, 4),
+    ('_normalized_Ow', 0x6c038, 4),
+    ('_normalized_Op', 0x6c048, 4),
+    ('_normalized_Oz', 0x6c04c, 4),
+    ('_normalized_Oy', 0x6c060, 4),
+    ('_warning_levels', 0x6b818, 800),
+    ('_lowest_warning_700', 0x6bb38, 4),
+    ('_highest_warning_700', 0x6bb3c, 4),
+    ('_pragma_argument', 0x63920, 4),
+    ('_listing_number', 0x63850, 2),
+    ('_listing_subtitle', 0x604b4, 4),
+    ('_listing_title', 0x604b0, 4),
+    ('_optimization_pragma_text', 0x604ac, 4),
+    ('_optimization_pragma_on', 0x60834, 4),
+    ('_native_caller_pragma_seen', 0x6bbcc, 4),
+    ('_default_string_pooling', 0x6bc08, 4),
+    ('_default_code_segment', 0x6b7b0, 4),
+    ('_default_data_segment', 0x6b7a8, 4),
+    ('_default_const_segment', 0x6b7a4, 4),
+    ('_default_bss_segment', 0x6b7a0, 4),
+    ('_plmn_pragma_seen', 0x6bbc8, 4),
+    ('_plmf_pragma_seen', 0x6bbc4, 4),
+    ('_active_plmn_pragma', 0x6b7f0, 4),
+    ('_active_plmf_pragma', 0x6b7ec, 4),
+    ('_pragma_optimization_restore_mask', 0x6ef3c, 4),
+    ('_pragma_optimization_disable_mask', 0x6ef40, 4),
 ]
 
 def read(image, address, size):
@@ -63,12 +97,21 @@ def read(image, address, size):
     return bytes(size) if section['name'] == '.bss' else image.read(address, size)
 
 forward, backward = {}, {}
-for field in STATE:
-    name, old, size = field[:3]
-    new = names[name] + (field[3] if len(field) > 3 else 0)
+def check(name, old, new, size):
     assert read(original, old, size) == read(rebuilt, new, size), 'state default differs: '+name
     for offset in range(size):
         a, b = old+offset, new+offset
         assert forward.setdefault(a, b) == b, 'shared state was split: '+name
         assert backward.setdefault(b, a) == a, 'distinct state was merged: '+name
-print('%d encountered frontend state defaults and aliases match.' % len(STATE))
+
+for field in STATE:
+    name, old, size = field[:3]
+    new = names[name] + (field[3] if len(field) > 3 else 0)
+    check(name, old, new, size)
+
+# Pointer tables must refer to the same semantic objects as their direct users.
+old_options = struct.unpack('<21I', read(original, 0x6ef48, 84))
+new_options = struct.unpack('<21I', read(rebuilt, names['_packed_option_values'], 84))
+for index, (old, new) in enumerate(zip(old_options, new_options)):
+    check('packed option %d' % index, old, new, 4)
+print('%d encountered frontend state defaults and aliases, and 21 option targets match.' % len(STATE))

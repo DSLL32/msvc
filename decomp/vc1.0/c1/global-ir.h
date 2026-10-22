@@ -59,7 +59,7 @@ extern FunctionIrState function_ir;
 extern int function_in_pch, function_call_seen, inline_candidate, function_not_inlinable;
 extern int default_inline_candidate;
 extern unsigned pch_symbol_offset_adjustment;
-extern int far_call_mode, prologue_mode;
+extern int plmf_pragma_seen, plmn_pragma_seen;
 extern unsigned pragma_record_number;
 extern char *pragma_text;
 extern PragmaValue *pragma_values;

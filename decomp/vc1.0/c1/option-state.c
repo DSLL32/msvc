@@ -1,5 +1,6 @@
 /* Optimization state bits saved in precompiled and intermediate streams. */
 #include "initialization.h"
+#include "pragma.h"
 
 int optimization_enabled = 1; /* original 0x6bf98 */
 int *packed_option_values[21] = {
@@ -22,3 +23,18 @@ unsigned pack_option_flags(void)
             result |= mask;
     return result;
 }
+
+/* Select the independently changeable optimization options in #pragma optimize. */
+unsigned pragma_optimization_restore_mask = 0x03ffb800;
+unsigned pragma_optimization_disable_mask = 0x037eb800;
+PragmaOptimizationRule pragma_optimization_rules[] = {
+    { 'a', 1, &normalized_Oa }, { 'w', 1, &normalized_Ow },
+    { 't', 1, &options.option_Os }, { 's', 0, &options.option_Os },
+    { 'c', 1, &options.option_Oc }, { 'g', 1, &options.option_Og },
+    { 'e', 1, &options.option_Oe }, { 'l', 1, &normalized_Ol },
+    { 'p', 1, &normalized_Op }, { 'z', 1, &normalized_Oz },
+    { 'n', 0, &normalized_Oz }, { 'r', 1, &options.option_Or },
+    { 'o', 1, &options.option_Oo }, { 'y', 1, &normalized_Oy },
+    { 'q', 1, &normalized_Oq }, { 'f', 1, &options.option_Of },
+    { 'v', 1, &options.option_Ov }, { 0, 0, 0 }
+};

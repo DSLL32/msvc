@@ -11,8 +11,10 @@ int data_pointer_alignment, code_pointer_alignment;
 int data_pointer_kind, code_pointer_kind;
 int data_pointer_model, code_pointer_model;
 int normalized_Op, normalized_Oy, normalized_Oa, normalized_Ow, normalized_Oz;
-int normalized_Gs, normalized_PLMN, normalized_PLMF, normalized_Zr;
-int normalized_Oq, normalized_Gn, normalized_Ol;
+int normalized_Gs = 1;
+int normalized_PLMN, normalized_PLMF, normalized_Zr;
+int normalized_Gn = 1;
+int normalized_Oq, normalized_Ol;
 int target_cpu, target_cpu_mask;
 char token_buffer[7936]; /* original scanner buffer 0x5d5bc..0x5f4bc */
 char *token_buffer_end = token_buffer + sizeof(token_buffer); /* original 0x6c004 */

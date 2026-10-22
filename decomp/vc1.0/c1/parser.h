@@ -122,7 +122,7 @@ FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol);
 void __stdcall record_local_declaration(FrontendSymbol *symbol);
 extern FrontendSymbol *function_symbol, *current_parameter;
 extern int function_parameter_context;
-void __stdcall replace_function_parameters(FrontendSymbol *symbol, ParameterInfo *parameters);
+void __stdcall assign_function_segment(FrontendSymbol *symbol, FrontendSymbol *segment);
 FrontendSymbol *__stdcall initialize_function_definition(FrontendSymbol *symbol);
 void browser_begin_function_scope(void);
 void __stdcall browser_function_parameters(FrontendSymbol *symbol);

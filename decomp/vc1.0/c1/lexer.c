@@ -959,3 +959,10 @@ unsigned recover_special_character(void)
     }
     return 0;
 }
+
+/* Original 0x22290..0x222a5. Decimal constants that exceed signed 32-bit
+   range take unsigned-long type; the remaining values retain int type. */
+unsigned char __stdcall classify_decimal_integer(unsigned value)
+{
+    return value & 0x80000000UL ? TOK_ULONG_CONSTANT : TOK_INT_CONSTANT;
+}

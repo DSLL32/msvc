@@ -10,12 +10,13 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 220 reconstructed source functions
-and 300 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 226 reconstructed source functions
+and 306 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
-and expands _MSC_VER through the typed macro-frame/rescan machinery. Its
-current matching trap is classify_decimal_integer, original VA 0x22290.
-All 42 hello frontiers replay successfully with exact pending-buffer/visible-file
+expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
+the SDK warning pragma. Its current matching trap is merge_storage_class,
+original VA 0x1ac90.
+All 48 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -109,7 +110,9 @@ macro-expand.c: predefined/object/function macro dispatch, typed rescan frames,
   saved physical-input alias, replacement entry, and deferred frame restoration.
 source-input.c: file opening and overlapping buffered include windows.
 global-ir.c / global-formats.c: global/symbol IR schema serialization.
-option-state.c: optimization-state bit packing.
+pragma.c / pragma.h: complete pragma dispatcher, pragma-name lookup, warning
+  controls, and listing/segment state.
+option-state.c: optimization-state bit packing and pragma optimization rules.
 The expression writer and function serializer share the original expression
 count and call/inline state and the shared FrontendSymbol layout; interned
 identifier globals are shared with
@@ -131,8 +134,8 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 49 encountered
-frontend state objects, including PCH ownership, function-directory state,
+audit-state.py checks the initial bytes and address aliases of 82 encountered
+frontend state objects and the 21 option-table targets, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
 for verification only; reconstructed code does not load original image data.
 
@@ -146,3 +149,8 @@ nesting bound. Include eviction's saved input cursor aliases frame[1]'s
 source cursor. The explicit format_text source entry overrides an ambiguous
 library-pattern match for its small variadic wrapper; its actual callee is a
 compiler string formatter, separate from the shipped CRT scanning routines.
+
+The pragma dispatcher shares the default code-segment symbol with function
+declaration setup. PLMN/PLMF flags and their active type-attribute state have
+one owner each; stack-check and native-caller normalized defaults start at 1,
+as in the original, before command-line startup overwrites them.

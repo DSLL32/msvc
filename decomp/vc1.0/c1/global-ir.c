@@ -23,7 +23,7 @@ int function_call_seen; /* original 0x6bfb0 */
 int default_inline_candidate = 1; /* original 0x6bfa8 */
 int inline_candidate = 1; /* original 0x6bfac */
 int function_not_inlinable; /* original 0x6bfb4 */
-int far_call_mode, prologue_mode; /* original 0x6bbc4 / 0x6bbc8 */
+int plmf_pragma_seen, plmn_pragma_seen; /* original 0x6bbc4 / 0x6bbc8 */
 unsigned pragma_record_number; /* original 0x6b80c */
 char *pragma_text; /* original 0x6be6c */
 PragmaValue *pragma_values; /* original 0x6b790 */
@@ -393,7 +393,7 @@ formats:
             case 2:
                 if (inline_candidate) {
                     if (function_not_inlinable) goto cannot_inline;
-                    if (!prologue_mode && !normalized_PLMN && !far_call_mode && !normalized_PLMF &&
+                    if (!plmn_pragma_seen && !normalized_PLMN && !plmf_pragma_seen && !normalized_PLMF &&
                         (((symbol->storage[0] & 7) == 3 && symbol->references == 1) ||
                          (unsigned)options.option_Bu > function_ir.complexity))
                         code |= 0x40;

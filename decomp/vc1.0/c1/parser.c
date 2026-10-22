@@ -1127,7 +1127,7 @@ FrontendSymbol *finish_parameter_scope(void)
 
 FrontendSymbol *function_symbol; /* original 0x5b140 */
 CType *function_return_type; /* original 0x6b6c0 */
-ParameterInfo *prior_function_parameters; /* original 0x6b7b0 */
+FrontendSymbol *default_code_segment; /* original 0x6b7b0 */
 int active_parameter_context; /* original 0x60798 */
 unsigned browser_macro_context; /* original 0x63868 */
 
@@ -1161,11 +1161,11 @@ void __stdcall prepare_function_definition(DeclarationSpec *declaration, Fronten
         report_syntax_error(491, symbol->name, "function");
     if ((symbol->type->attributes & 7) == 3)
         report_syntax_error(703, symbol->name, "_far16");
-    if (prior_function_parameters) {
+    if (default_code_segment) {
         if (symbol->attributes & 2) {
-            if ((ParameterInfo *)symbol->type->related->field08 != prior_function_parameters)
+            if ((FrontendSymbol *)symbol->type->related->field08 != default_code_segment)
                 report_syntax_error(193, symbol->name);
-        } else replace_function_parameters(symbol, prior_function_parameters);
+        } else assign_function_segment(symbol, default_code_segment);
     }
     function_symbol = initialize_function_definition(symbol);
     current_parameter = function_parameter_declarations;

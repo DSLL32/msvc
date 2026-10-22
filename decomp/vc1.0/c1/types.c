@@ -68,7 +68,7 @@ CType *__stdcall make_function_type(unsigned short attributes, CType *base)
     return intern_type(&function_type_scratch);
 }
 
-int active_plmn_pragma, active_plmf_pragma; /* original 0x6b7ec/0x6b7f0 */
+int active_plmn_pragma, active_plmf_pragma; /* original 0x6b7f0/0x6b7ec */
 
 /* Original 0x2cb30..0x2cde8. */
 unsigned short __stdcall normalize_type_attributes(unsigned short kind, unsigned short attributes)

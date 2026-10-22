@@ -1,5 +1,6 @@
 /* Unreconstructed function entries. Each body deliberately traps. */
 #include "keywords.h"
+#include "pragma.h"
 #include "pch.h"
 #include "pp-expression.h"
 #include "ir.h"
@@ -450,7 +451,7 @@ void __stdcall report_type_syntax_error(unsigned code, CType *type) { __asm { in
 
 
 void abort_function_definition(void) { __asm { int 3 } }
-void __stdcall replace_function_parameters(FrontendSymbol *symbol, ParameterInfo *parameters) { __asm { int 3 } }
+void __stdcall assign_function_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
 void browser_begin_function_scope(void) { __asm { int 3 } }
 void __stdcall browser_function_parameters(FrontendSymbol *symbol) { __asm { int 3 } }
 
@@ -498,7 +499,6 @@ IrToken *__stdcall make_typed_unary_expression(unsigned char operation, CType *t
 int __stdcall emit_intrinsic_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 
-unsigned char __stdcall classify_decimal_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
 
@@ -558,7 +558,6 @@ int __stdcall pch_resolve_condition(int condition) { __asm { int 3 } return 0; }
 
 
 
-void process_pragma(void) { __asm { int 3 } }
 
 void undefine_source_macro(void) { __asm { int 3 } }
 
@@ -581,7 +580,6 @@ void read_macro_parameters(void) { __asm { int 3 } }
 unsigned read_macro_replacement(void) { __asm { int 3 } return 0; }
 
 
-void __stdcall skip_inactive_literal(int delimiter) { __asm { int 3 } }
 
 
 
@@ -626,3 +624,51 @@ void __stdcall save_macro_argument(char *begin, char *end) { __asm { int 3 } }
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_macro_end(void) { __asm { int 3 } }
 void refill_source_boundary(void) { __asm { int 3 } }
+
+/* Original 0x1e550. */
+
+/* Original 0x1c4b0. */
+
+/* Original 0x1e650. */
+int __stdcall read_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
+
+/* Original 0x1e5b0. */
+int __stdcall read_parenthesized_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
+
+/* Original 0x1e570. */
+int pragma_open_parenthesis(void) { __asm { int 3 } return 0; }
+
+/* Original 0x1e5d0. */
+void __stdcall visit_pragma_names(void (__stdcall *callback)(char *)) { __asm { int 3 } }
+
+/* Original 0x2dc60. */
+void __stdcall enable_intrinsic_function(char *name) { __asm { int 3 } }
+
+/* Original 0x2dce0. */
+void __stdcall disable_intrinsic_function(char *name) { __asm { int 3 } }
+
+/* Original 0x35d60. */
+void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
+
+/* Original 0x2d3a0. */
+void warn_expected_identifier(void) { __asm { int 3 } }
+
+/* Original 0x1e9e0. */
+void process_pack_pragma(void) { __asm { int 3 } }
+
+/* Original 0x20110. */
+void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
+
+/* Original 0x1c290. */
+void __stdcall pragma_message(char *text) { __asm { int 3 } }
+
+/* Original 0x4bf10. */
+void unpack_option_flags(unsigned flags) { __asm { int 3 } }
+
+/* Original 0x20090. */
+
+/* Original 0x1e530. */
+void warn_bad_pragma(void) { __asm { int 3 } }
+
+/* Original 0x1ffc0. */
+void synchronize_pch_pragma(void) { __asm { int 3 } }

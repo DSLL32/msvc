@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include "preprocessor.h"
 #include "characters.h"
+#include "lexer.h"
 #include "parser.h"
 #include "control-ir.h"
 
@@ -568,5 +569,24 @@ classify_character:
             return classify_directive(interned_name);
         } else if (class == CC_APOSTROPHE || class == CC_QUOTE)
             skip_inactive_literal(character);
+    }
+}
+
+/* Original 0x20fd0..0x21038. Quotes in discarded source still protect
+   directive-looking text. Leave an unterminated literal's newline unread. */
+void __stdcall skip_inactive_literal(int delimiter)
+{
+    unsigned char character, class;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        class = character_class[character];
+        if (class == CC_ESCAPE_OR_END) {
+            if (recover_special_character() & 0x10) ++source_text_cursor;
+        } else if (class == CC_NEWLINE) {
+            --source_text_cursor;
+            return;
+        } else if (class == CC_APOSTROPHE || class == CC_QUOTE) {
+            if (character == (unsigned char)delimiter) return;
+        } else if (class == CC_LEAD_BYTE) next_source_character();
     }
 }
