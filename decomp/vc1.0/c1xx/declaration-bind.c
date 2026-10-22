@@ -97,3 +97,14 @@ CppSymbol *__stdcall apply_declaration_type(DeclarationType *context, CppSymbol 
         report_syntax_error(488, format_symbol_name(symbol));
     return symbol;
 }
+
+/* Original 0x55e70..0x55ea7. A based qualifier may precede the actual
+   declarator shape; the reference bit belongs to that following shape. */
+int __stdcall symbol_has_reference_shape(CppSymbol *symbol)
+{
+    TypeShape *shape;
+    if (!symbol) return 0;
+    shape = symbol->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    return shape && (shape->flags & 0x40) ? 1 : 0;
+}

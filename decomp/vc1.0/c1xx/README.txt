@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 390 accepted paired frontiers, including 315 frontend
+PARTIAL reconstruction: 400 accepted paired frontiers, including 325 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _identifier_expression@4 at original VA 0x3c330. The latest ordered replay is recorded in validation.json;
+trap is _validate_value_expression@4 at original VA 0x3b280. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -632,3 +632,25 @@ Current matching trap is identifier_expression at 0x3c330, while reading value
 in the constructor's value_(value) initializer. Recovered extent union is
 127,447 / 476,418 executable bytes (26.751%, not branch coverage). Complete
 frontend equivalence remains partial.
+
+
+The constructor initializer's identifier expression is now reconstructed through
+symbol lookup, qualified/static/inherited resolution, symbol validation, storage
+reference construction and argument-list append. Whole functions retain their
+browser, based-pointer, permanent-storage and diagnostic branches, with named
+traps for unvisited callees. The ordinary/qualified symbol wrapper shares its
+actual CppSymbol ABI; member expressions instead consume IrToken operands.
+Compile-time assertions distinguish their type fields at offsets 12 and 4.
+
+IrToken's word at +8 has contextual views for the existing serialized record
+index and the expression list's circular head link. Constructors preserve the
+original untouched fields, including deferred member/overload type completion.
+The recovered argument-list builder also sets its contained expression's link.
+Evidence: evidence/identifier-expressions.txt.
+
+All 400 accepted frontiers replay with exact streams, files, pending buffers,
+logical callers and ten runtime observations in
+evidence/replay-identifier-expressions.log. Current matching trap is
+validate_value_expression at 0x3b280, while reading value in the constructor's
+value_(value) initializer. Recovered executable extent union is 129,119 / 476,418
+bytes (27.102%, not branch coverage). Complete frontend equivalence is pending.

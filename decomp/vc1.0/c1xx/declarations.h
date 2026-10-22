@@ -136,6 +136,7 @@ struct CppSymbol {
     CppSymbolState cpp;
 };
 #undef COMMON_SYMBOL_FIELDS
+typedef char CppSymbolTypeOffsetMustBe12[(offsetof(CppSymbol, type) == 12) ? 1 : -1];
 typedef char CppSymbolIndexOffsetMustBe16[(offsetof(CppSymbol, index) == 16) ? 1 : -1];
 typedef char CppSymbolAuxiliaryOffsetMustBe36[(offsetof(CppSymbol, auxiliary) == 36) ? 1 : -1];
 /* Overload sets share the ordinary symbol prefix through the name slot.

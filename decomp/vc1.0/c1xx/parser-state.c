@@ -24,7 +24,7 @@ void *based_symbol; /* original 0x91164 */
 unsigned array_bound; /* original 0x97bbc */
 unsigned new_array_bound; /* original 0x97bc4 */
 unsigned char member_lookup_operator; /* original 0x97bb4 */
-CppSymbol *member_lookup_context; /* original 0x97bb8 */
+IrToken *member_lookup_context; /* original 0x97bb8 */
 LabelStack *control_labels, *break_labels, *continue_labels;
 LabelStack *switch_labels, *default_labels;
 /* The five original heads are 0x9155c, 0x91560, 0x91564, 0x91568, 0x9156c. */

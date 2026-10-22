@@ -134,7 +134,7 @@ void __stdcall write_ir_record(unsigned tag, void *value)
                 reference_ir_symbol(symbol);
                 break;
             case 0x3d:
-                index = node->field08;
+                index = node->linkage.record_index;
                 break;
             default:
                 symbol = node->value.pointer;

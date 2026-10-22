@@ -98,7 +98,6 @@ void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member) { __asm { int 3 } return 0; }
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
-int __stdcall symbol_has_reference_shape(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
 short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
@@ -127,7 +126,6 @@ void __stdcall add_named_base(unsigned char access, int is_virtual, char *name) 
 void __stdcall add_qualified_base(unsigned char access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
 IrToken *__stdcall append_constructor_initializer(IrToken *list, IrToken *initializer) { __asm { int 3 } return 0; }
-IrToken *__stdcall append_expression(IrToken *list, IrToken *expression, int mode) { __asm { int 3 } return 0; }
 void __stdcall apply_constructor_initializers(IrToken *initializers) { __asm { int 3 } }
 void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape) { __asm { int 3 } }
 CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration, TypeShape *modifier) { __asm { int 3 } return 0; }
@@ -142,7 +140,7 @@ void begin_for_increment(void) { __asm { int 3 } }
 void begin_if_body(void) { __asm { int 3 } }
 void begin_if_condition(void) { __asm { int 3 } }
 unsigned __stdcall begin_implicit_statement_scope(IrToken *label) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall begin_member_lookup(unsigned char operation, IrToken *object, int mode) { __asm { int 3 } return 0; }
+IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object, int mode) { __asm { int 3 } return 0; }
 void begin_nested_initializer(void) { __asm { int 3 } }
 CppSymbol *__stdcall begin_object_initializer(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
@@ -206,7 +204,6 @@ void finish_default_argument_text(void) { __asm { int 3 } }
 void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) { __asm { int 3 } }
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
-IrToken *__stdcall identifier_expression(char *name) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 void __stdcall initialize_object(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
@@ -215,8 +212,8 @@ SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, uns
 char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
 void mark_evaluation_boundary(void) { __asm { int 3 } }
 void __stdcall mark_initialized_symbol(CppSymbol *symbol) { __asm { int 3 } }
-IrToken *__stdcall member_destructor_expression(unsigned char operation, CppSymbol *scope, char *name) { __asm { int 3 } return 0; }
-IrToken *__stdcall member_name_expression(unsigned char operation, CppSymbol *scope, char *name) { __asm { int 3 } return 0; }
+IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
+IrToken *__stdcall member_expression(unsigned char operation, IrToken *object, IrToken *member) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier, IrToken *placement,
     CppSymbol *type, IrToken *initializer, unsigned bound) { __asm { int 3 } return 0; }
@@ -230,7 +227,6 @@ void pop_linkage(void) { __asm { int 3 } }
 IrToken *__stdcall postfix_expression(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void prepare_do_body(void) { __asm { int 3 } }
 IrToken *__stdcall prepare_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
-IrToken *__stdcall qualified_identifier_expression(QualifiedDeclarator *name) { __asm { int 3 } return 0; }
 void record_break_statement(void) { __asm { int 3 } }
 void record_continue_statement(void) { __asm { int 3 } }
 void record_default_label(void) { __asm { int 3 } }
@@ -249,7 +245,6 @@ IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) 
 IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall sizeof_type(CType *type) { __asm { int 3 } return 0; }
 void skip_balanced_brace_body(void) { __asm { int 3 } }
-IrToken *__stdcall symbol_reference(CppSymbol *symbol) { __asm { int 3 } return 0; }
 unsigned char synchronize_tokens(unsigned first, ...) { __asm { int 3 } return 0; }
 IrToken *__stdcall unary_expression(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken * validate_based_self(void) { __asm { int 3 } return 0; }
@@ -496,3 +491,20 @@ void initialize_function_inline_analysis(void) { __asm { int 3 } }
 FrontendRecord *__stdcall reuse_frontend_record(unsigned char size_class) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall find_frontend_record(FrontendRecord *from, unsigned char kind,
     int recover_on_missing) { __asm { int 3 } return 0; }
+
+CppSymbol *__stdcall recover_undeclared_identifier(char *name) { __asm { int 3 } return 0; }
+IrToken *most_derived_expression(void) { __asm { int 3 } return 0; }
+
+
+IrToken *__stdcall inherited_symbol_expression(CppSymbol *reference, CppSymbol *target) { __asm { int 3 } return 0; }
+IrToken *__stdcall enumerator_expression(CppSymbol *symbol) { __asm { int 3 } return 0; }
+CType *__stdcall make_expression_qualified_type(CType *base, unsigned short kind,
+    unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
+
+CType *__stdcall parameter_reference_type(IrToken *reference) { __asm { int 3 } return 0; }
+IrToken *__stdcall based_type_expression(CType *type) { __asm { int 3 } return 0; }
+
+
+IrToken *__stdcall qualify_based_storage(IrToken *expression) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall convert_based_expression(CType *type, IrToken *expression) { __asm { int 3 } return 0; }

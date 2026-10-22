@@ -394,7 +394,17 @@
     "_begin_frontend_scope",
     "_record_parameter_cleanup@4",
     "_end_frontend_scope",
-    "_remove_last_frontend_record"
+    "_remove_last_frontend_record",
+    "_identifier_expression@4",
+    "_symbol_expression@4",
+    "_resolve_symbol_expression@4",
+    "_validate_expression_symbol@4",
+    "_symbol_reference@4",
+    "_finish_symbol_expression@8",
+    "_indirect_storage_expression@4",
+    "_new_typed_unary_expression@12",
+    "_symbol_has_reference_shape@4",
+    "_append_expression@12"
   ],
   "driver": [
     {
@@ -1742,7 +1752,7 @@
     {
       "name": "_append_expression@12",
       "start": 236992,
-      "end": 236993
+      "end": 237127
     },
     {
       "name": "_append_parameter_declaration@8",
@@ -2197,7 +2207,7 @@
     {
       "name": "_identifier_expression@4",
       "start": 246576,
-      "end": 246577
+      "end": 246653
     },
     {
       "name": "_initialize_element@8",
@@ -2245,7 +2255,7 @@
       "end": 205073
     },
     {
-      "name": "_member_name_expression@12",
+      "name": "_member_expression@12",
       "start": 205296,
       "end": 205297
     },
@@ -2315,9 +2325,9 @@
       "end": 255873
     },
     {
-      "name": "_qualified_identifier_expression@4",
+      "name": "_symbol_expression@4",
       "start": 246656,
-      "end": 246657
+      "end": 246750
     },
     {
       "name": "_read_type_specifier@4",
@@ -2432,7 +2442,7 @@
     {
       "name": "_symbol_reference@4",
       "start": 398208,
-      "end": 398209
+      "end": 398584
     },
     {
       "name": "_synchronize_tokens",
@@ -3853,6 +3863,76 @@
       "name": "_remove_last_frontend_record",
       "start": 265568,
       "end": 265684
+    },
+    {
+      "name": "_recover_undeclared_identifier@4",
+      "start": 246448,
+      "end": 246449
+    },
+    {
+      "name": "_most_derived_expression",
+      "start": 508192,
+      "end": 508193
+    },
+    {
+      "name": "_resolve_symbol_expression@4",
+      "start": 247328,
+      "end": 247939
+    },
+    {
+      "name": "_validate_expression_symbol@4",
+      "start": 246752,
+      "end": 246888
+    },
+    {
+      "name": "_inherited_symbol_expression@8",
+      "start": 246896,
+      "end": 246897
+    },
+    {
+      "name": "_enumerator_expression@4",
+      "start": 247216,
+      "end": 247217
+    },
+    {
+      "name": "_finish_symbol_expression@8",
+      "start": 247952,
+      "end": 247995
+    },
+    {
+      "name": "_make_expression_qualified_type@16",
+      "start": 402976,
+      "end": 402977
+    },
+    {
+      "name": "_parameter_reference_type@4",
+      "start": 388976,
+      "end": 388977
+    },
+    {
+      "name": "_based_type_expression@4",
+      "start": 174096,
+      "end": 174097
+    },
+    {
+      "name": "_indirect_storage_expression@4",
+      "start": 383440,
+      "end": 383486
+    },
+    {
+      "name": "_new_typed_unary_expression@12",
+      "start": 383488,
+      "end": 383586
+    },
+    {
+      "name": "_qualify_based_storage@4",
+      "start": 174816,
+      "end": 174817
+    },
+    {
+      "name": "_convert_based_expression@8",
+      "start": 174608,
+      "end": 174609
     }
   ],
   "cases": {

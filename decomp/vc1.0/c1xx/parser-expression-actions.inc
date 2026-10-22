@@ -204,7 +204,7 @@
             parser_value.expression = new_unary_ir_expression(0x1b, right[0].symbol);
             break;
         case 317:
-            parser_value.expression = member_name_expression(member_lookup_operator, member_lookup_context, right[0].name);
+            parser_value.expression = member_expression(member_lookup_operator, member_lookup_context, right[0].expression);
             break;
         case 318:
             parser_value.expression = member_destructor_expression(member_lookup_operator, member_lookup_context, right[0].name);
@@ -221,7 +221,7 @@
             break;
         case 322:
             unwind_qualified_scopes(1);
-            parser_value.expression = qualified_identifier_expression(right[0].context);
+            parser_value.expression = symbol_expression(right[0].context);
             break;
         case 323:
             unwind_qualified_scopes(1);
@@ -230,7 +230,7 @@
                 parser_name = encode_type_name(right[0].declaration.type);
                 qualified->resolution = lookup_qualified_member(qualified->resolution,
                     parser_name, right[0].declaration.type);
-                parser_value.expression = qualified_identifier_expression(qualified);
+                parser_value.expression = symbol_expression((CppSymbol *)qualified);
             }
             token_allocation_flags &= ~4;
             break;

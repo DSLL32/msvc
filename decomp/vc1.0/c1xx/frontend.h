@@ -1,6 +1,7 @@
 #ifndef FRONTEND_H
 #define FRONTEND_H
 #include <stdio.h>
+#include <stddef.h>
 #include "options.h"
 
 typedef struct CType CType;
@@ -8,10 +9,12 @@ typedef struct IrToken {
     unsigned char kind, flags;
     unsigned short field02;
     CType *type;
-    unsigned field08;
+    union { unsigned record_index; struct IrToken *list_head; } linkage;
     union { char *text; void *pointer; unsigned integer; } value;
     unsigned short length, auxiliary_flags;
 } IrToken;
+typedef char IrTokenTypeOffsetMustBe4[(offsetof(IrToken, type) == 4) ? 1 : -1];
+typedef char IrTokenLinkageOffsetMustBe8[(offsetof(IrToken, linkage) == 8) ? 1 : -1];
 typedef char IrTokenSizeMustBe20[(sizeof(IrToken) == 20) ? 1 : -1];
 
 typedef struct CppSymbol CppSymbol;

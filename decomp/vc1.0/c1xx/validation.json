@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 390,
-  "driver_functions": 315,
+  "accepted_frontiers": 400,
+  "driver_functions": 325,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 321,
-  "current_frontier": "_identifier_expression@4",
-  "original_frontier_va": "0x3c330",
+  "reconstructed_source_functions": 331,
+  "current_frontier": "_validate_value_expression@4",
+  "original_frontier_va": "0x3b280",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "10d87f453b7286f8dfd559750908a77ff6a9d234ba5a0111be1119b85592fcf5",
-  "call_graph_audit_functions": 321,
+  "replay_log_sha256": "16e242dace5b3090fde0e102eb6d2b39dc857144f61684e3bcfebf1c8c33a247",
+  "call_graph_audit_functions": 331,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -91,7 +91,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-frontend-records.log",
+  "replay_log": "evidence/replay-identifier-expressions.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -308,7 +308,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 117356,
+  "accepted_source_text_and_switch_bytes": 119028,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -427,7 +427,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "bfeb1b8cedfa5b445b3a200485a450b66961c3ea68a367967f760c48fae59f98",
+  "replay_build_text_sha256": "a1b8e53b6f74e9ac66d11bdf37d4a5fb9a7e85cae58fdc2c60bd8ba094effc0b",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -656,9 +656,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 127447,
+    "bytes": 129119,
     "total_original_executable_bytes": 476418,
-    "percent": 26.751088329995927,
+    "percent": 27.10204064497983,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -727,5 +727,23 @@
     "jump_buffer_bytes": 32,
     "all_390_frontiers_replayed": true,
     "constructor_initializer_expression_reached": true
+  },
+  "identifier_expressions": {
+    "evidence": "evidence/identifier-expressions.txt",
+    "new_whole_functions": 10,
+    "identifier_resolver_native_callees": 14,
+    "symbol_reference_native_callees": 6,
+    "append_expression_native_callees": 3,
+    "ordinary_and_qualified_symbol_wrapper_shared": true,
+    "ir_token_type_offset": 4,
+    "cpp_symbol_type_offset": 12,
+    "ir_token_linkage_offset": 8,
+    "ir_token_bytes": 20,
+    "qualified_operand_identity_preserved": true,
+    "deferred_type_fields_left_untouched": true,
+    "runtime_checkpoint_fields": 10,
+    "all_400_frontiers_replayed": true,
+    "no_frontend_output_normalization": true,
+    "constructor_body_parsed": false
   }
 }
