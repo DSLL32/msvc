@@ -550,3 +550,26 @@ unsigned long count_modules(Library *libraries)
     }
     return count;
 }
+
+/* Original [0003b3e0,0003b4b0). Release archive indexes and library nodes. */
+void release_library_list(LibraryList *libraries)
+{
+    LibraryEnumerator scan;
+    Library *previous=NULL,*library;
+    initialize_library_enumerator(&scan,libraries->first);
+    while (next_library(&scan)) {
+        library=scan.current;
+        if (previous) free(previous);
+        if (library->member_offsets) free(library->member_offsets);
+        if (library->symbol_indices) free(library->symbol_indices);
+        if (library->symbol_name_buffer) free(library->symbol_name_buffer);
+        if (library->symbol_names) free(library->symbol_names);
+        if (library->long_names) free(library->long_names);
+        previous=library;
+    }
+    if (previous) free(previous);
+    libraries->first=NULL;
+    libraries->tail=&libraries->first;
+    libraries->exclude_defaults=0;
+    libraries->default_libraries=NULL;
+}

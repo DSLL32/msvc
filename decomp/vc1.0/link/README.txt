@@ -44,7 +44,11 @@ checksum derivation. Original/reconstruction/baseline DLL load/call,300 painted
 pixels, close and unload checks pass. Clean -j2, all six cases,352 graph/343
 callback/287 data audits and499 accepted-original boundary checks pass. Full485
 replay plus all9 additions pass. Current .text union137819/281634=48.9355%.
-The remaining authorized archive/list/extract/remove/dump/edit lifecycle follows.
+Archive list/extract/remove/list-trimmed also pass, with an exact extracted
+member and beta omitted from the trimmed archive.496 accepted frontiers cover
+138251/281634 bytes(49.0889%); full485 plus all11 additions and ten completed
+case regressions pass. The pending dumper_main begins the remaining dump/edit
+lifecycle.
 
 The untouched original passes exact verbose output/artifact checks and the
 aliased HelloEntry load/call/paint/close/unload check. The frozen output preserves

@@ -23,31 +23,32 @@
       "case": "library-list",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "list",
-      "status": "active"
+      "status": "complete"
     },
     {
       "case": "library-extract",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "extract",
-      "status": "queued"
+      "status": "complete"
     },
     {
       "case": "library-remove",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "remove",
-      "status": "queued"
+      "status": "complete"
     },
     {
       "case": "library-list-trimmed",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "list-trimmed",
-      "status": "queued"
+      "status": "complete"
     },
     {
       "case": "library-dump-library",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "dump-library",
-      "status": "queued"
+      "status": "active",
+      "current_frontier": "_dumper_main"
     },
     {
       "case": "library-dump-object",

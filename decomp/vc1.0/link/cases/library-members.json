@@ -1,0 +1,146 @@
+{
+  "status": "complete",
+  "fixture": "../fixtures/link-library-tools/manifest.json",
+  "environment": {
+    "LINK32_DB": "27",
+    "LIB": "{original toolchain}/lib"
+  },
+  "phases": {
+    "list": {
+      "arguments": [
+        "-lib",
+        "/list",
+        "helpers.lib"
+      ],
+      "exit_status": 0,
+      "streams": {
+        "stdout": {
+          "bytes": 158,
+          "sha256": "be6dd021bd7ac046179bd1112c1a673b88374e72994fd5130a1ae5e2e6f56279"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "outputs": []
+    },
+    "extract": {
+      "arguments": [
+        "-lib",
+        "/extract:member-with-a-long-name-alpha.obj",
+        "helpers.lib"
+      ],
+      "exit_status": 0,
+      "streams": {
+        "stdout": {
+          "bytes": 113,
+          "sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "outputs": [
+        {
+          "path": "expected/extract/member-with-a-long-name-alpha.obj",
+          "bytes": 1830,
+          "sha256": "7789b1c63e0fe761ec040beb62ac9c5f9ef6036f09c6ab0b524d9ad381b06c26",
+          "output_name": "member-with-a-long-name-alpha.obj",
+          "artifact_kind": "raw",
+          "ignored_fields": [],
+          "normalized_sha256": "7789b1c63e0fe761ec040beb62ac9c5f9ef6036f09c6ab0b524d9ad381b06c26"
+        }
+      ]
+    },
+    "remove": {
+      "arguments": [
+        "-lib",
+        "/remove:beta.obj",
+        "/out:trimmed.lib",
+        "helpers.lib"
+      ],
+      "exit_status": 0,
+      "streams": {
+        "stdout": {
+          "bytes": 113,
+          "sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "outputs": [
+        {
+          "path": "expected/remove/trimmed.lib",
+          "bytes": 2242,
+          "sha256": "01a3f7457daa5caba437b8ca07121c7cd8c7ab1b32b951a5e294daca666c29d4",
+          "output_name": "trimmed.lib",
+          "artifact_kind": "archive-members",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 148,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 274,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 368,
+              "bytes": 12,
+              "name": "Archive member date"
+            }
+          ],
+          "normalized_sha256": "8aa1f4b1c636000574d4dd4d76dfb29517235c0a95effedd9f2c11e361652e26"
+        }
+      ]
+    },
+    "list-trimmed": {
+      "arguments": [
+        "-lib",
+        "/list",
+        "trimmed.lib"
+      ],
+      "exit_status": 0,
+      "streams": {
+        "stdout": {
+          "bytes": 148,
+          "sha256": "56b832c0c2d0ed0cfe2b48dcfd4a40a52c13902f0410f3848a2c37a6d408b568"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "outputs": []
+    }
+  },
+  "validation": {
+    "accepted_frontiers": 496,
+    "last_full_replay": 485,
+    "prior_checkpoint_added_replay": 9,
+    "added_frontiers_replayed": 2,
+    "ten_completed_cases_pass": true,
+    "graph_audits": 354,
+    "callback_audits": 345,
+    "data_audits": 287,
+    "original_extent_boundaries": 501,
+    "replay_sha256": "f243f203b44b199f6dae8ff6ce74da62e602011bef78df778aecc4c475bdb1a0",
+    "coverage": "cases/coverage-after-library-members.json"
+  },
+  "native_semantics": [
+    "Member removal is case-sensitive, unlinks the first match in each library and leaves module allocation ownership unchanged.",
+    "Library-list release frees each previous node after advancing, releases the five archive-index buffers and resets the list; module/name/default-list allocations remain untouched."
+  ],
+  "abi_exceptions": []
+}

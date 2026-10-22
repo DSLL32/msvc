@@ -512,3 +512,11 @@ calendar table. Defining that helper also avoids linking an extra TZSET object
 with a duplicate __tzset. Its named trap was matched before reconstruction;
 all accepted routines retain their original graph and ABI. No assembly exception
 or bulk data definition was introduced.
+
+Archive-member lifecycle checkpoint:496 frontiers,138251/281634 bytes(49.0889%).
+Exact listing, extraction, removal and trimmed listing pass against frozen
+inputs; extracted alpha is exact and trimmed archive omits beta. Both new
+frontiers and all ten completed-case regressions pass, following full485 plus
+9 debug additions.354 graph/345 callback/287 data/501 boundary audits pass.
+Native ownership, delayed library-node free and case-sensitive first-match
+unlinking are preserved in readable C. No new normalization or ABI exception.

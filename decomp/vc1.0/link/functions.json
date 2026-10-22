@@ -493,7 +493,9 @@
     "_asctime",
     "_store_dt",
     "_write_map_symbol",
-    "_sprintf"
+    "_sprintf",
+    "_release_library_list",
+    "_remove_library_member"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -3515,18 +3517,20 @@
     {
       "name": "_release_library_list",
       "start": 242656,
-      "end": 242657,
-      "implementation": "stub-C",
-      "source": "library-stubs.c",
-      "abi": "cdecl void(LibraryList *); entry only until reached"
+      "end": 242864,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(LibraryList *)",
+      "evidence": "Matched3b3e0 trap; full3b3e0..3b4b0: delayed previous-node free keeps native enumerator live, five owned index/name buffers, reset library list only; module/name/default-list allocations remain native-owned."
     },
     {
       "name": "_remove_library_member",
       "start": 196096,
-      "end": 196097,
-      "implementation": "stub-C",
-      "source": "library-stubs.c",
-      "abi": "cdecl unsigned char(Image *,const char *); entry only until reached"
+      "end": 196320,
+      "implementation": "C",
+      "source": "library.c",
+      "abi": "cdecl unsigned char(Image *,const char *)",
+      "evidence": "Matched2fe00 trap; full2fe00..2fee0: case-sensitive inline name comparison, unlink first match per library using pointer-to-link; no module free, continue libraries, AL boolean result."
     },
     {
       "name": "_write_library",
@@ -4804,6 +4808,8 @@
     "hello-debug-dll",
     "hello-debug-dll",
     "hello-debug-dll",
-    "hello-debug-dll"
+    "hello-debug-dll",
+    "library-extract",
+    "library-remove"
   ]
 }

@@ -259,3 +259,31 @@ void validate_library_inputs(Image *image)
     } while (index>library_files.count);
 }
 
+
+/* Original [0002fe00,0002fee0). Unlink the first named member in each library. */
+unsigned char remove_library_member(Image *image,const char *name)
+{
+    LibraryEnumerator libraries;
+    ModuleEnumerator modules;
+    Module **link,*module;
+    const unsigned char *left,*right;
+    unsigned char removed=0;
+    initialize_library_enumerator(&libraries,image->libraries.first);
+    while (next_library(&libraries)) {
+        initialize_module_enumerator(&modules,libraries.current);
+        link=&libraries.current->modules;
+        while (next_module(&modules)) {
+            module=modules.current;
+            left=(const unsigned char *)name;
+            right=(const unsigned char *)module->path;
+            while (*left && *left==*right) { ++left; ++right; }
+            if (*left==*right) {
+                removed=1;
+                *link=module->next;
+                break;
+            }
+            link=&module->next;
+        }
+    }
+    return removed;
+}
