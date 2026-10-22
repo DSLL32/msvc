@@ -54,6 +54,8 @@ def main():
     if args.record_only:
         report=json.loads(path.read_text())
         assert report['stress_repeats']>=10
+        report['stress_reconstructed_sha256']=report['reconstructed_sha256']
+        report['final_replay_reconstructed_sha256']=hashlib.sha256((HERE/'build/rcpp.exe').read_bytes()).hexdigest()
         report['final_replay']={label:collect(label,HERE/'evidence/console-interrupt'/label)
                                 for label in ['original','reconstructed','baseline']}
     else:

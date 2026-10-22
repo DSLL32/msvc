@@ -182,7 +182,9 @@
     "_rc_macro_fatal@4",
     "_fgetc",
     "_rc_control_handler@4",
-    "__fcloseall"
+    "__fcloseall",
+    "_rc_long_kind@4",
+    "_rc_unsigned_kind@4"
   ],
   "functions": [
     {
@@ -254,8 +256,9 @@
     {
       "name": "_rc_exception_filter",
       "start": 16814064,
-      "end": 16814416,
-      "status": "stub"
+      "end": 16814365,
+      "status": "stub",
+      "classification": "Identified embedded CRT __XcptFilter (WINXFLTR.OBJ), not native preprocessor logic; pending 301-byte body. Separate private xcptlookup at 01009120..0100914b and padding are excluded; neither routine accepted by these successful suffix cases."
     },
     {
       "name": "_malloc",
@@ -1329,6 +1332,14 @@
     "console-interrupt": {
       "fixture": "../fixtures/rcpp-interrupt",
       "manifest_case": "console-interrupt"
+    },
+    "long-suffix": {
+      "fixture": "../fixtures/rcpp-remaining",
+      "manifest_case": "long-suffix"
+    },
+    "unsigned-suffix": {
+      "fixture": "../fixtures/rcpp-remaining",
+      "manifest_case": "unsigned-suffix"
     }
   },
   "acceptance_cases": {
@@ -1507,6 +1518,8 @@
     "_rc_macro_fatal@4": "oversized-macro",
     "_fgetc": "console-interrupt",
     "_rc_control_handler@4": "console-interrupt",
-    "__fcloseall": "console-interrupt"
+    "__fcloseall": "console-interrupt",
+    "_rc_long_kind@4": "long-suffix",
+    "_rc_unsigned_kind@4": "unsigned-suffix"
   }
 }

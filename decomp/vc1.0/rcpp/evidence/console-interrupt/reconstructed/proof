@@ -1,19 +1,19 @@
-console=real controller_pid=1372
-target_pid=1388 primary_tid=1392 group=0 flags=00000002
+console=real controller_pid=1648
+target_pid=1664 primary_tid=1668 group=0 flags=00000002
 group_semantics=console-local-broadcast event=0
-registration handler_rva=0000177c tid=1392
+registration handler_rva=0000177c tid=1668
 registration_return=TRUE
-native_ReadFile handle=0000004c type=PIPE requested=512 tid=1392 return_rva=0000b4eb
+native_ReadFile handle=0000004c type=PIPE requested=512 tid=1668 return_rva=0000b4eb
 boundary=blocked_pipe_ReadFile primary_suspended=1 eip=7bcfc83c return_rva=0000b4eb available=0
 before_file name=interrupt.rc bytes=81
 before_file name=result.i bytes=0
-console_member=1372
-console_member=1388
+console_member=1648
+console_member=1664
 signal=CTRL_C_EVENT group=0 api=GenerateConsoleCtrlEvent success=1
 primary_resumed=1 reason=deliver_pending_console_signal
 primary_resuspended=1 boundary=OS_callback_thread_creation
-target_thread=1428 start=7bd2ac70
-control_exception=40010005 tid=1428 disposition=not_handled
-callback pid=1388 tid=1428 argument=0 handler_rva=0000177c
+target_thread=1704 start=7bd2ac70
+control_exception=40010005 tid=1704 disposition=not_handled
+callback pid=1664 tid=1704 argument=0 handler_rva=0000177c
 exit=1 generated=1 reached_handler=1 controller_breaks=0 controller_interrupts=1
 cleanup pipe_disconnected=1 output_exclusive_open=1

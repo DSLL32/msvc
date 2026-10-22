@@ -567,15 +567,15 @@
   ],
   "final_replay": {
     "original": {
-      "pid": 1448,
-      "primary_tid": 1452,
-      "callback_tid": 1488,
+      "pid": 1724,
+      "primary_tid": 1728,
+      "callback_tid": 1764,
       "argument": 0,
       "handler_rva": 29104,
       "exit": 1,
       "proof": {
         "bytes": 967,
-        "sha256": "4e491894ef412aaf92c3805b3b5ec62133127f528d031f42b51bcd883fcdbb1b"
+        "sha256": "14dd696beb57b5589503d9aad68f2445e84272946f9e3eb424b31862ebadd75d"
       },
       "output": {
         "bytes": 46,
@@ -585,15 +585,15 @@
       "output_exclusive_open": true
     },
     "reconstructed": {
-      "pid": 1388,
-      "primary_tid": 1392,
-      "callback_tid": 1428,
+      "pid": 1664,
+      "primary_tid": 1668,
+      "callback_tid": 1704,
       "argument": 0,
       "handler_rva": 6012,
       "exit": 1,
       "proof": {
         "bytes": 967,
-        "sha256": "5c51702616b816514f09dff1aa9dbea8b43cd88ea8b5313149924102d907ef79"
+        "sha256": "705c9f1b56a4ee90a8159471e41a8d8f2b08a162f35c39bd6514e85bc7b52e3d"
       },
       "output": {
         "bytes": 46,
@@ -603,15 +603,15 @@
       "output_exclusive_open": true
     },
     "baseline": {
-      "pid": 1412,
-      "primary_tid": 1416,
-      "callback_tid": 1452,
+      "pid": 1616,
+      "primary_tid": 1620,
+      "callback_tid": 1656,
       "argument": 0,
       "handler_rva": 29104,
       "exit": 1,
       "proof": {
         "bytes": 967,
-        "sha256": "094e9b658a9bb14c91e260d45fe40b76cc4579a5bb39b0be73dc7fde58750383"
+        "sha256": "41ea69bdc205d5a51fc309ce9dbfc09a9a9dfd899c382c11e7b90e655f951368"
       },
       "output": {
         "bytes": 46,
@@ -620,5 +620,7 @@
       "pipe_disconnected": true,
       "output_exclusive_open": true
     }
-  }
+  },
+  "stress_reconstructed_sha256": "7006eb4bcff8d23b6b60fd84a13f107b3aaac76c35c632ff555643da2ca6ad1b",
+  "final_replay_reconstructed_sha256": "c740cb1ab1e1e1534008c18a725e5b63bc22e0e15f725eaaa8673f6763d41c07"
 }

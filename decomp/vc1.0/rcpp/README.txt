@@ -28,20 +28,30 @@ and the retained 46-byte flushed prefix all match. The output is zero bytes at
 the blocked-read boundary. The immutable fixture preserves two original raw
 captures; independent replay and repeated paired runs check the same relations.
 
-functions.json records 176 accepted frontiers: 158 non-import functions and
+The two successful suffix cases add evaluated L/U integer conditions, including
+32-bit boundary values. Their two untouched-original captures each exit zero
+with empty streams and exact 408-byte and 486-byte outputs. The target retains
+signed-long expression behavior for U-suffixed high-bit values. Matching traps
+accept the separate 17-byte long and 21-byte unsigned classifiers, whose full
+readable implementations were already independently ABI-probed. No C body
+change was needed.
+
+functions.json records 178 accepted frontiers: 160 non-import functions and
 18 Win32 import interfaces. Every accepted function's complete call-target set
 matches the original. acceptance_cases preserves all 156 initial frontiers
-and records the case used for each subsequent acceptance. All 173 previous
-frontiers are retained. Two named trapping stubs remain: exception filter
-and CRT fatal startup abort. Unvisited complete helpers also remain masked
+and records the case used for each subsequent acceptance. All 176 previous
+frontiers are retained, and all 19 cases pass exactly. Two named trapping stubs
+remain: exception filter and CRT fatal startup abort. Unvisited complete helpers also remain masked
 until a case reaches them. This completes the assigned cases, not the whole
 binary.
 
 coverage.json measures the clipped union of accepted full code extents,
-including shared .text data, identified CRT and import thunks: 35,515 of
-40,448 original code bytes (87.80%). This is neither branch coverage nor
-executed-instruction coverage. Gaps include alignment padding as well as
-unaccepted functions.
+including shared .text data, identified CRT and import thunks: 35,553 of
+40,448 original code bytes (87.90%). This is neither branch coverage nor
+executed-instruction coverage. The remaining 4,895 bytes comprise 2,378
+identified body/import bytes and 2,517 alignment or zero-fill bytes. The exhaustive static gap map
+and caller constraints live in ../fixtures/rcpp-remaining/GAP-AUDIT.md and
+gap-map.json; the latter preserves the pre-case 4,933-byte baseline complement.
 
     make -j2 check-suite
     make -j2 replay-suite
@@ -63,6 +73,7 @@ basenames, working directory layout and T: paths preserve #line output exactly.
 ../fixtures/rcpp-followups supplies 13 immutable source/argument/output captures.
 ../fixtures/rcpp-targeted adds the two diagnostic/macro-limit captures.
 ../fixtures/rcpp-interrupt adds the original-backed console/pipe case.
+../fixtures/rcpp-remaining adds the two successful integer-suffix captures.
 Each manifest source, target, catalog and output hash is verified. The complete
 source tree is copied into a private work directory and checked unchanged after
 the run. Captured relative paths and source encodings are retained. No bytes,
@@ -178,7 +189,7 @@ audit-graph.py follows complete CFGs and switch tables, not linear decoding of
 jump-table bytes. Known tail calls count as callee edges. Startup's detached
 SEH blocks are inspected separately. Original ranges are checked for overlap;
 ftell ends at 0100f8b4, before separate native directive lookup 0100f8d0.
-All 352 accepted original/reconstruction ranges (functions and import thunks)
+All 356 accepted original/reconstruction ranges (functions and import thunks)
 also receive a 15-byte lookahead check for split instructions, including RET
 immediates. Reachable CFG instructions and the final detached/alignment segment
 are checked; switch data is treated as data. boundary-validation.json records
@@ -215,13 +226,24 @@ identically named pipes during paired execution. No native callback invocation,
 thread injection, PID rewriting or artifact normalization is used.
 
 interrupt-validation.json records ten repeated paired/baseline checks with
-actual callback IDs and raw proof hashes. Final raw proof, streams, events and
-before/after files live under evidence/console-interrupt. Intermediate stress
+actual callback IDs and raw proof hashes from the prior completed interrupt
+checkpoint. stress_reconstructed_sha256 identifies that historical build;
+final_replay_reconstructed_sha256 identifies the current clean build. Final
+raw proof, streams, events and before/after files live under evidence/console-interrupt. Intermediate stress
 proof lives in ~/.ai-tmp/vc1.0-rcpp/interrupt/stress. The fixture controller and
 capture script are pinned by its manifest; original independent recapture uses
 the same controller without masking or reconstruction.
 
-A useful next proposal is an arithmetic-fault conditional, such as #if 1/0,
-targeting the still-trapping exception filter. Its first-chance exception
-disposition and exact original outcome would need capture before dispatch.
-This proposal has not been run; no further cases were started.
+The pending exception-filter extent is corrected to the 301-byte embedded CRT
+_XcptFilter at 01008ff0..0100911d. Its separate 43-byte lookup helper at
+01009120..0100914b remains unaccepted; neither is native preprocessor logic.
+
+Automatic safety review stopped the exception-dispatch investigation. The
+assignment was narrowed to static analysis and successful ordinary inputs; no
+exception, crash or resource-failure experiment was created or run.
+
+A useful next action is a static CRT provenance/caller review of the remaining
+2,378 body/import bytes, such as the dormant 480-byte resize chain. The current
+public option table, fixed file modes and CRT locale state provide no evidenced
+ordinary successful input route to those functions. No further cases were
+started, and complete binary or branch coverage is not claimed.
