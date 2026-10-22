@@ -53,3 +53,6 @@ char rc_macro_name[512];
 unsigned char rc_macro_hash;
 int rc_macro_name_length;
 FILE *rc_output;
+
+/* Shared string storage also contains the two 1K macro-work windows. */
+char rc_text_buffer[2048];

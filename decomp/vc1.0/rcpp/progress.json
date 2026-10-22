@@ -1,12 +1,12 @@
 {
   "status": "partial",
   "case": "resources-rich",
-  "accepted_frontiers": 62,
-  "accepted_nonimport_functions": 48,
-  "next_matching_trap": "_rc_parse_directive",
+  "accepted_frontiers": 85,
+  "accepted_nonimport_functions": 71,
+  "next_matching_trap": "_rc_push_condition",
   "all_recorded_frontiers_replayed": true,
-  "replay_sha256": "714a624681202180cdb332b601ea3ef395c38d0dc799785058a1271a82ed583a",
-  "native_call_graph_audit": "passed; 48 accepted non-import functions",
+  "replay_sha256": "3aed609a919ebd5fe200522233aef969614d9ef9d81ec2f63c14e80540296835",
+  "native_call_graph_audit": "passed; 71 accepted non-import functions; CFGs and switch data inspected",
   "original_oracle": {
     "exit": 0,
     "stdout_bytes": 0,

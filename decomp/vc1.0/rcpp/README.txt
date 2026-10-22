@@ -2,9 +2,9 @@ RCPP.EXE, MSVC 1.0 NT / vc1.0
 ============================
 
 Status: partial reconstruction. The resources-rich case currently reaches a
-matching trap at rc_parse_directive (original 0100d4f0). Startup, argument
-transport, option matching/actions, command-line macro storage, encoding
-detection, buffered input setup and #line emission are recovered;
+matching trap at rc_push_condition (original 0100d3a0) while reading WINDOWS.H.
+Startup, native directive dispatch, the full main lexer, numeric/string tokens,
+include-name handling, header search and buffered input setup are recovered;
 no successful preprocessing output is claimed yet. The oracle is 336,686 exact
 bytes, exit zero and empty stdout/stderr. No fields or paths are normalized.
 
@@ -14,6 +14,7 @@ bytes, exit zero and empty stdout/stderr. No fields or paths are normalized.
     python3 audit-graph.py
     python3 audit-data.py
     python3 identify-runtime.py
+    make -j2 classifiers
 
 Builds use the original CL.EXE and LINK.EXE from toolchains/1.0-nt. Scratch,
 Wine prefix, paired case directories and debugger logs are under
@@ -88,17 +89,41 @@ broad starting case. No preprocessing output has passed reconstruction yet.
 Current input milestone
 -----------------------
 
-62 recorded logical frontiers replay to the directive-parser stub. The 48
-accepted non-import functions have equal native/CRT call-target sets. No full
+85 recorded logical frontiers replay to the conditional-stack stub in the first
+toolchain header. The 71 accepted non-import functions have equal native/CRT
+call-target sets. No full
 preprocessed output has been accepted. Macro entries are typed linked nodes;
 input files use typed 40-byte saved contexts and shared segmented byte/word
 buffers. The lexer tables contain encountered semantic categories and radix/
 identifier flags, verified independently against original initial values.
-Their only original .text data encountered so far is the begin-line switch
-jump table; its explicit accepted range is recorded with that function.
+Original .text switch data is recorded separately with each accepted function.
+The main lexer spans [0100f970,010106dc), with 818 reachable instructions, 44
+dispatch entries and 23 callees; its C reconstruction retains this single graph
+vertex. Native token descriptions are shared typed spelling/category records
+and are checked against all 132 valid target entries. No preceding padding or
+invalid descriptor bytes were copied.
 
 identify-runtime.py inventories LIBC and LIBCMT byte candidates in scratch.
 Its output is explicitly identification evidence, never automatic acceptance
 or a claim of behavioral equivalence. The original file-open disposition
 checks differ from CL/later LIBC and are implemented as readable C with the
 RCPP-specific invalid combinations retained.
+
+Graph and ABI evidence
+----------------------
+
+Call audits follow conditional branches and indexed switch tables rather than
+linearly interpreting table bytes as instructions. Tail jumps to known function
+entries count as callee edges, so source-level tail calls retain their graph.
+Detached startup SEH blocks are included separately. Original function ranges
+are checked for overlap as new entry points are identified. In particular,
+ftell ends at 0100f8b4; the native directive lookup at 0100f8d0 is a separate
+function and remains subject to native reconstruction/masking requirements.
+
+The original integer-kind classifier tests have unreachable promotion arms on
+this 32-bit target. Their four source functions therefore return the observed
+constant kind while retaining four individual stdcall graph vertices.
+make classifiers loads both full binaries without executing their startup,
+calls their leaf entries with the actual ABI, and verifies 40,048 calls per
+binary (boundary values plus a deterministic sample). classifier-validation.json
+records this independent probe; it is not whole-program completion evidence.

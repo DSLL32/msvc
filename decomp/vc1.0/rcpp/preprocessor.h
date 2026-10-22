@@ -32,6 +32,7 @@ extern RcStringOptions rc_definitions, rc_include_directories;
 extern char rc_diagnostic_buffer[256], rc_source_name[260];
 extern char *rc_message_format;
 extern int rc_error_count, rc_preprocessing_started, rc_conditional_depth;
+unsigned char __stdcall rc_directive_code(const char *);
 char *rc_next_argument(void);
 int __stdcall rc_parse_option(RcOption *, char *, char *(__cdecl *)(void), int);
 char *__stdcall rc_message(unsigned);

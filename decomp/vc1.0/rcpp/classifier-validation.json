@@ -1,0 +1,69 @@
+{
+  "probe": "direct leaf ABI calls; independent of the trapped whole-program case",
+  "samples_per_function": 10012,
+  "convention": "stdcall(unsigned long) -> unsigned char",
+  "boundary_values": [
+    "00000000",
+    "00000001",
+    "00000009",
+    "00007fff",
+    "00008000",
+    "0000ffff",
+    "00010000",
+    "7ffffffe",
+    "7fffffff",
+    "80000000",
+    "fffffffe",
+    "ffffffff"
+  ],
+  "lcg": {
+    "seed": "13579bdf",
+    "multiplier": 1664525,
+    "increment": 1013904223,
+    "bits": 32
+  },
+  "runs": {
+    "original": {
+      "sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+      "functions": [
+        {
+          "name": "_rc_integer_nondecimal_kind@4",
+          "rva": 52032
+        },
+        {
+          "name": "_rc_integer_decimal_kind@4",
+          "rva": 52064
+        },
+        {
+          "name": "_rc_long_kind@4",
+          "rva": 52096
+        },
+        {
+          "name": "_rc_unsigned_kind@4",
+          "rva": 52128
+        }
+      ]
+    },
+    "reconstruction": {
+      "sha256": "5b464801a4bac0df0d950a8f090e435de29ac9177a9e03bf4362c1e666ec984e",
+      "functions": [
+        {
+          "name": "_rc_integer_nondecimal_kind@4",
+          "rva": 21882
+        },
+        {
+          "name": "_rc_integer_decimal_kind@4",
+          "rva": 21902
+        },
+        {
+          "name": "_rc_long_kind@4",
+          "rva": 21922
+        },
+        {
+          "name": "_rc_unsigned_kind@4",
+          "rva": 21942
+        }
+      ]
+    }
+  }
+}

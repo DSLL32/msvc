@@ -55,6 +55,9 @@ def indexes():
     names = publics()
     ends = sorted(set(names.values()) | {rec.base+s['rva']+s['virtual_size'] for s in rec.sections if s['flags'] & 0x20})
     oi = imports(original) + cfg['functions']
+    ordered = sorted(oi, key=lambda f:(f['start'],f['end']))
+    for left, right in zip(ordered, ordered[1:]):
+        assert left['end'] <= right['start'], 'overlapping original extents: '+left['name']+' / '+right['name']
     ri = imports(rec)
     for f in cfg['functions']:
         assert f['name'] in names, f['name']

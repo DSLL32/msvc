@@ -5,7 +5,7 @@
 /* Values are dispatch categories in the original lexer, not output tokens. */
 enum RcCharacterClass {
     LC_SPACE=0, LC_CR=1, LC_SLASH=2, LC_END=3, LC_STAR=4, LC_NEWLINE=5,
-    LC_CHARACTER=7, LC_STRING=8, LC_DOT=9, LC_BANG=10, LC_HASH=11,
+    LC_ESCAPE=6, LC_CHARACTER=7, LC_STRING=8, LC_DOT=9, LC_BANG=10, LC_HASH=11,
     LC_PERCENT=12, LC_EQUAL=13, LC_XOR=14, LC_OR=15, LC_AND=16,
     LC_PLUS=17, LC_MINUS=18, LC_LESS=19, LC_GREATER=20, LC_BAD=23,
     LC_RBRACE=24, LC_RBRACKET=25, LC_COLON=26, LC_COMMA=27,
@@ -16,6 +16,8 @@ enum RcCharacterClass {
 };
 extern unsigned char rc_character_class[256], rc_character_flags[256];
 extern char rc_macro_name[512];
+extern char rc_text_buffer[2048];
+unsigned __stdcall rc_escape_value(int);
 extern unsigned char rc_macro_hash;
 extern int rc_macro_name_length;
 typedef struct RcMacro {

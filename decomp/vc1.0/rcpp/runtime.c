@@ -20,3 +20,10 @@ void *rc_malloc(unsigned size)
     } while (rc_new_handler(size));
     return memory;
 }
+
+/* Original [010089a0,010089b3). All linked stdio buffers and native allocations
+ * share the process heap; a later LIBC region-heap free cannot release them. */
+void free(void *memory)
+{
+    HeapFree(rc_process_heap, 0, memory);
+}

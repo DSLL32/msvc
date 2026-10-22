@@ -3,7 +3,8 @@
     "path": "toolchains/1.0-nt/bin/RCPP.EXE",
     "sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
     "image_base": 16777216,
-    "entry_rva": 36224
+    "entry_rva": 36224,
+    "exports": []
   },
   "accepted": [
     "_rcpp_start",
@@ -67,7 +68,30 @@
     "_fwrite",
     "__flsbuf",
     "_rc_quote_filename@8",
-    "_rc_begin_line"
+    "_rc_begin_line",
+    "_rc_parse_directive",
+    "_rc_read_nonspace",
+    "_rc_read_identifier@4",
+    "_rc_directive_code@4",
+    "_rc_next_token",
+    "_rc_parse_number@4",
+    "_rc_get_logical_character",
+    "_toupper",
+    "_rc_integer_value@8",
+    "_rc_digit_value@4",
+    "_rc_integer_decimal_kind@4",
+    "_rc_make_constant@8",
+    "_rc_intern_type@4",
+    "_rc_parse_string",
+    "_rc_expect_end@4",
+    "_fputc",
+    "_rc_equal_type@8",
+    "_rc_parse_angle_name",
+    "_strchr",
+    "_rc_search_include_directories",
+    "_rc_skip_comment",
+    "_rc_match_character@4",
+    "_rc_discard_block_comment"
   ],
   "functions": [
     {
@@ -428,7 +452,7 @@
     {
       "name": "_ftell",
       "start": 16840576,
-      "end": 16841053,
+      "end": 16840884,
       "status": "library-boundary"
     },
     {
@@ -490,20 +514,26 @@
     {
       "name": "_rc_skip_comment",
       "start": 16830288,
-      "end": 16830496,
-      "status": "stub"
+      "end": 16830335,
+      "status": "source"
     },
     {
       "name": "_rc_splice_line",
       "start": 16830624,
-      "end": 16830880,
+      "end": 16830742,
       "status": "stub"
     },
     {
       "name": "_rc_parse_directive",
       "start": 16831728,
-      "end": 16832192,
-      "status": "stub"
+      "end": 16833643,
+      "status": "source",
+      "shared": [
+        [
+          16833644,
+          16833700
+        ]
+      ]
     },
     {
       "name": "_fputc",
@@ -516,6 +546,265 @@
       "start": 16813392,
       "end": 16813418,
       "status": "library-boundary"
+    },
+    {
+      "name": "_rc_directive_code@4",
+      "start": 16840912,
+      "end": 16841048,
+      "status": "source"
+    },
+    {
+      "name": "_rc_read_nonspace",
+      "start": 16830496,
+      "end": 16830616,
+      "status": "source"
+    },
+    {
+      "name": "_rc_read_identifier@4",
+      "start": 16825968,
+      "end": 16826329,
+      "status": "source"
+    },
+    {
+      "name": "_rc_skip_line",
+      "start": 16835312,
+      "end": 16835313,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_evaluate_condition",
+      "start": 16835552,
+      "end": 16835553,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_expect_end@4",
+      "start": 16834128,
+      "end": 16834206,
+      "status": "source"
+    },
+    {
+      "name": "_rc_skip_inactive@4",
+      "start": 16833712,
+      "end": 16833713,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_push_condition",
+      "start": 16831392,
+      "end": 16831458,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_parse_define",
+      "start": 16818688,
+      "end": 16818689,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_next_token",
+      "start": 16841072,
+      "end": 16844508,
+      "status": "source",
+      "shared": [
+        [
+          16844508,
+          16844684
+        ]
+      ]
+    },
+    {
+      "name": "_rc_parse_angle_name",
+      "start": 16831472,
+      "end": 16831721,
+      "status": "source"
+    },
+    {
+      "name": "_rc_search_current_directory",
+      "start": 16816752,
+      "end": 16816961,
+      "status": "source"
+    },
+    {
+      "name": "_rc_search_include_directories",
+      "start": 16833904,
+      "end": 16834115,
+      "status": "source"
+    },
+    {
+      "name": "_rc_parse_pragma",
+      "start": 16835456,
+      "end": 16835457,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_remove_macro",
+      "start": 16818512,
+      "end": 16818684,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_get_logical_character",
+      "start": 16830752,
+      "end": 16830830,
+      "status": "source"
+    },
+    {
+      "name": "_strchr",
+      "start": 16845272,
+      "end": 16845310,
+      "status": "library"
+    },
+    {
+      "name": "_rc_resume_input",
+      "start": 16825632,
+      "end": 16825920,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_close_include",
+      "start": 16816560,
+      "end": 16816561,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_expand_macro@4",
+      "start": 16821552,
+      "end": 16821553,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_copy_quoted_text@4",
+      "start": 16826336,
+      "end": 16826337,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_parse_character",
+      "start": 16826848,
+      "end": 16826849,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_parse_string",
+      "start": 16827280,
+      "end": 16827571,
+      "status": "source"
+    },
+    {
+      "name": "_rc_parse_number@4",
+      "start": 16827872,
+      "end": 16828582,
+      "status": "source"
+    },
+    {
+      "name": "_rc_read_floating@4",
+      "start": 16828592,
+      "end": 16828593,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_match_character@4",
+      "start": 16829952,
+      "end": 16829991,
+      "status": "source"
+    },
+    {
+      "name": "_rc_skip_line_comment",
+      "start": 16830000,
+      "end": 16830110,
+      "status": "source"
+    },
+    {
+      "name": "_rc_skip_block_comment",
+      "start": 16830112,
+      "end": 16830279,
+      "status": "source"
+    },
+    {
+      "name": "_rc_read_expanded_identifier@4",
+      "start": 16844688,
+      "end": 16844689,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_integer_value@8",
+      "start": 16829024,
+      "end": 16829243,
+      "status": "source"
+    },
+    {
+      "name": "_rc_integer_nondecimal_kind@4",
+      "start": 16829248,
+      "end": 16829265,
+      "status": "source"
+    },
+    {
+      "name": "_rc_integer_decimal_kind@4",
+      "start": 16829280,
+      "end": 16829303,
+      "status": "source"
+    },
+    {
+      "name": "_rc_long_kind@4",
+      "start": 16829312,
+      "end": 16829329,
+      "status": "source"
+    },
+    {
+      "name": "_rc_unsigned_kind@4",
+      "start": 16829344,
+      "end": 16829365,
+      "status": "source"
+    },
+    {
+      "name": "_rc_make_constant@8",
+      "start": 16831056,
+      "end": 16831374,
+      "status": "source"
+    },
+    {
+      "name": "_toupper",
+      "start": 16845552,
+      "end": 16845924,
+      "status": "library-boundary",
+      "classification": "CRT locale-aware case conversion called with integer byte by native number parser"
+    },
+    {
+      "name": "_rc_digit_value@4",
+      "start": 16829376,
+      "end": 16829431,
+      "status": "source"
+    },
+    {
+      "name": "_rc_intern_type@4",
+      "start": 16830848,
+      "end": 16831008,
+      "status": "source"
+    },
+    {
+      "name": "_rc_equal_type@8",
+      "start": 16831008,
+      "end": 16831053,
+      "status": "source"
+    },
+    {
+      "name": "_rc_escape_value@4",
+      "start": 16829440,
+      "end": 16829441,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_discard_block_comment",
+      "start": 16830336,
+      "end": 16830482,
+      "status": "source"
+    },
+    {
+      "name": "_rc_discard_line_comment",
+      "start": 16835392,
+      "end": 16835447,
+      "status": "source"
     }
   ],
   "cases": {
