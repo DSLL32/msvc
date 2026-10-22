@@ -9,7 +9,14 @@ typedef struct FlowLink {
     unsigned char flags; /* low bit distinguishes protected exception edges */
 } FlowLink;
 typedef char FlowLinkSizeCheck[sizeof(FlowLink) == 12 ? 1 : -1];
-typedef struct FlowLabel FlowLabel;
+typedef struct FlowLabel {
+    SymbolHeader *label;
+    struct FlowLabel *canonical;
+    WorkItem *work;
+    FlowLink *references;
+    struct FlowLabel *hash_next;
+} FlowLabel;
+typedef char FlowLabelSizeCheck[sizeof(FlowLabel) == 20 ? 1 : -1];
 extern WorkItem *global_entry_work;
 extern FlowRegion *global_flow_regions;
 extern FlowLink *free_flow_links;

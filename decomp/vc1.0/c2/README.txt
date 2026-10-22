@@ -468,3 +468,21 @@ frontiers replay, all graph edges agree, both changed implementation modules
 compile /W3 clean, and the complete minimal object/exit regression passes. The
 352-frontier minimal history was fully replayed at the preceding work checkpoint.
 Hello output remains pending at prepare_flow_blocks.
+
+Hello now passes complete block-edge preparation, branch-target normalization,
+ordinary successor/predecessor insertion and link recycling. Successor and
+predecessor fields are typed separately; inline-assembly symbol visitors retain
+the original two register arguments plus callee-cleaned stack context argument.
+Source exception scopes and optimizer regions have separate types and ownership.
+Protected-scope, assembly and malformed-label paths retain named typed traps.
+
+At refresh_flow_edges, which simplifies/coalesces the block chain, the independent
+capture matches eight blocks, nine ordered successor links, nine ordered
+predecessor links, 25 expressions and 95 visited nodes of the first function.
+Targets, edge flag bytes, symbol fields, block order and entry/exit identity agree;
+only the debugger exception address is normalized. See cases/hello-edges-abi.json.
+
+This edge checkpoint has 324 source functions and 401 accepted frontiers. All 49
+hello frontiers replay, all graph edges agree, both changed implementation
+modules compile /W3 clean, and the complete minimal object/exit regression passes.
+Hello output remains pending at refresh_flow_edges.

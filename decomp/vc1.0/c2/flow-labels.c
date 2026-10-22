@@ -2,14 +2,6 @@
 #include "global-work.h"
 #include "machine.h"
 #include "tree-rewrite.h"
-struct FlowLabel {
-    SymbolHeader *label;
-    FlowLabel *canonical;
-    WorkItem *work;
-    FlowLink *references;
-    FlowLabel *hash_next;
-};
-typedef char FlowLabelSizeCheck[sizeof(FlowLabel) == 20 ? 1 : -1];
 static FlowLabel *flow_label_buckets[32]; /* 0007bed0: label hash heads */
 static FlowLabel *pending_flow_labels; /* 00083774: current alias group */
 

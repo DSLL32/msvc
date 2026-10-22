@@ -400,7 +400,12 @@
     "@putback_flow_expression@4",
     "@define_flow_label@8",
     "_resolve_flow_labels",
-    "@canonical_flow_label@4"
+    "@canonical_flow_label@4",
+    "@prepare_flow_blocks@4",
+    "@normalize_flow_targets@4",
+    "@add_flow_successor@8",
+    "@add_flow_predecessor@8",
+    "@release_flow_link@4"
   ],
   "driver": [
     {
@@ -3783,8 +3788,7 @@
     {
       "name": "@prepare_flow_blocks@4",
       "start": 370272,
-      "end": 370273,
-      "provisional": true
+      "end": 370912
     },
     {
       "name": "@refresh_flow_edges@4",
@@ -3923,6 +3927,56 @@
       "name": "@canonical_flow_label@4",
       "start": 371984,
       "end": 372064
+    },
+    {
+      "name": "@add_flow_predecessor@8",
+      "start": 373008,
+      "end": 373072
+    },
+    {
+      "name": "@add_flow_successor@8",
+      "start": 372480,
+      "end": 372544
+    },
+    {
+      "name": "@add_protected_flow_edge@8",
+      "start": 372544,
+      "end": 372545,
+      "provisional": true
+    },
+    {
+      "name": "@release_flow_link@4",
+      "start": 372992,
+      "end": 373008
+    },
+    {
+      "name": "@normalize_flow_targets@4",
+      "start": 372688,
+      "end": 372992
+    },
+    {
+      "name": "@visit_machine_symbols@12",
+      "start": 162080,
+      "end": 162081,
+      "provisional": true
+    },
+    {
+      "name": "@reference_assembly_flow_symbol@8",
+      "start": 372656,
+      "end": 372657,
+      "provisional": true
+    },
+    {
+      "name": "@lookup_exception_scope@8",
+      "start": 418896,
+      "end": 418897,
+      "provisional": true
+    },
+    {
+      "name": "@normalize_assembly_flow_symbol@8",
+      "start": 373200,
+      "end": 373201,
+      "provisional": true
     }
   ],
   "cases": {

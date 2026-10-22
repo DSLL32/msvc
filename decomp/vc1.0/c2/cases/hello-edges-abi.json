@@ -1,0 +1,101 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "prepare_flow_blocks",
+      "start": "0x5a660",
+      "end": "0x5a8e0",
+      "instructions": 174,
+      "abi": "fastcall 1: ECX work chain"
+    },
+    {
+      "name": "normalize_flow_targets",
+      "start": "0x5afd0",
+      "end": "0x5b100",
+      "instructions": 94,
+      "abi": "fastcall 1: ECX expressions, EAX final node"
+    },
+    {
+      "name": "add_flow_successor",
+      "start": "0x5af00",
+      "end": "0x5af40",
+      "instructions": 22,
+      "abi": "fastcall 2: ECX source block, EDX target block"
+    },
+    {
+      "name": "add_flow_predecessor",
+      "start": "0x5b110",
+      "end": "0x5b150",
+      "instructions": 22,
+      "abi": "fastcall 2: ECX target block, EDX source block"
+    },
+    {
+      "name": "release_flow_link",
+      "start": "0x5b100",
+      "end": "0x5b110",
+      "instructions": 4,
+      "abi": "fastcall 1: ECX recycled link"
+    }
+  ],
+  "data": [
+    {
+      "name": "WorkItem",
+      "fields": {
+        "0x0c": "FlowLink *successors",
+        "0x10": "FlowLink *predecessors"
+      },
+      "provenance": "ordinary edge insertion routines access separate lists; bidirectional protected edge constructor inspects low flag byte"
+    },
+    {
+      "name": "Function",
+      "fields": {
+        "0x18": "ExceptionScope *exception_scopes"
+      },
+      "provenance": "block preparation passes this chain to lookup_exception_scope for enclosing-scope identifiers"
+    },
+    {
+      "name": "ExceptionScope",
+      "extent": "typed fields encountered through offset 0x20; no allocation extent is claimed yet",
+      "fields": {
+        "0x00": "ExceptionScope *next",
+        "0x04": "unsigned kind",
+        "0x08": "unsigned state",
+        "0x0c": "unsigned identifier",
+        "0x10": "unsigned field10, not yet interpreted",
+        "0x14": "long parent_identifier",
+        "0x18": "SymbolHeader *handler_label",
+        "0x1c": "SymbolHeader *filter_label",
+        "0x20": "SymbolHeader *alternate_label"
+      },
+      "provenance": "scope lookup and protected-edge/branch-normalization callers; optimizer FlowRegion remains a separate type"
+    },
+    {
+      "name": "control_dispatch",
+      "original_va": "0x5a880",
+      "bytes": 96,
+      "representation": "24 native targets represented by explicit control-code cases; no copied table"
+    }
+  ],
+  "validation": [
+    "all 49 hello frontiers replay with matching logical traps",
+    "all 324 reconstructed function graphs agree",
+    "flow-edges.c and flow-labels.c compile /W3 clean with original compiler",
+    "complete minimal object/exit/streams regression passes"
+  ],
+  "independent_validation": {
+    "frontier": "refresh_flow_edges",
+    "blocks": 8,
+    "expressions": 25,
+    "nodes": 95,
+    "successors": 9,
+    "predecessors": 9,
+    "comparison": "complete first-function edge lists including traversal order, target block identity and flag bytes; block/expression order and visited tree/symbol fields also match",
+    "normalization": "debugger exception address only"
+  },
+  "limits": [
+    "Hello object remains pending at refresh_flow_edges 0x59a30, which simplifies and coalesces blocks.",
+    "Protected scope handling, assembly-symbol visitors, and malformed-label diagnostics are source/ABI/graph audited but remain dynamically unvisited with typed trapping callees.",
+    "The independent capture compares the first function; later functions remain behind the current frontier.",
+    "The native machine-symbol visitor has two register arguments and one callee-cleaned stack argument (RET 4); its callback receives ECX symbol and EDX context."
+  ]
+}

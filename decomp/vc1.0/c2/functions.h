@@ -18,7 +18,8 @@ typedef struct WorkItem {
     struct WorkItem *next;
     struct WorkItem *previous;
     union { struct Expression *expressions; struct MachineBlockHeader *block; } body;
-    unsigned field0c, field10, field14;
+    struct FlowLink *successors, *predecessors;
+    unsigned field14;
     struct FlowRegion *region;
     struct BitSet *uses, *definitions;
     unsigned field24, field28, field2c, field30, field34, field38;
@@ -40,7 +41,8 @@ typedef struct Function {
     WorkItem *work;
     Expression *expressions;
     ScopeHash *scope;
-    unsigned field18, options;
+    struct ExceptionScope *exception_scopes;
+    unsigned options;
     const SavedWarning *warning_state;
     struct DebugScope *debug_scope;
     unsigned field28;

@@ -1,4 +1,4 @@
-#include "global-work.h"
+#include "flow-edges.h"
 /* Unreached graph vertices trap deliberately for the paired reconstruction workflow. */
 #include "options.h"
 #include "input.h"
@@ -375,7 +375,6 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 
 
-void __fastcall prepare_flow_blocks(WorkItem *work) { __asm int 3 }
 
 void __fastcall refresh_flow_edges(WorkItem *work) { __asm int 3 }
 
@@ -404,3 +403,10 @@ void __fastcall remove_empty_flow_blocks(WorkItem *work) { __asm int 3 }
 
 
 int __fastcall is_boundary_flow_label(Node *node) { __asm int 3 }
+
+void __fastcall add_protected_flow_edge(WorkItem *work, WorkItem *successor) { __asm int 3 }
+void __fastcall visit_machine_symbols(MachineInstruction *instruction, MachineSymbolVisitor visitor, void *context) { __asm int 3 }
+unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
+ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long identifier) { __asm int 3 }
+
+unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
