@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 383 reconstructed source functions
-and 464 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 395 reconstructed source functions
+and 476 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-emit_initializer, original VA 0x301a0.
-All 206 hello frontiers replay successfully with exact pending-buffer/visible-file
+advance_initializer, original VA 0x30970.
+All 218 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -137,7 +137,7 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 159 encountered
+audit-state.py checks the initial bytes and address aliases of 163 encountered
 frontend state objects, 72 scalar options, the 21 option-table targets, 17 pragma optimization
 rules, and five hash callback identities, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
@@ -304,3 +304,12 @@ all twenty variant copy sizes, the 32-level frame layout and initial depth -1.
 The 159-state/default/alias audit verifies that data. All 206 hello frontiers
 replay with exact pending/visible IR bytes; minimal-C remains byte-identical.
 Current matching frontier is aggregate value emission at 0x301a0.
+
+Checkpoint 395 reconstructs aggregate target selection and descent, runtime
+and static initializer checks, address normalization, lvalue construction,
+and assignment emission. WinMain now emits the first WNDCLASS member
+assignment and reaches aggregate traversal advancement at 0x30970. The
+32-frame initializer stack shares four preceding state words with its
+negative-index sentinel; a typed union preserves these aliases. All 218
+hello frontiers replay with exact pending and visible intermediate bytes;
+the minimal-C regression retains all four captured raw files.
