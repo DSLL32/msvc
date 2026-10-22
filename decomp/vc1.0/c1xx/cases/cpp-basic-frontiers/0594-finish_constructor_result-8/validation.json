@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_constructor_result@8",
+    "start": 236464,
+    "end": 236526
+  },
+  "distinct_direct_callees": [
+    "_append_expression@12",
+    "_make_integer_constant@4"
+  ],
+  "next_frontier": "_finish_object_initializer@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.21290075406432152,
+  "total_operation_seconds": 5.690814367495477,
+  "original_capture_seconds": 4.776470552198589
+}

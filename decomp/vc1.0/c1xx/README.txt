@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 586 accepted frontiers, including 506 frontend
+PARTIAL reconstruction: 595 accepted frontiers, including 515 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _get_base_initialization_access at original VA 0x32060. The latest ordered replay is recorded in validation.json;
+trap is _finish_object_initializer@4 at original VA 0x3dac0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -29,9 +29,9 @@ check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
 functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 984 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 507 first
-entries: 506 accepted frontend functions plus get_base_initialization_access, whose INT3
+projects that original history to all 997 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 516 first
+entries: 515 accepted frontend functions plus finish_object_initializer, whose INT3
 must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
 trial accepted initialize_object_value.
 
@@ -1184,3 +1184,24 @@ Receipts: evidence/constructor-binding-checkpoint.{json,log},
 constructor-binding-native-check.json and constructor-binding-rejections.json.
 The mutable current validation summary now refreshes its coverage/frontier on
 every acceptance; historical frozen receipts remain unchanged.
+
+Resolved-call checkpoint:595 accepted frontiers,522 source functions.
+The complete resolved-call builder, explicit/default argument conversion,
+member-object binding, trivial special-member simplification and result
+finalization now pass fresh original/native checkpoint comparisons. Hidden
+class-result storage, reference results and complete-object constructor
+arguments retain their original branches and call graph. ClassInfo's dispatch
+pointer is the symbol at offset20, checked explicitly; the generated-member
+queue and base-initialization access flag share their original contextual state.
+
+All acceptances0586through0594 match four pending buffers, fourteen state
+observations, raw streams, visible file bytes, canonical call graphs and cached
+native entry traces. Full522-function graph, contextual data/defaults, both
+grammars, native regression and6boundary rejection checks pass in4.602seconds
+combined parallel wall time. Per-function original reference, native debug,
+build and fixture timings are retained separately in each case directory.
+Accepted executable extent union190177/476418bytes is39.918097%, not branch
+coverage. cpp_basic remains incomplete at finish_object_initializer (0x3dac0).
+No shared compatibility change was required. Checkpoint receipts are
+in evidence/call-result-checkpoint.{json,log}, call-result-native-check.json
+and call-result-rejections.json.

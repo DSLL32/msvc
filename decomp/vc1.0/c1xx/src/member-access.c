@@ -3,6 +3,8 @@
 #include "constructor-initializers.h"
 #include <recon.h>
 
+int base_initialization_access; /* original 0x97bc8 */
+
 CppSymbol *access_failure_member; /* original 0x97bd4 */
 unsigned char access_failure_protection; /* original 0x97be0 */
 CppSymbol *access_failure_owner; /* original 0x97bcc */
@@ -130,4 +132,10 @@ void __stdcall set_initial_member_access_failure(unsigned char protection,
     access_failure_owner = owner;
     access_failure_member = member;
     access_failure_protection = protection;
+}
+
+/* Original 0x32060..0x32065. Base initialization permits protected access. */
+int get_base_initialization_access(void)
+{
+    return base_initialization_access;
 }

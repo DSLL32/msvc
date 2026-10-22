@@ -590,7 +590,16 @@
     "_coarse_conversion_rank@4",
     "_compare_candidate_ranks@20",
     "_defer_overload_candidate@8",
-    "_bind_selected_overload@8"
+    "_bind_selected_overload@8",
+    "_get_base_initialization_access",
+    "_make_resolved_call@20",
+    "_convert_call_arguments@16",
+    "_prepare_member_call_object@16",
+    "_find_member_call_binding@16",
+    "_simplify_trivial_member_call@12",
+    "_defer_generated_member@4",
+    "_finish_call_result@12",
+    "_finish_constructor_result@8"
   ],
   "driver": [
     {
@@ -3663,7 +3672,7 @@
     {
       "name": "_defer_generated_member@4",
       "start": 227744,
-      "end": 227745
+      "end": 227828
     },
     {
       "name": "_find_c_linkage_function@4",
@@ -4390,7 +4399,7 @@
     {
       "name": "_get_base_initialization_access",
       "start": 204896,
-      "end": 204897
+      "end": 204902
     },
     {
       "name": "_set_base_initialization_access@4",
@@ -5415,7 +5424,7 @@
     {
       "name": "_make_resolved_call@20",
       "start": 234896,
-      "end": 234897
+      "end": 235935
     },
     {
       "name": "_cast_to_type@8",
@@ -5445,12 +5454,12 @@
     {
       "name": "_convert_call_arguments@16",
       "start": 240368,
-      "end": 240369
+      "end": 241017
     },
     {
       "name": "_finish_call_result@12",
       "start": 235936,
-      "end": 235937
+      "end": 236456
     },
     {
       "name": "_member_call_is_nonvirtual@4",
@@ -5596,14 +5605,79 @@
       "name": "_coarse_conversion_rank@4",
       "start": 482912,
       "end": 482992
+    },
+    {
+      "name": "_first_function_vector_item@4",
+      "start": 322384,
+      "end": 322385
+    },
+    {
+      "name": "_register_temporary_destruction@8",
+      "start": 253104,
+      "end": 253105
+    },
+    {
+      "name": "_prepare_member_call_object@16",
+      "start": 423776,
+      "end": 423961
+    },
+    {
+      "name": "_try_elide_copy_construction@12",
+      "start": 236688,
+      "end": 236689
+    },
+    {
+      "name": "_simplify_trivial_member_call@12",
+      "start": 236528,
+      "end": 236683
+    },
+    {
+      "name": "_report_call_argument_error@12",
+      "start": 241056,
+      "end": 241057
+    },
+    {
+      "name": "_append_default_call_argument@8",
+      "start": 254224,
+      "end": 254225
+    },
+    {
+      "name": "_find_member_call_binding@16",
+      "start": 492896,
+      "end": 492975
+    },
+    {
+      "name": "_find_named_class_binding@12",
+      "start": 492976,
+      "end": 492977
+    },
+    {
+      "name": "_create_initializer_temporary@8",
+      "start": 248944,
+      "end": 248945
+    },
+    {
+      "name": "_record_initialized_temporary@8",
+      "start": 253296,
+      "end": 253297
+    },
+    {
+      "name": "_materialize_call_result@4",
+      "start": 400192,
+      "end": 400193
+    },
+    {
+      "name": "_finish_constructor_result@8",
+      "start": 236464,
+      "end": 236526
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_get_base_initialization_access",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/original-events.txt",
+      "terminal": "_finish_object_initializer@4",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5656,7 +5730,16 @@
         "cases/cpp-basic-frontiers/0582-coarse_conversion_rank-4/frontier-extension.json",
         "cases/cpp-basic-frontiers/0583-compare_candidate_ranks-20/frontier-extension.json",
         "cases/cpp-basic-frontiers/0584-defer_overload_candidate-8/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0586-get_base_initialization_access/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0587-make_resolved_call-20/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0588-convert_call_arguments-16/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0589-prepare_member_call_object-16/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0590-find_member_call_binding-16/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0591-simplify_trivial_member_call-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0592-defer_generated_member-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0593-finish_call_result-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/frontier-extension.json"
       ]
     }
   },
@@ -7350,6 +7433,30 @@
         {
           "name": "_allocation_base_symbol",
           "original": 658712,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_base_initialization_access",
+      "original": 621512,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_base_initialization_access",
+          "original": 621512,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_generated_member_queue",
+      "original": 651712,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_generated_member_queue",
+          "original": 651712,
           "bytes": 4
         }
       ]

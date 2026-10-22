@@ -1,0 +1,20 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565592eb in finish_constructor_result (call=0x5660a7bc, tag=0x565e50b8) at src/stubs.c:169
+169	IrToken *__stdcall finish_constructor_result(IrToken *call, CppSymbol *tag) { __asm { int 3 } return 0; }
+#0  0x565592eb in finish_constructor_result (call=0x5660a7bc, tag=0x565e50b8) at src/stubs.c:169
+#1  0x56583019 in finish_call_result (call=0x5660a7bc, function=0x565e5170, flags=8196) at src/call-expressions.c:942
+#2  0x565826ce in make_resolved_call (symbol=0x565e5170, object=0x5660a5e8, arguments=0x5660a5d4, count=1, qualified=0x565f5214) at src/call-expressions.c:732
+#3  0x56581d4d in build_call_expression (expression=0x5660a6b0, arguments=0x5660a5d4) at src/call-expressions.c:151
+#4  0x5657d134 in make_constructor_call (tag=0x565e50b8, object=0x5660a5e8, arguments=0x5660a5d4, emit=0, member_subobject=1) at src/constructor-initializers.c:708
+#5  0x5658131f in initialize_allocated_class (allocated=0, tag=0x565e50b8, object=0x5660a5e8, arguments=0x5660a5d4) at src/allocation-expressions.c:187
+#6  0x56581242 in make_object_constructor_call (mode=0 '\000', attributes=1, placement=0x0, symbol=0x565f51a0, arguments=0x5660a5d4, object=0x5660a5e8, array_bound=0x0) at src/allocation-expressions.c:173
+#7  0x5657fa5b in initialize_class_object (symbol=0x565f51a0, value=0x5660a5d4) at src/object-initializers.c:46
+#8  0x56580331 in initialize_object_value (symbol=0x565f51a0, value=0x5660a5d4) at src/object-initializers.c:215
+#9  0x5658027e in initialize_object (symbol=0x565f51a0, value=0x5660a5d4) at src/object-initializers.c:193
+#10 0x56591f77 in parse_translation_unit () at src/parser-declaration-actions.inc:317
+#11 0x5655da86 in compile_translation_unit () at src/frontend.c:75
+#12 0x565587c6 in guarded_compile () at src/c1xx.c:28
+#13 0x56558794 in main (argc=1, argv=0xffffd8c4, environment=0xffffd8cc) at src/c1xx.c:20

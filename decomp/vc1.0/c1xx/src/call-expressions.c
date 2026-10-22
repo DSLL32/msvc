@@ -9,6 +9,11 @@
 #include "return-statements.h"
 #include "unary-expressions.h"
 #include "lexer.h"
+#include "expression-preparation.h"
+#include "numeric-conversion.h"
+#include "special-members.h"
+#include "frontend-records.h"
+#include "function-definitions.h"
 #include <recon.h>
 
 /* Original 0x39050..0x39583. Scalar/class conversions, callable class objects,
@@ -611,4 +616,344 @@ void __stdcall bind_selected_overload(QualifiedDeclarator *reference, CppSymbol 
         reference->resolution->binding->target = (ClassReference *)function;
         check_qualified_member_access(reference);
     }
+}
+/* Original 0x39590..0x3999e. Build direct/intrinsic/member call records,
+   preserving temporary construction, virtual dispatch and trivial-call elision. */
+IrToken *__stdcall make_resolved_call(CppSymbol *symbol, IrToken *object,
+    IrToken *arguments, unsigned count, CppSymbol *qualified)
+{
+    IrToken *call, *descriptor, *adjusted, *result, *this_argument, *temporary;
+    CppSymbol *function, *dispatch_class;
+    CType *temporary_type;
+    TypeShape *shape;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    unsigned index, kind;
+    unsigned short operation, flags;
+    int direct = qualified != 0;
+
+    if (!symbol) return 0;
+    if (symbol->declaration_flags & 2) {
+        report_syntax_error(0x108, format_symbol_name(symbol));
+        return 0;
+    }
+    if (token_allocation_flags & 0x20000020UL) call = allocate_permanent(sizeof(IrToken));
+    else {
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        call = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    call->flags = 2;
+    call->kind = 0x7a;
+    kind = symbol->kind & 31;
+    function = kind == 16 || kind == 17 ?
+        first_function_vector_item((Vector *)((OverloadSet *)symbol)->functions) : symbol;
+    call->type = function_return_type(function);
+    shape = function->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    call->tail.right = convert_call_arguments(function, shape->data.parameters, arguments, count);
+    if ((function->kind & 31) == 6) {
+        operation = function->detail.intrinsic.operation;
+        if ((operation == 0xd9 && !(token_allocation_flags & 0x04000000UL) && !seh_except_depth) ||
+            (operation == 0xda && !(token_allocation_flags & 0x04000000UL)) ||
+            (operation == 0xd7 && !seh_finally_depth))
+            report_syntax_error(0x2c3, symbol->name);
+        if (symbol->detail.intrinsic.operation == 0xd8 && (function_symbol->storage[2] & 1))
+            report_syntax_error(0x1ea, format_symbol_name(symbol));
+        call->kind = 0x81;
+        call->value.pointer = make_integer_constant(operation);
+    } else if (!(function->declaration_flags & 0x400)) {
+        call->value.pointer = symbol_reference(symbol);
+        defer_generated_member(function);
+    } else if (!(function->cpp.parts.member_flags & 1))
+        call->value.pointer = symbol_reference(symbol);
+    else {
+        if (!object) {
+            if (!(function->declaration_flags & 0x1000)) {
+                report_syntax_error(0x160,
+                    ((CppSymbol *)cpp_context_stack->items[function->auxiliary.declaring_class])->name,
+                    function->name);
+                return 0;
+            }
+            shape = function->type->related;
+            if (shape && !(shape->flags & 0x77)) shape = shape->related;
+            temporary_type = drop_first_type_shape(shape->data.parameters->associated_type);
+            if (next_symbol_index >= 0x7fffffffUL) fatal_error(0x37);
+            if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+            index = next_symbol_index++;
+            temporary = new_temporary_reference(index, temporary_type);
+            shape = function->type->related;
+            if (shape && !(shape->flags & 0x77)) shape = shape->related;
+            object = new_cast_expression(shape->data.parameters->associated_type, temporary);
+            register_temporary_destruction(object, temporary_type);
+        }
+        adjusted = prepare_member_call_object(object, function, qualified, &dispatch_class);
+        if ((function->cpp.parts.member_flags & 0x20) && arguments) {
+            result = try_elide_copy_construction(function, adjusted, arguments);
+            if (result) return result;
+        }
+        result = simplify_trivial_member_call(function, adjusted, arguments);
+        if (result) return result;
+        if (token_allocation_flags & 0x20000020UL)
+            descriptor = allocate_permanent(sizeof(IrToken));
+        else {
+            if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+            descriptor = (IrToken *)pool->next;
+            pool->remaining -= sizeof(IrToken);
+            pool->next += sizeof(IrToken);
+        }
+        if (adjusted->kind == 0x6e) adjusted = adjusted->value.pointer;
+        shape = function->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        this_argument = new_typed_unary_expression(0x46, shape->data.parameters->associated_type, adjusted);
+        if (!(function->storage[1] & 2) || direct) {
+            defer_generated_member(function);
+            descriptor->kind = 0xa4;
+            descriptor->value.pointer = symbol_reference(symbol);
+        } else {
+            descriptor->kind = 0xa5;
+            descriptor->value.pointer = make_integer_constant(function->detail.virtual_table_offset);
+            this_argument = new_typed_unary_expression(0x46,
+                dispatch_class->detail.class_info->virtual_dispatch_pointer->type, this_argument);
+        }
+        if (function->declaration_flags & 0x1000) {
+            shape = function->type->related;
+            if (shape && !(shape->flags & 0x77)) shape = shape->related;
+            call->type = shape->data.parameters->associated_type;
+        }
+        descriptor->flags = 2;
+        descriptor->tail.right = this_argument;
+        descriptor->type = function->type;
+        call->value.pointer = descriptor;
+    }
+    shape = function->type->related;
+    flags = shape->flags;
+    if ((flags & 0x77) != 4) flags = shape->related->flags;
+    return finish_call_result(call, function, flags);
+}
+/* Original 0x3aaf0..0x3ad78. Convert explicit arguments against the formal
+   list, retain ellipsis operands, then materialize and splice default arguments. */
+IrToken *__stdcall convert_call_arguments(CppSymbol *function, FunctionParameters *parameters,
+    IrToken *arguments, int count)
+{
+    CType **formal = parameters->declarations->types;
+    CType *type;
+    CppSymbol *overload, *selected;
+    IrToken *node = arguments, *value, *defaults_list, *tail;
+    DefaultArgument *argument;
+    int remaining = parameters->declarations->count;
+    int failed = 0, member_form, skip, i;
+
+    if (arguments) {
+        node = arguments->linkage.list_head;
+        while (count > 0) {
+            --count;
+            value = node->value.pointer;
+            if (!value || (value->flags & 8)) return 0;
+            type = *formal;
+            if (!type) {
+                type = type_0000;
+                if (!node->type) {
+                    member_form = value->kind != 2;
+                    if (member_form) value = value->tail.right;
+                    overload = value->value.pointer;
+                    if ((overload->kind & 31) == 18)
+                        overload = (CppSymbol *)((QualifiedDeclarator *)overload)->resolution->binding->target;
+                    selected = ((OverloadSet *)overload)->functions;
+                    value->value.pointer = selected;
+                    value->type = selected->type;
+                    node->type = selected->type;
+                    if (!has_single_function(overload))
+                        report_call_argument_error(0x1fa, ((OverloadSet *)overload)->functions, 0);
+                    else if (member_form) {
+                        selected = value->value.pointer;
+                        if ((selected->kind & 31) == 7 && (selected->declaration_flags & 0x400) &&
+                            (selected->storage[0] & 7) != 3) {
+                            report_syntax_error(0x114, "... (argument)");
+                            return 0;
+                        }
+                    }
+                    type = type_0000;
+                }
+            } else {
+                if (!node->type) {
+                    value = resolve_assignment_operand(type, value);
+                    node->value.pointer = value;
+                }
+                ++formal;
+                --remaining;
+            }
+            node->type = type;
+            if (type == type_0000) node = node->linkage.list_head;
+            else {
+                value = convert_initializer(0x7a, type, value);
+                node->value.pointer = value;
+                value = prepare_reference_initializer(type, value);
+                node->value.pointer = value;
+                if (value) {
+                    node->type = type;
+                    node = node->linkage.list_head;
+                } else failed = 1;
+            }
+        }
+    }
+    if (!*formal || !remaining || (remaining == 1 && (!*formal || *formal == type_0080)))
+        return arguments;
+    argument = parameters->defaults;
+    skip = remaining - 1;
+    while (skip > 0 && argument->next) {
+        --skip;
+        argument = argument->next;
+    }
+    if (failed) return 0;
+    defaults_list = 0;
+    for (i = remaining; i > 0; --i) {
+        if (((IrToken *)argument->expression)->kind == 0xc3) {
+            if (function) report_syntax_error(0x1b3, format_symbol_name(function));
+            else report_syntax_error(0x1b9);
+            return 0;
+        }
+        defaults_list = append_default_call_argument(defaults_list, argument->expression);
+        argument = argument->following;
+    }
+    if (node) {
+        tail = defaults_list->linkage.list_head;
+        tail->tail.right = arguments;
+        defaults_list->linkage.list_head = arguments->linkage.list_head;
+        node->linkage.list_head = tail;
+    }
+    return defaults_list;
+}
+
+/* Original 0x67760..0x67818. Compose an explicit qualification with the
+   member's inherited path, then adjust the object to its declaring subobject. */
+IrToken *__stdcall prepare_member_call_object(IrToken *object, CppSymbol *function,
+    CppSymbol *qualified, CppSymbol **dispatch_class)
+{
+    QualifierBinding *binding, *prefix;
+    TypeShape *shape;
+    if (!qualified) {
+        binding = find_member_call_binding(1, cpp_context_stack->items[object->type->field08],
+            function, dispatch_class);
+        if (!binding) return object;
+    } else {
+        binding = ((QualifiedDeclarator *)qualified)->resolution->binding;
+        prefix = find_member_call_binding(0,
+            cpp_context_stack->items[function->auxiliary.declaring_class], function, dispatch_class);
+        if (prefix) binding = attach_qualifier_parent(prefix, binding->next);
+    }
+    shape = function->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    object = adjust_member_binding_object(object, binding, 0, 1, shape->data.parameters->associated_type);
+    if (qualified) object = make_member_at_offset(object, function->field28, object->type);
+    return object;
+}
+
+/* Original 0x78560..0x785ae. Explicit qualifications use the declaring
+   class; implicit virtual calls may instead use the virtual-table class. */
+QualifierBinding *__stdcall find_member_call_binding(int implicit, CppSymbol *tag,
+    CppSymbol *function, CppSymbol **dispatch_class)
+{
+    short index = implicit && (function->storage[1] & 2) ?
+        function->auxiliary.virtual_function.table_class : function->auxiliary.declaring_class;
+    CppSymbol *owner = cpp_context_stack->items[index];
+    if (dispatch_class) *dispatch_class = owner;
+    if (owner == tag) return 0;
+    return find_named_class_binding(tag, owner->name, 1);
+}
+
+/* Original 0x39bf0..0x39c8a. Trivial default construction/destruction
+   preserves the object; trivial copy and assignment become a plain assignment. */
+IrToken *__stdcall simplify_trivial_member_call(CppSymbol *function, IrToken *object, IrToken *arguments)
+{
+    TypeShape *shape = function->type->related;
+    CppSymbol *tag;
+    IrToken *source, *target;
+    unsigned char members = function->cpp.parts.member_flags, trivial;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    tag = cpp_context_stack->items[shape->data.parameters->associated_type->field08];
+    trivial = tag->detail.class_info->trivial_special_members;
+    if (((members & 0x10) && (trivial & 1)) ||
+        ((function->declaration_flags & 0x2000) && (trivial & 8))) return object;
+    if (((members & 0x20) && (trivial & 2)) || ((members & 0x40) && (trivial & 4))) {
+        source = builtin_unary_expression(OP_DEREFERENCE, arguments->value.pointer);
+        target = builtin_unary_expression(OP_DEREFERENCE, object);
+        return builtin_binary_expression(OP_ASSIGN, target, source);
+    }
+    return 0;
+}
+
+/* Original 0x399a0..0x39ba7. Supply hidden class-result storage, recover
+   reference results, and retain constructor-specific virtual-base arguments. */
+IrToken *__stdcall finish_call_result(IrToken *call, CppSymbol *function, unsigned short flags)
+{
+    int constructor = function && (function->declaration_flags & 0x1000);
+    CType *result_type = call->type, *pointer_type;
+    TypeShape *shape;
+    CppSymbol *tag, *temporary;
+    IrToken *actual_call, *object, *argument;
+    unsigned index;
+    unsigned char storage;
+
+    if (flags & 0x200) {
+        tag = class_tag_for_type(result_type);
+        actual_call = call->kind == 0x40 ? call->tail.right : call;
+        pointer_type = make_class_pointer_type(tag, 0);
+        if (initializing_symbol) {
+            if (member_initializer_active) {
+                if (options.configuration.extensions_enabled)
+                    report_syntax_error(0x162, initializing_symbol->name);
+                else compiler_warning(1, 0x162, initializing_symbol->name);
+            }
+            storage = member_initializer_active ? 4 : (initializing_symbol->storage[0] & 7);
+            temporary = create_initializer_temporary(storage, result_type);
+            object = resolve_symbol_expression(temporary);
+            object = builtin_unary_expression(0x3b, object);
+            record_initialized_temporary(temporary, result_type);
+        } else {
+            if (next_symbol_index >= 0x7fffffffUL) fatal_error(0x37);
+            if (next_symbol_index >= browser_symbol_limit && browser_filename)
+                browser_symbol_rollover();
+            index = next_symbol_index++;
+            object = new_temporary_reference(index, result_type);
+            register_temporary_destruction(object, result_type);
+        }
+        argument = append_expression(0, object, 2);
+        argument->type = pointer_type;
+        if (!actual_call->tail.right) actual_call->tail.right = argument;
+        else {
+            argument->linkage.list_head = actual_call->tail.right->linkage.list_head;
+            actual_call->tail.right->linkage.list_head->tail.right = argument;
+            actual_call->tail.right->linkage.list_head = argument;
+        }
+        actual_call->type = pointer_type;
+        call->type = pointer_type;
+    }
+    if (token_allocation_flags & 0x800) call = qualify_based_storage(call);
+    if (!call) return 0;
+    shape = call->type ? call->type->related : 0;
+    if (shape && (shape->flags & 0x40)) {
+        call = builtin_unary_expression(0x46, call);
+        call->flags |= 0x10;
+    } else if (constructor || (flags & 0x200))
+        call = builtin_unary_expression(0x46, call);
+    else if (flags & 0x100) call = materialize_call_result(call);
+    if (constructor)
+        call = finish_constructor_result(call,
+            cpp_context_stack->items[function->auxiliary.declaring_class]);
+    return call;
+}
+
+/* Original 0x39bb0..0x39bed. A complete-object constructor with virtual
+   bases receives the hidden true argument after its explicit argument list. */
+IrToken *__stdcall finish_constructor_result(IrToken *call, CppSymbol *tag)
+{
+    IrToken *constructor_call, *argument;
+    if (!call) return 0;
+    if (tag->detail.class_info->flags & 0x10) {
+        constructor_call = call->value.pointer;
+        argument = make_integer_constant(1);
+        constructor_call->tail.right = append_expression(constructor_call->tail.right, argument, 2);
+    }
+    return call;
 }

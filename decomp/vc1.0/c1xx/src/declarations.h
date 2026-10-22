@@ -74,7 +74,7 @@ typedef struct ClassInfo {
     Vector *virtual_tables;
     Vector *virtual_base_tables;
     Vector *virtual_table_groups;
-    unsigned field14;
+    CppSymbol *virtual_dispatch_pointer; /* +0x14: symbol supplying virtual-call pointer type */
     struct InlineVector *conversion_types, *ambiguous_conversion_types;
     ClassMemberBucket *member_index;
     unsigned member_index_mask;
@@ -332,4 +332,6 @@ void initialize_declaration_table(void);
 typedef char CppSymbolSizeMustBe52[(sizeof(CppSymbol) == 52) ? 1 : -1];
 typedef char TagSymbolSizeMustBe40[(sizeof(TagSymbol) == 40) ? 1 : -1];
 typedef char ClassInfoSizeMustBe60[(sizeof(ClassInfo) == 60) ? 1 : -1];
+typedef char ClassInfoVirtualDispatchPointerOffsetMustBe20[
+    (offsetof(ClassInfo, virtual_dispatch_pointer) == 20) ? 1 : -1];
 #endif

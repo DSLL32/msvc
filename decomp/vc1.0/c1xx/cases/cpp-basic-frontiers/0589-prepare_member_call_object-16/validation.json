@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_prepare_member_call_object@16",
+    "start": 423776,
+    "end": 423961
+  },
+  "distinct_direct_callees": [
+    "_adjust_member_binding_object@20",
+    "_attach_qualifier_parent@8",
+    "_find_member_call_binding@16",
+    "_make_member_at_offset@12"
+  ],
+  "next_frontier": "_find_member_call_binding@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.23212605901062489,
+  "total_operation_seconds": 4.271190147846937,
+  "original_capture_seconds": 3.3230308974161744
+}

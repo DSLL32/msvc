@@ -2,6 +2,7 @@
 #include "special-members.h"
 #include "class-members.h"
 #include "inline-capture.h"
+#include "class-type-sets.h"
 #include <recon.h>
 
 /* Original 0x36790..0x36967. Classify bases, fields and declared functions,
@@ -463,4 +464,21 @@ unsigned short type_pointer_model(CType *type)
         model = (unsigned short)data_pointer_kind;
     }
     return model;
+}
+
+InlineVector *generated_member_queue; /* original 0x9f1c0 */
+
+/* Original 0x379a0..0x379f3. Queue a synthesized member once, clearing
+   its pending bit. The empty-vector factory is shared with class type sets. */
+void __stdcall defer_generated_member(CppSymbol *member)
+{
+    InlineVector *queue;
+    if ((member->kind & 31) == 7 && (member->cpp.parts.member_flags & 8)) {
+        if (!generated_member_queue) generated_member_queue = new_type_set();
+        queue = generated_member_queue;
+        if (queue->count == queue->capacity) queue = grow_inline_vector(queue);
+        queue->items[queue->count++] = member;
+        generated_member_queue = queue;
+        member->cpp.parts.member_flags &= ~8;
+    }
 }

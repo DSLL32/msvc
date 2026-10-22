@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.231136196292937,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-generated-member-queue-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 4.8219947423785925,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-generated-member-queue-canonical.log"
+  }
+]

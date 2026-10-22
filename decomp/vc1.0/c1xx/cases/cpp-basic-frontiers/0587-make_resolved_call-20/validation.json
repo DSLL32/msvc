@@ -1,0 +1,37 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_resolved_call@20",
+    "start": 234896,
+    "end": 235935
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_browser_symbol_rollover",
+    "_convert_call_arguments@16",
+    "_defer_generated_member@4",
+    "_drop_first_type_shape@4",
+    "_fatal_error",
+    "_finish_call_result@12",
+    "_first_function_vector_item@4",
+    "_format_symbol_name@4",
+    "_function_return_type@4",
+    "_make_integer_constant@4",
+    "_new_cast_expression@8",
+    "_new_temporary_reference@8",
+    "_new_typed_unary_expression@12",
+    "_prepare_member_call_object@16",
+    "_refill_arena@8",
+    "_register_temporary_destruction@8",
+    "_report_syntax_error",
+    "_simplify_trivial_member_call@12",
+    "_symbol_reference@4",
+    "_try_elide_copy_construction@12"
+  ],
+  "next_frontier": "_convert_call_arguments@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.20500491466373205,
+  "total_operation_seconds": 3.496081832796335,
+  "original_capture_seconds": 2.571045145392418
+}

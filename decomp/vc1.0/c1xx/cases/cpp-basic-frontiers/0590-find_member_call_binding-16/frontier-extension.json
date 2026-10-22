@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 590,
+  "accepted": "_find_member_call_binding@16",
+  "terminal": "_simplify_trivial_member_call@12",
+  "original_capture": "cases/cpp-basic-frontiers/0590-find_member_call_binding-16/original-receipt.json",
+  "original_capture_sha256": "9f9e0e60bb8421de589e61365c3b4c70936d23e3f6def448b4bbd2608bea59d4",
+  "original_events": "cases/cpp-basic-frontiers/0590-find_member_call_binding-16/original-events.txt",
+  "original_events_sha256": "0bd04f5edb4005fa93c9da6e7aaad258257a5e09cf0fd3f36bd6898b4ea055b9",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

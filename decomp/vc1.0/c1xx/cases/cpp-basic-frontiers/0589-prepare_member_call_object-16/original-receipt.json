@@ -1,0 +1,31 @@
+{
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 589,
+  "terminal": "_find_member_call_binding@16",
+  "candidate": "_prepare_member_call_object@16",
+  "configuration_sha256": "d64296dafdee92c993d6f4c061f8202ee43451cef48f24f5d56eef4686c1c389",
+  "capture_seconds": 3.3230308974161744,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "cpp-basic.cpp": {
+      "bytes": 252,
+      "sha256": "343b472b5648f7d4c0bfdc63ef0f9f27e4ca7ec45452a88756ef342aa3bf2b18"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  }
+}

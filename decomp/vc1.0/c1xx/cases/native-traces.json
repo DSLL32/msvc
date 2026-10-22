@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "14f9c8607679e2112bb7004aef59591390d2d62aedda3c89457e1cfcbf32a42e",
+    "functions.json": "d3ec521c4b81750f235494623260763c9722a0f29cc488156a44c40702edec93",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/native-cpp-basic/canonical-map.txt": "670ac9e45b7bbb0614e916efb410e9ef290841dc52a76c3ab5253fc39ce709f4",
+    "cases/native-cpp-basic/canonical-map.txt": "2b3637bae13ea1e47941124c53897b2cc4314672a271308664920a46e6c48d5c",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -161,7 +161,34 @@
     "cases/cpp-basic-frontiers/0584-defer_overload_candidate-8/original-events.txt": "f4e2545aabdffb66a0a393322e040dc9cb5b77f38cad03e0f37eef2abaa2bc21",
     "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/frontier-extension.json": "58703c21d11117dc7dff14b8284973b9f041bd0ec111174eb86ee7957cb584e3",
     "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/original-receipt.json": "d711dc15ca0904229cc0cc4316fbd0069717682c24677195059b40dc429272d4",
-    "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/original-events.txt": "474fc0d05225bc76f0116add33ac2a9e576e16e268a43990b686cd5f23efebb6"
+    "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/original-events.txt": "474fc0d05225bc76f0116add33ac2a9e576e16e268a43990b686cd5f23efebb6",
+    "cases/cpp-basic-frontiers/0586-get_base_initialization_access/frontier-extension.json": "a7eeab96b6847aa701462d41d8f7b266aa89fe61f64b2e689bc7a5bdccf73de0",
+    "cases/cpp-basic-frontiers/0586-get_base_initialization_access/original-receipt.json": "ad34257fdcf5571e49d1ae2c55b8f00fcec8f57cdf842f00b228319b89540234",
+    "cases/cpp-basic-frontiers/0586-get_base_initialization_access/original-events.txt": "8096380ed97053973bb14fab6390b17a936fd4ac7d234e90cbabb908e6bebcda",
+    "cases/cpp-basic-frontiers/0587-make_resolved_call-20/frontier-extension.json": "f2739c08a0725eae684446ebef9e151c9d2662afb1ffe8a807b136fad64fa76e",
+    "cases/cpp-basic-frontiers/0587-make_resolved_call-20/original-receipt.json": "bb0e9c84c9a1238726b4e7e0467e457334ea7e9ee636e55f5862e6cf1f49dace",
+    "cases/cpp-basic-frontiers/0587-make_resolved_call-20/original-events.txt": "3266f2584d90899464afcbca13d2946f6b3903093f6031758e52ed98860b6b9b",
+    "cases/cpp-basic-frontiers/0588-convert_call_arguments-16/frontier-extension.json": "c21b124ec10e320c44818be5148aa7ffe23b224770db4b5e038e8a1ffb58b4db",
+    "cases/cpp-basic-frontiers/0588-convert_call_arguments-16/original-receipt.json": "f36b1b01232829a643d4093d1a1fc6e4e89a42955bb3310c24ab624264df198b",
+    "cases/cpp-basic-frontiers/0588-convert_call_arguments-16/original-events.txt": "e67ddfae3a2e4ec3cd6ba50e15c576fc80b2124debdf562fa20cb46969738c21",
+    "cases/cpp-basic-frontiers/0589-prepare_member_call_object-16/frontier-extension.json": "ac56dc06e8284d11b0c46138add177f0a8e7f6e127ff375dcff579d6a0391428",
+    "cases/cpp-basic-frontiers/0589-prepare_member_call_object-16/original-receipt.json": "a6ea01eb220d9d209255512b00deb955d0f5772d76c5a97e5fb12ba835309e4c",
+    "cases/cpp-basic-frontiers/0589-prepare_member_call_object-16/original-events.txt": "bb688d8833cb57ddd2a8fbaeda918db086e97399e76b0642991b88d2cf2c456d",
+    "cases/cpp-basic-frontiers/0590-find_member_call_binding-16/frontier-extension.json": "4fa3698e1ba5ab52ec0e1436f489e55b97bd2d1a34e3e25f921caaad017f943b",
+    "cases/cpp-basic-frontiers/0590-find_member_call_binding-16/original-receipt.json": "9f9e0e60bb8421de589e61365c3b4c70936d23e3f6def448b4bbd2608bea59d4",
+    "cases/cpp-basic-frontiers/0590-find_member_call_binding-16/original-events.txt": "0bd04f5edb4005fa93c9da6e7aaad258257a5e09cf0fd3f36bd6898b4ea055b9",
+    "cases/cpp-basic-frontiers/0591-simplify_trivial_member_call-12/frontier-extension.json": "69a21408e315d72a862f92c6dd5b28b19eb648706a51aa8f1124af38ae47abae",
+    "cases/cpp-basic-frontiers/0591-simplify_trivial_member_call-12/original-receipt.json": "d2c9d9862b20fe711182c4a2c1dde0fbf2b69c9a58c36e00ad5c096fd6140851",
+    "cases/cpp-basic-frontiers/0591-simplify_trivial_member_call-12/original-events.txt": "6ca0242e4f3670395e79e777eb0fa5fa846585de5bd79dbe0cce4090183220fb",
+    "cases/cpp-basic-frontiers/0592-defer_generated_member-4/frontier-extension.json": "4a0c242a82312893da11674d31da8c5782f4f33b5026ab39fe1eef985e6d27a4",
+    "cases/cpp-basic-frontiers/0592-defer_generated_member-4/original-receipt.json": "8d4ed95bd69949c8181e2bd9f0d9031871396502087c831b7dce5f4f8d0a8759",
+    "cases/cpp-basic-frontiers/0592-defer_generated_member-4/original-events.txt": "79145da92674d222155cad0f17be840659bf47e2f80c232c53a45223eb1fcb3b",
+    "cases/cpp-basic-frontiers/0593-finish_call_result-12/frontier-extension.json": "3ebc1e8aa06d85c4185dd7db636e76a2e88cad2b6776caa5325c9156b74b49ad",
+    "cases/cpp-basic-frontiers/0593-finish_call_result-12/original-receipt.json": "0376b4cf5ef23a5232e5899bb32aadd637008dd6fde9c07c6601376357f5db30",
+    "cases/cpp-basic-frontiers/0593-finish_call_result-12/original-events.txt": "7ad6c9b99ba11a975c3b3251cdbe8ad478ead2deb22b1157af9eafbd5397dac7",
+    "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/frontier-extension.json": "de84f1c0dafcf1940f706e27abca9983a163fa77bfc95683549b81746a7ec4d1",
+    "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/original-receipt.json": "bb9d6721ee50b172ac5ed5fe31828650b71a1d6123d45025407e2142b29e3f53",
+    "cases/cpp-basic-frontiers/0594-finish_constructor_result-8/original-events.txt": "448241b32ff67344300e63ad6758a8edd7c0804c1210c1aaf645f0916b0547f4"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -263,6 +290,10 @@
     "append_declarator": {
       "logical": "_append_declarator@8",
       "source": "src/declarations.c"
+    },
+    "append_default_call_argument": {
+      "logical": "_append_default_call_argument@8",
+      "source": "src/stubs.c"
     },
     "append_deferred_token": {
       "logical": "_append_deferred_token@4",
@@ -1038,7 +1069,7 @@
     },
     "convert_call_arguments": {
       "logical": "_convert_call_arguments@16",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "convert_class_condition": {
       "logical": "_convert_class_condition@12",
@@ -1123,6 +1154,10 @@
     "create_implicit_special_member": {
       "logical": "_create_implicit_special_member@20",
       "source": "src/special-members.c"
+    },
+    "create_initializer_temporary": {
+      "logical": "_create_initializer_temporary@8",
+      "source": "src/stubs.c"
     },
     "create_static_member_alias": {
       "logical": "_create_static_member_alias@4",
@@ -1234,7 +1269,7 @@
     },
     "defer_generated_member": {
       "logical": "_defer_generated_member@4",
-      "source": "src/stubs.c"
+      "source": "src/special-members.c"
     },
     "defer_global_symbol": {
       "logical": "_defer_global_symbol",
@@ -1740,9 +1775,17 @@
       "logical": "_find_matching_overload@12",
       "source": "src/declaration-lookup.c"
     },
+    "find_member_call_binding": {
+      "logical": "_find_member_call_binding@16",
+      "source": "src/call-expressions.c"
+    },
     "find_name_in_chain": {
       "logical": "_find_name_in_chain@8",
       "source": "src/declaration-lookup.c"
+    },
+    "find_named_class_binding": {
+      "logical": "_find_named_class_binding@12",
+      "source": "src/stubs.c"
     },
     "find_outer_name": {
       "logical": "_find_outer_name@4",
@@ -1794,7 +1837,7 @@
     },
     "finish_call_result": {
       "logical": "_finish_call_result@12",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "finish_class_size": {
       "logical": "_finish_class_size@4",
@@ -1803,6 +1846,10 @@
     "finish_conditional_branch": {
       "logical": "_finish_conditional_branch",
       "source": "src/stubs.c"
+    },
+    "finish_constructor_result": {
+      "logical": "_finish_constructor_result@8",
+      "source": "src/call-expressions.c"
     },
     "finish_debug_info": {
       "logical": "_finish_debug_info",
@@ -1912,6 +1959,10 @@
       "logical": "_first_active_overload@4",
       "source": "src/call-expressions.c"
     },
+    "first_function_vector_item": {
+      "logical": "_first_function_vector_item@4",
+      "source": "src/stubs.c"
+    },
     "fit_string_initializer": {
       "logical": "_fit_string_initializer@8",
       "source": "src/stubs.c"
@@ -2014,7 +2065,7 @@
     },
     "get_base_initialization_access": {
       "logical": "_get_base_initialization_access",
-      "source": "src/stubs.c"
+      "source": "src/member-access.c"
     },
     "get_current_class_symbol": {
       "logical": "_get_current_class_symbol",
@@ -2610,7 +2661,7 @@
     },
     "make_resolved_call": {
       "logical": "_make_resolved_call@20",
-      "source": "src/stubs.c"
+      "source": "src/call-expressions.c"
     },
     "make_size_constant": {
       "logical": "_make_size_constant@4",
@@ -2687,6 +2738,10 @@
     "match_tag_symbol": {
       "logical": "_match_tag_symbol@8",
       "source": "src/tags.c"
+    },
+    "materialize_call_result": {
+      "logical": "_materialize_call_result@4",
+      "source": "src/stubs.c"
     },
     "materialize_member_object": {
       "logical": "_materialize_member_object@4",
@@ -3092,6 +3147,10 @@
       "logical": "_prepare_initializer_symbol@4",
       "source": "src/object-initializers.c"
     },
+    "prepare_member_call_object": {
+      "logical": "_prepare_member_call_object@16",
+      "source": "src/call-expressions.c"
+    },
     "prepare_pch_output": {
       "logical": "_prepare_pch_output@4",
       "source": "src/stubs.c"
@@ -3292,6 +3351,10 @@
       "logical": "_record_goto@8",
       "source": "src/stubs.c"
     },
+    "record_initialized_temporary": {
+      "logical": "_record_initialized_temporary@8",
+      "source": "src/stubs.c"
+    },
     "record_line_information": {
       "logical": "_record_line_information@4",
       "source": "src/control-ir.c"
@@ -3368,6 +3431,10 @@
       "logical": "_register_tag_context@4",
       "source": "src/tags.c"
     },
+    "register_temporary_destruction": {
+      "logical": "_register_temporary_destruction@8",
+      "source": "src/stubs.c"
+    },
     "reject_function_initializer": {
       "logical": "_reject_function_initializer@4",
       "source": "src/object-initializers.c"
@@ -3423,6 +3490,10 @@
     "replace_type_pointer_kind": {
       "logical": "_replace_type_pointer_kind@8",
       "source": "src/constructor-initializers.c"
+    },
+    "report_call_argument_error": {
+      "logical": "_report_call_argument_error@12",
+      "source": "src/stubs.c"
     },
     "report_call_overload_failure": {
       "logical": "_report_call_overload_failure@4",
@@ -3812,6 +3883,10 @@
       "logical": "_share_inherited_type_set@8",
       "source": "src/class-type-sets.c"
     },
+    "simplify_trivial_member_call": {
+      "logical": "_simplify_trivial_member_call@12",
+      "source": "src/call-expressions.c"
+    },
     "sizeof_expression": {
       "logical": "_sizeof_expression@4",
       "source": "src/stubs.c"
@@ -3914,6 +3989,10 @@
     },
     "transform_function_parameters": {
       "logical": "_transform_function_parameters@8",
+      "source": "src/stubs.c"
+    },
+    "try_elide_copy_construction": {
+      "logical": "_try_elide_copy_construction@12",
       "source": "src/stubs.c"
     },
     "type_alignment": {
@@ -4607,7 +4686,16 @@
     "coarse_conversion_rank",
     "compare_candidate_ranks",
     "defer_overload_candidate",
-    "bind_selected_overload"
+    "bind_selected_overload",
+    "get_base_initialization_access",
+    "make_resolved_call",
+    "convert_call_arguments",
+    "prepare_member_call_object",
+    "find_member_call_binding",
+    "simplify_trivial_member_call",
+    "defer_generated_member",
+    "finish_call_result",
+    "finish_constructor_result"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4698,7 +4786,7 @@
   "cases": {
     "cpp_basic": {
       "first": 0,
-      "last": 586,
+      "last": 595,
       "seen": [],
       "expected": [
         "main",
@@ -5207,12 +5295,21 @@
         "compare_candidate_ranks",
         "defer_overload_candidate",
         "bind_selected_overload",
-        "get_base_initialization_access"
+        "get_base_initialization_access",
+        "make_resolved_call",
+        "convert_call_arguments",
+        "prepare_member_call_object",
+        "find_member_call_binding",
+        "simplify_trivial_member_call",
+        "defer_generated_member",
+        "finish_call_result",
+        "finish_constructor_result",
+        "finish_object_initializer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_get_base_initialization_access",
-        "native": "get_base_initialization_access",
+        "logical": "_finish_object_initializer@4",
+        "native": "finish_object_initializer",
         "signal": 5
       }
     }
