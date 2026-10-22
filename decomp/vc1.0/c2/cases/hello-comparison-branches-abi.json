@@ -1,0 +1,131 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@optimize_branch_comparisons@4",
+      "start": "0x33f50",
+      "end": "0x34360"
+    },
+    {
+      "name": "@next_machine_operation@4",
+      "start": "0x68c10",
+      "end": "0x68c30"
+    },
+    {
+      "name": "@machine_block_protected@4",
+      "start": "0x33cf0",
+      "end": "0x33d30"
+    },
+    {
+      "name": "@label_machine_instruction@4",
+      "start": "0x68d20",
+      "end": "0x68d30"
+    },
+    {
+      "name": "@machine_records_equal@8",
+      "start": "0x1a730",
+      "end": "0x1a940"
+    },
+    {
+      "name": "@swap_comparison_for_match@12",
+      "start": "0x34440",
+      "end": "0x34520"
+    }
+  ],
+  "ABI": {
+    "optimize_branch_comparisons": "fastcall void(MachineContext*)",
+    "machine_records_equal": "fastcall int(MachineInstruction*,MachineInstruction*)",
+    "machine_block_protected": "fastcall int(MachineInstruction*)",
+    "next_machine_operation": "fastcall MachineInstruction*(MachineInstruction*)",
+    "label_machine_instruction": "fastcall MachineInstruction*(LabelSymbol*)",
+    "swap_comparison_for_match": "fastcall int(MachineInstruction*,MachineInstruction*,MachineInstruction*); ECX/EDX plus RET4"
+  },
+  "data": [
+    {
+      "address": "0x81160..0x81170",
+      "definition": "named unsigned char exchanged_condition[16], scoped to reversed-comparison matching",
+      "meaning": "x86 condition exchange expressed with named condition constants; exact extent and all16 entries verified against native mapping; no opaque section copy"
+    },
+    {
+      "address": "0x1a904..0x1a934",
+      "meaning": "12-entry generic record-kind dispatch is covered by original machine_records_equal code extent; C switch implements the cases"
+    },
+    {
+      "address": "0x82210..0x823de",
+      "meaning": "existing MC_STRING_OPERATION/MC_REPEAT_PREFIX semantic flags exactly match native0x80/0x100 sets across231 operation entries; no new table"
+    }
+  ],
+  "graph": "Complete302-instruction sharing pass preserves all11 callees and Pentium register-renaming/clone alternatives. Generic164-instruction record equality preserves kind/payload comparisons, recursion and separate previous-operation child.",
+  "capture": {
+    "normalized_lines": 193,
+    "stream_records": 82,
+    "events_sha256": {
+      "original": "fd07dac8266d93f704d61b0e77b0c0994a4c9e1da27f297582931c3be1c10958",
+      "reconstructed": "757efd7915f1421bbb4c24c24556068498a6dfe75091a324a1c59ea9448f450c"
+    }
+  },
+  "observed": {
+    "first_function_pass_returns": true,
+    "next_frontier": "@peephole_machine_33550@4 at0x33550"
+  },
+  "limits": [
+    "First function completes this pass; successful branch retargeting/register-cloning alternatives retain named trapping children and are not claimed dynamically exercised.",
+    "String/repeat record recursion, error branches and invalid-stream behavior are not claimed exercised.",
+    "Optimized hello remains incomplete."
+  ],
+  "validation": {
+    "source_functions": 575,
+    "accepted_frontiers": 652,
+    "minimal_frontiers": 352,
+    "hello_frontiers": 300,
+    "W3": "comparison-branches, machine-records and machine-layout clean",
+    "minimal_fixture": "286 bytes exact except timestamp4..7",
+    "replays": {
+      "minimal": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-292103/receipt.json",
+        "sha256": "89e9dc46f3ddfed70a7f5b92720a10020bc23123830982358a6f725c7fa07fdf",
+        "frontiers": 352,
+        "first": 0,
+        "last": 352,
+        "final": "exit:0",
+        "frozen": {
+          "functions.json": "810b2b8b46442de3f13eed643c7b00db33a97c618e5cd3f6dcbf5bd1d6223df2",
+          "build/c2.exe": "900e959fcd48b7a6f51586e6b15bfb1d32fa11ec74775156b4ff81f5a7e81862",
+          "build/c2.map": "a7a752525eb34028e30d9f592630a0232a56fef469fd868a309d03ecbaacf569",
+          "build/runtime.json": "a1c056e78c22c2680bc9fc61fb3ee4b594244fafc75f52ba660a749427345f29"
+        }
+      },
+      "hello": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-297740/receipt.json",
+        "sha256": "677be77c540e07ed22917322060577da858a919a373e010feab90f5c7f089a7d",
+        "frontiers": 300,
+        "first": 352,
+        "last": 652,
+        "final": "@peephole_machine_33550@4",
+        "frozen": {
+          "functions.json": "810b2b8b46442de3f13eed643c7b00db33a97c618e5cd3f6dcbf5bd1d6223df2",
+          "build/c2.exe": "900e959fcd48b7a6f51586e6b15bfb1d32fa11ec74775156b4ff81f5a7e81862",
+          "build/c2.map": "a7a752525eb34028e30d9f592630a0232a56fef469fd868a309d03ecbaacf569",
+          "build/runtime.json": "a1c056e78c22c2680bc9fc61fb3ee4b594244fafc75f52ba660a749427345f29"
+        }
+      }
+    },
+    "coverage": {
+      "mask_verified": true,
+      "metric": "accepted original code-extent union; not branch coverage",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "accepted_frontiers": 652,
+      "accepted_code_bytes": 173647,
+      "original_code_bytes": 399693,
+      "percentage": 43.44509410972922,
+      "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+      "code_sections": [
+        [
+          "0x17000",
+          "0x7894d"
+        ]
+      ],
+      "union_ranges": 172
+    }
+  }
+}

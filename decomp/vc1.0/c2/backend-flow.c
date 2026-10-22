@@ -47,7 +47,7 @@ void emit_backend_work(void)
             set_machine_frame(machine_context, (current_function->field28 >> 4) & 1);
             finalize_machine_context(machine_instructions);
             scan_machine_context(machine_context);
-            peephole_machine_33f50(machine_context);
+            optimize_branch_comparisons(machine_context);
             peephole_machine_33550(machine_context);
             peephole_machine_34520(machine_context);
             peephole_machine_34910(machine_context);

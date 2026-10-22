@@ -1,5 +1,7 @@
 #include "instruction-selection.h"
 #include "function-input.h"
+#include "instruction-rewrite.h"
+#include "register-use.h"
 /* Original [0001a620,0001a640). Kind 11 carries two signed control words. */
 void __fastcall emit_machine_directive(short code, short value)
 {
@@ -149,4 +151,64 @@ void __fastcall emit_label(SymbolHeader *symbol)
     MachineInstruction *instruction = append_machine_instruction(1);
     instruction->record.symbol = symbol;
     ((LabelSymbol *)symbol)->instruction = instruction;
+}
+
+/* Original [0001a730,0001a940), including its12-entry kind dispatch.
+   Compare record payloads and, for string operations, their repeat prefixes.
+   Physical register lifetime/byte-lane flags are not part of this comparison. */
+int __fastcall machine_records_equal(MachineInstruction *left, MachineInstruction *right)
+{
+    unsigned difference = left->opcode ^ right->opcode;
+    unsigned operation, properties;
+    int count;
+    MachineInstruction *left_prefix, *right_prefix;
+    MachineBlockHeader *left_block, *right_block;
+    if (difference & 15) return 0;
+    switch (left->opcode & 15) {
+    case 0: case 8: case 9: case 10:
+        if (difference & 0xfff0U) return 0;
+        operation = (left->opcode >> 8) & 255;
+        count = machine_operand_counts[operation];
+        if (count == 1) {
+            if ((operation == MC_JCC || operation == MC_SCC) &&
+                ((left->operands[1].flags ^ right->operands[1].flags) & 15)) return 0;
+            if (!operands_equal(&left->operands[0], &right->operands[0])) return 0;
+        } else if (count == 2) {
+            if (!operands_equal(&left->operands[1], &right->operands[1]) ||
+                !operands_equal(&left->operands[0], &right->operands[0])) return 0;
+        }
+        properties = machine_selection_properties[operation];
+        if (properties & MC_STRING_OPERATION) {
+            left_prefix = previous_machine_operation(left);
+            right_prefix = previous_machine_operation(right);
+            if (!left_prefix) {
+                if (right_prefix &&
+                    (machine_selection_properties[(right_prefix->opcode >> 8) & 255] & MC_REPEAT_PREFIX))
+                    return 0;
+            } else {
+                if (!right_prefix &&
+                    (machine_selection_properties[(left_prefix->opcode >> 8) & 255] & MC_REPEAT_PREFIX))
+                    return 0;
+                /* Native streams have a preceding operation here unless the
+                   missing prefix already fails the repeat-prefix check. */
+                if (((machine_selection_properties[(left_prefix->opcode >> 8) & 255] ^
+                      machine_selection_properties[(right_prefix->opcode >> 8) & 255]) & MC_REPEAT_PREFIX) ||
+                    !machine_records_equal(left_prefix, right_prefix)) return 0;
+            }
+        }
+        return 1;
+    case 1:
+        return left->record.symbol == right->record.symbol;
+    case 7:
+        left_block = (MachineBlockHeader *)left;
+        right_block = (MachineBlockHeader *)right;
+        return left_block->number == right_block->number &&
+            left_block->uses == right_block->uses && left_block->definitions == right_block->definitions;
+    case 11:
+        return left->record.directive.code == right->record.directive.code &&
+            left->record.directive.value == right->record.directive.value;
+    default:
+        compiler_internal_error("@(#)codegen.c:1.167", 0x8d5);
+        return 1;
+    }
 }

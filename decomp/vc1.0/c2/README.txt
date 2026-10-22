@@ -1531,3 +1531,31 @@ Minimal object/streams/exit match except only timestamp4..7. Verified accepted
 original code-extent union171743/399693 bytes (42.9687 percent) includes clipped
 source/shared text/CRT/import ranges and actual-mask verification; it is not
 branch coverage.
+
+
+Comparison sharing across branches (652 accepted frontiers)
+----------------------------------------------------------
+Six whole functions recover the302-instruction cross-branch comparison pass,
+generic machine-record equality, preceding-block protection, next-operation
+scanning, defining-label lookup and reversed-operand matching. The pass now
+has the meaningful name optimize_branch_comparisons. Its entire graph retains
+Pentium load/register-renaming and clone/retarget alternatives as named calls.
+The generic comparator handles record kinds, operand counts and string/repeat
+prefixes using existing semantic properties, with its12-entry kind dispatch
+inside the original extent. The reversed matcher preserves high-byte lanes
+and owns a contextual16-entry exchange map expressed with x86 condition names.
+No data section snapshots or assembly are introduced.
+
+The first-function pass returns; an independent completed-stream capture
+matches193 normalized lines/82 records with exact operands, links and block
+bitsets. Successful retargeting/register-cloning, string-prefix recursion and
+failure paths are not claimed exercised. Remaining children keep named traps.
+The next matching frontier is peephole_machine_33550 at33550; optimized hello
+remains incomplete. See cases/hello-comparison-branches-abi.json.
+
+All352 minimal and300 hello frontiers replay,575 source graphs and652 accepted
+instruction boundaries pass. All three changed implementation modules compile
+/W3 clean. Minimal object/streams/exit match except only timestamp4..7.
+Verified accepted original code-extent union173647/399693 bytes (43.4451 percent)
+includes clipped source/shared text/CRT/imports and actual-mask cross-check;
+this is not branch coverage.

@@ -1,3 +1,4 @@
+#include "comparison-branches.h"
 #include "frame-access.h"
 #include "post-allocation.h"
 #include "frame-symbols.h"
@@ -142,7 +143,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall peephole_machine_33f50(MachineContext *context) { __asm int 3 }
 void __fastcall peephole_machine_33550(MachineContext *context) { __asm int 3 }
 void __fastcall peephole_machine_34520(MachineContext *context) { __asm int 3 }
 void __fastcall peephole_machine_34910(MachineContext *context) { __asm int 3 }
@@ -270,7 +270,6 @@ MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *in
 int __fastcall fits_signed_byte(int value) { __asm int 3 }
 unsigned __fastcall displacement_mode(MachineInstruction *instruction, MachineOperand *operand, unsigned *bytes) { __asm int 3 }
 unsigned __fastcall label_has_backward_branch(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall next_machine_operation(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall alignment_lookahead(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
@@ -477,3 +476,4 @@ int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned 
 
 int __fastcall equivalent_stack_copy_operands(MachineInstruction *first, MachineOperand *first_operand, MachineInstruction *last, MachineOperand *last_operand) { __asm int 3 }
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
+void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }

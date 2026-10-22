@@ -85,6 +85,7 @@ struct BackendSymbolList {
 };
 BackendSymbolList *collect_global_symbols(void);
 typedef struct BitSet BitSet;
+int __fastcall machine_records_equal(MachineInstruction *left, MachineInstruction *right);
 extern MachineInstruction *machine_tail, *free_machine_instructions;
 extern MachineInstruction *deferred_instructions, *deferred_tail;
 extern void *machine_unused_pool;

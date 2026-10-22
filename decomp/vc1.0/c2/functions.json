@@ -650,7 +650,13 @@
     "@merge_sorted_lists@12",
     "@compare_frame_accesses@8",
     "@frame_access_distance@8",
-    "@combine_frame_accesses@8"
+    "@combine_frame_accesses@8",
+    "@optimize_branch_comparisons@4",
+    "@next_machine_operation@4",
+    "@machine_block_protected@4",
+    "@label_machine_instruction@4",
+    "@machine_records_equal@8",
+    "@swap_comparison_for_match@12"
   ],
   "driver": [
     {
@@ -1274,10 +1280,9 @@
       "end": 149200
     },
     {
-      "name": "@peephole_machine_33f50@4",
+      "name": "@optimize_branch_comparisons@4",
       "start": 212816,
-      "end": 212817,
-      "provisional": true
+      "end": 213856
     },
     {
       "name": "@peephole_machine_33550@4",
@@ -3523,8 +3528,7 @@
     {
       "name": "@next_machine_operation@4",
       "start": 429072,
-      "end": 429073,
-      "provisional": true
+      "end": 429104
     },
     {
       "name": "@alignment_lookahead@4",
@@ -5513,6 +5517,32 @@
       "name": "@frame_access_distance@8",
       "start": 216320,
       "end": 216592
+    },
+    {
+      "name": "@machine_block_protected@4",
+      "start": 212208,
+      "end": 212272
+    },
+    {
+      "name": "@machine_records_equal@8",
+      "start": 108336,
+      "end": 108864
+    },
+    {
+      "name": "@label_machine_instruction@4",
+      "start": 429344,
+      "end": 429360
+    },
+    {
+      "name": "@retarget_comparison_branch@16",
+      "start": 213856,
+      "end": 213857,
+      "provisional": true
+    },
+    {
+      "name": "@swap_comparison_for_match@12",
+      "start": 214080,
+      "end": 214304
     }
   ],
   "cases": {

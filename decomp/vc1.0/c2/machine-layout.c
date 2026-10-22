@@ -147,3 +147,20 @@ int __fastcall align_machine_location(int offset, MachineInstruction *instructio
     }
     return offset;
 }
+
+/* Original [00068c10,00068c30). Advance at least once and skip every
+   non-operation record, including labels, line markers and block headers. */
+MachineInstruction *__fastcall next_machine_operation(MachineInstruction *instruction)
+{
+    do {
+        instruction = instruction->next;
+        if (!instruction) return 0;
+    } while ((instruction->opcode & 15) != 0);
+    return instruction;
+}
+
+/* Original [00068d20,00068d30). Labels retain their defining stream record. */
+MachineInstruction *__fastcall label_machine_instruction(LabelSymbol *label)
+{
+    return label->instruction;
+}
