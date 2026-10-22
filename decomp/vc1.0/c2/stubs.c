@@ -1,5 +1,6 @@
 #include "machine-analysis.h"
 #include "physical-allocation.h"
+#include "physical-rewrite.h"
 #include "machine-transfers.h"
 #include "register-transfers.h"
 #include "register-variables.h"
@@ -461,7 +462,6 @@ void __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions) { 
 void record_debug_register_locations(void) { __asm int 3 }
 int __fastcall frame_references_exceed_cost(WorkItem *work, int limit) { __asm int 3 }
 void __fastcall assign_machine_registers(MachineInstruction *instructions) { __asm int 3 }
-void optimize_allocated_machine_regions(void) { __asm int 3 }
 void __fastcall spill_register_variables(RegisterVariable *variables, int simplification) { __asm int 3 }
 void __fastcall allocate_frame_symbols(WorkItem *work, int use_stack_pointer) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
@@ -472,3 +472,11 @@ void __fastcall record_rematerialized_registers(WorkItem *work, MachineInstructi
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 void __fastcall remove_register_conflict(unsigned short left, unsigned short right) { __asm int 3 }
+
+
+
+int __fastcall choose_memory_split_register(MachineInstruction *instruction, unsigned short *number) { __asm int 3 }
+
+unsigned __fastcall register_reuse_barriers(MachineInstruction *definition, MachineInstruction *use) { __asm int 3 }
+void __fastcall order_reusable_registers(MachineInstruction *definition, MachineInstruction *use, unsigned short color) { __asm int 3 }
+int __fastcall operand_ends_physical_register(MachineOperand *operand, unsigned short color) { __asm int 3 }

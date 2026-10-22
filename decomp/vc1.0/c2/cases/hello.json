@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 255,
+  "accepted_frontiers": 264,
   "current_frontier": {
-    "name": "_optimize_allocated_machine_regions",
-    "original_va": 177824
+    "name": "@register_reuse_barriers@8",
+    "original_va": 193520
   },
   "expected": {
     "exit": 0,
@@ -190,18 +190,24 @@
     "physical-coalescing and physical-allocation compile /W3 clean",
     "independent coalesced-state capture matches108 normalized lines, including representative4020->4022, cost20, priority1000/weight2000 and exact recycler identity",
     "independent successful-coloring capture matches134 normalized lines:25 full variables/canonical work-list links,14 interference pairs with distinct colors,31 physical costs and strategy0 success",
-    "verified accepted code-extent union156399/399693 bytes=39.1298 percent; not branch coverage"
+    "verified accepted code-extent union156399/399693 bytes=39.1298 percent; not branch coverage",
+    "original-toolchain make -j2 check passes; minimal object/exit/streams match except only four-byte COFF timestamp",
+    "all352 minimal and264 hello historical frontiers replay with frozen native build/config hashes",
+    "all539 reconstructed source graphs and616 accepted extent instruction boundaries agree",
+    "physical-rewrite compiles /W3 clean",
+    "independent physical value-reuse capture matches191 normalized lines:87 instruction records/links, alias numbers, live masks, color history and exact cache operand/address identities",
+    "verified accepted code-extent union160111/399693 bytes=40.0585 percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 607,
-  "reconstructed_functions": 530,
+  "total_accepted_frontiers": 616,
+  "reconstructed_functions": 539,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 607,
-    "accepted_code_bytes": 156399,
+    "accepted_frontiers": 616,
+    "accepted_code_bytes": 160111,
     "original_code_bytes": 399693,
-    "percentage": 39.12978210776771,
+    "percentage": 40.05849489483178,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -209,6 +215,6 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 164
+    "union_ranges": 167
   }
 }

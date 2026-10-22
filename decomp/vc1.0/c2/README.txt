@@ -1336,3 +1336,36 @@ extent instruction boundaries pass. Both changed implementation modules compile
 Verified accepted code-extent union156399/399693 bytes (39.1298 percent), including
 clipped source/shared text/CRT/import ranges and actual-mask verification, is not
 branch coverage. The next frontier is optimize_allocated_machine_regions2b6a0.
+
+
+Physical register-value reuse checkpoint (616 accepted frontiers)
+---------------------------------------------------------------
+Nine whole functions preserve the region/block walk, definition/last-use alias
+lifetimes,383-instruction value-reuse pass and deep operand copy. The block
+rewriter includes its11-entry dispatch table and retains memory splitting,
+move insertion and cloning as calls to named children. The native graph and
+fastcall/cdecl ABIs remain intact. An eight-entry28-byte cache holds named
+operation/saved-operand/reference fields; block resets clear only reference
+pointers. The neighboring eight-WORD permutation, two color-history markers,
+region pointer, live masks and eight alias heads are distinct typed objects.
+The contextual8-byte alias node allocates in arena3. No surrounding storage is
+copied. Address-ownership and memory-splitting predicates use encountered
+semantic kind/opcode sets rather than normalized property bits from another
+table. In particular operand-copy address ownership includes kinds3..7 and12.
+
+A fresh independent capture matches191 normalized lines, including87 complete
+instruction records, linked-use/previous identities, aliases EAX:4023 and
+ECX:4022, live/prior masks13/12 and the EAX cache's owned lparam operand.
+Both reach register_reuse_barriers at2f3f0 before any physical-color replacement;
+register preference construction, substitutions, inserted moves and failure
+branches are retained but not claimed dynamically validated. See
+cases/hello-register-rewrite-abi.json for exact extents, ABI/data provenance,
+capture hashes and frozen replay receipts. The optimized hello object remains
+unfinished; no success equivalence is claimed for it.
+
+All352 minimal and264 hello frontiers replay,539 source graphs and616 accepted
+instruction boundaries pass, and physical-rewrite compiles /W3 clean. Minimal
+object/streams/exit still match the unmodified original and fixture except only
+COFF timestamp bytes4..7. Verified accepted original code-extent union is
+160111/399693 bytes (40.0585 percent), including clipped source/shared text/CRT/
+import ranges and actual-mask verification; this is not branch coverage.
