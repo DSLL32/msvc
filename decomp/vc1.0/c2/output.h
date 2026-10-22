@@ -22,7 +22,7 @@ typedef struct OutputCallbacks {
     OutputRoutine value;
     OutputRoutine data;
     OutputRoutine select_segment;
-    void (__fastcall *begin_function)(FunctionSymbol *, unsigned, int, unsigned);
+    void (__fastcall *begin_function)(FunctionSymbol *, char *, int, unsigned);
     OutputRoutine function;
     OutputRoutine symbol;
     OutputRoutine finish_debug;

@@ -28,3 +28,18 @@ void __fastcall emit_static_initializers(BackendSymbolList *symbols)
     for (; symbols; symbols = symbols->next)
         emit_initializer(find_initializer(symbols->symbol->identifier));
 }
+
+/* Original [000692c0,00069300). Emitted symbols need no further queue
+   entry; other occurrences are retained for the output callback. */
+void __fastcall queue_symbol_debug(SymbolHeader *symbol)
+{
+    BackendSymbol *storage = (BackendSymbol *)symbol;
+    BackendSymbolList *entry;
+    if (!(storage->output_flags & 1)) {
+        storage->output_flags |= 4;
+        entry = arena_alloc(1, sizeof(BackendSymbolList));
+        entry->symbol = symbol;
+        entry->next = queued_output_symbols;
+        queued_output_symbols = entry;
+    }
+}

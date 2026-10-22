@@ -155,7 +155,6 @@ void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) {
 void __fastcall free_work(WorkItem *work) { __asm int 3 }
 void reset_work(void) { __asm int 3 }
 void release_function_symbols(void) { __asm int 3 }
-void __fastcall queue_symbol_debug(SymbolHeader *symbol) { __asm int 3 }
 unsigned __fastcall reserve_symbol_storage(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier) { __asm int 3 }
@@ -176,7 +175,6 @@ void finish_tree_optimization(void) { __asm int 3 }
 void allocate_machine_registers(void) { __asm int 3 }
 void __fastcall prepare_machine_blocks(WorkItem *work) { __asm int 3 }
 void __fastcall set_machine_frame(MachineContext *context, unsigned flags) { __asm int 3 }
-void __fastcall finalize_machine_context(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall peephole_machine_33f50(MachineContext *context) { __asm int 3 }
 void __fastcall peephole_machine_33550(MachineContext *context) { __asm int 3 }
 void __fastcall peephole_machine_34520(MachineContext *context) { __asm int 3 }
@@ -187,7 +185,6 @@ void finish_machine_schedule(void) { __asm int 3 }
 void __fastcall split_machine_instructions(MachineContext *context) { __asm int 3 }
 void __fastcall schedule_i586_branches(MachineContext *context) { __asm int 3 }
 void __fastcall finish_machine_lowering(MachineContext *context) { __asm int 3 }
-void lower_unoptimized_machine(void) { __asm int 3 }
 void __fastcall calculate_machine_frame(MachineInstruction *instructions, unsigned flags) { __asm int 3 }
 void __fastcall write_function_listing(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall emit_machine_instructions(MachineInstruction *instructions) { __asm int 3 }
@@ -287,7 +284,6 @@ unsigned __fastcall implicit_register_mask(MachineInstruction *instruction, int 
 MachineAddress *new_machine_address(void) { __asm int 3 }
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 int __fastcall register_storage_bytes(unsigned short reg) { __asm int 3 }
-int __fastcall instruction_has_side_effects(MachineInstruction *instruction) { __asm int 3 }
 
 #include "instruction-rewrite.h"
 void __fastcall release_machine_address(MachineAddress *address) { __asm int 3 }
@@ -295,7 +291,6 @@ MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous
 int __fastcall register_replacement_blocked(MachineInstruction *user, unsigned unused_edx, unsigned reg) { __asm int 3 }
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall find_flags_use(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall instruction_mentions_register(MachineInstruction *instruction, unsigned short reg) { __asm int 3 }
 MachineInstruction *__fastcall find_carry_flag_use(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
@@ -331,3 +326,12 @@ char *__fastcall symbol_display_name(SymbolHeader *symbol) { __asm int 3 }
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
 int __fastcall instruction_modifies_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 #include "bitsets.h"
+
+#include "unoptimized.h"
+unsigned __fastcall assign_physical_register(MachineInstruction *instruction, unsigned reg, int last_use) { __asm int 3 }
+BitSet *__fastcall bitset_remove(BitSet *set, unsigned member) { __asm int 3 }
+BitSet *__fastcall copy_bitset(BitSet *source) { __asm int 3 }
+void __fastcall advance_operand_byte(MachineOperand *operand) { __asm int 3 }
+int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *instruction) { __asm int 3 }

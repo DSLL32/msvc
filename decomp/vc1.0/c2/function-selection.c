@@ -29,8 +29,8 @@ void __fastcall select_directive(Node *node)
     }
 }
 /* Original [00019560,000195a0). Emit saves in register order; the epilogue
-   restores the same mask in reverse order. This is selection state, distinct
-   from the final output saved-register mask at 0007e8a8. */
+   restores the same mask in reverse order. The mask is shared with register
+   initialization at 0007c950. */
 void emit_saved_register_pushes(void)
 {
     int reg;

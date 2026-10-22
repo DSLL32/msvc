@@ -9,8 +9,8 @@ int backend_initialized;
 MachineInstruction *machine_instructions; /* 0007b940 */
 MachineContext *machine_context; /* 0007b944 */
 char *listing_source_filename;
-unsigned frame_size; /* 0007e8a4 */
-unsigned saved_register_mask; /* 0007e8a8 */
+char *function_source_filename; /* 0007e8a4 */
+unsigned function_source_line; /* 0007e8a8 */
 /* Original [00067fc0,00068300). */
 void emit_backend_work(void)
 {
@@ -77,11 +77,11 @@ void emit_backend_work(void)
     }
     symbols = collect_machine_symbols(machine_instructions);
     if (current_symbol) {
-        frame_size = 0;
-        saved_register_mask = 0;
+        function_source_filename = 0;
+        function_source_line = 0;
         calculate_machine_frame(machine_instructions, 1);
         has_exceptions = (current_function->field28 & 0x10) || (current_symbol->symbol.field0e & 0x1000);
-        output_callbacks.begin_function(current_symbol, frame_size, has_exceptions, saved_register_mask);
+        output_callbacks.begin_function(current_symbol, function_source_filename, has_exceptions, function_source_line);
         emit_pending_symbols(symbols);
         write_function_listing(machine_instructions);
         emit_machine_instructions(machine_instructions);

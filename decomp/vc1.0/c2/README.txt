@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-instruction_has_side_effects, original VA 00023670. Object generation is incomplete. No completed C2 output-equivalence claim is made.
+calculate_machine_frame, original VA 000685d0. Object generation is incomplete. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -91,8 +91,8 @@ the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 213 reconstructed source functions and 274 recorded
-matching trap frontiers. All 274 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 228 reconstructed source functions and 289 recorded
+matching trap frontiers. All 289 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -225,3 +225,29 @@ chunks, label identity/reference count, and epilogue. Linked-list addresses and
 symbol identities are normalized by record index or referenced name; register
 sets are compared by their complete base/bit chunks. Both streams agree. This
 still precedes machine lowering and object emission.
+
+The minimal case now passes the unoptimized physical-register lowering and final
+instruction-form passes. unoptimized.c retains separate physical/temporary live
+sets, eight register mappings and their interference sets; bitsets.c also clears,
+unions and recycles those sets. final-instructions.c reconstructs the complete
+557-instruction finalizer, with its 16 original callee edges. frame.c resolves
+frame-size pseudo operands and preserves the shared default alignment. It removes
+the empty subtraction for this case. instruction-uses.c finds flag consumers,
+retaining the special handling of repeat-prefixed string operations. Five named
+machine-selection properties agree across all 231 original opcodes. See
+cases/lowering-abi.json. General register spilling, alloca, stack probes and byte
+rewrites retain unvisited helper traps and are not dynamically validated here.
+The current frontier begins output layout; complete object output is still pending.
+
+Output-layout analysis corrects two earlier provisional state names:
+function_source_filename at original 0007e8a4 receives kind-5 filename records,
+and function_source_line at 0007e8a8 receives current_source_location at the
+kind-2 function marker. The begin_function callback takes that char * filename
+and unsigned source line. The selection save mask remains 0007c950. The corrected build retains the original callback ABI and is included in the
+checkpoint replay.
+
+The corrected build passes all 289 frontier replays. An independent debugger
+comparison at output-layout entry verifies all 31 finalized records, including
+removal of the empty stack subtraction, SUB EAX,EAX for return zero, final
+PUSH/POP operation IDs, label links/references and block register sets. This
+checks machine forms before encoding; the 286-byte COFF comparison is pending.

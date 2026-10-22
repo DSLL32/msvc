@@ -8,7 +8,8 @@ typedef enum MachineOpcode {
     MC_OPCODE_COUNT
 } MachineOpcode;
 extern const signed char machine_operand_counts[MC_OPCODE_COUNT];
-enum MachineSelectionProperty { MC_IMPLICIT_REGISTERS = 1 };
+enum MachineSelectionProperty { MC_IMPLICIT_REGISTERS = 1, MC_WRITES_FLAGS = 2, MC_READS_FLAGS = 4,
+    MC_STRING_OPERATION = 8, MC_REPEAT_PREFIX = 16 };
 extern const unsigned char machine_selection_properties[MC_OPCODE_COUNT];
 typedef struct BackendSymbol {
     SymbolHeader symbol;

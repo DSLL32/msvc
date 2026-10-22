@@ -40,9 +40,7 @@
   "save_masks": {
     "selection_va": "0x7c950",
     "selection_source": "selected_save_register_mask in initialize.c",
-    "output_va": "0x7e8a8",
-    "output_source": "saved_register_mask",
-    "identity": "initializer and selection share one source variable; final output mask at 0x7e8a8 is a distinct original variable",
+    "identity": "initializer and selection share the source variable at original 0x7c950; output 0x7e8a8 is a source line, not a register mask",
     "selection_initial_value": "0xc8 (EBX, ESI, EDI), assigned by initialize_registers"
   },
   "data_validation": [
@@ -53,5 +51,12 @@
     "implicit-register classification matches all 231 original machine operations",
     "operand equality follows all eight original kind targets; kind 7 uses the default false path"
   ],
-  "limits": "Minimal-C passes statement selection, function marker/prologue construction, directive emission, register-use analysis and instruction finishing, then traps at select_value_register. No complete object comparison has passed. Floating operations, alternate conventions, adjustment thunks, jump tables, protected work and diagnostic failure paths have not been dynamically validated. Unreached helpers remain typed trapping stubs."
+  "limits": "Minimal-C passes statement selection, function marker/prologue construction, directive emission, register-use analysis and instruction finishing, then traps at select_value_register. No complete object comparison has passed. Floating operations, alternate conventions, adjustment thunks, jump tables, protected work and diagnostic failure paths have not been dynamically validated. Unreached helpers remain typed trapping stubs.",
+  "output_source_location": {
+    "filename_va": "0x7e8a4",
+    "filename_type": "char *",
+    "source_line_va": "0x7e8a8",
+    "source_line_type": "unsigned",
+    "evidence": "layout pass copies kind-5 filename payload and current_source_location at the kind-2 function marker; COFF begin-function compares filename strings and uses source line"
+  }
 }

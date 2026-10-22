@@ -278,7 +278,22 @@
     "_emit_saved_register_pops",
     "@return_value_register@4",
     "_finish_global_selection",
-    "_finish_function_selection"
+    "_finish_function_selection",
+    "@instruction_has_side_effects@4",
+    "_lower_unoptimized_machine",
+    "@initialize_lowering_block@4",
+    "@clear_bitset@4",
+    "@record_byte_register_constraints@8",
+    "@mark_lowering_register_live@4",
+    "@record_lowering_conflicts@4",
+    "@mark_lowering_register_dead@4",
+    "@bitset_union@8",
+    "@release_bitset@4",
+    "@finalize_machine_context@4",
+    "@resolve_frame_allocation@4",
+    "_calculate_stack_frame_size",
+    "@find_flags_use@4",
+    "@queue_symbol_debug@4"
   ],
   "driver": [
     {
@@ -728,8 +743,7 @@
     {
       "name": "@queue_symbol_debug@4",
       "start": 430784,
-      "end": 430785,
-      "provisional": true
+      "end": 430848
     },
     {
       "name": "@update_symbol_storage@4",
@@ -925,8 +939,7 @@
     {
       "name": "@finalize_machine_context@4",
       "start": 147168,
-      "end": 147169,
-      "provisional": true
+      "end": 149200
     },
     {
       "name": "@peephole_machine_33f50@4",
@@ -991,8 +1004,7 @@
     {
       "name": "_lower_unoptimized_machine",
       "start": 204160,
-      "end": 204161,
-      "provisional": true
+      "end": 204592
     },
     {
       "name": "@collect_machine_symbols@4",
@@ -2794,8 +2806,7 @@
     {
       "name": "@instruction_has_side_effects@4",
       "start": 145008,
-      "end": 145009,
-      "provisional": true
+      "end": 145232
     },
     {
       "name": "@new_value_register@4",
@@ -2840,8 +2851,7 @@
     {
       "name": "@find_flags_use@4",
       "start": 137888,
-      "end": 137889,
-      "provisional": true
+      "end": 138080
     },
     {
       "name": "@instruction_mentions_register@8",
@@ -3089,6 +3099,98 @@
       "name": "@branch_falls_through@4",
       "start": 142048,
       "end": 142112
+    },
+    {
+      "name": "@initialize_lowering_block@4",
+      "start": 204592,
+      "end": 205216
+    },
+    {
+      "name": "@assign_physical_register@12",
+      "start": 205216,
+      "end": 205217,
+      "provisional": true
+    },
+    {
+      "name": "@release_bitset@4",
+      "start": 419296,
+      "end": 419344
+    },
+    {
+      "name": "@clear_bitset@4",
+      "start": 419600,
+      "end": 419648
+    },
+    {
+      "name": "@mark_lowering_register_dead@4",
+      "start": 206384,
+      "end": 206464
+    },
+    {
+      "name": "@mark_lowering_register_live@4",
+      "start": 206464,
+      "end": 206544
+    },
+    {
+      "name": "@record_lowering_conflicts@4",
+      "start": 206544,
+      "end": 206688
+    },
+    {
+      "name": "@record_byte_register_constraints@8",
+      "start": 206688,
+      "end": 206848
+    },
+    {
+      "name": "@bitset_union@8",
+      "start": 420176,
+      "end": 420336
+    },
+    {
+      "name": "@bitset_remove@8",
+      "start": 421200,
+      "end": 421201,
+      "provisional": true
+    },
+    {
+      "name": "@copy_bitset@4",
+      "start": 419360,
+      "end": 419361,
+      "provisional": true
+    },
+    {
+      "name": "@resolve_frame_allocation@4",
+      "start": 142112,
+      "end": 142368
+    },
+    {
+      "name": "@advance_operand_byte@4",
+      "start": 149200,
+      "end": 149201,
+      "provisional": true
+    },
+    {
+      "name": "@expand_zero_extension@4",
+      "start": 149312,
+      "end": 149313,
+      "provisional": true
+    },
+    {
+      "name": "@optimize_sahf@4",
+      "start": 150528,
+      "end": 150529,
+      "provisional": true
+    },
+    {
+      "name": "_calculate_stack_frame_size",
+      "start": 159296,
+      "end": 159328
+    },
+    {
+      "name": "@previous_machine_operation@4",
+      "start": 429104,
+      "end": 429105,
+      "provisional": true
     }
   ],
   "cases": {

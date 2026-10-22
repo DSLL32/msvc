@@ -8,5 +8,6 @@ typedef struct BackendSymbolList BackendSymbolList;
 extern MachineInstruction *machine_instructions;
 extern MachineContext *machine_context;
 extern char *listing_source_filename;
-extern unsigned frame_size, saved_register_mask;
+extern char *function_source_filename;
+extern unsigned function_source_line;
 #endif

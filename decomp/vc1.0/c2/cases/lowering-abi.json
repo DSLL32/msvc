@@ -1,0 +1,98 @@
+{
+  "target": "C23232.EXE",
+  "unoptimized_lowering": {
+    "entry_va": "0x31d80",
+    "extent_end_va": "0x31f30",
+    "reachable_instructions": 123,
+    "signature": "void lower_unoptimized_machine(void)",
+    "callee_edges": 4,
+    "block_setup": {
+      "entry_va": "0x31f30",
+      "extent_end_va": "0x321a0",
+      "reachable_instructions": 187,
+      "signature": "void __fastcall initialize_lowering_block(MachineBlockHeader *block)",
+      "callee_edges": 8
+    },
+    "mapping_va": "0x7c358",
+    "mapping_count": 8,
+    "mapping_record_bytes": 8,
+    "mapping_fields": [
+      "full unsigned temporary register ID",
+      "BitSet pointer for interfering temporaries"
+    ],
+    "live_physical_mask_va": "0x7c398",
+    "live_temporary_set_va": "0x7c39c",
+    "unassigned_register_id": "0x1a",
+    "absent_address_base_id": "0x1b"
+  },
+  "final_instruction_forms": {
+    "entry_va": "0x23ee0",
+    "extent_end_va": "0x246d0",
+    "reachable_instructions": 557,
+    "signature": "void __fastcall finalize_machine_context(MachineInstruction *instructions)",
+    "callee_edges": 16,
+    "high_byte_annotations": {
+      "first": "0x80000",
+      "second": "0x100000"
+    },
+    "coverage": "full rewrite body in ordinary C, including LEA arithmetic, byte TEST narrowing, zero moves, extension rewriting, pseudo saves/restores and frame operands"
+  },
+  "frame_resolution": {
+    "entry_va": "0x22b20",
+    "extent_end_va": "0x22c20",
+    "reachable_instructions": 87,
+    "signature": "unsigned __fastcall resolve_frame_allocation(MachineInstruction *instruction)",
+    "aligned_size_va": "0x26e40",
+    "shared_alignment": "original 0x806cc, existing default_segment_alignment",
+    "local_offset": "original 0x806dc, existing local_stack_offset",
+    "alloca_flag_va": "0x83188",
+    "alloca_flag_evidence": "intrinsic 0xd8 sets it in original select_intrinsic; finalizer uses it to restore ESP before epilogue pops"
+  },
+  "flags": {
+    "consumer_scan_va": "0x21aa0",
+    "extent_end_va": "0x21b60",
+    "reachable_instructions": 65,
+    "mode_va": "0x7c8b0",
+    "mode": "conservative_flag_analysis; native temporary/spill passes set then clear this shared flag",
+    "classification_validation": "all 231 opcodes match implicit-register, flag-write, flag-read, string-operation and repeat-prefix properties"
+  },
+  "bitsets": {
+    "clear_va": "0x66710",
+    "clear_signature": "BitSet *__fastcall clear_bitset(BitSet *set)",
+    "union_va": "0x66950",
+    "release_va": "0x665e0",
+    "coverage": "complete chains retained or recycled according to original sentinel ownership; no raw data snapshots"
+  },
+  "dynamic_limits": [
+    "minimal case lowers physical integer registers and return-zero only",
+    "temporary assignment/spilling helpers remain traps",
+    "floating arithmetic, byte-address folding, stack probes, alloca and diagnostic branches are not dynamically validated",
+    "output layout, instruction encoding and completed COFF object comparison remain pending",
+    "hello-win32 remains queued after minimal-C"
+  ],
+  "source_location_correction": {
+    "filename_va": "0x7e8a4",
+    "line_va": "0x7e8a8",
+    "callback": "begin_function(FunctionSymbol *, char *filename, int has_exceptions, unsigned source_line)",
+    "evidence": "native layout 0x685d0 and COFF begin-function 0x6cac0; corrected provisional frame_size/saved_register_mask names",
+    "validation": "corrected source types included in clean graph/frontier validation and full checkpoint replay"
+  },
+  "validation": {
+    "clean_build": "original 1.0-nt compiler/linker, GNU Make -j2",
+    "graphs": 228,
+    "frontiers_replayed": 289,
+    "corrected_source_types": "all 289 replays pass after source-location correction",
+    "warnings": "six changed C modules compile without /W3 diagnostics",
+    "finalized_stream": {
+      "records": 31,
+      "comparison": "all machine forms, physical operands, linked-list relationships, label identity/references and complete bitset chunk values agree",
+      "examples": [
+        "zero frame subtraction removed",
+        "return zero uses SUB EAX,EAX",
+        "pseudo saves/restores become PUSH/POP"
+      ],
+      "method": "independent original-toolchain stopped-process debugger; raw analysis captures retained only in private scratch"
+    },
+    "limit": "no complete encoded object yet"
+  }
+}

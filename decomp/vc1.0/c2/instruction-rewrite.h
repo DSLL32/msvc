@@ -36,4 +36,10 @@ int __fastcall operand_replacement_allowed(MachineInstruction *instruction, unsi
     MachineOperand *operand, unsigned char apply);
 void __fastcall release_operand_address(MachineOperand *operand);
 int __fastcall branch_falls_through(MachineInstruction *instruction);
+unsigned __fastcall resolve_frame_allocation(MachineInstruction *instruction);
+void __fastcall advance_operand_byte(MachineOperand *operand);
+int __fastcall expand_zero_extension(MachineInstruction *instruction);
+void __fastcall optimize_sahf(MachineInstruction *instruction);
+extern int conservative_flag_analysis;
+MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *instruction);
 #endif

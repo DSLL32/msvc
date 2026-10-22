@@ -21,7 +21,7 @@ void initialize_output_callbacks(void)
     if (!object_filename) {
     output_callbacks.symbol = (OutputRoutine)output_noop_symbol;
     output_callbacks.function = (OutputRoutine)output_noop_symbol;
-    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, unsigned, int, unsigned))output_noop_function;
+    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
     output_callbacks.data = (OutputRoutine)output_noop_data;
     output_callbacks.select_segment = (OutputRoutine)output_noop_symbol;
     output_callbacks.value = (OutputRoutine)output_noop_value;
@@ -40,7 +40,7 @@ void initialize_output_callbacks(void)
     if (coff_object) {
     output_callbacks.symbol = (OutputRoutine)coff_output_symbol;
     output_callbacks.function = (OutputRoutine)coff_output_function;
-    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, unsigned, int, unsigned))coff_begin_function;
+    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))coff_begin_function;
     output_callbacks.data = (OutputRoutine)coff_write_data;
     output_callbacks.select_segment = (OutputRoutine)coff_select_segment;
     output_callbacks.value = (OutputRoutine)coff_output_value;
@@ -62,7 +62,7 @@ void initialize_output_callbacks(void)
     } else {
     output_callbacks.symbol = (OutputRoutine)omf_output_symbol;
     output_callbacks.function = (OutputRoutine)output_noop_symbol;
-    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, unsigned, int, unsigned))output_noop_function;
+    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
     output_callbacks.select_segment = (OutputRoutine)omf_select_segment;
     output_callbacks.data = (OutputRoutine)omf_output_data;
     output_callbacks.value = (OutputRoutine)omf_output_value;

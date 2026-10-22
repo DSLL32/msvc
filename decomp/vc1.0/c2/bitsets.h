@@ -12,4 +12,9 @@ BitSet *new_bitset(void);
 BitSet *new_bitset_node(void);
 BitSet *__fastcall bitset_include(BitSet *set, unsigned member);
 int __fastcall bitset_contains(BitSet *set, unsigned member);
+void __fastcall release_bitset(BitSet *set);
+BitSet *__fastcall clear_bitset(BitSet *set);
+BitSet *__fastcall bitset_union(BitSet *destination, BitSet *source);
+BitSet *__fastcall bitset_remove(BitSet *set, unsigned member);
+BitSet *__fastcall copy_bitset(BitSet *source);
 #endif

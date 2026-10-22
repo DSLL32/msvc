@@ -207,3 +207,49 @@ int __fastcall branch_falls_through(MachineInstruction *instruction)
     }
     return 0;
 }
+
+/* Original [00023670,00023750). Keep flag producers whose flags are used,
+   volatile accesses, implicit effects and floating operations. */
+int __fastcall instruction_has_side_effects(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    int count = machine_operand_counts[operation];
+    if ((machine_selection_properties[operation] & MC_WRITES_FLAGS) && find_flags_use(instruction)) return 1;
+    if (count == 2 && (instruction->operands[1].flags & 0x8000)) return 1;
+    if ((count == 1 || count == 2) && (instruction->operands[0].flags & 0x8000)) return 1;
+    if (operation == MC_IMUL || (operation >= MC_IN && operation <= MC_JMP) ||
+        operation == MC_DIV || operation == MC_IDIV || operation == MC_MUL ||
+        (operation >= MC_CMPS && operation <= MC_STOS) || operation == MC_REP ||
+        (operation >= MC_REPNZ && operation <= MC_EPUSH)) return 1;
+    return (operation >= MC_FADD && operation <= MC_FLD1) ||
+        (operation >= MC_FUCOM && operation <= MC_FCOS);
+}
+
+int conservative_flag_analysis; /* 0007c8b0: enabled for temporary/spill streams */
+/* Original [00021aa0,00021b60). Locate a flag consumer before the next
+   flag definition or unconditional transfer. REP string instructions can
+   execute zero times and therefore do not always kill incoming flags. */
+MachineInstruction *__fastcall find_flags_use(MachineInstruction *instruction)
+{
+    MachineInstruction *scan, *previous;
+    unsigned operation, properties;
+    if (conservative_flag_analysis &&
+        !(machine_selection_properties[(instruction->opcode >> 8) & 255] & MC_WRITES_FLAGS))
+        return instruction;
+    for (scan = instruction->next; scan; scan = scan->next) {
+        if (scan->opcode & 15) continue;
+        operation = (scan->opcode >> 8) & 255;
+        properties = machine_selection_properties[operation];
+        if (properties & MC_READS_FLAGS) return scan;
+        if (properties & MC_WRITES_FLAGS) {
+            if ((properties & MC_STRING_OPERATION) && (previous = previous_machine_operation(scan)) &&
+                (machine_selection_properties[(previous->opcode >> 8) & 255] & MC_REPEAT_PREFIX)) {
+                if (machine_selection_properties[(instruction->opcode >> 8) & 255] & MC_WRITES_FLAGS) return 0;
+                return instruction;
+            }
+            return 0;
+        }
+        if (operation == MC_JMP) return 0;
+    }
+    return 0;
+}

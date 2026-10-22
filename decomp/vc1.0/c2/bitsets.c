@@ -52,3 +52,57 @@ BitSet *__fastcall bitset_include(BitSet *set, unsigned member)
     previous->next = node;
     return set;
 }
+
+/* Original [00066710,00066740). Retain the sentinel and recycle only its
+   member chunks; callers may reuse the returned empty set. */
+BitSet *__fastcall clear_bitset(BitSet *set)
+{
+    if (!set) return 0;
+    release_bitset(set->next);
+    set->next = 0;
+    return set;
+}
+
+/* Original [00066950,000669f0). Merge sorted member chunks into the
+   destination sentinel; source-only chunks are copied rather than shared. */
+BitSet *__fastcall bitset_union(BitSet *destination, BitSet *source)
+{
+    BitSet *previous, *chunk, *member, *inserted;
+    if (!destination) return source ? copy_bitset(source) : 0;
+    if (!source) return destination;
+    previous = destination;
+    member = source->next;
+    while (member) {
+        chunk = previous->next;
+        if (!chunk) {
+            previous->next = copy_bitset(member);
+            break;
+        }
+        if (chunk->base == member->base) {
+            chunk->bits |= member->bits;
+            previous = chunk;
+            member = member->next;
+        } else if (chunk->base < member->base) previous = chunk;
+        else {
+            inserted = new_bitset_node();
+            inserted->base = member->base;
+            inserted->bits = member->bits;
+            inserted->next = chunk;
+            previous->next = inserted;
+            previous = inserted;
+            member = member->next;
+        }
+    }
+    return destination;
+}
+
+/* Original [000665e0,00066610). Recycle the entire chain in one splice. */
+void __fastcall release_bitset(BitSet *set)
+{
+    BitSet *tail;
+    if (set) {
+        for (tail = set; tail->next; tail = tail->next) ;
+        tail->next = free_bitset_nodes;
+        free_bitset_nodes = set;
+    }
+}

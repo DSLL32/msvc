@@ -6,4 +6,6 @@ unsigned function_stack_alignment(void);
 extern unsigned stack_frame_extent;
 extern int local_stack_offset;
 extern unsigned maximum_stack_alignment;
+extern int dynamic_stack_allocation;
+unsigned calculate_stack_frame_size(void);
 #endif

@@ -3,16 +3,16 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 274,
-  "reconstructed_functions": 213,
+  "accepted_frontiers": 289,
+  "reconstructed_functions": 228,
   "current_frontier": {
-    "name": "@instruction_has_side_effects@4",
-    "original_va": 145008
+    "name": "@calculate_machine_frame@8",
+    "original_va": 427472
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 274 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "213 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 289 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "228 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000",
     "182 expression recipes, 47 control recipes and 182 semantic tree shapes match original classifications",
     "five encountered scalar initializers match original .data values",
@@ -43,7 +43,14 @@
     "BitSet original-compiler sizeof assertion passes (12 bytes); all 32 member masks equal ordinary shifts",
     "operand replacement and branch simplification preserve their original direct and tail-call graph",
     "integer return-zero selection, temporary folding and epilogue construction reach instruction side-effect analysis",
-    "independent debugger comparison: all 32 selected machine records match at side-effect-analysis entry, including register sets, label identity/references and epilogue"
+    "independent debugger comparison: all 32 selected machine records match at side-effect-analysis entry, including register sets, label identity/references and epilogue",
+    "unoptimized register traversal and block interference preparation pass paired execution",
+    "full 557-instruction finalizer retains its 16 original callee edges",
+    "five named machine-selection properties agree across all 231 original operations",
+    "frame-size calculation reuses original 0x806cc alignment and removes the empty minimal-C stack subtraction",
+    "six changed C modules compile with original /W3 without diagnostics",
+    "all 289 frontier replays pass after filename/source-line pointer-type correction",
+    "independent debugger comparison: all 31 finalized machine records agree before output layout, including SUB EAX,EAX and removal of empty stack allocation"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"
