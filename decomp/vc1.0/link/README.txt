@@ -47,8 +47,10 @@ replay plus all9 additions pass. Current .text union137819/281634=48.9355%.
 Archive list/extract/remove/list-trimmed also pass, with an exact extracted
 member and beta omitted from the trimmed archive.496 accepted frontiers cover
 138251/281634 bytes(49.0889%); full485 plus all11 additions and ten completed
-case regressions pass. The pending dumper_main begins the remaining dump/edit
-lifecycle.
+case regressions pass. The dump driver, option parser and by-value archive
+metadata formatter now reach matching dump_headers. Fresh clean -j2, full501
+replay and ten completed regressions pass;141995/281634 bytes=50.4183%.
+Header/section/symbol and directory formatting and editor paths remain pending.
 
 The untouched original passes exact verbose output/artifact checks and the
 aliased HelloEntry load/call/paint/close/unload check. The frozen output preserves

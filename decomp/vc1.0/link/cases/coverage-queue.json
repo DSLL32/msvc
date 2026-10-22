@@ -48,7 +48,7 @@
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "dump-library",
       "status": "active",
-      "current_frontier": "_dumper_main"
+      "current_frontier": "_dump_headers"
     },
     {
       "case": "library-dump-object",

@@ -1,6 +1,5 @@
 #include "link.h"
 #define STUB(name,args) int name args { __asm { int 3 } return 0; }
-STUB(dumper_main,(int argc,char **argv))
 STUB(editor_main,(int argc,char **argv))
 STUB(helper_main,(int argc,char **argv))
 STUB(driver_usage,(void))

@@ -89,7 +89,7 @@ int build_import_library(int argc,char **argv,Image *image)
         }
     }
     if (*argv[1]) read_definition_file(image,argv[1]);
-    image->options.optimize=2;
+    image->options.dump.display.library_mode=2;
     if (has_inputs) {
         argument=library_files.first;
         for (index=0;index<library_files.count;++index,argument=argument->next)

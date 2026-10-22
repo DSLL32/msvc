@@ -1834,5 +1834,53 @@
     "name": "_days",
     "size": 52,
     "owner": "runtime.c"
+  },
+  {
+    "address": 453792,
+    "name": "dump_image",
+    "size": 4,
+    "owner": "dump.c"
+  },
+  {
+    "address": 511640,
+    "name": "dump_buffer",
+    "size": 4,
+    "owner": "dump.c"
+  },
+  {
+    "address": 511644,
+    "name": "dump_buffer_size",
+    "size": 2,
+    "owner": "dump.c"
+  },
+  {
+    "address": 511672,
+    "name": "dump_invalid_columns",
+    "size": 1,
+    "owner": "dump.c"
+  },
+  {
+    "address": 453788,
+    "name": "dump_file_size",
+    "size": 4,
+    "owner": "dump.c"
+  },
+  {
+    "address": 512000,
+    "name": "dump_file_count",
+    "size": 2,
+    "owner": "dump.c"
+  },
+  {
+    "address": 511668,
+    "name": "dump_symbol_table",
+    "size": 4,
+    "owner": "dump.c"
+  },
+  {
+    "address": 511996,
+    "name": "dump_section_headers",
+    "size": 4,
+    "owner": "dump.c"
   }
 ]

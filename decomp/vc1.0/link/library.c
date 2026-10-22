@@ -49,7 +49,7 @@ int library_main(int argc,char **argv)
         argv[2]=NULL;
         return build_import_library(2,argv,image);
     }
-    image->options.optimize=3;
+    image->options.dump.display.library_mode=3;
     initialize_modules((void (*)(char *,int,char *))fatal_message,&output_module);
     if (!library_files.count && !other_inputs.count) return 0;
     argument=other_inputs.first;

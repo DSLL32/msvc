@@ -1,5 +1,11 @@
 /* Initial COFF, PE32, and linker settings. */
 #include "image.h"
+#include <stddef.h>
+typedef char image_options_layout[(sizeof(ImageOptions)==72)?1:-1];
+typedef char image_layout[(sizeof(Image)==0x158)?1:-1];
+typedef char image_sections_layout[(offsetof(Image,sections)==0x13c)?1:-1];
+typedef char image_libraries_layout[(offsetof(Image,libraries)==0x144)?1:-1];
+typedef char image_symbols_layout[(offsetof(Image,symbols)==0x154)?1:-1];
 void create_image(Image **output)
 {
     Image *image;
@@ -24,7 +30,7 @@ void create_image(Image **output)
     image->options.portable_image=1;
     image->options.debug_types=6;
     image->options.default_extension=".dll";
-    image->options.optimize=1;
+    image->options.dump.display.library_mode=1;
     initialize_symbols(&image->symbols);
     image->libraries.first=NULL;
     image->libraries.tail=&image->libraries.first;

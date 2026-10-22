@@ -1,0 +1,32 @@
+{
+  "case": "library-dump-library",
+  "status": "in progress",
+  "current_frontier": "_dump_headers",
+  "fixture": "../fixtures/link-library-tools/manifest.json",
+  "phase": "dump-library",
+  "checkpoint": {
+    "accepted_frontiers": 501,
+    "full_frontiers_replayed": 501,
+    "ten_completed_cases_pass": true,
+    "clean_parallel_build": true,
+    "graph_audits": 358,
+    "callback_audits": 349,
+    "data_audits": 295,
+    "original_extent_boundaries": 506,
+    "coverage": "cases/coverage-after-dump-driver.json",
+    "replay_sha256": "bf1c85a3eaa64ae5ace2c899f14483c7b5a261ac8418f28aebca124e6ec9c9a9",
+    "regressions_sha256": "3a3f58da211471f7d681c916a1ac84b3b2d01b5d963191f0829359e759e2e899"
+  },
+  "remaining": "COFF/PE headers, sections, symbol and directory formatters, then object/DLL dump and editor lifecycle.",
+  "abi_exceptions": [],
+  "archive_prefix_at_header_frontier": {
+    "stdout": {
+      "bytes": 114,
+      "sha256": "bc34e9d0f94946b86a7905e3a5153aa721659dfc64d3c8711091a555d445d3d3"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

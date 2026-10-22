@@ -520,3 +520,29 @@ frontiers and all ten completed-case regressions pass, following full485 plus
 9 debug additions.354 graph/345 callback/287 data/501 boundary audits pass.
 Native ownership, delayed library-node free and case-sensitive first-match
 unlinking are preserved in readable C. No new normalization or ABI exception.
+
+Dump-driver checkpoint:501 accepted frontiers,141995/281634 .text bytes(50.4183%).
+Fresh clean -j2, full501 replay, all ten completed cases,358 graph/349 callback/
+295 contextual-data and506 boundary audits pass. Archive/all currently traps
+at matching dump_headers; no full dump output is yet claimed as complete.
+
+ImageOptions previously represented only encountered semantics in a compact
+record. Dump mode exposed the native remaining fields and sharing. The type is
+now exactly72 bytes, Image158, with checked sections13c/libraries144/symbol154.
+Library flags are114/115, image-name118, default-extension11c; named dump flags
+start120. The genuine word at128 overlays library_mode with dump summary,
+archive-members, FPO and map flags. Three old assignments now name this union.
+Raw format, WORD column count, warning/disassembler bytes and undecoration are
+typed fields, with compiler alignment rather than fabricated padding. The
+native %li raw-column parser writes its neighboring flags too; this is explicit.
+All older case outputs and the complete native graph replay pass this layout
+correction. No original template bytes, section snapshot or opaque gap exists.
+
+Readable dump.c preserves prefix abbreviations and independent overlapping
+switch matches, two input lists, buffer fallback, native summary defaults,
+archive/MZ/PE traversal and ownership. Archive metadata has the original60-byte
+by-value parameter and named dump_file pointer guard; exact date, UID/GID/mode,
+long-name and valid/invalid end-marker text remain at their use. Pending33110
+is named dump_coff_symbols to distinguish the older linker dump_symbols vertex.
+The graph auditor also rejects duplicate reconstructed vertex names. All source
+remains readable C; no assembly/ABI exception was needed.

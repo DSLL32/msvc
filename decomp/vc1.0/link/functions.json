@@ -495,7 +495,12 @@
     "_write_map_symbol",
     "_sprintf",
     "_release_library_list",
-    "_remove_library_member"
+    "_remove_library_member",
+    "_dumper_main",
+    "_process_dump_options",
+    "_dump_file",
+    "_dump_archive_header",
+    "_fputc"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -531,10 +536,11 @@
     {
       "name": "_dumper_main",
       "start": 196320,
-      "end": 196321,
-      "implementation": "stub-C",
-      "source": "stubs.c",
-      "abi": "cdecl int(int argc,char **argv)"
+      "end": 197136,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl int(int argc,char **argv)",
+      "evidence": "Matched2fee0 trap; complete2fee0..30210: usage, native option/global buffer state, two input lists, summary enumeration and cleanup."
     },
     {
       "name": "_editor_main",
@@ -662,7 +668,8 @@
       "implementation": "C",
       "source": "image.c",
       "abi": "cdecl void create_image(Image **output)",
-      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "evidence": "Complete17000..170a0; recovered72-byte ImageOptions including mode-private dump/library display union, full158-byte Image and native defaults. No raw template copying."
     },
     {
       "name": "_run_cvpack",
@@ -2706,10 +2713,11 @@
     {
       "name": "_dump_archive_header",
       "start": 199584,
-      "end": 199585,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Library *library,IMAGE_ARCHIVE_MEMBER_HEADER header,unsigned long offset)"
+      "end": 200016,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(Library *,IMAGE_ARCHIVE_MEMBER_HEADER,unsigned long)",
+      "evidence": "Matched30ba0 trap; complete30ba0..30d50:60-byte by-value archive-header ABI, five sscanf fields, named dump_file address guard, long-name lookup, ctime and header-end status formatting."
     },
     {
       "name": "_read_optional_header",
@@ -4309,6 +4317,72 @@
       "source": "runtime.c",
       "abi": "cdecl int(struct tm *)",
       "evidence": "Matched520d0 trap; complete520d0..521a0 older US DST rules using shared CRT_days table:1967 cutoff,1987 first-April-Sunday change, October hour1 boundary."
+    },
+    {
+      "name": "_process_dump_options",
+      "start": 197136,
+      "end": 198592,
+      "source": "dump.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched30210 trap; complete30210..307c0: native prefix abbreviation and overlapping independent matches, raw-data byte order/count parsing, stdout replacement, typed flag state, diagnostic/disassembler callbacks."
+    },
+    {
+      "name": "_dump_file",
+      "start": 198592,
+      "end": 199584,
+      "source": "dump.c",
+      "implementation": "C",
+      "abi": "cdecl void(const char *,const char *,unsigned char)",
+      "evidence": "Matched307c0 trap; full307c0..30ba0: archive member loop and by-value header ABI, MZ/PE gate, independent COFF symbol/string ownership, phase state, typed section/symbol buffers and native cleanup."
+    },
+    {
+      "name": "_initialize_disassembler",
+      "start": 306688,
+      "end": 306689,
+      "source": "dump-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(FatalRoutine,WarningRoutine)"
+    },
+    {
+      "name": "_dump_headers",
+      "start": 200016,
+      "end": 200017,
+      "source": "dump-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(const char *,unsigned char)"
+    },
+    {
+      "name": "_dump_string_table",
+      "start": 208752,
+      "end": 208753,
+      "source": "dump-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(const char *)"
+    },
+    {
+      "name": "_dump_sections",
+      "start": 201760,
+      "end": 201761,
+      "source": "dump-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_dump_symbol_map",
+      "start": 208832,
+      "end": 208833,
+      "source": "dump-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_dump_coff_symbols",
+      "start": 209168,
+      "end": 209169,
+      "source": "dump-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
     }
   ],
   "c_stub_references": [
@@ -4810,6 +4884,11 @@
     "hello-debug-dll",
     "hello-debug-dll",
     "library-extract",
-    "library-remove"
+    "library-remove",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library"
   ]
 }

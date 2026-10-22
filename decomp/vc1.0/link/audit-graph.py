@@ -4,6 +4,7 @@ from capstone.x86 import X86_OP_MEM
 from binary import u32
 import re
 orig,rec,cfg,oi,ri=indexes()
+assert len({r["name"] for r in cfg["driver"]}) == len(cfg["driver"]), "Duplicate reconstructed graph vertex name"
 failures = 0
 checked = 0
 cs=Cs(CS_ARCH_X86,CS_MODE_32)
