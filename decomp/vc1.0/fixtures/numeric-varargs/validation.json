@@ -1,0 +1,14 @@
+{
+  "original_compile_exit": 0,
+  "original_program": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "independent_c1": {
+    "exit": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 84,
+    "all_four_raw_intermediates_exact": true
+  }
+}

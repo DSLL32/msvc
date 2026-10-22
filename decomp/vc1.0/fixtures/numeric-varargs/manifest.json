@@ -1,0 +1,112 @@
+{
+  "case": "CL.EXE /Zi /Od /G5 /W3 numeric-varargs.c",
+  "toolchain": "1.0-nt",
+  "scope": "C1 reconstruction queued. C2/LINK captures are retained original-only references, not queued.",
+  "source": {
+    "path": "c1/numeric-varargs.c",
+    "bytes": 2130,
+    "sha256": "3e1980aab6321f276f562c3120192fd2b1efe1af286fd0daca1fd03546edcc25"
+  },
+  "capture": {
+    "method": "Original CL CreateProcessA import thunk RVA0x11000; phase inputs copied before consuming children launch",
+    "arguments": "/Zi /Od /G5 /W3 numeric-varargs.c",
+    "diagnostic_options": false,
+    "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4"
+  },
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f numeric-varargs.c -Ze -Zp8 -Gs -Fonumeric-varargs.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "environment_inheritance": false,
+      "working_directory": "c1",
+      "queue_after": "../hello-dll/manifest.json#/phases/c1",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "numeric-varargs.c(24) : warning C4069: long double is the same precision as double\r\n",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Z:\\root\\.ai-tmp\\vc1.0-numeric-varargs\\run\\000292 -f numeric-varargs.c -Ze -Zp8 -Gs -Fonumeric-varargs.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+      "inputs": [
+        {
+          "path": "c1/numeric-varargs.c",
+          "bytes": 2130,
+          "sha256": "3e1980aab6321f276f562c3120192fd2b1efe1af286fd0daca1fd03546edcc25"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 2330,
+          "sha256": "611080288cc5d61aeb31f22956b3fcddaea2c9b14058ff64923f91099e256e56",
+          "output_name": "irex"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 535,
+          "sha256": "5ca184105b4d1138a7679df2bb3524326a39d1af325b0381867af16ad6345756",
+          "output_name": "irsy"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 149,
+          "sha256": "10ef60d30d2b65ce595cfe075ccb2e4782d12e6961a93d41435a9896384645e6",
+          "output_name": "irin"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 402,
+          "sha256": "80f0c8be490942aea0b41e2fa3cf3567be63f05c0dbeb2eebc6a9d40c531c8b9",
+          "output_name": "irgl"
+        }
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/include/STDIO.H",
+          "sha256": "51b965d5f61230cd2a03466932e2b2723dcf621a7b53f9a74f3d1438d6f0602a"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/STDARG.H",
+          "sha256": "9ce7f824ddadd24b62bdf67ffaf0079d7a56e6e9437d2376938b0b67ec5ca432"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/STDDEF.H",
+          "sha256": "e9c95d9391c785b5163bfb4930335473ef2749f95785519c1a3b71ebc17e24b6"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/STRING.H",
+          "sha256": "b18860b676bc157f412b1eda395cf2d47d905fd64e23f670f6cfbb197a993f60"
+        },
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ]
+    }
+  },
+  "reference_artifacts": [
+    {
+      "path": "link/numeric-varargs.obj",
+      "bytes": 3374,
+      "sha256": "f185b91f174019a97cfbe60197e1d223c1207985d958d9052c5c22a960423118"
+    },
+    {
+      "path": "link/link.rsp",
+      "bytes": 85,
+      "sha256": "f82de82e40a678736d4e629f50d26627e14eabef65acea6e38e0592dbb8974e1"
+    },
+    {
+      "path": "expected/numeric-varargs.exe",
+      "bytes": 76808,
+      "sha256": "9663693db07d60904f9b8de62da1c9c9b4da0c677ecd8f27fc7d3b1f09c50b18"
+    }
+  ],
+  "reference_program_validation": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}
