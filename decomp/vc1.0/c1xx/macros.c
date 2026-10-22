@@ -158,7 +158,7 @@ char *__stdcall format_timestamp(long timestamp)
 
 MacroDefinition **macro_buckets; /* original 0x9f1d4 */
 unsigned macro_work_bytes = 0xf000; /* original 0x9fc44 */
-char *macro_work_buffer, *macro_work_midpoint; /* original 0x91888/0x956dc */
+char *macro_work_buffer; /* original 0x91888; midpoint aliases parser stack */
 char *macro_replacement_start, *macro_expansion_start; /* original 0x9577c/80 */
 
 /* Original 0x1f5a0..0x1f5fe. Replacement text and expansion text grow in

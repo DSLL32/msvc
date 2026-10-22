@@ -1939,6 +1939,43 @@
       "name": "_packed_option_values",
       "original": 668864,
       "count": 21
+    },
+    {
+      "kind": "state",
+      "name": "_parser_stacks",
+      "original": 609860,
+      "fields": [
+        {
+          "name": "_parser_stacks",
+          "original": 609860,
+          "bytes": 2208
+        },
+        {
+          "name": "_parser_value",
+          "original": 573936,
+          "bytes": 8
+        },
+        {
+          "name": "_current_token_value",
+          "original": 573776,
+          "bytes": 8
+        },
+        {
+          "name": "_parser_lookahead",
+          "original": 650140,
+          "bytes": 4
+        },
+        {
+          "name": "_parser_error_count",
+          "original": 650144,
+          "bytes": 4
+        },
+        {
+          "name": "_parser_recovery_count",
+          "original": 650148,
+          "bytes": 2
+        }
+      ]
     }
   ],
   "buffered_streams": [

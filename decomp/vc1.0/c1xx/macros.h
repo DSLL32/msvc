@@ -1,6 +1,7 @@
 #ifndef MACROS_H
 #define MACROS_H
 #include "declarations.h"
+#include "parser-state.h"
 
 typedef struct SpecialIdentifier {
     char **destination;
@@ -30,7 +31,7 @@ typedef struct MacroDefinition {
 } MacroDefinition;
 extern MacroDefinition **macro_buckets;
 extern unsigned macro_work_bytes;
-extern char *macro_work_buffer, *macro_work_midpoint;
+extern char *macro_work_buffer;
 extern char *macro_replacement_start, *macro_expansion_start;
 extern char *macro_replacement_text;
 extern short include_depth;

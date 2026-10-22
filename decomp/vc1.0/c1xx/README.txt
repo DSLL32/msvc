@@ -134,7 +134,7 @@ by name and attributes. The ordinary-symbol allocator preserves permanent vs
 arena allocation and the separate scope-mode byte. Twenty-one option targets,
 their aliases and initial defaults are audited; this established the original
 normalized_Gs=1 and normalized_Gn=1 defaults before frontend initialization.
-The current trap is the complete yacc parser; its grammar and semantic actions
+The current trap is the complete yacc parser; its semantic actions
 remain unreconstructed. No original parser tables have been imported as source.
 
 The parser's declarative grammar is recovered in grammar.bnf. grammar.py reads
@@ -147,3 +147,10 @@ audit-parser-grammar.py compares all 147775 token decisions, 82800 gotos, lexer
 query timing and 60 recovery inserts against the original. All match. The
 analysis-only recovery proof is in analysis/recover-grammar.py; it is not part
 of the build. Parser semantic C actions and the complete C++ case remain pending.
+
+The yacc stacks share their boundary storage with macro_work_midpoint. The
+220-state array admits one extra halfword that aliases the first semantic
+value; the 220-value array admits one extra eight-byte cell that aliases the
+macro pointer and following control word. These overlaps use one C union.
+The stack and six parser defaults are audited; all 207 frontiers replay with
+these aliases in evidence/replay-parser-state.log.

@@ -36,7 +36,8 @@
     "purecall_symbol_bytes": 4,
     "runtime_function_specifications": 1,
     "symbol_scope_mode_bytes": 1,
-    "packed_option_targets": 21
+    "packed_option_targets": 21,
+    "parser_state_defaults": 6
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -64,7 +65,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-runtime-declarations.log",
+  "replay_log": "evidence/replay-parser-state.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
