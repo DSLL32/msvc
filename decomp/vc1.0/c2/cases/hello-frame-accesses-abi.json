@@ -1,0 +1,151 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@set_machine_frame@8",
+      "start": "0x351a0",
+      "end": "0x35210"
+    },
+    {
+      "name": "@collect_frame_accesses@16",
+      "start": "0x34e80",
+      "end": "0x35150"
+    },
+    {
+      "name": "@new_frame_access@20",
+      "start": "0x35150",
+      "end": "0x351a0"
+    },
+    {
+      "name": "@sort_linked_list@8",
+      "start": "0x59350",
+      "end": "0x59440"
+    },
+    {
+      "name": "@merge_sorted_lists@12",
+      "start": "0x59440",
+      "end": "0x594a0"
+    },
+    {
+      "name": "@compare_frame_accesses@8",
+      "start": "0x34e10",
+      "end": "0x34e80"
+    },
+    {
+      "name": "@frame_access_distance@8",
+      "start": "0x34d00",
+      "end": "0x34e10"
+    },
+    {
+      "name": "@combine_frame_accesses@8",
+      "start": "0x35210",
+      "end": "0x354f0"
+    }
+  ],
+  "ABI": {
+    "collect_frame_accesses": "fastcall int(FrameAccess**,FrameAccess**,MachineContext*,unsigned); ECX/EDX plus RET8",
+    "new_frame_access": "fastcall FrameAccess*(FrameAccess*,MachineInstruction*,unsigned char,int,int); ECX/EDX plus RET12",
+    "sort_linked_list": "fastcall void*(void*,fastcall comparison callback)",
+    "merge_sorted_lists": "fastcall void*(void*,void*,fastcall comparison callback); ECX/EDX plus RET4",
+    "frame_access_distance": "fastcall int(FrameAccess*,FrameAccess*)"
+  },
+  "data": [
+    {
+      "definition": "FrameAccess,16 bytes",
+      "meaning": "arena4 zero-filled typed next/instruction/depth/flag record; selectors1/2, protected4, retained8; implicit padding remains zero"
+    },
+    {
+      "definition": "LinkedListLink,4 bytes",
+      "meaning": "generic first-field next pointer; stable merge preserves original callback order; no image-data tables"
+    }
+  ],
+  "graph": "All eight whole functions retain original callee/indirect-callback graphs. Existing instruction_has_side_effects at23670 is reused; no duplicate helper.",
+  "captures": {
+    "sorted_access_lists": {
+      "description": "sorted frame accesses at combine_frame_accesses entry",
+      "normalized_lines": 239,
+      "stream_records": 82,
+      "use_count": 9,
+      "definition_count": 0,
+      "ownership": "all nodes unique across lists; all instruction references present in stream",
+      "events_sha256": {
+        "original": "4e5220d75097b79c26e82b60a814c8a6479843dbd9b5a8166fa60fa60182eb5a",
+        "reconstructed": "2e38de5951fa99785d1371db58f1a58d05a2c33585cef8619b6a265ff8fad7c9"
+      }
+    },
+    "completed_frame_pass": {
+      "normalized_lines": 193,
+      "stream_records": 82,
+      "events_sha256": {
+        "original": "97f472ebbdff85c4cbe5cf13bc8aa1a0e3dad075170a43c10f82a47491b5e98c",
+        "reconstructed": "757efd7915f1421bbb4c24c24556068498a6dfe75091a324a1c59ea9448f450c"
+      }
+    }
+  },
+  "observed": {
+    "first_function_pass_returns": true,
+    "sorted_reads": 9,
+    "definitions": 0,
+    "next_frontier": "@peephole_machine_33f50@4 at0x33f50"
+  },
+  "limits": [
+    "The first function has no frame definitions: combiner store deletion, retained/protected overlap alternatives are reconstructed but not dynamically exercised by this capture.",
+    "Only the first function has completed these passes; optimized hello remains incomplete.",
+    "Failure branches and invalid streams are not claimed dynamically validated. Native dead uninitialized locals are initialized in C but overwritten before observable use."
+  ],
+  "validation": {
+    "source_functions": 569,
+    "accepted_frontiers": 646,
+    "minimal_frontiers": 352,
+    "hello_frontiers": 294,
+    "W3": "frame-access and linked-lists clean",
+    "minimal_fixture": "286 bytes exact except timestamp4..7",
+    "replays": {
+      "minimal": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-271803/receipt.json",
+        "sha256": "ad2743646a83e9904b7d837775286cdfb6a964886c904a50e27b1b54735863c6",
+        "frontiers": 352,
+        "first": 0,
+        "last": 352,
+        "final": "exit:0",
+        "frozen": {
+          "functions.json": "f5891a752ab2713b7618400e7f6629603b7d7dbcfc308bd0fc0e45aed3135668",
+          "build/c2.exe": "77d101e01aa363efbe56af6db383798d585d4661af4fbac2ec8da7d6f48af215",
+          "build/c2.map": "a1f774d0bf8bac3f10ead2a7b811590d673afa51be91059a772a624a7eca3207",
+          "build/runtime.json": "fc4a75c0dff9071f953f92e7fa5ccfc05b82240246557277e10fc982092c2b80"
+        }
+      },
+      "hello": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-279073/receipt.json",
+        "sha256": "bf8f71e47e83c7a229f27c54b3ffafd1d17a5dedd33ccd94eb17497a19c78ec2",
+        "frontiers": 294,
+        "first": 352,
+        "last": 646,
+        "final": "@peephole_machine_33f50@4",
+        "frozen": {
+          "functions.json": "f5891a752ab2713b7618400e7f6629603b7d7dbcfc308bd0fc0e45aed3135668",
+          "build/c2.exe": "77d101e01aa363efbe56af6db383798d585d4661af4fbac2ec8da7d6f48af215",
+          "build/c2.map": "a1f774d0bf8bac3f10ead2a7b811590d673afa51be91059a772a624a7eca3207",
+          "build/runtime.json": "fc4a75c0dff9071f953f92e7fa5ccfc05b82240246557277e10fc982092c2b80"
+        }
+      }
+    },
+    "coverage": {
+      "mask_verified": true,
+      "metric": "accepted original code-extent union; not branch coverage",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "accepted_frontiers": 646,
+      "accepted_code_bytes": 171743,
+      "original_code_bytes": 399693,
+      "percentage": 42.968728499123074,
+      "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+      "code_sections": [
+        [
+          "0x17000",
+          "0x7894d"
+        ]
+      ],
+      "union_ranges": 169
+    }
+  }
+}

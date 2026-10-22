@@ -642,7 +642,15 @@
     "@propagate_physical_copy@4",
     "@release_physical_copies@4",
     "@propagate_physical_operand@12",
-    "@remember_physical_copy@8"
+    "@remember_physical_copy@8",
+    "@set_machine_frame@8",
+    "@collect_frame_accesses@16",
+    "@new_frame_access@20",
+    "@sort_linked_list@8",
+    "@merge_sorted_lists@12",
+    "@compare_frame_accesses@8",
+    "@frame_access_distance@8",
+    "@combine_frame_accesses@8"
   ],
   "driver": [
     {
@@ -1258,8 +1266,7 @@
     {
       "name": "@set_machine_frame@8",
       "start": 217504,
-      "end": 217505,
-      "provisional": true
+      "end": 217616
     },
     {
       "name": "@finalize_machine_context@4",
@@ -5471,6 +5478,41 @@
       "start": 192544,
       "end": 192545,
       "provisional": true
+    },
+    {
+      "name": "@sort_linked_list@8",
+      "start": 365392,
+      "end": 365632
+    },
+    {
+      "name": "@compare_frame_accesses@8",
+      "start": 216592,
+      "end": 216704
+    },
+    {
+      "name": "@collect_frame_accesses@16",
+      "start": 216704,
+      "end": 217424
+    },
+    {
+      "name": "@combine_frame_accesses@8",
+      "start": 217616,
+      "end": 218352
+    },
+    {
+      "name": "@new_frame_access@20",
+      "start": 217424,
+      "end": 217504
+    },
+    {
+      "name": "@merge_sorted_lists@12",
+      "start": 365632,
+      "end": 365728
+    },
+    {
+      "name": "@frame_access_distance@8",
+      "start": 216320,
+      "end": 216592
     }
   ],
   "cases": {

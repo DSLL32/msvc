@@ -1498,3 +1498,36 @@ instruction boundaries pass. post-allocation and physical-allocation compile
 bytes4..7. Verified accepted original code-extent union169375/399693 bytes
 (42.3763 percent) includes clipped source/shared text/CRT/import ranges and
 actual-mask cross-check; it is not branch coverage.
+
+
+Frame-access optimization and stable sorting (646 accepted frontiers)
+-------------------------------------------------------------------
+Eight whole functions recover frame-use/definition collection, its typed
+16-byte arena4 constructor, stable bottom-up list sorting and merge callback,
+frame-byte displacement comparison and grouped dead-store elimination.
+The sorter uses only the first-field next pointer; comparison preserves
+native callback order and puts address-taking LEAs before reads of the same
+byte. Symbol placement, changing ESP depth and high-byte lanes contribute to
+the byte comparison. Indexed references retain their whole-symbol meaning.
+
+Arena4 clears its payload before allocation, so retained flag8 and padding
+start zero; selector1/2 and protected4 are set by the constructor. The combiner
+retains protected/overlapping writes and the original graph, including the
+existing side-effect predicate23670. Its operand-byte call deliberately keeps
+the native one-based selector. No raw image data or new assembly is introduced.
+
+An independent sorted-list capture matches239 normalized lines:9 reads and
+no definitions, exact selected operands/symbol offsets/stack depths/flags,
+complete82-record stream and disjoint acyclic node ownership. The first
+function's frame pass returns; a later capture matches193 lines/82 records
+after existing context finalization. Definition deletion and retained/protected
+alternatives remain dynamically unexercised in this first function. The next
+matching frontier is peephole_machine_33f50 at33f50; hello remains incomplete.
+See cases/hello-frame-accesses-abi.json for ABI and capture/replay evidence.
+
+All352 minimal and294 hello frontiers replay,569 source graphs and646 accepted
+instruction boundaries pass. frame-access and linked-lists compile /W3 clean.
+Minimal object/streams/exit match except only timestamp4..7. Verified accepted
+original code-extent union171743/399693 bytes (42.9687 percent) includes clipped
+source/shared text/CRT/import ranges and actual-mask verification; it is not
+branch coverage.

@@ -1,3 +1,4 @@
+#include "frame-access.h"
 #include "post-allocation.h"
 #include "frame-symbols.h"
 #include "machine-analysis.h"
@@ -141,7 +142,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall set_machine_frame(MachineContext *context, unsigned flags) { __asm int 3 }
 void __fastcall peephole_machine_33f50(MachineContext *context) { __asm int 3 }
 void __fastcall peephole_machine_33550(MachineContext *context) { __asm int 3 }
 void __fastcall peephole_machine_34520(MachineContext *context) { __asm int 3 }
