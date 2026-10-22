@@ -20,7 +20,7 @@ void __fastcall prepare_machine_blocks(WorkItem *work);
 void __fastcall set_machine_frame(MachineContext *context, unsigned flags);
 void __fastcall finalize_machine_context(MachineInstruction *instructions);
 void __fastcall optimize_branch_comparisons(MachineContext *context);
-void __fastcall peephole_machine_33550(MachineContext *context);
+void __fastcall optimize_unconditional_jumps(MachineContext *context);
 void __fastcall peephole_machine_34520(MachineContext *context);
 void __fastcall peephole_machine_34910(MachineContext *context);
 void __fastcall peephole_machine_349e0(MachineContext *context);

@@ -656,7 +656,15 @@
     "@machine_block_protected@4",
     "@label_machine_instruction@4",
     "@machine_records_equal@8",
-    "@swap_comparison_for_match@12"
+    "@swap_comparison_for_match@12",
+    "@optimize_unconditional_jumps@4",
+    "@move_data_blocks_to_end@4",
+    "@find_function_end@4",
+    "@find_block_terminator@4",
+    "@previous_machine_operation@4",
+    "@label_has_fallthrough_predecessor@4",
+    "@fits_signed_byte@4",
+    "@clone_machine_record@4"
   ],
   "driver": [
     {
@@ -1285,10 +1293,9 @@
       "end": 213856
     },
     {
-      "name": "@peephole_machine_33550@4",
+      "name": "@optimize_unconditional_jumps@4",
       "start": 210256,
-      "end": 210257,
-      "provisional": true
+      "end": 211056
     },
     {
       "name": "@peephole_machine_34520@4",
@@ -3219,8 +3226,7 @@
     {
       "name": "@clone_machine_record@4",
       "start": 140896,
-      "end": 140897,
-      "provisional": true
+      "end": 141120
     },
     {
       "name": "@replace_machine_operand@16",
@@ -3474,8 +3480,7 @@
     {
       "name": "@previous_machine_operation@4",
       "start": 429104,
-      "end": 429105,
-      "provisional": true
+      "end": 429136
     },
     {
       "name": "@machine_instruction_size@4",
@@ -3510,8 +3515,7 @@
     {
       "name": "@fits_signed_byte@4",
       "start": 158032,
-      "end": 158033,
-      "provisional": true
+      "end": 158064
     },
     {
       "name": "@displacement_mode@12",
@@ -3520,10 +3524,9 @@
       "provisional": true
     },
     {
-      "name": "@label_has_backward_branch@4",
+      "name": "@label_has_fallthrough_predecessor@4",
       "start": 208688,
-      "end": 208689,
-      "provisional": true
+      "end": 208880
     },
     {
       "name": "@next_machine_operation@4",
@@ -5543,6 +5546,33 @@
       "name": "@swap_comparison_for_match@12",
       "start": 214080,
       "end": 214304
+    },
+    {
+      "name": "@move_data_blocks_to_end@4",
+      "start": 212336,
+      "end": 212480
+    },
+    {
+      "name": "@find_block_terminator@4",
+      "start": 212272,
+      "end": 212336
+    },
+    {
+      "name": "@register_machine_label@4",
+      "start": 429312,
+      "end": 429313,
+      "provisional": true
+    },
+    {
+      "name": "@merge_jump_diamond@12",
+      "start": 211056,
+      "end": 211057,
+      "provisional": true
+    },
+    {
+      "name": "@find_function_end@4",
+      "start": 210224,
+      "end": 210256
     }
   ],
   "cases": {

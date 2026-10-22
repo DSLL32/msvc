@@ -2,6 +2,7 @@
 #include "function-input.h"
 #include "instruction-rewrite.h"
 #include "register-use.h"
+#include "bitsets.h"
 /* Original [0001a620,0001a640). Kind 11 carries two signed control words. */
 void __fastcall emit_machine_directive(short code, short value)
 {
@@ -211,4 +212,39 @@ int __fastcall machine_records_equal(MachineInstruction *left, MachineInstructio
         compiler_internal_error("@(#)codegen.c:1.167", 0x8d5);
         return 1;
     }
+}
+
+/* Original [00022660,00022740). Links and payload first copy verbatim;
+   ordinary operations then own fresh address records, and block headers own
+   separate copies of both register sets. Other record kinds keep payloads. */
+MachineInstruction *__fastcall clone_machine_record(MachineInstruction *instruction)
+{
+    MachineInstruction *copy = new_machine_instruction(instruction->opcode & 15);
+    MachineBlockHeader *block, *new_block;
+    unsigned kind = instruction->opcode & 15, operand_kind;
+    int count;
+    *copy = *instruction;
+    if (kind == 0) {
+        count = machine_operand_counts[(instruction->opcode >> 8) & 255];
+        if (count == 2) {
+            operand_kind = instruction->operands[1].flags & 15;
+            if ((operand_kind >= 3 && operand_kind <= 7) || operand_kind == 12) {
+                copy->operands[1].value.address = new_machine_address();
+                *copy->operands[1].value.address = *instruction->operands[1].value.address;
+            }
+        }
+        if (count == 1 || count == 2) {
+            operand_kind = instruction->operands[0].flags & 15;
+            if ((operand_kind >= 3 && operand_kind <= 7) || operand_kind == 12) {
+                copy->operands[0].value.address = new_machine_address();
+                *copy->operands[0].value.address = *instruction->operands[0].value.address;
+            }
+        }
+    } else if (kind == 7) {
+        block = (MachineBlockHeader *)instruction;
+        new_block = (MachineBlockHeader *)copy;
+        new_block->uses = assign_bitset(0, block->uses);
+        new_block->definitions = assign_bitset(0, block->definitions);
+    }
+    return copy;
 }

@@ -75,3 +75,9 @@ void __fastcall encode_integer(unsigned value, unsigned bytes)
     else if (bytes == 4) *(unsigned *)cursor = value;
     encoding_cursor = cursor + bytes;
 }
+
+/* Original [00026950,00026970). An immediate can use the signed imm8 form. */
+int __fastcall fits_signed_byte(int value)
+{
+    return value >= -128 && value <= 127;
+}

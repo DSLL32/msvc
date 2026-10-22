@@ -92,7 +92,7 @@ int __fastcall align_machine_location(int offset, MachineInstruction *instructio
     case 1:
         if (instruction->record.symbol->field0d == 1) padding = (0U - (unsigned)offset) & 3;
         else {
-            loop = label_has_backward_branch(instruction);
+            loop = label_has_fallthrough_predecessor(instruction);
             if (!loop || (instruction->operands[1].flags & 1)) {
                 if (cpu_model < 4) {
                     if (!loop || (int)(((unsigned)offset + 3) & ~3U) <
@@ -163,4 +163,15 @@ MachineInstruction *__fastcall next_machine_operation(MachineInstruction *instru
 MachineInstruction *__fastcall label_machine_instruction(LabelSymbol *label)
 {
     return label->instruction;
+}
+
+/* Original [00068c30,00068c50). Move backward to the preceding kind0
+   operation, skipping every non-operation record. */
+MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *instruction)
+{
+    do {
+        instruction = instruction->previous;
+        if (!instruction) return 0;
+    } while ((instruction->opcode & 15) != 0);
+    return instruction;
 }

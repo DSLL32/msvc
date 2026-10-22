@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 300,
+  "accepted_frontiers": 308,
   "current_frontier": {
-    "name": "@peephole_machine_33550@4",
-    "original_va": 210256
+    "name": "@peephole_machine_34520@4",
+    "original_va": 214304
   },
   "expected": {
     "exit": 0,
@@ -224,18 +224,23 @@
     "all352 minimal and300 hello historical frontiers replay; minimal object/streams/exit exact except timestamp4..7",
     "all575 source graphs and652 accepted instruction boundaries pass; comparison-branches, machine-records and machine-layout /W3 clean",
     "first comparison/branch pass returns; independent completed-stream capture matches193 normalized lines/82 records",
-    "verified accepted original code-extent union173647/399693 bytes=43.4451 percent; not branch coverage"
+    "verified accepted original code-extent union173647/399693 bytes=43.4451 percent; not branch coverage",
+    "all352 minimal and308 hello historical frontiers replay; minimal object/streams/exit exact except timestamp4..7",
+    "all583 source graphs and660 accepted instruction boundaries pass; jump-threading, machine-records, machine-layout and operand-encoding /W3 clean",
+    "independent first clone-return capture matches196 normalized lines, confirms detached POP EDI source75, preserved links/payload and unique identity",
+    "completed first-function jump threading matches207 normalized lines/88 records, up from82 before tail duplication",
+    "verified accepted original code-extent union175167/399693 bytes=43.8254 percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 652,
-  "reconstructed_functions": 575,
+  "total_accepted_frontiers": 660,
+  "reconstructed_functions": 583,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 652,
-    "accepted_code_bytes": 173647,
+    "accepted_frontiers": 660,
+    "accepted_code_bytes": 175167,
     "original_code_bytes": 399693,
-    "percentage": 43.44509410972922,
+    "percentage": 43.82538598374252,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [

@@ -48,7 +48,7 @@ void emit_backend_work(void)
             finalize_machine_context(machine_instructions);
             scan_machine_context(machine_context);
             optimize_branch_comparisons(machine_context);
-            peephole_machine_33550(machine_context);
+            optimize_unconditional_jumps(machine_context);
             peephole_machine_34520(machine_context);
             peephole_machine_34910(machine_context);
             compact_machine_context(machine_context);

@@ -1559,3 +1559,34 @@ instruction boundaries pass. All three changed implementation modules compile
 Verified accepted original code-extent union173647/399693 bytes (43.4451 percent)
 includes clipped source/shared text/CRT/imports and actual-mask cross-check;
 this is not branch coverage.
+
+
+Unconditional jump threading (660 accepted frontiers)
+----------------------------------------------------
+Eight whole functions recover the235-instruction jump pass, embedded DATA
+range movement, function-end/terminator searches, preceding-operation scan,
+label predecessor reachability, signed imm8 predicate and generic record
+cloning. The pass now has the meaningful name optimize_unconditional_jumps;
+its full17-callee graph retains range movement, short-tail duplication and
+branch-diamond alternatives. The old provisional label_has_backward_branch
+name is corrected to label_has_fallthrough_predecessor after full native
+analysis of RET/JMP/DATA and preceding labels. All source users are updated.
+
+Record clones preserve header/link identities before linking, then own fresh
+typed address payloads and copied block bitsets where the native record kind
+requires them. The first live clone-return capture matches196 normalized
+lines: source instruction75 is POP EDI, detached and distinct from its source,
+with exact links and payload. This first clone has no address data, so deep
+address/block-set alternatives are not claimed exercised. The completed
+first-function jump pass matches207 lines/88 stream records, six more than
+before tail duplication. Embedded DATA moves, diamond merging, fresh-label
+loop avoidance and failure paths retain their graph but remain outside these
+dynamic claims. No image snapshots or assembly are introduced.
+
+All352 minimal and308 hello frontiers replay,583 source graphs and660 accepted
+instruction boundaries pass. All four changed implementation modules compile
+/W3 clean. Minimal object/streams/exit remain exact except only timestamp4..7.
+Verified accepted original code-extent union175167/399693 bytes (43.8254 percent)
+includes clipped source/shared text/CRT/imports and actual-mask cross-check;
+this is not branch coverage. Next matching frontier is peephole_machine_34520
+at34520. Optimized hello remains incomplete; see cases/hello-jump-threading-abi.json.
