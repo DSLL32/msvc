@@ -151,7 +151,26 @@
     "_write_global_header",
     "_rewind",
     "_write_global_record@8",
-    "_fwrite"
+    "_fwrite",
+    "_open_source_file@8",
+    "_open_input_handle@4",
+    "_normalize_input_name",
+    "_fill_source_buffer",
+    "__read",
+    "import:ReadFile",
+    "_initialize_operators",
+    "_intern_operator_name@4",
+    "_initialize_allocation_operators",
+    "_declare_operator_new@4",
+    "_save_declaration_context@8",
+    "_new_declarator@4",
+    "_add_declaration_parameter@16",
+    "_normalize_symbol_type@8",
+    "_normalize_symbol_distance@8",
+    "_append_declarator@8",
+    "_attach_function_parameters@8",
+    "_attach_plain_function_parameters@8",
+    "_build_function_declarator@8"
   ],
   "driver": [
     {
@@ -567,7 +586,7 @@
     {
       "name": "_initialize_operators",
       "start": 490832,
-      "end": 490833
+      "end": 490966
     },
     {
       "name": "_declare_runtime_helpers",
@@ -747,7 +766,7 @@
     {
       "name": "_open_source_file@8",
       "start": 124032,
-      "end": 124033
+      "end": 124822
     },
     {
       "name": "___tzset",
@@ -875,6 +894,211 @@
       "name": "_write_ir_string",
       "start": 475552,
       "end": 475621
+    },
+    {
+      "name": "_open_input_handle@4",
+      "start": 433152,
+      "end": 433241
+    },
+    {
+      "name": "_seek_work_stack@12",
+      "start": 207264,
+      "end": 207409
+    },
+    {
+      "name": "_fill_source_buffer",
+      "start": 126672,
+      "end": 126923
+    },
+    {
+      "name": "_emit_line_directive",
+      "start": 126464,
+      "end": 126662
+    },
+    {
+      "name": "_report_ide_source",
+      "start": 127760,
+      "end": 127780
+    },
+    {
+      "name": "_record_line_information@4",
+      "start": 372976,
+      "end": 374748
+    },
+    {
+      "name": "_browser_include_begin",
+      "start": 180176,
+      "end": 180181
+    },
+    {
+      "name": "_browser_open_file",
+      "start": 181216,
+      "end": 181226
+    },
+    {
+      "name": "_normalize_input_name",
+      "start": 432992,
+      "end": 433137
+    },
+    {
+      "name": "_release_input_handle",
+      "start": 123840,
+      "end": 123921
+    },
+    {
+      "name": "_copy_string@8",
+      "start": 476160,
+      "end": 476291
+    },
+    {
+      "name": "_read_work_stack@12",
+      "start": 206752,
+      "end": 206753
+    },
+    {
+      "name": "_intern_operator_name@4",
+      "start": 489568,
+      "end": 489629
+    },
+    {
+      "name": "_initialize_allocation_operators",
+      "start": 325552,
+      "end": 325567
+    },
+    {
+      "name": "_declare_operator_new@4",
+      "start": 324832,
+      "end": 325130
+    },
+    {
+      "name": "_declare_operator_delete@4",
+      "start": 325136,
+      "end": 325449
+    },
+    {
+      "name": "_save_declaration_context@8",
+      "start": 325456,
+      "end": 325507
+    },
+    {
+      "name": "_restore_declaration_context@8",
+      "start": 325520,
+      "end": 325546
+    },
+    {
+      "name": "_new_declarator@4",
+      "start": 245728,
+      "end": 245897
+    },
+    {
+      "name": "_add_declaration_parameter@16",
+      "start": 212992,
+      "end": 213235
+    },
+    {
+      "name": "_attach_function_parameters@8",
+      "start": 216576,
+      "end": 216647
+    },
+    {
+      "name": "_apply_declaration_type@8",
+      "start": 334944,
+      "end": 335794
+    },
+    {
+      "name": "_find_scope_symbol@12",
+      "start": 341360,
+      "end": 341468
+    },
+    {
+      "name": "_browser_symbol_rollover",
+      "start": 181120,
+      "end": 181158
+    },
+    {
+      "name": "_normalize_symbol_type@8",
+      "start": 338608,
+      "end": 341360
+    },
+    {
+      "name": "_append_declarator@8",
+      "start": 244064,
+      "end": 244123
+    },
+    {
+      "name": "_prepend_declarator@8",
+      "start": 244016,
+      "end": 244053
+    },
+    {
+      "name": "_resolve_deferred_declaration@4",
+      "start": 204960,
+      "end": 204986
+    },
+    {
+      "name": "_merge_declaration_type@12",
+      "start": 296400,
+      "end": 298577
+    },
+    {
+      "name": "_is_current_class@4",
+      "start": 209216,
+      "end": 209266
+    },
+    {
+      "name": "_format_symbol_name@4",
+      "start": 352832,
+      "end": 353424
+    },
+    {
+      "name": "_report_declaration_diagnostic",
+      "start": 248000,
+      "end": 248044
+    },
+    {
+      "name": "_type_qualifiers@4",
+      "start": 406944,
+      "end": 407026
+    },
+    {
+      "name": "_normalize_symbol_distance@8",
+      "start": 338176,
+      "end": 338307
+    },
+    {
+      "name": "_strip_based_shape@4",
+      "start": 402208,
+      "end": 402237
+    },
+    {
+      "name": "_classify_incomplete_type@4",
+      "start": 249392,
+      "end": 249526
+    },
+    {
+      "name": "_warn_ignored_distance@4",
+      "start": 337568,
+      "end": 337597
+    },
+    {
+      "name": "_finish_parameter_scope",
+      "start": 222976,
+      "end": 223041
+    },
+    {
+      "name": "_attach_plain_function_parameters@8",
+      "start": 216464,
+      "end": 216566
+    },
+    {
+      "name": "_build_function_declarator@8",
+      "start": 216656,
+      "end": 216694
+    },
+    {
+      "name": "_add_function_shape@12",
+      "start": 403856,
+      "end": 403857
     }
   ],
   "cases": {
@@ -1059,6 +1283,155 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "kind": "state",
+      "name": "_active_input",
+      "original": 645096,
+      "fields": [
+        {
+          "name": "_active_input",
+          "original": 645096,
+          "bytes": 4
+        },
+        {
+          "name": "_root_input",
+          "original": 645100,
+          "bytes": 4
+        },
+        {
+          "name": "_free_inputs",
+          "original": 645104,
+          "bytes": 4
+        },
+        {
+          "name": "_source_handle",
+          "original": 645112,
+          "bytes": 4
+        },
+        {
+          "name": "_include_depth",
+          "original": 645108,
+          "bytes": 2
+        },
+        {
+          "name": "_source_storage",
+          "original": 596204,
+          "bytes": 12297
+        },
+        {
+          "name": "_source_text_cursor",
+          "original": 573772,
+          "bytes": 4
+        },
+        {
+          "name": "_source_line_number",
+          "original": 576664,
+          "bytes": 4
+        },
+        {
+          "name": "_include_pragma_state",
+          "original": 654280,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_expansion_active",
+          "original": 596096,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_saved_input_cursor",
+          "original": 612256,
+          "bytes": 4
+        },
+        {
+          "name": "_browser_file_cookie",
+          "original": 609040,
+          "bytes": 4
+        },
+        {
+          "name": "_browser_saved_position",
+          "original": 664380,
+          "bytes": 4
+        },
+        {
+          "name": "_browser_file",
+          "original": 585720,
+          "bytes": 4
+        },
+        {
+          "name": "_final_newline_emitted",
+          "original": 648520,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_builtin_operators",
+      "original": 687216,
+      "kind": "bytes",
+      "bytes": 1160
+    },
+    {
+      "kind": "tokens",
+      "name": "_token_spellings",
+      "original": 660940,
+      "count": 213
+    },
+    {
+      "kind": "state",
+      "name": "_declaration_mode",
+      "original": 573756,
+      "fields": [
+        {
+          "name": "_declaration_mode",
+          "original": 573756,
+          "bytes": 1
+        },
+        {
+          "name": "_global_record_kind",
+          "original": 594780,
+          "bytes": 1
+        },
+        {
+          "name": "_declaration_storage",
+          "original": 574460,
+          "bytes": 3
+        },
+        {
+          "name": "_declaration_kind",
+          "original": 595280,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_deferred_declarations",
+      "original": 594892,
+      "fields": [
+        {
+          "name": "_deferred_declarations",
+          "original": 594892,
+          "bytes": 240
+        },
+        {
+          "name": "_current_class_context",
+          "original": 654312,
+          "bytes": 4
+        },
+        {
+          "name": "_allow_incomplete_class",
+          "original": 654464,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_cpp_parser_flags",
+      "original": 653204,
+      "kind": "bytes",
+      "bytes": 4
     }
   ],
   "buffered_streams": [

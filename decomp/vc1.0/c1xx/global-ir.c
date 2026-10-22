@@ -102,7 +102,7 @@ void __stdcall write_global_record(unsigned tag, CppSymbol *symbol)
         if (array_type && tag == 1)
             tag = 2;
         if (shape && (shape->flags & 0x77) == 4) {
-            if (symbol->cpp_flags & 0x800000)
+            if (symbol->cpp.flags & 0x800000)
                 inner_type = make_class_pointer_type(
                     cpp_context_stack->items[type->field08], 0);
             else if (symbol->declaration_flags & 0x1000) {
@@ -162,7 +162,7 @@ formats:
             flags = (symbol->attributes & 0x8000) && kind != 6 && kind != 7 ? 0x80 : 0;
             if (kind == 6 || kind == 7) {
                 if (symbol->attributes & 0x200) flags |= 0x100;
-                if (symbol->cpp_flags & 0x6000000) flags |= 0x400;
+                if (symbol->cpp.flags & 0x6000000) flags |= 0x400;
                 if (symbol->storage[2] & 1) flags |= 0x400;
             }
             if (symbol->references) {
@@ -189,8 +189,8 @@ formats:
                 }
             }
             if (kind == 6 || kind == 7) {
-                if ((symbol->attributes & 0x1000) && !(symbol->cpp_flags & 0x6000000)) flags |= 0x8000;
-                if ((symbol->attributes & 0x100) && !(symbol->cpp_flags & 0x6000000)) flags |= 0x1000;
+                if ((symbol->attributes & 0x1000) && !(symbol->cpp.flags & 0x6000000)) flags |= 0x8000;
+                if ((symbol->attributes & 0x100) && !(symbol->cpp.flags & 0x6000000)) flags |= 0x1000;
             }
             if (attributes & 0x200) flags |= 0x80;
             if ((symbol->storage[2] & 2) && kind != 7) flags |= 0x1000;
@@ -396,7 +396,7 @@ formats:
             break;
         case GF_OPTIMIZATION:
             code = ((symbol->attributes & 0x8000) ? 4 : 0) |
-                (((symbol->storage[1] & 1) || (symbol->cpp_flags & 0x6000000)) ? 0x80 : 0) |
+                (((symbol->storage[1] & 1) || (symbol->cpp.flags & 0x6000000)) ? 0x80 : 0) |
                 (function_call_seen ? 8 : 0) | (hidden_frame_enabled ? 1 : 0) |
                 (function_ir.no_inline ? 0x20 : 0);
             no_inline = attributes & 0x800;

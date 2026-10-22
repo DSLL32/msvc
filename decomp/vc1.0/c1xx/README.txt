@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 147 accepted paired frontiers, including 74 frontend
-functions and six older CRT routines. C++ builtin types, signatures, linkage,
-initial scopes, predefined macros, command-line macro definitions and the complete
-global-record writer are reconstructed. The next matching trap is
-_open_source_file@8 at original VA 0x1e480. All 147 frontiers replay successfully;
-the expression stream begins
-with the exact six bytes 5b8034030000. The complete frontend case is not yet
-reconstructed or claimed equivalent.
+PARTIAL reconstruction: 166 accepted paired frontiers, including 91 frontend
+functions and six older CRT routines. The frontend now reads cpp-basic.cpp,
+initializes builtin operator candidates and starts declaring their function
+signatures. The complete global-record writer and declaration storage/type
+normalizer are reconstructed. The next matching trap is _add_function_shape@12
+at original VA 0x62990. All 166 frontiers replay successfully; the expression
+stream begins with the exact six bytes 5b8034030000. The complete frontend case
+is not yet reconstructed or claimed equivalent.
 
 Build and check the current frontier using the original toolchain:
 
@@ -59,7 +59,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-global.log.
+The current full ordered replay is recorded in evidence/replay-declarations.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -82,3 +82,19 @@ symbol-index operands and the current-function symbol use CppSymbol. The
 initial pending global-header bytes match as 1186032e1d30016400000000.
 This header contains the initial symbol count and is rewritten at completion;
 it is not assumed to be a prefix of the completed fixture.
+
+SourceFile models the 52-byte input-stack entry, with guarded overlapping input
+windows and include-parent seek logic. Fifteen input defaults are checked,
+including the initial UINT_MAX include-pragma state. Operator initialization
+uses 57 contextual builtin candidates and 213 scanner token-spelling slots;
+both tables are audited against their original records. A declaration retains
+its storage bytes, mutable type descriptor, source-order link and reverse
+circular parameter link. Its transient qualified-name link has a separate
+encountered prefix. ClassInfo likewise records only the encountered prefix.
+
+The declaration-mode cache and IR stream selector share one original byte and
+one reconstructed object. State audits compare address aliases byte by byte as
+well as initial values, catching equal-valued objects that would split original
+state. The declaration normalizer retains all storage, class-member, linkage,
+qualification and diagnostic branches, with named traps for its unreconstructed
+callees. Compiler diagnostics retain the original variadic arguments.

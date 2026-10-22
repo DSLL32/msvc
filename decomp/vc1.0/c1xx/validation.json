@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 147,
-  "driver_functions": 74,
+  "accepted_frontiers": 166,
+  "driver_functions": 91,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 80,
-  "current_frontier": "_open_source_file@8",
-  "original_frontier_va": "0x1e480",
+  "reconstructed_source_functions": 97,
+  "current_frontier": "_add_function_shape@12",
+  "original_frontier_va": "0x62990",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "61be9d39cd88f16e76e78978ae53fa217640061001cbd9b59956b2f2ac219239",
-  "call_graph_audit_functions": 80,
+  "replay_log_sha256": "9d9ed918d0bf09e167c2aeca535669f1d86617d875b97cd20c6c3ee152a57329",
+  "call_graph_audit_functions": 97,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -21,7 +21,13 @@
     "crt_month_offsets": 13,
     "global_record_schemas": 19,
     "global_state_defaults": 16,
-    "initial_symbol_index": 100
+    "initial_symbol_index": 100,
+    "input_state_defaults": 15,
+    "builtin_operator_candidates": 57,
+    "token_spelling_slots": 213,
+    "declaration_state_defaults": 4,
+    "normalizer_state_defaults": 3,
+    "cpp_parser_flag_bytes": 4
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -49,8 +55,9 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-global.log",
+  "replay_log": "evidence/replay-declarations.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
-  "pending_global_header": "1186032e1d30016400000000"
+  "pending_global_header": "1186032e1d30016400000000",
+  "state_address_aliases_checked": true
 }

@@ -1,0 +1,321 @@
+frontier 0/160: _mainCRTStartup
+original: _mainCRTStartup; reconstruction: _mainCRTStartup
+frontier 1/160: import:GetCommandLineA
+original: import:GetCommandLineA; reconstruction: import:GetCommandLineA
+frontier 2/160: import:GetEnvironmentStrings
+original: import:GetEnvironmentStrings; reconstruction: import:GetEnvironmentStrings
+frontier 3/160: import:GetVersion
+original: import:GetVersion; reconstruction: import:GetVersion
+frontier 4/160: __heap_init
+original: __heap_init; reconstruction: __heap_init
+frontier 5/160: __ioinit
+original: __ioinit; reconstruction: __ioinit
+frontier 6/160: import:GetStartupInfoA
+original: import:GetStartupInfoA; reconstruction: import:GetStartupInfoA
+frontier 7/160: import:GetStdHandle
+original: import:GetStdHandle; reconstruction: import:GetStdHandle
+frontier 8/160: import:GetFileType
+original: import:GetFileType; reconstruction: import:GetFileType
+frontier 9/160: __setargv
+original: __setargv; reconstruction: __setargv
+frontier 10/160: import:GetModuleFileNameA
+original: import:GetModuleFileNameA; reconstruction: import:GetModuleFileNameA
+frontier 11/160: _parse_cmdline
+original: _parse_cmdline; reconstruction: _parse_cmdline
+frontier 12/160: _malloc
+original: _malloc; reconstruction: _malloc
+frontier 13/160: __heap_search
+original: __heap_search; reconstruction: __heap_search
+frontier 14/160: __heap_grow
+original: __heap_grow; reconstruction: __heap_grow
+frontier 15/160: __heap_new_region
+original: __heap_new_region; reconstruction: __heap_new_region
+frontier 16/160: import:VirtualAlloc
+original: import:VirtualAlloc; reconstruction: import:VirtualAlloc
+frontier 17/160: __heap_grow_region
+original: __heap_grow_region; reconstruction: __heap_grow_region
+frontier 18/160: __heap_addblock
+original: __heap_addblock; reconstruction: __heap_addblock
+frontier 19/160: __heap_findaddr
+original: __heap_findaddr; reconstruction: __heap_findaddr
+frontier 20/160: __heap_grow_emptylist
+original: __heap_grow_emptylist; reconstruction: __heap_grow_emptylist
+frontier 21/160: __before
+original: __before; reconstruction: __before
+frontier 22/160: __heap_split_block
+original: __heap_split_block; reconstruction: __heap_split_block
+frontier 23/160: __setenvp
+original: __setenvp; reconstruction: __setenvp
+frontier 24/160: __cinit
+original: __cinit; reconstruction: __cinit
+frontier 25/160: __initterm
+original: __initterm; reconstruction: __initterm
+frontier 26/160: _main
+original: _main; reconstruction: _main
+frontier 27/160: _signal
+original: _signal; reconstruction: _signal
+frontier 28/160: import:SetConsoleCtrlHandler
+original: import:SetConsoleCtrlHandler; reconstruction: import:SetConsoleCtrlHandler
+frontier 29/160: _message_text
+original: _message_text; reconstruction: _message_text
+frontier 30/160: _parse_options
+original: _parse_options; reconstruction: _parse_options
+frontier 31/160: _push_linkage@4
+original: _push_linkage@4; reconstruction: _push_linkage@4
+frontier 32/160: _initialize_packing
+original: _initialize_packing; reconstruction: _initialize_packing
+frontier 33/160: _new_packing_stack
+original: _new_packing_stack; reconstruction: _new_packing_stack
+frontier 34/160: _allocate_permanent@4
+original: _allocate_permanent@4; reconstruction: _allocate_permanent@4
+frontier 35/160: _new_permanent_page
+original: _new_permanent_page; reconstruction: _new_permanent_page
+frontier 36/160: _new_bitset@4
+original: _new_bitset@4; reconstruction: _new_bitset@4
+frontier 37/160: _push_packing
+original: _push_packing; reconstruction: _push_packing
+frontier 38/160: _initialize_checksums
+original: _initialize_checksums; reconstruction: _initialize_checksums
+frontier 39/160: _initialize_lead_bytes
+original: _initialize_lead_bytes; reconstruction: _initialize_lead_bytes
+frontier 40/160: import:GetConsoleCP
+original: import:GetConsoleCP; reconstruction: import:GetConsoleCP
+frontier 41/160: import:GetCPInfo
+original: import:GetCPInfo; reconstruction: import:GetCPInfo
+frontier 42/160: _mark_lead_byte_ranges
+original: _mark_lead_byte_ranges; reconstruction: _mark_lead_byte_ranges
+frontier 43/160: _getenv
+original: _getenv; reconstruction: _getenv
+frontier 44/160: __strnicmp
+original: __strnicmp; reconstruction: __strnicmp
+frontier 45/160: _read_env_arguments
+original: _read_env_arguments; reconstruction: _read_env_arguments
+frontier 46/160: _extend_argument_vector
+original: _extend_argument_vector; reconstruction: _extend_argument_vector
+frontier 47/160: _checked_malloc@4
+original: _checked_malloc@4; reconstruction: _checked_malloc@4
+frontier 48/160: _new_vector@8
+original: _new_vector@8; reconstruction: _new_vector@8
+frontier 49/160: _refill_arena@8
+original: _refill_arena@8; reconstruction: _refill_arena@8
+frontier 50/160: _next_argument
+original: _next_argument; reconstruction: _next_argument
+frontier 51/160: _match_option
+original: _match_option; reconstruction: _match_option
+frontier 52/160: _prefix_character
+original: _prefix_character; reconstruction: _prefix_character
+frontier 53/160: _apply_option
+original: _apply_option; reconstruction: _apply_option
+frontier 54/160: _parse_option_number
+original: _parse_option_number; reconstruction: _parse_option_number
+frontier 55/160: _atol
+original: _atol; reconstruction: _atol
+frontier 56/160: _match_option_suffix
+original: _match_option_suffix; reconstruction: _match_option_suffix
+frontier 57/160: _append_vector@8
+original: _append_vector@8; reconstruction: _append_vector@8
+frontier 58/160: __fullpath
+original: __fullpath; reconstruction: __fullpath
+frontier 59/160: __getdcwd
+original: __getdcwd; reconstruction: __getdcwd
+frontier 60/160: import:GetCurrentDirectoryA
+original: import:GetCurrentDirectoryA; reconstruction: import:GetCurrentDirectoryA
+frontier 61/160: _finalize_options
+original: _finalize_options; reconstruction: _finalize_options
+frontier 62/160: _free
+original: _free; reconstruction: _free
+frontier 63/160: _guarded_compile
+original: _guarded_compile; reconstruction: _guarded_compile
+frontier 64/160: _compile_translation_unit
+original: _compile_translation_unit; reconstruction: _compile_translation_unit
+frontier 65/160: _initialize_frontend
+original: _initialize_frontend; reconstruction: _initialize_frontend
+frontier 66/160: import:SetHandleCount
+original: import:SetHandleCount; reconstruction: import:SetHandleCount
+frontier 67/160: _initialize_work_stack@4
+original: _initialize_work_stack@4; reconstruction: _initialize_work_stack@4
+frontier 68/160: _reset_work_stack@4
+original: _reset_work_stack@4; reconstruction: _reset_work_stack@4
+frontier 69/160: _initialize_preprocessor
+original: _initialize_preprocessor; reconstruction: _initialize_preprocessor
+frontier 70/160: _initialize_macro_text
+original: _initialize_macro_text; reconstruction: _initialize_macro_text
+frontier 71/160: _initialize_keyword_table
+original: _initialize_keyword_table; reconstruction: _initialize_keyword_table
+frontier 72/160: _intern_keyword@4
+original: _intern_keyword@4; reconstruction: _intern_keyword@4
+frontier 73/160: _strncmp
+original: _strncmp; reconstruction: _strncmp
+frontier 74/160: _initialize_floating_point
+original: _initialize_floating_point; reconstruction: _initialize_floating_point
+frontier 75/160: __control87
+original: __control87; reconstruction: __control87
+frontier 76/160: __abstract_cw
+original: __abstract_cw; reconstruction: __abstract_cw
+frontier 77/160: __hw_cw
+original: __hw_cw; reconstruction: __hw_cw
+frontier 78/160: _top_packing
+original: _top_packing; reconstruction: _top_packing
+frontier 79/160: _disable_keyword@4
+original: _disable_keyword@4; reconstruction: _disable_keyword@4
+frontier 80/160: _intern_identifier@4
+original: _intern_identifier@4; reconstruction: _intern_identifier@4
+frontier 81/160: _initialize_cpp_context_stack
+original: _initialize_cpp_context_stack; reconstruction: _initialize_cpp_context_stack
+frontier 82/160: _new_inline_vector
+original: _new_inline_vector; reconstruction: _new_inline_vector
+frontier 83/160: _inline_vector_bytes
+original: _inline_vector_bytes; reconstruction: _inline_vector_bytes
+frontier 84/160: _open_intermediate
+original: _open_intermediate; reconstruction: _open_intermediate
+frontier 85/160: _fopen
+original: _fopen; reconstruction: _fopen
+frontier 86/160: __fsopen
+original: __fsopen; reconstruction: __fsopen
+frontier 87/160: __getstream
+original: __getstream; reconstruction: __getstream
+frontier 88/160: __openfile
+original: __openfile; reconstruction: __openfile
+frontier 89/160: __sopen
+original: __sopen; reconstruction: __sopen
+frontier 90/160: __alloc_osfhnd
+original: __alloc_osfhnd; reconstruction: __alloc_osfhnd
+frontier 91/160: import:CreateFileA
+original: import:CreateFileA; reconstruction: import:CreateFileA
+frontier 92/160: __set_osfhnd
+original: __set_osfhnd; reconstruction: __set_osfhnd
+frontier 93/160: _setvbuf
+original: _setvbuf; reconstruction: _setvbuf
+frontier 94/160: __flush
+original: __flush; reconstruction: __flush
+frontier 95/160: __freebuf
+original: __freebuf; reconstruction: __freebuf
+frontier 96/160: _open_expression_intermediate
+original: _open_expression_intermediate; reconstruction: _open_expression_intermediate
+frontier 97/160: _make_integer_constant@4
+original: _make_integer_constant@4; reconstruction: _make_integer_constant@4
+frontier 98/160: _new_integer_constant@4
+original: _new_integer_constant@4; reconstruction: _new_integer_constant@4
+frontier 99/160: _write_ir_record@8
+original: _write_ir_record@8; reconstruction: _write_ir_record@8
+frontier 100/160: __flsbuf
+original: __flsbuf; reconstruction: __flsbuf
+frontier 101/160: _fseek
+original: _fseek; reconstruction: _fseek
+frontier 102/160: __write
+original: __write; reconstruction: __write
+frontier 103/160: import:WriteFile
+original: import:WriteFile; reconstruction: import:WriteFile
+frontier 104/160: __lseek
+original: __lseek; reconstruction: __lseek
+frontier 105/160: __get_osfhandle
+original: __get_osfhandle; reconstruction: __get_osfhandle
+frontier 106/160: import:SetFilePointer
+original: import:SetFilePointer; reconstruction: import:SetFilePointer
+frontier 107/160: _fputc
+original: _fputc; reconstruction: _fputc
+frontier 108/160: _initialize_type_table
+original: _initialize_type_table; reconstruction: _initialize_type_table
+frontier 109/160: _initialize_global_scope
+original: _initialize_global_scope; reconstruction: _initialize_global_scope
+frontier 110/160: _initialize_declaration_table
+original: _initialize_declaration_table; reconstruction: _initialize_declaration_table
+frontier 111/160: _new_hash_table@16
+original: _new_hash_table@16; reconstruction: _new_hash_table@16
+frontier 112/160: _intern_type@4
+original: _intern_type@4; reconstruction: _intern_type@4
+frontier 113/160: _make_function_type@8
+original: _make_function_type@8; reconstruction: _make_function_type@8
+frontier 114/160: _normalize_type_attributes@8
+original: _normalize_type_attributes@8; reconstruction: _normalize_type_attributes@8
+frontier 115/160: _new_type_shape@12
+original: _new_type_shape@12; reconstruction: _new_type_shape@12
+frontier 116/160: _build_parameter_info@8
+original: _build_parameter_info@8; reconstruction: _build_parameter_info@8
+frontier 117/160: _void_parameter_list
+original: _void_parameter_list; reconstruction: _void_parameter_list
+frontier 118/160: _intern_function_parameters@4
+original: _intern_function_parameters@4; reconstruction: _intern_function_parameters@4
+frontier 119/160: _intern_type_shape@4
+original: _intern_type_shape@4; reconstruction: _intern_type_shape@4
+frontier 120/160: _make_tagged_type@4
+original: _make_tagged_type@4; reconstruction: _make_tagged_type@4
+frontier 121/160: _make_qualified_type@16
+original: _make_qualified_type@16; reconstruction: _make_qualified_type@16
+frontier 122/160: _copy_type_description@4
+original: _copy_type_description@4; reconstruction: _copy_type_description@4
+frontier 123/160: _initialize_intermediate_output
+original: _initialize_intermediate_output; reconstruction: _initialize_intermediate_output
+frontier 124/160: _initialize_translation_state
+original: _initialize_translation_state; reconstruction: _initialize_translation_state
+frontier 125/160: _define_command_line_macros@4
+original: _define_command_line_macros@4; reconstruction: _define_command_line_macros@4
+frontier 126/160: _frontend_time@4
+original: _frontend_time@4; reconstruction: _frontend_time@4
+frontier 127/160: _time
+original: _time; reconstruction: _time
+frontier 128/160: import:GetSystemTime
+original: import:GetSystemTime; reconstruction: import:GetSystemTime
+frontier 129/160: ___gmtotime_t
+original: ___gmtotime_t; reconstruction: ___gmtotime_t
+frontier 130/160: _format_timestamp@4
+original: _format_timestamp@4; reconstruction: _format_timestamp@4
+frontier 131/160: _ctime
+original: _ctime; reconstruction: _ctime
+frontier 132/160: _localtime
+original: _localtime; reconstruction: _localtime
+frontier 133/160: ___tzset
+original: ___tzset; reconstruction: ___tzset
+frontier 134/160: _gmtime
+original: _gmtime; reconstruction: _gmtime
+frontier 135/160: __isindst
+original: __isindst; reconstruction: __isindst
+frontier 136/160: _asctime
+original: _asctime; reconstruction: _asctime
+frontier 137/160: _store_dt
+original: _store_dt; reconstruction: _store_dt
+frontier 138/160: _initialize_macro_storage
+original: _initialize_macro_storage; reconstruction: _initialize_macro_storage
+frontier 139/160: _define_macro@12
+original: _define_macro@12; reconstruction: _define_macro@12
+frontier 140/160: _lookup_macro
+original: _lookup_macro; reconstruction: _lookup_macro
+frontier 141/160: _define_command_line_macro@4
+original: _define_command_line_macro@4; reconstruction: _define_command_line_macro@4
+frontier 142/160: _copy_arena_bytes@12
+original: _copy_arena_bytes@12; reconstruction: _copy_arena_bytes@12
+frontier 143/160: _write_global_header
+original: _write_global_header; reconstruction: _write_global_header
+frontier 144/160: _rewind
+original: _rewind; reconstruction: _rewind
+frontier 145/160: _write_global_record@8
+original: _write_global_record@8; reconstruction: _write_global_record@8
+frontier 146/160: _fwrite
+original: _fwrite; reconstruction: _fwrite
+frontier 147/160: _open_source_file@8
+original: _open_source_file@8; reconstruction: _open_source_file@8
+frontier 148/160: _open_input_handle@4
+original: _open_input_handle@4; reconstruction: _open_input_handle@4
+frontier 149/160: _normalize_input_name
+original: _normalize_input_name; reconstruction: _normalize_input_name
+frontier 150/160: _fill_source_buffer
+original: _fill_source_buffer; reconstruction: _fill_source_buffer
+frontier 151/160: __read
+original: __read; reconstruction: __read
+frontier 152/160: import:ReadFile
+original: import:ReadFile; reconstruction: import:ReadFile
+frontier 153/160: _initialize_operators
+original: _initialize_operators; reconstruction: _initialize_operators
+frontier 154/160: _intern_operator_name@4
+original: _intern_operator_name@4; reconstruction: _intern_operator_name@4
+frontier 155/160: _initialize_allocation_operators
+original: _initialize_allocation_operators; reconstruction: _initialize_allocation_operators
+frontier 156/160: _declare_operator_new@4
+original: _declare_operator_new@4; reconstruction: _declare_operator_new@4
+frontier 157/160: _save_declaration_context@8
+original: _save_declaration_context@8; reconstruction: _save_declaration_context@8
+frontier 158/160: _new_declarator@4
+original: _new_declarator@4; reconstruction: _new_declarator@4
+frontier 159/160: _add_declaration_parameter@16
+original: _add_declaration_parameter@16; reconstruction: _add_declaration_parameter@16
+original: _normalize_symbol_type@8; reconstruction: _normalize_symbol_type@8

@@ -16,6 +16,7 @@ typedef char IrTokenSizeMustBe20[(sizeof(IrToken) == 20) ? 1 : -1];
 
 typedef struct CppSymbol CppSymbol;
 extern unsigned initial_option_flags, token_allocation_flags;
+extern unsigned cpp_parser_flags;
 extern CompilerConfiguration saved_configuration;
 extern int version_directive_emitted, error_count;
 extern CppSymbol *current_function;

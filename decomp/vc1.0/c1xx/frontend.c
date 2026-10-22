@@ -3,6 +3,7 @@
 #include "frontend.h"
 
 unsigned initial_option_flags, token_allocation_flags;
+unsigned cpp_parser_flags; /* original 0x9f794 */
 CompilerConfiguration saved_configuration;
 int version_directive_emitted, error_count;
 CppSymbol *current_function;

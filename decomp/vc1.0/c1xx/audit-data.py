@@ -4,6 +4,7 @@ from compare import indexes, publics
 
 original, rebuilt, cfg, _, _ = indexes()
 names = publics()
+state_addresses, state_reverse_addresses = {}, {}
 
 
 def read(pe, address, size):
@@ -115,10 +116,21 @@ for table in cfg.get('tables', []):
         print('%d CRT string defaults and identities match the original.' % table['count'])
     elif kind == 'state':
         for field in table['fields']:
+            for offset in range(field['bytes']):
+                a, b = field['original'] + offset, names[field['name']] + offset
+                assert state_addresses.setdefault(a, b) == b, 'shared frontend state was split: '+field['name']
+                assert state_reverse_addresses.setdefault(b, a) == a, 'distinct frontend state was merged: '+field['name']
             assert read(original, field['original'], field['bytes']) == \
                    read(rebuilt, names[field['name']], field['bytes']), \
                 'initial frontend state differs: '+field['name']
         print('%d shared frontend state defaults match the original.' % len(table['fields']))
+    elif kind == 'tokens':
+        for index in range(table['count']):
+            a, b = word(original, old+index*4), word(rebuilt, new+index*4)
+            assert bool(a) == bool(b), 'token spelling nullness differs'
+            if a:
+                assert original.string(a) == rebuilt.string(b), 'token spelling differs: %d' % index
+        print('%d token spelling slots match the original.' % table['count'])
     elif kind == 'schemas':
         for index in range(table['count']):
             a = word(original, old + index*table['original_stride'])

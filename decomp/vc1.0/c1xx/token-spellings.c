@@ -1,0 +1,38 @@
+/* Scanner token vocabulary, also used for builtin operator-name interning.
+   Original pointer table 0xa15cc..0xa1920. Null entries are reserved tokens. */
+#include "operators.h"
+char *token_spellings[213] = {
+    0, "newline", "identifier", "string", "float constant", "double constant",
+    "long double constant", "int constant", "long constant", "unsigned int constant",
+    "unsigned long constant", "auto", "static", "extern", "register", "typedef",
+    "friend", "inline", "virtual", "char", "int", "float", "double", "short",
+    "long", "void", "__segment", "__segname", "signed", "unsigned", "class",
+    "enum", "struct", "union", "<type name>", "<type>", "<storage class>",
+    "<storage modifier>", "<class-head>", "enum [tag]", "type", "fortran", "pascal",
+    "cdecl", "__fastcall", "__syscall", "interrupt", "saveregs", "loadds", "export",
+    "__asm", "__based", "near", "far", "__far16", "huge", "const", "volatile",
+    "&", "&&", "&=", "=", "bit field", ":", ",", "--", "/", "/=", "==", "!", "*",
+    ">", ">=", "++", "[", "<<=", "<<", "<", "<=", "-", "-=", "%", "%=", "*", "*=",
+    "!=", "|", "|=", "||", ".", "+", "+=", "->", "--", "++", "?", ">>=", ">>", "~",
+    "-", "^", "^=", "__segment", "based reference", ":>", "deseg", "argument",
+    "assignment operator", "break", "case", "cast", "constant", "continue", "default",
+    "division operator", "do", "...", "else", "entry", "end of file",
+    "equality operator", "for", "function", "goto", "if", "increment operator",
+    "initializing", "{", "(", "intrinsic", "modifier", "__oldcall", "]", "}",
+    "relational operator", "return", ")", "__self", ";", "shift operator", "sizeof",
+    "__stdcall", "struct/union operator", "switch", 0, "+", "while",
+    "internal compiler token", "private", "protected", "public", "new", "delete",
+    "operator <op>", "user-defined conversion", "this", "<access specifier>", ".*",
+    "->*", ".*|->*", "::", "tag::id", "operator", "simple-type-name(<...>)",
+    "<member function>", "<virtual function>", "<constructor>", "<allocate temp>",
+    "<thunkx>", "<ptradd>", "<tag>::*", "*", "&", "modifier", "const", "volatile",
+    "__based", "*", "__try", "__except", "__finally", ".candidate", "const/volatile",
+    "__nctag", "symbol", "__novtordisp", "asm", "catch", "template", "throw", "try",
+    "__resume", "__nounwind", "__builtin_alignof", "__leave", "<DefArgString>",
+    "inheritance-specifier", "__single_inheritance", "__multiple_inheritance",
+    "__virtual_inheritance", "Base/member initializer destructor list",
+    "List of destructors in default arg tree", "List of keys in default arg tree",
+    "__sysapi", "__thiscall", "__declspec", "__unaligned", "__unaligned",
+    "Template Class-Name Identifier", "Template Class-Name Delimitter",
+    "alignment notifier", 0, 0
+};
