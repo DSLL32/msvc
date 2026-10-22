@@ -684,7 +684,14 @@
     "_relocate_pch_pages",
     "_write_pch_pages",
     "_restore_pch_pointers",
-    "_fclose"
+    "_fclose",
+    "_load_precompiled_header",
+    "_browser_include_begin",
+    "_read_pch_file",
+    "_restore_pch_state",
+    "_extract_pch_intermediates",
+    "_unpack_option_flags",
+    "_read_pch_pages"
   ],
   "driver": [
     {
@@ -901,7 +908,7 @@
     {
       "name": "_load_precompiled_header",
       "start": 130464,
-      "end": 130465
+      "end": 130792
     },
     {
       "name": "_open_include_file@8",
@@ -3035,7 +3042,7 @@
     {
       "name": "_unpack_option_flags",
       "start": 311056,
-      "end": 311057
+      "end": 311099
     },
     {
       "name": "_set_warning_level@8",
@@ -4617,6 +4624,46 @@
       "name": "_mark_pch_vector@8",
       "start": 279744,
       "end": 279828
+    },
+    {
+      "name": "_read_pch_file",
+      "start": 286352,
+      "end": 287460
+    },
+    {
+      "name": "_restore_pch_state",
+      "start": 285504,
+      "end": 286337
+    },
+    {
+      "name": "_extract_pch_intermediates",
+      "start": 291424,
+      "end": 291888
+    },
+    {
+      "name": "_read_pch_pages",
+      "start": 281808,
+      "end": 282026
+    },
+    {
+      "name": "_restore_pch_browser_name@4",
+      "start": 161344,
+      "end": 161345
+    },
+    {
+      "name": "_restore_pch_debug_state@4",
+      "start": 294000,
+      "end": 294001
+    },
+    {
+      "name": "_reference_pch_debug_library@4",
+      "start": 297616,
+      "end": 297617
+    },
+    {
+      "name": "_restore_pch_separate_debug",
+      "start": 291888,
+      "end": 291889
     }
   ],
   "cases": {
@@ -4648,7 +4695,7 @@
     "pch-use": {
       "arguments": "",
       "accepted_from": 680,
-      "accepted_count": 680
+      "accepted_count": 687
     }
   },
   "buffered_streams": [

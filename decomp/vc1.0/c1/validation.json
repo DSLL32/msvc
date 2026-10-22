@@ -1,0 +1,147 @@
+{
+  "status": "complete",
+  "case_order": [
+    "minimal",
+    "hello-win32",
+    "hello-dll",
+    "numeric-varargs",
+    "pch-create",
+    "pch-use"
+  ],
+  "source_functions": 585,
+  "accepted_frontiers": 687,
+  "clean_build": "Original MSVC 1.0-nt CL/LINK through Wine; make clean followed by make -j2 check CASE=pch-use.",
+  "replay_method": "Fresh paired process starts at every recorded historical frontier; frozen implementation, binaries and fixture content hashes checked unchanged after each history. No continuous-replay/default change.",
+  "frontier_counts": {
+    "minimal": 258,
+    "hello-win32": 251,
+    "hello-dll": 1,
+    "numeric-varargs": 123,
+    "pch-create": 47,
+    "pch-use": 7
+  },
+  "replay_receipts": [
+    {
+      "case": "minimal",
+      "passed": true,
+      "seconds": 224.99273531604558,
+      "log": "/root/.ai-tmp/vc1.0-c1/pch/final-replay-minimal.log"
+    },
+    {
+      "case": "hello-win32",
+      "passed": true,
+      "seconds": 221.73287279717624,
+      "log": "/root/.ai-tmp/vc1.0-c1/pch/final-replay-hello-win32.log"
+    },
+    {
+      "case": "hello-dll",
+      "passed": true,
+      "seconds": 3.874551258981228,
+      "log": "/root/.ai-tmp/vc1.0-c1/pch/final-replay-hello-dll.log"
+    },
+    {
+      "case": "numeric-varargs",
+      "passed": true,
+      "seconds": 115.12444650474936,
+      "log": "/root/.ai-tmp/vc1.0-c1/pch/final-replay-numeric-varargs.log"
+    },
+    {
+      "case": "pch-create",
+      "passed": true,
+      "seconds": 51.70676984358579,
+      "log": "/root/.ai-tmp/vc1.0-c1/pch/final-replay-pch-create.log"
+    },
+    {
+      "case": "pch-use",
+      "passed": true,
+      "seconds": 14.663784748874605,
+      "log": "/root/.ai-tmp/vc1.0-c1/pch/final-replay-pch-use.log"
+    }
+  ],
+  "final_artifacts": "All six match independent untouched-original runs and immutable expected artifacts. All raw except numeric irdb+14/PDB+48 timestamp DWORDs with required within-run raw equality before normalization. PCH has no ignored fields.",
+  "generated_dependency": "Three independent canonical namespaces; actual producer state.pch verified raw and used by matching consumer.",
+  "program_verification": [
+    {
+      "phase": "pch-create",
+      "backend_exit": 0,
+      "backend_streams_empty": true
+    },
+    {
+      "phase": "pch-use",
+      "backend_exit": 0,
+      "backend_streams_empty": true
+    },
+    {
+      "link_exit": 0,
+      "program_exit": 0,
+      "streams_empty": true,
+      "actual_reconstructed_PCH_and_IR": true
+    }
+  ],
+  "original_fixture_verification": [
+    {
+      "run": 0,
+      "phase": "c1-create",
+      "exit": 0,
+      "complete_file_set_exact": true,
+      "all_outputs_raw_exact": true
+    },
+    {
+      "run": 0,
+      "phase": "c1-use",
+      "exit": 0,
+      "complete_file_set_exact": true,
+      "all_outputs_raw_exact": true
+    },
+    {
+      "run": 1,
+      "phase": "c1-create",
+      "exit": 0,
+      "complete_file_set_exact": true,
+      "all_outputs_raw_exact": true
+    },
+    {
+      "run": 1,
+      "phase": "c1-use",
+      "exit": 0,
+      "complete_file_set_exact": true,
+      "all_outputs_raw_exact": true
+    }
+  ],
+  "manifest_hash_entries_verified": 84,
+  "audits": {
+    "source_graphs_and_instruction_boundaries": 585,
+    "state_defaults_aliases": 220,
+    "PCH_root_identities": 105,
+    "PCH_graph_callbacks": 12,
+    "shape_cache_entries": 21,
+    "grammar_states": 376,
+    "grammar_actions_timings": 57904,
+    "grammar_productions": 227,
+    "grammar_gotos": 34216
+  },
+  "coverage": {
+    "accepted_union_bytes": 187540,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 170410,
+      "CRT": 17004,
+      "import_thunks": 126
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 67.64682542545286,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "remaining_original_code_bytes": 89694,
+  "remaining_named_source_entries": 196,
+  "remaining_frontend_byte_limitation": "Most unreached named entries intentionally retain one-byte trap extents; no reliable frontend-only remaining byte total is claimed.",
+  "next_case_suggestions": [
+    "A /Fr source-browser case with header macros, type definitions and symbol references.",
+    "A small __try/__except and __try/__finally case, including __leave."
+  ],
+  "binary_sha256": {
+    "c1.exe": "f0e7638237de143b504c1289b703a5d6aa52d55d617eedf6f1da03726712f887",
+    "debug-run.exe": "89893c0bf49d6b3972514fd6923014cd1b34ff864bb829e34010c4f6f1ab57fc"
+  },
+  "target_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063"
+}

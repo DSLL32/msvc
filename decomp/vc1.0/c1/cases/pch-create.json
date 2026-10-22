@@ -2,10 +2,9 @@
   "case": "../fixtures/pch/manifest.json phases.c1-create",
   "status": "complete",
   "after": "numeric-varargs",
-  "requested_driver_case": "/nologo /c /Od /W3 /Ycpch.h /Fpstate.pch producer.c",
   "accepted_from": 633,
   "accepted_frontiers": 680,
-  "reconstructed_source_functions": 578,
+  "reconstructed_source_functions": 585,
   "current_matching_trap": null,
   "outputs": [
     {
@@ -39,11 +38,19 @@
       "output_name": "state.pch"
     }
   ],
-  "validation": "All 47 new producer frontiers replay; raw outputs and independent untouched-original run match. Four prior final cases and graph/state/layout/grammar audits pass. Full old frontier replay is reserved for the final paired-case build.",
+  "validation": "Clean original-toolchain -j2 build; all 687 old/new frontiers replay with logical traps, pending FILE buffers, visible files and diagnostics matching. Final raw artifacts match the immutable capture and independent untouched original. No PCH normalization.",
+  "dependency": "Actual producer-generated state.pch is passed into the corresponding original/reconstructed/baseline consumer in separate canonical N:\\pch namespaces. Raw dependency bytes must equal the immutable capture before copying.",
+  "program_verification": "Original C2/LINK accepted the reconstructed producer and consumer IR/PCH files; resulting program exited 0 silently.",
   "coverage": {
-    "accepted_union_bytes": 184545,
+    "accepted_union_bytes": 187540,
     "original_code_bytes": 277234,
-    "percent": 66.56651060115281,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 170410,
+      "CRT": 17004,
+      "import_thunks": 126
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 67.64682542545286,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   }
 }

@@ -48,7 +48,6 @@ void begin_automatic_pch(void) { __asm { int 3 } }
 /* Original 0x47450. */
 
 /* Original 0x1fda0. */
-void load_precompiled_header(void) { __asm { int 3 } }
 
 /* Original 0x20490. */
 
@@ -114,7 +113,6 @@ FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 }
 
 void emit_line_directive(void) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
-void browser_include_begin(void) { __asm { int 3 } }
 void browser_open_file(void) { __asm { int 3 } }
 
 void release_input_handle(void) { __asm { int 3 } }
@@ -561,7 +559,6 @@ void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void __stdcall pragma_message(char *text) { __asm { int 3 } }
 
 /* Original 0x4bf10. */
-void unpack_option_flags(unsigned flags) { __asm { int 3 } }
 
 /* Original 0x20090. */
 
@@ -932,4 +929,17 @@ unsigned __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, unsign
 
 
 
+
+
+
+
+
+
+void __stdcall restore_pch_browser_name(char *filename) { __asm { int 3 } }
+
+void __stdcall restore_pch_debug_state(char *object_name) { __asm { int 3 } }
+
+void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
+
+void restore_pch_separate_debug(void) { __asm { int 3 } }
 

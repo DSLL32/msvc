@@ -145,7 +145,7 @@ def check_cross_outputs(directory, complete=False, pending=None):
         if len(fields) == 2:
             assert fields[0] == fields[1], 'database/reference timestamps disagree: ' + str(directory)
 
-def run(label, exe, case=''):
+def run(label, exe, case='', dependencies=None):
     stem = Path('build') / label
     directory = Path('build') / (CASE_NAME + '-' + label)
     if directory.exists():
@@ -154,7 +154,13 @@ def run(label, exe, case=''):
     for source in CASE['inputs']:
         data = (FIXTURE / source['path']).read_bytes()
         assert hashlib.sha256(data).hexdigest() == source['sha256'], 'fixture input changed'
-        (directory / Path(source['path']).name).write_bytes(data)
+        name = Path(source['path']).name
+        override = (dependencies or {}).get(label, {}).get(name)
+        if override is not None:
+            produced = Path(override).read_bytes()
+            assert produced == data, 'generated phase dependency differs: ' + name
+            data = produced
+        (directory / name).write_bytes(data)
     env, cwd = target_namespace(label, directory)
     flags = CASE['environment']['MSC_CMD_FLAGS'].format(
         bin=wt.windows(wt.TC / 'bin'), include=wt.windows(wt.TC / 'include'))
@@ -213,11 +219,11 @@ def check_artifacts(labels):
     else:
         print('All captured frontend outputs match raw bytes.')
 
-def compare(accepted_count=None, case='', baseline=True):
+def compare(accepted_count=None, case='', baseline=True, dependencies=None):
     orig, rec, cfg, oi, ri = prepare(accepted_count)
     with concurrent.futures.ThreadPoolExecutor(2) as pool:
-        a = pool.submit(run, 'original', 'build/original.exe', case)
-        b = pool.submit(run, 'reconstructed', 'build/reconstructed.exe', case)
+        a = pool.submit(run, 'original', 'build/original.exe', case, dependencies)
+        b = pool.submit(run, 'reconstructed', 'build/reconstructed.exe', case, dependencies)
         ae, be = a.result(), b.result()
     al, bl = logical(ae,orig,oi), logical(be,rec,ri)
     print('original: %s; reconstruction: %s' % (al,bl), flush=True)
@@ -261,7 +267,7 @@ def compare(accepted_count=None, case='', baseline=True):
             assert Path('build/original.'+stream).read_bytes() == CASE.get('expected_'+stream, '').encode('utf-8'), 'captured '+stream+' differs'
         print('Output streams and exit status match the capture.')
         if baseline:
-            events = run('baseline', wt.TC / 'bin/C13232.EXE', case)
+            events = run('baseline', wt.TC / 'bin/C13232.EXE', case, dependencies)
             assert events == ae, 'unmodified original exit status differs'
             for stream in ('stdout', 'stderr'):
                 assert Path('build/baseline.'+stream).read_bytes() == Path('build/original.'+stream).read_bytes(), 'unmodified original '+stream+' differs'
@@ -273,6 +279,7 @@ def compare(accepted_count=None, case='', baseline=True):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--paired-pch', action='store_true', help='verify generated producer PCH inputs in the dependent consumer')
     parser.add_argument('--runtime', action='store_true', help='advance exact library matches one trap at a time')
     parser.add_argument('--mask-only', action='store_true')
     parser.add_argument('--replay', action='store_true', help='verify every recorded trap frontier again')
@@ -280,6 +287,16 @@ if __name__ == '__main__':
     parser.add_argument('--case', default='', help='Windows command-line arguments for the case')
     args = parser.parse_args()
     select_case(args.fixture)
+    if args.paired_pch:
+        assert not (args.mask_only or args.replay or args.runtime or args.case)
+        select_case('pch-create')
+        assert compare() == 'exit:0'
+        dependencies = {label: {'state.pch': Path('build') / ('pch-create-' + label) / 'state.pch'}
+                        for label in ('original', 'reconstructed', 'baseline')}
+        select_case('pch-use')
+        assert compare(dependencies=dependencies) == 'exit:0'
+        print('Producer-to-consumer dependencies match raw bytes in all three private namespaces.')
+        raise SystemExit(0)
     if args.mask_only:
         prepare()
         raise SystemExit(0)

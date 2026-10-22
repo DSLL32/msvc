@@ -10,7 +10,8 @@ typedef struct PchSettingsImage {
     int reserved_calling_convention;
     int japanese_identifiers;
     int option_J;
-    int compatibility_model[6];
+    int member_model[5];
+    int vtordisp;
     int option_MD;
     int option_M;
     int option_MT;
@@ -69,21 +70,22 @@ typedef char PchSettingsImage_size[sizeof(PchSettingsImage) == 764 ? 1 : -1];
 
 /* Expanded in the original snapshot/write functions to preserve their graph.
    index_ is an unsigned local supplied by those functions. */
-extern int pch_compatibility[6];
+extern int pch_reserved_calling_convention;
+extern int pch_member_model[5], pch_vtordisp;
 extern int pch_optimization_reserved, pch_optimization_sentinel;
 #define CAPTURE_PCH_SETTINGS(image_, source_, database_, object_, index_) do { \
     image_.z_E = source_.z_E; \
     image_.extensions_enabled = source_.extensions_enabled; \
     image_.option_Gr = source_.option_Gr; \
-    image_.reserved_calling_convention = 0; \
+    image_.reserved_calling_convention = pch_reserved_calling_convention; \
     image_.japanese_identifiers = source_.japanese_identifiers; \
     image_.option_J = source_.option_J; \
-    image_.compatibility_model[0] = pch_compatibility[0]; \
-    image_.compatibility_model[1] = pch_compatibility[1]; \
-    image_.compatibility_model[2] = pch_compatibility[2]; \
-    image_.compatibility_model[3] = pch_compatibility[3]; \
-    image_.compatibility_model[4] = pch_compatibility[4]; \
-    image_.compatibility_model[5] = pch_compatibility[5]; \
+    image_.member_model[0] = pch_member_model[0]; \
+    image_.member_model[1] = pch_member_model[1]; \
+    image_.member_model[2] = pch_member_model[2]; \
+    image_.member_model[3] = pch_member_model[3]; \
+    image_.member_model[4] = pch_member_model[4]; \
+    image_.vtordisp = pch_vtordisp; \
     image_.option_MD = source_.option_MD; \
     image_.option_M = source_.option_M; \
     image_.option_MT = source_.option_MT; \
@@ -142,6 +144,78 @@ extern int pch_optimization_reserved, pch_optimization_sentinel;
     } \
 } while (0)
 
+
+#define RESTORE_PCH_SETTINGS(image_, destination_, database_, object_, index_) do { \
+    destination_.z_E = image_.z_E; \
+    destination_.extensions_enabled = image_.extensions_enabled; \
+    destination_.option_Gr = image_.option_Gr; \
+    pch_reserved_calling_convention = image_.reserved_calling_convention; \
+    destination_.japanese_identifiers = image_.japanese_identifiers; \
+    destination_.option_J = image_.option_J; \
+    pch_member_model[0] = image_.member_model[0]; \
+    pch_member_model[1] = image_.member_model[1]; \
+    pch_member_model[2] = image_.member_model[2]; \
+    pch_member_model[3] = image_.member_model[3]; \
+    pch_member_model[4] = image_.member_model[4]; \
+    pch_vtordisp = image_.vtordisp; \
+    destination_.option_MD = image_.option_MD; \
+    destination_.option_M = image_.option_M; \
+    destination_.option_MT = image_.option_MT; \
+    destination_.option_Gc = image_.option_Gc; \
+    destination_.option_PLMF = image_.option_PLMF; \
+    destination_.option_PLMN = image_.option_PLMN; \
+    destination_.debug_info = image_.debug_info; \
+    destination_.option_NoComdat = image_.option_NoComdat; \
+    destination_.option_GA = image_.option_GA; \
+    destination_.option_GD = image_.option_GD; \
+    destination_.option_GEf = image_.option_GEf; \
+    destination_.option_Gq = image_.option_Gq; \
+    destination_.option_GW = image_.option_GW; \
+    destination_.option_Gw = image_.option_Gw; \
+    destination_.option_Yd = image_.option_Yd; \
+    pch_object_name_bytes = image_.object_name_bytes; \
+    pch_browser_name_bytes = image_.browser_name_bytes; \
+    destination_.option_Gn = image_.option_Gn; \
+    plmf_pragma_seen = image_.plmf_seen; \
+    plmn_pragma_seen = image_.plmn_seen; \
+    native_caller_pragma_seen = image_.native_caller_seen; \
+    destination_.option_EP = image_.option_EP; \
+    destination_.option_pf = image_.option_pf; \
+    skip_fault_protection = image_.skip_fault_protection; \
+    destination_.option_Bu = image_.option_Bu; \
+    destination_.option_Brepro = image_.option_Brepro; \
+    destination_.option_ide = image_.option_ide; \
+    destination_.option_Oi = image_.option_Oi; \
+    destination_.option_Ol = image_.option_Ol; \
+    destination_.option_Oq = image_.option_Oq; \
+    destination_.option_Gs = image_.option_Gs; \
+    pch_optimization_reserved = image_.reserved_optimization; \
+    pch_optimization_sentinel = image_.reserved_sentinel; \
+    destination_.option_Gd = image_.option_Gd; \
+    destination_.option_Gz = image_.option_Gz; \
+    default_string_pooling = image_.default_string_pooling; \
+    destination_.option_G1 = image_.option_G1; \
+    destination_.option_G2 = image_.option_G2; \
+    destination_.option_G3 = image_.option_G3; \
+    destination_.option_G4 = image_.option_G4; \
+    destination_.option_qc = image_.option_qc; \
+    destination_.option_Op = image_.option_Op; \
+    destination_.option_Ob = image_.option_Ob; \
+    destination_.option_Oy = image_.option_Oy; \
+    destination_.option_Oa = image_.option_Oa; \
+    destination_.option_Ow = image_.option_Ow; \
+    destination_.option_Oz = image_.option_Oz; \
+    browser_enabled = image_.browser_enabled; \
+    browser_full = image_.browser_full; \
+    precompiled_option_flags = image_.optimization_flags; \
+    default_thread_storage = image_.thread_storage; \
+    destination_.line_records = image_.line_records; \
+    for (index_ = 0; index_ < 256; ++index_) { \
+        database_[index_] = image_.database_path[index_]; \
+        object_[index_] = image_.pch_object_name[index_]; \
+    } \
+} while (0)
+
 typedef struct PchCompilerImage {
     unsigned roots[105]; /* ordered permanent-arena roots, all relocated */
     unsigned reserved_after_roots, relocation_count, available;
@@ -163,17 +237,17 @@ typedef struct PchHeader {
     unsigned format;
     unsigned symbol_bytes, global_bytes, expression_bytes, line_bytes;
     unsigned debug_bytes, browser_bytes;
-    unsigned event_checksum, event_offset;
+    unsigned event_bytes, event_offset;
     long browser_offset;
     unsigned page_count, reserved;
 } PchHeader;
 typedef char PchHeader_size[sizeof(PchHeader) == 56 ? 1 : -1];
-typedef char PchSettings_compatibility_offset[offsetof(PchSettingsImage, compatibility_model) == 24 ? 1 : -1];
+typedef char PchSettings_member_model_offset[offsetof(PchSettingsImage, member_model) == 24 ? 1 : -1];
 typedef char PchSettings_name_lengths_offset[offsetof(PchSettingsImage, object_name_bytes) == 108 ? 1 : -1];
 typedef char PchSettings_database_offset[offsetof(PchSettingsImage, database_path) == 252 ? 1 : -1];
 typedef char PchSettings_object_offset[offsetof(PchSettingsImage, pch_object_name) == 508 ? 1 : -1];
 typedef char PchCompiler_warnings_offset[offsetof(PchCompilerImage, warning_levels) == 488 ? 1 : -1];
 typedef char PchCompiler_source_counter_offset[offsetof(PchCompilerImage, source_file_counter) == 1296 ? 1 : -1];
-typedef char PchHeader_checksum_offset[offsetof(PchHeader, event_checksum) == 36 ? 1 : -1];
+typedef char PchHeader_event_size_offset[offsetof(PchHeader, event_bytes) == 36 ? 1 : -1];
 typedef char PchHeader_pages_offset[offsetof(PchHeader, page_count) == 48 ? 1 : -1];
 #endif

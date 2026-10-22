@@ -9,7 +9,17 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
-    ('_pch_compatibility', 0x6bb68, 24),
+    ('_pch_reserved_calling_convention', 0x6bb5c, 4),
+    ('_pch_reserved_state', 0x6b7d4, 4, 0),
+    ('_pch_reserved_state', 0x6b7e0, 4, 4),
+    ('_pch_reserved_state', 0x6b7e8, 4, 8),
+    ('_pch_reserved_state', 0x6b7fc, 4, 12),
+    ('_pch_reserved_state', 0x6b800, 4, 16),
+    ('_pch_reserved_state', 0x6b80a, 2, 20),
+    ('_pch_reserved_state', 0x6b814, 4, 24),
+    ('_saved_pch_settings', 0x5b268, 764),
+    ('_pch_member_model', 0x6bb68, 20),
+    ('_pch_vtordisp', 0x6bb7c, 4),
     ('_pch_optimization_reserved', 0x6bbf8, 4),
     ('_pch_optimization_sentinel', 0x6bbfc, 4),
     ('_control_counted_name', 0x5b0a4, 1),

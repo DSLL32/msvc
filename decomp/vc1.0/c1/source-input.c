@@ -322,3 +322,8 @@ int __stdcall open_include_in_source_directory(char *filename)
     } while (input);
     return 0;
 }
+
+/* Original 0x27190..0x27191. This build retains an empty browser hook. */
+void browser_include_begin(void)
+{
+}

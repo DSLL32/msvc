@@ -45,16 +45,9 @@ typedef struct ArgumentNode {
 } ArgumentNode;
 typedef char ArgumentNode_must_be_twenty_bytes[sizeof(ArgumentNode) == 20 ? 1 : -1];
 
-typedef struct SavedConfiguration {
-    CompilerOptions options;
-    char database_path[256];
-    char pch_object_name[256];
-} SavedConfiguration;
-
 extern unsigned initial_option_flags, precompiled_option_flags;
 extern int optimization_enabled;
 extern int *packed_option_values[21];
-extern SavedConfiguration saved_configuration;
 extern int global_expression_scope_active, error_count;
 extern char version_string[256];
 extern Vector *forced_source_inputs;

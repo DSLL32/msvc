@@ -24,6 +24,12 @@ extern unsigned pch_relocation_count;
 extern unsigned pch_reference;
 extern unsigned char *pch_reference_base;
 extern unsigned short pch_reference_page;
+typedef struct PchReservedState {
+    unsigned after_roots, string_count, record_count, one, zero;
+    unsigned short debug_padding;
+    unsigned debug_bytes;
+} PchReservedState;
+extern PchReservedState pch_reserved_state;
 extern unsigned *pch_root_cells[105];
 extern void (*pch_graph_markers[12])(void);
 void mark_pch_graph(void);

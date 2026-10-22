@@ -2,13 +2,15 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-The four earlier cases and the new PCH producer complete. The current build
-contains 578 reconstructed source functions and 680 accepted frontiers.
-All 47 new producer frontiers replay with exact pending FILE buffers, visible
-files and diagnostics; all five final cases also match independent untouched
-originals. The previous 633-frontier history will be replayed again after the
-assigned PCH pair is complete. Consumer reconstruction is now at the matching
-load_precompiled_header trap. There is no PCH normalization.
+All six assigned cases complete: minimal C, optimized Win32 hello, DLL,
+numeric/varargs, PCH creation and dependent PCH use. The clean original-toolchain
+build contains 585 reconstructed source functions and 687 accepted frontiers.
+Every recorded frontier replays with matching logical traps, pending FILE
+buffers, visible files and diagnostics. Final artifacts match independent
+untouched originals. Both PCH phases match raw bytes with no normalization;
+the generated PCH is passed to the matching consumer in each private namespace.
+The original backend/linker also accepts reconstructed PCH/IR outputs and the
+resulting program exits 0 silently. See validation.json for final receipts.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -52,6 +54,11 @@ Build and differential workflow
   make replay CASE=hello-dll
   make check CASE=numeric-varargs
   make replay CASE=numeric-varargs
+  make check CASE=pch-create
+  make replay CASE=pch-create
+  make check CASE=pch-use
+  make replay CASE=pch-use
+  python3 compare.py --paired-pch
 
 Builds use the original CL.EXE and LINK.EXE through Wine, with a private
 prefix at ~/.ai-tmp/vc1.0-c1/wine. The original toolchain is read-only.
@@ -538,4 +545,42 @@ compatibility/default fields; their native initial values now have explicit
 canonical objects and audits. All 578 graphs, instruction boundaries,
 compile-time wire layouts and the full grammar audit pass. All four prior
 final artifacts/streams and the new producer remain exact after these fixes.
-Consumer reconstruction and complete old/new replay remain pending.
+At that producer checkpoint, consumer reconstruction and the complete old/new
+replay remained pending; the final verification below supersedes it.
+
+PCH pair final verification
+---------------------------
+The /Yupch.h /Fpstate.pch consumer restores saved settings, canonical roots,
+permanent pages and backward patch chains, reconciles command-line macros,
+and extracts the saved intermediate prefixes. It emits raw-exact irex1071,
+irsy116, irin47 and irgl87. The input state.pch remains unchanged. Header,
+settings and compiler records are typed native formats, assembled from or
+restored to their canonical state; no PCH snapshots are compiled into C1.
+
+The paired harness passes each actual producer's state.pch into its own
+consumer, comparing its raw bytes with the immutable fixture before copying.
+Original, reconstruction and independent baseline use separate Wine prefixes
+with the same N:\pch working path. Original C2/LINK then compiled the actual
+reconstructed IR/PCH outputs; the generated test program exits 0 silently.
+The six FILE-buffer oracles include the PCH stream, so matching is checked
+before buffered bytes become visible as well as in final files.
+
+Final clean original-toolchain make -j2 check CASE=pch-use and full replay
+pass: 258 minimal-C, 251 Win32 hello, one DLL, 123 numeric/varargs, 47 PCH
+producer and seven PCH consumer frontiers. All 585 source graphs and both
+instruction boundaries match; compile-time native/wire layouts, 220 state
+default/alias rows, 105 PCH root identities, twelve PCH callbacks and the
+21-entry shape-cache boundary pass, together with all prior option/table
+and grammar checks. Final validation.json records the frozen build and runs.
+
+The accepted original code-extent union is 187540/277234 bytes
+(67.6468254255%). The disjoint reconstruction-origin breakdown is 170410
+frontend bytes, 17004 CRT bytes and 126 import-thunk bytes. These counts include
+shared text data, clip to code-section VirtualSize and measure accepted
+extents, not branch coverage. Origin labels follow source ownership and matched
+CRT records rather than a complete original linker map. 89694 code bytes remain
+masked. There are 196 named unaccepted source entries, often with intentionally
+unestablished extents, so their frontend-only remaining byte total is not yet
+known. Their families include browser output, preprocessing output, automatic
+or debug PCH, inline assembly, SEH, inline expansion, based pointers, legacy
+CodeView and error recovery. No next case is assigned by this checkpoint.

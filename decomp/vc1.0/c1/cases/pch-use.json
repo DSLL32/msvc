@@ -1,9 +1,50 @@
 {
   "case": "../fixtures/pch/manifest.json phases.c1-use",
-  "status": "in progress",
+  "status": "complete",
   "after": "pch-create",
   "accepted_from": 680,
-  "current_matching_trap": "_load_precompiled_header",
-  "original_va": "0x1fda0",
-  "dependency": "Exact state.pch from producer; independently verified originals. Consumer matched replay currently uses immutable captured input; final generated producer-to-consumer replay remains required."
+  "accepted_frontiers": 687,
+  "reconstructed_source_functions": 585,
+  "current_matching_trap": null,
+  "outputs": [
+    {
+      "path": "expected/c1-use/irex",
+      "bytes": 1071,
+      "sha256": "74f377fefb567e4db39e832d40ee10f59ba1c1b69cb83f263603b1c8c2751862",
+      "output_name": "irex"
+    },
+    {
+      "path": "expected/c1-use/irsy",
+      "bytes": 116,
+      "sha256": "c827b94193530fc8f14afaaeec8e1991c680ef643eb338bf5ce8b5f7ebeedaba",
+      "output_name": "irsy"
+    },
+    {
+      "path": "expected/c1-use/irin",
+      "bytes": 47,
+      "sha256": "532cf4146915aa2b25c542fe30940c92f3c79acc993550b84e54ed293faf89e1",
+      "output_name": "irin"
+    },
+    {
+      "path": "expected/c1-use/irgl",
+      "bytes": 87,
+      "sha256": "606f9c03ab7d168472f0d634a20a9cb516c000670b46deffeab32410481dce31",
+      "output_name": "irgl"
+    }
+  ],
+  "validation": "Clean original-toolchain -j2 build; all 687 old/new frontiers replay with logical traps, pending FILE buffers, visible files and diagnostics matching. Final raw artifacts match the immutable capture and independent untouched original. No PCH normalization.",
+  "dependency": "Actual producer-generated state.pch is passed into the corresponding original/reconstructed/baseline consumer in separate canonical N:\\pch namespaces. Raw dependency bytes must equal the immutable capture before copying.",
+  "program_verification": "Original C2/LINK accepted the reconstructed producer and consumer IR/PCH files; resulting program exited 0 silently.",
+  "coverage": {
+    "accepted_union_bytes": 187540,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 170410,
+      "CRT": 17004,
+      "import_thunks": 126
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 67.64682542545286,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  }
 }

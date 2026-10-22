@@ -147,3 +147,36 @@ unsigned __stdcall copy_pch_stream(FILE *input, FILE *output, unsigned bytes)
     } while (count == 0x8000);
     return bytes - remaining;
 }
+
+/* Original 0x47260..0x47430. Copy the saved global/line streams and
+   optional debug/browser data into this invocation's active intermediates. */
+void extract_pch_intermediates(int restore_debug)
+{
+    int byte;
+    pch_copy_buffer = malloc(0x8000);
+    PCH_IO_SEEK(fseek(pch_file, pch_expression_bytes + pch_symbol_bytes + 0x334, 0),
+                344, options.option_Fp, 1540);
+    rewind(global_file);
+    copy_pch_stream(pch_file, global_file, pch_global_bytes);
+    rewind(line_file);
+    copy_pch_stream(pch_file, line_file, pch_line_bytes);
+    if (restore_debug) {
+        rewind(debug_file);
+        copy_pch_stream(pch_file, debug_file, pch_debug_bytes);
+    } else if (pch_debug_bytes) {
+        PCH_IO_SEEK(fseek(pch_file, pch_debug_bytes, 1), 344, options.option_Fp, 1554);
+    }
+    if (pch_browser_bytes) {
+        rewind(browser_file);
+        copy_pch_stream(pch_file, browser_file, browser_saved_position);
+        do {
+            --pch_browser_bytes;
+            byte = fgetc(pch_file);
+        } while (byte);
+        browser_open_file();
+        browser_include_begin();
+        copy_pch_stream(pch_file, browser_file, pch_browser_bytes - browser_saved_position);
+        fread(pch_browser_data, 1, sizeof(pch_browser_data), pch_file);
+    }
+    free(pch_copy_buffer);
+}

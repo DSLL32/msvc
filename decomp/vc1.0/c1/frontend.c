@@ -6,7 +6,6 @@
 #include "global-ir.h"
 
 unsigned initial_option_flags, precompiled_option_flags;
-SavedConfiguration saved_configuration;
 int global_expression_scope_active; /* original 0x5b25c */
 int error_count; /* original 0x5b228, shared by diagnostics, recovery and exit */
 char version_string[256];
@@ -63,12 +62,8 @@ int compile_translation_unit(void)
             if (!options.option_E && !options.prototypes_only && options.debug_info)
                 begin_debug_info();
         }
-        saved_configuration.options = options;
         CAPTURE_PCH_SETTINGS(saved_pch_settings, options, database_path, pch_object_name, i);
-        for (i = 0; i < 256; ++i) {
-            saved_configuration.database_path[i] = database_path[i];
-            saved_configuration.pch_object_name[i] = pch_object_name[i];
-        }
+
     }
     while (forced_source_inputs->count > forced_source_index) {
         current_forced_source = forced_source_inputs->items[forced_source_index++];

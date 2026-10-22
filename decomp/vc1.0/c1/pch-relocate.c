@@ -8,6 +8,9 @@
 #include "lexer.h"
 #include "keywords.h"
 
+/* Serialized cells with no ordinary executable consumers retain their
+   native defaults and any values restored from a compatible PCH. */
+PchReservedState pch_reserved_state = { 0, 0, 0, 1, 0, 0, 0 };
 PchRelocationChain *pch_relocation_chains; /* original 0x5d5a8 */
 int pch_relocation_capacity; /* original 0x5d5a4 */
 unsigned pch_relocation_count; /* original 0x6b7d8 */
@@ -142,24 +145,24 @@ void relocate_pch_state(void)
     relocate_pch_pages();
     /* Gather the scalar suffix of the original serialized compiler state.
        Reserved cells have no executable writers; the format retains them. */
-    pch_compiler_image.reserved_after_roots = 0;
+    pch_compiler_image.reserved_after_roots = pch_reserved_state.after_roots;
     pch_compiler_image.relocation_count = pch_relocation_count;
     pch_compiler_image.available = permanent_available;
-    pch_compiler_image.reserved_string_count = 0;
+    pch_compiler_image.reserved_string_count = pch_reserved_state.string_count;
     pch_compiler_image.function_record_index = function_record_index;
-    pch_compiler_image.reserved_record_count = 0;
+    pch_compiler_image.reserved_record_count = pch_reserved_state.record_count;
     pch_compiler_image.active_plmf = active_plmf_pragma;
     pch_compiler_image.active_plmn = active_plmn_pragma;
     pch_compiler_image.next_symbol_index = next_symbol_index;
     pch_compiler_image.browser_symbol_limit = browser_symbol_limit;
-    pch_compiler_image.reserved_one = 1;
-    pch_compiler_image.reserved_zero = 0;
+    pch_compiler_image.reserved_one = pch_reserved_state.one;
+    pch_compiler_image.reserved_zero = pch_reserved_state.zero;
     pch_compiler_image.symbol_offset = pch_symbol_offset_adjustment;
     pch_compiler_image.next_debug_index = next_debug_type_index;
-    pch_compiler_image.reserved_debug = 0;
+    pch_compiler_image.reserved_debug = pch_reserved_state.debug_padding;
     pch_compiler_image.pragma_record_number = pragma_record_number;
     pch_compiler_image.debug_type_bytes = debug_type_bytes;
-    pch_compiler_image.reserved_debug_bytes = 0;
+    pch_compiler_image.reserved_debug_bytes = pch_reserved_state.debug_bytes;
     for (i = 0; i < 800; ++i) pch_compiler_image.warning_levels[i] = warning_levels[i];
     pch_compiler_image.lowest_warning = lowest_warning_700;
     pch_compiler_image.highest_warning = highest_warning_700;
@@ -641,4 +644,25 @@ void restore_pch_pointers(void)
         }
     }
     free(pch_relocation_chains);
+}
+
+/* Original 0x44cd0..0x44daa. Reuse the first startup page and allocate
+   subsequent pages before restoring links. Unused final-page bytes are zero. */
+void read_pch_pages(void)
+{
+    int last_page = permanent_page_count - 1;
+    int i;
+    unsigned byte, used;
+    pch_relocation_chains = malloc(pch_relocation_count * 8);
+    if (!pch_relocation_chains) fatal_error(60);
+    fread(pch_relocation_chains, 1, pch_relocation_count * 8, pch_file);
+    permanent_page_count = 1;
+    for (i = 0; i < last_page; ++i) {
+        fread(permanent_pages[i].start, 1, 0xeffc, pch_file);
+        new_permanent_page();
+    }
+    used = 0xeffc - permanent_available;
+    fread(permanent_pages[last_page].start, 1, used, pch_file);
+    for (byte = 0; byte < permanent_available; ++byte)
+        permanent_pages[last_page].start[used + byte] = 0;
 }

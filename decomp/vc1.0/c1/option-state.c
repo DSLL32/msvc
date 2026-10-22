@@ -38,3 +38,14 @@ PragmaOptimizationRule pragma_optimization_rules[] = {
     { 'q', 1, &normalized_Oq }, { 'f', 1, &options.option_Of },
     { 'v', 1, &options.option_Ov }, { 0, 0, 0 }
 };
+
+/* Original 0x4bf10..0x4bf3b. Restore each independently mutable option
+   from the high bit, advancing even for an unused option-table entry. */
+void unpack_option_flags(unsigned flags)
+{
+    unsigned i;
+    for (i = 0; i < 21; ++i) {
+        if (packed_option_values[i]) *packed_option_values[i] = (flags >> 31) != 0;
+        flags <<= 1;
+    }
+}
