@@ -1750,3 +1750,20 @@ void finish_for_statement(void)
     label_stack_count -= options.option_qc ? 4 : 3;
     if (!label_stack_count) release_arena(3);
 }
+
+/* Original0x3f3d0..0x3f415. A generic value-bearing leaf retains its
+   caller-supplied type and allocates in the temporary expression arena. */
+IrToken *__stdcall make_ir_leaf(unsigned char kind, void *value, CType *type)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    IrToken *node;
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena,pool);
+    node = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    node->flags = 4;
+    node->kind = kind;
+    node->value.pointer = value;
+    node->type = type;
+    return node;
+}

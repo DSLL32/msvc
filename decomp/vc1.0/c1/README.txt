@@ -2,18 +2,17 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-Eight cases are complete: minimal C,
+Nine cases are complete: minimal C,
 optimized Win32 hello, DLL, numeric/varargs, PCH creation and dependent PCH use,
-a minimal do-while loop and nested SEH. There are 625 reconstructed functions and 728
-accepted original frontiers. The active inline-assembler case has31 matching
-original/native observations and stops at forward-label lookup; see
-cases/inline-asm/. Unvisited functions retain named trapping stubs.
+a minimal do-while loop,nested SEH and inline assembly. There are629 reconstructed
+functions and732 accepted original frontiers. The assembler case includes
+operands,immediates and forward labels; see cases/inline-asm/. Unvisited functions retain named trapping stubs.
 The do-while trial reconstructs exactly one function, begin_do_statement; its
 source, original captures and current exit terminal are durable in cases/do-while/.
 cases/do-while/validation.json records the one-function workflow trial timings.
 
-Accepted original code extents cover 200760 of 277234 code-section bytes,
-72.415360%. This is a clipped extent union including shared text data, accepted
+Accepted original code extents cover 201139 of 277234 code-section bytes,
+72.552068%. This is a clipped extent union including shared text data, accepted
 CRT and import thunks; it is not branch coverage. scripts/coverage.py reports the
 source/CRT/import breakdown from the original-toolchain build and metadata.
 
@@ -103,7 +102,7 @@ not execute any target.
 
 The call-graph audit checks all 596 accepted source functions, direct/tail calls,
 indirect-call presence and complete instruction boundaries. State audits check
-255 defaults/aliases, 105 PCH roots, 12 PCH callbacks, the 21-entry shape-cache
+256 defaults/aliases, 105 PCH roots, 12 PCH callbacks, the 21-entry shape-cache
 boundary, 72 scalar options, 21 option targets, 17 pragma rules, five hash
 callbacks, typed builtins and debug schemas. Grammar auditing independently
 compares all 376 states, 57904 actions/timings, 227 productions and 34216 gotos.
@@ -149,7 +148,7 @@ logical grammar, contextual register/mnemonic dictionaries and instruction IR
 encoding. All6936 actions/errors,136 lookahead timings/defaults,83 production
 rows and3128 gotos match both the model and linked original-compiler tables.
 Dictionary,operand-rule,layout and format audits cover all encountered data.
-The active fixture stops at the forward label after exact MOV/ADD/CMP records.
+The fixture completes with exact instruction and label IR records.
 
 Remaining uncovered families include browser/preprocessed output, automatic or
 debug PCH, inline assembly, SEH builtin diagnostics, inline expansion, based pointers, legacy CodeView

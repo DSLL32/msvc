@@ -8,15 +8,13 @@ All source/catalog dependencies, streams and complete four-file output oracle
 are hashed in manifest.json. An untouched original exits0 with empty streams;
 its raw outputs are irex1100,irsy107,irin6,irgl75. No normalization is permitted.
 
-Current checkpoint:728 accepted original entries,625 reconstructed source
-functions. The first698 belong to prior completed cases. The new30 entries
-are29 frontend functions plus the known original tolower library extent.
-Original/native executions match at31 consecutive frontiers,698 through728,
-including exact six pending FILE buffers, visible files and streams. The current
-named trap is find_label,original0x2c500,while resolving jle asm_done. This case
-is intentionally not registered as a completed exit0 fixture yet. Its source,
-full original oracle,current terminal and ordered acceptance evidence are
-already durable here. The eight completed cases remain the normal native suite.
+Completed at732 accepted original entries and629 reconstructed source
+functions. The new34 entries are33 frontend functions plus the known original
+tolower library extent. Original/native executions match at35 consecutive
+observations,698 through732,including all pending FILE buffers,visible files,
+streams and successful termination. Two untouched originals reproduce the raw
+full oracle exactly. This is the ninth normal native trace/output fixture:
+  make -j4 check CASE=inline-asm
 
 The82-rule assembler grammar is declarative source,src/asm-grammar.y. Ordinary
 LALR generation plus seven MASM precedence groups regenerates all136 states.
@@ -40,6 +38,6 @@ Only the explicit original capture runs Wine. Native GDB and ordinary fixture
 checks never invoke it. Native CRT observations use explicit shim breakpoints
 where needed; there is no invented application implementation of tolower.
 
-validation.json records the checkpoint build,audits,old-case regressions and
+validation.json records both verified checkpoints,builds,audits,regressions and
 measured timing totals. Raw evidence preserves original CRLF/trailing blanks.
-The active queue continues with label handling,then browser/preprocessor output.
+The active queue continues with browser/preprocessor output.

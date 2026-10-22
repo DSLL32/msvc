@@ -60,7 +60,7 @@ void __stdcall set_asm_operand_size(unsigned char size) { __asm { int 3 } }
 unsigned __stdcall asm_member_offset(char *name) { __asm { int 3 } return 0; }
 
 /* Original 0x2caa0: assembler labels use case-insensitive lookup. */
-void __stdcall emit_asm_label(char *name) { __asm { int 3 } }
+
 
 /* Original 0x4d7a1. */
 
@@ -114,3 +114,5 @@ void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { in
 
 /* Original0x4da61. */
 unsigned __stdcall parse_asm_binary_digits(char *digits) { __asm { int 3 } return 0; }
+
+/* Original0x3f3d0. */

@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "global-ir.h"
 #include "pragma.h"
+#include "asm.h"
 #include <recon.h>
 
 int default_thread_storage; /* original 0x6bc44 */
@@ -2182,4 +2183,34 @@ void parse_declspec(unsigned char *storage)
         storage[0] |= 8;
     }
     parser_flags &= ~0x10000000UL;
+}
+
+/* Original0x2c500..0x2c55f. Assembler-visible labels permit case-insensitive
+   lookup; ordinary C labels keep their interned name identity. */
+FrontendSymbol *__stdcall find_label(char *name)
+{
+    FrontendSymbol *label;
+    if (error_count) return 0;
+    for (label = label_symbols; label; label = label->next)
+        if (name == label->name || (!label->detail.value &&
+            (label->attributes & 0x1000) && !compare_names_ignore_case(name,label->name)))
+            return label;
+    return 0;
+}
+
+/* Original0x2c560..0x2c5a7. Labels use the full44-byte symbol allocation
+   in the function arena, retaining its untouched default storage fields. */
+FrontendSymbol *__stdcall declare_label(char *name)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    FrontendSymbol *label;
+    if (pool->remaining < (int)sizeof(FrontendSymbol)) refill_arena(&compiler_arena,pool);
+    label = (FrontendSymbol *)pool->next;
+    pool->remaining -= sizeof(FrontendSymbol);
+    pool->next += sizeof(FrontendSymbol);
+    label->kind = 8;
+    label->name = name;
+    label->detail.value = 0;
+    label->type = type_0000;
+    return label;
 }

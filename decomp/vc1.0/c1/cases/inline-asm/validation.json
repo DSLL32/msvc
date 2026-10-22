@@ -1,41 +1,38 @@
 {
-  "status": "verified checkpoint; selected inline-asm case still active",
+  "status": "pass",
   "accepted_from": 698,
-  "accepted_count": 728,
-  "new_frontend_functions": 29,
+  "accepted_count": 732,
+  "new_frontend_functions": 33,
   "new_known_CRT_extents": 1,
-  "source_functions": 625,
-  "current_frontier": {
-    "logical": "_find_label@4",
-    "original_va": 181504
-  },
+  "source_functions": 629,
+  "current_frontier": null,
   "coverage": {
-    "accepted_union_bytes": 200760,
+    "accepted_union_bytes": 201139,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 183262,
+      "frontend_source": 183641,
       "CRT": 17372,
       "import_thunks": 126
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 72.41536030934157,
+    "percent": 72.5520679281762,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
-  "extent_delta": 12736,
-  "frontend_extent_delta": 12368,
+  "extent_delta": 13115,
+  "frontend_extent_delta": 12747,
   "original_captures": {
-    "count": 32,
-    "preparation_seconds": 1.5659241955727339,
-    "execution_seconds": 37.92582798562944,
-    "total_seconds": 39.491853847168386
+    "count": 37,
+    "preparation_seconds": 1.7807130329310894,
+    "execution_seconds": 44.03333575371653,
+    "total_seconds": 45.81416572164744
   },
   "native_frontier_debug": {
-    "count": 31,
-    "preparation_seconds": 0.10355155076831579,
-    "execution_seconds": 4.8251921478658915,
-    "total_seconds": 5.001468018628657
+    "count": 35,
+    "preparation_seconds": 0.11635090503841639,
+    "execution_seconds": 5.393945605494082,
+    "total_seconds": 5.59137459192425
   },
-  "matched_frontiers": 31,
+  "matched_frontiers": 35,
   "native_builds": [
     {
       "command": "make -j4 native",
@@ -222,9 +219,33 @@
       "seconds": 4.098644184879959,
       "exit": 0,
       "receipt": "asm-build-728.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.790332619100809,
+      "exit": 0,
+      "receipt": "asm-build-729.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.6621196530759335,
+      "exit": 0,
+      "receipt": "asm-build-730.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.566345376893878,
+      "exit": 0,
+      "receipt": "asm-build-731.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.5159661592915654,
+      "exit": 0,
+      "receipt": "asm-build-732.json"
     }
   ],
-  "native_build_measured_seconds": 94.08040550164878,
+  "native_build_measured_seconds": 103.61516931001097,
   "checkpoint_operations": [
     {
       "label": "canonical-audits",
@@ -274,8 +295,8 @@
     }
   ],
   "static_audits": {
-    "function_graphs_and_instruction_bounds": 625,
-    "state_defaults_and_alias_ranges": 255,
+    "function_graphs_and_instruction_bounds": 629,
+    "state_defaults_and_alias_ranges": 256,
     "C_grammar": {
       "states": 376,
       "actions_and_timings": 57904,
@@ -311,9 +332,127 @@
   },
   "grammar_regeneration_check": "scripts/generate-asm-grammar.py --check passed",
   "limitations": [
-    "This case remains at the next named label-lookup trap; its full original exit0 oracle is retained for later completion.",
     "Ghidra/disassembly analysis, initialsetup and earlier canonical build/audit wall times were not measured. Their available logs are retained.",
     "One initial native CRT observation lacked the explicit recon_tolower breakpoint mapping; its failed GDB log is retained and the corrected observation matches the original."
   ],
-  "normalization": "none"
+  "normalization": "none",
+  "checkpoint_728": {
+    "coverage": {
+      "accepted_union_bytes": 200760,
+      "original_code_bytes": 277234,
+      "accepted_by_origin_bytes": {
+        "frontend_source": 183262,
+        "CRT": 17372,
+        "import_thunks": 126
+      },
+      "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+      "percent": 72.41536030934157,
+      "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+    },
+    "current_frontier": {
+      "logical": "_find_label@4",
+      "original_va": 181504
+    },
+    "operations": [
+      {
+        "label": "canonical-audits",
+        "command": [
+          "make",
+          "-j2",
+          "audit-win32"
+        ],
+        "seconds": 27.235279137268662,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-canonical-audits.log"
+      },
+      {
+        "label": "native-trace-build",
+        "command": [
+          "make",
+          "-j4",
+          "native-trace"
+        ],
+        "seconds": 4.066510612145066,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-native-trace-build.log"
+      },
+      {
+        "label": "trace-projection",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--write"
+        ],
+        "seconds": 0.20882523339241743,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-trace-projection.log"
+      },
+      {
+        "label": "native-eight-case-trace",
+        "command": [
+          "python3",
+          "scripts/check-native.py",
+          "--trace",
+          "--directory",
+          "/root/.ai-tmp/vc1.0-c1/asm-old-traces-728"
+        ],
+        "seconds": 0.49037701822817326,
+        "exit": 0,
+        "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-native-eight-case-trace.log"
+      }
+    ]
+  },
+  "final_operations": [
+    {
+      "label": "canonical-audits",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 23.325873308815062,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-732-canonical-audits.log"
+    },
+    {
+      "label": "native-trace-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "seconds": 4.111358474008739,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-732-native-trace-build.log"
+    },
+    {
+      "label": "trace-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.22105215582996607,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-732-trace-projection.log"
+    },
+    {
+      "label": "native-nine-case-trace",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/asm-old-traces-732"
+      ],
+      "seconds": 0.46751582622528076,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-732-native-nine-case-trace.log"
+    }
+  ],
+  "native_all_cases": {
+    "trace_receipt": "evidence/native-nine-case-traces.json",
+    "all_nine_pass": true
+  },
+  "final_outputs": "All four raw expected files match two untouched originals, the fully unmasked accepted original and native; exit0,empty streams."
 }

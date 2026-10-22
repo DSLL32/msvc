@@ -54,20 +54,20 @@
       ]
     }
   },
-  "status": "original-validated; reconstruction active at forward-label lookup",
+  "status": "complete; native suite registered",
   "first_accepted": 698,
   "capture": {
     "method": "Explicit untouched C1 via single-entry environment debugger; original exit0, empty streams.",
     "receipt": "evidence/original-full.receipt.json",
-    "normalization": "none"
+    "normalization": "none",
+    "repeat_receipt": "evidence/original-repeat.receipt.json"
   },
   "reconstruction": {
     "accepted_from": 698,
-    "accepted_count": 728,
+    "accepted_count": 732,
     "current_terminal": {
-      "kind": "named-trap",
-      "logical": "_find_label@4",
-      "original_va": 181504
+      "kind": "exit",
+      "code": 0
     },
     "ordered_acceptance": [
       "_parse_asm_statement",
@@ -99,7 +99,11 @@
       "_serialize_asm_instruction",
       "_asm_address_mode_code@4",
       "_scan_assembler_number@4",
-      "_make_asm_constant@4"
+      "_make_asm_constant@4",
+      "_find_label@4",
+      "_declare_label@4",
+      "_emit_asm_label@4",
+      "_make_ir_leaf@12"
     ],
     "matched_observations": [
       {
@@ -318,6 +322,34 @@
         "native_frame": "find_label",
         "original_receipt": "evidence/frontier-728-original.receipt.json",
         "native_receipt": "evidence/frontier-728-native.receipt.json"
+      },
+      {
+        "accepted_count": 729,
+        "frontier": "_declare_label@4",
+        "native_frame": "declare_label",
+        "original_receipt": "evidence/frontier-729-original.receipt.json",
+        "native_receipt": "evidence/frontier-729-native.receipt.json"
+      },
+      {
+        "accepted_count": 730,
+        "frontier": "_emit_asm_label@4",
+        "native_frame": "emit_asm_label",
+        "original_receipt": "evidence/frontier-730-original.receipt.json",
+        "native_receipt": "evidence/frontier-730-native.receipt.json"
+      },
+      {
+        "accepted_count": 731,
+        "frontier": "_make_ir_leaf@12",
+        "native_frame": "make_ir_leaf",
+        "original_receipt": "evidence/frontier-731-original.receipt.json",
+        "native_receipt": "evidence/frontier-731-native.receipt.json"
+      },
+      {
+        "accepted_count": 732,
+        "frontier": null,
+        "native_frame": null,
+        "original_receipt": "evidence/frontier-732-original.receipt.json",
+        "native_receipt": "evidence/frontier-732-native.receipt.json"
       }
     ]
   }

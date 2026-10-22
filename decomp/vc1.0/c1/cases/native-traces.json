@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "c1b2b13ef84313762f1402be245e476ef4ce81dd351e067dbdfd07a0313a7517",
+    "functions.json": "151b0933fe4b96d123d2063c1390995d59bc7d598f0208e92d8f8e91514ddbaa",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "262c9bfed81c7a6adc1449733c7a59fe7408c35c67982d0be128300b62e1c4c9"
+    "sha256": "8a7cf29c5054d26f62b2266b971b486aa0ed2541ac9e453966c8eef9a325a23e"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -771,7 +771,7 @@
     },
     "declare_label": {
       "logical": "_declare_label@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "declare_named_entity": {
       "logical": "_declare_named_entity@16",
@@ -871,7 +871,7 @@
     },
     "emit_asm_label": {
       "logical": "_emit_asm_label@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-symbols.c"
     },
     "emit_case_statement": {
       "logical": "_emit_case_statement@4",
@@ -1167,7 +1167,7 @@
     },
     "find_label": {
       "logical": "_find_label@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "find_macro_parameter": {
       "logical": "_find_macro_parameter@4",
@@ -1783,6 +1783,10 @@
     },
     "make_ir_expression": {
       "logical": "_make_ir_expression@12",
+      "source": "src/parser.c"
+    },
+    "make_ir_leaf": {
+      "logical": "_make_ir_leaf@12",
       "source": "src/parser.c"
     },
     "make_member_expression": {
@@ -3929,7 +3933,11 @@
     "serialize_asm_instruction",
     "asm_address_mode_code",
     "scan_assembler_number",
-    "make_asm_constant"
+    "make_asm_constant",
+    "find_label",
+    "declare_label",
+    "emit_asm_label",
+    "make_ir_leaf"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4727,13 +4735,42 @@
     },
     "inline-asm": {
       "first": 698,
-      "last": 702,
+      "last": 732,
       "seen_count": 586,
       "expected": [
         "parse_asm_statement",
         "initialize_inline_assembler",
         "reset_asm_operand",
-        "parse_inline_assembler"
+        "parse_inline_assembler",
+        "read_asm_token",
+        "finish_asm_line",
+        "classify_asm_identifier",
+        "find_asm_mnemonic",
+        "compare_names_ignore_case",
+        "select_asm_opcode",
+        "find_asm_keyword",
+        "make_asm_register",
+        "make_asm_symbol",
+        "lookup_asm_symbol",
+        "asm_symbol_type_size",
+        "asm_size_encoding",
+        "make_asm_address_register",
+        "add_asm_displacement",
+        "emit_asm_instruction",
+        "validate_asm_operand_count",
+        "validate_asm_operands",
+        "prepare_asm_instruction",
+        "choose_asm_instruction_size",
+        "resolve_asm_operand_size",
+        "normalize_asm_addresses",
+        "serialize_asm_instruction",
+        "asm_address_mode_code",
+        "scan_assembler_number",
+        "make_asm_constant",
+        "find_label",
+        "declare_label",
+        "emit_asm_label",
+        "make_ir_leaf"
       ],
       "terminal": {
         "kind": "exit",

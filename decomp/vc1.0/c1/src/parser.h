@@ -309,6 +309,7 @@ FrontendSymbol *__stdcall find_label(char *name);
 FrontendSymbol *__stdcall declare_label(char *name);
 void __stdcall reference_label(FrontendSymbol *label);
 IrToken *__stdcall make_symbol_reference(FrontendSymbol *symbol);
+IrToken *__stdcall make_ir_leaf(unsigned char kind, void *value, CType *type);
 void parse_asm_statement(void);
 void finish_except_block(void);
 void begin_finally_block(void);

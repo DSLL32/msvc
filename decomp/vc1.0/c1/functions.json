@@ -732,7 +732,11 @@
     "_serialize_asm_instruction",
     "_asm_address_mode_code@4",
     "_scan_assembler_number@4",
-    "_make_asm_constant@4"
+    "_make_asm_constant@4",
+    "_find_label@4",
+    "_declare_label@4",
+    "_emit_asm_label@4",
+    "_make_ir_leaf@12"
   ],
   "driver": [
     {
@@ -1816,12 +1820,12 @@
     {
       "name": "_find_label@4",
       "start": 181504,
-      "end": 181505
+      "end": 181600
     },
     {
       "name": "_declare_label@4",
       "start": 181600,
-      "end": 181601
+      "end": 181672
     },
     {
       "name": "_emit_named_label@4",
@@ -4881,7 +4885,7 @@
     {
       "name": "_emit_asm_label@4",
       "start": 182944,
-      "end": 182945
+      "end": 183085
     },
     {
       "name": "_classify_asm_identifier",
@@ -5005,6 +5009,11 @@
       "name": "_parse_asm_binary_digits@4",
       "start": 318049,
       "end": 318050
+    },
+    {
+      "name": "_make_ir_leaf@12",
+      "start": 259024,
+      "end": 259094
     }
   ],
   "cases": {
@@ -5051,7 +5060,7 @@
     "inline-asm": {
       "arguments": "",
       "accepted_from": 698,
-      "accepted_count": 702
+      "accepted_count": 732
     }
   },
   "buffered_streams": [

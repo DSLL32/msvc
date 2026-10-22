@@ -106,3 +106,25 @@ unsigned __stdcall asm_symbol_type_size(FrontendSymbol *symbol)
         type = drop_first_type_shape(remove_type_prefix(type));
     return type_size(type);
 }
+
+/* Original0x2caa0..0x2cb2c. An assembler label defines every matching
+   unresolved spelling under case-insensitive lookup, or creates a new label. */
+void __stdcall emit_asm_label(char *name)
+{
+    FrontendSymbol *label;
+    int found = 0;
+    for (label = label_symbols; label; label = label->next) {
+        if (!label->detail.value && !compare_names_ignore_case(name,label->name)) {
+            found = 1;
+            label->attributes |= 0x1000;
+            if (!(label->flags & 1)) emit_code_label(make_ir_leaf(2,label,0));
+            else report_syntax_error(412,label->name);
+        }
+    }
+    if (!found) {
+        label = declare_label(name);
+        label->attributes |= 0x1000;
+        reference_label(label);
+        emit_code_label(make_ir_leaf(2,label,0));
+    }
+}

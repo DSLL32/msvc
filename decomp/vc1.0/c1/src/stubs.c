@@ -236,10 +236,10 @@ void __stdcall report_declaration_error(unsigned code, DeclarationSpec *declarat
 /* Original 0x2c4a0. */
 
 /* Original 0x2c500. */
-FrontendSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
+
 
 /* Original 0x2c560. */
-FrontendSymbol *__stdcall declare_label(char *name) { __asm { int 3 } return 0; }
+
 
 /* Original 0x2c5b0. */
 void __stdcall emit_named_label(char *name) { __asm { int 3 } }
