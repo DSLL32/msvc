@@ -370,3 +370,21 @@ The old inventory's zero remaining i386 entries remains an inventory limitation.
 The richer x86 stage is complete. cases/disassembly-queue.json retains the selected
 next stage: original-validated Macintosh/m68k COFF linking, covering only loader,
 relocation and resource paths actually reached by valid original inputs.
+
+Minimal Macintosh link checkpoint
+
+The original-validated 84-byte m68k COFF case now completes through 26 additional
+C functions. It emits the exact captured 2 MB Mac-resource PE, excluding only the
+structurally identified four-byte COFF timestamp. Its banner, stderr and exit
+status match. No Macintosh runtime execution is claimed. Contextual symbol,
+fixup, jump and resource structures preserve the original graph and data layout;
+the External archive-member and weak-default slots have explicit Mac unions.
+
+All 22 cached native cases pass with 553 checked application entries. The single
+measured suite takes 1.352s externally; canonical build/audit takes 33.315s and
+native trace build 4.053s. Coverage is 211113/281634 = 74.9601%,727 frontiers.
+Audits pass579 call graphs,570 callbacks,445 contextual data definitions,733
+instruction boundaries and38 ECX cleanup checks. Commands remain make -j4 check
+for captured-only native regression and explicit make -j4 audit for original
+compiler compatibility. Detailed timing and original/GDB evidence are in
+cases/m68k-minimal/validation.json. The frozen m68k-reloc-loader case is next.

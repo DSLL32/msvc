@@ -2,12 +2,20 @@
 #define LINK_OBJECT_H
 #include "pass-one.h"
 #include <recon.h>
+typedef struct MacSymbolReference {
+    unsigned long flags;
+    Section *section;
+} MacSymbolReference;
+typedef char MacSymbolReferenceIs8[sizeof(MacSymbolReference)==8?1:-1];
+extern MacSymbolReference *mac_symbol_references;
 typedef struct MacRelocationRef { Contribution *contribution; unsigned long offset; } MacRelocationRef;
 typedef struct MacFixupList {
     MacRelocationRef *records;
     unsigned long capacity,count,used;
     struct MacFixupList *last,*next;
 } MacFixupList;
+typedef char MacFixupListIs24[sizeof(MacFixupList)==24?1:-1];
+extern MacFixupList *mac_section_code_fixups,*mac_section_data_fixups;
 PIMAGE_RELOCATION allocate_coff_relocations(unsigned long);
 unsigned read_coff_relocations(int,PIMAGE_RELOCATION,unsigned long);
 void release_coff_relocations(PIMAGE_RELOCATION);

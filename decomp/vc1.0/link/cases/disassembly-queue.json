@@ -13,8 +13,20 @@
     },
     {
       "case": "macintosh-m68k-coff",
-      "status": "next",
-      "scope": "Inspect documented target format and native machine/relocation/loader paths, obtain valid minimal object(s), capture successful original linking first; reconstruct only reached loader/relocation/resource graph."
+      "status": "in-progress",
+      "scope": "Inspect documented target format and native machine/relocation/loader paths, obtain valid minimal object(s), capture successful original linking first; reconstruct only reached loader/relocation/resource graph.",
+      "cases": [
+        {
+          "case": "m68k-minimal",
+          "status": "complete",
+          "manifest": "cases/m68k-minimal/manifest.json"
+        },
+        {
+          "case": "m68k-reloc-loader",
+          "status": "original-validated-next",
+          "manifest": "cases/m68k-reloc-loader/manifest.json"
+        }
+      ]
     }
   ],
   "method": "Native i386 -O0 -g/GDB; fixtures use cached original references exclusively. Explicit original-only capture and canonical original-toolchain compilation occur outside fixture execution. Shared shim changes requested from parent.",

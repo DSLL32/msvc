@@ -28,8 +28,8 @@ struct External {
     union { External *undefined_next; unsigned long symbol_index; } state;
     char *export_target;
     unsigned long flags;
-    unsigned short archive_member;
-    External *weak_default;
+    union { unsigned short archive_member; Section *mac_reference_section; };
+    union { External *weak_default; unsigned long mac_jump_offset; };
 };
 struct ExternalLink { External *external; ExternalLink *next; };
 typedef struct UndefinedEnumerator {

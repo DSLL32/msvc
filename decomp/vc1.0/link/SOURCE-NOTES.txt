@@ -807,3 +807,13 @@ remaining-gap counts must not be treated as exhaustive. No target-wide body
 percentage is claimed. See cases/disassembler-x86-rich/validation.json and
 body-inventory.json for timing, provenance, individual ABI/extents and accounting.
 Next selected stage is original-backed Macintosh/m68k COFF linking.
+
+Minimal Mac checkpoint: 26 new reached functions close the zero-relocation COFF
+case. Canonical compilation,579 calls/570 callbacks/445 data/733 boundaries/38
+ECX checks pass, as do all22 native fixtures/553 entries. Accepted extent union
+211113/281634=74.9601%,727 frontiers. The full2MB output and exact streams/status
+match frozen originals after only the identified COFF timestamp is ignored.
+Typed Mac records are defined with their users; no section snapshots or lifted
+assembly are used. The complete functions retain branches not yet exercised;
+the relocation/loader fixture remains the next ordered acceptance segment.
+See cases/m68k-minimal/validation.json; no full target-body denominator claimed.

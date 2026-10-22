@@ -3882,5 +3882,145 @@
       152
     ],
     "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
+  },
+  {
+    "address": 453800,
+    "name": "mac_symbol_references",
+    "size": 4,
+    "owner": "src/mac-object.c",
+    "evidence": "Per-input Mac symbol reference array; initializer allocates eight bytes per symbol, adjacent recorder stores flags and Section pointer."
+  },
+  {
+    "address": 519580,
+    "name": "mac_code_section_capacity",
+    "size": 2,
+    "owner": "src/mac-sections.c",
+    "evidence": "16-bit section-table capacity compared against zero-extended next CODE resource ID plus1; original initializer is0."
+  },
+  {
+    "address": 453856,
+    "name": "mac_external_references",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 453860,
+    "name": "mac_address_references",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519624,
+    "name": "mac_data_reference_blocks",
+    "size": 16,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519684,
+    "name": "mac_data_reference_read_block",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 453892,
+    "name": "mac_data_reference_read_records",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519688,
+    "name": "mac_data_reference_read_index",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519644,
+    "name": "mac_data_reference_resolved",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519648,
+    "name": "mac_max_resource_id",
+    "size": 2,
+    "owner": "src/mac-sections.c"
+  },
+  {
+    "address": 453848,
+    "name": "mac_resource_types",
+    "size": 4,
+    "owner": "src/mac-sections.c"
+  },
+  {
+    "address": 453804,
+    "name": "mac_near_jump_lists",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 453808,
+    "name": "mac_far_jump_lists",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519652,
+    "name": "mac_jump_table_size",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 453840,
+    "name": "mac_section_resources",
+    "size": 4,
+    "owner": "src/mac-sections.c"
+  },
+  {
+    "address": 376968,
+    "name": "mac_segment_libraries",
+    "size": 16,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 376996,
+    "name": "mac_original_code_section_count",
+    "size": 2,
+    "owner": "src/mac-sections.c"
+  },
+  {
+    "address": 453816,
+    "name": "mac_static_code_references",
+    "size": 24,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519692,
+    "name": "mac_fixup_buffer",
+    "size": 4,
+    "owner": "src/mac-fixups.c"
+  },
+  {
+    "address": 519704,
+    "name": "mac_resource_record_count",
+    "size": 2,
+    "owner": "src/mac-sections.c"
+  },
+  {
+    "address": 519708,
+    "name": "mac_data_resource_id",
+    "size": 2,
+    "owner": "src/mac-sections.c"
+  },
+  {
+    "address": 453852,
+    "name": "mac_jump_table_cursor",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519656,
+    "name": "mac_jump_extra_offsets",
+    "size": 1,
+    "owner": "src/mac-object.c"
   }
 ]

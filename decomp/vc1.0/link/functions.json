@@ -700,7 +700,33 @@
     "_decode_x87_dc",
     "_decode_x87_db",
     "_decode_x87_de",
-    "_decode_x87_df"
+    "_decode_x87_df",
+    "_initialize_mac_object_symbols",
+    "_initialize_mac_section",
+    "_grow_mac_code_sections",
+    "_set_mac_resource",
+    "_record_mac_external",
+    "_finish_mac_object_symbols",
+    "_process_mac_object_symbols",
+    "_initialize_mac_resources",
+    "_sort_mac_resource_ids",
+    "_find_mac_resource_type",
+    "_initialize_mac_exports",
+    "_size_mac_jump_table",
+    "_initialize_mac_section_numbers",
+    "_set_mac_export_mode",
+    "_build_mac_resources",
+    "_initialize_mac_code_section",
+    "_size_mac_data_fixups",
+    "_write_mac_fixup_list",
+    "_next_mac_resource_id",
+    "_record_mac_section_resource",
+    "_finalize_mac_fixups",
+    "_finalize_mac_jump_list",
+    "_write_mac_jump_table",
+    "_write_mac_resources",
+    "_find_mac_contribution_external",
+    "_write_mac_loader_prologue"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1676,10 +1702,11 @@
     {
       "name": "_build_mac_resources",
       "start": 223056,
-      "end": 223057,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 223334,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Complete278-byte live-section scan retains discarded/empty contribution rules, .jtable exclusion, code/data resource counting and CODE initializer. Fresh39770 initialize_mac_code_section native/original Image/Section pointers and streams match."
     },
     {
       "name": "_write_mac_swapper",
@@ -1716,66 +1743,74 @@
     {
       "name": "_initialize_mac_exports",
       "start": 234592,
-      "end": 234593,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 234825,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete233-byte no-callee Mac common reservation body retaining original WORD size/flags, near/far contributions and counts. Empty reference list in this case; fresh39930 size_mac_jump_table matches native/original table input and streams."
     },
     {
       "name": "_set_mac_export_mode",
       "start": 234880,
-      "end": 234881,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(unsigned char mode)"
+      "end": 235368,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(unsigned char mode)",
+      "evidence": "Complete488-byte address-reference module construction; retains original ignored byte argument, relocation read/file calls, duplicate diagnostic and callback. Empty list taken by minimal case; fresh36750 build_mac_resources agrees native/original Image and partial streams."
     },
     {
       "name": "_size_mac_jump_table",
       "start": 235824,
-      "end": 235825,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl unsigned long(SymbolTable *table)"
+      "end": 236075,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl unsigned long(SymbolTable *table)",
+      "evidence": "Complete251-byte jump-table sizing with two12-byte-per-section arrays, name-sorted external scan, cross-section flags, original verbose diagnostic and loader-dependent16/8 header. Fresh39d20 section-number initializer native/original count4 matches."
     },
     {
       "name": "_finalize_mac_fixups",
       "start": 236080,
-      "end": 236081,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 236468,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete388-byte finalizer: static and external thunk enumeration, WORD indices, named external resolver/list/output callees, loader offset40/48 and original list finalization order. Fresh37100 finalize_mac_jump_list native/original index1 agrees."
     },
     {
       "name": "_size_mac_data_fixups",
       "start": 236480,
-      "end": 236481,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl unsigned long(Image *image,unsigned long file)"
+      "end": 236641,
+      "implementation": "C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl unsigned long(Image *image,unsigned long file)",
+      "evidence": "Complete161-byte data-fixup layout;512-record block traversal, contribution-RVA adjustment, discarded sentinel and sort/write graph. Current empty list; fresh37800 write_mac_fixup_list native/original same logical global list and code0."
     },
     {
       "name": "_initialize_mac_section_numbers",
       "start": 236832,
-      "end": 236833,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(unsigned short count)"
+      "end": 236861,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(unsigned short count)",
+      "evidence": "Complete29-byte cdecl allocator of contextual packed6-byte resource records, original uninitialized malloc contents preserved; fresh39580 set_mac_export_mode mode0 native/original matches."
     },
     {
       "name": "_write_mac_resources",
       "start": 237328,
-      "end": 237329,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 237389,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete61-byte resource-map output wrapper; named Contribution file offset and Section raw size. Fresh39550 find_mac_contribution_external native/original matching contribution and partial streams."
     },
     {
       "name": "_initialize_mac_resources",
       "start": 237392,
-      "end": 237393,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 237795,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete403-byte reserved-ID initialization, exact RESOURCE/name/ordinal parsing and signed final WORD maximum. No overrides in minimal case. Fresh3a120 sort_mac_resource_ids frontier matches native/original streams."
     },
     {
       "name": "_initialize_modules",
@@ -1906,10 +1941,11 @@
     {
       "name": "_set_mac_resource",
       "start": 139408,
-      "end": 139409,
-      "implementation": "stub-C",
-      "source": "src/module-stubs.c",
-      "abi": "cdecl void(IMAGE_SECTION_HEADER *header,Section *section,unsigned char apply)"
+      "end": 139994,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *header,Section *section,unsigned char apply)",
+      "evidence": "Complete586-byte cdecl resource-assignment body including matching section overrides, permission flags, RESOURCE type copy, explicit high-word IDs and auto-ID callees. No override branch exercised by this case. Fresh39220 record_mac_external frontier matches native/original inputs and partial streams."
     },
     {
       "name": "_normalize_section_flags",
@@ -1923,10 +1959,11 @@
     {
       "name": "_initialize_mac_section",
       "start": 228144,
-      "end": 228145,
-      "implementation": "stub-C",
-      "source": "src/module-stubs.c",
-      "abi": "cdecl void(Section *section)"
+      "end": 228194,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(Section *section)",
+      "evidence": "Complete50-byte cdecl Section initializer; fresh matching grow_mac_code_sections frontier at37a40 after exact16-bit capacity comparison; earlier14 scalar Section dwords/name/nullness match. Low resource-ID word write and count increment retained."
     },
     {
       "name": "_resolve_section",
@@ -2460,26 +2497,29 @@
     {
       "name": "_process_mac_object_symbols",
       "start": 226272,
-      "end": 226273,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(SymbolTable *table,PIMAGE_SYMBOL symbols,char *strings)"
+      "end": 226427,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(SymbolTable *table,PIMAGE_SYMBOL symbols,char *strings)",
+      "evidence": "Complete155-byte no-callee cursor routine resolves each newly queued Mac reference index through original storage-class2/0x44 rule. Contextual12-byte records/16-byte blocks; zero-reference case takes empty loop. Fresh39f50 initialize_mac_resources matches native/original streams."
     },
     {
       "name": "_initialize_mac_object_symbols",
       "start": 233744,
-      "end": 233745,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(unsigned long count)"
+      "end": 233765,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(unsigned long count)",
+      "evidence": "Matched39110 original/native input-symbol initialization with count1. Complete21-byte body calls calloc(count,8), stores typed per-symbol flags/Section array and has no failure branch. Fresh next37b30 native/original initialize_mac_section matches partial streams,14 Section scalar words, name and pointer nullness."
     },
     {
       "name": "_finish_mac_object_symbols",
       "start": 235808,
-      "end": 235809,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 235823,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete15-byte free call with original pointer retained; fresh373e0 native/original process_mac_object_symbols frontier agrees table/symbol/string inputs and partial streams."
     },
     {
       "name": "_file_size",
@@ -2697,10 +2737,11 @@
     {
       "name": "_record_mac_external",
       "start": 234016,
-      "end": 234017,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(External *external,unsigned long index)"
+      "end": 234298,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(External *external,unsigned long index)",
+      "evidence": "Complete282-byte reference merge body, named list/callback vertices retained, explicit Mac Section union over former archive-member slot preserves External size/offsets. Current zero-reference case exercises flags/section merge only; fresh39920 finish_mac_object_symbols matches native/original and streams."
     },
     {
       "name": "_format_input_reference",
@@ -3403,10 +3444,11 @@
     {
       "name": "_record_mac_section_resource",
       "start": 236864,
-      "end": 236865,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(unsigned long mask,Section *section)"
+      "end": 237314,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(unsigned long mask,Section *section)",
+      "evidence": "Complete450-byte resource-map entry builder; CODE type byte reversal, .jtable ID0, DATA/CV/swap/unknown records and WORD record count retained. Fresh39a30 finalize_mac_fixups matches native/original streams in isolated side directories."
     },
     {
       "name": "_process_module_output",
@@ -3465,10 +3507,11 @@
     {
       "name": "_find_mac_contribution_external",
       "start": 234832,
-      "end": 234833,
-      "implementation": "stub-C",
-      "source": "src/pass-two-stubs.c",
-      "abi": "cdecl External *(Contribution *contribution)"
+      "end": 234872,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl External *(Contribution *contribution)",
+      "evidence": "Complete40-byte no-callee lookup of contribution-owned external in contextual address-reference list. Empty list returnsNULL; fresh36300 write_mac_loader_prologue native/original contribution and streams match."
     },
     {
       "name": "_update_debug_symbol",
@@ -3572,10 +3615,11 @@
     {
       "name": "_write_mac_loader_prologue",
       "start": 221952,
-      "end": 221953,
-      "implementation": "stub-C",
-      "source": "src/pass-two-stubs.c",
-      "abi": "cdecl void(Contribution *contribution)"
+      "end": 223042,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(Contribution *contribution)",
+      "evidence": "Complete1090-byte header writer preserves Mac model/loader/startup branches, four/forty-byte formats, original file calls and range diagnostics. Fresh masked-original/native-GDB terminal exit0 and exact115-byte stdout/empty stderr; full2MB matches frozen original except identified PE timestamp."
     },
     {
       "name": "_mapped_output_pointer",
@@ -7364,6 +7408,186 @@
       "source": "src/disassembler-stubs.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
       "evidence": "Named operand-decoder target in contextual typed descriptor array; body remains masked."
+    },
+    {
+      "name": "_grow_mac_code_sections",
+      "start": 227904,
+      "end": 228130,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete226-byte allocator with WORD capacity doubling, two24-byte contextual fixup-list arrays, exact(capacity&0xfffe)*12 inline copy and failure/free graph. Fresh22090 set_mac_resource agrees native/original;14 Section scalar dwords/name/pointer nullness match after resource index1 assigned."
+    },
+    {
+      "name": "_find_mac_resource_type",
+      "start": 237920,
+      "end": 238011,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl MacResourceType *(unsigned long type,unsigned short capacity)",
+      "evidence": "Complete91-byte type lookup/prepend; two original calloc calls without failure checks and next_id1. Fresh39460 initialize_mac_exports agrees native/original and streams after CODE type creation with zero reservation capacity."
+    },
+    {
+      "name": "_next_mac_resource_id",
+      "start": 238144,
+      "end": 238204,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl unsigned short(MacResourceType *type)",
+      "evidence": "Complete60-byte next-ID allocator, original bsearch call/comparator and WORD increment preserved. Empty reserved list returns1. Fresh39d40 record_mac_section_resource mask32 native/original agrees Section fields/partial streams."
+    },
+    {
+      "name": "_compare_mac_external_names",
+      "start": 233856,
+      "end": 233857,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl unsigned char(External *left,External *right)",
+      "evidence": "Named callback/list callee from complete Mac external-reference recorder; body masked."
+    },
+    {
+      "name": "_find_mac_external_reference",
+      "start": 234416,
+      "end": 234417,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl MacExternalReference *(MacExternalReference **,External *,unsigned long,MacExternalCompare,unsigned char *)",
+      "evidence": "Named callback/list callee from complete Mac external-reference recorder; body masked."
+    },
+    {
+      "name": "_sort_mac_resource_ids",
+      "start": 237856,
+      "end": 237907,
+      "implementation": "C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete51-byte list traversal with qsort callback graph retained; current empty reservation list performs no sort. Fresh3a160 find_mac_resource_type CODE/capacity0 native/original match."
+    },
+    {
+      "name": "_record_mac_resource_id",
+      "start": 238016,
+      "end": 238017,
+      "implementation": "stub-C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl unsigned char(MacResourceType *,unsigned short,unsigned char)",
+      "evidence": "Native reserved resource-ID callee; body remains masked."
+    },
+    {
+      "name": "_compare_mac_resource_ids",
+      "start": 237808,
+      "end": 237809,
+      "implementation": "stub-C",
+      "source": "src/mac-sections.c",
+      "abi": "cdecl int(const void *,const void *)",
+      "evidence": "Named original resource-ID comparator; body remains masked."
+    },
+    {
+      "name": "_compare_mac_external_contributions",
+      "start": 233984,
+      "end": 233985,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl unsigned char(External *,External *)",
+      "evidence": "Named contribution comparator; body remains masked."
+    },
+    {
+      "name": "_initialize_mac_code_section",
+      "start": 235376,
+      "end": 235626,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(Section *,Image *)",
+      "evidence": "Complete250-byte synthetic-contribution loop with named duplicate-fixup callee, archive-relative offsets and Image/Section APIs preserved. Empty address-reference list taken; fresh39bc0 size_mac_data_fixups native/original file568 agrees."
+    },
+    {
+      "name": "_record_mac_duplicate_fixups",
+      "start": 235632,
+      "end": 235633,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(Contribution *,MacExternalReference *)",
+      "evidence": "Named relocation-fixup callee for synthetic Mac contributions; masked."
+    },
+    {
+      "name": "_sort_mac_fixup_list",
+      "start": 236656,
+      "end": 236657,
+      "implementation": "stub-C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl void(MacFixupList *)",
+      "evidence": "Named original Mac fixup table callee; body masked."
+    },
+    {
+      "name": "_write_mac_fixup_list",
+      "start": 227328,
+      "end": 227893,
+      "implementation": "C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl unsigned long(MacFixupList *,unsigned char)",
+      "evidence": "Complete565-byte compressed runtime-fixup writer; first offset/zero sentinel, unsigned halfword deltas,2K buffered writes, WORD counters, odd-address diagnostics and original freeing retained. Empty table emits00 00; fresh3a240 next_mac_resource_id native/original matches."
+    },
+    {
+      "name": "_resolve_mac_external",
+      "start": 233040,
+      "end": 233041,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl External *(External *)",
+      "evidence": "Named Mac final jump-table callee; body remains masked."
+    },
+    {
+      "name": "_append_mac_jump_entry",
+      "start": 225072,
+      "end": 225073,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(External *,unsigned short,unsigned long)",
+      "evidence": "Named Mac final jump-table callee; body remains masked."
+    },
+    {
+      "name": "_finalize_mac_jump_list",
+      "start": 225536,
+      "end": 225656,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(unsigned short,MacJumpList *)",
+      "evidence": "Complete120-byte per-section jump-list finalizer; original capacity guard, cursor offsets, qsort callback and External +44 offset union preserved. Empty lists traversed; fresh36a00 write_mac_jump_table native/original agrees and streams."
+    },
+    {
+      "name": "_write_mac_jump_table",
+      "start": 223744,
+      "end": 225068,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete1324-byte header/near/far jump writer with contextual resource records, big-endian field emission, entry range checks and original entry routines. Empty jump lists exercised; fresh39f10 resource writer matches native/original streams and entire partial2MB artifact exactly."
+    },
+    {
+      "name": "_compare_mac_jump_entries",
+      "start": 225392,
+      "end": 225393,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl int(const void *,const void *)",
+      "evidence": "Named jump-entry comparator; body masked."
+    },
+    {
+      "name": "_write_mac_far_jump",
+      "start": 223600,
+      "end": 223601,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(unsigned short,unsigned long)",
+      "evidence": "Named original Mac jump instruction emitter; body remains masked."
+    },
+    {
+      "name": "_write_mac_near_jump",
+      "start": 223680,
+      "end": 223681,
+      "implementation": "stub-C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(unsigned short,unsigned long)",
+      "evidence": "Named original Mac jump instruction emitter; body remains masked."
     }
   ],
   "c_stub_references": [
@@ -8070,6 +8294,32 @@
     "dump-disasm-x86-rich",
     "dump-disasm-x86-rich",
     "dump-disasm-x86-rich",
-    "dump-disasm-x86-rich"
+    "dump-disasm-x86-rich",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal",
+    "m68k-minimal"
   ]
 }

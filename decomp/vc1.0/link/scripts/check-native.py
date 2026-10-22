@@ -20,6 +20,7 @@ ROOT = BINARY.parents[2]
 FIXTURES = BINARY.parent / 'fixtures'
 CASES = {
     'help': None,
+    'm68k-minimal': (BINARY/'cases/m68k-minimal','link'),
     'dump-disasm-x86-rich': (BINARY/'cases/disassembler-x86-rich', 'dump'),
     'dump-disasm-code': (BINARY/'cases/disassembler-code', 'dump'),
     'dump-disasm-data': (BINARY/'cases/disassembler-data', 'dump'),
@@ -55,8 +56,14 @@ def captured(path, record):
     return data
 
 
-def parser_module(fixture=None):
-    path = fixture/'artifacts.py' if fixture is not None else FIXTURES/'link-omf/artifacts.py'
+def parser_module(fixture=None,metadata=None):
+    if metadata and metadata.get('artifact_parser'):
+        record=metadata['artifact_parser']
+        path=(BINARY/record['path']).resolve()
+        assert path.parent==(BINARY/'scripts').resolve(), 'fixture parser outside binary scripts'
+        captured(path,record)
+    else:
+        path = fixture/'artifacts.py' if fixture is not None else FIXTURES/'link-omf/artifacts.py'
     if not path.exists():
         path = FIXTURES/'link-omf/artifacts.py'
     spec = importlib.util.spec_from_file_location('native_artifacts', path)
@@ -114,7 +121,7 @@ def run_case(name, executable, directory, parser, state, tracing=None):
         metadata_path = fixture / 'manifest.json'
         metadata = json.loads(metadata_path.read_text())
         phase = metadata['phases'][phase_name]
-        parser = parser_module(fixture)
+        parser = parser_module(fixture,metadata)
         args, expected_exit = phase['arguments'], phase['expected_exit']
         for key in phase.get('unset_environment', []):
             env.pop(key, None)

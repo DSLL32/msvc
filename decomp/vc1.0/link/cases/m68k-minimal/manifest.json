@@ -1,0 +1,267 @@
+{
+  "case": "m68k-minimal",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-m68k.py",
+    "sha256": "a3e96ca6c5ed6e6ad1a137e48931ccdc54c579123cf9d1ea83b9e29360e37cf8"
+  },
+  "phases": {
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/machine:M68K",
+        "/nodefaultlib",
+        "/entry:main",
+        "/out:mac-min.exe",
+        "/debug:none",
+        "/fixed",
+        "mac-min.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/mac-min.obj",
+          "bytes": 84,
+          "sha256": "e70225aedaaaa477920214c67f2094030099047d60d40b280f157534c2078bff"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/mac-min.exe",
+          "output_name": "mac-min.exe",
+          "artifact_kind": "m68k-pe",
+          "bytes": 2097152,
+          "sha256": "28ca60d71cdd16607e2a6bf074d7155e82596f6afa85927a43cf0cd780252f58",
+          "normalized_sha256": "bfa430784dd107380299266bfe8b48bc4c559b4504aab768b990488b5c2b3b52",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "input_layout": {
+    "bytes": 84,
+    "sha256": "e70225aedaaaa477920214c67f2094030099047d60d40b280f157534c2078bff",
+    "machine": 616,
+    "section": {
+      "name": ".text",
+      "raw_offset": 60,
+      "raw_bytes": 2,
+      "flags": 1610612768,
+      "bytes_hex": "4e75"
+    },
+    "symbols": [
+      {
+        "name": "_main",
+        "offset": 62,
+        "value": 0,
+        "section": 1,
+        "type": 32,
+        "storage": 2,
+        "aux_count": 0
+      }
+    ],
+    "timestamp": 0,
+    "relocations": [],
+    "provenance": {
+      "container": "toolchains/1.0-nt/include/{NTIMAGE.H,WINNT.H}; https://learn.microsoft.com/en-us/windows/win32/debug/pe-format",
+      "machine": "Original-backed accepted options.c and machine.c selector for /machine:M68K; not claimed from modern public machine table",
+      "code": "https://www.nxp.com/docs/en/reference-manual/M68000PRM.pdf, RTS page4-169, fixed instruction4E75"
+    },
+    "correction": "Do not apply modern generic alignment bits0x00300000: target Mac code treats bit0x00100000 as far data; code layout selects near code. Original fixed flags0x60000020 contain no alignment qualifier."
+  },
+  "provenance": {
+    "scratch": "/root/.ai-tmp/vc1.0-link/m68k-preparation",
+    "original_runs": [
+      {
+        "path": "/root/.ai-tmp/vc1.0-link/m68k-preparation/minimal-near/capture.json",
+        "sha256": "bc7e6800a566f33fc08d03bad209013499d2bcac98c246bc4c96fdc5397d76c6",
+        "capture": {
+          "method": "Explicit untouched-original-only diagnostic outside fixtures",
+          "arguments": [
+            "-link",
+            "/machine:M68K",
+            "/nodefaultlib",
+            "/entry:main",
+            "/out:mac-min.exe",
+            "/debug:none",
+            "/fixed",
+            "mac-min.obj"
+          ],
+          "helper_exit": 0,
+          "seconds": 0.9688700595870614,
+          "state": "exit 0\n",
+          "environment": {
+            "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+          },
+          "unset": [
+            "CL",
+            "_CL_",
+            "LINK",
+            "_LINK_",
+            "MSC_CMD_FLAGS",
+            "LINK32_DB"
+          ]
+        }
+      },
+      {
+        "path": "/root/.ai-tmp/vc1.0-link/m68k-preparation/minimal-near-repeat/capture.json",
+        "sha256": "500837672afe2f85f474fae5ec661cce2eefde95801808fdd809a9682c580015",
+        "capture": {
+          "method": "Explicit untouched-original-only diagnostic outside fixtures",
+          "arguments": [
+            "-link",
+            "/machine:M68K",
+            "/nodefaultlib",
+            "/entry:main",
+            "/out:mac-min.exe",
+            "/debug:none",
+            "/fixed",
+            "mac-min.obj"
+          ],
+          "helper_exit": 0,
+          "seconds": 0.9911468168720603,
+          "state": "exit 0\n",
+          "environment": {
+            "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+          },
+          "unset": [
+            "CL",
+            "_CL_",
+            "LINK",
+            "_LINK_",
+            "MSC_CMD_FLAGS",
+            "LINK32_DB"
+          ],
+          "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+          "helper_sha256": "9fc160c5a45b0fc50923414ea56e49ae9bae7829d3bf18fee6a25d374fea68ed",
+          "files": {
+            "mac-min.exe": {
+              "bytes": 2097152,
+              "sha256": "974980bcc6cea7a9f4577342ba5efd3551194d3b8d90726a2baf0b8091961d58"
+            },
+            "stdout.bin": {
+              "bytes": 115,
+              "sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7"
+            },
+            "stderr.bin": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "mac-min.obj": {
+              "bytes": 84,
+              "sha256": "e70225aedaaaa477920214c67f2094030099047d60d40b280f157534c2078bff"
+            },
+            "helper.log": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "capture.state": {
+              "bytes": 8,
+              "sha256": "5e0e6077065598e0b3b20a5d8bda3cf3d641ee1039780467e49abeed04b6903c"
+            }
+          }
+        }
+      }
+    ],
+    "repeat_comparison": {
+      "normalization": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "kind": "PE COFF TimeDateStamp",
+          "evidence": "MZ.e_lfanew->PE signature, file-header machine0x268, TimeDateStamp field+4 in20-byte COFF header; independent successful runs differ only here."
+        }
+      ],
+      "bytes": 2097152,
+      "normalized_sha256": "bfa430784dd107380299266bfe8b48bc4c559b4504aab768b990488b5c2b3b52",
+      "difference_offsets": [
+        136,
+        137
+      ],
+      "sections": [
+        {
+          "name": ".text",
+          "rva": 536,
+          "size": 8,
+          "off": 536,
+          "virtual_size": 8,
+          "flags": 1614807072
+        },
+        {
+          "name": ".jtable",
+          "rva": 544,
+          "size": 24,
+          "off": 544,
+          "virtual_size": 24,
+          "flags": 1639972896
+        },
+        {
+          "name": ".dfix",
+          "rva": 568,
+          "size": 4,
+          "off": 568,
+          "virtual_size": 4,
+          "flags": 3221225728
+        },
+        {
+          "name": ".resmap",
+          "rva": 572,
+          "size": 24,
+          "off": 572,
+          "virtual_size": 24,
+          "flags": 3221225728
+        }
+      ]
+    },
+    "failed_probes": [
+      {
+        "directory": "/root/.ai-tmp/vc1.0-link/m68k-preparation/minimal",
+        "input_flags": "0x60300020",
+        "reason": "Overlapping generic alignment qualifier sets target-specific far-data bit0x00100000; code layout skips near-code contribution. Both mapped and buffered probes failed and are not accepted fixtures.",
+        "capture_sha256": "dd2d0102024311efe9c447419b5c7cda6713e592a3fa9aecd84bde4e4753be14"
+      },
+      {
+        "directory": "/root/.ai-tmp/vc1.0-link/m68k-preparation/minimal-buffered",
+        "input_flags": "0x60300020",
+        "reason": "Overlapping generic alignment qualifier sets target-specific far-data bit0x00100000; code layout skips near-code contribution. Both mapped and buffered probes failed and are not accepted fixtures.",
+        "capture_sha256": "9e65080c260f2eb7bb8bc8683e12a46551c1b20d66039c533c0438fe9f4257bb"
+      }
+    ],
+    "accepted_flags": "0x60000020",
+    "references": [
+      "https://learn.microsoft.com/en-us/windows/win32/debug/pe-format",
+      "https://www.nxp.com/docs/en/reference-manual/M68000PRM.pdf (RTS, page4-169)",
+      "toolchains/1.0-nt/include/NTIMAGE.H",
+      "toolchains/1.0-nt/include/WINNT.H"
+    ],
+    "normalization": "Only structurally identified PE COFF timestamp; all code/resource records, padding, paths and output ordering retained.",
+    "scope": "Link-only synthetic84-byte COFF input; original output inspected as machine0x268 PE with embedded Mac code/resources. No Macintosh runtime execution claim.",
+    "generator": {
+      "path": "scripts/build-m68k-input.py",
+      "sha256": "ea2a41444ca713aa60c9b12d0b241c8d4d3e2eb6574d9271c0728bf481cffd99",
+      "variant": "minimal",
+      "proof": "Fresh pure generation reproduces frozen84-byte object exactly."
+    }
+  }
+}

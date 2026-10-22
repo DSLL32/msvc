@@ -166,5 +166,7 @@ void initialize_module_enumerator(ModuleEnumerator *,Library *);
 unsigned char next_module(ModuleEnumerator *);
 void end_module_enumerator(ModuleEnumerator *);
 void initialize_mac_section(Section *);
+void grow_mac_code_sections(void);
+extern unsigned short mac_code_section_count,mac_code_section_capacity;
 void set_mac_resource(IMAGE_SECTION_HEADER *,Section *,unsigned char);
 #endif

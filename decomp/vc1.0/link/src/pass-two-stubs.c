@@ -7,7 +7,6 @@
 
 
 
-External * find_mac_contribution_external(Contribution *contribution) { __asm { int 3 } return 0; }
 
 
 
@@ -19,7 +18,6 @@ External * find_mac_contribution_external(Contribution *contribution) { __asm { 
 
 
 
-void write_mac_loader_prologue(Contribution *contribution) { __asm { int 3 }  }
 
 
 

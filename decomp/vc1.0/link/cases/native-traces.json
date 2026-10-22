@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "5f1ba3e72e3a5834f1b1882ebb16c5cade6d68a1ae59f896b06db6f3d54b4cd7",
+    "functions.json": "0e4203479b66b85b20cd4ee2d003c122cbb4b01f3acf3e59487a4de41d592dbe",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "a7a81079caee89fba6dcc74103394cefb02aaf4fd0cf4d054dc2cb3d11604169"
+    "replay-cases.json": "f1a73ca9b0e278806d07af13de92fd5a8de5c9f4251de2eb3629c7f8f3d932ec"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -102,6 +102,11 @@
       "logical": "_append_mac_fixup",
       "implementation": "stub-C"
     },
+    "append_mac_jump_entry": {
+      "source": "src/mac-object.c",
+      "logical": "_append_mac_jump_entry",
+      "implementation": "stub-C"
+    },
     "append_text": {
       "source": "src/text-buffer.c",
       "logical": "_append_text",
@@ -178,9 +183,9 @@
       "implementation": "C"
     },
     "build_mac_resources": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-sections.c",
       "logical": "_build_mac_resources",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "build_mac_section_fixups": {
       "source": "src/link-pass-stubs.c",
@@ -301,6 +306,26 @@
       "source": "src/debug-symbols.c",
       "logical": "_compare_fpo_records",
       "implementation": "C"
+    },
+    "compare_mac_external_contributions": {
+      "source": "src/mac-object.c",
+      "logical": "_compare_mac_external_contributions",
+      "implementation": "stub-C"
+    },
+    "compare_mac_external_names": {
+      "source": "src/mac-object.c",
+      "logical": "_compare_mac_external_names",
+      "implementation": "stub-C"
+    },
+    "compare_mac_jump_entries": {
+      "source": "src/mac-object.c",
+      "logical": "_compare_mac_jump_entries",
+      "implementation": "stub-C"
+    },
+    "compare_mac_resource_ids": {
+      "source": "src/mac-sections.c",
+      "logical": "_compare_mac_resource_ids",
+      "implementation": "stub-C"
     },
     "compare_sections_by_rva": {
       "source": "src/modules.c",
@@ -1758,9 +1783,14 @@
       "implementation": "stub-C"
     },
     "finalize_mac_fixups": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_finalize_mac_fixups",
-      "implementation": "stub-C"
+      "implementation": "C"
+    },
+    "finalize_mac_jump_list": {
+      "source": "src/mac-object.c",
+      "logical": "_finalize_mac_jump_list",
+      "implementation": "C"
     },
     "find_cached_file": {
       "source": "src/files.c",
@@ -1803,9 +1833,19 @@
       "implementation": "C"
     },
     "find_mac_contribution_external": {
-      "source": "src/pass-two-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_find_mac_contribution_external",
+      "implementation": "C"
+    },
+    "find_mac_external_reference": {
+      "source": "src/mac-object.c",
+      "logical": "_find_mac_external_reference",
       "implementation": "stub-C"
+    },
+    "find_mac_resource_type": {
+      "source": "src/mac-sections.c",
+      "logical": "_find_mac_resource_type",
+      "implementation": "C"
     },
     "find_module": {
       "source": "src/modules.c",
@@ -1833,9 +1873,9 @@
       "implementation": "C"
     },
     "finish_mac_object_symbols": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_finish_mac_object_symbols",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "finish_pe_image": {
       "source": "src/section-layout.c",
@@ -1922,6 +1962,11 @@
       "logical": "_grow_buffered_file",
       "implementation": "stub-C"
     },
+    "grow_mac_code_sections": {
+      "source": "src/mac-sections.c",
+      "logical": "_grow_mac_code_sections",
+      "implementation": "C"
+    },
     "grow_mapping": {
       "source": "src/files-stubs.c",
       "logical": "_grow_mapping",
@@ -1997,10 +2042,15 @@
       "logical": "_initialize_log",
       "implementation": "C"
     },
+    "initialize_mac_code_section": {
+      "source": "src/mac-object.c",
+      "logical": "_initialize_mac_code_section",
+      "implementation": "C"
+    },
     "initialize_mac_exports": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_initialize_mac_exports",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "initialize_mac_loader": {
       "source": "src/link-pass-stubs.c",
@@ -2008,24 +2058,24 @@
       "implementation": "stub-C"
     },
     "initialize_mac_object_symbols": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_initialize_mac_object_symbols",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "initialize_mac_resources": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-sections.c",
       "logical": "_initialize_mac_resources",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "initialize_mac_section": {
-      "source": "src/module-stubs.c",
+      "source": "src/mac-sections.c",
       "logical": "_initialize_mac_section",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "initialize_mac_section_numbers": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-sections.c",
       "logical": "_initialize_mac_section_numbers",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "initialize_machine": {
       "source": "src/machine.c",
@@ -2285,6 +2335,11 @@
     "next_library": {
       "source": "src/modules.c",
       "logical": "_next_library",
+      "implementation": "C"
+    },
+    "next_mac_resource_id": {
+      "source": "src/mac-sections.c",
+      "logical": "_next_mac_resource_id",
       "implementation": "C"
     },
     "next_module": {
@@ -2768,9 +2823,9 @@
       "implementation": "C"
     },
     "process_mac_object_symbols": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_process_mac_object_symbols",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "process_mac_static_symbol": {
       "source": "src/object-stubs.c",
@@ -2992,15 +3047,25 @@
       "logical": "_record_mac_data_reference",
       "implementation": "stub-C"
     },
+    "record_mac_duplicate_fixups": {
+      "source": "src/mac-object.c",
+      "logical": "_record_mac_duplicate_fixups",
+      "implementation": "stub-C"
+    },
     "record_mac_external": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_record_mac_external",
+      "implementation": "C"
+    },
+    "record_mac_resource_id": {
+      "source": "src/mac-sections.c",
+      "logical": "_record_mac_resource_id",
       "implementation": "stub-C"
     },
     "record_mac_section_resource": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-sections.c",
       "logical": "_record_mac_section_resource",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "record_mac_symbol_reference": {
       "source": "src/object-stubs.c",
@@ -3122,6 +3187,11 @@
       "logical": "_resolve_local_imports",
       "implementation": "C"
     },
+    "resolve_mac_external": {
+      "source": "src/mac-object.c",
+      "logical": "_resolve_mac_external",
+      "implementation": "stub-C"
+    },
     "resolve_section": {
       "source": "src/modules.c",
       "logical": "_resolve_section",
@@ -3233,14 +3303,14 @@
       "implementation": "C"
     },
     "set_mac_export_mode": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_set_mac_export_mode",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "set_mac_resource": {
-      "source": "src/module-stubs.c",
+      "source": "src/mac-sections.c",
       "logical": "_set_mac_resource",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "set_resource_data": {
       "source": "src/resources.c",
@@ -3263,14 +3333,14 @@
       "implementation": "C"
     },
     "size_mac_data_fixups": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-fixups.c",
       "logical": "_size_mac_data_fixups",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "size_mac_jump_table": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_size_mac_jump_table",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "size_mac_section_fixups": {
       "source": "src/link-pass-stubs.c",
@@ -3321,6 +3391,16 @@
       "source": "src/link-pass-stubs.c",
       "logical": "_sort_externals",
       "implementation": "stub-C"
+    },
+    "sort_mac_fixup_list": {
+      "source": "src/mac-fixups.c",
+      "logical": "_sort_mac_fixup_list",
+      "implementation": "stub-C"
+    },
+    "sort_mac_resource_ids": {
+      "source": "src/mac-sections.c",
+      "logical": "_sort_mac_resource_ids",
+      "implementation": "C"
     },
     "sort_sections_by_rva": {
       "source": "src/modules.c",
@@ -3567,15 +3647,35 @@
       "logical": "_write_mac_debug",
       "implementation": "stub-C"
     },
+    "write_mac_far_jump": {
+      "source": "src/mac-object.c",
+      "logical": "_write_mac_far_jump",
+      "implementation": "stub-C"
+    },
+    "write_mac_fixup_list": {
+      "source": "src/mac-fixups.c",
+      "logical": "_write_mac_fixup_list",
+      "implementation": "C"
+    },
+    "write_mac_jump_table": {
+      "source": "src/mac-object.c",
+      "logical": "_write_mac_jump_table",
+      "implementation": "C"
+    },
     "write_mac_loader_prologue": {
-      "source": "src/pass-two-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_write_mac_loader_prologue",
+      "implementation": "C"
+    },
+    "write_mac_near_jump": {
+      "source": "src/mac-object.c",
+      "logical": "_write_mac_near_jump",
       "implementation": "stub-C"
     },
     "write_mac_resources": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-sections.c",
       "logical": "_write_mac_resources",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "write_mac_section_debug": {
       "source": "src/link-pass-stubs.c",
@@ -4160,7 +4260,33 @@
     "decode_x87_dc",
     "decode_x87_db",
     "decode_x87_de",
-    "decode_x87_df"
+    "decode_x87_df",
+    "initialize_mac_object_symbols",
+    "initialize_mac_section",
+    "grow_mac_code_sections",
+    "set_mac_resource",
+    "record_mac_external",
+    "finish_mac_object_symbols",
+    "process_mac_object_symbols",
+    "initialize_mac_resources",
+    "sort_mac_resource_ids",
+    "find_mac_resource_type",
+    "initialize_mac_exports",
+    "size_mac_jump_table",
+    "initialize_mac_section_numbers",
+    "set_mac_export_mode",
+    "build_mac_resources",
+    "initialize_mac_code_section",
+    "size_mac_data_fixups",
+    "write_mac_fixup_list",
+    "next_mac_resource_id",
+    "record_mac_section_resource",
+    "finalize_mac_fixups",
+    "finalize_mac_jump_list",
+    "write_mac_jump_table",
+    "write_mac_resources",
+    "find_mac_contribution_external",
+    "write_mac_loader_prologue"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4739,9 +4865,9 @@
       }
     },
     "library-list": {
-      "first": 701,
-      "last": 701,
-      "seen_count": 527,
+      "first": 727,
+      "last": 727,
+      "seen_count": 553,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4773,9 +4899,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 701,
-      "last": 701,
-      "seen_count": 527,
+      "first": 727,
+      "last": 727,
+      "seen_count": 553,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4809,9 +4935,9 @@
       }
     },
     "library-dump-object": {
-      "first": 701,
-      "last": 701,
-      "seen_count": 527,
+      "first": 727,
+      "last": 727,
+      "seen_count": 553,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4854,9 +4980,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 701,
-      "last": 701,
-      "seen_count": 527,
+      "first": 727,
+      "last": 727,
+      "seen_count": 553,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5091,6 +5217,43 @@
         "decode_x87_db",
         "decode_x87_de",
         "decode_x87_df"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "m68k-minimal": {
+      "first": 701,
+      "last": 727,
+      "seen_count": 527,
+      "expected": [
+        "initialize_mac_object_symbols",
+        "initialize_mac_section",
+        "grow_mac_code_sections",
+        "set_mac_resource",
+        "record_mac_external",
+        "finish_mac_object_symbols",
+        "process_mac_object_symbols",
+        "initialize_mac_resources",
+        "sort_mac_resource_ids",
+        "find_mac_resource_type",
+        "initialize_mac_exports",
+        "size_mac_jump_table",
+        "initialize_mac_section_numbers",
+        "set_mac_export_mode",
+        "build_mac_resources",
+        "initialize_mac_code_section",
+        "size_mac_data_fixups",
+        "write_mac_fixup_list",
+        "next_mac_resource_id",
+        "record_mac_section_resource",
+        "finalize_mac_fixups",
+        "finalize_mac_jump_list",
+        "write_mac_jump_table",
+        "write_mac_resources",
+        "find_mac_contribution_external",
+        "write_mac_loader_prologue"
       ],
       "terminal": {
         "kind": "exit",

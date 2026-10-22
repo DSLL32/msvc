@@ -196,6 +196,16 @@
         "code": 0
       },
       "reason": "All reached native/GDB frontiers close; complete captured original streams/status match. Fixture runs only ELF and cached references."
+    },
+    {
+      "case": "m68k-minimal",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh masked-original/native-GDB exit0 and full streams/artifact comparison pass; regression launches only native ELF against frozen references."
     }
   ]
 }
