@@ -8,9 +8,9 @@ typedef struct DebugLink {
 typedef struct DebugScope {
     short line;
     unsigned short field02;
-    unsigned field04, field08;
+    unsigned start_offset, end_offset;
     DebugLink *records;
-    unsigned field10;
+    struct DebugScope *parent;
     struct DebugScope *next;
 } DebugScope;
 

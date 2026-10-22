@@ -16,10 +16,10 @@ typedef struct OutputCallbacks {
     OutputRoutine debug_record;
     OutputRoutine debug_pair;
     OutputRoutine size;
-    OutputRoutine offset;
+    void (__fastcall *relative_reference)(unsigned, SymbolHeader *);
     OutputRoutine address;
-    OutputRoutine bytes;
-    OutputRoutine value;
+    void (__fastcall *absolute_reference)(unsigned, SymbolHeader *);
+    void (__fastcall *segment_reference)(unsigned, SymbolHeader *);
     OutputRoutine data;
     OutputRoutine select_segment;
     void (__fastcall *begin_function)(FunctionSymbol *, char *, int, unsigned);

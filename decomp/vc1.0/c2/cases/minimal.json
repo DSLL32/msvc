@@ -3,16 +3,16 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 289,
-  "reconstructed_functions": 228,
+  "accepted_frontiers": 297,
+  "reconstructed_functions": 236,
   "current_frontier": {
-    "name": "@calculate_machine_frame@8",
-    "original_va": 427472
+    "name": "_coff_begin_function",
+    "original_va": 445120
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 289 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "228 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 297 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "236 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000",
     "182 expression recipes, 47 control recipes and 182 semantic tree shapes match original classifications",
     "five encountered scalar initializers match original .data values",
@@ -49,8 +49,16 @@
     "five named machine-selection properties agree across all 231 original operations",
     "frame-size calculation reuses original 0x806cc alignment and removes the empty minimal-C stack subtraction",
     "six changed C modules compile with original /W3 without diagnostics",
-    "all 289 frontier replays pass after filename/source-line pointer-type correction",
-    "independent debugger comparison: all 31 finalized machine records agree before output layout, including SUB EAX,EAX and removal of empty stack allocation"
+    "all 297 frontier replays pass after filename/source-line pointer-type correction",
+    "independent debugger comparison: all 31 finalized machine records agree before output layout, including SUB EAX,EAX and removal of empty stack allocation",
+    "complete 1077-instruction common encoder has six direct callee edges and the original indirect output call",
+    "all 231 semantic ISA recipes match extension bytes and all six opcode/form alternatives at exact original extents",
+    "all eight machine properties used by selection and encoding match all 231 original opcodes",
+    "16 encoder diagnostic codes match original sites; failure handling remains unvalidated",
+    "FunctionSymbol original-compiler sizeof check passes at 84 bytes after naming code/prologue/epilogue fields",
+    "six encoder/layout C modules compile with original /W3 without diagnostics",
+    "independent debugger: all 31 laid-out records and cached instruction lengths agree",
+    "independent debugger: code size 18, prologue 6, test.c line 1 and both register/stack callback arguments agree"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"

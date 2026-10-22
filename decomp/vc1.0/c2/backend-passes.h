@@ -30,7 +30,7 @@ void __fastcall schedule_i586_branches(MachineContext *context);
 void __fastcall finish_machine_lowering(MachineContext *context);
 void lower_unoptimized_machine(void);
 BackendSymbolList *__fastcall collect_machine_symbols(MachineInstruction *instructions);
-void __fastcall calculate_machine_frame(MachineInstruction *instructions, unsigned flags);
+void __fastcall layout_machine_stream(MachineInstruction *instructions, unsigned flags);
 void __fastcall emit_pending_symbols(BackendSymbolList *symbols);
 void __fastcall write_function_listing(MachineInstruction *instructions);
 void __fastcall emit_machine_instructions(MachineInstruction *instructions);

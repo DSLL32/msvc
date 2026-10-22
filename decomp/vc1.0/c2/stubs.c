@@ -157,7 +157,6 @@ void reset_work(void) { __asm int 3 }
 void release_function_symbols(void) { __asm int 3 }
 unsigned __fastcall reserve_symbol_storage(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
-SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
@@ -185,7 +184,6 @@ void finish_machine_schedule(void) { __asm int 3 }
 void __fastcall split_machine_instructions(MachineContext *context) { __asm int 3 }
 void __fastcall schedule_i586_branches(MachineContext *context) { __asm int 3 }
 void __fastcall finish_machine_lowering(MachineContext *context) { __asm int 3 }
-void __fastcall calculate_machine_frame(MachineInstruction *instructions, unsigned flags) { __asm int 3 }
 void __fastcall write_function_listing(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall emit_machine_instructions(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned flags) { __asm int 3 }
@@ -335,3 +333,13 @@ void __fastcall advance_operand_byte(MachineOperand *operand) { __asm int 3 }
 int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *instruction) { __asm int 3 }
+
+#include "machine-layout.h"
+
+#include "instruction-encoding.h"
+int __fastcall fits_signed_byte(int value) { __asm int 3 }
+unsigned __fastcall displacement_mode(MachineInstruction *instruction, MachineOperand *operand, unsigned *bytes) { __asm int 3 }
+unsigned __fastcall label_has_backward_branch(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall next_machine_operation(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall alignment_lookahead(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }

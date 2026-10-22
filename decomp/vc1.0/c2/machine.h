@@ -9,7 +9,8 @@ typedef enum MachineOpcode {
 } MachineOpcode;
 extern const signed char machine_operand_counts[MC_OPCODE_COUNT];
 enum MachineSelectionProperty { MC_IMPLICIT_REGISTERS = 1, MC_WRITES_FLAGS = 2, MC_READS_FLAGS = 4,
-    MC_STRING_OPERATION = 8, MC_REPEAT_PREFIX = 16 };
+    MC_STRING_OPERATION = 8, MC_REPEAT_PREFIX = 16, MC_WAIT_PREFIX = 32,
+    MC_NO_OPERAND_PREFIX = 64, MC_ESCAPE_OPCODE = 128 };
 extern const unsigned char machine_selection_properties[MC_OPCODE_COUNT];
 typedef struct BackendSymbol {
     SymbolHeader symbol;
@@ -57,6 +58,7 @@ struct MachineInstruction {
     unsigned opcode;
     union { SymbolHeader *symbol; char *filename; unsigned source_location;
         MachineInstruction *next_use;
+        unsigned encoding_length;
         struct { short code, value; } directive; } record;
     MachineOperand operands[2];
 };

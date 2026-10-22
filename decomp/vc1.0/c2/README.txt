@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-calculate_machine_frame, original VA 000685d0. Object generation is incomplete. No completed C2 output-equivalence claim is made.
+coff_begin_function, original VA 0006cac0. Object generation is incomplete. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -91,8 +91,8 @@ the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 228 reconstructed source functions and 289 recorded
-matching trap frontiers. All 289 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 236 reconstructed source functions and 297 recorded
+matching trap frontiers. All 297 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -251,3 +251,34 @@ comparison at output-layout entry verifies all 31 finalized records, including
 removal of the empty stack subtraction, SUB EAX,EAX for return zero, final
 PUSH/POP operation IDs, label links/references and block register sets. This
 checks machine forms before encoding; the 286-byte COFF comparison is pending.
+
+Machine layout and common x86 encoding now pass the minimal case through to
+COFF begin-function emission. machine-layout.c records code offsets, label
+positions, function/prologue sizes and source positions, with complete alignment
+and padding logic. FunctionSymbol retains its original 84-byte layout and has
+named code-size/prologue/epilogue fields; DebugScope retains typed nested scopes.
+The common encoder in instruction-encoding.c has 1,077 reachable original
+instructions and shares sizing/emission logic. address-encoding.c selects ModR/M
+and SIB bytes; operand-encoding.c resolves values and notifies the output format
+through typed absolute, relative and segment reference callbacks.
+
+encoding-recipes.c contains handwritten instruction recipes named by opcode,
+form and modifiers. Instruction-family macros describe arithmetic, register,
+fixed, memory and x87 encodings. All 231 extension bytes and six choices per
+operation match the exact original encoding-table extents; packed form flags
+are represented by named modifiers. The eight opcode properties used here match
+all 231 entries. Padding instructions are explicit small x86 byte sequences
+introduced by the encoder's NOP case. All 16 encoder diagnostic codes agree
+with their original sites; this is a static check, not failure-path validation.
+See cases/encoding-abi.json. The minimal case exercises register instructions
+and a near jump; floating/alternate/address forms still reach unreconstructed
+helpers. Full instruction emission and complete object comparison remain pending.
+
+This encoder/layout checkpoint passes a clean original-toolchain build, all 236
+graph audits and all 297 frontier replays. Six changed C modules compile cleanly
+with /W3. An independent stopped-process comparison at COFF begin-function entry
+matches all 31 machine records, including cached instruction lengths. Both
+processes report code offset 0, code size 18, prologue size 6, epilogue offset 0,
+frame allocation 0, filename test.c and source line 1. The callback receives the
+same logical symbol/filename in ECX/EDX and stack arguments 0 and 1. Encoding
+for sizing has passed; the complete emitted object is still pending.

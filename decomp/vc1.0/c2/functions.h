@@ -6,11 +6,14 @@
 typedef struct FunctionSymbol {
     SymbolHeader symbol;
     unsigned field20, field24, field28, field2c, field30, parameter_bytes;
-    unsigned field38, field3c, field40, field44, field48;
+    unsigned code_bytes;
+    unsigned short prologue_bytes, epilogue_offset;
+    unsigned field40, field44, field48;
     struct FunctionSymbol *pending_next;
     unsigned short field50;
     unsigned char flags52, field53;
 } FunctionSymbol;
+typedef char FunctionSymbolSizeCheck[sizeof(FunctionSymbol) == 84 ? 1 : -1];
 typedef struct WorkItem {
     struct WorkItem *next;
     unsigned field04;

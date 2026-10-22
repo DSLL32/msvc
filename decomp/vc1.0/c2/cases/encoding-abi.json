@@ -1,0 +1,131 @@
+{
+  "target": "C23232.EXE",
+  "common_encoder": {
+    "entry_va": "0x25540",
+    "extent_end_va": "0x26540",
+    "reachable_instructions": 1077,
+    "signature": "unsigned __fastcall encode_machine_instruction(MachineInstruction *, unsigned char *buffer, unsigned location, int emit)",
+    "abi": "ECX instruction, EDX buffer, two stack arguments, RET 8",
+    "direct_callees": 6,
+    "indirect_calls": "object-format absolute-reference slot at original 0x7b90c",
+    "text_dispatch_tables": [
+      {
+        "start": "0x26484",
+        "entries": 20,
+        "end": "0x264d4"
+      },
+      {
+        "start": "0x264d4",
+        "entries": 8,
+        "end": "0x264f4"
+      },
+      {
+        "start": "0x264f4",
+        "entries": 16,
+        "end": "0x26534"
+      }
+    ],
+    "diagnostic_validation": "all 16 code.c:1.60 diagnostic codes match primary disassembly"
+  },
+  "recipes": {
+    "implementation": "handwritten typed EncodingForm/EncodingModifier recipes with named MachineOpcode entries and instruction-family macros",
+    "operations": 231,
+    "alternatives_per_operation": 6,
+    "original_extensions": [
+      "0x81648",
+      "0x8172f"
+    ],
+    "original_opcodes": [
+      "0x81730",
+      "0x81c9a"
+    ],
+    "original_forms": [
+      "0x81ca0",
+      "0x8220a"
+    ],
+    "validation": "original-compiler object inspection confirms every enum identity, extension byte, opcode choice and semantic form/modifier; invalid/fixed-secondary slots are preserved",
+    "no_snapshot": "no original data-section image or packed form-byte array is linked"
+  },
+  "properties": {
+    "operations": 231,
+    "validation": "implicit registers, flag writes/reads, string/repeat, wait prefix, operand-prefix suppression and escape prefix all match original primary table"
+  },
+  "padding": {
+    "original_bytes": [
+      "0x80574",
+      "0x8059b"
+    ],
+    "original_pointer_choices": [
+      "0x8059c",
+      "0x805bc"
+    ],
+    "forms": "seven explicit small instruction sequences; five-byte ADD EAX,0 preserves original bytes"
+  },
+  "sizing": {
+    "entry_va": "0x25520",
+    "extent_end_va": "0x25540",
+    "scratch_bytes": 20,
+    "arguments": "location=0 and emit=0"
+  },
+  "modrm": {
+    "entry_va": "0x26540",
+    "extent_end_va": "0x26700",
+    "reachable_instructions": 138,
+    "abi": "__fastcall three arguments, RET 4",
+    "coverage": "register, absolute, base, indexed/SIB, absent base and ESP-index normalization; displacement helper remains a trap"
+  },
+  "operands": {
+    "entry_va": "0x26700",
+    "extent_end_va": "0x26900",
+    "reachable_instructions": 161,
+    "abi": "__fastcall three arguments, RET 4",
+    "references": "absolute at 0x7b90c, relative at 0x7b904, segment at 0x7b910; all use ECX byte offset and EDX symbol, no stack arguments",
+    "integer_writer": "0x26900..0x26950; widths 0/1/2/4 or reservation-only fallback"
+  },
+  "layout": {
+    "entry_va": "0x685d0",
+    "extent_end_va": "0x68870",
+    "reachable_instructions": 167,
+    "signature": "void __fastcall layout_machine_stream(MachineInstruction *, unsigned apply)",
+    "purpose": "instruction lengths, symbol/code offsets, function/prologue/epilogue sizes, source filenames/lines and debug scope positions",
+    "alignment": "0x32bb0..0x32e60, full 203-instruction body and eight-entry padding table"
+  },
+  "typed_layouts": {
+    "FunctionSymbol": 84,
+    "code_bytes_offset": "0x38",
+    "prologue_bytes_offset": "0x3c",
+    "epilogue_offset_offset": "0x3e",
+    "DebugScope_parent_offset": "0x10"
+  },
+  "limits": [
+    "minimal case exercises integer register encodings and a near local jump during sizing",
+    "general address displacement, sign-extended immediates, floating forms, optimized alignment and relocation callbacks remain dynamically unvalidated",
+    "error function body remains trapped; matching diagnostic constants does not validate failure behavior",
+    "complete emitted object comparison is still pending",
+    "hello-win32 remains queued after minimal-C"
+  ],
+  "validation": {
+    "clean_build": "GNU Make -j2 with original 1.0-nt compiler/linker",
+    "graphs": 236,
+    "frontiers_replayed": 297,
+    "warnings": "six changed C modules compile with /W3 without diagnostics",
+    "stopped_process_comparison": {
+      "frontier": "COFF begin-function entry, original 0x6cac0",
+      "machine_records": 31,
+      "cached_lengths": "all agree, including block register sets and label identity/reference metadata",
+      "function": {
+        "offset": 0,
+        "bytes": 18,
+        "prologue_bytes": 6,
+        "epilogue_offset": 0,
+        "frame_bytes": 0,
+        "name": "_main",
+        "filename": "test.c",
+        "source_line": 1
+      },
+      "callback": "ECX=current symbol, EDX=source filename, stack arguments 0 and 1 in both images",
+      "method": "independent original-toolchain debugger; analysis sources/captures remain in private scratch"
+    },
+    "limit": "sizing/layout checked before actual COFF function and instruction emission"
+  }
+}

@@ -79,7 +79,7 @@ void emit_backend_work(void)
     if (current_symbol) {
         function_source_filename = 0;
         function_source_line = 0;
-        calculate_machine_frame(machine_instructions, 1);
+        layout_machine_stream(machine_instructions, 1);
         has_exceptions = (current_function->field28 & 0x10) || (current_symbol->symbol.field0e & 0x1000);
         output_callbacks.begin_function(current_symbol, function_source_filename, has_exceptions, function_source_line);
         emit_pending_symbols(symbols);

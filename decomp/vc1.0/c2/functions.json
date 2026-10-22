@@ -293,7 +293,15 @@
     "@resolve_frame_allocation@4",
     "_calculate_stack_frame_size",
     "@find_flags_use@4",
-    "@queue_symbol_debug@4"
+    "@queue_symbol_debug@4",
+    "@layout_machine_stream@8",
+    "@lookup_global_symbol@4",
+    "@machine_instruction_size@4",
+    "@encode_machine_instruction@16",
+    "@encode_modrm@12",
+    "@encode_operand@12",
+    "@encode_integer@8",
+    "@align_machine_location@12"
   ],
   "driver": [
     {
@@ -780,8 +788,7 @@
     {
       "name": "@lookup_global_symbol@4",
       "start": 318688,
-      "end": 318689,
-      "provisional": true
+      "end": 318768
     },
     {
       "name": "@clone_alias_symbol@4",
@@ -1012,10 +1019,9 @@
       "end": 428464
     },
     {
-      "name": "@calculate_machine_frame@8",
+      "name": "@layout_machine_stream@8",
       "start": 427472,
-      "end": 427473,
-      "provisional": true
+      "end": 428144
     },
     {
       "name": "@emit_pending_symbols@4",
@@ -3190,6 +3196,72 @@
       "name": "@previous_machine_operation@4",
       "start": 429104,
       "end": 429105,
+      "provisional": true
+    },
+    {
+      "name": "@machine_instruction_size@4",
+      "start": 152864,
+      "end": 152896
+    },
+    {
+      "name": "@align_machine_location@12",
+      "start": 207792,
+      "end": 208480
+    },
+    {
+      "name": "@encode_machine_instruction@16",
+      "start": 152896,
+      "end": 156992
+    },
+    {
+      "name": "@encode_modrm@12",
+      "start": 156992,
+      "end": 157440
+    },
+    {
+      "name": "@encode_operand@12",
+      "start": 157440,
+      "end": 157952
+    },
+    {
+      "name": "@encode_integer@8",
+      "start": 157952,
+      "end": 158032
+    },
+    {
+      "name": "@fits_signed_byte@4",
+      "start": 158032,
+      "end": 158033,
+      "provisional": true
+    },
+    {
+      "name": "@displacement_mode@12",
+      "start": 158064,
+      "end": 158065,
+      "provisional": true
+    },
+    {
+      "name": "@label_has_backward_branch@4",
+      "start": 208688,
+      "end": 208689,
+      "provisional": true
+    },
+    {
+      "name": "@next_machine_operation@4",
+      "start": 429072,
+      "end": 429073,
+      "provisional": true
+    },
+    {
+      "name": "@alignment_lookahead@4",
+      "start": 208576,
+      "end": 208577,
+      "provisional": true
+    },
+    {
+      "name": "@extend_previous_instruction@8",
+      "start": 208480,
+      "end": 208481,
       "provisional": true
     }
   ],

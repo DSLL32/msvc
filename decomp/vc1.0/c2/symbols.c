@@ -98,3 +98,19 @@ void __fastcall activate_scope(ScopeHash *scope)
         compiler_internal_error("@(#)p2symtab.c:1.89", 0x4a8);
     current_scope = scope;
 }
+
+/* Original [0004dce0,0004dd30). Resolve an identifier in the active function
+   scope before falling back to the module table; zero is the null symbol. */
+SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier)
+{
+    unsigned bucket;
+    SymbolHeader *symbol;
+    if (!identifier) return 0;
+    bucket = identifier & 63;
+    if (current_scope)
+        for (symbol = current_scope->buckets[bucket]; symbol; symbol = symbol->hash_next)
+            if (symbol->identifier == identifier) return symbol;
+    for (symbol = global_scope.buckets[bucket]; symbol; symbol = symbol->hash_next)
+        if (symbol->identifier == identifier) return symbol;
+    return 0;
+}
