@@ -9,6 +9,11 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_legacy_tag_auxiliary', 0x6e084, 2),
+    ('_codeview_default_attributes', 0x6e138, 2),
+    ('_type_0080', 0x6b704, 4),
+    ('_debug_index_workspace', 0x673a8, 4000),
+    ('_debug_index_cursor', 0x6e1b8, 4),
     ('_extended_round_limit', 0x71088, 10),
     ('_type_0042', 0x6b6f0, 4),
     ('_debug_type_record_count', 0x6e080, 4),
@@ -222,6 +227,9 @@ def check(name, old, new, size):
     if name == '_source_filename':
         assert struct.unpack('<I', read(original, old, 4))[0] == 0x5d5bc
         assert struct.unpack('<I', read(rebuilt, new, 4))[0] == names['_token_buffer']
+    elif name == '_debug_index_cursor':
+        assert struct.unpack('<I', read(original, old, 4))[0] == 0x673a8
+        assert struct.unpack('<I', read(rebuilt, new, 4))[0] == names['_debug_index_workspace']
     elif name == '_text_work_cursor':
         # Initialized pointers must retain semantic targets after relocation.
         assert struct.unpack('<I', read(original, old, 4))[0] == 0x5f508
@@ -323,7 +331,7 @@ for index in range(6):
     for column, value in enumerate(values):
         assert value == struct.unpack('<I', read(original, 0x6f2e8 + column*24 + index*4, 4))[0], ('integer limit', index, column)
 
-for name, address, count in [('_pdb_floating_codes',0x6e140,12), ('_pdb_natural_unsigned_codes',0x6e158,12), ('_pdb_natural_signed_codes',0x6e170,12), ('_pdb_explicit_unsigned_codes',0x6e188,12), ('_pdb_explicit_signed_codes',0x6e1a0,10)]:
+for name, address, count in [('_pdb_floating_codes',0x6e140,12), ('_pdb_natural_unsigned_codes',0x6e158,12), ('_pdb_natural_signed_codes',0x6e170,12), ('_pdb_explicit_unsigned_codes',0x6e188,12), ('_pdb_signed_pointer_codes',0x6e1a0,12)]:
     assert read(original,address,2*count) == read(rebuilt,names[name],2*count), name
 
-print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match; 58 primitive debug codes match.' % (len(STATE), option_scalar_count))
+print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match; 58 primitive debug codes and four pointer models match.' % (len(STATE), option_scalar_count))

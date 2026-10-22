@@ -5,6 +5,7 @@
 #include "literal-names.h"
 #include "debug-info.h"
 #include "parser.h"
+#include "hash-table.h"
 unsigned *debug_record_buffer; /* original 0x5b24c */
 unsigned debug_type_bytes; /* original 0x6b810 */
 
@@ -291,8 +292,21 @@ unsigned short pdb_natural_signed_codes[12] = {
 unsigned short pdb_explicit_unsigned_codes[12] = {
     0, CV_UCHAR, CV_USHORT, 0, CV_ULONG, 0, 0, 0, CV_UQUAD, 0, 0, 0
 };
-unsigned short pdb_explicit_signed_codes[10] = {
-    0, CV_CHAR, CV_SHORT, 0, CV_LONG, 0, 0, 0, CV_QUAD, 0
+/* These tables share an original word-addressed boundary: the pointer
+   model bytes immediately follow ten signed-width codes. The union retains
+   both established views rather than borrowing unrelated neighboring data. */
+typedef struct SignedPointerCodeFields {
+    unsigned short signed_codes[10];
+    unsigned char models[4];
+} SignedPointerCodeFields;
+typedef union SignedAndPointerCodes {
+    SignedPointerCodeFields fields;
+    unsigned short words[12];
+} SignedAndPointerCodes;
+typedef char SignedAndPointerCodes_layout[(sizeof(SignedAndPointerCodes) == 24 &&
+    offsetof(SignedPointerCodeFields, models) == 20) ? 1 : -1];
+SignedAndPointerCodes pdb_signed_pointer_codes = {
+    { { 0, CV_CHAR, CV_SHORT, 0, CV_LONG, 0, 0, 0, CV_QUAD, 0 }, { 0, 10, 11, 2 } }
 };
 
 /* Original 0x493c0..0x49445. The natural-int family also carries a
@@ -306,7 +320,7 @@ unsigned short pdb_primitive_type_index(unsigned short flags)
     if (flags & 0x100) return pdb_floating_codes[width];
     if (((flags & 0x20) && (flags & 0x40)) || (width == 1 && !(flags & 0xc000)))
         return (flags & 0x4000) ? pdb_natural_unsigned_codes[width] : pdb_natural_signed_codes[width];
-    return (flags & 0x4000) ? pdb_explicit_unsigned_codes[width] : pdb_explicit_signed_codes[width];
+    return (flags & 0x4000) ? pdb_explicit_unsigned_codes[width] : pdb_signed_pointer_codes.words[width];
 }
 
 unsigned debug_type_record_count; /* original 0x6e080 */
@@ -487,4 +501,417 @@ unsigned short pdb_function_type_index(CType *type, unsigned short result)
     record->count = (unsigned short)pdb_argument_count((ParameterInfo *)type->related->field08);
     record->arguments = arguments;
     return intern_pdb_record(10);
+}
+
+/* Original 0x49760..0x4982d. Resolve nested parameter types into the
+   separate index workspace, then assemble LF_ARGLIST in the shared buffer. */
+unsigned short pdb_argument_list_index(ParameterInfo *parameters)
+{
+    unsigned short *saved = get_debug_index_cursor(), *record;
+    unsigned short index;
+    unsigned count, position;
+    index = (unsigned short)parameters->auxiliary;
+    if (index) return index;
+    count = pdb_argument_count(parameters);
+    for (position = 0; position < count; ++position) {
+        index = parameters->types[position] ? pdb_type_index(parameters->types[position]) : 0;
+        append_debug_index(index);
+    }
+    check_pdb_record_size(count * 2 + 4);
+    record = (unsigned short *)pdb_record_cursor;
+    record[0] = 0x201;
+    record[1] = (unsigned short)count;
+    set_debug_index_cursor(saved);
+    for (position = 0; position < count; ++position) record[position + 2] = saved[position];
+    set_debug_index_cursor(saved);
+    index = intern_pdb_record((unsigned short)(count * 2 + 4));
+    *(unsigned short *)&parameters->auxiliary = index;
+    return index;
+}
+
+/* Original 0x673a8..0x68348: the short-index workspace stops at the
+   separately referenced fatal-recursion counter, not at a rounded page. */
+unsigned short debug_index_workspace[2000];
+unsigned short *debug_index_cursor = debug_index_workspace; /* original 0x6e1b8 */
+
+/* Original 0x4a520..0x4a526. Nested records save this cursor before
+   emitting their own indices, then restore it after constructing a record. */
+unsigned short *get_debug_index_cursor(void)
+{
+    return debug_index_cursor;
+}
+
+/* Original 0x49830..0x49845. The canonical (void) entry occupies a
+   parameter vector slot while encoding an empty CodeView argument list. */
+unsigned pdb_argument_count(ParameterInfo *parameters)
+{
+    if (parameters->types[0] == type_0080) return 0;
+    return parameters->count;
+}
+
+/* Original 0x4a540..0x4a556. */
+void append_debug_index(unsigned short index)
+{
+    *debug_index_cursor++ = index;
+}
+
+/* Original 0x4a530..0x4a53a. */
+void set_debug_index_cursor(unsigned short *cursor)
+{
+    debug_index_cursor = cursor;
+}
+
+/* Original 0x48690..0x48716. Near and far forms occupy adjacent
+   CodeView calling-convention codes; interrupt has its own fixed code. */
+unsigned codeview_calling_convention(unsigned short attributes)
+{
+    unsigned is_far = (attributes & 7) != 1;
+    switch (attributes & 0x70) {
+    case 0: case 0x10: return is_far;
+    case 0x20: case 0x30: return 2 + is_far;
+    case 0x40: return 4 + is_far;
+    case 0x50: case 0x60: return 7 + is_far;
+    case 0x70: return 11;
+    }
+    return 15;
+}
+
+unsigned short codeview_default_attributes; /* original 0x6e138 */
+
+/* Original 0x49450..0x49698. Emit LF_POINTER, resolving based-symbol
+   type references before reusing the common record workspace. */
+unsigned short pdb_pointer_type_index(CType *type, unsigned short nested)
+{
+    TypeShape *shape = type->related;
+    FrontendSymbol *base = (FrontendSymbol *)shape->field08;
+    unsigned short attributes = shape->attributes, model, extra = 0;
+    unsigned char *record = pdb_record_cursor, *payload = record + 6;
+    model = attributes & 7;
+    if ((attributes & 12) && (attributes & 4)) {
+        if (model == 5) {
+            if ((base->kind & 0x1f) == 13) {
+                if (base->index != 6) {
+                    materialize_based_symbol(base);
+                    pdb_type_index(base->associated.members->type);
+                }
+            } else pdb_type_index(base->type);
+        } else if (model == 6 || model == 7) pdb_type_index(base->type);
+    }
+    *(unsigned short *)record = 2;
+    *(unsigned short *)(record + 2) = codeview_default_attributes;
+    record[2] &= 0x1f;
+    *(unsigned short *)(record + 4) = nested;
+    if (attributes & 0x1000) record[3] |= 4;
+    if (attributes & 0x2000) record[3] |= 2;
+    if (!(attributes & 12)) {
+        model = shape->attributes & 15;
+        record[2] = (record[2] & ~0x1f) | (pdb_signed_pointer_codes.fields.models[model] & 0x1f);
+        if (!model && (shape->flags & 7) >= 1 && (shape->flags & 7) <= 4)
+            record[2] = (record[2] & 0xea) | 10;
+    } else if (!(attributes & 4)) {
+        if (attributes & 8) record[2] = (record[2] & 0xe9) | 9;
+    } else switch (model) {
+    case 4:
+        record[2] = (record[2] & 0xe8) | 8;
+        *(unsigned short *)payload = 3;
+        payload[2] = 0;
+        extra = 3;
+        break;
+    case 5:
+        if ((base->kind & 0x1f) == 13 && base->index == 6) {
+            /* Fixed register-symbol description for the built-in base. */
+            record[2] = (record[2] & 0xe5) | 5;
+            *(unsigned short *)payload = 7;
+            *(unsigned short *)(payload + 2) = 2;
+            *(unsigned short *)(payload + 4) = 0;
+            *(unsigned short *)(payload + 6) = 0x1b;
+            payload[8] = 0;
+            extra = 9;
+        } else {
+            record[2] = (record[2] & 0xe4) | 4;
+            if ((base->kind & 0x1f) == 13) base = base->associated.members;
+            extra = write_codeview_symbol(payload, base);
+        }
+        break;
+    case 6:
+        record[2] = (record[2] & 0xe7) | 7;
+        extra = write_codeview_symbol(payload, base);
+        break;
+    case 7:
+        record[2] = (record[2] & 0xe5) | 5;
+        extra = write_codeview_symbol(payload, base);
+        break;
+    }
+    return intern_pdb_record((unsigned short)(extra + 6));
+}
+
+/* Original 0x49cb0..0x49e3e. Named structure/union types initially
+   receive forward records. Anonymous tags require their full definition. */
+unsigned short pdb_record_type_index(FrontendSymbol *tag)
+{
+    CType *type = tag->type;
+    unsigned short *record = (unsigned short *)pdb_record_cursor;
+    unsigned short flags = type->flags, index, properties, bytes;
+    unsigned short length; /* Unspecified for an invalid non-tag type. */
+    unsigned header;
+    index = (unsigned short)type->field0c;
+    if (index) return index;
+    if (tag->name == name_unnamed) {
+        *(unsigned short *)&type->field0c = pdb_complete_record_type_index(tag);
+        return (unsigned short)tag->type->field0c;
+    }
+    tag->flags &= ~2;
+    record[1] = 0;
+    if (flags == 0x402 || flags == 0x404) {
+        record[0] = flags == 0x402 ? 5 : 6;
+        properties = codeview_default_attributes | 0x80;
+        properties = (properties & ~8) | ((tag->metadata.value & 0x02000000UL) ? 8 : 0);
+        record[3] = properties;
+        record[2] = 0;
+        if (flags == 0x402) {
+            record[4] = record[5] = 0;
+            header = 12;
+        } else header = 8;
+        bytes = write_codeview_number((unsigned char *)record + header, 0);
+        length = (unsigned short)(header + bytes +
+            copy_codeview_name((char *)record + header + bytes, tag->name));
+    } else if (flags & 0x200) return pdb_enum_type_index(tag);
+    index = intern_pdb_record(length);
+    *(unsigned short *)&tag->type->field0c = index;
+    return (unsigned short)tag->type->field0c;
+}
+
+unsigned short legacy_tag_auxiliary; /* original 0x6e084 */
+
+/* Original 0x478c0..0x479dd. Complete a tag's debug description,
+   preserving native PDB emission and the deferred legacy record path. */
+unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol)
+{
+    CType *type;
+    FrontendSymbol *member;
+    unsigned short flags, index;
+    unsigned record, count = 0, kind;
+    int include;
+    if (options.line_records) {
+        pdb_complete_record_type_index(symbol);
+        return pdb_record_type_index(symbol);
+    }
+    if (!symbol) return 0;
+    type = symbol->type;
+    flags = type->flags;
+    index = (unsigned short)type->field0c;
+    if (index) return index;
+    *(unsigned short *)&type->field0c = next_debug_type_index;
+    record = queue_debug_record(1);
+    debug_type_records[record].value.symbol = symbol;
+    *(unsigned short *)&debug_type_records[record].auxiliary = legacy_tag_auxiliary;
+    if (symbol->flags & 1) {
+        if (flags & 0x200) count = hash_table_count(symbol->associated.enumerators);
+        else for (member = symbol->associated.members; member; member = member->next) {
+            kind = member->kind & 0x1f;
+            include = kind == 4 && member->name == name_unnamed &&
+                      (member->type->flags & 0x200);
+            if (!include)
+                include = member->name && member->name != name_unnamed &&
+                          member->name != name_alignment &&
+                          (kind < 1 || kind > 13 || kind == 5 || member->type);
+            if (include) {
+                if (kind != 2) emit_debug_type(member->type);
+                ++count;
+            }
+        }
+    }
+    debug_type_records[record].index = (unsigned short)count;
+    symbol->flags &= ~2;
+    return (unsigned short)symbol->type->field0c;
+}
+
+/* Original 0x49e40..0x4a02b. The tag caches a complete definition's
+   index separately from its interned type's forward-reference index. */
+unsigned short pdb_complete_record_type_index(FrontendSymbol *tag)
+{
+    unsigned short flags = tag->type->flags;
+    unsigned short properties = codeview_default_attributes, fields, bytes;
+    unsigned short length; /* Unspecified for an invalid non-record type. */
+    unsigned short *record = (unsigned short *)pdb_record_cursor;
+    unsigned count = 0, header;
+    if (tag->metadata.tag.debug_index) return tag->metadata.tag.debug_index;
+    if (flags & 0x200) return pdb_complete_enum_type_index(tag);
+    if (!(unsigned short)tag->type->field0c && tag->name != name_unnamed)
+        pdb_record_type_index(tag);
+    if (!(tag->flags & 1)) return 0;
+    tag->flags &= ~2;
+    fields = pdb_field_list_index(tag, &count, &properties);
+    record[1] = (unsigned short)count;
+    if (flags == 0x402 || flags == 0x404) {
+        record[0] = flags == 0x402 ? 5 : 6;
+        record[3] = properties;
+        record[2] = fields;
+        if (flags == 0x402) {
+            record[4] = record[5] = 0;
+            header = 12;
+        } else {
+            properties = (properties & ~1) | (top_packing(packing_stack)->alignment == 1);
+            record[3] = properties;
+            header = 8;
+        }
+        record[3] = (record[3] & ~8) | ((tag->metadata.tag.flags & 2) ? 8 : 0);
+        bytes = write_codeview_number((unsigned char *)record + header, tag->detail.value);
+        length = (unsigned short)(header + bytes +
+            copy_codeview_name((char *)record + header + bytes, tag->name));
+    }
+    tag->metadata.tag.debug_index = intern_pdb_record(length);
+    if (tag->name == name_unnamed)
+        *(unsigned short *)&tag->type->field0c = tag->metadata.tag.debug_index;
+    return tag->metadata.tag.debug_index;
+}
+
+/* Original 0x4a030..0x4a07e. The first pass resolves member references;
+   the second serializes them. Keep the fourth builder operand even though
+   this C frontend's implementation currently leaves the property word alone. */
+unsigned short pdb_field_list_index(FrontendSymbol *tag, unsigned *count, unsigned short *properties)
+{
+    unsigned short *saved = get_debug_index_cursor();
+    unsigned short index;
+    build_pdb_field_list(1, tag, count, properties);
+    set_debug_index_cursor(saved);
+    index = build_pdb_field_list(2, tag, count, properties);
+    set_debug_index_cursor(saved);
+    return index;
+}
+
+/* Original 0x4a080..0x4a180. Retain the unused fourth property operand:
+   both original wrapper calls pass four stack slots and clean sixteen bytes. */
+unsigned short build_pdb_field_list(unsigned pass, FrontendSymbol *tag,
+    unsigned *count, unsigned short *properties)
+{
+    unsigned char *record = pdb_record_cursor;
+    FrontendSymbol *member;
+    unsigned short bytes = 0;
+    unsigned kind;
+    int include;
+    *count = 0;
+    if (pass == 2) *(unsigned short *)record = 0x204;
+    for (member = tag->associated.members; member; member = member->next) {
+        kind = member->kind & 0x1f;
+        include = kind == 4 && member->name == name_unnamed && (member->type->flags & 0x200);
+        if (!include)
+            include = member->name && member->name != name_unnamed &&
+                      member->name != name_alignment &&
+                      (kind < 1 || kind > 13 || kind == 5 || member->type);
+        if (include) {
+            bytes += write_pdb_member(pass, member, pdb_record_cursor + bytes + 2);
+            bytes += pad_pdb_field_record(pass, record + bytes + 2, bytes);
+            ++*count;
+            check_pdb_record_size((unsigned)bytes + 2);
+        }
+    }
+    if (pass == 2) return intern_pdb_record((unsigned short)(bytes + 2));
+    return 0;
+}
+
+/* Original 0x4a1e0..0x4a292. Bitfield indices are retained in the
+   separate workspace between passes; ordinary types cache their own index. */
+unsigned short write_pdb_member(unsigned pass, FrontendSymbol *member, unsigned char *destination)
+{
+    unsigned short index, bytes;
+    if (pass == 1) {
+        if ((member->kind & 0x1f) == 2) append_debug_index(pdb_bitfield_type_index(member));
+        else pdb_type_index(member->type);
+        return 0;
+    }
+    *(unsigned short *)destination = 0x406;
+    *(unsigned short *)(destination + 4) = codeview_default_attributes | 3;
+    if ((member->kind & 0x1f) == 2) index = read_debug_index();
+    else index = (unsigned short)member->type->field0c;
+    *(unsigned short *)(destination + 2) = index;
+    bytes = write_codeview_signed_number(destination + 6, (int)member->detail.value);
+    return (unsigned short)(bytes + 6 +
+        copy_codeview_name((char *)destination + bytes + 6, member->name));
+}
+
+/* Original 0x4a2a0..0x4a2da. LF_BITFIELD includes the declared storage
+   type plus its independently packed bit width and bit position. */
+unsigned short pdb_bitfield_type_index(FrontendSymbol *member)
+{
+    unsigned char *record = pdb_record_cursor;
+    unsigned short index = pdb_type_index(member->type);
+    *(unsigned short *)record = 0x206;
+    record[2] = member->metadata.bitfield.width;
+    record[3] = member->metadata.bitfield.offset;
+    *(unsigned short *)(record + 4) = index;
+    return intern_pdb_record(6);
+}
+
+/* Original 0x4a180..0x4a19f. Resolution pass one consumes no record
+   bytes; only serialization pass two emits member-alignment leaves. */
+unsigned short pad_pdb_field_record(unsigned pass, unsigned char *destination, unsigned short bytes)
+{
+    if (pass == 2) return pad_codeview_record(destination, bytes);
+    return 0;
+}
+
+/* Original 0x4a3b0..0x4a3d0. Nonnegative offsets use the compact
+   unsigned representation; negative offsets require a signed numeric leaf. */
+unsigned short write_codeview_signed_number(unsigned char *destination, int number)
+{
+    if (number >= 0) return write_codeview_number(destination, (unsigned)number);
+    return write_codeview_signed_leaf(destination, number);
+}
+
+/* Original 0x4a560..0x4a570. Serialization reads forward through the
+   previously resolved index sequence after restoring its starting cursor. */
+unsigned short read_debug_index(void)
+{
+    return *debug_index_cursor++;
+}
+
+/* Original 0x49850..0x498d2. Resolve the unqualified type before
+   assembling its LF_MODIFIER record and caching the resulting index. */
+unsigned short pdb_qualified_type_index(CType *type)
+{
+    unsigned short *record = (unsigned short *)pdb_record_cursor;
+    unsigned short index, attributes;
+    CType *unqualified = remove_pdb_type_qualifiers(type);
+    index = pdb_type_index(unqualified);
+    record[0] = 1;
+    attributes = codeview_default_attributes;
+    record[1] = attributes;
+    attributes = (attributes & ~1) | ((type->attributes & 0x1000) ? 1 : 0);
+    record[1] = attributes;
+    record[1] = (attributes & ~2) | ((type->attributes & 0x2000) ? 2 : 0);
+    record[2] = index;
+    index = intern_pdb_record(6);
+    *(unsigned short *)&type->field0c = index;
+    return index;
+}
+
+/* Original 0x4a320..0x4a35b. The unqualified descriptor is interned
+   with a cleared debug-index word, preserving every other descriptor field. */
+CType *remove_pdb_type_qualifiers(CType *type)
+{
+    CType description = *type;
+    description.attributes &= ~0x3000;
+    *(unsigned short *)&description.field0c = 0;
+    return intern_type(&description);
+}
+
+/* Original 0x474b0..0x474cb. Keep native database finalization separate
+   from the legacy stream's terminating debug subsection record. */
+void finish_debug_info(void)
+{
+    if (options.line_records) finish_program_database();
+    else write_debug_record(7);
+}
+
+/* Original 0x49130..0x4917f. Terminate the debug stream, commit native
+   records, then close the manager. A failed commit skips the close call. */
+void finish_program_database(void)
+{
+    write_debug_record(7);
+    if (program_database) {
+        if (!commit_program_database(program_database) || !close_program_database(program_database))
+            report_syntax_error(471, database_path);
+        program_database = 0;
+    }
 }

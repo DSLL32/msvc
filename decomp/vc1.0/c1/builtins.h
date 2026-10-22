@@ -19,6 +19,8 @@ struct FrontendSymbol {
     } detail;
     union {
         unsigned value;
+        /* Tag variant: full CodeView index, alignment and tag flags. */
+        struct { unsigned short debug_index; unsigned char alignment, flags; } tag;
         struct {
             unsigned char offset, width;
             unsigned short reserved;

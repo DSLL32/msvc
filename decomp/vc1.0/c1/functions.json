@@ -613,7 +613,31 @@
     "@insert_program_database_type@12",
     "_hash_pdb_record",
     "@reserve_pdb_record_bytes@12",
-    "_pdb_function_type_index"
+    "_pdb_function_type_index",
+    "_pdb_argument_list_index",
+    "_get_debug_index_cursor",
+    "_pdb_argument_count",
+    "_append_debug_index",
+    "_set_debug_index_cursor",
+    "_codeview_calling_convention",
+    "_pdb_pointer_type_index",
+    "_pdb_record_type_index",
+    "_debug_symbol_type_index@4",
+    "_pdb_complete_record_type_index",
+    "_pdb_field_list_index",
+    "_build_pdb_field_list",
+    "_write_pdb_member",
+    "_pdb_bitfield_type_index",
+    "_pad_pdb_field_record",
+    "_write_codeview_signed_number",
+    "_read_debug_index",
+    "_pdb_qualified_type_index",
+    "_remove_pdb_type_qualifiers",
+    "_finish_debug_info",
+    "_finish_program_database",
+    "_commit_program_database",
+    "@write_program_database@4",
+    "_close_program_database"
   ],
   "driver": [
     {
@@ -882,7 +906,7 @@
     {
       "name": "_finish_debug_info",
       "start": 292016,
-      "end": 292017
+      "end": 292043
     },
     {
       "name": "_write_global_header",
@@ -2559,7 +2583,7 @@
     {
       "name": "_debug_symbol_type_index@4",
       "start": 293056,
-      "end": 293057
+      "end": 293341
     },
     {
       "name": "_fclose",
@@ -4074,7 +4098,7 @@
     {
       "name": "_pdb_qualified_type_index",
       "start": 301136,
-      "end": 301137
+      "end": 301266
     },
     {
       "name": "_pdb_base_type_index",
@@ -4089,7 +4113,7 @@
     {
       "name": "_pdb_record_type_index",
       "start": 302256,
-      "end": 302257
+      "end": 302654
     },
     {
       "name": "_pdb_primitive_type_index",
@@ -4159,7 +4183,7 @@
     {
       "name": "_pdb_pointer_type_index",
       "start": 300112,
-      "end": 300113
+      "end": 300696
     },
     {
       "name": "_pdb_array_type_index",
@@ -4214,17 +4238,117 @@
     {
       "name": "_pdb_argument_list_index",
       "start": 300896,
-      "end": 300897
+      "end": 301101
     },
     {
       "name": "_codeview_calling_convention",
       "start": 296592,
-      "end": 296593
+      "end": 296726
     },
     {
       "name": "_pdb_argument_count",
       "start": 301104,
-      "end": 301105
+      "end": 301125
+    },
+    {
+      "name": "_get_debug_index_cursor",
+      "start": 304416,
+      "end": 304422
+    },
+    {
+      "name": "_set_debug_index_cursor",
+      "start": 304432,
+      "end": 304442
+    },
+    {
+      "name": "_append_debug_index",
+      "start": 304448,
+      "end": 304470
+    },
+    {
+      "name": "_materialize_based_symbol@4",
+      "start": 220208,
+      "end": 220209
+    },
+    {
+      "name": "_write_codeview_symbol",
+      "start": 304272,
+      "end": 304273
+    },
+    {
+      "name": "_pdb_complete_record_type_index",
+      "start": 302656,
+      "end": 303147
+    },
+    {
+      "name": "_pdb_complete_enum_type_index",
+      "start": 301600,
+      "end": 301601
+    },
+    {
+      "name": "_pdb_field_list_index",
+      "start": 303152,
+      "end": 303230
+    },
+    {
+      "name": "_build_pdb_field_list",
+      "start": 303232,
+      "end": 303488
+    },
+    {
+      "name": "_write_pdb_member",
+      "start": 303584,
+      "end": 303762
+    },
+    {
+      "name": "_pad_pdb_field_record",
+      "start": 303488,
+      "end": 303519
+    },
+    {
+      "name": "_pdb_bitfield_type_index",
+      "start": 303776,
+      "end": 303834
+    },
+    {
+      "name": "_read_debug_index",
+      "start": 304480,
+      "end": 304496
+    },
+    {
+      "name": "_write_codeview_signed_number",
+      "start": 304048,
+      "end": 304080
+    },
+    {
+      "name": "_write_codeview_signed_leaf",
+      "start": 304080,
+      "end": 304081
+    },
+    {
+      "name": "_remove_pdb_type_qualifiers",
+      "start": 303904,
+      "end": 303963
+    },
+    {
+      "name": "_finish_program_database",
+      "start": 299312,
+      "end": 299391
+    },
+    {
+      "name": "_commit_program_database",
+      "start": 98336,
+      "end": 98345
+    },
+    {
+      "name": "_close_program_database",
+      "start": 98016,
+      "end": 98219
+    },
+    {
+      "name": "@write_program_database@4",
+      "start": 96880,
+      "end": 97074
     }
   ],
   "cases": {
@@ -4245,7 +4369,8 @@
     },
     "numeric-varargs": {
       "arguments": "",
-      "accepted_from": 510
+      "accepted_from": 510,
+      "accepted_count": 633
     }
   },
   "buffered_streams": [

@@ -1,19 +1,76 @@
 {
   "case": "../fixtures/numeric-varargs/manifest.json phases.c1",
-  "status": "incomplete",
+  "status": "complete",
   "after": "hello-dll",
   "requested_driver_case": "CL.EXE /Zi /Od /G5 /W3 numeric-varargs.c",
   "accepted_from": 510,
   "notes": "The captured C4069 line-24 warning is expected verbatim, including CRLF; all four intermediate files are compared raw.",
-  "reconstructed_source_functions": 477,
-  "accepted_frontiers": 576,
-  "current_matching_trap": "_classify_pointer_qualifiers@12",
-  "original_va": "0x40e00",
-  "replay": "All 66 new frontiers replay, including visible files, pending FILE buffers, and stdout/stderr; all three prior raw-output cases independently pass again.",
-  "auxiliary_oracle": "Canonical N:\\numeric-varargs in separate private Wine prefixes. Both original auxiliary files match the immutable capture after only timestamp DWORD normalization, with within-run equality checked before normalization. Native writer provenance established.",
-  "state_verification": "184 state defaults/aliases, all 13 logical debug schemas and 477 source call graphs match. Instruction-boundary lookahead validates original/rebuilt extents; three old RET operand truncations corrected. The logical grammar audit passes.",
-  "warning_verification": "Both processes emit the captured line-24 C4069 warning verbatim, including CRLF, before reaching the current frontier.",
-  "accepted_code_union_bytes": 168095,
+  "reconstructed_source_functions": 534,
+  "accepted_frontiers": 633,
+  "current_matching_trap": null,
+  "original_va": null,
+  "replay": "All 123 new numeric frontiers and all 510 prior frontiers replay against the clean final build: 258 minimal-C, 251 hello-win32, one hello-dll, and 123 numeric-varargs. Logical traps, pending FILE bytes, visible files and stdout/stderr match at every frontier.",
+  "auxiliary_oracle": "Canonical N:\\numeric-varargs in separate private original/reconstructed/baseline Wine prefixes. No path normalization. Native time argument -> PDB header+48 -> signature getter -> LF_TYPESERVER -> irdb+14 provenance established. Within-run equality is enforced before normalization.",
+  "state_verification": "All 534 source call graphs and original/rebuilt instruction boundaries match. Compile-time size/offset audits cover database/header/list/type-cache/tag layouts; 206 state defaults/aliases, option/pragma/callback identities, special names, integer limits, primitive debug codes, pointer models and logical debug schemas match.",
+  "warning_verification": "Both masked original and reconstruction, plus independent untouched original, emit exactly numeric-varargs.c(24) : warning C4069: long double is the same precision as double followed by CRLF.",
+  "accepted_code_union_bytes": 176607,
   "original_code_bytes": 277234,
-  "extent_coverage_percent": 60.63289495516423
+  "extent_coverage_percent": 63.70322543410981,
+  "artifact_verification": "Exit 0, empty stdout and exact line-24 C4069 CRLF warning. irex2330, irsy535, irin149 and irgl402 match raw. Canonical irdb51 and msvc.pdb574 match after only their proven timestamp DWORDs are normalized; each run must first satisfy raw timestamp equality.",
+  "build_verification": "Clean original-toolchain make -j2 check CASE=numeric-varargs passed, followed by complete four-case frontier replay and independent untouched-original final-output checks.",
+  "grammar_verification": "All 376 states, 57904 actions/timings, 227 productions and 34216 gotos match.",
+  "coverage_metric": "Union of accepted original source-function extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage.",
+  "verified_outputs": [
+    {
+      "name": "irex",
+      "bytes": 2330,
+      "sha256": "611080288cc5d61aeb31f22956b3fcddaea2c9b14058ff64923f91099e256e56"
+    },
+    {
+      "name": "irsy",
+      "bytes": 535,
+      "sha256": "5ca184105b4d1138a7679df2bb3524326a39d1af325b0381867af16ad6345756"
+    },
+    {
+      "name": "irin",
+      "bytes": 149,
+      "sha256": "10ef60d30d2b65ce595cfe075ccb2e4782d12e6961a93d41435a9896384645e6"
+    },
+    {
+      "name": "irgl",
+      "bytes": 402,
+      "sha256": "80f0c8be490942aea0b41e2fa3cf3567be63f05c0dbeb2eebc6a9d40c531c8b9"
+    },
+    {
+      "name": "irdb",
+      "bytes": 51,
+      "sha256": "d59c81e5f96c270c07a65134f1f4a3f0be78b6da9b28bd45c5049cafa09012e5",
+      "ignored_fields": [
+        {
+          "offset": 14,
+          "bytes": 4,
+          "name": "PDB database timestamp"
+        }
+      ],
+      "normalized_sha256": "26e420607df9813c449ec294afd663990ad8071b7b8f41043c257f344f734ea4"
+    },
+    {
+      "name": "msvc.pdb",
+      "bytes": 574,
+      "sha256": "8e8398bccc97132befc057de14d38b9a59e114f9445cba4aeb19ab0cf07809e2",
+      "ignored_fields": [
+        {
+          "offset": 48,
+          "bytes": 4,
+          "name": "PDB database timestamp"
+        }
+      ],
+      "normalized_sha256": "8686fd2c72bd245604e2cceac6484ece3a00b97925fbdd371a962b0e9332fd21"
+    }
+  ],
+  "verified_debug_signature": {
+    "original": 1792672125,
+    "reconstructed": 1792672125,
+    "baseline": 1792672128
+  }
 }

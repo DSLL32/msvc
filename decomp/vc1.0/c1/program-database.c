@@ -288,3 +288,60 @@ unsigned char *__fastcall reserve_pdb_record_bytes(PdbBufferList *self,
     self->count += bytes;
     return result;
 }
+
+/* Original 0x18020..0x18029. The cdecl wrapper bridges to the writer's
+   ECX-only method entry; its tail call has the same graph edge as this call. */
+int commit_program_database(ProgramDatabase *self)
+{
+    return write_program_database(self);
+}
+
+/* Original 0x17a70..0x17b32. Append only buffers allocated after loading
+   the database, then update the header's byte count and generation age. */
+int __fastcall write_program_database(ProgramDatabase *self)
+{
+    PdbBuffer *buffer;
+    unsigned bytes;
+    if (!self->writable) fatal_error(1, "typesrvr.cpp", 363);
+    buffer = self->records.head;
+    while (buffer != self->loaded_tail) buffer = buffer->next;
+    if (_lseek(self->handle, self->header.record_bytes + sizeof(PdbHeader), SEEK_SET) < 0) return 0;
+    while ((buffer = buffer->next) != 0) {
+        bytes = buffer->cursor - (unsigned char *)(buffer + 1);
+        if (_write(self->handle, buffer + 1, bytes) != (int)bytes) return 0;
+    }
+    self->header.record_bytes = self->records.count;
+    ++self->header.age;
+    if (_lseek(self->handle, 0, SEEK_SET) < 0) return 0;
+    return _write(self->handle, self, sizeof(PdbHeader)) == sizeof(PdbHeader);
+}
+
+/* Original 0x17ee0..0x17fab. Close first, remembering its status,
+   then run the manager's inlined deleting destructor and both list releases. */
+int close_program_database(ProgramDatabase *self)
+{
+    int valid = 1;
+    PdbBuffer *buffer, *next;
+    if (self->handle >= 0) {
+        valid = _close(self->handle) >= 0;
+        self->handle = -1;
+    }
+    if (self) {
+        if (self->handle != -1 && self->handle >= 0) {
+            _close(self->handle);
+            self->handle = -1;
+        }
+        if (self->type_offsets) free(self->type_offsets);
+        if (self->type_index) free(self->type_index);
+        for (buffer = self->blocks.head; buffer; buffer = next) {
+            next = buffer->next;
+            free(buffer);
+        }
+        for (buffer = self->records.head; buffer; buffer = next) {
+            next = buffer->next;
+            free(buffer);
+        }
+        free(self);
+    }
+    return valid;
+}

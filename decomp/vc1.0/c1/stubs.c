@@ -63,7 +63,6 @@ void load_precompiled_header(void) { __asm { int 3 } }
 /* Original 0x362c0. */
 
 /* Original 0x474b0. */
-void finish_debug_info(void) { __asm { int 3 } }
 
 /* Original 0x36b30. */
 
@@ -461,7 +460,6 @@ void report_ide_file_end(void) { __asm { int 3 } }
 
 void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
 
-unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 int fclose(FILE *file) { __asm { int 3 } return 0; }
 int _unlink(const char *name) { __asm { int 3 } return 0; }
@@ -859,10 +857,8 @@ unsigned __stdcall queue_debug_record(unsigned char kind) { __asm { int 3 } }
 void __stdcall emit_function_debug_type(CType *type) { __asm { int 3 } }
 
 
-unsigned short pdb_qualified_type_index(CType *type) { __asm { int 3 } }
 
 unsigned short pdb_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
-unsigned short pdb_record_type_index(FrontendSymbol *tag) { __asm { int 3 } }
 
 void __stdcall write_legacy_pointer_type(CType *type, unsigned short nested) { __asm { int 3 } }
 void __stdcall write_legacy_array_type(CType *type, unsigned short nested) { __asm { int 3 } }
@@ -875,13 +871,21 @@ void __stdcall write_legacy_argument_list(ParameterInfo *parameters) { __asm { i
 void __stdcall write_legacy_argument_slice(CType **parameters, unsigned first, unsigned limit) { __asm { int 3 } }
 void reset_debug_type_records(void) { __asm { int 3 } }
 
-unsigned short pdb_pointer_type_index(CType *type, unsigned short nested) { __asm { int 3 } }
 
 
 
 
 
 
-unsigned short pdb_argument_list_index(ParameterInfo *parameters) { __asm { int 3 } }
-unsigned char codeview_calling_convention(unsigned short attributes) { __asm { int 3 } }
-unsigned pdb_argument_count(ParameterInfo *parameters) { __asm { int 3 } }
+
+
+void __stdcall materialize_based_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
+unsigned short write_codeview_symbol(unsigned char *destination, FrontendSymbol *symbol) { __asm { int 3 } }
+
+
+unsigned short pdb_complete_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
+
+
+
+
+unsigned short write_codeview_signed_leaf(unsigned char *destination, int number) { __asm { int 3 } }

@@ -2,12 +2,13 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-The first three captured cases are complete. The assigned fourth case,
-numeric-varargs (/Zi /Od /G5 /W3), is in progress: 510 reconstructed source
-functions and 609 accepted trap frontiers. All three earlier raw-output
-regressions pass. Every new numeric frontier replays with exact pending
-buffers, visible files and stdout/stderr except the two proven database
-timestamp fields. The current paired trap is pdb_argument_list_index at original 0x49760.
+All four captured cases are complete: 534 reconstructed source functions
+and 633 accepted trap frontiers. A clean original-toolchain make -j2 build
+and every recorded frontier pass against the final build, with exact pending
+FILE buffers, visible outputs and diagnostics. Independent untouched-original
+replays also reproduce all four captures. Numeric debug files retain their
+canonical path bytes; only two native timestamp DWORDs are normalized after
+their raw within-run equality has been checked.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -29,6 +30,13 @@ stdout/stderr and produce the captured raw intermediates: irex 2129, irsy 499,
 irin 49, and irgl 669 bytes. The new frontier and all 509 earlier frontiers
 replay successfully against this build on their recorded cases.
 
+The numeric/varargs case uses CL /Zi /Od /G5 /W3. All 123 additional
+frontiers pass, then both executables exit 0 with empty stdout and the exact
+captured line-24 C4069 CRLF warning. Raw irex2330, irsy535, irin149 and
+irgl402 match. irdb51 and msvc.pdb574 match at N:\numeric-varargs after only
+timestamp DWORDs at irdb+14 and PDB+48 are normalized; both fields agree in
+each run before normalization. cases/numeric-varargs.json records hashes.
+
 Unvisited functions remain individually named trapping stubs for subsequent
 cases. The accepted functions retain their complete control flow and calls
 to those entries.
@@ -42,6 +50,8 @@ Build and differential workflow
   make replay CASE=hello-win32
   make check CASE=hello-dll
   make replay CASE=hello-dll
+  make check CASE=numeric-varargs
+  make replay CASE=numeric-varargs
 
 Builds use the original CL.EXE and LINK.EXE through Wine, with a private
 prefix at ~/.ai-tmp/vc1.0-c1/wine. The original toolchain is read-only.
@@ -473,3 +483,23 @@ remaining data, option and grammar audits. Accepted extent union is
 173101/277234 bytes (62.4386%, not branch coverage). New PDB records are now
 interned in memory; final database writing, case acceptance and full older
 frontier regressions remain pending.
+
+Checkpoint 534 completes the numeric/varargs case. Native argument-list,
+modifier, pointer, structure/union, field-list and bitfield records preserve
+forward and complete tag indices separately. Their two-pass index workspace
+has its original cursor identity and established 4000-byte storage boundary.
+Record/tag/parameter caches have explicit recovered layouts; no original
+opaque data or record snapshots are compiled into the reconstruction.
+Database finalization appends new buffers, updates its typed header, closes
+the handle and releases both allocation lists through the original graph.
+
+The final clean original-toolchain make -j2 check passes. All 633 frontiers
+replay: 258 minimal-C, 251 hello-win32, one hello-dll, and 123 numeric-varargs.
+Each case then matches its immutable capture and independent untouched
+original. All 534 source call graphs and instruction-boundary checks pass,
+along with recovered size/offset assertions, 206 state defaults/aliases,
+logical tables and the complete grammar audit. Final accepted original
+code-extent union is 176607/277234 bytes (63.7032254341%), including shared
+text data, CRT and import thunks, clipped to code-section VirtualSize.
+This measures accepted byte extents, not branch coverage. The assigned work
+stops here; no additional case has been queued by this checkpoint.
