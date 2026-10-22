@@ -61,6 +61,34 @@
           "bytes": 402,
           "sha256": "80f0c8be490942aea0b41e2fa3cf3567be63f05c0dbeb2eebc6a9d40c531c8b9",
           "output_name": "irgl"
+        },
+        {
+          "path": "c2/irdb",
+          "output_name": "irdb",
+          "bytes": 51,
+          "sha256": "ba063efc3336e0745cc96abeacc414f66274956138600567d13f372f54f98937",
+          "ignored_fields": [
+            {
+              "offset": 14,
+              "bytes": 4,
+              "name": "PDB database timestamp"
+            }
+          ],
+          "normalized_sha256": "26e420607df9813c449ec294afd663990ad8071b7b8f41043c257f344f734ea4"
+        },
+        {
+          "path": "c2/msvc.pdb",
+          "output_name": "msvc.pdb",
+          "bytes": 574,
+          "sha256": "9f63fca3521c5c90b12b093eec85d5b89f0374e902233643cf7a6f638f784090",
+          "ignored_fields": [
+            {
+              "offset": 48,
+              "bytes": 4,
+              "name": "PDB database timestamp"
+            }
+          ],
+          "normalized_sha256": "8686fd2c72bd245604e2cceac6484ece3a00b97925fbdd371a962b0e9332fd21"
         }
       ],
       "toolchain_dependencies": [
@@ -83,6 +111,22 @@
         {
           "path": "toolchains/1.0-nt/bin/C1.ERR",
           "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "canonical_working_directory": "N:\\numeric-varargs",
+      "namespace_requirement": "Each label uses a private Wine prefix whose N: maps to its own output root; the actual cwd and PDB path are identical. Do not normalize paths.",
+      "cross_output_checks": [
+        {
+          "kind": "equal-u32",
+          "left": {
+            "file": "msvc.pdb",
+            "offset": 48
+          },
+          "right": {
+            "file": "irdb",
+            "offset": 14
+          },
+          "meaning": "PDB database signature timestamp and its companion reference must agree before normalization."
         }
       ]
     }

@@ -23,12 +23,23 @@ The warning is captured with original CRLF; no modern precision assumption or
 warning suppression is used. All four raw outputs match the original CL child
 capture exactly: irex2330, irsy535, irin149, irgl402 bytes.
 
-Verify the C1 reference independently from repository root:
-  python3 decomp/vc1.0/fixtures/minimal-c/verify.py --fixture decomp/vc1.0/fixtures/numeric-varargs c1
+The /Zi run also creates irdb and msvc.pdb. Two fresh original captures at
+canonical Windows cwd N:\numeric-varargs retain an identical raw PDB path
+N:\numeric-varargs\msvc.pdb. Each paired label needs its own private prefix
+and N: mapping, so outputs cannot collide and no paths are normalized.
+Auxiliary oracles: irdb51 bytes, msvc.pdb574 bytes. Compare all auxiliary bytes
+except the shared timestamp DWORD at irdb+14 and msvc.pdb+48; require both values
+to agree within each run before normalization. The PDB format signature and
+full file-set receipts are recorded in validation.json. Native writer/field
+provenance is to be audited during reconstruction before final acceptance.
+The simple minimal-c verifier does not configure this namespace; use the C1
+harness numeric-varargs case for the complete six-output check.
 
-C2 and LINK input snapshots and the successful original executable are retained
+Original C2/LINK snapshots and the successful original executable are retained
 as original-only references. They are not assigned to those workers by this
-case. No normalization is allowed for the four C1 output files. The reference
+case. The retained backend snapshot predates canonical PDB capture and is not
+a complete independent C2 case; that needs fresh auxiliary-input capture.
+No normalization is allowed for the first four C1 output files. The reference
 object/executable hashes identify captures; timestamp normalization for future
 backend/link cases must be separately established.
 
