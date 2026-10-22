@@ -47,20 +47,20 @@
       "case": "library-dump-library",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "dump-library",
-      "status": "active",
-      "current_frontier": "_dump_headers"
+      "status": "complete"
     },
     {
       "case": "library-dump-object",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "dump-object",
-      "status": "queued"
+      "status": "complete"
     },
     {
       "case": "library-dump-dll",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "dump-dll",
-      "status": "queued"
+      "status": "active",
+      "current_frontier": "_dump_debug_directory"
     },
     {
       "case": "library-edit",

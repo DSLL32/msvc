@@ -546,3 +546,24 @@ long-name and valid/invalid end-marker text remain at their use. Pending33110
 is named dump_coff_symbols to distinguish the older linker dump_symbols vertex.
 The graph auditor also rejects duplicate reconstructed vertex names. All source
 remains readable C; no assembly/ABI exception was needed.
+
+Archive/object dump checkpoint:512 frontiers,153435/281634 bytes(54.4803%).
+Both /all cases complete with exact frozen streams/status and untouched original
+agreement. Fresh clean -j2, all11 new-frontier replay since full501, all twelve
+completed regressions,369 graph/360 callback/297 data/517 boundary audits pass.
+DLL/all currently traps at matching dump_debug_directory;33347 flushed stdout
+bytes match raw and stderr is empty. No final DLL dump result is yet claimed.
+
+Human C in dump.c recovers COFF/ROM/PE headers, version spacing and even the
+native trailing-percent formats. Machine/subsystem/directory and symbol type/
+class lookup literals stay local to their formatter. The section walker keeps
+its complete native extent including dispatch data, COMDAT selection/name rules,
+summary/filtering, optional disassembler ABI, byte/WORD/DWORD rows with tail
+width changes and exact ASCII spacing. The18-byte ASCII preview is a genuinely
+mutable shared row, not a section snapshot. Range addition wraps as DWORD in
+the native AL predicate. Relocations retain all native target-machine names;
+line rows retain five-column/function markers. Symbol and auxiliary readers
+preserve18-byte FILE concatenation, original-symbol copies before streamed
+auxiliaries, derived type ordering, name sanitization/optional undecoration,
+section/COMDAT and weak metadata, and the actual unknown-auxiliary hex output.
+No executable payload, bulk data or assembly exception was introduced.

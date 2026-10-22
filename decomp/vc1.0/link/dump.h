@@ -17,4 +17,6 @@ void dump_string_table(const char *);
 void dump_sections(void);
 void dump_symbol_map(void);
 void dump_coff_symbols(void);
+typedef struct DumpStringTable { char *data; unsigned long size; } DumpStringTable;
+extern DumpStringTable dump_string_view;
 #endif

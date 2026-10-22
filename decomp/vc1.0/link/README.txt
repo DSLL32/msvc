@@ -50,7 +50,12 @@ member and beta omitted from the trimmed archive.496 accepted frontiers cover
 case regressions pass. The dump driver, option parser and by-value archive
 metadata formatter now reach matching dump_headers. Fresh clean -j2, full501
 replay and ten completed regressions pass;141995/281634 bytes=50.4183%.
-Header/section/symbol and directory formatting and editor paths remain pending.
+Archive/all and object/all now complete with exact streams/status and untouched
+original agreement (archive stdout23108 bytes). Clean -j2, all11 additions since
+full501 replay, twelve completed regressions,369 graph/360 callback/297 data
+and517 boundary audits pass.512 frontiers cover153435/281634 bytes=54.4803%.
+DLL/all reaches matching dump_debug_directory with33347 flushed output bytes
+raw-identical. Remaining directory formatters and editor paths remain pending.
 
 The untouched original passes exact verbose output/artifact checks and the
 aliased HelloEntry load/call/paint/close/unload check. The frozen output preserves

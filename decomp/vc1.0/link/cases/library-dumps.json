@@ -1,28 +1,95 @@
 {
-  "case": "library-dump-library",
+  "case": "library-dump-dll",
   "status": "in progress",
-  "current_frontier": "_dump_headers",
+  "current_frontier": "_dump_debug_directory",
   "fixture": "../fixtures/link-library-tools/manifest.json",
-  "phase": "dump-library",
+  "phase": "dump-dll",
   "checkpoint": {
-    "accepted_frontiers": 501,
-    "full_frontiers_replayed": 501,
-    "ten_completed_cases_pass": true,
+    "accepted_frontiers": 512,
+    "last_full_replay": 501,
+    "new_frontiers_replayed": 11,
+    "twelve_completed_cases_pass": true,
     "clean_parallel_build": true,
-    "graph_audits": 358,
-    "callback_audits": 349,
-    "data_audits": 295,
-    "original_extent_boundaries": 506,
-    "coverage": "cases/coverage-after-dump-driver.json",
-    "replay_sha256": "bf1c85a3eaa64ae5ace2c899f14483c7b5a261ac8418f28aebca124e6ec9c9a9",
-    "regressions_sha256": "3a3f58da211471f7d681c916a1ac84b3b2d01b5d963191f0829359e759e2e899"
+    "graph_audits": 369,
+    "callback_audits": 360,
+    "data_audits": 297,
+    "original_extent_boundaries": 517,
+    "coverage": "cases/coverage-after-dump-objects.json",
+    "new_replay_and_regressions_sha256": "d6222d85ac755e8e38f886f47cf99248fda6a00257a3ad0219a4fb5f7db3e699"
   },
-  "remaining": "COFF/PE headers, sections, symbol and directory formatters, then object/DLL dump and editor lifecycle.",
+  "remaining": "Debug-directory, import/export/base-relocation formatting for DLL/all, then editor and edited headers.",
   "abi_exceptions": [],
   "archive_prefix_at_header_frontier": {
     "stdout": {
       "bytes": 114,
       "sha256": "bc34e9d0f94946b86a7905e3a5153aa721659dfc64d3c8711091a555d445d3d3"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "previous_checkpoints": [
+    {
+      "accepted_frontiers": 501,
+      "full_frontiers_replayed": 501,
+      "ten_completed_cases_pass": true,
+      "clean_parallel_build": true,
+      "graph_audits": 358,
+      "callback_audits": 349,
+      "data_audits": 295,
+      "original_extent_boundaries": 506,
+      "coverage": "cases/coverage-after-dump-driver.json",
+      "replay_sha256": "bf1c85a3eaa64ae5ace2c899f14483c7b5a261ac8418f28aebca124e6ec9c9a9",
+      "regressions_sha256": "3a3f58da211471f7d681c916a1ac84b3b2d01b5d963191f0829359e759e2e899"
+    }
+  ],
+  "completed_phases": {
+    "dump-library": {
+      "arguments": [
+        "-dump",
+        "/all",
+        "helpers.lib"
+      ],
+      "exit_status": 0,
+      "streams": {
+        "stdout": {
+          "bytes": 23108,
+          "sha256": "b3daf69a7b719cb2097573a28ea32ea2094097a3c40ef0fa9ca61a2a37b1fd27"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "outputs": [],
+      "status": "complete"
+    },
+    "dump-object": {
+      "arguments": [
+        "-dump",
+        "/all",
+        "member-with-a-long-name-alpha.obj"
+      ],
+      "exit_status": 0,
+      "streams": {
+        "stdout": {
+          "bytes": 11391,
+          "sha256": "33583fea8a317ba1659b564bcba4c90f5369371ab0fc6f0a0c9a638870d8431c"
+        },
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "outputs": [],
+      "status": "complete"
+    }
+  },
+  "dll_prefix_at_debug_directory_frontier": {
+    "stdout": {
+      "bytes": 33347,
+      "sha256": "9e6f7074631e7c435d8981b02543a56fc9bcd7266ef4cc9af9d1c2cda78e7e58"
     },
     "stderr": {
       "bytes": 0,

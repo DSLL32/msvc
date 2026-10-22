@@ -1882,5 +1882,17 @@
     "name": "dump_section_headers",
     "size": 4,
     "owner": "dump.c"
+  },
+  {
+    "address": 453776,
+    "name": "dump_string_view",
+    "size": 8,
+    "owner": "dump.c"
+  },
+  {
+    "address": 511648,
+    "name": "dump_ascii",
+    "size": 18,
+    "owner": "dump.c"
   }
 ]

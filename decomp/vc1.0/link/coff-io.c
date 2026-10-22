@@ -216,3 +216,14 @@ unsigned write_coff_lines(int file,PIMAGE_LINENUMBER lines,unsigned long count,I
     }
     return write_file(file,lines,count*IMAGE_SIZEOF_LINENUMBER);
 }
+
+/* Original [00025a80,00025ad0). Accept the native COFF machine set. */
+unsigned char valid_coff_machine(IMAGE_FILE_HEADER *header)
+{
+    switch (header->Machine) {
+    case 0: case 0x14c: case 0x14d: case 0x162: case 0x166: case 0x268:
+        return 1;
+    default:
+        return 0;
+    }
+}

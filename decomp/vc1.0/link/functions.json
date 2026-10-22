@@ -500,7 +500,18 @@
     "_process_dump_options",
     "_dump_file",
     "_dump_archive_header",
-    "_fputc"
+    "_fputc",
+    "_dump_headers",
+    "_valid_coff_machine",
+    "_dump_string_table",
+    "_dump_sections",
+    "_valid_dump_range",
+    "_dump_relocations",
+    "_dump_lines",
+    "_print_dump_symbol_name",
+    "_dump_coff_symbols",
+    "_print_dump_symbol",
+    "_print_dump_auxiliary"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -4347,26 +4358,29 @@
     {
       "name": "_dump_headers",
       "start": 200016,
-      "end": 200017,
-      "source": "dump-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(const char *,unsigned char)"
+      "end": 201760,
+      "source": "dump.c",
+      "implementation": "C",
+      "abi": "cdecl void(const char *,unsigned char)",
+      "evidence": "Matched30d50 trap; full30d50..31420: validated COFF machine, optional-header read, native file-kind and WORD flags, version padding, typed ROM overlay and PE directories. Local machine/subsystem/directory lookup literals at use; preserve trailing-percent formats."
     },
     {
       "name": "_dump_string_table",
       "start": 208752,
-      "end": 208753,
-      "source": "dump-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(const char *)"
+      "end": 208832,
+      "source": "dump.c",
+      "implementation": "C",
+      "abi": "cdecl void(const char *)",
+      "evidence": "Matched32f70 trap; complete32f70..32fc0: archive-relative COFF symbol-end string read, shared coff_strings alias and8-byte data/size view consumed by native disassembly interface."
     },
     {
       "name": "_dump_sections",
       "start": 201760,
-      "end": 201761,
-      "source": "dump-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 205840,
+      "source": "dump.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched31420 trap; full31420..32410 including dispatch data323ac..32410: typed section filtering/summary, flags and COMDAT names, raw row/ASCII and width fallbacks, native disassembler ABI, PE directory dispatch and relocation/line range gates."
     },
     {
       "name": "_dump_symbol_map",
@@ -4379,10 +4393,122 @@
     {
       "name": "_dump_coff_symbols",
       "start": 209168,
-      "end": 209169,
-      "source": "dump-stubs.c",
+      "end": 209632,
+      "source": "dump.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched33110 trap; complete33110..332e0: native symbol/auxiliary cursor and indices, original18-byte record copy before streamed auxiliaries, concatenated FILE auxiliary names plus subsequent-record previews, shared string-size footer."
+    },
+    {
+      "name": "_valid_coff_machine",
+      "start": 154240,
+      "end": 154320,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned char(IMAGE_FILE_HEADER *)",
+      "evidence": "Matched25a80 trap; complete25a80..25ad0: AL boolean accepts unknown0 and the five supported machine IDs; no further header fields or calls."
+    },
+    {
+      "name": "_disassemble_section",
+      "start": 306720,
+      "end": 306721,
       "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "source": "dump-stubs.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *,unsigned short,PIMAGE_SYMBOL,unsigned long,unsigned char,DumpStringTable *,int,FILE *)"
+    },
+    {
+      "name": "_dump_fpo",
+      "start": 214208,
+      "end": 214209,
+      "implementation": "stub-C",
+      "source": "dump-stubs.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+    },
+    {
+      "name": "_dump_debug_directory",
+      "start": 214832,
+      "end": 214833,
+      "implementation": "stub-C",
+      "source": "dump-stubs.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+    },
+    {
+      "name": "_dump_imports",
+      "start": 212000,
+      "end": 212001,
+      "implementation": "stub-C",
+      "source": "dump-stubs.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+    },
+    {
+      "name": "_dump_exports",
+      "start": 212960,
+      "end": 212961,
+      "implementation": "stub-C",
+      "source": "dump-stubs.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+    },
+    {
+      "name": "_valid_dump_range",
+      "start": 214176,
+      "end": 214208,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl unsigned char(unsigned long,unsigned long)",
+      "evidence": "Matched344a0 trap; full344a0..344c0: AL unsigned range test offset+size<=file_size with nativeDWORD wrapping, no separate overflow rejection."
+    },
+    {
+      "name": "_dump_base_relocation_block",
+      "start": 208096,
+      "end": 208097,
+      "implementation": "stub-C",
+      "source": "dump-stubs.c",
+      "abi": "cdecl void(IMAGE_BASE_RELOCATION *,unsigned short *)"
+    },
+    {
+      "name": "_dump_relocations",
+      "start": 205840,
+      "end": 208096,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(unsigned long,IMAGE_SECTION_HEADER *)",
+      "evidence": "Matched32410 trap; complete32410..32ce0, including four dispatch tables32a84..32cd8. Typed10-byte records, machine/type names at use, exact unknown prefixes and optional raw-range diagnostic; native calloc/read/free graph."
+    },
+    {
+      "name": "_dump_lines",
+      "start": 208416,
+      "end": 208752,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(unsigned long)",
+      "evidence": "Matched32e20 trap; full32e20..32f70: six-byte line records, five-column grouping, function-index validation and shared formatted symbol-name vertex, trailing newline and native allocation/read/free."
+    },
+    {
+      "name": "_print_dump_symbol_name",
+      "start": 210848,
+      "end": 211008,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(FILE *,const char *,PIMAGE_SYMBOL)",
+      "evidence": "Matched337a0 trap; full337a0..33840: sanitize each of8 short-name bytes, shared long-name table, optional named undecorator, caller-supplied formatting and free only when returned identity differs."
+    },
+    {
+      "name": "_print_dump_symbol",
+      "start": 209632,
+      "end": 210848,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL)",
+      "evidence": "Matched332e0 trap; complete332e0..337a0 including type/class dispatch tables. Native section tags, local type/class lookup literals, six derived-type levels, unsigned print-width accounting, special block/function classes and shared name formatter."
+    },
+    {
+      "name": "_print_dump_auxiliary",
+      "start": 211008,
+      "end": 212000,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL,PIMAGE_AUX_SYMBOL)",
+      "evidence": "Matched33840 trap; complete33840..33c20: external/function records, static section/COMDAT selection, tags, blocks, FILE and weak aliases; typed array dimensions and native18-byte unknown-auxiliary hex fallback."
     }
   ],
   "c_stub_references": [
@@ -4885,6 +5011,17 @@
     "hello-debug-dll",
     "library-extract",
     "library-remove",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
+    "library-dump-library",
     "library-dump-library",
     "library-dump-library",
     "library-dump-library",
