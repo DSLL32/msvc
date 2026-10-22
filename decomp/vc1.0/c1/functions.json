@@ -691,7 +691,8 @@
     "_restore_pch_state",
     "_extract_pch_intermediates",
     "_unpack_option_flags",
-    "_read_pch_pages"
+    "_read_pch_pages",
+    "_begin_do_statement"
   ],
   "driver": [
     {
@@ -1900,7 +1901,7 @@
     {
       "name": "_begin_do_statement",
       "start": 209072,
-      "end": 209073
+      "end": 209123
     },
     {
       "name": "_begin_switch_statement@4",
@@ -4696,6 +4697,11 @@
       "arguments": "",
       "accepted_from": 680,
       "accepted_count": 687
+    },
+    "do-while": {
+      "arguments": "",
+      "accepted_from": 687,
+      "accepted_count": 688
     }
   },
   "buffered_streams": [

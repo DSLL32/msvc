@@ -1615,6 +1615,16 @@ void __stdcall push_label_stack(LabelStack **stack, unsigned flags)
     ++label_stack_count;
 }
 
+/* Original 0x330b0..0x330e2. Enter the body before testing a do-loop;
+   the closing reduction emits its separate test and break labels. */
+void begin_do_statement(void)
+{
+    push_label_stack(&continue_labels, 5);
+    push_label_stack(&do_labels, 7);
+    push_label_stack(&break_labels, 6);
+    emit_code_label(continue_labels->value.label);
+}
+
 /* Original 0x33360..0x334fe. Cases share their statement's label and
    remain sorted in signed or unsigned controlling-type order. */
 void __stdcall emit_case_statement(IrToken *value)

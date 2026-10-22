@@ -1,0 +1,25 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56608c04 in begin_do_statement () at src/stubs.c:295
+295	void begin_do_statement(void) { __asm { int 3 } }
+#0  0x56608c04 in begin_do_statement () at src/stubs.c:295
+#1  0x56636596 in parse_translation_unit () at src/parser.c:688
+#2  0x5660d8a6 in compile_translation_unit () at src/frontend.c:82
+#3  0x566087e6 in guarded_compile () at src/c1.c:29
+#4  0x566087ae in main (argc=1, argv=0xffb47e24, envp=0xffb47e2c) at src/c1.c:21
+eax            0x56678db4          1449627060
+ecx            0x5666fff4          1449590772
+edx            0x1ec               492
+esi            0x570bca58          1460390488
+edi            0x57000020          1459617824
+ebp            0xffb47c28          0xffb47c28
+esp            0xffb47c28          0xffb47c28
+eip            0x56608c04          0x56608c04 <begin_do_statement+4>
+$1 = 0
+buffer expression_file 23 004f1f80000080244f020a004f01015353266900464c53
+Python Exception <class 'ValueError'>: Argument 'count' should be greater than zero
+/root/.ai-tmp/vc1.0-c1/native-one-function/native-before.gdb:17: Error in sourced command file:
+Error occurred in Python: Argument 'count' should be greater than zero

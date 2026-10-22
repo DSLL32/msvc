@@ -291,8 +291,6 @@ void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 
 /* Original 0x32f10. */
 
-/* Original 0x330b0. */
-void begin_do_statement(void) { __asm { int 3 } }
 
 /* Original 0x330f0. */
 
