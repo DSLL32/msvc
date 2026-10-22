@@ -1,8 +1,8 @@
 {
   "status": "cases-complete",
   "case": "resources-rich",
-  "accepted_frontiers": 244,
-  "replayed_frontiers": 255,
+  "accepted_frontiers": 246,
+  "replayed_frontiers": 259,
   "current_frontiers": {
     "resources-rich": "exit:0",
     "help": "exit:0",
@@ -14,16 +14,18 @@
     "resource-error": "exit:1",
     "kanji": "exit:0",
     "wide-long": "exit:0",
-    "preprocessor-error": "exit:1"
+    "preprocessor-error": "exit:1",
+    "rcinclude": "exit:0",
+    "scanf-pushback": "exit:0"
   },
-  "replayed_cases": 11,
+  "replayed_cases": 13,
   "exact_final_product_verified": true,
-  "source_functions_audited": 184,
+  "source_functions_audited": 186,
   "checks": [
     "all accepted paired frontiers replayed from masked entry in their originating case",
     "direct call vertices, callback references and RET cleanup agree for accepted source functions",
     "CRT initializer and termination callback sequences agree",
-    "raw streams, exit statuses, input files and complete product sets match all 11 oracles"
+    "raw streams, exit statuses, input files and complete product sets match all 13 oracles"
   ],
   "target": {
     "path": "toolchains/1.0-nt/bin/RC.EXE",
@@ -31,9 +33,9 @@
     "image_base": 16777216,
     "entry": 16849232
   },
-  "reconstruction_sha256": "c301dc6f7cb0863716888c814dfccd91f084e861bcb1c37b4704b950781537f5",
+  "reconstruction_sha256": "3795bc6a28e9f140ec28ea4e348c52d4336ee778386d16aac9542f8a99831200",
   "fixture_manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
-  "frontier_log_sha256": "434b5586fad915a8c495f9556de05ccee4b69d5fc24925df340d07dde714a202",
+  "frontier_log_sha256": "abf602ec9a806d0bcb8afc229b6148093706002d4fcb96f0a1710799ccfe9610",
   "graph_audit": {
     "_mainCRTStartup": {
       "original_calls": {
@@ -75,41 +77,41 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f4a0": [
-          "__ioinit"
-        ],
-        "0x1d360": [
-          "__cinit"
+        "0x1f4c0": [
+          "__setenvp"
         ],
         "0x116a0": [
           "_resource_main"
         ],
-        "0x1d3a2": [
-          "_exit"
+        "0x1f360": [
+          "__XcptFilter"
         ],
-        "0x209e4": [
-          "import:GetCommandLineA"
+        "0x20ac8": [
+          "import:GetVersion"
         ],
         "0x11188": [
           "__heap_init"
         ],
-        "0x1d3bc": [
+        "0x20ace": [
+          "import:GetEnvironmentStrings"
+        ],
+        "0x1d45c": [
+          "__cinit"
+        ],
+        "0x1f590": [
+          "__ioinit"
+        ],
+        "0x20ad4": [
+          "import:GetCommandLineA"
+        ],
+        "0x1d4b8": [
           "__exit"
-        ],
-        "0x1f3d0": [
-          "__setenvp"
-        ],
-        "0x1f270": [
-          "__XcptFilter"
-        ],
-        "0x209d8": [
-          "import:GetVersion"
         ],
         "0x1131c": [
           "__setargv"
         ],
-        "0x209de": [
-          "import:GetEnvironmentStrings"
+        "0x1d49e": [
+          "_exit"
         ]
       },
       "stack_cleanup": [
@@ -124,7 +126,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x209ea": [
+        "0x20ada": [
           "import:GetProcessHeap"
         ]
       },
@@ -206,11 +208,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20a02": [
-          "import:SetConsoleCtrlHandler"
-        ],
         "0x11304": [
           "_interrupt_resource@4"
+        ],
+        "0x1f710": [
+          "__spawnvp"
         ],
         "0x15292": [
           "_seek_file@12"
@@ -221,55 +223,55 @@
         "0x11296": [
           "_resource_alloc@4"
         ],
+        "0x16698": [
+          "_compile_resources"
+        ],
         "0x13898": [
           "_prepare_input@4"
         ],
         "0x1299a": [
           "__makepath"
         ],
-        "0x1659c": [
-          "_compile_resources"
-        ],
-        "0x1f620": [
-          "__spawnvp"
+        "0x1f8a0": [
+          "__strupr"
         ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1f7b0": [
-          "__strupr"
-        ],
-        "0x1f5c0": [
-          "_fopen"
-        ],
-        "0x1f640": [
+        "0x1f730": [
           "__spawnv"
+        ],
+        "0x1f6b0": [
+          "_fopen"
         ],
         "0x12744": [
           "_switch_character@4"
         ],
-        "0x1d4d0": [
+        "0x1d5cc": [
           "_fflush"
         ],
-        "0x1f5e0": [
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1f6e0": [
+        "0x1f7d0": [
           "__mktemp"
         ],
-        "0x1f660": [
+        "0x1f750": [
           "__getenv_lk",
           "_getenv"
         ],
-        "0x1f7e0": [
+        "0x1f8d0": [
           "_sscanf"
         ],
-        "0x160e8": [
+        "0x161e4": [
           "_initialize_lexer@4"
         ],
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
+        ],
+        "0x20af2": [
+          "import:SetConsoleCtrlHandler"
         ],
         "0x1277c": [
           "__splitpath"
@@ -287,7 +289,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x209f0": [
+        "0x20ae0": [
           "import:HeapAlloc"
         ]
       },
@@ -318,7 +320,7 @@
         "0x113da": [
           "_parse_cmdline"
         ],
-        "0x209fc": [
+        "0x20aec": [
           "import:GetModuleFileNameA"
         ],
         "0x1119d": [
@@ -362,16 +364,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ],
-        "0x20a08": [
+        "0x20af8": [
           "import:WideCharToMultiByte"
         ],
-        "0x20a14": [
+        "0x20b04": [
           "import:MultiByteToWideChar"
         ],
-        "0x20a0e": [
+        "0x20afe": [
           "import:LCMapStringW"
         ]
       },
@@ -387,7 +389,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f8f0": [
+        "0x1f9e0": [
           "_strncpy"
         ]
       },
@@ -414,11 +416,11 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1d370": [
+          "_resource_finish"
+        ],
         "0x11222": [
           "_calloc"
-        ],
-        "0x1d274": [
-          "_resource_finish"
         ]
       },
       "stack_cleanup": [
@@ -447,22 +449,22 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x20220": [
+          "_remove"
+        ],
+        "0x20260": [
+          "__fcloseall"
+        ],
+        "0x202a0": [
+          "_vfprintf",
+          "_vfwprintf"
+        ],
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d3a2": [
+        "0x1d49e": [
           "_exit"
-        ],
-        "0x20130": [
-          "_remove"
-        ],
-        "0x20170": [
-          "__fcloseall"
-        ],
-        "0x201b0": [
-          "_vfprintf",
-          "_vfwprintf"
         ]
       },
       "stack_cleanup": [
@@ -505,15 +507,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb00": [
-          "__alloca_probe",
-          "__chkstk"
+        "0x1fb80": [
+          "_sprintf"
         ],
-        "0x1f5c0": [
-          "_fopen"
-        ],
-        "0x1fa20": [
-          "_fclose"
+        "0x1f920": [
+          "__isctype"
         ],
         "0x13d44": [
           "_read_source_line@12"
@@ -521,11 +519,15 @@
         "0x13e4b": [
           "_prefix_matches@8"
         ],
-        "0x1fa90": [
-          "_sprintf"
+        "0x1fbf0": [
+          "__alloca_probe",
+          "__chkstk"
         ],
-        "0x1f830": [
-          "__isctype"
+        "0x1f6b0": [
+          "_fopen"
+        ],
+        "0x1fb10": [
+          "_fclose"
         ],
         "0x15214": [
           "_write_file@12"
@@ -549,7 +551,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x161a2": [
+        "0x1629e": [
           "_advance_character"
         ]
       },
@@ -671,114 +673,114 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18400": [
-          "_parse_menu@8"
-        ],
-        "0x19004": [
+        "0x19100": [
           "_write_resource@8"
         ],
-        "0x1b485": [
+        "0x1b581": [
           "_emit_string_tables@4"
         ],
-        "0x1ca08": [
+        "0x1cb04": [
           "_parse_dialog_include@4"
         ],
-        "0x1bc0c": [
+        "0x1bd08": [
           "_split_icon_file@12"
+        ],
+        "0x17110": [
+          "_allocate_resource_data"
+        ],
+        "0x19810": [
+          "_parse_dialog@4"
         ],
         "0x15214": [
           "_write_file@12"
         ],
-        "0x17014": [
-          "_allocate_resource_data"
-        ],
         "0x11296": [
           "_resource_alloc@4"
         ],
-        "0x19714": [
-          "_parse_dialog@4"
-        ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
         ],
-        "0x1731c": [
+        "0x17418": [
           "_parse_resource_identifier"
         ],
-        "0x1d99d": [
+        "0x1da99": [
           "_emit_font_directory"
         ],
-        "0x1c128": [
+        "0x1c224": [
           "_read_bitmap_file_header"
         ],
-        "0x1c2ac": [
+        "0x1c3a8": [
           "_parse_raw_data@4"
         ],
-        "0x1702e": [
+        "0x1712a": [
           "_begin_resource_data"
         ],
-        "0x1d7b4": [
+        "0x1d8b0": [
           "_parse_font@4"
         ],
-        "0x18f3f": [
+        "0x1903b": [
           "_parse_word_expression"
         ],
-        "0x1bec0": [
+        "0x1bfbc": [
           "_read_resource_file"
         ],
-        "0x1b5c4": [
-          "_parse_accelerators@4"
-        ],
-        "0x17244": [
-          "_put_word@4"
-        ],
-        "0x181c8": [
-          "_parse_memory_flag@4"
-        ],
-        "0x16dcc": [
-          "_find_resource_type@8"
-        ],
-        "0x1704d": [
-          "_release_resource_data"
-        ],
-        "0x1d4d0": [
-          "_fflush"
-        ],
-        "0x20050": [
+        "0x20140": [
           "_wcscmp"
         ],
-        "0x16ed4": [
+        "0x1b6c0": [
+          "_parse_accelerators@4"
+        ],
+        "0x17340": [
+          "_put_word@4"
+        ],
+        "0x182c4": [
+          "_parse_memory_flag@4"
+        ],
+        "0x16ec8": [
+          "_find_resource_type@8"
+        ],
+        "0x17149": [
+          "_release_resource_data"
+        ],
+        "0x1d5cc": [
+          "_fflush"
+        ],
+        "0x16fd0": [
           "_initialize_resource_types"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
+        ],
+        "0x1f6d0": [
+          "_fprintf",
+          "_fwprintf"
         ],
         "0x112d8": [
           "_resource_free@4"
         ],
-        "0x1da5c": [
+        "0x1db58": [
           "_read_icon_file_header@4"
         ],
-        "0x1f5e0": [
-          "_fprintf",
-          "_fwprintf"
-        ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x1b06c": [
+        "0x1b168": [
           "_parse_string_table@4"
         ],
-        "0x1ca6c": [
+        "0x1cb68": [
           "_parse_version_info"
         ],
-        "0x18ef0": [
+        "0x18fec": [
           "_advance_argument"
         ],
-        "0x17e74": [
+        "0x17f70": [
           "_parse_language"
         ],
-        "0x16f7b": [
+        "0x17077": [
           "_duplicate_wide@4"
+        ],
+        "0x184fc": [
+          "_parse_menu@8"
         ]
       },
       "stack_cleanup": [
@@ -799,7 +801,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
         ],
         "0x15559": [
@@ -827,7 +829,7 @@
         "0x152f8": [
           "_fwrite"
         ],
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
         ]
       },
@@ -843,7 +845,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x209f6": [
+        "0x20ae6": [
           "import:HeapFree"
         ]
       },
@@ -859,7 +861,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x209f0": [
+        "0x20ae0": [
           "import:HeapAlloc"
         ]
       },
@@ -905,38 +907,38 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f9a0": [
-          "__dosmaperr"
-        ],
-        "0x20a20": [
-          "import:CloseHandle"
-        ],
-        "0x1f920": [
-          "__lseek"
-        ],
         "0x13602": [
           "__chsize"
         ],
-        "0x20a26": [
-          "import:GetFileType"
+        "0x20b0a": [
+          "import:GetLastError"
         ],
         "0x12f8c": [
           "__alloc_osfhnd"
         ],
-        "0x20a2c": [
-          "import:CreateFileA"
-        ],
         "0x12fee": [
           "__set_osfhnd"
+        ],
+        "0x1fa90": [
+          "__dosmaperr"
+        ],
+        "0x20b10": [
+          "import:CloseHandle"
+        ],
+        "0x1fa10": [
+          "__lseek"
         ],
         "0x131d5": [
           "__close"
         ],
+        "0x20b16": [
+          "import:GetFileType"
+        ],
         "0x132ba": [
           "__read"
         ],
-        "0x20a1a": [
-          "import:GetLastError"
+        "0x20b1c": [
+          "import:CreateFileA"
         ]
       },
       "stack_cleanup": [
@@ -959,7 +961,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20a32": [
+        "0x20b22": [
           "import:SetStdHandle"
         ]
       },
@@ -975,7 +977,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20a32": [
+        "0x20b22": [
           "import:SetStdHandle"
         ]
       },
@@ -1011,17 +1013,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20a20": [
-          "import:CloseHandle"
-        ],
-        "0x1f9a0": [
-          "__dosmaperr"
+        "0x20b0a": [
+          "import:GetLastError"
         ],
         "0x130ae": [
           "__free_osfhnd"
         ],
-        "0x20a1a": [
-          "import:GetLastError"
+        "0x20b10": [
+          "import:CloseHandle"
+        ],
+        "0x1fa90": [
+          "__dosmaperr"
         ],
         "0x1317d": [
           "__get_osfhandle"
@@ -1048,16 +1050,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20a38": [
+        "0x20b28": [
           "import:ReadFile"
         ],
-        "0x1f920": [
+        "0x1fa10": [
           "__lseek"
         ],
-        "0x20a1a": [
+        "0x20b0a": [
           "import:GetLastError"
         ],
-        "0x1f9a0": [
+        "0x1fa90": [
           "__dosmaperr"
         ]
       },
@@ -1088,10 +1090,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb30": [
+        "0x1fc20": [
           "_fgetc"
         ],
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ],
         "0x15810": [
@@ -1119,7 +1121,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb30": [
+        "0x1fc20": [
           "_fgetc"
         ]
       },
@@ -1141,6 +1143,22 @@
       },
       "stack_cleanup": [
         8
+      ],
+      "indirect_calls": false
+    },
+    "_trim_token@4": {
+      "original_calls": {
+        "0x100deb0": [
+          "__isctype"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1f920": [
+          "__isctype"
+        ]
+      },
+      "stack_cleanup": [
+        4
       ],
       "indirect_calls": false
     },
@@ -1197,7 +1215,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb70": [
+        "0x1fc60": [
           "__flsbuf"
         ]
       },
@@ -1259,13 +1277,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fcf0": [
+        "0x1fde0": [
           "__flush"
         ],
         "0x13618": [
           "__write"
         ],
-        "0x1fb70": [
+        "0x1fc60": [
           "__flsbuf"
         ]
       },
@@ -1290,16 +1308,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f920": [
+        "0x1fa10": [
           "__lseek"
         ],
-        "0x20a1a": [
+        "0x20b0a": [
           "import:GetLastError"
         ],
-        "0x1f9a0": [
+        "0x1fa90": [
           "__dosmaperr"
         ],
-        "0x20a3e": [
+        "0x20b2e": [
           "import:WriteFile"
         ]
       },
@@ -1339,7 +1357,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f920": [
+        "0x1fa10": [
           "__lseek"
         ]
       },
@@ -1361,13 +1379,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fcf0": [
+        "0x1fde0": [
           "__flush"
         ],
         "0x15559": [
           "_ftell"
         ],
-        "0x1f920": [
+        "0x1fa10": [
           "__lseek"
         ]
       },
@@ -1489,32 +1507,32 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f9a0": [
-          "__dosmaperr"
-        ],
-        "0x20a20": [
-          "import:CloseHandle"
+        "0x20b40": [
+          "import:CreateProcessA"
         ],
         "0x11222": [
           "_calloc"
         ],
-        "0x20a44": [
-          "import:GetExitCodeProcess"
-        ],
         "0x11207": [
           "_free"
         ],
-        "0x20a4a": [
-          "import:WaitForSingleObject"
-        ],
-        "0x20a50": [
-          "import:CreateProcessA"
-        ],
-        "0x20a1a": [
+        "0x20b0a": [
           "import:GetLastError"
         ],
-        "0x1d3bc": [
+        "0x1fa90": [
+          "__dosmaperr"
+        ],
+        "0x20b10": [
+          "import:CloseHandle"
+        ],
+        "0x20b34": [
+          "import:GetExitCodeProcess"
+        ],
+        "0x1d4b8": [
           "__exit"
+        ],
+        "0x20b3a": [
+          "import:WaitForSingleObject"
         ]
       },
       "stack_cleanup": [
@@ -1529,7 +1547,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x16286": [
+        "0x16382": [
           "_read_source_character"
         ]
       },
@@ -1548,7 +1566,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fa20": [
+        "0x1fb10": [
           "_fclose"
         ],
         "0x1524a": [
@@ -1573,14 +1591,14 @@
         ]
       },
       "reconstructed_calls": {
+        "0x18418": [
+          "_lexical_error@8"
+        ],
         "0x12578": [
           "_rc_tolower"
         ],
-        "0x161fa": [
+        "0x162f6": [
           "_read_buffered_character"
-        ],
-        "0x1831c": [
-          "_lexical_error@8"
         ]
       },
       "stack_cleanup": [
@@ -1604,16 +1622,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ],
-        "0x20a08": [
+        "0x20af8": [
           "import:WideCharToMultiByte"
         ],
-        "0x20a14": [
+        "0x20b04": [
           "import:MultiByteToWideChar"
         ],
-        "0x20a0e": [
+        "0x20afe": [
           "import:LCMapStringW"
         ]
       },
@@ -1635,7 +1653,7 @@
         "0x15810": [
           "_fread"
         ],
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
         ]
       },
@@ -1655,11 +1673,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
         ]
       },
@@ -1684,17 +1702,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f7b0": [
+        "0x1f8a0": [
           "__strupr"
         ],
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ],
-        "0x1749a": [
-          "_read_identifier"
-        ],
-        "0x180fe": [
+        "0x181fa": [
           "_atoi"
+        ],
+        "0x17596": [
+          "_read_identifier"
         ]
       },
       "stack_cleanup": [
@@ -1730,29 +1748,29 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17ba0": [
-          "_scan_number_token"
-        ],
-        "0x176c1": [
-          "_scan_keyword_or_symbol@4"
-        ],
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x1c4f8": [
-          "_scan_wide_string"
-        ],
-        "0x1ed70": [
-          "_scan_kanji_string"
-        ],
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ],
-        "0x17bb0": [
+        "0x17cac": [
           "_scan_expression"
         ],
-        "0x18a38": [
+        "0x18b34": [
           "_scan_ansi_string"
+        ],
+        "0x1c5f4": [
+          "_scan_wide_string"
+        ],
+        "0x1ee58": [
+          "_scan_kanji_string"
+        ],
+        "0x17c9c": [
+          "_scan_number_token"
+        ],
+        "0x177bd": [
+          "_scan_keyword_or_symbol@4"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -1767,7 +1785,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ]
       },
@@ -1783,7 +1801,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ]
       },
@@ -1802,11 +1820,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
+        ],
+        "0x18464": [
+          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -1825,11 +1843,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
         ]
       },
@@ -1845,7 +1863,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f0b9": [
+        "0x1f1a1": [
           "import:RtlAnsiStringToUnicodeString"
         ]
       },
@@ -1867,14 +1885,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
+        ],
+        "0x18464": [
+          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -1910,29 +1928,29 @@
         ]
       },
       "reconstructed_calls": {
-        "0x200a0": [
-          "_wcslen"
-        ],
-        "0x1b3e4": [
+        "0x1b4e0": [
           "_copy_resource_memory@8"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x18f7c": [
-          "_combine_word_operators@4"
+        "0x18218": [
+          "_ansi_to_wide@12"
         ],
-        "0x18ef0": [
+        "0x18fec": [
           "_advance_argument"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x17e74": [
+        "0x20190": [
+          "_wcslen"
+        ],
+        "0x17f70": [
           "_parse_language"
         ],
-        "0x1811c": [
-          "_ansi_to_wide@12"
+        "0x19078": [
+          "_combine_word_operators@4"
         ]
       },
       "stack_cleanup": [
@@ -1965,26 +1983,26 @@
         ]
       },
       "reconstructed_calls": {
-        "0x172a1": [
-          "_put_bytes@8"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x19004": [
+        "0x19100": [
           "_write_resource@8"
         ],
-        "0x16dcc": [
+        "0x16ec8": [
           "_find_resource_type@8"
         ],
-        "0x1702e": [
+        "0x1712a": [
           "_begin_resource_data"
         ],
         "0x11296": [
           "_resource_alloc@4"
         ],
-        "0x16f7b": [
+        "0x17077": [
           "_duplicate_wide@4"
+        ],
+        "0x1739d": [
+          "_put_bytes@8"
         ]
       },
       "stack_cleanup": [
@@ -2014,20 +2032,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x200a0": [
-          "_wcslen"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x19004": [
+        "0x19100": [
           "_write_resource@8"
         ],
-        "0x16dcc": [
+        "0x16ec8": [
           "_find_resource_type@8"
         ],
-        "0x1702e": [
+        "0x1712a": [
           "_begin_resource_data"
+        ],
+        "0x20190": [
+          "_wcslen"
         ],
         "0x11296": [
           "_resource_alloc@4"
@@ -2063,25 +2081,25 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x18ef0": [
+        "0x18fec": [
           "_advance_argument"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x170f4": [
+        "0x171f0": [
           "_put_byte@4"
         ],
-        "0x17e74": [
+        "0x17f70": [
           "_parse_language"
         ],
-        "0x17138": [
+        "0x17234": [
           "_put_dword@4"
         ]
       },
@@ -2109,20 +2127,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1bf60": [
-          "_resolve_resource_path@12"
-        ],
-        "0x1f5c0": [
-          "_fopen"
-        ],
-        "0x17063": [
-          "_resource_stream@4"
-        ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
+        ],
+        "0x1f6b0": [
+          "_fopen"
         ],
         "0x15292": [
           "_seek_file@12"
+        ],
+        "0x1c05c": [
+          "_resolve_resource_path@12"
+        ],
+        "0x1715f": [
+          "_resource_stream@4"
         ]
       },
       "stack_cleanup": [
@@ -2152,23 +2170,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x172a1": [
-          "_put_bytes@8"
-        ],
-        "0x17063": [
-          "_resource_stream@4"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
         "0x1524a": [
           "_read_file@12"
         ],
+        "0x184b0": [
+          "_resource_data_error@8"
+        ],
         "0x15292": [
           "_seek_file@12"
         ],
-        "0x183b4": [
-          "_resource_data_error@8"
+        "0x1739d": [
+          "_put_bytes@8"
+        ],
+        "0x1715f": [
+          "_resource_stream@4"
         ]
       },
       "stack_cleanup": [
@@ -2201,26 +2219,26 @@
         ]
       },
       "reconstructed_calls": {
-        "0x172a1": [
-          "_put_bytes@8"
-        ],
-        "0x17063": [
-          "_resource_stream@4"
-        ],
         "0x1524a": [
           "_read_file@12"
         ],
+        "0x184b0": [
+          "_resource_data_error@8"
+        ],
         "0x15292": [
           "_seek_file@12"
-        ],
-        "0x183b4": [
-          "_resource_data_error@8"
         ],
         "0x11296": [
           "_resource_alloc@4"
         ],
         "0x112d8": [
           "_resource_free@4"
+        ],
+        "0x1739d": [
+          "_put_bytes@8"
+        ],
+        "0x1715f": [
+          "_resource_stream@4"
         ]
       },
       "stack_cleanup": [
@@ -2235,7 +2253,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183b4": [
+        "0x184b0": [
           "_resource_data_error@8"
         ]
       },
@@ -2266,23 +2284,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18400": [
-          "_parse_menu@8"
-        ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x17e74": [
+        "0x17f70": [
           "_parse_language"
         ],
-        "0x18637": [
+        "0x18733": [
           "_finish_menu"
         ],
-        "0x186da": [
+        "0x187d6": [
           "_parse_menu_item@4"
+        ],
+        "0x184fc": [
+          "_parse_menu@8"
         ]
       },
       "stack_cleanup": [
@@ -2315,25 +2333,25 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x1988e": [
+        "0x1998a": [
           "_put_dialog_header@4"
         ],
-        "0x18ef0": [
+        "0x18fec": [
           "_advance_argument"
         ],
-        "0x1a2f0": [
+        "0x1a3ec": [
           "_parse_dialog_controls"
         ],
-        "0x199b5": [
+        "0x19ab1": [
           "_parse_dialog_options@4"
         ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x18f3f": [
+        "0x1903b": [
           "_parse_word_expression"
         ]
       },
@@ -2358,11 +2376,11 @@
         "0x15292": [
           "_seek_file@12"
         ],
-        "0x1906b": [
-          "_record_resource@20"
-        ],
         "0x15214": [
           "_write_file@12"
+        ],
+        "0x19167": [
+          "_record_resource@20"
         ]
       },
       "stack_cleanup": [
@@ -2393,15 +2411,12 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
-          "_fprintf",
-          "_fwprintf"
-        ],
-        "0x17063": [
-          "_resource_stream@4"
-        ],
         "0x1524a": [
           "_read_file@12"
+        ],
+        "0x1f6d0": [
+          "_fprintf",
+          "_fwprintf"
         ],
         "0x15292": [
           "_seek_file@12"
@@ -2411,6 +2426,9 @@
         ],
         "0x112d8": [
           "_resource_free@4"
+        ],
+        "0x1715f": [
+          "_resource_stream@4"
         ]
       },
       "stack_cleanup": [
@@ -2453,36 +2471,36 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
-          "_fprintf",
-          "_fwprintf"
+        "0x1f920": [
+          "__isctype"
         ],
-        "0x1bbe1": [
-          "_finish_accelerators"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x1bb09": [
+        "0x1bc05": [
           "_accelerator_word_operators@4"
+        ],
+        "0x1bcc8": [
+          "_mark_accelerator"
         ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1bbcc": [
-          "_mark_accelerator"
-        ],
-        "0x1f830": [
-          "__isctype"
-        ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x17e74": [
+        "0x1f6d0": [
+          "_fprintf",
+          "_fwprintf"
+        ],
+        "0x17f70": [
           "_parse_language"
+        ],
+        "0x1bcdd": [
+          "_finish_accelerators"
         ]
       },
       "stack_cleanup": [
@@ -2530,41 +2548,41 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1bec0": [
-          "_read_resource_file"
-        ],
-        "0x172a1": [
-          "_put_bytes@8"
-        ],
-        "0x1fa20": [
-          "_fclose"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x19004": [
+        "0x19100": [
           "_write_resource@8"
+        ],
+        "0x19167": [
+          "_record_resource@20"
+        ],
+        "0x16ec8": [
+          "_find_resource_type@8"
         ],
         "0x1524a": [
           "_read_file@12"
         ],
-        "0x1906b": [
-          "_record_resource@20"
+        "0x184b0": [
+          "_resource_data_error@8"
         ],
-        "0x16dcc": [
-          "_find_resource_type@8"
+        "0x1fb10": [
+          "_fclose"
         ],
         "0x15292": [
           "_seek_file@12"
-        ],
-        "0x183b4": [
-          "_resource_data_error@8"
         ],
         "0x15214": [
           "_write_file@12"
         ],
         "0x11296": [
           "_resource_alloc@4"
+        ],
+        "0x1bfbc": [
+          "_read_resource_file"
+        ],
+        "0x1739d": [
+          "_put_bytes@8"
         ]
       },
       "stack_cleanup": [
@@ -2582,11 +2600,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1cda8": [
-          "_parse_version_children"
-        ],
-        "0x1cab5": [
+        "0x1cbb1": [
           "_parse_fixed_version"
+        ],
+        "0x1cea4": [
+          "_parse_version_children"
         ]
       },
       "stack_cleanup": [
@@ -2607,14 +2625,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
+        "0x18218": [
+          "_ansi_to_wide@12"
+        ],
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x1708c": [
+        "0x17188": [
           "_put_wide_string@4"
-        ],
-        "0x1811c": [
-          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -2629,7 +2647,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x16dcc": [
+        "0x16ec8": [
           "_find_resource_type@8"
         ]
       },
@@ -2651,14 +2669,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20050": [
+        "0x20140": [
           "_wcscmp"
-        ],
-        "0x16f7b": [
-          "_duplicate_wide@4"
         ],
         "0x11296": [
           "_resource_alloc@4"
+        ],
+        "0x17077": [
+          "_duplicate_wide@4"
         ]
       },
       "stack_cleanup": [
@@ -2679,10 +2697,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x200a0": [
+        "0x20190": [
           "_wcslen"
         ],
-        "0x16fcd": [
+        "0x170c9": [
           "_wcscpy"
         ],
         "0x11296": [
@@ -2768,11 +2786,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x16286": [
+        "0x16382": [
           "_read_source_character"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -2807,28 +2825,28 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb00": [
-          "__alloca_probe",
-          "__chkstk"
+        "0x1f920": [
+          "__isctype"
         ],
-        "0x1f5e0": [
-          "_fprintf",
-          "_fwprintf"
-        ],
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x16286": [
+        "0x16382": [
           "_read_source_character"
         ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1f830": [
-          "__isctype"
+        "0x1fbf0": [
+          "__alloca_probe",
+          "__chkstk"
         ],
-        "0x1831c": [
+        "0x1f6d0": [
+          "_fprintf",
+          "_fwprintf"
+        ],
+        "0x18418": [
           "_lexical_error@8"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -2859,24 +2877,24 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb00": [
-          "__alloca_probe",
-          "__chkstk"
+        "0x1f920": [
+          "__isctype"
         ],
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x16286": [
+        "0x16382": [
           "_read_source_character"
         ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1f830": [
-          "__isctype"
+        "0x1fbf0": [
+          "__alloca_probe",
+          "__chkstk"
         ],
-        "0x1831c": [
+        "0x18418": [
           "_lexical_error@8"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -2904,21 +2922,21 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb00": [
+        "0x16382": [
+          "_read_source_character"
+        ],
+        "0x1fbf0": [
           "__alloca_probe",
           "__chkstk"
         ],
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x16286": [
-          "_read_source_character"
-        ],
-        "0x1f04f": [
+        "0x1f137": [
           "_is_kanji_lead@4"
         ],
-        "0x1831c": [
+        "0x18418": [
           "_lexical_error@8"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -2939,14 +2957,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x17f74": [
+        "0x18070": [
           "_lookup_keyword@4"
         ],
-        "0x1831c": [
+        "0x18418": [
           "_lexical_error@8"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -2964,11 +2982,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x17c25": [
+        "0x17d21": [
           "_expression_value"
+        ],
+        "0x18464": [
+          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -2983,7 +3001,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17a08": [
+        "0x17b04": [
           "_scan_number_literal"
         ]
       },
@@ -3011,20 +3029,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x17983": [
-          "_scan_decimal_number"
-        ],
-        "0x17863": [
-          "_scan_hex_number"
-        ],
-        "0x17924": [
+        "0x17a20": [
           "_scan_octal_number"
         ],
-        "0x1783c": [
+        "0x1795f": [
+          "_scan_hex_number"
+        ],
+        "0x17938": [
           "_next_numeric_character"
+        ],
+        "0x1629e": [
+          "_advance_character"
+        ],
+        "0x17a7f": [
+          "_scan_decimal_number"
         ]
       },
       "stack_cleanup": [
@@ -3053,14 +3071,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f830": [
+        "0x17938": [
+          "_next_numeric_character"
+        ],
+        "0x1f920": [
           "__isctype"
         ],
         "0x123ac": [
           "_rc_toupper"
-        ],
-        "0x1783c": [
-          "_next_numeric_character"
         ]
       },
       "stack_cleanup": [
@@ -3075,7 +3093,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1783c": [
+        "0x17938": [
           "_next_numeric_character"
         ]
       },
@@ -3094,10 +3112,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ],
-        "0x1783c": [
+        "0x17938": [
           "_next_numeric_character"
         ]
       },
@@ -3125,20 +3143,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x17e4c": [
+        "0x17f48": [
           "_skip_expression_space"
         ],
-        "0x17df5": [
+        "0x17ef1": [
           "_expression_operator@4"
         ],
-        "0x17c99": [
+        "0x17d95": [
           "_apply_operator@12"
         ],
-        "0x17d1b": [
+        "0x17e17": [
           "_expression_factor"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -3168,23 +3186,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x161a2": [
-          "_advance_character"
+        "0x1f920": [
+          "__isctype"
         ],
-        "0x17c25": [
+        "0x17d21": [
           "_expression_value"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x17a08": [
+        "0x17b04": [
           "_scan_number_literal"
         ],
-        "0x17e4c": [
+        "0x17f48": [
           "_skip_expression_space"
         ],
-        "0x1f830": [
-          "__isctype"
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -3213,14 +3231,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x200c0": [
+        "0x201b0": [
           "_strchr"
         ],
-        "0x161a2": [
-          "_advance_character"
-        ],
-        "0x17e4c": [
+        "0x17f48": [
           "_skip_expression_space"
+        ],
+        "0x1629e": [
+          "_advance_character"
         ]
       },
       "stack_cleanup": [
@@ -3235,7 +3253,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x161a2": [
+        "0x1629e": [
           "_advance_character"
         ]
       },
@@ -3252,7 +3270,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x200e8": [
+        "0x201d8": [
           "__strcmpi",
           "__stricmp"
         ]
@@ -3269,7 +3287,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ]
       },
@@ -3285,7 +3303,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17fe8": [
+        "0x180e4": [
           "_atol"
         ]
       },
@@ -3310,17 +3328,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x19d24": [
+        "0x19e20": [
           "_is_style_token"
         ],
-        "0x19cd6": [
+        "0x19dd2": [
           "_advance_argument_flags@4"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
+        ],
+        "0x18464": [
+          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -3339,11 +3357,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
         ]
       },
@@ -3367,7 +3385,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ]
       },
@@ -3383,7 +3401,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1708c": [
+        "0x17188": [
           "_put_wide_string@4"
         ]
       },
@@ -3399,7 +3417,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183b4": [
+        "0x184b0": [
           "_resource_data_error@8"
         ]
       },
@@ -3415,7 +3433,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183b4": [
+        "0x184b0": [
           "_resource_data_error@8"
         ]
       },
@@ -3434,11 +3452,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x170f4": [
-          "_put_byte@4"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
+        ],
+        "0x171f0": [
+          "_put_byte@4"
         ]
       },
       "stack_cleanup": [
@@ -3453,7 +3471,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x170f4": [
+        "0x171f0": [
           "_put_byte@4"
         ]
       },
@@ -3494,33 +3512,33 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x18464": [
+          "_parser_error@8"
+        ],
+        "0x18218": [
+          "_ansi_to_wide@12"
+        ],
+        "0x18fec": [
+          "_advance_argument"
+        ],
+        "0x189cf": [
+          "_parse_menu_flag@8"
+        ],
+        "0x17650": [
+          "_next_token@4"
+        ],
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18622": [
-          "_mark_menu_item"
-        ],
-        "0x18662": [
+        "0x1875e": [
           "_put_menu_item@4"
         ],
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x18ef0": [
-          "_advance_argument"
-        ],
-        "0x188d3": [
-          "_parse_menu_flag@8"
-        ],
-        "0x17554": [
-          "_next_token@4"
-        ],
-        "0x1811c": [
-          "_ansi_to_wide@12"
-        ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
+        ],
+        "0x1871e": [
+          "_mark_menu_item"
         ]
       },
       "stack_cleanup": [
@@ -3559,7 +3577,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ]
       },
@@ -3578,11 +3596,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18ef0": [
-          "_advance_argument"
-        ],
-        "0x18f3f": [
+        "0x1903b": [
           "_parse_word_expression"
+        ],
+        "0x18fec": [
+          "_advance_argument"
         ]
       },
       "stack_cleanup": [
@@ -3597,7 +3615,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19156": [
+        "0x19252": [
           "_write_record_header@20"
         ]
       },
@@ -3635,21 +3653,21 @@
         ]
       },
       "reconstructed_calls": {
-        "0x200a0": [
-          "_wcslen"
-        ],
-        "0x1f5e0": [
-          "_fprintf",
-          "_fwprintf"
-        ],
-        "0x195c1": [
-          "_copy_resource_data@16"
-        ],
-        "0x1816e": [
+        "0x1826a": [
           "_wide_to_ansi@12"
         ],
-        "0x190ee": [
+        "0x191ea": [
           "_write_resource_name@8"
+        ],
+        "0x20190": [
+          "_wcslen"
+        ],
+        "0x19651": [
+          "_resource_payload_size"
+        ],
+        "0x1f6d0": [
+          "_fprintf",
+          "_fwprintf"
         ],
         "0x15292": [
           "_seek_file@12"
@@ -3657,8 +3675,8 @@
         "0x15214": [
           "_write_file@12"
         ],
-        "0x19555": [
-          "_resource_payload_size"
+        "0x196bd": [
+          "_copy_resource_data@16"
         ]
       },
       "stack_cleanup": [
@@ -3676,7 +3694,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x200a0": [
+        "0x20190": [
           "_wcslen"
         ],
         "0x15214": [
@@ -3720,17 +3738,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fa20": [
+        "0x1fb10": [
           "_fclose"
+        ],
+        "0x197a9": [
+          "_copy_file_to_end@8"
+        ],
+        "0x19733": [
+          "_copy_file_bytes@12"
         ],
         "0x15214": [
           "_write_file@12"
-        ],
-        "0x196ad": [
-          "_copy_file_to_end@8"
-        ],
-        "0x19637": [
-          "_copy_file_bytes@12"
         ]
       },
       "stack_cleanup": [
@@ -3822,17 +3840,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17138": [
-          "_put_dword@4"
-        ],
-        "0x1708c": [
-          "_put_wide_string@4"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x1a21c": [
+        "0x1a318": [
           "_wide_atoi@4"
+        ],
+        "0x17234": [
+          "_put_dword@4"
+        ],
+        "0x17188": [
+          "_put_wide_string@4"
         ]
       },
       "stack_cleanup": [
@@ -3847,7 +3865,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ]
       },
@@ -3892,29 +3910,29 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19d80": [
-          "_parse_dialog_font"
-        ],
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
         ],
-        "0x19f85": [
+        "0x1a081": [
           "_parse_dialog_caption"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x17e74": [
+        "0x17f70": [
           "_parse_language"
         ],
-        "0x1a0bd": [
+        "0x1a1b9": [
           "_parse_dialog_class"
         ],
-        "0x19ede": [
+        "0x19fda": [
           "_parse_dialog_menu"
+        ],
+        "0x19e7c": [
+          "_parse_dialog_font"
         ]
       },
       "stack_cleanup": [
@@ -3968,47 +3986,47 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1aa7c": [
-          "_parse_button_control@4"
-        ],
-        "0x1ada0": [
-          "_parse_generic_control@4"
-        ],
-        "0x1a6c4": [
+        "0x1a7c0": [
           "_put_dialog_control@4"
         ],
-        "0x1abe5": [
+        "0x1ace1": [
           "_parse_scrollbar_control@4"
         ],
-        "0x1ab06": [
+        "0x1ac02": [
           "_parse_static_control@4"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x1a6aa": [
+        "0x1a7a6": [
           "_control_style@4"
         ],
-        "0x1ac6d": [
+        "0x1ad69": [
           "_parse_combobox_control@4"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x1acf5": [
+        "0x1adf1": [
           "_parse_edit_control@4"
         ],
-        "0x1ab36": [
+        "0x1ac32": [
           "_parse_icon_control@4"
         ],
-        "0x18f7c": [
+        "0x1ab78": [
+          "_parse_button_control@4"
+        ],
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x1ab5d": [
+        "0x1ac59": [
           "_parse_listbox_control@4"
         ],
-        "0x1aadf": [
+        "0x1abdb": [
           "_parse_group_control@4"
+        ],
+        "0x1ae9c": [
+          "_parse_generic_control@4"
         ]
       },
       "stack_cleanup": [
@@ -4044,20 +4062,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x18464": [
+          "_parser_error@8"
+        ],
+        "0x18fec": [
+          "_advance_argument"
+        ],
+        "0x17650": [
+          "_next_token@4"
+        ],
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x18ef0": [
-          "_advance_argument"
-        ],
-        "0x17554": [
-          "_next_token@4"
-        ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
         ]
       },
@@ -4083,18 +4101,18 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1749a": [
-          "_read_identifier"
-        ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
+        ],
+        "0x17596": [
+          "_read_identifier"
         ]
       },
       "stack_cleanup": [
@@ -4122,20 +4140,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x1a363": [
+          "_wide_itoa@12"
+        ],
+        "0x18464": [
+          "_parser_error@8"
+        ],
+        "0x17650": [
+          "_next_token@4"
+        ],
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1a267": [
-          "_wide_itoa@12"
-        ],
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x17554": [
-          "_next_token@4"
-        ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
         ]
       },
@@ -4161,18 +4179,18 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
-          "_fprintf",
-          "_fwprintf"
-        ],
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
+        ],
+        "0x18464": [
+          "_parser_error@8"
+        ],
+        "0x1f6d0": [
+          "_fprintf",
+          "_fwprintf"
         ]
       },
       "stack_cleanup": [
@@ -4221,26 +4239,26 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a7c2": [
-          "_increment_dialog_controls"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x171ca": [
+        "0x172c6": [
           "_align_resource_data"
         ],
-        "0x1708c": [
+        "0x17188": [
           "_put_wide_string@4"
         ],
-        "0x1a7b0": [
+        "0x1a8ac": [
           "_end_dialog_control"
         ],
-        "0x17138": [
+        "0x17234": [
           "_put_dword@4"
         ],
-        "0x1a21c": [
+        "0x1a318": [
           "_wide_atoi@4"
+        ],
+        "0x1a8be": [
+          "_increment_dialog_controls"
         ]
       },
       "stack_cleanup": [
@@ -4255,7 +4273,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ]
       },
@@ -4283,11 +4301,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1a9fe": [
+        "0x1aafa": [
           "_parse_caption_control@4"
         ]
       },
@@ -4303,7 +4321,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a9fe": [
+        "0x1aafa": [
           "_parse_caption_control@4"
         ]
       },
@@ -4319,7 +4337,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a9fe": [
+        "0x1aafa": [
           "_parse_caption_control@4"
         ]
       },
@@ -4335,7 +4353,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a9fe": [
+        "0x1aafa": [
           "_parse_caption_control@4"
         ]
       },
@@ -4363,19 +4381,19 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
         ],
-        "0x1a98e": [
+        "0x1aa8a": [
           "_parse_control_rectangle@4"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x1a93f": [
+        "0x1aa3b": [
           "_parse_control_id@4"
         ]
       },
@@ -4403,19 +4421,19 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
         ],
-        "0x1a98e": [
+        "0x1aa8a": [
           "_parse_control_rectangle@4"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x1a93f": [
+        "0x1aa3b": [
           "_parse_control_id@4"
         ]
       },
@@ -4443,19 +4461,19 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
         ],
-        "0x1a98e": [
+        "0x1aa8a": [
           "_parse_control_rectangle@4"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x1a93f": [
+        "0x1aa3b": [
           "_parse_control_id@4"
         ]
       },
@@ -4486,22 +4504,22 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
         ],
-        "0x1a6aa": [
+        "0x1a7a6": [
           "_control_style@4"
         ],
-        "0x1a98e": [
+        "0x1aa8a": [
           "_parse_control_rectangle@4"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x1a93f": [
+        "0x1aa3b": [
           "_parse_control_id@4"
         ]
       },
@@ -4546,36 +4564,36 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
-          "_fprintf",
-          "_fwprintf"
-        ],
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x200e8": [
+        "0x201d8": [
           "__strcmpi",
           "__stricmp"
         ],
-        "0x1a98e": [
-          "_parse_control_rectangle@4"
-        ],
-        "0x18ef0": [
-          "_advance_argument"
-        ],
-        "0x17554": [
-          "_next_token@4"
-        ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
         ],
-        "0x1a7dc": [
+        "0x1aa8a": [
+          "_parse_control_rectangle@4"
+        ],
+        "0x18fec": [
+          "_advance_argument"
+        ],
+        "0x17650": [
+          "_next_token@4"
+        ],
+        "0x1f6d0": [
+          "_fprintf",
+          "_fwprintf"
+        ],
+        "0x1a8d8": [
           "_parse_control_text@4"
         ],
-        "0x1a93f": [
+        "0x1aa3b": [
           "_parse_control_id@4"
         ]
       },
@@ -4606,23 +4624,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19b64": [
+        "0x19c60": [
           "_parse_style@4"
         ],
-        "0x1a7dc": [
-          "_parse_control_text@4"
-        ],
-        "0x1a98e": [
+        "0x1aa8a": [
           "_parse_control_rectangle@4"
         ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x18f7c": [
-          "_combine_word_operators@4"
+        "0x1a8d8": [
+          "_parse_control_text@4"
         ],
-        "0x1a93f": [
+        "0x1aa3b": [
           "_parse_control_id@4"
+        ],
+        "0x19078": [
+          "_combine_word_operators@4"
         ]
       },
       "stack_cleanup": [
@@ -4650,20 +4668,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5e0": [
+        "0x1a363": [
+          "_wide_itoa@12"
+        ],
+        "0x18464": [
+          "_parser_error@8"
+        ],
+        "0x1f6d0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1a267": [
-          "_wide_itoa@12"
-        ],
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x19cd6": [
+        "0x19dd2": [
           "_advance_argument_flags@4"
         ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
         ]
       },
@@ -4685,14 +4703,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18ef0": [
-          "_advance_argument"
+        "0x18464": [
+          "_parser_error@8"
         ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x18368": [
-          "_parser_error@8"
+        "0x18fec": [
+          "_advance_argument"
         ]
       },
       "stack_cleanup": [
@@ -4713,14 +4731,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18ef0": [
-          "_advance_argument"
-        ],
-        "0x18f7c": [
+        "0x19078": [
           "_combine_word_operators@4"
         ],
-        "0x18f3f": [
+        "0x1903b": [
           "_parse_word_expression"
+        ],
+        "0x18fec": [
+          "_advance_argument"
         ]
       },
       "stack_cleanup": [
@@ -4738,7 +4756,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d274": [
+        "0x1d370": [
           "_resource_finish"
         ],
         "0x1119d": [
@@ -4760,10 +4778,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
         ],
-        "0x18f3f": [
+        "0x1903b": [
           "_parse_word_expression"
         ]
       },
@@ -4802,13 +4820,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f5c0": [
+        "0x1f6b0": [
           "_fopen"
         ],
-        "0x1fa20": [
+        "0x1fb10": [
           "_fclose"
         ],
-        "0x1f660": [
+        "0x1f750": [
           "__getenv_lk",
           "_getenv"
         ]
@@ -4834,17 +4852,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1cbd0": [
-          "_parse_version_number@4"
-        ],
-        "0x1cd64": [
+        "0x1ce60": [
           "_parse_version_scalar@4"
         ],
-        "0x18368": [
+        "0x1cfaa": [
+          "_put_version_block@12"
+        ],
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x1ceae": [
-          "_put_version_block@12"
+        "0x1cccc": [
+          "_parse_version_number@4"
         ]
       },
       "stack_cleanup": [
@@ -4862,11 +4880,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
+        ],
+        "0x18464": [
+          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -4884,11 +4902,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x17554": [
+        "0x17650": [
           "_next_token@4"
+        ],
+        "0x18464": [
+          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -4915,20 +4933,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17303": [
-          "_resource_data_length"
-        ],
-        "0x1cfc5": [
+        "0x1d0c1": [
           "_parse_version_value@4"
         ],
-        "0x18368": [
-          "_parser_error@8"
-        ],
-        "0x1cda8": [
+        "0x1cea4": [
           "_parse_version_children"
         ],
-        "0x17554": [
+        "0x18464": [
+          "_parser_error@8"
+        ],
+        "0x17650": [
           "_next_token@4"
+        ],
+        "0x173ff": [
+          "_resource_data_length"
         ]
       },
       "stack_cleanup": [
@@ -4958,23 +4976,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x172a1": [
-          "_put_bytes@8"
-        ],
-        "0x17303": [
-          "_resource_data_length"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x172e8": [
+        "0x173e4": [
           "_resource_data_end"
         ],
-        "0x1708c": [
+        "0x17188": [
           "_put_wide_string@4"
         ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
+        ],
+        "0x1739d": [
+          "_put_bytes@8"
+        ],
+        "0x173ff": [
+          "_resource_data_length"
         ]
       },
       "stack_cleanup": [
@@ -5007,26 +5025,26 @@
         ]
       },
       "reconstructed_calls": {
-        "0x172a1": [
-          "_put_bytes@8"
-        ],
-        "0x17303": [
-          "_resource_data_length"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x172e8": [
+        "0x173e4": [
           "_resource_data_end"
         ],
-        "0x1d0a9": [
+        "0x1d1a5": [
           "_parse_version_data@4"
         ],
-        "0x1708c": [
+        "0x17188": [
           "_put_wide_string@4"
         ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
+        ],
+        "0x1739d": [
+          "_put_bytes@8"
+        ],
+        "0x173ff": [
+          "_resource_data_length"
         ]
       },
       "stack_cleanup": [
@@ -5065,32 +5083,32 @@
         ]
       },
       "reconstructed_calls": {
-        "0x170c0": [
-          "_concatenate_wide_string@4"
-        ],
-        "0x172a1": [
-          "_put_bytes@8"
-        ],
-        "0x17303": [
-          "_resource_data_length"
-        ],
-        "0x17244": [
+        "0x17340": [
           "_put_word@4"
         ],
-        "0x18368": [
+        "0x18464": [
           "_parser_error@8"
         ],
-        "0x1708c": [
+        "0x17188": [
           "_put_wide_string@4"
         ],
-        "0x18ef0": [
+        "0x18fec": [
           "_advance_argument"
         ],
-        "0x17138": [
+        "0x17234": [
           "_put_dword@4"
         ],
-        "0x1811c": [
+        "0x18218": [
           "_ansi_to_wide@12"
+        ],
+        "0x171bc": [
+          "_concatenate_wide_string@4"
+        ],
+        "0x1739d": [
+          "_put_bytes@8"
+        ],
+        "0x173ff": [
+          "_resource_data_length"
         ]
       },
       "stack_cleanup": [
@@ -5124,10 +5142,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d49c": [
+        "0x1d598": [
           "__initterm"
         ],
-        "0x20a56": [
+        "0x20b46": [
           "import:ExitProcess"
         ]
       },
@@ -5143,7 +5161,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d49c": [
+        "0x1d598": [
           "__initterm"
         ]
       },
@@ -5159,7 +5177,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d408": [
+        "0x1d504": [
           "_doexit"
         ]
       },
@@ -5183,7 +5201,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d4d0": [
+        "0x1d5cc": [
           "_fflush"
         ]
       },
@@ -5205,14 +5223,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d558": [
-          "_flsall"
-        ],
-        "0x1fcf0": [
+        "0x1fde0": [
           "__flush"
         ],
-        "0x1d61c": [
+        "0x1d718": [
           "__commit"
+        ],
+        "0x1d654": [
+          "_flsall"
         ]
       },
       "stack_cleanup": [
@@ -5227,7 +5245,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d558": [
+        "0x1d654": [
           "_flsall"
         ]
       },
@@ -5273,7 +5291,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fcf0": [
+        "0x1fde0": [
           "__flush"
         ]
       },
@@ -5307,26 +5325,26 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1eca2": [
-          "__hextodec"
-        ],
-        "0x1ec43": [
-          "__un_inc"
-        ],
-        "0x1ed05": [
-          "_isspace"
-        ],
-        "0x1ec66": [
-          "__whiteout"
-        ],
-        "0x1ed47": [
-          "_mbtowc"
-        ],
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ],
-        "0x1ebfa": [
+        "0x1ee01": [
+          "_isspace"
+        ],
+        "0x1ed62": [
+          "__whiteout"
+        ],
+        "0x1ee43": [
+          "_mbtowc"
+        ],
+        "0x1ecf6": [
           "__inc"
+        ],
+        "0x1ed9e": [
+          "__hextodec"
+        ],
+        "0x1ed3f": [
+          "__un_inc"
         ]
       },
       "stack_cleanup": [
@@ -5357,7 +5375,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1ed5a": [
+        "0x15b3e": [
           "_ungetc"
         ]
       },
@@ -5376,11 +5394,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1ebfa": [
-          "__inc"
-        ],
-        "0x1ed05": [
+        "0x1ee01": [
           "_isspace"
+        ],
+        "0x1ecf6": [
+          "__inc"
         ]
       },
       "stack_cleanup": [
@@ -5395,7 +5413,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ]
       },
@@ -5411,7 +5429,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f830": [
+        "0x1f920": [
           "__isctype"
         ]
       },
@@ -5425,6 +5443,22 @@
       "reconstructed_calls": {},
       "stack_cleanup": [
         4
+      ],
+      "indirect_calls": false
+    },
+    "_ungetc": {
+      "original_calls": {
+        "0x1010000": [
+          "__getbuf"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x154e0": [
+          "__getbuf"
+        ]
+      },
+      "stack_cleanup": [
+        0
       ],
       "indirect_calls": false
     }
@@ -5808,12 +5842,159 @@
         }
       },
       "exact_streams_status_and_file_set": true
+    },
+    "rcinclude": {
+      "shared_fixture": "../fixtures/rc-targeted",
+      "manifest_sha256": "be573edcc3bc8230cd15fd7abfd139335e82b9f334843249ba4a7dd5e8eb394a",
+      "case": {
+        "id": "rcinclude",
+        "arguments": [
+          "/x",
+          "/forcinclude.res",
+          "rcinclude.rc"
+        ],
+        "expected_exit": 0,
+        "stdout": {
+          "path": "cases/rcinclude/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "cases/rcinclude/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "path": "cases/rcinclude/rcinclude.res",
+            "output_name": "rcinclude.res",
+            "bytes": 344,
+            "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
+          }
+        ]
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "/x /forcinclude.res rcinclude.rc",
+        "exit": 0,
+        "inputs": {
+          "part.rc": {
+            "bytes": 95,
+            "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+          },
+          "pushback.rc": {
+            "bytes": 30,
+            "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+          },
+          "rcinclude.rc": {
+            "bytes": 120,
+            "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
+          },
+          "second.rc": {
+            "bytes": 105,
+            "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
+          },
+          "values.h": {
+            "bytes": 23,
+            "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+          }
+        },
+        "oracle": {
+          "rcinclude.res": {
+            "bytes": 344,
+            "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
+          },
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
+    },
+    "scanf-pushback": {
+      "shared_fixture": "../fixtures/rc-targeted",
+      "manifest_sha256": "be573edcc3bc8230cd15fd7abfd139335e82b9f334843249ba4a7dd5e8eb394a",
+      "case": {
+        "id": "scanf-pushback",
+        "arguments": [
+          "/x",
+          "/l411z",
+          "/fopushback.res",
+          "pushback.rc"
+        ],
+        "expected_exit": 0,
+        "stdout": {
+          "path": "cases/scanf-pushback/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "cases/scanf-pushback/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "path": "cases/scanf-pushback/pushback.res",
+            "output_name": "pushback.res",
+            "bytes": 68,
+            "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
+          }
+        ]
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "/x /l411z /fopushback.res pushback.rc",
+        "exit": 0,
+        "inputs": {
+          "part.rc": {
+            "bytes": 95,
+            "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+          },
+          "pushback.rc": {
+            "bytes": 30,
+            "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+          },
+          "rcinclude.rc": {
+            "bytes": 120,
+            "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
+          },
+          "second.rc": {
+            "bytes": 105,
+            "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
+          },
+          "values.h": {
+            "bytes": 23,
+            "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+          }
+        },
+        "oracle": {
+          "pushback.res": {
+            "bytes": 68,
+            "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
+          },
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
     }
   },
   "restored_text": {
-    "bytes": 45088,
+    "bytes": 45376,
     "total_bytes": 53248,
-    "percentage": 84.68,
+    "percentage": 85.22,
     "definition": "union of accepted source/CRT functions, shared text data and import thunks, clipped to original code extents; VirtualSize or backed raw fallback; not branch coverage"
   },
   "unaccepted_named_functions": [
@@ -5826,8 +6007,6 @@
     "_get_short_arg",
     "_interrupt_resource@4",
     "_mbtowc",
-    "_trim_token@4",
-    "_ungetc",
     "_wctomb",
     "_wide_to_ansi@12"
   ],
@@ -5878,7 +6057,7 @@
             "__endstdio"
           ],
           "original": "0x100f8b0",
-          "reconstruction": "0x1fde0"
+          "reconstruction": "0x1fed0"
         }
       ]
     },

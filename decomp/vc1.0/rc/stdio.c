@@ -206,3 +206,32 @@ void __cdecl _freebuf(FILE *stream)
         stream->_cnt = 0;
     }
 }
+
+/* Original 0x01013be0..0x01013c6b. String streams permit pushback only
+ * when the byte already present matches; ordinary streams store the byte. */
+int __cdecl ungetc(int character, FILE *stream)
+{
+    if (character == EOF)
+        return EOF;
+    if (!(stream->_flag & _IOREAD) &&
+        (!(stream->_flag & _IORW) || (stream->_flag & _IOWRT)))
+        return EOF;
+    if (!stream->_base)
+        _getbuf(stream);
+    if (stream->_ptr == stream->_base) {
+        if (stream->_cnt)
+            return EOF;
+        ++stream->_ptr;
+    }
+    if (stream->_flag & _IOSTRG) {
+        if ((unsigned char)*--stream->_ptr != (unsigned char)character) {
+            ++stream->_ptr;
+            return EOF;
+        }
+    } else
+        *--stream->_ptr = (char)character;
+    ++stream->_cnt;
+    stream->_flag &= ~_IOEOF;
+    stream->_flag |= _IOREAD;
+    return (unsigned char)character;
+}

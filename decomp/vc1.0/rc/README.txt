@@ -18,7 +18,7 @@ binary remains partly reconstructed: pending functions have typed named INT3
 stubs, and this case does not establish coverage of every input or branch. The
 accepted order and original function/code-data extents are in functions.json;
 validation.json records the complete durable replay and remaining named stubs.
-The rich case, seven local follow-ups and three shared encoding cases complete; this is not a claim
+The rich case, seven local follow-ups and five shared follow-ups complete; this is not a claim
 that all original functions have been identified or all branches exercised.
 
 Build and differential checks
@@ -89,7 +89,19 @@ The parent-owned read-only ../fixtures/resources-encoding suite adds:
                        Missing include: exact child RC1015 on stderr (100 bytes),
                        RC RW1016 on stdout (69 bytes), exit 1, no products/temps.
 
-The shared manifest, source/output bytes and original RCPP identity are pinned
+The parent-owned ../fixtures/rc-targeted suite adds:
+  rcinclude            /x /forcinclude.res rcinclude.rc
+                       Mixed-case native RCINCLUDE, bare filename boundaries,
+                       intentional leading/trailing whitespace, two parts and
+                       nested ordinary includes/macros. Exact 344-byte output.
+  scanf-pushback       /x /l411z /fopushback.res pushback.rc
+                       The original accepts trailing z after hexadecimal 411.
+                       Non-EOF pushback preserves the string-stream byte and
+                       produces an exact 68-byte resource with language 0x411.
+Both exit 0, have empty streams and remove all temporary files. Source whitespace
+is pinned and copied byte for byte, including whitespace in rcinclude.rc.
+
+Shared manifests, source/output bytes and original RCPP identity are pinned
 and independently verified by capture-original.py. All source/ files are copied
 into isolated case directories. No host codepage/locale changes, PID overrides
 or stream normalization are used. --record refuses shared-suite mutation.
@@ -103,8 +115,9 @@ source compile-time checks and the instruction/layout audit preserve that shape.
 Remaining measured limitations include fonts' untested duplicate-ID branch,
 verbose resource reports, other encoding/error branches and exceptional CRT
 paths. The scanf engine is complete recovered C, with its native helper graph;
-mbtowc and non-EOF ungetc remain named traps because these cases do not reach
-them. Unaccepted named vertices remain masked. The list in validation.json
+mbtowc remains a named trap because these cases do not reach it. ungetc is
+now fully recovered C, retaining all original flag/buffer branches and its
+separate _getbuf call; the new case exercises matching-byte string pushback. Unaccepted named vertices remain masked. The list in validation.json
 counts known vertices only, not every unidentified original function.
 
 Recovery and audit

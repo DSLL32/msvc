@@ -492,36 +492,46 @@ case: kanji; accepted: 242
 original: _scan_kanji_string; reconstruction: _scan_kanji_string
 case: kanji; accepted: 243
 original: _is_kanji_lead@4; reconstruction: _is_kanji_lead@4
-case: resources-rich; accepted: 244
+case: rcinclude; accepted: 244
+original: _trim_token@4; reconstruction: _trim_token@4
+case: scanf-pushback; accepted: 245
+original: _ungetc; reconstruction: _ungetc
+case: resources-rich; accepted: 246
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.
-case: help; accepted: 244
+case: help; accepted: 246
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the help oracle exactly.
-case: invalid-switch; accepted: 244
+case: invalid-switch; accepted: 246
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the invalid-switch oracle exactly.
-case: missing-input; accepted: 244
+case: missing-input; accepted: 246
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the missing-input oracle exactly.
-case: alternate; accepted: 244
+case: alternate; accepted: 246
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the alternate oracle exactly.
-case: lexical-error; accepted: 244
+case: lexical-error; accepted: 246
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the lexical-error oracle exactly.
-case: parser-error; accepted: 244
+case: parser-error; accepted: 246
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the parser-error oracle exactly.
-case: resource-error; accepted: 244
+case: resource-error; accepted: 246
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the resource-error oracle exactly.
-case: kanji; accepted: 244
+case: kanji; accepted: 246
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the kanji oracle exactly.
-case: wide-long; accepted: 244
+case: wide-long; accepted: 246
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the wide-long oracle exactly.
-case: preprocessor-error; accepted: 244
+case: preprocessor-error; accepted: 246
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the preprocessor-error oracle exactly.
+case: rcinclude; accepted: 246
+original: exit:0; reconstruction: exit:0
+Both raw streams, exit status and complete case file set match the rcinclude oracle exactly.
+case: scanf-pushback; accepted: 246
+original: exit:0; reconstruction: exit:0
+Both raw streams, exit status and complete case file set match the scanf-pushback oracle exactly.

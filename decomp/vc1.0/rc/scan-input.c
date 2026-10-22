@@ -385,11 +385,8 @@ int __cdecl isspace(int character)
         return _isctype(character, 8);
     return _pctype[character] & 8;
 }
-int __cdecl mbtowc(wchar_t *wide, const char *text, size_t length) { __asm int 3
-    return 0; }
-
-/* Old pushback vertex; the supplied case reaches only its EOF bypass. */
-int __cdecl ungetc(int character, FILE *stream)
+/* This separate multibyte conversion vertex remains unreached. */
+int __cdecl mbtowc(wchar_t *wide, const char *text, size_t length)
 {
     __asm int 3
     return 0;

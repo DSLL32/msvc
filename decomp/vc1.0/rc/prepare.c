@@ -125,6 +125,7 @@ BOOL __stdcall prefix_matches(char *prefix, char *text)
     return -1;
 }
 
+/* Original 0x01007d30..0x01007dc5. Retain only the first bare filename. */
 char * __stdcall trim_token(char *text)
 {
     char *start;
