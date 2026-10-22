@@ -19,11 +19,11 @@ audit: all
 	$(PYTHON) audit-data.py
 check: all audit
 	$(PYTHON) compare.py
-replay: all
+replay: all build/option-check.exe
 	$(PYTHON) compare.py --replay
 check-suite: all audit
 	$(PYTHON) compare.py --case all
-replay-suite: all
+replay-suite: all build/option-check.exe
 	$(PYTHON) compare.py --replay --case all
 coverage: all
 	$(PYTHON) coverage.py

@@ -236,7 +236,7 @@
     "padding_zero_fill_bytes": 2517,
     "remaining_body_import_union_bytes": 2341,
     "remaining_total_bytes": 4858,
-    "scope": "static analysis and two successful suffix cases only; automatic safety review stopped exception-dispatch investigation; no fault experiment created or run",
+    "scope": "static audit, two successful suffix cases, and the subsequently authorized direct option-support leaf case; no fault experiment created or run",
     "newly_accepted_bytes_since_baseline": 75,
     "suffix_cases_accepted_bytes": 38,
     "direct_helper_accepted_bytes": 37,
