@@ -2,6 +2,47 @@
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+/* Inspect pending bytes without flushing or changing the debugged process.
+   The addresses are RVAs of FILE* objects in the old 32-bit CRT ABI. */
+static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rvas)
+{
+    static unsigned char bytes[65536];
+    static char line[131136];
+    static char digits[] = "0123456789abcdef";
+    DWORD address, stream, fields[3], got, written, count;
+    char *next;
+    unsigned index = 0, i, length;
+    while (*rvas) {
+        address = base + strtoul(rvas, &next, 16);
+        if (next == rvas) return;
+        length = sprintf(line, "buffer %u ", index++);
+        if (!ReadProcessMemory(process, (void *)address, &stream, 4, &got) || got != 4)
+            length += sprintf(line + length, "unreadable\n");
+        else if (!stream)
+            length += sprintf(line + length, "unopened\n");
+        else if (!ReadProcessMemory(process, (void *)stream, fields, 12, &got) || got != 12)
+            length += sprintf(line + length, "unreadable-file\n");
+        else {
+            count = fields[0] - fields[2]; /* FILE._ptr - FILE._base */
+            if (count > sizeof(bytes))
+                length += sprintf(line + length, "invalid\n");
+            else if (count && (!ReadProcessMemory(process, (void *)fields[2], bytes, count, &got) || got != count))
+                length += sprintf(line + length, "unreadable-bytes\n");
+            else {
+                length += sprintf(line + length, "%lu ", count);
+                for (i = 0; i < count; ++i) {
+                    line[length++] = digits[bytes[i] >> 4];
+                    line[length++] = digits[bytes[i] & 15];
+                }
+                line[length++] = '\n';
+            }
+        }
+        WriteFile(log, line, length, &written, 0);
+        rvas = *next == ',' ? next + 1 : next;
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -15,8 +56,8 @@ int main(int argc, char **argv)
     void *environment = 0;
     int loader_break = 0;
 
-    if (argc < 6 || argc > 8) return 2;
-    if (argc == 8) {
+    if (argc < 6 || argc > 9) return 2;
+    if (argc >= 8) {
         if (strlen(argv[7]) + 2 > sizeof(child_environment)) return 2;
         strcpy(child_environment, argv[7]);
         child_environment[strlen(argv[7]) + 1] = 0;
@@ -62,6 +103,7 @@ int main(int argc, char **argv)
                         code, (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress - base,
                         base, ev.u.Exception.dwFirstChance);
                 WriteFile(log, line, strlen(line), &written, 0);
+                if (argc == 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);
             }
         } else if (ev.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {

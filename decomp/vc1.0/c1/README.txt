@@ -3,13 +3,12 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-emit_return_statement, original VA 0x32f10. There are 149 reconstructed source
-functions and 218 accepted trap frontiers, all replayed in order. The case
-has emitted main's entry expression, entered its compound scope, and parsed
-`return 0` through integer conversion and const-qualified constant creation.
-Return conversion/emission, scope teardown, and completion of the four
-intermediate files remain unfinished. This is a checkpoint, not a completed
-compiler case.
+finish_compound_statement, original VA 0x35f30. There are 157 reconstructed
+source functions and 226 accepted trap frontiers, all replayed in order.
+The case has emitted main's entry and `return 0`, including arithmetic/type
+conversion checks, compact type encoding, and the branch to its exit label.
+Scope teardown and completion of the four intermediate files remain
+unfinished. This is a checkpoint, not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -31,7 +30,10 @@ trap. check verifies the current frontier and audits the reconstructed
 call graph. replay repeats every recorded frontier before restoring the
 current accepted set. An unfinished matched trap is reported explicitly.
 Each matching frontier also requires identical visible working-directory
-files and raw file contents.
+files and raw file contents. The debugger reads each intermediate FILE's
+pending _base.._ptr bytes with ReadProcessMemory and compares them exactly,
+without flushing or modifying the compiler. This also detects divergence
+before buffered output reaches its visible file.
 
 The case comes from ../fixtures/minimal-c/manifest.json, captured at the
 original CL CreateProcessA boundary. Each executable receives only the
@@ -75,6 +77,8 @@ scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,
   and typed intrinsic definitions.
 constants.c / ir.c / ir-formats.c: constant nodes, recursive expression emission,
   and schema-driven IR writer.
+conversions.c: pointer, qualifier, function-prototype, and base-type compatibility
+  checks, with the diagnostic token vocabulary they consume.
 expression-records.c: named token-to-record rules, sharing declaration meanings
   with token-data.c rather than duplicating the original combined vocabulary.
 control-ir.c / control-formats.c: source and option control-record schemas,

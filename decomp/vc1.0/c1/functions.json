@@ -222,7 +222,15 @@
     "_convert_integer_digits@12",
     "_integer_digit_value@4",
     "_classify_radix_integer@4",
-    "_make_constant_token@8"
+    "_make_constant_token@8",
+    "_emit_return_statement@8",
+    "_check_assignment_conversion@12",
+    "_check_type_conversion@12",
+    "_emit_record_node@12",
+    "_node_alignment@4",
+    "_expression_type_alignment@4",
+    "_reference_ir_symbol@4",
+    "_release_arena@4"
   ],
   "driver": [
     {
@@ -686,12 +694,12 @@
     {
       "name": "_emit_record_node@12",
       "start": 222704,
-      "end": 222705
+      "end": 223573
     },
     {
       "name": "_reference_ir_symbol@4",
       "start": 237264,
-      "end": 237265
+      "end": 237411
     },
     {
       "name": "_get_ir_symbol_index",
@@ -1426,7 +1434,7 @@
     {
       "name": "_emit_return_statement@8",
       "start": 208656,
-      "end": 208657
+      "end": 208915
     },
     {
       "name": "_begin_do_statement",
@@ -1587,7 +1595,7 @@
     {
       "name": "_release_arena@4",
       "start": 304544,
-      "end": 304545
+      "end": 304640
     },
     {
       "name": "_parse_asm_statement",
@@ -1978,6 +1986,82 @@
       "name": "_integer_digit_value@4",
       "start": 140000,
       "end": 140034
+    },
+    {
+      "name": "_check_assignment_conversion@12",
+      "start": 254752,
+      "end": 255758
+    },
+    {
+      "name": "_convert_based_pointer@8",
+      "start": 156176,
+      "end": 156177
+    },
+    {
+      "name": "_check_type_conversion@12",
+      "start": 255840,
+      "end": 257908,
+      "shared": [
+        [
+          257908,
+          257984
+        ]
+      ]
+    },
+    {
+      "name": "_integer_conversion_overflow@16",
+      "start": 311984,
+      "end": 311985
+    },
+    {
+      "name": "_warn_void_function_pointer",
+      "start": 255792,
+      "end": 255793
+    },
+    {
+      "name": "_check_conversion_attributes@16",
+      "start": 258368,
+      "end": 258369
+    },
+    {
+      "name": "_conversion_diagnostic@20",
+      "start": 246656,
+      "end": 246657
+    },
+    {
+      "name": "_check_based_pointer_conversion@12",
+      "start": 258624,
+      "end": 258625
+    },
+    {
+      "name": "_compatible_function_attributes@8",
+      "start": 258784,
+      "end": 258785
+    },
+    {
+      "name": "_compare_prototype_parameter_types@8",
+      "start": 257984,
+      "end": 257985
+    },
+    {
+      "name": "_report_conversion_mismatch@12",
+      "start": 255760,
+      "end": 255761
+    },
+    {
+      "name": "_node_alignment@4",
+      "start": 222528,
+      "end": 222704
+    },
+    {
+      "name": "_complete_type_size@4",
+      "start": 207840,
+      "end": 207841
+    },
+    {
+      "name": "_expression_type_alignment@4",
+      "start": 222400,
+      "end": 222461
     }
   ],
   "cases": {
@@ -1985,5 +2069,23 @@
       "arguments": "",
       "accepted_from": 0
     }
-  }
+  },
+  "buffered_streams": [
+    {
+      "name": "_expression_file",
+      "original": 374156
+    },
+    {
+      "name": "_symbol_file",
+      "original": 374160
+    },
+    {
+      "name": "_line_file",
+      "original": 374164
+    },
+    {
+      "name": "_global_file",
+      "original": 374168
+    }
+  ]
 }

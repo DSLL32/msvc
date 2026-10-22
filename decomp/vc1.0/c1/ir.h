@@ -2,6 +2,15 @@
 #define IR_H
 #include "types.h"
 
+enum IrBaseTypeKind {
+    IR_TYPE_UNKNOWN = 0, IR_TYPE_SIGNED = 1, IR_TYPE_UNSIGNED = 2,
+    IR_TYPE_POINTER = 3, IR_TYPE_FLOAT = 5, IR_TYPE_AGGREGATE = 6,
+    IR_TYPE_VOID = 7, IR_TYPE_EXTENDED = 10, IR_TYPE_FAR16_POINTER = 11
+};
+unsigned short __stdcall expression_type_alignment(CType *type);
+unsigned short __stdcall node_alignment(IrToken *node);
+int __stdcall complete_type_size(CType *type);
+
 enum IrField {
     IR_FIELD_END = 0,
     IR_FIELD_CALL_KIND = 1,
@@ -30,6 +39,7 @@ typedef struct FrontendSymbol FrontendSymbol;
 
 extern unsigned char *ir_record_formats[191];
 extern unsigned string_record_count;
+extern int exception_scope_depth[3];
 extern struct FrontendSymbol *function_symbol;
 extern FrontendSymbol *current_label_symbol;
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode);

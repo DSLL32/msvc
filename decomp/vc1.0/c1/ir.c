@@ -263,3 +263,219 @@ unsigned get_ir_symbol_index(FrontendSymbol *symbol)
     }
     return symbol->index;
 }
+
+/* Original 0x32f10..0x33013. Check a return value, serialize it with the
+   function's result type, and branch to the common exit label. */
+void __stdcall emit_return_statement(IrToken *value, int explicit_return)
+{
+    CType *type;
+    int special_function, void_result;
+    if (!function_return_type) return;
+    special_function = function_symbol->storage[2] & 1;
+    if (special_function && explicit_return) {
+        report_syntax_error(490, "return");
+        return;
+    }
+    void_result = function_return_type->flags == 0x80 && !function_return_type->related;
+    if (!value) {
+        if (!void_result && !special_function) compiler_warning(1, 33, function_symbol->name);
+    } else if (void_result) {
+        compiler_warning(1, 98, function_symbol->name);
+        emit_expression_statement(value);
+    } else {
+        type = function_return_type;
+        check_assignment_conversion(TOK_RETURN, type, value);
+        if ((scanner_flags & 0x800) && type->related && (type->related->attributes & 12))
+            value = convert_based_pointer(type, value);
+        emit_ir_expression(value);
+        value->type = type;
+        write_ir_record(0x41, value);
+        parser_flags |= 0x8000;
+    }
+    write_ir_record(0x3a, function_exit_label);
+}
+
+/* Original 0x3e320..0x3e70e. Check assignment/return compatibility and
+   issue the frontend's arithmetic precision and signedness diagnostics. */
+int __stdcall check_assignment_conversion(unsigned char operation, CType *target, IrToken *value)
+{
+    int result, void_count, target_void;
+    int float_integer = 0, narrower = 0, promoted = 0, source_unsigned;
+    unsigned short destination_flags, source_flags, target_unsigned;
+    unsigned constant;
+    char *context_name;
+    if ((value->flags & 0x80) && target->related && (target->related->flags & 3)) return 1;
+    result = check_type_conversion(operation, target, value->type);
+    if (target->related || value->type->related) return result;
+    target_void = !!(target->flags & 0x80);
+    void_count = target_void + !!(value->type->flags & 0x80);
+    if (operation == TOK_COLON) {
+        if (void_count == 1) compiler_warning(4, 53);
+    } else if (void_count == 1 && operation == TOK_RETURN) {
+        if (target_void) {
+            if (options.z_a) compiler_warning(1, 98, function_symbol->name);
+            else report_syntax_error(562, function_symbol->name);
+        } else if (options.z_a) compiler_warning(1, 70, function_symbol->name);
+        else if (!(function_symbol->storage[2] & 1)) report_syntax_error(561, function_symbol->name);
+    } else if (void_count == 1 || void_count == 2) report_syntax_error(120);
+    switch (operation) {
+    case TOK_ASSIGN: context_name = "="; break;
+    case TOK_DIVIDE_ASSIGN: context_name = "/="; break;
+    case TOK_MINUS_ASSIGN: context_name = "-="; break;
+    case TOK_MULTIPLY_ASSIGN: context_name = "*="; break;
+    case TOK_PLUS_ASSIGN: context_name = "+="; break;
+    case TOK_ARGUMENT_END: context_name = "argument"; break;
+    case TOK_INITIALIZING: context_name = "initializing"; break;
+    case TOK_RETURN: context_name = "return"; break;
+    default: return result;
+    }
+    destination_flags = target->flags;
+    source_flags = value->type->flags;
+    if (!(destination_flags & 0x140) || !(source_flags & 0x140)) return result;
+    if (source_flags & 0x100) {
+        if (destination_flags & 0x40) float_integer = 1;
+        else if ((source_flags & 15) > (destination_flags & 15)) narrower = 1;
+        else if ((source_flags & 15) == (destination_flags & 15) &&
+            (source_flags & 0x20) && (!(destination_flags & 0x100) || !(destination_flags & 0x20))) promoted = 1;
+    } else if (destination_flags & 0x100) {
+        if ((source_flags & 15) >= (destination_flags & 15)) float_integer = 1;
+    } else if ((value->flags & 7) == 3) {
+        constant = value->value.integer;
+        target_unsigned = destination_flags & 0x4000;
+        source_unsigned = (source_flags & 0x4000) ||
+            (!options.z_a && options.option_J && (source_flags & 0x2fdf) == 0x41 && !(source_flags & 0x8000));
+        if (target_unsigned && !source_unsigned && (int)constant < 0) compiler_warning(3, 18, context_name);
+        if (source_flags != destination_flags && integer_conversion_overflow(
+                (unsigned short)(destination_flags & 15), target_unsigned, (unsigned short)source_unsigned, constant))
+            compiler_warning(2, 309, context_name);
+    } else if ((source_flags & 15) > (destination_flags & 15)) {
+        if ((source_flags & 0x20) && (source_flags & 0x40) &&
+            (type_0064->flags & 15) >= (destination_flags & 15)) promoted = 1;
+        else narrower = 1;
+    } else if ((source_flags & 15) == (destination_flags & 15) &&
+        !((source_flags & 0x20) && (source_flags & 0x40)) &&
+        (destination_flags & 0x20) && (destination_flags & 0x40)) promoted = 1;
+    if (float_integer) compiler_warning(2, 51);
+    else if (narrower || promoted) compiler_warning(narrower ? 3 : 4, (destination_flags & 0x100) ? 136 : 135);
+    return result;
+}
+
+/* Original 0x365f0..0x36955. Encode a node's base kind, width, alignment,
+   and qualifiers; aggregates with no size nibble carry a separate size. */
+void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode)
+{
+    FILE *file = expression_file;
+    IrToken *typed_node = tag == 0x27 ? node->value.pointer : node;
+    CType *type;
+    TypeShape *shape;
+    unsigned short flags, attributes, kind, alignment, qualifiers, size_nibble, encoded;
+    unsigned shifted_alignment;
+    unsigned short alignment_value;
+    int bytes;
+    if (current_function) return;
+    type = typed_node->type;
+    shape = type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (shape) {
+        attributes = shape->attributes;
+        kind = (attributes & 7) == 3 ? IR_TYPE_FAR16_POINTER : IR_TYPE_POINTER;
+        bytes = pointer_type_size(attributes);
+        alignment_value = node_alignment(node);
+    } else {
+        attributes = type->attributes;
+        flags = type->flags;
+        alignment_value = node_alignment(node);
+        if (flags & 0x40) {
+            kind = (flags & 0x4000) || (!options.z_a && options.option_J &&
+                (flags & 0x2fdf) == 0x41 && !(flags & 0x8000)) ? IR_TYPE_UNSIGNED : IR_TYPE_SIGNED;
+            bytes = flags & 15;
+        } else if (flags & 0x100) {
+            kind = mode == 1 ? IR_TYPE_EXTENDED : IR_TYPE_FLOAT;
+            bytes = mode == 1 ? 10 : flags & 15;
+        } else if (flags & 0x400) {
+            kind = IR_TYPE_AGGREGATE;
+            bytes = tag == 0x27 ? 0 : complete_type_size(type);
+        } else if (flags & 0x80) {
+            kind = IR_TYPE_VOID;
+            bytes = 0;
+        } else if (flags & 0x800) {
+            kind = IR_TYPE_UNSIGNED;
+            bytes = 2;
+        } else {
+            kind = IR_TYPE_UNKNOWN;
+            bytes = 0;
+        }
+    }
+    shifted_alignment = alignment_value >> 1;
+    alignment = 0;
+    while (shifted_alignment) { ++alignment; shifted_alignment >>= 1; }
+    if (++alignment > 5) alignment = 0;
+    alignment <<= 9;
+    qualifiers = ((attributes & 0x2000) ? 0x1000 : 0) | ((attributes & 0x1000) ? 0x2000 : 0);
+    size_nibble = kind == IR_TYPE_AGGREGATE && (unsigned)bytes >= 32 ? 0 : (unsigned short)bytes;
+    size_nibble <<= 4;
+    encoded = kind | size_nibble | qualifiers | alignment;
+    if (encoded > 0x7f) putc((encoded >> 8) | 0x80, file);
+    putc((unsigned char)encoded, file);
+    if (kind == IR_TYPE_AGGREGATE && !size_nibble) PUT_IR_INTEGER(expression_file, bytes);
+}
+
+/* Original 0x36540..0x365f0. Member/subscript expressions take the smaller
+   child alignment; selected unary and assignment wrappers expose their child. */
+unsigned short __stdcall node_alignment(IrToken *node)
+{
+    ExpressionNode *selected = (ExpressionNode *)node;
+    unsigned char category = token_categories[node->kind];
+    unsigned short left_alignment, right_alignment;
+    switch (category) {
+    case TOK_ARGUMENT: case TOK_ASSIGNMENT_OPERATOR: case TOK_ASSIGN:
+    case TOK_DEREFERENCE: case TOK_INCREMENT_OPERATOR: case TOK_INITIALIZING:
+        selected = (ExpressionNode *)selected->value.children.left;
+        break;
+    }
+    if (token_categories[selected->kind] == TOK_BIT_FIELD)
+        selected = (ExpressionNode *)selected->value.children.left;
+    if (token_categories[selected->kind] == TOK_MEMBER_OPERATOR) {
+        left_alignment = expression_type_alignment(selected->value.children.left->type);
+        right_alignment = expression_type_alignment(selected->value.children.right->type);
+        if (left_alignment >= right_alignment)
+            return expression_type_alignment(selected->value.children.right->type);
+        return expression_type_alignment(selected->value.children.left->type);
+    }
+    return expression_type_alignment(node->type);
+}
+
+/* Original 0x364c0..0x364fd. This entry is distinct from the identical
+   global-record helper at 0x36500 and retains its own call-graph identity. */
+unsigned short __stdcall expression_type_alignment(CType *type)
+{
+    if (type->related && (type->related->flags & 7) != 2) return 4;
+    if (type->flags & 0x400)
+        return (unsigned short)((((FrontendSymbol *)type->field08)->field24 >> 16) & 0xff);
+    return type->flags & 15;
+}
+
+/* Original 0x6006c..0x60078: three structured-exception nesting depths.
+   Their individual roles will be named as the corresponding entries are met. */
+int exception_scope_depth[3];
+
+/* Original 0x39ed0..0x39f63. Track the smallest nesting depth of a forward
+   label reference and diagnose a branch into a protected declaration. */
+void __stdcall reference_ir_symbol(FrontendSymbol *symbol)
+{
+    int depth;
+    char *name;
+    if (symbol->flags & 1) {
+        if (symbol->attributes & 0x200) {
+            if (symbol->detail.value == 19) name = "case";
+            else if (symbol->detail.value == 20) name = "default";
+            else name = symbol->name;
+            if (!(parser_flags & 0x80000000U)) report_syntax_error(705, name);
+        }
+    } else {
+        depth = exception_scope_depth[2] + exception_scope_depth[1] + exception_scope_depth[0];
+        if (!symbol->references || depth < (int)((symbol->field24 >> 8) & 0xff))
+            symbol->field24 = (symbol->field24 & 0xffff00ffU) | ((unsigned char)depth << 8);
+    }
+    if (symbol->flags & 1) symbol->attributes |= 0x400;
+}

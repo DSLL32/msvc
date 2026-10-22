@@ -94,8 +94,6 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 
-void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode) { __asm { int 3 } }
-void __stdcall reference_ir_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 ParameterInfo *void_parameter_info(void) { __asm { int 3 } return 0; }
@@ -351,7 +349,6 @@ void finish_nested_initializer(void) { __asm { int 3 } }
 void __stdcall finish_aggregate_initializer(FrontendSymbol *symbol) { __asm { int 3 } }
 
 /* Original 0x32f10. */
-void __stdcall emit_return_statement(IrToken *value, int implicit) { __asm { int 3 } }
 
 /* Original 0x330b0. */
 void begin_do_statement(void) { __asm { int 3 } }
@@ -438,7 +435,6 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 IrToken *__stdcall make_cast_expression(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 
 /* Original 0x4a5a0. */
-void __stdcall release_arena(int arena) { __asm { int 3 } }
 
 /* Original 0x4e40c. */
 void parse_asm_statement(void) { __asm { int 3 } }
@@ -521,4 +517,19 @@ int __stdcall emit_intrinsic_expression(IrToken *expression) { __asm { int 3 } r
 unsigned char __stdcall classify_decimal_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
+
+
+IrToken *__stdcall convert_based_pointer(CType *target, IrToken *value) { __asm { int 3 } return 0; }
+
+int __stdcall integer_conversion_overflow(unsigned short bytes, unsigned short target_unsigned, unsigned short source_unsigned, unsigned value) { __asm { int 3 } return 0; }
+
+void warn_void_function_pointer(void) { __asm { int 3 } }
+int __stdcall check_conversion_attributes(unsigned char operation, unsigned short target, unsigned short source, int first) { __asm { int 3 } return 0; }
+void __stdcall conversion_diagnostic(unsigned code, unsigned level, unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
+void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
+int __stdcall compatible_function_attributes(unsigned short target, unsigned short source) { __asm { int 3 } return 0; }
+int __stdcall compare_prototype_parameter_types(CType *target, CType *source) { __asm { int 3 } return 0; }
+void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
+
+int __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
 

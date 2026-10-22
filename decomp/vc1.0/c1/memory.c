@@ -1,6 +1,7 @@
 /* Permanent zeroed allocation arena, original globals 0x6b650/0x6b7dc. */
 #include <stdlib.h>
 #include "options.h"
+#include "parser.h"
 
 static unsigned char *permanent_next;
 static unsigned permanent_available;
@@ -127,4 +128,29 @@ void *__stdcall copy_arena_bytes(void *source, int arena, unsigned bytes)
     for (i = 0; i < bytes; ++i)
         destination[i] = ((unsigned char *)source)[i];
     return destination;
+}
+
+/* Original 0x6d9cc/0x6d9d0. Release bookkeeping cleared on a nonempty
+   pool release; no other references exist in this compiler image. */
+static unsigned arena_release_state[2];
+
+/* Original 0x4a5a0..0x4a600. The original root range contains only the
+   compiler arena; its diagnostic arena is the excluded upper bound. */
+void __stdcall release_arena(int arena)
+{
+    ArenaPool *pool = &compiler_arena.pools[arena];
+    ArenaBlock *last = pool->last;
+    if (last) {
+        last->bytes = compiler_arena.block_bytes - pool->remaining;
+        if (last->bytes) {
+            last->next = compiler_arena.free_blocks;
+            compiler_arena.free_blocks = pool->first;
+            pool->first = 0;
+            pool->last = 0;
+            pool->next = 0;
+            pool->remaining = 0;
+            arena_release_state[1] = 0;
+            arena_release_state[0] = 0;
+        }
+    }
 }
