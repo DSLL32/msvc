@@ -211,7 +211,6 @@ CType *parse_struct_specifier(void) { __asm { int 3 } return 0; }
 /* Original 0x29370. */
 
 /* Original 0x29700. */
-void __stdcall add_struct_member(DeclarationSpec *declaration, FrontendSymbol *member) { __asm { int 3 } }
 
 /* Original 0x29970. */
 IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, void *arguments) { __asm { int 3 } return 0; }
@@ -444,7 +443,6 @@ void report_declaration_context_error(unsigned code, unsigned detail, char *name
 
 void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 
-TypeShape *__stdcall extract_base_prefix(TypeShape *shape, TypeShape **prefix, FrontendSymbol *symbol, int is_typedef, unsigned short *attributes) { __asm { int 3 } return 0; }
 
 void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 
@@ -680,7 +678,6 @@ int hash_symbol_indices_equal(void *left, void *right) { __asm { int 3 } return 
 unsigned __stdcall hash_table_count(HashTable *table) { __asm { int 3 } return 0; }
 
 /* Original 0x40c10. */
-unsigned short __stdcall effective_type_qualifiers(CType *type) { __asm { int 3 } return 0; }
 
 /* Original 0x33750. */
 void __stdcall initialize_thread_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
@@ -722,3 +719,7 @@ void copy_line_comment(void) { __asm { int 3 } }
 
 char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
 void emit_diagnostic(unsigned category, unsigned code, char *format, char *arguments) { __asm { int 3 } }
+
+
+void __stdcall add_anonymous_members(CType *type) { __asm { int 3 } }
+void __stdcall layout_bitfield_member(FrontendSymbol *member, char *name, unsigned short flags) { __asm { int 3 } }

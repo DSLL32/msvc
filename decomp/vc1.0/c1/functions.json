@@ -370,7 +370,20 @@
     "_compiler_warning",
     "_warning_setting@4",
     "_discard_line_comment",
-    "_copy_mutable_type@4"
+    "_copy_mutable_type@4",
+    "_extract_base_prefix@20",
+    "_prepend_interned_type_shape@16",
+    "_add_struct_member@8",
+    "_check_member_name@4",
+    "_effective_type_qualifiers@4",
+    "_layout_data_member@4",
+    "_align_aggregate_member@4",
+    "_aggregate_padding@4",
+    "_packing_padding@8",
+    "_addition_overflows@16",
+    "_add_member_offset@8",
+    "_append_aggregate_member@4",
+    "_append_aggregate_member_range@8"
   ],
   "driver": [
     {
@@ -1364,7 +1377,7 @@
     {
       "name": "_add_struct_member@8",
       "start": 169728,
-      "end": 169729
+      "end": 170264
     },
     {
       "name": "_make_function_call@12",
@@ -1940,7 +1953,7 @@
     {
       "name": "_extract_base_prefix@20",
       "start": 203904,
-      "end": 203905
+      "end": 204112
     },
     {
       "name": "_copy_shape_prefix@16",
@@ -2826,7 +2839,7 @@
     {
       "name": "_effective_type_qualifiers@4",
       "start": 265232,
-      "end": 265233
+      "end": 265314
     },
     {
       "name": "_initialize_thread_symbol@4",
@@ -2947,6 +2960,66 @@
       "name": "_emit_diagnostic",
       "start": 306416,
       "end": 306417
+    },
+    {
+      "name": "_prepend_interned_type_shape@16",
+      "start": 263088,
+      "end": 263126
+    },
+    {
+      "name": "_add_anonymous_members@4",
+      "start": 169328,
+      "end": 169329
+    },
+    {
+      "name": "_check_member_name@4",
+      "start": 169216,
+      "end": 169326
+    },
+    {
+      "name": "_layout_bitfield_member@12",
+      "start": 167072,
+      "end": 167073
+    },
+    {
+      "name": "_layout_data_member@4",
+      "start": 167808,
+      "end": 168475
+    },
+    {
+      "name": "_append_aggregate_member@4",
+      "start": 173216,
+      "end": 173230
+    },
+    {
+      "name": "_align_aggregate_member@4",
+      "start": 172800,
+      "end": 173118
+    },
+    {
+      "name": "_addition_overflows@16",
+      "start": 311712,
+      "end": 311891
+    },
+    {
+      "name": "_add_member_offset@8",
+      "start": 170272,
+      "end": 170283
+    },
+    {
+      "name": "_aggregate_padding@4",
+      "start": 172656,
+      "end": 172685
+    },
+    {
+      "name": "_packing_padding@8",
+      "start": 172688,
+      "end": 172793
+    },
+    {
+      "name": "_append_aggregate_member_range@8",
+      "start": 173120,
+      "end": 173212
     }
   ],
   "cases": {

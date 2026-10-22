@@ -62,4 +62,5 @@ unsigned short __stdcall merge_type_attributes(unsigned short existing, unsigned
 TypeDescription *__stdcall copy_type_description(CType *type);
 TypeShape *__stdcall new_type_shape(unsigned short kind, unsigned short attributes, void *parameter);
 TypeShape *__stdcall intern_type_shape(TypeShape *shape);
+TypeShape *__stdcall prepend_interned_type_shape(TypeShape *related, unsigned short kind, unsigned short attributes, void *parameter);
 #endif

@@ -555,3 +555,24 @@ TypeDescription *__stdcall copy_mutable_type(CType *type)
     description->flags |= 0x1000;
     return description;
 }
+
+/* Original 0x403b0..0x403d6. Create and intern one shape around an
+   already constructed inner chain. */
+TypeShape *__stdcall prepend_interned_type_shape(TypeShape *related,
+    unsigned short kind, unsigned short attributes, void *parameter)
+{
+    TypeShape *shape = new_type_shape(kind, attributes, parameter);
+    shape->related = related;
+    return intern_type_shape(shape);
+}
+
+/* Original 0x40c10..0x40c62. Array/function wrappers do not hide the
+   qualified data type; an initial declaration prefix is transparent. */
+unsigned short __stdcall effective_type_qualifiers(CType *type)
+{
+    TypeShape *shape = type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    while (shape && ((shape->flags & 7) == 2 || (shape->flags & 7) == 4))
+        shape = shape->related;
+    return (shape ? shape->attributes : type->attributes) & 0x3000;
+}

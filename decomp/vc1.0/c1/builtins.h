@@ -17,7 +17,11 @@ struct FrontendSymbol {
         char *text;
         struct FrontendSymbol *parameter_next;
     } detail;
-    unsigned field24, field28;
+    unsigned field24;
+    union {
+        struct FrontendSymbol *members, *initializer;
+        struct HashTable *enumerators;
+    } associated;
 };
 /* Enum constants share the first 24 symbol bytes, then store their value. */
 typedef struct EnumeratorSymbol {

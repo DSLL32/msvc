@@ -9,5 +9,5 @@
   "artifact_verification": "Exit 0, empty stdout/stderr, and all four raw intermediates match captured fixtures and unmodified original.",
   "frontier_artifacts": "Visible files and pending bytes in all four intermediate FILE buffers match exactly at every checked frontier.",
   "state_verification": "Initial bytes and aliases of 49 encountered frontend state objects match.",
-  "last_regression_total_source_functions": 285
+  "last_regression_total_source_functions": 298
 }

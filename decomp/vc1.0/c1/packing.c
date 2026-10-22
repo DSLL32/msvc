@@ -42,3 +42,19 @@ PackingEntry *top_packing(PackingStack *stack)
 {
     return stack->active;
 }
+
+/* Original 0x2a290..0x2a2f9. Padding uses the smaller of natural
+   alignment and the active #pragma pack limit. */
+unsigned __stdcall packing_padding(unsigned alignment, unsigned offset)
+{
+    unsigned effective = alignment, remainder;
+    if ((unsigned)top_packing(packing_stack)->alignment < alignment)
+        effective = top_packing(packing_stack)->alignment;
+    remainder = offset % effective;
+    if (remainder) {
+        if ((unsigned)top_packing(packing_stack)->alignment < alignment)
+            alignment = top_packing(packing_stack)->alignment;
+        return alignment - remainder;
+    }
+    return 0;
+}

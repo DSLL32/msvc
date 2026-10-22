@@ -164,6 +164,7 @@ extern int permanent_page_count;
 extern PackingStack *packing_stack;
 PackingStack *new_packing_stack(void);
 PackingEntry *push_packing(PackingStack *stack);
+unsigned __stdcall packing_padding(unsigned alignment, unsigned offset);
 void clear_packing(PackingEntry *entry);
 
 void initialize_packing(void);

@@ -677,10 +677,10 @@ void finish_declarations(void)
     write_function_directory();
     serialize_scope(global_scope);
     for (symbol = pending_global_symbols; symbol; symbol = symbol->next) {
-        if (symbol->field28) {
-            emit_symbol_declaration((FrontendSymbol *)symbol->field28);
+        if (symbol->associated.initializer) {
+            emit_symbol_declaration(symbol->associated.initializer);
             initializer = make_symbol_reference(symbol);
-            target = prepare_initializer_symbol((FrontendSymbol *)symbol->field28);
+            target = prepare_initializer_symbol(symbol->associated.initializer);
             finish_initializer(target, initializer);
         }
     }
@@ -889,12 +889,12 @@ FrontendSymbol *__stdcall begin_tag_definition(char *name, unsigned short kind,
     if ((kind & 0x408) == 0x408 || (kind & 0x402) == 0x402) context->flags |= 1;
     else context->flags &= ~1;
     context->tag = tag;
-    context->field04 = 0;
-    context->field0c = 0;
-    context->field14 = 0;
-    context->field10 = 0;
+    context->last_member = 0;
+    context->size = 0;
+    context->bitfield_used_bits = 0;
+    context->bitfield_type = 0;
     context->type = type;
-    context->field12 = 1;
+    context->alignment = 1;
     return tag;
 }
 
@@ -919,7 +919,7 @@ FrontendSymbol *__stdcall create_tag(char *name, unsigned short kind,
     description->flags = kind;
     if (kind & 0x200) {
         description->flags |= 4;
-        tag->field28 = (unsigned)new_hash_table(4, (short)((scanner_flags & 0x08000000) != 0), 0, 0);
+        tag->associated.enumerators = new_hash_table(4, (short)((scanner_flags & 0x08000000) != 0), 0, 0);
     }
     description->field08 = (unsigned)tag;
     tag->type = intern_type(description);
@@ -1043,7 +1043,7 @@ void __stdcall add_enumerator(char *name, CType *context, unsigned value)
         report_syntax_error(86, existing->name);
         symbol = existing;
     }
-    names = (HashTable *)current_enum_tag->field28;
+    names = current_enum_tag->associated.enumerators;
     if (!names) return;
     insert_hash_value(names, name, symbol);
     if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
@@ -1063,7 +1063,7 @@ typedef char EnumeratorSymbol_must_be_28_bytes[(sizeof(EnumeratorSymbol) == 28) 
 CType *parse_enum_specifier(void)
 {
     FrontendSymbol *tag = (FrontendSymbol *)enumerator_context->field08;
-    if (!options.z_a && !hash_table_count((HashTable *)tag->field28)) report_syntax_error(138);
+    if (!options.z_a && !hash_table_count(tag->associated.enumerators)) report_syntax_error(138);
     tag = (FrontendSymbol *)enumerator_context->field08;
     if (tag->name != name_unnamed && browser_filename && (!parameter_nesting || options.option_FR))
         browser_finish_scope();
@@ -1627,4 +1627,256 @@ void __stdcall finish_array_declarator(FrontendSymbol *symbol, TypeShape **resul
     shape = new_type_shape(1, attributes, &based);
     shape->related = current.shape->related;
     *result = intern_type_shape(shape);
+}
+
+/* Original 0x31c80..0x31d50. Separate declaration prefixes and carry base
+   qualifiers through arrays/functions to the first substantive inner shape. */
+TypeShape *__stdcall extract_base_prefix(TypeShape *shape, TypeShape **prefix,
+    FrontendSymbol *symbol, int is_typedef, unsigned short *attributes)
+{
+    unsigned short flags, kind, merged;
+    TypeShape *result;
+    while (shape && !(shape->flags & 7)) {
+        if (!symbol->type->related) copy_shape_prefix(symbol, shape, prefix, is_typedef);
+        else *prefix = shape;
+        shape = shape->related;
+    }
+    if (!shape) return 0;
+    flags = shape->flags;
+    kind = flags & 7;
+    if (kind != 4 && kind != 2) {
+        merged = merge_type_attributes((unsigned short)(*attributes & 0x3000), shape->attributes);
+        result = prepend_interned_type_shape(shape->related, flags, merged, &shape->field08);
+        *attributes &= 0xcfff;
+        return result;
+    }
+    if (shape->related) {
+        if (kind == 4) flags |= 0x400;
+        result = extract_base_prefix(shape->related, prefix, symbol, is_typedef, attributes);
+        return prepend_interned_type_shape(result, flags, shape->attributes, &shape->field08);
+    }
+    return shape;
+}
+
+/* Original 0x29700..0x29918. Finish a member declaration, place its data
+   or bitfield, and append it to the active aggregate's member sequence. */
+void __stdcall add_struct_member(DeclarationSpec *declaration, FrontendSymbol *member)
+{
+    CType *base;
+    FrontendSymbol *tag, *copy;
+    AggregateContext *context;
+    char *name;
+    if (aggregate_depth < 0) {
+        report_syntax_error(28);
+        return;
+    }
+    base = declaration->type;
+    if (!member) {
+        if (!(base->flags & 0x400)) {
+            report_type_syntax_error(208, base);
+            return;
+        }
+        if (options.z_a) compiler_warning(4, 201);
+        else report_syntax_error(467, (base->flags & 0x404) == 0x404 ? "union" :
+            (base->flags & 0x402) == 0x402 ? "struct" : "enum");
+        tag = (FrontendSymbol *)base->field08;
+        if (!(tag->flags & 1)) {
+            if (!options.prototypes_only) report_syntax_error(27, tag->name);
+            return;
+        }
+        add_anonymous_members(base);
+        return;
+    }
+    if (parameter_nesting > 0 && !(scanner_flags & 0x80000)) {
+        copy = allocate_permanent(sizeof(FrontendSymbol));
+        *copy = *member;
+        member = copy;
+    }
+    member = declare_symbol(declaration, member);
+    if (!member) return;
+    name = member->name;
+    if (check_member_name(name)) return;
+    context = &aggregate_contexts[aggregate_depth];
+    if (effective_type_qualifiers(member->type) & 0x1000)
+        context->tag->field24 |= 0x04000000UL;
+    if ((member->kind & 0x1f) == 2)
+        layout_bitfield_member(member, name, member->type->flags);
+    else {
+        if (name != name_alignment) member->detail.value = layout_data_member(member);
+        append_aggregate_member(member);
+        context = &aggregate_contexts[aggregate_depth];
+        context->tag->attributes = (context->tag->attributes & ~0x100UL) | (member->attributes & 0x100);
+        context->bitfield_type = 0;
+    }
+    if (browser_filename && (!parameter_nesting || options.option_FR) &&
+        aggregate_contexts[aggregate_depth].tag->name != name_unnamed)
+        browser_symbol_definition(member);
+}
+
+/* Original 0x29500..0x2956e. The interned-name flag avoids a list walk
+   for unused spellings. A repeated member is diagnosed; the routine returns 0. */
+int __stdcall check_member_name(char *name)
+{
+    FrontendSymbol *tag, *member;
+    if (!name || name == name_alignment || !(SYMBOL_FROM_NAME(name)->flags & 4)) return 0;
+    tag = aggregate_contexts[aggregate_depth].tag;
+    for (member = tag->associated.members; member; member = member->next) {
+        if (member->name == name) {
+            report_syntax_error(20, name, type_specifier_name(tag->type->flags));
+            break;
+        }
+    }
+    return 0;
+}
+
+/* Original 0x28f80..0x2921b. Complete an aggregate member's byte layout,
+   flushing pending bitfields and honoring packing and incomplete-array rules. */
+unsigned __stdcall layout_data_member(FrontendSymbol *member)
+{
+    AggregateContext *context = &aggregate_contexts[aggregate_depth];
+    FrontendSymbol *tag;
+    CType *type;
+    TypeShape *shape;
+    unsigned bytes, offset, scalar_bytes;
+    if ((context->flags & 1) && (context->tag->attributes & 0x100)) {
+        tag = context->tag;
+        report_syntax_error(229, type_specifier_name(tag->type->flags), tag->name);
+        aggregate_contexts[aggregate_depth].tag->attributes &= ~0x100UL;
+    }
+    bytes = type_size(member->type);
+    if (!bytes) {
+        tag = (FrontendSymbol *)member->type->field08;
+        if (tag && !(tag->flags & 1)) {
+            report_syntax_error(79, member->name, tag->name);
+            return 0;
+        }
+        if (!options.z_a) {
+            report_syntax_error(133, member->name);
+            return 0;
+        }
+        compiler_warning(4, 200);
+        bytes = type_size(drop_first_type_shape(member->type));
+        member->attributes |= 0x100;
+    }
+    context = &aggregate_contexts[aggregate_depth];
+    if ((context->flags & 1) && context->bitfield_type) {
+        context->size += context->bitfield_type & 15;
+        context->bitfield_used_bits = 0;
+    }
+    type = member->type;
+    while (type->related && (type->related->flags & 7) == 2)
+        type = drop_first_type_shape(type);
+    shape = type->related;
+    if (!shape) {
+        if (type->flags & 0x140) {
+            scalar_bytes = type->flags & 15;
+            if ((unsigned)top_packing(packing_stack)->alignment > scalar_bytes) {
+                align_aggregate_member(scalar_bytes);
+                goto aligned;
+            }
+        }
+        if ((type->flags & 0x410) == 0x410) {
+            tag = (FrontendSymbol *)type->field08;
+            align_aggregate_member((tag->field24 >> 16) & 0xff);
+        } else align_aggregate_member(type_size(type));
+    } else if (shape->flags & 1) align_aggregate_member(type_size(type));
+aligned:
+    context = &aggregate_contexts[aggregate_depth];
+    if (context->flags & 1) {
+        offset = context->size;
+        if (!(member->attributes & 0x100)) {
+            if (bytes && addition_overflows(offset, bytes - 1, 1, 4)) {
+                tag = aggregate_contexts[aggregate_depth].tag;
+                report_syntax_error(89, tag->name, type_specifier_name(tag->type->flags));
+                return 0;
+            }
+            aggregate_contexts[aggregate_depth].size += bytes;
+        }
+    } else {
+        offset = 0;
+        if (context->size < bytes) context->size = bytes;
+    }
+    type = member->type;
+    if (!type->related && (type->flags & 0x400)) {
+        tag = (FrontendSymbol *)type->field08;
+        member->attributes = (member->attributes & ~0x100UL) | (tag->attributes & 0x100);
+        aggregate_contexts[aggregate_depth].tag->attributes |= tag->attributes & 0x200;
+        if ((type->flags & 0x404) == 0x404 || (tag->field24 & 0x01000000UL))
+            aggregate_contexts[aggregate_depth].tag->field24 |= 0x01000000UL;
+    }
+    return add_member_offset(offset, 0);
+}
+
+/* Original 0x2a300..0x2a43e. Record the aggregate's maximum effective
+   alignment and represent inserted padding as an explicit alignment member. */
+void __stdcall align_aggregate_member(unsigned bytes)
+{
+    unsigned effective = bytes, padding;
+    FrontendSymbol *member;
+    ArenaPool *pool;
+    if ((unsigned)top_packing(packing_stack)->alignment < bytes)
+        effective = top_packing(packing_stack)->alignment;
+    if (aggregate_contexts[aggregate_depth].alignment <= (unsigned short)effective) {
+        effective = bytes;
+        if ((unsigned)top_packing(packing_stack)->alignment < bytes)
+            effective = top_packing(packing_stack)->alignment;
+        aggregate_contexts[aggregate_depth].alignment = (unsigned short)effective;
+    }
+    padding = aggregate_padding(bytes);
+    if (!padding) return;
+    effective = bytes;
+    if ((unsigned)top_packing(packing_stack)->alignment < bytes)
+        effective = top_packing(packing_stack)->alignment;
+    if (effective != bytes)
+        compiler_warning(4, 121, aggregate_contexts[aggregate_depth].tag->name);
+    if (!parameter_nesting) member = allocate_permanent(sizeof(FrontendSymbol));
+    else {
+        pool = &compiler_arena.pools[1];
+        if (pool->remaining < (int)sizeof(FrontendSymbol)) refill_arena(&compiler_arena, pool);
+        member = (FrontendSymbol *)pool->next;
+        pool->remaining -= sizeof(FrontendSymbol);
+        pool->next += sizeof(FrontendSymbol);
+    }
+    member->kind = 3;
+    member->flags |= 0x20;
+    member->name = name_alignment;
+    member->detail.value = padding;
+    append_aggregate_member(member);
+    aggregate_contexts[aggregate_depth].size += padding;
+}
+
+/* Original 0x2a270..0x2a28d. Query padding at the active aggregate's
+   current byte position. */
+unsigned __stdcall aggregate_padding(unsigned bytes)
+{
+    return packing_padding(bytes, aggregate_contexts[aggregate_depth].size);
+}
+
+/* Original 0x29920..0x2992b. Preserve the separate offset-addition entry. */
+unsigned __stdcall add_member_offset(unsigned base, unsigned displacement)
+{
+    return base + displacement;
+}
+
+/* Original 0x2a4a0..0x2a4ae. Single-member wrapper around range insertion. */
+void __stdcall append_aggregate_member(FrontendSymbol *member)
+{
+    append_aggregate_member_range(member, member);
+}
+
+/* Original 0x2a440..0x2a49c. Mark every spelling in the inserted range,
+   then link the range after the aggregate's retained tail. */
+void __stdcall append_aggregate_member_range(FrontendSymbol *first, FrontendSymbol *last)
+{
+    FrontendSymbol *member = first;
+    AggregateContext *context;
+    for (;;) {
+        if (member->name) SYMBOL_FROM_NAME(member->name)->flags |= 4;
+        if (member == last) break;
+        member = member->next;
+    }
+    context = &aggregate_contexts[aggregate_depth];
+    if (context->last_member) context->last_member->next = first;
+    else context->tag->associated.members = first;
+    aggregate_contexts[aggregate_depth].last_member = last;
 }

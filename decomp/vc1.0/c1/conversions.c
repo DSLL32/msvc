@@ -222,3 +222,20 @@ CType *__stdcall default_argument_promotion(CType *type)
     if ((type->flags & 0x200) || (type->flags & 15) < 4) return type_0064;
     return 0;
 }
+
+/* Original 0x4c1a0..0x4c253. Compare against the target-width bound
+   before adding, preserving the original zero-left signed-limit choice. */
+int __stdcall addition_overflows(unsigned left, unsigned right,
+    unsigned short is_unsigned, unsigned short bytes)
+{
+    IntegerBounds *bounds = &integer_bounds[bytes];
+    unsigned threshold;
+    if (is_unsigned) return bounds->unsigned_maximum - left < right;
+    if (((int)left >= 0) != ((int)right >= 0)) return 0;
+    if ((int)left <= 0) {
+        threshold = (unsigned)bounds->signed_minimum - left;
+        return (int)right < (int)threshold;
+    }
+    threshold = (unsigned)bounds->signed_maximum - left;
+    return (int)right > (int)threshold;
+}

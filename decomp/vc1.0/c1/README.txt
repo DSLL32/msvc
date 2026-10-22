@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 285 reconstructed source functions
-and 366 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 298 reconstructed source functions
+and 379 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-extract_base_prefix, original VA 0x31c80.
-All 108 hello frontiers replay successfully with exact pending-buffer/visible-file
+parse_struct_specifier, original VA 0x28ae0.
+All 121 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -204,3 +204,13 @@ suppression and process exit all share the one error_count at original 0x5b228;
 the earlier provisional current_function and separate driver counter are now
 one object. All 108 hello frontiers replay with exact pending/visible bytes;
 minimal-C still exits0 with all four captured raw intermediates identical.
+
+Checkpoint 298 reaches structure/union member lists. Base qualifier propagation,
+member declaration/name checking, effective qualifiers, data-member placement,
+packing/alignment, explicit padding members, target-width sum overflow and
+member-range insertion are reconstructed as distinct original graph entries.
+AggregateContext now names its tail, byte size, alignment and pending bitfield
+state. A symbol's associated union represents its encountered member-list,
+enum-name-table and deferred-initializer variants at the original shared offset.
+All 121 hello frontiers replay with exact pending/visible file bytes, and the
+minimal-C regression retains identical raw files.
