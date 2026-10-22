@@ -27,14 +27,19 @@ and all four completed cases pass. Pending helpers and unexecuted branches need
 later coverage.
 
 Both new user-authorized coverage scenarios are active in the durable order in
-cases/coverage-queue.json: shared buffered archive creation, debug DLL, then the
-remaining library/dump/edit lifecycle. The initial reader checkpoint has 410
-accepted frontiers. All ten additions replay; all four prior cases pass. Audits
-check 285 call graphs, 276 callback sets and 242 contextual data definitions.
-Original .text accepted extent is 112387/281634 bytes (39.9053%), up from
-110787/281634 (39.3372%). This measures whole-function accepted extents, not
-instruction or branch coverage. The current trap is the ordinary archive writer;
-these new scenarios are not complete.
+cases/coverage-queue.json. Shared buffered C++ archive creation is complete:
+417 accepted frontiers (17 additions), a clean parallel build, full replay under
+the canonical-path namespace harness, exact archive/streams and all four prior
+cases pass. Audits check 291 call graphs, 282 callback sets and 242 contextual
+data definitions. Embedded member bytes and timestamps remain exact; only
+archive member dates vary. Whole .text accepted extent is 115939/281634 bytes
+(41.1665%), up from 110787/281634 (39.3372%). This is whole-function extent
+coverage, not dynamic instruction or branch coverage.
+
+hello-debug-dll is next, at the matching initialize_order trap. The untouched
+original passes exact verbose output/artifact checks and the aliased HelloEntry
+load/call/paint/close/unload check. The reconstructed debug DLL and the remaining
+library/dump/edit lifecycle are not yet complete.
 
 hello-dll (-link @link.rsp) exits 0 with exact streams and matching 2 MB hello.dll,
 hello.lib and hello.exp. Normalization uses only the structurally identified
@@ -66,9 +71,13 @@ Replay every recorded frontier and finish with the DLL artifact check:
 The harness masks the original's entire code section with INT3 and restores only
 accepted function extents and encountered inline data. The reconstruction's entry
 and unaccepted routines are masked too. Each pair runs concurrently and must trap
-at the same logical function before another function is accepted. Each tool copy
-has its original LINK.EXE basename and passes its exact path as argv[0], so the
-library-manager subprocess runs that same masked image. The debugger follows the
+at the same logical function before another function is accepted. Each paired
+tool copy is
+exposed at the original canonical DOS toolchain path in its own Wine namespace.
+That path resolves to the corresponding masked copy; other files resolve to
+untouched originals. argv[0] and verbose recursive command text therefore match
+exactly while the library-manager subprocess runs the same masked image. The
+debugger follows the
 whole child tree, records image bases and loader breaks per process, and stops
 all debugged processes when one reaches a frontier.
 

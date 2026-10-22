@@ -538,3 +538,122 @@ unsigned read_buffered_file(FileSlot *file,void *buffer,unsigned size)
     }
     return size;
 }
+
+unsigned write_buffered_file(FileSlot *file,const void *buffer,unsigned size)
+{
+    unsigned remaining=size;
+    long amount;
+    Page *page;
+    const char *source=buffer;
+    if (!size) return 0;
+    while ((long)(file->cursor.page->position+size)>=(long)file->allocated)
+        grow_buffered_file(file);
+    file->cursor.page->flags |= 2;
+    while (remaining) {
+        page=file->cursor.page;
+        amount=page->limit-page->position;
+        if (amount>=(long)remaining) amount=remaining;
+        memcpy(page->cursor,source,amount);
+        file->cursor.page->position+=amount;
+        file->cursor.page->cursor+=amount;
+        page=file->cursor.page;
+        if (page->dirty_end<page->position) page->dirty_end=page->position;
+        if (page->position==page->limit) advance_file_page(file);
+        if (remaining) file->cursor.page->flags |= 2;
+        remaining-=amount;
+        source+=amount;
+    }
+    return size;
+}
+
+void advance_file_page(FileSlot *file)
+{
+    Page **next=file->storage.pages+(file->cursor.page->start>>12)+1;
+    Page *page=*next;
+    if ((unsigned long)page>1) {
+        file->cursor.page->flags &= ~0x10UL;
+        detach_file_page(file->cursor.page);
+        file->cursor.page=*next;
+        file->cursor.page->flags |= 0x10;
+    } else {
+        flush_file_page(file->cursor.page);
+        *next=file->cursor.page;
+        file->cursor.page->start+=4096;
+        file->cursor.page->limit+=4096;
+        file->cursor.page->dirty_end=file->cursor.page->start;
+        if (!(file->flags&2)) file->cursor.page->flags |= 8;
+        if (page==(Page *)1) {
+            read_file_page(file);
+            ++buffered_page_reads;
+            file->cursor.page->flags |= 4;
+        }
+    }
+    file->cursor.page->position=file->cursor.page->start;
+    file->cursor.page->cursor=file->cursor.page->data;
+}
+
+void flush_file_page(Page *page)
+{
+    FileSlot *file=files[page->handle];
+    long count;
+    if (page->flags&2) {
+        count=page->dirty_end-page->start;
+        if (_lseek(file->source.descriptor,page->start,SEEK_SET)==-1)
+            failure(file->name,9,(char *)page->start);
+        if (_write(file->source.descriptor,page->data,count)!=count)
+            failure(file->name,11,(char *)_tell(file->source.descriptor));
+        file->storage.pages[page->start>>12]=(Page *)1;
+        if ((file->flags&2) && file->length<page->dirty_end)
+            file->length=page->dirty_end;
+    } else if (page->flags&4)
+        file->storage.pages[page->start>>12]=(Page *)1;
+    else file->storage.pages[page->start>>12]=NULL;
+}
+
+int release_file_slot(FileSlot *file)
+{
+    Page *page=active_pages,*next;
+    int result;
+    while (page) {
+        next=page->next;
+        if (page->handle==file->handle) {
+            if (page==file->cursor.page) page->flags &= ~0x10UL;
+            detach_file_page(page);
+        }
+        page=next;
+    }
+    result=_close(file->source.descriptor);
+    if (result==-1) failure(NULL,8,file->name);
+    free(file->name);
+    file->name=NULL;
+    file->source.descriptor=-1;
+    file->flags=0;
+    file->contents.capacity=0;
+    file->cursor.page=NULL;
+    file->length=0;
+    file->allocated=0;
+    free(file->storage.pages);
+    file->storage.pages=NULL;
+    return result;
+}
+
+unsigned char detach_file_page(Page *page)
+{
+    Page *previous,*next;
+    flush_file_page(page);
+    page->flags=0;
+    page->handle=-1;
+    if (active_pages==page) active_pages=page->next;
+    else {
+        previous=active_pages;
+        next=previous->next;
+        while (next && next!=page) {
+            previous=next;
+            next=next->next;
+        }
+        if (next) previous->next=next->next;
+    }
+    page->next=free_pages;
+    free_pages=page;
+    return 1;
+}

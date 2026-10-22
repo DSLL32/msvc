@@ -1,6 +1,6 @@
 {
   "case": "library-create",
-  "status": "active",
+  "status": "complete",
   "fixture": "../fixtures/link-library-tools/manifest.json",
   "phase": "create",
   "arguments": [
@@ -13,20 +13,92 @@
     "LINK32_DB": "27",
     "LIB": "{original toolchain}/lib"
   },
-  "current_frontier": "_write_library",
-  "checkpoint": {
-    "accepted_frontiers": 10,
-    "total_accepted_frontiers": 410,
-    "new_frontiers_replayed": 10,
-    "previous_full_replay_frontiers": 400,
-    "new_replay_sha256": "80d568519512dd3b5e095fa306bd6ba712f5375992e05cf1f26dc6d1c56ad709",
-    "all_four_completed_cases_pass": true,
-    "call_graphs_audited": 285,
-    "callback_sets_audited": 276,
-    "contextual_data_definitions_audited": 242,
-    "accepted_text_bytes": 112387,
-    "total_text_virtual_bytes": 281634,
-    "percent": 39.90533813389008,
-    "archive_creation_complete": false
+  "checkpoints": [
+    {
+      "accepted_frontiers": 10,
+      "total_accepted_frontiers": 410,
+      "new_frontiers_replayed": 10,
+      "previous_full_replay_frontiers": 400,
+      "new_replay_sha256": "80d568519512dd3b5e095fa306bd6ba712f5375992e05cf1f26dc6d1c56ad709",
+      "all_four_completed_cases_pass": true,
+      "call_graphs_audited": 285,
+      "callback_sets_audited": 276,
+      "contextual_data_definitions_audited": 242,
+      "accepted_text_bytes": 112387,
+      "total_text_virtual_bytes": 281634,
+      "percent": 39.90533813389008,
+      "archive_creation_complete": false
+    }
+  ],
+  "exit_status": 0,
+  "streams": {
+    "stdout": {
+      "bytes": 113,
+      "sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "outputs": [
+    {
+      "output_name": "helpers.lib",
+      "bytes": 4184,
+      "ignored_fields": [
+        {
+          "offset": 24,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 176,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 330,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 424,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 2310,
+          "bytes": 12,
+          "name": "Archive member date"
+        }
+      ],
+      "normalized_sha256": "44211f920a978a2c58d400c85eb5aee6bf2f0df2c3533dad2fe6f6cc6caf4629"
+    }
+  ],
+  "validation": {
+    "clean_parallel_build": [
+      "make clean",
+      "make -j2 check"
+    ],
+    "trap_replay": "python3 compare.py --replay --case library-create --require-exit",
+    "total_frontiers_replayed": 417,
+    "matching_new_frontiers": 17,
+    "frontiers_by_case": {
+      "/?": 90,
+      "minimal-c": 254,
+      "hello-win32": 3,
+      "hello-dll": 53,
+      "library-create": 17
+    },
+    "source_and_runtime_functions_with_matching_callee_sets": 291,
+    "source_functions_with_matching_callback_references": 282,
+    "contextual_data_definitions": 242,
+    "all_prior_cases_pass": true,
+    "all_implementations_readable_c": true,
+    "assembly_abi_exceptions": false,
+    "embedded_objects_and_their_timestamps_exact": true,
+    "canonical_path_private_namespaces": true,
+    "replay_log_sha256": "2248749ab55ce377f3913e43eccd9cfd9d673ceba06c86f00d872a38ef5ef70e",
+    "coverage": "cases/coverage-after-library-create.json"
   }
 }

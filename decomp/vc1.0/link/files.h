@@ -51,7 +51,8 @@ Page * acquire_file_page(FileSlot *file,long position);
 void read_file_page(FileSlot *file);
 void touch_file_page(Page *page);
 Page * choose_file_page(void);
-void detach_file_page(Page *page);
+unsigned char detach_file_page(Page *page);
 unsigned char assign_file_page(FileSlot *file,Page *page);
 void advance_file_page(FileSlot *);
+void flush_file_page(Page *);
 #endif

@@ -12,6 +12,34 @@ from binary import PE, u32
 
 wt = SourceFileLoader('wine_tool', 'wine-tool.py').load_module()
 
+def target_namespace(label, executable):
+    """Expose each paired image at the same DOS path in independent prefixes.
+
+    Verbose LINK prints its recursive command. Its real argv[0] must therefore
+    be identical without redirecting a child to the untouched target.
+    """
+    scratch = wt.PREFIX.parent / 'paired-prefixes' / label
+    prefix, root = scratch / 'wine', scratch / 'root'
+    if not (prefix / 'system.reg').exists():
+        scratch.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(wt.PREFIX, prefix, symlinks=True,
+                        ignore=shutil.ignore_patterns('dosdevices'))
+        (prefix / 'dosdevices').mkdir()
+        (prefix / 'dosdevices/c:').symlink_to('../drive_c')
+        (prefix / 'dosdevices/z:').symlink_to(root)
+    # Mirror only the path to LINK.EXE. Every other entry resolves unchanged.
+    source, destination = Path('/'), root
+    parts = list((wt.TC / 'bin/LINK.EXE').parts[1:])
+    for part in parts:
+        destination.mkdir(parents=True, exist_ok=True)
+        for entry in source.iterdir():
+            link = destination / entry.name
+            if entry.name != part and not link.exists() and not link.is_symlink():
+                link.symlink_to(entry)
+        source, destination = source / part, destination / part
+    shutil.copyfile(executable, destination)
+    return prefix
+
 def imports(pe):
     result = []
     p = pe.offset(pe.base + u32(pe.data, pe.optional + 104))
@@ -112,14 +140,15 @@ def run(label, exe, case='/?', cwd=None, arguments=None):
                                     bin=wt.windows(wt.TC / 'bin'),
                                     include=wt.windows(wt.TC / 'include'))
         arguments = ' '.join(phase['arguments'])
-    # argv[0] must name this image: DLL links spawn themselves in -lib mode.
-    # Use the original basename so diagnostics and subprocess selection agree.
+    # argv[0] names this exact image, even when verbose recursive commands print
+    # it. Separate Wine DOS namespaces give both copies the same canonical name.
     if item or case == '/?':
-        target = Path('build/targets') / label / 'LINK.EXE'
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(exe, target)
-        exe = target
-    args = ['wine', 'build/debug-run.exe', wt.windows(exe), case if arguments is None else arguments,
+        prefix = target_namespace(label, exe)
+        env['WINEPREFIX'] = str(prefix)
+        exe = wt.TC / 'bin/LINK.EXE'
+        subprocess.run(['wineserver', '-p'], env=env,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+    args = ['wine', wt.windows('build/debug-run.exe'), wt.windows(exe), case if arguments is None else arguments,
             wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
             wt.windows(str(stem)+'.events')]
     if cwd is not None: args.append(wt.windows(cwd))

@@ -11,13 +11,14 @@
       "case": "library-create",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "create",
-      "status": "active"
+      "status": "complete"
     },
     {
       "case": "hello-debug-dll",
       "fixture": "../fixtures/link-debug-dll/manifest.json",
       "phase": "link",
-      "status": "queued"
+      "status": "active",
+      "current_frontier": "_initialize_order"
     },
     {
       "case": "library-list",

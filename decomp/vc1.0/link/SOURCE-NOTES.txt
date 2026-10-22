@@ -370,3 +370,32 @@ OPEN.OBJ bundles it with a different _sopen. The older _lseek is also C, retaini
 unsigned descriptor validation, GetLastError behavior and EOF-flag clearing via
 native CRT _nhandle/_osfile globals. No assembly exception or section snapshot
 was added. Empty strings remain literals at use.
+
+The verbose debug DLL fixture exposed a remaining harness issue: LINK prints
+its recursive argv[0], so different per-label build/targets paths are observable.
+Each paired label now has an independent private Wine prefix and a mirrored Z:
+namespace. The canonical Z:\root\msvc2\toolchains\1.0-nt\bin\LINK.EXE name maps
+to that label's masked executable. All other filesystem entries are symlinks to
+the unchanged originals. Self-spawned LINK therefore remains the same paired
+image while verbose output, argv[0] and paths remain exact. No path substitution
+or output normalization is used. The debugger still follows the whole child
+process tree. The original debug fixture passes exact streams/artifacts and its
+HelloEntry load/call/paint/close/unload check through this namespace.
+
+Shared C++ helper archive creation is complete at 417 accepted frontiers (17
+added after the four completed baseline cases). The ordinary writer is readable
+C in library-output.c, preserving symbol processing, two archive indexes, WORD
+long-name offsets, exact member copies and separate index backfilling. Buffered
+write, page advance/flush, slot release and page detach preserve dirty extents,
+uncached sentinels, logical length updates, active/free/LRU list roles and AL
+boolean return from detach. Error callbacks keep original diagnostic words.
+
+A clean original-toolchain make -j2 check has no compiler warnings. All 417
+frontiers replay under the corrected canonical-path namespaces; all four prior
+case checks and exact library-create streams/artifacts pass. Audits check 291
+call graphs, 282 callback sets and 242 contextual data definitions. Only archive
+member dates are normalized; copied COFF objects remain exact. Accepted .text
+extent is 115939/281634 (41.1665%). cases/library-create.json records replay
+hashes and validation; cases/coverage-after-library-create.json holds the union.
+The debug DLL begins at initialize_order and the rest of the coverage queue
+remains authorized work. These cases do not establish 99% coverage.

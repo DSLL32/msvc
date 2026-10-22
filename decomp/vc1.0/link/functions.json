@@ -409,7 +409,14 @@
     "__lseek",
     "_touch_file_page",
     "_read_buffered_file",
-    "__getcwd"
+    "__getcwd",
+    "_write_library",
+    "_write_buffered_file",
+    "__itoa",
+    "_advance_file_page",
+    "_flush_file_page",
+    "_release_file_slot",
+    "_detach_file_page"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1857,10 +1864,11 @@
     {
       "name": "_release_file_slot",
       "start": 247632,
-      "end": 247633,
-      "implementation": "stub-C",
+      "end": 247808,
+      "implementation": "C",
       "abi": "cdecl int(FileSlot *)",
-      "source": "files-stubs.c"
+      "source": "files.c",
+      "evidence": "Full 0x3c750..0x3c800: detach every page belonging to slot (saving next), clear current pin, close CRT descriptor, original failure callback, release names/page index and reset named slot state; cdecl returns close result."
     },
     {
       "name": "_seek_mapped_file",
@@ -3045,10 +3053,11 @@
     {
       "name": "_write_buffered_file",
       "start": 248944,
-      "end": 248945,
-      "implementation": "stub-C",
-      "source": "files-stubs.c",
-      "abi": "cdecl unsigned(FileSlot *file,const void *buffer,unsigned size)"
+      "end": 249184,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl unsigned(FileSlot *,const void *,unsigned)",
+      "evidence": "Full 0x3cc70..0x3cd60: zero-count return, signed capacity growth, dirty marking/end tracking, chunk copies and distinct page advance, preserving post-advance marking before remaining-count subtraction."
     },
     {
       "name": "_collect_section_records",
@@ -3419,10 +3428,11 @@
     {
       "name": "_write_library",
       "start": 192880,
-      "end": 192881,
-      "implementation": "stub-C",
-      "source": "library-stubs.c",
-      "abi": "cdecl int(unsigned char,Image *); entry only until reached"
+      "end": 195408,
+      "implementation": "C",
+      "source": "library-output.c",
+      "abi": "cdecl int(unsigned char,Image *)",
+      "evidence": "Full 0x2f170..0x2fb50: enumerate/process members, reserve and populate two archive symbol indexes, build typed long-name offsets, copy exact input members and backfill positions. All original helper vertices remain separate."
     },
     {
       "name": "_reject_output_input_collision",
@@ -3797,10 +3807,11 @@
     {
       "name": "_detach_file_page",
       "start": 249968,
-      "end": 249969,
-      "implementation": "stub-C",
-      "source": "files-stubs.c",
-      "abi": "cdecl void(Page *); entry only until reached"
+      "end": 250112,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl unsigned char(Page *)",
+      "evidence": "Full 0x3d070..0x3d100, ending before new_page: flush, clear flags/owner, unlink active ownership chain, push free chain, return AL one; LRU links intentionally remain for touch/reuse."
     },
     {
       "name": "_assign_file_page",
@@ -3814,10 +3825,20 @@
     {
       "name": "_advance_file_page",
       "start": 249312,
-      "end": 249313,
-      "source": "files-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(FileSlot *); entry only until reached"
+      "end": 249488,
+      "source": "files.c",
+      "implementation": "C",
+      "abi": "cdecl void(FileSlot *)",
+      "evidence": "Full 0x3cde0..0x3ce90: reuse next resident page or flush/rebase current page, preserve pin/read/cache flags and page-read counter, reset cursor to start. Individual detach/flush/read calls remain distinct."
+    },
+    {
+      "name": "_flush_file_page",
+      "start": 248096,
+      "end": 248320,
+      "source": "files.c",
+      "implementation": "C",
+      "abi": "cdecl void(Page *)",
+      "evidence": "Full 0x3c920..0x3ca00: flush dirty span via CRT seek/write, exact-count callbacks, page-index invalidation with uncached sentinel, logical file-length update; clean cached/unbacked pages use distinct index states."
     }
   ],
   "c_stub_references": [
@@ -4224,6 +4245,13 @@
     "hello-dll",
     "hello-dll",
     "hello-dll",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
     "library-create",
     "library-create",
     "library-create",
