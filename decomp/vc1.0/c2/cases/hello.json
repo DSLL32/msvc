@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
   "accepted_from": 352,
-  "accepted_frontiers": 319,
+  "accepted_frontiers": 328,
   "current_frontier": {
-    "name": "@choose_pentium_instruction@4",
-    "original_va": 272912
+    "name": "@pentium_pair_dependency@8",
+    "original_va": 283792
   },
   "expected": {
     "exit": 0,
@@ -248,18 +248,19 @@
     "WIP preservation commit reuses the existing validated code/config hashes; scheduler-return state capture, scheduler /W3 and updated coverage remain pending; first window/full scheduler have not returned",
     "One-function native trial accepts schedule_pentium_instruction42960..42a0b (171bytes/42instructions); fresh original-only and native GDB agree at chooser42a10 before accepting further work.",
     "Original-toolchain build, scheduler /W3,594 source graphs and mask/extent/coverage audits pass; native minimal270 entries/object/streams/exit and hello320 entries/expected chooser trap pass with three rejection checks.",
-    "Verified accepted original code-extent union180186/399693=45.0810997441percent; +171bytes from formally measured670 checkpoint, not branch coverage. See cases/hello-pentium-dispatch.json."
+    "Verified accepted original code-extent union180186/399693=45.0810997441percent; +171bytes from formally measured670 checkpoint, not branch coverage. See cases/hello-pentium-dispatch.json.",
+    "Pentium dependence checkpoint680: nine whole functions added after671; original/native matching after each;603 source graphs, instruction extents/masks and /W3 pass. Native minimal object and hello329-entry named terminal regression pass; extent union186628/399693=46.6928367522percent, not branch coverage. See cases/hello-pentium-dependencies.json."
   ],
-  "total_accepted_frontiers": 671,
-  "reconstructed_functions": 594,
+  "total_accepted_frontiers": 680,
+  "reconstructed_functions": 603,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 671,
-    "accepted_code_bytes": 180186,
+    "accepted_frontiers": 680,
+    "accepted_code_bytes": 186628,
     "original_code_bytes": 399693,
-    "percentage": 45.08109974405356,
+    "percentage": 46.69283675220732,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -267,9 +268,9 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 176
+    "union_ranges": 185
   },
-  "checkpoint_status": "Exactly one native-workflow function accepted; paused at chooser stub",
+  "checkpoint_status": "Active Pentium dependency reconstruction; hello incomplete",
   "pending_window_validation": {
     "capture": "prepare_schedule_window return at original0x3fe60; helper built, not run",
     "compiler_warnings": "Whole scheduler.c /W3 clean in this one-function trial; measured1.6950453576s.",

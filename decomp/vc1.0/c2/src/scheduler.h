@@ -2,12 +2,23 @@
 #define SCHEDULER_H
 #include "machine-analysis.h"
 #include <recon.h>
-/* Constructor41dc0:44 zeroed bytes in arena3. Leading/1c fields await
-   their dependency consumers; x87 values and ordering fields have live names. */
+/* Dependency address record consumed by407b0/41f30. Registers14/16 are
+   signed short physical-register IDs; -1 denotes an absent register. */
+typedef struct SchedulerMemoryAccess {
+    struct SchedulerMemoryAccess *next;
+    MachineInstruction *instruction;
+    long displacement;
+    SymbolHeader *symbol;
+    MachineOperand *operand;
+    short base_register, index_register;
+    unsigned width, flags;
+} SchedulerMemoryAccess;
+typedef char SchedulerMemoryAccessSizeCheck[sizeof(SchedulerMemoryAccess) == 32 ? 1 : -1];
+/* Constructor41dc0:44 zeroed bytes in arena3; lazy dependency metadata. */
 typedef struct InstructionSchedule {
-    unsigned field00, field04;
+    unsigned uses, defines;
     int float_inputs[2], float_result, float_arity, float_depth;
-    unsigned field1c;
+    SchedulerMemoryAccess *memory;
     int ordinal, priority;
     unsigned flags;
 } InstructionSchedule;
@@ -60,4 +71,32 @@ int __fastcall instruction_accesses_memory(MachineInstruction *instruction);
 void __fastcall prepare_scheduled_instruction(MachineInstruction *instruction, int ordinal);
 void __fastcall schedule_window(MachineInstruction *first, MachineInstruction *last);
 MachineInstruction *__fastcall recombine_scheduled_loads(MachineInstruction *first, MachineInstruction *last);
+int __fastcall try_schedule_barrier(MachineInstruction *instruction, MachineInstruction **chosen, int *pipe_hint);
+void __fastcall collect_pentium_candidates(MachineInstruction *instruction, int pipe_hint);
+void __fastcall select_pentium_pair(int *candidate, int *count, int *wait, int *float_wait, int *dependent);
+void __fastcall emit_pentium_pair(int candidate, int count, int dependent);
+void __cdecl compact_pentium_candidates(void);
+int __fastcall pentium_previous_memory_delay(MachineInstruction *instruction);
+int __fastcall classify_pentium_pipe(MachineInstruction *instruction, int *pipe);
+void __fastcall insert_pentium_stall(int reason);
+void __fastcall remove_scheduled_float_exchange(MachineInstruction *instruction);
+int __fastcall instruction_schedule_delay(MachineInstruction *instruction);
+int __fastcall instruction_float_not_ready(MachineInstruction *instruction);
+int __fastcall scheduler_move_conflict(MachineInstruction *first, MachineInstruction *last, int forward, int restore);
+int __fastcall instruction_pair_conflict(MachineInstruction *first, MachineInstruction *last);
+void __fastcall place_scheduled_instruction(MachineInstruction *first, MachineInstruction *last);
+int __fastcall pentium_pair_dependency(MachineInstruction *first, MachineInstruction *last);
+void __fastcall apply_scheduled_float(MachineInstruction *instruction);
+void __fastcall advance_pentium_float_positions(MachineInstruction *instruction, int ready_count);
+void __cdecl rotate_pentium_history(void);
+int __fastcall pentium_prefix_instruction(MachineInstruction *instruction);
+int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment);
+void __fastcall analyze_scheduled_instruction(MachineInstruction *instruction);
+void __fastcall resolve_scheduled_address(SchedulerMemoryAccess *memory, short reg);
+int __fastcall scheduled_stack_overlap(MachineInstruction *first, MachineInstruction *last);
+int __fastcall rewrite_scheduled_dependence(MachineInstruction *first, MachineInstruction *last, int forward, int reverse);
+int __fastcall rewrite_scheduled_stack(MachineInstruction *first, MachineInstruction *last);
+int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerMemoryAccess *last, int forward);
+int __fastcall scheduled_reads_first(unsigned operation);
+void __fastcall analyze_scheduled_address(MachineInstruction *instruction, MachineOperand *operand, short *base, short *index, SchedulerMemoryAccess **memory);
 #endif

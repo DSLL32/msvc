@@ -1,54 +1,13 @@
-C2 paused after the explicitly authorized ONE-function native trial,2026-10-22.
-Do not reconstruct another function or start another case until instructed.
-No build, capture, debugger or regression process remains in flight.
-No files staged or committed: root coordinates the shared review/index.
-
-Accepted exactly schedule_pentium_instruction at0x42960..0x42a0b:171bytes,
-42reachable instructions. Fastcall pointer argument/result and original two
-callee edges preserved. update_scheduled_registers3ffd0 and
-choose_pentium_instruction42a10 remain correctly typed named INT3 stubs.
-Next matching frontier: @choose_pentium_instruction@4 at0x42a10.
-Accepted671/source graphs594; hello accepted suffix319, native application
-trace320entries including terminal chooser, seeded270minimal entries.
-
-Validation passed on the current code/config
-------------------------------------------
-Fresh original-only masked capture before/after matches native GDB entries.
-Native both-target build -j4; original-toolchain build -j4; whole scheduler /W3
-clean;594source graph matches; extent/instruction-boundary/mask audits.
-Native check: minimal270entries exits0, exact286byte object/streams except
-COFF timestamp4..7; hello320entries and named chooser SIGTRAP, no object claim.
-Wrong entry, non-clock object corruption and changed captured IR reject.
-Malformed original reference-event address also rejects offline.
-Formal accepted extent union180186/399693bytes=45.08109974405356percent;
-+171bytes/+0.04278283582649percentage points from measured670checkpoint.
-Includes source/shared text/CRT/imports, clipped union and actual-mask check;
-not branch coverage. Full receipts/timings: cases/hello-pentium-dispatch.json
-and cases/native-all-validation.json. Original before/after receipts are durable
-in cases/hello-pentium-reference-before.json and hello-pentium-reference-after.json;
-cache-extension reproduction is documented in the trial receipt.
-No broad Wine replay was repeated.
-
-Remaining work / validation limits
----------------------------------
-Chooser, register-update and generic processor scheduler remain trapping.
-The metadata0x800 bypass and REP postselection paths are statically recovered
-but not exercised by current hello. First scheduling-window/full driver have
-not returned; optimized hello remains incomplete. Prior prepare_schedule_window
-return-state comparison (original RET0x3fe60) remains pending; expected first
-return EAX3, three metadata records flags0/4/2, ordinals0..2, priorities0/-1/-2,
-87stream records. This trial completes earlier pending /W3 and coverage checks.
-
-Resume only after explicit instruction
--------------------------------------
-Read current AGENTS.md, cases/hello.json, cases/hello-pentium-dispatch.json.
-Use native i386/GDB for reconstruction and cached trace/output fixtures. Any
-new acceptance needs explicit original-only matching capture outside fixtures.
-Next whole function chooser42a10; do not implement it merely to finish docs.
-The projection tool now explicitly extends one acceptance offline using
---extend-before/--extend-after original-only receipt paths; normal checks never
-capture or update references. Initial --write is historical bootstrap only.
-Keep original toolchain compatibility and static graph/ABI/extent audits.
-Shared lib/recon is root-owned; no shim request arose during this trial.
-Private scratch: /root/.ai-tmp/vc1.0-c2/one-function-native
-Private Wine prefix: /root/.ai-tmp/vc1.0-c2/wine
+C2 is ACTIVE following explicit user resume,2026-10-22. The one-function
+limit is revoked. Current queue: finish optimized /O2 /G5 hello, then independently
+capture/reconstruct optimizer stress for loops, pressure/spills, aliasing and x87.
+Current verified checkpoint680accepted/603source graphs. Native/original next
+frontier @pentium_pair_dependency@8 at0x45490. Minimal complete; hello incomplete.
+See cases/hello-pentium-dependencies.json for durable ordered original captures,
+checks, timing, coverage and limits. Actual mask extent union186628/399693bytes
+=46.6928367522percent; not branch coverage. No shim changes requested.
+Earlier prepare_schedule_window return comparison remains pending; scheduler
+/W3 and refreshed extent coverage now pass. Preserve root's optimized audit
+script/test/performance receipt. Shared lib/recon is root-owned.
+Scratch /root/.ai-tmp/vc1.0-c2/optimizer-queue; Wine prefix../wine.
+Stage/commit only owned paths using shared index-lock protocol from root.

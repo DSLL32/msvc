@@ -479,4 +479,24 @@ void __fastcall prepare_float_schedule(MachineInstruction *instruction) { __asm 
 int __fastcall call_float_result_count(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall update_scheduled_registers(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall choose_pentium_instruction(MachineInstruction *instruction) { __asm int 3 }
+
+void __fastcall collect_pentium_candidates(MachineInstruction *instruction, int pipe_hint) { __asm int 3 }
+void __fastcall select_pentium_pair(int *candidate, int *count, int *wait, int *float_wait, int *dependent) { __asm int 3 }
+void __fastcall emit_pentium_pair(int candidate, int count, int dependent) { __asm int 3 }
+void __cdecl compact_pentium_candidates(void) { __asm int 3 }
+int __fastcall pentium_previous_memory_delay(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall insert_pentium_stall(int reason) { __asm int 3 }
+void __fastcall remove_scheduled_float_exchange(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall instruction_pair_conflict(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+void __fastcall place_scheduled_instruction(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+int __fastcall pentium_pair_dependency(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall advance_pentium_float_positions(MachineInstruction *instruction, int ready_count) { __asm int 3 }
+void __cdecl rotate_pentium_history(void) { __asm int 3 }
+int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment) { __asm int 3 }
+void __fastcall resolve_scheduled_address(SchedulerMemoryAccess *memory, short reg) { __asm int 3 }
+int __fastcall scheduled_stack_overlap(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+int __fastcall rewrite_scheduled_dependence(MachineInstruction *first, MachineInstruction *last, int forward, int reverse) { __asm int 3 }
+int __fastcall rewrite_scheduled_stack(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerMemoryAccess *last, int forward) { __asm int 3 }

@@ -675,7 +675,16 @@
     "_new_instruction_schedule",
     "@schedule_window@8",
     "@prepare_schedule_window@8",
-    "@schedule_pentium_instruction@4"
+    "@schedule_pentium_instruction@4",
+    "@choose_pentium_instruction@4",
+    "@try_schedule_barrier@12",
+    "@instruction_schedule_delay@4",
+    "@classify_pentium_pipe@8",
+    "@pentium_prefix_instruction@4",
+    "@scheduler_move_conflict@16",
+    "@analyze_scheduled_instruction@4",
+    "@analyze_scheduled_address@20",
+    "@scheduled_reads_first@4"
   ],
   "driver": [
     {
@@ -5655,8 +5664,167 @@
     {
       "name": "@choose_pentium_instruction@4",
       "start": 272912,
-      "end": 272913,
+      "end": 273600
+    },
+    {
+      "name": "@try_schedule_barrier@12",
+      "start": 280192,
+      "end": 281786
+    },
+    {
+      "name": "@collect_pentium_candidates@8",
+      "start": 280064,
+      "end": 280065,
       "provisional": true
+    },
+    {
+      "name": "@select_pentium_pair@20",
+      "start": 276448,
+      "end": 276449,
+      "provisional": true
+    },
+    {
+      "name": "@emit_pentium_pair@12",
+      "start": 275920,
+      "end": 275921,
+      "provisional": true
+    },
+    {
+      "name": "_compact_pentium_candidates",
+      "start": 275680,
+      "end": 275681,
+      "provisional": true
+    },
+    {
+      "name": "@pentium_previous_memory_delay@4",
+      "start": 275584,
+      "end": 275585,
+      "provisional": true
+    },
+    {
+      "name": "@classify_pentium_pipe@8",
+      "start": 274576,
+      "end": 275164
+    },
+    {
+      "name": "@insert_pentium_stall@4",
+      "start": 275168,
+      "end": 275169,
+      "provisional": true
+    },
+    {
+      "name": "@remove_scheduled_float_exchange@4",
+      "start": 281792,
+      "end": 281793,
+      "provisional": true
+    },
+    {
+      "name": "@instruction_schedule_delay@4",
+      "start": 281888,
+      "end": 281961
+    },
+    {
+      "name": "@instruction_float_not_ready@4",
+      "start": 282512,
+      "end": 282513,
+      "provisional": true
+    },
+    {
+      "name": "@scheduler_move_conflict@16",
+      "start": 264112,
+      "end": 265951
+    },
+    {
+      "name": "@instruction_pair_conflict@8",
+      "start": 266112,
+      "end": 266113,
+      "provisional": true
+    },
+    {
+      "name": "@place_scheduled_instruction@8",
+      "start": 263248,
+      "end": 263249,
+      "provisional": true
+    },
+    {
+      "name": "@pentium_pair_dependency@8",
+      "start": 283792,
+      "end": 283793,
+      "provisional": true
+    },
+    {
+      "name": "@apply_scheduled_float@4",
+      "start": 284976,
+      "end": 284977,
+      "provisional": true
+    },
+    {
+      "name": "@advance_pentium_float_positions@8",
+      "start": 284928,
+      "end": 284929,
+      "provisional": true
+    },
+    {
+      "name": "_rotate_pentium_history",
+      "start": 286304,
+      "end": 286305,
+      "provisional": true
+    },
+    {
+      "name": "@pentium_prefix_instruction@4",
+      "start": 263968,
+      "end": 264102
+    },
+    {
+      "name": "@scheduled_float_conflict@12",
+      "start": 284672,
+      "end": 284673,
+      "provisional": true
+    },
+    {
+      "name": "@analyze_scheduled_instruction@4",
+      "start": 268208,
+      "end": 269268
+    },
+    {
+      "name": "@resolve_scheduled_address@8",
+      "start": 269808,
+      "end": 269809,
+      "provisional": true
+    },
+    {
+      "name": "@scheduled_stack_overlap@8",
+      "start": 272256,
+      "end": 272257,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_scheduled_dependence@16",
+      "start": 271120,
+      "end": 271121,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_scheduled_stack@8",
+      "start": 270944,
+      "end": 270945,
+      "provisional": true
+    },
+    {
+      "name": "@scheduled_memory_overlap@12",
+      "start": 270128,
+      "end": 270129,
+      "provisional": true
+    },
+    {
+      "name": "@scheduled_reads_first@4",
+      "start": 269280,
+      "end": 269379
+    },
+    {
+      "name": "@analyze_scheduled_address@20",
+      "start": 269392,
+      "end": 269759
     }
   ],
   "cases": {
