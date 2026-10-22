@@ -14,5 +14,7 @@ int extended_to_double(const Extended *number, DoubleBits *result);
 void float_to_extended(const float *number, Extended *result);
 void double_to_extended(const DoubleBits *number, Extended *result);
 void integer_to_extended(const int *integer, Extended *number);
+void unsigned_integer_to_extended(const unsigned *integer, Extended *number);
+int extended_to_integer(const Extended *number, int *result);
 void store_extended(void); /* private ABI: ESI destination, ST(0) value */
 #endif

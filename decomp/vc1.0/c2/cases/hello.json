@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 12,
+  "accepted_frontiers": 24,
   "current_frontier": {
-    "name": "@fold_constant_conversion@4",
-    "original_va": 358480
+    "name": "@cleanup_unused_tree@4",
+    "original_va": 363648
   },
   "expected": {
     "exit": 0,
@@ -35,8 +35,13 @@
     "seven changed storage/tree/type modules compile /W3 clean",
     "independent first-function comparison matches 27 expression roots and 97 nodes, including arguments and switch operands",
     "independent next-conversion capture matches signed32 constant 37 to unsigned32",
-    "complete minimal object/exit regression passes on the final build"
+    "complete minimal object/exit regression passes on the final build",
+    "final precision-flag correction build passes all 352 minimal and all 24 hello historical frontiers",
+    "all 299 source functions pass graph audit",
+    "both new constant-conversion/global-tree implementation modules compile /W3 clean",
+    "independent canonicalized first-function trees match 29 roots and 99 nodes; only debugger exception address differs",
+    "complete minimal object/exit regression passes after all global tree passes are accepted"
   ],
-  "total_accepted_frontiers": 364,
-  "reconstructed_functions": 287
+  "total_accepted_frontiers": 376,
+  "reconstructed_functions": 299
 }

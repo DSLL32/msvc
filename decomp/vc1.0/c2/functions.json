@@ -368,7 +368,19 @@
     "@align_stack_storage@8",
     "_splice_expressions",
     "@node_type_kind@4",
-    "@convert_node_once@8"
+    "@convert_node_once@8",
+    "@fold_constant_conversion@4",
+    "@convert_integer_constant@8",
+    "@normalize_integer_width@8",
+    "@optimize_tree_global@4",
+    "@prepare_global_tree@4",
+    "@prepare_global_node@4",
+    "@reassociate_global_node@4",
+    "@factor_global_tree@4",
+    "@factor_global_node@4",
+    "@finish_global_tree@4",
+    "@reduce_global_node@4",
+    "@finish_global_node@4"
   ],
   "driver": [
     {
@@ -720,8 +732,7 @@
     {
       "name": "@optimize_tree_global@4",
       "start": 340624,
-      "end": 340625,
-      "provisional": true
+      "end": 340896
     },
     {
       "name": "@optimize_tree_local@4",
@@ -2444,8 +2455,7 @@
     {
       "name": "@normalize_integer_width@8",
       "start": 358416,
-      "end": 358417,
-      "provisional": true
+      "end": 358480
     },
     {
       "name": "@simplify_masked_tree@8",
@@ -3549,7 +3559,171 @@
     {
       "name": "@fold_constant_conversion@4",
       "start": 358480,
-      "end": 358481,
+      "end": 358880
+    },
+    {
+      "name": "@convert_integer_constant@8",
+      "start": 358880,
+      "end": 358992
+    },
+    {
+      "name": "_unsigned_integer_to_extended",
+      "start": 463793,
+      "end": 463794,
+      "provisional": true
+    },
+    {
+      "name": "_extended_to_integer",
+      "start": 463844,
+      "end": 463845,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_global_tree@4",
+      "start": 341152,
+      "end": 341248
+    },
+    {
+      "name": "@factor_global_tree@4",
+      "start": 341072,
+      "end": 341152
+    },
+    {
+      "name": "@finish_global_tree@4",
+      "start": 340896,
+      "end": 340992
+    },
+    {
+      "name": "@prepare_global_node@4",
+      "start": 341424,
+      "end": 342656
+    },
+    {
+      "name": "@reassociate_global_node@4",
+      "start": 341296,
+      "end": 341424
+    },
+    {
+      "name": "@simplify_reciprocal@4",
+      "start": 347648,
+      "end": 347649,
+      "provisional": true
+    },
+    {
+      "name": "@simplify_global_conversion@4",
+      "start": 347728,
+      "end": 347729,
+      "provisional": true
+    },
+    {
+      "name": "@distribute_unary_tree@4",
+      "start": 348368,
+      "end": 348369,
+      "provisional": true
+    },
+    {
+      "name": "@is_negatable_negative_constant@4",
+      "start": 348416,
+      "end": 348417,
+      "provisional": true
+    },
+    {
+      "name": "@reduce_additive_chain@4",
+      "start": 349984,
+      "end": 349985,
+      "provisional": true
+    },
+    {
+      "name": "@reduce_multiplicative_chain@4",
+      "start": 349728,
+      "end": 349729,
+      "provisional": true
+    },
+    {
+      "name": "@reduce_bitwise_terms@8",
+      "start": 349680,
+      "end": 349681,
+      "provisional": true
+    },
+    {
+      "name": "@factor_bitwise_chain@8",
+      "start": 349264,
+      "end": 349265,
+      "provisional": true
+    },
+    {
+      "name": "@factor_global_node@4",
+      "start": 345488,
+      "end": 345872
+    },
+    {
+      "name": "@fold_address_offset@4",
+      "start": 351984,
+      "end": 351985,
+      "provisional": true
+    },
+    {
+      "name": "@combine_complementary_masks@4",
+      "start": 350864,
+      "end": 350865,
+      "provisional": true
+    },
+    {
+      "name": "@cancel_unary_factors@12",
+      "start": 351760,
+      "end": 351761,
+      "provisional": true
+    },
+    {
+      "name": "@reduce_global_node@4",
+      "start": 347072,
+      "end": 347568
+    },
+    {
+      "name": "@finish_global_node@4",
+      "start": 345872,
+      "end": 347072
+    },
+    {
+      "name": "@narrow_binary_conversion@8",
+      "start": 348736,
+      "end": 348737,
+      "provisional": true
+    },
+    {
+      "name": "@push_unary_below_conversion@4",
+      "start": 348496,
+      "end": 348497,
+      "provisional": true
+    },
+    {
+      "name": "@lift_both_unary@4",
+      "start": 348928,
+      "end": 348929,
+      "provisional": true
+    },
+    {
+      "name": "@negate_tree@4",
+      "start": 355888,
+      "end": 355889,
+      "provisional": true
+    },
+    {
+      "name": "@fold_bitwise_and@4",
+      "start": 355312,
+      "end": 355313,
+      "provisional": true
+    },
+    {
+      "name": "@extract_reciprocal@4",
+      "start": 355408,
+      "end": 355409,
+      "provisional": true
+    },
+    {
+      "name": "@extract_complement@4",
+      "start": 355744,
+      "end": 355745,
       "provisional": true
     }
   ],

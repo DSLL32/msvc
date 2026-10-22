@@ -91,7 +91,6 @@ int __fastcall tree_contains_opcode(Node *node, unsigned opcode) { __asm int 3 }
 unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
 void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
 void __fastcall release_node_children(Node *node) { __asm int 3 }
-Node *__fastcall optimize_tree_global(Node *node) { __asm int 3 }
 void __fastcall reassociate_right_chain(Node *node) { __asm int 3 }
 int __fastcall rotate_left_chain(Node *node, unsigned right_key, unsigned prior_key, int under_load) { __asm int 3 }
 unsigned __fastcall sort_commutative_operands(Node *node, unsigned left_key, unsigned right_key) { __asm int 3 }
@@ -118,7 +117,6 @@ Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
 Node *__fastcall take_left_operand(Node *node) { __asm int 3 }
 Node *__fastcall lift_unary_operand(Node *node, unsigned opcode) { __asm int 3 }
 Node *__fastcall remove_right_wrapper(Node *node) { __asm int 3 }
-unsigned __fastcall normalize_integer_width(Node *node, unsigned value) { __asm int 3 }
 Node *__fastcall simplify_masked_tree(Node *node, unsigned mask) { __asm int 3 }
 unsigned __fastcall shift_discard_mask(Node *node) { __asm int 3 }
 int __fastcall factor_common_operator(Node *node, unsigned opcode, int implicit) { __asm int 3 }
@@ -340,4 +338,33 @@ void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) 
 unsigned input_float_bits(void) { __asm int 3 }
 void __fastcall reserve_segment_storage(SymbolHeader *symbol) { __asm int 3 }
 
-Node *__fastcall fold_constant_conversion(Node *node) { __asm int 3 }
+
+void unsigned_integer_to_extended(const unsigned *integer, Extended *number) { __asm int 3 }
+int extended_to_integer(const Extended *number, int *result) { __asm int 3 }
+
+
+
+Node *__fastcall simplify_reciprocal(Node *node) { __asm int 3 }
+Node *__fastcall simplify_global_conversion(Node *node) { __asm int 3 }
+Node *__fastcall distribute_unary_tree(Node *node) { __asm int 3 }
+int __fastcall is_negatable_negative_constant(Node *node) { __asm int 3 }
+
+void __fastcall reduce_additive_chain(Node *node) { __asm int 3 }
+void __fastcall reduce_multiplicative_chain(Node *node) { __asm int 3 }
+void __fastcall reduce_bitwise_terms(Node *node, unsigned identity) { __asm int 3 }
+void __fastcall factor_bitwise_chain(Node *node, unsigned opcode) { __asm int 3 }
+
+
+Node *__fastcall fold_address_offset(Node *node) { __asm int 3 }
+void __fastcall combine_complementary_masks(Node *node) { __asm int 3 }
+void __fastcall cancel_unary_factors(Node *node, unsigned unary, unsigned combine) { __asm int 3 }
+
+
+Node *__fastcall narrow_binary_conversion(Node *node, unsigned short type) { __asm int 3 }
+Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
+
+Node *__fastcall lift_both_unary(Node *node) { __asm int 3 }
+Node *__fastcall negate_tree(Node *node) { __asm int 3 }
+Node *__fastcall fold_bitwise_and(Node *node) { __asm int 3 }
+int __fastcall extract_reciprocal(Node **node) { __asm int 3 }
+int __fastcall extract_complement(Node **node) { __asm int 3 }

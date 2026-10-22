@@ -407,3 +407,22 @@ frontiers. The final build passes all 352 frozen minimal frontiers, all 12
 hello frontiers, the graph audit, seven changed modules compiled /W3, and the
 complete minimal object/exit comparison. Extent-overlap checks run before each
 mask. The hello object remains pending at fold_constant_conversion.
+
+The optimized hello case now completes all three global tree passes and reaches
+unused-expression cleanup. Twelve additional functions preserve the original
+fixed-point drivers, recursion order, scalar-conversion graph and operator
+rewrites (1,441 native instructions). The floating frontend flag at 0x83150
+and precision optimization at 0x80698 are tracked separately; the new floating
+rounding/rewrite guards use the precision flag. Typed trapping helpers retain
+unvisited arithmetic and extended-conversion branches.
+
+An independent comparison at the end of canonicalization/inline expansion
+matches all 29 expression records and 99 visited nodes of _HelloWindowProc@16,
+including symbol IDs/names/offsets, scalar leaves and node self-reference links.
+Only the debugger exception location is normalized. Detailed extent, ABI,
+flag-audit and branch-coverage evidence is in cases/hello-global-tree-abi.json.
+
+The global-tree checkpoint has 299 source functions and 376 accepted frontiers.
+The final build passes the complete 352-frontier minimal history, all 24 hello
+frontiers, the graph audit, both new modules compiled /W3 and the full minimal
+object/exit regression. Hello output remains pending at cleanup_unused_tree.
