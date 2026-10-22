@@ -305,3 +305,31 @@ This COFF symbol checkpoint passes a clean original-toolchain -j2 build, all
 244 graph audits and all 306 recorded frontier replays. Five changed C modules
 compile cleanly with /W3. The active frontier is write_function_listing; the
 listing-disabled path still precedes machine byte emission and final COFF output.
+
+Machine byte emission and function cleanup now reach COFF module closure.
+machine-emission.c reconstructs the complete record-dispatch body and invokes
+typed segment, byte, source-line, source-file and function callbacks. listing.c
+also contains the complete function-listing body, with named helper traps for
+the unvisited formatting/source paths and a typed twenty-file source cache.
+Work cleanup clears optimizer trees and pooled bitsets before resetting arenas,
+recycles three interned-leaf tables, then disconnects per-function symbol state.
+Shared roots such as temporary_registers and free_bitset_nodes are reused.
+
+Independent stopped-process inspection at COFF end-function entry matches all
+18 .text bytes (558bec5356572bc0e9000000005f5e5bc9c3), all 38 .drectve bytes,
+both scope sizes and all seven symbol entries. This proves emitted section data;
+COFF header/symbol serialization and the complete object comparison are pending.
+See cases/emission-abi.json for callback ABIs, state provenance and limits.
+
+Reaching cleanup exposed an older mask error: release_expression's earlier
+extent ended at 0004fd10 and exposed the adjacent free_work body. Primary control
+flow ends at its RET at 0004fcfd; the corrected logical extent ends 0004fd00.
+Two still-provisional extents were tightened as well. compare.py now rejects all
+overlapping driver extents before masking. The corrected masks restore the
+matching free_work frontier; that function is reconstructed independently.
+
+This emission/cleanup checkpoint passes all 259 call-graph audits and all 321
+frontier replays after the extent correction. All 560 driver ranges are disjoint.
+Twelve changed implementation modules compile cleanly with /W3; deliberate INT3
+stubs retain the expected no-return diagnostics at that warning level. The active
+frontier is coff_finish_module, with complete object serialization still pending.

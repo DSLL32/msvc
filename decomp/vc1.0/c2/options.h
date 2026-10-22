@@ -17,5 +17,6 @@ extern int byte_block_second, byte_block_first, identifier_limit;
 char *next_argument();
 int __fastcall match_option(Option *options, char *argument, char *(__cdecl *next)(void), int copy);
 void __cdecl compiler_report(unsigned code, ...);
+void __cdecl compiler_error(unsigned code, ...);
 void __fastcall consume_string(char *string);
 #endif

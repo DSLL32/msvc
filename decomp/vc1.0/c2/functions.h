@@ -53,7 +53,7 @@ void __fastcall read_global_records(Function *function);
 void emit_backend_work(void);
 Function *__fastcall read_function(FunctionSymbol *symbol);
 Function *__fastcall read_function_body(FunctionSymbol *symbol);
-char *__fastcall format_function_name(FunctionSymbol *symbol);
+char *__fastcall format_function_name(SymbolHeader *symbol);
 void __cdecl ide_message(int code, ...);
 void __fastcall activate_scope(ScopeHash *scope);
 void __fastcall apply_function_options(unsigned options);

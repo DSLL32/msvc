@@ -12,6 +12,9 @@ extern char *generated_source;
 unsigned next_symbol_identifier(void);
 unsigned coff_function_symbol; /* 0007e8bc: current writer symbol handle */
 unsigned coff_function_line; /* 0007e8c4 */
+unsigned short coff_has_function_lines; /* 0007e8b4 */
+unsigned coff_last_function_line; /* 0007e8b8 */
+int coff_emitted_function; /* 000850c8 */
 static Segment *coff_default_fpo_segment; /* 0007e8c8 */
 static char *coff_last_function_filename; /* 0007e8cc */
 Segment *coff_function_fpo_segment, *coff_function_debug_segment; /* 00079148,0007914c */
@@ -19,6 +22,25 @@ Segment *coff_function_fpo_segment, *coff_function_debug_segment; /* 00079148,00
 unsigned short __fastcall coff_symbol_type(SymbolHeader *symbol)
 {
     return symbol->kind == 4 ? 0x20 : 0;
+}
+/* Original [0006d310,0006d360): line records start with the function handle. */
+void __fastcall coff_output_symbol(FunctionSymbol *symbol)
+{
+    if (coff_function_line && (codeview_debug || line_debug)) {
+        coff_begin_lines(coff_function_symbol, (unsigned short)coff_function_line,
+            symbol->code_bytes, symbol->symbol.field04);
+        coff_has_function_lines = 1;
+    } else coff_has_function_lines = 0;
+}
+/* Original [0006d360,0006d3b0). Close line/debug records after code bytes. */
+void __fastcall coff_output_function(FunctionSymbol *symbol)
+{
+    if (coff_has_function_lines && (codeview_debug || line_debug)) {
+        coff_line_marker(coff_has_function_lines);
+        coff_end_lines((unsigned short)coff_last_function_line,
+            symbol->symbol.field04 + symbol->code_bytes);
+    }
+    coff_emitted_function = 1;
 }
 /* Original [0006cac0,0006ccd0). Prepare the function symbol and optional
    per-function debug/FPO sections, then define its COFF entry. */

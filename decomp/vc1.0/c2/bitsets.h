@@ -8,6 +8,7 @@ struct BitSet {
     unsigned bits;
 };
 typedef char BitSetSizeCheck[sizeof(BitSet) == 12 ? 1 : -1];
+extern BitSet *free_bitset_nodes;
 BitSet *new_bitset(void);
 BitSet *new_bitset_node(void);
 BitSet *__fastcall bitset_include(BitSet *set, unsigned member);

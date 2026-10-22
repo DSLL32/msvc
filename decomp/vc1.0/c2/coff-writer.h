@@ -136,4 +136,8 @@ unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
 void __fastcall coff_resolve_function(unsigned identifier, unsigned handle);
 void __fastcall coff_set_symbol_name(CoffObjectSymbol *symbol, char *name);
 unsigned __fastcall coff_data_position(CoffScope *scope);
+void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
+    unsigned bytes, unsigned offset);
+void __fastcall coff_line_marker(unsigned short marker);
+void __fastcall coff_end_lines(unsigned short line, unsigned offset);
 #endif

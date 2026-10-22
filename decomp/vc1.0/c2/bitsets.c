@@ -7,7 +7,7 @@ int __fastcall bitset_contains(BitSet *set, unsigned member)
     while (set && set->base < base) set = set->next;
     return set && set->base == base && (set->bits & (1U << (member & 31))) != 0;
 }
-static BitSet *free_bitset_nodes; /* 0007b994 */
+BitSet *free_bitset_nodes; /* 0007b994 */
 /* Original [00066590,000665d0). Reused chunks and arena allocations both
    leave the allocator with all three fields cleared. */
 BitSet *new_bitset_node(void)

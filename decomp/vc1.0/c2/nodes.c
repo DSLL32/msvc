@@ -31,7 +31,7 @@ void __fastcall release_node(Node *node)
 }
 
 Expression *free_expressions;
-/* Original [0004fcf0,0004fd10). */
+/* Original [0004fcf0,0004fd00); the adjacent work recycler is separate. */
 void __fastcall release_expression(Expression *expression)
 {
     expression->next = free_expressions;

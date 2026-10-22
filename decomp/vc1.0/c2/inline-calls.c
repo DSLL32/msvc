@@ -1,4 +1,5 @@
 #include "inline-calls.h"
+#include "records.h"
 #include "tree-rewrite.h"
 #include "function-input.h"
 #include "expression-fields.h"
@@ -53,7 +54,7 @@ int __fastcall inline_function_calls(Function *function, int depth, int budget)
         inline_expansion_cost += size;
         if (!(symbol->flags52 & 0x80)) {
             if (site->expression->source_location) current_source_location = site->expression->source_location;
-            compiler_warning(4, 0x2c7, format_function_name(symbol));
+            compiler_warning(4, 0x2c7, format_function_name(&symbol->symbol));
         }
         body = read_function(symbol);
         if (!optimize_global && (body->field28 & 1)) {
@@ -160,7 +161,7 @@ int __fastcall inline_function_calls(Function *function, int depth, int budget)
 rejected:
         if (symbol->flags52 & 0x80) {
             if (site->expression->source_location) current_source_location = site->expression->source_location;
-            compiler_warning(4, 0x2c6, format_function_name(symbol));
+            compiler_warning(4, 0x2c6, format_function_name(&symbol->symbol));
         }
 next:
         ;

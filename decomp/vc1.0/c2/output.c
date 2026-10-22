@@ -5,6 +5,32 @@ extern int dos_object, coff_object, codeview_debug, line_debug;
 extern int default_library, ansi_mode, floating_frontend;
 OutputCallbacks output_callbacks;
 char *target_segment_group;
+/* Original [00068d30,00068d40): disabled module-completion callback. */
+void output_noop(void)
+{
+}
+/* Original [0004e500,0004e510): this build has no per-module symbol hook. */
+void finish_output(void)
+{
+}
+/* Original [000692b0,000692c0): debug completion precedes format closure. */
+void finish_debugging(void)
+{
+    output_callbacks.finish_debug();
+    output_callbacks.finish_module();
+}
+/* Original [00068d40,00068d50): disabled filename-output callback. */
+void __fastcall output_noop_pair(char *filename)
+{
+}
+/* Original [00068d90,00068da0): disabled line/offset callback. */
+void __fastcall output_noop_debug(unsigned line, unsigned offset)
+{
+}
+/* Original [00068d60,00068d70): disabled single-symbol callback. */
+void __fastcall output_noop_symbol(void *value)
+{
+}
 void initialize_output_callbacks(void)
 {
     char *library;
@@ -19,18 +45,18 @@ void initialize_output_callbacks(void)
     output_callbacks.finish_debug = (OutputRoutine)output_noop;
     }
     if (!object_filename) {
-    output_callbacks.symbol = (OutputRoutine)output_noop_symbol;
-    output_callbacks.function = (OutputRoutine)output_noop_symbol;
+    output_callbacks.symbol = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
+    output_callbacks.function = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
     output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
-    output_callbacks.data = (OutputRoutine)output_noop_data;
-    output_callbacks.select_segment = (OutputRoutine)output_noop_symbol;
+    output_callbacks.data = (void (__fastcall *)(void *, unsigned))output_noop_data;
+    output_callbacks.select_segment = (void (__fastcall *)(Segment *))output_noop_symbol;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.address = (OutputRoutine)output_noop_value;
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.size = (OutputRoutine)output_noop_value;
-    output_callbacks.debug_pair = (OutputRoutine)output_noop_pair;
-    output_callbacks.debug_record = (OutputRoutine)output_noop_debug;
+    output_callbacks.debug_pair = (void (__fastcall *)(char *))output_noop_pair;
+    output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;
     output_callbacks.finish_module = (OutputRoutine)output_noop;
     output_callbacks.relocation = (OutputRoutine)output_noop_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))output_noop_record;
@@ -38,11 +64,11 @@ void initialize_output_callbacks(void)
         return;
     }
     if (coff_object) {
-    output_callbacks.symbol = (OutputRoutine)coff_output_symbol;
-    output_callbacks.function = (OutputRoutine)coff_output_function;
+    output_callbacks.symbol = (void (__fastcall *)(FunctionSymbol *))coff_output_symbol;
+    output_callbacks.function = (void (__fastcall *)(FunctionSymbol *))coff_output_function;
     output_callbacks.begin_function = coff_begin_function;
-    output_callbacks.data = (OutputRoutine)coff_write_data;
-    output_callbacks.select_segment = (OutputRoutine)coff_select_segment;
+    output_callbacks.data = (void (__fastcall *)(void *, unsigned))coff_write_data;
+    output_callbacks.select_segment = (void (__fastcall *)(Segment *))coff_select_segment;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_value;
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_bytes;
     output_callbacks.address = (OutputRoutine)coff_output_address;
@@ -53,18 +79,18 @@ void initialize_output_callbacks(void)
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))coff_output_record;
     output_callbacks.mark_symbol = coff_mark_symbol;
         if (codeview_debug || line_debug) {
-    output_callbacks.debug_pair = (OutputRoutine)coff_output_debug_pair;
-    output_callbacks.debug_record = (OutputRoutine)coff_output_debug_record;
+    output_callbacks.debug_pair = (void (__fastcall *)(char *))coff_output_debug_pair;
+    output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))coff_output_debug_record;
         } else {
-    output_callbacks.debug_pair = (OutputRoutine)output_noop_pair;
-    output_callbacks.debug_record = (OutputRoutine)output_noop_debug;
+    output_callbacks.debug_pair = (void (__fastcall *)(char *))output_noop_pair;
+    output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;
         }
     } else {
-    output_callbacks.symbol = (OutputRoutine)omf_output_symbol;
-    output_callbacks.function = (OutputRoutine)output_noop_symbol;
+    output_callbacks.symbol = (void (__fastcall *)(FunctionSymbol *))omf_output_symbol;
+    output_callbacks.function = (void (__fastcall *)(FunctionSymbol *))output_noop_symbol;
     output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
-    output_callbacks.select_segment = (OutputRoutine)omf_select_segment;
-    output_callbacks.data = (OutputRoutine)omf_output_data;
+    output_callbacks.select_segment = (void (__fastcall *)(Segment *))omf_select_segment;
+    output_callbacks.data = (void (__fastcall *)(void *, unsigned))omf_output_data;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_value;
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_bytes;
     output_callbacks.address = (OutputRoutine)output_noop_value;
@@ -75,11 +101,11 @@ void initialize_output_callbacks(void)
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))omf_output_record;
     output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))omf_mark_symbol;
         if (codeview_debug || line_debug) {
-    output_callbacks.debug_pair = (OutputRoutine)omf_output_debug_pair;
-    output_callbacks.debug_record = (OutputRoutine)omf_output_debug_record;
+    output_callbacks.debug_pair = (void (__fastcall *)(char *))omf_output_debug_pair;
+    output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))omf_output_debug_record;
         } else {
-    output_callbacks.debug_pair = (OutputRoutine)output_noop_pair;
-    output_callbacks.debug_record = (OutputRoutine)output_noop_debug;
+    output_callbacks.debug_pair = (void (__fastcall *)(char *))output_noop_pair;
+    output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;
         }
     }
     if (default_library) {

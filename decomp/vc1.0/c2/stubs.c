@@ -16,8 +16,6 @@
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
 void compiler_cleanup(void) { __asm int 3 }
 void initialize_debugging(void) { __asm int 3 }
-void finish_output(void) { __asm int 3 }
-void finish_debugging(void) { __asm int 3 }
 void finish_globals(void) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
 void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
@@ -42,7 +40,7 @@ int __fastcall is_register_return_size(unsigned bytes) { __asm int 3 }
 TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, long size,
     short storage, unsigned arena, signed char subclass, unsigned short attributes) { __asm int 3 }
 void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
-char *__fastcall format_function_name(FunctionSymbol *symbol) { __asm int 3 }
+char *__fastcall format_function_name(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
 void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
@@ -152,9 +150,6 @@ void __fastcall lower_float_expression(Node *node) { __asm int 3 }
 void finish_target_expression(void) { __asm int 3 }
 #include "instruction-selection.h"
 void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) { __asm int 3 }
-void __fastcall free_work(WorkItem *work) { __asm int 3 }
-void reset_work(void) { __asm int 3 }
-void release_function_symbols(void) { __asm int 3 }
 unsigned __fastcall reserve_symbol_storage(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
@@ -184,27 +179,19 @@ void finish_machine_schedule(void) { __asm int 3 }
 void __fastcall split_machine_instructions(MachineContext *context) { __asm int 3 }
 void __fastcall schedule_i586_branches(MachineContext *context) { __asm int 3 }
 void __fastcall finish_machine_lowering(MachineContext *context) { __asm int 3 }
-void __fastcall write_function_listing(MachineInstruction *instructions) { __asm int 3 }
-void __fastcall emit_machine_instructions(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned flags) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
 SymbolHeader *__fastcall require_external_symbol(char *name) { __asm int 3 }
 #include "output.h"
-__declspec(naked) void output_noop(void) { __asm int 3 }
-__declspec(naked) void output_noop_pair(void) { __asm int 3 }
 __declspec(naked) void output_noop_data(void) { __asm int 3 }
-__declspec(naked) void output_noop_symbol(void) { __asm int 3 }
 __declspec(naked) void output_noop_function(void) { __asm int 3 }
 __declspec(naked) void output_noop_value(void) { __asm int 3 }
-__declspec(naked) void output_noop_debug(void) { __asm int 3 }
 __declspec(naked) void output_noop_relocation(void) { __asm int 3 }
 __declspec(naked) void output_noop_record(void) { __asm int 3 }
 __declspec(naked) void mark_unwritten_symbol(void) { __asm int 3 }
 __declspec(naked) void end_debug_function(void) { __asm int 3 }
 __declspec(naked) void begin_debug_function(void) { __asm int 3 }
 __declspec(naked) void finish_debug_module(void) { __asm int 3 }
-__declspec(naked) void coff_output_symbol(void) { __asm int 3 }
-__declspec(naked) void coff_output_function(void) { __asm int 3 }
 __declspec(naked) void coff_output_debug_pair(void) { __asm int 3 }
 __declspec(naked) void coff_output_debug_record(void) { __asm int 3 }
 __declspec(naked) void coff_output_value(void) { __asm int 3 }
@@ -240,7 +227,7 @@ unsigned char __fastcall coff_comdat_selection(unsigned char selection) { __asm 
 unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
     unsigned char selection, unsigned short associated, int definition) { __asm int 3 }
 #include "listing.h"
-void __fastcall write_segment_listing(Segment *segment, int definition) { __asm int 3 }
+Segment *__fastcall write_segment_listing(Segment *segment, int definition) { __asm int 3 }
 int __fastcall close_segment_listing(Segment *segment) { __asm int 3 }
 char *__fastcall listing_segment_name(Segment *segment) { __asm int 3 }
 #include "machine.h"
@@ -347,3 +334,18 @@ unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix) {
 unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, void **auxiliary) { __asm int 3 }
 unsigned __fastcall coff_data_position(CoffScope *scope) { __asm int 3 }
+void __fastcall prepare_source_listing(MachineInstruction *instructions) { __asm int 3 }
+void __fastcall open_listing_source(char *filename) { __asm int 3 }
+int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
+void __fastcall pad_listing_column(unsigned column) { __asm int 3 }
+void __fastcall write_listing_symbol(SymbolHeader *symbol) { __asm int 3 }
+int __fastcall write_listing_comment(int first) { __asm int 3 }
+unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
+void __fastcall write_listing_source(unsigned line) { __asm int 3 }
+MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *instruction, unsigned *offset) { __asm int 3 }
+void __fastcall write_local_listing(SymbolHeader *symbol) { __asm int 3 }
+void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
+void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
+    unsigned bytes, unsigned offset) { __asm int 3 }
+void __fastcall coff_line_marker(unsigned short marker) { __asm int 3 }
+void __fastcall coff_end_lines(unsigned short line, unsigned offset) { __asm int 3 }

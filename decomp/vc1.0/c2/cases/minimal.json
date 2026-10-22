@@ -3,11 +3,11 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 306,
-  "reconstructed_functions": 244,
+  "accepted_frontiers": 321,
+  "reconstructed_functions": 259,
   "current_frontier": {
-    "name": "@write_function_listing@4",
-    "original_va": 162976
+    "name": "_coff_finish_module",
+    "original_va": 444832
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
@@ -62,7 +62,11 @@
     "all 306 recorded logical trap frontiers pass after clean original-toolchain -j2 build",
     "244 reconstructed functions pass complete call-graph audits",
     "five changed C modules compile cleanly with /W3",
-    "independent stopped-process comparison matches all seven COFF writer entries and every byte of the packed _main symbol"
+    "independent stopped-process comparison matches all seven COFF writer entries and every byte of the packed _main symbol",
+    "259 reconstructed functions pass graph audit; all 321 accepted frontiers replay with corrected masks",
+    "compare preflight rejects driver extent overlaps; all 560 entries have disjoint extents",
+    "12 changed implementation modules compile without /W3 warnings; intentionally trapping stubs retain expected no-return warnings",
+    "independent stopped-process comparison matches all 18 .text bytes, all 38 .drectve bytes, scope sizes and seven symbol entries"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"

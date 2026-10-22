@@ -48,6 +48,9 @@ def indexes():
     cfg = json.loads(Path('functions.json').read_text())
     assert len({r['start'] for r in cfg['driver']}) == len(cfg['driver']), 'duplicate driver entry address'
     assert len({r['name'] for r in cfg['driver']}) == len(cfg['driver']), 'duplicate driver function name'
+    ordered = sorted(cfg['driver'], key=lambda r: r['start'])
+    for previous, following in zip(ordered, ordered[1:]):
+        assert previous['end'] <= following['start'], 'overlapping driver extents: %s and %s' % (previous['name'], following['name'])
     assert hashlib.sha256(orig.data).hexdigest() == cfg['target']['sha256'], 'target changed'
     original = json.loads(Path('runtime.json').read_text())
     original += imports(orig) + cfg['driver']

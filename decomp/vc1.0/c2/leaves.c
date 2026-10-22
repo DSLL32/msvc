@@ -4,11 +4,38 @@
 Node *symbol_leaves[32], *number_leaves[32];
 typedef struct SmallLeafBucket {
     Node *head;
-    unsigned field04;
+    Node *alternate;
 } SmallLeafBucket;
 SmallLeafBucket small_leaves[16];
 unsigned next_leaf_identifier = 0xffffffffU;
+Node *floating_temporary_nodes; /* 000832ec: constant-backed temporaries */
 int code_pointer_bytes = 4; /* 00083160 */
+extern Node *free_nodes;
+/* Original pointer list [00083310,00083320): the symbol, number and small
+   leaf tables, followed by a null terminator. Each has 32 pointer slots. */
+static Node **leaf_hash_tables[] = {
+    symbol_leaves, number_leaves, (Node **)small_leaves, NULL
+};
+/* Original [0004fb40,0004fb90). Leaf hash links live in second; the free
+   node list uses left, so save the hash link before recycling the node. */
+void reset_leaf_tables(void)
+{
+    Node ***table;
+    Node *node, *next, *free;
+    unsigned i;
+    for (table = leaf_hash_tables; *table; ++table) {
+        free = free_nodes;
+        for (i = 0; i < 32; ++i) {
+            for (node = (*table)[i]; node; node = next) {
+                next = node->second.node;
+                node->left.node = free;
+                free = node;
+            }
+            (*table)[i] = NULL;
+        }
+        free_nodes = free;
+    }
+}
 
 /* Original [0004f790,0004fa60). This is a cdecl varargs interface:
    4c consumes only the opcode; 26 consumes flags/symbol/offset and, when the

@@ -310,7 +310,22 @@
     "@coff_define_symbol@20",
     "@coff_set_symbol_name@8",
     "_strncpy",
-    "@coff_resolve_function@8"
+    "@coff_resolve_function@8",
+    "@write_function_listing@4",
+    "@emit_machine_instructions@4",
+    "@output_noop_pair@4",
+    "@coff_output_symbol@4",
+    "@output_noop_debug@8",
+    "@coff_output_function@4",
+    "@output_noop_symbol@4",
+    "@free_work@4",
+    "_reset_work",
+    "_clear_optimizer_trees",
+    "_reset_leaf_tables",
+    "_release_function_symbols",
+    "_finish_output",
+    "_finish_debugging",
+    "_output_noop"
   ],
   "driver": [
     {
@@ -401,7 +416,7 @@
     {
       "name": "_finish_output",
       "start": 320768,
-      "end": 320864
+      "end": 320784
     },
     {
       "name": "_finish_debugging",
@@ -411,7 +426,8 @@
     {
       "name": "_finish_globals",
       "start": 166192,
-      "end": 166352
+      "end": 166320,
+      "provisional": true
     },
     {
       "name": "@compiler_internal_error@8",
@@ -722,20 +738,17 @@
     {
       "name": "@free_work@4",
       "start": 326912,
-      "end": 326913,
-      "provisional": true
+      "end": 326928
     },
     {
       "name": "_reset_work",
       "start": 327056,
-      "end": 327057,
-      "provisional": true
+      "end": 327184
     },
     {
       "name": "_release_function_symbols",
       "start": 320304,
-      "end": 320305,
-      "provisional": true
+      "end": 320368
     },
     {
       "name": "@function_retains_symbols@8",
@@ -1040,14 +1053,12 @@
     {
       "name": "@write_function_listing@4",
       "start": 162976,
-      "end": 162977,
-      "provisional": true
+      "end": 163776
     },
     {
       "name": "@emit_machine_instructions@4",
       "start": 426896,
-      "end": 426897,
-      "provisional": true
+      "end": 427472
     },
     {
       "name": "@emit_function_exception_table@8",
@@ -1075,14 +1086,12 @@
     {
       "name": "_output_noop",
       "start": 429360,
-      "end": 429361,
-      "provisional": true
+      "end": 429376
     },
     {
-      "name": "_output_noop_pair",
+      "name": "@output_noop_pair@4",
       "start": 429376,
-      "end": 429377,
-      "provisional": true
+      "end": 429392
     },
     {
       "name": "_output_noop_data",
@@ -1091,10 +1100,9 @@
       "provisional": true
     },
     {
-      "name": "_output_noop_symbol",
+      "name": "@output_noop_symbol@4",
       "start": 429408,
-      "end": 429409,
-      "provisional": true
+      "end": 429424
     },
     {
       "name": "_output_noop_function",
@@ -1109,10 +1117,9 @@
       "provisional": true
     },
     {
-      "name": "_output_noop_debug",
+      "name": "@output_noop_debug@8",
       "start": 429456,
-      "end": 429457,
-      "provisional": true
+      "end": 429472
     },
     {
       "name": "_output_noop_relocation",
@@ -1151,16 +1158,14 @@
       "provisional": true
     },
     {
-      "name": "_coff_output_symbol",
+      "name": "@coff_output_symbol@4",
       "start": 447248,
-      "end": 447249,
-      "provisional": true
+      "end": 447328
     },
     {
-      "name": "_coff_output_function",
+      "name": "@coff_output_function@4",
       "start": 447328,
-      "end": 447329,
-      "provisional": true
+      "end": 447408
     },
     {
       "name": "@coff_begin_function@16",
@@ -2200,7 +2205,7 @@
     {
       "name": "@release_expression@4",
       "start": 326896,
-      "end": 326928
+      "end": 326912
     },
     {
       "name": "@scan_inline_candidates@24",
@@ -3318,6 +3323,100 @@
       "start": 455056,
       "end": 455057,
       "provisional": true
+    },
+    {
+      "name": "@prepare_source_listing@4",
+      "start": 165504,
+      "end": 165505,
+      "provisional": true
+    },
+    {
+      "name": "@open_listing_source@4",
+      "start": 163776,
+      "end": 163777,
+      "provisional": true
+    },
+    {
+      "name": "@write_demangled_listing@8",
+      "start": 164128,
+      "end": 164129,
+      "provisional": true
+    },
+    {
+      "name": "@pad_listing_column@4",
+      "start": 164192,
+      "end": 164193,
+      "provisional": true
+    },
+    {
+      "name": "@write_listing_symbol@4",
+      "start": 164400,
+      "end": 164401,
+      "provisional": true
+    },
+    {
+      "name": "@write_listing_comment@4",
+      "start": 164480,
+      "end": 164481,
+      "provisional": true
+    },
+    {
+      "name": "@write_listing_line@4",
+      "start": 164672,
+      "end": 164673,
+      "provisional": true
+    },
+    {
+      "name": "@write_listing_source@4",
+      "start": 164928,
+      "end": 164929,
+      "provisional": true
+    },
+    {
+      "name": "@write_instruction_listing@8",
+      "start": 164720,
+      "end": 164721,
+      "provisional": true
+    },
+    {
+      "name": "@write_local_listing@4",
+      "start": 164560,
+      "end": 164561,
+      "provisional": true
+    },
+    {
+      "name": "_compiler_error",
+      "start": 459280,
+      "end": 459281,
+      "provisional": true
+    },
+    {
+      "name": "@coff_begin_lines@16",
+      "start": 453792,
+      "end": 453793,
+      "provisional": true
+    },
+    {
+      "name": "@coff_line_marker@4",
+      "start": 454048,
+      "end": 454049,
+      "provisional": true
+    },
+    {
+      "name": "@coff_end_lines@8",
+      "start": 453344,
+      "end": 453345,
+      "provisional": true
+    },
+    {
+      "name": "_clear_optimizer_trees",
+      "start": 381936,
+      "end": 382000
+    },
+    {
+      "name": "_reset_leaf_tables",
+      "start": 326464,
+      "end": 326544
     }
   ],
   "cases": {

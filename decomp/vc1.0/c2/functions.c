@@ -38,7 +38,7 @@ void compile_functions(void)
         function = read_function(symbol);
         current_function = function;
         if (debugger_enabled && current_symbol->symbol.name)
-            ide_message(4, format_function_name(current_symbol));
+            ide_message(4, format_function_name(&current_symbol->symbol));
         activate_scope(function->scope);
         apply_function_options(function->options);
         apply_warning_state(function->warning_state);

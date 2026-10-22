@@ -1,7 +1,19 @@
 /* Symbol and scope descriptor allocation. */
 #include "backend.h"
 #include "symbols.h"
+#include "functions.h"
+#include "temporaries.h"
 unsigned descriptor_bytes[7];
+/* Original [0004e330,0004e370). Release arena-one symbol scratch and
+   disconnect its temporary-register and current-scope roots. */
+void release_function_symbols(void)
+{
+    descriptor_bytes[1] = 0;
+    reset_arena(1);
+    temporary_registers = NULL;
+    current_symbol = NULL;
+    current_scope = NULL;
+}
 unsigned __fastcall descriptor_size(int kind);
 void *__fastcall arena_alloc(unsigned arena, unsigned bytes);
 /* Original [0004dcb0,0004dce0). */

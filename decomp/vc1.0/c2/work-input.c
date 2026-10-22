@@ -1,5 +1,36 @@
 #include "functions.h"
+#include "function-input.h"
+#include "bitsets.h"
+#include "frame.h"
+#include "optimizer-cache.h"
+extern unsigned next_leaf_identifier;
+extern Node *floating_temporary_nodes;
+void reset_leaf_tables(void);
 WorkItem *free_work_items; /* 00083300 */
+/* Original [0004fd90,0004fe10), ending with the leaf-table reset tail call.
+   Clear pooled bitsets before releasing arena six, which owns their storage. */
+void reset_work(void)
+{
+    dynamic_stack_allocation = 0;
+    next_leaf_identifier = (unsigned)-1;
+    lexical_depth = -1;
+    procedure_depth = 0;
+    free_bitset_nodes = NULL;
+    floating_temporary_nodes = NULL;
+    global_work_enabled = 0;
+    current_work = NULL;
+    clear_optimizer_trees();
+    reset_arena(2);
+    reset_arena(1);
+    reset_arena(6);
+    reset_leaf_tables();
+}
+/* Original [0004fd00,0004fd10). */
+void __fastcall free_work(WorkItem *work)
+{
+    work->next = free_work_items;
+    free_work_items = work;
+}
 /* Original [0004f690,0004f6e0). Arena allocations are initially clear;
    recycled records need all seventeen words cleared explicitly. */
 WorkItem *new_work_item(void)
