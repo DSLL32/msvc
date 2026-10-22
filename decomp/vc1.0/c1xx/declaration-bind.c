@@ -2,6 +2,88 @@
 #include "declarations.h"
 #include "global-ir.h"
 #include "ir.h"
+#include "work-list.h"
+#include "cpp-context.h"
+#include "function-definitions.h"
+
+SegmentSymbol *default_data_segment; /* original 0x9f3e8 */
+typedef char ClassInfoDestructorTraitsOffsetMustBe54[
+    (offsetof(ClassInfo, trivial_special_members) == 54) ? 1 : -1];
+void __stdcall check_global_object_definition(CppSymbol *symbol);
+int __stdcall has_destructor_member_model(CType *type);
+void __stdcall defer_object_definition(CppSymbol *symbol);
+
+/* Original 0x51960..0x519d0. Global nontrivial objects require a usable
+   destructor model; defer their definition when destruction is nontrivial. */
+void __stdcall check_global_object_definition(CppSymbol *symbol)
+{
+    CppSymbol *tag;
+    if (error_count || (symbol->declaration_flags & 2) || declaration_mode) return;
+    if (!symbol_construction_class(symbol)) return;
+    if (has_destructor_member_model(symbol->type)) {
+        tag = cpp_context_stack->items[symbol->type->field08];
+        if (!(tag->detail.class_info->trivial_special_members & 8))
+            defer_object_definition(symbol);
+        return;
+    }
+    report_syntax_error(262, symbol->name);
+    symbol->declaration_flags |= 2;
+}
+
+/* Original 0x526c0..0x528fe. Retain the incoming storage class while
+   validating qualifiers, registering cleanup and applying segment defaults. */
+void __stdcall finalize_object_storage(CppSymbol *symbol)
+{
+    unsigned storage;
+    TypeShape *shape;
+    CppSymbol *tag;
+    if (symbol->flags & 0x10) return;
+    storage = symbol->storage[0] & 7;
+    if (storage == 1 || storage == 7) return;
+    if (storage >= 4 && storage <= 6) {
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 0x77)) {
+            report_syntax_error(185, format_symbol_name(symbol));
+            symbol->type = intern_type((TypeDescription *)strip_based_shape(symbol->type));
+        }
+        if (storage >= 5) {
+            if (options.configuration.option_qc && normalized_Ol)
+                symbol->references += 16;
+            if (options.option_m) {
+                write_ir_record(0x2a, symbol_reference(symbol));
+                push_work_list(&scope_cleanup_stack, 1);
+                scope_cleanup_stack->value.pointer = symbol;
+                push_work_list(&scope_cleanup_stack, 1);
+                scope_cleanup_stack->value.byte = declaration_mode;
+            }
+        }
+        if (options.configuration.option_qc && normalized_Ol && !current_qc_context)
+            analyze_inline_parameter(symbol);
+    }
+    if ((storage == 2 || storage == 3) && default_data_segment &&
+        (symbol->attributes & 4)) {
+        if (symbol->attributes & 2) {
+            if (symbol->type->related->data.based_symbol == default_data_segment) return;
+            report_syntax_error(193, symbol->name);
+            return;
+        }
+        assign_symbol_segment(symbol, default_data_segment);
+    }
+    check_global_object_definition(symbol);
+    if (!(symbol->attributes & 4) && !type_size(symbol->type) && storage != 1) {
+        if (symbol->type->flags & 0x400) {
+            tag = cpp_context_stack->items[symbol->type->field08];
+            if ((tag->kind & 31) != 4)
+                tag = cpp_context_stack->items[tag->type->field08];
+            if (!(tag->flags & 4)) {
+                report_syntax_error(79, symbol->name, tag->name);
+                symbol->declaration_flags |= 2;
+                return;
+            }
+        }
+        report_syntax_error(133, symbol->name);
+    }
+}
 
 /* Original 0x51c60..0x51fb2. Resolve a declaration, then apply the
    function/object checks which depend on the resulting shared symbol. */

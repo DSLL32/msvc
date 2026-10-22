@@ -89,7 +89,6 @@ int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
 void browser_symbol_rollover(void) { __asm { int 3 } }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
-unsigned short __stdcall classify_incomplete_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
 unsigned short begin_type_diagnostic(void) { __asm { int 3 } return 0; }
@@ -101,12 +100,13 @@ CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclar
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
+int __stdcall has_destructor_member_model(CType *type) { __asm { int 3 } return 0; }
+void __stdcall defer_object_definition(CppSymbol *symbol) { __asm { int 3 } }
 short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
-void __stdcall record_local_declaration(CppSymbol *declaration) { __asm { int 3 } }
+char *__stdcall make_local_static_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
 void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current, unsigned diagnostic) { __asm { int 3 } }
@@ -141,7 +141,6 @@ void begin_if_condition(void) { __asm { int 3 } }
 unsigned __stdcall begin_implicit_statement_scope(IrToken *label) { __asm { int 3 } return 0; }
 IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object, int mode) { __asm { int 3 } return 0; }
 void begin_nested_initializer(void) { __asm { int 3 } }
-CppSymbol *__stdcall begin_object_initializer(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
 void begin_seh_filter(void) { __asm { int 3 } }
 void begin_seh_finally(void) { __asm { int 3 } }
@@ -224,7 +223,6 @@ void record_default_label(void) { __asm { int 3 } }
 void __stdcall record_goto(CppSymbol *label, int known) { __asm { int 3 } }
 void __stdcall record_qc_jump(unsigned char kind) { __asm { int 3 } }
 IrToken *__stdcall member_pointer_expression(QualifiedDeclarator *qualifier) { __asm { int 3 } return 0; }
-int __stdcall reject_function_initializer(CppSymbol *unused_declaration) { __asm { int 3 } return 0; }
 IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination) { __asm { int 3 } }

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 525 accepted paired frontiers, including 445 frontend
+PARTIAL reconstruction: 533 accepted paired frontiers, including 453 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _reject_function_initializer@4 at original VA 0x266a0. The latest ordered replay is recorded in validation.json;
+trap is _initialize_object@8 at original VA 0x46290. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -1014,3 +1014,18 @@ union is 175,771 / 476,418 bytes (36.894%, not branch coverage), with 452 source
 functions. Both constructor and next() now complete their definition paths;
 main's literal 41 is scanned and both runs reach reject_function_initializer at
 0x266a0. Complete assigned frontend equivalence remains pending.
+
+
+Main's local declaration now retains parameter-name conflicts, local extern
+lookup, overload/alias reconciliation, local-static copies and intrinsic metadata.
+Object storage keeps the canonical inline/cleanup state and its data-segment
+default, with complete type-size/error paths. Initializer setup preserves its
+native symbol return and resets contextual value/constructor-range state.
+Evidence: evidence/object-declaration-setup.txt.
+
+All 533 frontiers pass the frozen full comparator in 136.731 seconds, including
+raw files/streams/pending buffers, callers and fourteen runtime observations.
+Receipt: evidence/replay-object-declaration-setup-receipt.json. Accepted executable
+extent union is 177,693 / 476,418 bytes (37.298%, not branch coverage), with 460
+source functions. Both runs reach initialize_object at 0x46290 with Counter and
+literal 41. Complete assigned frontend equivalence remains pending.

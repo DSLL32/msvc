@@ -92,7 +92,7 @@ void __stdcall validate_pure_specifier(IrToken *expression);
 CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape);
 CppSymbol *__stdcall declare_constructor(DeclarationType *type, CppSymbol *class_symbol, CppSymbol *parameters);
 CppSymbol *__stdcall complete_declaration(DeclarationType *type, CppSymbol *declaration);
-int __stdcall reject_function_initializer(CppSymbol *unused_declaration);
+int __stdcall reject_function_initializer(CppSymbol *declaration);
 CppSymbol *__stdcall begin_object_initializer(CppSymbol *declaration);
 void __stdcall mark_initialized_symbol(CppSymbol *symbol);
 void __stdcall initialize_object(CppSymbol *symbol, IrToken *value);

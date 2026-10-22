@@ -6,6 +6,7 @@
 #include "parameters.h"
 #include "inline-capture.h"
 #include "macros.h"
+#include "parameter-scopes.h"
 
 int __stdcall has_class_initialization(CType *type);
 CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration);
@@ -31,6 +32,8 @@ CppSymbol *__stdcall lookup_scope_declaration(CppSymbol *symbol, SymbolScope *sc
 
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions);
 void __stdcall prepend_function_overload(CppSymbol *overloads, CppSymbol *declaration);
+char *__stdcall make_local_static_name(CppSymbol *symbol);
+void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias);
 
 /* Original 0x535e0..0x535f3. */
 CppSymbol *__stdcall lookup_declaration(CppSymbol *symbol)
@@ -78,6 +81,95 @@ CppSymbol *__stdcall find_name_in_chain(CppSymbol *symbol, char *name)
 {
     while (symbol && symbol->name != name) symbol = symbol->next;
     return symbol;
+}
+
+/* Original 0x538a0..0x53a38. A local extern can reuse an outer index,
+   after checking parameter conflicts, aliases and overloaded functions. */
+CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration)
+{
+    CppSymbol *parameter, *existing;
+    unsigned kind;
+    if (declaration_mode == 2 && (current_scope->flags & 0xff) != 1) {
+        for (parameter = active_parameter_symbols; parameter; parameter = parameter->next)
+            if (parameter->name == declaration->name) {
+                report_syntax_error(82, declaration->name);
+                return declaration;
+            }
+    }
+    if ((declaration->storage[0] & 7) != 1) return 0;
+    existing = find_scope_symbol(global_scope, declaration->name,
+        (declaration->type->attributes & 0x70) == 0x20);
+    existing = resolve_declaration_alias(existing, 0);
+    if (!existing) return 0;
+    kind = existing->kind & 31;
+    if (kind == 4 || (kind >= 1 && kind <= 13 && kind != 5 &&
+        (existing->storage[0] & 7) == 7)) return 0;
+    if (kind == 16 || kind == 17) {
+        cpp_parser_flags |= 0x04000000UL;
+        existing = find_matching_overload(existing, declaration->type, 0);
+        cpp_parser_flags &= ~0x04000000UL;
+        if (!existing) return 0;
+    }
+    cpp_parser_flags |= 0x04000000UL;
+    if (merge_declared_symbol(existing, declaration)) {
+        cpp_parser_flags &= ~0x04000000UL;
+        return 0;
+    }
+    cpp_parser_flags &= ~0x04000000UL;
+    declaration->index = existing->index;
+    declaration->attributes = (declaration->attributes & ~0x400UL) |
+        (existing->attributes & 0x400);
+    declaration->attributes = (declaration->attributes & ~2UL) |
+        (existing->attributes & 2);
+    declaration->attributes = (declaration->attributes & ~0x100UL) |
+        (existing->attributes & 0x100);
+    insert_current_scope_symbol(declaration);
+    if ((existing->kind & 31) == 6) {
+        declaration->storage[0] = (declaration->storage[0] & 0xf9) | 1;
+        declaration->kind = 6;
+        declaration->detail.intrinsic.operation = existing->detail.intrinsic.operation;
+        declaration->detail.intrinsic.flags = existing->detail.intrinsic.flags;
+    }
+    ++existing->references;
+    declaration->flags |= 8;
+    existing->flags &= ~8;
+    return existing;
+}
+
+/* Original 0x53a40..0x53b66. Local static storage owns a permanent global
+   alias while the local declaration retains its scope and lookup identity. */
+void __stdcall record_local_declaration(CppSymbol *declaration)
+{
+    CppSymbol *alias;
+    if ((declaration->kind & 31) != 9 || (declaration->storage[0] & 7) != 3)
+        return;
+    alias = allocate_permanent(sizeof(CppSymbol));
+    *alias = *declaration;
+    if (function_symbol && (function_symbol->storage[1] & 1) &&
+        ((function_symbol->storage[0] & 7) != 3 ||
+         (function_symbol->declaration_flags & 0x400))) {
+        if (function_symbol->storage[2] & 4) {
+            alias->storage[2] |= 4;
+            alias->storage[2] = (alias->storage[2] & ~8) |
+                (function_symbol->storage[2] & 8);
+            declaration->storage[0] = alias->storage[0];
+            declaration->storage[1] = alias->storage[1];
+            declaration->storage[2] = alias->storage[2];
+        }
+        alias->storage[0] = (alias->storage[0] & 0xfa) | 0x42;
+    }
+    declaration->detail.scope_number = current_declaration_scope;
+    alias->detail.scope_number = current_declaration_scope;
+    alias->name = make_local_static_name(declaration);
+    alias->declaration_flags = (alias->declaration_flags & ~0x100) | 0x200;
+    if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    alias->index = next_symbol_index++;
+    alias->flags |= 4;
+    declaration->attributes |= 0x40;
+    record_function_symbol_alias(declaration, alias);
+    insert_scope_symbol(global_scope, alias);
 }
 
 /* Original 0x53660..0x53899. Reconcile storage and prior declarations,

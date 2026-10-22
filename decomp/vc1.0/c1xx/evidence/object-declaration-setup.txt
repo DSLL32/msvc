@@ -1,0 +1,72 @@
+Local declaration lookup, object storage and initializer setup
+
+Eight whole functions accepted after frontier 525 (ends exclusive):
+  reject_function_initializer    0x266a0..0x2670c stdcall 4, 3 native callees
+  classify_incomplete_type       0x3ce30..0x3ceb6 stdcall 4, 0 native callees
+  lookup_outer_declaration      0x538a0..0x53a38 stdcall 4, 6 native callees
+  record_local_declaration      0x53a40..0x53b66 stdcall 4, 6 native callees
+  finalize_object_storage       0x526c0..0x528fe stdcall 4, 11 native callees
+  check_global_object_definition 0x51960..0x519d0 stdcall 4, 4 native callees
+  begin_object_initializer      0x461e0..0x4628b stdcall 4, 2 native callees
+  prepare_initializer_symbol    0x46160..0x461d9 stdcall 4, 0 native callees
+
+Initializer-rejection recovery retains type/brace token pushback, semicolon
+insertion, the parser's canonical lookahead and error 448's declaration-name
+argument. The old unused_declaration parameter name was incorrect on diagnostic
+branches; the signature still consumes exactly one pointer slot.
+
+Class-shape classification returns the native ushort: bare class 0x80, reference
+0x40, pure array 2 or zero. Unspecified EAX upper bits are not an extra return
+value. Its separate native graph node remains separate from the related Boolean
+classifier rather than introducing a new call between them.
+
+Outer lookup retains parameter-name conflicts at function scope, local-extern
+lookup in the global scope, Pascal lookup mode, alias resolution, overloaded
+function selection and repeated-declaration merging. It copies exactly the
+three native attribute bits, symbol index and intrinsic operation/flags, then
+updates references and local/global flags in original order. No replacement
+name/string equality routine is added; interned name pointer identity is used.
+
+Local-static declaration recording copies a full typed 52-byte CppSymbol into
+permanent storage and preserves inherited function storage/DLL flags, scope
+number, generated name, index and alias registration. Its unvisited local-static
+name and alias helpers remain individually typed traps with native RET 4/RET 8.
+The starting case's automatic variable takes the non-static return path.
+
+Object-storage finalization preserves the original incoming storage class across
+based-shape removal, qualifier errors, inline reference accounting and cleanup.
+The two cleanup stack entries use the existing scope_cleanup_stack symbol/depth
+pair; no second stack is introduced. Native 0x8c008 is the existing -m option,
+confirmed from its original option rule, and 0x8cc60 is packed-option slot 12,
+normalized_Ol. The new default_data_segment pointer is original 0x9f3e8,
+independent of existing default_code_segment 0x9f3f0; default/address auditing
+covers it. Segment identity, complete-type tests, tag alias resolution and error
+arguments are preserved. All eleven native call edges match.
+
+Global-object checking retains error/declaration suppression, construction-class
+lookup, destructor-model testing, deferred definitions and error 262. ClassInfo's
+trivial_special_members field is explicitly asserted at byte 54. Unreconstructed
+destructor-model/deferred-definition callees are named native-ABI traps. These
+global-only branches are not exercised by main's local object.
+
+Object initializer entry preserves null/typedef rejection, initialized-extern
+storage conversion, prototype-only behavior and the shared DLL parser flag.
+Its preparation helper was incorrectly void in the decompiler. Native 0x4617a
+loads the incoming symbol into EAX, all later instructions preserve it and
+RET 4 returns it to the wrapper. The C function therefore returns CppSymbol*.
+It resets output offset, runtime override, value-error flag and pending default
+constructor range/count as contextual objects, each checked against the original
+initial state/address. Initializer storage symbol 0x91590 is distinct from the
+existing expression initialization symbol 0xa0a18. No broad data image is copied.
+
+All 533 frozen historical pairs passed in 136.731 seconds, with raw visible files,
+stdout/stderr, pending FILE buffers, logical callers, fourteen runtime fields
+and final ordinary comparison. The receipt records all frozen build hashes.
+Graph/instruction-extent, state/data and both grammar audits pass. No frontend
+output bytes are normalized. Accepted executable clipped-union coverage is
+177693 / 476418 = 37.29770915456595 percent, not branch coverage.
+
+Both programs now trap at initialize_object@8, original 0x46290, with main's
+Counter declaration and 41 literal. Constructor/member definition paths are
+complete; the assigned whole frontend case and final output equivalence remain
+unfinished. Static branches described above are implemented, not claimed covered.

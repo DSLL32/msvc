@@ -131,6 +131,23 @@ int __stdcall is_unqualified_class_type(CType *type)
     return classification & 0x80;
 }
 
+/* Original 0x3ce30..0x3ceb6. Return the class shape classification word:
+   bare class 0x80, class reference 0x40, class array 2, other shape zero.
+   The native function specifies AX; its unused EAX high half is incidental. */
+unsigned short __stdcall classify_incomplete_type(CType *type)
+{
+    TypeShape *shape;
+    if (!type || !(type->flags & 0x400)) return 0;
+    shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (!shape) return 0x80;
+    if ((shape->flags & 0x40) && !shape->related) return 0x40;
+    if ((shape->flags & 0x77) != 2) return 0;
+    shape = shape->related;
+    while (shape && (shape->flags & 0x77) == 2) shape = shape->related;
+    return shape ? 0 : 2;
+}
+
 /* Original 0x635a0..0x635f2. Arrays/functions forward qualification to the
    next shape; a bare base uses the descriptor's own const/volatile bits. */
 unsigned short __stdcall type_qualifiers(CType *type)

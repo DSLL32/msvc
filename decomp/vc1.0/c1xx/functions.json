@@ -529,7 +529,15 @@
     "_convert_integer_digits@12",
     "_integer_digit_value@4",
     "_classify_decimal_integer@4",
-    "_new_literal_constant@8"
+    "_new_literal_constant@8",
+    "_reject_function_initializer@4",
+    "_classify_incomplete_type@4",
+    "_lookup_outer_declaration@4",
+    "_record_local_declaration@4",
+    "_finalize_object_storage@4",
+    "_check_global_object_definition@4",
+    "_begin_object_initializer@4",
+    "_prepare_initializer_symbol@4"
   ],
   "driver": [
     {
@@ -1977,7 +1985,7 @@
     {
       "name": "_begin_object_initializer@4",
       "start": 287200,
-      "end": 287201
+      "end": 287371
     },
     {
       "name": "_begin_parameter_scope@4",
@@ -2497,7 +2505,7 @@
     {
       "name": "_reject_function_initializer@4",
       "start": 157344,
-      "end": 157345
+      "end": 157452
     },
     {
       "name": "_report_expression_error@8",
@@ -5135,6 +5143,36 @@
       "name": "_integer_digit_value@4",
       "start": 153808,
       "end": 153842
+    },
+    {
+      "name": "_make_local_static_name@4",
+      "start": 353424,
+      "end": 353425
+    },
+    {
+      "name": "_record_function_symbol_alias@8",
+      "start": 351952,
+      "end": 351953
+    },
+    {
+      "name": "_check_global_object_definition@4",
+      "start": 334176,
+      "end": 334288
+    },
+    {
+      "name": "_has_destructor_member_model@4",
+      "start": 228176,
+      "end": 228177
+    },
+    {
+      "name": "_defer_object_definition@4",
+      "start": 324464,
+      "end": 324465
+    },
+    {
+      "name": "_prepare_initializer_symbol@4",
+      "start": 287072,
+      "end": 287193
     }
   ],
   "cases": {
@@ -6758,6 +6796,55 @@
       "original": 669840,
       "kind": "bytes",
       "bytes": 24
+    },
+    {
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_default_data_segment",
+          "original": 652264,
+          "bytes": 4
+        }
+      ],
+      "name": "_default_data_segment",
+      "original": 652264
+    },
+    {
+      "name": "_initializer_runtime_override",
+      "original": 595324,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_runtime_override",
+          "original": 595324,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_storage_symbol",
+          "original": 595344,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_offset",
+          "original": 595352,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_value_error_reported",
+          "original": 658052,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_constructor_offset",
+          "original": 658056,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_constructor_count",
+          "original": 658060,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [
