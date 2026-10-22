@@ -41,4 +41,5 @@ void __fastcall redirect_flow_label(WorkItem *work, SymbolHeader *old_label, Sym
 void __fastcall assign_flow_region(FlowRegion *region);
 void __fastcall scan_irreducible_predecessors(WorkItem *work);
 void __fastcall clear_flow_visit_marks(WorkItem *work);
+int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region);
 #endif

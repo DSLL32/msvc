@@ -19,4 +19,5 @@ int __fastcall match_option(Option *options, char *argument, char *(__cdecl *nex
 void __cdecl compiler_report(unsigned code, ...);
 void __cdecl compiler_error(unsigned code, ...);
 void __fastcall consume_string(char *string);
+extern int global_optimization_active; /* per-function global pass enable */
 #endif

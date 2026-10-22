@@ -44,7 +44,7 @@ WorkItem *new_work_item(void)
         while (count--) *word++ = 0;
     } else work = arena_alloc(5, sizeof(WorkItem));
     work->number = -1;
-    work->field40 = -1;
+    work->exception_scope = -1;
     return work;
 }
 /* Original [0004f570,0004f690). Split expression chains at labels,

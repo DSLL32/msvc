@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 75,
+  "accepted_frontiers": 78,
   "current_frontier": {
-    "name": "@analyze_flow_regions@4",
-    "original_va": 367920
+    "name": "@optimize_work@4",
+    "original_va": 375408
   },
   "expected": {
     "exit": 0,
@@ -66,8 +66,12 @@
     "independent post-dominator capture matches all six sentinel/member chains (12 chunks), plus the existing work/edge/tree/symbol state; only debugger exception address differs",
     "region checkpoint replays all 75 hello frontiers; all 350 source function graphs agree",
     "new flow-regions implementation compiles /W3 clean and complete minimal object/exit regression passes",
-    "independent post-region capture confirms null region roots and cleared visit marks, with all six numbered blocks, twelve dominator chunks and captured tree/symbol/edge state matching"
+    "independent post-region capture confirms null region roots and cleared visit marks, with all six numbered blocks, twelve dominator chunks and captured tree/symbol/edge state matching",
+    "global-work completion checkpoint passes all 352 minimal and all 78 hello replays after correcting optimizer caller to typed fastcall(WorkItem *)",
+    "all 353 source function graphs match; six changed implementation modules compile /W3 clean",
+    "independent final first-function work output matches six blocks, 23 expressions, 93 nodes and twelve dominator chunks, with explicit ECX=head optimizer argument check in both children",
+    "complete minimal object/exit regression passes after caller ABI correction"
   ],
-  "total_accepted_frontiers": 427,
-  "reconstructed_functions": 350
+  "total_accepted_frontiers": 430,
+  "reconstructed_functions": 353
 }

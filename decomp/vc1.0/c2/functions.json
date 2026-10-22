@@ -431,7 +431,10 @@
     "_new_flow_region",
     "@find_irreducible_flow_end@4",
     "@scan_irreducible_predecessors@4",
-    "@clear_flow_visit_marks@4"
+    "@clear_flow_visit_marks@4",
+    "@rotate_flow_regions@4",
+    "@finish_flow_regions@4",
+    "@insert_function_boundaries@4"
   ],
   "driver": [
     {
@@ -811,7 +814,7 @@
       "end": 325264
     },
     {
-      "name": "_optimize_work",
+      "name": "@optimize_work@4",
       "start": 375408,
       "end": 375409,
       "provisional": true
@@ -3865,22 +3868,19 @@
       "provisional": true
     },
     {
-      "name": "@analyze_flow_regions@4",
+      "name": "@rotate_flow_regions@4",
       "start": 367920,
-      "end": 367921,
-      "provisional": true
+      "end": 368960
     },
     {
       "name": "@finish_flow_regions@4",
       "start": 366720,
-      "end": 366721,
-      "provisional": true
+      "end": 367152
     },
     {
-      "name": "@remove_empty_flow_blocks@4",
+      "name": "@insert_function_boundaries@4",
       "start": 366368,
-      "end": 366369,
-      "provisional": true
+      "end": 366720
     },
     {
       "name": "_reset_flow_labels",
@@ -4133,6 +4133,12 @@
       "name": "@clear_flow_visit_marks@4",
       "start": 374928,
       "end": 374976
+    },
+    {
+      "name": "@work_in_flow_region@8",
+      "start": 375376,
+      "end": 375377,
+      "provisional": true
     }
   ],
   "cases": {

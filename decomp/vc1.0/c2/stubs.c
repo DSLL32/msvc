@@ -126,7 +126,7 @@ int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall conversion_loses_value(unsigned short source, unsigned short target) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm int 3 }
-void optimize_work(void) { __asm int 3 }
+void __fastcall optimize_work(WorkItem *work) { __asm int 3 }
 #include "work-prepare.h"
 Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree) { __asm int 3 }
 void __fastcall lower_assignment(Node *node) { __asm int 3 }
@@ -388,11 +388,8 @@ void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
 
 WorkItem *__fastcall reduce_flow_regions(FlowRegion *regions) { __asm int 3 }
 
-void __fastcall analyze_flow_regions(FlowRegion *regions) { __asm int 3 }
 
-void __fastcall finish_flow_regions(FlowRegion *regions) { __asm int 3 }
 
-void __fastcall remove_empty_flow_blocks(WorkItem *work) { __asm int 3 }
 
 
 
@@ -419,3 +416,5 @@ void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replaceme
 FlowLink *__fastcall partition_loop_predecessors(FlowLink *predecessors, WorkItem *header) { __asm int 3 }
 void __fastcall redirect_flow_label(WorkItem *work, SymbolHeader *old_label, SymbolHeader *new_label) { __asm int 3 }
 void __fastcall assign_flow_region(FlowRegion *region) { __asm int 3 }
+
+int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }

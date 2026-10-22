@@ -56,7 +56,7 @@ void __fastcall prepare_flow_blocks(WorkItem *work)
                 }
             }
             if (work->flags & 1) {
-                work->field40 = (short)scope->identifier;
+                work->exception_scope = (short)scope->identifier;
                 for (enclosing = scope;;) {
                     if (enclosing->state == 0x8f) {
                         add_protected_flow_edge(work, lookup_flow_label(enclosing->handler_label)->work);

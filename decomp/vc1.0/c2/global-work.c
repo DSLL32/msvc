@@ -44,10 +44,10 @@ WorkItem *__fastcall build_global_work(Expression *expressions)
         reduce_flow_regions(global_flow_regions);
         if (global_flow_changed) number_work_blocks(work);
     }
-    analyze_flow_regions(global_flow_regions);
+    rotate_flow_regions(global_flow_regions);
     simplify_flow_blocks(work);
     finish_flow_regions(global_flow_regions);
-    remove_empty_flow_blocks(work);
+    insert_function_boundaries(work);
     number_work_blocks(work);
     compute_work_dominators(work);
     reset_flow_labels();

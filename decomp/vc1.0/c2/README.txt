@@ -585,3 +585,35 @@ This checkpoint has 350 source functions and 427 accepted frontiers. All 75
 hello frontiers replay, all graph edges agree, the new module compiles /W3 clean,
 and the complete minimal object/exit regression passes. Hello output remains
 pending at analyze_flow_regions (0x59d30), the 319-instruction loop-rotation pass.
+
+The first hello function now completes the entire global-work driver and reaches
+the optimizer proper. The full 319-instruction loop-rotation routine is named
+rotate_flow_regions; its complete C body preserves test movement/copying, label
+retargeting, exit bridges and nested-region order. finish_flow_regions inserts
+synthetic boundaries and increments the unsigned short region_depth at offset
+62. The separate signed field at offset 64 is now named exception_scope.
+
+The routine at 0x59720 is insert_function_boundaries. It restores control codes
+0x0f/0x10 after flow edits, retains optional CodeView codes 0x11/0x12 and splits
+the exit block when needed. Literal constructor commands stay at their uses.
+The original entry-search fallback repeats head->next; that behavior is retained.
+The current first function exercises the normal entry/in-place exit insertion,
+while loop bodies, split-exit and optional debug branches remain unvisited.
+
+Before optimizer unmasking, its provisional no-argument signature was corrected
+to void __fastcall optimize_work(WorkItem *). The native parent retains the work
+head in ECX at 0x4c3fa..0x4c40f, and the callee consumes it at 0x5ba72. The typed
+caller now passes work explicitly. Independent stopped-process capture verifies
+ECX equals the work head in both children; optimizer behavior remains trapped.
+
+Final first-function global-work state agrees on six numbered blocks, 23
+expressions, 93 visited nodes, 12 dominator chunks, both edge lists, depth/scope
+fields, markers, symbols and label reference counts. Only debugger exception
+address is normalized. See cases/hello-global-work-abi.json for extents, ABI
+correction evidence and unvisited-path limits.
+
+This checkpoint has 353 reconstructed functions and 430 accepted frontiers.
+After the caller correction, all 352 minimal and all 78 hello frontiers replay.
+All source graphs agree, six changed modules compile /W3 clean and the complete
+minimal object/exit regression passes. Hello output remains pending at the typed
+optimize_work entry, 0x5ba70.

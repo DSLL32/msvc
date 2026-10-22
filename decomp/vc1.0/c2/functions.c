@@ -56,7 +56,7 @@ void compile_functions(void)
         function->work = work;
         if (optimize_global && work && global_exit_work) {
             current_work = work;
-            optimize_work();
+            optimize_work(work);
             work = current_work;
         }
         if (work) {
