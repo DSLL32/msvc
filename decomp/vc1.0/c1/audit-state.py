@@ -3,7 +3,7 @@
 from compare import indexes, publics
 import struct
 
-original, rebuilt, _, _, _ = indexes()
+original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
@@ -31,6 +31,12 @@ STATE = [
     ('_pch_replacement_file', 0x5b264, 4),
     ('_pending_global_symbols', 0x6b6bc, 4),
     ('_parser_lookahead', 0x6b550, 4),
+    ('_aggregate_contexts', 0x600a8, 384),
+    ('_tag_in_current_scope', 0x604a4, 4),
+    ('_enumerator_value', 0x6bfb8, 4),
+    ('_enumerator_context', 0x6b648, 4),
+    ('_current_enum_tag', 0x60830, 4),
+    ('_pch_separate_debug', 0x6be84, 4),
     ('_aggregate_depth', 0x6bf94, 4),
     ('_scope_depth', 0x6ce6c, 1),
     ('_permanent_page_count', 0x6de00, 4),
@@ -114,4 +120,23 @@ old_options = struct.unpack('<21I', read(original, 0x6ef48, 84))
 new_options = struct.unpack('<21I', read(rebuilt, names['_packed_option_values'], 84))
 for index, (old, new) in enumerate(zip(old_options, new_options)):
     check('packed option %d' % index, old, new, 4)
-print('%d encountered frontend state defaults and aliases, and 21 option targets match.' % len(STATE))
+# Pragma optimization rules must update those very same option objects.
+for index in range(18):
+    old = read(original, 0x6b150 + 8 * index, 8)
+    new = read(rebuilt, names['_pragma_optimization_rules'] + 8 * index, 8)
+    assert old[:2] == new[:2], ('pragma optimization rule', index)
+    if old[0]:
+        old_target, new_target = struct.unpack_from('<I', old, 4)[0], struct.unpack_from('<I', new, 4)[0]
+        assert forward[old_target] == new_target, ('pragma option target', index)
+
+# Generic hash dispatch keeps all original callback identities, including traps.
+callbacks = [('_hash_functions', 0x6ce60,
+              ['_hash_interned_name', '_hash_pointer_low12', '_hash_symbol_index']),
+             ('_hash_equal_functions', 0x6ce58,
+              ['_hash_keys_equal', '_hash_symbol_indices_equal'])]
+entries = {entry['name']: entry['start'] for entry in config['driver']}
+for table, address, functions in callbacks:
+    for index, name in enumerate(functions):
+        assert struct.unpack('<I', read(original, address + 4 * index, 4))[0] == entries[name], name
+        assert struct.unpack('<I', read(rebuilt, names[table] + 4 * index, 4))[0] == names[name], name
+print('%d state defaults/aliases, 21 option targets, 17 pragma rules and 5 hash callbacks match.' % len(STATE))

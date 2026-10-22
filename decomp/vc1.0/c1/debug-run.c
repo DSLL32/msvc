@@ -44,6 +44,32 @@ static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rv
     }
 }
 
+/* Keep caller/register evidence for diagnosing a logical-trap divergence. */
+static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
+{
+    CONTEXT context;
+    DWORD words[32], got, written;
+    char line[256];
+    unsigned i;
+    memset(&context, 0, sizeof(context));
+    context.ContextFlags = CONTEXT_FULL;
+    if (!GetThreadContext(thread, &context)) return;
+    sprintf(line, "registers eax %08lx ecx %08lx edx %08lx ebx %08lx esi %08lx edi %08lx ebp %08lx esp %08lx\n",
+            context.Eax, context.Ecx, context.Edx, context.Ebx, context.Esi,
+            context.Edi, context.Ebp, context.Esp);
+    WriteFile(log, line, strlen(line), &written, 0);
+    if (!ReadProcessMemory(process, (void *)context.Esp, words, sizeof(words), &got)) return;
+    for (i = 0; i < got / 4; ++i) {
+        sprintf(line, "stack %u %08lx\n", i, words[i]);
+        WriteFile(log, line, strlen(line), &written, 0);
+    }
+    if (!ReadProcessMemory(process, (void *)(context.Ebp - sizeof(words)), words, sizeof(words), &got)) return;
+    for (i = 0; i < got / 4; ++i) {
+        sprintf(line, "frame -%lu %08lx\n", sizeof(words) - i * 4, words[i]);
+        WriteFile(log, line, strlen(line), &written, 0);
+    }
+}
+
 int main(int argc, char **argv)
 {
     STARTUPINFOA si;
@@ -103,6 +129,7 @@ int main(int argc, char **argv)
                         code, (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress - base,
                         base, ev.u.Exception.dwFirstChance);
                 WriteFile(log, line, strlen(line), &written, 0);
+                dump_context(pi.hProcess, pi.hThread, log);
                 if (argc == 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);
             }

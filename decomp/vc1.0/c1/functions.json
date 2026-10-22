@@ -310,7 +310,23 @@
     "_read_pragma_token",
     "_classify_pragma@4",
     "_set_warning_level@8",
-    "_skip_inactive_literal@4"
+    "_skip_inactive_literal@4",
+    "_merge_storage_class@16",
+    "_read_tag_specifier@8",
+    "_begin_tag_definition@12",
+    "_create_tag@16",
+    "_allocate_frontend_symbol@4",
+    "_new_hash_table@16",
+    "_check_tag_kind@8",
+    "_merge_named_type@12",
+    "_new_enumerator@8",
+    "_add_enumerator@12",
+    "_insert_hash_value@12",
+    "_hash_bucket_index@8",
+    "_hash_interned_name",
+    "_find_hash_entry@12",
+    "_integer_conversion_overflow@16",
+    "_hash_keys_equal"
   ],
   "driver": [
     {
@@ -1294,12 +1310,12 @@
     {
       "name": "_new_enumerator@8",
       "start": 168768,
-      "end": 168769
+      "end": 168808
     },
     {
       "name": "_add_enumerator@12",
       "start": 168816,
-      "end": 168817
+      "end": 169210
     },
     {
       "name": "_add_struct_member@8",
@@ -1695,17 +1711,17 @@
     {
       "name": "_read_tag_specifier@8",
       "start": 101776,
-      "end": 101777
+      "end": 102039
     },
     {
       "name": "_merge_named_type@12",
       "start": 102048,
-      "end": 102049
+      "end": 102279
     },
     {
       "name": "_merge_storage_class@16",
       "start": 109712,
-      "end": 109713
+      "end": 109996
     },
     {
       "name": "_parse_declspec",
@@ -2091,7 +2107,7 @@
     {
       "name": "_integer_conversion_overflow@16",
       "start": 311984,
-      "end": 311985
+      "end": 312133
     },
     {
       "name": "_warn_void_function_pointer",
@@ -2677,6 +2693,86 @@
       "name": "_synchronize_pch_pragma",
       "start": 131008,
       "end": 131009
+    },
+    {
+      "name": "_lookup_or_declare_tag@12",
+      "start": 166416,
+      "end": 166417
+    },
+    {
+      "name": "_begin_tag_definition@12",
+      "start": 165456,
+      "end": 165980
+    },
+    {
+      "name": "_lookup_tag_chain@8",
+      "start": 165264,
+      "end": 165265
+    },
+    {
+      "name": "_create_tag@16",
+      "start": 165984,
+      "end": 166332
+    },
+    {
+      "name": "_check_tag_kind@8",
+      "start": 166336,
+      "end": 166407
+    },
+    {
+      "name": "_allocate_frontend_symbol@4",
+      "start": 166960,
+      "end": 167057
+    },
+    {
+      "name": "_new_hash_table@16",
+      "start": 207040,
+      "end": 207237
+    },
+    {
+      "name": "_enclosing_declaration_scope",
+      "start": 218560,
+      "end": 218561
+    },
+    {
+      "name": "_insert_hash_value@12",
+      "start": 207248,
+      "end": 207376
+    },
+    {
+      "name": "_hash_bucket_index@8",
+      "start": 207440,
+      "end": 207479
+    },
+    {
+      "name": "_find_hash_entry@12",
+      "start": 207488,
+      "end": 207560
+    },
+    {
+      "name": "_hash_interned_name",
+      "start": 207600,
+      "end": 207618
+    },
+    {
+      "name": "_hash_pointer_low12",
+      "start": 207024,
+      "end": 207025
+    },
+    {
+      "name": "_hash_symbol_index",
+      "start": 222176,
+      "end": 222177
+    },
+    {
+      "name": "_hash_keys_equal",
+      "start": 207584,
+      "end": 207600
+    },
+    {
+      "name": "_hash_symbol_indices_equal",
+      "start": 222144,
+      "end": 222145
     }
   ],
   "cases": {

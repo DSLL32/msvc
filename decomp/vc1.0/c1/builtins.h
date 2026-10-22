@@ -19,6 +19,15 @@ struct FrontendSymbol {
     } detail;
     unsigned field24, field28;
 };
+/* Enum constants share the first 24 symbol bytes, then store their value. */
+typedef struct EnumeratorSymbol {
+    unsigned char kind, flags;
+    unsigned short field02;
+    FrontendSymbol *next;
+    char *name;
+    CType *type;
+    unsigned index, attributes, value;
+} EnumeratorSymbol;
 typedef struct BuiltinDefinition {
     char *name;
     unsigned operation;

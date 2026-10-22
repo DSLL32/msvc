@@ -258,6 +258,7 @@ type_ready:
 }
 
 AggregateContext aggregate_contexts[16]; /* original 0x600a8 */
+typedef char AggregateContext_must_be_24_bytes[(sizeof(AggregateContext) == 24) ? 1 : -1];
 typedef char ShapeCursor_must_be_eight_bytes[(sizeof(ShapeCursor) == 8) ? 1 : -1];
 
 /* Original 0x31520..0x31ad4. Fold the declarator's mutable shape chain
@@ -763,3 +764,295 @@ void __stdcall emit_symbol_declaration(FrontendSymbol *symbol)
     write_global_record(tag, symbol);
     symbol->flags |= 2;
 }
+
+/* Original 0x1ac90..0x1ad79; modifier table 0x1ad7c..0x1adac.
+   The fourth ABI argument is retained although this function does not use it. */
+void __stdcall merge_storage_class(unsigned char *storage, unsigned class,
+                                  unsigned modifier, int replace)
+{
+    unsigned duplicate = 1;
+    if (!(storage[0] & 7)) storage[0] = (storage[0] & ~7) | ((unsigned char)class & 7);
+    else if ((unsigned char)class) report_syntax_error(159);
+    switch ((unsigned char)modifier) {
+    case 3: case 14: /* inline */
+        if (storage[1] & 1) duplicate = 14;
+        else storage[1] |= 1;
+        break;
+    case 4: /* naked */
+        if (storage[2] & 1) duplicate = 2;
+        else storage[2] |= 1;
+        break;
+    case 5: /* thread */
+        if (storage[2] & 2) duplicate = 2;
+        else storage[2] |= 2;
+        break;
+    case 6: /* dllimport */
+        if (storage[2] & 4) duplicate = 2;
+        else storage[2] = (storage[2] | 4) & ~8;
+        break;
+    case 7: /* dllexport */
+        if (storage[2] & 4) duplicate = 2;
+        else storage[2] |= 4 | 8;
+        break;
+    }
+    if (duplicate != 1)
+        compiler_warning(1, 141, duplicate == 2 ? interned_name : token_names[duplicate]);
+}
+
+/* Original 0x18d90..0x18e97. A name followed by an opening brace starts
+   a tag definition; other named uses resolve or introduce a tag reference. */
+unsigned char __stdcall read_tag_specifier(unsigned short kind, unsigned short *attributes)
+{
+    unsigned char token = scan_token();
+    char *name;
+    FrontendSymbol *tag;
+    if (!token) fatal_error(4);
+    else if (token == TOK_IDENTIFIER) {
+        name = current_token_value.identifier;
+        token = scan_token();
+        unget_token(token);
+        if (token != TOK_LEFT_BRACE) {
+            current_token_value.symbol = lookup_or_declare_tag(name, kind, insert_current_scope_symbol);
+            return TOK_TYPE;
+        }
+    } else if (token == TOK_LEFT_BRACE) {
+        unget_token(token);
+        name = 0;
+    } else {
+        report_syntax_error(237, type_specifier_name(kind), token_names[token]);
+        unget_token(token);
+        current_token_value.symbol = 0;
+        return TOK_NEWLINE;
+    }
+    tag = begin_tag_definition(name, kind, *attributes);
+    current_token_value.symbol = tag;
+    if (tag->flags & 0x80) return TOK_NEWLINE;
+    if (kind == 0x200) {
+        scanner_flags |= 1;
+        return TOK_ENUM_TAG;
+    }
+    return TOK_CLASS_HEAD;
+}
+
+FrontendSymbol *current_enum_tag; /* original 0x60830 */
+
+/* Original 0x28650..0x2885c. Bind the tag, construct its incomplete
+   definition type, then enter enum or aggregate layout state. */
+FrontendSymbol *__stdcall begin_tag_definition(char *name, unsigned short kind,
+                                              unsigned short attributes)
+{
+    FrontendSymbol *tag = 0, *head;
+    TypeDescription *description;
+    CType *type;
+    AggregateContext *context;
+    if (name) {
+        head = current_scope->buckets ?
+            current_scope->buckets[(unsigned)name & current_scope->bucket_mask] : 0;
+        if (head) tag = lookup_tag_chain(name, head);
+        if (tag && (tag->flags & 1)) {
+            report_syntax_error(11, name, type_specifier_name(tag->type->flags));
+            tag->flags |= 0x80;
+            return tag;
+        }
+    }
+    if (!tag) {
+        tag = create_tag(name, kind, insert_current_scope_symbol, 1);
+        if (!tag) return 0;
+    }
+    tag = check_tag_kind(tag, kind);
+    if (tag->flags & 0x80) return tag;
+    description = copy_type_description(tag->type);
+    if (browser_filename && (!parameter_nesting || options.option_FR) && tag->name != name_unnamed) {
+        browser_begin_function_scope();
+        browser_symbol_definition(tag);
+        browser_function_parameters(tag);
+    }
+    description->flags |= 0x10;
+    description->attributes = attributes;
+    description->field08 = (unsigned)tag;
+    type = intern_type(description);
+    --type_description_depth;
+    if (((scanner_flags & 0x08000000) && !(scanner_flags & 0x40)) || aggregate_depth >= 0)
+        tag->field24 |= 0x02000000;
+    else tag->field24 &= ~0x02000000;
+    if (kind == 0x200) {
+        enumerator_value = (unsigned)-1;
+        tag->detail.value = 4;
+        tag->flags |= 1;
+        enumerator_context = type;
+        current_enum_tag = tag;
+        return tag;
+    }
+    if (++aggregate_depth == 16) fatal_error(46, type_specifier_name(type->flags));
+    context = &aggregate_contexts[aggregate_depth];
+    if ((kind & 0x408) == 0x408 || (kind & 0x402) == 0x402) context->flags |= 1;
+    else context->flags &= ~1;
+    context->tag = tag;
+    context->field04 = 0;
+    context->field0c = 0;
+    context->field14 = 0;
+    context->field10 = 0;
+    context->type = type;
+    context->field12 = 1;
+    return tag;
+}
+
+int tag_in_current_scope; /* original 0x604a4 */
+
+/* Original 0x28860..0x289bc. Allocate the tag's permanent identity and
+   intern its incomplete type before publishing it in the selected scope. */
+FrontendSymbol *__stdcall create_tag(char *name, unsigned short kind,
+    void (__stdcall *insert)(FrontendSymbol *), int definition)
+{
+    FrontendSymbol *tag = allocate_frontend_symbol(0);
+    TypeDescription *description;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    tag->kind = 4;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+    tag->index = next_symbol_index++;
+    if (pool->remaining < (int)sizeof(TypeDescription)) refill_arena(&compiler_arena, pool);
+    description = (TypeDescription *)pool->next;
+    pool->remaining -= sizeof(TypeDescription);
+    pool->next += sizeof(TypeDescription);
+    description->flags = kind;
+    if (kind & 0x200) {
+        description->flags |= 4;
+        tag->field28 = (unsigned)new_hash_table(4, (short)((scanner_flags & 0x08000000) != 0), 0, 0);
+    }
+    description->field08 = (unsigned)tag;
+    tag->type = intern_type(description);
+    if (name) {
+        tag->name = name;
+        if (declaration_depth > 0) {
+            compiler_warning(options.z_a ? 4 : 1, 115, name);
+            if (!definition && options.z_a) {
+                insert_scope_symbol(enclosing_declaration_scope(), tag);
+                goto published;
+            }
+        }
+    } else {
+        if (declaration_depth > 0) compiler_warning(1, 116);
+        tag->name = name_unnamed;
+    }
+    (*insert)(tag);
+published:
+    if (browser_filename && (!parameter_nesting || options.option_FR)) browser_symbol_definition(tag);
+    tag_in_current_scope = 1;
+    return tag;
+}
+
+/* Original 0x28c30..0x28c91. Storage is zeroed by the selected arena;
+   bit1 distinguishes ordinary symbols from captured/separate-debug symbols. */
+FrontendSymbol *__stdcall allocate_frontend_symbol(int arena)
+{
+    FrontendSymbol *symbol;
+    ArenaPool *pool;
+    if (!arena) symbol = allocate_permanent(sizeof(FrontendSymbol));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(FrontendSymbol)) refill_arena(&compiler_arena, pool);
+        symbol = (FrontendSymbol *)pool->next;
+        pool->remaining -= sizeof(FrontendSymbol);
+        pool->next += sizeof(FrontendSymbol);
+    }
+    if (!(scanner_flags & 0x08000000) && !pch_separate_debug) symbol->flags |= 2;
+    else symbol->flags &= ~2;
+    return symbol;
+}
+
+/* Original 0x289c0..0x28a07. Enum references accept the completed enum's
+   integer-width flags; other tag kinds must match their defining bits. */
+FrontendSymbol *__stdcall check_tag_kind(FrontendSymbol *tag, unsigned short kind)
+{
+    unsigned short flags = tag->type->flags;
+    if (((flags ^ kind) & 0x2fcf) && !(kind == 0x200 && (flags & 0x200))) {
+        report_syntax_error(11, tag->name, type_specifier_name(flags));
+        tag->flags |= 0x80;
+    }
+    return tag;
+}
+
+/* Original 0x18ea0..0x18f87. Merge typedef qualifiers and retain tag
+   identity for aggregates; C enum specifiers have the ordinary int type. */
+CType *__stdcall merge_named_type(FrontendSymbol *symbol, unsigned short *flags,
+                                 unsigned short *attributes)
+{
+    CType *type = merge_type_specifier(symbol->type, flags, symbol->type->flags);
+    TypeShape *shape;
+    TypeDescription *description;
+    if (!type) return 0;
+    shape = type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (!shape) *attributes = merge_type_attributes(*attributes, type->attributes);
+    else if (*attributes & 0x3000) {
+        type = replace_outer_type_shape(type, shape->flags, (unsigned short)(shape->attributes | *attributes), &shape->field08);
+        *attributes &= ~0x3000;
+    }
+    last_lookup_symbol = symbol;
+    if ((symbol->kind & 0x1f) == 4) {
+        if (type->flags & 0x200) return type_0064;
+        description = copy_type_description(type);
+        description->flags |= 0x10;
+        description->attributes |= *attributes;
+        description->field08 = (unsigned)symbol;
+        type = intern_type(description);
+        --type_description_depth;
+    } else if (!symbol->references) symbol->references = 1;
+    return type;
+}
+
+/* Original 0x29340..0x29368. Enumeration arithmetic wraps at 32 bits,
+   but advancing past the signed-int maximum emits a warning. */
+unsigned __stdcall new_enumerator(unsigned value, char *name)
+{
+    if (value == 0x7fffffffUL) compiler_warning(1, 340, name);
+    return value + 1;
+}
+
+/* Original 0x29370..0x294fa. Enumerator symbols use the common symbol
+   prefix followed by their value, occupying 28 bytes rather than 44. */
+void __stdcall add_enumerator(char *name, CType *context, unsigned value)
+{
+    EnumeratorSymbol *enumerator;
+    FrontendSymbol *symbol, *existing;
+    ArenaPool *pool;
+    HashTable *names;
+    if (!context) return;
+    if ((declaration_depth > 0 && !(scanner_flags & 0x08000000)) || !parameter_nesting)
+        enumerator = allocate_permanent(sizeof(EnumeratorSymbol));
+    else {
+        pool = &compiler_arena.pools[1];
+        if (pool->remaining < (int)sizeof(EnumeratorSymbol)) refill_arena(&compiler_arena, pool);
+        enumerator = (EnumeratorSymbol *)pool->next;
+        pool->remaining -= sizeof(EnumeratorSymbol);
+        pool->next += sizeof(EnumeratorSymbol);
+    }
+    enumerator->kind = 5;
+    enumerator->name = name;
+    enumerator->type = context;
+    if (!(scanner_flags & 0x08000000) && !pch_separate_debug && !(current_enum_tag->flags & 0x20))
+        enumerator->flags |= 2;
+    else enumerator->flags &= ~2;
+    symbol = (FrontendSymbol *)enumerator;
+    existing = merge_global_declaration(symbol);
+    if (!existing) insert_current_scope_symbol(symbol);
+    else {
+        report_syntax_error(86, existing->name);
+        symbol = existing;
+    }
+    names = (HashTable *)current_enum_tag->field28;
+    if (!names) return;
+    insert_hash_value(names, name, symbol);
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+    symbol->index = next_symbol_index++;
+    if (integer_conversion_overflow(4, 0, 0, value))
+        compiler_warning(options.z_a ? 3 : 1, 341, symbol->name);
+    ((EnumeratorSymbol *)symbol)->value = value;
+    enumerator_value = value;
+    if (browser_filename && (!parameter_nesting || options.option_FR)) browser_symbol_definition(symbol);
+}
+
+typedef char EnumeratorSymbol_must_be_28_bytes[(sizeof(EnumeratorSymbol) == 28) ? 1 : -1];

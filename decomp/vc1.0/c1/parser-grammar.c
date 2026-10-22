@@ -2612,7 +2612,7 @@ ParserGoto parser_gotos[92] = {
 
 /* Production left-hand nonterminal and right-hand symbol count.
    Semantic actions are kept together in parser.c. */
-ParserProduction parser_productions[225] = {
+ParserProduction parser_productions[PARSER_PRODUCTION_COUNT] = {
     {  0,  0 }, /* rule 0 */
     {  1,  0 }, /* rule 1 */
     {  1,  2 }, /* rule 2 */
@@ -2838,6 +2838,8 @@ ParserProduction parser_productions[225] = {
     { 15,  2 }, /* rule 222 */
     { 14,  1 }, /* rule 223 */
     { 14,  3 }, /* rule 224 */
+    { 58,  0 }, /* rule 225: optional trailing comma, empty */
+    { 58,  1 }, /* rule 226: optional trailing comma */
 };
 
 /* The yacc recovery extensions insert expected tokens at these states. */

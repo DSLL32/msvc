@@ -33,7 +33,7 @@ unsigned char parameter_nesting; /* original 0x5b13c */
 int parameter_depth; /* original 0x604a8 */
 int unevaluated_type_depth; /* original 0x6539c */
 unsigned enumerator_value = (unsigned)-1; /* original 0x6bfb8 */
-void *enumerator_context; /* original 0x6b648 */
+CType *enumerator_context; /* original 0x6b648 */
 CType *based_type; /* original 0x5ff10 */
 unsigned array_bound; /* original 0x65398 */
 
@@ -342,7 +342,7 @@ read_action:
             parser_value.declaration.type = parse_enum_specifier();
             break;
         case 35:
-            enumerator_value = new_enumerator(right[0].name, enumerator_value);
+            enumerator_value = new_enumerator(enumerator_value, right[0].name);
             add_enumerator(right[0].name, enumerator_context, enumerator_value);
             break;
         case 36:

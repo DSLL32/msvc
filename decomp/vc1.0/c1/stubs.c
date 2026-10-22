@@ -214,10 +214,8 @@ CType *parse_enum_specifier(void) { __asm { int 3 } return 0; }
 CType *parse_struct_specifier(void) { __asm { int 3 } return 0; }
 
 /* Original 0x29340. */
-unsigned __stdcall new_enumerator(char *name, unsigned value) { __asm { int 3 } return 0; }
 
 /* Original 0x29370. */
-void __stdcall add_enumerator(char *name, void *context, unsigned value) { __asm { int 3 } }
 
 /* Original 0x29700. */
 void __stdcall add_struct_member(DeclarationSpec *declaration, FrontendSymbol *member) { __asm { int 3 } }
@@ -426,11 +424,8 @@ void parse_asm_statement(void) { __asm { int 3 } }
 
 
 
-unsigned char __stdcall read_tag_specifier(unsigned short kind, unsigned short *attributes) { __asm { int 3 } return 0; }
 
-CType *__stdcall merge_named_type(FrontendSymbol *symbol, unsigned short *flags, unsigned short *attributes) { __asm { int 3 } return 0; }
 
-void __stdcall merge_storage_class(unsigned char *storage, unsigned class, unsigned modifier, int replace) { __asm { int 3 } }
 
 void parse_declspec(unsigned char *storage) { __asm { int 3 } }
 
@@ -505,7 +500,6 @@ unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 
 
 IrToken *__stdcall convert_based_pointer(CType *target, IrToken *value) { __asm { int 3 } return 0; }
 
-int __stdcall integer_conversion_overflow(unsigned short bytes, unsigned short target_unsigned, unsigned short source_unsigned, unsigned value) { __asm { int 3 } return 0; }
 
 void warn_void_function_pointer(void) { __asm { int 3 } }
 int __stdcall check_conversion_attributes(unsigned char operation, unsigned short target, unsigned short source, int first) { __asm { int 3 } return 0; }
@@ -672,3 +666,41 @@ void warn_bad_pragma(void) { __asm { int 3 } }
 
 /* Original 0x1ffc0. */
 void synchronize_pch_pragma(void) { __asm { int 3 } }
+
+/* Original 0x28a10. */
+FrontendSymbol *__stdcall lookup_or_declare_tag(char *name, unsigned short kind, void (__stdcall *insert)(FrontendSymbol *)) { __asm { int 3 } return 0; }
+
+/* Original 0x28650. */
+
+/* Original 0x28590. */
+FrontendSymbol *__stdcall lookup_tag_chain(char *name, FrontendSymbol *head) { __asm { int 3 } return 0; }
+
+/* Original 0x28860. */
+
+/* Original 0x289c0. */
+
+/* Original 0x28c30. */
+
+/* Original 0x328c0. */
+
+/* Original 0x355c0. */
+SymbolScope *enclosing_declaration_scope(void) { __asm { int 3 } return 0; }
+
+/* Original 0x32990. */
+
+/* Original 0x32a50. */
+
+/* Original 0x32a80. */
+
+/* Original 0x32af0. */
+
+/* Original 0x328b0. */
+unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
+
+/* Original 0x363e0. */
+unsigned hash_symbol_index(void *key) { __asm { int 3 } return 0; }
+
+/* Original 0x32ae0. */
+
+/* Original 0x363c0. */
+int hash_symbol_indices_equal(void *left, void *right) { __asm { int 3 } return 0; }

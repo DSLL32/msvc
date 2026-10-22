@@ -161,3 +161,28 @@ base_types:
     conversion_diagnostic(133, 1, operation, source, target);
     return !failed;
 }
+
+typedef struct IntegerBounds {
+    unsigned unsigned_maximum;
+    int signed_maximum, signed_minimum;
+} IntegerBounds;
+
+/* Bounds indexed by the target's byte width. Widths0,3,5 are reserved. */
+static IntegerBounds integer_bounds[6] = {
+    { 0, 0, 0 }, { 255, 127, -128 }, { 65535, 32767, -32768 },
+    { 0, 0, 0 }, { 0xffffffffUL, 0x7fffffff, (-2147483647 - 1) }, { 0, 0, 0 }
+};
+
+/* Original 0x4c2b0..0x4c345. The unsigned-source path uses the full
+   width limit even for a signed destination, as the original does. */
+int __stdcall integer_conversion_overflow(unsigned short bytes,
+    unsigned short target_unsigned, unsigned short source_unsigned, unsigned value)
+{
+    IntegerBounds *bounds = &integer_bounds[bytes];
+    if (target_unsigned) {
+        if (!source_unsigned && (int)value < 0) value = 0 - value;
+        return value > bounds->unsigned_maximum;
+    }
+    if (source_unsigned) return value > bounds->unsigned_maximum;
+    return (int)value > bounds->signed_maximum || (int)value < bounds->signed_minimum;
+}

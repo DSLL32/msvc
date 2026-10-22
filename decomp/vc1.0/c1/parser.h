@@ -2,6 +2,7 @@
 #define PARSER_H
 #include "lexer.h"
 #include "builtins.h"
+#include "hash-table.h"
 
 /* Declaration specifiers occupy one yacc semantic value. The three storage
    bytes are shared with the symbol table's declaration representation. */
@@ -77,7 +78,8 @@ extern ParserTransition parser_exceptions[];
 extern ParserState parser_states[376];
 extern ParserGoto parser_gotos[92];
 extern ParserTransition parser_goto_transitions[];
-extern ParserProduction parser_productions[225];
+#define PARSER_PRODUCTION_COUNT 227
+extern ParserProduction parser_productions[PARSER_PRODUCTION_COUNT];
 extern ParserRecovery parser_recoveries[];
 extern ParserValue parser_value;
 extern int parser_lookahead, parser_error_count;
@@ -93,6 +95,16 @@ unsigned char __stdcall lookup_identifier_token(FrontendSymbol *explicit_symbol)
 
 /* Semantic routines retain their individual original entry points. */
 CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags, unsigned short added);
+FrontendSymbol *__stdcall lookup_or_declare_tag(char *name, unsigned short kind,
+    void (__stdcall *insert)(FrontendSymbol *));
+FrontendSymbol *__stdcall lookup_tag_chain(char *name, FrontendSymbol *head);
+FrontendSymbol *__stdcall allocate_frontend_symbol(int arena);
+SymbolScope *enclosing_declaration_scope(void);
+extern int tag_in_current_scope;
+FrontendSymbol *__stdcall create_tag(char *name, unsigned short kind,
+    void (__stdcall *insert)(FrontendSymbol *), int definition);
+FrontendSymbol *__stdcall check_tag_kind(FrontendSymbol *tag, unsigned short kind);
+FrontendSymbol *__stdcall begin_tag_definition(char *name, unsigned short kind, unsigned short attributes);
 unsigned char __stdcall read_tag_specifier(unsigned short kind, unsigned short *attributes);
 CType *__stdcall merge_named_type(FrontendSymbol *symbol, unsigned short *flags, unsigned short *attributes);
 void __stdcall merge_storage_class(unsigned char *storage, unsigned class, unsigned modifier, int replace);
@@ -145,8 +157,8 @@ void __stdcall prepare_function_definition(DeclarationSpec *declaration, Fronten
 void __stdcall set_declaration_name(DeclarationSpec *declaration, char *name);
 CType *parse_struct_specifier(void);
 CType *parse_enum_specifier(void);
-unsigned __stdcall new_enumerator(char *name, unsigned value);
-void __stdcall add_enumerator(char *name, void *context, unsigned value);
+unsigned __stdcall new_enumerator(unsigned value, char *name);
+void __stdcall add_enumerator(char *name, CType *context, unsigned value);
 void __stdcall add_struct_member(DeclarationSpec *declaration, FrontendSymbol *member);
 FrontendSymbol *__stdcall new_declarator(char *name);
 FrontendSymbol *__stdcall apply_declarator_type(DeclarationSpec *declaration, FrontendSymbol *symbol);
@@ -175,8 +187,16 @@ typedef struct ShapeCursor {
 } ShapeCursor;
 typedef struct AggregateContext {
     FrontendSymbol *tag;
-    unsigned field04, field08, field0c, field10, field14;
+    unsigned field04;
+    CType *type;
+    unsigned field0c;
+    unsigned short field10, field12;
+    unsigned char field14, flags;
+    unsigned short reserved;
 } AggregateContext;
+extern unsigned enumerator_value;
+extern CType *enumerator_context;
+extern FrontendSymbol *current_enum_tag;
 extern int aggregate_depth;
 extern AggregateContext aggregate_contexts[16];
 int __stdcall prepare_declarator_shapes(FrontendSymbol *symbol, CType *base,
