@@ -43,10 +43,15 @@ rather than equating absence of exact-address references with deadness:
   exception is logical frame number24, which is resolved through its
   canonical variable before indexing. Thus the apparently broad direct
   register case later in those functions cannot pass physical31 onward.
-* The x87 permutation7c480 is eight WORDs; its pointer loops end7c490,
-  with separate marker words7c490/494. The preceding28-byte records are
-  eight entries ending7c494. Neither their loops nor indexed accesses
-  overlap7c520. Scalar state7c498..7c4a0 does not escape to statistics.
+* The register permutation7c480 is eight WORDs; its pointer loops end7c490,
+  with separate marker words7c490/494. The preceding28-byte register-state
+  records actually start7c3a0 and end7c480 (eight entries). The reset loop
+  starts at their pointer field0x14 (7c3b4), clears0x14/0x18, and advances28;
+  its comparison limit7c494 is a field-pointer-walk end, not the array end.
+  Indexed consumers at2ff07/2ff2b and30a4d/30b1f confirm the internal
+  operand buffers+04/+0c and pointer fields+14/+18. There is no overlap
+  with the permutation or statistics. Scalar state7c498..7c4a0 does not
+  escape to statistics. This extent was refined during post-color analysis.
 * The following head array starts7c634. It is cleared with ECX=31 at
   2e70b/2e8b7. Its indices are zero-extended register WORDs (2e7c0,
   2e82f and corresponding later consumers), or nonnegative bit-mask

@@ -1304,3 +1304,35 @@ only the four-byte timestamp. Verified accepted code-extent union155087/399693
 bytes (38.8015 percent), including clipped source/shared text/CRT/import ranges
 and actual-mask verification, is not branch coverage. The next frontier is
 coalesce_register_affinities2e0f0. See cases/hello-register-affinities-abi.json.
+
+The first function now coalesces and colors without spills. Eight more whole
+functions preserve class preference, representative chains, graph/affinity
+updates, recycling, signed cost priorities, reverse removal ordering, explicit
+degree recounting and greedy coloring. The native graph still separates every
+constructor/list/edge helper. A three-class precedence relation prefers physical
+then tree then machine registers, with larger-degree choice within a virtual
+class. The seven named colors are EAX/ECX/EDX/ESI/EDI/EBX/EBP; their28-byte native
+extent ends exactly before the writable affinity head. Both data recipes are
+small contextual semantic tables, with no adjacent image data copied.
+
+Two independent captures match242 normalized lines. Coalescing aliases4020 to
+4022, giving signed cost20, priority1000 and weight2000, with the exact recycled
+affinity identity. Successful coloring matches25 complete variable records and
+canonical work-list links; all14 interference pairs have distinct colors.
+Window/message/DC use ESI/ECX/EDI, strategy0 succeeds, and frame pseudo-register24
+is created with colorEBP. All31 physical costs and contextual counters agree.
+Hard-constraint counting, nonempty losing-edge transfers, strategy1, retries,
+EBP allocation and spill rewriting remain outside dynamic claims. See
+cases/hello-register-coloring-abi.json.
+
+Analysis of the next pass refined the neighboring-state audit: the28-byte
+register-state array starts7c3a0 and ends7c480. Its reset walks pointer fields
+at offsets0x14/0x18; the comparison limit7c494 is not the object-array end.
+The provenance note is corrected without changing accepted code masks.
+
+All352 minimal and255 hello frontiers replay;530 source graphs and607 accepted
+extent instruction boundaries pass. Both changed implementation modules compile
+/W3 clean; minimal object/streams/exit match except only the four-byte timestamp.
+Verified accepted code-extent union156399/399693 bytes (39.1298 percent), including
+clipped source/shared text/CRT/import ranges and actual-mask verification, is not
+branch coverage. The next frontier is optimize_allocated_machine_regions2b6a0.

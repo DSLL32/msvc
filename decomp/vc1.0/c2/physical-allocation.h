@@ -89,4 +89,8 @@ RegisterAffinity *__fastcall new_register_affinity(RegisterVariable *left, Regis
 RegisterAffinity *__fastcall merge_register_affinity(RegisterAffinity **list, RegisterAffinity *affinity);
 void __fastcall release_register_affinity(RegisterAffinity *affinity);
 void __fastcall insert_register_affinity(RegisterAffinity **list, RegisterAffinity *affinity);
+int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right);
+void __fastcall merge_register_graph(RegisterVariable *winner, RegisterVariable *loser);
+void __fastcall remove_register_conflict(unsigned short left, unsigned short right);
+RegisterAffinity *__fastcall unlink_register_affinity(RegisterAffinity *affinity);
 #endif

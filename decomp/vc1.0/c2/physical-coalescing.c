@@ -150,3 +150,112 @@ void __fastcall insert_register_affinity(RegisterAffinity **list, RegisterAffini
     affinity->next = *list;
     *list = affinity;
 }
+
+/* Original [0002e0f0,0002e280). Merge one profitable admissible pair.
+   Physical registers outrank tree variables, which outrank machine variables;
+   within a virtual class preserve the endpoint with the larger degree. */
+int __fastcall coalesce_register_affinities(RegisterAffinity *affinity)
+{
+    enum { COMPARE_DEGREE, KEEP_LEFT, KEEP_RIGHT, INVALID_PAIR };
+    /* Native81120..81129: the complete three-class precedence relation.
+       Physical/physical is invalid; it is excluded during collection. */
+    static const unsigned char preference[3][3] = {
+        { INVALID_PAIR, KEEP_LEFT, KEEP_LEFT },
+        { KEEP_RIGHT, COMPARE_DEGREE, KEEP_LEFT },
+        { KEEP_RIGHT, KEEP_RIGHT, COMPARE_DEGREE }
+    };
+    RegisterVariable *left, *right, *winner, *loser, *variable;
+    int degree, rule;
+    unsigned group, bucket;
+    for (; affinity; affinity = affinity->next) {
+        if (affinity->benefit <= 0) return 0;
+        left = affinity->left;
+        right = affinity->right;
+        if ((left->flags | right->flags) & 0x400) {
+            degree = left->degree + right->degree - count_shared_register_conflicts(left, right);
+            if (degree >= available_integer_registers) {
+                affinity->benefit = -1;
+                continue;
+            }
+        }
+        rule = preference[left->number >> 14][right->number >> 14];
+        if (rule == KEEP_LEFT || (rule == COMPARE_DEGREE && left->degree >= right->degree)) {
+            winner = left;
+            loser = right;
+        } else if (rule == KEEP_RIGHT || rule == COMPARE_DEGREE) {
+            winner = right;
+            loser = left;
+        } else {
+            compiler_internal_error("@(#)color.c:1.101", 0x9e3);
+            return 0;
+        }
+        if (loser->flags & 0x1000) {
+            for (group = 1; group < REGISTER_VARIABLE_CLASSES; ++group)
+                for (bucket = 0; bucket < REGISTER_VARIABLE_BUCKETS; ++bucket)
+                    for (variable = register_variable_buckets[group][bucket]; variable; variable = variable->next)
+                        if (variable->representative == loser->number)
+                            variable->representative = winner->number;
+            loser->flags &= ~0x1000U;
+        }
+        loser->representative = winner->number;
+        winner->flags |= 0x1000;
+        loser->flags |= 0x800;
+        if ((winner->number & 0x4000) && (loser->number & 0x4000) && winner->spill_cost != 30000) {
+            if (loser->spill_cost == 30000) winner->spill_cost = 30000;
+            else winner->spill_cost += loser->spill_cost;
+        }
+        winner->spill_cost += (short)affinity->benefit;
+        merge_register_graph(winner, loser);
+        return 1;
+    }
+    return 0;
+}
+
+/* Original [0002e390,0002e450). Transfer the losing register's edges,
+   then redirect or discard every affected copy affinity. Save each next link
+   before invoking list helpers, which may prepend new nodes or recycle old. */
+void __fastcall merge_register_graph(RegisterVariable *winner, RegisterVariable *loser)
+{
+    RegisterConflict *edge, *next_edge;
+    RegisterAffinity *affinity, *next_affinity;
+    unsigned short winner_number, loser_number;
+    winner_number = winner->number;
+    loser_number = loser->number;
+    for (edge = loser->conflicts; edge; edge = next_edge) {
+        next_edge = edge->next;
+        add_register_conflict(winner, edge->variable);
+        remove_register_conflict(loser_number, edge->variable->number);
+    }
+    for (affinity = register_affinities; affinity; affinity = next_affinity) {
+        next_affinity = affinity->next;
+        if (affinity->left->number == loser_number) {
+            if (affinity->right->number != winner_number)
+                add_register_affinity(winner_number, affinity->right->number, affinity->benefit);
+        } else if (affinity->right->number == loser_number) {
+            if (affinity->left->number != winner_number)
+                add_register_affinity(affinity->left->number, winner_number, affinity->benefit);
+        } else if (!registers_conflict(affinity->left, affinity->right)) continue;
+        release_register_affinity(unlink_register_affinity(affinity));
+    }
+}
+
+/* Original [0002e650,0002e680). Remove an exact affinity node from the
+   shared live chain and return it for its caller's separate recycling step. */
+RegisterAffinity *__fastcall unlink_register_affinity(RegisterAffinity *affinity)
+{
+    RegisterAffinity **link, *current;
+    for (link = &register_affinities; (current = *link) != 0; link = &current->next) {
+        if (current == affinity) {
+            *link = current->next;
+            return current;
+        }
+    }
+    return 0;
+}
+
+/* Original [0002e640,0002e650). Recycle one arena-owned affinity node. */
+void __fastcall release_register_affinity(RegisterAffinity *affinity)
+{
+    affinity->next = free_register_affinities;
+    free_register_affinities = affinity;
+}

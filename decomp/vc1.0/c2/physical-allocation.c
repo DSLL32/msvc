@@ -210,3 +210,116 @@ int simplify_unspillable_variables(void)
     spill_register_variables(candidates, 1);
     return 1;
 }
+
+/* Original [0002ba90,0002bb10). Two ordering strategies use total spill
+   weight or cost per neighbor. Hard/isolated variables get the native large
+   priority rather than a division by zero. Both virtual classes participate. */
+void finish_allocation_constraints(void)
+{
+    RegisterVariable *variable;
+    unsigned group, bucket;
+    for (group = 1; group < REGISTER_VARIABLE_CLASSES; ++group) {
+        for (bucket = 0; bucket < REGISTER_VARIABLE_BUCKETS; ++bucket) {
+            for (variable = register_variable_buckets[group][bucket]; variable; variable = variable->next) {
+                if (variable->spill_cost == 30000 || !variable->degree) {
+                    variable->spill_priority = variable->spill_weight = 3000000;
+                } else {
+                    variable->spill_weight = variable->spill_cost * 100;
+                    variable->spill_priority = variable->spill_weight / variable->degree;
+                }
+            }
+        }
+    }
+}
+
+/* Original [0002b9a0,0002ba80). Build a reverse removal order for greedy
+   coloring. Prefer the highest degree still below the available-color count;
+   when none is below it, remove the smallest selected spill-cost metric. */
+RegisterVariable *__fastcall order_allocation_variables(int strategy)
+{
+    RegisterVariable *pending = 0, *ordered = 0, *variable;
+    RegisterVariable **link, **best;
+    RegisterConflict *edge;
+    unsigned group, bucket;
+    int degree, best_metric, metric;
+    for (group = 1; group < REGISTER_VARIABLE_CLASSES; ++group)
+        for (bucket = 0; bucket < REGISTER_VARIABLE_BUCKETS; ++bucket)
+            for (variable = register_variable_buckets[group][bucket]; variable; variable = variable->next) {
+                if (variable->flags & 0x800) continue;
+                variable->work_next = pending;
+                pending = variable;
+            }
+    while (pending) {
+        best = 0;
+        for (link = &pending; *link; link = &(*link)->work_next) {
+            if (!best) best = link;
+            else {
+                degree = (*best)->degree;
+                if (degree < available_integer_registers) {
+                    if ((*link)->degree < available_integer_registers && degree < (*link)->degree)
+                        best = link;
+                } else if ((*link)->degree < available_integer_registers) best = link;
+                else {
+                    best_metric = strategy ? (*best)->spill_weight : (*best)->spill_priority;
+                    metric = strategy ? (*link)->spill_weight : (*link)->spill_priority;
+                    if (best_metric > metric) best = link;
+                }
+            }
+        }
+        variable = *best;
+        *best = variable->work_next;
+        variable->work_next = ordered;
+        ordered = variable;
+        for (edge = variable->conflicts; edge; edge = edge->next) --edge->variable->degree;
+    }
+    return ordered;
+}
+
+/* Original [0002ba80,0002ba90). Recompute degree from the unchanged
+   adjacency links after the ordering pass used temporary decrement counts. */
+int __fastcall count_register_conflicts(RegisterConflict *conflicts)
+{
+    int count = 0;
+    for (; conflicts; conflicts = conflicts->next) ++count;
+    return count;
+}
+
+/* Original [0002b880,0002b9a0). Seven contextual DWORD preferences at
+   810f8..81114 end exactly before the affinity-list head: volatile registers
+   first, then ESI/EDI/EBX, and finally EBP when its seventh slot is enabled. */
+RegisterVariable *__fastcall color_register_variables(RegisterVariable **variables)
+{
+    static const unsigned preferred_registers[7] = {
+        REG_EAX, REG_ECX, REG_EDX, REG_ESI, REG_EDI, REG_EBX, REG_EBP
+    };
+    RegisterVariable **link, *variable, *spills = 0;
+    RegisterConflict *edge;
+    unsigned used, neighbor_color;
+    int index, color, cost;
+    for (link = variables; (variable = *link) != 0; ) {
+        used = 0;
+        for (edge = variable->conflicts; edge; edge = edge->next) {
+            neighbor_color = edge->variable->flags & 63;
+            if (neighbor_color != 32) used |= 1U << (neighbor_color & 31);
+        }
+        color = -1;
+        for (index = 0; index < available_integer_registers; ++index) {
+            if (!(used & (1U << preferred_registers[index]))) {
+                color = (int)preferred_registers[index];
+                break;
+            }
+        }
+        if (color == -1) {
+            *link = variable->work_next;
+            variable->work_next = spills;
+            spills = variable;
+        } else {
+            variable->flags = (variable->flags & ~63U) | color;
+            if (color == REG_EBP) frame_register_allocated = 1;
+            cost = physical_register_costs[color] + variable->spill_cost;
+            physical_register_costs[color] = cost > 30000 ? 30000 : cost;
+            link = &variable->work_next;
+        }
+    }
+    return spills;
+}

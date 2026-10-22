@@ -463,10 +463,6 @@ int __fastcall frame_references_exceed_cost(WorkItem *work, int limit) { __asm i
 void __fastcall assign_machine_registers(MachineInstruction *instructions) { __asm int 3 }
 void optimize_allocated_machine_regions(void) { __asm int 3 }
 void __fastcall spill_register_variables(RegisterVariable *variables, int simplification) { __asm int 3 }
-RegisterVariable *__fastcall color_register_variables(RegisterVariable **variables) { __asm int 3 }
-RegisterVariable *__fastcall order_allocation_variables(int strategy) { __asm int 3 }
-int __fastcall count_register_conflicts(RegisterConflict *conflicts) { __asm int 3 }
-void finish_allocation_constraints(void) { __asm int 3 }
 void __fastcall allocate_frame_symbols(WorkItem *work, int use_stack_pointer) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
 int __fastcall machine_sequence_cost(MachineInstruction *instruction) { __asm int 3 }
@@ -474,5 +470,5 @@ int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned s
 int __fastcall register_follows_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
 void __fastcall record_rematerialized_registers(WorkItem *work, MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
-int __fastcall coalesce_register_affinities(RegisterAffinity *affinity) { __asm int 3 }
-void __fastcall release_register_affinity(RegisterAffinity *affinity) { __asm int 3 }
+int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
+void __fastcall remove_register_conflict(unsigned short left, unsigned short right) { __asm int 3 }

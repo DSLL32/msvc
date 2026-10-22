@@ -603,7 +603,15 @@
     "@new_register_affinity@8",
     "@merge_register_affinity@8",
     "_sort_register_affinities",
-    "@insert_register_affinity@8"
+    "@insert_register_affinity@8",
+    "@coalesce_register_affinities@4",
+    "@merge_register_graph@8",
+    "@unlink_register_affinity@4",
+    "@release_register_affinity@4",
+    "_finish_allocation_constraints",
+    "@order_allocation_variables@4",
+    "@count_register_conflicts@4",
+    "@color_register_variables@4"
   ],
   "driver": [
     {
@@ -5072,26 +5080,22 @@
     {
       "name": "@color_register_variables@4",
       "start": 178304,
-      "end": 178305,
-      "provisional": true
+      "end": 178592
     },
     {
       "name": "@order_allocation_variables@4",
       "start": 178592,
-      "end": 178593,
-      "provisional": true
+      "end": 178816
     },
     {
       "name": "@count_register_conflicts@4",
       "start": 178816,
-      "end": 178817,
-      "provisional": true
+      "end": 178832
     },
     {
       "name": "_finish_allocation_constraints",
       "start": 178832,
-      "end": 178833,
-      "provisional": true
+      "end": 178960
     },
     {
       "name": "_build_allocation_constraints",
@@ -5258,8 +5262,7 @@
     {
       "name": "@coalesce_register_affinities@4",
       "start": 188656,
-      "end": 188657,
-      "provisional": true
+      "end": 189056
     },
     {
       "name": "@add_register_affinity@12",
@@ -5284,13 +5287,34 @@
     {
       "name": "@release_register_affinity@4",
       "start": 190016,
-      "end": 190017,
-      "provisional": true
+      "end": 190032
     },
     {
       "name": "@insert_register_affinity@8",
       "start": 190080,
       "end": 190112
+    },
+    {
+      "name": "@count_shared_register_conflicts@8",
+      "start": 189520,
+      "end": 189521,
+      "provisional": true
+    },
+    {
+      "name": "@merge_register_graph@8",
+      "start": 189328,
+      "end": 189520
+    },
+    {
+      "name": "@remove_register_conflict@8",
+      "start": 188528,
+      "end": 188529,
+      "provisional": true
+    },
+    {
+      "name": "@unlink_register_affinity@4",
+      "start": 190032,
+      "end": 190080
     }
   ],
   "cases": {
