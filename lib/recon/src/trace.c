@@ -6,6 +6,7 @@
 #include <elf.h>
 #include <link.h>
 #include <sys/stat.h>
+#include <sys/mman.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdint.h>
@@ -27,12 +28,14 @@ typedef struct TraceSlot {
     const char *line;
     size_t length;
     unsigned seen;
+    unsigned char *shared_seen;
 } TraceSlot;
 static TraceName *names;
 static size_t name_count;
 static TraceSlot *slots;
 static size_t slot_mask;
 static int trace_active,trace_fd;
+static unsigned char *shared_seen;
 
 static void UNINSTRUMENTED trace_error(const char *format,...)
 {
@@ -111,6 +114,38 @@ static void UNINSTRUMENTED insert_symbol(uintptr_t address,TraceName *name)
     slots[slot].line=name->line;
     slots[slot].length=name->length;
     slots[slot].seen=name->seen;
+    if (shared_seen) slots[slot].shared_seen=shared_seen+(name-names);
+}
+/* The shared name bitmap survives exec, unlike native pointer addresses. The
+ * adapter supplies one zero-filled state file per synchronous process tree. */
+static void UNINSTRUMENTED attach_shared_state(void)
+{
+    const char *value=getenv("RECON_TRACE_STATE_FD");
+    char *end; long descriptor; struct stat st;
+    uint32_t hash=2166136261u,*header;
+    size_t n,length=32+name_count; unsigned char *mapping;
+    if (!value) return;
+    errno=0; descriptor=strtol(value,&end,10);
+    if (!*value || *end || errno || descriptor<0 || descriptor>INT_MAX ||
+        fstat((int)descriptor,&st)<0 || !S_ISREG(st.st_mode) ||
+        st.st_size!=(off_t)length)
+        trace_error("invalid RECON_TRACE_STATE_FD or state size");
+    mapping=mmap(NULL,length,PROT_READ|PROT_WRITE,MAP_SHARED,(int)descriptor,0);
+    if (mapping==MAP_FAILED) trace_error("cannot map shared trace state");
+    for (n=0;n<name_count;++n) {
+        const unsigned char *p=(const unsigned char *)names[n].name;
+        do { hash=(hash^*p)*16777619u; } while (*p++);
+    }
+    header=(uint32_t *)mapping;
+    if (!header[0]) {
+        for (n=0;n<length;++n) if (mapping[n]) trace_error("shared trace state is not initialized to zero");
+        header[1]=1; header[2]=(uint32_t)name_count; header[3]=hash;
+        header[0]=0x31545352u; /* RST1, initialized before any child can spawn. */
+    } else if (header[0]!=0x31545352u || header[1]!=1 ||
+               header[2]!=name_count || header[3]!=hash)
+        trace_error("shared trace state application filter mismatch");
+    shared_seen=mapping+32;
+    for (n=0;n<name_count;++n) if (names[n].seen) shared_seen[n]=1;
 }
 static int UNINSTRUMENTED main_image_base(struct dl_phdr_info *info,size_t size,void *result)
 {
@@ -204,6 +239,7 @@ static void UNINSTRUMENTED __attribute__((constructor(101))) initialize_trace(vo
     for (n=1;n<name_count;++n) if (!strcmp(names[n-1].name,names[n].name))
         trace_error("duplicate application function: %s",names[n].name);
     read_name_file(prefix,1);
+    attach_shared_state();
     while (count<name_count*2) count*=2;
     slots=calloc(count,sizeof(*slots)); slot_mask=count-1;
     if (!slots) trace_error("out of memory indexing native function pointers");
@@ -221,6 +257,7 @@ void UNINSTRUMENTED __cyg_profile_func_enter(void *function,void *caller)
     entry=slots+slot;
     if (!entry->address || entry->seen) return;
     entry->seen=1;
+    if (entry->shared_seen && __sync_lock_test_and_set(entry->shared_seen,1)) return;
     saved_errno=errno;
     for (done=0;done<entry->length;) {
         ssize_t n=write(trace_fd,entry->line+done,entry->length-done);

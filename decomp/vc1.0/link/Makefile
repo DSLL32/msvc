@@ -5,7 +5,7 @@ RECON = ../../../lib/recon
 HEADERS = $(filter-out src/omf.h src/demangle.h,$(wildcard src/*.h)) $(RECON)/include/recon.h
 OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor edit-stubs dump dump-stubs resources codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
-.PHONY: all clean check prefix replay replay-fresh replay-specialized replay-verify audit native native-check native-trace native-trace-check
+.PHONY: all clean check prefix replay audit native native-check native-trace native-trace-check check-reference replay-reference replay-fresh-reference replay-specialized-reference replay-verify-reference
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
 
 prefix:
@@ -20,7 +20,10 @@ build/runtime.json: build/link.exe scripts/identify-runtime.py scripts/binary.py
 build/original.exe build/reconstructed.exe &: build/link.exe build/runtime.json runtime.json functions.json scripts/compare.py scripts/binary.py
 	$(PYTHON) scripts/compare.py --mask-only
 
-check: all audit
+check replay: native-trace-check
+
+# Explicit Win32 reference/diagnostic work; never normal fixture dependencies.
+check-reference: all audit
 	$(PYTHON) scripts/compare.py --require-exit
 
 audit: build/runtime.json runtime.json
@@ -29,16 +32,16 @@ audit: build/runtime.json runtime.json
 	$(PYTHON) scripts/audit-data.py
 	$(PYTHON) scripts/audit-abi.py
 
-replay: all audit
+replay-reference: all audit
 	$(PYTHON) scripts/compare.py --replay --require-exit
 
-replay-fresh: all audit
+replay-fresh-reference: all audit
 	$(PYTHON) scripts/replay-frontiers.py --fresh
 
-replay-specialized: all audit
+replay-specialized-reference: all audit
 	$(PYTHON) scripts/replay-frontiers.py --include-specialized
 
-replay-verify: all audit
+replay-verify-reference: all audit
 	$(PYTHON) scripts/replay-frontiers.py --verify-fresh --include-specialized
 
 build:

@@ -1,8 +1,13 @@
 # Fast historical frontier replay
 
+Current policy is in AGENTS.md: reconstruction, debugging and fixtures use native
+builds; fixtures never invoke Wine. LINK now runs all 18 native cases through
+`make -j4 check` or `make -j4 replay`. The Wine infrastructure below is retained
+for explicit reference capture and diagnostics.
+
 Implemented for the unfinished vc1.0 targets **C1, C1XX, C2 and LINK**, using the
-shared infrastructure in `tooling/replay/`. Their ordinary historical replay
-commands default to continuous replay; explicit fresh fallbacks remain available.
+shared infrastructure in `tooling/replay/`. These adapters introduced continuous
+historical replay alongside explicit fresh fallbacks.
 CL, RC and RCPP are complete under the project's scope and retain their existing
 runners. Remaining unused CRT code does not make those targets unfinished.
 

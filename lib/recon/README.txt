@@ -12,8 +12,9 @@ The shims themselves compile with GCC or Clang. LINK's existing Microsoft inline
 assembly requires Clang's -fms-extensions -fasm-blocks in its native build.
 
 Run make check here to build and execute the shared checks. No archive is built.
-A target's final native compiler/link command supplies src/crt.c and src/win32.c
-directly alongside its reconstructed object files, using -m32 and the same native
+A target's final native compiler/link command supplies src/crt.c, src/win32.c
+and src/process.c directly alongside its reconstructed object files, using -m32
+and the same native
 preprocessor/include settings. Add both include/ and native/ to the native include
 path; add only include/ to the original Win32 build.
 
@@ -45,8 +46,8 @@ Ordinary native regression tests consume captured reference streams/files.
 Reference capture is a separate explicit operation; there is no automatic Wine
 fallback, original-executable lookup, reference refresh or PE interpreter here.
 The process wrappers accept native i386 ELF executables and reject PE files and
-scripts. They do not search for Wine. External CVPACK and other unreconstructed
-PE dependencies therefore remain unsupported in native tests.
+scripts. They do not search for Wine. Explicit captured-response tests may replace
+an external tool at its spawn boundary, as described below.
 
 Backslashes are translated at filesystem boundaries. RECON_DRIVE_N=/some/path
 maps N:\\... into that directory; the same convention works for other drives.
@@ -78,8 +79,8 @@ equal-key ordering affects LINK's serialized import tables.
 
 Native builds do not implement Windows SEH: ordinary __try bodies execute, but
 faults/traps fail the process rather than entering the reconstructed __except
-handler. Full Windows console delivery, process trees, cross-process file-sharing
-rules, named mappings and asynchronous/overlapped I/O are outside this initial
+handler. Full Windows console delivery, arbitrary process trees, cross-process
+file-sharing rules, named mappings and asynchronous/overlapped I/O are outside this initial
 scope. Specialized fixtures stay explicit; unsupported modes must not be counted
 as successful native cases. Win32 ABI/function-graph validation remains on the
 canonical build. Output-only native fixture validation is separate from the
@@ -114,8 +115,9 @@ fixture outputs. No original execution, Wine or reference refresh is involved.
 Records are written immediately with write(), separate from stdout/stderr and
 Microsoft stdio. First-entry writes preserve errno and survive an ordinary crash
 or INT3 without a later stream flush. This initial runtime supports the existing
-single-thread ordinary fixtures. Missing/bad configuration, missing or ambiguous
-symbols, and trace write failures fail explicitly with status126 and diagnostics.
+single-thread fixtures and synchronous same-program native children. Missing/bad
+configuration, missing or ambiguous symbols, and trace write failures fail
+explicitly with status126 and diagnostics.
 
 When RECON_TRACE_FD is UNSET, both callbacks immediately return. Startup reads no
 name files or ELF symbols and allocates no tracing state. Instrumented call
@@ -132,5 +134,60 @@ root. Its application-name cache is projected from the existing original-backed
 acceptance metadata. The runner checks that cache and all native application
 definitions before launch, then compares the emitted segments and captured
 outputs. make -C decomp/vc1.0/link -j4 native-check keeps the output-only build.
-See LINK's cases/native-trace-validation.json for before/after measurements;
-trace-validation.json here records the shared runtime checks.
+See LINK's cases/native-trace-validation.json for initial before/after measurements
+and cases/native-all-validation.json for the complete eighteen-case native suite.
+trace-validation.json here records the initial shared runtime checks;
+process-validation.json covers the current runtime including synchronous children.
+
+Synchronous children and captured process responses
+--------------------------------------------------
+
+Set RECON_SELF_SPAWN=1 when a program launches itself through its canonical
+Windows executable path. Only a requested path resolving to recon_pgmptr is
+routed to /proc/self/exe; its original argv and requested environment are passed
+unchanged. Other actual child executables still require native i386 ELF. This
+keeps canonical diagnostic/argument spelling without executing the original PE.
+The supported spawn mode is _P_WAIT. Native children inherit normal descriptors.
+
+For a global first-entry history across synchronous same-program children, create
+one zero-filled regular file of 32 + the number of application filter names
+bytes, keep its descriptor inheritable, and set RECON_TRACE_STATE_FD to it. Pass
+the same trace/filter/seen configuration to every child. Each process resolves
+its own ELF pointers, while the shared bitmap suppresses names encountered by
+any process. A header checks version, filter size and name signature. Reusing a
+state file never resets it; each test case gets a fresh file. No trace/state
+configuration is consulted if RECON_TRACE_FD is unset. Records still contain
+names only. This supports synchronous children, not a deterministic ordering
+claim for concurrent programs or threads.
+
+spawn.py supplies SpawnBroker(callback) for explicit process-boundary fixtures.
+Pass broker.fileno() to the target as an inherited descriptor and add
+broker.environment() to its environment (RECON_SPAWN_FD). Before an actual spawn,
+the shim sends the requested mode, caller PID, executable spelling, cwd, argv and
+explicit-or-inherited environment over that socket. Returning None allows real
+native spawning. Returning an integer 0..255 supplies a captured process status;
+the callback must first validate invocation and input bytes, then apply any
+captured file changes. Raising rejects the request and the native target exits
+125. There is no automatic mock, reference capture, Wine fallback or successful
+return for an unknown dependency. Broker records omit the full host environment;
+adapters should record only fixture-relevant environment values.
+
+Use a context manager or close() after the target exits, then check() to report
+broker errors. requests records each accepted invocation and whether it used a
+native child or replay. This is a test boundary, not an implementation of the
+external tool: input and response data must be backed by independent original
+captures, never by the reconstruction currently under test. Current replay
+supplies status and callback-applied file effects; dependencies with nonempty
+stdout/stderr need additional stream replay support before being registered.
+
+The socket protocol is local little-endian RSP1: magic plus uint32 payload size,
+then int32 mode, uint32 PID/argc/envc and length-prefixed executable, cwd, argument
+and environment byte strings. Replies contain magic, int32 action (0 native,
+1 replay, 2 reject), and int32 result. It is opt-in; unset RECON_SPAWN_FD sends no
+requests. The Python adapter and C shim enforce bounded message/list sizes.
+
+Run make -j4 process-check for real self-exec with canonical argv/environment,
+child artifact/PID proof, shared and local first-entry behavior, accepted prefix,
+input-checked response replay, rejection, PE refusal and disabled tracing. Source
+is compiled directly with the shims at final link. process-validation.json
+records the shared checks and build/check elapsed times.

@@ -550,29 +550,6 @@ time_t recon_time(time_t *out)
     if (out) *out=value;
     return value;
 }
-/* Reject PE files and scripts; there is no interpreter or Wine fallback. */
-static int native_program(const char *file,char *path)
-{
-    unsigned char header[20]; int fd,n;
-    if (recon_host_path(file,path,PATH_MAX)<0) return -1;
-    fd=open(path,O_RDONLY); if (fd<0) return -1;
-    n=read(fd,header,sizeof(header)); close(fd);
-    if (n!=sizeof(header) || memcmp(header,ELFMAG,SELFMAG) || header[EI_CLASS]!=ELFCLASS32 || header[18]!=EM_386 || header[19]) {
-        errno=ENOEXEC; return -1;
-    }
-    return 0;
-}
-int recon_spawnve(int mode,const char *file,const char *const *argv,const char *const *env)
-{
-    char path[PATH_MAX]; pid_t pid; int status;
-    if (mode!=_P_WAIT) { errno=ENOTSUP; return -1; }
-    if (native_program(file,path)<0) return -1;
-    pid=fork(); if (pid<0) return -1;
-    if (!pid) { execve(path,(char *const *)argv,(char *const *)(env?env:(const char *const *)environ)); _exit(127); }
-    while (waitpid(pid,&status,0)<0) if (errno!=EINTR) return -1;
-    if (!WIFEXITED(status)) { errno=EINTR; return -1; }
-    return WEXITSTATUS(status);
-}
 WEAK int recon_spawnvpe(int mode,const char *file,const char *const *argv,const char *const *env)
 {
     const char *path=getenv("PATH"); char buffer[PATH_MAX],program[PATH_MAX]; int result;

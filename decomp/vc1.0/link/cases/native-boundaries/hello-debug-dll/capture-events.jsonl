@@ -1,0 +1,7 @@
+{"event":"create","pid":2072,"parent":1756,"image":"Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link @debug-link.rsp","packer":false}
+{"event":"create","pid":896,"parent":2072,"image":"Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE -lib -def:hello-debug.def -out:hello-debug.lib -name:hello-debug.dll -machine:ix86 -nologo hello-debug.obj helpers.lib resources.res","packer":false}
+{"event":"exit","pid":896,"code":0,"packer":false}
+{"event":"create","pid":800,"parent":2072,"image":"Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CVPACK.EXE","command_line":"Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\cvpack.exe /nologo /cvnew hello-debug.dll","packer":true}
+{"event":"exit","pid":800,"code":0,"packer":true}
+{"event":"exit","pid":2072,"code":0,"packer":false}
+{"event":"summary","root_exit":0,"processes":3,"packers":1,"packer_stdout_start":19836,"packer_stdout_end":19836}

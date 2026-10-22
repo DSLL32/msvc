@@ -1,0 +1,471 @@
+{
+  "schema": 1,
+  "scope": "Explicit CVPACK process-boundary test double; original LINK reconstruction still computes and verifies complete prepack input. No reference capture in native runner.",
+  "capture": {
+    "authorization": "Parent-coordinated one missing-boundary capture; no broad replay or reference refresh",
+    "scratch": "/root/.ai-tmp/vc1.0-link/native-boundary-capture",
+    "helper_source": {
+      "path": "/root/.ai-tmp/vc1.0-link/native-boundary-capture/capture.c",
+      "sha256": "d4ee4663f2249573fb6fa39e70942c84b16602ce115c70af5242e35e74440a23"
+    },
+    "helper_executable_sha256": "1ca1f638e9c014994669b4c3b87c00b5bb934de3f7af987614422edc0118a101",
+    "build": {
+      "exit": 0,
+      "elapsed_seconds": 2.208802416920662
+    },
+    "execution": {
+      "exit": 0,
+      "elapsed_seconds": 1.7350028101354837,
+      "scope": "One narrowly authorized original LINK/CVPACK boundary capture; helper build excluded"
+    },
+    "events_sha256": "97b5f13c2d5f47898755cde48a5ec2d68d964eb863e75467f7428dfc0db671aa",
+    "snapshot_point": "CVPACK CREATE_PROCESS_DEBUG_EVENT before first user instruction; after snapshot at its EXIT_PROCESS_DEBUG_EVENT",
+    "all_original_existing_fixture_streams_and_four_artifacts_verified": true,
+    "original_tool_sha256": {
+      "toolchains/1.0-nt/bin/LINK.EXE": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "toolchains/1.0-nt/bin/CVPACK.EXE": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1"
+    }
+  },
+  "process": {
+    "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\cvpack.exe",
+    "image": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CVPACK.EXE",
+    "argv": [
+      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\cvpack.exe",
+      "/nologo",
+      "/cvnew",
+      "hello-debug.dll"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "environment": {
+      "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+    },
+    "unset_environment": [
+      "CL",
+      "_CL_",
+      "LINK",
+      "_LINK_",
+      "MSC_CMD_FLAGS",
+      "LINK32_DB"
+    ]
+  },
+  "before": {
+    "path": "before.dll",
+    "bytes": 2097152,
+    "sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036",
+    "normalized_sha256": "f57b0dfe6f72e03a11b12fbef3b401759fd9a321349e83bace2f096ea93bcfb7",
+    "artifact_kind": "debug-pe-before-cvpack",
+    "ignored_fields": [
+      {
+        "offset": 136,
+        "bytes": 4,
+        "name": "PE COFF TimeDateStamp"
+      },
+      {
+        "offset": 7172,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 7200,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 7228,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 11780,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11916,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11940,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11964,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11988,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12020,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12044,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12076,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12108,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12132,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12156,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12180,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12204,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12228,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12252,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12276,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12300,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12324,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12348,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12372,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12396,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12420,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12444,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12468,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12492,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12524,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12548,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12572,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12596,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12620,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12644,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12668,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12692,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12716,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 17924,
+        "bytes": 4,
+        "name": "Export directory TimeDateStamp"
+      }
+    ],
+    "checksum": {
+      "offset": 216,
+      "value": 4294967295,
+      "meaning": "Original LINK release sentinel before CVPACK; compared, not normalized"
+    }
+  },
+  "after": {
+    "path": "after.dll",
+    "bytes": 71800,
+    "sha256": "6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275",
+    "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa",
+    "artifact_kind": "debug-pe",
+    "ignored_fields": [
+      {
+        "offset": 136,
+        "bytes": 4,
+        "name": "PE COFF TimeDateStamp"
+      },
+      {
+        "offset": 7172,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 7200,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 7228,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 11780,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11916,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11940,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11964,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11988,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12020,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12044,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12076,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12108,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12132,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12156,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12180,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12204,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12228,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12252,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12276,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12300,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12324,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12348,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12372,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12396,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12420,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12444,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12468,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12492,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12524,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12548,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12572,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12596,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12620,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12644,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12668,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12692,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12716,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 17924,
+        "bytes": 4,
+        "name": "Export directory TimeDateStamp"
+      }
+    ]
+  },
+  "response_policy": "Verify complete incoming bytes after only structural clock fields are zeroed, then replay captured packed bytes with corresponding incoming clocks transplanted and dependent checksum recomputed. Empty process streams; status0.",
+  "existing_final_reference": {
+    "path": "../fixtures/link-debug-dll/expected/link/hello-debug.dll",
+    "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa"
+  }
+}

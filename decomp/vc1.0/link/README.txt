@@ -72,18 +72,20 @@ Inputs are not trimmed or patched. Extracted alpha is raw-exact and the trimmed
 archive omits beta. Native DEF limitations remain: NONAME and forwarder fixture
 inputs exercise parsing, not effective ordinal-only/forwarder output.
 
-Build/check help:
-    make -j2 check
-Check a fixture (the harness supplies its original environment):
-    python3 scripts/compare.py --case cpp-undecorate --require-exit
-    python3 scripts/compare.py --case omf-link --require-exit
-Replay every recorded frontier and finish with undecoration:
-    python3 scripts/compare.py --replay --case cpp-undecorate --require-exit
+Normal native fixtures and cached entry replay (all eighteen cases):
+    make -j4 check
+    make -j4 replay
+Select one cached native fixture:
+    python3 scripts/check-native.py --trace --case cpp-undecorate
+    python3 scripts/check-native.py --trace --case omf-link
+Fixtures never invoke Wine, originals, PE helpers or automatic reference capture.
+Original-toolchain compilation and Win32 reference/diagnostic work are separate
+explicit operations; see the reference commands below.
 Measure accepted extents and partial native-body components:
     python3 scripts/measure-coverage.py
     python3 scripts/measure-components.py
 
-The harness masks the entire original code section and restores only accepted
+The explicit Win32 reference/diagnostic harness masks the original code section and restores only accepted
 function extents and encountered inline data. Unaccepted reconstruction functions
 and its entry are masked too. Each pair runs concurrently and must stop at the
 same logical function. Per-run Wine namespaces expose the matching masked tool
@@ -91,9 +93,9 @@ copy at its canonical original DOS path; other toolchain files resolve to
 untouched originals. argv[0], recursive verbose text and self-spawned LINK
 children remain exact. The debugger follows the full child tree with per-process
 image bases and loader breaks. Original CVPACK remains an external dependency.
-Focused reconstruction acceptance retains fresh paired execution. Ordinary
-historical segments now use continuous replay; specialized histories retain
-the existing runner. Original toolchain files are never modified.
+Focused reconstruction acceptance requires fresh original/native evidence.
+The retained Win32 diagnostic adapter uses continuous ordinary histories and
+specialized fresh histories when explicitly requested. Original toolchain files are never modified.
 
 Runtime members come from relocation-target-verified original LIBC objects.
 Older CRT differences, including text-mode ftell/fseek, are readable C in
@@ -114,10 +116,15 @@ paths and unclassified bytes mean 99% whole-binary coverage is not established.
 Shared fixtures remain immutable. Scratch/evidence/private Wine prefixes live
 under ~/.ai-tmp/vc1.0-link. New cases require the user's next selection.
 
-Fast historical replay
+Explicit Win32 reference diagnostics
 
-The default historical command now walks ordinary segments continuously:
-    make replay
+These commands deliberately use Wine and originals outside fixture execution.
+They are never prerequisites of normal check/replay. Original-toolchain build
+and static ABI/graph/data/boundary audits remain available explicitly:
+    make -j4 all audit
+    make -j4 check-reference
+The retained Win32 historical adapter walks ordinary segments continuously:
+    make -j4 replay-reference
     python3 scripts/compare.py --replay --case cpp-undecorate --require-exit
 The latter retains the old final comparator for the requested case. Ordinary
 segments still validate final streams, artifacts and generated programs using
@@ -127,8 +134,8 @@ checks first encounters, not repeated calls/branches or live-state equivalence.
 Select one segment, batch specialized histories or explicitly restart every
 historical frontier:
     python3 scripts/replay-frontiers.py --case minimal-c
-    make replay-specialized
-    make replay-fresh
+    make -j4 replay-specialized-reference
+    make -j4 replay-fresh-reference
     python3 scripts/compare.py --fresh-replay --case cpp-undecorate --require-exit
 
 replay-cases.json declares the initial migration: 510 frontiers in 12 ordinary
@@ -191,9 +198,10 @@ and DLL-load helpers. The native clock runs normally; only the timestamp fields
 already declared by the immutable fixture may differ. Pacific timezone settings
 match the captured NT CRT rendering, including daylight saving.
 
-The ordinary native set comprises help, archive create/list/extract/remove,
-trimmed listing, four dump phases, editor, OMF library/conversion link, C++
-undecoration and the minimal C link. Each phase starts independently with captured
+The native set comprises all eighteen existing cases: help, archive tools, dump
+and editor phases, OMF conversion/link, C++ undecoration, minimal C and all three
+GUI/DLL link fixtures. DLL self-spawn and the explicit CVPACK boundary are
+described below. Each phase starts independently with captured
 inputs. Fresh private working directories and timing receipts are written under
 ~/.ai-tmp/vc1.0-link/native-check-*. Receipts separate setup, native execution and
 output checks; build timing is labeled unmeasured unless separately recorded.
@@ -202,10 +210,12 @@ Produced executable bytes are checked but never executed by this runner.
 The uninstrumented output checker does not validate function entry order. The
 optional native entry checks below retain the canonical ABI/graph and paired-
 frontier audits as separate validation. Windows SEH fault
-paths, console-signal delivery and process-tree tests remain outside its scope.
-DLL import-library self-spawn, full-debug external CVPACK, GUI paint and DLL
-load/call/unload cases are not registered as native checks. The shim process
-boundary rejects PE dependencies instead of automatically running Wine.
+paths, console-signal delivery and arbitrary process-tree tests remain outside
+its scope; registered synchronous LINK selfchildren are supported below.
+DLL import-library children execute the native LINK ELF. Full-debug linking uses
+the explicit verified-input CVPACK response boundary below. Actual GUI paint and
+DLL load/call/unload remain separate Windows execution checks. Unknown external
+PE dependencies fail rather than automatically running Wine.
 
 cases/native-validation.json records the completed native adoption: all fifteen
 registered phases passed with exact captured streams/status and artifacts under
@@ -238,8 +248,9 @@ identities. All 581 application definitions, including unreconstructed stubs, ar
 in the filter; unmapped definitions fail rather than disappearing from a trace.
 The existing metadata classifies 640 accepted identities as 466 application,
 142 CRT and 32 import entries. No compiler-generated application thunk needed
-a special exclusion in this build. The 15 supported native phases check 365 new
-application entries; four zero-new phases require an empty new-entry transcript
+a special exclusion in this build. The initial 15 native phases checked 365 new application entries; the current
+18-case set checks all 466 accepted application entries. Four zero-new phases
+require an empty new-entry transcript
 and their existing concrete output/exit oracles. Earlier accepted app functions
 are seeded as seen, including prior specialized case acceptances.
 
@@ -251,7 +262,8 @@ This operation reads metadata/objects only. A divergence preserves trace.seen,
 trace.expected and trace.entries beside streams and receipt.json. An alternate
 --trace-cache path supports scratch expected-sequence diagnostics. First-entry
 segments do not compare repeated calls, earlier prefix order, callers or sampled
-states. Unsupported native process/SEH/GUI cases remain outside this registry.
+states. Unsupported external dependencies, Windows SEH and actual GUI execution remain
+outside these native checks; registered LINK selfchildren are handled below.
 
 cases/native-trace-validation.json records five matched before/after runs plus
 one disabled-tracer run, per-case component medians and raw receipt hashes. The
@@ -281,4 +293,61 @@ including CRT/imports), a fresh untouched-original output reference and generate
 PE execution where applicable. The new suite checks one ELF, cached app-only
 segments and captured outputs. This is a historical scope comparison, not a
 controlled cross-mode speedup. Two specialized DLL/CVPACK histories (182.604980s
-previously) remain excluded. No reconstruction, coverage or acceptance changed.
+previously) are excluded from that initial 15-case timing comparison. No reconstruction, coverage or acceptance changed.
+
+All eighteen native fixtures
+
+The current commands build/run all existing LINK cases, including hello-win32,
+hello-dll and hello-debug-dll:
+    make -j4 native-trace-check
+    make -j4 native-check
+    python3 scripts/check-native-boundary.py
+
+Both DLL fixtures dispatch their exact -lib command to the actual native ELF,
+preserving canonical Windows argv, relevant inherited environment, stdout/stderr
+and trace descriptors. An explicit self-spawn option maps the canonical logical
+LINK path to /proc/self/exe. A strict fixture broker validates the command and
+allows that native child; it rejects any unregistered dependency. Child-only
+application entries and independently generated import-library/export-object
+bytes provide the case-specific execution evidence. Parent and child map one
+613-byte seen-state file and append to the same name trace, matching the cached
+global first-encounter history without suppressing new child functions.
+
+The full-debug fixture reaches external CVPACK. Its test double verifies the
+exact captured invocation, relevant environment and complete 2MB prepack DLL,
+allowing only the existing 39 structural clock fields. The prepack checksum
+sentinel is compared unchanged. Only after that check does it apply independently
+captured packed bytes, transplant corresponding input clocks and recompute the
+dependent checksum. Final DLL/lib/exp/map bytes still pass the existing immutable
+fixture comparisons and checksum validation. Captured empty packer streams and
+status 0 are checked; a nonempty captured stream is rejected because this boundary
+does not replay streams. The real CVPACK implementation is not reconstructed.
+
+No trusted prepack bytes remained in the original fixture/scratch evidence. One
+explicitly coordinated original run captured them at the CVPACK process-create
+debug event, before its code ran, and captured the response at process exit. Its
+command, process tree, exit0 and empty child streams were recorded; all four final
+artifacts and exact root streams matched the existing frozen references.
+cases/native-boundaries/hello-debug-dll contains the pre/post data, events and
+pinned tool/helper provenance. This capture is separate from native regression
+execution; the runner has no original capture, Wine or reference-refresh path.
+
+cases/native-all-validation.json records the final single-sample 18-case run:
+all status/stream/artifact checks and 466 application first entries passed.
+External suite time was 1.149772s, including 0.085628s trace preflight; the internal
+case loop took 0.981600s. Summed setup/native execution/output-oracle/trace-check
+times were 0.183790/0.160448/0.624741/0.002718s, with remaining overhead recorded
+separately. CVPACK replay time is a subset of execution, not additional time.
+A focused uninstrumented run of the three added cases also passed (0.855197s
+external). Native final-link integration used make -j4; its 0.653580s measurement
+and earlier 0.786518s traced-link measurement are separate from suite timing.
+The necessary original boundary capture took 1.735003s, with helper build 2.208802s
+separate; later capture-reference validation was unmeasured. No repeated benchmark
+or new reconstruction/acceptance is claimed.
+
+The host-only boundary rejection command mutates a non-clock .text byte and sends
+a wrong CVPACK option in separate checks. Both reject before applying the packed
+response, and neither launches a process. Actual Windows GUI painting, DLL
+load/call/unload, SEH and console behavior retain their separate Windows evidence.
+The initial 15-case adoption and before/after timing receipts above remain
+historical records; current complete native evidence is native-all-validation.

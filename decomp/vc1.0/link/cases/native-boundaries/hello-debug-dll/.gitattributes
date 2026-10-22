@@ -1,0 +1,2 @@
+# Preserve the captured Win32 log bytes and their recorded hash.
+capture-events.jsonl -text whitespace=cr-at-eol

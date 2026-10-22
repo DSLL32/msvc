@@ -1,0 +1,99 @@
+{
+  "status": "passed",
+  "scope": "Shared native synchronous child execution, opt-in self routing, cross-exec first-entry state and explicit captured-response process boundary.",
+  "runs": [
+    {
+      "command": [
+        "make",
+        "-C",
+        "lib/recon",
+        "-B",
+        "-j4",
+        "check",
+        "trace-check",
+        "process-check",
+        "CC=clang"
+      ],
+      "exit_code": 0,
+      "build_and_checks_seconds": 0.8894024631008506,
+      "log": "/root/.ai-tmp/vc1.0-native-process/clang-complete.log",
+      "receipts": [
+        {
+          "status": "passed",
+          "checks": 18,
+          "seconds": 0.028153661638498306,
+          "receipt": "/root/.ai-tmp/vc1.0-native-trace/checks-za20u7cw/receipt.json",
+          "receipt_sha256": "70e34d8c9b8b90bb5685df5b54e77b7ae37f8d6d040a97df0db5567fb0f86467"
+        },
+        {
+          "status": "passed",
+          "checks": 8,
+          "seconds": 0.031366477720439434,
+          "receipt": "/root/.ai-tmp/vc1.0-native-process/checks-ohpgam7m/receipt.json",
+          "receipt_sha256": "edbe545dbc92716ff0940d297bf8985193b30ce4ba8dd2d1fd795e04c645886d"
+        }
+      ],
+      "log_sha256": "7ae7139d6142c51c9a16c25f0ca9682fe5e3d07cdb0e3f4343f435772ed39c24"
+    },
+    {
+      "command": [
+        "make",
+        "-C",
+        "lib/recon",
+        "-B",
+        "-j4",
+        "check",
+        "trace-check",
+        "process-check",
+        "CC=gcc"
+      ],
+      "exit_code": 0,
+      "build_and_checks_seconds": 0.7302381610497832,
+      "log": "/root/.ai-tmp/vc1.0-native-process/gcc-complete.log",
+      "receipts": [
+        {
+          "status": "passed",
+          "checks": 18,
+          "seconds": 0.030572992749512196,
+          "receipt": "/root/.ai-tmp/vc1.0-native-trace/checks-8ac5i998/receipt.json",
+          "receipt_sha256": "c4fdf88079f01565e8e2ba1270a7e528f5933dbf3e32a7ec10d66fb0db5fbfa7"
+        },
+        {
+          "status": "passed",
+          "checks": 8,
+          "seconds": 0.035438950173556805,
+          "receipt": "/root/.ai-tmp/vc1.0-native-process/checks-lzix7vlk/receipt.json",
+          "receipt_sha256": "3879b60c165acbd4e63f71ada07c22e6faed763d72311a5c3063b3b441d0a397"
+        }
+      ],
+      "log_sha256": "cbf1a710c8684d7dd17859b02d9cf0bb026a7f193e1ca4f1581a3adf7ed259bc"
+    }
+  ],
+  "raw_measurements": {
+    "path": "/root/.ai-tmp/vc1.0-native-process/shared-validation.json",
+    "sha256": "9b0c6a54fb421d0ad820b912269e3035dc600d5aa838e2c1f6f8dcdfecbfa3a8"
+  },
+  "source_sha256": {
+    "lib/recon/Makefile": "fee035edadf6aea42edbd96faf9770c224252713e27ad409145325c59e87a74d",
+    "lib/recon/src/crt.c": "dadcc27b73d900f7ef984013f8457d223faa64cc4f4ee3355dd2f0ee3c7b02d9",
+    "lib/recon/src/process.c": "432d839d240cc8919e3afbc696b56f401405f33e2dfc50affaa1e4a4332aa27a",
+    "lib/recon/src/trace.c": "bbfaa366feef344bddf96cda467eb022b8704f33222390511cd4a87b3e2cdd12",
+    "lib/recon/spawn.py": "4dcc01d2755a645a5f0651cf2db9fa66bdae1e1adf7c7b02f342070e39f88bd1",
+    "lib/recon/tests/check-process.py": "2693e56d08865ea0b4939bcdd22803938a40cb886de62069294cc84aaa847c09",
+    "lib/recon/tests/process-target.c": "bb202cb92871d4b3348296e45c7778d9beb9468aae605e51eb8e61f52c8b7d79"
+  },
+  "checks": [
+    "Real native synchronous self-exec preserves canonical Windows argv and environment",
+    "Independent child PID and file artifact prove child execution",
+    "Shared first-entry state across exec suppresses duplicates, unlike local state",
+    "Accepted prefix remains suppressed across parent and child",
+    "Explicit replay verifies invocation and input hash before applying file response and status",
+    "Wrong dependency request/input rejects target",
+    "Actual PE launch remains rejected without a fallback",
+    "Unset trace FD ignores invalid shared-state FD",
+    "Existing eighteen entry trace checks still pass per compiler"
+  ],
+  "timing_note": "Each command was timed around the full forced parallel build and all three shared checks. Individual trace/process receipt sums exclude some build/fixture preparation; they are not the command wall time. This does not include the LINK worker integration or one-time original CVPACK boundary capture.",
+  "link_evidence": "decomp/vc1.0/link/cases/native-all-validation.json",
+  "limits": "Single-thread synchronous same-program process tree. Mocked external tools require independently captured input/response; protocol currently replays status/file effects with empty child streams."
+}
