@@ -256,7 +256,29 @@
     "@operands_equal@8",
     "@finish_machine_instruction@8",
     "@select_directive@4",
-    "@emit_machine_directive@8"
+    "@emit_machine_directive@8",
+    "@select_value_register@4",
+    "@new_value_register@4",
+    "@select_constant@8",
+    "@operand_for_register@4",
+    "@bitset_include@8",
+    "_new_bitset",
+    "_new_bitset_node",
+    "@bitset_contains@8",
+    "@operand_changed_between@16",
+    "@machine_operand_bytes@8",
+    "@replace_machine_operand@16",
+    "@operand_replacement_allowed@16",
+    "@release_operand_address@4",
+    "@remove_machine_instruction@4",
+    "@release_machine_instruction@4",
+    "@simplify_branch@4",
+    "@branch_falls_through@4",
+    "@emit_label@4",
+    "_emit_saved_register_pops",
+    "@return_value_register@4",
+    "_finish_global_selection",
+    "_finish_function_selection"
   ],
   "driver": [
     {
@@ -1986,7 +2008,7 @@
       "provisional": true
     },
     {
-      "name": "@node_value_size@4",
+      "name": "@aligned_value_size@4",
       "start": 361584,
       "end": 361585,
       "provisional": true
@@ -2456,8 +2478,7 @@
     {
       "name": "@bitset_include@8",
       "start": 421104,
-      "end": 421105,
-      "provisional": true
+      "end": 421200
     },
     {
       "name": "@insert_tree_expression@12",
@@ -2542,14 +2563,12 @@
     {
       "name": "@operand_for_register@4",
       "start": 97792,
-      "end": 97793,
-      "provisional": true
+      "end": 97824
     },
     {
       "name": "@select_value_register@4",
       "start": 97824,
-      "end": 97825,
-      "provisional": true
+      "end": 103216
     },
     {
       "name": "@new_operand@16",
@@ -2610,20 +2629,17 @@
     {
       "name": "_finish_function_selection",
       "start": 103616,
-      "end": 103617,
-      "provisional": true
+      "end": 103680
     },
     {
       "name": "_finish_global_selection",
       "start": 103680,
-      "end": 103681,
-      "provisional": true
+      "end": 103696
     },
     {
       "name": "_emit_saved_register_pops",
       "start": 103696,
-      "end": 103697,
-      "provisional": true
+      "end": 103776
     },
     {
       "name": "_emit_saved_register_pushes",
@@ -2650,8 +2666,7 @@
     {
       "name": "@emit_label@4",
       "start": 104416,
-      "end": 104417,
-      "provisional": true
+      "end": 104448
     },
     {
       "name": "@select_assembly_record@4",
@@ -2662,8 +2677,7 @@
     {
       "name": "@return_value_register@4",
       "start": 158848,
-      "end": 158849,
-      "provisional": true
+      "end": 158976
     },
     {
       "name": "_new_internal_label",
@@ -2690,8 +2704,7 @@
     {
       "name": "@remove_machine_instruction@4",
       "start": 122208,
-      "end": 122209,
-      "provisional": true
+      "end": 122240
     },
     {
       "name": "@finish_block_registers@4",
@@ -2748,8 +2761,7 @@
     {
       "name": "@bitset_contains@8",
       "start": 421312,
-      "end": 421313,
-      "provisional": true
+      "end": 421408
     },
     {
       "name": "_new_machine_address",
@@ -2788,8 +2800,7 @@
     {
       "name": "@new_value_register@4",
       "start": 105616,
-      "end": 105617,
-      "provisional": true
+      "end": 105728
     },
     {
       "name": "@release_machine_address@4",
@@ -2812,8 +2823,7 @@
     {
       "name": "@operand_changed_between@16",
       "start": 137152,
-      "end": 137153,
-      "provisional": true
+      "end": 137312
     },
     {
       "name": "@narrow_result_safe@4",
@@ -2902,8 +2912,7 @@
     {
       "name": "@simplify_branch@4",
       "start": 140448,
-      "end": 140449,
-      "provisional": true
+      "end": 140896
     },
     {
       "name": "@clone_machine_record@4",
@@ -2914,8 +2923,7 @@
     {
       "name": "@replace_machine_operand@16",
       "start": 141120,
-      "end": 141121,
-      "provisional": true
+      "end": 141776
     },
     {
       "name": "@register_source_changed_between@12",
@@ -2926,8 +2934,7 @@
     {
       "name": "@machine_operand_bytes@8",
       "start": 218976,
-      "end": 218977,
-      "provisional": true
+      "end": 219200
     },
     {
       "name": "@byte_register_available@4",
@@ -2957,6 +2964,131 @@
       "start": 108880,
       "end": 108881,
       "provisional": true
+    },
+    {
+      "name": "@record_x87_node@4",
+      "start": 105328,
+      "end": 105329,
+      "provisional": true
+    },
+    {
+      "name": "@lookup_floating_opcode@8",
+      "start": 105408,
+      "end": 105409,
+      "provisional": true
+    },
+    {
+      "name": "@arrange_x87_left@4",
+      "start": 105472,
+      "end": 105473,
+      "provisional": true
+    },
+    {
+      "name": "@emit_register_barrier@8",
+      "start": 105520,
+      "end": 105521,
+      "provisional": true
+    },
+    {
+      "name": "@select_constant@8",
+      "start": 105728,
+      "end": 105856
+    },
+    {
+      "name": "@select_conditional_value@4",
+      "start": 105856,
+      "end": 105857,
+      "provisional": true
+    },
+    {
+      "name": "_mark_x87_call_result",
+      "start": 106896,
+      "end": 106897,
+      "provisional": true
+    },
+    {
+      "name": "@frame_temporary_operand@8",
+      "start": 106912,
+      "end": 106913,
+      "provisional": true
+    },
+    {
+      "name": "@immediate_operand@4",
+      "start": 106944,
+      "end": 106945,
+      "provisional": true
+    },
+    {
+      "name": "@symbol_operand@8",
+      "start": 106976,
+      "end": 106977,
+      "provisional": true
+    },
+    {
+      "name": "@spill_x87_for_node@4",
+      "start": 107072,
+      "end": 107073,
+      "provisional": true
+    },
+    {
+      "name": "@select_intrinsic@4",
+      "start": 111216,
+      "end": 111217,
+      "provisional": true
+    },
+    {
+      "name": "@allocate_stack_temporary@4",
+      "start": 361792,
+      "end": 361793,
+      "provisional": true
+    },
+    {
+      "name": "@symbol_display_name@4",
+      "start": 319488,
+      "end": 319489,
+      "provisional": true
+    },
+    {
+      "name": "@floating_constant_symbol@4",
+      "start": 160656,
+      "end": 160657,
+      "provisional": true
+    },
+    {
+      "name": "_new_bitset_node",
+      "start": 419216,
+      "end": 419280
+    },
+    {
+      "name": "_new_bitset",
+      "start": 419280,
+      "end": 419296
+    },
+    {
+      "name": "@instruction_modifies_operand@12",
+      "start": 145456,
+      "end": 145457,
+      "provisional": true
+    },
+    {
+      "name": "@operand_replacement_allowed@16",
+      "start": 142400,
+      "end": 142624
+    },
+    {
+      "name": "@release_operand_address@4",
+      "start": 142368,
+      "end": 142400
+    },
+    {
+      "name": "@release_machine_instruction@4",
+      "start": 107840,
+      "end": 107856
+    },
+    {
+      "name": "@branch_falls_through@4",
+      "start": 142048,
+      "end": 142112
     }
   ],
   "cases": {

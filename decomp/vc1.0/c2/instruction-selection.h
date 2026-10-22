@@ -10,7 +10,7 @@ extern unsigned selected_save_register_mask;
 extern unsigned call_clobbered_register_mask;
 enum MachineRegister { REG_EAX = 0, REG_ECX = 1, REG_EDX = 2,
     REG_ESP = 4, REG_EBP = 5, REG_ST0 = 14 };
-enum OperandKind { OPERAND_REGISTER = 1, OPERAND_IMMEDIATE = 2,
+enum OperandKind { OPERAND_REGISTER = 1, OPERAND_IMMEDIATE = 2, OPERAND_ABSOLUTE = 3,
     OPERAND_BASED = 4, OPERAND_INDEXED = 5, OPERAND_LABEL_ADDRESS = 6, OPERAND_SYMBOL = 8,
     OPERAND_FRAME_SIZE = 9 };
 typedef struct OpcodeMap { unsigned tree_opcode, selection; } OpcodeMap;
@@ -61,4 +61,5 @@ MachineAddress *new_machine_address(void);
 void __fastcall emit_machine_directive(short code, short value);
 void __fastcall emit_register_lifetime(unsigned short reg, unsigned type, int begin, unsigned flags);
 void __fastcall append_embedded_record(Node *node);
+void __fastcall release_machine_instruction(MachineInstruction *instruction);
 #endif

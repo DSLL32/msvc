@@ -3,16 +3,16 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 252,
-  "reconstructed_functions": 191,
+  "accepted_frontiers": 274,
+  "reconstructed_functions": 213,
   "current_frontier": {
-    "name": "@select_value_register@4",
-    "original_va": 97824
+    "name": "@instruction_has_side_effects@4",
+    "original_va": 145008
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 252 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "191 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 274 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "213 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000",
     "182 expression recipes, 47 control recipes and 182 semantic tree shapes match original classifications",
     "five encountered scalar initializers match original .data values",
@@ -37,7 +37,13 @@
     "thirty-one directive dispatch entries retain signed control-word selection and existing CodeView option identity",
     "prologue and initializer share native 0x7c950 save mask 0xc8, preserving EBX/ESI/EDI saves",
     "independent debugger comparison: all 15 selected machine records match at value-selector entry, including six prologue operations",
-    "instruction rewrite source compiles with original /W3 without warnings"
+    "instruction rewrite source compiles with original /W3 without warnings",
+    "full 1441-instruction value selector retains its 32-callee graph and both complete dispatch extents",
+    "seven floating opcode rows and ST(1) operand match original typed values",
+    "BitSet original-compiler sizeof assertion passes (12 bytes); all 32 member masks equal ordinary shifts",
+    "operand replacement and branch simplification preserve their original direct and tail-call graph",
+    "integer return-zero selection, temporary folding and epilogue construction reach instruction side-effect analysis",
+    "independent debugger comparison: all 32 selected machine records match at side-effect-analysis entry, including register sets, label identity/references and epilogue"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"

@@ -31,4 +31,9 @@ int __fastcall register_source_changed_between(MachineInstruction *first, Machin
 unsigned __fastcall machine_operand_bytes(MachineInstruction *instruction, int index);
 unsigned __fastcall byte_register_available(unsigned short reg);
 void __fastcall adjust_machine_symbol_references(MachineInstruction *instruction, int delta);
+int __fastcall instruction_modifies_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes);
+int __fastcall operand_replacement_allowed(MachineInstruction *instruction, unsigned index,
+    MachineOperand *operand, unsigned char apply);
+void __fastcall release_operand_address(MachineOperand *operand);
+int __fastcall branch_falls_through(MachineInstruction *instruction);
 #endif

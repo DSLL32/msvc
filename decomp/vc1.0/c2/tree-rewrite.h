@@ -53,7 +53,7 @@ Node *__fastcall lift_left_sequence(Node *node);
 Node *__fastcall lift_right_sequence(Node *node);
 Node *__fastcall canonicalize_conditional(Node *node);
 Node *__fastcall integer_node(unsigned value, unsigned type);
-unsigned __fastcall node_value_size(Node *node);
+unsigned __fastcall aligned_value_size(Node *node);
 int __fastcall trees_equal(Node *left, Node *right, int flags);
 Node *__fastcall lower_intrinsic(Node *node, Node *parent);
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention);

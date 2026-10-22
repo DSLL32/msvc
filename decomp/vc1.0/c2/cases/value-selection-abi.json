@@ -1,0 +1,83 @@
+{
+  "target": "C23232.EXE",
+  "value_selector": {
+    "entry_va": "0x17e20",
+    "extent_end_va": "0x19330",
+    "signature": "unsigned short __fastcall select_value_register(Node *node)",
+    "reachable_instructions": 1441,
+    "callee_edges": 32,
+    "text_tables": [
+      {
+        "start": "0x1921c",
+        "entries": 13,
+        "end": "0x19250"
+      },
+      {
+        "start": "0x19250",
+        "entries": 56,
+        "end": "0x19330"
+      }
+    ],
+    "coverage": "full body reconstructed in ordinary C; unreconstructed callees retain typed trapping stubs"
+  },
+  "temporary_register_allocator": {
+    "entry_va": "0x19c90",
+    "extent_end_va": "0x19d00",
+    "counter_va": "0x8000c",
+    "counter_type": "unsigned short",
+    "wide_result": "two adjacent temporary registers when low-byte type width exceeds four",
+    "x87_result": "fixed register ID 14 for type bits 0x3000"
+  },
+  "constant_selector": {
+    "entry_va": "0x19d00",
+    "extent_end_va": "0x19d80",
+    "integer": "immediate move to selected register",
+    "floating": "constant-pool symbol and FLD; pool helper remains trapped"
+  },
+  "bitsets": {
+    "layout_bytes": 12,
+    "fields": [
+      "next pointer",
+      "signed aligned base",
+      "32 member bits"
+    ],
+    "sentinel_base": -1,
+    "free_nodes_va": "0x7b994",
+    "arena": 6,
+    "allocation_va": "0x66590",
+    "head_va": "0x665d0",
+    "insertion_va": "0x66cf0",
+    "membership_va": "0x66dc0",
+    "mask_validation": "all 32 original masks at 0x84eb8 equal 1U << bit"
+  },
+  "replacement_helpers": {
+    "width_va": "0x35760",
+    "replacement_va": "0x22740",
+    "general_check_va": "0x22c40",
+    "release_operand_va": "0x22c20",
+    "availability_va": "0x217c0",
+    "branch_va": "0x224a0",
+    "fallthrough_va": "0x22ae0",
+    "branch_condition_validation": "all 256 condition-pair results expressed from original 16-row implication relation at 0x82c38"
+  },
+  "shared_state": {
+    "extended_one": "original 0x7bf90, existing initialize.c definition",
+    "argument_alignment": "original 0x806cc, existing default_segment_alignment",
+    "save_mask": "original 0x7c950, existing selected_save_register_mask"
+  },
+  "validation_limits": [
+    "paired execution exercises scalar return-zero value selection and its redundant temporary elimination",
+    "full graph audit verifies callee identities, not arithmetic correctness on every branch",
+    "floating, argument passing, conversions and helper diagnostics remain dynamically unvalidated",
+    "general register allocation and complete COFF output are not yet reached",
+    "hello-win32 remains queued after minimal-C"
+  ],
+  "selected_stream_validation": {
+    "frontier": "instruction_has_side_effects at 0x23670",
+    "linked_records": 32,
+    "comparison": "all opcode and operand values, source markers, both complete register-set chunk lists, label identity/reference count and epilogue agree",
+    "normalization": "linked record addresses by index, function/filename names by string, symbol references by defining label record, bitset pointers by full chunk contents",
+    "method": "independent original-toolchain debugger ReadProcessMemory; scratch-only raw captures and comparison",
+    "limit": "stopped before machine lowering and COFF emission"
+  }
+}

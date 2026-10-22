@@ -2,11 +2,10 @@
 #define WORK_PREPARE_H
 #include "functions.h"
 #include "machine.h"
+#include "bitsets.h"
 void __fastcall prepare_parameter_storage(WorkItem *work);
 void __fastcall lower_assignment(Node *node);
 void __fastcall lower_expression_stack(WorkItem *work, Expression *expression, Node *node);
-BitSet *__fastcall bitset_include(BitSet *set, unsigned member);
-int __fastcall bitset_contains(BitSet *set, unsigned member);
 extern BitSet *spilled_parameter_registers;
 extern int tree_uses_floating;
 Node *__fastcall lower_machine_tree(Node *node);

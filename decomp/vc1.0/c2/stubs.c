@@ -57,7 +57,7 @@ Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
 Node *__fastcall canonicalize_conditional(Node *node) { __asm int 3 }
 Node *__fastcall integer_node(unsigned value, unsigned type) { __asm int 3 }
-unsigned __fastcall node_value_size(Node *node) { __asm int 3 }
+unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
 int __fastcall trees_equal(Node *left, Node *right, int flags) { __asm int 3 }
 Node *__fastcall lower_intrinsic(Node *node, Node *parent) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
@@ -143,7 +143,6 @@ void __fastcall optimize_function_flow(Function *function) { __asm int 3 }
 WorkItem *__fastcall build_global_work(void *expressions) { __asm int 3 }
 void optimize_work(void) { __asm int 3 }
 #include "work-prepare.h"
-BitSet *__fastcall bitset_include(BitSet *set, unsigned member) { __asm int 3 }
 Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree) { __asm int 3 }
 void __fastcall lower_assignment(Node *node) { __asm int 3 }
 void __fastcall lower_expression_stack(WorkItem *work, Expression *expression, Node *node) { __asm int 3 }
@@ -269,43 +268,31 @@ void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int
 
 long ftell(FILE *stream) { __asm int 3 }
 
-MachineOperand *__fastcall operand_for_register(unsigned short reg) { __asm int 3 }
-unsigned short __fastcall select_value_register(Node *node) { __asm int 3 }
 MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm int 3 }
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
 MachineOperand *__fastcall select_lvalue_operand(Node *node) { __asm int 3 }
 void __fastcall select_condition(Node *node) { __asm int 3 }
 int __fastcall try_select_assignment(Node *node) { __asm int 3 }
 unsigned __fastcall lookup_opcode(const OpcodeMap *map, unsigned opcode) { __asm int 3 }
-void finish_function_selection(void) { __asm int 3 }
-void finish_global_selection(void) { __asm int 3 }
-void emit_saved_register_pops(void) { __asm int 3 }
 MachineInstruction *__fastcall emit_call(unsigned type, MachineOperand *target,
     unsigned info0, unsigned info1, unsigned info2) { __asm int 3 }
 void emit_float_return(void) { __asm int 3 }
-void __fastcall emit_label(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall select_assembly_record(Node *node) { __asm int 3 }
-unsigned __fastcall return_value_register(FunctionSymbol *symbol) { __asm int 3 }
 LabelSymbol *new_internal_label(void) { __asm int 3 }
 MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall remove_machine_instruction(MachineInstruction *instruction) { __asm int 3 }
 
 #include "register-use.h"
 unsigned __fastcall register_definition_width(MachineInstruction *instruction, short reg, unsigned *byte_lane) { __asm int 3 }
 unsigned __fastcall implicit_register_mask(MachineInstruction *instruction, int mode) { __asm int 3 }
-int __fastcall bitset_contains(BitSet *set, unsigned member) { __asm int 3 }
 MachineAddress *new_machine_address(void) { __asm int 3 }
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 int __fastcall register_storage_bytes(unsigned short reg) { __asm int 3 }
 int __fastcall instruction_has_side_effects(MachineInstruction *instruction) { __asm int 3 }
 
 #include "instruction-rewrite.h"
-unsigned short __fastcall new_value_register(unsigned short type) { __asm int 3 }
 void __fastcall release_machine_address(MachineAddress *address) { __asm int 3 }
 MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous, MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_replacement_blocked(MachineInstruction *user, unsigned unused_edx, unsigned reg) { __asm int 3 }
-int __fastcall operand_changed_between(MachineInstruction *first, MachineInstruction *last,
-    MachineOperand *operand, unsigned bytes) { __asm int 3 }
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall find_flags_use(MachineInstruction *instruction) { __asm int 3 }
@@ -320,13 +307,27 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 int __fastcall address_changed_between(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand) { __asm int 3 }
 int __fastcall register_mentioned_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
 int __fastcall fold_lea_address(MachineInstruction *instruction, MachineOperand *operand, int apply) { __asm int 3 }
-MachineInstruction *__fastcall simplify_branch(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall clone_machine_record(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall replace_machine_operand(MachineInstruction *instruction, unsigned index,
-    MachineOperand *operand, unsigned char apply) { __asm int 3 }
 int __fastcall register_source_changed_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
-unsigned __fastcall machine_operand_bytes(MachineInstruction *instruction, int index) { __asm int 3 }
 unsigned __fastcall byte_register_available(unsigned short reg) { __asm int 3 }
 void __fastcall adjust_machine_symbol_references(MachineInstruction *instruction, int delta) { __asm int 3 }
 void __fastcall emit_register_lifetime(unsigned short reg, unsigned type, int begin, unsigned flags) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
+
+#include "value-selection.h"
+void __fastcall record_x87_node(Node *node) { __asm int 3 }
+unsigned __fastcall lookup_floating_opcode(unsigned opcode, const FloatingOpcode *map) { __asm int 3 }
+void __fastcall arrange_x87_left(Node *node) { __asm int 3 }
+MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
+unsigned short __fastcall select_conditional_value(Node *node) { __asm int 3 }
+void mark_x87_call_result(void) { __asm int 3 }
+MachineOperand *__fastcall frame_temporary_operand(SymbolHeader *temporary, unsigned offset) { __asm int 3 }
+MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
+MachineOperand *__fastcall symbol_operand(Node *reference, int indirect) { __asm int 3 }
+void __fastcall spill_x87_for_node(Node *node) { __asm int 3 }
+unsigned short __fastcall select_intrinsic(Node *node) { __asm int 3 }
+SymbolHeader *__fastcall allocate_stack_temporary(unsigned bytes) { __asm int 3 }
+char *__fastcall symbol_display_name(SymbolHeader *symbol) { __asm int 3 }
+SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
+int __fastcall instruction_modifies_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes) { __asm int 3 }
+#include "bitsets.h"

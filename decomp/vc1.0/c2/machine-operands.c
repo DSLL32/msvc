@@ -1,6 +1,26 @@
 #include "instruction-selection.h"
 #include "register-use.h"
+#include "instruction-rewrite.h"
+#include "options.h"
 static MachineOperand temporary_operands[100]; /* 0007cb28 */
+/* Original [00017e00,00017e20). Each reference receives its own temporary
+   operand so later per-use annotations do not alter the shared register data. */
+MachineOperand *__fastcall operand_for_register(unsigned short reg)
+{
+    return new_operand(OPERAND_REGISTER, reg, 0, 0);
+}
+/* Original [00019c90,00019d00). Wide integer values reserve two adjacent
+   temporary registers; values held by the x87 stack use its fixed ST(0) ID. */
+unsigned short __fastcall new_value_register(unsigned short type)
+{
+    unsigned short result;
+    if (type & 0x3000) return REG_ST0;
+    result = next_machine_register | 0x8000;
+    next_machine_register = (unsigned short)(next_machine_register + ((type & 255) > 4 ? 2 : 1));
+    if ((int)next_machine_register - 1 >= 0x4000)
+        compiler_report(0x35, symbol_display_name(&current_symbol->symbol));
+    return result;
+}
 /* Original [000219d0,00021aa0), including the eight-way operand-kind table.
    Compare only addressing identity, leaving analysis flags out of equality.
    Indexed addressing additionally carries its scale in flag bits 8 and 9. */
@@ -76,4 +96,13 @@ MachineOperand *__fastcall new_operand(unsigned kind, unsigned short reg,
     operand = &temporary_operands[temporary_operand_count++];
     initialize_operand(operand, kind, reg, displacement, symbol);
     return operand;
+}
+
+/* Original [00022c20,00022c40). Address payloads are shared by the memory,
+   symbolic-address and reserved address operand forms (kind 12). */
+void __fastcall release_operand_address(MachineOperand *operand)
+{
+    unsigned kind = operand->flags & 15;
+    if ((kind >= 3 && kind <= 7) || kind == 12)
+        release_machine_address(operand->value.address);
 }

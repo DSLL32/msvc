@@ -42,3 +42,54 @@ void emit_saved_register_pushes(void)
         }
     }
 }
+
+/* Original [00019510,00019560). Restore the selected save set in the
+   reverse order of its prologue pushes. */
+void emit_saved_register_pops(void)
+{
+    int reg;
+    MachineOperand *operand;
+    for (reg = 7; reg >= 0; --reg) {
+        if (selected_save_register_mask & (1U << reg)) {
+            operand = new_operand(OPERAND_REGISTER, (unsigned short)reg, 0, (SymbolHeader *)0);
+            emit_machine_operation(MC_EPOP, 0x104, operand);
+        }
+    }
+}
+
+/* Original [00026c80,00026d00), including the return-class table.
+   Scalar integer/address results use EAX; floating results use ST(0). */
+unsigned __fastcall return_value_register(FunctionSymbol *symbol)
+{
+    switch (symbol->field24 & 15) {
+    case 0: case 7: return 0xffffffffU;
+    case 1: case 2: case 3: case 6: case 8: case 9: return REG_EAX;
+    case 5: return REG_ST0;
+    default:
+        compiler_internal_error("@(#)MDmisc.c:1.87", 0x228);
+        return 0;
+    }
+}
+
+/* Original [00019500,00019510). Kind 3 terminates the function stream. */
+void finish_global_selection(void)
+{
+    append_machine_instruction(3);
+}
+
+/* Original [000194c0,00019500). Close any deferred stream with a block
+   marker and link it back to the global selection header. */
+void finish_function_selection(void)
+{
+    MachineBlockHeader *block;
+    if (deferred_tail) {
+        block = (MachineBlockHeader *)new_machine_instruction(7);
+        block->definitions = selection_anchor;
+        block->uses = selection_anchor;
+        deferred_tail->next = (MachineInstruction *)block;
+        block->previous = deferred_tail;
+        deferred_tail = (MachineInstruction *)block;
+        selection_global_header->previous = (MachineInstruction *)block;
+        block->next = (MachineInstruction *)selection_global_header;
+    }
+}

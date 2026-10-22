@@ -124,3 +124,29 @@ MachineInstruction *__cdecl new_machine_record(unsigned kind, ...)
     va_end(arguments);
     return instruction;
 }
+
+/* Original [0001dd60,0001dd80). The selected stream has sentinel records
+   on both sides of an instruction eligible for removal. */
+void __fastcall remove_machine_instruction(MachineInstruction *instruction)
+{
+    instruction->previous->next = instruction->next;
+    instruction->next->previous = instruction->previous;
+    release_machine_instruction(instruction);
+}
+
+/* Original [0001a540,0001a550). Recycling retains the record's other words;
+   the allocator clears the complete record when it is reused. */
+void __fastcall release_machine_instruction(MachineInstruction *instruction)
+{
+    instruction->next = free_machine_instructions;
+    free_machine_instructions = instruction;
+}
+
+/* Original [000197e0,00019800). Labels retain their machine-stream position
+   for subsequent branch redirection. */
+void __fastcall emit_label(SymbolHeader *symbol)
+{
+    MachineInstruction *instruction = append_machine_instruction(1);
+    instruction->record.symbol = symbol;
+    ((LabelSymbol *)symbol)->instruction = instruction;
+}

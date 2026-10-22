@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-select_value_register, original VA 00017e20. Object generation is incomplete. No completed C2 output-equivalence claim is made.
+instruction_has_side_effects, original VA 00023670. Object generation is incomplete. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -91,8 +91,8 @@ the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 191 reconstructed source functions and 252 recorded
-matching trap frontiers. All 252 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 213 reconstructed source functions and 274 recorded
+matching trap frontiers. All 274 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -158,8 +158,8 @@ typed union: the original permitted boundary word aliases the cursor at
 Work preparation now includes parameter storage, target-tree lowering and block
 selection. instruction-selection.c drives machine generation; machine-records.c
 constructs the typed instruction and block variants. The case passes generate_work
-and passes statement selection and prologue construction and machine-instruction finishing before stopping at
-select_value_register, the value-expression selector at 00017e20.
+and passes statement selection, value selection, return-zero folding, and
+epilogue construction before reaching instruction side-effect analysis.
 MachineInstruction and MachineBlockHeader are 32-byte tagged layouts; WorkItem's
 body changes from an expression list to a selected block. Its use/definition
 fields are register sets. Original-compiler size assertions cover these layouts,
@@ -198,9 +198,30 @@ default_segment_alignment value, distinct from code/section alignment at
 and extended_one at 0007bf90. These identities are documented to keep later
 passes from introducing duplicate state.
 
-An independent debugger comparison at the current frontier confirms all fifteen
+An independent debugger comparison at the earlier value-selector frontier confirms all fifteen
 selected machine records, including the six prologue operations, agree between
 both stopped processes. Only symbol/filename pointer addresses and use-link
 addresses are normalized; referenced strings and record indices must agree.
 This validates the saved-register mask in actual intermediate output. It does
 not establish complete object equivalence or exercise the arithmetic rewrites.
+
+value-selection.c implements the complete 1,441-instruction value selector,
+including arithmetic, calls, conversions, constants and x87 selection. Its
+32 callee edges and two dispatch-table extents match the original. The seven
+floating-arithmetic map rows retain only contextual operator names and pop-form
+operations. Operand width/replacement rules and branch simplification live in
+instruction-uses.c. BitSet is a 12-byte sorted chunk list with a head sentinel;
+bitsets.c reconstructs allocation, insertion and membership. Its 32 single-bit
+masks are expressed as shifts. Function selection now constructs labels,
+restores saved registers, selects the return register and closes both streams.
+See cases/value-selection-abi.json for evidence and dynamic limits. The minimal
+case exercises integer return-zero selection and folding. Other value-selector
+branches still lead to named helper traps; floating arithmetic, calls, error
+paths and general register allocation are not validated by this checkpoint.
+
+A second independent stopped-process comparison at instruction_has_side_effects
+checks all 32 selected records, including the return-zero MOV, register-set
+chunks, label identity/reference count, and epilogue. Linked-list addresses and
+symbol identities are normalized by record index or referenced name; register
+sets are compared by their complete base/bit chunks. Both streams agree. This
+still precedes machine lowering and object emission.

@@ -123,7 +123,7 @@ Node *__fastcall canonicalize_after_children(Node *node, Node *parent)
         type = node->attributes.words.type;
         bytes = type == 0x8000 ? node->info.value : type & 255;
         if (!needs_return_temp(node->detail.control.code, node_type_kind(type), bytes)) break;
-        bytes = node_value_size(node);
+        bytes = aligned_value_size(node);
         argument = build_tree("PNt", new_storage_reference(bytes), 0x55, 0x404);
         link = &node->second.node;
         while ((*link)->opcode != 0x4c) link = &(*link)->second.node;

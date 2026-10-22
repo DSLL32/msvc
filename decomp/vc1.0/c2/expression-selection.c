@@ -20,19 +20,19 @@ enum BranchCondition { COND_B = 2, COND_AE, COND_E, COND_NE,
 /* Tree operators mapped to arithmetic operations and false-branch conditions.
    The original end rows are -1, although lookup_opcode tests for 255. Keep
    that distinction; valid selection paths request a key present in the map. */
-static const OpcodeMap signed_arithmetic_ops[] = { /* 00080060 */
+const OpcodeMap signed_arithmetic_ops[] = { /* 00080060 */
     {2, MC_ADD}, {3, MC_SUB}, {0xd, MC_XOR}, {0xb, MC_AND}, {0xc, MC_OR},
     {8, MC_NEG}, {0xe, MC_NOT}, {4, MC_IMUL2}, {5, MC_IDIV}, {6, MC_IDIV},
     {9, MC_SHL}, {0xa, MC_SAR}, {0xad, MC_ROL}, {0xac, MC_ROR}, {~0U, 0}
 };
-static const OpcodeMap unsigned_shift_ops[] = { /* 000800d8 */
+const OpcodeMap unsigned_shift_ops[] = { /* 000800d8 */
     {9, MC_SHL}, {0xa, MC_SHR}, {0xad, MC_ROL}, {0xac, MC_ROR}, {~0U, 0}
 };
-static const OpcodeMap signed_false_conditions[] = { /* 00080100 */
+const OpcodeMap signed_false_conditions[] = { /* 00080100 */
     {0x1f, COND_NE}, {0x20, COND_E}, {0x22, COND_GE}, {0x24, COND_LE},
     {0x21, COND_G}, {0x23, COND_L}, {~0U, 0}
 };
-static const OpcodeMap unsigned_false_conditions[] = { /* 00080138 */
+const OpcodeMap unsigned_false_conditions[] = { /* 00080138 */
     {0x1f, COND_NE}, {0x20, COND_E}, {0x22, COND_AE}, {0x24, COND_BE},
     {0x21, COND_A}, {0x23, COND_B}, {~0U, 0}
 };
