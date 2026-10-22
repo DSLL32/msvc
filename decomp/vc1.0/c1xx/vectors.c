@@ -76,3 +76,9 @@ void __stdcall reset_work_stack(WorkingStack *stack)
     stack->count = 0;
     stack->next = stack->storage;
 }
+
+/* Original 0x4e800..0x4e80e. An empty arena vector keeps its own factory ABI. */
+Vector *__stdcall new_empty_vector(int arena)
+{
+    return new_vector(0, arena);
+}

@@ -39,6 +39,17 @@ typedef char VirtualEntrySizeMustBe16[(sizeof(VirtualEntry) == 16) ? 1 : -1];
 typedef char VirtualTableCountOffsetMustBe16[(offsetof(VirtualTable, entry_count) == 16) ? 1 : -1];
 typedef char VirtualTableEntriesOffsetMustBe24[(offsetof(VirtualTable, entries) == 24) ? 1 : -1];
 typedef char VirtualTableGroupTablesOffsetMustBe20[(offsetof(VirtualTableGroup, tables) == 20) ? 1 : -1];
+/* The final four class-info bytes pack availability/access/ambiguity bits
+   for special members, followed by copy/assignment cv qualification. */
+typedef struct ClassSpecialFields {
+    unsigned char available, nonprivate, ambiguous, qualifiers;
+} ClassSpecialFields;
+typedef union ClassSpecialTraits {
+    unsigned word;
+    ClassSpecialFields parts;
+    unsigned char bytes[4];
+} ClassSpecialTraits;
+typedef char ClassSpecialTraitsSizeMustBe4[(sizeof(ClassSpecialTraits) == 4) ? 1 : -1];
 typedef struct ClassInfo {
     unsigned size, nonvirtual_size;
     Vector *virtual_tables;
@@ -52,8 +63,8 @@ typedef struct ClassInfo {
     unsigned field2c;
     unsigned short debug_index;
     unsigned char alignment_flags, flags, flags2, inheritance_model;
-    unsigned char field36, implicit_member_requirements;
-    unsigned field38;
+    unsigned char trivial_special_members, implicit_member_requirements;
+    ClassSpecialTraits special_members;
 } ClassInfo;
 
 typedef char ClassInfoVirtualTablesOffsetMustBe8[(offsetof(ClassInfo, virtual_tables) == 8) ? 1 : -1];
@@ -61,6 +72,8 @@ typedef char ClassInfoVirtualBaseTablesOffsetMustBe12[(offsetof(ClassInfo, virtu
 typedef char ClassInfoConversionTypesOffsetMustBe24[(offsetof(ClassInfo, conversion_types) == 24) ? 1 : -1];
 typedef char ClassInfoAmbiguousConversionsOffsetMustBe28[(offsetof(ClassInfo, ambiguous_conversion_types) == 28) ? 1 : -1];
 typedef char ClassInfoVirtualGroupsOffsetMustBe16[(offsetof(ClassInfo, virtual_table_groups) == 16) ? 1 : -1];
+
+typedef char ClassInfoSpecialTraitsOffsetMustBe56[(offsetof(ClassInfo, special_members) == 56) ? 1 : -1];
 
 typedef union CppSymbolState {
     unsigned flags;

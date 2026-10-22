@@ -304,7 +304,19 @@
     "_release_inline_vector",
     "_release_permanent@8",
     "_prepare_class_virtual_tables@4",
-    "_initialize_class_virtual_tables@4"
+    "_initialize_class_virtual_tables@4",
+    "_new_empty_vector@4",
+    "_build_class_virtual_tables@4",
+    "_has_new_virtual_members@4",
+    "_finish_nonvirtual_class_size@4",
+    "_declare_implicit_special_members@4",
+    "_special_member_model@4",
+    "_inherit_base_special_members@12",
+    "_inherit_field_special_members@12",
+    "_class_type_of_member@4",
+    "_is_const_or_reference_member@4",
+    "_inspect_declared_special_members@16",
+    "_complete_special_member@28"
   ],
   "driver": [
     {
@@ -2902,7 +2914,7 @@
     {
       "name": "_class_type_of_member@4",
       "start": 188656,
-      "end": 188657
+      "end": 188725
     },
     {
       "name": "_layout_data_member@4",
@@ -3172,7 +3184,7 @@
     {
       "name": "_declare_implicit_special_members@4",
       "start": 223120,
-      "end": 223121
+      "end": 223592
     },
     {
       "name": "_finalize_class_virtual_tables@4",
@@ -3282,12 +3294,92 @@
     {
       "name": "_build_class_virtual_tables@4",
       "start": 496096,
-      "end": 496097
+      "end": 496373
     },
     {
       "name": "_new_empty_vector@4",
       "start": 321536,
-      "end": 321537
+      "end": 321551
+    },
+    {
+      "name": "_inherit_base_virtual_tables@12",
+      "start": 496912,
+      "end": 496913
+    },
+    {
+      "name": "_has_new_virtual_members@4",
+      "start": 497136,
+      "end": 497299
+    },
+    {
+      "name": "_create_virtual_pointer@8",
+      "start": 498016,
+      "end": 498017
+    },
+    {
+      "name": "_new_virtual_table@16",
+      "start": 493904,
+      "end": 493905
+    },
+    {
+      "name": "_build_virtual_base_table@8",
+      "start": 495040,
+      "end": 495041
+    },
+    {
+      "name": "_finish_nonvirtual_class_size@4",
+      "start": 498864,
+      "end": 498945
+    },
+    {
+      "name": "_special_member_model@4",
+      "start": 225344,
+      "end": 225381
+    },
+    {
+      "name": "_inherit_base_special_members@12",
+      "start": 224576,
+      "end": 224698
+    },
+    {
+      "name": "_inherit_field_special_members@12",
+      "start": 224704,
+      "end": 224913
+    },
+    {
+      "name": "_inspect_declared_special_members@16",
+      "start": 223968,
+      "end": 224449
+    },
+    {
+      "name": "_complete_special_member@28",
+      "start": 223600,
+      "end": 223964
+    },
+    {
+      "name": "_find_special_member_model@12",
+      "start": 228368,
+      "end": 228369
+    },
+    {
+      "name": "_merge_subobject_special_members@16",
+      "start": 224992,
+      "end": 224993
+    },
+    {
+      "name": "_is_const_or_reference_member@4",
+      "start": 224928,
+      "end": 224977
+    },
+    {
+      "name": "_record_special_member@24",
+      "start": 224464,
+      "end": 224465
+    },
+    {
+      "name": "_create_implicit_special_member@20",
+      "start": 226512,
+      "end": 226513
     }
   ],
   "cases": {

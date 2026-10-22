@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 300 accepted paired frontiers, including 225 frontend
+PARTIAL reconstruction: 312 accepted paired frontiers, including 237 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _new_empty_vector@4 at original VA 0x4e800. The latest ordered replay is recorded in validation.json;
+trap is _create_implicit_special_member@20 at original VA 0x374d0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -442,3 +442,41 @@ All 300 accepted frontiers replay exactly in evidence/replay-class-completion-se
 including pending FILE buffers. The matched next trap is new_empty_vector at
 0x4e800. Accepted source/table ranges now cover 97,828 original .text bytes;
 this remains partial extent coverage, not executed-block or complete-case coverage.
+
+Virtual-table construction retains all seven direct callees, including base
+inheritance, vfptr/vbptr creation and their distinct table builders. The virtual
+member test preserves overload traversal and its override-query edge. Closing
+the nonvirtual size retains pending bit-field-unit rounding before the existing
+alignment function and stores the result separately from complete-object size.
+
+The implicit special-member driver uses four 28-byte local state records.
+Their word view retains native indexed prefix accesses when an associated-this
+model is -1. Its named fields and qualifier offset are checked using the original
+compiler. Base and field passes preserve their subobject-helper edges, visible
+member filters and the native replacement (rather than accumulation) of class
+flag bit three. Class-valued member recognition, const qualification and direct
+reference checks remain separate functions.
+
+Native callsites at 0x3685c..0x368c1 pass seven stack slots to the completion
+helper, which returns with RET 28 at 0x369c7, 0x36a49, 0x36abf and 0x36ad9.
+The last argument is an unused count in this build, despite being omitted by the
+decompiler; the reconstruction's typed declaration/stub retains it. Diagnostics
+also retain their native class-kind/name or class-name argument lists.
+
+The declaration-inspection pass retains overload order, constructor/assignment
+counts and both child calls. Explicit member access values identify the flag
+as nonprivate (access 1 is private), correcting its earlier provisional name.
+ClassInfo's final word now has one canonical trait union for presence,
+nonprivate access, ambiguity and cv qualification. Its byte view explicitly
+retains the model -1 qualifier access to the preceding ambiguity byte.
+
+Special-member completion preserves seven stack slots, its unused final count,
+all declared/trivial/nontrivial/disabled/unavailable branches, class-name warning
+arguments and the implicit-creator edge. The complete ClassInfo byte view keeps
+indexed trait-prefix accesses within the owning object. Native checks establish
+the 60-byte class-info size and final trait word at offset 56.
+
+All 312 accepted frontiers replay exactly in evidence/replay-special-member-classification.log,
+including pending FILE buffers. The matched next trap is implicit-member creation
+at 0x374d0 (copy constructor for this case). Accepted source/table ranges total
+100,167 original text bytes; complete-case equivalence is still unclaimed.

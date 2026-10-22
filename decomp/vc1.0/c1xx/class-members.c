@@ -661,3 +661,18 @@ void __stdcall validate_function_default_arguments(CppSymbol *function)
     check_missing_defaults(parameters->defaults, count, parameters,
         parameters->declarations->count - count, function);
 }
+
+/* Original 0x2e0f0..0x2e134. Class-valued members contribute their class
+   context; ordinary indirections do not, after an optional type modifier. */
+CppSymbol *__stdcall class_type_of_member(CppSymbol *member)
+{
+    CType *type = member->type;
+    TypeShape *shape;
+    if (!type || !(type->flags & 0x400)) return 0;
+    if (!(member->flags & 0x40) && type->related) {
+        shape = type->related;
+        if (!(shape->flags & 0x77)) shape = shape->related;
+        if (shape) return 0;
+    }
+    return cpp_context_stack->items[member->type->field08];
+}

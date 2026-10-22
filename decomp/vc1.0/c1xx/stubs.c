@@ -17,6 +17,7 @@
 #include "class-members.h"
 #include "class-finalization.h"
 #include "class-type-sets.h"
+#include "special-members.h"
 #include "inline-capture.h"
 #include "type-sizes.h"
 void interrupt_compile(int signal_number) { __asm { int 3 } }
@@ -358,7 +359,6 @@ TypeShape *__stdcall last_type_shape(TypeShape *shape) { __asm { int 3 } return 
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
 void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short flags, int new_member) { __asm { int 3 } }
 int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall class_type_of_member(CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
 
 void begin_pending_class_names(void) { __asm { int 3 } }
@@ -402,7 +402,6 @@ void __stdcall classify_copy_assignment(CppSymbol *member) { __asm { int 3 } }
 int __stdcall compatible_override_return(CType *member, CType *inherited) { __asm { int 3 } return 0; }
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }
 void browser_end_tag(void) { __asm { int 3 } }
-void __stdcall declare_implicit_special_members(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall finalize_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall declare_default_constructor_closures(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall declare_deleting_destructors(CppSymbol *tag) { __asm { int 3 } }
@@ -416,5 +415,11 @@ TypeSet *add_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
-void __stdcall build_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
-Vector *__stdcall new_empty_vector(int arena) { __asm { int 3 } return 0; }
+void __stdcall inherit_base_virtual_tables(CppSymbol *tag, BaseClassLink *base, int *virtual_base) { __asm { int 3 } }
+CppSymbol *__stdcall create_virtual_pointer(CppSymbol *tag, int kind) { __asm { int 3 } return 0; }
+VirtualTable *__stdcall new_virtual_table(unsigned kind, CppSymbol *tag, unsigned offset, CppSymbol *pointer) { __asm { int 3 } return 0; }
+VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *pointer) { __asm { int 3 } return 0; }
+int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int first) { __asm { int 3 } return 0; }
+void __stdcall merge_subobject_special_members(CppSymbol *tag, CppSymbol *subobject, SpecialMemberState *states, int model) { __asm { int 3 } }
+void __stdcall record_special_member(CppSymbol *tag, SpecialMemberState *states, int kind, int model, unsigned nonprivate, unsigned warning) { __asm { int 3 } }
+CppSymbol *__stdcall create_implicit_special_member(CppSymbol *tag, int kind, int model, unsigned short attributes, int generated) { __asm { int 3 } return 0; }

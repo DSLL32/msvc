@@ -1,6 +1,7 @@
 /* Completed class layout, synthesized members and member-name indexing. */
 #include "class-finalization.h"
 #include "class-type-sets.h"
+#include "class-members.h"
 
 /* Original 0x2dfc0..0x2e0e7. Retain the temporary class type while running
    completion passes, then leave the wrapper scope and build its name index. */
@@ -104,4 +105,63 @@ void __stdcall initialize_class_virtual_tables(CppSymbol *tag)
     }
     tag->detail.class_info->field2c = 0;
     tag->detail.class_info->virtual_table_groups = new_empty_vector(2);
+}
+
+/* Original 0x791e0..0x792f4. Inherit base dispatch tables, create missing
+   vfptr/vbptr members where needed, then close the nonvirtual layout. */
+void __stdcall build_class_virtual_tables(CppSymbol *tag)
+{
+    BaseClassLink *base;
+    CppSymbol *vfptr, *vbptr;
+    VirtualTable *table;
+    int virtual_base = 0, made_vfptr = 0, made_vbptr = 0;
+    for (base = (BaseClassLink *)tag->auxiliary.scope_members; base;
+            base = (BaseClassLink *)base->next) {
+        if ((base->kind & 31) != 15 || (base->flags & 0x80)) continue;
+        inherit_base_virtual_tables(tag, base, &virtual_base);
+    }
+    if (!(tag->detail.class_info->alignment_flags & 0x80) && virtual_base) {
+        vbptr = create_virtual_pointer(tag, 1);
+        made_vbptr = 1;
+    }
+    if (!(tag->detail.class_info->alignment_flags & 0x40) && has_new_virtual_members(tag)) {
+        vfptr = create_virtual_pointer(tag, 0);
+        made_vfptr = 1;
+    }
+    if (made_vfptr) {
+        table = new_virtual_table(0, tag, 0, vfptr);
+        append_vector(tag->detail.class_info->virtual_tables, table);
+    }
+    if (made_vbptr) {
+        table = build_virtual_base_table(tag, vbptr);
+        append_vector(tag->detail.class_info->virtual_base_tables, table);
+    }
+    finish_nonvirtual_class_size(tag);
+}
+
+/* Original 0x795f0..0x79692. A virtual member that does not override an
+   inherited slot requires this class to introduce a vftable. */
+int __stdcall has_new_virtual_members(CppSymbol *tag)
+{
+    CppSymbol *member, *next_member, *function, *next_function;
+    for (member = tag->auxiliary.scope_members; member; member = next_member) {
+        next_member = member->next;
+        if ((member->kind & 31) != 17 || (member->flags & 0x80)) continue;
+        for (function = ((OverloadSet *)member)->functions; function; function = next_function) {
+            next_function = function->next;
+            if ((function->storage[1] & 2) && !overrides_virtual_member(function, tag, 0)) return 1;
+        }
+    }
+    return 0;
+}
+
+/* Original 0x79cb0..0x79d00. Finish a pending bit-field unit before the
+   class alignment pass, then retain the nonvirtual size separately. */
+void __stdcall finish_nonvirtual_class_size(CppSymbol *tag)
+{
+    ClassContext *context = &class_contexts[current_class_context];
+    if (context->bit_field_type && context->bit_field_bits)
+        context->size += context->bit_field_type & 15;
+    align_class_member(context->alignment);
+    tag->detail.class_info->nonvirtual_size = class_contexts[current_class_context].size;
 }
