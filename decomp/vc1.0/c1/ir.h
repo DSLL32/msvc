@@ -57,4 +57,6 @@ extern FrontendSymbol *current_label_symbol;
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode);
 void __stdcall reference_ir_symbol(FrontendSymbol *symbol);
 unsigned get_ir_symbol_index(FrontendSymbol *symbol);
+int __stdcall type_requires_intrinsic_fallback(CType *type);
+FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation);
 #endif

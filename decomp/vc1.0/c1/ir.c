@@ -754,3 +754,62 @@ void __stdcall write_literal_initializer(FrontendSymbol *symbol, IrToken *token,
         }
     }
 }
+
+/* Original 0x36960..0x36abc, dispatch table 0x36abc..0x36ae4.
+   Fold narrow literal-string intrinsics and select ordinary fallback calls
+   when argument types require them. A true result means output is complete. */
+int __stdcall emit_intrinsic_expression(IrToken *expression)
+{
+    ExpressionNode *node = (ExpressionNode *)expression;
+    ArgumentNode *arguments, *argument;
+    IrToken *value, *length;
+    unsigned operation, bytes;
+    char *text;
+    operation = node->value.children.left->value.integer;
+    switch (operation) {
+    case 164: case 165: case 167:
+        arguments = (ArgumentNode *)node->value.children.right;
+        if (!arguments || !(value = arguments->expression)) return 0;
+        if (value->kind != TOK_STRING) {
+            if (operation != 165 || !arguments->previous ||
+                !(value = arguments->previous->expression) || value->kind != TOK_STRING) return 0;
+        }
+        if (value->auxiliary_flags & 1) return 0;
+        text = value->value.pointer;
+        bytes = 0;
+        while (text[bytes]) ++bytes;
+        if (operation == 167) {
+            length = make_integer_constant(bytes);
+            emit_ir_expression(length);
+            return 1;
+        }
+        length = make_integer_constant(bytes + 1);
+        node->value.children.right = (IrToken *)append_argument(arguments, length, 2);
+        operation = operation == 164 ? 172 : 170;
+        node->value.children.left->value.integer = operation;
+        break;
+    case 170: case 172: case 173:
+        break;
+    default:
+        return 0;
+    }
+    argument = (ArgumentNode *)node->value.children.right;
+    while (argument) {
+        if (type_requires_intrinsic_fallback(argument->type) ||
+            type_requires_intrinsic_fallback(argument->expression->type)) {
+            expression->kind = TOK_ARGUMENT_END;
+            node->value.children.left = make_symbol_reference(get_intrinsic_fallback_symbol(operation));
+            return 0;
+        }
+        argument = argument->previous;
+    }
+    return 0;
+}
+
+/* Original 0x358a0..0x358b8. This target's type check retains the
+   shape test but both branches permit the intrinsic operation. */
+int __stdcall type_requires_intrinsic_fallback(CType *type)
+{
+    if (type && type->related) return 0;
+    return 0;
+}

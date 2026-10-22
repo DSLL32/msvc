@@ -481,3 +481,304 @@ int __stdcall emit_checked_initializer_assignment(IrToken *target, IrToken *valu
 }
 
 typedef char InitializerFrameStorage_must_be_528_bytes[sizeof(InitializerFrameStorage) == 528 ? 1 : -1];
+
+/* Original 0x30970..0x30c60, including the shared member-update tail.
+   Pop implicit levels and advance the enclosing array or member chain. */
+int advance_initializer(void)
+{
+    FrontendSymbol *symbol, *member, *next, *tag;
+    CType *type;
+    unsigned kind, bytes;
+    int nesting;
+    while (initializer_depth >= 0) {
+        if (initializer_frame->flags & 0x20) {
+            if (initializer_depth >= 0) initializer_frame = &initializer_frames[--initializer_depth];
+            return 1;
+        }
+        if (initializer_frame->flags & 1) {
+            initializer_frame->flags |= 8;
+            return 0;
+        }
+        if (initializer_depth < 0) return 0;
+        initializer_frame = &initializer_frames[--initializer_depth];
+        if (initializer_depth < 0) return 0;
+        symbol = initializer_frame->symbol;
+        if (symbol->attributes & 0x400) {
+            if (initializer_frame->string_seen && !initializer_error_reported) {
+                initializer_error_reported = 1;
+                report_syntax_error(78);
+            }
+            ++initializer_frame->offset;
+            if (initializer_frame->symbol->type->related->field08 == initializer_frame->offset) {
+                initializer_frame->flags |= 2;
+                if (!(initializer_frame->flags & 1)) continue;
+            }
+            return 1;
+        }
+        switch (symbol->type->flags & 0x2fdf) {
+        case 0x402: case 0x408:
+            member = symbol->associated.members;
+            kind = member->kind & 0x1f;
+            if (kind >= 1 && kind <= 13 && kind != 5 && (member->attributes & 0x800)) {
+                nesting = 1;
+                do {
+                    member = member->next;
+                    kind = member->kind & 0x1f;
+                    if (kind >= 1 && kind <= 13 && kind != 5 && member->name == name_unnamed) {
+                        if (member->attributes & 0x800) ++nesting;
+                        else if (member->attributes & 0x1000) --nesting;
+                    }
+                } while (nesting);
+            }
+            next = next_initializer_member(member, member->next);
+            if (next) {
+                if (initializer_bitfield_active && next->detail.value != initializer_bitfield_offset) {
+                    constant_one = initializer_bitfield_value;
+                    emit_initializer_constant(member);
+                    initializer_bitfield_active = 0;
+                }
+                initializer_frame->symbol->associated.members = next;
+                return 1;
+            }
+            if (initializer_bitfield_active) {
+                constant_one = initializer_bitfield_value;
+                emit_initializer_constant(member);
+                initializer_bitfield_active = 0;
+            }
+            continue;
+        case 0x404:
+            if (initializer_depth >= 0) initializer_frame = &initializer_frames[--initializer_depth];
+            if (initializer_bitfield_active) {
+                constant_one = initializer_bitfield_value;
+                emit_initializer_constant(initializer_frame->symbol->associated.members);
+                initializer_bitfield_active = 0;
+            }
+            type = initializer_frame->symbol->type;
+            bytes = type_size(type);
+            tag = (FrontendSymbol *)type->field08;
+            bytes -= type_size(tag->associated.members->type);
+            constant_one = bytes;
+            if (bytes) emit_initializer_constant(0);
+            if (!(initializer_frame->flags & 1)) continue;
+            initializer_frame->flags |= 2;
+            return 1;
+        case 0x412: case 0x418:
+            if (!(initializer_frame->flags & 1)) continue;
+            initializer_frame->flags |= 2;
+            return 1;
+        default: return 1;
+        }
+    }
+    return 0;
+}
+
+/* Original 0x31200..0x31225. Restore declaration state after completion. */
+void __stdcall finish_aggregate_initializer(FrontendSymbol *symbol)
+{
+    finalize_aggregate_initializer(symbol);
+    if (parser_flags & 0x20000000UL) {
+        parser_flags &= ~0x20000000UL;
+        symbol->attributes &= ~4UL;
+    }
+}
+
+/* Original 0x31230..0x3133f. Complete a braced initializer and fill in
+   array bounds or aggregate size when the declaration left them open. */
+void __stdcall finalize_aggregate_initializer(FrontendSymbol *symbol)
+{
+    int unsized_array, incomplete_tag;
+    unsigned count, bytes;
+    CType *type;
+    TypeShape *shape;
+    if (options.prototypes_only || !symbol) return;
+    if (initializer_frame->flags & 0x20) {
+        if (initializer_depth >= 0)
+            initializer_frame = &initializer_frames[--initializer_depth];
+        return;
+    }
+    finish_nested_initializer();
+    unsized_array = (symbol->attributes & 0x400) && (symbol->attributes & 0x100);
+    type = symbol->type;
+    incomplete_tag = (type->flags & 0x400) &&
+        (((FrontendSymbol *)type->field08)->attributes & 0x100);
+    if (unsized_array) {
+        symbol->attributes &= ~0x100UL;
+        count = initializer_array_count();
+        type = symbol->type;
+        shape = type->related;
+        if (symbol->attributes & 2) shape = shape->related;
+        symbol->type = replace_outer_type_shape(type, shape->flags, shape->attributes, &count);
+    } else if (incomplete_tag) {
+        if (initializer_inferred_type) {
+            bytes = type_size(initializer_inferred_type);
+            bytes *= initializer_array_count();
+            symbol->detail.value = bytes;
+        } else symbol->detail.value = 0;
+        initializer_inferred_type = 0;
+    }
+    finish_initializer_symbol(symbol);
+}
+
+/* Original 0x30ec0..0x30f47. Close the current braced level and emit
+   its remaining zero bytes after restoring the enclosing position. */
+void finish_nested_initializer(void)
+{
+    unsigned bytes;
+    if (initializer_depth < 0) return;
+    if (initializer_frame->flags & 0x20) {
+        if (initializer_depth >= 0)
+            initializer_frame = &initializer_frames[--initializer_depth];
+        return;
+    }
+    bytes = finish_implicit_initializers();
+    if (!(initializer_frame->flags & 6)) bytes += remaining_initializer_bytes();
+    initializer_frame->flags = 0;
+    advance_initializer();
+    if (bytes) {
+        constant_one = bytes;
+        emit_initializer_constant(0);
+    }
+}
+
+/* Original 0x30f50..0x30f8c. Collect zero fill from implicit aggregate
+   levels until the enclosing explicit brace is reached. */
+unsigned finish_implicit_initializers(void)
+{
+    unsigned bytes = 0;
+    if (initializer_depth < 0) return 0;
+    while (!(initializer_frame->flags & 1)) {
+        bytes += remaining_initializer_bytes();
+        advance_initializer();
+    }
+    return bytes;
+}
+
+/* Original 0x31030..0x3117c. Count uninitialized storage, consolidating
+   bitfields sharing a unit and treating anonymous aggregates as one member. */
+unsigned remaining_initializer_bytes(void)
+{
+    FrontendSymbol *symbol, *member, *next;
+    CType *type;
+    TypeShape *shape;
+    unsigned count, bytes, size, kind;
+    symbol = initializer_frame->symbol;
+    if (initializer_depth < 0) return 0;
+    type = symbol->type;
+    shape = type->related;
+    if (shape && (shape->flags & 7) == 2) {
+        count = shape->field08;
+        if (!count) return 0;
+        size = array_element_size(type->flags, (void *)type->field08, shape);
+        return size * (count - initializer_frame->offset);
+    }
+    if (!(type->flags & 0x400)) return type_size(type);
+    if (initializer_bitfield_active) {
+        constant_one = initializer_bitfield_value;
+        emit_initializer_constant(symbol->associated.members);
+    }
+    bytes = 0;
+    member = symbol->associated.members;
+    while (member) {
+        kind = member->kind & 0x1f;
+        if (kind >= 1 && kind <= 13 && kind != 5) {
+            if (member->attributes & 0x800) {
+                bytes += type_size(member->type);
+                member = skip_initializer_anonymous_members(member);
+                break;
+            }
+            if (member->attributes & 0x1000) break;
+        }
+        if (kind == 2) {
+            while ((next = next_shared_bitfield(member->detail.value, member->next)) != 0)
+                member = next;
+            if (initializer_bitfield_active) {
+                initializer_bitfield_active = 0;
+                size = 0;
+            } else size = member->type->flags & 15;
+        } else if (member->name != name_unnamed) size = type_size(member->type);
+        else size = member->detail.value;
+        bytes += size;
+        member = member->next;
+    }
+    symbol->associated.members = 0;
+    initializer_bitfield_active = 0;
+    return bytes;
+}
+
+FrontendSymbol *initializer_temporary; /* original 0x60460 */
+int initializer_temporary_assigned; /* original 0x60238 */
+
+/* Original 0x31480..0x31512. Emit the shared integer workspace as a
+   static value, runtime zero fill, or runtime member assignment. */
+void __stdcall emit_initializer_constant(FrontendSymbol *symbol)
+{
+    IrToken *value, *target;
+    FrontendSymbol *temporary;
+    if (!(scanner_flags & 0x200000)) {
+        value = make_constant_token(TOK_INT_CONSTANT, &constant_one);
+        write_initializer_value(symbol, value, 0);
+        return;
+    }
+    if (!symbol) {
+        emit_runtime_zero_initializer();
+        return;
+    }
+    temporary = initializer_temporary;
+    value = make_constant_token(TOK_INT_CONSTANT, &constant_one);
+    if (temporary) {
+        target = make_symbol_reference(temporary);
+        target = make_indirection(target);
+        value = make_binary_expression(TOK_BIT_OR, target, value);
+        emit_runtime_symbol_initializer(symbol, value);
+        initializer_temporary_assigned = 1;
+    } else emit_runtime_symbol_initializer(symbol, value);
+}
+
+/* Original 0x2f7b0..0x2f845. Zero uninitialized automatic storage through
+   a call or an inline memory-operation record, according to optimization. */
+void emit_runtime_zero_initializer(void)
+{
+    IrToken *bytes, *zero, *target;
+    ArgumentNode *arguments;
+    if (!options.option_qc && !(options.option_M & 4)) {
+        bytes = make_constant_token(TOK_INT_CONSTANT, &constant_one);
+        zero = make_integer_constant(0);
+        target = make_initializer_lvalue(type_0064);
+        arguments = append_argument(0, target, 1);
+        arguments = append_argument(arguments, zero, 1);
+        arguments = append_argument(arguments, bytes, 1);
+        emit_memory_initializer_call(173, arguments);
+    } else {
+        bytes = make_constant_token(TOK_INT_CONSTANT, &constant_one);
+        zero = make_integer_constant(0);
+        target = make_initializer_lvalue(type_0064);
+        emit_inline_memory_initializer(173, target, zero, bytes);
+    }
+    initializer_offset += constant_one;
+}
+
+/* Original 0x2f8c0..0x2f8e0. Intrinsic memory calls retain the numeric
+   operation as the callee operand of an ordinary expression record. */
+void __stdcall emit_memory_initializer_call(unsigned operation, ArgumentNode *arguments)
+{
+    IrToken *callee;
+    callee = make_integer_constant(operation);
+    emit_expression_statement(make_ir_expression(TOK_INTRINSIC, callee, (IrToken *)arguments));
+}
+
+IrToken *initializer_exit_label; /* original 0x60234 */
+
+/* Original 0x311a0..0x311f4. The argument is retained by the original
+   stdcall entry but completion uses the common initializer state. */
+void __stdcall finish_initializer_symbol(FrontendSymbol *symbol)
+{
+    if (initializer_exit_label) {
+        emit_code_label(initializer_exit_label);
+        initializer_exit_label = 0;
+    }
+    pending_initializer_symbol = 0;
+    if (!(scanner_flags & 0x200000) || (scanner_flags & 0x100000)) {
+        if (browser_filename && (scanner_flags & 0x100000)) browser_finish_scope();
+        flush_initializer_buffer();
+    }
+}

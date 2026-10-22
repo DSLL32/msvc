@@ -912,8 +912,8 @@ read_action:
             scanner_flags |= 0x80;
             break;
         case 209:
-            parser_value.node = make_function_call(right[-2].bytes[0], right[-3].node,
-                right[0].arguments);
+            parser_value.node = select_member_expression(right[-2].bytes[0], right[-3].node,
+                right[0].name);
             scanner_flags &= ~0x80;
             break;
         case 210:

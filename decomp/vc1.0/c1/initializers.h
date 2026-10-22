@@ -51,4 +51,16 @@ void __stdcall emit_memory_initializer_call(unsigned operation, ArgumentNode *ar
 void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target, IrToken *value, IrToken *bytes);
 int __stdcall emit_initializer_assignment(IrToken *target, IrToken *value);
 int __stdcall emit_checked_initializer_assignment(IrToken *target, IrToken *value);
+void __stdcall finalize_aggregate_initializer(FrontendSymbol *symbol);
+unsigned initializer_array_count(void);
+void __stdcall finish_initializer_symbol(FrontendSymbol *symbol);
+unsigned finish_implicit_initializers(void);
+unsigned remaining_initializer_bytes(void);
+FrontendSymbol *__stdcall next_shared_bitfield(unsigned offset, FrontendSymbol *member);
+FrontendSymbol *__stdcall skip_initializer_anonymous_members(FrontendSymbol *member);
+extern FrontendSymbol *initializer_temporary;
+extern int initializer_temporary_assigned;
+void emit_runtime_zero_initializer(void);
+extern IrToken *initializer_exit_label;
+void flush_initializer_buffer(void);
 #endif

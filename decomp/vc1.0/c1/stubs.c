@@ -209,7 +209,7 @@ IrToken *__stdcall normalize_based_expression(IrToken *expression) { __asm { int
 /* Original 0x29700. */
 
 /* Original 0x29970. */
-IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, ArgumentNode *arguments) { __asm { int 3 } return 0; }
+IrToken *__stdcall select_member_expression(unsigned char operation, IrToken *operand, char *name) { __asm { int 3 } return 0; }
 
 /* Original 0x2a530. */
 
@@ -303,10 +303,8 @@ void __stdcall finish_initializer(FrontendSymbol *symbol, IrToken *initializer) 
 void begin_nested_initializer(void) { __asm { int 3 } }
 
 /* Original 0x30ec0. */
-void finish_nested_initializer(void) { __asm { int 3 } }
 
 /* Original 0x31200. */
-void __stdcall finish_aggregate_initializer(FrontendSymbol *symbol) { __asm { int 3 } }
 
 /* Original 0x32f10. */
 
@@ -444,7 +442,6 @@ void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 
 
 IrToken *__stdcall make_based_pointer_base(CType *type) { __asm { int 3 } return 0; }
 
-int __stdcall emit_intrinsic_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 
 unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
@@ -790,14 +787,34 @@ int extended_to_integer(const Extended *value, int *result) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 
-int advance_initializer(void) { __asm { int 3 } }
 void __stdcall emit_runtime_initializer(IrToken *value) { __asm { int 3 } }
 unsigned __stdcall fit_string_initializer(FrontendSymbol *symbol, IrToken *value) { __asm { int 3 } }
-void __stdcall emit_initializer_constant(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 
 void __stdcall emit_member_padding(FrontendSymbol *member) { __asm { int 3 } }
 
-void __stdcall emit_memory_initializer_call(unsigned operation, ArgumentNode *arguments) { __asm { int 3 } }
 void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target, IrToken *value, IrToken *bytes) { __asm { int 3 } }
+
+/* Original 0x31230. */
+
+/* Original 0x31180. */
+unsigned initializer_array_count(void) { __asm { int 3 } }
+/* Original 0x311a0. */
+
+/* Original 0x30f50. */
+/* Original 0x31030. */
+
+/* Original 0x30f90. */
+FrontendSymbol *__stdcall next_shared_bitfield(unsigned offset, FrontendSymbol *member) { __asm { int 3 } }
+/* Original 0x30fd0. */
+FrontendSymbol *__stdcall skip_initializer_anonymous_members(FrontendSymbol *member) { __asm { int 3 } }
+
+/* Original 0x2f7b0. */
+
+/* Original 0x358a0. */
+/* Original 0x2dd70. */
+FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation) { __asm { int 3 } }
+
+/* Original 0x3af90. */
+void flush_initializer_buffer(void) { __asm { int 3 } }

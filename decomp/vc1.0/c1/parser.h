@@ -325,7 +325,7 @@ unsigned __stdcall integer_constant_value(IrToken *expression);
 IrToken *__stdcall make_binary_expression(unsigned char operation, IrToken *left, IrToken *right);
 IrToken *__stdcall make_unary_expression(unsigned char operation, IrToken *operand);
 IrToken *__stdcall make_cast_expression(CType *type, IrToken *operand);
-IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, ArgumentNode *arguments);
+IrToken *__stdcall select_member_expression(unsigned char operation, IrToken *operand, char *name);
 IrToken *__stdcall make_member_expression(IrToken *operand, char *member);
 IrToken *__stdcall make_sizeof_expression(IrToken *operand);
 IrToken *__stdcall make_sizeof_type(CType *type);
