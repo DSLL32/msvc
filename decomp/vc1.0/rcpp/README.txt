@@ -62,7 +62,9 @@ every accepted non-import function still has equal direct/indirect call-target
 sets. A measured flush-frontier mismatch exposed the original
 512-byte stdio buffers versus the larger shipped LIBC buffers. Original _getbuf
 and _filbuf are now reconstructed in readable C to retain their size and state
-behavior. crt-boundaries.json records this evidence and currently records no
+behavior. This is a pragmatic choice for strict paired checkpoints, not proof
+of native dependence on the size or of observable incompatibility in LIBC.
+crt-boundaries.json records this evidence and currently records no
 graph substitutions; future compatible substitutions must be recorded there.
 
 IOINIT and STDENVP are linked from the shipped LIBC.LIB. prove-library.py checks
