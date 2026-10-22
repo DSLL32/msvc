@@ -552,7 +552,24 @@
     "_make_pointer_to_type@8",
     "_has_class_initialization@4",
     "_has_special_member_model@8",
-    "_type_pointer_model"
+    "_type_pointer_model",
+    "_make_size_constant@4",
+    "_initialize_allocated_class@16",
+    "_make_constructor_call@20",
+    "_begin_member_lookup@12",
+    "_build_call_expression@8",
+    "_count_call_arguments@4",
+    "_member_call_is_nonvirtual@4",
+    "_find_expression_symbol@4",
+    "_resolve_function_overload@20",
+    "_new_overload_search",
+    "_count_overload_functions@4",
+    "_add_overload_candidates@12",
+    "_begin_overload_candidate_cursor@12",
+    "_save_overload_candidate_cursor@12",
+    "_validate_overload_counts@4",
+    "_set_overload_phase",
+    "_rank_call_argument_count@8"
   ],
   "driver": [
     {
@@ -1990,7 +2007,7 @@
     {
       "name": "_begin_member_lookup@12",
       "start": 210272,
-      "end": 210273
+      "end": 210485
     },
     {
       "name": "_begin_nested_initializer",
@@ -2065,7 +2082,7 @@
     {
       "name": "_build_call_expression@8",
       "start": 233552,
-      "end": 233553
+      "end": 234884
     },
     {
       "name": "_can_initialize@8",
@@ -4185,7 +4202,7 @@
     {
       "name": "_find_expression_symbol@4",
       "start": 242560,
-      "end": 242561
+      "end": 242630
     },
     {
       "name": "_find_inline_parameter_slot@12",
@@ -4392,7 +4409,7 @@
     {
       "name": "_make_constructor_call@20",
       "start": 241584,
-      "end": 241585
+      "end": 241715
     },
     {
       "name": "_emit_class_table_initializers@8",
@@ -5302,7 +5319,7 @@
     {
       "name": "_make_size_constant@4",
       "start": 182224,
-      "end": 182225
+      "end": 182246
     },
     {
       "name": "_make_pointer_to_type@8",
@@ -5327,7 +5344,7 @@
     {
       "name": "_initialize_allocated_class@16",
       "start": 327600,
-      "end": 327601
+      "end": 327714
     },
     {
       "name": "_initialize_allocated_array@20",
@@ -5343,14 +5360,159 @@
       "name": "_type_pointer_model",
       "start": 228192,
       "end": 228303
+    },
+    {
+      "name": "_capture_allocation_pointer@8",
+      "start": 328064,
+      "end": 328065
+    },
+    {
+      "name": "_guard_allocation_result@8",
+      "start": 328192,
+      "end": 328193
+    },
+    {
+      "name": "_clear_most_derived_argument@4",
+      "start": 241728,
+      "end": 241729
+    },
+    {
+      "name": "_count_call_arguments@4",
+      "start": 241120,
+      "end": 241152
+    },
+    {
+      "name": "_resolve_function_overload@20",
+      "start": 240224,
+      "end": 240359
+    },
+    {
+      "name": "_bind_selected_overload@8",
+      "start": 204928,
+      "end": 204929
+    },
+    {
+      "name": "_make_resolved_call@20",
+      "start": 234896,
+      "end": 234897
+    },
+    {
+      "name": "_cast_to_type@8",
+      "start": 414976,
+      "end": 414977
+    },
+    {
+      "name": "_resolve_function_style_cast@4",
+      "start": 233184,
+      "end": 233185
+    },
+    {
+      "name": "_find_class_conversion@12",
+      "start": 408944,
+      "end": 408945
+    },
+    {
+      "name": "_lower_member_pointer_call@8",
+      "start": 306560,
+      "end": 306561
+    },
+    {
+      "name": "_validate_call_arguments@16",
+      "start": 488544,
+      "end": 488545
+    },
+    {
+      "name": "_convert_call_arguments@16",
+      "start": 240368,
+      "end": 240369
+    },
+    {
+      "name": "_finish_call_result@12",
+      "start": 235936,
+      "end": 235937
+    },
+    {
+      "name": "_member_call_is_nonvirtual@4",
+      "start": 233440,
+      "end": 233538
+    },
+    {
+      "name": "_is_this_object_expression@4",
+      "start": 233344,
+      "end": 233345
+    },
+    {
+      "name": "_new_overload_search",
+      "start": 482992,
+      "end": 483262
+    },
+    {
+      "name": "_validate_overload_counts@4",
+      "start": 483744,
+      "end": 483899
+    },
+    {
+      "name": "_rank_overload_arguments@12",
+      "start": 483904,
+      "end": 483905
+    },
+    {
+      "name": "_select_overload_candidate@12",
+      "start": 485120,
+      "end": 485121
+    },
+    {
+      "name": "_destroy_overload_search@4",
+      "start": 485440,
+      "end": 485441
+    },
+    {
+      "name": "_report_call_overload_failure@4",
+      "start": 240048,
+      "end": 240049
+    },
+    {
+      "name": "_count_overload_functions@4",
+      "start": 199472,
+      "end": 199590
+    },
+    {
+      "name": "_add_overload_candidates@12",
+      "start": 483344,
+      "end": 483736
+    },
+    {
+      "name": "_begin_overload_candidate_cursor@12",
+      "start": 483264,
+      "end": 483307
+    },
+    {
+      "name": "_save_overload_candidate_cursor@12",
+      "start": 483312,
+      "end": 483333
+    },
+    {
+      "name": "_set_overload_phase",
+      "start": 485472,
+      "end": 485540
+    },
+    {
+      "name": "_rank_call_argument_count@8",
+      "start": 488800,
+      "end": 488954
+    },
+    {
+      "name": "_reject_overload_candidate@12",
+      "start": 485264,
+      "end": 485265
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_make_size_constant@4",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0547-type_pointer_model/original-events.txt",
+      "terminal": "_rank_overload_arguments@12",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0564-rank_call_argument_count-8/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5365,7 +5527,24 @@
         "cases/cpp-basic-frontiers/0544-make_pointer_to_type-8/frontier-extension.json",
         "cases/cpp-basic-frontiers/0545-has_class_initialization-4/frontier-extension.json",
         "cases/cpp-basic-frontiers/0546-has_special_member_model-8/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0547-type_pointer_model/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0547-type_pointer_model/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0548-make_size_constant-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0549-initialize_allocated_class-16/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0550-make_constructor_call-20/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0551-begin_member_lookup-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0552-build_call_expression-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0553-count_call_arguments-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0554-member_call_is_nonvirtual-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0555-find_expression_symbol-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0556-resolve_function_overload-20/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0557-new_overload_search/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0558-count_overload_functions-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0559-add_overload_candidates-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0560-begin_overload_candidate_cursor-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0561-save_overload_candidate_cursor-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0562-validate_overload_counts-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0563-set_overload_phase/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0564-rank_call_argument_count-8/frontier-extension.json"
       ]
     }
   },

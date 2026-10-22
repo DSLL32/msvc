@@ -2,6 +2,7 @@
 #include "member-expressions.h"
 #include "lexer.h"
 #include "constructor-initializers.h"
+#include "operators.h"
 #include <recon.h>
 
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol);
@@ -194,4 +195,33 @@ IrToken *__stdcall adjust_member_binding_object(IrToken *object, QualifierBindin
 IrToken *__stdcall make_member_at_offset(IrToken *object, unsigned displacement, CType *type)
 {
     return new_ir_expression(0x5c, object, make_integer_constant(displacement), type);
+}
+
+/* Original 0x33560..0x33634. Establish the class-only lookup context,
+   recursively applying overloaded operator-> when ordinary lookup permits it. */
+IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object, int mode)
+{
+    CType *type;
+    CppSymbol *tag;
+    IrToken *converted, *result;
+    if (!object) return 0;
+    class_lookup_operator = operation;
+    class_lookup_error = 0;
+    type = object->type;
+    if (!type || (type->flags & 0x410) != 0x410) return 0;
+    tag = cpp_context_stack->items[type->field08];
+    if (tag->flags & 4) {
+        if (!mode && operation == 0x5c && object && is_unqualified_class_type(object->type)) {
+            converted = resolve_operator_expression(0x5c, object, 0, 1, 0);
+            if (converted) {
+                result = begin_member_lookup(0x5c, converted, 0);
+                if (result) return result;
+            }
+        }
+        token_allocation_flags |= 0x80;
+        class_lookup_context = tag;
+        return object;
+    }
+    if (!options.prototypes_only) report_syntax_error(27, tag->name);
+    return 0;
 }

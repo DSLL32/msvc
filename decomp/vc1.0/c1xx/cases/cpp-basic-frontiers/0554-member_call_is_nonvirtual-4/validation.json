@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_member_call_is_nonvirtual@4",
+    "start": 233440,
+    "end": 233538
+  },
+  "distinct_direct_callees": [
+    "_find_expression_symbol@4",
+    "_is_this_object_expression@4"
+  ],
+  "next_frontier": "_find_expression_symbol@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24697669222950935,
+  "total_operation_seconds": 5.775950253009796,
+  "original_capture_seconds": 4.77700774371624
+}

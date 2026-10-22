@@ -38,4 +38,6 @@ void __stdcall finish_local_static_initialization(CppSymbol *symbol);
 void __stdcall begin_initializer_function(CppSymbol *symbol);
 void __stdcall guard_local_static_initialization(CppSymbol *symbol);
 CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type);
+void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object);
+IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object);
 #endif

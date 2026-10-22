@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_constructor_call@20",
+    "start": 241584,
+    "end": 241715
+  },
+  "distinct_direct_callees": [
+    "_begin_member_lookup@12",
+    "_build_call_expression@8",
+    "_clear_most_derived_argument@4",
+    "_emit_expression_statement@4",
+    "_identifier_expression@4",
+    "_make_integer_constant@4",
+    "_member_expression@12"
+  ],
+  "next_frontier": "_begin_member_lookup@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.26055628899484873,
+  "total_operation_seconds": 5.491402521729469,
+  "original_capture_seconds": 4.524836437776685
+}

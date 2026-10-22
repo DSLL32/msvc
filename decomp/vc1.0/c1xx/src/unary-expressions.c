@@ -369,3 +369,25 @@ int __stdcall reject_special_indirection(unsigned char operation, unsigned char 
     }
     return 0;
 }
+
+/* Original 0x3b380..0x3b3c5. Follow transparent object wrappers and the
+   type-preserving side of a conditional pair to its direct symbol, if any. */
+CppSymbol *__stdcall find_expression_symbol(IrToken *expression)
+{
+    for (;;) {
+        switch (expression->kind) {
+        case 2:
+            return expression->value.pointer;
+        case 0x3f:
+            if (expression->tail.right->type == expression->type)
+                expression = expression->tail.right;
+            else expression = expression->value.pointer;
+            break;
+        case 0x4a: case 0x59: case 0x67:
+            expression = expression->value.pointer;
+            break;
+        default:
+            return 0;
+        }
+    }
+}

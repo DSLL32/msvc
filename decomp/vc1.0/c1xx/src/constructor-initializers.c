@@ -692,3 +692,26 @@ int __stdcall can_initialize(CType *type, IrToken *expression)
 {
     return classify_initializer_conversion(type, expression) < 0x400;
 }
+
+/* Original 0x3afb0..0x3b032. Bind the supplied object and resolve the
+   constructor through the normal member and call-expression machinery. */
+IrToken *__stdcall make_constructor_call(CppSymbol *tag, IrToken *object,
+    IrToken *arguments, int emit, int member_subobject)
+{
+    IrToken *result, *bound;
+    if (!arguments && (tag->detail.class_info->trivial_special_members & 1))
+        result = make_integer_constant(0);
+    else {
+        bound = begin_member_lookup(0x5c, object, 1);
+        result = member_expression(0x5c, bound, identifier_expression(name_ctor));
+        result = build_call_expression(result, arguments);
+        if (!result) return 0;
+        if (!member_subobject && (tag->detail.class_info->flags & 0x10))
+            result = clear_most_derived_argument(result);
+    }
+    if (emit) {
+        emit_expression_statement(result);
+        result = 0;
+    }
+    return result;
+}

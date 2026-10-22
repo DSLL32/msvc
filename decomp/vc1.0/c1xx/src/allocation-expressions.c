@@ -176,3 +176,17 @@ have_object:
         result->type = remove_type_qualifiers(result->type, 0x1000);
     return result;
 }
+
+/* Original 0x4ffb0..0x50021. Newly allocated objects preserve the allocation
+   value for the final null guard; supplied objects call the constructor directly. */
+IrToken *__stdcall initialize_allocated_class(int allocated, CppSymbol *tag,
+    IrToken *object, IrToken *arguments)
+{
+    IrToken *saved;
+    if (allocated) capture_allocation_pointer(&saved, &object);
+    object = make_constructor_call(tag, object, arguments, 0, 1);
+    if (!object) return 0;
+    object = modifiable_lvalue(object, 0);
+    if (allocated) object = guard_allocation_result(saved, object);
+    return object;
+}

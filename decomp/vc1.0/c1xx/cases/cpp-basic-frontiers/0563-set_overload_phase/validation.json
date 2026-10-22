@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_set_overload_phase",
+    "start": 485472,
+    "end": 485540
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_rank_call_argument_count@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.21762773487716913,
+  "total_operation_seconds": 4.842826341278851,
+  "original_capture_seconds": 3.92673671618104
+}

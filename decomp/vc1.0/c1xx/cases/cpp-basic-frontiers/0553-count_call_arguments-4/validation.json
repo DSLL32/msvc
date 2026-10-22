@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_count_call_arguments@4",
+    "start": 241120,
+    "end": 241152
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_member_call_is_nonvirtual@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24610445741564035,
+  "total_operation_seconds": 5.688408601097763,
+  "original_capture_seconds": 4.677138946019113
+}

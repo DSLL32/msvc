@@ -64,4 +64,5 @@ void __stdcall initialize_qualified_member(QualifierBinding *path, IrToken *valu
 unsigned __stdcall virtual_table_object_offset(VirtualTable *table);
 IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group);
 QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group);
+IrToken *__stdcall clear_most_derived_argument(IrToken *call);
 #endif

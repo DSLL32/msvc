@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_resolve_function_overload@20",
+    "start": 240224,
+    "end": 240359
+  },
+  "distinct_direct_callees": [
+    "_browser_type_reference@4",
+    "_destroy_overload_search@4",
+    "_new_overload_search",
+    "_rank_overload_arguments@12",
+    "_select_overload_candidate@12",
+    "_validate_overload_counts@4"
+  ],
+  "next_frontier": "_new_overload_search",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.22173757944256067,
+  "total_operation_seconds": 5.649269988760352,
+  "original_capture_seconds": 4.777242260985076
+}

@@ -36,6 +36,7 @@
 #include "inline-capture.h"
 #include "type-sizes.h"
 #include "object-initializers.h"
+#include "call-expressions.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -139,7 +140,6 @@ void begin_for_increment(void) { __asm { int 3 } }
 void begin_if_body(void) { __asm { int 3 } }
 void begin_if_condition(void) { __asm { int 3 } }
 unsigned __stdcall begin_implicit_statement_scope(IrToken *label) { __asm { int 3 } return 0; }
-IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object, int mode) { __asm { int 3 } return 0; }
 void begin_nested_initializer(void) { __asm { int 3 } }
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
 void begin_seh_filter(void) { __asm { int 3 } }
@@ -150,7 +150,21 @@ void begin_switch_condition(void) { __asm { int 3 } }
 void begin_while_body(void) { __asm { int 3 } }
 void begin_while_condition(void) { __asm { int 3 } }
 IrToken *__stdcall boolean_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
-IrToken *__stdcall build_call_expression(IrToken *expression, IrToken *arguments) { __asm { int 3 } return 0; }
+int __stdcall reject_overload_candidate(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } return 0; }
+int __stdcall rank_overload_arguments(OverloadSearch *search, IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
+OverloadCandidate *__stdcall select_overload_candidate(OverloadSearch *search, unsigned *rank, OverloadFailure failure) { __asm { int 3 } return 0; }
+void __stdcall destroy_overload_search(OverloadSearch *search) { __asm { int 3 } }
+OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
+void __stdcall bind_selected_overload(QualifiedDeclarator *reference, CppSymbol *function) { __asm { int 3 } }
+IrToken *__stdcall make_resolved_call(CppSymbol *function, IrToken *object, IrToken *arguments, unsigned count, CppSymbol *qualified) { __asm { int 3 } return 0; }
+IrToken *__stdcall cast_to_type(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
+int __stdcall resolve_function_style_cast(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall find_class_conversion(CType *target, CType *source, unsigned *rank) { __asm { int 3 } return 0; }
+IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix) { __asm { int 3 } return 0; }
+unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
+IrToken *__stdcall convert_call_arguments(CppSymbol *function, FunctionParameters *parameters, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
+IrToken *__stdcall finish_call_result(IrToken *call, CppSymbol *function, unsigned short flags) { __asm { int 3 } return 0; }
+int __stdcall is_this_object_expression(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm { int 3 } }
@@ -200,12 +214,11 @@ void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) 
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
-IrToken *__stdcall make_size_constant(unsigned value) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_vector_delete_destructor(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
-IrToken *__stdcall initialize_allocated_class(int allocated, CppSymbol *tag,
-    IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
+void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object) { __asm { int 3 } }
+IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_allocated_array(IrToken *object, int allocated,
     unsigned prefix_bytes, IrToken *element_count, int element_bytes) { __asm { int 3 } return 0; }
 void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }
@@ -525,7 +538,6 @@ int __stdcall report_operator_resolution_failure(unsigned char operation, unsign
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }
 
 int __stdcall has_single_function(CppSymbol *symbol) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall find_expression_symbol(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall promote_arithmetic_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
@@ -565,7 +577,7 @@ void __stdcall emit_virtual_base_initializers(CppSymbol *tag, IrToken **initiali
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
 IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attributes, unsigned displacement) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_constructor_call(CppSymbol *tag, IrToken *object, IrToken *arguments, int emit, int member_subobject) { __asm { int 3 } return 0; }
+IrToken *__stdcall clear_most_derived_argument(IrToken *call) { __asm { int 3 } return 0; }
 QualifierBinding * __stdcall make_table_qualifier_path(VirtualTable *table, CppSymbol *tag) { __asm { int 3 } return 0; }
 void __stdcall initialize_qualified_member(QualifierBinding *path, IrToken *value) { __asm { int 3 } }
 unsigned __stdcall virtual_table_object_offset(VirtualTable *table) { __asm { int 3 } return 0; }

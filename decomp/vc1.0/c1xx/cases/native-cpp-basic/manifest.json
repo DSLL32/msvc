@@ -1,14 +1,14 @@
 {
   "case": "cpp_basic",
-  "scope": "548 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/cpp-basic-frontiers/0547-type_pointer_model/original-receipt.json",
-  "reference_receipt_sha256": "dc26eb80632477ad4dea8649db85cd46aa46ea5807eea31d1abcfef25a0c7873",
+  "scope": "565 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/cpp-basic-frontiers/0564-rank_call_argument_count-8/original-receipt.json",
+  "reference_receipt_sha256": "dda13c02e080efb1336bc15fb82c3125281d509e707bd1eebfda9221f2b84997",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "d0bceef63913ebe10543b572053bba6af686c1b35cec5abd7646b244b2f24996",
+  "canonical_map_sha256": "859a3c89977ea5a0411ce671c3bc1d0d38d9559ec8989c1a7b94e8c232639008",
   "terminal": {
     "kind": "frontier",
-    "logical": "_make_size_constant@4",
+    "logical": "_rank_overload_arguments@12",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -37,7 +37,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 2.9219801649451256,
+  "capture_seconds": 2.472585441544652,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

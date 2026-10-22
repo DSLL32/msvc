@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_initialize_allocated_class@16",
+    "start": 327600,
+    "end": 327714
+  },
+  "distinct_direct_callees": [
+    "_capture_allocation_pointer@8",
+    "_guard_allocation_result@8",
+    "_make_constructor_call@20",
+    "_modifiable_lvalue@8"
+  ],
+  "next_frontier": "_make_constructor_call@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.22713115252554417,
+  "total_operation_seconds": 5.504745178855956,
+  "original_capture_seconds": 4.6273525366559625
+}

@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_member_lookup@12",
+    "start": 210272,
+    "end": 210485
+  },
+  "distinct_direct_callees": [
+    "_begin_member_lookup@12",
+    "_is_unqualified_class_type@4",
+    "_report_syntax_error",
+    "_resolve_operator_expression@20"
+  ],
+  "next_frontier": "_build_call_expression@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.28563904389739037,
+  "total_operation_seconds": 4.210936311632395,
+  "original_capture_seconds": 3.1230661626905203
+}

@@ -102,3 +102,11 @@ IrToken *__stdcall fold_symbol_constant(IrToken *expression)
     }
     return expression;
 }
+
+/* Original 0x2c7d0..0x2c7e5. Sizes retain the unsigned-long builtin type. */
+IrToken *__stdcall make_size_constant(unsigned value)
+{
+    IrToken *constant = make_integer_constant(value);
+    constant->type = type_4064_first;
+    return constant;
+}
