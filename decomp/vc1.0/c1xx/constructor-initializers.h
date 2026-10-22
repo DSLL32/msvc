@@ -26,4 +26,20 @@ void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols);
 IrToken *__stdcall adjusted_this_expression(CppSymbol *parameter);
 CType *__stdcall replace_type_pointer_kind(CType *type, unsigned short kind);
 int __stdcall initialize_lvalue(IrToken *target, IrToken *value);
+unsigned __stdcall classify_initializer_conversion(CType *type, IrToken *value);
+unsigned __stdcall classify_expression_conversion(CType *type, IrToken *value,
+    unsigned flags, int context);
+CType *__stdcall parameter_reference_type(IrToken *reference);
+unsigned __stdcall classify_type_conversion(CType *target, CType *source,
+    unsigned flags, int context);
+CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode);
+unsigned __stdcall classify_special_type_conversion(CType *target, CType *source,
+    unsigned flags, int context);
+unsigned __stdcall classify_derived_type_conversion(CType *target, CType *source,
+    unsigned flags, int context);
+int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType *target,
+    int context, unsigned *rank);
+unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source,
+    unsigned char flags, int context);
+int __stdcall has_pointer_or_member_pointer_shape(CType *type);
 #endif

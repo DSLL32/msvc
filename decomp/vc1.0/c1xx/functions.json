@@ -448,7 +448,12 @@
     "_mark_initialized_symbol@4",
     "_initialize_member_expression@16",
     "_adjusted_this_expression@4",
-    "_replace_type_pointer_kind@8"
+    "_replace_type_pointer_kind@8",
+    "_initialize_lvalue@8",
+    "_classify_initializer_conversion@8",
+    "_classify_expression_conversion@16",
+    "_classify_type_conversion@16",
+    "_classify_special_type_conversion@16"
   ],
   "driver": [
     {
@@ -4326,7 +4331,52 @@
     {
       "name": "_initialize_lvalue@8",
       "start": 286784,
-      "end": 286785
+      "end": 287012
+    },
+    {
+      "name": "_classify_initializer_conversion@8",
+      "start": 416928,
+      "end": 416950
+    },
+    {
+      "name": "_classify_expression_conversion@16",
+      "start": 414480,
+      "end": 414675
+    },
+    {
+      "name": "_classify_type_conversion@16",
+      "start": 413472,
+      "end": 414320
+    },
+    {
+      "name": "_resolve_overloaded_initializer@12",
+      "start": 414688,
+      "end": 414689
+    },
+    {
+      "name": "_classify_special_type_conversion@16",
+      "start": 409712,
+      "end": 409873
+    },
+    {
+      "name": "_classify_derived_type_conversion@16",
+      "start": 411376,
+      "end": 411377
+    },
+    {
+      "name": "_classify_user_conversion@20",
+      "start": 414320,
+      "end": 414321
+    },
+    {
+      "name": "_classify_special_scalar_conversion@16",
+      "start": 409488,
+      "end": 409489
+    },
+    {
+      "name": "_has_pointer_or_member_pointer_shape@4",
+      "start": 409888,
+      "end": 409889
     }
   ],
   "cases": {
@@ -5677,6 +5727,18 @@
         {
           "name": "_classes_pending_table_output",
           "original": 652240,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_type_indirect_0080_2",
+      "original": 651944,
+      "fields": [
+        {
+          "name": "_type_indirect_0080_2",
+          "original": 651944,
           "bytes": 4
         }
       ]

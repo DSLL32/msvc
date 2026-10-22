@@ -6,6 +6,9 @@
 #include "inline-vector.h"
 #include "class-lookup.h"
 #include "special-members.h"
+#include "expression-preparation.h"
+#include "operators.h"
+#include "unary-expressions.h"
 
 int __stdcall emit_constructor_initializers(CppSymbol *tag, IrToken *initializers)
 {
@@ -250,4 +253,153 @@ CType *__stdcall replace_type_pointer_kind(CType *type, unsigned short kind)
     result = intern_type(description);
     --type_description_depth;
     return result;
+}
+
+/* Original 0x46040..0x46124: initialize an already selected lvalue. */
+int __stdcall initialize_lvalue(IrToken *target, IrToken *value)
+{
+    CType *target_type, *value_type;
+    unsigned rank;
+    if (!target) return 0;
+    target_type = target->type;
+    if (!value) return 0;
+    value_type = value->type;
+    rank = classify_initializer_conversion(target_type, value);
+    if (rank < 0x400) {
+        value = convert_initializer(0x7e, target_type, value);
+        value = convert_default_argument(target_type, value);
+        if (!value) return 0;
+        target = indirect_storage_expression(target);
+        value = builtin_binary_expression(0x7e, target, value);
+        if (initializer_list_started || initializing_symbol)
+            value = prepare_expression(value, 2);
+        emit_expression_statement(value);
+        return 1;
+    }
+    if (report_operator_resolution_failure(0x7e, 2, rank, target_type, value_type))
+        return 0;
+    if (target_type && value_type) {
+        report_type_conversion(440, 0, 0x7e, value_type, target_type);
+        return 0;
+    }
+    report_type_error(592, target_type);
+    return 0;
+}
+
+/* Original 0x65ca0..0x65cb6: ordinary initialization uses no extra
+   conversion flags and no user-conversion search context. */
+unsigned __stdcall classify_initializer_conversion(CType *type, IrToken *value)
+{
+    return classify_expression_conversion(type, value, 0, 0);
+}
+
+/* Original 0x65310..0x653d3. An untyped overload expression needs a
+   target-directed lookup; typed expressions use ordinary type ranking. */
+unsigned __stdcall classify_expression_conversion(CType *type, IrToken *value,
+    unsigned flags, int context)
+{
+    CType *source;
+    TypeShape *shape;
+    if (!value) return 0x2000;
+    if (!type) return 0x400;
+    source = value->type;
+    shape = type->related;
+    if (source) {
+        if ((value->flags & 0x80) && shape && !(shape->flags & 0x40))
+            return 0x20;
+        if (shape && (shape->flags & 0x77) == 1 && source->related &&
+            (source->related->flags & 0x77) == 2)
+            source = parameter_reference_type(value);
+        return classify_type_conversion(type, source, flags, context);
+    }
+    if (shape && ((shape->flags & 0x77) == 3 || (shape->flags & 0x20))) {
+        if (resolve_overloaded_initializer(value, type, 0)) return 1;
+        return 0x200b;
+    }
+    return 0x2000;
+}
+
+/* Original 0x64f20..0x65270. Rank standard scalar conversions after
+   reference/based-type adjustment, then permit user conversions. */
+unsigned __stdcall classify_type_conversion(CType *target, CType *source,
+    unsigned flags, int context)
+{
+    unsigned rank;
+    unsigned short destination_flags, source_flags;
+    target = strip_based_shape(target);
+    source = strip_based_shape(source);
+    if (source == target) return 1;
+    rank = classify_special_type_conversion(target, source, flags, context);
+    if (rank) return rank;
+    rank = classify_derived_type_conversion(target, source, flags, context);
+    if (rank) return rank;
+    destination_flags = target->flags;
+    source_flags = source->flags;
+    if (((destination_flags & 0x9c0) || target->related) &&
+        ((source_flags & 0x9c0) || source->related)) {
+        if (source_flags == destination_flags) return 1;
+        if (source_flags & 0x80) return 0x2000;
+        if ((source_flags & 0x40) && (destination_flags & 0x40)) {
+            if (!((source_flags ^ destination_flags) & 0xefff)) return 1;
+            if (((source_flags & 0x2fdf) == 0x41 ||
+                 (source_flags & 0x2fdf) == 0x42) &&
+                (destination_flags & 0x20) && !(destination_flags & 0x4000) &&
+                (!options.configuration.option_J ||
+                 ((destination_flags & 0x2fdf) == 0x41 &&
+                  (destination_flags & 0x8000))))
+                return 0x10;
+            return 0x20;
+        }
+        if ((source_flags & 0x100) && (destination_flags & 0x100)) {
+            if (!((source_flags ^ destination_flags) & 0xf) &&
+                !!(source_flags & 0x20) == !!(destination_flags & 0x20))
+                return 1;
+            if ((source_flags & 0xf) < (destination_flags & 0xf) &&
+                (destination_flags & 0xf) < 9)
+                return 0x10;
+            return 0x20;
+        }
+        if (destination_flags & 0x800)
+            return (source_flags & 0x800) ? 1 : 0x2000;
+        return 0x20;
+    }
+    if ((destination_flags | source_flags) & 0x200) {
+        if (destination_flags & 0x200) {
+            if (source_flags & 0x200)
+                return target->field08 == source->field08 ? 1 : 0x2000;
+        } else if ((source_flags & 0x200) && (destination_flags & 0x140)) {
+            if ((destination_flags & 0x20) && (destination_flags & 0x40))
+                return 0x10;
+            return 0x20;
+        }
+    }
+    if (!((source->flags ^ target->flags) & 0xefff) &&
+        target->field08 == source->field08) {
+        if (!(flags & 4)) return 1;
+        if ((!(source->attributes & 0x1000) || (target->attributes & 0x1000)) &&
+            (!(source->attributes & 0x2000) || (target->attributes & 0x2000)))
+            return 1;
+    }
+    if (classify_user_conversion((unsigned char)flags, source, target, context, &rank))
+        return rank;
+    return 0x2000;
+}
+
+/* Original 0x64070..0x64111: special destination forms precede the
+   ordinary derived-type and arithmetic ranking paths. */
+unsigned __stdcall classify_special_type_conversion(CType *target, CType *source,
+    unsigned flags, int context)
+{
+    unsigned short kind;
+    unsigned rank;
+    kind = target->flags & 0x2fdf;
+    if (kind == 0x40 || kind == 0x140)
+        return classify_special_scalar_conversion(target, source, (unsigned char)flags, context);
+    if (kind == 0x84) {
+        rank = classify_derived_type_conversion(type_indirect_0080_2, source, flags, context);
+        if ((int)rank < 0x400) return 4;
+        if ((flags & 1) && has_pointer_or_member_pointer_shape(source)) return 4;
+        return 0x2000;
+    }
+    return 0;
 }

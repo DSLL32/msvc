@@ -553,4 +553,8 @@ void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm
 int __stdcall has_deferred_expression_symbols(unsigned mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall process_expression_records(IrToken *expression) { __asm { int 3 } return 0; }
-int __stdcall initialize_lvalue(IrToken *target, IrToken *value) { __asm { int 3 } return 0; }
+unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, int context) { __asm { int 3 } return 0; }
+int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
+unsigned __stdcall classify_derived_type_conversion(CType *target, CType *source, unsigned flags, int context) { __asm { int 3 } return 0; }
+int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
