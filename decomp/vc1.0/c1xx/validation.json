@@ -65,7 +65,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-parser-state.log",
+  "replay_log": "evidence/replay-grammar-c.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -83,6 +83,8 @@
     "source_reads_original_binary": false,
     "semantic_actions_reconstructed": false,
     "log": "evidence/grammar-validation.log",
-    "log_sha256": "9c70ff151a4c32915465034ff927907cd6513986f47e4dad03d3d55903c1d3f1"
+    "log_sha256": "95089fbc0bd926151132ef4d08263624392605012f5c9fc4be195010edaaa7a0",
+    "build_generator": "generate-parser.py",
+    "logical_c_rows_checked": true
   }
 }

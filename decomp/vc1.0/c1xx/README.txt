@@ -154,3 +154,11 @@ value; the 220-value array admits one extra eight-byte cell that aliases the
 macro pointer and following control word. These overlaps use one C union.
 The stack and six parser defaults are audited; all 207 frontiers replay with
 these aliases in evidence/replay-parser-state.log.
+
+generate-parser.py emits logical C tables from that same declarative grammar,
+without reading the executable. The original toolchain compiles these tables
+as part of the build; they are not used until the complete parser is accepted.
+The audit independently verifies every emitted row against the original,
+including shifts after precedence resolution. All 207 existing frontiers replay
+with the additional data in evidence/replay-grammar-c.log. Semantic C actions
+are being recovered separately in scratch; no partial parser is linked.
