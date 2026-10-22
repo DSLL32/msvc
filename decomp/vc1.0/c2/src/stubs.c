@@ -145,7 +145,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned flags) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
 SymbolHeader *__fastcall require_external_symbol(char *name) { __asm int 3 }
 #include "output.h"
@@ -161,7 +160,6 @@ __declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finis
 __declspec(naked) void coff_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_pair) __asm int 3 }
 __declspec(naked) void coff_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_record) __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
-__declspec(naked) void coff_output_address(void) { RECON_TRACE_NAKED_ENTRY(coff_output_address) __asm int 3 }
 __declspec(naked) void coff_output_size(void) { RECON_TRACE_NAKED_ENTRY(coff_output_size) __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { RECON_TRACE_NAKED_ENTRY(omf_select_segment) __asm int 3 }

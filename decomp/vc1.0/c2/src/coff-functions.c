@@ -263,3 +263,11 @@ void __fastcall coff_output_typed_reference(unsigned offset, SymbolHeader *symbo
     }
     coff_add_relocation(symbol->identifier, offset, handle, type);
 }
+
+/* Original [0006d630,0006d656). DIR32NB is an image-base-independent
+   function RVA, used by the frame record's start-offset field. */
+void __fastcall coff_output_address(unsigned offset, SymbolHeader *symbol)
+{
+    unsigned position = coff_section_position(coff_selected_section);
+    coff_add_relocation(symbol->identifier, offset + position, symbol->field14, 7);
+}

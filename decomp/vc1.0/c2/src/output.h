@@ -19,7 +19,7 @@ typedef struct OutputCallbacks {
     void (__fastcall *debug_pair)(char *);
     OutputRoutine size;
     void (__fastcall *relative_reference)(unsigned, SymbolHeader *);
-    OutputRoutine address;
+    void (__fastcall *address)(unsigned, SymbolHeader *);
     void (__fastcall *absolute_reference)(unsigned, SymbolHeader *);
     void (__fastcall *segment_reference)(unsigned, SymbolHeader *);
     void (__fastcall *data)(void *, unsigned);
@@ -64,7 +64,7 @@ void coff_output_debug_pair(void);
 void coff_output_debug_record(void);
 void coff_output_value(void);
 void __fastcall coff_output_bytes(unsigned offset, SymbolHeader *symbol);
-void coff_output_address(void);
+void __fastcall coff_output_address(unsigned offset, SymbolHeader *symbol);
 void __fastcall coff_output_offset(unsigned offset, SymbolHeader *symbol);
 void coff_output_size(void);
 void coff_finish_module(void);
@@ -84,4 +84,6 @@ void omf_finish_module(void);
 unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment);
 void omf_output_record(void);
 void omf_mark_symbol(void);
+unsigned count_function_saved_registers(void);
+void __fastcall write_function_frame_record(FunctionSymbol *symbol, unsigned offset, unsigned bytes, unsigned locals, unsigned short parameters, unsigned char prologue, unsigned char saved, unsigned char frame, unsigned char base_pointer);
 #endif

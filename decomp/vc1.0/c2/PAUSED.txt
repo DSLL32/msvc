@@ -1,9 +1,9 @@
 C2 ACTIVE: finish /O2 /G5 hello, then original-captured optimizer stress.
-Verified728 logical acceptances/650 source graphs. First function machine bytes
-emitted; matching frontier emit_function_exception_table0x69440 (frame metadata).
-Hello object incomplete. Extent union204825/399693=51.245580983404764
-percent, not branch coverage. Canonical /W3 modules, graph/extent/mask and native
-fixtures pass. Unchanged preflight caught/corrected final near-JMP operand split;
-fresh original728-corrected matches native; unvisited tail explicitly documented.
-See cases/hello-initializer-relocations.json. No shared shim request.
-Continue queue and use shared Git index lock for scoped checkpoints.
+Verified732 logical acceptances/654 source graphs. HelloWindowProc complete;
+all four first-function COFF contribution payloads and nine relocations exactly
+match captured original object (no normalization). Full hello object incomplete.
+Current frontier is_function_reference0x27310 in next function canonicalization.
+Extent union205128/399693=51.32138916618505 percent, not branch
+coverage. Canonical/W3, graph/extent/mask and native fixtures pass.
+See cases/hello-frame-output.json and hello-first-function-emitted.json.
+Continue queue; no shim requests. Shared Git index lock for scoped checkpoints.

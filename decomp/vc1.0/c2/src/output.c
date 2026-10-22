@@ -52,7 +52,7 @@ void initialize_output_callbacks(void)
     output_callbacks.select_segment = (void (__fastcall *)(Segment *))output_noop_symbol;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
-    output_callbacks.address = (OutputRoutine)output_noop_value;
+    output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.size = (OutputRoutine)output_noop_value;
     output_callbacks.debug_pair = (void (__fastcall *)(char *))output_noop_pair;
@@ -71,7 +71,7 @@ void initialize_output_callbacks(void)
     output_callbacks.select_segment = (void (__fastcall *)(Segment *))coff_select_segment;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_value;
     output_callbacks.absolute_reference = coff_output_bytes;
-    output_callbacks.address = (OutputRoutine)coff_output_address;
+    output_callbacks.address = coff_output_address;
     output_callbacks.relative_reference = coff_output_offset;
     output_callbacks.size = (OutputRoutine)coff_output_size;
     output_callbacks.finish_module = (OutputRoutine)coff_finish_module;
@@ -93,7 +93,7 @@ void initialize_output_callbacks(void)
     output_callbacks.data = (void (__fastcall *)(void *, unsigned))omf_output_data;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_value;
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_bytes;
-    output_callbacks.address = (OutputRoutine)output_noop_value;
+    output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_offset;
     output_callbacks.size = (OutputRoutine)omf_output_size;
     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;

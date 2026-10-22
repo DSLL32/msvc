@@ -732,7 +732,11 @@
     "@coff_output_offset@8",
     "@coff_add_relocation@16",
     "@coff_output_bytes@8",
-    "@coff_output_typed_reference@12"
+    "@coff_output_typed_reference@12",
+    "@emit_function_exception_table@8",
+    "_count_function_saved_registers",
+    "@write_function_frame_record@36",
+    "@coff_output_address@8"
   ],
   "driver": [
     {
@@ -1437,8 +1441,7 @@
     {
       "name": "@emit_function_exception_table@8",
       "start": 431168,
-      "end": 431169,
-      "provisional": true
+      "end": 431243
     },
     {
       "name": "@emit_function_inline_data@4",
@@ -1575,10 +1578,9 @@
       "end": 447755
     },
     {
-      "name": "_coff_output_address",
+      "name": "@coff_output_address@8",
       "start": 448048,
-      "end": 448049,
-      "provisional": true
+      "end": 448086
     },
     {
       "name": "@coff_output_offset@8",
@@ -5958,6 +5960,16 @@
       "start": 453472,
       "end": 453473,
       "provisional": true
+    },
+    {
+      "name": "_count_function_saved_registers",
+      "start": 162704,
+      "end": 162751
+    },
+    {
+      "name": "@write_function_frame_record@36",
+      "start": 431248,
+      "end": 431391
     }
   ],
   "cases": {
