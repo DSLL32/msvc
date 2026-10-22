@@ -18,7 +18,7 @@
       "fixture": "../fixtures/link-debug-dll/manifest.json",
       "phase": "link",
       "status": "active",
-      "current_frontier": "_read_definition_file"
+      "current_frontier": "_update_function_auxiliary"
     },
     {
       "case": "library-list",

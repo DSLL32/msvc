@@ -1,7 +1,13 @@
 #ifndef LINK_PASS_TWO_H
 #define LINK_PASS_TWO_H
 #include "link-pass.h"
-typedef struct FunctionSymbolMap FunctionSymbolMap;
+typedef struct FunctionSymbol {
+    unsigned long input_index,auxiliary_offset,output_index;
+} FunctionSymbol;
+typedef struct FunctionSymbolMap {
+    unsigned long count,capacity;
+    FunctionSymbol *entries;
+} FunctionSymbolMap;
 FunctionSymbolMap *allocate_function_symbol_maps(unsigned short);
 void release_function_symbol_maps(FunctionSymbolMap *,unsigned short);
 void update_debug_symbol(Image *,PIMAGE_SYMBOL);

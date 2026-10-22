@@ -1738,5 +1738,65 @@
     "name": "resource_copy_buffer",
     "size": 1024,
     "owner": "resources.c"
+  },
+  {
+    "address": 453664,
+    "name": "definition_stream",
+    "size": 4,
+    "owner": "definition-file.c"
+  },
+  {
+    "address": 453676,
+    "name": "definition_cursor",
+    "size": 4,
+    "owner": "definition-file.c"
+  },
+  {
+    "address": 510216,
+    "name": "definition_version",
+    "size": 4,
+    "owner": "definition-file.c"
+  },
+  {
+    "address": 495840,
+    "name": "definition_keywords",
+    "size": 88,
+    "owner": "definition-file.c",
+    "string_pointers": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68,
+      72,
+      76,
+      80,
+      84
+    ]
+  },
+  {
+    "address": 453400,
+    "name": "definition_line",
+    "size": 261,
+    "owner": "definition-file.c"
+  },
+  {
+    "address": 510260,
+    "name": "definition_name_seen",
+    "size": 1,
+    "owner": "definition-file.c"
   }
 ]

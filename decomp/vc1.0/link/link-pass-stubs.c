@@ -8,14 +8,11 @@ void initialize_mac_resources(void) { __asm { int 3 } }
 void initialize_mac_exports(void) { __asm { int 3 } }
 unsigned long size_mac_jump_table(SymbolTable *table) { __asm { int 3 } return 0; }
 void initialize_mac_section_numbers(unsigned short count) { __asm { int 3 } }
-void print_comdat_graph(ComdatNode *nodes) { __asm { int 3 } }
 void set_mac_export_mode(unsigned char mode) { __asm { int 3 } }
 void build_mac_resources(Image *image) { __asm { int 3 } }
 void finalize_mac_debug(void) { __asm { int 3 } }
 void initialize_mac_loader(void) { __asm { int 3 } }
 unsigned long size_mac_data_fixups(Image *image,unsigned long file) { __asm { int 3 } return 0; }
-void pad_contribution(Contribution *contribution) { __asm { int 3 } }
-unsigned long count_modules(Library *libraries) { __asm { int 3 } return 0; }
 void finalize_mac_fixups(void) { __asm { int 3 } }
 void write_mac_debug(Image *image) { __asm { int 3 } }
 void write_mac_resources(void) { __asm { int 3 } }

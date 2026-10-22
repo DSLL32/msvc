@@ -427,3 +427,31 @@ DEF analysis finds two observable target quirks in the frozen original output:
 NONAME is consumed into an unused local flag, so OrdinalEntry remains named at9;
 the expected DLL has no populated forwarder slot at11. Preserve the original
 bytes and record coverage limits rather than repairing these semantics.
+
+DEF/order checkpoint: 463 accepted frontiers and 129445/281634 original .text
+bytes (45.9621%). A clean original-toolchain -j2 build, 21 added-frontier replays
+since the full442 checkpoint, all five completed case regressions and330 direct/
+indirect/tail-call,321 callback and281 contextual-data audits pass. The library
+child's .lib and .exp normalize exactly to the frozen expected hashes, using
+only the existing structural clock fields. No fixture edits or new normalization
+were needed. The reconstructed debug DLL stops at update_function_auxiliary.
+
+Readable definition-file.c preserves shared lexical state, case-sensitive
+keyword recognition, first-semicolon comments, single-quote-only DESCRIPTION
+handling, original directive buffers, ordinal accumulation and target quirks.
+The named keyword array is a real shared parser/diagnostic table. Ordinary
+literals remain at use; the NAME/LIBRARY attribute table is local to its parser.
+The native export helper consumes NONAME into a local which registration ignores.
+The frozen expected DLL confirms OrdinalEntry remains named and has no forwarder
+slot11. These inputs establish parser coverage, not successful modern emission
+semantics. All primary artifacts remain immutable.
+
+Ordering preserves the native initial calloc(64,64), prefix scratch byte, lookup
+and callback ABI, capacity doubling, duplicate marks and reversed remainder list.
+The native allocated order array and group tail remain unchanged. Debug resizing
+moves all groups/contributions after the resized contribution. Native code only
+assigns its displacement at the first following group; the accepted COFF/CV
+layout has one. The absent-following-group boundary remains unverified rather
+than inventing an initialized displacement. FunctionSymbolMap and FunctionSymbol
+are explicit12-byte records with compile-time layout checks; auxiliary emission
+uses the existing shared symbol_record_size. No assembly exception was needed.

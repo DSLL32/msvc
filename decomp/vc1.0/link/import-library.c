@@ -211,3 +211,13 @@ int build_import_library(int argc,char **argv,Image *image)
     free(import_member_offsets);
     return 0;
 }
+
+/* Original [0002dff0,0002e030). */
+void record_export_ordinal(unsigned long ordinal)
+{
+    if (!first_export_ordinal) {
+        last_export_ordinal=ordinal;
+        first_export_ordinal=ordinal;
+    } else if (first_export_ordinal>ordinal) first_export_ordinal=ordinal;
+    else if (last_export_ordinal<ordinal) last_export_ordinal=ordinal;
+}

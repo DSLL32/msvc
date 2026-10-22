@@ -236,3 +236,21 @@ unsigned char contribution_discarded(Contribution *contribution)
            !(contribution->flags&0x2000000);
 }
 
+
+/* Original [00017730,000177d0). Verbose listing of discarded graph nodes. */
+void print_comdat_graph(ComdatNode *nodes)
+{
+    ComdatNodeEnumerator scan;
+    ComdatNode *node;
+    char display[512];
+    if (!comdat_enabled) return;
+    initialize_comdat_node_enumerator(&scan,nodes);
+    while (next_comdat_node(&scan)) {
+        node=scan.current;
+        if (contribution_discarded(node->contribution)) {
+            if (!node->name)
+                printf("\t\tDiscarded code in %s\n",format_module_name(node->contribution->module,display));
+            else printf("\t\tDiscarded %s()\n",node->name);
+        }
+    }
+}

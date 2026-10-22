@@ -330,3 +330,37 @@ void finish_pe_image(Image *image,void *zeroes)
     }
 }
 
+
+/* Original [0001a4c0,0001a5d0). Grow a debug contribution after initial layout.
+ * Native callers put another debug group after the contribution being resized. */
+void pad_contribution(Contribution *contribution)
+{
+    GroupEnumerator groups;
+    GroupContributionEnumerator members;
+    Group *group=contribution->group;
+    unsigned long end=(contribution->file_offset+contribution->raw_size+3)&~3UL;
+    unsigned long shift;
+    unsigned char after=0,first=0;
+    group->size=contribution->raw_size;
+    initialize_group_enumerator(&groups,debug_section);
+    while (next_group(&groups)) {
+        if (!after) {
+            if (groups.current==group) { after=1; first=1; }
+            continue;
+        }
+        if (first) {
+            first=0;
+            shift=end-groups.current->file_offset;
+        }
+        groups.current->rva+=shift;
+        groups.current->file_offset+=shift;
+        initialize_group_contribution_enumerator(&members,groups.current);
+        while (next_group_contribution(&members)) {
+            members.current->file_offset+=shift;
+            members.current->rva+=shift;
+        }
+    }
+    debug_section->file_end+=shift;
+    debug_section->raw_size=debug_section->file_end-debug_section->file_offset;
+    debug_section->virtual_size=debug_section->file_end-debug_section->file_offset;
+}

@@ -1,19 +1,19 @@
 {
   "case": "hello-debug-dll",
   "status": "in progress",
-  "current_frontier": "_read_definition_file",
+  "current_frontier": "_update_function_auxiliary",
   "fixture": "../fixtures/link-debug-dll/manifest.json",
   "checkpoint": {
-    "accepted_frontiers": 442,
-    "new_debug_dll_frontiers": 25,
-    "full_frontiers_replayed": 442,
+    "accepted_frontiers": 463,
+    "new_frontiers_replayed_since_last_full_replay": 21,
+    "last_full_frontier_replay": 442,
     "five_completed_cases_pass": true,
     "clean_parallel_build": true,
-    "call_graphs_audited": 309,
-    "callback_sets_audited": 300,
-    "contextual_data_definitions": 275,
-    "coverage": "cases/coverage-after-resources.json",
-    "replay_log_sha256": "67eb3053f38b21a6d58b39937999f9da7085ee0a6b5e1eaf0c5005b41e1f2171"
+    "call_graphs_audited": 330,
+    "callback_sets_audited": 321,
+    "contextual_data_definitions": 281,
+    "coverage": "cases/coverage-after-def-order.json",
+    "new_replay_log_sha256": "469b6f6773fb1579bf86a236deeca0bdac4d316491257a6286bd749d85ed0b9b"
   },
   "intermediate_resource_object": {
     "scope": "Intermediate resource object at matching DEF-parser trap; later DLL case remains incomplete",
@@ -33,5 +33,41 @@
     }
   },
   "abi_exceptions": [],
-  "remaining": "Definition-file parsing, further debug/order/map/COMDAT frontiers, final artifacts and GUI verification remain pending; the library/dump/edit lifecycle follows this case."
+  "remaining": "COFF/CodeView function, line, map and final debug emission remain, followed by final DLL artifacts/GUI checks and the authorized library/dump/edit lifecycle.",
+  "previous_checkpoints": [
+    {
+      "accepted_frontiers": 442,
+      "new_debug_dll_frontiers": 25,
+      "full_frontiers_replayed": 442,
+      "five_completed_cases_pass": true,
+      "clean_parallel_build": true,
+      "call_graphs_audited": 309,
+      "callback_sets_audited": 300,
+      "contextual_data_definitions": 275,
+      "coverage": "cases/coverage-after-resources.json",
+      "replay_log_sha256": "67eb3053f38b21a6d58b39937999f9da7085ee0a6b5e1eaf0c5005b41e1f2171"
+    }
+  ],
+  "child_artifacts_match_frozen_fixture": {
+    "original": {
+      "hello-debug.lib": {
+        "bytes": 2097152,
+        "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7"
+      },
+      "hello-debug.exp": {
+        "bytes": 2097152,
+        "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98"
+      }
+    },
+    "reconstructed": {
+      "hello-debug.lib": {
+        "bytes": 2097152,
+        "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7"
+      },
+      "hello-debug.exp": {
+        "bytes": 2097152,
+        "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98"
+      }
+    }
+  }
 }

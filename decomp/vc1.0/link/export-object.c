@@ -1,6 +1,6 @@
 /* Build the COFF .exp object containing the PE export directory. */
 #include "import-library.h"
-#pragma intrinsic(strlen,strcpy,memcpy)
+#pragma intrinsic(strlen,strcpy,strcat,memcpy)
 extern unsigned long symbol_record_size;
 char *export_description,*export_directives;
 unsigned long export_name_bytes;
@@ -251,4 +251,16 @@ void write_export_symbols(SymbolTable *table)
         external->flags |= EXTERNAL_EMITTED;
         ++symbol_count;
     }
+}
+
+/* Original [0002d440,0002d4c0). The .exp directive section starts with a space. */
+void append_export_directive(const char *text)
+{
+    if (!export_directives) {
+        export_directives=malloc(4096);
+        if (!export_directives) out_of_memory();
+        *export_directives=0;
+    }
+    strcat(export_directives," ");
+    strcat(export_directives,text);
 }

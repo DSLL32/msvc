@@ -441,7 +441,28 @@
     "_copy_resource_data",
     "_resource_write",
     "__chsize",
-    "__chkstk"
+    "__chkstk",
+    "_read_definition_file",
+    "_read_definition_line",
+    "_find_definition_keyword",
+    "_read_definition_name",
+    "_append_export_directive",
+    "_next_definition_keyword",
+    "_read_definition_description",
+    "_read_definition_exports",
+    "_parse_definition_export",
+    "_read_definition_ordinal",
+    "_record_export_ordinal",
+    "_find_export_matches",
+    "_reorder_code_contributions",
+    "_read_ordered_contributions",
+    "_print_comdat_graph",
+    "_pad_contribution",
+    "_count_modules",
+    "_allocate_function_symbol_maps",
+    "_release_function_symbol_maps",
+    "_write_coff_auxiliary",
+    "_is_section_symbol"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1102,10 +1123,11 @@
     {
       "name": "_print_comdat_graph",
       "start": 96048,
-      "end": 96049,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(ComdatNode *nodes)"
+      "end": 96208,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(ComdatNode *nodes)",
+      "evidence": "Full17730..177d0: optional COMDAT traversal, discarded-contribution test and native function/module diagnostics. Retain direct enumeration helper calls."
     },
     {
       "name": "_visit_comdat_roots",
@@ -1136,10 +1158,11 @@
     {
       "name": "_count_modules",
       "start": 106576,
-      "end": 106577,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl unsigned long(Library *libraries)"
+      "end": 106704,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl unsigned long(Library *libraries)",
+      "evidence": "Full1a050..1a0d0 nested library/module enumeration, increment DWORD count, no enumerator-end calls on natural exhaustion."
     },
     {
       "name": "_count_output_sections",
@@ -1162,10 +1185,11 @@
     {
       "name": "_pad_contribution",
       "start": 107712,
-      "end": 107713,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Contribution *contribution)"
+      "end": 107984,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl void(Contribution *contribution)",
+      "evidence": "Complete1a4c0..1a5d0: update debug-group size, align end and shift all subsequent groups/contributions; recompute debug section extents. Native delta is assigned by the first following group, valid caller layout requires one."
     },
     {
       "name": "_order_sections",
@@ -2794,10 +2818,11 @@
     {
       "name": "_reorder_code_contributions",
       "start": 96944,
-      "end": 96945,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 97120,
+      "implementation": "C",
+      "source": "ordering.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Full17ab0..17b60: find first .text group, parse order list, reverse remaining contributions, relink each selected contribution once using temporary RVA marks. Native group tail and allocated array left unchanged."
     },
     {
       "name": "_merge_sections",
@@ -3142,18 +3167,20 @@
     {
       "name": "_allocate_function_symbol_maps",
       "start": 219968,
-      "end": 219969,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl FunctionSymbolMap *(unsigned short count)"
+      "end": 220064,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl FunctionSymbolMap *(unsigned short count)",
+      "evidence": "Full35b40..35ba0: native12-byte per-section map layout, malloc and explicit zero initialization; map entries associate input index with auxiliary file offset and output index."
     },
     {
       "name": "_release_function_symbol_maps",
       "start": 220288,
-      "end": 220289,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl void(FunctionSymbolMap *maps,unsigned short count)"
+      "end": 220368,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl void(FunctionSymbolMap *maps,unsigned short count)",
+      "evidence": "Full35c80..35cd0: release each non-NULL per-section entry array in WORD index order, then free outer map array."
     },
     {
       "name": "_process_output_symbol",
@@ -3246,10 +3273,11 @@
     {
       "name": "_is_section_symbol",
       "start": 122832,
-      "end": 122833,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl unsigned char(Image *image,PIMAGE_SYMBOL symbol)"
+      "end": 122992,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl unsigned char(Image *image,PIMAGE_SYMBOL symbol)",
+      "evidence": "Full1dfd0..1e070: require exactly one auxiliary, resolve shared short/long name, search every output section group and end enumerator on match."
     },
     {
       "name": "_update_function_auxiliary",
@@ -3270,10 +3298,11 @@
     {
       "name": "_write_coff_auxiliary",
       "start": 152080,
-      "end": 152081,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl unsigned(int file,PIMAGE_AUX_SYMBOL auxiliary)"
+      "end": 152112,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_AUX_SYMBOL auxiliary)",
+      "evidence": "Full25210..25230: delegate to write_file using shared native COFF symbol-record size, not sizeof of host header union."
     },
     {
       "name": "_record_map_symbol",
@@ -3475,10 +3504,11 @@
     {
       "name": "_read_definition_file",
       "start": 169248,
-      "end": 169249,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(Image *,const char *); entry only until reached"
+      "end": 170896,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl void(Image *image,const char *path)",
+      "evidence": "Full29520..29b90 includes21-way switch table; recover DEF dispatch and size/version directive formatting, preserve typed shared lexer state and original helper graph."
     },
     {
       "name": "_copy_argument_node",
@@ -3652,18 +3682,20 @@
     {
       "name": "_record_export_ordinal",
       "start": 188400,
-      "end": 188401,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(unsigned long); entry only until reached"
+      "end": 188464,
+      "implementation": "C",
+      "source": "import-library.c",
+      "abi": "cdecl void(unsigned long ordinal)",
+      "evidence": "Full2dff0..2e030 range accumulator; preserve zero-initialized special case and unsigned min/max branches. Existing initial range remains1..1."
     },
     {
       "name": "_find_export_matches",
       "start": 187232,
-      "end": 187233,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(SymbolTable *,const char *,unsigned short *,char **,char **); entry only until reached"
+      "end": 187632,
+      "implementation": "C",
+      "source": "export-resolution.c",
+      "abi": "cdecl void(SymbolTable *table,const char *name,unsigned short *count,char **names,char **modules)",
+      "evidence": "Full2db60..2dcf0: enumerate sorted defined externals, optional C/C++ prefix and stdcall suffix matching, suppress duplicate of first match, return duplicated names and original module contexts."
     },
     {
       "name": "_get_hash_flags",
@@ -3713,10 +3745,11 @@
     {
       "name": "_append_export_directive",
       "start": 185408,
-      "end": 185409,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(const char *); entry only until reached"
+      "end": 185536,
+      "implementation": "C",
+      "source": "export-object.c",
+      "abi": "cdecl void(const char *text)",
+      "evidence": "Full2d440..2d4c0 fixed4096-byte directive buffer, append space before every string (including empty), native malloc/OOM graph."
     },
     {
       "name": "_fill_export_tables",
@@ -4026,6 +4059,127 @@
       "implementation": "stub-C",
       "source": "pass-stubs.c",
       "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_read_definition_line",
+      "start": 170896,
+      "end": 171040,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl char *(void)",
+      "evidence": "Full29b90..29c20 fgets261, original LF/CR index trimming, first-semicolon comment truncation, whitespace skip and EOF7F sentinel."
+    },
+    {
+      "name": "_find_definition_keyword",
+      "start": 174352,
+      "end": 174448,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl unsigned short(const char *text)",
+      "evidence": "Full2a910..2a970 intrinsic strcmp lookup, case-sensitive DEF keywords, WORD index and FFFF unknown sentinel."
+    },
+    {
+      "name": "_read_definition_name",
+      "start": 171120,
+      "end": 171936,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl unsigned short(unsigned char library)",
+      "evidence": "Full29c70..29fa0, native attribute switch included. Recover LIBRARY/NAME selection, output/base/subsystem directives, seen flag, original duplicate behavior."
+    },
+    {
+      "name": "_next_definition_keyword",
+      "start": 171040,
+      "end": 171120,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl unsigned short(void)",
+      "evidence": "Full29c20..29c70 skip blank and unrecognized lines; EOF7F returnsFFFF, original NULL fallback returnsAX zero."
+    },
+    {
+      "name": "_read_definition_description",
+      "start": 171936,
+      "end": 172032,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl unsigned short(char *text)",
+      "evidence": "Full29fa0..2a000: trim leading whitespace, remove single quotes only, store shared export_description and advance grammar."
+    },
+    {
+      "name": "_read_definition_sizes",
+      "start": 172032,
+      "end": 172033,
+      "implementation": "stub-C",
+      "source": "definition-stubs.c",
+      "abi": "cdecl unsigned short(const char *kind,char *text,unsigned long *reserve,unsigned long *commit)"
+    },
+    {
+      "name": "_skip_definition_code",
+      "start": 172272,
+      "end": 172273,
+      "implementation": "stub-C",
+      "source": "definition-stubs.c",
+      "abi": "cdecl unsigned short(void)"
+    },
+    {
+      "name": "_skip_definition_data",
+      "start": 172304,
+      "end": 172305,
+      "implementation": "stub-C",
+      "source": "definition-stubs.c",
+      "abi": "cdecl unsigned short(void)"
+    },
+    {
+      "name": "_read_definition_sections",
+      "start": 172336,
+      "end": 172337,
+      "implementation": "stub-C",
+      "source": "definition-stubs.c",
+      "abi": "cdecl unsigned short(const char *kind,char *text)"
+    },
+    {
+      "name": "_read_definition_exports",
+      "start": 173984,
+      "end": 174096,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl unsigned short(Image *image,char *text)",
+      "evidence": "Full2a7a0..2a810: iterate DEF export lines with original EOF7F and keyword return semantics; parser remains native named frontier."
+    },
+    {
+      "name": "_read_definition_imports",
+      "start": 174096,
+      "end": 174097,
+      "implementation": "stub-C",
+      "source": "definition-stubs.c",
+      "abi": "cdecl unsigned short(char *text)"
+    },
+    {
+      "name": "_parse_definition_export",
+      "start": 173360,
+      "end": 173984,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl unsigned short(Image *image,char *text,const char *context)",
+      "evidence": "Full2a530..2a7a0: tokenize aliases/forwarders, ordinal attributes and DATA/CONSTANT; native registration ignores consumed NONAME local, preserving frozen target quirk."
+    },
+    {
+      "name": "_read_definition_ordinal",
+      "start": 173152,
+      "end": 173360,
+      "implementation": "C",
+      "source": "definition-file.c",
+      "abi": "cdecl char *(char *text,char *fallback,const char *context,char *delimiter,unsigned long *ordinal,unsigned char *noname)",
+      "evidence": "Full2a460..2a530: numeric ordinal parsing and native record_export_ordinal, consume NONAME/RESIDENTNAME, preserve fallback token and delimiter updates."
+    },
+    {
+      "name": "_read_ordered_contributions",
+      "start": 97120,
+      "end": 97760,
+      "implementation": "C",
+      "source": "ordering.c",
+      "abi": "cdecl unsigned long(SymbolTable *symbols,Contribution ***ordered,Group *code,Image *image)",
+      "evidence": "Full17b60..17de0: fixed initial calloc(64,64), scratch prefix byte and261-byte reads, exact name decoration, lookup/callbacks and native capacity doubling. Counts and array retained for caller."
     }
   ],
   "c_stub_references": [
@@ -4449,6 +4603,27 @@
     "library-create",
     "library-create",
     "library-create",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
     "hello-debug-dll",
     "hello-debug-dll",
     "hello-debug-dll",

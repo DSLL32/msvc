@@ -199,3 +199,29 @@ void intern_export_targets(SymbolTable *table)
             intern_symbol_name(table,external->export_target);
     }
 }
+
+/* Original [0002db60,0002dcf0). Match an undecorated export to linked symbols. */
+void find_export_matches(SymbolTable *table,const char *name,unsigned short *count,
+                          char **names,char **modules)
+{
+    External **ordered=get_externals_by_name(table),*external;
+    unsigned long remaining=count_externals(table),length;
+    unsigned short prefix;
+    char short_name[9]={0},*candidate;
+    while (remaining--) {
+        external=*ordered++;
+        if (!(external->flags&EXTERNAL_DEFINED) || (external->flags&0x10)) continue;
+        if (external->symbol.N.Name.Short)
+            candidate=strncpy(short_name,(char *)&external->symbol,8);
+        else candidate=table->strings.data+external->symbol.N.Name.Long;
+        length=strlen(name);
+        prefix=(unsigned short)(*candidate=='?' || *candidate=='_');
+        if (strncmp(name,candidate+prefix,length)) continue;
+        if (candidate[prefix+length] && candidate[prefix+length]!='@') continue;
+        if (*count && !strcmp(names[0],candidate)) continue;
+        names[*count]=duplicate_string(candidate);
+        if (!external->owner.contribution) modules[*count]="(common)";
+        else modules[*count]=external->owner.contribution->module->path;
+        ++*count;
+    }
+}

@@ -536,3 +536,17 @@ void end_library_enumerator(LibraryEnumerator *scan)
 {
 }
 
+
+/* Original [0001a050,0001a0d0). Size the CodeView module-information array. */
+unsigned long count_modules(Library *libraries)
+{
+    LibraryEnumerator scan;
+    ModuleEnumerator modules;
+    unsigned long count=0;
+    initialize_library_enumerator(&scan,libraries);
+    while (next_library(&scan)) {
+        initialize_module_enumerator(&modules,scan.current);
+        while (next_module(&modules)) ++count;
+    }
+    return count;
+}

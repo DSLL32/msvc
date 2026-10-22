@@ -184,3 +184,9 @@ unsigned write_coff_symbol(int file,IMAGE_SYMBOL *symbol)
 {
     return write_file(file,symbol,symbol_record_size);
 }
+
+/* Original [00025210,00025230). Auxiliary and symbol records share file size. */
+unsigned write_coff_auxiliary(int file,PIMAGE_AUX_SYMBOL auxiliary)
+{
+    return write_file(file,auxiliary,symbol_record_size);
+}
