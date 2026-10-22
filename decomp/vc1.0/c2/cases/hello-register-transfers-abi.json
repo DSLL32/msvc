@@ -189,5 +189,59 @@
     "No diagnostic/failure branch or branch coverage is claimed.",
     "The corrected canonical-cache cleanup sees an empty table in minimal-C; populated cleanup will be exercised when the assigned hello case reaches normal function reset. Its source/native graph and24-byte record layout agree, but the populated reset path is not yet dynamically claimed."
   ],
-  "validation_status": "clean build passed; historical replays running"
+  "validation_status": "passed",
+  "validation": [
+    "clean original-toolchain make -j2 check passes with exact minimal object/exit/streams except only four-byte COFF timestamp",
+    "all352 minimal and all172 hello historical logical frontiers replay using four isolated pairs, with frozen native build/config hashes",
+    "all447 source graphs agree; all524 accepted original/reconstructed extents end on complete instructions",
+    "six affected implementation modules compile /W3 clean after the explicit comparison and shared-state corrections",
+    "fresh transfer/range captures match407 and413 normalized lines; selection-handoff capture matches9 lines and exact candidate/header pointer identities"
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 524,
+    "accepted_code_bytes": 138495,
+    "original_code_bytes": 399693,
+    "percentage": 34.65034413912678,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 155
+  },
+  "replay_receipts": [
+    {
+      "profile": "minimal",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-4057469/receipt.json",
+      "sha256": "7441793de89a56d64ad849d5b83faa1662c0c6ba3c15b14557104bdb2d92fa9d",
+      "frontiers": 352,
+      "seconds": 63.63753084279597,
+      "frozen": {
+        "functions.json": "a9f9fa3a4c07292ce21680c0a8e9822c60717e90b9ffe298030958f8d140ce81",
+        "build/c2.exe": "374296290696cf10cc2f8ab4133aea69c8cc48d7074861f6447d8a571c34412a",
+        "build/c2.map": "1d9f8143d59f6b390f0184a3766e7fcb82af2cc97c01c06f6dd6656865b1c095",
+        "build/runtime.json": "75b6989bd8c7d2d6e50ff5934473b926af00d84eedc88a99ac483846e634deb8"
+      },
+      "final": "exit:0"
+    },
+    {
+      "profile": "hello",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-4062539/receipt.json",
+      "sha256": "e05800c11e50a32d43510b593e4f5713ba7c64574198a4a058faac65aa4fe7cc",
+      "frontiers": 172,
+      "seconds": 32.854699371382594,
+      "frozen": {
+        "functions.json": "a9f9fa3a4c07292ce21680c0a8e9822c60717e90b9ffe298030958f8d140ce81",
+        "build/c2.exe": "374296290696cf10cc2f8ab4133aea69c8cc48d7074861f6447d8a571c34412a",
+        "build/c2.map": "1d9f8143d59f6b390f0184a3766e7fcb82af2cc97c01c06f6dd6656865b1c095",
+        "build/runtime.json": "75b6989bd8c7d2d6e50ff5934473b926af00d84eedc88a99ac483846e634deb8"
+      },
+      "final": "@prepare_machine_context@4"
+    }
+  ]
 }

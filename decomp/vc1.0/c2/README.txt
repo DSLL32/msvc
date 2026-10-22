@@ -977,3 +977,12 @@ area. Every pair must hit its recorded logical trap, and hashes assert the
 native build/config stayed frozen. After all pairs finish, the ordinary final
 comparator retains baseline, streams and object checks. Set REPLAY_JOBS=1 for
 one pair at a time; compare.py --replay also retains the earlier serial path.
+
+This checkpoint has447 reconstructed functions and524 accepted frontiers.
+The clean build, all352 minimal and172 hello historical frontiers, all source
+graphs and all accepted instruction boundaries pass. Six affected modules
+compile /W3 clean; the minimal object/exit/streams comparison passes. Verified
+accepted code-extent coverage is138,495 /399,693 bytes, or34.6503percent,
+including source/shared text/CRT/import thunks with union, clipping and actual-
+mask verification. This is not branch coverage. Hello remains pending at
+prepare_machine_context,00023e30, whose next task is machine-transfer placement.
