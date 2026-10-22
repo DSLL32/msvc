@@ -2,6 +2,31 @@
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+/* Analysis-only snapshot of RC's current in-memory resource buffer. */
+static void capture_payload(HANDLE process, DWORD base, char **arguments)
+{
+    DWORD address, size, received, written;
+    HANDLE output;
+    static BYTE bytes[65500];
+    if (!ReadProcessMemory(process, (void *)(base + strtoul(arguments[1], 0, 16)),
+                           &address, sizeof(address), &received) || received != sizeof(address))
+        return;
+    if (!ReadProcessMemory(process, (void *)(base + strtoul(arguments[2], 0, 16)),
+                           &size, sizeof(size), &received) || received != sizeof(size))
+        return;
+    if (!address || size > sizeof(bytes))
+        return;
+    if (!ReadProcessMemory(process, (void *)address, bytes, size, &received) || received != size)
+        return;
+    output = CreateFileA(arguments[0], GENERIC_WRITE, FILE_SHARE_READ, 0,
+                         CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    if (output == INVALID_HANDLE_VALUE)
+        return;
+    WriteFile(output, bytes, size, &written, 0);
+    CloseHandle(output);
+}
 
 int main(int argc, char **argv)
 {
@@ -14,7 +39,7 @@ int main(int argc, char **argv)
     char command[2048], line[256];
     int loader_break = 0;
 
-    if (argc != 6 && argc != 7) return 2;
+    if (argc != 6 && argc != 7 && argc != 10) return 2;
     memset(&si, 0, sizeof(si));
     memset(&sa, 0, sizeof(sa));
     sa.nLength = sizeof(sa);
@@ -32,7 +57,7 @@ int main(int argc, char **argv)
     si.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
     sprintf(command, "\"%s\" %s", argv[1], argv[2]);
     if (!CreateProcessA(argv[1], command, 0, 0, TRUE,
-                        DEBUG_ONLY_THIS_PROCESS, 0, argc == 7 ? argv[6] : 0, &si, &pi)) {
+                        DEBUG_ONLY_THIS_PROCESS, 0, argc >= 7 ? argv[6] : 0, &si, &pi)) {
         sprintf(line, "create-error %lu\n", GetLastError());
         WriteFile(log, line, strlen(line), &written, 0);
         return 3;
@@ -55,6 +80,8 @@ int main(int argc, char **argv)
                         code, (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress - base,
                         base, ev.u.Exception.dwFirstChance);
                 WriteFile(log, line, strlen(line), &written, 0);
+                if (argc == 10)
+                    capture_payload(pi.hProcess, base, argv + 7);
                 TerminateProcess(pi.hProcess, 99);
             }
         } else if (ev.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {

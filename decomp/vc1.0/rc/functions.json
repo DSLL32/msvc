@@ -336,14 +336,12 @@
     {
       "name": "_advance_argument",
       "start": 16828208,
-      "end": 16828209,
-      "pending_extent": true
+      "end": 16828277
     },
     {
       "name": "_parse_word_expression",
       "start": 16823552,
-      "end": 16823553,
-      "pending_extent": true
+      "end": 16823587
     },
     {
       "name": "_parse_language",
@@ -421,8 +419,7 @@
     {
       "name": "_parse_menu@8",
       "start": 16828368,
-      "end": 16828369,
-      "pending_extent": true
+      "end": 16828784
     },
     {
       "name": "_parse_dialog@4",
@@ -433,8 +430,7 @@
     {
       "name": "_write_resource@8",
       "start": 16822496,
-      "end": 16822497,
-      "pending_extent": true
+      "end": 16822586
     },
     {
       "name": "_parse_font@4",
@@ -520,8 +516,7 @@
     {
       "name": "_scan_ansi_string",
       "start": 16813920,
-      "end": 16813921,
-      "pending_extent": true
+      "end": 16814533
     },
     {
       "name": "_scan_kanji_string",
@@ -666,6 +661,87 @@
       "name": "_put_bytes@8",
       "start": 16820272,
       "end": 16820319
+    },
+    {
+      "name": "_parse_menu_item@4",
+      "start": 16828784,
+      "end": 16829254
+    },
+    {
+      "name": "_parse_menu_flag@8",
+      "start": 16829264,
+      "end": 16829416,
+      "shared": [
+        [
+          16829416,
+          16829536
+        ]
+      ]
+    },
+    {
+      "name": "_mark_menu_item",
+      "start": 16821536,
+      "end": 16821547,
+      "pending_extent": false
+    },
+    {
+      "name": "_finish_menu",
+      "start": 16821552,
+      "end": 16821568,
+      "pending_extent": false
+    },
+    {
+      "name": "_put_menu_item@4",
+      "start": 16821600,
+      "end": 16821680,
+      "pending_extent": false
+    },
+    {
+      "name": "_combine_word_operators@4",
+      "start": 16824432,
+      "end": 16824501
+    },
+    {
+      "name": "_record_resource@20",
+      "start": 16816976,
+      "end": 16817068
+    },
+    {
+      "name": "_write_record_header@20",
+      "start": 16816160,
+      "end": 16816963
+    },
+    {
+      "name": "_write_resource_name@8",
+      "start": 16816048,
+      "end": 16816152
+    },
+    {
+      "name": "_resource_payload_size",
+      "start": 16820432,
+      "end": 16820507
+    },
+    {
+      "name": "_copy_resource_data@16",
+      "start": 16820320,
+      "end": 16820417
+    },
+    {
+      "name": "_wide_to_ansi@12",
+      "start": 16810256,
+      "end": 16810342
+    },
+    {
+      "name": "_copy_file_bytes@12",
+      "start": 16806224,
+      "end": 16806225,
+      "pending_extent": true
+    },
+    {
+      "name": "_copy_file_to_end@8",
+      "start": 16806336,
+      "end": 16806337,
+      "pending_extent": true
     }
   ],
   "accepted": [
@@ -795,7 +871,24 @@
     "__strcmpi",
     "_parse_memory_flag@4",
     "_begin_resource_data",
-    "_put_word@4"
+    "_put_word@4",
+    "_parse_menu@8",
+    "_parse_menu_item@4",
+    "_scan_ansi_string",
+    "_advance_argument",
+    "_parse_menu_flag@8",
+    "_mark_menu_item",
+    "_put_menu_item@4",
+    "_scan_decimal_number",
+    "_combine_word_operators@4",
+    "_finish_menu",
+    "_write_resource@8",
+    "_seek_file@12",
+    "_record_resource@20",
+    "_write_record_header@20",
+    "_resource_payload_size",
+    "_write_resource_name@8",
+    "_copy_resource_data@16"
   ],
   "cases": {
     "resources-rich": {

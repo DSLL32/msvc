@@ -70,9 +70,11 @@ paired execution and final byte oracles remain required.
 
 The current resource frontier includes the top-level dispatcher, type interning,
 identifiers, LANGUAGE, numeric expressions, keyword lookup, memory flags and the
-initial binary payload words. Both masked programs stop at the menu parser.
-Remaining resource parsers and writer functions are still named traps; no final
-resource product is claimed at this milestone.
+binary payload construction, nested menus and the .res record writer. Both
+masked programs stop at the dialog parser. The debugger snapshots the first
+menu payload without changing execution: both copies match the exact captured
+190 bytes, and both flushed files match the captured first 64 bytes. Remaining
+resource parsers are still named traps; no final product is claimed yet.
 
 RC calls NTDLL's counted-string conversion routine directly. The shipped SDK has
 no NTDLL import library. ntdll.def and import-library.py use original LIB.EXE to

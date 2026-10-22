@@ -127,3 +127,23 @@ original: _parse_memory_flag@4; reconstruction: _parse_memory_flag@4
 original: _begin_resource_data; reconstruction: _begin_resource_data
 original: _put_word@4; reconstruction: _put_word@4
 original: _parse_menu@8; reconstruction: _parse_menu@8
+original: _parse_menu_item@4; reconstruction: _parse_menu_item@4
+original: _scan_ansi_string; reconstruction: _scan_ansi_string
+original: _advance_argument; reconstruction: _advance_argument
+original: _parse_menu_flag@8; reconstruction: _parse_menu_flag@8
+original: _mark_menu_item; reconstruction: _mark_menu_item
+original: _put_menu_item@4; reconstruction: _put_menu_item@4
+original: _scan_decimal_number; reconstruction: _scan_decimal_number
+original: _combine_word_operators@4; reconstruction: _combine_word_operators@4
+original: _finish_menu; reconstruction: _finish_menu
+original: _write_resource@8; reconstruction: _write_resource@8
+Both first menu payloads match the captured 190 bytes exactly.
+original: _seek_file@12; reconstruction: _seek_file@12
+original: _record_resource@20; reconstruction: _record_resource@20
+original: _write_record_header@20; reconstruction: _write_record_header@20
+original: _resource_payload_size; reconstruction: _resource_payload_size
+original: _write_resource_name@8; reconstruction: _write_resource_name@8
+original: _copy_resource_data@16; reconstruction: _copy_resource_data@16
+Both first menu payloads match the captured 190 bytes exactly.
+original: _parse_dialog@4; reconstruction: _parse_dialog@4
+Both flushed output prefixes match the captured 64 bytes exactly.

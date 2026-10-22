@@ -9,7 +9,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
-from binary import PE, imports
+from binary import PE, imports, u32
 
 wt = importlib.machinery.SourceFileLoader('wine_tool', 'wine-tool.py').load_module()
 FIXTURE = Path('../fixtures/resources-rich').resolve()
@@ -80,11 +80,21 @@ def run(label, executable):
         shutil.rmtree(work)
     shutil.copytree(FIXTURE / 'source', work)
     stem = Path('build') / label
+    payload = Path(str(stem) + '.payload')
+    payload.unlink(missing_ok=True)
+    if label == 'original':
+        pointer_rva, size_rva = 0x15030, 0x15034
+    else:
+        base = PE(executable).base
+        names = publics()
+        pointer_rva = names['_resource_data'] - base
+        size_rva = names['_resource_data_size'] - base
     env = wt.environment()
     env.update(TEMP=wt.windows(work), TMP=wt.windows(work))
     subprocess.run(['wine', 'build/debug-run.exe', wt.windows(executable), ARGUMENTS,
                     wt.windows(str(stem) + '.stdout'), wt.windows(str(stem) + '.stderr'),
-                    wt.windows(str(stem) + '.events'), wt.windows(work)], env=env,
+                    wt.windows(str(stem) + '.events'), wt.windows(work),
+                    wt.windows(payload), '%x' % pointer_rva, '%x' % size_rva], env=env,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
                    stderr=subprocess.DEVNULL, check=True, timeout=90)
     return Path(str(stem) + '.events').read_text()
@@ -116,6 +126,23 @@ def compare(count=None):
     ol, rl = logical(oe, original, oi), logical(revents, reconstruction, ri)
     print('original: %s; reconstruction: %s' % (ol, rl), flush=True)
     assert ol == rl, 'logical trap mismatch\n' + oe + revents
+    if ol in ('_write_resource@8', '_copy_resource_data@16'):
+        expected = (FIXTURE / 'rc/resources.res').read_bytes()
+        first = u32(expected, 4) # Skip the mandatory empty record.
+        data_size, header_size = u32(expected, first), u32(expected, first + 4)
+        menu = expected[first + header_size:first + header_size + data_size]
+        for label in ('original', 'reconstructed'):
+            assert Path('build/' + label + '.payload').read_bytes() == menu, (label, 'menu payload differs')
+        print('Both first menu payloads match the captured %d bytes exactly.' % data_size)
+    if ol == '_parse_dialog@4':
+        expected = (FIXTURE / 'rc/resources.res').read_bytes()
+        prefixes = []
+        for label in ('original', 'reconstructed'):
+            written = (SCRATCH / ('case-' + label) / 'resources.res').read_bytes()
+            assert len(written) > 32 and expected.startswith(written), (label, 'first resource header differs')
+            prefixes.append(written)
+        assert prefixes[0] == prefixes[1], 'flushed output prefixes differ'
+        print('Both flushed output prefixes match the captured %d bytes exactly.' % len(prefixes[0]))
     if ol == '__freebuf':
         expected = (FIXTURE / 'rcpp/RC000360').read_bytes()
         for label in ('original', 'reconstructed'):
