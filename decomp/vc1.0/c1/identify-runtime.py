@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Match CRT code and verify the REL32 call/jump destinations, not just bytes."""
 import json
+import re
 import struct
 import sys
 from collections import defaultdict
@@ -55,6 +56,17 @@ for name, data in objects:
                                         object=name, library='SETARGV.OBJ' if name == 'SETARGV.OBJ' else 'LIBC.LIB'))
                 candidates.append((fragment, start, records))
 
+# A library wrapper may call a source-reconstructed CRT entry in the same
+# archive object. Resolve that relocation against the linked public, rather
+# than requiring the obsolete library neighbor to survive as an exact match.
+source_targets = {}
+if len(sys.argv) > 1:
+    driver_names = {r['name'] for r in json.loads(Path('functions.json').read_text())['driver']}
+    for line in Path('build/c1.map').read_text().splitlines():
+        match = re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})', line)
+        if match and match[1] in driver_names:
+            source_targets[match[1]] = int(match[2], 16)
+
 import_targets = {r['name'][7:]: r['start'] for r in imports(pe)}
 # Identical masked code can call unrelated functions: remove/rmdir, new/delete,
 # setargv/getpid and spawnv/spawnvp are examples. Resolve those relocations.
@@ -63,6 +75,8 @@ while True:
     for text, start, records in candidates:
         for r in records:
             known[r['name']].add(r['start'])
+    for name, address in source_targets.items():
+        known[name].add(address)
     remaining = []
     for text, start, records in candidates:
         valid = True
@@ -73,7 +87,9 @@ while True:
             addend = struct.unpack_from('<i', text['data'], offset)[0]
             name = symbol['name']
             expected = None
-            if symbol['section'] == text['index']:
+            if name in source_targets:
+                expected = {source_targets[name]}
+            elif symbol['section'] == text['index']:
                 expected = {start + symbol['value']}
             elif symbol['section'] == 0:
                 if name.startswith('_') and '@' in name:

@@ -25,6 +25,8 @@ typedef struct Extended {
     unsigned short exponent, format;
 } Extended;
 extern Extended extended_zero;
+extern Extended scanned_float;
+int __stdcall parse_floating_literal(char *text, Extended *number);
 int compare_extended(unsigned operation, const Extended *left, const Extended *right);
 int unsigned_to_extended(const unsigned *value, Extended *number);
 int integer_to_extended(const int *value, Extended *number);
@@ -66,6 +68,7 @@ int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsign
 void __stdcall type_warning(unsigned level, unsigned code, CType *type);
 int subtract_extended(const Extended *left, const Extended *right, Extended *result);
 Extended * __stdcall save_extended_constant(Extended *value);
+Extended *__stdcall allocate_extended_value(Extended value, int arena);
 unsigned __stdcall call_argument_bytes(IrToken *call);
 unsigned __stdcall parameter_info_bytes(ParameterInfo *parameters);
 IrToken *__stdcall address_member_operand(IrToken *operand);

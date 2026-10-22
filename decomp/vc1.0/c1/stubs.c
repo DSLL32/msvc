@@ -11,6 +11,8 @@
 #include "source-input.h"
 #include "lexer.h"
 #include "parser.h"
+#include "debug-info.h"
+#include "floating.h"
 #include "literal-names.h"
 #include "initializer-records.h"
 #include "initializers.h"
@@ -44,7 +46,6 @@ int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
 
 /* Original 0x47450. */
-void begin_debug_info(void) { __asm { int 3 } }
 
 /* Original 0x1fda0. */
 void load_precompiled_header(void) { __asm { int 3 } }
@@ -148,7 +149,6 @@ void finish_pch_output(void) { __asm { int 3 } }
 unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
 
 
-unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
 
 unsigned char __stdcall scan_assembler_number(int first_character) { __asm { int 3 } return 0; }
 
@@ -757,7 +757,6 @@ void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm 
 /* Original 0x4c538. */
 int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 /* Original 0x284f0. */
-Extended * __stdcall save_extended_constant(Extended *value) { __asm { int 3 } return 0; }
 
 
 
@@ -770,7 +769,6 @@ int __stdcall put_initializer_byte(int value, InitializerBuffer *buffer) { __asm
 
 unsigned __stdcall initializer_address_size(FrontendSymbol *symbol) { __asm { int 3 } }
 int extended_to_double(const Extended *value, double *result) { __asm { int 3 } }
-int extended_to_float(const Extended *value, float *result) { __asm { int 3 } }
 int extended_to_integer(const Extended *value, int *result) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
@@ -832,7 +830,6 @@ unsigned __stdcall classify_pointer_qualifiers(unsigned result, unsigned short t
 unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target, unsigned short source, TypeShape *shape) { __asm { int 3 } }
 
 /* Original 0x4c696. */
-int float_to_extended(const float *value, Extended *number) { __asm { int 3 } }
 /* Original 0x4c6b8. */
 int double_to_extended(const double *value, Extended *number) { __asm { int 3 } }
 
@@ -841,3 +838,30 @@ int __stdcall recognize_qc_loop(IrToken *condition, IrToken *increment, LabelSta
 
 /* Original 0x2f250. */
 void finish_qc_loop(void) { __asm { int 3 } }
+
+/* Original 0x48fe0. */
+/* Original 0x48d90. */
+
+/* Original 0x17b70. */
+/* Original 0x49110. */
+/* Original 0x49080. */
+
+/* Original ECX methods: 0x18030, 0x17390, 0x17300, 0x18120. */
+void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
+
+/* Original 0x18050, ECX this plus one stack argument. */
+
+/* Program database reference operands, original 0x17fc0/0x17fd0. */
+/* Original 0x4a470/0x4a1a0. */
+
+/* Original 0x4bd50. */
+
+/* Original 0x4c390. */
+
+/* Original CRT variant 0x57f40. */
+
+/* Original 0x4c8f5, private x87 inputs. */
+
+/* Original 0x4c8f1, ESI destination and ST(0) value. */
+
+/* Original 0x28530, twelve-byte value plus arena selector on stack. */

@@ -1,6 +1,7 @@
 /* Frontend expression constants. */
 #include "initialization.h"
 #include "parser.h"
+#include "expressions.h"
 
 /* Original 0x278f0..0x27907. */
 IrToken *__stdcall make_integer_constant(unsigned value)
@@ -88,4 +89,29 @@ void __stdcall assign_string_type(IrToken *token)
     description->related = intern_type_shape(new_type_shape(2, 1, &count));
     token->type = intern_type(description);
     --type_description_depth;
+}
+
+/* Original 0x284f0..0x28521. Parser-owned constants use arena two;
+   persistent/scanner modes retain their extended value permanently. */
+Extended *__stdcall save_extended_constant(Extended *value)
+{
+    return allocate_extended_value(*value, scanner_flags & 0x20000020UL ? 0 : 2);
+}
+
+/* Original 0x28530..0x28587, value passed as twelve stack bytes. */
+Extended *__stdcall allocate_extended_value(Extended value, int arena)
+{
+    Extended *result;
+    ArenaPool *pool;
+    if (!arena) result = allocate_permanent(sizeof(Extended));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(Extended)) refill_arena(&compiler_arena, pool);
+        result = (Extended *)pool->next;
+        pool->remaining -= sizeof(Extended);
+        pool->next += sizeof(Extended);
+    }
+    *result = value;
+    return result;
 }

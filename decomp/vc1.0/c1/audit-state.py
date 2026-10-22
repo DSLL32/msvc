@@ -9,6 +9,15 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_floating_workspace', 0x710aa, 8),
+    ('_float_round_limit', 0x71074, 10),
+    ('_decimal_digits', 0x68b00, 25),
+    ('_scanned_float', 0x650e0, 12),
+    ('_pdb_record_cursor', 0x5b23c, 4),
+    ('_program_database', 0x6e13c, 4),
+    ('_pdb_record_buffer', 0x5b240, 4),
+    ('_debug_record_buffer', 0x5b24c, 4),
+    ('_debug_type_bytes', 0x6b810, 4),
     ('_error_count', 0x5b228, 4),
     ('_global_expression_scope_active', 0x5b25c, 4),
     ('_global_record_kind', 0x6003c, 1),
@@ -262,4 +271,11 @@ for index in range(6):
         assert cstring(original, old_name) == cstring(rebuilt, new_name), ('declspec name', index)
     assert old[4:] == new[4:], ('declspec fields', index)
 
-print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows match.' % (len(STATE), option_scalar_count))
+# Debug record descriptors contain logical format strings and writer flags.
+for index in range(13):
+    old = read(original, 0x6ed30 + 8*index, 8)
+    new = read(rebuilt, names['_debug_record_formats'] + 8*index, 8)
+    assert cstring(original, struct.unpack_from('<I', old)[0]) == cstring(rebuilt, struct.unpack_from('<I', new)[0]), ('debug record format', index)
+    assert old[4:] == new[4:], ('debug record flags', index)
+
+print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match.' % (len(STATE), option_scalar_count))

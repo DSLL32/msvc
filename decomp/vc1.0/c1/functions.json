@@ -514,7 +514,43 @@
     "_convert_pointer_representation@8",
     "_format_integer",
     "_write_ir_string",
-    "_parse_declspec"
+    "_parse_declspec",
+    "_begin_debug_info",
+    "_begin_program_database",
+    "_open_program_database",
+    "@initialize_pdb_block@12",
+    "__open",
+    "import:GetLastError",
+    "__dosmaperr",
+    "@create_program_database@16",
+    "@load_program_database@4",
+    "@reserve_pdb_block@12",
+    "_initialize_pdb_record_buffer",
+    "_write_debug_record",
+    "_write_program_database_reference",
+    "_program_database_signature",
+    "_program_database_age",
+    "_copy_codeview_name",
+    "_append_codeview_name@8",
+    "_pad_codeview_record",
+    "_scan_float_tail@4",
+    "_parse_floating_literal@8",
+    "__atoldbl",
+    "___strgtold12",
+    "___mtold12",
+    "___shl_12",
+    "___add_12",
+    "___addl",
+    "___multtenpow12",
+    "___ld12mul",
+    "__ld12told",
+    "__RoundMan",
+    "_extended_to_float",
+    "_check_extended_range",
+    "_float_to_extended",
+    "_store_extended",
+    "_save_extended_constant@4",
+    "_allocate_extended_value@16"
   ],
   "driver": [
     {
@@ -726,7 +762,7 @@
     {
       "name": "_begin_debug_info",
       "start": 291920,
-      "end": 291921
+      "end": 292008
     },
     {
       "name": "_load_precompiled_header",
@@ -1377,7 +1413,7 @@
     {
       "name": "_scan_float_tail@4",
       "start": 139168,
-      "end": 139169
+      "end": 139608
     },
     {
       "name": "_scan_assembler_number@4",
@@ -3425,7 +3461,7 @@
     {
       "name": "_save_extended_constant@4",
       "start": 165104,
-      "end": 165105
+      "end": 165153
     },
     {
       "name": "_call_argument_bytes@4",
@@ -3525,7 +3561,7 @@
     {
       "name": "_extended_to_float",
       "start": 312869,
-      "end": 312870
+      "end": 312908
     },
     {
       "name": "_extended_to_integer",
@@ -3765,7 +3801,7 @@
     {
       "name": "_float_to_extended",
       "start": 312982,
-      "end": 312983
+      "end": 313016
     },
     {
       "name": "_double_to_extended",
@@ -3781,6 +3817,106 @@
       "name": "_finish_qc_loop",
       "start": 193104,
       "end": 193105
+    },
+    {
+      "name": "_begin_program_database",
+      "start": 298976,
+      "end": 299132
+    },
+    {
+      "name": "_write_debug_record",
+      "start": 298384,
+      "end": 298944
+    },
+    {
+      "name": "_open_program_database",
+      "start": 97136,
+      "end": 97731
+    },
+    {
+      "name": "_initialize_pdb_record_buffer",
+      "start": 299280,
+      "end": 299304
+    },
+    {
+      "name": "_write_program_database_reference",
+      "start": 299136,
+      "end": 299274
+    },
+    {
+      "name": "@initialize_pdb_block@12",
+      "start": 98352,
+      "end": 98376
+    },
+    {
+      "name": "@load_program_database@4",
+      "start": 95120,
+      "end": 95788
+    },
+    {
+      "name": "@create_program_database@16",
+      "start": 94976,
+      "end": 95109
+    },
+    {
+      "name": "@destroy_pdb_buffer_list@4",
+      "start": 98592,
+      "end": 98593
+    },
+    {
+      "name": "@reserve_pdb_block@12",
+      "start": 98384,
+      "end": 98414
+    },
+    {
+      "name": "_program_database_signature",
+      "start": 98240,
+      "end": 98248
+    },
+    {
+      "name": "_program_database_age",
+      "start": 98256,
+      "end": 98264
+    },
+    {
+      "name": "_copy_codeview_name",
+      "start": 304240,
+      "end": 304265
+    },
+    {
+      "name": "_pad_codeview_record",
+      "start": 303520,
+      "end": 303572
+    },
+    {
+      "name": "_append_codeview_name@8",
+      "start": 310608,
+      "end": 310675
+    },
+    {
+      "name": "_parse_floating_literal@8",
+      "start": 312208,
+      "end": 312481
+    },
+    {
+      "name": "___strgtold12",
+      "start": 360256,
+      "end": 362080
+    },
+    {
+      "name": "_check_extended_range",
+      "start": 313589,
+      "end": 313659
+    },
+    {
+      "name": "_store_extended",
+      "start": 313585,
+      "end": 313589
+    },
+    {
+      "name": "_allocate_extended_value@16",
+      "start": 165168,
+      "end": 165255
     }
   ],
   "cases": {
@@ -3798,6 +3934,10 @@
       "arguments": "",
       "accepted_from": 509,
       "accepted_count": 510
+    },
+    "numeric-varargs": {
+      "arguments": "",
+      "accepted_from": 510
     }
   },
   "buffered_streams": [
@@ -3816,6 +3956,11 @@
     {
       "name": "_global_file",
       "original": 374168
+    },
+    {
+      "name": "_debug_file",
+      "original": 373344,
+      "output_name": "irdb"
     }
   ]
 }

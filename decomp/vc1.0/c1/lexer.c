@@ -4,6 +4,7 @@
 #include "source-input.h"
 #include "characters.h"
 #include "parser.h"
+#include "expressions.h"
 
 struct FrontendSymbol *last_lookup_symbol; /* original 0x604b8 */
 typedef char LexicalToken_must_be_sixteen_bytes[(sizeof(LexicalToken) == 16) ? 1 : -1];
@@ -1165,4 +1166,63 @@ unsigned char *__stdcall convert_string_segment(unsigned char *text, int wide, u
 unsigned char __stdcall classify_long_integer(unsigned value)
 {
     return value & 0x80000000UL ? TOK_ULONG_CONSTANT : TOK_LONG_CONSTANT;
+}
+
+Extended scanned_float; /* original 0x650e0 */
+
+/* Original 0x21fa0..0x22158. Scan fraction, exponent and representation
+   suffix; preprocessing rescans retain text instead of building a constant. */
+unsigned char __stdcall scan_float_tail(char *destination)
+{
+    unsigned char character, following, token;
+    Extended *value;
+    character = read_numeric_character();
+    if (options.option_xc && !macro_rescan_depth) {
+        compiler_warning(1, 12);
+        options.option_xc = 0;
+    }
+    if ((character_flags[character] & CF_DECIMAL) || character == '.') {
+        do {
+            *destination++ = character;
+            if (destination > token_text + 128) fatal_error(64);
+            character = read_numeric_character();
+        } while (character_flags[character] & CF_DECIMAL);
+    }
+    if ((character & 0xdf) == 'E') {
+        *destination++ = character;
+        character = read_numeric_character();
+        if (character == '+' || character == '-') {
+            *destination++ = character;
+            character = read_numeric_character();
+        }
+        if (!(character_flags[character] & CF_DECIMAL)) {
+            if (!macro_rescan_depth) report_syntax_error(21, (unsigned)character);
+            *destination++ = '0';
+        } else {
+            do {
+                *destination++ = character;
+                character = read_numeric_character();
+            } while (character_flags[character] & CF_DECIMAL);
+        }
+    }
+    switch (character & 0xdf) {
+    case 'F': token = TOK_FLOAT_CONSTANT; *destination++ = character; break;
+    case 'L': token = TOK_LONG_DOUBLE_CONSTANT; *destination++ = character; break;
+    default: --source_text_cursor; token = TOK_DOUBLE_CONSTANT; break;
+    }
+    following = character_class[(unsigned char)*source_text_cursor];
+    if (following == CC_IDENTIFIER || following == CC_WIDE_PREFIX)
+        report_syntax_error(59, "bad suffix on number");
+    *destination = 0;
+    if (macro_rescan_depth > 0) {
+        macro_expansion_next = destination;
+        return 0x8e;
+    }
+    if (parse_floating_literal(token_text, &scanned_float)) {
+        report_syntax_error(177);
+        scanned_float = extended_zero;
+    }
+    value = save_extended_constant(&scanned_float);
+    current_token_value.literal = make_constant_token(token, &value);
+    return token;
 }

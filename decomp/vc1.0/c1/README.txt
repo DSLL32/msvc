@@ -2,9 +2,12 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-All three captured cases are complete, with 429 reconstructed source functions
-and 510 accepted trap frontiers. A clean original-toolchain make -j2 build
-passes all call-graph, state and grammar audits.
+The first three captured cases are complete. The assigned fourth case,
+numeric-varargs (/Zi /Od /G5 /W3), is in progress: 453 reconstructed source
+functions and 546 accepted trap frontiers. All three earlier raw-output
+regressions pass. Every new numeric frontier replays with exact pending
+buffers and visible bytes except the two proven database timestamp fields.
+The current paired trap is put_initializer_byte at original 0x29d60.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -371,3 +374,32 @@ all 258 minimal-C frontiers and all 251 hello-win32 frontiers pass, including
 successful exits and raw capture comparison against the unmodified original.
 All 429 function call graphs, 168 state defaults/aliases, option and callback
 identities, six declspec rows and the logical grammar audit pass.
+
+Checkpoint 453 adds native /Zi database startup, allocation and loading,
+CodeView record schemas and LF_TYPESERVER output, decimal floating scanning,
+the complete original CRT __strgtold12 state machine and extended-value
+storage. PDB creation uses the typed 64-byte header, twelve-byte allocation
+nodes and 116-byte database context; no opaque binary data are imported.
+The private ECX-method ABI is expressed with fastcall and an unused EDX
+formal when stack operands follow. Ten-byte x87 transfers and the original
+ESI/ST(0) store tail have documented narrow assembly exceptions because this
+compiler's C scalar types cannot express them; decisions remain C.
+
+The immutable numeric fixture now includes irdb and msvc.pdb. Independent
+original replay uses a private baseline prefix and canonical N:\numeric-varargs
+cwd; original/reconstructed labels have separate prefixes with the same DOS
+path. No path bytes are normalized. The timestamp signature at PDB+48 is
+written from the begin_program_database time(0) argument by
+create_program_database, read by program_database_signature, and copied to
+the LF_TYPESERVER payload; the debug stream encoder places it at irdb+14.
+Each run's two signatures must agree before those four-byte fields are
+normalized. All other auxiliary bytes and all four main IR files stay exact.
+Independent original replay confirms the exact six-file set, main IR hashes,
+51-byte irdb, 574-byte PDB and the expected C4069 CRLF warning. Auxiliary
+reconstruction completion is still pending later debug/type writers.
+
+At this checkpoint all 36 additional numeric frontiers replay, all 453
+call graphs match, 177 state defaults/aliases and 13 debug schemas pass,
+and all logical grammar checks pass. The three completed cases exit 0 and
+match their captures and independent untouched originals again. Full old-case
+frontier replay and the final clean build remain required at case completion.

@@ -1,0 +1,186 @@
+/* Native program database allocation and file access. */
+#include <stdlib.h>
+#include <string.h>
+#include <io.h>
+#include <fcntl.h>
+#include "debug-info.h"
+
+/* Original 0x17b70..0x17dc3. Each list owns its own allocation chain;
+   failure while opening or validating the file releases both chains. */
+ProgramDatabase *open_program_database(char *path, char *mode, unsigned signature)
+{
+    ProgramDatabase *db;
+    PdbBuffer *buffer;
+    PdbBlock *block, *next;
+    int valid;
+    db = malloc(sizeof(ProgramDatabase));
+    if (db) {
+        db->type_offsets = 0;
+        db->type_index = 0;
+        buffer = malloc(sizeof(PdbBuffer));
+        if (buffer) {
+            buffer->available = 0;
+            buffer->cursor = (unsigned char *)(buffer + 1);
+            buffer->next = 0;
+        }
+        db->records.head = db->records.tail = buffer;
+        db->records.count = 0;
+        block = malloc(sizeof(PdbBlock));
+        if (block) block = initialize_pdb_block(block, 0, 0);
+        db->blocks.head = db->blocks.tail = block;
+        db->blocks.count = 0;
+        db->handle = -1;
+    }
+    if (!db) fatal_error(1, "typesrvr.cpp", 401);
+    db->writable = mode[0] == 'w';
+    switch (mode[1]) {
+    case 'c': db->cumulative = 1; break;
+    case 'i': db->incremental = 1; break;
+    default: db->incremental = db->cumulative = 1; break;
+    }
+    db->handle = _open(path, _O_BINARY | (db->writable ? _O_RDWR : _O_RDONLY));
+    if (db->handle >= 0) {
+        valid = _read(db->handle, &db->header, sizeof(PdbHeader)) == sizeof(PdbHeader)
+            && db->header.magic == 0x000e0d5c && load_program_database(db);
+        if (valid) {
+            if (db->writable) return db;
+            if (db->handle >= 0) {
+                valid = _close(db->handle) >= 0;
+                db->handle = -1;
+            }
+            if (valid) return db;
+        }
+    } else if (db->writable && create_program_database(db, 0, path, signature)) {
+        return db;
+    }
+    if (db) {
+        if (db->handle != -1 && db->handle >= 0) {
+            _close(db->handle);
+            db->handle = -1;
+        }
+        if (db->type_offsets) free(db->type_offsets);
+        if (db->type_index) free(db->type_index);
+        for (block = db->blocks.head; block; block = next) {
+            next = block->next;
+            free(block);
+        }
+        destroy_pdb_buffer_list(&db->records);
+        free(db);
+    }
+    return 0;
+}
+
+/* Original 0x18030..0x18048, ECX this and one stack argument, RET 4. */
+PdbBlock *__fastcall initialize_pdb_block(PdbBlock *self, unsigned unused_edx, unsigned capacity)
+{
+    self->available = capacity;
+    self->cursor = (unsigned char *)(self + 1);
+    self->next = 0;
+    return self;
+}
+
+/* Original 0x17300..0x17385. The signature passed by begin_program_database
+   is written into header byte 48; the companion debug reference uses it too. */
+int __fastcall create_program_database(ProgramDatabase *self, unsigned unused_edx, char *path, unsigned signature)
+{
+    static const PdbHeader initial_header = {
+        "Microsoft C/C++ program database 1.00\r\n\032JG", 0x000e0d5c,
+        0, 0, 0x1000, 0x1000, 0
+    };
+    self->handle = _open(path, _O_BINARY | _O_CREAT | _O_RDWR, 0777);
+    if (self->handle < 0) return 0;
+    self->header = initial_header;
+    self->header.timestamp = signature;
+    if (_write(self->handle, &self->header, sizeof(PdbHeader)) != sizeof(PdbHeader)) {
+        if (self->handle >= 0) {
+            _close(self->handle);
+            self->handle = -1;
+        }
+        return 0;
+    }
+    return load_program_database(self);
+}
+
+/* The original inlines this list growth at each allocation site, while
+   retaining the block reservation and constructor as separate methods. */
+#define RESERVE_LIST(list, bytes, result) do { \
+    PdbBlock *new_block; \
+    unsigned capacity; \
+    (result) = (void *)reserve_pdb_block((list)->tail, 0, (bytes)); \
+    if (!(result)) { \
+        capacity = ((bytes) + 8191U) & ~4095U; \
+        new_block = malloc(capacity + sizeof(PdbBlock)); \
+        if (new_block) new_block = initialize_pdb_block(new_block, 0, capacity); \
+        (list)->tail->next = new_block; \
+        (list)->tail = new_block; \
+        (result) = (void *)reserve_pdb_block((list)->tail, 0, (bytes)); \
+        if (!(result)) fatal_error(1, "typesrvr.cpp", 58); \
+    } \
+    (list)->count += (bytes); \
+} while (0)
+
+/* Original 0x17390..0x1762c. Load serialized records, establishing both
+   the type-index vector and the hash chains used by incremental insertion. */
+int __fastcall load_program_database(ProgramDatabase *self)
+{
+    unsigned short limit, index;
+    unsigned bytes, slot;
+    unsigned char *record;
+    PdbTypeEntry *entry, **bucket;
+    limit = self->writable ? 0xfff0 : self->header.last_type;
+    if (self->cumulative) {
+        self->type_offsets = malloc(((unsigned)limit - 0x1000) * sizeof(unsigned char *));
+        if (!self->type_offsets) return 0;
+    }
+    if (self->incremental) {
+        self->type_index = malloc(16384);
+        if (self->type_index)
+            for (slot = 0; slot < 4096; ++slot) self->type_index[slot] = 0;
+        if (!self->type_index) return 0;
+    }
+    bytes = self->header.record_bytes;
+    RESERVE_LIST(&self->records, bytes, record);
+    if (!record) return 0;
+    bytes = self->header.record_bytes;
+    if (_read(self->handle, record, bytes) != bytes) return 0;
+    for (index = self->header.first_type; index < self->header.last_type; ++index) {
+        if (self->type_offsets) self->type_offsets[index - 0x1000] = record;
+        if (self->type_index) {
+            bucket = self->type_index + *(unsigned short *)record;
+            RESERVE_LIST(&self->blocks, 12U, entry);
+            if (entry) {
+                entry->next = *bucket;
+                entry->record = record;
+                entry->index = index;
+            }
+            *bucket = entry;
+        }
+        record += (unsigned short)(*(unsigned short *)(record + 2) + 2) + 2;
+    }
+    self->loaded_tail = self->records.tail;
+    self->records.tail->available = 0;
+    return 1;
+}
+
+/* Original 0x18050..0x1806e. Reservation is non-growing and unsigned. */
+unsigned char *__fastcall reserve_pdb_block(PdbBlock *self, unsigned unused_edx, unsigned bytes)
+{
+    unsigned char *result;
+    if (bytes > self->available) return 0;
+    self->available -= bytes;
+    result = self->cursor;
+    self->cursor += bytes;
+    return result;
+}
+
+/* Original 0x17fc0..0x17fc8. */
+unsigned program_database_signature(ProgramDatabase *self)
+{
+    return self->header.timestamp;
+}
+
+/* Original 0x17fd0..0x17fd8. */
+unsigned program_database_age(ProgramDatabase *self)
+{
+    return self->header.age;
+}

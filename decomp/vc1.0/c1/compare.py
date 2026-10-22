@@ -81,7 +81,7 @@ def mask(pe, records, accepted, output):
                 data[a:b] = pe.data[a:b]
     Path(output).write_bytes(data)
 
-FIXTURES = {'minimal': 'minimal-c', 'hello-win32': 'hello-win32', 'hello-dll': 'hello-dll'}
+FIXTURES = {'minimal': 'minimal-c', 'hello-win32': 'hello-win32', 'hello-dll': 'hello-dll', 'numeric-varargs': 'numeric-varargs'}
 CASE_NAME = 'minimal'
 FIXTURE = Path('../fixtures') / FIXTURES[CASE_NAME]
 CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
@@ -91,6 +91,59 @@ def select_case(name):
     CASE_NAME = name
     FIXTURE = Path('../fixtures') / FIXTURES[name]
     CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
+
+def target_namespace(label, directory):
+    """Give paired children the same DOS cwd in independent private prefixes."""
+    canonical = CASE.get('canonical_working_directory')
+    env = wt.environment()
+    if not canonical:
+        return env, wt.windows(directory)
+    assert canonical == r'N:\numeric-varargs', 'unhandled canonical namespace'
+    scratch = wt.PREFIX.parent / 'paired-prefixes' / label
+    prefix, root = scratch / 'wine', scratch / 'root'
+    if not (prefix / 'system.reg').exists():
+        scratch.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(wt.PREFIX, prefix, symlinks=True,
+                        ignore=shutil.ignore_patterns('dosdevices'))
+        (prefix / 'dosdevices').mkdir()
+        (prefix / 'dosdevices/c:').symlink_to('../drive_c')
+        (prefix / 'dosdevices/z:').symlink_to('/')
+        (prefix / 'dosdevices/n:').symlink_to(root)
+    root.mkdir(parents=True, exist_ok=True)
+    mapped = root / 'numeric-varargs'
+    if mapped.is_symlink():
+        mapped.unlink()
+    assert not mapped.exists()
+    mapped.symlink_to(directory.resolve())
+    env['WINEPREFIX'] = str(prefix)
+    return env, canonical
+
+def artifact_bytes(name, data):
+    """Only the explicitly captured timestamp fields vary between runs."""
+    spec = next((r for r in CASE['outputs'] if r['output_name'] == name), {})
+    data = bytearray(data)
+    for field in spec.get('ignored_fields', []):
+        a, b = field['offset'], field['offset'] + field['bytes']
+        if len(data) >= b:
+            data[a:b] = bytes(b-a)
+    return bytes(data)
+
+def check_cross_outputs(directory, complete=False, pending=None):
+    for check in CASE.get('cross_output_checks', []):
+        assert check['kind'] == 'equal-u32'
+        fields = []
+        for side in ('left', 'right'):
+            spec = check[side]
+            path = directory / spec['file']
+            data = path.read_bytes() if path.exists() else b''
+            data += (pending or {}).get(spec['file'], b'')
+            start = spec['offset']
+            if len(data) < start + 4:
+                assert not complete, 'missing cross-output field: ' + str(path)
+                break
+            fields.append(u32(data, start))
+        if len(fields) == 2:
+            assert fields[0] == fields[1], 'database/reference timestamps disagree: ' + str(directory)
 
 def run(label, exe, case=''):
     stem = Path('build') / label
@@ -102,11 +155,12 @@ def run(label, exe, case=''):
         data = (FIXTURE / source['path']).read_bytes()
         assert hashlib.sha256(data).hexdigest() == source['sha256'], 'fixture input changed'
         (directory / Path(source['path']).name).write_bytes(data)
+    env, cwd = target_namespace(label, directory)
     flags = CASE['environment']['MSC_CMD_FLAGS'].format(
         bin=wt.windows(wt.TC / 'bin'), include=wt.windows(wt.TC / 'include'))
     args = ['wine', 'build/debug-run.exe', wt.windows(exe), case,
             wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
-            wt.windows(str(stem)+'.events'), wt.windows(directory),
+            wt.windows(str(stem)+'.events'), cwd,
             'MSC_CMD_FLAGS=' + flags]
     cfg = json.loads(Path('functions.json').read_text())
     if label == 'reconstructed':
@@ -117,7 +171,7 @@ def run(label, exe, case=''):
         image = PE(wt.TC/'bin/C13232.EXE')
         rvas = [stream['original'] - image.base for stream in cfg['buffered_streams']]
     args.append(','.join('%x' % rva for rva in rvas))
-    subprocess.run(args, env=wt.environment(), check=True, timeout=90,
+    subprocess.run(args, env=env, check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return Path(str(stem)+'.events').read_text()
 
@@ -147,10 +201,14 @@ def check_artifacts(labels):
     for label in labels:
         directory = Path('build') / (CASE_NAME + '-' + label)
         assert {p.name for p in directory.iterdir()} == expected, 'unexpected files: ' + label
+        check_cross_outputs(directory, complete=True)
         for output in CASE['outputs']:
             data = (directory / output['output_name']).read_bytes()
-            assert hashlib.sha256(data).hexdigest() == output['sha256'], output['output_name'] + ' differs: ' + label
-    print('All four frontend intermediates match the captured fixture byte for byte.')
+            assert len(data) == output['bytes'], output['output_name'] + ' size differs: ' + label
+            data = artifact_bytes(output['output_name'], data)
+            digest = output.get('normalized_sha256', output['sha256'])
+            assert hashlib.sha256(data).hexdigest() == digest, output['output_name'] + ' differs: ' + label
+    print('All captured frontend outputs match; only declared database timestamp fields are normalized.')
 
 def compare(accepted_count=None, case='', baseline=True):
     orig, rec, cfg, oi, ri = prepare(accepted_count)
@@ -161,8 +219,25 @@ def compare(accepted_count=None, case='', baseline=True):
     al, bl = logical(ae,orig,oi), logical(be,rec,ri)
     print('original: %s; reconstruction: %s' % (al,bl), flush=True)
     if al != bl: raise RuntimeError('logical trap mismatch\n'+ae+be)
-    pending_a = re.findall(r'^buffer .*$', ae, re.M)
-    pending_b = re.findall(r'^buffer .*$', be, re.M)
+    def pending_rows(events, label):
+        rows, pending = [], {}
+        directory = Path('build') / (CASE_NAME + '-' + label)
+        for row in re.findall(r'^buffer .*$', events, re.M):
+            match = re.fullmatch(r'buffer (\d+) (\d+) ([0-9a-f]*)', row)
+            if match:
+                stream = cfg['buffered_streams'][int(match[1])]
+                name = stream.get('output_name')
+                if name:
+                    data = bytes.fromhex(match[3])
+                    pending[name] = data
+                    # The canonical auxiliary stream fits in its first buffer.
+                    if not (directory / name).stat().st_size:
+                        row = 'buffer %s %s %s' % (match[1], match[2], artifact_bytes(name, data).hex())
+            rows.append(row)
+        check_cross_outputs(directory, pending=pending)
+        return rows
+    pending_a = pending_rows(ae, 'original')
+    pending_b = pending_rows(be, 'reconstructed')
     assert pending_a == pending_b, 'pending intermediate bytes differ\n'+ae+be
     assert not any(re.search(r'unreadable|invalid', row) for row in pending_a), \
         'could not inspect pending intermediate bytes\n'+ae
@@ -170,12 +245,16 @@ def compare(accepted_count=None, case='', baseline=True):
     left = Path('build') / (CASE_NAME + '-original')
     right = Path('build') / (CASE_NAME + '-reconstructed')
     assert {p.name for p in left.iterdir()} == {p.name for p in right.iterdir()}, 'frontier file sets differ'
+    check_cross_outputs(left)
+    check_cross_outputs(right)
     for path in left.iterdir():
-        assert path.read_bytes() == (right / path.name).read_bytes(), 'frontier file differs: ' + path.name
+        assert artifact_bytes(path.name, path.read_bytes()) == artifact_bytes(path.name, (right / path.name).read_bytes()), 'frontier file differs: ' + path.name
     if al.startswith('exit:'):
         for stream in ('stdout','stderr'):
             assert Path('build/original.'+stream).read_bytes() == Path('build/reconstructed.'+stream).read_bytes(), stream+' differs'
-        print('Output streams and exit status match.')
+        for stream in ('stdout', 'stderr'):
+            assert Path('build/original.'+stream).read_bytes() == CASE.get('expected_'+stream, '').encode('utf-8'), 'captured '+stream+' differs'
+        print('Output streams and exit status match the capture.')
         if baseline:
             events = run('baseline', wt.TC / 'bin/C13232.EXE', case)
             assert events == ae, 'unmodified original exit status differs'
