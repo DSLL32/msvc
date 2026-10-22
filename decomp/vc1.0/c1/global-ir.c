@@ -215,13 +215,13 @@ formats:
             GLOBAL_INDEX(symbol->index);
             break;
         case GF_DEBUG_TYPE:
-            if ((symbol->kind & 31) == 4 && (short)symbol->field24)
-                GLOBAL_SHORT(symbol->field24);
+            if ((symbol->kind & 31) == 4 && (short)symbol->metadata.value)
+                GLOBAL_SHORT(symbol->metadata.value);
             else
                 GLOBAL_SHORT(type->field0c);
             break;
         case GF_CONTEXT:
-            GLOBAL_BYTE(stream, tag == 3 ? (unsigned char)symbol->field24 : global_record_kind);
+            GLOBAL_BYTE(stream, tag == 3 ? (unsigned char)symbol->metadata.value : global_record_kind);
             break;
         case GF_REGISTER:
             kind = symbol->kind & 31;
@@ -274,7 +274,7 @@ formats:
                 base_flags = shape ? shape->flags : 0;
                 base_attributes = shape ? shape->attributes : 0;
                 code = (type_flags & 0x400) &&
-                    (type_flags == 0x414 || (((FrontendSymbol *)symbol->type->field08)->field24 & 0x1000000)) ? 0x10 : 0;
+                    (type_flags == 0x414 || (((FrontendSymbol *)symbol->type->field08)->metadata.value & 0x1000000)) ? 0x10 : 0;
             }
             alignment = type_alignment(aligned_type) >> 1;
             alignment_code = 0;
@@ -364,7 +364,7 @@ formats:
             GLOBAL_INDEX(tag_symbol->index);
             break;
         case GF_TAG_KIND:
-            code = (unsigned char)symbol->field24;
+            code = (unsigned char)symbol->metadata.value;
             GLOBAL_BYTE(stream, code == 0 || code == 2 ? code : 1);
             break;
         case GF_STREAM_POSITIONS:
@@ -519,6 +519,6 @@ unsigned short __stdcall type_alignment(CType *type)
 {
     if (type->related && (type->related->flags & 7) != 2) return 4;
     if (type->flags & 0x400)
-        return (unsigned short)((((FrontendSymbol *)type->field08)->field24 >> 16) & 0xff);
+        return (unsigned short)((((FrontendSymbol *)type->field08)->metadata.value >> 16) & 0xff);
     return type->flags & 15;
 }

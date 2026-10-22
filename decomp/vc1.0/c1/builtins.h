@@ -17,7 +17,13 @@ struct FrontendSymbol {
         char *text;
         struct FrontendSymbol *parameter_next;
     } detail;
-    unsigned field24;
+    union {
+        unsigned value;
+        struct {
+            unsigned char offset, width;
+            unsigned short reserved;
+        } bitfield;
+    } metadata;
     union {
         struct FrontendSymbol *members, *initializer;
         struct HashTable *enumerators;

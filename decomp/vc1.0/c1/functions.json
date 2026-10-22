@@ -395,7 +395,17 @@
     "_find_builtin_index@4",
     "_make_intrinsic_external@4",
     "_integer_constant_value@4",
-    "_array_element_size@12"
+    "_array_element_size@12",
+    "_layout_bitfield_member@12",
+    "_process_pack_pragma",
+    "_validate_packing@4",
+    "_expand_macro_arguments@8",
+    "_save_macro_argument@8",
+    "_advance_macro_argument",
+    "_activate_macro_argument@4",
+    "_select_macro_argument@4",
+    "_macro_identifier_follows",
+    "_macro_replacement_diff@12"
   ],
   "driver": [
     {
@@ -2636,7 +2646,7 @@
     {
       "name": "_expand_macro_arguments@8",
       "start": 120176,
-      "end": 120177
+      "end": 121180
     },
     {
       "name": "_browser_macro_reference@4",
@@ -2661,7 +2671,7 @@
     {
       "name": "_save_macro_argument@8",
       "start": 121344,
-      "end": 121345
+      "end": 121460
     },
     {
       "name": "_advance_macro_argument",
@@ -2731,7 +2741,7 @@
     {
       "name": "_process_pack_pragma",
       "start": 125408,
-      "end": 125409
+      "end": 125930
     },
     {
       "name": "_emit_listing_directive@4",
@@ -2946,7 +2956,7 @@
     {
       "name": "_select_macro_argument@4",
       "start": 122240,
-      "end": 122241
+      "end": 122345
     },
     {
       "name": "_copy_line_comment",
@@ -2991,7 +3001,7 @@
     {
       "name": "_layout_bitfield_member@12",
       "start": 167072,
-      "end": 167073
+      "end": 167793
     },
     {
       "name": "_layout_data_member@4",
@@ -3042,6 +3052,31 @@
       "name": "_make_intrinsic_external@4",
       "start": 187280,
       "end": 187342
+    },
+    {
+      "name": "_validate_packing@4",
+      "start": 125040,
+      "end": 125101
+    },
+    {
+      "name": "_push_pragma_packing@8",
+      "start": 125104,
+      "end": 125105
+    },
+    {
+      "name": "_pop_pragma_packing@8",
+      "start": 125168,
+      "end": 125169
+    },
+    {
+      "name": "_activate_macro_argument@4",
+      "start": 122080,
+      "end": 122123
+    },
+    {
+      "name": "_macro_identifier_follows",
+      "start": 122176,
+      "end": 122236
     }
   ],
   "cases": {

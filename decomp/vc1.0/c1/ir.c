@@ -452,7 +452,7 @@ unsigned short __stdcall expression_type_alignment(CType *type)
 {
     if (type->related && (type->related->flags & 7) != 2) return 4;
     if (type->flags & 0x400)
-        return (unsigned short)((((FrontendSymbol *)type->field08)->field24 >> 16) & 0xff);
+        return (unsigned short)((((FrontendSymbol *)type->field08)->metadata.value >> 16) & 0xff);
     return type->flags & 15;
 }
 
@@ -475,8 +475,8 @@ void __stdcall reference_ir_symbol(FrontendSymbol *symbol)
         }
     } else {
         depth = exception_scope_depth[2] + exception_scope_depth[1] + exception_scope_depth[0];
-        if (!symbol->references || depth < (int)((symbol->field24 >> 8) & 0xff))
-            symbol->field24 = (symbol->field24 & 0xffff00ffU) | ((unsigned char)depth << 8);
+        if (!symbol->references || depth < (int)((symbol->metadata.value >> 8) & 0xff))
+            symbol->metadata.value = (symbol->metadata.value & 0xffff00ffU) | ((unsigned char)depth << 8);
     }
     if (symbol->flags & 1) symbol->attributes |= 0x400;
 }
@@ -488,11 +488,11 @@ void __stdcall emit_code_label(IrToken *label)
     FrontendSymbol *symbol = label->value.pointer;
     int depth;
     symbol->flags |= 1;
-    symbol->field24 = (symbol->field24 & 0xffffff00U) | parameter_nesting;
+    symbol->metadata.value = (symbol->metadata.value & 0xffffff00U) | parameter_nesting;
     depth = exception_scope_depth[2] + exception_scope_depth[1] + exception_scope_depth[0];
-    if (symbol->references && depth > (int)((symbol->field24 >> 8) & 0xff))
+    if (symbol->references && depth > (int)((symbol->metadata.value >> 8) & 0xff))
         report_syntax_error(705, symbol->name);
-    symbol->field24 = (symbol->field24 & 0xffff00ffU) | ((unsigned char)depth << 8);
+    symbol->metadata.value = (symbol->metadata.value & 0xffff00ffU) | ((unsigned char)depth << 8);
     write_ir_record(0x29, label);
 }
 

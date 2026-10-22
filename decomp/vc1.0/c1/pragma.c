@@ -531,3 +531,58 @@ void __stdcall visit_pragma_names(void (__stdcall *callback)(char *))
         return;
     }
 }
+
+/* Original 0x1e9e0..0x1ebea. Read pack(n), pack(), and the push/pop
+   forms with an optional interned label and replacement alignment. */
+void process_pack_pragma(void)
+{
+    int action = 0, alignment = 0, match;
+    char *label = 0;
+    PackingEntry *entry;
+    if (!pragma_open_parenthesis()) return;
+    read_pragma_token();
+    switch (current_token_code) {
+    case TOK_IDENTIFIER:
+        PRAGMA_TEXT_IS(current_token_value.identifier, "push", match);
+        if (match) action = 1;
+        else {
+            PRAGMA_TEXT_IS(current_token_value.identifier, "pop", match);
+            if (!match) goto malformed;
+            action = 2;
+        }
+        read_pragma_token();
+        if (current_token_code == TOK_RIGHT_PAREN) goto apply;
+        if (current_token_code != TOK_COMMA) goto malformed;
+        read_pragma_token();
+        if (current_token_code == TOK_IDENTIFIER) {
+            label = current_token_value.identifier;
+            read_pragma_token();
+            if (current_token_code == TOK_RIGHT_PAREN) goto apply;
+            if (current_token_code != TOK_COMMA) goto malformed;
+            if (read_pragma_token() != TOK_INT_CONSTANT) goto malformed;
+            goto number;
+        }
+        if (current_token_code == TOK_INT_CONSTANT) goto number;
+        /* The original applies the action after other consumed tokens here. */
+        goto apply;
+    case TOK_RIGHT_PAREN:
+        alignment = options.option_Zp == -1 ? 8 : options.option_Zp;
+        goto apply;
+    case TOK_INT_CONSTANT:
+number:
+        alignment = validate_packing(current_token_value.literal->value.integer);
+        if (read_pragma_token() != TOK_RIGHT_PAREN) goto malformed;
+        goto apply;
+    default:
+        goto malformed;
+    }
+apply:
+    if (!action) {
+        entry = top_packing(packing_stack);
+        entry->alignment = validate_packing(alignment);
+    } else if (action == 1) push_pragma_packing(alignment, label);
+    else pop_pragma_packing(alignment, label);
+    return;
+malformed:
+    compiler_warning(1, 110, token_names[current_token_code]);
+}

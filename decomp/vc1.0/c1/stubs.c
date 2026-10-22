@@ -105,7 +105,6 @@ void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
-int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 
 
@@ -571,7 +570,6 @@ void __stdcall append_macro_text(char *text) { __asm { int 3 } }
 
 
 
-void __stdcall expand_macro_arguments(MacroDefinition *definition, int parameter_count) { __asm { int 3 } }
 
 void __stdcall browser_macro_reference(MacroDefinition *definition) { __asm { int 3 } }
 
@@ -580,8 +578,6 @@ char *read_macro_string(void) { __asm { int 3 } return 0; }
 
 void format_text(char *destination, char *format, ...) { __asm { int 3 } }
 
-void __stdcall save_macro_argument(char *begin, char *end) { __asm { int 3 } }
-void advance_macro_argument(void) { __asm { int 3 } }
 void browser_macro_end(void) { __asm { int 3 } }
 
 /* Original 0x1e550. */
@@ -610,7 +606,6 @@ void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
 
 /* Original 0x1e9e0. */
-void process_pack_pragma(void) { __asm { int 3 } }
 
 /* Original 0x20110. */
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
@@ -704,7 +699,6 @@ int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; 
 
 int __stdcall process_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 
-char *__stdcall select_macro_argument(int *mode) { __asm { int 3 } return 0; }
 
 void copy_line_comment(void) { __asm { int 3 } }
 
@@ -712,4 +706,6 @@ char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
 void emit_diagnostic(unsigned category, unsigned code, char *format, char *arguments) { __asm { int 3 } }
 
 
-void __stdcall layout_bitfield_member(FrontendSymbol *member, char *name, unsigned short flags) { __asm { int 3 } }
+
+void __stdcall push_pragma_packing(int alignment, char *label) { __asm { int 3 } }
+void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } }

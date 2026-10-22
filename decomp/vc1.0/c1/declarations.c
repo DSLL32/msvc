@@ -874,8 +874,8 @@ FrontendSymbol *__stdcall begin_tag_definition(char *name, unsigned short kind,
     type = intern_type(description);
     --type_description_depth;
     if (((scanner_flags & 0x08000000) && !(scanner_flags & 0x40)) || aggregate_depth >= 0)
-        tag->field24 |= 0x02000000;
-    else tag->field24 &= ~0x02000000;
+        tag->metadata.value |= 0x02000000;
+    else tag->metadata.value &= ~0x02000000;
     if (kind == 0x200) {
         enumerator_value = (unsigned)-1;
         tag->detail.value = 4;
@@ -1698,7 +1698,7 @@ void __stdcall add_struct_member(DeclarationSpec *declaration, FrontendSymbol *m
     if (check_member_name(name)) return;
     context = &aggregate_contexts[aggregate_depth];
     if (effective_type_qualifiers(member->type) & 0x1000)
-        context->tag->field24 |= 0x04000000UL;
+        context->tag->metadata.value |= 0x04000000UL;
     if ((member->kind & 0x1f) == 2)
         layout_bitfield_member(member, name, member->type->flags);
     else {
@@ -1777,7 +1777,7 @@ unsigned __stdcall layout_data_member(FrontendSymbol *member)
         }
         if ((type->flags & 0x410) == 0x410) {
             tag = (FrontendSymbol *)type->field08;
-            align_aggregate_member((tag->field24 >> 16) & 0xff);
+            align_aggregate_member((tag->metadata.value >> 16) & 0xff);
         } else align_aggregate_member(type_size(type));
     } else if (shape->flags & 1) align_aggregate_member(type_size(type));
 aligned:
@@ -1801,8 +1801,8 @@ aligned:
         tag = (FrontendSymbol *)type->field08;
         member->attributes = (member->attributes & ~0x100UL) | (tag->attributes & 0x100);
         aggregate_contexts[aggregate_depth].tag->attributes |= tag->attributes & 0x200;
-        if ((type->flags & 0x404) == 0x404 || (tag->field24 & 0x01000000UL))
-            aggregate_contexts[aggregate_depth].tag->field24 |= 0x01000000UL;
+        if ((type->flags & 0x404) == 0x404 || (tag->metadata.value & 0x01000000UL))
+            aggregate_contexts[aggregate_depth].tag->metadata.value |= 0x01000000UL;
     }
     return add_member_offset(offset, 0);
 }
@@ -1898,7 +1898,7 @@ CType *parse_struct_specifier(void)
     context = &aggregate_contexts[aggregate_depth];
     tag->detail.value = context->size;
     if (!tag->detail.value) tag->detail.value = 4;
-    tag->field24 = (tag->field24 & 0xff00ffffUL) | ((unsigned)(context->alignment & 0xff) << 16);
+    tag->metadata.value = (tag->metadata.value & 0xff00ffffUL) | ((unsigned)(context->alignment & 0xff) << 16);
     tag->flags |= 1;
     tag->type->field0c &= 0xffff0000UL;
     alignment = context->alignment;
@@ -1926,9 +1926,9 @@ void __stdcall add_anonymous_members(CType *type)
     tag = (FrontendSymbol *)type->field08;
     aggregate_contexts[aggregate_depth].tag->attributes =
         (aggregate_contexts[aggregate_depth].tag->attributes & ~0x100UL) | (tag->attributes & 0x100);
-    if ((tag->field24 & 0x01000000UL) || (type->flags & 0x404) == 0x404)
-        aggregate_contexts[aggregate_depth].tag->field24 |= 0x01000000UL;
-    else aggregate_contexts[aggregate_depth].tag->field24 &= ~0x01000000UL;
+    if ((tag->metadata.value & 0x01000000UL) || (type->flags & 0x404) == 0x404)
+        aggregate_contexts[aggregate_depth].tag->metadata.value |= 0x01000000UL;
+    else aggregate_contexts[aggregate_depth].tag->metadata.value &= ~0x01000000UL;
     last = first;
     for (member = tag->associated.members; member; member = member->next) {
         kind = member->kind & 0x1f;
@@ -1969,4 +1969,77 @@ unsigned __stdcall integer_constant_value(IrToken *expression)
     if (expression->type->flags & 0x240) return expression->value.integer;
     report_syntax_error(58);
     return 0;
+}
+
+/* Original 0x28ca0..0x28f71. Pack bitfields into compatible storage units,
+   handling zero-width separators, extension types and anonymous first fields. */
+void __stdcall layout_bitfield_member(FrontendSymbol *member, char *name, unsigned short flags)
+{
+    AggregateContext *context = &aggregate_contexts[aggregate_depth];
+    FrontendSymbol *tag, *copy;
+    unsigned width, bytes, capacity, previous_bytes;
+    if ((context->flags & 1) && (context->tag->attributes & 0x100)) {
+        tag = context->tag;
+        report_syntax_error(229, type_specifier_name(tag->type->flags), tag->name);
+        aggregate_contexts[aggregate_depth].tag->attributes &= ~0x100UL;
+    }
+    if (!(flags & 0x40) || !(flags & 0x20)) {
+        if (!options.z_a && !options.z_E) {
+            report_syntax_error(150, name);
+            member->type = type_4064_first;
+            flags = 0x4064;
+        } else if (flags & 0x40) compiler_warning(4, 214);
+        else {
+            compiler_warning(1, 15, name);
+            member->type = type_4064_first;
+            flags = 0x4064;
+        }
+    }
+    if (member->type->related) report_syntax_error(33, name);
+    width = member->metadata.bitfield.width;
+    if (!width) {
+        if (member->name != name_alignment) report_syntax_error(149, name);
+        if (!aggregate_contexts[aggregate_depth].bitfield_type) return;
+    }
+    bytes = flags & 15;
+    capacity = bytes * 8;
+    if (width > capacity) {
+        report_syntax_error(34, name);
+        width = capacity;
+    }
+    context = &aggregate_contexts[aggregate_depth];
+    if (context->flags & 1) {
+        if (((flags ^ context->bitfield_type) & 15) || !width ||
+            context->bitfield_used_bits + width > capacity) {
+            if (context->bitfield_type) context->size += context->bitfield_type & 15;
+            context->bitfield_used_bits = 0;
+            align_aggregate_member(bytes);
+        }
+    } else {
+        /* The union path compares with the previous pending unit's size. */
+        previous_bytes = context->bitfield_type & 15;
+        if ((int)context->size < (int)previous_bytes) context->size = previous_bytes;
+    }
+    context = &aggregate_contexts[aggregate_depth];
+    context->bitfield_type = width ? flags : 0;
+    if (member->name == name_alignment) {
+        if ((context->flags & 1) && !context->tag->associated.members) {
+            copy = allocate_permanent(sizeof(FrontendSymbol));
+            *copy = *member;
+            append_aggregate_member(copy);
+            context = &aggregate_contexts[aggregate_depth];
+            copy->detail.value = context->size;
+            copy->metadata.bitfield.width = (unsigned char)width;
+            copy->metadata.bitfield.offset = context->bitfield_used_bits;
+        }
+    } else {
+        append_aggregate_member(member);
+        member->metadata.bitfield.width = (unsigned char)width;
+        member->metadata.bitfield.offset = aggregate_contexts[aggregate_depth].bitfield_used_bits;
+    }
+    context = &aggregate_contexts[aggregate_depth];
+    if (context->flags & 1) {
+        context->bitfield_used_bits += (unsigned char)width;
+        member->detail.value = context->size;
+    } else member->detail.value = 0;
 }

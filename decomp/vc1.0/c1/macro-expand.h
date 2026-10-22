@@ -2,6 +2,15 @@
 #define MACRO_EXPAND_H
 #include "macros.h"
 
+/* Variable-length actual argument; the span includes text terminators. */
+
+#pragma pack(1)
+typedef struct MacroArgument {
+    short bytes;
+    char text[1];
+} MacroArgument;
+#pragma pack()
+
 /* Macro input frames are saved before nested replacement text is rescanned. */
 typedef struct MacroFrame {
     char *source_cursor, *saved_expansion_start, *output_start;
@@ -32,7 +41,9 @@ char *read_macro_string(void);
 void format_text(char *destination, char *format, ...);
 void __stdcall save_macro_argument(char *begin, char *end);
 void advance_macro_argument(void);
+void __stdcall activate_macro_argument(unsigned char index);
 char *__stdcall select_macro_argument(int *mode);
+int macro_identifier_follows(void);
 void browser_macro_end(void);
 
 #endif

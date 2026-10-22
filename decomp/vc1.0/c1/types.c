@@ -402,8 +402,8 @@ void __stdcall attach_type_shape(FrontendSymbol *symbol, TypeShape *shape)
     shape->attributes &= ~0xa00;
     if ((shape->attributes & 7) == 5) {
         based = (FrontendSymbol *)shape->field08;
-        if ((based->kind & 0x1f) == 13 && (based->field24 & 0xff) == 8)
-            based->field24 = (based->field24 & ~0xffU) | 1;
+        if ((based->kind & 0x1f) == 13 && (based->metadata.value & 0xff) == 8)
+            based->metadata.value = (based->metadata.value & ~0xffU) | 1;
     }
     shape->related = symbol->type->related;
     symbol->type->related = shape;

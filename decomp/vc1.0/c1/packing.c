@@ -58,3 +58,14 @@ unsigned __stdcall packing_padding(unsigned alignment, unsigned offset)
     }
     return 0;
 }
+
+/* Original 0x1e870..0x1e8ad. Invalid packing values retain the current
+   alignment after their warning. */
+int __stdcall validate_packing(int alignment)
+{
+    switch (alignment) {
+    case 1: case 2: case 4: case 8: case 16: return alignment;
+    }
+    compiler_warning(1, 86);
+    return top_packing(packing_stack)->alignment;
+}

@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 310 reconstructed source functions
-and 391 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 320 reconstructed source functions
+and 401 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-layout_bitfield_member, original VA 0x28ca0.
-All 133 hello frontiers replay successfully with exact pending-buffer/visible-file
+scan_string_literal, original VA 0x21930.
+All 143 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -229,3 +229,12 @@ The intrinsic-name audit also checks all 51 lookup suffixes and the 29 initial-
 character boundaries against the original reader's separate table view. The
 reconstruction reuses its typed builtin vocabulary rather than defining a
 second copy of those spellings.
+
+Checkpoint 320 adds full bitfield packing, #pragma pack parsing/validation,
+function-like macro actual collection and storage, per-argument rescan input,
+raw/expanded substitution selection, identifier adjacency, and replacement
+redefinition comparison. Symbol metadata now gives bitfield offset/width a
+typed view of the original shared word. MacroArgument represents the packed,
+span-linked argument stream, with zero/'A' continuation markers. All 143 hello
+frontiers replay with exact pending/visible bytes; minimal-C still matches the
+four captured raw intermediates.

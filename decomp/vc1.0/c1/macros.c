@@ -294,3 +294,14 @@ int skip_macro_space(void)
     }
     return result;
 }
+
+/* Original 0x1ca80..0x1cad3. Empty definitions compare by nullness;
+   nonempty replacements compare the caller-supplied encoded byte count. */
+int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes)
+{
+    unsigned index;
+    if (!left || !right) return left != right;
+    for (index = 0; index < bytes; ++index)
+        if (left[index] != right[index]) return 1;
+    return 0;
+}
