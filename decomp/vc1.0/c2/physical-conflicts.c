@@ -232,3 +232,39 @@ int __fastcall remove_allocation_live_register(RegisterConflict **list, unsigned
     }
     return 0;
 }
+
+/* Original [000592d0,000592f0). Four contextual depth weights at836f8:
+   1,5,25,125. Beyond depth3 the native schedule grows linearly from125. */
+int __fastcall loop_depth_weight(unsigned depth)
+{
+    static const int weights[4] = { 1, 5, 25, 125 };
+    return depth < 4 ? weights[depth] : (int)(125U + depth);
+}
+
+/* Original [0002bcd0,0002bd30). Preserve one edge in each direction and
+   each endpoint's short degree; existing pointer-identical edges are ignored. */
+int __fastcall add_register_conflict(RegisterVariable *left, RegisterVariable *right)
+{
+    RegisterConflict *edge, *left_edges;
+    left_edges = left->conflicts;
+    for (edge = left_edges; edge; edge = edge->next)
+        if (edge->variable == right) return 0;
+    edge = new_register_conflict(4);
+    edge->variable = left;
+    edge->next = right->conflicts;
+    right->conflicts = edge;
+    ++right->degree;
+    edge = new_register_conflict(4);
+    edge->variable = right;
+    edge->next = left_edges;
+    left->conflicts = edge;
+    ++left->degree;
+    return 1;
+}
+
+/* Original [0002e0d0,0002e0e0). The native leaf tail-calls the shared
+   allocator for one8-byte conflict link in the requested arena. */
+RegisterConflict *__fastcall new_register_conflict(unsigned arena)
+{
+    return arena_alloc(arena, sizeof(RegisterConflict));
+}

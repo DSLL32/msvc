@@ -7,7 +7,7 @@
    do not reproduce its57 clear-only words; see cases/allocation-state.txt. */
 typedef struct RegisterAllocationStatistics {
     int rewritten_instructions, rounds, spilled_variables, simplify_candidates;
-    int count_c534, count_c538, count_c53c, count_c540;
+    int rematerialized_operands, folded_spill_operands, inserted_spill_loads, inserted_spill_stores;
     int count_c544, count_c548;
     int strategies[2];
 } RegisterAllocationStatistics;
@@ -15,6 +15,7 @@ extern RegisterAllocationStatistics register_allocation_statistics;
 extern int available_integer_registers; /* 7c8b4 */
 extern int rematerialization_cost_limit; /* 7c8bc */
 extern int frame_register_available; /* 7c8c0 */
+extern int rematerialization_changed; /* 7c8b8 */
 extern int frame_register_allocated; /* 7c8c4 */
 /* 2cf58 allocates12 bytes for a temporary's hash entry; number&31 selects
    one of32 heads. Each of31 physical colors has a signed accumulated cost. */
@@ -62,6 +63,11 @@ void __fastcall record_allocation_operand(MachineInstruction *instruction, unsig
 void __fastcall conflict_with_live_registers(unsigned short number, unsigned short exclude, RegisterConflictVisitor visitor);
 int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned short number);
 int __fastcall register_follows_lea(MachineInstruction *instruction, unsigned short number);
-int __fastcall allocation_operand_cost(MachineInstruction *instruction, RegisterVariable *variable, int annotation, unsigned operand_index, int apply, unsigned *spill_bytes, void *context);
+int __fastcall allocation_operand_cost(MachineInstruction *instruction, RegisterVariable *variable, int annotation, unsigned operand_index, int apply, unsigned *spill_bytes, WorkItem *work);
 int __fastcall loop_depth_weight(unsigned depth);
+void __fastcall record_rematerialized_registers(WorkItem *work, MachineInstruction *instruction);
+int __fastcall folded_spill_operand_cost(MachineInstruction *instruction, unsigned operand_index);
+MachineOperand *__fastcall operand_for_spill(MachineOperand *operand, unsigned short number, int apply);
+int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right);
+RegisterConflict *__fastcall new_register_conflict(unsigned arena);
 #endif

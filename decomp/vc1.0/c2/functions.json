@@ -588,7 +588,13 @@
     "@record_implicit_register_conflicts@8",
     "@conflict_with_live_registers@12",
     "@add_allocation_live_register@8",
-    "@remove_allocation_live_register@8"
+    "@remove_allocation_live_register@8",
+    "@allocation_operand_cost@28",
+    "@loop_depth_weight@4",
+    "@operand_for_spill@12",
+    "@folded_spill_operand_cost@8",
+    "@add_register_conflict@8",
+    "@new_register_conflict@4"
   ],
   "driver": [
     {
@@ -5098,8 +5104,7 @@
     {
       "name": "@add_register_conflict@8",
       "start": 179408,
-      "end": 179409,
-      "provisional": true
+      "end": 179504
     },
     {
       "name": "_initialize_allocation_round",
@@ -5199,14 +5204,39 @@
     {
       "name": "@allocation_operand_cost@28",
       "start": 180208,
-      "end": 180209,
-      "provisional": true
+      "end": 182208
     },
     {
       "name": "@loop_depth_weight@4",
       "start": 365264,
-      "end": 365265,
+      "end": 365296
+    },
+    {
+      "name": "@record_rematerialized_registers@8",
+      "start": 183600,
+      "end": 183601,
       "provisional": true
+    },
+    {
+      "name": "@folded_spill_operand_cost@8",
+      "start": 183744,
+      "end": 184000
+    },
+    {
+      "name": "@operand_for_spill@12",
+      "start": 184000,
+      "end": 184320
+    },
+    {
+      "name": "@register_spill_homes_compatible@8",
+      "start": 184320,
+      "end": 184321,
+      "provisional": true
+    },
+    {
+      "name": "@new_register_conflict@4",
+      "start": 188624,
+      "end": 188640
     }
   ],
   "cases": {

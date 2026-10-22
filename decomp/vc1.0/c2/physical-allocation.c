@@ -8,6 +8,7 @@ extern int codeview_debug, omit_frame_pointer;
 RegisterAllocationStatistics register_allocation_statistics;
 int available_integer_registers, rematerialization_cost_limit;
 int frame_register_available, frame_register_allocated;
+int rematerialization_changed;
 SpillTemporary *spill_temporary_buckets[32];
 int physical_register_costs[31];
 
@@ -25,10 +26,10 @@ void allocate_machine_registers(void)
     register_allocation_statistics.rounds = 0;
     register_allocation_statistics.spilled_variables = 0;
     register_allocation_statistics.simplify_candidates = 0;
-    register_allocation_statistics.count_c534 = 0;
-    register_allocation_statistics.count_c538 = 0;
-    register_allocation_statistics.count_c53c = 0;
-    register_allocation_statistics.count_c540 = 0;
+    register_allocation_statistics.rematerialized_operands = 0;
+    register_allocation_statistics.folded_spill_operands = 0;
+    register_allocation_statistics.inserted_spill_loads = 0;
+    register_allocation_statistics.inserted_spill_stores = 0;
     register_allocation_statistics.count_c544 = 0;
     register_allocation_statistics.count_c548 = 0;
     register_allocation_statistics.strategies[0] = 0;

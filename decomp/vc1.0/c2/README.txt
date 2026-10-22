@@ -1249,3 +1249,32 @@ clean; minimal object/streams/exit match except only its four-byte timestamp.
 Verified original code-extent union151423/399693 bytes (37.8848 percent),
 including clipped source/shared text/CRT/import ranges with actual-mask
 verification, is not branch coverage. The queued hello case remains active.
+
+The first function now completes its register conflict graph. Six more whole
+functions include the617-instruction combined spill-cost/rewrite routine,
+placeholder/actual home construction, folded memory costs, loop weighting and
+symmetric edge insertion. Measurement and mutation remain in the original
+fastcall7 vertex with five stack arguments. Its context is a typed WorkItem*
+whose consumer uses the existing flow-set slot. Four counters now have names
+from their recovered rematerialization/folding/load/store increments.
+
+Depth weighting introduces only the four contextual values1,5,25,125 at836f8;
+unsigned depth>=4 returns125+depth. Spill homes use the typed32-head temporary
+hash or existing variable home. The conflict callback retains pointer-identity
+deduplication, two arena4 links and short degrees. No image section or opaque
+snapshot is copied. See cases/hello-spill-cost-abi.json for ABIs and limits.
+
+An independent capture at simplify_unspillable_variables2bb50 matches104
+normalized lines:24 complete variable records,14 undirected/28 directed edges,
+exact canonical bucket-pointer identities, symmetric unique edges, every degree
+and signed cost, all31 physical costs and12 counters. Six complete work-block
+captures match291 more lines. The first function exercises cost measurement
+and memory folding; apply1 spill/recreation paths remain unvisited, with their
+named callees still trapping. Optimized hello output is not yet claimed.
+
+All352 minimal and238 hello frontiers replay;513 source graphs and590 accepted
+extent instruction boundaries pass. Three modules compile /W3 clean. Minimal
+object/streams/exit match except only the four-byte timestamp. Verified accepted
+code-extent union154143/399693 bytes (38.5653 percent), including clipped
+source/shared text/CRT/import ranges checked against actual masks, is not branch
+coverage. Reconstruction continues through allocation simplification.

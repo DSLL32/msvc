@@ -1,0 +1,179 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@allocation_operand_cost@28",
+      "start": "0x2bff0",
+      "end": "0x2c7c0",
+      "instructions": 617
+    },
+    {
+      "name": "@loop_depth_weight@4",
+      "start": "0x592d0",
+      "end": "0x592f0",
+      "instructions": 7
+    },
+    {
+      "name": "@operand_for_spill@12",
+      "start": "0x2cec0",
+      "end": "0x2d000",
+      "instructions": 115
+    },
+    {
+      "name": "@folded_spill_operand_cost@8",
+      "start": "0x2cdc0",
+      "end": "0x2cec0",
+      "instructions": 96
+    },
+    {
+      "name": "@add_register_conflict@8",
+      "start": "0x2bcd0",
+      "end": "0x2bd30",
+      "instructions": 37
+    },
+    {
+      "name": "@new_register_conflict@4",
+      "start": "0x2e0d0",
+      "end": "0x2e0e0",
+      "instructions": 2
+    }
+  ],
+  "native_instructions": 874,
+  "accepted_extent_bytes": 2720,
+  "milestone": "First function completes interference construction and reaches negative-cost simplification2bb50",
+  "abis": [
+    "allocation_operand_cost is one complete617-instruction fastcall7 graph vertex, with five stack arguments and RET20. It measures or applies rematerialization, memory folding and explicit spill loads/stores; no branch-specific replacement function is substituted.",
+    "Its final optional context is refined to WorkItem*: the2cd30 consumer reads the existing flow_sets[0] slot. The optional preceding unsigned* accumulates required spill width. All current calls measure only with apply0 and both pointersnull.",
+    "operand_for_spill is fixed fastcall3 returning its MachineOperand*, with RET4. The first two words are initialized before its placeholder/apply branch. The original allocate_stack_temporary callee consumes onlyECX; stale EDX0 at this call is not another parameter.",
+    "add_register_conflict is the original fastcall2 int callback: duplicate detection uses endpoint pointer identity, and new edges are linked in both directions with short-degree increments. new_register_conflict preserves the arena-number fastcall ABI and arena_alloc graph, expressed in C although native uses a tail jump."
+  ],
+  "data_provenance": [
+    "Four local typed loop-depth weights at native836f8..83708 are1,5,25,125, consumed solely by the recovered depth-weight helper. For unsigned depth>=4 the native result is125+depth, not an exponential extension or clamp. No adjacent table data is copied.",
+    "Reuse existing conservative_flag_analysis7c8b0 and optimize_speed806a8. rematerialization_changed7c8b8 is introduced as its own contextual scalar; no duplicate alias is created.",
+    "Four statistics fields now have semantic names from their increments: rematerialized_operands7c534, folded_spill_operands7c538, inserted_spill_loads7c53c and inserted_spill_stores7c540. The remaining contextual counter extent is unchanged.",
+    "SpillTemporary hash entries retain the earlier12-byte layout; machine-class apply paths reserve4-byte kind19 temporary descriptors. Scalar frame/local homes reuse existing symbol attributes and home offsets.",
+    "Struct assignments copy encountered MachineOperand/MachineAddress values during transformations; no original image section or opaque data snapshot is an initializer."
+  ],
+  "independent_capture": {
+    "graph": {
+      "frontier": "_simplify_unspillable_variables",
+      "original_address": "0x2bb50",
+      "normalized_lines": 104,
+      "normalized_sha256": "bb6865e41cc85b56e26d9ab3508a5f606597ce35a0bfd09603259f4a2bd74ca5",
+      "normalization": "omit only debugger exception-address line",
+      "variables": 24,
+      "directed_edges": 28,
+      "undirected_edges": 14,
+      "assertions": [
+        "all conflict neighbor pointers equal canonical bucket record identities",
+        "all24 register numbers unique",
+        "every degree equals its actual linked edge count",
+        "all28 directed edges unique and symmetric",
+        "all31 physical cost cells and12 contextual counters match",
+        "all32 spill-home heads remain null",
+        "work-next/rematerialization pointers remain null"
+      ],
+      "artifacts": [
+        "completed-conflicts-original.events",
+        "completed-conflicts-reconstructed.events"
+      ]
+    },
+    "work_blocks": [
+      {
+        "work": 0,
+        "normalized_lines": 40,
+        "normalized_sha256": "9da9d6ba14eb1646da5fd10df40e54b8f4769e89986e4e48acaa678c43c6263d"
+      },
+      {
+        "work": 1,
+        "normalized_lines": 42,
+        "normalized_sha256": "ebdf713800c006072187fa5d0a6c04996e1127b22c3908af435b2ed4c3aefcdd"
+      },
+      {
+        "work": 2,
+        "normalized_lines": 47,
+        "normalized_sha256": "809417aa67fb58e3b86ffeb17d8ede943f0e894572d60a91fc3dab5d4acb2c0a"
+      },
+      {
+        "work": 3,
+        "normalized_lines": 35,
+        "normalized_sha256": "568a4144d4367256a535c0a3d7d4f8bf265226aeba82214e1971d69f11e8c838"
+      },
+      {
+        "work": 4,
+        "normalized_lines": 101,
+        "normalized_sha256": "1c045072d55f316795c2ee35a472608cde6bb539bf9479366eed5d38ff92ff0f"
+      },
+      {
+        "work": 5,
+        "normalized_lines": 26,
+        "normalized_sha256": "853cb6fbc0533ca4500092c1e10219598f6295cc358588041f9cfd29d67d2d22"
+      }
+    ],
+    "normalized_lines": 395
+  },
+  "limits": [
+    "Hello remains incomplete at simplify_unspillable_variables2bb50; optimized object output is not yet claimed.",
+    "The first function now exercises full interference construction, positive and negative signed operand costs, placeholder memory operands, depth0 weighting, direct memory folding and symmetric graph insertion.",
+    "The complete apply1 portion of the617-instruction routine is reconstructed but unvisited here: no actual spill rewriting, inserted load/store, rematerialized block clone or non-null WorkItem context is claimed dynamically. Unvisited callees retain named typed traps.",
+    "Machine-class spill-home allocation, representative-home compatibility, non-null rematerialization and larger loop depths remain outside dynamic validation.",
+    "Missing/failure paths and corrupt-IR behavior are not claimed."
+  ],
+  "validation_status": "passed",
+  "validation": [
+    "original-toolchain make -j2 check passes; minimal object/exit/streams match except only four-byte COFF timestamp",
+    "all352 minimal and238 hello historical frontiers replay with frozen native build/config hashes",
+    "all513 reconstructed source graphs and590 accepted extent instruction boundaries agree",
+    "physical-spill, physical-conflicts and physical-allocation compile /W3 clean",
+    "fresh completed-conflict capture matches104 normalized lines:24 variable records,14 symmetric edges, exact canonical pointer identities, signed costs/degrees and31 physical costs",
+    "six independent completed-function block captures match291 further normalized lines",
+    "verified accepted code-extent union154143/399693 bytes=38.5653 percent; not branch coverage"
+  ],
+  "replay_receipts": [
+    {
+      "profile": "minimal",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-62867/receipt.json",
+      "sha256": "472a92061aa2f1ee4c8e47c18433af525b9cbfcc78e3c9cf3d17d5d7d0528d46",
+      "frontiers": 352,
+      "seconds": 64.07564597763121,
+      "frozen": {
+        "functions.json": "6473650a14a8e2b3fba627bec2a518caa471afdd3aaf8e4e9a628e71420086b3",
+        "build/c2.exe": "35851eb4ea7a318d00e255c9fd5645aa47f8db5140bbda5e6ac5d9e991bc3eff",
+        "build/c2.map": "11f17d9b232ff06678bfeebccb323845145a87110fff0c5b40be5ef7a94ad9d6",
+        "build/runtime.json": "514cb3ccce7d404783d8e607afaebf7ab10727410f9371865f1c5e006e002e31"
+      },
+      "final": "exit:0"
+    },
+    {
+      "profile": "hello",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-68201/receipt.json",
+      "sha256": "47f5a48a4c66b9396af7947114a1173d475c17747251cdb29c9dd5755dda4dd5",
+      "frontiers": 238,
+      "seconds": 43.80959697347134,
+      "frozen": {
+        "functions.json": "6473650a14a8e2b3fba627bec2a518caa471afdd3aaf8e4e9a628e71420086b3",
+        "build/c2.exe": "35851eb4ea7a318d00e255c9fd5645aa47f8db5140bbda5e6ac5d9e991bc3eff",
+        "build/c2.map": "11f17d9b232ff06678bfeebccb323845145a87110fff0c5b40be5ef7a94ad9d6",
+        "build/runtime.json": "514cb3ccce7d404783d8e607afaebf7ab10727410f9371865f1c5e006e002e31"
+      },
+      "final": "_simplify_unspillable_variables"
+    }
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 590,
+    "accepted_code_bytes": 154143,
+    "original_code_bytes": 399693,
+    "percentage": 38.56534890528481,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 163
+  }
+}
