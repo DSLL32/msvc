@@ -11,7 +11,7 @@ import subprocess
 
 HERE=Path(__file__).resolve().parent
 RC=HERE.parent.parent/'rc'
-wt=importlib.machinery.SourceFileLoader('remaining_wine',str(RC/'wine-tool.py')).load_module()
+wt=importlib.machinery.SourceFileLoader('remaining_wine',str(RC/'scripts/wine-tool.py')).load_module()
 SCRATCH=Path.home()/'.ai-tmp/vc1.0-rc-remaining'
 
 

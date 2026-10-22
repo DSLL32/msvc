@@ -15,7 +15,7 @@ import threading
 
 HERE = Path(__file__).resolve().parent
 RC = HERE.parent.parent / 'rc'
-wt = importlib.machinery.SourceFileLoader('interrupt_wine_tool', str(RC/'wine-tool.py')).load_module()
+wt = importlib.machinery.SourceFileLoader('interrupt_wine_tool', str(RC/'scripts/wine-tool.py')).load_module()
 SCRATCH = Path.home()/'.ai-tmp/vc1.0-rc-interrupt'
 LOCK = threading.Lock()
 
@@ -82,7 +82,7 @@ def record(path):
 
 if __name__ == '__main__':
     import sys
-    sys.path.insert(0,str(RC))
+    sys.path.insert(0,str(RC/'scripts'))
     from binary import PE,imports
     original = wt.TC/'bin/RC.EXE'
     pe = PE(original)

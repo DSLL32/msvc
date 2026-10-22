@@ -6,6 +6,10 @@ all 70 formerly lifted implementations and their generators were removed. Only
 INT3 statements in pending named stubs remain. No assembly ABI exception exists.
 Data is contextual and typed; no original section snapshots are retained.
 
+C sources and headers live in src/; executable Python tooling lives in scripts/.
+Run make and script commands from this binary root. Metadata, cases and build/
+retain their existing roles. analysis/ is non-executable evidence only.
+
 Eighteen cases are complete:
   /? (exit 3, exact 884-byte stdout, empty stderr)
   minimal-c, hello-win32, hello-dll
@@ -39,7 +43,7 @@ The accepted .text extent union is 193671/281634 bytes=68.7669%, up from
 160229/281634=56.8926% at 528 frontiers and 110787/281634=39.3372% at 400.
 This includes accepted inline tables/alignment, not dynamic branch coverage.
 cases/coverage-after-omf-undecorate.json records the union. Separate partial
-body accounting is reproducible with measure-components.py and the analysis-only
+body accounting is reproducible with scripts/measure-components.py and the analysis-only
 Ghidra inventory: 127920 accepted known target-body bytes, 26904 known CRT-body
 bytes and 192 import-thunk bytes. Another 38655 accepted extent bytes are outside
 that old body inventory. All one-byte inventory entries are excluded. The
@@ -71,13 +75,13 @@ inputs exercise parsing, not effective ordinal-only/forwarder output.
 Build/check help:
     make -j2 check
 Check a fixture (the harness supplies its original environment):
-    python3 compare.py --case cpp-undecorate --require-exit
-    python3 compare.py --case omf-link --require-exit
+    python3 scripts/compare.py --case cpp-undecorate --require-exit
+    python3 scripts/compare.py --case omf-link --require-exit
 Replay every recorded frontier and finish with undecoration:
-    python3 compare.py --replay --case cpp-undecorate --require-exit
+    python3 scripts/compare.py --replay --case cpp-undecorate --require-exit
 Measure accepted extents and partial native-body components:
-    python3 measure-coverage.py
-    python3 measure-components.py
+    python3 scripts/measure-coverage.py
+    python3 scripts/measure-components.py
 
 The harness masks the entire original code section and restores only accepted
 function extents and encountered inline data. Unaccepted reconstruction functions
@@ -87,15 +91,16 @@ copy at its canonical original DOS path; other toolchain files resolve to
 untouched originals. argv[0], recursive verbose text and self-spawned LINK
 children remain exact. The debugger follows the full child tree with per-process
 image bases and loader breaks. Original CVPACK remains an external dependency.
-The current replay remains fresh-process paired replay; no continuous replay
-method/default change was made. Original toolchain files are never modified.
+Focused reconstruction acceptance retains fresh paired execution. Ordinary
+historical segments now use continuous replay; specialized histories retain
+the existing runner. Original toolchain files are never modified.
 
 Runtime members come from relocation-target-verified original LIBC objects.
 Older CRT differences, including text-mode ftell/fseek, are readable C in
-runtime.c. The native C parser rejects __thiscall; demangler methods instead
+src/runtime.c. The native C parser rejects __thiscall; demangler methods instead
 use __fastcall(ECX this,ignored EDX,native stack arguments). This preserves
 native ABI and individual graph vertices without wrappers or assembly. Recorded
-symbols and audit-abi.py verify native callee return cleanup.
+symbols and scripts/audit-abi.py verify native callee return cleanup.
 
 Both assigned families are finished; no further cases are queued. Analysis-only
 cases/remaining-after-omf-undecorate.json ranks possible public-input follow-ups:
@@ -108,3 +113,54 @@ OMF debug input. Remaining Mac/ROM/bind/rebase/disassembler/diagnostic/dormant C
 paths and unclassified bytes mean 99% whole-binary coverage is not established.
 Shared fixtures remain immutable. Scratch/evidence/private Wine prefixes live
 under ~/.ai-tmp/vc1.0-link. New cases require the user's next selection.
+
+Fast historical replay
+
+The default historical command now walks ordinary segments continuously:
+    make replay
+    python3 scripts/compare.py --replay --case cpp-undecorate --require-exit
+The latter retains the old final comparator for the requested case. Ordinary
+segments still validate final streams, artifacts and generated programs using
+the existing fixture rules and an independent untouched-original run. This
+checks first encounters, not repeated calls/branches or live-state equivalence.
+
+Select one segment, batch specialized histories or explicitly restart every
+historical frontier:
+    python3 scripts/replay-frontiers.py --case minimal-c
+    make replay-specialized
+    make replay-fresh
+    python3 scripts/compare.py --fresh-replay --case cpp-undecorate --require-exit
+
+replay-cases.json declares the initial migration: 510 frontiers in 12 ordinary
+acceptance groups, plus four zero-step completed-case checks. DLL import-library
+self-spawn and full-debug/CVPACK retain 130 frontiers in the existing specialized
+DEBUG_PROCESS runner. Batch those histories at meaningful checkpoints and case
+completion, or sooner when a change directly affects them. An explicitly selected
+specialized case uses that runner. Unknown fast cases are rejected. This policy
+does not defer focused fresh paired acceptance of any newly reached function.
+GUI painting and DLL load/call/unload remain post-link checks.
+
+Independent walkers use the shared tooling/replay helper. LINK retains its
+canonical per-side DOS namespaces and complete prepared launch environment,
+including inherited-environment semantics, LIB and buffered-I/O settings.
+Registry terminals are case-specific: help exits 3; other completed cases exit 0.
+Each segment restores its prior accepted prefix, then only its own introduced
+frontiers. Shared text ranges, import thunks and indexed CRT entry aliases are
+included. The whole source/build/index/fixture batch and individual plans are
+hashed; changes during replay fail. Preferred bases and root-only process/thread
+execution are enforced; unsupported tree/thread modes stay on specialized paths.
+
+For a divergence, preserve the receipt directory and use its failure.json, native
+events/context, actual logical site and rerun commands. For example:
+    python3 scripts/replay-frontiers.py --case minimal-c --fresh-frontier 232
+    python3 scripts/replay-frontiers.py --case minimal-c --stop-at __inc
+The continuous rerun leaves that terminal entry masked; it does not accept or
+reconstruct it. Restart cleanly after any failure or rebuild. No acceptance
+metadata is changed by replay.
+
+cases/fast-replay-validation.json records the frozen build, complete fresh/fast
+sequence agreement, final oracles, LINK-specific stop/fallback tests and measured
+per-case wall times. Setup, fast pair, final output oracles and fresh history/
+terminal calls are separated where measured. Unsplit overhead and unmeasured
+clean-build/startup time are labeled. Other workers were active during timing;
+prototype speedups are not assumed for this adapter.

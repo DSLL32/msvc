@@ -1,40 +1,49 @@
 PYTHON ?= python3
-TOOL = $(PYTHON) wine-tool.py
+TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
-HEADERS = $(filter-out omf.h demangle.h,$(wildcard *.h))
+HEADERS = $(filter-out src/omf.h src/demangle.h,$(wildcard src/*.h))
 OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor edit-stubs dump dump-stubs resources codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
-.PHONY: all clean check prefix replay audit
+.PHONY: all clean check prefix replay replay-fresh replay-specialized replay-verify audit
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
 
 prefix:
-	$(PYTHON) wine-tool.py --init
+	$(PYTHON) scripts/wine-tool.py --init
 
-runtime.json: identify-runtime.py binary.py functions.json $(TC)/bin/LINK.EXE $(TC)/lib/LIBC.LIB
-	$(PYTHON) identify-runtime.py
+runtime.json: scripts/identify-runtime.py scripts/binary.py functions.json $(TC)/bin/LINK.EXE $(TC)/lib/LIBC.LIB
+	$(PYTHON) scripts/identify-runtime.py
 
-build/runtime.json: build/link.exe identify-runtime.py binary.py functions.json
-	$(PYTHON) identify-runtime.py build/link.exe $@
+build/runtime.json: build/link.exe scripts/identify-runtime.py scripts/binary.py functions.json
+	$(PYTHON) scripts/identify-runtime.py build/link.exe $@
 
-build/original.exe build/reconstructed.exe &: build/link.exe build/runtime.json runtime.json functions.json compare.py binary.py
-	$(PYTHON) compare.py --mask-only
+build/original.exe build/reconstructed.exe &: build/link.exe build/runtime.json runtime.json functions.json scripts/compare.py scripts/binary.py
+	$(PYTHON) scripts/compare.py --mask-only
 
 check: all audit
-	$(PYTHON) compare.py --require-exit
+	$(PYTHON) scripts/compare.py --require-exit
 
 audit: build/runtime.json runtime.json
-	$(PYTHON) audit-graph.py
-	$(PYTHON) audit-callbacks.py
-	$(PYTHON) audit-data.py
-	$(PYTHON) audit-abi.py
+	$(PYTHON) scripts/audit-graph.py
+	$(PYTHON) scripts/audit-callbacks.py
+	$(PYTHON) scripts/audit-data.py
+	$(PYTHON) scripts/audit-abi.py
 
 replay: all audit
-	$(PYTHON) compare.py --replay --require-exit
+	$(PYTHON) scripts/compare.py --replay --require-exit
+
+replay-fresh: all audit
+	$(PYTHON) scripts/replay-frontiers.py --fresh
+
+replay-specialized: all audit
+	$(PYTHON) scripts/replay-frontiers.py --include-specialized
+
+replay-verify: all audit
+	$(PYTHON) scripts/replay-frontiers.py --verify-fresh --include-specialized
 
 build:
 	mkdir -p $@
 
-build/%.obj: %.c $(HEADERS) | build prefix
+build/%.obj: src/%.c $(HEADERS) | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
 
 build/link.exe: $(OBJECTS) Makefile
@@ -43,61 +52,61 @@ build/link.exe: $(OBJECTS) Makefile
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 
-build/linker.obj: image.h arguments.h linker-types.h
-build/repro.obj: linker-types.h
-build/image.obj: image.h modules.h symbols.h linker-types.h
-build/symbols.obj: symbols.h linker-types.h
-build/arguments.obj: arguments.h linker-types.h
-build/options.obj: options.h pass-one.h image.h modules.h linker-types.h
+build/linker.obj: src/image.h src/arguments.h src/linker-types.h
+build/repro.obj: src/linker-types.h
+build/image.obj: src/image.h src/modules.h src/symbols.h src/linker-types.h
+build/symbols.obj: src/symbols.h src/linker-types.h
+build/arguments.obj: src/arguments.h src/linker-types.h
+build/options.obj: src/options.h src/pass-one.h src/image.h src/modules.h src/linker-types.h
 
 clean:
 	rm -rf build
 
-build/text-buffer.obj: linker-types.h
+build/text-buffer.obj: src/linker-types.h
 
-build/link-pass.obj: link-pass.h object.h options.h comdat.h modules.h image.h dos-stub.h
+build/link-pass.obj: src/link-pass.h src/object.h src/options.h src/comdat.h src/modules.h src/image.h src/dos-stub.h
 
-build/modules.obj: modules.h linker-types.h
+build/modules.obj: src/modules.h src/linker-types.h
 
-build/comdat.obj: comdat.h modules.h linker-types.h
+build/comdat.obj: src/comdat.h src/modules.h src/linker-types.h
 
-build/arena.obj: linker-types.h
+build/arena.obj: src/linker-types.h
 
-build/pass-one.obj: pass-one.h machine.h comdat.h image.h modules.h linker-types.h
+build/pass-one.obj: src/pass-one.h src/machine.h src/comdat.h src/image.h src/modules.h src/linker-types.h
 
-build/files.obj: files.h linker-types.h
+build/files.obj: src/files.h src/linker-types.h
 
-build/machine.obj: machine.h image.h modules.h arguments.h comdat.h linker-types.h
+build/machine.obj: src/machine.h src/image.h src/modules.h src/arguments.h src/comdat.h src/linker-types.h
 
-build/coff-io.obj: linker-types.h
+build/coff-io.obj: src/linker-types.h
 
-build/object.obj: object.h pass-one.h image.h modules.h comdat.h linker-types.h
+build/object.obj: src/object.h src/pass-one.h src/image.h src/modules.h src/comdat.h src/linker-types.h
 
-build/usage.obj: linker-types.h
+build/usage.obj: src/linker-types.h
 
-build/diagnostics.obj: linker-types.h
+build/diagnostics.obj: src/linker-types.h
 
-build/argument-stubs.obj: arguments.h linker-types.h
-build/files-stubs.obj: files.h linker-types.h
-build/parse-switch.obj: options.h image.h modules.h linker-types.h
+build/argument-stubs.obj: src/arguments.h src/linker-types.h
+build/files-stubs.obj: src/files.h src/linker-types.h
+build/parse-switch.obj: src/options.h src/image.h src/modules.h src/linker-types.h
 
-build/module-stubs.obj: modules.h linker-types.h
+build/module-stubs.obj: src/modules.h src/linker-types.h
 
-build/driver-stubs.obj: image.h modules.h symbols.h linker-types.h
+build/driver-stubs.obj: src/image.h src/modules.h src/symbols.h src/linker-types.h
 
-build/machine-stubs.obj: machine.h image.h modules.h linker-types.h
+build/machine-stubs.obj: src/machine.h src/image.h src/modules.h src/linker-types.h
 
-build/pass-stubs.obj: pass-one.h image.h modules.h linker-types.h
+build/pass-stubs.obj: src/pass-one.h src/image.h src/modules.h src/linker-types.h
 
-build/object-stubs.obj: object.h pass-one.h image.h modules.h comdat.h linker-types.h
+build/object-stubs.obj: src/object.h src/pass-one.h src/image.h src/modules.h src/comdat.h src/linker-types.h
 
-build/option-stubs.obj: options.h image.h modules.h linker-types.h
+build/option-stubs.obj: src/options.h src/image.h src/modules.h src/linker-types.h
 
-build/link-pass-stubs.obj: link-pass.h object.h options.h comdat.h modules.h image.h
-build/dos-stub.obj: dos-stub.h
+build/link-pass-stubs.obj: src/link-pass.h src/object.h src/options.h src/comdat.h src/modules.h src/image.h
+build/dos-stub.obj: src/dos-stub.h
 
 # Shared behavioral checker is an immutable fixture dependency.
-build/gui-check.obj: ../cl/gui-check.c | build prefix
+build/gui-check.obj: ../cl/src/gui-check.c | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fo$@ $<
 
 build/gui-check.exe: build/gui-check.obj
@@ -117,6 +126,6 @@ build/debug-dll-host.exe: build/debug-dll-host.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB
 
 # Converter-only interfaces do not invalidate unrelated translation units.
-build/omf.obj build/omf-stubs.obj: omf.h
+build/omf.obj build/omf-stubs.obj: src/omf.h
 
-build/demangle.obj build/demangle-stubs.obj: demangle.h
+build/demangle.obj build/demangle-stubs.obj: src/demangle.h

@@ -3,25 +3,25 @@
     "address": 377892,
     "name": "tool_name",
     "size": 4,
-    "owner": "link.c"
+    "owner": "src/link.c"
   },
   {
     "address": 377896,
     "name": "executable_path",
     "size": 4,
-    "owner": "link.c"
+    "owner": "src/link.c"
   },
   {
     "address": 377964,
     "name": "tool_kind",
     "size": 4,
-    "owner": "link.c"
+    "owner": "src/link.c"
   },
   {
     "address": 522432,
     "name": "program_name",
     "size": 4,
-    "owner": "link.c",
+    "owner": "src/link.c",
     "string_pointers": [
       0
     ]
@@ -30,25 +30,25 @@
     "address": 376840,
     "name": "debug_flags",
     "size": 100,
-    "owner": "driver.c"
+    "owner": "src/driver.c"
   },
   {
     "address": 506336,
     "name": "banner_pending",
     "size": 1,
-    "owner": "link.c"
+    "owner": "src/link.c"
   },
   {
     "address": 505972,
     "name": "abort_file",
     "size": 256,
-    "owner": "link.c"
+    "owner": "src/link.c"
   },
   {
     "address": 505968,
     "name": "abort_phase",
     "size": 4,
-    "owner": "link.c",
+    "owner": "src/link.c",
     "string_pointers": [
       0
     ]
@@ -57,97 +57,97 @@
     "address": 506296,
     "name": "debug_requested",
     "size": 1,
-    "owner": "link.c"
+    "owner": "src/link.c"
   },
   {
     "address": 377912,
     "name": "debug_display",
     "size": 4,
-    "owner": "link.c"
+    "owner": "src/link.c"
   },
   {
     "address": 376832,
     "name": "files",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 453944,
     "name": "file_limit",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 453948,
     "name": "open_limit",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 453952,
     "name": "mapped_outputs",
     "size": 64,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520572,
     "name": "mapping_create",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520576,
     "name": "mapping_map",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520580,
     "name": "mapping_unmap",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520592,
     "name": "free_pages",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520604,
     "name": "file_count",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520612,
     "name": "page_limit",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520616,
     "name": "page_count",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520620,
     "name": "free_files",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520636,
     "name": "failure",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520640,
     "name": "mapped_files",
     "size": 1,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 544848,
@@ -159,91 +159,91 @@
     "address": 377064,
     "name": "input_file",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 377860,
     "name": "pe_header_offset",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 377876,
     "name": "symbol_record_size",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 500364,
     "name": "entry_point",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 500384,
     "name": "reproducible",
     "size": 1,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 500392,
     "name": "debug_options",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 505708,
     "name": "output_name",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 505744,
     "name": "map_stream",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 505912,
     "name": "output_file_size",
     "size": 4,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 505944,
     "name": "small_alignment",
     "size": 1,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 506400,
     "name": "reference_option_explicit",
     "size": 1,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 377956,
     "name": "repro_stream",
     "size": 4,
-    "owner": "repro.c"
+    "owner": "src/repro.c"
   },
   {
     "address": 377960,
     "name": "repro_directory",
     "size": 4,
-    "owner": "repro.c"
+    "owner": "src/repro.c"
   },
   {
     "address": 377868,
     "name": "first_argument",
     "size": 4,
-    "owner": "arguments.c"
+    "owner": "src/arguments.c"
   },
   {
     "address": 505840,
     "name": "search_paths",
     "size": 12,
-    "owner": "arguments.c"
+    "owner": "src/arguments.c"
   },
   {
     "address": 377884,
@@ -255,13 +255,13 @@
     "address": 378288,
     "name": "order_filename",
     "size": 4,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 495836,
     "name": "option_delimiters",
     "size": 4,
-    "owner": "options.c",
+    "owner": "src/options.c",
     "string_pointers": [
       0
     ]
@@ -270,49 +270,49 @@
     "address": 500356,
     "name": "dos_stub_template",
     "size": 4,
-    "owner": "dos-stub.c"
+    "owner": "src/dos-stub.c"
   },
   {
     "address": 500360,
     "name": "dos_stub_size",
     "size": 4,
-    "owner": "dos-stub.c"
+    "owner": "src/dos-stub.c"
   },
   {
     "address": 500380,
     "name": "base_pair",
     "size": 1,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 500388,
     "name": "no_entry",
     "size": 1,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 500396,
     "name": "included_externals",
     "size": 4,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505688,
     "name": "verbose_link",
     "size": 1,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505716,
     "name": "map_filename",
     "size": 4,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505724,
     "name": "def_filename",
     "size": 4,
-    "owner": "options.c",
+    "owner": "src/options.c",
     "string_pointers": [
       0
     ]
@@ -321,7 +321,7 @@
     "address": 505740,
     "name": "absolute_symbols_file",
     "size": 4,
-    "owner": "options.c",
+    "owner": "src/options.c",
     "string_pointers": [
       0
     ]
@@ -330,127 +330,127 @@
     "address": 505776,
     "name": "switches",
     "size": 12,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505792,
     "name": "section_merges",
     "size": 12,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505856,
     "name": "section_overrides",
     "size": 12,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505888,
     "name": "exports",
     "size": 12,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505936,
     "name": "mapped_debug",
     "size": 1,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505940,
     "name": "split_image",
     "size": 1,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 506292,
     "name": "cvpack_program",
     "size": 4,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 506360,
     "name": "image_comments",
     "size": 12,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 506372,
     "name": "nt_beta1",
     "size": 1,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 506396,
     "name": "import_library_name",
     "size": 4,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 506404,
     "name": "old_library_format",
     "size": 1,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 506408,
     "name": "warning_level",
     "size": 2,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 505760,
     "name": "input_files",
     "size": 12,
-    "owner": "arguments.c"
+    "owner": "src/arguments.c"
   },
   {
     "address": 505808,
     "name": "library_files",
     "size": 12,
-    "owner": "arguments.c"
+    "owner": "src/arguments.c"
   },
   {
     "address": 505824,
     "name": "other_inputs",
     "size": 12,
-    "owner": "arguments.c"
+    "owner": "src/arguments.c"
   },
   {
     "address": 505696,
     "name": "default_output_name",
     "size": 9,
-    "owner": "linker.c"
+    "owner": "src/linker.c"
   },
   {
     "address": 506280,
     "name": "cvpack_default",
     "size": 11,
-    "owner": "options.c"
+    "owner": "src/options.c"
   },
   {
     "address": 500088,
     "name": "default_dos_stub",
     "size": 132,
-    "owner": "dos-stub.c"
+    "owner": "src/dos-stub.c"
   },
   {
     "address": 506344,
     "name": "command_trace",
     "size": 12,
-    "owner": "usage.c"
+    "owner": "src/usage.c"
   },
   {
     "address": 503368,
     "name": "response_cursor",
     "size": 4,
-    "owner": "arguments.c"
+    "owner": "src/arguments.c"
   },
   {
     "address": 495704,
     "name": "readonly_section_defaults",
     "size": 8,
-    "owner": "link-pass.c",
+    "owner": "src/link-pass.c",
     "string_pointers": [
       0
     ]
@@ -459,7 +459,7 @@
     "address": 495712,
     "name": "bss_section_defaults",
     "size": 8,
-    "owner": "link-pass.c",
+    "owner": "src/link-pass.c",
     "string_pointers": [
       0
     ]
@@ -468,7 +468,7 @@
     "address": 495736,
     "name": "debug_section_defaults",
     "size": 8,
-    "owner": "link-pass.c",
+    "owner": "src/link-pass.c",
     "string_pointers": [
       0
     ]
@@ -477,7 +477,7 @@
     "address": 495752,
     "name": "idata_directory_defaults",
     "size": 8,
-    "owner": "link-pass.c",
+    "owner": "src/link-pass.c",
     "string_pointers": [
       0
     ]
@@ -486,7 +486,7 @@
     "address": 495784,
     "name": "reloc_section_defaults",
     "size": 8,
-    "owner": "link-pass.c",
+    "owner": "src/link-pass.c",
     "string_pointers": [
       0
     ]
@@ -495,631 +495,631 @@
     "address": 377836,
     "name": "base_fixup_next",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377840,
     "name": "codeview_start",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377844,
     "name": "codeview_end",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377880,
     "name": "undefined_symbols",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377952,
     "name": "base_fixups",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377968,
     "name": "sorted_externals",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377992,
     "name": "symbol_table_file_offset",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 499744,
     "name": "comdat_nodes",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 499748,
     "name": "comdat_roots",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 500368,
     "name": "end_symbol",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 500372,
     "name": "header_symbol",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 500376,
     "name": "absolute_contribution",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505748,
     "name": "module_debug_info",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505900,
     "name": "bss_size",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505908,
     "name": "symbol_count",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505916,
     "name": "weak_symbol_count",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505920,
     "name": "output_module",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505924,
     "name": "bss_contribution",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505928,
     "name": "base_relocation_section",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 505932,
     "name": "entry_symbol",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506236,
     "name": "local_symbol_count",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506240,
     "name": "string_table_size",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506248,
     "name": "gp_symbol",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506308,
     "name": "fixup_blocks",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506312,
     "name": "fixup_count",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506316,
     "name": "fixups_in_block",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506376,
     "name": "debug_section",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506380,
     "name": "codeview_contribution",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506384,
     "name": "coff_debug_contribution",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506388,
     "name": "fixup_contribution",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 506392,
     "name": "debug_directory_contribution",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519560,
     "name": "mac_near_bss_size",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519564,
     "name": "mac_near_data_size",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519568,
     "name": "mac_far_bss_size",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519572,
     "name": "mac_far_data_size",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519584,
     "name": "mac_image",
     "size": 1,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519588,
     "name": "mac_swappable",
     "size": 1,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519592,
     "name": "mac_loader_present",
     "size": 1,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519596,
     "name": "mac_pcode_present",
     "size": 1,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519600,
     "name": "mac_small_model",
     "size": 1,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519612,
     "name": "mac_section_count",
     "size": 2,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 519616,
     "name": "mac_far_bss_offset",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 500224,
     "name": "mac_dos_stub",
     "size": 132,
-    "owner": "dos-stub.c"
+    "owner": "src/dos-stub.c"
   },
   {
     "address": 453904,
     "name": "module_error",
     "size": 4,
-    "owner": "modules.c"
+    "owner": "src/modules.c"
   },
   {
     "address": 451808,
     "name": "comdat_root_contribution",
     "size": 64,
-    "owner": "comdat.c"
+    "owner": "src/comdat.c"
   },
   {
     "address": 451872,
     "name": "comdat_root_node",
     "size": 20,
-    "owner": "comdat.c"
+    "owner": "src/comdat.c"
   },
   {
     "address": 451892,
     "name": "comdat_heap",
     "size": 4,
-    "owner": "comdat.c"
+    "owner": "src/comdat.c"
   },
   {
     "address": 451896,
     "name": "comdat_error",
     "size": 4,
-    "owner": "comdat.c"
+    "owner": "src/comdat.c"
   },
   {
     "address": 499740,
     "name": "comdat_enabled",
     "size": 1,
-    "owner": "comdat.c"
+    "owner": "src/comdat.c"
   },
   {
     "address": 453912,
     "name": "split_group_name",
     "size": 9,
-    "owner": "modules.c"
+    "owner": "src/modules.c"
   },
   {
     "address": 453928,
     "name": "split_section_name",
     "size": 9,
-    "owner": "modules.c"
+    "owner": "src/modules.c"
   },
   {
     "address": 520440,
     "name": "section_count",
     "size": 2,
-    "owner": "modules.c"
+    "owner": "src/modules.c"
   },
   {
     "address": 377848,
     "name": "archive_data_offset",
     "size": 4,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "address": 377888,
     "name": "explicit_input_library",
     "size": 4,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "address": 505712,
     "name": "output_open",
     "size": 1,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "address": 506244,
     "name": "output_file_handle",
     "size": 4,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "address": 506320,
     "name": "infer_entry_point",
     "size": 1,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "address": 520608,
     "name": "closed_file_count",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520624,
     "name": "active_files",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520628,
     "name": "closed_files",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 520632,
     "name": "closed_files_tail",
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "address": 506324,
     "name": "machine_initialized",
     "size": 1,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "address": 377988,
     "name": "apply_relocations",
     "size": 4,
-    "owner": "machine.c"
+    "owner": "src/machine.c"
   },
   {
     "address": 377856,
     "name": "coff_strings",
     "size": 4,
-    "owner": "object.c"
+    "owner": "src/object.c"
   },
   {
     "address": 377864,
     "name": "section_header_offset",
     "size": 4,
-    "owner": "object.c"
+    "owner": "src/object.c"
   },
   {
     "address": 503320,
     "name": "coff_string_buffer",
     "size": 12,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "address": 503352,
     "name": "coff_strings_cached",
     "size": 1,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "address": 503304,
     "name": "coff_symbol_buffer",
     "size": 12,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "address": 503348,
     "name": "coff_symbols_cached",
     "size": 1,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "address": 452280,
     "name": "section_name_buffer",
     "size": 9,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "address": 376992,
     "name": "mac_symbol_table",
     "size": 4,
-    "owner": "machine.c"
+    "owner": "src/machine.c"
   },
   {
     "address": 377008,
     "name": "mac_far_bss",
     "size": 4,
-    "owner": "machine.c"
+    "owner": "src/machine.c"
   },
   {
     "address": 377048,
     "name": "output_file",
     "size": 4,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "address": 376988,
     "name": "mac_object_symbols",
     "size": 4,
-    "owner": "object.c"
+    "owner": "src/object.c"
   },
   {
     "address": 376984,
     "name": "mac_entry_section",
     "size": 2,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377000,
     "name": "mac_data_base",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377004,
     "name": "mac_data_size",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377012,
     "name": "mac_swap",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377016,
     "name": "mac_debug",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377020,
     "name": "mac_data_fixups",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377028,
     "name": "mac_resource_map",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 377036,
     "name": "mac_jump_table",
     "size": 4,
-    "owner": "link-pass.c"
+    "owner": "src/link-pass.c"
   },
   {
     "address": 376944,
     "name": "mac_data_references",
     "size": 24,
-    "owner": "object.c"
+    "owner": "src/object.c"
   },
   {
     "address": 519604,
     "name": "mac_section_code_fixups",
     "size": 4,
-    "owner": "object.c"
+    "owner": "src/object.c"
   },
   {
     "address": 519608,
     "name": "mac_section_data_fixups",
     "size": 4,
-    "owner": "object.c"
+    "owner": "src/object.c"
   },
   {
     "address": 377052,
     "name": "short_symbol_name",
     "size": 9,
-    "owner": "symbols.c"
+    "owner": "src/symbols.c"
   },
   {
     "address": 452256,
     "name": "streamed_symbol",
     "size": 18,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "name": "pool_remaining",
     "address": 506412,
     "size": 4,
-    "owner": "arena.c"
+    "owner": "src/arena.c"
   },
   {
     "name": "pool_capacity",
     "address": 506416,
     "size": 4,
-    "owner": "arena.c"
+    "owner": "src/arena.c"
   },
   {
     "name": "pool_block",
     "address": 506420,
     "size": 4,
-    "owner": "arena.c"
+    "owner": "src/arena.c"
   },
   {
     "name": "pool_saved_remaining",
     "address": 377908,
     "size": 4,
-    "owner": "arena.c"
+    "owner": "src/arena.c"
   },
   {
     "name": "main_symbol",
     "address": 506328,
     "size": 4,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "name": "winmain_symbol",
     "address": 506332,
     "size": 4,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "name": "hash_short_name",
     "address": 504596,
     "size": 9,
-    "owner": "symbols.c"
+    "owner": "src/symbols.c"
   },
   {
     "name": "hash_short_name_buffer",
     "address": 504608,
     "size": 4,
-    "owner": "symbols.c"
+    "owner": "src/symbols.c"
   },
   {
     "name": "archive_member_size",
     "address": 377852,
     "size": 4,
-    "owner": "pass-one.c"
+    "owner": "src/pass-one.c"
   },
   {
     "name": "archive_header",
     "address": 451928,
     "size": 60,
-    "owner": "archive.c"
+    "owner": "src/archive.c"
   },
   {
     "name": "archive_member_name",
     "address": 451992,
     "size": 17,
-    "owner": "archive.c"
+    "owner": "src/archive.c"
   },
   {
     "name": "coff_relocation_buffer",
     "address": 503336,
     "size": 12,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "name": "coff_relocations_cached",
     "address": 503356,
     "size": 1,
-    "owner": "coff-io.c"
+    "owner": "src/coff-io.c"
   },
   {
     "name": "order_enabled",
     "address": 500024,
     "size": 1,
-    "owner": "ordering.c"
+    "owner": "src/ordering.c"
   },
   {
     "address": 452296,
     "name": "sort_string_buffer",
     "size": 12,
-    "owner": "symbols.c"
+    "owner": "src/symbols.c"
   },
   {
     "address": 504612,
     "name": "sort_short_name_left",
     "size": 9,
-    "owner": "symbols.c"
+    "owner": "src/symbols.c"
   },
   {
     "address": 504624,
     "name": "sort_short_name_right",
     "size": 9,
-    "owner": "symbols.c"
+    "owner": "src/symbols.c"
   },
   {
     "address": 545544,
     "name": "timezone_previous",
     "size": 4,
-    "owner": "runtime.c"
+    "owner": "src/runtime.c"
   },
   {
     "address": 547488,
@@ -1143,103 +1143,103 @@
     "address": 519640,
     "name": "mac_max_code_size",
     "size": 4,
-    "owner": "section-layout.c"
+    "owner": "src/section-layout.c"
   },
   {
     "address": 503360,
     "name": "next_section_index",
     "size": 2,
-    "owner": "section-layout.c"
+    "owner": "src/section-layout.c"
   },
   {
     "address": 519576,
     "name": "mac_code_section_count",
     "size": 2,
-    "owner": "section-layout.c"
+    "owner": "src/section-layout.c"
   },
   {
     "address": 505752,
     "name": "output_module_index",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 376940,
     "name": "mac_segment_library",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 500412,
     "name": "file_symbol_previous_offset",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 500416,
     "name": "file_symbol_first_index",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 500400,
     "name": "function_aux_offset",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 500404,
     "name": "block_aux_offset",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 500408,
     "name": "previous_aux_offset",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 505640,
     "name": "output_zero_padding",
     "size": 16,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 505656,
     "name": "i386_code_padding",
     "size": 16,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 451908,
     "name": "cv_line_count",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 451912,
     "name": "cv_line_count_file_offset",
     "size": 4,
-    "owner": "pass-two.c"
+    "owner": "src/pass-two.c"
   },
   {
     "address": 503364,
     "name": "comdat_scan_module",
     "size": 4,
-    "owner": "comdat-selection.c"
+    "owner": "src/comdat-selection.c"
   },
   {
     "address": 451920,
     "name": "comdat_scan_cursor",
     "size": 4,
-    "owner": "comdat-selection.c"
+    "owner": "src/comdat-selection.c"
   },
   {
     "address": 451924,
     "name": "comdat_scan_index",
     "size": 4,
-    "owner": "comdat-selection.c"
+    "owner": "src/comdat-selection.c"
   },
   {
     "address": 447656,
@@ -1251,55 +1251,55 @@
     "name": "library_listing_name",
     "address": 510844,
     "size": 4,
-    "owner": "library.c"
+    "owner": "src/library.c"
   },
   {
     "name": "first_input_library",
     "address": 510848,
     "size": 4,
-    "owner": "library.c"
+    "owner": "src/library.c"
   },
   {
     "name": "remove_members_requested",
     "address": 510852,
     "size": 1,
-    "owner": "library.c"
+    "owner": "src/library.c"
   },
   {
     "name": "extract_member",
     "address": 453704,
     "size": 4,
-    "owner": "library.c"
+    "owner": "src/library.c"
   },
   {
     "name": "export_symbol_table",
     "address": 376836,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "export_image",
     "address": 453696,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "exports_table_symbol",
     "address": 453668,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "null_thunk_name",
     "address": 453672,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "export_object_name",
     "address": 505732,
     "size": 4,
-    "owner": "import-library.c",
+    "owner": "src/import-library.c",
     "string_pointers": [
       0
     ]
@@ -1308,403 +1308,403 @@
     "name": "dll_basename_length",
     "address": 453680,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "import_aliases",
     "address": 510252,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "import_member_offsets",
     "address": 377872,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "export_ordinals",
     "address": 453688,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "import_only_export",
     "address": 506252,
     "size": 1,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "export_error",
     "address": 510244,
     "size": 1,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "import_member_base",
     "address": 506256,
     "size": 2,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "first_export_ordinal",
     "address": 506260,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "last_export_ordinal",
     "address": 506264,
     "size": 4,
-    "owner": "import-library.c"
+    "owner": "src/import-library.c"
   },
   {
     "name": "export_library",
     "address": 520336,
     "size": 4,
-    "owner": "export-directives.c"
+    "owner": "src/export-directives.c"
   },
   {
     "name": "export_module",
     "address": 453896,
     "size": 4,
-    "owner": "export-directives.c"
+    "owner": "src/export-directives.c"
   },
   {
     "name": "export_contribution",
     "address": 453900,
     "size": 4,
-    "owner": "export-directives.c"
+    "owner": "src/export-directives.c"
   },
   {
     "name": "export_sections",
     "address": 520344,
     "size": 8,
-    "owner": "export-directives.c"
+    "owner": "src/export-directives.c"
   },
   {
     "name": "export_forwarder_bytes",
     "address": 506268,
     "size": 4,
-    "owner": "export-directives.c"
+    "owner": "src/export-directives.c"
   },
   {
     "name": "export_alias_bytes",
     "address": 506272,
     "size": 4,
-    "owner": "export-directives.c"
+    "owner": "src/export-directives.c"
   },
   {
     "name": "new_archive_index",
     "address": 510204,
     "size": 1,
-    "owner": "import-archive.c"
+    "owner": "src/import-archive.c"
   },
   {
     "name": "import_member_long_name",
     "address": 510248,
     "size": 1,
-    "owner": "import-archive.c"
+    "owner": "src/import-archive.c"
   },
   {
     "name": "second_index_offset",
     "address": 453692,
     "size": 4,
-    "owner": "import-archive.c"
+    "owner": "src/import-archive.c"
   },
   {
     "name": "import_member_name",
     "address": 453684,
     "size": 4,
-    "owner": "import-archive.c"
+    "owner": "src/import-archive.c"
   },
   {
     "name": "generated_archive_header",
     "address": 453712,
     "size": 60,
-    "owner": "import-archive.c"
+    "owner": "src/import-archive.c"
   },
   {
     "name": "export_description",
     "address": 510208,
     "size": 4,
-    "owner": "export-object.c"
+    "owner": "src/export-object.c"
   },
   {
     "name": "export_directives",
     "address": 510212,
     "size": 4,
-    "owner": "export-object.c"
+    "owner": "src/export-object.c"
   },
   {
     "name": "export_name_bytes",
     "address": 510256,
     "size": 4,
-    "owner": "export-object.c"
+    "owner": "src/export-object.c"
   },
   {
     "name": "forwarder_symbol_serial",
     "address": 453392,
     "size": 4,
-    "owner": "export-object.c"
+    "owner": "src/export-object.c"
   },
   {
     "name": "import_jump_i386",
     "address": 509952,
     "size": 6,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "import_jump_i860",
     "address": 509968,
     "size": 12,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "import_jump_mips",
     "address": 510008,
     "size": 20,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "import_relocations_i386",
     "address": 509960,
     "size": 3,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "import_relocations_i860",
     "address": 509984,
     "size": 6,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "import_relocations_mips",
     "address": 510032,
     "size": 9,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "import_thunk_debug",
     "address": 510168,
     "size": 29,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "import_debug_end",
     "address": 510200,
     "size": 4,
-    "owner": "import-members.c"
+    "owner": "src/import-members.c"
   },
   {
     "name": "buffered_page_reads",
     "address": 520600,
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "name": "active_pages",
     "address": 520596,
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "name": "page_cache_head",
     "address": 520584,
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "name": "page_cache_tail",
     "address": 520588,
     "size": 4,
-    "owner": "files.c"
+    "owner": "src/files.c"
   },
   {
     "name": "order_fatal",
     "address": 451900,
     "size": 4,
-    "owner": "ordering.c"
+    "owner": "src/ordering.c"
   },
   {
     "name": "order_warning",
     "address": 451904,
     "size": 4,
-    "owner": "ordering.c"
+    "owner": "src/ordering.c"
   },
   {
     "address": 378256,
     "name": "resource_abort",
     "size": 32,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 522436,
     "name": "resource_input_name",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 522440,
     "name": "resource_machine",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 522444,
     "name": "resource_relocation",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 522448,
     "name": "resource_debug",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 522452,
     "name": "resource_verbose",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 378312,
     "name": "resource_32bit",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 378292,
     "name": "resource_output_buffer",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 378296,
     "name": "resource_input_buffer",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 378300,
     "name": "resource_directory",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523328,
     "name": "resource_string_bytes",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523332,
     "name": "resource_strings",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523336,
     "name": "resource_file_entries",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523340,
     "name": "resource_id_types",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523344,
     "name": "resource_named_types",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523348,
     "name": "resource_name_count",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523352,
     "name": "resource_name_directories",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523356,
     "name": "resource_type_count",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523360,
     "name": "resource_id_type_count",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523364,
     "name": "resource_named_type_count",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523368,
     "name": "resource_count",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523372,
     "name": "resource_language_count",
     "size": 2,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523096,
     "name": "resource_padding",
     "size": 4,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523376,
     "name": "resource_coff_header",
     "size": 20,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523400,
     "name": "resource_section_symbol",
     "size": 18,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523424,
     "name": "resource_coff_relocation",
     "size": 10,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523440,
     "name": "resource_directory_section",
     "size": 40,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523480,
     "name": "resource_data_section",
     "size": 40,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 523256,
     "name": "resource_type_names",
     "size": 72,
-    "owner": "resources.c",
+    "owner": "src/resources.c",
     "string_pointers": [
       0,
       4,
@@ -1730,38 +1730,38 @@
     "address": 525984,
     "name": "resource_ansi_special",
     "size": 64,
-    "owner": "resources.c",
+    "owner": "src/resources.c",
     "evidence": "Encountered ANSI/Unicode translation table special range; identity ranges expressed arithmetically, shared reverse lookup at451e0."
   },
   {
     "address": 454040,
     "name": "resource_copy_buffer",
     "size": 1024,
-    "owner": "resources.c"
+    "owner": "src/resources.c"
   },
   {
     "address": 453664,
     "name": "definition_stream",
     "size": 4,
-    "owner": "definition-file.c"
+    "owner": "src/definition-file.c"
   },
   {
     "address": 453676,
     "name": "definition_cursor",
     "size": 4,
-    "owner": "definition-file.c"
+    "owner": "src/definition-file.c"
   },
   {
     "address": 510216,
     "name": "definition_version",
     "size": 4,
-    "owner": "definition-file.c"
+    "owner": "src/definition-file.c"
   },
   {
     "address": 495840,
     "name": "definition_keywords",
     "size": 88,
-    "owner": "definition-file.c",
+    "owner": "src/definition-file.c",
     "string_pointers": [
       0,
       4,
@@ -1791,163 +1791,163 @@
     "address": 453400,
     "name": "definition_line",
     "size": 261,
-    "owner": "definition-file.c"
+    "owner": "src/definition-file.c"
   },
   {
     "address": 510260,
     "name": "definition_name_seen",
     "size": 1,
-    "owner": "definition-file.c"
+    "owner": "src/definition-file.c"
   },
   {
     "address": 506300,
     "name": "map_relocations",
     "size": 4,
-    "owner": "map-file.c"
+    "owner": "src/map-file.c"
   },
   {
     "address": 506304,
     "name": "map_relocations_used",
     "size": 4,
-    "owner": "map-file.c"
+    "owner": "src/map-file.c"
   },
   {
     "address": 506424,
     "name": "map_static_symbols",
     "size": 4,
-    "owner": "map-file.c"
+    "owner": "src/map-file.c"
   },
   {
     "address": 506428,
     "name": "map_symbol_tail",
     "size": 4,
-    "owner": "map-file.c"
+    "owner": "src/map-file.c"
   },
   {
     "address": 518956,
     "name": "codeview_module_name",
     "size": 4,
-    "owner": "codeview.c"
+    "owner": "src/codeview.c"
   },
   {
     "address": 547632,
     "name": "_days",
     "size": 52,
-    "owner": "runtime.c"
+    "owner": "src/runtime.c"
   },
   {
     "address": 453792,
     "name": "dump_image",
     "size": 4,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 511640,
     "name": "dump_buffer",
     "size": 4,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 511644,
     "name": "dump_buffer_size",
     "size": 2,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 511672,
     "name": "dump_invalid_columns",
     "size": 1,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 453788,
     "name": "dump_file_size",
     "size": 4,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 512000,
     "name": "dump_file_count",
     "size": 2,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 511668,
     "name": "dump_symbol_table",
     "size": 4,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 511996,
     "name": "dump_section_headers",
     "size": 4,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 453776,
     "name": "dump_string_view",
     "size": 8,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 511648,
     "name": "dump_ascii",
     "size": 18,
-    "owner": "dump.c"
+    "owner": "src/dump.c"
   },
   {
     "address": 452316,
     "name": "edit_image",
     "size": 4,
-    "owner": "editor.c"
+    "owner": "src/editor.c"
   },
   {
     "address": 452312,
     "name": "edit_section_headers",
     "size": 4,
-    "owner": "editor.c"
+    "owner": "src/editor.c"
   },
   {
     "address": 452308,
     "name": "edit_optional_changed",
     "size": 1,
-    "owner": "editor.c"
+    "owner": "src/editor.c"
   },
   {
     "address": 507476,
     "name": "diagnostic_stream",
     "size": 4,
-    "owner": "diagnostics.c"
+    "owner": "src/diagnostics.c"
   },
   {
     "address": 509172,
     "name": "diagnostic_initialized",
     "size": 4,
-    "owner": "diagnostics.c"
+    "owner": "src/diagnostics.c"
   },
   {
     "address": 452584,
     "name": "diagnostic_offsets",
     "size": 552,
-    "owner": "diagnostics.c"
+    "owner": "src/diagnostics.c"
   },
   {
     "address": 453136,
     "name": "diagnostic_line",
     "size": 256,
-    "owner": "diagnostics.c"
+    "owner": "src/diagnostics.c"
   },
   {
     "address": 452320,
     "name": "diagnostic_path",
     "size": 264,
-    "owner": "diagnostics.c"
+    "owner": "src/diagnostics.c"
   },
   {
     "address": 508624,
     "name": "diagnostic_codes",
     "size": 548,
-    "owner": "diagnostics.c",
+    "owner": "src/diagnostics.c",
     "string_pointers": [
       0,
       4,
@@ -2092,510 +2092,510 @@
     "address": 377916,
     "name": "omf_abort",
     "size": 32,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 377996,
     "name": "omf_source_filename",
     "size": 260,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414192,
     "name": "omf_program_name",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414196,
     "name": "omf_argument_index",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414200,
     "name": "omf_option_argument",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414204,
     "name": "omf_option_character",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 527964,
     "name": "omf_debug_mode",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 527980,
     "name": "omf_option_offset",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491020,
     "name": "omf_input",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 472504,
     "name": "omf_external_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 446996,
     "name": "omf_symbol_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 472500,
     "name": "omf_group_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 472496,
     "name": "omf_segment_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 455076,
     "name": "omf_name_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491024,
     "name": "omf_module_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 526240,
     "name": "omf_extensions_seen",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 455068,
     "name": "omf_record_remaining",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 455064,
     "name": "omf_record_wide",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491028,
     "name": "omf_record_type",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490944,
     "name": "omf_data_record_type",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490948,
     "name": "omf_data_segment",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490952,
     "name": "omf_data_offset",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490996,
     "name": "omf_pass",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490956,
     "name": "omf_modend_seen",
     "size": 1,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378324,
     "name": "omf_line_count",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 526280,
     "name": "omf_symbol_fixup_bytes",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414220,
     "name": "omf_bss_section",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 394720,
     "name": "omf_data_section",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378320,
     "name": "omf_text_section",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 472488,
     "name": "omf_exestr_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414224,
     "name": "omf_defined_segment_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 472492,
     "name": "omf_exestr_bytes",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490992,
     "name": "omf_type_segment_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490988,
     "name": "omf_symbol_segment_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490976,
     "name": "omf_type_segments",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 490960,
     "name": "omf_symbol_segments",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 455072,
     "name": "omf_record_checksum",
     "size": 1,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378328,
     "name": "omf_line_data",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378332,
     "name": "omf_symbol_fixup_data",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378336,
     "name": "omf_symbol_indices",
     "size": 16384,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 474560,
     "name": "omf_external_indices",
     "size": 16384,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 447000,
     "name": "omf_symbol_buckets",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414208,
     "name": "omf_relocation_buckets",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 526284,
     "name": "omf_first_module_name",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378316,
     "name": "omf_coff_symbol_count",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 528272,
     "name": "omf_coff_symbols",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 397800,
     "name": "omf_coff_symbol_capacity",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491040,
     "name": "omf_coff_string_size",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 377856,
     "name": "omf_coff_strings",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 397796,
     "name": "omf_coff_string_capacity",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 455080,
     "name": "omf_names",
     "size": 8192,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 463272,
     "name": "omf_local_names",
     "size": 8192,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414228,
     "name": "omf_segments",
     "size": 4096,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 472512,
     "name": "omf_segment_symbol_indices",
     "size": 1024,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 399852,
     "name": "omf_section_aux_indices",
     "size": 1024,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491052,
     "name": "omf_coff_section_count",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491036,
     "name": "omf_coff_raw_bytes",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 400876,
     "name": "omf_coff_sections",
     "size": 10240,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 398828,
     "name": "omf_coff_section_data",
     "size": 1024,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 397804,
     "name": "omf_coff_section_capacity",
     "size": 1024,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 473536,
     "name": "omf_group_symbol_indices",
     "size": 1024,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 526248,
     "name": "omf_alignment_bytes",
     "size": 32,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 472508,
     "name": "omf_last_comdat_segment",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 528276,
     "name": "omf_coff_machine",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 471464,
     "name": "omf_exestr",
     "size": 1024,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414212,
     "name": "omf_fixup_tail",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414216,
     "name": "omf_fixup_head",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491000,
     "name": "omf_thread_symbols",
     "size": 16,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491016,
     "name": "omf_thread_segments",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 414188,
     "name": "omf_line_base",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378316,
     "name": "omf_line_symbol_index",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 378320,
     "name": "omf_line_section",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 394724,
     "name": "omf_relocation_lists",
     "size": 3072,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491032,
     "name": "omf_file_relocation_seen",
     "size": 2,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491044,
     "name": "omf_coff_relocation_count",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 411116,
     "name": "omf_line_lists",
     "size": 3072,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 491048,
     "name": "omf_coff_line_count",
     "size": 4,
-    "owner": "omf.c"
+    "owner": "src/omf.c"
   },
   {
     "address": 454016,
     "name": "demangle_heap",
     "size": 20,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   },
   {
     "address": 454036,
     "name": "demangle_type_replicator",
     "size": 4,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   },
   {
     "address": 521768,
     "name": "demangle_name_replicator",
     "size": 4,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   },
   {
     "address": 521772,
     "name": "demangle_input",
     "size": 4,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   },
   {
     "address": 521776,
     "name": "demangle_original",
     "size": 4,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   },
   {
     "address": 521780,
     "name": "demangle_output",
     "size": 4,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   },
   {
     "address": 521784,
     "name": "demangle_capacity",
     "size": 4,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   },
   {
     "address": 521788,
     "name": "demangle_flags",
     "size": 2,
-    "owner": "demangle.c"
+    "owner": "src/demangle.c"
   }
 ]

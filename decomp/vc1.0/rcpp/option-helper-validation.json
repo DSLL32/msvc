@@ -16,7 +16,7 @@
       "events": "exception 80000003 rva fe941f03 base 02000000 first 1\nexit 99\n",
       "stdout": "mapped 00940000\r\n",
       "stderr": "",
-      "binary_sha256": "f38c8694887842e4355b1c45def5ec8a591fe604a4bfcf326bf1efb3693a7610",
+      "binary_sha256": "312eba15a2edcb3cf03d62ce48a50bc45c3c2c569bfea9284f09b5f60cef0756",
       "rva": 7939
     }
   },
@@ -52,7 +52,7 @@
       "events": "exit 0\n",
       "stdout": "mapped 00940000\r\n10 examples and stdcall ABI match\r\n",
       "stderr": "",
-      "binary_sha256": "f38c8694887842e4355b1c45def5ec8a591fe604a4bfcf326bf1efb3693a7610",
+      "binary_sha256": "312eba15a2edcb3cf03d62ce48a50bc45c3c2c569bfea9284f09b5f60cef0756",
       "rva": 7939
     }
   }

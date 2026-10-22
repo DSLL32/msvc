@@ -27,13 +27,17 @@ Build and differential checks
     make -j2 check
     make replay
 
-Builds use the original CL.EXE and LINK.EXE through Wine. wine-tool.py creates
+Reconstructed C, headers and linker definitions are in src/. Build and
+verification scripts are in scripts/. Run the commands below from this binary
+folder; cases/, metadata and generated build/ paths keep their prior roles.
+
+Builds use the original CL.EXE and LINK.EXE through Wine. scripts/wine-tool.py creates
 its own prefix under ~/.ai-tmp/vc1.0-rc/wine and maps T: to the original
 1.0-nt toolchain so header paths are stable. Each debugger run gets a separate
 copy of the case under ~/.ai-tmp/vc1.0-rc. The local build/rcpp.exe symlink points
 to original RCPP.EXE; neither original binary nor fixture is edited.
 
-compare.py masks the entire backed code section in both executables and restores
+scripts/compare.py masks the entire backed code section in both executables and restores
 only accepted functions plus explicitly recorded adjacent text data. It launches
 both masked processes concurrently and rejects a different logical trap or an
 interior trap. --accept NAME first verifies the matching current frontier,
@@ -47,7 +51,7 @@ and the exact complete case file set, including unchanged input files and no
 unexpected products or leftover temporary files. The verbose-names case has
 the explicit two-field native-PID stdout comparison described below.
 
-Early PE section headers have VirtualSize=0. binary.py uses backed raw sizes
+Early PE section headers have VirtualSize=0. scripts/binary.py uses backed raw sizes
 for the code extent and returns zeros for uninitialized sections; BSS
 is not interpreted as executable-file bytes at raw offset zero.
 
@@ -65,12 +69,12 @@ hashes for seven additional cases:
   parser-error     Invalid dialog caption; RW2002, exit 1.
   resource-error   Invalid legacy image format; RW2003, exit 1.
 
-    python3 capture-original.py
-    python3 compare.py --case alternate
+    python3 scripts/capture-original.py
+    python3 scripts/compare.py --case alternate
 
-capture-original.py reruns the untouched RC.EXE and verifies saved oracle files
+scripts/capture-original.py reruns the untouched RC.EXE and verifies saved oracle files
 and manifests. --record deliberately refreshes those local captures. It never
-writes the shared rich fixture. cases/alternate/make-assets.py generates the
+writes the shared rich fixture. scripts/make-alternate-assets.py generates the
 small input images and font metadata; no binary data came from an executable.
 The font input exercises RC's observed 148-byte directory-header reader and
 name offsets. It is a deliberately minimal parser fixture, not a renderable
@@ -103,7 +107,7 @@ Both exit 0, have empty streams and remove all temporary files. Source whitespac
 is pinned and copied byte for byte, including whitespace in rcinclude.rc.
 
 Shared manifests, source/output bytes and original RCPP identity are pinned
-and independently verified by capture-original.py. All source/ files are copied
+and independently verified by scripts/capture-original.py. All source/ files are copied
 into isolated case directories. No host codepage/locale changes, PID overrides
 or stream normalization are used. --record refuses shared-suite mutation.
 The runtime harness also requires the child symlink to resolve to original RCPP.
@@ -133,14 +137,14 @@ in their use context; no data section or machine-code implementation is copied.
 RC predates the allocator in shipped LIBC.LIB and LIBCMT.LIB. Its allocator
 calls GetProcessHeap/HeapAlloc/HeapFree, whereas both shipped libraries use
 region/block allocation. The old routines are reconstructed explicitly rather
-than substituted with a different allocator graph. identify-runtime.py searches
+than substituted with a different allocator graph. scripts/identify-runtime.py searches
 both libraries and checks relocation-aware code and direct call/jump targets.
 Matching fragments do not authorize a changed private neighbor: differing
 routines are reconstructed separately when encountered. Explicit source records
 override candidate CRT aliases, preventing a small generic library body from
 unmasking an unrelated function with the same candidate name.
 
-audit-graph.py walks source-function control flow, switch-table targets and SEH
+scripts/audit-graph.py walks source-function control flow, switch-table targets and SEH
 filters/handlers. It checks a bijection of direct call vertices and function
 address references and compares RET stack cleanup and indirect-call presence.
 It does not claim branch coverage or prove dataflow equivalence by itself;
@@ -172,7 +176,7 @@ so an original optimized tail jump can be compared with an idiomatic C wrapper
 without introducing assembly or accepting an unknown return convention.
 
 RC calls NTDLL's counted-string conversion routine directly. The shipped SDK has
-no NTDLL import library. ntdll.def and import-library.py use original LIB.EXE to
+no NTDLL import library. src/ntdll.def and scripts/import-library.py use original LIB.EXE to
 generate one, retaining stdcall COFF link symbols and removing their @12 suffix
 only from generated DLL lookup-name records. The script copies no target data
 or code and adds no conversion-wrapper function to the original graph.
@@ -189,7 +193,7 @@ actual OS-created callback thread and argument zero are observed with debugger
 breakpoints. The primary remains behind a lexer-entry barrier while Wine
 services pending SIGINT. There is no callback injection or PID substitution.
 The whole 95-byte BOOL WINAPI interrupt_resource callback is recovered in
-finish.c with its original distinct _fcloseall/remove/exit call graph and RET 4.
+src/finish.c with its original distinct _fcloseall/remove/exit call graph and RET 4.
 Exact status 1, empty streams and deletion of output plus both temporary files
 are required. Its font-directory branch is recovered but not exercised here.
 
@@ -223,7 +227,7 @@ original fprintf writer; no PID override or broad stream normalization occurs.
 path-fallback stages RC alone, with no sibling/current-directory RCPP. A
 controlled PATH starts with a nonexistent directory, then a quoted directory
 with a space containing the pinned original RCPP. Its streams are empty and
-its product is exactly68 bytes. spawn-search.c recovers the whole older
+its product is exactly68 bytes. src/spawn-search.c recovers the whole older
 _spawnvp/_spawnvpe/_getpath group as distinct C functions with the original
 ABIs and native error/UNC/quoted-PATH branches. The native search parser extent
 is129 bytes; the public wrapper26 and search walker395, excluding alignment.
@@ -233,7 +237,7 @@ CRT candidates, preventing RET/padding aliases from becoming fake callbacks.
 Its instruction-end guard decodes beyond each accepted extent and rejects an
 end inside an instruction, including CRT/import bodies on both images.
 
-audit-uncovered.py inventories the executable-byte complement rather than
+scripts/audit-uncovered.py inventories the executable-byte complement rather than
 ranking aliases or one-byte pending stubs. At the original14-case checkpoint,
 7,777 bytes remained:3,622 recognized padding plus4,155 function/region bytes.
 Those two cases recovered642 bytes. At that checkpoint,7,135 bytes remained:
@@ -248,7 +252,7 @@ is regenerated by make audit using the current accepted union.
 Two direct utility cases
 ------------------------
 The two provenance-uncertain, apparently unreferenced native utilities are now
-recovered in unused-helpers.c. is_space_byte takes a signed low byte and returns
+recovered in src/unused-helpers.c. is_space_byte takes a signed low byte and returns
 -1/0 with RET4; copy_basename copies after the last slash/backslash/colon and
 returns the byte count including NUL with RET8. No production caller was added.
 

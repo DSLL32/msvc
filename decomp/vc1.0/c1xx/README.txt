@@ -23,12 +23,12 @@ Build and check the current frontier using the original toolchain:
     make -j2
     make -j2 check
 
-make replay reruns every accepted frontier in order. compare.py --runtime
+make replay checks the recorded first-encounter sequence with continuous live unmasking. scripts/compare.py --runtime
 advances only exact original CRT/import matches, stopping at the next native
 frontier. functions.json records the accepted order and original ranges.
-identify-runtime.py matches library bytes while checking relocated direct-call
+scripts/identify-runtime.py matches library bytes while checking relocated direct-call
 and jump destinations, so a similarly shaped but unrelated CRT routine is not
-silently substituted. Driver call targets are audited by audit-graph.py.
+silently substituted. Driver call targets are audited by scripts/audit-graph.py.
 
 Both on-disk original and reconstructed .text copies are masked with INT3.
 Only accepted whole-function extents and explicitly recorded shared text data
@@ -47,18 +47,18 @@ implementations use readable C; original CRT code is linked from the original
 library after exact matching. No executable data sections are copied into C.
 
 The original CRT __fmode is 0x8000 at VA 0xaa3bc. BINMODE.OBJ supplies that
-same binary-default setting to this reconstruction; compare.py checks the
+same binary-default setting to this reconstruction; scripts/compare.py checks the
 original and rebuilt globals against the recorded value. The PCH configuration
 snapshot is represented by the typed CompilerConfiguration structure, with an
 asserted size of 764 bytes. Its two path buffers and known flags are named;
 remaining fields retain offsets until their consumers are reconstructed.
 
 The launcher preserves the captured argv[0] identically for both images,
-independently of the selected application image. audit-data.py checks all 98
+independently of the selected application image. scripts/audit-data.py checks all 98
 option rules, their target sharing and defaults, the typed configuration, 81
 language keywords, four __declspec entries and all 191 IR record schemas against the original binary.
 The older CRT _sopen, setvbuf, _freebuf, fseek, __tzset, _isindst and ftell bodies have readable C replacements;
-audit-runtime-variants.py and runtime-variants.json record their complete code
+scripts/audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
@@ -140,15 +140,15 @@ normalized_Gs=1 and normalized_Gn=1 defaults before frontend initialization.
 The parser uses generated logical grammar tables; no original packed parser
 tables have been imported as source.
 
-The parser's declarative grammar is recovered in grammar.bnf. grammar.py reads
+The parser's declarative grammar is recovered in src/grammar.bnf. scripts/grammar.py reads
 only that named grammar, precedence and recovery annotations; it never reads an
 original binary. Sorted LR kernels and queued closure regenerate the original
 state numbering. LALR lookaheads, ordinary operator precedence and six comma
 boundary overrides regenerate its actions and default reductions. Recovery
 inserts identify production/dot contexts; destination states follow from shifts.
-audit-parser-grammar.py compares all 147775 token decisions, 82800 gotos, lexer
+scripts/audit-parser-grammar.py compares all 147775 token decisions, 82800 gotos, lexer
 query timing and 60 recovery inserts against the original. All match. The
-analysis-only recovery proof is in analysis/recover-grammar.py; it is not part
+analysis-only recovery proof is in scripts/analysis/recover-grammar.py; it is not part
 of the build. The whole semantic switch is readable C in parser-*-actions.inc;
 the complete C++ case remains pending.
 
@@ -159,7 +159,7 @@ macro pointer and following control word. These overlaps use one C union.
 The stack and six parser defaults are audited; all 207 frontiers replay with
 these aliases in evidence/replay-parser-state.log.
 
-generate-parser.py emits logical C tables from that same declarative grammar,
+scripts/generate-parser.py emits logical C tables from that same declarative grammar,
 without reading the executable. The original toolchain compiles these tables
 as part of the build and the accepted parser uses those logical tables.
 The audit independently verifies every emitted row against the original,
@@ -361,7 +361,7 @@ prefix in evidence/replay-scoped-lookup.log. The matched current frontier is
 resolve_parenthesis_candidate at original 0x19190.
 
 The separate declaration-lookahead parser (original 0x75230..0x75a52, semantic
-switch 0x75a54..0x75ce8) is reconstructed from lookahead.bnf. Its 169 named
+switch 0x75a54..0x75ce8) is reconstructed from src/lookahead.bnf. Its 169 named
 productions regenerate all 279 original state identities. Exhaustive audits
 check 71,703 token actions, 14,229 gotos, lexer timing, and all 46 non-default
 semantic action rules. Only logical generated rows enter the native build;
@@ -436,7 +436,7 @@ passes. The initialization clears inherited layout flags and allocates three
 separate empty arena-two vectors for vf tables, vb tables and secondary table
 groups. Native compile-time layout checks cover their ClassInfo offsets 8, 12
 and 16, as well as conversion-set offsets 24 and 28. All original state defaults
-and aliases remain covered by audit-data.py.
+and aliases remain covered by scripts/audit-data.py.
 
 All 300 accepted frontiers replay exactly in evidence/replay-class-completion-setup.log,
 including pending FILE buffers. The matched next trap is new_empty_vector at
@@ -716,13 +716,13 @@ member-pointer constructor's provisional signature is corrected to accept a
 QualifiedDeclarator; parser calls preserve its stdcall ABI. Evidence and the
 native unrecognized-operation fallthrough are in evidence/builtin-unary.txt.
 
-make replay now runs four isolated frontier pairs with replay-frontiers.py;
+The full-oracle history runs four isolated frontier pairs with scripts/replay-fresh.py;
 --jobs selects one to eight pairs. Each pair invokes the full comparator, with
 private masked images, working folders and event/output logs. Every frontier
 still checks exact files, stdout/stderr, pending FILE buffers, logical callers
 and all eleven runtime observations. Frozen source, build, harness, original
 target and fixture hashes are verified before and after the final ordinary
-comparison. Serial replay remains python3 compare.py --replay.
+comparison. Serial full-oracle replay remains python3 scripts/compare.py --replay.
 
 All 420 frontiers pass in evidence/replay-builtin-unary.log (102.118 seconds),
 with the frozen receipt in evidence/replay-builtin-unary-receipt.json. Current
@@ -1046,3 +1046,72 @@ Resume only when explicitly requested: make -j2 check, then reconstruct
 initialize_object_value@8 as a whole function and continue the established paired
 process. Run the full frozen history at the next normal batch checkpoint.
 The assigned frontend case remains incomplete.
+
+
+Source layout: reconstructed C, headers, semantic-action includes and declarative
+grammars live in src/. Harness, audit, grammar-generator and analysis Python
+scripts live in scripts/. Run make and script commands from this binary's root;
+build/, functions.json, runtime metadata and evidence/ remain here. Existing
+historical receipts retain the original frozen path names as evidence of those
+runs; they do not describe current source locations.
+
+
+Ordinary historical replay uses the shared walker in tooling/replay/ at the
+repository root. The C1XX adapter is scripts/fast_replay_adapter.py. Commands
+continue to run from this binary directory:
+
+    make replay
+    make replay-fresh
+    make replay-verify
+    python3 scripts/replay-frontiers.py --stop-at 100
+    python3 scripts/replay-frontiers.py --fresh-stop-at 100
+
+The fast path restores complete accepted functions and shared text at their
+first entry, checks the frozen logical transcript and the named terminal, then
+compares ordinary output files and streams exactly. Completed cases additionally
+reuse the captured four-file oracle. It does not inspect live state at every
+stop. The existing fresh comparator remains the focused reconstruction loop and
+retains its fourteen state fields, pending FILE buffers and logical callers.
+
+Case metadata records accepted_from/accepted_count and an explicit terminal.
+A new next terminal must come from a successful fresh paired check; a fast run
+cannot update or infer it from its own observations. The terminal stays masked.
+The original C1XX argv0, MSC_CMD_FLAGS-only environment, closed stdin, fixture
+inputs and private Wine prefix are preserved; these simple cases declare one
+process and the main thread. Both images must load at their preferred base.
+
+On divergence the shared walker retains process/thread identity, image base,
+frontier index and register/caller context under its scratch run directory.
+Use --fresh-stop-at INDEX to repeat that frontier with the full original oracle,
+or --stop-at INDEX for a clean continuous rerun ending at the same boundary.
+Each rerun starts new processes and fresh case directories. --fresh replays the
+whole historical suite; it remains available regardless of the default.
+Historical first encounters are not complete call/branch traces or branch coverage.
+
+
+Migration verification passed for cpp_basic: all 534 first encounters, prefix 0
+and the masked initialize_object_value@8 terminal match the full fresh transcript
+on one frozen build. Raw visible files and streams are exact; the frontend case
+is still incomplete, so final captured four-stream hashes are not yet reached.
+The default history now uses fast replay. No target function was reconstructed
+for this migration; all 153 moved C/header/include/grammar files are byte-identical.
+Clean make -j2 check, the full 534 fresh history and adapter rejection/fallback
+checks pass. Shared bad-restore/exception/child/thread/timeout checks are in the
+root-owned tooling/replay/scripts/check.py suite.
+
+Measured cpp_basic timing, with other workers active (seconds):
+  standalone fast process wall             3.921
+  fast pair                               3.231
+  case/restore-plan setup                  0.397
+  input freeze setup                      0.083
+  final file/stream oracle                 0.001
+  final frozen-input verification          0.057
+  cached helper ensure-built check         0.003
+  full fresh reference                   133.849
+The separate definitive comparison observed a 1.428-second fast pair. Timings vary
+with concurrent work; these are observed runs. Standalone wall includes startup,
+receipt serialization and exit, which internal phase timings exclude. Warm prefix
+setup was unchanged and not timed. The successful clean target build was not
+timed; helper compilation was already cached. No unsplit time is labeled as a
+measured compilation cost. Detailed timings, frozen receipts and failure-check
+evidence are indexed in evidence/fast-replay-validation.json.

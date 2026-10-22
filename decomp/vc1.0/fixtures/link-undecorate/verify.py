@@ -4,7 +4,7 @@ from pathlib import Path
 from importlib.machinery import SourceFileLoader
 import sys,json,hashlib,subprocess,shutil
 HERE=Path(__file__).resolve().parent
-wt=SourceFileLoader('link_wine_tool',str(HERE.parent.parent/'link/wine-tool.py')).load_module()
+wt=SourceFileLoader('link_wine_tool',str(HERE.parent.parent/'link/scripts/wine-tool.py')).load_module()
 a=SourceFileLoader('fixture_artifacts',str(HERE/'artifacts.py')).load_module()
 m=json.loads((HERE/'manifest.json').read_text())
 root=Path.home()/'.ai-tmp/vc1.0-link/fixture-verify'/HERE.name

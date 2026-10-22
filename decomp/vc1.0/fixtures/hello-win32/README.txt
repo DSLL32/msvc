@@ -54,7 +54,7 @@ LINK:
 All compiler phases return 0 without stdout or stderr. LINK returns 0, writes
 158 bytes to stdout, and writes nothing to stderr; the exact text is recorded
 in the manifest. The generated window was exercised under Xvfb with the
-original-toolchain-built checker in decomp/vc1.0/cl/gui-check.c.
+original-toolchain-built checker in decomp/vc1.0/cl/src/gui-check.c.
 
 Verification from the repository root:
 

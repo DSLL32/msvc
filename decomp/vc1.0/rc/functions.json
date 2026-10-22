@@ -1464,7 +1464,7 @@
       "fixture": "../fixtures/rc-interrupt",
       "oracle": "oracle",
       "execution": "real-console-ctrl-c",
-      "suite_manifest_sha256": "fb83f0b70913a1e69455b46a49f2f88c09c186ef2d5bdc1a1e2751a30a5db511",
+      "suite_manifest_sha256": "03270ffb643c90567997647a63e9589c2e3ae002fab9eb06a34363597ff2ce1d",
       "accepted_end": 247
     },
     "verbose-names": {
@@ -1475,7 +1475,7 @@
       "fixture": "../fixtures/rc-remaining",
       "oracle": "cases/verbose-names",
       "execution": "verbose-native-pid",
-      "suite_manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "suite_manifest_sha256": "d6cb03388fbdd25720cada253ac530e0e3125b06d6c9efb52af9a68c79ef5910",
       "accepted_end": 252
     },
     "path-fallback": {
@@ -1486,7 +1486,7 @@
       "fixture": "../fixtures/rc-remaining",
       "oracle": "cases/path-fallback",
       "execution": "missing-sibling-PATH",
-      "suite_manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "suite_manifest_sha256": "d6cb03388fbdd25720cada253ac530e0e3125b06d6c9efb52af9a68c79ef5910",
       "accepted_end": 252
     },
     "direct-whitespace": {
@@ -1498,7 +1498,7 @@
       "accepted_start": 252,
       "fixture": "cases/direct-helpers",
       "oracle": "whitespace",
-      "suite_manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "suite_manifest_sha256": "93d900be081d769bbe7a33be8d6cba2e85c8e460ed58b333ea9a33a737cfcb7e",
       "accepted_end": 254
     },
     "direct-basename": {
@@ -1510,7 +1510,7 @@
       "accepted_start": 252,
       "fixture": "cases/direct-helpers",
       "oracle": "basename",
-      "suite_manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "suite_manifest_sha256": "93d900be081d769bbe7a33be8d6cba2e85c8e460ed58b333ea9a33a737cfcb7e",
       "accepted_end": 254
     }
   },

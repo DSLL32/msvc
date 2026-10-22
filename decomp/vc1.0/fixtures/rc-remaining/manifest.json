@@ -26,8 +26,8 @@
     },
     {
       "path": "capture.py",
-      "bytes": 6588,
-      "sha256": "5dd4e460b98bd541c90ffb6bfac56f3d3fbefd7aea25042773db74fb3958cfa2"
+      "bytes": 6596,
+      "sha256": "3aca5f6c21a3451cec04323dec9e54e9f169f88f51830ca72addfd5052cc423d"
     }
   ],
   "cases": [

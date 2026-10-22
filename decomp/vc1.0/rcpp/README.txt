@@ -92,7 +92,7 @@ fields, timestamps or paths are ignored or rewritten.
 The untouched target's SHA256 is
     a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd
 Its image base is 01000000 and entry RVA is 8d80. The original is never patched
-on disk. compare.py fills every code section in build copies with INT3 and
+on disk. scripts/compare.py fills every code section in build copies with INT3 and
 restores only accepted full function extents and their recorded .text data.
 Both copies run concurrently under the debugger. Each new trap must match its
 logical function before acceptance. A successful run also checks the untouched
@@ -101,7 +101,7 @@ followup-validation.json records the additional exact artifacts and streams,
 and original-followup-replay.json independently checks all untouched original
 cases. progress.json records the replay evidence and current limitations.
 
-These early PE headers have VirtualSize=0. binary.py uses backed raw size where
+These early PE headers have VirtualSize=0. scripts/binary.py uses backed raw size where
 appropriate and rejects file access to uninitialized/raw-offset-zero sections.
 The Windows loader supplies BSS zeros; the DOS header is never read as BSS.
 
@@ -161,7 +161,7 @@ original logical identities, including private symbols from the link map.
 Common exit retains callbacks, stdio cleanup and ExitProcess; its private extra
 termination-done flag does not replace any native state contract.
 
-prove-library.py independently checks complete IOINIT code, all relocations
+scripts/prove-library.py independently checks complete IOINIT code, all relocations
 and its 392 initial data bytes; STDENVP; STRNCPY/STRNCMP leaves; CRT0DAT's C
 initializer, wrappers and _initterm; and eight complete stdio objects' code and
 relocations. library-proof.json records the results. Runtime data is supplied
@@ -186,16 +186,16 @@ Native byte classification needs an explicit data compatibility adjustment.
 RCPP passes signed bytes to PRINT/SPACE/DIGIT ctype macros. On negative indices,
 its original embedded runtime prefix includes unused FILE slots and locale
 pointers, rather than LIBC's different layout. This caused a measured missing
-RC4413 warning in the trail-backslash case. legacy-ctype.c defines only the
+RC4413 warning in the trail-backslash case. src/legacy-ctype.c defines only the
 semantic flags those native macros test, retaining compatible LIBC data for
 ordinary indices and the original _isctype call edge. No pointer words or raw
-prefix data were copied. audit-data.py checks all -128..255 native indices.
+prefix data were copied. scripts/audit-data.py checks all -128..255 native indices.
 The unused FILE slots remain zero within the original ten-input-file bound.
 
 Additional verification
 -----------------------
 
-audit-graph.py follows complete CFGs and switch tables, not linear decoding of
+scripts/audit-graph.py follows complete CFGs and switch tables, not linear decoding of
 jump-table bytes. Known tail calls count as callee edges. Startup's detached
 SEH blocks are inspected separately. Original ranges are checked for overlap;
 ftell ends at 0100f8b4, before separate native directive lookup 0100f8d0.
@@ -205,9 +205,9 @@ immediates. Reachable CFG instructions and the final detached/alignment segment
 are checked; switch data is treated as data. boundary-validation.json records
 this check. No accepted range required repair for a split instruction.
 
-audit-data.py checks both 256-entry semantic lexer tables and all 132 valid
+scripts/audit-data.py checks both 256-entry semantic lexer tables and all 132 valid
 token descriptions/categories against the target. Invalid preceding padding
-was not copied. identify-runtime.py inventories LIBC/LIBCMT byte candidates in
+was not copied. scripts/identify-runtime.py inventories LIBC/LIBCMT byte candidates in
 scratch for identification only; it never accepts or unmasks functions.
 
 The integer-kind classifier promotion arms are unreachable on this 32-bit
@@ -266,11 +266,19 @@ classification follows its surrounding option helpers and nonstandard boolean
 semantics; exact source/library provenance is unknown. The static gap audit
 found no direct call, tail jump or stored address reference.
 
-option-check.c is analysis-only and excluded from rcpp.exe. Its small assembly
+src/option-check.c is analysis-only and excluded from rcpp.exe. Its small assembly
 block observes ESP and seeds nonvolatile registers, which C cannot express;
 the reconstructed helper itself contains no assembly. The probe maps each
 masked image without startup, records the actual OS mapping address and checks
 the trap's address relative to that mapping. These leaf bodies have no absolute
-address operands. compare.py replays this direct acceptance separately from the
+address operands. scripts/compare.py replays this direct acceptance separately from the
 19 public-input cases; make option-helper also checks both the masked frontier
 and accepted results.
+
+Source layout: src/ contains reconstruction and analysis-only C/headers;
+scripts/ contains build, differential and audit scripts. Run GNU Make and
+scripts from this binary directory; metadata, evidence and build/ stay here.
+The working directory, T: mapping, private Wine prefixes and case inputs retain
+their existing meanings. This reorganization does not adopt fast replay.
+reorganization-validation.json records the unchanged source hashes and complete
+clean-build, original-oracle, historical, graph/layout and ABI verification.

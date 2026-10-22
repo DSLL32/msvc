@@ -1,0 +1,1006 @@
+{
+  "date": "2026-10-22",
+  "scope": "FAST-REPLAY implementation and all-seven-target source/scripts reorganization; no reconstruction trial.",
+  "measurement_rules": [
+    "Inventory of available measurements, including repetitions. Not a complete stopwatch accounting of the session.",
+    "Seconds are elapsed wall time, not CPU time. Workers and paired sides overlap; sums are not session duration.",
+    "Nested phase times are subsets of enclosing runs; do not add them to the enclosing total.",
+    "Warm existing Wine prefixes and existing target builds were reused for final replay measurements.",
+    "Original fixture capture, initial prefixes, many clean builds and early diagnostics were not instrumented.",
+    "Fresh and fast paths retain different observation costs; timing ratios are not identical-work benchmarks.",
+    "No fixture was rerun solely to collect this accounting."
+  ],
+  "targets": {
+    "c1": {
+      "evidence": "decomp/vc1.0/c1/fast-replay-validation.json",
+      "final_cases": [
+        {
+          "case": "minimal",
+          "first": 0,
+          "last": 258,
+          "frontiers": 258,
+          "terminal": "exit:0",
+          "fresh_seconds": 237.88637757394463,
+          "fast_case_wall_seconds": 1.436998462304473,
+          "setup_seconds": 0.2936639152467251,
+          "pair_call_seconds": 1.1421608664095402,
+          "walker_pair_seconds": 1.1365268714725971,
+          "output_validation_seconds": 0.001169721595942974,
+          "transcript_sha256": "681495a8cfa54c63d6e706a9950f998167ea7902075761fbe519f1c8541fb631",
+          "fresh_log_sha256": "78ac5be089d3b2b80387c92ec9dabf725f15b5f0cfb8f7985a47af74b0efa104",
+          "fresh_log": "/root/.ai-tmp/vc1.0-c1/fast-replay/minimal-fresh.log",
+          "fresh_and_both_fast_transcripts_identical": true,
+          "final_artifacts_match": true,
+          "generated_dependency": false
+        },
+        {
+          "case": "hello-win32",
+          "first": 258,
+          "last": 509,
+          "frontiers": 251,
+          "terminal": "exit:0",
+          "fresh_seconds": 233.6349995834753,
+          "fast_case_wall_seconds": 1.5163423288613558,
+          "setup_seconds": 0.3009311752393842,
+          "pair_call_seconds": 1.2136939829215407,
+          "walker_pair_seconds": 1.206651085987687,
+          "output_validation_seconds": 0.001712944358587265,
+          "transcript_sha256": "b8b77f873e550080b01c86f0bcceb9d2e905e9c96c4d2e35806c093c913e80ac",
+          "fresh_log_sha256": "cf7daadac9f4d83bdbfffd32fc66b97e2d8c5cfb12c9c0851334c9114c09f9be",
+          "fresh_log": "/root/.ai-tmp/vc1.0-c1/fast-replay/hello-win32-fresh.log",
+          "fresh_and_both_fast_transcripts_identical": true,
+          "final_artifacts_match": true,
+          "generated_dependency": false
+        },
+        {
+          "case": "hello-dll",
+          "first": 509,
+          "last": 510,
+          "frontiers": 1,
+          "terminal": "exit:0",
+          "fresh_seconds": 2.764405583962798,
+          "fast_case_wall_seconds": 1.3364254795014858,
+          "setup_seconds": 0.30906951893121004,
+          "pair_call_seconds": 1.0261359252035618,
+          "walker_pair_seconds": 1.0227605374529958,
+          "output_validation_seconds": 0.0012179594486951828,
+          "transcript_sha256": "97db782cee254ae11e53f134207d2e14d3ce8f6edd440d898e44aa6a881a06f9",
+          "fresh_log_sha256": "2af27cbcd1978071011295bd60aec58d802e7818147e5f46467a878d6311cd94",
+          "fresh_log": "/root/.ai-tmp/vc1.0-c1/fast-replay/hello-dll-fresh.log",
+          "fresh_and_both_fast_transcripts_identical": true,
+          "final_artifacts_match": true,
+          "generated_dependency": false
+        },
+        {
+          "case": "numeric-varargs",
+          "first": 510,
+          "last": 633,
+          "frontiers": 123,
+          "terminal": "exit:0",
+          "fresh_seconds": 129.98761235643178,
+          "fast_case_wall_seconds": 3.1356636015698314,
+          "setup_seconds": 0.27907458133995533,
+          "pair_call_seconds": 2.8540413742884994,
+          "walker_pair_seconds": 2.849267339333892,
+          "output_validation_seconds": 0.0025448454543948174,
+          "transcript_sha256": "abfb18a2c39cf073b25233217e0e645babe77320304c697c09c07708c899bc03",
+          "fresh_log_sha256": "877670814ca4471673af82077ce4142c8d54b5f2f1759cfe92beadfafe7d8f6a",
+          "fresh_log": "/root/.ai-tmp/vc1.0-c1/fast-replay/numeric-varargs-fresh.log",
+          "fresh_and_both_fast_transcripts_identical": true,
+          "final_artifacts_match": true,
+          "generated_dependency": false
+        },
+        {
+          "case": "pch-create",
+          "first": 633,
+          "last": 680,
+          "frontiers": 47,
+          "terminal": "exit:0",
+          "fresh_seconds": 48.09279060829431,
+          "fast_case_wall_seconds": 1.2597198188304901,
+          "setup_seconds": 0.29053397849202156,
+          "pair_call_seconds": 0.9674836071208119,
+          "walker_pair_seconds": 0.9637664733454585,
+          "output_validation_seconds": 0.0017000259831547737,
+          "transcript_sha256": "56d88b396838fd93184c0418980382178d50b7a1b0830e2f2c41ec0f88895705",
+          "fresh_log_sha256": "61f04f3e0cc85e96792026f67475081e5bc0b80a5dbf4a10fdf1ee927200c08f",
+          "fresh_log": "/root/.ai-tmp/vc1.0-c1/fast-replay/pch-create-fresh.log",
+          "fresh_and_both_fast_transcripts_identical": true,
+          "final_artifacts_match": true,
+          "generated_dependency": false
+        },
+        {
+          "case": "pch-use",
+          "first": 680,
+          "last": 687,
+          "frontiers": 7,
+          "terminal": "exit:0",
+          "fresh_seconds": 12.772714521735907,
+          "fast_case_wall_seconds": 1.2202584901824594,
+          "setup_seconds": 0.2667178651317954,
+          "pair_call_seconds": 0.9523261450231075,
+          "walker_pair_seconds": 0.9489314202219248,
+          "output_validation_seconds": 0.0012119617313146591,
+          "transcript_sha256": "8c3fef0230eb23812364160c5b41536b614bfc5ab9992ad16bf0d527fa251bd9",
+          "fresh_log_sha256": "77a291828c16e31129666a9b04178c5dc070a180a9997cc547c3b0515ee40ebc",
+          "fresh_log": "/root/.ai-tmp/vc1.0-c1/fast-replay/pch-use-fresh.log",
+          "fresh_and_both_fast_transcripts_identical": true,
+          "final_artifacts_match": true,
+          "generated_dependency": true
+        }
+      ],
+      "final_suite_timings": {
+        "fresh_full_suite_seconds": 665.1389002278447,
+        "fast_cli_wall_seconds": [
+          9.850340362638235,
+          10.039234136231244
+        ],
+        "cached_shared_helper_build_check_seconds": 0.0027100620791316032,
+        "fixture_creation_seconds": null,
+        "fixture_creation_note": "Original fixture capture/materialization wall times were not instrumented. Case setup includes fixture checksum/copy plus indexes, frozen inputs, namespaces, masked images and restore plans; it is not isolated fixture-copy time.",
+        "pair_note": "pair_call includes shared helper build/cache checks and paired execution; walker_pair is the shared pair clock. Output validation is measured separately. Case wall excludes final adapter receipt serialization/printing; CLI wall includes it. Prefix policy is unchanged; final runs use warm private prefixes.",
+        "incremental_build_seconds": 0.053791798651218414,
+        "audits_seconds": 2.9133255956694484,
+        "clean_build_seconds": null,
+        "clean_build_note": "The clean original-toolchain -j2 build passed before the frozen reference; its wall clock was not instrumented."
+      },
+      "earlier_adoption_runs": [
+        {
+          "name": "pre-relocation full fast suite",
+          "seconds": 22.78087227139622,
+          "scope": "Adapter elapsed; external CLI wall not measured.",
+          "receipt": "/root/.ai-tmp/vc1.0-c1/fast-replay/all-fast-pre-move-receipt.json"
+        },
+        {
+          "name": "post-relocation full fast suite",
+          "seconds": 15.591,
+          "scope": "Sum of six rounded case times; external suite wall not measured.",
+          "log": "/root/.ai-tmp/vc1.0-c1/fast-replay/all-fast-new-location.log"
+        },
+        {
+          "name": "initial minimal smoke",
+          "seconds": 1.343,
+          "scope": "Rounded case time from log; external wall not measured."
+        },
+        {
+          "name": "Makefile default DLL replay",
+          "seconds": 1.254,
+          "scope": "Rounded case time from log; external wall not measured."
+        }
+      ],
+      "other_work_unmeasured": [
+        "Clean build",
+        "Earlier incremental builds/audits",
+        "Two adapter-check invocations, including negative and focused-fallback runs; durations not measured."
+      ]
+    },
+    "c1xx": {
+      "evidence": "decomp/vc1.0/c1xx/evidence/fast-replay-validation.json",
+      "final_validation": {
+        "case": "cpp_basic",
+        "input_sha256": "343b472b5648f7d4c0bfdc63ef0f9f27e4ca7ec45452a88756ef342aa3bf2b18",
+        "first": 0,
+        "last": 534,
+        "frontiers": 534,
+        "terminal": "_initialize_object_value@8",
+        "complete_frontend_case": false,
+        "fresh_continuous_transcript_equal": true,
+        "normal_external_wall_seconds": 3.9208544194698334,
+        "normal_timings": {
+          "helper_build_seconds": 0.0034849243238568306,
+          "freeze_setup_seconds": 0.0827442267909646,
+          "case_and_plan_setup_seconds": 0.3965781833976507,
+          "fast_pair_with_helper_check_seconds": 3.241118718869984,
+          "fast_pair_seconds": 3.2309734635055065,
+          "output_oracle_seconds": 0.0012935763224959373,
+          "final_freeze_check_seconds": 0.05716559290885925,
+          "adapter_wall_before_receipt_seconds": 3.7824012776836753,
+          "prefix_setup": "unchanged warm private Wine prefix; setup not measured",
+          "receipt_serialization_and_process_exit": "excluded from internal wall; external measurement may include them"
+        },
+        "normal_receipt_scratch_path": "/root/.ai-tmp/vc1.0-c1xx/fast-cpp-basic-452175-1792697202994028275/receipt.json",
+        "normal_receipt_sha256": "b23d06b5e8ccae39537edf801c6729b2ab012b2a2e561a593815a110d5ff4c8a",
+        "verification_timings": {
+          "helper_build_seconds": 0.0029065990820527077,
+          "freeze_setup_seconds": 0.08140566479414701,
+          "fresh_reference_wall_seconds": 134.11498213279992,
+          "fresh_reference_runner_seconds": 133.84906735178083,
+          "case_and_plan_setup_seconds": 0.38411374017596245,
+          "fast_pair_with_helper_check_seconds": 1.4373582433909178,
+          "fast_pair_seconds": 1.427927982993424,
+          "output_oracle_seconds": 0.0011847969144582748,
+          "final_freeze_check_seconds": 0.05379398074001074,
+          "adapter_wall_before_receipt_seconds": 136.07815616298467,
+          "prefix_setup": "unchanged warm private Wine prefix; setup not measured",
+          "receipt_serialization_and_process_exit": "excluded from internal wall; external measurement may include them"
+        },
+        "verification_external_wall_seconds": 136.2044538781047,
+        "fresh_reference_seconds": 133.84906735178083,
+        "prefix_setup": "unchanged warm private prefix; not measured",
+        "clean_target_rebuild": "passed; build time not measured",
+        "helper_build_scope": "cached ensure-built check; no fresh helper compilation timed",
+        "receipt_serialization": "excluded internally; included in normal external process wall",
+        "concurrent_workers": "other reconstruction workers active; observed timings, not controlled benchmarks",
+        "accepted_functions_unchanged": true,
+        "unchanged_source_header_grammar_files": 153,
+        "fresh_oracle_fields": 14,
+        "adapter_checks": [
+          "continuous stop100",
+          "fresh stop100 with full oracle",
+          "exact stdout corruption rejection",
+          "copied input freeze rejection",
+          "wrong entry rejection with process/thread/base/exception/register evidence"
+        ],
+        "shared_negative_suite": "root-owned tooling/replay/scripts/check.py; shared safety suite evidence maintained by root",
+        "no_function_trial_yet": true,
+        "evidence": {
+          "verification": "evidence/fast-replay-verification-receipt.json",
+          "fresh": "evidence/fast-replay-fresh-receipt.json",
+          "adapter": "evidence/fast-replay-adapter-checks.json",
+          "layout": "evidence/source-layout-equivalence.json"
+        }
+      },
+      "earlier_adoption_runs": [
+        {
+          "name": "earlier full fresh 534-frontier reference",
+          "seconds": 132.2759624933824,
+          "scope": "Separate from final 133.849-second reference.",
+          "receipt": "/root/.ai-tmp/vc1.0-c1xx/replay-cpp-basic-427781-1792696613343619556/receipt.json"
+        },
+        {
+          "name": "early full fast smoke",
+          "seconds": 4.501351764425635,
+          "scope": "Adapter total, includes 4.107413-second pair.",
+          "receipt": "/root/.ai-tmp/vc1.0-c1xx/fast-cpp-basic-421468-1792696364823642820/receipt.json"
+        }
+      ],
+      "aborted_attempts": [
+        {
+          "name": "relocated smoke with inherited PIPE handles",
+          "seconds": null,
+          "observed_seconds_lower_bound": 75,
+          "native_success_milliseconds": [
+            786,
+            752
+          ],
+          "note": "Native walks passed; host waited for Wine descendant pipe handles. Fixed shared capture; manual termination. Exact elapsed unmeasured."
+        }
+      ],
+      "other_work_unmeasured": [
+        "Clean rebuild and target audits",
+        "Five adapter rejection/debug-fallback checks."
+      ]
+    },
+    "c2": {
+      "evidence": "decomp/vc1.0/c2/cases/fast-replay.json",
+      "final_cases": {
+        "minimal": {
+          "first": 0,
+          "last": 352,
+          "entries": 352,
+          "terminal": "exit:0",
+          "fresh_seconds": 64.30480736214668,
+          "continuous_pair_seconds": 1.1592647237703204,
+          "continuous_with_fresh_oracle_seconds": 4.086521338671446,
+          "fresh_receipt": "/root/.ai-tmp/vc1.0-c2/fast-adoption-fresh-minimal.json",
+          "continuous_receipt": "/root/.ai-tmp/vc1.0-c2/fast-adoption-continuous-minimal.json",
+          "build_sha256": "a99f20fd26de8c62d0abcf595d50970f8be719288d494265d019d0f4d9089973",
+          "function_config_sha256": "f9db9fd8492c8c692a62324a2d698d288665cb3b93a6c5e2e14d706824fc6d4f",
+          "process_wall_seconds": 4.1941865384578705,
+          "timings": {
+            "initial_setup_seconds": 0.23455500416457653,
+            "fresh_final_oracle_seconds": 2.4147744700312614,
+            "plan_setup_seconds": 0.19988059159368277,
+            "fixture_copy_seconds_within_plan_setup": 0.0018981993198394775,
+            "helper_build_or_check_seconds": 0.006820429116487503,
+            "fast_pair_seconds": 1.1592647237703204,
+            "output_validation_and_final_freeze_seconds": 0.05425083637237549,
+            "target_build_seconds": null,
+            "prefix_initialization_seconds": null,
+            "notes": "Existing target build and warm private prefix reused; target build and prefix initialization not run. Fresh final oracle includes a fresh pair, untouched original baseline and object checks when complete; that internal split is not measured. Helper timing includes make freshness check and shared-call overhead. Fixture copying is a subset of plan setup, not an additional phase. Total excludes Python startup/imports and writing the final summary receipt."
+          },
+          "shared_identity_sha256": "61efc405a9444ed5f85367d7ecc19b4428fe51780bb8e58c8ebfa19fe5946027"
+        },
+        "hello": {
+          "first": 352,
+          "last": 670,
+          "entries": 318,
+          "terminal": "@schedule_pentium_instruction@4",
+          "fresh_seconds": 62.32554174680263,
+          "continuous_pair_seconds": 1.128091781400144,
+          "continuous_with_fresh_oracle_seconds": 2.614813432097435,
+          "fresh_receipt": "/root/.ai-tmp/vc1.0-c2/fast-adoption-fresh-hello.json",
+          "continuous_receipt": "/root/.ai-tmp/vc1.0-c2/fast-adoption-continuous-hello.json",
+          "build_sha256": "a99f20fd26de8c62d0abcf595d50970f8be719288d494265d019d0f4d9089973",
+          "function_config_sha256": "f9db9fd8492c8c692a62324a2d698d288665cb3b93a6c5e2e14d706824fc6d4f",
+          "process_wall_seconds": 2.7176970848813653,
+          "timings": {
+            "initial_setup_seconds": 0.24127211049199104,
+            "fresh_final_oracle_seconds": 0.9621401689946651,
+            "plan_setup_seconds": 0.2002035165205598,
+            "fixture_copy_seconds_within_plan_setup": 0.0018675457686185837,
+            "helper_build_or_check_seconds": 0.006535139866173267,
+            "fast_pair_seconds": 1.128091781400144,
+            "output_validation_and_final_freeze_seconds": 0.05981427989900112,
+            "target_build_seconds": null,
+            "prefix_initialization_seconds": null,
+            "notes": "Existing target build and warm private prefix reused; target build and prefix initialization not run. Fresh final oracle includes a fresh pair, untouched original baseline and object checks when complete; that internal split is not measured. Helper timing includes make freshness check and shared-call overhead. Fixture copying is a subset of plan setup, not an additional phase. Total excludes Python startup/imports and writing the final summary receipt."
+          },
+          "shared_identity_sha256": "61efc405a9444ed5f85367d7ecc19b4428fe51780bb8e58c8ebfa19fe5946027"
+        },
+        "stop100": {
+          "first": 0,
+          "last": 100,
+          "entries": 100,
+          "terminal": "_input_compact_signed",
+          "fresh_seconds": 18.820560458116233,
+          "continuous_pair_seconds": 0.9183710180222988,
+          "continuous_with_fresh_oracle_seconds": 1.9799881093204021,
+          "fresh_receipt": "/root/.ai-tmp/vc1.0-c2/fast-adoption-fresh-stop100.json",
+          "continuous_receipt": "/root/.ai-tmp/vc1.0-c2/fast-adoption-continuous-stop100.json",
+          "build_sha256": "a99f20fd26de8c62d0abcf595d50970f8be719288d494265d019d0f4d9089973",
+          "function_config_sha256": "f9db9fd8492c8c692a62324a2d698d288665cb3b93a6c5e2e14d706824fc6d4f"
+        }
+      },
+      "limits": "Warm existing prefix and target build reused. Target build, prefix initialization, and original fixture generation/capture not measured. Output checks and final frozen-file verification measured together; internal split not measured. Full fresh-history timings are earlier same-build measurements; they were not repeated for the shared runner finalization.",
+      "earlier_adoption_runs": [
+        {
+          "name": "minimal adoption smoke",
+          "seconds": 3.1122851287946105,
+          "scope": "Adapter total; includes pair_seconds.",
+          "pair_seconds": 1.1735865976661444,
+          "receipt": "/root/.ai-tmp/vc1.0-c2/fast-replay-minimal-431021/receipt.json"
+        },
+        {
+          "name": "hello adoption smoke",
+          "seconds": 2.348055485635996,
+          "scope": "Adapter total; includes pair_seconds.",
+          "pair_seconds": 1.170449122786522,
+          "receipt": "/root/.ai-tmp/vc1.0-c2/fast-replay-hello-431296/receipt.json"
+        }
+      ],
+      "other_reported_fast_pair_and_adapter_seconds": [
+        {
+          "minimal_pair": 1.151,
+          "minimal_adapter": 2.989,
+          "hello_pair": 1.133,
+          "hello_adapter": 2.361,
+          "precision": "Rounded worker report; earlier adoption round."
+        },
+        {
+          "minimal_pair": 1.141,
+          "minimal_adapter": 2.944,
+          "hello_pair": 1.09,
+          "hello_adapter": 2.269,
+          "precision": "Rounded worker report; before final shared host fix."
+        }
+      ],
+      "other_work_unmeasured": [
+        "Original-toolchain target build/check",
+        "Makefile default replay and hello-replay checks; durations not measured."
+      ],
+      "workspace_note": "Validation used existing pending scheduler work: accepted670 (minimal352,hello318). Those pre-existing reconstruction edits are excluded from the implementation commit. Adapter obtains segment length and terminal dynamically."
+    },
+    "link": {
+      "status": "complete",
+      "scope": "Verification only. One-function trial cancelled. No further batches, cases, function reconstruction or worker commit.",
+      "timing_units": "wall-clock seconds; other workers active",
+      "preliminary_runs": [
+        {
+          "name": "help-after-host-fix",
+          "receipt": "/root/.ai-tmp/vc1.0-link/fast-history-438524-1792696774159421927/receipt.json",
+          "sha256": "f2c246a7dd49e0384e5bf0bec385bfba45229d000ed584168c9fe74ca0fc678f",
+          "seconds": 8.999493996612728,
+          "pair_seconds": 2.6114242477342486,
+          "unsplit_setup_oracles_other_seconds": 6.388069748878479,
+          "frontiers": 90,
+          "case_pairs": [
+            {
+              "case": "/?",
+              "pair_seconds": 2.6114242477342486
+            }
+          ],
+          "reason": "Adapter adoption smoke/regression; overlaps final verification and is reported as duplicate adoption work."
+        },
+        {
+          "name": "minimal-C-smoke",
+          "receipt": "/root/.ai-tmp/vc1.0-link/fast-history-439333-1792696817895121198/receipt.json",
+          "sha256": "082c2d92edce354ff72c2b229a9f3334e4999ce4c0a5b5b2ab378fd8f6fc89e7",
+          "seconds": 4.8428156124427915,
+          "pair_seconds": 1.092952884733677,
+          "unsplit_setup_oracles_other_seconds": 3.7498627277091146,
+          "frontiers": 254,
+          "case_pairs": [
+            {
+              "case": "minimal-c",
+              "pair_seconds": 1.092952884733677
+            }
+          ],
+          "reason": "Adapter adoption smoke/regression; overlaps final verification and is reported as duplicate adoption work."
+        },
+        {
+          "name": "all-ordinary-adoption",
+          "receipt": "/root/.ai-tmp/vc1.0-link/fast-history-440311-1792696875403044668/receipt.json",
+          "sha256": "fd0f3e8dddc32e38e4fac3185d25e231d6bc839b8c9efd8e1f954717ce4d18db",
+          "seconds": 44.06070550531149,
+          "pair_seconds": 15.06510997004807,
+          "unsplit_setup_oracles_other_seconds": 28.99559553526342,
+          "frontiers": 510,
+          "case_pairs": [
+            {
+              "case": "/?",
+              "pair_seconds": 0.989150270819664
+            },
+            {
+              "case": "minimal-c",
+              "pair_seconds": 1.1353266388177872
+            },
+            {
+              "case": "hello-win32",
+              "pair_seconds": 0.9659608788788319
+            },
+            {
+              "case": "library-create",
+              "pair_seconds": 0.9542559115216136
+            },
+            {
+              "case": "library-list",
+              "pair_seconds": 0.8422896824777126
+            },
+            {
+              "case": "library-extract",
+              "pair_seconds": 0.9645124925300479
+            },
+            {
+              "case": "library-remove",
+              "pair_seconds": 0.9273339044302702
+            },
+            {
+              "case": "library-list-trimmed",
+              "pair_seconds": 0.8971446873620152
+            },
+            {
+              "case": "library-dump-library",
+              "pair_seconds": 0.9741665692999959
+            },
+            {
+              "case": "library-dump-object",
+              "pair_seconds": 0.8963172594085336
+            },
+            {
+              "case": "library-dump-dll",
+              "pair_seconds": 0.9059255504980683
+            },
+            {
+              "case": "library-edit",
+              "pair_seconds": 0.9426454082131386
+            },
+            {
+              "case": "library-dump-edited",
+              "pair_seconds": 0.8445724761113524
+            },
+            {
+              "case": "omf-library",
+              "pair_seconds": 0.932493744418025
+            },
+            {
+              "case": "omf-link",
+              "pair_seconds": 0.9432089338079095
+            },
+            {
+              "case": "cpp-undecorate",
+              "pair_seconds": 0.949805561453104
+            }
+          ],
+          "reason": "Adapter adoption smoke/regression; overlaps final verification and is reported as duplicate adoption work."
+        }
+      ],
+      "incomplete_adoption_runs": [
+        {
+          "name": "initial help launcher issue",
+          "status": "aborted",
+          "host_wall_seconds": null,
+          "observed_running_seconds_lower_bound": 95,
+          "note": "No successful receipt. POSIX helper launch under canonical namespace; shared helper moved during adoption. Exact total not measured."
+        },
+        {
+          "name": "help PIPE-handle hang",
+          "status": "aborted after native traces passed",
+          "host_wall_seconds": null,
+          "observed_running_seconds_lower_bound": 44,
+          "native_walker_milliseconds": [
+            290,
+            302
+          ],
+          "note": "Wine background descendants retained host PIPE handles. Shared runner fixed to file capture; this was not target divergence."
+        }
+      ],
+      "focused_fresh_fallback": {
+        "case": "minimal-c",
+        "frontier": 100,
+        "logical": "__getbuf",
+        "status": "passed",
+        "wall_seconds": null,
+        "note": "One focused fresh pair; internal timing not measured."
+      },
+      "build_timing": {
+        "incremental_build_seconds": 1.1698837084695697,
+        "audits_seconds": 12.909070218913257
+      },
+      "clean_layout_build": {
+        "status": "passed",
+        "wall_seconds": null,
+        "note": "Clean original-toolchain -j2 build/audits passed before final incremental relink; clean-build duration unmeasured."
+      },
+      "final_cases": [
+        {
+          "case": "00-help",
+          "fast": {
+            "frontiers": 90,
+            "setup_seconds": 0.3441228326410055,
+            "fast_pair_seconds": 0.9900387972593307,
+            "pair_call_seconds": 0.9951473930850625,
+            "output_oracles_seconds": 0.7310863705351949,
+            "adapter_seconds": 2.1369642056524754,
+            "unsplit_pair_overhead_seconds": 0.005108595825731754
+          },
+          "fresh": {
+            "first": 0,
+            "last": 90,
+            "seconds": 72.03167735598981,
+            "history_seconds": 70.5376621382311,
+            "terminal_and_oracles_seconds": 1.49401646386832,
+            "frontiers": 90
+          }
+        },
+        {
+          "case": "01-minimal-c",
+          "fast": {
+            "frontiers": 254,
+            "setup_seconds": 0.41147243417799473,
+            "fast_pair_seconds": 1.0475773438811302,
+            "pair_call_seconds": 1.052798223681748,
+            "output_oracles_seconds": 3.6153090046718717,
+            "adapter_seconds": 5.17288060951978,
+            "unsplit_pair_overhead_seconds": 0.005220879800617695
+          },
+          "fresh": {
+            "first": 90,
+            "last": 344,
+            "seconds": 245.03721631038934,
+            "history_seconds": 239.04001937340945,
+            "terminal_and_oracles_seconds": 5.997195539064705,
+            "frontiers": 254
+          }
+        },
+        {
+          "case": "02-hello-win32",
+          "fast": {
+            "frontiers": 3,
+            "setup_seconds": 0.36030345410108566,
+            "fast_pair_seconds": 1.081383298151195,
+            "pair_call_seconds": 1.0852575981989503,
+            "output_oracles_seconds": 7.63298153039068,
+            "adapter_seconds": 9.157155012711883,
+            "unsplit_pair_overhead_seconds": 0.0038743000477552414
+          },
+          "fresh": {
+            "first": 344,
+            "last": 347,
+            "seconds": 13.462695733644068,
+            "history_seconds": 3.1365626379847527,
+            "terminal_and_oracles_seconds": 10.326133164577186,
+            "frontiers": 3
+          }
+        },
+        {
+          "case": "03-hello-dll",
+          "fresh": {
+            "first": 347,
+            "last": 400,
+            "seconds": 72.81484005693346,
+            "history_seconds": 62.837716535665095,
+            "terminal_and_oracles_seconds": 9.97712400648743,
+            "frontiers": 53
+          }
+        },
+        {
+          "case": "04-library-create",
+          "fast": {
+            "frontiers": 17,
+            "setup_seconds": 0.3424580739811063,
+            "fast_pair_seconds": 0.9515388896688819,
+            "pair_call_seconds": 0.955475258640945,
+            "output_oracles_seconds": 1.1936545921489596,
+            "adapter_seconds": 2.5785714583471417,
+            "unsplit_pair_overhead_seconds": 0.003936368972063065
+          },
+          "fresh": {
+            "first": 400,
+            "last": 417,
+            "seconds": 20.701892263256013,
+            "history_seconds": 18.031746932305396,
+            "terminal_and_oracles_seconds": 2.670157882384956,
+            "frontiers": 17
+          }
+        },
+        {
+          "case": "05-hello-debug-dll",
+          "fresh": {
+            "first": 417,
+            "last": 494,
+            "seconds": 109.79013984184712,
+            "history_seconds": 94.8376390459016,
+            "terminal_and_oracles_seconds": 14.952490505762398,
+            "frontiers": 77
+          }
+        },
+        {
+          "case": "06-library-list",
+          "fast": {
+            "frontiers": 0,
+            "setup_seconds": 0.3483741320669651,
+            "fast_pair_seconds": 0.979474451392889,
+            "pair_call_seconds": 0.9836648581549525,
+            "output_oracles_seconds": 1.4890931276604533,
+            "adapter_seconds": 2.892978509888053,
+            "unsplit_pair_overhead_seconds": 0.004190406762063503
+          },
+          "fresh": {
+            "first": 640,
+            "last": 640,
+            "seconds": 2.663604909554124,
+            "history_seconds": 4.8745423555374146e-06,
+            "terminal_and_oracles_seconds": 2.663600519299507,
+            "frontiers": 0
+          }
+        },
+        {
+          "case": "07-library-extract",
+          "fast": {
+            "frontiers": 1,
+            "setup_seconds": 0.3395620007067919,
+            "fast_pair_seconds": 1.3328566802665591,
+            "pair_call_seconds": 1.3369612554088235,
+            "output_oracles_seconds": 1.0452719796448946,
+            "adapter_seconds": 2.807036497630179,
+            "unsplit_pair_overhead_seconds": 0.004104575142264366
+          },
+          "fresh": {
+            "first": 494,
+            "last": 495,
+            "seconds": 3.8707783836871386,
+            "history_seconds": 0.9960414227098227,
+            "terminal_and_oracles_seconds": 2.874737554229796,
+            "frontiers": 1
+          }
+        },
+        {
+          "case": "08-library-remove",
+          "fast": {
+            "frontiers": 1,
+            "setup_seconds": 0.3391122790053487,
+            "fast_pair_seconds": 1.0542832650244236,
+            "pair_call_seconds": 1.057718918658793,
+            "output_oracles_seconds": 1.6912314323708415,
+            "adapter_seconds": 3.1574179213494062,
+            "unsplit_pair_overhead_seconds": 0.0034356536343693733
+          },
+          "fresh": {
+            "first": 495,
+            "last": 496,
+            "seconds": 4.025010110810399,
+            "history_seconds": 1.3385764490813017,
+            "terminal_and_oracles_seconds": 2.6864338042214513,
+            "frontiers": 1
+          }
+        },
+        {
+          "case": "09-library-list-trimmed",
+          "fast": {
+            "frontiers": 0,
+            "setup_seconds": 0.3379984423518181,
+            "fast_pair_seconds": 1.3880794076249003,
+            "pair_call_seconds": 1.3917194735258818,
+            "output_oracles_seconds": 1.1454454502090812,
+            "adapter_seconds": 2.977551508694887,
+            "unsplit_pair_overhead_seconds": 0.0036400659009814262
+          },
+          "fresh": {
+            "first": 640,
+            "last": 640,
+            "seconds": 2.741181523539126,
+            "history_seconds": 7.031485438346863e-06,
+            "terminal_and_oracles_seconds": 2.7411759812384844,
+            "frontiers": 0
+          }
+        },
+        {
+          "case": "10-library-dump-library",
+          "fast": {
+            "frontiers": 16,
+            "setup_seconds": 0.34052177146077156,
+            "fast_pair_seconds": 1.267486191354692,
+            "pair_call_seconds": 1.2718188604339957,
+            "output_oracles_seconds": 1.4906644150614738,
+            "adapter_seconds": 3.181027313694358,
+            "unsplit_pair_overhead_seconds": 0.0043326690793037415
+          },
+          "fresh": {
+            "first": 496,
+            "last": 512,
+            "seconds": 19.1780122006312,
+            "history_seconds": 16.39738446380943,
+            "terminal_and_oracles_seconds": 2.780628079548478,
+            "frontiers": 16
+          }
+        },
+        {
+          "case": "11-library-dump-object",
+          "fast": {
+            "frontiers": 0,
+            "setup_seconds": 0.34764424059540033,
+            "fast_pair_seconds": 1.2028617830947042,
+            "pair_call_seconds": 1.2066601859405637,
+            "output_oracles_seconds": 1.7933491878211498,
+            "adapter_seconds": 3.4461381658911705,
+            "unsplit_pair_overhead_seconds": 0.0037984028458595276
+          },
+          "fresh": {
+            "first": 640,
+            "last": 640,
+            "seconds": 2.481333245523274,
+            "history_seconds": 5.446374416351318e-06,
+            "terminal_and_oracles_seconds": 2.481328224763274,
+            "frontiers": 0
+          }
+        },
+        {
+          "case": "12-library-dump-dll",
+          "fast": {
+            "frontiers": 4,
+            "setup_seconds": 0.340680873952806,
+            "fast_pair_seconds": 0.9737620167434216,
+            "pair_call_seconds": 0.9776382716372609,
+            "output_oracles_seconds": 1.4912401484325528,
+            "adapter_seconds": 2.8798172818496823,
+            "unsplit_pair_overhead_seconds": 0.0038762548938393593
+          },
+          "fresh": {
+            "first": 512,
+            "last": 516,
+            "seconds": 6.447142198681831,
+            "history_seconds": 3.8400691468268633,
+            "terminal_and_oracles_seconds": 2.607073807157576,
+            "frontiers": 4
+          }
+        },
+        {
+          "case": "13-library-edit",
+          "fast": {
+            "frontiers": 12,
+            "setup_seconds": 0.3594005526974797,
+            "fast_pair_seconds": 1.1051258686929941,
+            "pair_call_seconds": 1.1086997920647264,
+            "output_oracles_seconds": 1.5911542298272252,
+            "adapter_seconds": 3.1315377298742533,
+            "unsplit_pair_overhead_seconds": 0.003573923371732235
+          },
+          "fresh": {
+            "first": 516,
+            "last": 528,
+            "seconds": 14.878867319785058,
+            "history_seconds": 12.347129954956472,
+            "terminal_and_oracles_seconds": 2.5317372400313616,
+            "frontiers": 12
+          }
+        },
+        {
+          "case": "14-library-dump-edited",
+          "fast": {
+            "frontiers": 0,
+            "setup_seconds": 0.34644126892089844,
+            "fast_pair_seconds": 1.1308238878846169,
+            "pair_call_seconds": 1.1343544069677591,
+            "output_oracles_seconds": 1.2947042249143124,
+            "adapter_seconds": 2.8608560049906373,
+            "unsplit_pair_overhead_seconds": 0.0035305190831422806
+          },
+          "fresh": {
+            "first": 640,
+            "last": 640,
+            "seconds": 2.52890751324594,
+            "history_seconds": 5.71180135011673e-06,
+            "terminal_and_oracles_seconds": 2.528902629390359,
+            "frontiers": 0
+          }
+        },
+        {
+          "case": "15-omf-library",
+          "fast": {
+            "frontiers": 44,
+            "setup_seconds": 0.34296712186187506,
+            "fast_pair_seconds": 0.9428107915446162,
+            "pair_call_seconds": 0.9472010582685471,
+            "output_oracles_seconds": 1.1919039487838745,
+            "adapter_seconds": 2.5803003618493676,
+            "unsplit_pair_overhead_seconds": 0.004390266723930836
+          },
+          "fresh": {
+            "first": 528,
+            "last": 572,
+            "seconds": 48.77879980299622,
+            "history_seconds": 46.282422316260636,
+            "terminal_and_oracles_seconds": 2.4963772166520357,
+            "frontiers": 44
+          }
+        },
+        {
+          "case": "16-omf-link",
+          "fast": {
+            "frontiers": 2,
+            "setup_seconds": 0.3429241329431534,
+            "fast_pair_seconds": 0.8957430934533477,
+            "pair_call_seconds": 0.9001232841983438,
+            "output_oracles_seconds": 5.19547659996897,
+            "adapter_seconds": 6.528895873576403,
+            "unsplit_pair_overhead_seconds": 0.004380190744996071
+          },
+          "fresh": {
+            "first": 572,
+            "last": 574,
+            "seconds": 8.7663629418239,
+            "history_seconds": 2.357325824908912,
+            "terminal_and_oracles_seconds": 6.409037176519632,
+            "frontiers": 2
+          }
+        },
+        {
+          "case": "17-cpp-undecorate",
+          "fast": {
+            "frontiers": 66,
+            "setup_seconds": 0.34344027284532785,
+            "fast_pair_seconds": 0.9982400918379426,
+            "pair_call_seconds": 1.0036121811717749,
+            "output_oracles_seconds": 1.1420328710228205,
+            "adapter_seconds": 2.5918053798377514,
+            "unsplit_pair_overhead_seconds": 0.005372089333832264
+          },
+          "fresh": {
+            "first": 574,
+            "last": 640,
+            "seconds": 68.32439369987696,
+            "history_seconds": 66.04925813060254,
+            "terminal_and_oracles_seconds": 2.275136143900454,
+            "frontiers": 66
+          }
+        }
+      ],
+      "final_receipt": {
+        "path": "/root/.ai-tmp/vc1.0-link/fast-final-validation/receipt.json",
+        "sha256": "cfb5130a34a12ca6ac0b85db959dc133acb0aea0660853db9b5c6f01ada29209",
+        "batch_seconds": 784.0701323635876,
+        "shared_build_check_seconds": 0.00461670383810997,
+        "batch_freeze_seconds": 0.1874846126884222,
+        "note": "Batch timer begins after shared build check/freeze. Earlier process/index startup unmeasured; per-case wall and unsplit timings remain explicit."
+      },
+      "last_observed_segment": "cpp-undecorate [574,640) fast",
+      "last_observed_site": "exit:0",
+      "totals": {
+        "ordinary_case_count": 16,
+        "ordinary_fast_seconds": 58.08093383535743,
+        "ordinary_fast_setup_seconds": 5.587423884309828,
+        "ordinary_fast_pair_seconds": 17.342085857875645,
+        "ordinary_fast_output_oracles_seconds": 33.734599113464355,
+        "ordinary_fresh_seconds": 535.9178755134344,
+        "specialized_fresh_seconds": 182.60497989878058,
+        "all_fresh_seconds": 718.522855412215,
+        "note": "Phase sums; subset of final batch. Earlier adoption attempts are additional, separately listed."
+      },
+      "trial_status": "Cancelled by user; no function reconstructed, no extra case/batch or worker commit.",
+      "collected_at_epoch": 1792698072.330335
+    },
+    "cl": {
+      "scope": "Completed target; reorganization verification only.",
+      "measurement": "Approximate log creation-to-last-write spans; not command stopwatch timings.",
+      "runs": [
+        {
+          "name": "clean parallel build",
+          "seconds": 7.6,
+          "scope": "Excludes clean step"
+        },
+        {
+          "name": "57-case full check and graph audit",
+          "seconds": 121.43,
+          "scope": "Combined check"
+        },
+        {
+          "name": "hello history and GUI validation",
+          "seconds": 4.98,
+          "scope": "Replay"
+        },
+        {
+          "name": "seven-frontier diagnostics",
+          "seconds": 6.94,
+          "scope": "Replay"
+        },
+        {
+          "name": "usage and interrupt-child probes",
+          "seconds": 1.84,
+          "scope": "Probes"
+        }
+      ],
+      "per_case_seconds": null
+    },
+    "rc": {
+      "scope": "Completed target; reorganization verification only.",
+      "measurement": "Approximate log creation-to-last-write spans; not command stopwatch timings.",
+      "runs": [
+        {
+          "name": "clean build, audits and 18 final cases",
+          "seconds": 52.54,
+          "scope": "Combined"
+        },
+        {
+          "name": "17 original recaptures",
+          "seconds": 14.29,
+          "scope": "Combined"
+        },
+        {
+          "name": "254-frontier history and 18 final cases",
+          "seconds": 247.16,
+          "scope": "Combined"
+        }
+      ],
+      "per_case_seconds": null
+    },
+    "rcpp": {
+      "scope": "Completed target; reorganization verification only.",
+      "measurement": "Approximate log creation-to-last-write spans; not command stopwatch timings.",
+      "runs": [
+        {
+          "name": "clean parallel build",
+          "seconds": null,
+          "seconds_lower_bound": 17.37
+        },
+        {
+          "name": "full checks",
+          "seconds": 29.28,
+          "scope": "Combined"
+        },
+        {
+          "name": "19-case independent original replay",
+          "seconds": 13.73,
+          "scope": "Combined"
+        },
+        {
+          "name": "179-frontier history plus 19 final cases",
+          "seconds": 158.22,
+          "scope": "Combined"
+        },
+        {
+          "name": "proof recording",
+          "seconds": 0.1,
+          "scope": "Log span"
+        },
+        {
+          "name": "gap audit",
+          "seconds": 0.26,
+          "scope": "Log span"
+        }
+      ],
+      "per_case_seconds": null,
+      "original_recapture": "Not run."
+    }
+  },
+  "shared_validation": {
+    "checks_per_suite": 17,
+    "completed_suite_receipts": [
+      "/root/.ai-tmp/vc1.0-fast-replay/check-427190-1792696595338182714/results.json",
+      "/root/.ai-tmp/vc1.0-fast-replay/check-438006-1792696755799370983/results.json",
+      "/root/.ai-tmp/vc1.0-fast-replay/check-441407-1792696918487055543/results.json"
+    ],
+    "suite_wall_seconds": null,
+    "note": "Success/rejection suites were repeated during development; elapsed suite times not instrumented. Individual native process milliseconds are not suite wall times."
+  }
+}

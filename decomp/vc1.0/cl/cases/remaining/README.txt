@@ -18,14 +18,14 @@ Run from decomp/vc1.0/cl:
 
     make -j2 check
     make replay
-    python3 remaining.py nested-response conflicting-options
-    python3 remaining.py --replay timing
-    python3 remaining.py --all
+    python3 scripts/remaining.py nested-response conflicting-options
+    python3 scripts/remaining.py --replay timing
+    python3 scripts/remaining.py --all
 
 Original-only entry discovery remains available with make -j2 probe and
-probe-cases.py. It does not accept reconstruction functions.
+scripts/probe-cases.py. It does not accept reconstruction functions.
 
-The original toolchain builds paired-run.c, debug-run.c and the controlled pass
+The original toolchain builds src/paired-run.c, src/debug-run.c and the controlled pass
 helpers. Each original/reconstruction pair runs concurrently. Three private Wine
 prefixes under ~/.ai-tmp/vc1.0-cl/remaining expose separate storage at the same
 Q: working path; this permits exact comparison of IDE and preprocessor filenames.
@@ -88,7 +88,7 @@ Control handler:
   until the callback completes. The traces verify child_running=0 and 1,
   respectively, and both CL processes return 4. These test callback behavior;
   they do not test OS console-event delivery, which did not work in this Wine
-  environment. paired-run.c supplies the same dispatch to both masked images and
+  environment. src/paired-run.c supplies the same dispatch to both masked images and
   the unmodified original, asserting each child_running state.
 
 Legacy selector investigation:
@@ -148,7 +148,7 @@ Explicit internal-state cases
 ----------------------------
 
 internal.json documents the exact state inputs; they are not public selector
-claims. paired-run.c installs a one-shot entry breakpoint only when the relevant
+claims. src/paired-run.c installs a one-shot entry breakpoint only when the relevant
 function is already accepted. A masked entry remains an ordinary frontier.
 
 internal-omf-dryrun:

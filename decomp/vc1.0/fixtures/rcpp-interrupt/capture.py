@@ -12,7 +12,7 @@ import time
 
 HERE = Path(__file__).resolve().parent
 RCPP = HERE.parent.parent/'rcpp'
-wt = importlib.machinery.SourceFileLoader('rcpp_interrupt_wine', str(RCPP/'wine-tool.py')).load_module()
+wt = importlib.machinery.SourceFileLoader('rcpp_interrupt_wine', str(RCPP/'scripts/wine-tool.py')).load_module()
 SCRATCH = wt.PREFIX.parent/'interrupt'
 LOCK = threading.Lock()
 ARGUMENTS = '-ef T:\\bin\\c1.err -f interrupt.rc -g result.i -E'
@@ -99,7 +99,7 @@ def tree(directory):
 
 def capture():
     import sys
-    sys.path.insert(0,str(RCPP))
+    sys.path.insert(0,str(RCPP/'scripts'))
     from compare import imports
     from binary import PE
     manifest=json.loads((HERE/'manifest.json').read_text())

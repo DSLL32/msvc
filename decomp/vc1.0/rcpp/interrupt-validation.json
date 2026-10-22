@@ -567,15 +567,15 @@
   ],
   "final_replay": {
     "original": {
-      "pid": 2000,
-      "primary_tid": 2004,
-      "callback_tid": 2040,
+      "pid": 412,
+      "primary_tid": 416,
+      "callback_tid": 456,
       "argument": 0,
       "handler_rva": 29104,
       "exit": 1,
       "proof": {
-        "bytes": 967,
-        "sha256": "25bb71e5d25246b02909ceea9911bc38c2fa966ac5f48742a0f4b6749272628c"
+        "bytes": 956,
+        "sha256": "7a489d46177e4f78a9724ac750e2370c6d4bc8065a14c92d296dac0826f54549"
       },
       "output": {
         "bytes": 46,
@@ -585,15 +585,15 @@
       "output_exclusive_open": true
     },
     "reconstructed": {
-      "pid": 1940,
-      "primary_tid": 1944,
-      "callback_tid": 1980,
+      "pid": 352,
+      "primary_tid": 356,
+      "callback_tid": 396,
       "argument": 0,
       "handler_rva": 6012,
       "exit": 1,
       "proof": {
-        "bytes": 967,
-        "sha256": "bcde6cbc3f2e72af323c9eb58c045092b45b0de5792cf2246aeacfc500c3f2c2"
+        "bytes": 956,
+        "sha256": "596810b8d811b5698d5488f78abb20f6c5e6d91846e4c810cef40ad9db09c2f6"
       },
       "output": {
         "bytes": 46,
@@ -603,15 +603,15 @@
       "output_exclusive_open": true
     },
     "baseline": {
-      "pid": 1820,
-      "primary_tid": 1824,
-      "callback_tid": 1860,
+      "pid": 2024,
+      "primary_tid": 2028,
+      "callback_tid": 2064,
       "argument": 0,
       "handler_rva": 29104,
       "exit": 1,
       "proof": {
         "bytes": 967,
-        "sha256": "e400c768cb79d4c72aa1c22da4c41b97dbf84fe40075e3d4de71ab0935138a7b"
+        "sha256": "d3cc988522b825bd946b0db7288dc3eb9215e1b229d8c193ce49305553faf0d8"
       },
       "output": {
         "bytes": 46,
@@ -622,5 +622,5 @@
     }
   },
   "stress_reconstructed_sha256": "7006eb4bcff8d23b6b60fd84a13f107b3aaac76c35c632ff555643da2ca6ad1b",
-  "final_replay_reconstructed_sha256": "f38c8694887842e4355b1c45def5ec8a591fe604a4bfcf326bf1efb3693a7610"
+  "final_replay_reconstructed_sha256": "312eba15a2edcb3cf03d62ce48a50bc45c3c2c569bfea9284f09b5f60cef0756"
 }

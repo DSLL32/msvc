@@ -21,7 +21,7 @@ before implementation. results.bin retains actual returned values and, for
 basename, the actual guarded buffer; paired execution requires byte identity.
 The expected original streams are empty.
 
-The tiny external direct-run.exe debugger is built from direct-run.c and is
+The tiny external direct-run.exe debugger is built from src/direct-run.c and is
 excluded from RC's production link. It stops both images at their PE entry,
 keeps that INT3 as a return barrier, supplies a labelled direct stdcall frame
 on existing target stack memory and starts the selected helper. It injects no
@@ -32,7 +32,7 @@ Successful test completion terminates the target with0 under controller control;
 that status means direct-test success, not a natural RC process exit.
 
     make -j2 build/direct-run.exe
-    python3 cases/direct-helpers/capture.py
+    python3 scripts/capture-direct.py
 
 The capture verifier uses this worker's existing private Wine prefix. --record
 is allowed only before manifest.json exists; the frozen original oracle cannot

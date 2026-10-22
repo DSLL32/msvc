@@ -1,5 +1,9 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
+Source files are in src/ and harness scripts in scripts/. Run make commands
+from this directory. Historical replay uses the shared continuous walker;
+see FAST-REPLAY.txt for its scope, retained validators and fresh fallback.
+
 Status: captured minimal-C backend case complete. Both masked executions and
 the unmodified original exit zero with the expected 286-byte object, matching
 all bytes except the COFF timestamp. Binary reconstruction continues with the
@@ -28,10 +32,10 @@ For the final output comparison, only the four-byte COFF TimeDateStamp field
 at object offset 4 is ignored. Every other byte must match the captured
 286-byte test.obj. Both output streams must be empty and exit status must be 0.
 
-wine-tool.py owns ~/.ai-tmp/vc1.0-c2/wine. Toolchains and fixtures are read-only.
+scripts/wine-tool.py owns ~/.ai-tmp/vc1.0-c2/wine. Toolchains and fixtures are read-only.
 The Makefile supports parallel builds. Generated files are under build/.
 
-Both images have all code-section bytes replaced with INT3. compare.py restores
+Both images have all code-section bytes replaced with INT3. scripts/compare.py restores
 only accepted function ranges, including function-owned .text tables. CRT code
 is identified from original LIBC.LIB using relocation-masked byte matches plus
 relative-call target checks. An individual-function fallback handles the older
@@ -41,17 +45,17 @@ begins at freopen (00071aa0); generic RET/JMP shapes in backend code do not
 establish CRT identity. Distinct compiler functions have named trapping stubs.
 
 The older _sopen, _filbuf and _freebuf CRT variants match those already reconstructed for
-CL. They are explicit source in runtime.c, with their C2 extents recorded.
+CL. They are explicit source in src/runtime.c, with their C2 extents recorded.
 Floating-point CRT startup is retained by linking __fltused. The target links
 BINMODE.OBJ, giving _fmode = 0x8000; this matters because its COFF adapter opens
 object files with "w". The Makefile selects the same original runtime object,
-and compare.py checks this named CRT default in both images. The backend's own
-extended-float routines use explicit x87/ESI private ABIs in extended.c.
+and scripts/compare.py checks this named CRT default in both images. The backend's own
+extended-float routines use explicit x87/ESI private ABIs in src/extended.c.
 
 Data definitions are introduced with the functions that encounter them:
-options.c contains named switch destinations, typed switch/suboption tables
-and option parsing; input.c contains intermediate input; memory.c owns eight
-arena descriptors; symbols.c owns descriptor bookkeeping. No original data
+src/options.c contains named switch destinations, typed switch/suboption tables
+and option parsing; src/input.c contains intermediate input; src/memory.c owns eight
+arena descriptors; src/symbols.c owns descriptor bookkeeping. No original data
 section snapshots are linked into this reconstruction.
 
 The graph audit checks direct calls, indirect-call presence, and tail calls
@@ -70,29 +74,29 @@ has 2289 bytes, with only its COFF timestamp excluded from comparison.
 
 Checkpoint notes below retain the earlier frontier measurements.
 
-Symbol input now has contextual typed variants in symbol-input.c, scope/record
-registration in records.c, decoration in names.c, logical segment definitions
-in segments.c, and storage selection in segment-storage.c. The per-function
-driver is in functions.c. Backend pass dispatch is in backend-flow.c;
-backend-symbols.c records module requirements. output.c constructs the named
-output callbacks and module directives; coff-output.c adapts those callbacks
-to the typed writer configuration, and coff-writer.c owns the encountered
+Symbol input now has contextual typed variants in src/symbol-input.c, scope/record
+registration in src/records.c, decoration in src/names.c, logical segment definitions
+in src/segments.c, and storage selection in src/segment-storage.c. The per-function
+driver is in src/functions.c. Backend pass dispatch is in src/backend-flow.c;
+src/backend-symbols.c records module requirements. src/output.c constructs the named
+output callbacks and module directives; src/coff-output.c adapts those callbacks
+to the typed writer configuration, and src/coff-writer.c owns the encountered
 vectors, scopes, packed relocation/line buffers, section contributions and
-symbol records. coff-segments.c maps logical segments to COFF sections;
-listing.c contains module listing logic. Initial module directives now pass
+symbol records. src/coff-segments.c maps logical segments to COFF sections;
+src/listing.c contains module listing logic. Initial module directives now pass
 through the buffered data writer. Machine-symbol collection, initializer dependency discovery, pending-symbol output,
-and machine/frame reset now reach the function reader. machine-opcodes.def records
+and machine/frame reset now reach the function reader. src/machine-opcodes.def records
 the encountered instruction operand counts with named opcodes; it contains no
 original pointer table or opaque data snapshot.
 
-Function and expression input are now in function-input.c and tree-input.c.
-expression-fields.c and control-input.c express the encountered stream recipes
-as semantic field lists, with complete record/control dispatch in C. nodes.c
-owns node/expression reuse; leaves.c owns canonical symbol and constant tables.
+Function and expression input are now in src/function-input.c and src/tree-input.c.
+src/expression-fields.c and src/control-input.c express the encountered stream recipes
+as semantic field lists, with complete record/control dispatch in C. src/nodes.c
+owns node/expression reuse; src/leaves.c owns canonical symbol and constant tables.
 Per-function options and packed saved warning state now reach tree
-canonicalization for the minimal case. canonicalize.c preserves expression
-effects and source markers; tree-lowering.c reconstructs compound assignments,
-volatile post-increment sequencing and bitfield paths. tree-references.c walks
+canonicalization for the minimal case. src/canonicalize.c preserves expression
+effects and source markers; src/tree-lowering.c reconstructs compound assignments,
+volatile post-increment sequencing and bitfield paths. src/tree-references.c walks
 the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
@@ -106,7 +110,7 @@ to compile and link entirely with the original toolchain.
 Reconstructed logic is period C. The earlier pure tail-call initialization
 adapters are ordinary C wrappers. The only functional inline assembly is the x87/ESI extended-float ABI, whose
 raw ST(0) input and 80-bit memory result cannot be expressed by this compiler's
-8-byte long double. The two narrow blocks are documented in extended.c.
+8-byte long double. The two narrow blocks are documented in src/extended.c.
 Diagnostics use ordinary fixed three-argument __fastcall calls: ECX, EDX and
 one callee-cleaned stack argument, matching original RET 4. Diagnostic handling
 is still a named trapping stub; the current success-path cases and graph audit
@@ -131,10 +135,10 @@ implementation or argument-format tables. Saved warning state uses packed
 three-byte records. Its setter remains a trap; nonempty warning overrides
 have not yet been exercised by the minimal case.
 
-canonical-before.c and canonical-after.c implement the recursive canonicalizer's
+src/canonical-before.c and src/canonical-after.c implement the recursive canonicalizer's
 pre-order and post-order hooks. Function-reference rewriting separates hidden
-object arguments; temporaries.c owns the encountered temporary-register list.
-tree-types.c implements full opcode typing, promotions, staged conversions,
+object arguments; src/temporaries.c owns the encountered temporary-register list.
+src/tree-types.c implements full opcode typing, promotions, staged conversions,
 type-stack records and conversion warnings. All 106 non-error opcode dispatch
 arms match the original type-finishing table. The nine tree properties match
 all 182 original opcode entries; the intrinsic call-class predicate matches
@@ -143,26 +147,26 @@ remain at their points of use. The separate tree-construction and intrinsic
 helpers remain traps until reached; the minimal case does not validate those
 unexercised branches.
 
-inline-calls.c and inline-candidates.c implement inline-call selection, recursive
+src/inline-calls.c and src/inline-candidates.c implement inline-call selection, recursive
 growth budgets, body substitution and cleanup. Their optimizer flag is the
 existing optimize_global variable at original 00080624. The minimal case has
 no inline calls; substitution helpers still trap and have not been validated
-on an actual inline expansion. memory.c releases the inliner's arena.
+on an actual inline expansion. src/memory.c releases the inliner's arena.
 
-tree-optimizer.c orders operands by subtree keys and dispatches constant
-folding. algebra.c implements the full algebraic simplifier and operator
+src/tree-optimizer.c orders operands by subtree keys and dispatches constant
+folding. src/algebra.c implements the full algebraic simplifier and operator
 identities. Its 28 opcode arms match the original dispatch, and all nine
 encountered tree properties match 182 original entries. Arithmetic rewrite
 helpers remain traps until reached; return-zero does not exercise those rules.
 
-tree-cleanup.c preserves significant expression records before block splitting
-in work-input.c. WorkItem is a typed 68-byte record with compiler size checks.
-tree-scratch.h records the shared type-stack boundary and cleanup cursor as a
+src/tree-cleanup.c preserves significant expression records before block splitting
+in src/work-input.c. WorkItem is a typed 68-byte record with compiler size checks.
+src/tree-scratch.h records the shared type-stack boundary and cleanup cursor as a
 typed union: the original permitted boundary word aliases the cursor at
 0007e840. No type-stack push/pop is exercised by this case.
 
 Work preparation now includes parameter storage, target-tree lowering and block
-selection. instruction-selection.c drives machine generation; machine-records.c
+selection. src/instruction-selection.c drives machine generation; src/machine-records.c
 constructs the typed instruction and block variants. The case passes generate_work
 and passes statement selection, value selection, return-zero folding, and
 epilogue construction before reaching instruction side-effect analysis.
@@ -175,17 +179,17 @@ The optimizer, backend stage and default integer width reuse their original
 shared option destinations. No duplicate phase or integer-width state is kept.
 See cases/work-abi.json for ABI evidence and dynamic validation limits.
 
-expression-selection.c implements the complete statement selector, using named
-arithmetic/branch maps and shared physical register operands. machine-operands.c
-owns the typed temporary-operand pool and operand equality; machine-operations.c
+src/expression-selection.c implements the complete statement selector, using named
+arithmetic/branch maps and shared physical register operands. src/machine-operands.c
+owns the typed temporary-operand pool and operand equality; src/machine-operations.c
 constructs instructions and tracks x87 depth. Its opcode classification and
-stack effects match all 231 original operations. register-use.c analyzes
-register lifetimes; selection-finishing.c repeats that analysis after rewrites.
+stack effects match all 231 original operations. src/register-use.c analyzes
+register lifetimes; src/selection-finishing.c repeats that analysis after rewrites.
 All ten encountered tree properties match the 182 original entries. The opcode
 definitions now name the implicit-register property required by this pass.
 See cases/selection-abi.json for static evidence and dynamic validation limits.
 
-instruction-rewrite.c implements the full 3,956-instruction machine rewrite
+src/instruction-rewrite.c implements the full 3,956-instruction machine rewrite
 function as typed C. Its 20 opcode groups and 34 callee edges match the original;
 no additional CRT copy helper was introduced by the original compiler. Register
 slots have distinct full-DWORD and low-WORD views. The private helper at 00021790
@@ -197,7 +201,7 @@ unexercised branches or diagnostic failure handling.
 
 The saved-register mask at original 0007c950 is shared by initialize_registers
 and prologue/epilogue selection. Its initial 0xc8 saves EBX, ESI and EDI; it is
-one variable in initialize.c. The original 0007caa4 mask starts at 7 for EAX,
+one variable in src/initialize.c. The original 0007caa4 mask starts at 7 for EAX,
 ECX and EDX. Default alignment at 000806cc is the existing
 default_segment_alignment value, distinct from code/section alignment at
 000806d0. initialize_codegen establishes extended_zero at original 0007bf9c
@@ -211,13 +215,13 @@ addresses are normalized; referenced strings and record indices must agree.
 This validates the saved-register mask in actual intermediate output. It does
 not establish complete object equivalence or exercise the arithmetic rewrites.
 
-value-selection.c implements the complete 1,441-instruction value selector,
+src/value-selection.c implements the complete 1,441-instruction value selector,
 including arithmetic, calls, conversions, constants and x87 selection. Its
 32 callee edges and two dispatch-table extents match the original. The seven
 floating-arithmetic map rows retain only contextual operator names and pop-form
 operations. Operand width/replacement rules and branch simplification live in
-instruction-uses.c. BitSet is a 12-byte sorted chunk list with a head sentinel;
-bitsets.c reconstructs allocation, insertion and membership. Its 32 single-bit
+src/instruction-uses.c. BitSet is a 12-byte sorted chunk list with a head sentinel;
+src/bitsets.c reconstructs allocation, insertion and membership. Its 32 single-bit
 masks are expressed as shifts. Function selection now constructs labels,
 restores saved registers, selects the return register and closes both streams.
 See cases/value-selection-abi.json for evidence and dynamic limits. The minimal
@@ -233,12 +237,12 @@ sets are compared by their complete base/bit chunks. Both streams agree. This
 still precedes machine lowering and object emission.
 
 The minimal case now passes the unoptimized physical-register lowering and final
-instruction-form passes. unoptimized.c retains separate physical/temporary live
-sets, eight register mappings and their interference sets; bitsets.c also clears,
-unions and recycles those sets. final-instructions.c reconstructs the complete
-557-instruction finalizer, with its 16 original callee edges. frame.c resolves
+instruction-form passes. src/unoptimized.c retains separate physical/temporary live
+sets, eight register mappings and their interference sets; src/bitsets.c also clears,
+unions and recycles those sets. src/final-instructions.c reconstructs the complete
+557-instruction finalizer, with its 16 original callee edges. src/frame.c resolves
 frame-size pseudo operands and preserves the shared default alignment. It removes
-the empty subtraction for this case. instruction-uses.c finds flag consumers,
+the empty subtraction for this case. src/instruction-uses.c finds flag consumers,
 retaining the special handling of repeat-prefixed string operations. Five named
 machine-selection properties agree across all 231 original opcodes. See
 cases/lowering-abi.json. General register spilling, alloca, stack probes and byte
@@ -259,16 +263,16 @@ PUSH/POP operation IDs, label links/references and block register sets. This
 checks machine forms before encoding; the 286-byte COFF comparison is pending.
 
 Machine layout and common x86 encoding now pass the minimal case through to
-COFF begin-function emission. machine-layout.c records code offsets, label
+COFF begin-function emission. src/machine-layout.c records code offsets, label
 positions, function/prologue sizes and source positions, with complete alignment
 and padding logic. FunctionSymbol retains its original 84-byte layout and has
 named code-size/prologue/epilogue fields; DebugScope retains typed nested scopes.
-The common encoder in instruction-encoding.c has 1,077 reachable original
-instructions and shares sizing/emission logic. address-encoding.c selects ModR/M
-and SIB bytes; operand-encoding.c resolves values and notifies the output format
+The common encoder in src/instruction-encoding.c has 1,077 reachable original
+instructions and shares sizing/emission logic. src/address-encoding.c selects ModR/M
+and SIB bytes; src/operand-encoding.c resolves values and notifies the output format
 through typed absolute, relative and segment reference callbacks.
 
-encoding-recipes.c contains handwritten instruction recipes named by opcode,
+src/encoding-recipes.c contains handwritten instruction recipes named by opcode,
 form and modifiers. Instruction-family macros describe arithmetic, register,
 fixed, memory and x87 encodings. All 231 extension bytes and six choices per
 operation match the exact original encoding-table extents; packed form flags
@@ -291,9 +295,9 @@ for sizing has passed; the complete emitted object is still pending.
 
 COFF function setup now preserves the source-file cache, optional per-function
 CodeView/FPO sections, symbol reachability, weak fallbacks and export directives.
-coff-functions.c keeps these states beside their users. names.c formats existing
+src/coff-functions.c keeps these states beside their users. src/names.c formats existing
 decorated names and internal numbered names in the shared object-name workspace.
-coff-writer.c creates typed, packed 18-byte COFF symbols, chooses short or string
+src/coff-writer.c creates typed, packed 18-byte COFF symbols, chooses short or string
 table names, and resolves pending function relocations. Line information is
 controlled by the writer's debug byte, independently of its feature flags.
 
@@ -313,8 +317,8 @@ compile cleanly with /W3. The active frontier is write_function_listing; the
 listing-disabled path still precedes machine byte emission and final COFF output.
 
 Machine byte emission and function cleanup now reach COFF module closure.
-machine-emission.c reconstructs the complete record-dispatch body and invokes
-typed segment, byte, source-line, source-file and function callbacks. listing.c
+src/machine-emission.c reconstructs the complete record-dispatch body and invokes
+typed segment, byte, source-line, source-file and function callbacks. src/listing.c
 also contains the complete function-listing body, with named helper traps for
 the unvisited formatting/source paths and a typed twenty-file source cache.
 Work cleanup clears optimizer trees and pooled bitsets before resetting arenas,
@@ -330,7 +334,7 @@ See cases/emission-abi.json for callback ABIs, state provenance and limits.
 Reaching cleanup exposed an older mask error: release_expression's earlier
 extent ended at 0004fd10 and exposed the adjacent free_work body. Primary control
 flow ends at its RET at 0004fcfd; the corrected logical extent ends 0004fd00.
-Two still-provisional extents were tightened as well. compare.py now rejects all
+Two still-provisional extents were tightened as well. scripts/compare.py now rejects all
 overlapping driver extents before masking. The corrected masks restore the
 matching free_work frontier; that function is reconstructed independently.
 
@@ -346,18 +350,18 @@ All produce the expected 286-byte test.obj. Every byte agrees after clearing onl
 the four-byte COFF TimeDateStamp at offset 4; normalized SHA-256 is
 a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929.
 
-coff-finalize.c writes typed file/section directories, file and section auxiliary
-symbols, ordinary symbol records and the string table. coff-writer.h checks
+src/coff-finalize.c writes typed file/section directories, file and section auxiliary
+symbols, ordinary symbol records and the string table. src/coff-writer.h checks
 the original compiler's packed record sizes. Section data preserve the original
 cumulative physical-address field, including 38 for .text. The field at 00085198
 is now named coff_reserved_sections; 000851b0 is coff_data_offset. Relocation and
 line counts retain separate 16-bit fields. No output bytes are supplied by the
 fixture or a linked snapshot; they are generated by the reconstructed pipeline.
 
-The older CRT ftell body is also reconstructed as ordinary C in runtime.c. Its
+The older CRT ftell body is also reconstructed as ordinary C in src/runtime.c. Its
 complete implementation accounts for buffered binary/text streams and translated
 newlines; the minimal case exercises buffered binary writes. Its extent ends at
-00071e90, preserving the adjacent fgets trap. compare.py now checks driver ranges
+00071e90, preserving the adjacent fgets trap. scripts/compare.py now checks driver ranges
 against identified original CRT ranges as well as other driver ranges. The
 normal exit hooks preserve incomplete-output cleanup and listing finalization;
 failure/optional listing paths are not dynamically exercised by this case.
@@ -370,7 +374,7 @@ exit/output comparison. Seven final implementation modules are /W3 clean.
 The queued optimized hello case follows this frozen 352-frontier history.
 
 The optimized Win32 hello profile is active. Use make hello-frontier,
-make hello-replay and make hello-check (or compare.py --profile hello).
+make hello-replay and make hello-check (or scripts/compare.py --profile hello).
 Its history begins after minimal frontier 352; make replay retains the frozen
 minimal history and successful final comparison. Both profiles pin the manifest,
 input hashes and expected object hash and preserve the single-entry environment.
@@ -883,7 +887,7 @@ factory, sorted-bitset overlap testing and register-variable table reset. Each
 observed value currently has one range; repeated accesses extend its block bounds.
 The complete collector also preserves component merging and the original
 once-per-block/once-per-value initialization diagnostics, with named typed traps
-for unvisited release, region and warning helpers. records.h supplies the exact
+for unvisited release, region and warning helpers. src/records.h supplies the exact
 cdecl warning declaration; a /W3 check caught that missing include before the
 checkpoint replay was restarted with the corrected declaration.
 
@@ -970,13 +974,13 @@ Hinted stores, pinned placement, critical-edge splitting, floating ranges and
 populated cache cleanup remain outside this checkpoint's dynamic validation.
 See cases/hello-register-transfers-abi.json for extents, ABI and ownership evidence.
 
-Historical replay now uses replay-frontiers.py with four isolated original/
+Historical replay now uses scripts/replay-frontiers.py with four isolated original/
 reconstruction pairs by default. Each frontier has separate masked binaries,
 IR inputs, working directories and debugger output under the private scratch
 area. Every pair must hit its recorded logical trap, and hashes assert the
 native build/config stayed frozen. After all pairs finish, the ordinary final
 comparator retains baseline, streams and object checks. Set REPLAY_JOBS=1 for
-one pair at a time; compare.py --replay also retains the earlier serial path.
+one pair at a time; scripts/compare.py --replay also retains the earlier serial path.
 
 This checkpoint has447 reconstructed functions and524 accepted frontiers.
 The clean build, all352 minimal and172 hello historical frontiers, all source

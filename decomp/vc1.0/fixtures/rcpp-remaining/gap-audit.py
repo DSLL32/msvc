@@ -13,7 +13,7 @@ from capstone.x86 import X86_OP_IMM
 
 HERE=Path(__file__).resolve().parent
 RCPP=HERE.parent.parent/'rcpp'
-sys.path.insert(0,str(RCPP))
+sys.path.insert(0,str(RCPP/'scripts'))
 from binary import PE
 from compare import imports
 

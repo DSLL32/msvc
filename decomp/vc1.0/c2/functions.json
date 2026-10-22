@@ -5641,7 +5641,7 @@
       "arguments": "",
       "accepted_from": 352,
       "fixture_manifest": "../fixtures/hello-win32/manifest.json",
-      "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e"
+      "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9"
     }
   },
   "crt_defaults": {

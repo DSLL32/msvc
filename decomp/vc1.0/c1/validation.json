@@ -143,5 +143,6 @@
     "c1.exe": "f0e7638237de143b504c1289b703a5d6aa52d55d617eedf6f1da03726712f887",
     "debug-run.exe": "89893c0bf49d6b3972514fd6923014cd1b34ff864bb829e34010c4f6f1ab57fc"
   },
-  "target_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063"
+  "target_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "checkpoint": "Historical PCH reconstruction checkpoint add93b0, before the source/scripts reorganization and fast replay adoption. The binary hashes and fresh logs below belong to that checkpoint; current harness validation is in fast-replay-validation.json."
 }

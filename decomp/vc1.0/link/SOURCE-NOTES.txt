@@ -41,8 +41,8 @@ state begins; it no longer doubles as storage for unrelated linker globals.
 The original LIBC.LIB supplies verified static runtime routines. The matcher
 checks COFF bytes and relocation targets, including external calls, and treats
 same-address aliases as one vertex. Older CRT differences in the executable
-have C equivalents in runtime.c. CRT globals such as _iob, _osfile, locale data,
-and heap state use the linked library's named globals. crt-anchors.c requests
+have C equivalents in src/runtime.c. CRT globals such as _iob, _osfile, locale data,
+and heap state use the linked library's named globals. src/crt-anchors.c requests
 the original floating-point/termination members without copying library data.
 
 The graph audit compares calls including indirect calls and tail calls. The
@@ -107,7 +107,7 @@ Hash flags have their observed WORD type. Nested enumeration uses a typed cursor
 additional named ordinary literals were introduced. The output writer and
 undecoration paths inside emit_externals still have named pending dependencies;
 only the reached diagnostics path is dynamically covered so far.
-The queued GUI checker branch has been added to compare.py and built using the
+The queued GUI checker branch has been added to scripts/compare.py and built using the
 original toolchain. The shared captured hello.exe passes its title/paint/close
 check, with 300 dark pixels and exit0. This is checker validation, not completion
 of the queued reconstructed LINK fixture.
@@ -132,7 +132,7 @@ fixed after code layout. Correcting the PE, ROM and Macintosh BSS calls restores
 the matching section-sort frontier; the earlier form issued a premature overlap
 warning. The original51f70 timezone parser now uses its actual CRT symbol __tzset
 rather than a provisional wrapper name. Its mutable previous-TZ cache is local
-to runtime.c and its timezone/daylight/name state aliases the native CRT globals.
+to src/runtime.c and its timezone/daylight/name state aliases the native CRT globals.
 Minimal-C has not yet emitted a validated image. Output and unreached Macintosh
 helpers remain typed named traps; new branches need later dynamic coverage.
 
@@ -246,7 +246,7 @@ help and both completed executable cases pass; audits check 247 call graphs,
 DLL fixture also passes this harness's exact artifact and DLL-host GUI checks.
 
 The older CRT PATH search and command/environment block builder are readable C
-in runtime.c. The latter aliases native CRT _aenvptr rather than copying the
+in src/runtime.c. The latter aliases native CRT _aenvptr rather than copying the
 inherited environment. Full library-manager dispatch, options, archive signature
 classification, output/input collision checks, OMF input scanning, machine
 validation, argument transfer/release and the import-library orchestration now
@@ -298,9 +298,9 @@ objects match the immutable fixture after only the COFF/export timestamps:
 b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9.
 The current trap is write_single_import_member; the DLL case is incomplete.
 
-import-members.c writes the import descriptor, null descriptor and null thunk
+src/import-members.c writes the import descriptor, null descriptor and null thunk
 as field-initialized COFF structures, string tables and individually typed
-relocations/symbols. export-object.c owns export directory/name/ordinal tables,
+relocations/symbols. src/export-object.c owns export directory/name/ordinal tables,
 relocations and symbols, retaining individual helper calls and cdecl interfaces.
 Its private ExportDirectory uses DWORD RVAs because the original NT header
 incorrectly describes the three address fields as pointer-to-pointer types.
@@ -322,7 +322,7 @@ kernel32 SetFilePointer temporary when close_mapped_file seeks to the .exp file
 length (call 3d4f2, reached from build_import_library close call 294b6). The target
 fixture's 370-byte object leaves unused tail 00 72 01. An untouched-original run
 using a longer output basename produces a 462-byte object and tail 00 ce 01.
-The private mapped_close_seek_position state in files.c explicitly preserves
+The private mapped_close_seek_position state in src/files.c explicitly preserves
 that observable value for the typed auxiliary output record, instead of relying
 on unrelated reconstructed stack contents or hard-coding fixture bytes. This
 state models reused stack storage; it is not claimed to be an original global.
@@ -360,7 +360,7 @@ call graphs, 276 callback sets and 242 contextual data definitions. Accepted
 .text extent increases from 110787 to 112387 of 281634 bytes. write_library is
 the current matching trap; ordinary archive creation remains incomplete.
 
-files.c now recovers buffered open/stat and index allocation, signed-origin
+src/files.c now recovers buffered open/stat and index allocation, signed-origin
 seek, free/reclaimed page acquisition, ownership assignment, explicit page read,
 LRU maintenance and chunked buffered read. Page flags, all-page links, LRU links
 and the uncached-page sentinel have named roles. Pending grow/reclaim/flush and
@@ -385,7 +385,7 @@ HelloEntry load/call/paint/close/unload check through this namespace.
 
 Shared C++ helper archive creation is complete at 417 accepted frontiers (17
 added after the four completed baseline cases). The ordinary writer is readable
-C in library-output.c, preserving symbol processing, two archive indexes, WORD
+C in src/library-output.c, preserving symbol processing, two archive indexes, WORD
 long-name offsets, exact member copies and separate index backfilling. Buffered
 write, page advance/flush, slot release and page detach preserve dirty extents,
 uncached sentinels, logical length updates, active/free/LRU list roles and AL
@@ -437,7 +437,7 @@ child's .lib and .exp normalize exactly to the frozen expected hashes, using
 only the existing structural clock fields. No fixture edits or new normalization
 were needed. The reconstructed debug DLL stops at update_function_auxiliary.
 
-Readable definition-file.c preserves shared lexical state, case-sensitive
+Readable src/definition-file.c preserves shared lexical state, case-sensitive
 keyword recognition, first-semicolon comments, single-quote-only DESCRIPTION
 handling, original directive buffers, ordinal accumulation and target quirks.
 The named keyword array is a real shared parser/diagnostic table. Ordinary
@@ -539,7 +539,7 @@ native %li raw-column parser writes its neighboring flags too; this is explicit.
 All older case outputs and the complete native graph replay pass this layout
 correction. No original template bytes, section snapshot or opaque gap exists.
 
-Readable dump.c preserves prefix abbreviations and independent overlapping
+Readable src/dump.c preserves prefix abbreviations and independent overlapping
 switch matches, two input lists, buffer fallback, native summary defaults,
 archive/MZ/PE traversal and ownership. Archive metadata has the original60-byte
 by-value parameter and named dump_file pointer guard; exact date, UID/GID/mode,
@@ -555,7 +555,7 @@ completed regressions,369 graph/360 callback/297 data/517 boundary audits pass.
 DLL/all currently traps at matching dump_debug_directory;33347 flushed stdout
 bytes match raw and stderr is empty. No final DLL dump result is yet claimed.
 
-Human C in dump.c recovers COFF/ROM/PE headers, version spacing and even the
+Human C in src/dump.c recovers COFF/ROM/PE headers, version spacing and even the
 native trailing-percent formats. Machine/subsystem/directory and symbol type/
 class lookup literals stay local to their formatter. The section walker keeps
 its complete native extent including dispatch data, COMDAT selection/name rules,
@@ -581,15 +581,15 @@ Native export printing indexes function RVAs sequentially while ordinal-table
 entries only affect displayed ordinals; this quirk is preserved. HIGHADJ consumes
 an extra WORD while decrementing the loop count once, as in the native code.
 
-editor.c owns image/section/change state and recovers editor_main, file preparation,
+src/editor.c owns image/section/change state and recovers editor_main, file preparation,
 option application and shared reserve/commit parsing. One-based section arrays
 use typed IMAGE_SECTION_HEADER records. Bind/rebase and section-edit children keep
-their named cdecl traps until those public options are assigned. checksum.c owns
+their named cdecl traps until those public options are assigned. src/checksum.c owns
 the native mapped-only gate. Buffered /release emits actual LNK4058; edited.dll is
 raw-exact with CheckSum1, stack180000/2000 and heap140000/2000. No checksum-success
 claim is made. Edited-header dump also matches exact frozen output and original.
 
-diagnostics.c lazily loads external LINK.ERR beside CRT _pgmptr, records text-mode
+src/diagnostics.c lazily loads external LINK.ERR beside CRT _pgmptr, records text-mode
 ftell cookies, and reuses a256-byte line buffer. Its137-entry code pointer table
 is actual indexed shared data with all strings/pointers audited; catalog sentences
 are not embedded. The native warning wrapper consumes exactly two DWORD arguments.
@@ -616,7 +616,7 @@ All17 additions since full528 replay and all15 prior cases pass;400 graph/391
 callback/358 data/551 boundary audits pass. Current matched frontier is SEGDEF.
 This is partial progress, not completed OMF or undecoration reconstruction.
 
-omf.c recovers temporary conversion input adaptation, driver/getopt, two211-bucket
+src/omf.c recovers temporary conversion input adaptation, driver/getopt, two211-bucket
 hash initializers, complete first record-pass dispatch, typed runtime index maps,
 FILE-name auxiliaries and128KiB COFF symbol/string pool growth. Name tables have
 2048 slots proved by explicit native bounds; actual mutable index tables have4096.
@@ -666,7 +666,7 @@ Original CL1.0 C rejects __thiscall (C2282, scratch thiscall-probe.c). Member
 implementations use __fastcall(ECX this,ignored EDX,native stack arguments),
 so no wrapper, assembly or extra graph edge is emitted. Native interfaces and
 actual decorated rebuilt symbols are explicit in functions.json; publics()
-maps only those recorded symbols. audit-abi.py walks reachable native/rebuilt
+maps only those recorded symbols. scripts/audit-abi.py walks reachable native/rebuilt
 returns and proves matching RET cleanup for all12 accepted methods. All current
 audits pass:445 graph,436 callbacks,391 data,597 instruction boundaries.
 All63 additions since full528 replay and all17 completed cases pass. The C++
@@ -739,3 +739,38 @@ padding total or target-wide native-body percentage is claimed. Remaining
 case suggestions are grounded in actual body ranges/callers and recorded in
 cases/remaining-after-omf-undecorate.json. Both assigned families are finished;
 no extra cases are queued or started.
+
+
+Fast historical replay implementation checkpoint (verification only): all 97
+C/header files moved unchanged into src/; ten original Python scripts moved into
+scripts/, with a new scripts/replay-frontiers.py adapter. Build, metadata owner
+paths, loader imports, original toolchain root, shared GUI checker paths and
+narrow fixture verification imports follow the new layout. No target function,
+ABI, acceptance order, extent or data implementation changed. Clean -j2 and all
+492 graph/483 callback/391 data/646 boundary/38 ECX cleanup audits pass.
+
+The adapter uses root tooling/replay independent walkers and an explicit registry.
+Final frozen verification proves all 510 eligible first-entry sequences against
+full fresh references, plus four zero-step checks. Specialized DLL self-spawn and
+full-debug/CVPACK histories retain the existing runner and pass all 130 frontiers.
+All 640 fresh historical points and 18 final stream/artifact/program checks pass.
+The help terminal remains exit 3; no terminal is inferred from another case's
+next global function. Existing CRT aliases, canonical per-side Wine namespaces,
+prepared inherited environments, shared text ranges and normalizations remain.
+Focused fresh fallback at minimal-C count 100 passes. Shared generic negative
+checks are parent-owned; no generic process-tree implementation was added here.
+
+The final ordinary fast adapter time is 58.081 seconds: setup 5.587, paired
+walkers 17.342, output oracles 33.735, other unsplit overhead 1.417. Eligible fresh
+reference totals 535.918 seconds (9.23 times the measured fast total). Deferred
+specialized fresh histories add 182.605 seconds. The one-time complete adoption
+verification takes 784.070 seconds, including 718.523 seconds in all 640 fresh
+reference points and their terminal/oracle calls. Preliminary and aborted
+adoption runs are recorded separately, not hidden in the speed comparison.
+Per-case breakdowns, raw receipt hashes, frozen files and unmeasured durations
+are in cases/fast-replay-validation.json and the parent's accounting artifact.
+
+The user cancelled the later one-function trial. No function was reconstructed,
+no new input case was added, and no further execution batch follows this required
+verification. No worker commit was made; the parent owns the single implementation
+commit. Current accepted extent remains 193671/281634 = 68.7669%. Worker idle.

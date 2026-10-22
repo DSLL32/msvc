@@ -213,7 +213,7 @@
     "painted_text": "Hello, world!",
     "close_message": "WM_CLOSE",
     "exit_status": 0,
-    "checker_source": "decomp/vc1.0/cl/gui-check.c",
+    "checker_source": "decomp/vc1.0/cl/src/gui-check.c",
     "verified_reports": {
       "original": {
         "width": 632,

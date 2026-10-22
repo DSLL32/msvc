@@ -7,7 +7,7 @@
   "current_frontier": "_initialize_object_value@8",
   "original_frontier_va": "0x462c0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "a9cea3a0839a806d206c7d72708983756e602562ec1ea04e1f71f22616c25a96",
+  "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
   "call_graph_audit_functions": 461,
   "data_audits": {
     "option_rules": 98,
@@ -104,14 +104,14 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-object-declaration-setup.log",
+  "replay_log": "evidence/fast-replay-verification.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
   "state_address_aliases_checked": true,
   "generated_grammar_validation": {
-    "source": "grammar.bnf",
-    "generator": "grammar.py",
+    "source": "src/grammar.bnf",
+    "generator": "scripts/grammar.py",
     "states": 575,
     "productions": 356,
     "precedence_conflicts": 353,
@@ -123,7 +123,7 @@
     "semantic_actions_reconstructed": true,
     "log": "evidence/grammar-validation.log",
     "log_sha256": "95089fbc0bd926151132ef4d08263624392605012f5c9fc4be195010edaaa7a0",
-    "build_generator": "generate-parser.py",
+    "build_generator": "scripts/generate-parser.py",
     "logical_c_rows_checked": true,
     "explicit_semantic_blocks": 285,
     "parser_callees": 186,
@@ -265,8 +265,8 @@
     "reserved_bytes_untouched": true
   },
   "lookahead_grammar_validation": {
-    "source": "lookahead.bnf",
-    "generator": "generate-lookahead.py",
+    "source": "src/lookahead.bnf",
+    "generator": "scripts/generate-lookahead.py",
     "states": 279,
     "productions": 169,
     "nonterminals": 51,
@@ -443,7 +443,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "f2036b1ed7f3a8ec1fb17851f7f87c3e85327fefd35a044056951c0a76e1aa65",
+  "replay_build_text_sha256": "6a056a7e08bdb56684e0e01cfc795b5927b53a34e1a2da688d9680831bdf3b02",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -846,12 +846,12 @@
     "constructor_body_completed": false
   },
   "isolated_replay": {
-    "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-object-declaration-setup-receipt.json",
-    "receipt_sha256": "cff557a99b3c89c4705c010dc6f249b611cbd51fe6cfafc18126fd85d12eed49",
+    "script": "scripts/replay-fresh.py",
+    "receipt": "evidence/fast-replay-fresh-receipt.json",
+    "receipt_sha256": "3fa64b1dceaa435bb7a09c059bf35676bfd2b978df8ae52ca2ca3b4a2dd3f977",
     "jobs": 4,
-    "frontiers": 533,
-    "seconds": 136.73060795012861,
+    "frontiers": 534,
+    "seconds": 133.84906735178083,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 14,
     "private_masked_executables_workdirs_logs": true,
@@ -1151,5 +1151,29 @@
     "last_full_coverage_percent": 37.29770915456595,
     "pending_function_edits": false,
     "resume": "Read README pause note; make -j2 check, then reconstruct initialize_object_value@8 at 0x462c0. Run a frozen historical replay at the next normal batch boundary."
+  },
+  "source_layout": {
+    "source": "src",
+    "scripts": "scripts",
+    "working_directory": "binary root",
+    "historical_receipts_preserve_frozen_paths": true,
+    "unchanged_files": 153,
+    "clean_original_toolchain_build_passed": true,
+    "evidence": "evidence/source-layout-equivalence.json"
+  },
+  "fast_replay": {
+    "default": "continuous ordinary history",
+    "adapter": "scripts/fast_replay_adapter.py",
+    "shared": "tooling/replay",
+    "verified_frontiers": 534,
+    "first": 0,
+    "terminal": "_initialize_object_value@8",
+    "fresh_equivalent": true,
+    "evidence": "evidence/fast-replay-validation.json",
+    "full_state_oracle_retained": true,
+    "new_function_reconstruction": false,
+    "normal_external_wall_seconds": 3.9208544194698334,
+    "fast_pair_seconds": 3.2309734635055065,
+    "fresh_seconds": 133.84906735178083
   }
 }

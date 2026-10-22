@@ -84,14 +84,14 @@
   ],
   "analysis_helper": [
     {
-      "path": "direct-run.c",
+      "path": "../../src/direct-run.c",
       "bytes": 8414,
       "sha256": "cd6e2eda80c6a9380efff7e42ca24e641a04caa0c6366813e0ba33be8f239190"
     },
     {
-      "path": "capture.py",
-      "bytes": 4015,
-      "sha256": "3b5f5a4dcaaf41c33aa5184dff292ff97d9297b1f9971c5433ed57453f9940c6"
+      "path": "../../scripts/capture-direct.py",
+      "bytes": 4076,
+      "sha256": "f56b4e55f1113142414266a54d5590a8b96a3a1c0e1b6d9e9a60ff0e9d294772"
     }
   ],
   "comparison": "Direct helper results and ABI only; target startup is a debugger return barrier, and exit 0 is controller-directed successful completion. No claim of native CLI reachability."

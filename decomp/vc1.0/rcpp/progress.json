@@ -286,5 +286,12 @@
       ],
       "scope": "direct leaf case, separate from 19 public-input cases"
     }
+  },
+  "source_layout": {
+    "source": "src",
+    "scripts": "scripts",
+    "working_directory": "binary root",
+    "validation": "reorganization-validation.json",
+    "fast_replay_adopted": false
   }
 }

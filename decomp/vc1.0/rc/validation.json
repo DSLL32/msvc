@@ -41,9 +41,9 @@
     "image_base": 16777216,
     "entry": 16849232
   },
-  "reconstruction_sha256": "ace1b3c4472afe2824d91a8941cce53f6dbc931cddb4b0f1c751232e65dce5f2",
+  "reconstruction_sha256": "a85cd8d42d247f2c347af5ea99b310bc81d449f959bd8d529e2d642fe9c34e42",
   "fixture_manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
-  "frontier_log_sha256": "29e364f47e9f2e8b96a5786785f333b8f697437ed0dc2d361217e646cb76d73d",
+  "frontier_log_sha256": "aac696b402d8379255937ff1dbe4fd1c9721c5b7fa4c38667e497ec65a70f1a6",
   "graph_audit": {
     "_mainCRTStartup": {
       "original_calls": {
@@ -6109,7 +6109,7 @@
     },
     "console-interrupt": {
       "shared_fixture": "../fixtures/rc-interrupt",
-      "manifest_sha256": "fb83f0b70913a1e69455b46a49f2f88c09c186ef2d5bdc1a1e2751a30a5db511",
+      "manifest_sha256": "03270ffb643c90567997647a63e9589c2e3ae002fab9eb06a34363597ff2ce1d",
       "case": {
         "id": "console-interrupt",
         "arguments": [
@@ -6156,7 +6156,7 @@
     },
     "verbose-names": {
       "shared_fixture": "../fixtures/rc-remaining",
-      "manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "manifest_sha256": "d6cb03388fbdd25720cada253ac530e0e3125b06d6c9efb52af9a68c79ef5910",
       "case": {
         "id": "verbose-names",
         "arguments": [
@@ -6263,7 +6263,7 @@
           },
           "stdout.bin": {
             "bytes": 349,
-            "sha256": "de6df3d0e5dc123a00806db3d89cfdc71fc88f15e7ca8a5631fee6446b4879eb"
+            "sha256": "62011e3c209fb33c543b285ee4506ef93d8d4833833b6b253b7e806275e5f79d"
           },
           "verbose.res": {
             "bytes": 180,
@@ -6271,18 +6271,18 @@
           }
         },
         "symbolic_stdout": {
-          "pid": 328,
+          "pid": 856,
           "bytes": 349,
           "fields": [
             {
               "offset": 161,
               "length": 6,
-              "native_digits": "000328"
+              "native_digits": "000856"
             },
             {
               "offset": 173,
               "length": 6,
-              "native_digits": "000328"
+              "native_digits": "000856"
             }
           ]
         }
@@ -6292,7 +6292,7 @@
     },
     "path-fallback": {
       "shared_fixture": "../fixtures/rc-remaining",
-      "manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "manifest_sha256": "d6cb03388fbdd25720cada253ac530e0e3125b06d6c9efb52af9a68c79ef5910",
       "case": {
         "id": "path-fallback",
         "arguments": [
@@ -6366,7 +6366,7 @@
     },
     "direct-whitespace": {
       "shared_fixture": "cases/direct-helpers",
-      "manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "manifest_sha256": "93d900be081d769bbe7a33be8d6cba2e85c8e460ed58b333ea9a33a737cfcb7e",
       "case": {
         "id": "direct-whitespace",
         "kind": "direct-function-ABI",
@@ -6430,7 +6430,7 @@
     },
     "direct-basename": {
       "shared_fixture": "cases/direct-helpers",
-      "manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "manifest_sha256": "93d900be081d769bbe7a33be8d6cba2e85c8e460ed58b333ea9a33a737cfcb7e",
       "case": {
         "id": "direct-basename",
         "kind": "direct-function-ABI",
@@ -7119,15 +7119,15 @@
     "font_directory_branch_exercised": false,
     "paired": {
       "original": {
-        "proof_sha256": "695fc401df1fd25e6bda959b498037263b070c319a78f4d7eecc11a33492a853",
+        "proof_sha256": "a91d00a448359ba51f9e21e4d665ffa0b92a5dbc97bada07737292f0528359b7",
         "before": {
-          "RC001620": {
+          "RC000372": {
             "bytes": 54,
             "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
           },
-          "RD001620": {
+          "RD000372": {
             "bytes": 90,
-            "sha256": "e06576815ef6888bfbea2576808c03ae236b87b50e26b15ee7a30bc48dc4f694"
+            "sha256": "357c23691cc7e814152a9b272467529057698549835825ae94c2ca4edda1065d"
           },
           "interrupt.rc": {
             "bytes": 21,
@@ -7140,15 +7140,15 @@
         }
       },
       "reconstructed": {
-        "proof_sha256": "6af3dbb334a4214686a268ac58891c122eed6f1cca6ee65a0dc4284c63765036",
+        "proof_sha256": "1cd3440bf46d290cea53322d0bffa70b65e0d13d48c16e35645dcc43fce2188c",
         "before": {
-          "RC001636": {
+          "RC000364": {
             "bytes": 54,
             "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
           },
-          "RD001636": {
+          "RD000364": {
             "bytes": 90,
-            "sha256": "7c4eee801421b03056ce67b2903f638790bee5bbf3e1266258236b2fdccf308c"
+            "sha256": "176d13dbd04f7d3b72fddd36d2d3a14b53d34c959417ff505ca4159c83877f4f"
           },
           "interrupt.rc": {
             "bytes": 21,
@@ -7164,34 +7164,34 @@
   },
   "verbose_native_stdout": {
     "original": {
-      "pid": 624,
+      "pid": 1228,
       "bytes": 349,
       "fields": [
         {
           "offset": 161,
           "length": 6,
-          "native_digits": "000624"
+          "native_digits": "001228"
         },
         {
           "offset": 173,
           "length": 6,
-          "native_digits": "000624"
+          "native_digits": "001228"
         }
       ]
     },
     "reconstructed": {
-      "pid": 644,
+      "pid": 1216,
       "bytes": 349,
       "fields": [
         {
           "offset": 161,
           "length": 6,
-          "native_digits": "000644"
+          "native_digits": "001216"
         },
         {
           "offset": 173,
           "length": 6,
-          "native_digits": "000644"
+          "native_digits": "001216"
         }
       ]
     },

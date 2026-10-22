@@ -9,6 +9,9 @@ Its pragma library directives select USER32.LIB and GDI32.LIB.
 Target/toolchain: ../../../toolchains/1.0-nt
 Toolchain compiler banner: 8.00; linker banner: 1.00.
 
+Reconstructed C, headers, and native test helpers live in src/. Python tools
+live in scripts/. Case inputs, metadata, and this Makefile remain here.
+
 Build and verification (from this directory):
 
     make -j2
@@ -24,10 +27,10 @@ The normal build produces build/original.exe and build/reconstructed.exe.
 Every code-section byte starts as INT3; only the functions recorded as accepted
 in functions.json, and their shared code/data ranges, are restored. The original
 file's hash is checked before masking. build/cl.exe is the unmasked intermediate
-linked by the original compiler/toolchain. stubs.c is reserved for future named stubs.
+linked by the original compiler/toolchain. src/stubs.c is reserved for future named stubs.
 
 make check runs the masked original and reconstruction concurrently under the
-NT debuggers in debug-run.c and paired-run.c. They compare logical trap sites,
+NT debuggers in src/debug-run.c and src/paired-run.c. They compare logical trap sites,
 or compare exit status and both raw output streams on completion. A completed run is also
 checked against the unmodified original. Child stdin is closed and stdout and
 stderr are captured separately; this preserves CL's help pagination prompts
@@ -38,7 +41,7 @@ all other bytes must match. Each generated executable must run without output
 and return 0. build/compile-validation.json records raw and normalized hashes.
 The hello case uses build/hello-{original,reconstructed,baseline} and writes
 build/hello-validation.json, applying the same exact comparison rules to
-hello.obj and hello.exe. gui-check.c launches the resulting window under Xvfb,
+hello.obj and hello.exe. src/gui-check.c launches the resulting window under Xvfb,
 checks its title and painted client area, captures build/hello-window.bmp, then
 posts WM_CLOSE and requires exit 0. build/hello-window.json records the result.
 The compiler phases and linker invoked as child processes are the original
@@ -64,7 +67,7 @@ masked. New cases may therefore still encounter CRT frontiers.
 
 cases/remaining/catalog.json contains 42 catalog cases; internal.json adds the
 OMF and IDE assertion cases, and extra.json adds timezone/DST cases. make check
-runs all of them. remaining.py prepares each original/reconstruction pair in
+runs all of them. scripts/remaining.py prepares each original/reconstruction pair in
 parallel, with independent Wine prefixes exposing identical Q: working paths.
 Every completed case compares exit status, raw stdout/stderr, product filenames,
 and all product bytes against the unmodified original. Only parsed COFF, PE
@@ -87,16 +90,16 @@ reach its assertion callback. These cases do not claim public reachability.
 See cases/remaining/README.txt for the exact harness behavior and commands.
 coverage.json remains the initial original-only discovery record.
 
-cl.c contains the driver main and its SEH frame. driver.c contains reconstructed
+src/cl.c contains the driver main and its SEH frame. src/driver.c contains reconstructed
 argument parsing, option grammar expansion, option-list handling, setup, help
 display, compiler/linker invocation, response-file generation, and cleanup.
-remaining.c contains the additional switch handlers, response-file parsing,
+src/remaining.c contains the additional switch handlers, response-file parsing,
 diagnostics, IDE transport, timers, control callback and legacy OMF writer.
-data.c contains the original option grammar and mutable compiler
-pass profiles. cl.h records the 32-bit layouts and calling conventions.
+src/data.c contains the original option grammar and mutable compiler
+pass profiles. src/cl.h records the 32-bit layouts and calling conventions.
 
 The static CRT is linked from this toolchain's LIBC.LIB and SETARGV.OBJ.
-identify-runtime.py matches COFF sections against the executable, masking
+scripts/identify-runtime.py matches COFF sections against the executable, masking
 relocation operands before checking REL32 destinations against library symbols
 and imported functions. This distinguishes otherwise identical wrappers such as
 remove/rmdir and spawnv/spawnvp. The original's two identical memcpy/memmove
@@ -108,29 +111,29 @@ separate shared range so accepting strcat does not silently accept strcpy's
 entry point.
 
 Six reached CRT functions differ from the shipped library and are implemented
-in runtime.c: setvbuf, _freebuf, _sopen, _filbuf, __tzset, and _isindst. The stream
+in src/runtime.c: setvbuf, _freebuf, _sopen, _filbuf, __tzset, and _isindst. The stream
 routines preserve CL's older buffer flags; _sopen preserves the original exact one-byte read test
 before inspecting a trailing control-Z. The older timezone parser uses the TZ
 string and retains the original defaults when it is absent; the older DST
-routine implements its original April/October rules. identify-runtime.py also
+routine implements its original April/October rules. scripts/identify-runtime.py also
 checks relocations against source replacements when validating library callers.
-audit-graph.py compares the direct callee sets and presence of indirect calls for every implemented source
+scripts/audit-graph.py compares the direct callee sets and presence of indirect calls for every implemented source
 function. The grammar and callback data preserve indirect dispatch.
 
 functions.json is the durable progress record. Addresses are original virtual
 addresses at image base 0x10000; the entry point is 0x1c750. All indexed source
-functions have full extents and implementations. stubs.c is now empty. Unvisited library routines remain masked; future non-library callees
+functions have full extents and implementations. src/stubs.c is now empty. Unvisited library routines remain masked; future non-library callees
 should receive named trapping stubs until reconstructed.
 
 To continue, build and run another case with:
 
-    python3 compare.py --case='/your arguments'
+    python3 scripts/compare.py --case='/your arguments'
 
 On matching traps, determine the new function's extent and ABI, replace its
 stub, and add its linker name to functions.json's accepted list. Rebuild and
 rerun. Keep calls to other unreconstructed functions as named traps.
 
-    python3 compare.py --runtime
+    python3 scripts/compare.py --runtime
 
 advances through exact original-library matches, asserting each matching trap
 before accepting it. This defaults to /?; supply --case for another case.
@@ -139,9 +142,9 @@ cases/compile.json, and cases/hello.json record output hashes and validation.
 
 To repeat a completed additional case, use:
 
-    python3 remaining.py nested-response
-    python3 remaining.py --all
-    python3 remaining.py --replay timing
+    python3 scripts/remaining.py nested-response
+    python3 scripts/remaining.py --all
+    python3 scripts/remaining.py --replay timing
 
 Original-only discovery is still available with make probe. The historical
 coverage report is not the reconstruction acceptance record; functions.json and

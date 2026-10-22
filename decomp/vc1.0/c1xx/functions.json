@@ -5184,7 +5184,9 @@
   "cases": {
     "cpp_basic": {
       "arguments": "",
-      "accepted_from": 0
+      "accepted_from": 0,
+      "terminal": "_initialize_object_value@8",
+      "terminal_evidence": "evidence/check-reorganized-layout.log"
     }
   },
   "runtime_data": [

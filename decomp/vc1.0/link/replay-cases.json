@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "target": "LINK.EXE",
+  "default_process_mode": "single-target",
+  "default_thread_mode": "root-thread",
+  "policy": "Ordinary segments use independent live-unmask side walkers. Specialized tree/helper histories remain fresh and are batched at meaningful checkpoints, case completion, or earlier when directly affected. Newly reached functions always use focused fresh paired acceptance.",
+  "unknown_case_policy": "Reject unregistered fast case; explicit fresh runner remains available.",
+  "cases": [
+    {
+      "case": "/?",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 3
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "minimal-c",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "hello-win32",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "hello-dll",
+      "mode": "fresh-specialized",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Self-spawned LINK import-library child requires existing DEBUG_PROCESS tree runner."
+    },
+    {
+      "case": "library-create",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "hello-debug-dll",
+      "mode": "fresh-specialized",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Self-spawned LINK import-library child and native CVPACK require existing tree runner."
+    },
+    {
+      "case": "library-list",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-extract",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-remove",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-list-trimmed",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-dump-library",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-dump-object",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-dump-dll",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-edit",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "library-dump-edited",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "omf-library",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "omf-link",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    },
+    {
+      "case": "cpp-undecorate",
+      "mode": "fast",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Ordinary root LINK execution; preserve existing final streams/artifact/program validators."
+    }
+  ],
+  "undeclared_special_modes": {
+    "signal-handler": "Retain existing specialized fresh runner; no dedicated accepted signal case exists in this registry.",
+    "child-process": "Reject unexpected target child mode; no generic process-tree support added.",
+    "callback-thread": "Reject application-thread frontier outside root thread."
+  }
+}

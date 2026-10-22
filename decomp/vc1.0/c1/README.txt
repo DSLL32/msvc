@@ -10,7 +10,8 @@ buffers, visible files and diagnostics. Final artifacts match independent
 untouched originals. Both PCH phases match raw bytes with no normalization;
 the generated PCH is passed to the matching consumer in each private namespace.
 The original backend/linker also accepts reconstructed PCH/IR outputs and the
-resulting program exits 0 silently. See validation.json for final receipts.
+resulting program exits 0 silently. validation.json preserves the PCH checkpoint;
+fast-replay-validation.json records the current harness and layout verification.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -58,23 +59,54 @@ Build and differential workflow
   make replay CASE=pch-create
   make check CASE=pch-use
   make replay CASE=pch-use
-  python3 compare.py --paired-pch
+  make replay-all
+  python3 scripts/check-fast-replay.py
+  make replay-fresh CASE=minimal
+  python3 scripts/compare.py --fixture minimal --frontier 100
+  python3 scripts/fast-replay.py --fixture minimal --stop-before 100
+  python3 scripts/compare.py --paired-pch
 
 Builds use the original CL.EXE and LINK.EXE through Wine, with a private
 prefix at ~/.ai-tmp/vc1.0-c1/wine. The original toolchain is read-only.
 GNU Make can compile independent source files in parallel.
 
-compare.py masks every original and reconstructed code section with INT3,
-then restores only the functions in functions.json's accepted prefix. It
-launches the two executables concurrently and requires the same logical
-trap. check verifies the current frontier and audits the reconstructed
-call graph. replay repeats every recorded frontier before restoring the
-current accepted set. An unfinished matched trap is reported explicitly.
-Each matching frontier also requires identical visible working-directory
-files and raw file contents. The debugger reads each intermediate FILE's
-pending _base.._ptr bytes with ReadProcessMemory and compares them exactly,
-without flushing or modifying the compiler. This also detects divergence
-before buffered output reaches its visible file.
+scripts/compare.py retains the fresh paired reconstruction loop: mask all
+code with INT3, restore the accepted prefix and require the same logical trap.
+Every such focused check compares pending FILE buffers, visible files and
+streams. make check also runs the graph/state/grammar audits. These checks
+remain the acceptance path for new functions and divergence diagnosis.
+
+Historical --replay and make replay now use scripts/fast-replay.py and the
+shared tooling/replay/ walker. Each case starts fresh processes with its
+previous accepted prefix restored, then checks only the recorded first-entry
+sequence introduced by that case. Each matching entry restores its complete
+function/shared text ranges and resumes the trapping thread. Final captured
+exit, streams, complete file sets and existing artifact checks remain required.
+This is first-encounter regression, not a record of every call or branch.
+The fast pass does not compare live buffers at every stop. make replay-fresh
+(or --replay --fresh-history) retains the complete fresh historical suite.
+
+Fast plans freeze source/harness files, binaries/maps/indexes, fixture inputs
+and expected outputs, message catalog and declared SDK dependencies. The shared
+walker requires preferred image bases, verifies restoration and independently
+checks each side's expected sequence and terminal event. Failures retain plan,
+case/index/context evidence under build/fast-replay/CASE/. --frontier INDEX
+reruns a clean focused fresh pair; --stop-before INDEX repeats continuously
+through the recorded prefix and leaves that entry masked. Restart either
+check from clean state after rebuilding; acceptance metadata is never advanced
+by the historical runner.
+
+make replay-all runs all six ordinary segments in order. A pch-use fast run
+first executes and validates pch-create, then each side receives its own actual
+generated state.pch after raw validation. Canonical N: paths use isolated Wine
+prefixes, preserving path bytes and producer/consumer dependencies. Existing
+independent untouched-original and full-state checks remain separate.
+
+All current C1 cases use ordinary execution. Unsupported future special modes
+keep their existing specialized runners. Batch their historical work after
+substantial progress, meaningful checkpoints and case completion; focused
+acceptance/divergence checks and changes to that special behavior still justify
+immediate checks. This cadence has no fixed batch size.
 
 The case comes from ../fixtures/minimal-c/manifest.json, captured at the
 original CL CreateProcessA boundary. Each executable receives only the
@@ -90,6 +122,10 @@ No intermediate-file bytes are linked into the reconstructed compiler.
 
 Source organization
 -------------------
+Reconstructed C and headers live in src/; host/build/audit scripts live in
+scripts/. Run commands from this binary directory. Metadata, cases and the
+GNU Makefile remain here; build products remain in build/.
+
 c1.c: process entry and structured exception wrapper.
 options.c / option-data.c / options.h: frontend option handling and its
   typed grammar, defaults, warning settings, and option state.
@@ -584,3 +620,36 @@ unestablished extents, so their frontend-only remaining byte total is not yet
 known. Their families include browser output, preprocessing output, automatic
 or debug PCH, inline assembly, SEH, inline expansion, based pointers, legacy
 CodeView and error recovery. No next case is assigned by this checkpoint.
+
+Fast replay adoption verification
+--------------------------------
+The reorganized C/header files and clean rebuilt code-section bytes match the
+pre-move build exactly. All 687 first-entry transcripts match a fresh full
+history on the same frozen binary/configuration, for both original and rebuilt
+walkers. The full graph/state/layout/grammar suite still passes. Continuous
+stop and the full fresh fallback agree at frontier 100 (__lseek); deliberately
+expecting __get_osfhandle there is rejected with registers, address and decoded
+actual logical site retained. Acceptance metadata remains unchanged.
+
+Two final warm-prefix fast CLI sweeps took 9.850 and 10.039 seconds. The full
+fresh suite took 665.139 seconds, including its additional per-stop state/file
+oracles and independent final baselines. Both methods retain their documented
+roles; fast replay checks first encounters and final outputs. Prefix policy
+is unchanged. Second-run per-case measured seconds:
+
+Case               Setup   Pair call  Outputs  Case wall  Fresh history
+minimal             0.294     1.142   0.0012     1.437       237.886
+hello-win32         0.301     1.214   0.0017     1.516       233.635
+hello-dll           0.309     1.026   0.0012     1.336         2.764
+numeric-varargs     0.279     2.854   0.0025     3.136       129.988
+pch-create          0.291     0.967   0.0017     1.260        48.093
+pch-use             0.267     0.952   0.0012     1.220        12.773
+
+Setup includes fixture hashes/copies, indexes, namespaces, masked images and
+plans; it is not isolated fixture-copy time. Pair call includes the shared
+helper build/cache check and execution. Output validation is timed separately.
+Case wall excludes final adapter receipt serialization and printing; the CLI
+clock includes them. Original fixture-creation and clean-build wall times were
+not instrumented. The measured warm incremental build check took 0.054 seconds
+and the graph/state/grammar audits took 2.913 seconds. Full receipts and hashes
+are in fast-replay-validation.json. No reconstruction trial is included here.

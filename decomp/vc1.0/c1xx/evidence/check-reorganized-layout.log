@@ -1,0 +1,302 @@
+mkdir -p build
+python3 scripts/dependencies.py
+python3 scripts/wine-tool.py --init
+python3 scripts/generate-parser.py build/parser-grammar.c
+python3 scripts/generate-lookahead.py build/lookahead-grammar.c
+generated 279 lookahead states, 169 productions
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/parameter-scopes.obj src/parameter-scopes.c
+generated 575 states, 356 productions from grammar.bnf
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/storage.obj src/storage.c
+src/parameter-scopes.c
+src/storage.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/class-finalization.obj src/class-finalization.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/class-type-sets.obj src/class-type-sets.c
+src/class-finalization.c
+src/class-type-sets.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/special-members.obj src/special-members.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/debug-run.obj src/debug-run.c
+src/special-members.c
+src/debug-run.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/c1xx.obj src/c1xx.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/stubs.obj src/stubs.c
+src/stubs.c
+src/c1xx.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/diagnostics.obj src/diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/options.obj src/options.c
+src/diagnostics.c
+src/options.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/linkage.obj src/linkage.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/packing.obj src/packing.c
+src/linkage.c
+src/packing.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/memory.obj src/memory.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/checksums.obj src/checksums.c
+src/memory.c
+src/checksums.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/characters.obj src/characters.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/arguments.obj src/arguments.c
+src/arguments.c
+src/characters.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/vectors.obj src/vectors.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/option-data.obj src/option-data.c
+src/vectors.c
+src/option-data.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/frontend.obj src/frontend.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/initialization.obj src/initialization.c
+src/frontend.csrc/initialization.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/preprocessor.obj src/preprocessor.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/keywords.obj src/keywords.c
+src/preprocessor.c
+src/keywords.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/floating.obj src/floating.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/cpp-context.obj src/cpp-context.c
+src/floating.csrc/cpp-context.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/inline-vector.obj src/inline-vector.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/intermediate.obj src/intermediate.c
+src/intermediate.c
+src/inline-vector.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/runtime.obj src/runtime.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/constants.obj src/constants.c
+src/runtime.c
+src/constants.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/ir.obj src/ir.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/ir-formats.obj src/ir-formats.c
+src/ir-formats.c
+src/ir.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/types.obj src/types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/scopes.obj src/scopes.c
+src/scopes.c
+src/types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/declarations.obj src/declarations.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/declaration-bind.obj src/declaration-bind.c
+src/declarations.c
+src/declaration-bind.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/declaration-lookup.obj src/declaration-lookup.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/special-functions.obj src/special-functions.c
+src/declaration-lookup.csrc/special-functions.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/runtime-symbols.obj src/runtime-symbols.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/option-state.obj src/option-state.c
+src/option-state.c
+src/runtime-symbols.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/parser-state.obj src/parser-state.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/resolve-declaration.obj src/resolve-declaration.c
+src/parser-state.c
+src/resolve-declaration.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/declarator-shapes.obj src/declarator-shapes.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/symbol-types.obj src/symbol-types.c
+src/declarator-shapes.csrc/symbol-types.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/hash-table.obj src/hash-table.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/type-attributes.obj src/type-attributes.c
+src/hash-table.csrc/type-attributes.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/parameters.obj src/parameters.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/macros.obj src/macros.c
+src/parameters.c
+src/macros.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/global-ir.obj src/global-ir.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/global-formats.obj src/global-formats.c
+src/global-ir.csrc/global-formats.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/source-input.obj src/source-input.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/operators.obj src/operators.c
+src/source-input.csrc/operators.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/token-spellings.obj src/token-spellings.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/record-processing.obj src/record-processing.c
+src/token-spellings.csrc/record-processing.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/expression-preparation.obj src/expression-preparation.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/binary-expressions.obj src/binary-expressions.c
+src/expression-preparation.c
+src/binary-expressions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/constructor-initializers.obj src/constructor-initializers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/object-initializers.obj src/object-initializers.c
+src/object-initializers.c
+src/constructor-initializers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/numeric-scanning.obj src/numeric-scanning.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/numeric-conversion.obj src/numeric-conversion.c
+src/numeric-conversion.csrc/numeric-scanning.c
+
+src/numeric-conversion.c(140) : warning C4761: integral size mismatch in argument; conversion supplied
+src/numeric-conversion.c(140) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/member-access.obj src/member-access.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/member-expressions.obj src/member-expressions.c
+src/member-access.c
+src/member-expressions.c
+src/member-access.c(97) : warning C4761: integral size mismatch in argument; conversion supplied
+src/member-expressions.c(108) : warning C4761: integral size mismatch in argument; conversion supplied
+src/member-expressions.c(115) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/mangling.obj src/mangling.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/symbol-output.obj src/symbol-output.c
+src/mangling.c
+src/symbol-output.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/function-finalization.obj src/function-finalization.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/statement-scopes.obj src/statement-scopes.c
+src/statement-scopes.c
+src/function-finalization.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/return-statements.obj src/return-statements.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/expression-output.obj src/expression-output.c
+src/return-statements.c
+src/expression-output.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/expression-records.obj src/expression-records.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/unary-expressions.obj src/unary-expressions.c
+src/expression-records.c
+src/unary-expressions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/inline-analysis.obj src/inline-analysis.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/control-ir.obj src/control-ir.c
+src/inline-analysis.csrc/control-ir.c
+
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/control-formats.obj src/control-formats.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/ir-encoding.obj src/ir-encoding.c
+src/ir-encoding.c
+src/control-formats.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/function-definitions.obj src/function-definitions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/frontend-records.obj src/frontend-records.c
+src/frontend-records.c
+src/function-definitions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/identifier-expressions.obj src/identifier-expressions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Isrc /Fobuild/parser-grammar.obj build/parser-grammar.c
+build/parser-grammar.c
+src/identifier-expressions.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/parser.obj src/parser.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/declaration-codes.obj src/declaration-codes.c
+src/declaration-codes.c
+src/parser.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/lexer.obj src/lexer.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/token-categories.obj src/token-categories.c
+src/lexer.c
+src/token-categories.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/type-specifiers.obj src/type-specifiers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/tags.obj src/tags.c
+src/type-specifiers.c
+src/tags.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/qualified-names.obj src/qualified-names.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/class-members.obj src/class-members.c
+src/qualified-names.c
+src/class-members.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/inline-capture.obj src/inline-capture.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/type-sizes.obj src/type-sizes.c
+src/inline-capture.c
+src/type-sizes.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/arithmetic.obj src/arithmetic.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/lookahead.obj src/lookahead.c
+src/lookahead.c
+src/arithmetic.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Fobuild/lookahead-parser.obj src/lookahead-parser.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /Od /G3 /Isrc /Fobuild/lookahead-grammar.obj build/lookahead-grammar.c
+build/lookahead-grammar.c
+src/lookahead-parser.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/debug-run.exe build/debug-run.obj
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/c1xx.map /out:build/c1xx.exe build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj build/linkage.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/option-data.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/keywords.obj build/floating.obj build/cpp-context.obj build/inline-vector.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/declarations.obj build/declaration-bind.obj build/declaration-lookup.obj build/special-functions.obj build/runtime-symbols.obj build/option-state.obj build/parser-state.obj build/resolve-declaration.obj build/declarator-shapes.obj build/symbol-types.obj build/hash-table.obj build/type-attributes.obj build/parameters.obj build/macros.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/operators.obj build/token-spellings.obj build/record-processing.obj build/expression-preparation.obj build/binary-expressions.obj build/constructor-initializers.obj build/object-initializers.obj build/numeric-scanning.obj build/numeric-conversion.obj build/member-access.obj build/member-expressions.obj build/mangling.obj build/symbol-output.obj build/function-finalization.obj build/statement-scopes.obj build/return-statements.obj build/expression-output.obj build/expression-records.obj build/unary-expressions.obj build/inline-analysis.obj build/control-ir.obj build/control-formats.obj build/ir-encoding.obj build/function-definitions.obj build/frontend-records.obj build/identifier-expressions.obj build/parser-grammar.obj build/parser.obj build/declaration-codes.obj build/lexer.obj build/token-categories.obj build/type-specifiers.obj build/tags.obj build/qualified-names.obj build/class-members.obj build/inline-capture.obj build/type-sizes.obj build/arithmetic.obj build/lookahead.obj build/lookahead-parser.obj build/lookahead-grammar.obj build/parameter-scopes.obj build/storage.obj build/class-finalization.obj build/class-type-sets.obj build/special-members.obj ../../../toolchains/1.0-nt/lib/BINMODE.OBJ
+python3 scripts/identify-runtime.py build/c1xx.exe build/runtime.json
+143 runtime functions identified, 18130 bytes
+python3 scripts/compare.py --mask-only
+python3 scripts/audit-graph.py
+461 reconstructed functions have matching call targets (including indirect calls).
+python3 scripts/audit-data.py
+98 option rules and their aliases/defaults match the original.
+764-byte typed configuration defaults match the original.
+81 keyword entries match the original.
+4 declspec entries match the original.
+191 IR record field schemas match the original.
+41 special identifiers and their target identities match the original.
+256 bytes of _character_flags match the original.
+2 CRT string defaults and identities match the original.
+52 bytes of __days match the original.
+19 IR record field schemas match the original.
+4 bytes of _next_symbol_index match the original.
+16 shared frontend state defaults match the original.
+15 shared frontend state defaults match the original.
+1160 bytes of _builtin_operators match the original.
+213 token spelling slots match the original.
+4 shared frontend state defaults match the original.
+3 shared frontend state defaults match the original.
+4 bytes of _cpp_parser_flags match the original.
+3 shared frontend state defaults match the original.
+4 bytes of _suppress_implicit_member match the original.
+4 bytes of _global_expression_scope_active match the original.
+2 shared frontend state defaults match the original.
+4 bytes of _current_qc_context match the original.
+4 bytes of _purecall_symbol match the original.
+1 runtime function specifications match the original.
+1 bytes of _symbol_scope_mode match the original.
+21 packed options, aliases and defaults match the original.
+6 shared frontend state defaults match the original.
+49 contextual declaration codes match the original vocabulary.
+22 shared frontend state defaults match the original.
+8 shared frontend state defaults match the original.
+213 bytes of _token_categories match the original.
+6 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+5 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+3 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+24 bytes of _addition_unsigned_max match the original.
+24 bytes of _addition_signed_max match the original.
+24 bytes of _addition_signed_min match the original.
+4 CRT string defaults and identities match the original.
+3 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+7 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+5 shared frontend state defaults match the original.
+4 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+5 shared frontend state defaults match the original.
+11 shared frontend state defaults match the original.
+2 shared frontend state defaults match the original.
+2 shared frontend state defaults match the original.
+36 IR record field schemas match the original.
+8 shared frontend state defaults match the original.
+7 shared frontend state defaults match the original.
+213 contextual expression/declaration record meanings match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+2 shared frontend state defaults match the original.
+36 bytes of _frontend_record_mates match the original.
+3 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+4 shared frontend state defaults match the original.
+2 shared frontend state defaults match the original.
+8 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+2 shared frontend state defaults match the original.
+4 shared frontend state defaults match the original.
+24 bytes of _unsigned_integer_limits match the original.
+24 bytes of _signed_integer_maxima match the original.
+24 bytes of _signed_integer_minima match the original.
+1 shared frontend state defaults match the original.
+6 shared frontend state defaults match the original.
+python3 scripts/audit-parser-grammar.py
+356 productions regenerate all 575 original state identities.
+147775 actions, 82800 gotos and lexer timing match the original.
+353 precedence conflicts and 60 recovery inserts match the original.
+Generated logical C rows match the original actions, gotos, productions and repairs.
+python3 scripts/audit-lookahead-grammar.py
+169 lookahead productions regenerate all 279 original state identities.
+71703 actions, 14229 gotos and lexer timing match the original.
+332 precedence conflicts; logical C actions, gotos and productions match.
+46 non-default semantic rules retain source actions.
+python3 scripts/compare.py
+original: _initialize_object_value@8; reconstruction: _initialize_object_value@8

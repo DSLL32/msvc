@@ -8,7 +8,7 @@ addresses/labels only, no copied instructions or executable payload. It is not
 used by the build, function-acceptance decisions, masks or replay controller.
 
 This older database contains entry-only seeds and misses some complete bodies,
-including substantial accepted functions. measure-components.py excludes all
+including substantial accepted functions. scripts/measure-components.py excludes all
 one-byte entries, verifies every retained range decodes completely from the
 original executable, unions ranges and intersects the current accepted extent
 union. Current recovered source names replace stale analysis labels in reports.
@@ -21,7 +21,7 @@ measurement. Unclassified bytes must not be called padding.
 cases/components-after-omf-undecorate.json contains the deterministic current
 accounting, excluded entry list, inventory hash and remaining closure body ranges
 with original byte hashes and direct callers. All ranges in that report are
-half-open. The separate measure-coverage.py remains the authoritative accepted
+half-open. The separate scripts/measure-coverage.py remains the authoritative accepted
 .text extent-union metric. Neither analysis tool changes acceptance.
 
 Remaining-code recommendations in cases/remaining-after-omf-undecorate.json

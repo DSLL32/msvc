@@ -1,7 +1,7 @@
-python3 wine-tool.py --init
-python3 audit-graph.py
+python3 scripts/wine-tool.py --init
+python3 scripts/audit-graph.py
 193 accepted source functions: direct calls, function references and return cleanup agree.
-python3 audit-uncovered.py
+python3 scripts/audit-uncovered.py
 Uncovered 6999: functions/regions 3377, recognized padding 3622, unclassified 0.
 verbose-public 0
 PATH-public 0
@@ -10,7 +10,7 @@ startup-fatal-and-unused-exit 200
 stdio-lowio-conditional-or-unused 789
 locale-and-unused-ctype 1321
 unused-formatter-and-string-helpers 70
-python3 compare.py --replay
+python3 scripts/compare.py --replay
 case: resources-rich; accepted: 0
 original: _mainCRTStartup; reconstruction: _mainCRTStartup
 case: resources-rich; accepted: 1
