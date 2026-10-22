@@ -1,0 +1,5 @@
+-debug:none
+-nologo
+-out:pch.exe
+consumer.obj
+producer.obj
