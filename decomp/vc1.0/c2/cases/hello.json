@@ -1,0 +1,29 @@
+{
+  "case": "hello-win32",
+  "status": "in progress",
+  "profile": "hello",
+  "fixture_manifest": "../fixtures/hello-win32/manifest.json",
+  "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
+  "accepted_from": 352,
+  "accepted_frontiers": 0,
+  "current_frontier": {
+    "name": "@new_initializer@4",
+    "original_va": 322656
+  },
+  "expected": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "object_bytes": 2289,
+    "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+    "ignored_field": {
+      "offset": 4,
+      "bytes": 4,
+      "name": "COFF TimeDateStamp"
+    }
+  },
+  "validation": [
+    "initial original/reconstruction paired frontier matches with all minimal-case functions accepted",
+    "new profile harness preserves successful minimal-case exit and exact object regression"
+  ]
+}

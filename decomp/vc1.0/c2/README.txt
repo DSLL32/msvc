@@ -367,3 +367,11 @@ The completed minimal case passes a clean original-toolchain make -j2 check,
 all 275 function-graph audits and all 352 recorded frontier replays through final
 exit/output comparison. Seven final implementation modules are /W3 clean.
 The queued optimized hello case follows this frozen 352-frontier history.
+
+The optimized Win32 hello profile is active. Use make hello-frontier,
+make hello-replay and make hello-check (or compare.py --profile hello).
+Its history begins after minimal frontier 352; make replay retains the frozen
+minimal history and successful final comparison. Both profiles pin the manifest,
+input hashes and expected object hash and preserve the single-entry environment.
+Successful comparisons write build/validation-minimal.json or
+build/validation-hello.json. The first hello frontier is new_initializer.

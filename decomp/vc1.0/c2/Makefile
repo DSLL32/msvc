@@ -2,7 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
 
-.PHONY: all clean check frontier prefix replay audit
+.PHONY: all clean check frontier prefix replay audit hello-frontier hello-check hello-replay
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
 
 prefix:
@@ -28,6 +28,15 @@ audit: build/runtime.json runtime.json
 
 replay: all
 	$(PYTHON) compare.py --replay
+
+hello-frontier: all audit
+	$(PYTHON) compare.py --profile hello
+
+hello-check: all audit
+	$(PYTHON) compare.py --profile hello --complete
+
+hello-replay: all
+	$(PYTHON) compare.py --profile hello --replay
 
 build:
 	mkdir -p $@

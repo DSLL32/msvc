@@ -1,5 +1,5 @@
 {
-  "active": null,
+  "active": "hello-win32",
   "queued": [
     {
       "case": "hello-win32",
@@ -7,7 +7,7 @@
       "fixture_manifest": "../fixtures/hello-win32/manifest.json",
       "phase": "c2",
       "description": "Original CL /O2 /G5 hello.c backend invocation",
-      "status": "queued"
+      "status": "in progress"
     }
   ],
   "completed": [

@@ -89,8 +89,23 @@ def mask(pe, records, accepted, output):
                 data[a:b] = pe.data[a:b]
     Path(output).write_bytes(data)
 
+PROFILE = 'minimal'
 FIXTURES = Path('../fixtures/minimal-c')
 PHASE = json.loads((FIXTURES / 'manifest.json').read_text())['phases']['c2']
+
+def select_profile(profile):
+    global PROFILE, FIXTURES, PHASE
+    cfg = json.loads(Path('functions.json').read_text())
+    case = cfg['cases'][profile]
+    manifest = Path(case['fixture_manifest'])
+    raw = manifest.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == case['fixture_manifest_sha256'], 'fixture manifest changed'
+    phase = json.loads(raw)['phases']['c2']
+    assert phase['sha256'] == cfg['target']['sha256'], 'fixture uses another backend'
+    assert phase['arguments'] == [], 'this launcher expects no backend argv inputs'
+    assert phase.get('environment_inheritance', False) is False
+    assert set(phase['environment']) == {'MSC_CMD_FLAGS'}
+    PROFILE, FIXTURES, PHASE = profile, manifest.parent, phase
 
 def run(label, exe, case=''):
     stem = Path('build') / label
@@ -133,23 +148,30 @@ def prepare(accepted_count=None):
     return orig, rec, cfg, oi, ri
 
 def check_artifacts(labels):
-    expected = bytearray((FIXTURES / PHASE['outputs'][0]['path']).read_bytes())
+    output = PHASE['outputs'][0]
+    expected = bytearray((FIXTURES / output['path']).read_bytes())
+    assert hashlib.sha256(expected).hexdigest() == output['sha256'], 'expected object fixture changed'
+    ignored = output['ignored_fields']
+    assert len(ignored) == 1 and (ignored[0]['offset'], ignored[0]['bytes']) == (4, 4)
+    filename = output.get('output_name', Path(output['path']).name)
+    artifacts = {Path(source['path']).name for source in PHASE['inputs']} | {filename}
     expected[4:8] = b'\0' * 4
     report = {}
     for label in labels:
         directory = Path('build') / ('case-' + label)
-        path = directory / 'test.obj'
+        path = directory / filename
         raw = path.read_bytes()
         normalized = bytearray(raw)
         normalized[4:8] = b'\0' * 4
         assert normalized == expected, 'object differs beyond COFF timestamp: ' + label
         assert hashlib.sha256(normalized).hexdigest() == PHASE['outputs'][0]['normalized_sha256']
-        assert {p.name for p in directory.iterdir()} == {'irex', 'irsy', 'irin', 'irgl', 'test.obj'}, 'unexpected artifacts'
+        assert {p.name for p in directory.iterdir()} == artifacts, 'unexpected artifacts'
         report[label] = dict(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
                              normalized_sha256=hashlib.sha256(normalized).hexdigest())
         for stream in ('stdout', 'stderr'):
             assert not Path('build/' + label + '.' + stream).read_bytes()
     Path('build/validation.json').write_text(json.dumps(report, indent=2)+'\n')
+    Path('build/validation-'+PROFILE+'.json').write_text(json.dumps(report, indent=2)+'\n')
     print('All object bytes match the captured fixture except COFF TimeDateStamp.')
 
 def compare(accepted_count=None, case='', baseline=True):
@@ -171,7 +193,7 @@ def compare(accepted_count=None, case='', baseline=True):
             for stream in ('stdout', 'stderr'):
                 assert Path('build/baseline.'+stream).read_bytes() == Path('build/original.'+stream).read_bytes(), 'unmodified original '+stream+' differs'
             print('Unmodified original output streams and exit status also match.')
-        assert al == 'exit:0', 'minimal backend case failed'
+        assert al == 'exit:0', PROFILE+' backend case failed'
         check_artifacts(['original', 'reconstructed'] + (['baseline'] if baseline else []))
     return al
 
@@ -183,20 +205,23 @@ if __name__ == '__main__':
     parser.add_argument('--complete', action='store_true', help='require the full backend case to finish successfully')
     parser.add_argument('--replay', action='store_true', help='verify every recorded trap frontier again')
     parser.add_argument('--case', default='', help='Windows command-line arguments for the case')
+    parser.add_argument('--profile', default='minimal', choices=('minimal', 'hello'), help='captured backend input case')
     args = parser.parse_args()
+    select_profile(args.profile)
     if args.mask_only:
         prepare()
         raise SystemExit(0)
     if args.replay:
         cfg = json.loads(Path('functions.json').read_text())
-        case = next(c for c in cfg['cases'].values() if c['arguments'] == args.case)
+        case = cfg['cases'][args.profile]
+        assert case['arguments'] == args.case
         first, last = case.get('accepted_from', 0), case.get('accepted_count', len(cfg['accepted']))
         for count in range(first, last):
             expected = cfg['accepted'][count]
             print('frontier %d/%d: %s' % (count, last, expected), flush=True)
             actual = compare(count, args.case, baseline=False)
             assert actual == expected, 'recorded frontier changed: '+actual+' != '+expected
-        compare(case=args.case)
+        compare(last, case=args.case)
         raise SystemExit(0)
     while True:
         site = compare(case=args.case)
