@@ -322,3 +322,31 @@ TypeShape *__stdcall skip_reference_shape(TypeShape *shape)
     if (shape && (shape->flags & 0x40)) shape = shape->related;
     return shape;
 }
+
+/* Original 0x62320..0x6233c. Strip only a leading based/segment modifier,
+   retaining the incoming pointer when no such shape is present. */
+CType *__stdcall strip_based_shape(CType *type)
+{
+    if (type && type->related && !(type->related->flags & 0x77))
+        return drop_first_type_shape(type);
+    return type;
+}
+
+/* Original 0x624f0..0x6254c. Produce a mutable twelve-byte descriptor with
+   one outer shape removed, preserving the other type fields verbatim. */
+CType *__stdcall drop_first_type_shape(CType *type)
+{
+    CType *result;
+    ArenaPool *pool;
+    if (token_allocation_flags & 0x20) result = allocate_permanent(sizeof(CType));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+        result = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    }
+    *result = *type;
+    result->related = type->related->related;
+    return result;
+}

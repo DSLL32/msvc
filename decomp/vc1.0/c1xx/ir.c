@@ -1,5 +1,6 @@
 /* Expression-stream records. Buffer operations stay inside their original caller. */
 #include "ir.h"
+#include "parser.h"
 
 CppSymbol *function_symbol; /* original 0x8c140 */
 CppSymbol *current_label_symbol; /* original 0x91384 */
@@ -171,4 +172,46 @@ void __stdcall write_ir_record(unsigned tag, void *value)
             break;
         }
     }
+}
+
+/* Original 0x3b540..0x3b5c3. Labels and their reference tokens both live
+   in function arena one, surviving expression-arena resets. */
+IrToken *__stdcall new_branch_label(unsigned attributes)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    CppSymbol *label;
+    IrToken *reference;
+    if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+    label = (CppSymbol *)pool->next;
+    pool->remaining -= sizeof(CppSymbol);
+    pool->next += sizeof(CppSymbol);
+    label->kind = 8;
+    label->detail.value = attributes;
+    label->type = type_0064;
+    register_label(label);
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    reference = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    reference->flags = 4;
+    reference->kind = 2;
+    reference->value.pointer = label;
+    reference->type = label->type;
+    return reference;
+}
+
+CppSymbol *label_symbols; /* original 0x9fd18 */
+
+/* Original 0x3b3d0..0x3b42e. Labels share the ordinary symbol index
+   namespace and browser rollover, then join the frontend's label chain. */
+void __stdcall register_label(CppSymbol *label)
+{
+    if (!label->index) {
+        if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        label->index = next_symbol_index++;
+    }
+    label->next = label_symbols;
+    label_symbols = label;
 }

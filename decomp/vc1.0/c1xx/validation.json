@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 370,
-  "driver_functions": 295,
+  "accepted_frontiers": 383,
+  "driver_functions": 308,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 301,
-  "current_frontier": "_equivalent_shape_attributes@8",
-  "original_frontier_va": "0x610a0",
+  "reconstructed_source_functions": 314,
+  "current_frontier": "_begin_function_ir@8",
+  "original_frontier_va": "0x3d6a0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "d2714bb229a07e1ed218e30d821279b23e84335e53640972c1116448607cecc0",
-  "call_graph_audit_functions": 301,
+  "replay_log_sha256": "bb38c0e54203a8926d3a2e378f9a1a29615b2ea073f0c094f2e3c17dc14f47df",
+  "call_graph_audit_functions": 314,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -91,7 +91,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-function-definition-entry.log",
+  "replay_log": "evidence/replay-function-preparation.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -308,7 +308,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 113523,
+  "accepted_source_text_and_switch_bytes": 115908,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -656,9 +656,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 123614,
+    "bytes": 125999,
     "total_original_executable_bytes": 476418,
-    "percent": 25.94654274187793,
+    "percent": 26.447153550033793,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -680,5 +680,26 @@
     "browser_macro_end_suppressed": "0x94b0c",
     "based_segment_identity_field": "CppSymbol.index +0x10, not segment kind",
     "all_370_frontiers_replayed": true
+  },
+  "function_preparation": {
+    "accepted_new_functions": 13,
+    "prepare_function_range": [
+      "0x34460",
+      "0x34541"
+    ],
+    "prepare_native_callees": 6,
+    "storage_merge_native_callees": 9,
+    "function_return_native_callees": 5,
+    "label_symbol_size": 52,
+    "label_reference_size": 20,
+    "function_arena": 1,
+    "symbol_index_compared_at_every_frontier": true,
+    "runtime_checkpoint_fields": 9,
+    "pointer_fields_compare_nullness": 2,
+    "scalar_fields_compare_exact": 7,
+    "instruction_boundary_lookahead_bytes": 15,
+    "all_314_source_extents_pass_boundary_audit": true,
+    "all_383_frontiers_replayed": true,
+    "constructor_body_parsed": false
   }
 }

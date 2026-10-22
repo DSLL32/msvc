@@ -61,7 +61,6 @@ void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
 int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
-CType *__stdcall drop_first_type_shape(CType *type) { __asm { int 3 } return 0; }
 unsigned char __stdcall member_pointer_is_aggregate(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall method_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
@@ -87,7 +86,6 @@ void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall resolve_deferred_declaration(void *declaration) { __asm { int 3 } }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
-CType *__stdcall strip_based_shape(CType *type) { __asm { int 3 } return 0; }
 unsigned short __stdcall classify_incomplete_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
@@ -104,7 +102,6 @@ int __stdcall symbol_has_array_shape(CppSymbol *symbol) { __asm { int 3 } return
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
 short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
-CType *__stdcall function_return_type(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
@@ -117,7 +114,6 @@ TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) {
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 int __stdcall has_class_initialization(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
-void __stdcall merge_declaration_storage(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } }
 int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
 int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
 void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
@@ -222,7 +218,6 @@ void __stdcall mark_initialized_symbol(CppSymbol *symbol) { __asm { int 3 } }
 IrToken *__stdcall member_destructor_expression(unsigned char operation, CppSymbol *scope, char *name) { __asm { int 3 } return 0; }
 IrToken *__stdcall member_name_expression(unsigned char operation, CppSymbol *scope, char *name) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape) { __asm { int 3 } return 0; }
-IrToken *__stdcall new_branch_label(unsigned attributes) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier, IrToken *placement,
     CppSymbol *type, IrToken *initializer, unsigned bound) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_ir_expression(unsigned char operation, IrToken *left, IrToken *right, CType *type) { __asm { int 3 } return 0; }
@@ -242,7 +237,6 @@ void record_default_label(void) { __asm { int 3 } }
 void __stdcall record_goto(CppSymbol *label, int known) { __asm { int 3 } }
 void __stdcall record_qc_jump(unsigned char kind) { __asm { int 3 } }
 IrToken *__stdcall recover_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
-void __stdcall register_label(CppSymbol *label) { __asm { int 3 } }
 int __stdcall reject_function_initializer(CppSymbol *unused_declaration) { __asm { int 3 } return 0; }
 void __stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
@@ -481,19 +475,20 @@ int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden
 
 void discard_function_definition(void) { __asm { int 3 } }
 void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
-void activate_qualified_definition_scopes(void) { __asm { int 3 } }
 CppSymbol *__stdcall class_tag_for_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall assign_symbol_segment(CppSymbol *symbol, SegmentSymbol *segment) { __asm { int 3 } }
-CppSymbol *__stdcall prepare_function_definition(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument *defaults,
     FunctionParameters *previous, FunctionParameters *current, DefaultArgument *following) { __asm { int 3 } }
 
-int __stdcall compatible_declaration_storage(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
-unsigned __stdcall compatible_declaration_attributes(unsigned short left, unsigned short right, int function) { __asm { int 3 } return 0; }
 void __stdcall report_named_type_difference(unsigned code, CType *context, char *name,
     CType *source, CType *destination) { __asm { int 3 } }
 
-int __stdcall equivalent_shape_attributes(unsigned short left, unsigned short right) { __asm { int 3 } return 0; }
 void __stdcall diagnose_parameter_list_difference(FunctionParameters *existing,
     FunctionParameters *declaration) { __asm { int 3 } }
+
+
+
+CppSymbol *make_missing_function_declaration(void) { __asm { int 3 } return 0; }
+void initialize_function_inline_analysis(void) { __asm { int 3 } }
+void __stdcall begin_function_ir(CppSymbol *function, CppSymbol *parameters) { __asm { int 3 } }

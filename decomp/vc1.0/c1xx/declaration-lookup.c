@@ -943,3 +943,130 @@ unsigned __stdcall reconcile_declaration_type(CppSymbol *existing,
         new_shape = new_shape->related;
     }
 }
+
+/* Original 0x540a0..0x541cb. Compare storage classes and DLL modifiers;
+   the extension mode permits the native extern-to-static redeclaration
+   warning only while the earlier declaration is still undefined. */
+int __stdcall compatible_declaration_storage(CppSymbol *existing, CppSymbol *declaration)
+{
+    StorageSpec old_storage, new_storage;
+    unsigned old_kind, new_kind;
+    old_storage.flags = existing->storage[0] | (existing->storage[1] << 8);
+    old_storage.extended = existing->storage[2];
+    new_storage.flags = declaration->storage[0] | (declaration->storage[1] << 8);
+    new_storage.extended = declaration->storage[2];
+    old_kind = old_storage.flags & 7;
+    new_kind = new_storage.flags & 7;
+    if (((existing->kind & 31) == 7 || !(existing->attributes & 4)) &&
+        (old_kind == new_kind || (old_kind == 1 && new_kind == 2)) &&
+        equivalent_storage_extensions(old_storage, new_storage)) return 1;
+    if (new_kind == 3) {
+        if (options.configuration.extensions_enabled && old_kind == 1 &&
+            !(existing->flags & 4)) {
+            compiler_warning(4, 211);
+            return 1;
+        }
+        return 0;
+    }
+    if ((old_kind == 7 || new_kind == 7) && !declaration_mode) return 0;
+    if (!(old_storage.extended & 4) && (new_storage.extended & 4)) return 0;
+    if ((old_storage.extended & 4) && new_kind == 3) return 0;
+    return 1;
+}
+
+int __stdcall inherit_storage_modifiers(StorageSpec *destination, StorageSpec source);
+
+/* Original 0x53b70..0x53ed1. Adopt completed array/based types and merge
+   the accepted declaration's linkage, definition and DLL storage state.
+   Both symbol records remain mutable during this reconciliation. */
+void __stdcall merge_declaration_storage(CppSymbol *existing, CppSymbol *declaration)
+{
+    TypeShape *old_shape = existing->type->related;
+    TypeShape *new_shape = declaration->type->related;
+    int old_based = old_shape && !(old_shape->flags & 0x77);
+    int new_based = new_shape && !(new_shape->flags & 0x77);
+    unsigned kind;
+    StorageSpec storage;
+
+    if ((old_based && new_based && old_shape->data.word != new_shape->data.word) ||
+        (!old_based && new_based)) {
+        if (old_based) existing->type = strip_based_shape(existing->type);
+        else existing->attributes |= 2;
+        new_shape = declaration->type->related;
+        existing->type = make_qualified_type(existing->type, new_shape->flags,
+            new_shape->attributes, &new_shape->data.word);
+    }
+    new_shape = declaration->type->related;
+    if (new_shape && !(new_shape->flags & 0x77)) new_shape = new_shape->related;
+    old_shape = existing->type->related;
+    if (old_shape && !(old_shape->flags & 0x77)) old_shape = old_shape->related;
+    if (new_shape) {
+        kind = new_shape->flags & 0x77;
+        if (kind == 2) {
+            if (new_shape->data.array_bound && !old_shape->data.array_bound) {
+                existing->type = declaration->type;
+                existing->attributes &= ~0x100;
+            }
+        } else if (kind == 3 || kind == 0x20 || kind == 0x44)
+            merge_function_defaults(new_shape->related->data.parameters,
+                old_shape->related->data.parameters, existing, 1);
+        else if (kind == 4) {
+            if ((existing->declaration_flags & 0x400) && current_class_context >= 0 &&
+                class_contexts[current_class_context].symbol ==
+                cpp_context_stack->items[existing->auxiliary.declaring_class])
+                report_syntax_error(535, format_symbol_name(existing));
+            if ((existing->declaration_flags & 0x400) && (existing->flags & 0x80) &&
+                !(cpp_parser_flags & 0x200) &&
+                ((existing->declaration_flags & 0x3000) ||
+                 (existing->cpp.parts.member_flags & 0x40)))
+                report_syntax_error(251, format_symbol_name(declaration));
+            if (declaration->flags & 4) {
+                if (!(existing->flags & 4)) existing->flags |= 4;
+                else report_symbol_declaration_error(84, existing);
+            }
+        }
+    }
+    if (current_class_context < 0 && !(token_allocation_flags & 0x400)) {
+        if (existing->declaration_flags & 0x200) {
+            if (declaration->declaration_flags & 0x100)
+                report_syntax_error(732, declaration->name);
+            else declaration->declaration_flags = (declaration->declaration_flags & ~0x300) |
+                (existing->declaration_flags & 0x300);
+        } else if (declaration->declaration_flags & 0x200)
+            report_syntax_error(732, declaration->name);
+        else if (!(existing->declaration_flags & 0x100) &&
+            (declaration->declaration_flags & 0x100)) compiler_warning(4, 507);
+    }
+    if (((existing->storage[2] & 12) == 12 && (declaration->storage[2] & 12) == 4) ||
+        ((existing->storage[2] & 12) == 4 &&
+         (!(declaration->storage[2] & 4) || (declaration->storage[2] & 8)) &&
+         (declaration->storage[0] & 7) != 3 && !(declaration->storage[1] & 1) &&
+         !(token_allocation_flags & 0x400) && !(declaration->declaration_flags & 2) &&
+         !(existing->declaration_flags & 2))) {
+        compiler_warning(1, 273, format_symbol_name(existing));
+        if (!(existing->declaration_flags & 0x400))
+            existing->storage[0] = (existing->storage[0] & 0xf9) | 1;
+        existing->storage[2] |= 12;
+    }
+    if ((existing->storage[0] & 7) == 1 && (declaration->storage[0] & 7) != 1) {
+        if ((existing->attributes & 2) && (existing->type->related->flags & 0x77))
+            report_syntax_error(179, existing->name);
+        if (existing->storage[1] & 0x10) declaration->storage[1] |= 0x10;
+        if (existing->storage[2] & 4) declaration->storage[2] |= 4;
+        if (existing->storage[2] & 8) declaration->storage[2] |= 8;
+        if (type_qualifiers(declaration->type) & 0x1000) {
+            declaration->storage[0] = (declaration->storage[0] & 0xfa) | 2;
+            declaration->storage[1] |= 0x10;
+            declaration->storage[0] &= 0x9f;
+        }
+        existing->storage[0] = declaration->storage[0];
+        existing->storage[1] = declaration->storage[1];
+        existing->storage[2] = declaration->storage[2];
+    }
+    if (declaration->flags & 4) existing->flags |= 4;
+    if (declaration->attributes & 4) existing->attributes |= 4;
+    storage.flags = declaration->storage[0] | (declaration->storage[1] << 8);
+    storage.extended = declaration->storage[2];
+    if (inherit_storage_modifiers((StorageSpec *)existing->storage, storage))
+        existing->flags &= ~8;
+}

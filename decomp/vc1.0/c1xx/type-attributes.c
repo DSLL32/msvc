@@ -145,3 +145,41 @@ unsigned short __stdcall type_qualifiers(CType *type)
     }
     return (unsigned short)((shape ? shape->attributes : type->attributes) & 0x3000);
 }
+
+/* Original 0x610a0..0x610ee. Prototype-only output accepts all attributes.
+   Otherwise low pointer/model bits and bit 0x100 must agree; an unspecified
+   incoming convention (bits 0x70 zero) accepts the earlier convention. */
+int __stdcall equivalent_shape_attributes(unsigned short left, unsigned short right)
+{
+    unsigned short difference;
+    if (options.prototypes_only) return 1;
+    difference = left ^ right;
+    if (difference & 15) return 0;
+    if (difference & 0x100) return 0;
+    if (!(right & 0x70)) return 1;
+    return !(difference & 0x70);
+}
+
+/* Original 0x52990..0x52a65. Permit the unspecified incoming convention,
+   then resolve unspecified pointer distance using the selected memory model.
+   The final model-bit result is deliberately 0 or 4, rather than Boolean. */
+unsigned __stdcall compatible_declaration_attributes(unsigned short left,
+    unsigned short right, int function)
+{
+    unsigned short combined;
+    if ((right ^ left) & 0x70) {
+        if (right & 0x70) return 0;
+        left &= ~0x70;
+    }
+    if ((right ^ left) & 0xfff8) return 0;
+    if (right == left) return 1;
+    if ((left & 7) && (right & 7)) return 0;
+    combined = (right & 7) | (left & 7);
+    if (function) {
+        if (combined == 1) return !(options.configuration.option_M & 1);
+        return (options.configuration.option_M & 1) == 1;
+    }
+    if (combined == 1) return !(options.configuration.option_M & 2);
+    if (combined == 2) return (options.configuration.option_M & 2) == 2;
+    return options.configuration.option_M & 4;
+}

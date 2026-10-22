@@ -96,3 +96,19 @@ void pop_symbol_scope(void)
 {
     current_scope = current_scope->next;
 }
+
+/* Original 0x33370..0x333aa. Make temporary qualified scopes visible for
+   the definition. Only the innermost converted scope receives bit 0x100; a parameter-scope marker (0xfd) ends this walk. */
+void activate_qualified_definition_scopes(void)
+{
+    SymbolScope *scope;
+    unsigned first = 1, kind;
+    for (scope = current_scope; scope != global_scope; scope = scope->next) {
+        kind = scope->flags & 255;
+        if (kind == 0xfd) return;
+        if (kind >= 0xfa) {
+            scope->flags = (scope->flags & ~0x1ff) | (first << 8) | 0xff;
+            first = 0;
+        }
+    }
+}

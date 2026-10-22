@@ -136,6 +136,7 @@ struct CppSymbol {
     CppSymbolState cpp;
 };
 #undef COMMON_SYMBOL_FIELDS
+typedef char CppSymbolIndexOffsetMustBe16[(offsetof(CppSymbol, index) == 16) ? 1 : -1];
 typedef char CppSymbolAuxiliaryOffsetMustBe36[(offsetof(CppSymbol, auxiliary) == 36) ? 1 : -1];
 /* Overload sets share the ordinary symbol prefix through the name slot.
    Their final word holds functions rather than a CType pointer. */
@@ -183,6 +184,7 @@ typedef struct QualifiedDeclarator {
     char *name;
     QualifierResolution *resolution;
 } QualifiedDeclarator;
+typedef char QualifiedDeclaratorSizeMustBe16[(sizeof(QualifiedDeclarator) == 16) ? 1 : -1];
 typedef struct StorageSpec {
     unsigned short flags;
     unsigned char extended;
@@ -225,6 +227,7 @@ CType *__stdcall function_return_type(CppSymbol *declaration);
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol);
 CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *declaration);
 int __stdcall equivalent_base_type_flags(unsigned short left, unsigned short right);
+int __stdcall equivalent_storage_extensions(StorageSpec left, StorageSpec right);
 int __stdcall compatible_declaration_storage(CppSymbol *existing, CppSymbol *declaration);
 unsigned __stdcall compatible_declaration_attributes(unsigned short left, unsigned short right, int function);
 void __stdcall report_named_type_difference(unsigned code, CType *context, char *name,

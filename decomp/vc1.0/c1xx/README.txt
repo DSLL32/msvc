@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 370 accepted paired frontiers, including 295 frontend
+PARTIAL reconstruction: 383 accepted paired frontiers, including 308 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _equivalent_shape_attributes@8 at original VA 0x610a0. The latest ordered replay is recorded in validation.json;
+trap is _begin_function_ir@8 at original VA 0x3d6a0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -587,3 +587,23 @@ state and logical callers in evidence/replay-function-definition-entry.log.
 Current matching trap: equivalent shape attributes, native 0x610a0. Recovered
 extent union: 123,614 / 476,418 executable bytes (25.947%; not branch coverage).
 Complete cpp-basic frontend equivalence remains partial.
+
+Constructor definition preparation now passes type, storage and DLL/linkage
+reconciliation, scope activation, exit-label registration and result-type
+construction. Storage merging retains nine native callees; preparation retains
+six, and return-type construction retains five. Labels are ordinary 52-byte
+symbol records with 20-byte references, both allocated in function arena one.
+The based-type and shape-removal helpers preserve the original mutable copies
+and allocator selection. Local-static guard state and the default inline
+candidate are separate canonical objects, checked against original defaults.
+
+The differential harness now compares the shared symbol-index word as well,
+for nine runtime observations: two pointer nullness checks and seven exact
+scalars. All 383 accepted frontiers pass with these checks in
+evidence/replay-function-preparation.log. The call-graph audit also decodes past
+each accepted endpoint to reject truncated final instructions, including RET n
+operands; all 314 source extents pass. No C1XX extent correction was needed.
+
+Current matching trap: begin_function_ir at native 0x3d6a0. The constructor body
+is not yet parsed. Accepted executable extent union is 125,999 / 476,418 bytes
+(26.447%, not branch coverage), and full frontend equivalence remains partial.

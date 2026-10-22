@@ -30,6 +30,7 @@ enum IrField {
 extern unsigned char *ir_record_formats[191];
 #define expression_record_count (function_ir.complexity)
 extern CppSymbol *function_symbol;
+extern CppSymbol *label_symbols;
 extern CppSymbol *current_label_symbol;
 CType *builtin_integer_type(void);
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode);

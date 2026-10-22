@@ -39,6 +39,15 @@ def instructions(pe, function):
             if count:
                 discovered[table] = table + count*4
         if discovered == tables:
+            # Decode past the accepted endpoint for analysis only. A split
+            # RET n operand otherwise becomes INT3 bytes when masking, while
+            # a bounded decoder can silently omit that final instruction.
+            tail_start = max([start] + list(tables.values()))
+            for instruction in cs.disasm(pe.read(tail_start, end-tail_start+15), tail_start):
+                assert not instruction.address < end < instruction.address + instruction.size, \
+                    'extent truncates instruction: %s at %x (end %x)' % (function['name'], instruction.address, end)
+                if instruction.address >= end:
+                    break
             return result
         tables = discovered
 

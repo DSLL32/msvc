@@ -374,7 +374,20 @@
     "_merge_function_defaults@16",
     "_merge_declared_symbol@8",
     "_equivalent_base_type_flags@8",
-    "_reconcile_declaration_type@12"
+    "_reconcile_declaration_type@12",
+    "_equivalent_shape_attributes@8",
+    "_compatible_declaration_storage@8",
+    "_equivalent_storage_extensions@8",
+    "_compatible_declaration_attributes@12",
+    "_merge_declaration_storage@8",
+    "_inherit_storage_modifiers@8",
+    "_activate_qualified_definition_scopes",
+    "_prepare_function_definition@4",
+    "_new_branch_label@4",
+    "_register_label@4",
+    "_function_return_type@4",
+    "_strip_based_shape@4",
+    "_drop_first_type_shape@4"
   ],
   "driver": [
     {
@@ -2237,7 +2250,7 @@
     {
       "name": "_new_branch_label@4",
       "start": 243008,
-      "end": 243009
+      "end": 243140
     },
     {
       "name": "_new_expression@24",
@@ -2337,7 +2350,7 @@
     {
       "name": "_register_label@4",
       "start": 242640,
-      "end": 242641
+      "end": 242735
     },
     {
       "name": "_reject_function_initializer@4",
@@ -3717,7 +3730,7 @@
     {
       "name": "_activate_qualified_definition_scopes",
       "start": 209776,
-      "end": 209777
+      "end": 209835
     },
     {
       "name": "_class_tag_for_type@4",
@@ -3732,7 +3745,7 @@
     {
       "name": "_prepare_function_definition@4",
       "start": 214112,
-      "end": 214113
+      "end": 214337
     },
     {
       "name": "_inherit_function_defaults@20",
@@ -3747,12 +3760,12 @@
     {
       "name": "_compatible_declaration_storage@8",
       "start": 344224,
-      "end": 344225
+      "end": 344524
     },
     {
       "name": "_compatible_declaration_attributes@12",
       "start": 338320,
-      "end": 338321
+      "end": 338534
     },
     {
       "name": "_report_named_type_difference@20",
@@ -3762,12 +3775,37 @@
     {
       "name": "_equivalent_shape_attributes@8",
       "start": 397472,
-      "end": 397473
+      "end": 397551
     },
     {
       "name": "_diagnose_parameter_list_difference@8",
       "start": 344528,
       "end": 344529
+    },
+    {
+      "name": "_equivalent_storage_extensions@8",
+      "start": 400768,
+      "end": 400811
+    },
+    {
+      "name": "_inherit_storage_modifiers@8",
+      "start": 400816,
+      "end": 400991
+    },
+    {
+      "name": "_make_missing_function_declaration",
+      "start": 213840,
+      "end": 213841
+    },
+    {
+      "name": "_initialize_function_inline_analysis",
+      "start": 280117,
+      "end": 280118
+    },
+    {
+      "name": "_begin_function_ir@8",
+      "start": 251552,
+      "end": 251553
     }
   ],
   "cases": {
@@ -4815,6 +4853,45 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_local_static_guard",
+      "original": 596020,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_local_static_guard",
+          "original": 596020,
+          "bytes": 12
+        },
+        {
+          "name": "_default_inline_candidate",
+          "original": 654332,
+          "bytes": 4
+        },
+        {
+          "name": "_function_exit_label",
+          "original": 595284,
+          "bytes": 4
+        },
+        {
+          "name": "_function_expression_sequence",
+          "original": 594784,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_label_symbols",
+      "original": 654616,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_label_symbols",
+          "original": 654616,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [
@@ -4874,6 +4951,11 @@
     {
       "name": "_cpp_parser_flags",
       "original": 653204,
+      "pointer": false
+    },
+    {
+      "name": "_next_symbol_index",
+      "original": 652352,
       "pointer": false
     }
   ]

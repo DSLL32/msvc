@@ -179,3 +179,58 @@ void __stdcall begin_function_definition(DeclarationType *context, CppSymbol *de
         parameter = parameter->detail.parameter_next;
     } while (parameter != first_parameter);
 }
+
+/* Original 0x91834..0x9183f, shared with local-static handling. That path
+   allocates the guard symbol, writes its state byte and increments count. */
+LocalStaticGuardState local_static_guard;
+int default_inline_candidate = 1; /* original 0x9fbfc, changed by pragma */
+IrToken *function_exit_label; /* original 0x91554 */
+/* Incremented by expression finalization at 0x5cbc0; its precise role is
+   still provisional. Keep the native per-function reset and shared word. */
+unsigned function_expression_sequence; /* original 0x91360 */
+
+/* Original 0x34460..0x34540. Establish return and parameter types while
+   preserving the shared inline-analysis and local-static guard state. */
+CppSymbol *__stdcall prepare_function_definition(CppSymbol *symbol)
+{
+    if (!symbol) symbol = make_missing_function_declaration();
+    if ((symbol->storage[1] & 1) && (symbol->storage[0] & 7) != 3) {
+        local_static_guard.guard = 0;
+        local_static_guard.state = 0;
+        local_static_guard.count = 0;
+    }
+    inline_candidate = default_inline_candidate;
+    function_call_seen = 0;
+    function_not_inlinable = 0;
+    if (normalized_Ol && options.configuration.option_qc)
+        initialize_function_inline_analysis();
+    function_exit_label = new_branch_label(31);
+    if (symbol->cpp.parts.member_flags & 0x80)
+        current_return_type = structure_return_pointer_type;
+    else current_return_type = function_return_type(symbol);
+    cpp_parser_flags &= ~0x8000UL;
+    if (!(token_allocation_flags & 0x40)) begin_parameter_scope(parsed_parameter_symbols);
+    global_record_kind = 1;
+    declaration_mode = 1;
+    current_declaration_scope = 1;
+    function_expression_sequence = 0;
+    begin_function_ir(symbol, parsed_parameter_symbols);
+    return symbol;
+}
+
+/* Original 0x34410..0x3445a. Remove the based/function shapes, then
+   normalize the result's pointer-distance bits in a temporary descriptor. */
+CType *__stdcall function_return_type(CppSymbol *declaration)
+{
+    TypeDescription *description;
+    CType *result;
+    unsigned short attributes;
+    description = copy_type_description(drop_first_type_shape(
+        strip_based_shape(declaration->type)));
+    attributes = description->attributes & 0xfff8;
+    description->attributes = attributes;
+    description->attributes = normalize_type_attributes(1, 0) | attributes;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}
