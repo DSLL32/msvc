@@ -189,12 +189,12 @@ void __stdcall add_function_shape(CppSymbol *declaration, unsigned short attribu
         qualifier = (QualifiedDeclarator *)declaration->next;
         if (qualifier) {
             resolution = qualifier->resolution;
-            if (resolution && !*resolution->binding)
+            if (resolution && !resolution->binding->next)
                 goto implicit_class;
             if (!resolution)
                 reference = (ClassReference *)get_current_class_symbol();
             else {
-                binding = *resolution->binding;
+                binding = resolution->binding->next;
                 if (!binding) {
                     kind = 4;
                     parameter_associated_type = 0;
@@ -250,7 +250,7 @@ int __stdcall is_member_declarator(CppSymbol *declaration)
     if (shape)
         return shape->flags & 0x10;
     qualifier = (QualifiedDeclarator *)declaration->next;
-    if (qualifier && (!qualifier->resolution || *qualifier->resolution->binding))
+    if (qualifier && (!qualifier->resolution || qualifier->resolution->binding->next))
         return 1;
     if ((declaration->kind & 31) == 18)
         return 1;

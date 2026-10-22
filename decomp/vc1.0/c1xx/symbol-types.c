@@ -30,7 +30,7 @@ void __stdcall normalize_symbol_type(CType *base, CppSymbol *symbol)
     qualifier = (QualifiedDeclarator *)symbol->next;
     member = !(symbol->attributes & 0x40) &&
         ((current_class_context >= 0 && !(storage & 0x400)) ||
-         (qualifier && (!qualifier->resolution || *qualifier->resolution->binding)));
+         (qualifier && (!qualifier->resolution || qualifier->resolution->binding->next)));
     if (base) {
         type->field08 = base->field08;
         type->flags = base->flags;

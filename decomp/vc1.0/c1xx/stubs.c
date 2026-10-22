@@ -99,7 +99,7 @@ short __stdcall format_declarator(CppSymbol *symbol, CType *type) { __asm { int 
 char *__stdcall type_diagnostic_text(short text) { __asm { int 3 } return 0; }
 void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member) { __asm { int 3 } return 0; }
-char *__stdcall format_qualified_name(QualifierBinding **binding, int verbose) { __asm { int 3 } return 0; }
+char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
 int __stdcall symbol_has_array_shape(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }

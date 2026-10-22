@@ -35,7 +35,7 @@ CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *de
     if (STORAGE_KIND == 1)
         storage.flags |= 0x1000;
     qualifier = (QualifiedDeclarator *)declaration->next;
-    if (qualifier && is_static_qualified_symbol((CppSymbol *)(*qualifier->resolution->binding)->target) &&
+    if (qualifier && is_static_qualified_symbol((CppSymbol *)qualifier->resolution->binding->target) &&
         (!(storage.flags & 0x20) || (storage.flags & 0x700) || (storage.extended & 7))) {
         if (options.configuration.z_a && STORAGE_KIND == 1)
             compiler_warning(1, 630, format_symbol_name(declaration), token_spellings[13]);
@@ -128,15 +128,15 @@ CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *de
         qualified = (QualifiedDeclarator *)resolve_declaration_alias((CppSymbol *)qualifier, declaration);
         if (!qualified)
             return 0;
-        target = (CppSymbol *)(*qualified->resolution->binding)->target;
+        target = (CppSymbol *)qualified->resolution->binding->target;
         if ((declaration->kind & 31) == 7) {
             merge_declared_symbol(target, declaration);
-            return (CppSymbol *)(*qualified->resolution->binding)->target;
+            return (CppSymbol *)qualified->resolution->binding->target;
         }
         if (!(target->attributes & 0x40) || (target->kind & 31) != 3) {
             if (token_allocation_flags & 0x400) {
                 merge_declared_symbol(target, declaration);
-                return (CppSymbol *)(*qualified->resolution->binding)->target;
+                return (CppSymbol *)qualified->resolution->binding->target;
             }
             return declaration;
         }

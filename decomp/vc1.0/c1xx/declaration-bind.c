@@ -17,7 +17,7 @@ CppSymbol *__stdcall apply_declaration_type(DeclarationType *context, CppSymbol 
     if (qualifier) {
         if (!qualifier->resolution)
             return 0;
-        reference = (*qualifier->resolution->binding)->target;
+        reference = qualifier->resolution->binding->target;
         if (!is_static_qualified_symbol((CppSymbol *)reference))
             unwind = 1;
         else if (declaration_mode)
@@ -55,7 +55,7 @@ CppSymbol *__stdcall apply_declaration_type(DeclarationType *context, CppSymbol 
             (!(symbol->storage[2] & 4) || (symbol->storage[2] & 8)))
             symbol->flags |= 4;
         if (qualifier) {
-            reference = (*qualifier->resolution->binding)->target;
+            reference = qualifier->resolution->binding->target;
             if (is_static_qualified_symbol((CppSymbol *)reference))
                 return declare_qualified_member(symbol, qualifier, (CppSymbol *)reference);
             if (token_allocation_flags & 0x400)

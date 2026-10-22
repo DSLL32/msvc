@@ -151,7 +151,7 @@ void __stdcall merge_declaration_type(CppSymbol *symbol, CType *base, int is_typ
             if (next || !is_typedef || (category != 4 && category != 2)) {
                 qualifier = (QualifiedDeclarator *)symbol->next;
                 if (category == 4 && !next && qualifier &&
-                    (!qualifier->resolution || *qualifier->resolution->binding) &&
+                    (!qualifier->resolution || qualifier->resolution->binding->next) &&
                     current_class_context < 0 && !(current.attributes & 0x70)) {
                     current.attributes = normalize_type_attributes(current.flags, current.attributes);
                     current.attributes &= ~0x70;
@@ -429,7 +429,7 @@ TypeShape *__stdcall merge_function_shape(CppSymbol *symbol, ShapeCursor inner,
         qualifier = (QualifiedDeclarator *)symbol->next;
         if (member_function &&
             !(!outer.shape && qualifier &&
-              (!qualifier->resolution || *qualifier->resolution->binding) &&
+              (!qualifier->resolution || qualifier->resolution->binding->next) &&
               current_class_context < 0)) {
             if (current->flags & 0x8000)
                 current->attributes = (current->attributes & ~0x70) | 0x10;

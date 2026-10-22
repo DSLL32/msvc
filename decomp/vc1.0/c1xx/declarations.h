@@ -58,7 +58,9 @@ typedef struct QualifierBinding {
     ClassReference *target;
 } QualifierBinding;
 typedef struct QualifierResolution {
-    QualifierBinding **binding;
+    /* The leaf contains the currently resolved target. Its next link is
+       the enclosing qualifier, inspected separately for implicit this. */
+    QualifierBinding *binding;
 } QualifierResolution;
 typedef struct QualifiedDeclarator {
     unsigned field00, field04, field08;
@@ -123,7 +125,7 @@ short __stdcall format_declarator(CppSymbol *symbol, CType *type);
 char *__stdcall type_diagnostic_text(short text);
 void __stdcall browser_declaration(CppSymbol *symbol);
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member);
-char *__stdcall format_qualified_name(QualifierBinding **binding, int verbose);
+char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose);
 CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol);
 int __stdcall symbol_has_array_shape(CppSymbol *symbol);
 void __stdcall initialize_zero_object(CppSymbol *symbol);

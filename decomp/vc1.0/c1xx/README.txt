@@ -162,3 +162,10 @@ The audit independently verifies every emitted row against the original,
 including shifts after precedence resolution. All 207 existing frontiers replay
 with the additional data in evidence/replay-grammar-c.log. Semantic C actions
 are being recovered separately in scratch; no partial parser is linked.
+
+Qualified-name resolution owns its current binding, whose next link denotes
+the enclosing qualifier. Declaration checks access the current target directly;
+implicit-member checks deliberately inspect the enclosing link. Original loads
+at 0x52031 and 0x62a1d establish that distinction. These previously unvisited
+branches now use the appropriate typed view rather than an extra indirection.
+All accepted frontiers replay in evidence/replay-qualification-links.log.
