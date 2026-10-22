@@ -423,3 +423,125 @@ int __fastcall instruction_operands_equal(MachineInstruction *left, unsigned lef
     }
     return operands_equal(&left->operands[left_index ? 1 : 0], &right->operands[right_index ? 1 : 0]);
 }
+
+/* Original [00022030,000220e0). An address remains valid only while its
+   base and optional index retain their register values. Base27 is the native
+   no-base sentinel; preserve the helper's 0x104 storage-size argument. */
+int __fastcall address_changed_between(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand)
+{
+    enum { NO_ADDRESS_BASE = 27 };
+    unsigned kind = operand->flags & 15;
+    MachineOperand reg;
+    MachineAddress *address;
+    if (kind != OPERAND_BASED && kind != OPERAND_INDEXED) return 0;
+    address = operand->value.address;
+    initialize_operand(&reg, OPERAND_REGISTER, address->base.words.number, 0, 0);
+    if (address->base.words.number != NO_ADDRESS_BASE &&
+        operand_changed_between(first, last, &reg, 0x104)) return 1;
+    if (kind == OPERAND_BASED) return 0;
+    reg.value.reg.words.number = address->index.words.number;
+    return operand_changed_between(first, last, &reg, 0x104);
+}
+
+/* Original [00022140,000224a0). Substitute a LEA's address for its result
+   register in one based/indexed use. Testing and applying deliberately differ
+   for a repeated base/index register, as in the native decision tree. */
+int __fastcall fold_lea_address(MachineInstruction *instruction, MachineOperand *operand, int apply)
+{
+    enum { NO_ADDRESS_BASE = 27 };
+    MachineOperand *source = &instruction->operands[1];
+    MachineAddress *from, *to;
+    MachineRegisterValue saved;
+    SymbolHeader *symbol;
+    unsigned kind = operand->flags & 15, source_kind, scale, source_scale;
+    unsigned short reg;
+    if (kind != OPERAND_BASED && kind != OPERAND_INDEXED) return 0;
+    reg = instruction->operands[0].value.reg.words.number;
+    if (!operand_mentions_register(operand, reg)) return 0;
+    from = source->value.address;
+    to = operand->value.address;
+    symbol = from->symbol;
+    if (symbol && to->symbol) return 0;
+    source_kind = source->flags & 15;
+    if (source_kind == OPERAND_ABSOLUTE) {
+        if (kind == OPERAND_BASED) {
+            if (apply) {
+                operand->flags = (operand->flags & ~15U) | OPERAND_ABSOLUTE;
+                to->symbol = symbol;
+                to->first.displacement = (long)((unsigned long)to->first.displacement + (unsigned long)from->first.displacement);
+            }
+            return 1;
+        }
+        if (to->base.words.number == reg) {
+            if (to->index.words.number == reg) return 0;
+            if (apply) {
+                if (!(operand->flags & 0x300)) {
+                    operand->flags = (operand->flags & ~15U) | OPERAND_BASED;
+                    to->base = to->index;
+                } else to->base.words.number = NO_ADDRESS_BASE;
+                to->symbol = symbol;
+                to->first.displacement = (long)((unsigned long)to->first.displacement + (unsigned long)from->first.displacement);
+            }
+        } else {
+            if (operand->flags & 0x300) return 0;
+            if (apply) {
+                operand->flags = (operand->flags & ~15U) | OPERAND_BASED;
+                to->symbol = symbol;
+                to->first.displacement = (long)((unsigned long)to->first.displacement + (unsigned long)from->first.displacement);
+            }
+        }
+        return 1;
+    }
+    if (source_kind == OPERAND_BASED) {
+        if (kind == OPERAND_BASED) {
+            if (apply) {
+                to->base = from->base;
+                to->first.displacement = (long)((unsigned long)to->first.displacement + (unsigned long)from->first.displacement);
+                if (symbol) to->symbol = symbol;
+            }
+        } else if (apply) {
+            if (to->base.words.number == reg) {
+                if (to->index.words.number == reg) return 0;
+                to->base = from->base;
+                to->first.displacement = (long)((unsigned long)to->first.displacement + (unsigned long)from->first.displacement);
+            } else {
+                to->index = from->base;
+                scale = (operand->flags >> 8) & 3;
+                to->first.displacement = (long)((unsigned long)to->first.displacement + ((unsigned long)from->first.displacement << scale));
+            }
+            if (symbol) to->symbol = symbol;
+        }
+        return 1;
+    }
+    if (source_kind != OPERAND_INDEXED) return 0;
+    if (kind == OPERAND_BASED) {
+        if (apply) {
+            operand->flags = (operand->flags & ~15U) | OPERAND_INDEXED;
+            to->first.displacement = (long)((unsigned long)to->first.displacement + (unsigned long)from->first.displacement);
+            to->base = from->base;
+            to->index = from->index;
+            operand->flags = (operand->flags & ~0x300U) | (source->flags & 0x300);
+            if (symbol) to->symbol = symbol;
+        }
+        return 1;
+    }
+    if (from->base.words.number != NO_ADDRESS_BASE && to->base.words.number != NO_ADDRESS_BASE) return 0;
+    if (to->base.words.number == reg) {
+        if (to->index.words.number == reg || (operand->flags & 0x300)) return 0;
+        if (apply) {
+            saved = to->base;
+            to->base = to->index;
+            to->index = saved;
+        }
+    }
+    source_scale = (source->flags >> 8) & 3;
+    scale = (operand->flags >> 8) & 3;
+    if (from->base.words.number != NO_ADDRESS_BASE || source_scale + scale > 3) return 0;
+    if (apply) {
+        to->index = from->index;
+        to->first.displacement = (long)((unsigned long)to->first.displacement + ((unsigned long)from->first.displacement << scale));
+        operand->flags = (operand->flags & ~0x300U) | ((source_scale + scale) << 8);
+        if (symbol) to->symbol = symbol;
+    }
+    return 1;
+}

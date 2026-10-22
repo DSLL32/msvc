@@ -50,7 +50,7 @@ typedef struct MachineOperand {
 } MachineOperand;
 typedef char MachineOperandSizeCheck[sizeof(MachineOperand) == 8 ? 1 : -1];
 typedef struct MachineCallInfo {
-    unsigned field00, field04, field08;
+    unsigned argument_bytes, register_mask, result_flags;
 } MachineCallInfo;
 typedef char MachineCallInfoSizeCheck[sizeof(MachineCallInfo) == 12 ? 1 : -1];
 struct MachineInstruction {

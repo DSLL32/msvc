@@ -93,8 +93,8 @@ MachineInstruction *__cdecl new_machine_record(unsigned kind, ...)
         else if (opcode == MC_CALL) {
             call = arena_alloc(1, sizeof(MachineCallInfo));
             instruction->operands[1].value.call = call;
-            call->field00 = va_arg(arguments, unsigned);
-            call->field04 = va_arg(arguments, unsigned);
+            call->argument_bytes = va_arg(arguments, unsigned);
+            call->register_mask = va_arg(arguments, unsigned);
         }
         break;
     case 1:

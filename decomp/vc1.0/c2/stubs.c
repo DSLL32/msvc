@@ -227,16 +227,12 @@ void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int
 MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm int 3 }
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
 int __fastcall try_select_assignment(Node *node) { __asm int 3 }
-MachineInstruction *__fastcall emit_call(unsigned type, MachineOperand *target,
-    unsigned info0, unsigned info1, unsigned info2) { __asm int 3 }
 void emit_float_return(void) { __asm int 3 }
 void __fastcall select_assembly_record(Node *node) { __asm int 3 }
 LabelSymbol *new_internal_label(void) { __asm int 3 }
 MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction) { __asm int 3 }
 
 #include "register-use.h"
-unsigned __fastcall register_definition_width(MachineInstruction *instruction, short reg, unsigned *byte_lane) { __asm int 3 }
-unsigned __fastcall implicit_register_mask(MachineInstruction *instruction, int mode) { __asm int 3 }
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 
 #include "instruction-rewrite.h"
@@ -249,9 +245,7 @@ unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
-int __fastcall address_changed_between(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand) { __asm int 3 }
 int __fastcall register_mentioned_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
-int __fastcall fold_lea_address(MachineInstruction *instruction, MachineOperand *operand, int apply) { __asm int 3 }
 MachineInstruction *__fastcall clone_machine_record(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_source_changed_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
 unsigned __fastcall byte_register_available(unsigned short reg) { __asm int 3 }

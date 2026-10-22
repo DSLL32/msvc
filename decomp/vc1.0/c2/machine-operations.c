@@ -45,3 +45,21 @@ MachineInstruction *__cdecl emit_machine_operation(unsigned opcode, unsigned typ
     va_end(arguments);
     return instruction;
 }
+
+/* Original [000195a0,00019620). Preserve the call target by value and attach
+   its arena-one argument/register/result metadata in the second operand. */
+MachineInstruction *__fastcall emit_call(unsigned type, MachineOperand *target,
+    unsigned argument_bytes, unsigned register_mask, unsigned result_flags)
+{
+    MachineInstruction *instruction = append_machine_instruction(0);
+    MachineCallInfo *call;
+    instruction->opcode = (instruction->opcode & ~0xff00U) | (MC_CALL << 8);
+    instruction->opcode = (instruction->opcode & ~0xf0U) | ((type << 4) & 0xf0);
+    instruction->operands[0] = *target;
+    call = arena_alloc(1, sizeof(MachineCallInfo));
+    instruction->operands[1].value.call = call;
+    call->argument_bytes = argument_bytes;
+    call->register_mask = register_mask;
+    call->result_flags = result_flags;
+    return instruction;
+}

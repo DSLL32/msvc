@@ -9,7 +9,7 @@ extern unsigned return_address_bytes;
 extern unsigned selected_save_register_mask;
 extern unsigned call_clobbered_register_mask;
 enum MachineRegister { REG_EAX = 0, REG_ECX = 1, REG_EDX = 2,
-    REG_ESP = 4, REG_EBP = 5, REG_ST0 = 14 };
+    REG_EBX = 3, REG_ESP = 4, REG_EBP = 5, REG_ESI = 6, REG_EDI = 7, REG_ST0 = 14 };
 enum OperandKind { OPERAND_REGISTER = 1, OPERAND_IMMEDIATE = 2, OPERAND_ABSOLUTE = 3,
     OPERAND_BASED = 4, OPERAND_INDEXED = 5, OPERAND_LABEL_ADDRESS = 6, OPERAND_SYMBOL = 8,
     OPERAND_FRAME_SIZE = 9 };
@@ -46,7 +46,7 @@ void finish_global_selection(void);
 void emit_saved_register_pops(void);
 void emit_saved_register_pushes(void);
 MachineInstruction *__fastcall emit_call(unsigned type, MachineOperand *target,
-    unsigned info0, unsigned info1, unsigned info2);
+    unsigned argument_bytes, unsigned register_mask, unsigned result_flags);
 MachineInstruction *__fastcall emit_function_symbol(FunctionSymbol *symbol);
 void emit_float_return(void);
 void __fastcall emit_label(SymbolHeader *symbol);

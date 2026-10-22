@@ -548,7 +548,12 @@
     "@instruction_modifies_operand@12",
     "@operands_overlap_storage@16",
     "@eliminate_redundant_compare@8",
-    "@instruction_operands_equal@16"
+    "@instruction_operands_equal@16",
+    "@emit_call@20",
+    "@implicit_register_mask@8",
+    "@register_definition_width@12",
+    "@address_changed_between@12",
+    "@fold_lea_address@12"
   ],
   "driver": [
     {
@@ -2872,8 +2877,7 @@
     {
       "name": "@emit_call@20",
       "start": 103840,
-      "end": 103841,
-      "provisional": true
+      "end": 103968
     },
     {
       "name": "@emit_function_symbol@4",
@@ -2967,8 +2971,7 @@
     {
       "name": "@register_definition_width@12",
       "start": 144320,
-      "end": 144321,
-      "provisional": true
+      "end": 144528
     },
     {
       "name": "@writes_first_operand@4",
@@ -2978,8 +2981,7 @@
     {
       "name": "@implicit_register_mask@8",
       "start": 143296,
-      "end": 143297,
-      "provisional": true
+      "end": 144128
     },
     {
       "name": "@bitset_contains@8",
@@ -3109,8 +3111,7 @@
     {
       "name": "@address_changed_between@12",
       "start": 139312,
-      "end": 139313,
-      "provisional": true
+      "end": 139488
     },
     {
       "name": "@register_mentioned_between@12",
@@ -3121,8 +3122,7 @@
     {
       "name": "@fold_lea_address@12",
       "start": 139584,
-      "end": 139585,
-      "provisional": true
+      "end": 140448
     },
     {
       "name": "@simplify_branch@4",

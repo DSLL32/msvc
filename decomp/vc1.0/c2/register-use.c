@@ -1,5 +1,6 @@
 #include "register-use.h"
 #include "instruction-selection.h"
+#include "instruction-rewrite.h"
 #include "work-prepare.h"
 BitSet *block_live_registers; /* 0007e1bc */
 static RegisterLifetime *register_lifetimes[16]; /* 0007cac0 */
@@ -63,7 +64,7 @@ void __fastcall finish_register_lifetime(RegisterLifetime *lifetime)
         }
         previous = lifetime->previous_definition;
         if (previous && previous->record.next_use == use &&
-            ((previous->opcode >> 16) & 1) == (int)index) previous->opcode |= 0x20000;
+            ((previous->opcode >> 16) & 1) == (unsigned)index) previous->opcode |= 0x20000;
         if (use != lifetime->definition) goto clear_use;
     }
     definition = lifetime->definition;
@@ -288,4 +289,96 @@ record_definition:
     }
     finish_block_registers(block->definitions);
     block_live_registers = 0;
+}
+
+/* Original [00022fc0,00023300), including adjacent 55- and 26-entry opcode
+   tables at 231b0..232f4. Mode 1 selects reads and mode 2 selects writes;
+   native per-operation rules also define their conservative mode0 behavior. */
+unsigned __fastcall implicit_register_mask(MachineInstruction *instruction, int mode)
+{
+    enum { READ_REGISTERS = 1, WRITE_REGISTERS = 2,
+        AX = 1U << REG_EAX, CX = 1U << REG_ECX, DX = 1U << REG_EDX,
+        BX = 1U << REG_EBX, SP = 1U << REG_ESP,
+        SI = 1U << REG_ESI, DI = 1U << REG_EDI, ALL = 255 };
+    unsigned operation = (unsigned char)(instruction->opcode >> 8);
+    switch (operation) {
+    case MC_IMUL: case MC_MUL: case MC_IMUL2: case MC_IMUL3:
+        if ((instruction->opcode & 0xf0) == 0x10 || (mode & READ_REGISTERS)) return AX;
+        return AX | DX;
+    case MC_INT:
+        return ALL;
+    case MC_POP: case MC_PUSH: case MC_POPF: case MC_PUSHF:
+        return SP;
+    case MC_CALL:
+        if (mode & WRITE_REGISTERS) {
+            if ((instruction->operands[0].flags & 15) == OPERAND_SYMBOL &&
+                instruction->operands[0].value.symbol->kind == 3 &&
+                (instruction->operands[0].value.symbol->field0e & 0x1000))
+                return AX | CX | DX | SI | DI;
+            return call_clobbered_register_mask;
+        }
+        return (mode & READ_REGISTERS) ? instruction->operands[1].value.call->register_mask : 0;
+    case MC_JCXZ:
+        return (mode & READ_REGISTERS) ? CX : 0;
+    case MC_LOOP: case MC_LOOPNZ: case MC_LOOPZ: case MC_REP: case MC_REPNZ: case MC_REPZ:
+        return CX;
+    case MC_DIV: case MC_IDIV:
+        return (instruction->opcode & 0xf0) == 0x10 ? AX : AX | DX;
+    case MC_CMPS: case MC_MOVS:
+        return SI | DI;
+    case MC_INS: case MC_OUTS:
+        return (mode & READ_REGISTERS) ? DX | SI : SI;
+    case MC_LODS:
+        return (mode & WRITE_REGISTERS) ? AX | SI : SI;
+    case MC_SCAS: case MC_STOS:
+        return (mode & READ_REGISTERS) ? AX | DI : DI;
+    case MC_XLAT: case MC_XLAT_EXPLICIT:
+        return (mode & READ_REGISTERS) ? AX | BX : AX;
+    case MC_AAA: case MC_AAD: case MC_AAM: case MC_AAS: case MC_CBW:
+    case MC_DAA: case MC_DAS: case MC_CWDE:
+        return AX;
+    case MC_CWD: case MC_CDQ:
+        if ((mode & 3) == 3) return AX | DX;
+        return (mode & READ_REGISTERS) ? AX : DX;
+    case MC_LAHF:
+        return (mode & WRITE_REGISTERS) ? AX : 0;
+    case MC_POPA:
+        return (mode & WRITE_REGISTERS) ? ALL : SP;
+    case MC_PUSHA:
+        return (mode & READ_REGISTERS) ? ALL : SP;
+    case MC_SAHF:
+        return (mode & READ_REGISTERS) ? AX : 0;
+    }
+    return 0;
+}
+
+/* Original [000233c0,00023490). Explicit definitions retain their operand
+   width and high-byte lane. A scalar call result can define fewer than four
+   EAX bytes; division's implicit result follows the instruction width. */
+unsigned __fastcall register_definition_width(MachineInstruction *instruction, short reg, unsigned *byte_lane)
+{
+    unsigned operation, result_kind, bytes;
+    FunctionSymbol *callee;
+    *byte_lane = 0;
+    if (writes_first_operand(instruction) &&
+        machine_operand_counts[(unsigned char)(instruction->opcode >> 8)] > 0 &&
+        (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+        instruction->operands[0].value.reg.words.number == (unsigned short)reg) {
+        *byte_lane = (instruction->opcode >> 19) & 1;
+        return machine_operand_bytes(instruction, 0);
+    }
+    operation = (unsigned char)(instruction->opcode >> 8);
+    if (operation == MC_CALL) {
+        if ((instruction->operands[0].flags & 15) == OPERAND_SYMBOL) {
+            callee = (FunctionSymbol *)instruction->operands[0].value.symbol;
+            result_kind = callee->field24 & 15;
+            if (((result_kind >= 1 && result_kind <= 3) || result_kind == 9) && !reg) {
+                bytes = callee->field28;
+                return bytes < 4 ? bytes : 4;
+            }
+        }
+        return 4;
+    }
+    if (operation == MC_DIV || operation == MC_IDIV) return (instruction->opcode >> 4) & 15;
+    return 4;
 }

@@ -1055,3 +1055,36 @@ including source, shared text, CRT and import thunks with clipping and actual
 mask verification; this is not branch coverage. Physical implicit masks,
 interval overlap and failure paths remain named traps and are not dynamically
 claimed. Hello remains incomplete at emit_call, 000195a0.
+
+The first optimized hello function now completes generate_work and enters
+backend emission. Five more functions reconstruct call records, physical
+implicit-register masks, definition widths, address stability and complete
+LEA folding. Call metadata now names argument byte count, register mask and
+result flags in its existing twelve-byte arena record. The implicit-register
+selector retains every native opcode/mode rule, including conservative mode0
+behavior and the local-label call convention. Definition widths preserve
+partial EAX call returns and explicit high-byte lanes.
+
+LEA folding combines typed base/index words, scale, symbol and displacement
+without adding graph vertices. Wrapping displacement arithmetic uses unsigned
+32-bit operations. The full native tree retains test/apply differences,
+absolute-source symbol replacement, repeated-register rejection and a possible
+base/index swap before a later failure; broader branch execution is not claimed.
+
+Six fresh captures at sync_machine_work match271 normalized lines across all
+six completed machine blocks, including92 record visits with repeated boundary
+headers. Full flags, links, live sets, filename/source markers, branch targets
+and all seven calls agree. Call argument sizes include4,8,16 and20; every
+captured register mask is zero and result flag is1. The context's ECX work
+argument matches the entry work pointer in every capture. See
+cases/hello-completed-generation-abi.json for extents, ABI and capture receipts.
+
+All352 minimal and197 hello historical frontiers replay after these changes.
+All472 source graphs and549 accepted extent instruction boundaries pass; four
+affected modules compile /W3 clean after an existing comparison warning was
+corrected with an explicit equivalent conversion. Minimal object/streams/exit
+still match except only the four-byte COFF timestamp. Accepted original code-
+extent union is144463 /399693 bytes (36.1435 percent), including source/shared text/CRT/
+imports with clipping and actual-mask verification; this is not branch coverage.
+Hello remains incomplete at sync_machine_work,00068b70. Later functions,
+physical allocation/scheduling and optimized final emission remain pending.
