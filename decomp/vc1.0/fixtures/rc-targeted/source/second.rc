@@ -1,0 +1,7 @@
+BASE_RESOURCE MENU
+BEGIN
+    POPUP "Included"
+    BEGIN
+        MENUITEM "Action", ACTION_ID
+    END
+END

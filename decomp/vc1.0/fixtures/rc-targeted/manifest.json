@@ -1,0 +1,108 @@
+{
+  "toolchain": "1.0-nt",
+  "target": "toolchains/1.0-nt/bin/RC.EXE",
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "status": "queued",
+  "source_inputs": [
+    {
+      "path": "source/part.rc",
+      "bytes": 95,
+      "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+    },
+    {
+      "path": "source/pushback.rc",
+      "bytes": 30,
+      "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+    },
+    {
+      "path": "source/rcinclude.rc",
+      "bytes": 120,
+      "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
+    },
+    {
+      "path": "source/second.rc",
+      "bytes": 105,
+      "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
+    },
+    {
+      "path": "source/values.h",
+      "bytes": 23,
+      "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+    }
+  ],
+  "environment": {
+    "INCLUDE": "{include}",
+    "WINEPATH": "{bin}"
+  },
+  "unset_environment": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS"
+  ],
+  "normalization": "None: exact status, streams, resource bytes and file set.",
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/RCPP.EXE",
+      "sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd"
+    }
+  ],
+  "cases": [
+    {
+      "id": "rcinclude",
+      "arguments": [
+        "/x",
+        "/forcinclude.res",
+        "rcinclude.rc"
+      ],
+      "expected_exit": 0,
+      "stdout": {
+        "path": "cases/rcinclude/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "cases/rcinclude/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": [
+        {
+          "path": "cases/rcinclude/rcinclude.res",
+          "output_name": "rcinclude.res",
+          "bytes": 344,
+          "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
+        }
+      ]
+    },
+    {
+      "id": "scanf-pushback",
+      "arguments": [
+        "/x",
+        "/l411z",
+        "/fopushback.res",
+        "pushback.rc"
+      ],
+      "expected_exit": 0,
+      "stdout": {
+        "path": "cases/scanf-pushback/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "cases/scanf-pushback/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": [
+        {
+          "path": "cases/scanf-pushback/pushback.res",
+          "output_name": "pushback.res",
+          "bytes": 68,
+          "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
+        }
+      ]
+    }
+  ]
+}
