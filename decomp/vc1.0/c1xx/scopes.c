@@ -40,3 +40,22 @@ void initialize_translation_state(void)
     translation_placeholder->flags |= 4;
     translation_symbols = new_vector(1, 0);
 }
+
+/* Original 0x564b0..0x564c4. */
+void __stdcall push_symbol_scope(SymbolScope *scope)
+{
+    scope->next = current_scope;
+    current_scope = scope;
+}
+
+unsigned char scope_directory_index; /* original 0xa0d1c */
+
+/* Original 0x564e0..0x5652a. Unmaterialized scopes do not enter the directory. */
+void __stdcall record_scope_directory_entry(SymbolScope *scope)
+{
+    if (scope_directory[scope_directory_index] != scope && scope->buckets) {
+        ++scope_directory_index;
+        if (scope_directory_index >= 128) fatal_error(61);
+        scope_directory[scope_directory_index] = scope;
+    }
+}

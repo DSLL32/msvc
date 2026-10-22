@@ -56,6 +56,7 @@ void browser_begin_tag(void);
 int __stdcall browser_name_reference(int reference, char *name);
 void __stdcall browser_enter_tag(CppSymbol *tag);
 SymbolScope *__stdcall enter_class_scope(CppSymbol *tag, signed char mode);
+int __stdcall symbol_has_tag_scope(CppSymbol *symbol);
 extern int tag_declaration_seen;
 TagSymbol *__stdcall new_tag_record(int arena);
 void __stdcall register_tag_context(CppSymbol *tag);

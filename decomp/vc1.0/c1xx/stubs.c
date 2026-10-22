@@ -353,7 +353,7 @@ void __stdcall defer_nested_tag(CppSymbol *owner, CppSymbol *tag) { __asm { int 
 void browser_begin_tag(void) { __asm { int 3 } }
 int __stdcall browser_name_reference(int reference, char *name) { __asm { int 3 } return 0; }
 void __stdcall browser_enter_tag(CppSymbol *tag) { __asm { int 3 } }
-SymbolScope *__stdcall enter_class_scope(CppSymbol *tag, signed char mode) { __asm { int 3 } return 0; }
 
 
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
+

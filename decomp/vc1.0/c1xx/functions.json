@@ -229,7 +229,11 @@
     "_is_current_class_name@4",
     "_insert_current_scope_symbol@4",
     "_apply_inheritance_model@4",
-    "_match_tag_symbol@8"
+    "_match_tag_symbol@8",
+    "_enter_class_scope@8",
+    "_symbol_has_tag_scope@4",
+    "_push_symbol_scope@4",
+    "_record_scope_directory_entry@4"
   ],
   "driver": [
     {
@@ -2622,7 +2626,7 @@
     {
       "name": "_enter_class_scope@8",
       "start": 209952,
-      "end": 209953
+      "end": 210226
     },
     {
       "name": "_new_tag_record@4",
@@ -2653,6 +2657,21 @@
       "name": "_find_tag_declaration@4",
       "start": 345824,
       "end": 345825
+    },
+    {
+      "name": "_symbol_has_tag_scope@4",
+      "start": 208896,
+      "end": 208955
+    },
+    {
+      "name": "_push_symbol_scope@4",
+      "start": 353456,
+      "end": 353476
+    },
+    {
+      "name": "_record_scope_directory_entry@4",
+      "start": 353504,
+      "end": 353578
     }
   ],
   "cases": {
@@ -3407,6 +3426,18 @@
           "name": "_cpp_context_stack",
           "original": 652076,
           "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_scope_directory_index",
+      "original": 658716,
+      "fields": [
+        {
+          "name": "_scope_directory_index",
+          "original": 658716,
+          "bytes": 1
         }
       ]
     }

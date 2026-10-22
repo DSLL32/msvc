@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 225,
-  "driver_functions": 150,
+  "accepted_frontiers": 229,
+  "driver_functions": 154,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 156,
-  "current_frontier": "_enter_class_scope@8",
-  "original_frontier_va": "0x33420",
+  "reconstructed_source_functions": 160,
+  "current_frontier": "_apply_type_symbol@12",
+  "original_frontier_va": "0x1a1e0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "e62041ce6e71de35a7a8ea541cdb227cb35047ff0ba8744286b4d39b76cdf771",
-  "call_graph_audit_functions": 156,
+  "replay_log_sha256": "93f39412a1510228bd30f90b3ee502a4b32cc7327ad2502bffbd90207a38970d",
+  "call_graph_audit_functions": 160,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -47,7 +47,8 @@
     "tag_scope_state_defaults": 5,
     "tag_declaration_seen_defaults": 1,
     "pch_separate_debug_defaults": 1,
-    "cpp_context_stack_defaults": 1
+    "cpp_context_stack_defaults": 1,
+    "scope_directory_index_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -75,7 +76,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-tag-symbols.log",
+  "replay_log": "evidence/replay-class-scopes.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -108,6 +109,7 @@
   "symbol_record_sizes": {
     "tag": 40,
     "declaration": 52,
-    "class_info": 60
+    "class_info": 60,
+    "scope": 20
   }
 }

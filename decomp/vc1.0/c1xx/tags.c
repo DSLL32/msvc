@@ -261,3 +261,53 @@ CppSymbol *__stdcall match_tag_symbol(CppSymbol *symbol, unsigned short kind)
     apply_inheritance_model(symbol);
     return symbol;
 }
+
+/* Original 0x33420..0x33532. A tag scope is a wrapper frame with one tag
+   pointer in place of ordinary name buckets. Mode -3 gives it permanent life. */
+SymbolScope *__stdcall enter_class_scope(CppSymbol *tag, signed char mode)
+{
+    SymbolScope *scope;
+    CppSymbol **cell;
+    ArenaPool *pool;
+    QualifiedDeclarator *qualified;
+    if (token_allocation_flags & 0x20000000UL) return 0;
+    if ((token_allocation_flags & 0x10000000UL) && !(token_allocation_flags & 0x80000000UL))
+        return 0;
+    if (!tag) return 0;
+    if ((tag->kind & 31) == 18) {
+        qualified = (QualifiedDeclarator *)tag;
+        tag = (CppSymbol *)qualified->resolution->binding->target;
+    }
+    if (!symbol_has_tag_scope(tag)) return 0;
+    if (!current_scope->buckets && (current_scope->flags & 0xff) < 250)
+        initialize_scope_buckets(current_scope, 0);
+    if (mode == -3) {
+        scope = allocate_permanent(sizeof(SymbolScope));
+        cell = allocate_permanent(sizeof(CppSymbol *));
+    } else {
+        pool = &compiler_arena.pools[1];
+        if (pool->remaining < (int)sizeof(SymbolScope)) refill_arena(&compiler_arena, pool);
+        scope = (SymbolScope *)pool->next;
+        pool->remaining -= sizeof(SymbolScope);
+        pool->next += sizeof(SymbolScope);
+        if (pool->remaining < (int)sizeof(CppSymbol *)) refill_arena(&compiler_arena, pool);
+        cell = (CppSymbol **)pool->next;
+        pool->remaining -= sizeof(CppSymbol *);
+        pool->next += sizeof(CppSymbol *);
+    }
+    scope->buckets = cell;
+    scope->bucket_mask = 0;
+    scope->flags = (scope->flags & 0xff00) | (unsigned char)mode;
+    *cell = tag;
+    push_symbol_scope(scope);
+    record_scope_directory_entry(scope);
+    return scope;
+}
+
+/* Original 0x33000..0x3303b. */
+int __stdcall symbol_has_tag_scope(CppSymbol *symbol)
+{
+    if ((symbol->kind & 31) == 4) return 1;
+    if (!symbol->type) return 0;
+    return (symbol->flags & 0x10) && (symbol->type->flags & 0x200) ? 1 : 0;
+}

@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 225 accepted paired frontiers, including 150 frontend
+PARTIAL reconstruction: 229 accepted paired frontiers, including 154 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. The token driver and replay wrapper are also reconstructed; the next
-matching trap is _enter_class_scope@8 at original VA 0x33420.
-All 225 frontiers replay successfully, including exact pending FILE buffers;
+matching trap is _apply_type_symbol@12 at original VA 0x1a1e0.
+All 229 frontiers replay successfully, including exact pending FILE buffers;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -60,7 +60,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-tag-symbols.log.
+The current full ordered replay is recorded in evidence/replay-class-scopes.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -243,3 +243,12 @@ The inheritance-model checker retains its contextual diagnostic names and
 arguments. Class/struct compatibility warnings retain both keyword arguments
 omitted by decompilation and return before consuming model flags.
 All 225 frontiers replay through these changes, with no frontend normalization.
+
+Class-scope entry preserves six call targets, deferred-token suppression,
+qualified wrappers, lazy bucket initialization and mode-specific allocation.
+A frame is twenty bytes with one separately allocated tag-pointer cell; mode -3
+allocates both permanently, while other modes use arena one. The scope-kind
+predicate, stack push and directory registration are reconstructed separately.
+Directory registration retains its unsigned byte index at 0xa0d1c and 128-slot
+limit; it is distinct from the declaration-scope counter. Its initial value
+joins the address/default audit. All 229 ordered frontiers replay exactly.
