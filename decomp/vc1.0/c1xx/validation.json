@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 262,
-  "driver_functions": 187,
+  "accepted_frontiers": 270,
+  "driver_functions": 195,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 193,
-  "current_frontier": "_find_outer_name@4",
-  "original_frontier_va": "0x54be0",
+  "reconstructed_source_functions": 201,
+  "current_frontier": "_resolve_parenthesis_candidate@4",
+  "original_frontier_va": "0x19190",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "2964bf13e87817c60818f892c78562b0298e743ede06166d2e57a0bad9b373f1",
-  "call_graph_audit_functions": 193,
+  "replay_log_sha256": "4f19f55097f3e4989fe163e1cb0daea2e981537f7324a6007b65420f40da2ad8",
+  "call_graph_audit_functions": 201,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -54,7 +54,8 @@
     "arena_release_word_defaults": 2,
     "last_lookup_scope_defaults": 1,
     "addition_bound_table_bytes": 72,
-    "implicit_member_descriptions": 4
+    "implicit_member_descriptions": 4,
+    "class_lookup_state_defaults": 3
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -82,7 +83,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-member-insertion.log",
+  "replay_log": "evidence/replay-scoped-lookup.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -170,5 +171,33 @@
     ],
     "width_bound_tables_byte_audited": true,
     "member_chain_splice_preserves_last_next": true
+  },
+  "scoped_name_lookup": {
+    "lookup_range": [
+      "0x54c00",
+      "0x54db5"
+    ],
+    "lookup_callees": 4,
+    "class_lookup_range": [
+      "0x78420",
+      "0x7855f"
+    ],
+    "class_lookup_callees": 7,
+    "qualified_wrapper_preserved": true,
+    "overload_set_bytes": 16
+  },
+  "deferred_capture": {
+    "capture_range": [
+      "0x18de0",
+      "0x18e8f"
+    ],
+    "capture_callees": 2,
+    "append_range": [
+      "0x18d80",
+      "0x18de0"
+    ],
+    "limit_records": 200,
+    "eof_preserves_capture_flag": true,
+    "reserved_bytes_untouched": true
   }
 }

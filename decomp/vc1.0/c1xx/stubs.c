@@ -1,6 +1,7 @@
 /* Named, unaccepted reconstruction frontiers. */
 #include "initialization.h"
 #include "inline-vector.h"
+#include "class-lookup.h"
 #include "ir.h"
 #include "hash-table.h"
 #include "types.h"
@@ -106,11 +107,9 @@ short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { i
 int __stdcall merge_storage_spec(StorageSpec *destination, StorageSpec source) { __asm { int 3 } return 0; }
 CType *__stdcall function_return_type(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
-CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *declaration) { __asm { int 3 } return 0; }
 int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall find_outer_name(char *name) { __asm { int 3 } return 0; }
 void __stdcall record_local_declaration(CppSymbol *declaration) { __asm { int 3 } }
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
@@ -284,7 +283,6 @@ ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm
 void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 
 /* C++ token classification and deferred lookahead. */
-void __stdcall capture_declaration_tokens(int initial_parentheses) { __asm { int 3 } }
 int deferred_tokens_may_be_declaration(void) { __asm { int 3 } return 0; }
 unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
 void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
@@ -391,3 +389,12 @@ unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeSha
 unsigned __stdcall data_member_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall member_function_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall pointer_kind_size(unsigned short attributes) { __asm { int 3 } return 0; }
+
+
+
+QualifierResolution *__stdcall search_class_name_paths(QualifierResolution *path,
+    ClassNameSearch *search) { __asm { int 3 } return 0; }
+void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *hidden) { __asm { int 3 } }
+
+CppSymbol *__stdcall find_matching_overload(CppSymbol *functions, CType *type,
+    int merge_defaults) { __asm { int 3 } return 0; }

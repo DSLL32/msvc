@@ -1,5 +1,6 @@
 /* C++ declaration lookup and scope selection. */
-#include "declarations.h"
+#include "lexer.h"
+#include "class-lookup.h"
 #include "cpp-context.h"
 #include "global-ir.h"
 #include "parameters.h"
@@ -176,17 +177,6 @@ void __stdcall insert_scope_symbol(SymbolScope *scope, CppSymbol *symbol)
     else scope->buckets[(unsigned)symbol->name & scope->bucket_mask] = symbol;
 }
 
-/* Overload sets share the ordinary symbol prefix through the name slot.
-   Their final word holds functions rather than a CType pointer. */
-typedef struct OverloadSet {
-    unsigned char kind, flags;
-    unsigned short declaration_flags;
-    CppSymbol *next;
-    char *name;
-    CppSymbol *functions;
-} OverloadSet;
-typedef char OverloadSetSizeMustBe16[(sizeof(OverloadSet) == 16) ? 1 : -1];
-
 /* Original 0x54820..0x54914. */
 CppSymbol *__stdcall make_overload_symbol(CppSymbol *symbol)
 {
@@ -256,4 +246,188 @@ CppSymbol *__stdcall lookup_current_scope_declaration(CppSymbol *declaration)
 void __stdcall insert_current_scope_symbol(CppSymbol *symbol)
 {
     insert_scope_symbol(current_scope, symbol);
+}
+
+/* Original 0x54be0..0x54bf1. Outer-name lookup supplies the original category mask 0x112. */
+CppSymbol *__stdcall find_outer_name(char *name)
+{
+    return lookup_scoped_name(name, 0x112);
+}
+
+unsigned char class_lookup_operator = 1; /* original 0x9fc84 */
+CppSymbol *class_lookup_context; /* original 0x914c0 */
+int class_lookup_error; /* original 0x914c4 */
+
+/* Original 0x54c00..0x54db4, including its internal alignment instruction.
+   Class scopes return a qualified path; ordinary scopes resolve aliases before
+   returning. The first-class marker tracks enclosing implicit-this eligibility. */
+CppSymbol *__stdcall lookup_scoped_name(char *name, unsigned categories)
+{
+    CppSymbol *symbol;
+    QualifiedDeclarator *qualified;
+    SymbolScope *scope;
+    unsigned char index;
+    int first_class = 1;
+    if (!name) return 0;
+    if (class_lookup_operator != 1 && !(token_allocation_flags & 0x10)) {
+        if (!class_lookup_context) {
+            if (!class_lookup_error) {
+                report_syntax_error(class_lookup_operator == 92 ? 227 : 228, name);
+                class_lookup_error = 1;
+            }
+            return 0;
+        }
+        qualified = lookup_class_name(class_lookup_context, name, categories, 385);
+        if (!qualified) report_syntax_error(39, name, class_lookup_context->name);
+        return resolve_declaration_alias((CppSymbol *)qualified, 0);
+    }
+    index = scope_directory_index;
+    for (;;) {
+        scope = scope_directory[index];
+        if ((scope->flags & 0xff) >= 250) {
+            qualified = lookup_class_name(scope->buckets[0], name, categories, 385);
+            if (qualified) {
+                if (first_class && (scope->flags & 0x100) &&
+                    ((qualified->resolution->binding->target->kind & 31) != 4))
+                    qualified->declaration_flags |= 0x8000;
+                symbol_scope_mode = (unsigned char)scope->flags;
+                last_lookup_scope = scope;
+                return (CppSymbol *)qualified;
+            }
+            if (!(scope->flags & 0x100)) first_class = 0;
+        } else {
+            first_class = 1;
+            symbol = scope->buckets[(unsigned)name & scope->bucket_mask];
+            while (symbol) {
+                if (symbol->name == name && symbol_matches_categories(symbol, categories)) {
+                    symbol_scope_mode = (unsigned char)scope->flags;
+                    last_lookup_scope = scope;
+                    return resolve_declaration_alias(symbol, 0);
+                }
+                symbol = symbol->next;
+            }
+        }
+        if (index-- == 0) return 0;
+    }
+}
+
+/* Original 0x78420..0x7855e. Retain the selected lookup path even after
+   ambiguity recovery: alternative paths are reported, then the list is reduced
+   to its first entry before constructing the qualified declarator. */
+QualifiedDeclarator *__stdcall lookup_class_name(CppSymbol *tag, char *name,
+    unsigned categories, unsigned diagnostic)
+{
+    QualifierResolution *resolution;
+    QualifierBinding *first, *binding, *root;
+    QualifiedDeclarator *qualified;
+    ArenaPool *pool;
+    int ambiguous = 0;
+    unsigned arena;
+    if (tag->name == name && (categories & 1))
+        resolution = append_qualifier_reference(0, 0, tag);
+    else {
+        resolution = find_class_name_paths(tag, name, categories);
+        if (!resolution) return 0;
+        first = resolution->binding;
+        if (resolution->tail != first) {
+            if (diagnostic) {
+                ambiguous = 1;
+                root = first;
+                while (root->next) root = root->next;
+                report_syntax_error(diagnostic, root->target->name, name);
+                for (binding = first; binding; binding = binding->following) {
+                    if (binding == first)
+                        compiler_warning(1, diagnostic, "could be", name,
+                            format_qualified_name(binding, 1));
+                    else
+                        compiler_warning(1, diagnostic, "or", name,
+                            format_qualified_name(binding, 1));
+                }
+            }
+            resolution->tail = resolution->binding;
+            resolution->binding->following = 0;
+        }
+    }
+    arena = declaration_mode != 0;
+    if (!arena) qualified = allocate_permanent(sizeof(QualifiedDeclarator));
+    else {
+        if (arena == (unsigned)-1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(QualifiedDeclarator))
+            refill_arena(&compiler_arena, pool);
+        qualified = (QualifiedDeclarator *)pool->next;
+        pool->remaining -= sizeof(QualifiedDeclarator);
+        pool->next += sizeof(QualifiedDeclarator);
+    }
+    qualified->kind = 18;
+    qualified->resolution = resolution;
+    qualified->name = name;
+    if (ambiguous) qualified->declaration_flags |= 2;
+    return qualified;
+}
+
+/* Original 0x77ee0..0x77f5a. The interned-name prefix records whether the
+   spelling can occur in a member list, avoiding the recursive search if not. */
+QualifierResolution *__stdcall find_class_name_paths(CppSymbol *tag, char *name,
+    unsigned categories)
+{
+    ClassNameSearch search;
+    QualifierResolution *paths;
+    if (!(((unsigned char *)name)[-1] & 4)) return 0;
+    begin_qualification_allocation(2);
+    search.name = name;
+    search.categories = categories;
+    search.visited_virtual_bases = 0;
+    search.shadowed_virtual_bases = 0;
+    search.candidates = new_vector(1, 2);
+    paths = search_class_name_paths(append_qualifier_reference(0, 0, tag), &search);
+    prune_hidden_class_paths(paths, search.shadowed_virtual_bases);
+    end_qualification_allocation();
+    return paths;
+}
+
+/* Original 0x781d0..0x78238. Category tests return a complete integer in
+   EAX; the original SBB/INC sequence is not an eight-bit bool return ABI. */
+int __stdcall symbol_matches_categories(CppSymbol *symbol, unsigned categories)
+{
+    unsigned kind = symbol->kind & 31;
+    if (kind == 4) return (categories & 0x100) != 0;
+    if (kind == 15) return (categories & 1) != 0;
+    if (kind == 3 || kind == 2 || kind == 17 || kind == 5 || (symbol->kind & 0x20))
+        return (categories & 2) != 0;
+    return (categories & 0x10) != 0;
+}
+
+/* Original 0x54420..0x544db. Preserve the qualified wrapper while replacing
+   its selected target; ordinary aliases choose their visible or underlying
+   record according to the lookup/declaration context. */
+CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *declaration)
+{
+    CppSymbol *target, *underlying;
+    QualifiedDeclarator *qualified = 0;
+    unsigned kind;
+    if (!symbol) return 0;
+    target = symbol;
+    if ((symbol->kind & 31) == 18) {
+        qualified = (QualifiedDeclarator *)symbol;
+        target = (CppSymbol *)qualified->resolution->binding->target;
+    }
+    underlying = target;
+    if (target->kind & 0x80) {
+        if (target->flags & 0x10) target = target->next;
+        else underlying = target->next;
+    }
+    if (token_allocation_flags & 0x10) target = underlying;
+    else if (declaration) {
+        if ((declaration->kind & 31) == 7) {
+            kind = target->kind & 31;
+            if (kind == 16 || kind == 17) {
+                target = find_matching_overload(target, declaration->type, 1);
+                if (!target) return 0;
+            } else report_syntax_error(63, target->name);
+        } else if (declaration->flags & 0x10) target = underlying;
+    }
+    if (!qualified) return target;
+    qualified->resolution->binding->target = (ClassReference *)target;
+    return (CppSymbol *)qualified;
 }

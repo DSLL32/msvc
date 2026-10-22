@@ -26,6 +26,7 @@ extern unsigned char current_token_code;
 extern CppSymbol *type_specifier_symbol;
 
 void __stdcall capture_declaration_tokens(int initial_parentheses);
+void __stdcall append_deferred_token(unsigned char token);
 int deferred_tokens_may_be_declaration(void);
 unsigned char read_deferred_argument_text(void);
 void __stdcall restore_qualified_lookup(QualifierBinding *binding);

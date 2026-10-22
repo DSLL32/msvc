@@ -66,6 +66,17 @@ struct CppSymbol {
     CppSymbolState cpp;
 };
 #undef COMMON_SYMBOL_FIELDS
+/* Overload sets share the ordinary symbol prefix through the name slot.
+   Their final word holds functions rather than a CType pointer. */
+typedef struct OverloadSet {
+    unsigned char kind, flags;
+    unsigned short declaration_flags;
+    CppSymbol *next;
+    char *name;
+    CppSymbol *functions;
+} OverloadSet;
+typedef char OverloadSetSizeMustBe16[(sizeof(OverloadSet) == 16) ? 1 : -1];
+
 /* A transient qualified declarator uses the link slot before it joins a
    symbol list. The resolution holds a reference to its current binding;
    these are encountered prefixes, not complete allocated-object layouts. */
@@ -143,6 +154,15 @@ CppSymbol *__stdcall lookup_declaration(CppSymbol *declaration);
 CppSymbol *__stdcall lookup_current_scope_declaration(CppSymbol *declaration);
 CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration);
 CppSymbol *__stdcall find_outer_name(char *name);
+CppSymbol *__stdcall lookup_scoped_name(char *name, unsigned categories);
+extern unsigned char symbol_scope_mode, class_lookup_operator;
+extern CppSymbol *class_lookup_context;
+extern int class_lookup_error;
+QualifiedDeclarator *__stdcall lookup_class_name(CppSymbol *tag, char *name,
+    unsigned categories, unsigned diagnostic);
+int __stdcall symbol_matches_categories(CppSymbol *symbol, unsigned categories);
+QualifierResolution *__stdcall find_class_name_paths(CppSymbol *tag, char *name,
+    unsigned categories);
 void __stdcall record_local_declaration(CppSymbol *declaration);
 void __stdcall insert_symbol(CppSymbol *symbol);
 void __stdcall insert_current_scope_symbol(CppSymbol *symbol);

@@ -1,7 +1,6 @@
 /* Qualified C++ identifiers, including constructor/destructor/operator names. */
 #include "lexer.h"
 
-extern unsigned char symbol_scope_mode;
 SymbolScope *last_lookup_scope; /* original 0x914bc */
 
 /* Original 0x1cc50..0x1d480. The interned spelling is retained separately

@@ -266,7 +266,15 @@
     "_insert_class_member@4",
     "_append_class_members@8",
     "_check_class_specifier@4",
-    "_set_member_access@4"
+    "_set_member_access@4",
+    "_find_outer_name@4",
+    "_lookup_scoped_name@8",
+    "_lookup_class_name@16",
+    "_find_class_name_paths@12",
+    "_symbol_matches_categories@8",
+    "_resolve_declaration_alias@8",
+    "_capture_declaration_tokens@4",
+    "_append_deferred_token@4"
   ],
   "driver": [
     {
@@ -2379,7 +2387,7 @@
     {
       "name": "_capture_declaration_tokens@4",
       "start": 101856,
-      "end": 101857
+      "end": 102031
     },
     {
       "name": "_deferred_tokens_may_be_declaration",
@@ -2990,6 +2998,46 @@
       "name": "_append_class_members@8",
       "start": 208352,
       "end": 208435
+    },
+    {
+      "name": "_lookup_scoped_name@8",
+      "start": 347136,
+      "end": 347573
+    },
+    {
+      "name": "_lookup_class_name@16",
+      "start": 492576,
+      "end": 492895
+    },
+    {
+      "name": "_symbol_matches_categories@8",
+      "start": 491984,
+      "end": 492089
+    },
+    {
+      "name": "_find_class_name_paths@12",
+      "start": 491232,
+      "end": 491355
+    },
+    {
+      "name": "_search_class_name_paths@8",
+      "start": 491360,
+      "end": 491361
+    },
+    {
+      "name": "_prune_hidden_class_paths@8",
+      "start": 492368,
+      "end": 492369
+    },
+    {
+      "name": "_find_matching_overload@12",
+      "start": 239328,
+      "end": 239329
+    },
+    {
+      "name": "_append_deferred_token@4",
+      "start": 101760,
+      "end": 101856
     }
   ],
   "cases": {
@@ -3828,6 +3876,28 @@
       "original": 650344,
       "kind": "string_pointers",
       "count": 4
+    },
+    {
+      "name": "_class_lookup_operator",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_class_lookup_operator",
+          "original": 654468,
+          "bytes": 1
+        },
+        {
+          "name": "_class_lookup_context",
+          "original": 595136,
+          "bytes": 4
+        },
+        {
+          "name": "_class_lookup_error",
+          "original": 595140,
+          "bytes": 4
+        }
+      ],
+      "original": 654468
     }
   ],
   "buffered_streams": [

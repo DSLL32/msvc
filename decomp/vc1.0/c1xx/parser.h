@@ -16,13 +16,6 @@ typedef struct IrExpression {
     IrToken *left, *right;
 } IrExpression;
 #define EXPR(node_) ((IrExpression *)(node_))
-typedef struct OverloadSet {
-    unsigned char kind, flags;
-    unsigned short attributes;
-    CppSymbol *next;
-    char *name;
-    CppSymbol *functions;
-} OverloadSet;
 typedef struct ClassContext {
     CppSymbol *symbol;
     CppSymbol *last_member;

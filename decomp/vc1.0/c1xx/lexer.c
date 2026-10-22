@@ -783,3 +783,52 @@ unsigned char __stdcall resolve_typename_token(CppSymbol *input)
         deferred_token_cursor[-1].type_specifier = current_token_value.symbol;
     return 34;
 }
+
+/* Original 0x18de0..0x18e8e. Preserve the capture flag on raw EOF: every
+   grammar delimiter and the explicit stop flag clear it, but that return does
+   not. Tokens are saved before any delimiter/parenthesis tests. */
+void __stdcall capture_declaration_tokens(int initial_parentheses)
+{
+    unsigned char token;
+    int parentheses = initial_parentheses;
+    token_allocation_flags |= 0x20000000UL;
+    token_allocation_flags &= ~8UL;
+    for (;;) {
+        token = read_parser_token();
+        append_deferred_token(token);
+        switch (token) {
+        case 0:
+            return;
+        case 128: /* ( */
+            parentheses = (int)((unsigned)parentheses + 1);
+            break;
+        case 136: /* ) */
+            parentheses = (int)((unsigned)parentheses - 1);
+            if (parentheses < 0) goto complete;
+            break;
+        case 63: /* : outside the parameter list */
+            if (!parentheses) goto complete;
+            break;
+        case 127: /* { */
+        case 133: /* } */
+        case 138: /* ; */
+            goto complete;
+        }
+        if (token_allocation_flags & 0x40000000UL) goto complete;
+    }
+complete:
+    token_allocation_flags &= ~0x20000000UL;
+}
+
+/* Original 0x18d80..0x18ddf. Reserved record bytes retain their arena/BSS
+   contents. The 200th append sets the stop flag after writing the full record. */
+void __stdcall append_deferred_token(unsigned char token)
+{
+    deferred_token_end->parser_token = token;
+    deferred_token_end->lexical_token = current_token_code;
+    deferred_token_end->value = current_token_value;
+    deferred_token_end->type_specifier = type_specifier_symbol;
+    ++deferred_token_end;
+    if (deferred_token_end >= deferred_tokens + 200)
+        token_allocation_flags |= 0x40000000UL;
+}

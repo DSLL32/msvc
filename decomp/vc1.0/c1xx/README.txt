@@ -6,12 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 262 accepted paired frontiers, including 187 frontend
+PARTIAL reconstruction: 270 accepted paired frontiers, including 195 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
-accepted. The next matching trap is _find_outer_name@4 at original VA 0x54be0. The latest ordered replay is recorded in validation.json;
+accepted. Scoped C++ lookup and declaration capture are also reconstructed.
+The next matching trap is _resolve_parenthesis_candidate@4 at original VA
+0x19190. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -338,3 +340,22 @@ All 262 frontiers now replay exactly through the insertion/access prefix,
 including pending FILE buffer contents. The next paired trap is find_outer_name,
 which enters the lookup of the constructor name after the public label. No
 complete frontend output is claimed at this still-partial frontier.
+
+The following scoped-lookup prefix adds outer-name/scoped/class lookup, member
+path setup, category matching, declaration-alias resolution and deferred token
+capture. Class lookup uses typed qualifier paths and preserves ambiguity
+reporting before retaining its first candidate. Three distinct class-lookup
+state objects retain their original defaults and byte-address identities;
+ordinary and class lookup continue to share the existing last-lookup scope and
+scope-mode objects. OverloadSet has one shared 16-byte definition.
+
+Alias resolution preserves qualified wrappers and updates their selected target;
+its overload helper retains the full function-list/type/default-merge ABI.
+Capture writes token records before checking delimiters. Raw EOF retains the
+capture flag, while braces, a top-level colon, semicolon, unmatched closing
+parenthesis or the explicit stop flag clear it. The 200th token sets the limit
+flag after its record is written; reserved record bytes are left untouched.
+
+All 270 ordered frontiers replay exactly through the scoped-lookup/capture
+prefix in evidence/replay-scoped-lookup.log. The matched current frontier is
+resolve_parenthesis_candidate at original 0x19190.
