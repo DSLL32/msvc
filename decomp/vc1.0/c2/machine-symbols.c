@@ -3,7 +3,7 @@
 #include "records.h"
 extern int codeview_debug;
 const signed char machine_operand_counts[MC_OPCODE_COUNT] = {
-#define OP(name,count) count,
+#define OP(name,count,properties) count,
 #include "machine-opcodes.def"
 #undef OP
 };

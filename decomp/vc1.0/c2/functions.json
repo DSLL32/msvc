@@ -231,7 +231,29 @@
     "@new_machine_instruction@4",
     "@select_work_item@4",
     "@new_selection_block@16",
-    "@append_machine_instruction@4"
+    "@append_machine_instruction@4",
+    "@select_expression@4",
+    "@emit_source_filename@4",
+    "@release_tree@4",
+    "@release_expression@4",
+    "@finish_selected_block@8",
+    "@analyze_selected_block@4",
+    "@finish_block_registers@4",
+    "@emit_source_marker@4",
+    "@emit_function_symbol@4",
+    "_emit_machine_operation",
+    "@new_operand@16",
+    "@initialize_operand@20",
+    "_emit_saved_register_pushes",
+    "@overwrites_first_register@8",
+    "@register_result_ignores_old_value@4",
+    "@record_operand_uses@12",
+    "@record_register_use@12",
+    "@lookup_register_lifetime@8",
+    "@writes_first_operand@4",
+    "@overwrites_second_register@8",
+    "@finish_register_lifetime@4",
+    "@operands_equal@8"
   ],
   "driver": [
     {
@@ -1840,8 +1862,7 @@
     {
       "name": "@release_tree@4",
       "start": 326544,
-      "end": 326545,
-      "provisional": true
+      "end": 326768
     },
     {
       "name": "@lower_target_address@4",
@@ -2129,8 +2150,7 @@
     {
       "name": "@release_expression@4",
       "start": 326896,
-      "end": 326897,
-      "provisional": true
+      "end": 326928
     },
     {
       "name": "@scan_inline_candidates@24",
@@ -2483,8 +2503,7 @@
     {
       "name": "@finish_selected_block@8",
       "start": 122016,
-      "end": 122017,
-      "provisional": true
+      "end": 122208
     },
     {
       "name": "@peephole_selected_block@8",
@@ -2500,19 +2519,270 @@
     {
       "name": "@select_expression@4",
       "start": 95040,
-      "end": 95041,
-      "provisional": true
+      "end": 97440
     },
     {
       "name": "@emit_source_marker@4",
       "start": 97440,
-      "end": 97441,
-      "provisional": true
+      "end": 97472
     },
     {
       "name": "@append_machine_instruction@4",
       "start": 108000,
       "end": 108064
+    },
+    {
+      "name": "_emit_machine_operation",
+      "start": 97520,
+      "end": 97792
+    },
+    {
+      "name": "@operand_for_register@4",
+      "start": 97792,
+      "end": 97793,
+      "provisional": true
+    },
+    {
+      "name": "@select_value_register@4",
+      "start": 97824,
+      "end": 97825,
+      "provisional": true
+    },
+    {
+      "name": "@new_operand@16",
+      "start": 103216,
+      "end": 103296
+    },
+    {
+      "name": "@initialize_operand@20",
+      "start": 104208,
+      "end": 104416
+    },
+    {
+      "name": "@duplicate_operand@4",
+      "start": 104096,
+      "end": 104097,
+      "provisional": true
+    },
+    {
+      "name": "@high_dword_operand@4",
+      "start": 104016,
+      "end": 104017,
+      "provisional": true
+    },
+    {
+      "name": "@select_lvalue_operand@4",
+      "start": 104672,
+      "end": 104673,
+      "provisional": true
+    },
+    {
+      "name": "@select_condition@4",
+      "start": 104496,
+      "end": 104497,
+      "provisional": true
+    },
+    {
+      "name": "@try_select_assignment@4",
+      "start": 104752,
+      "end": 104753,
+      "provisional": true
+    },
+    {
+      "name": "@lookup_opcode@8",
+      "start": 104448,
+      "end": 104449,
+      "provisional": true
+    },
+    {
+      "name": "@emit_source_filename@4",
+      "start": 103296,
+      "end": 103328
+    },
+    {
+      "name": "@select_directive@4",
+      "start": 103328,
+      "end": 103329,
+      "provisional": true
+    },
+    {
+      "name": "_finish_function_selection",
+      "start": 103616,
+      "end": 103617,
+      "provisional": true
+    },
+    {
+      "name": "_finish_global_selection",
+      "start": 103680,
+      "end": 103681,
+      "provisional": true
+    },
+    {
+      "name": "_emit_saved_register_pops",
+      "start": 103696,
+      "end": 103697,
+      "provisional": true
+    },
+    {
+      "name": "_emit_saved_register_pushes",
+      "start": 103776,
+      "end": 103840
+    },
+    {
+      "name": "@emit_call@20",
+      "start": 103840,
+      "end": 103841,
+      "provisional": true
+    },
+    {
+      "name": "@emit_function_symbol@4",
+      "start": 103968,
+      "end": 104016
+    },
+    {
+      "name": "_emit_float_return",
+      "start": 104192,
+      "end": 104193,
+      "provisional": true
+    },
+    {
+      "name": "@emit_label@4",
+      "start": 104416,
+      "end": 104417,
+      "provisional": true
+    },
+    {
+      "name": "@select_assembly_record@4",
+      "start": 113664,
+      "end": 113665,
+      "provisional": true
+    },
+    {
+      "name": "@return_value_register@4",
+      "start": 158848,
+      "end": 158849,
+      "provisional": true
+    },
+    {
+      "name": "_new_internal_label",
+      "start": 320464,
+      "end": 320465,
+      "provisional": true
+    },
+    {
+      "name": "@next_machine_block@4",
+      "start": 429136,
+      "end": 429137,
+      "provisional": true
+    },
+    {
+      "name": "@analyze_selected_block@4",
+      "start": 136336,
+      "end": 137104
+    },
+    {
+      "name": "@finish_machine_instruction@8",
+      "start": 122240,
+      "end": 122241,
+      "provisional": true
+    },
+    {
+      "name": "@remove_machine_instruction@4",
+      "start": 122208,
+      "end": 122209,
+      "provisional": true
+    },
+    {
+      "name": "@finish_block_registers@4",
+      "start": 142800,
+      "end": 142896
+    },
+    {
+      "name": "@lookup_register_lifetime@8",
+      "start": 142896,
+      "end": 143008
+    },
+    {
+      "name": "@finish_register_lifetime@4",
+      "start": 143008,
+      "end": 143296
+    },
+    {
+      "name": "@overwrites_first_register@8",
+      "start": 144528,
+      "end": 144944
+    },
+    {
+      "name": "@overwrites_second_register@8",
+      "start": 144944,
+      "end": 145008
+    },
+    {
+      "name": "@record_operand_uses@12",
+      "start": 144208,
+      "end": 144320
+    },
+    {
+      "name": "@record_register_use@12",
+      "start": 144128,
+      "end": 144208
+    },
+    {
+      "name": "@register_definition_width@12",
+      "start": 144320,
+      "end": 144321,
+      "provisional": true
+    },
+    {
+      "name": "@writes_first_operand@4",
+      "start": 141776,
+      "end": 141888
+    },
+    {
+      "name": "@implicit_register_mask@8",
+      "start": 143296,
+      "end": 143297,
+      "provisional": true
+    },
+    {
+      "name": "@bitset_contains@8",
+      "start": 421312,
+      "end": 421313,
+      "provisional": true
+    },
+    {
+      "name": "_new_machine_address",
+      "start": 107856,
+      "end": 107857,
+      "provisional": true
+    },
+    {
+      "name": "@register_result_ignores_old_value@4",
+      "start": 145232,
+      "end": 145456
+    },
+    {
+      "name": "@register_partial_write_safe@4",
+      "start": 187136,
+      "end": 187137,
+      "provisional": true
+    },
+    {
+      "name": "@register_storage_bytes@4",
+      "start": 188640,
+      "end": 188641,
+      "provisional": true
+    },
+    {
+      "name": "@operands_equal@8",
+      "start": 137680,
+      "end": 137888
+    },
+    {
+      "name": "@instruction_has_side_effects@4",
+      "start": 145008,
+      "end": 145009,
+      "provisional": true
     }
   ],
   "cases": {

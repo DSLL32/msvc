@@ -1,4 +1,5 @@
 #include "expression-fields.h"
+#include "tree-rewrite.h"
 Node *free_nodes;
 unsigned allocated_nodes;
 /* Original [0004f740,0004f790). Only reused nodes are explicitly cleared. */
@@ -30,6 +31,56 @@ void __fastcall release_node(Node *node)
 }
 
 Expression *free_expressions;
+/* Original [0004fcf0,0004fd10). */
+void __fastcall release_expression(Expression *expression)
+{
+    expression->next = free_expressions;
+    free_expressions = expression;
+}
+/* Original [0004fb90,0004fc70). Reclaim owned subtrees, retaining interned
+   leaves. Switch ranges and the extra intrinsic chain have separate owners. */
+void __fastcall release_tree(Node *node)
+{
+    unsigned opcode = node->opcode;
+    unsigned shape = node_shapes[opcode], arity = shape & NODE_ARITY;
+    Node *child, *next;
+    if (arity == NODE_BINARY) {
+        release_tree(node->second.node);
+        release_tree(node->left.node);
+        release_node(node);
+    } else if (arity == NODE_UNARY) {
+        release_tree(node->left.node);
+        release_node(node);
+    } else if (arity == NODE_LEAF) {
+        if (shape & NODE_INTERNED) return;
+        if (opcode == 0x3c) {
+            child = node->second.node;
+            while (child->opcode != 0x4c) {
+                next = child->second.node;
+                release_node(child);
+                child = next;
+            }
+        }
+        release_node(node);
+    } else {
+        child = node->second.node;
+        while (child->opcode != 0x4c) {
+            next = child->second.node;
+            release_tree(child);
+            child = next;
+        }
+        if (opcode == 0x40 && node->left.node->left.value == 0xf0) {
+            child = node->right.node;
+            while (child->opcode != 0x4c) {
+                next = child->second.node;
+                release_tree(child);
+                child = next;
+            }
+        }
+        release_tree(node->left.node);
+        release_node(node);
+    }
+}
 /* Original [0004f440,0004f490). */
 Expression *new_expression(void)
 {

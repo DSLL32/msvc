@@ -9,7 +9,8 @@ int backend_initialized;
 MachineInstruction *machine_instructions; /* 0007b940 */
 MachineContext *machine_context; /* 0007b944 */
 char *listing_source_filename;
-unsigned frame_size, saved_register_mask;
+unsigned frame_size; /* 0007e8a4 */
+unsigned saved_register_mask; /* 0007e8a8 */
 /* Original [00067fc0,00068300). */
 void emit_backend_work(void)
 {

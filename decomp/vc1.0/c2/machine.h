@@ -2,12 +2,14 @@
 #define MACHINE_H
 #include "backend-flow.h"
 typedef enum MachineOpcode {
-#define OP(name,count) MC_##name,
+#define OP(name,count,properties) MC_##name,
 #include "machine-opcodes.def"
 #undef OP
     MC_OPCODE_COUNT
 } MachineOpcode;
 extern const signed char machine_operand_counts[MC_OPCODE_COUNT];
+enum MachineSelectionProperty { MC_IMPLICIT_REGISTERS = 1 };
+extern const unsigned char machine_selection_properties[MC_OPCODE_COUNT];
 typedef struct BackendSymbol {
     SymbolHeader symbol;
     unsigned short field20, output_flags;
@@ -25,9 +27,11 @@ typedef struct LabelSymbol {
 #pragma pack()
 typedef char LabelSymbolSizeCheck[sizeof(LabelSymbol) == 50 ? 1 : -1];
 typedef struct MachineAddress {
-    unsigned flags;
+    union { long displacement; struct MachineAddress *next; } first;
     SymbolHeader *symbol;
+    unsigned short base_register, field0a, index_register, field0e;
 } MachineAddress;
+typedef char MachineAddressSizeCheck[sizeof(MachineAddress) == 16 ? 1 : -1];
 typedef struct MachineOperand {
     unsigned flags;
     union {
@@ -45,7 +49,8 @@ typedef char MachineCallInfoSizeCheck[sizeof(MachineCallInfo) == 12 ? 1 : -1];
 struct MachineInstruction {
     MachineInstruction *next, *previous;
     unsigned opcode;
-    union { SymbolHeader *symbol; unsigned source_location; } record;
+    union { SymbolHeader *symbol; char *filename; unsigned source_location;
+        MachineInstruction *next_use; } record;
     MachineOperand operands[2];
 };
 typedef char MachineInstructionSizeCheck[sizeof(MachineInstruction) == 32 ? 1 : -1];

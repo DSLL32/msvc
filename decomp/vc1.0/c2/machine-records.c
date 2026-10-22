@@ -1,4 +1,26 @@
 #include "instruction-selection.h"
+#include "function-input.h"
+/* Original [00019620,00019650). The returned kind-2 marker also serves
+   as the function context passed to later machine passes. */
+MachineInstruction *__fastcall emit_function_symbol(FunctionSymbol *symbol)
+{
+    MachineInstruction *instruction = append_machine_instruction(2);
+    instruction->record.symbol = &symbol->symbol;
+    emit_source_marker(current_source_location);
+    return instruction;
+}
+/* Original [00017ca0,00017cc0). */
+void __fastcall emit_source_marker(unsigned source_location)
+{
+    MachineInstruction *instruction = append_machine_instruction(4);
+    instruction->record.source_location = source_location;
+}
+/* Original [00019380,000193a0). Filename records borrow the tree string. */
+void __fastcall emit_source_filename(char *filename)
+{
+    MachineInstruction *instruction = append_machine_instruction(5);
+    instruction->record.filename = filename;
+}
 #include <stdarg.h>
 /* Original [000172f0,00017340). All variants occupy eight words. */
 MachineInstruction *__fastcall new_machine_instruction(unsigned kind)

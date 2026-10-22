@@ -2,7 +2,8 @@
 #define BACKEND_FLOW_H
 #include "functions.h"
 typedef struct MachineInstruction MachineInstruction;
-typedef struct MachineContext MachineContext;
+/* The function context is the kind-2 machine record marking its symbol. */
+typedef struct MachineInstruction MachineContext;
 typedef struct BackendSymbolList BackendSymbolList;
 extern MachineInstruction *machine_instructions;
 extern MachineContext *machine_context;

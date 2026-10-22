@@ -81,7 +81,6 @@ Node *__fastcall copy_tree(Node *node) { __asm int 3 }
 Node *__fastcall assignment_value(Node *node) { __asm int 3 }
 Node *__fastcall clone_node(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_reference(Node *node) { __asm int 3 }
-void __fastcall release_tree(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
@@ -103,7 +102,6 @@ int __fastcall tree_contains_opcode(Node *node, unsigned opcode) { __asm int 3 }
 unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
 void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
 void __fastcall release_node_children(Node *node) { __asm int 3 }
-void __fastcall release_expression(Expression *expression) { __asm int 3 }
 Node *__fastcall optimize_tree_global(Node *node) { __asm int 3 }
 void __fastcall reassociate_right_chain(Node *node) { __asm int 3 }
 int __fastcall rotate_left_chain(Node *node, unsigned right_key, unsigned prior_key, int under_load) { __asm int 3 }
@@ -154,9 +152,6 @@ void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 
 void __fastcall lower_float_expression(Node *node) { __asm int 3 }
 void finish_target_expression(void) { __asm int 3 }
 #include "instruction-selection.h"
-void __fastcall select_expression(Node *node) { __asm int 3 }
-void __fastcall emit_source_marker(unsigned source_location) { __asm int 3 }
-MachineInstruction *__fastcall finish_selected_block(MachineBlockHeader *block, int mode) { __asm int 3 }
 void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) { __asm int 3 }
 void __fastcall free_work(WorkItem *work) { __asm int 3 }
 void reset_work(void) { __asm int 3 }
@@ -273,3 +268,35 @@ void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int
 #include "frame.h"
 
 long ftell(FILE *stream) { __asm int 3 }
+
+MachineOperand *__fastcall operand_for_register(unsigned short reg) { __asm int 3 }
+unsigned short __fastcall select_value_register(Node *node) { __asm int 3 }
+MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm int 3 }
+MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
+MachineOperand *__fastcall select_lvalue_operand(Node *node) { __asm int 3 }
+void __fastcall select_condition(Node *node) { __asm int 3 }
+int __fastcall try_select_assignment(Node *node) { __asm int 3 }
+unsigned __fastcall lookup_opcode(const OpcodeMap *map, unsigned opcode) { __asm int 3 }
+void __fastcall select_directive(Node *node) { __asm int 3 }
+void finish_function_selection(void) { __asm int 3 }
+void finish_global_selection(void) { __asm int 3 }
+void emit_saved_register_pops(void) { __asm int 3 }
+MachineInstruction *__fastcall emit_call(unsigned type, MachineOperand *target,
+    unsigned info0, unsigned info1, unsigned info2) { __asm int 3 }
+void emit_float_return(void) { __asm int 3 }
+void __fastcall emit_label(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall select_assembly_record(Node *node) { __asm int 3 }
+unsigned __fastcall return_value_register(FunctionSymbol *symbol) { __asm int 3 }
+LabelSymbol *new_internal_label(void) { __asm int 3 }
+MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall finish_machine_instruction(MachineInstruction *instruction, int mode) { __asm int 3 }
+void __fastcall remove_machine_instruction(MachineInstruction *instruction) { __asm int 3 }
+
+#include "register-use.h"
+unsigned __fastcall register_definition_width(MachineInstruction *instruction, short reg, unsigned *byte_lane) { __asm int 3 }
+unsigned __fastcall implicit_register_mask(MachineInstruction *instruction, int mode) { __asm int 3 }
+int __fastcall bitset_contains(BitSet *set, unsigned member) { __asm int 3 }
+MachineAddress *new_machine_address(void) { __asm int 3 }
+int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
+int __fastcall register_storage_bytes(unsigned short reg) { __asm int 3 }
+int __fastcall instruction_has_side_effects(MachineInstruction *instruction) { __asm int 3 }

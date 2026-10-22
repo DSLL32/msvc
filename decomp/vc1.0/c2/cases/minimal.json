@@ -3,21 +3,21 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 227,
-  "reconstructed_functions": 166,
+  "accepted_frontiers": 249,
+  "reconstructed_functions": 188,
   "current_frontier": {
-    "name": "@select_expression@4",
-    "original_va": 95040
+    "name": "@finish_machine_instruction@8",
+    "original_va": 122240
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 227 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "166 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 249 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "188 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000",
     "182 expression recipes, 47 control recipes and 182 semantic tree shapes match original classifications",
     "five encountered scalar initializers match original .data values",
     "input_extended hidden result pointer uses callee RET4 with no extra caller pop",
-    "all nine encountered tree properties agree across 182 opcodes",
+    "all ten encountered tree properties agree across 182 opcodes",
     "four intrinsic operand-reference entries agree across the original valid descriptor table",
     "all 247 valid intrinsic call-class predicates match, selecting 110 entries",
     "all 106 non-error type-finishing opcode dispatch cases match the original table",
@@ -27,7 +27,11 @@
     "inliner readers share the existing optimize_global flag at original 0x80624",
     "fresh original-toolchain build has no compiler warnings",
     "machine record, block header, operand, call metadata and label size assertions pass",
-    "all accepted work preparation and block selection frontiers replay through generate_work"
+    "all accepted work preparation and block selection frontiers replay through generate_work",
+    "all four statement maps and six shared register operands match original typed values",
+    "floating classification, x87 stack effects and implicit-register classification match all 231 original operations",
+    "operand equality follows all eight original kind targets, including kind-7 default false",
+    "MachineAddress and RegisterLifetime original-compiler size assertions pass (16 and 20 bytes)"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"

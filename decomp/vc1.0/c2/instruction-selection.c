@@ -7,7 +7,7 @@ BitSet *selection_anchor; /* 0007b9e0 */
 MachineBlockHeader *selection_global_header; /* 0007c2a4 */
 MachineBlockHeader *selection_end; /* 0007ce48 */
 MachineBlockHeader *selected_block; /* 0007cb04 */
-unsigned selection_flags; /* 0007c350 */
+int temporary_operand_count; /* 0007c350 */
 /* Original [00017cc0,00017cf0). Kind 7 stores the block's register-use
    sets, ordinal and work flags. */
 MachineBlockHeader *__fastcall new_selection_block(BitSet *definitions, BitSet *uses,
@@ -37,7 +37,7 @@ MachineBlockHeader *__fastcall select_work_item(WorkItem *work)
             current_source_location = expression->source_location;
             emit_source_marker(current_source_location);
         }
-        selection_flags = 0;
+        temporary_operand_count = 0;
         select_expression(expression->tree);
         release_tree(expression->tree);
         release_expression(expression);
