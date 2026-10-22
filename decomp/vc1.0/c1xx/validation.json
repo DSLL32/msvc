@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 173,
-  "driver_functions": 98,
+  "accepted_frontiers": 180,
+  "driver_functions": 105,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 104,
-  "current_frontier": "_resolve_declaration@8",
-  "original_frontier_va": "0x51fc0",
+  "reconstructed_source_functions": 111,
+  "current_frontier": "_merge_function_shape@28",
+  "original_frontier_va": "0x493c0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "818052a1ba3a98b37c213ae3677c3de221afc9bfac7a05c857f57cdad62e276d",
-  "call_graph_audit_functions": 104,
+  "replay_log_sha256": "b792061b213395daa8a31948d9e8da7499d235b39d8781acf9cbbb97589c97bf",
+  "call_graph_audit_functions": 111,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -30,7 +30,8 @@
     "cpp_parser_flag_bytes": 4,
     "function_signature_state_defaults": 3,
     "implicit_member_suppression_bytes": 4,
-    "global_expression_scope_bytes": 4
+    "global_expression_scope_bytes": 4,
+    "declaration_resolution_state_defaults": 2
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -58,7 +59,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-signatures.log",
+  "replay_log": "evidence/replay-type-folding.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",

@@ -85,7 +85,6 @@ CppSymbol *__stdcall find_scope_symbol(SymbolScope *scope, char *name, int flags
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall prepend_declarator(CppSymbol *list, CppSymbol *declaration) { __asm { int 3 } }
 void __stdcall resolve_deferred_declaration(void *declaration) { __asm { int 3 } }
-void __stdcall merge_declaration_type(CppSymbol *symbol, CType *base, int is_typedef) { __asm { int 3 } }
 int __stdcall is_current_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
@@ -99,7 +98,6 @@ DeclarationType *__stdcall global_declaration_type(DeclarationType *context) { _
 int __stdcall is_unqualified_class_type(CType *type) { __asm { int 3 } return 0; }
 void retire_scope_directory_entry(void) { __asm { int 3 } }
 void pop_symbol_scope(void) { __asm { int 3 } }
-CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *declaration) { __asm { int 3 } return 0; }
 int __stdcall is_static_qualified_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall unwind_qualified_scopes(int stop_at_class) { __asm { int 3 } }
 unsigned short begin_type_diagnostic(void) { __asm { int 3 } return 0; }
@@ -114,3 +112,26 @@ int __stdcall symbol_has_array_shape(CppSymbol *symbol) { __asm { int 3 } return
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall validate_special_function(CppSymbol *symbol, int definition) { __asm { int 3 } }
+short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
+int __stdcall merge_storage_spec(StorageSpec *destination, StorageSpec source) { __asm { int 3 } return 0; }
+CType *__stdcall function_return_type(CppSymbol *declaration) { __asm { int 3 } return 0; }
+void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
+QualifiedDeclarator *__stdcall lookup_qualified_declaration(QualifiedDeclarator *qualifier, CppSymbol *declaration) { __asm { int 3 } return 0; }
+int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
+int __stdcall is_class_name_type(CType *type) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall lookup_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall find_outer_name(char *name) { __asm { int 3 } return 0; }
+void __stdcall record_local_declaration(CppSymbol *declaration) { __asm { int 3 } }
+void __stdcall insert_symbol(CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall insert_scope_symbol(SymbolScope *scope, CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
+void __stdcall finish_function_declarator(CppSymbol *symbol, TypeShape **result) { __asm { int 3 } }
+void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
+void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current, unsigned diagnostic) { __asm { int 3 } }
+TypeShape *__stdcall merge_function_shape(CppSymbol *symbol, ShapeCursor inner, ShapeCursor *current, ShapeCursor outer, int is_typedef) { __asm { int 3 } return 0; }
+int __stdcall merge_member_pointer_shape(CppSymbol *symbol, ShapeCursor inner, ShapeCursor *current, ShapeCursor outer) { __asm { int 3 } return 0; }
+unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __asm { int 3 } return 0; }
+TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
+void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }

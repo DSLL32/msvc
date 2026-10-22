@@ -177,7 +177,14 @@
     "_hash_declaration_parameters@4",
     "_attach_type_shape@8",
     "_finish_parameter_scope",
-    "_apply_declaration_type@8"
+    "_apply_declaration_type@8",
+    "_resolve_declaration@8",
+    "_merge_declaration_type@12",
+    "_prepare_declarator_shapes@28",
+    "_extract_declarator_prefix@16",
+    "_extract_base_prefix@20",
+    "_merge_type_attributes@8",
+    "_intern_shape_on@16"
   ],
   "driver": [
     {
@@ -1140,7 +1147,7 @@
     {
       "name": "_is_unqualified_class_type@4",
       "start": 249216,
-      "end": 249217
+      "end": 249387
     },
     {
       "name": "_retire_scope_directory_entry",
@@ -1226,6 +1233,146 @@
       "name": "_validate_special_function@8",
       "start": 331472,
       "end": 333756
+    },
+    {
+      "name": "_format_storage_spec@8",
+      "start": 427248,
+      "end": 427499
+    },
+    {
+      "name": "_merge_storage_spec@8",
+      "start": 400528,
+      "end": 400756
+    },
+    {
+      "name": "_function_return_type@4",
+      "start": 214032,
+      "end": 214107
+    },
+    {
+      "name": "_report_symbol_declaration_error@8",
+      "start": 331424,
+      "end": 331463
+    },
+    {
+      "name": "_lookup_qualified_declaration@8",
+      "start": 345120,
+      "end": 345308
+    },
+    {
+      "name": "_merge_declared_symbol@8",
+      "start": 343872,
+      "end": 344188
+    },
+    {
+      "name": "_static_member_alias@4",
+      "start": 352144,
+      "end": 352163
+    },
+    {
+      "name": "_is_class_name_type@4",
+      "start": 243776,
+      "end": 243861
+    },
+    {
+      "name": "_lookup_declaration@4",
+      "start": 341472,
+      "end": 341491
+    },
+    {
+      "name": "_lookup_outer_declaration@4",
+      "start": 342176,
+      "end": 342584
+    },
+    {
+      "name": "_find_outer_name@4",
+      "start": 347104,
+      "end": 347122
+    },
+    {
+      "name": "_record_local_declaration@4",
+      "start": 342592,
+      "end": 342886
+    },
+    {
+      "name": "_insert_symbol@4",
+      "start": 346592,
+      "end": 346611
+    },
+    {
+      "name": "_insert_scope_symbol@8",
+      "start": 346832,
+      "end": 347060
+    },
+    {
+      "name": "_prepare_declarator_shapes@28",
+      "start": 301040,
+      "end": 302119
+    },
+    {
+      "name": "_check_declarator_prefix@8",
+      "start": 298768,
+      "end": 298871
+    },
+    {
+      "name": "_finish_function_declarator@8",
+      "start": 300880,
+      "end": 301031
+    },
+    {
+      "name": "_finish_array_declarator@20",
+      "start": 299216,
+      "end": 299324
+    },
+    {
+      "name": "_merge_type_attributes@8",
+      "start": 401120,
+      "end": 401349
+    },
+    {
+      "name": "_check_pointer_attributes@12",
+      "start": 299760,
+      "end": 299968
+    },
+    {
+      "name": "_merge_function_shape@28",
+      "start": 299968,
+      "end": 300874
+    },
+    {
+      "name": "_merge_member_pointer_shape@24",
+      "start": 299328,
+      "end": 299753
+    },
+    {
+      "name": "_member_pointer_class_kind@4",
+      "start": 302640,
+      "end": 302798
+    },
+    {
+      "name": "_extract_declarator_prefix@16",
+      "start": 298880,
+      "end": 298994
+    },
+    {
+      "name": "_extract_base_prefix@20",
+      "start": 299008,
+      "end": 299215
+    },
+    {
+      "name": "_merge_type_shape_prefix@8",
+      "start": 401056,
+      "end": 401108
+    },
+    {
+      "name": "_copy_shape_prefix@16",
+      "start": 298592,
+      "end": 298757
+    },
+    {
+      "name": "_intern_shape_on@16",
+      "start": 403248,
+      "end": 403286
     }
   ],
   "cases": {
@@ -1593,6 +1740,23 @@
       "name": "_global_expression_scope_active",
       "original": 576696,
       "bytes": 4
+    },
+    {
+      "kind": "state",
+      "name": "_conversion_declaration",
+      "original": 594836,
+      "fields": [
+        {
+          "name": "_conversion_declaration",
+          "original": 594836,
+          "bytes": 8
+        },
+        {
+          "name": "_current_declaration_scope",
+          "original": 654396,
+          "bytes": 2
+        }
+      ]
     }
   ],
   "buffered_streams": [

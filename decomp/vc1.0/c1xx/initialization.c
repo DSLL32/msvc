@@ -8,8 +8,8 @@ int builtin_type_context;
 int pch_separate_debug, pch_read_enabled, pch_write_enabled;
 int data_pointer_bytes, code_pointer_bytes;
 int data_pointer_alignment, code_pointer_alignment;
-int data_pointer_kind, code_pointer_kind;
-int data_pointer_model, code_pointer_model;
+int code_pointer_kind, data_pointer_kind; /* original 0x90f30/0x90f28 */
+int code_pointer_model, data_pointer_model; /* original 0x90f34/0x90f2c */
 int normalized_Op, normalized_Oy, normalized_Oa, normalized_Ow, normalized_Oz;
 int normalized_Gs, normalized_PLMN, normalized_PLMF, normalized_Zr;
 int normalized_Oq, normalized_Gn, normalized_Ol;
@@ -55,15 +55,15 @@ void initialize_frontend(void)
     initialize_floating_point();
     code_pointer_bytes = code_pointer_alignment = 4;
     if (options.configuration.option_M & 1)
-        data_pointer_kind = data_pointer_model = 2;
+        code_pointer_kind = code_pointer_model = 2;
     else
-        data_pointer_kind = data_pointer_model = 1;
+        code_pointer_kind = code_pointer_model = 1;
     if (options.configuration.option_M & 2) {
         data_pointer_bytes = data_pointer_alignment = 8;
-        code_pointer_kind = code_pointer_model = 2;
+        data_pointer_kind = data_pointer_model = 2;
     } else {
         data_pointer_bytes = data_pointer_alignment = 4;
-        code_pointer_kind = code_pointer_model = 1;
+        data_pointer_kind = data_pointer_model = 1;
     }
     options.configuration.option_EP = options.configuration.option_EP || !options.option_E;
     packing = top_packing(packing_stack);

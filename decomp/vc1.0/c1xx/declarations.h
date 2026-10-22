@@ -33,6 +33,7 @@ struct CppSymbol {
     union {
         struct { unsigned short operation, flags; } intrinsic;
         unsigned value;
+        unsigned short scope_number;
         char *text;
         ClassInfo *class_info;
         CppSymbol *parameter_next;
@@ -62,6 +63,11 @@ typedef struct QualifiedDeclarator {
     unsigned field00, field04, field08;
     QualifierResolution *resolution;
 } QualifiedDeclarator;
+typedef struct StorageSpec {
+    unsigned short flags;
+    unsigned char extended;
+} StorageSpec;
+typedef char StorageSpecSizeMustBe4[(sizeof(StorageSpec) == 4) ? 1 : -1];
 typedef struct DeclarationType {
     unsigned char storage[3];
     CType *type;
@@ -90,6 +96,22 @@ extern unsigned function_declaration_kind;
 CppSymbol *finish_parameter_scope(void);
 CppSymbol *__stdcall attach_plain_function_parameters(CppSymbol *declaration, CppSymbol *parameters);
 CppSymbol *__stdcall build_function_declarator(CppSymbol *declaration, CppSymbol *parameters);
+extern DeclarationType conversion_declaration;
+extern unsigned short current_declaration_scope;
+short __stdcall format_storage_spec(short text, StorageSpec storage);
+int __stdcall merge_storage_spec(StorageSpec *destination, StorageSpec source);
+CType *__stdcall function_return_type(CppSymbol *declaration);
+void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol);
+QualifiedDeclarator *__stdcall lookup_qualified_declaration(QualifiedDeclarator *qualifier, CppSymbol *declaration);
+int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration);
+CppSymbol *__stdcall static_member_alias(CppSymbol *symbol);
+int __stdcall is_class_name_type(CType *type);
+CppSymbol *__stdcall lookup_declaration(CppSymbol *declaration);
+CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration);
+CppSymbol *__stdcall find_outer_name(char *name);
+void __stdcall record_local_declaration(CppSymbol *declaration);
+void __stdcall insert_symbol(CppSymbol *symbol);
+void __stdcall insert_scope_symbol(SymbolScope *scope, CppSymbol *symbol);
 CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *declaration);
 int __stdcall is_static_qualified_symbol(CppSymbol *symbol);
 void __stdcall unwind_qualified_scopes(int stop_at_class);
@@ -109,6 +131,30 @@ CppSymbol *__stdcall apply_declaration_type(DeclarationType *type, CppSymbol *de
 extern void *deferred_declarations[60];
 extern int current_class_context, allow_incomplete_class;
 void __stdcall resolve_deferred_declaration(void *declaration);
+typedef struct ShapeCursor {
+    TypeShape *shape;
+    unsigned short attributes, flags;
+} ShapeCursor;
+typedef char ShapeCursorSizeMustBe8[(sizeof(ShapeCursor) == 8) ? 1 : -1];
+int __stdcall prepare_declarator_shapes(CppSymbol *symbol, CType *base,
+    TypeShape **work, ShapeCursor *base_shape, TypeShape **prefix,
+    TypeShape **head, int is_typedef);
+TypeShape *__stdcall extract_declarator_prefix(TypeShape *shape, TypeShape **prefix, CppSymbol *symbol, int is_typedef);
+TypeShape *__stdcall intern_shape_on(TypeShape *related, unsigned short kind, unsigned short attributes, void *parameter);
+TypeShape *__stdcall extract_base_prefix(TypeShape *shape, TypeShape **prefix, CppSymbol *symbol, int is_typedef, unsigned short *attributes);
+TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail);
+void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef);
+void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix);
+void __stdcall finish_function_declarator(CppSymbol *symbol, TypeShape **result);
+void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result,
+    ShapeCursor current, int is_typedef);
+unsigned short __stdcall merge_type_attributes(unsigned short left, unsigned short right);
+void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current, unsigned diagnostic);
+TypeShape *__stdcall merge_function_shape(CppSymbol *symbol, ShapeCursor inner,
+    ShapeCursor *current, ShapeCursor outer, int is_typedef);
+int __stdcall merge_member_pointer_shape(CppSymbol *symbol, ShapeCursor inner,
+    ShapeCursor *current, ShapeCursor outer);
+unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol);
 void __stdcall merge_declaration_type(CppSymbol *symbol, CType *base, int is_typedef);
 int __stdcall is_current_class(CppSymbol *symbol);
 char *__stdcall format_symbol_name(CppSymbol *symbol);

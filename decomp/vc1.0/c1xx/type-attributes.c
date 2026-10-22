@@ -1,5 +1,5 @@
 /* Calling conventions and segmented pointer attributes. */
-#include "types.h"
+#include "declarations.h"
 
 int active_plmn_pragma, active_plmf_pragma; /* original 0x9f42c/0x9f430 */
 
@@ -13,7 +13,7 @@ unsigned short __stdcall normalize_type_attributes(unsigned short kind, unsigned
         return attributes;
     if (category == 1 || category == 2 || category == 0x40) {
         if (!(attributes & 15))
-            attributes |= (unsigned short)code_pointer_kind;
+            attributes |= (unsigned short)data_pointer_kind;
         return attributes;
     }
     if (category != 3 && category != 4 && category != 0x44)
@@ -22,7 +22,7 @@ unsigned short __stdcall normalize_type_attributes(unsigned short kind, unsigned
     if (option_Au)
         attributes |= 0x800;
     if (!(attributes & 7))
-        attributes |= (unsigned short)data_pointer_kind;
+        attributes |= (unsigned short)code_pointer_kind;
     if (!(attributes & 0x70)) {
         if (options.configuration.option_Gr || options.configuration.option_Gc) {
             if (attributes & 0x100) {
@@ -85,3 +85,27 @@ unsigned short __stdcall normalize_type_attributes(unsigned short kind, unsigned
     return attributes;
 }
 
+
+/* Original 0x61ee0..0x61fc5. Combine distance/calling-convention attributes,
+   preserving the old distance in the upper bits for based pointers. */
+unsigned short __stdcall merge_type_attributes(unsigned short left, unsigned short right)
+{
+    if (left & right & 0x3000) {
+        if (options.configuration.z_a) compiler_warning(1, 114);
+        else report_syntax_error(289);
+    }
+    if ((left ^ right) & 15) {
+        if ((left & 4) != (right & 4)) {
+            if (left & 4) left |= right << 14;
+            else left = ((left | (left << 14)) & ~7) | (right & 15);
+        } else if ((left & 15) && (right & 15)) {
+            report_syntax_error(131);
+            left &= ~7;
+        }
+    }
+    if (((left ^ right) & 0x70) && (left & 0x70) && (right & 0x70)) {
+        report_syntax_error(151);
+        left &= ~0x70;
+    }
+    return left | right;
+}
