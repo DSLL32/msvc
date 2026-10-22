@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
   "accepted_from": 352,
-  "accepted_frontiers": 318,
+  "accepted_frontiers": 319,
   "current_frontier": {
-    "name": "@schedule_pentium_instruction@4",
-    "original_va": 272736
+    "name": "@choose_pentium_instruction@4",
+    "original_va": 272912
   },
   "expected": {
     "exit": 0,
@@ -245,18 +245,21 @@
     "verified accepted original code-extent union179183/399693 bytes=44.8302 percent; not branch coverage",
     "scheduling-window WIP build:593 source function graphs and670 accepted entries pass graph/extent/mask and matching-frontier checks; all352 minimal and318 hello fresh historical entries pass",
     "same frozen670 build matches complete minimal/hello continuous sequences and terminals; minimal object/streams/exit and independent untouched original pass; see cases/fast-replay.json",
-    "WIP preservation commit reuses the existing validated code/config hashes; scheduler-return state capture, scheduler /W3 and updated coverage remain pending; first window/full scheduler have not returned"
+    "WIP preservation commit reuses the existing validated code/config hashes; scheduler-return state capture, scheduler /W3 and updated coverage remain pending; first window/full scheduler have not returned",
+    "One-function native trial accepts schedule_pentium_instruction42960..42a0b (171bytes/42instructions); fresh original-only and native GDB agree at chooser42a10 before accepting further work.",
+    "Original-toolchain build, scheduler /W3,594 source graphs and mask/extent/coverage audits pass; native minimal270 entries/object/streams/exit and hello320 entries/expected chooser trap pass with three rejection checks.",
+    "Verified accepted original code-extent union180186/399693=45.0810997441percent; +171bytes from formally measured670 checkpoint, not branch coverage. See cases/hello-pentium-dispatch.json."
   ],
-  "total_accepted_frontiers": 668,
-  "reconstructed_functions": 591,
+  "total_accepted_frontiers": 671,
+  "reconstructed_functions": 594,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 668,
-    "accepted_code_bytes": 179183,
+    "accepted_frontiers": 671,
+    "accepted_code_bytes": 180186,
     "original_code_bytes": 399693,
-    "percentage": 44.830157145609256,
+    "percentage": 45.08109974405356,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -264,13 +267,13 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 174
+    "union_ranges": 176
   },
-  "checkpoint_status": "Committed scheduling-window WIP; return-state capture, scheduler /W3 and refreshed coverage pending",
+  "checkpoint_status": "Exactly one native-workflow function accepted; paused at chooser stub",
   "pending_window_validation": {
     "capture": "prepare_schedule_window return at original0x3fe60; helper built, not run",
-    "compiler_warnings": "scheduler /W3 not run for these two new functions",
-    "coverage": "last formally verified extent union179183/399693 at668 accepted; no new measurement claimed",
+    "compiler_warnings": "Whole scheduler.c /W3 clean in this one-function trial; measured1.6950453576s.",
+    "coverage": "Refreshed at671 accepted:180186/399693 bytes; see accepted_code_extent_coverage.",
     "unexercised": "non-Pentium floating delay branch and unvisited failure paths",
     "analysis_evidence": "/root/.ai-tmp/vc1.0-c2/scheduler-float-delay-receipt.json"
   }

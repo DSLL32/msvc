@@ -40,6 +40,8 @@ extern SchedulerPairs scheduler_pairs;
 int __fastcall prepare_schedule_window(MachineInstruction *first, MachineInstruction *last);
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction);
 MachineInstruction *__fastcall schedule_pentium_instruction(MachineInstruction *instruction);
+void __fastcall update_scheduled_registers(MachineInstruction *instruction);
+MachineInstruction *__fastcall choose_pentium_instruction(MachineInstruction *instruction);
 extern SchedulerRegionFrame *scheduler_regions;
 extern MachineInstruction *scheduler_instruction;
 extern unsigned short scheduler_register_capacity;

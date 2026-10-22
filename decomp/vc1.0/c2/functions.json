@@ -674,7 +674,8 @@
     "@prepare_scheduled_instruction@8",
     "_new_instruction_schedule",
     "@schedule_window@8",
-    "@prepare_schedule_window@8"
+    "@prepare_schedule_window@8",
+    "@schedule_pentium_instruction@4"
   ],
   "driver": [
     {
@@ -5643,7 +5644,18 @@
     {
       "name": "@schedule_pentium_instruction@4",
       "start": 272736,
-      "end": 272737,
+      "end": 272907
+    },
+    {
+      "name": "@update_scheduled_registers@4",
+      "start": 262096,
+      "end": 262097,
+      "provisional": true
+    },
+    {
+      "name": "@choose_pentium_instruction@4",
+      "start": 272912,
+      "end": 272913,
       "provisional": true
     }
   ],

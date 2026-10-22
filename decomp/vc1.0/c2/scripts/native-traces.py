@@ -95,12 +95,63 @@ def load(directory):
     return cache
 
 
+def extend(directory, before_path, after_path):
+    """Accept one original-only before/after capture pair, outside fixtures."""
+    cache = json.loads(CACHE.read_text())
+    before, after = (json.loads(path.read_text()) for path in (before_path, after_path))
+    config = json.loads((BINARY/'functions.json').read_text())
+    accepted = config['accepted']
+    old_count = before['accepted']
+    assert after['accepted'] == len(accepted) == old_count+1, 'extension must accept exactly one function'
+    assert before['config_sha256'] == cache['metadata_sha256']['functions.json'], 'before capture is not the cached checkpoint'
+    assert sha(BINARY/'runtime.json') == cache['metadata_sha256']['runtime.json'], 'runtime classification changed during one-function extension'
+    assert after['config_sha256'] == sha(BINARY/'functions.json'), 'after capture is not current code metadata'
+    name = accepted[old_count]
+    assert before['logical'] == name, 'wrong original entry before acceptance'
+    drivers = {r['name']:r for r in config['driver']}
+    assert before['original_va'] == hex(drivers[name]['start'])
+    assert after['logical'] in drivers and drivers[after['logical']].get('provisional'), 'next entry must remain a named stub'
+    assert after['original_va'] == hex(drivers[after['logical']]['start'])
+    assert after['logical'] not in accepted
+    case = cache['cases']['hello']
+    assert case['last'] == old_count and case['terminal'] == name
+    assert case['expected'][-1] == native_name(name)
+    manifest = BINARY/config['cases']['hello']['fixture_manifest']
+    for receipt in (before, after):
+        assert receipt['target_sha256'] == config['target']['sha256']
+        assert receipt['manifest_sha256'] == sha(manifest)
+        phase = json.loads(manifest.read_text())['phases']['c2']
+        assert receipt['inputs'] == {r['path']:r['sha256'] for r in phase['inputs']}
+        assert receipt['environment'] == phase['environment']
+        event = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n', receipt['events'])
+        assert event and int(event[1],16)+int(event[2],16) == int(receipt['original_va'],16), 'reference trap address differs from named entry'
+    actual = definitions(directory)
+    application = {native_name(n):n for n in drivers if n not in CRT}
+    assert actual.keys() == application.keys(), 'unresolved native application identity'
+    cache['application_definitions'] = {n:dict(logical=application[n], source=actual[n]) for n in sorted(actual)}
+    case['last'] = len(accepted)
+    case['terminal'] = after['logical']
+    case['expected'].append(native_name(after['logical']))
+    cache['metadata_sha256'] = {n:sha(BINARY/n) for n in ('functions.json','runtime.json')}
+    cache['provenance']['hello'].setdefault('extensions', []).append(dict(
+        accepted_function=name, original_extent=[hex(drivers[name]['start']),hex(drivers[name]['end'])],
+        before=dict(path=str(before_path), sha256=sha(before_path), capture=before),
+        after=dict(path=str(after_path), sha256=sha(after_path), capture=after)))
+    return cache
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--write', action='store_true')
     parser.add_argument('--objects', type=Path, default=BINARY/'build/native-trace')
+    parser.add_argument('--extend-before', type=Path, help='explicit original-only receipt before one-function acceptance')
+    parser.add_argument('--extend-after', type=Path, help='explicit original-only receipt after one-function acceptance')
     args = parser.parse_args()
-    if args.write:
+    if args.extend_before or args.extend_after:
+        assert args.extend_before and args.extend_after and not args.write
+        result = extend(args.objects, args.extend_before, args.extend_after)
+        CACHE.write_text(json.dumps(result,indent=2)+'\n')
+    elif args.write:
         result = project(args.objects)
         CACHE.write_text(json.dumps(result, indent=2)+'\n')
     else:

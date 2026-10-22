@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "f9db9fd8492c8c692a62324a2d698d288665cb3b93a6c5e2e14d706824fc6d4f",
+    "functions.json": "b3d7cbe8504124aeafe99ec9adb3c456aeafc3a2c784cf3b86e4b400d7347d75",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -376,6 +376,10 @@
     },
     "choose_memory_split_register": {
       "logical": "@choose_memory_split_register@8",
+      "source": "src/stubs.c"
+    },
+    "choose_pentium_instruction": {
+      "logical": "@choose_pentium_instruction@4",
       "source": "src/stubs.c"
     },
     "cleanup_expression_tree": {
@@ -3296,7 +3300,7 @@
     },
     "schedule_pentium_instruction": {
       "logical": "@schedule_pentium_instruction@4",
-      "source": "src/stubs.c"
+      "source": "src/scheduler.c"
     },
     "schedule_window": {
       "logical": "@schedule_window@8",
@@ -3596,6 +3600,10 @@
     },
     "unsigned_integer_to_extended": {
       "logical": "_unsigned_integer_to_extended",
+      "source": "src/stubs.c"
+    },
+    "update_scheduled_registers": {
+      "logical": "@update_scheduled_registers@4",
       "source": "src/stubs.c"
     },
     "update_symbol_storage": {
@@ -4389,6 +4397,71 @@
         "_new_instruction_schedule",
         "@schedule_window@8",
         "@prepare_schedule_window@8"
+      ],
+      "extensions": [
+        {
+          "accepted_function": "@schedule_pentium_instruction@4",
+          "original_extent": [
+            "0x42960",
+            "0x42a0b"
+          ],
+          "before": {
+            "path": "cases/hello-pentium-reference-before.json",
+            "sha256": "262b86507289b708beb86436a07efca481af4576f662ab5c890251ea18db73c3",
+            "capture": {
+              "label": "original-before",
+              "accepted": 670,
+              "logical": "@schedule_pentium_instruction@4",
+              "original_va": "0x42960",
+              "events": "exception 80000003 rva 00032960 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.169384959153831,
+              "execution_check_seconds": 1.3248530374839902,
+              "total_seconds": 1.4942394541576505,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "334b37077d9911a801e55c32e5b6d9055f755b83f3337aee4d149c1a6c518845",
+              "config_sha256": "f9db9fd8492c8c692a62324a2d698d288665cb3b93a6c5e2e14d706824fc6d4f",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/one-function-native/original-before"
+            }
+          },
+          "after": {
+            "path": "cases/hello-pentium-reference-after.json",
+            "sha256": "54fb45e6b5fd33946d64967e5576068befa8245e5147402978c506f9e2648117",
+            "capture": {
+              "label": "original-after",
+              "accepted": 671,
+              "logical": "@choose_pentium_instruction@4",
+              "original_va": "0x42a10",
+              "events": "exception 80000003 rva 00032a10 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.17704416438937187,
+              "execution_check_seconds": 0.7173864413052797,
+              "total_seconds": 0.8944311775267124,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "3749257ced2615960d137cf2c824a50f78b3f022155c7733c77fbcd3888c51b1",
+              "config_sha256": "b3d7cbe8504124aeafe99ec9adb3c456aeafc3a2c784cf3b86e4b400d7347d75",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/one-function-native/original-after"
+            }
+          }
+        }
       ]
     }
   },
@@ -4674,7 +4747,7 @@
     },
     "hello": {
       "first": 352,
-      "last": 670,
+      "last": 671,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -5266,9 +5339,10 @@
         "new_instruction_schedule",
         "schedule_window",
         "prepare_schedule_window",
-        "schedule_pentium_instruction"
+        "schedule_pentium_instruction",
+        "choose_pentium_instruction"
       ],
-      "terminal": "@schedule_pentium_instruction@4",
+      "terminal": "@choose_pentium_instruction@4",
       "returncode": -5
     }
   }

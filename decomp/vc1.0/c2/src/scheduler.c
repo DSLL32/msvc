@@ -361,3 +361,32 @@ int __fastcall prepare_schedule_window(MachineInstruction *first, MachineInstruc
     }
     return count;
 }
+
+/* Original [00042960,00042a0b). Metadata bit11 bypasses pair selection;
+   otherwise clear the two extra candidates and select one scheduling unit. */
+MachineInstruction *__fastcall schedule_pentium_instruction(MachineInstruction *instruction)
+{
+    MachineInstruction *chosen, *next;
+    unsigned operation;
+    if (instruction->record.scheduling->flags & 0x800) {
+        scheduler_instruction = instruction;
+        scheduler_cursor = instruction;
+        if (scheduler_track_registers) update_scheduled_registers(instruction);
+        return instruction->next;
+    }
+    scheduler_undo = 0;
+    scheduler_pairs.candidates[1].first = 0;
+    scheduler_pairs.candidates[1].second = 0;
+    scheduler_pairs.candidates[2].first = 0;
+    scheduler_pairs.candidates[2].second = 0;
+    chosen = choose_pentium_instruction(instruction);
+    next = chosen->next;
+    operation = (chosen->opcode >> 8) & 255;
+    if (operation == MC_REP || operation == MC_REPZ || operation == MC_REPNZ) {
+        next = chosen->next->next;
+        chosen = next->previous;
+    }
+    scheduler_instruction = chosen;
+    scheduler_cursor = chosen;
+    return next;
+}
