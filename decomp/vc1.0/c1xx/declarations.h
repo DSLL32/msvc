@@ -42,9 +42,11 @@ typedef char VirtualTableGroupTablesOffsetMustBe20[(offsetof(VirtualTableGroup, 
 typedef struct ClassInfo {
     unsigned size, nonvirtual_size;
     Vector *virtual_tables;
-    unsigned field0c;
+    Vector *virtual_base_tables;
     Vector *virtual_table_groups;
-    unsigned field14, field18, field1c, field20, field24;
+    unsigned field14;
+    struct InlineVector *conversion_types, *ambiguous_conversion_types;
+    unsigned field20, field24;
     short type_index;
     unsigned short pointer_attributes;
     unsigned field2c;
@@ -55,6 +57,9 @@ typedef struct ClassInfo {
 } ClassInfo;
 
 typedef char ClassInfoVirtualTablesOffsetMustBe8[(offsetof(ClassInfo, virtual_tables) == 8) ? 1 : -1];
+typedef char ClassInfoVirtualBaseTablesOffsetMustBe12[(offsetof(ClassInfo, virtual_base_tables) == 12) ? 1 : -1];
+typedef char ClassInfoConversionTypesOffsetMustBe24[(offsetof(ClassInfo, conversion_types) == 24) ? 1 : -1];
+typedef char ClassInfoAmbiguousConversionsOffsetMustBe28[(offsetof(ClassInfo, ambiguous_conversion_types) == 28) ? 1 : -1];
 typedef char ClassInfoVirtualGroupsOffsetMustBe16[(offsetof(ClassInfo, virtual_table_groups) == 16) ? 1 : -1];
 
 typedef union CppSymbolState {

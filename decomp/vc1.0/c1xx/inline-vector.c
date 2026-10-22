@@ -23,3 +23,16 @@ unsigned inline_vector_bytes(short capacity)
 {
     return (int)capacity * 4 + 4;
 }
+
+/* Original 0x4e430..0x4e43f. Only AX is the short result. */
+short inline_vector_count(InlineVector *vector)
+{
+    return vector ? vector->count : 0;
+}
+
+/* Original 0x4e410..0x4e42a. The permanent allocator retains a separate
+   release entry even though this allocator's release implementation is empty. */
+void release_inline_vector(InlineVector *vector)
+{
+    release_permanent(vector, inline_vector_bytes(vector->capacity));
+}

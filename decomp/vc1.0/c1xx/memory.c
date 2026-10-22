@@ -152,3 +152,9 @@ void __stdcall release_arena(int index)
         }
     }
 }
+
+/* Original 0x6ada0..0x6ada2 is RET 8. Permanent pages do not free individual
+   allocations; preserve this separate no-op entry and both stack slots. */
+void __stdcall release_permanent(void *block, unsigned bytes)
+{
+}

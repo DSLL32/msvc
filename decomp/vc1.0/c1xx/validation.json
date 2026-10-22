@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 289,
-  "driver_functions": 214,
+  "accepted_frontiers": 300,
+  "driver_functions": 225,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 220,
-  "current_frontier": "_end_class_specifier",
-  "original_frontier_va": "0x2dfc0",
+  "reconstructed_source_functions": 231,
+  "current_frontier": "_new_empty_vector@4",
+  "original_frontier_va": "0x4e800",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "571eddd879b830b79b6628590601edcea7e46f68a72713a919abd98805871e7c",
-  "call_graph_audit_functions": 220,
+  "replay_log_sha256": "b5f3a57e0347a6d900d06367ec027916225a480d81d17beaecc9d8e9cb791855",
+  "call_graph_audit_functions": 231,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -88,7 +88,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-member-functions.log",
+  "replay_log": "evidence/replay-class-completion-setup.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -305,5 +305,59 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 96634
+  "accepted_source_text_and_switch_bytes": 97828,
+  "class_completion_setup": {
+    "end_class_range": [
+      "0x2dfc0",
+      "0x2e0e8"
+    ],
+    "end_class_callees": 11,
+    "conversion_set_builder_range": [
+      "0x66720",
+      "0x668b4"
+    ],
+    "conversion_set_builder_callees": 10,
+    "conversion_overload_flag": "0x4000",
+    "conversion_grammar_rule": 116,
+    "conversion_set_offsets": [
+      24,
+      28
+    ],
+    "canonical_empty_object_shared_with_inline_vectors": true,
+    "conversion_iterator_bytes": 20,
+    "conversion_iterator_range": [
+      "0x309f0",
+      "0x30a49"
+    ],
+    "set_sharing_range": [
+      "0x668c0",
+      "0x669ab"
+    ],
+    "vector_count_return_bits": 16,
+    "vector_release_range": [
+      "0x4e410",
+      "0x4e42b"
+    ],
+    "permanent_release_range": [
+      "0x6ada0",
+      "0x6ada3"
+    ],
+    "permanent_release_stack_bytes": 8,
+    "permanent_release_original_is_noop": true,
+    "virtual_prepare_range": [
+      "0x79150",
+      "0x79165"
+    ],
+    "virtual_initialize_range": [
+      "0x79190",
+      "0x791d8"
+    ],
+    "virtual_vector_offsets": [
+      8,
+      12,
+      16
+    ],
+    "virtual_vector_arena": 2,
+    "native_offset_checks": true
+  }
 }

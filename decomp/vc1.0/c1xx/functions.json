@@ -293,7 +293,18 @@
     "_classify_constructor@4",
     "_overrides_virtual_member@12",
     "_validate_function_default_arguments@4",
-    "_make_ellipsis_parameter"
+    "_make_ellipsis_parameter",
+    "_end_class_specifier",
+    "_build_conversion_type_sets@4",
+    "_new_type_set",
+    "_begin_conversion_functions@8",
+    "_next_conversion_function@4",
+    "_share_inherited_type_set@8",
+    "_inline_vector_count",
+    "_release_inline_vector",
+    "_release_permanent@8",
+    "_prepare_class_virtual_tables@4",
+    "_initialize_class_virtual_tables@4"
   ],
   "driver": [
     {
@@ -1966,7 +1977,7 @@
     {
       "name": "_end_class_specifier",
       "start": 188352,
-      "end": 188353
+      "end": 188648
     },
     {
       "name": "_end_compound_statement",
@@ -3142,6 +3153,141 @@
       "name": "_compatible_override_return@8",
       "start": 497904,
       "end": 497905
+    },
+    {
+      "name": "_browser_end_tag",
+      "start": 181040,
+      "end": 181041
+    },
+    {
+      "name": "_build_conversion_type_sets@4",
+      "start": 419616,
+      "end": 420020
+    },
+    {
+      "name": "_prepare_class_virtual_tables@4",
+      "start": 495952,
+      "end": 495973
+    },
+    {
+      "name": "_declare_implicit_special_members@4",
+      "start": 223120,
+      "end": 223121
+    },
+    {
+      "name": "_finalize_class_virtual_tables@4",
+      "start": 495984,
+      "end": 495985
+    },
+    {
+      "name": "_declare_default_constructor_closures@4",
+      "start": 225392,
+      "end": 225393
+    },
+    {
+      "name": "_declare_deleting_destructors@4",
+      "start": 225904,
+      "end": 225905
+    },
+    {
+      "name": "_emit_deferred_class_terminator",
+      "start": 216704,
+      "end": 216705
+    },
+    {
+      "name": "_build_class_member_index@4",
+      "start": 210528,
+      "end": 210529
+    },
+    {
+      "name": "_new_type_set",
+      "start": 320368,
+      "end": 320379
+    },
+    {
+      "name": "_union_type_sets",
+      "start": 320928,
+      "end": 320929
+    },
+    {
+      "name": "_begin_type_set",
+      "start": 321168,
+      "end": 321169
+    },
+    {
+      "name": "_next_type_set",
+      "start": 321200,
+      "end": 321201
+    },
+    {
+      "name": "_type_set_contains",
+      "start": 320816,
+      "end": 320817
+    },
+    {
+      "name": "_add_type_set",
+      "start": 320576,
+      "end": 320577
+    },
+    {
+      "name": "_remove_type_set",
+      "start": 320720,
+      "end": 320721
+    },
+    {
+      "name": "_begin_conversion_functions@8",
+      "start": 199120,
+      "end": 199140
+    },
+    {
+      "name": "_next_conversion_function@4",
+      "start": 199152,
+      "end": 199241
+    },
+    {
+      "name": "_share_inherited_type_set@8",
+      "start": 420032,
+      "end": 420267
+    },
+    {
+      "name": "_canonical_conversion_type@4",
+      "start": 199248,
+      "end": 199249
+    },
+    {
+      "name": "_inline_vector_count",
+      "start": 320560,
+      "end": 320576
+    },
+    {
+      "name": "_equal_inline_vectors",
+      "start": 320848,
+      "end": 320849
+    },
+    {
+      "name": "_release_inline_vector",
+      "start": 320528,
+      "end": 320555
+    },
+    {
+      "name": "_release_permanent@8",
+      "start": 437664,
+      "end": 437667
+    },
+    {
+      "name": "_initialize_class_virtual_tables@4",
+      "start": 496016,
+      "end": 496088
+    },
+    {
+      "name": "_build_class_virtual_tables@4",
+      "start": 496096,
+      "end": 496097
+    },
+    {
+      "name": "_new_empty_vector@4",
+      "start": 321536,
+      "end": 321537
     }
   ],
   "cases": {

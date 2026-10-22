@@ -15,6 +15,8 @@
 #include "parser.h"
 #include "lexer.h"
 #include "class-members.h"
+#include "class-finalization.h"
+#include "class-type-sets.h"
 #include "inline-capture.h"
 #include "type-sizes.h"
 void interrupt_compile(int signal_number) { __asm { int 3 } }
@@ -188,7 +190,6 @@ void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
-CType * end_class_specifier(void) { __asm { int 3 } return 0; }
 void end_compound_statement(void) { __asm { int 3 } }
 void end_do_statement(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
@@ -400,3 +401,20 @@ FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *paramet
 void __stdcall classify_copy_assignment(CppSymbol *member) { __asm { int 3 } }
 int __stdcall compatible_override_return(CType *member, CType *inherited) { __asm { int 3 } return 0; }
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }
+void browser_end_tag(void) { __asm { int 3 } }
+void __stdcall declare_implicit_special_members(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall finalize_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall declare_default_constructor_closures(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall declare_deleting_destructors(CppSymbol *tag) { __asm { int 3 } }
+void emit_deferred_class_terminator(void) { __asm { int 3 } }
+void __stdcall build_class_member_index(CppSymbol *tag) { __asm { int 3 } }
+TypeSet *union_type_sets(TypeSet *set, TypeSet *source) { __asm { int 3 } return 0; }
+void begin_type_set(TypeSetIterator *iterator, TypeSet *set) { __asm { int 3 } }
+int next_type_set(TypeSetIterator *iterator) { __asm { int 3 } return 0; }
+int type_set_contains(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
+TypeSet *add_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
+TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
+CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
+int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
+void __stdcall build_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
+Vector *__stdcall new_empty_vector(int arena) { __asm { int 3 } return 0; }

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 289 accepted paired frontiers, including 214 frontend
+PARTIAL reconstruction: 300 accepted paired frontiers, including 225 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _end_class_specifier at original VA 0x2dfc0. The latest ordered replay is recorded in validation.json;
+trap is _new_empty_vector@4 at original VA 0x4e800. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -419,3 +419,26 @@ original text/switch bytes; this is not executed-block coverage.
 All 289 accepted frontiers replay exactly in evidence/replay-member-functions.log.
 The matched current trap is end_class_specifier at 0x2dfc0. The complete frontend
 case is still partial; no complete output equivalence is claimed.
+
+Class completion now retains its eleven direct callees, including separate
+scope retirement/pop and final member-name indexing. The conversion-operator
+sets at ClassInfo +0x18/+0x1c were identified through the kind-17 OverloadSet,
+its declaration flag 0x4000 (grammar rule 116), and canonicalization of the
+selected conversion function's return type. Their iterators preserve untouched
+padding and result fields until advancement. Permanent inline vectors provide
+the shared representation and canonical empty-vector identity; no duplicate
+empty-set global was introduced. Empty-set sharing still calls vector release,
+which computes the original allocation size and calls the separate no-op
+release_permanent entry (RET 8), preserving both graph edges and its ABI.
+
+Virtual-layout preparation retains distinct initialization and construction
+passes. The initialization clears inherited layout flags and allocates three
+separate empty arena-two vectors for vf tables, vb tables and secondary table
+groups. Native compile-time layout checks cover their ClassInfo offsets 8, 12
+and 16, as well as conversion-set offsets 24 and 28. All original state defaults
+and aliases remain covered by audit-data.py.
+
+All 300 accepted frontiers replay exactly in evidence/replay-class-completion-setup.log,
+including pending FILE buffers. The matched next trap is new_empty_vector at
+0x4e800. Accepted source/table ranges now cover 97,828 original .text bytes;
+this remains partial extent coverage, not executed-block or complete-case coverage.
