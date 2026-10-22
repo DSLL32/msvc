@@ -3,7 +3,8 @@
 #include <io.h>
 #include "initialization.h"
 
-WorkingStack *compiler_stack;
+WorkingStack *compiler_stack; /* original 0x8cfd0: deferred inline text */
+WorkingStack *initializer_record_stack; /* original 0x90f4c: binary initializer records */
 int pragma_vtordisp; /* original 0x9f460: default and #pragma vtordisp mode */
 int pch_separate_debug, pch_read_enabled, pch_write_enabled;
 int data_pointer_bytes, code_pointer_bytes;
@@ -36,7 +37,7 @@ void initialize_frontend(void)
     ArenaPool *pool;
     TypeDescription *description;
     SetHandleCount(30);
-    initialize_work_stack(&compiler_stack);
+    initialize_work_stack(&initializer_record_stack);
     if (options.pch_auto_file)
         options.pch_auto = 1;
     if (options.option_E) {

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 349 accepted paired frontiers, including 274 frontend
+PARTIAL reconstruction: 350 accepted paired frontiers, including 275 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _flush_scanned_declaration@4 at original VA 0x1e7a0. The latest ordered replay is recorded in validation.json;
+trap is _check_empty_declaration@4 at original VA 0x3b9a0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -532,5 +532,24 @@ helper retains cdecl. See evidence/class-member-completion.txt.
 
 All 349 accepted frontiers replay exactly in evidence/replay-class-member-completion.log,
 including pending FILE buffers. The next matching trap is deferred scanned-text
-flushing at 0x1e7a0, reached by the lexer's EOF lookahead path. Out-of-class
+flushing at 0x1e7a0, reached by the class-declaration reduction (rule 48). Out-of-class
 function bodies have not yet been accepted as parsed; equivalence remains partial.
+
+
+Scanned-declaration flushing exposed and corrected a startup state error: the
+initializer-record stack at 0x90f4c and deferred-inline stack at 0x8cfd0 are
+separate objects. Startup initializes only the former. The complete flush helper
+retains ten native callees and its replay/discard branches; unreached sealing,
+pushback-reset and storage-formatting children remain named traps.
+
+The differential harness now checks eight selected runtime fields and the
+logical caller at each trap, in addition to exact output bytes and FILE buffers.
+Only pointer nullness is compared for the two stacks; six scalar fields are exact.
+A caller difference is accepted only for a proven native tail-jump chain reached
+from the actual saved CALL return address. This accommodates original tail calls
+without inventing assembly in rebuilt C. Evidence and the corrected first flush
+caller are in evidence/scanned-stack-separation.txt.
+
+All 350 accepted frontiers replay exactly with these stronger checks in
+evidence/replay-scanned-stack-separation.log. The next matching trap is empty-
+declaration checking at 0x3b9a0. Complete frontend equivalence remains partial.

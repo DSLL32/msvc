@@ -1,0 +1,74 @@
+Deferred scanned text and the startup initializer-record stack
+=============================================================
+
+Original SHA256:
+333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7
+
+New whole function: flush_scanned_declaration@4, 1e7a0..1e942 (exclusive end),
+ten original callees. All replay/discard/prototype/macro/function/class/declaration
+branches are retained; unreached children stay typed named trapping stubs.
+
+Its first post-unmask pairing exposed an earlier reconstruction error:
+  original next trap:       check_empty_declaration@4
+  reconstruction next trap: begin_type_diagnostic
+The failure is retained in evidence/check-flush-scanned.log. Visible outputs and
+all four pending FILE buffers still matched, so they could not diagnose it alone.
+The prematurely prepared finish_work_stack body was returned to its named trap;
+it has not been accepted or unmasked.
+
+A debugger-only entry probe (ReadProcessMemory + GetThreadContext, no child state
+mutation) established the first flush call's context:
+  native return address 271b4: yacc rule 48 after end_class_specifier
+  argument: nonnull DeclarationType in both images
+  compiler_stack at native 8cfd0: null in original, allocated in reconstruction
+  macro-expansion count, captured-class errors, class depth, declaration depth,
+  token flags and C++ flags: equal (0, 0, -1, 0, 80000000, 00000000 respectively)
+The earlier provisional EOF attribution of this first call was incorrect; the
+same helper also has an EOF caller, but that is not this matching entry.
+
+The startup call at 68ce8 passes 90f4c to initialize_work_stack. It does not pass
+8cfd0. Those are two canonical objects: initializer_record_stack (90f4c) and
+compiler_stack (8cfd0, deferred inline/preprocessor text). Initialization now
+constructs only the former, preserving the latter's null initial state.
+Both BSS defaults and their separate addresses are audited.
+
+The initializer-record semantic name is supported by its later consumers:
+5ba40 seals/rewinds/reads the stack and writes its binary contents to the .in
+stream at 8cfec, followed by its record terminator. 5be80 writes typed binary
+initializer operands (including integer, floating and string data) to 90f4c.
+These functions were inspected as analysis and remain unaccepted native ranges.
+No original data sections or generated assembly have become source.
+
+The flush helper's captured_class_error_count at 91884 is independently distinct
+from macro_expansion_active at 91880. Both parser error reporters (26190 and
+263c0) increment it only inside an active class; the flush discard path clears
+it. Its new scalar default/address audit prevents another split-state alias.
+
+The helper retains the three-byte StorageSpec passed in one four-byte stack
+slot, the two-string " %Fs %Fs " work format, and its synthetic filename formed
+by appending "if" to the intermediate prefix at the existing source-buffer
+cursor. Parser/macro bits are represented by their original canonical 32-bit
+flag objects. Work-stack sealing, token-pushback reset and diagnostic storage
+formatting remain named child traps until reached.
+
+The harness now compares the logical caller as well as the trap function and
+exact output/pending-buffer bytes. It also reads eight selected semantic fields
+at each trap: deferred and initializer-stack nullness; macro expansion; captured
+class errors; current class index; declaration depth; token flags; C++ flags.
+Scalar values are exact. Pointer values compare only nullness because image/
+heap addresses may differ; this does not normalize any compiler output bytes.
+The new state/caller entry check and fixed next-frontier check both pass.
+
+The first stronger replay also exercised a documented native tail call at
+initialize_preprocessor -> initialize_macro_text. Native stack-frame elision
+makes its saved caller initialize_frontend, whereas ordinary rebuilt C keeps
+the initialize_preprocessor frame. The harness accepts that difference only
+when the actual saved return address proves the call into a wrapper and a
+chain of recovered final direct jumps reaches the current callee through the
+other observed caller. It records each proven chain in the replay log. The
+initial strict-caller failure is retained in replay-state-first-caller.log;
+scalar and output comparisons are unchanged by this bounded tail-call rule.
+
+The full ordered replay with these stronger checks is recorded in validation.json
+and evidence/replay-scanned-stack-separation.log. Complete-case equivalence is
+still partial; the fixed current frontier is check_empty_declaration@4 at 3b9a0.

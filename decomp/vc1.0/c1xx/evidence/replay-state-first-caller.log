@@ -1,0 +1,152 @@
+python3 wine-tool.py --init
+python3 compare.py --replay
+frontier 0/350: _mainCRTStartup
+original: _mainCRTStartup; reconstruction: _mainCRTStartup
+frontier 1/350: import:GetCommandLineA
+original: import:GetCommandLineA; reconstruction: import:GetCommandLineA
+frontier 2/350: import:GetEnvironmentStrings
+original: import:GetEnvironmentStrings; reconstruction: import:GetEnvironmentStrings
+frontier 3/350: import:GetVersion
+original: import:GetVersion; reconstruction: import:GetVersion
+frontier 4/350: __heap_init
+original: __heap_init; reconstruction: __heap_init
+frontier 5/350: __ioinit
+original: __ioinit; reconstruction: __ioinit
+frontier 6/350: import:GetStartupInfoA
+original: import:GetStartupInfoA; reconstruction: import:GetStartupInfoA
+frontier 7/350: import:GetStdHandle
+original: import:GetStdHandle; reconstruction: import:GetStdHandle
+frontier 8/350: import:GetFileType
+original: import:GetFileType; reconstruction: import:GetFileType
+frontier 9/350: __setargv
+original: __setargv; reconstruction: __setargv
+frontier 10/350: import:GetModuleFileNameA
+original: import:GetModuleFileNameA; reconstruction: import:GetModuleFileNameA
+frontier 11/350: _parse_cmdline
+original: _parse_cmdline; reconstruction: _parse_cmdline
+frontier 12/350: _malloc
+original: _malloc; reconstruction: _malloc
+frontier 13/350: __heap_search
+original: __heap_search; reconstruction: __heap_search
+frontier 14/350: __heap_grow
+original: __heap_grow; reconstruction: __heap_grow
+frontier 15/350: __heap_new_region
+original: __heap_new_region; reconstruction: __heap_new_region
+frontier 16/350: import:VirtualAlloc
+original: import:VirtualAlloc; reconstruction: import:VirtualAlloc
+frontier 17/350: __heap_grow_region
+original: __heap_grow_region; reconstruction: __heap_grow_region
+frontier 18/350: __heap_addblock
+original: __heap_addblock; reconstruction: __heap_addblock
+frontier 19/350: __heap_findaddr
+original: __heap_findaddr; reconstruction: __heap_findaddr
+frontier 20/350: __heap_grow_emptylist
+original: __heap_grow_emptylist; reconstruction: __heap_grow_emptylist
+frontier 21/350: __before
+original: __before; reconstruction: __before
+frontier 22/350: __heap_split_block
+original: __heap_split_block; reconstruction: __heap_split_block
+frontier 23/350: __setenvp
+original: __setenvp; reconstruction: __setenvp
+frontier 24/350: __cinit
+original: __cinit; reconstruction: __cinit
+frontier 25/350: __initterm
+original: __initterm; reconstruction: __initterm
+frontier 26/350: _main
+original: _main; reconstruction: _main
+frontier 27/350: _signal
+original: _signal; reconstruction: _signal
+frontier 28/350: import:SetConsoleCtrlHandler
+original: import:SetConsoleCtrlHandler; reconstruction: import:SetConsoleCtrlHandler
+frontier 29/350: _message_text
+original: _message_text; reconstruction: _message_text
+frontier 30/350: _parse_options
+original: _parse_options; reconstruction: _parse_options
+frontier 31/350: _push_linkage@4
+original: _push_linkage@4; reconstruction: _push_linkage@4
+frontier 32/350: _initialize_packing
+original: _initialize_packing; reconstruction: _initialize_packing
+frontier 33/350: _new_packing_stack
+original: _new_packing_stack; reconstruction: _new_packing_stack
+frontier 34/350: _allocate_permanent@4
+original: _allocate_permanent@4; reconstruction: _allocate_permanent@4
+frontier 35/350: _new_permanent_page
+original: _new_permanent_page; reconstruction: _new_permanent_page
+frontier 36/350: _new_bitset@4
+original: _new_bitset@4; reconstruction: _new_bitset@4
+frontier 37/350: _push_packing
+original: _push_packing; reconstruction: _push_packing
+frontier 38/350: _initialize_checksums
+original: _initialize_checksums; reconstruction: _initialize_checksums
+frontier 39/350: _initialize_lead_bytes
+original: _initialize_lead_bytes; reconstruction: _initialize_lead_bytes
+frontier 40/350: import:GetConsoleCP
+original: import:GetConsoleCP; reconstruction: import:GetConsoleCP
+frontier 41/350: import:GetCPInfo
+original: import:GetCPInfo; reconstruction: import:GetCPInfo
+frontier 42/350: _mark_lead_byte_ranges
+original: _mark_lead_byte_ranges; reconstruction: _mark_lead_byte_ranges
+frontier 43/350: _getenv
+original: _getenv; reconstruction: _getenv
+frontier 44/350: __strnicmp
+original: __strnicmp; reconstruction: __strnicmp
+frontier 45/350: _read_env_arguments
+original: _read_env_arguments; reconstruction: _read_env_arguments
+frontier 46/350: _extend_argument_vector
+original: _extend_argument_vector; reconstruction: _extend_argument_vector
+frontier 47/350: _checked_malloc@4
+original: _checked_malloc@4; reconstruction: _checked_malloc@4
+frontier 48/350: _new_vector@8
+original: _new_vector@8; reconstruction: _new_vector@8
+frontier 49/350: _refill_arena@8
+original: _refill_arena@8; reconstruction: _refill_arena@8
+frontier 50/350: _next_argument
+original: _next_argument; reconstruction: _next_argument
+frontier 51/350: _match_option
+original: _match_option; reconstruction: _match_option
+frontier 52/350: _prefix_character
+original: _prefix_character; reconstruction: _prefix_character
+frontier 53/350: _apply_option
+original: _apply_option; reconstruction: _apply_option
+frontier 54/350: _parse_option_number
+original: _parse_option_number; reconstruction: _parse_option_number
+frontier 55/350: _atol
+original: _atol; reconstruction: _atol
+frontier 56/350: _match_option_suffix
+original: _match_option_suffix; reconstruction: _match_option_suffix
+frontier 57/350: _append_vector@8
+original: _append_vector@8; reconstruction: _append_vector@8
+frontier 58/350: __fullpath
+original: __fullpath; reconstruction: __fullpath
+frontier 59/350: __getdcwd
+original: __getdcwd; reconstruction: __getdcwd
+frontier 60/350: import:GetCurrentDirectoryA
+original: import:GetCurrentDirectoryA; reconstruction: import:GetCurrentDirectoryA
+frontier 61/350: _finalize_options
+original: _finalize_options; reconstruction: _finalize_options
+frontier 62/350: _free
+original: _free; reconstruction: _free
+frontier 63/350: _guarded_compile
+original: _guarded_compile; reconstruction: _guarded_compile
+frontier 64/350: _compile_translation_unit
+original: _compile_translation_unit; reconstruction: _compile_translation_unit
+frontier 65/350: _initialize_frontend
+original: _initialize_frontend; reconstruction: _initialize_frontend
+frontier 66/350: import:SetHandleCount
+original: import:SetHandleCount; reconstruction: import:SetHandleCount
+frontier 67/350: _initialize_work_stack@4
+original: _initialize_work_stack@4; reconstruction: _initialize_work_stack@4
+frontier 68/350: _reset_work_stack@4
+original: _reset_work_stack@4; reconstruction: _reset_work_stack@4
+frontier 69/350: _initialize_preprocessor
+original: _initialize_preprocessor; reconstruction: _initialize_preprocessor
+frontier 70/350: _initialize_macro_text
+original: _initialize_macro_text; reconstruction: _initialize_macro_text
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c1xx/compare.py", line 229, in <module>
+    actual = compare(count, args.case, baseline=False)
+  File "/root/msvc2/decomp/vc1.0/c1xx/compare.py", line 182, in compare
+    assert caller_a == caller_b, 'logical caller differs: '+caller_a+' != '+caller_b
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: logical caller differs: _initialize_frontend != _initialize_preprocessor
+make: *** [Makefile:38: replay] Error 1

@@ -3,6 +3,7 @@
 #include "source-input.h"
 #include "ir.h"
 #include "parameters.h"
+#include "parser.h"
 
 #define GENERATING_MEMBER (token_allocation_flags & 0x08000000UL)
 
@@ -202,4 +203,65 @@ captured:
     token_allocation_flags &= ~0x200UL;
     /* Even semicolon recovery finishes with the captured-body grammar token. */
     parser_lookahead = 127;
+}
+
+int captured_class_error_count; /* original 0x91884 */
+void __stdcall write_storage_specification(StorageSpec storage, FILE *file);
+void __stdcall finish_work_stack(WorkingStack *stack);
+void reset_pushed_tokens(void);
+
+/* Original 0x1e7a0..0x1e942. Replay deferred inline text only outside the
+   class/declaration scopes, sealing its paged work stack as a synthetic input.
+   Parser errors within the captured class instead discard that text. */
+void __stdcall flush_scanned_declaration(DeclarationType *type)
+{
+    StorageSpec storage;
+    CppSymbol *tag;
+    char *name, *destination, *source;
+    if (macro_expansion_active) {
+        cpp_parser_flags |= 8;
+        return;
+    }
+    cpp_parser_flags &= ~8UL;
+    if (!compiler_stack || *(unsigned *)(compiler_stack->read + 0x7fc)) return;
+    if (token_allocation_flags & 0x40) flush_current_function(1);
+    if ((token_allocation_flags & 0x80000) || current_class_context >= 0 || declaration_depth > 0)
+        return;
+    if (!captured_class_error_count) {
+        if (cpp_parser_flags & 0x00100000UL) token_allocation_flags |= 0x08000000UL;
+        if (!options.prototypes_only) {
+            if (type) {
+                begin_type_diagnostic();
+                storage.flags = type->storage[0] | (type->storage[1] << 8);
+                storage.extended = type->storage[2];
+                write_storage_specification(storage, 0);
+                tag = cpp_context_stack->items[type->type->field08];
+                format_work_text(compiler_stack, " %Fs %Fs ", type_kind_name(type->type->flags), tag->name);
+                end_type_diagnostic();
+            }
+            token_allocation_flags |= 0x400;
+            finish_work_stack(compiler_stack);
+            name = destination = source_buffer_cursor;
+            source = options.intermediate_prefix;
+            for (;;) {
+                *destination = *source;
+                if (!*source++) break;
+                ++destination;
+            }
+            source = "if";
+            do {
+                source_buffer_cursor = destination + 1;
+                *destination++ = *source;
+            } while (*source++);
+            open_source_file(name, 2);
+            reset_pushed_tokens();
+            text_work_cursor = expression_storage;
+            return;
+        }
+    }
+    cpp_parser_flags &= ~0x00100000UL;
+    captured_class_error_count = 0;
+    finish_work_stack(compiler_stack);
+    text_work_cursor = expression_storage;
+    reset_work_stack(compiler_stack);
 }

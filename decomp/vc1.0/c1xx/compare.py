@@ -115,6 +115,12 @@ def run(label, exe, case=''):
         image = PE(wt.TC/'bin/C1XX3232.EXE')
         rvas = [s['original'] - image.base for s in cfg['buffered_streams']]
     args.append(','.join('%x' % rva for rva in rvas))
+    if cfg.get('checkpoint_state'):
+        specifications = []
+        for field in cfg['checkpoint_state']:
+            address = field['original'] if label != 'reconstructed' else addresses[field['name']]
+            specifications.append('%x:%s' % (address-image.base, 'p' if field.get('pointer') else 'v'))
+        args.append(','.join(specifications))
     subprocess.run(args, env=wt.environment(), check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return Path(str(stem)+'.events').read_text()
@@ -129,6 +135,43 @@ def logical(events, pe, records):
     r = min(candidates, key=lambda r:r['end']-r['start'])
     if m[1] != '80000003': return 'fault:%s:%s' % (m[1],r['name'])
     return r['name'] + ('+%x' % (addr-r['start']) if addr != r['start'] else '')
+
+def logical_caller(events, pe, records):
+    match = re.search(r'^caller ([0-9a-f]+)$', events, re.M)
+    assert match, 'could not inspect caller\n'+events
+    address = pe.base + int(match[1], 16)
+    candidates = [r for r in records if r['start'] <= address < r['end']]
+    return min(candidates, key=lambda r:r['end']-r['start'])['name'] if candidates else 'external'
+
+def tail_caller_equivalence(events, pe, records, nearer_caller, callee):
+    # The actual saved return address proves the call into the first wrapper.
+    # Only a chain of final, direct native tail jumps may erase that wrapper.
+    # Idiomatic C rebuilt with /Od can retain an ordinary call frame there.
+    from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+    match = re.search(r'^caller ([0-9a-f]+)$', events, re.M)
+    if not match: return None
+    returned = pe.base + int(match[1], 16)
+    try: call = pe.read(returned-5, 5)
+    except ValueError: return None
+    if len(call) != 5 or call[0] != 0xe8: return None
+    import struct
+    target = returned + struct.unpack('<i', call[1:])[0]
+    by_address = {r['start']:r for r in records}
+    path, seen = [], set()
+    disassembler = Cs(CS_ARCH_X86, CS_MODE_32)
+    while target in by_address and target not in seen:
+        seen.add(target)
+        function = by_address[target]
+        path.append(function['name'])
+        if function['name'] == callee:
+            return ' -> '.join(path) if nearer_caller in path[:-1] else None
+        instructions = list(disassembler.disasm(pe.read(target, function['end']-target), target))
+        if not instructions: return None
+        last = instructions[-1]
+        if last.address + last.size != function['end'] or last.mnemonic != 'jmp' or \
+           not re.fullmatch(r'0x[0-9a-f]+', last.op_str): return None
+        target = int(last.op_str, 16)
+    return None
 
 def prepare(accepted_count=None):
     orig, rec, cfg, oi, ri = indexes()
@@ -159,6 +202,19 @@ def compare(accepted_count=None, case='', baseline=True):
     al, bl = logical(ae,orig,oi), logical(be,rec,ri)
     print('original: %s; reconstruction: %s' % (al,bl), flush=True)
     if al != bl: raise RuntimeError('logical trap mismatch\n'+ae+be)
+    if cfg.get('checkpoint_state') and not al.startswith('exit:'):
+        state_a = re.findall(r'^state .*$', ae, re.M)
+        state_b = re.findall(r'^state .*$', be, re.M)
+        assert len(state_a) == len(cfg['checkpoint_state']), 'missing checkpoint state'
+        assert state_a == state_b, 'checkpoint state differs\n'+ae+be
+        assert not any('unreadable' in row for row in state_a), 'unreadable checkpoint state'
+        caller_a, caller_b = logical_caller(ae, orig, oi), logical_caller(be, rec, ri)
+        if caller_a != caller_b:
+            tail = (tail_caller_equivalence(ae, orig, oi, caller_b, al) or
+                    tail_caller_equivalence(be, rec, ri, caller_a, bl))
+            assert tail, 'logical caller differs: '+caller_a+' != '+caller_b
+            print('caller equivalence through native tail jumps: '+tail, flush=True)
+
     pending_a = re.findall(r'^buffer .*$', ae, re.M)
     pending_b = re.findall(r'^buffer .*$', be, re.M)
     assert pending_a == pending_b, 'pending intermediate bytes differ\n'+ae+be

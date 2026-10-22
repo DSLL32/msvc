@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 349,
-  "driver_functions": 274,
+  "accepted_frontiers": 350,
+  "driver_functions": 275,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 280,
-  "current_frontier": "_flush_scanned_declaration@4",
-  "original_frontier_va": "0x1e7a0",
+  "reconstructed_source_functions": 281,
+  "current_frontier": "_check_empty_declaration@4",
+  "original_frontier_va": "0x3b9a0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "1cb1217b1f528eb915f935f8788face34b2fb8ffd141adb4bcc1a24e8f28f012",
-  "call_graph_audit_functions": 280,
+  "replay_log_sha256": "a47d88ed743aa68c60de2ea34ead319721d755a6ae720a9cd3a7ee425682b39a",
+  "call_graph_audit_functions": 281,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -61,7 +61,9 @@
     "lookahead_stack_bytes": 1510,
     "declarator_nesting_bytes": 4,
     "active_parameter_symbol_defaults": 1,
-    "previous_base_class_defaults": 1
+    "previous_base_class_defaults": 1,
+    "initializer_record_stack_defaults": 1,
+    "captured_class_error_count_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -89,7 +91,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-class-member-completion.log",
+  "replay_log": "evidence/replay-scanned-stack-separation.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -306,7 +308,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 107647,
+  "accepted_source_text_and_switch_bytes": 108065,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -425,7 +427,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "3bcb29444ad0d00ab5beeb67ecec206c1c2853d136b14b74be55d41948c00a9e",
+  "replay_build_text_sha256": "bfeb1b8cedfa5b445b3a200485a450b66961c3ea68a367967f760c48fae59f98",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -623,5 +625,24 @@
     "temporary_bucket_bytes": 12,
     "temporary_link_bytes": 8,
     "full_ordered_replay_pass": true
+  },
+  "scanned_stack_separation": {
+    "evidence": "evidence/scanned-stack-separation.txt",
+    "flush_range": [
+      "0x1e7a0",
+      "0x1e942"
+    ],
+    "flush_callees": 10,
+    "first_flush_caller": "yacc rule 48, native return 0x271b4",
+    "deferred_inline_stack": "0x8cfd0",
+    "initializer_record_stack": "0x90f4c",
+    "startup_initializer_stack_argument_fixed": true,
+    "captured_class_errors": "0x91884",
+    "runtime_checkpoint_fields": 8,
+    "pointer_fields_compare_nullness": 2,
+    "scalar_fields_compare_exact": 6,
+    "logical_callers_compared": true,
+    "tail_caller_rule": "saved CALL target and recovered final direct-jump chain",
+    "all_accepted_frontiers_replayed_with_state_and_callers": true
   }
 }

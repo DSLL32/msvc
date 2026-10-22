@@ -353,7 +353,8 @@
     "_next_class_member_search@4",
     "_declare_deleting_destructors@4",
     "_build_class_member_index@4",
-    "_class_member_hash_bits"
+    "_class_member_hash_bits",
+    "_flush_scanned_declaration@4"
   ],
   "driver": [
     {
@@ -1691,7 +1692,7 @@
     {
       "name": "_flush_scanned_declaration@4",
       "start": 124832,
-      "end": 124833
+      "end": 125250
     },
     {
       "name": "_append_constructor_initializer@8",
@@ -3622,6 +3623,21 @@
       "name": "_class_member_hash_bits",
       "start": 210496,
       "end": 210516
+    },
+    {
+      "name": "_write_storage_specification@8",
+      "start": 427120,
+      "end": 427121
+    },
+    {
+      "name": "_finish_work_stack@4",
+      "start": 206928,
+      "end": 206929
+    },
+    {
+      "name": "_reset_pushed_tokens",
+      "start": 121680,
+      "end": 121681
     }
   ],
   "cases": {
@@ -4577,6 +4593,30 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_captured_class_error_count",
+      "original": 596100,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_captured_class_error_count",
+          "original": 596100,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_initializer_record_stack",
+      "original": 593740,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_record_stack",
+          "original": 593740,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [
@@ -4595,6 +4635,48 @@
     {
       "name": "_global_file",
       "original": 577520
+    }
+  ],
+  "checkpoint_state": [
+    {
+      "name": "_compiler_stack",
+      "original": 577488,
+      "pointer": true
+    },
+    {
+      "name": "_initializer_record_stack",
+      "original": 593740,
+      "pointer": true
+    },
+    {
+      "name": "_macro_expansion_active",
+      "original": 596096,
+      "pointer": false
+    },
+    {
+      "name": "_captured_class_error_count",
+      "original": 596100,
+      "pointer": false
+    },
+    {
+      "name": "_current_class_context",
+      "original": 654312,
+      "pointer": false
+    },
+    {
+      "name": "_declaration_control",
+      "original": 576536,
+      "pointer": false
+    },
+    {
+      "name": "_token_allocation_flags",
+      "original": 653200,
+      "pointer": false
+    },
+    {
+      "name": "_cpp_parser_flags",
+      "original": 653204,
+      "pointer": false
     }
   ]
 }

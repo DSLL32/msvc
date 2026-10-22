@@ -130,7 +130,7 @@ void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound) { __
 void __stdcall add_case_label(IrToken *expression) { __asm { int 3 } }
 void __stdcall add_named_base(unsigned char access, int is_virtual, char *name) { __asm { int 3 } }
 void __stdcall add_qualified_base(unsigned char access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
-void __stdcall flush_scanned_declaration(DeclarationType *type) { __asm { int 3 } }
+
 IrToken *__stdcall append_constructor_initializer(IrToken *list, IrToken *initializer) { __asm { int 3 } return 0; }
 IrToken *__stdcall append_expression(IrToken *list, IrToken *expression, int mode) { __asm { int 3 } return 0; }
 void __stdcall apply_constructor_initializers(IrToken *initializers) { __asm { int 3 } }
@@ -473,3 +473,9 @@ void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *const
 
 
 void __stdcall make_deleting_destructors(CppSymbol *tag, CppSymbol *destructor, int model) { __asm { int 3 } }
+
+void __stdcall write_storage_specification(StorageSpec storage, FILE *file) { __asm { int 3 } }
+
+void reset_pushed_tokens(void) { __asm { int 3 } }
+
+void __stdcall finish_work_stack(WorkingStack *stack) { __asm { int 3 } }

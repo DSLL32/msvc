@@ -2,6 +2,7 @@
 #define INLINE_CAPTURE_H
 #include "class-members.h"
 
+extern int captured_class_error_count;
 void begin_pending_class_names(void);
 char *next_pending_class_name(void);
 void __cdecl format_work_text(WorkingStack *stack, char *format, ...);

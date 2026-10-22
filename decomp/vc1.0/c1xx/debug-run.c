@@ -44,6 +44,38 @@ static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rv
     }
 }
 
+/* Compare selected semantic state while the child is stopped. Pointer
+   fields report nullness, so addresses need not match between linked images. */
+static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
+    DWORD base, char *specifications)
+{
+    DWORD address, value, got, written, index = 0;
+    CONTEXT context;
+    char *next, mode, line[128];
+    while (*specifications) {
+        address = base + strtoul(specifications, &next, 16);
+        if (next == specifications || *next != ':') return;
+        mode = next[1];
+        next += 2;
+        value = got = 0;
+        if (!ReadProcessMemory(process, (void *)address, &value, 4, &got) || got != 4)
+            sprintf(line, "state %lu unreadable\n", index++);
+        else {
+            if (mode == 'p') value = value != 0;
+            sprintf(line, "state %lu %08lx\n", index++, value);
+        }
+        WriteFile(log, line, strlen(line), &written, 0);
+        specifications = *next == ',' ? next + 1 : next;
+    }
+    context.ContextFlags = CONTEXT_CONTROL;
+    value = got = 0;
+    if (!GetThreadContext(thread, &context) ||
+        !ReadProcessMemory(process, (void *)context.Esp, &value, 4, &got) || got != 4)
+        sprintf(line, "caller unreadable\n");
+    else sprintf(line, "caller %08lx\n", value - base);
+    WriteFile(log, line, strlen(line), &written, 0);
+}
+
 int main(int argc, char **argv)
 {
     STARTUPINFOA si;
@@ -56,7 +88,7 @@ int main(int argc, char **argv)
     void *environment = 0;
     int loader_break = 0;
 
-    if (argc < 6 || argc > 10) return 2;
+    if (argc < 6 || argc > 11) return 2;
     if (argc >= 8) {
         if (strlen(argv[7]) + 2 > sizeof(child_environment)) return 2;
         strcpy(child_environment, argv[7]);
@@ -108,8 +140,10 @@ int main(int argc, char **argv)
                         code, (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress - base,
                         base, ev.u.Exception.dwFirstChance);
                 WriteFile(log, line, strlen(line), &written, 0);
-                if (argc == 10)
+                if (argc >= 10)
                     dump_stream_buffers(pi.hProcess, log, base, argv[9]);
+                if (argc == 11)
+                    dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10]);
                 TerminateProcess(pi.hProcess, 99);
             }
         } else if (ev.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {
