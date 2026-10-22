@@ -1,5 +1,6 @@
 /* Initializer-value records share the ordinary and buffered output encodings. */
 #include "initializer-records.h"
+#include "initializers.h"
 #include "literal-names.h"
 #include "global-ir.h"
 #include "control-ir.h"
@@ -215,4 +216,49 @@ int __stdcall is_character_array_initializer(FrontendSymbol *symbol, IrToken *va
     shape = symbol->type->related;
     if (symbol->attributes & 2) shape = shape->related;
     return shape->related == 0;
+}
+
+/* Original 0x3bd70..0x3be58. Reduce constant address arithmetic to a
+   symbol plus displacement, retaining the original in-place '+' exchange. */
+int __stdcall find_initializer_address(IrToken *value, FrontendSymbol **symbol, int *offset)
+{
+    IrToken *left, *right;
+    ExpressionNode *node;
+    unsigned adjustment;
+    for (;;) {
+        value = normalize_initializer_expression(value);
+        switch (value->flags & 7) {
+        case 2:
+            node = (ExpressionNode *)value;
+            switch (value->kind) {
+            case TOK_PLUS:
+                left = node->value.children.left;
+                if ((left->flags & 7) == 3) {
+                    node->value.children.left = node->value.children.right;
+                    node->value.children.right = left;
+                }
+                break;
+            case TOK_LEFT_BRACKET: case TOK_MINUS: case TOK_MEMBER: case TOK_ARROW:
+                break;
+            default: return 0;
+            }
+            right = node->value.children.right;
+            if ((right->flags & 7) != 3 || !(right->type->flags & 0x40)) return 0;
+            adjustment = right->value.integer;
+            if (value->kind == TOK_MINUS) adjustment = 0U - adjustment;
+            *offset += adjustment;
+            value = node->value.children.left;
+            break;
+        case 3:
+            *offset += value->value.integer;
+            return 1;
+        case 5:
+            value = materialize_string_literal(value);
+            /* The materialized literal is an ordinary symbol reference. */
+        case 4:
+            *symbol = value->value.pointer;
+            return 1;
+        default: return 0;
+        }
+    }
 }

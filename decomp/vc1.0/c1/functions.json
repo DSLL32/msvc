@@ -468,7 +468,19 @@
     "_prepare_initializer_symbol@4",
     "_begin_aggregate_initializer@4",
     "_push_initializer_frame@4",
-    "_is_scalar_initializer_symbol@4"
+    "_is_scalar_initializer_symbol@4",
+    "_emit_initializer@4",
+    "_normalize_initializer_expression@4",
+    "_select_initializer_target@4",
+    "_descend_initializer_target@4",
+    "_next_initializer_member@8",
+    "_check_runtime_initializer@8",
+    "_find_initializer_address@12",
+    "_emit_runtime_symbol_initializer@8",
+    "_check_static_initializer@8",
+    "_make_initializer_lvalue@4",
+    "_emit_initializer_assignment@8",
+    "_emit_checked_initializer_assignment@8"
   ],
   "driver": [
     {
@@ -1652,7 +1664,7 @@
     {
       "name": "_emit_initializer@4",
       "start": 197024,
-      "end": 197025
+      "end": 198053
     },
     {
       "name": "_begin_nested_initializer",
@@ -3464,7 +3476,7 @@
     {
       "name": "_find_initializer_address@12",
       "start": 245104,
-      "end": 245105
+      "end": 245336
     },
     {
       "name": "_initializer_address_size@4",
@@ -3510,6 +3522,91 @@
       "name": "_is_scalar_initializer_symbol@4",
       "start": 199920,
       "end": 199992
+    },
+    {
+      "name": "_normalize_initializer_expression@4",
+      "start": 201712,
+      "end": 201852
+    },
+    {
+      "name": "_select_initializer_target@4",
+      "start": 198064,
+      "end": 198129
+    },
+    {
+      "name": "_check_runtime_initializer@8",
+      "start": 194272,
+      "end": 194400
+    },
+    {
+      "name": "_check_static_initializer@8",
+      "start": 193856,
+      "end": 194268
+    },
+    {
+      "name": "_advance_initializer",
+      "start": 199024,
+      "end": 199025
+    },
+    {
+      "name": "_emit_runtime_initializer@4",
+      "start": 195520,
+      "end": 195521
+    },
+    {
+      "name": "_fit_string_initializer@8",
+      "start": 195136,
+      "end": 195137
+    },
+    {
+      "name": "_emit_runtime_symbol_initializer@8",
+      "start": 195248,
+      "end": 195511
+    },
+    {
+      "name": "_emit_initializer_constant@4",
+      "start": 201856,
+      "end": 201857
+    },
+    {
+      "name": "_descend_initializer_target@4",
+      "start": 198144,
+      "end": 198851
+    },
+    {
+      "name": "_next_initializer_member@8",
+      "start": 198864,
+      "end": 199018
+    },
+    {
+      "name": "_emit_member_padding@4",
+      "start": 193808,
+      "end": 193809
+    },
+    {
+      "name": "_make_initializer_lvalue@4",
+      "start": 194400,
+      "end": 194471
+    },
+    {
+      "name": "_emit_memory_initializer_call@8",
+      "start": 194752,
+      "end": 194753
+    },
+    {
+      "name": "_emit_inline_memory_initializer@16",
+      "start": 194672,
+      "end": 194673
+    },
+    {
+      "name": "_emit_initializer_assignment@8",
+      "start": 195808,
+      "end": 195826
+    },
+    {
+      "name": "_emit_checked_initializer_assignment@8",
+      "start": 195840,
+      "end": 195877
     }
   ],
   "cases": {

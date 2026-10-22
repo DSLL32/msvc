@@ -298,7 +298,6 @@ void __stdcall finish_initializer(FrontendSymbol *symbol, IrToken *initializer) 
 /* Original 0x300c0. */
 
 /* Original 0x301a0. */
-void __stdcall emit_initializer(IrToken *initializer) { __asm { int 3 } }
 
 /* Original 0x30e40. */
 void begin_nested_initializer(void) { __asm { int 3 } }
@@ -419,7 +418,7 @@ void __stdcall browser_function_parameters(FrontendSymbol *symbol) { __asm { int
 
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
 
-void report_declaration_context_error(unsigned code, unsigned detail, char *name) { __asm { int 3 } }
+void report_declaration_context_error(unsigned warning, unsigned error, ...) { __asm { int 3 } }
 
 void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 
@@ -784,10 +783,21 @@ void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendS
 unsigned __stdcall write_initializer_bytes(void *data, unsigned size, unsigned count, InitializerBuffer *buffer) { __asm { int 3 } }
 int __stdcall put_initializer_byte(int value, InitializerBuffer *buffer) { __asm { int 3 } }
 
-int __stdcall find_initializer_address(IrToken *value, FrontendSymbol **symbol, int *offset) { __asm { int 3 } }
 unsigned __stdcall initializer_address_size(FrontendSymbol *symbol) { __asm { int 3 } }
 int extended_to_double(const Extended *value, double *result) { __asm { int 3 } }
 int extended_to_float(const Extended *value, float *result) { __asm { int 3 } }
 int extended_to_integer(const Extended *value, int *result) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
+
+int advance_initializer(void) { __asm { int 3 } }
+void __stdcall emit_runtime_initializer(IrToken *value) { __asm { int 3 } }
+unsigned __stdcall fit_string_initializer(FrontendSymbol *symbol, IrToken *value) { __asm { int 3 } }
+void __stdcall emit_initializer_constant(FrontendSymbol *symbol) { __asm { int 3 } }
+
+
+
+void __stdcall emit_member_padding(FrontendSymbol *member) { __asm { int 3 } }
+
+void __stdcall emit_memory_initializer_call(unsigned operation, ArgumentNode *arguments) { __asm { int 3 } }
+void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target, IrToken *value, IrToken *bytes) { __asm { int 3 } }

@@ -1,6 +1,8 @@
 /* Declaration and aggregate initializer state. */
 #include "initializers.h"
 #include "initializer-records.h"
+#include "literal-names.h"
+#include "global-ir.h"
 
 FrontendSymbol *initializer_symbol; /* original 0x6023c */
 unsigned initializer_offset; /* original 0x60244 */
@@ -27,10 +29,8 @@ FrontendSymbol *__stdcall prepare_initializer_symbol(FrontendSymbol *symbol)
     return symbol;
 }
 
-InitializerFrame initializer_frames[32]; /* original 0x6025c..0x6045c */
-InitializerFrame *initializer_frame; /* original 0x60258 */
+InitializerFrameStorage initializer_frame_storage; /* original 0x6024c..0x6045c */
 int initializer_depth = -1; /* original 0x6cd14 */
-int initializer_error_reported; /* original 0x60254 */
 CType *initializer_inferred_type; /* original 0x60230 */
 
 /* Original 0x300c0..0x3019a. Start a fresh aggregate traversal and
@@ -62,7 +62,7 @@ void __stdcall begin_aggregate_initializer(FrontendSymbol *symbol)
     scanner_flags &= ~0x100000UL;
 }
 
-/* Original 0x6c070: sizes for symbol kinds 0..19. Tags and enum
+/* Original 0x6c070: sizes for symbol kinds 0..19. Bitfields and enum
    constants have shorter records than the complete declaration variant. */
 unsigned initializer_symbol_copy_sizes[20] = {
     44, 44, 40, 38, 44, 28, 36, 32, 40, 44,
@@ -110,3 +110,374 @@ int __stdcall is_scalar_initializer_symbol(FrontendSymbol *symbol)
     }
     return (type->flags & 0xb40) != 0;
 }
+
+unsigned initializer_bitfield_offset; /* original 0x60248 */
+
+/* Original 0x301a0..0x305a5. Emit one aggregate member, preserving the
+   separate constant/runtime paths and bitfield storage-unit accumulation. */
+void __stdcall emit_initializer(IrToken *initializer)
+{
+    IrToken *value, *left, *right;
+    FrontendSymbol *symbol;
+    CType *type;
+    unsigned short flags;
+    unsigned packed, count, character_bytes;
+    int number, string_array;
+    if (!initializer || initializer_depth < 0 || (initializer_frame->flags & 0x20)) return;
+    value = normalize_initializer_expression(initializer);
+    if (token_categories[value->kind] == TOK_MEMBER_OPERATOR) {
+        left = ((ExpressionNode *)value)->value.children.left;
+        if (left && (left->flags & 7) == 3) {
+            right = ((ExpressionNode *)value)->value.children.right;
+            value = make_integer_constant(right->value.integer + left->value.integer);
+        }
+    }
+    if (!select_initializer_target(value)) {
+        if (!initializer_error_reported) {
+            initializer_error_reported = 1;
+            report_syntax_error(78);
+        }
+        return;
+    }
+    if (scanner_flags & 0x200000) check_runtime_initializer(initializer_frame->symbol, value);
+    else if (!check_static_initializer(initializer_frame->symbol, &value)) {
+        report_syntax_error(99);
+        return;
+    }
+    symbol = initializer_frame->symbol;
+    if ((symbol->kind & 0x1f) == 2) {
+        if (!initializer_bitfield_active) {
+            initializer_bitfield_active = 1;
+            initializer_bitfield_value = 0;
+            initializer_bitfield_offset = symbol->detail.value;
+        }
+        flags = value->type->flags;
+        if (!(flags & 0x140)) {
+            report_syntax_error(77, initializer_frame->symbol->name);
+            advance_initializer();
+            return;
+        }
+        if ((value->flags & 7) == 3) {
+            if (flags & 0x100) {
+                if (extended_to_integer(value->value.pointer, &number)) compiler_warning(2, 56);
+                value->value.integer = number;
+            }
+            symbol = initializer_frame->symbol;
+            packed = ((1U << (symbol->metadata.bitfield.width & 31)) - 1) & value->value.integer;
+            packed <<= symbol->metadata.bitfield.offset & 31;
+            initializer_bitfield_value |= packed;
+            advance_initializer();
+            return;
+        }
+        if ((scanner_flags & 0x200000) &&
+            (initializer_runtime_override || options.extensions_enabled)) {
+            emit_runtime_initializer(initializer);
+            advance_initializer();
+            return;
+        }
+        advance_initializer();
+        return;
+    }
+    string_array = is_character_array_initializer(symbol, value);
+    if (string_array) value->length = fit_string_initializer(initializer_frame->symbol, value);
+    if (scanner_flags & 0x200000)
+        emit_runtime_symbol_initializer(initializer_frame->symbol, initializer);
+    else write_initializer_value(initializer_frame->symbol, value, 0);
+    if (string_array) {
+        if (initializer_frame->offset) {
+            if (!initializer_frame->string_seen && options.extensions_enabled)
+                compiler_warning(4, 207);
+            else if (!initializer_error_reported) {
+                initializer_error_reported = 1;
+                report_syntax_error(78);
+            }
+        }
+        character_bytes = (value->auxiliary_flags & 1) ? 2 : 1;
+        initializer_frame->offset += value->length / character_bytes;
+        initializer_frame->string_seen = 1;
+        count = initializer_frame->symbol->type->related->field08;
+        if (count) {
+            if (count <= initializer_frame->offset) {
+                initializer_frame->flags |= 2;
+                if (initializer_frame->offset > count && !initializer_error_reported) {
+                    initializer_error_reported = 1;
+                    report_syntax_error(78);
+                }
+            } else {
+                constant_one = character_bytes * (count - initializer_frame->offset);
+                emit_initializer_constant(0);
+                initializer_frame->offset = count;
+            }
+        }
+        if (!(scanner_flags & 0x200000)) {
+            initializer_offset += value->length;
+            advance_initializer();
+            return;
+        }
+    } else if (!(scanner_flags & 0x200000)) {
+        type = remove_type_prefix(initializer_frame->symbol->type);
+        if (initializer->type->related && (initializer->type->related->flags & 7) == 2)
+            initializer->type = decay_array_expression_type(initializer);
+        check_assignment_conversion(TOK_INITIALIZING, type, initializer);
+        initializer_offset += type_size(type);
+    }
+    advance_initializer();
+}
+
+/* Original 0x313f0..0x3147c. Strip casts and redundant segment/base
+   wrappers while retaining a based reference whose base still has a shape. */
+IrToken *__stdcall normalize_initializer_expression(IrToken *value)
+{
+    IrToken *left, *right, *reference;
+    FrontendSymbol *symbol;
+    TypeShape *shape;
+    for (;;) {
+        switch (value->kind) {
+        case TOK_CAST:
+            value = ((ExpressionNode *)value)->value.children.left;
+            continue;
+        case TOK_BASED_REFERENCE:
+            left = ((ExpressionNode *)value)->value.children.left;
+            right = ((ExpressionNode *)value)->value.children.right;
+            if (!right) {
+                value = left;
+                continue;
+            }
+            if ((left->type->related->attributes & 7) != 5) return value;
+            reference = token_categories[right->kind] == TOK_DEREFERENCE ?
+                ((ExpressionNode *)right)->value.children.left : right;
+            symbol = reference->value.pointer;
+            shape = symbol->type->related;
+            if (shape && !(shape->flags & 7)) shape = shape->related;
+            if (shape) return value;
+            value = left;
+            continue;
+        case TOK_SEGMENT:
+            left = ((ExpressionNode *)value)->value.children.left;
+            if (left->flags & 0x80) {
+                value = left;
+                continue;
+            }
+            break;
+        }
+        return value;
+    }
+}
+
+/* Original 0x305b0..0x305f1. Descend aggregate levels until the current
+   symbol can receive this scalar or character-array value. */
+int __stdcall select_initializer_target(IrToken *value)
+{
+    while (descend_initializer_target(value)) {
+        if (is_scalar_initializer_symbol(initializer_frame->symbol) ||
+            is_character_array_initializer(initializer_frame->symbol, value)) return 1;
+    }
+    return 0;
+}
+
+/* Original 0x30600..0x308c3. Descend array elements or aggregate
+   members, retaining mutable types for arrays whose bounds are inferred. */
+int __stdcall descend_initializer_target(IrToken *value)
+{
+    FrontendSymbol *symbol, *tag, *member;
+    CType *type;
+    unsigned kind;
+    int incomplete_array;
+    char *name;
+    if (initializer_depth < 0 || (initializer_frame->flags & 0x20)) return 0;
+    symbol = initializer_frame->symbol;
+    if (is_scalar_initializer_symbol(symbol)) return !(initializer_frame->flags & 8);
+    if (is_character_array_initializer(symbol, value)) return 1;
+    if (initializer_frame->flags & 2) return 0;
+    if (symbol->attributes & 0x400) {
+        incomplete_array = (symbol->attributes & 0x100) &&
+            (initializer_frame->type->related->flags & 7) == 2 &&
+            !initializer_frame->type->related->field08;
+        push_initializer_frame(symbol);
+        symbol = initializer_frame->symbol;
+        *initializer_frame->type = *drop_first_type_shape(symbol->type);
+        symbol->type = initializer_frame->type;
+        initializer_inferred_type = incomplete_array ? initializer_frame->type : 0;
+        if (symbol->type->related && (symbol->type->related->flags & 7) == 2)
+            symbol->attributes |= 0x400;
+        else symbol->attributes &= ~0x400;
+        return 1;
+    }
+    type = symbol->type;
+    switch (type->flags & 0x2fdf) {
+    case 0x402: case 0x408:
+        break;
+    case 0x412: case 0x414: case 0x418:
+        tag = (FrontendSymbol *)type->field08;
+        if (!(tag->flags & 1)) {
+            name = symbol->name;
+            if (initializer_depth >= 0) {
+                initializer_frame = &initializer_frames[--initializer_depth];
+                if (initializer_depth >= 0)
+                    report_syntax_error(79, initializer_frame->symbol->name, name);
+            }
+            initializer_depth = -1;
+            return 0;
+        }
+        push_initializer_frame(tag);
+        kind = symbol->kind & 0x1f;
+        if (!(kind >= 1 && kind <= 13 && kind != 5 &&
+              symbol->name == name_unnamed && (symbol->attributes & 0x800)))
+            symbol = initializer_frame->symbol;
+        break;
+    default:
+        initializer_frame->flags |= 0x20;
+        return 0;
+    }
+    kind = symbol->kind & 0x1f;
+    if (kind >= 1 && kind <= 13 && kind != 5 &&
+        symbol->name == name_unnamed && (symbol->attributes & 0x800))
+        member = symbol->next;
+    else member = symbol->associated.members;
+    member = next_initializer_member(0, member);
+    if (!member) {
+        initializer_frame->symbol->associated.members = 0;
+        return advance_initializer();
+    }
+    initializer_frame->symbol->associated.members = member;
+    push_initializer_frame(member);
+    symbol = initializer_frame->symbol;
+    if (is_character_array_initializer(symbol, value) && (symbol->attributes & 0x100))
+        initializer_inferred_type = drop_first_type_shape(symbol->type);
+    return 1;
+}
+
+/* Original 0x308d0..0x3096a. Skip unnamed padding members, flushing
+   a pending bitfield unit before the padding record. */
+FrontendSymbol *__stdcall next_initializer_member(FrontendSymbol *container, FrontendSymbol *member)
+{
+    unsigned kind;
+    while (member) {
+        kind = member->kind & 0x1f;
+        if (kind < 1 || kind > 13 || kind == 5 || member->name != name_unnamed) return member;
+        if (!(member->attributes & 0x1800)) {
+            if (initializer_bitfield_active) {
+                constant_one = initializer_bitfield_value;
+                emit_initializer_constant(container);
+                initializer_bitfield_active = 0;
+            }
+            emit_member_padding(member);
+        } else {
+            if (member->attributes & 0x1000) return 0;
+            if (member->attributes & 0x800) return member;
+        }
+        member = member->next;
+    }
+    return 0;
+}
+
+/* Original 0x2f6e0..0x2f760. The Microsoft extension permits an
+   automatic object's address in this initializer with a level-four warning. */
+void __stdcall check_runtime_initializer(FrontendSymbol *symbol, IrToken *value)
+{
+    FrontendSymbol *reference = 0;
+    int offset = 0;
+    if (find_initializer_address(value, &reference, &offset) && reference &&
+        (reference->storage[0] & 7) == 4) {
+        if (options.extensions_enabled)
+            compiler_warning(4, 221, symbol->name, reference->name);
+        else report_syntax_error(93, symbol->name, reference->name);
+    }
+}
+
+/* Original 0x2fab0..0x2fbb7. Scalar automatic initialization emits an
+   assignment; strings choose an inline or call-form memory copy. */
+void __stdcall emit_runtime_symbol_initializer(FrontendSymbol *symbol, IrToken *value)
+{
+    IrToken *target, *bytes;
+    ArgumentNode *arguments;
+    unsigned size;
+    if (!check_static_initializer(symbol, &value)) report_declaration_context_error(204, 97);
+    target = make_initializer_lvalue(symbol->type);
+    if (is_character_array_initializer(symbol, value)) {
+        value->length = fit_string_initializer(symbol, value);
+        if (!options.option_qc && !(options.option_M & 4)) {
+            bytes = make_integer_constant(value->length);
+            arguments = append_argument(0, target, 1);
+            arguments = append_argument(arguments, value, 1);
+            arguments = append_argument(arguments, bytes, 1);
+            emit_memory_initializer_call(172, arguments);
+        } else {
+            bytes = make_integer_constant(value->length);
+            emit_inline_memory_initializer(172, target, value, bytes);
+        }
+        initializer_offset += value->length;
+    } else {
+        target->type = symbol->type;
+        size = type_size(symbol->type);
+        emit_initializer_assignment(target, value);
+        initializer_offset += size;
+    }
+}
+
+/* Original 0x2f540..0x2f6dc. Accept constant data and eligible symbol
+   relocations, including the restricted integer form of a based pointer. */
+int __stdcall check_static_initializer(FrontendSymbol *symbol, IrToken **value)
+{
+    FrontendSymbol *reference = 0, *base;
+    TypeShape *shape, *base_shape;
+    unsigned kind;
+    int offset = 0;
+    if (!*value) return 0;
+    if ((*value)->type != symbol->type) {
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 7)) shape = shape->related;
+        if (shape && (shape->flags & 1) && (shape->attributes & 7) == 5) {
+            base = (FrontendSymbol *)shape->field08;
+            base_shape = base->type->related;
+            if (base_shape && !(base_shape->flags & 7)) base_shape = base_shape->related;
+            if (base_shape && !((*value)->flags & 0x80) &&
+                !(((*value)->flags & 7) == 3 && ((*value)->type->flags & 0x2fdf) == 0x64))
+                return 0;
+        }
+    }
+    kind = (*value)->flags & 7;
+    if (kind == 5 || kind == 3) return 1;
+    if (!find_initializer_address(*value, &reference, &offset)) return 0;
+    if (!reference) return 1;
+    kind = reference->kind & 0x1f;
+    if (kind == 13 && reference->index == 6) return 0;
+    shape = reference->type->related;
+    if (shape && !(shape->flags & 7) &&
+        (((FrontendSymbol *)shape->field08)->kind & 0x1f) != 13) return 0;
+    if ((reference->storage[0] & 7) == 4 &&
+        ((symbol->kind & 0x1f) == 3 || (symbol->kind & 0x1f) == 2 ||
+         (symbol->storage[0] & 7) == 3)) return 0;
+    if ((reference->storage[2] & 2) && kind != 7) return 0;
+    if ((reference->storage[2] & 4) && !(reference->storage[2] & 8)) return 0;
+    return 1;
+}
+
+/* Original 0x2f760..0x2f7a7. Aggregate members are addressed relative
+   to the declaration currently being initialized and its byte offset. */
+IrToken *__stdcall make_initializer_lvalue(CType *type)
+{
+    IrToken *offset, *object;
+    if (is_scalar_initializer_symbol(initializer_symbol)) return make_symbol_reference(initializer_symbol);
+    offset = make_integer_constant(initializer_offset);
+    object = make_symbol_reference(initializer_symbol);
+    return make_typed_ir_expression(TOK_MEMBER, object, offset, type);
+}
+
+/* Original 0x2fce0..0x2fcf2. Retain the separate assignment entry
+   and its common expression-emission helper. */
+int __stdcall emit_initializer_assignment(IrToken *target, IrToken *value)
+{
+    return emit_checked_initializer_assignment(target, value);
+}
+
+/* Original 0x2fd00..0x2fd25. Build the initializing assignment through
+   the ordinary expression checks and emit it as a statement. */
+int __stdcall emit_checked_initializer_assignment(IrToken *target, IrToken *value)
+{
+    target = make_indirection(target);
+    emit_expression_statement(make_binary_expression(TOK_INITIALIZING, target, value));
+    return 1;
+}
+
+typedef char InitializerFrameStorage_must_be_528_bytes[sizeof(InitializerFrameStorage) == 528 ? 1 : -1];

@@ -246,7 +246,7 @@ TypeShape *__stdcall merge_function_shape(FrontendSymbol *symbol, ShapeCursor ba
 void __stdcall finish_array_declarator(FrontendSymbol *symbol, TypeShape **result,
     ShapeCursor current, int is_typedef);
 void __stdcall merge_declarator_type(FrontendSymbol *symbol, CType *type, int is_typedef);
-void report_declaration_context_error(unsigned code, unsigned detail, char *name);
+void report_declaration_context_error(unsigned warning, unsigned error, ...);
 void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol);
 unsigned short __stdcall normalize_symbol_storage(unsigned short attributes, FrontendSymbol *symbol);
 void __stdcall finalize_symbol_type(CType *type, FrontendSymbol *symbol);
