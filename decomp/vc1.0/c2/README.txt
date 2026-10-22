@@ -561,3 +561,27 @@ The dominator checkpoint has 345 source functions and 422 accepted frontiers.
 All 70 hello frontiers replay, all graph edges agree, both changed implementation
 modules compile /W3 clean, and the complete minimal object/exit regression passes.
 Hello output remains pending at find_flow_regions.
+
+Hello now passes region discovery and its candidate predecessor scans. The full
+156-instruction parent constructs natural-loop preheaders and irreducible ranges,
+partitions predecessor chains, redirects branch labels and links nested region
+records. Its allocator reserves the native 44 bytes even though only the region
+prefix is currently encountered. A named local enum expresses this allocation
+extent; no unknown trailing storage or image snapshot is copied into C.
+
+Candidate scanning uses separately owned WorkItem pointers at 0x7becc and
+0x7bec8, marks each reachable block once and clears all temporary marks before
+advancing to the next candidate. The first function has no loop regions, so
+preheader creation, nested region assignment and their typed helper traps remain
+unvisited. The redirect helper's fixed three-argument fastcall ABI has one
+callee-cleaned stack argument (RET 4), expressed as ordinary typed C calls.
+
+An independent post-discovery capture agrees on the null region roots, cleared
+visit bits, six numbered blocks, 12 dominator chunks, 21 expressions, 91 visited
+nodes, edges, symbols and label uses. Only the debugger exception address is
+normalized. See cases/hello-regions-abi.json for exact extents and branch limits.
+
+This checkpoint has 350 source functions and 427 accepted frontiers. All 75
+hello frontiers replay, all graph edges agree, the new module compiles /W3 clean,
+and the complete minimal object/exit regression passes. Hello output remains
+pending at analyze_flow_regions (0x59d30), the 319-instruction loop-rotation pass.

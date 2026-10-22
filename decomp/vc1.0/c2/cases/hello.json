@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 70,
+  "accepted_frontiers": 75,
   "current_frontier": {
-    "name": "@find_flow_regions@4",
-    "original_va": 369504
+    "name": "@analyze_flow_regions@4",
+    "original_va": 367920
   },
   "expected": {
     "exit": 0,
@@ -63,8 +63,11 @@
     "independent ordered/re-simplified first-function capture matches six blocks, 21 expressions, 91 nodes and seven edges each direction, including block numbers, all previous links and label reference counts",
     "dominator checkpoint replays all 70 hello frontiers; all 345 source function graphs agree",
     "two changed implementation modules compile /W3 clean and complete minimal exit/object regression passes",
-    "independent post-dominator capture matches all six sentinel/member chains (12 chunks), plus the existing work/edge/tree/symbol state; only debugger exception address differs"
+    "independent post-dominator capture matches all six sentinel/member chains (12 chunks), plus the existing work/edge/tree/symbol state; only debugger exception address differs",
+    "region checkpoint replays all 75 hello frontiers; all 350 source function graphs agree",
+    "new flow-regions implementation compiles /W3 clean and complete minimal object/exit regression passes",
+    "independent post-region capture confirms null region roots and cleared visit marks, with all six numbered blocks, twelve dominator chunks and captured tree/symbol/edge state matching"
   ],
-  "total_accepted_frontiers": 422,
-  "reconstructed_functions": 345
+  "total_accepted_frontiers": 427,
+  "reconstructed_functions": 350
 }

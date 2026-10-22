@@ -426,7 +426,12 @@
     "@fill_bitset@8",
     "@intersect_bitset@8",
     "@equal_bitsets@8",
-    "@assign_bitset@8"
+    "@assign_bitset@8",
+    "@find_flow_regions@4",
+    "_new_flow_region",
+    "@find_irreducible_flow_end@4",
+    "@scan_irreducible_predecessors@4",
+    "@clear_flow_visit_marks@4"
   ],
   "driver": [
     {
@@ -3839,8 +3844,7 @@
     {
       "name": "@find_flow_regions@4",
       "start": 369504,
-      "end": 369505,
-      "provisional": true
+      "end": 369984
     },
     {
       "name": "@simplify_flow_regions@4",
@@ -4091,6 +4095,44 @@
       "name": "@assign_bitset@8",
       "start": 419440,
       "end": 419600
+    },
+    {
+      "name": "_new_flow_region",
+      "start": 374656,
+      "end": 374672
+    },
+    {
+      "name": "@find_irreducible_flow_end@4",
+      "start": 374736,
+      "end": 374784
+    },
+    {
+      "name": "@partition_loop_predecessors@8",
+      "start": 374672,
+      "end": 374673,
+      "provisional": true
+    },
+    {
+      "name": "@redirect_flow_label@12",
+      "start": 373904,
+      "end": 373905,
+      "provisional": true
+    },
+    {
+      "name": "@assign_flow_region@4",
+      "start": 374624,
+      "end": 374625,
+      "provisional": true
+    },
+    {
+      "name": "@scan_irreducible_predecessors@4",
+      "start": 374784,
+      "end": 374928
+    },
+    {
+      "name": "@clear_flow_visit_marks@4",
+      "start": 374928,
+      "end": 374976
     }
   ],
   "cases": {

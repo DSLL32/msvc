@@ -34,4 +34,11 @@ void __fastcall sort_flow_successors(FlowLink **links, WorkItem *following);
 int __fastcall count_ordinary_flow_links(FlowLink *links);
 Node *new_flow_label_node(void);
 void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replacement);
+FlowRegion *new_flow_region(void);
+WorkItem *__fastcall find_irreducible_flow_end(WorkItem *work);
+FlowLink *__fastcall partition_loop_predecessors(FlowLink *predecessors, WorkItem *header);
+void __fastcall redirect_flow_label(WorkItem *work, SymbolHeader *old_label, SymbolHeader *new_label);
+void __fastcall assign_flow_region(FlowRegion *region);
+void __fastcall scan_irreducible_predecessors(WorkItem *work);
+void __fastcall clear_flow_visit_marks(WorkItem *work);
 #endif
