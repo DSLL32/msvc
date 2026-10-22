@@ -21,12 +21,12 @@ int __fastcall operands_equal(MachineOperand *left, MachineOperand *right)
         if (difference & 0x300) return 0;
         a = left->value.address;
         b = right->value.address;
-        if (a->index_register != b->index_register) return 0;
+        if (a->index.words.number != b->index.words.number) return 0;
         /* Fall through to compare the base and displacement. */
     case OPERAND_BASED:
         a = left->value.address;
         b = right->value.address;
-        if (a->base_register != b->base_register) return 0;
+        if (a->base.words.number != b->base.words.number) return 0;
         /* Fall through to the common address fields. */
     case 3: case 6:
         a = left->value.address;
@@ -56,7 +56,7 @@ void __fastcall initialize_operand(MachineOperand *operand, unsigned kind,
         break;
     case OPERAND_BASED:
         operand->value.address = new_machine_address();
-        operand->value.address->base_register = reg;
+        operand->value.address->base.words.number = reg;
         operand->value.address->symbol = symbol;
         operand->value.address->first.displacement = (long)displacement;
         break;

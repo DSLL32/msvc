@@ -7,6 +7,7 @@ extern int temporary_operand_count;
 extern int x87_stack_depth;
 extern unsigned return_address_bytes;
 extern unsigned selected_save_register_mask;
+extern unsigned call_clobbered_register_mask;
 enum MachineRegister { REG_EAX = 0, REG_ECX = 1, REG_EDX = 2,
     REG_ESP = 4, REG_EBP = 5, REG_ST0 = 14 };
 enum OperandKind { OPERAND_REGISTER = 1, OPERAND_IMMEDIATE = 2,
@@ -57,4 +58,7 @@ void __fastcall analyze_selected_block(MachineBlockHeader *block);
 MachineInstruction *__fastcall finish_machine_instruction(MachineInstruction *instruction, int mode);
 void __fastcall remove_machine_instruction(MachineInstruction *instruction);
 MachineAddress *new_machine_address(void);
+void __fastcall emit_machine_directive(short code, short value);
+void __fastcall emit_register_lifetime(unsigned short reg, unsigned type, int begin, unsigned flags);
+void __fastcall append_embedded_record(Node *node);
 #endif

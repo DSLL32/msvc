@@ -253,7 +253,10 @@
     "@writes_first_operand@4",
     "@overwrites_second_register@8",
     "@finish_register_lifetime@4",
-    "@operands_equal@8"
+    "@operands_equal@8",
+    "@finish_machine_instruction@8",
+    "@select_directive@4",
+    "@emit_machine_directive@8"
   ],
   "driver": [
     {
@@ -2602,8 +2605,7 @@
     {
       "name": "@select_directive@4",
       "start": 103328,
-      "end": 103329,
-      "provisional": true
+      "end": 103616
     },
     {
       "name": "_finish_function_selection",
@@ -2683,8 +2685,7 @@
     {
       "name": "@finish_machine_instruction@8",
       "start": 122240,
-      "end": 122241,
-      "provisional": true
+      "end": 136336
     },
     {
       "name": "@remove_machine_instruction@4",
@@ -2782,6 +2783,179 @@
       "name": "@instruction_has_side_effects@4",
       "start": 145008,
       "end": 145009,
+      "provisional": true
+    },
+    {
+      "name": "@new_value_register@4",
+      "start": 105616,
+      "end": 105617,
+      "provisional": true
+    },
+    {
+      "name": "@release_machine_address@4",
+      "start": 108864,
+      "end": 108865,
+      "provisional": true
+    },
+    {
+      "name": "@insert_machine_after@8",
+      "start": 107984,
+      "end": 107985,
+      "provisional": true
+    },
+    {
+      "name": "@register_replacement_blocked@12",
+      "start": 137104,
+      "end": 137105,
+      "provisional": true
+    },
+    {
+      "name": "@operand_changed_between@16",
+      "start": 137152,
+      "end": 137153,
+      "provisional": true
+    },
+    {
+      "name": "@narrow_result_safe@4",
+      "start": 137312,
+      "end": 137313,
+      "provisional": true
+    },
+    {
+      "name": "@expand_constant_multiply@4",
+      "start": 137456,
+      "end": 137457,
+      "provisional": true
+    },
+    {
+      "name": "@find_flags_use@4",
+      "start": 137888,
+      "end": 137889,
+      "provisional": true
+    },
+    {
+      "name": "@instruction_mentions_register@8",
+      "start": 138080,
+      "end": 138081,
+      "provisional": true
+    },
+    {
+      "name": "@find_carry_flag_use@4",
+      "start": 138208,
+      "end": 138209,
+      "provisional": true
+    },
+    {
+      "name": "@integer_width_mask@4",
+      "start": 138384,
+      "end": 138385,
+      "provisional": true
+    },
+    {
+      "name": "@narrow_comparison_condition@4",
+      "start": 138400,
+      "end": 138401,
+      "provisional": true
+    },
+    {
+      "name": "@eliminate_redundant_compare@8",
+      "start": 138416,
+      "end": 138417,
+      "provisional": true
+    },
+    {
+      "name": "@integer_sign_bit@4",
+      "start": 139200,
+      "end": 139201,
+      "provisional": true
+    },
+    {
+      "name": "@operand_mentions_register@8",
+      "start": 139216,
+      "end": 139217,
+      "provisional": true
+    },
+    {
+      "name": "@integer_width_bits@4",
+      "start": 139296,
+      "end": 139297,
+      "provisional": true
+    },
+    {
+      "name": "@address_changed_between@12",
+      "start": 139312,
+      "end": 139313,
+      "provisional": true
+    },
+    {
+      "name": "@register_mentioned_between@12",
+      "start": 139488,
+      "end": 139489,
+      "provisional": true
+    },
+    {
+      "name": "@fold_lea_address@12",
+      "start": 139584,
+      "end": 139585,
+      "provisional": true
+    },
+    {
+      "name": "@simplify_branch@4",
+      "start": 140448,
+      "end": 140449,
+      "provisional": true
+    },
+    {
+      "name": "@clone_machine_record@4",
+      "start": 140896,
+      "end": 140897,
+      "provisional": true
+    },
+    {
+      "name": "@replace_machine_operand@16",
+      "start": 141120,
+      "end": 141121,
+      "provisional": true
+    },
+    {
+      "name": "@register_source_changed_between@12",
+      "start": 141888,
+      "end": 141889,
+      "provisional": true
+    },
+    {
+      "name": "@machine_operand_bytes@8",
+      "start": 218976,
+      "end": 218977,
+      "provisional": true
+    },
+    {
+      "name": "@byte_register_available@4",
+      "start": 219200,
+      "end": 219201,
+      "provisional": true
+    },
+    {
+      "name": "@adjust_machine_symbol_references@8",
+      "start": 429248,
+      "end": 429249,
+      "provisional": true
+    },
+    {
+      "name": "@emit_machine_directive@8",
+      "start": 108064,
+      "end": 108096
+    },
+    {
+      "name": "@emit_register_lifetime@16",
+      "start": 108096,
+      "end": 108097,
+      "provisional": true
+    },
+    {
+      "name": "@append_embedded_record@4",
+      "start": 108880,
+      "end": 108881,
       "provisional": true
     }
   ],

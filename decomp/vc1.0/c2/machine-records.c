@@ -1,5 +1,12 @@
 #include "instruction-selection.h"
 #include "function-input.h"
+/* Original [0001a620,0001a640). Kind 11 carries two signed control words. */
+void __fastcall emit_machine_directive(short code, short value)
+{
+    MachineInstruction *instruction = append_machine_instruction(11);
+    instruction->record.directive.code = code;
+    instruction->record.directive.value = value;
+}
 /* Original [00019620,00019650). The returned kind-2 marker also serves
    as the function context passed to later machine passes. */
 MachineInstruction *__fastcall emit_function_symbol(FunctionSymbol *symbol)

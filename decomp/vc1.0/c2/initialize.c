@@ -67,7 +67,8 @@ void *initialize_output(void)
 }
 
 #include "extended.h"
-Extended extended_zero, extended_one;
+Extended extended_zero; /* 0007bf9c */
+Extended extended_one; /* 0007bf90 */
 /* Original [00057be0,00057c20). */
 void initialize_codegen(void)
 {
@@ -78,12 +79,13 @@ void initialize_codegen(void)
 }
 
 extern int cpu_model;
-unsigned backend_limit, initial_register_state;
-int stack_alignment = 4;
+unsigned selected_save_register_mask; /* 0007c950 */
+unsigned call_clobbered_register_mask; /* 0007caa4 */
+int stack_alignment = 4; /* 000806d0: code/section alignment */
 /* Original [00026c50,00026c80). */
 void initialize_registers(void)
 {
-    backend_limit = 200;
-    initial_register_state = 7;
+    selected_save_register_mask = 0xc8; /* EBX, ESI, EDI */
+    call_clobbered_register_mask = 7; /* EAX, ECX, EDX */
     if (cpu_model >= 4) stack_alignment = 16;
 }

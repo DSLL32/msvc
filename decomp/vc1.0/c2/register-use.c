@@ -57,7 +57,7 @@ void __fastcall finish_register_lifetime(RegisterLifetime *lifetime)
         if (index == 2) use->operands[1].flags |= 1U << (reg & 31);
         else {
             operand = &use->operands[index == 0 ? 0 : 1];
-            if ((operand->flags & 15) == OPERAND_INDEXED && operand->value.address->index_register == reg)
+            if ((operand->flags & 15) == OPERAND_INDEXED && operand->value.address->index.words.number == reg)
                 operand->flags |= 0x800;
             else operand->flags |= 0x400;
         }
@@ -108,8 +108,8 @@ void __fastcall record_operand_uses(MachineInstruction *instruction, MachineOper
         record_register_use((unsigned short)operand->value.constant, instruction, index);
     else if (kind == OPERAND_BASED || kind == OPERAND_INDEXED) {
         if (kind == OPERAND_INDEXED)
-            record_register_use(operand->value.address->index_register, instruction, index);
-        record_register_use(operand->value.address->base_register, instruction, index);
+            record_register_use(operand->value.address->index.words.number, instruction, index);
+        record_register_use(operand->value.address->base.words.number, instruction, index);
     }
 }
 /* Original [00023750,00023830). Identity moves and identity LEAs retain
@@ -128,7 +128,7 @@ int __fastcall register_result_ignores_old_value(MachineInstruction *instruction
     if (opcode == MC_LEA) {
         if ((right->flags & 15) == OPERAND_BASED) {
             address = right->value.address;
-            if ((unsigned short)left->value.constant == address->base_register &&
+            if ((unsigned short)left->value.constant == address->base.words.number &&
                 !address->first.displacement && !address->symbol) return 0;
         }
         return 1;

@@ -1,7 +1,7 @@
 /* Logical object-file segments and their target defaults. */
 #include "segments.h"
 extern int floating_frontend, codeview_debug, stack_alignment;
-int default_segment_alignment = 4;
+int default_segment_alignment = 4; /* 000806cc; also used by argument/temporary allocation */
 char *code_segment_name = "_TEXT", *data_segment_name = "_DATA";
 char *bss_segment_name = "_BSS", *const_segment_name = "CONST";
 char *tls_segment_name = "_TLS", *default_segment_group = "";

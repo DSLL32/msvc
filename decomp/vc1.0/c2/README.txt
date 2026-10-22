@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-finish_machine_instruction, original VA 0001dd80. Object generation is incomplete. No completed C2 output-equivalence claim is made.
+select_value_register, original VA 00017e20. Object generation is incomplete. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -91,8 +91,8 @@ the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 188 reconstructed source functions and 249 recorded
-matching trap frontiers. All 249 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 191 reconstructed source functions and 252 recorded
+matching trap frontiers. All 252 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -158,8 +158,8 @@ typed union: the original permitted boundary word aliases the cursor at
 Work preparation now includes parameter storage, target-tree lowering and block
 selection. instruction-selection.c drives machine generation; machine-records.c
 constructs the typed instruction and block variants. The case passes generate_work
-and passes statement selection and prologue construction before stopping at
-finish_machine_instruction, the machine-instruction rewrite pass at 0001dd80.
+and passes statement selection and prologue construction and machine-instruction finishing before stopping at
+select_value_register, the value-expression selector at 00017e20.
 MachineInstruction and MachineBlockHeader are 32-byte tagged layouts; WorkItem's
 body changes from an expression list to a selected block. Its use/definition
 fields are register sets. Original-compiler size assertions cover these layouts,
@@ -178,3 +178,29 @@ register lifetimes; selection-finishing.c repeats that analysis after rewrites.
 All ten encountered tree properties match the 182 original entries. The opcode
 definitions now name the implicit-register property required by this pass.
 See cases/selection-abi.json for static evidence and dynamic validation limits.
+
+instruction-rewrite.c implements the full 3,956-instruction machine rewrite
+function as typed C. Its 20 opcode groups and 34 callee edges match the original;
+no additional CRT copy helper was introduced by the original compiler. Register
+slots have distinct full-DWORD and low-WORD views. The private helper at 00021790
+reads ECX plus one stack argument and returns with RET 4; an unused EDX parameter
+expresses that convention in ordinary __fastcall C. See
+cases/instruction-rewrite-abi.json. The arithmetic and address-folding helper
+bodies remain trapped until reached; this checkpoint does not validate their
+unexercised branches or diagnostic failure handling.
+
+The saved-register mask at original 0007c950 is shared by initialize_registers
+and prologue/epilogue selection. Its initial 0xc8 saves EBX, ESI and EDI; it is
+one variable in initialize.c. The original 0007caa4 mask starts at 7 for EAX,
+ECX and EDX. Default alignment at 000806cc is the existing
+default_segment_alignment value, distinct from code/section alignment at
+000806d0. initialize_codegen establishes extended_zero at original 0007bf9c
+and extended_one at 0007bf90. These identities are documented to keep later
+passes from introducing duplicate state.
+
+An independent debugger comparison at the current frontier confirms all fifteen
+selected machine records, including the six prologue operations, agree between
+both stopped processes. Only symbol/filename pointer addresses and use-link
+addresses are normalized; referenced strings and record indices must agree.
+This validates the saved-register mask in actual intermediate output. It does
+not establish complete object equivalence or exercise the arithmetic rewrites.

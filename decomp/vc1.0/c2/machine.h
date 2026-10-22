@@ -21,15 +21,19 @@ typedef struct LabelSymbol {
     unsigned short field20, output_flags;
     MachineInstruction *instruction;
     unsigned field28;
-    long line;
+    long references;
     unsigned char label_kind, lexical_level;
 } LabelSymbol;
 #pragma pack()
 typedef char LabelSymbolSizeCheck[sizeof(LabelSymbol) == 50 ? 1 : -1];
+typedef union MachineRegisterValue {
+    unsigned value;
+    struct { unsigned short number, flags; } words;
+} MachineRegisterValue;
 typedef struct MachineAddress {
     union { long displacement; struct MachineAddress *next; } first;
     SymbolHeader *symbol;
-    unsigned short base_register, field0a, index_register, field0e;
+    MachineRegisterValue base, index;
 } MachineAddress;
 typedef char MachineAddressSizeCheck[sizeof(MachineAddress) == 16 ? 1 : -1];
 typedef struct MachineOperand {
@@ -39,6 +43,7 @@ typedef struct MachineOperand {
         SymbolHeader *symbol;
         MachineAddress *address;
         struct MachineCallInfo *call;
+        MachineRegisterValue reg;
     } value;
 } MachineOperand;
 typedef char MachineOperandSizeCheck[sizeof(MachineOperand) == 8 ? 1 : -1];
@@ -50,7 +55,8 @@ struct MachineInstruction {
     MachineInstruction *next, *previous;
     unsigned opcode;
     union { SymbolHeader *symbol; char *filename; unsigned source_location;
-        MachineInstruction *next_use; } record;
+        MachineInstruction *next_use;
+        struct { short code, value; } directive; } record;
     MachineOperand operands[2];
 };
 typedef char MachineInstructionSizeCheck[sizeof(MachineInstruction) == 32 ? 1 : -1];

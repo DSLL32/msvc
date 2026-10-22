@@ -11,7 +11,7 @@
     "entry_va": "0x17000",
     "signature": "void __fastcall generate_work(WorkItem *work)",
     "caller": "compile_functions calls at 0x4c47b with the block list in ECX",
-    "status": "complete body reconstructed; paired execution passes statements and prologue selection, reaching finish_machine_instruction"
+    "status": "complete body reconstructed; paired execution passes prologue selection and instruction finishing, reaching select_value_register"
   },
   "shared_optimizer_flag": {
     "original_va": "0x80624",
@@ -35,7 +35,7 @@
     "WorkItem_uses_offset": 28,
     "WorkItem_definitions_offset": 32
   },
-  "limits": "Minimal-C passes preparation, statement selection, machine-record construction and prologue register analysis, then traps at finish_machine_instruction. It has no inline calls, protected regions, floating operations, expression-type stack operations or algebraic arithmetic rewrites. Their named helper stubs and diagnostic failure paths remain unvalidated; object generation is incomplete.",
+  "limits": "Minimal-C passes preparation, statement selection, machine-record construction, prologue register analysis and instruction finishing, then traps at select_value_register. It has no inline calls, protected regions, floating operations, expression-type stack operations or algebraic arithmetic rewrites. Their named helper stubs and diagnostic failure paths remain unvalidated; object generation is incomplete.",
   "shared_backend_stage": {
     "original_va": "0x83174",
     "source": "backend_stage in functions.c",

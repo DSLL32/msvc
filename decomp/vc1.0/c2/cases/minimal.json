@@ -3,16 +3,16 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 249,
-  "reconstructed_functions": 188,
+  "accepted_frontiers": 252,
+  "reconstructed_functions": 191,
   "current_frontier": {
-    "name": "@finish_machine_instruction@8",
-    "original_va": 122240
+    "name": "@select_value_register@4",
+    "original_va": 97824
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 249 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "188 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 252 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "191 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000",
     "182 expression recipes, 47 control recipes and 182 semantic tree shapes match original classifications",
     "five encountered scalar initializers match original .data values",
@@ -31,7 +31,13 @@
     "all four statement maps and six shared register operands match original typed values",
     "floating classification, x87 stack effects and implicit-register classification match all 231 original operations",
     "operand equality follows all eight original kind targets, including kind-7 default false",
-    "MachineAddress and RegisterLifetime original-compiler size assertions pass (16 and 20 bytes)"
+    "MachineAddress and RegisterLifetime original-compiler size assertions pass (16 and 20 bytes)",
+    "full 3956-instruction rewrite body has matching 34-callee graph and 20 opcode groups",
+    "helper RET cleanup checked; ECX-plus-stack convention expressed with unused EDX fastcall slot",
+    "thirty-one directive dispatch entries retain signed control-word selection and existing CodeView option identity",
+    "prologue and initializer share native 0x7c950 save mask 0xc8, preserving EBX/ESI/EDI saves",
+    "independent debugger comparison: all 15 selected machine records match at value-selector entry, including six prologue operations",
+    "instruction rewrite source compiles with original /W3 without warnings"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"

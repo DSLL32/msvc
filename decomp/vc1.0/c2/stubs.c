@@ -277,7 +277,6 @@ MachineOperand *__fastcall select_lvalue_operand(Node *node) { __asm int 3 }
 void __fastcall select_condition(Node *node) { __asm int 3 }
 int __fastcall try_select_assignment(Node *node) { __asm int 3 }
 unsigned __fastcall lookup_opcode(const OpcodeMap *map, unsigned opcode) { __asm int 3 }
-void __fastcall select_directive(Node *node) { __asm int 3 }
 void finish_function_selection(void) { __asm int 3 }
 void finish_global_selection(void) { __asm int 3 }
 void emit_saved_register_pops(void) { __asm int 3 }
@@ -289,7 +288,6 @@ void __fastcall select_assembly_record(Node *node) { __asm int 3 }
 unsigned __fastcall return_value_register(FunctionSymbol *symbol) { __asm int 3 }
 LabelSymbol *new_internal_label(void) { __asm int 3 }
 MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall finish_machine_instruction(MachineInstruction *instruction, int mode) { __asm int 3 }
 void __fastcall remove_machine_instruction(MachineInstruction *instruction) { __asm int 3 }
 
 #include "register-use.h"
@@ -300,3 +298,35 @@ MachineAddress *new_machine_address(void) { __asm int 3 }
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 int __fastcall register_storage_bytes(unsigned short reg) { __asm int 3 }
 int __fastcall instruction_has_side_effects(MachineInstruction *instruction) { __asm int 3 }
+
+#include "instruction-rewrite.h"
+unsigned short __fastcall new_value_register(unsigned short type) { __asm int 3 }
+void __fastcall release_machine_address(MachineAddress *address) { __asm int 3 }
+MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous, MachineInstruction *instruction) { __asm int 3 }
+int __fastcall register_replacement_blocked(MachineInstruction *user, unsigned unused_edx, unsigned reg) { __asm int 3 }
+int __fastcall operand_changed_between(MachineInstruction *first, MachineInstruction *last,
+    MachineOperand *operand, unsigned bytes) { __asm int 3 }
+int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall find_flags_use(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall instruction_mentions_register(MachineInstruction *instruction, unsigned short reg) { __asm int 3 }
+MachineInstruction *__fastcall find_carry_flag_use(MachineInstruction *instruction) { __asm int 3 }
+unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
+int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
+int __fastcall eliminate_redundant_compare(MachineInstruction *instruction, MachineInstruction **next) { __asm int 3 }
+unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
+int __fastcall operand_mentions_register(MachineOperand *operand, unsigned short reg) { __asm int 3 }
+unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
+int __fastcall address_changed_between(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand) { __asm int 3 }
+int __fastcall register_mentioned_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
+int __fastcall fold_lea_address(MachineInstruction *instruction, MachineOperand *operand, int apply) { __asm int 3 }
+MachineInstruction *__fastcall simplify_branch(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall clone_machine_record(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall replace_machine_operand(MachineInstruction *instruction, unsigned index,
+    MachineOperand *operand, unsigned char apply) { __asm int 3 }
+int __fastcall register_source_changed_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
+unsigned __fastcall machine_operand_bytes(MachineInstruction *instruction, int index) { __asm int 3 }
+unsigned __fastcall byte_register_available(unsigned short reg) { __asm int 3 }
+void __fastcall adjust_machine_symbol_references(MachineInstruction *instruction, int delta) { __asm int 3 }
+void __fastcall emit_register_lifetime(unsigned short reg, unsigned type, int begin, unsigned flags) { __asm int 3 }
+void __fastcall append_embedded_record(Node *node) { __asm int 3 }
