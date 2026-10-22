@@ -5,11 +5,14 @@
 typedef struct SymbolTable SymbolTable;
 typedef struct HashNode { void *value; struct HashNode *next; } HashNode;
 typedef struct HashCursor HashCursor;
+typedef struct HashTable HashTable;
 typedef struct External External;
 typedef struct StringNode StringNode;
 typedef struct ModuleReference { Module *module; struct ModuleReference *next; } ModuleReference;
 #define EXTERNAL_DEFINED 1
 #define EXTERNAL_COMMON 2
+#define EXTERNAL_EMITTED 4
+#define EXTERNAL_NO_OUTPUT 0x200
 #define EXTERNAL_MULTIPLE_REFERENCES 0x1000
 #define EXTERNAL_WEAK 0x40
 #define EXTERNAL_LAZY 0x80
@@ -20,8 +23,8 @@ struct External {
     IMAGE_SYMBOL symbol;
     union { Contribution *contribution; Module *module; ModuleReference *references; } owner;
     union { unsigned long final_value; External **previous; } value;
-    External *undefined_next;
-    unsigned long symbol_index,flags;
+    union { External *undefined_next; unsigned long symbol_index; } state;
+    unsigned long flags;
     unsigned short archive_member;
     External *weak_default;
 };
@@ -48,15 +51,29 @@ void end_reference_enumerator(ReferenceEnumerator *);
 unsigned char external_referenced_by(External *,Module *);
 extern char short_symbol_name[9];
 typedef const char *(*HashKey)(const void *,void *);
+struct HashCursor {
+    unsigned long bucket,returned;
+    HashNode *next;
+    HashCursor *previous;
+};
+void set_hash_flags(HashTable *,unsigned short);
+unsigned long count_hash_entries(HashTable *);
+void begin_hash_enumeration(HashTable *);
+HashNode *next_hash_entry(HashTable *);
+void end_hash_enumeration(HashTable *);
+void begin_external_enumeration(SymbolTable *);
+External *next_external(SymbolTable *);
+void end_external_enumeration(SymbolTable *);
+
 typedef struct HashSegment { HashNode **buckets; } HashSegment;
-typedef struct HashTable {
+struct HashTable {
     unsigned long next_split, base_buckets, bucket_count, element_count;
     unsigned long split_count, directory_capacity, buckets_per_segment;
-    unsigned long flags;
+    unsigned short flags;
     HashKey key;
     HashCursor *enumerators;
     HashSegment **directory;
-} HashTable;
+};
 struct SymbolTable {
     HashTable *hash;
     TextBuffer strings;
@@ -66,6 +83,13 @@ struct SymbolTable {
     External **undefined_tail;
 };
 
+extern TextBuffer sort_string_buffer;
+typedef int (*ExternalCompare)(const void *,const void *);
+External **sort_external_table(SymbolTable *,ExternalCompare);
+int compare_external_names(const void *,const void *);
+External **get_externals_by_name(SymbolTable *);
+External **get_externals_by_address(SymbolTable *);
+char *undecorate_symbol_name(const char *,unsigned char);
 void format_undefined_references(TextBuffer *,External *);
 unsigned long intern_symbol_name(SymbolTable *,const char *);
 unsigned long hash_bucket(const char *,HashTable *);

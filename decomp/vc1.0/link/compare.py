@@ -130,10 +130,23 @@ def check_artifacts(case, labels):
         program = phase.get('generated_program')
         if program:
             path = case_directory(case, label) / phase['outputs'][0]['output_name']
-            event = run(label+'-program', path, case='', arguments='', cwd=path.parent)
-            assert event == 'exit %d\n' % program['exit_status']
-            for stream in ('stdout','stderr'):
-                assert Path('build/'+label+'-program.'+stream).read_bytes() == program[stream].encode()
+            if program.get('kind') == 'win32-gui':
+                subprocess.run(['make', '-j2', 'build/gui-check.exe'], check=True)
+                report = case_directory(case, label) / 'gui-window.json'
+                report.unlink(missing_ok=True)
+                subprocess.run(['xvfb-run', '-a', 'wine', 'build/gui-check.exe',
+                                wt.windows(path), wt.windows(report.with_suffix('.bmp')),
+                                wt.windows(report)], env=wt.environment(), check=True,
+                               stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                               stderr=subprocess.DEVNULL, timeout=45)
+                result = json.loads(report.read_text())
+                assert result['exit_status'] == program['exit_status']
+                assert result['dark_pixels'] >= 20, label+' generated window did not paint'
+            else:
+                event = run(label+'-program', path, case='', arguments='', cwd=path.parent)
+                assert event == 'exit %d\n' % program['exit_status']
+                for stream in ('stdout','stderr'):
+                    assert Path('build/'+label+'-program.'+stream).read_bytes() == program[stream].encode()
     print('Fixture artifacts and generated program match.')
 
 def logical(events, pe, records):

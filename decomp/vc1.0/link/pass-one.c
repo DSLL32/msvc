@@ -304,7 +304,7 @@ void search_library_members(Image *image,Library *library,unsigned char *changed
         }
         if (image->symbols->undefined==external) previous=NULL;
         else previous=(External *)((char *)external->value.previous-
-                                   offsetof(External,undefined_next));
+                                   offsetof(External,state.undefined_next));
         library->search_flags |= 2;
         if (library->search_flags&1) {
             symbol_index=(unsigned short)(found_name-library->symbol_names);
@@ -331,7 +331,7 @@ void search_library_members(Image *image,Library *library,unsigned char *changed
             *changed=1;
             if (old_library_format) { *unresolved=1; return; }
         }
-        if (previous && !(previous->flags&EXTERNAL_DEFINED)) symbols.remaining=previous->undefined_next;
+        if (previous && !(previous->flags&EXTERNAL_DEFINED)) symbols.remaining=previous->state.undefined_next;
         else symbols.remaining=image->symbols->undefined;
     }
 }

@@ -4,7 +4,6 @@ char * replace_extension(const char *name,const char *extension) { __asm { int 3
 void sort_externals(SymbolTable *table) { __asm { int 3 } }
 void read_absolute_symbols(const char *file,External **sorted,SymbolTable *table) { __asm { int 3 } }
 void resolve_entry_symbol(SymbolTable *table) { __asm { int 3 } }
-void emit_externals(SymbolTable *table,unsigned char output,unsigned char all,unsigned char define,ImageOptions *options) { __asm { int 3 } }
 void initialize_mac_resources(void) { __asm { int 3 } }
 void initialize_mac_exports(void) { __asm { int 3 } }
 unsigned short count_output_sections(Image *image) { __asm { int 3 } return 0; }
@@ -40,7 +39,6 @@ void dump_symbols(SymbolTable *table) { __asm { int 3 } }
 void pass_two(Image *image) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }
 void emit_base_relocations(IMAGE_OPTIONAL_HEADER *header) { __asm { int 3 } }
-unsigned long count_externals(SymbolTable *table) { __asm { int 3 } return 0; }
 void emit_string_table(SymbolTable *table) { __asm { int 3 } }
 void emit_codeview(Image *image) { __asm { int 3 } }
 int compare_fpo_records(const void *left,const void *right) { __asm { int 3 } return 0; }
@@ -48,3 +46,13 @@ void finish_pe_image(Image *image,void *zeroes) { __asm { int 3 } }
 void write_coff_header(int file,IMAGE_FILE_HEADER *header) { __asm { int 3 } }
 void write_optional_header(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size) { __asm { int 3 } }
 void update_checksum(int file) { __asm { int 3 } }
+
+External **get_externals_by_address(SymbolTable *table) { __asm { int 3 } return 0; }
+unsigned char contribution_discarded(Contribution *contribution) { __asm { int 3 } return 0; }
+unsigned write_coff_symbol(int file,IMAGE_SYMBOL *symbol) { __asm { int 3 } return 0; }
+char *undecorate_symbol_name(const char *name,unsigned char decorated) { __asm { int 3 } return 0; }
+
+
+
+
+

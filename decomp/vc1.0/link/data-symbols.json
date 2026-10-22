@@ -1096,5 +1096,23 @@
     "address": 500024,
     "size": 1,
     "owner": "ordering.c"
+  },
+  {
+    "address": 452296,
+    "name": "sort_string_buffer",
+    "size": 12,
+    "owner": "symbols.c"
+  },
+  {
+    "address": 504612,
+    "name": "sort_short_name_left",
+    "size": 9,
+    "owner": "symbols.c"
+  },
+  {
+    "address": 504624,
+    "name": "sort_short_name_right",
+    "size": 9,
+    "owner": "symbols.c"
   }
 ]

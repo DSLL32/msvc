@@ -273,7 +273,21 @@
     "_free_pointer",
     "_apply_section_merges",
     "_merge_sections",
-    "_resolve_local_imports"
+    "_resolve_local_imports",
+    "_emit_externals",
+    "_get_externals_by_name",
+    "_sort_external_table",
+    "_set_hash_flags",
+    "_count_externals",
+    "_count_hash_entries",
+    "_begin_external_enumeration",
+    "_begin_hash_enumeration",
+    "_next_external",
+    "_next_hash_entry",
+    "_end_external_enumeration",
+    "_end_hash_enumeration",
+    "_compare_external_names",
+    "_shortsort"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1070,10 +1084,11 @@
     {
       "name": "_emit_externals",
       "start": 141456,
-      "end": 141457,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(SymbolTable *table,unsigned char output,unsigned char all,unsigned char define,ImageOptions *options)"
+      "end": 142144,
+      "implementation": "C",
+      "source": "external-output.c",
+      "abi": "cdecl void(SymbolTable *table,unsigned char defined,unsigned char emit,unsigned char name_order,ImageOptions *options)",
+      "evidence": "Matching minimal-C frontier; full sorted external diagnostics/COFF emission body22890..22b40. External state at1c holds undefined-next or emitted symbol index; unconsumed original20 slot omitted from private layout."
     },
     {
       "name": "_read_absolute_symbols",
@@ -1192,10 +1207,11 @@
     {
       "name": "_count_externals",
       "start": 156240,
-      "end": 156241,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl unsigned long(SymbolTable *table)"
+      "end": 156256,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned long(SymbolTable *table)",
+      "evidence": "Matching count wrapper frontier26250..26260."
     },
     {
       "name": "_emit_codeview",
@@ -2603,6 +2619,137 @@
       "implementation": "stub-C",
       "source": "object-stubs.c",
       "abi": "cdecl void(TextBuffer *buffer,External *external)"
+    },
+    {
+      "name": "_get_externals_by_name",
+      "start": 156688,
+      "end": 156752,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl External **(SymbolTable *table)",
+      "evidence": "Matching sorted-name getter frontier; shared comparator TextBuffer context and cached sort26410..26450."
+    },
+    {
+      "name": "_get_externals_by_address",
+      "start": 156752,
+      "end": 156753,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl External **(SymbolTable *table)"
+    },
+    {
+      "name": "_contribution_discarded",
+      "start": 95968,
+      "end": 95969,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned char(Contribution *contribution)"
+    },
+    {
+      "name": "_write_coff_symbol",
+      "start": 152048,
+      "end": 152049,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned(int file,IMAGE_SYMBOL *symbol)"
+    },
+    {
+      "name": "_undecorate_symbol_name",
+      "start": 251712,
+      "end": 251713,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl char *(const char *name,unsigned char decorated)"
+    },
+    {
+      "name": "_sort_external_table",
+      "start": 156544,
+      "end": 156688,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl External **(SymbolTable *table,ExternalCompare compare)",
+      "evidence": "Matching sort frontier; lock hash mode, count/allocate, nested enumeration and qsort26380..26410."
+    },
+    {
+      "name": "_compare_external_names",
+      "start": 156400,
+      "end": 156544,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl int(const void *left,const void *right)",
+      "evidence": "Matching name-sort callback262f0..26380; independent mutable short-name buffers preserve returned name pointers during comparison."
+    },
+    {
+      "name": "_set_hash_flags",
+      "start": 157104,
+      "end": 157120,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(HashTable *table,unsigned short flags)",
+      "evidence": "Matching hash-mode frontier; WORD flag assignment265b0..265c0."
+    },
+    {
+      "name": "_begin_external_enumeration",
+      "start": 156128,
+      "end": 156144,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Matching external-enumerator begin wrapper261e0..261f0."
+    },
+    {
+      "name": "_next_external",
+      "start": 156144,
+      "end": 156176,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl External *(SymbolTable *table)",
+      "evidence": "Matching external-enumerator next wrapper261f0..26210; hash entries contain the external value pointer."
+    },
+    {
+      "name": "_end_external_enumeration",
+      "start": 156176,
+      "end": 156192,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Matching external-enumerator end wrapper26210..26220."
+    },
+    {
+      "name": "_count_hash_entries",
+      "start": 158464,
+      "end": 158480,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned long(HashTable *table)",
+      "evidence": "Matching element-count frontier26b00..26b10."
+    },
+    {
+      "name": "_begin_hash_enumeration",
+      "start": 158224,
+      "end": 158304,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(HashTable *table)",
+      "evidence": "Matching nested hash-enumerator allocation frontier26a10..26a60; typed sixteen-byte cursor owns prior cursor."
+    },
+    {
+      "name": "_next_hash_entry",
+      "start": 158304,
+      "end": 158432,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl HashNode *(HashTable *table)",
+      "evidence": "Matching hash traversal frontier26a60..26ae0; cursor follows chains then segmented bucket directory, stopping at element_count."
+    },
+    {
+      "name": "_end_hash_enumeration",
+      "start": 158432,
+      "end": 158464,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(HashTable *table)",
+      "evidence": "Matching nested hash-enumerator release26ae0..26b00."
     }
   ],
   "c_stub_references": [
@@ -2699,6 +2846,20 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

@@ -66,7 +66,7 @@ archive linker-member indexes now have C implementations. The archive code model
 member offsets, symbol/member indices, raw names, and a name-pointer index as
 separate fields. The file cursor and archive globals are named input_file and
 archive_data_offset for their observed roles. The case currently stops at
-emit_externals. Extraction now reads the needed CRT/import members and
+count_output_sections. Extraction now reads the needed CRT/import members and
 updates the undefined list after definitions, while contribution iterators mark
 .idata sections. Relocation reachability edges have named, resolved-external,
 and contribution fields; linker-defined nodes grow their edge capacity as needed.
@@ -90,3 +90,20 @@ import pass returns a contribution and a list pairing aliases with definitions.
 New frontiers 259 through 273 and affected predecessor frontiers have been
 replayed with matching traps; help remains exact. Minimal-C still stops before
 symbol emission and has no validated generated image.
+
+The symbol-output checkpoint contains 288 accepted frontiers. Full history replay
+and exact help pass. External's state union now reflects original offset1c:
+undefined-list next pointer before definition, emitted index after output. The
+unconsumed original offset20 field remains omitted from our private layout.
+Name sorting copies the table's TextBuffer into shared comparator context. Its
+two nine-byte short-name buffers are mutable and independently retain the names
+for one comparison; their initial eight spaces and terminators match the target.
+Hash flags have their observed WORD type. Nested enumeration uses a typed cursor
+(bucket, returned count, chain next, previous cursor). No machine assembly or
+additional named ordinary literals were introduced. The output writer and
+undecoration paths inside emit_externals still have named pending dependencies;
+only the reached diagnostics path is dynamically covered so far.
+The queued GUI checker branch has been added to compare.py and built using the
+original toolchain. The shared captured hello.exe passes its title/paint/close
+check, with 300 dark pixels and exit0. This is checker validation, not completion
+of the queued reconstructed LINK fixture.

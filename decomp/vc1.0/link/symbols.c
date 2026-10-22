@@ -1,5 +1,6 @@
 /* Segmented linear hash table and external-symbol table initialization. */
 #include "options.h"
+#include "link-pass.h"
 #pragma intrinsic(strcmp,strlen,strcpy)
 char short_symbol_name[9];
 
@@ -135,13 +136,13 @@ void set_external_defined(External *external,unsigned char defined,SymbolTable *
             external->flags &= ~EXTERNAL_MULTIPLE_REFERENCES;
         }
         external->flags |= EXTERNAL_DEFINED;
-        if (external->undefined_next)
-            external->undefined_next->value.previous=external->value.previous;
-        *external->value.previous=external->undefined_next;
-        if (table->undefined_tail==&external->undefined_next)
+        if (external->state.undefined_next)
+            external->state.undefined_next->value.previous=external->value.previous;
+        *external->value.previous=external->state.undefined_next;
+        if (table->undefined_tail==&external->state.undefined_next)
             table->undefined_tail=external->value.previous;
         external->value.final_value=0;
-        external->undefined_next=NULL;
+        external->state.undefined_next=NULL;
         return;
     }
     external->flags &= ~EXTERNAL_DEFINED;
@@ -160,15 +161,15 @@ void set_external_defined(External *external,unsigned char defined,SymbolTable *
                 other=strncpy(short_symbol_name,(char *)&(*position)->symbol,8);
             else other=table->strings.data+(*position)->symbol.N.Name.Long;
             if (strcmp(name,other)<=0) break;
-            position=&(*position)->undefined_next;
+            position=&(*position)->state.undefined_next;
         }
     } else position=table->undefined_tail;
-    external->undefined_next=*position;
+    external->state.undefined_next=*position;
     external->value.previous=position;
     *position=external;
-    if (external->undefined_next)
-        external->undefined_next->value.previous=&external->undefined_next;
-    if (table->undefined_tail==position) table->undefined_tail=&external->undefined_next;
+    if (external->state.undefined_next)
+        external->state.undefined_next->value.previous=&external->state.undefined_next;
+    if (table->undefined_tail==position) table->undefined_tail=&external->state.undefined_next;
     external->owner.contribution=NULL;
 }
 
@@ -277,7 +278,7 @@ unsigned char next_undefined(UndefinedEnumerator *scan)
 {
     scan->current=scan->remaining;
     if (!scan->current) return 0;
-    scan->remaining=scan->current->undefined_next;
+    scan->remaining=scan->current->state.undefined_next;
     return 1;
 }
 
@@ -294,3 +295,130 @@ void prepend_external(ExternalLink **list,External *external)
     entry->next=*list;
     *list=entry;
 }
+
+/* Comparator context shared by the cached name sort. */
+TextBuffer sort_string_buffer;
+External **get_externals_by_name(SymbolTable *table)
+{
+    if (!table->sorted_by_name) {
+        sort_string_buffer=table->strings;
+        table->sorted_by_name=sort_external_table(table,compare_external_names);
+    }
+    return table->sorted_by_name;
+}
+
+External **sort_external_table(SymbolTable *table,ExternalCompare compare)
+{
+    External **entries,**cursor;
+    unsigned long count,remaining;
+    set_hash_flags(table->hash,2);
+    count=count_externals(table);
+    entries=calloc(count,sizeof(*entries));
+    if (!entries) out_of_memory();
+    begin_external_enumeration(table);
+    cursor=entries;
+    for (remaining=count;remaining;--remaining) *cursor++=next_external(table);
+    end_external_enumeration(table);
+    qsort(entries,count,sizeof(*entries),compare);
+    return entries;
+}
+
+void set_hash_flags(HashTable *table,unsigned short flags)
+{
+    table->flags=flags;
+}
+
+
+unsigned long count_externals(SymbolTable *table)
+{
+    return count_hash_entries(table->hash);
+}
+
+
+unsigned long count_hash_entries(HashTable *table)
+{
+    return table->element_count;
+}
+
+
+void begin_external_enumeration(SymbolTable *table)
+{
+    begin_hash_enumeration(table->hash);
+}
+
+
+void begin_hash_enumeration(HashTable *table)
+{
+    HashCursor *previous=table->enumerators;
+    table->enumerators=calloc(1,sizeof(*table->enumerators));
+    if (!table->enumerators) out_of_memory();
+    table->enumerators->previous=previous;
+    table->enumerators->bucket=0;
+    table->enumerators->returned=0;
+    table->enumerators->next=NULL;
+}
+
+
+External *next_external(SymbolTable *table)
+{
+    HashNode *entry=next_hash_entry(table->hash);
+    return entry ? entry->value : NULL;
+}
+
+
+HashNode *next_hash_entry(HashTable *table)
+{
+    HashCursor *scan=table->enumerators;
+    HashNode *entry;
+    unsigned long bucket;
+    if (scan->returned>=table->element_count) return NULL;
+    if (scan->next) {
+        entry=scan->next;
+        scan->next=entry->next;
+        ++scan->returned;
+        return entry;
+    }
+    while ((bucket=scan->bucket)<table->bucket_count) {
+        entry=table->directory[bucket/table->buckets_per_segment]->buckets[
+                              bucket%table->buckets_per_segment];
+        scan->bucket=bucket+1;
+        if (entry) {
+            ++scan->returned;
+            scan->next=entry->next;
+            return entry;
+        }
+    }
+    return NULL;
+}
+
+
+void end_external_enumeration(SymbolTable *table)
+{
+    end_hash_enumeration(table->hash);
+}
+
+
+void end_hash_enumeration(HashTable *table)
+{
+    HashCursor *scan=table->enumerators;
+    table->enumerators=scan->previous;
+    free(scan);
+}
+
+
+/* Both short COFF names must remain valid until the comparison completes. */
+char sort_short_name_left[9]="        ";
+char sort_short_name_right[9]="        ";
+int compare_external_names(const void *left,const void *right)
+{
+    External *a=*(External *const *)left,*b=*(External *const *)right;
+    const char *aname=sort_short_name_left,*bname=sort_short_name_right;
+    if (!a->symbol.N.Name.Short)
+        aname=sort_string_buffer.data+a->symbol.N.Name.Long;
+    else strncpy(sort_short_name_left,(const char *)&a->symbol,8);
+    if (!b->symbol.N.Name.Short)
+        bname=sort_string_buffer.data+b->symbol.N.Name.Long;
+    else strncpy(sort_short_name_right,(const char *)&b->symbol,8);
+    return strcmp(aname,bname);
+}
+
