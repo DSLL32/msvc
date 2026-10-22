@@ -1,12 +1,12 @@
 {
-  "status": "assigned-followup-suite-complete",
+  "status": "assigned-targeted-cases-complete",
   "case": "resources-rich",
-  "accepted_frontiers": 171,
-  "accepted_nonimport_functions": 153,
+  "accepted_frontiers": 173,
+  "accepted_nonimport_functions": 155,
   "next_matching_trap": null,
   "all_recorded_frontiers_replayed": true,
-  "replay_sha256": "040cd7858d275b0a548194a177fb7d43ae62559badb3fd4a64fdf830ab899a06",
-  "native_call_graph_audit": "passed; all 153 accepted non-import functions have equal complete CFG call sets",
+  "replay_sha256": "172abdfdfa0053e537338c6e7a38ccd2b567793b66bfaa50f8ce73dec572d0b0",
+  "native_call_graph_audit": "passed; all 155 accepted non-import functions have equal complete CFG call sets",
   "original_oracle": {
     "exit": 0,
     "stdout_bytes": 0,
@@ -16,14 +16,13 @@
     "exact_bytes": true
   },
   "reconstructed_output_verified": true,
-  "case_result": "all-14-exact-pass",
+  "case_result": "all-16-exact-pass",
   "binary_reconstruction_complete": false,
   "branch_coverage_complete": false,
   "remaining_named_stubs": [
     "_rc_exception_filter",
     "__amsg_exit",
-    "_rc_control_handler@4",
-    "_rc_skip_line"
+    "_rc_control_handler@4"
   ],
   "validation": [
     "validation.json",
@@ -45,13 +44,15 @@
     "invalid-option",
     "dbcs-codepage",
     "dbcs-backslash",
-    "unicode-input"
+    "unicode-input",
+    "directive-tail",
+    "oversized-macro"
   ],
   "coverage": {
     "metric": "accepted original code-extent union; not branch or executed-instruction coverage",
-    "accepted_union_bytes": 35289,
+    "accepted_union_bytes": 35410,
     "total_original_code_bytes": 40448,
-    "percentage": 87.24535205696202,
+    "percentage": 87.54450158227849,
     "extent_rule": "VirtualSize, or backed raw size when VirtualSize is zero"
   },
   "original_cases": {
@@ -110,13 +111,22 @@
     "unicode-input": {
       "exit": 0,
       "exact": true
+    },
+    "directive-tail": {
+      "exit": 0,
+      "exact": true
+    },
+    "oversized-macro": {
+      "exit": 1,
+      "exact": true
     }
   },
   "checks": {
-    "followup-clean-build.log": "9a30cbea2aacd35baae745cb6147e4a2b1aef44ef601a58f6a749ba285be9620",
-    "followup-final-checks.log": "c7d8c97c3a4b925ce6d3da606319cd94d0f5fd44459bdb6fc4a1523904eb721f",
-    "followup-original-replay.log": "7236d26ecae4a640d6b13cafd330e2547e00dea3e6f417b25a777026708917d4",
-    "followup-frontier-replay.log": "040cd7858d275b0a548194a177fb7d43ae62559badb3fd4a64fdf830ab899a06"
+    "targeted-clean-build.log": "eade3f79f2a3969b91bdc62a66931cacfa2453d802cb9a5cb5e5b6bd3a5c1c4d",
+    "targeted-final-checks.log": "e8a6c6fecdeb4f60431212c22c244e8b4ffe5314715ccf868592d86420c379a6",
+    "targeted-original-replay.log": "778594263a341a802588d4000b5944eb597e8a4466fd4ba5c1ff499cfe390fb6",
+    "targeted-frontier-replay.log": "172abdfdfa0053e537338c6e7a38ccd2b567793b66bfaa50f8ce73dec572d0b0",
+    "targeted-frontiers.log": "ab592db354df6ba12464a5b6febafd5a903aecf0aca653d366be48137021f764"
   },
   "independent_abi_probes": [
     "classifier-validation.json",
@@ -124,12 +134,22 @@
   ],
   "next_proposed_cases": [
     {
-      "input": "#if 1\n#endif unexpected_tokens\nordinary\n",
-      "target": "_rc_skip_line (trailing tokens after #endif)"
-    },
+      "input": "CTRL_C_EVENT during a synchronized blocked named-pipe input read",
+      "target": "_rc_control_handler@4; capture deterministic event delivery, status, streams and partial output before dispatch"
+    }
+  ],
+  "prior_checkpoints": [
     {
-      "input": "function-like macro call with an oversized argument",
-      "target": "_rc_macro_fatal (currently implemented but not yet reached/accepted)"
+      "commit": "f601fab",
+      "accepted_frontiers": 171,
+      "accepted_nonimport_functions": 153,
+      "replay_sha256": "040cd7858d275b0a548194a177fb7d43ae62559badb3fd4a64fdf830ab899a06",
+      "checks": {
+        "followup-clean-build.log": "9a30cbea2aacd35baae745cb6147e4a2b1aef44ef601a58f6a749ba285be9620",
+        "followup-final-checks.log": "c7d8c97c3a4b925ce6d3da606319cd94d0f5fd44459bdb6fc4a1523904eb721f",
+        "followup-original-replay.log": "7236d26ecae4a640d6b13cafd330e2547e00dea3e6f417b25a777026708917d4",
+        "followup-frontier-replay.log": "040cd7858d275b0a548194a177fb7d43ae62559badb3fd4a64fdf830ab899a06"
+      }
     }
   ]
 }

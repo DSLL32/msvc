@@ -45,23 +45,23 @@
       ]
     },
     "reconstruction": {
-      "sha256": "da5b92ed669d455812e565b9a61bd59cfa0eae3352f93b7c709a2846857d9ac8",
+      "sha256": "be8df2515a10b187f0f378c011995a29e848de83c724105016a341230a46954d",
       "functions": [
         {
           "name": "_rc_integer_nondecimal_kind@4",
-          "rva": 24434
+          "rva": 24546
         },
         {
           "name": "_rc_integer_decimal_kind@4",
-          "rva": 24454
+          "rva": 24566
         },
         {
           "name": "_rc_long_kind@4",
-          "rva": 24474
+          "rva": 24586
         },
         {
           "name": "_rc_unsigned_kind@4",
-          "rva": 24494
+          "rva": 24606
         }
       ]
     }

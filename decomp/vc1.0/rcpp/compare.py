@@ -139,6 +139,12 @@ def validate(label, spec, events):
         actual = Path(str(stem)+'.'+stream).read_bytes()
         expected = spec[stream].read_bytes()
         assert actual == expected, (spec['name'],label,stream,actual,expected)
+    inputs = {p.relative_to(spec['fixture']/'source').as_posix()
+              for p in (spec['fixture']/'source').rglob('*') if p.is_file()}
+    if spec['extra_input']: inputs.add(spec['extra_input'])
+    actual_outputs = {p.relative_to(cwd).as_posix() for p in cwd.rglob('*')
+                      if p.is_file()} - inputs
+    assert actual_outputs == set(spec['outputs']), (spec['name'],label,'output file set',actual_outputs)
     report = {}
     for filename, expected_path in spec['outputs'].items():
         actual = (cwd/filename).read_bytes()

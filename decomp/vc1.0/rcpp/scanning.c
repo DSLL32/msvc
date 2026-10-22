@@ -109,3 +109,24 @@ int rc_splice_line(void)
         return 0;
     }
 }
+
+/* Original [0100e2f0,0100e337). Discard a directive tail, including comments
+ * and input refills, but leave its newline for the directive's caller. */
+void rc_skip_line(void)
+{
+    unsigned char ch;
+    for (;;) {
+        ch = *rc_input_cursor++;
+        switch (rc_character_class[ch]) {
+        case LC_SLASH:
+            rc_skip_comment();
+            break;
+        case LC_END:
+            rc_resume_input();
+            break;
+        case LC_NEWLINE:
+            --rc_input_cursor;
+            return;
+        }
+    }
+}

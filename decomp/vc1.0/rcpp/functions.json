@@ -177,7 +177,9 @@
     "_rc_report_diagnostic@12",
     "__isatty",
     "_rc_fatal@4",
-    "_rc_warning@4"
+    "_rc_warning@4",
+    "_rc_skip_line",
+    "_rc_macro_fatal@4"
   ],
   "functions": [
     {
@@ -656,8 +658,8 @@
     {
       "name": "_rc_skip_line",
       "start": 16835312,
-      "end": 16835313,
-      "status": "stub"
+      "end": 16835383,
+      "status": "source"
     },
     {
       "name": "_rc_evaluate_condition",
@@ -1312,6 +1314,12 @@
     "unicode-input": {
       "fixture": "../fixtures/rcpp-followups",
       "manifest_case": "unicode-input"
+    },
+    "directive-tail": {
+      "fixture": "../fixtures/rcpp-targeted"
+    },
+    "oversized-macro": {
+      "fixture": "../fixtures/rcpp-targeted"
     }
   },
   "acceptance_cases": {
@@ -1485,6 +1493,8 @@
     "_rc_report_diagnostic@12": "error",
     "__isatty": "error",
     "_rc_fatal@4": "missing-include",
-    "_rc_warning@4": "macro-arity"
+    "_rc_warning@4": "macro-arity",
+    "_rc_skip_line": "directive-tail",
+    "_rc_macro_fatal@4": "oversized-macro"
   }
 }

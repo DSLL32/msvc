@@ -14,18 +14,23 @@ UTF16LE, macro-arity warnings and preprocessing errors. The invalid-option
 case checks that no output file is created. The target's CP932 trail-backslash
 failure is retained, including RC4413 and RC2001 diagnostics.
 
-functions.json records 171 accepted frontiers: 153 non-import functions and
+The two targeted follow-ups also pass: trailing tokens after #endif retain
+RC4067 with status zero and a 70-byte output; a 1,200-byte macro argument
+retains fatal RC10056's empty message, status one and 32-byte partial output.
+All 16 cases assert the entire generated file set as well as exact bytes.
+
+functions.json records 173 accepted frontiers: 155 non-import functions and
 18 Win32 import interfaces. Every accepted function's complete call-target set
 matches the original. acceptance_cases preserves all 156 initial frontiers
-and records the case used for each subsequent acceptance. Four named trapping
-stubs remain: exception filter, CRT fatal startup abort, console control
-handler and directive-line skipping. Unvisited complete helpers also remain
-masked until a case reaches them. This completes the assigned cases, not the
+and records the case used for each subsequent acceptance. All 171 previous
+frontiers are retained. Three named trapping stubs remain: exception filter,
+CRT fatal startup abort and console control handler. Unvisited complete
+helpers also remain masked until a case reaches them. This completes the assigned cases, not the
 whole binary.
 
 coverage.json measures the clipped union of accepted full code extents,
-including shared .text data, identified CRT and import thunks: 35,289 of
-40,448 original code bytes (87.25%). This is neither branch coverage nor
+including shared .text data, identified CRT and import thunks: 35,410 of
+40,448 original code bytes (87.54%). This is neither branch coverage nor
 executed-instruction coverage. Gaps include alignment padding as well as
 unaccepted functions.
 
@@ -46,6 +51,7 @@ expected RD000360, complete source/assets and capture provenance. RCPP receives
 real argv and inherited environment; MSC_CMD_FLAGS is removed. The captured
 basenames, working directory layout and T: paths preserve #line output exactly.
 ../fixtures/rcpp-followups supplies 13 immutable source/argument/output captures.
+../fixtures/rcpp-targeted adds the two diagnostic/macro-limit captures.
 Each manifest source, target, catalog and output hash is verified. The complete
 source tree is copied into a private work directory and checked unchanged after
 the run. Captured relative paths and source encodings are retained. No bytes,
@@ -76,9 +82,11 @@ lexer, numeric/string tokens and type/constant nodes, comments and splicing,
 conditional expression evaluation, inactive directives, and macro definitions,
 actual arguments, nested expansion, stringizing and token pasting. Follow-up
 cases add pragma output, complete character/escape and floating-spelling
-scanners, option-number/suffix parsing and diagnostic reporting. Escaped
-characters retain signed-byte behavior unless -J is active; octal and hex
-escapes retain the target's three-digit limits.
+scanners, option-number/suffix parsing, directive-tail skipping and diagnostic
+reporting. The macro-fatal helper restores the opening expansion line before
+lookup, formatting and fatal reporting. Escaped characters retain signed-byte
+behavior unless -J is active; octal and hex escapes retain the target's
+three-digit limits.
 
 Native structures describe macro symbols, packed argument records, scanner
 contexts, tokens and types. The macro stack's typed shared storage retains the
@@ -176,6 +184,7 @@ message-validation.json records the matching probe artifact. The analysis-only
 probe maps both EXEs without startup; PE base relocations are applied in memory
 when a mapped EXE is not at its preferred address.
 
-Useful next cases are trailing tokens after #endif (the remaining native
-skip-line frontier), and an oversized macro argument to exercise the currently
-unaccepted macro-fatal helper. These are proposals, not completed cases.
+A useful next case is CTRL_C_EVENT during a blocked named-pipe input read,
+to reach the remaining native console-control handler. Capturing deterministic
+pipe synchronization, delivered event, exit status and partial output would
+be necessary. This is a proposal, not a completed case.
