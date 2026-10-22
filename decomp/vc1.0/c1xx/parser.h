@@ -116,8 +116,8 @@ CppSymbol *__stdcall append_parameter_declaration(CppSymbol *list, CppSymbol *de
 int __stdcall can_initialize(CType *type, IrToken *expression);
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination);
 void __stdcall check_parameter_default(IrToken *expression, CType *type);
-IrToken *__stdcall convert_initializer(int mode, CType *type, IrToken *expression);
-IrToken *__stdcall convert_default_argument(CType *type, IrToken *expression);
+IrToken *__stdcall convert_initializer(unsigned char operation, CType *type, IrToken *expression);
+IrToken *__stdcall prepare_reference_initializer(CType *type, IrToken *expression);
 DefaultArgument *__stdcall save_default_argument(IrToken *expression);
 void finish_default_argument_text(void);
 void mark_evaluation_boundary(void);

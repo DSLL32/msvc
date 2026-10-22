@@ -218,7 +218,7 @@
                 else {
                     check_parameter_default(right[0].expression, type);
                     right[0].expression = convert_initializer(1, type, right[0].expression);
-                    right[0].expression = convert_default_argument(type, right[0].expression);
+                    right[0].expression = prepare_reference_initializer(type, right[0].expression);
                 }
                 default_arguments[declaration_depth-1] =
                     (DefaultArgument *)save_default_argument(right[0].expression);

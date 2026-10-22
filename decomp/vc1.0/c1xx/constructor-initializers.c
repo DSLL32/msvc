@@ -10,6 +10,15 @@
 #include "operators.h"
 #include "unary-expressions.h"
 
+typedef char InitializerClassTrivialOffsetMustBe54[
+    (offsetof(ClassInfo, trivial_special_members) == 54) ? 1 : -1];
+typedef char InitializerSymbolDeclarationFlagsOffsetMustBe2[
+    (offsetof(CppSymbol, declaration_flags) == 2) ? 1 : -1];
+typedef char ConversionParameterDeclarationsOffsetMustBe12[
+    (offsetof(FunctionParameters, declarations) == 12) ? 1 : -1];
+typedef char ConversionParameterAssociatedTypeOffsetMustBe0[
+    (offsetof(FunctionParameters, associated_type) == 0) ? 1 : -1];
+
 int __stdcall emit_constructor_initializers(CppSymbol *tag, IrToken *initializers)
 {
     CppSymbol *member, *subobject_class, *target;
@@ -267,7 +276,7 @@ int __stdcall initialize_lvalue(IrToken *target, IrToken *value)
     rank = classify_initializer_conversion(target_type, value);
     if (rank < 0x400) {
         value = convert_initializer(0x7e, target_type, value);
-        value = convert_default_argument(target_type, value);
+        value = prepare_reference_initializer(target_type, value);
         if (!value) return 0;
         target = indirect_storage_expression(target);
         value = builtin_binary_expression(0x7e, target, value);
@@ -402,4 +411,214 @@ unsigned __stdcall classify_special_type_conversion(CType *target, CType *source
         return 0x2000;
     }
     return 0;
+}
+
+/* Original 0x646f0..0x64d9f: derived declarator shapes, including
+   references, pointers, arrays, member pointers and function signatures. */
+unsigned __stdcall classify_derived_type_conversion(CType *target, CType *source,
+    unsigned flags, int context)
+{
+    TypeShape *destination_shape, *source_shape, *destination_function, *source_function;
+    CType *destination_referent, *source_referent;
+    unsigned short destination_flags, source_flags, destination_kind;
+    unsigned short destination_shape_flags, source_shape_flags, source_attributes;
+    unsigned rank, result;
+    destination_shape = target->related;
+    source_shape = source->related;
+    if (!destination_shape && !source_shape) return 0;
+    destination_flags = target->flags;
+    source_flags = source->flags;
+    rank = 1;
+    if (!destination_shape) {
+        if (source_shape->flags & 0x40) {
+            source_referent = dereference_pointer_type(source);
+            rank = classify_type_conversion(target, source_referent, flags, context);
+            if (rank < 0x400) return rank > 2 ? rank : 2;
+        }
+        if (!(destination_flags & 0x400)) return 0x2000;
+        if (classify_user_conversion((unsigned char)flags, source, target, context, &rank))
+            return rank;
+        return 0x2000;
+    }
+    destination_shape_flags = destination_shape->flags;
+    if ((destination_flags & 0x80) && (destination_shape_flags & 0x77) != 4)
+        rank = classify_null_pointer_shape(1, destination_shape, source_shape);
+    destination_kind = destination_shape_flags & 0x77;
+    if (destination_kind == 0x40 && (!source_shape || !(source_shape->flags & 0x40))) {
+        destination_referent = dereference_pointer_type(target);
+        rank = classify_class_reference_conversion(destination_referent, source);
+        if (rank < 0x400) {
+            rank = rank_conversion_qualifiers(rank, target->attributes, source->attributes);
+            if (rank < 0x400) return rank_reference_attributes(rank, target, source);
+        }
+        if (classify_source_class_conversion((unsigned char)flags, source, target, context, &rank)
+            && rank < 0x400)
+            return rank;
+        flags |= 4;
+        rank = classify_type_conversion(destination_referent, source, flags, context);
+        if (!(rank & 0x200)) {
+            if (rank < 0x400) {
+                rank = rank_conversion_qualifiers(rank, target->attributes, source->attributes);
+                if (rank < 0x400) return rank_reference_attributes(rank, target, source);
+            }
+        } else if ((target->attributes & 0x1000) || (flags & 2)) {
+            return rank;
+        }
+        if (destination_flags & 0x400) return 0x2000;
+    }
+    if (!source_shape) {
+        if (classify_source_class_conversion((unsigned char)flags, source, target, context, &rank))
+            return rank;
+        return 0x2000;
+    }
+    source_shape_flags = source_shape->flags;
+    if ((source_shape_flags & 0x40) && !(destination_shape_flags & 0x40)) {
+        source_referent = dereference_pointer_type(source);
+        rank = classify_class_reference_conversion(target, source_referent);
+        if (rank & 0x2000)
+            rank = classify_type_conversion(target, source_referent, flags, context);
+        if (rank < 0x400) {
+            if (!(flags & 2)) {
+                rank = rank_conversion_qualifiers(rank, target->attributes, source->attributes);
+                if (rank & 0x2000) return rank;
+            }
+            return rank_reference_attributes(rank, target, source);
+        }
+    }
+    if ((destination_shape_flags & 0x30) && (source_shape_flags & 0x30)) {
+        rank = classify_member_pointer_conversion(source, target, 0);
+        if (rank & 0x2000) return rank;
+    } else if (rank != 0x100 && destination_shape->related != source_shape->related) {
+        rank = classify_nested_shape_conversion(destination_shape->related, source_shape->related);
+        if (rank & 0x2000) return 0x2000;
+    }
+    if (!destination_shape->related) {
+        if (rank == 0x100 && source->related && source->related->related)
+            source_attributes = source->related->related->attributes;
+        else
+            source_attributes = source->attributes;
+        rank = rank_conversion_qualifiers(rank, target->attributes, source_attributes);
+        if (rank & 0x2000) {
+            if (!(cpp_parser_flags & 2) || (flags & 1) ||
+                ((rank & 0x1fff) != 5 && (rank & 0x1fff) != 6))
+                return 0x2000;
+            rank = 1;
+        }
+    } else if ((source->attributes ^ target->attributes) & 0x3000) {
+        return 0x2000;
+    }
+    rank = rank_pointer_attributes(rank, (unsigned char)destination_shape->attributes,
+        (unsigned char)source_shape->attributes, source_shape);
+    if (rank & 0x2000) return 0x2000;
+    if (!((destination_shape_flags ^ source_shape_flags) & 0x77)) {
+        if (destination_kind == 2 && destination_shape->data.word &&
+            source_shape->data.word != destination_shape->data.word)
+            return 0x2000;
+    } else if ((destination_kind == 1 && (source_shape_flags & 0x77) == 2) ||
+               (destination_kind == 2 && (source_shape_flags & 0x77) == 1)) {
+        if (rank == 1) rank = 2;
+        else rank |= 2;
+    } else if (!(destination_kind == 1 && (source_shape_flags & 0x77) == 3 && (rank & 0x100)) &&
+               !((destination_shape_flags & 0x44) == 0x44 && (source_shape_flags & 8))) {
+        return 0x2000;
+    }
+    if ((destination_kind == 3 || destination_kind == 4) &&
+        ((source_shape_flags & 0x77) == 3 || (source_shape_flags & 0x77) == 4)) {
+        destination_function = destination_kind == 3 ? destination_shape->related : destination_shape;
+        source_function = (source_shape_flags & 0x77) == 3 ? source_shape->related : source_shape;
+        if (source_function->data.parameters->declarations !=
+            destination_function->data.parameters->declarations)
+            return 0x2000;
+        if ((source_function->attributes ^ destination_function->attributes) & 0xf0ff)
+            return 0x2000;
+        if ((source_function->attributes ^ destination_function->attributes) & 0x100)
+            return 0x2000;
+    }
+    if ((destination_shape_flags & 0x2000) && (source_shape_flags & 0x2000) &&
+        !type_has_base_relation(destination_shape->data.parameters->associated_type,
+                                source_shape->data.parameters->associated_type))
+        return 0x2000;
+    if (!((target->flags ^ source->flags) & 0xefff) && source->field08 == target->field08)
+        return rank;
+    if (rank & 0x100) return rank;
+    if ((destination_flags & 0x9c0) || (source_flags & 0x9c0)) return 0x2000;
+    if (destination_kind != 1 || (source_shape_flags & 0x77) != 1) return 0x2000;
+    source_referent = dereference_pointer_type(source);
+    destination_referent = dereference_pointer_type(target);
+    result = classify_class_reference_conversion(destination_referent, source_referent);
+    if (result & 0x2000) return result;
+    return rank | result;
+}
+
+/* Original 0x665a0..0x66717. Retain source qualifiers, class-copy
+   construction and declarator-shape conversion before scalar conversion. */
+IrToken *__stdcall convert_initializer(unsigned char operation, CType *type, IrToken *expression)
+{
+    CType *source, *destination;
+    CppSymbol *tag, *constructor;
+    TypeDescription *description;
+    if (!expression) return 0;
+    source = strip_based_shape(expression->type);
+    if (!source) return resolve_assignment_operand(type, expression);
+    destination = strip_based_shape(type);
+    if (destination->related || source->related) {
+        if (source == destination) return expression;
+        return convert_derived_initializer(destination, expression);
+    }
+    if (same_unqualified_class_type(destination, source)) {
+        tag = cpp_context_stack->items[destination->field08];
+        if (!(tag->flags & 4)) {
+            if (!options.prototypes_only) report_syntax_error(27, tag->name);
+            tag->declaration_flags |= 2;
+            return 0;
+        }
+        if (tag->detail.class_info->trivial_special_members & 2) return expression;
+        constructor = find_copy_constructor(destination);
+        if (!constructor) {
+            report_syntax_error(558, tag->name);
+            return expression;
+        }
+        return construct_copy_initializer(constructor, destination, expression);
+    }
+    if (source == destination) {
+        expression->flags &= 0x7f;
+        return expression;
+    }
+    if (!((source->flags ^ destination->flags) & 0xefff) &&
+        source->field08 == destination->field08) {
+        if (((source->attributes & 0x3000) | (destination->attributes & 0x3000)) !=
+            (destination->attributes & 0x3000)) {
+            description = copy_type_description(destination);
+            description->attributes |= source->attributes & 0x3000;
+            destination = intern_type(description);
+            --type_description_depth;
+        }
+        expression->type = destination;
+        expression->flags &= 0x7f;
+        return expression;
+    }
+    return convert_scalar_initializer(operation, destination, expression);
+}
+
+/* Original 0x66510..0x6655a: descriptor identity ignoring flag 0x1000
+   still requires the same class index and an unqualified class type. */
+int __stdcall same_unqualified_class_type(CType *left, CType *right)
+{
+    if (left && right && !left->related && !right->related &&
+        !((right->flags ^ left->flags) & 0xefff) && left->field08 == right->field08 &&
+        is_unqualified_class_type(left))
+        return 1;
+    return 0;
+}
+
+/* Original 0x46130..0x4615f. This helper is shared by ordinary and default
+   initializers; a reference destination requires an address expression. */
+IrToken *__stdcall prepare_reference_initializer(CType *type, IrToken *expression)
+{
+    TypeShape *shape;
+    shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (expression && shape && (shape->flags & 0x40))
+        return builtin_unary_expression(0x3a, expression);
+    return expression;
 }

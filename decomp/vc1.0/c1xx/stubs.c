@@ -162,8 +162,10 @@ void __stdcall clear_reference_cache(IrToken *expression) { __asm { int 3 } }
 CppSymbol *__stdcall complete_declaration(DeclarationType *type, CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source) { __asm { int 3 } }
 IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, IrToken *if_false) { __asm { int 3 } return 0; }
-IrToken *__stdcall convert_default_argument(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall convert_initializer(int mode, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+IrToken * __stdcall convert_derived_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
+IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+IrToken * __stdcall convert_scalar_initializer(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall declare_enumerator(char *name, CType *context, unsigned value) { __asm { int 3 } }
 void __stdcall declare_nctag(char *name) { __asm { int 3 } }
 void __stdcall define_named_label(char *name) { __asm { int 3 } }
@@ -555,6 +557,14 @@ IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm 
 IrToken *__stdcall process_expression_records(IrToken *expression) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, int context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
-unsigned __stdcall classify_derived_type_conversion(CType *target, CType *source, unsigned flags, int context) { __asm { int 3 } return 0; }
+unsigned __stdcall classify_class_reference_conversion(CType *target, CType *source) { __asm { int 3 } return 0; }
+unsigned __stdcall classify_null_pointer_shape(unsigned rank, TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
+unsigned __stdcall rank_pointer_attributes(unsigned rank, unsigned char target, unsigned char source, TypeShape *shape) { __asm { int 3 } return 0; }
+unsigned __stdcall rank_conversion_qualifiers(unsigned rank, unsigned short target, unsigned short source) { __asm { int 3 } return 0; }
+unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
+unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source) { __asm { int 3 } return 0; }
+unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
+int __stdcall classify_source_class_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank) { __asm { int 3 } return 0; }
+int __stdcall type_has_base_relation(CType *derived, CType *base) { __asm { int 3 } return 0; }
 int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }

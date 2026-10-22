@@ -42,4 +42,18 @@ int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source,
     unsigned char flags, int context);
 int __stdcall has_pointer_or_member_pointer_shape(CType *type);
+unsigned __stdcall classify_class_reference_conversion(CType *target, CType *source);
+unsigned __stdcall classify_null_pointer_shape(unsigned rank, TypeShape *target, TypeShape *source);
+unsigned __stdcall rank_pointer_attributes(unsigned rank, unsigned char target, unsigned char source, TypeShape *shape);
+unsigned __stdcall rank_conversion_qualifiers(unsigned rank, unsigned short target, unsigned short source);
+unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source);
+unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source);
+unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse);
+int __stdcall classify_source_class_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank);
+int __stdcall type_has_base_relation(CType *derived, CType *base);
+IrToken * __stdcall convert_derived_initializer(CType *type, IrToken *expression);
+int __stdcall same_unqualified_class_type(CType *left, CType *right);
+CppSymbol * __stdcall find_copy_constructor(CType *type);
+IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression);
+IrToken * __stdcall convert_scalar_initializer(unsigned char operation, CType *type, IrToken *expression);
 #endif

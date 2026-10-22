@@ -453,7 +453,11 @@
     "_classify_initializer_conversion@8",
     "_classify_expression_conversion@16",
     "_classify_type_conversion@16",
-    "_classify_special_type_conversion@16"
+    "_classify_special_type_conversion@16",
+    "_classify_derived_type_conversion@16",
+    "_convert_initializer@12",
+    "_same_unqualified_class_type@8",
+    "_prepare_reference_initializer@8"
   ],
   "driver": [
     {
@@ -2014,14 +2018,14 @@
       "end": 383697
     },
     {
-      "name": "_convert_default_argument@8",
+      "name": "_prepare_reference_initializer@8",
       "start": 287024,
-      "end": 287025
+      "end": 287071
     },
     {
       "name": "_convert_initializer@12",
       "start": 419232,
-      "end": 419233
+      "end": 419607
     },
     {
       "name": "_current_class_name",
@@ -4361,7 +4365,7 @@
     {
       "name": "_classify_derived_type_conversion@16",
       "start": 411376,
-      "end": 411377
+      "end": 413087
     },
     {
       "name": "_classify_user_conversion@20",
@@ -4377,6 +4381,76 @@
       "name": "_has_pointer_or_member_pointer_shape@4",
       "start": 409888,
       "end": 409889
+    },
+    {
+      "name": "_classify_class_reference_conversion@8",
+      "start": 409408,
+      "end": 409409
+    },
+    {
+      "name": "_classify_null_pointer_shape@12",
+      "start": 410336,
+      "end": 410337
+    },
+    {
+      "name": "_rank_pointer_attributes@16",
+      "start": 410400,
+      "end": 410401
+    },
+    {
+      "name": "_rank_conversion_qualifiers@12",
+      "start": 410640,
+      "end": 410641
+    },
+    {
+      "name": "_classify_nested_shape_conversion@8",
+      "start": 410736,
+      "end": 410737
+    },
+    {
+      "name": "_rank_reference_attributes@12",
+      "start": 411232,
+      "end": 411233
+    },
+    {
+      "name": "_classify_member_pointer_conversion@12",
+      "start": 413088,
+      "end": 413089
+    },
+    {
+      "name": "_classify_source_class_conversion@20",
+      "start": 414384,
+      "end": 414385
+    },
+    {
+      "name": "_type_has_base_relation@8",
+      "start": 423008,
+      "end": 423009
+    },
+    {
+      "name": "_convert_derived_initializer@8",
+      "start": 418528,
+      "end": 418529
+    },
+    {
+      "name": "_same_unqualified_class_type@8",
+      "start": 419088,
+      "end": 419162
+    },
+    {
+      "name": "_find_copy_constructor@4",
+      "start": 228528,
+      "end": 228529
+    },
+    {
+      "name": "_construct_copy_initializer@12",
+      "start": 421168,
+      "end": 421169
+    },
+    {
+      "name": "_convert_scalar_initializer@12",
+      "start": 416992,
+      "end": 416993
     }
   ],
   "cases": {

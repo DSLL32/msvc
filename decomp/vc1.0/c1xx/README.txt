@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 449 accepted paired frontiers, including 373 frontend
+PARTIAL reconstruction: 453 accepted paired frontiers, including 377 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _classify_derived_type_conversion@16 at original VA 0x646f0. The latest ordered replay is recorded in validation.json;
+trap is _builtin_binary_expression@12 at original VA 0x5e040. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -820,3 +820,18 @@ evidence/replay-initializer-ranking-receipt.json. Accepted executable extent
 union is 145,241 / 476,418 bytes (30.486%, not branch coverage), with 380 source
 functions. The current matching trap is classify_derived_type_conversion at
 0x646f0. The constructor and complete frontend case remain unfinished.
+
+
+Derived-shape and initializer conversion now retain reference binding, pointer
+and member-pointer compatibility, array/function signatures, class copying and
+qualifier propagation. The shared initializer-reference helper has its recovered
+general name prepare_reference_initializer at both ordinary and default-argument
+callers. Four additional functions preserve all native call edges and layouts.
+Details: evidence/initializer-conversion.txt.
+
+All 453 frontiers pass the frozen full comparator in 115.422 seconds, with
+fourteen exact/nullness state observations and raw pending intermediate bytes.
+Receipt: evidence/replay-initializer-conversion-receipt.json. Accepted extent
+union is 147,448 / 476,418 bytes (30.949%, not branch coverage), with 384 source
+functions. Both runs now reach builtin_binary_expression at 0x5e040. Complete
+constructor and frontend equivalence remain pending.
