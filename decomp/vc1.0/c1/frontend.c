@@ -57,7 +57,7 @@ int compile_translation_unit(void)
             begin_automatic_pch();
         } else {
             current_function = 0;
-            if (!options.option_E && !options.syntax_only && options.debug_info)
+            if (!options.option_E && !options.prototypes_only && options.debug_info)
                 begin_debug_info();
         }
         saved_configuration.options = options;
@@ -80,7 +80,7 @@ int compile_translation_unit(void)
             report_syntax_error(183);
     }
     parse_translation_unit();
-    if (!options.syntax_only) {
+    if (!options.prototypes_only) {
         finish_declarations();
         if (global_expression_scope_active) {
             write_ir_record(0x53, 0);
@@ -93,7 +93,7 @@ int compile_translation_unit(void)
     }
     if (options.option_Ol && options.option_qc)
         generate_inline_queries();
-    if (!options.syntax_only) {
+    if (!options.prototypes_only) {
         close_intermediate(expression_file);
         close_intermediate(symbol_file);
         close_intermediate(global_file);

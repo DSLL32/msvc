@@ -76,7 +76,7 @@ int __stdcall check_type_conversion(unsigned char operation, CType *target, CTyp
         }
         left_kind &= 7;
         if (left_kind == 3) {
-            if (!compatible_function_attributes(left_attributes, right_attributes)) {
+            if (!compatible_shape_attributes(left_attributes, right_attributes)) {
                 report_syntax_error(152, token_names[operation]);
                 return 0;
             }
@@ -88,7 +88,7 @@ int __stdcall check_type_conversion(unsigned char operation, CType *target, CTyp
         if (!comparison) return 0;
         if (comparison == 2 && left_kind != 3 &&
             !(left_kind == 2 && (right_kind & 7) == 2) &&
-            !compatible_function_attributes(left_attributes, right_attributes)) {
+            !compatible_shape_attributes(left_attributes, right_attributes)) {
             conversion_diagnostic(47, 1, operation, target, source);
             return 0;
         }
@@ -185,4 +185,40 @@ int __stdcall integer_conversion_overflow(unsigned short bytes,
     }
     if (source_unsigned) return value > bounds->unsigned_maximum;
     return (int)value > bounds->signed_maximum || (int)value < bounds->signed_minimum;
+}
+
+/* Original 0x34e00..0x34e45. Permit bit 0x1000 to differ;
+   the int/long spelling distinction 0x20 is accepted with a warning. */
+int __stdcall compatible_base_type_flags(unsigned short left, unsigned short right)
+{
+    unsigned difference = (unsigned short)(left ^ right);
+    if (!(difference & 0xefff)) return 1;
+    if (difference & ~0x20UL) return 0;
+    compiler_warning(1, 142);
+    return 1;
+}
+
+/* Original 0x3f2e0..0x3f31f. Compare memory-model, interrupt and calling
+   convention attributes; syntax-only mode accepts their differences. */
+int __stdcall compatible_shape_attributes(unsigned short target, unsigned short source)
+{
+    unsigned short difference;
+    if (options.prototypes_only) return 1;
+    difference = target ^ source;
+    if (difference & 0xf) return 0;
+    if (difference & 0x100) return 0;
+    return !(difference & 0x70);
+}
+
+/* Original 0x3c0f0..0x3c13b. Only small integer and enum scalar types
+   require the default integer promotion; a declaration prefix is transparent. */
+CType *__stdcall default_argument_promotion(CType *type)
+{
+    TypeShape *shape;
+    if (!(type->flags & 0x240)) return 0;
+    shape = type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (shape) return 0;
+    if ((type->flags & 0x200) || (type->flags & 15) < 4) return type_0064;
+    return 0;
 }

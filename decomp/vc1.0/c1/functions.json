@@ -345,7 +345,18 @@
     "_read_macro_replacement",
     "_find_macro_parameter@4",
     "_make_abstract_declarator@4",
-    "_void_parameter_info"
+    "_void_parameter_info",
+    "_declaration_conflict@8",
+    "_compatible_base_type_flags@8",
+    "_compare_declaration_types@12",
+    "_compatible_shape_attributes@8",
+    "_merge_function_parameter_types@16",
+    "_default_argument_promotion@4",
+    "_compatible_storage_classes@8",
+    "_compatible_storage_modifiers@8",
+    "_compatible_declaration_attributes@12",
+    "_commit_redeclaration@8",
+    "_merge_storage_modifiers@8"
   ],
   "driver": [
     {
@@ -1945,12 +1956,12 @@
     {
       "name": "_declaration_conflict@8",
       "start": 216288,
-      "end": 216289
+      "end": 216569
     },
     {
       "name": "_commit_redeclaration@8",
       "start": 215680,
-      "end": 215681
+      "end": 216187
     },
     {
       "name": "_reset_inline_function_state",
@@ -2149,9 +2160,9 @@
       "end": 258625
     },
     {
-      "name": "_compatible_function_attributes@8",
+      "name": "_compatible_shape_attributes@8",
       "start": 258784,
-      "end": 258785
+      "end": 258847
     },
     {
       "name": "_compare_prototype_parameter_types@8",
@@ -2837,6 +2848,56 @@
       "name": "_find_macro_parameter@4",
       "start": 118496,
       "end": 118595
+    },
+    {
+      "name": "_compatible_base_type_flags@8",
+      "start": 216576,
+      "end": 216645
+    },
+    {
+      "name": "_compare_declaration_types@12",
+      "start": 218032,
+      "end": 218525
+    },
+    {
+      "name": "_compatible_storage_classes@8",
+      "start": 216656,
+      "end": 216956
+    },
+    {
+      "name": "_compatible_declaration_attributes@12",
+      "start": 212832,
+      "end": 213014
+    },
+    {
+      "name": "_report_type_conflict@20",
+      "start": 246256,
+      "end": 246257
+    },
+    {
+      "name": "_merge_function_parameter_types@16",
+      "start": 217008,
+      "end": 218032
+    },
+    {
+      "name": "_is_function_pointer_type@4",
+      "start": 216960,
+      "end": 216961
+    },
+    {
+      "name": "_default_argument_promotion@4",
+      "start": 246000,
+      "end": 246075
+    },
+    {
+      "name": "_compatible_storage_modifiers@8",
+      "start": 260672,
+      "end": 260728
+    },
+    {
+      "name": "_merge_storage_modifiers@8",
+      "start": 260736,
+      "end": 260885
     }
   ],
   "cases": {

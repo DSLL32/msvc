@@ -86,7 +86,15 @@ extern int parser_lookahead, parser_error_count;
 extern short parser_recovery_count;
 extern DeclarationSpec *declaration_spec_stack;
 extern int declaration_depth, unevaluated_expression_depth;
-extern unsigned char declaration_spec_flags[60];
+/* Declaration lookahead may use flags[-1], the high byte of the active
+   parameter-context word. The byte view keeps that preceding cell valid. */
+typedef union DeclarationControlStorage {
+    struct { int parameter_context; unsigned char flags[60]; } fields;
+    unsigned char bytes[64];
+} DeclarationControlStorage;
+extern DeclarationControlStorage declaration_controls;
+#define declaration_spec_flags (declaration_controls.bytes + sizeof(int))
+#define active_parameter_context declaration_controls.fields.parameter_context
 extern unsigned char parameter_nesting;
 FrontendSymbol *__stdcall find_identifier_symbol(char *name);
 void __stdcall browser_symbol_reference(FrontendSymbol *symbol);
@@ -126,7 +134,17 @@ CType *__stdcall function_result_type(FrontendSymbol *symbol);
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol);
 int __stdcall is_record_type(CType *type);
 FrontendSymbol *__stdcall find_scope_declaration(SymbolScope *scope, char *name, int case_fold);
+int __stdcall compatible_base_type_flags(unsigned short left, unsigned short right);
+int __stdcall is_function_pointer_type(CType *type);
+CType *__stdcall default_argument_promotion(CType *type);
+CType *__stdcall merge_function_parameter_types(CType *left, CType *right, int find_function, int outermost);
+int __stdcall compare_declaration_types(FrontendSymbol *left, FrontendSymbol *right, CType *right_type);
+int __stdcall compatible_storage_modifiers(unsigned left, unsigned right);
+int __stdcall compatible_storage_classes(FrontendSymbol *left, FrontendSymbol *right);
+int __stdcall compatible_declaration_attributes(unsigned short left, unsigned short right, int function);
+void __stdcall report_type_conflict(unsigned code, FrontendSymbol *symbol, char *name, CType *actual, CType *expected);
 int __stdcall declaration_conflict(FrontendSymbol *existing, FrontendSymbol *symbol);
+int __stdcall merge_storage_modifiers(unsigned char *target, unsigned source);
 void __stdcall commit_redeclaration(FrontendSymbol *existing, FrontendSymbol *symbol);
 FrontendSymbol *__stdcall reconcile_declarations(FrontendSymbol *existing, FrontendSymbol *symbol);
 FrontendSymbol *__stdcall merge_scoped_declaration(FrontendSymbol *symbol, SymbolScope *scope);
@@ -255,7 +273,7 @@ void warn_void_function_pointer(void);
 int __stdcall check_conversion_attributes(unsigned char operation, unsigned short target, unsigned short source, int first);
 void __stdcall conversion_diagnostic(unsigned code, unsigned level, unsigned char operation, CType *target, CType *source);
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source);
-int __stdcall compatible_function_attributes(unsigned short target, unsigned short source);
+int __stdcall compatible_shape_attributes(unsigned short target, unsigned short source);
 int __stdcall compare_prototype_parameter_types(CType *target, CType *source);
 void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source);
 int __stdcall check_type_conversion(unsigned char operation, CType *target, CType *source);

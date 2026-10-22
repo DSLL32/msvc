@@ -28,7 +28,9 @@ static DeclarationSpec declaration_spec_storage[61]; /* original 0x605a4 */
 DeclarationSpec *declaration_spec_stack = declaration_spec_storage + 1;
 int declaration_depth; /* original 0x60790 */
 TypeShape *declaration_shapes[60]; /* original 0x604bc */
-unsigned char declaration_spec_flags[60]; /* original 0x6079c */
+DeclarationControlStorage declaration_controls; /* original 0x60798..0x607d8 */
+typedef char DeclarationControlStorage_must_be_64_bytes[
+    sizeof(DeclarationControlStorage) == 64 ? 1 : -1];
 unsigned char parameter_nesting; /* original 0x5b13c */
 int parameter_depth; /* original 0x604a8 */
 int unevaluated_type_depth; /* original 0x6539c */
@@ -385,12 +387,12 @@ read_action:
             apply_declarator_type(&declaration_spec_stack[declaration_depth], right[0].symbol);
             break;
         case 53:
-            if (!options.syntax_only) finish_initializer(right[-1].symbol, right[0].node);
+            if (!options.prototypes_only) finish_initializer(right[-1].symbol, right[0].node);
             if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
             text_work_cursor = expression_storage;
             break;
         case 54:
-            if (!options.syntax_only) begin_aggregate_initializer(right[0].node);
+            if (!options.prototypes_only) begin_aggregate_initializer(right[0].node);
             break;
         case 55:
             finish_aggregate_initializer(right[-5].symbol);
@@ -405,15 +407,15 @@ read_action:
             report_declaration_error(513, &declaration_spec_stack[declaration_depth]);
             break;
         case 60:
-            if (!options.syntax_only) emit_initializer(right[0].node);
+            if (!options.prototypes_only) emit_initializer(right[0].node);
             if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
             text_work_cursor = expression_storage;
             break;
         case 61:
-            if (!options.syntax_only) begin_nested_initializer();
+            if (!options.prototypes_only) begin_nested_initializer();
             break;
         case 62:
-            if (!options.syntax_only) finish_nested_initializer();
+            if (!options.prototypes_only) finish_nested_initializer();
             break;
         case 63:
             parser_value.symbol = make_named_declarator(right[0].name);
@@ -629,7 +631,7 @@ read_action:
             parser_value.symbol->flags |= 2;
             break;
         case 119:
-            if (options.syntax_only || (scanner_flags & 0x1000000)) {
+            if (options.prototypes_only || (scanner_flags & 0x1000000)) {
                 scanner_flags |= 0x1000000;
                 skip_declaration_tokens();
             } else {
@@ -641,7 +643,7 @@ read_action:
             scope_serial = 0;
             break;
         case 121:
-            if (options.syntax_only || (scanner_flags & 0x1000000))
+            if (options.prototypes_only || (scanner_flags & 0x1000000))
                 scanner_flags &= ~0x1000000;
             else finish_compound_statement();
             break;
@@ -1128,7 +1130,6 @@ FrontendSymbol *finish_parameter_scope(void)
 FrontendSymbol *function_symbol; /* original 0x5b140 */
 CType *function_return_type; /* original 0x6b6c0 */
 FrontendSymbol *default_code_segment; /* original 0x6b7b0 */
-int active_parameter_context; /* original 0x60798 */
 unsigned browser_macro_context; /* original 0x63868 */
 
 /* Original 0x2a530..0x2a82b. Bind a function declarator to the global
@@ -1245,7 +1246,7 @@ void begin_function_definition(void)
         parser_values.control.fastcall_stack_warning = 1;
     }
     chain = current_parameter;
-    if (!options.syntax_only && (convention == 0x60 || convention == 0x40)) {
+    if (!options.prototypes_only && (convention == 0x60 || convention == 0x40)) {
         bytes = parameter_list_bytes(current_parameter);
         if (function_symbol->attributes & 0x4000) {
             if (function_symbol->detail.value != bytes)
@@ -1298,12 +1299,12 @@ parameters_checked:
         (unsigned short)(active_parameter_context == 5 ? 0x4004 : 4), shape->attributes, &parameters);
     if (active_parameter_context == 3 || active_parameter_context == 5) {
         function_symbol->type = replacement;
-        if (options.syntax_only) {
+        if (options.prototypes_only) {
             begin_syntax_trace();
             print_function_declaration(function_symbol, preprocessor_stream);
             end_syntax_trace();
         }
-    } else if (options.syntax_only) {
+    } else if (options.prototypes_only) {
         saved_type = function_symbol->type;
         function_symbol->type = replacement;
         begin_syntax_trace();
@@ -1311,7 +1312,7 @@ parameters_checked:
         end_syntax_trace();
         function_symbol->type = saved_type;
     }
-    if (options.debug_info && !options.syntax_only) record_line_information(0x11);
+    if (options.debug_info && !options.prototypes_only) record_line_information(0x11);
     scanner_flags |= 0x80000;
 }
 
@@ -1325,7 +1326,7 @@ void start_function_ir(void)
     function_ir.parameter_count = 0;
     function_symbol->attributes &= ~0x10;
     if (normalized_Ol && options.option_qc) reset_inline_function_state();
-    if (!options.syntax_only) {
+    if (!options.prototypes_only) {
         initialize_expression_stream(0);
         write_ir_record(0x53, 0);
         write_ir_record(0x53, 0);
@@ -1467,7 +1468,7 @@ void __stdcall end_function_context(int direct_scope_exit)
 {
     CType *result;
     if (function_symbol) {
-        if (!options.syntax_only) {
+        if (!options.prototypes_only) {
             if (!(parser_flags & 0x8000)) {
                 result = function_return_type;
                 if (result->flags != 0x80 || result->related) {
@@ -1485,7 +1486,7 @@ void __stdcall end_function_context(int direct_scope_exit)
         if (direct_scope_exit) leave_compound_scope();
         else finish_compound_statement();
         finish_function_records();
-        if (!options.syntax_only) write_ir_record(0x54, make_integer_constant(0));
+        if (!options.prototypes_only) write_ir_record(0x54, make_integer_constant(0));
     }
     completed_scopes = 0;
     function_return_type = 0;

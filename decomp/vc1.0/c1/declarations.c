@@ -52,7 +52,7 @@ FrontendSymbol *__stdcall declare_symbol(DeclarationSpec *declaration, FrontendS
     if ((symbol->storage[0] & 7) == 7) {
         symbol->flags |= 4;
         if (symbol->name) SYMBOL_FROM_NAME(symbol->name)->flags |= 2;
-        if (!options.syntax_only && is_record_type(symbol->type)) {
+        if (!options.prototypes_only && is_record_type(symbol->type)) {
             tag = (FrontendSymbol *)symbol->type->field08;
             if (tag->name == name_unnamed) tag->name = symbol->name;
         }
@@ -173,7 +173,7 @@ void __stdcall finalize_symbol_type(CType *base, FrontendSymbol *symbol)
         else if (kind == 12) report_syntax_error(736, "__inline");
         else report_syntax_error(433, symbol->name, "__inline");
     }
-    if (!options.syntax_only && !void_declaration && !(attributes & 0x70))
+    if (!options.prototypes_only && !void_declaration && !(attributes & 0x70))
         attributes |= options.option_Gz ? 0x60 : (options.option_Gc ? 0x20 : 0x10);
     else if ((attributes & 0x70) == 0x40) {
         compiler_warning(2, 8, symbol->name, "_fastcall");
@@ -1244,4 +1244,350 @@ unsigned short __stdcall normalize_symbol_storage(unsigned short attributes, Fro
         attributes &= 0xfbf8;
     }
     return attributes;
+}
+
+/* Original 0x34ce0..0x34df9. Compare a repeated declaration's base type,
+   shapes, storage and attributes, retaining one diagnostic for each failure. */
+int __stdcall declaration_conflict(FrontendSymbol *existing, FrontendSymbol *symbol)
+{
+    int error;
+    if (symbol->flags & 0x80) return 1;
+    if (!compatible_base_type_flags(existing->type->flags, symbol->type->flags)) {
+        error = 371;
+        goto conflict;
+    }
+    if (existing->type->field08 != symbol->type->field08) {
+        error = 371;
+        goto conflict;
+    }
+    error = compare_declaration_types(existing, symbol, 0);
+    if (error) {
+        if (error != 40) goto conflict;
+        existing->flags |= 0x80;
+        symbol->flags |= 0x80;
+        report_type_conflict(error, 0, existing->name, symbol->type, existing->type);
+        return 1;
+    }
+    if (!compatible_storage_classes(existing, symbol)) {
+        error = (existing->kind & 0x1f) == 7 ? 375 : 370;
+        goto conflict;
+    }
+    if (!compatible_declaration_attributes(existing->type->attributes,
+        symbol->type->attributes, (existing->kind & 0x1f) == 7)) {
+        error = 373;
+        goto conflict;
+    }
+    if ((existing->attributes & 4) && (symbol->attributes & 4)) {
+        error = 374;
+        goto conflict;
+    }
+    return 0;
+conflict:
+    existing->flags |= 0x80;
+    symbol->flags |= 0x80;
+    report_syntax_error(error, existing->name);
+    return 1;
+}
+
+/* Original 0x353b0..0x3559d. Compare declaration shape chains, retaining
+   an explicit segment prefix and allowing an incomplete outer array bound. */
+int __stdcall compare_declaration_types(FrontendSymbol *left, FrontendSymbol *right, CType *right_type)
+{
+    CType *left_type = left->type, *merged;
+    TypeShape *left_shape = left_type->related, *right_shape;
+    FrontendSymbol *segment;
+    unsigned depth = 0, kind;
+    int left_prefix = left_shape && !(left_shape->flags & 7);
+    right_type = right ? right->type : right_type;
+    right_shape = right_type->related;
+    if (right_shape && !(right_shape->flags & 7)) {
+        if (left_prefix) {
+            if (left_shape->field08 != right_shape->field08) {
+                segment = (FrontendSymbol *)left_shape->field08;
+                if (segment->index != 5 && segment->index != 2) return 376;
+            }
+        } else {
+            left->type = make_qualified_type(left_type, right_shape->flags,
+                right_shape->attributes, &right_shape->field08);
+            left->attributes |= 2;
+        }
+        if (right_shape && !(right_shape->flags & 7)) right_shape = right_shape->related;
+    }
+    if (left_prefix && left_shape && !(left_shape->flags & 7)) left_shape = left_shape->related;
+    for (;;) {
+        if (left_shape == right_shape) return 0;
+        if (!left_shape || !right_shape) return 40;
+        ++depth;
+        if ((left_shape->flags ^ right_shape->flags) & 7) return 372;
+        if (!compatible_shape_attributes(left_shape->attributes, right_shape->attributes)) return 373;
+        kind = left_shape->flags & 7;
+        if (kind == 2) {
+            if (left_shape->field08 != right_shape->field08 &&
+                !(depth == 1 && (!left_shape->field08 || !right_shape->field08))) return 369;
+        } else if (kind == 4 && right && !(right->flags & 1)) {
+            if ((left_shape->flags ^ right_shape->flags) & 0x8000) {
+                if (options.z_a) compiler_warning(4, 52);
+                else report_syntax_error(142);
+            }
+            if (left_shape->field08 != right_shape->field08) {
+                merged = merge_function_parameter_types(left->type, right->type, 1, depth == 1);
+                if (depth == 1) left->type = merged;
+            }
+        }
+        left_shape = left_shape->related;
+        right_shape = right_shape->related;
+    }
+}
+
+/* Original 0x34fb0..0x353b0. Reconcile prototypes, including nested
+   function-pointer parameters and the default promotions of an old declaration. */
+CType *__stdcall merge_function_parameter_types(CType *left, CType *right, int find_function, int outermost)
+{
+    TypeShape *left_shape, *right_shape, *prefix, *replacement;
+    ParameterInfo *left_parameters, *right_parameters, *merged_parameters = 0;
+    TypeDescription *description;
+    CType *result = left, *parameter, *promoted;
+    ArenaPool *pool;
+    int left_count, right_count, count, index;
+    unsigned bytes, offset;
+    if (find_function) {
+        left_shape = left->related;
+        right_shape = right->related;
+        if (left_shape && !(left_shape->flags & 7)) left_shape = left_shape->related;
+        if (right_shape && !(right_shape->flags & 7)) right_shape = right_shape->related;
+        while ((left_shape->flags & 7) != 4) left_shape = left_shape->related;
+        while ((right_shape->flags & 7) != 4) right_shape = right_shape->related;
+    } else {
+        left_shape = left->related->related;
+        right_shape = right->related->related;
+        if (((left->flags ^ right->flags) & 0xefdf) || left->field08 != right->field08)
+            return 0;
+    }
+    left_parameters = (ParameterInfo *)left_shape->field08;
+    right_parameters = (ParameterInfo *)right_shape->field08;
+    left_count = left_parameters->count;
+    right_count = right_parameters->count;
+    if (left_count && right_count) {
+        if (!find_function && left_count != right_count) return 0;
+        count = left_count;
+        if (find_function && right_count < left_count) {
+            count = right_count;
+            if (options.z_a) compiler_warning(1, 30);
+            else report_syntax_error(190);
+        } else if (find_function && right_count > left_count) {
+            if (options.z_a) compiler_warning(1, 31);
+            else report_syntax_error(191);
+        }
+        for (index = 0; index < count; ++index) {
+            if (left_parameters->types[index] == right_parameters->types[index]) continue;
+            parameter = 0;
+            if (outermost && is_function_pointer_type(left_parameters->types[index]) &&
+                is_function_pointer_type(right_parameters->types[index]))
+                parameter = merge_function_parameter_types(left_parameters->types[index],
+                    right_parameters->types[index], 0, 1);
+            if (parameter) {
+                if (parameter == right_parameters->types[index]) continue;
+                if (!merged_parameters) {
+                    bytes = 8 + right_count * sizeof(CType *);
+                    pool = &compiler_arena.pools[2];
+                    if ((int)bytes > pool->remaining) refill_arena(&compiler_arena, pool);
+                    merged_parameters = (ParameterInfo *)pool->next;
+                    pool->remaining -= bytes;
+                    pool->next += bytes;
+                    /* The original copies the newly allocated workspace into
+                       the existing descriptor, in this direction (351ce..351e2). */
+                    for (offset = 0; offset < bytes; ++offset)
+                        ((unsigned char *)right_parameters)[offset] = ((unsigned char *)merged_parameters)[offset];
+                }
+                merged_parameters->types[index] = parameter;
+            } else {
+                if (!find_function) return 0;
+                if (options.z_a) compiler_warning(1, 28, index + 1);
+                else report_syntax_error(192, index + 1);
+            }
+        }
+        if (!merged_parameters) return right;
+        replacement = intern_type_shape(new_type_shape(right_shape->flags,
+            right_shape->attributes, &merged_parameters));
+        if (!find_function) prefix = right->related;
+        else prefix = right->related != right_shape ? right->related : 0;
+        if (prefix) {
+            prefix = new_type_shape(prefix->flags, prefix->attributes, &prefix->field08);
+            prefix->related = replacement;
+            replacement = intern_type_shape(prefix);
+        }
+        description = copy_type_description(right);
+        description->related = replacement;
+        result = intern_type(description);
+        --type_description_depth;
+        return result;
+    }
+    if (!left_count && !right_count) return right;
+    if (!left_count) result = right;
+    if (!find_function) return result;
+    if (!left_count) left_parameters = right_parameters;
+    count = left_count + right_count;
+    for (index = 0; index < count; ++index) {
+        parameter = left_parameters->types[index];
+        if (!parameter) break;
+        promoted = default_argument_promotion(parameter);
+        if ((promoted && promoted != parameter) ||
+            (!parameter->related && parameter->flags == 0x104)) {
+            if (options.z_a) compiler_warning(4, 32, index + 1);
+            else report_syntax_error(379, index + 1);
+        }
+    }
+    return result;
+}
+
+/* Original 0x34e50..0x34f7c. A compatible redeclaration may supply an
+   omitted storage class, but must retain DLL/thread storage modifiers. */
+int __stdcall compatible_storage_classes(FrontendSymbol *left, FrontendSymbol *right)
+{
+    unsigned left_class = left->storage[0] & 7, right_class = right->storage[0] & 7;
+    unsigned left_storage, right_storage;
+    if ((left->kind & 0x1f) == 7 || !(left->attributes & 4)) {
+        if (left_class == right_class || (left_class == 1 && right_class == 2)) {
+            left_storage = left->storage[0] | ((unsigned)left->storage[1] << 8) |
+                ((unsigned)left->storage[2] << 16);
+            right_storage = right->storage[0] | ((unsigned)right->storage[1] << 8) |
+                ((unsigned)right->storage[2] << 16);
+            if (compatible_storage_modifiers(left_storage, right_storage)) return 1;
+        }
+    }
+    if (right_class == 3) {
+        if (options.z_a && left_class == 1 && !(left->flags & 1)) {
+            compiler_warning(4, 211);
+            return 1;
+        }
+        return 0;
+    }
+    if ((left_class == 7 || right_class == 7) && !parameter_nesting) return 0;
+    if (!(left->storage[2] & 4) && (right->storage[2] & 4)) return 0;
+    if ((left->storage[2] & 4) && right_class == 3) return 0;
+    return 1;
+}
+
+/* Original 0x3fa40..0x3fa78. Storage is passed by value in the low three
+   bytes; DLL import/export and thread-local modifiers must agree. */
+int __stdcall compatible_storage_modifiers(unsigned left, unsigned right)
+{
+    return !((left ^ right) & 0x70000UL);
+}
+
+/* Original 0x33f60..0x34016. An omitted memory model may agree with an
+   explicit model only when it denotes the compilation's default model. */
+int __stdcall compatible_declaration_attributes(unsigned short left, unsigned short right, int function)
+{
+    unsigned model;
+    if ((left ^ right) & 0xfff8) return 0;
+    if (left == right) return 1;
+    if ((left & 7) && (right & 7)) return 0;
+    model = (right | (left & 7)) & 7;
+    if (function) {
+        if (model == 1) return !(options.option_M & 1);
+        return (options.option_M & 1) == 1;
+    }
+    if (model == 1) return !(options.option_M & 2);
+    if (model == 2) return (options.option_M & 2) == 2;
+    return options.option_M & 4;
+}
+
+/* Original 0x34a80..0x34c7b. Commit a compatible repeated declaration,
+   retaining segment/type completion and merging storage/definition flags. */
+void __stdcall commit_redeclaration(FrontendSymbol *existing, FrontendSymbol *symbol)
+{
+    TypeShape *old_shape = existing->type->related, *new_shape = symbol->type->related;
+    int old_prefix = old_shape && !(old_shape->flags & 7);
+    int new_prefix = new_shape && !(new_shape->flags & 7);
+    int replace_prefix = 0, storage_warning = 0;
+    unsigned storage;
+    if (old_prefix) {
+        if (new_prefix && old_shape->field08 != new_shape->field08) {
+            existing->type = remove_type_prefix(existing->type);
+            replace_prefix = 1;
+        }
+    } else if (new_prefix) {
+        existing->attributes |= 2;
+        replace_prefix = 1;
+    }
+    if (replace_prefix) {
+        new_shape = symbol->type->related;
+        existing->type = make_qualified_type(existing->type, new_shape->flags,
+            new_shape->attributes, &new_shape->field08);
+    }
+    new_shape = symbol->type->related;
+    old_shape = existing->type->related;
+    if (new_shape && !(new_shape->flags & 7)) new_shape = new_shape->related;
+    if (old_shape && !(old_shape->flags & 7)) old_shape = old_shape->related;
+    if (new_shape) {
+        switch (new_shape->flags & 7) {
+        case 2:
+            if (new_shape->field08 && !old_shape->field08) {
+                existing->type = symbol->type;
+                existing->attributes &= ~0x100;
+            }
+            break;
+        case 4:
+            if (symbol->flags & 1) {
+                if (existing->flags & 1) report_symbol_error(84, existing);
+                else existing->flags |= 1;
+            }
+            break;
+        }
+    }
+    if ((existing->storage[2] & 0xc) == 0xc &&
+        (symbol->storage[2] & 0xc) == 4) storage_warning = 1;
+    else if ((existing->storage[2] & 0xc) == 4 &&
+        (symbol->storage[2] & 0xc) != 4 && (symbol->storage[0] & 7) != 3 &&
+        !(symbol->storage[1] & 1) && !(symbol->flags & 0x80) && !(existing->flags & 0x80))
+        storage_warning = 1;
+    if (storage_warning) {
+        compiler_warning(1, 273, existing->name);
+        existing->storage[0] = (existing->storage[0] & 0xf9) | 1;
+        existing->storage[2] |= 0xc;
+    }
+    if ((existing->storage[0] & 7) == 1 && (symbol->storage[0] & 7) != 1) {
+        if ((existing->attributes & 2) && (existing->type->related->flags & 7))
+            report_syntax_error(179, existing->name);
+        symbol->storage[1] |= existing->storage[1] & 0x10;
+        symbol->storage[2] |= existing->storage[2] & 0xc;
+        existing->storage[0] = symbol->storage[0];
+        existing->storage[1] = symbol->storage[1];
+        existing->storage[2] = symbol->storage[2];
+    }
+    existing->flags |= symbol->flags & 1;
+    existing->attributes |= symbol->attributes & 4;
+    storage = symbol->storage[0] | ((unsigned)symbol->storage[1] << 8) |
+        ((unsigned)symbol->storage[2] << 16);
+    if (merge_storage_modifiers(existing->storage, storage)) existing->flags &= ~2;
+}
+
+/* Original 0x3fa80..0x3fb15. Add the declaration's inheritable storage
+   modifiers, reporting whether the existing storage description changed. */
+int __stdcall merge_storage_modifiers(unsigned char *target, unsigned source)
+{
+    int changed = 0;
+    if ((source & 0x100) && !(target[1] & 1)) {
+        target[1] |= 1;
+        changed = 1;
+    }
+    if ((source & 0x40) && !(target[0] & 0x40)) {
+        target[0] |= 0x40;
+        changed = 1;
+    }
+    if ((source & 0x1000) && !(target[1] & 0x10)) {
+        target[1] |= 0x10;
+        changed = 1;
+    }
+    if ((source & 0x10000UL) && !(target[2] & 1)) {
+        target[2] |= 1;
+        changed = 1;
+    }
+    if ((source & 0x80000UL) && (target[2] & 4) &&
+        (source & 0x40000UL) && !(target[2] & 8)) {
+        target[2] |= 8;
+        changed = 1;
+    }
+    return changed;
 }

@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 261 reconstructed source functions
-and 341 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 272 reconstructed source functions
+and 352 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-declaration_conflict, original VA 0x34ce0.
-All 83 hello frontiers replay successfully with exact pending-buffer/visible-file
+read_macro_parameters, original VA 0x1c780.
+All 94 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -137,8 +137,8 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 101 encountered
-frontend state objects, the 21 option-table targets, 17 pragma optimization
+audit-state.py checks the initial bytes and address aliases of 104 encountered
+frontend state objects, 72 scalar options, the 21 option-table targets, 17 pragma optimization
 rules, and five hash callback identities, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
 for verification only; reconstructed code does not load original image data.
@@ -182,3 +182,15 @@ canonical explicit (void) descriptor. The original segment setter is shared by
 code and data declarations; cleanup registration shares scope_cleanup_stack.
 All 83 hello frontiers replay with exact pending/visible intermediate bytes,
 and the minimal-C four-file regression remains raw-byte identical.
+
+Checkpoint 272 completes compatible redeclaration checking and commitment:
+base/shape comparisons, default integer promotions, nested prototype merging,
+storage-class compatibility and inheritable storage modifiers. The prototype
+merger retains the original workspace-to-existing-descriptor copy direction
+in its nested replacement path. The declaration flags' preceding byte aliases
+the high byte of active_parameter_context; a shared union represents both
+views. The original /Zg subrule establishes the option name prototypes_only,
+replacing the earlier provisional syntax_only name. Scalar option defaults now
+participate in the same bidirectional byte-address alias audit as parser state.
+All 94 hello frontiers replay with exact buffered/visible file bytes, followed
+by raw-byte exact minimal-C regression.

@@ -178,7 +178,7 @@ void leave_compound_scope(void)
         }
         emit_scope_cleanup_records();
     }
-    if (!options.syntax_only) {
+    if (!options.prototypes_only) {
         if (!(scanner_flags & 0x40)) queue_completed_scope(scope);
         write_ir_record(0x54, make_integer_constant(parameter_nesting));
     }
@@ -193,7 +193,7 @@ ScopeCleanupEntry *scope_cleanup_stack; /* original 0x60078 */
 /* Original 0x34c80..0x34cd9. */
 void emit_scope_cleanup_records(void)
 {
-    if (options.syntax_only) return;
+    if (options.prototypes_only) return;
     while (scope_cleanup_stack && scope_cleanup_stack->value.depth == parameter_nesting) {
         pop_work_list((void **)&scope_cleanup_stack);
         write_ir_record(0x2b, make_symbol_reference(scope_cleanup_stack->value.symbol));
@@ -227,7 +227,7 @@ void __stdcall queue_completed_scope(SymbolScope *scope)
 void finish_function_records(void)
 {
     SymbolScope *scope; /* Original unspecified when no scope was queued. */
-    if (options.syntax_only) return;
+    if (options.prototypes_only) return;
     global_record_kind = 1;
     finish_label_symbols();
     if (!completed_scopes) {

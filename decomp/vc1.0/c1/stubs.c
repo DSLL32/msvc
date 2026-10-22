@@ -456,8 +456,6 @@ void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeS
 
 
 
-int __stdcall declaration_conflict(FrontendSymbol *existing, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
-void __stdcall commit_redeclaration(FrontendSymbol *existing, FrontendSymbol *symbol) { __asm { int 3 } }
 
 void reset_inline_function_state(void) { __asm { int 3 } }
 
@@ -493,7 +491,6 @@ void warn_void_function_pointer(void) { __asm { int 3 } }
 int __stdcall check_conversion_attributes(unsigned char operation, unsigned short target, unsigned short source, int first) { __asm { int 3 } return 0; }
 void __stdcall conversion_diagnostic(unsigned code, unsigned level, unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
-int __stdcall compatible_function_attributes(unsigned short target, unsigned short source) { __asm { int 3 } return 0; }
 int __stdcall compare_prototype_parameter_types(CType *target, CType *source) { __asm { int 3 } return 0; }
 void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
@@ -712,3 +709,18 @@ void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol) { __asm { int 
 /* Original 0x2c950. */
 
 /* Original 0x1cee0. */
+
+/* Original 0x34e00. */
+
+/* Original 0x353b0. */
+
+/* Original 0x34e50. */
+
+/* Original 0x33f60. */
+
+/* Original 0x3c1f0. */
+void __stdcall report_type_conflict(unsigned code, FrontendSymbol *symbol, char *name, CType *actual, CType *expected) { __asm { int 3 } }
+
+/* Original 0x34fb0. */
+
+int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; }

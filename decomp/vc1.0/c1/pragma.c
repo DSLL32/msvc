@@ -65,7 +65,7 @@ void process_pragma(void)
         scanner_flags &= ~0x10000UL;
         return;
     }
-    if (options.syntax_only) { skip_source_line(); return; }
+    if (options.prototypes_only) { skip_source_line(); return; }
     read_pragma_token();
     if (current_token_code == TOK_NEWLINE) return;
     if (current_token_code != TOK_IDENTIFIER) PRAGMA_BAD_TOKEN(84);

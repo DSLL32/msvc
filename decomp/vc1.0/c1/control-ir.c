@@ -30,7 +30,7 @@ void __stdcall record_line_information(unsigned tag)
     FILE *stream;
     short word;
     unsigned value;
-    if (options.syntax_only) return;
+    if (options.prototypes_only) return;
     if (tag == 1) {
         if (parser_flags & 0x200) return;
         if ((int)source_line_number > 65535) {

@@ -113,7 +113,7 @@ typedef struct CompilerOptions {
     int debug_old_format; /* original 0x6c108 */
     int z_n; /* original 0x6049c */
     int z_f; /* original 0x5f4c0 */
-    int syntax_only; /* original 0x5b244 */
+    int prototypes_only; /* original 0x5b244 */
     int z_I; /* original 0x60498 */
     int z_r; /* original 0x5f4c8 */
     int line_records; /* original 0x6bc48 */

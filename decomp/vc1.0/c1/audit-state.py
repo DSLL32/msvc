@@ -2,6 +2,8 @@
 """Check initial bytes and address aliases of encountered frontend state."""
 from compare import indexes, publics
 import struct
+import re
+from pathlib import Path
 
 original, rebuilt, config, _, _ = indexes()
 names = publics()
@@ -30,6 +32,9 @@ STATE = [
     ('_pch_file', 0x5b580, 4),
     ('_pch_replacement_file', 0x5b264, 4),
     ('_pending_global_symbols', 0x6b6bc, 4),
+    ('_declaration_controls', 0x60798, 64),
+    ('_declaration_controls', 0x6079b, 1, 3),
+    ('_declaration_controls', 0x6079c, 60, 4),
     ('_parser_lookahead', 0x6b550, 4),
     ('_scope_cleanup_stack', 0x60078, 4),
     ('_aggregate_contexts', 0x600a8, 384),
@@ -128,6 +133,17 @@ for field in STATE:
     new = names[name] + (field[3] if len(field) > 3 else 0)
     check(name, old, new, size)
 
+# CompilerOptions groups originally separate four-byte option objects. Include
+# its scalar defaults and byte aliases in the same address map as parser state.
+option_fields = re.findall(r'^    (int|[^;]+?\*)\s*(\w+); /\* original (0x[0-9a-f]+) \*/$',
+                           Path('options.h').read_text(), re.M)
+assert len(option_fields) == 94, len(option_fields)
+option_scalar_count = 0
+for index, (kind, field, address) in enumerate(option_fields):
+    if kind == 'int':
+        check('options.' + field, int(address, 16), names['_options'] + 4*index, 4)
+        option_scalar_count += 1
+
 # Pointer tables must refer to the same semantic objects as their direct users.
 old_options = struct.unpack('<21I', read(original, 0x6ef48, 84))
 new_options = struct.unpack('<21I', read(rebuilt, names['_packed_option_values'], 84))
@@ -152,4 +168,4 @@ for table, address, functions in callbacks:
     for index, name in enumerate(functions):
         assert struct.unpack('<I', read(original, address + 4 * index, 4))[0] == entries[name], name
         assert struct.unpack('<I', read(rebuilt, names[table] + 4 * index, 4))[0] == names[name], name
-print('%d state defaults/aliases, 21 option targets, 17 pragma rules and 5 hash callbacks match.' % len(STATE))
+print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match.' % (len(STATE), option_scalar_count))

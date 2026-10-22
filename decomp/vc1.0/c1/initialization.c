@@ -155,11 +155,11 @@ void initialize_frontend(void)
         begin_browser_output();
     }
     browser_filename = options.option_Fr;
-    if (options.option_Fs && !options.syntax_only) {
+    if (options.option_Fs && !options.prototypes_only) {
         diagnostic_trace_file = open_intermediate(options.intermediate_prefix, "er", "w");
         listing_file = open_intermediate(options.intermediate_prefix, "lp", "w");
     }
-    if (!options.option_E && !options.syntax_only) {
+    if (!options.option_E && !options.prototypes_only) {
         symbol_file = open_intermediate(options.intermediate_prefix, "sy", "w+");
         global_file = open_intermediate(options.intermediate_prefix, "gl", "w+");
         open_expression_intermediate();
@@ -169,7 +169,7 @@ void initialize_frontend(void)
     }
     if (options.option_Oi && options.option_qc)
         options.option_Oi = 0;
-    if (options.syntax_only) {
+    if (options.prototypes_only) {
         options.option_Ol = 0;
         normalized_Ol = 0;
     }
@@ -194,7 +194,7 @@ void initialize_frontend(void)
         description->attributes = 0;
         description->related = 0;
         description->field08 = 0;
-        integer_flags = ((options.syntax_only >= 1) ? 0x20 : 0) | 0x64;
+        integer_flags = ((options.prototypes_only >= 1) ? 0x20 : 0) | 0x64;
         description->flags = 0;
         type_0000 = intern_type(description);
         description->flags = 0x4041;
@@ -233,7 +233,7 @@ void initialize_frontend(void)
         description->flags = 0x4041;
         description->attributes = 1;
         type_4041_q1 = intern_type(description);
-        if (!options.syntax_only)
+        if (!options.prototypes_only)
             initialize_intermediate_output();
         initialize_translation_state();
     }
