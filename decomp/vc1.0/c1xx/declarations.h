@@ -43,8 +43,20 @@ struct CppSymbol {
 /* A transient qualified declarator uses the link slot before it joins a
    symbol list. The resolution holds a reference to its current binding;
    these are encountered prefixes, not complete allocated-object layouts. */
+typedef struct ClassReference {
+    unsigned char kind, flags;
+    unsigned short attributes;
+    unsigned field04, field08;
+    short context_index;
+    unsigned short field0e;
+} ClassReference;
+typedef struct QualifierBinding {
+    struct QualifierBinding *next;
+    unsigned field04;
+    ClassReference *target;
+} QualifierBinding;
 typedef struct QualifierResolution {
-    void **binding;
+    QualifierBinding **binding;
 } QualifierResolution;
 typedef struct QualifiedDeclarator {
     unsigned field00, field04, field08;
@@ -65,11 +77,34 @@ void __stdcall restore_declaration_context(unsigned char mode, SymbolScope *scop
 CppSymbol *__stdcall new_declarator(char *name);
 CppSymbol *__stdcall add_declaration_parameter(int prepend, CppSymbol **list, char *name, CType *type);
 CppSymbol *__stdcall attach_function_parameters(CppSymbol *declaration, CppSymbol *parameters);
+extern unsigned short pending_function_qualifiers;
+extern int suppress_implicit_member;
+DeclarationType *__stdcall global_declaration_type(DeclarationType *context);
+int __stdcall is_member_declarator(CppSymbol *declaration);
+CppSymbol *get_current_class_symbol(void);
+CType *__stdcall replace_first_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter);
+int __stdcall is_unqualified_class_type(CType *type);
+void __stdcall attach_type_shape(CppSymbol *declaration, TypeShape *shape);
 extern CppSymbol *parsed_parameter_symbols;
 extern unsigned function_declaration_kind;
 CppSymbol *finish_parameter_scope(void);
 CppSymbol *__stdcall attach_plain_function_parameters(CppSymbol *declaration, CppSymbol *parameters);
 CppSymbol *__stdcall build_function_declarator(CppSymbol *declaration, CppSymbol *parameters);
+CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *declaration);
+int __stdcall is_static_qualified_symbol(CppSymbol *symbol);
+void __stdcall unwind_qualified_scopes(int stop_at_class);
+unsigned short begin_type_diagnostic(void);
+void end_type_diagnostic(void);
+short __stdcall format_declarator(CppSymbol *symbol, CType *type);
+char *__stdcall type_diagnostic_text(short text);
+void __stdcall browser_declaration(CppSymbol *symbol);
+CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member);
+char *__stdcall format_qualified_name(QualifierBinding **binding, int verbose);
+CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol);
+int __stdcall symbol_has_array_shape(CppSymbol *symbol);
+void __stdcall initialize_zero_object(CppSymbol *symbol);
+void __stdcall finalize_object_storage(CppSymbol *symbol);
+void __stdcall validate_special_function(CppSymbol *symbol, int definition);
 CppSymbol *__stdcall apply_declaration_type(DeclarationType *type, CppSymbol *declaration);
 extern void *deferred_declarations[60];
 extern int current_class_context, allow_incomplete_class;

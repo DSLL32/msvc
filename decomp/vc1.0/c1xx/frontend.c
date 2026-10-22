@@ -5,7 +5,7 @@
 unsigned initial_option_flags, token_allocation_flags;
 unsigned cpp_parser_flags; /* original 0x9f794 */
 CompilerConfiguration saved_configuration;
-int version_directive_emitted, error_count;
+int global_expression_scope_active, error_count;
 CppSymbol *current_function;
 char version_string[256];
 Vector *forced_source_inputs;
@@ -48,7 +48,7 @@ int compile_translation_unit(void)
             version_string[i] = options.option_V[i];
         record_version_token(token);
         emit_version_token(token);
-        version_directive_emitted = 1;
+        global_expression_scope_active = 1;
     }
     if (options.pch_use ||
         (options.pch_use_file && (!options.pch_create_file ||
@@ -78,7 +78,7 @@ int compile_translation_unit(void)
         finish_types();
         finish_inline_functions();
         finish_expression_output();
-        if (version_directive_emitted) {
+        if (global_expression_scope_active) {
             write_ir_record(0x53, 0);
             write_ir_record(0x54, make_integer_constant(0));
         }

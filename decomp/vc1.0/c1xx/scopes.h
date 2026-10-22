@@ -10,4 +10,6 @@ typedef struct SymbolScope {
 } SymbolScope;
 extern SymbolScope *global_scope, *current_scope, *lookup_scope;
 extern SymbolScope **scope_directory;
+void retire_scope_directory_entry(void);
+void pop_symbol_scope(void);
 #endif

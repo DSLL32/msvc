@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 166 accepted paired frontiers, including 91 frontend
+PARTIAL reconstruction: 173 accepted paired frontiers, including 98 frontend
 functions and six older CRT routines. The frontend now reads cpp-basic.cpp,
-initializes builtin operator candidates and starts declaring their function
-signatures. The complete global-record writer and declaration storage/type
-normalizer are reconstructed. The next matching trap is _add_function_shape@12
-at original VA 0x62990. All 166 frontiers replay successfully; the expression
-stream begins with the exact six bytes 5b8034030000. The complete frontend case
-is not yet reconstructed or claimed equivalent.
+initializes builtin operator candidates and constructs their function signatures.
+The complete global-record writer, declaration storage/type normalizer and final
+declaration checks are reconstructed. The next matching trap is
+_resolve_declaration@8 at original VA 0x51fc0. All 173 frontiers replay successfully;
+the expression stream begins with the exact six bytes 5b8034030000. The complete
+frontend case is not yet reconstructed or claimed equivalent.
 
 Build and check the current frontier using the original toolchain:
 
@@ -59,7 +59,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-declarations.log.
+The current full ordered replay is recorded in evidence/replay-signatures.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -85,7 +85,7 @@ it is not assumed to be a prefix of the completed fixture.
 
 SourceFile models the 52-byte input-stack entry, with guarded overlapping input
 windows and include-parent seek logic. Fifteen input defaults are checked,
-including the initial UINT_MAX include-pragma state. Operator initialization
+including the initial UINT_MAX conditional-directive depth. Operator initialization
 uses 57 contextual builtin candidates and 213 scanner token-spelling slots;
 both tables are audited against their original records. A declaration retains
 its storage bytes, mutable type descriptor, source-order link and reverse
@@ -98,3 +98,12 @@ well as initial values, catching equal-valued objects that would split original
 state. The declaration normalizer retains all storage, class-member, linkage,
 qualification and diagnostic branches, with named traps for its unreconstructed
 callees. Compiler diagnostics retain the original variadic arguments.
+
+Function signatures now intern their circular parameter-declaration types, with
+the original count-ordered bucket chain and C++ hash (including the signed
+class-context index). The function-shape builder includes implicit class types
+and pending function qualifiers. Final declaration checks retain the original
+qualified-name, browser, object/function and diagnostic branches. The shared
+0x8ccb8 flag is global_expression_scope_active, rather than a /V-only state.
+The SourceFile saved depth is conditional-directive nesting: the C++ directive
+push routine at 0x23600 increments it and checks the 32-level limit.

@@ -18,6 +18,11 @@ struct FunctionParameters {
     DefaultArgument *defaults;
     DeclarationParameterInfo *declarations;
 };
+struct DeclarationParameterEntry {
+    DeclarationParameterEntry *next;
+    DeclarationParameterInfo parameters;
+};
+unsigned __stdcall hash_declaration_parameters(DeclarationParameterInfo *parameters);
 struct ParameterEntry {
     ParameterEntry *next;
     FunctionParameters parameters;

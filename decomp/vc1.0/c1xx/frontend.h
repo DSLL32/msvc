@@ -18,7 +18,7 @@ typedef struct CppSymbol CppSymbol;
 extern unsigned initial_option_flags, token_allocation_flags;
 extern unsigned cpp_parser_flags;
 extern CompilerConfiguration saved_configuration;
-extern int version_directive_emitted, error_count;
+extern int global_expression_scope_active, error_count;
 extern CppSymbol *current_function;
 extern char version_string[256];
 extern Vector *forced_source_inputs;

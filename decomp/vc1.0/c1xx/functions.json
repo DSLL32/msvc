@@ -170,7 +170,14 @@
     "_append_declarator@8",
     "_attach_function_parameters@8",
     "_attach_plain_function_parameters@8",
-    "_build_function_declarator@8"
+    "_build_function_declarator@8",
+    "_add_function_shape@12",
+    "_is_member_declarator@4",
+    "_intern_declaration_parameters",
+    "_hash_declaration_parameters@4",
+    "_attach_type_shape@8",
+    "_finish_parameter_scope",
+    "_apply_declaration_type@8"
   ],
   "driver": [
     {
@@ -1098,7 +1105,127 @@
     {
       "name": "_add_function_shape@12",
       "start": 403856,
-      "end": 403857
+      "end": 404295
+    },
+    {
+      "name": "_is_member_declarator@4",
+      "start": 403680,
+      "end": 403850
+    },
+    {
+      "name": "_get_current_class_symbol",
+      "start": 207824,
+      "end": 207846
+    },
+    {
+      "name": "_replace_first_type_shape@16",
+      "start": 402304,
+      "end": 402576
+    },
+    {
+      "name": "_attach_type_shape@8",
+      "start": 404304,
+      "end": 404517
+    },
+    {
+      "name": "_global_declaration_type@4",
+      "start": 208512,
+      "end": 208549
+    },
+    {
+      "name": "_hash_declaration_parameters@4",
+      "start": 404976,
+      "end": 405047
+    },
+    {
+      "name": "_is_unqualified_class_type@4",
+      "start": 249216,
+      "end": 249217
+    },
+    {
+      "name": "_retire_scope_directory_entry",
+      "start": 353584,
+      "end": 353622
+    },
+    {
+      "name": "_pop_symbol_scope",
+      "start": 353488,
+      "end": 353501
+    },
+    {
+      "name": "_resolve_declaration@8",
+      "start": 335808,
+      "end": 337568
+    },
+    {
+      "name": "_is_static_qualified_symbol@4",
+      "start": 190752,
+      "end": 190797
+    },
+    {
+      "name": "_unwind_qualified_scopes@4",
+      "start": 209840,
+      "end": 209946
+    },
+    {
+      "name": "_begin_type_diagnostic",
+      "start": 428592,
+      "end": 428603
+    },
+    {
+      "name": "_end_type_diagnostic",
+      "start": 428608,
+      "end": 428642
+    },
+    {
+      "name": "_format_declarator@8",
+      "start": 424928,
+      "end": 425031
+    },
+    {
+      "name": "_type_diagnostic_text@4",
+      "start": 428656,
+      "end": 428692
+    },
+    {
+      "name": "_browser_declaration@4",
+      "start": 181296,
+      "end": 181311
+    },
+    {
+      "name": "_declare_qualified_member@12",
+      "start": 334528,
+      "end": 334944
+    },
+    {
+      "name": "_format_qualified_name@8",
+      "start": 493328,
+      "end": 493469
+    },
+    {
+      "name": "_symbol_construction_class@4",
+      "start": 295664,
+      "end": 295738
+    },
+    {
+      "name": "_symbol_has_array_shape@4",
+      "start": 351856,
+      "end": 351912
+    },
+    {
+      "name": "_initialize_zero_object@4",
+      "start": 334288,
+      "end": 334515
+    },
+    {
+      "name": "_finalize_object_storage@4",
+      "start": 337600,
+      "end": 338174
+    },
+    {
+      "name": "_validate_special_function@8",
+      "start": 331472,
+      "end": 333756
     }
   ],
   "cases": {
@@ -1330,7 +1457,7 @@
           "bytes": 4
         },
         {
-          "name": "_include_pragma_state",
+          "name": "_conditional_depth",
           "original": 654280,
           "bytes": 4
         },
@@ -1431,6 +1558,40 @@
       "name": "_cpp_parser_flags",
       "original": 653204,
       "kind": "bytes",
+      "bytes": 4
+    },
+    {
+      "kind": "state",
+      "name": "_pending_function_qualifiers",
+      "original": 594416,
+      "fields": [
+        {
+          "name": "_pending_function_qualifiers",
+          "original": 594416,
+          "bytes": 2
+        },
+        {
+          "name": "_parsed_parameter_symbols",
+          "original": 594280,
+          "bytes": 4
+        },
+        {
+          "name": "_function_declaration_kind",
+          "original": 595320,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_suppress_implicit_member",
+      "original": 594412,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_global_expression_scope_active",
+      "original": 576696,
       "bytes": 4
     }
   ],

@@ -49,7 +49,6 @@ void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode) { __asm {
 void __stdcall reference_ir_symbol(CppSymbol *symbol) { __asm { int 3 } }
 unsigned get_ir_symbol_index(CppSymbol *symbol) { __asm { int 3 } return 0; }
 long ftell(FILE *file) { __asm { int 3 } return 0; }
-DeclarationParameterInfo *intern_declaration_parameters(int count, CppSymbol *head) { __asm { int 3 } return 0; }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
@@ -82,7 +81,6 @@ char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall declare_operator_delete(unsigned short attributes) { __asm { int 3 } }
 void __stdcall restore_declaration_context(unsigned char mode, SymbolScope *scope) { __asm { int 3 } }
-CppSymbol *__stdcall apply_declaration_type(DeclarationType *type, CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_scope_symbol(SymbolScope *scope, char *name, int flags) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall prepend_declarator(CppSymbol *list, CppSymbol *declaration) { __asm { int 3 } }
@@ -95,5 +93,24 @@ unsigned short __stdcall type_qualifiers(CType *type) { __asm { int 3 } return 0
 CType *__stdcall strip_based_shape(CType *type) { __asm { int 3 } return 0; }
 unsigned short __stdcall classify_incomplete_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
-CppSymbol *finish_parameter_scope(void) { __asm { int 3 } return 0; }
-void __stdcall add_function_shape(CppSymbol *declaration, unsigned short attributes, DeclarationList *parameters) { __asm { int 3 } }
+CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
+CType *__stdcall replace_first_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
+DeclarationType *__stdcall global_declaration_type(DeclarationType *context) { __asm { int 3 } return 0; }
+int __stdcall is_unqualified_class_type(CType *type) { __asm { int 3 } return 0; }
+void retire_scope_directory_entry(void) { __asm { int 3 } }
+void pop_symbol_scope(void) { __asm { int 3 } }
+CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *declaration) { __asm { int 3 } return 0; }
+int __stdcall is_static_qualified_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall unwind_qualified_scopes(int stop_at_class) { __asm { int 3 } }
+unsigned short begin_type_diagnostic(void) { __asm { int 3 } return 0; }
+void end_type_diagnostic(void) { __asm { int 3 } }
+short __stdcall format_declarator(CppSymbol *symbol, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall type_diagnostic_text(short text) { __asm { int 3 } return 0; }
+void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
+CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member) { __asm { int 3 } return 0; }
+char *__stdcall format_qualified_name(QualifierBinding **binding, int verbose) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
+int __stdcall symbol_has_array_shape(CppSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall validate_special_function(CppSymbol *symbol, int definition) { __asm { int 3 } }

@@ -1,6 +1,9 @@
 /* Declaration lookup uses the first word of its declaration records as a key. */
 #include "declarations.h"
 #include "global-ir.h"
+#include "cpp-context.h"
+#include "parameters.h"
+#include "operators.h"
 
 HashTable *declaration_table; /* original 0x9f340 */
 
@@ -153,4 +156,151 @@ CppSymbol *__stdcall build_function_declarator(CppSymbol *declaration, CppSymbol
     list.head = parameters;
     add_function_shape(declaration, 0, &list);
     return declaration;
+}
+
+unsigned short pending_function_qualifiers; /* original 0x911f0 */
+
+/* Original 0x62990..0x62b47. Bind a function's implicit class pointer to its
+   parameter signature, then prepend the function shape to the declarator. */
+void __stdcall add_function_shape(CppSymbol *declaration, unsigned short attributes,
+                                   DeclarationList *parameters)
+{
+    unsigned short kind = 4, shape_attributes;
+    QualifiedDeclarator *qualifier;
+    QualifierResolution *resolution;
+    QualifierBinding *binding;
+    ClassReference *reference;
+    TypeDescription *description;
+    CType *member_type;
+    TypeShape *shape;
+
+    if (!is_member_declarator(declaration)) {
+        if (pending_function_qualifiers)
+            report_syntax_error((declaration->name == name_new || declaration->name == name_delete) ?
+                                271 : 270, declaration->name);
+        pending_function_qualifiers = 0;
+        goto make_shape;
+    }
+    kind = 0x2004;
+    shape = declaration->type->related;
+    if (shape && (shape->flags & 0x10))
+        member_type = make_class_pointer_type(shape->data.tag_symbol, 0x1000);
+    else {
+        qualifier = (QualifiedDeclarator *)declaration->next;
+        if (qualifier) {
+            resolution = qualifier->resolution;
+            if (resolution && !*resolution->binding)
+                goto implicit_class;
+            if (!resolution)
+                reference = (ClassReference *)get_current_class_symbol();
+            else {
+                binding = *resolution->binding;
+                if (!binding) {
+                    kind = 4;
+                    parameter_associated_type = 0;
+                    goto make_shape;
+                }
+                reference = binding->target;
+            }
+            if ((reference->kind & 31) != 4)
+                reference = cpp_context_stack->items[reference->context_index];
+            member_type = make_class_pointer_type((CppSymbol *)reference, 0x1000);
+        } else {
+implicit_class:
+            /* The member-declarator predicate requires a class context here. */
+            if (current_class_context >= 0)
+                member_type = make_class_pointer_type(0, 0x1000);
+        }
+    }
+    if (pending_function_qualifiers) {
+        if (pending_function_qualifiers == 1 || pending_function_qualifiers == 2 ||
+            (pending_function_qualifiers & 0x3000)) {
+            description = copy_type_description(member_type);
+            shape = description->related;
+            shape_attributes = shape->attributes;
+            if (pending_function_qualifiers & 0x3000)
+                description->attributes |= pending_function_qualifiers & 0x3000;
+            if (pending_function_qualifiers & 7)
+                shape_attributes = (shape_attributes & ~7) | (pending_function_qualifiers & 7);
+            member_type = replace_first_type_shape((CType *)description, shape->flags,
+                                                   shape_attributes, &shape->data);
+            --type_description_depth;
+        }
+        pending_function_qualifiers = 0;
+    }
+    parameter_associated_type = member_type;
+make_shape:
+    shape = new_type_shape(kind, attributes, parameters);
+    attach_type_shape(declaration, shape);
+    parameter_associated_type = 0;
+}
+
+int suppress_implicit_member; /* original 0x911ec */
+
+/* Original 0x628e0..0x6298a. Allocation operators never receive implicit this. */
+int __stdcall is_member_declarator(CppSymbol *declaration)
+{
+    TypeShape *shape;
+    QualifiedDeclarator *qualifier;
+    if (declaration->name == name_new || declaration->name == name_delete)
+        return 0;
+    shape = declaration->type->related;
+    if (shape && !(shape->flags & 0x77))
+        shape = shape->related;
+    if (shape)
+        return shape->flags & 0x10;
+    qualifier = (QualifiedDeclarator *)declaration->next;
+    if (qualifier && (!qualifier->resolution || *qualifier->resolution->binding))
+        return 1;
+    if ((declaration->kind & 31) == 18)
+        return 1;
+    if (current_class_context >= 0) {
+        if (suppress_implicit_member)
+            return 0;
+        if (!(global_declaration_type(0)->storage[1] & 4))
+            return 1;
+    }
+    return 0;
+}
+
+/* Original 0x62b50..0x62c25. Apply a new outer shape while checking attributes. */
+void __stdcall attach_type_shape(CppSymbol *declaration, TypeShape *shape)
+{
+    unsigned short attributes = shape->attributes, kind = shape->flags;
+    CppSymbol *class_symbol, *based_symbol;
+    if (attributes & 0x800) {
+        compiler_warning(1, 147, format_symbol_name(declaration), token_spellings[48]);
+        attributes &= ~0x800;
+    }
+    if (attributes & 0x200) {
+        compiler_warning(1, 147, format_symbol_name(declaration), token_spellings[47]);
+        attributes &= ~0x200;
+    }
+    if ((kind & 0x41) && !(shape->attributes & 7) &&
+        is_unqualified_class_type(declaration->type)) {
+        class_symbol = cpp_context_stack->items[declaration->type->field08];
+        attributes |= class_symbol->detail.class_info->pointer_attributes;
+    }
+    shape->attributes = attributes;
+    if ((attributes & 7) == 5) {
+        based_symbol = shape->data.based_symbol;
+        if ((based_symbol->kind & 31) == 13 && (based_symbol->field24 & 0xff) == 8)
+            based_symbol->field24 = (based_symbol->field24 & ~0xffU) | 1;
+    }
+    shape->related = declaration->type->related;
+    declaration->type->related = shape;
+}
+
+/* Original 0x36700..0x36741. Return the parsed parameter symbols before
+   releasing the temporary, single-bucket parameter scope. */
+CppSymbol *finish_parameter_scope(void)
+{
+    CppSymbol *parameters = 0;
+    if ((current_scope->flags & 0xff) != 1 || current_scope->bucket_mask)
+        return 0;
+    if (current_scope->buckets)
+        parameters = *current_scope->buckets;
+    retire_scope_directory_entry();
+    pop_symbol_scope();
+    return parameters;
 }

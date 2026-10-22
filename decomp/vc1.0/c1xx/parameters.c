@@ -112,3 +112,73 @@ FunctionParameters *__stdcall build_parameter_info(void *declarations,
     result->associated_type = parameter_associated_type;
     return intern_function_parameters(result);
 }
+
+/* Original 0x62e90..0x6303e. Parameter-count ordering stops searches early;
+   declaration type identity, rather than default arguments, is the key. */
+DeclarationParameterInfo *intern_declaration_parameters(int count, CppSymbol *head)
+{
+    unsigned bytes = count * sizeof(CType *) + 8, i, n = 0, hash;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    DeclarationParameterInfo *candidate;
+    DeclarationParameterEntry **bucket, *entry, *previous = 0, *created;
+    CppSymbol *first, *parameter;
+    if (pool->remaining < (int)bytes)
+        refill_arena(&compiler_arena, pool);
+    candidate = (DeclarationParameterInfo *)pool->next;
+    pool->remaining -= bytes;
+    pool->next += bytes;
+    candidate->count = count;
+    while (head && (head->kind & 31) != 10 && (head->kind & 31) != 11)
+        head = head->next;
+    if (head) {
+        first = parameter = head->detail.parameter_next;
+        do {
+            candidate->types[n++] = parameter->type;
+            parameter = parameter->detail.parameter_next;
+        } while (parameter && parameter != first);
+    }
+    hash = hash_declaration_parameters(candidate);
+    bucket = &declaration_parameter_buckets[hash & 0x1ff];
+    for (entry = *bucket; entry; entry = entry->next) {
+        if (count < entry->parameters.count)
+            break;
+        if (count == entry->parameters.count) {
+            for (i = 0; i < (unsigned)count &&
+                        entry->parameters.types[i] == candidate->types[i]; ++i)
+                ;
+            if (i == (unsigned)count)
+                return &entry->parameters;
+        }
+        previous = entry;
+    }
+    created = allocate_permanent(bytes + 4);
+    created->parameters.count = candidate->count;
+    created->parameters.flags = candidate->flags;
+    created->parameters.field06 = candidate->field06;
+    for (i = 0; i < (unsigned)count; ++i)
+        created->parameters.types[i] = candidate->types[i];
+    created->next = entry;
+    if (previous)
+        previous->next = created;
+    else
+        *bucket = created;
+    return &created->parameters;
+}
+
+/* Original 0x62df0..0x62e37. A null variadic marker consumes the remaining
+   count without advancing the pointer, as in the original loop. */
+unsigned __stdcall hash_declaration_parameters(DeclarationParameterInfo *parameters)
+{
+    int remaining = parameters->count;
+    unsigned hash = remaining;
+    CType **next = parameters->types;
+    CType *type;
+    while (remaining--) {
+        type = *next;
+        if (type) {
+            hash += ((unsigned)type->related & 0xffc) + type->field08 + type->flags;
+            ++next;
+        }
+    }
+    return hash;
+}

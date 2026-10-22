@@ -14,7 +14,7 @@ int source_handle = -1; /* original 0x9d7f8 */
 char source_storage[3 * 4099]; /* first guards at original 0x918ec */
 char *source_text_cursor; /* original 0x8c14c */
 unsigned source_line_number; /* original 0x8cc98 */
-unsigned include_pragma_state = (unsigned)-1; /* original 0x9fbc8 */
+int conditional_depth = -1; /* original 0x9fbc8 */
 int macro_expansion_active; /* original 0x91880 */
 char *macro_saved_input_cursor; /* original 0x957a0 */
 unsigned browser_file_cookie; /* original 0x94b10 */
@@ -57,7 +57,7 @@ int __stdcall open_source_file(char *filename, int mode)
     input->next = parent;
     active_input = input;
     ++include_depth;
-    input->saved_pragma = include_pragma_state;
+    input->saved_conditional_depth = conditional_depth;
     input->saved_packing = top_packing(packing_stack)->alignment;
     if (!include_depth) {
         root_input = active_input;
