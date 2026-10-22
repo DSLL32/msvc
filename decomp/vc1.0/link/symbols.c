@@ -452,3 +452,19 @@ unsigned short get_hash_flags(HashTable *table)
 {
     return table->flags;
 }
+int compare_external_addresses(const void *,const void *);
+
+/* Original [00026450,00026480). */
+External **get_externals_by_address(SymbolTable *table)
+{
+    if (!table->sorted_by_address)
+        table->sorted_by_address=sort_external_table(table,compare_external_addresses);
+    return table->sorted_by_address;
+}
+
+/* Original [00026260,00026280). Native address comparator uses subtraction. */
+int compare_external_addresses(const void *left,const void *right)
+{
+    External *a=*(External *const *)left,*b=*(External *const *)right;
+    return (int)(a->value.final_value-b->value.final_value);
+}

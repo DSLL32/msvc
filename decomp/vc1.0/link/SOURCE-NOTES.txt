@@ -455,3 +455,40 @@ layout has one. The absent-following-group boundary remains unverified rather
 than inventing an initialized displacement. FunctionSymbolMap and FunctionSymbol
 are explicit12-byte records with compile-time layout checks; auxiliary emission
 uses the existing shared symbol_record_size. No assembly exception was needed.
+
+COFF/CodeView checkpoint:485 frontiers;134667/281634 accepted .text bytes
+(47.8163%). Clean original-toolchain -j2, full485 replay, five completed cases,
+349 graph,340 callback and286 contextual-data audits pass. At the pending map
+writer both packed71800-byte DLLs are raw-identical and .dll/.lib/.exp match
+immutable expected normalized hashes. No new normalization was introduced. Full
+debug-case completion and final GUI checks remain pending map emission.
+
+The old link-pass orchestration conflated two file cursors with earlier layout
+locals. Native1b80b/1b85e/1b8e8 shows distinct relocation and COFF-line cursors.
+At the map-relocation frontier that caused exactly two bytes to differ in the
+first section PointerToLinenumbers (0xb000 instead of0x4c20). Separate count,
+layout state and cursors restore raw identity of the entire partial2MB DLL;
+full replay and prior cases cover the corrected accepted orchestrator.
+
+CodeView ModuleDebugInfo is76 bytes, with Module/name state followed by five
+12-byte CvSubsection descriptors for publics, symbols, types, lines and the
+module record. These meaningful descriptors replace the prior incomplete
+compact record; compile-time size and offset checks cover native1c/28/34/40
+accesses. Each field is populated by its owning pass. Module.public_symbols
+at24 is the native ExternalLink list, distinct from common_symbols at20.
+The segment collector preserves output-chain adjacency, head insertion and
+WORD counts. Public emission preserves short-name buffer sharing, stdout
+flush, packed12-byte record, byte name prefix and full-length name write.
+The native freed public-list head remains dangling; common lists are consumed.
+CodeView segment and subsection directory structures are typed, contextual
+records with compile-time layout checks, not copied sections or padding.
+
+run_cvpack preserves the existing mutable default-name object identity, sibling
+and PATH search behavior, and exact spawnl/spawnlp argument lists. The original
+external CVPACK helper runs unchanged. All new implementations are readable C;
+no assembly or ABI exception was needed.
+
+The graph auditor now decodes15-byte lookahead before asserting each declared
+end is an instruction boundary, retaining switch-table exclusion. All490
+accepted original records (aliases included) and349 graph-audited source/runtime
+records in both binaries pass; no extent correction was required.

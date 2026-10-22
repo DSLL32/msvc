@@ -190,3 +190,29 @@ unsigned write_coff_auxiliary(int file,PIMAGE_AUX_SYMBOL auxiliary)
 {
     return write_file(file,auxiliary,symbol_record_size);
 }
+
+/* Original [000251d0,000251f0). */
+unsigned read_coff_symbol(int file,PIMAGE_SYMBOL symbol)
+{
+    return read_file(file,symbol,IMAGE_SIZEOF_SYMBOL);
+}
+
+/* Original [00025270,00025290). */
+unsigned read_coff_lines(int file,PIMAGE_LINENUMBER lines,unsigned long count)
+{
+    return read_file(file,lines,count*IMAGE_SIZEOF_LINENUMBER);
+}
+
+/* Original [00025290,00025300). CodeView stores line number before offset. */
+unsigned write_coff_lines(int file,PIMAGE_LINENUMBER lines,unsigned long count,ImageOptions *options)
+{
+    if ((options->debug_types&2) && (options->debug_types&4)) {
+        while (count--) {
+            write_file(file,&lines->Linenumber,2);
+            write_file(file,&lines->Type,4);
+            ++lines;
+        }
+        return 0;
+    }
+    return write_file(file,lines,count*IMAGE_SIZEOF_LINENUMBER);
+}

@@ -36,15 +36,14 @@ archive member dates vary. Whole .text accepted extent is 115939/281634 bytes
 (41.1665%), up from 110787/281634 (39.3372%). This is whole-function extent
 coverage, not dynamic instruction or branch coverage.
 
-hello-debug-dll now reaches the matching update_function_auxiliary frontier.
-DEF parsing, export resolution, code ordering and initial COFF debug setup run
-through. Both .lib and .exp match their frozen fixture hashes after only the
-structural timestamp fields. The resource converter's 4630-byte intermediate
-COFF objects also match without normalization. A clean parallel build, replay of
-21 additions since the full 442-frontier checkpoint, all five completed cases,
-330 call-graph audits, 321 callback audits and 281 data checks pass. Current
-accepted .text union is 129445/281634 (45.9621%). The reconstructed debug DLL and
-remaining archive/dump/edit lifecycle are still incomplete.
+hello-debug-dll now reaches the matching write_map frontier. COFF function and
+line emission, NB05 CodeView subsections and native CVPACK run through. Both
+71800-byte DLLs match raw, and .dll/.lib/.exp match frozen fixture hashes after
+only the established structural clocks and validated checksum derivation. A
+clean parallel build, full485-frontier replay, all five completed cases,349 call
+and340 callback audits, and286 data checks pass. Accepted .text union is
+134667/281634 (47.8163%). Final map, streams and GUI checks for the debug case,
+and the remaining archive/dump/edit lifecycle, are still incomplete.
 
 The untouched original passes exact verbose output/artifact checks and the
 aliased HelloEntry load/call/paint/close/unload check. The frozen output preserves

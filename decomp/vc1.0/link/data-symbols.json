@@ -1798,5 +1798,35 @@
     "name": "definition_name_seen",
     "size": 1,
     "owner": "definition-file.c"
+  },
+  {
+    "address": 506300,
+    "name": "map_relocations",
+    "size": 4,
+    "owner": "map-file.c"
+  },
+  {
+    "address": 506304,
+    "name": "map_relocations_used",
+    "size": 4,
+    "owner": "map-file.c"
+  },
+  {
+    "address": 506424,
+    "name": "map_static_symbols",
+    "size": 4,
+    "owner": "map-file.c"
+  },
+  {
+    "address": 506428,
+    "name": "map_symbol_tail",
+    "size": 4,
+    "owner": "map-file.c"
+  },
+  {
+    "address": 518956,
+    "name": "codeview_module_name",
+    "size": 4,
+    "owner": "codeview.c"
   }
 ]

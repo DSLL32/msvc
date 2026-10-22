@@ -405,20 +405,20 @@ void write_contribution(Image *image,Contribution *contribution,PIMAGE_SYMBOL sy
         (image->options.debug_types&2) && kind!=IMAGE_SCN_CNT_CODE) {
         debug=&module_debug_info[output_module_index];
         if (!strncmp(contribution->group->name,".debug$S",8)) {
-            if (!debug->symbol_offset) debug->symbol_offset=contribution->file_offset;
-            debug->symbol_size+=contribution->raw_size;
+            if (!debug->symbols.offset) debug->symbols.offset=contribution->file_offset;
+            debug->symbols.size+=contribution->raw_size;
         } else if (!strncmp(contribution->group->name,".debug$T",8)) {
-            if (!debug->type_offset) {
-                debug->type_offset=contribution->file_offset;
-                debug->precompiled_types=0;
+            if (!debug->types.offset) {
+                debug->types.offset=contribution->file_offset;
+                debug->types.flags=0;
             }
-            debug->type_size+=contribution->raw_size;
+            debug->types.size+=contribution->raw_size;
         } else if (!strncmp(contribution->group->name,".debug$P",8)) {
-            if (!debug->type_offset) {
-                debug->type_offset=contribution->file_offset;
-                debug->precompiled_types=1;
+            if (!debug->types.offset) {
+                debug->types.offset=contribution->file_offset;
+                debug->types.flags=1;
             }
-            debug->type_size+=contribution->raw_size;
+            debug->types.size+=contribution->raw_size;
         }
     }
 }
@@ -473,23 +473,23 @@ void process_contribution_debug(Image *image,Contribution *contribution,
     seek_file(output_file,section->line_offset,SEEK_SET);
     if ((image->options.debug_types&2) && (image->options.debug_types&4)) {
         debug=&module_debug_info[output_module_index];
-        if (!debug->line_offset) {
+        if (!debug->lines.offset) {
             name=debug->source_name;
             name_length=(unsigned short)strlen(name);
-            debug->line_offset=section->line_offset;
+            debug->lines.offset=section->line_offset;
             write_file(output_file,&name_length,1);
             write_file(output_file,name,name_length);
             write_file(output_file,&section->index,2);
             cv_line_count_file_offset=tell_file(output_file);
             write_file(output_file,&count,2);
-            debug->line_size=name_length+count*sizeof(*lines)+5;
+            debug->lines.size=name_length+count*sizeof(*lines)+5;
             section->line_offset+=name_length+5;
             cv_line_count=count;
         } else {
             seek_file(output_file,cv_line_count_file_offset,SEEK_SET);
             cv_line_count+=count;
             write_file(output_file,&cv_line_count,2);
-            debug->line_size+=count*sizeof(*lines);
+            debug->lines.size+=count*sizeof(*lines);
             seek_file(output_file,section->line_offset,SEEK_SET);
         }
     }

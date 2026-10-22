@@ -53,8 +53,9 @@ int link_passes(Image *image,unsigned char *pack)
     IncludedExternal *include_next;
     unsigned long directory_bytes=0,debug_reserved,debug_file_start,header_end,header_last;
     unsigned long file_cursor,code_rva,data_rva,code_start,data_start,bss_start;
-    unsigned long rom_data_start,rom_bss_start,layout_state=0,line_count=0,fpo_count=0;
+    unsigned long rom_data_start,rom_bss_start,layout_state=0,line_count=0,relocation_count=0;
     unsigned long code_file_end,data_file_end,coff_lines=0,coff_lines_size=0;
+    unsigned long relocation_cursor=0,coff_line_cursor=0;
     unsigned long symbol_start=0,string_start=0,string_size=0,coff_size=0,coff_prefix=0;
     unsigned long debug_end,saved_position,fpo_entries,padding,bytes,rounded;
     Contribution *local_imports;
@@ -273,24 +274,24 @@ int link_passes(Image *image,unsigned char *pack)
         else fatal_message("",0x3d,NULL);
         if (mac_loader_present) initialize_mac_loader();
     }
-    layout_sections(image,0x20,&code_rva,&file_cursor,&fpo_count,&line_count,&layout_state);
+    layout_sections(image,0x20,&code_rva,&file_cursor,&relocation_count,&line_count,&layout_state);
     if (!base_pair) header->BaseOfData=code_rva;
     data_rva=header->BaseOfData;
     if (image->options.rom) {
         rom_data_start=data_rva;
         data_file_end=file_cursor;
-        layout_sections(image,0x40,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x40,&data_rva,&data_file_end,&relocation_count,&line_count,&layout_state);
         rom_bss_start=bss_start=data_rva;
         code_file_end=file_cursor;
-        layout_sections(image,0x80,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x80,&data_rva,&code_file_end,&relocation_count,&line_count,&layout_state);
     } else if (mac_image) {
         mac_data_base=data_rva;
         data_file_end=code_file_end=file_cursor;
-        layout_sections(image,0x100040,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
-        layout_sections(image,0x100080,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x100040,&data_rva,&data_file_end,&relocation_count,&line_count,&layout_state);
+        layout_sections(image,0x100080,&data_rva,&code_file_end,&relocation_count,&line_count,&layout_state);
         data_file_end=file_cursor;
-        layout_sections(image,0x40,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
-        layout_sections(image,0x80,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x40,&data_rva,&data_file_end,&relocation_count,&line_count,&layout_state);
+        layout_sections(image,0x80,&data_rva,&code_file_end,&relocation_count,&line_count,&layout_state);
         if (!mac_small_model) {
             bytes=size_mac_data_fixups(image,data_file_end);
             mac_data_fixups->file_offset=data_file_end;
@@ -303,7 +304,7 @@ int link_passes(Image *image,unsigned char *pack)
             data_rva+=section->raw_size;
             data_file_end+=section->raw_size;
         }
-        layout_sections(image,0x100,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x100,&data_rva,&data_file_end,&relocation_count,&line_count,&layout_state);
         if (verbose_link && mac_image) {
             printf("\nNear bss :  0x%8.lx\n",mac_near_bss_size);
             printf("Near data:  0x%8.lx\n",mac_near_data_size);
@@ -315,18 +316,18 @@ int link_passes(Image *image,unsigned char *pack)
     } else {
         bss_start=data_rva;
         code_file_end=file_cursor;
-        layout_sections(image,0x80,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x80,&data_rva,&code_file_end,&relocation_count,&line_count,&layout_state);
         code_start=data_rva;
         data_file_end=file_cursor;
-        layout_sections(image,0x40,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x40,&data_rva,&data_file_end,&relocation_count,&line_count,&layout_state);
     }
     if (!image->options.fixed && !image->options.rom && !mac_image) {
         base_relocation_section->raw_size=header->DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size*2;
         bytes=((data_rva-header->BaseOfData+0x1000)>>12)+((code_rva-header->BaseOfCode+0x1000)>>12);
         base_relocation_section->raw_size+=bytes*10;
     }
-    layout_sections(image,0x2000020,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
-    layout_sections(image,0x2000040,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
+    layout_sections(image,0x2000020,&data_rva,&data_file_end,&relocation_count,&line_count,&layout_state);
+    layout_sections(image,0x2000040,&data_rva,&data_file_end,&relocation_count,&line_count,&layout_state);
     if (header->BaseOfCode>header->BaseOfData) {
         if (data_rva>header->BaseOfCode) warning_message(output_name,0x5b,data_rva,"");
     } else if (code_rva>header->BaseOfData) warning_message(output_name,0x5c,code_rva,"");
@@ -338,12 +339,13 @@ int link_passes(Image *image,unsigned char *pack)
     if (image->options.portable_image) write_file(output_file,dos_stub_template,dos_stub_size);
     seek_file(output_file,20,SEEK_CUR);
     seek_file(output_file,image->file.SizeOfOptionalHeader,SEEK_CUR);
-    if (!mac_image) fpo_count=base_relocation_section->file_offset;
+    if (!mac_image) relocation_cursor=base_relocation_section->file_offset;
     debug_file_start=debug_section->file_offset;
     if (image->options.debug_level) {
         if (image->options.debug_types&1) {
             coff_prefix=32;
             coff_lines=coff_debug_contribution->file_offset+32;
+            coff_line_cursor=coff_lines;
             coff_lines_size=line_count*6;
             symbol_start=coff_lines+coff_lines_size;
             symbol_table_file_offset=symbol_start;
@@ -353,25 +355,25 @@ int link_passes(Image *image,unsigned char *pack)
             pad_contribution(coff_debug_contribution);
         }
         if (image->options.debug_types&0x10) {
-            fixup_contribution->raw_size=fpo_count*12;
+            fixup_contribution->raw_size=relocation_count*12;
             pad_contribution(fixup_contribution);
         }
     }
-    write_section_headers(0x20,&layout_state,&data_rva,image);
+    write_section_headers(0x20,&relocation_cursor,&coff_line_cursor,image);
     if (image->options.rom) {
-        write_section_headers(0x40,&layout_state,&data_rva,image);
-        write_section_headers(0x80,&layout_state,&data_rva,image);
+        write_section_headers(0x40,&relocation_cursor,&coff_line_cursor,image);
+        write_section_headers(0x80,&relocation_cursor,&coff_line_cursor,image);
     } else {
-        write_section_headers(0x80,&layout_state,&data_rva,image);
-        if (mac_image) write_section_headers(0x100080,&layout_state,&data_rva,image);
-        write_section_headers(0x40,&layout_state,&data_rva,image);
+        write_section_headers(0x80,&relocation_cursor,&coff_line_cursor,image);
+        if (mac_image) write_section_headers(0x100080,&relocation_cursor,&coff_line_cursor,image);
+        write_section_headers(0x40,&relocation_cursor,&coff_line_cursor,image);
         if (mac_image) {
-            write_section_headers(0x100040,&layout_state,&data_rva,image);
-            write_section_headers(0x100,&layout_state,&data_rva,image);
+            write_section_headers(0x100040,&relocation_cursor,&coff_line_cursor,image);
+            write_section_headers(0x100,&relocation_cursor,&coff_line_cursor,image);
         }
     }
-    write_section_headers(0x2000020,&layout_state,&data_rva,image);
-    write_section_headers(0x2000040,&layout_state,&data_rva,image);
+    write_section_headers(0x2000020,&relocation_cursor,&coff_line_cursor,image);
+    write_section_headers(0x2000040,&relocation_cursor,&coff_line_cursor,image);
     if (image->options.debug_level) {
         saved_position=tell_file(output_file);
         debug_section->rva=data_rva;

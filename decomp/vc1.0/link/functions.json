@@ -462,7 +462,29 @@
     "_allocate_function_symbol_maps",
     "_release_function_symbol_maps",
     "_write_coff_auxiliary",
-    "_is_section_symbol"
+    "_is_section_symbol",
+    "_update_function_auxiliary",
+    "_append_function_symbol",
+    "_update_debug_symbol",
+    "_update_block_auxiliary",
+    "_read_coff_symbol",
+    "_record_map_relocation",
+    "_read_coff_lines",
+    "_lookup_function_symbol",
+    "_write_coff_lines",
+    "_record_map_symbol",
+    "_get_externals_by_address",
+    "_compare_external_addresses",
+    "_emit_codeview",
+    "_collect_module_segments",
+    "_collect_module_publics",
+    "_emit_module_publics",
+    "_emit_cv_public",
+    "_compare_fpo_records",
+    "_remove",
+    "import:DeleteFileA",
+    "_run_cvpack",
+    "__spawnl"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -634,10 +656,11 @@
     {
       "name": "_run_cvpack",
       "start": 98800,
-      "end": 98801,
-      "implementation": "stub-C",
-      "source": "driver-stubs.c",
-      "abi": "cdecl int(ImageOptions *)"
+      "end": 99280,
+      "implementation": "C",
+      "source": "linker.c",
+      "abi": "cdecl int(ImageOptions *)",
+      "evidence": "Full181f0..183d0: default-name pointer sentinel, PATH collection, sibling executable resolution, access gate and native spawnl/spawnlp argument sequences."
     },
     {
       "name": "_link_passes",
@@ -647,7 +670,7 @@
       "source": "link-pass.c",
       "abi": "cdecl int link_passes(Image *image,unsigned char *pack)",
       "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
-      "evidence": " Reached-layout correction: all BSS/far-BSS layouts consume the data RVA cursor (original stack14); the code cursor at44 stays fixed after code layout. Verified stack arguments1b328..1b733; fixes premature overlap warning."
+      "evidence": " Reached-layout correction: all BSS/far-BSS layouts consume the data RVA cursor (original stack14); the code cursor at44 stays fixed after code layout. Verified stack arguments1b328..1b733; fixes premature overlap warning. Debug-case partial artifact comparison found two incorrect reused cursors in prior C: native1b80b relocation cursor is stack28, separate from layout-state2c and relocation-count20; native1b85e line cursor1c starts at COFF lines4c and remains separate from data-RVA14. Corrected all section-header calls and fixup-size source count. Primary .text PointerToLinenumbers mismatch4c20 versusb000 at file194 prompted correction."
     },
     {
       "name": "_select_entry_point",
@@ -1369,10 +1392,11 @@
     {
       "name": "_compare_fpo_records",
       "start": 152576,
-      "end": 152577,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl int(const void *left,const void *right)"
+      "end": 152592,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl int(const void *,const void *)",
+      "evidence": "Full25400..25410: wrappedDWORD subtraction of the first FPO record field; cdecl qsort comparator."
     },
     {
       "name": "_replace_extension",
@@ -1420,10 +1444,11 @@
     {
       "name": "_emit_codeview",
       "start": 215120,
-      "end": 215121,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 217584,
+      "implementation": "C",
+      "source": "codeview.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Full34850..351f0: typed NB05 module/segment records, merged module publics, library-name table, segment descriptors and subsection directory; native helpers remain individually trapped. Native76-byte ModuleDebugInfo and typed subsection descriptors recovered from all referenced offsets."
     },
     {
       "name": "_build_mac_resources",
@@ -2508,10 +2533,11 @@
     {
       "name": "_read_coff_symbol",
       "start": 152016,
-      "end": 152017,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl unsigned(int file,PIMAGE_SYMBOL symbol)"
+      "end": 152048,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_SYMBOL symbol)",
+      "evidence": "Full251d0..251f0: read exactly18 COFF symbol bytes through native file dispatcher; read size is constant while output writer uses shared size."
     },
     {
       "name": "_intern_symbol_name",
@@ -2853,10 +2879,11 @@
     {
       "name": "_get_externals_by_address",
       "start": 156752,
-      "end": 156753,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl External **(SymbolTable *table)"
+      "end": 156800,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl External **(SymbolTable *table)",
+      "evidence": "Full26450..26480: lazily populate cached address order via native sort_external_table and named address comparator callback."
     },
     {
       "name": "_contribution_discarded",
@@ -3162,7 +3189,7 @@
       "implementation": "C",
       "source": "pass-two.c",
       "abi": "cdecl void(Image *image,Module *module)",
-      "evidence": "Matching per-module pass-two frontier1ea70..1ee20; full symbol/contribution walks, Mac segment redirection, optional debug metadata and buffer release. Private debug records name the consumed fields; unreached maps/helpers remain typed traps."
+      "evidence": "Matching per-module pass-two frontier1ea70..1ee20; full symbol/contribution walks, Mac segment redirection, optional debug metadata and buffer release. Private debug records name the consumed fields; unreached maps/helpers remain typed traps. CodeView writer analysis34850..351f0 recovers native76-byte ModuleDebugInfo as five12-byte offset/size/flags descriptors; named fields now map to symbols1c/types28/lines34 and module-record40, with compile-time layout assertions."
     },
     {
       "name": "_allocate_function_symbol_maps",
@@ -3198,7 +3225,7 @@
       "implementation": "C",
       "source": "pass-two.c",
       "abi": "cdecl void(Image *image,Contribution *contribution,PIMAGE_SYMBOL symbols)",
-      "evidence": "Matching contribution writer1d530..1d9a0; full mapped/temporary-buffer paths, relocation callback with Image fourth argument, serialized alignment fill and CV contribution ranges. Fill templates are used output data, not execution of copied LINK code."
+      "evidence": "Matching contribution writer1d530..1d9a0; full mapped/temporary-buffer paths, relocation callback with Image fourth argument, serialized alignment fill and CV contribution ranges. Fill templates are used output data, not execution of copied LINK code. CodeView writer analysis34850..351f0 recovers native76-byte ModuleDebugInfo as five12-byte offset/size/flags descriptors; named fields now map to symbols1c/types28/lines34 and module-record40, with compile-time layout assertions."
     },
     {
       "name": "_process_contribution_debug",
@@ -3207,7 +3234,7 @@
       "implementation": "C",
       "source": "pass-two.c",
       "abi": "cdecl void(Image *image,Contribution *contribution,unsigned short section_index,FunctionSymbolMap *maps)",
-      "evidence": "Matching contribution debug-lines1d9a0..1dda0; full COFF line relocation/function-aux patching, variable CodeView source header and cumulative count updates. Minimal-C exercises the early line-count/debug guards."
+      "evidence": "Matching contribution debug-lines1d9a0..1dda0; full COFF line relocation/function-aux patching, variable CodeView source header and cumulative count updates. Minimal-C exercises the early line-count/debug guards. CodeView writer analysis34850..351f0 recovers native76-byte ModuleDebugInfo as five12-byte offset/size/flags descriptors; named fields now map to symbols1c/types28/lines34 and module-record40, with compile-time layout assertions."
     },
     {
       "name": "_find_mac_contribution_external",
@@ -3220,10 +3247,11 @@
     {
       "name": "_update_debug_symbol",
       "start": 123248,
-      "end": 123249,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol)"
+      "end": 123328,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol)",
+      "evidence": "Full1e170..1e1c0: emitted debug symbols with nonzero long-name offsets are interned from the current input COFF string table."
     },
     {
       "name": "_update_external_symbol",
@@ -3250,7 +3278,7 @@
       "implementation": "C",
       "source": "pass-two.c",
       "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol,unsigned char *special)",
-      "evidence": "Matching FILE-symbol update1e6c0..1e820; patch previous emitted FILE link, preserve first symbol index, and allocate mutable source-name storage for CV auxiliary records."
+      "evidence": "Matching FILE-symbol update1e6c0..1e820; patch previous emitted FILE link, preserve first symbol index, and allocate mutable source-name storage for CV auxiliary records. CodeView writer analysis34850..351f0 recovers native76-byte ModuleDebugInfo as five12-byte offset/size/flags descriptors; named fields now map to symbols1c/types28/lines34 and module-record40, with compile-time layout assertions."
     },
     {
       "name": "_update_section_symbol",
@@ -3282,18 +3310,20 @@
     {
       "name": "_update_function_auxiliary",
       "start": 122560,
-      "end": 122561,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl void(PIMAGE_SYMBOL symbol,short section,PIMAGE_AUX_SYMBOL auxiliary,unsigned long *previous,unsigned long *function,FunctionSymbolMap *maps,unsigned long index,Image *image)"
+      "end": 122832,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL symbol,short section,PIMAGE_AUX_SYMBOL auxiliary,unsigned long *previous,unsigned long *function,FunctionSymbolMap *maps,unsigned long index,Image *image)",
+      "evidence": "Full1dec0..1dfd0: function type/one-aux/full-debug gates, backpatch prior function next index and restore output cursor, clear next pointer and register per-section input-to-output association."
     },
     {
       "name": "_update_block_auxiliary",
       "start": 122272,
-      "end": 122273,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl void(PIMAGE_SYMBOL symbol,PIMAGE_AUX_SYMBOL auxiliary,unsigned long *previous,unsigned long *function,unsigned long *block,unsigned long remaining)"
+      "end": 122560,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL symbol,PIMAGE_AUX_SYMBOL auxiliary,unsigned long *previous,unsigned long *function,unsigned long *block,unsigned long remaining)",
+      "evidence": "Full1dda0..1dec0: native second-name-byte b and low-byte aux-count gates; backpatch prior block next-function and preceding function TagIndex, restore cursor only when needed; retain unused ABI parameters."
     },
     {
       "name": "_write_coff_auxiliary",
@@ -3307,10 +3337,11 @@
     {
       "name": "_record_map_symbol",
       "start": 161824,
-      "end": 161825,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl void(const char *name,Contribution *contribution,unsigned long value,unsigned char function)"
+      "end": 161952,
+      "implementation": "C",
+      "source": "map-file.c",
+      "abi": "cdecl void(const char *name,Contribution *contribution,unsigned long value,unsigned char function)",
+      "evidence": "Full27820..278a0: append20-byte static-symbol node through shared pointer-to-tail, duplicate name and preserve contribution/value/function fields, null next and advance tail."
     },
     {
       "name": "_write_mac_loader_prologue",
@@ -3341,26 +3372,29 @@
     {
       "name": "_read_coff_lines",
       "start": 152176,
-      "end": 152177,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl unsigned(int file,PIMAGE_LINENUMBER lines,unsigned long count)"
+      "end": 152208,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_LINENUMBER lines,unsigned long count)",
+      "evidence": "Full25270..25290: DWORD count times6 COFF line records through read_file."
     },
     {
       "name": "_write_coff_lines",
       "start": 152208,
-      "end": 152209,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl unsigned(int file,PIMAGE_LINENUMBER lines,unsigned long count,ImageOptions *options)"
+      "end": 152320,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_LINENUMBER lines,unsigned long count,ImageOptions *options)",
+      "evidence": "Full25290..25300: ordinary COFF records as6-byte array, or split CodeView line/offset order (2+4) when debug type bits2 and4 both set; native CV path returns zero."
     },
     {
       "name": "_lookup_function_symbol",
       "start": 220208,
-      "end": 220209,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl unsigned char(FunctionSymbolMap *maps,unsigned short section,unsigned long input,unsigned long *offset,unsigned long *output)"
+      "end": 220288,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl unsigned char(FunctionSymbolMap *maps,unsigned short section,unsigned long input,unsigned long *offset,unsigned long *output)",
+      "evidence": "Full35c30..35c80: one-based WORD section, linear DWORD entry search, return auxiliary file offset/output symbol index through caller pointers, AL success."
     },
     {
       "name": "_record_debug_fixup",
@@ -3373,10 +3407,11 @@
     {
       "name": "_record_map_relocation",
       "start": 152704,
-      "end": 152705,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl void(unsigned long rva)"
+      "end": 152816,
+      "implementation": "C",
+      "source": "map-file.c",
+      "abi": "cdecl void(unsigned long rva)",
+      "evidence": "Complete25480..254f0: newest-first linked132-byte blocks of32 RVAs, global count for current head; native malloc/OOM and append order preserved."
     },
     {
       "name": "_find_section_for_group",
@@ -4180,6 +4215,60 @@
       "source": "ordering.c",
       "abi": "cdecl unsigned long(SymbolTable *symbols,Contribution ***ordered,Group *code,Image *image)",
       "evidence": "Full17b60..17de0: fixed initial calloc(64,64), scratch prefix byte and261-byte reads, exact name decoration, lookup/callbacks and native capacity doubling. Counts and array retained for caller."
+    },
+    {
+      "name": "_append_function_symbol",
+      "start": 220064,
+      "end": 220208,
+      "implementation": "C",
+      "source": "debug-symbols.c",
+      "abi": "cdecl void(FunctionSymbolMap *maps,unsigned short section,unsigned long input,unsigned long offset,unsigned long output)",
+      "evidence": "Full35ba0..35c30: one-based WORD section selection, initial10 entry allocation then DWORD doubling via realloc, append input/auxiliary-offset/output triple."
+    },
+    {
+      "name": "_compare_external_addresses",
+      "start": 156256,
+      "end": 156288,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl int(const void *left,const void *right)",
+      "evidence": "Complete26260..26280: subtract DWORD final-value fields and return the wrapped32-bit result; preserve original comparator rather than impose three-way ordering."
+    },
+    {
+      "name": "_collect_module_segments",
+      "start": 218112,
+      "end": 218400,
+      "implementation": "C",
+      "source": "codeview.c",
+      "abi": "cdecl CvModuleSegment *(Module *,unsigned short *,Image *)",
+      "evidence": "Full35400..35520 disassembly: module-array enumeration, live code filtering, output-chain adjacency ranges and16-byte head-inserted descriptors."
+    },
+    {
+      "name": "_collect_module_publics",
+      "start": 217584,
+      "end": 217712,
+      "implementation": "C",
+      "source": "codeview.c",
+      "abi": "cdecl void(Image *)",
+      "evidence": "Full351f0..35270: name-sorted external traversal, defined/live contribution filtering and native module public-list insertion."
+    },
+    {
+      "name": "_emit_module_publics",
+      "start": 217712,
+      "end": 217872,
+      "implementation": "C",
+      "source": "codeview.c",
+      "abi": "cdecl void(Image *,ModuleDebugInfo *)",
+      "evidence": "Full35270..35310: public list emission/free with native dangling head preserved, then consume defined common-symbol nodes."
+    },
+    {
+      "name": "_emit_cv_public",
+      "start": 217872,
+      "end": 218112,
+      "implementation": "C",
+      "source": "codeview.c",
+      "abi": "cdecl void(SymbolTable *,External *,unsigned short)",
+      "evidence": "Full35310..35400: shared8-byte short-name buffer, per-record stdout flush,12-byte NB05 record, low-byte counted length plus full string write; native owner dereference preserved."
     }
   ],
   "c_stub_references": [
@@ -4603,6 +4692,28 @@
     "library-create",
     "library-create",
     "library-create",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
     "hello-debug-dll",
     "hello-debug-dll",
     "hello-debug-dll",

@@ -1,19 +1,19 @@
 {
   "case": "hello-debug-dll",
   "status": "in progress",
-  "current_frontier": "_update_function_auxiliary",
+  "current_frontier": "_write_map",
   "fixture": "../fixtures/link-debug-dll/manifest.json",
   "checkpoint": {
-    "accepted_frontiers": 463,
-    "new_frontiers_replayed_since_last_full_replay": 21,
-    "last_full_frontier_replay": 442,
+    "accepted_frontiers": 485,
+    "full_frontiers_replayed": 485,
     "five_completed_cases_pass": true,
     "clean_parallel_build": true,
-    "call_graphs_audited": 330,
-    "callback_sets_audited": 321,
-    "contextual_data_definitions": 281,
-    "coverage": "cases/coverage-after-def-order.json",
-    "new_replay_log_sha256": "469b6f6773fb1579bf86a236deeca0bdac4d316491257a6286bd749d85ed0b9b"
+    "call_graphs_audited": 349,
+    "callback_sets_audited": 340,
+    "contextual_data_definitions": 286,
+    "coverage": "cases/coverage-after-codeview.json",
+    "replay_log_sha256": "c3448e85abe8d0122f5301c34c38ad7cf8b1181f4be000118d22e57c9f9e29ad",
+    "instruction_boundary_records": 490
   },
   "intermediate_resource_object": {
     "scope": "Intermediate resource object at matching DEF-parser trap; later DLL case remains incomplete",
@@ -33,7 +33,7 @@
     }
   },
   "abi_exceptions": [],
-  "remaining": "COFF/CodeView function, line, map and final debug emission remain, followed by final DLL artifacts/GUI checks and the authorized library/dump/edit lifecycle.",
+  "remaining": "Map writer and helpers, final complete-case streams/map/GUI checks, followed by the authorized library/dump/edit lifecycle.",
   "previous_checkpoints": [
     {
       "accepted_frontiers": 442,
@@ -46,6 +46,18 @@
       "contextual_data_definitions": 275,
       "coverage": "cases/coverage-after-resources.json",
       "replay_log_sha256": "67eb3053f38b21a6d58b39937999f9da7085ee0a6b5e1eaf0c5005b41e1f2171"
+    },
+    {
+      "accepted_frontiers": 463,
+      "new_frontiers_replayed_since_last_full_replay": 21,
+      "last_full_frontier_replay": 442,
+      "five_completed_cases_pass": true,
+      "clean_parallel_build": true,
+      "call_graphs_audited": 330,
+      "callback_sets_audited": 321,
+      "contextual_data_definitions": 281,
+      "coverage": "cases/coverage-after-def-order.json",
+      "new_replay_log_sha256": "469b6f6773fb1579bf86a236deeca0bdac4d316491257a6286bd749d85ed0b9b"
     }
   ],
   "child_artifacts_match_frozen_fixture": {
@@ -68,6 +80,69 @@
         "bytes": 2097152,
         "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98"
       }
+    }
+  },
+  "artifacts_at_map_frontier": {
+    "original": {
+      "hello-debug.dll": {
+        "bytes": 71800,
+        "raw_sha256": "204ba962956511aa8e31b1bdbc64f1086a7743fafc5d017d8655c87763baa440",
+        "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa",
+        "artifact_kind": "debug-pe"
+      },
+      "hello-debug.lib": {
+        "bytes": 2097152,
+        "raw_sha256": "2bef477d8be21983f2edf41a9002cdf7b00217e78891be7adbee2b6fdd80418d",
+        "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7",
+        "artifact_kind": "archive-generated"
+      },
+      "hello-debug.exp": {
+        "bytes": 2097152,
+        "raw_sha256": "e1feac9a3425ddcd5ff8fcf504979f234e66f06c7c50763544ea56f3555fa7f7",
+        "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98",
+        "artifact_kind": "coff"
+      }
+    },
+    "reconstructed": {
+      "hello-debug.dll": {
+        "bytes": 71800,
+        "raw_sha256": "204ba962956511aa8e31b1bdbc64f1086a7743fafc5d017d8655c87763baa440",
+        "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa",
+        "artifact_kind": "debug-pe"
+      },
+      "hello-debug.lib": {
+        "bytes": 2097152,
+        "raw_sha256": "2bef477d8be21983f2edf41a9002cdf7b00217e78891be7adbee2b6fdd80418d",
+        "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7",
+        "artifact_kind": "archive-generated"
+      },
+      "hello-debug.exp": {
+        "bytes": 2097152,
+        "raw_sha256": "e1feac9a3425ddcd5ff8fcf504979f234e66f06c7c50763544ea56f3555fa7f7",
+        "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98",
+        "artifact_kind": "coff"
+      }
+    }
+  },
+  "coff_line_cursor_correction": {
+    "case": "hello-debug-dll",
+    "frontier": "_record_map_relocation",
+    "partial_pe_difference": {
+      "field": "First section PointerToLinenumbers",
+      "offset": 404,
+      "original": 19488,
+      "previous_C": 45056
+    },
+    "native_evidence": [
+      "1b80b stack28 relocation-file cursor",
+      "1b85e stack1c COFF line-file cursor",
+      "1b8e8 write_section_headers receives distinct cursor addresses"
+    ],
+    "reason": "Previously reconstructed orchestrator reused data-RVA and layout-state locals at the output-record stage; actual native stack slots are distinct.",
+    "corrected_partial_dll": {
+      "bytes": 2097152,
+      "comparison": "raw exact, no normalization",
+      "sha256": "411e3b4a3d5c7c40868bb4b9bc761cd560e4aa8609eb58a12ceb502728b2cefd"
     }
   }
 }

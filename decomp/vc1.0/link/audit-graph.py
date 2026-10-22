@@ -19,11 +19,12 @@ def instructions(pe,record):
   if containing is not None:
    cursor=containing
    continue
-  decoded=list(cs.disasm(pe.read(cursor,min(15,record['end']-cursor)),cursor,count=1))
+  decoded=list(cs.disasm(pe.read(cursor,15),cursor,count=1))
   if not decoded:
    cursor+=1
    continue
   instruction=decoded[0]
+  assert cursor+instruction.size<=record["end"], (record["name"],hex(cursor),instruction.mnemonic,hex(record["end"]))
   for operand in instruction.operands:
    if operand.type!=X86_OP_MEM: continue
    # /Od may shift the index before JMP [eax+table], with scale one.
@@ -67,3 +68,9 @@ for r in progress:
   failures += 1
 if failures: raise SystemExit(1)
 print('%d accepted source/runtime routines have matching call targets (including indirect calls and tail calls).' % checked)
+
+boundary_checked=0
+for record in oi:
+ if record["name"] not in cfg["accepted"]:continue
+ list(instructions(orig,record));boundary_checked+=1
+print("%d original accepted extents end at decoded instruction boundaries." % boundary_checked)

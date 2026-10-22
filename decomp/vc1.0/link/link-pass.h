@@ -13,12 +13,16 @@ typedef struct BaseFixup {
     union { unsigned long adjustment,symbol_index; } value;
 } BaseFixup;
 extern BaseFixup *base_fixups,*base_fixup_next;
+/* Native CodeView bookkeeping uses five offset/size/flags descriptors.
+ * The types descriptor uses flags to identify precompiled type records. */
+typedef struct CvSubsection {
+    unsigned long offset,size,flags;
+} CvSubsection;
 typedef struct ModuleDebugInfo {
     Module *module;
     const char *library_name,*module_name;
     char *source_name;
-    unsigned long symbol_offset,symbol_size,type_offset,type_size,precompiled_types;
-    unsigned long line_offset,line_size;
+    CvSubsection publics,symbols,types,lines,module_record;
 } ModuleDebugInfo;
 extern SectionDefault readonly_section_defaults,bss_section_defaults,debug_section_defaults;
 extern SectionDefault idata_directory_defaults,reloc_section_defaults;

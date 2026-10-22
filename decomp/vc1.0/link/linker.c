@@ -1,7 +1,9 @@
 /* Command-line driver and post-link CodeView packing. */
 #include "link-pass.h"
-#pragma intrinsic(strlen)
+#pragma intrinsic(strlen,strcpy)
 #include "arguments.h"
+#include <io.h>
+#include <process.h>
 int input_file;
 unsigned long pe_header_offset;
 unsigned long symbol_record_size, output_file_size;
@@ -106,4 +108,32 @@ void select_entry_point(Image *image,unsigned char machine_known)
         /* The original retains the non-NULL marker after consuming the name. */
         free(entry_point);
     }
+}
+
+/* Original [000181f0,000183d0). Find and invoke the CodeView packer. */
+int run_cvpack(ImageOptions *options)
+{
+    char drive[_MAX_DRIVE],directory[_MAX_DIR],filename[_MAX_FNAME];
+    char extension[_MAX_EXT],path[_MAX_PATH];
+    ArgumentList paths={NULL,NULL,0};
+    char *linker_path;
+    extern char cvpack_default[];
+    _splitpath(cvpack_program,drive,directory,filename,extension);
+    if (!*extension) strcpy(extension,".exe");
+    if (!*drive && !*directory) {
+        collect_search_path("PATH",&paths);
+        linker_path=find_library_file(executable_path,".exe",&paths);
+        if (cvpack_program==cvpack_default) {
+            _splitpath(linker_path,drive,directory,NULL,NULL);
+            _makepath(path,drive,directory,filename,extension);
+        } else _makepath(path,drive,".",filename,extension);
+        if (!_access(path,0)) {
+            if (!(options->debug_types&4))
+                return _spawnl(0,path,path,"/nologo","/cvnew",output_name,NULL);
+            return _spawnl(0,path,path,"/nologo",output_name,NULL);
+        }
+    }
+    if (!(options->debug_types&4))
+        return _spawnlp(0,cvpack_program,cvpack_program,"/nologo","/cvnew",output_name,NULL);
+    return _spawnlp(0,cvpack_program,cvpack_program,"/nologo",output_name,NULL);
 }

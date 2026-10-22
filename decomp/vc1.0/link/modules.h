@@ -30,7 +30,7 @@ struct Module {
     unsigned short optional_header_size, characteristics;
     unsigned long section_count, contribution_count;
     ExternalLink *common_symbols;
-    void *symbols;
+    ExternalLink *public_symbols;
     ComdatModule *comdat;
     Contribution *contributions;
     Library *library;
