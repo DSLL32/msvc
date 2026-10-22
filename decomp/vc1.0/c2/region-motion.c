@@ -7,8 +7,8 @@ WorkItem *hoist_header_work; /* 0007be9c */
 WorkItem *hoist_first_work;  /* 0007be98 */
 WorkItem *hoist_last_work;   /* 0007be94 */
 WorkItem *hoist_after_work;  /* 0007be90 */
-/* Original 000830d0: expression cursor also used by other transformations. */
-Expression *transformation_expression_cursor;
+/* Original000830d0: one cursor shared by expression and machine phases. */
+TransformationCursor transformation_cursor;
 
 /* Original [0005c020,0005c120). Process nested regions before their
    parent, establish expression anchors, and run induction/value-motion
@@ -27,7 +27,7 @@ void __fastcall hoist_region_values(FlowRegion *regions)
         if (!header->body.expressions)
             header->body.expressions = insert_tree_expression(0, 0, new_node(1));
         hoist_header_work = hoist_entry_work->next;
-        transformation_expression_cursor = hoist_header_work->body.expressions;
+        transformation_cursor.expression = hoist_header_work->body.expressions;
         hoist_first_work = regions->entry->next->next;
         hoist_last_work = regions->last;
         hoist_after_work = hoist_last_work->next;

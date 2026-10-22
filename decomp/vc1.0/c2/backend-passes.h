@@ -38,4 +38,7 @@ void __fastcall emit_machine_instructions(MachineInstruction *instructions);
 void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned flags);
 void __fastcall emit_function_inline_data(Function *function);
 void reset_machine_state(void);
+void __fastcall prepare_float_machine_data(int has_protected_blocks);
+void rewrite_float_machine_data(void);
+void prepare_float_stream_uses(void);
 #endif

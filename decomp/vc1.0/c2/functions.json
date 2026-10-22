@@ -567,7 +567,12 @@
     "@machine_operand_label@4",
     "@process_machine_region_reference@12",
     "@add_machine_region_reference@12",
-    "@count_region_label_references@8"
+    "@count_region_label_references@8",
+    "_simplify_machine_data",
+    "_simplify_machine_branches",
+    "_combine_machine_instructions",
+    "@promote_region_immediates@4",
+    "_finish_tree_optimization"
   ],
   "driver": [
     {
@@ -1153,26 +1158,22 @@
     {
       "name": "_simplify_machine_data",
       "start": 219312,
-      "end": 219313,
-      "provisional": true
+      "end": 219424
     },
     {
       "name": "_simplify_machine_branches",
       "start": 219568,
-      "end": 219569,
-      "provisional": true
+      "end": 219616
     },
     {
       "name": "_combine_machine_instructions",
       "start": 308048,
-      "end": 308049,
-      "provisional": true
+      "end": 308096
     },
     {
       "name": "_finish_tree_optimization",
       "start": 421408,
-      "end": 421409,
-      "provisional": true
+      "end": 421424
     },
     {
       "name": "_allocate_machine_registers",
@@ -4942,6 +4943,59 @@
       "name": "@process_special_machine_region_reference@8",
       "start": 296848,
       "end": 296849,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_float_machine_data@4",
+      "start": 248624,
+      "end": 248625,
+      "provisional": true
+    },
+    {
+      "name": "_rewrite_float_machine_data",
+      "start": 219424,
+      "end": 219425,
+      "provisional": true
+    },
+    {
+      "name": "_prepare_float_stream_uses",
+      "start": 232992,
+      "end": 232993,
+      "provisional": true
+    },
+    {
+      "name": "@promote_region_immediates@4",
+      "start": 308096,
+      "end": 309584
+    },
+    {
+      "name": "@prepare_machine_region_transform@4",
+      "start": 298528,
+      "end": 298529,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_region_insertion@4",
+      "start": 299568,
+      "end": 299569,
+      "provisional": true
+    },
+    {
+      "name": "@replace_machine_definition@12",
+      "start": 303120,
+      "end": 303121,
+      "provisional": true
+    },
+    {
+      "name": "@record_machine_definition_range@12",
+      "start": 305392,
+      "end": 305393,
+      "provisional": true
+    },
+    {
+      "name": "@record_region_register@16",
+      "start": 305984,
+      "end": 305985,
       "provisional": true
     }
   ],

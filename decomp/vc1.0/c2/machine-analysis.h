@@ -33,4 +33,11 @@ MachineRegionEdge *__fastcall add_machine_region_reference(MachineFlowRegion *re
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region);
 void __fastcall finish_closed_machine_region(MachineFlowRegion *region, MachineFlowRegion *parent);
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label);
+int __fastcall promote_region_immediates(MachineFlowRegion *region);
+extern MachineFlowRegion *active_machine_region;
+void __fastcall prepare_machine_region_transform(MachineFlowRegion *region);
+void __fastcall prepare_region_insertion(MachineFlowRegion *region);
+void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement);
+void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last);
+void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use);
 #endif

@@ -137,10 +137,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void simplify_machine_data(void) { __asm int 3 }
-void simplify_machine_branches(void) { __asm int 3 }
-void combine_machine_instructions(void) { __asm int 3 }
-void finish_tree_optimization(void) { __asm int 3 }
 void allocate_machine_registers(void) { __asm int 3 }
 void __fastcall prepare_machine_blocks(WorkItem *work) { __asm int 3 }
 void __fastcall set_machine_frame(MachineContext *context, unsigned flags) { __asm int 3 }
@@ -453,3 +449,11 @@ void __fastcall replace_machine_region_suffix(MachineFlowRegion *parent, Machine
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 void __fastcall finish_closed_machine_region(MachineFlowRegion *region, MachineFlowRegion *parent) { __asm int 3 }
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
+void __fastcall prepare_float_machine_data(int has_protected_blocks) { __asm int 3 }
+void rewrite_float_machine_data(void) { __asm int 3 }
+void prepare_float_stream_uses(void) { __asm int 3 }
+void __fastcall prepare_machine_region_transform(MachineFlowRegion *region) { __asm int 3 }
+void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 3 }
+void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement) { __asm int 3 }
+void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use) { __asm int 3 }

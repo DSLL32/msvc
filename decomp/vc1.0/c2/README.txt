@@ -1153,3 +1153,38 @@ actual-mask verification; this is not branch coverage. Hello remains pending
 at simplify_machine_data,000358b0. Recursive/closed/special-reference paths,
 child linking, floating cases and range failure paths are not dynamically
 claimed; their unvisited callees remain typed named traps.
+
+Five more functions carry the first function to physical register allocation.
+The floating preparation/peephole gates reuse current_function's existing
+floating bit and precision mode. The global floating peephole path calls the
+same359e0 selected-block helper with null block/mode0. The immediate-register
+wrapper uses the existing -noimmreg option and i486-or-later CPU gate, then
+snapshots next_tree_register and calls its separate region helper even when
+the list is null. The final optimization hook is an actual empty RET.
+
+The full429-instruction immediate helper is reconstructed: recurse through
+regions, collect up to sixteen eligible constants outside children/protected
+blocks, select at most four frequent values, create register-backed loads and
+rewrite matching immediates. Typed24-byte local candidate records are populated
+from machine operands; no original data table is copied. This first invocation
+has a null list, so positive selection/insertion/definition paths remain outside
+dynamic validation, with their named callees still trapping.
+
+Tracing insertion exposed another shared state slot. Original830d0 is both the
+old expression transformation cursor and the machine insertion cursor. It now
+has one TransformationCursor union with phase-specific expression/instruction
+members; no duplicate pointer was introduced. The active machine-region pointer
+830c8 is separate from root830c4. Source expression cursor assignment was
+updated to its union member; populated phase transitions remain to be exercised.
+See cases/hello-immediate-pass-abi.json for exact graph, ABI and ownership limits.
+
+Fresh independent captures match299 normalized lines: eight for root/cutoff
+state and291 across all six work blocks. The root/87-record stream remains
+unchanged, the cutoff and next-register values are both38, and the shared cursor
+is null. All352 minimal and216 hello historical frontiers replay; all491 source
+graphs and568 accepted instruction boundaries pass. Both affected modules
+compile /W3 clean. Minimal object/streams/exit match except only the four-byte
+COFF timestamp. Verified accepted original code-extent union is148383 /399693 bytes
+(37.1242 percent), including source/shared text/CRT/imports with clipping and
+actual-mask verification; this is not branch coverage. Hello remains pending
+at allocate_machine_registers,0002aa80.

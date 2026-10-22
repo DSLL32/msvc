@@ -1,10 +1,10 @@
 #ifndef REGION_MOTION_H
 #define REGION_MOTION_H
 #include "work-optimizer.h"
+#include "transformation-cursor.h"
 extern FlowRegion *hoist_current_region;
 extern WorkItem *hoist_entry_work, *hoist_header_work, *hoist_first_work;
 extern WorkItem *hoist_last_work, *hoist_after_work;
-extern Expression *transformation_expression_cursor;
 void hoist_invariant_region_stores(void);
 void collect_basic_region_inductions(void);
 int prepare_region_exit_motion(void);
