@@ -14,7 +14,5 @@ void __fastcall read_node_type(Node *node);
 void __fastcall read_control_fields(Node *node);
 Node *__cdecl intern_leaf(unsigned opcode, ...);
 Node *__fastcall intern_typed_label(Function *function, Node *node);
-Extended __stdcall input_extended(void);
-DoubleBits input_double_bits(void);
 extern int expression_line;
 #endif

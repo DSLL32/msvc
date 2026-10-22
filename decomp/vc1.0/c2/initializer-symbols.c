@@ -14,8 +14,8 @@ BackendSymbolList *collect_global_symbols(void)
     BackendSymbol *storage;
     BackendSymbolList *symbols = 0, **tail = &symbols, *entry;
     unsigned short state;
-    for (initializer = global_initializers; initializer; initializer = initializer->link) {
-        symbol = lookup_global_symbol(initializer->symbol_id);
+    for (initializer = global_initializers; initializer; initializer = initializer->content.reference.link) {
+        symbol = lookup_global_symbol(initializer->content.reference.symbol_id);
         if (!symbol) continue;
         storage = (BackendSymbol *)symbol;
         if ((symbol->kind == 1 || symbol->kind == 4) && (storage->attributes & 0x1000))
@@ -33,8 +33,8 @@ BackendSymbolList *collect_global_symbols(void)
         }
         queue_initializer_dependencies(symbol);
     }
-    for (initializer = global_initializers; initializer; initializer = initializer->link) {
-        symbol = lookup_global_symbol(initializer->symbol_id);
+    for (initializer = global_initializers; initializer; initializer = initializer->content.reference.link) {
+        symbol = lookup_global_symbol(initializer->content.reference.symbol_id);
         if (!symbol) continue;
         storage = (BackendSymbol *)symbol;
         if ((symbol->kind == 1 || symbol->kind == 4) && (storage->attributes & 0x1000))

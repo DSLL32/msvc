@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 0,
+  "accepted_frontiers": 6,
   "current_frontier": {
-    "name": "@new_initializer@4",
-    "original_va": 322656
+    "name": "@reserve_symbol_storage@4",
+    "original_va": 159872
   },
   "expected": {
     "exit": 0,
@@ -24,6 +24,13 @@
   },
   "validation": [
     "initial original/reconstruction paired frontier matches with all minimal-case functions accepted",
-    "new profile harness preserves successful minimal-case exit and exact object regression"
-  ]
+    "new profile harness preserves successful minimal-case exit and exact object regression",
+    "all six hello frontiers replay with matching logical traps",
+    "all 281 source functions pass graph audit",
+    "five initializer/input implementation modules compile /W3 clean",
+    "independent debugger comparison matches two initializer roots and 26 string bytes",
+    "complete minimal exit/object regression passes after typed initializer layout changes"
+  ],
+  "total_accepted_frontiers": 358,
+  "reconstructed_functions": 281
 }

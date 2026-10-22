@@ -356,7 +356,13 @@
     "__flushall",
     "_flsall",
     "_fflush",
-    "import:ExitProcess"
+    "import:ExitProcess",
+    "@new_initializer@4",
+    "@read_initializer_body@4",
+    "@input_bytes@8",
+    "@insert_initializer@4",
+    "@is_constant_symbol@4",
+    "@read_module_directive@4"
   ],
   "driver": [
     {
@@ -856,8 +862,7 @@
     {
       "name": "@read_module_directive@4",
       "start": 314896,
-      "end": 314897,
-      "provisional": true
+      "end": 315024
     },
     {
       "name": "_compiler_warning",
@@ -889,8 +894,7 @@
     {
       "name": "@is_constant_symbol@4",
       "start": 159376,
-      "end": 159408,
-      "provisional": true
+      "end": 159408
     },
     {
       "name": "_next_symbol_identifier",
@@ -3511,6 +3515,17 @@
       "name": "@coff_write_lines@8",
       "start": 454720,
       "end": 454721,
+      "provisional": true
+    },
+    {
+      "name": "@input_bytes@8",
+      "start": 458848,
+      "end": 458928
+    },
+    {
+      "name": "_input_float_bits",
+      "start": 458592,
+      "end": 458593,
       "provisional": true
     }
   ],

@@ -22,6 +22,12 @@ FILE *__fastcall open_intermediate(char *prefix, char *suffix, char *mode, char 
 
 #include "input.h"
 FILE *input_file;
+/* Original [00070060,000700b0): an exact-length byte span, without a
+   terminator or EOF diagnostic. getc preserves the original _filbuf edge. */
+void __fastcall input_bytes(int count, unsigned char *buffer)
+{
+    for (; count > 0; --count) *buffer++ = (unsigned char)getc(input_file);
+}
 
 /* Original [0006fb90,0006fbc0); the public result is in AL. */
 unsigned char input_byte(void)

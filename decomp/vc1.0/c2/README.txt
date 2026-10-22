@@ -3,8 +3,9 @@ C23232.EXE 1.0-nt reconstruction (project vc1.0)
 Status: captured minimal-C backend case complete. Both masked executions and
 the unmodified original exit zero with the expected 286-byte object, matching
 all bytes except the COFF timestamp. Binary reconstruction continues with the
-queued optimized Win32 hello case. The current implementation has 275 source
-functions; optional paths retain named traps.
+queued optimized Win32 hello case. The minimal checkpoint covers 275 source
+functions; subsequent hello work is tracked in cases/hello.json. Optional paths
+retain named traps.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -375,3 +376,13 @@ minimal history and successful final comparison. Both profiles pin the manifest,
 input hashes and expected object hash and preserve the single-entry environment.
 Successful comparisons write build/validation-minimal.json or
 build/validation-hello.json. The first hello frontier is new_initializer.
+
+Hello now passes initializer allocation, the full initializer-body decoder,
+exact byte-span input, sorted insertion, constant classification and module
+directive input. Initializer records use a checked 28-byte typed union. An
+independent debugger comparison matches both roots (IDs 9279 and 9290), their
+record chains and all 26 string-data bytes. All six hello frontiers replay,
+all 281 source graphs agree, five changed modules are /W3 clean and the complete
+minimal output/exit regression passes. The hello frontier is symbol-storage
+allocation; its object comparison is still pending. See
+cases/hello-initializers-abi.json for provenance and unvisited-path limits.

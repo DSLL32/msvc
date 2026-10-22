@@ -1,13 +1,32 @@
 #ifndef INITIALIZERS_H
 #define INITIALIZERS_H
 #include "c2.h"
+#include "extended.h"
+typedef union InitializerValue {
+    unsigned char byte;
+    short word;
+    long integer;
+    unsigned float_bits;
+    DoubleBits double_bits;
+    Extended extended;
+    unsigned char *bytes;
+} InitializerValue;
 typedef struct Initializer {
     int kind;
-    struct Initializer *next, *link;
-    long value;
-    unsigned symbol_id;
-    void *data;
-    unsigned field18;
+    struct Initializer *next;
+    union {
+        struct {
+            struct Initializer *link;
+            long value;
+            unsigned symbol_id;
+            void *data;
+        } reference;
+        struct { short type, bytes; InitializerValue value; } datum;
+        struct { unsigned symbol_id; long offset; unsigned char flags; } relocation;
+        long argument;
+        unsigned char byte_argument;
+    } content;
+    unsigned repeat;
 } Initializer;
 extern Initializer *global_initializers;
 void __fastcall read_initializers(FILE *file);

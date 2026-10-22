@@ -19,11 +19,7 @@ void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int
 void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
 void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
-Initializer *__fastcall new_initializer(int kind) { __asm int 3 }
-void __fastcall read_initializer_body(Initializer *initializer) { __asm int 3 }
-void __fastcall insert_initializer(Initializer *initializer) { __asm int 3 }
 void __fastcall release_initializer(Initializer *initializer) { __asm int 3 }
-void __fastcall read_module_directive(int kind) { __asm int 3 }
 short __fastcall input_counted_string(char *buffer, unsigned limit) { __asm int 3 }
 int compare_extended(unsigned operation, const Extended *left, const Extended *right) { __asm int 3 }
 Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 3 }
@@ -153,7 +149,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-int __fastcall is_constant_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall prepare_machine_context(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall sync_machine_work(WorkItem *work, MachineContext *context) { __asm int 3 }
 void __fastcall scan_machine_context(MachineContext *context) { __asm int 3 }
@@ -346,3 +341,4 @@ void __fastcall coff_line_marker(unsigned short marker) { __asm int 3 }
 void __fastcall coff_end_lines(unsigned short line, unsigned offset) { __asm int 3 }
 void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned base) { __asm int 3 }
 void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
+unsigned input_float_bits(void) { __asm int 3 }

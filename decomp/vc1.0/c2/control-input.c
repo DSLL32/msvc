@@ -1,5 +1,7 @@
 #include "control-input.h"
 #include "input.h"
+#include "records.h"
+#include "output.h"
 typedef enum ControlField {
     CONTROL_END, CONTROL_INVALID, CONTROL_SOURCE_LINE, CONTROL_SOURCE_FILE,
     CONTROL_DIRECTIVE, CONTROL_STRING, CONTROL_UNSUPPORTED, CONTROL_WORD,
@@ -18,6 +20,26 @@ static const ControlField invalid_fields[] = {CONTROL_INVALID, CONTROL_END};
 static const ControlField two_invalid_fields[] = {CONTROL_INVALID, CONTROL_INVALID, CONTROL_END};
 unsigned pragma_value, saved_pragma_value;
 char *current_source_filename;
+/* Original [0004ce10,0004ce90). Most directives carry a C string; the
+   precompiled-type record instead retains its length byte and binary payload. */
+void __fastcall read_module_directive(int kind)
+{
+    char buffer[256], *text, *destination;
+    int length;
+    unsigned remaining;
+    if (kind == 7) {
+        length = (signed char)input_byte();
+        text = arena_alloc(1, (unsigned)(length + 1));
+        text[0] = (char)length;
+        destination = text;
+        remaining = (unsigned)length;
+        while (remaining--) *++destination = (char)input_byte();
+    } else {
+        input_string(buffer, sizeof(buffer));
+        text = arena_strdup(buffer, 1);
+    }
+    add_module_directive(kind, text);
+}
 
 /* Original [0004cc00,0004ce10), including the control-field jump table. */
 void __fastcall read_control_fields(Node *node)

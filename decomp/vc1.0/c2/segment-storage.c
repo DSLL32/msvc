@@ -1,8 +1,13 @@
 /* Default storage segments and per-symbol COMDAT segments. */
 #include "records.h"
 #include "segments.h"
+#include "function-input.h"
 extern int default_segment_alignment, stack_alignment;
-int __fastcall is_constant_symbol(SymbolHeader *symbol);
+/* Original [00026e90,00026eb0): the variable storage field marks constants. */
+int __fastcall is_constant_symbol(SymbolHeader *symbol)
+{
+    return (((TemporarySymbol *)symbol)->attributes & 0x70) == 0x40;
+}
 unsigned next_symbol_identifier(void);
 typedef struct ComdatGroup { unsigned field00, count, field08; } ComdatGroup;
 /* Original [00026eb0,00027080). */
