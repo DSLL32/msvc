@@ -657,3 +657,16 @@ unsigned char detach_file_page(Page *page)
     free_pages=page;
     return 1;
 }
+
+/* Select the oldest unpinned buffered page [0003cf90,0003d010). */
+Page *choose_file_page(void)
+{
+    Page *page=page_cache_tail;
+    while (page && (page->flags&0x10)) page=page->newer;
+    if (page==page_cache_tail) page_cache_tail=page->newer;
+    else page->older->newer=page->newer;
+    if (page==page_cache_head) page_cache_head=page->older;
+    else page->newer->older=page->older;
+    page->older=page->newer=NULL;
+    return page;
+}

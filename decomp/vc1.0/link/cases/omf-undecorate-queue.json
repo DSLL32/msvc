@@ -12,37 +12,40 @@
       "case": "omf-library",
       "fixture": "../fixtures/link-omf/manifest.json",
       "phase": "library",
-      "status": "active",
-      "current_frontier": "_omf_write_coff"
+      "status": "complete"
     },
     {
       "case": "omf-link",
       "fixture": "../fixtures/link-omf/manifest.json",
       "phase": "link",
-      "status": "queued"
+      "status": "complete"
     },
     {
       "case": "cpp-undecorate",
       "fixture": "../fixtures/link-undecorate/manifest.json",
       "phase": "dump",
-      "status": "queued after OMF",
-      "matched_initial_frontier": "_undecorate_symbol_name"
+      "status": "active",
+      "matched_initial_frontier": "_undecorate_symbol_name",
+      "current_frontier": "_undecorate_symbol_name"
     }
   ],
   "limits": "Two assigned families only. Preserve prior15 cases/full528 frontiers; final clean -j2, full replay and graph/callback/data/boundary audits; component-body accounting separately from accepted-extent union.",
   "checkpoint": {
-    "accepted_frontiers": 569,
+    "accepted_frontiers": 574,
     "last_full_frontier_replay": 528,
     "all_seventeen_additions_replayed": false,
     "all_fifteen_prior_cases_pass": true,
-    "graph_audits": 424,
-    "callback_audits": 415,
-    "data_audits": 381,
-    "original_extent_boundaries": 575,
-    "coverage": "cases/coverage-after-omf-fixups.json",
-    "added_replay_sha256": "7aa74e07450239c5defc25a8e37f3e8ff6018b1e05616cccbf2d6fa962fa6f1c",
+    "graph_audits": 428,
+    "callback_audits": 419,
+    "data_audits": 383,
+    "original_extent_boundaries": 580,
+    "coverage": "cases/coverage-after-omf-complete.json",
+    "added_replay_sha256": "0c2855f7d48726c0d41c64083fbea50ea5224701ee69cbb1850fc091eee61c2c",
     "prior_case_regressions_sha256": "07d00adeab75ad96935372cde280e7fffa00a3ecaa5029abed76a49c4f6885de",
-    "audit_sha256": "2eda8ad31a525cad65d9c08030c3ca093353a7bc400a8f653bc8d2f9b3a3a600",
-    "all_additions_since_528_replayed": 41
+    "audit_sha256": "7b06a9f4b0d5d08d117db984cb256e78830ecc80f0b26b53fe4e820beae1ef81",
+    "all_additions_since_528_replayed": 46,
+    "both_omf_cases_pass": true,
+    "omf_library_sha256": "301a12860dbb3af9763d6ac1b95ec56b05d491f591937d67b0f362cb84d2d255",
+    "omf_link_sha256": "0afe7c0c052a9fa980fbcca780d50b66ee923f7f62ad801845308e7cacc45be0"
   }
 }

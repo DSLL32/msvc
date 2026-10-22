@@ -2537,5 +2537,17 @@
     "name": "omf_coff_relocation_count",
     "size": 4,
     "owner": "omf.c"
+  },
+  {
+    "address": 411116,
+    "name": "omf_line_lists",
+    "size": 3072,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491048,
+    "name": "omf_coff_line_count",
+    "size": 4,
+    "owner": "omf.c"
   }
 ]

@@ -92,3 +92,9 @@ static opportunities, not promised coverage from a single input. Those two famil
 diagnostic/error and dormant CRT paths mean 99% whole-binary coverage is not
 established. Shared fixtures remain immutable. Scratch/evidence/private Wine
 prefixes live under ~/.ai-tmp/vc1.0-link.
+
+OMF conversion is now complete for both frozen link-omf phases: omf-library and
+omf-link. The direct-link runner exits0 after converted external/segment/COMDAT
+fixups produce42. At574 accepted, all46 additions since the full528 replay and
+all15 earlier cases pass. C++ undecoration is the remaining assigned family;
+its completion and final full verification are still pending.

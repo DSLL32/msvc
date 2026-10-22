@@ -1,6 +1,7 @@
 /* Embedded OMF-to-COFF converter and its LINK input adapter. */
 #include "omf.h"
 #include <io.h>
+#include <time.h>
 jmp_buf omf_abort;
 char omf_source_filename[260];
 int omf_argument_index,omf_option_character,omf_debug_mode;
@@ -41,6 +42,8 @@ unsigned char * omf_symbol_fixup_data;
 unsigned long omf_symbol_indices[4096];
 unsigned long omf_external_indices[4096];
 FILE *omf_input;
+OmfLineList omf_line_lists[OMF_MAX_SEGMENTS];
+unsigned long omf_coff_line_count;
 OmfRelocationList omf_relocation_lists[OMF_MAX_SEGMENTS];
 unsigned short omf_file_relocation_seen;
 unsigned long omf_coff_relocation_count;
@@ -1194,4 +1197,117 @@ void omf_queue_relocation(OmfRelocationList *list,unsigned long address,
     else list->tail->next=relocation;
     ++list->count;
     list->tail=relocation;
+}
+
+/* Serialize the converted COFF object [00048480,00048990). */
+void omf_write_coff(const char *path)
+{
+    FILE *output;
+    IMAGE_FILE_HEADER file_header;
+    PIMAGE_SECTION_HEADER section;
+    PIMAGE_AUX_SYMBOL auxiliary;
+    OmfRelocation *relocation,*next_relocation;
+    OmfCoffLine *line,*next_line;
+    unsigned long raw_position,relocation_position,line_position,symbol;
+    unsigned short index,count,saved_count;
+    omf_file_relocation_seen=0;
+    output=fopen(path,"wb");
+    if (!output) omf_error("Cannot open \"%s\" for writing",path);
+    file_header.Machine=omf_coff_machine?omf_coff_machine:IMAGE_FILE_MACHINE_I386;
+    file_header.NumberOfSections=omf_coff_section_count;
+    file_header.TimeDateStamp=time(NULL);
+    file_header.PointerToSymbolTable=20+omf_coff_section_count*40+
+        omf_coff_raw_bytes+omf_coff_relocation_count*10+omf_coff_line_count*6;
+    file_header.NumberOfSymbols=omf_coff_symbol_count;
+    file_header.SizeOfOptionalHeader=0;
+    file_header.Characteristics=0;
+    fwrite(&file_header,20,1,output);
+    raw_position=20+omf_coff_section_count*40;
+    relocation_position=raw_position+omf_coff_raw_bytes;
+    line_position=relocation_position+omf_coff_relocation_count*10;
+    for (index=0;index<omf_coff_section_count;++index) {
+        section=&omf_coff_sections[index];
+        section->PointerToRawData=(!(section->Characteristics&0x80) &&
+                                   section->SizeOfRawData)?raw_position:0;
+        section->PointerToRelocations=section->NumberOfRelocations?relocation_position:0;
+        section->PointerToLinenumbers=section->NumberOfLinenumbers?line_position:0;
+        if (omf_line_base) {
+            auxiliary=(PIMAGE_AUX_SYMBOL)&omf_coff_symbols[omf_line_base];
+            auxiliary->Sym.FcnAry.Function.PointerToLinenumber=line_position;
+            omf_line_base=0;
+        }
+        fwrite(section,40,1,output);
+        raw_position+=section->SizeOfRawData;
+        relocation_position+=section->NumberOfRelocations*10;
+        line_position+=section->NumberOfLinenumbers*6;
+    }
+    for (index=0;index<omf_coff_section_count;++index) {
+        section=&omf_coff_sections[index];
+        if (section->SizeOfRawData)
+            fwrite(omf_coff_section_data[index],1,section->SizeOfRawData,output);
+        free(omf_coff_section_data[index]);
+        omf_coff_section_data[index]=NULL;
+    }
+    for (index=0;index<omf_coff_section_count;++index) {
+        section=&omf_coff_sections[index];
+        if (section->Characteristics==0x200 || !section->NumberOfRelocations) continue;
+        relocation=omf_relocation_lists[index].head;
+        for (count=0;count<section->NumberOfRelocations;++count) {
+            fwrite(relocation,10,1,output);
+            next_relocation=relocation->next;
+            free(relocation);
+            relocation=next_relocation;
+        }
+        omf_relocation_lists[index].head=NULL;
+    }
+    for (index=0;index<omf_coff_section_count;++index) {
+        section=&omf_coff_sections[index];
+        if (!(section->Characteristics&0x20)) continue;
+        saved_count=0;
+        count=section->NumberOfLinenumbers;
+        if (count) {
+            line=omf_line_lists[index].head;
+            saved_count=count;
+            while (count) {
+                fwrite(line,6,1,output);
+                next_line=line->next;
+                free(line);
+                line=next_line;
+                --count;
+            }
+            omf_line_lists[index].head=NULL;
+        }
+        section->NumberOfLinenumbers=saved_count;
+    }
+    for (index=0;index<omf_coff_section_count;++index) {
+        if (omf_section_aux_indices[index] && omf_coff_symbols) {
+            auxiliary=(PIMAGE_AUX_SYMBOL)&omf_coff_symbols[omf_section_aux_indices[index]];
+            auxiliary->Section.NumberOfRelocations=omf_coff_sections[index].NumberOfRelocations;
+            auxiliary->Section.NumberOfLinenumbers=omf_coff_sections[index].NumberOfLinenumbers;
+        }
+        omf_section_aux_indices[index]=0;
+    }
+    fseek(output,file_header.PointerToSymbolTable,SEEK_SET);
+    if (omf_coff_symbol_count) {
+        for (symbol=0;symbol<omf_coff_symbol_count;++symbol)
+            fwrite(&omf_coff_symbols[symbol],18,1,output);
+        fwrite(&omf_coff_string_size,4,1,output);
+        if (omf_coff_string_size) {
+            omf_coff_string_size-=4;
+            fwrite(omf_coff_strings+4,1,omf_coff_string_size,output);
+            free(omf_coff_strings);
+        }
+    }
+    free(omf_coff_symbols);
+    omf_coff_symbols=NULL;
+    fclose(output);
+    omf_coff_symbol_count=omf_coff_line_count=omf_coff_relocation_count=0;
+    omf_coff_string_size=omf_coff_raw_bytes=0;
+    omf_coff_section_count=0;
+}
+
+/* Original [00045460,00045470). */
+void omf_close_input(void)
+{
+    fclose(omf_input);
 }

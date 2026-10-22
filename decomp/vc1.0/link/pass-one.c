@@ -344,3 +344,12 @@ void convert_object(Argument *argument,unsigned short *machine,Image *image)
     input_file=open_file(argument->original,0x8000,0);
     read_file(input_file,machine,sizeof(*machine));
 }
+
+/* Original [0001d1c0,0001d220). */
+void convert_omf(Argument *argument,unsigned short *machine,ImageOptions *options)
+{
+    close_file(input_file,1);
+    convert_omf_object(argument,1,options);
+    input_file=open_file(argument->original,0x8000,0);
+    read_file(input_file,machine,2);
+}

@@ -643,3 +643,14 @@ All41 additions since full528 replay and all15 earlier cases pass. Audits:
 boundaries. Union172169/281634=61.1322%; this includes inline tables/alignment,
 not branch coverage. Original toolchain parallel make passes; no ABI assembly
 exception, extra normalization, copied data sections or extra case family.
+
+OMF family completes at574 accepted: both frozen archive conversion and direct
+link cases pass exact streams/status/artifacts with only proved clock fields.
+The generated runner exits0 after checking helper20+data7+COMDAT15=42. COFF
+serialization48480..48990 is typed C, including full header/section/relocation/
+line/symbol/string paths and native ownership/reset behavior. Direct-link OMF
+wrapper1d1c0 and buffered oldest-unpinned-page eviction3cf90 retain own vertices.
+All46 additions since full528 replay and all15 prior case regressions pass.
+Audits428 graph/419 callbacks/383 data/580 instruction boundaries pass, original
+-j2 build passes. Union174073/281634=61.8082%. C++ undecoration remains active,
+so final clean/full replay and all18 case regression are still pending.

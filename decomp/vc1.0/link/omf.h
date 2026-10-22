@@ -178,4 +178,17 @@ extern OmfRelocationList omf_relocation_lists[OMF_MAX_SEGMENTS];
 extern unsigned short omf_file_relocation_seen;
 extern unsigned long omf_coff_relocation_count;
 void omf_queue_relocation(OmfRelocationList *,unsigned long,unsigned long,unsigned short);
+typedef struct OmfCoffLine {
+    unsigned long offset;
+    unsigned short line;
+    struct OmfCoffLine *next;
+} OmfCoffLine;
+typedef struct OmfLineList {
+    OmfCoffLine *head,*tail;
+    unsigned short count;
+} OmfLineList;
+typedef char OmfCoffLineSize[(sizeof(OmfCoffLine)==12)?1:-1];
+typedef char OmfLineListSize[(sizeof(OmfLineList)==12)?1:-1];
+extern OmfLineList omf_line_lists[OMF_MAX_SEGMENTS];
+extern unsigned long omf_coff_line_count;
 #endif

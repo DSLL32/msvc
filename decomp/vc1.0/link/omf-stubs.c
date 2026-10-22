@@ -2,8 +2,6 @@
 #include "omf.h"
 void omf_warning(const char *format,...) { __asm { int 3 } }
 void omf_error(const char *format,...) { __asm { int 3 } }
-void omf_write_coff(const char *path) { __asm { int 3 } }
-void omf_close_input(void) { __asm { int 3 } }
 void omf_convert_debug_types(void) { __asm { int 3 } }
 void omf_convert_debug_symbols(void) { __asm { int 3 } }
 void omf_finish_debug_types(void) { __asm { int 3 } }

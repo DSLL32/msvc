@@ -568,7 +568,12 @@
     "_omf_write_lines",
     "_omf_second_pass",
     "_omf_emit_relocation",
-    "_omf_queue_relocation"
+    "_omf_queue_relocation",
+    "_omf_write_coff",
+    "_fwrite",
+    "_omf_close_input",
+    "_convert_omf",
+    "_choose_file_page"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -2122,10 +2127,11 @@
     {
       "name": "_convert_omf",
       "start": 119232,
-      "end": 119233,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Argument *argument,unsigned short *machine,ImageOptions *options)"
+      "end": 119328,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "abi": "cdecl void(Argument *,unsigned short *,ImageOptions *)",
+      "evidence": "Matched direct OMF input wrapper1d1c0..1d220. Close original source handle, call shared converter with link flag, reopen generated path and read COFF machine WORD; preserve all four native file/converter vertices."
     },
     {
       "name": "_read_object_module",
@@ -3991,10 +3997,11 @@
     {
       "name": "_choose_file_page",
       "start": 249744,
-      "end": 249745,
-      "implementation": "stub-C",
-      "source": "files-stubs.c",
-      "abi": "cdecl Page *(void); entry only until reached"
+      "end": 249872,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl Page *(void)",
+      "evidence": "Matched direct OMF link page-cache eviction3cf90..3d010. Scan oldest-to-newest past pinned pages, unlink exact doubly linked endpoints, clear links and return; native caller requires an available unpinned page."
     },
     {
       "name": "_detach_file_page",
@@ -4735,18 +4742,20 @@
     {
       "name": "_omf_write_coff",
       "start": 296064,
-      "end": 296065,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(const char *path)"
+      "end": 297360,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(const char *)",
+      "evidence": "Matched48480..48990. Full typed COFF header/section/raw/relocation/line/symbol/string serialization, exact native file offsets and iteration order, auxiliary updates and ownership/reset behavior; genuine256 section-line lists, no opaque output snapshots."
     },
     {
       "name": "_omf_close_input",
       "start": 283744,
-      "end": 283745,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 283760,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched45460..45470. Close native converter stream through original fclose vertex; retain dangling FILE global exactly as native caller does."
     },
     {
       "name": "_omf_initialize_symbols",
@@ -5795,6 +5804,11 @@
     "omf-library",
     "omf-library",
     "omf-library",
-    "omf-library"
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-link",
+    "omf-link"
   ]
 }
