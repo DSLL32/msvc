@@ -90,4 +90,5 @@ extern int tree_changed;
 Node *__fastcall strip_conversions(Node *node);
 int __fastcall equal_tree_nodes(Node *left, Node *right);
 extern int tree_comparison_flags;
+unsigned __fastcall shallow_tree_hash(Node *node);
 #endif

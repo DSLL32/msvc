@@ -496,7 +496,20 @@
     "@common_node_type@8",
     "@insert_tree_expression@12",
     "@lower_assignment@4",
-    "@strip_assignment_conversion@4"
+    "@strip_assignment_conversion@4",
+    "_finish_global_work",
+    "_initialize_global_values",
+    "@next_work_value_node@4",
+    "@find_allocation_value@8",
+    "@shallow_tree_hash@4",
+    "@node_hash_key@4",
+    "@limit_global_allocation_values@4",
+    "@count_global_allocation_loads@4",
+    "@allocation_expression_has_call@4",
+    "_new_call_definitions",
+    "@next_bitset_member@4",
+    "@lowest_set_bit@4",
+    "@solve_definition_reachability@4"
   ],
   "driver": [
     {
@@ -888,8 +901,7 @@
     {
       "name": "_finish_global_work",
       "start": 401664,
-      "end": 401665,
-      "provisional": true
+      "end": 402560
     },
     {
       "name": "@finalize_work_trees@4",
@@ -4583,6 +4595,132 @@
       "name": "@strip_assignment_conversion@4",
       "start": 424240,
       "end": 424288
+    },
+    {
+      "name": "_initialize_global_values",
+      "start": 404576,
+      "end": 405504
+    },
+    {
+      "name": "_reset_global_register_map",
+      "start": 187184,
+      "end": 187185,
+      "provisional": true
+    },
+    {
+      "name": "@record_float_register@8",
+      "start": 258576,
+      "end": 258577,
+      "provisional": true
+    },
+    {
+      "name": "@collect_allocation_ranges@4",
+      "start": 403808,
+      "end": 403809,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_allocation_registers@4",
+      "start": 403360,
+      "end": 403361,
+      "provisional": true
+    },
+    {
+      "name": "@solve_allocation_liveness@4",
+      "start": 403152,
+      "end": 403153,
+      "provisional": true
+    },
+    {
+      "name": "@solve_allocation_history@4",
+      "start": 402944,
+      "end": 402945,
+      "provisional": true
+    },
+    {
+      "name": "@exclude_exception_registers@4",
+      "start": 402560,
+      "end": 402561,
+      "provisional": true
+    },
+    {
+      "name": "_assign_global_registers",
+      "start": 398320,
+      "end": 398321,
+      "provisional": true
+    },
+    {
+      "name": "_extend_global_register_ranges",
+      "start": 401296,
+      "end": 401297,
+      "provisional": true
+    },
+    {
+      "name": "_record_global_register_ranges",
+      "start": 401440,
+      "end": 401441,
+      "provisional": true
+    },
+    {
+      "name": "@next_work_value_node@4",
+      "start": 383696,
+      "end": 383760
+    },
+    {
+      "name": "@solve_definition_reachability@4",
+      "start": 405504,
+      "end": 405712
+    },
+    {
+      "name": "@find_allocation_value@8",
+      "start": 405712,
+      "end": 405952
+    },
+    {
+      "name": "_new_call_definitions",
+      "start": 405952,
+      "end": 406080
+    },
+    {
+      "name": "@allocation_expression_has_call@4",
+      "start": 406080,
+      "end": 406208
+    },
+    {
+      "name": "@limit_global_allocation_values@4",
+      "start": 406208,
+      "end": 406544
+    },
+    {
+      "name": "@next_bitset_member@4",
+      "start": 419952,
+      "end": 420080
+    },
+    {
+      "name": "@shallow_tree_hash@4",
+      "start": 360640,
+      "end": 360704
+    },
+    {
+      "name": "@node_hash_key@4",
+      "start": 360544,
+      "end": 360640
+    },
+    {
+      "name": "@count_global_allocation_loads@4",
+      "start": 407104,
+      "end": 407232
+    },
+    {
+      "name": "_compare_allocation_load_counts",
+      "start": 407056,
+      "end": 407057,
+      "provisional": true
+    },
+    {
+      "name": "@lowest_set_bit@4",
+      "start": 419920,
+      "end": 419952
     }
   ],
   "cases": {

@@ -1029,3 +1029,22 @@ NumberedExpression *__fastcall find_numbered_expression(Node *node)
         if (expression->canonical->info.words.identifier == identifier) return expression;
     return 0;
 }
+
+/* Original [0005dad0,0005db10). Iterate the creation-order chain backwards.
+   The -1 cursor starts a walk; null ends it. Restore the canonical tree's
+   short value identity before handing it to a new optimizer pass. */
+Node *__fastcall next_work_value_node(WorkValue **cursor)
+{
+    WorkValue *value;
+    Node *node;
+    if (!*cursor) return 0;
+    if (*cursor == (WorkValue *)-1) {
+        if (!last_work_value) return 0;
+        *cursor = last_work_value;
+    }
+    value = *cursor;
+    node = value->canonical;
+    node->info.words.identifier = (short)value->identifier;
+    *cursor = value->previous;
+    return node;
+}

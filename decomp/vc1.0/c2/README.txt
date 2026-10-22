@@ -829,3 +829,49 @@ identities. Verified accepted code-extent coverage is 129,647 / 399,693 bytes,
 or 32.4366 percent, including source/shared text/CRT/import thunks with union,
 clipping and an actual-mask cross-check. This is not branch coverage. Hello
 output remains pending at finish_global_work, 00062100.
+
+The first global allocation initializer now completes and reaches connected-range
+collection. Thirteen more functions recover 1,012 reachable native instructions:
+the complete allocation driver/initializer, canonical address hashing, value
+interning, load scoring, call detection/effect construction, shared sparse-bitset
+enumeration and the forward reaching-definition solver. The driver retains
+named typed traps for later range, liveness and register-assignment stages.
+
+AllocationValue is a runtime-built 28-byte record, keyed by canonical address
+operand identity in 32 pointer buckets. Its six recovered records own six initial
+definitions and two store definitions here. Store/call kill sets expand through
+a temporary typed definition-to-value index, then block out sets solve
+(in - kills) | gen to a fixed point. Named flow-set indices identify this phase's
+gen, kill, in and out sets. Expression offset eight now has a typed call-effect
+bitset union member while retaining the original 16-byte layout; an original-
+compiler sizeof assertion verifies that ABI. All new counters, pointers and
+arrays belong to the pass that constructs them; no image data is copied.
+
+The load scorer can rank up to 500 observable values and retains its native
+conditional arena-reset order. The sorting branch has a named cdecl comparator
+trap and uses the original qsort library implementation, identified with its
+relative relocations. The sparse iterator has the original shared chunk/bit
+cursor and a distinct lowest-set-bit helper, including the original zero-word
+result and zero-chunk behavior. Hashing uses numeric symbol identities and
+frame-temporary offsets; floating constant keys are zero.
+
+Independent state after initialization matches all 309 normalized lines across
+the six allocation records, all 32 buckets, eight definition IDs, owning/global
+definition sets, call effects, block reachability, trees and existing memory
+values. These are direct local/parameter values: calls are found, but no tracked
+observable value requires a nonempty call-effect set here. Sorting, range
+creation/merging, diagnostics, floating register tracking and exception filtering
+remain outside this checkpoint's dynamic coverage. Temporary arena-four indices
+have been released and are not followed; not-yet-owned register-set slots are
+not interpreted. See cases/hello-definition-flow-abi.json for extents, typed data
+provenance, receipt hashes and validation limits.
+
+This checkpoint has 428 reconstructed functions and 505 accepted frontiers.
+All 352 minimal and all 153 hello historical frontiers replay. All source graphs
+and accepted instruction boundaries pass audit; four affected implementation
+modules compile /W3 clean. Minimal-C still produces its exact captured object
+except the four timestamp bytes. Verified accepted code-extent coverage is
+133,023 / 399,693 bytes, or 33.2813 percent, including the union of source,
+shared text data, CRT and import thunks, clipped to original code and checked
+against the actual masker. This is not branch coverage. Hello output remains
+pending at collect_allocation_ranges, 00062960.

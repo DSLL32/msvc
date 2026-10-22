@@ -1,4 +1,5 @@
 #include "bitsets.h"
+int __fastcall lowest_set_bit(unsigned bits);
 /* Original [00066dc0,00066e20). The original one-bit table is the ordinary
    32-bit shift below; signed base comparisons match chunk ordering. */
 int __fastcall bitset_contains(BitSet *set, unsigned member)
@@ -357,4 +358,40 @@ void __fastcall assign_difference_bitset(BitSet *destination, BitSet *source, Bi
         release_bitset(tail->next);
         tail->next = 0;
     }
+}
+
+BitSet *bitset_iteration_chunk; /* 00084eb0 */
+unsigned bitset_iteration_bits; /* 00084eb4 */
+/* Original [00066870,000668f0). A non-null sentinel starts the shared
+   iterator; null resumes it. Cache each chunk's remaining bits and remove
+   one lowest member per call without modifying the bitset itself. */
+int __fastcall next_bitset_member(BitSet *set)
+{
+    int bit;
+    if (set) {
+        bitset_iteration_chunk = set->next;
+        if (!bitset_iteration_chunk) return -1;
+        bitset_iteration_bits = bitset_iteration_chunk->bits;
+    } else {
+        if (!bitset_iteration_chunk) return -1;
+        if (!bitset_iteration_bits) {
+            bitset_iteration_chunk = bitset_iteration_chunk->next;
+            if (!bitset_iteration_chunk) return -1;
+            bitset_iteration_bits = bitset_iteration_chunk->bits;
+        }
+    }
+    bit = lowest_set_bit(bitset_iteration_bits);
+    bitset_iteration_bits ^= 1U << (bit & 31);
+    return bit + bitset_iteration_chunk->base;
+}
+
+/* Original [00066850,00066870). Return -1 for an empty word. */
+int __fastcall lowest_set_bit(unsigned bits)
+{
+    int bit;
+    for (bit = 0; bit < 32; ++bit) {
+        if (bits & 1) return bit;
+        bits >>= 1;
+    }
+    return -1;
 }

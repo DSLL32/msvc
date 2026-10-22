@@ -27,4 +27,5 @@ BitSet *__fastcall subtract_bitset(BitSet *destination, BitSet *source);
 void __fastcall transfer_bitset(BitSet *destination, BitSet *source, BitSet *removed, BitSet *added);
 void __fastcall assign_union_bitset(BitSet *destination, BitSet *left, BitSet *right);
 void __fastcall assign_difference_bitset(BitSet *destination, BitSet *source, BitSet *removed);
+int __fastcall next_bitset_member(BitSet *set);
 #endif

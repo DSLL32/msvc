@@ -1,3 +1,4 @@
+#include "global-registers.h"
 #include "work-expressions.h"
 #include "region-motion.h"
 #include "flow-edges.h"
@@ -123,7 +124,6 @@ int __fastcall conversion_loses_value(unsigned short source, unsigned short targ
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm int 3 }
 #include "work-prepare.h"
-void finish_global_work(void) { __asm int 3 }
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
 void __fastcall lower_float_expression(Node *node) { __asm int 3 }
 void finish_target_expression(void) { __asm int 3 }
@@ -449,3 +449,19 @@ Node *__fastcall operator_identity_node(Node *operation, Node *type_source) { __
 int __fastcall matches_assignment_load(Node *destination, Node *operand) { __asm int 3 }
 void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node *load, Node *operation) { __asm int 3 }
 int __fastcall find_assignment_operand(Node *node, unsigned has_addition) { __asm int 3 }
+
+void reset_global_register_map(void) { __asm int 3 }
+void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol) { __asm int 3 }
+void __fastcall collect_allocation_ranges(Node *node) { __asm int 3 }
+void __fastcall rewrite_allocation_registers(Node *node) { __asm int 3 }
+void __fastcall solve_allocation_liveness(WorkItem *work) { __asm int 3 }
+void __fastcall solve_allocation_history(WorkItem *work) { __asm int 3 }
+void __fastcall exclude_exception_registers(WorkItem *work) { __asm int 3 }
+void assign_global_registers(void) { __asm int 3 }
+void extend_global_register_ranges(void) { __asm int 3 }
+void record_global_register_ranges(void) { __asm int 3 }
+
+
+
+
+int __cdecl compare_allocation_load_counts(const void *left, const void *right) { __asm int 3 }

@@ -1,6 +1,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "extended.h"
+unsigned __fastcall node_hash_key(Node *node);
 int tree_comparison_flags; /* 0007e844: shared recursive equality mode */
 
 /* Original [00058100,00058120). -1 selects the ordinary comparison mode. */
@@ -61,4 +62,37 @@ compare_operands:
         if (right->opcode == 0x32 && equal_tree_nodes(left, right->second.node)) return 1;
     }
     return 0;
+}
+
+/* Original [000580c0,00058100). Hash this node and its immediate operands;
+   the key helper does not recurse, so depth below the operands is ignored. */
+unsigned __fastcall shallow_tree_hash(Node *node)
+{
+    unsigned hash = node_hash_key(node);
+    if ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        hash += node_hash_key(node->left.node);
+        if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+            hash += node_hash_key(node->second.node);
+    }
+    return hash;
+}
+
+/* Original [00058060,000580c0). Canonical addresses use their symbol's
+   numeric identity; frame temporaries use their reserved stack/register slot.
+   Integer constants hash their payload and floating constants hash to zero. */
+unsigned __fastcall node_hash_key(Node *node)
+{
+    unsigned hash = (unsigned)node->attributes.words.type + node->opcode;
+    SymbolHeader *symbol;
+    if (node->opcode == 0x33) {
+        if (node->attributes.words.type & 0x3000) return 0;
+        return node->left.value;
+    }
+    symbol = node->right.symbol;
+    if (node->opcode == 0x26) {
+        if (symbol->kind == 19) hash = ((TemporaryRegister *)symbol)->number;
+        else hash = node->left.value;
+    }
+    if (symbol && symbol->kind != 19) hash += symbol->identifier;
+    return hash;
 }

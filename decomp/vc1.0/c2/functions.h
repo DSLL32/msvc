@@ -35,8 +35,10 @@ typedef char WorkItemSizeCheck[sizeof(WorkItem) == 68 ? 1 : -1];
 typedef struct Expression {
     struct Expression *next;
     Node *tree;
-    unsigned field08, source_location;
+    union { unsigned field08; struct BitSet *clobbered_definitions; };
+    unsigned source_location;
 } Expression;
+typedef char ExpressionSizeCheck[sizeof(Expression) == 16 ? 1 : -1];
 typedef struct Function {
     Node *root;
     SymbolHeader *symbol;

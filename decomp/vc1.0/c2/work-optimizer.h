@@ -119,4 +119,5 @@ enum {
 extern BitSet *work_unread_stores, *work_stored_values, *work_upward_reads;
 void __fastcall collect_work_memory_reads(Node *node);
 WorkValue *__fastcall find_work_value(Node *node);
+Node *__fastcall next_work_value_node(WorkValue **cursor);
 #endif
