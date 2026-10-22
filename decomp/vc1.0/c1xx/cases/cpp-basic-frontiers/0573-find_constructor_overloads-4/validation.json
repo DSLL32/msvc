@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_constructor_overloads@4",
+    "start": 199296,
+    "end": 199395
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_reject_overload_candidate@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.22050414700061083,
+  "total_operation_seconds": 4.9045160776004195,
+  "original_capture_seconds": 3.974791490472853
+}

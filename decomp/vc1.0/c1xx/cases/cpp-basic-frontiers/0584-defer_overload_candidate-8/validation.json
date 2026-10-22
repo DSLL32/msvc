@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_defer_overload_candidate@8",
+    "start": 485376,
+    "end": 485438
+  },
+  "distinct_direct_callees": [
+    "_destroy_overload_search@4",
+    "_diagnose_overload_failure@12"
+  ],
+  "next_frontier": "_bind_selected_overload@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.22327337600290775,
+  "total_operation_seconds": 3.876180436462164,
+  "original_capture_seconds": 2.9215505914762616
+}

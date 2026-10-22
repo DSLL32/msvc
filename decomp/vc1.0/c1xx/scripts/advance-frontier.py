@@ -131,7 +131,11 @@ def main():
         original_frontier_va=hex(next(r['start'] for r in config['driver'] if r['name']==original['terminal'])),
         current_native_application_entries=len(cache['cases']['cpp_basic']['expected']),
         latest_verification=relative(record/'validation.json'))
-    current['graceful_pause']['paused']=False
+    current['graceful_pause'].update(paused=False, current_frontier=original['terminal'],
+        original_va=current['original_frontier_va'])
+    coverage=json.loads(subprocess.check_output([sys.executable,str(BINARY/'scripts/coverage.py')],cwd=BINARY,text=True))
+    current['coverage']=coverage
+    current['accepted_extent_coverage']=coverage
     current_path.write_text(json.dumps(current,indent=2)+'\n')
     readme_path=BINARY/'README.txt'
     readme=readme_path.read_text()

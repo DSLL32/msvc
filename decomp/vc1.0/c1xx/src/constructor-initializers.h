@@ -29,19 +29,19 @@ CType *__stdcall replace_type_pointer_kind(CType *type, unsigned short kind);
 int __stdcall initialize_lvalue(IrToken *target, IrToken *value);
 unsigned __stdcall classify_initializer_conversion(CType *type, IrToken *value);
 unsigned __stdcall classify_expression_conversion(CType *type, IrToken *value,
-    unsigned flags, int context);
+    unsigned flags, OverloadCandidate *context);
 CType *__stdcall parameter_reference_type(IrToken *reference);
 unsigned __stdcall classify_type_conversion(CType *target, CType *source,
-    unsigned flags, int context);
+    unsigned flags, OverloadCandidate *context);
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode);
 unsigned __stdcall classify_special_type_conversion(CType *target, CType *source,
-    unsigned flags, int context);
+    unsigned flags, OverloadCandidate *context);
 unsigned __stdcall classify_derived_type_conversion(CType *target, CType *source,
-    unsigned flags, int context);
+    unsigned flags, OverloadCandidate *context);
 int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType *target,
-    int context, unsigned *rank);
+    OverloadCandidate *context, unsigned *rank);
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source,
-    unsigned char flags, int context);
+    unsigned char flags, OverloadCandidate *context);
 int __stdcall has_pointer_or_member_pointer_shape(CType *type);
 unsigned __stdcall classify_class_reference_conversion(CType *target, CType *source);
 unsigned __stdcall classify_null_pointer_shape(unsigned rank, TypeShape *target, TypeShape *source);
@@ -50,7 +50,7 @@ unsigned __stdcall rank_conversion_qualifiers(unsigned rank, unsigned short targ
 unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source);
 unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source);
 unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse);
-int __stdcall classify_source_class_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank);
+int __stdcall classify_source_class_conversion(unsigned char flags, CType *source, CType *target, OverloadCandidate *context, unsigned *rank);
 int __stdcall type_has_base_relation(CType *derived, CType *base);
 IrToken * __stdcall convert_derived_initializer(CType *type, IrToken *expression);
 int __stdcall same_unqualified_class_type(CType *left, CType *right);
@@ -65,4 +65,12 @@ unsigned __stdcall virtual_table_object_offset(VirtualTable *table);
 IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group);
 QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group);
 IrToken *__stdcall clear_most_derived_argument(IrToken *call);
+int __stdcall based_pointer_has_indirect_base(TypeShape *shape);
+CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsigned *rank);
+void __stdcall record_user_conversion(OverloadCandidate *context, CppSymbol *conversion,
+    CType *target, unsigned rank);
+CppSymbol *__stdcall find_user_conversion(CType *target, CType *source, unsigned *rank);
+CppSymbol *__stdcall find_class_conversion(CType *target, CType *source, unsigned *rank);
+int __stdcall is_class_or_reference_type(CType *type);
+CppSymbol *__stdcall find_constructor_overloads(CppSymbol *tag);
 #endif

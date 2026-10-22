@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_classify_user_conversion@20",
+    "start": 414320,
+    "end": 414381
+  },
+  "distinct_direct_callees": [
+    "_find_user_conversion@12",
+    "_record_user_conversion@16"
+  ],
+  "next_frontier": "_find_user_conversion@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2383939353749156,
+  "total_operation_seconds": 4.547095075249672,
+  "original_capture_seconds": 3.624627809971571
+}

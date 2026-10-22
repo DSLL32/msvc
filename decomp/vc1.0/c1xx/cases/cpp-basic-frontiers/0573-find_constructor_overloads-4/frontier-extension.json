@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 573,
+  "accepted": "_find_constructor_overloads@4",
+  "terminal": "_reject_overload_candidate@12",
+  "original_capture": "cases/cpp-basic-frontiers/0573-find_constructor_overloads-4/original-receipt.json",
+  "original_capture_sha256": "d595fab22b3974fa3ed877351028e5916fc01988b05170e6073315e968d9baa0",
+  "original_events": "cases/cpp-basic-frontiers/0573-find_constructor_overloads-4/original-events.txt",
+  "original_events_sha256": "bbf381567f471905a1c53b297dd0fa9f16592a36e86055beb8f74c3838fcd0cc",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

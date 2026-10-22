@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 577,
+  "accepted": "_destroy_overload_search@4",
+  "terminal": "_is_class_or_reference_type@4",
+  "original_capture": "cases/cpp-basic-frontiers/0577-destroy_overload_search-4/original-receipt.json",
+  "original_capture_sha256": "a497d19d28b749ac350560753589b3583180b354ee9264a2fe30346a62450c7b",
+  "original_events": "cases/cpp-basic-frontiers/0577-destroy_overload_search-4/original-events.txt",
+  "original_events_sha256": "94cb8a3b357f07cb4300e9e13677503f3a4e92eaf3cd2bbdd2d7eacf48a74143",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

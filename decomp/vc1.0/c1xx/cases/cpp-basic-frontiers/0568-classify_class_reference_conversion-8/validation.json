@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_classify_class_reference_conversion@8",
+    "start": 409408,
+    "end": 409485
+  },
+  "distinct_direct_callees": [
+    "_type_has_base_relation@8"
+  ],
+  "next_frontier": "_classify_source_class_conversion@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2543787956237793,
+  "total_operation_seconds": 5.010687757283449,
+  "original_capture_seconds": 4.076308809220791
+}

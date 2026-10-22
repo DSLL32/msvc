@@ -569,7 +569,28 @@
     "_save_overload_candidate_cursor@12",
     "_validate_overload_counts@4",
     "_set_overload_phase",
-    "_rank_call_argument_count@8"
+    "_rank_call_argument_count@8",
+    "_rank_overload_arguments@12",
+    "_rank_conversion_qualifiers@12",
+    "_rank_pointer_attributes@16",
+    "_classify_class_reference_conversion@8",
+    "_classify_source_class_conversion@20",
+    "_classify_user_conversion@20",
+    "_find_user_conversion@12",
+    "_find_class_conversion@12",
+    "_find_constructor_overloads@4",
+    "_reject_overload_candidate@12",
+    "_select_overload_candidate@12",
+    "_first_active_overload@4",
+    "_destroy_overload_search@4",
+    "_is_class_or_reference_type@4",
+    "_record_user_conversion@16",
+    "_prune_overload_candidates@12",
+    "_candidate_argument_rank@12",
+    "_coarse_conversion_rank@4",
+    "_compare_candidate_ranks@20",
+    "_defer_overload_candidate@8",
+    "_bind_selected_overload@8"
   ],
   "driver": [
     {
@@ -4500,7 +4521,7 @@
     {
       "name": "_classify_user_conversion@20",
       "start": 414320,
-      "end": 414321
+      "end": 414381
     },
     {
       "name": "_classify_special_scalar_conversion@16",
@@ -4515,7 +4536,7 @@
     {
       "name": "_classify_class_reference_conversion@8",
       "start": 409408,
-      "end": 409409
+      "end": 409485
     },
     {
       "name": "_classify_null_pointer_shape@12",
@@ -4525,12 +4546,12 @@
     {
       "name": "_rank_pointer_attributes@16",
       "start": 410400,
-      "end": 410401
+      "end": 410633
     },
     {
       "name": "_rank_conversion_qualifiers@12",
       "start": 410640,
-      "end": 410641
+      "end": 410731
     },
     {
       "name": "_classify_nested_shape_conversion@8",
@@ -4550,7 +4571,7 @@
     {
       "name": "_classify_source_class_conversion@20",
       "start": 414384,
-      "end": 414385
+      "end": 414465
     },
     {
       "name": "_type_has_base_relation@8",
@@ -5389,7 +5410,7 @@
     {
       "name": "_bind_selected_overload@8",
       "start": 204928,
-      "end": 204929
+      "end": 204957
     },
     {
       "name": "_make_resolved_call@20",
@@ -5409,7 +5430,7 @@
     {
       "name": "_find_class_conversion@12",
       "start": 408944,
-      "end": 408945
+      "end": 409173
     },
     {
       "name": "_lower_member_pointer_call@8",
@@ -5454,17 +5475,17 @@
     {
       "name": "_rank_overload_arguments@12",
       "start": 483904,
-      "end": 483905
+      "end": 484348
     },
     {
       "name": "_select_overload_candidate@12",
       "start": 485120,
-      "end": 485121
+      "end": 485255
     },
     {
       "name": "_destroy_overload_search@4",
       "start": 485440,
-      "end": 485441
+      "end": 485470
     },
     {
       "name": "_report_call_overload_failure@4",
@@ -5504,15 +5525,85 @@
     {
       "name": "_reject_overload_candidate@12",
       "start": 485264,
-      "end": 485265
+      "end": 485362
+    },
+    {
+      "name": "_based_pointer_has_indirect_base@4",
+      "start": 173360,
+      "end": 173361
+    },
+    {
+      "name": "_find_source_conversion@12",
+      "start": 408752,
+      "end": 408753
+    },
+    {
+      "name": "_record_user_conversion@16",
+      "start": 482864,
+      "end": 482907
+    },
+    {
+      "name": "_find_user_conversion@12",
+      "start": 409184,
+      "end": 409394
+    },
+    {
+      "name": "_is_class_or_reference_type@4",
+      "start": 420416,
+      "end": 420477
+    },
+    {
+      "name": "_find_constructor_overloads@4",
+      "start": 199296,
+      "end": 199395
+    },
+    {
+      "name": "_diagnose_overload_failure@12",
+      "start": 485552,
+      "end": 485553
+    },
+    {
+      "name": "_prune_overload_candidates@12",
+      "start": 484352,
+      "end": 484686
+    },
+    {
+      "name": "_resolve_overload_tie@4",
+      "start": 485008,
+      "end": 485009
+    },
+    {
+      "name": "_first_active_overload@4",
+      "start": 482544,
+      "end": 482571
+    },
+    {
+      "name": "_candidate_argument_rank@12",
+      "start": 484688,
+      "end": 484721
+    },
+    {
+      "name": "_compare_candidate_ranks@20",
+      "start": 484736,
+      "end": 485008
+    },
+    {
+      "name": "_defer_overload_candidate@8",
+      "start": 485376,
+      "end": 485438
+    },
+    {
+      "name": "_coarse_conversion_rank@4",
+      "start": 482912,
+      "end": 482992
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_rank_overload_arguments@12",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0564-rank_call_argument_count-8/original-events.txt",
+      "terminal": "_get_base_initialization_access",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5544,7 +5635,28 @@
         "cases/cpp-basic-frontiers/0561-save_overload_candidate_cursor-12/frontier-extension.json",
         "cases/cpp-basic-frontiers/0562-validate_overload_counts-4/frontier-extension.json",
         "cases/cpp-basic-frontiers/0563-set_overload_phase/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0564-rank_call_argument_count-8/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0564-rank_call_argument_count-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0565-rank_overload_arguments-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0566-rank_conversion_qualifiers-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0567-rank_pointer_attributes-16/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0568-classify_class_reference_conversion-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0569-classify_source_class_conversion-20/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0570-classify_user_conversion-20/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0571-find_user_conversion-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0572-find_class_conversion-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0573-find_constructor_overloads-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0574-reject_overload_candidate-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0575-select_overload_candidate-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0576-first_active_overload-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0577-destroy_overload_search-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0578-is_class_or_reference_type-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0579-record_user_conversion-16/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0580-prune_overload_candidates-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0581-candidate_argument_rank-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0582-coarse_conversion_rank-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0583-compare_candidate_ranks-20/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0584-defer_overload_candidate-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0585-bind_selected_overload-8/frontier-extension.json"
       ]
     }
   },

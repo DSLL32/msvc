@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 570,
+  "accepted": "_classify_user_conversion@20",
+  "terminal": "_find_user_conversion@12",
+  "original_capture": "cases/cpp-basic-frontiers/0570-classify_user_conversion-20/original-receipt.json",
+  "original_capture_sha256": "723342b44c954386bee585be198722488d6145c597f8b43552e2bcae652faad5",
+  "original_events": "cases/cpp-basic-frontiers/0570-classify_user_conversion-20/original-events.txt",
+  "original_events_sha256": "c04a9e476cda6d339488a60f01a2cd070deda7efe02794f42f36c2a2a9380cf1",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 582,
+  "terminal": "_compare_candidate_ranks@20",
+  "candidate": "_coarse_conversion_rank@4",
+  "configuration_sha256": "5636776519b252b4591e38a774ae2d68a53f55a99856891429b9c70c4537f36a",
+  "capture_seconds": 4.627581428736448,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "cpp-basic.cpp": {
+      "bytes": 252,
+      "sha256": "343b472b5648f7d4c0bfdc63ef0f9f27e4ca7ec45452a88756ef342aa3bf2b18"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

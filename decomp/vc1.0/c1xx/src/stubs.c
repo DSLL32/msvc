@@ -150,16 +150,12 @@ void begin_switch_condition(void) { __asm { int 3 } }
 void begin_while_body(void) { __asm { int 3 } }
 void begin_while_condition(void) { __asm { int 3 } }
 IrToken *__stdcall boolean_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
-int __stdcall reject_overload_candidate(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } return 0; }
-int __stdcall rank_overload_arguments(OverloadSearch *search, IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
-OverloadCandidate *__stdcall select_overload_candidate(OverloadSearch *search, unsigned *rank, OverloadFailure failure) { __asm { int 3 } return 0; }
-void __stdcall destroy_overload_search(OverloadSearch *search) { __asm { int 3 } }
+void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
+OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
-void __stdcall bind_selected_overload(QualifiedDeclarator *reference, CppSymbol *function) { __asm { int 3 } }
 IrToken *__stdcall make_resolved_call(CppSymbol *function, IrToken *object, IrToken *arguments, unsigned count, CppSymbol *qualified) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_to_type(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 int __stdcall resolve_function_style_cast(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall find_class_conversion(CType *target, CType *source, unsigned *rank) { __asm { int 3 } return 0; }
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix) { __asm { int 3 } return 0; }
 unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_call_arguments(CppSymbol *function, FunctionParameters *parameters, IrToken *arguments, unsigned count) { __asm { int 3 } return 0; }
@@ -586,18 +582,15 @@ QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, Virtua
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 int __stdcall has_deferred_expression_symbols(unsigned mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
-unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, int context) { __asm { int 3 } return 0; }
+unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
-unsigned __stdcall classify_class_reference_conversion(CType *target, CType *source) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_null_pointer_shape(unsigned rank, TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
-unsigned __stdcall rank_pointer_attributes(unsigned rank, unsigned char target, unsigned char source, TypeShape *shape) { __asm { int 3 } return 0; }
-unsigned __stdcall rank_conversion_qualifiers(unsigned rank, unsigned short target, unsigned short source) { __asm { int 3 } return 0; }
+int __stdcall based_pointer_has_indirect_base(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
 unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
-int __stdcall classify_source_class_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsigned *rank) { __asm { int 3 } return 0; }
 int __stdcall type_has_base_relation(CType *derived, CType *base) { __asm { int 3 } return 0; }
-int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall collect_declaration_cleanup(IrToken *expression, FrontendRecord *from, int mode) { __asm { int 3 } return 0; }

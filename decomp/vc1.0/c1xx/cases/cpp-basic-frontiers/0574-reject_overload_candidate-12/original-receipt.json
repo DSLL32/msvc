@@ -1,0 +1,31 @@
+{
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 574,
+  "terminal": "_select_overload_candidate@12",
+  "candidate": "_reject_overload_candidate@12",
+  "configuration_sha256": "35d21e9a8e303fd78242e573b95aaa92aa844c73bc63ea1adc7a2b96ed6135ae",
+  "capture_seconds": 4.424625323154032,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "cpp-basic.cpp": {
+      "bytes": 252,
+      "sha256": "343b472b5648f7d4c0bfdc63ef0f9f27e4ca7ec45452a88756ef342aa3bf2b18"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  }
+}

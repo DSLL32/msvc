@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 575,
+  "accepted": "_select_overload_candidate@12",
+  "terminal": "_first_active_overload@4",
+  "original_capture": "cases/cpp-basic-frontiers/0575-select_overload_candidate-12/original-receipt.json",
+  "original_capture_sha256": "5ed698c0c12349614062588c69739b1a90a360f0be11a6beaa30c107457d6893",
+  "original_events": "cases/cpp-basic-frontiers/0575-select_overload_candidate-12/original-events.txt",
+  "original_events_sha256": "eac559b17a908f55a42293e4a13bcfcbcba4eb89c95c7ed02d1badc70e3d38bd",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

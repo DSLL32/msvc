@@ -10,7 +10,6 @@ IrToken *__stdcall make_resolved_call(CppSymbol *function, IrToken *object,
     IrToken *arguments, unsigned count, CppSymbol *qualified);
 IrToken *__stdcall cast_to_type(CType *type, IrToken *operand);
 int __stdcall resolve_function_style_cast(IrToken *expression);
-IrToken *__stdcall find_class_conversion(CType *target, CType *source, unsigned *rank);
 IrToken *__stdcall lower_member_pointer_call(IrToken *expression, IrToken **prefix);
 unsigned __stdcall validate_call_arguments(CType *type, TypeShape *function,
     IrToken *arguments, unsigned count);
@@ -22,18 +21,18 @@ int __stdcall is_this_object_expression(IrToken *expression);
 typedef struct OverloadArgumentRank {
     unsigned rank;
     CType *parameter_type;
-    unsigned field08;
+    CppSymbol *conversion;
 } OverloadArgumentRank;
-typedef struct OverloadCandidate {
+struct OverloadCandidate {
     CppSymbol *function;
     CType **parameter_cursor;
     unsigned origin;
     CType *current_parameter, *this_type;
     struct OverloadCandidate *next, *previous;
     OverloadArgumentRank *ranks;
-    unsigned field20, field24, field28, field2c;
+    unsigned conversion_index, field24, field28, field2c;
     unsigned char flags, reserved31[3];
-} OverloadCandidate;
+};
 typedef struct OverloadSearch {
     unsigned total_count, viable_count, argument_count;
     unsigned char field0c, reserved0d[3];
@@ -69,4 +68,18 @@ void set_overload_phase(OverloadSearch *search, unsigned phase, ...);
 unsigned __stdcall rank_call_argument_count(TypeShape *function, unsigned count);
 int __stdcall reject_overload_candidate(OverloadCandidate *candidate,
     OverloadSearch *search, IrToken *argument);
+void __stdcall diagnose_overload_failure(OverloadCandidate *candidate,
+    OverloadSearch *search, IrToken *argument);
+int __stdcall prune_overload_candidates(OverloadSearch *search, unsigned char phase, int mode);
+OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search);
+OverloadCandidate *__stdcall first_active_overload(OverloadCandidate *candidate);
+typedef char OverloadCandidateConversionIndexOffsetMustBe32[
+    (offsetof(OverloadCandidate, conversion_index) == 32) ? 1 : -1];
+typedef char OverloadRankConversionOffsetMustBe8[
+    (offsetof(OverloadArgumentRank, conversion) == 8) ? 1 : -1];
+unsigned __stdcall candidate_argument_rank(OverloadCandidate *candidate, unsigned index, int mode);
+int __stdcall compare_candidate_ranks(unsigned left_rank, OverloadCandidate *left,
+    unsigned right_rank, OverloadCandidate *right, unsigned index);
+int __stdcall defer_overload_candidate(OverloadCandidate *candidate, OverloadSearch *search);
+unsigned __stdcall coarse_conversion_rank(unsigned rank);
 #endif

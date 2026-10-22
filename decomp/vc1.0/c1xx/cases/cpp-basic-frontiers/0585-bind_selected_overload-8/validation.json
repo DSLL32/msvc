@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_bind_selected_overload@8",
+    "start": 204928,
+    "end": 204957
+  },
+  "distinct_direct_callees": [
+    "_check_qualified_member_access@4"
+  ],
+  "next_frontier": "_get_base_initialization_access",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2256384640932083,
+  "total_operation_seconds": 4.708485135808587,
+  "original_capture_seconds": 3.7752530043944716
+}

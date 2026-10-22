@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_class_conversion@12",
+    "start": 408944,
+    "end": 409173
+  },
+  "distinct_direct_callees": [
+    "_find_constructor_overloads@4",
+    "_make_pointer_to_type@8",
+    "_refill_arena@8",
+    "_resolve_function_overload@20"
+  ],
+  "next_frontier": "_find_constructor_overloads@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.29918507020920515,
+  "total_operation_seconds": 5.247314730659127,
+  "original_capture_seconds": 4.13356614112854
+}

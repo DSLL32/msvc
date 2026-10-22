@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 565,
+  "accepted": "_rank_overload_arguments@12",
+  "terminal": "_rank_conversion_qualifiers@12",
+  "original_capture": "cases/cpp-basic-frontiers/0565-rank_overload_arguments-12/original-receipt.json",
+  "original_capture_sha256": "406268d3b71f93af4a5f37ca35ff04c7ecb7af617f6038f36780316dbf47a327",
+  "original_events": "cases/cpp-basic-frontiers/0565-rank_overload_arguments-12/original-events.txt",
+  "original_events_sha256": "f2b4d7a8fb46e21c1a3aaa6b5afd3cbecc3517ceb4618a77e53a0282285b9079",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

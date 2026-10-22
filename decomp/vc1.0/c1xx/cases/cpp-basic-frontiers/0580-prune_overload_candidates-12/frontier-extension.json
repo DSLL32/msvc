@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 580,
+  "accepted": "_prune_overload_candidates@12",
+  "terminal": "_candidate_argument_rank@12",
+  "original_capture": "cases/cpp-basic-frontiers/0580-prune_overload_candidates-12/original-receipt.json",
+  "original_capture_sha256": "0fa26fdea0c45d6535461dcbf434738d5ca9b5d54b7ed5e2c177e77ff13b6461",
+  "original_events": "cases/cpp-basic-frontiers/0580-prune_overload_candidates-12/original-events.txt",
+  "original_events_sha256": "b84f03fb9cac60d5dd48c86964ca300a386159712fd0a0677c716097c39cfcd0",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

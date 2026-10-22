@@ -9,6 +9,7 @@
 #include "expression-preparation.h"
 #include "operators.h"
 #include "unary-expressions.h"
+#include "call-expressions.h"
 #include <recon.h>
 
 typedef char InitializerClassTrivialOffsetMustBe54[
@@ -306,7 +307,7 @@ unsigned __stdcall classify_initializer_conversion(CType *type, IrToken *value)
 /* Original 0x65310..0x653d3. An untyped overload expression needs a
    target-directed lookup; typed expressions use ordinary type ranking. */
 unsigned __stdcall classify_expression_conversion(CType *type, IrToken *value,
-    unsigned flags, int context)
+    unsigned flags, OverloadCandidate *context)
 {
     CType *source;
     TypeShape *shape;
@@ -332,7 +333,7 @@ unsigned __stdcall classify_expression_conversion(CType *type, IrToken *value,
 /* Original 0x64f20..0x65270. Rank standard scalar conversions after
    reference/based-type adjustment, then permit user conversions. */
 unsigned __stdcall classify_type_conversion(CType *target, CType *source,
-    unsigned flags, int context)
+    unsigned flags, OverloadCandidate *context)
 {
     unsigned rank;
     unsigned short destination_flags, source_flags;
@@ -398,7 +399,7 @@ unsigned __stdcall classify_type_conversion(CType *target, CType *source,
 /* Original 0x64070..0x64111: special destination forms precede the
    ordinary derived-type and arithmetic ranking paths. */
 unsigned __stdcall classify_special_type_conversion(CType *target, CType *source,
-    unsigned flags, int context)
+    unsigned flags, OverloadCandidate *context)
 {
     unsigned short kind;
     unsigned rank;
@@ -417,7 +418,7 @@ unsigned __stdcall classify_special_type_conversion(CType *target, CType *source
 /* Original 0x646f0..0x64d9f: derived declarator shapes, including
    references, pointers, arrays, member pointers and function signatures. */
 unsigned __stdcall classify_derived_type_conversion(CType *target, CType *source,
-    unsigned flags, int context)
+    unsigned flags, OverloadCandidate *context)
 {
     TypeShape *destination_shape, *source_shape, *destination_function, *source_function;
     CType *destination_referent, *source_referent;
@@ -714,4 +715,174 @@ IrToken *__stdcall make_constructor_call(CppSymbol *tag, IrToken *object,
         result = 0;
     }
     return result;
+}
+
+/* Original 0x64410..0x6446a. Adding cv qualification weakens a standard
+   conversion; discarding const and volatile has distinct failure codes. */
+unsigned __stdcall rank_conversion_qualifiers(unsigned rank, unsigned short target, unsigned short source)
+{
+    if (target == source) return rank;
+    if (!(target & 0x1000)) {
+        if (source & 0x1000) return 0x2005;
+    } else if (!(source & 0x1000)) rank |= 8;
+    if (!(target & 0x2000)) {
+        if (source & 0x2000) return 0x2006;
+    } else if (!(source & 0x2000)) rank |= 8;
+    return rank;
+}
+
+/* Original 0x64320..0x64408. Pointer-distance and based-pointer changes
+   contribute distinct standard-conversion ranks. */
+unsigned __stdcall rank_pointer_attributes(unsigned rank, unsigned char target,
+    unsigned char source, TypeShape *shape)
+{
+    TypeShape *base_shape;
+    CppSymbol *base;
+    if (((target & 12) != 0) != ((source & 12) != 0)) {
+        if ((target & 4) || (source & 7) == 4) return 0x2000;
+        if ((source & 12) && based_pointer_has_indirect_base(shape)) {
+            base = shape->data.based_symbol;
+            base_shape = base->type->related;
+            if (base_shape && !(base_shape->flags & 0x77)) base_shape = base_shape->related;
+            if ((base_shape->attributes & 7) == 1)
+                return rank | ((target & 7) == 1 ? 0x10 : 0x80);
+        }
+        if ((target & 7) == 1) return 0x2000;
+        return rank | 0x10;
+    }
+    if (!((source ^ target) & 7)) return rank;
+    if ((target & 7) == 1) return 0x2000;
+    return rank | 0x10;
+}
+
+/* Original 0x63f40..0x63f8c. Bare class objects permit exact-class binding
+   or a derived-to-base standard conversion. */
+unsigned __stdcall classify_class_reference_conversion(CType *target, CType *source)
+{
+    if ((target->flags & 0x400) && !target->related &&
+        (source->flags & 0x400) && !source->related) {
+        if (target->field08 == source->field08) return 1;
+        if (type_has_base_relation(source, target)) return 0x40;
+    }
+    return 0x2000;
+}
+
+/* Original 0x652b0..0x65300. Source-class conversion operators are disabled
+   by flags bit zero; an optional candidate records the selected conversion. */
+int __stdcall classify_source_class_conversion(unsigned char flags, CType *source,
+    CType *target, OverloadCandidate *context, unsigned *rank)
+{
+    CppSymbol *conversion;
+    if ((source->flags & 0x400) && !(flags & 1)) {
+        conversion = find_source_conversion(cpp_context_stack->items[source->field08], target, rank);
+        record_user_conversion(context, conversion, target, *rank);
+        return 1;
+    }
+    return 0;
+}
+
+/* Original 0x65270..0x652ac. Class construction and conversion operators
+   participate only when user-defined conversions have not been disabled. */
+int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType *target,
+    OverloadCandidate *context, unsigned *rank)
+{
+    CppSymbol *conversion;
+    if (flags & 1) return 0;
+    conversion = find_user_conversion(target, source, rank);
+    record_user_conversion(context, conversion, target, *rank);
+    return 1;
+}
+
+/* Original 0x63e60..0x63f31. Consider a destination constructor and a source
+   conversion operator; simultaneous successes are ambiguous. */
+CppSymbol *__stdcall find_user_conversion(CType *target, CType *source, unsigned *rank)
+{
+    CppSymbol *constructor, *conversion;
+    unsigned constructor_rank, conversion_rank;
+    *rank = 0;
+    if ((target->flags & 0x400) && !target->related) {
+        constructor = find_class_conversion(target, source, &constructor_rank);
+        if (!is_class_or_reference_type(source)) {
+            *rank = constructor_rank;
+            return constructor;
+        }
+        conversion = find_source_conversion(cpp_context_stack->items[source->field08],
+            target, &conversion_rank);
+        if (constructor) {
+            if (!conversion) {
+                *rank = constructor_rank;
+                return constructor;
+            }
+            *rank = 0x3000;
+            return 0;
+        }
+        if (conversion) {
+            *rank = conversion_rank;
+            return conversion;
+        }
+    } else if ((source->flags & 0x400) && !source->related)
+        return find_source_conversion(cpp_context_stack->items[source->field08], target, rank);
+    *rank = 0x2000;
+    return 0;
+}
+
+/* Original 0x63d70..0x63e54. Rank a converting constructor with synthetic
+   type-only operands; their self-links form one-element circular lists. */
+CppSymbol *__stdcall find_class_conversion(CType *target, CType *source, unsigned *rank)
+{
+    CppSymbol *constructors, *selected;
+    IrToken *object, *argument;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    constructors = find_constructor_overloads(cpp_context_stack->items[target->field08]);
+    if (!constructors) {
+        *rank = 0x2000;
+        return 0;
+    }
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    object = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    object->flags = 2;
+    object->type = make_pointer_to_type(0, target);
+    object->linkage.list_head = object;
+    object->tail.right = object;
+    object->value.pointer = object;
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    argument = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    argument->flags = 2;
+    argument->type = source;
+    argument->linkage.list_head = argument;
+    argument->tail.right = argument;
+    argument->value.pointer = argument;
+    selected = resolve_function_overload(constructors, object, argument, 1, 4);
+    if (!selected) {
+        *rank = 0x3000;
+        return 0;
+    }
+    *rank = 0x200;
+    return selected;
+}
+
+/* Original 0x30a80..0x30ae2. Locate the visible constructor overload set
+   in source-order class members, skipping hidden declarations. */
+CppSymbol *__stdcall find_constructor_overloads(CppSymbol *tag)
+{
+    CppSymbol *member;
+    for (member = tag->auxiliary.scope_members; member; member = member->next)
+        if ((member->kind & 31) == 17 && !(member->flags & 0x80) &&
+            (member->declaration_flags & 0x1000)) return member;
+    return 0;
+}
+
+/* Original 0x66a40..0x66a7c. A bare class or a single reference to it. */
+int __stdcall is_class_or_reference_type(CType *type)
+{
+    TypeShape *shape;
+    if (!(type->flags & 0x400)) return 0;
+    shape = type->related;
+    if (!shape) return 1;
+    if (!(shape->flags & 0x40)) return 0;
+    return shape->related == 0;
 }

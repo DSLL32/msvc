@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_coarse_conversion_rank@4",
+    "start": 482912,
+    "end": 482992
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_compare_candidate_ranks@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.26007463876158,
+  "total_operation_seconds": 5.586590294726193,
+  "original_capture_seconds": 4.627581428736448
+}

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include "call-expressions.h"
+#include "constructor-initializers.h"
 #include "class-lookup.h"
 #include "member-expressions.h"
 #include "operators.h"
@@ -377,4 +378,237 @@ unsigned __stdcall rank_call_argument_count(TypeShape *function, unsigned count)
     if (required == count) return 0x800;
     if (count > required) return variadic ? 0x400 : 0x200e;
     return (unsigned)parameters->default_count + count < required ? 0x200f : 0x800;
+}
+
+/* Original 0x76240..0x763fb. Rank the implicit object separately, then walk
+   the circular argument list in lockstep with each candidate's formal types. */
+int __stdcall rank_overload_arguments(OverloadSearch *search, IrToken *object, IrToken *arguments)
+{
+    OverloadCandidate *candidate;
+    OverloadArgumentRank *entry;
+    IrToken *argument;
+    unsigned index, number, mode, rank;
+    for (candidate = search->candidates; candidate; candidate = candidate->next) {
+        number = 1;
+        index = 0;
+        entry = candidate->ranks;
+        if (object) {
+            set_overload_phase(search, 2);
+            if (!candidate->this_type) entry->rank = 1;
+            else {
+                mode = (search->flags & 4) ? 3 : 2;
+                entry->parameter_type = candidate->this_type;
+                if ((object->type->attributes & 0x3000) && candidate->function &&
+                    (candidate->function->declaration_flags & 0x3000))
+                    object->type = remove_type_qualifiers(object->type, 0x3000);
+                entry->rank = rank = classify_expression_conversion(candidate->this_type, object, mode, 0);
+                if (rank & 0x2000) {
+                    if (reject_overload_candidate(candidate, search, object)) return 0;
+                    continue;
+                }
+            }
+            index = 1;
+            ++entry;
+        } else if (candidate->flags & 4) {
+            index = 1;
+            ++entry;
+        }
+        argument = arguments;
+        while (index < search->argument_count) {
+            mode = (search->flags & 4) ? 3 : 2;
+            argument = argument->linkage.list_head;
+            if (!argument->value.pointer) return 0;
+            set_overload_phase(search, 3, number);
+            candidate->current_parameter = *candidate->parameter_cursor;
+            entry->parameter_type = *candidate->parameter_cursor;
+            entry->rank = rank = classify_expression_conversion(*candidate->parameter_cursor,
+                argument->value.pointer, mode, 0);
+            if (rank & 0x2000) {
+                if (reject_overload_candidate(candidate, search, argument->value.pointer)) return 0;
+                break;
+            }
+            if (rank == 0x400) {
+                candidate->flags |= 0x40;
+                break;
+            }
+            ++index;
+            ++number;
+            ++entry;
+            ++candidate->parameter_cursor;
+        }
+    }
+    return 1;
+}
+
+/* Original 0x76790..0x767f1. Unlink a rejected candidate without freeing
+   its shared storage. Exhaustion diagnoses the failure and releases the search. */
+int __stdcall reject_overload_candidate(OverloadCandidate *candidate,
+    OverloadSearch *search, IrToken *argument)
+{
+    candidate->flags |= 8;
+    if (search->candidates == candidate) search->candidates = candidate->next;
+    if (candidate->next) candidate->next->previous = candidate->previous;
+    if (candidate->previous) candidate->previous->next = candidate->next;
+    if (!(candidate->flags & 1)) --search->viable_count;
+    if (search->viable_count) return 0;
+    diagnose_overload_failure(candidate, search, argument);
+    destroy_overload_search(search);
+    return 1;
+}
+
+/* Original 0x76700..0x76786. Select the remaining declaration or resolve
+   ties, preserving the caller's diagnostic callback and failure cleanup. */
+OverloadCandidate *__stdcall select_overload_candidate(OverloadSearch *search,
+    unsigned *rank, OverloadFailure failure)
+{
+    OverloadCandidate *candidate;
+    if (search->viable_count != 1) {
+        if (!prune_overload_candidates(search, 4, 1)) {
+            if (rank) *rank = 0x600c;
+            return 0;
+        }
+        if (search->viable_count != 1) {
+            candidate = resolve_overload_tie(search);
+            if (candidate) {
+                if (rank) *rank = 0x600d;
+                return candidate;
+            }
+            candidate = failure(search);
+            if (!candidate) {
+                if (rank) *rank = 0x7000;
+                destroy_overload_search(search);
+            }
+            return candidate;
+        }
+    }
+    return first_active_overload(search->candidates);
+}
+
+/* Original 0x75cf0..0x75d0a. A selected list contains at least one
+   candidate whose deferred-elimination bit is clear. */
+OverloadCandidate *__stdcall first_active_overload(OverloadCandidate *candidate)
+{
+    while (candidate->flags & 1) candidate = candidate->next;
+    return candidate;
+}
+
+/* Original 0x76840..0x7685d. Candidate and rank storage share one allocation. */
+void __stdcall destroy_overload_search(OverloadSearch *search)
+{
+    free(search->storage);
+    free(search);
+}
+
+/* Original 0x75e30..0x75e5a. A NULL context requests only the rank. */
+void __stdcall record_user_conversion(OverloadCandidate *context, CppSymbol *conversion,
+    CType *target, unsigned rank)
+{
+    OverloadArgumentRank *entry;
+    if (context) {
+        entry = &context->ranks[context->conversion_index];
+        entry->conversion = conversion;
+        entry->parameter_type = target;
+        entry->rank = rank;
+    }
+}
+
+/* Original 0x76400..0x7654d. Compare candidates one argument at a time,
+   deferring weaker ranks and permanently rejecting ellipsis-only losers. */
+int __stdcall prune_overload_candidates(OverloadSearch *search, unsigned char phase, int mode)
+{
+    OverloadCandidate *best, *candidate, *prior;
+    unsigned index, best_rank, rank;
+    int order;
+    search->field2c = 0;
+    for (index = 0; index < search->argument_count; ++index) {
+        best = search->candidates;
+        best_rank = candidate_argument_rank(best, index, mode);
+        set_overload_phase(search, phase, index);
+        for (candidate = best->next; candidate; candidate = candidate->next) {
+            rank = candidate_argument_rank(candidate, index, mode);
+            order = compare_candidate_ranks(rank, candidate, best_rank, best, index);
+            if (order < 0) {
+                if (rank == 0x400) {
+                    if (reject_overload_candidate(candidate, search, 0)) return 0;
+                } else if (!(candidate->flags & 1) && defer_overload_candidate(candidate, search))
+                    return 0;
+            } else if (order > 0) {
+                for (prior = search->candidates; prior != candidate; prior = prior->next) {
+                    if (best_rank == 0x400) {
+                        if ((prior->flags & 0x40) && reject_overload_candidate(prior, search, 0))
+                            return 0;
+                    } else if (!(prior->flags & 1) && defer_overload_candidate(prior, search))
+                        return 0;
+                }
+                best_rank = rank;
+                best = candidate;
+            }
+        }
+    }
+    return search->viable_count != 0;
+}
+
+/* Original 0x76550..0x76570. First-pass comparison uses coarse rank groups. */
+unsigned __stdcall candidate_argument_rank(OverloadCandidate *candidate, unsigned index, int mode)
+{
+    unsigned rank = candidate->ranks[index].rank;
+    return mode ? coarse_conversion_rank(rank) : rank;
+}
+
+/* Original 0x75e60..0x75eaf. Standard adjustments share a broad group;
+   distance/base conversions and user conversions have their own groups. */
+unsigned __stdcall coarse_conversion_rank(unsigned rank)
+{
+    unsigned group = rank & ~1U;
+    if (group == 2 || group == 4 || group == 8) return 1;
+    group = rank & ~15U;
+    if (group == 0x40 || group == 0x80 || group == 0x100) return 0x20;
+    if (rank & 0x200) return 0x200;
+    return rank;
+}
+
+/* Original 0x76580..0x7668f. Lower ranks are better. Equal derived/base
+   ranks compare the formal classes to choose the more specific conversion. */
+int __stdcall compare_candidate_ranks(unsigned left_rank, OverloadCandidate *left,
+    unsigned right_rank, OverloadCandidate *right, unsigned index)
+{
+    CType *left_type, *right_type;
+    CppSymbol *left_class, *right_class;
+    if (left_rank < right_rank) return 1;
+    if (right_rank < left_rank) return -1;
+    if (!(left_rank & 0x40)) return 0;
+    left_type = left->ranks[index].parameter_type;
+    if (!left_type->field08) return 0;
+    right_type = right->ranks[index].parameter_type;
+    if (!right_type->field08 || right_type->field08 == left_type->field08) return 0;
+    left_class = cpp_context_stack->items[left_type->field08];
+    right_class = cpp_context_stack->items[right_type->field08];
+    if (lookup_class_name(left_class, right_class->name, 1, 0)) return 1;
+    if (lookup_class_name(right_class, left_class->name, 1, 0)) return -1;
+    return 0;
+}
+
+/* Original 0x76800..0x7683d. Keep deferred candidates linked for the
+   second pass, but remove them from the viable count exactly once. */
+int __stdcall defer_overload_candidate(OverloadCandidate *candidate, OverloadSearch *search)
+{
+    if (!(candidate->flags & 1)) {
+        candidate->flags |= 1;
+        if (!--search->viable_count) {
+            diagnose_overload_failure(candidate, search, 0);
+            destroy_overload_search(search);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* Original 0x32080..0x3209c. Rebind a qualified overload reference before
+   applying the normal member-access check to the chosen declaration. */
+void __stdcall bind_selected_overload(QualifiedDeclarator *reference, CppSymbol *function)
+{
+    if (reference) {
+        reference->resolution->binding->target = (ClassReference *)function;
+        check_qualified_member_access(reference);
+    }
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.67955812625587,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-converting-constructor-search-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 8.07403243239969,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-converting-constructor-search-canonical.log"
+  }
+]

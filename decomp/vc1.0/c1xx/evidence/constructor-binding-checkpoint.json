@@ -1,0 +1,12 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "status": 0,
+  "seconds": 4.552497578784823,
+  "log": "/root/.ai-tmp/vc1.0-c1xx/queue-constructor-binding-checkpoint.log"
+}

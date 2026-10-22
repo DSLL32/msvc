@@ -7,6 +7,7 @@
 
 typedef struct CType CType;
 typedef struct CppSymbol CppSymbol;
+typedef struct OverloadCandidate OverloadCandidate;
 typedef struct IrToken {
     unsigned char kind, flags;
     unsigned short field02;
