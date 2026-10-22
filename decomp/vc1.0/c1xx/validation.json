@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 312,
-  "driver_functions": 237,
+  "accepted_frontiers": 320,
+  "driver_functions": 245,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 243,
-  "current_frontier": "_create_implicit_special_member@20",
-  "original_frontier_va": "0x374d0",
+  "reconstructed_source_functions": 251,
+  "current_frontier": "_compare_declaration_parameters@8",
+  "original_frontier_va": "0x3a2d0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "6475d0a25823c0f9c83b1ecded91d4fb0a05e35f9518fc7c690e54418e9a3f0a",
-  "call_graph_audit_functions": 243,
+  "replay_log_sha256": "a934ab591029eb3ce531dc80f747d777b4283b48e1fb0810c92059bfe57cf5eb",
+  "call_graph_audit_functions": 251,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -88,7 +88,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-special-member-classification.log",
+  "replay_log": "evidence/replay-copy-overload.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -305,7 +305,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 100167,
+  "accepted_source_text_and_switch_bytes": 103144,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -424,5 +424,39 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "c0cac73d6057ed100b74fba96e5e8dbb62e1e7466eecde7aae740e928e3ff5fa"
+  "replay_build_text_sha256": "481efc6be7009704bf1bcab3103cc390098adabc1a3b9f21a85e198e276393ee",
+  "implicit_member_overloads": {
+    "evidence": "evidence/implicit-member-overloads.txt",
+    "creator_range": [
+      "0x374d0",
+      "0x37748"
+    ],
+    "creator_callees": 12,
+    "copy_parameter_range": [
+      "0x37820",
+      "0x3797f"
+    ],
+    "reference_merger_range": [
+      "0x49140",
+      "0x492e9"
+    ],
+    "reference_merger_stack_bytes": 24,
+    "replacement_shape_range": [
+      "0x62380",
+      "0x62490"
+    ],
+    "replacement_shape_workspace": "0x98170",
+    "overload_binding_range": [
+      "0x55c80",
+      "0x55e42"
+    ],
+    "overload_binding_callees": 14,
+    "overload_matching_range": [
+      "0x3a6e0",
+      "0x3a9ac"
+    ],
+    "overload_matching_callees": 10,
+    "diagnostic_string_arguments": 6,
+    "full_ordered_replay_pass": true
+  }
 }

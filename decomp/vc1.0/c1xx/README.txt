@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 312 accepted paired frontiers, including 237 frontend
+PARTIAL reconstruction: 320 accepted paired frontiers, including 245 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _create_implicit_special_member@20 at original VA 0x374d0. The latest ordered replay is recorded in validation.json;
+trap is _compare_declaration_parameters@8 at original VA 0x3a2d0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -480,3 +480,17 @@ All 312 accepted frontiers replay exactly in evidence/replay-special-member-clas
 including pending FILE buffers. The matched next trap is implicit-member creation
 at 0x374d0 (copy constructor for this case). Accepted source/table ranges total
 100,167 original text bytes; complete-case equivalence is still unclaimed.
+
+
+Implicit declarator creation and copy parameters now pass, retaining all seven
+creator switch branches, the interned generated names, circular parameter links
+and the reference merger's two eight-byte aggregate arguments. Shape replacement
+preserves its contextual mutable prefix; the shared workspace defaults and
+address are audited. The full overload binder and matcher preserve their 14 and
+10 original callees, return/parameter distinctions and diagnostic arguments.
+Details and ABI findings are in evidence/implicit-member-overloads.txt.
+
+All 320 accepted frontiers replay exactly in evidence/replay-copy-overload.log,
+including pending FILE buffers. The next matching trap compares declaration
+parameter lists at 0x3a2d0. Accepted source/table ranges total 103,144 original
+text bytes; the complete frontend case remains partial.
