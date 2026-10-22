@@ -446,3 +446,23 @@ char *find_library_file(const char *name,const char *default_extension,ArgumentL
     }
     return duplicate_string(name);
 }
+
+void apply_section_merges(Image *image)
+{
+    Argument *argument=section_merges.first;
+    Section *source,*destination;
+    char *separator;
+    unsigned short index;
+    for (index=0;index<section_merges.count;++index) {
+        if (!_strnicmp(argument->text,"merge:",6)) {
+            separator=strchr(argument->text+6,'=');
+            if (!separator) fatal_message(program_name,0x14,argument->text);
+            *separator++=0;
+            source=find_section_by_name(argument->text+6,&image->sections);
+            if (!source) warning_message(program_name,0x6e,source,"(-merge)");
+            destination=create_section(separator,source->characteristics,&image->sections,&image->optional);
+            merge_sections(source,destination);
+        }
+        argument=argument->next;
+    }
+}

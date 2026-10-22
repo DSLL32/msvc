@@ -55,8 +55,8 @@ void pass_one(Image *image)
         resolve_weak_externals(image->symbols,0x4080);
         if (weak_symbol_count) resolve_weak_externals(image->symbols,0x40);
     }
-    apply_section_overrides(image);
-    apply_section_merges(image);
+    order_import_contributions(image);
+    apply_order_file(image);
     if (tool_kind==1) {
         initialize_library_enumerator(&libraries,image->libraries.first);
         while (next_library(&libraries)) {
@@ -194,7 +194,7 @@ void infer_subsystem(Image *image)
         if (!image->optional.MajorSubsystemVersion && !image->optional.MinorSubsystemVersion)
             set_subsystem_version(&image->optional);
         if (!entry_point) select_entry_point(image,1);
-        if (unused) unused->flags |= 0x100;
+        if (unused) unused->flags |= EXTERNAL_IGNORED;
         infer_entry_point=0;
     }
 }
@@ -278,8 +278,8 @@ void search_library_members(Image *image,Library *library,unsigned char *changed
     initialize_undefined_enumerator(&symbols,image->symbols);
     while (next_undefined(&symbols)) {
         external=symbols.current;
-        if ((external->flags&0x100) || external->symbol.SectionNumber ||
-            external->symbol.Value || (external->flags&0x4040)) continue;
+        if ((external->flags&EXTERNAL_IGNORED) || external->symbol.SectionNumber ||
+            external->symbol.Value || (external->flags&(EXTERNAL_WEAK|EXTERNAL_ALIAS))) continue;
         if (external->symbol.N.Name.Short)
             name=strncpy(short_symbol_name,(char *)&external->symbol,8);
         else name=image->symbols->strings.data+external->symbol.N.Name.Long;

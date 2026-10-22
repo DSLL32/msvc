@@ -1,6 +1,6 @@
 /* Input modules and libraries, output sections, and sorted contribution groups. */
 #include "modules.h"
-#pragma intrinsic(strcat)
+#pragma intrinsic(strcat,strcmp)
 extern unsigned char mac_image, mac_small_model;
 void (*module_error)(char *,int,char *);
 char split_section_name[9], split_group_name[9];
@@ -389,4 +389,91 @@ unsigned char next_contribution(ContributionEnumerator *scan)
     }
     scan->current=NULL;
     return 0;
+}
+
+Section *find_section_by_name(const char *name,SectionList *sections)
+{
+    SectionEnumerator scan;
+    Section *section=NULL;
+    initialize_section_enumerator(&scan,sections);
+    while (next_section(&scan)) {
+        if (!strncmp(scan.current->name,name,8)) {
+            section=scan.current;
+            end_section_enumerator(&scan);
+            break;
+        }
+    }
+    return resolve_section(section);
+}
+
+void sort_contributions_by_module(Group *group)
+{
+    GroupContributionEnumerator scan;
+    Contribution **sorted;
+    unsigned long index=0;
+    sorted=malloc(group->contribution_count*sizeof(*sorted));
+    if (!sorted) module_error(NULL,5,"");
+    initialize_group_contribution_enumerator(&scan,group);
+    while (next_group_contribution(&scan)) sorted[index++]=scan.current;
+    qsort(sorted,group->contribution_count,sizeof(*sorted),compare_contribution_module_names);
+    for (index=0;index<group->contribution_count-1;++index)
+        sorted[index]->next=sorted[index+1];
+    group->first=sorted[0];
+    sorted[group->contribution_count-1]->next=NULL;
+    free(sorted);
+}
+
+void initialize_group_contribution_enumerator(GroupContributionEnumerator *scan,Group *group)
+{
+    scan->next=next_group_contribution;
+    scan->end=end_group_contribution_enumerator;
+    scan->group=group;
+    scan->current=NULL;
+}
+
+unsigned char next_group_contribution(GroupContributionEnumerator *scan)
+{
+    if (!scan->current) scan->current=scan->group->first;
+    else scan->current=scan->current->next;
+    return scan->current!=NULL;
+}
+
+int compare_contribution_module_names(const void *left,const void *right)
+{
+    const Contribution *a=*(const Contribution *const *)left;
+    const Contribution *b=*(const Contribution *const *)right;
+    return strcmp(a->module->path,b->module->path);
+}
+
+void move_contribution_to_module_tail(Contribution *contribution)
+{
+    Contribution **link=&contribution->group->first;
+    Contribution *tail=contribution,*current=contribution;
+    while (*link!=contribution) link=&(*link)->next;
+    while (current && !strcmp(tail->module->path,current->module->path)) {
+        tail=current;
+        current=current->next;
+    }
+    if (tail!=contribution) {
+        *link=contribution->next;
+        contribution->next=tail->next;
+        tail->next=contribution;
+    }
+}
+
+void merge_sections(Section *source,Section *destination)
+{
+    Group **link;
+    if (destination==source) return;
+    link=&destination->groups;
+    while (*link) link=&(*link)->next;
+    *link=source->groups;
+    while (*link) {
+        (*link)->section=destination;
+        link=&(*link)->next;
+    }
+    destination->merge_count+=source->merge_count;
+    source->merge_count=0;
+    source->groups=NULL;
+    source->merge=destination;
 }

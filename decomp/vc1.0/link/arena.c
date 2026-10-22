@@ -44,3 +44,11 @@ void *allocate_pool_block(unsigned long size)
     pool_remaining=pool_capacity-size;
     return pool_block;
 }
+
+void free_pointer(void **pointer)
+{
+    if (*pointer) {
+        free(*pointer);
+        *pointer=NULL;
+    }
+}

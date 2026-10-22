@@ -62,7 +62,8 @@ struct Section {
     unsigned long line_offset, relocation_offset, contribution_count, characteristics;
     unsigned long source_name_capacity;
     unsigned short line_count, index;
-    unsigned long mac_resource_id, mac_type, mac_attributes;
+    unsigned long mac_resource_id, mac_type;
+    unsigned short merge_count;
     Section *merge;
     Group *groups;
     Section *next;
@@ -101,6 +102,19 @@ typedef struct ModuleEnumerator {
     Module *current;
 } ModuleEnumerator;
 
+typedef struct GroupContributionEnumerator {
+    unsigned char (*next)(struct GroupContributionEnumerator *);
+    void (*end)(struct GroupContributionEnumerator *);
+    Group *group;
+    Contribution *current;
+} GroupContributionEnumerator;
+void initialize_group_contribution_enumerator(GroupContributionEnumerator *,Group *);
+unsigned char next_group_contribution(GroupContributionEnumerator *);
+void end_group_contribution_enumerator(GroupContributionEnumerator *);
+int compare_contribution_module_names(const void *,const void *);
+void sort_contributions_by_module(Group *);
+void move_contribution_to_module_tail(Contribution *);
+
 typedef struct ContributionEnumerator {
     unsigned char (*next)(struct ContributionEnumerator *);
     void (*end)(struct ContributionEnumerator *);
@@ -125,6 +139,8 @@ Contribution *create_contribution(const char *,unsigned long,unsigned short,
     unsigned short,unsigned long,unsigned long,unsigned long,unsigned long,
     unsigned long,unsigned long,Module *,unsigned char,SectionList *,IMAGE_OPTIONAL_HEADER *);
 Section *create_section(const char *,unsigned long,SectionList *,IMAGE_OPTIONAL_HEADER *);
+Section *find_section_by_name(const char *,SectionList *);
+void merge_sections(Section *,Section *);
 Section *find_section(const char *,unsigned long,SectionList *,IMAGE_OPTIONAL_HEADER *);
 Section *resolve_section(Section *);
 Group *create_group(const char *,Section *);

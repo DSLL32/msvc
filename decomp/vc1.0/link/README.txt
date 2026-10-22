@@ -11,8 +11,8 @@ to stderr. Both streams and status match the unmodified original byte for byte.
 The stdout SHA-256 is:
 957c1782d7ebeed2733e7596f4502ffb6ffd5ffc01858add77f54c7fb4b8dff4
 
-The ordered history contains 259 accepted frontiers. The active minimal-C link
-case stops in both programs at create_import_library, original address 0001f7f0.
+The ordered history contains 274 accepted frontiers. The active minimal-C link
+case stops in both programs at emit_externals, original address 00022890.
 It has not yet produced a validated executable. The hello-win32 link fixture
 is queued after minimal-C. The fixtures are shared, immutable inputs under
 ../fixtures; cases/ records the queue and exact invocation.
@@ -28,17 +28,19 @@ The original binary's entire code section is masked with INT3. The harness
 restores accepted function extents and runs both variants concurrently, asserting
 that each trap names the same logical function. The reconstruction's entry point
 and all unaccepted functions are masked as well. The clean parallel build and full
-case-aware replay passed at the 238-frontier archive-index checkpoint. The 21 later frontiers and affected
-COMDAT predecessors have been replayed, with exact help and the current minimal-C
+case-aware replay passed at the 238-frontier archive-index checkpoint. The 36 later frontiers and affected
+COMDAT and import-order predecessors have been replayed, with exact help and the current minimal-C
 frontier rechecked. These later
 minimal-C frontiers cover object symbols, undefined-reference iteration, subsystem
 and startup inference, library discovery and rescanning, and archive index/header
 reads. Library member extraction, relocation reachability edges, common-symbol
 registration, and import marking have since been reconstructed and replayed.
+The optional import-library driver, module-based import ordering, section merge
+directives, and local import alias construction now have readable C bodies too.
 
 The static audits compare direct calls, tail calls, indirect-call presence, and
-relocated callback references. The current all-C build checks 156 source/runtime
-call graphs, 147 source callback-reference sets, and 175 contextual data objects.
+relocated callback references. The current all-C build checks 169 source/runtime
+call graphs, 160 source callback-reference sets, and 176 contextual data objects.
 These checks and the frontier replay cover the reached paths; pending helpers
 still trap, and unexecuted output-format branches need later case coverage.
 

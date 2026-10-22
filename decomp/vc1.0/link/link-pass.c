@@ -57,7 +57,9 @@ int link_passes(Image *image,unsigned char *pack)
     unsigned long code_file_end,data_file_end,coff_lines=0,coff_lines_size=0;
     unsigned long symbol_start=0,string_start=0,string_size=0,coff_size=0,coff_prefix=0;
     unsigned long debug_end,saved_position,fpo_entries,padding,bytes,rounded;
-    unsigned long externals_begin,externals_end,value,signature;
+    Contribution *local_imports;
+    ExternalLink *import_aliases;
+    unsigned long value,signature;
     unsigned char created,flags,failed;
     void *zeroes,*fpo;
     char *full_name;
@@ -95,7 +97,7 @@ int link_passes(Image *image,unsigned char *pack)
         map_stream=fopen(map_filename,"wt");
         if (!map_stream) fatal_message(program_name,7,map_filename);
     }
-    allocate_common_symbols(image);
+    apply_section_merges(image);
     bss_contribution->raw_size+=bss_size;
     if (mac_image) mac_far_bss->raw_size+=mac_far_bss_offset;
     header_symbol=lookup_external(image->symbols,1,"header",&created,&flags);
@@ -116,7 +118,7 @@ int link_passes(Image *image,unsigned char *pack)
         read_absolute_symbols(absolute_symbols_file,sorted_externals,image->symbols);
     }
     if (entry_symbol && !(entry_symbol->flags&1)) resolve_entry_symbol(image->symbols);
-    collect_symbol_layout(image,&externals_begin,&externals_end);
+    resolve_local_imports(image,&local_imports,&import_aliases);
     emit_externals(image->symbols,0,0,1,&image->options);
     if (undefined_symbols && !image->options.force) {
         fatal_message(output_name,0x17,undefined_symbols);
@@ -391,7 +393,7 @@ int link_passes(Image *image,unsigned char *pack)
     if (!zeroes) out_of_memory();
     padding=(header_last/header->FileAlignment+1)*header->FileAlignment-header_end;
     if (padding) write_file(output_file,zeroes,padding);
-    assign_external_addresses(externals_begin,&externals_end,header,&image->options);
+    assign_external_addresses(local_imports,&import_aliases,header,&image->options);
     if (end_symbol) {
         end_symbol->symbol.Value=data_rva-header->ImageBase;
         end_symbol->value.final_value=data_rva;

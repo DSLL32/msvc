@@ -1090,5 +1090,11 @@
     "address": 503356,
     "size": 1,
     "owner": "coff-io.c"
+  },
+  {
+    "name": "order_enabled",
+    "address": 500024,
+    "size": 1,
+    "owner": "ordering.c"
   }
 ]

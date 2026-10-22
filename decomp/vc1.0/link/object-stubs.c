@@ -17,3 +17,4 @@ void format_input_reference(char *display,const char *library,const char *file) 
 void process_weak_external(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBOL symbol,External *external,Module *module,unsigned char *new_externals,unsigned char created,unsigned char *imports,unsigned short member) { __asm { int 3 } }
 unsigned read_coff_symbol(int file,PIMAGE_SYMBOL symbol) { __asm { int 3 } return 0; }
 void expand_hash(HashTable *table,void *context) { __asm { int 3 } }
+void format_undefined_references(TextBuffer *buffer,External *external) { __asm { int 3 } }

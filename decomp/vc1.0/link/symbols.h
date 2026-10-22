@@ -13,6 +13,8 @@ typedef struct ModuleReference { Module *module; struct ModuleReference *next; }
 #define EXTERNAL_MULTIPLE_REFERENCES 0x1000
 #define EXTERNAL_WEAK 0x40
 #define EXTERNAL_LAZY 0x80
+#define EXTERNAL_ALIAS 0x4000
+#define EXTERNAL_IGNORED 0x100
 #define LINK_SYM_CLASS_FAR_EXTERNAL 0x44
 struct External {
     IMAGE_SYMBOL symbol;
@@ -64,6 +66,7 @@ struct SymbolTable {
     External **undefined_tail;
 };
 
+void format_undefined_references(TextBuffer *,External *);
 unsigned long intern_symbol_name(SymbolTable *,const char *);
 unsigned long hash_bucket(const char *,HashTable *);
 void expand_hash(HashTable *,void *);

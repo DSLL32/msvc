@@ -258,7 +258,22 @@
     "_read_optional_header",
     "_mark_import_contributions",
     "_initialize_contribution_enumerator",
-    "_next_contribution"
+    "_next_contribution",
+    "_create_import_library",
+    "_order_import_contributions",
+    "_find_section_by_name",
+    "_sort_contributions_by_module",
+    "_initialize_group_contribution_enumerator",
+    "_next_group_contribution",
+    "_qsort",
+    "_swap",
+    "_compare_contribution_module_names",
+    "_move_contribution_to_module_tail",
+    "_apply_order_file",
+    "_free_pointer",
+    "_apply_section_merges",
+    "_merge_sections",
+    "_resolve_local_imports"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -930,12 +945,13 @@
       "abi": "cdecl void(SymbolTable *table)"
     },
     {
-      "name": "_allocate_common_symbols",
+      "name": "_apply_section_merges",
       "start": 106064,
-      "end": 106065,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 106288,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching minimal-C frontier provisionally called allocate_common_symbols; full19e50..19f30 actually parses merge: directives, finds/creates sections, and merges them. Missing-source warning followed by dereference is retained."
     },
     {
       "name": "_count_modules",
@@ -1019,12 +1035,13 @@
       "abi": "cdecl void(SymbolTable *table)"
     },
     {
-      "name": "_collect_symbol_layout",
+      "name": "_resolve_local_imports",
       "start": 130576,
-      "end": 130577,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image,unsigned long *first,unsigned long *last)"
+      "end": 131168,
+      "implementation": "C",
+      "source": "imports.c",
+      "abi": "cdecl void(Image *image,Contribution **storage,ExternalLink **aliases)",
+      "evidence": "Matching minimal-C frontier provisionally called collect_symbol_layout; full1fe10..20060 resolves locally defined __imp_ references, creates synthetic pointer slots, and records alias/definition pairs."
     },
     {
       "name": "_assign_external_addresses",
@@ -1032,7 +1049,7 @@
       "end": 131169,
       "implementation": "stub-C",
       "source": "link-pass-stubs.c",
-      "abi": "cdecl void(unsigned long first,unsigned long *last,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options)"
+      "abi": "cdecl void(Contribution *storage,ExternalLink **aliases,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options)"
     },
     {
       "name": "_layout_sections",
@@ -1322,10 +1339,11 @@
     {
       "name": "_find_section_by_name",
       "start": 243360,
-      "end": 243361,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl Section *(const char *name,SectionList *sections)"
+      "end": 243472,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl Section *(const char *name,SectionList *sections)",
+      "evidence": "Matching minimal-C import-order frontier; eight-character section lookup followed by merge resolution3b6a0..3b710."
     },
     {
       "name": "_find_section",
@@ -1519,20 +1537,22 @@
       "abi": "cdecl void *allocate_arena(ArenaBlock **arena,unsigned long size)"
     },
     {
-      "name": "_apply_section_merges",
+      "name": "_apply_order_file",
       "start": 96896,
-      "end": 96897,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 96944,
+      "implementation": "C",
+      "source": "ordering.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching minimal-C frontier provisionally called apply_section_merges; full17a80..17ab0 actually gates user order-file application with debug flag24 and order_enabled."
     },
     {
-      "name": "_apply_section_overrides",
+      "name": "_order_import_contributions",
       "start": 107408,
-      "end": 107409,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 107712,
+      "implementation": "C",
+      "source": "imports.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching minimal-C frontier originally provisionally called apply_section_overrides; full1a390..1a4c0 actually sorts .idata groups and moves marked terminating thunks to their module tails."
     },
     {
       "name": "_search_libraries",
@@ -1581,18 +1601,20 @@
     {
       "name": "_create_import_library",
       "start": 129008,
-      "end": 129009,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl unsigned char(Image *image,const char *library,const char *tool)"
+      "end": 130144,
+      "implementation": "C",
+      "source": "exports.c",
+      "abi": "cdecl unsigned char(Image *image,const char *definition,const char *tool)",
+      "evidence": "Matching minimal-C frontier; full optional import-library driver1f7f0..1fc60. Disassembly and private Ghidra analysis establish offset-based argv buffer, export filtering, spawnvp, and generated .exp input."
     },
     {
       "name": "_free_pointer",
       "start": 221808,
-      "end": 221809,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(void **pointer)"
+      "end": 221840,
+      "implementation": "C",
+      "source": "arena.c",
+      "abi": "cdecl void(void **pointer)",
+      "evidence": "Matching minimal-C pass-one cleanup frontier; free and clear a non-NULL owned pointer36270..36290."
     },
     {
       "name": "_create_library",
@@ -2503,6 +2525,84 @@
       "implementation": "stub-C",
       "source": "module-stubs.c",
       "abi": "cdecl void(ContributionEnumerator *scan)"
+    },
+    {
+      "name": "_sort_contributions_by_module",
+      "start": 244688,
+      "end": 244896,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(Group *group)",
+      "evidence": "Matching minimal-C import-order frontier; collect, qsort by module path, and relink group contributions3bbd0..3bca0."
+    },
+    {
+      "name": "_move_contribution_to_module_tail",
+      "start": 244960,
+      "end": 245088,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(Contribution *contribution)",
+      "evidence": "Matching minimal-C import-order frontier; splice contribution behind the contiguous run with the same module path3bce0..3bd60."
+    },
+    {
+      "name": "_initialize_group_contribution_enumerator",
+      "start": 245696,
+      "end": 245728,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(GroupContributionEnumerator *scan,Group *group)",
+      "evidence": "Matching minimal-C import-sort frontier; live linked contribution iterator setup3bfc0..3bfe0."
+    },
+    {
+      "name": "_next_group_contribution",
+      "start": 245728,
+      "end": 245776,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl unsigned char(GroupContributionEnumerator *scan)",
+      "evidence": "Matching minimal-C import-sort frontier; traverse live next links so relinking remains visible3bfe0..3c010."
+    },
+    {
+      "name": "_end_group_contribution_enumerator",
+      "start": 245776,
+      "end": 245777,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(GroupContributionEnumerator *scan)"
+    },
+    {
+      "name": "_compare_contribution_module_names",
+      "start": 244896,
+      "end": 244960,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl int(const void *left,const void *right)",
+      "evidence": "Matching minimal-C qsort callback frontier; contribution module-path comparison3bca0..3bce0."
+    },
+    {
+      "name": "_reorder_code_contributions",
+      "start": 96944,
+      "end": 96945,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(Image *image)"
+    },
+    {
+      "name": "_merge_sections",
+      "start": 243680,
+      "end": 243776,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(Section *source,Section *destination)",
+      "evidence": "Matching minimal-C merge frontier; append groups/update owners, transfer WORD merge_count, and alias source3b7e0..3b840. Section field38 is a WORD here, replacing the provisional DWORD mac_attributes field."
+    },
+    {
+      "name": "_format_undefined_references",
+      "start": 154320,
+      "end": 154321,
+      "implementation": "stub-C",
+      "source": "object-stubs.c",
+      "abi": "cdecl void(TextBuffer *buffer,External *external)"
     }
   ],
   "c_stub_references": [
@@ -2599,6 +2699,21 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

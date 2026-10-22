@@ -369,8 +369,8 @@ void define_external(External *external,Contribution *contribution,unsigned long
                      short section,unsigned short type,unsigned short member,SymbolTable *table)
 {
     set_external_defined(external,1,table);
-    if (external->flags&0x40c0) {
-        external->flags &= ~0x40c0;
+    if (external->flags&(EXTERNAL_WEAK|EXTERNAL_LAZY|EXTERNAL_ALIAS)) {
+        external->flags &= ~(EXTERNAL_WEAK|EXTERNAL_LAZY|EXTERNAL_ALIAS);
         external->symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
         --weak_symbol_count;
     }

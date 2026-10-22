@@ -1,13 +1,10 @@
 /* Output operations not yet entered by accepted frontiers. */
 #include "link-pass.h"
 char * replace_extension(const char *name,const char *extension) { __asm { int 3 } return 0; }
-void allocate_common_symbols(Image *image) { __asm { int 3 } }
 void sort_externals(SymbolTable *table) { __asm { int 3 } }
 void read_absolute_symbols(const char *file,External **sorted,SymbolTable *table) { __asm { int 3 } }
 void resolve_entry_symbol(SymbolTable *table) { __asm { int 3 } }
-void collect_symbol_layout(Image *image,unsigned long *first,unsigned long *last) { __asm { int 3 } }
 void emit_externals(SymbolTable *table,unsigned char output,unsigned char all,unsigned char define,ImageOptions *options) { __asm { int 3 } }
-Section * find_section_by_name(const char *name,SectionList *sections) { __asm { int 3 } return 0; }
 void initialize_mac_resources(void) { __asm { int 3 } }
 void initialize_mac_exports(void) { __asm { int 3 } }
 unsigned short count_output_sections(Image *image) { __asm { int 3 } return 0; }
@@ -33,7 +30,7 @@ void pad_contribution(Contribution *contribution) { __asm { int 3 } }
 void write_section_headers(unsigned long mask,unsigned long *state,unsigned long *rva,Image *image) { __asm { int 3 } }
 void make_section_header(Section *section,IMAGE_SECTION_HEADER *header) { __asm { int 3 } }
 void write_section_header(int file,IMAGE_SECTION_HEADER *header) { __asm { int 3 } }
-void assign_external_addresses(unsigned long first,unsigned long *last,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options) { __asm { int 3 } }
+void assign_external_addresses(Contribution *storage,ExternalLink **aliases,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options) { __asm { int 3 } }
 unsigned long count_modules(Library *libraries) { __asm { int 3 } return 0; }
 void finalize_mac_fixups(void) { __asm { int 3 } }
 void write_mac_debug(Image *image) { __asm { int 3 } }
