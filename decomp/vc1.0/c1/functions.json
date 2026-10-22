@@ -356,7 +356,21 @@
     "_compatible_storage_modifiers@8",
     "_compatible_declaration_attributes@12",
     "_commit_redeclaration@8",
-    "_merge_storage_modifiers@8"
+    "_merge_storage_modifiers@8",
+    "_read_macro_parameters",
+    "_undefine_source_macro",
+    "_scan_macro_argument_identifier@4",
+    "_scan_macro_identifier",
+    "__chkstk",
+    "_finish_array_declarator@20",
+    "_recover_trigraph",
+    "_refill_source_boundary",
+    "_copy_macro_quoted_literal@12",
+    "_skip_line_comment",
+    "_compiler_warning",
+    "_warning_setting@4",
+    "_discard_line_comment",
+    "_copy_mutable_type@4"
   ],
   "driver": [
     {
@@ -528,7 +542,7 @@
     {
       "name": "_compiler_warning",
       "start": 306176,
-      "end": 306177
+      "end": 306414
     },
     {
       "name": "_initialize_frontend",
@@ -1133,7 +1147,7 @@
     {
       "name": "_recover_trigraph",
       "start": 123248,
-      "end": 123249
+      "end": 123655
     },
     {
       "name": "_consume_line_escape",
@@ -1184,7 +1198,7 @@
     {
       "name": "_scan_macro_identifier",
       "start": 110928,
-      "end": 110929
+      "end": 111393
     },
     {
       "name": "_expand_macro@4",
@@ -1761,7 +1775,7 @@
     {
       "name": "_copy_mutable_type@4",
       "start": 261248,
-      "end": 261249
+      "end": 261266
     },
     {
       "name": "_finalize_type_description@4",
@@ -1916,7 +1930,7 @@
     {
       "name": "_finish_array_declarator@20",
       "start": 204112,
-      "end": 204113
+      "end": 204393
     },
     {
       "name": "_extract_declarator_prefix@16",
@@ -2377,7 +2391,7 @@
     {
       "name": "_undefine_source_macro",
       "start": 116144,
-      "end": 116145
+      "end": 116295
     },
     {
       "name": "_warn_ignored_token",
@@ -2432,7 +2446,7 @@
     {
       "name": "_skip_line_comment",
       "start": 140912,
-      "end": 140913
+      "end": 140952
     },
     {
       "name": "_copy_block_comment",
@@ -2552,7 +2566,7 @@
     {
       "name": "_scan_macro_argument_identifier@4",
       "start": 122352,
-      "end": 122353
+      "end": 122796
     },
     {
       "name": "_macro_scan_error@4",
@@ -2607,7 +2621,7 @@
     {
       "name": "_copy_macro_quoted_literal@12",
       "start": 118608,
-      "end": 118609
+      "end": 118838
     },
     {
       "name": "_read_macro_string",
@@ -2898,6 +2912,41 @@
       "name": "_merge_storage_modifiers@8",
       "start": 260736,
       "end": 260885
+    },
+    {
+      "name": "_process_pch_string_event@12",
+      "start": 282304,
+      "end": 282305
+    },
+    {
+      "name": "_select_macro_argument@4",
+      "start": 122240,
+      "end": 122241
+    },
+    {
+      "name": "_copy_line_comment",
+      "start": 140960,
+      "end": 140961
+    },
+    {
+      "name": "_discard_line_comment",
+      "start": 135920,
+      "end": 136024
+    },
+    {
+      "name": "_warning_setting@4",
+      "start": 94208,
+      "end": 94239
+    },
+    {
+      "name": "_diagnostic_format@4",
+      "start": 304864,
+      "end": 304865
+    },
+    {
+      "name": "_emit_diagnostic",
+      "start": 306416,
+      "end": 306417
     }
   ],
   "cases": {

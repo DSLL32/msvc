@@ -9,7 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
-    ('_current_function', 0x5b228, 4),
+    ('_error_count', 0x5b228, 4),
     ('_global_expression_scope_active', 0x5b25c, 4),
     ('_global_record_kind', 0x6003c, 1),
     ('_function_ir', 0x60044, 20),
@@ -25,6 +25,7 @@ STATE = [
     ('_conditional_depth', 0x6bf74, 4),
     ('_include_depth', 0x6a7d4, 2),
     ('_source_handle', 0x6a7d8, 4),
+    ('_final_newline_emitted', 0x6b140, 4),
     ('_pch_include_state', 0x6be70, 1),
     ('_pch_expression_output', 0x6be80, 4),
     ('_pch_file_incomplete', 0x6de30, 4),

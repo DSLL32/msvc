@@ -172,14 +172,14 @@ void __stdcall emit_ir_expression(IrToken *expression)
     FrontendSymbol *symbol;
     IrRecordLink *link;
     unsigned record, rule;
-    if (current_function) return;
+    if (error_count) return;
     while (expression) {
         node = (ExpressionNode *)expression;
         switch (node->kind) {
         case TOK_CAST:
             if (node->type->flags == 0x80 && !node->type->related) {
                 expression = node->value.children.left;
-                if (current_function) return;
+                if (error_count) return;
                 continue;
             }
             break;
@@ -373,7 +373,7 @@ void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode)
     unsigned shifted_alignment;
     unsigned short alignment_value;
     int bytes;
-    if (current_function) return;
+    if (error_count) return;
     type = typed_node->type;
     shape = type->related;
     if (shape && !(shape->flags & 7)) shape = shape->related;

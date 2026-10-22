@@ -1,5 +1,7 @@
 /* Diagnostic vocabulary used by message_text, original table 0x6f4b8. */
-#include "c1.h"
+#include <stdarg.h>
+#include "frontend.h"
+#include "pragma.h"
 
 typedef struct MessageText {
     unsigned code;
@@ -40,4 +42,45 @@ char *message_text(unsigned code)
     while (entry->code && entry->code != code)
         ++entry;
     return entry->text;
+}
+
+/* Original 0x4ac00..0x4acee. Per-message settings can override the supplied
+   level, promote a warning to an error, or disable it after its first use. */
+void compiler_warning(unsigned level, unsigned code, ...)
+{
+    int setting = warning_setting(code);
+    char *format;
+    va_list arguments;
+    if (setting == 14) {
+        format = diagnostic_format(code + 4000);
+        va_start(arguments, code);
+        emit_diagnostic(2000, code + 2000, format, arguments);
+        va_end(arguments);
+        if (!error_count) ++error_count;
+        return;
+    }
+    switch (setting) {
+    case 0: case 5: break;
+    case 1: case 2: case 3: case 4: level = setting; break;
+    default: return;
+    }
+    if ((int)level > options.option_W) return;
+    format = diagnostic_format(code + 4000);
+    va_start(arguments, code);
+    emit_diagnostic(4000, code, format, arguments);
+    va_end(arguments);
+    if (options.option_WX && !error_count && options.option_WX == 1) {
+        ++options.option_WX;
+        report_syntax_error(220);
+        --error_count;
+    }
+    if (setting == 5) set_warning_level(code, 13);
+}
+
+/* Original 0x17000..0x1701f. Preprocess-only mode suppresses warnings;
+   otherwise the signed per-diagnostic setting supplies the override. */
+int __stdcall warning_setting(unsigned code)
+{
+    if (options.option_E) return 13;
+    return (signed char)warning_levels[code];
 }

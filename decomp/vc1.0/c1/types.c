@@ -546,3 +546,12 @@ int __stdcall is_record_type(CType *type)
     if (shape && !(shape->flags & 7)) shape = shape->related;
     return !shape;
 }
+
+/* Original 0x3fc80..0x3fc92. Mark a description-stack copy as retaining
+   explicit declaration spelling until its eventual type finalization. */
+TypeDescription *__stdcall copy_mutable_type(CType *type)
+{
+    TypeDescription *description = copy_type_description(type);
+    description->flags |= 0x1000;
+    return description;
+}

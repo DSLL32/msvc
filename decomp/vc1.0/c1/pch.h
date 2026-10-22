@@ -11,6 +11,7 @@ extern short pch_include_count;
 extern unsigned short pch_include_page_count;
 extern int pch_macro_changed, pch_rebuild_on_macro_change;
 void pch_record_string(unsigned kind, unsigned value, char *text);
+int __stdcall process_pch_string_event(unsigned kind, unsigned value, char *text);
 int __stdcall pch_macro_defined(char *name);
 int pch_replay_mismatch(void);
 #endif

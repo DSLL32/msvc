@@ -23,7 +23,6 @@ void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 
 void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
 
-void compiler_warning(unsigned category, unsigned code, ...) { __asm { int 3 } }
 
 /* Original 0x4bee0. */
 
@@ -130,7 +129,6 @@ int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
 
 
 
-unsigned recover_trigraph(void) { __asm { int 3 } return 0; }
 
 int consume_line_escape(void) { __asm { int 3 } return 0; }
 
@@ -144,7 +142,6 @@ unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } retur
 void __stdcall scan_string_literal(int wide, int delimiter) { __asm { int 3 } }
 
 
-int scan_macro_identifier(void) { __asm { int 3 } return 0; }
 
 
 
@@ -420,7 +417,6 @@ void parse_asm_statement(void) { __asm { int 3 } }
 
 void parse_declspec(unsigned char *storage) { __asm { int 3 } }
 
-TypeDescription *__stdcall copy_mutable_type(CType *type) { __asm { int 3 } return 0; }
 
 
 
@@ -447,7 +443,6 @@ void __stdcall record_local_declaration(FrontendSymbol *symbol) { __asm { int 3 
 void report_declaration_context_error(unsigned code, unsigned detail, char *name) { __asm { int 3 } }
 
 void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
-void __stdcall finish_array_declarator(FrontendSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
 
 TypeShape *__stdcall extract_base_prefix(TypeShape *shape, TypeShape **prefix, FrontendSymbol *symbol, int is_typedef, unsigned short *attributes) { __asm { int 3 } return 0; }
 
@@ -538,7 +533,6 @@ int __stdcall pch_resolve_condition(int condition) { __asm { int 3 } return 0; }
 
 
 
-void undefine_source_macro(void) { __asm { int 3 } }
 
 void warn_ignored_token(void) { __asm { int 3 } }
 
@@ -552,10 +546,8 @@ void pch_record_string(unsigned kind, unsigned value, char *text) { __asm { int 
 int __stdcall pch_macro_defined(char *name) { __asm { int 3 } return 0; }
 int pch_replay_mismatch(void) { __asm { int 3 } return 0; }
 
-void skip_line_comment(void) { __asm { int 3 } }
 void copy_block_comment(void) { __asm { int 3 } }
 
-void read_macro_parameters(void) { __asm { int 3 } }
 
 
 
@@ -573,7 +565,6 @@ void read_macro_parameters(void) { __asm { int 3 } }
 
 
 
-int __stdcall scan_macro_argument_identifier(int first_character) { __asm { int 3 } return 0; }
 
 void __stdcall macro_scan_error(unsigned code) { __asm { int 3 } }
 
@@ -592,7 +583,6 @@ void __stdcall expand_macro_arguments(MacroDefinition *definition, int parameter
 
 void __stdcall browser_macro_reference(MacroDefinition *definition) { __asm { int 3 } }
 
-char *__stdcall copy_macro_quoted_literal(char *destination, char *limit, int delimiter) { __asm { int 3 } return 0; }
 
 char *read_macro_string(void) { __asm { int 3 } return 0; }
 
@@ -601,7 +591,6 @@ void format_text(char *destination, char *format, ...) { __asm { int 3 } }
 void __stdcall save_macro_argument(char *begin, char *end) { __asm { int 3 } }
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_macro_end(void) { __asm { int 3 } }
-void refill_source_boundary(void) { __asm { int 3 } }
 
 /* Original 0x1e550. */
 
@@ -724,3 +713,12 @@ void __stdcall report_type_conflict(unsigned code, FrontendSymbol *symbol, char 
 /* Original 0x34fb0. */
 
 int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; }
+
+int __stdcall process_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
+
+char *__stdcall select_macro_argument(int *mode) { __asm { int 3 } return 0; }
+
+void copy_line_comment(void) { __asm { int 3 } }
+
+char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
+void emit_diagnostic(unsigned category, unsigned code, char *format, char *arguments) { __asm { int 3 } }

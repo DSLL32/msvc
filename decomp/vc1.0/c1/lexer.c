@@ -966,3 +966,80 @@ unsigned char __stdcall classify_decimal_integer(unsigned value)
 {
     return value & 0x80000000UL ? TOK_ULONG_CONSTANT : TOK_INT_CONSTANT;
 }
+
+/* Original 0x1e170..0x1e307. Rewrite a recognized trigraph's final byte
+   for rescanning, preserving question marks across physical buffer boundaries. */
+unsigned recover_trigraph(void)
+{
+    unsigned char character, replacement;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        if (character == '?') break;
+        if (character || macro_expansion_active) {
+            --source_text_cursor;
+            return 0x40;
+        }
+        refill_source_boundary();
+        source_text_cursor[-1] = '?';
+    }
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character) {
+        case '!': replacement = '|'; break;
+        case '\'': replacement = '^'; break;
+        case '(': replacement = '['; break;
+        case ')': replacement = ']'; break;
+        case '-': replacement = '~'; break;
+        case '/': replacement = '\\'; break;
+        case '<': replacement = '{'; break;
+        case '=': replacement = '#'; break;
+        case '>': replacement = '}'; break;
+        case 0:
+            if (!macro_expansion_active) {
+                refill_source_boundary();
+                continue;
+            }
+            /* An expansion boundary is an unrecognized third character. */
+        default:
+            --source_text_cursor;
+            source_text_cursor[-1] = '?';
+            --source_text_cursor;
+            source_text_cursor[-1] = '?';
+            return 0x40;
+        }
+        source_text_cursor[-1] = replacement;
+        --source_text_cursor;
+        return 1;
+    }
+}
+
+/* Original 0x22670..0x22698, tail dispatching to copy or discard text. */
+void skip_line_comment(void)
+{
+    compiler_warning(4, 1);
+    if (options.option_C && !(scanner_flags & 0x10000)) copy_line_comment();
+    else discard_line_comment();
+}
+
+/* Original 0x212f0..0x21358. Leave the terminating newline unread;
+   diagnose a backslash continuation and skip multibyte trail characters. */
+void discard_line_comment(void)
+{
+    unsigned char character, class;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        class = character_class[character];
+        switch (class) {
+        case CC_ESCAPE_OR_END:
+            if (recover_special_character() == 1 && character == '\\')
+                compiler_warning(3, 10);
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            return;
+        case CC_LEAD_BYTE:
+            ++source_text_cursor;
+            break;
+        }
+    }
+}

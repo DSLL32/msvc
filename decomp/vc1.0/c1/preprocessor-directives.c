@@ -2,6 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 #include "preprocessor.h"
+#include "pch.h"
+#include "macro-expand.h"
 #include "characters.h"
 #include "lexer.h"
 #include "parser.h"
@@ -733,4 +735,78 @@ int __stdcall find_macro_parameter(char *name)
         descriptor += (unsigned char)*descriptor;
     }
     return -1;
+}
+
+/* Original 0x1c780..0x1c8b5. Encode each formal as its byte span and
+   terminated spelling, rejecting duplicate names and empty list elements. */
+void read_macro_parameters(void)
+{
+    char *begin, *write;
+    unsigned char character, class;
+    for (;;) {
+        begin = write = macro_replacement_text + 1;
+        for (;;) {
+            character = skip_directive_space();
+            class = character_class[character];
+            if (class == CC_COMMA || class == CC_RIGHT_PAREN) {
+                if (write > begin) {
+                    if (find_macro_parameter(begin) >= 1) report_syntax_error(9, begin);
+                    else {
+                        *macro_replacement_text = (unsigned char)(write - macro_replacement_text);
+                        macro_replacement_text = write;
+                        ++macro_parameter_count;
+                    }
+                } else if (class == CC_COMMA || macro_parameter_count > 0)
+                    report_syntax_error(10, character);
+                if (class == CC_RIGHT_PAREN) return;
+                break;
+            }
+            if (class != CC_IDENTIFIER && class != CC_WIDE_PREFIX) {
+                report_syntax_error(10, character);
+                continue;
+            }
+            if (begin != write) report_syntax_error(10, character);
+            *write++ = character;
+            for (;;) {
+                character = (unsigned char)*source_text_cursor++;
+                while (character_flags[character] & CF_IDENTIFIER) {
+                    *write++ = character;
+                    character = (unsigned char)*source_text_cursor++;
+                }
+                if (!character) {
+                    if (fill_source_buffer()) macro_scan_error(4);
+                    continue;
+                }
+                if (character == '\\' && consume_line_escape()) continue;
+                --source_text_cursor;
+                *write++ = 0;
+                break;
+            }
+        }
+    }
+}
+
+/* Original 0x1c5b0..0x1c647. Remove a user macro from its interned-name
+   bucket, preserving PCH events and browser references for the old definition. */
+void undefine_source_macro(void)
+{
+    MacroDefinition **bucket, *definition, *previous = 0;
+    if (!include_depth && process_pch_string_event(7, 0, interned_name)) return;
+    if (interned_name == name_defined) {
+        report_macro_error("#undef");
+        return;
+    }
+    bucket = &macro_buckets[(unsigned)interned_name & 0x1ff];
+    for (definition = *bucket; definition; definition = definition->next) {
+        if (definition->name == interned_name) break;
+        previous = definition;
+    }
+    if (!definition) return;
+    if (definition->parameter_count < -2) {
+        report_macro_error("#undef");
+        return;
+    }
+    if (previous) previous->next = definition->next;
+    else *bucket = definition->next;
+    if (browser_filename) browser_macro_reference(definition);
 }

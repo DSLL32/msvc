@@ -649,7 +649,7 @@ CType *__stdcall function_result_type(FrontendSymbol *symbol)
 void finish_label_symbols(void)
 {
     FrontendSymbol *label;
-    if (!current_function) {
+    if (!error_count) {
         for (label = label_symbols; label; label = label->next) {
             if (!(label->flags & 1) && !label->detail.value)
                 report_syntax_error(94, label->name);
@@ -671,7 +671,7 @@ void finish_declarations(void)
     FrontendSymbol *symbol, *target;
     IrToken *initializer;
     global_record_kind = 0;
-    if (current_function) return;
+    if (error_count) return;
     for (symbol = pending_global_symbols; symbol; symbol = symbol->next)
         emit_symbol_declaration(symbol);
     write_function_directory();
@@ -702,7 +702,7 @@ void __stdcall emit_symbol_declaration(FrontendSymbol *symbol)
     imported_debug = (symbol->flags & 0x40) &&
         (options.pch_use || options.pch_use_file) &&
         !options.pch_create && !options.pch_create_file;
-    if (current_function > 0 || (symbol->flags & 2)) return;
+    if (error_count > 0 || (symbol->flags & 2)) return;
     if (kind == 13) {
         if (!defer_debug) {
             write_global_record(9, symbol);
@@ -1590,4 +1590,41 @@ int __stdcall merge_storage_modifiers(unsigned char *target, unsigned source)
         changed = 1;
     }
     return changed;
+}
+
+/* Original 0x31d50..0x31e69. Parameters adjust an outer array to a
+   pointer, propagating element qualifiers; other arrays retain completion bits. */
+void __stdcall finish_array_declarator(FrontendSymbol *symbol, TypeShape **result,
+    ShapeCursor current, int is_typedef)
+{
+    unsigned kind = symbol->kind & 0x1f, based = 0;
+    unsigned short attributes, qualifiers;
+    TypeShape *shape;
+    if (kind != 10 && kind != 11) {
+        if (!is_typedef) {
+            symbol->attributes |= 0x400;
+            if (!current.shape->field08) {
+                symbol->attributes |= 0x100;
+                return;
+            }
+        }
+        return;
+    }
+    if (symbol->attributes & 2) {
+        symbol->attributes &= ~2;
+        based = (*result)->field08;
+        attributes = (*result)->attributes & 15;
+    } else attributes = normalize_type_attributes(1, (unsigned short)(symbol->type->attributes & 15));
+    if (current.flags & 0x1000) report_syntax_error(540);
+    qualifiers = current.attributes & 0x3000;
+    if (qualifiers) {
+        shape = current.shape->related;
+        if (shape) current.shape->related = intern_type_shape(new_type_shape(shape->flags,
+            (unsigned short)(shape->attributes | qualifiers), &shape->field08));
+        else symbol->type->attributes |= qualifiers;
+    }
+    symbol->type->attributes &= ~7;
+    shape = new_type_shape(1, attributes, &based);
+    shape->related = current.shape->related;
+    *result = intern_type_shape(shape);
 }

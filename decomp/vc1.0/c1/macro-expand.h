@@ -32,6 +32,7 @@ char *read_macro_string(void);
 void format_text(char *destination, char *format, ...);
 void __stdcall save_macro_argument(char *begin, char *end);
 void advance_macro_argument(void);
+char *__stdcall select_macro_argument(int *mode);
 void browser_macro_end(void);
 
 #endif

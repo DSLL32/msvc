@@ -251,7 +251,7 @@ int __stdcall serialize_scope(SymbolScope *scope)
 {
     FrontendSymbol *pending = 0, *symbol, *next, **link;
     int changed = 1, bucket, count;
-    if (current_function) return 0;
+    if (error_count) return 0;
     global_record_kind = (unsigned char)scope->flags;
     if (global_scope != scope) write_global_record(13, 0);
     if (scope->buckets) {

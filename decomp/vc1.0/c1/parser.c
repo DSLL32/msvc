@@ -1515,7 +1515,7 @@ void __stdcall finish_external_declaration(int recovering)
     scanner_flags &= ~0x02000000;
     parser_flags &= ~0x2000;
     declaration_spec_flags[declaration_depth] &= ~3;
-    if (current_function) {
+    if (error_count) {
         scope_depth = 0;
         current_scope = global_scope;
         declaration_depth = 0;

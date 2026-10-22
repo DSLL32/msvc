@@ -276,3 +276,14 @@ unsigned char close_source_file(void)
     }
     return 1;
 }
+
+/* Original 0x1e120..0x1e170. The token continuation paths require more
+   physical input; report the active lexical context if the file has ended. */
+void refill_source_boundary(void)
+{
+    if (!fill_source_buffer()) return;
+    if (scanner_flags & 0x1000) fatal_error(71);
+    else if (scanner_flags & 0x2000) macro_scan_error(57);
+    else if (final_newline_emitted) fatal_error(10);
+    else fatal_error(4);
+}

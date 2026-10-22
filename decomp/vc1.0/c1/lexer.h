@@ -72,6 +72,8 @@ unsigned char scan_source_token(void);
 extern char *token_names[153];
 
 void skip_line_comment(void);
+void copy_line_comment(void);
+void discard_line_comment(void);
 void copy_block_comment(void);
 void skip_block_comment(void);
 

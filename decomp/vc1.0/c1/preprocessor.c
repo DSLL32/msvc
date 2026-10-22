@@ -143,3 +143,50 @@ void scan_source_identifier(void)
     interned_name = symbol->name;
     macro_text_next += length + 6;
 }
+
+/* Original 0x1b150..0x1b321. Intern an identifier from expanded input,
+   skipping embedded inhibition markers and preserving their length test. */
+int scan_macro_identifier(void)
+{
+    char text[4096], *write = text;
+    unsigned hash = 0, length, index, remaining, disabled_length = 0;
+    unsigned char character;
+    PreprocessorSymbol **bucket, **previous, *symbol;
+    --source_text_cursor;
+    for (;;) {
+        while (write < text + sizeof(text)) {
+            character = (unsigned char)*source_text_cursor++;
+            if (!(character_flags[character] & CF_IDENTIFIER)) break;
+            hash = hash * 4 + character + (hash >> 7);
+            *write++ = character;
+        }
+        if (write >= text + sizeof(text)) fatal_error(64);
+        if (character_class[character] != CC_MACRO_END) break;
+        disabled_length = (unsigned char)*source_text_cursor++;
+    }
+    --source_text_cursor;
+    length = write - text;
+    bucket = &preprocessor_buckets[hash & 0x7ff];
+    previous = bucket;
+    for (symbol = *bucket; symbol; symbol = symbol->next) {
+        for (index = 0; index < length && text[index] == symbol->name[index]; ++index) ;
+        if (index == length && !symbol->name[length]) {
+            *previous = symbol->next;
+            symbol->next = *bucket;
+            *bucket = symbol;
+            interned_name = symbol->name;
+            return length != disabled_length;
+        }
+        previous = &symbol->next;
+    }
+    remaining = macro_text_begin - macro_text_next + 8192;
+    if (remaining < length + 12) initialize_macro_text();
+    symbol = (PreprocessorSymbol *)macro_text_next;
+    symbol->next = *bucket;
+    *bucket = symbol;
+    for (index = 0; index < length; ++index) symbol->name[index] = text[index];
+    symbol->name[length] = 0;
+    interned_name = symbol->name;
+    macro_text_next += length + 6;
+    return length != disabled_length;
+}

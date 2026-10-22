@@ -210,3 +210,96 @@ int pop_macro_frame(void)
     --macro_expansion_active;
     return 0;
 }
+
+/* Original 0x1ddf0..0x1dfac. Assemble an identifier from replacement text
+   and formal substitutions, retaining the marker that inhibits re-expansion. */
+int __stdcall scan_macro_argument_identifier(int first_character)
+{
+    char *begin = macro_expansion_next, *argument;
+    int valid = 1, argument_mode = 0, disabled_length = -1;
+    unsigned char character = (unsigned char)first_character;
+    for (;;) {
+        if (character_class[character] == CC_MACRO_PARAMETER) {
+            argument = select_macro_argument(&argument_mode);
+            if (argument) {
+                while (*argument) {
+                    if (!(character_flags[(unsigned char)*argument] & CF_IDENTIFIER)) valid = 0;
+                    if (macro_work_buffer + macro_work_bytes - 5 <= macro_expansion_next)
+                        macro_scan_error(56);
+                    *macro_expansion_next++ = *argument++;
+                }
+            }
+        } else *macro_expansion_next++ = character;
+        for (;;) {
+            character = (unsigned char)*source_text_cursor++;
+            while (character_flags[character] & CF_IDENTIFIER) {
+                if (macro_work_buffer + macro_work_bytes - 5 <= macro_expansion_next)
+                    macro_scan_error(56);
+                *macro_expansion_next++ = character;
+                character = (unsigned char)*source_text_cursor++;
+            }
+            if (character_class[character] != CC_MACRO_END) break;
+            disabled_length = (unsigned char)*source_text_cursor++;
+        }
+        if (character_class[character] != CC_MACRO_PARAMETER) break;
+        argument_mode = 1;
+    }
+    --source_text_cursor;
+    if (valid) {
+        if (disabled_length != -1 && macro_expansion_next - begin == disabled_length) {
+            valid = 0;
+            *macro_expansion_next++ = 4;
+            *macro_expansion_next++ = (unsigned char)disabled_length;
+            *macro_expansion_next = 0;
+        }
+        if (valid) {
+            *macro_expansion_next = 0;
+            interned_name = intern_identifier(begin);
+            return 1;
+        }
+    }
+    return valid;
+}
+
+/* Original 0x1cf50..0x1d036. Copy a replacement's quoted token without
+   interpreting its escapes, retaining line-boundary and lead-byte handling. */
+char *__stdcall copy_macro_quoted_literal(char *destination, char *limit, int delimiter)
+{
+    unsigned char character, class;
+    unsigned flags;
+    *destination++ = (unsigned char)delimiter;
+    while (destination < limit) {
+        character = (unsigned char)*source_text_cursor++;
+        class = character_class[character];
+        switch (class) {
+        case CC_ESCAPE_OR_END:
+            flags = recover_special_character();
+            if (!(flags & 0x50)) continue;
+            if (flags & 0x10) {
+                *destination++ = source_text_cursor[-1];
+                *destination++ = next_source_character();
+                continue;
+            }
+            break;
+        case CC_NEWLINE:
+            report_syntax_error(1);
+            --source_text_cursor;
+            character = (unsigned char)delimiter;
+            /* Finish the token with its expected delimiter after the error. */
+        case CC_APOSTROPHE: case CC_QUOTE:
+            if (character == (unsigned char)delimiter) {
+                *destination++ = character;
+                return destination;
+            }
+            break;
+        case CC_LEAD_BYTE:
+            *destination++ = character;
+            parser_flags |= 0x02000000UL;
+            character = next_source_character();
+            parser_flags &= ~0x02000000UL;
+            break;
+        }
+        *destination++ = character;
+    }
+    return limit - 1;
+}

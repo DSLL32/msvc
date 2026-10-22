@@ -5,7 +5,7 @@
 unsigned initial_option_flags, precompiled_option_flags;
 SavedConfiguration saved_configuration;
 int global_expression_scope_active; /* original 0x5b25c */
-int current_function, error_count;
+int error_count; /* original 0x5b228, shared by diagnostics, recovery and exit */
 char version_string[256];
 Vector *forced_source_inputs;
 short forced_source_index;
@@ -56,7 +56,7 @@ int compile_translation_unit(void)
             options.option_Yd &= !options.line_records;
             begin_automatic_pch();
         } else {
-            current_function = 0;
+            error_count = 0;
             if (!options.option_E && !options.prototypes_only && options.debug_info)
                 begin_debug_info();
         }
