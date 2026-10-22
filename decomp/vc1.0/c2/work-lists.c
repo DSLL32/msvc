@@ -123,3 +123,27 @@ void *__cdecl build_work_lists(const char *format, ...)
     va_end(arguments);
     return result;
 }
+
+/* Original [0004fd10,0004fd90). Insert before the indicated tree, appending
+   when it is absent. Preserve the head record's address when inserting first:
+   move its old contents to the new record and clear the new head's metadata. */
+Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree)
+{
+    Expression *inserted = new_expression(), *previous;
+    inserted->tree = tree;
+    if (!expressions) return inserted;
+    if (expressions->tree == before) {
+        *inserted = *expressions;
+        expressions->next = inserted;
+        expressions->tree = tree;
+        expressions->field08 = 0;
+        expressions->source_location = 0;
+    } else {
+        previous = expressions;
+        while (previous->next && previous->next->tree != before)
+            previous = previous->next;
+        inserted->next = previous->next;
+        previous->next = inserted;
+    }
+    return expressions;
+}

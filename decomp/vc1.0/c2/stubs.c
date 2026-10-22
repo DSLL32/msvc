@@ -56,7 +56,6 @@ Node *__fastcall integer_node(unsigned value, unsigned type) { __asm int 3 }
 unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
 Node *__fastcall lower_intrinsic(Node *node, Node *parent) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
-unsigned short __fastcall common_node_type(unsigned short left, unsigned short right) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall lift_typed_sequence(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall is_function_reference(Node *node) { __asm int 3 }
@@ -124,8 +123,6 @@ int __fastcall conversion_loses_value(unsigned short source, unsigned short targ
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm int 3 }
 #include "work-prepare.h"
-Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree) { __asm int 3 }
-void __fastcall lower_assignment(Node *node) { __asm int 3 }
 void finish_global_work(void) { __asm int 3 }
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
 void __fastcall lower_float_expression(Node *node) { __asm int 3 }
@@ -443,4 +440,12 @@ void release_region_motion(void) { __asm int 3 }
 Node *__fastcall materialize_numbered_tree(Node *node) { __asm int 3 }
 
 
-void __fastcall emit_switch_dispatch(Node *ranges, int count) { __asm int 3 }
+
+Node *__fastcall make_switch_pivot(Node *range) { __asm int 3 }
+void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, unsigned span, Node **pivot, int *left_count) { __asm int 3 }
+void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2) { __asm int 3 }
+
+Node *__fastcall operator_identity_node(Node *operation, Node *type_source) { __asm int 3 }
+int __fastcall matches_assignment_load(Node *destination, Node *operand) { __asm int 3 }
+void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node *load, Node *operation) { __asm int 3 }
+int __fastcall find_assignment_operand(Node *node, unsigned has_addition) { __asm int 3 }

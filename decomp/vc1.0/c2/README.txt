@@ -793,3 +793,39 @@ hello remains pending at emit_switch_dispatch, 00067ed0. The verified accepted
 code-extent union is 128,239 / 399,693 bytes, or 32.0844 percent; this is not branch
 coverage. Source, shared text data, CRT and import thunks are unioned and clipped
 against the original code VirtualSize and checked against the actual masker.
+
+The first hello function now completes work preparation and reaches global
+allocation at finish_global_work, 00062100. Seven more functions recover 442
+reachable native instructions: dispatch strategy selection, range costing,
+linear switch tests, common scalar type selection, stable-head expression
+insertion, assignment lowering and conversion stripping. The switch uses two
+equality tests and a default branch; the dense-table and recursive-split
+callees remain named typed traps.
+
+Switch selection counts singleton tests once and interval bounds twice. It
+chooses linear tests below six comparisons and uses the original four-to-one
+span threshold for a dense table. Expression insertion preserves the original
+head record's address, moves its old metadata to the new successor and clears
+the inserted head's metadata. Integer promotion retains signed-width comparisons
+and the original selector/offset-pointer type precedence. Assignment lowering
+has its complete operator cases and fixed typed helper ABIs, while the first
+function currently takes the non-compound path. The retained selector tree is
+accessed through its actual label prefix field, rather than an Expression view.
+
+Independent typed state at allocation entry matches all 277 normalized lines.
+The generated selector loads retain copied detail pointers to the saved selector;
+those identities are checked against switch_selector without following released
+storage. Opcode-one no-op nodes retain obsolete payload fields, which are not
+interpreted as values. These checks do not claim coverage for alternate switch
+strategies, compound updates, floating promotion or diagnostics. Exact extents,
+ABI details, receipt hashes and limits are in cases/hello-work-prepare-abi.json.
+
+This checkpoint has 415 reconstructed functions and 492 accepted frontiers.
+All 352 minimal and all 140 hello historical frontiers replay; all source graphs
+and accepted instruction boundaries agree. Three affected modules compile /W3
+clean and the complete minimal object/exit regression passes. The independent
+277-line capture includes 26 expressions and two preserved selector-copy pointer
+identities. Verified accepted code-extent coverage is 129,647 / 399,693 bytes,
+or 32.4366 percent, including source/shared text/CRT/import thunks with union,
+clipping and an actual-mask cross-check. This is not branch coverage. Hello
+output remains pending at finish_global_work, 00062100.

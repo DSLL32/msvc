@@ -336,3 +336,19 @@ Node *__fastcall strip_conversions(Node *node)
     while (node->opcode == 0x34) node = node->left.node;
     return node;
 }
+
+/* Original [000527e0,00052860). Select the common scalar representation,
+   retaining selector/offset pointer precedence, then apply integral promotion
+   to the target's minimum arithmetic width. Aggregate encodings stay intact. */
+unsigned short __fastcall common_node_type(unsigned short left, unsigned short right)
+{
+    unsigned short type;
+    if (left == 0xc08) type = right <= 0x408 ? 0xc08 : right;
+    else if (right == 0xc08) type = left <= 0x408 ? 0xc08 : left;
+    else type = right > left ? right : left;
+    if ((type & 0x200) && (unsigned char)left != (unsigned char)right)
+        type = (unsigned char)left > (unsigned char)right ? left : right;
+    if ((type & 0xff00) != 0x8000 && (int)(type & 255) < expression_integer_bytes)
+        type = (unsigned short)(expression_integer_bytes | 0x100);
+    return type;
+}

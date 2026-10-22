@@ -161,7 +161,7 @@
     "Region motion drivers complete only their empty-region path; downstream loop-motion helpers remain typed traps.",
     "Numbered-expression materialization is unvisited; its helper remains a typed trap.",
     "The observed tree-builder recipe is DNTS. Other recipes and diagnostic branches have complete source, but no claimed dynamic branch validation.",
-    "First switch range list has one surviving range; adjacent-range joining and multiple-default-range deletion are not dynamically established by this capture."
+    "This tree receipt follows the first range node but not its leaf-linked range list. Adjacent-range joining and multiple-default-range deletion are not dynamically established by this capture."
   ],
   "validation_status": "passed",
   "accepted_code_extent_coverage": {

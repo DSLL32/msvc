@@ -489,7 +489,14 @@
     "@new_temporary_descriptor@4",
     "_build_tree",
     "@lower_switch_dispatch@12",
-    "@coalesce_switch_ranges@4"
+    "@coalesce_switch_ranges@4",
+    "@emit_switch_dispatch@8",
+    "@summarize_switch_ranges@20",
+    "@emit_linear_switch@8",
+    "@common_node_type@8",
+    "@insert_tree_expression@12",
+    "@lower_assignment@4",
+    "@strip_assignment_conversion@4"
   ],
   "driver": [
     {
@@ -2217,8 +2224,7 @@
     {
       "name": "@common_node_type@8",
       "start": 337888,
-      "end": 337889,
-      "provisional": true
+      "end": 338016
     },
     {
       "name": "@discard_sequence_tail@4",
@@ -2634,8 +2640,7 @@
     {
       "name": "@lower_assignment@4",
       "start": 421792,
-      "end": 421793,
-      "provisional": true
+      "end": 422256
     },
     {
       "name": "@lower_switch_dispatch@12",
@@ -2655,8 +2660,7 @@
     {
       "name": "@insert_tree_expression@12",
       "start": 326928,
-      "end": 326929,
-      "provisional": true
+      "end": 327056
     },
     {
       "name": "@lower_machine_tree@4",
@@ -4521,8 +4525,64 @@
     {
       "name": "@emit_switch_dispatch@8",
       "start": 425680,
-      "end": 425681,
+      "end": 425920
+    },
+    {
+      "name": "@summarize_switch_ranges@20",
+      "start": 424288,
+      "end": 424416
+    },
+    {
+      "name": "@emit_linear_switch@8",
+      "start": 424448,
+      "end": 424720
+    },
+    {
+      "name": "@make_switch_pivot@4",
+      "start": 424720,
+      "end": 424721,
       "provisional": true
+    },
+    {
+      "name": "@split_switch_ranges@24",
+      "start": 425232,
+      "end": 425233,
+      "provisional": true
+    },
+    {
+      "name": "@emit_switch_table@16",
+      "start": 425296,
+      "end": 425297,
+      "provisional": true
+    },
+    {
+      "name": "@operator_identity_node@8",
+      "start": 350688,
+      "end": 350689,
+      "provisional": true
+    },
+    {
+      "name": "@matches_assignment_load@8",
+      "start": 361408,
+      "end": 361409,
+      "provisional": true
+    },
+    {
+      "name": "@reduce_assignment_operator@16",
+      "start": 423904,
+      "end": 423905,
+      "provisional": true
+    },
+    {
+      "name": "@find_assignment_operand@8",
+      "start": 423968,
+      "end": 423969,
+      "provisional": true
+    },
+    {
+      "name": "@strip_assignment_conversion@4",
+      "start": 424240,
+      "end": 424288
     }
   ],
   "cases": {
