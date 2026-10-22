@@ -514,7 +514,14 @@
     "_reset_member_access_failure",
     "_set_initial_member_access_failure@12",
     "_adjust_member_binding_object@20",
-    "_make_member_at_offset@12"
+    "_make_member_at_offset@12",
+    "_binary_expression@12",
+    "_common_binary_type@12",
+    "_convert_numeric_constant@12",
+    "_convert_integral_constant@20",
+    "_integer_constant_overflows@16",
+    "_resolve_assignment_operand@8",
+    "_can_initialize@8"
   ],
   "driver": [
     {
@@ -2017,7 +2024,7 @@
     {
       "name": "_binary_expression@12",
       "start": 384560,
-      "end": 384561
+      "end": 385073
     },
     {
       "name": "_boolean_expression@8",
@@ -2032,7 +2039,7 @@
     {
       "name": "_can_initialize@8",
       "start": 416960,
-      "end": 416961
+      "end": 416991
     },
     {
       "name": "_cast_expression@8",
@@ -2290,7 +2297,7 @@
       "end": 284433
     },
     {
-      "name": "_finish_default_argument_text",
+      "name": "_increment_expression_record_depth",
       "start": 258240,
       "end": 258241
     },
@@ -2507,7 +2514,7 @@
     {
       "name": "_resolve_assignment_operand@8",
       "start": 237136,
-      "end": 237137
+      "end": 237427
     },
     {
       "name": "_resolve_member_pointer_class@8",
@@ -4550,7 +4557,7 @@
     {
       "name": "_common_binary_type@12",
       "start": 382976,
-      "end": 382977
+      "end": 383147
     },
     {
       "name": "_reject_member_pointer_arithmetic@4",
@@ -4586,7 +4593,7 @@
     {
       "name": "_convert_numeric_constant@12",
       "start": 417216,
-      "end": 417217
+      "end": 417914
     },
     {
       "name": "_resolve_untyped_binary_operand@12",
@@ -4617,7 +4624,7 @@
     {
       "name": "_integer_constant_overflows@16",
       "start": 477792,
-      "end": 477793
+      "end": 477941
     },
     {
       "name": "_report_incompatible_type_shapes@12",
@@ -5014,6 +5021,71 @@
       "name": "_adjust_virtual_member_object@20",
       "start": 201968,
       "end": 201969
+    },
+    {
+      "name": "_has_assignment_member_model@4",
+      "start": 228160,
+      "end": 228161
+    },
+    {
+      "name": "_report_conversion_rank_failure@16",
+      "start": 407536,
+      "end": 407537
+    },
+    {
+      "name": "_new_cast_expression@8",
+      "start": 417920,
+      "end": 417921
+    },
+    {
+      "name": "_convert_integral_constant@20",
+      "start": 417952,
+      "end": 418524
+    },
+    {
+      "name": "_extended_to_integer",
+      "start": 478979,
+      "end": 478980
+    },
+    {
+      "name": "_integer_to_extended",
+      "start": 478892,
+      "end": 478893
+    },
+    {
+      "name": "_unsigned_to_extended",
+      "start": 478926,
+      "end": 478927
+    },
+    {
+      "name": "_extended_to_double",
+      "start": 478716,
+      "end": 478717
+    },
+    {
+      "name": "_double_to_extended",
+      "start": 478824,
+      "end": 478825
+    },
+    {
+      "name": "_extended_to_float",
+      "start": 478677,
+      "end": 478678
+    },
+    {
+      "name": "_float_to_extended",
+      "start": 478790,
+      "end": 478791
+    },
+    {
+      "name": "_strip_function_designator@4",
+      "start": 237440,
+      "end": 237441
+    },
+    {
+      "name": "_resolve_qualified_assignment_operand@8",
+      "start": 237488,
+      "end": 237489
     }
   ],
   "cases": {
@@ -6619,6 +6691,24 @@
           "bytes": 1
         }
       ]
+    },
+    {
+      "name": "_unsigned_integer_limits",
+      "original": 669792,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_signed_integer_maxima",
+      "original": 669816,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_signed_integer_minima",
+      "original": 669840,
+      "kind": "bytes",
+      "bytes": 24
     }
   ],
   "buffered_streams": [

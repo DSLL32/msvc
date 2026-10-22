@@ -2,6 +2,8 @@
 #include "lexer.h"
 #include "frontend-records.h"
 #include "constructor-initializers.h"
+#include "class-lookup.h"
+#include "unary-expressions.h"
 
 IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol);
 
@@ -99,7 +101,7 @@ IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol)
     type = strip_based_shape(target->type);
     if (!type || !type->related) return 0;
     value->type = make_expression_qualified_type(type, 11,
-        type->related->attributes & 0xf77, 0);
+        (unsigned short)(type->related->attributes & 0xf77), 0);
     return value;
 }
 
@@ -354,8 +356,9 @@ IrToken *__stdcall inherited_symbol_expression(CppSymbol *reference, CppSymbol *
     IrToken *object, *member, *result;
     QualifiedDeclarator *qualified;
     QualifierBinding *binding, *following;
-    unsigned kind = target->kind & 0x1f;
+    unsigned kind;
     if (!function_symbol) {
+        kind = target->kind & 0x1f;
         if (kind == 17) return symbol_reference(reference);
         if (kind == 5) {
             check_qualified_member_access(reference);
@@ -365,6 +368,7 @@ IrToken *__stdcall inherited_symbol_expression(CppSymbol *reference, CppSymbol *
         return 0;
     }
     if (!(function_symbol->cpp.parts.member_flags & 1)) {
+        kind = target->kind & 0x1f;
         if (kind == 5) {
             check_qualified_member_access(reference);
             return enumerator_expression(target);
@@ -400,3 +404,46 @@ typedef char QualifierFollowingOffsetMustBe4[
     (offsetof(QualifierBinding, following) == 4) ? 1 : -1];
 typedef char QualifiedResolutionOffsetMustBe12[
     (offsetof(QualifiedDeclarator, resolution) == 12) ? 1 : -1];
+
+IrToken *__stdcall strip_function_designator(IrToken *expression);
+IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference);
+
+/* Original 0x39e50..0x39f73. Typed values pass through unchanged; untyped
+   function/member designators select the overload matching the target type. */
+IrToken *__stdcall resolve_assignment_operand(CType *type, IrToken *expression)
+{
+    CppSymbol *symbol;
+    TypeShape *shape;
+    CType *function_type;
+    unsigned kind;
+    if (!expression) return 0;
+    if (expression->type) return expression;
+    expression = strip_function_designator(expression);
+    symbol = expression->value.pointer;
+    if (symbol->declaration_flags & 0x1000) {
+        report_syntax_error(277, format_symbol_name(symbol));
+        return 0;
+    }
+    kind = symbol->kind & 0x1f;
+    if (kind == 18)
+        return resolve_qualified_assignment_operand(type, (QualifiedDeclarator *)symbol);
+    if (kind != 16 && kind != 17) return expression;
+    if (has_single_function(symbol)) symbol = ((OverloadSet *)symbol)->functions;
+    else {
+        if (!type || !type->related) return 0;
+        shape = type->related;
+        if ((shape->flags & 0x77) != 3 && (shape->flags & 0x44) != 0x44) return 0;
+        function_type = drop_first_type_shape(type);
+        symbol = find_matching_overload(symbol, function_type, 1);
+    }
+    if (!symbol) {
+        report_syntax_error(563);
+        return 0;
+    }
+    if (browser_filename) browser_type_reference(symbol);
+    expression->value.pointer = symbol;
+    function_type = strip_based_shape(symbol->type);
+    expression->type = make_expression_qualified_type(function_type, 0xb,
+        (unsigned short)(function_type->related->attributes & 0xf77), 0);
+    return expression;
+}

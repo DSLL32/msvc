@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 510 accepted paired frontiers, including 430 frontend
+PARTIAL reconstruction: 517 accepted paired frontiers, including 437 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _binary_expression@12 at original VA 0x5de30. The latest ordered replay is recorded in validation.json;
+trap is _find_forward_frontend_record@12 at original VA 0x41ac0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -980,3 +980,21 @@ Receipt: evidence/replay-member-access-offset-receipt.json. Accepted executable
 extent union is 171,934 / 476,418 bytes (36.089%, not branch coverage), with 437
 source functions. Both runs now reach binary_expression at 0x5de30 during the
 next method's expression processing. Complete frontend equivalence is pending.
+
+
+The complete C++ binary dispatcher now retains overload selection, builtin
+fallback and short-circuit preparation. Common type choice, numeric/integral
+constant conversion and range checks preserve all scalar/pointer/floating
+branches, diagnostics and canonical option/type state. The encountered range
+tables use limits.h constants with exact original byte audits; old floating
+callees remain named traps. Typed return operand selection and initialization
+ranking retain their separate native graph entries. Evidence:
+evidence/increment-return.txt.
+
+All 517 frontiers pass the frozen full comparator in 131.901 seconds, including
+raw files/streams/pending buffers, callers and fourteen runtime observations.
+Receipt: evidence/replay-increment-return-receipt.json. Accepted executable extent
+union is 174,359 / 476,418 bytes (36.598%, not branch coverage), with 444 source
+functions. The increment and return IR now match; both runs reach the forward
+record search at 0x41ac0 during nonvoid method path checking. Complete assigned
+frontend equivalence remains pending.

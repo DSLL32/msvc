@@ -119,7 +119,7 @@ void __stdcall check_parameter_default(IrToken *expression, CType *type);
 IrToken *__stdcall convert_initializer(unsigned char operation, CType *type, IrToken *expression);
 IrToken *__stdcall prepare_reference_initializer(CType *type, IrToken *expression);
 DefaultArgument *__stdcall save_default_argument(IrToken *expression);
-void finish_default_argument_text(void);
+void increment_expression_record_depth(void);
 void mark_evaluation_boundary(void);
 CppSymbol *__stdcall lookup_based_symbol(char *name);
 IrToken *validate_based_self(void);

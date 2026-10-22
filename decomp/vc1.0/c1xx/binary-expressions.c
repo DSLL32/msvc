@@ -798,3 +798,91 @@ IrToken *__stdcall modifiable_lvalue(IrToken *expression, int diagnose)
     if (diagnose && constant) report_syntax_error(166);
     return expression;
 }
+
+/* Original 0x5de30..0x5e031. Class overload selection precedes the builtin
+   operator path, including assignment-model and short-circuit bookkeeping. */
+IrToken *__stdcall binary_expression(unsigned char operation, IrToken *left, IrToken *right)
+{
+    IrToken *result;
+    CppSymbol *tag;
+    unsigned failure, record, rule, classification;
+    int left_class;
+    if (!left || !right) {
+        if (operation == OP_LOGICAL_AND || operation == OP_LOGICAL_OR)
+            increment_expression_record_depth();
+        return 0;
+    }
+    if (left->kind == 0xa3) {
+        report_syntax_error(275, format_symbol_name(left->value.pointer));
+        return 0;
+    }
+    if (right->kind == 0xa3) {
+        report_syntax_error(275, format_symbol_name(right->value.pointer));
+        return 0;
+    }
+    left_class = is_overload_operand(left);
+    right = fold_symbol_constant(right);
+    if (left_class || is_overload_operand(right)) {
+        failure = 0;
+        result = resolve_operator_expression(operation, left, right, left_class, &failure);
+        if (result) {
+            if (operation == OP_LOGICAL_AND || operation == OP_LOGICAL_OR) {
+                /* Consult the same encountered IR vocabulary as the writer,
+                   retaining this original inline table lookup in its caller. */
+                record = 0x9e;
+                for (rule = 0; rule < declaration_code_count; ++rule)
+                    if (declaration_codes[rule].token == result->kind) {
+                        record = declaration_codes[rule].value; break;
+                    }
+                for (rule = 0; rule < expression_record_rule_count; ++rule)
+                    if (expression_record_rules[rule].operation == result->kind) {
+                        record = expression_record_rules[rule].record; break;
+                    }
+                if (record < 0x1b || record > 0x1c) increment_expression_record_depth();
+            }
+            return result;
+        }
+        if (operation == OP_ASSIGN && left_class && !(left->type->flags & 0x200)) {
+            tag = cpp_context_stack->items[left->type->field08];
+            if (!has_assignment_member_model(left->type))
+                report_syntax_error(582, tag->name);
+            else report_conversion_rank_failure(operation, failure, left->type, right->type);
+            return 0;
+        }
+        if (failure) {
+            classification = left ? (unsigned short)is_unqualified_class_type(left->type) : 0;
+            if (!operator_has_builtin_fallback(operation, 2, classification)) {
+                report_operator_resolution_failure(operation, 2, failure, left->type, right->type);
+                return 0;
+            }
+        }
+    }
+    if (operation == OP_LOGICAL_AND || operation == OP_LOGICAL_OR)
+        right = prepare_expression(right, 3);
+    return builtin_binary_expression(operation, left, right);
+}
+
+/* Original 0x5d800..0x5d8ab. The operation parameter is retained by the
+   native ABI but is unused: shapes, scalar category and width choose a type. */
+CType *__stdcall common_binary_type(unsigned char operation, CType *left, CType *right)
+{
+    unsigned short left_flags, right_flags;
+    if (!left) return right;
+    if (!right) return left;
+    if (left->related) {
+        if (right->related && (right->flags & 0x80)) return right;
+        return left;
+    }
+    if (right->related) return right;
+    left_flags = left->flags;
+    right_flags = right->flags;
+    if (left_flags & 0x100) {
+        if (!(right_flags & 0x100) || (right_flags & 15) <= (left_flags & 15)) return left;
+        return right;
+    }
+    if (right_flags & 0x100) return right;
+    if (!(left_flags & 0x240) || !(right_flags & 0x240)) return left;
+    if ((left_flags ^ right_flags) & 15)
+        return (right_flags & 15) < (left_flags & 15) ? left : right;
+    return (left_flags & 0x4000) ? left : right;
+}

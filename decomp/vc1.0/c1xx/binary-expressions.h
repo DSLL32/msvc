@@ -31,4 +31,7 @@ void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape
 IrToken *__stdcall make_assignment_lvalue(IrToken *expression);
 IrToken *__stdcall make_comma_lvalue(IrToken *expression);
 IrToken *__stdcall make_conditional_lvalue(IrToken *expression);
+int __stdcall has_assignment_member_model(CType *type);
+void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned rank,
+    CType *target, CType *source);
 #endif

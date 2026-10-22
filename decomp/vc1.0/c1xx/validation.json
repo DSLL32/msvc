@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 510,
-  "driver_functions": 430,
+  "accepted_frontiers": 517,
+  "driver_functions": 437,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 437,
-  "current_frontier": "_binary_expression@12",
-  "original_frontier_va": "0x5de30",
+  "reconstructed_source_functions": 444,
+  "current_frontier": "_find_forward_frontend_record@12",
+  "original_frontier_va": "0x41ac0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "19480042f3f50dfc47d664989d0222a9122b42944dc5d0430573690ba5b4b41e",
-  "call_graph_audit_functions": 437,
+  "replay_log_sha256": "d3e0816546323d5ff8a3b6569c69be9197779e02ce5a59869d3cb1c252fb89df",
+  "call_graph_audit_functions": 444,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -104,7 +104,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-member-access-offset.log",
+  "replay_log": "evidence/replay-increment-return.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -324,7 +324,7 @@
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true
   },
-  "accepted_source_text_and_switch_bytes": 161491,
+  "accepted_source_text_and_switch_bytes": 163916,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -443,7 +443,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "6758db2b5d3e9e1d87fe64cdf7dbd2216a8a6b2648ab8278a8d4c052371d3b74",
+  "replay_build_text_sha256": "51ce43722898a4c07216d48078e9c781f881474d5ab4f325406734ab6a19c437",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -672,9 +672,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 171934,
+    "bytes": 174359,
     "total_original_executable_bytes": 476418,
-    "percent": 36.08889672514473,
+    "percent": 36.59790352169733,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -847,11 +847,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-member-access-offset-receipt.json",
-    "receipt_sha256": "3f8036c3fbcee3b755ab21973a94563b985e6f8045c25487ca6ce826088435a4",
+    "receipt": "evidence/replay-increment-return-receipt.json",
+    "receipt_sha256": "cb4a3a06e491fa65d12192f4bb85c5ea8a14ea1a7995e21a727cde73eb4c0fd7",
     "jobs": 4,
-    "frontiers": 510,
-    "seconds": 133.20983478520066,
+    "frontiers": 517,
+    "seconds": 131.90138853527606,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 14,
     "private_masked_executables_workdirs_logs": true,
@@ -1085,6 +1085,22 @@
     "all_510_frontiers_replayed": true,
     "runtime_checkpoint_fields": 14,
     "constructor_definition_closed": true,
+    "frontend_case_completed": false,
+    "no_frontend_output_normalization": true
+  },
+  "increment_return": {
+    "evidence": "evidence/increment-return.txt",
+    "new_whole_functions": 7,
+    "binary_dispatch_native_callees": 13,
+    "numeric_conversion_native_callees": 13,
+    "integral_conversion_native_callees": 2,
+    "return_operand_native_callees": 10,
+    "integer_range_table_bytes": 72,
+    "floating_callees_remain_named_traps": true,
+    "native_early_return_load_order_preserved": true,
+    "all_517_frontiers_replayed": true,
+    "runtime_checkpoint_fields": 14,
+    "increment_and_return_ir_emitted": true,
     "frontend_case_completed": false,
     "no_frontend_output_normalization": true
   }

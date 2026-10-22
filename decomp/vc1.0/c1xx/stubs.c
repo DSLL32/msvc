@@ -150,10 +150,8 @@ void __stdcall begin_switch_body(IrToken *expression) { __asm { int 3 } }
 void begin_switch_condition(void) { __asm { int 3 } }
 void begin_while_body(void) { __asm { int 3 } }
 void begin_while_condition(void) { __asm { int 3 } }
-IrToken *__stdcall binary_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 IrToken *__stdcall boolean_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall build_call_expression(IrToken *expression, IrToken *arguments) { __asm { int 3 } return 0; }
-int __stdcall can_initialize(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm { int 3 } }
@@ -197,7 +195,7 @@ unsigned __stdcall evaluate_integer_constant(IrToken *expression) { __asm { int 
 CppSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
 IrToken *__stdcall finish_call_expression(IrToken *expression, unsigned short flags) { __asm { int 3 } return 0; }
 void finish_conditional_branch(void) { __asm { int 3 } }
-void finish_default_argument_text(void) { __asm { int 3 } }
+void increment_expression_record_depth(void) { __asm { int 3 } }
 
 void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) { __asm { int 3 } }
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
@@ -231,7 +229,6 @@ IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *exp
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination) { __asm { int 3 } }
 void __stdcall report_type_error(unsigned code, CType *type) { __asm { int 3 } }
-IrToken *__stdcall resolve_assignment_operand(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclarator *name) { __asm { int 3 } }
 DefaultArgument *__stdcall save_default_argument(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
@@ -521,17 +518,14 @@ IrToken * __stdcall new_literal_constant(unsigned char kind, void *value) { __as
 IrToken * __stdcall fold_binary_constant(IrToken *expression, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken * __stdcall convert_pointer_operands(IrToken *expression, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
-CType * __stdcall common_binary_type(unsigned char operation, CType *left, CType *right) { __asm { int 3 } return 0; }
 int __stdcall reject_member_pointer_arithmetic(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 int __stdcall check_conversion_qualifiers(unsigned char operation, unsigned short target, unsigned short source, int first_layer) { __asm { int 3 } return 0; }
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
-int __stdcall integer_constant_overflows(unsigned short width, short target_unsigned, short source_unsigned, unsigned value) { __asm { int 3 } return 0; }
 void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
 IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsigned *selection) { __asm { int 3 } return 0; }
-IrToken * __stdcall convert_numeric_constant(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall find_expression_type_base(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
@@ -635,3 +629,19 @@ void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol 
 IrToken *__stdcall adjust_pointer_by_offset(IrToken *object, unsigned displacement, CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall adjust_virtual_member_object(IrToken *object, QualifierBinding *binding,
     CType *type, unsigned displacement, int pointer_conversion) { __asm { int 3 } return 0; }
+
+int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 0; }
+void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned rank,
+    CType *target, CType *source) { __asm { int 3 } }
+
+IrToken *__stdcall new_cast_expression(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+int extended_to_integer(const Extended *value, long *result) { __asm { int 3 } return 0; }
+int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
+int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
+int extended_to_double(const Extended *value, double *result) { __asm { int 3 } return 0; }
+int double_to_extended(const double *value, Extended *result) { __asm { int 3 } return 0; }
+int extended_to_float(const Extended *value, float *result) { __asm { int 3 } return 0; }
+int float_to_extended(const float *value, Extended *result) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall strip_function_designator(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference) { __asm { int 3 } return 0; }

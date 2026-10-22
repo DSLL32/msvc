@@ -684,3 +684,10 @@ void __stdcall emit_vtordisp_initializers(CppSymbol *tag, int initialize)
         }
     }
 }
+
+/* Original 0x65cc0..0x65cdf. Ordinary initialization succeeds only for
+   a standard/user conversion rank below the native failure threshold. */
+int __stdcall can_initialize(CType *type, IrToken *expression)
+{
+    return classify_initializer_conversion(type, expression) < 0x400;
+}
