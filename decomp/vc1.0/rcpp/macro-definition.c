@@ -4,8 +4,6 @@
 int __stdcall rc_find_macro_parameter(const char *);
 void __stdcall rc_check_macro_storage(char *);
 char *__stdcall rc_copy_macro_quote(char *, unsigned char);
-char *rc_define_storage;
-int rc_define_argument_count;
 
 void rc_parse_define(void)
 {
@@ -193,4 +191,113 @@ int __stdcall rc_find_macro_parameter(const char *name)
         record += *record;
     }
     return -1;
+}
+
+/* Original [0100a340,0100a548). Formal names are collected directly into
+ * the packed definition workspace; duplicate names are diagnosed and omitted. */
+void rc_read_macro_parameters(void)
+{
+    char *name, *end;
+    unsigned char ch, category;
+    for (;;) {
+        name = rc_define_storage + 1;
+        end = name;
+        for (;;) {
+            ch = rc_read_nonspace();
+            category = rc_character_class[ch];
+            if (category == LC_COMMA || category == LC_RPAREN) {
+                if (name < end) {
+                    if (end - name >= 32) {
+                        name[31] = 0;
+                        rc_message_format = rc_message(4111);
+                        rc_format(rc_diagnostic_buffer, rc_message_format, name);
+                        rc_warning(4011);
+                        end = name + 32;
+                    }
+                    if (rc_find_macro_parameter(name) >= 1) {
+                        rc_message_format = rc_message(2009);
+                        rc_format(rc_diagnostic_buffer, rc_message_format, name);
+                        rc_error(2009);
+                    } else {
+                        *rc_define_storage = (unsigned char)(end - rc_define_storage);
+                        rc_define_storage = end;
+                        ++rc_define_argument_count;
+                    }
+                } else if (category == LC_COMMA || rc_define_argument_count > 0) {
+                    rc_message_format = rc_message(2010);
+                    rc_format(rc_diagnostic_buffer, rc_message_format, (int)ch);
+                    rc_error(2010);
+                }
+                if (category == LC_RPAREN) return;
+                break;
+            }
+            if (category != LC_IDENTIFIER) {
+                rc_message_format = rc_message(2010);
+                rc_format(rc_diagnostic_buffer, rc_message_format, (int)ch);
+                rc_error(2010);
+                continue;
+            }
+            if (name != end) {
+                rc_message_format = rc_message(2010);
+                rc_format(rc_diagnostic_buffer, rc_message_format, (int)ch);
+                rc_error(2010);
+            }
+            *end++ = ch;
+            for (;;) {
+                ch = *rc_input_cursor++;
+                while (rc_character_flags[ch] & 16) {
+                    *end++ = ch;
+                    ch = *rc_input_cursor++;
+                }
+                if (!ch) {
+                    if (rc_refill_input()) {
+                        rc_message_format = rc_message(1004);
+                        rc_format(rc_diagnostic_buffer, rc_message_format);
+                        rc_fatal(1004);
+                    }
+                    continue;
+                }
+                if (ch == '\\' && rc_splice_line()) continue;
+                --rc_input_cursor;
+                *end++ = 0;
+                break;
+            }
+        }
+    }
+}
+
+/* Original [0100ac40,0100ad25). Preserve a quote and its escapes as source
+ * text while removing spliced newlines. Limit overflow returns the sentinel
+ * position; the enclosing replacement scanner then diagnoses exhaustion. */
+char *__stdcall rc_copy_macro_quote(char *out, unsigned char quote)
+{
+    unsigned char ch;
+    *out++ = quote;
+    while (out <= rc_text_buffer + 2043) {
+        ch = *rc_input_cursor++;
+        switch (rc_character_class[ch]) {
+        case LC_END:
+            if (rc_resume_input() != 16) continue;
+            *out++ = '\\';
+            ch = rc_get_logical_character();
+            if (ch == '\\' && rc_splice_line()) continue;
+            break;
+        case LC_NEWLINE:
+            rc_message_format = rc_message(2001);
+            rc_format(rc_diagnostic_buffer, rc_message_format);
+            rc_error(2001);
+            --rc_input_cursor;
+            ch = quote;
+            /* Fall through to the closing-quote check. */
+        case LC_CHARACTER: case LC_STRING:
+            if (ch == quote) { *out++ = ch; return out; }
+            break;
+        case LC_DBCS_LEAD:
+            *out++ = ch;
+            ch = rc_get_logical_character();
+            break;
+        }
+        *out++ = ch;
+    }
+    return rc_text_buffer + 2043;
 }

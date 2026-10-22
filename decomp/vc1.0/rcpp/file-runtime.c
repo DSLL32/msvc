@@ -123,3 +123,15 @@ int _filbuf(FILE *stream)
     --stream->_cnt;
     return (unsigned char)*stream->_ptr++;
 }
+
+/* Original [01008500,01008536). Unlike later LIBC this clears only
+ * _IOMYBUF, retaining the original variant's unrelated 0x400 flag. */
+void _freebuf(FILE *stream)
+{
+    if ((stream->_flag & 0x83) && (stream->_flag & _IOMYBUF)) {
+        free(stream->_base);
+        stream->_flag &= ~_IOMYBUF;
+        stream->_ptr = stream->_base = NULL;
+        stream->_cnt = 0;
+    }
+}

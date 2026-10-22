@@ -145,6 +145,86 @@
     "all_bytes_equal": true
   },
   {
+    "member": "string\\obj\\i386\\STRNCMP.OBJ",
+    "member_sha256": "059d8c8df45d90c69ecbf3674aef01cf0166c12361888ff728d92e53daf4d96f",
+    "code_start": 16845416,
+    "code_bytes": 57,
+    "all_bytes_equal": true
+  },
+  {
+    "member": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "symbol": "_exit",
+    "code_start": 16808688,
+    "code_bytes": 18,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "symbol": "_doexit",
+        "target": 16808784
+      }
+    ]
+  },
+  {
+    "member": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "symbol": "__exit",
+    "code_start": 16808720,
+    "code_bytes": 18,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "symbol": "_doexit",
+        "target": 16808784
+      }
+    ]
+  },
+  {
+    "member": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "symbol": "__initterm",
+    "code_start": 16808912,
+    "code_bytes": 34,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": []
+  },
+  {
+    "member": "startup\\obj\\i386\\CRT0DAT.OBJ",
+    "symbol": "__cinit",
+    "code_start": 16808640,
+    "code_bytes": 48,
+    "all_nonrelocation_bytes_equal": true,
+    "all_relocations_verified": true,
+    "initial_callback_state_exact": true,
+    "relocations": [
+      {
+        "symbol": "__FPinit",
+        "target": 16851348
+      },
+      {
+        "symbol": "___xi_z",
+        "target": 16912432
+      },
+      {
+        "symbol": "___xi_a",
+        "target": 16912416
+      },
+      {
+        "symbol": "__initterm",
+        "target": 16808912
+      },
+      {
+        "symbol": "___xc_z",
+        "target": 16912400
+      },
+      {
+        "symbol": "___xc_a",
+        "target": 16912384
+      },
+      {
+        "symbol": "__initterm",
+        "target": 16808912
+      }
+    ]
+  },
+  {
     "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
     "member": "stdio\\obj\\i386\\FOPEN.OBJ",
     "member_sha256": "d59a4c832e3d388cb2c4c8faeb4e38e2edde0593ba9fe86726f27cce7769ba78",
@@ -363,6 +443,40 @@
         "kind": "REL32",
         "symbol": "_fgetc",
         "target": 16836800
+      }
+    ]
+  },
+  {
+    "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+    "member": "stdio\\obj\\i386\\FCLOSE.OBJ",
+    "member_sha256": "8222c14f842167c219bbfb3530795af82f714b88fb65ef187d7629c86c5e7186",
+    "code_start": 16809680,
+    "code_bytes": 112,
+    "all_nonrelocation_bytes_equal": true,
+    "relocations": [
+      {
+        "offset": 38,
+        "kind": "REL32",
+        "symbol": "__flush",
+        "target": 16810240
+      },
+      {
+        "offset": 49,
+        "kind": "REL32",
+        "symbol": "__freebuf",
+        "target": 16811264
+      },
+      {
+        "offset": 61,
+        "kind": "REL32",
+        "symbol": "__close",
+        "target": 16809808
+      },
+      {
+        "offset": 89,
+        "kind": "REL32",
+        "symbol": "_free",
+        "target": 16812448
       }
     ]
   }

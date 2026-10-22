@@ -1,5 +1,6 @@
 /* Name handling and macro symbol storage. */
 #include "lexer.h"
+#include <string.h>
 /* Original [0100be50,0100be6a). The eight-bit sum deliberately folds case
  * for hashing; later lookup still compares the identifier's actual spelling. */
 unsigned char __stdcall rc_hash_name(const char *name)
@@ -9,7 +10,6 @@ unsigned char __stdcall rc_hash_name(const char *name)
     return sum;
 }
 
-RcMacro *rc_macros[256];
 /* Original [0100a550,0100a726). Kind -2 is a command-line definition, whose
  * replacement receives the original internal 'D' terminator marker. */
 void __stdcall rc_define_macro(char *body, unsigned length, int kind)
@@ -124,4 +124,12 @@ void rc_remove_macro(void)
         }
         previous = macro;
     }
+}
+
+/* Original [0100a770,0100a7b9). Two empty bodies compare equal; a single
+ * absent body differs, otherwise compare only the new replacement's extent. */
+int __stdcall rc_compare_macro_text(char *a, char *b, unsigned count)
+{
+    if (a && b) return strncmp(a, b, count) != 0;
+    return a != NULL || b != NULL;
 }

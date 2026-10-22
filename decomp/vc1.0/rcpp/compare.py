@@ -54,14 +54,16 @@ def indexes():
     rec = PE('build/rcpp.exe')
     names = publics()
     ends = sorted(set(names.values()) | {rec.base+s['rva']+s['virtual_size'] for s in rec.sections if s['flags'] & 0x20})
+    assert len({f['name'] for f in cfg['functions']}) == len(cfg['functions']), 'duplicate logical function names'
     oi = imports(original) + cfg['functions']
     ordered = sorted(oi, key=lambda f:(f['start'],f['end']))
     for left, right in zip(ordered, ordered[1:]):
         assert left['end'] <= right['start'], 'overlapping original extents: '+left['name']+' / '+right['name']
     ri = imports(rec)
     for f in cfg['functions']:
-        assert f['name'] in names, f['name']
-        start = names[f['name']]
+        symbol = f.get('symbol', f['name'])
+        assert symbol in names, symbol
+        start = names[symbol]
         ri.append(dict(name=f['name'], start=start, end=next(a for a in ends if a > start)))
     return cfg, original, rec, oi, ri
 

@@ -4,7 +4,20 @@
   "originating_runtime": "Unidentified; differs from the shipped LIBC/LIBCMT/MSVCRT10 allocator implementation.",
   "native_function_graph_relaxed": false,
   "substitutions_using_graph_exception": [],
-  "compatible_runtime_variants": [],
+  "compatible_runtime_variants": [
+    {
+      "function": "__close",
+      "evidence": "Full target and CLOSE.OBJ compared: equivalent swapped unsigned bounds comparison; remaining body/branches and call graph preserve close/error/standard-handle behavior."
+    },
+    {
+      "function": "__free_osfhnd",
+      "evidence": "Full target and OSFINFO.OBJ compared: equivalent bounds comparison and register allocation; same open flags, invalid-handle errors, SetStdHandle and state writes."
+    },
+    {
+      "function": "_doexit",
+      "evidence": "CRT0DAT.OBJ wrapper relocation identifies the common CRT exit routine. Library retains reverse onexit callbacks, preterminator/terminator tables, return flag and ExitProcess ABI/calls. Library additionally sets a private termination-done flag; original has no corresponding native-observable flag. Native constructors are empty and stdio owns the shared exit flag."
+    }
+  ],
   "reconstructed_runtime_variants": [
     {
       "function": "__getbuf",
@@ -13,6 +26,10 @@
     {
       "function": "__filbuf",
       "reason": "Preserve original buffer size and Ctrl-Z bookkeeping across standard FILE operations. Original full body and call set reconstructed."
+    },
+    {
+      "function": "__freebuf",
+      "reason": "Target clears _IOMYBUF only; library additionally clears 0x400. Small recovered body retains original FILE flags."
     }
   ]
 }

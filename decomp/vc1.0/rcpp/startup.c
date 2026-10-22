@@ -33,27 +33,9 @@ void rcpp_start(void)
         rc_exit(rc_main(rc_argc, rc_argv, rc_envp));
     } __except (caught_code = GetExceptionCode(),
                 rc_exception_filter(caught_code, GetExceptionInformation())) {
-        rc_cexit(caught_code);
+        rc_fast_exit(caught_code);
     }
 }
 
-RcInitializer rc_fp_initialize;
-/* Four null slots occupy each original constructor range. RCPP is a C
- * program with no linked static C++ constructors or floating-point runtime. */
-static RcInitializer cpp_initializers[4], c_initializers[4];
-/* Original [01007ac0,01007af0). */
-void rc_initialize_c(void)
-{
-    if (rc_fp_initialize) rc_fp_initialize();
-    rc_initterm(cpp_initializers, cpp_initializers + 4);
-    rc_initterm(c_initializers, c_initializers + 4);
-}
-
-/* Original [01007bd0,01007bf2). The original uses unsigned address ordering. */
-void rc_initterm(RcInitializer *first, RcInitializer *last)
-{
-    while ((unsigned)first < (unsigned)last) {
-        if (*first) (**first)();
-        ++first;
-    }
-}
+/* C/CRT initialization and termination reuse the identified CRT0DAT.OBJ.
+ * Its private _initterm is mapped as the same logical CRT function. */

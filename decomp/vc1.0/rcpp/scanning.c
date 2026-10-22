@@ -86,3 +86,26 @@ unsigned char rc_get_logical_character(void)
         return ch;
     }
 }
+
+/* Original [0100d0a0,0100d116). A splice may cross a refill boundary;
+ * retain the backslash sentinel just before the resumed input cursor. */
+int rc_splice_line(void)
+{
+    unsigned char ch;
+    for (;;) {
+        ch = *rc_input_cursor++;
+        if (ch == '\r') continue;
+        if (!ch) {
+            rc_resume_input();
+            rc_input_cursor[-1] = '\\';
+            continue;
+        }
+        if (ch == '\n') {
+            ++rc_line_number;
+            if (rc_preprocessing_started) fputc('\n', rc_output);
+            return 1;
+        }
+        --rc_input_cursor;
+        return 0;
+    }
+}

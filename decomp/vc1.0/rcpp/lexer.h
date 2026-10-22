@@ -26,9 +26,32 @@ typedef struct RcMacro {
     signed char arguments;
     unsigned char flags;
 } RcMacro;
-extern RcMacro *rc_macros[256];
-extern char *rc_define_storage;
-extern int rc_define_argument_count;
+typedef struct RcMacroFrame {
+    unsigned char *saved_cursor;
+    char *argument_work, *output_base;
+    RcMacro *macro;
+    unsigned char argument_count, argument_index;
+    unsigned short reserved;
+} RcMacroFrame;
+/* Original storage starts at 010169c8. The old limit permits frame 64,
+ * which overlaps definition workspace and the first three symbol buckets.
+ * Express that actual shared storage as a typed union, including the first
+ * active frame's saved cursor used by include-buffer management. */
+typedef union RcMacroStorage {
+    struct {
+        RcMacroFrame frames[64];
+        char *definition;
+        int formal_count;
+        RcMacro *buckets[256];
+    } names;
+    RcMacroFrame expansion[65];
+} RcMacroStorage;
+extern RcMacroStorage rc_macro_storage;
+#define rc_macro_frames rc_macro_storage.expansion
+#define rc_macros rc_macro_storage.names.buckets
+#define rc_define_storage rc_macro_storage.names.definition
+#define rc_define_argument_count rc_macro_storage.names.formal_count
+#define rc_saved_input_cursor rc_macro_frames[1].saved_cursor
 void rc_read_macro_parameters(void);
 unsigned rc_read_macro_body(void);
 RcMacro *rc_find_macro(void);
@@ -49,7 +72,7 @@ typedef struct RcInput {
 } RcInput;
 extern RcInput rc_inputs[10];
 extern int rc_input_depth, rc_line_number, rc_input_encoding, rc_expanding_macro;
-extern unsigned char *rc_input_cursor, *rc_saved_input_cursor;
+extern unsigned char *rc_input_cursor;
 int __stdcall rc_open_include(char *, int);
 int rc_byte_order(void);
 int __stdcall rc_detect_encoding(FILE *);

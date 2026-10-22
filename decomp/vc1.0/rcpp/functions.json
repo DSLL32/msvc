@@ -120,7 +120,49 @@
     "_rc_read_macro_body",
     "_rc_check_macro_storage@4",
     "_rc_find_macro_parameter@4",
-    "_rc_remove_macro"
+    "_rc_remove_macro",
+    "_rc_expand_macro@4",
+    "_rc_push_macro@4",
+    "_rc_start_macro_body",
+    "_rc_collect_macro_identifier@4",
+    "_rc_resume_input",
+    "_rc_finish_macro_body",
+    "_rc_read_expanded_identifier@4",
+    "_rc_read_macro_parameters",
+    "_rc_copy_macro_quote@8",
+    "_rc_close_include",
+    "_fclose",
+    "__freebuf",
+    "_free",
+    "import:HeapFree",
+    "__close",
+    "import:CloseHandle",
+    "__free_osfhnd",
+    "_rc_copy_text_end@8",
+    "_rc_discard_line_comment",
+    "_rc_skip_line_comment",
+    "_rc_splice_line",
+    "_rc_read_macro_arguments@8",
+    "_rc_compact_macro_output@8",
+    "_rc_start_macro_argument",
+    "_rc_select_macro_argument@4",
+    "_rc_substituted_argument@4",
+    "_rc_argument_is_pasted",
+    "_rc_skip_block_comment",
+    "_rc_compare_macro_text@12",
+    "_strncmp",
+    "_rc_integer_nondecimal_kind@4",
+    "_rc_search_current_directory",
+    "_rc_copy_quoted_text@4",
+    "_rc_macro_argument",
+    "_rc_stringize_argument@8",
+    "_rc_exit",
+    "_doexit",
+    "__endstdio",
+    "__flushall",
+    "_flsall",
+    "_fflush",
+    "import:ExitProcess"
   ],
   "functions": [
     {
@@ -163,7 +205,9 @@
       "name": "_rc_initialize_c",
       "start": 16808640,
       "end": 16808688,
-      "status": "source"
+      "status": "library",
+      "symbol": "__cinit",
+      "classification": "Identified CRT0DAT.OBJ startup initializer and its shared private _initterm; library callback/data contracts retained."
     },
     {
       "name": "_rc_main",
@@ -174,14 +218,18 @@
     {
       "name": "_rc_exit",
       "start": 16808688,
-      "end": 16808718,
-      "status": "stub"
+      "end": 16808706,
+      "status": "library",
+      "symbol": "_exit",
+      "classification": "CRT0DAT.OBJ exit wrapper exact code and _doexit relocation."
     },
     {
-      "name": "_rc_cexit",
+      "name": "_rc_fast_exit",
       "start": 16808720,
-      "end": 16808750,
-      "status": "stub"
+      "end": 16808738,
+      "status": "library",
+      "symbol": "__exit",
+      "classification": "CRT0DAT.OBJ _exit fast termination wrapper. Earlier provisional cexit name corrected."
     },
     {
       "name": "_rc_exception_filter",
@@ -211,7 +259,9 @@
       "name": "_rc_initterm",
       "start": 16808912,
       "end": 16808946,
-      "status": "source"
+      "status": "library",
+      "symbol": "__initterm",
+      "classification": "CRT0DAT.OBJ _initterm leaf has identical complete code and ABI."
     },
     {
       "name": "_rc_next_argument",
@@ -330,8 +380,8 @@
     {
       "name": "_rc_compare_macro_text@12",
       "start": 16820080,
-      "end": 16820135,
-      "status": "stub"
+      "end": 16820153,
+      "status": "source"
     },
     {
       "name": "_rc_copy_bytes@8",
@@ -410,12 +460,6 @@
       "name": "__chsize",
       "start": 16839424,
       "end": 16839753,
-      "status": "library-boundary"
-    },
-    {
-      "name": "__close",
-      "start": 16809808,
-      "end": 16809964,
       "status": "library-boundary"
     },
     {
@@ -550,7 +594,7 @@
       "name": "_rc_splice_line",
       "start": 16830624,
       "end": 16830742,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_parse_directive",
@@ -694,25 +738,37 @@
       "name": "_rc_resume_input",
       "start": 16825632,
       "end": 16825920,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_close_include",
       "start": 16816560,
-      "end": 16816561,
-      "status": "stub"
+      "end": 16816745,
+      "status": "source"
     },
     {
       "name": "_rc_expand_macro@4",
       "start": 16821552,
-      "end": 16821553,
-      "status": "stub"
+      "end": 16822462,
+      "status": "source",
+      "shared": [
+        [
+          16822464,
+          16822628
+        ]
+      ]
     },
     {
       "name": "_rc_copy_quoted_text@4",
       "start": 16826336,
-      "end": 16826337,
-      "status": "stub"
+      "end": 16826815,
+      "status": "source",
+      "shared": [
+        [
+          16826816,
+          16826848
+        ]
+      ]
     },
     {
       "name": "_rc_parse_character",
@@ -759,8 +815,8 @@
     {
       "name": "_rc_read_expanded_identifier@4",
       "start": 16844688,
-      "end": 16844689,
-      "status": "stub"
+      "end": 16845009,
+      "status": "source"
     },
     {
       "name": "_rc_integer_value@8",
@@ -845,7 +901,7 @@
       "name": "_rc_read_macro_parameters",
       "start": 16819008,
       "end": 16819528,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_read_macro_body",
@@ -959,13 +1015,13 @@
       "name": "_rc_collect_macro_identifier@4",
       "start": 16824736,
       "end": 16825321,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_macro_fatal@4",
       "start": 16825568,
       "end": 16825618,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_find_inactive_directive",
@@ -995,7 +1051,175 @@
       "name": "_rc_copy_macro_quote@8",
       "start": 16821312,
       "end": 16821541,
-      "status": "stub"
+      "status": "source"
+    },
+    {
+      "name": "_rc_push_macro@4",
+      "start": 16824256,
+      "end": 16824414,
+      "status": "source"
+    },
+    {
+      "name": "_rc_start_macro_body",
+      "start": 16824416,
+      "end": 16824444,
+      "status": "source"
+    },
+    {
+      "name": "_rc_finish_macro_body",
+      "start": 16823664,
+      "end": 16823799,
+      "status": "source"
+    },
+    {
+      "name": "_rc_read_macro_arguments@8",
+      "start": 16822640,
+      "end": 16823488,
+      "status": "source",
+      "shared": [
+        [
+          16823488,
+          16823652
+        ]
+      ]
+    },
+    {
+      "name": "_rc_stringize_argument@8",
+      "start": 16823920,
+      "end": 16824183,
+      "status": "source"
+    },
+    {
+      "name": "_rc_macro_argument",
+      "start": 16825328,
+      "end": 16825391,
+      "status": "source"
+    },
+    {
+      "name": "_rc_compact_macro_output@8",
+      "start": 16823808,
+      "end": 16823920,
+      "status": "source"
+    },
+    {
+      "name": "_rc_start_macro_argument",
+      "start": 16824496,
+      "end": 16824541,
+      "status": "source"
+    },
+    {
+      "name": "_rc_substituted_argument@4",
+      "start": 16824608,
+      "end": 16824721,
+      "status": "source"
+    },
+    {
+      "name": "_rc_copy_text_end@8",
+      "start": 16845232,
+      "end": 16845258,
+      "status": "source"
+    },
+    {
+      "name": "_fclose",
+      "start": 16809680,
+      "end": 16809788,
+      "status": "library"
+    },
+    {
+      "name": "__freebuf",
+      "start": 16811264,
+      "end": 16811318,
+      "status": "source-runtime"
+    },
+    {
+      "name": "_free",
+      "start": 16812448,
+      "end": 16812467,
+      "status": "source-runtime"
+    },
+    {
+      "name": "__close",
+      "start": 16809808,
+      "end": 16809964,
+      "status": "library-boundary"
+    },
+    {
+      "name": "__free_osfhnd",
+      "start": 16810880,
+      "end": 16810990,
+      "status": "library-boundary"
+    },
+    {
+      "name": "_rc_append_argument@4",
+      "start": 16824192,
+      "end": 16824256,
+      "status": "source"
+    },
+    {
+      "name": "_rc_select_macro_argument@4",
+      "start": 16824448,
+      "end": 16824491,
+      "status": "source"
+    },
+    {
+      "name": "_rc_argument_is_pasted",
+      "start": 16824544,
+      "end": 16824604,
+      "status": "source"
+    },
+    {
+      "name": "_strncmp",
+      "start": 16845416,
+      "end": 16845473,
+      "status": "library"
+    },
+    {
+      "name": "_rc_peek_wide_character",
+      "start": 16817184,
+      "end": 16817218,
+      "status": "source"
+    },
+    {
+      "name": "_doexit",
+      "start": 16808784,
+      "end": 16808904,
+      "status": "library-boundary"
+    },
+    {
+      "name": "__endstdio",
+      "start": 16810496,
+      "end": 16810516,
+      "status": "library-boundary"
+    },
+    {
+      "name": "__flushall",
+      "start": 16810352,
+      "end": 16810363,
+      "status": "library-boundary"
+    },
+    {
+      "name": "_flsall",
+      "start": 16810368,
+      "end": 16810487,
+      "status": "library-boundary"
+    },
+    {
+      "name": "_fflush",
+      "start": 16810160,
+      "end": 16810231,
+      "status": "library-boundary"
+    },
+    {
+      "name": "__fcloseall",
+      "start": 16806896,
+      "end": 16806945,
+      "status": "library-boundary"
+    },
+    {
+      "name": "__commit",
+      "start": 16810544,
+      "end": 16810545,
+      "status": "library-boundary"
     }
   ],
   "cases": {

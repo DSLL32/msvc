@@ -1,9 +1,10 @@
 /* Nested input files and shared segmented scanner buffers. */
 #include "lexer.h"
 #include <string.h>
+char *__stdcall rc_copy_text_end(char *, const char *);
 RcInput rc_inputs[10];
 int rc_input_depth = -1, rc_line_number, rc_input_encoding, rc_expanding_macro;
-unsigned char *rc_input_cursor, *rc_saved_input_cursor;
+unsigned char *rc_input_cursor;
 FILE *rc_input_file;
 static unsigned char byte_buffer[3 * 2050];
 static unsigned short wide_buffer[3 * 2050];
@@ -130,4 +131,33 @@ int rc_refill_input(void)
     input->bytes[count] = 0;
     input->wide[count] = 0;
     return count ? 0 : 1;
+}
+
+/* Original [010099b0,01009a69). Restore the parent's logical name/line
+ * and scanner position; deep includes refill their reused buffer window. */
+unsigned char rc_close_include(void)
+{
+    RcInput *finished, *parent;
+    int final_line;
+    if (rc_input_depth == -1) return 0;
+    fclose(rc_input_file);
+    finished = rc_inputs + rc_input_depth;
+    rc_copy_text_end(rc_source_name, finished->saved_name);
+    final_line = rc_line_number;
+    rc_line_number = finished->saved_line;
+    rc_input_cursor = finished->saved_cursor;
+    if (--rc_input_depth < 0) { rc_line_number = final_line; return 0; }
+    parent = rc_inputs + rc_input_depth;
+    rc_input_file = parent->stream;
+    rc_input_encoding = parent->encoding;
+    if (rc_input_depth >= 2) rc_refill_input();
+    if (rc_options.preprocess_lines) rc_emit_line();
+    return 1;
+}
+
+/* Original [010109b0,010109ca): returns the position of the copied NUL. */
+char *__stdcall rc_copy_text_end(char *out, const char *text)
+{
+    while ((*out++ = *text++) != 0) ;
+    return out - 1;
 }

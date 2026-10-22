@@ -2,6 +2,10 @@
 #define RCPP_RECONSTRUCTION_H
 #include <windows.h>
 #define rc_malloc malloc
+#define rc_exit exit
+#define rc_fast_exit _exit
+#define rc_initterm _initterm
+#define rc_initialize_c _cinit
 #define rc_environment _aenvptr
 #define rc_envp _environ
 #define rc_runtime_abort _amsg_exit
@@ -32,7 +36,7 @@ void rc_initterm(RcInitializer *, RcInitializer *);
 void rc_initialize_c(void);
 int rc_main(int, char **, char **);
 void rc_exit(int);
-void rc_cexit(int);
+void rc_fast_exit(int);
 int rc_exception_filter(unsigned, EXCEPTION_POINTERS *);
 void rcpp_start(void);
 #endif
