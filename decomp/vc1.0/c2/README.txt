@@ -514,3 +514,29 @@ A clean original-toolchain make -j2 check passes, followed by all 352 minimal
 and all 56 hello frontier replays. All source graphs agree and five changed
 implementation modules compile /W3 clean. Hello output remains pending at
 merge_flow_blocks, the physical block-ordering pass at 0x5a540.
+
+Hello now passes physical block ordering, recursive successor traversal,
+ordinary-predecessor counting, stable edge sorting and explicit fall-through
+bridge insertion. The routine at 0x5a540 is now named order_flow_blocks. Its
+reverse-postorder chain head at 0x7bec0 is a contextual WorkItem pointer, not a
+counter. Ordinary and protected predecessors remain distinct when computing
+sort priorities. Branch insertion exercises the shared constructor's SNRnlTL
+commands and preserves the original labels, reference counts and edge updates.
+
+The second simplification pass also exercises block merging and the region-
+landmark transfer adapter. The first function has no regions, so its deeper
+region-last replacement helper remains a named typed trap. Synthesizing a new
+target label also remains behind its typed trap; the dynamic bridge path uses
+an existing label. See cases/hello-order-abi.json for full extents and limits.
+
+An independent capture before dominator construction matches six numbered
+blocks, 21 expressions, 91 visited nodes and seven ordered edges each direction.
+This additionally checks the null head predecessor, all other previous links,
+entry/exit identity, scope numbers, tree/symbol fields and label reference
+counts. Only the debugger exception address is normalized.
+
+The ordering checkpoint has 339 reconstructed functions and 416 accepted
+frontiers. All 64 hello frontiers replay, all source graphs agree, four changed
+modules compile /W3 clean, and the complete minimal object/exit regression passes.
+The frozen minimal history was fully replayed at the preceding clean-build
+checkpoint. Hello output remains pending at compute_work_dominators.

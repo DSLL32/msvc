@@ -234,3 +234,14 @@ void __fastcall destroy_flow_work(WorkItem *work)
     }
     free_work(work);
 }
+
+/* Original [0005b710,0005b740). Retarget region landmarks when a work
+   block is replaced; an enclosing shared last block is updated separately. */
+void __fastcall transfer_flow_region_work(WorkItem *source, WorkItem *replacement)
+{
+    FlowRegion *region = source->region;
+    if (!region) return;
+    if (region->entry == source) region->entry = replacement;
+    if (region->header == source) region->header = replacement;
+    if (region->last == source) replace_flow_region_last(region, replacement);
+}

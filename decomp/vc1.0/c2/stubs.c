@@ -379,7 +379,6 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 
 
-void __fastcall merge_flow_blocks(WorkItem *work) { __asm int 3 }
 
 void __fastcall compute_work_dominators(WorkItem *work) { __asm int 3 }
 
@@ -408,9 +407,13 @@ ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long i
 
 unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
 
-void __fastcall connect_flow_blocks(WorkItem *source, WorkItem *target) { __asm int 3 }
-Expression *__fastcall last_flow_expression(Expression *expressions) { __asm int 3 }
-void __fastcall transfer_flow_region_work(WorkItem *source, WorkItem *replacement) { __asm int 3 }
 
 
 void __fastcall forget_exception_label(Function *function, SymbolHeader *label) { __asm int 3 }
+
+
+
+
+Node *new_flow_label_node(void) { __asm int 3 }
+
+void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replacement) { __asm int 3 }

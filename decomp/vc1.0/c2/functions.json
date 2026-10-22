@@ -412,7 +412,15 @@
     "@mark_reachable_work@4",
     "@remove_flow_work@4",
     "@remove_flow_reference@8",
-    "@destroy_flow_work@4"
+    "@destroy_flow_work@4",
+    "@order_flow_blocks@4",
+    "@visit_flow_order@4",
+    "@sort_flow_successors@8",
+    "@count_ordinary_flow_links@4",
+    "@ensure_flow_branch@8",
+    "@last_flow_expression@4",
+    "@connect_flow_blocks@8",
+    "@transfer_flow_region_work@8"
   ],
   "driver": [
     {
@@ -3813,10 +3821,9 @@
       "end": 370272
     },
     {
-      "name": "@merge_flow_blocks@4",
+      "name": "@order_flow_blocks@4",
       "start": 369984,
-      "end": 369985,
-      "provisional": true
+      "end": 370128
     },
     {
       "name": "@compute_work_dominators@4",
@@ -3985,8 +3992,7 @@
     {
       "name": "@connect_flow_blocks@8",
       "start": 373072,
-      "end": 373073,
-      "provisional": true
+      "end": 373104
     },
     {
       "name": "@remove_flow_reference@8",
@@ -3996,8 +4002,7 @@
     {
       "name": "@last_flow_expression@4",
       "start": 373872,
-      "end": 373873,
-      "provisional": true
+      "end": 373904
     },
     {
       "name": "@remove_flow_work@4",
@@ -4012,8 +4017,7 @@
     {
       "name": "@transfer_flow_region_work@8",
       "start": 374544,
-      "end": 374545,
-      "provisional": true
+      "end": 374592
     },
     {
       "name": "@mark_reachable_work@4",
@@ -4024,6 +4028,38 @@
       "name": "@forget_exception_label@8",
       "start": 417936,
       "end": 417937,
+      "provisional": true
+    },
+    {
+      "name": "@visit_flow_order@4",
+      "start": 373504,
+      "end": 373616
+    },
+    {
+      "name": "@ensure_flow_branch@8",
+      "start": 373264,
+      "end": 373504
+    },
+    {
+      "name": "@sort_flow_successors@8",
+      "start": 373616,
+      "end": 373840
+    },
+    {
+      "name": "@count_ordinary_flow_links@4",
+      "start": 373840,
+      "end": 373872
+    },
+    {
+      "name": "_new_flow_label_node",
+      "start": 363360,
+      "end": 363361,
+      "provisional": true
+    },
+    {
+      "name": "@replace_flow_region_last@8",
+      "start": 374592,
+      "end": 374593,
       "provisional": true
     }
   ],

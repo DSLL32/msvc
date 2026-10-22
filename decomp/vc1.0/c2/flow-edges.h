@@ -28,4 +28,10 @@ void __fastcall destroy_flow_work(WorkItem *work);
 void __fastcall transfer_flow_region_work(WorkItem *source, WorkItem *replacement);
 void __fastcall mark_reachable_work(WorkItem *work);
 void __fastcall forget_exception_label(Function *function, SymbolHeader *label);
+void __fastcall visit_flow_order(WorkItem *work);
+int __fastcall ensure_flow_branch(WorkItem *source, WorkItem *target);
+void __fastcall sort_flow_successors(FlowLink **links, WorkItem *following);
+int __fastcall count_ordinary_flow_links(FlowLink *links);
+Node *new_flow_label_node(void);
+void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replacement);
 #endif

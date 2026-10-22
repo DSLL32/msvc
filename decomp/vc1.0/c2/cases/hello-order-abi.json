@@ -1,0 +1,100 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "order_flow_blocks",
+      "start": "0x5a540",
+      "end": "0x5a5d0",
+      "instructions": 50,
+      "abi": "fastcall 1: ECX entry work"
+    },
+    {
+      "name": "visit_flow_order",
+      "start": "0x5b300",
+      "end": "0x5b370",
+      "instructions": 43,
+      "abi": "fastcall 1: ECX block; recursive reverse-postorder construction"
+    },
+    {
+      "name": "sort_flow_successors",
+      "start": "0x5b370",
+      "end": "0x5b450",
+      "instructions": 84,
+      "abi": "fastcall 2: ECX edge-slot pointer, EDX old physical successor"
+    },
+    {
+      "name": "count_ordinary_flow_links",
+      "start": "0x5b450",
+      "end": "0x5b470",
+      "instructions": 11,
+      "abi": "fastcall 1: ECX links, EAX ordinary-edge count"
+    },
+    {
+      "name": "ensure_flow_branch",
+      "start": "0x5b210",
+      "end": "0x5b300",
+      "instructions": 85,
+      "abi": "fastcall 2: ECX source, EDX target, EAX boolean insertion result"
+    },
+    {
+      "name": "last_flow_expression",
+      "start": "0x5b470",
+      "end": "0x5b490",
+      "instructions": 11,
+      "abi": "fastcall 1: ECX expressions, EAX final expression or zero"
+    },
+    {
+      "name": "connect_flow_blocks",
+      "start": "0x5b150",
+      "end": "0x5b170",
+      "instructions": 11,
+      "abi": "fastcall 2: ECX source, EDX target"
+    },
+    {
+      "name": "transfer_flow_region_work",
+      "start": "0x5b710",
+      "end": "0x5b740",
+      "instructions": 14,
+      "abi": "fastcall 2: ECX old block, EDX replacement block"
+    }
+  ],
+  "renames": {
+    "0x5a540": "merge_flow_blocks -> order_flow_blocks: orders the physical work chain and restores the exit tail"
+  },
+  "data": [
+    {
+      "name": "flow_order_head",
+      "original_va": "0x7bec0",
+      "type": "WorkItem *",
+      "provenance": "driver clears the pointer; recursive visit_flow_order prepends each completed block and records the new head"
+    }
+  ],
+  "behavior": [
+    "Successor sorting counts only ordinary predecessor links, excluding the low flag bit; insertion preserves the native ordering among equal counts.",
+    "A displaced fall-through becomes a fresh branch work block. The shared list constructor executes SNRnlTL, creates an expression and connects its tree to the new block.",
+    "The target-label creation branch remains behind new_flow_label_node. First-function branch insertion uses an existing label and increments its reference count.",
+    "The entire 14-instruction region transfer body is reconstructed, but the first function has no regions; replace_flow_region_last remains a typed named trap."
+  ],
+  "independent_validation": {
+    "frontier": "compute_work_dominators",
+    "blocks": 6,
+    "expressions": 21,
+    "nodes": 91,
+    "successors": 7,
+    "predecessors": 7,
+    "comparison": "ordered/re-simplified work chain, both edge orders/targets/flags, entry/exit identity, all previous links including null head predecessor, block numbers, scope numbers, analysis presence, captured tree/symbol fields and label reference counts match",
+    "normalization": "debugger exception address only"
+  },
+  "validation_status": "passed",
+  "limits": [
+    "Hello object remains pending at compute_work_dominators 0x59610.",
+    "The independent capture compares only the first function after ordering and the second simplification/numbering passes.",
+    "Protected-region branches, newly synthesized target labels and their downstream helpers remain unvisited; they are not claimed as runtime passes."
+  ],
+  "validation": [
+    "all 64 hello historical frontiers replay with matching logical traps",
+    "all 339 reconstructed function graphs agree",
+    "four changed implementation modules compile with original compiler /W3 without warnings",
+    "complete minimal object/exit/stream regression passes; normalize only timestamp offset four / size four"
+  ]
+}

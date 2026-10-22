@@ -30,7 +30,7 @@ WorkItem *__fastcall build_global_work(Expression *expressions)
     global_work_capacity = 0;
     number_work_blocks(work);
     remove_unreachable_work(work);
-    merge_flow_blocks(work);
+    order_flow_blocks(work);
     simplify_flow_blocks(work);
     number_work_blocks(work);
     compute_work_dominators(work);

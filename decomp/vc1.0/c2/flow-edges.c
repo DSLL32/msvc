@@ -193,3 +193,27 @@ void __fastcall remove_flow_reference(FlowLink **links, WorkItem *work)
     release_flow_link(removed);
     *links = next;
 }
+
+/* Original [0005b450,0005b470). Protected edges do not contribute to
+   the predecessor count used when ordering physical fall-through. */
+int __fastcall count_ordinary_flow_links(FlowLink *links)
+{
+    int count = 0;
+    for (; links; links = links->next) if (!(links->flags & 1)) ++count;
+    return count;
+}
+
+/* Original [0005b470,0005b490). Return the final record, or zero for an
+   empty expression chain. */
+Expression *__fastcall last_flow_expression(Expression *expression)
+{
+    if (expression) while (expression->next) expression = expression->next;
+    return expression;
+}
+
+/* Original [0005b150,0005b170). Build both directions of an ordinary edge. */
+void __fastcall connect_flow_blocks(WorkItem *source, WorkItem *target)
+{
+    add_flow_successor(source, target);
+    add_flow_predecessor(target, source);
+}

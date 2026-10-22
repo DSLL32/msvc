@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 56,
+  "accepted_frontiers": 64,
   "current_frontier": {
-    "name": "@merge_flow_blocks@4",
-    "original_va": 369984
+    "name": "@compute_work_dominators@4",
+    "original_va": 366096
   },
   "expected": {
     "exit": 0,
@@ -57,8 +57,11 @@
     "block simplification/reachability checkpoint passes clean original-toolchain make -j2 check",
     "all 352 minimal and all 56 hello historical frontiers replay on the clean build",
     "all 331 function graphs match and five changed implementation modules compile /W3 clean",
-    "independent post-simplification capture matches eight blocks, 24 expressions and 94 nodes; post-reachability capture matches seven blocks, 23 expressions and 93 nodes, including all eight ordered edges in each direction"
+    "independent post-simplification capture matches eight blocks, 24 expressions and 94 nodes; post-reachability capture matches seven blocks, 23 expressions and 93 nodes, including all eight ordered edges in each direction",
+    "ordering checkpoint replays all 64 hello frontiers; all 339 source graphs agree",
+    "four changed implementation modules compile /W3 clean; complete minimal object/exit regression passes",
+    "independent ordered/re-simplified first-function capture matches six blocks, 21 expressions, 91 nodes and seven edges each direction, including block numbers, all previous links and label reference counts"
   ],
-  "total_accepted_frontiers": 408,
-  "reconstructed_functions": 331
+  "total_accepted_frontiers": 416,
+  "reconstructed_functions": 339
 }

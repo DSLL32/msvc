@@ -35,7 +35,7 @@ void __fastcall prepare_flow_blocks(WorkItem *work);
 void __fastcall simplify_flow_blocks(WorkItem *work);
 void __fastcall number_work_blocks(WorkItem *work);
 void __fastcall remove_unreachable_work(WorkItem *work);
-void __fastcall merge_flow_blocks(WorkItem *work);
+void __fastcall order_flow_blocks(WorkItem *work);
 void __fastcall compute_work_dominators(WorkItem *work);
 void __fastcall find_flow_regions(WorkItem *work);
 unsigned __fastcall simplify_flow_regions(FlowRegion *regions);
