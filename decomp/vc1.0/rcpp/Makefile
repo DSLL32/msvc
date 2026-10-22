@@ -1,8 +1,8 @@
 PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
-.PHONY: all prefix check replay check-suite replay-suite clean audit classifiers messages coverage
-all: build/rcpp.exe build/debug-run.exe
+.PHONY: all prefix check replay check-suite replay-suite clean audit classifiers messages coverage interrupt-check
+all: build/rcpp.exe build/debug-run.exe build/interrupt-run.exe
 prefix:
 	$(TOOL) --init
 build:
@@ -39,3 +39,12 @@ build/message-check.exe: build/message-check.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /base:0x02000000 /out:$@ $< $(TC)/lib/KERNEL32.LIB
 messages: all build/message-check.exe
 	$(PYTHON) check-messages.py
+
+# Real-console debugger/pipe controller; analysis tooling, excluded from rcpp.exe.
+build/interrupt-run.obj: ../fixtures/rcpp-interrupt/capture-interrupt.c | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fo$@ $<
+build/interrupt-run.exe: build/interrupt-run.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< $(TC)/lib/KERNEL32.LIB
+
+interrupt-check: all
+	$(PYTHON) check-interrupt.py

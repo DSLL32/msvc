@@ -179,7 +179,10 @@
     "_rc_fatal@4",
     "_rc_warning@4",
     "_rc_skip_line",
-    "_rc_macro_fatal@4"
+    "_rc_macro_fatal@4",
+    "_fgetc",
+    "_rc_control_handler@4",
+    "__fcloseall"
   ],
   "functions": [
     {
@@ -314,7 +317,7 @@
       "name": "_rc_control_handler@4",
       "start": 16806320,
       "end": 16806343,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_initialize_preprocessor@12",
@@ -548,8 +551,9 @@
     {
       "name": "_fgetc",
       "start": 16836800,
-      "end": 16836848,
-      "status": "library"
+      "end": 16836833,
+      "status": "library",
+      "identification": "Shipped LIBC FGETC.OBJ: complete fgetc code and relocation to _filbuf proven in library-proof.json; separate getc wrapper and alignment after 0100e8e1 excluded."
     },
     {
       "name": "_fread",
@@ -1236,7 +1240,8 @@
       "name": "__fcloseall",
       "start": 16806896,
       "end": 16806945,
-      "status": "library-boundary"
+      "status": "library",
+      "identification": "Exact shipped LIBC CLOSEALL.OBJ code and all relocations; FILE slots 3 through _lastiob and fclose return/count contract preserved."
     },
     {
       "name": "__commit",
@@ -1320,6 +1325,10 @@
     },
     "oversized-macro": {
       "fixture": "../fixtures/rcpp-targeted"
+    },
+    "console-interrupt": {
+      "fixture": "../fixtures/rcpp-interrupt",
+      "manifest_case": "console-interrupt"
     }
   },
   "acceptance_cases": {
@@ -1495,6 +1504,9 @@
     "_rc_fatal@4": "missing-include",
     "_rc_warning@4": "macro-arity",
     "_rc_skip_line": "directive-tail",
-    "_rc_macro_fatal@4": "oversized-macro"
+    "_rc_macro_fatal@4": "oversized-macro",
+    "_fgetc": "console-interrupt",
+    "_rc_control_handler@4": "console-interrupt",
+    "__fcloseall": "console-interrupt"
   }
 }

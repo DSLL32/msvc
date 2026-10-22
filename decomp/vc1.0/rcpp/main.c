@@ -93,6 +93,16 @@ int rc_main(int argc, char **argv, char **envp)
     return 0;
 }
 
+/* Original [010071b0,010071c7). The event value is ignored; every handled
+ * console notification closes user streams and terminates with status one. */
+BOOL WINAPI rc_control_handler(DWORD event)
+{
+    (void)event;
+    _fcloseall();
+    rc_exit(1);
+    return TRUE;
+}
+
 /* Original [01007000,01007023). Its zero-return tail is also a byte-match for
  * unrelated CRT leaf routines; it is part of this function's conditional path. */
 char *rc_next_argument(void)

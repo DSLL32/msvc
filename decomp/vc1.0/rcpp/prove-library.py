@@ -149,7 +149,7 @@ variables = {'__iob': 0x0101eea0, '__lastiob': 0x0101f120,
 for basename, start in (('FOPEN.OBJ', 0x0100ec30), ('STREAM.OBJ', 0x0100ec90),
                         ('_OPEN.OBJ', 0x0100ecf0), ('_FLSBUF.OBJ', 0x01008bb0),
                         ('LSEEK.OBJ', 0x010088c0), ('FGETC.OBJ', 0x0100e8c0),
-                        ('FCLOSE.OBJ', 0x01007ed0)):
+                        ('FCLOSE.OBJ', 0x01007ed0), ('CLOSEALL.OBJ', 0x010073f0)):
     member, payload = next((n, d) for n, d in archive(wt.TC/'lib/LIBC.LIB')
                            if n.rsplit('\\', 1)[-1] == basename)
     obj = COFF(payload)
@@ -184,4 +184,4 @@ for basename, start in (('FOPEN.OBJ', 0x0100ec30), ('STREAM.OBJ', 0x0100ec90),
                        code_bytes=len(text['data']), all_nonrelocation_bytes_equal=True,
                        relocations=proof))
 Path('library-proof.json').write_text(json.dumps(result, indent=2)+'\n')
-print('Seven additional stdio objects match all code and relocation destinations.')
+print('Eight additional stdio objects match all code and relocation destinations.')

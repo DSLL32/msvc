@@ -493,5 +493,39 @@
         "sha256": "4e3758e19fe831b715c66e6ce3889f728ef5a114ace28c99a235a53394f5ac0d"
       }
     }
+  },
+  "console-interrupt": {
+    "exit": 1,
+    "runs": {
+      "original": {
+        "result.i": {
+          "bytes": 46,
+          "sha256": "ba58e4e3fee572698a4e28f76c5d5a029a23f3ac6b581fbe48ac088705b29f5b"
+        }
+      },
+      "reconstructed": {
+        "result.i": {
+          "bytes": 46,
+          "sha256": "ba58e4e3fee572698a4e28f76c5d5a029a23f3ac6b581fbe48ac088705b29f5b"
+        }
+      },
+      "baseline": {
+        "result.i": {
+          "bytes": 46,
+          "sha256": "ba58e4e3fee572698a4e28f76c5d5a029a23f3ac6b581fbe48ac088705b29f5b"
+        }
+      }
+    },
+    "exact": true,
+    "streams": {
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
   }
 }

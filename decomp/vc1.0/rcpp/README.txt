@@ -17,26 +17,36 @@ failure is retained, including RC4413 and RC2001 diagnostics.
 The two targeted follow-ups also pass: trailing tokens after #endif retain
 RC4067 with status zero and a 70-byte output; a 1,200-byte macro argument
 retains fatal RC10056's empty message, status one and 32-byte partial output.
-All 16 cases assert the entire generated file set as well as exact bytes.
+The original 16 cases assert the entire generated file set as well as exact
+bytes.
 
-functions.json records 173 accepted frontiers: 155 non-import functions and
+The console-interrupt case adds a real Ctrl+C while the primary thread is
+blocked in an empty named-pipe ReadFile. The original registered callback
+receives argument zero on a distinct OS-created thread, closes user streams
+and exits one. Exact empty streams, pipe disconnect, exclusive output reopening
+and the retained 46-byte flushed prefix all match. The output is zero bytes at
+the blocked-read boundary. The immutable fixture preserves two original raw
+captures; independent replay and repeated paired runs check the same relations.
+
+functions.json records 176 accepted frontiers: 158 non-import functions and
 18 Win32 import interfaces. Every accepted function's complete call-target set
 matches the original. acceptance_cases preserves all 156 initial frontiers
-and records the case used for each subsequent acceptance. All 171 previous
-frontiers are retained. Three named trapping stubs remain: exception filter,
-CRT fatal startup abort and console control handler. Unvisited complete
-helpers also remain masked until a case reaches them. This completes the assigned cases, not the
-whole binary.
+and records the case used for each subsequent acceptance. All 173 previous
+frontiers are retained. Two named trapping stubs remain: exception filter
+and CRT fatal startup abort. Unvisited complete helpers also remain masked
+until a case reaches them. This completes the assigned cases, not the whole
+binary.
 
 coverage.json measures the clipped union of accepted full code extents,
-including shared .text data, identified CRT and import thunks: 35,410 of
-40,448 original code bytes (87.54%). This is neither branch coverage nor
+including shared .text data, identified CRT and import thunks: 35,515 of
+40,448 original code bytes (87.80%). This is neither branch coverage nor
 executed-instruction coverage. Gaps include alignment padding as well as
 unaccepted functions.
 
     make -j2 check-suite
     make -j2 replay-suite
     make -j2 classifiers messages coverage
+    make -j2 interrupt-check
 
 Builds use original CL.EXE and LINK.EXE from toolchains/1.0-nt. GNU Make supports
 parallel builds. Scratch, a private Wine prefix, case directories, debugger logs
@@ -52,6 +62,7 @@ real argv and inherited environment; MSC_CMD_FLAGS is removed. The captured
 basenames, working directory layout and T: paths preserve #line output exactly.
 ../fixtures/rcpp-followups supplies 13 immutable source/argument/output captures.
 ../fixtures/rcpp-targeted adds the two diagnostic/macro-limit captures.
+../fixtures/rcpp-interrupt adds the original-backed console/pipe case.
 Each manifest source, target, catalog and output hash is verified. The complete
 source tree is copied into a private work directory and checked unchanged after
 the run. Captured relative paths and source encodings are retained. No bytes,
@@ -83,8 +94,9 @@ conditional expression evaluation, inactive directives, and macro definitions,
 actual arguments, nested expansion, stringizing and token pasting. Follow-up
 cases add pragma output, complete character/escape and floating-spelling
 scanners, option-number/suffix parsing, directive-tail skipping and diagnostic
-reporting. The macro-fatal helper restores the opening expansion line before
-lookup, formatting and fatal reporting. Escaped characters retain signed-byte
+reporting. The console callback retains its original unconditional stream-close
+and exit behavior. The macro-fatal helper restores the opening expansion line
+before lookup, formatting and fatal reporting. Escaped characters retain signed-byte
 behavior unless -J is active; octal and hex escapes retain the target's
 three-digit limits.
 
@@ -94,8 +106,9 @@ first active frame's saved cursor used by include buffering, and the original
 last-frame/workspace overlap. Original-toolchain compile-time size/offset
 assertions verify those aliases, FILE and input context layouts. Ordinary
 literals stay at their use sites; shared token spelling/category records and
-semantic lexer tables have explicit contexts. No target data section was bulk copied. The only inline assembly in
-reconstruction sources is INT3 in named frontier stubs.
+semantic lexer tables have explicit contexts. No target data section was bulk
+copied. The only inline assembly in reconstruction sources is INT3 in named
+frontier stubs.
 
 Original .text switch tables are recorded with their owning functions. The
 main lexer is one original graph vertex, [0100f970,010106dc), with 818 reachable
@@ -129,9 +142,12 @@ termination-done flag does not replace any native state contract.
 
 prove-library.py independently checks complete IOINIT code, all relocations
 and its 392 initial data bytes; STDENVP; STRNCPY/STRNCMP leaves; CRT0DAT's C
-initializer, wrappers and _initterm; and seven complete stdio objects' code and
+initializer, wrappers and _initterm; and eight complete stdio objects' code and
 relocations. library-proof.json records the results. Runtime data is supplied
-by the original library, not copied from the target.
+by the original library, not copied from the target. The pipe case reaches
+FGETC.OBJ's already-proven fgetc and CLOSEALL.OBJ's exact fcloseall. The fgetc
+extent ends at its actual return (0100e8e1), excluding padding and the separate
+getc wrapper; fcloseall retains slots three through _lastiob and its count.
 
 Some small recovered variants retain concrete differences. File opening rejects
 RCPP's original invalid disposition combinations. _freebuf clears _IOMYBUF
@@ -162,6 +178,11 @@ audit-graph.py follows complete CFGs and switch tables, not linear decoding of
 jump-table bytes. Known tail calls count as callee edges. Startup's detached
 SEH blocks are inspected separately. Original ranges are checked for overlap;
 ftell ends at 0100f8b4, before separate native directive lookup 0100f8d0.
+All 352 accepted original/reconstruction ranges (functions and import thunks)
+also receive a 15-byte lookahead check for split instructions, including RET
+immediates. Reachable CFG instructions and the final detached/alignment segment
+are checked; switch data is treated as data. boundary-validation.json records
+this check. No accepted range required repair for a split instruction.
 
 audit-data.py checks both 256-entry semantic lexer tables and all 132 valid
 token descriptions/categories against the target. Invalid preceding padding
@@ -184,7 +205,23 @@ message-validation.json records the matching probe artifact. The analysis-only
 probe maps both EXEs without startup; PE base relocations are applied in memory
 when a mapped EXE is not at its preferred address.
 
-A useful next case is CTRL_C_EVENT during a blocked named-pipe input read,
-to reach the remaining native console-control handler. Capturing deterministic
-pipe synchronization, delivered event, exit status and partial output would
-be necessary. This is a proposal, not a completed case.
+The real-console runner is analysis tooling excluded from reconstructed RCPP.
+It follows RC's corrected entry-barrier lesson: observe native registration,
+allow an actual empty pipe read into the OS, suspend and verify its live call
+frame, queue real console-local Ctrl+C, briefly resume for Wine dispatch, then
+suspend at OS callback-thread creation or a retained read-return breakpoint.
+DBG_CONTROL_C is passed not handled. Separate private prefixes isolate the
+identically named pipes during paired execution. No native callback invocation,
+thread injection, PID rewriting or artifact normalization is used.
+
+interrupt-validation.json records ten repeated paired/baseline checks with
+actual callback IDs and raw proof hashes. Final raw proof, streams, events and
+before/after files live under evidence/console-interrupt. Intermediate stress
+proof lives in ~/.ai-tmp/vc1.0-rcpp/interrupt/stress. The fixture controller and
+capture script are pinned by its manifest; original independent recapture uses
+the same controller without masking or reconstruction.
+
+A useful next proposal is an arithmetic-fault conditional, such as #if 1/0,
+targeting the still-trapping exception filter. Its first-chance exception
+disposition and exact original outcome would need capture before dispatch.
+This proposal has not been run; no further cases were started.

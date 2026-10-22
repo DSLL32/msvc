@@ -15,6 +15,7 @@ wt = SourceFileLoader('rcpp_wine', str(Path(__file__).with_name('wine-tool.py'))
 HERE = Path(__file__).resolve().parent
 FIXTURE = HERE.parent / 'fixtures/resources-rich'
 SCRATCH = wt.PREFIX.parent
+INTERRUPT = SourceFileLoader('rcpp_console_case',str(HERE.parent/'fixtures/rcpp-interrupt/capture.py')).load_module()
 
 def imports(pe):
     lookup = {}
@@ -108,7 +109,8 @@ def case_spec(name):
                 expected_exit=case['expected_exit'], stdout=fixture/case['stdout']['path'],
                 stderr=fixture/case['stderr']['path'],
                 outputs={x['output_name']:fixture/x['path'] for x in case['outputs']},
-                extra_input=None, requested_output=arguments[arguments.index('-g')+1])
+                extra_input=None, requested_output=arguments[arguments.index('-g')+1],
+                interrupt=case.get('runner')=='real-console')
 
 def location(label, spec):
     stem = SCRATCH / 'cases' / spec['name'] / label
@@ -126,8 +128,15 @@ def run(label, exe, args, spec=None):
     command = ['wine', 'build/debug-run.exe', wt.windows(exe), args,
                wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
                wt.windows(str(stem)+'.events'), wt.windows(cwd)]
-    subprocess.run(command, env=wt.environment(), check=True, timeout=90,
-                   stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    if spec.get('interrupt'):
+        cfg,original,rec,oi,ri=indexes()
+        pe,records=(rec,ri) if label=='reconstructed' else (original,oi)
+        names=['import:SetConsoleCtrlHandler','import:ReadFile','_rc_control_handler@4']
+        rvas=[next(f['start']-pe.base for f in records if f['name']==name) for name in names]
+        INTERRUPT.execute(exe,args,cwd,stem,rvas,label)
+    else:
+        subprocess.run(command, env=wt.environment(), check=True, timeout=90,
+                       stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     for relative, expected in original_inputs.items():
         assert (cwd/relative).read_bytes() == expected, 'target modified input: '+str(relative)
     return Path(str(stem)+'.events').read_text()
@@ -180,6 +189,7 @@ def compare(count=None, case_name="resources-rich"):
     mask(rec, ri, accepted, 'build/reconstructed.exe')
     spec = case_spec(case_name)
     args = spec['arguments']
+    if spec.get('interrupt'): INTERRUPT.prepare()
     with concurrent.futures.ThreadPoolExecutor(2) as pool:
         a = pool.submit(run, 'original', HERE/'build/original.exe', args, spec)
         b = pool.submit(run, 'reconstructed', HERE/'build/reconstructed.exe', args, spec)

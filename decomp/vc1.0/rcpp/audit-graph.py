@@ -33,10 +33,11 @@ def edges(pe, records, function):
         if address in visited:
             continue
         assert function['start'] <= address < function['end'], (function['name'], 'branch exceeds extent', hex(address))
-        inst = next(cs.disasm(pe.read(address, min(15, function['end']-address)),address,count=1), None)
+        inst = next(cs.disasm(pe.read(address,15),address,count=1),None)
         assert inst is not None, (function['name'], 'invalid instruction',hex(address))
         visited[address] = inst
         after = address + inst.size
+        assert after <= function['end'], (function['name'],'extent truncates instruction',hex(address),inst.mnemonic,hex(function['end']))
         if inst.mnemonic.startswith('ret'):
             continue
         if inst.mnemonic == 'call':
@@ -72,7 +73,30 @@ def edges(pe, records, function):
     return calls, dict(instructions=len(visited), switches=tables,
                        last_instruction_end=max(a+i.size for a,i in visited.items()))
 
+def boundary(pe, function, flow):
+    """Decode beyond the endpoint to detect split RET operands/padding too.
+
+    CFG decoding above checks every reached instruction. This tail check also
+    catches a split instruction in detached or alignment code. Switch tables
+    are data: start after the final known table within this function's extent.
+    The original tables are separately owned .text data beyond their functions;
+    reconstructed /Od tables can precede the next public-symbol endpoint.
+    """
+    start,end=function['start'],function['end']
+    table_ends=[int(address,16)+4*count for address,count in flow.get('switches',{}).items()
+                if start <= int(address,16) < end]
+    tail=max([start]+table_ends)
+    assert tail <= end,(function['name'],'table exceeds accepted extent')
+    cursor=tail
+    for instruction in cs.disasm(pe.read(tail,end-tail+15),tail):
+        if instruction.address >= end: break
+        following=instruction.address+instruction.size
+        assert following <= end,(function['name'],'extent truncates instruction',hex(instruction.address),instruction.mnemonic,hex(end))
+        cursor=following
+    assert cursor==end,(function['name'],'undecodable extent tail',hex(cursor),hex(end))
+
 report = []
+boundaries = []
 failures = 0
 for function in cfg['functions']:
     if function['name'] not in cfg['accepted']:
@@ -80,6 +104,9 @@ for function in cfg['functions']:
     rec_function = next(f for f in ri if f['name'] == function['name'])
     a, original_flow = edges(original, oi, function)
     b, reconstructed_flow = edges(reconstructed, ri, rec_function)
+    boundary(original,function,original_flow)
+    boundary(reconstructed,rec_function,reconstructed_flow)
+    boundaries.append(function['name'])
     report.append(dict(name=function['name'],original=original_flow,reconstructed=reconstructed_flow,
                        original_calls=sorted(a),reconstructed_calls=sorted(b)))
     if a != b:
@@ -89,3 +116,19 @@ Path('build/graph.json').write_text(json.dumps(report,indent=2)+'\n')
 if failures:
     raise SystemExit(1)
 print('%d accepted non-import functions have matching calls over their complete CFGs.' % len(report))
+
+for pe,records in [(original,oi),(reconstructed,ri)]:
+    for function in records:
+        if function['name'] in cfg['accepted'] and function['name'].startswith('import:'):
+            boundary(pe,function,{})
+imports_count=sum(name.startswith('import:') for name in cfg['accepted'])
+Path('boundary-validation.json').write_text(json.dumps(dict(
+    target_sha256=cfg['target']['sha256'],
+    accepted_nonimport_extents_per_binary=len(boundaries),
+    accepted_import_extents_per_binary=imports_count,
+    checked_extents=2*(len(boundaries)+imports_count),
+    reachable_instruction_endpoints_checked=True,
+    tail_decode_lookahead_bytes=15,
+    shared_switch_tables_treated_as_data=True,
+    split_instructions=0),indent=2)+'\n')
+print('%d accepted original/reconstruction extents end on complete instruction or owned switch-data boundaries.'%(2*(len(boundaries)+imports_count)))

@@ -24,6 +24,10 @@
     {
       "function": "__isatty",
       "evidence": "Complete target and shipped LIBC leaf compared: unsigned handle bound against _nhandle, zero on invalid handles, otherwise _osfile[handle] & 0x40; same shared handle contract and empty call set."
+    },
+    {
+      "function": "__fcloseall",
+      "evidence": "CLOSEALL.OBJ complete code and all relocations match exactly; slots 3 through _lastiob, per-FILE fclose ABI, return counting and shared FILE layout retained. No CRT graph exception used."
     }
   ],
   "reconstructed_runtime_variants": [
