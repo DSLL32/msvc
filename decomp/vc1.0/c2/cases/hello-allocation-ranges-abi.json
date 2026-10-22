@@ -1,0 +1,126 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "_reset_global_register_map",
+      "start": "0x2db30",
+      "end": "0x2db50",
+      "instructions": 7
+    },
+    {
+      "name": "@collect_allocation_ranges@4",
+      "start": "0x62960",
+      "end": "0x62c60",
+      "instructions": 211
+    },
+    {
+      "name": "_new_allocation_range",
+      "start": "0x63480",
+      "end": "0x634b0",
+      "instructions": 12
+    },
+    {
+      "name": "@bitsets_overlap@8",
+      "start": "0x66800",
+      "end": "0x66850",
+      "instructions": 39
+    }
+  ],
+  "native_instructions": 269,
+  "data_provenance": [
+    {
+      "name": "AllocationRange",
+      "bytes": 24,
+      "construction": "factory recycles or allocates a record in arena2 and initializes only the short register number; collector owns block bounds, definition set, two allocation hints and list insertion"
+    },
+    {
+      "name": "initialization diagnostics",
+      "original_va": "0x7e848",
+      "type": "int lazy per-block unconditional-use cache",
+      "ownership": "collector sets cache only when a diagnostic needs it; driver resets the separate cache-valid flag per block"
+    },
+    {
+      "name": "register_variable_buckets",
+      "original_extent": [
+        "0x7c730",
+        "0x7c8b0"
+      ],
+      "type": "RegisterVariable*[3][32]",
+      "evidence": "reset clears96 pointers; constructor2b6d0 and lookup2c870 select a128-byte class table using register bits14/15 and a bucket using its low5 bits; valid classes are physical, tree-virtual4000 and machine-virtual8000",
+      "limits": "record type is forward-declared until its constructor is encountered; no record fields or data-section bytes copied"
+    }
+  ],
+  "abis": [
+    "collect_allocation_ranges is fastcall1; recursive calls and named diagnostic/range helpers retain their original graph",
+    "new_allocation_range has no arguments and returns a pointer in EAX; the decompiler incorrectly inferred void, so native callers/returns establish the typed ABI",
+    "bitsets_overlap is fastcall2 and returns int0/1 without modifying either set",
+    "reset_global_register_map takes no arguments and has no callees; typed nested loops replace its native REP STOS",
+    "compiler_warning is declared through records.h as cdecl varargs, matching the native three pushed warning arguments and caller cleanup; warning paths remain unvisited"
+  ],
+  "independent_capture": {
+    "frontier": "@rewrite_allocation_registers@4",
+    "original_va": "0x627a0",
+    "normalized_lines": 344,
+    "all_lines_identical": true,
+    "allocation_values": 6,
+    "ranges": 6,
+    "virtual_registers": [
+      "0x4020",
+      "0x4021",
+      "0x4022",
+      "0x4023",
+      "0x4024",
+      "0x4025"
+    ],
+    "next_tree_register": 38,
+    "register_variable_heads_checked": 96,
+    "register_variable_heads_nonempty": 0,
+    "normalizations": [
+      "debugger exception address",
+      "canonical value identities and saved selector-copy identity",
+      "range next pointers compared by contextual list position; typed bounds, flags, register numbers and definition sets compared directly",
+      "per-value and global register sets interpreted only after their driver assigns registers",
+      "register-variable buckets compared by class/bucket presence; pointed-to records are not yet constructed",
+      "released temporary indices, padding field06 and obsolete no-op payloads excluded from interpretation"
+    ],
+    "event_sha256": {
+      "original": "c57898784765bf85edeca9ec8599ff13f485564c6e09691052d6f8c98d5cf2f8",
+      "reconstructed": "7c71f7549deeef0428cd54cc3d38e910dd51c15786790d7fb0f5520d7f3a2081"
+    },
+    "normalized_sha256": "67bced6a030200bd9170f6c09cf4c29748b61b21252d6445ea13d7cd6ed69e12"
+  },
+  "limits": [
+    "Hello object remains pending at rewrite_allocation_registers; full optimized output is not complete.",
+    "Each value currently has one connected range. Range bounds expand through repeated accesses, but merging two existing components and range recycling remain unvisited; release_allocation_range is a typed trap.",
+    "No uninitialized-use diagnostic is emitted. Region/backedge checking, name formatting and warning helpers remain typed traps, so diagnostic failure branches are not claimed to pass.",
+    "All observed range hint flags are zero; excluded-range and hint branches are not dynamically established.",
+    "Register-variable reset sees a fresh empty table in this first function; clearing populated tables is not yet dynamically tested.",
+    "The set-overlap case uses small definition IDs; null/multiple-chunk branches have complete source but no separate branch-coverage claim."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 509,
+    "accepted_code_bytes": 133951,
+    "original_code_bytes": 399693,
+    "percentage": 33.5134715894449,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 152
+  },
+  "validation_status": "passed",
+  "validation": [
+    "all352 minimal historical frontiers replay through exact object/streams/exit comparison",
+    "all157 hello historical frontiers replay and end at matching rewrite_allocation_registers",
+    "all432 source function graphs agree; all509 accepted original/reconstructed extents end on complete instructions",
+    "three affected implementation modules compile /W3 clean after adding the explicit diagnostic header declaration",
+    "fresh complete minimal object matches captured fixture except only four-byte COFF timestamp",
+    "independent completed range/virtual assignment state matches all344 normalized lines, including six ranges, six assigned registers and96 register-variable bucket heads"
+  ]
+}

@@ -2,10 +2,12 @@
 /* Global allocation values and connected definition ranges. */
 #include <stdlib.h>
 #include "global-registers.h"
+#include "register-variables.h"
 #include "work-expressions.h"
 #include "work-optimizer.h"
 #include "work-prepare.h"
 #include "function-input.h"
+#include "records.h"
 #include "control-input.h"
 #include "tree-rewrite.h"
 #include "tree-input.h"
@@ -241,9 +243,9 @@ AllocationValue *__fastcall find_allocation_value(Node *node, int create)
     if (symbol && symbol->symbol.kind == 1 &&
         ((attributes = symbol->attributes) & 0x70) == 0x10 && symbol->symbol.name &&
         !(attributes & 0x10000) && (attributes & 15) != 6)
-        value->diagnostic_flags |= 1;
-    else value->diagnostic_flags &= ~1;
-    value->diagnostic_flags &= ~2;
+        value->diagnostic_flags |= ALLOCATION_CHECK_INITIALIZATION;
+    else value->diagnostic_flags &= ~ALLOCATION_CHECK_INITIALIZATION;
+    value->diagnostic_flags &= ~ALLOCATION_REPORTED_POSSIBLE_UNINITIALIZED;
     value->next = *bucket;
     *bucket = value;
     allocation_initial_definitions = bitset_include(allocation_initial_definitions, next_allocation_definition);
@@ -383,4 +385,111 @@ void __fastcall solve_definition_reachability(WorkItem *head)
         }
     } while (changed);
     release_bitset(incoming);
+}
+
+int allocation_use_is_unconditional; /* 0007e848: lazy per-block diagnostic cache */
+/* Original [00062960,00062c60). Connected reaching-definition sets form
+   allocation ranges. Merge every prior component intersecting this access,
+   extend its numbered-block bounds and preserve the two allocation hints.
+   Named locals also retain the native definite/possible uninitialized-use
+   diagnostics and their once-per-block/once-per-value suppression state. */
+void __fastcall collect_allocation_ranges(Node *node)
+{
+    AllocationValue *value;
+    AllocationRange **link, *range, *matched;
+    BitSet *definitions;
+    int block, first, second, definite;
+    unsigned flags;
+    if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return;
+    collect_allocation_ranges(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+        collect_allocation_ranges(node->second.node);
+    if (work_expression->tree == node && work_expression->clobbered_definitions) {
+        subtract_bitset(allocation_live_definitions, allocation_observable_definitions);
+        allocation_live_definitions = bitset_union(allocation_live_definitions, work_expression->clobbered_definitions);
+    }
+    if (!(node_shapes[node->opcode] & NODE_MEMORY_ACCESS)) return;
+    value = find_allocation_value(node, 0);
+    if (!value) return;
+    if (node_shapes[node->opcode] & NODE_WRITES_LEFT) {
+        if (node->opcode == 0x32 && !(current_expression_work->flags & 1))
+            subtract_bitset(allocation_live_definitions, value->definitions);
+        allocation_live_definitions = bitset_include(allocation_live_definitions, (unsigned)(int)node->info.words.identifier);
+        allocation_last_definition = (int)node->info.words.identifier;
+    }
+    definitions = assign_bitset(0, allocation_live_definitions);
+    intersect_bitset(definitions, value->definitions);
+    matched = 0;
+    link = &value->ranges;
+    while ((range = *link) != 0) {
+        if (bitsets_overlap(range->definitions, definitions)) {
+            block = current_expression_work->number;
+            if (range->first_block > block) range->first_block = block;
+            if (range->last_block < block) range->last_block = block;
+            if (matched) {
+                if (matched->first_block > range->first_block) matched->first_block = range->first_block;
+                if (matched->last_block < range->last_block) matched->last_block = range->last_block;
+                bitset_union(matched->definitions, range->definitions);
+                matched->flags |= range->flags & 3;
+                *link = range->next;
+                release_bitset(range->definitions);
+                release_allocation_range(range);
+                continue;
+            }
+            matched = range;
+        }
+        link = &range->next;
+    }
+    if (!matched) {
+        matched = new_allocation_range();
+        matched->last_block = matched->first_block = current_expression_work->number;
+        matched->definitions = 0;
+        matched->flags &= ~2U;
+        matched->flags &= ~1U;
+        matched->next = value->ranges;
+        value->ranges = matched;
+    }
+    matched->definitions = bitset_union(matched->definitions, definitions);
+    flags = node->attributes.words.flags;
+    if (flags & 4) matched->flags |= 1;
+    if (flags & 0x800) matched->flags |= 2;
+    if ((value->diagnostic_flags & ALLOCATION_CHECK_INITIALIZATION) && value->last_block != current_expression_work->number) {
+        value->last_block = current_expression_work->number;
+        if (node->opcode != 0x32) {
+            first = next_bitset_member(definitions);
+            if (first <= (int)last_allocation_initial_definition) {
+                second = next_bitset_member(0);
+                definite = second == -1;
+                if (!definite && allocation_last_definition <= second &&
+                    (allocation_last_definition != second || (node_shapes[node->opcode] & NODE_WRITES_LEFT))) {
+                    if (!allocation_region_checked) {
+                        allocation_use_is_unconditional = !current_expression_work->region ||
+                            allocation_use_dominates_backedges(current_expression_work);
+                        allocation_region_checked = 1;
+                    }
+                    definite = allocation_use_is_unconditional != 0;
+                }
+                if (definite) {
+                    compiler_warning(1, 0x2bc, format_function_name(node->right.symbol));
+                    value->diagnostic_flags &= ~ALLOCATION_CHECK_INITIALIZATION;
+                } else if (!(value->diagnostic_flags & ALLOCATION_REPORTED_POSSIBLE_UNINITIALIZED)) {
+                    compiler_warning(4, 0x2bd, format_function_name(node->right.symbol));
+                    value->diagnostic_flags |= ALLOCATION_REPORTED_POSSIBLE_UNINITIALIZED;
+                }
+            }
+        }
+    }
+    release_bitset(definitions);
+}
+
+/* Original [00063480,000634b0). Recycle a 24-byte range when available.
+   Only the virtual register is initialized here; the collector owns its
+   bounds, definition set, allocation hints and insertion into a value. */
+AllocationRange *new_allocation_range(void)
+{
+    AllocationRange *range = free_allocation_ranges;
+    if (range) free_allocation_ranges = range->next;
+    else range = arena_alloc(2, sizeof(AllocationRange));
+    range->number = 0;
+    return range;
 }

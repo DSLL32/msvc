@@ -23,6 +23,10 @@ typedef struct AllocationValue {
 } AllocationValue;
 typedef char AllocationValueSizeCheck[sizeof(AllocationValue) == 28 ? 1 : -1];
 enum { ALLOCATION_VALUE_BUCKETS = 32 };
+enum AllocationDiagnosticFlags {
+    ALLOCATION_CHECK_INITIALIZATION = 1,
+    ALLOCATION_REPORTED_POSSIBLE_UNINITIALIZED = 2
+};
 /* Definition flow before connected ranges receive virtual registers. */
 enum AllocationDefinitionFlow {
     ALLOCATION_DEFINITION_GEN = 2, ALLOCATION_DEFINITION_KILLS,
@@ -34,7 +38,6 @@ extern BitSet *allocation_observable_registers, *allocation_initial_definitions;
 extern BitSet *allocation_observable_definitions, *allocation_all_definitions;
 extern int allocation_region_checked, allocation_last_definition;
 void initialize_global_values(void);
-void reset_global_register_map(void);
 void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol);
 void __fastcall collect_allocation_ranges(Node *node);
 void __fastcall rewrite_allocation_registers(Node *node);
@@ -54,4 +57,7 @@ void __fastcall limit_global_allocation_values(WorkItem *work);
 extern unsigned last_allocation_initial_definition;
 unsigned __fastcall count_global_allocation_loads(Node *node);
 int __cdecl compare_allocation_load_counts(const void *left, const void *right);
+int __fastcall allocation_use_dominates_backedges(WorkItem *work);
+AllocationRange *new_allocation_range(void);
+void __fastcall release_allocation_range(AllocationRange *range);
 #endif

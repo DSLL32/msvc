@@ -395,3 +395,18 @@ int __fastcall lowest_set_bit(unsigned bits)
     }
     return -1;
 }
+
+/* Original [00066800,00066850). Test sorted member chunks for a shared
+   member, skipping both sentinels and leaving both source sets untouched. */
+int __fastcall bitsets_overlap(BitSet *left, BitSet *right)
+{
+    if (!left || !right) return 0;
+    left = left->next;
+    right = right->next;
+    for (; left; left = left->next) {
+        while (right && right->base < left->base) right = right->next;
+        if (!right) return 0;
+        if (left->base == right->base && (left->bits & right->bits)) return 1;
+    }
+    return 0;
+}

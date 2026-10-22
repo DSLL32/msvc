@@ -509,7 +509,11 @@
     "_new_call_definitions",
     "@next_bitset_member@4",
     "@lowest_set_bit@4",
-    "@solve_definition_reachability@4"
+    "@solve_definition_reachability@4",
+    "@collect_allocation_ranges@4",
+    "_new_allocation_range",
+    "@bitsets_overlap@8",
+    "_reset_global_register_map"
   ],
   "driver": [
     {
@@ -4604,8 +4608,7 @@
     {
       "name": "_reset_global_register_map",
       "start": 187184,
-      "end": 187185,
-      "provisional": true
+      "end": 187216
     },
     {
       "name": "@record_float_register@8",
@@ -4616,8 +4619,7 @@
     {
       "name": "@collect_allocation_ranges@4",
       "start": 403808,
-      "end": 403809,
-      "provisional": true
+      "end": 404576
     },
     {
       "name": "@rewrite_allocation_registers@4",
@@ -4721,6 +4723,28 @@
       "name": "@lowest_set_bit@4",
       "start": 419920,
       "end": 419952
+    },
+    {
+      "name": "@allocation_use_dominates_backedges@4",
+      "start": 406544,
+      "end": 406545,
+      "provisional": true
+    },
+    {
+      "name": "_new_allocation_range",
+      "start": 406656,
+      "end": 406704
+    },
+    {
+      "name": "@release_allocation_range@4",
+      "start": 406704,
+      "end": 406705,
+      "provisional": true
+    },
+    {
+      "name": "@bitsets_overlap@8",
+      "start": 419840,
+      "end": 419920
     }
   ],
   "cases": {

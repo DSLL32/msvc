@@ -875,3 +875,39 @@ except the four timestamp bytes. Verified accepted code-extent coverage is
 shared text data, CRT and import thunks, clipped to original code and checked
 against the actual masker. This is not branch coverage. Hello output remains
 pending at collect_allocation_ranges, 00062960.
+
+Connected allocation-range collection now completes, and the driver assigns six
+virtual registers before reaching register rewriting. Four more functions cover
+269 reachable native instructions: connected-component collection, the range
+factory, sorted-bitset overlap testing and register-variable table reset. Each
+observed value currently has one range; repeated accesses extend its block bounds.
+The complete collector also preserves component merging and the original
+once-per-block/once-per-value initialization diagnostics, with named typed traps
+for unvisited release, region and warning helpers. records.h supplies the exact
+cdecl warning declaration; a /W3 check caught that missing include before the
+checkpoint replay was restarted with the corrected declaration.
+
+The register-variable map has three classes with 32 record-pointer hash heads
+each, matching the 96-pointer clear and the constructor/lookup's class and bucket
+indexing. This is a typed runtime table; its record remains forward-declared until
+the constructor is reached. Range creation initializes only its short register
+number; the collector owns bounds, definition sets, hints and linkage. No opaque
+record image or data-section content is copied.
+
+Independent state at register-rewrite entry matches all 344 normalized lines:
+six range bounds and definition sets, registers 4020 through 4025, the next
+register counter 38, per-value/global register sets and all 96 class/bucket heads,
+plus prior work/tree/definition state. These tables are fresh and empty here.
+Range-component joining/recycling, initialization diagnostics, nonzero range
+hints and populated-table reset remain outside current dynamic validation. See
+cases/hello-allocation-ranges-abi.json for exact extents, ABI evidence and limits.
+
+This checkpoint has 432 reconstructed functions and 509 accepted frontiers.
+All 352 minimal and all 157 hello historical frontiers replay. All source graphs
+and accepted instruction boundaries pass audit; three affected implementation
+modules compile /W3 clean after the diagnostic declaration correction. Fresh
+minimal-C object/exit regression passes. Verified accepted code-extent coverage
+is 133,951 / 399,693 bytes, or 33.5135 percent, including source/shared text/CRT/
+import thunks with union, clipping and the actual-mask cross-check. This is not
+branch coverage. Hello output remains pending at rewrite_allocation_registers,
+000627a0.

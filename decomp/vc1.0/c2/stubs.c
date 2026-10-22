@@ -1,3 +1,4 @@
+#include "register-variables.h"
 #include "global-registers.h"
 #include "work-expressions.h"
 #include "region-motion.h"
@@ -450,9 +451,7 @@ int __fastcall matches_assignment_load(Node *destination, Node *operand) { __asm
 void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node *load, Node *operation) { __asm int 3 }
 int __fastcall find_assignment_operand(Node *node, unsigned has_addition) { __asm int 3 }
 
-void reset_global_register_map(void) { __asm int 3 }
 void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol) { __asm int 3 }
-void __fastcall collect_allocation_ranges(Node *node) { __asm int 3 }
 void __fastcall rewrite_allocation_registers(Node *node) { __asm int 3 }
 void __fastcall solve_allocation_liveness(WorkItem *work) { __asm int 3 }
 void __fastcall solve_allocation_history(WorkItem *work) { __asm int 3 }
@@ -465,3 +464,6 @@ void record_global_register_ranges(void) { __asm int 3 }
 
 
 int __cdecl compare_allocation_load_counts(const void *left, const void *right) { __asm int 3 }
+
+int __fastcall allocation_use_dominates_backedges(WorkItem *work) { __asm int 3 }
+void __fastcall release_allocation_range(AllocationRange *range) { __asm int 3 }

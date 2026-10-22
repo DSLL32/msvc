@@ -28,4 +28,5 @@ void __fastcall transfer_bitset(BitSet *destination, BitSet *source, BitSet *rem
 void __fastcall assign_union_bitset(BitSet *destination, BitSet *left, BitSet *right);
 void __fastcall assign_difference_bitset(BitSet *destination, BitSet *source, BitSet *removed);
 int __fastcall next_bitset_member(BitSet *set);
+int __fastcall bitsets_overlap(BitSet *left, BitSet *right);
 #endif
