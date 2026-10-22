@@ -1,0 +1,130 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@rewrite_stack_pointer_frame@4",
+      "start": "0x2adf0",
+      "end": "0x2b1b0",
+      "instructions": 252
+    },
+    {
+      "name": "_finish_register_assignment",
+      "start": "0x2ad60",
+      "end": "0x2adf0",
+      "instructions": 45
+    },
+    {
+      "name": "@add_block_physical_registers@4",
+      "start": "0x2d210",
+      "end": "0x2d300",
+      "instructions": 71
+    },
+    {
+      "name": "@assign_operand_registers@12",
+      "start": "0x2d0d0",
+      "end": "0x2d210",
+      "instructions": 94
+    }
+  ],
+  "ABI": {
+    "rewrite_stack_pointer_frame": "fastcall int(MachineInstruction*), returnsEAX=1 at2b174; fixed provisional void declaration before acceptance; caller discards result",
+    "finish_register_assignment": "cdecl void(void)",
+    "add_block_physical_registers": "fastcall void(MachineBlockHeader*)",
+    "assign_operand_registers": "fastcall void(MachineInstruction*,MachineOperand*,int), ECX/EDX plus one callee-cleaned stack DWORD/RET4"
+  },
+  "graph": "All original constructors/insertion/removal/frame-resolution and operand-width/byte-color/error callees retained as separate functions. No new reconstruction-only helper calls.",
+  "ESP_conversion": "First addressing operand only; fixed EBP base/index becomes ESP with current depth, incoming parameter displacements subtract4, pushes/pops/call cleanup update depth. LEAVE becomes ADD ESP,depth; omitted frame saves/setup removed. Existing 80-byte local allocation is resolved through original frame helper. Optional allocated-EBP save insertion retains named unaccepted insert_machine_after child.",
+  "physical_assignment": "Only logical high-class registers or frame pseudo24 are resolved. Coalesced flag0x800 adds one original representative lookup; physical register flag WORDs are cleared. Register27 remains absent index base. Byte width0/1 is checked with native byte_register_available child. Block bitsets gain canonical physical colors while retaining original logical members, with a temporary copy preserving iterator state.",
+  "shared_text": "Ten-entry2b184..2b1ac dispatch is inside accepted whole ESP-rewriter extent; no unrelated data copied.",
+  "captures": {
+    "ESP_frame": {
+      "frontier": "_finish_register_assignment",
+      "original_va": "0x2ad60",
+      "normalized_lines": 181,
+      "instruction_records": 83,
+      "normalization": "omit exception header; represent pointers by logical operand/symbol/link identity",
+      "events": {
+        "original": "dce2ddcb61ebbfeecc1244bba7a876b406e601f6b237cdd38dcefa6bef4307f8",
+        "reconstructed": "3ccd418b473b4ff30557bf315d0436e9eecb1838d23b29164afbe327e3eb55ec"
+      }
+    },
+    "physical_assignment": {
+      "frontier": "@find_carry_flag_use@4",
+      "original_va": "0x21be0",
+      "normalized_lines": 208,
+      "instruction_records": 83,
+      "normalization": "omit exception header; normalize pointers by full operand/symbol/link identity; block bitset members exact",
+      "events": {
+        "original": "bbb6e9848f54bae0fa6cd4e71b0a1409220241f30e5e40e0222beed808af28da",
+        "reconstructed": "3b1deb633eb66701e3c9be0a9d771861fca2ef8740dd2e23309aef6f3021251c"
+      }
+    }
+  },
+  "observed": {
+    "records_before_ESP_conversion": 85,
+    "records_after": 83,
+    "remaining_logical_explicit_operands": 0,
+    "all_block_bitsets_exact": true,
+    "ECX_live_in_example": "logical34 plus physical1 preserved in block2"
+  },
+  "limits": [
+    "Core color/frame/operand assignment of the first function has completed. Post-assignment peephole cleanup traps at find_carry_flag_use; the outer allocation routine has not yet returned.",
+    "Optional EBP spill/save insertion, byte-color diagnostic failure and alternate operand/block shapes are graph-preserved but not claimed dynamically exercised.",
+    "No completed optimized hello object claimed; minimal fixture regression is separate."
+  ],
+  "validation": {
+    "source_functions": 555,
+    "accepted_frontiers": 632,
+    "minimal_frontiers": 352,
+    "hello_frontiers": 280,
+    "replays": {
+      "minimal": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-218952/receipt.json",
+        "sha256": "c559d13133c1816b6da7181c6c65d65c7e3bb393c49b0e8475d24db7ff28f1e7",
+        "frontiers": 352,
+        "first": 0,
+        "last": 352,
+        "final": "exit:0",
+        "frozen": {
+          "functions.json": "d755b51cfe2d6eecba84ae4eaa7de3307e9b594e81a2313f2372a292a35774cc",
+          "build/c2.exe": "d45ddeca81113daf58b33197a756bdbd8a6d76ae04fc6f121bbdf2f68d14335e",
+          "build/c2.map": "a310a888bc761b6c025f5297dce81bf8415b6ba8103af56a1edf577693fea4ed",
+          "build/runtime.json": "4f81f80ea5dc93c3e7abf370f18df9c779ef165a9fd9b24d16aa6a506e788a13"
+        }
+      },
+      "hello": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-223422/receipt.json",
+        "sha256": "d85b2d61356256ff363b07cbd4343e8cb1387a7b59976ad4db21de3ede821f77",
+        "frontiers": 280,
+        "first": 352,
+        "last": 632,
+        "final": "@find_carry_flag_use@4",
+        "frozen": {
+          "functions.json": "d755b51cfe2d6eecba84ae4eaa7de3307e9b594e81a2313f2372a292a35774cc",
+          "build/c2.exe": "d45ddeca81113daf58b33197a756bdbd8a6d76ae04fc6f121bbdf2f68d14335e",
+          "build/c2.map": "a310a888bc761b6c025f5297dce81bf8415b6ba8103af56a1edf577693fea4ed",
+          "build/runtime.json": "4f81f80ea5dc93c3e7abf370f18df9c779ef165a9fd9b24d16aa6a506e788a13"
+        }
+      }
+    },
+    "minimal_fixture": "286 bytes exact except COFF timestamp4..7",
+    "coverage": {
+      "mask_verified": true,
+      "metric": "accepted original code-extent union; not branch coverage",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "accepted_frontiers": 632,
+      "accepted_code_bytes": 166767,
+      "original_code_bytes": 399693,
+      "percentage": 41.723772995774254,
+      "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+      "code_sections": [
+        [
+          "0x17000",
+          "0x7894d"
+        ]
+      ],
+      "union_ranges": 170
+    },
+    "W3": "frame-symbols clean; two explicit narrowing casts in block-color lookup subsequently clarified before next checkpoint"
+  }
+}

@@ -575,3 +575,31 @@ int __fastcall adjust_operand_label_references(MachineOperand *operand, int delt
     }
     return 0;
 }
+
+/* Original [00021be0,00021c90). Only carry consumers prevent changing
+   arithmetic into an equivalent operation with different carry semantics.
+   ZF/AF-only users do not consume carry; definitions and JMP end the search. */
+MachineInstruction *__fastcall find_carry_flag_use(MachineInstruction *instruction)
+{
+    enum { CARRY_SET = 2, CARRY_CLEAR = 3, BELOW_EQUAL = 6, ABOVE = 7 };
+    unsigned operation, properties, condition;
+    for (instruction = instruction->next; instruction; instruction = instruction->next) {
+        if (instruction->opcode & 15) continue;
+        operation = (instruction->opcode >> 8) & 255;
+        properties = machine_selection_properties[operation];
+        if (properties & MC_READS_FLAGS) {
+            switch (operation) {
+            case MC_AAA: case MC_AAS: case MC_LOOPNZ: case MC_LOOPZ: case MC_SCAS:
+                break;
+            case MC_JCC: case MC_SCC:
+                condition = instruction->operands[1].flags & 15;
+                if (condition == CARRY_SET || condition == CARRY_CLEAR ||
+                    condition == BELOW_EQUAL || condition == ABOVE) return instruction;
+                break;
+            default: return instruction;
+            }
+        }
+        if ((properties & MC_WRITES_FLAGS) || operation == MC_JMP) return 0;
+    }
+    return 0;
+}

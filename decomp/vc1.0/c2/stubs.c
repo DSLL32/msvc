@@ -232,7 +232,6 @@ void __fastcall release_machine_address(MachineAddress *address) { __asm int 3 }
 MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous, MachineInstruction *instruction) { __asm int 3 }
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall find_carry_flag_use(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
@@ -457,8 +456,6 @@ void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 
 void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement) { __asm int 3 }
 void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use) { __asm int 3 }
-void finish_register_assignment(void) { __asm int 3 }
-void __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions) { __asm int 3 }
 void record_debug_register_locations(void) { __asm int 3 }
 void __fastcall spill_register_variables(RegisterVariable *variables, int simplification) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }

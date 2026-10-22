@@ -1,0 +1,90 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@find_carry_flag_use@4",
+      "start": "0x21be0",
+      "end": "0x21c90",
+      "instructions": 59,
+      "ABI": "fastcall MachineInstruction*(MachineInstruction*)",
+      "callees": 0
+    }
+  ],
+  "meaning": "Read-forward CF use analysis distinguishes carry conditions2/3/6/7 from ZF/AF-only users, respecting flag definitions and JMP. Existing machine_selection_properties semantics are reused; no new data section or assembly.",
+  "core_allocation_returned": true,
+  "next_frontier": {
+    "name": "@prepare_machine_blocks@4",
+    "original_va": "0x2e700"
+  },
+  "completed_allocation_capture": {
+    "frontier": "@prepare_machine_blocks@4",
+    "original_va": "0x2e700",
+    "normalized_lines": 210,
+    "instruction_records": 82,
+    "normalization": "omit exception header; represent pointers by full operand/symbol/link identity; block bitset members exact",
+    "events": {
+      "original": "a73d1794d6aff94b5c2a0294ebe3cac897716cf00ea88ced80a57d991d027aad",
+      "reconstructed": "19b0a486ed1b4195097e924056294d2d7f0d2f00a4e4189e331deae237dac147"
+    }
+  },
+  "related_evidence": "hello-ESP-assignment-abi.json",
+  "validation": {
+    "source_functions": 556,
+    "accepted_frontiers": 633,
+    "minimal_frontiers": 352,
+    "hello_frontiers": 281,
+    "W3": "physical-allocation, frame-symbols, instruction-uses clean; explicit ushort narrowing clarified in block-color lookups",
+    "minimal_fixture": "286 bytes exact except timestamp4..7",
+    "coverage": {
+      "mask_verified": true,
+      "metric": "accepted original code-extent union; not branch coverage",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "accepted_frontiers": 633,
+      "accepted_code_bytes": 166943,
+      "original_code_bytes": 399693,
+      "percentage": 41.76780679171264,
+      "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+      "code_sections": [
+        [
+          "0x17000",
+          "0x7894d"
+        ]
+      ],
+      "union_ranges": 170
+    },
+    "replays": {
+      "minimal": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-228211/receipt.json",
+        "sha256": "a8918b752abbbc30246768dd28b229e37cb855a55ca86770e9b2f579ecb34572",
+        "frontiers": 352,
+        "first": 0,
+        "last": 352,
+        "final": "exit:0",
+        "frozen": {
+          "functions.json": "0c79202613795f73cf69be2db8713890be16ea3fb4e9fb8fe35c0f2fe0e7ac30",
+          "build/c2.exe": "006971f51af22c3408bed9a3b0a29860457d31a69af356aab501f3a42691a568",
+          "build/c2.map": "0e0534c84859bf35437575ce65b8c6fe30a1afb2112d99979377fda4a32a15ae",
+          "build/runtime.json": "f4bb366a682d6b9ce6ef3919a24c6068c6523d12c1a300581e400a0245b300e7"
+        }
+      },
+      "hello": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-234060/receipt.json",
+        "sha256": "9c753c522e2572dab0675e86262d966711a1b15f29590afc2c44b55ff72e45d3",
+        "frontiers": 281,
+        "first": 352,
+        "last": 633,
+        "final": "@prepare_machine_blocks@4",
+        "frozen": {
+          "functions.json": "0c79202613795f73cf69be2db8713890be16ea3fb4e9fb8fe35c0f2fe0e7ac30",
+          "build/c2.exe": "006971f51af22c3408bed9a3b0a29860457d31a69af356aab501f3a42691a568",
+          "build/c2.map": "0e0534c84859bf35437575ce65b8c6fe30a1afb2112d99979377fda4a32a15ae",
+          "build/runtime.json": "f4bb366a682d6b9ce6ef3919a24c6068c6523d12c1a300581e400a0245b300e7"
+        }
+      }
+    }
+  },
+  "limits": [
+    "First function has completed allocation and cleanup; remaining post-allocation copy propagation/peepholes/scheduling/lowering and other functions still require reconstruction.",
+    "No complete optimized hello object claimed; no failure-path or unvisited CF branch coverage claimed."
+  ]
+}

@@ -1427,3 +1427,37 @@ instruction boundaries pass. All four changed implementation modules compile
 fixture except only timestamp bytes4..7. Verified accepted original code-extent
 union165103/399693 bytes (41.3075 percent) includes clipped source/shared text/
 CRT/import ranges and actual-mask verification; it is not branch coverage.
+
+
+Completed first-function allocation (633 accepted frontiers)
+----------------------------------------------------------
+Five whole functions recover ESP-relative frame conversion, final operand and
+block-summary physical coloring, the assignment stream walk and carry-flag
+consumer search. The ESP rewriter's actual ABI returns int1 in EAX, despite
+its caller discarding it; its provisional void declaration is corrected.
+Its ten dispatch entries are retained within the function's code extent.
+The two three-argument operand helpers preserve fastcall ECX/EDX and RET4.
+Only valid virtual/frame colors are resolved, physical analysis flag WORDs
+are cleared, and byte values require an encodable byte-register color.
+Block bitsets gain physical colors while retaining logical members; a copied
+set isolates iterator state during updates. Carry search distinguishes CF
+conditions2/3/6/7 from ZF/AF-only users and stops at redefinitions/transfers.
+No new data blobs or assembly are introduced.
+
+Independent ESP and final assignment captures match181/208 normalized lines,
+including83 instruction records, exact operand/link identities and complete
+block bitsets. The first function's allocation now returns: a fresh post-
+cleanup capture matches210 lines and82 records, with all explicit registers
+physical. The next matching trap is prepare_machine_blocks2e700. Subsequent
+copy propagation, peepholes, scheduling/lowering and remaining functions keep
+optimized hello incomplete. See cases/hello-ESP-assignment-abi.json and
+cases/hello-allocation-complete-abi.json; unvisited/failure branches are not
+claimed dynamically validated.
+
+All352 minimal and281 hello frontiers replay,556 source graphs and633 accepted
+instruction boundaries pass. physical-allocation, frame-symbols and
+instruction-uses compile /W3 clean. Minimal object/streams/exit still match
+unmodified original and fixture except only timestamp bytes4..7. Verified
+accepted original code-extent union166943/399693 bytes (41.7678 percent)
+includes clipped source/shared text/CRT/import ranges and actual-mask
+verification; this is not branch coverage.

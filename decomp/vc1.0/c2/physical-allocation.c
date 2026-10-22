@@ -3,6 +3,7 @@
 #include "backend-passes.h"
 #include "bitsets.h"
 #include "frame.h"
+#include "instruction-rewrite.h"
 extern int cpu_model, optimization_cost, force_risc, optimization_risc;
 extern int codeview_debug, omit_frame_pointer;
 RegisterAllocationStatistics register_allocation_statistics;
@@ -349,4 +350,99 @@ int __fastcall frame_references_exceed_cost(WorkItem *work, int limit)
         }
     }
     return 0;
+}
+
+/* Original [0002ad60,0002adf0). Leave ordinary machine kinds after
+   analysis-only markers and install physical colors in explicit operands.
+   Block summaries gain physical live-in/definition bits through their helper. */
+void finish_register_assignment(void)
+{
+    MachineInstruction *instruction;
+    unsigned kind;
+    int count;
+    for (instruction = machine_instructions; instruction; instruction = instruction->next) {
+        kind = instruction->opcode & 15;
+        if (kind == 7) add_block_physical_registers((MachineBlockHeader *)instruction);
+        else {
+            if (kind == 8 || kind == 9) instruction->opcode &= ~15U;
+            else if (kind != 0 && kind != 10) continue;
+            instruction->opcode &= 0xffffff;
+            count = machine_operand_counts[(instruction->opcode >> 8) & 255];
+            if (count == 2) assign_operand_registers(instruction, &instruction->operands[1], 1);
+            if (count == 1 || count == 2) assign_operand_registers(instruction, &instruction->operands[0], 0);
+        }
+    }
+}
+
+/* Original [0002d210,0002d300). Keep the logical live-in/definition
+   members and add each canonical integer color. A temporary copy isolates
+   iterator continuation state from mutations to the original sets. */
+void __fastcall add_block_physical_registers(MachineBlockHeader *block)
+{
+    BitSet *copy;
+    RegisterVariable *variable;
+    unsigned flags;
+    int member;
+    copy = assign_bitset(0, block->uses);
+    for (member = next_bitset_member(copy); member != -1; member = next_bitset_member(0)) {
+        if (member > 31) {
+            variable = lookup_register_variable((unsigned short)(member | 0x4000), 1);
+            flags = variable->flags;
+            if (flags & 0x800) flags = lookup_register_variable(variable->representative, 1)->flags;
+            block->uses = bitset_include(block->uses, flags & 63);
+        }
+    }
+    copy = assign_bitset(copy, block->definitions);
+    for (member = next_bitset_member(copy); member != -1; member = next_bitset_member(0)) {
+        if (member > 31) {
+            variable = lookup_register_variable((unsigned short)(member | 0x4000), 1);
+            flags = variable->flags;
+            if (flags & 0x800) flags = lookup_register_variable(variable->representative, 1)->flags;
+            block->definitions = bitset_include(block->definitions, flags & 63);
+        }
+    }
+    release_bitset(copy);
+}
+
+/* Original [0002d0d0,0002d210). Resolve colored virtual/frame registers
+   and discard their per-register analysis flags. Byte operands additionally
+   require one of the four encodable byte-register colors. */
+void __fastcall assign_operand_registers(MachineInstruction *instruction, MachineOperand *operand, int index)
+{
+    unsigned kind = operand->flags & 15;
+    unsigned short number, color;
+    RegisterVariable *variable;
+    MachineAddress *address;
+    if (kind == OPERAND_REGISTER) {
+        operand->value.reg.words.flags = 0;
+        number = operand->value.reg.words.number;
+        if ((number & 0xc000) || number == 24) {
+            variable = lookup_register_variable(number, 1);
+            if (variable->flags & 0x800) variable = lookup_register_variable(variable->representative, 1);
+            color = (unsigned short)(variable->flags & 63);
+            if (machine_operand_bytes(instruction, index) <= 1 && !byte_register_available(color))
+                compiler_internal_error("@(#)color.c:1.101", 0x5fd);
+            operand->value.reg.words.number = color;
+        }
+        return;
+    }
+    if (kind != OPERAND_BASED && kind != OPERAND_INDEXED) return;
+    address = operand->value.address;
+    if (kind == OPERAND_INDEXED) {
+        address->index.words.flags = 0;
+        number = address->index.words.number;
+        if ((number & 0xc000) || number == 24) {
+            variable = lookup_register_variable(number, 1);
+            if (variable->flags & 0x800) variable = lookup_register_variable(variable->representative, 1);
+            address->index.words.number = (unsigned short)(variable->flags & 63);
+        }
+        if (address->base.words.number == 27) return;
+    }
+    address->base.words.flags = 0;
+    number = address->base.words.number;
+    if ((number & 0xc000) || number == 24) {
+        variable = lookup_register_variable(number, 1);
+        if (variable->flags & 0x800) variable = lookup_register_variable(variable->representative, 1);
+        address->base.words.number = (unsigned short)(variable->flags & 63);
+    }
 }

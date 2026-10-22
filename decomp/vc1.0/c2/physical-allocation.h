@@ -57,7 +57,7 @@ void __fastcall assign_machine_registers(MachineInstruction *instructions);
 int __fastcall frame_references_exceed_cost(WorkItem *work, int limit);
 void record_debug_register_locations(void);
 void __fastcall allocate_frame_symbols(WorkItem *work, int use_stack_pointer);
-void __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions);
+int __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions);
 void finish_register_assignment(void);
 void __fastcall record_allocation_operand(MachineInstruction *instruction, unsigned short number, int annotation, int operand_index, int depth);
 void __fastcall conflict_with_live_registers(unsigned short number, unsigned short exclude, RegisterConflictVisitor visitor);
@@ -93,4 +93,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 void __fastcall merge_register_graph(RegisterVariable *winner, RegisterVariable *loser);
 void __fastcall remove_register_conflict(unsigned short left, unsigned short right);
 RegisterAffinity *__fastcall unlink_register_affinity(RegisterAffinity *affinity);
+void __fastcall add_block_physical_registers(MachineBlockHeader *block);
+void __fastcall assign_operand_registers(MachineInstruction *instruction, MachineOperand *operand, int index);
 #endif

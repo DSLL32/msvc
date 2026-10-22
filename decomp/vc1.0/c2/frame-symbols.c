@@ -2,6 +2,7 @@
 #include "frame-symbols.h"
 #include "frame.h"
 #include "listing.h"
+#include "instruction-rewrite.h"
 FrameSymbolReference **frame_symbol_references;
 
 /* Original [000354f0,00035680). Repack referenced frame locals after
@@ -99,4 +100,117 @@ void __fastcall count_frame_symbol_reference(SymbolHeader *symbol, int weight)
     entry->symbol = symbol;
     entry->next = *link;
     *link = entry;
+}
+
+/* Original [0002adf0,0002b1b0), including ten dispatch entries2b184..2b1ac.
+   Replace fixed EBP frame addresses with ESP plus the tracked stack depth.
+   Return1 is part of the original ABI even though its caller discards it. */
+int __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions)
+{
+    MachineInstruction *instruction, *next, *adjacent, *inserted;
+    MachineOperand *operand, frame_operand;
+    MachineAddress *address;
+    SymbolHeader *symbol;
+    unsigned depth = 0, operation, opcode, kind;
+    int in_prologue = 0, adjusted, i;
+    for (instruction = instructions; instruction; instruction = next) {
+        next = instruction->next;
+        opcode = instruction->opcode;
+        kind = opcode & 15;
+        switch (kind) {
+        case 0: case 8: case 9:
+            operation = (opcode >> 8) & 255;
+            for (i = 0; i < machine_operand_counts[operation]; ++i) {
+                operand = &instruction->operands[i ? 1 : 0];
+                kind = operand->flags & 15;
+                if (kind != OPERAND_BASED && kind != OPERAND_INDEXED) continue;
+                address = operand->value.address;
+                adjusted = 0;
+                if (address->base.words.number == REG_EBP) {
+                    address->base.words.number = REG_ESP;
+                    adjusted = 1;
+                }
+                if (kind == OPERAND_INDEXED && address->index.words.number == REG_EBP) {
+                    address->index.words.number = REG_ESP;
+                    adjusted = 1;
+                }
+                if (adjusted) {
+                    address->first.displacement += depth;
+                    symbol = address->symbol;
+                    if (symbol->kind == 1 && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x30)
+                        address->first.displacement -= 4;
+                }
+                break; /* Only the first addressing operand is inspected. */
+            }
+            switch (operation) {
+            case MC_MOV:
+                if (in_prologue && (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                    instruction->operands[0].value.reg.words.number == REG_EBP)
+                    remove_machine_instruction(instruction);
+                else if ((instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                    instruction->operands[0].value.reg.words.number == REG_ESP &&
+                    (instruction->operands[1].flags & 15) == OPERAND_REGISTER &&
+                    instruction->operands[1].value.reg.words.number == REG_EBP) {
+                    instruction->opcode = (opcode & ~0xff00U) | (MC_ADD << 8);
+                    initialize_operand(&instruction->operands[1], OPERAND_IMMEDIATE, 0, depth, 0);
+                    depth = 0;
+                }
+                break;
+            case MC_ADD:
+                if ((instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                    instruction->operands[0].value.reg.words.number == REG_ESP)
+                    depth -= instruction->operands[1].value.constant;
+                break;
+            case MC_POP: depth -= 4; break;
+            case MC_PUSH: depth += 4; break;
+            case MC_CALL: depth -= instruction->operands[1].value.call->argument_bytes; break;
+            case MC_SUB:
+                if ((instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                    instruction->operands[0].value.reg.words.number == REG_ESP) {
+                    kind = instruction->operands[1].flags & 15;
+                    if (kind == OPERAND_IMMEDIATE) depth += instruction->operands[1].value.constant;
+                    else if (kind == OPERAND_FRAME_SIZE) depth += resolve_frame_allocation(instruction);
+                }
+                break;
+            case MC_LEAVE:
+                instruction->opcode = (opcode & ~0xfff0U) | (MC_ADD << 8) | 0x40;
+                initialize_operand(&instruction->operands[0], OPERAND_REGISTER, REG_ESP, 0, 0);
+                initialize_operand(&instruction->operands[1], OPERAND_IMMEDIATE, 0, depth, 0);
+                depth = 0;
+                break;
+            case MC_EPOP:
+                adjacent = instruction->previous;
+                if (frame_register_allocated && ((adjacent->opcode & 15) != 0 ||
+                    ((adjacent->opcode >> 8) & 255) != MC_EPOP)) {
+                    initialize_operand(&frame_operand, OPERAND_REGISTER, REG_EBP, 0, 0);
+                    inserted = new_machine_record(0, MC_EPOP, 0x104, &frame_operand);
+                    insert_machine_after(adjacent, inserted);
+                    depth -= 4;
+                }
+                depth -= 4;
+                break;
+            case MC_EPUSH:
+                if (instruction->operands[0].value.reg.words.number == REG_EBP)
+                    remove_machine_instruction(instruction);
+                else {
+                    if (frame_register_allocated && ((next->opcode & 15) != 0 ||
+                        ((next->opcode >> 8) & 255) != MC_EPUSH)) {
+                        initialize_operand(&frame_operand, OPERAND_REGISTER, REG_EBP, 0, 0);
+                        inserted = new_machine_record(0, MC_EPUSH, 0x104, &frame_operand);
+                        insert_machine_after(instruction, inserted);
+                        depth += 4;
+                    }
+                    depth += 4;
+                }
+                break;
+            }
+            break;
+        case 2: in_prologue = 1; break;
+        case 3:
+            if (depth) compiler_internal_error("@(#)color.c:1.101", 0xe78);
+            break;
+        case 7: in_prologue = 0; break;
+        }
+    }
+    return 1;
 }

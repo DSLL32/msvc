@@ -632,7 +632,12 @@
     "@for_each_symbol@8",
     "@next_scope_symbol@8",
     "@clear_local_frame_assignment@4",
-    "@count_frame_symbol_reference@8"
+    "@count_frame_symbol_reference@8",
+    "@rewrite_stack_pointer_frame@4",
+    "_finish_register_assignment",
+    "@add_block_physical_registers@4",
+    "@assign_operand_registers@12",
+    "@find_carry_flag_use@4"
   ],
   "driver": [
     {
@@ -3138,8 +3143,7 @@
     {
       "name": "@find_carry_flag_use@4",
       "start": 138208,
-      "end": 138209,
-      "provisional": true
+      "end": 138384
     },
     {
       "name": "@integer_width_mask@4",
@@ -5058,14 +5062,12 @@
     {
       "name": "_finish_register_assignment",
       "start": 175456,
-      "end": 175457,
-      "provisional": true
+      "end": 175600
     },
     {
       "name": "@rewrite_stack_pointer_frame@4",
       "start": 175600,
-      "end": 175601,
-      "provisional": true
+      "end": 176560
     },
     {
       "name": "_record_debug_register_locations",
@@ -5423,6 +5425,16 @@
       "name": "@next_scope_symbol@8",
       "start": 321328,
       "end": 321520
+    },
+    {
+      "name": "@add_block_physical_registers@4",
+      "start": 184848,
+      "end": 185088
+    },
+    {
+      "name": "@assign_operand_registers@12",
+      "start": 184528,
+      "end": 184848
     }
   ],
   "cases": {
