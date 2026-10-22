@@ -315,3 +315,10 @@ CType *__stdcall replace_first_type_shape(CType *type, unsigned short kind,
     --type_description_depth;
     return result;
 }
+
+/* Original 0x62340..0x62353. Strip at most one outer reference shape. */
+TypeShape *__stdcall skip_reference_shape(TypeShape *shape)
+{
+    if (shape && (shape->flags & 0x40)) shape = shape->related;
+    return shape;
+}

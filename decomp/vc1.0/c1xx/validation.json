@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 320,
-  "driver_functions": 245,
+  "accepted_frontiers": 330,
+  "driver_functions": 255,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 251,
-  "current_frontier": "_compare_declaration_parameters@8",
-  "original_frontier_va": "0x3a2d0",
+  "reconstructed_source_functions": 261,
+  "current_frontier": "_complete_base_class_layout@4",
+  "original_frontier_va": "0x79dc0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "a934ab591029eb3ce531dc80f747d777b4283b48e1fb0810c92059bfe57cf5eb",
-  "call_graph_audit_functions": 251,
+  "replay_log_sha256": "f508cdda7c1122c2b1b966453c284541512ff139f6a17cf554036735c4e22c65",
+  "call_graph_audit_functions": 261,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -60,7 +60,8 @@
     "lookahead_parser_state_defaults": 7,
     "lookahead_stack_bytes": 1510,
     "declarator_nesting_bytes": 4,
-    "active_parameter_symbol_defaults": 1
+    "active_parameter_symbol_defaults": 1,
+    "previous_base_class_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -88,7 +89,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-copy-overload.log",
+  "replay_log": "evidence/replay-special-member-finish.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -305,7 +306,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 103144,
+  "accepted_source_text_and_switch_bytes": 104300,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -424,7 +425,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "481efc6be7009704bf1bcab3103cc390098adabc1a3b9f21a85e198e276393ee",
+  "replay_build_text_sha256": "f66140dca765f6360143f3779c36b1f4d0a40f1756795fa4ff39d7cf274ad014",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -457,6 +458,52 @@
     ],
     "overload_matching_callees": 10,
     "diagnostic_string_arguments": 6,
+    "full_ordered_replay_pass": true
+  },
+  "special_member_finish": {
+    "parameter_list_comparison": [
+      "0x3a2d0",
+      "0x3a32c"
+    ],
+    "parameter_type_comparison": [
+      "0x3a070",
+      "0x3a2cf"
+    ],
+    "overload_prepend": [
+      "0x55e50",
+      "0x55e64"
+    ],
+    "copy_assignment_classification": [
+      "0x30360",
+      "0x3040c"
+    ],
+    "reference_strip": [
+      "0x62340",
+      "0x62353"
+    ],
+    "destructor_declarator": [
+      "0x33090",
+      "0x330d0"
+    ],
+    "destructor_internal_return_type": "type_0064, original 0x9f274",
+    "special_member_model_search": [
+      "0x37c10",
+      "0x37c52"
+    ],
+    "virtual_finalization": [
+      "0x79170",
+      "0x79185"
+    ],
+    "class_virtual_layout": [
+      "0x79d60",
+      "0x79db4"
+    ],
+    "class_virtual_layout_callees": 9,
+    "previous_base_reset": [
+      "0x7a130",
+      "0x7a13b"
+    ],
+    "previous_base_state": "0xa8134",
     "full_ordered_replay_pass": true
   }
 }

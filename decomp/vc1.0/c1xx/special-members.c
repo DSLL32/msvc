@@ -352,3 +352,16 @@ CppSymbol *__stdcall make_copy_parameter(unsigned short pointer_kind, unsigned s
     parameter->detail.parameter_next = parameter;
     return parameter;
 }
+
+/* Original 0x37c10..0x37c52. A trivial member is usable in the requested
+   model directly; other members must be present in the flat-model trait slot. */
+int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int first)
+{
+    unsigned mask = 1U << (kind & 31);
+    if (tag->detail.class_info->trivial_special_members & mask) return first;
+    while (first < 1) {
+        if (CLASS_SPECIAL_BYTE(tag->detail.class_info, available, first) & mask) return first;
+        ++first;
+    }
+    return -1;
+}

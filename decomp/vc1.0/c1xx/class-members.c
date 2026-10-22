@@ -676,3 +676,44 @@ CppSymbol *__stdcall class_type_of_member(CppSymbol *member)
     }
     return cpp_context_stack->items[member->type->field08];
 }
+
+TypeShape *__stdcall skip_reference_shape(TypeShape *shape);
+
+/* Original 0x30360..0x3040c. A one-argument assignment from this class,
+   after erasing its outer reference, supplies the special-member cv flags. */
+void __stdcall classify_copy_assignment(CppSymbol *member)
+{
+    TypeShape *outer, *function;
+    FunctionParameters *parameters;
+    CType *type;
+    unsigned qualifiers = 0;
+    if (member->name != name_assignment) return;
+    outer = member->type->related;
+    function = outer;
+    if (function && !(function->flags & 0x77)) function = function->related;
+    parameters = function->data.parameters;
+    if ((outer->flags & 0x4000) || parameters->declarations->count != 1 ||
+        parameters->default_count) return;
+    type = parameters->declarations->types[0];
+    if (!(type->flags & 0x400) || type->field08 != CLASS_CONTEXT.type->field08 ||
+        skip_reference_shape(type->related)) return;
+    member->cpp.parts.member_flags |= 0x40;
+    if (type->attributes & 0x1000) qualifiers |= 1;
+    if (type->attributes & 0x2000) qualifiers |= 2;
+    member->cpp.parts.member_qualifiers =
+        (member->cpp.parts.member_qualifiers & 0x3f) | (qualifiers << 6);
+}
+
+/* Original 0x33090..0x330d0. Destructor declarators use the shared internal
+   int return type and interned destructor name. A missing context changes only
+   the low storage byte, preserving its other caller-supplied storage fields. */
+void __stdcall select_destructor_type(CppSymbol *member, DeclarationType *context,
+    CType **base, StorageSpec *storage)
+{
+    if (context) {
+        storage->flags = context->storage[0] | (context->storage[1] << 8);
+        storage->extended = context->storage[2];
+    } else storage->flags = (storage->flags & ~7) | 0x10;
+    *base = type_0064;
+    member->name = name_dtor;
+}

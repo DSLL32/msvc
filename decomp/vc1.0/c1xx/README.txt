@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 320 accepted paired frontiers, including 245 frontend
+PARTIAL reconstruction: 330 accepted paired frontiers, including 255 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _compare_declaration_parameters@8 at original VA 0x3a2d0. The latest ordered replay is recorded in validation.json;
+trap is _complete_base_class_layout@4 at original VA 0x79dc0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -494,3 +494,16 @@ All 320 accepted frontiers replay exactly in evidence/replay-copy-overload.log,
 including pending FILE buffers. The next matching trap compares declaration
 parameter lists at 0x3a2d0. Accepted source/table ranges total 103,144 original
 text bytes; the complete frontend case remains partial.
+
+
+Implicit copy-constructor, copy-assignment and destructor classification now
+passes. Parameter-list comparison preserves the accumulated exact/ambiguous/
+distinct result; overload insertion uses the original function chain. Destructor
+setup uses the shared internal int type, confirmed at its initialization store.
+The final special-member model search keeps its native masked shift and trait
+slot rules. Virtual finalization preserves both native passes and the first
+pass's nine child calls; the previous-base pointer's BSS default is audited.
+
+All 330 accepted frontiers replay exactly in evidence/replay-special-member-finish.log,
+including pending FILE buffers. The next matching trap is direct-base layout
+at 0x79dc0. Complete frontend output equivalence is still unclaimed.

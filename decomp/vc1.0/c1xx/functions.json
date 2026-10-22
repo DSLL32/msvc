@@ -324,7 +324,17 @@
     "_merge_reference_shape@24",
     "_replace_first_type_shape@16",
     "_bind_function_overload@8",
-    "_find_matching_overload@12"
+    "_find_matching_overload@12",
+    "_compare_declaration_parameters@8",
+    "_compare_overload_parameter@12",
+    "_prepend_function_overload@8",
+    "_classify_copy_assignment@4",
+    "_skip_reference_shape@4",
+    "_select_destructor_type@16",
+    "_find_special_member_model@12",
+    "_finalize_class_virtual_tables@4",
+    "_complete_class_virtual_layout@4",
+    "_reset_previous_base_class"
   ],
   "driver": [
     {
@@ -2872,7 +2882,7 @@
     {
       "name": "_select_destructor_type@16",
       "start": 209040,
-      "end": 209041
+      "end": 209104
     },
     {
       "name": "_declare_friend_member@24",
@@ -3152,7 +3162,7 @@
     {
       "name": "_classify_copy_assignment@4",
       "start": 197472,
-      "end": 197473
+      "end": 197644
     },
     {
       "name": "_overrides_virtual_member@12",
@@ -3197,7 +3207,7 @@
     {
       "name": "_finalize_class_virtual_tables@4",
       "start": 495984,
-      "end": 495985
+      "end": 496005
     },
     {
       "name": "_declare_default_constructor_closures@4",
@@ -3367,7 +3377,7 @@
     {
       "name": "_find_special_member_model@12",
       "start": 228368,
-      "end": 228369
+      "end": 228434
     },
     {
       "name": "_merge_subobject_special_members@16",
@@ -3407,12 +3417,12 @@
     {
       "name": "_prepend_function_overload@8",
       "start": 351824,
-      "end": 351825
+      "end": 351844
     },
     {
       "name": "_compare_declaration_parameters@8",
       "start": 238288,
-      "end": 238289
+      "end": 238380
     },
     {
       "name": "_reconcile_declaration_type@12",
@@ -3423,6 +3433,66 @@
       "name": "_format_function_parameters@12",
       "start": 427536,
       "end": 427537
+    },
+    {
+      "name": "_compare_overload_parameter@12",
+      "start": 237680,
+      "end": 238287
+    },
+    {
+      "name": "_complete_class_virtual_layout@4",
+      "start": 499040,
+      "end": 499124
+    },
+    {
+      "name": "_declare_class_virtual_tables@4",
+      "start": 503232,
+      "end": 503233
+    },
+    {
+      "name": "_reset_previous_base_class",
+      "start": 500016,
+      "end": 500027
+    },
+    {
+      "name": "_complete_base_class_layout@4",
+      "start": 499136,
+      "end": 499137
+    },
+    {
+      "name": "_finish_class_size@4",
+      "start": 498960,
+      "end": 498961
+    },
+    {
+      "name": "_combine_virtual_table_groups@4",
+      "start": 502128,
+      "end": 502129
+    },
+    {
+      "name": "_resolve_virtual_overrides@4",
+      "start": 501232,
+      "end": 501233
+    },
+    {
+      "name": "_diagnose_virtual_ambiguities@4",
+      "start": 500832,
+      "end": 500833
+    },
+    {
+      "name": "_coalesce_virtual_table_paths@4",
+      "start": 502448,
+      "end": 502449
+    },
+    {
+      "name": "_sort_class_virtual_tables@4",
+      "start": 502896,
+      "end": 502897
+    },
+    {
+      "name": "_class_has_pure_virtual@4",
+      "start": 502976,
+      "end": 502977
     }
   ],
   "cases": {
@@ -4364,6 +4434,18 @@
           "name": "_replacement_shape_prefix",
           "original": 622960,
           "bytes": 12
+        }
+      ]
+    },
+    {
+      "name": "_previous_base_class",
+      "original": 688436,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_previous_base_class",
+          "original": 688436,
+          "bytes": 4
         }
       ]
     }

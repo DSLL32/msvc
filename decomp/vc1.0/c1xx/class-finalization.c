@@ -165,3 +165,38 @@ void __stdcall finish_nonvirtual_class_size(CppSymbol *tag)
     align_class_member(context->alignment);
     tag->detail.class_info->nonvirtual_size = class_contexts[current_class_context].size;
 }
+
+/* Original 0x79170..0x79185. Complete dispatch layout before declaring
+   table symbols; these are separate native passes. */
+void __stdcall finalize_class_virtual_tables(CppSymbol *tag)
+{
+    complete_class_virtual_layout(tag);
+    declare_class_virtual_tables(tag);
+}
+
+/* Original 0x79d60..0x79db4. Preserve the nine ordered native passes;
+   only the last query supplies the abstract-class bit in the class flags. */
+void __stdcall complete_class_virtual_layout(CppSymbol *tag)
+{
+    int abstract;
+    reset_previous_base_class();
+    complete_base_class_layout(tag);
+    finish_class_size(tag);
+    combine_virtual_table_groups(tag);
+    resolve_virtual_overrides(tag);
+    diagnose_virtual_ambiguities(tag);
+    coalesce_virtual_table_paths(tag);
+    sort_class_virtual_tables(tag);
+    abstract = class_has_pure_virtual(tag);
+    tag->detail.class_info->flags = (tag->detail.class_info->flags & 0x7f) |
+        ((abstract & 1) << 7);
+}
+
+CppSymbol *previous_base_class; /* original 0xa8134 */
+
+/* Original 0x7a130..0x7a13b. Reset the previous-base comparison context
+   before laying out the direct base classes. */
+void reset_previous_base_class(void)
+{
+    previous_base_class = 0;
+}

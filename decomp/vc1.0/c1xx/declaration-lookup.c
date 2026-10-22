@@ -588,3 +588,66 @@ CppSymbol *__stdcall find_matching_overload(CppSymbol *functions, CType *type,
         }
     }
 }
+
+int __stdcall compare_overload_parameter(int previous, CType *left, CType *right);
+/* Original 0x3a2d0..0x3a32c. Retain the accumulated ambiguity classification
+   across corresponding parameter types; different arity cannot match. */
+int __stdcall compare_declaration_parameters(DeclarationParameterInfo *left,
+    DeclarationParameterInfo *right)
+{
+    int count = left->count, index, result = 0;
+    if (right->count != count) return 2;
+    for (index = 0; index < count; ++index) {
+        result = compare_overload_parameter(result, left->types[index], right->types[index]);
+        if (result == 2) break;
+    }
+    return result;
+}
+
+
+/* Original 0x3a070..0x3a2cf. Compare the canonical parameter and its first
+   derived shape. Results are exact/previous (0), ambiguous (1), distinct (2).
+   In this classification, reference qualification may erase a difference;
+   pointer/array pairs retain the incoming ambiguity when one already exists. */
+int __stdcall compare_overload_parameter(int previous, CType *left, CType *right)
+{
+    TypeShape *left_shape, *right_shape;
+    unsigned left_kind, right_kind;
+    if (left == right) return previous;
+    if (!left || !right || ((left->flags ^ right->flags) & 0xefff) ||
+        left->field08 != right->field08) return 2;
+    left_shape = left->related;
+    right_shape = right->related;
+    if (!left_shape) {
+        if (right_shape && (!(right_shape->flags & 0x40) || right_shape->related ||
+            ((left->attributes ^ right_shape->attributes) & 0x3000))) return 2;
+    } else if (!right_shape) {
+        if (!(left_shape->flags & 0x40) || left_shape->related ||
+            ((left_shape->attributes ^ right->attributes) & 0x3000)) return 2;
+    } else if (left_shape == right_shape) {
+        if ((left->attributes ^ right->attributes) & 0x3000) return 2;
+    } else {
+        if (left_shape->related != right_shape->related ||
+            ((left_shape->flags ^ right_shape->flags) & 0x40) ||
+            (!!(left_shape->attributes & 12) != !!(right_shape->attributes & 12)) ||
+            (!(right_shape->attributes & 12) &&
+             ((left_shape->attributes ^ right_shape->attributes) & 7)) ||
+            left_shape->flags == right_shape->flags) return 2;
+        left_kind = left_shape->flags & 0x77;
+        right_kind = right_shape->flags & 0x77;
+        if ((left_kind == 1 && right_kind == 2) ||
+            (left_kind == 2 && right_kind == 1)) {
+            if ((left->attributes ^ right->attributes) & 0x3000) return 2;
+            if (previous != 1) return 0;
+        }
+    }
+    return 1;
+}
+
+/* Original 0x55e50..0x55e64. Keep newest overload first, sharing the
+   existing symbol-chain link rather than allocating a second list node. */
+void __stdcall prepend_function_overload(CppSymbol *overloads, CppSymbol *declaration)
+{
+    declaration->next = ((OverloadSet *)overloads)->functions;
+    ((OverloadSet *)overloads)->functions = declaration;
+}

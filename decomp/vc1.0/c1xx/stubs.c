@@ -123,7 +123,7 @@ int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
 int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
 void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
 void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned parameter) { __asm { int 3 } }
-TypeShape *__stdcall skip_reference_shape(TypeShape *shape) { __asm { int 3 } return 0; }
+
 
 /* Complete yacc semantic callees, still unaccepted. */
 void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound) { __asm { int 3 } }
@@ -347,8 +347,7 @@ void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol 
 void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall validate_anonymous_aggregate(DeclarationType *type) { __asm { int 3 } }
 void __stdcall declare_anonymous_aggregate(CType *type) { __asm { int 3 } }
-void __stdcall select_destructor_type(CppSymbol *member, DeclarationType *context,
-    CType **base, StorageSpec *storage) { __asm { int 3 } }
+
 void __stdcall declare_friend_member(DeclarationType *context, CppSymbol *member,
     QualifiedDeclarator *qualified, CppSymbol *owner, StorageSpec storage, int pure) { __asm { int 3 } }
 void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclarator *qualified) { __asm { int 3 } }
@@ -392,11 +391,11 @@ void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }
 int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall transform_function_parameters(CType *type, ParameterTransform transform) { __asm { int 3 } return 0; }
 FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *parameters) { __asm { int 3 } return 0; }
-void __stdcall classify_copy_assignment(CppSymbol *member) { __asm { int 3 } }
+
 int __stdcall compatible_override_return(CType *member, CType *inherited) { __asm { int 3 } return 0; }
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }
 void browser_end_tag(void) { __asm { int 3 } }
-void __stdcall finalize_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
+
 void __stdcall declare_default_constructor_closures(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall declare_deleting_destructors(CppSymbol *tag) { __asm { int 3 } }
 void emit_deferred_class_terminator(void) { __asm { int 3 } }
@@ -413,16 +412,30 @@ void __stdcall inherit_base_virtual_tables(CppSymbol *tag, BaseClassLink *base, 
 CppSymbol *__stdcall create_virtual_pointer(CppSymbol *tag, int kind) { __asm { int 3 } return 0; }
 VirtualTable *__stdcall new_virtual_table(unsigned kind, CppSymbol *tag, unsigned offset, CppSymbol *pointer) { __asm { int 3 } return 0; }
 VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *pointer) { __asm { int 3 } return 0; }
-int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int first) { __asm { int 3 } return 0; }
+
 void __stdcall merge_subobject_special_members(CppSymbol *tag, CppSymbol *subobject, SpecialMemberState *states, int model) { __asm { int 3 } }
 void __stdcall record_special_member(CppSymbol *tag, SpecialMemberState *states, int kind, int model, unsigned nonprivate, unsigned warning) { __asm { int 3 } }
 void __stdcall defer_generated_member(CppSymbol *member) { __asm { int 3 } }
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
-void __stdcall prepend_function_overload(CppSymbol *overloads, CppSymbol *declaration) { __asm { int 3 } }
 
-int __stdcall compare_declaration_parameters(DeclarationParameterInfo *left,
-    DeclarationParameterInfo *right) { __asm { int 3 } return 0; }
+
+
 unsigned __stdcall reconcile_declaration_type(CppSymbol *existing,
     CppSymbol *declaration, CType *type) { __asm { int 3 } return 0; }
 short __stdcall format_function_parameters(short text, FunctionParameters *parameters,
     unsigned flags) { __asm { int 3 } return 0; }
+
+
+
+
+void __stdcall declare_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
+
+
+void __stdcall complete_base_class_layout(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall finish_class_size(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall combine_virtual_table_groups(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall resolve_virtual_overrides(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall coalesce_virtual_table_paths(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall sort_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
+int __stdcall class_has_pure_virtual(CppSymbol *tag) { __asm { int 3 } return 0; }
