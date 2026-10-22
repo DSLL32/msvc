@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 223,
+  "accepted_frontiers": 232,
   "current_frontier": {
-    "name": "@build_register_conflicts@8",
-    "original_va": 179152
+    "name": "@allocation_operand_cost@28",
+    "original_va": 180208
   },
   "expected": {
     "exit": 0,
@@ -164,18 +164,24 @@
     "all498 reconstructed source graphs and575 accepted extent instruction boundaries agree",
     "physical-allocation, register-variables and machine-state compile /W3 clean",
     "independent physical-round capture matches41 normalized lines including20 complete register records, all12 counters, both cleared tables and exact callback/current_work identities",
-    "verified accepted code-extent union149679/399693 bytes =37.4485 percent; not branch coverage"
+    "verified accepted code-extent union149679/399693 bytes =37.4485 percent; not branch coverage",
+    "original-toolchain make -j2 check passes; minimal object/exit/streams match except only four-byte COFF timestamp",
+    "all352 minimal and232 hello historical frontiers replay with frozen native build/config hashes",
+    "all507 reconstructed source graphs and584 accepted extent instruction boundaries agree",
+    "physical-conflicts compiles /W3 clean",
+    "independent first-cost-query capture matches41 normalized lines including20 complete variables,12 counters and all register/stack arguments",
+    "verified accepted code-extent union151423/399693 bytes=37.8848 percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 575,
-  "reconstructed_functions": 498,
+  "total_accepted_frontiers": 584,
+  "reconstructed_functions": 507,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 575,
-    "accepted_code_bytes": 149679,
+    "accepted_frontiers": 584,
+    "accepted_code_bytes": 151423,
     "original_code_bytes": 399693,
-    "percentage": 37.4484917173931,
+    "percentage": 37.88482660441889,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -183,6 +189,6 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 163
+    "union_ranges": 164
   }
 }

@@ -579,7 +579,16 @@
     "@next_machine_block@4",
     "_initialize_physical_variables",
     "_prune_rematerialized_variables",
-    "_initialize_allocation_round"
+    "_initialize_allocation_round",
+    "@build_register_conflicts@8",
+    "@initialize_allocation_live_registers@4",
+    "@record_operand_conflicts@16",
+    "@record_allocation_operand@20",
+    "@record_special_register_conflicts@8",
+    "@record_implicit_register_conflicts@8",
+    "@conflict_with_live_registers@12",
+    "@add_allocation_live_register@8",
+    "@remove_allocation_live_register@8"
   ],
   "driver": [
     {
@@ -5084,8 +5093,7 @@
     {
       "name": "@build_register_conflicts@8",
       "start": 179152,
-      "end": 179153,
-      "provisional": true
+      "end": 179408
     },
     {
       "name": "@add_register_conflict@8",
@@ -5134,6 +5142,70 @@
       "name": "@machine_sequence_cost@4",
       "start": 185088,
       "end": 185089,
+      "provisional": true
+    },
+    {
+      "name": "@initialize_allocation_live_registers@4",
+      "start": 187216,
+      "end": 187312
+    },
+    {
+      "name": "@record_operand_conflicts@16",
+      "start": 187840,
+      "end": 188336
+    },
+    {
+      "name": "@record_special_register_conflicts@8",
+      "start": 188336,
+      "end": 188528
+    },
+    {
+      "name": "@record_implicit_register_conflicts@8",
+      "start": 187440,
+      "end": 187632
+    },
+    {
+      "name": "@remove_allocation_live_register@8",
+      "start": 187632,
+      "end": 187712
+    },
+    {
+      "name": "@add_allocation_live_register@8",
+      "start": 187312,
+      "end": 187440
+    },
+    {
+      "name": "@record_allocation_operand@20",
+      "start": 180032,
+      "end": 180208
+    },
+    {
+      "name": "@conflict_with_live_registers@12",
+      "start": 187712,
+      "end": 187840
+    },
+    {
+      "name": "@register_precedes_lea@8",
+      "start": 182304,
+      "end": 182305,
+      "provisional": true
+    },
+    {
+      "name": "@register_follows_lea@8",
+      "start": 182208,
+      "end": 182209,
+      "provisional": true
+    },
+    {
+      "name": "@allocation_operand_cost@28",
+      "start": 180208,
+      "end": 180209,
+      "provisional": true
+    },
+    {
+      "name": "@loop_depth_weight@4",
+      "start": 365264,
+      "end": 365265,
       "provisional": true
     }
   ],

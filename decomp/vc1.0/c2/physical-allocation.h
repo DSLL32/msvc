@@ -34,7 +34,15 @@ void initialize_physical_variables(void);
 void prune_rematerialized_variables(void);
 int __fastcall machine_sequence_cost(MachineInstruction *instruction);
 void initialize_allocation_round(void);
+extern int allocation_live_register_count; /* 7c8c8 */
+extern RegisterConflict *allocation_live_registers; /* 7c8cc */
 void __fastcall build_register_conflicts(WorkItem *work, RegisterConflictVisitor visitor);
+void __fastcall initialize_allocation_live_registers(WorkItem *work);
+void __fastcall record_operand_conflicts(WorkItem *work, MachineInstruction *instruction, int depth, RegisterConflictVisitor visitor);
+void __fastcall record_special_register_conflicts(MachineInstruction *instruction, RegisterConflictVisitor visitor);
+void __fastcall record_implicit_register_conflicts(MachineInstruction *instruction, RegisterConflictVisitor visitor);
+int __fastcall add_allocation_live_register(RegisterConflict **list, unsigned short number);
+int __fastcall remove_allocation_live_register(RegisterConflict **list, unsigned short number);
 int __fastcall add_register_conflict(RegisterVariable *left, RegisterVariable *right);
 int simplify_unspillable_variables(void);
 void build_allocation_constraints(void);
@@ -50,4 +58,10 @@ void record_debug_register_locations(void);
 void __fastcall allocate_frame_symbols(WorkItem *work, int use_stack_pointer);
 void __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions);
 void finish_register_assignment(void);
+void __fastcall record_allocation_operand(MachineInstruction *instruction, unsigned short number, int annotation, int operand_index, int depth);
+void __fastcall conflict_with_live_registers(unsigned short number, unsigned short exclude, RegisterConflictVisitor visitor);
+int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned short number);
+int __fastcall register_follows_lea(MachineInstruction *instruction, unsigned short number);
+int __fastcall allocation_operand_cost(MachineInstruction *instruction, RegisterVariable *variable, int annotation, unsigned operand_index, int apply, unsigned *spill_bytes, void *context);
+int __fastcall loop_depth_weight(unsigned depth);
 #endif

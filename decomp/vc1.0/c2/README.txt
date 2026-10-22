@@ -1222,3 +1222,30 @@ four-byte COFF timestamp. Verified accepted original code-extent union is
 149679/399693 bytes (37.4485 percent), with source/shared text/CRT/imports
 unioned, clipped and checked against actual masks; this is not branch coverage.
 Hello remains pending at build_register_conflicts,0002bbd0.
+
+Nine more functions enter register interference construction. Each selected
+block starts with a private iteration of its live-in set. Reverse operand
+visits account for direct registers, address bases/indexes, last uses and the
+excluded source of a coalescible MOV. Separate forward byte-operand checks
+exclude ESI/EDI/available EBP. Implicit register conflicts preserve their own
+helper and typed indirect callback. Arena3 owns temporary live-list nodes;
+fixed frame/stack and noninteger physical registers are excluded as native.
+The work's original flow-set slot is reused, without another liveness cache.
+
+Native opcode property0x40 maps to existing MC_IMPLICIT_REGISTERS, whose231
+rows were previously checked. That semantic enum translation was corrected
+before final replay. The main operand helper keeps its full four-argument
+fastcall ABI; signed annotations, loop depth and callback stack cleanup are
+preserved. The first combined cost query is now allocation_operand_cost2bff0,
+with register4022, annotation0, operand0, apply0 and both optional pointers
+null. An independent capture matches41 normalized lines, including those
+register/stack arguments,20 variable records and12 counters. Positive virtual
+costing, populated interference and rewriting remain outside dynamic claims.
+See cases/hello-register-conflicts-abi.json.
+
+All352 minimal and232 hello historical frontiers replay;507 source graphs and
+584 accepted extent instruction boundaries pass. The new module compiles /W3
+clean; minimal object/streams/exit match except only its four-byte timestamp.
+Verified original code-extent union151423/399693 bytes (37.8848 percent),
+including clipped source/shared text/CRT/import ranges with actual-mask
+verification, is not branch coverage. The queued hello case remains active.

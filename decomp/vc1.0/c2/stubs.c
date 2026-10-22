@@ -469,8 +469,11 @@ int __fastcall count_register_conflicts(RegisterConflict *conflicts) { __asm int
 void finish_allocation_constraints(void) { __asm int 3 }
 void build_allocation_constraints(void) { __asm int 3 }
 int simplify_unspillable_variables(void) { __asm int 3 }
-void __fastcall build_register_conflicts(WorkItem *work, RegisterConflictVisitor visitor) { __asm int 3 }
 int __fastcall add_register_conflict(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 void __fastcall allocate_frame_symbols(WorkItem *work, int use_stack_pointer) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
 int __fastcall machine_sequence_cost(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
+int __fastcall register_follows_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
+int __fastcall allocation_operand_cost(MachineInstruction *instruction, RegisterVariable *variable, int annotation, unsigned operand_index, int apply, unsigned *spill_bytes, void *context) { __asm int 3 }
+int __fastcall loop_depth_weight(unsigned depth) { __asm int 3 }
