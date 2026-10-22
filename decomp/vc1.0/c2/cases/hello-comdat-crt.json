@@ -1,0 +1,239 @@
+{
+  "checkpoint": 722,
+  "base_commit": "8d43f46",
+  "status": "active; emit_initializer next",
+  "new_application_function": "@coff_create_comdat_section@20",
+  "application_extent": [
+    "0x6e580",
+    "0x6e5cd"
+  ],
+  "library_acceptance": "_strncmp",
+  "source_graphs": 644,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 722,
+    "accepted_code_bytes": 203462,
+    "original_code_bytes": 399693,
+    "percentage": 50.90456925690467,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 214
+  },
+  "current_frontier": {
+    "name": "@emit_initializer@4",
+    "original_va": "0x69360"
+  },
+  "validation": {
+    "canonical_build": "pass",
+    "coff_writer_W3": "clean",
+    "graph_extent_mask": "pass",
+    "native_fixtures": {
+      "method": "native application entry and captured-output check",
+      "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+      "executable_sha256": "930a260110ac53a2bcbfcf5ae4710d9bf94c6927cace9e8aee6b3cd2f71a1fe7",
+      "trace_enabled": true,
+      "shared_hashes": {
+        "lib/recon/include/recon.h": "5fa1a22f52d82aea4837ed72229f0513f3a374a2948e23d85cfa4d24e02b6df6",
+        "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+        "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+        "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+        "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+        "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+        "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+        "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+        "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+        "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+        "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+        "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+        "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+        "lib/recon/src/crt.c": "53a660e8675b68b43527d9d10fa9d95ce56f796dc969fca1789719fbc0010c26",
+        "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+        "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+        "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+        "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+        "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+      },
+      "results": [
+        {
+          "profile": "minimal",
+          "terminal": "exit:0",
+          "returncode": 0,
+          "application_entries": 270,
+          "seeded_entries": 0,
+          "output": {
+            "name": "test.obj",
+            "bytes": 286,
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_timestamp": [
+              4,
+              4
+            ]
+          },
+          "setup_seconds": 0.016825363971292973,
+          "execution_seconds": 0.005629194900393486,
+          "check_seconds": 0.0015647755935788155,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-jqutn3co/minimal"
+        },
+        {
+          "profile": "hello",
+          "terminal": "@emit_initializer@4",
+          "returncode": -5,
+          "application_entries": 370,
+          "seeded_entries": 270,
+          "output": null,
+          "setup_seconds": 0.013604693114757538,
+          "execution_seconds": 0.00796172209084034,
+          "check_seconds": 0.0011835107579827309,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-jqutn3co/hello"
+        }
+      ],
+      "rejected": [
+        "wrong expected application entry",
+        "non-clock object corruption",
+        "changed captured IR input"
+      ],
+      "fixture_seconds": 0.20849412865936756,
+      "suite_setup_seconds": 0.12843827717006207,
+      "negative_check_seconds": 0.023373114876449108,
+      "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+    },
+    "CRT_evidence_negatives": "six rejected"
+  },
+  "evidence": [
+    "cases/hello-original-720.json",
+    "cases/hello-original-721.json",
+    "cases/hello-original-722.json",
+    "cases/hello-crt-strncmp.json",
+    "cases/hello-crt-strncmp-native.txt",
+    "src/reference-crt-observer.c"
+  ],
+  "timings": {
+    "measured_attempts": [
+      {
+        "label": "checkpoint722-audit-timing.json",
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.5409652637317777,
+        "returncode": 0,
+        "log_sha256": "abccba0e7543cc7d3004418782b7a05f33b62b25f26a2910620341169e36d70d"
+      },
+      {
+        "label": "checkpoint722-check-timing.json",
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.5665194476023316,
+        "returncode": 0,
+        "log_sha256": "f60fcbaa4c512465c499de516f0da41fb7b61be92b84f2f1960bed548611b754"
+      },
+      {
+        "label": "checkpoint722-coff-warnings-timing.json",
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "coff-writer"
+        ],
+        "seconds": 1.5636951951310039,
+        "returncode": 0,
+        "log_sha256": "d9017bb795879be8dfa98db6ecff7fe87d15e05fbc92b6614379622e8dc32e7c"
+      },
+      {
+        "label": "checkpoint722-win32-timing.json",
+        "command": [
+          "make",
+          "-j4",
+          "win32"
+        ],
+        "seconds": 2.003757872618735,
+        "returncode": 0,
+        "log_sha256": "9df81083b0db460845cb879ab7adc8e063e4227780ee243d2ac441b4c034e33f"
+      },
+      {
+        "label": "comdat-create-native-build-timing.json",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 2.0670258859172463,
+        "returncode": 0,
+        "log_sha256": "9c9819ba7868ce1da29aa27dd2c0ad1319fda0299c8f1f2b389428b15f9b6b48"
+      },
+      {
+        "label": "crt-evidence-negatives-timing.json",
+        "command": [
+          "python3",
+          "scripts/check-native-traces.py"
+        ],
+        "seconds": 0.09200620371848345,
+        "returncode": 0,
+        "log_sha256": "e65b323e4f66443d044e4a3a4cada4f562c5e8227750abea95781cedf2aadd00"
+      },
+      {
+        "label": "crt-observer-build-timing.json",
+        "command": [
+          "python3",
+          "scripts/wine-tool.py",
+          "CL.EXE",
+          "/nologo",
+          "/W3",
+          "/I../../../lib/recon/include",
+          "/Od",
+          "/G3",
+          "/FeZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\debug-crt.exe",
+          "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\debug-crt.obj",
+          "Z:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\debug-crt.c"
+        ],
+        "seconds": 1.1736053936183453,
+        "returncode": 0,
+        "log_sha256": "2076530b02fc0ec28e8b43bfac9710c6526837dd20576bc208de2c614d051837"
+      }
+    ],
+    "original_call_capture": 1.109529453329742,
+    "native_call_capture": 0.13665712624788284,
+    "new_logical_reference_capture": {
+      "label": "strncmp-after",
+      "accepted": 722,
+      "logical": "@emit_initializer@4",
+      "original_va": "0x69360",
+      "events": "exception 80000003 rva 00059360 base 00010000 first 1\nexit 99\n",
+      "setup_seconds": 0.17814333830028772,
+      "execution_check_seconds": 1.3766862927004695,
+      "total_seconds": 1.5548300603404641,
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "masked_sha256": "374973dde856499294eb92408236b69c308c55ab66f0462e49c772cc7d9cc125",
+      "config_sha256": "cbfc41fee86379973aee0fb605a9f1f8839313c2cd1e524b0e1eec05a95fba4a",
+      "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+      "inputs": {
+        "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+        "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+        "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+        "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+      },
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+      },
+      "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/strncmp-after"
+    },
+    "analysis": "not instrumented"
+  },
+  "limits": [
+    "CRT is library identity acceptance, not reconstructed application source/entry coverage",
+    "caller zero/nonzero use and first string/count/result are observed; no global libc return-magnitude claim",
+    "hello final object remains incomplete"
+  ]
+}

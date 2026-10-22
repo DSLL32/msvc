@@ -187,8 +187,6 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 void __fastcall coff_write_comment(char *text) { __asm int 3 }
 #include "coff-segments.h"
 void __fastcall coff_fill_bytes(unsigned char value, unsigned bytes) { __asm int 3 }
-unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
-    unsigned char selection, unsigned short associated, int definition) { __asm int 3 }
 #include "listing.h"
 Segment *__fastcall write_segment_listing(Segment *segment, int definition) { __asm int 3 }
 Segment *__fastcall close_segment_listing(Segment *segment) { __asm int 3 }

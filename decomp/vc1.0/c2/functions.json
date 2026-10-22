@@ -724,7 +724,9 @@
     "@reserve_segment_storage@4",
     "@insert_machine_after@8",
     "@coff_data_position@4",
-    "@coff_comdat_selection@4"
+    "@coff_comdat_selection@4",
+    "@coff_create_comdat_section@20",
+    "_strncmp"
   ],
   "driver": [
     {
@@ -1828,8 +1830,7 @@
     {
       "name": "@coff_create_comdat_section@20",
       "start": 451968,
-      "end": 451969,
-      "provisional": true
+      "end": 452045
     },
     {
       "name": "@coff_open_contribution@8",

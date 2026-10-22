@@ -433,3 +433,20 @@ unsigned __fastcall coff_data_position(CoffScope *scope)
 {
     return scope->completed_bytes + scope->buffered_bytes;
 }
+
+/* Original [0006e580,0006e5cd). A logical COMDAT section retains its
+   selection policy and associated-section number until contribution emission. */
+unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
+    unsigned char selection, unsigned short associated, int definition)
+{
+    CoffSection *section = coff_allocator(sizeof(CoffSection));
+    unsigned index;
+    if (definition) section->state |= 8;
+    section->characteristics = flags;
+    section->selection = selection;
+    section->associated = associated;
+    section->name = name;
+    index = coff_vector_append(coff_sections, section);
+    section->number = (unsigned short)index;
+    return (unsigned short)index;
+}

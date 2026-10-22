@@ -1,0 +1,54 @@
+{
+  "logical": "_strncmp",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "before_config_sha256": "e3ab6a01c0eaef8eb1cf1f9934a088d171014575bd6505160dd50b38f43c8479",
+  "original": {
+    "seconds": 1.109529453329742,
+    "identity": {
+      "record": {
+        "name": "_strncmp",
+        "start": 469440,
+        "end": 469497,
+        "object": "string\\obj\\i386\\STRNCMP.OBJ",
+        "library": "LIBC.LIB"
+      },
+      "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+      "object_sha256": "059d8c8df45d90c69ecbf3674aef01cf0166c12361888ff728d92e53daf4d96f",
+      "text_sha256": "00602f5c47a26cc612bd2afcfafe7136f18bedeab169d986f11bc47ec8d023ea",
+      "exact_text_bytes": 57
+    },
+    "observer_source_sha256": "20bd61871c71cfba92e8a09a8677a6a2b05f5df61993b61709d769ea052fbd73",
+    "observer_exe_sha256": "0d8c8ef0a8a014a3e6324fd9193ffc3dfb3196a96d2c022c93fa59c5223c72b7",
+    "observations": "count 6\nleft 5f4441544100\nright 2e7264617461\nreturn_va 0006d053\nresult 1\n",
+    "events": "exception 80000003 rva 000629c0 base 00010000 first 1\nexception 80000003 rva 0005d053 base 00010000 first 1\nexit 99\n",
+    "config_sha256": "e3ab6a01c0eaef8eb1cf1f9934a088d171014575bd6505160dd50b38f43c8479"
+  },
+  "native": {
+    "seconds": 0.13665712624788284,
+    "executable_sha256": "51b829647b3eb7b5bc1b059caa15ca669bced37c7009c2079bb4dc13b494f696",
+    "config_sha256": "e3ab6a01c0eaef8eb1cf1f9934a088d171014575bd6505160dd50b38f43c8479",
+    "log_sha256": "c8738a0c93ee308bcf4603e3b21f171ee0e32803a6c5b87304925b9dd286d4ba"
+  },
+  "observed_original": {
+    "left_hex": "5f4441544100",
+    "right_hex": "2e7264617461",
+    "count": 6,
+    "result": 1
+  },
+  "observed_native": {
+    "left_hex": "5f4441544100",
+    "right_hex": "2e7264617461",
+    "count": 6,
+    "result": 1
+  },
+  "caller_result_use": "zero/nonzero",
+  "caller": "coff_declare_segment 0x6d053: first comparison with .rdata; JZ uses the boolean result",
+  "observer_source": "src/reference-crt-observer.c",
+  "native_log": "cases/hello-crt-strncmp-native.txt",
+  "reproduce": "Compile the observer with original CL as debug-run; remask original with accepted[:721], verify masked SHA669a2c8411c9d61f46a6d17593f4e7b3de8bc3510eb06e30e60da8cf4b349ee7, supply the captured four hello IR inputs and exact single MSC_CMD_FLAGS environment. Set helper-only C2_CRT_CAPTURE to observations output and C2_CRT_IMAGE to the frozen original PE. Observer restores only indexed57-byte STRNCMP body, rewinds entry EIP and traps at saved caller return to log EAX. Child environment remains MSC_CMD_FLAGS only.",
+  "limits": [
+    "library acceptance; no new reconstructed application source or application entry counted",
+    "caller uses zero/nonzero only; no claim that every native libc return magnitude matches CRT",
+    "observer is an explicit original-only diagnostic, not linked into target or fixtures"
+  ]
+}

@@ -1,0 +1,20 @@
+Breakpoint 1 at 0x395f9: file src/coff-segments.c, line 31.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, coff_declare_segment (segment=0x565cca90) at src/coff-segments.c:31
+31	    if (!segment->object_section) {
+Breakpoint 2 at gnu-indirect-function resolver at 0xf7e16ad0
+
+Breakpoint 2, 0xf7f06350 in ?? () from /lib/i386-linux-gnu/libc.so.6
+#0  0xf7f06350 in ?? () from /lib/i386-linux-gnu/libc.so.6
+#1  0x5658e678 in coff_declare_segment (segment=0x565cca90) at src/coff-segments.c:35
+#2  0x5658c3d0 in coff_mark_symbol (symbol=0x565cca60) at src/coff-functions.c:173
+#3  0x5658fab9 in flush_queued_symbols () at src/symbol-output.c:18
+#4  0x5658fa4e in emit_pending_symbols (symbols=0x565d4974) at src/symbol-output.c:6
+0x565b222d:	"_DATA"
+0x565b267e:	".rdata"
+$1 = 6
+0x5658e678 in coff_declare_segment (segment=0x565cca90) at src/coff-segments.c:35
+35	            if (!strncmp(parent->symbol.name, ".rdata", 6) ||
+$2 = 1

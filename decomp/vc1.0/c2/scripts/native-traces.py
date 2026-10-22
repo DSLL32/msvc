@@ -95,7 +95,35 @@ def load(directory):
     return cache
 
 
-def extend(directory, before_path, after_path):
+def check_runtime_evidence(path, name, before, record):
+    """Validate an explicit library seam observation; never execute a reference."""
+    from binary import PE, COFF, archive
+    evidence = json.loads(path.read_text())
+    assert evidence['logical'] == name
+    assert evidence['before_config_sha256'] == before['config_sha256']
+    assert evidence['target_sha256'] == before['target_sha256']
+    identity = evidence['original']['identity']
+    assert identity['record'] == record
+    library = BINARY.parents[2]/'toolchains/1.0-nt/lib'/record['library']
+    assert sha(library) == identity['library_sha256']
+    data = next(data for obj, data in archive(library) if obj == record['object'])
+    assert hashlib.sha256(data).hexdigest() == identity['object_sha256']
+    text = next(s for s in COFF(data).sections if s['flags'] & 0x20)
+    assert not text['relocs'], 'this seam evidence requires a relocation-free CRT body'
+    original = PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C23232.EXE')
+    assert hashlib.sha256(original.data).hexdigest() == before['target_sha256']
+    assert bytes(original.read(record['start'], record['end']-record['start'])) == text['data']
+    assert hashlib.sha256(text['data']).hexdigest() == identity['text_sha256']
+    assert len(text['data']) == identity['exact_text_bytes']
+    assert name == '_strncmp', 'new CRT seams require their own observation validator'
+    left, right = evidence['observed_original'], evidence['observed_native']
+    assert {k:left[k] for k in ('left_hex','right_hex','count')} == {k:right[k] for k in ('left_hex','right_hex','count')}
+    assert evidence['caller_result_use'] == 'zero/nonzero'
+    assert (left['result'] == 0) == (right['result'] == 0), 'CRT caller predicate differs'
+    return dict(path=str(path), sha256=sha(path), evidence=evidence)
+
+
+def extend(directory, before_path, after_path, runtime_evidence=None):
     """Accept one original-only before/after capture pair, outside fixtures."""
     cache = json.loads(CACHE.read_text())
     before, after = (json.loads(path.read_text()) for path in (before_path, after_path))
@@ -109,13 +137,28 @@ def extend(directory, before_path, after_path):
     name = accepted[old_count]
     assert before['logical'] == name, 'wrong original entry before acceptance'
     drivers = {r['name']:r for r in config['driver']}
-    assert before['original_va'] == hex(drivers[name]['start'])
-    assert after['logical'] in drivers and drivers[after['logical']].get('provisional'), 'next entry must remain a named stub'
-    assert after['original_va'] == hex(drivers[after['logical']]['start'])
+    runtime = {r['name']:r for r in json.loads((BINARY/'runtime.json').read_text())}
+    records = dict(runtime, **drivers)
+    application_names = set(drivers)-CRT
+    assert name in records, 'unknown accepted original function'
+    assert before['original_va'] == hex(records[name]['start'])
+    terminal = after['logical']
+    assert terminal in records, 'unknown next original entry'
+    if terminal in application_names:
+        assert drivers[terminal].get('provisional'), 'next application entry must remain a named stub'
+    else:
+        assert terminal in runtime, 'next nonapplication entry must have indexed CRT identity'
+    assert after['original_va'] == hex(records[terminal]['start'])
     assert after['logical'] not in accepted
     case = cache['cases']['hello']
     assert case['last'] == old_count and case['terminal'] == name
-    assert case['expected'][-1] == native_name(name)
+    if name in application_names:
+        assert case['expected'][-1] == native_name(name)
+        assert runtime_evidence is None, 'runtime evidence supplied for application acceptance'
+        library_evidence = None
+    else:
+        assert runtime_evidence is not None, 'CRT acceptance requires explicit library and call evidence'
+        library_evidence = check_runtime_evidence(runtime_evidence, name, before, records[name])
     manifest = BINARY/config['cases']['hello']['fixture_manifest']
     for receipt in (before, after):
         assert receipt['target_sha256'] == config['target']['sha256']
@@ -131,12 +174,17 @@ def extend(directory, before_path, after_path):
     cache['application_definitions'] = {n:dict(logical=application[n], source=actual[n]) for n in sorted(actual)}
     case['last'] = len(accepted)
     case['terminal'] = after['logical']
-    case['expected'].append(native_name(after['logical']))
+    case['terminal_kind'] = 'application' if terminal in application_names else 'runtime-library'
+    if terminal in application_names:
+        case['expected'].append(native_name(terminal))
     cache['metadata_sha256'] = {n:sha(BINARY/n) for n in ('functions.json','runtime.json')}
     cache['provenance']['hello'].setdefault('extensions', []).append(dict(
-        accepted_function=name, original_extent=[hex(drivers[name]['start']),hex(drivers[name]['end'])],
+        accepted_function=name, accepted_kind='application' if name in application_names else 'runtime-library',
+        original_extent=[hex(records[name]['start']),hex(records[name]['end'])],
         before=dict(path=str(before_path), sha256=sha(before_path), capture=before),
         after=dict(path=str(after_path), sha256=sha(after_path), capture=after)))
+    if library_evidence is not None:
+        cache['provenance']['hello']['extensions'][-1]['library_evidence'] = library_evidence
     return cache
 
 
@@ -146,10 +194,11 @@ if __name__ == '__main__':
     parser.add_argument('--objects', type=Path, default=BINARY/'build/native-trace')
     parser.add_argument('--extend-before', type=Path, help='explicit original-only receipt before one-function acceptance')
     parser.add_argument('--extend-after', type=Path, help='explicit original-only receipt after one-function acceptance')
+    parser.add_argument('--runtime-evidence', type=Path, help='explicit indexed CRT body/call observations for a library acceptance')
     args = parser.parse_args()
     if args.extend_before or args.extend_after:
         assert args.extend_before and args.extend_after and not args.write
-        result = extend(args.objects, args.extend_before, args.extend_after)
+        result = extend(args.objects, args.extend_before, args.extend_after, args.runtime_evidence)
         CACHE.write_text(json.dumps(result,indent=2)+'\n')
     elif args.write:
         result = project(args.objects)

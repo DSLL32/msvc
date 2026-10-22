@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
   "accepted_from": 352,
-  "accepted_frontiers": 368,
+  "accepted_frontiers": 370,
   "current_frontier": {
-    "name": "@coff_create_comdat_section@20",
-    "original_va": 451968
+    "name": "@emit_initializer@4",
+    "original_va": 430944
   },
   "expected": {
     "exit": 0,
@@ -253,7 +253,8 @@
     "First scheduled window checkpoint697:17new whole functions after680; all fresh original/native frontiers match.620source graphs/extents/masks pass and scheduler /W3 clean. Native minimal exactobject/streams/exit and hello346-entry terminal pass. Independent post-window state matches1401normalized JSON lines:87stream/3metadata/65register-state slots and history/undo/global state. Extent union196016/399693=49.0416394583percent, not branch coverage. See cases/hello-first-scheduled-window.json.",
     "Scheduler completion checkpoint707:10new whole functions after697; first function scheduler completes all windows, load recombination and cleanup.630source graphs/extents/masks and whole scheduler /W3 pass. Native minimal exactobject and hello356-entry late-split terminal pass; coverage198794/399693=49.7366728964percent, not branch coverage. See cases/hello-scheduler-complete.json.",
     "checkpoint711: four late scheduling functions,634 graph/extent audits, native minimal and hello prefix checks pass; floating transformation guard body unexercised",
-    "checkpoint720: nine layout/symbol/COFF functions;643 graph and extent audits, seven original CL /W3 modules clean, native minimal and hello prefix checks pass"
+    "checkpoint720: nine layout/symbol/COFF functions;643 graph and extent audits, seven original CL /W3 modules clean, native minimal and hello prefix checks pass",
+    "checkpoint722: COMDAT constructor plus explicit indexed CRT strncmp acceptance; strings/count/result1 match, six inconsistent evidence variants rejected,644 source graphs and both native cases pass"
   ],
   "total_accepted_frontiers": 707,
   "reconstructed_functions": 630,
