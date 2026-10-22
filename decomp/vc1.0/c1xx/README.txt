@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 210 accepted paired frontiers, including 135 frontend
+PARTIAL reconstruction: 213 accepted paired frontiers, including 138 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. The token driver and replay wrapper are also reconstructed; the next
-matching trap is _read_lexical_token at original VA 0x1b890.
-All 210 frontiers replay successfully, including exact pending FILE buffers;
+matching trap is _read_type_specifier@4 at original VA 0x1a2d0.
+All 213 frontiers replay successfully, including exact pending FILE buffers;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -60,7 +60,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-token-driver.log.
+The current full ordered replay is recorded in evidence/replay-raw-scanner.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -197,3 +197,20 @@ preserving their original boundary; all eight replay-state defaults are checked.
 The state alias audit now includes option-rule targets and all 764 configuration
 bytes. Deferred-argument text mode uses existing /E storage; prototype generation
 uses existing /Zg storage (prototypes_only), rather than a separate parser flag.
+
+The whole raw scanner preserves all 34 direct call targets, its 46 class
+branches and both FILE/paged-stack /E destinations. Its punctuation paths
+include member pointers, scope operators and re-dispatch after trigraphs or
+splices. The 213 lexical-to-grammar categories are contextual semantic data,
+checked against the original. The line driver preserves ten call targets and
+its 12-way dispatch; source identifier interning retains move-to-front buckets
+and its copying fallback as a named trap.
+
+The literal/number workspace occupies 132 bytes, with the FILE pointer at its
+128-byte boundary. One union owns both views. The provisional current_function
+object at 0x8ccd0 is now correctly pch_mode, as proven by root-input capture
+finalization at 0x6b9b0. It is distinct from both error_count (0x8cc88) and the
+actual function_symbol (0x8c140). These defaults and aliases are audited.
+The former adjust_type_specifier stub at 0x1e7a0 has been renamed
+flush_scanned_declaration to reflect its scanner/PCH text role; its original
+four-byte argument remains unchanged.

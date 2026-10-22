@@ -214,7 +214,10 @@
     "_pack_option_flags",
     "_parse_translation_unit",
     "_read_parser_token",
-    "_scan_token"
+    "_scan_token",
+    "_read_lexical_token",
+    "_begin_source_line",
+    "_scan_source_identifier"
   ],
   "driver": [
     {
@@ -1550,7 +1553,7 @@
       "end": 198257
     },
     {
-      "name": "_adjust_type_specifier@4",
+      "name": "_flush_scanned_declaration@4",
       "start": 124832,
       "end": 124833
     },
@@ -2367,7 +2370,147 @@
     {
       "name": "_read_lexical_token",
       "start": 112784,
-      "end": 112785
+      "end": 117512
+    },
+    {
+      "name": "_skip_source_comment",
+      "start": 155424,
+      "end": 155425
+    },
+    {
+      "name": "_consume_line_escape",
+      "start": 155664,
+      "end": 155665
+    },
+    {
+      "name": "_next_source_character",
+      "start": 155936,
+      "end": 155937
+    },
+    {
+      "name": "_recover_trigraph",
+      "start": 135648,
+      "end": 135649
+    },
+    {
+      "name": "_recover_special_character",
+      "start": 136064,
+      "end": 136065
+    },
+    {
+      "name": "_close_source_file",
+      "start": 125328,
+      "end": 125329
+    },
+    {
+      "name": "_finish_pch_output",
+      "start": 445520,
+      "end": 445521
+    },
+    {
+      "name": "_finish_translation_symbols",
+      "start": 213632,
+      "end": 213633
+    },
+    {
+      "name": "_emit_pending_runtime_functions",
+      "start": 227840,
+      "end": 227841
+    },
+    {
+      "name": "_begin_source_line",
+      "start": 151936,
+      "end": 152380
+    },
+    {
+      "name": "_skip_source_line",
+      "start": 149216,
+      "end": 149217
+    },
+    {
+      "name": "_write_work_character@8",
+      "start": 206592,
+      "end": 206593
+    },
+    {
+      "name": "_write_work_bytes@16",
+      "start": 206960,
+      "end": 206961
+    },
+    {
+      "name": "_scan_character_literal@4",
+      "start": 150464,
+      "end": 150465
+    },
+    {
+      "name": "_scan_string_literal@8",
+      "start": 151200,
+      "end": 151201
+    },
+    {
+      "name": "_copy_quoted_literal@4",
+      "start": 149728,
+      "end": 149729
+    },
+    {
+      "name": "_read_number_text@4",
+      "start": 152384,
+      "end": 152385
+    },
+    {
+      "name": "_scan_number@4",
+      "start": 152480,
+      "end": 152481
+    },
+    {
+      "name": "_scan_float_tail@4",
+      "start": 152976,
+      "end": 152977
+    },
+    {
+      "name": "_scan_assembler_number@4",
+      "start": 513338,
+      "end": 513339
+    },
+    {
+      "name": "_scan_source_identifier",
+      "start": 121760,
+      "end": 122142
+    },
+    {
+      "name": "_scan_macro_identifier",
+      "start": 122640,
+      "end": 122641
+    },
+    {
+      "name": "_expand_macro@4",
+      "start": 131216,
+      "end": 131217
+    },
+    {
+      "name": "_match_source_character@4",
+      "start": 154672,
+      "end": 154673
+    },
+    {
+      "name": "_report_ide_line",
+      "start": 127792,
+      "end": 127793
+    },
+    {
+      "name": "_preprocess_directive",
+      "start": 145872,
+      "end": 145873
+    },
+    {
+      "name": "_finish_pch_capture",
+      "start": 440752,
+      "end": 440753
+    },
+    {
+      "name": "_scan_identifier_continuation",
+      "start": 122144,
+      "end": 122145
     }
   ],
   "cases": {
@@ -2998,6 +3141,49 @@
         {
           "name": "_pushed_token_count",
           "original": 645056,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_token_categories",
+      "original": 661791,
+      "bytes": 213
+    },
+    {
+      "kind": "state",
+      "name": "_lexer_text_storage",
+      "original": 573784,
+      "fields": [
+        {
+          "name": "_lexer_text_storage",
+          "original": 573784,
+          "bytes": 132
+        },
+        {
+          "name": "_pch_output_written",
+          "original": 654012,
+          "bytes": 1
+        },
+        {
+          "name": "_source_text_pending",
+          "original": 574468,
+          "bytes": 4
+        },
+        {
+          "name": "_compiler_stack",
+          "original": 577488,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_mode",
+          "original": 576720,
+          "bytes": 4
+        },
+        {
+          "name": "_error_count",
+          "original": 576648,
           "bytes": 4
         }
       ]

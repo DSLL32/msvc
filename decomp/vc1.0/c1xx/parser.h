@@ -84,7 +84,7 @@ void __stdcall check_empty_declaration(DeclarationType *type);
 unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language);
 unsigned char __stdcall read_type_specifier(unsigned char token);
 CType *end_class_specifier(void);
-void __stdcall adjust_type_specifier(DeclarationType *type);
+void __stdcall flush_scanned_declaration(DeclarationType *type);
 CType *end_enum_specifier(void);
 void begin_class_body(void);
 void __stdcall add_named_base(unsigned char access, int is_virtual, char *name);

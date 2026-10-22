@@ -140,7 +140,7 @@ void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound) { __
 void __stdcall add_case_label(IrToken *expression) { __asm { int 3 } }
 void __stdcall add_named_base(unsigned char access, int is_virtual, char *name) { __asm { int 3 } }
 void __stdcall add_qualified_base(unsigned char access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
-void __stdcall adjust_type_specifier(DeclarationType *type) { __asm { int 3 } }
+void __stdcall flush_scanned_declaration(DeclarationType *type) { __asm { int 3 } }
 IrToken *__stdcall append_constructor_initializer(IrToken *list, IrToken *initializer) { __asm { int 3 } return 0; }
 IrToken *__stdcall append_expression(IrToken *list, IrToken *expression, int mode) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall append_parameter_declaration(CppSymbol *list, CppSymbol *declaration) { __asm { int 3 } return 0; }
@@ -305,4 +305,32 @@ unsigned char __stdcall resolve_typename_token(CppSymbol *symbol) { __asm { int 
 unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
 unsigned char __stdcall resolve_identifier_token(char *name) { __asm { int 3 } return 0; }
 
-unsigned char read_lexical_token(void) { __asm { int 3 } return 0; }
+
+int skip_source_comment(void) { __asm { int 3 } return 0; }
+int consume_line_escape(void) { __asm { int 3 } return 0; }
+unsigned char next_source_character(void) { __asm { int 3 } return 0; }
+unsigned recover_trigraph(void) { __asm { int 3 } return 0; }
+unsigned recover_special_character(void) { __asm { int 3 } return 0; }
+unsigned char close_source_file(void) { __asm { int 3 } return 0; }
+void finish_pch_output(void) { __asm { int 3 } }
+void finish_translation_symbols(void) { __asm { int 3 } }
+int emit_pending_runtime_functions(void) { __asm { int 3 } return 0; }
+void skip_source_line(void) { __asm { int 3 } }
+int __stdcall write_work_character(int character, WorkingStack *stack) { __asm { int 3 } return 0; }
+void __stdcall write_work_bytes(const void *source, unsigned bytes, unsigned count, WorkingStack *stack) { __asm { int 3 } }
+unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
+void __stdcall scan_string_literal(int wide, unsigned char delimiter) { __asm { int 3 } }
+void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
+unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
+unsigned char __stdcall scan_number(unsigned char first_character) { __asm { int 3 } return 0; }
+unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
+unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
+int scan_macro_identifier(void) { __asm { int 3 } return 0; }
+int __stdcall expand_macro(MacroDefinition *macro) { __asm { int 3 } return 0; }
+int __stdcall match_source_character(unsigned char character) { __asm { int 3 } return 0; }
+
+void report_ide_line(void) { __asm { int 3 } }
+void preprocess_directive(void) { __asm { int 3 } }
+void finish_pch_capture(void) { __asm { int 3 } }
+
+void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } }

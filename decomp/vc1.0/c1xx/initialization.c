@@ -19,7 +19,8 @@ int target_cpu, target_cpu_mask;
 char token_buffer[7936];
 char *source_filename = token_buffer, *source_buffer_cursor = token_buffer;
 char *browser_filename;
-FILE *diagnostic_trace_file, *listing_file, *preprocessor_stream;
+FILE *diagnostic_trace_file, *listing_file;
+LexerTextStorage lexer_text_storage; /* original 0x8c158..0x8c1dc */
 CType *type_0000, *type_4041, *type_0064;
 CType *type_4064_first, *type_4064_second;
 CType *type_0042, *type_0044, *type_4044;

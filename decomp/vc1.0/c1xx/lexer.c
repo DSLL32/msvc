@@ -1,6 +1,8 @@
 /* C++ grammar-token driver, original 0x1af10..0x1b6eb, with its 31-entry
    switch table at 0x1b6ec..0x1b768. The underlying scanner is separate. */
 #include "lexer.h"
+#include "source-input.h"
+#include "characters.h"
 
 TokenReplayStorage token_replay; /* original 0x96b8c..0x9783c */
 DeferredToken *deferred_token_end = deferred_tokens; /* original 0x9d7c4 */
@@ -229,4 +231,470 @@ have_token:
     current_token_code = record->lexical_token;
     current_token_value = record->value;
     return record->parser_token;
+}
+
+unsigned char pch_output_written; /* original 0x9fabc */
+int source_text_pending; /* original 0x8c404 */
+
+#define NEXT_CHARACTER_CLASS() character_class[(unsigned char)*source_text_cursor++]
+#define EMIT_LEXICAL_TOKEN(code_) do { \
+    current_token_code = (unsigned char)(code_); \
+    current_token_value.bytes[0] = current_token_code; \
+    return token_categories[current_token_code]; \
+} while (0)
+/* /E can write either to a FILE or to the frontend's paged text stack. These
+   are macro expansions because the original scanner calls the two writers
+   directly. The character argument is evaluated only on the selected path. */
+#define OUTPUT_CHARACTER(character_) do { \
+    if (preprocessor_stream) fputc((character_), preprocessor_stream); \
+    else write_work_character((character_), compiler_stack); \
+} while (0)
+#define OUTPUT_BYTES(source_, bytes_) do { \
+    if (preprocessor_stream) fwrite((source_), (bytes_), 1, preprocessor_stream); \
+    else write_work_bytes((source_), (bytes_), 1, compiler_stack); \
+} while (0)
+
+/* Original 0x1b890..0x1ca50; 46-way class table 0x1ca50..0x1cb08.
+   The token value's unused bytes deliberately survive punctuation tokens. */
+unsigned char read_lexical_token(void)
+{
+    unsigned char class, lookahead, code;
+    unsigned flags, bytes;
+    int wide;
+    MacroDefinition *macro;
+    char *text;
+    if (!source_text_cursor) fatal_error(4);
+next_character:
+    class = NEXT_CHARACTER_CLASS();
+dispatch:
+    switch (class) {
+    case CC_CARRIAGE_RETURN:
+        goto next_character;
+    case CC_SPACE:
+        if (options.option_E) {
+            do {
+                OUTPUT_CHARACTER((unsigned char)source_text_cursor[-1]);
+            } while (character_flags[(unsigned char)*source_text_cursor++] & CF_SPACE);
+            --source_text_cursor;
+        } else {
+            while (character_flags[(unsigned char)*source_text_cursor++] & CF_SPACE)
+                ;
+            --source_text_cursor;
+        }
+        goto next_character;
+    case CC_SLASH:
+        if (skip_source_comment()) goto next_character;
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_DIVIDE_ASSIGN);
+        code = OP_DIVIDE;
+        goto finish_operator;
+    case CC_STAR:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_MULTIPLY_ASSIGN);
+        if (lookahead == CC_SLASH && !options.option_E) compiler_warning(1, 138);
+        code = OP_MULTIPLY;
+        goto finish_operator;
+    case CC_BANG:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_NOT_EQUAL);
+        code = OP_NOT;
+        goto finish_operator;
+    case CC_PERCENT:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_REMAINDER_ASSIGN);
+        code = OP_REMAINDER;
+        goto finish_operator;
+    case CC_EQUAL:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_EQUAL);
+        code = OP_ASSIGN;
+        goto finish_operator;
+    case CC_CARET:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_XOR_ASSIGN);
+        code = OP_BIT_XOR;
+        goto finish_operator;
+    case CC_BAR:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_OR_ASSIGN);
+        if (lookahead == CC_BAR) EMIT_LEXICAL_TOKEN(OP_LOGICAL_OR);
+        code = OP_BIT_OR;
+        goto finish_operator;
+    case CC_AMPERSAND:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_AND_ASSIGN);
+        if (lookahead == CC_AMPERSAND) EMIT_LEXICAL_TOKEN(OP_LOGICAL_AND);
+        code = OP_BIT_AND;
+        goto finish_operator;
+    case CC_PLUS:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_ADD_ASSIGN);
+        if (lookahead == CC_PLUS) EMIT_LEXICAL_TOKEN(OP_POST_INCREMENT);
+        code = OP_ADD;
+        goto finish_operator;
+    case CC_MINUS:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_SUBTRACT_ASSIGN);
+        if (lookahead == CC_MINUS) EMIT_LEXICAL_TOKEN(OP_POST_DECREMENT);
+        if (lookahead == CC_GREATER) {
+            lookahead = NEXT_CHARACTER_CLASS();
+            if (lookahead == CC_STAR) EMIT_LEXICAL_TOKEN(OP_MEMBER_POINTER);
+            class = CC_ARROW;
+            code = OP_ARROW;
+        } else code = OP_SUBTRACT;
+        goto finish_operator;
+    case CC_LESS:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_LESS_EQUAL);
+        if (lookahead == CC_LESS) {
+            lookahead = NEXT_CHARACTER_CLASS();
+            if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_SHIFT_LEFT_ASSIGN);
+            class = CC_LEFT_SHIFT;
+            code = OP_SHIFT_LEFT;
+        } else code = OP_LESS;
+        goto finish_operator;
+    case CC_GREATER:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_GREATER_EQUAL);
+        if (lookahead == CC_GREATER) {
+            lookahead = NEXT_CHARACTER_CLASS();
+            if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_SHIFT_RIGHT_ASSIGN);
+            class = CC_RIGHT_SHIFT;
+            code = OP_SHIFT_RIGHT;
+        } else code = OP_GREATER;
+        goto finish_operator;
+    case CC_LEFT_SHIFT:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_SHIFT_LEFT_ASSIGN);
+        --source_text_cursor;
+        EMIT_LEXICAL_TOKEN(OP_SHIFT_LEFT);
+    case CC_RIGHT_SHIFT:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_EQUAL) EMIT_LEXICAL_TOKEN(OP_SHIFT_RIGHT_ASSIGN);
+        --source_text_cursor;
+        EMIT_LEXICAL_TOKEN(OP_SHIFT_RIGHT);
+    case CC_ARROW:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_STAR) EMIT_LEXICAL_TOKEN(OP_MEMBER_POINTER);
+        --source_text_cursor;
+        EMIT_LEXICAL_TOKEN(OP_ARROW);
+    case CC_COLON:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_GREATER) EMIT_LEXICAL_TOKEN(104); /* :> */
+        if (lookahead == CC_COLON) EMIT_LEXICAL_TOKEN(160); /* :: */
+        code = 63;
+        goto finish_operator;
+    case CC_RIGHT_BRACE: EMIT_LEXICAL_TOKEN(133);
+    case CC_RIGHT_BRACKET: EMIT_LEXICAL_TOKEN(132);
+    case CC_COMMA: EMIT_LEXICAL_TOKEN(64);
+    case CC_RIGHT_PAREN: EMIT_LEXICAL_TOKEN(136);
+    case CC_LEFT_BRACE: EMIT_LEXICAL_TOKEN(127);
+    case CC_LEFT_BRACKET: EMIT_LEXICAL_TOKEN(OP_SUBSCRIPT);
+    case CC_LEFT_PAREN: EMIT_LEXICAL_TOKEN(OP_CALL);
+    case CC_SEMICOLON: EMIT_LEXICAL_TOKEN(138);
+    case CC_TILDE: EMIT_LEXICAL_TOKEN(OP_COMPLEMENT);
+    case CC_ESCAPE_OR_END:
+        switch ((unsigned char)source_text_cursor[-1]) {
+        case '\\':
+            if (!options.option_E) {
+                if (!consume_line_escape()) report_syntax_error(17);
+            } else {
+                OUTPUT_CHARACTER('\\');
+                OUTPUT_CHARACTER(next_source_character());
+            }
+            goto next_character;
+        case '?':
+            if (!(recover_trigraph() & 0x40)) goto next_character;
+            EMIT_LEXICAL_TOKEN(95);
+        }
+        if (macro_expansion_active) {
+            recover_special_character();
+            goto next_character;
+        }
+        if (!fill_source_buffer() || close_source_file()) goto next_character;
+        if (options.pch_create && !pch_output_written) {
+            prepare_pch_output(options.source_file);
+            finish_pch_output();
+        }
+        if (options.pch_create_file && !pch_output_written)
+            report_syntax_error(857, options.pch_create_file);
+        if (!(cpp_parser_flags & 0x200)) {
+            cpp_parser_flags |= 0x200;
+            finish_translation_symbols();
+        }
+        if (!emit_pending_runtime_functions()) EMIT_LEXICAL_TOKEN(119);
+        source_text_pending = 0;
+        flush_scanned_declaration(0);
+        if (!source_text_cursor) EMIT_LEXICAL_TOKEN(119);
+        goto next_character;
+    case CC_NEWLINE:
+        if (token_allocation_flags & 0x10000) {
+            --source_text_cursor;
+            current_token_code = 1;
+            return 1;
+        }
+        if (token_allocation_flags & 0x400000) {
+            current_token_code = 1;
+            return 1;
+        }
+        if (options.option_E) {
+            OUTPUT_CHARACTER('\n');
+            if (token_allocation_flags & 0x800000) {
+                token_allocation_flags &= ~0x800000UL;
+                if (!options.configuration.option_EP) {
+                    emit_line_directive();
+                    OUTPUT_CHARACTER('\n');
+                }
+            }
+        }
+        begin_source_line();
+        goto next_character;
+    case CC_HASH:
+        if (!options.option_E) {
+            report_syntax_error(14);
+            skip_source_line();
+        } else if (preprocessor_stream)
+            fwrite("#", 1, 1, preprocessor_stream);
+        else
+            write_work_bytes("#", 1, 1, compiler_stack);
+        goto next_character;
+    case CC_MACRO_END:
+        ++source_text_cursor;
+        goto next_character;
+    case CC_APOSTROPHE:
+        wide = 0;
+        goto character_literal;
+    case CC_QUOTE:
+        wide = 0;
+        goto string_literal;
+    case CC_WIDE_PREFIX:
+wide_prefix:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_ESCAPE_OR_END) {
+            flags = recover_special_character();
+            if (flags & ~0x70U) goto wide_prefix;
+            if (flags & 0x20) ++source_text_cursor;
+        } else if (lookahead == CC_APOSTROPHE) {
+            wide = 1;
+            goto character_literal;
+        } else if (lookahead == CC_QUOTE) {
+            wide = 1;
+            goto string_literal;
+        }
+        --source_text_cursor;
+        source_text_cursor[-1] = 'L';
+        /* An L not followed by a quote starts an ordinary identifier. */
+    case CC_IDENTIFIER:
+        if (token_allocation_flags & 0x400) {
+            scan_source_identifier();
+            code = (SYMBOL_FROM_NAME(interned_name)->flags & 1) ?
+                KEYWORD_FROM_NAME(interned_name)->token : 2;
+            if (code != 2 && !(cpp_parser_flags & 0x10000000UL)) {
+                current_token_code = code;
+                current_token_value.bytes[0] = code;
+                return token_categories[code];
+            }
+            current_token_value.name = interned_name;
+            current_token_code = 2;
+            return 2;
+        }
+        if (macro_expansion_active > 0) {
+            if (!scan_macro_identifier()) goto identifier_ready;
+        } else scan_source_identifier();
+        macro = lookup_macro();
+        if (macro && !macro->flags && expand_macro(macro)) goto next_character;
+identifier_ready:
+        if (options.option_E) {
+            for (text = interned_name; *text; ++text)
+                OUTPUT_CHARACTER((signed char)*text);
+            current_token_code = 147;
+            return 147;
+        }
+        code = (SYMBOL_FROM_NAME(interned_name)->flags & 1) ?
+            KEYWORD_FROM_NAME(interned_name)->token : 2;
+        if (code == 2 || (cpp_parser_flags & 0x10000000UL)) {
+            current_token_value.name = interned_name;
+            current_token_code = 2;
+            return 2;
+        }
+        current_token_code = code;
+        current_token_value.bytes[0] = code;
+        code = token_categories[code];
+        if (code == 1) {
+            compiler_warning(1, 226, interned_name);
+            goto next_character;
+        }
+        return code;
+    case CC_DOT:
+dot_lookahead:
+        lookahead = NEXT_CHARACTER_CLASS();
+        if (lookahead == CC_ESCAPE_OR_END) {
+            flags = recover_special_character();
+            if (flags & ~0x70U) goto dot_lookahead;
+            if (flags & 0x20) ++source_text_cursor;
+        } else if (lookahead == CC_STAR) {
+            EMIT_LEXICAL_TOKEN(157); /* .* */
+        } else if (lookahead == CC_DOT) {
+            if (match_source_character('.')) EMIT_LEXICAL_TOKEN(116); /* ... */
+            source_text_cursor[-1] = '.';
+        } else if (lookahead == CC_DIGIT) {
+            token_text[0] = '.';
+            token_text[1] = source_text_cursor[-1];
+            if (!(token_allocation_flags & 0x8000) &&
+                (options.option_E || (token_allocation_flags & 0x1000000))) {
+                bytes = read_number_text(token_text + 2);
+                if (options.option_E) OUTPUT_BYTES(token_text, bytes);
+                current_token_code = 147;
+                return token_categories[147];
+            }
+            current_token_code = scan_float_tail(token_text + 2);
+            return token_categories[current_token_code];
+        }
+        --source_text_cursor;
+        EMIT_LEXICAL_TOKEN(89); /* . */
+    case CC_DIGIT:
+        if (!(token_allocation_flags & 0x8000) &&
+            (options.option_E || (token_allocation_flags & 0x1000000))) {
+            token_text[0] = source_text_cursor[-1];
+            bytes = read_number_text(token_text + 1);
+            if (options.option_E) OUTPUT_BYTES(token_text, bytes);
+            current_token_code = 147;
+            return token_categories[147];
+        }
+        if ((token_allocation_flags & 0x400000) && !(token_allocation_flags & 0x10000))
+            current_token_code = scan_assembler_number((unsigned char)source_text_cursor[-1]);
+        else
+            current_token_code = scan_number((unsigned char)source_text_cursor[-1]);
+        return token_categories[current_token_code];
+    default:
+        if (!options.option_E)
+            report_syntax_error(18, (unsigned char)source_text_cursor[-1]);
+        else
+            OUTPUT_CHARACTER((unsigned char)source_text_cursor[-1]);
+        goto next_character;
+    }
+finish_operator:
+    if (lookahead == CC_ESCAPE_OR_END) {
+        flags = recover_special_character();
+        if (flags & ~0x70U) goto dispatch;
+        if (flags & 0x20) ++source_text_cursor;
+    }
+    --source_text_cursor;
+    EMIT_LEXICAL_TOKEN(code);
+character_literal:
+    if (options.option_E) {
+        if (wide) OUTPUT_CHARACTER('L');
+        copy_quoted_literal('\'');
+        goto next_character;
+    }
+    current_token_code = scan_character_literal(wide);
+    return token_categories[current_token_code];
+string_literal:
+    if (options.option_E) {
+        if (wide) OUTPUT_CHARACTER('L');
+        copy_quoted_literal('"');
+        goto next_character;
+    }
+    scan_string_literal(wide, '"');
+    current_token_code = 3;
+    return 3;
+}
+
+/* Original 0x25180..0x2530b, including its 12-way class table through 0x2533c. */
+void begin_source_line(void)
+{
+    unsigned char class, character;
+    ++source_line_number;
+    for (;;) {
+        class = NEXT_CHARACTER_CLASS();
+        switch (class) {
+        case CC_CARRIAGE_RETURN:
+            continue;
+        case CC_SLASH:
+            if (skip_source_comment()) continue;
+            goto line_ready;
+        case CC_ESCAPE_OR_END:
+            character = (unsigned char)source_text_cursor[-1];
+            if (!character || character == 0x1a) {
+                if (!fill_source_buffer()) continue;
+                if (pch_mode && !include_depth) finish_pch_capture();
+                return;
+            }
+            if (character == '?') {
+                if (!(recover_trigraph() & ~0x40U)) goto line_ready;
+                continue;
+            }
+            if (consume_line_escape()) continue;
+            goto line_ready;
+        case CC_NEWLINE:
+            ++source_line_number;
+            /* A blank line falls through to leading-whitespace output. */
+        case CC_SPACE:
+            if (options.option_E)
+                OUTPUT_CHARACTER((unsigned char)source_text_cursor[-1]);
+            else {
+                while (character_flags[(unsigned char)*source_text_cursor++] & CF_SPACE)
+                    ;
+                --source_text_cursor;
+            }
+            continue;
+        case CC_HASH:
+            browser_file_cookie = 1;
+            preprocess_directive();
+            continue;
+        default:
+            goto line_ready;
+        }
+    }
+line_ready:
+    if (options.configuration.option_ide) report_ide_line();
+    browser_file_cookie = 1;
+    --source_text_cursor;
+    if ((token_allocation_flags & 0x80000) && !(token_allocation_flags & 0x40))
+        record_line_information(1);
+    if (pch_mode && !include_depth) finish_pch_capture();
+}
+
+/* Original 0x1dba0..0x1dd1e. Fast path interns directly from the current input
+   window; a terminator, trigraph or splice switches to the copying path. */
+void scan_source_identifier(void)
+{
+    char *begin = --source_text_cursor;
+    unsigned char character;
+    unsigned hash = 0, length, i, remaining;
+    PreprocessorSymbol **bucket, **previous, *symbol;
+    character = (unsigned char)*source_text_cursor++;
+    while (character_flags[character] & CF_IDENTIFIER) {
+        hash = hash * 4 + character + (hash >> 7);
+        character = (unsigned char)*source_text_cursor++;
+    }
+    --source_text_cursor;
+    if (!character || character == '?' || character == '\\') {
+        scan_identifier_continuation(begin, hash);
+        return;
+    }
+    length = source_text_cursor - begin;
+    bucket = &preprocessor_buckets[hash & 0x7ff];
+    previous = bucket;
+    for (symbol = *bucket; symbol; symbol = symbol->next) {
+        for (i = 0; i < length && symbol->name[i] == begin[i]; ++i)
+            ;
+        if (i == length && !symbol->name[length]) {
+            *previous = symbol->next;
+            symbol->next = *bucket;
+            *bucket = symbol;
+            interned_name = symbol->name;
+            return;
+        }
+        previous = &symbol->next;
+    }
+    remaining = macro_text_begin - macro_text_next + 8192;
+    if (remaining < length + 12) initialize_macro_text();
+    symbol = (PreprocessorSymbol *)macro_text_next;
+    symbol->next = *bucket;
+    *bucket = symbol;
+    for (i = 0; i < length; ++i) symbol->name[i] = begin[i];
+    symbol->name[length] = 0;
+    interned_name = symbol->name;
+    macro_text_next += length + 6;
 }

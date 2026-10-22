@@ -23,6 +23,8 @@ enum CharacterClass {
     CC_MINUS = 18,
     CC_LESS = 19,
     CC_GREATER = 20,
+    CC_LEFT_SHIFT = 21,
+    CC_RIGHT_SHIFT = 22,
     CC_INVALID = 23,
     CC_RIGHT_BRACE = 24,
     CC_RIGHT_BRACKET = 25,
@@ -43,6 +45,7 @@ enum CharacterClass {
     CC_AT = 41,
     CC_LEAD_BYTE = 42,
     CC_EXTENSION = 43,
+    CC_ARROW = 44,
     CC_WIDE_PREFIX = 45
 };
 

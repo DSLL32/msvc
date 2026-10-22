@@ -6,7 +6,7 @@ unsigned initial_option_flags, token_allocation_flags;
 unsigned cpp_parser_flags; /* original 0x9f794 */
 CompilerConfiguration saved_configuration;
 int global_expression_scope_active, error_count;
-CppSymbol *current_function;
+int pch_mode;
 char version_string[256];
 Vector *forced_source_inputs;
 short forced_source_index;
@@ -60,7 +60,7 @@ int compile_translation_unit(void)
             options.configuration.option_Yd = !options.configuration.line_records;
             begin_automatic_pch();
         } else {
-            current_function = 0;
+            pch_mode = 0;
             if (!options.option_E && !options.prototypes_only && options.configuration.debug_info)
                 begin_debug_info();
         }

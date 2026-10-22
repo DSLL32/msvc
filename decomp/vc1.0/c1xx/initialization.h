@@ -28,7 +28,17 @@ extern int target_cpu, target_cpu_mask;
 extern char token_buffer[7936];
 extern char *source_filename, *source_buffer_cursor;
 extern char *browser_filename;
-extern FILE *diagnostic_trace_file, *listing_file, *preprocessor_stream;
+extern FILE *diagnostic_trace_file, *listing_file;
+/* Source number/literal workspace ends at the preprocessor FILE pointer.
+   Long text uses that same four-byte boundary, as in the original layout. */
+typedef union LexerTextStorage {
+    char bytes[132];
+    struct { char text[128]; FILE *stream; } fields;
+} LexerTextStorage;
+extern LexerTextStorage lexer_text_storage;
+#define token_text (lexer_text_storage.bytes)
+#define preprocessor_stream (lexer_text_storage.fields.stream)
+typedef char LexerTextStorageSizeMustBe132[(sizeof(LexerTextStorage) == 132) ? 1 : -1];
 extern CType *type_0000, *type_4041, *type_0064;
 extern CType *type_4064_first, *type_4064_second;
 extern CType *type_0042, *type_0044, *type_4044;

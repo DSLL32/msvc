@@ -164,7 +164,7 @@
             break;
         case 48:
             parser_value.declaration.type = end_class_specifier();
-            adjust_type_specifier(&parser_value.declaration);
+            flush_scanned_declaration(&parser_value.declaration);
             break;
         case 49:
             parser_value.declaration.type = end_enum_specifier();
