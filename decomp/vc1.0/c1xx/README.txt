@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 534 accepted paired frontiers, including 454 frontend
+PARTIAL reconstruction: 535 accepted frontiers, including 455 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _initialize_object_value@8 at original VA 0x462c0. The latest ordered replay is recorded in validation.json;
+trap is _symbol_construction_class@4 at original VA 0x482f0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -29,10 +29,11 @@ check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
 functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 911 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 455 first
-entries: 454 accepted frontend functions plus initialize_object_value, whose INT3
-must terminate with SIGTRAP. No new reconstruction was accepted during migration.
+projects that original history to all 925 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 456 first
+entries: 455 accepted frontend functions plus symbol_construction_class, whose INT3
+must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
+trial accepted initialize_object_value.
 
 Visible streams and all four intermediate files are compared byte-for-byte:
 irex is six bytes and irsy/irin/irgl are empty at this partial frontier. These
@@ -1085,3 +1086,35 @@ cases/native-cpp-basic/manifest.json; the historic receipt name describes its
 capture mechanism, not a current executable dependency. No automatic recapture
 or paired Wine fallback remains. Historical fast/full replay timing receipts
 are preserved under evidence/ and are not native benchmark measurements.
+
+
+Single-function native-workflow trial (paused)
+
+initialize_object_value@8 is now whole readable C for [0x462c0,0x46589),
+713 bytes. All25 distinct call targets and every original RET8/branch are
+represented;14 newly encountered callees remain named INT3 stubs. The shared
+runtime fallback offset at0x91594 is contextual data, and conversion bookkeeping
+reuses the existing integer_constant_scratch at0x912e8. No next function began.
+
+Fresh original-only evidence and native GDB both stop in symbol_construction_class
+at0x482f0, with all4 pending buffers,14 checkpoint fields, visible files and
+streams exact. The canonical original-compiler build,462 call graphs, data
+defaults,575-state main grammar and279-state lookahead audits pass. Native
+regressions match456 application first entries across925 audited definitions.
+The old original534-frontier receipt is immutable; a hash-checked fresh original
+extension records the one additional acceptance.
+
+Accepted code extent union is178448/476418 bytes (37.456183%), up713 bytes or
+0.149658 percentage points. This is not branch coverage. The frontend case
+remains incomplete. Evidence and all split timings are in
+cases/object-initializer-trial/validation.json. Native fixture checks took0.244
+and0.236 seconds; explicit original captures took4.425 and2.521 seconds. Native
+build was7.898 seconds, canonical incremental build3.661 seconds, static audits
+4.730 seconds, and native GDB inspection0.195 seconds. Analysis/source translation
+was not separately timed. No Wine execution occurs in native fixtures.
+
+The native workflow made named debugging and repeated checks quick. Cache
+provenance needed an additive original-reference extension, and broad native
+header dependencies currently cause full native rebuilds after header edits. No
+shared compatibility changes were needed for this function. Resume only when
+explicitly requested, at symbol_construction_class@4 in the existing cpp_basic case.

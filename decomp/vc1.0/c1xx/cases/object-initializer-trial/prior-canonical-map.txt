@@ -1,0 +1,1810 @@
+ c1xx
+
+ Timestamp is 6ada5ffc (Thu Oct 22 12:11:56 2026)
+
+ Preferred load address is 00010000
+
+ Start         Length     Name                   Class
+ 0001:00000000 0003e92eH .text                   CODE
+ 0002:00000000 0000b332H .bss                    DATA
+ 0003:00000000 0000001cH .rdata                  DATA
+ 0004:00000000 0000c16cH .data                   DATA
+ 0004:0000c170 00000004H .CRT$XCA                DATA
+ 0004:0000c178 00000004H .CRT$XCZ                DATA
+ 0004:0000c180 00000004H .CRT$XIA                DATA
+ 0004:0000c188 00000004H .CRT$XIZ                DATA
+ 0004:0000c190 00000004H .CRT$XPA                DATA
+ 0004:0000c194 00000004H .CRT$XPX                DATA
+ 0004:0000c198 00000004H .CRT$XPZ                DATA
+ 0004:0000c1a0 00000004H .CRT$XTA                DATA
+ 0004:0000c1a8 00000004H .CRT$XTZ                DATA
+ 0005:00000000 00000014H .idata$2                DATA
+ 0005:00000014 00000014H .idata$3                DATA
+ 0005:00000028 00000098H .idata$4                DATA
+ 0005:000000c0 00000098H .idata$5                DATA
+ 0005:00000158 000002a6H .idata$6                DATA
+
+  Address         Publics by Value              Rva+Base   Lib:Object
+
+ 0001:00000000       _main                      00011000 f c1xx.obj
+ 0001:00000089       _guarded_compile           00011089 f c1xx.obj
+ 0001:00000110       _interrupt_compile         00011110 f stubs.obj
+ 0001:0000011c       _initialize_japanese_characters 0001111c f stubs.obj
+ 0001:00000128       _fatal_error               00011128 f stubs.obj
+ 0001:00000134       _clear_packing             00011134 f stubs.obj
+ 0001:00000140       _grow_vector@4             00011140 f stubs.obj
+ 0001:0000014e       _compiler_warning          0001114e f stubs.obj
+ 0001:0000015a       _preprocess_translation_unit 0001115a f stubs.obj
+ 0001:00000166       _record_string_literal@4   00011166 f stubs.obj
+ 0001:00000174       _emit_version_token@4      00011174 f stubs.obj
+ 0001:00000189       _compare_filenames         00011189 f stubs.obj
+ 0001:0000019c       _begin_automatic_pch       0001119c f stubs.obj
+ 0001:000001a8       _begin_debug_info          000111a8 f stubs.obj
+ 0001:000001b4       _load_precompiled_header   000111b4 f stubs.obj
+ 0001:000001c0       _open_forced_include@8     000111c0 f stubs.obj
+ 0001:000001d5       _finish_declarations       000111d5 f stubs.obj
+ 0001:000001e1       _finish_types              000111e1 f stubs.obj
+ 0001:000001ed       _finish_inline_functions   000111ed f stubs.obj
+ 0001:000001f9       _finish_expression_output  000111f9 f stubs.obj
+ 0001:00000205       _finish_debug_info         00011205 f stubs.obj
+ 0001:00000211       _generate_inline_queries   00011211 f stubs.obj
+ 0001:0000021d       _close_intermediate        0001121d f stubs.obj
+ 0001:00000229       _finish_browser_output     00011229 f stubs.obj
+ 0001:00000235       _report_error              00011235 f stubs.obj
+ 0001:00000241       _cleanup_precompiled_files 00011241 f stubs.obj
+ 0001:0000024d       _begin_browser_output      0001124d f stubs.obj
+ 0001:00000259       _initialize_inline_queries 00011259 f stubs.obj
+ 0001:00000265       _report_fatal              00011265 f stubs.obj
+ 0001:00000271       _grow_inline_vector        00011271 f stubs.obj
+ 0001:00000284       _prepare_pch_output@4      00011284 f stubs.obj
+ 0001:00000292       _builtin_integer_type      00011292 f stubs.obj
+ 0001:000002a5       _report_syntax_error       000112a5 f stubs.obj
+ 0001:000002b1       _retry_malloc@4            000112b1 f stubs.obj
+ 0001:000002c6       _report_macro_error@4      000112c6 f stubs.obj
+ 0001:000002d4       _pch_record_macro@12       000112d4 f stubs.obj
+ 0001:000002e9       _macro_replacement_diff@12 000112e9 f stubs.obj
+ 0001:000002fe       _browser_macro@4           000112fe f stubs.obj
+ 0001:0000030c       _member_pointer_is_aggregate@4 0001130c f stubs.obj
+ 0001:00000321       _method_alias@4            00011321 f stubs.obj
+ 0001:00000336       _lookup_symbol_binding@8   00011336 f stubs.obj
+ 0001:0000034b       _require_complete_type@4   0001134b f stubs.obj
+ 0001:00000359       _parameter_stack_bytes@4   00011359 f stubs.obj
+ 0001:0000036e       _symbol_alias@4            0001136e f stubs.obj
+ 0001:00000383       _write_ir_string           00011383 f stubs.obj
+ 0001:0000038f       _seek_work_stack@12        0001138f f stubs.obj
+ 0001:000003a4       _emit_line_directive       000113a4 f stubs.obj
+ 0001:000003b0       _report_ide_source         000113b0 f stubs.obj
+ 0001:000003bc       _browser_include_begin     000113bc f stubs.obj
+ 0001:000003c8       _browser_open_file         000113c8 f stubs.obj
+ 0001:000003d4       _release_input_handle      000113d4 f stubs.obj
+ 0001:000003e7       _copy_string@8             000113e7 f stubs.obj
+ 0001:000003fc       _read_work_stack@12        000113fc f stubs.obj
+ 0001:00000411       _browser_symbol_rollover   00011411 f stubs.obj
+ 0001:0000041d       _format_symbol_name@4      0001141d f stubs.obj
+ 0001:00000432       _report_declaration_diagnostic 00011432 f stubs.obj
+ 0001:0000043e       _warn_ignored_distance@4   0001143e f stubs.obj
+ 0001:0000044c       _get_current_class_symbol  0001144c f stubs.obj
+ 0001:0000045f       _begin_type_diagnostic     0001145f f stubs.obj
+ 0001:00000473       _end_type_diagnostic       00011473 f stubs.obj
+ 0001:0000047f       _format_declarator@8       0001147f f stubs.obj
+ 0001:00000495       _type_diagnostic_text@4    00011495 f stubs.obj
+ 0001:000004aa       _browser_declaration@4     000114aa f stubs.obj
+ 0001:000004b8       _declare_qualified_member@12 000114b8 f stubs.obj
+ 0001:000004cd       _format_qualified_name@8   000114cd f stubs.obj
+ 0001:000004e2       _symbol_construction_class@4 000114e2 f stubs.obj
+ 0001:000004f7       _initialize_zero_object@4  000114f7 f stubs.obj
+ 0001:00000505       _has_destructor_member_model@4 00011505 f stubs.obj
+ 0001:0000051a       _defer_object_definition@4 0001151a f stubs.obj
+ 0001:00000528       _format_storage_spec@8     00011528 f stubs.obj
+ 0001:0000053e       _report_symbol_declaration_error@8 0001153e f stubs.obj
+ 0001:0000054c       _static_member_alias@4     0001154c f stubs.obj
+ 0001:00000561       _make_local_static_name@4  00011561 f stubs.obj
+ 0001:00000576       _record_function_symbol_alias@8 00011576 f stubs.obj
+ 0001:00000584       _check_declarator_prefix@8 00011584 f stubs.obj
+ 0001:00000592       _finish_array_declarator@20 00011592 f stubs.obj
+ 0001:000005a0       _check_pointer_attributes@12 000115a0 f stubs.obj
+ 0001:000005ae       _member_pointer_class_kind@4 000115ae f stubs.obj
+ 0001:000005c3       _merge_type_shape_prefix@8 000115c3 f stubs.obj
+ 0001:000005d8       _copy_shape_prefix@16      000115d8 f stubs.obj
+ 0001:000005e6       _has_class_initialization@4 000115e6 f stubs.obj
+ 0001:000005fb       _reconcile_typedef@8       000115fb f stubs.obj
+ 0001:00000610       _find_intrinsic_index@4    00011610 f stubs.obj
+ 0001:00000625       _intrinsic_enabled@4       00011625 f stubs.obj
+ 0001:0000063a       _apply_intrinsic@8         0001163a f stubs.obj
+ 0001:00000648       _report_parameter_error@12 00011648 f stubs.obj
+ 0001:00000656       _add_array_declarator@8    00011656 f stubs.obj
+ 0001:00000664       _add_case_label@4          00011664 f stubs.obj
+ 0001:00000672       _add_named_base@12         00011672 f stubs.obj
+ 0001:00000680       _add_qualified_base@12     00011680 f stubs.obj
+ 0001:0000068e       _apply_conversion_declarator@8 0001168e f stubs.obj
+ 0001:0000069c       _apply_declarator_modifier@8 0001169c f stubs.obj
+ 0001:000006b1       _begin_braced_initializer@4 000116b1 f stubs.obj
+ 0001:000006bf       _begin_do_condition        000116bf f stubs.obj
+ 0001:000006cb       _begin_do_statement        000116cb f stubs.obj
+ 0001:000006d7       _begin_else_body           000116d7 f stubs.obj
+ 0001:000006e3       _begin_for_body            000116e3 f stubs.obj
+ 0001:000006ef       _begin_for_condition       000116ef f stubs.obj
+ 0001:000006fb       _begin_for_increment       000116fb f stubs.obj
+ 0001:00000707       _begin_if_body             00011707 f stubs.obj
+ 0001:00000713       _begin_if_condition        00011713 f stubs.obj
+ 0001:0000071f       _begin_implicit_statement_scope@4 0001171f f stubs.obj
+ 0001:00000734       _begin_member_lookup@12    00011734 f stubs.obj
+ 0001:00000749       _begin_nested_initializer  00011749 f stubs.obj
+ 0001:00000755       _begin_qc_control@4        00011755 f stubs.obj
+ 0001:00000763       _begin_seh_filter          00011763 f stubs.obj
+ 0001:0000076f       _begin_seh_finally         0001176f f stubs.obj
+ 0001:0000077b       _begin_seh_try             0001177b f stubs.obj
+ 0001:00000787       _begin_switch_body@4       00011787 f stubs.obj
+ 0001:00000795       _begin_switch_condition    00011795 f stubs.obj
+ 0001:000007a1       _begin_while_body          000117a1 f stubs.obj
+ 0001:000007ad       _begin_while_condition     000117ad f stubs.obj
+ 0001:000007b9       _boolean_expression@8      000117b9 f stubs.obj
+ 0001:000007ce       _build_call_expression@8   000117ce f stubs.obj
+ 0001:000007e3       _cast_expression@8         000117e3 f stubs.obj
+ 0001:000007f8       _check_parameter_default@8 000117f8 f stubs.obj
+ 0001:00000806       _clear_reference_cache@4   00011806 f stubs.obj
+ 0001:00000814       _complete_declaration@8    00011814 f stubs.obj
+ 0001:00000829       _concatenate_strings@8     00011829 f stubs.obj
+ 0001:00000837       _conditional_expression@12 00011837 f stubs.obj
+ 0001:0000084c       _convert_derived_initializer@8 0001184c f stubs.obj
+ 0001:00000861       _find_copy_constructor@4   00011861 f stubs.obj
+ 0001:00000876       _construct_copy_initializer@12 00011876 f stubs.obj
+ 0001:0000088b       _convert_scalar_initializer@12 0001188b f stubs.obj
+ 0001:000008a0       _declare_enumerator@12     000118a0 f stubs.obj
+ 0001:000008ae       _declare_nctag@4           000118ae f stubs.obj
+ 0001:000008bc       _define_named_label@4      000118bc f stubs.obj
+ 0001:000008ca       _delete_expression@16      000118ca f stubs.obj
+ 0001:000008df       _detach_new_array_bound@4  000118df f stubs.obj
+ 0001:000008ed       _emit_condition_to_label@12 000118ed f stubs.obj
+ 0001:000008fb       _emit_conditional_branch@12 000118fb f stubs.obj
+ 0001:00000909       _strip_address_expression@4 00011909 f stubs.obj
+ 0001:0000091e       _emit_inline_assembly      0001191e f stubs.obj
+ 0001:0000092a       _emit_pending_function_cleanup 0001192a f stubs.obj
+ 0001:00000936       _new_right_typed_expression@12 00011936 f stubs.obj
+ 0001:0000094b       _emit_seh_filter@4         0001194b f stubs.obj
+ 0001:00000959       _emit_seh_leave            00011959 f stubs.obj
+ 0001:00000965       _encode_type_name@4        00011965 f stubs.obj
+ 0001:0000097a       _end_braced_initializer@4  0001197a f stubs.obj
+ 0001:00000988       _end_do_statement          00011988 f stubs.obj
+ 0001:00000994       _end_else_statement        00011994 f stubs.obj
+ 0001:000009a0       _end_enum_specifier        000119a0 f stubs.obj
+ 0001:000009b3       _end_for_statement         000119b3 f stubs.obj
+ 0001:000009bf       _end_if_statement@4        000119bf f stubs.obj
+ 0001:000009cd       _end_nested_initializer    000119cd f stubs.obj
+ 0001:000009d9       _end_qc_control            000119d9 f stubs.obj
+ 0001:000009e5       _end_seh_except            000119e5 f stubs.obj
+ 0001:000009f1       _end_seh_filter            000119f1 f stubs.obj
+ 0001:000009fd       _end_seh_finally           000119fd f stubs.obj
+ 0001:00000a09       _end_seh_try               00011a09 f stubs.obj
+ 0001:00000a15       _end_switch_statement      00011a15 f stubs.obj
+ 0001:00000a21       _end_while_statement       00011a21 f stubs.obj
+ 0001:00000a2d       _evaluate_integer_constant@4 00011a2d f stubs.obj
+ 0001:00000a42       _find_label@4              00011a42 f stubs.obj
+ 0001:00000a57       _finish_call_expression@8  00011a57 f stubs.obj
+ 0001:00000a6c       _finish_conditional_branch 00011a6c f stubs.obj
+ 0001:00000a78       _increment_expression_record_depth 00011a78 f stubs.obj
+ 0001:00000a84       _finish_implicit_statement_scope@8 00011a84 f stubs.obj
+ 0001:00000a92       _finish_object_initializer@4 00011a92 f stubs.obj
+ 0001:00000aa0       _has_cv_qualifiers@4       00011aa0 f stubs.obj
+ 0001:00000ab5       _initialize_element@8      00011ab5 f stubs.obj
+ 0001:00000ac3       _initialize_object_value@8 00011ac3 f stubs.obj
+ 0001:00000ad1       _lookup_based_symbol@4     00011ad1 f stubs.obj
+ 0001:00000ae6       _lookup_segment_symbol@16  00011ae6 f stubs.obj
+ 0001:00000afb       _make_anonymous_identifier 00011afb f stubs.obj
+ 0001:00000b0e       _mark_evaluation_boundary  00011b0e f stubs.obj
+ 0001:00000b1a       _member_destructor_expression@12 00011b1a f stubs.obj
+ 0001:00000b2f       _new_abstract_declarator@4 00011b2f f stubs.obj
+ 0001:00000b44       _new_expression@24         00011b44 f stubs.obj
+ 0001:00000b59       _new_label@4               00011b59 f stubs.obj
+ 0001:00000b6e       _new_unary_ir_expression@8 00011b6e f stubs.obj
+ 0001:00000b83       _next_enumerator_value@8   00011b83 f stubs.obj
+ 0001:00000b98       _operator_operand_expression@8 00011b98 f stubs.obj
+ 0001:00000bad       _parse_linkage@8           00011bad f stubs.obj
+ 0001:00000bc2       _pop_linkage               00011bc2 f stubs.obj
+ 0001:00000bce       _prepare_do_body           00011bce f stubs.obj
+ 0001:00000bda       _record_break_statement    00011bda f stubs.obj
+ 0001:00000be6       _record_continue_statement 00011be6 f stubs.obj
+ 0001:00000bf2       _record_default_label      00011bf2 f stubs.obj
+ 0001:00000bfe       _record_goto@8             00011bfe f stubs.obj
+ 0001:00000c0c       _record_qc_jump@4          00011c0c f stubs.obj
+ 0001:00000c1a       _member_pointer_expression@4 00011c1a f stubs.obj
+ 0001:00000c2f       _report_expression_error@8 00011c2f f stubs.obj
+ 0001:00000c44       _report_missing_declarator@8 00011c44 f stubs.obj
+ 0001:00000c52       _report_type_conversion@20 00011c52 f stubs.obj
+ 0001:00000c60       _report_type_error@8       00011c60 f stubs.obj
+ 0001:00000c6e       _resolve_member_pointer_class@8 00011c6e f stubs.obj
+ 0001:00000c7c       _save_default_argument@4   00011c7c f stubs.obj
+ 0001:00000c91       _segment_offset_expression@8 00011c91 f stubs.obj
+ 0001:00000ca6       _sizeof_expression@4       00011ca6 f stubs.obj
+ 0001:00000cbb       _sizeof_type@4             00011cbb f stubs.obj
+ 0001:00000cd0       _skip_balanced_brace_body  00011cd0 f stubs.obj
+ 0001:00000cdc       _synchronize_tokens        00011cdc f stubs.obj
+ 0001:00000cef       _validate_based_self       00011cef f stubs.obj
+ 0001:00000d02       _validate_bit_field_bound@8 00011d02 f stubs.obj
+ 0001:00000d18       _validate_extended_bound@8 00011d18 f stubs.obj
+ 0001:00000d2e       _validate_integer_bit_field_type@4 00011d2e f stubs.obj
+ 0001:00000d44       _validate_pure_specifier@4 00011d44 f stubs.obj
+ 0001:00000d52       _write_switch_dispatch     00011d52 f stubs.obj
+ 0001:00000d5e       _report_inserted_token@8   00011d5e f stubs.obj
+ 0001:00000d6c       _recovery_token_value@4    00011d6c f stubs.obj
+ 0001:00000d88       _report_parser_error@4     00011d88 f stubs.obj
+ 0001:00000d96       _deferred_tokens_may_be_declaration 00011d96 f stubs.obj
+ 0001:00000da9       _read_deferred_argument_text 00011da9 f stubs.obj
+ 0001:00000dbc       _restore_qualified_lookup@4 00011dbc f stubs.obj
+ 0001:00000dca       _copy_qualified_declarator@8 00011dca f stubs.obj
+ 0001:00000ddf       _browser_type_reference@4  00011ddf f stubs.obj
+ 0001:00000ded       _read_operator_function_id 00011ded f stubs.obj
+ 0001:00000e00       _skip_source_comment       00011e00 f stubs.obj
+ 0001:00000e13       _consume_line_escape       00011e13 f stubs.obj
+ 0001:00000e26       _recover_trigraph          00011e26 f stubs.obj
+ 0001:00000e39       _recover_special_character 00011e39 f stubs.obj
+ 0001:00000e4c       _close_source_file         00011e4c f stubs.obj
+ 0001:00000e5f       _finish_pch_output         00011e5f f stubs.obj
+ 0001:00000e6b       _finish_translation_symbols 00011e6b f stubs.obj
+ 0001:00000e77       _emit_pending_runtime_functions 00011e77 f stubs.obj
+ 0001:00000e8a       _skip_source_line          00011e8a f stubs.obj
+ 0001:00000e96       _write_work_character@8    00011e96 f stubs.obj
+ 0001:00000eab       _write_work_bytes@16       00011eab f stubs.obj
+ 0001:00000eb9       _scan_character_literal@4  00011eb9 f stubs.obj
+ 0001:00000ece       _scan_string_literal@8     00011ece f stubs.obj
+ 0001:00000edc       _copy_quoted_literal@4     00011edc f stubs.obj
+ 0001:00000eea       _read_number_text@4        00011eea f stubs.obj
+ 0001:00000eff       _scan_float_tail@4         00011eff f stubs.obj
+ 0001:00000f14       _scan_assembler_number@4   00011f14 f stubs.obj
+ 0001:00000f29       _scan_macro_identifier     00011f29 f stubs.obj
+ 0001:00000f3c       _expand_macro@4            00011f3c f stubs.obj
+ 0001:00000f51       _match_source_character@4  00011f51 f stubs.obj
+ 0001:00000f66       _report_ide_line           00011f66 f stubs.obj
+ 0001:00000f72       _preprocess_directive      00011f72 f stubs.obj
+ 0001:00000f7e       _finish_pch_capture        00011f7e f stubs.obj
+ 0001:00000f8a       _scan_identifier_continuation 00011f8a f stubs.obj
+ 0001:00000f96       _add_storage_specifier@16  00011f96 f stubs.obj
+ 0001:00000fa4       _read_declspec_attributes  00011fa4 f stubs.obj
+ 0001:00000fb0       _convert_deferred_type_token@8 00011fb0 f stubs.obj
+ 0001:00000fbe       _copy_unfinished_type@4    00011fbe f stubs.obj
+ 0001:00000fd3       _reference_tag_symbol@12   00011fd3 f stubs.obj
+ 0001:00000fe8       _type_kind_name@4          00011fe8 f stubs.obj
+ 0001:00000ffd       _flush_current_function@4  00011ffd f stubs.obj
+ 0001:0000100b       _find_tag_in_chain@8       0001200b f stubs.obj
+ 0001:00001020       _defer_nested_tag@8        00012020 f stubs.obj
+ 0001:0000102e       _browser_begin_tag         0001202e f stubs.obj
+ 0001:0000103a       _browser_name_reference@8  0001203a f stubs.obj
+ 0001:0000104f       _browser_enter_tag@4       0001204f f stubs.obj
+ 0001:0000105d       _find_tag_declaration@4    0001205d f stubs.obj
+ 0001:00001072       _query_inheritance_model@4 00012072 f stubs.obj
+ 0001:00001087       _infer_inheritance_model@4 00012087 f stubs.obj
+ 0001:0000109c       _place_base_subobject@12   0001209c f stubs.obj
+ 0001:000010b1       _record_friend@12          000120b1 f stubs.obj
+ 0001:000010bf       _browser_friend_reference@4 000120bf f stubs.obj
+ 0001:000010cd       _validate_anonymous_aggregate@4 000120cd f stubs.obj
+ 0001:000010db       _declare_anonymous_aggregate@4 000120db f stubs.obj
+ 0001:000010e9       _declare_friend_member@24  000120e9 f stubs.obj
+ 0001:000010f7       _apply_member_access_declaration@8 000120f7 f stubs.obj
+ 0001:00001105       _last_type_shape@4         00012105 f stubs.obj
+ 0001:0000111a       _inherit_class_dll_storage@8 0001211a f stubs.obj
+ 0001:00001128       _layout_bit_field@16       00012128 f stubs.obj
+ 0001:00001136       _validate_union_member@8   00012136 f stubs.obj
+ 0001:0000114b       _create_static_member_alias@4 0001214b f stubs.obj
+ 0001:00001159       _begin_pending_class_names 00012159 f stubs.obj
+ 0001:00001165       _next_pending_class_name   00012165 f stubs.obj
+ 0001:00001178       _format_work_text          00012178 f stubs.obj
+ 0001:00001184       _emit_generated_default_constructor@12 00012184 f stubs.obj
+ 0001:00001192       _emit_generated_copy_constructor@12 00012192 f stubs.obj
+ 0001:000011a0       _emit_generated_assignment@12 000121a0 f stubs.obj
+ 0001:000011ae       _pointer_kind_spelling@4   000121ae f stubs.obj
+ 0001:000011c3       _reserve_type_diagnostic   000121c3 f stubs.obj
+ 0001:000011d7       _format_diagnostic_symbol@8 000121d7 f stubs.obj
+ 0001:000011e5       _print_inline_declaration@8 000121e5 f stubs.obj
+ 0001:000011f3       _inner_type_size@12        000121f3 f stubs.obj
+ 0001:00001208       _data_member_pointer_size@4 00012208 f stubs.obj
+ 0001:0000121d       _member_function_pointer_size@4 0001221d f stubs.obj
+ 0001:00001232       _set_deferred_type_name@4  00012232 f stubs.obj
+ 0001:00001240       _deferred_scope_allows_expression@4 00012240 f stubs.obj
+ 0001:00001255       _resolve_nested_deferred_types@4 00012255 f stubs.obj
+ 0001:00001263       _recursive_lookahead_parse 00012263 f stubs.obj
+ 0001:00001276       _report_lookahead_error@4  00012276 f stubs.obj
+ 0001:00001284       _has_qualified_this_type@4 00012284 f stubs.obj
+ 0001:00001299       _transform_function_parameters@8 00012299 f stubs.obj
+ 0001:000012ae       _mark_static_parameters@4  000122ae f stubs.obj
+ 0001:000012c3       _compatible_override_return@8 000122c3 f stubs.obj
+ 0001:000012d8       _set_pure_virtual_member@12 000122d8 f stubs.obj
+ 0001:000012e6       _browser_end_tag           000122e6 f stubs.obj
+ 0001:000012f2       _emit_deferred_class_terminator 000122f2 f stubs.obj
+ 0001:000012fe       _union_type_sets           000122fe f stubs.obj
+ 0001:00001311       _begin_type_set            00012311 f stubs.obj
+ 0001:0000131d       _next_type_set             0001231d f stubs.obj
+ 0001:00001330       _type_set_contains         00012330 f stubs.obj
+ 0001:00001343       _add_inline_pointer        00012343 f stubs.obj
+ 0001:00001356       _remove_type_set           00012356 f stubs.obj
+ 0001:00001369       _canonical_conversion_type@4 00012369 f stubs.obj
+ 0001:0000137e       _equal_inline_vectors      0001237e f stubs.obj
+ 0001:00001391       _inherit_base_virtual_tables@12 00012391 f stubs.obj
+ 0001:0000139f       _create_virtual_pointer@8  0001239f f stubs.obj
+ 0001:000013b4       _new_virtual_table@16      000123b4 f stubs.obj
+ 0001:000013c9       _build_virtual_base_table@8 000123c9 f stubs.obj
+ 0001:000013de       _merge_subobject_special_members@16 000123de f stubs.obj
+ 0001:000013ec       _record_special_member@24  000123ec f stubs.obj
+ 0001:000013fa       _defer_generated_member@4  000123fa f stubs.obj
+ 0001:00001408       _find_c_linkage_function@4 00012408 f stubs.obj
+ 0001:0000141d       _format_function_parameters@12 0001241d f stubs.obj
+ 0001:00001433       _complete_direct_base_layout@8 00012433 f stubs.obj
+ 0001:00001441       _find_virtual_base_group_offsets@8 00012441 f stubs.obj
+ 0001:00001456       _create_virtual_base_group_offsets@8 00012456 f stubs.obj
+ 0001:00001464       _resolve_table_override@16 00012464 f stubs.obj
+ 0001:00001472       _primary_virtual_table@4   00012472 f stubs.obj
+ 0001:00001487       _initialize_virtual_entry@8 00012487 f stubs.obj
+ 0001:00001495       _append_virtual_entry@8    00012495 f stubs.obj
+ 0001:000014a3       _reserve_virtual_table_offset@8 000124a3 f stubs.obj
+ 0001:000014b8       _collapse_virtual_conflicts@4 000124b8 f stubs.obj
+ 0001:000014c6       _equal_vectors@8           000124c6 f stubs.obj
+ 0001:000014db       _clone_class_virtual_table@8 000124db f stubs.obj
+ 0001:000014f0       _clone_class_virtual_group@8 000124f0 f stubs.obj
+ 0001:00001505       _declare_virtual_table_symbol@12 00012505 f stubs.obj
+ 0001:0000151a       _make_default_constructor_closure@12 0001251a f stubs.obj
+ 0001:00001528       _make_deleting_destructors@12 00012528 f stubs.obj
+ 0001:00001536       _write_storage_specification@8 00012536 f stubs.obj
+ 0001:00001544       _reset_pushed_tokens       00012544 f stubs.obj
+ 0001:00001550       _finish_work_stack@4       00012550 f stubs.obj
+ 0001:0000155e       _declare_anonymous_aggregate_object@4 0001255e f stubs.obj
+ 0001:0000156c       _lookup_tag_name@4         0001256c f stubs.obj
+ 0001:00001581       _find_hash_value@8         00012581 f stubs.obj
+ 0001:00001596       _set_hash_value@12         00012596 f stubs.obj
+ 0001:000015ab       _qualifier_path_is_hidden@8 000125ab f stubs.obj
+ 0001:000015c0       _discard_function_definition 000125c0 f stubs.obj
+ 0001:000015cc       _report_declaration_error@8 000125cc f stubs.obj
+ 0001:000015da       _class_tag_for_type@4      000125da f stubs.obj
+ 0001:000015ef       _assign_symbol_segment@8   000125ef f stubs.obj
+ 0001:000015fd       _inherit_function_defaults@20 000125fd f stubs.obj
+ 0001:0000160b       _report_named_type_difference@20 0001260b f stubs.obj
+ 0001:00001619       _diagnose_parameter_list_difference@8 00012619 f stubs.obj
+ 0001:00001627       _make_missing_function_declaration 00012627 f stubs.obj
+ 0001:0000163a       _initialize_function_inline_analysis 0001263a f stubs.obj
+ 0001:00001646       _recover_undeclared_identifier@4 00012646 f stubs.obj
+ 0001:0000165b       _most_derived_expression   0001265b f stubs.obj
+ 0001:0000166e       _enumerator_expression@4   0001266e f stubs.obj
+ 0001:00001683       _make_expression_qualified_type@16 00012683 f stubs.obj
+ 0001:00001698       _parameter_reference_type@4 00012698 f stubs.obj
+ 0001:000016ad       _based_type_expression@4   000126ad f stubs.obj
+ 0001:000016c2       _qualify_based_storage@4   000126c2 f stubs.obj
+ 0001:000016d7       _convert_based_expression@8 000126d7 f stubs.obj
+ 0001:000016ec       _attach_expression_symbols@8 000126ec f stubs.obj
+ 0001:00001701       _function_parameter_bytes@4 00012701 f stubs.obj
+ 0001:00001716       _print_declaration@8       00012716 f stubs.obj
+ 0001:00001724       _analyze_inline_parameter@4 00012724 f stubs.obj
+ 0001:00001732       _write_counted_ir          00012732 f stubs.obj
+ 0001:0000173e       _resolve_operator_expression@20 0001273e f stubs.obj
+ 0001:00001753       _operator_has_builtin_fallback@12 00012753 f stubs.obj
+ 0001:00001768       _report_operator_resolution_failure@20 00012768 f stubs.obj
+ 0001:0000177d       _has_single_function@4     0001277d f stubs.obj
+ 0001:00001792       _find_expression_symbol@4  00012792 f stubs.obj
+ 0001:000017a7       _promote_arithmetic_expression@4 000127a7 f stubs.obj
+ 0001:000017bc       _type_warning@12           000127bc f stubs.obj
+ 0001:000017ca       _requires_address_temporary@4 000127ca f stubs.obj
+ 0001:000017df       _make_address_temporary@4  000127df f stubs.obj
+ 0001:000017f4       _fold_binary_constant@12   000127f4 f stubs.obj
+ 0001:00001809       _apply_member_pointer@4    00012809 f stubs.obj
+ 0001:0000181e       _convert_pointer_operands@12 0001281e f stubs.obj
+ 0001:00001833       _reject_member_pointer_arithmetic@4 00012833 f stubs.obj
+ 0001:00001848       _resolve_untyped_binary_operand@12 00012848 f stubs.obj
+ 0001:00001856       _compare_member_pointer_expression@4 00012856 f stubs.obj
+ 0001:0000186b       _report_incompatible_type_shapes@12 0001286b f stubs.obj
+ 0001:00001879       _check_conversion_qualifiers@16 00012879 f stubs.obj
+ 0001:0000188e       _check_based_pointer_conversion@12 0001288e f stubs.obj
+ 0001:0000189c       _report_invalid_operand@8  0001289c f stubs.obj
+ 0001:000018aa       _convert_class_condition@12 000128aa f stubs.obj
+ 0001:000018bf       _find_expression_type_base@4 000128bf f stubs.obj
+ 0001:000018d4       _make_assignment_lvalue@4  000128d4 f stubs.obj
+ 0001:000018e9       _make_comma_lvalue@4       000128e9 f stubs.obj
+ 0001:000018fe       _make_conditional_lvalue@4 000128fe f stubs.obj
+ 0001:00001913       _change_function_reference_kind@8 00012913 f stubs.obj
+ 0001:00001928       _function_designator_type@4 00012928 f stubs.obj
+ 0001:0000193d       _subtract_extended         0001293d f stubs.obj
+ 0001:00001950       _save_extended_constant@4  00012950 f stubs.obj
+ 0001:00001965       _find_inline_parameter_slot@12 00012965 f stubs.obj
+ 0001:0000197a       _emit_string_intrinsic@4   0001297a f stubs.obj
+ 0001:0000198f       _complete_type_size@4      0001298f f stubs.obj
+ 0001:000019a4       _member_pointer_inheritance_model@4 000129a4 f stubs.obj
+ 0001:000019b9       _begin_destructor_body@4   000129b9 f stubs.obj
+ 0001:000019c7       _emit_deleting_destructor_body@4 000129c7 f stubs.obj
+ 0001:000019d5       _emit_vector_deleting_destructor_body@4 000129d5 f stubs.obj
+ 0001:000019e3       _emit_default_ctor_closure_body@4 000129e3 f stubs.obj
+ 0001:000019f1       _get_base_initialization_access 000129f1 f stubs.obj
+ 0001:00001a04       _set_base_initialization_access@4 00012a04 f stubs.obj
+ 0001:00001a12       _emit_virtual_base_initializers@12 00012a12 f stubs.obj
+ 0001:00001a20       _emit_array_copy_initialization@16 00012a20 f stubs.obj
+ 0001:00001a2e       _emit_class_array_initialization@24 00012a2e f stubs.obj
+ 0001:00001a3c       _make_subobject_pointer@12 00012a3c f stubs.obj
+ 0001:00001a51       _make_constructor_call@20  00012a51 f stubs.obj
+ 0001:00001a66       _make_table_qualifier_path@8 00012a66 f stubs.obj
+ 0001:00001a7b       _initialize_qualified_member@8 00012a7b f stubs.obj
+ 0001:00001a89       _virtual_table_object_offset@4 00012a89 f stubs.obj
+ 0001:00001a9e       _make_vtordisp_value@8     00012a9e f stubs.obj
+ 0001:00001ab3       _make_vtordisp_qualifier_path@8 00012ab3 f stubs.obj
+ 0001:00001ac8       _restore_expression_symbols@4 00012ac8 f stubs.obj
+ 0001:00001ad6       _has_deferred_expression_symbols@4 00012ad6 f stubs.obj
+ 0001:00001aeb       _new_temporary_reference@8 00012aeb f stubs.obj
+ 0001:00001b00       _classify_special_scalar_conversion@16 00012b00 f stubs.obj
+ 0001:00001b15       _has_pointer_or_member_pointer_shape@4 00012b15 f stubs.obj
+ 0001:00001b2a       _classify_class_reference_conversion@8 00012b2a f stubs.obj
+ 0001:00001b3f       _classify_null_pointer_shape@12 00012b3f f stubs.obj
+ 0001:00001b54       _rank_pointer_attributes@16 00012b54 f stubs.obj
+ 0001:00001b69       _rank_conversion_qualifiers@12 00012b69 f stubs.obj
+ 0001:00001b7e       _classify_nested_shape_conversion@8 00012b7e f stubs.obj
+ 0001:00001b93       _rank_reference_attributes@12 00012b93 f stubs.obj
+ 0001:00001ba8       _classify_member_pointer_conversion@12 00012ba8 f stubs.obj
+ 0001:00001bbd       _classify_source_class_conversion@20 00012bbd f stubs.obj
+ 0001:00001bd2       _type_has_base_relation@8  00012bd2 f stubs.obj
+ 0001:00001be7       _classify_user_conversion@20 00012be7 f stubs.obj
+ 0001:00001bfc       _resolve_overloaded_initializer@12 00012bfc f stubs.obj
+ 0001:00001c11       _collect_declaration_cleanup@12 00012c11 f stubs.obj
+ 0001:00001c26       _resolve_goto_cleanup@12   00012c26 f stubs.obj
+ 0001:00001c34       _append_symbol_destructor@8 00012c34 f stubs.obj
+ 0001:00001c49       _append_expression_destructor@8 00012c49 f stubs.obj
+ 0001:00001c5e       _find_label_record@4       00012c5e f stubs.obj
+ 0001:00001c73       _skip_declaration_records@4 00012c73 f stubs.obj
+ 0001:00001c88       _scan_return_paths@8       00012c88 f stubs.obj
+ 0001:00001c9d       _emit_member_and_base_destructors@4 00012c9d f stubs.obj
+ 0001:00001cab       _emit_vbase_destructor_epilogue@4 00012cab f stubs.obj
+ 0001:00001cb9       _finish_inline_function    00012cb9 f stubs.obj
+ 0001:00001cc5       _emit_function_symbols@4   00012cc5 f stubs.obj
+ 0001:00001cd3       _defer_global_symbol       00012cd3 f stubs.obj
+ 0001:00001ce6       _debug_tag_type@4          00012ce6 f stubs.obj
+ 0001:00001cfc       _reference_debug_type@4    00012cfc f stubs.obj
+ 0001:00001d0a       _flush_debug_types         00012d0a f stubs.obj
+ 0001:00001d16       _prepare_symbol_debug_type@4 00012d16 f stubs.obj
+ 0001:00001d24       _format_qualified_tag_name@8 00012d24 f stubs.obj
+ 0001:00001d39       _mangle_symbol_identifier@12 00012d39 f stubs.obj
+ 0001:00001d4e       _mangle_symbol_scope@8     00012d4e f stubs.obj
+ 0001:00001d63       _mangle_symbol_encoding@16 00012d63 f stubs.obj
+ 0001:00001d78       _mangle_identifier@12      00012d78 f stubs.obj
+ 0001:00001d8d       _cache_function_parameter_bytes@4 00012d8d f stubs.obj
+ 0001:00001d9b       _format_integer            00012d9b f stubs.obj
+ 0001:00001dae       _make_error_expression     00012dae f stubs.obj
+ 0001:00001dc1       _materialize_member_object@4 00012dc1 f stubs.obj
+ 0001:00001dd6       _report_denied_member_access 00012dd6 f stubs.obj
+ 0001:00001de2       _find_friend_access@8      00012de2 f stubs.obj
+ 0001:00001df7       _skip_base_qualifier_path@4 00012df7 f stubs.obj
+ 0001:00001e0c       _virtual_base_access_level@8 00012e0c f stubs.obj
+ 0001:00001e21       _has_member_access_declaration@12 00012e21 f stubs.obj
+ 0001:00001e36       _combine_member_access@8   00012e36 f stubs.obj
+ 0001:00001e4b       _set_inherited_member_access_failure@20 00012e4b f stubs.obj
+ 0001:00001e59       _adjust_pointer_by_offset@12 00012e59 f stubs.obj
+ 0001:00001e6e       _adjust_virtual_member_object@20 00012e6e f stubs.obj
+ 0001:00001e83       _has_assignment_member_model@4 00012e83 f stubs.obj
+ 0001:00001e98       _report_conversion_rank_failure@16 00012e98 f stubs.obj
+ 0001:00001ea6       _new_cast_expression@8     00012ea6 f stubs.obj
+ 0001:00001ebb       _extended_to_integer       00012ebb f stubs.obj
+ 0001:00001ece       _integer_to_extended       00012ece f stubs.obj
+ 0001:00001ee1       _unsigned_to_extended      00012ee1 f stubs.obj
+ 0001:00001ef4       _extended_to_double        00012ef4 f stubs.obj
+ 0001:00001f07       _double_to_extended        00012f07 f stubs.obj
+ 0001:00001f1a       _extended_to_float         00012f1a f stubs.obj
+ 0001:00001f2d       _float_to_extended         00012f2d f stubs.obj
+ 0001:00001f40       _strip_function_designator@4 00012f40 f stubs.obj
+ 0001:00001f55       _resolve_qualified_assignment_operand@8 00012f55 f stubs.obj
+ 0001:00001f6a       _classify_radix_integer@4  00012f6a f stubs.obj
+ 0001:00001f7f       _classify_long_integer@4   00012f7f f stubs.obj
+ 0001:00001f94       _classify_unsigned_integer@4 00012f94 f stubs.obj
+ 0001:00001fac       _message_text              00012fac f diagnostics.obj
+ 0001:00001ff0       _parse_options             00012ff0 f options.obj
+ 0001:00002334       _match_option              00013334 f options.obj
+ 0001:000024fa       _prefix_character          000134fa f options.obj
+ 0001:00002551       _apply_option              00013551 f options.obj
+ 0001:0000278b       _parse_option_number       0001378b f options.obj
+ 0001:00002886       _match_option_suffix       00013886 f options.obj
+ 0001:0000292f       _finalize_options          0001392f f options.obj
+ 0001:00002a60       _push_linkage@4            00013a60 f linkage.obj
+ 0001:00002a9c       _initialize_packing        00013a9c f packing.obj
+ 0001:00002af6       _new_packing_stack         00013af6 f packing.obj
+ 0001:00002b29       _push_packing              00013b29 f packing.obj
+ 0001:00002b89       _top_packing               00013b89 f packing.obj
+ 0001:00002ba0       _allocate_permanent@4      00013ba0 f memory.obj
+ 0001:00002c35       _new_permanent_page        00013c35 f memory.obj
+ 0001:00002cd2       _new_bitset@4              00013cd2 f memory.obj
+ 0001:00002d5d       _checked_malloc@4          00013d5d f memory.obj
+ 0001:00002d97       _refill_arena@8            00013d97 f memory.obj
+ 0001:00002ea5       _copy_arena_bytes@12       00013ea5 f memory.obj
+ 0001:00002f77       _release_arena@4           00013f77 f memory.obj
+ 0001:0000301b       _release_permanent@8       0001401b f memory.obj
+ 0001:00003028       _pop_work_list@4           00014028 f memory.obj
+ 0001:0000304b       _push_work_list@8          0001404b f memory.obj
+ 0001:000030ec       _initialize_checksums      000140ec f checksums.obj
+ 0001:0000329c       _initialize_lead_bytes     0001429c f characters.obj
+ 0001:000032e2       _mark_lead_byte_ranges     000142e2 f characters.obj
+ 0001:00003360       _read_env_arguments        00014360 f arguments.obj
+ 0001:00003514       _extend_argument_vector    00014514 f arguments.obj
+ 0001:000035a5       _next_argument             000145a5 f arguments.obj
+ 0001:000035e0       _new_vector@8              000145e0 f vectors.obj
+ 0001:00003743       _append_vector@8           00014743 f vectors.obj
+ 0001:00003785       _initialize_work_stack@4   00014785 f vectors.obj
+ 0001:00003814       _reset_work_stack@4        00014814 f vectors.obj
+ 0001:00003842       _new_empty_vector@4        00014842 f vectors.obj
+ 0001:0000385e       _copy_vector_elements@12   0001485e f vectors.obj
+ 0001:000038d2       _vector_count@4            000148d2 f vectors.obj
+ 0001:000038fc       _compile_translation_unit  000148fc f frontend.obj
+ 0001:00003d3c       _initialize_frontend       00014d3c f initialization.obj
+ 0001:0000483c       _initialize_preprocessor   0001583c f preprocessor.obj
+ 0001:00004868       _initialize_macro_text     00015868 f preprocessor.obj
+ 0001:0000488c       _intern_keyword@4          0001588c f preprocessor.obj
+ 0001:00004a4c       _intern_identifier@4       00015a4c f preprocessor.obj
+ 0001:00004c18       _initialize_keyword_table  00015c18 f keywords.obj
+ 0001:00004d3f       _disable_keyword@4         00015d3f f keywords.obj
+ 0001:00004d9c       _initialize_floating_point 00015d9c f floating.obj
+ 0001:00004db4       _initialize_cpp_context_stack 00015db4 f cpp-context.obj
+ 0001:00004e19       _next_member_context@4     00015e19 f cpp-context.obj
+ 0001:00004e50       _new_inline_vector         00015e50 f inline-vector.obj
+ 0001:00004eb3       _inline_vector_bytes       00015eb3 f inline-vector.obj
+ 0001:00004ece       _inline_vector_count       00015ece f inline-vector.obj
+ 0001:00004ef6       _release_inline_vector     00015ef6 f inline-vector.obj
+ 0001:00004f1c       _initialize_intermediate_output 00015f1c f intermediate.obj
+ 0001:00004f27       _open_intermediate         00015f27 f intermediate.obj
+ 0001:0000500c       _open_expression_intermediate 0001600c f intermediate.obj
+ 0001:00005154       __sopen                    00016154 f runtime.obj
+ 0001:0000563b       _setvbuf                   0001663b f runtime.obj
+ 0001:00005756       __freebuf                  00016756 f runtime.obj
+ 0001:000057af       _fseek                     000167af f runtime.obj
+ 0001:0000588c       ___tzset                   0001688c f runtime.obj
+ 0001:00005ab7       __isindst                  00016ab7 f runtime.obj
+ 0001:00005c11       _ftell                     00016c11 f runtime.obj
+ 0001:00005e10       _new_literal_constant@8    00016e10 f constants.obj
+ 0001:00005fc1       _make_integer_constant@4   00016fc1 f constants.obj
+ 0001:00005ffd       _new_integer_constant@4    00016ffd f constants.obj
+ 0001:00006099       _fold_symbol_constant@4    00017099 f constants.obj
+ 0001:00006118       _emit_label@4              00017118 f ir.obj
+ 0001:000061a4       _reference_ir_symbol@4     000171a4 f ir.obj
+ 0001:00006282       _write_ir_record@8         00017282 f ir.obj
+ 0001:00006cc3       _new_branch_label@4        00017cc3 f ir.obj
+ 0001:00006d9c       _finish_label_symbols      00017d9c f ir.obj
+ 0001:00006e5e       _register_label@4          00017e5e f ir.obj
+ 0001:00006ed9       _get_ir_symbol_index       00017ed9 f ir.obj
+ 0001:00007010       _emit_record_node@12       00018010 f ir.obj
+ 0001:000075bd       _node_alignment@4          000185bd f ir.obj
+ 0001:000076e8       _expression_type_alignment@4 000186e8 f ir.obj
+ 0001:00007764       _initialize_type_table     00018764 f types.obj
+ 0001:000077ab       _intern_type@4             000187ab f types.obj
+ 0001:0000792b       _make_function_type@8      0001892b f types.obj
+ 0001:00007a07       _new_type_shape@12         00018a07 f types.obj
+ 0001:00007c34       _intern_type_shape@4       00018c34 f types.obj
+ 0001:00007deb       _make_tagged_type@4        00018deb f types.obj
+ 0001:00007ef7       _copy_type_description@4   00018ef7 f types.obj
+ 0001:00007f69       _make_qualified_type@16    00018f69 f types.obj
+ 0001:00007fc8       _is_class_name_type@4      00018fc8 f types.obj
+ 0001:00008062       _finish_type@4             00019062 f types.obj
+ 0001:0000814d       _replace_first_type_shape@16 0001914d f types.obj
+ 0001:000082ff       _skip_reference_shape@4    000192ff f types.obj
+ 0001:00008335       _strip_based_shape@4       00019335 f types.obj
+ 0001:0000837f       _drop_first_type_shape@4   0001937f f types.obj
+ 0001:0000840f       _dereference_pointer_type@4 0001940f f types.obj
+ 0001:0000848c       _initialize_global_scope   0001948c f scopes.obj
+ 0001:000084f1       _initialize_translation_state 000194f1 f scopes.obj
+ 0001:000085ba       _push_symbol_scope@4       000195ba f scopes.obj
+ 0001:000085d9       _record_scope_directory_entry@4 000195d9 f scopes.obj
+ 0001:00008641       _initialize_scope_buckets@8 00019641 f scopes.obj
+ 0001:00008752       _retire_scope_directory_entry 00019752 f scopes.obj
+ 0001:00008786       _pop_symbol_scope          00019786 f scopes.obj
+ 0001:0000879d       _activate_qualified_definition_scopes 0001979d f scopes.obj
+ 0001:0000882f       _unwind_qualified_scopes@4 0001982f f scopes.obj
+ 0001:000088e4       _initialize_declaration_table 000198e4 f declarations.obj
+ 0001:00008901       _save_declaration_context@8 00019901 f declarations.obj
+ 0001:0000893a       _new_declarator@4          0001993a f declarations.obj
+ 0001:00008a55       _add_declaration_parameter@16 00019a55 f declarations.obj
+ 0001:00008bad       _append_declarator@8       00019bad f declarations.obj
+ 0001:00008c1b       _attach_function_parameters@8 00019c1b f declarations.obj
+ 0001:00008c94       _attach_plain_function_parameters@8 00019c94 f declarations.obj
+ 0001:00008d3a       _build_function_declarator@8 00019d3a f declarations.obj
+ 0001:00008d66       _add_function_shape@12     00019d66 f declarations.obj
+ 0001:00009014       _is_member_declarator@4    0001a014 f declarations.obj
+ 0001:0000912e       _attach_type_shape@8       0001a12e f declarations.obj
+ 0001:0000928a       _finish_parameter_scope    0001a28a f declarations.obj
+ 0001:000092f4       _restore_declaration_context@8 0001a2f4 f declarations.obj
+ 0001:00009319       _prepend_declarator@8      0001a319 f declarations.obj
+ 0001:0000936b       _new_symbol@8              0001a36b f declarations.obj
+ 0001:000094d0       _check_global_object_definition@4 0001a4d0 f declaration-bind.obj
+ 0001:00009592       _finalize_object_storage@4 0001a592 f declaration-bind.obj
+ 0001:00009842       _apply_declaration_type@8  0001a842 f declaration-bind.obj
+ 0001:00009d55       _symbol_has_reference_shape@4 0001ad55 f declaration-bind.obj
+ 0001:00009dcc       _lookup_declaration@4      0001adcc f declaration-lookup.obj
+ 0001:00009dec       _declaration_scope         0001adec f declaration-lookup.obj
+ 0001:00009e24       _lookup_scope_declaration@8 0001ae24 f declaration-lookup.obj
+ 0001:00009e6e       _find_scope_symbol@12      0001ae6e f declaration-lookup.obj
+ 0001:00009f10       _find_name_in_chain@8      0001af10 f declaration-lookup.obj
+ 0001:00009f4c       _lookup_outer_declaration@4 0001af4c f declaration-lookup.obj
+ 0001:0000a1dc       _record_local_declaration@4 0001b1dc f declaration-lookup.obj
+ 0001:0000a3a0       _reconcile_declaration@8   0001b3a0 f declaration-lookup.obj
+ 0001:0000a770       _insert_symbol@4           0001b770 f declaration-lookup.obj
+ 0001:0000a78b       _insert_scope_symbol@8     0001b78b f declaration-lookup.obj
+ 0001:0000a8f7       _make_overload_symbol@4    0001b8f7 f declaration-lookup.obj
+ 0001:0000aa79       _check_function_defaults@8 0001ba79 f declaration-lookup.obj
+ 0001:0000aab3       _check_missing_defaults@20 0001bab3 f declaration-lookup.obj
+ 0001:0000ab29       _lookup_current_scope_declaration@4 0001bb29 f declaration-lookup.obj
+ 0001:0000ab49       _insert_current_scope_symbol@4 0001bb49 f declaration-lookup.obj
+ 0001:0000ab64       _find_outer_name@4         0001bb64 f declaration-lookup.obj
+ 0001:0000ab83       _lookup_scoped_name@8      0001bb83 f declaration-lookup.obj
+ 0001:0000adbd       _lookup_class_name@16      0001bdbd f declaration-lookup.obj
+ 0001:0000afce       _find_class_name_paths@12  0001bfce f declaration-lookup.obj
+ 0001:0000b052       _symbol_matches_categories@8 0001c052 f declaration-lookup.obj
+ 0001:0000b10e       _resolve_declaration_alias@8 0001c10e f declaration-lookup.obj
+ 0001:0000b267       _bind_function_overload@8  0001c267 f declaration-lookup.obj
+ 0001:0000b52e       _find_matching_overload@12 0001c52e f declaration-lookup.obj
+ 0001:0000b91e       _compare_declaration_parameters@8 0001c91e f declaration-lookup.obj
+ 0001:0000b9ab       _compare_overload_parameter@12 0001c9ab f declaration-lookup.obj
+ 0001:0000bc21       _prepend_function_overload@8 0001cc21 f declaration-lookup.obj
+ 0001:0000bc43       _find_class_special_member@8 0001cc43 f declaration-lookup.obj
+ 0001:0000bc90       _begin_class_member_search@12 0001cc90 f declaration-lookup.obj
+ 0001:0000bd0e       _next_class_member_search@4 0001cd0e f declaration-lookup.obj
+ 0001:0000bdd8       _find_qualifier_name@4     0001cdd8 f declaration-lookup.obj
+ 0001:0000bdf7       _search_class_name_paths@8 0001cdf7 f declaration-lookup.obj
+ 0001:0000c121       _class_candidate_is_distinct@8 0001d121 f declaration-lookup.obj
+ 0001:0000c21d       _begin_virtual_base_search@8 0001d21d f declaration-lookup.obj
+ 0001:0000c26a       _next_virtual_base_search@4 0001d26a f declaration-lookup.obj
+ 0001:0000c2e8       _prune_hidden_class_paths@8 0001d2e8 f declaration-lookup.obj
+ 0001:0000c376       _merge_declared_symbol@8   0001d376 f declaration-lookup.obj
+ 0001:0000c54d       _equivalent_base_type_flags@8 0001d54d f declaration-lookup.obj
+ 0001:0000c578       _reconcile_declaration_type@12 0001d578 f declaration-lookup.obj
+ 0001:0000c80f       _compatible_declaration_storage@8 0001d80f f declaration-lookup.obj
+ 0001:0000c98d       _merge_declaration_storage@8 0001d98d f declaration-lookup.obj
+ 0001:0000cfdc       _validate_special_function@8 0001dfdc f special-functions.obj
+ 0001:0000e02c       _declare_runtime_helpers   0001f02c f runtime-symbols.obj
+ 0001:0000e05e       _declare_vector_helper@8   0001f05e f runtime-symbols.obj
+ 0001:0000e07c       _declare_runtime_function@20 0001f07c f runtime-symbols.obj
+ 0001:0000e1a9       _runtime_void_pointer@4    0001f1a9 f runtime-symbols.obj
+ 0001:0000e1cd       _runtime_callback_type@8   0001f1cd f runtime-symbols.obj
+ 0001:0000e235       _initialize_purecall       0001f235 f runtime-symbols.obj
+ 0001:0000e24c       _runtime_function_symbol@4 0001f24c f runtime-symbols.obj
+ 0001:0000e2c8       _pack_option_flags         0001f2c8 f option-state.obj
+ 0001:0000e338       _current_declaration_type@4 0001f338 f parser-state.obj
+ 0001:0000e4a7       _global_declaration_type@4 0001f4a7 f parser-state.obj
+ 0001:0000e4e4       _finish_external_definition@4 0001f4e4 f parser-state.obj
+ 0001:0000e584       _resolve_declaration@8     0001f584 f resolve-declaration.obj
+ 0001:0000ef84       _merge_declaration_type@12 0001ff84 f declarator-shapes.obj
+ 0001:0000fa2a       _prepare_declarator_shapes@28 00020a2a f declarator-shapes.obj
+ 0001:0001004c       _extract_declarator_prefix@16 0002104c f declarator-shapes.obj
+ 0001:00010111       _extract_base_prefix@20    00021111 f declarator-shapes.obj
+ 0001:00010272       _intern_shape_on@16        00021272 f declarator-shapes.obj
+ 0001:000102a9       _merge_function_shape@28   000212a9 f declarator-shapes.obj
+ 0001:000107ec       _finish_function_declarator@8 000217ec f declarator-shapes.obj
+ 0001:000108d1       _merge_reference_shape@24  000218d1 f declarator-shapes.obj
+ 0001:00010b50       _normalize_symbol_type@8   00021b50 f symbol-types.obj
+ 0001:00011b8e       _normalize_symbol_distance@8 00022b8e f symbol-types.obj
+ 0001:00011c64       _new_hash_table@16         00022c64 f hash-table.obj
+ 0001:00011dd8       _normalize_type_attributes@8 00022dd8 f type-attributes.obj
+ 0001:000121e1       _merge_type_attributes@8   000231e1 f type-attributes.obj
+ 0001:0001231d       _is_unqualified_class_type@4 0002331d f type-attributes.obj
+ 0001:0001241f       _classify_incomplete_type@4 0002341f f type-attributes.obj
+ 0001:00012508       _type_qualifiers@4         00023508 f type-attributes.obj
+ 0001:000125af       _equivalent_shape_attributes@8 000235af f type-attributes.obj
+ 0001:00012637       _compatible_declaration_attributes@12 00023637 f type-attributes.obj
+ 0001:0001277c       _void_parameter_list       0002377c f parameters.obj
+ 0001:000127ce       _intern_function_parameters@4 000237ce f parameters.obj
+ 0001:00012935       _build_parameter_info@8    00023935 f parameters.obj
+ 0001:00012b58       _intern_declaration_parameters 00023b58 f parameters.obj
+ 0001:00012dac       _hash_declaration_parameters@4 00023dac f parameters.obj
+ 0001:00012e28       _merge_function_defaults@16 00023e28 f parameters.obj
+ 0001:00012fcc       _define_command_line_macros@4 00023fcc f macros.obj
+ 0001:00013226       _frontend_time@4           00024226 f macros.obj
+ 0001:00013243       _format_timestamp@4        00024243 f macros.obj
+ 0001:0001331c       _initialize_macro_storage  0002431c f macros.obj
+ 0001:00013392       _define_macro@12           00024392 f macros.obj
+ 0001:000135c4       _lookup_macro              000245c4 f macros.obj
+ 0001:00013638       _define_command_line_macro@4 00024638 f macros.obj
+ 0001:00013800       _write_global_header       00024800 f global-ir.obj
+ 0001:00013829       _write_global_record@8     00024829 f global-ir.obj
+ 0001:00017dc4       _open_source_file@8        00028dc4 f source-input.obj
+ 0001:000181ee       _open_input_handle@4       000291ee f source-input.obj
+ 0001:00018279       _normalize_input_name      00029279 f source-input.obj
+ 0001:0001831c       _fill_source_buffer        0002931c f source-input.obj
+ 0001:0001849c       _initialize_operators      0002949c f operators.obj
+ 0001:0001855b       _intern_operator_name@4    0002955b f operators.obj
+ 0001:000185b7       _initialize_allocation_operators 000295b7 f operators.obj
+ 0001:000185d0       _declare_operator_new@4    000295d0 f operators.obj
+ 0001:00018706       _declare_operator_delete@4 00029706 f operators.obj
+ 0001:0001885c       _find_frontend_record@12   0002985c f record-processing.obj
+ 0001:0001896a       _find_forward_frontend_record@12 0002996a f record-processing.obj
+ 0001:00018a4a       _process_expression_records@4 00029a4a f record-processing.obj
+ 0001:00019425       _finish_function_records   0002a425 f record-processing.obj
+ 0001:00019586       _emit_nonnull_expression_statement@4 0002a586 f record-processing.obj
+ 0001:000195a5       _has_unresolved_labels     0002a5a5 f record-processing.obj
+ 0001:00019605       _function_paths_return     0002a605 f record-processing.obj
+ 0001:00019791       _finish_goto_cleanups      0002a791 f record-processing.obj
+ 0001:0001981c       _prepare_expression@8      0002a81c f expression-preparation.obj
+ 0001:00019c05       _finish_return_expression@8 0002ac05 f expression-preparation.obj
+ 0001:00019ed4       _builtin_binary_expression@12 0002aed4 f binary-expressions.obj
+ 0001:0001b37b       _convert_binary_operands@4 0002c37b f binary-expressions.obj
+ 0001:0001bb7d       _warn_pointer_conversion@12 0002cb7d f binary-expressions.obj
+ 0001:0001bbef       _check_conversion_warning@12 0002cbef f binary-expressions.obj
+ 0001:0001c0ee       _check_type_conversion_warning@12 0002d0ee f binary-expressions.obj
+ 0001:0001c93f       _modifiable_lvalue@8       0002d93f f binary-expressions.obj
+ 0001:0001cc43       _binary_expression@12      0002dc43 f binary-expressions.obj
+ 0001:0001cf49       _common_binary_type@12     0002df49 f binary-expressions.obj
+ 0001:0001d0ac       _emit_constructor_initializers@8 0002e0ac f constructor-initializers.obj
+ 0001:0001d70a       _constructor_pointer_attributes@4 0002e70a f constructor-initializers.obj
+ 0001:0001d760       _prepare_class_initialization@4 0002e760 f constructor-initializers.obj
+ 0001:0001d7b9       _require_deleting_destructor@4 0002e7b9 f constructor-initializers.obj
+ 0001:0001d7d4       _require_class_member_definitions@8 0002e7d4 f constructor-initializers.obj
+ 0001:0001d87a       _take_member_initializer@8 0002e87a f constructor-initializers.obj
+ 0001:0001d957       _initialize_member_expression@16 0002e957 f constructor-initializers.obj
+ 0001:0001da45       _adjusted_this_expression@4 0002ea45 f constructor-initializers.obj
+ 0001:0001dab7       _replace_type_pointer_kind@8 0002eab7 f constructor-initializers.obj
+ 0001:0001db15       _initialize_lvalue@8       0002eb15 f constructor-initializers.obj
+ 0001:0001dc5b       _classify_initializer_conversion@8 0002ec5b f constructor-initializers.obj
+ 0001:0001dc7c       _classify_expression_conversion@16 0002ec7c f constructor-initializers.obj
+ 0001:0001ddb7       _classify_type_conversion@16 0002edb7 f constructor-initializers.obj
+ 0001:0001e190       _classify_special_type_conversion@16 0002f190 f constructor-initializers.obj
+ 0001:0001e253       _classify_derived_type_conversion@16 0002f253 f constructor-initializers.obj
+ 0001:0001ea59       _convert_initializer@12    0002fa59 f constructor-initializers.obj
+ 0001:0001eca0       _same_unqualified_class_type@8 0002fca0 f constructor-initializers.obj
+ 0001:0001ed2b       _prepare_reference_initializer@8 0002fd2b f constructor-initializers.obj
+ 0001:0001ed9e       _emit_class_table_initializers@8 0002fd9e f constructor-initializers.obj
+ 0001:0001edc2       _emit_vtable_pointer_initializers@12 0002fdc2 f constructor-initializers.obj
+ 0001:0001eee4       _emit_vtordisp_initializers@8 0002fee4 f constructor-initializers.obj
+ 0001:0001ef7e       _can_initialize@8          0002ff7e f constructor-initializers.obj
+ 0001:0001efa8       _prepare_initializer_symbol@4 0002ffa8 f object-initializers.obj
+ 0001:0001f05c       _reject_function_initializer@4 0003005c f object-initializers.obj
+ 0001:0001f10a       _begin_object_initializer@4 0003010a f object-initializers.obj
+ 0001:0001f1e3       _initialize_object@8       000301e3 f object-initializers.obj
+ 0001:0001f21c       _scan_number@4             0003021c f numeric-scanning.obj
+ 0001:0001f4b5       _read_numeric_character    000304b5 f numeric-scanning.obj
+ 0001:0001f522       _convert_integer_digits@12 00030522 f numeric-scanning.obj
+ 0001:0001f6e6       _integer_digit_value@4     000306e6 f numeric-scanning.obj
+ 0001:0001f721       _classify_decimal_integer@4 00030721 f numeric-scanning.obj
+ 0001:0001f748       _convert_numeric_constant@12 00030748 f numeric-conversion.obj
+ 0001:0001fb73       _convert_integral_constant@20 00030b73 f numeric-conversion.obj
+ 0001:0001fe77       _integer_constant_overflows@16 00030e77 f numeric-conversion.obj
+ 0001:0001ff34       _qualified_member_is_accessible@4 00030f34 f member-access.obj
+ 0001:00020442       _declaring_class_for_symbol@4 00031442 f member-access.obj
+ 0001:00020494       _reset_member_access_failure 00031494 f member-access.obj
+ 0001:000204b3       _set_initial_member_access_failure@12 000314b3 f member-access.obj
+ 0001:000204d8       _member_expression@12      000314d8 f member-expressions.obj
+ 0001:00020aea       _adjust_qualified_member_object@20 00031aea f member-expressions.obj
+ 0001:00020b6c       _check_qualified_member_access@4 00031b6c f member-expressions.obj
+ 0001:00020b98       _adjust_member_binding_object@20 00031b98 f member-expressions.obj
+ 0001:00020cba       _make_member_at_offset@12  00031cba f member-expressions.obj
+ 0001:00020ce4       _write_decorated_name@16   00031ce4 f mangling.obj
+ 0001:00020df9       _mangle_symbol_name@12     00031df9 f mangling.obj
+ 0001:00021126       _classify_symbol_decoration@4 00032126 f mangling.obj
+ 0001:00021978       _emit_symbol_declaration@4 00032978 f symbol-output.obj
+ 0001:00022024       _end_function_definition   00033024 f function-finalization.obj
+ 0001:000220a3       _finish_function_body@4    000330a3 f function-finalization.obj
+ 0001:00022222       _finish_function_output    00033222 f function-finalization.obj
+ 0001:000222ed       _serialize_scope@4         000332ed f function-finalization.obj
+ 0001:000224d7       _record_function_definition@4 000334d7 f function-finalization.obj
+ 0001:000227fd       _reset_materialized_value_index 000337fd f function-finalization.obj
+ 0001:00022812       _reset_function_symbol_tables 00033812 f function-finalization.obj
+ 0001:00022834       _begin_compound_statement  00033834 f statement-scopes.obj
+ 0001:00022844       _enter_compound_scope      00033844 f statement-scopes.obj
+ 0001:00022a78       _end_compound_statement    00033a78 f statement-scopes.obj
+ 0001:00022a88       _leave_compound_scope      00033a88 f statement-scopes.obj
+ 0001:00022c3f       _emit_scope_cleanup_references 00033c3f f statement-scopes.obj
+ 0001:00022cb4       _queue_closed_scope@4      00033cb4 f statement-scopes.obj
+ 0001:00022d70       _emit_return_statement@8   00033d70 f return-statements.obj
+ 0001:000233fc       _emit_expression_tree@4    000343fc f expression-output.obj
+ 0001:00023b3d       _emit_expression_statement@4 00034b3d f expression-output.obj
+ 0001:00023c48       _unary_expression@8        00034c48 f unary-expressions.obj
+ 0001:00023da6       _is_overload_operand@4     00034da6 f unary-expressions.obj
+ 0001:00023dd4       _builtin_unary_expression@8 00034dd4 f unary-expressions.obj
+ 0001:00024cc4       _check_expression_operands@16 00035cc4 f unary-expressions.obj
+ 0001:00024da4       _reject_special_indirection@8 00035da4 f unary-expressions.obj
+ 0001:00024de8       _record_line_information@4 00035de8 f control-ir.obj
+ 0001:000256a2       _emit_warning_controls@4   000366a2 f control-ir.obj
+ 0001:0002593c       _write_ir_index            0003693c f ir-encoding.obj
+ 0001:00025ace       _write_ir_filename         00036ace f ir-encoding.obj
+ 0001:00025b3c       _begin_function_definition@8 00036b3c f function-definitions.obj
+ 0001:000263cc       _prepare_function_definition@4 000373cc f function-definitions.obj
+ 0001:000264f6       _function_return_type@4    000374f6 f function-definitions.obj
+ 0001:0002656f       _apply_constructor_initializers@4 0003756f f function-definitions.obj
+ 0001:000266ee       _begin_function_body       000376ee f function-definitions.obj
+ 0001:00026939       _begin_function_output@4   00037939 f function-definitions.obj
+ 0001:00026a01       _this_pointer_expression@4 00037a01 f function-definitions.obj
+ 0001:00026be3       _emit_parameter_declaration@4 00037be3 f function-definitions.obj
+ 0001:00026c30       _begin_function_ir@8       00037c30 f frontend-records.obj
+ 0001:00026dc1       _reset_frontend_records    00037dc1 f frontend-records.obj
+ 0001:00026e58       _append_frontend_record@8  00037e58 f frontend-records.obj
+ 0001:000270ee       _begin_frontend_scope      000380ee f frontend-records.obj
+ 0001:0002712a       _record_parameter_cleanup@4 0003812a f frontend-records.obj
+ 0001:000271de       _end_frontend_scope        000381de f frontend-records.obj
+ 0001:00027243       _remove_last_frontend_record 00038243 f frontend-records.obj
+ 0001:000272d8       _detach_expression_symbols 000382d8 f frontend-records.obj
+ 0001:000273da       _record_compound_scope     000383da f frontend-records.obj
+ 0001:00027495       _reuse_frontend_record@4   00038495 f frontend-records.obj
+ 0001:000275bb       _mark_initialized_symbol@4 000385bb f frontend-records.obj
+ 0001:00027603       _end_compound_scope_record 00038603 f frontend-records.obj
+ 0001:000276c8       _begin_return_expression   000386c8 f frontend-records.obj
+ 0001:00027704       _identifier_expression@4   00038704 f identifier-expressions.obj
+ 0001:00027798       _symbol_expression@4       00038798 f identifier-expressions.obj
+ 0001:00027806       _resolve_symbol_expression@4 00038806 f identifier-expressions.obj
+ 0001:00027b21       _validate_expression_symbol@4 00038b21 f identifier-expressions.obj
+ 0001:00027bf9       _symbol_reference@4        00038bf9 f identifier-expressions.obj
+ 0001:00027e26       _finish_symbol_expression@8 00038e26 f identifier-expressions.obj
+ 0001:00027e63       _indirect_storage_expression@4 00038e63 f identifier-expressions.obj
+ 0001:00027eb7       _new_typed_unary_expression@12 00038eb7 f identifier-expressions.obj
+ 0001:00027f53       _append_expression@12      00038f53 f identifier-expressions.obj
+ 0001:00028071       _validate_value_expression@4 00039071 f identifier-expressions.obj
+ 0001:000281d2       _new_ir_expression@16      000391d2 f identifier-expressions.obj
+ 0001:00028277       _append_constructor_initializer@8 00039277 f identifier-expressions.obj
+ 0001:00028309       _new_left_typed_expression@12 00039309 f identifier-expressions.obj
+ 0001:0002832f       _inherited_symbol_expression@8 0003932f f identifier-expressions.obj
+ 0001:0002851d       _resolve_assignment_operand@8 0003951d f identifier-expressions.obj
+ 0001:000286d4       _parse_translation_unit    000396d4 f parser.obj
+ 0001:0002cb40       _next_source_character     0003db40 f lexer.obj
+ 0001:0002cbf4       _read_parser_token         0003dbf4 f lexer.obj
+ 0001:0002d556       _scan_token                0003e556 f lexer.obj
+ 0001:0002d68a       _read_lexical_token        0003e68a f lexer.obj
+ 0001:0002ebdb       _begin_source_line         0003fbdb f lexer.obj
+ 0001:0002ee20       _scan_source_identifier    0003fe20 f lexer.obj
+ 0001:0002f03c       _unget_token@4             0004003c f lexer.obj
+ 0001:0002f0cf       _resolve_typename_token@4  000400cf f lexer.obj
+ 0001:0002f3e4       _capture_declaration_tokens@4 000403e4 f lexer.obj
+ 0001:0002f4f4       _append_deferred_token@4   000404f4 f lexer.obj
+ 0001:0002f568       _read_type_specifier@4     00040568 f type-specifiers.obj
+ 0001:000300a5       _read_tag_specifier@8      000410a5 f type-specifiers.obj
+ 0001:000305df       _apply_type_symbol@12      000415df f type-specifiers.obj
+ 0001:00030773       _merge_type_specifier@12   00041773 f type-specifiers.obj
+ 0001:00030b52       _resolve_type_parenthesis  00041b52 f type-specifiers.obj
+ 0001:00030d74       _define_tag_symbol@12      00041d74 f tags.obj
+ 0001:00031250       _allocate_tag_symbol@16    00042250 f tags.obj
+ 0001:0003158a       _new_tag_record@4          0004258a f tags.obj
+ 0001:000316ad       _register_tag_context@4    000426ad f tags.obj
+ 0001:00031756       _is_current_class_name@4   00042756 f tags.obj
+ 0001:00031798       _apply_inheritance_model@4 00042798 f tags.obj
+ 0001:00031848       _match_tag_symbol@8        00042848 f tags.obj
+ 0001:000319f1       _enter_class_scope@8       000429f1 f tags.obj
+ 0001:00031b9b       _symbol_has_tag_scope@4    00042b9b f tags.obj
+ 0001:00031c08       _begin_class_body          00042c08 f tags.obj
+ 0001:00031c8b       _prepare_base_layout@4     00042c8b f tags.obj
+ 0001:00031d6e       _inherit_class_pointer_attributes@4 00042d6e f tags.obj
+ 0001:00031ee7       _apply_default_vtordisp@4  00042ee7 f tags.obj
+ 0001:00031f05       _check_inheritance_model@4 00042f05 f tags.obj
+ 0001:00032016       _current_class_name        00043016 f tags.obj
+ 0001:0003204b       _is_current_class@4        0004304b f tags.obj
+ 0001:00032093       _make_class_pointer_type@8 00043093 f tags.obj
+ 0001:000321b1       _check_empty_declaration@4 000431b1 f tags.obj
+ 0001:000323ec       _resolve_identifier_token@4 000433ec f qualified-names.obj
+ 0001:00032e4d       _begin_qualification_allocation@4 00043e4d f qualified-names.obj
+ 0001:00032e6c       _append_qualifier_reference@12 00043e6c f qualified-names.obj
+ 0001:00032fed       _end_qualification_allocation 00043fed f qualified-names.obj
+ 0001:0003300c       _enter_qualified_class@12  0004400c f qualified-names.obj
+ 0001:000330c5       _lookup_qualified_member@12 000440c5 f qualified-names.obj
+ 0001:000333dd       _attach_qualifier_parent@8 000443dd f qualified-names.obj
+ 0001:00033443       _new_qualified_declarator@12 00044443 f qualified-names.obj
+ 0001:00033500       _declare_class_member@8    00044500 f class-members.obj
+ 0001:0003407b       _find_class_member_name@4  0004507b f class-members.obj
+ 0001:00034119       _is_static_data_member@4   00045119 f class-members.obj
+ 0001:0003417c       _layout_data_member@4      0004517c f class-members.obj
+ 0001:0003465d       _align_class_member@4      0004565d f class-members.obj
+ 0001:0003481a       _class_alignment_padding@4 0004581a f class-members.obj
+ 0001:00034842       _alignment_padding_at@8    00045842 f class-members.obj
+ 0001:000348da       _add_member_offset@8       000458da f class-members.obj
+ 0001:000348f2       _insert_class_member@4     000458f2 f class-members.obj
+ 0001:0003490a       _append_class_members@8    0004590a f class-members.obj
+ 0001:000349b7       _check_class_specifier@4   000459b7 f class-members.obj
+ 0001:00034b02       _set_member_access@4       00045b02 f class-members.obj
+ 0001:00034b39       _check_constructor_storage@8 00045b39 f class-members.obj
+ 0001:00034b6f       _declare_constructor@12    00045b6f f class-members.obj
+ 0001:00034bf9       _configure_member_function@12 00045bf9 f class-members.obj
+ 0001:00035103       _classify_constructor@4    00046103 f class-members.obj
+ 0001:00035317       _overrides_virtual_member@12 00046317 f class-members.obj
+ 0001:000355fc       _validate_function_default_arguments@4 000465fc f class-members.obj
+ 0001:0003569d       _class_type_of_member@4    0004669d f class-members.obj
+ 0001:0003573c       _classify_copy_assignment@4 0004673c f class-members.obj
+ 0001:0003587b       _select_destructor_type@16 0004687b f class-members.obj
+ 0001:000358e4       _capture_inline_member_declaration@16 000468e4 f inline-capture.obj
+ 0001:0003612c       _flush_scanned_declaration@4 0004712c f inline-capture.obj
+ 0001:00036350       _type_size@4               00047350 f type-sizes.obj
+ 0001:00036476       _base_type_size@8          00047476 f type-sizes.obj
+ 0001:000364e7       _pointer_kind_size@4       000474e7 f type-sizes.obj
+ 0001:0003655d       _type_alignment@4          0004755d f type-sizes.obj
+ 0001:000365d8       _addition_overflows@16     000475d8 f arithmetic.obj
+ 0001:0003668c       _resolve_parenthesis_candidate@4 0004768c f lookahead.obj
+ 0001:00036932       _initialize_lookahead_parser 00047932 f lookahead.obj
+ 0001:0003697c       _classify_deferred_type@4  0004797c f lookahead.obj
+ 0001:00036b28       _lookahead_parse           00047b28 f lookahead-parser.obj
+ 0001:00037454       _begin_parameter_scope@4   00048454 f parameter-scopes.obj
+ 0001:0003752f       _append_parameter_declaration@8 0004852f f parameter-scopes.obj
+ 0001:00037579       _make_ellipsis_parameter   00048579 f parameter-scopes.obj
+ 0001:000376a4       _merge_storage_spec@8      000486a4 f storage.obj
+ 0001:0003772d       _equivalent_storage_extensions@8 0004872d f storage.obj
+ 0001:00037756       _inherit_storage_modifiers@8 00048756 f storage.obj
+ 0001:00037830       _end_class_specifier       00048830 f class-finalization.obj
+ 0001:00037a07       _build_conversion_type_sets@4 00048a07 f class-finalization.obj
+ 0001:00037bdd       _prepare_class_virtual_tables@4 00048bdd f class-finalization.obj
+ 0001:00037bfa       _initialize_class_virtual_tables@4 00048bfa f class-finalization.obj
+ 0001:00037ca0       _build_class_virtual_tables@4 00048ca0 f class-finalization.obj
+ 0001:00037de2       _has_new_virtual_members@4 00048de2 f class-finalization.obj
+ 0001:00037ea3       _finish_nonvirtual_class_size@4 00048ea3 f class-finalization.obj
+ 0001:00037f15       _finalize_class_virtual_tables@4 00048f15 f class-finalization.obj
+ 0001:00037f32       _complete_class_virtual_layout@4 00048f32 f class-finalization.obj
+ 0001:00037fab       _reset_previous_base_class 00048fab f class-finalization.obj
+ 0001:00037fc0       _complete_base_class_layout@4 00048fc0 f class-finalization.obj
+ 0001:00038021       _finish_class_size@4       00049021 f class-finalization.obj
+ 0001:00038092       _assign_virtual_base_group_offsets@4 00049092 f class-finalization.obj
+ 0001:000380fd       _resolve_virtual_overrides@4 000490fd f class-finalization.obj
+ 0001:00038185       _resolve_function_virtual_overrides@8 00049185 f class-finalization.obj
+ 0001:000382fa       _diagnose_virtual_ambiguities@4 000492fa f class-finalization.obj
+ 0001:000384b2       _coalesce_virtual_table_paths@4 000494b2 f class-finalization.obj
+ 0001:000386fd       _persist_class_virtual_tables@4 000496fd f class-finalization.obj
+ 0001:0003875e       _class_has_pure_virtual@4  0004975e f class-finalization.obj
+ 0001:0003884b       _declare_class_virtual_tables@4 0004984b f class-finalization.obj
+ 0001:00038950       _build_class_member_index@4 00049950 f class-finalization.obj
+ 0001:00038c75       _class_member_hash_bits    00049c75 f class-finalization.obj
+ 0001:00038cac       _new_type_set              00049cac f class-type-sets.obj
+ 0001:00038cc6       _begin_conversion_functions@8 00049cc6 f class-type-sets.obj
+ 0001:00038ce5       _next_conversion_function@4 00049ce5 f class-type-sets.obj
+ 0001:00038d9c       _share_inherited_type_set@8 00049d9c f class-type-sets.obj
+ 0001:00038ed0       _declare_implicit_special_members@4 00049ed0 f special-members.obj
+ 0001:000391a3       _special_member_model@4    0004a1a3 f special-members.obj
+ 0001:000391e0       _inherit_base_special_members@12 0004a1e0 f special-members.obj
+ 0001:0003927a       _inherit_field_special_members@12 0004a27a f special-members.obj
+ 0001:00039395       _is_const_or_reference_member@4 0004a395 f special-members.obj
+ 0001:000393fd       _inspect_declared_special_members@16 0004a3fd f special-members.obj
+ 0001:0003967d       _complete_special_member@28 0004a67d f special-members.obj
+ 0001:000398d9       _create_implicit_special_member@20 0004a8d9 f special-members.obj
+ 0001:00039cb0       _generated_member_pointer_kind@4 0004acb0 f special-members.obj
+ 0001:00039cd9       _generated_member_name@4   0004acd9 f special-members.obj
+ 0001:00039d7d       _make_copy_parameter@8     0004ad7d f special-members.obj
+ 0001:00039f3d       _find_special_member_model@12 0004af3d f special-members.obj
+ 0001:00039fb4       _declare_default_constructor_closures@4 0004afb4 f special-members.obj
+ 0001:0003a12f       _declare_deleting_destructors@4 0004b12f f special-members.obj
+ 0001:0003a260       _mainCRTStartup            0004b260 f LIBC:CRT0.OBJ
+ 0001:0003a370       __amsg_exit                0004b370 f LIBC:CRT0.OBJ
+ 0001:0003a3f0       _signal                    0004b3f0 f LIBC:WINSIG.OBJ
+ 0001:0003a530       _raise                     0004b530 f LIBC:WINSIG.OBJ
+ 0001:0003a6d4       __except_handler2          0004b6d4   LIBC:EXSUP.OBJ
+ 0001:0003a79f       __global_unwind2           0004b79f   LIBC:EXSUP.OBJ
+ 0001:0003a7bf       __unwind_handler           0004b7bf   LIBC:EXSUP.OBJ
+ 0001:0003a7e5       __local_unwind2            0004b7e5   LIBC:EXSUP.OBJ
+ 0001:0003a84b       __abnormal_termination     0004b84b   LIBC:EXSUP.OBJ
+ 0001:0003a880       _free                      0004b880 f LIBC:FREE.OBJ
+ 0001:0003a8e0       __fullpath                 0004b8e0 f LIBC:FULLPATH.OBJ
+ 0001:0003ac20       _getenv                    0004bc20 f LIBC:GETENV.OBJ
+ 0001:0003aca0       __strdup                   0004bca0   LIBC:STRDUP.OBJ
+ 0001:0003acd0       _atol                      0004bcd0 f LIBC:ATOX.OBJ
+ 0001:0003ad80       _atoi                      0004bd80 f LIBC:ATOX.OBJ
+ 0001:0003ad90       __isctype                  0004bd90 f LIBC:ISCTYPE.OBJ
+ 0001:0003ae50       _malloc                    0004be50 f LIBC:MALLOC.OBJ
+ 0001:0003af00       __heap_split_block         0004bf00 f LIBC:MALLOC.OBJ
+ 0001:0003af60       __cinit                    0004bf60 f LIBC:CRT0DAT.OBJ
+ 0001:0003af90       _exit                      0004bf90 f LIBC:CRT0DAT.OBJ
+ 0001:0003afb0       __exit                     0004bfb0 f LIBC:CRT0DAT.OBJ
+ 0001:0003afd0       __cexit                    0004bfd0 f LIBC:CRT0DAT.OBJ
+ 0001:0003afe0       __c_exit                   0004bfe0 f LIBC:CRT0DAT.OBJ
+ 0001:0003b0a0       _fflush                    0004c0a0 f LIBC:FFLUSH.OBJ
+ 0001:0003b0f0       __flush                    0004c0f0 f LIBC:FFLUSH.OBJ
+ 0001:0003b160       __flushall                 0004c160 f LIBC:FFLUSH.OBJ
+ 0001:0003b1e0       __endstdio                 0004c1e0 f LIBC:FFLUSH.OBJ
+ 0001:0003b200       _fclose                    0004c200 f LIBC:FCLOSE.OBJ
+ 0001:0003b270       _freopen                   0004c270 f LIBC:FREOPEN.OBJ
+ 0001:0003b2d0       __dup                      0004c2d0 f LIBC:DUP.OBJ
+ 0001:0003b3b0       _strncmp                   0004c3b0   LIBC:STRNCMP.OBJ
+ 0001:0003b3f0       __statusfp                 0004c3f0 f LIBC:ieee87.obj
+ 0001:0003b410       __clearfp                  0004c410 f LIBC:ieee87.obj
+ 0001:0003b430       __control87                0004c430 f LIBC:ieee87.obj
+ 0001:0003b470       __controlfp                0004c470 f LIBC:ieee87.obj
+ 0001:0003b490       __fpreset                  0004c490 f LIBC:ieee87.obj
+ 0001:0003b660       __fsopen                   0004c660 f LIBC:FOPEN.OBJ
+ 0001:0003b690       _fopen                     0004c690 f LIBC:FOPEN.OBJ
+ 0001:0003b6b0       _fputc                     0004c6b0 f LIBC:FPUTC.OBJ
+ 0001:0003b6e0       _putc                      0004c6e0 f LIBC:FPUTC.OBJ
+ 0001:0003b700       __ioinit                   0004c700 f LIBC:IOINIT.OBJ
+ 0001:0003b7f0       __close                    0004c7f0 f LIBC:CLOSE.OBJ
+ 0001:0003b890       __lseek                    0004c890 f LIBC:LSEEK.OBJ
+ 0001:0003b910       __chsize                   0004c910 f LIBC:CHSIZE.OBJ
+ 0001:0003ba60       __read                     0004ca60 f LIBC:READ.OBJ
+ 0001:0003bc90       __alloc_osfhnd             0004cc90 f LIBC:OSFINFO.OBJ
+ 0001:0003bcd0       __set_osfhnd               0004ccd0 f LIBC:OSFINFO.OBJ
+ 0001:0003bd60       __free_osfhnd              0004cd60 f LIBC:OSFINFO.OBJ
+ 0001:0003bdd0       __get_osfhandle            0004cdd0 f LIBC:OSFINFO.OBJ
+ 0001:0003be10       __open_osfhandle           0004ce10 f LIBC:OSFINFO.OBJ
+ 0001:0003beb0       __dosmaperr                0004ceb0 f LIBC:DOSMAP.OBJ
+ 0001:0003bf30       _strncpy                   0004cf30   LIBC:STRNCPY.OBJ
+ 0001:0003bf60       _fwrite                    0004cf60 f LIBC:FWRITE.OBJ
+ 0001:0003c0d0       __flsbuf                   0004d0d0 f LIBC:_FLSBUF.OBJ
+ 0001:0003c200       _time                      0004d200 f LIBC:TIME.OBJ
+ 0001:0003c260       _ctime                     0004d260 f LIBC:CTIME.OBJ
+ 0001:0003c280       _rewind                    0004d280 f LIBC:REWIND.OBJ
+ 0001:0003c2c0       __fileno                   0004d2c0 f LIBC:FILENO.OBJ
+ 0001:0003c2d0       __makepath                 0004d2d0 f LIBC:MAKEPATH.OBJ
+ 0001:0003c370       __splitpath                0004d370 f LIBC:SPLITPAT.OBJ
+ 0001:0003c4d0       __setjmp                   0004d4d0   LIBC:SETJMP.OBJ
+ 0001:0003c50f       _longjmp                   0004d50f   LIBC:SETJMP.OBJ
+ 0001:0003c565       _raisex                    0004d565   LIBC:SETJMP.OBJ
+ 0001:0003c5a0       _fputs                     0004d5a0 f LIBC:FPUTS.OBJ
+ 0001:0003c5f0       __XcptFilter               0004d5f0 f LIBC:WINXFLTR.OBJ
+ 0001:0003c750       __setenvp                  0004d750 f LIBC:STDENVP.OBJ
+ 0001:0003c820       __setargv                  0004d820 f LIBC:STDARGV.OBJ
+ 0001:0003ca30       __heap_init                0004da30 f LIBC:HEAPINIT.OBJ
+ 0001:0003ca50       __heap_term                0004da50 f LIBC:HEAPINIT.OBJ
+ 0001:0003cac0       __heap_grow_emptylist      0004dac0 f LIBC:HEAPINIT.OBJ
+ 0001:0003cb20       __FF_MSGBANNER             0004db20 f LIBC:CRT0MSG.OBJ
+ 0001:0003cb50       __NMSG_WRITE               0004db50 f LIBC:CRT0MSG.OBJ
+ 0001:0003cbb0       __GET_RTERRMSG             0004dbb0 f LIBC:CRT0MSG.OBJ
+ 0001:0003cbf0       __heap_abort               0004dbf0 f LIBC:HPABORT.OBJ
+ 0001:0003cc00       __getcwd                   0004dc00 f LIBC:GETCWD.OBJ
+ 0001:0003cc20       __getdcwd                  0004dc20 f LIBC:GETCWD.OBJ
+ 0001:0003cd30       __validdrive               0004dd30 f LIBC:GETCWD.OBJ
+ 0001:0003cd50       __getdrive                 0004dd50 f LIBC:DRIVE.OBJ
+ 0001:0003cd90       __chdrive                  0004dd90 f LIBC:DRIVE.OBJ
+ 0001:0003ce70       __strnicmp                 0004de70   LIBC:STRNICMP.OBJ
+ 0001:0003cec8       _strcat                    0004dec8   LIBC:STRCAT.OBJ
+ 0001:0003cecc       _strcpy                    0004decc   LIBC:STRCAT.OBJ
+ 0001:0003cf60       _strlen                    0004df60   LIBC:STRLEN.OBJ
+ 0001:0003cfb0       __heap_search              0004dfb0 f LIBC:HEAPSRCH.OBJ
+ 0001:0003d0c0       __heap_grow                0004e0c0 f LIBC:HEAPGROW.OBJ
+ 0001:0003d1c0       __heap_grow_region         0004e1c0 f LIBC:HEAPGROW.OBJ
+ 0001:0003d280       __heap_free_region         0004e280 f LIBC:HEAPGROW.OBJ
+ 0001:0003d2d0       __commit                   0004e2d0 f LIBC:COMMIT.OBJ
+ 0001:0003d330       __write                    0004e330 f LIBC:WRITE.OBJ
+ 0001:0003d560       __fcloseall                0004e560 f LIBC:CLOSEALL.OBJ
+ 0001:0003d5a0       __openfile                 0004e5a0 f LIBC:_OPEN.OBJ
+ 0001:0003d790       __getstream                0004e790 f LIBC:STREAM.OBJ
+ 0001:0003d7e0       __setmode                  0004e7e0 f LIBC:SETMODE.OBJ
+ 0001:0003d880       __chkstk                   0004e880   LIBC:CHKSTK.OBJ
+ 0001:0003d880       __alloca_probe             0004e880   LIBC:CHKSTK.OBJ
+ 0001:0003d8b0       __getbuf                   0004e8b0 f LIBC:_GETBUF.OBJ
+ 0001:0003d900       __isatty                   0004e900 f LIBC:ISATTY.OBJ
+ 0001:0003d920       ___gmtotime_t              0004e920 f LIBC:DTOXTIME.OBJ
+ 0001:0003d9e0       _asctime                   0004e9e0 f LIBC:ASCTIME.OBJ
+ 0001:0003dab0       _localtime                 0004eab0 f LIBC:LOCALTIM.OBJ
+ 0001:0003dc60       __stbuf                    0004ec60 f LIBC:_SFTBUF.OBJ
+ 0001:0003dd00       __ftbuf                    0004ed00 f LIBC:_SFTBUF.OBJ
+ 0001:0003dd50       __toupper                  0004ed50 f LIBC:TOUPPER.OBJ
+ 0001:0003dd60       _toupper                   0004ed60 f LIBC:TOUPPER.OBJ
+ 0001:0003ded0       __putenv                   0004eed0 f LIBC:PUTENV.OBJ
+ 0001:0003e0f0       __heapadd                  0004f0f0 f LIBC:HEAPADD.OBJ
+ 0001:0003e120       __heap_addblock            0004f120 f LIBC:HEAPADD.OBJ
+ 0001:0003e3a0       _gmtime                    0004f3a0 f LIBC:GMTIME.OBJ
+ 0001:0003e4f0       _realloc                   0004f4f0 f LIBC:REALLOC.OBJ
+ 0001:0003e600       __expand                   0004f600 f LIBC:REALLOC.OBJ
+ 0001:0003e7a0       _strchr                    0004f7a0   LIBC:STRCHR.OBJ
+ 0001:0003e7d0       __heap_findaddr            0004f7d0 f LIBC:FINDADDR.OBJ
+ 0001:0003e850       _GetCPInfo@8               0004f850   kernel32:kernel32.def
+ 0001:0003e856       _GetConsoleCP@0            0004f856   kernel32:kernel32.def
+ 0001:0003e85c       _SetHandleCount@4          0004f85c   kernel32:kernel32.def
+ 0001:0003e862       _GetLastError@0            0004f862   kernel32:kernel32.def
+ 0001:0003e868       _CloseHandle@4             0004f868   kernel32:kernel32.def
+ 0001:0003e86e       _GetFileType@4             0004f86e   kernel32:kernel32.def
+ 0001:0003e874       _CreateFileA@28            0004f874   kernel32:kernel32.def
+ 0001:0003e87a       _GetVersion@0              0004f87a   kernel32:kernel32.def
+ 0001:0003e880       _GetEnvironmentStrings@0   0004f880   kernel32:kernel32.def
+ 0001:0003e886       _GetCommandLineA@0         0004f886   kernel32:kernel32.def
+ 0001:0003e88c       _SetConsoleCtrlHandler@8   0004f88c   kernel32:kernel32.def
+ 0001:0003e892       _RtlUnwind@16              0004f892   kernel32:kernel32.def
+ 0001:0003e898       _GetStringTypeW@16         0004f898   kernel32:kernel32.def
+ 0001:0003e89e       _MultiByteToWideChar@24    0004f89e   kernel32:kernel32.def
+ 0001:0003e8a4       _ExitProcess@4             0004f8a4   kernel32:kernel32.def
+ 0001:0003e8aa       _DuplicateHandle@28        0004f8aa   kernel32:kernel32.def
+ 0001:0003e8b0       _GetCurrentProcess@0       0004f8b0   kernel32:kernel32.def
+ 0001:0003e8b6       _GetStdHandle@4            0004f8b6   kernel32:kernel32.def
+ 0001:0003e8bc       _GetStartupInfoA@4         0004f8bc   kernel32:kernel32.def
+ 0001:0003e8c2       _SetFilePointer@16         0004f8c2   kernel32:kernel32.def
+ 0001:0003e8c8       _SetEndOfFile@4            0004f8c8   kernel32:kernel32.def
+ 0001:0003e8ce       _ReadFile@20               0004f8ce   kernel32:kernel32.def
+ 0001:0003e8d4       _SetStdHandle@8            0004f8d4   kernel32:kernel32.def
+ 0001:0003e8da       _GetSystemTime@4           0004f8da   kernel32:kernel32.def
+ 0001:0003e8e0       _UnhandledExceptionFilter@4 0004f8e0   kernel32:kernel32.def
+ 0001:0003e8e6       _GetModuleFileNameA@12     0004f8e6   kernel32:kernel32.def
+ 0001:0003e8ec       _VirtualFree@12            0004f8ec   kernel32:kernel32.def
+ 0001:0003e8f2       _VirtualAlloc@16           0004f8f2   kernel32:kernel32.def
+ 0001:0003e8f8       _WriteFile@20              0004f8f8   kernel32:kernel32.def
+ 0001:0003e8fe       _GetCurrentDirectoryA@8    0004f8fe   kernel32:kernel32.def
+ 0001:0003e904       _GetFullPathNameA@16       0004f904   kernel32:kernel32.def
+ 0001:0003e90a       _GetLogicalDrives@0        0004f90a   kernel32:kernel32.def
+ 0001:0003e910       _SetCurrentDirectoryA@4    0004f910   kernel32:kernel32.def
+ 0001:0003e916       _FlushFileBuffers@4        0004f916   kernel32:kernel32.def
+ 0001:0003e91c       _WideCharToMultiByte@32    0004f91c   kernel32:kernel32.def
+ 0001:0003e922       _LCMapStringW@24           0004f922   kernel32:kernel32.def
+ 0001:0003e928       _SetEnvironmentVariableA@8 0004f928   kernel32:kernel32.def
+ 0002:00000000       _class_contexts            00050000   <common>
+ 0002:00000200       _data_pointer_kind         00050200   <common>
+ 0002:00000204       _cpp_context_stack         00050204   <common>
+ 0002:00000208       _name_assignment           00050208   <common>
+ 0002:0000020c       _declaration_control       0005020c   <common>
+ 0002:0000024c       _declaration_storage       0005024c   <common>
+ 0002:00000250       _type_0080                 00050250   <common>
+ 0002:00000254       _pending_function_qualifiers 00050254   <common>
+ 0002:00000258       _token_allocation_flags    00050258   <common>
+ 0002:0000025c       _name_flags                0005025c   <common>
+ 0002:00000260       _type_4064_first           00050260   <common>
+ 0002:00000264       _name_default_ctor_closure 00050264   <common>
+ 0002:00000268       _name_vector_delete_dtor   00050268   <common>
+ 0002:0000026c       _name_delete_dtor          0005026c   <common>
+ 0002:00000270       _name_vbase_dtor           00050270   <common>
+ 0002:00000274       _name_dtor                 00050274   <common>
+ 0002:00000278       _name_ctor                 00050278   <common>
+ 0002:0000027c       _type_description_depth    0005027c   <common>
+ 0002:00000280       _browser_filename          00050280   <common>
+ 0002:00000284       _name_that                 00050284   <common>
+ 0002:00000288       _empty_inline_vector       00050288   <common>
+ 0002:0000028c       _previous_base_class       0005028c   <common>
+ 0002:00000290       _current_scope             00050290   <common>
+ 0002:00000294       _tag_declaration_seen      00050294   <common>
+ 0002:00000298       _suppress_implicit_member  00050298   <common>
+ 0002:0000029c       _declaration_mode          0005029c   <common>
+ 0002:000002a0       _active_parameter_symbols  000502a0   <common>
+ 0002:000002a4       _name_ellipsis             000502a4   <common>
+ 0002:000002a8       _declaration_kind          000502a8   <common>
+ 0002:000002ac       _cpp_parser_flags          000502ac   <common>
+ 0002:000002b0       _allow_incomplete_class    000502b0   <common>
+ 0002:000002b4       _parser_value              000502b4   <common>
+ 0002:000002bc       _lookahead_state           000502bc   <common>
+ 0002:000002c0       _lookahead_stacks          000502c0   <common>
+ 0002:000008a8       _lookahead_recovery_count  000508a8   <common>
+ 0002:000008ac       _lookahead_error_count     000508ac   <common>
+ 0002:000008b0       _current_token_value       000508b0   <common>
+ 0002:000008b8       _parenthesis_lookahead_depth 000508b8   <common>
+ 0002:000008bc       _declaration_spec_storage  000508bc   <common>
+ 0002:00000aa4       _token_replay              00050aa4   <common>
+ 0002:00001754       _captured_class_error_count 00051754   <common>
+ 0002:00001758       _lexer_text_storage        00051758   <common>
+ 0002:000017dc       _compiler_stack            000517dc   <common>
+ 0002:000017e0       _function_symbol           000517e0   <common>
+ 0002:000017e4       _source_line_number        000517e4   <common>
+ 0002:000017e8       _name_vector_dtor          000517e8   <common>
+ 0002:000017ec       _name_vector_ctor_vb       000517ec   <common>
+ 0002:000017f0       _name_vector_ctor          000517f0   <common>
+ 0002:000017f4       _expression_storage        000517f4   <common>
+ 0002:00001ff8       _macro_expansion_active    00051ff8   <common>
+ 0002:00001ffc       _name_alignment            00051ffc   <common>
+ 0002:00002000       _packing_stack             00052000   <common>
+ 0002:00002004       _name_delete               00052004   <common>
+ 0002:00002008       _name_new                  00052008   <common>
+ 0002:0000200c       _type_0064                 0005200c   <common>
+ 0002:00002010       _qualification_arena       00052010   <common>
+ 0002:00002014       _last_lookup_scope         00052014   <common>
+ 0002:00002018       _global_scope              00052018   <common>
+ 0002:0000201c       _symbol_scope_mode         0005201c   <common>
+ 0002:00002020       _class_lookup_context      00052020   <common>
+ 0002:00002024       _current_enum_symbol       00052024   <common>
+ 0002:00002028       _enumerator_context        00052028   <common>
+ 0002:0000202c       _name_unnamed              0005202c   <common>
+ 0002:00002030       _linkage_stack             00052030   <common>
+ 0002:00002058       _pch_separate_debug        00052058   <common>
+ 0002:0000205c       _suppress_vtordisp         0005205c   <common>
+ 0002:00002060       _pragma_vtordisp           00052060   <common>
+ 0002:00002064       _type_specifier_symbol     00052064   <common>
+ 0002:00002068       _type_description_stack    00052068   <common>
+ 0002:000020e0       _pushed_token_count        000520e0   <common>
+ 0002:000020e4       _pch_output_written        000520e4   <common>
+ 0002:000020e8       _source_text_cursor        000520e8   <common>
+ 0002:000020ec       _parser_stacks             000520ec   <common>
+ 0002:0000298c       _deferred_declarations     0005298c   <common>
+ 0002:00002a7c       _interned_name             00052a7c   <common>
+ 0002:00002a80       _pch_mode                  00052a80   <common>
+ 0002:00002a84       _browser_file_cookie       00052a84   <common>
+ 0002:00002a88       _macro_text_next           00052a88   <common>
+ 0002:00002a8c       _macro_text_begin          00052a8c   <common>
+ 0002:00002a90       _preprocessor_buckets      00052a90   <common>
+ 0002:00002a94       _declarator_nesting        00052a94   <common>
+ 0002:00002a98       _name_cast                 00052a98   <common>
+ 0002:00002a9c       _name_new_target           00052a9c   <common>
+ 0002:00002aa0       _new_array_bound           00052aa0   <common>
+ 0002:00002aa4       _name_formal               00052aa4   <common>
+ 0002:00002aa8       _member_lookup_operator    00052aa8   <common>
+ 0002:00002aac       _member_lookup_context     00052aac   <common>
+ 0002:00002ab0       _switch_labels             00052ab0   <common>
+ 0002:00002ab4       _default_label             00052ab4   <common>
+ 0002:00002ab8       _current_qc_context        00052ab8   <common>
+ 0002:00002abc       _default_labels            00052abc   <common>
+ 0002:00002ac0       _normalized_Ol             00052ac0   <common>
+ 0002:00002ac4       _parser_recovery_count     00052ac4   <common>
+ 0002:00002ac8       _continue_labels           00052ac8   <common>
+ 0002:00002acc       _break_labels              00052acc   <common>
+ 0002:00002ad0       _label_stack_count         00052ad0   <common>
+ 0002:00002ad4       _control_labels            00052ad4   <common>
+ 0002:00002ad8       _based_symbol              00052ad8   <common>
+ 0002:00002adc       _default_argument_storage  00052adc   <common>
+ 0002:00002bd0       _conversion_declaration    00052bd0   <common>
+ 0002:00002bd8       _array_bound               00052bd8   <common>
+ 0002:00002bdc       _initializer_list_started  00052bdc   <common>
+ 0002:00002be0       _parser_error_count        00052be0   <common>
+ 0002:00002be4       _name_most_derived         00052be4   <common>
+ 0002:00002be8       _type_0000                 00052be8   <common>
+ 0002:00002bec       _ir_record_error_context   00052bec   <common>
+ 0002:00002bf0       _member_initializer_active 00052bf0   <common>
+ 0002:00002bf4       _initializing_reference    00052bf4   <common>
+ 0002:00002bf8       _initializing_symbol       00052bf8   <common>
+ 0002:00002bfc       _ir_expression_depth       00052bfc   <common>
+ 0002:00002c00       _ir_goto_count             00052c00   <common>
+ 0002:00002c04       _ir_record_sequence        00052c04   <common>
+ 0002:00002c08       _ir_switch_records         00052c08   <common>
+ 0002:00002c0c       _ir_goto_records           00052c0c   <common>
+ 0002:00002c10       _ir_label_records          00052c10   <common>
+ 0002:00002c14       _ir_free_records           00052c14   <common>
+ 0002:00002c18       _ir_records_suppressed     00052c18   <common>
+ 0002:00002c1c       _ir_function_error_count   00052c1c   <common>
+ 0002:00002c20       _function_ir_tail          00052c20   <common>
+ 0002:00002c24       _ir_record_tail            00052c24   <common>
+ 0002:00002c28       _ir_record_head            00052c28   <common>
+ 0002:00002c2c       _error_count               00052c2c   <common>
+ 0002:00002c30       _syntax_diagnostic_count   00052c30   <common>
+ 0002:00002c34       _pending_constructor_initializers 00052c34   <common>
+ 0002:00002c38       _convention_warning_emitted 00052c38   <common>
+ 0002:00002c3c       _browser_macro_end_suppressed 00052c3c   <common>
+ 0002:00002c40       _scope_cleanup_stack       00052c40   <common>
+ 0002:00002c44       _default_code_segment      00052c44   <common>
+ 0002:00002c48       _structure_return_pointer_type 00052c48   <common>
+ 0002:00002c4c       _current_return_type       00052c4c   <common>
+ 0002:00002c50       _qualified_definition_class 00052c50   <common>
+ 0002:00002c54       _function_expression_sequence 00052c54   <common>
+ 0002:00002c58       _function_exit_label       00052c58   <common>
+ 0002:00002c5c       _local_static_guard        00052c5c   <common>
+ 0002:00002c68       _active_function_declaration_kind 00052c68   <common>
+ 0002:00002c6c       _function_declaration_kind 00052c6c   <common>
+ 0002:00002c70       _parsed_parameter_symbols  00052c70   <common>
+ 0002:00002c74       _name_this                 00052c74   <common>
+ 0002:00002c78       _name_init_vbases          00052c78   <common>
+ 0002:00002c7c       _name_return_udt           00052c7c   <common>
+ 0002:00002c80       _current_declaration_scope 00052c80   <common>
+ 0002:00002c84       _global_record_kind        00052c84   <common>
+ 0002:00002c88       _function_not_inlinable    00052c88   <common>
+ 0002:00002c8c       _function_call_seen        00052c8c   <common>
+ 0002:00002c90       _function_ir               00052c90   <common>
+ 0002:00002ca4       _symbol_file               00052ca4   <common>
+ 0002:00002ca8       _expression_file           00052ca8   <common>
+ 0002:00002cac       _auxiliary_ir_stream       00052cac   <common>
+ 0002:00002cb0       _pending_pragma_kind       00052cb0   <common>
+ 0002:00002cb4       _record_context_symbol     00052cb4   <common>
+ 0002:00002cb8       _control_counted_data      00052cb8   <common>
+ 0002:00002cbc       _control_alignment_mode    00052cbc   <common>
+ 0002:00002cc0       _control_word              00052cc0   <common>
+ 0002:00002cc4       _function_control_flags    00052cc4   <common>
+ 0002:00002cc8       _pending_pragma_text       00052cc8   <common>
+ 0002:00002ccc       _normalized_Oa             00052ccc   <common>
+ 0002:00002cd0       _normalized_Ow             00052cd0   <common>
+ 0002:00002cd4       _normalized_PLMF           00052cd4   <common>
+ 0002:00002cd8       _normalized_PLMN           00052cd8   <common>
+ 0002:00002cdc       _source_file_index         00052cdc   <common>
+ 0002:00002ce0       _pragma_values             00052ce0   <common>
+ 0002:00002ce4       _warning_levels            00052ce4   <common>
+ 0002:00003004       _inline_slot_count         00053004   <common>
+ 0002:00003008       _inline_parameter_slots    00053008   <common>
+ 0002:00003030       _inline_scopes             00053030   <common>
+ 0002:00003034       _inline_scope_depth        00053034   <common>
+ 0002:00003038       _inline_base_region        00053038   <common>
+ 0002:0000303c       _pointer_base_symbol       0005303c   <common>
+ 0002:00003040       _declaration_type_stack    00053040   <common>
+ 0002:00003044       _declaration_type_index    00053044   <common>
+ 0002:00003048       _name_dllmain              00053048   <common>
+ 0002:0000304c       _name_winmain              0005304c   <common>
+ 0002:00003050       _name_main                 00053050   <common>
+ 0002:00003054       _closed_scopes             00053054   <common>
+ 0002:00003058       _initializer_data_symbol   00053058   <common>
+ 0002:0000305c       _function_symbol_bindings  0005305c   <common>
+ 0002:00003060       _function_symbol_aliases   00053060   <common>
+ 0002:00003064       _materialized_value_index  00053064   <common>
+ 0002:00003068       _function_directory_tail   00053068   <common>
+ 0002:0000306c       _function_directory        0005306c   <common>
+ 0002:00003070       _global_expression_scope_active 00053070   <common>
+ 0002:00003074       _line_file                 00053074   <common>
+ 0002:00003078       _normalized_Oq             00053078   <common>
+ 0002:0000307c       _pch_symbol_bytes          0005307c   <common>
+ 0002:00003080       _pch_expression_bytes      00053080   <common>
+ 0002:00003084       _pch_read_enabled          00053084   <common>
+ 0002:00003088       _pch_write_enabled         00053088   <common>
+ 0002:0000308c       _mangle_error_sequence     0005308c   <common>
+ 0002:00003090       _mangle_name_only          00053090   <common>
+ 0002:00003094       _decorated_name_count      00053094   <common>
+ 0002:00003098       _decorated_type_count      00053098   <common>
+ 0002:0000309c       _decorated_name_workspace  0005309c   <common>
+ 0002:0000347c       _name_static_destructor    0005347c   <common>
+ 0002:00003480       _name_static_guard         00053480   <common>
+ 0002:00003484       _name_vdispmap             00053484   <common>
+ 0002:00003488       _name_vbtable              00053488   <common>
+ 0002:0000348c       _name_vftable              0005348c   <common>
+ 0002:00003490       _class_lookup_error        00053490   <common>
+ 0002:00003494       _access_through_virtual_base 00053494   <common>
+ 0002:00003498       _access_failure_protection 00053498   <common>
+ 0002:0000349c       _access_failure_member     0005349c   <common>
+ 0002:000034a0       _access_failure_owner      000534a0   <common>
+ 0002:000034a4       _normalized_Op             000534a4   <common>
+ 0002:000034a8       _initializer_constructor_count 000534a8   <common>
+ 0002:000034ac       _initializer_constructor_offset 000534ac   <common>
+ 0002:000034b0       _initializer_value_error_reported 000534b0   <common>
+ 0002:000034b4       _initializer_runtime_override 000534b4   <common>
+ 0002:000034b8       _initializer_offset        000534b8   <common>
+ 0002:000034bc       _initializer_storage_symbol 000534bc   <common>
+ 0002:000034c0       _classes_pending_table_output 000534c0   <common>
+ 0002:000034c4       _type_indirect_0080_2      000534c4   <common>
+ 0002:000034c8       _integer_constant_scratch  000534c8   <common>
+ 0002:000034cc       _type_tagged_0080          000534cc   <common>
+ 0002:000034d0       _label_symbols             000534d0   <common>
+ 0002:000034d4       _operator_zero             000534d4   <common>
+ 0002:000034d8       _name_call_operator        000534d8   <common>
+ 0002:000034dc       _name_arrow_operator       000534dc   <common>
+ 0002:000034e0       _type_0802                 000534e0   <common>
+ 0002:000034e4       _type_4064_second          000534e4   <common>
+ 0002:000034e8       _final_newline_emitted     000534e8   <common>
+ 0002:000034ec       _browser_file              000534ec   <common>
+ 0002:000034f0       _browser_saved_position    000534f0   <common>
+ 0002:000034f4       _macro_saved_input_cursor  000534f4   <common>
+ 0002:000034f8       _source_storage            000534f8   <common>
+ 0002:00006504       _free_inputs               00056504   <common>
+ 0002:00006508       _root_input                00056508   <common>
+ 0002:0000650c       _active_input              0005650c   <common>
+ 0002:00006510       _last_record_source        00056510   <common>
+ 0002:00006610       _pragma_text               00056610   <common>
+ 0002:00006614       _pragma_record_number      00056614   <common>
+ 0002:00006618       _hidden_frame_bytes        00056618   <common>
+ 0002:0000661c       _hidden_frame_enabled      0005661c   <common>
+ 0002:00006620       _global_file               00056620   <common>
+ 0002:00006624       _option_Au                 00056624   <common>
+ 0002:00006628       _anonymous_symbol_name     00056628   <common>
+ 0002:0000662c       _macro_replacement_text    0005662c   <common>
+ 0002:00006630       _macro_expansion_start     00056630   <common>
+ 0002:00006634       _macro_replacement_start   00056634   <common>
+ 0002:00006638       _macro_work_buffer         00056638   <common>
+ 0002:0000663c       _macro_buckets             0005663c   <common>
+ 0002:00006640       _macro_time                00056640   <common>
+ 0002:00006644       _macro_date                00056644   <common>
+ 0002:00006648       _macro_timestamp           00056648   <common>
+ 0002:00006664       _name_catch                00056664   <common>
+ 0002:00006668       _name_setjmp               00056668   <common>
+ 0002:0000666c       _name_dollar               0005666c   <common>
+ 0002:00006670       _name_defined              00056670   <common>
+ 0002:00006674       _name_tlregdtor            00056674   <common>
+ 0002:00006678       _name_atexit               00056678   <common>
+ 0002:0000667c       _name_vbptr                0005667c   <common>
+ 0002:00006680       _name_vfptr                00056680   <common>
+ 0002:00006684       _current_forced_source     00056684   <common>
+ 0002:00006688       _forced_source_index       00056688   <common>
+ 0002:0000668c       _forced_source_inputs      0005668c   <common>
+ 0002:00006690       _parameter_associated_type 00056690   <common>
+ 0002:00006694       _parameter_buckets         00056694   <common>
+ 0002:00006698       _declaration_parameter_buckets 00056698   <common>
+ 0002:0000669c       _active_plmf_pragma        0005669c   <common>
+ 0002:000066a0       _active_plmn_pragma        000566a0   <common>
+ 0002:000066a4       _code_pointer_kind         000566a4   <common>
+ 0002:000066a8       _option_Aw                 000566a8   <common>
+ 0002:000066ac       _normalized_Oy             000566ac   <common>
+ 0002:000066b0       _normalized_Oz             000566b0   <common>
+ 0002:000066b4       _normalized_Zr             000566b4   <common>
+ 0002:000066b8       _purecall_symbol           000566b8   <common>
+ 0002:000066bc       _scope_directory           000566bc   <common>
+ 0002:000066c0       _scope_directory_index     000566c0   <common>
+ 0002:000066c4       _default_data_segment      000566c4   <common>
+ 0002:000066c8       _declaration_table         000566c8   <common>
+ 0002:000066cc       _translation_symbols       000566cc   <common>
+ 0002:000066d0       _translation_placeholder   000566d0   <common>
+ 0002:000066d4       _translation_sentinel      000566d4   <common>
+ 0002:000066d8       _lookup_scope              000566d8   <common>
+ 0002:000066dc       _replacement_shape_prefix  000566dc   <common>
+ 0002:000066e8       _function_shape_scratch    000566e8   <common>
+ 0002:000066f4       _type_shape_buckets        000566f4   <common>
+ 0002:000066f8       _function_type_scratch     000566f8   <common>
+ 0002:00006704       _type_descriptor_buckets   00056704   <common>
+ 0002:00006708       _function_shapes           00056708   <common>
+ 0002:0000675c       _seh_finally_depth         0005675c   <common>
+ 0002:00006760       _seh_except_depth          00056760   <common>
+ 0002:00006764       _seh_try_depth             00056764   <common>
+ 0002:00006768       _current_label_symbol      00056768   <common>
+ 0002:0000676c       _intermediate_status       0005676c   <common>
+ 0002:00006770       _pch_expression_output     00056770   <common>
+ 0002:00006774       _member_context_links      00056774   <common>
+ 0002:00006778       _type_4044                 00056778   <common>
+ 0002:0000677c       _type_0044                 0005677c   <common>
+ 0002:00006780       _type_0042                 00056780   <common>
+ 0002:00006784       _type_4041                 00056784   <common>
+ 0002:00006788       _listing_file              00056788   <common>
+ 0002:0000678c       _diagnostic_trace_file     0005678c   <common>
+ 0002:00006790       _token_buffer              00056790   <common>
+ 0002:00008690       _target_cpu_mask           00058690   <common>
+ 0002:00008694       _target_cpu                00058694   <common>
+ 0002:00008698       _data_pointer_model        00058698   <common>
+ 0002:0000869c       _code_pointer_model        0005869c   <common>
+ 0002:000086a0       _type_4041_q1              000586a0   <common>
+ 0002:000086a4       _code_pointer_alignment    000586a4   <common>
+ 0002:000086a8       _type_indirect_0080_1      000586a8   <common>
+ 0002:000086ac       _data_pointer_alignment    000586ac   <common>
+ 0002:000086b0       _code_pointer_bytes        000586b0   <common>
+ 0002:000086b4       _data_pointer_bytes        000586b4   <common>
+ 0002:000086b8       _type_implicit_int_function 000586b8   <common>
+ 0002:000086bc       _type_0064_q1000           000586bc   <common>
+ 0002:000086c0       _type_4041_q1000           000586c0   <common>
+ 0002:000086c4       _type_0041_q1000           000586c4   <common>
+ 0002:000086c8       _initializer_record_stack  000586c8   <common>
+ 0002:000086cc       _type_0108                 000586cc   <common>
+ 0002:000086d0       _preprocessor_file         000586d0   <common>
+ 0002:000086d4       _debug_file                000586d4   <common>
+ 0002:000086d8       _version_string            000586d8   <common>
+ 0002:000087d8       _saved_configuration       000587d8   <common>
+ 0002:00008ad4       _initial_option_flags      00058ad4   <common>
+ 0002:00008ad8       _argument_count            00058ad8   <common>
+ 0002:00008adc       _argument_vector           00058adc   <common>
+ 0002:00008ae0       _argument_vector_allocation 00058ae0   <common>
+ 0002:00008ae4       _checksum_transform        00058ae4   <common>
+ 0002:00008be4       _checksum_high             00058be4   <common>
+ 0002:00008ce4       _checksum_low              00058ce4   <common>
+ 0002:00008de4       _diagnostic_arena          00058de4   <common>
+ 0002:00008e64       _arena_release_word_2      00058e64   <common>
+ 0002:00008e68       _arena_release_word_1      00058e68   <common>
+ 0002:00008e6c       _current_option_argument   00058e6c   <common>
+ 0002:00008e70       _fatal_error_label         00058e70   <common>
+ 0002:00008e74       __heap_regions             00058e74   <common>
+ 0002:00009174       __heap_descpages           00059174   <common>
+ 0002:00009178       __acmdln                   00059178   <common>
+ 0002:0000917c       __pgmptr                   0005917c   <common>
+ 0002:00009180       __aenvptr                  00059180   <common>
+ 0002:00009184       __bufin                    00059184   <common>
+ 0002:0000a184       __FPinit                   0005a184   <common>
+ 0002:0000a188       ___onexitend               0005a188   <common>
+ 0002:0000a18c       ___onexitbegin             0005a18c   <common>
+ 0004:00000274       _lowest_warning_700        0005d274   options.obj
+ 0004:00000278       _highest_warning_700       0005d278   options.obj
+ 0004:000002e0       _linkage_depth             0005d2e0   linkage.obj
+ 0004:000002e4       _compiler_arena            0005d2e4   memory.obj
+ 0004:00000384       _character_class           0005d384   characters.obj
+ 0004:00000484       _character_flags           0005d484   characters.obj
+ 0004:000005ac       _options                   0005d5ac   option-data.obj
+ 0004:00000c14       _option_rules              0005dc14   option-data.obj
+ 0004:000010c8       _normalized_Gs             0005e0c8   initialization.obj
+ 0004:000010cc       _normalized_Gn             0005e0cc   initialization.obj
+ 0004:000010d0       _source_filename           0005e0d0   initialization.obj
+ 0004:000010d4       _source_buffer_cursor      0005e0d4   initialization.obj
+ 0004:000014d8       _keyword_specs             0005e4d8   keywords.obj
+ 0004:00001790       _declspec_specs            0005e790   keywords.obj
+ 0004:000017e4       _extended_zero             0005e7e4   floating.obj
+ 0004:000017f4       _pch_diagnostic_name       0005e7f4   intermediate.obj
+ 0004:0000180c       _inline_candidate          0005e80c   ir.obj
+ 0004:0000187c       _ir_record_formats         0005e87c   ir-formats.obj
+ 0004:00001b80       _class_lookup_operator     0005eb80   declaration-lookup.obj
+ 0004:00001bb4       _runtime_function_specs    0005ebb4   runtime-symbols.obj
+ 0004:00001bc0       _optimization_enabled      0005ebc0   option-state.obj
+ 0004:00001bc4       _packed_option_values      0005ebc4   option-state.obj
+ 0004:00001c18       _parser_lookahead          0005ec18   parser-state.obj
+ 0004:00001c1c       _text_work_cursor          0005ec1c   parser-state.obj
+ 0004:00001c20       _enumerator_value          0005ec20   parser-state.obj
+ 0004:00001c40       _current_class_context     0005ec40   symbol-types.obj
+ 0004:00001f18       _special_identifiers       0005ef18   macros.obj
+ 0004:00002068       _macro_work_bytes          0005f068   macros.obj
+ 0004:0000206c       _include_depth             0005f06c   macros.obj
+ 0004:00002070       _browser_symbol_limit      0005f070   macros.obj
+ 0004:000020d4       _source_file_counter       0005f0d4   global-ir.obj
+ 0004:000020d8       _next_symbol_index         0005f0d8   global-ir.obj
+ 0004:00002184       _global_record_formats     0005f184   global-formats.obj
+ 0004:000021d0       _source_handle             0005f1d0   source-input.obj
+ 0004:000021d4       _conditional_depth         0005f1d4   source-input.obj
+ 0004:000021d8       _builtin_operators         0005f1d8   operators.obj
+ 0004:00002ec4       _token_spellings           0005fec4   token-spellings.obj
+ 0004:00003218       _frontend_record_mates     00060218   record-processing.obj
+ 0004:0000323c       _maximum_signed_int_constant 0006023c   binary-expressions.obj
+ 0004:00003264       _unsigned_integer_limits   00060264   numeric-conversion.obj
+ 0004:0000327c       _signed_integer_maxima     0006027c   numeric-conversion.obj
+ 0004:00003294       _signed_integer_minima     00060294   numeric-conversion.obj
+ 0004:000032ac       _allow_plain_symbol_names  000602ac   mangling.obj
+ 0004:000032b0       _function_directory_index  000602b0   function-finalization.obj
+ 0004:000032b4       _expression_record_rules   000602b4   expression-records.obj
+ 0004:00003554       _expression_record_rule_count 00060554   expression-records.obj
+ 0004:00003558       _control_alignment         00060558   control-ir.obj
+ 0004:000035a0       _control_record_formats    000605a0   control-formats.obj
+ 0004:00003630       _default_inline_candidate  00060630   function-definitions.obj
+ 0004:00003640       _parser_states             00060640   parser-grammar.obj
+ 0004:00004cb8       _parser_shifts             00061cb8   parser-grammar.obj
+ 0004:000078f0       _parser_exceptions         000648f0   parser-grammar.obj
+ 0004:000079b0       _parser_gotos              000649b0   parser-grammar.obj
+ 0004:00007d18       _parser_goto_transitions   00064d18   parser-grammar.obj
+ 0004:000080e0       _parser_productions        000650e0   parser-grammar.obj
+ 0004:000083ac       _parser_recoveries         000653ac   parser-grammar.obj
+ 0004:00008540       _declaration_codes         00065540   declaration-codes.obj
+ 0004:000086c8       _declaration_code_count    000656c8   declaration-codes.obj
+ 0004:000086cc       _deferred_token_end        000656cc   lexer.obj
+ 0004:000086d0       _deferred_token_cursor     000656d0   lexer.obj
+ 0004:000086d4       _pushed_token_top          000656d4   lexer.obj
+ 0004:000086d8       _pushed_token_begin        000656d8   lexer.obj
+ 0004:000086dc       _current_token_code        000656dc   lexer.obj
+ 0004:000086e8       _token_categories          000656e8   token-categories.obj
+ 0004:0000882c       _saved_qualification_arena 0006582c   qualified-names.obj
+ 0004:00008870       _implicit_member_descriptions 00065870   class-members.obj
+ 0004:00008b14       _addition_unsigned_max     00065b14   arithmetic.obj
+ 0004:00008b2c       _addition_signed_max       00065b2c   arithmetic.obj
+ 0004:00008b44       _addition_signed_min       00065b44   arithmetic.obj
+ 0004:00008b5c       _lookahead_token           00065b5c   lookahead.obj
+ 0004:00008b60       _lookahead_state_top       00065b60   lookahead.obj
+ 0004:00008b64       _lookahead_value_top       00065b64   lookahead.obj
+ 0004:00008b8c       _lookahead_states          00065b8c   lookahead-grammar.obj
+ 0004:00009674       _lookahead_shifts          00066674   lookahead-grammar.obj
+ 0004:0000b0f4       _lookahead_exceptions      000680f4   lookahead-grammar.obj
+ 0004:0000b174       _lookahead_gotos           00068174   lookahead-grammar.obj
+ 0004:0000b2ac       _lookahead_goto_transitions 000682ac   lookahead-grammar.obj
+ 0004:0000b4fc       _lookahead_productions     000684fc   lookahead-grammar.obj
+ 0004:0000b650       __fmode                    00068650   BINMODE.OBJ
+ 0004:0000b654       __aexit_rtn                00068654   LIBC:CRT0.OBJ
+ 0004:0000b670       __pctype                   00068670   LIBC:CTYPE.OBJ
+ 0004:0000b674       __pwctype                  00068674   LIBC:CTYPE.OBJ
+ 0004:0000b678       __ctype                    00068678   LIBC:CTYPE.OBJ
+ 0004:0000b87c       ___mb_cur_max              0006887c   LIBC:NLSDATA1.OBJ
+ 0004:0000b884       __decimal_point            00068884   LIBC:NLSDATA1.OBJ
+ 0004:0000b888       __decimal_point_length     00068888   LIBC:NLSDATA1.OBJ
+ 0004:0000b88c       __pnhHeap                  0006888c   LIBC:MALLOC.OBJ
+ 0004:0000b890       _errno                     00068890   LIBC:CRT0DAT.OBJ
+ 0004:0000b894       __doserrno                 00068894   LIBC:CRT0DAT.OBJ
+ 0004:0000b898       __umaskval                 00068898   LIBC:CRT0DAT.OBJ
+ 0004:0000b89c       __osver                    0006889c   LIBC:CRT0DAT.OBJ
+ 0004:0000b8a0       __winver                   000688a0   LIBC:CRT0DAT.OBJ
+ 0004:0000b8a4       __winmajor                 000688a4   LIBC:CRT0DAT.OBJ
+ 0004:0000b8a8       __winminor                 000688a8   LIBC:CRT0DAT.OBJ
+ 0004:0000b8ac       ___argc                    000688ac   LIBC:CRT0DAT.OBJ
+ 0004:0000b8b0       ___argv                    000688b0   LIBC:CRT0DAT.OBJ
+ 0004:0000b8b4       __environ                  000688b4   LIBC:CRT0DAT.OBJ
+ 0004:0000b8b8       __exitflag                 000688b8   LIBC:CRT0DAT.OBJ
+ 0004:0000b8bc       __C_Termination_Done       000688bc   LIBC:CRT0DAT.OBJ
+ 0004:0000b8c0       __iob                      000688c0   LIBC:_FILE.OBJ
+ 0004:0000bb40       __lastiob                  00068b40   LIBC:_FILE.OBJ
+ 0004:0000bb48       __nhandle                  00068b48   LIBC:IOINIT.OBJ
+ 0004:0000bb50       __osfile                   00068b50   LIBC:IOINIT.OBJ
+ 0004:0000bb90       __osfhnd                   00068b90   LIBC:IOINIT.OBJ
+ 0004:0000bc90       __pipech                   00068c90   LIBC:IOINIT.OBJ
+ 0004:0000bd28       __cflush                   00068d28   LIBC:CINITSTD.OBJ
+ 0004:0000bd30       __timezone                 00068d30   LIBC:TIMESET.OBJ
+ 0004:0000bd34       __daylight                 00068d34   LIBC:TIMESET.OBJ
+ 0004:0000bd40       __tzname                   00068d40   LIBC:TIMESET.OBJ
+ 0004:0000bd48       ___dnames                  00068d48   LIBC:TIMESET.OBJ
+ 0004:0000bd60       ___mnames                  00068d60   LIBC:TIMESET.OBJ
+ 0004:0000bd88       __lpdays                   00068d88   LIBC:DAYS.OBJ
+ 0004:0000bdc0       __days                     00068dc0   LIBC:DAYS.OBJ
+ 0004:0000bdf8       __XcptActTab               00068df8   LIBC:WINXFLTR.OBJ
+ 0004:0000be70       __XcptActTabCount          00068e70   LIBC:WINXFLTR.OBJ
+ 0004:0000be74       __fpecode                  00068e74   LIBC:WINXFLTR.OBJ
+ 0004:0000be78       __pxcptinfoptrs            00068e78   LIBC:WINXFLTR.OBJ
+ 0004:0000be80       __heap_desc                00068e80   LIBC:HEAPINIT.OBJ
+ 0004:0000be94       __heap_resetsize           00068e94   LIBC:HEAPINIT.OBJ
+ 0004:0000be98       __amblksiz                 00068e98   LIBC:HEAPINIT.OBJ
+ 0004:0000be9c       __heap_regionsize          00068e9c   LIBC:HEAPINIT.OBJ
+ 0004:0000bea0       __heap_maxregsize          00068ea0   LIBC:HEAPINIT.OBJ
+ 0004:0000c110       __adbgmsg                  00069110   LIBC:CRT0MSG.OBJ
+ 0004:0000c118       __lc_handle                00069118   LIBC:NLSDATA2.OBJ
+ 0004:0000c130       __lc_codepage              00069130   LIBC:NLSDATA2.OBJ
+ 0004:0000c138       __stdbuf                   00069138   LIBC:_SFTBUF.OBJ
+ 0004:0000c140       __commode                  00069140   LIBC:NCOMMODE.OBJ
+ 0004:0000c170       ___xc_a                    00069170   LIBC:crt0init.obj
+ 0004:0000c178       ___xc_z                    00069178   LIBC:crt0init.obj
+ 0004:0000c180       ___xi_a                    00069180   LIBC:crt0init.obj
+ 0004:0000c188       ___xi_z                    00069188   LIBC:crt0init.obj
+ 0004:0000c190       ___xp_a                    00069190   LIBC:crt0init.obj
+ 0004:0000c198       ___xp_z                    00069198   LIBC:crt0init.obj
+ 0004:0000c1a0       ___xt_a                    000691a0   LIBC:crt0init.obj
+ 0004:0000c1a8       ___xt_z                    000691a8   LIBC:crt0init.obj
+ 0005:00000000       KERNEL32_IMPORT_DESCRIPTOR 0006a000   kernel32:kernel32.def
+ 0005:00000014       NULL_IMPORT_DESCRIPTOR     0006a014   kernel32:kernel32.def
+ 0005:000000c0       __imp__SetFilePointer@16   0006a0c0   kernel32:kernel32.def
+ 0005:000000c4       __imp__GetConsoleCP@0      0006a0c4   kernel32:kernel32.def
+ 0005:000000c8       __imp__SetHandleCount@4    0006a0c8   kernel32:kernel32.def
+ 0005:000000cc       __imp__GetLastError@0      0006a0cc   kernel32:kernel32.def
+ 0005:000000d0       __imp__CloseHandle@4       0006a0d0   kernel32:kernel32.def
+ 0005:000000d4       __imp__GetFileType@4       0006a0d4   kernel32:kernel32.def
+ 0005:000000d8       __imp__CreateFileA@28      0006a0d8   kernel32:kernel32.def
+ 0005:000000dc       __imp__GetVersion@0        0006a0dc   kernel32:kernel32.def
+ 0005:000000e0       __imp__GetEnvironmentStrings@0 0006a0e0   kernel32:kernel32.def
+ 0005:000000e4       __imp__GetCommandLineA@0   0006a0e4   kernel32:kernel32.def
+ 0005:000000e8       __imp__SetConsoleCtrlHandler@8 0006a0e8   kernel32:kernel32.def
+ 0005:000000ec       __imp__RtlUnwind@16        0006a0ec   kernel32:kernel32.def
+ 0005:000000f0       __imp__GetStringTypeW@16   0006a0f0   kernel32:kernel32.def
+ 0005:000000f4       __imp__MultiByteToWideChar@24 0006a0f4   kernel32:kernel32.def
+ 0005:000000f8       __imp__ExitProcess@4       0006a0f8   kernel32:kernel32.def
+ 0005:000000fc       __imp__DuplicateHandle@28  0006a0fc   kernel32:kernel32.def
+ 0005:00000100       __imp__GetCurrentProcess@0 0006a100   kernel32:kernel32.def
+ 0005:00000104       __imp__GetStdHandle@4      0006a104   kernel32:kernel32.def
+ 0005:00000108       __imp__GetStartupInfoA@4   0006a108   kernel32:kernel32.def
+ 0005:0000010c       __imp__GetCPInfo@8         0006a10c   kernel32:kernel32.def
+ 0005:00000110       __imp__SetEndOfFile@4      0006a110   kernel32:kernel32.def
+ 0005:00000114       __imp__ReadFile@20         0006a114   kernel32:kernel32.def
+ 0005:00000118       __imp__SetStdHandle@8      0006a118   kernel32:kernel32.def
+ 0005:0000011c       __imp__GetSystemTime@4     0006a11c   kernel32:kernel32.def
+ 0005:00000120       __imp__UnhandledExceptionFilter@4 0006a120   kernel32:kernel32.def
+ 0005:00000124       __imp__GetModuleFileNameA@12 0006a124   kernel32:kernel32.def
+ 0005:00000128       __imp__VirtualFree@12      0006a128   kernel32:kernel32.def
+ 0005:0000012c       __imp__VirtualAlloc@16     0006a12c   kernel32:kernel32.def
+ 0005:00000130       __imp__WriteFile@20        0006a130   kernel32:kernel32.def
+ 0005:00000134       __imp__GetCurrentDirectoryA@8 0006a134   kernel32:kernel32.def
+ 0005:00000138       __imp__GetFullPathNameA@16 0006a138   kernel32:kernel32.def
+ 0005:0000013c       __imp__GetLogicalDrives@0  0006a13c   kernel32:kernel32.def
+ 0005:00000140       __imp__SetCurrentDirectoryA@4 0006a140   kernel32:kernel32.def
+ 0005:00000144       __imp__FlushFileBuffers@4  0006a144   kernel32:kernel32.def
+ 0005:00000148       __imp__WideCharToMultiByte@32 0006a148   kernel32:kernel32.def
+ 0005:0000014c       __imp__LCMapStringW@24     0006a14c   kernel32:kernel32.def
+ 0005:00000150       __imp__SetEnvironmentVariableA@8 0006a150   kernel32:kernel32.def
+ 0005:00000154       \177KERNEL32__imp__NULL    0006a154   kernel32:kernel32.def
+
+ entry point at        0001:0003a260
+
+ Static symbols
+
+ 0001:0003e730       __heap_expand_block        0004f730 f LIBC:REALLOC.OBJ
+ 0001:0003e310       __before                   0004f310 f LIBC:HEAPADD.OBJ
+ 0001:0003e090       _findenv                   0004f090 f LIBC:PUTENV.OBJ
+ 0001:0003d9b0       _store_dt                  0004e9b0 f LIBC:ASCTIME.OBJ
+ 0001:0003d130       __heap_new_region          0004e130 f LIBC:HEAPGROW.OBJ
+ 0001:0003c8d0       _parse_cmdline             0004d8d0 f LIBC:STDARGV.OBJ
+ 0001:0003c720       _xcptlookup                0004d720 f LIBC:WINXFLTR.OBJ
+ 0001:0003b4c0       __abstract_cw              0004c4c0 f LIBC:ieee87.obj
+ 0001:0003b570       __hw_cw                    0004c570 f LIBC:ieee87.obj
+ 0001:0003b620       __abstract_sw              0004c620 f LIBC:ieee87.obj
+ 0001:0003b170       _flsall                    0004c170 f LIBC:FFLUSH.OBJ
+ 0001:0003aff0       _doexit                    0004bff0 f LIBC:CRT0DAT.OBJ
+ 0001:0003b070       __initterm                 0004c070 f LIBC:CRT0DAT.OBJ
+ 0001:0003a3a0       _ctrlevent_capture@4       0004b3a0 f LIBC:WINSIG.OBJ
+ 0001:0003a6a0       _siglookup                 0004b6a0 f LIBC:WINSIG.OBJ
+
+FIXUPS: 3b6ed fffffd4b 46 34 b4 4b fffffce6 a a 34 5 5 5 5 1e 9 19 15 29
+FIXUPS: 3b37b bb0 fffffeea 1d fffffebe 4d 49 ffffff38 fffffff4 fffffff8
+FIXUPS: 3bc70 fffffc99 9e 30 47 47 182 1c fffffc97 ffffffd2 fffffff1 ffffffd6
+FIXUPS: 3b81b fffffff6 ffffffc0 ffffffe2 ffffffd7 ffffffc5 fffffff3 fffffff7
+FIXUPS: 3b730 ffffffe9 fffffff2 c41 d f ffffff15 3c ffffff6d b c 1c fffffe53
+FIXUPS: 3c0b7 1d 4b 44 34 19 31 e fffffd87 12 12 20 1d 10 5e 12 11 fffffdfa
+FIXUPS: 3be71 e c 3f b40 19 12 fffffe93 9 11 a ffffff3b c d 9 9 c d fffffea0
+FIXUPS: 3c798 14 ffffff2b 14 ffffff76 20 1c fffffd62 21 20 19 27 fffffe76
+FIXUPS: 3c32d 7 9 6 f01 fffffef7 d 2c 2b 1f fffffe35 26 38 fffffcba 13
+FIXUPS: 3cd31 74 88 9 6 27 2b fffffc59 9 36 b5 9 55 fffffcdd 39 1a 33 1f
+FIXUPS: 3c9e8 10 9 e64 14 10 1c fffffedd 16 2d 11 fffffe22 11e fffffea8
+FIXUPS: 3d5cd c ffffffb9 fffffff7 ffffffef ffffffde ffffffe6 fffffff7 fffffff4
+FIXUPS: 3d521 ffffffd5 fffffea0 61 53 2c 2e fffffde7 25 ffffffb6 d ffffff96
+FIXUPS: 3e23d e d c 3a 9 fffffc71 fffffe4c 17 4c 32 12 f d 10 6 fffffdd0
+FIXUPS: 3dc36 56 11 1f 75 fffffec2 ffffff33 18 61 fffffec9 11 32 25 b fffffd5c
+FIXUPS: 3ec6b 58 51 2c fffffd87 24 18 1d 1a fffffef0 11 11 10 1e 12 fffffe35
+FIXUPS: 3e741 fffffe32 fffffe35 8d 3c 20 4a fffffe20 9 e fffffdf6 e 52
+FIXUPS: 3e193 d 8f 1407 73 13 14 f 2a f fffff9f0 29 2a 76 43 29 d 43 3b
+FIXUPS: 3f36a fffffb7d 1c 35 33 3d 33 39 42 6 50 fffffcd2 40 79 28 2e fffc4702
+FIXUPS: 35b1 21 1e 4c 1a 88 da 4e 33 27 12 165 ffffd637 f f 1d 13 15 a
+FIXUPS: 10c7 2b 3e413 15 2d 20 d 23 c f 23 f fffc4ac4 fffff9fe 10 4c 46
+FIXUPS: 3b63 ffffff19 fffff583 12 5 5 a 9 92 e e 11 b 22 43 22 3e 85 5c
+FIXUPS: 32b5 51 18 b5 46 3a 1e 29 11a9 72 57 56 41 10 39 1d 45 20 6 46
+FIXUPS: 4380 1b0 fffffd78 6 16 12 fffff8e2 99 24 17 28 3e 17 61 17 4c 28
+FIXUPS: 3ec8 49 150 a35 27 3b 54 17 7 12 5 5 5 16 7 8 9 1f 5 1f 18 e e
+FIXUPS: 4c3e 1b 15 18 25 b 11 21 b 8 1b fffff8e6 109d 15 15 15 15 15 15
+FIXUPS: 5735 15 15 1b f 10 e 10 e 1e 17 5 b 12 12 5 fffff0d3 5 28 29 2d
+FIXUPS: 4a32 8 42 10 7e0 24 a 24 a 24 24 24 a a 45 3d 39 1d 37 1d d 15
+FIXUPS: 54c0 76 14 25 25 b 15 32 24 21 1a 15 15 15 5bf 34 31 58 4c fffffb09
+FIXUPS: 585f 15 158 1c5 fffff1b7 a d6 80 5 5 ee 1a7 a 24 17 a 24 a a 24
+FIXUPS: 51fc a 24 a a 24 16f2 28 63 52 6d 1a4 123 6c fffff1e7 21 b 14 62
+FIXUPS: 606f 2c 12 8 12 2c b 10 2c b fffffd18 9 34 6b c fffffeaf 2b 4b
+FIXUPS: 5da7 10b2 149 2c 4b 2d a7 fffff343 45 12 6 15 15 5 6 43 40 28 20
+FIXUPS: 65b1 14 19 14 a0 b 4c 94 8c 15 51 2c 96 b 13b1 41 1a af 33 1c 3e
+FIXUPS: 7eaa 79 34 10 36 10e 35 b 6d 4d 2f 3f 1b 142 119 37 72 3a 43 d2
+FIXUPS: 8693 22 13 10 ffffe754 264e ffffdd09 16 81 b1 9d 61 3a 43 1d4 61
+FIXUPS: 76b5 43 15 34 48 1c af 67 56 31 13 80 3a 43 29 19 6f 3a 43 72 56
+FIXUPS: 89a8 f 40 3a 70 8b 6d 20e 7a 46 8 6 1f 22 31 8f 11 17 e 13f 46
+FIXUPS: 91c1 a8 17 22 2d 14 84 31 2d 75 19 d48 d 36 100 5 a0 34 86 26 59
+FIXUPS: 9495 f 32 24 57 5b 74 d8 25 2a 15f 5 a 5 ffffeeb6 f f f 105 c4
+FIXUPS: 896e 6 23cb ffffebb4 6d 47 42 30 66 55 35 26 1b 1d 2b dd a b 32
+FIXUPS: 9cee 65 26 5c 4b 50 6b 21 4a 83 28 e 107 5d d 5ff 18 84 29 57 33
+FIXUPS: a906 14 f a c b 8 7d 26 19 ac 16 29 b 8a b 52 2c 18 4c 1a 8 2c
+FIXUPS: ad10 d 17 2bca 151 3f ef 5a b 56 b 3f 4a 4f 34 a7 d 89 68 c5 ffffc554
+FIXUPS: a525 39 15 9e b e 6 50 8 c 18 3d 68 16 2759 16 1b c 9 22 13 16
+FIXUPS: cf61 f 12 d9 13 14 1e 12 6 f6 188 77 4f 43 a 1f 59 6b 9 146 ce
+FIXUPS: d7d7 16 c3 ffffea8d 13 3b b 3a 3d 84 26 4a 1a 1e7 12 5 9 48 d 8
+FIXUPS: c78a 25 19 54 a6 15 2f 7b 2d6 9 187 58 1c 41 9 ffffecb4 1a 84 2a
+FIXUPS: bc40 d 42 ca 25 70 16 6f 37 13 12 13 40 47 87 23 13 6 e 5 1b2 26
+FIXUPS: c27c 5b b 1b 18 13 fffff06d 54 26 49 18 c3 3e 1c 6f 2c 35 c1 13
+FIXUPS: b741 8 31 6 8f 17 33 27 d 9e 52 15 13 66 24 26 53 53 3e 2e65 55
+FIXUPS: ea90 4c 23 6a 4c 2d 9b 3a 3c 81 3d 42 1df 3b ffffbdc6 9 74 e a2
+FIXUPS: afaf 52 d 8e 33 8f b0 ec 35 26 32 3e17 1f 24 e 24 12 19 2f 6 1a
+FIXUPS: e0a8 3f 36 20f d1 3e 55 50 92 3b 4a 3b 3b 8d 96 3f 40 23 33 b 31
+FIXUPS: e976 1390 9d 31 2f 24 d 38 26 29 66 d fffff48b 40 78 55 31 80 fffffac4
+FIXUPS: f048 d 1c 24 8 e 13 13 b e 8 24 2d 4a 4f7 d a c e b 8 9c 42 4e
+FIXUPS: f823 15 97 66 12 b 57 d d 63 40 b 5d 50 d b 29 b 82 3d 45 20 160b
+FIXUPS: 11317 e 19 e 28 e 5f 79 43 72 11c f8 4c b8 b 3a 18 27 16 96 87
+FIXUPS: 11a00 36 2a 35 3e b 1d b ffffdb1b 56 12dc 24 31 37 26 5c 35 24
+FIXUPS: 10af4 3d 123 6a 32 44 40 6f ed 1d 27 46 3b 29 1c 1d 3b 9e 7f 74
+FIXUPS: 111df 65 18 29 1867 91 2e 24 74 ffffd39f 18b 113 1f 1f 42 c8 e
+FIXUPS: 103ef 35 54 3e 30 29 19 60 1f 1f 22 4a d1 7b 9e 1f 5e 48 11 179d
+FIXUPS: 120aa 34 b 44 27 b 27 b e6 33 32 22 2f ff d5 15 1b eb 84 2a 49
+FIXUPS: 12767 36 94 2a 113 69 3d 35 1e 7d 14c2 19 ffffef3c 28 113 24 40
+FIXUPS: 130f3 7a 49 56 12 95 42 fffff987 56 6a 5b ffffee1b ad 86 81 68
+FIXUPS: 11dfa 29 119 b 13 31 49 41 48 21fb d0 10 26 54 a 41 31 4e 1c f
+FIXUPS: 1451b 4d 51 16e 75 38 10 ffffefae 13b a6 45 c2 2b a3 56 b4 c1 179
+FIXUPS: 13e94 b4 49 4967 88 7e 9c 18 35 e ed 65 8d 19 ffffb342 22 8 7d
+FIXUPS: 140e0 b a b a b a b a b a b 33 24 d 63 15 358a 93 93 b7 65 89 df
+FIXUPS: 17bc9 89 dc 65 8d 232 ca c7 65 8d bf 65 8d 1c 3a a7 93 1e 1f 19
+FIXUPS: 186ce b7 65 89 23 ffffd98e 18c 116 88 28b 5d c0 65 8d 3a 62 1a5
+FIXUPS: 16d50 31 78 21 b3 65 89 b6 65 89 bb 65 8d 60 63 57 a7 93 dc 93
+FIXUPS: 14ca6 65 89 4fa 65 8d e6 93 bd 65 8d 62 44 80 65 89 b6 65 89 dc
+FIXUPS: 15bcf e5 65 8d c0 65 8d 81 d8 3e 5f 74 2ca8 51 55 169 15 61 2d
+FIXUPS: 1912e 43 42 b d 30 3f 27 3f 2d 38 b1 1b 68 b ffffb3c9 13 b2 6 b0
+FIXUPS: 149e5 55 13b 10 29 49f9 19 7 22 b 33 1f b 28 36 2e 13 b 24 25 33
+FIXUPS: 1977d e e 26 e b 2b 2d f 11 fffff58e 19 15 29 b 1f 1375 45 27c
+FIXUPS: 1a49c 6 a 5 45 1f 17 e b 1a 1e 1d 130 10 38 6a 45 18 17 b 8 ffffeca5
+FIXUPS: 194b7 2e 3f 1d 11 22 1e 18f3 b 13 ffffea9b 17 c9 17 60 d7 27 70
+FIXUPS: 19c34 44 97 78 1f 27 4e 8 b5 1e 52 1f 37 6b 3e 23 1f 47 55 10 80
+FIXUPS: 1a93a 1b 37 7 b 10 2a 4c 26 19 10 31 8 e b 13 36 8 8 63 3e 1a 84
+FIXUPS: 1aca2 6c 3b 77 26 19 10 24 2f 2903 38 38 7f 6e 19 4f ee 10 10 123
+FIXUPS: 1dc2d 4e 23 b 26 b 12 b 15 24 db 53 18 1f 26 21 21 2b 11 ffffc92e
+FIXUPS: 1a917 2000 11 10 4e 19d 2f 92 5e 75 28 24 b 19 18a 7a 1f 147 47
+FIXUPS: 1d2b3 24 2e d1 97 2e 48 175 2a 1d 2f 1b 11 51 ffffe7f0 23 19 21
+FIXUPS: 1bfb2 8 12 58 4f 68 ad f 11 217 1f bc 2f 33 34 2d 2f 45 2f 26 10
+FIXUPS: 1c7d3 e 34 2c 15 84 2b fffff01e 11 40 41 1a 22 a0 18 55 11 10 3e
+FIXUPS: 1bb7f 1f 10 40 31 10 19 4f 14 4e 41 1a 78 74 11 77 18 25 15 11
+FIXUPS: 1b259 39 34 14 15 3f 6a d 1f 64 22 17 3c 2d 1e 47 b 2d 40 41 16
+FIXUPS: 1b6a9 5f 1c 26 16 11 10 14 6e b0 34 449f 26 b 82 18 e 18 6 c2 13
+FIXUPS: 1ff60 e 1d ffffaf9d 27 18 25 43 24 18 27 10 b b4 13 2f 22 11 d
+FIXUPS: 1b1bb 28 68 41b3 1a 32 32 1e 62 44 e 1e 32 23 2a 4a 82 9a 214 b0
+FIXUPS: 1fa20 e 4c 18 d 3c 10 45 3d 1d 19 8f 27 37 77 ffffed8b 32 35 60
+FIXUPS: 1eb76 e 1c 10 27 b 1c 37 14 23 cc 14 3a 3e b 2a 26 34c 66 28 2c
+FIXUPS: 1f2c0 14 50 4b 3b e 28 fffff105 46 19 16 9 d 15 7 9e 25 10 15 15
+FIXUPS: 1e6f5 93 16 10 1b 1b 86 ce 2b 1c b 13 31 14 10 10 33 1d 30 1c4f
+FIXUPS: 20073 22 5d 52 33 5c 1d ffffdecc c 17 14 f 11 4b 87 25 22 6 18
+FIXUPS: 1e278 16 15 9 7 b6 ee 16 1b 1c b 1e 25ef 10 3d 10 29 145 1f 71
+FIXUPS: 20d36 77 21 1f fffff451 16 2a 23 47 1d 31 20 41 6c 1f 22 10 1d
+FIXUPS: 2048e f 3e 39 162 20 1476 d 2f 14 24 d c5 33 25 1d b fffff304 13
+FIXUPS: 20ffc e0 92 87 22 d0 21 68 4d 5a fffff452 14 103 1b 19 4a 19 32
+FIXUPS: 20a6e b64 3f 10 8 6 1d 8 31 b 43 25 21 81 14 b 3a b 31 2d 4b 53
+FIXUPS: 2193b 6d 2b 1f 45 14 10 10 1a 1f 17 1230 61 33 92 5 42 c 12 53
+FIXUPS: 22f11 26 46 1a 41 25 b ffffed3d 16 2f 10 d 2d d 37 ba e 33 42 56
+FIXUPS: 220a1 64 fffff48d 1bb6 a 5 14 8 a4 2e 1d 10 2c 32 9 b 53 a0 1c
+FIXUPS: 2342e 5a 1a 75 177 84 5e 42 3d fffff2a2 42 f cf 58 81 5 d74 24
+FIXUPS: 23a4b 24 10 34 15 33 1e 35 8 5 49 46 5 22 d 8 61 d 8 a fffff387
+FIXUPS: 23052 43 5 36 b 1d 24 14 9 1061 13 25 15 33 1c 12 40 17 12 13 62
+FIXUPS: 24331 1a 27 9 1c 1e 1c d 13 fffff44a 20 49 57 8 9 31 15 5a 27 b
+FIXUPS: 24a20 18 10 b d5 4a 8 9 d 82 25 fffff1ac 35 12 9 a 27 b a 3a 2e
+FIXUPS: 23fe2 b 38 d 13 b 6a 31 25 18 11 19a7 21 19 36 3f 64 bb 3e 1d 34
+FIXUPS: 25d72 13 42 ffffe66c ab d 24 5f db f5 8 34 d 18 a8 2c a e 10 a8
+FIXUPS: 2496d e 85a f 77 37 d4 174 51 64 a2 20 1e 5f 1e 43 b 4d 13 69 8
+FIXUPS: 2584d 14 c 53 13 17 6d b 17 8c 3b 5a 3b d67 65 41 4c ffffe34c b
+FIXUPS: 24c97 48 45 21 1d 34 2e 85 99 c1 1a 27 22 b 12 21 15 43 19 42 12
+FIXUPS: 25147 2e 13 27 16 1952 fffff31d 1e 39 57 41 bf 45 65 22 15 4b 6c
+FIXUPS: 261bd 4b 4b 25 4d 6c 45 65 18 53 3a 5f 79 45 65 10 134 41 70 f67
+FIXUPS: 27788 e 13 13 f b 82 c3 2e 13 38 29 19 12 7 7 10b 2d 1a 12 10 48
+FIXUPS: 27bed 8 c 18 ffffed70 50 50 4e 4b 749 b 37 33 2c 26 26 1f b 7b
+FIXUPS: 273dd 7e 7 2b 27 2f 23 6 6 27 1a 38 39 5d 52 27 11 5 21 67 14 9
+FIXUPS: 26d21 d 10 b e 3b 20 45 3d 20 1f 28 a 2a 6 6 2c d 1d 49 72 30 1d
+FIXUPS: 27052 15 19 22 8f 4a b 2d 2b b45 29 16d 29 e 8 6e 3d 49 135 19
+FIXUPS: 281d3 34 33 fb 2d 3e 29 51 1bd 67 40 3b 6 3c ffffe45a 5d 1a eb
+FIXUPS: 26cbf 2f b 24f5 2d 78 18 12 62 40 17 8 15 39 8 21 15 8 c b 10 117
+FIXUPS: 29574 b 2b 29 6c 10 17 1f 14 1f ffffe5e8 15 66 cb4 32 b b 10 d
+FIXUPS: 28a4b 70 10 3d 97 3b 4c 2d 11c 73 b 13 d 23 b 12 3c 18 32 2d 60
+FIXUPS: 28fe0 13 122 76 b 4264 1a 3f 44 25 c 2b 16 4b 23 ffffb19a 20 d
+FIXUPS: 28755 28 b 66 8 85 d 1b d 17 3d d 10 3a d d 8 1f 28 43ca a 11 1e
+FIXUPS: 2cdde e 33 26 82 8b 1c 22 6 43 49 66 61 33 45 17 26 82 b 1a 2c
+FIXUPS: 2d28d 26 48 35 17 26 82 fffff5ed 27 12 16 52 4a 1d 20 10 11 16
+FIXUPS: 2cb5d 20 2c 28 3b 6 1d 2a 12 1b 14 a 1a 10 24 20 20 14 15 15 6
+FIXUPS: 2c698 1c 23 18 a 26 1d 13 19 5 38 12 5 7 12 b 7 25 44 12 6 14 21
+FIXUPS: 2c8b7 4d 19 15 1c 1b 21 1a 21 fffff9f1 9 a 10 13 16 30 b 22 b b
+FIXUPS: 2c47d 8 16 14 a a a f 30 18 d a a 10 5 8f b 26 2a 6 30 fffffa1c
+FIXUPS: 2c0c2 18 13 1b 7 d 38 16 f 1f 1d 40 b 6 4b 18 7 f 5 5 44 29 a 19
+FIXUPS: 2c326 21 f 19 d 21 f fffffa51 12 b 5 a 40 b 13 15 32 7 18 5 5 1f
+FIXUPS: 2bf20 2c b 26 13 1c 35 7 18 5 5 1f 26 5 5 21 17 fffff8f8 c 6 f
+FIXUPS: 2b9ba 6 30 2b 1e 32 16 a 10 6e 18 87 49 82 17 f 24 24 55 17 27
+FIXUPS: 2bd87 6 16 2a 7 17 b fffff4aa 59 47 59 12 3d 8 1c 3b 48 f 14 23
+FIXUPS: 2b4ed 17 18 29 46 26 82 30 1d 1d c 9d 113 25 59 32 2d 30 14 fffff2ca
+FIXUPS: 2ac6f 168 17 18 6 12 48 37 58 31 27 29 18 1d 11 64 49 7d 11 1a
+FIXUPS: 2b12d 24 14 5d 3a 23 1e 21 12 f 12 fffff593 7 18 2f 6 10 2b b 28
+FIXUPS: 2a8ec 21 17 20 30 2b 1e 42 1e c 38 14 10 38 10 44 12 b 8 3a 36
+FIXUPS: 2abac 5d fffff92f 28 33 6 f 6 1b 6 43 6 c 5f 6 2a 6 24 6 c 1d 25
+FIXUPS: 2a737 11 1e 10 7 b 34 a c 7 b 26 fffff760 33 d 8 44 6 16 50 b4
+FIXUPS: 2a13d f a f 37 f 32 13 a 21 1c cc 50 1f 1b 22 2e 3a 3e 11 72 15
+FIXUPS: 2a50e 5f02 ffff92f0 6b 1c1 8 25 1e3 1c 17 36 30 6 2f 14 36 17 26
+FIXUPS: 29d32 30 1a 1a 13 3c 6 b 38 23 4b 48 1c f 2b 5a66 1d eb 80 15 7
+FIXUPS: 2fb51 48 15 7 f 4f 3b 2e 17 1a 47 1d 47 6d 31 21 a7 106 13a c2
+FIXUPS: 30256 4e f af 29 7a ffffee54 98 15 29 1a 15 5 19 8 26 1c 51 82
+FIXUPS: 2f521 17 5 24 57 1a a6 39 73 8f 32 1d 1f 80 32 1d 39 18 35 ffffe8c7
+FIXUPS: 2e247 3c 7 51 51 f 7 238 97 92 5a 1d 66 ca 83d f 22 15 18 b 13
+FIXUPS: 2f10e a 60 a d 39 5 2c 1f 5 27a9 14b 9 b 48 1a de 11 54 7f 1b ffffbe0f
+FIXUPS: 2dbaf 22 47 40 5f 62 a 1f c 17 49 2f 21 200 9c 9b 18 48 18 19 3013
+FIXUPS: 311fa b1 18 e 26 c 26 15 13 ba 1b b b b3 bc a 6 a 8 59 7d 2d 26
+FIXUPS: 31737 bf 1c 83 13 31 58 2c fffff0e5 7 3f 13 17 71 16 29 5d 26 16
+FIXUPS: 30c01 1d d9 10 134 37 11 2d 2c 82 b d8 1c 8e 16 15 b 3e 1b 3e 14
+FIXUPS: 32f53 17 63 3b 17f 8 6 c 94 14 96 1e a 14 4a 31 30 1a ffffd204
+FIXUPS: 3066e 2a 8a 16 1c 7a 26 b 2c 1c 46 8b 117 1aed d 37 d 33 a 52 39
+FIXUPS: 32707 20 109 7d d1 23 13 e 1c 8a 3a 14 a 2d 39 5a 8 c1 13 13 13
+FIXUPS: 32d53 15c 20 ffffeec5 ac 2b b 38 37 b 25 40 d 10 8 33 140 8 8b
+FIXUPS: 3225c 20 26 65 25 65 1f 31 11 1a 7b 15 12 1f 15 24 1a13 57 ef 22
+FIXUPS: 34122 4e 2e 2a 10 1a 2a 11 d 8 11 5f 21 12 25 d a c 13 8 11 19
+FIXUPS: 34398 14 f 12 8c 47 fffff3bb 1a 34 16 29 13 1e 14 a1 31 3c 31 b
+FIXUPS: 33a90 a c 8 12 30 1a 2b 3c 42 4c 73 1a 94 50 12 10 fd 57 2183 6f
+FIXUPS: 360e2 8 e 17b 2fc 48 db 182 ffffcc1d 1a 29 15 45 42 39 c 8 56 52
+FIXUPS: 3361c 8a 22 30 17 3a 15 17 5d 25 4a 1ff1 26 1a 29 1a 4a 190 5b
+FIXUPS: 35b61 1b 26 14 30 60 26 c0 18 36 1e 50 b 53 b 68 b 53 b 3f 18 43
+FIXUPS: 35fcc 4a ffffefa8 12 a0 169 13 44 50 27 16 e 6 9c 3d 7f 26 b 50
+FIXUPS: 354d2 13 90 d8 26 1a 35 1a 24 1e 1a 2f 19 2d 50 ffffefda 25 82
+FIXUPS: 348b4 16 31 a 30 ab 58 95 4b 33 37 32 65 18 71 29 2e 68 27 b0 12
+FIXUPS: 34e89 32 4d 1b 21 1d 10 34 1fa3 26 23 29 15 1a d d d7 1c 96 6c
+FIXUPS: 37221 2c 11 8 15 82 5 2e 15 ffffd1db 42 26 60 63 40 10 8 2f 5c
+FIXUPS: 3479f 2412 15 29 1c 1d 1d d 10 8 5 f 8 2c 31 31 10 28 8 4d 28 1e
+FIXUPS: 36e08 d 38 a 5 2c 21 d 2b 21 27 7a6 10 5d e a 5 d 35 4d 4a df 5
+FIXUPS: 379f9 35 b 10 2e 4b fffff8e4 35 33 2b 1b 12 fffff4f4 7b 175 d d
+FIXUPS: 36b73 5 26 273a 127 10 4c 18b 20 81 96 18 18 191 d0 22 17 a5 ba
+FIXUPS: 39b5a 9f 56 ffffe82f 61 3d 8 42 47 a4 26 fffff4dd 6b 13a 222 6d
+FIXUPS: 38c8c 82 2b 24 12 23 14 15 14 8 9e 7e 2c 8 15 8 8 8 8 8 8 8 8 8f
+FIXUPS: 390da 13 77 b2 93 f c b af2 94 2d 36 ffffe9fb 15 12 8 8 8 8 26
+FIXUPS: 389e9 5 8 1b 8 6d 76 c 16 16 16 1c 9 13 11 16 e 30 8 5a 1dd7 71
+FIXUPS: 3aad4 4c 35 2e 1b 1f 9 3e 9 6d 23 10a 57 2e 1d 26 1d 9 47 16 14
+FIXUPS: 3af21 c4 b3 7b 4d b3 2f ffffea73 c7 16c c0 12 14 aa 1e 1e 1d 50
+FIXUPS: 3a12c 1d d 14 1e d c0 7d b 28 51 4f 1bb 2a 27 5b 5c 16b 21 da 1f
+FIXUPS: 3a8f8 63

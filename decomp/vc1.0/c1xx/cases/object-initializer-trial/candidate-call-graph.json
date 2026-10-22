@@ -1,0 +1,41 @@
+{
+  "status": "pass",
+  "function": {
+    "name": "_initialize_object_value@8",
+    "start": 287424,
+    "end": 288137
+  },
+  "matching_callees": [
+    "_begin_runtime_initializer@4",
+    "_check_static_initializer@8",
+    "_classify_initializer_conversion@8",
+    "_emit_initializer_assignment@8",
+    "_emit_initializer_constant@4",
+    "_emit_runtime_symbol_initializer@8",
+    "_finish_initializer_symbol@4",
+    "_fit_string_initializer@8",
+    "_fold_symbol_constant@4",
+    "_format_symbol_name@4",
+    "_initialize_class_object@8",
+    "_is_character_array_initializer@8",
+    "_is_scalar_initializer_symbol@4",
+    "_normalize_initializer_expression@4",
+    "_prepare_constant_initializer@8",
+    "_remaining_string_initializer_bytes@8",
+    "_report_operator_resolution_failure@20",
+    "_report_syntax_error",
+    "_report_type_conversion@20",
+    "_report_type_error@8",
+    "_strip_based_shape@4",
+    "_symbol_construction_class@4",
+    "_symbol_reference@4",
+    "_type_kind_name@4",
+    "_write_literal_initializer@12"
+  ],
+  "canonical_function": {
+    "name": "_initialize_object_value@8",
+    "start": 197425,
+    "end": 198428
+  },
+  "seconds": 1.8280944721773267
+}

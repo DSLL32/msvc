@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 534,
-  "driver_functions": 454,
+  "accepted_frontiers": 535,
+  "driver_functions": 455,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 461,
-  "current_frontier": "_initialize_object_value@8",
-  "original_frontier_va": "0x462c0",
-  "all_accepted_frontiers_replayed": true,
+  "reconstructed_source_functions": 462,
+  "current_frontier": "_symbol_construction_class@4",
+  "original_frontier_va": "0x482f0",
+  "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 461,
+  "call_graph_audit_functions": 462,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -76,7 +76,8 @@
     "closed_scope_head_default": 1,
     "initializer_data_symbol_default": 1,
     "decorated_workspace_bytes": 992,
-    "mangler_state_objects": 4
+    "mangler_state_objects": 4,
+    "initializer_state_defaults": 7
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -1133,24 +1134,18 @@
   },
   "graceful_pause": {
     "requested": true,
+    "paused": true,
     "complete": false,
-    "current_frontier": "_initialize_object_value@8",
-    "original_va": "0x462c0",
-    "new_accepted_function": "_initialize_object@8",
+    "current_frontier": "_symbol_construction_class@4",
+    "original_va": "0x482f0",
+    "new_accepted_function": "_initialize_object_value@8",
     "new_function_range": [
-      "0x46290",
-      "0x462ba"
+      "0x462c0",
+      "0x46589"
     ],
-    "new_function_native_callees": 1,
-    "ordinary_pair_passed": true,
-    "ordinary_check_log": "evidence/check-initialize-object-wrapper.log",
-    "full_historical_replay_frontiers": 533,
-    "new_wrapper_full_history_replayed": false,
-    "last_full_checkpoint": "6ed56aa",
-    "last_full_coverage_bytes": 177693,
-    "last_full_coverage_percent": 37.29770915456595,
+    "accepted_functions_this_trial": 1,
     "pending_function_edits": false,
-    "resume": "Read README pause note; make -j2 check, then reconstruct initialize_object_value@8 at 0x462c0. Run a frozen historical replay at the next normal batch boundary."
+    "resume": "Only on explicit instruction: reconstruct symbol_construction_class@4 in existing cpp_basic case."
   },
   "source_layout": {
     "source": "src",
@@ -1162,9 +1157,9 @@
     "evidence": "evidence/source-layout-equivalence.json"
   },
   "fast_replay": {
-    "default": "continuous ordinary history",
-    "adapter": "scripts/fast_replay_adapter.py",
-    "shared": "tooling/replay",
+    "default": "retired historical evidence; current regression is native cached application tracing",
+    "adapter": "removed",
+    "shared": "removed",
     "verified_frontiers": 534,
     "first": 0,
     "terminal": "_initialize_object_value@8",
@@ -1175,5 +1170,8 @@
     "normal_external_wall_seconds": 3.9208544194698334,
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
-  }
+  },
+  "current_native_application_entries": 456,
+  "latest_verification": "cases/object-initializer-trial/validation.json",
+  "historical_original_full_replay_frontiers": 534
 }

@@ -2,10 +2,16 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "7e66f6117b5e1e172d45b74a3854c3f2669fed75942b0fbc2c91733bf6e5ca24",
+    "functions.json": "d1a96192b28645df3613305fb9a2066b5744366a753f32042f0a2131f0544645",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/native-cpp-basic/canonical-map.txt": "6d6c1090282b56f0b392e447ef07d8701b506980e7fe6ebfd8d058a52fff21d2"
+    "cases/native-cpp-basic/canonical-map.txt": "94c0938e15b4556c79c88dc15430331a381059cc8ac3a7ad68d1bf4b9a1436f3",
+    "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
+    "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
+    "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
+    "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json": "69c59a5f51071cdfeb406bd0be7779eec5ca352759f84a3ca2858053f1c1632a",
+    "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/original-receipt.json": "b76ca62e99c9a22e9090f8c30b99a4b15b343c4db2993faea7f387769ac03384",
+    "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/original-events.txt": "56d155d85e65d80c44e4b5579174edadadb69d1a1b78d8b02fbe86ac0c82db77"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -344,6 +350,10 @@
       "logical": "_begin_return_expression",
       "source": "src/frontend-records.c"
     },
+    "begin_runtime_initializer": {
+      "logical": "_begin_runtime_initializer@4",
+      "source": "src/stubs.c"
+    },
     "begin_seh_filter": {
       "logical": "_begin_seh_filter",
       "source": "src/stubs.c"
@@ -571,6 +581,10 @@
     "check_qualified_member_access": {
       "logical": "_check_qualified_member_access@4",
       "source": "src/member-expressions.c"
+    },
+    "check_static_initializer": {
+      "logical": "_check_static_initializer@8",
+      "source": "src/stubs.c"
     },
     "check_type_conversion_warning": {
       "logical": "_check_type_conversion_warning@12",
@@ -1152,6 +1166,14 @@
       "logical": "_emit_generated_default_constructor@12",
       "source": "src/stubs.c"
     },
+    "emit_initializer_assignment": {
+      "logical": "_emit_initializer_assignment@8",
+      "source": "src/stubs.c"
+    },
+    "emit_initializer_constant": {
+      "logical": "_emit_initializer_constant@4",
+      "source": "src/stubs.c"
+    },
     "emit_inline_assembly": {
       "logical": "_emit_inline_assembly",
       "source": "src/stubs.c"
@@ -1191,6 +1213,10 @@
     "emit_return_statement": {
       "logical": "_emit_return_statement@8",
       "source": "src/return-statements.c"
+    },
+    "emit_runtime_symbol_initializer": {
+      "logical": "_emit_runtime_symbol_initializer@8",
+      "source": "src/stubs.c"
     },
     "emit_scope_cleanup_references": {
       "logical": "_emit_scope_cleanup_references",
@@ -1576,6 +1602,10 @@
       "logical": "_finish_implicit_statement_scope@8",
       "source": "src/stubs.c"
     },
+    "finish_initializer_symbol": {
+      "logical": "_finish_initializer_symbol@4",
+      "source": "src/stubs.c"
+    },
     "finish_inline_function": {
       "logical": "_finish_inline_function",
       "source": "src/stubs.c"
@@ -1630,6 +1660,10 @@
     },
     "finish_work_stack": {
       "logical": "_finish_work_stack@4",
+      "source": "src/stubs.c"
+    },
+    "fit_string_initializer": {
+      "logical": "_fit_string_initializer@8",
       "source": "src/stubs.c"
     },
     "float_to_extended": {
@@ -1860,6 +1894,10 @@
       "logical": "_initialize_checksums",
       "source": "src/checksums.c"
     },
+    "initialize_class_object": {
+      "logical": "_initialize_class_object@8",
+      "source": "src/stubs.c"
+    },
     "initialize_class_virtual_tables": {
       "logical": "_initialize_class_virtual_tables@4",
       "source": "src/class-finalization.c"
@@ -1938,7 +1976,7 @@
     },
     "initialize_object_value": {
       "logical": "_initialize_object_value@8",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "initialize_operators": {
       "logical": "_initialize_operators",
@@ -2068,6 +2106,10 @@
       "logical": "_intrinsic_enabled@4",
       "source": "src/stubs.c"
     },
+    "is_character_array_initializer": {
+      "logical": "_is_character_array_initializer@8",
+      "source": "src/stubs.c"
+    },
     "is_class_name_type": {
       "logical": "_is_class_name_type@4",
       "source": "src/types.c"
@@ -2091,6 +2133,10 @@
     "is_overload_operand": {
       "logical": "_is_overload_operand@4",
       "source": "src/unary-expressions.c"
+    },
+    "is_scalar_initializer_symbol": {
+      "logical": "_is_scalar_initializer_symbol@4",
+      "source": "src/stubs.c"
     },
     "is_static_data_member": {
       "logical": "_is_static_data_member@4",
@@ -2572,6 +2618,10 @@
       "logical": "_node_alignment@4",
       "source": "src/ir.c"
     },
+    "normalize_initializer_expression": {
+      "logical": "_normalize_initializer_expression@4",
+      "source": "src/stubs.c"
+    },
     "normalize_input_name": {
       "logical": "_normalize_input_name",
       "source": "src/source-input.c"
@@ -2695,6 +2745,10 @@
     "prepare_class_virtual_tables": {
       "logical": "_prepare_class_virtual_tables@4",
       "source": "src/class-finalization.c"
+    },
+    "prepare_constant_initializer": {
+      "logical": "_prepare_constant_initializer@8",
+      "source": "src/stubs.c"
     },
     "prepare_declarator_shapes": {
       "logical": "_prepare_declarator_shapes@28",
@@ -3003,6 +3057,10 @@
     "release_permanent": {
       "logical": "_release_permanent@8",
       "source": "src/memory.c"
+    },
+    "remaining_string_initializer_bytes": {
+      "logical": "_remaining_string_initializer_bytes@8",
+      "source": "src/stubs.c"
     },
     "remove_last_frontend_record": {
       "logical": "_remove_last_frontend_record",
@@ -3442,7 +3500,7 @@
     },
     "symbol_construction_class": {
       "logical": "_symbol_construction_class@4",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "symbol_expression": {
       "logical": "_symbol_expression@4",
@@ -3634,6 +3692,10 @@
     },
     "write_ir_string": {
       "logical": "_write_ir_string",
+      "source": "src/stubs.c"
+    },
+    "write_literal_initializer": {
+      "logical": "_write_literal_initializer@12",
       "source": "src/stubs.c"
     },
     "write_storage_specification": {
@@ -4107,7 +4169,9 @@
     "check_global_object_definition",
     "begin_object_initializer",
     "prepare_initializer_symbol",
-    "initialize_object"
+    "initialize_object",
+    "initialize_object_value",
+    "symbol_construction_class"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4198,7 +4262,7 @@
   "cases": {
     "cpp_basic": {
       "first": 0,
-      "last": 534,
+      "last": 536,
       "seen": [],
       "expected": [
         "main",
@@ -4655,12 +4719,14 @@
         "begin_object_initializer",
         "prepare_initializer_symbol",
         "initialize_object",
-        "initialize_object_value"
+        "initialize_object_value",
+        "symbol_construction_class",
+        "initialize_class_object"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_initialize_object_value@8",
-        "native": "initialize_object_value",
+        "logical": "_initialize_class_object@8",
+        "native": "initialize_class_object",
         "signal": 5
       }
     }

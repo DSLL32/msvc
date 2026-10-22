@@ -35,6 +35,7 @@
 #include "special-members.h"
 #include "inline-capture.h"
 #include "type-sizes.h"
+#include "object-initializers.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -99,7 +100,6 @@ char *__stdcall type_diagnostic_text(short text) { __asm { int 3 } return 0; }
 void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member) { __asm { int 3 } return 0; }
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_destructor_member_model(CType *type) { __asm { int 3 } return 0; }
 void __stdcall defer_object_definition(CppSymbol *symbol) { __asm { int 3 } }
@@ -201,7 +201,20 @@ void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) 
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
-void __stdcall initialize_object_value(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
+void __stdcall initialize_class_object(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
+IrToken *__stdcall prepare_constant_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
+int __stdcall is_character_array_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
+unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
+int __stdcall check_static_initializer(CppSymbol *symbol, IrToken **value) { __asm { int 3 } return 0; }
+void __stdcall begin_runtime_initializer(CppSymbol *symbol) { __asm { int 3 } }
+int __stdcall is_scalar_initializer_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall emit_initializer_assignment(IrToken *target, IrToken *value) { __asm { int 3 } }
+void __stdcall finish_initializer_symbol(CppSymbol *symbol) { __asm { int 3 } }
+IrToken *__stdcall normalize_initializer_expression(IrToken *value) { __asm { int 3 } return 0; }
+void __stdcall write_literal_initializer(CppSymbol *symbol, IrToken *value, void *context) { __asm { int 3 } }
+void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
+int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
+void __stdcall emit_initializer_constant(IrToken *target) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
 
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }

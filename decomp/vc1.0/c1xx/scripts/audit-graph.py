@@ -63,16 +63,20 @@ def edges(pe, records, function):
                 calls.add('indirect')
     return calls
 
-failures = checked = 0
-for function in cfg['driver']:
-    if function['name'] not in cfg['accepted']:
-        continue
-    rebuilt = next(r for r in ri if r['name'] == function['name'])
-    a, b = edges(orig, oi, function), edges(rec, ri, rebuilt)
-    checked += 1
-    if a != b:
-        print(function['name'], 'original only', a-b, 'reconstruction only', b-a)
-        failures += 1
-if failures:
-    raise SystemExit(1)
-print('%d reconstructed functions have matching call targets (including indirect calls).' % checked)
+def main():
+    failures = checked = 0
+    for function in cfg['driver']:
+        if function['name'] not in cfg['accepted']:
+            continue
+        rebuilt = next(r for r in ri if r['name'] == function['name'])
+        a, b = edges(orig, oi, function), edges(rec, ri, rebuilt)
+        checked += 1
+        if a != b:
+            print(function['name'], 'original only', a-b, 'reconstruction only', b-a)
+            failures += 1
+    if failures:
+        raise SystemExit(1)
+    print('%d reconstructed functions have matching call targets (including indirect calls).' % checked)
+
+if __name__ == "__main__":
+    main()

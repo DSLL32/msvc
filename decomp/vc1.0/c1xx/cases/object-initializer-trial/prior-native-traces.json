@@ -1,0 +1,4668 @@
+{
+  "schema": 1,
+  "scope": "cached original application first entries; no capture",
+  "metadata_sha256": {
+    "functions.json": "7e66f6117b5e1e172d45b74a3854c3f2669fed75942b0fbc2c91733bf6e5ca24",
+    "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
+    "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
+    "cases/native-cpp-basic/canonical-map.txt": "6d6c1090282b56f0b392e447ef07d8701b506980e7fe6ebfd8d058a52fff21d2"
+  },
+  "application_definitions": {
+    "activate_qualified_definition_scopes": {
+      "logical": "_activate_qualified_definition_scopes",
+      "source": "src/scopes.c"
+    },
+    "add_array_declarator": {
+      "logical": "_add_array_declarator@8",
+      "source": "src/stubs.c"
+    },
+    "add_case_label": {
+      "logical": "_add_case_label@4",
+      "source": "src/stubs.c"
+    },
+    "add_declaration_parameter": {
+      "logical": "_add_declaration_parameter@16",
+      "source": "src/declarations.c"
+    },
+    "add_function_shape": {
+      "logical": "_add_function_shape@12",
+      "source": "src/declarations.c"
+    },
+    "add_inline_pointer": {
+      "logical": "_add_inline_pointer",
+      "source": "src/stubs.c"
+    },
+    "add_member_offset": {
+      "logical": "_add_member_offset@8",
+      "source": "src/class-members.c"
+    },
+    "add_named_base": {
+      "logical": "_add_named_base@12",
+      "source": "src/stubs.c"
+    },
+    "add_qualified_base": {
+      "logical": "_add_qualified_base@12",
+      "source": "src/stubs.c"
+    },
+    "add_storage_specifier": {
+      "logical": "_add_storage_specifier@16",
+      "source": "src/stubs.c"
+    },
+    "addition_overflows": {
+      "logical": "_addition_overflows@16",
+      "source": "src/arithmetic.c"
+    },
+    "adjust_member_binding_object": {
+      "logical": "_adjust_member_binding_object@20",
+      "source": "src/member-expressions.c"
+    },
+    "adjust_pointer_by_offset": {
+      "logical": "_adjust_pointer_by_offset@12",
+      "source": "src/stubs.c"
+    },
+    "adjust_qualified_member_object": {
+      "logical": "_adjust_qualified_member_object@20",
+      "source": "src/member-expressions.c"
+    },
+    "adjust_virtual_member_object": {
+      "logical": "_adjust_virtual_member_object@20",
+      "source": "src/stubs.c"
+    },
+    "adjusted_this_expression": {
+      "logical": "_adjusted_this_expression@4",
+      "source": "src/constructor-initializers.c"
+    },
+    "align_class_member": {
+      "logical": "_align_class_member@4",
+      "source": "src/class-members.c"
+    },
+    "alignment_padding_at": {
+      "logical": "_alignment_padding_at@8",
+      "source": "src/class-members.c"
+    },
+    "allocate_permanent": {
+      "logical": "_allocate_permanent@4",
+      "source": "src/memory.c"
+    },
+    "allocate_tag_symbol": {
+      "logical": "_allocate_tag_symbol@16",
+      "source": "src/tags.c"
+    },
+    "analyze_inline_parameter": {
+      "logical": "_analyze_inline_parameter@4",
+      "source": "src/stubs.c"
+    },
+    "append_class_members": {
+      "logical": "_append_class_members@8",
+      "source": "src/class-members.c"
+    },
+    "append_constructor_initializer": {
+      "logical": "_append_constructor_initializer@8",
+      "source": "src/identifier-expressions.c"
+    },
+    "append_declarator": {
+      "logical": "_append_declarator@8",
+      "source": "src/declarations.c"
+    },
+    "append_deferred_token": {
+      "logical": "_append_deferred_token@4",
+      "source": "src/lexer.c"
+    },
+    "append_expression": {
+      "logical": "_append_expression@12",
+      "source": "src/identifier-expressions.c"
+    },
+    "append_expression_destructor": {
+      "logical": "_append_expression_destructor@8",
+      "source": "src/stubs.c"
+    },
+    "append_frontend_record": {
+      "logical": "_append_frontend_record@8",
+      "source": "src/frontend-records.c"
+    },
+    "append_parameter_declaration": {
+      "logical": "_append_parameter_declaration@8",
+      "source": "src/parameter-scopes.c"
+    },
+    "append_qualifier_reference": {
+      "logical": "_append_qualifier_reference@12",
+      "source": "src/qualified-names.c"
+    },
+    "append_symbol_destructor": {
+      "logical": "_append_symbol_destructor@8",
+      "source": "src/stubs.c"
+    },
+    "append_vector": {
+      "logical": "_append_vector@8",
+      "source": "src/vectors.c"
+    },
+    "append_virtual_entry": {
+      "logical": "_append_virtual_entry@8",
+      "source": "src/stubs.c"
+    },
+    "apply_constructor_initializers": {
+      "logical": "_apply_constructor_initializers@4",
+      "source": "src/function-definitions.c"
+    },
+    "apply_conversion_declarator": {
+      "logical": "_apply_conversion_declarator@8",
+      "source": "src/stubs.c"
+    },
+    "apply_declaration_type": {
+      "logical": "_apply_declaration_type@8",
+      "source": "src/declaration-bind.c"
+    },
+    "apply_declarator_modifier": {
+      "logical": "_apply_declarator_modifier@8",
+      "source": "src/stubs.c"
+    },
+    "apply_default_vtordisp": {
+      "logical": "_apply_default_vtordisp@4",
+      "source": "src/tags.c"
+    },
+    "apply_inheritance_model": {
+      "logical": "_apply_inheritance_model@4",
+      "source": "src/tags.c"
+    },
+    "apply_intrinsic": {
+      "logical": "_apply_intrinsic@8",
+      "source": "src/stubs.c"
+    },
+    "apply_member_access_declaration": {
+      "logical": "_apply_member_access_declaration@8",
+      "source": "src/stubs.c"
+    },
+    "apply_member_pointer": {
+      "logical": "_apply_member_pointer@4",
+      "source": "src/stubs.c"
+    },
+    "apply_option": {
+      "logical": "_apply_option",
+      "source": "src/options.c"
+    },
+    "apply_type_symbol": {
+      "logical": "_apply_type_symbol@12",
+      "source": "src/type-specifiers.c"
+    },
+    "assign_symbol_segment": {
+      "logical": "_assign_symbol_segment@8",
+      "source": "src/stubs.c"
+    },
+    "assign_virtual_base_group_offsets": {
+      "logical": "_assign_virtual_base_group_offsets@4",
+      "source": "src/class-finalization.c"
+    },
+    "attach_expression_symbols": {
+      "logical": "_attach_expression_symbols@8",
+      "source": "src/stubs.c"
+    },
+    "attach_function_parameters": {
+      "logical": "_attach_function_parameters@8",
+      "source": "src/declarations.c"
+    },
+    "attach_plain_function_parameters": {
+      "logical": "_attach_plain_function_parameters@8",
+      "source": "src/declarations.c"
+    },
+    "attach_qualifier_parent": {
+      "logical": "_attach_qualifier_parent@8",
+      "source": "src/qualified-names.c"
+    },
+    "attach_type_shape": {
+      "logical": "_attach_type_shape@8",
+      "source": "src/declarations.c"
+    },
+    "base_type_size": {
+      "logical": "_base_type_size@8",
+      "source": "src/type-sizes.c"
+    },
+    "based_type_expression": {
+      "logical": "_based_type_expression@4",
+      "source": "src/stubs.c"
+    },
+    "begin_automatic_pch": {
+      "logical": "_begin_automatic_pch",
+      "source": "src/stubs.c"
+    },
+    "begin_braced_initializer": {
+      "logical": "_begin_braced_initializer@4",
+      "source": "src/stubs.c"
+    },
+    "begin_browser_output": {
+      "logical": "_begin_browser_output",
+      "source": "src/stubs.c"
+    },
+    "begin_class_body": {
+      "logical": "_begin_class_body",
+      "source": "src/tags.c"
+    },
+    "begin_class_member_search": {
+      "logical": "_begin_class_member_search@12",
+      "source": "src/declaration-lookup.c"
+    },
+    "begin_compound_statement": {
+      "logical": "_begin_compound_statement",
+      "source": "src/statement-scopes.c"
+    },
+    "begin_conversion_functions": {
+      "logical": "_begin_conversion_functions@8",
+      "source": "src/class-type-sets.c"
+    },
+    "begin_debug_info": {
+      "logical": "_begin_debug_info",
+      "source": "src/stubs.c"
+    },
+    "begin_destructor_body": {
+      "logical": "_begin_destructor_body@4",
+      "source": "src/stubs.c"
+    },
+    "begin_do_condition": {
+      "logical": "_begin_do_condition",
+      "source": "src/stubs.c"
+    },
+    "begin_do_statement": {
+      "logical": "_begin_do_statement",
+      "source": "src/stubs.c"
+    },
+    "begin_else_body": {
+      "logical": "_begin_else_body",
+      "source": "src/stubs.c"
+    },
+    "begin_for_body": {
+      "logical": "_begin_for_body",
+      "source": "src/stubs.c"
+    },
+    "begin_for_condition": {
+      "logical": "_begin_for_condition",
+      "source": "src/stubs.c"
+    },
+    "begin_for_increment": {
+      "logical": "_begin_for_increment",
+      "source": "src/stubs.c"
+    },
+    "begin_frontend_scope": {
+      "logical": "_begin_frontend_scope",
+      "source": "src/frontend-records.c"
+    },
+    "begin_function_body": {
+      "logical": "_begin_function_body",
+      "source": "src/function-definitions.c"
+    },
+    "begin_function_definition": {
+      "logical": "_begin_function_definition@8",
+      "source": "src/function-definitions.c"
+    },
+    "begin_function_ir": {
+      "logical": "_begin_function_ir@8",
+      "source": "src/frontend-records.c"
+    },
+    "begin_function_output": {
+      "logical": "_begin_function_output@4",
+      "source": "src/function-definitions.c"
+    },
+    "begin_if_body": {
+      "logical": "_begin_if_body",
+      "source": "src/stubs.c"
+    },
+    "begin_if_condition": {
+      "logical": "_begin_if_condition",
+      "source": "src/stubs.c"
+    },
+    "begin_implicit_statement_scope": {
+      "logical": "_begin_implicit_statement_scope@4",
+      "source": "src/stubs.c"
+    },
+    "begin_member_lookup": {
+      "logical": "_begin_member_lookup@12",
+      "source": "src/stubs.c"
+    },
+    "begin_nested_initializer": {
+      "logical": "_begin_nested_initializer",
+      "source": "src/stubs.c"
+    },
+    "begin_object_initializer": {
+      "logical": "_begin_object_initializer@4",
+      "source": "src/object-initializers.c"
+    },
+    "begin_parameter_scope": {
+      "logical": "_begin_parameter_scope@4",
+      "source": "src/parameter-scopes.c"
+    },
+    "begin_pending_class_names": {
+      "logical": "_begin_pending_class_names",
+      "source": "src/stubs.c"
+    },
+    "begin_qc_control": {
+      "logical": "_begin_qc_control@4",
+      "source": "src/stubs.c"
+    },
+    "begin_qualification_allocation": {
+      "logical": "_begin_qualification_allocation@4",
+      "source": "src/qualified-names.c"
+    },
+    "begin_return_expression": {
+      "logical": "_begin_return_expression",
+      "source": "src/frontend-records.c"
+    },
+    "begin_seh_filter": {
+      "logical": "_begin_seh_filter",
+      "source": "src/stubs.c"
+    },
+    "begin_seh_finally": {
+      "logical": "_begin_seh_finally",
+      "source": "src/stubs.c"
+    },
+    "begin_seh_try": {
+      "logical": "_begin_seh_try",
+      "source": "src/stubs.c"
+    },
+    "begin_source_line": {
+      "logical": "_begin_source_line",
+      "source": "src/lexer.c"
+    },
+    "begin_switch_body": {
+      "logical": "_begin_switch_body@4",
+      "source": "src/stubs.c"
+    },
+    "begin_switch_condition": {
+      "logical": "_begin_switch_condition",
+      "source": "src/stubs.c"
+    },
+    "begin_type_diagnostic": {
+      "logical": "_begin_type_diagnostic",
+      "source": "src/stubs.c"
+    },
+    "begin_type_set": {
+      "logical": "_begin_type_set",
+      "source": "src/stubs.c"
+    },
+    "begin_virtual_base_search": {
+      "logical": "_begin_virtual_base_search@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "begin_while_body": {
+      "logical": "_begin_while_body",
+      "source": "src/stubs.c"
+    },
+    "begin_while_condition": {
+      "logical": "_begin_while_condition",
+      "source": "src/stubs.c"
+    },
+    "binary_expression": {
+      "logical": "_binary_expression@12",
+      "source": "src/binary-expressions.c"
+    },
+    "bind_function_overload": {
+      "logical": "_bind_function_overload@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "boolean_expression": {
+      "logical": "_boolean_expression@8",
+      "source": "src/stubs.c"
+    },
+    "browser_begin_tag": {
+      "logical": "_browser_begin_tag",
+      "source": "src/stubs.c"
+    },
+    "browser_declaration": {
+      "logical": "_browser_declaration@4",
+      "source": "src/stubs.c"
+    },
+    "browser_end_tag": {
+      "logical": "_browser_end_tag",
+      "source": "src/stubs.c"
+    },
+    "browser_enter_tag": {
+      "logical": "_browser_enter_tag@4",
+      "source": "src/stubs.c"
+    },
+    "browser_friend_reference": {
+      "logical": "_browser_friend_reference@4",
+      "source": "src/stubs.c"
+    },
+    "browser_include_begin": {
+      "logical": "_browser_include_begin",
+      "source": "src/stubs.c"
+    },
+    "browser_macro": {
+      "logical": "_browser_macro@4",
+      "source": "src/stubs.c"
+    },
+    "browser_name_reference": {
+      "logical": "_browser_name_reference@8",
+      "source": "src/stubs.c"
+    },
+    "browser_open_file": {
+      "logical": "_browser_open_file",
+      "source": "src/stubs.c"
+    },
+    "browser_symbol_rollover": {
+      "logical": "_browser_symbol_rollover",
+      "source": "src/stubs.c"
+    },
+    "browser_type_reference": {
+      "logical": "_browser_type_reference@4",
+      "source": "src/stubs.c"
+    },
+    "build_call_expression": {
+      "logical": "_build_call_expression@8",
+      "source": "src/stubs.c"
+    },
+    "build_class_member_index": {
+      "logical": "_build_class_member_index@4",
+      "source": "src/class-finalization.c"
+    },
+    "build_class_virtual_tables": {
+      "logical": "_build_class_virtual_tables@4",
+      "source": "src/class-finalization.c"
+    },
+    "build_conversion_type_sets": {
+      "logical": "_build_conversion_type_sets@4",
+      "source": "src/class-finalization.c"
+    },
+    "build_function_declarator": {
+      "logical": "_build_function_declarator@8",
+      "source": "src/declarations.c"
+    },
+    "build_parameter_info": {
+      "logical": "_build_parameter_info@8",
+      "source": "src/parameters.c"
+    },
+    "build_virtual_base_table": {
+      "logical": "_build_virtual_base_table@8",
+      "source": "src/stubs.c"
+    },
+    "builtin_binary_expression": {
+      "logical": "_builtin_binary_expression@12",
+      "source": "src/binary-expressions.c"
+    },
+    "builtin_integer_type": {
+      "logical": "_builtin_integer_type",
+      "source": "src/stubs.c"
+    },
+    "builtin_unary_expression": {
+      "logical": "_builtin_unary_expression@8",
+      "source": "src/unary-expressions.c"
+    },
+    "cache_function_parameter_bytes": {
+      "logical": "_cache_function_parameter_bytes@4",
+      "source": "src/stubs.c"
+    },
+    "can_initialize": {
+      "logical": "_can_initialize@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "canonical_conversion_type": {
+      "logical": "_canonical_conversion_type@4",
+      "source": "src/stubs.c"
+    },
+    "capture_declaration_tokens": {
+      "logical": "_capture_declaration_tokens@4",
+      "source": "src/lexer.c"
+    },
+    "capture_inline_member_declaration": {
+      "logical": "_capture_inline_member_declaration@16",
+      "source": "src/inline-capture.c"
+    },
+    "cast_expression": {
+      "logical": "_cast_expression@8",
+      "source": "src/stubs.c"
+    },
+    "change_function_reference_kind": {
+      "logical": "_change_function_reference_kind@8",
+      "source": "src/stubs.c"
+    },
+    "check_based_pointer_conversion": {
+      "logical": "_check_based_pointer_conversion@12",
+      "source": "src/stubs.c"
+    },
+    "check_class_specifier": {
+      "logical": "_check_class_specifier@4",
+      "source": "src/class-members.c"
+    },
+    "check_constructor_storage": {
+      "logical": "_check_constructor_storage@8",
+      "source": "src/class-members.c"
+    },
+    "check_conversion_qualifiers": {
+      "logical": "_check_conversion_qualifiers@16",
+      "source": "src/stubs.c"
+    },
+    "check_conversion_warning": {
+      "logical": "_check_conversion_warning@12",
+      "source": "src/binary-expressions.c"
+    },
+    "check_declarator_prefix": {
+      "logical": "_check_declarator_prefix@8",
+      "source": "src/stubs.c"
+    },
+    "check_empty_declaration": {
+      "logical": "_check_empty_declaration@4",
+      "source": "src/tags.c"
+    },
+    "check_expression_operands": {
+      "logical": "_check_expression_operands@16",
+      "source": "src/unary-expressions.c"
+    },
+    "check_function_defaults": {
+      "logical": "_check_function_defaults@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "check_global_object_definition": {
+      "logical": "_check_global_object_definition@4",
+      "source": "src/declaration-bind.c"
+    },
+    "check_inheritance_model": {
+      "logical": "_check_inheritance_model@4",
+      "source": "src/tags.c"
+    },
+    "check_missing_defaults": {
+      "logical": "_check_missing_defaults@20",
+      "source": "src/declaration-lookup.c"
+    },
+    "check_parameter_default": {
+      "logical": "_check_parameter_default@8",
+      "source": "src/stubs.c"
+    },
+    "check_pointer_attributes": {
+      "logical": "_check_pointer_attributes@12",
+      "source": "src/stubs.c"
+    },
+    "check_qualified_member_access": {
+      "logical": "_check_qualified_member_access@4",
+      "source": "src/member-expressions.c"
+    },
+    "check_type_conversion_warning": {
+      "logical": "_check_type_conversion_warning@12",
+      "source": "src/binary-expressions.c"
+    },
+    "checked_malloc": {
+      "logical": "_checked_malloc@4",
+      "source": "src/memory.c"
+    },
+    "class_alignment_padding": {
+      "logical": "_class_alignment_padding@4",
+      "source": "src/class-members.c"
+    },
+    "class_candidate_is_distinct": {
+      "logical": "_class_candidate_is_distinct@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "class_has_pure_virtual": {
+      "logical": "_class_has_pure_virtual@4",
+      "source": "src/class-finalization.c"
+    },
+    "class_member_hash_bits": {
+      "logical": "_class_member_hash_bits",
+      "source": "src/class-finalization.c"
+    },
+    "class_tag_for_type": {
+      "logical": "_class_tag_for_type@4",
+      "source": "src/stubs.c"
+    },
+    "class_type_of_member": {
+      "logical": "_class_type_of_member@4",
+      "source": "src/class-members.c"
+    },
+    "classify_class_reference_conversion": {
+      "logical": "_classify_class_reference_conversion@8",
+      "source": "src/stubs.c"
+    },
+    "classify_constructor": {
+      "logical": "_classify_constructor@4",
+      "source": "src/class-members.c"
+    },
+    "classify_copy_assignment": {
+      "logical": "_classify_copy_assignment@4",
+      "source": "src/class-members.c"
+    },
+    "classify_decimal_integer": {
+      "logical": "_classify_decimal_integer@4",
+      "source": "src/numeric-scanning.c"
+    },
+    "classify_deferred_type": {
+      "logical": "_classify_deferred_type@4",
+      "source": "src/lookahead.c"
+    },
+    "classify_derived_type_conversion": {
+      "logical": "_classify_derived_type_conversion@16",
+      "source": "src/constructor-initializers.c"
+    },
+    "classify_expression_conversion": {
+      "logical": "_classify_expression_conversion@16",
+      "source": "src/constructor-initializers.c"
+    },
+    "classify_incomplete_type": {
+      "logical": "_classify_incomplete_type@4",
+      "source": "src/type-attributes.c"
+    },
+    "classify_initializer_conversion": {
+      "logical": "_classify_initializer_conversion@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "classify_long_integer": {
+      "logical": "_classify_long_integer@4",
+      "source": "src/stubs.c"
+    },
+    "classify_member_pointer_conversion": {
+      "logical": "_classify_member_pointer_conversion@12",
+      "source": "src/stubs.c"
+    },
+    "classify_nested_shape_conversion": {
+      "logical": "_classify_nested_shape_conversion@8",
+      "source": "src/stubs.c"
+    },
+    "classify_null_pointer_shape": {
+      "logical": "_classify_null_pointer_shape@12",
+      "source": "src/stubs.c"
+    },
+    "classify_radix_integer": {
+      "logical": "_classify_radix_integer@4",
+      "source": "src/stubs.c"
+    },
+    "classify_source_class_conversion": {
+      "logical": "_classify_source_class_conversion@20",
+      "source": "src/stubs.c"
+    },
+    "classify_special_scalar_conversion": {
+      "logical": "_classify_special_scalar_conversion@16",
+      "source": "src/stubs.c"
+    },
+    "classify_special_type_conversion": {
+      "logical": "_classify_special_type_conversion@16",
+      "source": "src/constructor-initializers.c"
+    },
+    "classify_symbol_decoration": {
+      "logical": "_classify_symbol_decoration@4",
+      "source": "src/mangling.c"
+    },
+    "classify_type_conversion": {
+      "logical": "_classify_type_conversion@16",
+      "source": "src/constructor-initializers.c"
+    },
+    "classify_unsigned_integer": {
+      "logical": "_classify_unsigned_integer@4",
+      "source": "src/stubs.c"
+    },
+    "classify_user_conversion": {
+      "logical": "_classify_user_conversion@20",
+      "source": "src/stubs.c"
+    },
+    "cleanup_precompiled_files": {
+      "logical": "_cleanup_precompiled_files",
+      "source": "src/stubs.c"
+    },
+    "clear_packing": {
+      "logical": "_clear_packing",
+      "source": "src/stubs.c"
+    },
+    "clear_reference_cache": {
+      "logical": "_clear_reference_cache@4",
+      "source": "src/stubs.c"
+    },
+    "clone_class_virtual_group": {
+      "logical": "_clone_class_virtual_group@8",
+      "source": "src/stubs.c"
+    },
+    "clone_class_virtual_table": {
+      "logical": "_clone_class_virtual_table@8",
+      "source": "src/stubs.c"
+    },
+    "close_intermediate": {
+      "logical": "_close_intermediate",
+      "source": "src/stubs.c"
+    },
+    "close_source_file": {
+      "logical": "_close_source_file",
+      "source": "src/stubs.c"
+    },
+    "coalesce_virtual_table_paths": {
+      "logical": "_coalesce_virtual_table_paths@4",
+      "source": "src/class-finalization.c"
+    },
+    "collapse_virtual_conflicts": {
+      "logical": "_collapse_virtual_conflicts@4",
+      "source": "src/stubs.c"
+    },
+    "collect_declaration_cleanup": {
+      "logical": "_collect_declaration_cleanup@12",
+      "source": "src/stubs.c"
+    },
+    "combine_member_access": {
+      "logical": "_combine_member_access@8",
+      "source": "src/stubs.c"
+    },
+    "common_binary_type": {
+      "logical": "_common_binary_type@12",
+      "source": "src/binary-expressions.c"
+    },
+    "compare_declaration_parameters": {
+      "logical": "_compare_declaration_parameters@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "compare_filenames": {
+      "logical": "_compare_filenames",
+      "source": "src/stubs.c"
+    },
+    "compare_member_pointer_expression": {
+      "logical": "_compare_member_pointer_expression@4",
+      "source": "src/stubs.c"
+    },
+    "compare_overload_parameter": {
+      "logical": "_compare_overload_parameter@12",
+      "source": "src/declaration-lookup.c"
+    },
+    "compatible_declaration_attributes": {
+      "logical": "_compatible_declaration_attributes@12",
+      "source": "src/type-attributes.c"
+    },
+    "compatible_declaration_storage": {
+      "logical": "_compatible_declaration_storage@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "compatible_override_return": {
+      "logical": "_compatible_override_return@8",
+      "source": "src/stubs.c"
+    },
+    "compile_translation_unit": {
+      "logical": "_compile_translation_unit",
+      "source": "src/frontend.c"
+    },
+    "compiler_warning": {
+      "logical": "_compiler_warning",
+      "source": "src/stubs.c"
+    },
+    "complete_base_class_layout": {
+      "logical": "_complete_base_class_layout@4",
+      "source": "src/class-finalization.c"
+    },
+    "complete_class_virtual_layout": {
+      "logical": "_complete_class_virtual_layout@4",
+      "source": "src/class-finalization.c"
+    },
+    "complete_declaration": {
+      "logical": "_complete_declaration@8",
+      "source": "src/stubs.c"
+    },
+    "complete_direct_base_layout": {
+      "logical": "_complete_direct_base_layout@8",
+      "source": "src/stubs.c"
+    },
+    "complete_special_member": {
+      "logical": "_complete_special_member@28",
+      "source": "src/special-members.c"
+    },
+    "complete_type_size": {
+      "logical": "_complete_type_size@4",
+      "source": "src/stubs.c"
+    },
+    "concatenate_strings": {
+      "logical": "_concatenate_strings@8",
+      "source": "src/stubs.c"
+    },
+    "conditional_expression": {
+      "logical": "_conditional_expression@12",
+      "source": "src/stubs.c"
+    },
+    "configure_member_function": {
+      "logical": "_configure_member_function@12",
+      "source": "src/class-members.c"
+    },
+    "construct_copy_initializer": {
+      "logical": "_construct_copy_initializer@12",
+      "source": "src/stubs.c"
+    },
+    "constructor_pointer_attributes": {
+      "logical": "_constructor_pointer_attributes@4",
+      "source": "src/constructor-initializers.c"
+    },
+    "consume_line_escape": {
+      "logical": "_consume_line_escape",
+      "source": "src/stubs.c"
+    },
+    "convert_based_expression": {
+      "logical": "_convert_based_expression@8",
+      "source": "src/stubs.c"
+    },
+    "convert_binary_operands": {
+      "logical": "_convert_binary_operands@4",
+      "source": "src/binary-expressions.c"
+    },
+    "convert_class_condition": {
+      "logical": "_convert_class_condition@12",
+      "source": "src/stubs.c"
+    },
+    "convert_deferred_type_token": {
+      "logical": "_convert_deferred_type_token@8",
+      "source": "src/stubs.c"
+    },
+    "convert_derived_initializer": {
+      "logical": "_convert_derived_initializer@8",
+      "source": "src/stubs.c"
+    },
+    "convert_initializer": {
+      "logical": "_convert_initializer@12",
+      "source": "src/constructor-initializers.c"
+    },
+    "convert_integer_digits": {
+      "logical": "_convert_integer_digits@12",
+      "source": "src/numeric-scanning.c"
+    },
+    "convert_integral_constant": {
+      "logical": "_convert_integral_constant@20",
+      "source": "src/numeric-conversion.c"
+    },
+    "convert_numeric_constant": {
+      "logical": "_convert_numeric_constant@12",
+      "source": "src/numeric-conversion.c"
+    },
+    "convert_pointer_operands": {
+      "logical": "_convert_pointer_operands@12",
+      "source": "src/stubs.c"
+    },
+    "convert_scalar_initializer": {
+      "logical": "_convert_scalar_initializer@12",
+      "source": "src/stubs.c"
+    },
+    "copy_arena_bytes": {
+      "logical": "_copy_arena_bytes@12",
+      "source": "src/memory.c"
+    },
+    "copy_qualified_declarator": {
+      "logical": "_copy_qualified_declarator@8",
+      "source": "src/stubs.c"
+    },
+    "copy_quoted_literal": {
+      "logical": "_copy_quoted_literal@4",
+      "source": "src/stubs.c"
+    },
+    "copy_shape_prefix": {
+      "logical": "_copy_shape_prefix@16",
+      "source": "src/stubs.c"
+    },
+    "copy_string": {
+      "logical": "_copy_string@8",
+      "source": "src/stubs.c"
+    },
+    "copy_type_description": {
+      "logical": "_copy_type_description@4",
+      "source": "src/types.c"
+    },
+    "copy_unfinished_type": {
+      "logical": "_copy_unfinished_type@4",
+      "source": "src/stubs.c"
+    },
+    "copy_vector_elements": {
+      "logical": "_copy_vector_elements@12",
+      "source": "src/vectors.c"
+    },
+    "create_implicit_special_member": {
+      "logical": "_create_implicit_special_member@20",
+      "source": "src/special-members.c"
+    },
+    "create_static_member_alias": {
+      "logical": "_create_static_member_alias@4",
+      "source": "src/stubs.c"
+    },
+    "create_virtual_base_group_offsets": {
+      "logical": "_create_virtual_base_group_offsets@8",
+      "source": "src/stubs.c"
+    },
+    "create_virtual_pointer": {
+      "logical": "_create_virtual_pointer@8",
+      "source": "src/stubs.c"
+    },
+    "current_class_name": {
+      "logical": "_current_class_name",
+      "source": "src/tags.c"
+    },
+    "current_declaration_type": {
+      "logical": "_current_declaration_type@4",
+      "source": "src/parser-state.c"
+    },
+    "data_member_pointer_size": {
+      "logical": "_data_member_pointer_size@4",
+      "source": "src/stubs.c"
+    },
+    "debug_tag_type": {
+      "logical": "_debug_tag_type@4",
+      "source": "src/stubs.c"
+    },
+    "declaration_scope": {
+      "logical": "_declaration_scope",
+      "source": "src/declaration-lookup.c"
+    },
+    "declare_anonymous_aggregate": {
+      "logical": "_declare_anonymous_aggregate@4",
+      "source": "src/stubs.c"
+    },
+    "declare_anonymous_aggregate_object": {
+      "logical": "_declare_anonymous_aggregate_object@4",
+      "source": "src/stubs.c"
+    },
+    "declare_class_member": {
+      "logical": "_declare_class_member@8",
+      "source": "src/class-members.c"
+    },
+    "declare_class_virtual_tables": {
+      "logical": "_declare_class_virtual_tables@4",
+      "source": "src/class-finalization.c"
+    },
+    "declare_constructor": {
+      "logical": "_declare_constructor@12",
+      "source": "src/class-members.c"
+    },
+    "declare_default_constructor_closures": {
+      "logical": "_declare_default_constructor_closures@4",
+      "source": "src/special-members.c"
+    },
+    "declare_deleting_destructors": {
+      "logical": "_declare_deleting_destructors@4",
+      "source": "src/special-members.c"
+    },
+    "declare_enumerator": {
+      "logical": "_declare_enumerator@12",
+      "source": "src/stubs.c"
+    },
+    "declare_friend_member": {
+      "logical": "_declare_friend_member@24",
+      "source": "src/stubs.c"
+    },
+    "declare_implicit_special_members": {
+      "logical": "_declare_implicit_special_members@4",
+      "source": "src/special-members.c"
+    },
+    "declare_nctag": {
+      "logical": "_declare_nctag@4",
+      "source": "src/stubs.c"
+    },
+    "declare_operator_delete": {
+      "logical": "_declare_operator_delete@4",
+      "source": "src/operators.c"
+    },
+    "declare_operator_new": {
+      "logical": "_declare_operator_new@4",
+      "source": "src/operators.c"
+    },
+    "declare_qualified_member": {
+      "logical": "_declare_qualified_member@12",
+      "source": "src/stubs.c"
+    },
+    "declare_runtime_function": {
+      "logical": "_declare_runtime_function@20",
+      "source": "src/runtime-symbols.c"
+    },
+    "declare_runtime_helpers": {
+      "logical": "_declare_runtime_helpers",
+      "source": "src/runtime-symbols.c"
+    },
+    "declare_vector_helper": {
+      "logical": "_declare_vector_helper@8",
+      "source": "src/runtime-symbols.c"
+    },
+    "declare_virtual_table_symbol": {
+      "logical": "_declare_virtual_table_symbol@12",
+      "source": "src/stubs.c"
+    },
+    "declaring_class_for_symbol": {
+      "logical": "_declaring_class_for_symbol@4",
+      "source": "src/member-access.c"
+    },
+    "defer_generated_member": {
+      "logical": "_defer_generated_member@4",
+      "source": "src/stubs.c"
+    },
+    "defer_global_symbol": {
+      "logical": "_defer_global_symbol",
+      "source": "src/stubs.c"
+    },
+    "defer_nested_tag": {
+      "logical": "_defer_nested_tag@8",
+      "source": "src/stubs.c"
+    },
+    "defer_object_definition": {
+      "logical": "_defer_object_definition@4",
+      "source": "src/stubs.c"
+    },
+    "deferred_scope_allows_expression": {
+      "logical": "_deferred_scope_allows_expression@4",
+      "source": "src/stubs.c"
+    },
+    "deferred_tokens_may_be_declaration": {
+      "logical": "_deferred_tokens_may_be_declaration",
+      "source": "src/stubs.c"
+    },
+    "define_command_line_macro": {
+      "logical": "_define_command_line_macro@4",
+      "source": "src/macros.c"
+    },
+    "define_command_line_macros": {
+      "logical": "_define_command_line_macros@4",
+      "source": "src/macros.c"
+    },
+    "define_macro": {
+      "logical": "_define_macro@12",
+      "source": "src/macros.c"
+    },
+    "define_named_label": {
+      "logical": "_define_named_label@4",
+      "source": "src/stubs.c"
+    },
+    "define_tag_symbol": {
+      "logical": "_define_tag_symbol@12",
+      "source": "src/tags.c"
+    },
+    "delete_expression": {
+      "logical": "_delete_expression@16",
+      "source": "src/stubs.c"
+    },
+    "dereference_pointer_type": {
+      "logical": "_dereference_pointer_type@4",
+      "source": "src/types.c"
+    },
+    "detach_expression_symbols": {
+      "logical": "_detach_expression_symbols",
+      "source": "src/frontend-records.c"
+    },
+    "detach_new_array_bound": {
+      "logical": "_detach_new_array_bound@4",
+      "source": "src/stubs.c"
+    },
+    "diagnose_parameter_list_difference": {
+      "logical": "_diagnose_parameter_list_difference@8",
+      "source": "src/stubs.c"
+    },
+    "diagnose_virtual_ambiguities": {
+      "logical": "_diagnose_virtual_ambiguities@4",
+      "source": "src/class-finalization.c"
+    },
+    "disable_keyword": {
+      "logical": "_disable_keyword@4",
+      "source": "src/keywords.c"
+    },
+    "discard_function_definition": {
+      "logical": "_discard_function_definition",
+      "source": "src/stubs.c"
+    },
+    "double_to_extended": {
+      "logical": "_double_to_extended",
+      "source": "src/stubs.c"
+    },
+    "drop_first_type_shape": {
+      "logical": "_drop_first_type_shape@4",
+      "source": "src/types.c"
+    },
+    "emit_array_copy_initialization": {
+      "logical": "_emit_array_copy_initialization@16",
+      "source": "src/stubs.c"
+    },
+    "emit_class_array_initialization": {
+      "logical": "_emit_class_array_initialization@24",
+      "source": "src/stubs.c"
+    },
+    "emit_class_table_initializers": {
+      "logical": "_emit_class_table_initializers@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "emit_condition_to_label": {
+      "logical": "_emit_condition_to_label@12",
+      "source": "src/stubs.c"
+    },
+    "emit_conditional_branch": {
+      "logical": "_emit_conditional_branch@12",
+      "source": "src/stubs.c"
+    },
+    "emit_constructor_initializers": {
+      "logical": "_emit_constructor_initializers@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "emit_default_ctor_closure_body": {
+      "logical": "_emit_default_ctor_closure_body@4",
+      "source": "src/stubs.c"
+    },
+    "emit_deferred_class_terminator": {
+      "logical": "_emit_deferred_class_terminator",
+      "source": "src/stubs.c"
+    },
+    "emit_deleting_destructor_body": {
+      "logical": "_emit_deleting_destructor_body@4",
+      "source": "src/stubs.c"
+    },
+    "emit_expression_statement": {
+      "logical": "_emit_expression_statement@4",
+      "source": "src/expression-output.c"
+    },
+    "emit_expression_tree": {
+      "logical": "_emit_expression_tree@4",
+      "source": "src/expression-output.c"
+    },
+    "emit_function_symbols": {
+      "logical": "_emit_function_symbols@4",
+      "source": "src/stubs.c"
+    },
+    "emit_generated_assignment": {
+      "logical": "_emit_generated_assignment@12",
+      "source": "src/stubs.c"
+    },
+    "emit_generated_copy_constructor": {
+      "logical": "_emit_generated_copy_constructor@12",
+      "source": "src/stubs.c"
+    },
+    "emit_generated_default_constructor": {
+      "logical": "_emit_generated_default_constructor@12",
+      "source": "src/stubs.c"
+    },
+    "emit_inline_assembly": {
+      "logical": "_emit_inline_assembly",
+      "source": "src/stubs.c"
+    },
+    "emit_label": {
+      "logical": "_emit_label@4",
+      "source": "src/ir.c"
+    },
+    "emit_line_directive": {
+      "logical": "_emit_line_directive",
+      "source": "src/stubs.c"
+    },
+    "emit_member_and_base_destructors": {
+      "logical": "_emit_member_and_base_destructors@4",
+      "source": "src/stubs.c"
+    },
+    "emit_nonnull_expression_statement": {
+      "logical": "_emit_nonnull_expression_statement@4",
+      "source": "src/record-processing.c"
+    },
+    "emit_parameter_declaration": {
+      "logical": "_emit_parameter_declaration@4",
+      "source": "src/function-definitions.c"
+    },
+    "emit_pending_function_cleanup": {
+      "logical": "_emit_pending_function_cleanup",
+      "source": "src/stubs.c"
+    },
+    "emit_pending_runtime_functions": {
+      "logical": "_emit_pending_runtime_functions",
+      "source": "src/stubs.c"
+    },
+    "emit_record_node": {
+      "logical": "_emit_record_node@12",
+      "source": "src/ir.c"
+    },
+    "emit_return_statement": {
+      "logical": "_emit_return_statement@8",
+      "source": "src/return-statements.c"
+    },
+    "emit_scope_cleanup_references": {
+      "logical": "_emit_scope_cleanup_references",
+      "source": "src/statement-scopes.c"
+    },
+    "emit_seh_filter": {
+      "logical": "_emit_seh_filter@4",
+      "source": "src/stubs.c"
+    },
+    "emit_seh_leave": {
+      "logical": "_emit_seh_leave",
+      "source": "src/stubs.c"
+    },
+    "emit_string_intrinsic": {
+      "logical": "_emit_string_intrinsic@4",
+      "source": "src/stubs.c"
+    },
+    "emit_symbol_declaration": {
+      "logical": "_emit_symbol_declaration@4",
+      "source": "src/symbol-output.c"
+    },
+    "emit_vbase_destructor_epilogue": {
+      "logical": "_emit_vbase_destructor_epilogue@4",
+      "source": "src/stubs.c"
+    },
+    "emit_vector_deleting_destructor_body": {
+      "logical": "_emit_vector_deleting_destructor_body@4",
+      "source": "src/stubs.c"
+    },
+    "emit_version_token": {
+      "logical": "_emit_version_token@4",
+      "source": "src/stubs.c"
+    },
+    "emit_virtual_base_initializers": {
+      "logical": "_emit_virtual_base_initializers@12",
+      "source": "src/stubs.c"
+    },
+    "emit_vtable_pointer_initializers": {
+      "logical": "_emit_vtable_pointer_initializers@12",
+      "source": "src/constructor-initializers.c"
+    },
+    "emit_vtordisp_initializers": {
+      "logical": "_emit_vtordisp_initializers@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "emit_warning_controls": {
+      "logical": "_emit_warning_controls@4",
+      "source": "src/control-ir.c"
+    },
+    "encode_type_name": {
+      "logical": "_encode_type_name@4",
+      "source": "src/stubs.c"
+    },
+    "end_braced_initializer": {
+      "logical": "_end_braced_initializer@4",
+      "source": "src/stubs.c"
+    },
+    "end_class_specifier": {
+      "logical": "_end_class_specifier",
+      "source": "src/class-finalization.c"
+    },
+    "end_compound_scope_record": {
+      "logical": "_end_compound_scope_record",
+      "source": "src/frontend-records.c"
+    },
+    "end_compound_statement": {
+      "logical": "_end_compound_statement",
+      "source": "src/statement-scopes.c"
+    },
+    "end_do_statement": {
+      "logical": "_end_do_statement",
+      "source": "src/stubs.c"
+    },
+    "end_else_statement": {
+      "logical": "_end_else_statement",
+      "source": "src/stubs.c"
+    },
+    "end_enum_specifier": {
+      "logical": "_end_enum_specifier",
+      "source": "src/stubs.c"
+    },
+    "end_for_statement": {
+      "logical": "_end_for_statement",
+      "source": "src/stubs.c"
+    },
+    "end_frontend_scope": {
+      "logical": "_end_frontend_scope",
+      "source": "src/frontend-records.c"
+    },
+    "end_function_definition": {
+      "logical": "_end_function_definition",
+      "source": "src/function-finalization.c"
+    },
+    "end_if_statement": {
+      "logical": "_end_if_statement@4",
+      "source": "src/stubs.c"
+    },
+    "end_nested_initializer": {
+      "logical": "_end_nested_initializer",
+      "source": "src/stubs.c"
+    },
+    "end_qc_control": {
+      "logical": "_end_qc_control",
+      "source": "src/stubs.c"
+    },
+    "end_qualification_allocation": {
+      "logical": "_end_qualification_allocation",
+      "source": "src/qualified-names.c"
+    },
+    "end_seh_except": {
+      "logical": "_end_seh_except",
+      "source": "src/stubs.c"
+    },
+    "end_seh_filter": {
+      "logical": "_end_seh_filter",
+      "source": "src/stubs.c"
+    },
+    "end_seh_finally": {
+      "logical": "_end_seh_finally",
+      "source": "src/stubs.c"
+    },
+    "end_seh_try": {
+      "logical": "_end_seh_try",
+      "source": "src/stubs.c"
+    },
+    "end_switch_statement": {
+      "logical": "_end_switch_statement",
+      "source": "src/stubs.c"
+    },
+    "end_type_diagnostic": {
+      "logical": "_end_type_diagnostic",
+      "source": "src/stubs.c"
+    },
+    "end_while_statement": {
+      "logical": "_end_while_statement",
+      "source": "src/stubs.c"
+    },
+    "enter_class_scope": {
+      "logical": "_enter_class_scope@8",
+      "source": "src/tags.c"
+    },
+    "enter_compound_scope": {
+      "logical": "_enter_compound_scope",
+      "source": "src/statement-scopes.c"
+    },
+    "enter_qualified_class": {
+      "logical": "_enter_qualified_class@12",
+      "source": "src/qualified-names.c"
+    },
+    "enumerator_expression": {
+      "logical": "_enumerator_expression@4",
+      "source": "src/stubs.c"
+    },
+    "equal_inline_vectors": {
+      "logical": "_equal_inline_vectors",
+      "source": "src/stubs.c"
+    },
+    "equal_vectors": {
+      "logical": "_equal_vectors@8",
+      "source": "src/stubs.c"
+    },
+    "equivalent_base_type_flags": {
+      "logical": "_equivalent_base_type_flags@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "equivalent_shape_attributes": {
+      "logical": "_equivalent_shape_attributes@8",
+      "source": "src/type-attributes.c"
+    },
+    "equivalent_storage_extensions": {
+      "logical": "_equivalent_storage_extensions@8",
+      "source": "src/storage.c"
+    },
+    "evaluate_integer_constant": {
+      "logical": "_evaluate_integer_constant@4",
+      "source": "src/stubs.c"
+    },
+    "expand_macro": {
+      "logical": "_expand_macro@4",
+      "source": "src/stubs.c"
+    },
+    "expression_type_alignment": {
+      "logical": "_expression_type_alignment@4",
+      "source": "src/ir.c"
+    },
+    "extend_argument_vector": {
+      "logical": "_extend_argument_vector",
+      "source": "src/arguments.c"
+    },
+    "extended_to_double": {
+      "logical": "_extended_to_double",
+      "source": "src/stubs.c"
+    },
+    "extended_to_float": {
+      "logical": "_extended_to_float",
+      "source": "src/stubs.c"
+    },
+    "extended_to_integer": {
+      "logical": "_extended_to_integer",
+      "source": "src/stubs.c"
+    },
+    "extract_base_prefix": {
+      "logical": "_extract_base_prefix@20",
+      "source": "src/declarator-shapes.c"
+    },
+    "extract_declarator_prefix": {
+      "logical": "_extract_declarator_prefix@16",
+      "source": "src/declarator-shapes.c"
+    },
+    "fatal_error": {
+      "logical": "_fatal_error",
+      "source": "src/stubs.c"
+    },
+    "fill_source_buffer": {
+      "logical": "_fill_source_buffer",
+      "source": "src/source-input.c"
+    },
+    "finalize_class_virtual_tables": {
+      "logical": "_finalize_class_virtual_tables@4",
+      "source": "src/class-finalization.c"
+    },
+    "finalize_object_storage": {
+      "logical": "_finalize_object_storage@4",
+      "source": "src/declaration-bind.c"
+    },
+    "finalize_options": {
+      "logical": "_finalize_options",
+      "source": "src/options.c"
+    },
+    "find_c_linkage_function": {
+      "logical": "_find_c_linkage_function@4",
+      "source": "src/stubs.c"
+    },
+    "find_class_member_name": {
+      "logical": "_find_class_member_name@4",
+      "source": "src/class-members.c"
+    },
+    "find_class_name_paths": {
+      "logical": "_find_class_name_paths@12",
+      "source": "src/declaration-lookup.c"
+    },
+    "find_class_special_member": {
+      "logical": "_find_class_special_member@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "find_copy_constructor": {
+      "logical": "_find_copy_constructor@4",
+      "source": "src/stubs.c"
+    },
+    "find_expression_symbol": {
+      "logical": "_find_expression_symbol@4",
+      "source": "src/stubs.c"
+    },
+    "find_expression_type_base": {
+      "logical": "_find_expression_type_base@4",
+      "source": "src/stubs.c"
+    },
+    "find_forward_frontend_record": {
+      "logical": "_find_forward_frontend_record@12",
+      "source": "src/record-processing.c"
+    },
+    "find_friend_access": {
+      "logical": "_find_friend_access@8",
+      "source": "src/stubs.c"
+    },
+    "find_frontend_record": {
+      "logical": "_find_frontend_record@12",
+      "source": "src/record-processing.c"
+    },
+    "find_hash_value": {
+      "logical": "_find_hash_value@8",
+      "source": "src/stubs.c"
+    },
+    "find_inline_parameter_slot": {
+      "logical": "_find_inline_parameter_slot@12",
+      "source": "src/stubs.c"
+    },
+    "find_intrinsic_index": {
+      "logical": "_find_intrinsic_index@4",
+      "source": "src/stubs.c"
+    },
+    "find_label": {
+      "logical": "_find_label@4",
+      "source": "src/stubs.c"
+    },
+    "find_label_record": {
+      "logical": "_find_label_record@4",
+      "source": "src/stubs.c"
+    },
+    "find_matching_overload": {
+      "logical": "_find_matching_overload@12",
+      "source": "src/declaration-lookup.c"
+    },
+    "find_name_in_chain": {
+      "logical": "_find_name_in_chain@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "find_outer_name": {
+      "logical": "_find_outer_name@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "find_qualifier_name": {
+      "logical": "_find_qualifier_name@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "find_scope_symbol": {
+      "logical": "_find_scope_symbol@12",
+      "source": "src/declaration-lookup.c"
+    },
+    "find_special_member_model": {
+      "logical": "_find_special_member_model@12",
+      "source": "src/special-members.c"
+    },
+    "find_tag_declaration": {
+      "logical": "_find_tag_declaration@4",
+      "source": "src/stubs.c"
+    },
+    "find_tag_in_chain": {
+      "logical": "_find_tag_in_chain@8",
+      "source": "src/stubs.c"
+    },
+    "find_virtual_base_group_offsets": {
+      "logical": "_find_virtual_base_group_offsets@8",
+      "source": "src/stubs.c"
+    },
+    "finish_array_declarator": {
+      "logical": "_finish_array_declarator@20",
+      "source": "src/stubs.c"
+    },
+    "finish_browser_output": {
+      "logical": "_finish_browser_output",
+      "source": "src/stubs.c"
+    },
+    "finish_call_expression": {
+      "logical": "_finish_call_expression@8",
+      "source": "src/stubs.c"
+    },
+    "finish_class_size": {
+      "logical": "_finish_class_size@4",
+      "source": "src/class-finalization.c"
+    },
+    "finish_conditional_branch": {
+      "logical": "_finish_conditional_branch",
+      "source": "src/stubs.c"
+    },
+    "finish_debug_info": {
+      "logical": "_finish_debug_info",
+      "source": "src/stubs.c"
+    },
+    "finish_declarations": {
+      "logical": "_finish_declarations",
+      "source": "src/stubs.c"
+    },
+    "finish_expression_output": {
+      "logical": "_finish_expression_output",
+      "source": "src/stubs.c"
+    },
+    "finish_external_definition": {
+      "logical": "_finish_external_definition@4",
+      "source": "src/parser-state.c"
+    },
+    "finish_function_body": {
+      "logical": "_finish_function_body@4",
+      "source": "src/function-finalization.c"
+    },
+    "finish_function_declarator": {
+      "logical": "_finish_function_declarator@8",
+      "source": "src/declarator-shapes.c"
+    },
+    "finish_function_output": {
+      "logical": "_finish_function_output",
+      "source": "src/function-finalization.c"
+    },
+    "finish_function_records": {
+      "logical": "_finish_function_records",
+      "source": "src/record-processing.c"
+    },
+    "finish_goto_cleanups": {
+      "logical": "_finish_goto_cleanups",
+      "source": "src/record-processing.c"
+    },
+    "finish_implicit_statement_scope": {
+      "logical": "_finish_implicit_statement_scope@8",
+      "source": "src/stubs.c"
+    },
+    "finish_inline_function": {
+      "logical": "_finish_inline_function",
+      "source": "src/stubs.c"
+    },
+    "finish_inline_functions": {
+      "logical": "_finish_inline_functions",
+      "source": "src/stubs.c"
+    },
+    "finish_label_symbols": {
+      "logical": "_finish_label_symbols",
+      "source": "src/ir.c"
+    },
+    "finish_nonvirtual_class_size": {
+      "logical": "_finish_nonvirtual_class_size@4",
+      "source": "src/class-finalization.c"
+    },
+    "finish_object_initializer": {
+      "logical": "_finish_object_initializer@4",
+      "source": "src/stubs.c"
+    },
+    "finish_parameter_scope": {
+      "logical": "_finish_parameter_scope",
+      "source": "src/declarations.c"
+    },
+    "finish_pch_capture": {
+      "logical": "_finish_pch_capture",
+      "source": "src/stubs.c"
+    },
+    "finish_pch_output": {
+      "logical": "_finish_pch_output",
+      "source": "src/stubs.c"
+    },
+    "finish_return_expression": {
+      "logical": "_finish_return_expression@8",
+      "source": "src/expression-preparation.c"
+    },
+    "finish_symbol_expression": {
+      "logical": "_finish_symbol_expression@8",
+      "source": "src/identifier-expressions.c"
+    },
+    "finish_translation_symbols": {
+      "logical": "_finish_translation_symbols",
+      "source": "src/stubs.c"
+    },
+    "finish_type": {
+      "logical": "_finish_type@4",
+      "source": "src/types.c"
+    },
+    "finish_types": {
+      "logical": "_finish_types",
+      "source": "src/stubs.c"
+    },
+    "finish_work_stack": {
+      "logical": "_finish_work_stack@4",
+      "source": "src/stubs.c"
+    },
+    "float_to_extended": {
+      "logical": "_float_to_extended",
+      "source": "src/stubs.c"
+    },
+    "flush_current_function": {
+      "logical": "_flush_current_function@4",
+      "source": "src/stubs.c"
+    },
+    "flush_debug_types": {
+      "logical": "_flush_debug_types",
+      "source": "src/stubs.c"
+    },
+    "flush_scanned_declaration": {
+      "logical": "_flush_scanned_declaration@4",
+      "source": "src/inline-capture.c"
+    },
+    "fold_binary_constant": {
+      "logical": "_fold_binary_constant@12",
+      "source": "src/stubs.c"
+    },
+    "fold_symbol_constant": {
+      "logical": "_fold_symbol_constant@4",
+      "source": "src/constants.c"
+    },
+    "format_declarator": {
+      "logical": "_format_declarator@8",
+      "source": "src/stubs.c"
+    },
+    "format_diagnostic_symbol": {
+      "logical": "_format_diagnostic_symbol@8",
+      "source": "src/stubs.c"
+    },
+    "format_function_parameters": {
+      "logical": "_format_function_parameters@12",
+      "source": "src/stubs.c"
+    },
+    "format_integer": {
+      "logical": "_format_integer",
+      "source": "src/stubs.c"
+    },
+    "format_qualified_name": {
+      "logical": "_format_qualified_name@8",
+      "source": "src/stubs.c"
+    },
+    "format_qualified_tag_name": {
+      "logical": "_format_qualified_tag_name@8",
+      "source": "src/stubs.c"
+    },
+    "format_storage_spec": {
+      "logical": "_format_storage_spec@8",
+      "source": "src/stubs.c"
+    },
+    "format_symbol_name": {
+      "logical": "_format_symbol_name@4",
+      "source": "src/stubs.c"
+    },
+    "format_timestamp": {
+      "logical": "_format_timestamp@4",
+      "source": "src/macros.c"
+    },
+    "format_work_text": {
+      "logical": "_format_work_text",
+      "source": "src/stubs.c"
+    },
+    "frontend_time": {
+      "logical": "_frontend_time@4",
+      "source": "src/macros.c"
+    },
+    "function_designator_type": {
+      "logical": "_function_designator_type@4",
+      "source": "src/stubs.c"
+    },
+    "function_parameter_bytes": {
+      "logical": "_function_parameter_bytes@4",
+      "source": "src/stubs.c"
+    },
+    "function_paths_return": {
+      "logical": "_function_paths_return",
+      "source": "src/record-processing.c"
+    },
+    "function_return_type": {
+      "logical": "_function_return_type@4",
+      "source": "src/function-definitions.c"
+    },
+    "generate_inline_queries": {
+      "logical": "_generate_inline_queries",
+      "source": "src/stubs.c"
+    },
+    "generated_member_name": {
+      "logical": "_generated_member_name@4",
+      "source": "src/special-members.c"
+    },
+    "generated_member_pointer_kind": {
+      "logical": "_generated_member_pointer_kind@4",
+      "source": "src/special-members.c"
+    },
+    "get_base_initialization_access": {
+      "logical": "_get_base_initialization_access",
+      "source": "src/stubs.c"
+    },
+    "get_current_class_symbol": {
+      "logical": "_get_current_class_symbol",
+      "source": "src/stubs.c"
+    },
+    "get_ir_symbol_index": {
+      "logical": "_get_ir_symbol_index",
+      "source": "src/ir.c"
+    },
+    "global_declaration_type": {
+      "logical": "_global_declaration_type@4",
+      "source": "src/parser-state.c"
+    },
+    "grow_inline_vector": {
+      "logical": "_grow_inline_vector",
+      "source": "src/stubs.c"
+    },
+    "grow_vector": {
+      "logical": "_grow_vector@4",
+      "source": "src/stubs.c"
+    },
+    "guarded_compile": {
+      "logical": "_guarded_compile",
+      "source": "src/c1xx.c"
+    },
+    "has_assignment_member_model": {
+      "logical": "_has_assignment_member_model@4",
+      "source": "src/stubs.c"
+    },
+    "has_class_initialization": {
+      "logical": "_has_class_initialization@4",
+      "source": "src/stubs.c"
+    },
+    "has_cv_qualifiers": {
+      "logical": "_has_cv_qualifiers@4",
+      "source": "src/stubs.c"
+    },
+    "has_deferred_expression_symbols": {
+      "logical": "_has_deferred_expression_symbols@4",
+      "source": "src/stubs.c"
+    },
+    "has_destructor_member_model": {
+      "logical": "_has_destructor_member_model@4",
+      "source": "src/stubs.c"
+    },
+    "has_member_access_declaration": {
+      "logical": "_has_member_access_declaration@12",
+      "source": "src/stubs.c"
+    },
+    "has_new_virtual_members": {
+      "logical": "_has_new_virtual_members@4",
+      "source": "src/class-finalization.c"
+    },
+    "has_pointer_or_member_pointer_shape": {
+      "logical": "_has_pointer_or_member_pointer_shape@4",
+      "source": "src/stubs.c"
+    },
+    "has_qualified_this_type": {
+      "logical": "_has_qualified_this_type@4",
+      "source": "src/stubs.c"
+    },
+    "has_single_function": {
+      "logical": "_has_single_function@4",
+      "source": "src/stubs.c"
+    },
+    "has_unresolved_labels": {
+      "logical": "_has_unresolved_labels",
+      "source": "src/record-processing.c"
+    },
+    "hash_declaration_parameters": {
+      "logical": "_hash_declaration_parameters@4",
+      "source": "src/parameters.c"
+    },
+    "identifier_expression": {
+      "logical": "_identifier_expression@4",
+      "source": "src/identifier-expressions.c"
+    },
+    "increment_expression_record_depth": {
+      "logical": "_increment_expression_record_depth",
+      "source": "src/stubs.c"
+    },
+    "indirect_storage_expression": {
+      "logical": "_indirect_storage_expression@4",
+      "source": "src/identifier-expressions.c"
+    },
+    "infer_inheritance_model": {
+      "logical": "_infer_inheritance_model@4",
+      "source": "src/stubs.c"
+    },
+    "inherit_base_special_members": {
+      "logical": "_inherit_base_special_members@12",
+      "source": "src/special-members.c"
+    },
+    "inherit_base_virtual_tables": {
+      "logical": "_inherit_base_virtual_tables@12",
+      "source": "src/stubs.c"
+    },
+    "inherit_class_dll_storage": {
+      "logical": "_inherit_class_dll_storage@8",
+      "source": "src/stubs.c"
+    },
+    "inherit_class_pointer_attributes": {
+      "logical": "_inherit_class_pointer_attributes@4",
+      "source": "src/tags.c"
+    },
+    "inherit_field_special_members": {
+      "logical": "_inherit_field_special_members@12",
+      "source": "src/special-members.c"
+    },
+    "inherit_function_defaults": {
+      "logical": "_inherit_function_defaults@20",
+      "source": "src/stubs.c"
+    },
+    "inherit_storage_modifiers": {
+      "logical": "_inherit_storage_modifiers@8",
+      "source": "src/storage.c"
+    },
+    "inherited_symbol_expression": {
+      "logical": "_inherited_symbol_expression@8",
+      "source": "src/identifier-expressions.c"
+    },
+    "initialize_allocation_operators": {
+      "logical": "_initialize_allocation_operators",
+      "source": "src/operators.c"
+    },
+    "initialize_checksums": {
+      "logical": "_initialize_checksums",
+      "source": "src/checksums.c"
+    },
+    "initialize_class_virtual_tables": {
+      "logical": "_initialize_class_virtual_tables@4",
+      "source": "src/class-finalization.c"
+    },
+    "initialize_cpp_context_stack": {
+      "logical": "_initialize_cpp_context_stack",
+      "source": "src/cpp-context.c"
+    },
+    "initialize_declaration_table": {
+      "logical": "_initialize_declaration_table",
+      "source": "src/declarations.c"
+    },
+    "initialize_element": {
+      "logical": "_initialize_element@8",
+      "source": "src/stubs.c"
+    },
+    "initialize_floating_point": {
+      "logical": "_initialize_floating_point",
+      "source": "src/floating.c"
+    },
+    "initialize_frontend": {
+      "logical": "_initialize_frontend",
+      "source": "src/initialization.c"
+    },
+    "initialize_function_inline_analysis": {
+      "logical": "_initialize_function_inline_analysis",
+      "source": "src/stubs.c"
+    },
+    "initialize_global_scope": {
+      "logical": "_initialize_global_scope",
+      "source": "src/scopes.c"
+    },
+    "initialize_inline_queries": {
+      "logical": "_initialize_inline_queries",
+      "source": "src/stubs.c"
+    },
+    "initialize_intermediate_output": {
+      "logical": "_initialize_intermediate_output",
+      "source": "src/intermediate.c"
+    },
+    "initialize_japanese_characters": {
+      "logical": "_initialize_japanese_characters",
+      "source": "src/stubs.c"
+    },
+    "initialize_keyword_table": {
+      "logical": "_initialize_keyword_table",
+      "source": "src/keywords.c"
+    },
+    "initialize_lead_bytes": {
+      "logical": "_initialize_lead_bytes",
+      "source": "src/characters.c"
+    },
+    "initialize_lookahead_parser": {
+      "logical": "_initialize_lookahead_parser",
+      "source": "src/lookahead.c"
+    },
+    "initialize_lvalue": {
+      "logical": "_initialize_lvalue@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "initialize_macro_storage": {
+      "logical": "_initialize_macro_storage",
+      "source": "src/macros.c"
+    },
+    "initialize_macro_text": {
+      "logical": "_initialize_macro_text",
+      "source": "src/preprocessor.c"
+    },
+    "initialize_member_expression": {
+      "logical": "_initialize_member_expression@16",
+      "source": "src/constructor-initializers.c"
+    },
+    "initialize_object": {
+      "logical": "_initialize_object@8",
+      "source": "src/object-initializers.c"
+    },
+    "initialize_object_value": {
+      "logical": "_initialize_object_value@8",
+      "source": "src/stubs.c"
+    },
+    "initialize_operators": {
+      "logical": "_initialize_operators",
+      "source": "src/operators.c"
+    },
+    "initialize_packing": {
+      "logical": "_initialize_packing",
+      "source": "src/packing.c"
+    },
+    "initialize_preprocessor": {
+      "logical": "_initialize_preprocessor",
+      "source": "src/preprocessor.c"
+    },
+    "initialize_purecall": {
+      "logical": "_initialize_purecall",
+      "source": "src/runtime-symbols.c"
+    },
+    "initialize_qualified_member": {
+      "logical": "_initialize_qualified_member@8",
+      "source": "src/stubs.c"
+    },
+    "initialize_scope_buckets": {
+      "logical": "_initialize_scope_buckets@8",
+      "source": "src/scopes.c"
+    },
+    "initialize_translation_state": {
+      "logical": "_initialize_translation_state",
+      "source": "src/scopes.c"
+    },
+    "initialize_type_table": {
+      "logical": "_initialize_type_table",
+      "source": "src/types.c"
+    },
+    "initialize_virtual_entry": {
+      "logical": "_initialize_virtual_entry@8",
+      "source": "src/stubs.c"
+    },
+    "initialize_work_stack": {
+      "logical": "_initialize_work_stack@4",
+      "source": "src/vectors.c"
+    },
+    "initialize_zero_object": {
+      "logical": "_initialize_zero_object@4",
+      "source": "src/stubs.c"
+    },
+    "inline_vector_bytes": {
+      "logical": "_inline_vector_bytes",
+      "source": "src/inline-vector.c"
+    },
+    "inline_vector_count": {
+      "logical": "_inline_vector_count",
+      "source": "src/inline-vector.c"
+    },
+    "inner_type_size": {
+      "logical": "_inner_type_size@12",
+      "source": "src/stubs.c"
+    },
+    "insert_class_member": {
+      "logical": "_insert_class_member@4",
+      "source": "src/class-members.c"
+    },
+    "insert_current_scope_symbol": {
+      "logical": "_insert_current_scope_symbol@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "insert_scope_symbol": {
+      "logical": "_insert_scope_symbol@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "insert_symbol": {
+      "logical": "_insert_symbol@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "inspect_declared_special_members": {
+      "logical": "_inspect_declared_special_members@16",
+      "source": "src/special-members.c"
+    },
+    "integer_constant_overflows": {
+      "logical": "_integer_constant_overflows@16",
+      "source": "src/numeric-conversion.c"
+    },
+    "integer_digit_value": {
+      "logical": "_integer_digit_value@4",
+      "source": "src/numeric-scanning.c"
+    },
+    "integer_to_extended": {
+      "logical": "_integer_to_extended",
+      "source": "src/stubs.c"
+    },
+    "intern_declaration_parameters": {
+      "logical": "_intern_declaration_parameters",
+      "source": "src/parameters.c"
+    },
+    "intern_function_parameters": {
+      "logical": "_intern_function_parameters@4",
+      "source": "src/parameters.c"
+    },
+    "intern_identifier": {
+      "logical": "_intern_identifier@4",
+      "source": "src/preprocessor.c"
+    },
+    "intern_keyword": {
+      "logical": "_intern_keyword@4",
+      "source": "src/preprocessor.c"
+    },
+    "intern_operator_name": {
+      "logical": "_intern_operator_name@4",
+      "source": "src/operators.c"
+    },
+    "intern_shape_on": {
+      "logical": "_intern_shape_on@16",
+      "source": "src/declarator-shapes.c"
+    },
+    "intern_type": {
+      "logical": "_intern_type@4",
+      "source": "src/types.c"
+    },
+    "intern_type_shape": {
+      "logical": "_intern_type_shape@4",
+      "source": "src/types.c"
+    },
+    "interrupt_compile": {
+      "logical": "_interrupt_compile",
+      "source": "src/stubs.c"
+    },
+    "intrinsic_enabled": {
+      "logical": "_intrinsic_enabled@4",
+      "source": "src/stubs.c"
+    },
+    "is_class_name_type": {
+      "logical": "_is_class_name_type@4",
+      "source": "src/types.c"
+    },
+    "is_const_or_reference_member": {
+      "logical": "_is_const_or_reference_member@4",
+      "source": "src/special-members.c"
+    },
+    "is_current_class": {
+      "logical": "_is_current_class@4",
+      "source": "src/tags.c"
+    },
+    "is_current_class_name": {
+      "logical": "_is_current_class_name@4",
+      "source": "src/tags.c"
+    },
+    "is_member_declarator": {
+      "logical": "_is_member_declarator@4",
+      "source": "src/declarations.c"
+    },
+    "is_overload_operand": {
+      "logical": "_is_overload_operand@4",
+      "source": "src/unary-expressions.c"
+    },
+    "is_static_data_member": {
+      "logical": "_is_static_data_member@4",
+      "source": "src/class-members.c"
+    },
+    "is_unqualified_class_type": {
+      "logical": "_is_unqualified_class_type@4",
+      "source": "src/type-attributes.c"
+    },
+    "last_type_shape": {
+      "logical": "_last_type_shape@4",
+      "source": "src/stubs.c"
+    },
+    "layout_bit_field": {
+      "logical": "_layout_bit_field@16",
+      "source": "src/stubs.c"
+    },
+    "layout_data_member": {
+      "logical": "_layout_data_member@4",
+      "source": "src/class-members.c"
+    },
+    "leave_compound_scope": {
+      "logical": "_leave_compound_scope",
+      "source": "src/statement-scopes.c"
+    },
+    "load_precompiled_header": {
+      "logical": "_load_precompiled_header",
+      "source": "src/stubs.c"
+    },
+    "lookahead_parse": {
+      "logical": "_lookahead_parse",
+      "source": "src/lookahead-parser.c"
+    },
+    "lookup_based_symbol": {
+      "logical": "_lookup_based_symbol@4",
+      "source": "src/stubs.c"
+    },
+    "lookup_class_name": {
+      "logical": "_lookup_class_name@16",
+      "source": "src/declaration-lookup.c"
+    },
+    "lookup_current_scope_declaration": {
+      "logical": "_lookup_current_scope_declaration@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "lookup_declaration": {
+      "logical": "_lookup_declaration@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "lookup_macro": {
+      "logical": "_lookup_macro",
+      "source": "src/macros.c"
+    },
+    "lookup_outer_declaration": {
+      "logical": "_lookup_outer_declaration@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "lookup_qualified_member": {
+      "logical": "_lookup_qualified_member@12",
+      "source": "src/qualified-names.c"
+    },
+    "lookup_scope_declaration": {
+      "logical": "_lookup_scope_declaration@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "lookup_scoped_name": {
+      "logical": "_lookup_scoped_name@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "lookup_segment_symbol": {
+      "logical": "_lookup_segment_symbol@16",
+      "source": "src/stubs.c"
+    },
+    "lookup_symbol_binding": {
+      "logical": "_lookup_symbol_binding@8",
+      "source": "src/stubs.c"
+    },
+    "lookup_tag_name": {
+      "logical": "_lookup_tag_name@4",
+      "source": "src/stubs.c"
+    },
+    "macro_replacement_diff": {
+      "logical": "_macro_replacement_diff@12",
+      "source": "src/stubs.c"
+    },
+    "main": {
+      "logical": "_main",
+      "source": "src/c1xx.c"
+    },
+    "make_address_temporary": {
+      "logical": "_make_address_temporary@4",
+      "source": "src/stubs.c"
+    },
+    "make_anonymous_identifier": {
+      "logical": "_make_anonymous_identifier",
+      "source": "src/stubs.c"
+    },
+    "make_assignment_lvalue": {
+      "logical": "_make_assignment_lvalue@4",
+      "source": "src/stubs.c"
+    },
+    "make_class_pointer_type": {
+      "logical": "_make_class_pointer_type@8",
+      "source": "src/tags.c"
+    },
+    "make_comma_lvalue": {
+      "logical": "_make_comma_lvalue@4",
+      "source": "src/stubs.c"
+    },
+    "make_conditional_lvalue": {
+      "logical": "_make_conditional_lvalue@4",
+      "source": "src/stubs.c"
+    },
+    "make_constructor_call": {
+      "logical": "_make_constructor_call@20",
+      "source": "src/stubs.c"
+    },
+    "make_copy_parameter": {
+      "logical": "_make_copy_parameter@8",
+      "source": "src/special-members.c"
+    },
+    "make_default_constructor_closure": {
+      "logical": "_make_default_constructor_closure@12",
+      "source": "src/stubs.c"
+    },
+    "make_deleting_destructors": {
+      "logical": "_make_deleting_destructors@12",
+      "source": "src/stubs.c"
+    },
+    "make_ellipsis_parameter": {
+      "logical": "_make_ellipsis_parameter",
+      "source": "src/parameter-scopes.c"
+    },
+    "make_error_expression": {
+      "logical": "_make_error_expression",
+      "source": "src/stubs.c"
+    },
+    "make_expression_qualified_type": {
+      "logical": "_make_expression_qualified_type@16",
+      "source": "src/stubs.c"
+    },
+    "make_function_type": {
+      "logical": "_make_function_type@8",
+      "source": "src/types.c"
+    },
+    "make_integer_constant": {
+      "logical": "_make_integer_constant@4",
+      "source": "src/constants.c"
+    },
+    "make_local_static_name": {
+      "logical": "_make_local_static_name@4",
+      "source": "src/stubs.c"
+    },
+    "make_member_at_offset": {
+      "logical": "_make_member_at_offset@12",
+      "source": "src/member-expressions.c"
+    },
+    "make_missing_function_declaration": {
+      "logical": "_make_missing_function_declaration",
+      "source": "src/stubs.c"
+    },
+    "make_overload_symbol": {
+      "logical": "_make_overload_symbol@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "make_qualified_type": {
+      "logical": "_make_qualified_type@16",
+      "source": "src/types.c"
+    },
+    "make_subobject_pointer": {
+      "logical": "_make_subobject_pointer@12",
+      "source": "src/stubs.c"
+    },
+    "make_table_qualifier_path": {
+      "logical": "_make_table_qualifier_path@8",
+      "source": "src/stubs.c"
+    },
+    "make_tagged_type": {
+      "logical": "_make_tagged_type@4",
+      "source": "src/types.c"
+    },
+    "make_vtordisp_qualifier_path": {
+      "logical": "_make_vtordisp_qualifier_path@8",
+      "source": "src/stubs.c"
+    },
+    "make_vtordisp_value": {
+      "logical": "_make_vtordisp_value@8",
+      "source": "src/stubs.c"
+    },
+    "mangle_identifier": {
+      "logical": "_mangle_identifier@12",
+      "source": "src/stubs.c"
+    },
+    "mangle_symbol_encoding": {
+      "logical": "_mangle_symbol_encoding@16",
+      "source": "src/stubs.c"
+    },
+    "mangle_symbol_identifier": {
+      "logical": "_mangle_symbol_identifier@12",
+      "source": "src/stubs.c"
+    },
+    "mangle_symbol_name": {
+      "logical": "_mangle_symbol_name@12",
+      "source": "src/mangling.c"
+    },
+    "mangle_symbol_scope": {
+      "logical": "_mangle_symbol_scope@8",
+      "source": "src/stubs.c"
+    },
+    "mark_evaluation_boundary": {
+      "logical": "_mark_evaluation_boundary",
+      "source": "src/stubs.c"
+    },
+    "mark_initialized_symbol": {
+      "logical": "_mark_initialized_symbol@4",
+      "source": "src/frontend-records.c"
+    },
+    "mark_lead_byte_ranges": {
+      "logical": "_mark_lead_byte_ranges",
+      "source": "src/characters.c"
+    },
+    "mark_static_parameters": {
+      "logical": "_mark_static_parameters@4",
+      "source": "src/stubs.c"
+    },
+    "match_option": {
+      "logical": "_match_option",
+      "source": "src/options.c"
+    },
+    "match_option_suffix": {
+      "logical": "_match_option_suffix",
+      "source": "src/options.c"
+    },
+    "match_source_character": {
+      "logical": "_match_source_character@4",
+      "source": "src/stubs.c"
+    },
+    "match_tag_symbol": {
+      "logical": "_match_tag_symbol@8",
+      "source": "src/tags.c"
+    },
+    "materialize_member_object": {
+      "logical": "_materialize_member_object@4",
+      "source": "src/stubs.c"
+    },
+    "member_destructor_expression": {
+      "logical": "_member_destructor_expression@12",
+      "source": "src/stubs.c"
+    },
+    "member_expression": {
+      "logical": "_member_expression@12",
+      "source": "src/member-expressions.c"
+    },
+    "member_function_pointer_size": {
+      "logical": "_member_function_pointer_size@4",
+      "source": "src/stubs.c"
+    },
+    "member_pointer_class_kind": {
+      "logical": "_member_pointer_class_kind@4",
+      "source": "src/stubs.c"
+    },
+    "member_pointer_expression": {
+      "logical": "_member_pointer_expression@4",
+      "source": "src/stubs.c"
+    },
+    "member_pointer_inheritance_model": {
+      "logical": "_member_pointer_inheritance_model@4",
+      "source": "src/stubs.c"
+    },
+    "member_pointer_is_aggregate": {
+      "logical": "_member_pointer_is_aggregate@4",
+      "source": "src/stubs.c"
+    },
+    "merge_declaration_storage": {
+      "logical": "_merge_declaration_storage@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "merge_declaration_type": {
+      "logical": "_merge_declaration_type@12",
+      "source": "src/declarator-shapes.c"
+    },
+    "merge_declared_symbol": {
+      "logical": "_merge_declared_symbol@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "merge_function_defaults": {
+      "logical": "_merge_function_defaults@16",
+      "source": "src/parameters.c"
+    },
+    "merge_function_shape": {
+      "logical": "_merge_function_shape@28",
+      "source": "src/declarator-shapes.c"
+    },
+    "merge_reference_shape": {
+      "logical": "_merge_reference_shape@24",
+      "source": "src/declarator-shapes.c"
+    },
+    "merge_storage_spec": {
+      "logical": "_merge_storage_spec@8",
+      "source": "src/storage.c"
+    },
+    "merge_subobject_special_members": {
+      "logical": "_merge_subobject_special_members@16",
+      "source": "src/stubs.c"
+    },
+    "merge_type_attributes": {
+      "logical": "_merge_type_attributes@8",
+      "source": "src/type-attributes.c"
+    },
+    "merge_type_shape_prefix": {
+      "logical": "_merge_type_shape_prefix@8",
+      "source": "src/stubs.c"
+    },
+    "merge_type_specifier": {
+      "logical": "_merge_type_specifier@12",
+      "source": "src/type-specifiers.c"
+    },
+    "message_text": {
+      "logical": "_message_text",
+      "source": "src/diagnostics.c"
+    },
+    "method_alias": {
+      "logical": "_method_alias@4",
+      "source": "src/stubs.c"
+    },
+    "modifiable_lvalue": {
+      "logical": "_modifiable_lvalue@8",
+      "source": "src/binary-expressions.c"
+    },
+    "most_derived_expression": {
+      "logical": "_most_derived_expression",
+      "source": "src/stubs.c"
+    },
+    "new_abstract_declarator": {
+      "logical": "_new_abstract_declarator@4",
+      "source": "src/stubs.c"
+    },
+    "new_bitset": {
+      "logical": "_new_bitset@4",
+      "source": "src/memory.c"
+    },
+    "new_branch_label": {
+      "logical": "_new_branch_label@4",
+      "source": "src/ir.c"
+    },
+    "new_cast_expression": {
+      "logical": "_new_cast_expression@8",
+      "source": "src/stubs.c"
+    },
+    "new_declarator": {
+      "logical": "_new_declarator@4",
+      "source": "src/declarations.c"
+    },
+    "new_empty_vector": {
+      "logical": "_new_empty_vector@4",
+      "source": "src/vectors.c"
+    },
+    "new_expression": {
+      "logical": "_new_expression@24",
+      "source": "src/stubs.c"
+    },
+    "new_hash_table": {
+      "logical": "_new_hash_table@16",
+      "source": "src/hash-table.c"
+    },
+    "new_inline_vector": {
+      "logical": "_new_inline_vector",
+      "source": "src/inline-vector.c"
+    },
+    "new_integer_constant": {
+      "logical": "_new_integer_constant@4",
+      "source": "src/constants.c"
+    },
+    "new_ir_expression": {
+      "logical": "_new_ir_expression@16",
+      "source": "src/identifier-expressions.c"
+    },
+    "new_label": {
+      "logical": "_new_label@4",
+      "source": "src/stubs.c"
+    },
+    "new_left_typed_expression": {
+      "logical": "_new_left_typed_expression@12",
+      "source": "src/identifier-expressions.c"
+    },
+    "new_literal_constant": {
+      "logical": "_new_literal_constant@8",
+      "source": "src/constants.c"
+    },
+    "new_packing_stack": {
+      "logical": "_new_packing_stack",
+      "source": "src/packing.c"
+    },
+    "new_permanent_page": {
+      "logical": "_new_permanent_page",
+      "source": "src/memory.c"
+    },
+    "new_qualified_declarator": {
+      "logical": "_new_qualified_declarator@12",
+      "source": "src/qualified-names.c"
+    },
+    "new_right_typed_expression": {
+      "logical": "_new_right_typed_expression@12",
+      "source": "src/stubs.c"
+    },
+    "new_symbol": {
+      "logical": "_new_symbol@8",
+      "source": "src/declarations.c"
+    },
+    "new_tag_record": {
+      "logical": "_new_tag_record@4",
+      "source": "src/tags.c"
+    },
+    "new_temporary_reference": {
+      "logical": "_new_temporary_reference@8",
+      "source": "src/stubs.c"
+    },
+    "new_type_set": {
+      "logical": "_new_type_set",
+      "source": "src/class-type-sets.c"
+    },
+    "new_type_shape": {
+      "logical": "_new_type_shape@12",
+      "source": "src/types.c"
+    },
+    "new_typed_unary_expression": {
+      "logical": "_new_typed_unary_expression@12",
+      "source": "src/identifier-expressions.c"
+    },
+    "new_unary_ir_expression": {
+      "logical": "_new_unary_ir_expression@8",
+      "source": "src/stubs.c"
+    },
+    "new_vector": {
+      "logical": "_new_vector@8",
+      "source": "src/vectors.c"
+    },
+    "new_virtual_table": {
+      "logical": "_new_virtual_table@16",
+      "source": "src/stubs.c"
+    },
+    "next_argument": {
+      "logical": "_next_argument",
+      "source": "src/arguments.c"
+    },
+    "next_class_member_search": {
+      "logical": "_next_class_member_search@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "next_conversion_function": {
+      "logical": "_next_conversion_function@4",
+      "source": "src/class-type-sets.c"
+    },
+    "next_enumerator_value": {
+      "logical": "_next_enumerator_value@8",
+      "source": "src/stubs.c"
+    },
+    "next_member_context": {
+      "logical": "_next_member_context@4",
+      "source": "src/cpp-context.c"
+    },
+    "next_pending_class_name": {
+      "logical": "_next_pending_class_name",
+      "source": "src/stubs.c"
+    },
+    "next_source_character": {
+      "logical": "_next_source_character",
+      "source": "src/lexer.c"
+    },
+    "next_type_set": {
+      "logical": "_next_type_set",
+      "source": "src/stubs.c"
+    },
+    "next_virtual_base_search": {
+      "logical": "_next_virtual_base_search@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "node_alignment": {
+      "logical": "_node_alignment@4",
+      "source": "src/ir.c"
+    },
+    "normalize_input_name": {
+      "logical": "_normalize_input_name",
+      "source": "src/source-input.c"
+    },
+    "normalize_symbol_distance": {
+      "logical": "_normalize_symbol_distance@8",
+      "source": "src/symbol-types.c"
+    },
+    "normalize_symbol_type": {
+      "logical": "_normalize_symbol_type@8",
+      "source": "src/symbol-types.c"
+    },
+    "normalize_type_attributes": {
+      "logical": "_normalize_type_attributes@8",
+      "source": "src/type-attributes.c"
+    },
+    "open_expression_intermediate": {
+      "logical": "_open_expression_intermediate",
+      "source": "src/intermediate.c"
+    },
+    "open_forced_include": {
+      "logical": "_open_forced_include@8",
+      "source": "src/stubs.c"
+    },
+    "open_input_handle": {
+      "logical": "_open_input_handle@4",
+      "source": "src/source-input.c"
+    },
+    "open_intermediate": {
+      "logical": "_open_intermediate",
+      "source": "src/intermediate.c"
+    },
+    "open_source_file": {
+      "logical": "_open_source_file@8",
+      "source": "src/source-input.c"
+    },
+    "operator_has_builtin_fallback": {
+      "logical": "_operator_has_builtin_fallback@12",
+      "source": "src/stubs.c"
+    },
+    "operator_operand_expression": {
+      "logical": "_operator_operand_expression@8",
+      "source": "src/stubs.c"
+    },
+    "overrides_virtual_member": {
+      "logical": "_overrides_virtual_member@12",
+      "source": "src/class-members.c"
+    },
+    "pack_option_flags": {
+      "logical": "_pack_option_flags",
+      "source": "src/option-state.c"
+    },
+    "parameter_reference_type": {
+      "logical": "_parameter_reference_type@4",
+      "source": "src/stubs.c"
+    },
+    "parameter_stack_bytes": {
+      "logical": "_parameter_stack_bytes@4",
+      "source": "src/stubs.c"
+    },
+    "parse_linkage": {
+      "logical": "_parse_linkage@8",
+      "source": "src/stubs.c"
+    },
+    "parse_option_number": {
+      "logical": "_parse_option_number",
+      "source": "src/options.c"
+    },
+    "parse_options": {
+      "logical": "_parse_options",
+      "source": "src/options.c"
+    },
+    "parse_translation_unit": {
+      "logical": "_parse_translation_unit",
+      "source": "src/parser.c"
+    },
+    "pch_record_macro": {
+      "logical": "_pch_record_macro@12",
+      "source": "src/stubs.c"
+    },
+    "persist_class_virtual_tables": {
+      "logical": "_persist_class_virtual_tables@4",
+      "source": "src/class-finalization.c"
+    },
+    "place_base_subobject": {
+      "logical": "_place_base_subobject@12",
+      "source": "src/stubs.c"
+    },
+    "pointer_kind_size": {
+      "logical": "_pointer_kind_size@4",
+      "source": "src/type-sizes.c"
+    },
+    "pointer_kind_spelling": {
+      "logical": "_pointer_kind_spelling@4",
+      "source": "src/stubs.c"
+    },
+    "pop_linkage": {
+      "logical": "_pop_linkage",
+      "source": "src/stubs.c"
+    },
+    "pop_symbol_scope": {
+      "logical": "_pop_symbol_scope",
+      "source": "src/scopes.c"
+    },
+    "pop_work_list": {
+      "logical": "_pop_work_list@4",
+      "source": "src/memory.c"
+    },
+    "prefix_character": {
+      "logical": "_prefix_character",
+      "source": "src/options.c"
+    },
+    "prepare_base_layout": {
+      "logical": "_prepare_base_layout@4",
+      "source": "src/tags.c"
+    },
+    "prepare_class_initialization": {
+      "logical": "_prepare_class_initialization@4",
+      "source": "src/constructor-initializers.c"
+    },
+    "prepare_class_virtual_tables": {
+      "logical": "_prepare_class_virtual_tables@4",
+      "source": "src/class-finalization.c"
+    },
+    "prepare_declarator_shapes": {
+      "logical": "_prepare_declarator_shapes@28",
+      "source": "src/declarator-shapes.c"
+    },
+    "prepare_do_body": {
+      "logical": "_prepare_do_body",
+      "source": "src/stubs.c"
+    },
+    "prepare_expression": {
+      "logical": "_prepare_expression@8",
+      "source": "src/expression-preparation.c"
+    },
+    "prepare_function_definition": {
+      "logical": "_prepare_function_definition@4",
+      "source": "src/function-definitions.c"
+    },
+    "prepare_initializer_symbol": {
+      "logical": "_prepare_initializer_symbol@4",
+      "source": "src/object-initializers.c"
+    },
+    "prepare_pch_output": {
+      "logical": "_prepare_pch_output@4",
+      "source": "src/stubs.c"
+    },
+    "prepare_reference_initializer": {
+      "logical": "_prepare_reference_initializer@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "prepare_symbol_debug_type": {
+      "logical": "_prepare_symbol_debug_type@4",
+      "source": "src/stubs.c"
+    },
+    "prepend_declarator": {
+      "logical": "_prepend_declarator@8",
+      "source": "src/declarations.c"
+    },
+    "prepend_function_overload": {
+      "logical": "_prepend_function_overload@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "preprocess_directive": {
+      "logical": "_preprocess_directive",
+      "source": "src/stubs.c"
+    },
+    "preprocess_translation_unit": {
+      "logical": "_preprocess_translation_unit",
+      "source": "src/stubs.c"
+    },
+    "primary_virtual_table": {
+      "logical": "_primary_virtual_table@4",
+      "source": "src/stubs.c"
+    },
+    "print_declaration": {
+      "logical": "_print_declaration@8",
+      "source": "src/stubs.c"
+    },
+    "print_inline_declaration": {
+      "logical": "_print_inline_declaration@8",
+      "source": "src/stubs.c"
+    },
+    "process_expression_records": {
+      "logical": "_process_expression_records@4",
+      "source": "src/record-processing.c"
+    },
+    "promote_arithmetic_expression": {
+      "logical": "_promote_arithmetic_expression@4",
+      "source": "src/stubs.c"
+    },
+    "prune_hidden_class_paths": {
+      "logical": "_prune_hidden_class_paths@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "push_linkage": {
+      "logical": "_push_linkage@4",
+      "source": "src/linkage.c"
+    },
+    "push_packing": {
+      "logical": "_push_packing",
+      "source": "src/packing.c"
+    },
+    "push_symbol_scope": {
+      "logical": "_push_symbol_scope@4",
+      "source": "src/scopes.c"
+    },
+    "push_work_list": {
+      "logical": "_push_work_list@8",
+      "source": "src/memory.c"
+    },
+    "qualified_member_is_accessible": {
+      "logical": "_qualified_member_is_accessible@4",
+      "source": "src/member-access.c"
+    },
+    "qualifier_path_is_hidden": {
+      "logical": "_qualifier_path_is_hidden@8",
+      "source": "src/stubs.c"
+    },
+    "qualify_based_storage": {
+      "logical": "_qualify_based_storage@4",
+      "source": "src/stubs.c"
+    },
+    "query_inheritance_model": {
+      "logical": "_query_inheritance_model@4",
+      "source": "src/stubs.c"
+    },
+    "queue_closed_scope": {
+      "logical": "_queue_closed_scope@4",
+      "source": "src/statement-scopes.c"
+    },
+    "rank_conversion_qualifiers": {
+      "logical": "_rank_conversion_qualifiers@12",
+      "source": "src/stubs.c"
+    },
+    "rank_pointer_attributes": {
+      "logical": "_rank_pointer_attributes@16",
+      "source": "src/stubs.c"
+    },
+    "rank_reference_attributes": {
+      "logical": "_rank_reference_attributes@12",
+      "source": "src/stubs.c"
+    },
+    "read_declspec_attributes": {
+      "logical": "_read_declspec_attributes",
+      "source": "src/stubs.c"
+    },
+    "read_deferred_argument_text": {
+      "logical": "_read_deferred_argument_text",
+      "source": "src/stubs.c"
+    },
+    "read_env_arguments": {
+      "logical": "_read_env_arguments",
+      "source": "src/arguments.c"
+    },
+    "read_lexical_token": {
+      "logical": "_read_lexical_token",
+      "source": "src/lexer.c"
+    },
+    "read_number_text": {
+      "logical": "_read_number_text@4",
+      "source": "src/stubs.c"
+    },
+    "read_numeric_character": {
+      "logical": "_read_numeric_character",
+      "source": "src/numeric-scanning.c"
+    },
+    "read_operator_function_id": {
+      "logical": "_read_operator_function_id",
+      "source": "src/stubs.c"
+    },
+    "read_parser_token": {
+      "logical": "_read_parser_token",
+      "source": "src/lexer.c"
+    },
+    "read_tag_specifier": {
+      "logical": "_read_tag_specifier@8",
+      "source": "src/type-specifiers.c"
+    },
+    "read_type_specifier": {
+      "logical": "_read_type_specifier@4",
+      "source": "src/type-specifiers.c"
+    },
+    "read_work_stack": {
+      "logical": "_read_work_stack@12",
+      "source": "src/stubs.c"
+    },
+    "reconcile_declaration": {
+      "logical": "_reconcile_declaration@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "reconcile_declaration_type": {
+      "logical": "_reconcile_declaration_type@12",
+      "source": "src/declaration-lookup.c"
+    },
+    "reconcile_typedef": {
+      "logical": "_reconcile_typedef@8",
+      "source": "src/stubs.c"
+    },
+    "record_break_statement": {
+      "logical": "_record_break_statement",
+      "source": "src/stubs.c"
+    },
+    "record_compound_scope": {
+      "logical": "_record_compound_scope",
+      "source": "src/frontend-records.c"
+    },
+    "record_continue_statement": {
+      "logical": "_record_continue_statement",
+      "source": "src/stubs.c"
+    },
+    "record_default_label": {
+      "logical": "_record_default_label",
+      "source": "src/stubs.c"
+    },
+    "record_friend": {
+      "logical": "_record_friend@12",
+      "source": "src/stubs.c"
+    },
+    "record_function_definition": {
+      "logical": "_record_function_definition@4",
+      "source": "src/function-finalization.c"
+    },
+    "record_function_symbol_alias": {
+      "logical": "_record_function_symbol_alias@8",
+      "source": "src/stubs.c"
+    },
+    "record_goto": {
+      "logical": "_record_goto@8",
+      "source": "src/stubs.c"
+    },
+    "record_line_information": {
+      "logical": "_record_line_information@4",
+      "source": "src/control-ir.c"
+    },
+    "record_local_declaration": {
+      "logical": "_record_local_declaration@4",
+      "source": "src/declaration-lookup.c"
+    },
+    "record_parameter_cleanup": {
+      "logical": "_record_parameter_cleanup@4",
+      "source": "src/frontend-records.c"
+    },
+    "record_qc_jump": {
+      "logical": "_record_qc_jump@4",
+      "source": "src/stubs.c"
+    },
+    "record_scope_directory_entry": {
+      "logical": "_record_scope_directory_entry@4",
+      "source": "src/scopes.c"
+    },
+    "record_special_member": {
+      "logical": "_record_special_member@24",
+      "source": "src/stubs.c"
+    },
+    "record_string_literal": {
+      "logical": "_record_string_literal@4",
+      "source": "src/stubs.c"
+    },
+    "recover_special_character": {
+      "logical": "_recover_special_character",
+      "source": "src/stubs.c"
+    },
+    "recover_trigraph": {
+      "logical": "_recover_trigraph",
+      "source": "src/stubs.c"
+    },
+    "recover_undeclared_identifier": {
+      "logical": "_recover_undeclared_identifier@4",
+      "source": "src/stubs.c"
+    },
+    "recovery_token_value": {
+      "logical": "_recovery_token_value@4",
+      "source": "src/stubs.c"
+    },
+    "recursive_lookahead_parse": {
+      "logical": "_recursive_lookahead_parse",
+      "source": "src/stubs.c"
+    },
+    "reference_debug_type": {
+      "logical": "_reference_debug_type@4",
+      "source": "src/stubs.c"
+    },
+    "reference_ir_symbol": {
+      "logical": "_reference_ir_symbol@4",
+      "source": "src/ir.c"
+    },
+    "reference_tag_symbol": {
+      "logical": "_reference_tag_symbol@12",
+      "source": "src/stubs.c"
+    },
+    "refill_arena": {
+      "logical": "_refill_arena@8",
+      "source": "src/memory.c"
+    },
+    "register_label": {
+      "logical": "_register_label@4",
+      "source": "src/ir.c"
+    },
+    "register_tag_context": {
+      "logical": "_register_tag_context@4",
+      "source": "src/tags.c"
+    },
+    "reject_function_initializer": {
+      "logical": "_reject_function_initializer@4",
+      "source": "src/object-initializers.c"
+    },
+    "reject_member_pointer_arithmetic": {
+      "logical": "_reject_member_pointer_arithmetic@4",
+      "source": "src/stubs.c"
+    },
+    "reject_special_indirection": {
+      "logical": "_reject_special_indirection@8",
+      "source": "src/unary-expressions.c"
+    },
+    "release_arena": {
+      "logical": "_release_arena@4",
+      "source": "src/memory.c"
+    },
+    "release_inline_vector": {
+      "logical": "_release_inline_vector",
+      "source": "src/inline-vector.c"
+    },
+    "release_input_handle": {
+      "logical": "_release_input_handle",
+      "source": "src/stubs.c"
+    },
+    "release_permanent": {
+      "logical": "_release_permanent@8",
+      "source": "src/memory.c"
+    },
+    "remove_last_frontend_record": {
+      "logical": "_remove_last_frontend_record",
+      "source": "src/frontend-records.c"
+    },
+    "remove_type_set": {
+      "logical": "_remove_type_set",
+      "source": "src/stubs.c"
+    },
+    "replace_first_type_shape": {
+      "logical": "_replace_first_type_shape@16",
+      "source": "src/types.c"
+    },
+    "replace_type_pointer_kind": {
+      "logical": "_replace_type_pointer_kind@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "report_conversion_rank_failure": {
+      "logical": "_report_conversion_rank_failure@16",
+      "source": "src/stubs.c"
+    },
+    "report_declaration_diagnostic": {
+      "logical": "_report_declaration_diagnostic",
+      "source": "src/stubs.c"
+    },
+    "report_declaration_error": {
+      "logical": "_report_declaration_error@8",
+      "source": "src/stubs.c"
+    },
+    "report_denied_member_access": {
+      "logical": "_report_denied_member_access",
+      "source": "src/stubs.c"
+    },
+    "report_error": {
+      "logical": "_report_error",
+      "source": "src/stubs.c"
+    },
+    "report_expression_error": {
+      "logical": "_report_expression_error@8",
+      "source": "src/stubs.c"
+    },
+    "report_fatal": {
+      "logical": "_report_fatal",
+      "source": "src/stubs.c"
+    },
+    "report_ide_line": {
+      "logical": "_report_ide_line",
+      "source": "src/stubs.c"
+    },
+    "report_ide_source": {
+      "logical": "_report_ide_source",
+      "source": "src/stubs.c"
+    },
+    "report_incompatible_type_shapes": {
+      "logical": "_report_incompatible_type_shapes@12",
+      "source": "src/stubs.c"
+    },
+    "report_inserted_token": {
+      "logical": "_report_inserted_token@8",
+      "source": "src/stubs.c"
+    },
+    "report_invalid_operand": {
+      "logical": "_report_invalid_operand@8",
+      "source": "src/stubs.c"
+    },
+    "report_lookahead_error": {
+      "logical": "_report_lookahead_error@4",
+      "source": "src/stubs.c"
+    },
+    "report_macro_error": {
+      "logical": "_report_macro_error@4",
+      "source": "src/stubs.c"
+    },
+    "report_missing_declarator": {
+      "logical": "_report_missing_declarator@8",
+      "source": "src/stubs.c"
+    },
+    "report_named_type_difference": {
+      "logical": "_report_named_type_difference@20",
+      "source": "src/stubs.c"
+    },
+    "report_operator_resolution_failure": {
+      "logical": "_report_operator_resolution_failure@20",
+      "source": "src/stubs.c"
+    },
+    "report_parameter_error": {
+      "logical": "_report_parameter_error@12",
+      "source": "src/stubs.c"
+    },
+    "report_parser_error": {
+      "logical": "_report_parser_error@4",
+      "source": "src/stubs.c"
+    },
+    "report_symbol_declaration_error": {
+      "logical": "_report_symbol_declaration_error@8",
+      "source": "src/stubs.c"
+    },
+    "report_syntax_error": {
+      "logical": "_report_syntax_error",
+      "source": "src/stubs.c"
+    },
+    "report_type_conversion": {
+      "logical": "_report_type_conversion@20",
+      "source": "src/stubs.c"
+    },
+    "report_type_error": {
+      "logical": "_report_type_error@8",
+      "source": "src/stubs.c"
+    },
+    "require_class_member_definitions": {
+      "logical": "_require_class_member_definitions@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "require_complete_type": {
+      "logical": "_require_complete_type@4",
+      "source": "src/stubs.c"
+    },
+    "require_deleting_destructor": {
+      "logical": "_require_deleting_destructor@4",
+      "source": "src/constructor-initializers.c"
+    },
+    "requires_address_temporary": {
+      "logical": "_requires_address_temporary@4",
+      "source": "src/stubs.c"
+    },
+    "reserve_type_diagnostic": {
+      "logical": "_reserve_type_diagnostic",
+      "source": "src/stubs.c"
+    },
+    "reserve_virtual_table_offset": {
+      "logical": "_reserve_virtual_table_offset@8",
+      "source": "src/stubs.c"
+    },
+    "reset_frontend_records": {
+      "logical": "_reset_frontend_records",
+      "source": "src/frontend-records.c"
+    },
+    "reset_function_symbol_tables": {
+      "logical": "_reset_function_symbol_tables",
+      "source": "src/function-finalization.c"
+    },
+    "reset_materialized_value_index": {
+      "logical": "_reset_materialized_value_index",
+      "source": "src/function-finalization.c"
+    },
+    "reset_member_access_failure": {
+      "logical": "_reset_member_access_failure",
+      "source": "src/member-access.c"
+    },
+    "reset_previous_base_class": {
+      "logical": "_reset_previous_base_class",
+      "source": "src/class-finalization.c"
+    },
+    "reset_pushed_tokens": {
+      "logical": "_reset_pushed_tokens",
+      "source": "src/stubs.c"
+    },
+    "reset_work_stack": {
+      "logical": "_reset_work_stack@4",
+      "source": "src/vectors.c"
+    },
+    "resolve_assignment_operand": {
+      "logical": "_resolve_assignment_operand@8",
+      "source": "src/identifier-expressions.c"
+    },
+    "resolve_declaration": {
+      "logical": "_resolve_declaration@8",
+      "source": "src/resolve-declaration.c"
+    },
+    "resolve_declaration_alias": {
+      "logical": "_resolve_declaration_alias@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "resolve_function_virtual_overrides": {
+      "logical": "_resolve_function_virtual_overrides@8",
+      "source": "src/class-finalization.c"
+    },
+    "resolve_goto_cleanup": {
+      "logical": "_resolve_goto_cleanup@12",
+      "source": "src/stubs.c"
+    },
+    "resolve_identifier_token": {
+      "logical": "_resolve_identifier_token@4",
+      "source": "src/qualified-names.c"
+    },
+    "resolve_member_pointer_class": {
+      "logical": "_resolve_member_pointer_class@8",
+      "source": "src/stubs.c"
+    },
+    "resolve_nested_deferred_types": {
+      "logical": "_resolve_nested_deferred_types@4",
+      "source": "src/stubs.c"
+    },
+    "resolve_operator_expression": {
+      "logical": "_resolve_operator_expression@20",
+      "source": "src/stubs.c"
+    },
+    "resolve_overloaded_initializer": {
+      "logical": "_resolve_overloaded_initializer@12",
+      "source": "src/stubs.c"
+    },
+    "resolve_parenthesis_candidate": {
+      "logical": "_resolve_parenthesis_candidate@4",
+      "source": "src/lookahead.c"
+    },
+    "resolve_qualified_assignment_operand": {
+      "logical": "_resolve_qualified_assignment_operand@8",
+      "source": "src/stubs.c"
+    },
+    "resolve_symbol_expression": {
+      "logical": "_resolve_symbol_expression@4",
+      "source": "src/identifier-expressions.c"
+    },
+    "resolve_table_override": {
+      "logical": "_resolve_table_override@16",
+      "source": "src/stubs.c"
+    },
+    "resolve_type_parenthesis": {
+      "logical": "_resolve_type_parenthesis",
+      "source": "src/type-specifiers.c"
+    },
+    "resolve_typename_token": {
+      "logical": "_resolve_typename_token@4",
+      "source": "src/lexer.c"
+    },
+    "resolve_untyped_binary_operand": {
+      "logical": "_resolve_untyped_binary_operand@12",
+      "source": "src/stubs.c"
+    },
+    "resolve_virtual_overrides": {
+      "logical": "_resolve_virtual_overrides@4",
+      "source": "src/class-finalization.c"
+    },
+    "restore_declaration_context": {
+      "logical": "_restore_declaration_context@8",
+      "source": "src/declarations.c"
+    },
+    "restore_expression_symbols": {
+      "logical": "_restore_expression_symbols@4",
+      "source": "src/stubs.c"
+    },
+    "restore_qualified_lookup": {
+      "logical": "_restore_qualified_lookup@4",
+      "source": "src/stubs.c"
+    },
+    "retire_scope_directory_entry": {
+      "logical": "_retire_scope_directory_entry",
+      "source": "src/scopes.c"
+    },
+    "retry_malloc": {
+      "logical": "_retry_malloc@4",
+      "source": "src/stubs.c"
+    },
+    "reuse_frontend_record": {
+      "logical": "_reuse_frontend_record@4",
+      "source": "src/frontend-records.c"
+    },
+    "runtime_callback_type": {
+      "logical": "_runtime_callback_type@8",
+      "source": "src/runtime-symbols.c"
+    },
+    "runtime_function_symbol": {
+      "logical": "_runtime_function_symbol@4",
+      "source": "src/runtime-symbols.c"
+    },
+    "runtime_void_pointer": {
+      "logical": "_runtime_void_pointer@4",
+      "source": "src/runtime-symbols.c"
+    },
+    "same_unqualified_class_type": {
+      "logical": "_same_unqualified_class_type@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "save_declaration_context": {
+      "logical": "_save_declaration_context@8",
+      "source": "src/declarations.c"
+    },
+    "save_default_argument": {
+      "logical": "_save_default_argument@4",
+      "source": "src/stubs.c"
+    },
+    "save_extended_constant": {
+      "logical": "_save_extended_constant@4",
+      "source": "src/stubs.c"
+    },
+    "scan_assembler_number": {
+      "logical": "_scan_assembler_number@4",
+      "source": "src/stubs.c"
+    },
+    "scan_character_literal": {
+      "logical": "_scan_character_literal@4",
+      "source": "src/stubs.c"
+    },
+    "scan_float_tail": {
+      "logical": "_scan_float_tail@4",
+      "source": "src/stubs.c"
+    },
+    "scan_identifier_continuation": {
+      "logical": "_scan_identifier_continuation",
+      "source": "src/stubs.c"
+    },
+    "scan_macro_identifier": {
+      "logical": "_scan_macro_identifier",
+      "source": "src/stubs.c"
+    },
+    "scan_number": {
+      "logical": "_scan_number@4",
+      "source": "src/numeric-scanning.c"
+    },
+    "scan_return_paths": {
+      "logical": "_scan_return_paths@8",
+      "source": "src/stubs.c"
+    },
+    "scan_source_identifier": {
+      "logical": "_scan_source_identifier",
+      "source": "src/lexer.c"
+    },
+    "scan_string_literal": {
+      "logical": "_scan_string_literal@8",
+      "source": "src/stubs.c"
+    },
+    "scan_token": {
+      "logical": "_scan_token",
+      "source": "src/lexer.c"
+    },
+    "search_class_name_paths": {
+      "logical": "_search_class_name_paths@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "seek_work_stack": {
+      "logical": "_seek_work_stack@12",
+      "source": "src/stubs.c"
+    },
+    "segment_offset_expression": {
+      "logical": "_segment_offset_expression@8",
+      "source": "src/stubs.c"
+    },
+    "select_destructor_type": {
+      "logical": "_select_destructor_type@16",
+      "source": "src/class-members.c"
+    },
+    "serialize_scope": {
+      "logical": "_serialize_scope@4",
+      "source": "src/function-finalization.c"
+    },
+    "set_base_initialization_access": {
+      "logical": "_set_base_initialization_access@4",
+      "source": "src/stubs.c"
+    },
+    "set_deferred_type_name": {
+      "logical": "_set_deferred_type_name@4",
+      "source": "src/stubs.c"
+    },
+    "set_hash_value": {
+      "logical": "_set_hash_value@12",
+      "source": "src/stubs.c"
+    },
+    "set_inherited_member_access_failure": {
+      "logical": "_set_inherited_member_access_failure@20",
+      "source": "src/stubs.c"
+    },
+    "set_initial_member_access_failure": {
+      "logical": "_set_initial_member_access_failure@12",
+      "source": "src/member-access.c"
+    },
+    "set_member_access": {
+      "logical": "_set_member_access@4",
+      "source": "src/class-members.c"
+    },
+    "set_pure_virtual_member": {
+      "logical": "_set_pure_virtual_member@12",
+      "source": "src/stubs.c"
+    },
+    "share_inherited_type_set": {
+      "logical": "_share_inherited_type_set@8",
+      "source": "src/class-type-sets.c"
+    },
+    "sizeof_expression": {
+      "logical": "_sizeof_expression@4",
+      "source": "src/stubs.c"
+    },
+    "sizeof_type": {
+      "logical": "_sizeof_type@4",
+      "source": "src/stubs.c"
+    },
+    "skip_balanced_brace_body": {
+      "logical": "_skip_balanced_brace_body",
+      "source": "src/stubs.c"
+    },
+    "skip_base_qualifier_path": {
+      "logical": "_skip_base_qualifier_path@4",
+      "source": "src/stubs.c"
+    },
+    "skip_declaration_records": {
+      "logical": "_skip_declaration_records@4",
+      "source": "src/stubs.c"
+    },
+    "skip_reference_shape": {
+      "logical": "_skip_reference_shape@4",
+      "source": "src/types.c"
+    },
+    "skip_source_comment": {
+      "logical": "_skip_source_comment",
+      "source": "src/stubs.c"
+    },
+    "skip_source_line": {
+      "logical": "_skip_source_line",
+      "source": "src/stubs.c"
+    },
+    "special_member_model": {
+      "logical": "_special_member_model@4",
+      "source": "src/special-members.c"
+    },
+    "static_member_alias": {
+      "logical": "_static_member_alias@4",
+      "source": "src/stubs.c"
+    },
+    "strip_address_expression": {
+      "logical": "_strip_address_expression@4",
+      "source": "src/stubs.c"
+    },
+    "strip_based_shape": {
+      "logical": "_strip_based_shape@4",
+      "source": "src/types.c"
+    },
+    "strip_function_designator": {
+      "logical": "_strip_function_designator@4",
+      "source": "src/stubs.c"
+    },
+    "subtract_extended": {
+      "logical": "_subtract_extended",
+      "source": "src/stubs.c"
+    },
+    "symbol_alias": {
+      "logical": "_symbol_alias@4",
+      "source": "src/stubs.c"
+    },
+    "symbol_construction_class": {
+      "logical": "_symbol_construction_class@4",
+      "source": "src/stubs.c"
+    },
+    "symbol_expression": {
+      "logical": "_symbol_expression@4",
+      "source": "src/identifier-expressions.c"
+    },
+    "symbol_has_reference_shape": {
+      "logical": "_symbol_has_reference_shape@4",
+      "source": "src/declaration-bind.c"
+    },
+    "symbol_has_tag_scope": {
+      "logical": "_symbol_has_tag_scope@4",
+      "source": "src/tags.c"
+    },
+    "symbol_matches_categories": {
+      "logical": "_symbol_matches_categories@8",
+      "source": "src/declaration-lookup.c"
+    },
+    "symbol_reference": {
+      "logical": "_symbol_reference@4",
+      "source": "src/identifier-expressions.c"
+    },
+    "synchronize_tokens": {
+      "logical": "_synchronize_tokens",
+      "source": "src/stubs.c"
+    },
+    "take_member_initializer": {
+      "logical": "_take_member_initializer@8",
+      "source": "src/constructor-initializers.c"
+    },
+    "this_pointer_expression": {
+      "logical": "_this_pointer_expression@4",
+      "source": "src/function-definitions.c"
+    },
+    "top_packing": {
+      "logical": "_top_packing",
+      "source": "src/packing.c"
+    },
+    "transform_function_parameters": {
+      "logical": "_transform_function_parameters@8",
+      "source": "src/stubs.c"
+    },
+    "type_alignment": {
+      "logical": "_type_alignment@4",
+      "source": "src/type-sizes.c"
+    },
+    "type_diagnostic_text": {
+      "logical": "_type_diagnostic_text@4",
+      "source": "src/stubs.c"
+    },
+    "type_has_base_relation": {
+      "logical": "_type_has_base_relation@8",
+      "source": "src/stubs.c"
+    },
+    "type_kind_name": {
+      "logical": "_type_kind_name@4",
+      "source": "src/stubs.c"
+    },
+    "type_qualifiers": {
+      "logical": "_type_qualifiers@4",
+      "source": "src/type-attributes.c"
+    },
+    "type_set_contains": {
+      "logical": "_type_set_contains",
+      "source": "src/stubs.c"
+    },
+    "type_size": {
+      "logical": "_type_size@4",
+      "source": "src/type-sizes.c"
+    },
+    "type_warning": {
+      "logical": "_type_warning@12",
+      "source": "src/stubs.c"
+    },
+    "unary_expression": {
+      "logical": "_unary_expression@8",
+      "source": "src/unary-expressions.c"
+    },
+    "unget_token": {
+      "logical": "_unget_token@4",
+      "source": "src/lexer.c"
+    },
+    "union_type_sets": {
+      "logical": "_union_type_sets",
+      "source": "src/stubs.c"
+    },
+    "unsigned_to_extended": {
+      "logical": "_unsigned_to_extended",
+      "source": "src/stubs.c"
+    },
+    "unwind_qualified_scopes": {
+      "logical": "_unwind_qualified_scopes@4",
+      "source": "src/scopes.c"
+    },
+    "validate_anonymous_aggregate": {
+      "logical": "_validate_anonymous_aggregate@4",
+      "source": "src/stubs.c"
+    },
+    "validate_based_self": {
+      "logical": "_validate_based_self",
+      "source": "src/stubs.c"
+    },
+    "validate_bit_field_bound": {
+      "logical": "_validate_bit_field_bound@8",
+      "source": "src/stubs.c"
+    },
+    "validate_expression_symbol": {
+      "logical": "_validate_expression_symbol@4",
+      "source": "src/identifier-expressions.c"
+    },
+    "validate_extended_bound": {
+      "logical": "_validate_extended_bound@8",
+      "source": "src/stubs.c"
+    },
+    "validate_function_default_arguments": {
+      "logical": "_validate_function_default_arguments@4",
+      "source": "src/class-members.c"
+    },
+    "validate_integer_bit_field_type": {
+      "logical": "_validate_integer_bit_field_type@4",
+      "source": "src/stubs.c"
+    },
+    "validate_pure_specifier": {
+      "logical": "_validate_pure_specifier@4",
+      "source": "src/stubs.c"
+    },
+    "validate_special_function": {
+      "logical": "_validate_special_function@8",
+      "source": "src/special-functions.c"
+    },
+    "validate_union_member": {
+      "logical": "_validate_union_member@8",
+      "source": "src/stubs.c"
+    },
+    "validate_value_expression": {
+      "logical": "_validate_value_expression@4",
+      "source": "src/identifier-expressions.c"
+    },
+    "vector_count": {
+      "logical": "_vector_count@4",
+      "source": "src/vectors.c"
+    },
+    "virtual_base_access_level": {
+      "logical": "_virtual_base_access_level@8",
+      "source": "src/stubs.c"
+    },
+    "virtual_table_object_offset": {
+      "logical": "_virtual_table_object_offset@4",
+      "source": "src/stubs.c"
+    },
+    "void_parameter_list": {
+      "logical": "_void_parameter_list",
+      "source": "src/parameters.c"
+    },
+    "warn_ignored_distance": {
+      "logical": "_warn_ignored_distance@4",
+      "source": "src/stubs.c"
+    },
+    "warn_pointer_conversion": {
+      "logical": "_warn_pointer_conversion@12",
+      "source": "src/binary-expressions.c"
+    },
+    "write_counted_ir": {
+      "logical": "_write_counted_ir",
+      "source": "src/stubs.c"
+    },
+    "write_decorated_name": {
+      "logical": "_write_decorated_name@16",
+      "source": "src/mangling.c"
+    },
+    "write_global_header": {
+      "logical": "_write_global_header",
+      "source": "src/global-ir.c"
+    },
+    "write_global_record": {
+      "logical": "_write_global_record@8",
+      "source": "src/global-ir.c"
+    },
+    "write_ir_filename": {
+      "logical": "_write_ir_filename",
+      "source": "src/ir-encoding.c"
+    },
+    "write_ir_index": {
+      "logical": "_write_ir_index",
+      "source": "src/ir-encoding.c"
+    },
+    "write_ir_record": {
+      "logical": "_write_ir_record@8",
+      "source": "src/ir.c"
+    },
+    "write_ir_string": {
+      "logical": "_write_ir_string",
+      "source": "src/stubs.c"
+    },
+    "write_storage_specification": {
+      "logical": "_write_storage_specification@8",
+      "source": "src/stubs.c"
+    },
+    "write_switch_dispatch": {
+      "logical": "_write_switch_dispatch",
+      "source": "src/stubs.c"
+    },
+    "write_work_bytes": {
+      "logical": "_write_work_bytes@16",
+      "source": "src/stubs.c"
+    },
+    "write_work_character": {
+      "logical": "_write_work_character@8",
+      "source": "src/stubs.c"
+    }
+  },
+  "accepted_application": [
+    "main",
+    "message_text",
+    "parse_options",
+    "push_linkage",
+    "initialize_packing",
+    "new_packing_stack",
+    "allocate_permanent",
+    "new_permanent_page",
+    "new_bitset",
+    "push_packing",
+    "initialize_checksums",
+    "initialize_lead_bytes",
+    "mark_lead_byte_ranges",
+    "read_env_arguments",
+    "extend_argument_vector",
+    "checked_malloc",
+    "new_vector",
+    "refill_arena",
+    "next_argument",
+    "match_option",
+    "prefix_character",
+    "apply_option",
+    "parse_option_number",
+    "match_option_suffix",
+    "append_vector",
+    "finalize_options",
+    "guarded_compile",
+    "compile_translation_unit",
+    "initialize_frontend",
+    "initialize_work_stack",
+    "reset_work_stack",
+    "initialize_preprocessor",
+    "initialize_macro_text",
+    "initialize_keyword_table",
+    "intern_keyword",
+    "initialize_floating_point",
+    "top_packing",
+    "disable_keyword",
+    "intern_identifier",
+    "initialize_cpp_context_stack",
+    "new_inline_vector",
+    "inline_vector_bytes",
+    "open_intermediate",
+    "open_expression_intermediate",
+    "make_integer_constant",
+    "new_integer_constant",
+    "write_ir_record",
+    "initialize_type_table",
+    "initialize_global_scope",
+    "initialize_declaration_table",
+    "new_hash_table",
+    "intern_type",
+    "make_function_type",
+    "normalize_type_attributes",
+    "new_type_shape",
+    "build_parameter_info",
+    "void_parameter_list",
+    "intern_function_parameters",
+    "intern_type_shape",
+    "make_tagged_type",
+    "make_qualified_type",
+    "copy_type_description",
+    "initialize_intermediate_output",
+    "initialize_translation_state",
+    "define_command_line_macros",
+    "frontend_time",
+    "format_timestamp",
+    "initialize_macro_storage",
+    "define_macro",
+    "lookup_macro",
+    "define_command_line_macro",
+    "copy_arena_bytes",
+    "write_global_header",
+    "write_global_record",
+    "open_source_file",
+    "open_input_handle",
+    "normalize_input_name",
+    "fill_source_buffer",
+    "initialize_operators",
+    "intern_operator_name",
+    "initialize_allocation_operators",
+    "declare_operator_new",
+    "save_declaration_context",
+    "new_declarator",
+    "add_declaration_parameter",
+    "normalize_symbol_type",
+    "normalize_symbol_distance",
+    "append_declarator",
+    "attach_function_parameters",
+    "attach_plain_function_parameters",
+    "build_function_declarator",
+    "add_function_shape",
+    "is_member_declarator",
+    "intern_declaration_parameters",
+    "hash_declaration_parameters",
+    "attach_type_shape",
+    "finish_parameter_scope",
+    "apply_declaration_type",
+    "resolve_declaration",
+    "merge_declaration_type",
+    "prepare_declarator_shapes",
+    "extract_declarator_prefix",
+    "extract_base_prefix",
+    "merge_type_attributes",
+    "intern_shape_on",
+    "merge_function_shape",
+    "finish_function_declarator",
+    "lookup_declaration",
+    "declaration_scope",
+    "lookup_scope_declaration",
+    "find_scope_symbol",
+    "find_name_in_chain",
+    "reconcile_declaration",
+    "insert_symbol",
+    "insert_scope_symbol",
+    "make_overload_symbol",
+    "check_function_defaults",
+    "check_missing_defaults",
+    "validate_special_function",
+    "is_class_name_type",
+    "restore_declaration_context",
+    "declare_operator_delete",
+    "declare_runtime_helpers",
+    "declare_vector_helper",
+    "declare_runtime_function",
+    "runtime_void_pointer",
+    "prepend_declarator",
+    "runtime_callback_type",
+    "initialize_purecall",
+    "runtime_function_symbol",
+    "new_symbol",
+    "pack_option_flags",
+    "parse_translation_unit",
+    "read_parser_token",
+    "scan_token",
+    "read_lexical_token",
+    "begin_source_line",
+    "scan_source_identifier",
+    "read_type_specifier",
+    "read_tag_specifier",
+    "unget_token",
+    "define_tag_symbol",
+    "allocate_tag_symbol",
+    "new_tag_record",
+    "register_tag_context",
+    "lookup_current_scope_declaration",
+    "is_current_class_name",
+    "insert_current_scope_symbol",
+    "apply_inheritance_model",
+    "match_tag_symbol",
+    "enter_class_scope",
+    "symbol_has_tag_scope",
+    "push_symbol_scope",
+    "record_scope_directory_entry",
+    "apply_type_symbol",
+    "merge_type_specifier",
+    "begin_class_body",
+    "prepare_base_layout",
+    "inherit_class_pointer_attributes",
+    "apply_default_vtordisp",
+    "check_inheritance_model",
+    "release_arena",
+    "current_class_name",
+    "finish_type",
+    "resolve_type_parenthesis",
+    "resolve_typename_token",
+    "resolve_identifier_token",
+    "is_current_class",
+    "current_declaration_type",
+    "declare_class_member",
+    "is_unqualified_class_type",
+    "capture_inline_member_declaration",
+    "find_class_member_name",
+    "type_qualifiers",
+    "is_static_data_member",
+    "layout_data_member",
+    "type_size",
+    "base_type_size",
+    "align_class_member",
+    "class_alignment_padding",
+    "alignment_padding_at",
+    "addition_overflows",
+    "add_member_offset",
+    "insert_class_member",
+    "append_class_members",
+    "check_class_specifier",
+    "set_member_access",
+    "find_outer_name",
+    "lookup_scoped_name",
+    "lookup_class_name",
+    "find_class_name_paths",
+    "symbol_matches_categories",
+    "resolve_declaration_alias",
+    "capture_declaration_tokens",
+    "append_deferred_token",
+    "resolve_parenthesis_candidate",
+    "initialize_lookahead_parser",
+    "lookahead_parse",
+    "classify_deferred_type",
+    "begin_parameter_scope",
+    "initialize_scope_buckets",
+    "append_parameter_declaration",
+    "check_constructor_storage",
+    "merge_storage_spec",
+    "declare_constructor",
+    "global_declaration_type",
+    "make_class_pointer_type",
+    "retire_scope_directory_entry",
+    "pop_symbol_scope",
+    "configure_member_function",
+    "classify_constructor",
+    "overrides_virtual_member",
+    "validate_function_default_arguments",
+    "make_ellipsis_parameter",
+    "end_class_specifier",
+    "build_conversion_type_sets",
+    "new_type_set",
+    "begin_conversion_functions",
+    "next_conversion_function",
+    "share_inherited_type_set",
+    "inline_vector_count",
+    "release_inline_vector",
+    "release_permanent",
+    "prepare_class_virtual_tables",
+    "initialize_class_virtual_tables",
+    "new_empty_vector",
+    "build_class_virtual_tables",
+    "has_new_virtual_members",
+    "finish_nonvirtual_class_size",
+    "declare_implicit_special_members",
+    "special_member_model",
+    "inherit_base_special_members",
+    "inherit_field_special_members",
+    "class_type_of_member",
+    "is_const_or_reference_member",
+    "inspect_declared_special_members",
+    "complete_special_member",
+    "create_implicit_special_member",
+    "generated_member_pointer_kind",
+    "generated_member_name",
+    "make_copy_parameter",
+    "merge_reference_shape",
+    "replace_first_type_shape",
+    "bind_function_overload",
+    "find_matching_overload",
+    "compare_declaration_parameters",
+    "compare_overload_parameter",
+    "prepend_function_overload",
+    "classify_copy_assignment",
+    "skip_reference_shape",
+    "select_destructor_type",
+    "find_special_member_model",
+    "finalize_class_virtual_tables",
+    "complete_class_virtual_layout",
+    "reset_previous_base_class",
+    "complete_base_class_layout",
+    "finish_class_size",
+    "assign_virtual_base_group_offsets",
+    "resolve_virtual_overrides",
+    "resolve_function_virtual_overrides",
+    "diagnose_virtual_ambiguities",
+    "coalesce_virtual_table_paths",
+    "persist_class_virtual_tables",
+    "copy_vector_elements",
+    "vector_count",
+    "class_has_pure_virtual",
+    "declare_class_virtual_tables",
+    "declare_default_constructor_closures",
+    "find_class_special_member",
+    "begin_class_member_search",
+    "next_class_member_search",
+    "declare_deleting_destructors",
+    "build_class_member_index",
+    "class_member_hash_bits",
+    "flush_scanned_declaration",
+    "check_empty_declaration",
+    "finish_external_definition",
+    "find_qualifier_name",
+    "begin_qualification_allocation",
+    "append_qualifier_reference",
+    "end_qualification_allocation",
+    "enter_qualified_class",
+    "lookup_qualified_member",
+    "search_class_name_paths",
+    "class_candidate_is_distinct",
+    "begin_virtual_base_search",
+    "next_virtual_base_search",
+    "prune_hidden_class_paths",
+    "attach_qualifier_parent",
+    "new_qualified_declarator",
+    "begin_function_definition",
+    "merge_function_defaults",
+    "merge_declared_symbol",
+    "equivalent_base_type_flags",
+    "reconcile_declaration_type",
+    "equivalent_shape_attributes",
+    "compatible_declaration_storage",
+    "equivalent_storage_extensions",
+    "compatible_declaration_attributes",
+    "merge_declaration_storage",
+    "inherit_storage_modifiers",
+    "activate_qualified_definition_scopes",
+    "prepare_function_definition",
+    "new_branch_label",
+    "register_label",
+    "function_return_type",
+    "strip_based_shape",
+    "drop_first_type_shape",
+    "begin_function_ir",
+    "reset_frontend_records",
+    "append_frontend_record",
+    "begin_frontend_scope",
+    "record_parameter_cleanup",
+    "end_frontend_scope",
+    "remove_last_frontend_record",
+    "identifier_expression",
+    "symbol_expression",
+    "resolve_symbol_expression",
+    "validate_expression_symbol",
+    "symbol_reference",
+    "finish_symbol_expression",
+    "indirect_storage_expression",
+    "new_typed_unary_expression",
+    "symbol_has_reference_shape",
+    "append_expression",
+    "validate_value_expression",
+    "new_ir_expression",
+    "append_constructor_initializer",
+    "detach_expression_symbols",
+    "apply_constructor_initializers",
+    "begin_function_body",
+    "begin_function_output",
+    "record_line_information",
+    "write_ir_index",
+    "write_ir_filename",
+    "emit_warning_controls",
+    "this_pointer_expression",
+    "unary_expression",
+    "is_overload_operand",
+    "builtin_unary_expression",
+    "check_expression_operands",
+    "reject_special_indirection",
+    "dereference_pointer_type",
+    "new_left_typed_expression",
+    "emit_expression_tree",
+    "get_ir_symbol_index",
+    "next_member_context",
+    "emit_record_node",
+    "pointer_kind_size",
+    "node_alignment",
+    "expression_type_alignment",
+    "emit_parameter_declaration",
+    "push_work_list",
+    "begin_compound_statement",
+    "enter_compound_scope",
+    "record_compound_scope",
+    "reuse_frontend_record",
+    "emit_constructor_initializers",
+    "constructor_pointer_attributes",
+    "prepare_class_initialization",
+    "require_deleting_destructor",
+    "require_class_member_definitions",
+    "take_member_initializer",
+    "prepare_expression",
+    "mark_initialized_symbol",
+    "initialize_member_expression",
+    "adjusted_this_expression",
+    "replace_type_pointer_kind",
+    "initialize_lvalue",
+    "classify_initializer_conversion",
+    "classify_expression_conversion",
+    "classify_type_conversion",
+    "classify_special_type_conversion",
+    "classify_derived_type_conversion",
+    "convert_initializer",
+    "same_unqualified_class_type",
+    "prepare_reference_initializer",
+    "builtin_binary_expression",
+    "convert_binary_operands",
+    "warn_pointer_conversion",
+    "check_conversion_warning",
+    "check_type_conversion_warning",
+    "modifiable_lvalue",
+    "emit_expression_statement",
+    "fold_symbol_constant",
+    "emit_class_table_initializers",
+    "emit_vtable_pointer_initializers",
+    "emit_vtordisp_initializers",
+    "end_compound_statement",
+    "leave_compound_scope",
+    "end_compound_scope_record",
+    "emit_return_statement",
+    "begin_return_expression",
+    "finish_return_expression",
+    "process_expression_records",
+    "find_frontend_record",
+    "reference_ir_symbol",
+    "finish_function_records",
+    "emit_nonnull_expression_statement",
+    "has_unresolved_labels",
+    "function_paths_return",
+    "finish_goto_cleanups",
+    "emit_scope_cleanup_references",
+    "queue_closed_scope",
+    "end_function_definition",
+    "finish_function_body",
+    "emit_label",
+    "pop_work_list",
+    "finish_function_output",
+    "finish_label_symbols",
+    "serialize_scope",
+    "emit_symbol_declaration",
+    "write_decorated_name",
+    "mangle_symbol_name",
+    "classify_symbol_decoration",
+    "type_alignment",
+    "record_function_definition",
+    "reset_materialized_value_index",
+    "unwind_qualified_scopes",
+    "reset_function_symbol_tables",
+    "inherited_symbol_expression",
+    "member_expression",
+    "adjust_qualified_member_object",
+    "check_qualified_member_access",
+    "qualified_member_is_accessible",
+    "declaring_class_for_symbol",
+    "reset_member_access_failure",
+    "set_initial_member_access_failure",
+    "adjust_member_binding_object",
+    "make_member_at_offset",
+    "binary_expression",
+    "common_binary_type",
+    "convert_numeric_constant",
+    "convert_integral_constant",
+    "integer_constant_overflows",
+    "resolve_assignment_operand",
+    "can_initialize",
+    "find_forward_frontend_record",
+    "scan_number",
+    "read_numeric_character",
+    "next_source_character",
+    "convert_integer_digits",
+    "integer_digit_value",
+    "classify_decimal_integer",
+    "new_literal_constant",
+    "reject_function_initializer",
+    "classify_incomplete_type",
+    "lookup_outer_declaration",
+    "record_local_declaration",
+    "finalize_object_storage",
+    "check_global_object_definition",
+    "begin_object_initializer",
+    "prepare_initializer_symbol",
+    "initialize_object"
+  ],
+  "excluded_accepted": {
+    "CRT": [
+      "_mainCRTStartup",
+      "__heap_init",
+      "__ioinit",
+      "__setargv",
+      "_parse_cmdline",
+      "_malloc",
+      "__heap_search",
+      "__heap_grow",
+      "__heap_new_region",
+      "__heap_grow_region",
+      "__heap_addblock",
+      "__heap_findaddr",
+      "__heap_grow_emptylist",
+      "__before",
+      "__heap_split_block",
+      "__setenvp",
+      "__cinit",
+      "__initterm",
+      "_signal",
+      "_getenv",
+      "__strnicmp",
+      "_atol",
+      "__fullpath",
+      "__getdcwd",
+      "_free",
+      "_strncmp",
+      "__control87",
+      "__abstract_cw",
+      "__hw_cw",
+      "_fopen",
+      "__fsopen",
+      "__getstream",
+      "__openfile",
+      "__sopen",
+      "__alloc_osfhnd",
+      "__set_osfhnd",
+      "_setvbuf",
+      "__flush",
+      "__freebuf",
+      "__flsbuf",
+      "_fseek",
+      "__write",
+      "__lseek",
+      "__get_osfhandle",
+      "_fputc",
+      "_time",
+      "___gmtotime_t",
+      "_ctime",
+      "_localtime",
+      "___tzset",
+      "_gmtime",
+      "__isindst",
+      "_asctime",
+      "_store_dt",
+      "_rewind",
+      "_fwrite",
+      "__read",
+      "_ftell",
+      "_fputs",
+      "__stbuf",
+      "__isatty",
+      "__ftbuf"
+    ],
+    "import": [
+      "import:GetCommandLineA",
+      "import:GetEnvironmentStrings",
+      "import:GetVersion",
+      "import:GetStartupInfoA",
+      "import:GetStdHandle",
+      "import:GetFileType",
+      "import:GetModuleFileNameA",
+      "import:VirtualAlloc",
+      "import:SetConsoleCtrlHandler",
+      "import:GetConsoleCP",
+      "import:GetCPInfo",
+      "import:GetCurrentDirectoryA",
+      "import:SetHandleCount",
+      "import:CreateFileA",
+      "import:WriteFile",
+      "import:SetFilePointer",
+      "import:GetSystemTime",
+      "import:ReadFile"
+    ]
+  },
+  "cases": {
+    "cpp_basic": {
+      "first": 0,
+      "last": 534,
+      "seen": [],
+      "expected": [
+        "main",
+        "message_text",
+        "parse_options",
+        "push_linkage",
+        "initialize_packing",
+        "new_packing_stack",
+        "allocate_permanent",
+        "new_permanent_page",
+        "new_bitset",
+        "push_packing",
+        "initialize_checksums",
+        "initialize_lead_bytes",
+        "mark_lead_byte_ranges",
+        "read_env_arguments",
+        "extend_argument_vector",
+        "checked_malloc",
+        "new_vector",
+        "refill_arena",
+        "next_argument",
+        "match_option",
+        "prefix_character",
+        "apply_option",
+        "parse_option_number",
+        "match_option_suffix",
+        "append_vector",
+        "finalize_options",
+        "guarded_compile",
+        "compile_translation_unit",
+        "initialize_frontend",
+        "initialize_work_stack",
+        "reset_work_stack",
+        "initialize_preprocessor",
+        "initialize_macro_text",
+        "initialize_keyword_table",
+        "intern_keyword",
+        "initialize_floating_point",
+        "top_packing",
+        "disable_keyword",
+        "intern_identifier",
+        "initialize_cpp_context_stack",
+        "new_inline_vector",
+        "inline_vector_bytes",
+        "open_intermediate",
+        "open_expression_intermediate",
+        "make_integer_constant",
+        "new_integer_constant",
+        "write_ir_record",
+        "initialize_type_table",
+        "initialize_global_scope",
+        "initialize_declaration_table",
+        "new_hash_table",
+        "intern_type",
+        "make_function_type",
+        "normalize_type_attributes",
+        "new_type_shape",
+        "build_parameter_info",
+        "void_parameter_list",
+        "intern_function_parameters",
+        "intern_type_shape",
+        "make_tagged_type",
+        "make_qualified_type",
+        "copy_type_description",
+        "initialize_intermediate_output",
+        "initialize_translation_state",
+        "define_command_line_macros",
+        "frontend_time",
+        "format_timestamp",
+        "initialize_macro_storage",
+        "define_macro",
+        "lookup_macro",
+        "define_command_line_macro",
+        "copy_arena_bytes",
+        "write_global_header",
+        "write_global_record",
+        "open_source_file",
+        "open_input_handle",
+        "normalize_input_name",
+        "fill_source_buffer",
+        "initialize_operators",
+        "intern_operator_name",
+        "initialize_allocation_operators",
+        "declare_operator_new",
+        "save_declaration_context",
+        "new_declarator",
+        "add_declaration_parameter",
+        "normalize_symbol_type",
+        "normalize_symbol_distance",
+        "append_declarator",
+        "attach_function_parameters",
+        "attach_plain_function_parameters",
+        "build_function_declarator",
+        "add_function_shape",
+        "is_member_declarator",
+        "intern_declaration_parameters",
+        "hash_declaration_parameters",
+        "attach_type_shape",
+        "finish_parameter_scope",
+        "apply_declaration_type",
+        "resolve_declaration",
+        "merge_declaration_type",
+        "prepare_declarator_shapes",
+        "extract_declarator_prefix",
+        "extract_base_prefix",
+        "merge_type_attributes",
+        "intern_shape_on",
+        "merge_function_shape",
+        "finish_function_declarator",
+        "lookup_declaration",
+        "declaration_scope",
+        "lookup_scope_declaration",
+        "find_scope_symbol",
+        "find_name_in_chain",
+        "reconcile_declaration",
+        "insert_symbol",
+        "insert_scope_symbol",
+        "make_overload_symbol",
+        "check_function_defaults",
+        "check_missing_defaults",
+        "validate_special_function",
+        "is_class_name_type",
+        "restore_declaration_context",
+        "declare_operator_delete",
+        "declare_runtime_helpers",
+        "declare_vector_helper",
+        "declare_runtime_function",
+        "runtime_void_pointer",
+        "prepend_declarator",
+        "runtime_callback_type",
+        "initialize_purecall",
+        "runtime_function_symbol",
+        "new_symbol",
+        "pack_option_flags",
+        "parse_translation_unit",
+        "read_parser_token",
+        "scan_token",
+        "read_lexical_token",
+        "begin_source_line",
+        "scan_source_identifier",
+        "read_type_specifier",
+        "read_tag_specifier",
+        "unget_token",
+        "define_tag_symbol",
+        "allocate_tag_symbol",
+        "new_tag_record",
+        "register_tag_context",
+        "lookup_current_scope_declaration",
+        "is_current_class_name",
+        "insert_current_scope_symbol",
+        "apply_inheritance_model",
+        "match_tag_symbol",
+        "enter_class_scope",
+        "symbol_has_tag_scope",
+        "push_symbol_scope",
+        "record_scope_directory_entry",
+        "apply_type_symbol",
+        "merge_type_specifier",
+        "begin_class_body",
+        "prepare_base_layout",
+        "inherit_class_pointer_attributes",
+        "apply_default_vtordisp",
+        "check_inheritance_model",
+        "release_arena",
+        "current_class_name",
+        "finish_type",
+        "resolve_type_parenthesis",
+        "resolve_typename_token",
+        "resolve_identifier_token",
+        "is_current_class",
+        "current_declaration_type",
+        "declare_class_member",
+        "is_unqualified_class_type",
+        "capture_inline_member_declaration",
+        "find_class_member_name",
+        "type_qualifiers",
+        "is_static_data_member",
+        "layout_data_member",
+        "type_size",
+        "base_type_size",
+        "align_class_member",
+        "class_alignment_padding",
+        "alignment_padding_at",
+        "addition_overflows",
+        "add_member_offset",
+        "insert_class_member",
+        "append_class_members",
+        "check_class_specifier",
+        "set_member_access",
+        "find_outer_name",
+        "lookup_scoped_name",
+        "lookup_class_name",
+        "find_class_name_paths",
+        "symbol_matches_categories",
+        "resolve_declaration_alias",
+        "capture_declaration_tokens",
+        "append_deferred_token",
+        "resolve_parenthesis_candidate",
+        "initialize_lookahead_parser",
+        "lookahead_parse",
+        "classify_deferred_type",
+        "begin_parameter_scope",
+        "initialize_scope_buckets",
+        "append_parameter_declaration",
+        "check_constructor_storage",
+        "merge_storage_spec",
+        "declare_constructor",
+        "global_declaration_type",
+        "make_class_pointer_type",
+        "retire_scope_directory_entry",
+        "pop_symbol_scope",
+        "configure_member_function",
+        "classify_constructor",
+        "overrides_virtual_member",
+        "validate_function_default_arguments",
+        "make_ellipsis_parameter",
+        "end_class_specifier",
+        "build_conversion_type_sets",
+        "new_type_set",
+        "begin_conversion_functions",
+        "next_conversion_function",
+        "share_inherited_type_set",
+        "inline_vector_count",
+        "release_inline_vector",
+        "release_permanent",
+        "prepare_class_virtual_tables",
+        "initialize_class_virtual_tables",
+        "new_empty_vector",
+        "build_class_virtual_tables",
+        "has_new_virtual_members",
+        "finish_nonvirtual_class_size",
+        "declare_implicit_special_members",
+        "special_member_model",
+        "inherit_base_special_members",
+        "inherit_field_special_members",
+        "class_type_of_member",
+        "is_const_or_reference_member",
+        "inspect_declared_special_members",
+        "complete_special_member",
+        "create_implicit_special_member",
+        "generated_member_pointer_kind",
+        "generated_member_name",
+        "make_copy_parameter",
+        "merge_reference_shape",
+        "replace_first_type_shape",
+        "bind_function_overload",
+        "find_matching_overload",
+        "compare_declaration_parameters",
+        "compare_overload_parameter",
+        "prepend_function_overload",
+        "classify_copy_assignment",
+        "skip_reference_shape",
+        "select_destructor_type",
+        "find_special_member_model",
+        "finalize_class_virtual_tables",
+        "complete_class_virtual_layout",
+        "reset_previous_base_class",
+        "complete_base_class_layout",
+        "finish_class_size",
+        "assign_virtual_base_group_offsets",
+        "resolve_virtual_overrides",
+        "resolve_function_virtual_overrides",
+        "diagnose_virtual_ambiguities",
+        "coalesce_virtual_table_paths",
+        "persist_class_virtual_tables",
+        "copy_vector_elements",
+        "vector_count",
+        "class_has_pure_virtual",
+        "declare_class_virtual_tables",
+        "declare_default_constructor_closures",
+        "find_class_special_member",
+        "begin_class_member_search",
+        "next_class_member_search",
+        "declare_deleting_destructors",
+        "build_class_member_index",
+        "class_member_hash_bits",
+        "flush_scanned_declaration",
+        "check_empty_declaration",
+        "finish_external_definition",
+        "find_qualifier_name",
+        "begin_qualification_allocation",
+        "append_qualifier_reference",
+        "end_qualification_allocation",
+        "enter_qualified_class",
+        "lookup_qualified_member",
+        "search_class_name_paths",
+        "class_candidate_is_distinct",
+        "begin_virtual_base_search",
+        "next_virtual_base_search",
+        "prune_hidden_class_paths",
+        "attach_qualifier_parent",
+        "new_qualified_declarator",
+        "begin_function_definition",
+        "merge_function_defaults",
+        "merge_declared_symbol",
+        "equivalent_base_type_flags",
+        "reconcile_declaration_type",
+        "equivalent_shape_attributes",
+        "compatible_declaration_storage",
+        "equivalent_storage_extensions",
+        "compatible_declaration_attributes",
+        "merge_declaration_storage",
+        "inherit_storage_modifiers",
+        "activate_qualified_definition_scopes",
+        "prepare_function_definition",
+        "new_branch_label",
+        "register_label",
+        "function_return_type",
+        "strip_based_shape",
+        "drop_first_type_shape",
+        "begin_function_ir",
+        "reset_frontend_records",
+        "append_frontend_record",
+        "begin_frontend_scope",
+        "record_parameter_cleanup",
+        "end_frontend_scope",
+        "remove_last_frontend_record",
+        "identifier_expression",
+        "symbol_expression",
+        "resolve_symbol_expression",
+        "validate_expression_symbol",
+        "symbol_reference",
+        "finish_symbol_expression",
+        "indirect_storage_expression",
+        "new_typed_unary_expression",
+        "symbol_has_reference_shape",
+        "append_expression",
+        "validate_value_expression",
+        "new_ir_expression",
+        "append_constructor_initializer",
+        "detach_expression_symbols",
+        "apply_constructor_initializers",
+        "begin_function_body",
+        "begin_function_output",
+        "record_line_information",
+        "write_ir_index",
+        "write_ir_filename",
+        "emit_warning_controls",
+        "this_pointer_expression",
+        "unary_expression",
+        "is_overload_operand",
+        "builtin_unary_expression",
+        "check_expression_operands",
+        "reject_special_indirection",
+        "dereference_pointer_type",
+        "new_left_typed_expression",
+        "emit_expression_tree",
+        "get_ir_symbol_index",
+        "next_member_context",
+        "emit_record_node",
+        "pointer_kind_size",
+        "node_alignment",
+        "expression_type_alignment",
+        "emit_parameter_declaration",
+        "push_work_list",
+        "begin_compound_statement",
+        "enter_compound_scope",
+        "record_compound_scope",
+        "reuse_frontend_record",
+        "emit_constructor_initializers",
+        "constructor_pointer_attributes",
+        "prepare_class_initialization",
+        "require_deleting_destructor",
+        "require_class_member_definitions",
+        "take_member_initializer",
+        "prepare_expression",
+        "mark_initialized_symbol",
+        "initialize_member_expression",
+        "adjusted_this_expression",
+        "replace_type_pointer_kind",
+        "initialize_lvalue",
+        "classify_initializer_conversion",
+        "classify_expression_conversion",
+        "classify_type_conversion",
+        "classify_special_type_conversion",
+        "classify_derived_type_conversion",
+        "convert_initializer",
+        "same_unqualified_class_type",
+        "prepare_reference_initializer",
+        "builtin_binary_expression",
+        "convert_binary_operands",
+        "warn_pointer_conversion",
+        "check_conversion_warning",
+        "check_type_conversion_warning",
+        "modifiable_lvalue",
+        "emit_expression_statement",
+        "fold_symbol_constant",
+        "emit_class_table_initializers",
+        "emit_vtable_pointer_initializers",
+        "emit_vtordisp_initializers",
+        "end_compound_statement",
+        "leave_compound_scope",
+        "end_compound_scope_record",
+        "emit_return_statement",
+        "begin_return_expression",
+        "finish_return_expression",
+        "process_expression_records",
+        "find_frontend_record",
+        "reference_ir_symbol",
+        "finish_function_records",
+        "emit_nonnull_expression_statement",
+        "has_unresolved_labels",
+        "function_paths_return",
+        "finish_goto_cleanups",
+        "emit_scope_cleanup_references",
+        "queue_closed_scope",
+        "end_function_definition",
+        "finish_function_body",
+        "emit_label",
+        "pop_work_list",
+        "finish_function_output",
+        "finish_label_symbols",
+        "serialize_scope",
+        "emit_symbol_declaration",
+        "write_decorated_name",
+        "mangle_symbol_name",
+        "classify_symbol_decoration",
+        "type_alignment",
+        "record_function_definition",
+        "reset_materialized_value_index",
+        "unwind_qualified_scopes",
+        "reset_function_symbol_tables",
+        "inherited_symbol_expression",
+        "member_expression",
+        "adjust_qualified_member_object",
+        "check_qualified_member_access",
+        "qualified_member_is_accessible",
+        "declaring_class_for_symbol",
+        "reset_member_access_failure",
+        "set_initial_member_access_failure",
+        "adjust_member_binding_object",
+        "make_member_at_offset",
+        "binary_expression",
+        "common_binary_type",
+        "convert_numeric_constant",
+        "convert_integral_constant",
+        "integer_constant_overflows",
+        "resolve_assignment_operand",
+        "can_initialize",
+        "find_forward_frontend_record",
+        "scan_number",
+        "read_numeric_character",
+        "next_source_character",
+        "convert_integer_digits",
+        "integer_digit_value",
+        "classify_decimal_integer",
+        "new_literal_constant",
+        "reject_function_initializer",
+        "classify_incomplete_type",
+        "lookup_outer_declaration",
+        "record_local_declaration",
+        "finalize_object_storage",
+        "check_global_object_definition",
+        "begin_object_initializer",
+        "prepare_initializer_symbol",
+        "initialize_object",
+        "initialize_object_value"
+      ],
+      "terminal": {
+        "kind": "frontier",
+        "logical": "_initialize_object_value@8",
+        "native": "initialize_object_value",
+        "signal": 5
+      }
+    }
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "status": "one function accepted; paused",
+  "scope": "Exactly initialize_object_value@8, existing cpp_basic case. Frontend remains incomplete.",
+  "function": {
+    "name": "_initialize_object_value@8",
+    "original_start": "0x462c0",
+    "original_end_exclusive": "0x46589",
+    "bytes": 713,
+    "ABI": "stdcall: two pointers, all original returns RET8; canonical decorated symbol/RET8 preserved",
+    "distinct_direct_callees": 25,
+    "new_trapping_callees": 14,
+    "shared_text_data_bytes": 0
+  },
+  "next_frontier": {
+    "name": "_symbol_construction_class@4",
+    "original_va": "0x482f0",
+    "reconstructed": false
+  },
+  "coverage": {
+    "accepted_code_bytes": 178448,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 37.45618343555449,
+    "accepted_frontiers": 535,
+    "source_functions": 462,
+    "accepted_source_text_and_switch_bytes": 168005,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  },
+  "coverage_delta": {
+    "bytes": 713,
+    "percentage_points": 0.14965849317196245,
+    "previous_bytes": 177735,
+    "previous_percent": 37.30652494238253,
+    "branch_coverage": false
+  },
+  "original_evidence": {
+    "before": "original-before-receipt.json",
+    "after": "original-after-receipt.json",
+    "events": "original-after-events.txt",
+    "candidate_configuration": "candidate-functions.json",
+    "candidate_configuration_sha256": "b997b84e2c63f42813e4cee41a1dbad074229b6a7f5742985a687d2fb03f372d",
+    "masked_original_sha256": "d733ab4b7a163a34612fb446d2c6c070d754eb87b8b5807b37253a7b661d5a3d",
+    "actual_first_chance_exception": "80000003",
+    "actual_caller_va": "0x462df",
+    "fresh_capture_outside_fixture": true
+  },
+  "native_evidence": {
+    "checkpoint": "native-checkpoint.json",
+    "gdb": "native-gdb.log",
+    "matching_pending_buffers": 4,
+    "pending_buffer_bytes": [
+      203,
+      87,
+      6,
+      29
+    ],
+    "matching_checkpoint_fields": 14,
+    "symbol": {
+      "name": "counter",
+      "kind": 9,
+      "type_flags": 1048,
+      "declaration_flags": 0
+    },
+    "cached_application_entries": 456,
+    "application_definitions": 925,
+    "receipts": [
+      {
+        "kind": "output",
+        "path": "cases/object-initializer-trial/native-output-receipt.json",
+        "sha256": "30ca6b4fe920872cac61a8fe1e5df8406bef3a7587a7294200f7c12dd5d55453",
+        "receipt": {
+          "measured_partial_phases": {
+            "setup_seconds": 0.0015515470877289772,
+            "execution_seconds": 0.003986785188317299
+          },
+          "mode": "native cached references only",
+          "executable": "/root/msvc2/decomp/vc1.0/c1xx/build/native/C1XX3232.EXE",
+          "executable_sha256": "46bed68701b57aa7b6691a52d4d0f4834ae7af83c1230550ec68e66be7716091",
+          "trace_prepare_seconds": 0.004840322770178318,
+          "build_seconds": "separate target; unmeasured here",
+          "capture_seconds": "none; immutable prior evidence",
+          "cases": [
+            {
+              "case": "cpp_basic",
+              "status": "pass",
+              "terminal": {
+                "kind": "frontier",
+                "logical": "_symbol_construction_class@4",
+                "native_signal": 5,
+                "original_exception": "80000003"
+              },
+              "native_status": -5,
+              "complete_frontend_case": false,
+              "setup_seconds": 0.0015515470877289772,
+              "execution_seconds": 0.003986785188317299,
+              "oracle_seconds": 0.0006575463339686394,
+              "trace_check_seconds": 2.3562461137771606e-06,
+              "total_seconds": 0.006484337151050568,
+              "application_trace_entries": 0,
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "outputs": [
+                {
+                  "name": "irex",
+                  "bytes": 6,
+                  "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+                },
+                {
+                  "name": "irsy",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "name": "irin",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "name": "irgl",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              ],
+              "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+              "reference_manifest_sha256": "a825d402dbbb06a8c2e79a5ffad10a3266fbc3db77c9e8625646ad65b449e6ce"
+            }
+          ],
+          "status": "pass"
+        }
+      },
+      {
+        "kind": "trace",
+        "path": "cases/object-initializer-trial/native-trace-receipt.json",
+        "sha256": "7f399f880b48dacb52b2f79ba8ab1415e0c061c8559d9869e7c94f7db9f69e07",
+        "receipt": {
+          "measured_partial_phases": {
+            "setup_seconds": 0.002950737252831459,
+            "execution_seconds": 0.009491300210356712
+          },
+          "mode": "native cached references only",
+          "executable": "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE",
+          "executable_sha256": "55ff01236fb12afdad7d63f677dbe95bc0d8aa5c643a3bfaafb33c6c4b691906",
+          "trace_prepare_seconds": 0.11903244629502296,
+          "build_seconds": "separate target; unmeasured here",
+          "capture_seconds": "none; immutable prior evidence",
+          "cases": [
+            {
+              "case": "cpp_basic",
+              "status": "pass",
+              "terminal": {
+                "kind": "frontier",
+                "logical": "_symbol_construction_class@4",
+                "native_signal": 5,
+                "original_exception": "80000003"
+              },
+              "native_status": -5,
+              "complete_frontend_case": false,
+              "setup_seconds": 0.002950737252831459,
+              "execution_seconds": 0.009491300210356712,
+              "oracle_seconds": 0.0010647410526871681,
+              "trace_check_seconds": 0.0002385573461651802,
+              "total_seconds": 0.014113161712884903,
+              "application_trace_entries": 456,
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "outputs": [
+                {
+                  "name": "irex",
+                  "bytes": 6,
+                  "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+                },
+                {
+                  "name": "irsy",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "name": "irin",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "name": "irgl",
+                  "bytes": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              ],
+              "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+              "reference_manifest_sha256": "a825d402dbbb06a8c2e79a5ffad10a3266fbc3db77c9e8625646ad65b449e6ce"
+            }
+          ],
+          "status": "pass"
+        }
+      }
+    ],
+    "normalization": "none for target streams/artifacts; only predeclared pointer checkpoint fields compare nonnull identity"
+  },
+  "canonical_audits": {
+    "status": "pass",
+    "matching_function_graphs": 462,
+    "candidate_graph": "candidate-call-graph.json",
+    "data_defaults": "static-audits.log",
+    "initializer_runtime_start_original": "0x91594",
+    "runtime_flag_word_original": "0x9f790 (token_allocation_flags), distinct from cpp_parser_flags at0x9f794",
+    "main_grammar_states": 575,
+    "lookahead_states": 279
+  },
+  "timings_seconds": {
+    "original_baseline_capture": 4.42503179050982,
+    "original_candidate_capture": 2.5210822597146034,
+    "original_capture_total": 6.946114050224423,
+    "canonical_build": 3.6610344210639596,
+    "canonical_static_audits": 4.729642712511122,
+    "native_build_both_variants": 7.898237087763846,
+    "native_GDB_inspection": 0.19540339428931475,
+    "native_fixture_first": 0.24442039895802736,
+    "native_fixture_final": 0.23596246633678675,
+    "analysis_source_translation": "not separately timed",
+    "fixture_reference_capture": "none; cached original evidence only"
+  },
+  "workflow": {
+    "gains": [
+      "Named native GDB backtrace and direct four-buffer/fourteen-field inspection required no Win32 reconstruction executable.",
+      "Cached native trace/output fixture checks completed in about0.24seconds; fresh original reference capture stayed an explicit separate operation.",
+      "No additional shared shim APIs or target source compatibility changes were required."
+    ],
+    "friction": [
+      "The initial trace projector assumed a fixed534-frontier transcript. It now validates an additive original-backed one-function extension while preserving the old receipt.",
+      "Native Makefile uses a broad header prerequisite list, so this header edit rebuilt both complete native variants (7.898seconds); canonical incremental build was3.661seconds."
+    ],
+    "limits": [
+      "The exercised path enters the constructor-class helper immediately; other branches are statically reconstructed and graph-audited, not newly branch-covered by this case.",
+      "No next helper reconstruction, new case, staging or commit."
+    ]
+  },
+  "resume": "Wait for explicit instruction; next assigned cpp_basic frontier is symbol_construction_class@4 at0x482f0."
+}

@@ -64,9 +64,33 @@ def project():
     reference = json.loads(REFERENCE.read_text())
     original = reference['sides'][0]
     transcript = [event['name'] for event in original['events'] if event['event'] == 'frontier']
+    original_terminal = original['terminal']
+    extension_files = []
+    # Fresh, explicit original-only captures extend the immutable historical
+    # transcript one accepted function at a time. Never infer a terminal from
+    # the native run that will consume this cache.
+    for filename in config['cases']['cpp_basic'].get('frontier_extensions', []):
+        path = BINARY / filename
+        extension = json.loads(path.read_text())
+        capture_path = BINARY / extension['original_capture']
+        events_path = BINARY / extension['original_events']
+        assert sha(capture_path) == extension['original_capture_sha256'], 'original extension capture changed'
+        assert sha(events_path) == extension['original_events_sha256'], 'original extension events changed'
+        capture = json.loads(capture_path.read_text())
+        assert extension['accepted_before'] == len(transcript) == capture['accepted_count']
+        assert extension['accepted'] == original_terminal == capture['candidate']
+        assert capture['original_sha256'] == config['target']['sha256']
+        assert extension['terminal'] == capture['terminal']
+        event = re.search(r'^exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1$',
+                          events_path.read_text(), re.M)
+        assert event, 'original extension did not stop at a first-chance INT3'
+        assert int(event[1], 16) + int(event[2], 16) == drivers[extension['terminal']]['start']
+        transcript.append(extension['accepted'])
+        original_terminal = extension['terminal']
+        extension_files += [path, capture_path, events_path]
     assert transcript == config['accepted'], 'original reference acceptance identity changed'
     terminal = config['cases']['cpp_basic']['terminal']
-    assert original['terminal'] == terminal
+    assert original_terminal == terminal
     assert terminal in application, 'partial terminal must be an application stub'
     first = config['cases']['cpp_basic'].get('accepted_from', 0)
     project_names = lambda names: [native_name(n) for n in names if n in application]
@@ -75,7 +99,7 @@ def project():
     assert len(definitions) == len(application), 'native decoration collision'
     return dict(schema=1, scope='cached original application first entries; no capture',
         metadata_sha256={str(p.relative_to(BINARY)): sha(p) for p in
-            (BINARY / 'functions.json', BINARY / 'runtime.json', REFERENCE, MAP)},
+            [BINARY / 'functions.json', BINARY / 'runtime.json', REFERENCE, MAP] + extension_files},
         application_definitions=dict(sorted(definitions.items())),
         accepted_application=project_names(transcript),
         excluded_accepted={kind: [n for n in transcript if classified[n] == kind]

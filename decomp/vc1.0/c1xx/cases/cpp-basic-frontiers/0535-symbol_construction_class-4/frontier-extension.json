@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 535,
+  "accepted": "_symbol_construction_class@4",
+  "terminal": "_initialize_class_object@8",
+  "original_capture": "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/original-receipt.json",
+  "original_capture_sha256": "b76ca62e99c9a22e9090f8c30b99a4b15b343c4db2993faea7f387769ac03384",
+  "original_events": "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/original-events.txt",
+  "original_events_sha256": "56d155d85e65d80c44e4b5579174edadadb69d1a1b78d8b02fbe86ac0c82db77",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

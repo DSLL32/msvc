@@ -538,7 +538,9 @@
     "_check_global_object_definition@4",
     "_begin_object_initializer@4",
     "_prepare_initializer_symbol@4",
-    "_initialize_object@8"
+    "_initialize_object@8",
+    "_initialize_object_value@8",
+    "_symbol_construction_class@4"
   ],
   "driver": [
     {
@@ -5178,15 +5180,89 @@
     {
       "name": "_initialize_object_value@8",
       "start": 287424,
-      "end": 287425
+      "end": 288137
+    },
+    {
+      "name": "_initialize_class_object@8",
+      "start": 294640,
+      "end": 294641
+    },
+    {
+      "name": "_prepare_constant_initializer@8",
+      "start": 295536,
+      "end": 295537
+    },
+    {
+      "name": "_is_character_array_initializer@8",
+      "start": 291600,
+      "end": 291601
+    },
+    {
+      "name": "_fit_string_initializer@8",
+      "start": 286096,
+      "end": 286097
+    },
+    {
+      "name": "_check_static_initializer@8",
+      "start": 284720,
+      "end": 284721
+    },
+    {
+      "name": "_begin_runtime_initializer@4",
+      "start": 294784,
+      "end": 294785
+    },
+    {
+      "name": "_is_scalar_initializer_symbol@4",
+      "start": 291744,
+      "end": 291745
+    },
+    {
+      "name": "_emit_initializer_assignment@8",
+      "start": 286752,
+      "end": 286753
+    },
+    {
+      "name": "_finish_initializer_symbol@4",
+      "start": 293584,
+      "end": 293585
+    },
+    {
+      "name": "_normalize_initializer_expression@4",
+      "start": 294336,
+      "end": 294337
+    },
+    {
+      "name": "_write_literal_initializer@12",
+      "start": 375712,
+      "end": 375713
+    },
+    {
+      "name": "_emit_runtime_symbol_initializer@8",
+      "start": 286192,
+      "end": 286193
+    },
+    {
+      "name": "_remaining_string_initializer_bytes@8",
+      "start": 294160,
+      "end": 294161
+    },
+    {
+      "name": "_emit_initializer_constant@4",
+      "start": 294480,
+      "end": 294481
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_initialize_object_value@8",
-      "terminal_evidence": "evidence/check-reorganized-layout.log"
+      "terminal": "_initialize_class_object@8",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/original-events.txt",
+      "frontier_extensions": [
+        "cases/object-initializer-trial/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json"
+      ]
     }
   },
   "runtime_data": [
@@ -6830,6 +6906,11 @@
         {
           "name": "_initializer_storage_symbol",
           "original": 595344,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_runtime_start",
+          "original": 595348,
           "bytes": 4
         },
         {

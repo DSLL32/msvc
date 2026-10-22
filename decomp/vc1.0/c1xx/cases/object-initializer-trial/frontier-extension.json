@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 534,
+  "accepted": "_initialize_object_value@8",
+  "terminal": "_symbol_construction_class@4",
+  "original_capture": "cases/object-initializer-trial/original-after-receipt.json",
+  "original_capture_sha256": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
+  "original_events": "cases/object-initializer-trial/original-after-events.txt",
+  "original_events_sha256": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
+  "scope": "One new whole function, verified fresh masked original versus native; prior534original history unchanged"
+}
