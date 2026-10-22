@@ -2,8 +2,8 @@
 #define OUTPUT_H
 #include "backend-flow.h"
 #include "segments.h"
-/* Callback slots 0007b8f0..0007b938. The register-only slot signatures
-   are refined with their callers; no opaque image data is retained. */
+/* Callback slots 0007b8f0..0007b938. Signatures are refined with their
+   callers; no opaque image data is retained. */
 typedef struct ModuleDirective {
     struct ModuleDirective *next;
     unsigned kind;
@@ -54,7 +54,7 @@ void begin_debug_function(void);
 void finish_debug_module(void);
 void coff_output_symbol(void);
 void coff_output_function(void);
-void coff_begin_function(void);
+void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int frame_metadata, unsigned line);
 void __fastcall coff_write_data(void *data, unsigned bytes);
 void __fastcall coff_select_segment(Segment *segment);
 void coff_output_debug_pair(void);
@@ -67,7 +67,7 @@ void coff_output_size(void);
 void coff_finish_module(void);
 void coff_output_relocation(void);
 void __fastcall coff_output_record(ModuleDirective *directive);
-void coff_mark_symbol(void);
+void __fastcall coff_mark_symbol(SymbolHeader *symbol);
 void omf_output_symbol(void);
 void omf_select_segment(void);
 void omf_output_data(void);

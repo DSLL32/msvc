@@ -1,7 +1,79 @@
 /* Object symbol spelling and compiler-owned copies. */
 #include "records.h"
+#include "machine.h"
+#include "function-input.h"
+#include "options.h"
 extern unsigned descriptor_bytes[7];
 void __fastcall uppercase_name(char *name);
+unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix);
+static char symbol_name_buffer[256]; /* 0007e3b0: reused object-name workspace */
+/* Original [0004e000,0004e2b0). Names are already decorated by the input
+   reader. Internal objects and labels receive an identifier suffix. Copies
+   and concatenations were compiler intrinsics and introduce no call nodes. */
+char *__fastcall symbol_display_name(SymbolHeader *symbol)
+{
+    char *destination = symbol_name_buffer, *source = symbol->name;
+    char *suffix = NULL;
+    int numbered = 0, truncate = 1;
+    unsigned storage;
+    switch (symbol->kind) {
+    case 1:
+        if (!source) {
+            *destination++ = '$';
+            if (symbol->field0d == '$') *destination++ = 'S';
+            else if (symbol->field0d == '%') {
+                *destination++ = 'S'; *destination++ = 'G';
+            } else *destination++ = 'T';
+            format_integer(symbol->identifier, destination, 10);
+            return symbol_name_buffer;
+        }
+        if (symbol->field0d == '$') {
+            suffix = "$S";
+            numbered = 1;
+        } else {
+            storage = ((BackendSymbol *)symbol)->attributes & 0x70;
+            if (storage == 0x10 || storage == 0x30) {
+                suffix = "$";
+                numbered = (signed char)((TemporarySymbol *)symbol)->anonymous > 2;
+            }
+        }
+        break;
+    case 3:
+        if (symbol->field0d) {
+            *destination++ = '$'; *destination++ = 'L';
+            format_integer(symbol->identifier, destination, 10);
+            return symbol_name_buffer;
+        }
+        suffix = "$"; numbered = 1;
+        break;
+    case 4:
+        if (!source) {
+            *destination++ = '$'; *destination++ = 'E';
+            format_integer(symbol->identifier, destination, 10);
+            return symbol_name_buffer;
+        }
+        break;
+    case 9:
+        truncate = 0;
+        break;
+    default:
+        compiler_internal_error("@(#)p2symtab.c:1.89", 0x362);
+        return symbol_name_buffer;
+    }
+    while ((*destination++ = *source++) != 0) ;
+    if (truncate) symbol_name_buffer[identifier_limit] = 0;
+    if (suffix) {
+        destination = symbol_name_buffer;
+        while (*destination) ++destination;
+        while ((*destination++ = *suffix++) != 0) ;
+    }
+    if (numbered) {
+        destination = symbol_name_buffer;
+        while (*destination) ++destination;
+        format_integer(symbol->identifier, destination, 10);
+    }
+    return symbol_name_buffer;
+}
 /* Original [0004dab0,0004dcb0), including two decoration dispatch tables. */
 char *__fastcall intern_symbol_name(SymbolHeader *symbol, char *name, int arena)
 {

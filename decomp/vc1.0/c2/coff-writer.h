@@ -38,12 +38,27 @@ typedef struct CoffLine {
     unsigned location;
     unsigned short line;
 } CoffLine;
+typedef struct CoffObjectSymbol {
+    union {
+        char short_name[8];
+        struct { unsigned zero, offset; } long_name;
+    } name;
+    unsigned value;
+    unsigned short section, type;
+    unsigned char storage, auxiliary_count;
+} CoffObjectSymbol;
 #pragma pack()
+typedef char CoffObjectSymbolSizeCheck[sizeof(CoffObjectSymbol) == 18 ? 1 : -1];
 typedef struct CoffRelocationBlock {
     unsigned count;
     struct CoffRelocationBlock *next;
     CoffRelocation entries[50];
 } CoffRelocationBlock;
+typedef struct CoffFunctionFixup {
+    unsigned identifier;
+    CoffRelocation *relocation;
+    struct CoffFunctionFixup *next;
+} CoffFunctionFixup;
 typedef struct CoffLineBlock {
     unsigned count;
     struct CoffLineBlock *next;
@@ -64,6 +79,7 @@ extern CoffScope *coff_scopes, *coff_active_scope;
 extern CoffDataBlock *coff_free_blocks;
 extern CoffRelocationBlock *coff_free_relocations;
 extern CoffLineBlock *coff_free_lines;
+extern CoffFunctionFixup *coff_function_fixups[32];
 typedef struct CoffFilename {
     char *name;
     unsigned next_index;
@@ -73,6 +89,7 @@ typedef struct CoffSymbolEntry {
     union {
         CoffFilename *file;
         CoffContribution *contribution;
+        CoffObjectSymbol *symbol;
     } data;
 } CoffSymbolEntry;
 extern CoffFilename *coff_last_filename;
@@ -107,4 +124,16 @@ void *__fastcall coff_vector_get(CoffVector *vector, unsigned index);
 void __fastcall coff_record_contribution(CoffContribution *contribution);
 unsigned __fastcall coff_scope_position(CoffScope *scope);
 void __fastcall coff_write_scope_data(const void *data, unsigned bytes);
+unsigned __fastcall coff_define_function(unsigned identifier, char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, short has_lines);
+unsigned __fastcall coff_define_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type);
+unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
+    unsigned char search);
+unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, void **auxiliary);
+void __fastcall coff_resolve_function(unsigned identifier, unsigned handle);
+void __fastcall coff_set_symbol_name(CoffObjectSymbol *symbol, char *name);
+unsigned __fastcall coff_data_position(CoffScope *scope);
 #endif

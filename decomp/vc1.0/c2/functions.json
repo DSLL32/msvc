@@ -301,7 +301,16 @@
     "@encode_modrm@12",
     "@encode_operand@12",
     "@encode_integer@8",
-    "@align_machine_location@12"
+    "@align_machine_location@12",
+    "@coff_begin_function@16",
+    "@coff_mark_symbol@4",
+    "@coff_symbol_type@4",
+    "@symbol_display_name@4",
+    "@coff_define_function@28",
+    "@coff_define_symbol@20",
+    "@coff_set_symbol_name@8",
+    "_strncpy",
+    "@coff_resolve_function@8"
   ],
   "driver": [
     {
@@ -1154,10 +1163,9 @@
       "provisional": true
     },
     {
-      "name": "_coff_begin_function",
+      "name": "@coff_begin_function@16",
       "start": 445120,
-      "end": 445121,
-      "provisional": true
+      "end": 445648
     },
     {
       "name": "@coff_select_segment@4",
@@ -1224,10 +1232,9 @@
       "end": 449072
     },
     {
-      "name": "_coff_mark_symbol",
+      "name": "@coff_mark_symbol@4",
       "start": 445664,
-      "end": 445665,
-      "provisional": true
+      "end": 446480
     },
     {
       "name": "_omf_output_symbol",
@@ -3061,8 +3068,7 @@
     {
       "name": "@symbol_display_name@4",
       "start": 319488,
-      "end": 319489,
-      "provisional": true
+      "end": 320176
     },
     {
       "name": "@floating_constant_symbol@4",
@@ -3262,6 +3268,55 @@
       "name": "@extend_previous_instruction@8",
       "start": 208480,
       "end": 208481,
+      "provisional": true
+    },
+    {
+      "name": "@coff_symbol_type@4",
+      "start": 445648,
+      "end": 445664
+    },
+    {
+      "name": "@coff_define_function@28",
+      "start": 453040,
+      "end": 453152
+    },
+    {
+      "name": "@coff_define_symbol@20",
+      "start": 452752,
+      "end": 452912
+    },
+    {
+      "name": "@coff_define_weak_symbol@28",
+      "start": 453408,
+      "end": 453409,
+      "provisional": true
+    },
+    {
+      "name": "@format_integer@12",
+      "start": 460736,
+      "end": 460737,
+      "provisional": true
+    },
+    {
+      "name": "@coff_define_aux_symbol@24",
+      "start": 453232,
+      "end": 453233,
+      "provisional": true
+    },
+    {
+      "name": "@coff_resolve_function@8",
+      "start": 453152,
+      "end": 453232
+    },
+    {
+      "name": "@coff_set_symbol_name@8",
+      "start": 452912,
+      "end": 453040
+    },
+    {
+      "name": "@coff_data_position@4",
+      "start": 455056,
+      "end": 455057,
       "provisional": true
     }
   ],

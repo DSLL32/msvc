@@ -282,3 +282,26 @@ processes report code offset 0, code size 18, prologue size 6, epilogue offset 0
 frame allocation 0, filename test.c and source line 1. The callback receives the
 same logical symbol/filename in ECX/EDX and stack arguments 0 and 1. Encoding
 for sizing has passed; the complete emitted object is still pending.
+
+COFF function setup now preserves the source-file cache, optional per-function
+CodeView/FPO sections, symbol reachability, weak fallbacks and export directives.
+coff-functions.c keeps these states beside their users. names.c formats existing
+decorated names and internal numbered names in the shared object-name workspace.
+coff-writer.c creates typed, packed 18-byte COFF symbols, chooses short or string
+table names, and resolves pending function relocations. Line information is
+controlled by the writer's debug byte, independently of its feature flags.
+
+At assembly-listing entry, an independent debugger compares all seven writer
+symbol entries. Both contain the test.c file record, .drectve and .text section
+records and their auxiliary placeholders, followed by the exact 18-byte _main
+symbol: value zero, contribution 2, type 0x20, storage 2, no auxiliary record.
+The section flags, contribution numbers and symbol indexes also match. See
+cases/coff-symbol-abi.json. Optional debug/FPO output, weak/exported symbols,
+long names and diagnostic branches have complete parent bodies and named
+trapping helper calls but are not dynamically validated by this minimal case.
+Complete byte emission and the final object comparison remain pending.
+
+This COFF symbol checkpoint passes a clean original-toolchain -j2 build, all
+244 graph audits and all 306 recorded frontier replays. Five changed C modules
+compile cleanly with /W3. The active frontier is write_function_listing; the
+listing-disabled path still precedes machine byte emission and final COFF output.

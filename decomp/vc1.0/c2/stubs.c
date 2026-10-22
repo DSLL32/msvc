@@ -205,7 +205,6 @@ __declspec(naked) void begin_debug_function(void) { __asm int 3 }
 __declspec(naked) void finish_debug_module(void) { __asm int 3 }
 __declspec(naked) void coff_output_symbol(void) { __asm int 3 }
 __declspec(naked) void coff_output_function(void) { __asm int 3 }
-__declspec(naked) void coff_begin_function(void) { __asm int 3 }
 __declspec(naked) void coff_output_debug_pair(void) { __asm int 3 }
 __declspec(naked) void coff_output_debug_record(void) { __asm int 3 }
 __declspec(naked) void coff_output_value(void) { __asm int 3 }
@@ -215,7 +214,6 @@ __declspec(naked) void coff_output_offset(void) { __asm int 3 }
 __declspec(naked) void coff_output_size(void) { __asm int 3 }
 __declspec(naked) void coff_finish_module(void) { __asm int 3 }
 __declspec(naked) void coff_output_relocation(void) { __asm int 3 }
-__declspec(naked) void coff_mark_symbol(void) { __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { __asm int 3 }
 __declspec(naked) void omf_output_data(void) { __asm int 3 }
@@ -320,7 +318,6 @@ MachineOperand *__fastcall symbol_operand(Node *reference, int indirect) { __asm
 void __fastcall spill_x87_for_node(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic(Node *node) { __asm int 3 }
 SymbolHeader *__fastcall allocate_stack_temporary(unsigned bytes) { __asm int 3 }
-char *__fastcall symbol_display_name(SymbolHeader *symbol) { __asm int 3 }
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
 int __fastcall instruction_modifies_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 #include "bitsets.h"
@@ -343,3 +340,10 @@ unsigned __fastcall label_has_backward_branch(MachineInstruction *instruction) {
 MachineInstruction *__fastcall next_machine_operation(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall alignment_lookahead(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
+unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
+    unsigned char search) { __asm int 3 }
+unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix) { __asm int 3 }
+unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, void **auxiliary) { __asm int 3 }
+unsigned __fastcall coff_data_position(CoffScope *scope) { __asm int 3 }

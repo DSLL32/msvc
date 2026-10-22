@@ -15,7 +15,7 @@ unsigned function_source_line; /* 0007e8a8 */
 void emit_backend_work(void)
 {
     BackendSymbolList *symbols;
-    int saved_cpu, has_exceptions;
+    int saved_cpu, frame_metadata;
     prepare_backend_symbols();
     if (!backend_initialized) {
         initialize_output_callbacks();
@@ -80,8 +80,8 @@ void emit_backend_work(void)
         function_source_filename = 0;
         function_source_line = 0;
         layout_machine_stream(machine_instructions, 1);
-        has_exceptions = (current_function->field28 & 0x10) || (current_symbol->symbol.field0e & 0x1000);
-        output_callbacks.begin_function(current_symbol, function_source_filename, has_exceptions, function_source_line);
+        frame_metadata = (current_function->field28 & 0x10) || (current_symbol->symbol.field0e & 0x1000);
+        output_callbacks.begin_function(current_symbol, function_source_filename, frame_metadata, function_source_line);
         emit_pending_symbols(symbols);
         write_function_listing(machine_instructions);
         emit_machine_instructions(machine_instructions);

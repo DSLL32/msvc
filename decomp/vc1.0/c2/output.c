@@ -40,7 +40,7 @@ void initialize_output_callbacks(void)
     if (coff_object) {
     output_callbacks.symbol = (OutputRoutine)coff_output_symbol;
     output_callbacks.function = (OutputRoutine)coff_output_function;
-    output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))coff_begin_function;
+    output_callbacks.begin_function = coff_begin_function;
     output_callbacks.data = (OutputRoutine)coff_write_data;
     output_callbacks.select_segment = (OutputRoutine)coff_select_segment;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_value;
@@ -51,7 +51,7 @@ void initialize_output_callbacks(void)
     output_callbacks.finish_module = (OutputRoutine)coff_finish_module;
     output_callbacks.relocation = (OutputRoutine)coff_output_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))coff_output_record;
-    output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))coff_mark_symbol;
+    output_callbacks.mark_symbol = coff_mark_symbol;
         if (codeview_debug || line_debug) {
     output_callbacks.debug_pair = (OutputRoutine)coff_output_debug_pair;
     output_callbacks.debug_record = (OutputRoutine)coff_output_debug_record;

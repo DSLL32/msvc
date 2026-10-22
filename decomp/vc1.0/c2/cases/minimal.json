@@ -3,11 +3,11 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 297,
-  "reconstructed_functions": 236,
+  "accepted_frontiers": 306,
+  "reconstructed_functions": 244,
   "current_frontier": {
-    "name": "_coff_begin_function",
-    "original_va": 445120
+    "name": "@write_function_listing@4",
+    "original_va": 162976
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
@@ -58,7 +58,11 @@
     "FunctionSymbol original-compiler sizeof check passes at 84 bytes after naming code/prologue/epilogue fields",
     "six encoder/layout C modules compile with original /W3 without diagnostics",
     "independent debugger: all 31 laid-out records and cached instruction lengths agree",
-    "independent debugger: code size 18, prologue 6, test.c line 1 and both register/stack callback arguments agree"
+    "independent debugger: code size 18, prologue 6, test.c line 1 and both register/stack callback arguments agree",
+    "all 306 recorded logical trap frontiers pass after clean original-toolchain -j2 build",
+    "244 reconstructed functions pass complete call-graph audits",
+    "five changed C modules compile cleanly with /W3",
+    "independent stopped-process comparison matches all seven COFF writer entries and every byte of the packed _main symbol"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"

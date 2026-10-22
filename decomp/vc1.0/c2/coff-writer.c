@@ -1,5 +1,6 @@
 /* COFF writer state is introduced by its initializer, not copied from an image. */
 #include "coff-writer.h"
+#include <string.h>
 unsigned short coff_machine;
 unsigned coff_flags;
 char *coff_source_filename;
@@ -14,6 +15,76 @@ unsigned short coff_no_section, coff_selected_section;
 unsigned coff_symbol_count, coff_writer_phase;
 CoffSection *coff_current_section;
 CoffScope *coff_current_scope;
+CoffFunctionFixup *coff_function_fixups[32]; /* 00079068..000790e8 */
+/* Original [0006ea20,0006ea70). Resolve and unlink all relocations which
+   were seen before their function acquired a COFF symbol-table handle. */
+void __fastcall coff_resolve_function(unsigned identifier, unsigned handle)
+{
+    CoffFunctionFixup **bucket = &coff_function_fixups[identifier & 31];
+    CoffFunctionFixup *item = *bucket, *previous = NULL;
+    while (item) {
+        if (item->identifier == identifier) {
+            item->relocation->symbol = handle;
+            if (previous) previous->next = item->next;
+            else *bucket = item->next;
+        } else previous = item;
+        item = item->next;
+    }
+}
+/* Original [0006e930,0006e9b0). COFF's eight-byte inline name or a string
+   table offset. The string scope excludes the four-byte size prefix. */
+void __fastcall coff_set_symbol_name(CoffObjectSymbol *symbol, char *name)
+{
+    unsigned length = 0, i;
+    CoffScope *saved;
+    while (name[length]) ++length;
+    if (length <= 8) {
+        strncpy(symbol->name.short_name, name, length);
+        for (i = length; i < 8; ++i) symbol->name.short_name[i] = 0;
+    } else {
+        symbol->name.long_name.zero = 0;
+        symbol->name.long_name.offset = coff_data_position(coff_current_scope) + 4;
+        saved = coff_active_scope;
+        coff_active_scope = coff_current_scope;
+        coff_write_scope_data(name, length + 1);
+        coff_active_scope = saved;
+    }
+}
+/* Original [0006e890,0006e930). Writer handles are zero-based symbol-table
+   positions; logical section numbers name their current contribution. */
+unsigned __fastcall coff_define_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type)
+{
+    CoffSymbolEntry *entry = coff_allocator(sizeof(CoffSymbolEntry));
+    CoffObjectSymbol *symbol = coff_allocator(sizeof(CoffObjectSymbol));
+    CoffSection *logical;
+    symbol->value = offset;
+    symbol->storage = storage;
+    if (section == coff_no_section) symbol->section = 0;
+    else {
+        logical = coff_vector_get(coff_sections, section);
+        symbol->section = logical->last->number;
+    }
+    symbol->auxiliary_count = 0;
+    symbol->type = type;
+    coff_set_symbol_name(symbol, name);
+    entry->kind = 3;
+    entry->data.symbol = symbol;
+    return coff_vector_append(coff_symbol_entries, entry) - 1;
+}
+/* Original [0006e9b0,0006ea20). Lines require an auxiliary function record;
+   outstanding references use the writer handle returned by either path. */
+unsigned __fastcall coff_define_function(unsigned identifier, char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, short has_lines)
+{
+    unsigned handle;
+    void *auxiliary;
+    if (has_lines && (coff_debug & 1))
+        handle = coff_define_aux_symbol(name, section, storage, offset, type, &auxiliary);
+    else handle = coff_define_symbol(name, section, storage, offset, type);
+    coff_resolve_function(identifier, handle);
+    return handle;
+}
 /* Original [0006daa0,0006db80). */
 int __fastcall coff_initialize(CoffConfiguration *configuration)
 {
