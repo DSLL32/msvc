@@ -2043,3 +2043,83 @@ void __stdcall layout_bitfield_member(FrontendSymbol *member, char *name, unsign
         member->detail.value = context->size;
     } else member->detail.value = 0;
 }
+
+/* Original 0x347d0..0x3492a. A block-scope extern may share its global
+   declaration, while retaining the local symbol in the current scope. */
+FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol)
+{
+    FrontendSymbol *existing, *parameter;
+    unsigned kind;
+    if (parameter_nesting == 2 && (unsigned char)current_scope->flags != 1) {
+        for (parameter = current_parameter; parameter; parameter = parameter->next)
+            if (parameter->name == symbol->name) {
+                report_syntax_error(82, symbol->name);
+                return symbol;
+            }
+    }
+    if ((symbol->storage[0] & 7) != 1) return 0;
+    existing = find_scope_declaration(global_scope, symbol->name,
+        (symbol->type->attributes & 0x70) == 0x20);
+    if (!existing) return 0;
+    kind = existing->kind & 0x1f;
+    if (kind == 4 || (kind >= 1 && kind <= 13 && kind != 5 &&
+        (existing->storage[0] & 7) == 7)) return 0;
+    parser_flags |= 0x04000000;
+    if (declaration_conflict(existing, symbol)) {
+        parser_flags &= ~0x04000000;
+        return 0;
+    }
+    parser_flags &= ~0x04000000;
+    symbol->index = existing->index;
+    symbol->type = existing->type;
+    symbol->attributes = (symbol->attributes & ~0x502UL) | (existing->attributes & 0x502);
+    insert_current_scope_symbol(symbol);
+    if ((existing->kind & 0x1f) == 6) {
+        symbol->storage[0] = (symbol->storage[0] & ~7) | 1;
+        symbol->kind = 6;
+        symbol->detail.intrinsic = existing->detail.intrinsic;
+    }
+    ++existing->references;
+    symbol->flags |= 2;
+    existing->flags &= ~2;
+    return existing;
+}
+
+/* Original 0x34930..0x34a80. Local static data receives a persistent
+   global alias and a name incorporating its function-scope level. */
+void __stdcall record_local_declaration(FrontendSymbol *symbol)
+{
+    FrontendSymbol *copy;
+    if (options.z_a && (symbol->kind & 0x1f) == 7) {
+        compiler_warning(4, 210);
+        copy = allocate_permanent(sizeof(FrontendSymbol));
+        *copy = *symbol;
+        copy->attributes |= 0x2000;
+        insert_scope_symbol(global_scope, copy);
+        ++copy->references;
+        symbol->flags |= 2;
+        return;
+    }
+    if ((symbol->kind & 0x1f) != 9 || (symbol->storage[0] & 7) != 3) return;
+    copy = allocate_permanent(sizeof(FrontendSymbol));
+    *copy = *symbol;
+    if (function_symbol && (function_symbol->storage[1] & 1) &&
+        (function_symbol->storage[0] & 7) != 3) {
+        if (function_symbol->storage[2] & 4) {
+            copy->storage[2] |= 4;
+            copy->storage[2] = (copy->storage[2] & ~8) | (function_symbol->storage[2] & 8);
+            symbol->storage[0] = copy->storage[0];
+            symbol->storage[1] = copy->storage[1];
+            symbol->storage[2] = copy->storage[2];
+        }
+        copy->storage[0] = ((copy->storage[0] & ~7) | 2) | 0x40;
+    }
+    copy->name = local_static_name(symbol);
+    if (next_symbol_index >= 0x7fffffff) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+    copy->index = next_symbol_index++;
+    copy->flags |= 1;
+    symbol->attributes |= 0x40;
+    record_symbol_alias(symbol, copy);
+    insert_scope_symbol(global_scope, copy);
+}

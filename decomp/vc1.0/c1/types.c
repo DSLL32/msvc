@@ -624,3 +624,14 @@ int __stdcall array_element_size(unsigned short flags, void *information, TypeSh
         }
     }
 }
+
+/* Original 0x32dd0..0x32e23. Arrays occupy pointer-sized argument slots;
+   an unprototyped float argument may additionally promote to double. */
+int __stdcall parameter_type_size(CType *type, int promote_float)
+{
+    TypeShape *shape = type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (shape && (shape->flags & 7) == 2) return pointer_type_size(shape->attributes);
+    if (promote_float && !shape && type->flags == 0x104) return 8;
+    return type_size(type);
+}

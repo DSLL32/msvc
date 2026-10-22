@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "source-input.h"
 #include "global-ir.h"
+#include "expressions.h"
 
 ParserValue parser_value; /* original 0x5b1f0 */
 int parser_lookahead = -1; /* original 0x6b550 */
@@ -40,10 +41,6 @@ CType *based_type; /* original 0x5ff10 */
 unsigned array_bound; /* original 0x65398 */
 
 /* A label stack cell is shared by loop, switch, and branch contexts. */
-typedef struct LabelStack {
-    struct LabelStack *next;
-    IrToken *label;
-} LabelStack;
 LabelStack *continue_labels, *break_labels, *do_labels;
 LabelStack *switch_labels, *default_labels;
 int label_stack_count;
@@ -898,14 +895,14 @@ read_action:
             break;
         case 206:
             if ((scanner_flags & 0x800) && parser_value.symbol)
-                parser_value.symbol = finish_declarator(parser_value.symbol);
+                parser_value.node = normalize_based_expression(parser_value.node);
             finish_type_description((CType *)parser_value.symbol);
             POP_DECLARATION();
             break;
         case 207:
             if (parser_value.symbol) {
                 parser_value.symbol->index = right[-1].words.low;
-                if (scanner_flags & 0x800) parser_value.symbol = finish_declarator(parser_value.symbol);
+                if (scanner_flags & 0x800) parser_value.node = normalize_based_expression(parser_value.node);
             }
             finish_type_description((CType *)parser_value.symbol);
             POP_DECLARATION();
@@ -1560,4 +1557,58 @@ FrontendSymbol *__stdcall make_abstract_declarator(TypeShape *prefix)
     ALLOCATE_PARSER_NODE(symbol->type, sizeof(TypeDescription), parameter_depth <= 0 ? 2 : 1);
     if (!prefix) prefix = new_type_shape(0, 0, 0);
     return apply_declarator_prefix(symbol, prefix);
+}
+
+/* Original 0x330f0..0x33256, operator dispatch 0x33258..0x332d0.
+   The switch shares the loop-control label stack, adding case/default
+   chains while retaining the promoted controlling type on its label. */
+void __stdcall begin_switch_statement(IrToken *condition)
+{
+    IrToken *expression;
+    unsigned alternative;
+    push_label_stack(&continue_labels, 17);
+    push_label_stack(&break_labels, 18);
+    push_label_stack(&switch_labels, 19);
+    switch_labels->label = 0;
+    push_label_stack(&default_labels, 20);
+    default_labels->label = 0;
+    if (!condition) {
+        continue_labels->label->type = type_0064;
+        return;
+    }
+    if ((condition->flags & 7) == 1) {
+        if (condition->kind == TOK_LOGICAL_NOT)
+            compiler_warning(1, 144, token_names[TOK_LOGICAL_NOT]);
+    } else if ((condition->flags & 7) == 2) {
+        switch (condition->kind) {
+        case TOK_LOGICAL_AND: case TOK_EQUAL: case TOK_LOGICAL_OR:
+            alternative = condition->kind == TOK_LOGICAL_AND ? TOK_BIT_AND :
+                          condition->kind == TOK_LOGICAL_OR ? TOK_BIT_OR : TOK_ASSIGN;
+            compiler_warning(1, 145, token_names[condition->kind], token_names[alternative]);
+            break;
+        case TOK_GREATER: case TOK_GREATER_EQUAL: case TOK_LESS:
+        case TOK_LESS_EQUAL: case TOK_NOT_EQUAL:
+            compiler_warning(1, 144, token_names[condition->kind]);
+            break;
+        }
+    }
+    if ((condition->type->flags & 0x240) && !condition->type->related) {
+        condition = promote_integer_expression(condition);
+        continue_labels->label->type = intern_type(condition->type);
+    } else {
+        report_syntax_error(50);
+        continue_labels->label->type = type_0064;
+    }
+    expression = make_typed_unary_expression(TOK_RESERVED_136, condition->type, condition);
+    current_label_symbol = continue_labels->label->value.pointer;
+    emit_ir_expression(expression);
+}
+
+/* Original 0x33080..0x330a6. Label entries share arena3, whose lifetime
+   ends when the parser has popped the final outstanding control label. */
+void __stdcall push_label_stack(LabelStack **stack, unsigned flags)
+{
+    LabelStack *entry = push_work_list((void **)stack, 3);
+    entry->label = make_internal_label(flags);
+    ++label_stack_count;
 }

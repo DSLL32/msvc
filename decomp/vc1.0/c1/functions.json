@@ -409,7 +409,24 @@
     "_scan_string_literal@8",
     "_ensure_string_space@4",
     "_convert_string_segment@12",
-    "_open_include_in_source_directory@4"
+    "_open_include_in_source_directory@4",
+    "_make_binary_expression@12",
+    "_promote_integer_expression@4",
+    "_check_expression_operands@16",
+    "_usual_arithmetic_type@12",
+    "_fold_binary_constants@12",
+    "_parameter_list_bytes@4",
+    "_parameter_type_size@8",
+    "_merge_local_declaration@4",
+    "_record_local_declaration@4",
+    "_make_identifier_expression@4",
+    "_reference_identifier_symbol@4",
+    "_make_symbol_value@4",
+    "_make_indirection@4",
+    "_make_typed_unary_expression@12",
+    "_begin_switch_statement@4",
+    "_push_label_stack@8",
+    "_push_work_list@8"
   ],
   "driver": [
     {
@@ -1365,7 +1382,7 @@
       "end": 155697
     },
     {
-      "name": "_finish_declarator@4",
+      "name": "_normalize_based_expression@4",
       "start": 156384,
       "end": 156385
     },
@@ -1548,7 +1565,7 @@
     {
       "name": "_make_identifier_expression@4",
       "start": 184656,
-      "end": 184657
+      "end": 184699
     },
     {
       "name": "_begin_inline_region@4",
@@ -1623,7 +1640,7 @@
     {
       "name": "_begin_switch_statement@4",
       "start": 209136,
-      "end": 209137
+      "end": 209616
     },
     {
       "name": "_finish_switch_statement",
@@ -1739,7 +1756,7 @@
     {
       "name": "_make_binary_expression@12",
       "start": 247632,
-      "end": 247633
+      "end": 250872
     },
     {
       "name": "_make_unary_expression@8",
@@ -1929,12 +1946,12 @@
     {
       "name": "_merge_local_declaration@4",
       "start": 214992,
-      "end": 214993
+      "end": 215338
     },
     {
       "name": "_record_local_declaration@4",
       "start": 215344,
-      "end": 215345
+      "end": 215680
     },
     {
       "name": "_merge_declarator_type@12",
@@ -2049,7 +2066,7 @@
     {
       "name": "_parameter_list_bytes@4",
       "start": 174368,
-      "end": 174369
+      "end": 174559
     },
     {
       "name": "_compatible_parameter_types@8",
@@ -2119,7 +2136,7 @@
     {
       "name": "_make_typed_unary_expression@12",
       "start": 247552,
-      "end": 247553
+      "end": 247622
     },
     {
       "name": "_emit_intrinsic_expression@4",
@@ -3101,6 +3118,151 @@
       "name": "_convert_pascal_string@4",
       "start": 136288,
       "end": 136289
+    },
+    {
+      "name": "_promote_integer_expression@4",
+      "start": 246080,
+      "end": 246141
+    },
+    {
+      "name": "_usual_arithmetic_type@12",
+      "start": 247328,
+      "end": 247499
+    },
+    {
+      "name": "_make_indirection@4",
+      "start": 247504,
+      "end": 247550
+    },
+    {
+      "name": "_fold_binary_constants@12",
+      "start": 162096,
+      "end": 164232
+    },
+    {
+      "name": "_decay_array_expression_type@4",
+      "start": 250880,
+      "end": 250881
+    },
+    {
+      "name": "_convert_binary_operands@4",
+      "start": 253424,
+      "end": 253425
+    },
+    {
+      "name": "_check_binary_type_conversion@12",
+      "start": 254688,
+      "end": 254689
+    },
+    {
+      "name": "_report_function_operand@8",
+      "start": 259312,
+      "end": 259313
+    },
+    {
+      "name": "_check_expression_operands@16",
+      "start": 259520,
+      "end": 259693
+    },
+    {
+      "name": "_modifiable_lvalue@8",
+      "start": 259696,
+      "end": 259697
+    },
+    {
+      "name": "_convert_expression@12",
+      "start": 268704,
+      "end": 268705
+    },
+    {
+      "name": "_convert_scalar_expression@12",
+      "start": 270320,
+      "end": 270321
+    },
+    {
+      "name": "_allows_record_operands@12",
+      "start": 259376,
+      "end": 259377
+    },
+    {
+      "name": "_compare_extended",
+      "start": 313359,
+      "end": 313360
+    },
+    {
+      "name": "_unsigned_to_extended",
+      "start": 313118,
+      "end": 313119
+    },
+    {
+      "name": "_integer_to_extended",
+      "start": 313084,
+      "end": 313085
+    },
+    {
+      "name": "_fold_floating_binary@12",
+      "start": 164240,
+      "end": 164241
+    },
+    {
+      "name": "_subtraction_overflows@16",
+      "start": 311904,
+      "end": 311905
+    },
+    {
+      "name": "_multiplication_overflows@16",
+      "start": 311424,
+      "end": 311425
+    },
+    {
+      "name": "_parameter_type_size@8",
+      "start": 208336,
+      "end": 208419
+    },
+    {
+      "name": "_record_symbol_alias@8",
+      "start": 222064,
+      "end": 222065
+    },
+    {
+      "name": "_local_static_name@4",
+      "start": 222192,
+      "end": 222193
+    },
+    {
+      "name": "_recover_undeclared_identifier@4",
+      "start": 184544,
+      "end": 184545
+    },
+    {
+      "name": "_make_implicit_declaration@8",
+      "start": 183792,
+      "end": 183793
+    },
+    {
+      "name": "_reference_identifier_symbol@4",
+      "start": 184704,
+      "end": 184782
+    },
+    {
+      "name": "_make_symbol_value@4",
+      "start": 184992,
+      "end": 185161
+    },
+    {
+      "name": "_make_enumerator_constant@4",
+      "start": 184912,
+      "end": 184913
+    },
+    {
+      "name": "_prepend_expression_type_shape@16",
+      "start": 262880,
+      "end": 262881
+    },
+    {
+      "name": "_push_label_stack@8",
+      "start": 209024,
+      "end": 209062
     }
   ],
   "cases": {

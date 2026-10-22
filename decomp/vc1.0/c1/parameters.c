@@ -1,5 +1,6 @@
 /* Interned function parameter descriptions. */
 #include "types.h"
+#include "parser.h"
 
 int declaration_context; /* original 0x5ffc0 */
 
@@ -149,4 +150,21 @@ ParameterInfo *void_parameter_info(void)
         void_parameters->types[0] = type_0080;
     }
     return void_parameters;
+}
+
+/* Original 0x2a920..0x2a9df. Locate the declaration's parameter marker,
+   then count its circular parameter list in four-byte stack slots. */
+unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters)
+{
+    FrontendSymbol *first, *parameter;
+    unsigned bytes = 0;
+    while (parameters && (parameters->kind & 0x1f) != 10 && (parameters->kind & 0x1f) != 11)
+        parameters = parameters->next;
+    if (!parameters) return 0;
+    first = parameter = parameters->detail.parameter_next;
+    if (parameter) do {
+        if (parameter->type) bytes += (parameter_type_size(parameter->type, 0) + 3) & ~3UL;
+        parameter = parameter->detail.parameter_next;
+    } while (parameter && parameter != first);
+    return bytes;
 }

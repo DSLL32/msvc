@@ -12,6 +12,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "control-ir.h"
+#include "expressions.h"
 
 /* Original 0x43ea0. */
 void compiler_signal(int signal_number) { __asm { int 3 } }
@@ -193,7 +194,7 @@ unsigned short __stdcall based_symbol_modifier(unsigned short kind, FrontendSymb
 unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 3 } return 0; }
 
 /* Original 0x262e0. */
-FrontendSymbol *__stdcall finish_declarator(FrontendSymbol *declarator) { __asm { int 3 } return 0; }
+IrToken *__stdcall normalize_based_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 /* Original 0x27780. */
 
@@ -277,7 +278,6 @@ IrToken *__stdcall make_sizeof_type(CType *type) { __asm { int 3 } return 0; }
 /* Original 0x2d010. */
 
 /* Original 0x2d150. */
-IrToken *__stdcall make_identifier_expression(char *name) { __asm { int 3 } return 0; }
 
 /* Original 0x2e419. */
 void __stdcall begin_inline_region(unsigned flags) { __asm { int 3 } }
@@ -321,7 +321,6 @@ void __stdcall finish_aggregate_initializer(FrontendSymbol *symbol) { __asm { in
 void begin_do_statement(void) { __asm { int 3 } }
 
 /* Original 0x330f0. */
-void __stdcall begin_switch_statement(IrToken *condition) { __asm { int 3 } }
 
 /* Original 0x332d0. */
 void finish_switch_statement(void) { __asm { int 3 } }
@@ -380,7 +379,6 @@ void __stdcall emit_conditional_branch(IrToken *condition, IrToken *label, int s
 /* Original 0x39e60. */
 
 /* Original 0x3c750. */
-IrToken *__stdcall make_binary_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 
 /* Original 0x3d580. */
 IrToken *__stdcall make_unary_expression(unsigned char operation, IrToken *operand) { __asm { int 3 } return 0; }
@@ -430,8 +428,6 @@ void browser_begin_function_scope(void) { __asm { int 3 } }
 void __stdcall browser_function_parameters(FrontendSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
-FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
-void __stdcall record_local_declaration(FrontendSymbol *symbol) { __asm { int 3 } }
 
 void report_declaration_context_error(unsigned code, unsigned detail, char *name) { __asm { int 3 } }
 
@@ -448,7 +444,6 @@ void reset_inline_function_state(void) { __asm { int 3 } }
 
 
 
-unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters) { __asm { int 3 } return 0; }
 int __stdcall compatible_parameter_types(CType *expected, CType *actual) { __asm { int 3 } return 0; }
 void begin_syntax_trace(void) { __asm { int 3 } }
 void end_syntax_trace(void) { __asm { int 3 } }
@@ -461,7 +456,6 @@ void write_counted_ir(short length, char *text) { __asm { int 3 } }
 
 IrToken *__stdcall make_based_pointer_base(CType *type) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall make_typed_unary_expression(unsigned char operation, CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 int __stdcall emit_intrinsic_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 
@@ -669,7 +663,6 @@ void __stdcall initialize_thread_symbol(FrontendSymbol *symbol) { __asm { int 3 
 /* Original 0x33d00. */
 
 /* Original 0x33020. */
-void *__stdcall push_work_list(void **head, int arena) { __asm { int 3 } return 0; }
 
 /* Original 0x285c0. */
 
@@ -710,3 +703,61 @@ void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } 
 
 unsigned short __stdcall decode_escape(unsigned char character, int wide) { __asm { int 3 } return 0; }
 void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
+
+/* Original 0x3c140. */
+/* Original 0x3c620. */
+/* Original 0x3c6d0. */
+/* Original 0x27930. */
+/* Original 0x3d400. */
+CType * __stdcall decay_array_expression_type(IrToken *expression) { __asm { int 3 } return 0; }
+/* Original 0x3ddf0. */
+IrToken * __stdcall convert_binary_operands(IrToken *expression) { __asm { int 3 } return 0; }
+/* Original 0x3e2e0. */
+void __stdcall check_binary_type_conversion(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } }
+/* Original 0x3f4f0. */
+void __stdcall report_function_operand(unsigned char operation, int argument) { __asm { int 3 } }
+/* Original 0x3f5c0. */
+/* Original 0x3f670. */
+IrToken * __stdcall modifiable_lvalue(IrToken *expression, int warn_cast) { __asm { int 3 } return 0; }
+/* Original 0x419a0. */
+IrToken * __stdcall convert_expression(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+/* Original 0x41ff0. */
+IrToken * __stdcall convert_scalar_expression(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+
+/* Original 0x3f530. */
+int __stdcall allows_record_operands(unsigned char operation, unsigned char arity, int left_record) { __asm { int 3 } return 0; }
+
+/* Original 0x4c80f. */
+int compare_extended(unsigned operation, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
+/* Original 0x4c71e. */
+int unsigned_to_extended(const unsigned *value, Extended *number) { __asm { int 3 } return 0; }
+/* Original 0x4c6fc. */
+int integer_to_extended(const int *value, Extended *number) { __asm { int 3 } return 0; }
+/* Original 0x28190. */
+IrToken * __stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right) { __asm { int 3 } return 0; }
+/* Original 0x4c260. */
+int __stdcall subtraction_overflows(unsigned left, unsigned right, unsigned short is_unsigned, unsigned short bytes) { __asm { int 3 } return 0; }
+/* Original 0x4c080. */
+int __stdcall multiplication_overflows(unsigned left, unsigned right, unsigned short is_unsigned, unsigned short bytes) { __asm { int 3 } return 0; }
+
+/* Original 0x32dd0. */
+
+/* Original 0x36370. */
+void __stdcall record_symbol_alias(FrontendSymbol *symbol, FrontendSymbol *alias) { __asm { int 3 } }
+/* Original 0x363f0. */
+char *__stdcall local_static_name(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
+/* Original 0x2d0e0. */
+FrontendSymbol * __stdcall recover_undeclared_identifier(char *name) { __asm { int 3 } return 0; }
+/* Original 0x2cdf0. */
+FrontendSymbol * __stdcall make_implicit_declaration(char *name, unsigned char nesting) { __asm { int 3 } return 0; }
+/* Original 0x2d180. */
+
+/* Original 0x2d2a0. */
+
+/* Original 0x2d250. */
+IrToken *__stdcall make_enumerator_constant(EnumeratorSymbol *symbol) { __asm { int 3 } return 0; }
+/* Original 0x402e0. */
+CType *__stdcall prepend_expression_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
+
+/* Original 0x33080. */

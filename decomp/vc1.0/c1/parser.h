@@ -118,7 +118,7 @@ unsigned char __stdcall read_tag_specifier(unsigned short kind, unsigned short *
 CType *__stdcall merge_named_type(FrontendSymbol *symbol, unsigned short *flags, unsigned short *attributes);
 void __stdcall merge_storage_class(unsigned char *storage, unsigned class, unsigned modifier, int replace);
 void parse_declspec(unsigned char *storage);
-FrontendSymbol *__stdcall finish_declarator(FrontendSymbol *declarator);
+IrToken *__stdcall normalize_based_expression(IrToken *expression);
 IrToken *__stdcall make_constant_token(unsigned char token, void *value);
 unsigned char __stdcall resolve_identifier_token(unsigned char token);
 void __stdcall report_parser_error(char *text);
@@ -151,6 +151,8 @@ FrontendSymbol *__stdcall merge_scoped_declaration(FrontendSymbol *symbol, Symbo
 FrontendSymbol *__stdcall merge_global_declaration(FrontendSymbol *symbol);
 FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol);
 void __stdcall record_local_declaration(FrontendSymbol *symbol);
+void __stdcall record_symbol_alias(FrontendSymbol *symbol, FrontendSymbol *alias);
+char *__stdcall local_static_name(FrontendSymbol *symbol);
 extern FrontendSymbol *function_symbol, *current_parameter;
 extern int function_parameter_context;
 void __stdcall assign_symbol_segment(FrontendSymbol *symbol, FrontendSymbol *segment);
@@ -274,6 +276,11 @@ void __stdcall emit_inline_jump(int kind);
 void __stdcall begin_for_statement(IrToken *initial, IrToken *condition, IrToken *increment);
 void finish_for_statement(void);
 void begin_do_statement(void);
+typedef struct LabelStack {
+    struct LabelStack *next;
+    IrToken *label;
+} LabelStack;
+void __stdcall push_label_stack(LabelStack **stack, unsigned flags);
 void __stdcall begin_switch_statement(IrToken *condition);
 void finish_switch_statement(void);
 void emit_default_statement(void);
@@ -328,6 +335,7 @@ void *__stdcall append_argument(void *arguments, IrToken *argument, int flags);
 void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol);
 unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol);
 
+extern unsigned constant_one;
 extern unsigned char expression_storage[2052];
 extern unsigned char *text_work_cursor;
 

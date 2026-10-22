@@ -154,3 +154,27 @@ void __stdcall release_arena(int arena)
         }
     }
 }
+
+/* Original 0x33020..0x3306d. The generic two-word work entry is used
+   by both label stacks and scope-cleanup lists; its payload is caller-owned. */
+void *__stdcall push_work_list(void **head, int arena)
+{
+    typedef struct WorkListEntry {
+        struct WorkListEntry *next;
+        void *value;
+    } WorkListEntry;
+    WorkListEntry *entry;
+    ArenaPool *pool;
+    if (!arena) entry = allocate_permanent(sizeof(WorkListEntry));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(WorkListEntry)) refill_arena(&compiler_arena, pool);
+        entry = (WorkListEntry *)pool->next;
+        pool->remaining -= sizeof(WorkListEntry);
+        pool->next += sizeof(WorkListEntry);
+    }
+    entry->next = *head;
+    *head = entry;
+    return entry;
+}

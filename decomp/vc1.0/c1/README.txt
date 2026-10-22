@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 324 reconstructed source functions
-and 405 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 341 reconstructed source functions
+and 422 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-make_binary_expression, original VA 0x3c750.
-All 147 hello frontiers replay successfully with exact pending-buffer/visible-file
+emit_case_statement, original VA 0x33360.
+All 164 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -137,7 +137,7 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 109 encountered
+audit-state.py checks the initial bytes and address aliases of 126 encountered
 frontend state objects, 72 scalar options, the 21 option-table targets, 17 pragma optimization
 rules, and five hash callback identities, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
@@ -246,3 +246,15 @@ The expanded default-state audit establishes that text_work_cursor initially
 points to expression_storage; the reconstruction now preserves that initialized
 relationship before parser startup. All 147 hello frontiers replay with exact
 buffered/visible bytes, and minimal-C retains its four raw captured files.
+
+Checkpoint 341 adds the whole binary-expression constructor, integer promotion,
+record-operand validation, common arithmetic type selection and integer/short-
+circuit constant folding. Pointer arithmetic retains byte scaling and the
+original graph's conversion/floating helpers as named traps until reached.
+Parameter stack sizing, local extern/static declaration processing, identifier
+values and dereferences, switch setup and its shared work-list allocator now
+match. The former provisional declaration-finalizer stub is established as
+based-expression normalization, and its name and node type are corrected.
+Label/parameter state and the encountered integer/extended-zero defaults join
+the address/default audit. All 164 hello frontiers replay with exact buffered
+and visible bytes; minimal-C still produces the four captured raw files.
