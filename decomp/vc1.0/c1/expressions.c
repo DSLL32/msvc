@@ -1236,3 +1236,59 @@ CType *__stdcall decay_array_expression_type(IrToken *operand)
     attributes = normalize_type_attributes(1, attributes) & 15;
     return replace_outer_type_shape(operand->type, 1, attributes, &parameter);
 }
+
+/* Original 0x2c7b0..0x2c877. An array symbol retains its declared
+   extent here, while bitfields and incomplete function forms are rejected. */
+IrToken *__stdcall make_sizeof_expression(IrToken *operand)
+{
+    CType *type = operand->type;
+    TypeShape *shape;
+    FrontendSymbol *symbol;
+    if (!type) {
+        report_syntax_error(70);
+        return 0;
+    }
+    if ((operand->flags & 7) == 4) {
+        symbol = (FrontendSymbol *)operand->value.pointer;
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 7)) shape = shape->related;
+        if (shape) {
+            if ((shape->flags & 7) == 2) return make_sizeof_type(symbol->type);
+            if ((shape->flags & 7) == 4 && (type->related->flags & 8)) {
+                report_syntax_error(70);
+                return 0;
+            }
+        }
+    } else {
+        if (token_categories[operand->kind] == TOK_DEREFERENCE &&
+            ((ExpressionNode *)operand)->value.children.left->kind == TOK_BIT_FIELD) {
+            report_syntax_error(70);
+            return 0;
+        }
+        if (type->related && (type->related->flags & 8)) {
+            report_syntax_error(70);
+            return 0;
+        }
+    }
+    return make_sizeof_type(operand->type);
+}
+
+/* Original 0x2c880..0x2c8e9. sizeof always yields an unsigned integer,
+   including the recovery value for a type whose size cannot be completed. */
+IrToken *__stdcall make_sizeof_type(CType *type)
+{
+    unsigned bytes;
+    IrToken *result;
+    type = remove_type_prefix(type);
+    bytes = type_size(type);
+    if (!bytes) {
+        if (options.prototypes_only) return 0;
+        if ((type->flags & 0x400) && !type->related)
+            report_syntax_error(27, ((FrontendSymbol *)type->field08)->name);
+        else compiler_warning(1, 34);
+    }
+    result = make_integer_constant(bytes);
+    result->type = type_4064_first;
+    result->kind = TOK_UINT_CONSTANT;
+    return result;
+}

@@ -3,12 +3,11 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The first three captured cases are complete. The assigned fourth case,
-numeric-varargs (/Zi /Od /G5 /W3), is in progress: 477 reconstructed source
-functions and 576 accepted trap frontiers. All three earlier raw-output
+numeric-varargs (/Zi /Od /G5 /W3), is in progress: 487 reconstructed source
+functions and 586 accepted trap frontiers. All three earlier raw-output
 regressions pass. Every new numeric frontier replays with exact pending
 buffers, visible files and stdout/stderr except the two proven database
-timestamp fields. The current paired trap is classify_pointer_qualifiers
-at original 0x40e00.
+timestamp fields. The current paired trap is emit_pdb_type at original 0x49230.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -436,3 +435,22 @@ grammar audits pass. The current accepted original code-extent union is
 thunks, clipped to code-section VirtualSize. This is not branch coverage.
 A clean build and full older-case frontier replay remain required before
 the fourth case is accepted as complete.
+
+Checkpoint 487 adds pointer qualification/model classification, both sizeof
+constructors, complete-type sizing, signed subtraction and signed/unsigned
+multiplication range checks, dereference type propagation, declaration debug
+type preparation, and the whole legacy/PDB type-emission dispatcher.
+The special-name audit now checks all fourteen original destination cells and
+spellings; an old audit entry incorrectly assigned name_unnamed to the
+alignment-member cell, although the reconstructed source already used distinct
+correct identifiers. Both cells and their table references now have independent
+alias checks. All eighteen width/range table values are checked semantically
+against the three original parallel arrays.
+
+All 76 numeric frontiers since the prior completed-case boundary replay with
+matching logical traps, bytes and diagnostics. The 487 source call graphs,
+instruction boundaries, 198 state defaults/aliases, option/pragma identities,
+logical grammar and contextual table audits pass. Accepted original code-extent
+union is 169602/277234 bytes (61.1765%, not branch coverage). The fourth case
+continues into native PDB type record construction; final output acceptance,
+clean build and full older-case replay remain pending.

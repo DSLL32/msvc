@@ -115,3 +115,14 @@ Extended *__stdcall allocate_extended_value(Extended value, int arena)
     *result = value;
     return result;
 }
+
+/* Original 0x4c260..0x4c2ab. Only subtraction of opposite signed
+   operands can overflow; retain the common addition range checker. */
+int __stdcall subtraction_overflows(unsigned left, unsigned right,
+    unsigned short is_unsigned, unsigned short bytes)
+{
+    if (is_unsigned) return 0;
+    if (((int)left >= 0) != ((int)right >= 0))
+        return addition_overflows(left, 0U - right, 0, bytes);
+    return 0;
+}

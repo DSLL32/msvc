@@ -50,6 +50,7 @@ extern int declaration_context;
 extern int type_description_depth;
 char *__stdcall type_specifier_name(unsigned short flags);
 extern TypeDescription type_description_stack[10];
+void __stdcall require_complete_type(CType *type);
 int __stdcall base_type_size(unsigned short flags, void *information);
 int __stdcall array_element_size(unsigned short flags, void *information, TypeShape *shape);
 int __stdcall pointer_type_size(unsigned short attributes);

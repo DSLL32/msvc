@@ -9,6 +9,9 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_debug_type_records', 0x5b248, 4),
+    ('_next_debug_type_index', 0x6b808, 2),
+    ('_type_4064_first', 0x6b6f8, 4),
     ('_source_filename', 0x6c000, 4),
     ('_source_line_number', 0x5b238, 4),
     ('_diagnostic_trace_file', 0x5b230, 4),
@@ -105,7 +108,18 @@ STATE = [
     ('_code_pointer_bytes', 0x5f4ec, 4),
     ('_type_0000', 0x6b700, 4),
     ('_exception_scope_depth', 0x6006c, 12),
-    ('_name_unnamed', 0x6b680, 4),
+    ('_name_alignment', 0x6b680, 4),
+    ('_name_unnamed', 0x6b6b8, 4),
+    ('_name_defined', 0x6b68c, 4),
+    ('_name_formal', 0x6b69c, 4),
+    ('_name_ellipsis', 0x6b698, 4),
+    ('_name_cast', 0x6b688, 4),
+    ('_name_main', 0x6b6a4, 4),
+    ('_name_winmain', 0x6b6b0, 4),
+    ('_name_dllmain', 0x6b6b4, 4),
+    ('_name_dollar', 0x6b690, 4),
+    ('_name_static_guard', 0x6b6a0, 4),
+    ('_anonymous_symbol_name', 0x6b694, 4),
     ('_name_setjmp', 0x6b6a8, 4),
     ('_name_catch', 0x6b6ac, 4),
     ('_next_symbol_index', 0x6b7f4, 4),
@@ -288,4 +302,22 @@ for index in range(13):
     assert cstring(original, struct.unpack_from('<I', old)[0]) == cstring(rebuilt, struct.unpack_from('<I', new)[0]), ('debug record format', index)
     assert old[4:] == new[4:], ('debug record flags', index)
 
-print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match.' % (len(STATE), option_scalar_count))
+# The interned names keep their individual pointer cells, including the
+# distinct anonymous tag and anonymous alignment-member identifiers.
+for index in range(15):
+    old_target, old_text = struct.unpack('<II', read(original, 0x6a870 + 8*index, 8))
+    new_target, new_text = struct.unpack('<II', read(rebuilt, names['_special_identifiers'] + 8*index, 8))
+    if not old_target:
+        assert not new_target and not new_text, ('special name sentinel', index)
+        break
+    assert forward[old_target] == new_target, ('special name target', index)
+    assert cstring(original, old_text) == cstring(rebuilt, new_text), ('special name spelling', index)
+
+# Integer limits are represented by width rows rather than three parallel
+# arrays; compare each encountered table field in its semantic order.
+for index in range(6):
+    values = struct.unpack('<III', read(rebuilt, names['_integer_bounds'] + 12*index, 12))
+    for column, value in enumerate(values):
+        assert value == struct.unpack('<I', read(original, 0x6f2e8 + column*24 + index*4, 4))[0], ('integer limit', index, column)
+
+print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match.' % (len(STATE), option_scalar_count))

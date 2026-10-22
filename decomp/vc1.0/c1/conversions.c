@@ -170,7 +170,7 @@ typedef struct IntegerBounds {
 } IntegerBounds;
 
 /* Bounds indexed by the target's byte width. Widths0,3,5 are reserved. */
-static IntegerBounds integer_bounds[6] = {
+IntegerBounds integer_bounds[6] = {
     { 0, 0, 0 }, { 255, 127, -128 }, { 65535, 32767, -32768 },
     { 0, 0, 0 }, { 0xffffffffUL, 0x7fffffff, (-2147483647 - 1) }, { 0, 0, 0 }
 };
@@ -696,4 +696,65 @@ unsigned __stdcall classify_void_pointer_conversion(unsigned result, TypeShape *
 IrToken *__stdcall convert_pointer_representation(CType *target, IrToken *operand)
 {
     return make_typed_unary_expression(TOK_CAST, target, operand);
+}
+
+/* Original 0x40e00..0x40e5b. Dropping const or volatile is diagnosed;
+   adding a qualifier preserves the conversion's compatible-kind marker. */
+unsigned __stdcall classify_pointer_qualifiers(unsigned result, unsigned short target, unsigned short source)
+{
+    if (target == source) return result;
+    if (target & 0x1000) {
+        if (!(source & 0x1000)) result |= 8;
+    } else if (source & 0x1000) return 0x2005;
+    if (target & 0x2000) {
+        if (!(source & 0x2000)) result |= 8;
+    } else if (source & 0x2000) return 0x2006;
+    return result;
+}
+
+/* Original 0x40d10..0x40df9. Classify address-model changes separately
+   from the pointed-to type, including the type of a based pointer's base. */
+unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target,
+    unsigned short source, TypeShape *shape)
+{
+    TypeShape *base;
+    if (!!(target & 12) != !!(source & 12)) {
+        if ((target & 4) || (source & 7) == 4) return 0x2000;
+        if ((source & 12) && is_pointer_based_shape(shape)) {
+            base = ((FrontendSymbol *)shape->field08)->type->related;
+            if (base && !(base->flags & 7)) base = base->related;
+            if ((base->attributes & 7) == 1)
+                return result | ((target & 7) == 1 ? 0x10 : 0x80);
+        }
+        return result | ((target & 7) == 1 ? 0x80 : 0x10);
+    }
+    if ((source ^ target) & 7)
+        return result | ((target & 7) == 1 ? 0x80 : 0x10);
+    return result;
+}
+
+/* Original 0x4c080..0x4c191. Divide the width's range by one operand
+   before testing the other, so the multiplication itself cannot wrap. */
+int __stdcall multiplication_overflows(unsigned left, unsigned right,
+    unsigned short is_unsigned, unsigned short bytes)
+{
+    IntegerBounds *bounds = &integer_bounds[bytes];
+    unsigned magnitude_left, magnitude_right, limit;
+    if (is_unsigned) {
+        if (!left) return 0;
+        return bounds->unsigned_maximum / left < right;
+    }
+    magnitude_left = (int)left < 0 ? 0U - left : left;
+    magnitude_right = (int)right < 0 ? 0U - right : right;
+    if (((int)left > 0) != ((int)right > 0)) {
+        /* The original's negative-limit cases are defined for the three
+           integer widths; other width values leave this local unspecified. */
+        switch (bytes) {
+        case 1: limit = (unsigned char)(0U - (unsigned)bounds->signed_minimum); break;
+        case 2: limit = (unsigned short)(0U - (unsigned)bounds->signed_minimum); break;
+        case 4: limit = 0U - (unsigned)bounds->signed_minimum; break;
+        }
+    } else limit = bounds->signed_maximum;
+    if (!magnitude_left) return 0;
+    return limit / magnitude_left < magnitude_right;
 }

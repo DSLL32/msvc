@@ -4,6 +4,7 @@
 #include "control-ir.h"
 #include "literal-names.h"
 #include "debug-info.h"
+#include "parser.h"
 unsigned *debug_record_buffer; /* original 0x5b24c */
 unsigned debug_type_bytes; /* original 0x6b810 */
 
@@ -163,4 +164,64 @@ unsigned short pad_codeview_record(unsigned char *destination, unsigned short by
     value = (unsigned char)(padding - 16);
     while (remaining--) *destination++ = value--;
     return padding;
+}
+
+/* Original 0x36af0..0x36b2f. Named declarations force their type graph
+   before a subsequent symbol record needs its debug index. */
+void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol)
+{
+    unsigned kind = symbol->kind & 0x1f;
+    if ((kind == 6 || kind == 7) && !(symbol->flags & 1)) return;
+    if (symbol->name != name_unnamed && symbol->name && !(symbol->flags & 0x20)) {
+        emit_debug_type(symbol->type);
+        flush_debug_types();
+    }
+}
+
+DebugTypeRecord *debug_type_records; /* original 0x5b248 */
+unsigned short next_debug_type_index = 0x1000; /* original 0x6b808 */
+
+/* Original 0x474d0..0x47623. Walk the interned type graph before queuing
+   compound legacy records. /Zi uses the separate PDB type emitter. The
+   descriptor's low field0c word is its debug index, independently of flags. */
+void __stdcall emit_debug_type(CType *type)
+{
+    TypeShape *shape;
+    CType description, *nested;
+    unsigned short index;
+    unsigned record, kind;
+    if (options.line_records) {
+        emit_pdb_type(type);
+        return;
+    }
+    shape = type->related;
+    if (options.prototypes_only) return;
+    if (!type) {
+        *(unsigned short *)&type->field0c = 0;
+        return;
+    }
+    if ((unsigned short)type->field0c) return;
+    if (shape) {
+        index = primitive_pointer_debug_index(type);
+        *(unsigned short *)&type->field0c = index;
+        if (index) return;
+        description = *type;
+        description.related = type->related->related;
+        nested = intern_type(&description);
+        emit_debug_type(nested);
+        kind = shape->flags & 7;
+        if (!kind) {
+            *(unsigned short *)&type->field0c = (unsigned short)nested->field0c;
+            return;
+        }
+        if (kind >= 1 && kind <= 3) {
+            *(unsigned short *)&type->field0c = next_debug_type_index;
+            record = queue_debug_record(0);
+            debug_type_records[record].value.type = type;
+        } else if (kind == 4) emit_function_debug_type(type);
+    } else if (type->attributes & 0x3000) {
+        *(unsigned short *)&type->field0c = next_debug_type_index;
+        record = queue_debug_record(0);
+        debug_type_records[record].value.type = type;
+    } else *(unsigned short *)&type->field0c = primitive_debug_index(type);
 }

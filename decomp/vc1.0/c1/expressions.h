@@ -81,6 +81,7 @@ IrToken *__stdcall convert_pointer_representation(CType *target, IrToken *operan
 unsigned __stdcall classify_pointer_conversion(CType *target, CType *source, unsigned mode, unsigned flags);
 unsigned __stdcall classify_void_pointer_conversion(unsigned result, TypeShape *target, TypeShape *source);
 unsigned __stdcall classify_pointer_qualifiers(unsigned result, unsigned short target, unsigned short source);
+int __stdcall is_pointer_based_shape(TypeShape *shape);
 unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target, unsigned short source, TypeShape *shape);
 int float_to_extended(const float *value, Extended *number);
 int double_to_extended(const double *value, Extended *number);

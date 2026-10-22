@@ -697,3 +697,25 @@ CType *__stdcall qualify_member_type(CType *type, unsigned short model)
     --type_description_depth;
     return result;
 }
+
+/* Original 0x32be0..0x32c0a. The inner-size calculation has its own
+   entry; completion is requested only when that calculation yields zero. */
+int __stdcall complete_type_size(CType *type)
+{
+    int bytes = array_element_size(type->flags, (void *)type->field08, type->related);
+    if (!bytes) require_complete_type(type);
+    return bytes;
+}
+
+/* Original 0x40160..0x401b7. Preserve the pointer's address model in
+   the dereferenced descriptor and remember its based-symbol operand. */
+CType *__stdcall dereference_pointer_type(CType *type)
+{
+    unsigned short attributes = type->related->attributes;
+    CType *result;
+    if ((attributes & 7) == 4) report_syntax_error(214);
+    pointer_base_symbol = (FrontendSymbol *)type->related->field08;
+    result = drop_first_type_shape(type);
+    result->attributes = (result->attributes & ~7) | (attributes & 15);
+    return intern_type(result);
+}

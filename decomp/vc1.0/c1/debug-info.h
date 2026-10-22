@@ -8,6 +8,20 @@ typedef struct DebugRecordFormat {
 extern DebugRecordFormat debug_record_formats[13];
 extern unsigned *debug_record_buffer;
 extern unsigned debug_type_bytes;
+/* Legacy CodeView type fixups retain twelve-byte records. The queue kind
+   selects the payload; kind zero carries a complete CType descriptor. */
+typedef struct DebugTypeRecord {
+    unsigned char kind, reserved[3];
+    union { CType *type; FrontendSymbol *symbol; void *pointer; } value;
+    unsigned auxiliary;
+} DebugTypeRecord;
+extern DebugTypeRecord *debug_type_records;
+extern unsigned short next_debug_type_index;
+void emit_pdb_type(CType *type);
+unsigned short __stdcall primitive_pointer_debug_index(CType *type);
+unsigned short __stdcall primitive_debug_index(CType *type);
+unsigned __stdcall queue_debug_record(unsigned char kind);
+void __stdcall emit_function_debug_type(CType *type);
 void begin_program_database(void);
 void write_debug_record(unsigned record, ...);
 /* The database starts with its 64-byte on-disk header. List nodes carry

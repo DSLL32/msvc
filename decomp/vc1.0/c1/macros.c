@@ -11,7 +11,7 @@
 char *name_defined, *name_formal, *name_ellipsis, *name_cast;
 char *name_main, *name_winmain, *name_dllmain, *name_alignment;
 char *name_unnamed, *name_dollar, *name_static_guard, *name_setjmp, *name_catch;
-static struct SpecialIdentifier {
+struct SpecialIdentifier {
     char **destination;
     char *spelling;
 } special_identifiers[] = {

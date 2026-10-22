@@ -90,7 +90,6 @@ extern unsigned short inline_region_index;
 extern unsigned *source_file_index, source_file_counter;
 extern char last_record_source[256];
 int __stdcall type_size(CType *type);
-void __stdcall require_complete_type(CType *type);
 int __stdcall symbol_element_size(FrontendSymbol *symbol);
 unsigned short __stdcall type_alignment(CType *type);
 void __stdcall emit_symbol_declaration(FrontendSymbol *symbol);

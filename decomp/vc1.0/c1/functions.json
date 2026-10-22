@@ -580,7 +580,17 @@
     "_format_text",
     "_format_text_arguments",
     "__isatty",
-    "_append_macro_text@4"
+    "_append_macro_text@4",
+    "_classify_pointer_qualifiers@12",
+    "_classify_pointer_model@16",
+    "_make_sizeof_expression@4",
+    "_make_sizeof_type@4",
+    "_subtraction_overflows@16",
+    "_complete_type_size@4",
+    "_multiplication_overflows@16",
+    "_dereference_pointer_type@4",
+    "_prepare_symbol_debug_type@4",
+    "_emit_debug_type@4"
   ],
   "driver": [
     {
@@ -1684,12 +1694,12 @@
     {
       "name": "_make_sizeof_expression@4",
       "start": 182192,
-      "end": 182193
+      "end": 182391
     },
     {
       "name": "_make_sizeof_type@4",
       "start": 182400,
-      "end": 182401
+      "end": 182505
     },
     {
       "name": "_integer_constant_value@4",
@@ -2406,7 +2416,7 @@
     {
       "name": "_complete_type_size@4",
       "start": 207840,
-      "end": 207841
+      "end": 207882
     },
     {
       "name": "_expression_type_alignment@4",
@@ -2501,7 +2511,7 @@
     {
       "name": "_emit_debug_type@4",
       "start": 292048,
-      "end": 292049
+      "end": 292387
     },
     {
       "name": "_flush_debug_types",
@@ -3361,12 +3371,12 @@
     {
       "name": "_subtraction_overflows@16",
       "start": 311904,
-      "end": 311905
+      "end": 311979
     },
     {
       "name": "_multiplication_overflows@16",
       "start": 311424,
-      "end": 311425
+      "end": 311697
     },
     {
       "name": "_parameter_type_size@8",
@@ -3461,7 +3471,7 @@
     {
       "name": "_dereference_pointer_type@4",
       "start": 262496,
-      "end": 262497
+      "end": 262583
     },
     {
       "name": "_find_expression_symbol@4",
@@ -3821,12 +3831,12 @@
     {
       "name": "_classify_pointer_qualifiers@12",
       "start": 265728,
-      "end": 265729
+      "end": 265819
     },
     {
       "name": "_classify_pointer_model@16",
       "start": 265488,
-      "end": 265489
+      "end": 265721
     },
     {
       "name": "_float_to_extended",
@@ -3997,6 +4007,36 @@
       "name": "_format_text_arguments",
       "start": 307008,
       "end": 307339
+    },
+    {
+      "name": "_is_pointer_based_shape@4",
+      "start": 155104,
+      "end": 155105
+    },
+    {
+      "name": "_emit_pdb_type",
+      "start": 299568,
+      "end": 299569
+    },
+    {
+      "name": "_primitive_pointer_debug_index@4",
+      "start": 292400,
+      "end": 292401
+    },
+    {
+      "name": "_primitive_debug_index@4",
+      "start": 292752,
+      "end": 292753
+    },
+    {
+      "name": "_queue_debug_record@4",
+      "start": 293344,
+      "end": 293345
+    },
+    {
+      "name": "_emit_function_debug_type@4",
+      "start": 292864,
+      "end": 292865
     }
   ],
   "cases": {

@@ -255,10 +255,8 @@ void __stdcall emit_named_label(char *name) { __asm { int 3 } }
 /* Original 0x2c600. */
 
 /* Original 0x2c7b0. */
-IrToken *__stdcall make_sizeof_expression(IrToken *operand) { __asm { int 3 } return 0; }
 
 /* Original 0x2c880. */
-IrToken *__stdcall make_sizeof_type(CType *type) { __asm { int 3 } return 0; }
 
 /* Original 0x2c8f0. */
 
@@ -447,7 +445,6 @@ void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape
 int __stdcall compare_prototype_parameter_types(CType *target, CType *source) { __asm { int 3 } return 0; }
 void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
-int __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
 
 
 void browser_finish_scope(void) { __asm { int 3 } }
@@ -463,12 +460,10 @@ void browser_close_file(void) { __asm { int 3 } }
 void report_ide_file_end(void) { __asm { int 3 } }
 
 
-void __stdcall emit_debug_type(CType *type) { __asm { int 3 } }
 void flush_debug_types(void) { __asm { int 3 } }
 
 void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
 
-void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol) { __asm { int 3 } }
 unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 int fclose(FILE *file) { __asm { int 3 } return 0; }
@@ -697,9 +692,7 @@ int integer_to_extended(const int *value, Extended *number) { __asm { int 3 } re
 /* Original 0x28190. */
 IrToken * __stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right) { __asm { int 3 } return 0; }
 /* Original 0x4c260. */
-int __stdcall subtraction_overflows(unsigned left, unsigned right, unsigned short is_unsigned, unsigned short bytes) { __asm { int 3 } return 0; }
 /* Original 0x4c080. */
-int __stdcall multiplication_overflows(unsigned left, unsigned right, unsigned short is_unsigned, unsigned short bytes) { __asm { int 3 } return 0; }
 
 /* Original 0x32dd0. */
 
@@ -739,7 +732,6 @@ CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 
 /* Original 0x40220. */
 CType * __stdcall change_function_reference_kind(CType *type, int kind) { __asm { int 3 } return 0; }
 /* Original 0x40160. */
-CType * __stdcall dereference_pointer_type(CType *type) { __asm { int 3 } return 0; }
 /* Original 0x2c450. */
 FrontendSymbol * __stdcall find_expression_symbol(IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x3d500. */
@@ -813,9 +805,7 @@ CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes) {
 
 /* Original 0x40cd0. */
 /* Original 0x40e00. */
-unsigned __stdcall classify_pointer_qualifiers(unsigned result, unsigned short target, unsigned short source) { __asm { int 3 } }
 /* Original 0x40d10. */
-unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target, unsigned short source, TypeShape *shape) { __asm { int 3 } }
 
 /* Original 0x4c696. */
 /* Original 0x4c6b8. */
@@ -866,3 +856,11 @@ void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
 /* Original CRT variant 0x528d0. */
 
 /* Original 0x4af40. */
+
+int __stdcall is_pointer_based_shape(TypeShape *shape) { __asm { int 3 } }
+
+void emit_pdb_type(CType *type) { __asm { int 3 } }
+unsigned short __stdcall primitive_pointer_debug_index(CType *type) { __asm { int 3 } }
+unsigned short __stdcall primitive_debug_index(CType *type) { __asm { int 3 } }
+unsigned __stdcall queue_debug_record(unsigned char kind) { __asm { int 3 } }
+void __stdcall emit_function_debug_type(CType *type) { __asm { int 3 } }
