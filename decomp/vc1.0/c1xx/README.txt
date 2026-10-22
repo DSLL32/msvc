@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 350 accepted paired frontiers, including 275 frontend
+PARTIAL reconstruction: 360 accepted paired frontiers, including 285 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _check_empty_declaration@4 at original VA 0x3b9a0. The latest ordered replay is recorded in validation.json;
+trap is _begin_virtual_base_search@8 at original VA 0x7c060. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -553,3 +553,18 @@ caller are in evidence/scanned-stack-separation.txt.
 All 350 accepted frontiers replay exactly with these stronger checks in
 evidence/replay-scanned-stack-separation.log. The next matching trap is empty-
 declaration checking at 0x3b9a0. Complete frontend equivalence remains partial.
+
+Qualified constructor lookup is now reconstructed through recursive class-name
+search and candidate filtering. The ten new functions preserve separate tag,
+inherited-class reference, enum and overloaded-function representations. Qualifier
+nodes are twelve bytes; class-search state is twenty bytes, and the next native
+virtual-base iterator writes twenty-four bytes. Its trailing two fields are kept
+even though this caller reads only the selected class.
+
+All 360 accepted frontiers replay with exact streams, visible and pending file
+bytes, selected shared state and logical callers in
+evidence/replay-qualified-class-search.log. The next trap is virtual-base search
+initialization at 0x7c060. The accepted executable extent union is 120,634 of
+476,418 bytes (25.321%); this includes matched CRT/import ranges and shared text,
+clipped and unioned against original executable VirtualSize. It is extent
+coverage, not branch coverage. Complete frontend equivalence remains partial.

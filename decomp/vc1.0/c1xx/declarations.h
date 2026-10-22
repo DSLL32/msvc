@@ -168,6 +168,8 @@ typedef struct QualifierBinding {
     struct QualifierBinding *following;
     ClassReference *target;
 } QualifierBinding;
+typedef char QualifierBindingSizeMustBe12[(sizeof(QualifierBinding) == 12) ? 1 : -1];
+typedef char QualifierBindingTargetOffsetMustBe8[(offsetof(QualifierBinding, target) == 8) ? 1 : -1];
 typedef struct QualifierResolution {
     /* The leaf contains the currently resolved target. Its next link is
        the enclosing qualifier, inspected separately for implicit this. */
@@ -211,7 +213,7 @@ CType *__stdcall replace_first_type_shape(CType *type, unsigned short kind, unsi
 int __stdcall is_unqualified_class_type(CType *type);
 void __stdcall attach_type_shape(CppSymbol *declaration, TypeShape *shape);
 extern CppSymbol *parsed_parameter_symbols;
-extern unsigned function_declaration_kind;
+extern unsigned function_declaration_kind, active_function_declaration_kind;
 CppSymbol *finish_parameter_scope(void);
 CppSymbol *__stdcall attach_plain_function_parameters(CppSymbol *declaration, CppSymbol *parameters);
 CppSymbol *__stdcall build_function_declarator(CppSymbol *declaration, CppSymbol *parameters);

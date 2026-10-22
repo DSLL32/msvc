@@ -1,5 +1,6 @@
 /* Shared yacc state and its observed macro-workspace boundary aliases. */
 #include "parser.h"
+#include "parameter-scopes.h"
 
 ParserStackStorage parser_stacks; /* original 0x94e44..0x956e4 */
 ParserValue parser_value; /* original 0x8c1f0..0x8c1f8 */
@@ -70,4 +71,23 @@ DeclarationType *__stdcall global_declaration_type(DeclarationType *context)
     result = current_declaration_type(context);
     declaration_depth = saved_depth;
     return result;
+}
+
+/* Original 0x26830..0x268c9. Complete one external definition, preserving
+   error recovery's arena lifetime and any pending scanned-text replay. */
+void __stdcall finish_external_definition(int recovering)
+{
+    if (!recovering) release_arena(2);
+    text_work_cursor = expression_storage;
+    parsed_parameter_symbols = 0;
+    active_parameter_symbols = 0;
+    function_declaration_kind = 0;
+    active_function_declaration_kind = 0;
+    token_allocation_flags &= ~0x03000000UL;
+    cpp_parser_flags &= ~4UL;
+    token_allocation_flags &= ~1UL;
+    declaration_depth = 0;
+    declaration_spec_flags[0] &= ~3;
+    deferred_declarations[0] = 0;
+    if (cpp_parser_flags & 8) flush_scanned_declaration(0);
 }

@@ -710,3 +710,92 @@ CppSymbol *__stdcall next_class_member_search(ClassMemberSearch *search)
     }
     return 0;
 }
+
+/* Original 0x54bc0..0x54bd2. A qualifier searches the class/tag categories
+   through the shared scoped-name resolver, retaining its native wrapper ABI. */
+CppSymbol *__stdcall find_qualifier_name(char *name)
+{
+    return lookup_scoped_name(name, 0x101);
+}
+
+/* Original 0x77f60..0x781ca. Search the current class first, retaining all
+   qualifying base paths unless the caller requests the first result. The
+   two pointer-keyed tables distinguish visited from hidden virtual bases. */
+QualifierResolution *__stdcall search_class_name_paths(QualifierResolution *path,
+    ClassNameSearch *search)
+{
+    CppSymbol *tag = (CppSymbol *)path->binding->target, *member, *base_tag;
+    BaseClassLink *base;
+    ClassMemberSearch members;
+    VirtualBaseSearch virtual_bases;
+    QualifierResolution *result = 0, *found;
+    if ((tag->flags & 0x10) && (tag->type->flags & 0x200)) {
+        member = find_hash_value(tag->auxiliary.enumerators, search->name);
+        return member ? append_qualifier_reference(0, path->binding, member) : 0;
+    }
+    if ((tag->kind & 31) != 4)
+        tag = cpp_context_stack->items[((ClassReference *)tag)->context_index];
+    begin_class_member_search(&members, search->name, tag);
+    while ((member = next_class_member_search(&members)) != 0) {
+        if (!symbol_matches_categories(member, search->categories) ||
+            !class_candidate_is_distinct(member, search->candidates)) continue;
+        append_vector(search->candidates, member);
+        begin_virtual_base_search(&virtual_bases, tag);
+        while (next_virtual_base_search(&virtual_bases)) {
+            if (!search->visited_virtual_bases) {
+                search->visited_virtual_bases = new_hash_table(4, 2, 0, 0);
+                search->shadowed_virtual_bases = new_hash_table(4, 2, 0, 0);
+            }
+            set_hash_value(search->visited_virtual_bases, virtual_bases.tag, (void *)1);
+            set_hash_value(search->shadowed_virtual_bases, virtual_bases.tag, (void *)1);
+        }
+        member = resolve_declaration_alias(member, 0);
+        return append_qualifier_reference(0, path->binding, member);
+    }
+    if (search->name == name_assignment) return 0;
+    if (!(tag->flags & 4) && (token_allocation_flags & 2)) return 0;
+    for (base = (BaseClassLink *)tag->auxiliary.scope_members; base;
+         base = (BaseClassLink *)base->next) {
+        if ((base->kind & 31) != 15 || (base->flags & 0x80)) continue;
+        base_tag = cpp_context_stack->items[base->context_index];
+        if (base->state & 1) {
+            if (search->categories & 4) continue;
+            if (!search->visited_virtual_bases) {
+                search->visited_virtual_bases = new_hash_table(4, 2, 0, 0);
+                search->shadowed_virtual_bases = new_hash_table(4, 2, 0, 0);
+            }
+            if (find_hash_value(search->visited_virtual_bases, base_tag) == (void *)1)
+                continue;
+            set_hash_value(search->visited_virtual_bases, base_tag, (void *)1);
+        }
+        found = search_class_name_paths(append_qualifier_reference(0,
+            path->binding, (CppSymbol *)base), search);
+        if (found) {
+            if (result) {
+                result->tail->following = found->binding;
+                result->tail = found->tail;
+            } else result = found;
+            if (search->categories & 8) return result;
+        }
+    }
+    return result;
+}
+
+/* Original 0x78240..0x7834d. Virtual-base entries are represented only
+   once. Static data and named types suppress only the identical symbol. */
+int __stdcall class_candidate_is_distinct(CppSymbol *symbol, Vector *candidates)
+{
+    short index;
+    CppSymbol *previous;
+    if ((symbol->kind & 31) == 15 && (((BaseClassLink *)symbol)->state & 1)) {
+        for (index = 0; index < candidates->count; ++index) {
+            previous = candidates->items[index];
+            if ((previous->kind & 31) == 15 &&
+                (((BaseClassLink *)previous)->state & 1)) return 0;
+        }
+    } else if (is_static_data_member(symbol) || (symbol->flags & 0x10)) {
+        for (index = 0; index < candidates->count; ++index)
+            if (candidates->items[index] == symbol) return 0;
+    }
+    return 1;
+}

@@ -1,5 +1,6 @@
 /* Qualified C++ identifiers, including constructor/destructor/operator names. */
 #include "lexer.h"
+#include "class-lookup.h"
 
 SymbolScope *last_lookup_scope; /* original 0x914bc */
 
@@ -259,4 +260,154 @@ finish:
     if (current_token_code == 3) qualified->declaration_flags |= 0x4000;
     else current_token_code = token;
     return token;
+}
+
+/* Original 0xa8100/0xa8104: the qualification factories share one saved
+   arena selector, rather than a general nested allocator stack. */
+int qualification_arena;
+int saved_qualification_arena = -1;
+
+/* Original 0x77de0..0x77df6. */
+void __stdcall begin_qualification_allocation(int arena)
+{
+    saved_qualification_arena = qualification_arena;
+    qualification_arena = arena;
+}
+
+/* Original 0x77e20..0x77edb. Append a twelve-byte reference node to the
+   eight-byte path object, choosing the shared qualification arena for each
+   allocation. Arena -1 means the compiler's pool zero, not permanence. */
+QualifierResolution *__stdcall append_qualifier_reference(QualifierResolution *resolution,
+    QualifierBinding *parent, CppSymbol *target)
+{
+    ArenaPool *pool;
+    QualifierBinding *reference;
+    int arena;
+    if (!resolution) {
+        if (!qualification_arena) resolution = allocate_permanent(sizeof(QualifierResolution));
+        else {
+            arena = qualification_arena == -1 ? 0 : qualification_arena;
+            pool = &compiler_arena.pools[arena];
+            if (pool->remaining < (int)sizeof(QualifierResolution)) refill_arena(&compiler_arena, pool);
+            resolution = (QualifierResolution *)pool->next;
+            pool->remaining -= sizeof(QualifierResolution);
+            pool->next += sizeof(QualifierResolution);
+        }
+    }
+    if (!qualification_arena) reference = allocate_permanent(sizeof(QualifierBinding));
+    else {
+        arena = qualification_arena == -1 ? 0 : qualification_arena;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(QualifierBinding)) refill_arena(&compiler_arena, pool);
+        reference = (QualifierBinding *)pool->next;
+        pool->remaining -= sizeof(QualifierBinding);
+        pool->next += sizeof(QualifierBinding);
+    }
+    /* The target prefix is a tag or an inherited ClassReference by kind. */
+    reference->target = (ClassReference *)target;
+    reference->next = parent;
+    if (!resolution->binding) resolution->binding = resolution->tail = reference;
+    else {
+        resolution->tail->following = reference;
+        resolution->tail = reference;
+    }
+    return resolution;
+}
+
+/* Original 0x77e00..0x77e15. Restore the one saved selection and mark
+   its slot unused again, preserving the native -1 sentinel. */
+void end_qualification_allocation(void)
+{
+    qualification_arena = saved_qualification_arena;
+    saved_qualification_arena = -1;
+}
+
+/* Original 0x33300..0x3336a. Enter a class qualifier's temporary scope,
+   retaining inherited-reference and exact-name flags on the resulting scope. */
+void __stdcall enter_qualified_class(CppSymbol *symbol, char *name, int temporary)
+{
+    SymbolScope *scope;
+    int inherited = 0;
+    if (!symbol) return;
+    if ((symbol->kind & 31) == 15) {
+        symbol = cpp_context_stack->items[((ClassReference *)symbol)->context_index];
+        inherited = 1;
+    } else if (!symbol_has_tag_scope(symbol)) return;
+    scope = enter_class_scope(symbol, (signed char)(temporary ? -4 : -2));
+    if (scope && (inherited || symbol->name == name)) scope->flags |= 0x100;
+}
+
+/* Original 0x1d480..0x1d6df. Resolve a member through its complete qualifier
+   path, preserving alias substitution, incomplete-class handling and the
+   distinction between a member spelling and a conversion's type spelling. */
+QualifierResolution *__stdcall lookup_qualified_member(QualifierResolution *scope,
+    char *name, CType *type)
+{
+    CppSymbol *tag = (CppSymbol *)scope->binding->target, *resolved;
+    QualifierBinding *parent;
+    QualifiedDeclarator *qualified;
+    char *spelling, *formatted;
+    short text;
+    unsigned kind = tag->kind & 31;
+    if (kind != 4 && kind != 15) {
+        spelling = tag->name;
+        parent = scope->binding->next;
+        if ((tag->flags & 0x10) && is_unqualified_class_type(tag->type)) {
+            tag = cpp_context_stack->items[tag->type->field08];
+            scope->binding->target = (ClassReference *)tag;
+            goto resolved_tag;
+        }
+        if (tag->kind & 0x80) {
+            token_allocation_flags |= 0x10;
+            resolved = resolve_declaration_alias(tag, 0);
+            token_allocation_flags &= ~0x10UL;
+        } else if (parent)
+            resolved = (CppSymbol *)lookup_class_name((CppSymbol *)parent->target, spelling, 1, 385);
+        else if (token_allocation_flags & 0x80)
+            resolved = (CppSymbol *)lookup_class_name(class_lookup_context, spelling, 1, 385);
+        else resolved = lookup_tag_name(spelling);
+        if (!resolved) {
+            report_syntax_error(510, spelling);
+            return 0;
+        }
+        if ((resolved->kind & 31) == 18)
+            scope->binding = attach_qualifier_parent(((QualifiedDeclarator *)resolved)->resolution->binding, parent);
+        else {
+            begin_qualification_allocation(1);
+            scope = append_qualifier_reference(0, parent, resolved);
+            end_qualification_allocation();
+        }
+        enter_qualified_class((CppSymbol *)scope->binding->target, 0, 0);
+        tag = (CppSymbol *)scope->binding->target;
+        kind = tag->kind & 31;
+    }
+    if ((tag->kind & 31) == 15)
+        tag = cpp_context_stack->items[((ClassReference *)tag)->context_index];
+resolved_tag:
+    if (tag->flags & 4) {
+        qualified = lookup_class_name(tag, name, 0x102, 385);
+        if (qualified) {
+            enter_qualified_class((CppSymbol *)qualified->resolution->binding->target, 0, 0);
+            attach_qualifier_parent(qualified->resolution->binding, scope->binding);
+            return qualified->resolution;
+        }
+        if (!type) report_syntax_error(39, name, tag->name);
+        else {
+            begin_type_diagnostic();
+            text = format_declarator(0, type);
+            formatted = type_diagnostic_text(text);
+            report_syntax_error(39, formatted, tag->name);
+            end_type_diagnostic();
+        }
+        if (scope) unwind_qualified_scopes(1);
+        return 0;
+    }
+    if (!(token_allocation_flags & 0x20000000UL)) {
+        if (current_class_name() != tag->name && !options.prototypes_only)
+            report_syntax_error(27, tag->name);
+        if (scope) unwind_qualified_scopes(1);
+        return 0;
+    }
+    resolved = new_declarator(name);
+    return append_qualifier_reference(0, scope->binding, resolved);
 }

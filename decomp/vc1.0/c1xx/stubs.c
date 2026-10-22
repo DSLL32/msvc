@@ -165,7 +165,7 @@ IrToken *__stdcall boolean_expression(IrToken *expression, int mode) { __asm { i
 IrToken *__stdcall build_call_expression(IrToken *expression, IrToken *arguments) { __asm { int 3 } return 0; }
 int __stdcall can_initialize(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression) { __asm { int 3 } return 0; }
-void __stdcall check_empty_declaration(DeclarationType *type) { __asm { int 3 } }
+
 void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm { int 3 } }
 void __stdcall clear_reference_cache(IrToken *expression) { __asm { int 3 } }
 CppSymbol *__stdcall complete_declaration(DeclarationType *type, CppSymbol *declaration) { __asm { int 3 } return 0; }
@@ -208,7 +208,7 @@ CppSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
 IrToken *__stdcall finish_call_expression(IrToken *expression, unsigned short flags) { __asm { int 3 } return 0; }
 void finish_conditional_branch(void) { __asm { int 3 } }
 void finish_default_argument_text(void) { __asm { int 3 } }
-void __stdcall finish_external_definition(int recovering) { __asm { int 3 } }
+
 void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) { __asm { int 3 } }
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -216,7 +216,7 @@ IrToken *__stdcall identifier_expression(char *name) { __asm { int 3 } return 0;
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 void __stdcall initialize_object(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
-QualifierResolution *__stdcall lookup_qualified_member(QualifierResolution *scope, char *name, CType *type) { __asm { int 3 } return 0; }
+
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
 char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
 void mark_evaluation_boundary(void) { __asm { int 3 } }
@@ -278,12 +278,11 @@ void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int
 QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }
 void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
 unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall find_qualifier_name(char *name) { __asm { int 3 } return 0; }
-void __stdcall begin_qualification_allocation(int arena) { __asm { int 3 } }
-void end_qualification_allocation(void) { __asm { int 3 } }
-QualifierResolution *__stdcall append_qualifier_reference(QualifierResolution *resolution,
-    QualifierBinding *parent, CppSymbol *target) { __asm { int 3 } return 0; }
-void __stdcall enter_qualified_class(CppSymbol *symbol, char *name, int temporary) { __asm { int 3 } }
+
+
+
+
+
 QualifiedDeclarator *__stdcall new_qualified_declarator(QualifierResolution *resolution,
     char *name, int arena) { __asm { int 3 } return 0; }
 
@@ -375,8 +374,6 @@ unsigned __stdcall pointer_kind_size(unsigned short attributes) { __asm { int 3 
 
 
 
-QualifierResolution *__stdcall search_class_name_paths(QualifierResolution *path,
-    ClassNameSearch *search) { __asm { int 3 } return 0; }
 void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *hidden) { __asm { int 3 } }
 
 
@@ -479,3 +476,13 @@ void __stdcall write_storage_specification(StorageSpec storage, FILE *file) { __
 void reset_pushed_tokens(void) { __asm { int 3 } }
 
 void __stdcall finish_work_stack(WorkingStack *stack) { __asm { int 3 } }
+
+void __stdcall declare_anonymous_aggregate_object(DeclarationType *type) { __asm { int 3 } }
+
+CppSymbol *__stdcall lookup_tag_name(char *name) { __asm { int 3 } return 0; }
+QualifierBinding *__stdcall attach_qualifier_parent(QualifierBinding *binding, QualifierBinding *parent) { __asm { int 3 } return 0; }
+
+void *__stdcall find_hash_value(HashTable *table, void *key) { __asm { int 3 } return 0; }
+HashEntry *__stdcall set_hash_value(HashTable *table, void *key, void *value) { __asm { int 3 } return 0; }
+void __stdcall begin_virtual_base_search(VirtualBaseSearch *search, CppSymbol *tag) { __asm { int 3 } }
+int __stdcall next_virtual_base_search(VirtualBaseSearch *search) { __asm { int 3 } return 0; }

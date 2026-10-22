@@ -12,6 +12,22 @@ typedef struct ClassNameSearch {
 typedef char ClassNameSearchSizeMustBe20[(sizeof(ClassNameSearch) == 20) ? 1 : -1];
 QualifierResolution *__stdcall search_class_name_paths(QualifierResolution *path,
     ClassNameSearch *search);
+/* Virtual-base group iteration writes the selected group plus its first
+   two fields; callers may use only the class at +16. */
+typedef struct VirtualBaseSearch {
+    Vector *groups;
+    short index;
+    unsigned short reserved;
+    VirtualTableGroup *group;
+    int active;
+    CppSymbol *tag;
+    unsigned field14;
+} VirtualBaseSearch;
+typedef char VirtualBaseSearchSizeMustBe24[(sizeof(VirtualBaseSearch) == 24) ? 1 : -1];
+typedef char VirtualBaseSearchTagOffsetMustBe16[(offsetof(VirtualBaseSearch, tag) == 16) ? 1 : -1];
+void __stdcall begin_virtual_base_search(VirtualBaseSearch *search, CppSymbol *tag);
+int __stdcall next_virtual_base_search(VirtualBaseSearch *search);
+int __stdcall class_candidate_is_distinct(CppSymbol *symbol, Vector *candidates);
 void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *hidden);
 CppSymbol *__stdcall find_matching_overload(CppSymbol *functions, CType *type,
     int merge_defaults);
@@ -29,4 +45,5 @@ typedef char ClassMemberSearchNameOffsetMustBe12[(offsetof(ClassMemberSearch, na
 void __stdcall begin_class_member_search(ClassMemberSearch *search, char *name, CppSymbol *tag);
 CppSymbol *__stdcall next_class_member_search(ClassMemberSearch *search);
 CppSymbol *__stdcall find_class_special_member(CppSymbol *tag, char *name);
+QualifierBinding *__stdcall attach_qualifier_parent(QualifierBinding *binding, QualifierBinding *parent);
 #endif

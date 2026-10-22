@@ -451,3 +451,43 @@ CType *__stdcall make_class_pointer_type(CppSymbol *class_symbol, unsigned short
         normalize_type_attributes(0x2001, attributes), 0));
     return intern_type(&description);
 }
+
+void __stdcall declare_anonymous_aggregate_object(DeclarationType *type);
+
+/* Original 0x3b9a0..0x3bb7b. Empty scalar declarations are diagnosed;
+   tag-only declarations may introduce a tag or an anonymous aggregate object. */
+void __stdcall check_empty_declaration(DeclarationType *type)
+{
+    CType *base = type->type;
+    CppSymbol *tag;
+    unsigned kind = base->flags & 0x2fdf;
+    if (kind == 0x41 || kind == 0x42 || kind == 0x44 || kind == 0x80 ||
+        kind == 0x104 || kind == 0x108 || kind == 0x128) {
+        if (options.configuration.extensions_enabled) compiler_warning(2, 91);
+        else report_syntax_error(59, "empty declaration");
+        return;
+    }
+    if (kind != 0x412 && kind != 0x414 && kind != 0x418) return;
+    if (type->storage[1] & 4) return;
+    tag = cpp_context_stack->items[base->field08];
+    if (tag->flags & 0x80) {
+        if (!(token_allocation_flags & 0x400)) {
+            if ((base->flags & 0x404) == 0x404) {
+                declare_anonymous_aggregate_object(type);
+                return;
+            }
+            if (options.configuration.extensions_enabled)
+                compiler_warning(2, 94, type_kind_name(base->flags));
+            else report_syntax_error(59, "empty declaration");
+        }
+    } else if (!(token_allocation_flags & 0x400) &&
+        (!(type->storage[0] & 0x20) || (type->storage[1] & 7) || (type->storage[2] & 7)))
+        compiler_warning(1, 91);
+    else if (!tag_declaration_seen) {
+        tag = allocate_tag_symbol(tag->name, (unsigned short)(base->flags ^ 0x10),
+            insert_current_scope_symbol, 0);
+        if (tag && current_class_context >= 0)
+            defer_nested_tag(class_contexts[current_class_context].symbol, tag);
+    }
+    if (!tag->type->attributes) inherit_class_pointer_attributes(tag);
+}

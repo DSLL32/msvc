@@ -354,7 +354,17 @@
     "_declare_deleting_destructors@4",
     "_build_class_member_index@4",
     "_class_member_hash_bits",
-    "_flush_scanned_declaration@4"
+    "_flush_scanned_declaration@4",
+    "_check_empty_declaration@4",
+    "_finish_external_definition@4",
+    "_find_qualifier_name@4",
+    "_begin_qualification_allocation@4",
+    "_append_qualifier_reference@12",
+    "_end_qualification_allocation",
+    "_enter_qualified_class@12",
+    "_lookup_qualified_member@12",
+    "_search_class_name_paths@8",
+    "_class_candidate_is_distinct@8"
   ],
   "driver": [
     {
@@ -1887,7 +1897,7 @@
     {
       "name": "_check_empty_declaration@4",
       "start": 244128,
-      "end": 244129
+      "end": 244603
     },
     {
       "name": "_check_parameter_default@8",
@@ -2137,7 +2147,7 @@
     {
       "name": "_finish_external_definition@4",
       "start": 157744,
-      "end": 157745
+      "end": 157897
     },
     {
       "name": "_finish_implicit_statement_scope@8",
@@ -2177,7 +2187,7 @@
     {
       "name": "_lookup_qualified_member@12",
       "start": 119936,
-      "end": 119937
+      "end": 120543
     },
     {
       "name": "_lookup_segment_symbol@16",
@@ -2847,27 +2857,27 @@
     {
       "name": "_find_qualifier_name@4",
       "start": 347072,
-      "end": 347073
+      "end": 347090
     },
     {
       "name": "_begin_qualification_allocation@4",
       "start": 490976,
-      "end": 490977
+      "end": 490998
     },
     {
       "name": "_end_qualification_allocation",
       "start": 491008,
-      "end": 491009
+      "end": 491029
     },
     {
       "name": "_append_qualifier_reference@12",
       "start": 491040,
-      "end": 491041
+      "end": 491227
     },
     {
       "name": "_enter_qualified_class@12",
       "start": 209664,
-      "end": 209665
+      "end": 209770
     },
     {
       "name": "_new_qualified_declarator@12",
@@ -3102,7 +3112,7 @@
     {
       "name": "_search_class_name_paths@8",
       "start": 491360,
-      "end": 491361
+      "end": 491979
     },
     {
       "name": "_prune_hidden_class_paths@8",
@@ -3638,6 +3648,46 @@
       "name": "_reset_pushed_tokens",
       "start": 121680,
       "end": 121681
+    },
+    {
+      "name": "_declare_anonymous_aggregate_object@4",
+      "start": 188736,
+      "end": 188737
+    },
+    {
+      "name": "_lookup_tag_name@4",
+      "start": 185536,
+      "end": 185537
+    },
+    {
+      "name": "_attach_qualifier_parent@8",
+      "start": 493472,
+      "end": 493473
+    },
+    {
+      "name": "_find_hash_value@8",
+      "start": 322912,
+      "end": 322913
+    },
+    {
+      "name": "_set_hash_value@12",
+      "start": 322784,
+      "end": 322785
+    },
+    {
+      "name": "_begin_virtual_base_search@8",
+      "start": 508000,
+      "end": 508001
+    },
+    {
+      "name": "_next_virtual_base_search@4",
+      "start": 508064,
+      "end": 508065
+    },
+    {
+      "name": "_class_candidate_is_distinct@8",
+      "start": 492096,
+      "end": 492366
     }
   ],
   "cases": {
@@ -4614,6 +4664,42 @@
         {
           "name": "_initializer_record_stack",
           "original": 593740,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_active_function_declaration_kind",
+      "original": 596108,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_active_function_declaration_kind",
+          "original": 596108,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_qualification_arena",
+      "original": 688384,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_qualification_arena",
+          "original": 688384,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_saved_qualification_arena",
+      "original": 688388,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_saved_qualification_arena",
+          "original": 688388,
           "bytes": 4
         }
       ]

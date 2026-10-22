@@ -37,6 +37,7 @@ void __stdcall browser_type_reference(CppSymbol *symbol);
 unsigned char read_operator_function_id(void);
 unsigned char __stdcall resolve_identifier_token(char *name);
 CppSymbol *__stdcall find_qualifier_name(char *name);
+CppSymbol *__stdcall lookup_tag_name(char *name);
 void __stdcall begin_qualification_allocation(int arena);
 void end_qualification_allocation(void);
 QualifierResolution *__stdcall append_qualifier_reference(QualifierResolution *resolution,

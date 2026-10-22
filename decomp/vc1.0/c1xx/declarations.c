@@ -129,6 +129,9 @@ CppSymbol *__stdcall attach_function_parameters(CppSymbol *declaration, CppSymbo
 
 CppSymbol *parsed_parameter_symbols; /* original 0x91168 */
 unsigned function_declaration_kind; /* original 0x91578 */
+/* Saved at function entry and cleared at function/external completion.
+   No direct reader of this retained native state is identified yet. */
+unsigned active_function_declaration_kind; /* original 0x9188c */
 
 /* Original 0x34d90..0x34df6. Preserve parameter scope for the function body. */
 CppSymbol *__stdcall attach_plain_function_parameters(CppSymbol *declaration, CppSymbol *parameters)
