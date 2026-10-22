@@ -18,7 +18,7 @@ binary remains partly reconstructed: pending functions have typed named INT3
 stubs, and this case does not establish coverage of every input or branch. The
 accepted order and original function/code-data extents are in functions.json;
 validation.json records the complete durable replay and remaining named stubs.
-The rich case and seven follow-up cases currently complete; this is not a claim
+The rich case, seven local follow-ups and three shared encoding cases complete; this is not a claim
 that all original functions have been identified or all branches exercised.
 
 Build and differential checks
@@ -77,11 +77,35 @@ font: RC copies its file bytes and extracts directory information without
 validating glyphs. Uninterpreted font metrics stay in a contextual input-header
 structure alongside the two file offsets RC actually uses.
 
+The parent-owned read-only ../fixtures/resources-encoding suite adds:
+  kanji                /x /l411 /Iinclude /foencoding.res encoding.rc
+                       Native lead-byte ranges, Japanese byte strings in menus,
+                       dialog and STRINGTABLE, and escaped wide RCDATA. Exact
+                       480-byte output, exit 0, no diagnostics.
+  wide-long            /x /l411 /fowide-long.res wide-long.rc
+                       A 300-character wide string and Unicode escapes. Exact
+                       700-byte output, exit 0, no warning.
+  preprocessor-error   /x /fofailed.res preprocessor-error.rc
+                       Missing include: exact child RC1015 on stderr (100 bytes),
+                       RC RW1016 on stdout (69 bytes), exit 1, no products/temps.
+
+The shared manifest, source/output bytes and original RCPP identity are pinned
+and independently verified by capture-original.py. All source/ files are copied
+into isolated case directories. No host codepage/locale changes, PID overrides
+or stream normalization are used. --record refuses shared-suite mutation.
+The runtime harness also requires the child symlink to resolve to original RCPP.
+
+The native KANJI scanner preserves lead/trail pairs and its own escape/quote
+rules. Unlike the ANSI scanner, its token length includes the terminating NUL.
+Its bounds occupy signed WORD fields at offsets 0/4/8/12 in a 16-byte object;
+source compile-time checks and the instruction/layout audit preserve that shape.
+
 Remaining measured limitations include fonts' untested duplicate-ID branch,
-KANJI strings, verbose resource reports, additional encoding/CRT-error paths
-and many unexercised branches within accepted functions. Unaccepted named
-vertices remain masked and trap if reached. The list in validation.json counts
-known vertices only, not every as-yet-unidentified function in the executable.
+verbose resource reports, other encoding/error branches and exceptional CRT
+paths. The scanf engine is complete recovered C, with its native helper graph;
+mbtowc and non-EOF ungetc remain named traps because these cases do not reach
+them. Unaccepted named vertices remain masked. The list in validation.json
+counts known vertices only, not every unidentified original function.
 
 Recovery and audit
 ------------------
@@ -106,7 +130,10 @@ audit-graph.py walks source-function control flow, switch-table targets and SEH
 filters/handlers. It checks a bijection of direct call vertices and function
 address references and compares RET stack cleanup and indirect-call presence.
 It does not claim branch coverage or prove dataflow equivalence by itself;
-paired execution and final byte oracles remain required.
+paired execution and final byte oracles remain required. It also checks the
+encountered FILE/stream aliases, C-locale classification table and decimal point,
+six floating callback slots and signed KANJI field offsets. Callback targets
+that are identified but unaccepted remain masked, including __fptrap.
 
 Recovered resource logic includes the dispatcher and type interning, identifiers,
 LANGUAGE, numeric expressions, keyword lookup, memory flags, nested menus,
@@ -117,8 +144,8 @@ first menu matches all 190 captured bytes and the first dialog matches all 506
 bytes, including its 12 controls. Deferred multilingual string tables and normal
 cleanup produce the complete 3,684-byte product with 19 resource records.
 
-RC also predates shipped LIBC's termination state and private stream-flushing
-helper. Those variants are recovered C, preserving the shared callback walker,
+RC also predates shipped LIBC's termination state, scanf engine and private
+stream-flushing helper. Those variants are recovered C, preserving the shared callback walker,
 exit wrappers and stream graph. The graph audit separately verifies all CRT
 initializer/termination callback sequences, including the single __endstdio
 pretermination callback. Exact matched routines keep their original library

@@ -26,12 +26,32 @@ def select_case(name):
     settings = cfg['cases'][name]
     CASE, ARGUMENTS = name, settings['arguments']
     EXPECTED_EXIT = settings.get('exit', 0)
-    if name == 'resources-rich':
+    if settings.get('fixture'):
+        FIXTURE = Path(settings['fixture']).resolve()
+        ORACLE = FIXTURE / settings['oracle']
+        verify_suite(settings)
+    elif name == 'resources-rich':
         FIXTURE = Path('../fixtures/resources-rich').resolve()
         ORACLE = FIXTURE / 'rc'
     else:
         FIXTURE = (Path('cases') / name).resolve()
         ORACLE = FIXTURE / 'oracle'
+
+
+def verify_suite(settings):
+    """Pin shared fixture bytes, including the original child binary identity."""
+    raw = (FIXTURE / 'manifest.json').read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == settings['suite_manifest_sha256']
+    manifest = json.loads(raw)
+    cfg = json.loads(Path('functions.json').read_text())
+    assert manifest['target_sha256'] == cfg['target']['sha256']
+    case = next(c for c in manifest['cases'] if c['id'] == CASE)
+    assert ARGUMENTS == ' '.join(case['arguments']) and EXPECTED_EXIT == case['expected_exit']
+    for record in manifest['source_inputs'] + [case['stdout'], case['stderr']] + case['outputs']:
+        data = (FIXTURE / record['path']).read_bytes()
+        assert len(data) == record['bytes'] and hashlib.sha256(data).hexdigest() == record['sha256']
+    for record in manifest['toolchain_dependencies']:
+        assert hashlib.sha256((wt.ROOT / record['path']).read_bytes()).hexdigest() == record['sha256']
 
 
 def work_directory(label):
@@ -113,6 +133,8 @@ def prepare(count=None):
 
 
 def run(label, executable):
+    child = Path(executable).resolve().parent / 'rcpp.exe'
+    assert child.is_symlink() and child.resolve() == (wt.TC / 'bin/RCPP.EXE').resolve(), 'RC must execute original RCPP'
     work = work_directory(label)
     if work.exists():
         shutil.rmtree(work)

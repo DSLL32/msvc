@@ -66,7 +66,26 @@ report = dict(status='cases-complete', case='resources-rich',
               graph_audit=graph)
 report['additional_cases'] = {}
 for name in complete_cases:
-    if name != 'resources-rich':
+    if name == 'resources-rich':
+        continue
+    settings = complete_cases[name]
+    if settings.get('fixture'):
+        manifest_path = Path(settings['fixture']) / 'manifest.json'
+        raw = manifest_path.read_bytes()
+        assert hashlib.sha256(raw).hexdigest() == settings['suite_manifest_sha256']
+        suite = json.loads(raw)
+        capture_path = Path('build') / ('capture-' + name + '.verified.json')
+        capture = json.loads(capture_path.read_text())
+        assert capture['target_sha256'] == configuration['target']['sha256']
+        case = next(c for c in suite['cases'] if c['id'] == name)
+        assert capture['arguments'] == settings['arguments'] and capture['exit'] == settings['exit']
+        for record in [case['stdout'],case['stderr']] + case['outputs']:
+            file = record.get('output_name',Path(record['path']).name)
+            assert capture['oracle'][file] == dict(bytes=record['bytes'],sha256=record['sha256'])
+        report['additional_cases'][name] = dict(shared_fixture=settings['fixture'],
+                manifest_sha256=hashlib.sha256(raw).hexdigest(), case=case,
+                independently_recaptured=capture, exact_streams_status_and_file_set=True)
+    else:
         manifest_path = Path('cases') / name / 'manifest.json'
         report['additional_cases'][name] = dict(manifest=json.loads(manifest_path.read_text()),
                 manifest_sha256=hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
@@ -77,8 +96,9 @@ total = 0
 for section in original.sections:
     if not section['flags'] & 0x20:
         continue
-    first, last_byte = original.base + section['rva'], original.base + section['rva'] + section['size']
-    total += section['size']
+    extent = section['virtual_size']  # PE reader uses backed raw size when VirtualSize is zero.
+    first, last_byte = original.base + section['rva'], original.base + section['rva'] + extent
+    total += extent
     for record in index:
         if record['name'] not in configuration['accepted']:
             continue
@@ -86,7 +106,7 @@ for section in original.sections:
             restored.update(range(max(first,start),min(last_byte,end)))
 report['restored_text'] = dict(bytes=len(restored), total_bytes=total,
                               percentage=round(100.0*len(restored)/total,2),
-                              definition='whole accepted functions and their text data; not dynamic branch coverage')
+                              definition='union of accepted source/CRT functions, shared text data and import thunks, clipped to original code extents; VirtualSize or backed raw fallback; not branch coverage')
 report['unaccepted_named_functions'] = sorted(source - set(configuration['accepted']))
 product = Path('../fixtures/resources-rich/rc/resources.res').read_bytes()
 report['result'] = dict(exit=0, stdout_bytes=0, stderr_bytes=0,
@@ -94,6 +114,7 @@ report['result'] = dict(exit=0, stdout_bytes=0, stderr_bytes=0,
                       sha256=hashlib.sha256(product).hexdigest(),
                       exact_file_set=True)
 report['runtime_callback_tables'] = json.loads(Path('build/runtime-tables.json').read_text())
+report['runtime_layout_and_alias_audit'] = json.loads(Path('build/runtime-aliases.json').read_text())
 if menu_verified:
     product = Path('../fixtures/resources-rich/rc/resources.res').read_bytes()
     report['first_menu_payload'] = dict(exact_bytes=True, bytes=190,

@@ -7,7 +7,8 @@
 
 DWORD default_resource_version, default_characteristics;
 unsigned int resource_count;
-WORD font_count, kanji_codes[4];
+WORD font_count;
+struct KanjiRange kanji_ranges[2];
 BOOL font_directory_written;
 struct ResourceInfo *string_table_resource;
 void *dialog_scratch;
@@ -39,10 +40,10 @@ BOOL __cdecl compile_resources(void)
         if (!parse_resource_identifier())
             break;
         if (!strcmp(current_token.spelling, "KANJI")) {
-            advance_argument(); kanji_codes[0] = parse_word_expression();
-            advance_argument(); kanji_codes[1] = parse_word_expression();
-            advance_argument(); kanji_codes[2] = parse_word_expression();
-            advance_argument(); kanji_codes[3] = parse_word_expression();
+            advance_argument(); kanji_ranges[0].first = parse_word_expression();
+            advance_argument(); kanji_ranges[0].last = parse_word_expression();
+            advance_argument(); kanji_ranges[1].first = parse_word_expression();
+            advance_argument(); kanji_ranges[1].last = parse_word_expression();
             kanji_mode = 1;
         } else if (!strcmp(current_token.spelling, "LANGUAGE"))
             default_language = (default_language & 0xffff0000UL) | parse_language();

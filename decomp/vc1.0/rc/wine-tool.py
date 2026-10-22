@@ -17,8 +17,8 @@ def environment():
     env.update(WINEPREFIX=str(PREFIX), WINEARCH='win32', WINEDEBUG='-all',
                INCLUDE='T:\\include', LIB='T:\\lib')
     env['WINEPATH'] = 'T:\\bin'
-    env.pop('CL', None)
-    env.pop('_CL_', None)
+    for name in ('CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS'):
+        env.pop(name, None)
     return env
 
 if __name__ == '__main__':

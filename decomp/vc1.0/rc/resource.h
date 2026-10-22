@@ -19,7 +19,15 @@ struct ResourceInfo {
 };
 extern DWORD default_resource_version, default_characteristics;
 extern unsigned int resource_count;
-extern WORD font_count, kanji_codes[4];
+extern WORD font_count;
+/* The parser stores signed WORD bounds at four-byte-spaced addresses. */
+struct KanjiRange {
+    short first;
+    WORD reserved02;
+    short last;
+    WORD reserved06;
+};
+extern struct KanjiRange kanji_ranges[2];
 extern BOOL font_directory_written;
 extern struct ResourceInfo *string_table_resource;
 extern void *dialog_scratch;

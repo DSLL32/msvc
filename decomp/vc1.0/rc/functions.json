@@ -506,8 +506,7 @@
     {
       "name": "_scan_kanji_string",
       "start": 16814608,
-      "end": 16814609,
-      "pending_extent": true
+      "end": 16814992
     },
     {
       "name": "_scan_keyword_or_symbol@4",
@@ -1017,6 +1016,59 @@
       "name": "__ftbuf",
       "start": 16846144,
       "end": 16846221
+    },
+    {
+      "name": "__input",
+      "start": 16852848,
+      "end": 16855551,
+      "shared": [
+        [
+          16855552,
+          16855652
+        ]
+      ]
+    },
+    {
+      "name": "__inc",
+      "start": 16855728,
+      "end": 16855770
+    },
+    {
+      "name": "__un_inc",
+      "start": 16855776,
+      "end": 16855800
+    },
+    {
+      "name": "__whiteout",
+      "start": 16855808,
+      "end": 16855851
+    },
+    {
+      "name": "__hextodec",
+      "start": 16855664,
+      "end": 16855728
+    },
+    {
+      "name": "_isspace",
+      "start": 16856192,
+      "end": 16856242
+    },
+    {
+      "name": "_mbtowc",
+      "start": 16856800,
+      "end": 16856801,
+      "pending_extent": true
+    },
+    {
+      "name": "_is_kanji_lead@4",
+      "start": 16814544,
+      "end": 16814607
+    },
+    {
+      "name": "_ungetc",
+      "start": 16858080,
+      "end": 16858081,
+      "pending_extent": true
     }
   ],
   "accepted": [
@@ -1254,7 +1306,16 @@
     "_emit_font_directory",
     "_lexical_error@8",
     "_parser_error@8",
-    "_resource_data_error@8"
+    "_resource_data_error@8",
+    "_sscanf",
+    "__input",
+    "__whiteout",
+    "__inc",
+    "_isspace",
+    "__hextodec",
+    "__un_inc",
+    "_scan_kanji_string",
+    "_is_kanji_lead@4"
   ],
   "cases": {
     "resources-rich": {
@@ -1311,6 +1372,36 @@
       "exit": 1,
       "accepted_start": 232,
       "accepted_end": 235
+    },
+    "kanji": {
+      "arguments": "/x /l411 /Iinclude /foencoding.res encoding.rc",
+      "status": "complete",
+      "exit": 0,
+      "accepted_start": 235,
+      "fixture": "../fixtures/resources-encoding",
+      "oracle": "cases/kanji",
+      "suite_manifest_sha256": "e45013fe9cacb239063baf9f3d99cf17c9b18e46fb0f29eb5b54816931b598a8",
+      "accepted_end": 244
+    },
+    "wide-long": {
+      "arguments": "/x /l411 /fowide-long.res wide-long.rc",
+      "status": "complete",
+      "exit": 0,
+      "accepted_start": 235,
+      "fixture": "../fixtures/resources-encoding",
+      "oracle": "cases/wide-long",
+      "suite_manifest_sha256": "e45013fe9cacb239063baf9f3d99cf17c9b18e46fb0f29eb5b54816931b598a8",
+      "accepted_end": 244
+    },
+    "preprocessor-error": {
+      "arguments": "/x /fofailed.res preprocessor-error.rc",
+      "status": "complete",
+      "exit": 1,
+      "accepted_start": 235,
+      "fixture": "../fixtures/resources-encoding",
+      "oracle": "cases/preprocessor-error",
+      "suite_manifest_sha256": "e45013fe9cacb239063baf9f3d99cf17c9b18e46fb0f29eb5b54816931b598a8",
+      "accepted_end": 244
     }
   },
   "frontier_cases": {
@@ -1328,6 +1419,15 @@
     "_emit_font_directory": "alternate",
     "_lexical_error@8": "lexical-error",
     "_parser_error@8": "parser-error",
-    "_resource_data_error@8": "resource-error"
+    "_resource_data_error@8": "resource-error",
+    "_sscanf": "kanji",
+    "__input": "kanji",
+    "__whiteout": "kanji",
+    "__inc": "kanji",
+    "_isspace": "kanji",
+    "__hextodec": "kanji",
+    "__un_inc": "kanji",
+    "_scan_kanji_string": "kanji",
+    "_is_kanji_lead@4": "kanji"
   }
 }

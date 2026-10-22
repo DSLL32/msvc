@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Capture or verify local follow-up case oracles with the untouched RC.EXE."""
+import compare
 import argparse
 import hashlib
 import importlib.machinery
@@ -15,9 +16,13 @@ args = parser.parse_args()
 cfg = json.loads(Path('functions.json').read_text())
 original = wt.TC / 'bin/RC.EXE'
 assert hashlib.sha256(original.read_bytes()).hexdigest() == cfg['target']['sha256']
-for name in args.cases or [n for n in cfg['cases'] if n != 'resources-rich']:
+selected = args.cases or [n for n in cfg['cases'] if n != 'resources-rich']
+if args.record:
+    assert not any(cfg['cases'][n].get('fixture') for n in selected), 'Shared suites are immutable; capture verification only'
+for name in selected:
     settings = cfg['cases'][name]
-    fixture = Path('cases') / name
+    compare.select_case(name)
+    fixture, oracle_directory = compare.FIXTURE, compare.ORACLE
     work = Path.home() / '.ai-tmp/vc1.0-rc' / ('capture-' + name)
     if work.exists():
         shutil.rmtree(work)
@@ -50,8 +55,11 @@ for name in args.cases or [n for n in cfg['cases'] if n != 'resources-rich']:
             (fixture / 'oracle' / file).write_bytes(data)
         (fixture / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     else:
-        expected = {p.name:p.read_bytes() for p in (fixture / 'oracle').iterdir() if p.is_file()}
+        expected = {p.name:p.read_bytes() for p in oracle_directory.iterdir() if p.is_file()}
         assert expected == oracle, (name, 'captured oracle differs')
-        assert json.loads((fixture / 'manifest.json').read_text()) == manifest
+        if not settings.get('fixture'):
+            assert json.loads((fixture / 'manifest.json').read_text()) == manifest
+        else:
+            Path(str(stem) + '.verified.json').write_text(json.dumps(manifest, indent=2) + '\n')
     print('%s: original exit %d; %d stdout bytes, %d stderr bytes; %d products' %
           (name, manifest['exit'], len(oracle['stdout.bin']), len(oracle['stderr.bin']), len(oracle)-2), flush=True)

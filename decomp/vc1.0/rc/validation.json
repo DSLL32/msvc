@@ -1,8 +1,8 @@
 {
   "status": "cases-complete",
   "case": "resources-rich",
-  "accepted_frontiers": 235,
-  "replayed_frontiers": 243,
+  "accepted_frontiers": 244,
+  "replayed_frontiers": 255,
   "current_frontiers": {
     "resources-rich": "exit:0",
     "help": "exit:0",
@@ -11,16 +11,19 @@
     "alternate": "exit:0",
     "lexical-error": "exit:1",
     "parser-error": "exit:1",
-    "resource-error": "exit:1"
+    "resource-error": "exit:1",
+    "kanji": "exit:0",
+    "wide-long": "exit:0",
+    "preprocessor-error": "exit:1"
   },
-  "replayed_cases": 8,
+  "replayed_cases": 11,
   "exact_final_product_verified": true,
-  "source_functions_audited": 176,
+  "source_functions_audited": 184,
   "checks": [
     "all accepted paired frontiers replayed from masked entry in their originating case",
     "direct call vertices, callback references and RET cleanup agree for accepted source functions",
     "CRT initializer and termination callback sequences agree",
-    "raw streams, exit statuses, input files and complete product sets match all 8 oracles"
+    "raw streams, exit statuses, input files and complete product sets match all 11 oracles"
   ],
   "target": {
     "path": "toolchains/1.0-nt/bin/RC.EXE",
@@ -28,9 +31,9 @@
     "image_base": 16777216,
     "entry": 16849232
   },
-  "reconstruction_sha256": "4adb01a358ac0820890f288e0e0fe8a8f6cd0cb5fec1be579b0cfe47097b00b1",
+  "reconstruction_sha256": "c301dc6f7cb0863716888c814dfccd91f084e861bcb1c37b4704b950781537f5",
   "fixture_manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
-  "frontier_log_sha256": "58127ab8ec7229a3063e9201ee15ae396cbd6d857b73b90cc30cc09256f8be19",
+  "frontier_log_sha256": "434b5586fad915a8c495f9556de05ccee4b69d5fc24925df340d07dde714a202",
   "graph_audit": {
     "_mainCRTStartup": {
       "original_calls": {
@@ -72,41 +75,41 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dea0": [
+        "0x1f4a0": [
           "__ioinit"
+        ],
+        "0x1d360": [
+          "__cinit"
         ],
         "0x116a0": [
           "_resource_main"
         ],
-        "0x1d2e0": [
-          "__exit"
-        ],
-        "0x1d284": [
-          "__cinit"
-        ],
-        "0x1131c": [
-          "__setargv"
-        ],
-        "0x1d2c6": [
+        "0x1d3a2": [
           "_exit"
+        ],
+        "0x209e4": [
+          "import:GetCommandLineA"
         ],
         "0x11188": [
           "__heap_init"
         ],
-        "0x20530": [
-          "import:GetVersion"
+        "0x1d3bc": [
+          "__exit"
         ],
-        "0x1ddd0": [
+        "0x1f3d0": [
           "__setenvp"
         ],
-        "0x1dc70": [
+        "0x1f270": [
           "__XcptFilter"
         ],
-        "0x20536": [
-          "import:GetEnvironmentStrings"
+        "0x209d8": [
+          "import:GetVersion"
         ],
-        "0x2053c": [
-          "import:GetCommandLineA"
+        "0x1131c": [
+          "__setargv"
+        ],
+        "0x209de": [
+          "import:GetEnvironmentStrings"
         ]
       },
       "stack_cleanup": [
@@ -121,7 +124,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20542": [
+        "0x209ea": [
           "import:GetProcessHeap"
         ]
       },
@@ -203,6 +206,9 @@
         ]
       },
       "reconstructed_calls": {
+        "0x20a02": [
+          "import:SetConsoleCtrlHandler"
+        ],
         "0x11304": [
           "_interrupt_resource@4"
         ],
@@ -215,9 +221,6 @@
         "0x11296": [
           "_resource_alloc@4"
         ],
-        "0x1d198": [
-          "_resource_finish"
-        ],
         "0x13898": [
           "_prepare_input@4"
         ],
@@ -227,46 +230,46 @@
         "0x1659c": [
           "_compile_resources"
         ],
-        "0x1e020": [
+        "0x1f620": [
           "__spawnvp"
         ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1e1b0": [
+        "0x1f7b0": [
           "__strupr"
         ],
-        "0x1dfc0": [
+        "0x1f5c0": [
           "_fopen"
         ],
-        "0x1e040": [
+        "0x1f640": [
           "__spawnv"
         ],
         "0x12744": [
           "_switch_character@4"
         ],
-        "0x2055a": [
-          "import:SetConsoleCtrlHandler"
+        "0x1d4d0": [
+          "_fflush"
         ],
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1e0e0": [
+        "0x1f6e0": [
           "__mktemp"
         ],
-        "0x1e060": [
+        "0x1f660": [
           "__getenv_lk",
           "_getenv"
         ],
-        "0x1e1e0": [
+        "0x1f7e0": [
           "_sscanf"
         ],
         "0x160e8": [
           "_initialize_lexer@4"
         ],
-        "0x1d3f4": [
-          "_fflush"
+        "0x1d274": [
+          "_resource_finish"
         ],
         "0x1277c": [
           "__splitpath"
@@ -284,7 +287,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20548": [
+        "0x209f0": [
           "import:HeapAlloc"
         ]
       },
@@ -315,7 +318,7 @@
         "0x113da": [
           "_parse_cmdline"
         ],
-        "0x20554": [
+        "0x209fc": [
           "import:GetModuleFileNameA"
         ],
         "0x1119d": [
@@ -359,16 +362,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ],
-        "0x20560": [
+        "0x20a08": [
           "import:WideCharToMultiByte"
         ],
-        "0x2056c": [
+        "0x20a14": [
           "import:MultiByteToWideChar"
         ],
-        "0x20566": [
+        "0x20a0e": [
           "import:LCMapStringW"
         ]
       },
@@ -384,7 +387,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e2f0": [
+        "0x1f8f0": [
           "_strncpy"
         ]
       },
@@ -411,11 +414,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d198": [
-          "_resource_finish"
-        ],
         "0x11222": [
           "_calloc"
+        ],
+        "0x1d274": [
+          "_resource_finish"
         ]
       },
       "stack_cleanup": [
@@ -444,20 +447,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d2c6": [
+        "0x1d3a2": [
           "_exit"
         ],
-        "0x1eb30": [
+        "0x20130": [
           "_remove"
         ],
-        "0x1eb70": [
+        "0x20170": [
           "__fcloseall"
         ],
-        "0x1ebb0": [
+        "0x201b0": [
           "_vfprintf",
           "_vfwprintf"
         ]
@@ -502,14 +505,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e500": [
+        "0x1fb00": [
           "__alloca_probe",
           "__chkstk"
         ],
-        "0x1dfc0": [
+        "0x1f5c0": [
           "_fopen"
         ],
-        "0x1e420": [
+        "0x1fa20": [
           "_fclose"
         ],
         "0x13d44": [
@@ -518,10 +521,10 @@
         "0x13e4b": [
           "_prefix_matches@8"
         ],
-        "0x1e490": [
+        "0x1fa90": [
           "_sprintf"
         ],
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ],
         "0x15214": [
@@ -668,23 +671,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17e80": [
-          "_parse_language"
-        ],
-        "0x1d909": [
-          "_emit_font_directory"
-        ],
-        "0x1840c": [
+        "0x18400": [
           "_parse_menu@8"
         ],
-        "0x1b40d": [
+        "0x19004": [
+          "_write_resource@8"
+        ],
+        "0x1b485": [
           "_emit_string_tables@4"
         ],
-        "0x18e90": [
-          "_advance_argument"
+        "0x1ca08": [
+          "_parse_dialog_include@4"
         ],
-        "0x1c990": [
-          "_parse_version_info"
+        "0x1bc0c": [
+          "_split_icon_file@12"
         ],
         "0x15214": [
           "_write_file@12"
@@ -695,52 +695,55 @@
         "0x11296": [
           "_resource_alloc@4"
         ],
-        "0x1bb94": [
-          "_split_icon_file@12"
+        "0x19714": [
+          "_parse_dialog@4"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ],
         "0x1731c": [
           "_parse_resource_identifier"
         ],
-        "0x1969c": [
-          "_parse_dialog@4"
+        "0x1d99d": [
+          "_emit_font_directory"
         ],
-        "0x18fa4": [
-          "_write_resource@8"
+        "0x1c128": [
+          "_read_bitmap_file_header"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
-        ],
-        "0x1c92c": [
-          "_parse_dialog_include@4"
+        "0x1c2ac": [
+          "_parse_raw_data@4"
         ],
         "0x1702e": [
           "_begin_resource_data"
         ],
-        "0x1c0b8": [
-          "_read_bitmap_file_header"
+        "0x1d7b4": [
+          "_parse_font@4"
         ],
-        "0x1c23c": [
-          "_parse_raw_data@4"
+        "0x18f3f": [
+          "_parse_word_expression"
+        ],
+        "0x1bec0": [
+          "_read_resource_file"
+        ],
+        "0x1b5c4": [
+          "_parse_accelerators@4"
         ],
         "0x17244": [
           "_put_word@4"
         ],
-        "0x1be48": [
-          "_read_resource_file"
-        ],
-        "0x1d9c8": [
-          "_read_icon_file_header@4"
-        ],
-        "0x1b54c": [
-          "_parse_accelerators@4"
-        ],
-        "0x1704d": [
-          "_release_resource_data"
+        "0x181c8": [
+          "_parse_memory_flag@4"
         ],
         "0x16dcc": [
           "_find_resource_type@8"
         ],
-        "0x1ea50": [
+        "0x1704d": [
+          "_release_resource_data"
+        ],
+        "0x1d4d0": [
+          "_fflush"
+        ],
+        "0x20050": [
           "_wcscmp"
         ],
         "0x16ed4": [
@@ -749,30 +752,30 @@
         "0x17554": [
           "_next_token@4"
         ],
-        "0x181d4": [
-          "_parse_memory_flag@4"
-        ],
-        "0x1d6d8": [
-          "_parse_font@4"
-        ],
         "0x112d8": [
           "_resource_free@4"
         ],
-        "0x18edf": [
-          "_parse_word_expression"
+        "0x1da5c": [
+          "_read_icon_file_header@4"
         ],
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
-        "0x1d3f4": [
-          "_fflush"
-        ],
-        "0x1aff4": [
+        "0x1b06c": [
           "_parse_string_table@4"
+        ],
+        "0x1ca6c": [
+          "_parse_version_info"
+        ],
+        "0x18ef0": [
+          "_advance_argument"
+        ],
+        "0x17e74": [
+          "_parse_language"
         ],
         "0x16f7b": [
           "_duplicate_wide@4"
@@ -796,7 +799,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d198": [
+        "0x1d274": [
           "_resource_finish"
         ],
         "0x15559": [
@@ -824,7 +827,7 @@
         "0x152f8": [
           "_fwrite"
         ],
-        "0x1d198": [
+        "0x1d274": [
           "_resource_finish"
         ]
       },
@@ -840,7 +843,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x2054e": [
+        "0x209f6": [
           "import:HeapFree"
         ]
       },
@@ -856,7 +859,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20548": [
+        "0x209f0": [
           "import:HeapAlloc"
         ]
       },
@@ -902,38 +905,38 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e3a0": [
+        "0x1f9a0": [
           "__dosmaperr"
         ],
-        "0x1e320": [
+        "0x20a20": [
+          "import:CloseHandle"
+        ],
+        "0x1f920": [
           "__lseek"
         ],
         "0x13602": [
           "__chsize"
         ],
-        "0x20584": [
-          "import:CreateFileA"
+        "0x20a26": [
+          "import:GetFileType"
         ],
         "0x12f8c": [
           "__alloc_osfhnd"
         ],
+        "0x20a2c": [
+          "import:CreateFileA"
+        ],
         "0x12fee": [
           "__set_osfhnd"
-        ],
-        "0x20572": [
-          "import:GetLastError"
         ],
         "0x131d5": [
           "__close"
         ],
-        "0x20578": [
-          "import:CloseHandle"
-        ],
         "0x132ba": [
           "__read"
         ],
-        "0x2057e": [
-          "import:GetFileType"
+        "0x20a1a": [
+          "import:GetLastError"
         ]
       },
       "stack_cleanup": [
@@ -956,7 +959,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x2058a": [
+        "0x20a32": [
           "import:SetStdHandle"
         ]
       },
@@ -972,7 +975,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x2058a": [
+        "0x20a32": [
           "import:SetStdHandle"
         ]
       },
@@ -1008,17 +1011,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e3a0": [
+        "0x20a20": [
+          "import:CloseHandle"
+        ],
+        "0x1f9a0": [
           "__dosmaperr"
         ],
         "0x130ae": [
           "__free_osfhnd"
         ],
-        "0x20572": [
+        "0x20a1a": [
           "import:GetLastError"
-        ],
-        "0x20578": [
-          "import:CloseHandle"
         ],
         "0x1317d": [
           "__get_osfhandle"
@@ -1045,16 +1048,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20590": [
+        "0x20a38": [
           "import:ReadFile"
         ],
-        "0x20572": [
-          "import:GetLastError"
-        ],
-        "0x1e320": [
+        "0x1f920": [
           "__lseek"
         ],
-        "0x1e3a0": [
+        "0x20a1a": [
+          "import:GetLastError"
+        ],
+        "0x1f9a0": [
           "__dosmaperr"
         ]
       },
@@ -1085,10 +1088,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e530": [
+        "0x1fb30": [
           "_fgetc"
         ],
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ],
         "0x15810": [
@@ -1116,7 +1119,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e530": [
+        "0x1fb30": [
           "_fgetc"
         ]
       },
@@ -1194,7 +1197,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e570": [
+        "0x1fb70": [
           "__flsbuf"
         ]
       },
@@ -1256,13 +1259,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e6f0": [
+        "0x1fcf0": [
           "__flush"
         ],
         "0x13618": [
           "__write"
         ],
-        "0x1e570": [
+        "0x1fb70": [
           "__flsbuf"
         ]
       },
@@ -1287,17 +1290,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e320": [
+        "0x1f920": [
           "__lseek"
         ],
-        "0x20572": [
+        "0x20a1a": [
           "import:GetLastError"
         ],
-        "0x20596": [
-          "import:WriteFile"
-        ],
-        "0x1e3a0": [
+        "0x1f9a0": [
           "__dosmaperr"
+        ],
+        "0x20a3e": [
+          "import:WriteFile"
         ]
       },
       "stack_cleanup": [
@@ -1336,7 +1339,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e320": [
+        "0x1f920": [
           "__lseek"
         ]
       },
@@ -1358,13 +1361,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e6f0": [
+        "0x1fcf0": [
           "__flush"
         ],
         "0x15559": [
           "_ftell"
         ],
-        "0x1e320": [
+        "0x1f920": [
           "__lseek"
         ]
       },
@@ -1486,32 +1489,32 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e3a0": [
+        "0x1f9a0": [
           "__dosmaperr"
         ],
-        "0x1d2e0": [
-          "__exit"
+        "0x20a20": [
+          "import:CloseHandle"
         ],
         "0x11222": [
           "_calloc"
         ],
-        "0x205a2": [
-          "import:WaitForSingleObject"
+        "0x20a44": [
+          "import:GetExitCodeProcess"
         ],
         "0x11207": [
           "_free"
         ],
-        "0x205a8": [
+        "0x20a4a": [
+          "import:WaitForSingleObject"
+        ],
+        "0x20a50": [
           "import:CreateProcessA"
         ],
-        "0x20572": [
+        "0x20a1a": [
           "import:GetLastError"
         ],
-        "0x20578": [
-          "import:CloseHandle"
-        ],
-        "0x2059c": [
-          "import:GetExitCodeProcess"
+        "0x1d3bc": [
+          "__exit"
         ]
       },
       "stack_cleanup": [
@@ -1545,7 +1548,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e420": [
+        "0x1fa20": [
           "_fclose"
         ],
         "0x1524a": [
@@ -1570,14 +1573,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18328": [
-          "_lexical_error@8"
+        "0x12578": [
+          "_rc_tolower"
         ],
         "0x161fa": [
           "_read_buffered_character"
         ],
-        "0x12578": [
-          "_rc_tolower"
+        "0x1831c": [
+          "_lexical_error@8"
         ]
       },
       "stack_cleanup": [
@@ -1601,16 +1604,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ],
-        "0x20560": [
+        "0x20a08": [
           "import:WideCharToMultiByte"
         ],
-        "0x2056c": [
+        "0x20a14": [
           "import:MultiByteToWideChar"
         ],
-        "0x20566": [
+        "0x20a0e": [
           "import:LCMapStringW"
         ]
       },
@@ -1632,7 +1635,7 @@
         "0x15810": [
           "_fread"
         ],
-        "0x1d198": [
+        "0x1d274": [
           "_resource_finish"
         ]
       },
@@ -1652,11 +1655,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d198": [
+        "0x1d274": [
           "_resource_finish"
         ]
       },
@@ -1671,7 +1674,6 @@
           "_read_identifier"
         ],
         "0x100f230": [
-          "__inc",
           "_atoi"
         ],
         "0x100f148": [
@@ -1682,16 +1684,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e1b0": [
+        "0x1f7b0": [
           "__strupr"
+        ],
+        "0x1f830": [
+          "__isctype"
         ],
         "0x1749a": [
           "_read_identifier"
         ],
-        "0x1e230": [
-          "__isctype"
-        ],
-        "0x1810a": [
+        "0x180fe": [
           "_atoi"
         ]
       },
@@ -1706,7 +1708,6 @@
           "_advance_character"
         ],
         "0x1008d80": [
-          "__inc",
           "_scan_number_token"
         ],
         "0x1008d20": [
@@ -1729,29 +1730,29 @@
         ]
       },
       "reconstructed_calls": {
+        "0x17ba0": [
+          "_scan_number_token"
+        ],
         "0x176c1": [
-          "_scan_kanji_string"
+          "_scan_keyword_or_symbol@4"
         ],
         "0x161a2": [
           "_advance_character"
         ],
-        "0x18a44": [
-          "_scan_ansi_string"
-        ],
-        "0x1c488": [
+        "0x1c4f8": [
           "_scan_wide_string"
         ],
-        "0x17bac": [
-          "_scan_number_token"
+        "0x1ed70": [
+          "_scan_kanji_string"
         ],
-        "0x176cd": [
-          "_scan_keyword_or_symbol@4"
-        ],
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ],
-        "0x17bbc": [
+        "0x17bb0": [
           "_scan_expression"
+        ],
+        "0x18a38": [
+          "_scan_ansi_string"
         ]
       },
       "stack_cleanup": [
@@ -1782,7 +1783,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ]
       },
@@ -1801,7 +1802,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
         "0x17554": [
@@ -1824,11 +1825,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d198": [
+        "0x1d274": [
           "_resource_finish"
         ]
       },
@@ -1844,7 +1845,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dab0": [
+        "0x1f0b9": [
           "import:RtlAnsiStringToUnicodeString"
         ]
       },
@@ -1866,14 +1867,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
-        ],
-        "0x19aec": [
-          "_parse_style@4"
         ],
         "0x17554": [
           "_next_token@4"
+        ],
+        "0x19b64": [
+          "_parse_style@4"
         ]
       },
       "stack_cleanup": [
@@ -1909,29 +1910,29 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1eaa0": [
+        "0x200a0": [
           "_wcslen"
         ],
-        "0x17e80": [
-          "_parse_language"
-        ],
-        "0x18128": [
-          "_ansi_to_wide@12"
-        ],
-        "0x1b36c": [
+        "0x1b3e4": [
           "_copy_resource_memory@8"
         ],
-        "0x18e90": [
-          "_advance_argument"
-        ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
+        ],
+        "0x18f7c": [
+          "_combine_word_operators@4"
+        ],
+        "0x18ef0": [
+          "_advance_argument"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x18f1c": [
-          "_combine_word_operators@4"
+        "0x17e74": [
+          "_parse_language"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -1970,7 +1971,7 @@
         "0x17244": [
           "_put_word@4"
         ],
-        "0x18fa4": [
+        "0x19004": [
           "_write_resource@8"
         ],
         "0x16dcc": [
@@ -2013,13 +2014,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1eaa0": [
+        "0x200a0": [
           "_wcslen"
         ],
         "0x17244": [
           "_put_word@4"
         ],
-        "0x18fa4": [
+        "0x19004": [
           "_write_resource@8"
         ],
         "0x16dcc": [
@@ -2062,23 +2063,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17e80": [
-          "_parse_language"
-        ],
         "0x17244": [
           "_put_word@4"
         ],
-        "0x18e90": [
+        "0x18368": [
+          "_parser_error@8"
+        ],
+        "0x18ef0": [
           "_advance_argument"
+        ],
+        "0x17554": [
+          "_next_token@4"
         ],
         "0x170f4": [
           "_put_byte@4"
         ],
-        "0x18374": [
-          "_parser_error@8"
-        ],
-        "0x17554": [
-          "_next_token@4"
+        "0x17e74": [
+          "_parse_language"
         ],
         "0x17138": [
           "_put_dword@4"
@@ -2108,20 +2109,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfc0": [
+        "0x1bf60": [
+          "_resolve_resource_path@12"
+        ],
+        "0x1f5c0": [
           "_fopen"
         ],
         "0x17063": [
           "_resource_stream@4"
         ],
-        "0x1beee": [
-          "_resolve_resource_path@12"
+        "0x18368": [
+          "_parser_error@8"
         ],
         "0x15292": [
           "_seek_file@12"
-        ],
-        "0x18374": [
-          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -2151,9 +2152,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183c0": [
-          "_resource_data_error@8"
-        ],
         "0x172a1": [
           "_put_bytes@8"
         ],
@@ -2168,6 +2166,9 @@
         ],
         "0x15292": [
           "_seek_file@12"
+        ],
+        "0x183b4": [
+          "_resource_data_error@8"
         ]
       },
       "stack_cleanup": [
@@ -2200,9 +2201,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183c0": [
-          "_resource_data_error@8"
-        ],
         "0x172a1": [
           "_put_bytes@8"
         ],
@@ -2214,6 +2212,9 @@
         ],
         "0x15292": [
           "_seek_file@12"
+        ],
+        "0x183b4": [
+          "_resource_data_error@8"
         ],
         "0x11296": [
           "_resource_alloc@4"
@@ -2234,7 +2235,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183c0": [
+        "0x183b4": [
           "_resource_data_error@8"
         ]
       },
@@ -2265,23 +2266,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17e80": [
-          "_parse_language"
-        ],
-        "0x18643": [
-          "_finish_menu"
-        ],
-        "0x186e6": [
-          "_parse_menu_item@4"
-        ],
-        "0x1840c": [
+        "0x18400": [
           "_parse_menu@8"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
         "0x17554": [
           "_next_token@4"
+        ],
+        "0x17e74": [
+          "_parse_language"
+        ],
+        "0x18637": [
+          "_finish_menu"
+        ],
+        "0x186da": [
+          "_parse_menu_item@4"
         ]
       },
       "stack_cleanup": [
@@ -2314,25 +2315,25 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18e90": [
-          "_advance_argument"
-        ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
-        "0x19816": [
+        "0x1988e": [
           "_put_dialog_header@4"
         ],
-        "0x1a278": [
+        "0x18ef0": [
+          "_advance_argument"
+        ],
+        "0x1a2f0": [
           "_parse_dialog_controls"
         ],
-        "0x18f1c": [
-          "_combine_word_operators@4"
-        ],
-        "0x1993d": [
+        "0x199b5": [
           "_parse_dialog_options@4"
         ],
-        "0x18edf": [
+        "0x18f7c": [
+          "_combine_word_operators@4"
+        ],
+        "0x18f3f": [
           "_parse_word_expression"
         ]
       },
@@ -2357,7 +2358,7 @@
         "0x15292": [
           "_seek_file@12"
         ],
-        "0x1900b": [
+        "0x1906b": [
           "_record_resource@20"
         ],
         "0x15214": [
@@ -2392,7 +2393,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
@@ -2452,36 +2453,36 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x17e80": [
-          "_parse_language"
+        "0x1bbe1": [
+          "_finish_accelerators"
         ],
         "0x17244": [
           "_put_word@4"
         ],
-        "0x1bb69": [
-          "_finish_accelerators"
+        "0x18368": [
+          "_parser_error@8"
+        ],
+        "0x1bb09": [
+          "_accelerator_word_operators@4"
         ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1e230": [
+        "0x1bbcc": [
+          "_mark_accelerator"
+        ],
+        "0x1f830": [
           "__isctype"
-        ],
-        "0x1ba91": [
-          "_accelerator_word_operators@4"
-        ],
-        "0x18374": [
-          "_parser_error@8"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x1bb54": [
-          "_mark_accelerator"
+        "0x17e74": [
+          "_parse_language"
         ]
       },
       "stack_cleanup": [
@@ -2529,28 +2530,25 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183c0": [
-          "_resource_data_error@8"
+        "0x1bec0": [
+          "_read_resource_file"
         ],
         "0x172a1": [
           "_put_bytes@8"
         ],
-        "0x1e420": [
+        "0x1fa20": [
           "_fclose"
         ],
         "0x17244": [
           "_put_word@4"
         ],
-        "0x18fa4": [
+        "0x19004": [
           "_write_resource@8"
-        ],
-        "0x1be48": [
-          "_read_resource_file"
         ],
         "0x1524a": [
           "_read_file@12"
         ],
-        "0x1900b": [
+        "0x1906b": [
           "_record_resource@20"
         ],
         "0x16dcc": [
@@ -2558,6 +2556,9 @@
         ],
         "0x15292": [
           "_seek_file@12"
+        ],
+        "0x183b4": [
+          "_resource_data_error@8"
         ],
         "0x15214": [
           "_write_file@12"
@@ -2581,11 +2582,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1c9d9": [
-          "_parse_fixed_version"
-        ],
-        "0x1cccc": [
+        "0x1cda8": [
           "_parse_version_children"
+        ],
+        "0x1cab5": [
+          "_parse_fixed_version"
         ]
       },
       "stack_cleanup": [
@@ -2606,14 +2607,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18128": [
-          "_ansi_to_wide@12"
+        "0x18368": [
+          "_parser_error@8"
         ],
         "0x1708c": [
           "_put_wide_string@4"
         ],
-        "0x18374": [
-          "_parser_error@8"
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -2650,7 +2651,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1ea50": [
+        "0x20050": [
           "_wcscmp"
         ],
         "0x16f7b": [
@@ -2678,7 +2679,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1eaa0": [
+        "0x200a0": [
           "_wcslen"
         ],
         "0x16fcd": [
@@ -2806,11 +2807,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e500": [
+        "0x1fb00": [
           "__alloca_probe",
           "__chkstk"
         ],
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
@@ -2820,14 +2821,14 @@
         "0x16286": [
           "_read_source_character"
         ],
-        "0x18328": [
-          "_lexical_error@8"
-        ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
+        ],
+        "0x1831c": [
+          "_lexical_error@8"
         ]
       },
       "stack_cleanup": [
@@ -2858,7 +2859,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e500": [
+        "0x1fb00": [
           "__alloca_probe",
           "__chkstk"
         ],
@@ -2868,14 +2869,56 @@
         "0x16286": [
           "_read_source_character"
         ],
-        "0x18328": [
-          "_lexical_error@8"
-        ],
         "0x123ac": [
           "_rc_toupper"
         ],
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
+        ],
+        "0x1831c": [
+          "_lexical_error@8"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_scan_kanji_string": {
+      "original_calls": {
+        "0x10083c0": [
+          "_advance_character"
+        ],
+        "0x1008470": [
+          "_read_source_character"
+        ],
+        "0x10094f0": [
+          "_lexical_error@8"
+        ],
+        "0x10091d0": [
+          "_is_kanji_lead@4"
+        ],
+        "0x100db98": [
+          "__alloca_probe",
+          "__chkstk"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1fb00": [
+          "__alloca_probe",
+          "__chkstk"
+        ],
+        "0x161a2": [
+          "_advance_character"
+        ],
+        "0x16286": [
+          "_read_source_character"
+        ],
+        "0x1f04f": [
+          "_is_kanji_lead@4"
+        ],
+        "0x1831c": [
+          "_lexical_error@8"
         ]
       },
       "stack_cleanup": [
@@ -2896,13 +2939,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17f80": [
-          "_lookup_keyword@4"
-        ],
         "0x161a2": [
           "_advance_character"
         ],
-        "0x18328": [
+        "0x17f74": [
+          "_lookup_keyword@4"
+        ],
+        "0x1831c": [
           "_lexical_error@8"
         ]
       },
@@ -2921,11 +2964,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17c31": [
-          "_expression_value"
-        ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
+        ],
+        "0x17c25": [
+          "_expression_value"
         ]
       },
       "stack_cleanup": [
@@ -2940,7 +2983,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17a14": [
+        "0x17a08": [
           "_scan_number_literal"
         ]
       },
@@ -2971,17 +3014,17 @@
         "0x161a2": [
           "_advance_character"
         ],
-        "0x17848": [
-          "_next_numeric_character"
-        ],
-        "0x1798f": [
+        "0x17983": [
           "_scan_decimal_number"
         ],
-        "0x17930": [
+        "0x17863": [
+          "_scan_hex_number"
+        ],
+        "0x17924": [
           "_scan_octal_number"
         ],
-        "0x1786f": [
-          "_scan_hex_number"
+        "0x1783c": [
+          "_next_numeric_character"
         ]
       },
       "stack_cleanup": [
@@ -3010,14 +3053,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17848": [
-          "_next_numeric_character"
-        ],
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ],
         "0x123ac": [
           "_rc_toupper"
+        ],
+        "0x1783c": [
+          "_next_numeric_character"
         ]
       },
       "stack_cleanup": [
@@ -3032,7 +3075,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17848": [
+        "0x1783c": [
           "_next_numeric_character"
         ]
       },
@@ -3051,10 +3094,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ],
-        "0x17848": [
+        "0x1783c": [
           "_next_numeric_character"
         ]
       },
@@ -3082,20 +3125,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17e01": [
-          "_expression_operator@4"
-        ],
         "0x161a2": [
           "_advance_character"
         ],
-        "0x17ca5": [
+        "0x17e4c": [
+          "_skip_expression_space"
+        ],
+        "0x17df5": [
+          "_expression_operator@4"
+        ],
+        "0x17c99": [
           "_apply_operator@12"
         ],
-        "0x17d27": [
+        "0x17d1b": [
           "_expression_factor"
-        ],
-        "0x17e58": [
-          "_skip_expression_space"
         ]
       },
       "stack_cleanup": [
@@ -3128,20 +3171,20 @@
         "0x161a2": [
           "_advance_character"
         ],
-        "0x1e230": [
-          "__isctype"
-        ],
-        "0x17c31": [
+        "0x17c25": [
           "_expression_value"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
-        "0x17a14": [
+        "0x17a08": [
           "_scan_number_literal"
         ],
-        "0x17e58": [
+        "0x17e4c": [
           "_skip_expression_space"
+        ],
+        "0x1f830": [
+          "__isctype"
         ]
       },
       "stack_cleanup": [
@@ -3170,13 +3213,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1eac0": [
+        "0x200c0": [
           "_strchr"
         ],
         "0x161a2": [
           "_advance_character"
         ],
-        "0x17e58": [
+        "0x17e4c": [
           "_skip_expression_space"
         ]
       },
@@ -3209,7 +3252,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1eae8": [
+        "0x200e8": [
           "__strcmpi",
           "__stricmp"
         ]
@@ -3226,7 +3269,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e230": [
+        "0x1f830": [
           "__isctype"
         ]
       },
@@ -3242,7 +3285,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17ff4": [
+        "0x17fe8": [
           "_atol"
         ]
       },
@@ -3267,13 +3310,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
-        "0x19cac": [
+        "0x19d24": [
           "_is_style_token"
         ],
-        "0x19c5e": [
+        "0x19cd6": [
           "_advance_argument_flags@4"
         ],
         "0x17554": [
@@ -3296,11 +3339,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1d198": [
+        "0x1d274": [
           "_resource_finish"
         ]
       },
@@ -3356,7 +3399,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183c0": [
+        "0x183b4": [
           "_resource_data_error@8"
         ]
       },
@@ -3372,7 +3415,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x183c0": [
+        "0x183b4": [
           "_resource_data_error@8"
         ]
       },
@@ -3451,33 +3494,33 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
-        ],
-        "0x1862e": [
+        "0x18622": [
           "_mark_menu_item"
         ],
-        "0x1866e": [
+        "0x18662": [
           "_put_menu_item@4"
         ],
-        "0x18e90": [
+        "0x18368": [
+          "_parser_error@8"
+        ],
+        "0x18ef0": [
           "_advance_argument"
         ],
-        "0x18374": [
-          "_parser_error@8"
+        "0x188d3": [
+          "_parse_menu_flag@8"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x18f1c": [
-          "_combine_word_operators@4"
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ],
-        "0x188df": [
-          "_parse_menu_flag@8"
+        "0x18f7c": [
+          "_combine_word_operators@4"
         ]
       },
       "stack_cleanup": [
@@ -3535,10 +3578,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18e90": [
+        "0x18ef0": [
           "_advance_argument"
         ],
-        "0x18edf": [
+        "0x18f3f": [
           "_parse_word_expression"
         ]
       },
@@ -3554,7 +3597,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x190f6": [
+        "0x19156": [
           "_write_record_header@20"
         ]
       },
@@ -3592,20 +3635,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x194e0": [
-          "_resource_payload_size"
+        "0x200a0": [
+          "_wcslen"
         ],
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1eaa0": [
-          "_wcslen"
-        ],
-        "0x1954c": [
+        "0x195c1": [
           "_copy_resource_data@16"
         ],
-        "0x1908e": [
+        "0x1816e": [
+          "_wide_to_ansi@12"
+        ],
+        "0x190ee": [
           "_write_resource_name@8"
         ],
         "0x15292": [
@@ -3614,8 +3657,8 @@
         "0x15214": [
           "_write_file@12"
         ],
-        "0x1817a": [
-          "_wide_to_ansi@12"
+        "0x19555": [
+          "_resource_payload_size"
         ]
       },
       "stack_cleanup": [
@@ -3633,7 +3676,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1eaa0": [
+        "0x200a0": [
           "_wcslen"
         ],
         "0x15214": [
@@ -3677,17 +3720,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x19638": [
-          "_copy_file_to_end@8"
-        ],
-        "0x195c2": [
-          "_copy_file_bytes@12"
-        ],
-        "0x1e420": [
+        "0x1fa20": [
           "_fclose"
         ],
         "0x15214": [
           "_write_file@12"
+        ],
+        "0x196ad": [
+          "_copy_file_to_end@8"
+        ],
+        "0x19637": [
+          "_copy_file_bytes@12"
         ]
       },
       "stack_cleanup": [
@@ -3785,11 +3828,11 @@
         "0x1708c": [
           "_put_wide_string@4"
         ],
-        "0x1a1a4": [
-          "_wide_atoi@4"
-        ],
         "0x17244": [
           "_put_word@4"
+        ],
+        "0x1a21c": [
+          "_wide_atoi@4"
         ]
       },
       "stack_cleanup": [
@@ -3849,29 +3892,29 @@
         ]
       },
       "reconstructed_calls": {
-        "0x17e80": [
-          "_parse_language"
-        ],
-        "0x1a045": [
-          "_parse_dialog_class"
-        ],
-        "0x19e66": [
-          "_parse_dialog_menu"
-        ],
-        "0x19d08": [
+        "0x19d80": [
           "_parse_dialog_font"
         ],
-        "0x19aec": [
+        "0x19b64": [
           "_parse_style@4"
         ],
-        "0x19f0d": [
+        "0x19f85": [
           "_parse_dialog_caption"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
         "0x17554": [
           "_next_token@4"
+        ],
+        "0x17e74": [
+          "_parse_language"
+        ],
+        "0x1a0bd": [
+          "_parse_dialog_class"
+        ],
+        "0x19ede": [
+          "_parse_dialog_menu"
         ]
       },
       "stack_cleanup": [
@@ -3925,47 +3968,47 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1aa04": [
+        "0x1aa7c": [
           "_parse_button_control@4"
         ],
-        "0x1aae5": [
-          "_parse_listbox_control@4"
-        ],
-        "0x1aa67": [
-          "_parse_group_control@4"
-        ],
-        "0x1ad28": [
+        "0x1ada0": [
           "_parse_generic_control@4"
         ],
-        "0x1a64c": [
+        "0x1a6c4": [
           "_put_dialog_control@4"
         ],
-        "0x1ab6d": [
+        "0x1abe5": [
           "_parse_scrollbar_control@4"
         ],
-        "0x1aa8e": [
+        "0x1ab06": [
           "_parse_static_control@4"
         ],
-        "0x1a632": [
+        "0x18368": [
+          "_parser_error@8"
+        ],
+        "0x1a6aa": [
           "_control_style@4"
+        ],
+        "0x1ac6d": [
+          "_parse_combobox_control@4"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x18374": [
-          "_parser_error@8"
-        ],
-        "0x1abf5": [
-          "_parse_combobox_control@4"
-        ],
-        "0x18f1c": [
-          "_combine_word_operators@4"
-        ],
-        "0x1ac7d": [
+        "0x1acf5": [
           "_parse_edit_control@4"
         ],
-        "0x1aabe": [
+        "0x1ab36": [
           "_parse_icon_control@4"
+        ],
+        "0x18f7c": [
+          "_combine_word_operators@4"
+        ],
+        "0x1ab5d": [
+          "_parse_listbox_control@4"
+        ],
+        "0x1aadf": [
+          "_parse_group_control@4"
         ]
       },
       "stack_cleanup": [
@@ -4001,21 +4044,21 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
-        ],
-        "0x18e90": [
-          "_advance_argument"
-        ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
+        ],
+        "0x18ef0": [
+          "_advance_argument"
         ],
         "0x17554": [
           "_next_token@4"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -4040,14 +4083,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
         "0x1749a": [
           "_read_identifier"
         ],
-        "0x18128": [
+        "0x1811c": [
           "_ansi_to_wide@12"
         ],
         "0x17554": [
@@ -4079,21 +4122,21 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
-        ],
-        "0x1a1ef": [
+        "0x1a267": [
           "_wide_itoa@12"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
         "0x17554": [
           "_next_token@4"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -4118,18 +4161,18 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
-        ],
-        "0x18128": [
-          "_ansi_to_wide@12"
         ],
         "0x17554": [
           "_next_token@4"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -4178,8 +4221,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a1a4": [
-          "_wide_atoi@4"
+        "0x1a7c2": [
+          "_increment_dialog_controls"
         ],
         "0x17244": [
           "_put_word@4"
@@ -4187,17 +4230,17 @@
         "0x171ca": [
           "_align_resource_data"
         ],
-        "0x1a74a": [
-          "_increment_dialog_controls"
-        ],
         "0x1708c": [
           "_put_wide_string@4"
         ],
-        "0x1a738": [
+        "0x1a7b0": [
           "_end_dialog_control"
         ],
         "0x17138": [
           "_put_dword@4"
+        ],
+        "0x1a21c": [
+          "_wide_atoi@4"
         ]
       },
       "stack_cleanup": [
@@ -4240,11 +4283,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1a986": [
+        "0x1a9fe": [
           "_parse_caption_control@4"
         ]
       },
@@ -4260,7 +4303,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a986": [
+        "0x1a9fe": [
           "_parse_caption_control@4"
         ]
       },
@@ -4276,7 +4319,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a986": [
+        "0x1a9fe": [
           "_parse_caption_control@4"
         ]
       },
@@ -4292,7 +4335,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a986": [
+        "0x1a9fe": [
           "_parse_caption_control@4"
         ]
       },
@@ -4320,20 +4363,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a8c7": [
-          "_parse_control_id@4"
-        ],
-        "0x19aec": [
+        "0x19b64": [
           "_parse_style@4"
+        ],
+        "0x1a98e": [
+          "_parse_control_rectangle@4"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x1a916": [
-          "_parse_control_rectangle@4"
-        ],
-        "0x18f1c": [
+        "0x18f7c": [
           "_combine_word_operators@4"
+        ],
+        "0x1a93f": [
+          "_parse_control_id@4"
         ]
       },
       "stack_cleanup": [
@@ -4360,20 +4403,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a8c7": [
-          "_parse_control_id@4"
-        ],
-        "0x19aec": [
+        "0x19b64": [
           "_parse_style@4"
+        ],
+        "0x1a98e": [
+          "_parse_control_rectangle@4"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x1a916": [
-          "_parse_control_rectangle@4"
-        ],
-        "0x18f1c": [
+        "0x18f7c": [
           "_combine_word_operators@4"
+        ],
+        "0x1a93f": [
+          "_parse_control_id@4"
         ]
       },
       "stack_cleanup": [
@@ -4400,20 +4443,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a8c7": [
-          "_parse_control_id@4"
-        ],
-        "0x19aec": [
+        "0x19b64": [
           "_parse_style@4"
+        ],
+        "0x1a98e": [
+          "_parse_control_rectangle@4"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x1a916": [
-          "_parse_control_rectangle@4"
-        ],
-        "0x18f1c": [
+        "0x18f7c": [
           "_combine_word_operators@4"
+        ],
+        "0x1a93f": [
+          "_parse_control_id@4"
         ]
       },
       "stack_cleanup": [
@@ -4443,23 +4486,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a8c7": [
-          "_parse_control_id@4"
-        ],
-        "0x19aec": [
+        "0x19b64": [
           "_parse_style@4"
         ],
-        "0x1a632": [
+        "0x1a6aa": [
           "_control_style@4"
+        ],
+        "0x1a98e": [
+          "_parse_control_rectangle@4"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x1a916": [
-          "_parse_control_rectangle@4"
-        ],
-        "0x18f1c": [
+        "0x18f7c": [
           "_combine_word_operators@4"
+        ],
+        "0x1a93f": [
+          "_parse_control_id@4"
         ]
       },
       "stack_cleanup": [
@@ -4503,37 +4546,37 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x1a764": [
-          "_parse_control_text@4"
+        "0x19b64": [
+          "_parse_style@4"
         ],
-        "0x1a8c7": [
-          "_parse_control_id@4"
+        "0x18368": [
+          "_parser_error@8"
         ],
-        "0x1eae8": [
+        "0x200e8": [
           "__strcmpi",
           "__stricmp"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
+        "0x1a98e": [
+          "_parse_control_rectangle@4"
         ],
-        "0x19aec": [
-          "_parse_style@4"
-        ],
-        "0x18e90": [
+        "0x18ef0": [
           "_advance_argument"
-        ],
-        "0x18374": [
-          "_parser_error@8"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x1a916": [
-          "_parse_control_rectangle@4"
+        "0x1811c": [
+          "_ansi_to_wide@12"
+        ],
+        "0x1a7dc": [
+          "_parse_control_text@4"
+        ],
+        "0x1a93f": [
+          "_parse_control_id@4"
         ]
       },
       "stack_cleanup": [
@@ -4563,23 +4606,23 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1a764": [
+        "0x19b64": [
+          "_parse_style@4"
+        ],
+        "0x1a7dc": [
           "_parse_control_text@4"
         ],
-        "0x1a8c7": [
-          "_parse_control_id@4"
-        ],
-        "0x19aec": [
-          "_parse_style@4"
+        "0x1a98e": [
+          "_parse_control_rectangle@4"
         ],
         "0x17554": [
           "_next_token@4"
         ],
-        "0x1a916": [
-          "_parse_control_rectangle@4"
-        ],
-        "0x18f1c": [
+        "0x18f7c": [
           "_combine_word_operators@4"
+        ],
+        "0x1a93f": [
+          "_parse_control_id@4"
         ]
       },
       "stack_cleanup": [
@@ -4607,21 +4650,21 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfe0": [
+        "0x1f5e0": [
           "_fprintf",
           "_fwprintf"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
-        ],
-        "0x1a1ef": [
+        "0x1a267": [
           "_wide_itoa@12"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
-        "0x19c5e": [
+        "0x19cd6": [
           "_advance_argument_flags@4"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -4642,14 +4685,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18e90": [
+        "0x18ef0": [
           "_advance_argument"
         ],
-        "0x18374": [
-          "_parser_error@8"
-        ],
-        "0x18f1c": [
+        "0x18f7c": [
           "_combine_word_operators@4"
+        ],
+        "0x18368": [
+          "_parser_error@8"
         ]
       },
       "stack_cleanup": [
@@ -4670,13 +4713,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18e90": [
+        "0x18ef0": [
           "_advance_argument"
         ],
-        "0x18f1c": [
+        "0x18f7c": [
           "_combine_word_operators@4"
         ],
-        "0x18edf": [
+        "0x18f3f": [
           "_parse_word_expression"
         ]
       },
@@ -4695,7 +4738,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d198": [
+        "0x1d274": [
           "_resource_finish"
         ],
         "0x1119d": [
@@ -4720,7 +4763,7 @@
         "0x17554": [
           "_next_token@4"
         ],
-        "0x18edf": [
+        "0x18f3f": [
           "_parse_word_expression"
         ]
       },
@@ -4759,13 +4802,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1dfc0": [
+        "0x1f5c0": [
           "_fopen"
         ],
-        "0x1e420": [
+        "0x1fa20": [
           "_fclose"
         ],
-        "0x1e060": [
+        "0x1f660": [
           "__getenv_lk",
           "_getenv"
         ]
@@ -4791,17 +4834,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1cc88": [
+        "0x1cbd0": [
+          "_parse_version_number@4"
+        ],
+        "0x1cd64": [
           "_parse_version_scalar@4"
         ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
-        "0x1cdd2": [
+        "0x1ceae": [
           "_put_version_block@12"
-        ],
-        "0x1caf4": [
-          "_parse_version_number@4"
         ]
       },
       "stack_cleanup": [
@@ -4819,7 +4862,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
         "0x17554": [
@@ -4841,7 +4884,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
         ],
         "0x17554": [
@@ -4875,14 +4918,14 @@
         "0x17303": [
           "_resource_data_length"
         ],
-        "0x1cee9": [
+        "0x1cfc5": [
           "_parse_version_value@4"
         ],
-        "0x1cccc": [
-          "_parse_version_children"
-        ],
-        "0x18374": [
+        "0x18368": [
           "_parser_error@8"
+        ],
+        "0x1cda8": [
+          "_parse_version_children"
         ],
         "0x17554": [
           "_next_token@4"
@@ -4927,11 +4970,11 @@
         "0x172e8": [
           "_resource_data_end"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
-        ],
         "0x1708c": [
           "_put_wide_string@4"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -4976,14 +5019,14 @@
         "0x172e8": [
           "_resource_data_end"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
+        "0x1d0a9": [
+          "_parse_version_data@4"
         ],
         "0x1708c": [
           "_put_wide_string@4"
         ],
-        "0x1cfcd": [
-          "_parse_version_data@4"
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -5034,20 +5077,20 @@
         "0x17244": [
           "_put_word@4"
         ],
-        "0x18128": [
-          "_ansi_to_wide@12"
+        "0x18368": [
+          "_parser_error@8"
         ],
         "0x1708c": [
           "_put_wide_string@4"
         ],
-        "0x18e90": [
+        "0x18ef0": [
           "_advance_argument"
-        ],
-        "0x18374": [
-          "_parser_error@8"
         ],
         "0x17138": [
           "_put_dword@4"
+        ],
+        "0x1811c": [
+          "_ansi_to_wide@12"
         ]
       },
       "stack_cleanup": [
@@ -5081,10 +5124,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d3c0": [
+        "0x1d49c": [
           "__initterm"
         ],
-        "0x205ae": [
+        "0x20a56": [
           "import:ExitProcess"
         ]
       },
@@ -5100,7 +5143,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d3c0": [
+        "0x1d49c": [
           "__initterm"
         ]
       },
@@ -5116,7 +5159,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d32c": [
+        "0x1d408": [
           "_doexit"
         ]
       },
@@ -5140,7 +5183,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d3f4": [
+        "0x1d4d0": [
           "_fflush"
         ]
       },
@@ -5162,14 +5205,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e6f0": [
+        "0x1d558": [
+          "_flsall"
+        ],
+        "0x1fcf0": [
           "__flush"
         ],
-        "0x1d540": [
+        "0x1d61c": [
           "__commit"
-        ],
-        "0x1d47c": [
-          "_flsall"
         ]
       },
       "stack_cleanup": [
@@ -5184,7 +5227,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1d47c": [
+        "0x1d558": [
           "_flsall"
         ]
       },
@@ -5230,12 +5273,158 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1e6f0": [
+        "0x1fcf0": [
           "__flush"
         ]
       },
       "stack_cleanup": [
         0
+      ],
+      "indirect_calls": false
+    },
+    "__input": {
+      "original_calls": {
+        "0x1013300": [
+          "__whiteout"
+        ],
+        "0x10132e0": [
+          "__un_inc"
+        ],
+        "0x1013480": [
+          "_isspace"
+        ],
+        "0x10136e0": [
+          "_mbtowc"
+        ],
+        "0x100deb0": [
+          "__isctype"
+        ],
+        "0x10132b0": [
+          "__inc"
+        ],
+        "0x1013270": [
+          "__hextodec"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1eca2": [
+          "__hextodec"
+        ],
+        "0x1ec43": [
+          "__un_inc"
+        ],
+        "0x1ed05": [
+          "_isspace"
+        ],
+        "0x1ec66": [
+          "__whiteout"
+        ],
+        "0x1ed47": [
+          "_mbtowc"
+        ],
+        "0x1f830": [
+          "__isctype"
+        ],
+        "0x1ebfa": [
+          "__inc"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": true
+    },
+    "__inc": {
+      "original_calls": {
+        "0x100ff30": [
+          "__filbuf"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x159b4": [
+          "__filbuf"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__un_inc": {
+      "original_calls": {
+        "0x1013be0": [
+          "_ungetc"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1ed5a": [
+          "_ungetc"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__whiteout": {
+      "original_calls": {
+        "0x10132b0": [
+          "__inc"
+        ],
+        "0x1013480": [
+          "_isspace"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1ebfa": [
+          "__inc"
+        ],
+        "0x1ed05": [
+          "_isspace"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__hextodec": {
+      "original_calls": {
+        "0x100deb0": [
+          "__isctype"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1f830": [
+          "__isctype"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_isspace": {
+      "original_calls": {
+        "0x100deb0": [
+          "__isctype"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1f830": [
+          "__isctype"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "_is_kanji_lead@4": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        4
       ],
       "indirect_calls": false
     }
@@ -5420,13 +5609,212 @@
       },
       "manifest_sha256": "a2d8566114aa4d1230d9a6f78fc54e1d23b0c8aef6607e55b53f30e688ef4218",
       "exact_streams_status_and_file_set": true
+    },
+    "kanji": {
+      "shared_fixture": "../fixtures/resources-encoding",
+      "manifest_sha256": "e45013fe9cacb239063baf9f3d99cf17c9b18e46fb0f29eb5b54816931b598a8",
+      "case": {
+        "id": "kanji",
+        "arguments": [
+          "/x",
+          "/l411",
+          "/Iinclude",
+          "/foencoding.res",
+          "encoding.rc"
+        ],
+        "expected_exit": 0,
+        "stdout": {
+          "path": "cases/kanji/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "cases/kanji/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "path": "cases/kanji/encoding.res",
+            "output_name": "encoding.res",
+            "bytes": 480,
+            "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
+          }
+        ]
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "/x /l411 /Iinclude /foencoding.res encoding.rc",
+        "exit": 0,
+        "inputs": {
+          "encoding.rc": {
+            "bytes": 427,
+            "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+          },
+          "include/values.h": {
+            "bytes": 65,
+            "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+          },
+          "preprocessor-error.rc": {
+            "bytes": 36,
+            "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+          },
+          "wide-long.rc": {
+            "bytes": 348,
+            "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+          }
+        },
+        "oracle": {
+          "encoding.res": {
+            "bytes": 480,
+            "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
+          },
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
+    },
+    "wide-long": {
+      "shared_fixture": "../fixtures/resources-encoding",
+      "manifest_sha256": "e45013fe9cacb239063baf9f3d99cf17c9b18e46fb0f29eb5b54816931b598a8",
+      "case": {
+        "id": "wide-long",
+        "arguments": [
+          "/x",
+          "/l411",
+          "/fowide-long.res",
+          "wide-long.rc"
+        ],
+        "expected_exit": 0,
+        "stdout": {
+          "path": "cases/wide-long/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "cases/wide-long/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "path": "cases/wide-long/wide-long.res",
+            "output_name": "wide-long.res",
+            "bytes": 700,
+            "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
+          }
+        ]
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "/x /l411 /fowide-long.res wide-long.rc",
+        "exit": 0,
+        "inputs": {
+          "encoding.rc": {
+            "bytes": 427,
+            "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+          },
+          "include/values.h": {
+            "bytes": 65,
+            "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+          },
+          "preprocessor-error.rc": {
+            "bytes": 36,
+            "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+          },
+          "wide-long.rc": {
+            "bytes": 348,
+            "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+          }
+        },
+        "oracle": {
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "wide-long.res": {
+            "bytes": 700,
+            "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
+    },
+    "preprocessor-error": {
+      "shared_fixture": "../fixtures/resources-encoding",
+      "manifest_sha256": "e45013fe9cacb239063baf9f3d99cf17c9b18e46fb0f29eb5b54816931b598a8",
+      "case": {
+        "id": "preprocessor-error",
+        "arguments": [
+          "/x",
+          "/fofailed.res",
+          "preprocessor-error.rc"
+        ],
+        "expected_exit": 1,
+        "stdout": {
+          "path": "cases/preprocessor-error/stdout.bin",
+          "bytes": 69,
+          "sha256": "83638296ff1b2d3f24fedb0a9f3d1ae1256554d3510841987cdb7180eaf14d61"
+        },
+        "stderr": {
+          "path": "cases/preprocessor-error/stderr.bin",
+          "bytes": 100,
+          "sha256": "ea9e2445c648f60c4bb7daa6846d2725f1cf8e494a55f04f7d146fc5a8bb04cc"
+        },
+        "outputs": []
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "/x /fofailed.res preprocessor-error.rc",
+        "exit": 1,
+        "inputs": {
+          "encoding.rc": {
+            "bytes": 427,
+            "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+          },
+          "include/values.h": {
+            "bytes": 65,
+            "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+          },
+          "preprocessor-error.rc": {
+            "bytes": 36,
+            "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+          },
+          "wide-long.rc": {
+            "bytes": 348,
+            "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+          }
+        },
+        "oracle": {
+          "stderr.bin": {
+            "bytes": 100,
+            "sha256": "ea9e2445c648f60c4bb7daa6846d2725f1cf8e494a55f04f7d146fc5a8bb04cc"
+          },
+          "stdout.bin": {
+            "bytes": 69,
+            "sha256": "83638296ff1b2d3f24fedb0a9f3d1ae1256554d3510841987cdb7180eaf14d61"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
     }
   },
   "restored_text": {
-    "bytes": 41535,
+    "bytes": 45088,
     "total_bytes": 53248,
-    "percentage": 78.0,
-    "definition": "whole accepted functions and their text data; not dynamic branch coverage"
+    "percentage": 84.68,
+    "definition": "union of accepted source/CRT functions, shared text data and import thunks, clipped to original code extents; VirtualSize or backed raw fallback; not branch coverage"
   },
   "unaccepted_named_functions": [
     "__amsg_exit",
@@ -5437,8 +5825,9 @@
     "__exit",
     "_get_short_arg",
     "_interrupt_resource@4",
-    "_scan_kanji_string",
+    "_mbtowc",
     "_trim_token@4",
+    "_ungetc",
     "_wctomb",
     "_wide_to_ansi@12"
   ],
@@ -5458,8 +5847,8 @@
         "0x101f010"
       ],
       "reconstructed_range": [
-        "0x2ab98",
-        "0x2aba0"
+        "0x2abe0",
+        "0x2abe8"
       ],
       "callbacks": []
     },
@@ -5469,8 +5858,8 @@
         "0x101f030"
       ],
       "reconstructed_range": [
-        "0x2aba8",
-        "0x2abb0"
+        "0x2abf0",
+        "0x2abf8"
       ],
       "callbacks": []
     },
@@ -5480,8 +5869,8 @@
         "0x101f060"
       ],
       "reconstructed_range": [
-        "0x2abb8",
-        "0x2abc0"
+        "0x2ac00",
+        "0x2ac08"
       ],
       "callbacks": [
         {
@@ -5489,7 +5878,7 @@
             "__endstdio"
           ],
           "original": "0x100f8b0",
-          "reconstruction": "0x1e7e0"
+          "reconstruction": "0x1fde0"
         }
       ]
     },
@@ -5499,10 +5888,82 @@
         "0x101f080"
       ],
       "reconstructed_range": [
-        "0x2abc8",
-        "0x2abd0"
+        "0x2ac10",
+        "0x2ac18"
       ],
       "callbacks": []
+    }
+  },
+  "runtime_layout_and_alias_audit": {
+    "standard_streams": {
+      "count": 20,
+      "sizeof_FILE": 32,
+      "flag_offset": 12,
+      "descriptor_offset": 16,
+      "last_stream_offset": 608,
+      "diagnostics_stream_index": 1
+    },
+    "C_locale": {
+      "character_classes_including_EOF": 257,
+      "ctype_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+      "multibyte_max": 1,
+      "decimal_point": "."
+    },
+    "floating_conversion_slots": [
+      {
+        "slot": 0,
+        "names": [
+          "__fptrap"
+        ],
+        "accepted": false
+      },
+      {
+        "slot": 1,
+        "names": [
+          "__fptrap"
+        ],
+        "accepted": false
+      },
+      {
+        "slot": 2,
+        "names": [
+          "__fptrap"
+        ],
+        "accepted": false
+      },
+      {
+        "slot": 3,
+        "names": [
+          "__fptrap"
+        ],
+        "accepted": false
+      },
+      {
+        "slot": 4,
+        "names": [
+          "__fptrap"
+        ],
+        "accepted": false
+      },
+      {
+        "slot": 5,
+        "names": [
+          "__fptrap"
+        ],
+        "accepted": false
+      }
+    ],
+    "KANJI_bounds": {
+      "bytes": 16,
+      "element_bytes": 2,
+      "signed": true,
+      "field_offsets": [
+        0,
+        4,
+        8,
+        12
+      ],
+      "range_stride": 8
     }
   },
   "first_menu_payload": {
