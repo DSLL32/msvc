@@ -26,7 +26,7 @@ void __stdcall normalize_symbol_type(CType *base, CppSymbol *symbol)
     char *name = symbol->name, *modifier, *display, *class_display;
 
     if (deferred_declarations[declaration_depth])
-        resolve_deferred_declaration(deferred_declarations[declaration_depth]);
+        check_qualified_member_access(deferred_declarations[declaration_depth]);
     qualifier = (QualifiedDeclarator *)symbol->next;
     member = !(symbol->attributes & 0x40) &&
         ((current_class_context >= 0 && !(storage & 0x400)) ||

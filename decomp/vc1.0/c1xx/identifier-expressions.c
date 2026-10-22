@@ -1,6 +1,7 @@
 /* Identifier lookup at the expression boundary. */
 #include "lexer.h"
 #include "frontend-records.h"
+#include "constructor-initializers.h"
 
 IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol);
 
@@ -60,7 +61,7 @@ IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol)
         kind = target->kind & 31;
         if (kind == 5) {
             if (token_allocation_flags & 0x80) return symbol_reference(symbol);
-            resolve_deferred_declaration(qualified);
+            check_qualified_member_access(qualified);
             if (symbol->declaration_flags & 0x8000)
                 return inherited_symbol_expression(symbol, target);
             return enumerator_expression(target);
@@ -74,7 +75,7 @@ IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol)
                 return inherited_symbol_expression(symbol, target);
             return symbol_reference(symbol);
         }
-        resolve_deferred_declaration(qualified);
+        check_qualified_member_access(qualified);
         symbol = static_member_alias(target);
     }
     if (target->flags & 0x10) return symbol_reference(symbol);
@@ -342,3 +343,60 @@ IrToken *__stdcall new_left_typed_expression(unsigned char operation, IrToken *l
 {
     return new_ir_expression(operation, left, right, left->type);
 }
+
+IrToken *make_error_expression(void);
+
+/* Original 0x3c470..0x3c5a8. Implicit class qualification selects a member
+   through this when a nonstatic member function provides an object. Preserve
+   the qualified wrapper's identity for self-linked inherited lookup paths. */
+IrToken *__stdcall inherited_symbol_expression(CppSymbol *reference, CppSymbol *target)
+{
+    IrToken *object, *member, *result;
+    QualifiedDeclarator *qualified;
+    QualifierBinding *binding, *following;
+    unsigned kind = target->kind & 0x1f;
+    if (!function_symbol) {
+        if (kind == 17) return symbol_reference(reference);
+        if (kind == 5) {
+            check_qualified_member_access(reference);
+            return enumerator_expression(target);
+        }
+        report_syntax_error(654, target->name);
+        return 0;
+    }
+    if (!(function_symbol->cpp.parts.member_flags & 1)) {
+        if (kind == 5) {
+            check_qualified_member_access(reference);
+            return enumerator_expression(target);
+        }
+        if (kind == 17 || kind == 3) return symbol_reference(reference);
+        report_syntax_error(597, target->name);
+        return make_error_expression();
+    }
+    object = adjusted_this_expression(0);
+    member = symbol_reference(reference);
+    result = member_expression(0x5c, object, member);
+    if (result->kind == 0x46 && (reference->kind & 0x1f) == 18) {
+        qualified = (QualifiedDeclarator *)reference;
+        following = qualified->resolution->binding->following;
+        if (following && following->following == following) {
+            result->tail.symbol = reference;
+            return result;
+        }
+    }
+    if (result->kind == 0x5c && (reference->kind & 0x1f) == 18) {
+        qualified = (QualifiedDeclarator *)reference;
+        binding = qualified->resolution->binding;
+        if ((binding->target->kind & 0x1f) == 17) {
+            following = binding->following;
+            if (following && following->following == following)
+                result->tail.right->tail.symbol = reference;
+        }
+    }
+    return result;
+}
+
+typedef char QualifierFollowingOffsetMustBe4[
+    (offsetof(QualifierBinding, following) == 4) ? 1 : -1];
+typedef char QualifiedResolutionOffsetMustBe12[
+    (offsetof(QualifiedDeclarator, resolution) == 12) ? 1 : -1];

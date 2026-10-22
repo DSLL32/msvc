@@ -504,7 +504,17 @@
     "_record_function_definition@4",
     "_reset_materialized_value_index",
     "_unwind_qualified_scopes@4",
-    "_reset_function_symbol_tables"
+    "_reset_function_symbol_tables",
+    "_inherited_symbol_expression@8",
+    "_member_expression@12",
+    "_adjust_qualified_member_object@20",
+    "_check_qualified_member_access@4",
+    "_qualified_member_is_accessible@4",
+    "_declaring_class_for_symbol@4",
+    "_reset_member_access_failure",
+    "_set_initial_member_access_failure@12",
+    "_adjust_member_binding_object@20",
+    "_make_member_at_offset@12"
   ],
   "driver": [
     {
@@ -1365,7 +1375,7 @@
       "end": 244053
     },
     {
-      "name": "_resolve_deferred_declaration@4",
+      "name": "_check_qualified_member_access@4",
       "start": 204960,
       "end": 204986
     },
@@ -2357,7 +2367,7 @@
     {
       "name": "_member_expression@12",
       "start": 205296,
-      "end": 205297
+      "end": 206448
     },
     {
       "name": "_new_abstract_declarator@4",
@@ -3987,7 +3997,7 @@
     {
       "name": "_inherited_symbol_expression@8",
       "start": 246896,
-      "end": 246897
+      "end": 247208
     },
     {
       "name": "_enumerator_expression@4",
@@ -4914,6 +4924,96 @@
       "name": "_format_integer",
       "start": 476032,
       "end": 476033
+    },
+    {
+      "name": "_make_error_expression",
+      "start": 380880,
+      "end": 380881
+    },
+    {
+      "name": "_materialize_member_object@4",
+      "start": 202640,
+      "end": 202641
+    },
+    {
+      "name": "_adjust_qualified_member_object@20",
+      "start": 201664,
+      "end": 201778
+    },
+    {
+      "name": "_qualified_member_is_accessible@4",
+      "start": 203344,
+      "end": 204414
+    },
+    {
+      "name": "_adjust_member_binding_object@20",
+      "start": 201792,
+      "end": 201961
+    },
+    {
+      "name": "_report_denied_member_access",
+      "start": 202960,
+      "end": 202961
+    },
+    {
+      "name": "_declaring_class_for_symbol@4",
+      "start": 202704,
+      "end": 202752
+    },
+    {
+      "name": "_reset_member_access_failure",
+      "start": 202784,
+      "end": 202805
+    },
+    {
+      "name": "_set_initial_member_access_failure@12",
+      "start": 202864,
+      "end": 202894
+    },
+    {
+      "name": "_find_friend_access@8",
+      "start": 204784,
+      "end": 204785
+    },
+    {
+      "name": "_skip_base_qualifier_path@4",
+      "start": 203296,
+      "end": 203297
+    },
+    {
+      "name": "_virtual_base_access_level@8",
+      "start": 507664,
+      "end": 507665
+    },
+    {
+      "name": "_has_member_access_declaration@12",
+      "start": 201456,
+      "end": 201457
+    },
+    {
+      "name": "_combine_member_access@8",
+      "start": 202752,
+      "end": 202753
+    },
+    {
+      "name": "_set_inherited_member_access_failure@20",
+      "start": 202816,
+      "end": 202817
+    },
+    {
+      "name": "_make_member_at_offset@12",
+      "start": 202512,
+      "end": 202543
+    },
+    {
+      "name": "_adjust_pointer_by_offset@12",
+      "start": 202544,
+      "end": 202545
+    },
+    {
+      "name": "_adjust_virtual_member_object@20",
+      "start": 201968,
+      "end": 201969
     }
   ],
   "cases": {
@@ -6490,6 +6590,33 @@
           "name": "_function_symbol_bindings",
           "original": 658728,
           "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_access_through_virtual_base",
+      "original": 621520,
+      "fields": [
+        {
+          "name": "_access_through_virtual_base",
+          "original": 621520,
+          "bytes": 4
+        },
+        {
+          "name": "_access_failure_owner",
+          "original": 621516,
+          "bytes": 4
+        },
+        {
+          "name": "_access_failure_member",
+          "original": 621524,
+          "bytes": 4
+        },
+        {
+          "name": "_access_failure_protection",
+          "original": 621536,
+          "bytes": 1
         }
       ]
     }

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 500 accepted paired frontiers, including 420 frontend
+PARTIAL reconstruction: 510 accepted paired frontiers, including 430 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _inherited_symbol_expression@8 at original VA 0x3c470. The latest ordered replay is recorded in validation.json;
+trap is _binary_expression@12 at original VA 0x5de30. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -964,3 +964,19 @@ executable extent union is 168,961 / 476,418 bytes (35.465%, not branch coverage
 with 427 source functions. Both runs now reach inherited_symbol_expression at
 0x3c470 in the next method's member expression. Constructor definition teardown
 is complete; the assigned whole frontend case remains partial.
+
+
+Implicit member resolution and the shared dot/arrow selector now retain qualified
+identity, overload bindings, temporaries, type qualifiers, bit fields and native
+diagnostics. The complete access predicate handles protection, friends, inherited
+declarations and virtual paths. Explicit qualifier/base offset walkers preserve
+separate object-member and pointer conversions. Encountered access diagnostics
+use contextual objects with original defaults/address identity audits. Evidence:
+evidence/member-access-offset.txt.
+
+All 510 frontiers pass the frozen full comparator in 133.210 seconds, with raw
+files/streams/pending buffers, logical callers and fourteen runtime observations.
+Receipt: evidence/replay-member-access-offset-receipt.json. Accepted executable
+extent union is 171,934 / 476,418 bytes (36.089%, not branch coverage), with 437
+source functions. Both runs now reach binary_expression at 0x5de30 during the
+next method's expression processing. Complete frontend equivalence is pending.

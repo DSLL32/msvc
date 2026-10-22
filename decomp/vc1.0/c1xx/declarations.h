@@ -278,7 +278,7 @@ void __stdcall validate_special_function(CppSymbol *symbol, int definition);
 CppSymbol *__stdcall apply_declaration_type(DeclarationType *type, CppSymbol *declaration);
 extern void *deferred_declarations[60];
 extern int current_class_context, allow_incomplete_class;
-void __stdcall resolve_deferred_declaration(void *declaration);
+void __stdcall check_qualified_member_access(void *declaration);
 typedef struct ShapeCursor {
     TypeShape *shape;
     unsigned short attributes, flags;

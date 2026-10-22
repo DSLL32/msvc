@@ -765,7 +765,7 @@ unsigned char __stdcall resolve_typename_token(CppSymbol *input)
         return token;
     }
     if (resolved_name) {
-        if (!options.configuration.extensions_enabled) resolve_deferred_declaration(qualified);
+        if (!options.configuration.extensions_enabled) check_qualified_member_access(qualified);
         else deferred_declarations[declaration_depth] = copy_qualified_declarator(qualified, 1);
     } else deferred_declarations[declaration_depth] = 0;
     if ((symbol->kind & 31) == 4 && (declaration_spec_flags[declaration_depth] & 1) &&

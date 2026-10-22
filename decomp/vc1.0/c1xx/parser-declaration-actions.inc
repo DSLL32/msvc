@@ -192,7 +192,7 @@
             break;
         case 60:
             unwind_qualified_scopes(1);
-            resolve_deferred_declaration(right[0].symbol);
+            check_qualified_member_access(right[0].symbol);
             add_qualified_base((unsigned char)(right[-1].bytes[0] & 3),
                                -(int)(right[-1].words.high & 1), right[0].context);
             token_allocation_flags |= 1;

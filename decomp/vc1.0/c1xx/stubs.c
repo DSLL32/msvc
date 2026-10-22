@@ -87,7 +87,6 @@ int release_input_handle(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
-void __stdcall resolve_deferred_declaration(void *declaration) { __asm { int 3 } }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 unsigned short __stdcall classify_incomplete_type(CType *type) { __asm { int 3 } return 0; }
@@ -211,7 +210,6 @@ SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, uns
 char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
 void mark_evaluation_boundary(void) { __asm { int 3 } }
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
-IrToken *__stdcall member_expression(unsigned char operation, IrToken *object, IrToken *member) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier, IrToken *placement,
     CppSymbol *type, IrToken *initializer, unsigned bound) { __asm { int 3 } return 0; }
@@ -485,7 +483,6 @@ CppSymbol *__stdcall recover_undeclared_identifier(char *name) { __asm { int 3 }
 IrToken *most_derived_expression(void) { __asm { int 3 } return 0; }
 
 
-IrToken *__stdcall inherited_symbol_expression(CppSymbol *reference, CppSymbol *target) { __asm { int 3 } return 0; }
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CType *__stdcall make_expression_qualified_type(CType *base, unsigned short kind,
     unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
@@ -617,3 +614,24 @@ char *__stdcall mangle_symbol_encoding(char *cursor, CppSymbol *symbol, CppSymbo
 char *__stdcall mangle_identifier(char *cursor, char *name, int convert_leading_dot) { __asm { int 3 } return 0; }
 void __stdcall cache_function_parameter_bytes(CppSymbol *function) { __asm { int 3 } }
 int format_integer(unsigned value, char *cursor, unsigned radix) { __asm { int 3 } return 0; }
+
+IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall materialize_member_object(IrToken *object) { __asm { int 3 } return 0; }
+
+
+void report_denied_member_access(void) { __asm { int 3 } }
+
+int __stdcall find_friend_access(CppSymbol *candidate, CppSymbol *owner) { __asm { int 3 } return 0; }
+QualifierBinding *__stdcall skip_base_qualifier_path(QualifierBinding *binding) { __asm { int 3 } return 0; }
+unsigned char __stdcall virtual_base_access_level(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
+int __stdcall has_member_access_declaration(CppSymbol *owner, BaseClassLink *base,
+    CppSymbol *member) { __asm { int 3 } return 0; }
+unsigned char __stdcall combine_member_access(unsigned char member_access,
+    unsigned char base_access) { __asm { int 3 } return 0; }
+void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
+    unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base) { __asm { int 3 } }
+
+IrToken *__stdcall adjust_pointer_by_offset(IrToken *object, unsigned displacement, CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall adjust_virtual_member_object(IrToken *object, QualifierBinding *binding,
+    CType *type, unsigned displacement, int pointer_conversion) { __asm { int 3 } return 0; }

@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 500,
-  "driver_functions": 420,
+  "accepted_frontiers": 510,
+  "driver_functions": 430,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 427,
-  "current_frontier": "_inherited_symbol_expression@8",
-  "original_frontier_va": "0x3c470",
+  "reconstructed_source_functions": 437,
+  "current_frontier": "_binary_expression@12",
+  "original_frontier_va": "0x5de30",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "b5dd6b622c8031e4724e6411ba3b03197205503b0baee4b7c051f2b3e9a7f918",
-  "call_graph_audit_functions": 427,
+  "replay_log_sha256": "19480042f3f50dfc47d664989d0222a9122b42944dc5d0430573690ba5b4b41e",
+  "call_graph_audit_functions": 437,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -104,7 +104,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-constructor-definition-close.log",
+  "replay_log": "evidence/replay-member-access-offset.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -324,7 +324,7 @@
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true
   },
-  "accepted_source_text_and_switch_bytes": 158518,
+  "accepted_source_text_and_switch_bytes": 161491,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -443,7 +443,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "1eb09046c40d48f832abe3776a8262aea084c2bfad45c7eb5de09f680736c040",
+  "replay_build_text_sha256": "6758db2b5d3e9e1d87fe64cdf7dbd2216a8a6b2648ab8278a8d4c052371d3b74",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -672,9 +672,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 168961,
+    "bytes": 171934,
     "total_original_executable_bytes": 476418,
-    "percent": 35.46486488755672,
+    "percent": 36.08889672514473,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -847,11 +847,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-constructor-definition-close-receipt.json",
-    "receipt_sha256": "05223bbfcfb21c8fe404c7a91599c154f28f7861705b43c6d7c46392ab828c2e",
+    "receipt": "evidence/replay-member-access-offset-receipt.json",
+    "receipt_sha256": "3f8036c3fbcee3b755ab21973a94563b985e6f8045c25487ca6ce826088435a4",
     "jobs": 4,
-    "frontiers": 500,
-    "seconds": 127.12225570343435,
+    "frontiers": 510,
+    "seconds": 133.20983478520066,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 14,
     "private_masked_executables_workdirs_logs": true,
@@ -1066,6 +1066,23 @@
     "function_directory_block_bytes": 484,
     "initial_directory_slot": 19,
     "all_500_frontiers_replayed": true,
+    "runtime_checkpoint_fields": 14,
+    "constructor_definition_closed": true,
+    "frontend_case_completed": false,
+    "no_frontend_output_normalization": true
+  },
+  "member_access_offset": {
+    "evidence": "evidence/member-access-offset.txt",
+    "new_whole_functions": 10,
+    "member_selector_native_callees": 20,
+    "access_predicate_native_callees": 11,
+    "qualified_adjustment_native_callees": 4,
+    "offset_walker_native_callees": 3,
+    "qualifier_following_offset": 4,
+    "qualified_resolution_offset": 12,
+    "ir_tail_symbol_offset": 16,
+    "canonical_access_and_class_state_reused": true,
+    "all_510_frontiers_replayed": true,
     "runtime_checkpoint_fields": 14,
     "constructor_definition_closed": true,
     "frontend_case_completed": false,
