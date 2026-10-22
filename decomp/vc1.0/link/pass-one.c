@@ -1,6 +1,8 @@
 /* First link pass: explicit objects, library extraction, and subsystem inference. */
 #include "link-pass.h"
 #include "archive.h"
+#include <stddef.h>
+#pragma intrinsic(strcmp)
 #include "machine.h"
 #include "comdat.h"
 unsigned long archive_data_offset,archive_member_size;
@@ -257,4 +259,79 @@ void begin_library(Library *library,Image *image)
     archive_data_offset=8;
     archive_member_size=0;
     read_archive_index(library,0,image);
+}
+
+void search_library_members(Image *image,Library *library,unsigned char *changed,
+                            unsigned char *unresolved)
+{
+    UndefinedEnumerator symbols;
+    ReferenceEnumerator references;
+    External *external,*previous;
+    Module *module;
+    IMAGE_FILE_HEADER header;
+    unsigned long index;
+    unsigned short symbol_index;
+    unsigned char found,new_externals,imports;
+    char *name,**found_name,display[_MAX_PATH];
+    if (library->search_flags&4) return;
+    *unresolved=0;
+    initialize_undefined_enumerator(&symbols,image->symbols);
+    while (next_undefined(&symbols)) {
+        external=symbols.current;
+        if ((external->flags&0x100) || external->symbol.SectionNumber ||
+            external->symbol.Value || (external->flags&0x4040)) continue;
+        if (external->symbol.N.Name.Short)
+            name=strncpy(short_symbol_name,(char *)&external->symbol,8);
+        else name=image->symbols->strings.data+external->symbol.N.Name.Long;
+        found=0;
+        if (library->search_flags&1) {
+            found_name=bsearch(&name,library->symbol_names,library->symbol_count,
+                sizeof(*library->symbol_names),compare_string_pointers);
+            found=found_name!=NULL;
+        } else {
+            for (index=0;index<library->symbol_count;++index)
+                if (!strcmp(library->symbol_names[index],name)) { found=1; break; }
+        }
+        if (!found) { *unresolved=1; continue; }
+        if (verbose_link) {
+            if (external->symbol.N.Name.Short)
+                name=strncpy(short_symbol_name,(char *)&external->symbol,8);
+            else name=image->symbols->strings.data+external->symbol.N.Name.Long;
+            printf("\t\tFound %s\n",name);
+            initialize_reference_enumerator(&references,external);
+            while (next_reference(&references))
+                printf("\t\t      (referenced in %s)\n",format_module_name(references.current,display));
+        }
+        if (image->symbols->undefined==external) previous=NULL;
+        else previous=(External *)((char *)external->value.previous-
+                                   offsetof(External,undefined_next));
+        library->search_flags |= 2;
+        if (library->search_flags&1) {
+            symbol_index=(unsigned short)(found_name-library->symbol_names);
+            archive_data_offset=library->member_offsets[library->symbol_indices[symbol_index]];
+        } else {
+            symbol_index=(unsigned short)index;
+            archive_data_offset=read_big_endian_dword(&library->member_offsets[symbol_index]);
+        }
+        input_file=open_file(library->name,0x8000,0);
+        archive_member_size=0;
+        name=get_archive_member_name(library,read_archive_header());
+        if (!name) fatal_message(library->name,0x1e,"");
+        read_coff_header(input_file,&header);
+        module=create_module(NULL,name,archive_data_offset,header.Machine,
+            header.PointerToSymbolTable,header.NumberOfSymbols,header.SizeOfOptionalHeader,
+            header.Characteristics,header.NumberOfSections,library,NULL);
+        if (verbose_link) printf("\t\t      *** loaded %s\n",format_module_name(module,display));
+        if (image->options.eliminate_unreferenced) module->comdat=create_comdat_module(module);
+        new_externals=imports=0;
+        ++symbol_index;
+        process_object(image,&new_externals,&imports,module,1,symbol_index);
+        close_file(input_file,0);
+        if (new_externals) {
+            *changed=1;
+            if (old_library_format) { *unresolved=1; return; }
+        }
+        if (previous && !(previous->flags&EXTERNAL_DEFINED)) symbols.remaining=previous->undefined_next;
+        else symbols.remaining=image->symbols->undefined;
+    }
 }

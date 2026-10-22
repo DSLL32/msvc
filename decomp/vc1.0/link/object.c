@@ -380,3 +380,35 @@ void define_external(External *external,Contribution *contribution,unsigned long
     external->symbol.Type=type;
     external->archive_member=member;
 }
+
+void add_relocation_edge(SymbolTable *table,Contribution *contribution,
+                         PIMAGE_SYMBOL symbols,PIMAGE_RELOCATION relocation)
+{
+    PIMAGE_SYMBOL symbol=&symbols[relocation->SymbolTableIndex];
+    Module *module=contribution->module;
+    unsigned char linker_defined=module==output_module;
+    char *name;
+    switch (symbol->StorageClass) {
+    case IMAGE_SYM_CLASS_EXTERNAL:
+    case LINK_SYM_CLASS_FAR_EXTERNAL:
+    case IMAGE_SYM_CLASS_WEAK_EXTERNAL:
+        if (!symbol->N.Name.Short) name=coff_strings+symbol->N.Name.Long;
+        else name=strncpy(short_symbol_name,(char *)symbol,8);
+        add_comdat_edge(name,contribution->graph,NULL,linker_defined);
+        break;
+    default:
+        if (symbol->SectionNumber>0)
+            add_comdat_edge(NULL,contribution->graph,
+                &module->contributions[symbol->SectionNumber-1],linker_defined);
+        break;
+    }
+}
+
+void mark_import_contributions(Module *module)
+{
+    ContributionEnumerator contributions;
+    initialize_contribution_enumerator(&contributions,module);
+    while (next_contribution(&contributions))
+        if (!strncmp(contributions.current->group->name,".idata",6))
+            contributions.current->rva=1;
+}

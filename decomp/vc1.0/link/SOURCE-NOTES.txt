@@ -60,12 +60,17 @@ one typed, reusable IMAGE_SYMBOL object.
 
 The /? regression is complete. Minimal-C has advanced through COMDAT roots,
 .drectve parsing, default-library registration, contribution relocation scanning,
-object-symbol merging, and initial hash lookup/insertion. Subsystem inference, startup selection, lazy default libraries, path search, and
+object-symbol merging, and initial hash lookup/insertion. Subsystem inference,
+startup selection, lazy default libraries, path search, and
 archive linker-member indexes now have C implementations. The archive code models
 member offsets, symbol/member indices, raw names, and a name-pointer index as
 separate fields. The file cursor and archive globals are named input_file and
 archive_data_offset for their observed roles. The case currently stops at
-search_library_members; extraction, layout, and output helpers remain named traps. Do not
+create_import_library. Extraction now reads the needed CRT/import members and
+updates the undefined list after definitions, while contribution iterators mark
+.idata sections. Relocation reachability edges have named, resolved-external,
+and contribution fields; linker-defined nodes grow their edge capacity as needed.
+Layout and output helpers remain named traps. Do not
 claim generated-image equivalence until that case exits and its fixture executable
 passes byte comparison and execution. Normalize only the four-byte PE COFF timestamp
 specified by each fixture manifest. hello-win32 follows minimal-C and additionally

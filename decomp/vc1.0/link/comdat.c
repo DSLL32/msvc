@@ -1,5 +1,6 @@
 /* COMDAT reachability graph and its synthetic root contribution. */
 #include "comdat.h"
+#pragma intrinsic(strlen,strcpy)
 Contribution comdat_root_contribution;
 ComdatNode comdat_root_node;
 ArenaBlock *comdat_heap;
@@ -67,4 +68,42 @@ ComdatRoot *add_comdat_root(const char *name,External *external,
     if (*list) root->next=*list;
     *list=root;
     return root;
+}
+
+ComdatEdge *add_comdat_edge(const char *name,ComdatNode *node,
+                           Contribution *contribution,unsigned char linker_defined)
+{
+    ComdatEdge *edge;
+    unsigned short old_capacity,capacity;
+    unsigned long index;
+    /* Synthetic linker nodes grow beyond the relocation count of an input. */
+    if (linker_defined && node->edge_count>=node->contribution->relocation_count) {
+        old_capacity=node->contribution->relocation_count;
+        capacity=old_capacity?(unsigned short)(old_capacity*2):16;
+        node->edges=realloc(node->edges,(unsigned long)capacity*sizeof(*node->edges));
+        if (!node->edges) comdat_error(NULL,5,"");
+        for (index=old_capacity;index<capacity;++index) {
+            node->edges[index].name=NULL;
+            node->edges[index].external=NULL;
+            node->edges[index].contribution=NULL;
+        }
+        node->contribution->relocation_count=capacity;
+    }
+    edge=&node->edges[node->edge_count++];
+    if (name) {
+        edge->name=duplicate_comdat_name(name);
+        if (!edge->name) comdat_error(NULL,5,"");
+        edge->contribution=NULL;
+    } else {
+        edge->contribution=contribution;
+        edge->name=NULL;
+    }
+    return edge;
+}
+
+char *duplicate_comdat_name(const char *name)
+{
+    char *copy=allocate_arena(&comdat_heap,strlen(name)+1);
+    strcpy(copy,name);
+    return copy;
 }

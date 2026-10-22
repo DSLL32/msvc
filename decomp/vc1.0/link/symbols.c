@@ -265,3 +265,32 @@ unsigned char next_reference(ReferenceEnumerator *scan)
 void end_reference_enumerator(ReferenceEnumerator *scan)
 {
 }
+
+void initialize_undefined_enumerator(UndefinedEnumerator *scan,SymbolTable *table)
+{
+    scan->next=next_undefined;
+    scan->end=end_undefined_enumerator;
+    scan->remaining=table->undefined;
+}
+
+unsigned char next_undefined(UndefinedEnumerator *scan)
+{
+    scan->current=scan->remaining;
+    if (!scan->current) return 0;
+    scan->remaining=scan->current->undefined_next;
+    return 1;
+}
+
+int compare_string_pointers(const void *left,const void *right)
+{
+    return strcmp(*(const char *const *)left,*(const char *const *)right);
+}
+
+void prepend_external(ExternalLink **list,External *external)
+{
+    ExternalLink *entry=malloc(sizeof(*entry));
+    if (!entry) out_of_memory();
+    entry->external=external;
+    entry->next=*list;
+    *list=entry;
+}

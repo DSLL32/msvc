@@ -237,7 +237,28 @@
     "__un_inc",
     "_ungetc",
     "_read_big_endian_dword",
-    "_tell_file"
+    "_tell_file",
+    "_search_library_members",
+    "_initialize_undefined_enumerator",
+    "_next_undefined",
+    "_bsearch",
+    "_compare_string_pointers",
+    "_get_archive_member_name",
+    "_atoi",
+    "_atol",
+    "_allocate_coff_relocations",
+    "_read_coff_relocations",
+    "_add_relocation_edge",
+    "_add_comdat_edge",
+    "_duplicate_comdat_name",
+    "_release_coff_relocations",
+    "_end_section_enumerator",
+    "_end_group_enumerator",
+    "_prepend_external",
+    "_read_optional_header",
+    "_mark_import_contributions",
+    "_initialize_contribution_enumerator",
+    "_next_contribution"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1446,10 +1467,11 @@
     {
       "name": "_end_section_enumerator",
       "start": 245440,
-      "end": 245441,
-      "implementation": "stub-C",
-      "source": "module-stubs.c",
-      "abi": "cdecl void(SectionEnumerator *scan)"
+      "end": 245456,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(SectionEnumerator *scan)",
+      "evidence": "Matching minimal-C existing-section frontier; no-op section iterator finalizer3bec0..3bed0."
     },
     {
       "name": "_initialize_group_enumerator",
@@ -1472,18 +1494,20 @@
     {
       "name": "_end_group_enumerator",
       "start": 245536,
-      "end": 245537,
-      "implementation": "stub-C",
-      "source": "module-stubs.c",
-      "abi": "cdecl void(GroupEnumerator *scan)"
+      "end": 245552,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(GroupEnumerator *scan)",
+      "evidence": "Matching minimal-C existing-group frontier; no-op group iterator finalizer3bf20..3bf30."
     },
     {
       "name": "_duplicate_comdat_name",
       "start": 94368,
-      "end": 94369,
-      "implementation": "stub-C",
-      "source": "comdat-stubs.c",
-      "abi": "cdecl char *(const char *)"
+      "end": 94448,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl char *(const char *)",
+      "evidence": "Matching minimal-C edge-name frontier; arena-backed terminated name copy170a0..170f0."
     },
     {
       "name": "_allocate_arena",
@@ -2083,34 +2107,38 @@
     {
       "name": "_allocate_coff_relocations",
       "start": 151376,
-      "end": 151377,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl PIMAGE_RELOCATION(unsigned long count)"
+      "end": 151424,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl PIMAGE_RELOCATION(unsigned long count)",
+      "evidence": "Matching minimal-C CRT-member frontier; reserve reusable ten-byte COFF relocation records24f50..24f80."
     },
     {
       "name": "_read_coff_relocations",
       "start": 152112,
-      "end": 152113,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl unsigned(int file,PIMAGE_RELOCATION records,unsigned long count)"
+      "end": 152144,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_RELOCATION records,unsigned long count)",
+      "evidence": "Matching minimal-C CRT-member frontier; read count ten-byte COFF relocation records25230..25250."
     },
     {
       "name": "_release_coff_relocations",
       "start": 151424,
-      "end": 151425,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(PIMAGE_RELOCATION records)"
+      "end": 151440,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl void(PIMAGE_RELOCATION records)",
+      "evidence": "Matching minimal-C relocation-release frontier; retain reusable buffer and clear in-use flag24f80..24f90."
     },
     {
       "name": "_add_relocation_edge",
       "start": 143392,
-      "end": 143393,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,PIMAGE_RELOCATION relocation)"
+      "end": 143552,
+      "implementation": "C",
+      "source": "object.c",
+      "abi": "cdecl void(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,PIMAGE_RELOCATION relocation)",
+      "evidence": "Matching minimal-C CRT-member frontier; relocation target becomes a named or section-local TCE edge23020..230c0."
     },
     {
       "name": "_validate_mac_code_relocation",
@@ -2180,10 +2208,11 @@
     {
       "name": "_prepend_external",
       "start": 153264,
-      "end": 153265,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(ExternalLink **list,External *external)"
+      "end": 153312,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(ExternalLink **list,External *external)",
+      "evidence": "Matching minimal-C common-symbol frontier; checked allocation and prepending of an external list entry256b0..256e0."
     },
     {
       "name": "_record_undefined_reference",
@@ -2214,10 +2243,11 @@
     {
       "name": "_mark_import_contributions",
       "start": 146576,
-      "end": 146577,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl void(Module *module)"
+      "end": 146688,
+      "implementation": "C",
+      "source": "object.c",
+      "abi": "cdecl void(Module *module)",
+      "evidence": "Matching minimal-C import-member frontier; mark .idata contributions through module iterator23c90..23d00."
     },
     {
       "name": "_read_coff_symbol",
@@ -2336,10 +2366,11 @@
     {
       "name": "_search_library_members",
       "start": 142144,
-      "end": 142145,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Image *image,Library *library,unsigned char *changed,unsigned char *unresolved)"
+      "end": 143216,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "abi": "cdecl void(Image *image,Library *library,unsigned char *changed,unsigned char *unresolved)",
+      "evidence": "Matching minimal-C frontier; unresolved-symbol search, old/new indexes, archive member extraction, and iterator repair22b40..22f70."
     },
     {
       "name": "_tolower",
@@ -2388,10 +2419,90 @@
     {
       "name": "_read_optional_header",
       "start": 151696,
-      "end": 151697,
+      "end": 151744,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl void(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)",
+      "evidence": "Matching minimal-C archive compatibility frontier; optional size clamp and conditional read25090..250c0. EAX unspecified on zero-size branch, return is void."
+    },
+    {
+      "name": "_initialize_undefined_enumerator",
+      "start": 155616,
+      "end": 155648,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(UndefinedEnumerator *scan,SymbolTable *table)",
+      "evidence": "Matching minimal-C frontier; undefined iterator callback slots and head25fe0..26000."
+    },
+    {
+      "name": "_next_undefined",
+      "start": 155648,
+      "end": 155680,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned char(UndefinedEnumerator *scan)",
+      "evidence": "Matching minimal-C frontier; current/remaining pointer traversal26000..26020."
+    },
+    {
+      "name": "_end_undefined_enumerator",
+      "start": 155680,
+      "end": 155681,
       "implementation": "stub-C",
       "source": "pass-stubs.c",
-      "abi": "cdecl unsigned(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)"
+      "abi": "cdecl void(UndefinedEnumerator *scan)"
+    },
+    {
+      "name": "_compare_string_pointers",
+      "start": 150784,
+      "end": 150848,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl int(const void *left,const void *right)",
+      "evidence": "Matching minimal-C bsearch callback frontier; string-pointer lexical comparison24d00..24d40."
+    },
+    {
+      "name": "_get_archive_member_name",
+      "start": 136960,
+      "end": 137120,
+      "implementation": "C",
+      "source": "archive.c",
+      "abi": "cdecl char *(Library *library,PIMAGE_ARCHIVE_MEMBER_HEADER header)",
+      "evidence": "Matching minimal-C frontier; shared mutable member name, slash/space terminators, and long-name offsets21700..217a0."
+    },
+    {
+      "name": "_add_comdat_edge",
+      "start": 94880,
+      "end": 95136,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl ComdatEdge *(const char *name,ComdatNode *node,Contribution *contribution,unsigned char linker_defined)",
+      "evidence": "Matching minimal-C relocation frontier; append name/contribution edge and grow linker-defined edge arrays172a0..173a0."
+    },
+    {
+      "name": "_initialize_contribution_enumerator",
+      "start": 245552,
+      "end": 245600,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(ContributionEnumerator *scan,Module *module)",
+      "evidence": "Matching minimal-C import-marking frontier; typed module contribution iterator setup3bf30..3bf60."
+    },
+    {
+      "name": "_next_contribution",
+      "start": 245600,
+      "end": 245680,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl unsigned char(ContributionEnumerator *scan)",
+      "evidence": "Matching minimal-C import-marking frontier; section-count-bounded contribution array traversal3bf60..3bfb0."
+    },
+    {
+      "name": "_end_contribution_enumerator",
+      "start": 245680,
+      "end": 245681,
+      "implementation": "stub-C",
+      "source": "module-stubs.c",
+      "abi": "cdecl void(ContributionEnumerator *scan)"
     }
   ],
   "c_stub_references": [
@@ -2488,6 +2599,27 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

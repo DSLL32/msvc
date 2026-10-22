@@ -2,6 +2,7 @@
 #define LINK_SYMBOLS_H
 #include "modules.h"
 
+typedef struct SymbolTable SymbolTable;
 typedef struct HashNode { void *value; struct HashNode *next; } HashNode;
 typedef struct HashCursor HashCursor;
 typedef struct External External;
@@ -23,6 +24,15 @@ struct External {
     External *weak_default;
 };
 struct ExternalLink { External *external; ExternalLink *next; };
+typedef struct UndefinedEnumerator {
+    unsigned char (*next)(struct UndefinedEnumerator *);
+    void (*end)(struct UndefinedEnumerator *);
+    External *remaining,*current;
+} UndefinedEnumerator;
+void initialize_undefined_enumerator(UndefinedEnumerator *,SymbolTable *);
+unsigned char next_undefined(UndefinedEnumerator *);
+void end_undefined_enumerator(UndefinedEnumerator *);
+int compare_string_pointers(const void *,const void *);
 typedef struct ReferenceEnumerator {
     unsigned char (*next)(struct ReferenceEnumerator *);
     void (*end)(struct ReferenceEnumerator *);
@@ -45,14 +55,14 @@ typedef struct HashTable {
     HashCursor *enumerators;
     HashSegment **directory;
 } HashTable;
-typedef struct SymbolTable {
+struct SymbolTable {
     HashTable *hash;
     TextBuffer strings;
     StringNode *string_tree;
     External **sorted_by_name, **sorted_by_address, **sorted_by_symbol;
     External *undefined;
     External **undefined_tail;
-} SymbolTable;
+};
 
 unsigned long intern_symbol_name(SymbolTable *,const char *);
 unsigned long hash_bucket(const char *,HashTable *);

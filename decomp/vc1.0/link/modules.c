@@ -363,3 +363,30 @@ char *format_module_name(Module *module,char *display)
 void end_module_enumerator(ModuleEnumerator *scan)
 {
 }
+
+void end_section_enumerator(SectionEnumerator *scan)
+{
+}
+
+void end_group_enumerator(GroupEnumerator *scan)
+{
+}
+
+void initialize_contribution_enumerator(ContributionEnumerator *scan,Module *module)
+{
+    scan->next=next_contribution;
+    scan->end=end_contribution_enumerator;
+    scan->module=module;
+    scan->current=NULL;
+    scan->index=0;
+}
+
+unsigned char next_contribution(ContributionEnumerator *scan)
+{
+    while (scan->index<scan->module->section_count) {
+        scan->current=&scan->module->contributions[scan->index++];
+        if (scan->current) return 1;
+    }
+    scan->current=NULL;
+    return 0;
+}

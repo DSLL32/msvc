@@ -101,6 +101,17 @@ typedef struct ModuleEnumerator {
     Module *current;
 } ModuleEnumerator;
 
+typedef struct ContributionEnumerator {
+    unsigned char (*next)(struct ContributionEnumerator *);
+    void (*end)(struct ContributionEnumerator *);
+    Module *module;
+    Contribution *current;
+    unsigned long index;
+} ContributionEnumerator;
+void initialize_contribution_enumerator(ContributionEnumerator *,Module *);
+unsigned char next_contribution(ContributionEnumerator *);
+void end_contribution_enumerator(ContributionEnumerator *);
+
 extern void (*module_error)(char *,int,char *);
 extern unsigned short section_count;
 void initialize_modules(void (*)(char *,int,char *),Module **);

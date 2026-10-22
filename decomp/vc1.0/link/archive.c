@@ -120,3 +120,21 @@ unsigned long read_big_endian_dword(const void *bytes)
     return ((unsigned long)value[0]<<24)|((unsigned long)value[1]<<16)|
            ((unsigned long)value[2]<<8)|value[3];
 }
+
+char archive_member_name[17];
+char *get_archive_member_name(Library *library,PIMAGE_ARCHIVE_MEMBER_HEADER header)
+{
+    char *end;
+    strncpy(archive_member_name,(char *)header->Name,16);
+    if (archive_member_name[0]=='/' && archive_member_name[1]!=' ' &&
+        archive_member_name[1]!='/') {
+        end=strchr(archive_member_name,' ');
+        if (!end) return NULL;
+        *end=0;
+        return library->long_names+atoi(archive_member_name+1);
+    }
+    end=strchr(archive_member_name,archive_member_name[0]=='/'?' ':'/');
+    if (!end) return NULL;
+    *end=0;
+    return archive_member_name;
+}

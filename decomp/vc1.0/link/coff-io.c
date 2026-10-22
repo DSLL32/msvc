@@ -84,3 +84,30 @@ void release_coff_symbols(PIMAGE_SYMBOL symbols)
 {
     coff_symbols_cached=0;
 }
+
+TextBuffer coff_relocation_buffer;
+unsigned char coff_relocations_cached;
+PIMAGE_RELOCATION allocate_coff_relocations(unsigned long count)
+{
+    coff_relocations_cached=1;
+    reserve_text(&coff_relocation_buffer,count*IMAGE_SIZEOF_RELOCATION);
+    return (PIMAGE_RELOCATION)coff_relocation_buffer.data;
+}
+
+unsigned read_coff_relocations(int file,PIMAGE_RELOCATION records,unsigned long count)
+{
+    return read_file(file,records,count*IMAGE_SIZEOF_RELOCATION);
+}
+
+void release_coff_relocations(PIMAGE_RELOCATION records)
+{
+    coff_relocations_cached=0;
+}
+
+void read_optional_header(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)
+{
+    if (size) {
+        if (size>=sizeof(*header)) size=sizeof(*header);
+        read_file(file,header,size);
+    }
+}

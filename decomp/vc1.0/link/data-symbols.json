@@ -1072,5 +1072,23 @@
     "address": 451928,
     "size": 60,
     "owner": "archive.c"
+  },
+  {
+    "name": "archive_member_name",
+    "address": 451992,
+    "size": 17,
+    "owner": "archive.c"
+  },
+  {
+    "name": "coff_relocation_buffer",
+    "address": 503336,
+    "size": 12,
+    "owner": "coff-io.c"
+  },
+  {
+    "name": "coff_relocations_cached",
+    "address": 503356,
+    "size": 1,
+    "owner": "coff-io.c"
   }
 ]

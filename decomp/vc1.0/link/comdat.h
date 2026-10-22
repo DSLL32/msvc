@@ -3,8 +3,9 @@
 #include "modules.h"
 typedef struct External External;
 typedef struct ComdatEdge {
-    union { Contribution *contribution; void *external; } target;
-    unsigned long symbol_index, flags;
+    char *name;
+    External *external;
+    Contribution *contribution;
 } ComdatEdge;
 struct ComdatNode {
     Contribution *contribution;
@@ -30,5 +31,6 @@ ComdatRoot *add_comdat_root(const char *,External *,Contribution *,ComdatRoot **
 void initialize_comdat(void (*)(char *,int,char *));
 ComdatModule *create_comdat_module(Module *);
 ComdatNode *create_comdat_node(Contribution *,ComdatModule *,const char *,ComdatNode **,unsigned char);
+ComdatEdge *add_comdat_edge(const char *,ComdatNode *,Contribution *,unsigned char);
 char *duplicate_comdat_name(const char *);
 #endif
