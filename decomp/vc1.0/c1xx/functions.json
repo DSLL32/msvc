@@ -424,7 +424,14 @@
     "_check_expression_operands@16",
     "_reject_special_indirection@8",
     "_dereference_pointer_type@4",
-    "_new_left_typed_expression@12"
+    "_new_left_typed_expression@12",
+    "_emit_expression_tree@4",
+    "_get_ir_symbol_index",
+    "_next_member_context@4",
+    "_emit_record_node@12",
+    "_pointer_kind_size@4",
+    "_node_alignment@4",
+    "_expression_type_alignment@4"
   ],
   "driver": [
     {
@@ -929,7 +936,7 @@
     {
       "name": "_emit_record_node@12",
       "start": 353968,
-      "end": 353969
+      "end": 355042
     },
     {
       "name": "_reference_ir_symbol@4",
@@ -939,7 +946,7 @@
     {
       "name": "_get_ir_symbol_index",
       "start": 371232,
-      "end": 371233
+      "end": 371417
     },
     {
       "name": "_ftell",
@@ -3132,7 +3139,7 @@
     {
       "name": "_pointer_kind_size@4",
       "start": 324400,
-      "end": 324401
+      "end": 324464
     },
     {
       "name": "_class_alignment_padding@4",
@@ -3997,7 +4004,7 @@
     {
       "name": "_emit_expression_tree@4",
       "start": 367504,
-      "end": 367505
+      "end": 368285
     },
     {
       "name": "_emit_parameter_declaration@4",
@@ -4128,6 +4135,36 @@
       "name": "_subtract_extended",
       "start": 478440,
       "end": 478441
+    },
+    {
+      "name": "_emit_string_intrinsic@4",
+      "start": 355056,
+      "end": 355057
+    },
+    {
+      "name": "_next_member_context@4",
+      "start": 345424,
+      "end": 345461
+    },
+    {
+      "name": "_node_alignment@4",
+      "start": 353792,
+      "end": 353968
+    },
+    {
+      "name": "_complete_type_size@4",
+      "start": 323376,
+      "end": 323377
+    },
+    {
+      "name": "_member_pointer_inheritance_model@4",
+      "start": 302608,
+      "end": 302609
+    },
+    {
+      "name": "_expression_type_alignment@4",
+      "start": 353632,
+      "end": 353705
     }
   ],
   "cases": {
@@ -5437,6 +5474,24 @@
           "name": "_extended_zero",
           "original": 654672,
           "bytes": 12
+        }
+      ]
+    },
+    {
+      "kind": "expression_codes",
+      "name": "_expression_record_rules",
+      "original": 662004,
+      "count": 213
+    },
+    {
+      "kind": "state",
+      "name": "_member_context_links",
+      "original": 652108,
+      "fields": [
+        {
+          "name": "_member_context_links",
+          "original": 652108,
+          "bytes": 4
         }
       ]
     }

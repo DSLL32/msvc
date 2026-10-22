@@ -173,6 +173,25 @@ for table in cfg.get('tables', []):
             seen.add(token)
             assert word(original, old+token*4) == value, 'declaration code differs: %d' % token
         print('%d contextual declaration codes match the original vocabulary.' % table['count'])
+    elif kind == 'expression_codes':
+        declarations = names['_declaration_codes']
+        count = word(rebuilt, names['_declaration_code_count'])
+        meanings = dict(struct.unpack('<II', read(rebuilt, declarations+i*8, 8))
+                        for i in range(count))
+        count = word(rebuilt, names['_expression_record_rule_count'])
+        seen = set()
+        for index in range(count):
+            token, value = struct.unpack('<II', read(rebuilt, new+index*8, 8))
+            assert token not in seen, 'duplicate expression record override'
+            seen.add(token)
+            meanings[token] = value
+        for token in range(table['count']):
+            assert meanings.get(token, 0x9e) == word(original, old+token*4), \
+                'expression record differs for token %02x' % token
+        for token in (3, 0x46, 0x67, 0x6e, 0x76, 0x7a, 0x81, 0x8f, 0xa8):
+            assert read(original, 0xa1d47+token, 1)[0] & 0x80, \
+                'expression special handler lacks its native flag'
+        print('%d contextual expression/declaration record meanings match the original.' % table['count'])
     elif kind == 'configuration':
         for offset in range(table['bytes']):
             assert state_addresses.setdefault(old+offset, new+offset) == new+offset, 'configuration/state alias was split'

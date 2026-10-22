@@ -36,3 +36,15 @@ unsigned __stdcall base_type_size(unsigned short flags, CppSymbol *tag)
     if (flags & 0x200) return 4;
     return flags & 15;
 }
+
+/* Original 0x4f330..0x4f370. Pointer representation sizes in the NT model. */
+unsigned __stdcall pointer_kind_size(unsigned short attributes)
+{
+    switch (attributes & 7) {
+    case 0: case 1: case 3: case 4: case 5: case 6: case 7:
+        return 4;
+    case 2:
+        return 8;
+    }
+    return 0;
+}

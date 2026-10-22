@@ -1,6 +1,9 @@
 /* Expression-stream records. Buffer operations stay inside their original caller. */
 #include "ir.h"
 #include "parser.h"
+#include "cpp-context.h"
+#include "expression-records.h"
+#include "type-sizes.h"
 
 CppSymbol *function_symbol; /* original 0x8c140 */
 CppSymbol *current_label_symbol; /* original 0x91384 */
@@ -214,4 +217,161 @@ void __stdcall register_label(CppSymbol *label)
     }
     label->next = label_symbols;
     label_symbols = label;
+}
+
+/* Original 0x5aa20..0x5aad9, cdecl. Count the actual serialized declaration
+   after alias selection, and release class-context suppression on methods. */
+unsigned get_ir_symbol_index(CppSymbol *symbol)
+{
+    CppSymbol *context, *alias;
+    if ((symbol->kind & 0x1f) == 7) {
+        context = cpp_context_stack->items[symbol->auxiliary.declaring_class];
+        while (context) {
+            context->flags &= ~8;
+            context = next_member_context(context);
+        }
+    }
+    ++symbol->references;
+    if (symbol->attributes & 0x40) {
+        if ((symbol->kind & 0x1f) == 3) symbol = static_member_alias(symbol);
+        else symbol = symbol_alias(symbol);
+        ++symbol->references;
+    } else if ((symbol->kind & 0x1f) == 7 &&
+               (symbol->cpp.parts.member_qualifiers & 1)) {
+        alias = method_alias(symbol);
+        ++alias->references;
+    }
+    if ((symbol->attributes & 2) &&
+        ((CppSymbol *)symbol->type->related->data.based_symbol)->index == 5 &&
+        function_symbol && !(function_symbol->storage[1] & 1)) {
+        function_call_seen = 1;
+        inline_candidate = 0;
+    }
+    return symbol->index;
+}
+
+/* Original 0x566b0..0x56ae2. Serialize the expression's machine type,
+   representation size, swapped qualifier bits and alignment exponent. */
+void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode)
+{
+    FILE *file = expression_file;
+    IrToken *typed_node = tag == 0x27 ? node->value.pointer : node;
+    TypeShape *shape;
+    unsigned short attributes, flags, kind, alignment, alignment_value;
+    unsigned short qualifiers, size_nibble, encoded;
+    unsigned shifted_alignment, bytes;
+    if (error_count) return;
+    shape = typed_node->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (shape && (!(shape->flags & 0x30) ||
+        ((shape->flags & 0x20) && member_pointer_inheritance_model(typed_node->type) == 1))) {
+        attributes = shape->attributes;
+        kind = (attributes & 7) == 3 ? IR_TYPE_FAR16_POINTER : IR_TYPE_POINTER;
+        bytes = pointer_kind_size(attributes);
+        alignment_value = node_alignment(node);
+        shifted_alignment = alignment_value >> 1;
+        alignment = 0;
+        while (shifted_alignment) { ++alignment; shifted_alignment >>= 1; }
+        if (++alignment > 5) alignment = 0;
+        alignment <<= 9;
+    } else if (shape && (shape->flags & 0x30) &&
+               member_pointer_is_aggregate(typed_node->type)) {
+        attributes = shape->attributes;
+        alignment = 0;
+        if (tag == 0x27 && ((IrToken *)node->value.pointer)->kind == 0xa7) {
+            kind = IR_TYPE_POINTER;
+            bytes = pointer_kind_size((unsigned short)data_pointer_kind);
+        } else {
+            kind = IR_TYPE_AGGREGATE;
+            bytes = tag == 0x27 ? 0 : complete_type_size(typed_node->type);
+        }
+    } else {
+        attributes = typed_node->type->attributes;
+        shape = typed_node->type->related;
+        if (shape && (shape->flags & 0x10)) node->type = builtin_integer_type();
+        flags = typed_node->type->flags;
+        alignment_value = node_alignment(node);
+        shifted_alignment = alignment_value >> 1;
+        alignment = 0;
+        while (shifted_alignment) { ++alignment; shifted_alignment >>= 1; }
+        if (++alignment > 5) alignment = 0;
+        alignment <<= 9;
+        if (flags & 0x40) {
+            kind = (flags & 0x4000) || (options.configuration.option_J &&
+                (flags & 0x2fdf) == 0x41 && !(flags & 0x8000)) ?
+                IR_TYPE_UNSIGNED : IR_TYPE_SIGNED;
+            bytes = flags & 15;
+        } else if (flags & 0x200) {
+            kind = IR_TYPE_SIGNED;
+            bytes = 4;
+        } else if (flags & 0x100) {
+            kind = mode == 1 ? IR_TYPE_EXTENDED : IR_TYPE_FLOAT;
+            bytes = mode == 1 ? 10 : flags & 15;
+        } else if (flags & 0x400) {
+            kind = IR_TYPE_AGGREGATE;
+            bytes = tag == 0x27 ? 0 : complete_type_size(typed_node->type);
+        } else if (flags & 0x80) {
+            kind = IR_TYPE_VOID;
+            bytes = 0;
+        } else if (flags & 0x800) {
+            kind = IR_TYPE_UNSIGNED;
+            bytes = 2;
+        } else {
+            kind = IR_TYPE_UNKNOWN;
+            bytes = 0;
+        }
+    }
+    qualifiers = ((attributes & 0x2000) ? 0x1000 : 0) |
+                 ((attributes & 0x1000) ? 0x2000 : 0);
+    size_nibble = kind == IR_TYPE_AGGREGATE && bytes >= 32 ? 0 : (unsigned short)bytes;
+    size_nibble <<= 4;
+    encoded = alignment | qualifiers | kind | size_nibble;
+    if (encoded > 0x7f) putc((encoded >> 8) | 0x80, file);
+    putc((unsigned char)encoded, file);
+    if (kind == IR_TYPE_AGGREGATE && !size_nibble)
+        PUT_IR_INTEGER(expression_file, bytes);
+}
+
+/* Original 0x56600..0x566b0. Selected wrappers expose their left operand;
+   member expressions use the smaller alignment of the two child types. */
+unsigned short __stdcall node_alignment(IrToken *node)
+{
+    IrToken *selected = node;
+    unsigned char category = token_categories[node->kind];
+    unsigned short left, right;
+    switch (category) {
+    case 0x6a: /* argument */
+    case 0x6b: /* assignment operators */
+    case 0x3d: /* assignment */
+    case 0x46: /* dereference */
+    case 0x7d: /* increment/decrement */
+    case 0x7e: /* initialization */
+        selected = selected->value.pointer;
+        break;
+    }
+    if (token_categories[selected->kind] == 0x3e)
+        selected = selected->value.pointer;
+    if (token_categories[selected->kind] == 0x8e) {
+        left = expression_type_alignment(((IrToken *)selected->value.pointer)->type);
+        right = expression_type_alignment(selected->tail.right->type);
+        if (left < right)
+            return expression_type_alignment(((IrToken *)selected->value.pointer)->type);
+        return expression_type_alignment(selected->tail.right->type);
+    }
+    return expression_type_alignment(node->type);
+}
+
+/* Original 0x56560..0x565a9. This expression entry is separate from the
+   global-record alignment helper at 0x565b0, despite its identical body. */
+typedef char ExpressionClassAlignmentOffsetMustBe50[
+    (offsetof(ClassInfo, alignment_flags) == 50) ? 1 : -1];
+unsigned short __stdcall expression_type_alignment(CType *type)
+{
+    CppSymbol *tag;
+    if (type->related && (type->related->flags & 0x77) != 2) return 4;
+    if (type->flags & 0x400) {
+        tag = cpp_context_stack->items[type->field08];
+        return tag->detail.class_info->alignment_flags & 0x3f;
+    }
+    return type->flags & 15;
 }

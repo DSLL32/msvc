@@ -3,4 +3,6 @@
 #include "inline-vector.h"
 extern InlineVector *cpp_context_stack;
 void initialize_cpp_context_stack(void);
+struct CppSymbol;
+struct CppSymbol *__stdcall next_member_context(struct CppSymbol *context);
 #endif

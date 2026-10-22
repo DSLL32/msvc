@@ -729,3 +729,22 @@ with the frozen receipt in evidence/replay-builtin-unary-receipt.json. Current
 matching trap is emit_expression_tree at 0x59b90. Accepted executable extent
 union is 137,783 / 476,418 bytes (28.921%, not branch coverage). Complete frontend
 equivalence remains pending.
+
+
+Expression-tree serialization now retains the whole native recursion, constant
+folding, void casts, function entry, hidden-parameter flags, argument lists and
+switch chains. Its record meanings are contextual overrides of the declaration
+vocabulary; all 213 native meanings are audited. Symbol indexing retains the
+C++ member-context and alias edges with canonical reference and inlining state.
+Typed-record output retains pointer/member-pointer, aggregate, enum, floating,
+segment and void representations, qualifiers, sizes and alignment. The separate
+expression alignment entry preserves its own identity and checked class offset.
+Evidence: evidence/expression-output.txt.
+
+All 427 frontiers pass with exact streams, visible files, pending FILE buffers,
+logical callers and eleven runtime observations. The frozen four-pair receipt
+is evidence/replay-expression-output-receipt.json and its ordered log is
+evidence/replay-expression-output.log. Current matching trap is
+emit_parameter_declaration at 0x34740, after matching function-entry output.
+Accepted executable extent union is 140,173 / 476,418 bytes (29.422%, not branch
+coverage), with 358 source functions. Complete frontend equivalence is pending.

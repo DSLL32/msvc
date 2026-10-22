@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 420,
-  "driver_functions": 344,
+  "accepted_frontiers": 427,
+  "driver_functions": 351,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 351,
-  "current_frontier": "_emit_expression_tree@4",
-  "original_frontier_va": "0x59b90",
+  "reconstructed_source_functions": 358,
+  "current_frontier": "_emit_parameter_declaration@4",
+  "original_frontier_va": "0x34740",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "afe43e9b95e576c83090e65c1ee4e5f57b716e5d97e833df4f0d380adc705df9",
-  "call_graph_audit_functions": 351,
+  "replay_log_sha256": "35c7fe54170289bc3ad803139cc4f01dc6b731177cbee12d65d5bcf8e4478f8f",
+  "call_graph_audit_functions": 358,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -66,7 +66,9 @@
     "captured_class_error_count_defaults": 1,
     "control_record_schemas": 36,
     "control_record_state_defaults": 8,
-    "builtin_unary_state_defaults": 7
+    "builtin_unary_state_defaults": 7,
+    "expression_record_meanings": 213,
+    "member_context_map_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -94,7 +96,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-builtin-unary.log",
+  "replay_log": "evidence/replay-expression-output.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -430,7 +432,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "efb6e0949f0720d617d6dffe17aa346dbd74e21aa83c4717da4bad2cb216d91c",
+  "replay_build_text_sha256": "c9df423bc11ebdca860169ae365e7c11cf61d1b915ce89e174c9e30874497a8c",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -659,9 +661,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 137783,
+    "bytes": 140173,
     "total_original_executable_bytes": 476418,
-    "percent": 28.920611731714587,
+    "percent": 29.422272038420044,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -834,16 +836,34 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-builtin-unary-receipt.json",
-    "receipt_sha256": "40dec72a97c2a3b81838e5e9836e6cb462ec64ef69dfcccb4ac3ce21362aca36",
+    "receipt": "evidence/replay-expression-output-receipt.json",
+    "receipt_sha256": "e107beb81b91951daa24f09470899c459cbd3cb3b61897e3c804b3f469261287",
     "jobs": 4,
-    "frontiers": 420,
-    "seconds": 102.11799751315266,
+    "frontiers": 427,
+    "seconds": 106.52818580064923,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 11,
     "private_masked_executables_workdirs_logs": true,
     "frozen_source_build_harness_fixture_hashes_checked": true,
     "final_ordinary_comparator": true,
     "serial_replay_available": true
+  },
+  "expression_output": {
+    "evidence": "evidence/expression-output.txt",
+    "new_whole_functions": 7,
+    "expression_tree_native_callees": 8,
+    "symbol_index_native_callees": 4,
+    "typed_record_native_callees": 8,
+    "record_meanings_audited": 213,
+    "class_alignment_offset": 50,
+    "ctype_context_index_offset": 8,
+    "hidden_parameter_flag_restoration": true,
+    "final_ret_operand_included": true,
+    "all_427_frontiers_replayed": true,
+    "no_frontend_output_normalization": true,
+    "function_entry_records_match": true,
+    "constructor_body_completed": false,
+    "pending_expression_buffer": "004f1f80000080244f020a004f01075353267d002687005aa643998643462d86004c",
+    "pending_global_buffer": "1186032e1d30016400000000120a006370702d62617369632e63707000"
   }
 }

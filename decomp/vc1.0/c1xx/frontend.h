@@ -39,7 +39,7 @@ void initialize_frontend(void);
 unsigned pack_option_flags(void);
 void preprocess_translation_unit(void);
 void __stdcall record_string_literal(IrToken *token);
-void __stdcall emit_version_token(IrToken *token);
+IrToken *__stdcall emit_version_token(IrToken *token);
 int compare_filenames(char *first, char *second);
 void begin_automatic_pch(void);
 void begin_debug_info(void);

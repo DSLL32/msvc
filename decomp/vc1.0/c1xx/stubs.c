@@ -1,3 +1,5 @@
+#include "cpp-context.h"
+#include "expression-records.h"
 #include "function-definitions.h"
 #include "unary-expressions.h"
 #include "control-ir.h"
@@ -31,7 +33,7 @@ void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
 void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 void __stdcall record_string_literal(IrToken *token) { __asm { int 3 } }
-void __stdcall emit_version_token(IrToken *token) { __asm { int 3 } }
+IrToken *__stdcall emit_version_token(IrToken *token) { __asm { int 3 } return 0; }
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
 void begin_debug_info(void) { __asm { int 3 } }
@@ -53,9 +55,7 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 0; }
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 CType *builtin_integer_type(void) { __asm { int 3 } return 0; }
-void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode) { __asm { int 3 } }
 void __stdcall reference_ir_symbol(CppSymbol *symbol) { __asm { int 3 } }
-unsigned get_ir_symbol_index(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
@@ -347,7 +347,6 @@ void __stdcall print_inline_declaration(CppSymbol *symbol, unsigned *flags) { __
 unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall data_member_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall member_function_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
-unsigned __stdcall pointer_kind_size(unsigned short attributes) { __asm { int 3 } return 0; }
 
 
 
@@ -506,7 +505,6 @@ IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymb
 unsigned __stdcall function_parameter_bytes(CppSymbol *parameters) { __asm { int 3 } return 0; }
 void __stdcall print_declaration(CppSymbol *symbol, FILE *stream) { __asm { int 3 } }
 
-void __stdcall emit_expression_tree(IrToken *expression) { __asm { int 3 } }
 void __stdcall emit_parameter_declaration(CppSymbol *parameter) { __asm { int 3 } }
 void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } }
 
@@ -534,3 +532,9 @@ CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 
 int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 Extended *__stdcall save_extended_constant(Extended *value) { __asm { int 3 } return 0; }
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
+
+int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } return 0; }
+
+
+unsigned __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
+unsigned __stdcall member_pointer_inheritance_model(CType *type) { __asm { int 3 } return 0; }

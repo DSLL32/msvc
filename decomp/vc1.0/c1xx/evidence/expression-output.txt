@@ -1,0 +1,62 @@
+Expression-tree and typed-record output
+
+Seven whole functions accepted after frontier 420 (end addresses exclusive):
+  emit_expression_tree       0x59b90..0x59e9d, stdcall 4, 8 native callees
+  get_ir_symbol_index        0x5aa20..0x5aad9, cdecl,     4 native callees
+  next_member_context        0x54550..0x54575, stdcall 4, 1 native callee
+  emit_record_node           0x566b0..0x56ae2, stdcall 12,8 native callees
+  pointer_kind_size          0x4f330..0x4f370, stdcall 4, 0 native callees
+  node_alignment             0x56600..0x566b0, stdcall 4, 1 native callee
+  expression_type_alignment  0x56560..0x565a9, stdcall 4, 0 native callees
+
+The recursive writer retains string finalization, constant-symbol folding,
+based references, void cast elision, function entries, argument lists,
+intrinsics and switch-case chains. Ordinary nodes retain their native zero,
+one or two child traversal and error-124 diagnostic. Function-entry output
+unwraps the special member designator, decrements the function reference count,
+temporarily suppresses the hidden ABI parameter, emits the remaining typed
+parameters and restores precisely flag bit 8 before the final 0x4c record.
+The switch consumer defines only its established next-link prefix; case payload
+fields belong to its record writer rather than an unrelated symbol-list type.
+
+The shared native vocabulary at 0xa19f4 has declaration and expression meanings.
+Contextual expression rules override the already recovered declaration rules;
+tokens with no specific meaning retain 0x9e. All 213 native DWORD meanings are
+audited against this logical vocabulary. The native special-handler flag is
+checked for each token with a special body; all other tokens use the ordinary
+path, including native flagged tokens whose dispatch default is ordinary.
+No original packed data area is copied into the implementation.
+
+Original 0x5cbc0 returns an IrToken pointer through all of its exits. Its old
+unaccepted emit_version_token placeholder had a void signature; this signature
+and all declarations now reflect its actual return ABI. The remaining string
+and intrinsic bodies are named trapping stubs and are not accepted by this case.
+
+Reference serialization clears member-context suppression, increments actual
+symbol references, resolves static/ordinary aliases and observes method aliases
+without replacing the symbol used for the returned index. Based-storage
+references disable inlining using the canonical function state. The lazy
+member-context hash-map pointer at 0x9f34c has an audited zero default and one
+canonical object. The reached wrapper returns null while this map is absent;
+its unvisited lookup edge remains a named original hash helper.
+
+Typed records retain NT pointer sizes, C++ member-pointer model classification,
+aggregate byte counts, enum/integer/floating/segment/void categories, swapped
+const/volatile bits, compact size fields and extended aggregate lengths. /J
+reads the current configuration field at 0x9f7ac. The emitted alignment exponent
+comes from the original expression alignment entry; its class lookup uses the
+CType signed index at +8 and ClassInfo alignment byte at +50, with compile-time
+offset checks. The identical global alignment entry retains its own identity.
+The smaller member-child alignment is selected with the original repeated calls.
+
+The instruction-boundary guard rejected a provisional pointer_kind_size extent
+that split the final RET 4. The accepted extent includes all three bytes of that
+return instruction. All accepted extents pass the same guard and graph audit.
+
+At frontier 427 both sides reach emit_parameter_declaration at 0x34740, after
+matching function-entry output. Exact visible files, stdout/stderr, pending FILE
+buffers, logical callers and all eleven runtime observations remain required at
+every replay frontier. Frontend bytes are never normalized. Accepted executable
+extent union is 140,173 / 476,418 bytes (29.422%), including source functions,
+shared text, matched CRT and imports, clipped and unioned. This is not branch
+coverage. Complete cpp-basic frontend equivalence remains pending.
