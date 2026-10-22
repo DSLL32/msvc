@@ -470,7 +470,11 @@
     "_emit_vtable_pointer_initializers@12",
     "_emit_vtordisp_initializers@8",
     "_end_compound_statement",
-    "_leave_compound_scope"
+    "_leave_compound_scope",
+    "_end_compound_scope_record",
+    "_emit_return_statement@8",
+    "_begin_return_expression",
+    "_finish_return_expression@8"
   ],
   "driver": [
     {
@@ -1933,7 +1937,7 @@
     {
       "name": "_begin_return_expression",
       "start": 254848,
-      "end": 254849
+      "end": 254906
     },
     {
       "name": "_begin_seh_filter",
@@ -2113,7 +2117,7 @@
     {
       "name": "_emit_return_statement@8",
       "start": 328272,
-      "end": 328273
+      "end": 329572
     },
     {
       "name": "_emit_seh_filter@4",
@@ -4647,7 +4651,7 @@
     {
       "name": "_end_compound_scope_record",
       "start": 255664,
-      "end": 255665
+      "end": 255865
     },
     {
       "name": "_finish_function_records",
@@ -4663,6 +4667,26 @@
       "name": "_queue_closed_scope@4",
       "start": 350384,
       "end": 350385
+    },
+    {
+      "name": "_emit_nonnull_expression_statement@4",
+      "start": 270480,
+      "end": 270481
+    },
+    {
+      "name": "_emit_pending_function_cleanup",
+      "start": 324544,
+      "end": 324545
+    },
+    {
+      "name": "_finish_return_expression@8",
+      "start": 254912,
+      "end": 255493
+    },
+    {
+      "name": "_new_right_typed_expression@12",
+      "start": 397920,
+      "end": 397921
     }
   ],
   "cases": {
@@ -6049,6 +6073,23 @@
         {
           "name": "_maximum_signed_int_constant",
           "original": 654368,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_function_shapes",
+      "original": 651988,
+      "fields": [
+        {
+          "name": "_function_shapes",
+          "original": 651988,
+          "bytes": 84
+        },
+        {
+          "name": "_pragma_values",
+          "original": 652072,
           "bytes": 4
         }
       ]

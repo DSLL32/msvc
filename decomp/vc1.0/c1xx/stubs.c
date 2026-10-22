@@ -1,4 +1,5 @@
 #include "binary-expressions.h"
+#include "return-statements.h"
 #include "expression-preparation.h"
 #include "constructor-initializers.h"
 #include "statement-scopes.h"
@@ -144,7 +145,6 @@ IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object,
 void begin_nested_initializer(void) { __asm { int 3 } }
 CppSymbol *__stdcall begin_object_initializer(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
-void begin_return_expression(void) { __asm { int 3 } }
 void begin_seh_filter(void) { __asm { int 3 } }
 void begin_seh_finally(void) { __asm { int 3 } }
 void begin_seh_try(void) { __asm { int 3 } }
@@ -177,12 +177,13 @@ void __stdcall emit_conditional_branch(IrToken *first, IrToken *condition, IrTok
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
 void __stdcall emit_label(IrToken *label) { __asm { int 3 } }
-void __stdcall emit_return_statement(IrToken *expression, int mode) { __asm { int 3 } }
+void emit_pending_function_cleanup(void) { __asm { int 3 } }
+IrToken *__stdcall new_right_typed_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
-void end_compound_scope_record(void) { __asm { int 3 } }
+void __stdcall emit_nonnull_expression_statement(IrToken *expression) { __asm { int 3 } }
 void finish_function_records(void) { __asm { int 3 } }
 void emit_scope_cleanup_references(void) { __asm { int 3 } }
 void __stdcall queue_closed_scope(SymbolScope *scope) { __asm { int 3 } }

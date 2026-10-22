@@ -49,6 +49,7 @@ CType *__stdcall intern_type(TypeDescription *description)
 /* Calling-convention/pointer-model cache, original 0x9f2d4..0x9f328.
    Valid combinations use conventions 0..6 and near/far models 1..2. */
 TypeShape *function_shapes[21];
+typedef char FunctionShapeCacheBytesMustBe84[(sizeof(function_shapes) == 84) ? 1 : -1];
 TypeDescription function_type_scratch; /* original 0x98150, pointer 0xa1e2c */
 TypeShape function_shape_scratch;      /* original 0x98160, pointer 0xa1e30 */
 

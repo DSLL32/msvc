@@ -1,5 +1,6 @@
 /* Expression preparation and deferred-record cleanup. */
 #include "expression-preparation.h"
+#include "return-statements.h"
 #include "lexer.h"
 #include <setjmp.h>
 
@@ -88,6 +89,78 @@ IrToken *__stdcall prepare_expression(IrToken *expression, int mode)
         if (retained.symbol) append_frontend_record(&retained.header, sizeof(retained));
     }
 finished:
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
+    return expression;
+}
+
+/* Original 0x3e3c0..0x3e605. Preserve a return value in a compiler
+   temporary when processing pending cleanup expressions would replace it. */
+IrToken *__stdcall finish_return_expression(IrToken *expression, int preserve_value)
+{
+    jmp_buf recovery;
+    FrontendRecord marker;
+    IrToken *saved_expression, *deferred, *cleanup, *temporary;
+    CType *type;
+    unsigned index;
+    deferred = cleanup = 0;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        saved_expression = expression;
+        if (ir_records_suppressed) return expression;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return saved_expression;
+        }
+    }
+    if (ir_record_tail) {
+        if ((ir_record_tail->kind & 0x3f) == 13)
+            deferred = prepare_expression(0, 2);
+        if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 8) {
+            ir_record_tail->kind = (ir_record_tail->kind & 0xcb) | 11;
+            goto process_return;
+        }
+    }
+    marker.kind = 9;
+    marker.flags = 0;
+    marker.field02 = 0;
+    marker.sequence = 0;
+    marker.next = 0;
+    marker.previous = 0;
+    append_frontend_record(&marker, sizeof(marker));
+process_return:
+    if (!expression && preserve_value) {
+        if (ir_record_error_context == recovery) ir_record_error_context = 0;
+        return 0;
+    }
+    cleanup = process_expression_records(0);
+    if (deferred || cleanup) {
+        type = 0;
+        temporary = 0;
+        if (preserve_value && expression) {
+            type = expression->type;
+            if (type->flags != 0x80 || type->related) {
+                if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+                if (next_symbol_index >= browser_symbol_limit && browser_filename)
+                    browser_symbol_rollover();
+                index = next_symbol_index++;
+                temporary = new_temporary_reference(index, type);
+                expression = new_left_typed_expression(0x3d, temporary, expression);
+            }
+        }
+        if (deferred) {
+            if (expression) expression = new_right_typed_expression(0x40, expression, deferred);
+            else expression = deferred;
+        }
+        if (cleanup) {
+            if (expression) expression = new_right_typed_expression(0x40, expression, cleanup);
+            else expression = cleanup;
+        }
+        if (temporary) {
+            temporary = new_temporary_reference(index, type);
+            temporary = indirect_storage_expression(temporary);
+            expression = new_ir_expression(0x40, expression, temporary, type);
+        }
+    }
     if (ir_record_error_context == recovery) ir_record_error_context = 0;
     return expression;
 }

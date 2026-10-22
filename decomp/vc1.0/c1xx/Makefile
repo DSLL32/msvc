@@ -16,7 +16,7 @@ build/parser-grammar.obj: build/parser-grammar.c parser-grammar.h | prefix
 OBJECTS = build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj build/linkage.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/option-data.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/keywords.obj build/floating.obj build/cpp-context.obj build/inline-vector.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/declarations.obj build/declaration-bind.obj build/declaration-lookup.obj build/special-functions.obj build/runtime-symbols.obj build/option-state.obj build/parser-state.obj build/resolve-declaration.obj build/declarator-shapes.obj build/symbol-types.obj build/hash-table.obj build/type-attributes.obj build/parameters.obj build/macros.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/operators.obj build/token-spellings.obj
 OBJECTS += build/expression-preparation.obj build/binary-expressions.obj
 OBJECTS += build/constructor-initializers.obj
-OBJECTS += build/statement-scopes.obj
+OBJECTS += build/statement-scopes.obj build/return-statements.obj
 OBJECTS += build/expression-output.obj build/expression-records.obj
 OBJECTS += build/unary-expressions.obj build/inline-analysis.obj
 OBJECTS += build/control-ir.obj build/control-formats.obj build/ir-encoding.obj

@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 466,
-  "driver_functions": 390,
+  "accepted_frontiers": 470,
+  "driver_functions": 394,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 397,
-  "current_frontier": "_end_compound_scope_record",
-  "original_frontier_va": "0x3e6b0",
+  "reconstructed_source_functions": 401,
+  "current_frontier": "_process_expression_records@4",
+  "original_frontier_va": "0x40fc0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "e55655b1ee88f4a921d9fd3a6b150bda0379172e06c0138d493baab036a11313",
-  "call_graph_audit_functions": 397,
+  "replay_log_sha256": "0e049a0de6ed4237400bd0e704a05d2944ef570792953656ba0f77b35df1ff9d",
+  "call_graph_audit_functions": 401,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -98,7 +98,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-constructor-scope-exit.log",
+  "replay_log": "evidence/replay-constructor-return.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -318,7 +318,7 @@
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true
   },
-  "accepted_source_text_and_switch_bytes": 147029,
+  "accepted_source_text_and_switch_bytes": 149169,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -437,7 +437,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "3f93e132adad7d6626fa754d1c18b8ec2c8f954e5b68a71c316d5034738750ce",
+  "replay_build_text_sha256": "050cfb922e3899a544e1dc8d329890715e99abd768be86799de5e4d993826c94",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -666,9 +666,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 157120,
+    "bytes": 159260,
     "total_original_executable_bytes": 476418,
-    "percent": 32.97944242241057,
+    "percent": 33.42862780163638,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -841,11 +841,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-constructor-scope-exit-receipt.json",
-    "receipt_sha256": "73709eb9f508b8fc5e4ce4186378ff333932bd21b89207b4188015b3c5297561",
+    "receipt": "evidence/replay-constructor-return-receipt.json",
+    "receipt_sha256": "395ce7957b62169b7f6ad365a6ce0fd7d2f08d739a6c70b75c66ed3d6a8c589c",
     "jobs": 4,
-    "frontiers": 466,
-    "seconds": 117.84898234996945,
+    "frontiers": 470,
+    "seconds": 130.31408016290516,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 14,
     "private_masked_executables_workdirs_logs": true,
@@ -976,6 +976,25 @@
     "only_native_table_selectors_zero_and_one": true,
     "constructor_assignment_and_tables_complete": true,
     "all_466_frontiers_replayed": true,
+    "runtime_checkpoint_fields": 14,
+    "constructor_body_completed": false,
+    "no_frontend_output_normalization": true
+  },
+  "constructor_return": {
+    "evidence": "evidence/constructor-return.txt",
+    "new_whole_functions": 4,
+    "compound_record_native_callees": 4,
+    "return_dispatch_native_callees": 20,
+    "return_marker_native_callees": 1,
+    "return_cleanup_native_callees": 11,
+    "constructor_uses_adjusted_this": true,
+    "canonical_return_udt_name_reused": true,
+    "return_value_temporary_preserved": true,
+    "jmp_buf_bytes": 32,
+    "function_shape_cache_entries": 21,
+    "function_shape_cache_bytes": 84,
+    "following_pragma_values_address": "0x9f328",
+    "all_470_frontiers_replayed": true,
     "runtime_checkpoint_fields": 14,
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 466 accepted paired frontiers, including 390 frontend
+PARTIAL reconstruction: 470 accepted paired frontiers, including 394 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _end_compound_scope_record at original VA 0x3e6b0. The latest ordered replay is recorded in validation.json;
+trap is _process_expression_records@4 at original VA 0x40fc0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -878,3 +878,19 @@ extent union is 157,120 / 476,418 bytes (32.979%, not branch coverage), with 397
 source functions. Both runs reach end_compound_scope_record at 0x3e6b0 while the
 constructor body closes. Constructor return/finalization and complete frontend
 equivalence remain unfinished.
+
+
+The whole return dispatcher now retains implicit constructor returns, ordinary
+and aggregate conversion, return-type inference, temporary cleanup and errors.
+Constructor returns use the native adjusted-this helper. Return cleanup retains
+its own error context, region markers and optional preserved-value temporary.
+The canonical function-shape cache remains 21 entries/84 bytes, with an explicit
+boundary/default audit against the following pragma-values cell. Evidence:
+evidence/constructor-return.txt.
+
+All 470 frontiers pass the frozen full comparator in 130.314 seconds, including
+exact output/pending buffers, callers and fourteen state observations. Receipt:
+evidence/replay-constructor-return-receipt.json. Accepted executable extent
+union is 159,260 / 476,418 bytes (33.429%, not branch coverage), with 401 source
+functions. Both runs reach process_expression_records at 0x40fc0 within implicit
+constructor return cleanup. Complete constructor/frontend equivalence is pending.

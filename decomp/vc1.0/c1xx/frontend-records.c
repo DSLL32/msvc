@@ -1,4 +1,5 @@
 #include "statement-scopes.h"
+#include "expression-preparation.h"
 /* Linked records assembled before frontend expression output. */
 #include "frontend-records.h"
 #include "parameters.h"
@@ -313,4 +314,40 @@ void __stdcall mark_initialized_symbol(CppSymbol *symbol)
     initializing_symbol = symbol;
     if (symbol && symbol_has_reference_shape(symbol)) initializing_reference = 1;
     else initializing_reference = 0;
+}
+
+/* Original 0x3e6b0..0x3e779. Cancel an empty compound opener;
+   other scopes retain a close marker and process non-control records. */
+void end_compound_scope_record(void)
+{
+    FrontendRecord marker;
+    unsigned char kind;
+    if (ir_records_suppressed) return;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 15) {
+        remove_last_frontend_record();
+        return;
+    }
+    kind = ir_record_tail->kind & 0x3f;
+    marker.kind = 16;
+    marker.flags = 0;
+    marker.field02 = 0;
+    marker.sequence = 0;
+    marker.next = 0;
+    marker.previous = 0;
+    append_frontend_record(&marker, sizeof(marker));
+    if (kind != 9 && kind != 11 && (kind < 0x36 || kind > 0x39))
+        emit_nonnull_expression_statement(process_expression_records(0));
+}
+
+/* Original 0x3e380..0x3e3ba: start a return-cleanup region. */
+void begin_return_expression(void)
+{
+    FrontendRecord record;
+    record.kind = 8;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
 }
