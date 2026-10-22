@@ -12,6 +12,7 @@ import subprocess
 from binary import PE, imports, u32
 
 wt = importlib.machinery.SourceFileLoader('wine_tool', 'wine-tool.py').load_module()
+direct = importlib.machinery.SourceFileLoader('direct_case', 'direct-case.py').load_module()
 interrupt = importlib.machinery.SourceFileLoader('interrupt_case', 'interrupt-case.py').load_module()
 remaining = importlib.machinery.SourceFileLoader('remaining_case', 'remaining-case.py').load_module()
 FIXTURE = Path('../fixtures/resources-rich').resolve()
@@ -144,7 +145,8 @@ def prepare(count=None):
 
 def run(label, executable):
     child = Path(executable).resolve().parent / 'rcpp.exe'
-    assert child.is_symlink() and child.resolve() == (wt.TC / 'bin/RCPP.EXE').resolve(), 'RC must execute original RCPP'
+    if EXECUTION != 'direct-helper':
+        assert child.is_symlink() and child.resolve() == (wt.TC / 'bin/RCPP.EXE').resolve(), 'RC must execute original RCPP'
     work = work_directory(label)
     if work.exists():
         shutil.rmtree(work)
@@ -153,6 +155,8 @@ def run(label, executable):
     else:
         work.mkdir(parents=True)
     stem = Path('build') / label
+    if EXECUTION == 'direct-helper':
+        return direct.run(label,executable,ARGUMENTS,work,stem,publics())
     if EXECUTION == 'real-console-ctrl-c':
         return interrupt.run(executable, ARGUMENTS, work, stem, original=label == 'original')
     if EXECUTION in ('verbose-native-pid','missing-sibling-PATH'):
@@ -257,6 +261,10 @@ def compare(count=None):
             assert observed == products, (label, 'case files or product set differ')
         if CASE == 'resources-rich':
             print('Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.')
+        elif EXECUTION == 'direct-helper':
+            for label in ('original','reconstructed'):
+                direct.retain(label,ARGUMENTS,work_directory(label),Path('build')/label)
+            print('Direct helper %s: exact returned data, stdcall cleanup and nonvolatile ABI match; no CLI reachability claimed.' % ARGUMENTS)
         elif EXECUTION == 'verbose-native-pid':
             for label in ('original','reconstructed'):
                 remaining.retain_verbose(label)

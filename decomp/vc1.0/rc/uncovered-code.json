@@ -1,7 +1,7 @@
 {
-  "accepted_code_extent_bytes": 46113,
+  "accepted_code_extent_bytes": 46249,
   "total_code_extent_bytes": 53248,
-  "uncovered_bytes": 7135,
+  "uncovered_bytes": 6999,
   "groups": {
     "verbose-public": {
       "bytes": 0,
@@ -334,19 +334,19 @@
       ]
     },
     "unused-formatter-and-string-helpers": {
-      "bytes": 206,
+      "bytes": 70,
       "ranges": [
         {
           "start": 16839632,
           "end": 16839675,
           "label": "whitespace helper",
-          "uncovered_bytes": 43
+          "uncovered_bytes": 0
         },
         {
           "start": 16839984,
           "end": 16840077,
           "label": "copy basename helper",
-          "uncovered_bytes": 93
+          "uncovered_bytes": 0
         },
         {
           "start": 16848848,

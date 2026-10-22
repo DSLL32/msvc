@@ -1,0 +1,2 @@
+exception 80000003 rva 0000f530 base 01000000 first 1
+exit 99

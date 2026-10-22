@@ -1,8 +1,8 @@
 {
   "status": "cases-complete",
   "case": "resources-rich",
-  "accepted_frontiers": 252,
-  "replayed_frontiers": 268,
+  "accepted_frontiers": 254,
+  "replayed_frontiers": 272,
   "current_frontiers": {
     "resources-rich": "exit:0",
     "help": "exit:0",
@@ -19,17 +19,21 @@
     "scanf-pushback": "exit:0",
     "console-interrupt": "exit:1",
     "verbose-names": "exit:0",
-    "path-fallback": "exit:0"
+    "path-fallback": "exit:0",
+    "direct-whitespace": "exit:0",
+    "direct-basename": "exit:0"
   },
-  "replayed_cases": 16,
+  "replayed_cases": 18,
+  "CLI_cases": 16,
+  "direct_function_ABI_cases": 2,
   "exact_final_product_verified": true,
-  "source_functions_audited": 191,
+  "source_functions_audited": 193,
   "checks": [
-    "all accepted paired frontiers replayed from masked entry in their originating case",
+    "all accepted paired frontiers replayed from masked entry or explicitly labelled direct helper entry in their originating case",
     "direct call vertices, callback references and RET cleanup agree for accepted source functions",
     "instruction-end guards pass for every accepted source/CRT/import extent in both images",
     "CRT initializer and termination callback sequences agree",
-    "exit statuses, input files, products and stderr match all 16 oracles; stdout exact except explicitly validated six-digit native PID fields in verbose-names"
+    "exit statuses, input files, products and stderr match all 18 oracles; stdout exact except explicitly validated six-digit native PID fields in verbose-names"
   ],
   "target": {
     "path": "toolchains/1.0-nt/bin/RC.EXE",
@@ -37,9 +41,9 @@
     "image_base": 16777216,
     "entry": 16849232
   },
-  "reconstruction_sha256": "2ee5bb4193aee5217c8e6193f5b4955c2c2834f575d04849f5d2b864ead101f2",
+  "reconstruction_sha256": "ace1b3c4472afe2824d91a8941cce53f6dbc931cddb4b0f1c751232e65dce5f2",
   "fixture_manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
-  "frontier_log_sha256": "e695065522da3fc23302e06d94d9ce319e134c40c5beb9bcb3779c0d451b0a3b",
+  "frontier_log_sha256": "29e364f47e9f2e8b96a5786785f333b8f697437ed0dc2d361217e646cb76d73d",
   "graph_audit": {
     "_mainCRTStartup": {
       "original_calls": {
@@ -81,20 +85,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f8a0": [
-          "__setenvp"
-        ],
-        "0x1f740": [
-          "__XcptFilter"
-        ],
-        "0x20c84": [
-          "import:GetCommandLineA"
+        "0x1fa80": [
+          "__ioinit"
         ],
         "0x11304": [
           "__setargv"
         ],
         "0x1d524": [
           "__exit"
+        ],
+        "0x20d88": [
+          "import:GetVersion"
         ],
         "0x11188": [
           "__heap_init"
@@ -108,14 +109,17 @@
         "0x1d50a": [
           "_exit"
         ],
-        "0x1f970": [
-          "__ioinit"
-        ],
-        "0x20c78": [
-          "import:GetVersion"
-        ],
-        "0x20c7e": [
+        "0x20d8e": [
           "import:GetEnvironmentStrings"
+        ],
+        "0x1f9b0": [
+          "__setenvp"
+        ],
+        "0x1f850": [
+          "__XcptFilter"
+        ],
+        "0x20d94": [
+          "import:GetCommandLineA"
         ]
       },
       "stack_cleanup": [
@@ -130,7 +134,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20c8a": [
+        "0x20d9a": [
           "import:GetProcessHeap"
         ]
       },
@@ -220,14 +224,8 @@
         "0x12982": [
           "__makepath"
         ],
-        "0x1fb90": [
-          "__mktemp"
-        ],
-        "0x1fa90": [
-          "_fopen"
-        ],
-        "0x1fb10": [
-          "_getenv"
+        "0x1fc00": [
+          "__spawnv"
         ],
         "0x1f210": [
           "__spawnvp"
@@ -235,23 +233,32 @@
         "0x12394": [
           "_rc_toupper"
         ],
-        "0x1fc90": [
-          "_sscanf"
-        ],
         "0x11296": [
           "_resource_alloc@4"
         ],
-        "0x20ca2": [
-          "import:SetConsoleCtrlHandler"
+        "0x1fca0": [
+          "__mktemp"
+        ],
+        "0x1fba0": [
+          "_fopen"
+        ],
+        "0x1fc20": [
+          "_getenv"
+        ],
+        "0x1fda0": [
+          "_sscanf"
         ],
         "0x1272c": [
           "_switch_character@4"
         ],
-        "0x1fab0": [
-          "_fprintf"
+        "0x20db2": [
+          "import:SetConsoleCtrlHandler"
         ],
         "0x1d638": [
           "_fflush"
+        ],
+        "0x1fbc0": [
+          "_fprintf"
         ],
         "0x1d442": [
           "_interrupt_resource@4"
@@ -262,14 +269,11 @@
         "0x1d358": [
           "_resource_finish"
         ],
-        "0x1fc60": [
-          "__strupr"
-        ],
         "0x12764": [
           "__splitpath"
         ],
-        "0x1faf0": [
-          "__spawnv"
+        "0x1fd70": [
+          "__strupr"
         ],
         "0x1527a": [
           "_seek_file@12"
@@ -290,7 +294,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20c90": [
+        "0x20da0": [
           "import:HeapAlloc"
         ]
       },
@@ -321,7 +325,7 @@
         "0x113c2": [
           "_parse_cmdline"
         ],
-        "0x20c9c": [
+        "0x20dac": [
           "import:GetModuleFileNameA"
         ],
         "0x1119d": [
@@ -365,16 +369,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ],
-        "0x20ca8": [
+        "0x20db8": [
           "import:WideCharToMultiByte"
         ],
-        "0x20cb4": [
+        "0x20dc4": [
           "import:MultiByteToWideChar"
         ],
-        "0x20cae": [
+        "0x20dbe": [
           "import:LCMapStringW"
         ]
       },
@@ -390,7 +394,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fda0": [
+        "0x1feb0": [
           "_strncpy"
         ]
       },
@@ -442,10 +446,10 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20620": [
+        "0x20730": [
           "__fcloseall"
         ],
-        "0x205e0": [
+        "0x206f0": [
           "_remove"
         ],
         "0x1d50a": [
@@ -478,20 +482,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20620": [
-          "__fcloseall"
-        ],
-        "0x20660": [
-          "_vfprintf"
-        ],
-        "0x205e0": [
-          "_remove"
+        "0x1fbc0": [
+          "_fprintf"
         ],
         "0x1d50a": [
           "_exit"
         ],
-        "0x1fab0": [
-          "_fprintf"
+        "0x20730": [
+          "__fcloseall"
+        ],
+        "0x20770": [
+          "_vfprintf"
+        ],
+        "0x206f0": [
+          "_remove"
         ]
       },
       "stack_cleanup": [
@@ -534,11 +538,12 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1ff40": [
-          "_sprintf"
+        "0x200c0": [
+          "__alloca_probe",
+          "__chkstk"
         ],
-        "0x1fce0": [
-          "__isctype"
+        "0x1fba0": [
+          "_fopen"
         ],
         "0x13b62": [
           "_detect_encoding@4"
@@ -546,18 +551,17 @@
         "0x13ea0": [
           "_trim_token@4"
         ],
+        "0x1ffe0": [
+          "_fclose"
+        ],
         "0x13d2c": [
           "_read_source_line@12"
         ],
-        "0x1ffb0": [
-          "__alloca_probe",
-          "__chkstk"
+        "0x20050": [
+          "_sprintf"
         ],
-        "0x1fa90": [
-          "_fopen"
-        ],
-        "0x1fed0": [
-          "_fclose"
+        "0x1fdf0": [
+          "__isctype"
         ],
         "0x13e33": [
           "_prefix_matches@8"
@@ -706,14 +710,14 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
-        "0x20500": [
-          "_wcscmp"
-        ],
         "0x1db05": [
           "_emit_font_directory"
         ],
         "0x1c20c": [
           "_read_bitmap_file_header"
+        ],
+        "0x20610": [
+          "_wcscmp"
         ],
         "0x1c390": [
           "_parse_raw_data@4"
@@ -745,14 +749,11 @@
         "0x182ac": [
           "_parse_memory_flag@4"
         ],
-        "0x1fab0": [
-          "_fprintf"
+        "0x16eb0": [
+          "_find_resource_type@8"
         ],
         "0x17131": [
           "_release_resource_data"
-        ],
-        "0x16eb0": [
-          "_find_resource_type@8"
         ],
         "0x17638": [
           "_next_token@4"
@@ -762,6 +763,9 @@
         ],
         "0x16fb8": [
           "_initialize_resource_types"
+        ],
+        "0x1fbc0": [
+          "_fprintf"
         ],
         "0x1dbc4": [
           "_read_icon_file_header@4"
@@ -871,7 +875,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20c96": [
+        "0x20da6": [
           "import:HeapFree"
         ]
       },
@@ -887,7 +891,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20c90": [
+        "0x20da0": [
           "import:HeapAlloc"
         ]
       },
@@ -933,35 +937,35 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20cc0": [
-          "import:CloseHandle"
+        "0x1ff60": [
+          "__dosmaperr"
+        ],
+        "0x1fee0": [
+          "__lseek"
         ],
         "0x132a2": [
           "__read"
         ],
-        "0x20cc6": [
-          "import:GetFileType"
+        "0x20dca": [
+          "import:GetLastError"
         ],
         "0x135ea": [
           "__chsize"
         ],
-        "0x20ccc": [
-          "import:CreateFileA"
-        ],
-        "0x1fe50": [
-          "__dosmaperr"
-        ],
-        "0x1fdd0": [
-          "__lseek"
+        "0x20dd0": [
+          "import:CloseHandle"
         ],
         "0x12f74": [
           "__alloc_osfhnd"
         ],
+        "0x20dd6": [
+          "import:GetFileType"
+        ],
         "0x12fd6": [
           "__set_osfhnd"
         ],
-        "0x20cba": [
-          "import:GetLastError"
+        "0x20ddc": [
+          "import:CreateFileA"
         ],
         "0x131bd": [
           "__close"
@@ -987,7 +991,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20cd2": [
+        "0x20de2": [
           "import:SetStdHandle"
         ]
       },
@@ -1003,7 +1007,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20cd2": [
+        "0x20de2": [
           "import:SetStdHandle"
         ]
       },
@@ -1039,20 +1043,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20cc0": [
-          "import:CloseHandle"
+        "0x1ff60": [
+          "__dosmaperr"
         ],
         "0x13165": [
           "__get_osfhandle"
         ],
-        "0x1fe50": [
-          "__dosmaperr"
+        "0x20dca": [
+          "import:GetLastError"
+        ],
+        "0x20dd0": [
+          "import:CloseHandle"
         ],
         "0x13096": [
           "__free_osfhnd"
-        ],
-        "0x20cba": [
-          "import:GetLastError"
         ]
       },
       "stack_cleanup": [
@@ -1076,16 +1080,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20cd8": [
+        "0x20de8": [
           "import:ReadFile"
         ],
-        "0x20cba": [
+        "0x20dca": [
           "import:GetLastError"
         ],
-        "0x1fe50": [
+        "0x1ff60": [
           "__dosmaperr"
         ],
-        "0x1fdd0": [
+        "0x1fee0": [
           "__lseek"
         ]
       },
@@ -1116,17 +1120,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1ffe0": [
-          "_fgetc"
-        ],
         "0x15541": [
           "_ftell"
         ],
-        "0x1fce0": [
-          "__isctype"
-        ],
         "0x15744": [
           "_fseek"
+        ],
+        "0x200f0": [
+          "_fgetc"
+        ],
+        "0x1fdf0": [
+          "__isctype"
         ],
         "0x157f8": [
           "_fread"
@@ -1147,7 +1151,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1ffe0": [
+        "0x200f0": [
           "_fgetc"
         ]
       },
@@ -1179,7 +1183,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ]
       },
@@ -1241,7 +1245,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20020": [
+        "0x20130": [
           "__flsbuf"
         ]
       },
@@ -1303,13 +1307,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x201a0": [
+        "0x202b0": [
           "__flush"
         ],
         "0x13600": [
           "__write"
         ],
-        "0x20020": [
+        "0x20130": [
           "__flsbuf"
         ]
       },
@@ -1334,16 +1338,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fdd0": [
+        "0x1fee0": [
           "__lseek"
         ],
-        "0x20cba": [
+        "0x20dca": [
           "import:GetLastError"
         ],
-        "0x1fe50": [
+        "0x1ff60": [
           "__dosmaperr"
         ],
-        "0x20cde": [
+        "0x20dee": [
           "import:WriteFile"
         ]
       },
@@ -1383,7 +1387,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fdd0": [
+        "0x1fee0": [
           "__lseek"
         ]
       },
@@ -1405,13 +1409,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x201a0": [
+        "0x202b0": [
           "__flush"
         ],
         "0x15541": [
           "_ftell"
         ],
-        "0x1fdd0": [
+        "0x1fee0": [
           "__lseek"
         ]
       },
@@ -1533,8 +1537,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20cc0": [
-          "import:CloseHandle"
+        "0x20e00": [
+          "import:CreateProcessA"
+        ],
+        "0x1ff60": [
+          "__dosmaperr"
         ],
         "0x11222": [
           "_calloc"
@@ -1542,23 +1549,20 @@
         "0x1d524": [
           "__exit"
         ],
-        "0x20ce4": [
-          "import:GetExitCodeProcess"
-        ],
         "0x11207": [
           "_free"
         ],
-        "0x20cea": [
-          "import:WaitForSingleObject"
-        ],
-        "0x20cf0": [
-          "import:CreateProcessA"
-        ],
-        "0x1fe50": [
-          "__dosmaperr"
-        ],
-        "0x20cba": [
+        "0x20dca": [
           "import:GetLastError"
+        ],
+        "0x20dd0": [
+          "import:CloseHandle"
+        ],
+        "0x20df4": [
+          "import:GetExitCodeProcess"
+        ],
+        "0x20dfa": [
+          "import:WaitForSingleObject"
         ]
       },
       "stack_cleanup": [
@@ -1592,7 +1596,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fed0": [
+        "0x1ffe0": [
           "_fclose"
         ],
         "0x15232": [
@@ -1648,16 +1652,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ],
-        "0x20ca8": [
+        "0x20db8": [
           "import:WideCharToMultiByte"
         ],
-        "0x20cb4": [
+        "0x20dc4": [
           "import:MultiByteToWideChar"
         ],
-        "0x20cae": [
+        "0x20dbe": [
           "import:LCMapStringW"
         ]
       },
@@ -1699,7 +1703,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fab0": [
+        "0x1fbc0": [
           "_fprintf"
         ],
         "0x1d358": [
@@ -1727,13 +1731,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fc60": [
+        "0x1fd70": [
           "__strupr"
         ],
         "0x181e2": [
           "_atoi"
         ],
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ],
         "0x1757e": [
@@ -1773,9 +1777,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
-          "__isctype"
-        ],
         "0x17c84": [
           "_scan_number_token"
         ],
@@ -1787,6 +1788,9 @@
         ],
         "0x177a5": [
           "_scan_keyword_or_symbol@4"
+        ],
+        "0x1fdf0": [
+          "__isctype"
         ],
         "0x17c94": [
           "_scan_expression"
@@ -1868,7 +1872,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fab0": [
+        "0x1fbc0": [
           "_fprintf"
         ],
         "0x1d358": [
@@ -1887,7 +1891,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f583": [
+        "0x1f694": [
           "import:RtlAnsiStringToUnicodeString"
         ]
       },
@@ -1958,14 +1962,14 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
+        "0x20660": [
+          "_wcslen"
+        ],
         "0x1b4c8": [
           "_copy_resource_memory@8"
         ],
         "0x1844c": [
           "_parser_error@8"
-        ],
-        "0x20550": [
-          "_wcslen"
         ],
         "0x17f58": [
           "_parse_language"
@@ -2056,14 +2060,14 @@
         ]
       },
       "reconstructed_calls": {
+        "0x20660": [
+          "_wcslen"
+        ],
         "0x17328": [
           "_put_word@4"
         ],
         "0x190e8": [
           "_write_resource@8"
-        ],
-        "0x20550": [
-          "_wcslen"
         ],
         "0x16eb0": [
           "_find_resource_type@8"
@@ -2151,6 +2155,9 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1fba0": [
+          "_fopen"
+        ],
         "0x1c044": [
           "_resolve_resource_path@12"
         ],
@@ -2159,9 +2166,6 @@
         ],
         "0x1844c": [
           "_parser_error@8"
-        ],
-        "0x1fa90": [
-          "_fopen"
         ],
         "0x1527a": [
           "_seek_file@12"
@@ -2435,11 +2439,11 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1fbc0": [
+          "_fprintf"
+        ],
         "0x17147": [
           "_resource_stream@4"
-        ],
-        "0x1fab0": [
-          "_fprintf"
         ],
         "0x15232": [
           "_read_file@12"
@@ -2494,8 +2498,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
-          "__isctype"
+        "0x1fbc0": [
+          "_fprintf"
         ],
         "0x1bcc5": [
           "_finish_accelerators"
@@ -2509,8 +2513,8 @@
         "0x1bbed": [
           "_accelerator_word_operators@4"
         ],
-        "0x1fab0": [
-          "_fprintf"
+        "0x1fdf0": [
+          "__isctype"
         ],
         "0x1bcb0": [
           "_mark_accelerator"
@@ -2570,6 +2574,9 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1ffe0": [
+          "_fclose"
+        ],
         "0x1bfa4": [
           "_read_resource_file"
         ],
@@ -2587,9 +2594,6 @@
         ],
         "0x16eb0": [
           "_find_resource_type@8"
-        ],
-        "0x1fed0": [
-          "_fclose"
         ],
         "0x15232": [
           "_read_file@12"
@@ -2691,7 +2695,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20500": [
+        "0x20610": [
           "_wcscmp"
         ],
         "0x11296": [
@@ -2719,7 +2723,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20550": [
+        "0x20660": [
           "_wcslen"
         ],
         "0x170b1": [
@@ -2847,11 +2851,15 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
-          "__isctype"
+        "0x200c0": [
+          "__alloca_probe",
+          "__chkstk"
         ],
         "0x18400": [
           "_lexical_error@8"
+        ],
+        "0x1fbc0": [
+          "_fprintf"
         ],
         "0x16286": [
           "_advance_character"
@@ -2859,12 +2867,8 @@
         "0x1636a": [
           "_read_source_character"
         ],
-        "0x1ffb0": [
-          "__alloca_probe",
-          "__chkstk"
-        ],
-        "0x1fab0": [
-          "_fprintf"
+        "0x1fdf0": [
+          "__isctype"
         ],
         "0x12394": [
           "_rc_toupper"
@@ -2898,11 +2902,12 @@
         ]
       },
       "reconstructed_calls": {
+        "0x200c0": [
+          "__alloca_probe",
+          "__chkstk"
+        ],
         "0x18400": [
           "_lexical_error@8"
-        ],
-        "0x1fce0": [
-          "__isctype"
         ],
         "0x16286": [
           "_advance_character"
@@ -2910,9 +2915,8 @@
         "0x1636a": [
           "_read_source_character"
         ],
-        "0x1ffb0": [
-          "__alloca_probe",
-          "__chkstk"
+        "0x1fdf0": [
+          "__isctype"
         ],
         "0x12394": [
           "_rc_toupper"
@@ -2943,6 +2947,10 @@
         ]
       },
       "reconstructed_calls": {
+        "0x200c0": [
+          "__alloca_probe",
+          "__chkstk"
+        ],
         "0x18400": [
           "_lexical_error@8"
         ],
@@ -2954,10 +2962,6 @@
         ],
         "0x1636a": [
           "_read_source_character"
-        ],
-        "0x1ffb0": [
-          "__alloca_probe",
-          "__chkstk"
         ]
       },
       "stack_cleanup": [
@@ -3098,7 +3102,7 @@
         "0x12394": [
           "_rc_toupper"
         ],
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ]
       },
@@ -3133,7 +3137,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ],
         "0x17920": [
@@ -3207,9 +3211,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
-          "__isctype"
-        ],
         "0x16286": [
           "_advance_character"
         ],
@@ -3224,6 +3225,9 @@
         ],
         "0x17f30": [
           "_skip_expression_space"
+        ],
+        "0x1fdf0": [
+          "__isctype"
         ]
       },
       "stack_cleanup": [
@@ -3252,7 +3256,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20570": [
+        "0x20680": [
           "_strchr"
         ],
         "0x17f30": [
@@ -3291,7 +3295,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20598": [
+        "0x206a8": [
           "__strcmpi",
           "__stricmp"
         ]
@@ -3308,7 +3312,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ]
       },
@@ -3378,7 +3382,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fab0": [
+        "0x1fbc0": [
           "_fprintf"
         ],
         "0x1d358": [
@@ -3535,6 +3539,9 @@
         "0x19060": [
           "_combine_word_operators@4"
         ],
+        "0x1fbc0": [
+          "_fprintf"
+        ],
         "0x18200": [
           "_ansi_to_wide@12"
         ],
@@ -3546,9 +3553,6 @@
         ],
         "0x1844c": [
           "_parser_error@8"
-        ],
-        "0x1fab0": [
-          "_fprintf"
         ],
         "0x18fd4": [
           "_advance_argument"
@@ -3672,14 +3676,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x196a5": [
-          "_copy_resource_data@16"
-        ],
-        "0x20550": [
+        "0x20660": [
           "_wcslen"
         ],
-        "0x1fab0": [
+        "0x1fbc0": [
           "_fprintf"
+        ],
+        "0x196a5": [
+          "_copy_resource_data@16"
         ],
         "0x18252": [
           "_wide_to_ansi@12"
@@ -3712,7 +3716,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20550": [
+        "0x20660": [
           "_wcslen"
         ],
         "0x151fc": [
@@ -3756,7 +3760,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fed0": [
+        "0x1ffe0": [
           "_fclose"
         ],
         "0x19791": [
@@ -3781,7 +3785,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f589": [
+        "0x1f69a": [
           "import:RtlUnicodeStringToAnsiString"
         ]
       },
@@ -4099,11 +4103,11 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
+        "0x1fbc0": [
+          "_fprintf"
+        ],
         "0x1844c": [
           "_parser_error@8"
-        ],
-        "0x1fab0": [
-          "_fprintf"
         ],
         "0x18fd4": [
           "_advance_argument"
@@ -4134,7 +4138,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fab0": [
+        "0x1fbc0": [
           "_fprintf"
         ],
         "0x18200": [
@@ -4175,14 +4179,14 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
+        "0x1fbc0": [
+          "_fprintf"
+        ],
         "0x1a34b": [
           "_wide_itoa@12"
         ],
         "0x1844c": [
           "_parser_error@8"
-        ],
-        "0x1fab0": [
-          "_fprintf"
         ],
         "0x17638": [
           "_next_token@4"
@@ -4219,7 +4223,7 @@
         "0x1844c": [
           "_parser_error@8"
         ],
-        "0x1fab0": [
+        "0x1fbc0": [
           "_fprintf"
         ]
       },
@@ -4331,7 +4335,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fab0": [
+        "0x1fbc0": [
           "_fprintf"
         ],
         "0x1aae2": [
@@ -4596,24 +4600,24 @@
         "0x1a8c0": [
           "_parse_control_text@4"
         ],
+        "0x1fbc0": [
+          "_fprintf"
+        ],
         "0x18200": [
           "_ansi_to_wide@12"
         ],
         "0x1aa23": [
           "_parse_control_id@4"
         ],
-        "0x20598": [
-          "__strcmpi",
-          "__stricmp"
-        ],
         "0x19c48": [
           "_parse_style@4"
         ],
+        "0x206a8": [
+          "__strcmpi",
+          "__stricmp"
+        ],
         "0x1844c": [
           "_parser_error@8"
-        ],
-        "0x1fab0": [
-          "_fprintf"
         ],
         "0x1aa72": [
           "_parse_control_rectangle@4"
@@ -4696,6 +4700,9 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1fbc0": [
+          "_fprintf"
+        ],
         "0x18200": [
           "_ansi_to_wide@12"
         ],
@@ -4704,9 +4711,6 @@
         ],
         "0x1844c": [
           "_parser_error@8"
-        ],
-        "0x1fab0": [
-          "_fprintf"
         ],
         "0x19dba": [
           "_advance_argument_flags@4"
@@ -4847,13 +4851,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fa90": [
+        "0x1fba0": [
           "_fopen"
         ],
-        "0x1fb10": [
+        "0x1fc20": [
           "_getenv"
         ],
-        "0x1fed0": [
+        "0x1ffe0": [
           "_fclose"
         ]
       },
@@ -5171,7 +5175,7 @@
         "0x1d604": [
           "__initterm"
         ],
-        "0x20cf6": [
+        "0x20e06": [
           "import:ExitProcess"
         ]
       },
@@ -5255,7 +5259,7 @@
         "0x1d784": [
           "__commit"
         ],
-        "0x201a0": [
+        "0x202b0": [
           "__flush"
         ]
       },
@@ -5317,7 +5321,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x201a0": [
+        "0x202b0": [
           "__flush"
         ]
       },
@@ -5351,9 +5355,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
-          "__isctype"
-        ],
         "0x1ed62": [
           "__inc"
         ],
@@ -5371,6 +5372,9 @@
         ],
         "0x1eeaf": [
           "_mbtowc"
+        ],
+        "0x1fdf0": [
+          "__isctype"
         ]
       },
       "stack_cleanup": [
@@ -5439,7 +5443,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ]
       },
@@ -5455,7 +5459,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fce0": [
+        "0x1fdf0": [
           "__isctype"
         ]
       },
@@ -5527,20 +5531,20 @@
         ]
       },
       "reconstructed_calls": {
+        "0x20820": [
+          "__spawnve"
+        ],
+        "0x1fc20": [
+          "_getenv"
+        ],
+        "0x20680": [
+          "_strchr"
+        ],
         "0x11207": [
           "_free"
         ],
         "0x1f44b": [
           "__getpath"
-        ],
-        "0x20710": [
-          "__spawnve"
-        ],
-        "0x1fb10": [
-          "_getenv"
-        ],
-        "0x20570": [
-          "_strchr"
         ],
         "0x1119d": [
           "_malloc"
@@ -5556,6 +5560,22 @@
       "reconstructed_calls": {},
       "stack_cleanup": [
         0
+      ],
+      "indirect_calls": false
+    },
+    "_is_space_byte@4": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        4
+      ],
+      "indirect_calls": false
+    },
+    "_copy_basename@8": {
+      "original_calls": {},
+      "reconstructed_calls": {},
+      "stack_cleanup": [
+        8
       ],
       "indirect_calls": false
     }
@@ -6243,7 +6263,7 @@
           },
           "stdout.bin": {
             "bytes": 349,
-            "sha256": "7121f7c37f9c548fab5a158e91c6cfdfe91b082b43c5fc1cb79931559c1824be"
+            "sha256": "de6df3d0e5dc123a00806db3d89cfdc71fc88f15e7ca8a5631fee6446b4879eb"
           },
           "verbose.res": {
             "bytes": 180,
@@ -6251,18 +6271,18 @@
           }
         },
         "symbolic_stdout": {
-          "pid": 1540,
+          "pid": 328,
           "bytes": 349,
           "fields": [
             {
               "offset": 161,
               "length": 6,
-              "native_digits": "001540"
+              "native_digits": "000328"
             },
             {
               "offset": 173,
               "length": 6,
-              "native_digits": "001540"
+              "native_digits": "000328"
             }
           ]
         }
@@ -6343,12 +6363,140 @@
         }
       },
       "exact_streams_status_and_file_set": true
+    },
+    "direct-whitespace": {
+      "shared_fixture": "cases/direct-helpers",
+      "manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "case": {
+        "id": "direct-whitespace",
+        "kind": "direct-function-ABI",
+        "arguments": [
+          "whitespace"
+        ],
+        "expected_exit": 0,
+        "function": {
+          "name": "_is_space_byte@4",
+          "rva": 62416,
+          "bytes": 43,
+          "results": 1024,
+          "calls": 256,
+          "cleanup": 4
+        },
+        "stdout": {
+          "path": "whitespace/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "whitespace/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "output_name": "results.bin",
+            "path": "whitespace/results.bin",
+            "bytes": 1024,
+            "sha256": "59f9184a4beae1fd1b5550bf7b053cdb0fc75a3193899827997318aab95c3300"
+          }
+        ],
+        "proof": {
+          "path": "whitespace/proof.log",
+          "bytes": 201,
+          "sha256": "edcca136b67652d7cbbc11e078735657261b4b79606540e0618fd261cc7f986b"
+        }
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "whitespace",
+        "exit": 0,
+        "inputs": {},
+        "oracle": {
+          "results.bin": {
+            "bytes": 1024,
+            "sha256": "59f9184a4beae1fd1b5550bf7b053cdb0fc75a3193899827997318aab95c3300"
+          },
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
+    },
+    "direct-basename": {
+      "shared_fixture": "cases/direct-helpers",
+      "manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "case": {
+        "id": "direct-basename",
+        "kind": "direct-function-ABI",
+        "arguments": [
+          "basename"
+        ],
+        "expected_exit": 0,
+        "function": {
+          "name": "_copy_basename@8",
+          "rva": 62768,
+          "bytes": 93,
+          "results": 600,
+          "calls": 6,
+          "cleanup": 8
+        },
+        "stdout": {
+          "path": "basename/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "basename/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "output_name": "results.bin",
+            "path": "basename/results.bin",
+            "bytes": 600,
+            "sha256": "4d79a50838f5b0ebcc68239297218171c79a1e3b4398fb469bf9b594da256776"
+          }
+        ],
+        "proof": {
+          "path": "basename/proof.log",
+          "bytes": 192,
+          "sha256": "da25fedbc04adad16db8f9984ff6933c9d0ff36c238018ed42961207ec789808"
+        }
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "basename",
+        "exit": 0,
+        "inputs": {},
+        "oracle": {
+          "results.bin": {
+            "bytes": 600,
+            "sha256": "4d79a50838f5b0ebcc68239297218171c79a1e3b4398fb469bf9b594da256776"
+          },
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
     }
   },
   "restored_text": {
-    "bytes": 46113,
+    "bytes": 46249,
     "total_bytes": 53248,
-    "percentage": 86.6,
+    "percentage": 86.86,
     "definition": "union of accepted source/CRT functions, shared text data and import thunks, clipped to original code extents; VirtualSize or backed raw fallback; not branch coverage"
   },
   "unaccepted_named_functions": [
@@ -6373,20 +6521,20 @@
   },
   "accepted_instruction_extents": {
     "original": {
-      "checked_extents": 252,
-      "checked_names": 252,
+      "checked_extents": 254,
+      "checked_names": 254,
       "complete_instruction_ends": true
     },
     "reconstruction": {
-      "checked_extents": 252,
-      "checked_names": 252,
+      "checked_extents": 254,
+      "checked_names": 254,
       "complete_instruction_ends": true
     }
   },
   "uncovered_code_inventory": {
-    "accepted_code_extent_bytes": 46113,
+    "accepted_code_extent_bytes": 46249,
     "total_code_extent_bytes": 53248,
-    "uncovered_bytes": 7135,
+    "uncovered_bytes": 6999,
     "groups": {
       "verbose-public": {
         "bytes": 0,
@@ -6719,19 +6867,19 @@
         ]
       },
       "unused-formatter-and-string-helpers": {
-        "bytes": 206,
+        "bytes": 70,
         "ranges": [
           {
             "start": 16839632,
             "end": 16839675,
             "label": "whitespace helper",
-            "uncovered_bytes": 43
+            "uncovered_bytes": 0
           },
           {
             "start": 16839984,
             "end": 16840077,
             "label": "copy basename helper",
-            "uncovered_bytes": 93
+            "uncovered_bytes": 0
           },
           {
             "start": 16848848,
@@ -6858,7 +7006,7 @@
             "__endstdio"
           ],
           "original": "0x100f8b0",
-          "reconstruction": "0x20290"
+          "reconstruction": "0x203a0"
         }
       ]
     },
@@ -6971,15 +7119,15 @@
     "font_directory_branch_exercised": false,
     "paired": {
       "original": {
-        "proof_sha256": "9df5c2826e7d12ada8e11e7adbcd406e27912fb2b40a2f8d333b76e64dfa9863",
+        "proof_sha256": "695fc401df1fd25e6bda959b498037263b070c319a78f4d7eecc11a33492a853",
         "before": {
-          "RC001120": {
+          "RC001620": {
             "bytes": 54,
             "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
           },
-          "RD001120": {
+          "RD001620": {
             "bytes": 90,
-            "sha256": "b23f4404a3f760b99b6064c65eb1d3ff60214d6719b0e5131bf25a9949c952e5"
+            "sha256": "e06576815ef6888bfbea2576808c03ae236b87b50e26b15ee7a30bc48dc4f694"
           },
           "interrupt.rc": {
             "bytes": 21,
@@ -6992,15 +7140,15 @@
         }
       },
       "reconstructed": {
-        "proof_sha256": "e63ebada4373db0a7db9ff506e80c68d18945344a6026f94c3b2c55b6d588ea4",
+        "proof_sha256": "6af3dbb334a4214686a268ac58891c122eed6f1cca6ee65a0dc4284c63765036",
         "before": {
-          "RC001288": {
+          "RC001636": {
             "bytes": 54,
             "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
           },
-          "RD001288": {
+          "RD001636": {
             "bytes": 90,
-            "sha256": "ecae97b06e6c81ce40c689f418c80523e54a718b4651de4b4314b5e16f4a8d37"
+            "sha256": "7c4eee801421b03056ce67b2903f638790bee5bbf3e1266258236b2fdccf308c"
           },
           "interrupt.rc": {
             "bytes": 21,
@@ -7016,37 +7164,86 @@
   },
   "verbose_native_stdout": {
     "original": {
-      "pid": 1896,
+      "pid": 624,
       "bytes": 349,
       "fields": [
         {
           "offset": 161,
           "length": 6,
-          "native_digits": "001896"
+          "native_digits": "000624"
         },
         {
           "offset": 173,
           "length": 6,
-          "native_digits": "001896"
+          "native_digits": "000624"
         }
       ]
     },
     "reconstructed": {
-      "pid": 1892,
+      "pid": 644,
       "bytes": 349,
       "fields": [
         {
           "offset": 161,
           "length": 6,
-          "native_digits": "001892"
+          "native_digits": "000644"
         },
         {
           "offset": 173,
           "length": 6,
-          "native_digits": "001892"
+          "native_digits": "000644"
         }
       ]
     },
     "comparison": "Full349-byte streams validated; only two six-digit fields at161/173 are symbolic. Raw streams retained unchanged."
-  }
+  },
+  "direct_helpers": {
+    "whitespace": {
+      "kind": "direct-function-ABI",
+      "natural_CLI_reachability": false,
+      "controller_directed_exit_status": 0,
+      "function": {
+        "name": "_is_space_byte@4",
+        "rva": 62416,
+        "bytes": 43,
+        "results": 1024,
+        "calls": 256,
+        "cleanup": 4
+      },
+      "paired": {
+        "original": {
+          "proof_sha256": "edcca136b67652d7cbbc11e078735657261b4b79606540e0618fd261cc7f986b",
+          "result_sha256": "59f9184a4beae1fd1b5550bf7b053cdb0fc75a3193899827997318aab95c3300"
+        },
+        "reconstructed": {
+          "proof_sha256": "16e7de3f0215fda942d79ca23d0b170f5533a96f08ee54cb757b80a90851226b",
+          "result_sha256": "59f9184a4beae1fd1b5550bf7b053cdb0fc75a3193899827997318aab95c3300"
+        }
+      }
+    },
+    "basename": {
+      "kind": "direct-function-ABI",
+      "natural_CLI_reachability": false,
+      "controller_directed_exit_status": 0,
+      "function": {
+        "name": "_copy_basename@8",
+        "rva": 62768,
+        "bytes": 93,
+        "results": 600,
+        "calls": 6,
+        "cleanup": 8
+      },
+      "paired": {
+        "original": {
+          "proof_sha256": "da25fedbc04adad16db8f9984ff6933c9d0ff36c238018ed42961207ec789808",
+          "result_sha256": "4d79a50838f5b0ebcc68239297218171c79a1e3b4398fb469bf9b594da256776"
+        },
+        "reconstructed": {
+          "proof_sha256": "3e0e2d017d0362bc9bae357c6b7ca2b0cb53211866a40ec5d7499ebc5c513c8f",
+          "result_sha256": "4d79a50838f5b0ebcc68239297218171c79a1e3b4398fb469bf9b594da256776"
+        }
+      }
+    }
+  },
+  "remaining_provenance_uncertain_native_candidates": []
 }

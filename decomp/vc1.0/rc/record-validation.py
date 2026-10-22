@@ -36,7 +36,10 @@ for name, count, outcome in entries[len(accepted):]:
 assert set(completed) == set(complete_cases)
 assert 'Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.' in log
 for name in complete_cases:
-    if name == 'verbose-names':
+    if complete_cases[name].get('kind') == 'direct-function-ABI':
+        mode=complete_cases[name]['arguments']
+        assert ('Direct helper %s: exact returned data, stdcall cleanup and nonvolatile ABI match; no CLI reachability claimed.' % mode) in log
+    elif name == 'verbose-names':
         assert 'Both verbose stdout streams match all 349 bytes with only the two exact six-digit native PID fields compared symbolically; stderr, exit status and complete case file set match the verbose-names oracle exactly.' in log
     elif name != 'resources-rich':
         assert ('Both raw streams, exit status and complete case file set match the %s oracle exactly.' % name) in log
@@ -55,9 +58,11 @@ if dialog_verified:
 report = dict(status='cases-complete', case='resources-rich',
               accepted_frontiers=len(accepted), replayed_frontiers=len(entries),
               current_frontiers=completed, replayed_cases=len(completed),
+              CLI_cases=sum(c.get('kind')!='direct-function-ABI' for c in complete_cases.values()),
+              direct_function_ABI_cases=sum(c.get('kind')=='direct-function-ABI' for c in complete_cases.values()),
               exact_final_product_verified=True,
               source_functions_audited=len(graph),
-              checks=['all accepted paired frontiers replayed from masked entry in their originating case',
+              checks=['all accepted paired frontiers replayed from masked entry or explicitly labelled direct helper entry in their originating case',
                       'direct call vertices, callback references and RET cleanup agree for accepted source functions',
                       'instruction-end guards pass for every accepted source/CRT/import extent in both images',
                       'CRT initializer and termination callback sequences agree',
@@ -161,6 +166,28 @@ if 'verbose-names' in complete_cases:
     report['verbose_native_stdout'] = {label:compare.remaining.verify_verbose(label,Path('build/verbose-native'))
                                       for label in ('original','reconstructed')}
     report['verbose_native_stdout']['comparison'] = 'Full349-byte streams validated; only two six-digit fields at161/173 are symbolic. Raw streams retained unchanged.'
+report['direct_helpers'] = {}
+for name,settings in complete_cases.items():
+    if settings.get('kind') != 'direct-function-ABI':
+        continue
+    mode=settings['arguments']
+    helper=compare.direct.fixture.HELPERS[mode]
+    data={}
+    for label in ('original','reconstructed'):
+        directory=Path('build/direct-helper-results')/mode/label
+        proof=(directory/'events.direct').read_text()
+        assert 'case=direct-'+mode in proof
+        assert 'ABI cleanup=%d nonvolatile=EBX,ESI,EDI,EBP preserved'%helper['cleanup'] in proof
+        assert 'passed=%d '%helper['calls'] in proof
+        raw=(directory/'results.bin').read_bytes()
+        assert len(raw)==helper['results']
+        data[label]=dict(proof_sha256=hashlib.sha256(proof.encode()).hexdigest(),
+                         result_sha256=hashlib.sha256(raw).hexdigest())
+    assert data['original']['result_sha256']==data['reconstructed']['result_sha256']
+    report['direct_helpers'][mode]=dict(kind='direct-function-ABI',natural_CLI_reachability=False,
+        controller_directed_exit_status=0,function=helper,paired=data)
+report['remaining_provenance_uncertain_native_candidates'] = [dict(mode=mode,**helper)
+    for mode,helper in compare.direct.fixture.HELPERS.items() if helper['name'] not in accepted]
 Path('validation-frontiers.txt').write_text(log)
 Path('validation.json').write_text(json.dumps(report, indent=2) + '\n')
 print('Recorded %d accepted frontiers, %d source functions and %d complete cases.' %

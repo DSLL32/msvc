@@ -34,7 +34,9 @@ for name in selected:
     stem = Path('build') / ('capture-' + name)
     env = wt.environment()
     env.update(TEMP=wt.windows(work), TMP=wt.windows(work))
-    if settings.get('execution') == 'real-console-ctrl-c':
+    if settings.get('execution') == 'direct-helper':
+        compare.direct.run('original',original,settings['arguments'],work,stem,compare.publics())
+    elif settings.get('execution') == 'real-console-ctrl-c':
         helper = importlib.machinery.SourceFileLoader('interrupt_case', 'interrupt-case.py').load_module()
         helper.run(original, settings['arguments'], work, stem, original=True)
     elif settings.get('execution') in ('verbose-native-pid','missing-sibling-PATH'):

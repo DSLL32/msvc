@@ -1082,6 +1082,16 @@
       "name": "__getpath",
       "start": 16838384,
       "end": 16838513
+    },
+    {
+      "name": "_is_space_byte@4",
+      "start": 16839632,
+      "end": 16839675
+    },
+    {
+      "name": "_copy_basename@8",
+      "start": 16839984,
+      "end": 16840077
     }
   ],
   "accepted": [
@@ -1336,7 +1346,9 @@
     "import:RtlUnicodeStringToAnsiString",
     "__spawnvp",
     "__spawnvpe",
-    "__getpath"
+    "__getpath",
+    "_is_space_byte@4",
+    "_copy_basename@8"
   ],
   "cases": {
     "resources-rich": {
@@ -1476,6 +1488,30 @@
       "execution": "missing-sibling-PATH",
       "suite_manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
       "accepted_end": 252
+    },
+    "direct-whitespace": {
+      "arguments": "whitespace",
+      "status": "complete",
+      "kind": "direct-function-ABI",
+      "execution": "direct-helper",
+      "exit": 0,
+      "accepted_start": 252,
+      "fixture": "cases/direct-helpers",
+      "oracle": "whitespace",
+      "suite_manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "accepted_end": 254
+    },
+    "direct-basename": {
+      "arguments": "basename",
+      "status": "complete",
+      "kind": "direct-function-ABI",
+      "execution": "direct-helper",
+      "exit": 0,
+      "accepted_start": 252,
+      "fixture": "cases/direct-helpers",
+      "oracle": "basename",
+      "suite_manifest_sha256": "a0973eab10a56a7ac31a2e6d7faa04215b9b165c131129c636be44a3b20afc32",
+      "accepted_end": 254
     }
   },
   "frontier_cases": {
@@ -1510,6 +1546,8 @@
     "import:RtlUnicodeStringToAnsiString": "verbose-names",
     "__spawnvp": "path-fallback",
     "__spawnvpe": "path-fallback",
-    "__getpath": "path-fallback"
+    "__getpath": "path-fallback",
+    "_is_space_byte@4": "direct-whitespace",
+    "_copy_basename@8": "direct-basename"
   }
 }
