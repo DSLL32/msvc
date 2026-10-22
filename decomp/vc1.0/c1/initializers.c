@@ -898,3 +898,21 @@ int __stdcall remaining_string_initializer_bytes(FrontendSymbol *symbol, IrToken
     symbol->type = replace_outer_type_shape(symbol->type, shape->flags, shape->attributes, &count);
     return 0;
 }
+
+/* Original 0x30e40..0x30eb5. An explicit brace starts the next scalar
+   frame or descends into an aggregate, reporting excess braces only once. */
+void begin_nested_initializer(void)
+{
+    if (initializer_depth < 0) return;
+    if (is_scalar_initializer_symbol(initializer_frame->symbol))
+        push_initializer_frame(initializer_frame->symbol);
+    else if (!descend_initializer_target(0)) {
+        if (!initializer_error_reported) {
+            ++initializer_error_reported;
+            report_syntax_error(78);
+        }
+        return;
+    }
+    initializer_frame->flags = 1;
+    if (is_scalar_initializer_symbol(initializer_frame->symbol)) initializer_frame->flags |= 4;
+}

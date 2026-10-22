@@ -126,3 +126,20 @@ int __stdcall subtraction_overflows(unsigned left, unsigned right,
         return addition_overflows(left, 0U - right, 0, bytes);
     return 0;
 }
+
+/* Original 0x2d250..0x2d298. Enumerators become ordinary signed int
+   constants, with their value stored in the enum-specific symbol prefix. */
+IrToken *__stdcall make_enumerator_constant(EnumeratorSymbol *symbol)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    IrToken *constant;
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    constant = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    constant->flags = 3;
+    constant->kind = TOK_INT_CONSTANT;
+    constant->value.integer = symbol->value;
+    constant->type = type_0064;
+    return constant;
+}

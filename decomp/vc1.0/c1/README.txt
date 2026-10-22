@@ -3,11 +3,11 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The first three captured cases are complete. The assigned fourth case,
-numeric-varargs (/Zi /Od /G5 /W3), is in progress: 487 reconstructed source
-functions and 586 accepted trap frontiers. All three earlier raw-output
+numeric-varargs (/Zi /Od /G5 /W3), is in progress: 510 reconstructed source
+functions and 609 accepted trap frontiers. All three earlier raw-output
 regressions pass. Every new numeric frontier replays with exact pending
 buffers, visible files and stdout/stderr except the two proven database
-timestamp fields. The current paired trap is emit_pdb_type at original 0x49230.
+timestamp fields. The current paired trap is pdb_argument_list_index at original 0x49760.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -454,3 +454,22 @@ logical grammar and contextual table audits pass. Accepted original code-extent
 union is 169602/277234 bytes (61.1765%, not branch coverage). The fourth case
 continues into native PDB type record construction; final output acceptance,
 clean build and full older-case replay remain pending.
+
+Checkpoint 510 adds native PDB scalar/pointer classification, nested type
+resolution, array and function records, numeric leaves, record padding,
+hash interning and list allocation. The whole legacy deferred flush is also
+reconstructed, preserving its /Zi early exit and every legacy call target.
+Character literals retain escaped-byte ordering, wide forms and DBCS tails;
+enum expressions and explicit nested initializer braces now execute too.
+Extended subtraction and its shared precision/range tail retain ten-byte
+values through documented narrow x87 transfers and arithmetic, since the
+original compiler cannot express that scalar type or ESI/ST(0) ABI in C.
+
+All 23 frontiers added since checkpoint 487 replay with matching bytes and
+diagnostics; checkpoint 487 had replayed the preceding 76 numeric frontiers.
+The current build passes all 510 source call graphs and instruction-boundary
+checks, 201 state/default/alias checks, 58 primitive debug codes and the
+remaining data, option and grammar audits. Accepted extent union is
+173101/277234 bytes (62.4386%, not branch coverage). New PDB records are now
+interned in memory; final database writing, case acceptance and full older
+frontier regressions remain pending.

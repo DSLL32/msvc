@@ -1292,3 +1292,24 @@ IrToken *__stdcall make_sizeof_type(CType *type)
     result->kind = TOK_UINT_CONSTANT;
     return result;
 }
+
+/* Original 0x2c450..0x2c496. Follow the designator-bearing side of
+   member, subscript, based-reference and conditional expression trees. */
+FrontendSymbol *__stdcall find_expression_symbol(IrToken *expression)
+{
+    ExpressionNode *node;
+    for (;;) {
+        node = (ExpressionNode *)expression;
+        switch (expression->kind) {
+        case TOK_IDENTIFIER: return (FrontendSymbol *)expression->value.pointer;
+        case TOK_COLON:
+            expression = node->value.children.right->type == expression->type ?
+                node->value.children.right : node->value.children.left;
+            break;
+        case TOK_LEFT_BRACKET: case TOK_MEMBER: case TOK_BASED_REFERENCE:
+            expression = node->value.children.left;
+            break;
+        default: return 0;
+        }
+    }
+}

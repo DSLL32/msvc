@@ -350,3 +350,72 @@ int double_to_extended(const double *value, Extended *number)
     }
     return 0;
 }
+
+/* Original 0x4c538..0x4c587. Period MSVC C has no 80-bit scalar type.
+   The narrow x87 blocks perform that arithmetic and bridge the ESI/ST(0)
+   tail ABI; target-format selection and status handling remain ordinary C. */
+int subtract_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        fsubp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}
+
+/* Greatest finite x87 extended value, original ten bytes at 0x71088. */
+Extended extended_round_limit = { 0xffffffffU, 0xffffffffU, 0x7ffe, 0 };
+
+/* Original 0x4c884..0x4c8f1, falling into shared store_extended.
+   This private entry receives ESI and an 80-bit value in ST(0). C cannot
+   express either input. Narrow transfers capture the pointer, load the
+   ten-byte limit, and optionally round via float/double storage; the range
+   and precision decisions remain C and retain the separate store entry. */
+int finish_extended_arithmetic(void)
+{
+    Extended *number;
+    unsigned short format;
+    int status;
+    __asm { mov number, esi }
+    format = number->format;
+    if (format == 4) {
+        __asm { fld tbyte ptr float_round_limit }
+    } else if (format == 10) {
+        __asm { fld tbyte ptr extended_round_limit }
+    } else {
+        __asm { fld tbyte ptr double_round_limit }
+    }
+    status = check_extended_range();
+    if (format != 10 && normalized_Op) {
+        if (format == 4) {
+            __asm {
+                fstp dword ptr floating_workspace
+                fld dword ptr floating_workspace
+            }
+        } else {
+            __asm {
+                fstp qword ptr floating_workspace
+                fld qword ptr floating_workspace
+            }
+        }
+    }
+    __asm {
+        mov esi, number
+        call store_extended
+    }
+    return status;
+}

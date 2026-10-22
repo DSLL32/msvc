@@ -590,7 +590,30 @@
     "_multiplication_overflows@16",
     "_dereference_pointer_type@4",
     "_prepare_symbol_debug_type@4",
-    "_emit_debug_type@4"
+    "_emit_debug_type@4",
+    "_emit_pdb_type",
+    "_pdb_type_index",
+    "_pdb_base_type_index",
+    "_pdb_primitive_type_index",
+    "_flush_debug_types",
+    "_pdb_shape_type_index",
+    "_pdb_primitive_pointer_index",
+    "_make_enumerator_constant@4",
+    "_begin_nested_initializer",
+    "_find_expression_symbol@4",
+    "_scan_character_literal@4",
+    "_subtract_extended",
+    "_finish_extended_arithmetic",
+    "_remove_pdb_type_shape",
+    "_pdb_array_type_index",
+    "_write_codeview_number",
+    "_intern_pdb_record",
+    "_check_pdb_record_size",
+    "_intern_program_database_type",
+    "@insert_program_database_type@12",
+    "_hash_pdb_record",
+    "@reserve_pdb_record_bytes@12",
+    "_pdb_function_type_index"
   ],
   "driver": [
     {
@@ -1403,7 +1426,7 @@
     {
       "name": "_scan_character_literal@4",
       "start": 136832,
-      "end": 136833
+      "end": 137387
     },
     {
       "name": "_scan_string_literal@8",
@@ -1779,7 +1802,7 @@
     {
       "name": "_begin_nested_initializer",
       "start": 200256,
-      "end": 200257
+      "end": 200373
     },
     {
       "name": "_finish_nested_initializer",
@@ -2516,7 +2539,7 @@
     {
       "name": "_flush_debug_types",
       "start": 293600,
-      "end": 293601
+      "end": 293985
     },
     {
       "name": "_cache_parameter_bytes@4",
@@ -3416,7 +3439,7 @@
     {
       "name": "_make_enumerator_constant@4",
       "start": 184912,
-      "end": 184913
+      "end": 184984
     },
     {
       "name": "_prepend_expression_type_shape@16",
@@ -3476,7 +3499,7 @@
     {
       "name": "_find_expression_symbol@4",
       "start": 181328,
-      "end": 181329
+      "end": 181398
     },
     {
       "name": "_find_expression_type_base@4",
@@ -3496,7 +3519,7 @@
     {
       "name": "_subtract_extended",
       "start": 312632,
-      "end": 312633
+      "end": 312711
     },
     {
       "name": "_save_extended_constant@4",
@@ -4016,7 +4039,7 @@
     {
       "name": "_emit_pdb_type",
       "start": 299568,
-      "end": 299569
+      "end": 299598
     },
     {
       "name": "_primitive_pointer_debug_index@4",
@@ -4037,6 +4060,171 @@
       "name": "_emit_function_debug_type@4",
       "start": 292864,
       "end": 292865
+    },
+    {
+      "name": "_pdb_type_index",
+      "start": 299600,
+      "end": 299664
+    },
+    {
+      "name": "_pdb_shape_type_index",
+      "start": 299664,
+      "end": 299806
+    },
+    {
+      "name": "_pdb_qualified_type_index",
+      "start": 301136,
+      "end": 301137
+    },
+    {
+      "name": "_pdb_base_type_index",
+      "start": 301280,
+      "end": 301403
+    },
+    {
+      "name": "_pdb_enum_type_index",
+      "start": 301408,
+      "end": 301409
+    },
+    {
+      "name": "_pdb_record_type_index",
+      "start": 302256,
+      "end": 302257
+    },
+    {
+      "name": "_pdb_primitive_type_index",
+      "start": 299968,
+      "end": 300101
+    },
+    {
+      "name": "_write_legacy_pointer_type@8",
+      "start": 294176,
+      "end": 294177
+    },
+    {
+      "name": "_write_legacy_array_type@8",
+      "start": 294640,
+      "end": 294641
+    },
+    {
+      "name": "_write_legacy_function_type@12",
+      "start": 296736,
+      "end": 296737
+    },
+    {
+      "name": "_write_legacy_qualified_type@4",
+      "start": 296960,
+      "end": 296961
+    },
+    {
+      "name": "_write_legacy_enum_type@4",
+      "start": 296176,
+      "end": 296177
+    },
+    {
+      "name": "_write_legacy_record_type@12",
+      "start": 294720,
+      "end": 294721
+    },
+    {
+      "name": "_write_legacy_field_list@12",
+      "start": 295680,
+      "end": 295681
+    },
+    {
+      "name": "_write_legacy_argument_list@4",
+      "start": 296832,
+      "end": 296833
+    },
+    {
+      "name": "_write_legacy_argument_slice@12",
+      "start": 296240,
+      "end": 296241
+    },
+    {
+      "name": "_reset_debug_type_records",
+      "start": 293504,
+      "end": 293505
+    },
+    {
+      "name": "_pdb_primitive_pointer_index",
+      "start": 299808,
+      "end": 299967
+    },
+    {
+      "name": "_remove_pdb_type_shape",
+      "start": 303840,
+      "end": 303902
+    },
+    {
+      "name": "_pdb_pointer_type_index",
+      "start": 300112,
+      "end": 300113
+    },
+    {
+      "name": "_pdb_array_type_index",
+      "start": 300704,
+      "end": 300782
+    },
+    {
+      "name": "_pdb_function_type_index",
+      "start": 300784,
+      "end": 300889
+    },
+    {
+      "name": "_finish_extended_arithmetic",
+      "start": 313476,
+      "end": 313585
+    },
+    {
+      "name": "_write_codeview_number",
+      "start": 304176,
+      "end": 304239
+    },
+    {
+      "name": "_intern_pdb_record",
+      "start": 299424,
+      "end": 299559
+    },
+    {
+      "name": "_check_pdb_record_size",
+      "start": 299392,
+      "end": 299413
+    },
+    {
+      "name": "_intern_program_database_type",
+      "start": 97744,
+      "end": 97759
+    },
+    {
+      "name": "@insert_program_database_type@12",
+      "start": 95792,
+      "end": 96342
+    },
+    {
+      "name": "_hash_pdb_record",
+      "start": 96352,
+      "end": 96612
+    },
+    {
+      "name": "@reserve_pdb_record_bytes@12",
+      "start": 98416,
+      "end": 98588
+    },
+    {
+      "name": "_pdb_argument_list_index",
+      "start": 300896,
+      "end": 300897
+    },
+    {
+      "name": "_codeview_calling_convention",
+      "start": 296592,
+      "end": 296593
+    },
+    {
+      "name": "_pdb_argument_count",
+      "start": 301104,
+      "end": 301105
     }
   ],
   "cases": {

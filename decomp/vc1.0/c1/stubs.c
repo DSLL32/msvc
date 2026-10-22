@@ -135,7 +135,6 @@ char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 
 void __stdcall copy_quoted_literal(int delimiter) { __asm { int 3 } }
 
-unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 
 
 
@@ -292,7 +291,6 @@ void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 /* Original 0x301a0. */
 
 /* Original 0x30e40. */
-void begin_nested_initializer(void) { __asm { int 3 } }
 
 /* Original 0x30ec0. */
 
@@ -460,7 +458,6 @@ void browser_close_file(void) { __asm { int 3 } }
 void report_ide_file_end(void) { __asm { int 3 } }
 
 
-void flush_debug_types(void) { __asm { int 3 } }
 
 void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
 
@@ -710,7 +707,6 @@ FrontendSymbol * __stdcall make_implicit_declaration(char *name, unsigned char n
 /* Original 0x2d2a0. */
 
 /* Original 0x2d250. */
-IrToken *__stdcall make_enumerator_constant(EnumeratorSymbol *symbol) { __asm { int 3 } return 0; }
 /* Original 0x402e0. */
 
 /* Original 0x33080. */
@@ -733,7 +729,6 @@ CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 
 CType * __stdcall change_function_reference_kind(CType *type, int kind) { __asm { int 3 } return 0; }
 /* Original 0x40160. */
 /* Original 0x2c450. */
-FrontendSymbol * __stdcall find_expression_symbol(IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x3d500. */
 IrToken * __stdcall find_expression_type_base(IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x2ee64. */
@@ -741,7 +736,6 @@ int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsign
 /* Original 0x3c1b0. */
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 /* Original 0x4c538. */
-int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 /* Original 0x284f0. */
 
 
@@ -859,8 +853,35 @@ void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
 
 int __stdcall is_pointer_based_shape(TypeShape *shape) { __asm { int 3 } }
 
-void emit_pdb_type(CType *type) { __asm { int 3 } }
 unsigned short __stdcall primitive_pointer_debug_index(CType *type) { __asm { int 3 } }
 unsigned short __stdcall primitive_debug_index(CType *type) { __asm { int 3 } }
 unsigned __stdcall queue_debug_record(unsigned char kind) { __asm { int 3 } }
 void __stdcall emit_function_debug_type(CType *type) { __asm { int 3 } }
+
+
+unsigned short pdb_qualified_type_index(CType *type) { __asm { int 3 } }
+
+unsigned short pdb_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
+unsigned short pdb_record_type_index(FrontendSymbol *tag) { __asm { int 3 } }
+
+void __stdcall write_legacy_pointer_type(CType *type, unsigned short nested) { __asm { int 3 } }
+void __stdcall write_legacy_array_type(CType *type, unsigned short nested) { __asm { int 3 } }
+void __stdcall write_legacy_function_type(CType *type, unsigned short result, unsigned short arguments) { __asm { int 3 } }
+void __stdcall write_legacy_qualified_type(CType *type) { __asm { int 3 } }
+void __stdcall write_legacy_enum_type(FrontendSymbol *tag) { __asm { int 3 } }
+void __stdcall write_legacy_record_type(FrontendSymbol *tag, unsigned short fields, unsigned short auxiliary) { __asm { int 3 } }
+void __stdcall write_legacy_field_list(FrontendSymbol *tag, unsigned count, int mode) { __asm { int 3 } }
+void __stdcall write_legacy_argument_list(ParameterInfo *parameters) { __asm { int 3 } }
+void __stdcall write_legacy_argument_slice(CType **parameters, unsigned first, unsigned limit) { __asm { int 3 } }
+void reset_debug_type_records(void) { __asm { int 3 } }
+
+unsigned short pdb_pointer_type_index(CType *type, unsigned short nested) { __asm { int 3 } }
+
+
+
+
+
+
+unsigned short pdb_argument_list_index(ParameterInfo *parameters) { __asm { int 3 } }
+unsigned char codeview_calling_convention(unsigned short attributes) { __asm { int 3 } }
+unsigned pdb_argument_count(ParameterInfo *parameters) { __asm { int 3 } }

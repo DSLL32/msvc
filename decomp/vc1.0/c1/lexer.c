@@ -1226,3 +1226,78 @@ unsigned char __stdcall scan_float_tail(char *destination)
     current_token_value.literal = make_constant_token(token, &value);
     return token;
 }
+
+/* Original 0x21680..0x218ab. Preserve multicharacter accumulation,
+   escaped-byte ordering, DBCS tails and the separate wide-string scanner. */
+unsigned char __stdcall scan_character_literal(int wide)
+{
+    unsigned char character, class, code;
+    unsigned char *write;
+    unsigned flags, value;
+    int count, escape_count = 0, lead = 0;
+    code = options.option_J ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
+    if (wide) {
+        scan_string_literal(1, '\'');
+        value = *(unsigned short *)current_token_value.string.text;
+        if (current_token_value.string.bytes > 4) compiler_warning(3, 66);
+        count = current_token_value.string.bytes >= 4 ? 2 : 0;
+    } else {
+        write = text_work_cursor;
+        value = 0;
+        count = 0;
+        character = (unsigned char)*source_text_cursor++;
+        while (character_class[character] != CC_APOSTROPHE) {
+            class = character_class[character];
+            switch (class) {
+            case CC_ESCAPE_OR_END:
+                flags = recover_special_character();
+                if (flags & ~0x50U) goto next_character;
+                if (flags & 0x10) {
+                    ++escape_count;
+                    character = (unsigned char)decode_escape(next_source_character(), 0);
+                }
+                break;
+            case CC_NEWLINE:
+                report_syntax_error(1);
+                --source_text_cursor;
+                goto finish_narrow;
+            case CC_LEAD_BYTE: lead = 1; break;
+            }
+            for (;;) {
+                if (escape_count <= 1) {
+                    value = (value << 8) | character;
+                    *write = character;
+                } else {
+                    value |= (unsigned)character << 8;
+                    *write = write[-1];
+                    write[-1] = character;
+                }
+                ++write;
+                ++count;
+                if (!lead) break;
+                character = (unsigned char)*source_text_cursor++;
+                while (!character) {
+                    recover_special_character();
+                    character = (unsigned char)*source_text_cursor++;
+                }
+                lead = 0;
+            }
+next_character:
+            character = (unsigned char)*source_text_cursor++;
+        }
+finish_narrow:
+        if (!options.option_J && count == 1) value = (signed char)value;
+    }
+    if (!count) {
+        report_syntax_error(137);
+        value = 0;
+        --source_text_cursor;
+    } else if (count > 4) report_syntax_error(15);
+    if ((scanner_flags & 0x400000) && !(scanner_flags & 0x10000))
+        current_token_value.words.low = value;
+    else {
+        current_token_value.literal = make_constant_token(code, &value);
+        if (wide) current_token_value.literal->type = type_0042;
+    }
+    return code;
+}

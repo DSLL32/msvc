@@ -22,4 +22,6 @@ extern FloatingWorkspace floating_workspace;
 int check_extended_range(void);
 /* Private store entry: destination ESI, value ST(0). */
 void store_extended(void);
+/* Private arithmetic tail: destination ESI, value ST(0), status EAX. */
+int finish_extended_arithmetic(void);
 #endif

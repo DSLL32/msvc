@@ -184,3 +184,107 @@ unsigned program_database_age(ProgramDatabase *self)
 {
     return self->header.age;
 }
+
+/* Original 0x17dd0..0x17ddf. Public cdecl entry for the database
+   method's ECX this pointer and one callee-cleaned stack operand. */
+unsigned short intern_program_database_type(ProgramDatabase *self, unsigned char *record)
+{
+    return insert_program_database_type(self, 0, record);
+}
+
+/* Original 0x17630..0x17856, ECX this plus one stack operand.
+   Intern the complete serialized record in its hash bucket and allocate an
+   index only for a new byte sequence. Stored records prepend their hash. */
+unsigned short __fastcall insert_program_database_type(ProgramDatabase *self,
+    unsigned unused_edx, unsigned char *record)
+{
+    unsigned short hash, index;
+    unsigned bytes, position;
+    unsigned char *stored;
+    PdbTypeEntry *entry, **bucket;
+    if (!self->incremental) fatal_error(1, "typesrvr.cpp", 285);
+    bytes = (unsigned short)(*(unsigned short *)record + 2);
+    if (bytes >= 0xff00) fatal_error(1, "typesrvr.cpp", 286);
+    hash = hash_pdb_record(record);
+    bucket = self->type_index + hash;
+    for (entry = *bucket; entry; entry = entry->next) {
+        if (*(unsigned short *)entry->record != hash) continue;
+        stored = entry->record + 2;
+        for (position = 0; position < bytes; ++position)
+            if (stored[position] != record[position]) break;
+        if (position == bytes) return entry->index;
+    }
+    if (!self->writable) fatal_error(1, "typesrvr.cpp", 297);
+    stored = reserve_pdb_record_bytes(&self->records, 0, bytes + 2);
+    if (stored) {
+        *(unsigned short *)stored = hash;
+        for (position = 0; position < bytes; ++position) stored[position + 2] = record[position];
+    }
+    RESERVE_LIST(&self->blocks, 12U, entry);
+    if (entry) {
+        index = self->header.last_type;
+        if (index < 0x1000 || index >= 0xfff0) fatal_error(1, "typesrvr.cpp", 158);
+        self->header.last_type = index + 1;
+        entry->next = *bucket;
+        entry->record = stored;
+        entry->index = index;
+    }
+    *bucket = entry;
+    return entry->index;
+}
+
+/* Original 0x17860..0x17944; unrolled-loop dispatch at 0x17944..0x17964.
+   Sum the two-byte prefix remainder and complete DWORDs before folding to
+   the database's twelve-bit bucket number. Unsigned addition preserves wrap. */
+unsigned short hash_pdb_record(unsigned char *record)
+{
+    unsigned bytes, words, sum = 0;
+    bytes = (unsigned short)(*(unsigned short *)record + 2);
+    if (bytes & 2) {
+        sum = *(unsigned short *)record;
+        record += 2;
+    }
+    words = bytes >> 2;
+    while (words--) {
+        sum += *(unsigned *)record;
+        record += 4;
+    }
+    sum ^= sum >> 11;
+    return (unsigned short)(sum ^ (sum >> 16)) & 0xfff;
+}
+
+/* Original 0x18070..0x1811c. This list method inlines its buffer
+   constructor and reservation, unlike the separate block-list methods. */
+unsigned char *__fastcall reserve_pdb_record_bytes(PdbBufferList *self,
+    unsigned unused_edx, unsigned bytes)
+{
+    PdbBuffer *buffer, *next;
+    unsigned capacity;
+    unsigned char *result = 0;
+    buffer = self->tail;
+    if (buffer->available >= bytes) {
+        buffer->available -= bytes;
+        result = buffer->cursor;
+        buffer->cursor += bytes;
+    }
+    if (!result) {
+        capacity = (bytes + 8191U) & ~4095U;
+        next = malloc(capacity + sizeof(PdbBuffer));
+        if (next) {
+            next->available = capacity;
+            next->cursor = (unsigned char *)(next + 1);
+            next->next = 0;
+        }
+        self->tail->next = next;
+        self->tail = self->tail->next;
+        buffer = self->tail;
+        if (bytes <= buffer->available) {
+            buffer->available -= bytes;
+            result = buffer->cursor;
+            buffer->cursor += bytes;
+        } else result = 0;
+        if (!result) fatal_error(1, "typesrvr.cpp", 58);
+    }
+    self->count += bytes;
+    return result;
+}

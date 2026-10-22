@@ -9,6 +9,9 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_extended_round_limit', 0x71088, 10),
+    ('_type_0042', 0x6b6f0, 4),
+    ('_debug_type_record_count', 0x6e080, 4),
     ('_debug_type_records', 0x5b248, 4),
     ('_next_debug_type_index', 0x6b808, 2),
     ('_type_4064_first', 0x6b6f8, 4),
@@ -320,4 +323,7 @@ for index in range(6):
     for column, value in enumerate(values):
         assert value == struct.unpack('<I', read(original, 0x6f2e8 + column*24 + index*4, 4))[0], ('integer limit', index, column)
 
-print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match.' % (len(STATE), option_scalar_count))
+for name, address, count in [('_pdb_floating_codes',0x6e140,12), ('_pdb_natural_unsigned_codes',0x6e158,12), ('_pdb_natural_signed_codes',0x6e170,12), ('_pdb_explicit_unsigned_codes',0x6e188,12), ('_pdb_explicit_signed_codes',0x6e1a0,10)]:
+    assert read(original,address,2*count) == read(rebuilt,names[name],2*count), name
+
+print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match; 58 primitive debug codes match.' % (len(STATE), option_scalar_count))
