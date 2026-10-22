@@ -253,3 +253,31 @@ MachineInstruction *__fastcall find_flags_use(MachineInstruction *instruction)
     }
     return 0;
 }
+
+/* Original [00021b60,00021be0). Test explicit operands in native reverse
+   order, then physical implicit registers. Virtual classes have no implicit
+   register mask and therefore need no physical-register lookup. */
+int __fastcall instruction_mentions_register(MachineInstruction *instruction, unsigned short reg)
+{
+    unsigned operation = (unsigned char)(instruction->opcode >> 8);
+    if (machine_operand_counts[operation] > 1 && operand_mentions_register(&instruction->operands[1], reg)) return 1;
+    if (machine_operand_counts[operation] > 0 && operand_mentions_register(&instruction->operands[0], reg)) return 1;
+    if (!(reg & 0xc000) && (implicit_register_mask(instruction, 3) & (1U << (reg & 31)))) return 1;
+    return 0;
+}
+
+/* Original [00021fd0,00022020). Direct operands carry a short register;
+   based/indexed addresses can mention their base and index independently. */
+int __fastcall operand_mentions_register(MachineOperand *operand, unsigned short reg)
+{
+    switch (operand->flags & 15) {
+    case OPERAND_REGISTER:
+        return operand->value.reg.words.number == reg;
+    case OPERAND_INDEXED:
+        if (operand->value.address->index.words.number == reg) return 1;
+        /* Fall through to the base register. */
+    case OPERAND_BASED:
+        return operand->value.address->base.words.number == reg;
+    }
+    return 0;
+}

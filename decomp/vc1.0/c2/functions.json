@@ -528,7 +528,20 @@
     "@is_parameter_memory_value@4",
     "@record_register_variable_range@32",
     "@create_register_variable@4",
-    "@new_register_variable@4"
+    "@new_register_variable@4",
+    "@prepare_machine_context@4",
+    "@emit_register_lifetime@16",
+    "@register_memory_address@4",
+    "@find_register_allocation@8",
+    "@symbol_operand@8",
+    "_new_machine_address",
+    "@select_lvalue_operand@4",
+    "@select_condition@4",
+    "@comparison_uses_intrinsic_flags@4",
+    "@lookup_opcode@8",
+    "@find_transfer_use_boundary@8",
+    "@instruction_mentions_register@8",
+    "@operand_mentions_register@8"
   ],
   "driver": [
     {
@@ -1084,8 +1097,7 @@
     {
       "name": "@prepare_machine_context@4",
       "start": 146992,
-      "end": 146993,
-      "provisional": true
+      "end": 147168
     },
     {
       "name": "@sync_machine_work@8",
@@ -2802,14 +2814,12 @@
     {
       "name": "@select_lvalue_operand@4",
       "start": 104672,
-      "end": 104673,
-      "provisional": true
+      "end": 104752
     },
     {
       "name": "@select_condition@4",
       "start": 104496,
-      "end": 104497,
-      "provisional": true
+      "end": 104672
     },
     {
       "name": "@try_select_assignment@4",
@@ -2820,8 +2830,7 @@
     {
       "name": "@lookup_opcode@8",
       "start": 104448,
-      "end": 104449,
-      "provisional": true
+      "end": 104496
     },
     {
       "name": "@emit_source_filename@4",
@@ -2973,8 +2982,7 @@
     {
       "name": "_new_machine_address",
       "start": 107856,
-      "end": 107857,
-      "provisional": true
+      "end": 107920
     },
     {
       "name": "@register_result_ignores_old_value@4",
@@ -3051,8 +3059,7 @@
     {
       "name": "@instruction_mentions_register@8",
       "start": 138080,
-      "end": 138081,
-      "provisional": true
+      "end": 138208
     },
     {
       "name": "@find_carry_flag_use@4",
@@ -3087,8 +3094,7 @@
     {
       "name": "@operand_mentions_register@8",
       "start": 139216,
-      "end": 139217,
-      "provisional": true
+      "end": 139296
     },
     {
       "name": "@integer_width_bits@4",
@@ -3161,8 +3167,7 @@
     {
       "name": "@emit_register_lifetime@16",
       "start": 108096,
-      "end": 108097,
-      "provisional": true
+      "end": 108336
     },
     {
       "name": "@append_embedded_record@4",
@@ -3226,8 +3231,7 @@
     {
       "name": "@symbol_operand@8",
       "start": 106976,
-      "end": 106977,
-      "provisional": true
+      "end": 107072
     },
     {
       "name": "@spill_x87_for_node@4",
@@ -4811,6 +4815,32 @@
       "name": "@new_register_variable@4",
       "start": 186848,
       "end": 186944
+    },
+    {
+      "name": "@find_transfer_call_boundary@4",
+      "start": 146880,
+      "end": 146881,
+      "provisional": true
+    },
+    {
+      "name": "@find_transfer_use_boundary@8",
+      "start": 146544,
+      "end": 146880
+    },
+    {
+      "name": "@register_memory_address@4",
+      "start": 406800,
+      "end": 406816
+    },
+    {
+      "name": "@find_register_allocation@8",
+      "start": 406720,
+      "end": 406800
+    },
+    {
+      "name": "@comparison_uses_intrinsic_flags@4",
+      "start": 121872,
+      "end": 121968
     }
   ],
   "cases": {

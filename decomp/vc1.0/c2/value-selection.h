@@ -27,4 +27,5 @@ unsigned short __fastcall select_intrinsic(Node *node);
 unsigned __fastcall aligned_value_size(Node *argument);
 
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant);
+int __fastcall comparison_uses_intrinsic_flags(Node *node);
 #endif

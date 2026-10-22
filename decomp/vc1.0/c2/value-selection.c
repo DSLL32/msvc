@@ -459,3 +459,36 @@ arithmetic:
     if (node->attributes.words.type & 0x3000) record_x87_node(node);
     return result;
 }
+
+/* Original [00019830,000198e0). Select the left operand first so a
+   zero-comparison specialization can use its flags. Otherwise emit the
+   integer compare or the native x87 compare/status-to-flags sequence. */
+void __fastcall select_condition(Node *node)
+{
+    MachineOperand *left, *right;
+    left = operand_for_register(select_value_register(node->left.node));
+    if (comparison_uses_intrinsic_flags(node)) return;
+    right = operand_for_register(select_value_register(node->second.node));
+    if (node->attributes.words.type & 0xf00) {
+        emit_machine_operation(MC_CMP, node->attributes.words.type, left, right);
+        return;
+    }
+    arrange_x87_left(node->left.node);
+    emit_machine_operation(MC_FCOMPP, node->attributes.words.type, left, right);
+    if (optimize_precision) emit_machine_operation(MC_FWAIT, 0);
+    emit_machine_operation(MC_FNSTSW, 0x104, &operand_eax);
+    emit_machine_operation(MC_SAHF, 0);
+}
+
+/* Original [0001dc10,0001dc70). The bounded table at00080278..00080290
+   has two semantic entries: intrinsic171 compared with zero for equality
+   or inequality. Express that predicate directly; the intrinsic's broader
+   identity will be named when its selector is reconstructed. */
+int __fastcall comparison_uses_intrinsic_flags(Node *node)
+{
+    Node *intrinsic = node->left.node;
+    if (intrinsic->opcode != 0x40 || intrinsic->left.node->opcode != 0x33 ||
+        node->second.node->opcode != 0x33 || node->second.node->left.value != 0) return 0;
+    return intrinsic->left.node->left.value == 171 &&
+        (node->opcode == 0x1f || node->opcode == 0x20);
+}

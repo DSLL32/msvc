@@ -322,3 +322,33 @@ int __fastcall is_parameter_memory_value(Node *node)
     return symbol && symbol->kind == 1 && !symbol->field0d &&
         (((TemporarySymbol *)symbol)->attributes & 0x70) == 0x30;
 }
+
+/* Original [00063510,00063520). Resolve the allocation value, then use
+   its unchanged canonical address as the memory home of a register. */
+Node *__fastcall register_memory_address(unsigned short number)
+{
+    AllocationValue *value = find_register_allocation(number, 0);
+    return value->node->left.node;
+}
+
+/* Original [000634c0,00063510). The private selector returns either a
+   connected range or its owning value. Register numbers are compared in
+   their native short width; an unknown number is an internal error. */
+void *__fastcall find_register_allocation(unsigned short number, int want_range)
+{
+    AllocationValue *value;
+    AllocationRange *range;
+    unsigned bucket;
+    for (bucket = 0; bucket < ALLOCATION_VALUE_BUCKETS; ++bucket) {
+        for (value = allocation_values[bucket]; value; value = value->next) {
+            for (range = value->ranges; range; range = range->next) {
+                if (range->number == number) {
+                    if (want_range) return range;
+                    return value;
+                }
+            }
+        }
+    }
+    compiler_internal_error("@(#)nglobreg.c:1.35", 0x68a);
+    return 0;
+}

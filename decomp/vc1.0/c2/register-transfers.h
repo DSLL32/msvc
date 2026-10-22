@@ -18,4 +18,7 @@ void __fastcall mark_register_definition_ends(WorkItem *work, AllocationValue *v
 int __fastcall tree_uses_virtual_register(unsigned number, Node *tree);
 int __fastcall get_stack_address(Node *address, unsigned *offset, SymbolHeader **symbol);
 int __fastcall is_parameter_memory_value(Node *node);
+Node *__fastcall register_memory_address(unsigned short number);
+/* want_range selects the range pointer; zero selects its owning value. */
+void *__fastcall find_register_allocation(unsigned short number, int want_range);
 #endif

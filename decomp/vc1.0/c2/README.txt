@@ -986,3 +986,38 @@ accepted code-extent coverage is138,495 /399,693 bytes, or34.6503percent,
 including source/shared text/CRT/import thunks with union, clipping and actual-
 mask verification. This is not branch coverage. Hello remains pending at
 prepare_machine_context,00023e30, whose next task is machine-transfer placement.
+
+The first real machine block now completes register-transfer placement.
+Thirteen more functions cover546 native instructions: transfer construction,
+canonical register-home lookup, symbol/lvalue operands and address allocation,
+condition selection, opcode lookup, placement search and explicit register-use
+tests. prepare_machine_context now has its recovered int return, reporting
+whether it moved a record. Its callers currently ignore that result. Private
+allocation lookup selects either a range or its owning value through the same
+fastcall2 graph vertex; ordinary C void* expresses that variant result.
+
+Independent captures match49 normalized lines before placement and49 after it.
+All16 records retain matching links, complete opcode/flag words, source markers,
+header live sets, register identities, parameter memory home and branch targets.
+The load moves past its source marker and receives the native800000 placement
+bit. The next width query receives register4022. These captures inspect the
+selected machine block after WorkItem.body changes ownership; released source
+expressions and definition sets are not interpreted as live records.
+
+The bounded intrinsic-flags table has two entries permitting intrinsic171's
+zero equality/inequality comparison. Its readable predicate replaces those
+semantic entries without retaining table bytes. The broader intrinsic identity
+remains deferred to its selector. Floating compares reuse the existing precision
+flag at00080698; their arrangement helper remains a named trap. Opcode lookup
+retains the original255 stop test despite the observed maps ending in-1.
+Pinned placement, later blocks, stores, positive intrinsic shortcuts and fatal
+paths remain outside this checkpoint's dynamic validation. See
+cases/hello-machine-placement-abi.json for exact extents, ABI evidence and limits.
+
+This checkpoint has460 reconstructed functions and537 accepted frontiers.
+All352 minimal and185 hello historical frontiers replay. All source graphs and
+accepted instruction boundaries pass; seven affected modules compile /W3 clean.
+The fresh minimal object/streams/exit regression passes. Verified accepted
+code-extent union is140,111 /399,693 bytes, including source/shared text/CRT/
+import thunks with clipping and actual-mask verification; this is not branch
+coverage. Hello remains pending at register_storage_bytes,0002e0e0.

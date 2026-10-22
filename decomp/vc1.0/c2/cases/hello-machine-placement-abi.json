@@ -1,0 +1,222 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@prepare_machine_context@4",
+      "start": "0x23e30",
+      "end": "0x23ee0",
+      "instructions": 62
+    },
+    {
+      "name": "@emit_register_lifetime@16",
+      "start": "0x1a640",
+      "end": "0x1a730",
+      "instructions": 81
+    },
+    {
+      "name": "@register_memory_address@4",
+      "start": "0x63510",
+      "end": "0x63520",
+      "instructions": 5
+    },
+    {
+      "name": "@find_register_allocation@8",
+      "start": "0x634c0",
+      "end": "0x63510",
+      "instructions": 33
+    },
+    {
+      "name": "@symbol_operand@8",
+      "start": "0x1a1e0",
+      "end": "0x1a240",
+      "instructions": 36
+    },
+    {
+      "name": "_new_machine_address",
+      "start": "0x1a550",
+      "end": "0x1a590",
+      "instructions": 13
+    },
+    {
+      "name": "@select_lvalue_operand@4",
+      "start": "0x198e0",
+      "end": "0x19930",
+      "instructions": 20
+    },
+    {
+      "name": "@select_condition@4",
+      "start": "0x19830",
+      "end": "0x198e0",
+      "instructions": 61
+    },
+    {
+      "name": "@comparison_uses_intrinsic_flags@4",
+      "start": "0x1dc10",
+      "end": "0x1dc70",
+      "instructions": 34
+    },
+    {
+      "name": "@lookup_opcode@8",
+      "start": "0x19800",
+      "end": "0x19830",
+      "instructions": 12
+    },
+    {
+      "name": "@find_transfer_use_boundary@8",
+      "start": "0x23c70",
+      "end": "0x23dc0",
+      "instructions": 121
+    },
+    {
+      "name": "@instruction_mentions_register@8",
+      "start": "0x21b60",
+      "end": "0x21be0",
+      "instructions": 44
+    },
+    {
+      "name": "@operand_mentions_register@8",
+      "start": "0x21fd0",
+      "end": "0x22020",
+      "instructions": 24
+    }
+  ],
+  "native_instructions": 546,
+  "accepted_extent_bytes": 1616,
+  "abis": [
+    "prepare_machine_context is fastcall1 returning int0/1 in EAX to report movement. Its earlier void declaration was corrected before unmasking; existing callers ignore the result.",
+    "emit_register_lifetime is fixed fastcall4 with two stack arguments and RET8. It emits kind8 loads or kind9 stores and copies the eight-byte operand by ordinary C structure assignment.",
+    "register_memory_address and the private fastcall2 find_register_allocation preserve the original wrapper/helper edge. The helper returns a range when its integer selector is nonzero, otherwise the owning AllocationValue; a void* return expresses that private variant ABI.",
+    "symbol_operand, select_lvalue_operand, new_machine_address and lookup_opcode preserve their ordinary calls and original tail-call graph edges.",
+    "select_condition retains cdecl variable-argument machine operation calls; comparison_uses_intrinsic_flags is a pure fastcall1 predicate.",
+    "instruction_mentions_register and operand_mentions_register compare tagged short register identities and retain physical implicit-register analysis as a distinct named helper."
+  ],
+  "data_provenance": [
+    {
+      "name": "intrinsic condition-flags predicate",
+      "original_extent": [
+        "0x80278",
+        "0x80290"
+      ],
+      "meaning": "bounded three-record table contains intrinsic171 with equality opcode1f, intrinsic171 with inequality opcode20, and a zero terminator",
+      "implementation": "ordinary readable predicate expressing these two semantic entries; no table bytes or opaque data copied",
+      "limits": "broader intrinsic identity is deferred until its selector is reconstructed"
+    },
+    {
+      "name": "canonical physical operands",
+      "original_globals": [
+        "0x80010",
+        "0x80028"
+      ],
+      "meaning": "already reconstructed shared EAX and EDX MachineOperand descriptors, used by physical transfer cases"
+    },
+    {
+      "name": "MachineAddress",
+      "bytes": 16,
+      "ownership": "arena1 fresh storage or cleared free-list record; typed displacement/symbol/base/index fields match the existing operand layout"
+    },
+    {
+      "name": "condition wait flag",
+      "original_global": "0x80698",
+      "meaning": "the existing optimize_precision flag also guards the native floating compare wait; no duplicate flag was introduced"
+    },
+    {
+      "name": "opcode maps",
+      "ownership": "existing contextual arithmetic/condition OpcodeMap tables; lookup retains its native255 stop test despite the observed maps ending in -1"
+    }
+  ],
+  "independent_captures": [
+    {
+      "phase": "selected-machine",
+      "logical_stop": "@find_transfer_use_boundary@8 entry",
+      "original_stop": "0x23c70",
+      "normalized_lines": 49,
+      "all_lines_identical": true,
+      "event_sha256": {
+        "original": "07d8f08bf0747960d8b41d4c4ea457d7358128d0b487b7871b760c115b14fe89",
+        "reconstructed": "6701c3ba4ca9279eafd862495f5fbb7f893ceb45275225cb736183a194c2795e"
+      },
+      "normalized_sha256": "58c63f292255fc8d542b9877912cc0abfb85999b0105150aed94d2d23f2858ef"
+    },
+    {
+      "phase": "placed-machine",
+      "logical_stop": "@register_storage_bytes@4 entry",
+      "original_stop": "0x2e0e0",
+      "normalized_lines": 49,
+      "all_lines_identical": true,
+      "event_sha256": {
+        "original": "a87d37f40e65bc83c85fd60d865106986a3441ad11afca48aeafd7c48f409b14",
+        "reconstructed": "18101b71993b27d2e515273db51e6920bce05886bb60a030d17ec713593c717f"
+      },
+      "normalized_sha256": "81594a47e52a5107f35d65fca1ea73adbcff9b17e28220e3a233513d8816e69d"
+    }
+  ],
+  "capture_scope": [
+    "The first selected real block has16 linked machine records. Both captures compare full opcodes/flags, header live sets, source markers, branch label identities and every active register/memory operand.",
+    "Before placement, ECX and EDX identify the exact load record at contextual index1. After placement the source marker precedes the load, its800000 placement bit is set, and the next register-width query receives4022 in ECX.",
+    "The parameter memory home matches symbol kind1/id9266/name_message with displacement0, EBP base5 and zero index; no raw heap addresses are used as identities.",
+    "The source work body has already changed from expressions to a machine block here. The debugger locates its exact owning WorkItem and does not reinterpret released expressions or allocation bitsets."
+  ],
+  "limits": [
+    "Optimized hello remains incomplete at register_storage_bytes0x2e0e0.",
+    "Only the first real scalar block has completed transfer placement; later blocks, stores and pinned call-boundary placement remain unvisited. find_transfer_call_boundary still traps.",
+    "Physical EAX/EDX transfer cases, x87 comparison/arrangement and positive intrinsic171 shortcut cases have full parent source but are not dynamically claimed; unvisited callees retain named traps.",
+    "Missing allocation, invalid physical register, invalid opcode-map key and other diagnostics retain their typed fatal trap; failure paths are not claimed to pass.",
+    "Fresh memory-address allocation is exercised; recycled-address clearing has complete source but no separate branch-coverage claim.",
+    "Implicit physical-register masks remain a named trap; current placement tests use virtual registers."
+  ],
+  "validation_status": "passed",
+  "validation": [
+    "original-toolchain make -j2 check passes with exact minimal object/streams/exit except only four-byte COFF timestamp",
+    "all352 minimal and185 hello historical frontiers replay in isolated pairs with frozen native build/config hashes",
+    "all460 source graphs agree; all537 accepted original/reconstructed extents end on complete instructions",
+    "seven affected implementation modules compile /W3 clean",
+    "fresh first-real-block captures match49 normalized lines before placement and49 after placement at the register-width frontier"
+  ],
+  "replay_receipts": [
+    {
+      "profile": "minimal",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-4089989/receipt.json",
+      "sha256": "b0c03e3d1fb7ed16e90f1825f0683b9ce8ccc4a0b743143a23ef4f58bb5123bf",
+      "frontiers": 352,
+      "seconds": 63.20322233531624,
+      "frozen": {
+        "functions.json": "c1298ca31275349bb19646760791460223c43dd1ba412cd28494c345ec299ece",
+        "build/c2.exe": "96ac6f6e9efc364c70c6a3b30f71024084849600b020ef65ecd00a8d3f119433",
+        "build/c2.map": "8706a2791081b9200409c93d93eff68a0bf29f94799c7ff90a3484add1e5a0a3",
+        "build/runtime.json": "259d9a1c099df891f852dcf2b7624859a03831e7fdd6cea16e7d20c00b27bf82"
+      },
+      "final": "exit:0"
+    },
+    {
+      "profile": "hello",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-4094810/receipt.json",
+      "sha256": "03298a46014befe6d193ef1c8a0266d22a0df5870f163f9b5057b9bff7595a17",
+      "frontiers": 185,
+      "seconds": 35.18968267273158,
+      "frozen": {
+        "functions.json": "c1298ca31275349bb19646760791460223c43dd1ba412cd28494c345ec299ece",
+        "build/c2.exe": "96ac6f6e9efc364c70c6a3b30f71024084849600b020ef65ecd00a8d3f119433",
+        "build/c2.map": "8706a2791081b9200409c93d93eff68a0bf29f94799c7ff90a3484add1e5a0a3",
+        "build/runtime.json": "259d9a1c099df891f852dcf2b7624859a03831e7fdd6cea16e7d20c00b27bf82"
+      },
+      "final": "@register_storage_bytes@4"
+    }
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 537,
+    "accepted_code_bytes": 140111,
+    "original_code_bytes": 399693,
+    "percentage": 35.05465444728829,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 158
+  }
+}

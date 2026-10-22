@@ -2,6 +2,8 @@
 #include "register-use.h"
 #include "instruction-rewrite.h"
 #include "options.h"
+#include "register-transfers.h"
+#include "value-selection.h"
 static MachineOperand temporary_operands[100]; /* 0007cb28 */
 /* Original [00017e00,00017e20). Each reference receives its own temporary
    operand so later per-use annotations do not alter the shared register data. */
@@ -105,4 +107,51 @@ void __fastcall release_operand_address(MachineOperand *operand)
     unsigned kind = operand->flags & 15;
     if ((kind >= 3 && kind <= 7) || kind == 12)
         release_machine_address(operand->value.address);
+}
+
+/* Original [0001a1e0,0001a240). Locals, parameters and frame temporaries
+   use EBP-based homes. Other symbols select memory or address operands. */
+MachineOperand *__fastcall symbol_operand(Node *reference, int indirect)
+{
+    unsigned offset;
+    SymbolHeader *symbol;
+    if (get_stack_address(reference, &offset, &symbol))
+        return new_operand(OPERAND_BASED, REG_EBP, offset, symbol);
+    return new_operand(indirect ? OPERAND_ABSOLUTE : OPERAND_LABEL_ADDRESS,
+        0, reference->left.value, reference->right.symbol);
+}
+
+/* Original [0001a550,0001a590). Recycled address records must be cleared;
+   fresh arena-one storage already supplies the same sixteen zero bytes. */
+MachineAddress *new_machine_address(void)
+{
+    MachineAddress *address = free_machine_addresses;
+    if (!address) return arena_alloc(1, sizeof(MachineAddress));
+    free_machine_addresses = address->first.next;
+    address->first.displacement = 0;
+    address->symbol = 0;
+    address->base.value = address->index.value = 0;
+    return address;
+}
+
+/* Original [000198e0,00019930). A virtual leaf already names its register;
+   a direct symbol supplies its own memory operand. Other addresses are
+   evaluated into a base register before constructing the memory operand. */
+MachineOperand *__fastcall select_lvalue_operand(Node *node)
+{
+    if (node->opcode == 0xa2)
+        return new_operand(OPERAND_REGISTER, (unsigned short)node->left.value, 0, 0);
+    if (node->opcode == 0x26) return symbol_operand(node, 1);
+    return new_operand(OPERAND_BASED, select_value_register(node), 0, 0);
+}
+
+/* Original [00019800,00019830). This lookup's native stop key is255,
+   although the encountered maps end with -1. Preserve that distinction;
+   valid callers must request a key present in their contextual map. */
+unsigned __fastcall lookup_opcode(const OpcodeMap *map, unsigned opcode)
+{
+    for (; map->tree_opcode != 255; ++map)
+        if (map->tree_opcode == opcode) return map->selection;
+    compiler_internal_error("@(#)codegen.c:1.167", 0x8fa);
+    return 0;
 }

@@ -4,7 +4,7 @@
 void prepare_backend_symbols(void);
 void initialize_output_callbacks(void);
 void __fastcall write_module_listing(char *source);
-void __fastcall prepare_machine_context(MachineInstruction *instructions);
+int __fastcall prepare_machine_context(MachineInstruction *instructions);
 void __fastcall sync_machine_work(WorkItem *work, MachineContext *context);
 void __fastcall scan_machine_context(MachineContext *context);
 void __fastcall compact_machine_context(MachineContext *context);
