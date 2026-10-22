@@ -1,6 +1,6 @@
 /* RCPP preprocessing initialization, original [01009d90,01009f89). */
 #include "lexer.h"
-#include <ctype.h>
+#include "legacy-ctype.h"
 
 void __stdcall rc_initialize_preprocessor(char *input_name, char *output_name,
                                           RcStringOptions *definitions)
@@ -34,7 +34,7 @@ void __stdcall rc_initialize_preprocessor(char *input_name, char *output_name,
             trailing = NULL;
             for (text = source; *text; ++text) {
                 if (rc_character_class[(unsigned char)*text] == LC_DBCS_LEAD) ++text;
-                else if (isspace((signed char)*text)) {
+                else if (rc_native_isspace((signed char)*text)) {
                     if (!trailing) trailing = text;
                 } else trailing = NULL;
             }

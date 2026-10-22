@@ -1,6 +1,6 @@
 /* Byte/word input classification predating the Win32 Unicode text helpers. */
 #include "lexer.h"
-#include <ctype.h>
+#include "legacy-ctype.h"
 /* Original [01009fa0,0100a104). Sample 40-byte blocks until printable bytes
  * establish single-byte text or alternating NULs establish a wide encoding.
  * The stream is restored to its original physical position in every case. */
@@ -19,7 +19,7 @@ int __stdcall rc_detect_encoding(FILE *stream)
                 if (i % 2) ++odd_zero;
                 else ++even_zero;
             }
-            if (isprint((signed char)sample[i]) || sample[i] == '\t' ||
+            if (rc_native_isprint((signed char)sample[i]) || sample[i] == '\t' ||
                 sample[i] == '\n' || sample[i] == '\r') ++readable;
         }
         total += count;

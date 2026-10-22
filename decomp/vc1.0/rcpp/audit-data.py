@@ -21,3 +21,15 @@ for token in range(1, 133):
     if old_name:
         assert original.string(old_name) == reconstructed.string(new_name), ('token spelling', token)
 print('All 132 valid token descriptions and categories match the original.')
+
+# Compare classifications produced by signed native byte indices, including
+# original prefix quirks rather than interpreting later LIBC layout as native.
+from binary import u16
+old_ctype = u32(original.read(0x0101f160,4),0)
+new_ctype = u32(reconstructed.read(names['__pctype'],4),0)
+negative = names['_rc_negative_native_ctype_flags']
+for ch in range(-128,256):
+    old = u16(original.read(old_ctype + 2*ch,2),0) & 0x15f
+    new = u16(reconstructed.read(negative + 2*(ch+128),2),0) if ch < 0 else u16(reconstructed.read(new_ctype + 2*ch,2),0) & 0x15f
+    assert old == new, ('native ctype flags',ch,old,new)
+print('All native PRINT/SPACE/DIGIT flags match for signed and ordinary byte indices.')

@@ -1,6 +1,6 @@
 /* Header names and search order, without modern path normalization. */
 #include "numbers.h"
-#include <ctype.h>
+#include "legacy-ctype.h"
 #include <string.h>
 /* Original [0100d3f0,0100d4e9). Leading preprocessing whitespace is skipped,
  * trailing C whitespace trimmed, and an empty <> name remains an empty name. */
@@ -26,7 +26,7 @@ char *rc_parse_angle_name(void)
         *out++ = ch;
         ch = rc_get_logical_character();
     }
-    while (out > rc_macro_name && isspace((signed char)out[-1])) --out;
+    while (out > rc_macro_name && rc_native_isspace((signed char)out[-1])) --out;
     *out = 0;
     return rc_macro_name;
 }

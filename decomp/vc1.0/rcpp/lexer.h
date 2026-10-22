@@ -2,6 +2,7 @@
 #define RCPP_LEXER_H
 #include "preprocessor.h"
 #include <stdio.h>
+#include <stddef.h>
 /* Values are dispatch categories in the original lexer, not output tokens. */
 enum RcCharacterClass {
     LC_SPACE=0, LC_CR=1, LC_SLASH=2, LC_END=3, LC_STAR=4, LC_NEWLINE=5,
@@ -37,13 +38,14 @@ typedef struct RcMacroFrame {
  * which overlaps definition workspace and the first three symbol buckets.
  * Express that actual shared storage as a typed union, including the first
  * active frame's saved cursor used by include-buffer management. */
+typedef struct RcMacroNames {
+    RcMacroFrame frames[64];
+    char *definition;
+    int formal_count;
+    RcMacro *buckets[256];
+} RcMacroNames;
 typedef union RcMacroStorage {
-    struct {
-        RcMacroFrame frames[64];
-        char *definition;
-        int formal_count;
-        RcMacro *buckets[256];
-    } names;
+    RcMacroNames names;
     RcMacroFrame expansion[65];
 } RcMacroStorage;
 extern RcMacroStorage rc_macro_storage;
@@ -70,6 +72,14 @@ typedef struct RcInput {
     int buffered, encoding;
     long file_position;
 } RcInput;
+/* Compiler-checked native layouts and the original shared-state aliases. */
+typedef char RcMacroLayout[(sizeof(RcMacro)==16 && offsetof(RcMacro,flags)==13)?1:-1];
+typedef char RcMacroFrameLayout[(sizeof(RcMacroFrame)==20 && offsetof(RcMacroFrame,argument_count)==16)?1:-1];
+typedef char RcMacroStorageLayout[(sizeof(RcMacroStorage)==2312 && offsetof(RcMacroNames,definition)==1280 && offsetof(RcMacroNames,buckets)==1288)?1:-1];
+typedef char RcSavedCursorAlias[((sizeof(RcMacroFrame)+offsetof(RcMacroFrame,saved_cursor))==20)?1:-1];
+typedef char RcLastFrameAlias[((64*sizeof(RcMacroFrame)+offsetof(RcMacroFrame,saved_cursor))==offsetof(RcMacroNames,definition) && (64*sizeof(RcMacroFrame)+offsetof(RcMacroFrame,argument_count))==(offsetof(RcMacroNames,buckets)+2*sizeof(RcMacro *)))?1:-1];
+typedef char RcInputLayout[(sizeof(RcInput)==40 && offsetof(RcInput,bytes)==20 && offsetof(RcInput,wide)==24)?1:-1];
+typedef char RcFileLayout[(sizeof(FILE)==32 && offsetof(FILE,_bufsiz)==24)?1:-1];
 extern RcInput rc_inputs[10];
 extern int rc_input_depth, rc_line_number, rc_input_encoding, rc_expanding_macro;
 extern unsigned char *rc_input_cursor;

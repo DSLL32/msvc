@@ -148,3 +148,64 @@ unsigned char __stdcall rc_unsigned_kind(unsigned long value)
 {
     return TK_UINT;
 }
+
+/* Original [0100c8b0,0100ca5d). This resource-preprocessor scanner preserves
+ * floating spelling and reports its token kind; it does not convert to an
+ * in-memory floating value. The caller has already stored any leading digits. */
+unsigned char __stdcall rc_read_floating(char *out)
+{
+    unsigned char ch = rc_get_logical_character(), kind;
+    if (rc_options.xc && !rc_collecting_macro_text) {
+        rc_message_format = rc_message(4012);
+        rc_format(rc_diagnostic_buffer, rc_message_format);
+        rc_warning(4012);
+        rc_options.xc = 0;
+    }
+    if ((rc_character_flags[ch] & 4) || ch == '.') {
+        do {
+            *out++ = ch;
+            ch = rc_get_logical_character();
+        } while (rc_character_flags[ch] & 4);
+    }
+    if (toupper(ch) == 'E') {
+        *out++ = ch;
+        ch = rc_get_logical_character();
+        if (ch == '+' || ch == '-') {
+            *out++ = ch;
+            ch = rc_get_logical_character();
+        }
+        if (rc_character_flags[ch] & 4) {
+            do {
+                *out++ = ch;
+                ch = rc_get_logical_character();
+            } while (rc_character_flags[ch] & 4);
+        } else if (!rc_options.R) {
+            if (!rc_collecting_macro_text) {
+                rc_message_format = rc_message(2021);
+                rc_format(rc_diagnostic_buffer, rc_message_format, (int)ch);
+                rc_error(2021);
+            }
+            *out++ = '0';
+        }
+    }
+    if (toupper(ch) == 'F') {
+        kind = TK_FLOAT;
+        if (rc_preprocessing_started) *out++ = ch;
+    } else if (toupper(ch) == 'L') {
+        kind = TK_LONG_DOUBLE;
+        if (rc_preprocessing_started) *out++ = ch;
+    } else {
+        --rc_input_cursor;
+        kind = TK_DOUBLE;
+    }
+    *out = 0;
+    if (rc_collecting_macro_text > 0) {
+        rc_expansion_output = out;
+        return TK_NEWLINE;
+    }
+    if (rc_preprocessing_started) {
+        fwrite(rc_macro_name, out - rc_macro_name, 1, rc_output);
+        return TK_NEWLINE;
+    }
+    return kind;
+}

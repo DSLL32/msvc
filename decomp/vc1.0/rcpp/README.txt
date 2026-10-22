@@ -7,21 +7,36 @@ stderr, and produce the same 336,686-byte RD000360:
 
     a4600f6681973b55ad820fb1cc624b04d8ea4490cdaae3613812767dcb765762
 
-This completes that case, not the whole binary. functions.json records 156
-accepted frontiers: 138 non-import functions and 18 Win32 import interfaces.
-Every accepted function's complete call-target set matches the original.
-Diagnostic, alternate-option, floating/character-expression and pragma paths
-still contain named trapping stubs. No claim of complete branch coverage is
-made. Unvisited complete helpers remain masked until a case reaches them.
+The assigned 13-case follow-up suite also passes with exact stdout, stderr,
+exit statuses and complete or partial output files. Cases cover pragmas,
+character and floating tokens, comments, -P/-C/-J, packing options, CP932,
+UTF16LE, macro-arity warnings and preprocessing errors. The invalid-option
+case checks that no output file is created. The target's CP932 trail-backslash
+failure is retained, including RC4413 and RC2001 diagnostics.
 
-    make -j2 check
-    make -j2 replay
-    make -j2 classifiers
+functions.json records 171 accepted frontiers: 153 non-import functions and
+18 Win32 import interfaces. Every accepted function's complete call-target set
+matches the original. acceptance_cases preserves all 156 initial frontiers
+and records the case used for each subsequent acceptance. Four named trapping
+stubs remain: exception filter, CRT fatal startup abort, console control
+handler and directive-line skipping. Unvisited complete helpers also remain
+masked until a case reaches them. This completes the assigned cases, not the
+whole binary.
+
+coverage.json measures the clipped union of accepted full code extents,
+including shared .text data, identified CRT and import thunks: 35,289 of
+40,448 original code bytes (87.25%). This is neither branch coverage nor
+executed-instruction coverage. Gaps include alignment padding as well as
+unaccepted functions.
+
+    make -j2 check-suite
+    make -j2 replay-suite
+    make -j2 classifiers messages coverage
 
 Builds use original CL.EXE and LINK.EXE from toolchains/1.0-nt. GNU Make supports
 parallel builds. Scratch, a private Wine prefix, case directories, debugger logs
 and generated analysis listings live under ~/.ai-tmp/vc1.0-rcpp. T: maps to the
-original toolchain directory. The fixture is never modified.
+original toolchain directory. The fixtures are never modified.
 
 Case and masking
 ----------------
@@ -30,7 +45,11 @@ Case and masking
 expected RD000360, complete source/assets and capture provenance. RCPP receives
 real argv and inherited environment; MSC_CMD_FLAGS is removed. The captured
 basenames, working directory layout and T: paths preserve #line output exactly.
-No bytes, fields, timestamps or paths are ignored or rewritten.
+../fixtures/rcpp-followups supplies 13 immutable source/argument/output captures.
+Each manifest source, target, catalog and output hash is verified. The complete
+source tree is copied into a private work directory and checked unchanged after
+the run. Captured relative paths and source encodings are retained. No bytes,
+fields, timestamps or paths are ignored or rewritten.
 
 The untouched target's SHA256 is
     a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd
@@ -40,7 +59,9 @@ restores only accepted full function extents and their recorded .text data.
 Both copies run concurrently under the debugger. Each new trap must match its
 logical function before acceptance. A successful run also checks the untouched
 original and immutable fixture. validation.json records the final artifacts;
-progress.json records the replay evidence and current limitations.
+followup-validation.json records the additional exact artifacts and streams,
+and original-followup-replay.json independently checks all untouched original
+cases. progress.json records the replay evidence and current limitations.
 
 These early PE headers have VirtualSize=0. binary.py uses backed raw size where
 appropriate and rejects file access to uninitialized/raw-offset-zero sections.
@@ -53,14 +74,19 @@ Readable C covers option dispatch, input contexts and encoding detection,
 line output, include-name/header search, complete directive dispatch, the main
 lexer, numeric/string tokens and type/constant nodes, comments and splicing,
 conditional expression evaluation, inactive directives, and macro definitions,
-actual arguments, nested expansion, stringizing and token pasting.
+actual arguments, nested expansion, stringizing and token pasting. Follow-up
+cases add pragma output, complete character/escape and floating-spelling
+scanners, option-number/suffix parsing and diagnostic reporting. Escaped
+characters retain signed-byte behavior unless -J is active; octal and hex
+escapes retain the target's three-digit limits.
 
 Native structures describe macro symbols, packed argument records, scanner
 contexts, tokens and types. The macro stack's typed shared storage retains the
 first active frame's saved cursor used by include buffering, and the original
-last-frame/workspace overlap. Ordinary literals stay at their use sites;
-shared token spelling/category records and semantic lexer tables have explicit
-contexts. No target data section was bulk copied. The only inline assembly in
+last-frame/workspace overlap. Original-toolchain compile-time size/offset
+assertions verify those aliases, FILE and input context layouts. Ordinary
+literals stay at their use sites; shared token spelling/category records and
+semantic lexer tables have explicit contexts. No target data section was bulk copied. The only inline assembly in
 reconstruction sources is INT3 in named frontier stubs.
 
 Original .text switch tables are recorded with their owning functions. The
@@ -76,7 +102,7 @@ The user explicitly permits different internal graphs inside individually
 identified embedded CRT routines for RCPP only. Native graph/ABIs, CRT external
 ABIs, observable behavior and shared data contracts remain requirements. The
 originating runtime variant is still unidentified. No graph exception has been
-needed in this case: accepted native and CRT call-target sets all match.
+needed: accepted native and CRT call-target sets all match.
 crt-boundaries.json records the classification evidence and compatibility
 choices, rather than treating failed byte signatures as incompatibility proof.
 
@@ -107,6 +133,19 @@ aligns strict paired flush checkpoints; flush timing alone is not evidence of
 native dependence on that size or of observable incompatibility in LIBC.
 CLOSE and handle release retain library implementations after checking their
 complete equivalent bounds tests, errors, calls and shared handle contracts.
+The option parser uses shipped ATOX.OBJ's atol after whole-body comparison;
+its ASCII whitespace/sign/digit arithmetic and wrapping result match. Its
+locale-size field is wider, with the same supported locale-length values.
+
+Native byte classification needs an explicit data compatibility adjustment.
+RCPP passes signed bytes to PRINT/SPACE/DIGIT ctype macros. On negative indices,
+its original embedded runtime prefix includes unused FILE slots and locale
+pointers, rather than LIBC's different layout. This caused a measured missing
+RC4413 warning in the trail-backslash case. legacy-ctype.c defines only the
+semantic flags those native macros test, retaining compatible LIBC data for
+ordinary indices and the original _isctype call edge. No pointer words or raw
+prefix data were copied. audit-data.py checks all -128..255 native indices.
+The unused FILE slots remain zero within the original ten-input-file bound.
 
 Additional verification
 -----------------------
@@ -127,3 +166,16 @@ results. make classifiers independently calls original and reconstruction
 leaf entries without startup: 40,048 calls per binary, including boundary
 values and a deterministic sample. classifier-validation.json records this
 ABI probe; it is separate from whole-program artifact validation.
+
+The diagnostic lookup has a contextual typed catalog of 372 encountered
+code/text records, its sentinel, and its original lookup/fallback behavior.
+make messages probes all 65,536 16-bit codes plus two out-of-range arguments:
+131,080 calls per binary check exact text, stable repeated pointers, distinct
+pointers for duplicate-spelling records and the shared unknown-code fallback.
+message-validation.json records the matching probe artifact. The analysis-only
+probe maps both EXEs without startup; PE base relocations are applied in memory
+when a mapped EXE is not at its preferred address.
+
+Useful next cases are trailing tokens after #endif (the remaining native
+skip-line frontier), and an oversized macro argument to exercise the currently
+unaccepted macro-fatal helper. These are proposals, not completed cases.

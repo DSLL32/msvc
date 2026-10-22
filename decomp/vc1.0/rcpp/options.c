@@ -1,5 +1,7 @@
 /* Semantic option defaults; storage follows the driver options they control. */
 #include "preprocessor.h"
+#include <stdlib.h>
+#include "legacy-ctype.h"
 RcOptions rc_options = {
     1,0,0,0,0,0,
     0,0,0,0,0,
@@ -108,4 +110,34 @@ void __stdcall rc_apply_option(RcOption *option, char *value, int copy)
             ++value;
         }
     }
+}
+
+/* Original [01007770,0100782d). Numeric options accept a decimal prefix
+ * after whitespace, with a range of 0..65534; a sign is not accepted here. */
+unsigned __stdcall rc_parse_option_number(char *value)
+{
+    char *number = value;
+    long result = 0;
+    int digit;
+    while (rc_native_isspace((signed char)*number)) ++number;
+    digit = rc_native_isdigit((signed char)*number);
+    if (digit) result = atol(number);
+    if (!digit || result < 0 || result >= 65535) {
+        rc_message_format = rc_message(1049);
+        rc_format(rc_diagnostic_buffer, rc_message_format, value);
+        rc_fatal(1049);
+    }
+    return result;
+}
+
+/* Original [01007860,010078be). Compare the pattern following '*' from
+ * the end, retaining the target's backwards suffix scan. */
+int __stdcall rc_match_suffix(const char *pattern, const char *value)
+{
+    const char *pattern_end = pattern, *value_end = value;
+    if (!pattern[1]) return 1;
+    while (pattern_end[1]) ++pattern_end;
+    while (value_end[1]) ++value_end;
+    while (*pattern_end == *value_end) { --pattern_end; --value_end; }
+    return pattern_end == pattern && (unsigned)value_end >= (unsigned)value;
 }

@@ -347,3 +347,14 @@ void __stdcall rc_skip_inactive_quote(unsigned char quote)
         }
     }
 }
+
+/* Original [0100e380,0100e3cc). Pragmas pass through preprocessing output
+ * verbatim after logical-character splicing; newline stays with the caller. */
+void rc_parse_pragma(void)
+{
+    unsigned char ch;
+    if (!rc_preprocessing_started) return;
+    fwrite("#pragma", 7, 1, rc_output);
+    while ((ch = rc_get_logical_character()) != '\n') fputc(ch, rc_output);
+    --rc_input_cursor;
+}
