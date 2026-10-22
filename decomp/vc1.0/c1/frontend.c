@@ -42,8 +42,8 @@ int compile_translation_unit(void)
         token->value.text = version_string;
         for (i = 0; i <= length; ++i)
             version_string[i] = options.option_V[i];
-        record_version_token(token);
-        emit_version_token(token);
+        assign_string_type(token);
+        materialize_string_literal(token);
         global_expression_scope_active = 1;
     }
     if (options.pch_use ||

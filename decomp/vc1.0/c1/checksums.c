@@ -38,3 +38,19 @@ void initialize_checksums(void)
         checksum_transform[input] = transformed;
     }
 }
+
+/* Original 0x4c020..0x4c071. Advance the two-byte checksum through the
+   startup-generated feedback and byte-transform tables. */
+unsigned __stdcall checksum_bytes(unsigned char *text, unsigned bytes, unsigned seed)
+{
+    unsigned char low = (unsigned char)seed;
+    unsigned char high = (unsigned char)(seed >> 8);
+    unsigned char feedback;
+    unsigned char *end = text + bytes;
+    while (text < end) {
+        feedback = checksum_low[low] ^ checksum_high[high];
+        low = high;
+        high = checksum_transform[*text++ ^ feedback];
+    }
+    return ((unsigned)high << 8) | low;
+}

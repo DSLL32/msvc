@@ -1,10 +1,14 @@
 /* Expression-stream records. Buffer operations stay inside their original caller. */
 #include "global-ir.h"
 #include "parser.h"
+#include "literal-names.h"
+#include "pragma.h"
 #include "expression-records.h"
 
 typedef struct IrRecordLink { struct IrRecordLink *next; } IrRecordLink;
 
+InitializerBuffer *initializer_buffer; /* original 0x5f4f4 */
+unsigned char initializer_tag; /* original 0x60038 */
 unsigned string_record_count; /* original 0x60040 */
 FrontendSymbol *current_label_symbol; /* original 0x60068 */
 
@@ -184,7 +188,7 @@ void __stdcall emit_ir_expression(IrToken *expression)
             }
             break;
         case TOK_STRING:
-            expression = emit_version_token(expression);
+            expression = materialize_string_literal(expression);
             WRITE_EXPRESSION_RECORD(expression);
             return;
         case TOK_BASED_REFERENCE:
@@ -601,4 +605,152 @@ void write_function_directory(void)
         function_records = function_records->next;
     }
     normalized_Oq = saved_Oq;
+}
+
+/* Original 0x39370..0x39396. Keep statement delimiters and source-line
+   records even when the statement itself has no expression. */
+void __stdcall emit_expression_statement(IrToken *expression)
+{
+    if (error_count) return;
+    record_line_information(1);
+    emit_ir_expression(expression);
+    write_ir_record(0x4b, 0);
+}
+
+/* Original 0x3c080..0x3c0e7. A reusable literal is found by its interned
+   encoded name; an unpooled literal receives a fresh symbol. */
+IrToken *__stdcall materialize_string_literal(IrToken *token)
+{
+    char *name;
+    FrontendSymbol *symbol;
+    ++string_record_count;
+    name = string_pool_name((StringToken *)&token->value, (token->auxiliary_flags & 1) != 0);
+    if (name) {
+        name = intern_identifier(name);
+        symbol = find_scope_declaration(global_scope, name, 0);
+        if (symbol) return make_symbol_reference(symbol);
+        return define_string_literal(token, name, 1);
+    }
+    return define_string_literal(token, 0, 0);
+}
+
+
+/* Original 0x3be60..0x3c072. Literal symbols carry their own storage,
+   initializer and scope records; pooled literals live in the global scope. */
+IrToken *__stdcall define_string_literal(IrToken *token, char *name, int pooled)
+{
+    unsigned char saved_record = global_record_kind;
+    unsigned char saved_nesting = parameter_nesting;
+    FrontendSymbol *symbol = allocate_permanent(sizeof(FrontendSymbol));
+    FrontendSymbol *segment = 0;
+    IrToken *result;
+    unsigned char storage;
+    symbol->kind = 9;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+    symbol->index = next_symbol_index++;
+    symbol->type = token->type;
+    symbol->attributes |= 8;
+    symbol->references = 1;
+    storage = symbol->storage[0] & 7;
+    symbol->storage[0] = (current_storage[0] & ~7) | storage;
+    symbol->storage[1] = current_storage[1];
+    symbol->storage[2] = current_storage[2];
+    symbol->attributes |= 0x404;
+    symbol->flags |= 1;
+    if (pooled) {
+        symbol->storage[0] = (symbol->storage[0] & ~7) | 0x42;
+        symbol->name = name;
+        global_record_kind = 0;
+        parameter_nesting = 0;
+    } else symbol->storage[0] = (symbol->storage[0] & ~7) | 3;
+    if (default_data_segment) segment = default_data_segment;
+    else if (default_const_segment) segment = default_const_segment;
+    if (segment) {
+        if (pooled) assign_symbol_segment(symbol, segment);
+        else assign_unpooled_literal_segment(symbol, segment);
+    }
+    if (function_symbol && (function_symbol->storage[2] & 4) &&
+        ((function_symbol->storage[1] & 1) || (scanner_flags & 0x400))) {
+        symbol->storage[2] = (symbol->storage[2] & ~8) | 4 |
+            (function_symbol->storage[2] & 8);
+        if (!(symbol->storage[2] & 8)) symbol->attributes &= ~4;
+    }
+    if (global_record_kind && function_symbol &&
+        ((function_symbol->storage[1] & 1) ||
+         (options.option_Ob == 2 && (function_symbol->storage[0] & 7) == 3) ||
+         (scanner_flags & 0x40))) {
+        global_record_kind = 0;
+        parameter_nesting = 0;
+    }
+    if (pooled) insert_scope_symbol(global_scope, symbol);
+    result = make_symbol_reference(symbol);
+    result->type = symbol->type;
+    if (!(symbol->storage[2] & 4) || (symbol->storage[2] & 8))
+        emit_literal_initializer(symbol, token);
+    emit_symbol_declaration(symbol);
+    result->flags = 4;
+    result->kind = TOK_IDENTIFIER;
+    global_record_kind = saved_record;
+    parameter_nesting = saved_nesting;
+    return result;
+}
+
+/* Original 0x3b080..0x3b0ea. End each literal initializer with its
+   own stream delimiter, unless initializer output has been suppressed. */
+void __stdcall emit_literal_initializer(FrontendSymbol *symbol, IrToken *token)
+{
+    write_literal_initializer(symbol, token, line_file);
+    if (parser_flags & 0x20000000) return;
+    auxiliary_ir_stream = line_file;
+    initializer_tag = 7;
+    putc(initializer_tag, auxiliary_ir_stream);
+}
+
+/* Original 0x3b0f0..0x3b2e7. The literal declaration schema is a zero
+   marker, symbol index, zero offset, then the initializer value. */
+void __stdcall write_literal_initializer(FrontendSymbol *symbol, IrToken *token, FILE *stream)
+{
+    char *format = "mdox";
+    unsigned index, word;
+    int offset;
+    if (parser_flags & 0x20000000) return;
+    auxiliary_ir_stream = stream;
+    while (*format) {
+        switch (*format++) {
+        case 'd':
+            if (symbol->attributes & 0x40) {
+                symbol_alias(symbol)->attributes |= 4;
+                index = symbol_alias(symbol)->index;
+            } else index = symbol->index;
+            if (auxiliary_ir_stream) write_ir_index(&index);
+            else if (index <= 0x7fff)
+                write_initializer_bytes(&index, 2, 1, initializer_buffer);
+            else {
+                word = index | 0x8000;
+                write_initializer_bytes(&word, 2, 1, initializer_buffer);
+                word = index >> 15;
+                write_initializer_bytes(&word, 2, 1, initializer_buffer);
+            }
+            symbol->attributes |= 0x8004;
+            break;
+        case 'm':
+            if (auxiliary_ir_stream) putc(0, auxiliary_ir_stream);
+            else put_initializer_byte(0, initializer_buffer);
+            break;
+        case 'o':
+            offset = 0;
+            if (auxiliary_ir_stream) write_ir_integer(&offset);
+            else if (offset >= -127 && offset <= 127)
+                put_initializer_byte((signed char)offset, initializer_buffer);
+            else {
+                put_initializer_byte(0x80, initializer_buffer);
+                write_initializer_bytes(&offset, 4, 1, initializer_buffer);
+            }
+            break;
+        case 'x':
+            write_initializer_value(symbol, token, stream);
+            break;
+        }
+    }
 }

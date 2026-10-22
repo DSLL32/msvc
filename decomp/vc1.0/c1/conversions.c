@@ -239,3 +239,42 @@ int __stdcall addition_overflows(unsigned left, unsigned right,
     threshold = (unsigned)bounds->signed_maximum - left;
     return (int)right > (int)threshold;
 }
+
+/* Original 0x3e2e0..0x3e317. A previously diagnosed pointer-valued
+   operand suppresses a second conversion diagnostic. */
+void __stdcall check_binary_type_conversion(unsigned char operation, IrToken *left, IrToken *right)
+{
+    TypeShape *shape;
+    if (!left || !right) return;
+    if (left->flags & 0x80) {
+        shape = right->type->related;
+        if (shape && (shape->flags & 3)) return;
+    }
+    check_assignment_conversion(operation, left->type, right);
+}
+
+/* Original 0x3f140..0x3f23c. Assignment-like operations may add cv
+   qualifiers, but warn and fail this comparison when they discard one. */
+int __stdcall check_conversion_attributes(unsigned char operation,
+    unsigned short target, unsigned short source, int first)
+{
+    int discarded = 0;
+    switch (token_categories[operation]) {
+    case TOK_ASSIGN: case TOK_ARGUMENT_END: case TOK_INITIALIZING: case TOK_RETURN:
+        if (((target ^ source) & 0x3000) && (source & 0x3000)) {
+            if (!(target & 0x2000) && (source & 0x2000)) {
+                compiler_warning(1, 90, token_names[operation], token_names[TOK_VOLATILE]);
+                discarded = 1;
+            }
+            if (!(target & 0x1000) && (source & 0x1000)) {
+                compiler_warning(1, 90, token_names[operation], token_names[TOK_CONST]);
+                discarded = 1;
+            }
+            if (discarded) return 0;
+        }
+        return first ? 1 : 2;
+    case TOK_COLON: case TOK_EQUALITY_OPERATOR: case TOK_RELATIONAL_OPERATOR:
+        return 1;
+    default: return 2;
+    }
+}

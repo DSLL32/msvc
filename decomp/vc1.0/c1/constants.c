@@ -66,3 +66,26 @@ integer_value:
     --type_description_depth;
     return node;
 }
+
+/* Original 0x276c0..0x27777. String lengths include the terminator and
+   are measured in bytes; wide strings therefore have half as many elements. */
+void __stdcall assign_string_type(IrToken *token)
+{
+    TypeDescription *description = &type_description_stack[++type_description_depth];
+    unsigned count;
+    description->flags = 0;
+    description->attributes = 0;
+    description->related = 0;
+    description->field08 = 0;
+    description->field0c = 0;
+    if (token->auxiliary_flags & 1) description->flags = 0x4042;
+    else {
+        description->flags = 0x41;
+        if (options.extensions_enabled && options.option_J) description->flags = 0x4041;
+    }
+    description->attributes = 0;
+    count = token->length / ((token->auxiliary_flags & 1) ? 2 : 1);
+    description->related = intern_type_shape(new_type_shape(2, 1, &count));
+    token->type = intern_type(description);
+    --type_description_depth;
+}

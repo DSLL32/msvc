@@ -923,7 +923,7 @@ read_action:
             parser_value.node = make_identifier_expression(right[0].name);
             break;
         case 213:
-            record_version_token(right[0].node);
+            assign_string_type(right[0].node);
             break;
         case 214:
             ALLOCATE_PARSER_NODE(node, sizeof(ExpressionNode), 2);

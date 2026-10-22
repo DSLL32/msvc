@@ -104,4 +104,5 @@ void __stdcall write_global_record(unsigned tag, FrontendSymbol *symbol);
 void __stdcall cache_parameter_bytes(FrontendSymbol *symbol);
 int format_integer(int value, char *destination, unsigned radix);
 
+extern char symbol_name_buffer[248];
 #endif

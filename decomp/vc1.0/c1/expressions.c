@@ -946,3 +946,113 @@ IrToken *__stdcall modifiable_lvalue(IrToken *expression, int modifying)
     if (modifying && is_const) report_syntax_error(166);
     return expression;
 }
+
+/* Original 0x3ddf0..0x3e1b5, dispatch 0x3e1b8..0x3e2d4.
+   Validate the operator's scalar categories before applying conversions.
+   Compound pointer assignment scales its right operand here. */
+IrToken *__stdcall convert_binary_operands(IrToken *expression)
+{
+    ExpressionNode *node = (ExpressionNode *)expression;
+    IrToken *left = node->value.children.left;
+    IrToken *right = node->value.children.right;
+    CType *left_type = left->type, *right_type = right->type;
+    TypeShape *left_shape = left_type->related, *right_shape = right_type->related;
+    unsigned short left_flags = left_shape ? left_shape->flags : 0;
+    unsigned short right_flags = right_shape ? right_shape->flags : 0;
+    unsigned char operation = expression->kind;
+    int invalid = 0;
+    switch (operation) {
+    case TOK_BIT_AND: case TOK_AND_ASSIGN:
+    case TOK_LEFT_SHIFT_ASSIGN: case TOK_LEFT_SHIFT:
+    case TOK_REMAINDER: case TOK_REMAINDER_ASSIGN:
+    case TOK_BIT_OR: case TOK_OR_ASSIGN:
+    case TOK_RIGHT_SHIFT_ASSIGN: case TOK_RIGHT_SHIFT:
+    case TOK_BIT_XOR: case TOK_XOR_ASSIGN:
+        if (!(left_type->flags & 0x240) || left_flags) {
+            report_function_operand(operation, 1);
+            invalid = 1;
+        }
+        if (!(right->type->flags & 0x240) || right_flags) {
+            report_function_operand(operation, 2);
+            invalid = 1;
+        }
+        return invalid ? 0 : expression;
+    case TOK_LOGICAL_AND: case TOK_LOGICAL_OR:
+        if (!(left_type->flags & 0x340) && !(left_flags & 3)) {
+            report_function_operand(operation, 1);
+            invalid = 1;
+        }
+        if (!(right->type->flags & 0x340) && !(right_flags & 3)) {
+            report_function_operand(operation, 2);
+            invalid = 1;
+        }
+        return invalid ? 0 : expression;
+    case TOK_ASSIGN: case TOK_INITIALIZING:
+        if (right_shape && (right_shape->flags & 7) == 2)
+            right->type = decay_array_expression_type(right);
+        check_binary_type_conversion(operation, left, right);
+        return expression;
+    case TOK_DIVIDE: case TOK_MULTIPLY:
+        if (!(left_type->flags & 0x340) || left_flags) {
+            report_function_operand(operation, 1);
+            invalid = 1;
+        }
+        if (!(right->type->flags & 0x340) || right_flags) {
+            report_function_operand(operation, 2);
+            invalid = 1;
+        }
+        return invalid ? 0 : expression;
+    case TOK_DIVIDE_ASSIGN: case TOK_MULTIPLY_ASSIGN:
+        if (!(left_type->flags & 0x140) || left_flags) {
+            report_function_operand(operation, 1);
+            invalid = 1;
+        }
+        if (!(right->type->flags & 0x340) || right_flags) {
+            report_function_operand(operation, 2);
+            invalid = 1;
+        }
+        if (invalid) return 0;
+        check_binary_type_conversion(operation, left, right);
+        return expression;
+    case TOK_EQUAL: case TOK_GREATER: case TOK_GREATER_EQUAL:
+    case TOK_LESS: case TOK_LESS_EQUAL: case TOK_NOT_EQUAL:
+        if ((left->flags & 7) != 3 && (right->flags & 7) != 3 &&
+            (left_type->flags & 0x40) && !left_flags &&
+            (right_type->flags & 0x40) && !right_flags &&
+            ((left_type->flags ^ right_type->flags) & 0x4000)) {
+            if (!(left->kind == TOK_CAST && left_type == type_0064 &&
+                  (((IrToken *)left->value.pointer)->type->flags & 0x4000)) &&
+                !(right->kind == TOK_CAST && right_type == type_0064 &&
+                  (((IrToken *)right->value.pointer)->type->flags & 0x4000)))
+                conversion_diagnostic(18, 3, operation, left_type, right_type);
+        }
+        check_binary_type_conversion(operation, left, right);
+        return expression;
+    case TOK_MINUS_ASSIGN: case TOK_PLUS_ASSIGN:
+        if (right_shape || !(right_type->flags & 0x340)) {
+            report_function_operand(operation, 2);
+            return 0;
+        }
+        if (left_type->flags & 0x200) {
+            report_function_operand(operation, 1);
+            return 0;
+        }
+        if (!left_shape && (left_type->flags & 0x140))
+            check_binary_type_conversion(operation, left, right);
+        else if ((left_flags & 7) == 1) {
+            if (right_type->flags & 0x240) {
+                constant_one = complete_type_size(left_type);
+                node->value.children.right = make_binary_expression(TOK_MULTIPLY, right,
+                    make_constant_token(TOK_LONG_CONSTANT, &constant_one));
+            } else {
+                report_syntax_error(114, token_names[operation]);
+                return 0;
+            }
+        } else if ((left_flags & 7) == 3) {
+            report_function_operand(operation, 1);
+            return 0;
+        }
+        return expression;
+    }
+    return 0;
+}

@@ -11,6 +11,7 @@
 #include "source-input.h"
 #include "lexer.h"
 #include "parser.h"
+#include "literal-names.h"
 #include "control-ir.h"
 #include "expressions.h"
 
@@ -31,10 +32,8 @@ void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 
 /* Original 0x276c0. */
-void __stdcall record_version_token(IrToken *token) { __asm { int 3 } }
 
 /* Original 0x3c080. */
-IrToken *__stdcall emit_version_token(IrToken *token) { __asm { int 3 } return 0; }
 
 /* Original 0x213f0. */
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
@@ -366,7 +365,6 @@ FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned
 /* Original 0x35f30. */
 
 /* Original 0x39370. */
-void __stdcall emit_expression_statement(IrToken *expression) { __asm { int 3 } }
 
 /* Original 0x39d10. */
 void __stdcall emit_conditional_branch(IrToken *condition, IrToken *label, int sense) { __asm { int 3 } }
@@ -461,7 +459,6 @@ IrToken *__stdcall convert_based_pointer(CType *target, IrToken *value) { __asm 
 
 
 void warn_void_function_pointer(void) { __asm { int 3 } }
-int __stdcall check_conversion_attributes(unsigned char operation, unsigned short target, unsigned short source, int first) { __asm { int 3 } return 0; }
 void __stdcall conversion_diagnostic(unsigned code, unsigned level, unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
 int __stdcall compare_prototype_parameter_types(CType *target, CType *source) { __asm { int 3 } return 0; }
@@ -705,9 +702,7 @@ void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
 /* Original 0x3d400. */
 CType * __stdcall decay_array_expression_type(IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x3ddf0. */
-IrToken * __stdcall convert_binary_operands(IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x3e2e0. */
-void __stdcall check_binary_type_conversion(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } }
 /* Original 0x3f4f0. */
 void __stdcall report_function_operand(unsigned char operation, int argument) { __asm { int 3 } }
 /* Original 0x3f5c0. */
@@ -783,3 +778,13 @@ void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm 
 int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 /* Original 0x284f0. */
 Extended * __stdcall save_extended_constant(Extended *value) { __asm { int 3 } return 0; }
+
+
+
+
+void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
+
+
+unsigned __stdcall write_initializer_bytes(void *data, unsigned size, unsigned count, InitializerBuffer *buffer) { __asm { int 3 } }
+int __stdcall put_initializer_byte(int value, InitializerBuffer *buffer) { __asm { int 3 } }
+void __stdcall write_initializer_value(FrontendSymbol *symbol, IrToken *value, FILE *stream) { __asm { int 3 } }

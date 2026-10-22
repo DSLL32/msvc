@@ -3,7 +3,7 @@
 
 /* Shared name-formatting workspace, original 0x65e60. The diagnostic
    name formatter truncates at 247 characters. */
-static char symbol_name_buffer[248];
+char symbol_name_buffer[248];
 
 unsigned char global_record_kind; /* original 0x6003c */
 
@@ -526,4 +526,18 @@ unsigned short __stdcall type_alignment(CType *type)
     if (type->flags & 0x400)
         return (unsigned short)((((FrontendSymbol *)type->field08)->metadata.value >> 16) & 0xff);
     return type->flags & 15;
+}
+
+/* Original 0x4b800..0x4b95b. The reserved byte 0x80 introduces the
+   full little-endian integer; every other small value fits in one byte. */
+void write_ir_integer(int *value)
+{
+    signed char *byte = (signed char *)value;
+    unsigned count;
+    if (*value >= -127 && *value <= 127) {
+        putc(*byte, auxiliary_ir_stream);
+        return;
+    }
+    putc(0x80, auxiliary_ir_stream);
+    for (count = 0; count < 4; ++count) putc(byte[count], auxiliary_ir_stream);
 }

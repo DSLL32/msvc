@@ -442,7 +442,22 @@
     "_modifiable_lvalue@8",
     "_finish_call_arguments@4",
     "_call_argument_bytes@4",
-    "_parameter_info_bytes@4"
+    "_parameter_info_bytes@4",
+    "_convert_binary_operands@4",
+    "_check_binary_type_conversion@12",
+    "_check_conversion_attributes@16",
+    "_emit_expression_statement@4",
+    "_assign_string_type@4",
+    "_materialize_string_literal@4",
+    "_string_pool_name@8",
+    "_encode_string_pool_name@16",
+    "_encode_name_number@8",
+    "_checksum_bytes@12",
+    "_encode_name_character@8",
+    "_define_string_literal@12",
+    "_emit_literal_initializer@8",
+    "_write_literal_initializer@12",
+    "_write_ir_integer"
   ],
   "driver": [
     {
@@ -632,14 +647,14 @@
       "end": 278209
     },
     {
-      "name": "_record_version_token@4",
+      "name": "_assign_string_type@4",
       "start": 161472,
-      "end": 161473
+      "end": 161655
     },
     {
-      "name": "_emit_version_token@4",
+      "name": "_materialize_string_literal@4",
       "start": 245888,
-      "end": 245889
+      "end": 245991
     },
     {
       "name": "_compare_filenames",
@@ -1757,7 +1772,7 @@
     {
       "name": "_emit_expression_statement@4",
       "start": 234352,
-      "end": 234353
+      "end": 234390
     },
     {
       "name": "_emit_conditional_branch@12",
@@ -2233,7 +2248,7 @@
     {
       "name": "_check_conversion_attributes@16",
       "start": 258368,
-      "end": 258369
+      "end": 258620
     },
     {
       "name": "_conversion_diagnostic@20",
@@ -3163,12 +3178,12 @@
     {
       "name": "_convert_binary_operands@4",
       "start": 253424,
-      "end": 253425
+      "end": 254676
     },
     {
       "name": "_check_binary_type_conversion@12",
       "start": 254688,
-      "end": 254689
+      "end": 254743
     },
     {
       "name": "_report_function_operand@8",
@@ -3364,6 +3379,71 @@
       "name": "_parameter_info_bytes@4",
       "start": 213024,
       "end": 213081
+    },
+    {
+      "name": "_string_pool_name@8",
+      "start": 187888,
+      "end": 187968
+    },
+    {
+      "name": "_define_string_literal@12",
+      "start": 245344,
+      "end": 245874
+    },
+    {
+      "name": "_encode_string_pool_name@16",
+      "start": 188096,
+      "end": 188340
+    },
+    {
+      "name": "_encode_name_number@8",
+      "start": 187968,
+      "end": 188094
+    },
+    {
+      "name": "_encode_name_character@8",
+      "start": 188352,
+      "end": 188761
+    },
+    {
+      "name": "_checksum_bytes@12",
+      "start": 311328,
+      "end": 311409
+    },
+    {
+      "name": "_assign_unpooled_literal_segment@8",
+      "start": 263312,
+      "end": 263313
+    },
+    {
+      "name": "_emit_literal_initializer@8",
+      "start": 241792,
+      "end": 241898
+    },
+    {
+      "name": "_write_literal_initializer@12",
+      "start": 241904,
+      "end": 242407
+    },
+    {
+      "name": "_write_initializer_bytes@16",
+      "start": 171728,
+      "end": 171729
+    },
+    {
+      "name": "_put_initializer_byte@8",
+      "start": 171360,
+      "end": 171361
+    },
+    {
+      "name": "_write_ir_integer",
+      "start": 309248,
+      "end": 309595
+    },
+    {
+      "name": "_write_initializer_value@12",
+      "start": 242592,
+      "end": 242593
     }
   ],
   "cases": {
