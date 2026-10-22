@@ -85,18 +85,69 @@ void __fastcall release_tree(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
-void __fastcall prepare_function_codegen(Function *function) { __asm int 3 }
+#include "inline-calls.h"
+InlineSite *__fastcall new_inline_site(Node *call, Node *parent, Expression *expression, unsigned flags) { __asm int 3 }
+InlineBinding *__fastcall bind_inline_arguments(Function *function, Node *entry, Node *call) { __asm int 3 }
+void __fastcall check_inline_argument_aliases(InlineBinding *bindings) { __asm int 3 }
+int __fastcall analyze_inline_returns(Expression *entry, InlineBinding *bindings) { __asm int 3 }
+void __fastcall merge_inline_scope(ScopeHash *outer, ScopeHash *inner) { __asm int 3 }
+Node *__fastcall new_inline_storage(signed char kind, unsigned bytes) { __asm int 3 }
+InlineBinding *__fastcall find_inline_binding(InlineBinding *bindings, SymbolHeader *symbol) { __asm int 3 }
+Node *__fastcall inline_argument_prefix(InlineBinding *bindings) { __asm int 3 }
+void __fastcall materialize_inline_arguments(Function *function, InlineSite *site, InlineBinding *bindings) { __asm int 3 }
+Expression *__fastcall substitute_inline_body(Function *function, InlineBinding *bindings, Node *result,
+    unsigned source_location, InlineSite *site, int hidden_result) { __asm int 3 }
+void __fastcall recycle_inline_site(InlineSite *site) { __asm int 3 }
+void __fastcall recycle_inline_binding(InlineBinding *binding) { __asm int 3 }
+int __fastcall tree_contains_opcode(Node *node, unsigned opcode) { __asm int 3 }
+unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
+void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
+void __fastcall release_node_children(Node *node) { __asm int 3 }
+void __fastcall release_expression(Expression *expression) { __asm int 3 }
 Node *__fastcall optimize_tree_global(Node *node) { __asm int 3 }
-Node *__fastcall optimize_tree_local(Node *node) { __asm int 3 }
-void __fastcall transform_function_trees(Function *function) { __asm int 3 }
+void __fastcall reassociate_right_chain(Node *node) { __asm int 3 }
+int __fastcall rotate_left_chain(Node *node, unsigned right_key, unsigned prior_key, int under_load) { __asm int 3 }
+unsigned __fastcall sort_commutative_operands(Node *node, unsigned left_key, unsigned right_key) { __asm int 3 }
+int __fastcall is_nonnull_address(Node *node) { __asm int 3 }
+Node *__fastcall fold_integer_comparison(Node *node) { __asm int 3 }
+Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
+Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
+Node *__fastcall fold_integer_node(Node *node) { __asm int 3 }
+#include "algebra.h"
+int __fastcall integer_type_limit(Node *node, int limit) { __asm int 3 }
+Node *__fastcall strip_integer_cast(Node *node) { __asm int 3 }
+Node *__fastcall typed_integer_node(Node *model, unsigned value) { __asm int 3 }
+int __fastcall rewrite_shift_as_multiply(Node *node) { __asm int 3 }
+Node *__fastcall fold_absorbing_constant(Node *node, int value) { __asm int 3 }
+int __fastcall reduce_constant_bits(Node *node, Node *parent) { __asm int 3 }
+int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
+int __fastcall can_combine_constants(Node *node, unsigned first, unsigned second) { __asm int 3 }
+int __fastcall integer_log2(unsigned value) { __asm int 3 }
+int __fastcall extract_negative(Node **node) { __asm int 3 }
+int __fastcall negate_tree_in_place(Node **node) { __asm int 3 }
+int __fastcall constant_as_integer(Node *node, int *value) { __asm int 3 }
+Node *__fastcall lift_left_unary(Node *node) { __asm int 3 }
+Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
+Node *__fastcall take_left_operand(Node *node) { __asm int 3 }
+Node *__fastcall lift_unary_operand(Node *node, unsigned opcode) { __asm int 3 }
+Node *__fastcall remove_right_wrapper(Node *node) { __asm int 3 }
+unsigned __fastcall normalize_integer_width(Node *node, unsigned value) { __asm int 3 }
+Node *__fastcall simplify_masked_tree(Node *node, unsigned mask) { __asm int 3 }
+unsigned __fastcall shift_discard_mask(Node *node) { __asm int 3 }
+int __fastcall factor_common_operator(Node *node, unsigned opcode, int implicit) { __asm int 3 }
+int __fastcall factor_compatible_operator(Node *node, unsigned opcode, int implicit) { __asm int 3 }
+int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
+int __fastcall conversion_loses_value(unsigned short source, unsigned short target) { __asm int 3 }
+int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
+unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm int 3 }
+Node *__fastcall cleanup_unused_tree(Node *node) { __asm int 3 }
 void __fastcall optimize_function_flow(Function *function) { __asm int 3 }
 WorkItem *__fastcall build_global_work(void *expressions) { __asm int 3 }
-WorkItem *__fastcall build_local_work(void *expressions) { __asm int 3 }
 void optimize_work(void) { __asm int 3 }
-void prepare_work(void) { __asm int 3 }
+void __fastcall prepare_work(WorkItem *work) { __asm int 3 }
 void finish_global_work(void) { __asm int 3 }
 void __fastcall finalize_work_trees(WorkItem *work) { __asm int 3 }
-void generate_work(void) { __asm int 3 }
+void __fastcall generate_work(WorkItem *work) { __asm int 3 }
 void __fastcall free_work(WorkItem *work) { __asm int 3 }
 void reset_work(void) { __asm int 3 }
 void release_function_symbols(void) { __asm int 3 }

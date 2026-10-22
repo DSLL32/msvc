@@ -16,4 +16,7 @@ void *__fastcall allocate_descriptor(signed char kind, unsigned arena);
 void *__fastcall configure_arena(unsigned arena, unsigned mode, unsigned block_size);
 void *__fastcall arena_alloc(unsigned arena, unsigned bytes);
 void *__fastcall arena_calloc(unsigned arena, unsigned bytes);
+typedef struct Arena Arena;
+void __fastcall reset_arena(unsigned arena);
+void __fastcall free_arena_blocks(Arena *arena);
 #endif

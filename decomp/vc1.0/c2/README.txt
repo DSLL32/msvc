@@ -91,8 +91,8 @@ the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 136 reconstructed source functions and 197 recorded
-matching trap frontiers. All 197 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 155 reconstructed source functions and 216 recorded
+matching trap frontiers. All 216 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -116,7 +116,8 @@ See cases/input-abi.json. The floating-input helper bodies remain trapped;
 these static checks and the integer case do not validate floating input.
 
 The tree classification table defines arity, self-contained records, second
-operands, left-operand writes and side effects as those properties are encountered. Its
+operands, left-operand writes, side effects, associative/swappable operators,
+scalar constant folding and additive operators as those uses are encountered. Its
 182 entries match those original properties; it does not copy the packed
 original opcode flags. Reference propagation records the four intrinsic
 descriptors that carry an operand reference, without importing their name,
@@ -129,10 +130,32 @@ pre-order and post-order hooks. Function-reference rewriting separates hidden
 object arguments; temporaries.c owns the encountered temporary-register list.
 tree-types.c implements full opcode typing, promotions, staged conversions,
 type-stack records and conversion warnings. All 106 non-error opcode dispatch
-arms match the original type-finishing table. The five tree properties match
+arms match the original type-finishing table. The nine tree properties match
 all 182 original opcode entries; the intrinsic call-class predicate matches
 all 247 valid descriptors, with 110 selected entries. Ordinary format strings
 remain at their points of use. The separate tree-construction and intrinsic
 helpers remain traps until reached; the minimal case does not validate those
-unexercised branches. It now finishes canonicalization and reaches the inline
-call-expansion phase (still named prepare_function_codegen provisionally).
+unexercised branches.
+
+inline-calls.c and inline-candidates.c implement inline-call selection, recursive
+growth budgets, body substitution and cleanup. Their optimizer flag is the
+existing optimize_global variable at original 00080624. The minimal case has
+no inline calls; substitution helpers still trap and have not been validated
+on an actual inline expansion. memory.c releases the inliner's arena.
+
+tree-optimizer.c orders operands by subtree keys and dispatches constant
+folding. algebra.c implements the full algebraic simplifier and operator
+identities. Its 28 opcode arms match the original dispatch, and all nine
+encountered tree properties match 182 original entries. Arithmetic rewrite
+helpers remain traps until reached; return-zero does not exercise those rules.
+
+tree-cleanup.c preserves significant expression records before block splitting
+in work-input.c. WorkItem is a typed 68-byte record with compiler size checks.
+tree-scratch.h records the shared type-stack boundary and cleanup cursor as a
+typed union: the original permitted boundary word aliases the cursor at
+0007e840. No type-stack push/pop is exercised by this case.
+
+The case now reaches prepare_work at 00066e30. Its argument, and generate_work's,
+is the block list in ECX. The callers and trapping stubs use ordinary typed
+__fastcall declarations. These bodies remain masked; see cases/work-abi.json
+for the static evidence and validation limits.

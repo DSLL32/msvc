@@ -1,0 +1,31 @@
+{
+  "target": "C23232.EXE",
+  "prepare_work": {
+    "entry_va": "0x66e30",
+    "signature": "void __fastcall prepare_work(WorkItem *work)",
+    "argument": "ECX is copied to ESI at 0x66e34 and used as the linked block list",
+    "caller": "compile_functions calls at 0x4c437 with the block list in ECX",
+    "status": "typed trapping stub; body not yet unmasked"
+  },
+  "generate_work": {
+    "entry_va": "0x17000",
+    "signature": "void __fastcall generate_work(WorkItem *work)",
+    "caller": "compile_functions calls at 0x4c47b with the block list in ECX",
+    "status": "typed trapping stub; body not yet unmasked"
+  },
+  "shared_optimizer_flag": {
+    "original_va": "0x80624",
+    "source": "optimize_global in options.c",
+    "uses": "local/global pipeline selection, inliner eligibility, work preparation and machine generation",
+    "identity": "one source variable shared by the recovered readers"
+  },
+  "layout": {
+    "WorkItem_size": 68,
+    "WorkItem_flags_offset": 66,
+    "TreeScratch_size": 36,
+    "cleanup_cursor_offset": 32,
+    "type_stack_limit_offset": 32,
+    "checks": "original-compiler sizeof assertions; original pointer arithmetic and field offsets"
+  },
+  "limits": "The minimal case reaches prepare_work's entry trap. It has no inline calls, protected regions, expression-type stack operations or algebraic arithmetic rewrites, so those branches and the generation body are not dynamically validated by this checkpoint."
+}

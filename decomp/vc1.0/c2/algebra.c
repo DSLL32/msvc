@@ -1,0 +1,324 @@
+#include "algebra.h"
+#include "tree-input.h"
+#include "expression-fields.h"
+/* Original [00056230,000562f0), including its nine-entry opcode table.
+   2a denotes an operator without a removable right-hand identity. */
+int __fastcall operator_identity(Node *node)
+{
+    unsigned opcode = node->opcode;
+    if (opcode <= 0xb) {
+        switch (opcode) {
+        case 2: case 3: case 9: case 10: return 0;
+        case 4: case 5: case 7: return 1;
+        case 0xb: return integer_type_limit(node, -1);
+        default: return 0x2a;
+        }
+    }
+    if (opcode == 0xc || opcode == 0xd) return 0;
+    if (opcode == 0xae) {
+        if (node->attributes.words.type & 0x1000) return 0x2a;
+        if (node->attributes.words.type & 0x100) return integer_type_limit(node, 0x80000000);
+        return 0;
+    }
+    if (opcode == 0xaf) {
+        if (node->attributes.words.type & 0x1000) return 0x2a;
+        if (node->attributes.words.type & 0x100) return integer_type_limit(node, 0x7fffffff);
+        return integer_type_limit(node, -1);
+    }
+    return 0x2a;
+}
+/* Original [00053a80,00054590), including the 35-entry opcode table.
+   Revisit a multiplication after converting it to a shift. Other rules
+   return their replacement directly, leaving the outer tree walk in charge. */
+Node *__fastcall simplify_local_node(Node *node)
+{
+    Node *left, *right, *value, *other, *candidate, *replacement, *alternatives;
+    Node *chosen, *current;
+    unsigned bits, mask, opcode;
+    unsigned short type, flags;
+    int identity, constant, invert;
+restart:
+    left = node->left.node;
+    right = node->second.node;
+    identity = operator_identity(node);
+    if (identity != 0x2a && is_constant_value(right, identity)) {
+        finish_canonical_node(node);
+        release_node(right);
+        node->opcode = 0x34;
+        tree_changed = 1;
+    }
+    switch (node->opcode) {
+    case 2:
+        value = strip_integer_cast(left);
+        if (value->opcode == 8) {
+            other = strip_integer_cast(right);
+            value = strip_integer_cast(left);
+            value = strip_integer_cast(value->left.node);
+            if (trees_equal(value, other, 2)) goto cancel_sum;
+        }
+        value = strip_integer_cast(right);
+        if (value->opcode == 8) {
+            other = strip_integer_cast(left);
+            value = strip_integer_cast(right);
+            value = strip_integer_cast(value->left.node);
+            if (trees_equal(value, other, 2)) goto cancel_sum;
+        }
+        if (left->opcode == 2) {
+            candidate = left->left.node;
+            value = strip_integer_cast(candidate);
+            if (value->opcode == 8) {
+                other = strip_integer_cast(right);
+                value = strip_integer_cast(candidate);
+                value = strip_integer_cast(value->left.node);
+                if (trees_equal(value, other, 2)) goto cancel_nested_sum;
+            }
+            candidate = left->second.node;
+            value = strip_integer_cast(candidate);
+            if (value->opcode == 8) {
+                other = strip_integer_cast(right);
+                value = strip_integer_cast(candidate);
+                value = strip_integer_cast(value->left.node);
+                if (trees_equal(value, other, 2)) goto cancel_nested_sum;
+            }
+        }
+    case 3:
+        if (node->attributes.words.type == 0x408) return lift_typed_sequence(node, 0x68);
+        break;
+    case 4:
+        if (right->opcode == 0x33) {
+            if (left->opcode == 9 && rewrite_shift_as_multiply(left)) return fold_constant_node(node);
+            value = fold_absorbing_constant(node, 0);
+            if (value != node) return value;
+            if (reduce_constant_bits(left, node)) return value;
+            if ((node->attributes.words.type & 0x300) && node->opcode == 4) {
+                bits = right->left.value;
+                if (!(bits & (bits - 1))) {
+                    node->opcode = 9;
+                    node->second.node = intern_leaf(0x33, 0, 0x101, integer_log2(bits));
+                    release_node(right);
+                    goto restart;
+                }
+            }
+        }
+        value = lift_typed_sequence(node, 9);
+        if (value != node) return value;
+        return lift_unary_operand(node, 8);
+    case 5:
+        if (right->opcode == 0x33) {
+            if (is_constant_value(right, 0) && !((flags = right->attributes.words.flags) & 0x40)) {
+                compiler_warning(3, 0x2d3);
+                right->attributes.words.flags = flags | 0x40;
+                return node;
+            }
+            bits = right->left.value;
+            if (!(bits & (bits - 1)) &&
+                ((node->attributes.words.type & 0x200) || is_nonnegative_tree(left))) {
+                node->opcode = 10;
+                node->second.node = intern_leaf(0x33, 0, 0x101, integer_log2(bits));
+                release_node(right);
+                tree_changed = 1;
+                return node;
+            }
+            if (left->opcode == 4 && left->second.node->opcode == 0x33 &&
+                (node->attributes.words.type & 0x300) &&
+                can_combine_constants(left, left->second.node->left.value, bits)) {
+                tree_changed = 1;
+                return build_tree("PPPLYFLY", left->left.node, left->second.node, right, node, left);
+            }
+        }
+        if (!(node->attributes.words.type & 0x200)) return lift_unary_operand(node, 8);
+        if (left->opcode == 10) return lift_typed_sequence(node, 10);
+        break;
+    case 6:
+        if (is_constant_value(right, 0) && !((flags = right->attributes.words.flags) & 0x40)) {
+            compiler_warning(3, 0x2d4);
+            right->attributes.words.flags = flags | 0x40;
+            return node;
+        }
+        if ((node->attributes.words.type & 0x100) && extract_negative(&node->second.node)) return node;
+        if ((node->attributes.words.type & 0x200) && right->opcode == 0x33) {
+            bits = right->left.value;
+            if (!(bits & (bits - 1))) {
+                node->opcode = 0xb;
+                node->second.node = typed_integer_node(right, bits - 1);
+                release_node(right);
+                tree_changed = 1;
+            }
+        }
+        break;
+    case 7:
+        if (left->opcode == 8 && constant_as_integer(right, &constant))
+            return constant & 1 ? lift_left_unary(node) : remove_left_wrapper(node);
+        if (left->opcode == 7) {
+            tree_changed = 1;
+            build_tree("PPPOLL", left->left.node, left->second.node, right, 4, left, node);
+            return node;
+        }
+        if (is_constant_value(right, 0) && !is_constant_value(left, 0)) {
+            release_node(right);
+            node->second.node = typed_integer_node(node, 1);
+            return fold_absorbing_constant(node, 1);
+        }
+        break;
+    case 8: case 0xe:
+        if (left->opcode + node->opcode == 0x16) {
+            node->opcode = node->opcode == 8 ? 2 : 3;
+            node->second.node = typed_integer_node(left, 1);
+            return remove_left_wrapper(node);
+        }
+        goto cancel_wrappers;
+    case 9:
+        if (left->opcode == 4 && left->second.node->opcode == 0x33 && rewrite_shift_as_multiply(node))
+            return fold_constant_node(node);
+        if (left->opcode == 8) return lift_left_unary(node);
+    case 10:
+        if (left->opcode == node->opcode) {
+            if (right->opcode != 0x33) return node;
+            if (left->second.node->opcode == 0x33) {
+                tree_changed = 1;
+                build_tree("PPPOLYL", left->left.node, left->second.node, right, 2, left, node);
+                return node;
+            }
+        }
+        if (right->opcode != 0x33 || reduce_constant_bits(left, node)) return node;
+        mask = shift_discard_mask(node);
+        node->left.node = simplify_masked_tree(left, mask);
+        break;
+    case 0xb:
+        if (right->opcode != 0x33) return node;
+        value = fold_absorbing_constant(node, 0);
+        if (value != node) return value;
+        node->left.node = simplify_masked_tree(left, right->left.value);
+        return value;
+    case 0xc:
+        if (right->opcode != 0x33) return node;
+        mask = normalize_integer_width(node, ~0U);
+        value = fold_absorbing_constant(node, mask);
+        if (value != node) return value;
+        mask = normalize_integer_width(node, ~right->left.value);
+        node->left.node = simplify_masked_tree(left, mask);
+        return value;
+    case 0xd:
+        mask = normalize_integer_width(right, ~0U);
+        if (is_constant_value(right, mask)) {
+            node->opcode = 0xe;
+            return remove_right_wrapper(node);
+        }
+        return lift_unary_operand(node, 0xe);
+    case 0x1f: case 0x20:
+        if (factor_common_operator(node, 0xb, 1)) {
+            release_node(node->left.node);
+            node->left.node = typed_integer_node(node, 0);
+            node->second.node->left.node->opcode = 0xd;
+            tree_changed = 1;
+            return node;
+        }
+        goto simplify_comparison;
+    case 0x21: case 0x22: case 0x23: case 0x24:
+        if (left->opcode == 9 && (node->attributes.words.type & 0x100)) return node;
+simplify_comparison:
+        if (left->opcode == 8 && negate_tree_in_place(&node->second.node)) {
+            tree_changed = 1;
+            opcode = map_comparison_opcode(node->opcode, 0);
+            build_tree("PPOL", left->left.node, node->second.node, opcode, node);
+            release_node(left);
+            return node;
+        }
+        if (!factor_compatible_operator(node, 10, 1) && !factor_compatible_operator(node, 9, 1)) return node;
+        value = node->second.node;
+        other = value->second.node;
+        mask = shift_discard_mask(value);
+        value->second.node = typed_integer_node(value, mask);
+        value->opcode = 0xb;
+        distribute_constant(value, node->opcode);
+        release_node(node->left.node);
+        release_node(node);
+        release_node(other);
+        return value;
+    case 0x32:
+        if (!(node->attributes.words.flags & 0x800) && right->opcode == 0x30 &&
+            trees_equal(left, right->left.node, 1)) {
+            release_node(node);
+            release_tree(left);
+            return right;
+        }
+        break;
+    case 0x34:
+        type = node->attributes.words.type;
+        if (type == 0x408 && left->attributes.words.type == 0x404) {
+            tree_changed = lower_far_pointer_cast(node);
+            return node;
+        }
+        chosen = current = node;
+        while (current->opcode == 0x34 || current->opcode == 0x68) {
+            current = current->left.node;
+            if (conversion_loses_value(current->attributes.words.type, type)) break;
+            if ((type & 255) == (current->attributes.words.type & 255)) chosen = current;
+        }
+        if (chosen == node) return node;
+        while (node->left.node != chosen) node = remove_left_wrapper(node);
+        if (chosen->attributes.words.type == node->attributes.words.type) return take_left_operand(node);
+        break;
+    case 0x38:
+        if (left->opcode < 0x1f || left->opcode > 0x20 || left->left.node->opcode != 0x42) return node;
+        alternatives = left->left.node->second.node;
+        if (trees_equal(left->second.node, alternatives->second.node, 1) &&
+            alternatives->left.node->opcode == 0x33 &&
+            !trees_equal(left->second.node, alternatives->left.node, 1)) invert = left->opcode == 0x1f;
+        else {
+            if (!trees_equal(left->second.node, alternatives->left.node, 1) ||
+                alternatives->second.node->opcode != 0x33 ||
+                trees_equal(left->second.node, alternatives->second.node, 1)) return node;
+            invert = left->opcode == 0x20;
+        }
+        value = left->left.node->left.node;
+        node->left.node = value;
+        if (invert) value->opcode = map_comparison_opcode(value->opcode, 1);
+        release_tree(alternatives);
+        release_tree(left->second.node);
+        release_node(left->left.node);
+        release_node(left);
+        break;
+    case 0x59:
+        if (left->opcode != 0x30 && left->opcode != 0x59 &&
+            (node_shapes[left->opcode] & NODE_ARITY) != NODE_LEAF &&
+            (!(node->attributes.words.type & 0xf00) || (node->attributes.words.flags & 0x4000))) return node;
+        return take_left_operand(node);
+    case 0x68:
+        if (left->opcode == 0x68) {
+            node->left.node = left->left.node;
+            release_node(left->second.node);
+            release_node(left);
+        }
+        break;
+    case 0x84:
+        extract_negative(&node->left.node);
+        break;
+    case 0xaa:
+cancel_wrappers:
+        if (left->opcode == node->opcode) return take_left_operand(remove_left_wrapper(node));
+        break;
+    case 0xae: case 0xaf:
+        if (trees_equal(left, right, 1)) {
+            release_node(node);
+            release_tree(left);
+            return right;
+        }
+        break;
+    }
+    return node;
+cancel_sum:
+    tree_changed = 1;
+    value = typed_integer_node(node, 0);
+    release_tree(node);
+    return value;
+cancel_nested_sum:
+    tree_changed = 1;
+    node->second.node = typed_integer_node(right, 0);
+    release_tree(right);
+    replacement = typed_integer_node(candidate, 0);
+    if (left->left.node == candidate) left->left.node = replacement;
+    else left->second.node = replacement;
+    release_tree(candidate);
+    return node;
+}

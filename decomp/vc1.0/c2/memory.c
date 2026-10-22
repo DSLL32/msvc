@@ -6,14 +6,33 @@ void *__fastcall configure_arena(unsigned arena, unsigned mode, unsigned block_s
     return NULL;
 }
 
-typedef struct Arena {
+struct Arena {
     void *blocks;
     char *next;
     unsigned remaining;
     int heap_flags;
-} Arena;
+};
 /* Original arena descriptors [00086090,00086110). */
 Arena arenas[8];
+/* Original [00070bf0,00070c10). Blocks begin with their next pointer. */
+void __fastcall free_arena_blocks(Arena *arena)
+{
+    unsigned *block = arena->blocks, *next;
+    while (block) {
+        next = (unsigned *)*block;
+        free(block);
+        block = next;
+    }
+}
+/* Original [00070c10,00070c40). The policy flags survive the reset. */
+void __fastcall reset_arena(unsigned arena)
+{
+    Arena *descriptor = arenas + arena;
+    free_arena_blocks(descriptor);
+    descriptor->remaining = 0;
+    descriptor->blocks = 0;
+    descriptor->next = 0;
+}
 void *__fastcall compiler_allocate(unsigned bytes, int flags);
 /* Original [00070bc0,00070bf0). */
 void *__fastcall arena_calloc(unsigned arena, unsigned bytes)

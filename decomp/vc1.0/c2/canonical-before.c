@@ -111,7 +111,7 @@ Node *__fastcall canonicalize_return_value(Function *function, Node *node)
     SymbolHeader *result;
     Node *value;
     if (!needs_return_temp(symbol->symbol.field0e & 0x1c,
-                           symbol->field24 & 15, symbol->field28)) return node;
+                           (unsigned short)(symbol->field24 & 15), symbol->field28)) return node;
     result = function->return_temp;
     if (!result) compiler_internal_error("@(#)canon.c:1.182", 0x6af);
     value = intern_leaf(0x26, 0, result, 0);

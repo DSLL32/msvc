@@ -46,7 +46,7 @@ void compile_functions(void)
         if (inline_function) prepare_inline_function(function);
         canonicalize_function(function);
         if (inline_function) finish_inline_function(function);
-        prepare_function_codegen(function);
+        expand_inline_calls(function);
         tree_transform = optimize_global ? optimize_tree_global : optimize_tree_local;
         transform_function_trees(function);
         if (optimize_global) {
@@ -61,7 +61,7 @@ void compile_functions(void)
         }
         if (work) {
             current_work = work;
-            prepare_work();
+            prepare_work(current_work);
             if (optimize_global && global_work_enabled) finish_global_work();
             finalize_work_trees(current_work);
             work = current_work;
@@ -69,7 +69,7 @@ void compile_functions(void)
         if (!generate_disabled) {
             current_work = work;
             backend_stage = 5;
-            generate_work();
+            generate_work(current_work);
             backend_stage = 6;
             emit_backend_work();
             work = current_work;
@@ -96,4 +96,16 @@ void __fastcall canonicalize_function(Function *function)
         rewrite_expression(expression);
         expression = next;
     }
+}
+
+/* Original [0004c5c0,0004c600). The selected local/global optimizer owns
+   each root; list cleanup follows all root transformations. */
+void __fastcall transform_function_trees(Function *function)
+{
+    Expression *expression;
+    for (expression = function->expressions; expression; expression = expression->next) {
+        if (expression->source_location) current_source_location = expression->source_location;
+        expression->tree = tree_transform(expression->tree);
+    }
+    cleanup_expressions(&function->expressions);
 }

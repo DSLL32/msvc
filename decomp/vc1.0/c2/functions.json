@@ -201,7 +201,26 @@
     "@finish_canonical_node@4",
     "@canonicalize_return_value@8",
     "@convert_node_type@8",
-    "@skip_node_conversions@4"
+    "@skip_node_conversions@4",
+    "@expand_inline_calls@4",
+    "@inline_function_calls@12",
+    "@collect_inline_sites@8",
+    "@scan_inline_candidates@24",
+    "@reset_arena@4",
+    "@free_arena_blocks@4",
+    "@transform_function_trees@4",
+    "@optimize_tree_local@4",
+    "@order_tree_operands@8",
+    "@tree_order_key@12",
+    "@fold_local_tree@4",
+    "@fold_constant_node@4",
+    "@fold_special_node@4",
+    "@simplify_local_node@4",
+    "@operator_identity@4",
+    "@cleanup_expressions@4",
+    "@cleanup_expression_tree@4",
+    "@build_local_work@4",
+    "_new_work_item"
   ],
   "driver": [
     {
@@ -546,10 +565,9 @@
       "provisional": true
     },
     {
-      "name": "@prepare_function_codegen@4",
+      "name": "@expand_inline_calls@4",
       "start": 409440,
-      "end": 409441,
-      "provisional": true
+      "end": 409536
     },
     {
       "name": "@optimize_tree_global@4",
@@ -560,14 +578,12 @@
     {
       "name": "@optimize_tree_local@4",
       "start": 341248,
-      "end": 341249,
-      "provisional": true
+      "end": 341296
     },
     {
       "name": "@transform_function_trees@4",
       "start": 312768,
-      "end": 312769,
-      "provisional": true
+      "end": 312832
     },
     {
       "name": "@optimize_function_flow@4",
@@ -584,8 +600,7 @@
     {
       "name": "@build_local_work@4",
       "start": 324976,
-      "end": 324977,
-      "provisional": true
+      "end": 325264
     },
     {
       "name": "_optimize_work",
@@ -594,7 +609,7 @@
       "provisional": true
     },
     {
-      "name": "_prepare_work",
+      "name": "@prepare_work@4",
       "start": 421424,
       "end": 421425,
       "provisional": true
@@ -612,7 +627,7 @@
       "provisional": true
     },
     {
-      "name": "_generate_work",
+      "name": "@generate_work@4",
       "start": 94208,
       "end": 94209,
       "provisional": true
@@ -1997,6 +2012,393 @@
       "start": 337136,
       "end": 337137,
       "provisional": true
+    },
+    {
+      "name": "@inline_function_calls@12",
+      "start": 409536,
+      "end": 410992
+    },
+    {
+      "name": "@reset_arena@4",
+      "start": 461840,
+      "end": 461888
+    },
+    {
+      "name": "@collect_inline_sites@8",
+      "start": 413744,
+      "end": 413888
+    },
+    {
+      "name": "@bind_inline_arguments@12",
+      "start": 413456,
+      "end": 413457,
+      "provisional": true
+    },
+    {
+      "name": "@check_inline_argument_aliases@4",
+      "start": 413344,
+      "end": 413345,
+      "provisional": true
+    },
+    {
+      "name": "@analyze_inline_returns@8",
+      "start": 413200,
+      "end": 413201,
+      "provisional": true
+    },
+    {
+      "name": "@merge_inline_scope@8",
+      "start": 413632,
+      "end": 413633,
+      "provisional": true
+    },
+    {
+      "name": "@new_inline_storage@8",
+      "start": 413152,
+      "end": 413153,
+      "provisional": true
+    },
+    {
+      "name": "@find_inline_binding@8",
+      "start": 411024,
+      "end": 411025,
+      "provisional": true
+    },
+    {
+      "name": "@inline_argument_prefix@4",
+      "start": 412992,
+      "end": 412993,
+      "provisional": true
+    },
+    {
+      "name": "@materialize_inline_arguments@12",
+      "start": 412576,
+      "end": 412577,
+      "provisional": true
+    },
+    {
+      "name": "@substitute_inline_body@24",
+      "start": 411072,
+      "end": 411073,
+      "provisional": true
+    },
+    {
+      "name": "@recycle_inline_site@4",
+      "start": 410992,
+      "end": 410993,
+      "provisional": true
+    },
+    {
+      "name": "@recycle_inline_binding@4",
+      "start": 411008,
+      "end": 411009,
+      "provisional": true
+    },
+    {
+      "name": "@tree_contains_opcode@8",
+      "start": 362224,
+      "end": 362225,
+      "provisional": true
+    },
+    {
+      "name": "@value_node_type@8",
+      "start": 363296,
+      "end": 363297,
+      "provisional": true
+    },
+    {
+      "name": "@refresh_tree_references@4",
+      "start": 337120,
+      "end": 337121,
+      "provisional": true
+    },
+    {
+      "name": "@release_node_children@4",
+      "start": 326768,
+      "end": 326769,
+      "provisional": true
+    },
+    {
+      "name": "@release_expression@4",
+      "start": 326896,
+      "end": 326897,
+      "provisional": true
+    },
+    {
+      "name": "@scan_inline_candidates@24",
+      "start": 415008,
+      "end": 415376
+    },
+    {
+      "name": "@new_inline_site@16",
+      "start": 415376,
+      "end": 415377,
+      "provisional": true
+    },
+    {
+      "name": "@free_arena_blocks@4",
+      "start": 461808,
+      "end": 461840
+    },
+    {
+      "name": "@cleanup_expressions@4",
+      "start": 363392,
+      "end": 363472
+    },
+    {
+      "name": "@order_tree_operands@8",
+      "start": 359456,
+      "end": 359664
+    },
+    {
+      "name": "@fold_local_tree@4",
+      "start": 340992,
+      "end": 341072
+    },
+    {
+      "name": "@reassociate_right_chain@4",
+      "start": 360288,
+      "end": 360289,
+      "provisional": true
+    },
+    {
+      "name": "@tree_order_key@12",
+      "start": 359872,
+      "end": 360288
+    },
+    {
+      "name": "@rotate_left_chain@16",
+      "start": 359728,
+      "end": 359729,
+      "provisional": true
+    },
+    {
+      "name": "@sort_commutative_operands@12",
+      "start": 359664,
+      "end": 359665,
+      "provisional": true
+    },
+    {
+      "name": "@fold_constant_node@4",
+      "start": 356192,
+      "end": 356512
+    },
+    {
+      "name": "@simplify_local_node@4",
+      "start": 342656,
+      "end": 345488
+    },
+    {
+      "name": "@fold_special_node@4",
+      "start": 358064,
+      "end": 358416
+    },
+    {
+      "name": "@fold_floating_node@4",
+      "start": 356512,
+      "end": 356513,
+      "provisional": true
+    },
+    {
+      "name": "@fold_integer_node@4",
+      "start": 357104,
+      "end": 357105,
+      "provisional": true
+    },
+    {
+      "name": "@is_nonnull_address@4",
+      "start": 361968,
+      "end": 361969,
+      "provisional": true
+    },
+    {
+      "name": "@fold_integer_comparison@4",
+      "start": 359168,
+      "end": 359169,
+      "provisional": true
+    },
+    {
+      "name": "@fold_floating_comparison@4",
+      "start": 358992,
+      "end": 358993,
+      "provisional": true
+    },
+    {
+      "name": "@operator_identity@4",
+      "start": 352816,
+      "end": 353008
+    },
+    {
+      "name": "@strip_integer_cast@4",
+      "start": 355200,
+      "end": 355201,
+      "provisional": true
+    },
+    {
+      "name": "@typed_integer_node@8",
+      "start": 361536,
+      "end": 361537,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_shift_as_multiply@4",
+      "start": 351888,
+      "end": 351889,
+      "provisional": true
+    },
+    {
+      "name": "@fold_absorbing_constant@8",
+      "start": 354912,
+      "end": 354913,
+      "provisional": true
+    },
+    {
+      "name": "@reduce_constant_bits@8",
+      "start": 353792,
+      "end": 353793,
+      "provisional": true
+    },
+    {
+      "name": "@is_nonnegative_tree@4",
+      "start": 354992,
+      "end": 354993,
+      "provisional": true
+    },
+    {
+      "name": "@can_combine_constants@12",
+      "start": 352352,
+      "end": 352353,
+      "provisional": true
+    },
+    {
+      "name": "@integer_log2@4",
+      "start": 360480,
+      "end": 360481,
+      "provisional": true
+    },
+    {
+      "name": "@extract_negative@4",
+      "start": 354224,
+      "end": 354225,
+      "provisional": true
+    },
+    {
+      "name": "@negate_tree_in_place@4",
+      "start": 354480,
+      "end": 354481,
+      "provisional": true
+    },
+    {
+      "name": "@constant_as_integer@8",
+      "start": 350720,
+      "end": 350721,
+      "provisional": true
+    },
+    {
+      "name": "@lift_left_unary@4",
+      "start": 348880,
+      "end": 348881,
+      "provisional": true
+    },
+    {
+      "name": "@remove_left_wrapper@4",
+      "start": 348624,
+      "end": 348625,
+      "provisional": true
+    },
+    {
+      "name": "@take_left_operand@4",
+      "start": 348592,
+      "end": 348593,
+      "provisional": true
+    },
+    {
+      "name": "@lift_unary_operand@8",
+      "start": 354848,
+      "end": 354849,
+      "provisional": true
+    },
+    {
+      "name": "@remove_right_wrapper@4",
+      "start": 354880,
+      "end": 354881,
+      "provisional": true
+    },
+    {
+      "name": "@normalize_integer_width@8",
+      "start": 358416,
+      "end": 358417,
+      "provisional": true
+    },
+    {
+      "name": "@simplify_masked_tree@8",
+      "start": 353232,
+      "end": 353233,
+      "provisional": true
+    },
+    {
+      "name": "@shift_discard_mask@4",
+      "start": 353712,
+      "end": 353713,
+      "provisional": true
+    },
+    {
+      "name": "@factor_common_operator@12",
+      "start": 351040,
+      "end": 351041,
+      "provisional": true
+    },
+    {
+      "name": "@factor_compatible_operator@12",
+      "start": 351584,
+      "end": 351585,
+      "provisional": true
+    },
+    {
+      "name": "@distribute_constant@8",
+      "start": 347568,
+      "end": 347569,
+      "provisional": true
+    },
+    {
+      "name": "@conversion_loses_value@8",
+      "start": 349200,
+      "end": 349201,
+      "provisional": true
+    },
+    {
+      "name": "@lower_far_pointer_cast@4",
+      "start": 456160,
+      "end": 456161,
+      "provisional": true
+    },
+    {
+      "name": "@map_comparison_opcode@8",
+      "start": 360448,
+      "end": 360449,
+      "provisional": true
+    },
+    {
+      "name": "@integer_type_limit@8",
+      "start": 355248,
+      "end": 355249,
+      "provisional": true
+    },
+    {
+      "name": "@cleanup_expression_tree@4",
+      "start": 363472,
+      "end": 363648
+    },
+    {
+      "name": "@cleanup_unused_tree@4",
+      "start": 363648,
+      "end": 363649,
+      "provisional": true
+    },
+    {
+      "name": "_new_work_item",
+      "start": 325264,
+      "end": 325344
     }
   ],
   "cases": {

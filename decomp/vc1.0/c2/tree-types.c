@@ -2,10 +2,12 @@
 #include "tree-input.h"
 #include "expression-fields.h"
 #include "function-input.h"
+#include "tree-scratch.h"
 extern int floating_frontend, code_pointer_bytes;
 int data_pointer_bytes = 4; /* 0008317c */
 int suppress_type_warnings; /* 00083478 */
-unsigned short expression_type_stack[17]; /* 0007e820..0007e842 */
+TreeScratch tree_scratch; /* 0007e820..0007e844 */
+#define expression_type_stack tree_scratch.type_stack_with_limit
 unsigned short *expression_type_top = expression_type_stack; /* 00083474 */
 int allow_selector_six = 1; /* 0008061c: suppresses one selector-conversion warning */
 
@@ -38,7 +40,7 @@ Node *__fastcall convert_node_type(Node *node, unsigned short target)
         if (source == target) return node;
         if ((source & target) & 0xff00) {
             if (((source | target) & 255) == 5)
-                node = convert_node_once(node, (target & 0xff02) | 2);
+                node = convert_node_once(node, (unsigned short)((target & 0xff02) | 2));
             else if (!floating_frontend && source == 0x408 && (target & 255) < 4 &&
                      checking_expression == 1 && !is_constant_value(node, 0)) {
                 warn = 1;
@@ -57,16 +59,16 @@ Node *__fastcall convert_node_type(Node *node, unsigned short target)
                       (source == 0x804 || source == 0x808 || source == 0x404))) {
                     if (source == 0x408) node = convert_node_type(node, 0x404);
                     else if (source == 0xc08) node = discard_sequence_tail(node);
-                    else node = convert_node_type(node, (source & 0xff00) | (target & 255));
+                    else node = convert_node_type(node, (unsigned short)((source & 0xff00) | (target & 255)));
                     continue;
                 }
                 if ((target & 0x300) && node->opcode == 0x68 && source == 0x404 && (target & 255) <= 4)
                     node = discard_sequence_tail(node);
-                node = convert_node_once(node, (target & 0xff00) | (source & 255));
+                node = convert_node_once(node, (unsigned short)((target & 0xff00) | (source & 255)));
             } else if (source & 0x1000) {
                 intermediate = source == 0x1008 ? (target & 0xff04) | 4 : 0x1008;
                 node = convert_node_once(node, intermediate);
-            } else node = convert_node_once(node, (0x2000 | (source & 0xfe)) >> 1);
+            } else node = convert_node_once(node, (unsigned short)((0x2000 | (source & 0xfe)) >> 1));
         } else {
             if (target & 0xf00)
                 intermediate = target == 0x408 ? 0x404 : (source & 0xff00) | (target & 255);
@@ -105,9 +107,9 @@ Node *__fastcall finish_canonical_node(Node *node)
         left_class = left_type & 0xc00;
         right_class = right_type & 0xc00;
         node->left.node = convert_node_type(node->left.node,
-            left_class ? type : (left_type & 0xff00) | 4);
+            (unsigned short)(left_class ? type : (left_type & 0xff00) | 4));
         node->second.node = convert_node_type(node->second.node,
-            right_class ? type : (right_type & 0xff00) | 4);
+            (unsigned short)(right_class ? type : (right_type & 0xff00) | 4));
         suppress_type_warnings = saved_suppression;
         node->attributes.words.type = left_class && right_class ? 0x104 : type;
         type = node->attributes.words.type;
