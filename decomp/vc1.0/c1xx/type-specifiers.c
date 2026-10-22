@@ -266,7 +266,7 @@ unsigned char __stdcall read_tag_specifier(unsigned short kind, unsigned short *
             if (token == 161) goto qualified_tag;
             if (token == 2) {
                 current_token_value.symbol = reference_tag_symbol(current_token_value.name,
-                    kind, finalize_parameter_declaration);
+                    kind, insert_current_scope_symbol);
                 return 35;
             }
             unget_token(token);

@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 217 accepted paired frontiers, including 142 frontend
+PARTIAL reconstruction: 225 accepted paired frontiers, including 150 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. The token driver and replay wrapper are also reconstructed; the next
-matching trap is _allocate_tag_symbol@16 at original VA 0x2d8d0.
-All 217 frontiers replay successfully, including exact pending FILE buffers;
+matching trap is _enter_class_scope@8 at original VA 0x33420.
+All 225 frontiers replay successfully, including exact pending FILE buffers;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -60,7 +60,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-type-specifiers.log.
+The current full ordered replay is recorded in evidence/replay-tag-symbols.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -228,3 +228,18 @@ The scanner EOF browser state is the existing browser_filename pointer at
 proved the alias. That canonical pointer, four scope pointers, the current enum
 symbol and vtordisp state are now included in the byte-address/default audits.
 All 217 frontiers replay with this correction and exact pending output buffers.
+
+Tag allocation retains its sixteen direct/indirect call targets and caller
+insertion callback. A tag record is forty bytes; full declarations are fifty-two.
+Both share the same encountered common fields, while tags own a separate sixty-
+byte ClassInfo allocation. Compile-time size checks and original allocator
+immediates establish these layouts. Registration reserves context index zero
+for the sentinel and retains vector growth and exhaustion checks.
+
+Current-scope lookup/insertion have their own wrappers, distinct from wrappers
+that skip temporary scopes. The former provisional finalize_parameter_declaration
+name at 0x549c0 is now insert_current_scope_symbol, since tags use it too.
+The inheritance-model checker retains its contextual diagnostic names and
+arguments. Class/struct compatibility warnings retain both keyword arguments
+omitted by decompilation and return before consuming model flags.
+All 225 frontiers replay through these changes, with no frontend normalization.

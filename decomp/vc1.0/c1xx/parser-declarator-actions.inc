@@ -166,7 +166,7 @@
             break;
         case 128:
             if (right[-1].symbol) {
-                finalize_parameter_declaration(right[-1].symbol);
+                insert_current_scope_symbol(right[-1].symbol);
                 parser_value.symbol = append_parameter_declaration(right[-2].symbol, right[-1].symbol);
             } else parser_value.symbol = right[-2].symbol;
             declaration_kind = 3;
@@ -257,7 +257,7 @@
             mark_evaluation_boundary();
             break;
         case 139:
-            finalize_parameter_declaration(right[0].symbol);
+            insert_current_scope_symbol(right[0].symbol);
             break;
         case 140:
             parser_value.symbol = 0;

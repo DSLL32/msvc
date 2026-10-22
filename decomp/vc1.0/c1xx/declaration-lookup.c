@@ -244,3 +244,16 @@ void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
         parameters->defaults = 0;
     }
 }
+
+/* Original 0x53600..0x53613. */
+CppSymbol *__stdcall lookup_current_scope_declaration(CppSymbol *declaration)
+{
+    return lookup_scope_declaration(declaration, current_scope);
+}
+
+/* Original 0x549c0..0x549d3. The same insertion is used for parameters
+   and tags; it retains the current scope, including temporary wrappers. */
+void __stdcall insert_current_scope_symbol(CppSymbol *symbol)
+{
+    insert_scope_symbol(current_scope, symbol);
+}

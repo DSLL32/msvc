@@ -43,6 +43,7 @@ extern int suppress_vtordisp;
 CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
                                          void (__stdcall *insert)(CppSymbol *));
 CppSymbol *__stdcall match_tag_symbol(CppSymbol *symbol, unsigned short kind);
+CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol);
 CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned short attributes);
 char *__stdcall type_kind_name(unsigned short kind);
 extern CppSymbol *current_enum_symbol;
@@ -55,6 +56,11 @@ void browser_begin_tag(void);
 int __stdcall browser_name_reference(int reference, char *name);
 void __stdcall browser_enter_tag(CppSymbol *tag);
 SymbolScope *__stdcall enter_class_scope(CppSymbol *tag, signed char mode);
+extern int tag_declaration_seen;
+TagSymbol *__stdcall new_tag_record(int arena);
+void __stdcall register_tag_context(CppSymbol *tag);
+int __stdcall is_current_class_name(char *name);
+void __stdcall apply_inheritance_model(CppSymbol *tag);
 CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
                                    unsigned short *attributes);
 void read_declspec_attributes(StorageSpec *storage);

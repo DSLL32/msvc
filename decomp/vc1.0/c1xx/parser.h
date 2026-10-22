@@ -119,7 +119,6 @@ void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *sha
 CppSymbol *empty_parameter_declaration(void);
 void __stdcall begin_parameter_scope(CppSymbol *first);
 CppSymbol *__stdcall append_parameter_declaration(CppSymbol *list, CppSymbol *declaration);
-void __stdcall finalize_parameter_declaration(CppSymbol *declaration);
 int __stdcall can_initialize(CType *type, IrToken *expression);
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination);
 void __stdcall check_parameter_default(IrToken *expression, CType *type);

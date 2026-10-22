@@ -11,7 +11,9 @@ typedef struct ClassInfo {
     unsigned short pointer_attributes;
     unsigned field2c;
     unsigned short debug_index;
-    unsigned char alignment, flags, flags2;
+    unsigned char alignment, flags, flags2, inheritance_model;
+    unsigned short field36;
+    unsigned field38;
 } ClassInfo;
 
 typedef union CppSymbolState {
@@ -19,29 +21,36 @@ typedef union CppSymbolState {
     struct { unsigned char low_flags, token, high_flags[2]; } parts;
 } CppSymbolState;
 
-/* C++ declarations extend the common frontend symbol with two trailing words. */
+/* Tags own the common forty-byte record; full declarations additionally own
+   the trailing C++ declaration state. Scope chains hold either variant. */
+#define COMMON_SYMBOL_FIELDS \
+    unsigned char kind, flags; \
+    unsigned short declaration_flags; \
+    CppSymbol *next; \
+    char *name; \
+    CType *type; \
+    unsigned index, attributes; \
+    unsigned short references; \
+    unsigned char storage[3], field1d; \
+    unsigned short field1e; \
+    union { \
+        struct { unsigned short operation, flags; } intrinsic; \
+        unsigned value; \
+        unsigned short scope_number; \
+        char *text; \
+        ClassInfo *class_info; \
+        CppSymbol *parameter_next; \
+    } detail; \
+    union { unsigned value; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
+typedef struct TagSymbol {
+    COMMON_SYMBOL_FIELDS
+} TagSymbol;
 struct CppSymbol {
-    unsigned char kind, flags;
-    unsigned short declaration_flags;
-    CppSymbol *next;
-    char *name;
-    CType *type;
-    unsigned index, attributes;
-    unsigned short references;
-    unsigned char storage[3], field1d;
-    unsigned short field1e;
-    union {
-        struct { unsigned short operation, flags; } intrinsic;
-        unsigned value;
-        unsigned short scope_number;
-        char *text;
-        ClassInfo *class_info;
-        CppSymbol *parameter_next;
-    } detail;
-    union { unsigned value; CppSymbol *scope_members; } auxiliary;
+    COMMON_SYMBOL_FIELDS
     unsigned field28, field2c;
     CppSymbolState cpp;
 };
+#undef COMMON_SYMBOL_FIELDS
 /* A transient qualified declarator uses the link slot before it joins a
    symbol list. The resolution holds a reference to its current binding;
    these are encountered prefixes, not complete allocated-object layouts. */
@@ -115,10 +124,12 @@ int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration)
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol);
 int __stdcall is_class_name_type(CType *type);
 CppSymbol *__stdcall lookup_declaration(CppSymbol *declaration);
+CppSymbol *__stdcall lookup_current_scope_declaration(CppSymbol *declaration);
 CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration);
 CppSymbol *__stdcall find_outer_name(char *name);
 void __stdcall record_local_declaration(CppSymbol *declaration);
 void __stdcall insert_symbol(CppSymbol *symbol);
+void __stdcall insert_current_scope_symbol(CppSymbol *symbol);
 void __stdcall insert_scope_symbol(SymbolScope *scope, CppSymbol *symbol);
 CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *declaration);
 int __stdcall is_static_qualified_symbol(CppSymbol *symbol);
@@ -188,6 +199,6 @@ extern char *anonymous_symbol_name;
 extern Vector *translation_symbols;
 void initialize_declaration_table(void);
 typedef char CppSymbolSizeMustBe52[(sizeof(CppSymbol) == 52) ? 1 : -1];
-/* The encountered class-info prefix extends through flags2 at byte 52. */
-typedef char ClassInfoPrefixSizeMustBe56[(sizeof(ClassInfo) == 56) ? 1 : -1];
+typedef char TagSymbolSizeMustBe40[(sizeof(TagSymbol) == 40) ? 1 : -1];
+typedef char ClassInfoSizeMustBe60[(sizeof(ClassInfo) == 60) ? 1 : -1];
 #endif

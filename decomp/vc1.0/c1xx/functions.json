@@ -221,7 +221,15 @@
     "_read_type_specifier@4",
     "_read_tag_specifier@8",
     "_unget_token@4",
-    "_define_tag_symbol@12"
+    "_define_tag_symbol@12",
+    "_allocate_tag_symbol@16",
+    "_new_tag_record@4",
+    "_register_tag_context@4",
+    "_lookup_current_scope_declaration@4",
+    "_is_current_class_name@4",
+    "_insert_current_scope_symbol@4",
+    "_apply_inheritance_model@4",
+    "_match_tag_symbol@8"
   ],
   "driver": [
     {
@@ -1977,9 +1985,9 @@
       "end": 243905
     },
     {
-      "name": "_finalize_parameter_declaration@4",
+      "name": "_insert_current_scope_symbol@4",
       "start": 346560,
-      "end": 346561
+      "end": 346579
     },
     {
       "name": "_find_label@4",
@@ -2564,7 +2572,7 @@
     {
       "name": "_match_tag_symbol@8",
       "start": 187440,
-      "end": 187441
+      "end": 187725
     },
     {
       "name": "_define_tag_symbol@12",
@@ -2589,7 +2597,7 @@
     {
       "name": "_allocate_tag_symbol@16",
       "start": 186576,
-      "end": 186577
+      "end": 187153
     },
     {
       "name": "_defer_nested_tag@8",
@@ -2615,6 +2623,36 @@
       "name": "_enter_class_scope@8",
       "start": 209952,
       "end": 209953
+    },
+    {
+      "name": "_new_tag_record@4",
+      "start": 189696,
+      "end": 189872
+    },
+    {
+      "name": "_register_tag_context@4",
+      "start": 189872,
+      "end": 189970
+    },
+    {
+      "name": "_lookup_current_scope_declaration@4",
+      "start": 341504,
+      "end": 341523
+    },
+    {
+      "name": "_is_current_class_name@4",
+      "start": 209104,
+      "end": 209151
+    },
+    {
+      "name": "_apply_inheritance_model@4",
+      "start": 302480,
+      "end": 302600
+    },
+    {
+      "name": "_find_tag_declaration@4",
+      "start": 345824,
+      "end": 345825
     }
   ],
   "cases": {
@@ -3332,6 +3370,42 @@
         {
           "name": "_scope_directory",
           "original": 651984,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_tag_declaration_seen",
+      "original": 596092,
+      "fields": [
+        {
+          "name": "_tag_declaration_seen",
+          "original": 596092,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_pch_separate_debug",
+      "original": 654028,
+      "fields": [
+        {
+          "name": "_pch_separate_debug",
+          "original": 654028,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_cpp_context_stack",
+      "original": 652076,
+      "fields": [
+        {
+          "name": "_cpp_context_stack",
+          "original": 652076,
           "bytes": 4
         }
       ]
