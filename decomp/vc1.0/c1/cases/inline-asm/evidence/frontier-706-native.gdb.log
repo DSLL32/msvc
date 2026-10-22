@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x58494: file ../../../lib/recon/src/crt.c, line 608.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_tolower (c=109) at ../../../lib/recon/src/crt.c:608
+608	WEAK int recon_tolower(int c) { return tolower(c); }

@@ -78,7 +78,7 @@ int __stdcall match_source_character(int character);
 unsigned __stdcall read_number_text(char *destination);
 unsigned char __stdcall scan_number(int first_character);
 unsigned char __stdcall scan_float_tail(char *destination);
-unsigned char __stdcall scan_assembler_number(int first_character);
+unsigned char __stdcall scan_assembler_number(unsigned char first_character);
 unsigned char scan_source_token(void);
 extern char *token_names[153];
 

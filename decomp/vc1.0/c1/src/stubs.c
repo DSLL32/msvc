@@ -141,7 +141,7 @@ unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 
 
 
 
-unsigned char __stdcall scan_assembler_number(int first_character) { __asm { int 3 } return 0; }
+
 
 void report_ide_line(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
@@ -365,7 +365,7 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 /* Original 0x4a5a0. */
 
 /* Original 0x4e40c. */
-void parse_asm_statement(void) { __asm { int 3 } }
+
 
 
 
@@ -897,6 +897,7 @@ unsigned __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, unsign
 
 
 #include "pch-relocate.h"
+#include "asm.h"
 #include <recon.h>
 
 
@@ -944,4 +945,13 @@ void restore_pch_separate_debug(void) { __asm { int 3 } }
 
 
 /* Original 0x2c710. */
+
+
+
+/* Original 0x4dd5f. */
+
+/* Original 0x4ca52. */
+
+
+/* Original 0x4ddb0. */
 

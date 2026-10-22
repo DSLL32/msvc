@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5663fc74 in serialize_asm_instruction () at src/asm-stubs.c:88
+88	void serialize_asm_instruction(void) { __asm { int 3 } }

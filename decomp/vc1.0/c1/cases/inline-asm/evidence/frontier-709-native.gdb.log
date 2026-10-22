@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565da2a8 in find_asm_keyword (name=0x5792c600 "eax") at src/asm-stubs.c:71
+71	short __stdcall find_asm_keyword(char *name) { __asm { int 3 } return -1; }

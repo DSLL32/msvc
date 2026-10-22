@@ -1,0 +1,319 @@
+{
+  "status": "verified checkpoint; selected inline-asm case still active",
+  "accepted_from": 698,
+  "accepted_count": 728,
+  "new_frontend_functions": 29,
+  "new_known_CRT_extents": 1,
+  "source_functions": 625,
+  "current_frontier": {
+    "logical": "_find_label@4",
+    "original_va": 181504
+  },
+  "coverage": {
+    "accepted_union_bytes": 200760,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 183262,
+      "CRT": 17372,
+      "import_thunks": 126
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 72.41536030934157,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "extent_delta": 12736,
+  "frontend_extent_delta": 12368,
+  "original_captures": {
+    "count": 32,
+    "preparation_seconds": 1.5659241955727339,
+    "execution_seconds": 37.92582798562944,
+    "total_seconds": 39.491853847168386
+  },
+  "native_frontier_debug": {
+    "count": 31,
+    "preparation_seconds": 0.10355155076831579,
+    "execution_seconds": 4.8251921478658915,
+    "total_seconds": 5.001468018628657
+  },
+  "matched_frontiers": 31,
+  "native_builds": [
+    {
+      "command": "make -j4 native",
+      "seconds": 3.319039523601532,
+      "exit": 0,
+      "receipt": "asm-build-699.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.7792208958417177,
+      "exit": 0,
+      "receipt": "asm-build-700.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.3214076161384583,
+      "exit": 0,
+      "receipt": "asm-build-701.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.867324477992952,
+      "exit": 0,
+      "receipt": "asm-build-702.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.8583775451406837,
+      "exit": 0,
+      "receipt": "asm-build-703.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.5739817060530186,
+      "exit": 0,
+      "receipt": "asm-build-704.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.9473727755248547,
+      "exit": 0,
+      "receipt": "asm-build-705.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.960233986377716,
+      "exit": 0,
+      "receipt": "asm-build-706.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 0.013597868382930756,
+      "exit": 0,
+      "receipt": "asm-build-707.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.3658122392371297,
+      "exit": 0,
+      "receipt": "asm-build-708.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.475736544467509,
+      "exit": 0,
+      "receipt": "asm-build-709.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.5039355428889394,
+      "exit": 0,
+      "receipt": "asm-build-710.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.2607193710282445,
+      "exit": 0,
+      "receipt": "asm-build-711.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.947387524880469,
+      "exit": 0,
+      "receipt": "asm-build-712.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 2.2043261351063848,
+      "exit": 2,
+      "receipt": "asm-build-713-missing-prototype.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.982872354798019,
+      "exit": 0,
+      "receipt": "asm-build-713.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.5284140817821026,
+      "exit": 0,
+      "receipt": "asm-build-714.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.5211194287985563,
+      "exit": 0,
+      "receipt": "asm-build-715.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.3876633765175939,
+      "exit": 0,
+      "receipt": "asm-build-716.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.441503251902759,
+      "exit": 0,
+      "receipt": "asm-build-717.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 3.9679741356521845,
+      "exit": 0,
+      "receipt": "asm-build-718.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.010210116393864,
+      "exit": 0,
+      "receipt": "asm-build-719.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.094089910387993,
+      "exit": 0,
+      "receipt": "asm-build-720.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.0932765221223235,
+      "exit": 0,
+      "receipt": "asm-build-721.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.034872645512223,
+      "exit": 0,
+      "receipt": "asm-build-722.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.4453247729688883,
+      "exit": 0,
+      "receipt": "asm-build-723.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.008645894937217,
+      "exit": 0,
+      "receipt": "asm-build-724.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.400192688219249,
+      "exit": 0,
+      "receipt": "asm-build-725.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 1.5602483721449971,
+      "exit": 0,
+      "receipt": "asm-build-726.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.106880011968315,
+      "exit": 0,
+      "receipt": "asm-build-727.json"
+    },
+    {
+      "command": "make -j4 native",
+      "seconds": 4.098644184879959,
+      "exit": 0,
+      "receipt": "asm-build-728.json"
+    }
+  ],
+  "native_build_measured_seconds": 94.08040550164878,
+  "checkpoint_operations": [
+    {
+      "label": "canonical-audits",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 27.235279137268662,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-canonical-audits.log"
+    },
+    {
+      "label": "native-trace-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "seconds": 4.066510612145066,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-native-trace-build.log"
+    },
+    {
+      "label": "trace-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.20882523339241743,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-trace-projection.log"
+    },
+    {
+      "label": "native-eight-case-trace",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/asm-old-traces-728"
+      ],
+      "seconds": 0.49037701822817326,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/asm-checkpoint-728-native-eight-case-trace.log"
+    }
+  ],
+  "static_audits": {
+    "function_graphs_and_instruction_bounds": 625,
+    "state_defaults_and_alias_ranges": 255,
+    "C_grammar": {
+      "states": 376,
+      "actions_and_timings": 57904,
+      "productions": 227,
+      "gotos": 34216
+    },
+    "assembler_grammar": {
+      "states": 136,
+      "actions_including_errors": 6936,
+      "lookahead_timings_and_defaults": 136,
+      "production_records": 83,
+      "gotos": 3128,
+      "model_and_emitted_C": true
+    },
+    "assembler_data": {
+      "lexical_classes": 153,
+      "mnemonics": 330,
+      "operand_keywords": 76,
+      "register_properties": 46,
+      "instruction_aliases": 98,
+      "instruction_class_CPU_properties": 230,
+      "operand_class_rules": 60,
+      "address_classifications": 32,
+      "operand_formats": 21,
+      "encoded_workspace_bytes": 128,
+      "maximum_encoded_bytes": 78
+    }
+  },
+  "native_old_cases": {
+    "trace_receipt": "evidence/native-eight-case-traces.json",
+    "output_receipt": "evidence/native-eight-case-outputs.json",
+    "all_eight_pass": true
+  },
+  "grammar_regeneration_check": "scripts/generate-asm-grammar.py --check passed",
+  "limitations": [
+    "This case remains at the next named label-lookup trap; its full original exit0 oracle is retained for later completion.",
+    "Ghidra/disassembly analysis, initialsetup and earlier canonical build/audit wall times were not measured. Their available logs are retained.",
+    "One initial native CRT observation lacked the explicit recon_tolower breakpoint mapping; its failed GDB log is retained and the corrected observation matches the original."
+  ],
+  "normalization": "none"
+}

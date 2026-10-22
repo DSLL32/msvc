@@ -99,6 +99,7 @@ extern DeclarationControlStorage declaration_controls;
 #define active_parameter_context declaration_controls.fields.parameter_context
 extern unsigned char parameter_nesting;
 FrontendSymbol *__stdcall find_identifier_symbol(char *name);
+FrontendSymbol *__stdcall make_implicit_declaration(char *name, unsigned char nesting);
 void __stdcall browser_symbol_reference(FrontendSymbol *symbol);
 extern TypeShape *declaration_shapes[60];
 unsigned char __stdcall lookup_identifier_token(FrontendSymbol *explicit_symbol);

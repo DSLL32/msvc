@@ -40,10 +40,30 @@ def main():
                MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(
                    bin=windows(ROOT/'toolchains/1.0-nt/bin'), include=windows(ROOT/'toolchains/1.0-nt/include')))
     names = [r['name'][1:] for r in config['buffered_streams']]
+    expected_record = None
+    expected_native = None
+    runtime_break = ''
+    if options.reference:
+        events = (options.reference.resolve()/'events').read_text()
+        match = re.search(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+)',events)
+        if match:
+            address = int(match[1],16)+int(match[2],16)
+            expected_record = next((r for r in config['driver'] if r['start']==address),None)
+            if expected_record:
+                expected_native = re.sub(r'@\d+$','',expected_record['name'][1:])
+            else:
+                # Recognized original-library frontiers use an explicit native
+                # boundary breakpoint, rather than inventing an application stub.
+                runtime = json.loads((BINARY/'runtime.json').read_text())
+                expected_record = next(r for r in runtime if r['start']==address)
+                native_boundaries = {'_tolower':'recon_tolower'}
+                expected_native = native_boundaries[expected_record['name']]
+                runtime_break = 'break ' + expected_native + '\n'
+
     script = '''set pagination off
 set confirm off
 set disable-randomization off
-run >%s 2>%s
+%srun >%s 2>%s
 python
 import gdb,json,struct
 state={'buffers':{},'frames':[]}
@@ -69,7 +89,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (shlex.quote(str(directory/'stdout')),shlex.quote(str(directory/'stderr')),names,str(directory/'state.json'))
+''' % (runtime_break,shlex.quote(str(directory/'stdout')),shlex.quote(str(directory/'stderr')),names,str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -86,10 +106,8 @@ end
         match = re.search(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+)',events)
         if match:
             address = int(match[1],16)+int(match[2],16)
-            record = next(r for r in config['driver'] if r['start']==address)
-            logical = re.sub(r'@\d+$','',record['name'][1:])
-            assert state['frontier'] == logical, (record['name'],state['frontier'])
-            state['original_logical'] = record['name']
+            assert state['frontier'] == expected_native, (expected_record['name'],state['frontier'])
+            state['original_logical'] = expected_record['name']
             for index,name in enumerate(names):
                 line = next(line for line in events.splitlines() if line.startswith('buffer '+str(index)+' '))
                 tail = line.split(' ',3)

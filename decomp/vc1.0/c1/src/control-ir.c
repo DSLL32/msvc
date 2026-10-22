@@ -13,7 +13,7 @@ unsigned control_alignment = 8, control_alignment_mode; /* 0x6bfa0 / 0x6bfa4 */
    bytecode producer is still a named trap; defer payload storage until that
    reconstruction establishes its extent. In particular, the distinct scope
    depth at original 0x5b138 must not be claimed by a provisional buffer. */
-char control_counted_name[1]; /* original count prefix 0x5b0a4 */
+
 
 #define CONTROL_PUT_WORD(file, value) do { \
     FILE *s_ = (file); short w_ = (value); \
@@ -85,7 +85,7 @@ void __stdcall record_line_information(unsigned tag)
             break;
         case CONTROL_COUNTED_NAME:
             auxiliary_ir_stream = expression_file;
-            write_counted_ir((signed char)control_counted_name[0], control_counted_name);
+            write_counted_ir((signed char)asm_instruction_record[0], asm_instruction_record);
             break;
         case CONTROL_FUNCTION_FLAGS:
             putc(function_control_flags, expression_file);

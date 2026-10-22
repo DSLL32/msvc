@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "c02a3ec061fb096988883e115c08795ccc00fdf8f9b709058e4305b7470ceeb0",
+    "functions.json": "c1b2b13ef84313762f1402be245e476ef4ce81dd351e067dbdfd07a0313a7517",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "d383f615c5346d1602304bdde768bce30efb918bcbaa41725a2771ae025033af"
+    "sha256": "262c9bfed81c7a6adc1449733c7a59fe7408c35c67982d0be128300b62e1c4c9"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -36,6 +36,10 @@
     "add_anonymous_members": {
       "logical": "_add_anonymous_members@4",
       "source": "src/declarations.c"
+    },
+    "add_asm_displacement": {
+      "logical": "_add_asm_displacement@4",
+      "source": "src/asm.c"
     },
     "add_enumerator": {
       "logical": "_add_enumerator@12",
@@ -137,6 +141,10 @@
       "logical": "_append_vector@8",
       "source": "src/vectors.c"
     },
+    "apply_asm_segment": {
+      "logical": "_apply_asm_segment@8",
+      "source": "src/asm-stubs.c"
+    },
     "apply_declarator_prefix": {
       "logical": "_apply_declarator_prefix@8",
       "source": "src/declarations.c"
@@ -156,6 +164,42 @@
     "array_element_size": {
       "logical": "_array_element_size@12",
       "source": "src/types.c"
+    },
+    "asm_address_mode_code": {
+      "logical": "_asm_address_mode_code@4",
+      "source": "src/asm-output.c"
+    },
+    "asm_error_context": {
+      "logical": "_asm_error_context",
+      "source": "src/asm-stubs.c"
+    },
+    "asm_member_offset": {
+      "logical": "_asm_member_offset@4",
+      "source": "src/asm-stubs.c"
+    },
+    "asm_operand_accepts_size": {
+      "logical": "_asm_operand_accepts_size@8",
+      "source": "src/asm-stubs.c"
+    },
+    "asm_operand_has_type_flags": {
+      "logical": "_asm_operand_has_type_flags@8",
+      "source": "src/asm-stubs.c"
+    },
+    "asm_recovery_value": {
+      "logical": "_asm_recovery_value@4",
+      "source": "src/asm-stubs.c"
+    },
+    "asm_size_encoding": {
+      "logical": "_asm_size_encoding@4",
+      "source": "src/asm.c"
+    },
+    "asm_symbol_length": {
+      "logical": "_asm_symbol_length@4",
+      "source": "src/asm-stubs.c"
+    },
+    "asm_symbol_type_size": {
+      "logical": "_asm_symbol_type_size@4",
+      "source": "src/asm-symbols.c"
     },
     "assign_allocated_text": {
       "logical": "_assign_allocated_text@4",
@@ -417,6 +461,14 @@
       "logical": "_checksum_bytes@12",
       "source": "src/checksums.c"
     },
+    "choose_asm_instruction_size": {
+      "logical": "_choose_asm_instruction_size",
+      "source": "src/asm-instructions.c"
+    },
+    "classify_asm_identifier": {
+      "logical": "_classify_asm_identifier",
+      "source": "src/asm-lexer.c"
+    },
     "classify_decimal_integer": {
       "logical": "_classify_decimal_integer@4",
       "source": "src/lexer.c"
@@ -501,6 +553,10 @@
       "logical": "_codeview_calling_convention",
       "source": "src/debug-info.c"
     },
+    "combine_asm_addresses": {
+      "logical": "_combine_asm_addresses@12",
+      "source": "src/asm-stubs.c"
+    },
     "commit_program_database": {
       "logical": "_commit_program_database",
       "source": "src/program-database.c"
@@ -520,6 +576,10 @@
     "compare_filenames": {
       "logical": "_compare_filenames",
       "source": "src/pch.c"
+    },
+    "compare_names_ignore_case": {
+      "logical": "_compare_names_ignore_case@8",
+      "source": "src/asm-mnemonics.c"
     },
     "compare_prototype_parameter_types": {
       "logical": "_compare_prototype_parameter_types@8",
@@ -624,6 +684,10 @@
     "copy_arena_bytes": {
       "logical": "_copy_arena_bytes@12",
       "source": "src/memory.c"
+    },
+    "copy_asm_comment": {
+      "logical": "_copy_asm_comment",
+      "source": "src/asm-stubs.c"
     },
     "copy_block_comment": {
       "logical": "_copy_block_comment",
@@ -801,6 +865,14 @@
       "logical": "_effective_type_qualifiers@4",
       "source": "src/types.c"
     },
+    "emit_asm_instruction": {
+      "logical": "_emit_asm_instruction",
+      "source": "src/asm-instructions.c"
+    },
+    "emit_asm_label": {
+      "logical": "_emit_asm_label@4",
+      "source": "src/asm-stubs.c"
+    },
     "emit_case_statement": {
       "logical": "_emit_case_statement@4",
       "source": "src/parser.c"
@@ -969,6 +1041,14 @@
       "logical": "_enter_except_filter",
       "source": "src/seh.c"
     },
+    "evaluate_asm_binary": {
+      "logical": "_evaluate_asm_binary@12",
+      "source": "src/asm-stubs.c"
+    },
+    "evaluate_asm_unary": {
+      "logical": "_evaluate_asm_unary@8",
+      "source": "src/asm-stubs.c"
+    },
     "evaluate_defined_operator": {
       "logical": "_evaluate_defined_operator@4",
       "source": "src/pp-expression.c"
@@ -1041,6 +1121,14 @@
       "logical": "_finalize_type_description@4",
       "source": "src/types.c"
     },
+    "find_asm_keyword": {
+      "logical": "_find_asm_keyword@4",
+      "source": "src/asm-mnemonics.c"
+    },
+    "find_asm_mnemonic": {
+      "logical": "_find_asm_mnemonic@4",
+      "source": "src/asm-mnemonics.c"
+    },
     "find_builtin_index": {
       "logical": "_find_builtin_index@4",
       "source": "src/builtins.c"
@@ -1096,6 +1184,10 @@
     "finish_array_declarator": {
       "logical": "_finish_array_declarator@20",
       "source": "src/declarations.c"
+    },
+    "finish_asm_line": {
+      "logical": "_finish_asm_line",
+      "source": "src/asm-lexer.c"
     },
     "finish_browser_output": {
       "logical": "_finish_browser_output",
@@ -1229,6 +1321,10 @@
       "logical": "_fit_string_initializer@8",
       "source": "src/initializers.c"
     },
+    "fits_asm_integer": {
+      "logical": "_fits_asm_integer@8",
+      "source": "src/asm-stubs.c"
+    },
     "float_to_extended": {
       "logical": "_float_to_extended",
       "source": "src/floating.c"
@@ -1360,6 +1456,10 @@
     "initialize_global_scope": {
       "logical": "_initialize_global_scope",
       "source": "src/scopes.c"
+    },
+    "initialize_inline_assembler": {
+      "logical": "_initialize_inline_assembler",
+      "source": "src/asm.c"
     },
     "initialize_inline_queries": {
       "logical": "_initialize_inline_queries",
@@ -1545,6 +1645,10 @@
       "logical": "_local_static_name@4",
       "source": "src/stubs.c"
     },
+    "lookup_asm_symbol": {
+      "logical": "_lookup_asm_symbol@8",
+      "source": "src/asm-symbols.c"
+    },
     "lookup_identifier_token": {
       "logical": "_lookup_identifier_token@4",
       "source": "src/lexer.c"
@@ -1588,6 +1692,34 @@
     "make_abstract_declarator": {
       "logical": "_make_abstract_declarator@4",
       "source": "src/parser.c"
+    },
+    "make_asm_address_register": {
+      "logical": "_make_asm_address_register@4",
+      "source": "src/asm-registers.c"
+    },
+    "make_asm_constant": {
+      "logical": "_make_asm_constant@4",
+      "source": "src/asm-expressions.c"
+    },
+    "make_asm_offset": {
+      "logical": "_make_asm_offset@4",
+      "source": "src/asm-stubs.c"
+    },
+    "make_asm_register": {
+      "logical": "_make_asm_register@4",
+      "source": "src/asm-registers.c"
+    },
+    "make_asm_segment_value": {
+      "logical": "_make_asm_segment_value@4",
+      "source": "src/asm-stubs.c"
+    },
+    "make_asm_stack_register": {
+      "logical": "_make_asm_stack_register@8",
+      "source": "src/asm-stubs.c"
+    },
+    "make_asm_symbol": {
+      "logical": "_make_asm_symbol@4",
+      "source": "src/asm-symbols.c"
     },
     "make_based_pointer_base": {
       "logical": "_make_based_pointer_base@4",
@@ -1897,6 +2029,10 @@
       "logical": "_multiplication_overflows@16",
       "source": "src/conversions.c"
     },
+    "multiply_asm_expression": {
+      "logical": "_multiply_asm_expression@12",
+      "source": "src/asm-stubs.c"
+    },
     "new_bitset": {
       "logical": "_new_bitset@4",
       "source": "src/memory.c"
@@ -1948,6 +2084,14 @@
     "node_alignment": {
       "logical": "_node_alignment@4",
       "source": "src/ir.c"
+    },
+    "normalize_asm_addresses": {
+      "logical": "_normalize_asm_addresses",
+      "source": "src/asm-registers.c"
+    },
+    "normalize_asm_x87_operands": {
+      "logical": "_normalize_asm_x87_operands",
+      "source": "src/asm-stubs.c"
     },
     "normalize_based_expression": {
       "logical": "_normalize_based_expression@4",
@@ -2025,9 +2169,13 @@
       "logical": "_parameter_type_size@8",
       "source": "src/types.c"
     },
+    "parse_asm_binary_digits": {
+      "logical": "_parse_asm_binary_digits@4",
+      "source": "src/asm-stubs.c"
+    },
     "parse_asm_statement": {
       "logical": "_parse_asm_statement",
-      "source": "src/stubs.c"
+      "source": "src/asm.c"
     },
     "parse_declspec": {
       "logical": "_parse_declspec",
@@ -2044,6 +2192,10 @@
     "parse_floating_literal": {
       "logical": "_parse_floating_literal@8",
       "source": "src/floating.c"
+    },
+    "parse_inline_assembler": {
+      "logical": "_parse_inline_assembler",
+      "source": "src/asm-parser.c"
     },
     "parse_option_number": {
       "logical": "_parse_option_number",
@@ -2249,6 +2401,10 @@
       "logical": "_prefix_character",
       "source": "src/options.c"
     },
+    "prepare_asm_instruction": {
+      "logical": "_prepare_asm_instruction",
+      "source": "src/asm-instructions.c"
+    },
     "prepare_call_expression": {
       "logical": "_prepare_call_expression@4",
       "source": "src/calls.c"
@@ -2396,6 +2552,10 @@
     "read_angle_include_filename": {
       "logical": "_read_angle_include_filename",
       "source": "src/preprocessor-directives.c"
+    },
+    "read_asm_token": {
+      "logical": "_read_asm_token",
+      "source": "src/asm-lexer.c"
     },
     "read_debug_index": {
       "logical": "_read_debug_index",
@@ -2581,6 +2741,18 @@
       "logical": "_replace_outer_type_shape@16",
       "source": "src/types.c"
     },
+    "report_asm_expected_token": {
+      "logical": "_report_asm_expected_token@8",
+      "source": "src/asm-stubs.c"
+    },
+    "report_asm_operand_error": {
+      "logical": "_report_asm_operand_error@8",
+      "source": "src/asm-stubs.c"
+    },
+    "report_asm_parser_error": {
+      "logical": "_report_asm_parser_error@4",
+      "source": "src/asm-stubs.c"
+    },
     "report_conversion_mismatch": {
       "logical": "_report_conversion_mismatch@12",
       "source": "src/stubs.c"
@@ -2657,6 +2829,10 @@
       "logical": "@reserve_pdb_record_bytes@12",
       "source": "src/program-database.c"
     },
+    "reset_asm_operand": {
+      "logical": "_reset_asm_operand@4",
+      "source": "src/asm.c"
+    },
     "reset_debug_type_records": {
       "logical": "_reset_debug_type_records",
       "source": "src/stubs.c"
@@ -2668,6 +2844,10 @@
     "reset_work_stack": {
       "logical": "_reset_work_stack@4",
       "source": "src/vectors.c"
+    },
+    "resolve_asm_operand_size": {
+      "logical": "_resolve_asm_operand_size",
+      "source": "src/asm-instructions.c"
     },
     "resolve_identifier_token": {
       "logical": "_resolve_identifier_token@4",
@@ -2711,7 +2891,7 @@
     },
     "scan_assembler_number": {
       "logical": "_scan_assembler_number@4",
-      "source": "src/stubs.c"
+      "source": "src/asm-numbers.c"
     },
     "scan_character_literal": {
       "logical": "_scan_character_literal@4",
@@ -2761,6 +2941,10 @@
       "logical": "_seek_work_stack@12",
       "source": "src/vectors.c"
     },
+    "select_asm_opcode": {
+      "logical": "_select_asm_opcode@4",
+      "source": "src/asm-instructions.c"
+    },
     "select_initializer_target": {
       "logical": "_select_initializer_target@4",
       "source": "src/initializers.c"
@@ -2773,9 +2957,25 @@
       "logical": "_select_member_expression@12",
       "source": "src/expressions.c"
     },
+    "serialize_asm_instruction": {
+      "logical": "_serialize_asm_instruction",
+      "source": "src/asm-output.c"
+    },
     "serialize_scope": {
       "logical": "_serialize_scope@4",
       "source": "src/scopes.c"
+    },
+    "set_asm_address_operator": {
+      "logical": "_set_asm_address_operator@4",
+      "source": "src/asm-stubs.c"
+    },
+    "set_asm_directive": {
+      "logical": "_set_asm_directive@8",
+      "source": "src/asm-stubs.c"
+    },
+    "set_asm_operand_size": {
+      "logical": "_set_asm_operand_size@4",
+      "source": "src/asm-stubs.c"
     },
     "set_debug_index_cursor": {
       "logical": "_set_debug_index_cursor",
@@ -2857,6 +3057,10 @@
       "logical": "_subtraction_overflows@16",
       "source": "src/constants.c"
     },
+    "swap_asm_pointer_slots": {
+      "logical": "_swap_asm_pointer_slots@8",
+      "source": "src/asm-stubs.c"
+    },
     "symbol_alias": {
       "logical": "_symbol_alias@4",
       "source": "src/stubs.c"
@@ -2920,6 +3124,14 @@
     "usual_arithmetic_type": {
       "logical": "_usual_arithmetic_type@12",
       "source": "src/expressions.c"
+    },
+    "validate_asm_operand_count": {
+      "logical": "_validate_asm_operand_count",
+      "source": "src/asm-validation.c"
+    },
+    "validate_asm_operands": {
+      "logical": "_validate_asm_operands",
+      "source": "src/asm-validation.c"
     },
     "validate_packing": {
       "logical": "_validate_packing@4",
@@ -3688,7 +3900,36 @@
     "enter_except_filter",
     "begin_except_block",
     "leave_except_filter",
-    "finish_except_block"
+    "finish_except_block",
+    "parse_asm_statement",
+    "initialize_inline_assembler",
+    "reset_asm_operand",
+    "parse_inline_assembler",
+    "read_asm_token",
+    "finish_asm_line",
+    "classify_asm_identifier",
+    "find_asm_mnemonic",
+    "compare_names_ignore_case",
+    "select_asm_opcode",
+    "find_asm_keyword",
+    "make_asm_register",
+    "make_asm_symbol",
+    "lookup_asm_symbol",
+    "asm_symbol_type_size",
+    "asm_size_encoding",
+    "make_asm_address_register",
+    "add_asm_displacement",
+    "emit_asm_instruction",
+    "validate_asm_operand_count",
+    "validate_asm_operands",
+    "prepare_asm_instruction",
+    "choose_asm_instruction_size",
+    "resolve_asm_operand_size",
+    "normalize_asm_addresses",
+    "serialize_asm_instruction",
+    "asm_address_mode_code",
+    "scan_assembler_number",
+    "make_asm_constant"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -3782,7 +4023,8 @@
       "_toupper",
       "_fread",
       "__chsize",
-      "_fclose"
+      "_fclose",
+      "_tolower"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4477,6 +4719,21 @@
         "begin_except_block",
         "leave_except_filter",
         "finish_except_block"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "inline-asm": {
+      "first": 698,
+      "last": 702,
+      "seen_count": 586,
+      "expected": [
+        "parse_asm_statement",
+        "initialize_inline_assembler",
+        "reset_asm_operand",
+        "parse_inline_assembler"
       ],
       "terminal": {
         "kind": "exit",
