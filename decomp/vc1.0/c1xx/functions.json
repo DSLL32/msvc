@@ -197,7 +197,21 @@
     "_insert_scope_symbol@8",
     "_make_overload_symbol@4",
     "_check_function_defaults@8",
-    "_check_missing_defaults@20"
+    "_check_missing_defaults@20",
+    "_validate_special_function@8",
+    "_is_class_name_type@4",
+    "_restore_declaration_context@8",
+    "_declare_operator_delete@4",
+    "_declare_runtime_helpers",
+    "_declare_vector_helper@8",
+    "_declare_runtime_function@20",
+    "_runtime_void_pointer@4",
+    "_prepend_declarator@8",
+    "_runtime_callback_type@8",
+    "_initialize_purecall",
+    "_runtime_function_symbol@4",
+    "_new_symbol@8",
+    "_pack_option_flags"
   ],
   "driver": [
     {
@@ -378,7 +392,7 @@
     {
       "name": "_pack_option_flags",
       "start": 476816,
-      "end": 476817
+      "end": 476860
     },
     {
       "name": "_preprocess_translation_unit",
@@ -618,12 +632,12 @@
     {
       "name": "_declare_runtime_helpers",
       "start": 232400,
-      "end": 232401
+      "end": 232440
     },
     {
       "name": "_initialize_purecall",
       "start": 232448,
-      "end": 232449
+      "end": 232461
     },
     {
       "name": "_reset_work_stack@4",
@@ -1245,7 +1259,7 @@
     {
       "name": "_validate_special_function@8",
       "start": 331472,
-      "end": 333756
+      "end": 334000
     },
     {
       "name": "_format_storage_spec@8",
@@ -1476,6 +1490,41 @@
       "name": "_report_parameter_error@12",
       "start": 238384,
       "end": 238407
+    },
+    {
+      "name": "_skip_reference_shape@4",
+      "start": 402240,
+      "end": 402259
+    },
+    {
+      "name": "_declare_vector_helper@8",
+      "start": 232592,
+      "end": 232616
+    },
+    {
+      "name": "_declare_runtime_function@20",
+      "start": 232624,
+      "end": 232932
+    },
+    {
+      "name": "_runtime_void_pointer@4",
+      "start": 232944,
+      "end": 232968
+    },
+    {
+      "name": "_runtime_callback_type@8",
+      "start": 232976,
+      "end": 233074
+    },
+    {
+      "name": "_runtime_function_symbol@4",
+      "start": 232464,
+      "end": 232548
+    },
+    {
+      "name": "_new_symbol@8",
+      "start": 245456,
+      "end": 245722
     }
   ],
   "cases": {
@@ -1866,6 +1915,30 @@
       "name": "_current_qc_context",
       "original": 654400,
       "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_purecall_symbol",
+      "original": 651952,
+      "bytes": 4
+    },
+    {
+      "kind": "runtime_functions",
+      "name": "_runtime_function_specs",
+      "original": 651616,
+      "count": 1
+    },
+    {
+      "kind": "bytes",
+      "name": "_symbol_scope_mode",
+      "original": 573752,
+      "bytes": 1
+    },
+    {
+      "kind": "packed_options",
+      "name": "_packed_option_values",
+      "original": 668864,
+      "count": 21
     }
   ],
   "buffered_streams": [

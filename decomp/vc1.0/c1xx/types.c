@@ -226,3 +226,17 @@ CType *__stdcall make_qualified_type(CType *base, unsigned short kind,
     --type_description_depth;
     return result;
 }
+
+/* Original 0x3b840..0x3b895. A class/enum operand may have a qualifier
+   prefix and a single reference shape, but no pointer or array suffix. */
+int __stdcall is_class_name_type(CType *type)
+{
+    TypeShape *shape;
+    if (!type || !(type->flags & 0x600)) return 0;
+    shape = type->related;
+    if (shape) {
+        if (!(shape->flags & 0x77)) shape = shape->related;
+        if (shape) return (shape->flags & 0x40) && !shape->related;
+    }
+    return 1;
+}

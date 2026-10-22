@@ -304,3 +304,61 @@ CppSymbol *finish_parameter_scope(void)
     pop_symbol_scope();
     return parameters;
 }
+
+/* Original 0x4f790..0x4f7aa. */
+void __stdcall restore_declaration_context(unsigned char mode, SymbolScope *scope)
+{
+    declaration_mode_cache = mode;
+    declaration_mode = mode;
+    current_scope = scope;
+}
+
+/* Original 0x3b930..0x3b955. Prepending preserves the reverse circular
+   parameter link and places the old head in the source-order chain. */
+void __stdcall prepend_declarator(CppSymbol *list, CppSymbol *declaration)
+{
+    if (!declaration) return;
+    if (!list) {
+        declaration->detail.parameter_next = declaration;
+        return;
+    }
+    declaration->detail.parameter_next = list->detail.parameter_next;
+    list->detail.parameter_next = declaration;
+    declaration->next = list;
+}
+
+unsigned char symbol_scope_mode; /* original 0x8c138 */
+
+/* Original 0x3bed0..0x3bfda. Scope mode one uses temporary allocation
+   while retaining global insertion; other nonzero modes use current_scope. */
+CppSymbol *__stdcall new_symbol(char *name, unsigned char scope)
+{
+    CppSymbol *symbol;
+    ArenaPool *pool;
+    unsigned kind;
+    if (!scope) {
+        symbol = allocate_permanent(sizeof(CppSymbol));
+        kind = 1;
+    } else {
+        pool = &compiler_arena.pools[1];
+        if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+        symbol = (CppSymbol *)pool->next;
+        pool->remaining -= sizeof(CppSymbol);
+        pool->next += sizeof(CppSymbol);
+        kind = 4;
+    }
+    if (scope == 1) scope = 0;
+    symbol->storage[0] = (declaration_storage[0] & ~7) | kind;
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+    symbol->kind = 9;
+    symbol->name = name;
+    if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+    symbol->index = next_symbol_index++;
+    symbol->references = 0;
+    symbol->type = type_0064;
+    symbol_scope_mode = scope;
+    insert_scope_symbol(scope ? current_scope : global_scope, symbol);
+    return symbol;
+}

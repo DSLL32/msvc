@@ -16,7 +16,6 @@ void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
 void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
-unsigned pack_option_flags(void) { __asm { int 3 } return 0; }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 void __stdcall record_version_token(IrToken *token) { __asm { int 3 } }
 void __stdcall emit_version_token(IrToken *token) { __asm { int 3 } }
@@ -40,8 +39,6 @@ void cleanup_precompiled_files(void) { __asm { int 3 } }
 void begin_browser_output(void) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
-void declare_runtime_helpers(void) { __asm { int 3 } }
-void initialize_purecall(void) { __asm { int 3 } }
 InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 0; }
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 CType *builtin_integer_type(void) { __asm { int 3 } return 0; }
@@ -79,10 +76,7 @@ void browser_open_file(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
 char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
-void __stdcall declare_operator_delete(unsigned short attributes) { __asm { int 3 } }
-void __stdcall restore_declaration_context(unsigned char mode, SymbolScope *scope) { __asm { int 3 } }
 void browser_symbol_rollover(void) { __asm { int 3 } }
-void __stdcall prepend_declarator(CppSymbol *list, CppSymbol *declaration) { __asm { int 3 } }
 void __stdcall resolve_deferred_declaration(void *declaration) { __asm { int 3 } }
 int __stdcall is_current_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -110,7 +104,6 @@ CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol) { __asm { int 
 int __stdcall symbol_has_array_shape(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall validate_special_function(CppSymbol *symbol, int definition) { __asm { int 3 } }
 short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
 int __stdcall merge_storage_spec(StorageSpec *destination, StorageSpec source) { __asm { int 3 } return 0; }
 CType *__stdcall function_return_type(CppSymbol *declaration) { __asm { int 3 } return 0; }
@@ -118,7 +111,6 @@ void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol)
 CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *declaration) { __asm { int 3 } return 0; }
 int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
-int __stdcall is_class_name_type(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_outer_name(char *name) { __asm { int 3 } return 0; }
 void __stdcall record_local_declaration(CppSymbol *declaration) { __asm { int 3 } }
@@ -140,3 +132,4 @@ int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
 int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
 void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
 void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned parameter) { __asm { int 3 } }
+TypeShape *__stdcall skip_reference_shape(TypeShape *shape) { __asm { int 3 } return 0; }

@@ -81,6 +81,7 @@ extern unsigned char global_record_kind;
 extern unsigned declaration_kind;
 void __stdcall save_declaration_context(unsigned char *mode, SymbolScope **scope);
 void __stdcall restore_declaration_context(unsigned char mode, SymbolScope *scope);
+CppSymbol *__stdcall new_symbol(char *name, unsigned char scope);
 CppSymbol *__stdcall new_declarator(char *name);
 CppSymbol *__stdcall add_declaration_parameter(int prepend, CppSymbol **list, char *name, CType *type);
 CppSymbol *__stdcall attach_function_parameters(CppSymbol *declaration, CppSymbol *parameters);

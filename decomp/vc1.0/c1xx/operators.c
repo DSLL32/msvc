@@ -142,3 +142,41 @@ void __stdcall declare_operator_new(unsigned short attributes)
     find_scope_symbol(global_scope, name_new, 0);
     restore_declaration_context(saved_mode, saved_scope);
 }
+
+/* Original 0x4f610..0x4f749. The runtime delete declaration takes void *;
+   based-pointer configurations additionally supply the segment parameter. */
+void __stdcall declare_operator_delete(unsigned short attributes)
+{
+    unsigned char saved_mode;
+    SymbolScope *saved_scope;
+    CppSymbol *declaration, *parameters = 0;
+    CType *parameter_type;
+    DeclarationType result;
+    ArenaPool *pool;
+    save_declaration_context(&saved_mode, &saved_scope);
+    pool = &compiler_arena.pools[2];
+    if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+    parameter_type = (CType *)pool->next;
+    pool->remaining -= sizeof(CType);
+    pool->next += sizeof(CType);
+    parameter_type->flags = 0x80;
+    parameter_type->related = intern_type_shape(new_type_shape(1, attributes, 0));
+    add_declaration_parameter(0, &parameters, 0, intern_type((TypeDescription *)parameter_type));
+    if (attributes & 4) {
+        parameter_type->flags = 0x802;
+        parameter_type->related = 0;
+        add_declaration_parameter(0, &parameters, 0, intern_type((TypeDescription *)parameter_type));
+    }
+    declaration = new_declarator(name_delete);
+    declaration->cpp.parts.token = 152;
+    declaration->type->attributes = 0x10;
+    declaration_kind = 3;
+    declaration = attach_function_parameters(declaration, parameters);
+    result.storage[0] = (declaration_storage[0] & ~7) | 1;
+    result.storage[1] = declaration_storage[1];
+    result.storage[2] = declaration_storage[2];
+    result.type = (CType *)copy_type_description(type_0080);
+    apply_declaration_type(&result, declaration);
+    --type_description_depth;
+    restore_declaration_context(saved_mode, saved_scope);
+}

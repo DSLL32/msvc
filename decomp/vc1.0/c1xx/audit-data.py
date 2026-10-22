@@ -139,6 +139,22 @@ for table in cfg.get('tables', []):
             if a:
                 assert original.string(a) == rebuilt.string(b), 'IR schema differs: %02x' % index
         print('%d IR record field schemas match the original.' % table['count'])
+    elif kind == 'runtime_functions':
+        for index in range(table['count']):
+            a, b = old + index*12, new + index*12
+            assert original.string(word(original, a)) == rebuilt.string(word(rebuilt, b)), 'runtime function name differs'
+            assert read(original, a+4, 8) == read(rebuilt, b+4, 8), 'runtime function attributes differ'
+        print('%d runtime function specifications match the original.' % table['count'])
+    elif kind == 'packed_options':
+        for index in range(table['count']):
+            a, b = word(original, old+index*4), word(rebuilt, new+index*4)
+            assert bool(a) == bool(b), 'packed-option slot nullness differs'
+            if a:
+                for offset in range(4):
+                    assert state_addresses.setdefault(a+offset, b+offset) == b+offset, 'packed-option state was split'
+                    assert state_reverse_addresses.setdefault(b+offset, a+offset) == a+offset, 'packed-option state was merged'
+                assert read(original, a, 4) == read(rebuilt, b, 4), 'packed-option default differs: %d' % index
+        print('%d packed options, aliases and defaults match the original.' % table['count'])
     elif kind == 'configuration':
         assert read(original, old, table['bytes']) == read(rebuilt, new, table['bytes']), 'configuration defaults differ'
         print('%d-byte typed configuration defaults match the original.' % table['bytes'])

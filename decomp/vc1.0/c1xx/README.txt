@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 193 accepted paired frontiers, including 118 frontend
+PARTIAL reconstruction: 207 accepted paired frontiers, including 132 frontend
 functions and six older CRT routines. The frontend now reads cpp-basic.cpp,
 initializes builtin operator candidates and constructs their function signatures.
 The complete global-record writer, declaration storage/type normalizer and final
 declaration checks are reconstructed. The next matching trap is
-_validate_special_function@8 at original VA 0x50ed0. All 193 frontiers replay successfully;
+_parse_translation_unit at original VA 0x268f0. All 207 frontiers replay successfully;
 the expression stream begins with the exact six bytes 5b8034030000. The complete
 frontend case is not yet reconstructed or claimed equivalent.
 
@@ -59,7 +59,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-symbols.log.
+The current full ordered replay is recorded in evidence/replay-runtime-declarations.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -123,3 +123,16 @@ have a separate 16-byte layout; a full declaration is 52 bytes. Default records
 retain separate declaration-order and following-parameter links. The per-scope
 qc_context and its shared current value are explicit; the latter's four initial
 bytes are audited. All unvisited callees remain named trapping stubs.
+
+The complete overloaded-operator validator includes member/arity restrictions,
+unary/postfix conversion, allocation/deallocation types and exact diagnostic
+arguments. Its three original switch tables are included in its accepted range;
+the source uses readable C switches. Runtime vector helpers retain their callback
+types and five-slot declaration ABI, including its unused fourth argument.
+The one runtime-function specification belongs to _purecall setup and is audited
+by name and attributes. The ordinary-symbol allocator preserves permanent vs
+arena allocation and the separate scope-mode byte. Twenty-one option targets,
+their aliases and initial defaults are audited; this established the original
+normalized_Gs=1 and normalized_Gn=1 defaults before frontend initialization.
+The current trap is the complete yacc parser; its grammar and semantic actions
+remain unreconstructed. No original parser tables have been imported as source.

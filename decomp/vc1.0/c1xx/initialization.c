@@ -11,8 +11,10 @@ int data_pointer_alignment, code_pointer_alignment;
 int code_pointer_kind, data_pointer_kind; /* original 0x90f30/0x90f28 */
 int code_pointer_model, data_pointer_model; /* original 0x90f34/0x90f2c */
 int normalized_Op, normalized_Oy, normalized_Oa, normalized_Ow, normalized_Oz;
-int normalized_Gs, normalized_PLMN, normalized_PLMF, normalized_Zr;
-int normalized_Oq, normalized_Gn, normalized_Ol;
+int normalized_Gs = 1; /* original 0x9fbe0 */
+int normalized_PLMN, normalized_PLMF, normalized_Zr;
+int normalized_Gn = 1; /* original 0x9fbe4 */
+int normalized_Oq, normalized_Ol;
 int target_cpu, target_cpu_mask;
 char token_buffer[7936];
 char *source_filename = token_buffer, *source_buffer_cursor = token_buffer;
