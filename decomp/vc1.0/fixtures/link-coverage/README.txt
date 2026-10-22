@@ -1,6 +1,6 @@
 Two proposed LINK coverage scenarios, validated on the untouched original
 
-Status: designed and original-validated; not queued reconstruction assignments.
+Status: original-validated and queued with the LINK reconstruction worker.
 catalog.json records the exact commands. original-validation.json records 15
 successful original invocations and independent artifact checks. Scratch logs
 and generated inputs/products are under ~/.ai-tmp/vc1.0-link-coverage/.
