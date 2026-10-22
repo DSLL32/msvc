@@ -1,0 +1,257 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@analyze_machine_instructions@8",
+      "start": "0x48040",
+      "end": "0x48070",
+      "instructions": 11
+    },
+    {
+      "name": "@build_machine_regions@4",
+      "start": "0x480e0",
+      "end": "0x483a0",
+      "instructions": 208
+    },
+    {
+      "name": "@new_machine_region@12",
+      "start": "0x483a0",
+      "end": "0x48400",
+      "instructions": 38
+    },
+    {
+      "name": "@machine_operand_label@4",
+      "start": "0x48590",
+      "end": "0x48600",
+      "instructions": 43
+    },
+    {
+      "name": "@process_machine_region_reference@12",
+      "start": "0x48440",
+      "end": "0x48590",
+      "instructions": 133
+    },
+    {
+      "name": "@add_machine_region_reference@12",
+      "start": "0x48600",
+      "end": "0x48630",
+      "instructions": 16
+    },
+    {
+      "name": "@count_region_label_references@8",
+      "start": "0x48400",
+      "end": "0x48440",
+      "instructions": 33
+    }
+  ],
+  "native_instructions": 482,
+  "accepted_extent_bytes": 1408,
+  "abis": [
+    "analyze_machine_instructions is fixed fastcall2, receiving stream and flags. It resets label-cleanup state, rebuilds regions and calls the distinct recursive analysis helper only for a root with children.",
+    "build_machine_regions and machine_operand_label are fixed fastcall1; the former returns void, the latter returns SymbolHeader*. Label lookup visits explicit operands in reverse order.",
+    "new_machine_region and process_machine_region_reference are fixed fastcall3, returning96-byte MachineFlowRegion*; add_machine_region_reference is fixed fastcall3 returning its8-byte allocation; all have RET4.",
+    "count_region_label_references is fixed fastcall2 returning a count. It consumes matching nodes from the first two pending chains without freeing arena-owned records; the third chain is unchanged."
+  ],
+  "data_provenance": [
+    {
+      "name": "MachineFlowRegion",
+      "bytes": 96,
+      "original_constructor": "0x483a0",
+      "ownership": "arena2",
+      "meaning": "parent/sibling/children, stream boundaries, entry/exit labels, three pending reference chains, block bounds, reference counters and flags; fields awaiting consumers retain offset names",
+      "identity_correction": "the prior optional MachineLabelAttachment prefix is this same region object; its label pointer is at0x14. The separate provisional prefix type was removed, with one forward-declared region identity in machine.h."
+    },
+    {
+      "name": "MachineRegionEdge",
+      "bytes": 8,
+      "original_constructor": "0x48600",
+      "ownership": "arena2",
+      "meaning": "typed next and SymbolHeader*label; three head pointers at region offsets1c/20/24, not a separate numeric field24"
+    },
+    {
+      "name": "machine_region_root",
+      "original_global": "0x830c4",
+      "meaning": "assigned when the kind2 function record opens the root; no PE BSS bytes used as initial data"
+    },
+    {
+      "name": "machine_analysis_needs_label_cleanup",
+      "original_global": "0x7c29c",
+      "meaning": "cleared on analysis entry; later transformations set it when references become zero and a caller may compact labels"
+    },
+    {
+      "name": "floating opcode property",
+      "original_extent": [
+        "0x82210",
+        "0x823de"
+      ],
+      "implementation": "readable FADD..FLD1 and FUCOM..FCOS predicates; all231 original bit0 values independently checked, with zero differences"
+    },
+    {
+      "name": "builder dispatch",
+      "original_extent": [
+        "0x48374",
+        "0x483a0"
+      ],
+      "implementation": "named record-kind switch;11 native jump-table entries are included in the accepted function extent"
+    }
+  ],
+  "independent_capture": {
+    "logical_stop": "_simplify_machine_data",
+    "original_stop": "0x358b0",
+    "normalization": "omit only debugger exception-address line",
+    "root": {
+      "normalized_lines": 7,
+      "normalized_sha256": "4472b35f3e9c7617ab9ab1578566edb85bca470222a9006365bb9404d08c1371",
+      "events": {
+        "original": "d001785a9e24f33e279aa5aead723a3f0cf0372ec8a70eb5787ae7a6e05320a9",
+        "reconstructed": "f3dda97ed29f9bf3041a6f3b6fd41f12b060cc85bef8ee93abd94c77a407b395"
+      }
+    },
+    "work_blocks": [
+      {
+        "work": 0,
+        "normalized_lines": 40,
+        "normalized_sha256": "9da9d6ba14eb1646da5fd10df40e54b8f4769e89986e4e48acaa678c43c6263d",
+        "events": {
+          "original": "6486c5a5bad93efe1ef36eed95a0429f5db77bb28c4f16b905df18c64b305247",
+          "reconstructed": "a138d729f871a9909c3495abaa5ee4043a897c26be3a3e65e30a21a0a6d734c7"
+        },
+        "records": 13
+      },
+      {
+        "work": 1,
+        "normalized_lines": 42,
+        "normalized_sha256": "ebdf713800c006072187fa5d0a6c04996e1127b22c3908af435b2ed4c3aefcdd",
+        "events": {
+          "original": "1bf7cb05ad9535b229184be7976f3688e700e161286e962acb8ebf8ec011a9ac",
+          "reconstructed": "bd5c620287792996acab9394701a14999547164a929fc7857f67fbadc713f37f"
+        },
+        "records": 10
+      },
+      {
+        "work": 2,
+        "normalized_lines": 47,
+        "normalized_sha256": "809417aa67fb58e3b86ffeb17d8ede943f0e894572d60a91fc3dab5d4acb2c0a",
+        "events": {
+          "original": "d32cd9926e9e4f7dd97155385b53539a8078815d0f4c7360dc57a0afad387a97",
+          "reconstructed": "b91f88cdcbd7f92949d0c3421f476fc7a65e79c5fb73576075b223349ec20327"
+        },
+        "records": 13
+      },
+      {
+        "work": 3,
+        "normalized_lines": 35,
+        "normalized_sha256": "568a4144d4367256a535c0a3d7d4f8bf265226aeba82214e1971d69f11e8c838",
+        "events": {
+          "original": "620a2808fe11ad34e09ab285423097cbd7aa69012a52eb78fd573fb88c920346",
+          "reconstructed": "1a9912cbe25db87ab031dfbfef9a57d14a903b0548d36214f43ecdafcad92194"
+        },
+        "records": 10
+      },
+      {
+        "work": 4,
+        "normalized_lines": 101,
+        "normalized_sha256": "1c045072d55f316795c2ee35a472608cde6bb539bf9479366eed5d38ff92ff0f",
+        "events": {
+          "original": "d82412109d333d16bc60463808118eecbb295a126d2c0a5920b860294802cbe8",
+          "reconstructed": "7d26eeb43e98c70c963572e3d53bcec59a16442e05efa482b3c94079ebe5de27"
+        },
+        "records": 35
+      },
+      {
+        "work": 5,
+        "normalized_lines": 26,
+        "normalized_sha256": "853cb6fbc0533ca4500092c1e10219598f6295cc358588041f9cfd29d67d2d22",
+        "events": {
+          "original": "da4760a68d0687209a01cc041c27f636f6e537e4832a058ecb2fd5ac807db3bd",
+          "reconstructed": "fff80bf8bcf9148ef96828be6a243bc790b69a26b6df0ca569803a57584cecd6"
+        },
+        "records": 9
+      }
+    ],
+    "normalized_lines": 298,
+    "root_state": {
+      "bytes": 96,
+      "parent": null,
+      "next": null,
+      "children": null,
+      "first_stream_index": 0,
+      "last_stream_index": 85,
+      "entry_label_stream_index": 3,
+      "stream_records": 87,
+      "three_reference_chains_empty": true,
+      "unknown_fields_zero": true,
+      "first_block": 0,
+      "last_block": 0,
+      "pending_references": 0,
+      "initial_references": 0,
+      "flags": "0x49",
+      "function_context_attachment_is_root": true
+    },
+    "scope": "first function root is the sole region; full work-block/header flags, labels and call metadata still match in all six captures"
+  },
+  "limits": [
+    "Hello remains incomplete at simplify_machine_data0x358b0; no optimized object comparison is claimed.",
+    "Only first function has completed this construction. Its root has no children, so analyze_machine_regions remains a named trap; recursive/closed/special-reference transformations and child-list splicing are not dynamically claimed.",
+    "All parent decision trees are reconstructed, with named trapping callees for unvisited closures, special labels and child-region linking. Later functions in the assigned hello case may exercise them.",
+    "The96-byte record extent and constructor zeroing are recovered. Offset-named fields remain unresolved until their consumers are encountered.",
+    "Range-builder diagnostics retain typed fatal traps; failure branches and all floating opcode cases are not claimed to pass."
+  ],
+  "validation_status": "passed",
+  "validation": [
+    "original-toolchain make -j2 check passes; minimal object/exit/streams match except only four-byte COFF timestamp",
+    "all 352 minimal and 211 hello historical frontiers replay in isolated pairs with frozen native build/config hashes",
+    "all 486 source graphs and 563 accepted extent instruction boundaries agree",
+    "machine-analysis and machine-state compile /W3 clean",
+    "independent typed root capture matches 7 normalized lines, including96-byte root state and exact context attachment identity; six block/label captures match291 more normalized lines",
+    "all231 original floating-operation property bits match the named opcode ranges used by the region builder",
+    "verified accepted code-extent union 146671/399693 bytes = 36.6959 percent; not branch coverage"
+  ],
+  "replay_receipts": [
+    {
+      "profile": "minimal",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-4162831/receipt.json",
+      "sha256": "944658a45fd49feafe8169b0cd091b493d1c104f45ff56a8eb2e6c63bdcf3e1c",
+      "frontiers": 352,
+      "seconds": 65.83561484795064,
+      "frozen": {
+        "functions.json": "0a11003754c4efce4a46ca88a1e6a651a32fa4f7187c88d582e5aae005b13012",
+        "build/c2.exe": "4889b4a8ab4dea22fa99d0a1bc68ed6450987a9c292f368081366a3e273588af",
+        "build/c2.map": "d8f8c59bc54e7a7e1371e7a58adfb219405007f69df51dc171d60f17369cb2b3",
+        "build/runtime.json": "3ea6257b231a3bef0abacc7350d236ace8ce3907be615d6916468c289d9f880e"
+      },
+      "final": "exit:0"
+    },
+    {
+      "profile": "hello",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-4167305/receipt.json",
+      "sha256": "63986ae0c4b3506a5c1834f1ecfffeddd84549307123a314440b4b6b2f72c8f3",
+      "frontiers": 211,
+      "seconds": 40.40190472546965,
+      "frozen": {
+        "functions.json": "0a11003754c4efce4a46ca88a1e6a651a32fa4f7187c88d582e5aae005b13012",
+        "build/c2.exe": "4889b4a8ab4dea22fa99d0a1bc68ed6450987a9c292f368081366a3e273588af",
+        "build/c2.map": "d8f8c59bc54e7a7e1371e7a58adfb219405007f69df51dc171d60f17369cb2b3",
+        "build/runtime.json": "3ea6257b231a3bef0abacc7350d236ace8ce3907be615d6916468c289d9f880e"
+      },
+      "final": "_simplify_machine_data"
+    }
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 563,
+    "accepted_code_bytes": 146671,
+    "original_code_bytes": 399693,
+    "percentage": 36.695914114082555,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 159
+  }
+}

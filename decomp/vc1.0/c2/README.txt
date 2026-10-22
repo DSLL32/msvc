@@ -1119,3 +1119,37 @@ COFF timestamp. Verified accepted original code-extent union is145263 /399693 by
 (36.3436 percent), including source/shared text/CRT/imports with clipping and
 actual-mask verification; this is not branch coverage. Hello remains pending
 at analyze_machine_instructions,00048040.
+
+Machine analysis now builds the first function's regions. Seven functions
+cover the entry wrapper, full11-way stream-kind dispatch, region factory,
+reverse-order operand label lookup, open-region reference processing and
+reference allocation/consumption. The builder retains native block0x200 marks,
+flag barriers, residual reference counts and typed range.c diagnostics.
+
+The new producer resolves the former MachineLabelAttachment: it is the same
+96-byte MachineFlowRegion, allocated in arena2 with its label back-pointer at
+0x14. One region type now serves both uses. Its three reference heads occupy
+1c/20/24 and own eight-byte next/label records; field24 is no longer numeric.
+The count helper also consumes matching nodes from the first two chains, and
+leaves the third chain intact. Other unknown fields remain named by offset.
+No attachment image, raw section bytes or duplicate region state were added.
+
+Independent captures match298 normalized lines: seven for the root plus291
+across all six work blocks. The root spans an87-record stream, from index0 to
+its terminating kind3 record at85, with function-context label at3. It has no
+parent/sibling/children, all three reference chains are empty, block bounds and
+reference counters are zero, and flags are0x49. The context's attachment is
+exactly that root, and all unresolved fields are zero. Full block/header flags,
+label counts, operand state and call metadata also match. Since this function
+has no child regions, the recursive analysis helper remains a named trap.
+See cases/hello-machine-regions-abi.json for exact ABI, provenance and receipts.
+
+All352 minimal and211 hello historical frontiers replay; all486 source graphs
+and563 accepted extent instruction boundaries pass. The two affected modules
+compile /W3 clean. Minimal object/streams/exit match except only the four-byte
+COFF timestamp. Verified accepted original code-extent union is146671 /399693 bytes
+(36.6959 percent), including source/shared text/CRT/imports with clipping and
+actual-mask verification; this is not branch coverage. Hello remains pending
+at simplify_machine_data,000358b0. Recursive/closed/special-reference paths,
+child linking, floating cases and range failure paths are not dynamically
+claimed; their unvisited callees remain typed named traps.

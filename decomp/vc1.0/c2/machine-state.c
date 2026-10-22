@@ -1,5 +1,6 @@
 /* Per-function machine-stream and temporary-register state. */
 #include "machine.h"
+#include "machine-analysis.h"
 #include "backend-passes.h"
 #include "instruction-rewrite.h"
 #include "global-work.h"
@@ -66,7 +67,7 @@ void __fastcall scan_machine_context(MachineContext *context)
 {
     MachineInstruction *instruction, *scan, *next;
     MachineOperand *operand;
-    MachineLabelAttachment *attachment;
+    MachineFlowRegion *attachment;
     SymbolHeader **slot;
     LabelSymbol *label;
     unsigned kind, operation;

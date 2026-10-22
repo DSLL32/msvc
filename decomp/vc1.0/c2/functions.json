@@ -560,7 +560,14 @@
     "@scan_machine_context@4",
     "@compact_machine_context@4",
     "_optimize_machine_flow",
-    "@finish_machine_blocks@8"
+    "@finish_machine_blocks@8",
+    "@analyze_machine_instructions@8",
+    "@build_machine_regions@4",
+    "@new_machine_region@12",
+    "@machine_operand_label@4",
+    "@process_machine_region_reference@12",
+    "@add_machine_region_reference@12",
+    "@count_region_label_references@8"
   ],
   "driver": [
     {
@@ -1141,8 +1148,7 @@
     {
       "name": "@analyze_machine_instructions@8",
       "start": 294976,
-      "end": 294977,
-      "provisional": true
+      "end": 295024
     },
     {
       "name": "_simplify_machine_data",
@@ -4877,6 +4883,66 @@
       "name": "@finish_machine_blocks@8",
       "start": 121984,
       "end": 122016
+    },
+    {
+      "name": "@build_machine_regions@4",
+      "start": 295136,
+      "end": 295840
+    },
+    {
+      "name": "@analyze_machine_regions@8",
+      "start": 295024,
+      "end": 295025,
+      "provisional": true
+    },
+    {
+      "name": "@new_machine_region@12",
+      "start": 295840,
+      "end": 295936
+    },
+    {
+      "name": "@count_region_label_references@8",
+      "start": 295936,
+      "end": 296000
+    },
+    {
+      "name": "@process_machine_region_reference@12",
+      "start": 296000,
+      "end": 296336
+    },
+    {
+      "name": "@machine_operand_label@4",
+      "start": 296336,
+      "end": 296448
+    },
+    {
+      "name": "@replace_machine_region_suffix@12",
+      "start": 297184,
+      "end": 297185,
+      "provisional": true
+    },
+    {
+      "name": "@add_machine_region_reference@12",
+      "start": 296448,
+      "end": 296496
+    },
+    {
+      "name": "@close_machine_region@8",
+      "start": 296496,
+      "end": 296497,
+      "provisional": true
+    },
+    {
+      "name": "@finish_closed_machine_region@8",
+      "start": 296592,
+      "end": 296593,
+      "provisional": true
+    },
+    {
+      "name": "@process_special_machine_region_reference@8",
+      "start": 296848,
+      "end": 296849,
+      "provisional": true
     }
   ],
   "cases": {

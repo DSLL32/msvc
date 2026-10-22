@@ -1,3 +1,4 @@
+#include "machine-analysis.h"
 #include "machine-transfers.h"
 #include "register-transfers.h"
 #include "register-variables.h"
@@ -136,7 +137,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall analyze_machine_instructions(MachineInstruction *instructions, unsigned flags) { __asm int 3 }
 void simplify_machine_data(void) { __asm int 3 }
 void simplify_machine_branches(void) { __asm int 3 }
 void combine_machine_instructions(void) { __asm int 3 }
@@ -448,3 +448,8 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 
 int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes) { __asm int 3 }
+void __fastcall analyze_machine_regions(MachineFlowRegion *region, unsigned flags) { __asm int 3 }
+void __fastcall replace_machine_region_suffix(MachineFlowRegion *parent, MachineFlowRegion *before, MachineFlowRegion *regions) { __asm int 3 }
+int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
+void __fastcall finish_closed_machine_region(MachineFlowRegion *region, MachineFlowRegion *parent) { __asm int 3 }
+MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
