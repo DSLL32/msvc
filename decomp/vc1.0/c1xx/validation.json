@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 484,
-  "driver_functions": 408,
+  "accepted_frontiers": 489,
+  "driver_functions": 413,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 415,
-  "current_frontier": "_finish_function_output",
-  "original_frontier_va": "0x55ac0",
+  "reconstructed_source_functions": 420,
+  "current_frontier": "_mangle_symbol_name@12",
+  "original_frontier_va": "0x42be0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "75e923d57e0580efb77fdbc366453868afd84b04ba19169efbc86574cf3af9a5",
-  "call_graph_audit_functions": 415,
+  "replay_log_sha256": "ba1b03de5ff6d111acf449d5cb38069d612c043c2033f9937623a4ba173cd53f",
+  "call_graph_audit_functions": 420,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -74,7 +74,9 @@
     "record_delimiter_mates": 36,
     "seh_reference_depth_defaults": 3,
     "closed_scope_head_default": 1,
-    "initializer_data_symbol_default": 1
+    "initializer_data_symbol_default": 1,
+    "decorated_workspace_bytes": 992,
+    "mangler_state_objects": 4
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -102,7 +104,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-function-scope-close.log",
+  "replay_log": "evidence/replay-symbol-serialization.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -322,7 +324,7 @@
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true
   },
-  "accepted_source_text_and_switch_bytes": 153516,
+  "accepted_source_text_and_switch_bytes": 155440,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -441,7 +443,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "826f407ae31d3e778229405647ed5e2966596ae83515d1dde786a37cee285da2",
+  "replay_build_text_sha256": "01fec6fc6edd487c9f75f355a43a7d8bf9c3681ff3c735d40d920b4fdd3ba68f",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -670,9 +672,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 163607,
+    "bytes": 165531,
     "total_original_executable_bytes": 476418,
-    "percent": 34.341061840652536,
+    "percent": 34.744908882535924,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -845,11 +847,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-function-scope-close-receipt.json",
-    "receipt_sha256": "ad2db7af84dd5298373f399449fdf9ca716224b865021b5c0fa0b080885b53cf",
+    "receipt": "evidence/replay-symbol-serialization-receipt.json",
+    "receipt_sha256": "aefc6254f617695f830f67acf4590ed690a5af54d811c627166578b36b525d35",
     "jobs": 4,
-    "frontiers": 484,
-    "seconds": 119.76095921266824,
+    "frontiers": 489,
+    "seconds": 122.87236180808395,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 14,
     "private_masked_executables_workdirs_logs": true,
@@ -1028,6 +1030,27 @@
     "closed_scope_head_default_audited": true,
     "initializer_data_symbol_default_audited": true,
     "all_484_frontiers_replayed": true,
+    "runtime_checkpoint_fields": 14,
+    "constructor_body_completed": false,
+    "no_frontend_output_normalization": true
+  },
+  "symbol_serialization": {
+    "evidence": "evidence/symbol-serialization.txt",
+    "new_whole_functions": 5,
+    "symbol_declaration_native_callees": 12,
+    "decorated_name_native_callees": 7,
+    "defer_global_symbol_is_cdecl": true,
+    "scope_layout_offsets": [
+      8,
+      12,
+      14
+    ],
+    "decorated_workspace_bytes": 992,
+    "following_name_cache_original": "0x98018",
+    "mangler_state_objects_audited": 4,
+    "canonical_pch_option_targets_verified": true,
+    "native_empty_scope_unspecified_local_retained": true,
+    "all_489_frontiers_replayed": true,
     "runtime_checkpoint_fields": 14,
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true

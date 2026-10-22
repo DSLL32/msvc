@@ -4,6 +4,7 @@
 #include "cpp-context.h"
 #include "expression-records.h"
 #include "type-sizes.h"
+#include "function-finalization.h"
 
 CppSymbol *function_symbol; /* original 0x8c140 */
 CppSymbol *current_label_symbol; /* original 0x91384 */
@@ -248,6 +249,25 @@ IrToken *__stdcall new_branch_label(unsigned attributes)
 }
 
 CppSymbol *label_symbols; /* original 0x9fd18 */
+
+/* Original 0x3b600..0x3b67c. Diagnose ordinary undefined or unused named
+   labels and serialize definitions before releasing the per-function chain. */
+void finish_label_symbols(void)
+{
+    CppSymbol *label;
+    if (!error_count) {
+        for (label = label_symbols; label; label = label->next) {
+            if (!(label->flags & 4) && !label->detail.value)
+                report_syntax_error(94, label->name);
+            else {
+                if (!label->references && label->name)
+                    compiler_warning(3, 102, label->name);
+                if (label->flags & 4) write_global_record(3, label);
+            }
+        }
+    }
+    label_symbols = 0;
+}
 
 /* Original 0x3b3d0..0x3b42e. Labels share the ordinary symbol index
    namespace and browser rollover, then join the frontend's label chain. */

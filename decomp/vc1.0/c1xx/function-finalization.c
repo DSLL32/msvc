@@ -66,3 +66,83 @@ void __stdcall finish_function_body(int recovering)
     current_declaration_scope = 0;
     reset_materialized_value_index();
 }
+
+/* Original 0x55ac0..0x55b5e. Emit labels and retained lexical scopes before
+   recording the function's intermediate-stream positions and attributes. */
+void finish_function_output(void)
+{
+    /* The native empty-list branch reads an unspecified local at 0x55b06.
+       Preserve that original source condition; normal definitions queue scopes. */
+    SymbolScope *scope;
+    if (options.prototypes_only) return;
+    global_record_kind = 1;
+    finish_label_symbols();
+    if (!closed_scopes) {
+        global_record_kind = 1;
+        write_global_record(13, 0);
+        global_record_kind = 2;
+        write_global_record(13, 0);
+    } else {
+        for (scope = closed_scopes; scope; scope = scope->next) serialize_scope(scope);
+    }
+    if (global_scope != scope) {
+        if (options.configuration.option_qc && normalized_Ol) finish_inline_function();
+        write_global_record(6, 0);
+    }
+    record_function_definition(function_symbol);
+}
+
+typedef char SerializedScopeBucketsOffsetMustBe8[
+    (offsetof(SymbolScope, buckets) == 8) ? 1 : -1];
+typedef char SerializedScopeMaskOffsetMustBe12[
+    (offsetof(SymbolScope, bucket_mask) == 12) ? 1 : -1];
+typedef char SerializedScopeFlagsOffsetMustBe14[
+    (offsetof(SymbolScope, flags) == 14) ? 1 : -1];
+
+/* Original 0x55980..0x55ab6. Preserve bucket/member order and defer global
+   declarations until their dependencies have been emitted. */
+int __stdcall serialize_scope(SymbolScope *scope)
+{
+    CppSymbol *pending = 0, *symbol, *next, **link;
+    unsigned bucket, count;
+    int changed = 1;
+    if (error_count) return 0;
+    global_record_kind = (unsigned char)scope->flags;
+    if (scope != global_scope) write_global_record(13, 0);
+    if (scope->buckets) {
+        count = scope->bucket_mask + 1;
+        for (bucket = 0; bucket < count; ++bucket) {
+            if ((unsigned char)scope->flags < 0xfa)
+                symbol = scope->buckets[scope->bucket_mask & bucket];
+            else {
+                /* Qualified class scopes retain a pointer to their tag in
+                   the bucket slot; its auxiliary word owns the member chain. */
+                symbol = (*scope->buckets)->auxiliary.scope_members;
+            }
+            while (symbol) {
+                if ((symbol->kind & 0x1f) == 16 || (symbol->kind & 0x1f) == 17)
+                    emit_function_symbols(symbol);
+                else if (!global_record_kind && defer_global_symbol(symbol)) {
+                    next = symbol->next;
+                    symbol->next = pending;
+                    pending = symbol;
+                    symbol = next;
+                    continue;
+                } else emit_symbol_declaration(symbol);
+                symbol = symbol->next;
+            }
+        }
+    }
+    while (pending && changed) {
+        link = &pending;
+        changed = 0;
+        for (symbol = pending; symbol; symbol = symbol->next) {
+            if (!defer_global_symbol(symbol)) {
+                changed = 1;
+                emit_symbol_declaration(symbol);
+                *link = symbol->next;
+            } else link = &symbol->next;
+        }
+    }
+    return 0;
+}

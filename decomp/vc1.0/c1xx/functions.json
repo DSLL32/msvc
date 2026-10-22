@@ -488,7 +488,12 @@
     "_end_function_definition",
     "_finish_function_body@4",
     "_emit_label@4",
-    "_pop_work_list@4"
+    "_pop_work_list@4",
+    "_finish_function_output",
+    "_finish_label_symbols",
+    "_serialize_scope@4",
+    "_emit_symbol_declaration@4",
+    "_write_decorated_name@16"
   ],
   "driver": [
     {
@@ -4791,12 +4796,72 @@
     {
       "name": "_finish_function_output",
       "start": 350912,
-      "end": 350913
+      "end": 351070
     },
     {
       "name": "_reset_materialized_value_index",
       "start": 383424,
       "end": 383425
+    },
+    {
+      "name": "_finish_label_symbols",
+      "start": 243200,
+      "end": 243324
+    },
+    {
+      "name": "_serialize_scope@4",
+      "start": 350592,
+      "end": 350902
+    },
+    {
+      "name": "_finish_inline_function",
+      "start": 280257,
+      "end": 280258
+    },
+    {
+      "name": "_record_function_definition@4",
+      "start": 371424,
+      "end": 371425
+    },
+    {
+      "name": "_emit_function_symbols@4",
+      "start": 346432,
+      "end": 346433
+    },
+    {
+      "name": "_defer_global_symbol",
+      "start": 350464,
+      "end": 350465
+    },
+    {
+      "name": "_debug_tag_type@4",
+      "start": 449312,
+      "end": 449313
+    },
+    {
+      "name": "_reference_debug_type@4",
+      "start": 448224,
+      "end": 448225
+    },
+    {
+      "name": "_flush_debug_types",
+      "start": 450688,
+      "end": 450689
+    },
+    {
+      "name": "_prepare_symbol_debug_type@4",
+      "start": 355504,
+      "end": 355505
+    },
+    {
+      "name": "_mangle_symbol_name@12",
+      "start": 273376,
+      "end": 273377
+    },
+    {
+      "name": "_format_qualified_tag_name@8",
+      "start": 279280,
+      "end": 279281
     }
   ],
   "cases": {
@@ -6252,6 +6317,33 @@
         {
           "name": "_initializer_data_symbol",
           "original": 596016,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_decorated_name_workspace",
+      "original": 621624,
+      "fields": [
+        {
+          "name": "_decorated_name_workspace",
+          "original": 621624,
+          "bytes": 992
+        },
+        {
+          "name": "_decorated_type_count",
+          "original": 621616,
+          "bytes": 4
+        },
+        {
+          "name": "_decorated_name_count",
+          "original": 622656,
+          "bytes": 4
+        },
+        {
+          "name": "_mangle_name_only",
+          "original": 622660,
           "bytes": 4
         }
       ]

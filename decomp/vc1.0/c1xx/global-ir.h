@@ -86,7 +86,7 @@ unsigned short __stdcall type_alignment(CType *type);
 void __stdcall emit_symbol_declaration(CppSymbol *symbol);
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol);
 char *__stdcall write_decorated_name(FILE *stream, CppSymbol *symbol,
-                                      void *context, int flags);
+                                      CppSymbol *context, int flags);
 void write_ir_filename(char *text);
 void write_ir_string(char *text);
 void write_ir_index(unsigned *index);

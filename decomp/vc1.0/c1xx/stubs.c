@@ -1,3 +1,5 @@
+#include "mangling.h"
+#include "symbol-output.h"
 #include "function-finalization.h"
 #include "record-processing.h"
 #include "binary-expressions.h"
@@ -75,9 +77,7 @@ CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value)
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 int __stdcall parameter_stack_bytes(CppSymbol *symbol) { __asm { int 3 } return 0; }
 unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0; }
-void __stdcall emit_symbol_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
-char *__stdcall write_decorated_name(FILE *stream, CppSymbol *symbol, void *context, int flags) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return 0; }
 void emit_line_directive(void) { __asm { int 3 } }
@@ -601,5 +601,18 @@ void reset_function_symbol_tables(void) { __asm { int 3 } }
 
 void __stdcall emit_member_and_base_destructors(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_vbase_destructor_epilogue(CppSymbol *tag) { __asm { int 3 } }
-void finish_function_output(void) { __asm { int 3 } }
 void reset_materialized_value_index(void) { __asm { int 3 } }
+
+void finish_inline_function(void) { __asm { int 3 } }
+void __stdcall record_function_definition(CppSymbol *function) { __asm { int 3 } }
+
+void __stdcall emit_function_symbols(CppSymbol *symbols) { __asm { int 3 } }
+int defer_global_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
+
+unsigned short __stdcall debug_tag_type(CppSymbol *tag) { __asm { int 3 } return 0; }
+void __stdcall reference_debug_type(CType *type) { __asm { int 3 } }
+void flush_debug_types(void) { __asm { int 3 } }
+void __stdcall prepare_symbol_debug_type(CppSymbol *symbol) { __asm { int 3 } }
+
+char *__stdcall mangle_symbol_name(char *cursor, CppSymbol *symbol, CppSymbol *context) { __asm { int 3 } return 0; }
+char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }

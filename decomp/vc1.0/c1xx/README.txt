@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 484 accepted paired frontiers, including 408 frontend
+PARTIAL reconstruction: 489 accepted paired frontiers, including 413 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _finish_function_output at original VA 0x55ac0. The latest ordered replay is recorded in validation.json;
+trap is _mangle_symbol_name@12 at original VA 0x42be0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -930,3 +930,20 @@ union is 163,607 / 476,418 bytes (34.341%, not branch coverage), with 415 source
 functions. Both runs reach finish_function_output at 0x55ac0. Constructor scope
 and metadata serialization, remaining definition cleanup and complete frontend
 equivalence are still unfinished.
+
+
+Function-output serialization now retains label diagnostics, scope bucket/member
+traversal and dependency deferral. Declaration output preserves class-member
+passes, aliases, PCH/debug rules, reference diagnostics and record selection.
+All PCH checks reuse their existing canonical state/option objects. Name output
+uses its separate C++ decoration entry, warning/fatal limits and direct CRT
+string/NUL writes. Its 992-byte shared workspace ends before the independently
+encountered ten-name cache. Evidence: evidence/symbol-serialization.txt.
+
+All 489 frontiers pass the frozen full comparator in 122.872 seconds, with exact
+output/pending buffers, callers and fourteen runtime observations. Receipt:
+evidence/replay-symbol-serialization-receipt.json. Accepted executable extent
+union is 165,531 / 476,418 bytes (34.745%, not branch coverage), with 420 source
+functions. Both runs reach mangle_symbol_name at 0x42be0 during constructor
+symbol serialization. Underlying name decoration, remaining metadata/definition
+cleanup and complete frontend equivalence remain unfinished.
