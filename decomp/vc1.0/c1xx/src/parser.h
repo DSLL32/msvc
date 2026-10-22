@@ -71,6 +71,7 @@ void __stdcall apply_constructor_initializers(IrToken *initializers);
 void end_function_definition(void);
 IrToken *__stdcall append_constructor_initializer(IrToken *list, IrToken *initializer);
 IrToken *__stdcall symbol_reference(CppSymbol *symbol);
+IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol);
 IrToken *__stdcall new_ir_expression(unsigned char operation, IrToken *left, IrToken *right, CType *type);
 IrToken *__stdcall append_expression(IrToken *list, IrToken *expression, int mode);
 void pop_linkage(void);

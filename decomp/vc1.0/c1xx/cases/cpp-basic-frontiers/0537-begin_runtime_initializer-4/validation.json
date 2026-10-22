@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_runtime_initializer@4",
+    "start": 294784,
+    "end": 294858
+  },
+  "distinct_direct_callees": [
+    "_begin_initializer_function@4",
+    "_guard_local_static_initialization@4",
+    "_record_line_information@4"
+  ],
+  "next_frontier": "_guard_local_static_initialization@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24027649499475956,
+  "total_operation_seconds": 1.9711781805381179,
+  "original_capture_seconds": 1.0215167114511132
+}

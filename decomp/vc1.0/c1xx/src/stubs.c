@@ -201,12 +201,15 @@ void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) 
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
-void __stdcall initialize_class_object(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
+IrToken *__stdcall make_object_constructor_call(unsigned char mode, unsigned short attributes,
+    IrToken *placement, CppSymbol *symbol, IrToken *arguments, IrToken *object, int flags) { __asm { int 3 } return 0; }
+void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }
 IrToken *__stdcall prepare_constant_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 int __stdcall is_character_array_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 int __stdcall check_static_initializer(CppSymbol *symbol, IrToken **value) { __asm { int 3 } return 0; }
-void __stdcall begin_runtime_initializer(CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
+CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 int __stdcall is_scalar_initializer_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall emit_initializer_assignment(IrToken *target, IrToken *value) { __asm { int 3 } }
 void __stdcall finish_initializer_symbol(CppSymbol *symbol) { __asm { int 3 } }
@@ -513,8 +516,6 @@ void write_counted_ir(short length, char *text) { __asm { int 3 } }
 
 IrToken *__stdcall resolve_operator_expression(unsigned char operation, IrToken *left,
     IrToken *right, unsigned arity, unsigned *failure) { __asm { int 3 } return 0; }
-int __stdcall operator_has_builtin_fallback(unsigned char operation, unsigned char arity,
-    unsigned classification) { __asm { int 3 } return 0; }
 int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }
 

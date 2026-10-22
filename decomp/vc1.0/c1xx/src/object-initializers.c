@@ -4,6 +4,7 @@
 #include "object-initializers.h"
 #include "binary-expressions.h"
 #include "class-members.h"
+#include "source-input.h"
 #include <recon.h>
 
 int initializer_runtime_override; /* original 0x9157c */
@@ -13,6 +14,8 @@ unsigned initializer_runtime_start; /* original 0x91594: offset before runtime f
 int initializer_value_error_reported; /* original 0xa0a84 */
 unsigned initializer_constructor_offset; /* original 0xa0a88 */
 unsigned initializer_constructor_count; /* original 0xa0a8c */
+LocalStaticGuardState *active_local_static_guard = &local_static_guard; /* original 0x9fc88 */
+IrToken *local_static_guard_label; /* original 0x91580 */
 
 /* Original [0x482f0,0x4833a). A direct class object needs construction unless
    its constructor, copy constructor and destructor are all trivial. */
@@ -26,6 +29,99 @@ CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol)
     trivial = tag->detail.class_info->trivial_special_members;
     if ((trivial & 13) == 13) return 0;
     return tag;
+}
+
+/* Original [0x47ef0,0x47f80). The temporary unqualified type is restored
+   after the constructor expression is emitted, before local-static cleanup. */
+void __stdcall initialize_class_object(CppSymbol *symbol, IrToken *value)
+{
+    CppSymbol *tag = symbol_construction_class(symbol);
+    CType *saved_type = symbol->type;
+    IrToken *arguments, *object, *call;
+    symbol->attributes &= ~4UL;
+    begin_runtime_initializer(symbol);
+    arguments = prepare_constructor_arguments(tag, value);
+    symbol->type = remove_type_qualifiers(symbol->type, 0x3000);
+    object = builtin_unary_expression(0x3a, resolve_symbol_expression(symbol));
+    call = make_object_constructor_call(0, 0, 0, symbol, arguments, object, 0);
+    emit_expression_statement(prepare_expression(call, 2));
+    symbol->type = saved_type;
+    if ((token_allocation_flags & 0x80000) && !(token_allocation_flags & 0x40) &&
+        (symbol->storage[0] & 7) == 3)
+        finish_local_static_initialization(symbol);
+}
+
+/* Original [0x47f80,0x47fca). Global initializers get a generated function;
+   block statics use its separately represented guard setup instead. */
+void __stdcall begin_runtime_initializer(CppSymbol *symbol)
+{
+    if (!(token_allocation_flags & 0x40) && !(token_allocation_flags & 0x80000))
+        begin_initializer_function(0);
+    else
+        guard_local_static_initialization(symbol);
+    token_allocation_flags |= 0x200000;
+    if (token_allocation_flags & 0x40) record_line_information(1);
+    symbol->declaration_flags |= 4;
+}
+
+/* Original [0x47fd0,0x480e2). The low byte of the shared state word packs
+   eight object guards; its upper bytes retain the reset-only interpretation.
+   A new guard symbol is allocated when all eight bits have been consumed. */
+void __stdcall guard_local_static_initialization(CppSymbol *symbol)
+{
+    CppSymbol *guard;
+    IrToken *value, *object, *label;
+    unsigned char *mask;
+    if ((token_allocation_flags & 0x80000) && (symbol->storage[0] & 7) == 3 &&
+        !(token_allocation_flags & 0x40)) {
+        active_local_static_guard = &local_static_guard;
+        if (!local_static_guard.guard) {
+            ++local_static_guard.count;
+            guard = create_generated_object(3, type_4041_q1);
+            active_local_static_guard->guard = guard;
+            *(unsigned char *)&active_local_static_guard->state = 1;
+        }
+        local_static_guard_label = new_branch_label(0x1e);
+        integer_constant_scratch = *(unsigned char *)&active_local_static_guard->state;
+        label = local_static_guard_label;
+        value = new_literal_constant(7, &integer_constant_scratch);
+        object = symbol_reference(active_local_static_guard->guard);
+        object = indirect_storage_expression(object);
+        value = builtin_binary_expression(0x3a, object, value);
+        emit_condition_to_label(value, label, 1);
+        integer_constant_scratch = *(unsigned char *)&active_local_static_guard->state;
+        value = new_literal_constant(7, &integer_constant_scratch);
+        object = symbol_reference(active_local_static_guard->guard);
+        object = indirect_storage_expression(object);
+        value = builtin_binary_expression(0x57, object, value);
+        emit_expression_statement(value);
+        mask = (unsigned char *)&active_local_static_guard->state;
+        *mask = (unsigned char)(*mask << 1);
+        if (!*mask) active_local_static_guard->guard = 0;
+    }
+}
+
+/* Original [0x3b060,0x3b0c1). Reuse arguments already packaged by a
+   constructor expression for this class; otherwise form a one-item list. */
+IrToken *__stdcall prepare_constructor_arguments(CppSymbol *tag, IrToken *value)
+{
+    IrToken *callee, *reference;
+    CppSymbol *constructor;
+    if (!value) return 0;
+    if ((tag->declaration_flags & 0x1000) && value->kind != 0x6a) {
+        if (value->kind == 0x7a) {
+            callee = value->value.pointer;
+            if (callee->kind == 0xa4) {
+                reference = callee->value.pointer;
+                constructor = reference->value.pointer;
+                if ((constructor->declaration_flags & 0x1000) &&
+                    tag == cpp_context_stack->items[constructor->auxiliary.declaring_class])
+                    return value->tail.right;
+            }
+        }
+        value = append_expression(0, value, 2);
+    }
+    return value;
 }
 
 /* Original 0x46160..0x461d9. The native EAX remains the incoming symbol

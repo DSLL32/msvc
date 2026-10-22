@@ -216,6 +216,18 @@ TypeDescription *__stdcall copy_type_description(CType *type)
     return description;
 }
 
+/* Original [0x50e70,0x50e95). Intern an unqualified description and
+   release exactly the temporary description-stack entry used for the copy. */
+CType *__stdcall remove_type_qualifiers(CType *type, unsigned short qualifiers)
+{
+    TypeDescription *description = copy_type_description(type);
+    CType *result;
+    description->attributes &= ~qualifiers;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}
+
 /* Original 0x626e0..0x62722. Prepend and intern a qualified shape. */
 CType *__stdcall make_qualified_type(CType *base, unsigned short kind,
                                      unsigned short attributes, void *parameter)

@@ -26,6 +26,8 @@ typedef struct LocalStaticGuardState {
 } LocalStaticGuardState;
 typedef char LocalStaticGuardStateSizeMustBe12[(sizeof(LocalStaticGuardState) == 12) ? 1 : -1];
 extern LocalStaticGuardState local_static_guard;
+extern LocalStaticGuardState *active_local_static_guard;
+extern IrToken *local_static_guard_label;
 extern int default_inline_candidate;
 extern IrToken *function_exit_label;
 extern unsigned function_expression_sequence;

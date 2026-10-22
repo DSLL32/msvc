@@ -32,6 +32,7 @@ def main():
     parser.add_argument('--candidate',required=True)
     parser.add_argument('--original',type=Path)
     parser.add_argument('--native',type=Path)
+    parser.add_argument('--build-timing',type=Path)
     args=parser.parse_args()
     started=time.perf_counter()
     config_path=BINARY/'functions.json'
@@ -78,6 +79,8 @@ def main():
         for filename in names:
             path=directory/filename
             if path.exists():shutil.copyfile(path,record/(label+'-'+filename))
+    if args.build_timing:
+        shutil.copyfile(args.build_timing,record/'build-timing.json')
     (record/'outputs').mkdir()
     for filename,data in expected.items():(record/'outputs'/filename).write_bytes(data)
     relative=lambda p:str(p.relative_to(BINARY))
@@ -101,6 +104,7 @@ def main():
     reference['reference_receipt_sha256']=sha(record/'original-receipt.json')
     reference['canonical_map_sha256']=sha(snapshot)
     reference['capture_seconds']=original['capture_seconds']
+    reference['scope']='%d accepted frontiers; explicit original-backed current partial frontend terminal'%len(config['accepted'])
     for output in reference['outputs']:
         path=BINARY/'cases/native-cpp-basic'/output['path']
         path.write_bytes(expected[output['path']])
@@ -117,6 +121,28 @@ def main():
         pending_buffers=len(buffers),checkpoint_fields=len(states),fixture_seconds=time.perf_counter()-checked,
         total_operation_seconds=time.perf_counter()-started,original_capture_seconds=original['capture_seconds'])
     (record/'validation.json').write_text(json.dumps(report,indent=2)+'\n')
+    cache=json.loads((BINARY/'cases/native-traces.json').read_text())
+    application_count=len(cache['accepted_application'])
+    current_path=BINARY/'validation.json'
+    current=json.loads(current_path.read_text())
+    current.update(accepted_frontiers=len(config['accepted']),driver_functions=application_count,
+        reconstructed_source_functions=application_count+current['older_crt_functions'],
+        current_frontier=original['terminal'],
+        original_frontier_va=hex(next(r['start'] for r in config['driver'] if r['name']==original['terminal'])),
+        current_native_application_entries=len(cache['cases']['cpp_basic']['expected']),
+        latest_verification=relative(record/'validation.json'))
+    current['graceful_pause']['paused']=False
+    current_path.write_text(json.dumps(current,indent=2)+'\n')
+    readme_path=BINARY/'README.txt'
+    readme=readme_path.read_text()
+    readme=re.sub(r'PARTIAL reconstruction: \d+ accepted frontiers, including \d+ frontend',
+        'PARTIAL reconstruction: %d accepted frontiers, including %d frontend'%(len(config['accepted']),application_count),readme,count=1)
+    readme=re.sub(r'trap is _[A-Za-z_0-9@]+ at original VA 0x[0-9a-f]+\.',
+        'trap is %s at original VA %s.'%(original['terminal'],current['original_frontier_va']),readme,count=1)
+    readme=re.sub(r'all \d+ application definitions','all %d application definitions'%len(cache['application_definitions']),readme,count=1)
+    readme=re.sub(r'case expects \d+ first\nentries: \d+ accepted frontend functions plus [A-Za-z_0-9]+',
+        'case expects %d first\nentries: %d accepted frontend functions plus %s'%(len(cache['cases']['cpp_basic']['expected']),application_count,trace.native_name(original['terminal'])),readme,count=1)
+    readme_path.write_text(readme)
     print(args.candidate+' -> '+original['terminal'])
     print(record/'validation.json')
 

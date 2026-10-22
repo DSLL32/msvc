@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 535,
-  "driver_functions": 455,
+  "accepted_frontiers": 542,
+  "driver_functions": 462,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 462,
-  "current_frontier": "_symbol_construction_class@4",
-  "original_frontier_va": "0x482f0",
+  "reconstructed_source_functions": 469,
+  "current_frontier": "_requires_address_temporary@4",
+  "original_frontier_va": "0x5d8b0",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 462,
+  "call_graph_audit_functions": 469,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -1133,19 +1133,11 @@
     "no_frontend_output_normalization": true
   },
   "graceful_pause": {
-    "requested": true,
-    "paused": true,
+    "requested": false,
+    "paused": false,
     "complete": false,
-    "current_frontier": "_symbol_construction_class@4",
-    "original_va": "0x482f0",
-    "new_accepted_function": "_initialize_object_value@8",
-    "new_function_range": [
-      "0x462c0",
-      "0x46589"
-    ],
-    "accepted_functions_this_trial": 1,
-    "pending_function_edits": false,
-    "resume": "Only on explicit instruction: reconstruct symbol_construction_class@4 in existing cpp_basic case."
+    "current_frontier": "_requires_address_temporary@4",
+    "original_va": "0x5d8b0"
   },
   "source_layout": {
     "source": "src",
@@ -1171,7 +1163,27 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 456,
-  "latest_verification": "cases/object-initializer-trial/validation.json",
-  "historical_original_full_replay_frontiers": 534
+  "current_native_application_entries": 463,
+  "latest_verification": "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/validation.json",
+  "historical_original_full_replay_frontiers": 534,
+  "active_queue": [
+    "finish cpp_basic",
+    "inheritance and virtual dispatch",
+    "copy construction and assignment",
+    "destruction and new/delete/operator cases"
+  ],
+  "coverage": {
+    "accepted_code_bytes": 179304,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 37.635857587244814,
+    "accepted_frontiers": 542,
+    "source_functions": 469,
+    "accepted_source_text_and_switch_bytes": 168861,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  }
 }

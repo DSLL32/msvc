@@ -1,7 +1,24 @@
 /* Builtin C++ operator candidates and their operand type patterns. */
 #include "operators.h"
 #include "keywords.h"
+#include "lexer.h"
 #include <recon.h>
+
+/* Original [0x61540,0x615dc). Some class operations have a builtin form
+   even after overload lookup fails; token categories supply the remainder. */
+int __stdcall operator_has_builtin_fallback(unsigned char operation, unsigned char arity,
+    unsigned classification)
+{
+    if (arity == 1) {
+        if (operation == OP_BIT_AND || operation == OP_CALL) return 1;
+        return token_categories[operation] == 0x46;
+    }
+    if (arity != 2) return 1;
+    if (operation == OP_ASSIGN || operation == 0x3f || operation == 0x40 ||
+        operation == 0x7e) return 1;
+    if (operation == 0x5f) return classification == 0;
+    return token_categories[operation] == 0x9f;
+}
 
 /* The pattern flag words are replaced in place by interned descriptors at
    initialization, matching the mutable operand union in the original table. */
