@@ -40,9 +40,11 @@ STATE = [
     ('_pch_rebuild_on_macro_change', 0x6de28, 4),
     ('_conditional_branch_state', 0x638a0, 128),
     ('_macro_parameter_count', 0x63940, 4),
+    ('_macro_space_seen', 0x63928, 4),
     ('_preprocessor_expression_token', 0x6a7b0, 1),
     ('_preprocessor_parentheses', 0x6a7b4, 4),
     ('_pp_unevaluated_depth', 0x64d78, 4),
+    ('_preprocessor_literal', 0x64d7c, 8),
     ('_lexer_text_storage', 0x5b158, 132),
     ('_lexer_text_storage', 0x5b1d8, 4, 128),
 ]

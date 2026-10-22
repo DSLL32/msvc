@@ -906,3 +906,20 @@ following_star:
     } else if (!character) recover_special_character();
     goto next_character;
 }
+
+/* Original 0x21290..0x212e7. Leave the terminating newline for the
+   caller while handling comments, buffer boundaries, and lead-byte pairs. */
+void skip_source_line(void)
+{
+    unsigned char character, class;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        class = character_class[character];
+        switch (class) {
+        case CC_SLASH: skip_source_comment(); break;
+        case CC_ESCAPE_OR_END: recover_special_character(); break;
+        case CC_NEWLINE: --source_text_cursor; return;
+        case CC_LEAD_BYTE: ++source_text_cursor; break;
+        }
+    }
+}

@@ -5,6 +5,8 @@
 #include "macros.h"
 #include "keywords.h"
 #include "characters.h"
+#include "lexer.h"
+#include "source-input.h"
 
 char *name_defined, *name_formal, *name_ellipsis, *name_cast;
 char *name_main, *name_winmain, *name_dllmain, *name_alignment;
@@ -123,7 +125,7 @@ char *__stdcall format_timestamp(long timestamp)
 
 MacroDefinition **macro_buckets; /* original 0x6b644 */
 unsigned macro_work_bytes = 0xf000; /* original 0x6bff4 */
-char *macro_work_buffer, *macro_work_midpoint; /* 0x6078c / 0x63898 */
+char *macro_work_buffer, *macro_expansion_next; /* 0x6078c / 0x63898 */
 char *macro_replacement_start; /* original 0x63934 */
 char *macro_expansion_start; /* original 0x63938 */
 char *macro_replacement_text; /* original 0x6393c */
@@ -138,8 +140,8 @@ void initialize_macro_storage(void)
         macro_work_bytes >>= 1;
         macro_work_buffer = retry_malloc(macro_work_bytes);
     }
-    macro_work_midpoint = macro_work_buffer + (macro_work_bytes >> 1);
-    macro_replacement_start = macro_work_midpoint;
+    macro_expansion_next = macro_work_buffer + (macro_work_bytes >> 1);
+    macro_replacement_start = macro_expansion_next;
     macro_expansion_start = macro_work_buffer;
 }
 
@@ -249,4 +251,46 @@ void __stdcall define_command_line_macro(char *definition)
         define_macro(0, 0, 0);
     if (equals)
         *equals = '=';
+}
+
+int macro_space_seen; /* original 0x63928 */
+
+/* Original 0x1dff0..0x1e0fb. Preserve a single separating space in the
+   macro output cursor while inspecting input without consuming its token. */
+int skip_macro_space(void)
+{
+    unsigned flags;
+    unsigned char character, class;
+    int result = 0;
+    scanner_flags &= ~0x800000UL;
+    macro_space_seen = 0;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        class = character_class[character];
+        if (class <= CC_CARRIAGE_RETURN) macro_space_seen = 1;
+        else if (class == CC_ESCAPE_OR_END) {
+            flags = recover_special_character();
+            if (flags & 0xa) break;
+            if (flags & ~0x50U) continue;
+            --source_text_cursor;
+            result = 1;
+            break;
+        } else if (class == CC_NEWLINE) {
+            if (scanner_flags & 0x10000) { --source_text_cursor; break; }
+            ++source_line_number;
+            if (options.option_E) fputc((unsigned char)source_text_cursor[-1], preprocessor_stream);
+            scanner_flags |= 0x800000;
+            macro_space_seen = 1;
+        } else {
+            --source_text_cursor;
+            result = 1;
+            break;
+        }
+    }
+    if (macro_space_seen) {
+        if (macro_work_buffer + macro_work_bytes - 5 <= macro_expansion_next)
+            macro_scan_error(56);
+        if (macro_expansion_next[-1] != ' ') *macro_expansion_next++ = ' ';
+    }
+    return result;
 }

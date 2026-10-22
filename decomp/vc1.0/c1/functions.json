@@ -284,7 +284,22 @@
     "_evaluate_preprocessor_expression",
     "_parse_pp_conditional",
     "_parse_pp_logical_or",
-    "_parse_pp_logical_and"
+    "_parse_pp_logical_and",
+    "_parse_pp_bitwise_or",
+    "_parse_pp_bitwise_xor",
+    "_parse_pp_bitwise_and",
+    "_parse_pp_equality",
+    "_parse_pp_relational",
+    "_parse_pp_shift",
+    "_parse_pp_additive",
+    "_parse_pp_multiplicative",
+    "_parse_pp_unary",
+    "_accept_pp_token@4",
+    "_evaluate_defined_operator@4",
+    "_skip_macro_space",
+    "_parse_pp_primary",
+    "_apply_pp_operator@12",
+    "_skip_source_line"
   ],
   "driver": [
     {
@@ -1087,7 +1102,7 @@
     {
       "name": "_skip_source_line",
       "start": 135824,
-      "end": 135825
+      "end": 135911
     },
     {
       "name": "_copy_quoted_literal@4",
@@ -2405,7 +2420,7 @@
     {
       "name": "_accept_pp_token@4",
       "start": 98624,
-      "end": 98625
+      "end": 98883
     },
     {
       "name": "_parse_pp_logical_and",
@@ -2415,12 +2430,77 @@
     {
       "name": "_apply_pp_operator@12",
       "start": 98896,
-      "end": 98897
+      "end": 99964
     },
     {
       "name": "_parse_pp_bitwise_or",
       "start": 100368,
       "end": 100418
+    },
+    {
+      "name": "_parse_pp_bitwise_xor",
+      "start": 100432,
+      "end": 100482
+    },
+    {
+      "name": "_parse_pp_bitwise_and",
+      "start": 100496,
+      "end": 100546
+    },
+    {
+      "name": "_parse_pp_equality",
+      "start": 100560,
+      "end": 100628
+    },
+    {
+      "name": "_parse_pp_relational",
+      "start": 100640,
+      "end": 100767
+    },
+    {
+      "name": "_parse_pp_shift",
+      "start": 100768,
+      "end": 100836
+    },
+    {
+      "name": "_parse_pp_additive",
+      "start": 100848,
+      "end": 100943
+    },
+    {
+      "name": "_parse_pp_multiplicative",
+      "start": 100944,
+      "end": 101039
+    },
+    {
+      "name": "_parse_pp_unary",
+      "start": 101040,
+      "end": 101168
+    },
+    {
+      "name": "_parse_pp_primary",
+      "start": 101168,
+      "end": 101315
+    },
+    {
+      "name": "_evaluate_defined_operator@4",
+      "start": 135424,
+      "end": 135810
+    },
+    {
+      "name": "_skip_macro_space",
+      "start": 122864,
+      "end": 123131
+    },
+    {
+      "name": "_scan_macro_argument_identifier@4",
+      "start": 122352,
+      "end": 122353
+    },
+    {
+      "name": "_macro_scan_error@4",
+      "start": 123136,
+      "end": 123162
     }
   ],
   "cases": {

@@ -10,13 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 200 reconstructed source functions
-and 280 accepted frontiers. The case opens the original SDK's windows.h,
-reads its include guard and empty macro definition, skips its inactive
-RC_INVOKED block, and enters the #if expression parser. Its current matching
-trap is parse_pp_bitwise_or, original VA 0x18810. All 22 new frontiers and all 258
-minimal-C frontiers replay successfully with exact pending-buffer/visible-file
-checks. Minimal-C still completes with the captured raw files.
+hello.c frontend invocation. There are now 215 reconstructed source functions
+and 295 accepted frontiers. The case opens the original SDK's windows.h,
+reads its include guard, skips inactive source, and evaluates the architecture
+selection #if expressions. Its current matching trap is expand_macro at
+original VA 0x1d040 while reading the _MSC_VER condition. All 37 hello frontiers
+replay successfully with exact pending-buffer/visible-file checks. The earlier
+200-function checkpoint also replayed all 258 minimal-C frontiers; its current
+regression still completes with all four captured raw files.
 
 Build and differential workflow
 -------------------------------
@@ -72,7 +73,8 @@ preprocessor-directives.c: directive classification/dispatch, conditional
   state, skipped source, source macro definitions, and include filename/search
   handling.
 pch.c: precompiled-header include-event playback and ownership state.
-pp-expression.c: separate preprocessor expression parser and evaluation state.
+pp-expression.c: separate preprocessor expression parser, defined operator, integer
+  evaluation, short-circuit state, and evaluator arena constants.
 preprocessor.c / keywords.c: identifier/keyword interning and vocabulary.
 lexer.c / token-data.c / tokens.h: token pushback, lexical source dispatch,
   line beginnings, and named token categories.
@@ -126,7 +128,7 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 39 encountered
+audit-state.py checks the initial bytes and address aliases of 41 encountered
 frontend state objects, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
 for verification only; reconstructed code does not load original image data.

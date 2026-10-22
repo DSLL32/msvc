@@ -139,7 +139,6 @@ int consume_line_escape(void) { __asm { int 3 } return 0; }
 
 
 
-void skip_source_line(void) { __asm { int 3 } }
 
 void __stdcall copy_quoted_literal(int delimiter) { __asm { int 3 } }
 
@@ -587,8 +586,19 @@ unsigned read_macro_replacement(void) { __asm { int 3 } return 0; }
 void __stdcall skip_inactive_literal(int delimiter) { __asm { int 3 } }
 
 
-int __stdcall accept_pp_token(unsigned char expected) { __asm { int 3 } return 0; }
 
-PreprocessorValue *__stdcall apply_pp_operator(unsigned char operation, PreprocessorValue *left, PreprocessorValue *right) { __asm { int 3 } return 0; }
 
-PreprocessorValue *parse_pp_bitwise_or(void) { __asm { int 3 } return 0; }
+
+
+
+
+
+
+
+
+
+
+
+void __stdcall scan_macro_argument_identifier(int first_character) { __asm { int 3 } }
+
+void __stdcall macro_scan_error(unsigned code) { __asm { int 3 } }

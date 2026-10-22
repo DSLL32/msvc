@@ -19,4 +19,25 @@ PreprocessorValue *__stdcall apply_pp_operator(unsigned char operation, Preproce
 
 PreprocessorValue *parse_pp_bitwise_or(void);
 
+PreprocessorValue *parse_pp_bitwise_xor(void);
+
+PreprocessorValue *parse_pp_bitwise_and(void);
+
+PreprocessorValue *parse_pp_equality(void);
+
+PreprocessorValue *parse_pp_relational(void);
+
+PreprocessorValue *parse_pp_shift(void);
+
+PreprocessorValue *parse_pp_additive(void);
+
+PreprocessorValue *parse_pp_multiplicative(void);
+
+PreprocessorValue *parse_pp_unary(void);
+
+PreprocessorValue *parse_pp_primary(void);
+
+extern PreprocessorValue preprocessor_literal;
+int __stdcall evaluate_defined_operator(char *name);
+
 #endif

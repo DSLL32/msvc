@@ -53,4 +53,10 @@ unsigned char find_conditional_directive(void);
 
 void __stdcall skip_inactive_literal(int delimiter);
 
+int skip_macro_space(void);
+void __stdcall scan_macro_argument_identifier(int first_character);
+
+extern int macro_space_seen;
+void __stdcall macro_scan_error(unsigned code);
+
 #endif

@@ -92,7 +92,6 @@ extern TypeShape *declaration_shapes[60];
 unsigned char __stdcall lookup_identifier_token(FrontendSymbol *explicit_symbol);
 
 /* Semantic routines retain their individual original entry points. */
-unsigned char read_parser_token(void);
 CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags, unsigned short added);
 unsigned char __stdcall read_tag_specifier(unsigned short kind, unsigned short *attributes);
 CType *__stdcall merge_named_type(FrontendSymbol *symbol, unsigned short *flags, unsigned short *attributes);

@@ -16,7 +16,7 @@ typedef struct MacroDefinition {
 } MacroDefinition;
 extern MacroDefinition **macro_buckets;
 extern unsigned macro_work_bytes;
-extern char *macro_work_buffer, *macro_work_midpoint;
+extern char *macro_work_buffer, *macro_expansion_next;
 extern char *macro_replacement_start, *macro_expansion_start, *macro_replacement_text;
 extern short include_depth;
 extern char macro_timestamp[26];

@@ -75,4 +75,6 @@ void skip_line_comment(void);
 void copy_block_comment(void);
 void skip_block_comment(void);
 
+unsigned char read_parser_token(void);
+
 #endif
