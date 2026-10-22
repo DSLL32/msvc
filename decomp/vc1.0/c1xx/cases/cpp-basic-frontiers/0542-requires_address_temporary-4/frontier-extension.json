@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 542,
+  "accepted": "_requires_address_temporary@4",
+  "terminal": "_make_object_constructor_call@28",
+  "original_capture": "cases/cpp-basic-frontiers/0542-requires_address_temporary-4/original-receipt.json",
+  "original_capture_sha256": "a53ce345feb858a437cec7ca87ab14deb253db5383839faf26172970ceeaf5a7",
+  "original_events": "cases/cpp-basic-frontiers/0542-requires_address_temporary-4/original-events.txt",
+  "original_events_sha256": "3b35ff8d3ddbf0405b2711a2a238eb6eaeb78a0668937febc02bdcb7d9a118c4",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

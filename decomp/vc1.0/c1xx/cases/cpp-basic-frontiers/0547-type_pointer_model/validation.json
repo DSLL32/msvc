@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_type_pointer_model",
+    "start": 228192,
+    "end": 228303
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_make_size_constant@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.19506788533180952,
+  "total_operation_seconds": 3.756255845539272,
+  "original_capture_seconds": 2.9219801649451256
+}

@@ -546,7 +546,13 @@
     "_guard_local_static_initialization@4",
     "_prepare_constructor_arguments@8",
     "_remove_type_qualifiers@8",
-    "_operator_has_builtin_fallback@12"
+    "_operator_has_builtin_fallback@12",
+    "_requires_address_temporary@4",
+    "_make_object_constructor_call@28",
+    "_make_pointer_to_type@8",
+    "_has_class_initialization@4",
+    "_has_special_member_model@8",
+    "_type_pointer_model"
   ],
   "driver": [
     {
@@ -4199,7 +4205,7 @@
     {
       "name": "_requires_address_temporary@4",
       "start": 383152,
-      "end": 383153
+      "end": 383262
     },
     {
       "name": "_make_address_temporary@4",
@@ -5271,7 +5277,7 @@
     {
       "name": "_make_object_constructor_call@28",
       "start": 325872,
-      "end": 325873
+      "end": 327412
     },
     {
       "name": "_finish_local_static_initialization@4",
@@ -5292,14 +5298,59 @@
       "name": "_create_generated_object@8",
       "start": 248688,
       "end": 248689
+    },
+    {
+      "name": "_make_size_constant@4",
+      "start": 182224,
+      "end": 182225
+    },
+    {
+      "name": "_make_pointer_to_type@8",
+      "start": 403296,
+      "end": 403460
+    },
+    {
+      "name": "_lookup_destructor_member@4",
+      "start": 231264,
+      "end": 231265
+    },
+    {
+      "name": "_lookup_vector_delete_destructor@4",
+      "start": 231296,
+      "end": 231297
+    },
+    {
+      "name": "_initialize_allocated_scalar@8",
+      "start": 327424,
+      "end": 327425
+    },
+    {
+      "name": "_initialize_allocated_class@16",
+      "start": 327600,
+      "end": 327601
+    },
+    {
+      "name": "_initialize_allocated_array@20",
+      "start": 327728,
+      "end": 327729
+    },
+    {
+      "name": "_has_special_member_model@8",
+      "start": 228304,
+      "end": 228361
+    },
+    {
+      "name": "_type_pointer_model",
+      "start": 228192,
+      "end": 228303
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_requires_address_temporary@4",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/original-events.txt",
+      "terminal": "_make_size_constant@4",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0547-type_pointer_model/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5308,7 +5359,13 @@
         "cases/cpp-basic-frontiers/0538-guard_local_static_initialization-4/frontier-extension.json",
         "cases/cpp-basic-frontiers/0539-prepare_constructor_arguments-8/frontier-extension.json",
         "cases/cpp-basic-frontiers/0540-remove_type_qualifiers-8/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0542-requires_address_temporary-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0543-make_object_constructor_call-28/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0544-make_pointer_to_type-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0545-has_class_initialization-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0546-has_special_member_model-8/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0547-type_pointer_model/frontier-extension.json"
       ]
     }
   },
@@ -6990,6 +7047,18 @@
         {
           "name": "_initializer_constructor_count",
           "original": 658060,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_allocation_base_symbol",
+      "original": 658712,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_allocation_base_symbol",
+          "original": 658712,
           "bytes": 4
         }
       ]

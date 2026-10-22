@@ -25,7 +25,15 @@ int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *val
 void __stdcall emit_initializer_constant(IrToken *target);
 IrToken *__stdcall prepare_constructor_arguments(CppSymbol *tag, IrToken *value);
 IrToken *__stdcall make_object_constructor_call(unsigned char mode, unsigned short attributes,
-    IrToken *placement, CppSymbol *symbol, IrToken *arguments, IrToken *object, int flags);
+    IrToken *placement, CppSymbol *symbol, IrToken *arguments, IrToken *object, IrToken *array_bound);
+extern CppSymbol *allocation_base_symbol;
+CppSymbol *__stdcall lookup_destructor_member(CType *type);
+CppSymbol *__stdcall lookup_vector_delete_destructor(CType *type);
+IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer);
+IrToken *__stdcall initialize_allocated_class(int allocated, CppSymbol *tag,
+    IrToken *object, IrToken *arguments);
+IrToken *__stdcall initialize_allocated_array(IrToken *object, int allocated,
+    unsigned prefix_bytes, IrToken *element_count, int element_bytes);
 void __stdcall finish_local_static_initialization(CppSymbol *symbol);
 void __stdcall begin_initializer_function(CppSymbol *symbol);
 void __stdcall guard_local_static_initialization(CppSymbol *symbol);

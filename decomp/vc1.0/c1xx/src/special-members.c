@@ -431,3 +431,36 @@ void __stdcall declare_deleting_destructors(CppSymbol *tag)
         member = next;
     }
 }
+
+/* Original 0x37b30..0x37b3e. Constructor availability in the type's model. */
+int __stdcall has_class_initialization(CType *type)
+{
+    return has_special_member_model(type, 0);
+}
+
+/* Original 0x37bd0..0x37c08. Resolve the class and its effective pointer
+   model before testing one of the four special-member categories. */
+int __stdcall has_special_member_model(CType *type, unsigned char kind)
+{
+    CppSymbol *tag = cpp_context_stack->items[type->field08];
+    int model = special_member_model(type_pointer_model(type));
+    return find_special_member_model(tag, kind, model) != -1;
+}
+
+/* Original 0x37b60..0x37bce, cdecl with a sixteen-bit result. A leading
+   based modifier is ignored when choosing the effective pointer model. */
+unsigned short type_pointer_model(CType *type)
+{
+    TypeShape *shape = type->related;
+    CppSymbol *tag;
+    unsigned short model;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    model = (shape ? shape->attributes : type->attributes) & 7;
+    if (!model) {
+        tag = cpp_context_stack->items[type->field08];
+        if (tag && (tag->kind & 31) == 4)
+            return tag->detail.class_info->pointer_attributes;
+        model = (unsigned short)data_pointer_kind;
+    }
+    return model;
+}

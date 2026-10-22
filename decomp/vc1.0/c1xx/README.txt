@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 542 accepted frontiers, including 462 frontend
+PARTIAL reconstruction: 548 accepted frontiers, including 468 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _requires_address_temporary@4 at original VA 0x5d8b0. The latest ordered replay is recorded in validation.json;
+trap is _make_size_constant@4 at original VA 0x2c7d0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -29,9 +29,9 @@ check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
 functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 932 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 463 first
-entries: 462 accepted frontend functions plus requires_address_temporary, whose INT3
+projects that original history to all 941 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 469 first
+entries: 468 accepted frontend functions plus make_size_constant, whose INT3
 must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
 trial accepted initialize_object_value.
 
@@ -1130,3 +1130,17 @@ checkpoint matching. The active guard pointer starts at the existing shared
 12-byte guard object; this alias and its byte mask are audited. Coverage is
 179304/476418 original code bytes (37.635858%), not branch coverage. The next frontier is
 requires_address_temporary; cpp_basic remains incomplete.
+
+Constructor-dispatch checkpoint: 548 accepted frontiers, 475 source functions.
+The complete1540-byte allocation/object-construction dispatcher, pointer type
+creation, address-temporary predicate and class/model predicates pass fresh
+original/native comparisons (four pending buffers, fourteen state observations,
+streams and all visible files), canonical direct-call audits and cached native
+entry traces. Full475-function graph, contextual-data/defaults and both grammar
+audits pass. Accepted executable extent union is181301/476418bytes (38.055027%),
+not branch coverage. cpp_basic remains incomplete at make_size_constant@4.
+Per-function reference/native/debug/fixture timings and canonical/native build
+receipts are in cases/cpp-basic-frontiers/0542-* through0547-*. The dispatcher
+needed two missing stdcall declarations before canonical linking; no shared
+shim change was required. Original reference execution is explicit and remains
+outside the native fixture runs.

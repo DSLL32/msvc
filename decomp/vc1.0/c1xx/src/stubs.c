@@ -114,7 +114,6 @@ void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current,
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __asm { int 3 } return 0; }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
-int __stdcall has_class_initialization(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
 int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
@@ -201,8 +200,14 @@ void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) 
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
-IrToken *__stdcall make_object_constructor_call(unsigned char mode, unsigned short attributes,
-    IrToken *placement, CppSymbol *symbol, IrToken *arguments, IrToken *object, int flags) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_size_constant(unsigned value) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall lookup_vector_delete_destructor(CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
+IrToken *__stdcall initialize_allocated_class(int allocated, CppSymbol *tag,
+    IrToken *object, IrToken *arguments) { __asm { int 3 } return 0; }
+IrToken *__stdcall initialize_allocated_array(IrToken *object, int allocated,
+    unsigned prefix_bytes, IrToken *element_count, int element_bytes) { __asm { int 3 } return 0; }
 void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }
 IrToken *__stdcall prepare_constant_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 int __stdcall is_character_array_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
@@ -523,7 +528,6 @@ int __stdcall has_single_function(CppSymbol *symbol) { __asm { int 3 } return 0;
 CppSymbol *__stdcall find_expression_symbol(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall promote_arithmetic_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
-int __stdcall requires_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken * __stdcall fold_binary_constant(IrToken *expression, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }

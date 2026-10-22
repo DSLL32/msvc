@@ -3,6 +3,25 @@
 #include "unary-expressions.h"
 #include <recon.h>
 
+/* Original [0x5d8b0,0x5d91e). Taking the address of an adjusted this
+   subtraction needs a temporary in the special member-displacement mode. */
+int __stdcall requires_address_temporary(IrToken *expression)
+{
+    IrToken *operand, *reference;
+    CppSymbol *symbol;
+    if (expression->kind != OP_BIT_AND || (expression->flags & 7) != 1) return 0;
+    operand = expression->value.pointer;
+    if (operand->kind != OP_SUBTRACT) return 0;
+    operand = operand->value.pointer;
+    if (operand->kind != OP_DEREFERENCE) return 0;
+    reference = operand->value.pointer;
+    if (reference->kind != 2) return 0;
+    symbol = reference->value.pointer;
+    if (symbol->name != name_this || !function_symbol ||
+        (function_symbol->kind & 31) != 7) return 0;
+    return (function_symbol->cpp.parts.member_flags & 1) != 0 && function_symbol->field28 != 0;
+}
+
 /* Original 0x5f0f0..0x5f206. Try class operator lookup while temporarily
    permitting its evaluation context, diagnose a failed conversion when no
    builtin form is allowed, then dispatch the builtin unary operation. */

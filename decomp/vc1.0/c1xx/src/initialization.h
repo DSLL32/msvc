@@ -8,6 +8,7 @@ typedef struct WorkingStack {
     unsigned char *next, *read, *storage;
 } WorkingStack;
 typedef struct TypeShape TypeShape;
+IrToken *__stdcall make_size_constant(unsigned value);
 typedef struct TypeDescription {
     unsigned short flags, attributes;
     TypeShape *related;

@@ -378,3 +378,26 @@ CType *__stdcall dereference_pointer_type(CType *type)
     type->attributes = (type->attributes & 0xfff8) | (attributes & 15);
     return intern_type((TypeDescription *)type);
 }
+
+/* Original 0x62760..0x62803. Convert the outer pointer model into a shape,
+   retaining the requested descriptor bits separately from default resolution. */
+CType *__stdcall make_pointer_to_type(unsigned short attributes, CType *type)
+{
+    unsigned short original_attributes, requested, resolved;
+    TypeDescription *description;
+    int based = 0;
+    if (type->related && !(type->related->flags & 0x77))
+        type = drop_first_type_shape(type);
+    original_attributes = type->attributes;
+    requested = attributes & 7;
+    resolved = requested;
+    if (!resolved) resolved = normalize_type_attributes(1, 0);
+    if ((type->attributes ^ resolved) & 7) {
+        description = copy_type_description(type);
+        description->attributes = (description->attributes & 0xfff8) | requested;
+        type = intern_type(description);
+        --type_description_depth;
+    }
+    resolved = normalize_type_attributes(1, original_attributes & 7);
+    return make_qualified_type(type, 1, resolved, &based);
+}

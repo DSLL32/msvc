@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "0d567633bc0a479506be22e5182ab81da9e68b7fd0fa9384e47a67b91f60df7f",
+    "functions.json": "14bfaaa5bba66592d20f10d42a9986f50ae40dd9f6d6677162fdf6db5a350d69",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/native-cpp-basic/canonical-map.txt": "3b33f570977d56f1e03ee5aeaae34a49553720cb74622d36e438cd04bb1c3b49",
+    "cases/native-cpp-basic/canonical-map.txt": "d0bceef63913ebe10543b572053bba6af686c1b35cec5abd7646b244b2f24996",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -29,7 +29,25 @@
     "cases/cpp-basic-frontiers/0540-remove_type_qualifiers-8/original-events.txt": "5da22c6131a29cae744ce99ef6b3d8473429ad5d045c8e69ea4987ceafc28638",
     "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/frontier-extension.json": "a8c2fee03d491ce4a077c9b4339443dd538a196ae1a242c19ea69da590a3ca38",
     "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/original-receipt.json": "ce54aeaba83132b5aa3f2d13387f345c1dabef659f0cd2090521011e43dd9752",
-    "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/original-events.txt": "6ea303534bb6340e2062b8f3ddd0783f391ee9b488d35760277b88946a336689"
+    "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/original-events.txt": "6ea303534bb6340e2062b8f3ddd0783f391ee9b488d35760277b88946a336689",
+    "cases/cpp-basic-frontiers/0542-requires_address_temporary-4/frontier-extension.json": "d0e1b77b036d537a9cf41e0b35fdffeae63b2a374235895f6674965a43adb22f",
+    "cases/cpp-basic-frontiers/0542-requires_address_temporary-4/original-receipt.json": "a53ce345feb858a437cec7ca87ab14deb253db5383839faf26172970ceeaf5a7",
+    "cases/cpp-basic-frontiers/0542-requires_address_temporary-4/original-events.txt": "3b35ff8d3ddbf0405b2711a2a238eb6eaeb78a0668937febc02bdcb7d9a118c4",
+    "cases/cpp-basic-frontiers/0543-make_object_constructor_call-28/frontier-extension.json": "cc9afe74c9ef723da4658f919a9fd730366e5286bd3880b8508aae533612df18",
+    "cases/cpp-basic-frontiers/0543-make_object_constructor_call-28/original-receipt.json": "3048bf81204be0af45bf5294bbaf6aa93fe2e64ae7f5be991a5f1572a39e9a92",
+    "cases/cpp-basic-frontiers/0543-make_object_constructor_call-28/original-events.txt": "03e1f2574c2f3ca13294d38654b3c94a608c2c6cb0e79698d6004d26031cc32f",
+    "cases/cpp-basic-frontiers/0544-make_pointer_to_type-8/frontier-extension.json": "fa8360842fe1f04a1749587bf75af1ac5fb7160bfa8a52a3287757a830a4800f",
+    "cases/cpp-basic-frontiers/0544-make_pointer_to_type-8/original-receipt.json": "5eebf711dc825b9d9c736a9aa129e7d779dc2412f004e509282dd5c07a974f94",
+    "cases/cpp-basic-frontiers/0544-make_pointer_to_type-8/original-events.txt": "766fa1c41fd2f1c0464b76632835f916dbbace964cfac040340839b03f2f08b3",
+    "cases/cpp-basic-frontiers/0545-has_class_initialization-4/frontier-extension.json": "edf21d0015d0d61262168c17ee66c595b4624b4d63ce6bc0fe47bee292094652",
+    "cases/cpp-basic-frontiers/0545-has_class_initialization-4/original-receipt.json": "b28ec39d7ce9bf9be5aacc914c1ec1714991b27978aaffc43ea7a55b7bc2350e",
+    "cases/cpp-basic-frontiers/0545-has_class_initialization-4/original-events.txt": "a14d321c44e70a4bc5c2a05e331bc96195516aeb0ff98bac2f8ea6e2bcf92779",
+    "cases/cpp-basic-frontiers/0546-has_special_member_model-8/frontier-extension.json": "b29d9f61c71e052628104312f55aed73fc4e0d725384be8af7ac658a32113da3",
+    "cases/cpp-basic-frontiers/0546-has_special_member_model-8/original-receipt.json": "ba1a0b9de68f275138eb33bbcc323d84e1b0132b313e8be59f89d3d71412e3ee",
+    "cases/cpp-basic-frontiers/0546-has_special_member_model-8/original-events.txt": "20ef38b028911e3277903b4bcc91fc695e9a4a63c8ba0a73ff15f08979cefeb8",
+    "cases/cpp-basic-frontiers/0547-type_pointer_model/frontier-extension.json": "116863a01c16a1f9b0ad826f328def3d70bb875aadd5bcf7f2f218eb590807b4",
+    "cases/cpp-basic-frontiers/0547-type_pointer_model/original-receipt.json": "dc26eb80632477ad4dea8649db85cd46aa46ea5807eea31d1abcfef25a0c7873",
+    "cases/cpp-basic-frontiers/0547-type_pointer_model/original-events.txt": "c0d774567a0c1b48c0539a8df32602fa58ba15756f8397f2cec7167a38880846"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1830,7 +1848,7 @@
     },
     "has_class_initialization": {
       "logical": "_has_class_initialization@4",
-      "source": "src/stubs.c"
+      "source": "src/special-members.c"
     },
     "has_cv_qualifiers": {
       "logical": "_has_cv_qualifiers@4",
@@ -1863,6 +1881,10 @@
     "has_single_function": {
       "logical": "_has_single_function@4",
       "source": "src/stubs.c"
+    },
+    "has_special_member_model": {
+      "logical": "_has_special_member_model@8",
+      "source": "src/special-members.c"
     },
     "has_unresolved_labels": {
       "logical": "_has_unresolved_labels",
@@ -1919,6 +1941,18 @@
     "inherited_symbol_expression": {
       "logical": "_inherited_symbol_expression@8",
       "source": "src/identifier-expressions.c"
+    },
+    "initialize_allocated_array": {
+      "logical": "_initialize_allocated_array@20",
+      "source": "src/stubs.c"
+    },
+    "initialize_allocated_class": {
+      "logical": "_initialize_allocated_class@16",
+      "source": "src/stubs.c"
+    },
+    "initialize_allocated_scalar": {
+      "logical": "_initialize_allocated_scalar@8",
+      "source": "src/stubs.c"
     },
     "initialize_allocation_operators": {
       "logical": "_initialize_allocation_operators",
@@ -2220,6 +2254,10 @@
       "logical": "_lookup_declaration@4",
       "source": "src/declaration-lookup.c"
     },
+    "lookup_destructor_member": {
+      "logical": "_lookup_destructor_member@4",
+      "source": "src/stubs.c"
+    },
     "lookup_macro": {
       "logical": "_lookup_macro",
       "source": "src/macros.c"
@@ -2250,6 +2288,10 @@
     },
     "lookup_tag_name": {
       "logical": "_lookup_tag_name@4",
+      "source": "src/stubs.c"
+    },
+    "lookup_vector_delete_destructor": {
+      "logical": "_lookup_vector_delete_destructor@4",
       "source": "src/stubs.c"
     },
     "macro_replacement_diff": {
@@ -2334,15 +2376,23 @@
     },
     "make_object_constructor_call": {
       "logical": "_make_object_constructor_call@28",
-      "source": "src/stubs.c"
+      "source": "src/allocation-expressions.c"
     },
     "make_overload_symbol": {
       "logical": "_make_overload_symbol@4",
       "source": "src/declaration-lookup.c"
     },
+    "make_pointer_to_type": {
+      "logical": "_make_pointer_to_type@8",
+      "source": "src/types.c"
+    },
     "make_qualified_type": {
       "logical": "_make_qualified_type@16",
       "source": "src/types.c"
+    },
+    "make_size_constant": {
+      "logical": "_make_size_constant@4",
+      "source": "src/stubs.c"
     },
     "make_subobject_pointer": {
       "logical": "_make_subobject_pointer@12",
@@ -3230,7 +3280,7 @@
     },
     "requires_address_temporary": {
       "logical": "_requires_address_temporary@4",
-      "source": "src/stubs.c"
+      "source": "src/unary-expressions.c"
     },
     "reserve_type_diagnostic": {
       "logical": "_reserve_type_diagnostic",
@@ -3603,6 +3653,10 @@
     "type_kind_name": {
       "logical": "_type_kind_name@4",
       "source": "src/stubs.c"
+    },
+    "type_pointer_model": {
+      "logical": "_type_pointer_model",
+      "source": "src/special-members.c"
     },
     "type_qualifiers": {
       "logical": "_type_qualifiers@4",
@@ -4223,7 +4277,13 @@
     "guard_local_static_initialization",
     "prepare_constructor_arguments",
     "remove_type_qualifiers",
-    "operator_has_builtin_fallback"
+    "operator_has_builtin_fallback",
+    "requires_address_temporary",
+    "make_object_constructor_call",
+    "make_pointer_to_type",
+    "has_class_initialization",
+    "has_special_member_model",
+    "type_pointer_model"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4314,7 +4374,7 @@
   "cases": {
     "cpp_basic": {
       "first": 0,
-      "last": 542,
+      "last": 548,
       "seen": [],
       "expected": [
         "main",
@@ -4779,12 +4839,18 @@
         "prepare_constructor_arguments",
         "remove_type_qualifiers",
         "operator_has_builtin_fallback",
-        "requires_address_temporary"
+        "requires_address_temporary",
+        "make_object_constructor_call",
+        "make_pointer_to_type",
+        "has_class_initialization",
+        "has_special_member_model",
+        "type_pointer_model",
+        "make_size_constant"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_requires_address_temporary@4",
-        "native": "requires_address_temporary",
+        "logical": "_make_size_constant@4",
+        "native": "make_size_constant",
         "signal": 5
       }
     }

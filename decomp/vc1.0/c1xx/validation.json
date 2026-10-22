@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 542,
-  "driver_functions": 462,
+  "accepted_frontiers": 548,
+  "driver_functions": 468,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 469,
-  "current_frontier": "_requires_address_temporary@4",
-  "original_frontier_va": "0x5d8b0",
+  "reconstructed_source_functions": 475,
+  "current_frontier": "_make_size_constant@4",
+  "original_frontier_va": "0x2c7d0",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 469,
+  "call_graph_audit_functions": 475,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -1163,8 +1163,8 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 463,
-  "latest_verification": "cases/cpp-basic-frontiers/0541-operator_has_builtin_fallback-12/validation.json",
+  "current_native_application_entries": 469,
+  "latest_verification": "cases/cpp-basic-frontiers/0547-type_pointer_model/validation.json",
   "historical_original_full_replay_frontiers": 534,
   "active_queue": [
     "finish cpp_basic",
@@ -1185,5 +1185,20 @@
         570626
       ]
     ]
-  }
+  },
+  "accepted_extent_coverage": {
+    "accepted_code_bytes": 181301,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 38.05502730795226,
+    "accepted_frontiers": 548,
+    "source_functions": 475,
+    "accepted_source_text_and_switch_bytes": 170858,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  },
+  "static_checkpoint": "constructor-dispatch and class-model predicates: graph, data, main/lookahead grammar pass"
 }

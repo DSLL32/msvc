@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.17805396579206,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-effective-pointer-model-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.558506683446467,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-effective-pointer-model-canonical.log"
+  }
+]

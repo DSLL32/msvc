@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_pointer_to_type@8",
+    "start": 403296,
+    "end": 403460
+  },
+  "distinct_direct_callees": [
+    "_copy_type_description@4",
+    "_drop_first_type_shape@4",
+    "_intern_type@4",
+    "_make_qualified_type@16",
+    "_normalize_type_attributes@8"
+  ],
+  "next_frontier": "_has_class_initialization@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2304034512490034,
+  "total_operation_seconds": 5.7060014717280865,
+  "original_capture_seconds": 4.77750725671649
+}

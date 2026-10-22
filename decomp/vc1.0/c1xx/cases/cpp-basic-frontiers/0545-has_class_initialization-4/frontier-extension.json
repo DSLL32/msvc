@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 545,
+  "accepted": "_has_class_initialization@4",
+  "terminal": "_has_special_member_model@8",
+  "original_capture": "cases/cpp-basic-frontiers/0545-has_class_initialization-4/original-receipt.json",
+  "original_capture_sha256": "b28ec39d7ce9bf9be5aacc914c1ec1714991b27978aaffc43ea7a55b7bc2350e",
+  "original_events": "cases/cpp-basic-frontiers/0545-has_class_initialization-4/original-events.txt",
+  "original_events_sha256": "a14d321c44e70a4bc5c2a05e331bc96195516aeb0ff98bac2f8ea6e2bcf92779",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

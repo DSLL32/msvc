@@ -19,6 +19,7 @@ OBJECTS = build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj
 OBJECTS += build/record-processing.obj build/expression-preparation.obj build/binary-expressions.obj
 OBJECTS += build/constructor-initializers.obj
 OBJECTS += build/object-initializers.obj
+OBJECTS += build/allocation-expressions.obj
 OBJECTS += build/numeric-scanning.obj build/numeric-conversion.obj
 OBJECTS += build/member-access.obj build/member-expressions.obj
 OBJECTS += build/mangling.obj build/symbol-output.obj build/function-finalization.obj build/statement-scopes.obj build/return-statements.obj
