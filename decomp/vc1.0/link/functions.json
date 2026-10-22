@@ -366,7 +366,23 @@
     "_convert_omf_inputs",
     "_validate_library_inputs",
     "_copy_argument_node",
-    "_clear_argument_list"
+    "_clear_argument_list",
+    "_parse_export",
+    "_take_export_token",
+    "_strcspn",
+    "_register_export",
+    "_merge_export_definitions",
+    "_invalidate_symbol_sorts",
+    "_get_hash_flags",
+    "_count_export_symbols",
+    "_create_import_aliases",
+    "_mark_explicit_export_ordinals",
+    "_write_import_archive_indexes",
+    "_encode_big_endian_dword",
+    "_write_import_member_names",
+    "_build_archive_header",
+    "__ultoa",
+    "_xtoa"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -3412,58 +3428,65 @@
     {
       "name": "_parse_export",
       "start": 240128,
-      "end": 240129,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(const char *,Image *,unsigned char,const char *); entry only until reached"
+      "end": 240448,
+      "implementation": "C",
+      "source": "export-directives.c",
+      "abi": "cdecl void(char *text,Image *image,unsigned char directives,const char *context)",
+      "evidence": "Matching DLL export parser3aa00..3ab40; mutable export/alias/ordinal tokens, NONAME/CONSTANT/DATA validation and ten-argument export registration ABI."
     },
     {
       "name": "_merge_export_definitions",
       "start": 185536,
-      "end": 185537,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(SymbolTable *,SymbolTable *,unsigned char,Library *); entry only until reached"
+      "end": 187232,
+      "implementation": "C",
+      "source": "export-resolution.c",
+      "abi": "cdecl void(SymbolTable *table,SymbolTable *linked,unsigned char search,Library *first)",
+      "evidence": "Matching DLL export-resolution frontier2d4c0..2db60; complete decorated-name matching, archive fallback, ambiguity diagnostics, alias decoration and definition transitions. Typed local pointer scratch preserves the observed overlapping name/context ranges."
     },
     {
-      "name": "_prepare_export_order",
+      "name": "_invalidate_symbol_sorts",
       "start": 156848,
-      "end": 156849,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(SymbolTable *); entry only until reached"
+      "end": 156944,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Matching DLL sort-cache invalidation264b0..26510; clear hash freeze flag and free cached address/name sorts. Provisional prepare_export_order label corrected before acceptance."
     },
     {
       "name": "_count_export_symbols",
       "start": 195712,
-      "end": 195713,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl unsigned long(SymbolTable *,unsigned long *); entry only until reached"
+      "end": 195792,
+      "implementation": "C",
+      "source": "export-resolution.c",
+      "abi": "cdecl unsigned long(SymbolTable *table,unsigned long *data_exports)",
+      "evidence": "Matching DLL export-count frontier2fc80..2fcd0; enumerate symbols matching DEFINED or ALIAS and separately count DATA exports, preserving enumeration boundaries."
     },
     {
-      "name": "_count_export_name_bytes",
+      "name": "_create_import_aliases",
       "start": 188016,
-      "end": 188017,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl unsigned long(SymbolTable *); entry only until reached"
+      "end": 188400,
+      "implementation": "C",
+      "source": "export-resolution.c",
+      "abi": "cdecl ExternalLink *(SymbolTable *table)",
+      "evidence": "Matching DLL import-alias frontier2de70..2dff0; return an ExternalLink list of newly defined __imp_ aliases, correcting provisional count_export_name_bytes ABI/name and global import_aliases before acceptance."
     },
     {
-      "name": "_assign_export_ordinals",
+      "name": "_mark_explicit_export_ordinals",
       "start": 184144,
-      "end": 184145,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(SymbolTable *,unsigned char *); entry only until reached"
+      "end": 184256,
+      "implementation": "C",
+      "source": "export-resolution.c",
+      "abi": "cdecl void(SymbolTable *table,unsigned char *ordinals)",
+      "evidence": "Matching DLL explicit-ordinal marking2cf50..2cfc0; reserve low-WORD explicit ordinals and diagnose duplicate slots. Provisional assign_export_ordinals name corrected before acceptance."
     },
     {
       "name": "_write_import_archive_indexes",
       "start": 174528,
-      "end": 174529,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(unsigned long,SymbolTable *); entry only until reached"
+      "end": 175232,
+      "implementation": "C",
+      "source": "import-archive.c",
+      "abi": "cdecl void(unsigned long members,SymbolTable *table)",
+      "evidence": "Matching DLL archive-index frontier2a9c0..2ac80; reserve endian-specific offset/index tables, emit member-grouped names, backfill headers, align with newline, and create long-name member when needed."
     },
     {
       "name": "_write_import_descriptor",
@@ -3528,6 +3551,76 @@
       "implementation": "stub-C",
       "source": "library-stubs.c",
       "abi": "cdecl void(Argument *,unsigned char,ImageOptions *); entry only until reached"
+    },
+    {
+      "name": "_take_export_token",
+      "start": 240016,
+      "end": 240128,
+      "implementation": "C",
+      "source": "export-directives.c",
+      "abi": "cdecl char *(char *text,const char *delimiters,const char *context,char *delimiter)",
+      "evidence": "Matching DLL export-token frontier3a990..3aa00; destructive split, trailing-delimiter warning and comma lookahead delimiter semantics."
+    },
+    {
+      "name": "_register_export",
+      "start": 240448,
+      "end": 241248,
+      "implementation": "C",
+      "source": "export-directives.c",
+      "abi": "cdecl void(SymbolTable *table,char *name,char *internal,char *forwarder,int kind,unsigned long ordinal,const char *context,unsigned char directives,Image *image,IMAGE_OPTIONAL_HEADER *header)",
+      "evidence": "Matching DLL export-registration frontier3ab40..3ae60; synthetic library/module/contribution, export definition and archive index, optional x86 decoration, ordinal tracking, aliases and forwarders."
+    },
+    {
+      "name": "_record_export_ordinal",
+      "start": 188400,
+      "end": 188401,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(unsigned long); entry only until reached"
+    },
+    {
+      "name": "_find_export_matches",
+      "start": 187232,
+      "end": 187233,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(SymbolTable *,const char *,unsigned short *,char **,char **); entry only until reached"
+    },
+    {
+      "name": "_get_hash_flags",
+      "start": 157120,
+      "end": 157136,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl unsigned short(HashTable *table)",
+      "evidence": "Matching DLL hash-mode query265c0..265d0; return original WORD flags through AX."
+    },
+    {
+      "name": "_build_archive_header",
+      "start": 195408,
+      "end": 195712,
+      "implementation": "C",
+      "source": "import-archive.c",
+      "abi": "cdecl PIMAGE_ARCHIVE_MEMBER_HEADER(const char *name,unsigned char long_name,unsigned long size)",
+      "evidence": "Matching DLL archive-header frontier2fb50..2fc80; shared typed COFF header, original slash/padding rules and exact field defaults, decimal timestamp/size overlays and end marker."
+    },
+    {
+      "name": "_write_import_member_names",
+      "start": 195792,
+      "end": 195952,
+      "implementation": "C",
+      "source": "import-archive.c",
+      "abi": "cdecl void(SymbolTable *table,unsigned short member)",
+      "evidence": "Matching DLL archive name writer2fcd0..2fd70; name-sorted defined/alias symbols, skip DATA exports, optional archive-member filter, serialized NUL-terminated names."
+    },
+    {
+      "name": "_encode_big_endian_dword",
+      "start": 137168,
+      "end": 137184,
+      "implementation": "C",
+      "source": "archive.c",
+      "abi": "cdecl unsigned long(const void *bytes)",
+      "evidence": "Matching DLL byte-order wrapper217d0..217e0; retain distinct forwarding vertex to original reversal helper217a0."
     }
   ],
   "c_stub_references": [
@@ -3881,6 +3974,22 @@
     "hello-win32",
     "hello-win32",
     "hello-win32",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
     "hello-dll",
     "hello-dll",
     "hello-dll",

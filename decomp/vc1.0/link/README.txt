@@ -21,14 +21,15 @@ Completed cases:
   Original, reconstructed and untouched-baseline programs pass the GUI checker:
   HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
 
-There are 367 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 20
-from the active hello-dll case. The earlier 347 frontiers pass full replay with
-the process-tree harness; all 20 DLL additions replay and all three completed
-cases still pass. Static audits check 247 source/runtime call graphs, 238 source
-callback-reference sets and 215 contextual data definitions. Pending helpers
+There are 383 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 36
+from the active hello-dll case. Full 383-frontier replay and all three completed
+cases pass. Static audits check 260 source/runtime call graphs, 251 source
+callback-reference sets and 226 contextual data definitions. Pending helpers
 trap and unexecuted branches need later coverage.
 
-The active hello-dll case reaches export parsing in the self-spawned -lib child.
+The active hello-dll case reaches import-descriptor emission in the -lib child.
+Both archive indexes, name lists and headers have been emitted. The partial
+2 MB import archives match after only their two archive member dates are ignored.
 Its DLL, import library and .exp outputs have not yet been reconstructed to
 completion. The immutable original DLL passes artifact and load/call/GUI checks
 in this harness. Its manifest lists the sole allowed timestamp normalizations.

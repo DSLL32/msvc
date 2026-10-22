@@ -12,7 +12,8 @@ SymbolTable *export_symbol_table;
 Image *export_image;
 External *exports_table_symbol;
 char *null_thunk_name,*export_object_name="";
-unsigned long dll_basename_length,import_name_bytes;
+unsigned long dll_basename_length;
+ExternalLink *import_aliases;
 unsigned long *import_member_offsets;
 unsigned char *export_ordinals;
 unsigned char import_only_export,export_error;
@@ -111,7 +112,7 @@ int build_import_library(int argc,char **argv,Image *image)
         if (export_error) return 0x5d;
         release_text(&linked->symbols->strings);
     }
-    prepare_export_order(image->symbols);
+    invalidate_symbol_sorts(image->symbols);
     if (!image->options.library_image_name) {
         image->options.library_image_name=duplicate_string(*argv[1]?argv[1]:output_name);
         name=image->options.library_image_name;
@@ -132,7 +133,7 @@ int build_import_library(int argc,char **argv,Image *image)
     if (machine->helper_thunk) buffer_size+=dll_basename_length+0xf;
     names=malloc(buffer_size);
     if (!names) out_of_memory();
-    import_name_bytes=count_export_name_bytes(image->symbols);
+    import_aliases=create_import_aliases(image->symbols);
     members+=export_count;
     strcpy(names,image->options.library_image_name);
     strcat(names,"_IMPORT_DESCRIPTOR");
@@ -176,7 +177,7 @@ int build_import_library(int argc,char **argv,Image *image)
     if (!import_member_offsets) out_of_memory();
     export_ordinals=calloc(ordinal_slots,1);
     if (!export_ordinals) out_of_memory();
-    assign_export_ordinals(image->symbols,export_ordinals);
+    mark_explicit_export_ordinals(image->symbols,export_ordinals);
     printf("   Creating library %s and object %s ...\n",output_name,object_name);
     fflush(stdout);
     output_file=open_file(output_name,0x8302,0x180);
@@ -207,4 +208,3 @@ int build_import_library(int argc,char **argv,Image *image)
     free(import_member_offsets);
     return 0;
 }
-

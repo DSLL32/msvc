@@ -138,3 +138,8 @@ char *get_archive_member_name(Library *library,PIMAGE_ARCHIVE_MEMBER_HEADER head
     *end=0;
     return archive_member_name;
 }
+
+unsigned long encode_big_endian_dword(const void *bytes)
+{
+    return read_big_endian_dword(bytes);
+}

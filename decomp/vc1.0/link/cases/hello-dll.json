@@ -14,19 +14,46 @@
   ],
   "normalization": "Only structurally identified timestamp fields recorded in the immutable fixture manifest",
   "process_tree": "The exact paired LINK image is invoked recursively in -lib mode under the debugger",
+  "checkpoints": [
+    {
+      "accepted_frontiers": 20,
+      "total_accepted_frontiers": 367,
+      "current_frontier": "_parse_export",
+      "previous_frontiers_replayed": 347,
+      "new_frontiers_replayed": 20,
+      "previous_replay_sha256": "6f83b614f6ce5dab5c937f653849a18d0bccca47e6ef7952b034f9999c714ae9",
+      "new_replay_sha256": "91be733927797c1f0e1afc83b99ace546d453fe847bd5bb2b44f8d685dea03f0",
+      "regressions_pass": true,
+      "calls_audited": 247,
+      "callback_sets_audited": 238,
+      "contextual_data_definitions_audited": 215,
+      "untouched_original_artifact_and_dll_host_check_pass": true,
+      "reconstructed_dll_complete": false
+    }
+  ],
   "checkpoint": {
-    "accepted_frontiers": 20,
-    "total_accepted_frontiers": 367,
-    "current_frontier": "_parse_export",
-    "previous_frontiers_replayed": 347,
-    "new_frontiers_replayed": 20,
-    "previous_replay_sha256": "6f83b614f6ce5dab5c937f653849a18d0bccca47e6ef7952b034f9999c714ae9",
-    "new_replay_sha256": "91be733927797c1f0e1afc83b99ace546d453fe847bd5bb2b44f8d685dea03f0",
+    "accepted_frontiers": 36,
+    "total_accepted_frontiers": 383,
+    "current_frontier": "_write_import_descriptor",
+    "full_frontiers_replayed": 383,
+    "replay_log_sha256": "d0a3a38e5713306ac4216f72d3e3932d70ccd95fd4dbf9763995d97b7a3e03a7",
     "regressions_pass": true,
-    "calls_audited": 247,
-    "callback_sets_audited": 238,
-    "contextual_data_definitions_audited": 215,
-    "untouched_original_artifact_and_dll_host_check_pass": true,
+    "calls_audited": 260,
+    "callback_sets_audited": 251,
+    "contextual_data_definitions_audited": 226,
+    "partial_import_archive_normalized_sha256": "0791d12a615509d23f99203fd7604a53d5a7446a7127b2ddc7a1a37723bad8e5",
+    "partial_import_archive_ignored_fields": [
+      {
+        "offset": 24,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 230,
+        "bytes": 12,
+        "name": "Archive member date"
+      }
+    ],
     "reconstructed_dll_complete": false
   }
 }

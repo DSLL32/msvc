@@ -25,6 +25,7 @@ struct External {
     union { Contribution *contribution; Module *module; ModuleReference *references; } owner;
     union { unsigned long final_value; External **previous; } value;
     union { External *undefined_next; unsigned long symbol_index; } state;
+    char *export_target;
     unsigned long flags;
     unsigned short archive_member;
     External *weak_default;
@@ -57,6 +58,8 @@ struct HashCursor {
     HashNode *next;
     HashCursor *previous;
 };
+unsigned short get_hash_flags(HashTable *);
+void invalidate_symbol_sorts(SymbolTable *);
 void set_hash_flags(HashTable *,unsigned short);
 unsigned long count_hash_entries(HashTable *);
 void begin_hash_enumeration(HashTable *);

@@ -1,7 +1,8 @@
 Source and verification notes
 
 Current completed cases are /?, minimal-C and hello-win32. The latest full replay
-covers 347 frontiers. Later paragraphs retain checkpoint history.
+covers 383 frontiers, including the active DLL case. Later paragraphs retain
+checkpoint history.
 
 Program logic is C, including argument parsing, option processing, the driver,
 COMDAT allocation, mapped-file/cache handling, COFF readers, module/library and
@@ -257,3 +258,33 @@ presence consumed so far; its pending emitters will recover further fields when
 reached. No platform section snapshot, assembly implementation or globalized
 ordinary literal was added. DLL execution currently stops at parse_export; its
 output generation is incomplete and its pending helpers retain typed traps.
+
+The DLL export/index checkpoint contains 383 accepted frontiers, with 36 DLL
+frontiers. Full 383 replay succeeds and stops at the matching import-descriptor
+writer. Parallel make check and all three completed-case regressions pass.
+Audits verify 260 source/runtime call graphs, 251 callback sets and 226 contextual
+data definitions. Partial 2 MB import archives match after only archive date
+fields at offsets 24 and 230 (12 bytes each) are ignored; normalized SHA256
+0791d12a615509d23f99203fd7604a53d5a7446a7127b2ddc7a1a37723bad8e5.
+This remains an incomplete DLL fixture result.
+
+Export directives now use a mutable token parser and typed ten-argument
+registration interface. Synthetic library/module/contribution state is defined
+with that code. External.export_target recovers the previously unconsumed alias
+or forwarder string slot. Undecorated export resolution retains linked-symbol
+matching, archive fallback, ambiguity handling and decorated alias construction;
+its observed overlapping name/context scratch ranges use typed pointer storage.
+The current stdcall export bypasses undecorated ambiguity paths, which remain
+uncovered dynamically. invalidate_symbol_sorts correctly names the former
+prepare_export_order stub and retains the separate hash-flags query vertex.
+The former count_export_name_bytes stub actually creates __imp_ aliases and
+returns an ExternalLink list; its name, signature and import_aliases global were
+corrected before acceptance. Explicit ordinal handling marks occupied slots.
+
+Archive index creation retains its endian wrapper as a separate function,
+member-grouped and name-sorted symbol lists, offset/index reservations, header
+backfilling, long-name bookkeeping and newline alignment. The archive-header
+constructor defines its shared COFF record by named fields. Its unusual default
+date/user/group/mode/size field contents are reproduced explicitly at use, with
+decimal time and size overlays. There is no copied opaque section/template
+snapshot. Import-member and export-object emitters remain named typed traps.

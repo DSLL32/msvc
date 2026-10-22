@@ -430,3 +430,25 @@ External *find_external(SymbolTable *table,unsigned char short_name,const char *
     return slot ? *slot : NULL;
 }
 
+
+void invalidate_symbol_sorts(SymbolTable *table)
+{
+    unsigned short flags=get_hash_flags(table->hash);
+    if (flags&2) {
+        set_hash_flags(table->hash,(unsigned short)(flags&~2));
+        if (table->sorted_by_address) {
+            free(table->sorted_by_address);
+            table->sorted_by_address=NULL;
+        }
+        if (table->sorted_by_name) {
+            free(table->sorted_by_name);
+            table->sorted_by_name=NULL;
+        }
+    }
+}
+
+
+unsigned short get_hash_flags(HashTable *table)
+{
+    return table->flags;
+}

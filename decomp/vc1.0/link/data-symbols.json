@@ -1311,7 +1311,7 @@
     "owner": "import-library.c"
   },
   {
-    "name": "import_name_bytes",
+    "name": "import_aliases",
     "address": 510252,
     "size": 4,
     "owner": "import-library.c"
@@ -1357,5 +1357,71 @@
     "address": 506264,
     "size": 4,
     "owner": "import-library.c"
+  },
+  {
+    "name": "export_library",
+    "address": 520336,
+    "size": 4,
+    "owner": "export-directives.c"
+  },
+  {
+    "name": "export_module",
+    "address": 453896,
+    "size": 4,
+    "owner": "export-directives.c"
+  },
+  {
+    "name": "export_contribution",
+    "address": 453900,
+    "size": 4,
+    "owner": "export-directives.c"
+  },
+  {
+    "name": "export_sections",
+    "address": 520344,
+    "size": 8,
+    "owner": "export-directives.c"
+  },
+  {
+    "name": "export_forwarder_bytes",
+    "address": 506268,
+    "size": 4,
+    "owner": "export-directives.c"
+  },
+  {
+    "name": "export_alias_bytes",
+    "address": 506272,
+    "size": 4,
+    "owner": "export-directives.c"
+  },
+  {
+    "name": "new_archive_index",
+    "address": 510204,
+    "size": 1,
+    "owner": "import-archive.c"
+  },
+  {
+    "name": "import_member_long_name",
+    "address": 510248,
+    "size": 1,
+    "owner": "import-archive.c"
+  },
+  {
+    "name": "second_index_offset",
+    "address": 453692,
+    "size": 4,
+    "owner": "import-archive.c"
+  },
+  {
+    "name": "import_member_name",
+    "address": 453684,
+    "size": 4,
+    "owner": "import-archive.c"
+  },
+  {
+    "name": "generated_archive_header",
+    "address": 453712,
+    "size": 60,
+    "owner": "import-archive.c"
   }
 ]
