@@ -267,7 +267,7 @@ arithmetic:
             source_type = left_node->attributes.words.type;
             if ((node->attributes.words.type & 0xff00) == 0x1000 && (source_type & 0xf00)) {
                 if (!(source_type & 0x100)) {
-                    temporary = allocate_stack_temporary((source_type & 255) * 2);
+                    temporary = (SymbolHeader *)allocate_stack_temporary((source_type & 255) * 2);
                     destination = frame_temporary_operand(temporary, 0);
                     emit_machine_operation(MC_MOV, 4, destination, source);
                     right = immediate_operand(0);
@@ -276,7 +276,7 @@ arithmetic:
                     source = frame_temporary_operand(temporary, 0);
                     emit_machine_operation(MC_FILD, (left_node->attributes.words.type & 255) * 2, &operand_st0, source);
                 } else {
-                    temporary = allocate_stack_temporary(source_type & 255);
+                    temporary = (SymbolHeader *)allocate_stack_temporary(source_type & 255);
                     destination = frame_temporary_operand(temporary, 0);
                     instruction = emit_machine_operation(MC_MOV, 4, destination, source);
                     instruction->opcode |= 0x200000;
@@ -286,7 +286,7 @@ arithmetic:
                 result = REG_ST0;
             } else if (optimize_precision &&
                 (node->attributes.words.type & 255) < (left_node->attributes.words.type & 255)) {
-                temporary = allocate_stack_temporary(node->attributes.words.type & 255);
+                temporary = (SymbolHeader *)allocate_stack_temporary(node->attributes.words.type & 255);
                 destination = frame_temporary_operand(temporary, 0);
                 emit_machine_operation(MC_FSTP, type, destination, &operand_st0);
                 source = frame_temporary_operand(temporary, 0);

@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 78,
+  "accepted_frontiers": 133,
   "current_frontier": {
-    "name": "@optimize_work@4",
-    "original_va": 375408
+    "name": "@emit_switch_dispatch@8",
+    "original_va": 425680
   },
   "expected": {
     "exit": 0,
@@ -84,18 +84,24 @@
     "all 398 source function graphs agree; three affected implementation modules compile /W3 clean",
     "independent completed first memory rewrite matches all259 normalized lines:6 blocks,23 expressions,93 work nodes,10 memory values,20 alias chunks and45 flow-set chunks",
     "complete minimal object/exit regression passes; hello reaches hoist_region_values",
-    "verified accepted original code-extent union126319/399693 bytes=31.6040 percent, including source/shared text/CRT/import thunks; not branch coverage"
+    "verified accepted original code-extent union126319/399693 bytes=31.6040 percent, including source/shared text/CRT/import thunks; not branch coverage",
+    "tree-builder/switch-setup checkpoint passes all352 minimal and133 hello historical frontiers",
+    "all408 source function graphs agree; all485 accepted extents on each side end on complete instructions",
+    "seven affected implementation modules compile /W3 clean",
+    "independent switch-emission-boundary capture matches all267 normalized lines, including selector tree and temporary frame offsets",
+    "minimal object/exit/streams regression passes; hello reaches emit_switch_dispatch",
+    "verified accepted code-extent union128239/399693 bytes=32.0844percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 475,
-  "reconstructed_functions": 398,
+  "total_accepted_frontiers": 485,
+  "reconstructed_functions": 408,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 475,
-    "accepted_code_bytes": 126319,
+    "accepted_frontiers": 485,
+    "accepted_code_bytes": 128239,
     "original_code_bytes": 399693,
-    "percentage": 31.604006074662305,
+    "percentage": 32.08437475762648,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -103,6 +109,6 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 150
+    "union_ranges": 149
   }
 }

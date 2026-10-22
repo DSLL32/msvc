@@ -741,6 +741,55 @@ hoist_region_values, 0x5c020.
 Run make coverage for the accepted original code-extent union, including source,
 shared text data, CRT and import thunks. The report unions overlapping intervals,
 clips them to original code sections using VirtualSize (raw size if zero), and
-verifies that union against the actual INT3 masker. Current coverage is 126,319
+verifies that union against the actual INT3 masker. The memory-flow checkpoint coverage is 126,319
 of 399,693 original code bytes, or 31.6040 percent. This is code-extent coverage,
 not branch coverage; the original target hash is included in the JSON report.
+
+The first work-preparation pass now reaches switch emission. Ten additional
+functions reconstruct 513 reachable native instructions: region-motion setup,
+numbered-expression rewriting, temporary storage allocation, the postfix tree
+builder, switch setup and range coalescing. The first function has no loop regions
+or numbered expressions requiring materialization; their named helper traps stay
+in place for later cases.
+
+The builder implements its complete character recipe language in C switch
+statements, including argument lookahead for O and S and call-visible operand
+stack updates for recursive helpers. Its zero-initialized typed 64-pointer stack
+occupies the contextual original range 0007e718..0007e818. The adjacent
+current_expression object establishes its upper boundary. The original character
+jump table is analyzed and included in the function's mask extent; it is not
+copied into reconstruction source. The current recipe DNTS deep-copies the
+reference, constructs a load and inherits the selector's type/symbol metadata.
+
+Kind-19 temporary descriptors have a packed 13-byte layout. Their allocator
+aligns bytes using the common argument/temporary alignment, reserves local frame
+storage and then stores that negative frame offset. The reference wrapper keeps
+its original two-register signature even though its second argument is unused.
+All generic symbol interfaces receive an explicit descriptor cast. A duplicate
+provisional allocator record was rejected by preflight before execution and was
+removed in favor of the existing one-argument ABI.
+
+The provisional lower_expression_stack function is now named lower_switch_dispatch:
+it retrieves the saved selector, updates memory-store flow, coalesces adjacent
+case ranges and emits dispatch tests before releasing the old range/selector
+storage. Independent typed capture at the emission frontier matches all 267
+normalized lines, including temporary frame offsets and the selector tree held
+by its label. Kind-19 descriptors are interpreted through their actual fields;
+label selector pointers are traversed as trees instead of compared as heap
+addresses. Empty-region motion, unvisited builder recipes, diagnostics and
+multi-range joining have no claimed dynamic branch validation. See
+cases/hello-tree-builder-abi.json for the exact extents, ABIs and limits.
+
+The graph auditor now decodes past a declared function end before checking the
+instruction boundary. This rejects extents that truncate a multi-byte operand,
+including RET immediates. All 485 accepted original and reconstructed extents
+pass this check, including runtime/import bodies; all 408 reconstructed source
+function graphs agree. Seven changed implementation modules compile /W3 clean.
+
+This checkpoint has 408 reconstructed functions and 485 accepted frontiers.
+All 352 minimal and all 133 hello historical frontiers replay. Minimal-C still
+produces its exact captured object except the four timestamp bytes. Optimized
+hello remains pending at emit_switch_dispatch, 00067ed0. The verified accepted
+code-extent union is 128,239 / 399,693 bytes, or 32.0844 percent; this is not branch
+coverage. Source, shared text data, CRT and import thunks are unioned and clipped
+against the original code VirtualSize and checked against the actual masker.

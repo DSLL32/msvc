@@ -1,5 +1,6 @@
 #ifndef VALUE_SELECTION_H
 #define VALUE_SELECTION_H
+#include "temporaries.h"
 #include "instruction-selection.h"
 #include "instruction-rewrite.h"
 typedef struct FloatingOpcode {
@@ -24,6 +25,6 @@ MachineOperand *__fastcall symbol_operand(Node *reference, int indirect);
 void __fastcall spill_x87_for_node(Node *node);
 unsigned short __fastcall select_intrinsic(Node *node);
 unsigned __fastcall aligned_value_size(Node *argument);
-SymbolHeader *__fastcall allocate_stack_temporary(unsigned bytes);
+
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant);
 #endif

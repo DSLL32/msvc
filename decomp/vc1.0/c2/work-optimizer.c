@@ -1018,3 +1018,14 @@ void __fastcall compute_work_memory_liveness(WorkItem *work)
     } while (changed);
     release_bitset(live_out);
 }
+
+/* Original [0005d0a0,0005d0e0). Identifier lookup preserves the native
+   signed-short remainder calculation and the independent identifier chain. */
+NumberedExpression *__fastcall find_numbered_expression(Node *node)
+{
+    short identifier = node->info.words.identifier;
+    NumberedExpression *expression = numbered_expressions_by_id[(int)identifier % NUMBERED_EXPRESSION_BUCKETS];
+    for (; expression; expression = expression->identifier_next)
+        if (expression->canonical->info.words.identifier == identifier) return expression;
+    return 0;
+}

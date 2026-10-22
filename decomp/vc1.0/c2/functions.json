@@ -479,7 +479,17 @@
     "@compute_work_memory_liveness@4",
     "@transfer_bitset@16",
     "@assign_union_bitset@12",
-    "@assign_difference_bitset@12"
+    "@assign_difference_bitset@12",
+    "@hoist_region_values@4",
+    "@find_numbered_expression@4",
+    "@rewrite_work_expressions@4",
+    "@rewrite_numbered_tree@4",
+    "@new_temporary_reference@8",
+    "@allocate_stack_temporary@4",
+    "@new_temporary_descriptor@4",
+    "_build_tree",
+    "@lower_switch_dispatch@12",
+    "@coalesce_switch_ranges@4"
   ],
   "driver": [
     {
@@ -2018,14 +2028,12 @@
     {
       "name": "@new_temporary_reference@8",
       "start": 361888,
-      "end": 361889,
-      "provisional": true
+      "end": 361920
     },
     {
       "name": "_build_tree",
       "start": 327184,
-      "end": 327185,
-      "provisional": true
+      "end": 328128
     },
     {
       "name": "@map_assignment_opcode@8",
@@ -2630,10 +2638,9 @@
       "provisional": true
     },
     {
-      "name": "@lower_expression_stack@12",
+      "name": "@lower_switch_dispatch@12",
       "start": 421648,
-      "end": 421649,
-      "provisional": true
+      "end": 421792
     },
     {
       "name": "_function_stack_alignment",
@@ -3202,8 +3209,7 @@
     {
       "name": "@allocate_stack_temporary@4",
       "start": 361792,
-      "end": 361793,
-      "provisional": true
+      "end": 361840
     },
     {
       "name": "@symbol_display_name@4",
@@ -4202,8 +4208,7 @@
     {
       "name": "@rewrite_work_expressions@4",
       "start": 376128,
-      "end": 376129,
-      "provisional": true
+      "end": 376224
     },
     {
       "name": "@collect_region_values@4",
@@ -4214,8 +4219,7 @@
     {
       "name": "@hoist_region_values@4",
       "start": 376864,
-      "end": 376865,
-      "provisional": true
+      "end": 377120
     },
     {
       "name": "@initialize_work_value_tree@12",
@@ -4353,8 +4357,7 @@
     {
       "name": "@find_numbered_expression@4",
       "start": 381088,
-      "end": 381089,
-      "provisional": true
+      "end": 381152
     },
     {
       "name": "@tree_uses_killed_value@4",
@@ -4427,6 +4430,99 @@
       "name": "@assign_difference_bitset@12",
       "start": 420784,
       "end": 420992
+    },
+    {
+      "name": "_hoist_invariant_region_stores",
+      "start": 389568,
+      "end": 389569,
+      "provisional": true
+    },
+    {
+      "name": "_collect_basic_region_inductions",
+      "start": 389232,
+      "end": 389233,
+      "provisional": true
+    },
+    {
+      "name": "_prepare_region_exit_motion",
+      "start": 387760,
+      "end": 387761,
+      "provisional": true
+    },
+    {
+      "name": "_collect_derived_region_inductions",
+      "start": 386960,
+      "end": 386961,
+      "provisional": true
+    },
+    {
+      "name": "_combine_region_inductions",
+      "start": 386688,
+      "end": 386689,
+      "provisional": true
+    },
+    {
+      "name": "_reduce_region_induction_strength",
+      "start": 386096,
+      "end": 386097,
+      "provisional": true
+    },
+    {
+      "name": "_rewrite_region_inductions",
+      "start": 385872,
+      "end": 385873,
+      "provisional": true
+    },
+    {
+      "name": "_simplify_region_exit",
+      "start": 385488,
+      "end": 385489,
+      "provisional": true
+    },
+    {
+      "name": "_finish_region_motion",
+      "start": 385472,
+      "end": 385473,
+      "provisional": true
+    },
+    {
+      "name": "_rebuild_region_header_references",
+      "start": 385392,
+      "end": 385393,
+      "provisional": true
+    },
+    {
+      "name": "_release_region_motion",
+      "start": 385200,
+      "end": 385201,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_numbered_tree@4",
+      "start": 384816,
+      "end": 384928
+    },
+    {
+      "name": "@materialize_numbered_tree@4",
+      "start": 384928,
+      "end": 384929,
+      "provisional": true
+    },
+    {
+      "name": "@new_temporary_descriptor@4",
+      "start": 361840,
+      "end": 361888
+    },
+    {
+      "name": "@coalesce_switch_ranges@4",
+      "start": 424912,
+      "end": 425088
+    },
+    {
+      "name": "@emit_switch_dispatch@8",
+      "start": 425680,
+      "end": 425681,
+      "provisional": true
     }
   ],
   "cases": {

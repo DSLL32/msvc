@@ -1,4 +1,5 @@
 #include "work-prepare.h"
+#include "work-optimizer.h"
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "expression-fields.h"
@@ -108,8 +109,78 @@ void __fastcall prepare_work(WorkItem *work)
                 node->right.expression->tree = value;
                 node->right.expression = 0;
             } else if (node->opcode == 0x3c)
-                lower_expression_stack(block, expression, node);
+                lower_switch_dispatch(block, expression, node);
             expression = next;
         }
     }
+}
+
+Expression *switch_dispatch_expression; /* 0007b968 */
+Node *switch_selector; /* 0007b96c */
+unsigned short switch_selector_type; /* 0007b970 */
+Node *switch_dispatch_node; /* 0007b974 */
+/* Original [00066f10,00066fa0). Dispatch records retain the expression
+   that computes their selector. Coalesce ranges, generate the tests, then
+   recycle the old range list and selector tree. */
+void __fastcall lower_switch_dispatch(WorkItem *work, Expression *expression, Node *node)
+{
+    Node *range, *next;
+    int count;
+    switch_selector = node->left.node->right.expression->tree;
+    switch_selector_type = node->attributes.words.type;
+    switch_dispatch_node = node;
+    switch_dispatch_expression = expression;
+    if (optimize_global) {
+        intern_work_value(switch_selector);
+        work->flow_sets[WORK_MEMORY_STORES] = bitset_include(
+            work->flow_sets[WORK_MEMORY_STORES], (unsigned)(int)node->info.words.identifier);
+    }
+    count = coalesce_switch_ranges(node);
+    emit_switch_dispatch(node->second.node, count);
+    for (range = node->second.node; range; range = next) {
+        next = range->second.node;
+        release_node(range);
+    }
+    node->opcode = 1;
+    release_tree(switch_selector);
+}
+
+/* Original [00067bd0,00067c80). Range left/detail hold inclusive low/high
+   values, right holds the target label, and second links the sorted list.
+   Remove ranges reaching the default label, then join adjacent ranges
+   which share a target. The 4c leaf terminates this list. */
+int __fastcall coalesce_switch_ranges(Node *node)
+{
+    Node *range, *next;
+    int count = 0;
+    range = node->second.node;
+    while (range->opcode != 0x4c &&
+           range->right.pointer == switch_dispatch_node->right.pointer) {
+        next = range->second.node;
+        node->second.node = next;
+        release_node(range);
+        range = next;
+    }
+    while (range->opcode != 0x4c) {
+        next = range->second.node;
+        ++count;
+        if (next->opcode != 0x4c) {
+            if (next->right.pointer == switch_dispatch_node->right.pointer) {
+                range->second.node = next->second.node;
+                release_node(next);
+                next = range->second.node;
+            }
+            if (next->opcode != 0x4c &&
+                next->left.value - range->detail.value == 1 &&
+                next->right.pointer == range->right.pointer) {
+                range->detail.value = next->detail.value;
+                range->second.node = next->second.node;
+                release_node(next);
+                --count;
+                next = range;
+            }
+        }
+        range = next;
+    }
+    return count;
 }

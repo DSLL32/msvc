@@ -1,3 +1,5 @@
+#include "work-expressions.h"
+#include "region-motion.h"
 #include "flow-edges.h"
 #include "work-optimizer.h"
 /* Unreached graph vertices trap deliberately for the paired reconstruction workflow. */
@@ -64,8 +66,6 @@ Node *__fastcall lower_conditional(Node *node, Node *container) { __asm int 3 }
 Node *__fastcall lower_comma(Node *node, Node *container) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
-Node *__fastcall new_temporary_reference(unsigned bytes, unsigned flags) { __asm int 3 }
-Node *__cdecl build_tree(const char *format, ...) { __asm int 3 }
 unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse) { __asm int 3 }
 Node *__fastcall assignment_value(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_reference(Node *node) { __asm int 3 }
@@ -126,7 +126,6 @@ unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm i
 #include "work-prepare.h"
 Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree) { __asm int 3 }
 void __fastcall lower_assignment(Node *node) { __asm int 3 }
-void __fastcall lower_expression_stack(WorkItem *work, Expression *expression, Node *node) { __asm int 3 }
 void finish_global_work(void) { __asm int 3 }
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
 void __fastcall lower_float_expression(Node *node) { __asm int 3 }
@@ -282,7 +281,6 @@ MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
 MachineOperand *__fastcall symbol_operand(Node *reference, int indirect) { __asm int 3 }
 void __fastcall spill_x87_for_node(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic(Node *node) { __asm int 3 }
-SymbolHeader *__fastcall allocate_stack_temporary(unsigned bytes) { __asm int 3 }
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
 int __fastcall instruction_modifies_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 #include "bitsets.h"
@@ -414,9 +412,7 @@ void __fastcall assign_flow_region(FlowRegion *region) { __asm int 3 }
 
 int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }
 
-void __fastcall rewrite_work_expressions(WorkItem *work) { __asm int 3 }
 void __fastcall collect_region_values(FlowRegion *region) { __asm int 3 }
-void __fastcall hoist_region_values(FlowRegion *regions) { __asm int 3 }
 
 
 int __fastcall available_chain_operands(Node *node, BitSet *available) { __asm int 3 }
@@ -427,7 +423,24 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
 
 
-NumberedExpression *__fastcall find_numbered_expression(Node *node) { __asm int 3 }
 
 void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
 int __fastcall has_no_later_work_store(Expression *expression) { __asm int 3 }
+
+void hoist_invariant_region_stores(void) { __asm int 3 }
+void collect_basic_region_inductions(void) { __asm int 3 }
+int prepare_region_exit_motion(void) { __asm int 3 }
+void collect_derived_region_inductions(void) { __asm int 3 }
+void combine_region_inductions(void) { __asm int 3 }
+void reduce_region_induction_strength(void) { __asm int 3 }
+void rewrite_region_inductions(void) { __asm int 3 }
+int simplify_region_exit(void) { __asm int 3 }
+void finish_region_motion(void) { __asm int 3 }
+void rebuild_region_header_references(void) { __asm int 3 }
+void release_region_motion(void) { __asm int 3 }
+
+
+Node *__fastcall materialize_numbered_tree(Node *node) { __asm int 3 }
+
+
+void __fastcall emit_switch_dispatch(Node *ranges, int count) { __asm int 3 }

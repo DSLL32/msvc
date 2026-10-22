@@ -42,10 +42,15 @@ def edges(pe, records, record):
         address = pending.pop()
         while start <= address < end and address not in visited:
             visited.add(address)
-            instruction = next(cs.disasm(pe.read(address, min(15, end-address)), address), None)
+            # Decode past the declared end so a truncated RET immediate (or
+            # another instruction operand) cannot silently end this walk.
+            instruction = next(cs.disasm(pe.read(address, 15), address), None)
             if instruction is None:
                 break
             following = address + instruction.size
+            if following > end:
+                raise ValueError('%s extent ends at %08x inside %s at %08x' %
+                                 (record['name'], end, instruction.mnemonic, address))
             operands = instruction.operands
             if instruction.mnemonic == 'call':
                 if operands[0].type == X86_OP_IMM:
@@ -86,6 +91,15 @@ def edges(pe, records, record):
 
 def main():
     original, reconstructed, config, original_index, reconstructed_index = indexes()
+    # Runtime and import bodies also enter the trap mask. Their source graphs
+    # come from the original libraries, but their accepted extents must still
+    # end on complete instructions on both sides.
+    driver_names = {record['name'] for record in config['driver']}
+    accepted = set(config['accepted'])
+    for pe, records in ((original, original_index), (reconstructed, reconstructed_index)):
+        for record in records:
+            if record['name'] in accepted and record['name'] not in driver_names:
+                edges(pe, records, record)
     checked, failures = 0, 0
     for record in config['driver']:
         if record['name'] not in config['accepted']:
