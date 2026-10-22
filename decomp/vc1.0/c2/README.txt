@@ -383,6 +383,27 @@ directive input. Initializer records use a checked 28-byte typed union. An
 independent debugger comparison matches both roots (IDs 9279 and 9290), their
 record chains and all 26 string-data bytes. All six hello frontiers replay,
 all 281 source graphs agree, five changed modules are /W3 clean and the complete
-minimal output/exit regression passes. The hello frontier is symbol-storage
-allocation; its object comparison is still pending. See
+minimal output/exit regression passes. That initializer checkpoint ended at
+symbol-storage allocation; its object comparison was still pending. See
 cases/hello-initializers-abi.json for provenance and unvisited-path limits.
+
+Hello additionally passes variable storage allocation, downward local-frame
+allocation and alignment, expression-list insertion, backend-to-frontend type
+classification and explicit scalar conversion. The incoming-parameter cursor
+at 0x806e0 is now named parameter_stack_offset. A paired mismatch exposed an
+inverted unary-completion condition in read_expression; correcting that test
+restores the original 27 first-function expression roots. An independent
+debugger comparison agrees on all 97 visited nodes, including argument chains
+and switch operands. Only the debugger entry address and a child allocation
+pointer are normalized in that tree receipt.
+
+The current hello frontier is fold_constant_conversion. Its helpers retain
+named typed traps; complete hello object output remains pending. See
+cases/hello-storage-abi.json for function extents, the reader correction and
+failure/alternate-branch validation limits.
+
+This storage/tree checkpoint has 287 reconstructed functions and 364 accepted
+frontiers. The final build passes all 352 frozen minimal frontiers, all 12
+hello frontiers, the graph audit, seven changed modules compiled /W3, and the
+complete minimal object/exit comparison. Extent-overlap checks run before each
+mask. The hello object remains pending at fold_constant_conversion.

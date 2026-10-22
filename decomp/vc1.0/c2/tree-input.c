@@ -1,5 +1,6 @@
 #include "tree-input.h"
 #include "input.h"
+#include "options.h"
 /* Original opcode classification at 000857b8. Only the encountered tree properties
    are represented; this is not the original packed flag table. */
 const unsigned short node_shapes[NODE_OPCODE_COUNT] = {
@@ -66,7 +67,7 @@ Node *__fastcall read_expression(Function *function)
             node = child;
             if (node->opcode == 0x4b || (node_shapes[node->opcode] & NODE_COMPLETE)) break;
             if (node->second.node && node->left.node) continue;
-            if (node->left.node && (node_shapes[node->opcode] & NODE_ARITY) != NODE_UNARY) continue;
+            if (node->left.node && (node_shapes[node->opcode] & NODE_ARITY) == NODE_UNARY) continue;
             break;
         }
     }

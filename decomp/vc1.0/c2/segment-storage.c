@@ -2,7 +2,67 @@
 #include "records.h"
 #include "segments.h"
 #include "function-input.h"
+#include "frame.h"
 extern int default_segment_alignment, stack_alignment;
+extern int code_pointer_bytes, default_integer_bytes;
+void __fastcall reserve_segment_storage(SymbolHeader *symbol);
+/* Original [00027080,00027200), including its six-way storage table.
+   Mark each variable once and return its contribution to parameter/local size. */
+unsigned __fastcall reserve_symbol_storage(SymbolHeader *header)
+{
+    TemporarySymbol *symbol = (TemporarySymbol *)header;
+    unsigned bytes, storage, allocation, offset;
+    unsigned short flags;
+    int remainder;
+    if (header->kind != 1) return 0;
+    flags = header->field0e;
+    if (flags & 0x800) return 0;
+    bytes = header->value;
+    storage = (symbol->attributes & 0x70) >> 4;
+    switch (storage) {
+    case 1:
+        bytes = (bytes + default_segment_alignment - 1) & ~(default_segment_alignment - 1U);
+        header->field04 = reserve_local_storage(bytes);
+        break;
+    case 2: case 4:
+        allocation = (symbol->attributes & 0x780) >> 7;
+        if (allocation == 2) break;
+        if (allocation == 3) {
+            if (!(flags & 0x200)) {
+                symbol->attributes = (symbol->attributes & ~0x50U) | 0x20;
+                break;
+            }
+            symbol->attributes = (symbol->attributes & 0xfffff8ffU) | 0x80;
+        } else if (allocation != 1 && allocation != 4) {
+            compiler_internal_error("@(#)MDmisc.c:1.87", 0x336);
+            break;
+        }
+        reserve_segment_storage(header);
+        break;
+    case 3:
+        offset = parameter_stack_offset;
+        if (offset == 8 && ((current_symbol->symbol.field0e & 2) ||
+            (!(current_symbol->symbol.field0e & 1) && code_pointer_bytes == 6))) offset += 4;
+        remainder = (int)bytes % default_integer_bytes;
+        header->field04 = offset;
+        bytes = header->value + (remainder ? default_integer_bytes - remainder : 0);
+        parameter_stack_offset = offset + bytes;
+        break;
+    case 5:
+        if (flags & 0x20) reserve_segment_storage(header);
+        break;
+    case 6:
+        allocation = (symbol->attributes & 0x780) >> 7;
+        if (allocation == 1 || allocation == 4) reserve_segment_storage(header);
+        else compiler_internal_error("@(#)MDmisc.c:1.87", 0x319);
+        break;
+    default:
+        compiler_internal_error("@(#)MDmisc.c:1.87", 0x34e);
+        break;
+    }
+    header->field0e |= 0x800;
+    return bytes;
+}
 /* Original [00026e90,00026eb0): the variable storage field marks constants. */
 int __fastcall is_constant_symbol(SymbolHeader *symbol)
 {

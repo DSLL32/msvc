@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 6,
+  "accepted_frontiers": 12,
   "current_frontier": {
-    "name": "@reserve_symbol_storage@4",
-    "original_va": 159872
+    "name": "@fold_constant_conversion@4",
+    "original_va": 358480
   },
   "expected": {
     "exit": 0,
@@ -29,8 +29,14 @@
     "all 281 source functions pass graph audit",
     "five initializer/input implementation modules compile /W3 clean",
     "independent debugger comparison matches two initializer roots and 26 string bytes",
-    "complete minimal exit/object regression passes after typed initializer layout changes"
+    "complete minimal exit/object regression passes after typed initializer layout changes",
+    "all 352 minimal frontiers and all 12 hello frontiers replay after the postfix unary-reader correction",
+    "all 287 source functions pass graph audit",
+    "seven changed storage/tree/type modules compile /W3 clean",
+    "independent first-function comparison matches 27 expression roots and 97 nodes, including arguments and switch operands",
+    "independent next-conversion capture matches signed32 constant 37 to unsigned32",
+    "complete minimal object/exit regression passes on the final build"
   ],
-  "total_accepted_frontiers": 358,
-  "reconstructed_functions": 281
+  "total_accepted_frontiers": 364,
+  "reconstructed_functions": 287
 }

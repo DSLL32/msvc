@@ -24,7 +24,7 @@ void __fastcall prepare_parameter_storage(WorkItem *work)
     }
     return;
 found_entry:
-    maximum_stack_alignment = function_stack_alignment();
+    parameter_stack_offset = function_stack_alignment();
     convention = current_symbol->symbol.field0e & 0x1c;
     if (convention == 4 || convention == 20) {
         parameter = entry->second.node;

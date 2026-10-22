@@ -3,6 +3,7 @@
 #include "expression-fields.h"
 #include "function-input.h"
 #include "tree-scratch.h"
+#include "records.h"
 extern int floating_frontend, code_pointer_bytes;
 int data_pointer_bytes = 4; /* 0008317c */
 int suppress_type_warnings; /* 00083478 */
@@ -122,7 +123,7 @@ Node *__fastcall finish_canonical_node(Node *node)
     case 9: case 0xa: case 0x75: case 0xab: case 0xac: case 0xad:
         node->second.node = convert_node_type(node->second.node, 0x101);
     case 8: case 0xe: case 0x59: case 0x84:
-        if ((left_type & 255) < (unsigned)expression_integer_bytes) {
+        if (((unsigned)left_type & 255) < (unsigned)expression_integer_bytes) {
             left_type = (unsigned short)(expression_integer_bytes | 0x100);
             node->left.node = convert_node_type(node->left.node, left_type);
         }
@@ -188,7 +189,7 @@ Node *__fastcall finish_canonical_node(Node *node)
         break;
     case 0x3b:
         if (backend_stage == 1) {
-            if ((left_type & 255) < (unsigned)expression_integer_bytes) {
+            if (((unsigned)left_type & 255) < (unsigned)expression_integer_bytes) {
                 left_type = (unsigned short)(expression_integer_bytes | 0x100);
                 node->left.node = convert_node_type(node->left.node, left_type);
             }
@@ -227,7 +228,7 @@ Node *__fastcall finish_canonical_node(Node *node)
             else if (left_type == 0xc08) type = 0x404;
             else {
                 bytes = is_function_reference(node->left.node) ? code_pointer_bytes : data_pointer_bytes;
-                if ((left_type & 255) > bytes) bytes = left_type & 255;
+                if (((unsigned)left_type & 255) > bytes) bytes = left_type & 255;
                 else bytes = is_function_reference(node->left.node) ? code_pointer_bytes : data_pointer_bytes;
                 type = (unsigned short)(bytes | 0x400);
             }
@@ -298,4 +299,17 @@ convert_left:
 no_value:
     node->attributes.words.type = 0;
     return node;
+}
+
+/* Original [000524f0,00052530). Keep an existing type, otherwise add one
+   explicit conversion node and fold integer constants immediately. */
+Node *__fastcall convert_node_once(Node *node, unsigned short type)
+{
+    Node *conversion;
+    if (node->attributes.words.type == type) return node;
+    conversion = new_node(0x34);
+    conversion->left.node = node;
+    conversion->attributes.words.type = type;
+    if (node->opcode == 0x33) conversion = fold_constant_conversion(conversion);
+    return conversion;
 }

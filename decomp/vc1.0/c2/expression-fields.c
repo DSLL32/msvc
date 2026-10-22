@@ -216,3 +216,22 @@ unsigned __fastcall encode_node_type(signed char kind, unsigned bytes)
         return 0;
     }
 }
+
+/* Original [0004cb70,0004cc00). Recover the frontend kind represented
+   by a backend scalar/storage class; widths occupy the low byte. */
+unsigned short __fastcall node_type_kind(unsigned type)
+{
+    switch (type & 0xff00) {
+    case 0: return 0;
+    case 0x100: return 1;
+    case 0x200: return 2;
+    case 0x400: return 3;
+    case 0x1000: return 5;
+    case 0x2000: return 8;
+    case 0x4000: return 9;
+    case 0x8000: return 6;
+    default:
+        compiler_internal_error("@(#)getattr.c:1.113", 0x19e);
+        return 0;
+    }
+}

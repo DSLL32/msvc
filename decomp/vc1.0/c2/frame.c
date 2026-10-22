@@ -1,7 +1,19 @@
 /* Stack-frame allocation state. */
 #include "frame.h"
 #include "functions.h"
+#include "options.h"
 extern int code_pointer_bytes;
+/* Original [00027290,000272d0). Locals grow downward; unsigned arithmetic
+   retains the original wrap/overflow diagnostic before returning the offset. */
+long __fastcall reserve_local_storage(unsigned bytes)
+{
+    unsigned extent;
+    local_stack_offset = (int)((unsigned)local_stack_offset - bytes);
+    extent = align_stack_storage(0U - (unsigned)local_stack_offset, bytes);
+    local_stack_offset = (int)(0U - extent);
+    if (local_stack_offset > 0) compiler_report(0x7e, "2G");
+    return local_stack_offset;
+}
 /* Original [000272d0,00027310). The procedure attributes determine the
    initial parameter-frame alignment; convention 0c supplies no frame. */
 unsigned function_stack_alignment(void)
@@ -20,12 +32,12 @@ void reset_stack_frame(void)
 }
 
 int local_stack_offset; /* 000806dc */
-unsigned maximum_stack_alignment = 8; /* 000806e0 */
+unsigned parameter_stack_offset = 8; /* 000806e0: next incoming parameter slot */
 /* Original [00026e10,00026e30). */
 void initialize_stack_alignment(void)
 {
     local_stack_offset = 0;
-    maximum_stack_alignment = 8;
+    parameter_stack_offset = 8;
 }
 
 int dynamic_stack_allocation; /* 00083188: an alloca changes the epilogue stack restore */
@@ -62,6 +74,15 @@ unsigned __fastcall resolve_frame_allocation(MachineInstruction *instruction)
 }
 
 extern int default_segment_alignment;
+/* Original [00026e60,00026e90). Byte/word temporaries may use narrower
+   alignment than the default frame allocation unit. */
+unsigned __fastcall align_stack_storage(unsigned offset, unsigned bytes)
+{
+    unsigned alignment = default_segment_alignment;
+    if (bytes == 2 && alignment > 1) return (offset + 1) & ~1U;
+    if (bytes == 1) return offset;
+    return (offset + alignment - 1) & ~(alignment - 1);
+}
 /* Original [00026e40,00026e60). Locals grow downwards; round their extent
    to the same alignment used by argument and temporary allocation. */
 unsigned calculate_stack_frame_size(void)

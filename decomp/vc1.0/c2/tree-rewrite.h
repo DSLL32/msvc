@@ -75,6 +75,7 @@ unsigned __fastcall tree_order_key(Node *node, unsigned left_key, unsigned right
 int __fastcall rotate_left_chain(Node *node, unsigned right_key, unsigned prior_key, int under_load);
 unsigned __fastcall sort_commutative_operands(Node *node, unsigned left_key, unsigned right_key);
 Node *__fastcall fold_constant_node(Node *node);
+Node *__fastcall fold_constant_conversion(Node *node);
 Node *__fastcall simplify_local_node(Node *node);
 Node *__fastcall fold_special_node(Node *node);
 Node *__fastcall fold_floating_node(Node *node);

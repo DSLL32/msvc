@@ -53,19 +53,16 @@ unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
 int __fastcall trees_equal(Node *left, Node *right, int flags) { __asm int 3 }
 Node *__fastcall lower_intrinsic(Node *node, Node *parent) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
-unsigned short __fastcall node_type_kind(unsigned type) { __asm int 3 }
 unsigned short __fastcall common_node_type(unsigned short left, unsigned short right) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall lift_typed_sequence(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall is_function_reference(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
-void __cdecl splice_expressions(const char *order, ...) { __asm int 3 }
 int __fastcall can_keep_conditional(Node *node) { __asm int 3 }
 Node *__fastcall lower_conditional(Node *node, Node *container) { __asm int 3 }
 Node *__fastcall lower_comma(Node *node, Node *container) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
-Node *__fastcall convert_node_once(Node *node, unsigned short type) { __asm int 3 }
 Node *__fastcall new_temporary_reference(unsigned bytes, unsigned flags) { __asm int 3 }
 Node *__cdecl build_tree(const char *format, ...) { __asm int 3 }
 unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse) { __asm int 3 }
@@ -144,7 +141,6 @@ void __fastcall lower_float_expression(Node *node) { __asm int 3 }
 void finish_target_expression(void) { __asm int 3 }
 #include "instruction-selection.h"
 void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) { __asm int 3 }
-unsigned __fastcall reserve_symbol_storage(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
@@ -342,3 +338,6 @@ void __fastcall coff_end_lines(unsigned short line, unsigned offset) { __asm int
 void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned base) { __asm int 3 }
 void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
 unsigned input_float_bits(void) { __asm int 3 }
+void __fastcall reserve_segment_storage(SymbolHeader *symbol) { __asm int 3 }
+
+Node *__fastcall fold_constant_conversion(Node *node) { __asm int 3 }

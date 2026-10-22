@@ -1,5 +1,6 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
+#include <stdarg.h>
 Expression *current_expression;
 /* Original [000516b0,000516e0). The first rewrite may replace the current
    expression, so reload that global before recording the returned tree. */
@@ -109,4 +110,45 @@ void __fastcall analyze_tree_references(Node *node, TreeReference *reference)
         *reference = left_reference;
         break;
     }
+}
+
+/* Original [000520d0,00052180). A appends a new expression and rewrites
+   it immediately. I moves the current expression into a following record,
+   inserting the new tree at the current position before rewriting it. */
+void __cdecl splice_expressions(const char *order, ...)
+{
+    va_list arguments;
+    Expression *saved, *inserted;
+    va_start(arguments, order);
+    for (; *order; ++order) {
+        switch (*order) {
+        case 'A':
+            saved = current_expression;
+            inserted = new_expression();
+            current_expression = inserted;
+            inserted->next = saved->next;
+            inserted->source_location = saved->source_location;
+            inserted->tree = va_arg(arguments, Node *);
+            saved->next = inserted;
+            rewrite_expression(inserted);
+            current_expression = saved;
+            break;
+        case 'I':
+            inserted = new_expression();
+            saved = current_expression;
+            inserted->next = saved->next;
+            inserted->tree = saved->tree;
+            inserted->field08 = saved->field08;
+            inserted->source_location = saved->source_location;
+            saved->next = inserted;
+            saved->tree = va_arg(arguments, Node *);
+            rewrite_expression(saved);
+            current_expression = inserted;
+            break;
+        default:
+            compiler_internal_error("@(#)canon.c:1.182", 0x6f7);
+            break;
+        }
+    }
+    va_end(arguments);
 }

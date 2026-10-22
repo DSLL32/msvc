@@ -362,7 +362,13 @@
     "@input_bytes@8",
     "@insert_initializer@4",
     "@is_constant_symbol@4",
-    "@read_module_directive@4"
+    "@read_module_directive@4",
+    "@reserve_symbol_storage@4",
+    "@reserve_local_storage@4",
+    "@align_stack_storage@8",
+    "_splice_expressions",
+    "@node_type_kind@4",
+    "@convert_node_once@8"
   ],
   "driver": [
     {
@@ -819,8 +825,7 @@
     {
       "name": "@reserve_symbol_storage@4",
       "start": 159872,
-      "end": 159873,
-      "provisional": true
+      "end": 160256
     },
     {
       "name": "@record_filename@4",
@@ -1861,8 +1866,7 @@
     {
       "name": "_splice_expressions",
       "start": 336080,
-      "end": 336081,
-      "provisional": true
+      "end": 336256
     },
     {
       "name": "@skip_node_conversions@4",
@@ -2096,8 +2100,7 @@
     {
       "name": "@node_type_kind@4",
       "start": 314224,
-      "end": 314225,
-      "provisional": true
+      "end": 314368
     },
     {
       "name": "@common_node_type@8",
@@ -2126,8 +2129,7 @@
     {
       "name": "@convert_node_once@8",
       "start": 337136,
-      "end": 337137,
-      "provisional": true
+      "end": 337200
     },
     {
       "name": "@inline_function_calls@12",
@@ -3526,6 +3528,28 @@
       "name": "_input_float_bits",
       "start": 458592,
       "end": 458593,
+      "provisional": true
+    },
+    {
+      "name": "@reserve_segment_storage@4",
+      "start": 160256,
+      "end": 160257,
+      "provisional": true
+    },
+    {
+      "name": "@reserve_local_storage@4",
+      "start": 160400,
+      "end": 160464
+    },
+    {
+      "name": "@align_stack_storage@8",
+      "start": 159328,
+      "end": 159376
+    },
+    {
+      "name": "@fold_constant_conversion@4",
+      "start": 358480,
+      "end": 358481,
       "provisional": true
     }
   ],
