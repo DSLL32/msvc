@@ -44,7 +44,7 @@ char *undecorate_symbol_name(const char *name,unsigned char decorated)
 char *demangle_symbol(char *buffer,const char *name,int capacity,
                       DemangleAllocate allocate,DemangleRelease release,unsigned short flags)
 {
-    DemangleReplicator names,arguments;
+    DemangleReplicator types,names;
     DemangleName result,display,parsed,prefixed;
     DemangleName *value;
     DemangleBlock *block;
@@ -54,18 +54,18 @@ char *demangle_symbol(char *buffer,const char *name,int capacity,
     demangle_heap.release=release;
     demangle_heap.remaining=0;
     demangle_heap.head=demangle_heap.tail=NULL;
+    demangle_name_status(&types.error,NULL,3);
+    demangle_name_status(&types.missing,NULL,1);
+    types.index=-1;
     demangle_name_status(&names.error,NULL,3);
-    demangle_name_status(&names.empty,NULL,1);
+    demangle_name_status(&names.missing,NULL,1);
     names.index=-1;
-    demangle_name_status(&arguments.error,NULL,3);
-    demangle_name_status(&arguments.empty,NULL,1);
-    arguments.index=-1;
     demangle_original=name;
     demangle_input=name;
     demangle_capacity=capacity;
     demangle_output=buffer;
-    demangle_name_replicator=&arguments;
-    demangle_type_replicator=&names;
+    demangle_name_replicator=&names;
+    demangle_type_replicator=&types;
     demangle_flags=flags;
     demangle_name_empty(&result,NULL);
     demangle_name_empty(&display,NULL);
@@ -1424,4 +1424,308 @@ DemangleName *demangle_parse_throw_types(DemangleName *result)
     }
     demangle_name_plus_char(value,NULL,result,')');
     return result;
+}
+
+/* Pointer/reference, arrays and function-pointer declarators [0003f010,0003f860). */
+DemangleName *demangle_parse_pointer_type(DemangleName *result,const DemangleName *qualifier,
+                                         const DemangleName *declarator,int pointer)
+{
+    DemangleName expression,qualified,this_qualifiers,empty_type,empty_scope;
+    DemangleName component,temporary,second,third,return_type,array,dimensions,element_type;
+    DemangleName *value,*hole,*array_type;
+    unsigned kind,count;
+    char indirection=pointer?'*':'&';
+    signed char character=(signed char)*demangle_input;
+    if (!character) {
+        demangle_name_status(&expression,NULL,2);
+        demangle_name_append_char(&expression,NULL,indirection);
+        if (!demangle_name_is_empty(qualifier,NULL)) demangle_name_append_name(&expression,NULL,qualifier);
+        if (!demangle_name_is_empty(declarator,NULL)) {
+            if (!demangle_name_is_empty(qualifier,NULL)) demangle_name_append_char(&expression,NULL,' ');
+            demangle_name_append_name(&expression,NULL,declarator);
+        }
+        return demangle_name_copy(result,NULL,&expression);
+    }
+    if ((character>'5' && character<':') || character=='_') {
+        kind=character-'6';
+        ++demangle_input;
+        if (kind==0x29) {
+            if (!*demangle_input) return demangle_prepend_status(result,2,declarator);
+            kind=(signed char)*demangle_input-0x3d;
+            ++demangle_input;
+            if (kind<4 || kind>=8) kind=(unsigned)-1;
+        } else if (kind>=4) kind=(unsigned)-1;
+        if (kind==(unsigned)-1) return demangle_name_status(result,NULL,1);
+        demangle_name_empty(&this_qualifiers,NULL);
+        demangle_name_character(&expression,NULL,indirection);
+        if (!demangle_name_is_empty(qualifier,NULL) &&
+            (demangle_name_is_empty(declarator,NULL) || (declarator->flags&0x10)))
+            demangle_name_append_name(&expression,NULL,qualifier);
+        if (!demangle_name_is_empty(declarator,NULL)) demangle_name_append_name(&expression,NULL,declarator);
+        if (kind&2) {
+            value=demangle_prepend_text(&temporary,"::",&expression);
+            demangle_name_assign(&expression,NULL,value);
+            if (!*demangle_input) value=demangle_prepend_status(&temporary,2,&expression);
+            else {
+                value=demangle_parse_scope(&component);
+                value=demangle_prepend_char(&temporary,' ',value);
+            }
+            demangle_name_assign(&expression,NULL,value);
+            if (!*demangle_input) return demangle_prepend_status(result,2,&expression);
+            if (*demangle_input!='@') return demangle_name_status(result,NULL,1);
+            ++demangle_input;
+            demangle_name_empty(&empty_scope,NULL);
+            demangle_name_empty(&empty_type,NULL);
+            value=demangle_parse_data_qualifiers(&component,&empty_type,0,&empty_scope,1);
+            if ((demangle_flags&0x60)==0x60) demangle_name_merge_error(&this_qualifiers,NULL,value);
+            else demangle_name_assign(&this_qualifiers,NULL,value);
+        }
+        if (kind&4) {
+            value=demangle_parse_based(&component);
+            if (!(demangle_flags&2)) {
+                value=demangle_prepend_char(&temporary,' ',value);
+                value=demangle_name_plus_name(value,NULL,&second,&expression);
+                demangle_name_assign(&expression,NULL,value);
+            } else demangle_name_merge_error(&expression,NULL,value);
+        }
+        value=demangle_parse_calling_convention(&component);
+        if (!(demangle_flags&2)) {
+            value=demangle_name_plus_name(value,NULL,&temporary,&expression);
+            demangle_name_assign(&expression,NULL,value);
+            value=demangle_prepend_text(&temporary,demangle_keyword((kind&1)?4:1),&expression);
+            demangle_name_assign(&expression,NULL,value);
+        } else demangle_name_merge_error(&expression,NULL,value);
+        value=demangle_prepend_char(&temporary,'(',&expression);
+        value=demangle_name_plus_char(value,NULL,&second,')');
+        demangle_name_assign(&expression,NULL,value);
+        hole=demangle_allocate(&demangle_heap,NULL,sizeof(*hole),0);
+        if (hole) demangle_name_empty(hole,NULL);
+        demangle_parse_return_type(&return_type,hole);
+        value=demangle_parse_arguments(&component);
+        value=demangle_prepend_char(&temporary,'(',value);
+        value=demangle_name_plus_char(value,NULL,&second,')');
+        demangle_name_append_name(&expression,NULL,value);
+        if ((demangle_flags&0x60)!=0x60 && (kind&2))
+            demangle_name_append_name(&expression,NULL,&this_qualifiers);
+        value=demangle_parse_throw_types(&component);
+        if (!(demangle_flags&0x100)) demangle_name_append_name(&expression,NULL,value);
+        else demangle_name_merge_error(&expression,NULL,value);
+        if (!hole) return demangle_name_status(result,NULL,3);
+        demangle_name_assign(hole,NULL,&expression);
+        return demangle_name_copy(result,NULL,&return_type);
+    }
+    demangle_parse_data_qualifiers(&qualified,declarator,indirection,qualifier,0);
+    if (!*demangle_input) return demangle_prepend_status(result,2,&qualified);
+    if (pointer && *demangle_input=='X') {
+        ++demangle_input;
+        if (demangle_name_is_empty(&qualified,NULL)) return demangle_name_text(result,NULL,"void");
+        return demangle_prepend_text(result,"void ",&qualified);
+    }
+    if (*demangle_input!='Y') return demangle_parse_basic_type(result,&qualified);
+    hole=demangle_allocate(&demangle_heap,NULL,sizeof(*hole),0);
+    if (hole) demangle_name_empty(hole,NULL);
+    if (!hole) return demangle_name_status(result,NULL,3);
+    ++demangle_input;
+    demangle_name_reference(&array,NULL,hole);
+    if (!*demangle_input) {
+        if (demangle_name_is_empty(&array,NULL))
+            value=demangle_name_character(&component,NULL,'[');
+        else {
+            value=demangle_prepend_char(&component,'(',&array);
+            value=demangle_name_plus_text(value,NULL,&temporary,")[");
+        }
+        value=demangle_name_plus_status(value,NULL,&second,2);
+        array_type=demangle_name_plus_char(value,NULL,&third,']');
+    } else {
+        count=demangle_read_dimension();
+        if (!count) {
+            value=demangle_name_character(&component,NULL,'[');
+            value=demangle_name_plus_status(value,NULL,&temporary,2);
+            array_type=demangle_name_plus_char(value,NULL,&second,']');
+        } else {
+            demangle_name_empty(&dimensions,NULL);
+            do {
+                value=demangle_parse_dimension(&component);
+                value=demangle_prepend_char(&temporary,'[',value);
+                value=demangle_name_plus_char(value,NULL,&second,']');
+                demangle_name_append_name(&dimensions,NULL,value);
+            } while (--count);
+            if (!demangle_name_is_empty(&array,NULL)) {
+                value=demangle_prepend_char(&component,'(',&array);
+                value=demangle_name_plus_char(value,NULL,&temporary,')');
+                value=demangle_name_plus_name(value,NULL,&second,&dimensions);
+                demangle_name_assign(&dimensions,NULL,value);
+            }
+            array_type=&dimensions;
+        }
+    }
+    demangle_parse_basic_type(&element_type,array_type);
+    if (!demangle_name_is_empty(&element_type,NULL)) demangle_name_assign(hole,NULL,&qualified);
+    return demangle_name_copy(result,NULL,&element_type);
+}
+
+/* Enum/class/struct/union names and memory qualifiers [0003ecf0,0003f010),
+ * including the native eight-entry enum switch table. */
+DemangleName *demangle_parse_indirect_type(DemangleName *result,unsigned attributes)
+{
+    DemangleName type,underlying,enumeration,component,temporary,combined;
+    DemangleName *value;
+    unsigned memory_model;
+    signed char code;
+    const char *prefix;
+    demangle_name_empty(&type,NULL);
+    if (attributes) {
+        if (attributes==0xffff) return demangle_name_status(result,NULL,1);
+        if (attributes==0xfffe) demangle_name_assign_status(&type,NULL,2);
+        else {
+            memory_model=attributes&12;
+            if (memory_model!=12) {
+                if (!(demangle_flags&0x402))
+                    demangle_name_assign_text(&type,NULL,demangle_keyword(
+                        memory_model==0?1:(memory_model==4?4:7)));
+            } else {
+                value=demangle_parse_based(&component);
+                if (!(demangle_flags&0x402)) demangle_name_assign(&type,NULL,value);
+                else demangle_name_merge_error(&type,NULL,value);
+            }
+        }
+    }
+    code=(signed char)*demangle_input++;
+    if (!code) {
+        --demangle_input;
+        value=demangle_prepend_text(&temporary,"`unknown ecsu'",&type);
+        return demangle_name_plus_status(value,NULL,result,2);
+    }
+    switch (code) {
+    case 'T': prefix="union "; break;
+    case 'U': prefix="struct "; break;
+    case 'V': prefix="class "; break;
+    case 'W':
+        demangle_name_empty(&underlying,NULL);
+        if (!*demangle_input) demangle_name_status(&enumeration,NULL,2);
+        else {
+            switch (*demangle_input) {
+            case '0': case '1': demangle_name_assign_text(&underlying,NULL,"char "); break;
+            case '2': case '3': demangle_name_assign_text(&underlying,NULL,"short "); break;
+            case '4': break;
+            case '5': demangle_name_assign_text(&underlying,NULL,"int "); break;
+            case '6': case '7': demangle_name_assign_text(&underlying,NULL,"long "); break;
+            default:
+                demangle_name_status(&enumeration,NULL,1);
+                goto enum_name;
+            }
+            code=(signed char)*demangle_input++;
+            if (code=='1' || code=='3' || code=='5' || code=='7') {
+                value=demangle_prepend_text(&temporary,"unsigned ",&underlying);
+                demangle_name_assign(&underlying,NULL,value);
+            }
+            value=demangle_parse_type_name(&component);
+            demangle_name_plus_name(&underlying,NULL,&enumeration,value);
+        }
+enum_name:
+        value=demangle_prepend_text(&temporary,"enum ",&type);
+        value=demangle_name_plus_name(value,NULL,&combined,&enumeration);
+        demangle_name_assign(&type,NULL,value);
+        return demangle_name_copy(result,NULL,&type);
+    default: return demangle_name_status(result,NULL,1);
+    }
+    value=demangle_prepend_text(&temporary,prefix,&type);
+    demangle_name_assign(&type,NULL,value);
+    value=demangle_parse_type_name(&component);
+    demangle_name_append_name(&type,NULL,value);
+    return demangle_name_copy(result,NULL,&type);
+}
+
+/* Qualified ECSU name [0003e310,0003e430). */
+DemangleName *demangle_parse_type_name(DemangleName *result)
+{
+    DemangleName name,component,temporary,combined,truncated;
+    DemangleName *value;
+    demangle_name_empty(&name,NULL);
+    if (*demangle_input=='?') {
+        ++demangle_input;
+        value=demangle_parse_template(&component);
+    } else value=demangle_parse_name(&component);
+    demangle_name_assign(&name,NULL,value);
+    if (!(name.flags&15) && *demangle_input && *demangle_input!='@') {
+        value=demangle_parse_scope(&component);
+        value=demangle_name_plus_text(value,NULL,&temporary,"::");
+        value=demangle_name_plus_name(value,NULL,&combined,&name);
+        demangle_name_assign(&name,NULL,value);
+    }
+    if (*demangle_input=='@') ++demangle_input;
+    else if (*demangle_input) demangle_name_assign_status(&name,NULL,1);
+    else if (demangle_name_is_empty(&name,NULL)) demangle_name_assign_status(&name,NULL,2);
+    else {
+        value=demangle_name_status(&truncated,NULL,2);
+        value=demangle_name_plus_text(value,NULL,&temporary,"::");
+        value=demangle_name_plus_name(value,NULL,&combined,&name);
+        demangle_name_assign(&name,NULL,value);
+    }
+    return demangle_name_copy(result,NULL,&name);
+}
+
+/* Native thiscall [00040ab0,00040ae0); RET4. */
+DemangleName *__fastcall demangle_replicator_get(DemangleReplicator *self,void *unused,int index)
+{
+    if (index<0 || index>9) return &self->error;
+    if (self->index==-1 || self->index<index) return &self->missing;
+    return self->values[index];
+}
+
+/* Numeric dimension/count reader [0003dff0,0003e080). */
+unsigned demangle_read_dimension(void)
+{
+    unsigned value=0;
+    signed char character=(signed char)*demangle_input;
+    if (!character) return 0;
+    if (character>='0' && character<='9') {
+        ++demangle_input;
+        return character-'0'+1;
+    }
+    while (*demangle_input!='@') {
+        character=(signed char)*demangle_input;
+        if (!character) return 0;
+        if (character<'A' || character>'P') return (unsigned)-1;
+        value=(value<<4)+(character-'A');
+        ++demangle_input;
+    }
+    if (*demangle_input++!='@') return (unsigned)-1;
+    return value;
+}
+
+/* Dimension name decoder [0003df10,0003dff0). Separate native vertex from count reader. */
+DemangleName *demangle_parse_dimension(DemangleName *result)
+{
+    unsigned value=0;
+    signed char character=(signed char)*demangle_input;
+    if (!character) return demangle_name_status(result,NULL,2);
+    if (character>='0' && character<='9') {
+        ++demangle_input;
+        return demangle_name_unsigned(result,NULL,character-'0'+1);
+    }
+    while (*demangle_input!='@') {
+        character=(signed char)*demangle_input;
+        if (!character) return demangle_name_status(result,NULL,2);
+        if (character<'A' || character>'P') return demangle_name_status(result,NULL,1);
+        value=(value<<4)+(character-'A');
+        ++demangle_input;
+    }
+    if (*demangle_input++!='@') return demangle_name_status(result,NULL,1);
+    return demangle_name_unsigned(result,NULL,value);
+}
+
+/* Native thiscall [000400e0,00040150); RET4. */
+DemangleName *__fastcall demangle_name_unsigned(DemangleName *self,void *unused,unsigned value)
+{
+    char digits[11],*end=digits+10,*cursor=end;
+    self->flags&=~0x3fUL;
+    self->head=NULL;
+    *end=0;
+    do {
+        *--cursor=(char)('0'+value%10);
+        value/=10;
+    } while (value);
+    demangle_name_set_range(self,NULL,cursor,end-cursor);
+    return self;
 }

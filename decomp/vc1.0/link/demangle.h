@@ -45,7 +45,7 @@ typedef char DemangleReferenceNodeSize[(sizeof(DemangleReferenceNode)==12)?1:-1]
 typedef struct DemangleReplicator {
     int index;
     DemangleName *values[10];
-    DemangleName error,empty;
+    DemangleName error,missing;
 } DemangleReplicator;
 typedef struct DemangleBlock {
     struct DemangleBlock *next;
@@ -133,4 +133,7 @@ char *__fastcall demangle_reference_write(DemangleReferenceNode *self,void *unus
 char *__fastcall demangle_status_write(DemangleStatusNode *self,void *unused,char *output,int capacity);
 DemangleName *demangle_parse_argument_list(DemangleName *result);
 DemangleName *__fastcall demangle_name_plus_status(const DemangleName *self,void *unused,DemangleName *result,int status);
+unsigned demangle_read_dimension(void);
+DemangleName *demangle_parse_type_name(DemangleName *result);
+DemangleName *__fastcall demangle_name_unsigned(DemangleName *self,void *unused,unsigned value);
 #endif

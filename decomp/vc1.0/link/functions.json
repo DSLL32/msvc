@@ -632,7 +632,14 @@
     "_demangle_parse_arguments",
     "_demangle_parse_argument_list",
     "_demangle_name_append_char",
-    "_demangle_parse_throw_types"
+    "_demangle_parse_throw_types",
+    "_demangle_parse_pointer_type",
+    "_demangle_parse_indirect_type",
+    "_demangle_parse_type_name",
+    "_demangle_replicator_get",
+    "_demangle_read_dimension",
+    "_demangle_parse_dimension",
+    "_demangle_name_unsigned"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5498,10 +5505,11 @@
       "name": "_demangle_replicator_get",
       "symbol": "@demangle_replicator_get@12",
       "start": 264880,
-      "end": 264881,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "native thiscall; rebuilt fastcall ECX-this/ignored EDX: DemangleName *(DemangleReplicator *self,void *unused,int index)"
+      "end": 264928,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleReplicator *ECX,int); RET4; C fastcall reserves ignored EDX",
+      "evidence": "Matched40ab0..40ae0. Native ECX-this/index RET4 through ignored EDX; out-of-range returns stable status3 member, unavailable valid index returns distinct status1 member, initialized slots return cached8-byte name identity."
     },
     {
       "name": "_demangle_replicator_add",
@@ -5610,10 +5618,11 @@
     {
       "name": "_demangle_parse_dimension",
       "start": 253712,
-      "end": 253713,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result)"
+      "end": 253936,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *)",
+      "evidence": "Matched3df10..3dff0. Own numeric-name vertex preserves duplicated native decimal1..10/hex@ parsing, cursor behavior, EOF2/invalid1 DName statuses and unsigned-number constructor; no extra call to separate scalar count reader."
     },
     {
       "name": "_demangle_name_append_status",
@@ -5804,10 +5813,11 @@
     {
       "name": "_demangle_parse_indirect_type",
       "start": 257264,
-      "end": 257265,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result,unsigned attributes)"
+      "end": 258064,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *,unsigned)",
+      "evidence": "Matched3ecf0..3f010 with enum switch data. Full memory-model/based attributes, invalid/truncated and unknown-ECSU output, union/struct/class qualified names, native enum underlying-code/unsigned formatting and delayed type-name parser. Ordinary prefixes remain at use."
     },
     {
       "name": "_demangle_parse_primary_type",
@@ -5840,10 +5850,11 @@
     {
       "name": "_demangle_parse_pointer_type",
       "start": 258064,
-      "end": 258065,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result,const DemangleName *qualifier,const DemangleName *declarator,int pointer)"
+      "end": 260192,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *,const DemangleName *,const DemangleName *,int)",
+      "evidence": "Matched3f010..3f860. Full pointer/reference qualifiers, void and array declarators with delayed heap holes/dimensions, ordinary/member/based function pointers with calling convention/return/argument/throw paths, display flags and malformed/truncated/allocation failures. Preserve native member-scope expression replacement and distinct number/array helpers; no lifted assembly."
     },
     {
       "name": "_demangle_name_assign_char",
@@ -5931,6 +5942,34 @@
       "source": "demangle-stubs.c",
       "implementation": "stub-C",
       "abi": "native thiscall DemangleName *(const DemangleName *ECX,DemangleName *result,int); RET8; C fastcall reserves ignored EDX"
+    },
+    {
+      "name": "_demangle_read_dimension",
+      "start": 253936,
+      "end": 254080,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned(void)",
+      "evidence": "Matched3dff0..3e080. Native leaf count decoding: digits encode1..10, A..P hex digits with32-bit wrap and @ delimiter, EOF0/invalid UINT_MAX, exact cursor consumption and no new helper edge."
+    },
+    {
+      "name": "_demangle_parse_type_name",
+      "start": 254736,
+      "end": 255024,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *)",
+      "evidence": "Matched3e310..3e430. Native qualified ECSU identifier/template branch, scope composition only for normal status, @ delimiter, malformed status and truncated-scope expression. Separate parser/constructor/operator vertices retained; :: stays at use."
+    },
+    {
+      "name": "_demangle_name_unsigned",
+      "symbol": "@demangle_name_unsigned@12",
+      "start": 262368,
+      "end": 262480,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleName *ECX,unsigned); RET4; C fastcall reserves ignored EDX",
+      "evidence": "Matched400e0..40150. Native ECX-this/unsigned RET4 through ignored EDX; explicit11-byte decimal buffer, backward unsigned DIV10 digit generation including zero, observed flag/head initialization and native range assignment with no CRT conversion vertex."
     }
   ],
   "c_stub_references": [
@@ -6511,6 +6550,13 @@
     "omf-library",
     "omf-link",
     "omf-link",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
     "cpp-undecorate",
     "cpp-undecorate",
     "cpp-undecorate",

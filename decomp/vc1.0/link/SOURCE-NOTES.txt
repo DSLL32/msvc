@@ -1,8 +1,9 @@
 Source and verification notes
 
-Current completed cases are /?, minimal-C and hello-win32. The latest full replay
-covers 383 frontiers, including the active DLL case. Later paragraphs retain
-checkpoint history.
+Current checkpoint: all 18 cases complete at 640 accepted frontiers. A clean
+original-toolchain -j2 build, full 640-frontier replay and all 18 case regressions
+pass. Later paragraphs retain historical checkpoints; the final paragraph and
+cases/omf-undecorate-queue.json record current verification.
 
 Program logic is C, including argument parsing, option processing, the driver,
 COMDAT allocation, mapped-file/cache handling, COFF readers, module/library and
@@ -698,3 +699,43 @@ All31 additions since602 replay, completing105 addition replays since full528;
 all17 completed cases pass. Audits485 graph/476 callbacks/391 data/639 accepted
 boundaries/36 ECX RET cleanups pass. Union189927/281634=67.4375%. No completed
 C++ output case or final clean/full replay is claimed yet.
+
+
+Both assigned families complete at 640 accepted frontiers. The final seven
+vertices recover pointer/reference/array/function-pointer declarators, ECSU
+names and underlying enum types, qualified type names, cache lookup, numeric
+dimension count/name parsing and unsigned-decimal construction. The name and
+type caches are explicitly named for their actual global roles; the cache
+missing value is status 1, distinct from status 3 error. All complete extents
+were recovered only after matching paired traps. Native odd member-pointer
+formatting remains byte-exact; it was not corrected to modern demangler output.
+
+The frozen C++ archive /symbols /undecorate case now returns 0 and matches all
+5511 stdout bytes plus empty stderr, with no normalization. Both OMF cases
+match frozen and untouched-original streams/status/artifacts, including the
+generated runner's exit 0 and sum 42. The original-toolchain sources reject
+template syntax; no template coverage is claimed. Unvisited malformed-name,
+based-pointer, vbtable/template and status/error branches remain named traps.
+
+Final verification: clean original-toolchain make -j2, full 640-frontier fresh
+paired historical replay, all 18 completed-case regressions, 492 direct/indirect/
+tail call-target routines, 483 callback routines, 391 contextual data definitions,
+646 original accepted-record instruction boundaries and 38 ECX-member callee
+cleanup audits pass. All 482 accepted source implementations are C; assembly
+consists only of pending INT3 statements. The demangler's native ECX-this ABI
+is expressed through C fastcall with reserved unused EDX, preserving stack
+arguments and cleanup without adapters or extra graph vertices. No continuous
+replay controller/default change, additional normalization, bulk data or ordinary
+global string objects were introduced. Verification hashes are recorded in the
+queue checkpoint; useful native analysis remains distinct from source.
+
+Accepted .text union: 193671/281634 = 68.7669%, an increase of 33442 bytes and
+112 frontiers since the 528 baseline. A separate partial decoded-body inventory
+identifies 127920 accepted target-body bytes, 26904 known CRT-body bytes and
+192 import-thunk bytes. Another 38655 accepted bytes are outside that older
+inventory. All one-byte entries are excluded. The remaining unclassified
+region includes uninventoried bodies, inline data and padding, so no exact
+padding total or target-wide native-body percentage is claimed. Remaining
+case suggestions are grounded in actual body ranges/callers and recorded in
+cases/remaining-after-omf-undecorate.json. Both assigned families are finished;
+no extra cases are queued or started.

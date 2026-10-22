@@ -6,95 +6,105 @@ all 70 formerly lifted implementations and their generators were removed. Only
 INT3 statements in pending named stubs remain. No assembly ABI exception exists.
 Data is contextual and typed; no original section snapshots are retained.
 
-The fifteen prior cases are complete:
+Eighteen cases are complete:
   /? (exit 3, exact 884-byte stdout, empty stderr)
   minimal-c, hello-win32, hello-dll
   library-create, hello-debug-dll
   library-list, library-extract, library-remove, library-list-trimmed
   library-dump-library, library-dump-object, library-dump-dll
   library-edit, library-dump-edited
+  omf-library, omf-link, cpp-undecorate
 
-The user selected both remaining-code candidates. Frozen original-backed fixtures
-link-omf and link-undecorate are in commit86a7f87. Current OMF reconstruction stops
-at matching omf_record_segments:545 frontiers,164825/281634 bytes=58.5245%.
-All17 additions since full528 replay, all15 prior cases and400 graph/391 callback/
-358 data/551 boundary audits pass. The newly assigned families remain incomplete.
-cases/omf-undecorate-queue.json records order and provenance. No lifted assembly,
-bulk data or ABI exception was introduced. The original compiler rejects template
-syntax; the C++ fixture covers supported name kinds without a template claim.
+The two latest assigned families use immutable original-backed fixtures
+link-omf and link-undecorate (86a7f87). The valid 32-bit OMF input covers segment,
+public/external, explicit-allocation COMDAT, LEDATA and FIXUPP records. Both
+archive conversion and direct linking match; the runner checks external 20 +
+ordinary data 7 + COMDAT 15 = 42 and exits 0. Converted COFF preserves the original
+symbol records, including its duplicate COMDAT definition/undefined records.
+C++ archive dump/undecoration matches all 5511 stdout bytes, empty stderr and
+exit 0 without normalization. Its original-toolchain source covers constructors,
+destructors, inheritance, operators, qualifiers, overloads, arrays, references,
+member pointers and function pointers. Templates were rejected by the original
+compiler and are not claimed. Unreached demangler branches remain named traps.
 
-The expanded scenarios cover buffered C++ archive creation and member lifecycle,
-COMDAT selection, full COFF/CodeView/FPO debug DLL linking, native CVPACK,
-resources, DEF/order parsing, map/verbose output, archive/COFF/PE dump formatting,
-and editing PE stack/heap reserve/commit values. Generated console programs exit 0;
-original/reconstructed/baseline GUI executables and DLLs pass load/call, 300 painted
-pixels, WM_CLOSE, exit 0 and DLL unload checks where applicable. Streams and exit
-status match the frozen fixtures and untouched original.
+Current verification: clean original-toolchain make -j2, full 640 historical
+frontier replay, all 18 completed-case regressions, 492 direct/indirect/tail-call
+checks, 483 callback checks, 391 contextual-data initializer checks, 646 original
+extent instruction-boundary checks and 38 ECX-member return-cleanup checks pass.
+cases/omf-undecorate-queue.json records case provenance and verification hashes.
+SOURCE-NOTES.txt retains historical checkpoints and recovered implementation
+choices; later completed checkpoints supersede earlier active-frontier notes.
 
-Previous completed-family verification (933267c): a fresh original-toolchain
-make -j2, full 528-frontier replay,
-all 15 completed-case regressions, 384 direct/indirect/tail-call graph audits,
-375 callback audits,306 contextual-data initializer audits and 534 accepted-record
-instruction-boundary checks pass. cases/coverage-after-library-tools.json records
-the accepted .text union: 160229/281634 bytes=56.8926%, up from 110787/281634=39.3372%
-at the 400-frontier baseline. This is whole-function extent coverage, including
-accepted inline tables; it is not dynamic instruction or branch coverage.
-Verification log hashes and case provenance are in cases/library-dumps.json and
-cases/library-edit.json. SOURCE-NOTES.txt preserves implementation milestones.
+The accepted .text extent union is 193671/281634 bytes=68.7669%, up from
+160229/281634=56.8926% at 528 frontiers and 110787/281634=39.3372% at 400.
+This includes accepted inline tables/alignment, not dynamic branch coverage.
+cases/coverage-after-omf-undecorate.json records the union. Separate partial
+body accounting is reproducible with measure-components.py and the analysis-only
+Ghidra inventory: 127920 accepted known target-body bytes, 26904 known CRT-body
+bytes and 192 import-thunk bytes. Another 38655 accepted extent bytes are outside
+that old body inventory. All one-byte inventory entries are excluded. The
+unclassified remainder includes uninventoried bodies, inline data and padding;
+no exact padding total or target-wide body percentage is claimed.
+
+The expanded earlier cases cover C++ archive/member lifecycle and COMDATs,
+full COFF/CodeView/FPO debug DLL linking, native CVPACK, resources, DEF/order
+parsing, map/verbose output, archive/COFF/PE dumps and PE stack/heap editing.
+Generated console programs exit 0. GUI executables and DLLs pass load/call,
+300 painted pixels, WM_CLOSE, exit 0 and DLL unload where applicable. Streams,
+status and artifacts match the frozen fixture and untouched-original oracles.
 
 Normalization remains limited to structurally proved clocks and the independently
-validated PE checksum derivation where a fixture requires them. No path, padding,
-output-order or arbitrary byte normalization is used. The editor's 71800-byte
-edited.dll is raw-exact with no ignored fields. Its stack reserve/commit are
-0x180000/0x2000; heap reserve/commit are 0x140000/0x2000. Native /release sets the
-checksum field to 1 before the buffered backend emits LNK4058, reporting checksum
-calculation unsupported on this OS; the actual resulting bytes and warning are
-preserved. No checksum-success behavior is claimed for that path.
+validated PE checksum derivation where an earlier fixture requires it. No path,
+padding, output-order or arbitrary-byte normalization is used. OMF fixtures
+normalize only proved archive/COFF/PE clock fields. Undecoration is raw-exact.
+The editor's 71800-byte edited.dll is raw-exact, including stack 0x180000/0x2000
+and heap 0x140000/0x2000. Native /release sets checksum 1 then emits LNK4058:
+checksum calculation is unsupported on this OS. No success behavior is invented.
 
-The debug DLL uses default mapped IO. Library setup/lifecycle uses LINK32_DB=27,
-the original's buffered backend: under Wine the original mapped library creator
-otherwise leaves its 2 MB allocation and subsequent listing calls it corrupt.
-Inputs are not trimmed or patched. Extracted alpha is byte-exact and the trimmed
-archive contains no beta member. The native DEF limitations are retained:
-OrdinalEntry stays named despite NONAME, and ordinal 11 has no populated forwarder
-entry. These inputs prove parsing, not effective ordinal-only/forwarder emission.
+The debug DLL uses default mapped IO. Archive lifecycle/OMF/undecoration use
+LINK32_DB=27, the buffered backend. Under Wine original mapped archive creation
+otherwise leaves its 2 MB allocation and subsequent listing reports corruption.
+Inputs are not trimmed or patched. Extracted alpha is raw-exact and the trimmed
+archive omits beta. Native DEF limitations remain: NONAME and forwarder fixture
+inputs exercise parsing, not effective ordinal-only/forwarder output.
 
-Build and check help:
+Build/check help:
     make -j2 check
-Check one fixture (the harness sets its original environment):
-    python3 compare.py --case hello-debug-dll --require-exit
-    python3 compare.py --case library-edit --require-exit
-Replay every recorded frontier and finish with edited headers:
-    python3 compare.py --replay --case library-dump-edited --require-exit
-Measure accepted original code extents:
+Check a fixture (the harness supplies its original environment):
+    python3 compare.py --case cpp-undecorate --require-exit
+    python3 compare.py --case omf-link --require-exit
+Replay every recorded frontier and finish with undecoration:
+    python3 compare.py --replay --case cpp-undecorate --require-exit
+Measure accepted extents and partial native-body components:
     python3 measure-coverage.py
+    python3 measure-components.py
 
 The harness masks the entire original code section and restores only accepted
 function extents and encountered inline data. Unaccepted reconstruction functions
 and its entry are masked too. Each pair runs concurrently and must stop at the
 same logical function. Per-run Wine namespaces expose the matching masked tool
 copy at its canonical original DOS path; other toolchain files resolve to
-untouched originals. argv[0], recursive verbose command text and self-spawned
-LINK children therefore remain exact. The debugger follows the full child tree
-with per-process image bases and loader breaks. The external original CVPACK
-helper is retained as a dependency. Original toolchain files are never modified.
+untouched originals. argv[0], recursive verbose text and self-spawned LINK
+children remain exact. The debugger follows the full child tree with per-process
+image bases and loader breaks. Original CVPACK remains an external dependency.
+The current replay remains fresh-process paired replay; no continuous replay
+method/default change was made. Original toolchain files are never modified.
 
 Runtime members come from relocation-target-verified original LIBC objects.
-Older differences, including text-mode ftell/fseek discovered by the editor's
-external LINK.ERR catalog, are readable C in runtime.c. Catalog path/offset/line
-buffers and the genuinely indexed shared code table belong to diagnostics.c;
-message sentences stay in the original external catalog.
+Older CRT differences, including text-mode ftell/fseek, are readable C in
+runtime.c. The native C parser rejects __thiscall; demangler methods instead
+use __fastcall(ECX this,ignored EDX,native stack arguments). This preserves
+native ABI and individual graph vertices without wrappers or assembly. Recorded
+symbols and audit-abi.py verify native callee return cleanup.
 
-cases/remaining-gaps.json ranks analysis-only follow-ups using actual decoded
-body ranges and native callers, excluding CRT aliases, padding and placeholder
-extents: about 21.3 KB in OMF conversion and 19.0 KB in C++ undecoration. These are
-static opportunities, not promised coverage from a single input. Those two families are now authorized and active. Remaining Macintosh/m68k, ROM, bind/rebase, disassembly,
-diagnostic/error and dormant CRT paths mean 99% whole-binary coverage is not
-established. Shared fixtures remain immutable. Scratch/evidence/private Wine
-prefixes live under ~/.ai-tmp/vc1.0-link.
-
-OMF conversion is now complete for both frozen link-omf phases: omf-library and
-omf-link. The direct-link runner exits0 after converted external/segment/COMDAT
-fixups produce42. At574 accepted, all46 additions since the full528 replay and
-all15 earlier cases pass. C++ undecoration is the remaining assigned family;
-its completion and final full verification are still pending.
+Both assigned families are finished; no further cases are queued. Analysis-only
+cases/remaining-after-omf-undecorate.json ranks possible public-input follow-ups:
+i386 -dump /disasm (~3707 uncovered known body bytes/12 functions) is practical;
+valid Macintosh/m68k COFF linking (~16534 bytes/57 functions in a named-root
+closure) is a higher-effort alternative requiring original-backed input first.
+Remaining OMF closure 9800 bytes includes internal -g conversion code not selected
+by the ordinary LINK wrapper (-o/-co), so that total is not promised for public
+OMF debug input. Remaining Mac/ROM/bind/rebase/disassembler/diagnostic/dormant CRT
+paths and unclassified bytes mean 99% whole-binary coverage is not established.
+Shared fixtures remain immutable. Scratch/evidence/private Wine prefixes live
+under ~/.ai-tmp/vc1.0-link. New cases require the user's next selection.
