@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 157,
+  "accepted_frontiers": 161,
   "current_frontier": {
-    "name": "@rewrite_allocation_registers@4",
-    "original_va": 403360
+    "name": "_assign_global_registers",
+    "original_va": 398320
   },
   "expected": {
     "exit": 0,
@@ -108,18 +108,25 @@
     "three affected modules compile /W3 clean with explicit diagnostic declaration",
     "independent assigned-range state matches344 normalized lines, including six ranges, registers4020..4025, next register38 and96 register-variable bucket heads",
     "complete minimal object/streams/exit regression passes; hello reaches rewrite_allocation_registers",
-    "verified accepted code-extent union133951/399693 bytes=33.5135percent; not branch coverage"
+    "verified accepted code-extent union133951/399693 bytes=33.5135percent; not branch coverage",
+    "all352 minimal historical frontiers replay through exact object/streams/exit comparison",
+    "all161 hello historical frontiers replay and end at matching assign_global_registers",
+    "all436 source graphs agree; all513 accepted original/reconstructed extents end on complete instructions",
+    "affected global-registers implementation compiles /W3 clean",
+    "fresh complete minimal object matches captured fixture except only four-byte COFF timestamp",
+    "independent rewritten register/flow state matches all355 normalized lines, including14 exact canonical-address identities and14 virtual-register leaves",
+    "verified accepted code-extent union135199/399693 bytes=33.8257percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 509,
-  "reconstructed_functions": 432,
+  "total_accepted_frontiers": 513,
+  "reconstructed_functions": 436,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 509,
-    "accepted_code_bytes": 133951,
+    "accepted_frontiers": 513,
+    "accepted_code_bytes": 135199,
     "original_code_bytes": 399693,
-    "percentage": 33.5134715894449,
+    "percentage": 33.825711233371614,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -127,6 +134,6 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 152
+    "union_ranges": 151
   }
 }

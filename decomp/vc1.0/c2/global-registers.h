@@ -32,6 +32,14 @@ enum AllocationDefinitionFlow {
     ALLOCATION_DEFINITION_GEN = 2, ALLOCATION_DEFINITION_KILLS,
     ALLOCATION_DEFINITION_IN, ALLOCATION_DEFINITION_OUT
 };
+/* Register flow reuses the completed definition-flow slots. */
+enum AllocationRegisterFlow {
+    ALLOCATION_REGISTER_REFERENCES = 0,
+    ALLOCATION_REGISTER_UPWARD_USES = 1,
+    ALLOCATION_REGISTER_HISTORY_IN = 2,
+    ALLOCATION_REGISTER_KILLS = 3,
+    ALLOCATION_REGISTER_HISTORY_OUT = 1
+};
 extern AllocationValue *allocation_values[ALLOCATION_VALUE_BUCKETS];
 extern BitSet *allocation_live_definitions, *allocation_candidate_registers;
 extern BitSet *allocation_observable_registers, *allocation_initial_definitions;
@@ -44,6 +52,8 @@ void __fastcall rewrite_allocation_registers(Node *node);
 void __fastcall solve_allocation_liveness(WorkItem *work);
 void __fastcall solve_allocation_history(WorkItem *work);
 void __fastcall exclude_exception_registers(WorkItem *work);
+void __fastcall restore_excluded_registers(Node *node);
+extern BitSet *allocation_excluded_registers;
 void assign_global_registers(void);
 void extend_global_register_ranges(void);
 void record_global_register_ranges(void);

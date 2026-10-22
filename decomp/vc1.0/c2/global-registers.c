@@ -493,3 +493,167 @@ AllocationRange *new_allocation_range(void)
     range->number = 0;
     return range;
 }
+
+/* Original [000627a0,00062960). Select the connected component containing
+   each direct access's live definitions. Save the canonical address in detail
+   and replace the address operand with its assigned virtual-register leaf;
+   collect referenced, upward-exposed and killed register sets per block. */
+void __fastcall rewrite_allocation_registers(Node *node)
+{
+    AllocationValue *value;
+    AllocationRange *range;
+    Node *address;
+    unsigned number, identifier;
+    if (node->opcode == 0x3c) rewrite_allocation_registers(node->left.node);
+    if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return;
+    rewrite_allocation_registers(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+        rewrite_allocation_registers(node->second.node);
+    if (work_expression->tree == node && work_expression->clobbered_definitions) {
+        subtract_bitset(allocation_live_definitions, allocation_observable_definitions);
+        allocation_live_definitions = bitset_union(allocation_live_definitions, work_expression->clobbered_definitions);
+        current_expression_work->flow_sets[ALLOCATION_REGISTER_KILLS] = bitset_union(
+            current_expression_work->flow_sets[ALLOCATION_REGISTER_KILLS], allocation_observable_registers);
+    }
+    if (!(node_shapes[node->opcode] & NODE_MEMORY_ACCESS) || node->left.node->opcode != 0x26) return;
+    value = find_allocation_value(node, 0);
+    if (!value) return;
+    if (node->opcode == 0x32) {
+        if (!(current_expression_work->flags & 1)) {
+            subtract_bitset(allocation_live_definitions, value->definitions);
+            current_expression_work->flow_sets[ALLOCATION_REGISTER_KILLS] = bitset_union(
+                current_expression_work->flow_sets[ALLOCATION_REGISTER_KILLS], value->registers);
+        }
+        allocation_live_definitions = bitset_include(allocation_live_definitions, (unsigned)(int)node->info.words.identifier);
+    }
+    for (range = value->ranges; range; range = range->next)
+        if (bitsets_overlap(range->definitions, allocation_live_definitions)) break;
+    if (!range) compiler_internal_error("@(#)nglobreg.c:1.35", 0x5bd);
+    number = range->number;
+    if (!number) return;
+    identifier = number & 0x3fff;
+    if (!bitset_contains(current_expression_work->flow_sets[ALLOCATION_REGISTER_KILLS], identifier))
+        current_expression_work->flow_sets[ALLOCATION_REGISTER_UPWARD_USES] = bitset_include(
+            current_expression_work->flow_sets[ALLOCATION_REGISTER_UPWARD_USES], identifier);
+    current_expression_work->flow_sets[ALLOCATION_REGISTER_REFERENCES] = bitset_include(
+        current_expression_work->flow_sets[ALLOCATION_REGISTER_REFERENCES], identifier);
+    address = node->left.node;
+    node->detail.node = address;
+    node->left.node = intern_leaf(0xa2, 0, (unsigned)address->attributes.words.type, number);
+}
+
+/* Original [000626d0,000627a0). Solve backward register liveness:
+   live-in = (live-out - killed) | upward-exposed uses. */
+void __fastcall solve_allocation_liveness(WorkItem *head)
+{
+    WorkItem *work;
+    FlowLink *successor;
+    BitSet *outgoing;
+    int changed;
+    for (work = head; work; work = work->next) {
+        clear_bitset(work->pass.selection.definitions);
+        work->pass.selection.uses = ensure_bitset(work->pass.selection.uses, 1);
+        transfer_bitset(work->pass.selection.uses, work->pass.selection.definitions,
+            work->flow_sets[ALLOCATION_REGISTER_KILLS], work->flow_sets[ALLOCATION_REGISTER_UPWARD_USES]);
+    }
+    outgoing = ensure_bitset(0, 1);
+    do {
+        changed = 0;
+        for (work = global_exit_work->previous; work; work = work->previous) {
+            clear_bitset(outgoing);
+            for (successor = work->successors; successor; successor = successor->next)
+                bitset_union(outgoing, successor->work->pass.selection.uses);
+            if (!equal_bitsets(outgoing, work->pass.selection.definitions)) {
+                work->pass.selection.definitions = assign_bitset(work->pass.selection.definitions, outgoing);
+                changed = 1;
+                transfer_bitset(work->pass.selection.uses, work->pass.selection.definitions,
+                    work->flow_sets[ALLOCATION_REGISTER_KILLS], work->flow_sets[ALLOCATION_REGISTER_UPWARD_USES]);
+            }
+        }
+    } while (changed);
+    release_bitset(outgoing);
+}
+
+/* Original [00062600,000626d0). Propagate the set of registers referenced
+   on any incoming path. The upward-use slot is now the history-out set. */
+void __fastcall solve_allocation_history(WorkItem *head)
+{
+    WorkItem *work;
+    FlowLink *predecessor;
+    BitSet *incoming;
+    int changed;
+    for (work = head->next; work; work = work->next) {
+        clear_bitset(work->flow_sets[ALLOCATION_REGISTER_HISTORY_IN]);
+        work->flow_sets[ALLOCATION_REGISTER_HISTORY_OUT] = ensure_bitset(work->flow_sets[ALLOCATION_REGISTER_HISTORY_OUT], 1);
+        assign_union_bitset(work->flow_sets[ALLOCATION_REGISTER_HISTORY_OUT],
+            work->flow_sets[ALLOCATION_REGISTER_HISTORY_IN], work->flow_sets[ALLOCATION_REGISTER_REFERENCES]);
+    }
+    incoming = ensure_bitset(0, 1);
+    do {
+        changed = 0;
+        for (work = head->next; work; work = work->next) {
+            clear_bitset(incoming);
+            for (predecessor = work->predecessors; predecessor; predecessor = predecessor->next)
+                bitset_union(incoming, predecessor->work->flow_sets[ALLOCATION_REGISTER_HISTORY_OUT]);
+            if (!equal_bitsets(incoming, work->flow_sets[ALLOCATION_REGISTER_HISTORY_IN])) {
+                work->flow_sets[ALLOCATION_REGISTER_HISTORY_IN] = assign_bitset(work->flow_sets[ALLOCATION_REGISTER_HISTORY_IN], incoming);
+                changed = 1;
+                assign_union_bitset(work->flow_sets[ALLOCATION_REGISTER_HISTORY_OUT],
+                    work->flow_sets[ALLOCATION_REGISTER_HISTORY_IN], work->flow_sets[ALLOCATION_REGISTER_REFERENCES]);
+            }
+        }
+    } while (changed);
+    release_bitset(incoming);
+}
+
+BitSet *allocation_excluded_registers; /* 0007b9e8: borrowed during restoration */
+/* Original [00062480,00062600). Values live across a protected exception
+   edge or region must retain memory homes. Remove their virtual registers
+   and restore the saved address operands before subsequent allocation. */
+void __fastcall exclude_exception_registers(WorkItem *head)
+{
+    WorkItem *work;
+    FlowLink *successor;
+    Expression *expression;
+    AllocationValue *value;
+    AllocationRange *range;
+    BitSet *excluded = 0, *crossing = 0;
+    unsigned bucket;
+    for (work = head; work; work = work->next) {
+        for (successor = work->successors; successor; successor = successor->next) {
+            if (successor->flags & 1) {
+                crossing = assign_bitset(crossing, work->pass.selection.definitions);
+                intersect_bitset(crossing, successor->work->pass.selection.uses);
+                excluded = bitset_union(excluded, crossing);
+            }
+        }
+        if (work->region && (work->region->flags & 1)) {
+            excluded = bitset_union(excluded, work->pass.selection.uses);
+            excluded = bitset_union(excluded, work->pass.selection.definitions);
+        }
+    }
+    release_bitset(crossing);
+    if (!excluded) return;
+    for (bucket = 0; bucket < ALLOCATION_VALUE_BUCKETS; ++bucket) {
+        for (value = allocation_values[bucket]; value; value = value->next) {
+            for (range = value->ranges; range; range = range->next) {
+                if (bitset_contains(excluded, range->number & 0x3fff)) {
+                    range->number = 0;
+                    range->flags |= 2;
+                }
+            }
+        }
+    }
+    allocation_excluded_registers = excluded;
+    for (work = head; work; work = work->next) {
+        for (expression = work->body.expressions; expression; expression = expression->next)
+            restore_excluded_registers(expression->tree);
+        work->pass.selection.uses = subtract_bitset(work->pass.selection.uses, allocation_excluded_registers);
+        work->pass.selection.definitions = subtract_bitset(work->pass.selection.definitions, allocation_excluded_registers);
+        work->flow_sets[ALLOCATION_REGISTER_REFERENCES] = subtract_bitset(work->flow_sets[ALLOCATION_REGISTER_REFERENCES], allocation_excluded_registers);
+        /* The original repeats both live-set subtractions here. */
+        work->pass.selection.uses = subtract_bitset(work->pass.selection.uses, allocation_excluded_registers);
+        work->pass.selection.definitions = subtract_bitset(work->pass.selection.definitions, allocation_excluded_registers);
+    }
+    release_bitset(excluded);
+}

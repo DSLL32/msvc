@@ -911,3 +911,30 @@ is 133,951 / 399,693 bytes, or 33.5135 percent, including source/shared text/CRT
 import thunks with union, clipping and the actual-mask cross-check. This is not
 branch coverage. Hello output remains pending at rewrite_allocation_registers,
 000627a0.
+
+Register rewriting, backward liveness, forward reference history and exception
+exclusion now complete. Four functions cover 394 reachable native instructions.
+Direct accesses retain their canonical address in Node.detail and receive the
+connected range's A2 virtual-register leaf. Register reference/upward-use/kill
+sets reuse the earlier definition slots, then history-out replaces the released
+upward-use set. Both fixed-point solvers preserve null-versus-empty sentinel
+behavior, iteration direction and successor/predecessor union order.
+
+Independent state at transfer insertion matches all 355 normalized lines,
+including 14 virtual-register leaves and their exact saved canonical-address
+identities, six blocks' completed live sets, history sets and prior allocation
+state. Address identities are matched through the actual owning allocation
+value's address operand; structural similarity is insufficient. No protected
+exception edges or regions occur here, so actual exclusion/restoration remains
+unvisited and its named tree-restoration helper still traps. Missing-range
+internal-error diagnostics also remain unvisited traps. See
+cases/hello-register-flow-abi.json for extents, ABI evidence, receipts and limits.
+
+This checkpoint has 436 reconstructed functions and 513 accepted frontiers.
+All 352 minimal and all 161 hello historical frontiers replay; all source graphs
+and accepted instruction boundaries pass audit. The affected implementation
+compiles /W3 clean, and the fresh minimal-C object/exit/streams regression passes.
+Verified accepted code-extent coverage is 135,199 / 399,693 bytes, or 33.8257
+percent, including source/shared text/CRT/import thunks with union, clipping and
+the actual-mask cross-check. This is not branch coverage. Hello output remains
+pending at assign_global_registers, 000613f0, whose role is transfer insertion.
