@@ -1,0 +1,31 @@
+{
+  "authorization": "User selected both remaining-code candidates after933267c.",
+  "status": "active",
+  "baseline": {
+    "accepted_frontiers": 528,
+    "accepted_text_bytes": 160229,
+    "total_text_virtual_bytes": 281634,
+    "percent": 56.89263796132572
+  },
+  "order": [
+    {
+      "case": "omf-library",
+      "fixture": "../fixtures/link-omf/manifest.json",
+      "phase": "library",
+      "status": "original-validated; paired frontier pending"
+    },
+    {
+      "case": "omf-link",
+      "fixture": "../fixtures/link-omf/manifest.json",
+      "phase": "link",
+      "status": "original-validated; queued"
+    },
+    {
+      "case": "cpp-undecorate",
+      "fixture": "../fixtures/link-undecorate/manifest.json",
+      "phase": "dump",
+      "status": "original-validated; queued"
+    }
+  ],
+  "limits": "Two assigned families only. Preserve prior15 cases/full528 frontiers; final clean -j2, full replay and graph/callback/data/boundary audits; component-body accounting separately from accepted-extent union."
+}

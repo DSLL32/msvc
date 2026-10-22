@@ -1,0 +1,236 @@
+{
+  "case": "link-omf",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "library": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-lib",
+        "/out:converted.lib",
+        "omf-probe.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/library/omf-probe.obj",
+          "bytes": 264,
+          "sha256": "50c04a74b57ead6f27c8f52df9bedf347cb2993299b138b8e3d8b094470921cb"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/library/converted.lib",
+          "bytes": 814,
+          "sha256": "f39209d790814528ab2948c6c06fe1bba1bb783a9dbcc0570bb2134f7600081e",
+          "output_name": "converted.lib",
+          "artifact_kind": "archive-generated",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 138,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 254,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 302,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "1a2bf9f36977d1378405878e74f4841df35c62fac2ca36b85c5714cdd6bf3dd2"
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Library Manager Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    },
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/out:runner.exe",
+        "runner.obj",
+        "omf-probe.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/link/runner.obj",
+          "bytes": 697,
+          "sha256": "e4e20408066ef0666c27b427439decaceff143071c93b277e385ec1bf8ba2032"
+        },
+        {
+          "path": "inputs/link/omf-probe.obj",
+          "bytes": 264,
+          "sha256": "50c04a74b57ead6f27c8f52df9bedf347cb2993299b138b8e3d8b094470921cb"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/link/runner.exe",
+          "bytes": 9216,
+          "sha256": "4ee1ba0f2e1b8f05eaf7b705556913e59148a9ad8cca0fd124ba23a4a4088f67",
+          "output_name": "runner.exe",
+          "artifact_kind": "plain-pe",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "fcca534ad05bf3d508962226537fde653debd083c77ded2a3cb8f62fcae33472"
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": "",
+      "generated_program": {
+        "exit_status": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  },
+  "capture": {
+    "scratch": "/root/.ai-tmp/vc1.0-link/omf-undecorate-capture",
+    "original_runs": [
+      {
+        "attempt": 1,
+        "label": "omf-library",
+        "arguments": [
+          "-lib",
+          "/out:converted.lib",
+          "omf-probe.obj"
+        ],
+        "exit": 0,
+        "outputs": [
+          "converted.lib"
+        ]
+      },
+      {
+        "attempt": 1,
+        "label": "omf-link",
+        "arguments": [
+          "-link",
+          "/out:runner.exe",
+          "runner.obj",
+          "omf-probe.obj"
+        ],
+        "exit": 0,
+        "outputs": [
+          "runner.exe"
+        ],
+        "generated_program": {
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      {
+        "attempt": 2,
+        "label": "omf-library",
+        "arguments": [
+          "-lib",
+          "/out:converted.lib",
+          "omf-probe.obj"
+        ],
+        "exit": 0,
+        "outputs": [
+          "converted.lib"
+        ]
+      },
+      {
+        "attempt": 2,
+        "label": "omf-link",
+        "arguments": [
+          "-link",
+          "/out:runner.exe",
+          "runner.obj",
+          "omf-probe.obj"
+        ],
+        "exit": 0,
+        "outputs": [
+          "runner.exe"
+        ],
+        "generated_program": {
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    ]
+  },
+  "normalization": "Only archive-member decimal dates, generated member COFF TimeDateStamp and PE COFF TimeDateStamp; structurally parsed. No path/padding/order normalization.",
+  "source_evidence": {
+    "tis_omf": "https://openwatcom.org/ftp/devel/docs/omf.pdf",
+    "tis_combined": "https://sigops.acm.illinois.edu/old/rsrc/pfmt11.pdf",
+    "nasm": "https://www.nasm.us/doc/nasm09.html#section-9.4",
+    "native_comdat": "466a0 parser reads type/group/segment/name indices; use valid explicit allocation. Native implicit DATA32 allocation crashes and is not used."
+  },
+  "semantics": {
+    "result": 42,
+    "external_helper": 20,
+    "ordinary_data": 7,
+    "comdat_data": 15,
+    "records": [
+      "THEADR80",
+      "LNAMES96",
+      "SEGDEF32 99 x2",
+      "GRPDEF9a",
+      "PUBDEF32 91 x2",
+      "EXTDEF8c",
+      "COMDAT32 c3 explicit pick-any",
+      "COMENT88 link-pass separator",
+      "LEDATA32 a1 x2",
+      "FIXUPP32 9d",
+      "MODEND32 8b"
+    ]
+  },
+  "original_compiler": {
+    "target": "toolchains/1.0-nt/bin/CL.EXE",
+    "sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+    "arguments": [
+      "/nologo",
+      "/c",
+      "/O2",
+      "/G5",
+      "/Forunner.obj",
+      "runner.c"
+    ]
+  },
+  "standalone_original_validation": "verify.py passed all phases after freezing, from independent scratch working directories"
+}

@@ -1,0 +1,108 @@
+{
+  "case": "link-undecorate",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "dump": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-dump",
+        "/symbols",
+        "/undecorate",
+        "names.lib"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/dump/names.lib",
+          "bytes": 4906,
+          "sha256": "feedf87cf0759de96253fb5e5f684d99f2bcd47360ef52f0c0ac5deecab7eee7"
+        }
+      ],
+      "outputs": [],
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file names.lib\r\n!<arch>\r\n\r\nFile Type: LIBRARY\r\n\r\nSYMBOL TABLE\r\n000 00000000 .file                            DEBUG notype       Filename\r\n    names.cpp\r\n002 00000000 .drectve                         SECT1 notype       Static\r\n    Section length   28, #relocs    0, #linenums    0\r\n004 00000000 .data                            SECT2 notype       Static\r\n    Section length    4, #relocs    0, #linenums    0\r\n006 00000000 (public: static long  Widget::count) SECT2 notype       External\r\n007 00000000 .text                            SECT3 notype       Static\r\n    Section length  266, #relocs   11, #linenums    0\r\n009 00000000 (public:  __thiscall Widget::Widget(int)) SECT3 notype ()    External\r\n00A 00000000 (public: virtual void *  __thiscall Widget::`scalar deleting destructor'(unsigned int)) UNDEF notype ()    External\r\n00B 00000000 .text                            SECT4 notype       Static\r\n    Section length   38, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)\r\n00D 00000000 (public: virtual void *  __thiscall Widget::`vector deleting destructor'(unsigned int)) UNDEF notype ()    WeakExternal\r\n    Default index        a library search\r\n00F 00000000 (const  Widget::`vftable')       UNDEF notype       External\r\n010 00000000 .data                            SECT5 notype       Static\r\n    Section length    8, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)\r\n012 00000000 (const  Widget::`vftable')       SECT5 notype       External\r\n013 00000033 (public: virtual  __thiscall Widget::~Widget(void)) SECT3 notype ()    External\r\n014 00000058 (public: virtual int  __thiscall Widget::compute(int)const ) SECT3 notype ()    External\r\n015 00000079 (public: int  __thiscall Widget::operator+(class Widget const &)const ) SECT3 notype ()    External\r\n016 0000009D (public:  __thiscall Widget::operator`long' (void)const ) SECT3 notype ()    External\r\n017 000000B9 (public: static int  __cdecl Widget::twice(int)) SECT3 notype ()    External\r\n018 000000CE (public:  __thiscall Gadget::Gadget(int)) SECT3 notype ()    External\r\n019 00000000 (public: virtual void *  __thiscall Gadget::`scalar deleting destructor'(unsigned int)) UNDEF notype ()    External\r\n01A 00000000 .text                            SECT6 notype       Static\r\n    Section length   38, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)\r\n01C 00000000 (public: virtual void *  __thiscall Gadget::`vector deleting destructor'(unsigned int)) UNDEF notype ()    WeakExternal\r\n    Default index       19 library search\r\n01E 00000000 (const  Gadget::`vftable')       UNDEF notype       External\r\n01F 00000000 .data                            SECT7 notype       Static\r\n    Section length    8, #relocs    2, #linenums    0, checksum        0, selection    2 (pick any)\r\n021 00000000 (const  Gadget::`vftable')       SECT7 notype       External\r\n022 000000FD (public: virtual int  __thiscall Gadget::compute(int)const ) SECT3 notype ()    External\r\n023 00000121 (int  __cdecl overload(int &))   SECT3 notype ()    External\r\n024 00000136 (long  __cdecl overload(char const *)) SECT3 notype ()    External\r\n025 0000014C (int  __cdecl overload(enum Shade)) SECT3 notype ()    External\r\n026 0000015F (int  __stdcall stdcall_function(int,long const volatile *)) SECT3 notype ()    External\r\n027 00000179 (int  __fastcall fastcall_function(int,int)) SECT3 notype ()    External\r\n028 00000198 (int ( __cdecl* __cdecl return_transform(int ( __cdecl*)(int)))(int)) SECT3 notype ()    External\r\n029 000001AB (int  __cdecl member_pointer(class Widget &,int ( __stdcall__segname(\" Widget)()__far)) SECT3 notype ()    External\r\n02A 000001C3 (int  __cdecl array_reference(int (&)[3])) SECT3 notype ()    External\r\n02B 000001DE (int  __cdecl use_names(void))   SECT3 notype ()    External\r\n02C 00000000 (public: virtual  __thiscall Gadget::~Gadget(void)) UNDEF notype ()    External\r\n02D 00000000 .text                            SECT8 notype       Static\r\n    Section length   1E, #relocs    1, #linenums    0, checksum        0, selection    2 (pick any)\r\n02F 00000000 (public: int  __thiscall IntBox::sum(int ( __cdecl*)(int))const ) UNDEF notype ()    External\r\n030 00000000 .text                            SECT9 notype       Static\r\n    Section length   52, #relocs    0, #linenums    0, checksum        0, selection    2 (pick any)\r\n032 00000000 ([thunk]:`vcall{4,{ this,  call,  vfptr}}' ) UNDEF notype ()    External\r\n033 00000000 .text                            SECTA notype       Static\r\n    Section length    5, #relocs    0, #linenums    0, checksum        0, selection    2 (pick any)\r\n035 00000000 (public: int  __thiscall IntBox::sum(int ( __cdecl*)(int))const ) SECT9 notype ()    External\r\n036 00000000 (public: virtual void *  __thiscall Widget::`scalar deleting destructor'(unsigned int)) SECT4 notype ()    External\r\n037 00000000 (void  __cdecl operator delete(void *)) UNDEF notype ()    External\r\n038 00000000 (public: virtual void *  __thiscall Gadget::`scalar deleting destructor'(unsigned int)) SECT6 notype ()    External\r\n039 00000000 (public: virtual  __thiscall Gadget::~Gadget(void)) SECT8 notype ()    External\r\n03A 00000000 ([thunk]:`vcall{4,{ this,  call,  vfptr}}' ) SECTA notype ()    External\r\n\r\nSTRING TABLE size = 0x2fb bytes\r\n\r\n     Summary\r\n    .drectve       28\r\n       .data       14\r\n       .text      34B\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "capture": {
+    "scratch": "/root/.ai-tmp/vc1.0-link/omf-undecorate-capture",
+    "original_runs": [
+      {
+        "attempt": 1,
+        "label": "names-dump",
+        "arguments": [
+          "-dump",
+          "/symbols",
+          "/undecorate",
+          "names.lib"
+        ],
+        "exit": 0,
+        "outputs": []
+      },
+      {
+        "attempt": 2,
+        "label": "names-dump",
+        "arguments": [
+          "-dump",
+          "/symbols",
+          "/undecorate",
+          "names.lib"
+        ],
+        "exit": 0,
+        "outputs": []
+      }
+    ],
+    "compile_arguments": [
+      "/nologo",
+      "/c",
+      "/Od",
+      "/G3",
+      "/MT",
+      "/Fonames.obj",
+      "names.cpp"
+    ],
+    "archive_arguments": [
+      "-lib",
+      "/out:names.lib",
+      "names.obj"
+    ]
+  },
+  "normalization": "None: exact frozen archive input and exact stdout/stderr.",
+  "constructs": [
+    "constructors/destructors",
+    "inheritance/virtual methods/vftables",
+    "operators and conversion operator",
+    "overloads",
+    "enums/references/array references",
+    "member/function pointers",
+    "stdcall/fastcall",
+    "const volatile pointers"
+  ],
+  "limits": "Untouched CL rejected template syntax C2143. No template compilation or template-name output coverage claimed.",
+  "original_compiler": {
+    "target": "toolchains/1.0-nt/bin/CL.EXE",
+    "sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+    "arguments": [
+      "/nologo",
+      "/c",
+      "/Od",
+      "/G3",
+      "/MT",
+      "/Fonames.obj",
+      "names.cpp"
+    ]
+  },
+  "standalone_original_validation": "verify.py passed all phases after freezing, from independent scratch working directories"
+}

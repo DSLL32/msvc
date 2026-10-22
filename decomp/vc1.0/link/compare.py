@@ -107,6 +107,11 @@ def fixture(case):
     if case in ('minimal-c', 'hello-win32', 'hello-dll', 'hello-debug-dll'):
         root = Path('../fixtures') / ('link-debug-dll' if case == 'hello-debug-dll' else case)
         phase = 'link'
+    elif case in ('omf-library', 'omf-link', 'cpp-undecorate'):
+        name, phase = {'omf-library': ('link-omf', 'library'),
+                       'omf-link': ('link-omf', 'link'),
+                       'cpp-undecorate': ('link-undecorate', 'dump')}[case]
+        root = Path('../fixtures') / name
     elif case.startswith('library-') and case[8:] in (
             'create', 'list', 'extract', 'remove', 'list-trimmed',
             'dump-library', 'dump-object', 'dump-dll', 'edit', 'dump-edited'):
