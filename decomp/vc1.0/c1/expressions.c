@@ -594,3 +594,81 @@ IrToken *__stdcall make_typed_unary_expression(unsigned char operation,
     expression->type = type;
     return (IrToken *)expression;
 }
+
+/* Original 0x41c90..0x41eac. Attributes retain their original stack
+   slot although this integer-only conversion does not consume them. */
+#define INTEGER_CONVERSION_WARNING() do { \
+    if (operation == TOK_CAST) compiler_warning(4, 310); \
+    else compiler_warning(2, 309, token_names[operation]); \
+} while (0)
+unsigned __stdcall convert_integer_constant(unsigned char operation, IrToken *node,
+    unsigned short shape_flags, unsigned short attributes, unsigned short type_flags)
+{
+    unsigned value = node->value.integer, before;
+    unsigned short source_flags, target_unsigned;
+    /* The private ABI supplies integer/enum types on these paths. The
+       original leaves widths unspecified for other base-type classes. */
+    int target_bytes, source_bytes;
+    if (shape_flags & 1) return value;
+    if (type_flags & 0x40) target_bytes = type_flags & 15;
+    else if (type_flags & 0x200) target_bytes = 4;
+    source_flags = node->type->flags;
+    if (!node->type->related) {
+        if (source_flags & 0x40) source_bytes = source_flags & 15;
+        else if (source_flags & 0x200) source_bytes = 4;
+        if (target_bytes > source_bytes) {
+            before = value;
+            if (source_bytes == 2)
+                value = source_flags & 0x4000 ? value & 0xffff : (unsigned)(int)(short)value;
+            else if (source_bytes != 4) {
+                if ((source_flags & 0x4000) ||
+                    (!options.z_a && options.option_J && !(source_flags & 0x8000)))
+                    value &= 0xff;
+                else value = (unsigned)(int)(signed char)value;
+            }
+            if (value != before) INTEGER_CONVERSION_WARNING();
+        }
+    }
+    target_unsigned = type_flags & 0x4000;
+    if (integer_conversion_overflow(type_flags & 15, target_unsigned,
+        (source_flags & 0x4000) != 0, value)) INTEGER_CONVERSION_WARNING();
+    switch (target_bytes) {
+    case 4: return value;
+    case 2: return target_unsigned ? value & 0xffff : (unsigned)(int)(short)value;
+    default:
+        if (target_unsigned || (!options.z_a && options.option_J && !(type_flags & 0x8000)))
+            return value & 0xff;
+        return (unsigned)(int)(signed char)value;
+    }
+}
+#undef INTEGER_CONVERSION_WARNING
+
+/* Original 0x2b7c0..0x2b8ea. Resolve a named call before argument
+   parsing, supplying an implicit int-returning declaration if necessary. */
+IrToken *__stdcall prepare_named_function_call(char *name)
+{
+    FrontendSymbol *symbol = find_identifier_symbol(name);
+    TypeShape *shape;
+    IrToken *expression;
+    if (!symbol) {
+        compiler_warning(3, 13, name);
+        symbol = declare_implicit_function(name);
+        symbol->attributes |= 0x800;
+        if (browser_filename && (!found_scope_depth || options.option_FR))
+            browser_symbol_definition(symbol);
+    }
+    if (browser_filename && (!found_scope_depth || options.option_FR))
+        browser_symbol_reference(symbol);
+    shape = symbol->type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (shape && ((shape->flags & 7) == 4 || (shape->flags & 7) == 3)) {
+        expression = make_symbol_reference(symbol);
+        if (symbol->attributes & 0x2000) compiler_warning(4, 217);
+        if ((shape->flags & 7) == 3) expression = make_indirection(expression);
+        else expression->type = prepend_expression_type_shape(expression->type,
+            (shape->flags & ~7) | 3, shape->attributes & 0xf77, 0);
+        return prepare_call_expression(expression);
+    }
+    report_syntax_error(63, name);
+    return make_indirection(make_symbol_reference(declare_implicit_function(name)));
+}

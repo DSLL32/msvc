@@ -426,7 +426,17 @@
     "_make_typed_unary_expression@12",
     "_begin_switch_statement@4",
     "_push_label_stack@8",
-    "_push_work_list@8"
+    "_push_work_list@8",
+    "_emit_case_statement@4",
+    "_convert_integer_constant@20",
+    "_prepare_named_function_call@4",
+    "_prepend_expression_type_shape@16",
+    "_prepare_call_expression@4",
+    "_push_call_context@4",
+    "_find_call_designator_symbol@4",
+    "_append_argument@12",
+    "_make_call_argument@8",
+    "_is_void_pointer_type@4"
   ],
   "driver": [
     {
@@ -1478,19 +1488,19 @@
       "end": 178102
     },
     {
-      "name": "_begin_sizeof_expression@4",
+      "name": "_prepare_named_function_call@4",
       "start": 178112,
-      "end": 178113
+      "end": 178410
     },
     {
-      "name": "_begin_alignof_expression@4",
+      "name": "_prepare_call_expression@4",
       "start": 178528,
-      "end": 178529
+      "end": 179075
     },
     {
       "name": "_append_argument@12",
       "start": 179248,
-      "end": 179249
+      "end": 179313
     },
     {
       "name": "_finish_type_description@4",
@@ -1650,7 +1660,7 @@
     {
       "name": "_emit_case_statement@4",
       "start": 209760,
-      "end": 209761
+      "end": 210174
     },
     {
       "name": "_emit_default_statement",
@@ -3257,12 +3267,47 @@
     {
       "name": "_prepend_expression_type_shape@16",
       "start": 262880,
-      "end": 262881
+      "end": 263006
     },
     {
       "name": "_push_label_stack@8",
       "start": 209024,
       "end": 209062
+    },
+    {
+      "name": "_convert_integer_constant@20",
+      "start": 269456,
+      "end": 269996
+    },
+    {
+      "name": "_declare_implicit_function@4",
+      "start": 177616,
+      "end": 177617
+    },
+    {
+      "name": "_function_designator_type@4",
+      "start": 262832,
+      "end": 262833
+    },
+    {
+      "name": "_push_call_context@4",
+      "start": 179088,
+      "end": 179234
+    },
+    {
+      "name": "_find_call_designator_symbol@4",
+      "start": 178416,
+      "end": 178518
+    },
+    {
+      "name": "_make_call_argument@8",
+      "start": 179328,
+      "end": 180676
+    },
+    {
+      "name": "_is_void_pointer_type@4",
+      "start": 182112,
+      "end": 182182
     }
   ],
   "cases": {

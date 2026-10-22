@@ -209,7 +209,7 @@ IrToken *__stdcall normalize_based_expression(IrToken *expression) { __asm { int
 /* Original 0x29700. */
 
 /* Original 0x29970. */
-IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, void *arguments) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, ArgumentNode *arguments) { __asm { int 3 } return 0; }
 
 /* Original 0x2a530. */
 
@@ -234,13 +234,10 @@ FrontendSymbol *__stdcall make_parameter(char *name) { __asm { int 3 } return 0;
 /* Original 0x2b780. */
 
 /* Original 0x2b7c0. */
-IrToken *__stdcall begin_sizeof_expression(IrToken *operand) { __asm { int 3 } return 0; }
 
 /* Original 0x2b960. */
-IrToken *__stdcall begin_alignof_expression(IrToken *operand) { __asm { int 3 } return 0; }
 
 /* Original 0x2bc30. */
-void *__stdcall append_argument(void *arguments, IrToken *argument, int flags) { __asm { int 3 } }
 
 /* Original 0x2c220. */
 void __stdcall finish_type_description(CType *type) { __asm { int 3 } }
@@ -326,7 +323,6 @@ void begin_do_statement(void) { __asm { int 3 } }
 void finish_switch_statement(void) { __asm { int 3 } }
 
 /* Original 0x33360. */
-void __stdcall emit_case_statement(IrToken *value) { __asm { int 3 } }
 
 /* Original 0x33500. */
 void emit_default_statement(void) { __asm { int 3 } }
@@ -758,6 +754,19 @@ FrontendSymbol * __stdcall make_implicit_declaration(char *name, unsigned char n
 /* Original 0x2d250. */
 IrToken *__stdcall make_enumerator_constant(EnumeratorSymbol *symbol) { __asm { int 3 } return 0; }
 /* Original 0x402e0. */
-CType *__stdcall prepend_expression_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
 
 /* Original 0x33080. */
+
+/* Original 0x41c90. */
+
+/* Original 0x2b5d0. */
+FrontendSymbol *__stdcall declare_implicit_function(char *name) { __asm { int 3 } return 0; }
+
+/* Original 0x402b0. */
+CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 0; }
+/* Original 0x2bb90. */
+/* Original 0x2b8f0. */
+
+/* Original 0x2bc80. */
+
+/* Original 0x2c760. */

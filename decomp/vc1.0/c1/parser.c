@@ -44,7 +44,8 @@ unsigned array_bound; /* original 0x65398 */
 LabelStack *continue_labels, *break_labels, *do_labels;
 LabelStack *switch_labels, *default_labels;
 int label_stack_count;
-IrToken *default_label;
+IrToken *case_label; /* original 0x600a0, shared by consecutive case/default labels */
+unsigned case_magnitude_limit[5] = { 0, 255, 65535, 0, 0xffffffffUL }; /* original 0x6bfd8 */
 
 /* The original yacc bound permits one state beyond its 340-element array.
    That halfword aliases the following array-bound temporary at 0x65398. */
@@ -686,11 +687,11 @@ read_action:
             begin_do_statement();
             break;
         case 143:
-            emit_code_label(do_labels->label);
+            emit_code_label(do_labels->value.label);
             if (right[-2].node)
-                emit_conditional_branch(right[-2].node, continue_labels->label, 1);
+                emit_conditional_branch(right[-2].node, continue_labels->value.label, 1);
             record_line_information(1);
-            emit_code_label(break_labels->label);
+            emit_code_label(break_labels->value.label);
             continue_labels = continue_labels->next;
             do_labels = do_labels->next;
             break_labels = break_labels->next;
@@ -709,7 +710,7 @@ read_action:
             break;
         case 145:
             record_line_information(1);
-            write_ir_record(0x3a, break_labels->label);
+            write_ir_record(0x3a, break_labels->value.label);
             finish_switch_statement();
             continue_labels = continue_labels->next;
             break_labels = break_labels->next;
@@ -725,13 +726,13 @@ read_action:
         case 147:
             if (break_labels) {
                 if (normalized_Ol && options.option_qc) emit_inline_jump(1);
-                write_ir_record(0x3a, break_labels->label);
+                write_ir_record(0x3a, break_labels->value.label);
             } else report_syntax_error(43);
             break;
         case 148:
             if (do_labels) {
                 if (normalized_Ol && options.option_qc) emit_inline_jump(2);
-                write_ir_record(0x3a, do_labels->label);
+                write_ir_record(0x3a, do_labels->value.label);
             } else report_syntax_error(44);
             break;
         case 149:
@@ -785,7 +786,7 @@ read_action:
             CLEAR_DECLARATION_FLAGS();
             break;
         case 163:
-            default_label = 0;
+            case_label = 0;
             break;
         case 165:
             if (normalized_Ol && options.option_qc) emit_inline_jump(0);
@@ -800,14 +801,14 @@ read_action:
         case 167:
             scope_serial = 0;
             if (!default_labels) report_syntax_error(47);
-            else if (default_labels->label) report_syntax_error(48);
+            else if (default_labels->value.label) report_syntax_error(48);
             else {
-                if (default_label) default_labels->label = default_label;
+                if (case_label) default_labels->value.label = case_label;
                 else {
-                    default_labels->label = make_internal_label(20);
-                    default_label = default_labels->label;
+                    default_labels->value.label = make_internal_label(20);
+                    case_label = default_labels->value.label;
                 }
-                emit_code_label(default_labels->label);
+                emit_code_label(default_labels->value.label);
             }
             break;
         case 168:
@@ -912,7 +913,7 @@ read_action:
             break;
         case 209:
             parser_value.node = make_function_call(right[-2].bytes[0], right[-3].node,
-                (void *)right[0].words.low);
+                right[0].arguments);
             scanner_flags &= ~0x80;
             break;
         case 210:
@@ -962,16 +963,16 @@ read_action:
             CLEAR_DECLARATION_FLAGS();
             break;
         case 221:
-            parser_value.node = begin_sizeof_expression(right[-1].node);
+            parser_value.node = prepare_named_function_call(right[-1].name);
             break;
         case 222:
-            parser_value.node = begin_alignof_expression(right[-1].node);
+            parser_value.node = prepare_call_expression(right[-1].node);
             break;
         case 223:
-            parser_value.words.low = (unsigned)append_argument(0, right[0].node, 0);
+            parser_value.arguments = append_argument(0, right[0].node, 0);
             break;
         case 224:
-            parser_value.words.low = (unsigned)append_argument((void *)right[-2].words.low, right[0].node, 0);
+            parser_value.arguments = append_argument(right[-2].arguments, right[0].node, 0);
             break;
         }
         goto push_state;
@@ -1569,11 +1570,11 @@ void __stdcall begin_switch_statement(IrToken *condition)
     push_label_stack(&continue_labels, 17);
     push_label_stack(&break_labels, 18);
     push_label_stack(&switch_labels, 19);
-    switch_labels->label = 0;
+    switch_labels->value.cases = 0;
     push_label_stack(&default_labels, 20);
-    default_labels->label = 0;
+    default_labels->value.label = 0;
     if (!condition) {
-        continue_labels->label->type = type_0064;
+        continue_labels->value.label->type = type_0064;
         return;
     }
     if ((condition->flags & 7) == 1) {
@@ -1594,13 +1595,13 @@ void __stdcall begin_switch_statement(IrToken *condition)
     }
     if ((condition->type->flags & 0x240) && !condition->type->related) {
         condition = promote_integer_expression(condition);
-        continue_labels->label->type = intern_type(condition->type);
+        continue_labels->value.label->type = intern_type(condition->type);
     } else {
         report_syntax_error(50);
-        continue_labels->label->type = type_0064;
+        continue_labels->value.label->type = type_0064;
     }
     expression = make_typed_unary_expression(TOK_RESERVED_136, condition->type, condition);
-    current_label_symbol = continue_labels->label->value.pointer;
+    current_label_symbol = continue_labels->value.label->value.pointer;
     emit_ir_expression(expression);
 }
 
@@ -1609,6 +1610,59 @@ void __stdcall begin_switch_statement(IrToken *condition)
 void __stdcall push_label_stack(LabelStack **stack, unsigned flags)
 {
     LabelStack *entry = push_work_list((void **)stack, 3);
-    entry->label = make_internal_label(flags);
+    entry->value.label = make_internal_label(flags);
     ++label_stack_count;
+}
+
+/* Original 0x33360..0x334fe. Cases share their statement's label and
+   remain sorted in signed or unsigned controlling-type order. */
+void __stdcall emit_case_statement(IrToken *value)
+{
+    ArenaPool *pool = &compiler_arena.pools[3];
+    SwitchCase *entry, *next, *previous;
+    FrontendSymbol *label;
+    unsigned number, magnitude;
+    unsigned short flags;
+    int is_unsigned;
+    if ((value->flags & 7) != 3) {
+        report_syntax_error(51);
+        return;
+    }
+    if (!(value->type->flags & 0x240)) {
+        report_syntax_error(52);
+        return;
+    }
+    number = value->value.integer;
+    value->type = continue_labels->value.label->type;
+    flags = value->type->flags;
+    magnitude = (int)number < 0 ? 0 - number : number;
+    if (case_magnitude_limit[flags & 15] < magnitude) compiler_warning(1, 78, number);
+    number = convert_integer_constant(TOK_CASE, value, 0, 0, flags);
+    if (pool->remaining < (int)sizeof(SwitchCase)) refill_arena(&compiler_arena, pool);
+    entry = (SwitchCase *)pool->next;
+    pool->remaining -= sizeof(SwitchCase);
+    pool->next += sizeof(SwitchCase);
+    entry->value = number;
+    if (!case_label) {
+        case_label = make_internal_label(19);
+        emit_code_label(case_label);
+    }
+    label = case_label->value.pointer;
+    entry->label_index = label->index;
+    ++label->references;
+    is_unsigned = (flags & 0x4000) ||
+        (!options.z_a && options.option_J && (flags & 0x2fdf) == 0x41 && !(flags & 0x8000));
+    previous = 0;
+    next = switch_labels->value.cases;
+    while (next && (is_unsigned ? next->value < number : (int)next->value < (int)number)) {
+        previous = next;
+        next = next->next;
+    }
+    if (next && next->value == number) {
+        report_syntax_error(49, number);
+        return;
+    }
+    entry->next = next;
+    if (previous) previous->next = entry;
+    else switch_labels->value.cases = entry;
 }

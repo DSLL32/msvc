@@ -38,4 +38,23 @@ IrToken * __stdcall reference_identifier_symbol(FrontendSymbol *symbol);
 IrToken *__stdcall make_symbol_value(FrontendSymbol *symbol);
 IrToken *__stdcall make_enumerator_constant(EnumeratorSymbol *symbol);
 CType *__stdcall prepend_expression_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter);
+unsigned __stdcall convert_integer_constant(unsigned char operation, IrToken *value,
+    unsigned short shape_flags, unsigned short attributes, unsigned short type_flags);
+FrontendSymbol *__stdcall declare_implicit_function(char *name);
+typedef struct CallContext {
+    struct CallContext *previous;
+    CType **parameter;
+    FrontendSymbol *symbol;
+    char *name;
+    CType *function_type;
+    int parameter_count, argument_count, designator_depth;
+    unsigned char flags, reserved[3];
+} CallContext;
+extern CallContext *call_context;
+extern int call_designator_depth;
+CType *__stdcall function_designator_type(CType *type);
+void __stdcall push_call_context(CType *function_type);
+FrontendSymbol *__stdcall find_call_designator_symbol(IrToken *expression);
+ArgumentNode *__stdcall make_call_argument(IrToken *argument, int flags);
+int __stdcall is_void_pointer_type(CType *type);
 #endif

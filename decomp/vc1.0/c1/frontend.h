@@ -33,6 +33,18 @@ typedef struct ExpressionNode {
 } ExpressionNode;
 typedef char ExpressionNode_must_be_twenty_bytes[(sizeof(ExpressionNode) == 20) ? 1 : -1];
 
+/* Argument nodes share the IR header, with a circular forward link and
+   the parser's reverse argument chain occupying their two link words. */
+typedef struct ArgumentNode {
+    unsigned char kind, flags;
+    unsigned short attributes;
+    CType *type;
+    struct ArgumentNode *next;
+    IrToken *expression;
+    struct ArgumentNode *previous;
+} ArgumentNode;
+typedef char ArgumentNode_must_be_twenty_bytes[sizeof(ArgumentNode) == 20 ? 1 : -1];
+
 typedef struct SavedConfiguration {
     CompilerOptions options;
     char database_path[256];

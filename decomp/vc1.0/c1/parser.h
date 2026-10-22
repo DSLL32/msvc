@@ -20,6 +20,7 @@ typedef union ParserValue {
     char *name;
     FrontendSymbol *symbol;
     IrToken *node;
+    ArgumentNode *arguments;
     TypeShape *shape;
 } ParserValue;
 
@@ -276,9 +277,13 @@ void __stdcall emit_inline_jump(int kind);
 void __stdcall begin_for_statement(IrToken *initial, IrToken *condition, IrToken *increment);
 void finish_for_statement(void);
 void begin_do_statement(void);
+typedef struct SwitchCase {
+    struct SwitchCase *next;
+    unsigned value, label_index;
+} SwitchCase;
 typedef struct LabelStack {
     struct LabelStack *next;
-    IrToken *label;
+    union { IrToken *label; SwitchCase *cases; } value;
 } LabelStack;
 void __stdcall push_label_stack(LabelStack **stack, unsigned flags);
 void __stdcall begin_switch_statement(IrToken *condition);
@@ -320,7 +325,7 @@ unsigned __stdcall integer_constant_value(IrToken *expression);
 IrToken *__stdcall make_binary_expression(unsigned char operation, IrToken *left, IrToken *right);
 IrToken *__stdcall make_unary_expression(unsigned char operation, IrToken *operand);
 IrToken *__stdcall make_cast_expression(CType *type, IrToken *operand);
-IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, void *arguments);
+IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function, ArgumentNode *arguments);
 IrToken *__stdcall make_member_expression(IrToken *operand, char *member);
 IrToken *__stdcall make_sizeof_expression(IrToken *operand);
 IrToken *__stdcall make_sizeof_type(CType *type);
@@ -329,9 +334,9 @@ IrToken *__stdcall make_subscript_expression(IrToken *base, IrToken *index);
 IrToken *__stdcall make_segment_expression(IrToken *left, IrToken *right);
 FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned kind, int arena);
 void __stdcall concatenate_string_literals(void *left, void *right);
-IrToken *__stdcall begin_sizeof_expression(IrToken *operand);
-IrToken *__stdcall begin_alignof_expression(IrToken *operand);
-void *__stdcall append_argument(void *arguments, IrToken *argument, int flags);
+IrToken *__stdcall prepare_named_function_call(char *name);
+IrToken *__stdcall prepare_call_expression(IrToken *operand);
+ArgumentNode *__stdcall append_argument(ArgumentNode *arguments, IrToken *argument, int flags);
 void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol);
 unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol);
 

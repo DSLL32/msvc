@@ -635,3 +635,38 @@ int __stdcall parameter_type_size(CType *type, int promote_float)
     if (promote_float && !shape && type->flags == 0x104) return 8;
     return type_size(type);
 }
+
+/* Original 0x402e0..0x4035e. Build a transient expression type by
+   prepending one shape and discarding an outer declaration-only prefix. */
+CType *__stdcall prepend_expression_type_shape(CType *type, unsigned short kind,
+    unsigned short attributes, void *parameter)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    CType *copy;
+    TypeShape *shape;
+    if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+    copy = (CType *)pool->next;
+    pool->remaining -= sizeof(CType);
+    pool->next += sizeof(CType);
+    *copy = *type;
+    shape = new_type_shape(kind, attributes, parameter);
+    if (copy->related && !(copy->related->flags & 7)) copy->related = copy->related->related;
+    shape->related = copy->related;
+    copy->related = shape;
+    return copy;
+}
+
+/* Original 0x2c760..0x2c7a6. A terminal function shape denotes a void
+   function, while another derived void type is treated as a void pointer. */
+int __stdcall is_void_pointer_type(CType *type)
+{
+    TypeShape *shape;
+    if (type->flags != 0x80) return 0;
+    shape = type->related;
+    if (!shape) return 0;
+    do {
+        if ((shape->flags & 7) == 4 && !shape->related) return 0;
+        shape = shape->related;
+    } while (shape);
+    return 1;
+}
