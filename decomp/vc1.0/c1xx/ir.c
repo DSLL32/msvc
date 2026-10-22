@@ -9,6 +9,30 @@ CppSymbol *function_symbol; /* original 0x8c140 */
 CppSymbol *current_label_symbol; /* original 0x91384 */
 int function_call_seen; /* original 0x9fc04; shared with global serialization */
 int inline_candidate = 1; /* original 0x9fc00 */
+int seh_try_depth; /* original 0x91388 */
+int seh_except_depth; /* original 0x9138c */
+int seh_finally_depth; /* original 0x91390 */
+
+/* Original 0x5a8b0..0x5a943. Record the shallowest SEH context in which an
+   ordinary symbol was referenced; labels carry their own use/definition bits. */
+void __stdcall reference_ir_symbol(CppSymbol *symbol)
+{
+    char *name;
+    int depth;
+    if (symbol->flags & 4) {
+        if (symbol->attributes & 0x200) {
+            if (symbol->detail.value == 0x13) name = "case";
+            else if (symbol->detail.value == 0x14) name = "default";
+            else name = symbol->name;
+            if (!(cpp_parser_flags & 0x80000000U)) report_syntax_error(705, name);
+        }
+    } else {
+        depth = seh_try_depth + seh_except_depth + seh_finally_depth;
+        if (!symbol->references || depth < symbol->auxiliary.reference.seh_depth)
+            symbol->auxiliary.reference.seh_depth = (unsigned char)depth;
+    }
+    if (symbol->flags & 4) symbol->attributes |= 0x400;
+}
 
 #define PUT_IR_WORD(stream, value) do { \
     FILE *word_stream = (stream); \

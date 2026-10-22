@@ -107,6 +107,13 @@ typedef struct SymbolVirtualFunction {
     short declaring_class, table_class;
 } SymbolVirtualFunction;
 typedef char SymbolVirtualFunctionTableClassOffsetMustBe2[(offsetof(SymbolVirtualFunction, table_class) == 2) ? 1 : -1];
+/* The reference tracker uses the second auxiliary byte for SEH nesting.
+   Virtual members use the separate virtual_function interpretation. */
+typedef struct SymbolReferenceState {
+    unsigned char reserved, seh_depth;
+    unsigned short reserved2;
+} SymbolReferenceState;
+typedef char SymbolReferenceDepthOffsetMustBe1[(offsetof(SymbolReferenceState, seh_depth) == 1) ? 1 : -1];
 
 #define COMMON_SYMBOL_FIELDS \
     unsigned char kind, flags; \
@@ -126,7 +133,7 @@ typedef char SymbolVirtualFunctionTableClassOffsetMustBe2[(offsetof(SymbolVirtua
         ClassInfo *class_info; \
         CppSymbol *parameter_next; \
     } detail; \
-    union { unsigned value; short declaring_class; SymbolVirtualFunction virtual_function; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
+    union { unsigned value; short declaring_class; SymbolVirtualFunction virtual_function; SymbolReferenceState reference; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
 typedef struct TagSymbol {
     COMMON_SYMBOL_FIELDS
 } TagSymbol;

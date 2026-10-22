@@ -1,3 +1,4 @@
+#include "record-processing.h"
 #include "binary-expressions.h"
 #include "return-statements.h"
 #include "expression-preparation.h"
@@ -61,7 +62,6 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 0; }
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 CType *builtin_integer_type(void) { __asm { int 3 } return 0; }
-void __stdcall reference_ir_symbol(CppSymbol *symbol) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
@@ -183,8 +183,6 @@ void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall emit_nonnull_expression_statement(IrToken *expression) { __asm { int 3 } }
-void finish_function_records(void) { __asm { int 3 } }
 void emit_scope_cleanup_references(void) { __asm { int 3 } }
 void __stdcall queue_closed_scope(SymbolScope *scope) { __asm { int 3 } }
 void end_do_statement(void) { __asm { int 3 } }
@@ -487,8 +485,6 @@ CppSymbol *make_missing_function_declaration(void) { __asm { int 3 } return 0; }
 void initialize_function_inline_analysis(void) { __asm { int 3 } }
 
 
-FrontendRecord *__stdcall find_frontend_record(FrontendRecord *from, unsigned char kind,
-    int recover_on_missing) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall recover_undeclared_identifier(char *name) { __asm { int 3 } return 0; }
 IrToken *most_derived_expression(void) { __asm { int 3 } return 0; }
@@ -578,7 +574,6 @@ QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, Virtua
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 int __stdcall has_deferred_expression_symbols(unsigned mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
-IrToken *__stdcall process_expression_records(IrToken *expression) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, int context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_class_reference_conversion(CType *target, CType *source) { __asm { int 3 } return 0; }
@@ -592,3 +587,14 @@ int __stdcall classify_source_class_conversion(unsigned char flags, CType *sourc
 int __stdcall type_has_base_relation(CType *derived, CType *base) { __asm { int 3 } return 0; }
 int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType *target, int context, unsigned *rank) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall collect_declaration_cleanup(IrToken *expression, FrontendRecord *from, int mode) { __asm { int 3 } return 0; }
+FrontendRecord *__stdcall find_forward_frontend_record(FrontendRecord *from, unsigned char kind, int recover_on_missing) { __asm { int 3 } return 0; }
+void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode) { __asm { int 3 } }
+IrToken *__stdcall append_symbol_destructor(IrToken *expression, CppSymbol *symbol) { __asm { int 3 } return 0; }
+IrToken *__stdcall append_expression_destructor(IrToken *expression, IrToken *object) { __asm { int 3 } return 0; }
+FrontendRecord *__stdcall find_label_record(CppSymbol *label) { __asm { int 3 } return 0; }
+FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }
+
+
+unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop_kind) { __asm { int 3 } return 0; }

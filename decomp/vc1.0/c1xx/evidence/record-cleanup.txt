@@ -1,0 +1,63 @@
+Frontend record cleanup and constructor function-record finalization
+
+Eight whole functions accepted after frontier 470 (end addresses exclusive):
+  process_expression_records      0x40fc0..0x417e0, stdcall 4, 13 native callees
+    Shared dispatch text          0x417e0..0x419e0 (three switches, 512 bytes)
+  find_frontend_record            0x41a30..0x41abe, stdcall 12, 2 native callees
+  reference_ir_symbol             0x5a8b0..0x5a943, stdcall 4, 1 native callee
+  finish_function_records         0x3d8d0..0x3d9fd, cdecl 0, 12 native callees
+  emit_nonnull_expression_statement 0x42090..0x420a1, stdcall 4, 1 native callee
+  has_unresolved_labels           0x3b5d0..0x3b5fa, cdecl 0, no native callees
+  function_paths_return           0x420b0..0x421be, cdecl 0, 4 native callees
+  finish_goto_cleanups            0x41fb0..0x4201d, cdecl 0, 5 native callees
+
+The complete record walker retains parameter cleanup ordering by calling
+convention, deferred declaration/expression cleanup, return recursion, compound
+scope matching, delimiter closure, goto/label resolution and distinct loop
+transfer boundaries. Its saved tail cursor remains separate from a newly
+located return-region boundary. All switch targets lie within the function;
+shared switch data is recorded separately from reconstructed C source.
+The 36 encountered mate entries at 0xa0a38..0xa0a5c form eighteen logical
+bidirectional delimiter pairs. The final entry stops before function_ir_tail
+at 0xa0a5c. The table is defined at its record-processing consumer and audited
+byte-for-byte. No surrounding original data section was copied.
+
+Backward record search preserves nesting and the native function-begin barrier,
+including recovery through reset_frontend_records and the exact original CRT
+longjmp implementation. All recovery paths retain the checked 32-byte jmp_buf
+and clear only a context installed by that invocation.
+
+Typed payload checks establish expression/label/symbol payload offset 16,
+label-chain/cleanup-expression offset 20 and goto-chain offset 24. The downstream
+finish_goto_cleanups consumer passes record+16 to symbol_reference(CppSymbol*)
+and record+20 to emit_label(IrToken*), establishing those distinct pointer types.
+These are encountered record prefixes; their complete allocator sizes are not
+claimed. Deferred expression destruction uses IrToken* (its type is at +4),
+whereas symbol destruction uses CppSymbol* (its type is at +12).
+
+Symbol reference tracking retains case/default/name diagnostics, label-use bits
+and minimum observed SEH depth. The three canonical counters at 0x91388/8c/90
+are try/except/finally nesting: native statement entry/exit users independently
+establish their roles. Their defaults and address identity are audited. The
+tracked depth aliases the second auxiliary-symbol byte through a typed union,
+preserving sharing with other symbol interpretations. Native diagnostic pushes
+supply the case/default/name argument omitted by the decompiler.
+
+Function-record finalization retains nullable cleanup emission, unresolved-label
+checking, special-member/void/class return exemptions, ordinary return-path
+analysis, deferred goto cleanup and final state release. Error-recovery early
+returns deliberately bypass that final release where the original does. The
+deferred goto path preserves its two high parser flags and separate cleanup
+label expressions. This case has no gotos or SEH statements; those whole
+branches retain named unaccepted children and are not claimed exercised.
+
+All 478 accepted frontiers pass the full comparator in 119.982 seconds, including
+raw output/pending buffers, logical callers and fourteen runtime observations.
+Frozen source/build/harness/fixture hashes pass before and after the final
+ordinary comparator. Accepted executable extent union: 162,880 / 476,418 bytes
+(34.188%), including functions/shared text, exact CRT and imports; this is not
+branch coverage. Receipt: evidence/replay-record-cleanup-receipt.json.
+
+Both runs now reach emit_scope_cleanup_references at original 0x53ee0 after
+implicit constructor return cleanup. Scope retirement and the complete C++
+frontend case are still unfinished. No frontend bytes were normalized.

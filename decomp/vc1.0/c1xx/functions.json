@@ -474,7 +474,15 @@
     "_end_compound_scope_record",
     "_emit_return_statement@8",
     "_begin_return_expression",
-    "_finish_return_expression@8"
+    "_finish_return_expression@8",
+    "_process_expression_records@4",
+    "_find_frontend_record@12",
+    "_reference_ir_symbol@4",
+    "_finish_function_records",
+    "_emit_nonnull_expression_statement@4",
+    "_has_unresolved_labels",
+    "_function_paths_return",
+    "_finish_goto_cleanups"
   ],
   "driver": [
     {
@@ -984,7 +992,7 @@
     {
       "name": "_reference_ir_symbol@4",
       "start": 370864,
-      "end": 370865
+      "end": 371011
     },
     {
       "name": "_get_ir_symbol_index",
@@ -3927,7 +3935,7 @@
     {
       "name": "_find_frontend_record@12",
       "start": 268848,
-      "end": 268849
+      "end": 268990
     },
     {
       "name": "_remove_last_frontend_record",
@@ -4349,7 +4357,13 @@
     {
       "name": "_process_expression_records@4",
       "start": 266176,
-      "end": 266177
+      "end": 268256,
+      "shared": [
+        [
+          268256,
+          268768
+        ]
+      ]
     },
     {
       "name": "_adjusted_this_expression@4",
@@ -4656,7 +4670,7 @@
     {
       "name": "_finish_function_records",
       "start": 252112,
-      "end": 252113
+      "end": 252413
     },
     {
       "name": "_emit_scope_cleanup_references",
@@ -4671,7 +4685,7 @@
     {
       "name": "_emit_nonnull_expression_statement@4",
       "start": 270480,
-      "end": 270481
+      "end": 270497
     },
     {
       "name": "_emit_pending_function_cleanup",
@@ -4687,6 +4701,61 @@
       "name": "_new_right_typed_expression@12",
       "start": 397920,
       "end": 397921
+    },
+    {
+      "name": "_collect_declaration_cleanup@12",
+      "start": 268768,
+      "end": 268769
+    },
+    {
+      "name": "_find_forward_frontend_record@12",
+      "start": 268992,
+      "end": 268993
+    },
+    {
+      "name": "_resolve_goto_cleanup@12",
+      "start": 269248,
+      "end": 269249
+    },
+    {
+      "name": "_append_symbol_destructor@8",
+      "start": 269952,
+      "end": 269953
+    },
+    {
+      "name": "_append_expression_destructor@8",
+      "start": 270128,
+      "end": 270129
+    },
+    {
+      "name": "_find_label_record@4",
+      "start": 270368,
+      "end": 270369
+    },
+    {
+      "name": "_skip_declaration_records@4",
+      "start": 270400,
+      "end": 270401
+    },
+    {
+      "name": "_has_unresolved_labels",
+      "start": 243152,
+      "end": 243194
+    },
+    {
+      "name": "_function_paths_return",
+      "start": 270512,
+      "end": 270782
+    },
+    {
+      "name": "_finish_goto_cleanups",
+      "start": 270256,
+      "end": 270365
+    },
+    {
+      "name": "_scan_return_paths@8",
+      "start": 270784,
+      "end": 270785
     }
   ],
   "cases": {
@@ -6090,6 +6159,34 @@
         {
           "name": "_pragma_values",
           "original": 652072,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_frontend_record_mates",
+      "original": 657976,
+      "bytes": 36
+    },
+    {
+      "kind": "state",
+      "name": "_seh_try_depth",
+      "original": 594824,
+      "fields": [
+        {
+          "name": "_seh_try_depth",
+          "original": 594824,
+          "bytes": 4
+        },
+        {
+          "name": "_seh_except_depth",
+          "original": 594828,
+          "bytes": 4
+        },
+        {
+          "name": "_seh_finally_depth",
+          "original": 594832,
           "bytes": 4
         }
       ]

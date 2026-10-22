@@ -32,6 +32,7 @@ extern unsigned char *ir_record_formats[191];
 extern CppSymbol *function_symbol;
 extern CppSymbol *label_symbols;
 extern CppSymbol *current_label_symbol;
+extern int seh_try_depth, seh_except_depth, seh_finally_depth;
 CType *builtin_integer_type(void);
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode);
 void __stdcall reference_ir_symbol(CppSymbol *symbol);

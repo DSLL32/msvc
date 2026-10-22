@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 470 accepted paired frontiers, including 394 frontend
+PARTIAL reconstruction: 478 accepted paired frontiers, including 402 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _process_expression_records@4 at original VA 0x40fc0. The latest ordered replay is recorded in validation.json;
+trap is _emit_scope_cleanup_references at original VA 0x53ee0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -894,3 +894,22 @@ evidence/replay-constructor-return-receipt.json. Accepted executable extent
 union is 159,260 / 476,418 bytes (33.429%, not branch coverage), with 401 source
 functions. Both runs reach process_expression_records at 0x40fc0 within implicit
 constructor return cleanup. Complete constructor/frontend equivalence is pending.
+
+
+The complete expression-record cleanup walker now preserves scope, return,
+label/goto and loop-transfer handling, including nested delimiter search and
+error-context ownership. Its three dispatch tables are accepted shared text;
+the encountered 36-byte delimiter-mate table has a separate exact data audit.
+Symbol reference tracking preserves label diagnostics and its three canonical
+SEH nesting counters. Typed record prefixes distinguish label symbols from
+expression-owned cleanup labels. Function finalization retains unresolved-label
+and return-path checks, deferred goto islands and record-state release.
+Evidence: evidence/record-cleanup.txt.
+
+All 478 frontiers pass the frozen full comparator in 119.982 seconds, with exact
+output/pending buffers, callers and fourteen runtime state observations. Receipt:
+evidence/replay-record-cleanup-receipt.json. Accepted executable extent union is
+162,880 / 476,418 bytes (34.188%, not branch coverage), with 409 source functions.
+Both runs reach emit_scope_cleanup_references at 0x53ee0 after implicit constructor
+return/finalization. Scope retirement and complete frontend equivalence remain
+unfinished; unused control-flow cleanup paths retain named trapping children.
