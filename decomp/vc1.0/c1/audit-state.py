@@ -25,6 +25,7 @@ STATE = [
     ('_conditional_depth', 0x6bf74, 4),
     ('_include_depth', 0x6a7d4, 2),
     ('_source_handle', 0x6a7d8, 4),
+    ('_browser_filename', 0x5b588, 4),
     ('_final_newline_emitted', 0x6b140, 4),
     ('_pch_include_state', 0x6be70, 1),
     ('_pch_expression_output', 0x6be80, 4),
@@ -169,4 +170,18 @@ for table, address, functions in callbacks:
     for index, name in enumerate(functions):
         assert struct.unpack('<I', read(original, address + 4 * index, 4))[0] == entries[name], name
         assert struct.unpack('<I', read(rebuilt, names[table] + 4 * index, 4))[0] == names[name], name
-print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match.' % (len(STATE), option_scalar_count))
+# Intrinsic lookup uses suffixes of the same vocabulary as registration.
+# Check every logical suffix/group boundary against that second original view.
+assert read(original, 0x6ca70, 29) == read(rebuilt, names['_builtin_group_boundaries'], 29)
+def cstring(image, address):
+    result = bytearray()
+    while read(image, address, 1) != b'\0':
+        result += read(image, address, 1)
+        address += 1
+    return bytes(result)
+for index in range(51):
+    old = struct.unpack('<I', read(original, 0x6c9a0 + 4*index, 4))[0]
+    new = struct.unpack('<I', read(rebuilt, names['_builtin_definitions'] + 16*index, 4))[0]
+    assert cstring(original, old) == cstring(rebuilt, new+1), ('builtin suffix', index)
+
+print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups match.' % (len(STATE), option_scalar_count))

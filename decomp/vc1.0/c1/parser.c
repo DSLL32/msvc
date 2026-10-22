@@ -834,7 +834,7 @@ read_action:
                 report_syntax_error(466);
             break;
         case 172:
-            parser_value.node = make_full_expression(right[0].node);
+            parser_value.words.low = integer_constant_value(right[0].node);
             break;
         case 173:
             parser_value.words.low = 0;

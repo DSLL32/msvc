@@ -383,7 +383,19 @@
     "_addition_overflows@16",
     "_add_member_offset@8",
     "_append_aggregate_member@4",
-    "_append_aggregate_member_range@8"
+    "_append_aggregate_member_range@8",
+    "_parse_struct_specifier",
+    "_add_anonymous_members@4",
+    "_pointer_type_size@4",
+    "_consume_line_escape",
+    "_scan_continued_identifier",
+    "_pragma_open_parenthesis",
+    "_visit_pragma_names@4",
+    "_disable_intrinsic_function@4",
+    "_find_builtin_index@4",
+    "_make_intrinsic_external@4",
+    "_integer_constant_value@4",
+    "_array_element_size@12"
   ],
   "driver": [
     {
@@ -1165,7 +1177,7 @@
     {
       "name": "_consume_line_escape",
       "start": 141872,
-      "end": 141873
+      "end": 142015
     },
     {
       "name": "_next_source_character",
@@ -1362,7 +1374,7 @@
     {
       "name": "_parse_struct_specifier",
       "start": 166624,
-      "end": 166625
+      "end": 166883
     },
     {
       "name": "_new_enumerator@8",
@@ -1495,9 +1507,9 @@
       "end": 182401
     },
     {
-      "name": "_make_full_expression@4",
+      "name": "_integer_constant_value@4",
       "start": 182512,
-      "end": 182513
+      "end": 182607
     },
     {
       "name": "_process_declaration@4",
@@ -2008,12 +2020,12 @@
     {
       "name": "_array_element_size@12",
       "start": 207888,
-      "end": 207889
+      "end": 208199
     },
     {
       "name": "_pointer_type_size@4",
       "start": 208592,
-      "end": 208593
+      "end": 208656
     },
     {
       "name": "_start_function_ir",
@@ -2689,12 +2701,12 @@
     {
       "name": "_pragma_open_parenthesis",
       "start": 124272,
-      "end": 124273
+      "end": 124326
     },
     {
       "name": "_visit_pragma_names@4",
       "start": 124368,
-      "end": 124369
+      "end": 124487
     },
     {
       "name": "_enable_intrinsic_function@4",
@@ -2704,7 +2716,7 @@
     {
       "name": "_disable_intrinsic_function@4",
       "start": 187616,
-      "end": 187617
+      "end": 187754
     },
     {
       "name": "_assign_allocated_text@4",
@@ -2969,7 +2981,7 @@
     {
       "name": "_add_anonymous_members@4",
       "start": 169328,
-      "end": 169329
+      "end": 169722
     },
     {
       "name": "_check_member_name@4",
@@ -3020,6 +3032,16 @@
       "name": "_append_aggregate_member_range@8",
       "start": 173120,
       "end": 173212
+    },
+    {
+      "name": "_find_builtin_index@4",
+      "start": 187040,
+      "end": 187179
+    },
+    {
+      "name": "_make_intrinsic_external@4",
+      "start": 187280,
+      "end": 187342
     }
   ],
   "cases": {

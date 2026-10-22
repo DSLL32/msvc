@@ -42,6 +42,8 @@ extern unsigned char builtin_group_boundaries[29];
 extern unsigned next_symbol_index, browser_symbol_limit;
 extern unsigned char current_storage[3];
 int __stdcall builtin_enabled(unsigned index);
+int __stdcall find_builtin_index(char *name);
+void __stdcall make_intrinsic_external(FrontendSymbol *symbol);
 void __stdcall mark_builtin(FrontendSymbol *symbol, unsigned index);
 void __stdcall insert_scope_symbol(SymbolScope *scope, FrontendSymbol *symbol);
 void browser_index_overflow(void);

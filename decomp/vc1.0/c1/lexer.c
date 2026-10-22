@@ -1043,3 +1043,29 @@ void discard_line_comment(void)
         }
     }
 }
+
+/* Original 0x22a30..0x22abf. Join a physical line following a backslash,
+   carrying it across input boundaries and preserving preprocess-only output. */
+int consume_line_escape(void)
+{
+    unsigned char character;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        if (character == '\r') continue;
+        if (!character) {
+            recover_special_character();
+            source_text_cursor[-1] = '\\';
+            continue;
+        }
+        if (character != '\n') {
+            --source_text_cursor;
+            return 0;
+        }
+        ++source_line_number;
+        if (options.option_E) {
+            if (parser_flags & 0x08000000UL) fputc('\\', preprocessor_stream);
+            fputc('\n', preprocessor_stream);
+        }
+        return 1;
+    }
+}

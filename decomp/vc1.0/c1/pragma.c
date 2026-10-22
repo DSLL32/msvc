@@ -499,3 +499,35 @@ void __stdcall set_warning_level(int number, int level)
         if (highest_warning_700 <= warning) highest_warning_700 = warning;
     }
 }
+
+/* Original 0x1e570..0x1e5a6. Reject a malformed pragma argument list
+   before its directive-specific reader consumes any arguments. */
+int pragma_open_parenthesis(void)
+{
+    if (read_pragma_token() == TOK_LEFT_PAREN) return 1;
+    compiler_warning(1, 83, token_names[current_token_code]);
+    skip_source_line();
+    return 0;
+}
+
+/* Original 0x1e5d0..0x1e647. Apply a pragma callback to a comma-separated
+   identifier list. Local-scope use is diagnosed and consumes the list only. */
+void __stdcall visit_pragma_names(void (__stdcall *callback)(char *))
+{
+    unsigned char token;
+    if (parameter_nesting) {
+        callback = 0;
+        report_syntax_error(156);
+    }
+    for (;;) {
+        if (read_pragma_token() != TOK_IDENTIFIER) {
+            compiler_warning(1, 82, token_names[current_token_code]);
+            return;
+        }
+        if (callback) callback(current_token_value.identifier);
+        token = read_pragma_token();
+        if (token == TOK_COMMA) continue;
+        if (token != TOK_RIGHT_PAREN) warn_ignored_token();
+        return;
+    }
+}

@@ -1880,3 +1880,93 @@ void __stdcall append_aggregate_member_range(FrontendSymbol *first, FrontendSymb
     else context->tag->associated.members = first;
     aggregate_contexts[aggregate_depth].last_member = last;
 }
+
+/* Original 0x28ae0..0x28be3. Complete an aggregate's size/alignment,
+   flush its final bitfield unit, and return the definition type to the grammar. */
+CType *parse_struct_specifier(void)
+{
+    AggregateContext *context = &aggregate_contexts[aggregate_depth];
+    FrontendSymbol *tag = context->tag;
+    CType *type = context->type;
+    unsigned short alignment;
+    if (tag->name != name_unnamed && browser_filename &&
+        (!parameter_nesting || options.option_FR)) browser_finish_scope();
+    context = &aggregate_contexts[aggregate_depth];
+    if (context->bitfield_type && context->bitfield_used_bits)
+        context->size += context->bitfield_type & 15;
+    align_aggregate_member(context->alignment);
+    context = &aggregate_contexts[aggregate_depth];
+    tag->detail.value = context->size;
+    if (!tag->detail.value) tag->detail.value = 4;
+    tag->field24 = (tag->field24 & 0xff00ffffUL) | ((unsigned)(context->alignment & 0xff) << 16);
+    tag->flags |= 1;
+    tag->type->field0c &= 0xffff0000UL;
+    alignment = context->alignment;
+    if (--aggregate_depth >= 0 && aggregate_contexts[aggregate_depth].alignment <= alignment)
+        aggregate_contexts[aggregate_depth].alignment = alignment;
+    tag_in_current_scope = 1;
+    return type;
+}
+
+/* Original 0x29570..0x296fa. Surround an anonymous aggregate's copied
+   members with explicit begin/end markers, adjusting offsets for a struct. */
+void __stdcall add_anonymous_members(CType *type)
+{
+    FrontendSymbol *first, *last, *member, *copy, *tag;
+    unsigned offset, kind;
+    aggregate_contexts[aggregate_depth].tag->attributes |= 0x200;
+    first = allocate_permanent(sizeof(FrontendSymbol));
+    first->flags |= 0x20;
+    first->kind = 3;
+    first->type = type;
+    first->name = name_alignment;
+    first->attributes |= 0x800;
+    offset = layout_data_member(first);
+    first->detail.value = offset;
+    tag = (FrontendSymbol *)type->field08;
+    aggregate_contexts[aggregate_depth].tag->attributes =
+        (aggregate_contexts[aggregate_depth].tag->attributes & ~0x100UL) | (tag->attributes & 0x100);
+    if ((tag->field24 & 0x01000000UL) || (type->flags & 0x404) == 0x404)
+        aggregate_contexts[aggregate_depth].tag->field24 |= 0x01000000UL;
+    else aggregate_contexts[aggregate_depth].tag->field24 &= ~0x01000000UL;
+    last = first;
+    for (member = tag->associated.members; member; member = member->next) {
+        kind = member->kind & 0x1f;
+        if (kind == 15 || kind == 17 || kind == 4) continue;
+        if (check_member_name(member->name)) continue;
+        copy = allocate_permanent(sizeof(FrontendSymbol));
+        *copy = *member;
+        last->next = copy;
+        last = copy;
+        if (aggregate_contexts[aggregate_depth].flags & 1) copy->detail.value += offset;
+    }
+    member = allocate_permanent(sizeof(FrontendSymbol));
+    member->flags |= 0x20;
+    member->kind = 3;
+    member->type = type;
+    member->name = name_alignment;
+    member->attributes |= 0x1000;
+    last->next = member;
+    if (first) {
+        member->next = 0;
+        append_aggregate_member_range(first, member);
+    }
+    aggregate_contexts[aggregate_depth].bitfield_type = 0;
+}
+
+/* Original 0x2c8f0..0x2c94f. Declaration bounds require an integer or
+   enum constant; retain the original diagnostic-specific recovery values. */
+unsigned __stdcall integer_constant_value(IrToken *expression)
+{
+    if (!expression) {
+        report_syntax_error(56);
+        return 0;
+    }
+    if ((expression->flags & 7) != 3) {
+        report_syntax_error(57);
+        return 1;
+    }
+    if (expression->type->flags & 0x240) return expression->value.integer;
+    report_syntax_error(58);
+    return 0;
+}

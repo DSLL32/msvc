@@ -1,6 +1,7 @@
 /* Compiler intrinsic declarations and their scope registration. */
 #include "builtins.h"
 #include "keywords.h"
+#include "parser.h"
 
 unsigned next_symbol_index = 100; /* original 0x6b7f4 */
 unsigned browser_symbol_limit = 65535; /* original 0x6b7f8 */
@@ -96,4 +97,61 @@ void __stdcall mark_builtin(FrontendSymbol *symbol, unsigned index)
     symbol->storage[2] = current_storage[2];
     symbol->detail.intrinsic.operation = (unsigned short)builtin_definitions[index].operation;
     symbol->detail.intrinsic.flags = builtin_definitions[index].flags;
+}
+
+/* Original 0x2dce0..0x2dd6a. #pragma function converts a known intrinsic
+   declaration into an external function, except for mandatory intrinsics. */
+void __stdcall disable_intrinsic_function(char *name)
+{
+    FrontendSymbol *symbol;
+    unsigned kind;
+    if (find_builtin_index(name) == -1) {
+        compiler_warning(1, 163, name);
+        return;
+    }
+    symbol = find_identifier_symbol(name);
+    if (!symbol) {
+        compiler_warning(1, 164, name);
+        return;
+    }
+    kind = symbol->kind & 0x1f;
+    if (kind != 6 && kind != 7) {
+        report_syntax_error(170, name);
+        return;
+    }
+    if (symbol->detail.intrinsic.flags & 0x80) {
+        compiler_warning(1, 167, name);
+        return;
+    }
+    make_intrinsic_external(symbol);
+}
+
+/* Original 0x2daa0..0x2db2b. Group interned identifier spellings by their
+   initial underscore/lowercase character, then compare their suffixes. */
+int __stdcall find_builtin_index(char *name)
+{
+    int group = (signed char)*name - '_';
+    unsigned index, end;
+    char *left, *right;
+    if (group < 0) return -1;
+    index = builtin_group_boundaries[group];
+    end = builtin_group_boundaries[group + 1];
+    while (index != end) {
+        left = builtin_definitions[index].name + 1;
+        right = name + 1;
+        while (*left && *left == *right) { ++left; ++right; }
+        if (*left == *right) return index;
+        ++index;
+    }
+    return -1;
+}
+
+/* Original 0x2db90..0x2dbce. Retain the intrinsic payload while changing
+   the symbol kind and installing external-function storage with the disable bit. */
+void __stdcall make_intrinsic_external(FrontendSymbol *symbol)
+{
+    symbol->kind = 7;
+    symbol->storage[0] = (current_storage[0] & ~7) | 0x21;
+    symbol->storage[1] = current_storage[1];
+    symbol->storage[2] = current_storage[2];
 }

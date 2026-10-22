@@ -309,7 +309,7 @@ void __stdcall emit_case_statement(IrToken *value);
 IrToken *__stdcall make_internal_label(unsigned flags);
 void __stdcall emit_conditional_branch(IrToken *condition, IrToken *label, int sense);
 void __stdcall emit_code_label(IrToken *label);
-IrToken *__stdcall make_full_expression(IrToken *expression);
+unsigned __stdcall integer_constant_value(IrToken *expression);
 IrToken *__stdcall make_binary_expression(unsigned char operation, IrToken *left, IrToken *right);
 IrToken *__stdcall make_unary_expression(unsigned char operation, IrToken *operand);
 IrToken *__stdcall make_cast_expression(CType *type, IrToken *operand);

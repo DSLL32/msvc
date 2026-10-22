@@ -130,7 +130,6 @@ int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
 
 
 
-int consume_line_escape(void) { __asm { int 3 } return 0; }
 
 
 
@@ -158,7 +157,6 @@ unsigned char __stdcall scan_assembler_number(int first_character) { __asm { int
 void report_ide_line(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
 
-void scan_continued_identifier(char *start, unsigned hash) { __asm { int 3 } }
 
 /* Original 0x18f90. */
 
@@ -204,7 +202,6 @@ FrontendSymbol *__stdcall finish_declarator(FrontendSymbol *declarator) { __asm 
 /* Original 0x28a70. */
 
 /* Original 0x28ae0. */
-CType *parse_struct_specifier(void) { __asm { int 3 } return 0; }
 
 /* Original 0x29340. */
 
@@ -272,7 +269,6 @@ IrToken *__stdcall make_sizeof_expression(IrToken *operand) { __asm { int 3 } re
 IrToken *__stdcall make_sizeof_type(CType *type) { __asm { int 3 } return 0; }
 
 /* Original 0x2c8f0. */
-IrToken *__stdcall make_full_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 /* Original 0x2c980. */
 
@@ -453,8 +449,6 @@ void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeS
 void reset_inline_function_state(void) { __asm { int 3 } }
 
 
-int __stdcall array_element_size(unsigned short flags, void *information, TypeShape *shape) { __asm { int 3 } return 0; }
-int __stdcall pointer_type_size(unsigned short attributes) { __asm { int 3 } return 0; }
 
 unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters) { __asm { int 3 } return 0; }
 int __stdcall compatible_parameter_types(CType *expected, CType *actual) { __asm { int 3 } return 0; }
@@ -601,16 +595,13 @@ int __stdcall read_pragma_argument(unsigned char kind) { __asm { int 3 } return 
 int __stdcall read_parenthesized_pragma_argument(unsigned char kind) { __asm { int 3 } return 0; }
 
 /* Original 0x1e570. */
-int pragma_open_parenthesis(void) { __asm { int 3 } return 0; }
 
 /* Original 0x1e5d0. */
-void __stdcall visit_pragma_names(void (__stdcall *callback)(char *)) { __asm { int 3 } }
 
 /* Original 0x2dc60. */
 void __stdcall enable_intrinsic_function(char *name) { __asm { int 3 } }
 
 /* Original 0x2dce0. */
-void __stdcall disable_intrinsic_function(char *name) { __asm { int 3 } }
 
 /* Original 0x35d60. */
 void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
@@ -721,5 +712,4 @@ char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
 void emit_diagnostic(unsigned category, unsigned code, char *format, char *arguments) { __asm { int 3 } }
 
 
-void __stdcall add_anonymous_members(CType *type) { __asm { int 3 } }
 void __stdcall layout_bitfield_member(FrontendSymbol *member, char *name, unsigned short flags) { __asm { int 3 } }

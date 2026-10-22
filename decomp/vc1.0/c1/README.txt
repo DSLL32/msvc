@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 298 reconstructed source functions
-and 379 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 310 reconstructed source functions
+and 391 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-parse_struct_specifier, original VA 0x28ae0.
-All 121 hello frontiers replay successfully with exact pending-buffer/visible-file
+layout_bitfield_member, original VA 0x28ca0.
+All 133 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -137,7 +137,7 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 105 encountered
+audit-state.py checks the initial bytes and address aliases of 106 encountered
 frontend state objects, 72 scalar options, the 21 option-table targets, 17 pragma optimization
 rules, and five hash callback identities, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
@@ -214,3 +214,18 @@ state. A symbol's associated union represents its encountered member-list,
 enum-name-table and deferred-initializer variants at the original shared offset.
 All 121 hello frontiers replay with exact pending/visible file bytes, and the
 minimal-C regression retains identical raw files.
+
+Checkpoint 310 adds aggregate completion/anonymous member copying, pointer and
+nested-array sizes, physical line continuation, continued identifier interning,
+pragma-list validation and callback dispatch, and #pragma function's builtin
+lookup/external conversion. The reached constant-expression helper at 0x2c8f0
+returns a four-byte integer value, rather than a token pointer; its name, return
+type and grammar union view now express that established meaning. The shared
+browser_filename pointer is included in the address/default audit. All 133
+hello frontiers replay with exact buffered/visible bytes; minimal-C remains
+raw-byte identical.
+
+The intrinsic-name audit also checks all 51 lookup suffixes and the 29 initial-
+character boundaries against the original reader's separate table view. The
+reconstruction reuses its typed builtin vocabulary rather than defining a
+second copy of those spellings.

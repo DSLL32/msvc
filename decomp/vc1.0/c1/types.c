@@ -576,3 +576,51 @@ unsigned short __stdcall effective_type_qualifiers(CType *type)
         shape = shape->related;
     return (shape ? shape->attributes : type->attributes) & 0x3000;
 }
+
+/* Original 0x32ed0..0x32f10. The eight-byte pointer model has attribute
+   kind2; all other three-bit pointer models occupy four bytes. */
+int __stdcall pointer_type_size(unsigned short attributes)
+{
+    return (attributes & 7) == 2 ? 8 : 4;
+}
+
+/* Original 0x32c10..0x32d47. Follow nested array/function shapes to their
+   element, retaining pointer sizes and the original inner-bound overflow check. */
+int __stdcall array_element_size(unsigned short flags, void *information, TypeShape *shape)
+{
+    TypeShape *next;
+    int element, size;
+    unsigned count;
+    for (;;) {
+        if (!shape) return base_type_size(flags, information);
+        switch (shape->flags & 7) {
+        case 1:
+            next = shape->related;
+            if (!next) return base_type_size(flags, information);
+            switch (next->flags & 7) {
+            case 1: case 3: return pointer_type_size(next->attributes);
+            case 2:
+                return (int)((unsigned)array_element_size(flags, information, next) * next->field08);
+            default: return 0;
+            }
+        case 2:
+            next = shape->related;
+            if (next && (next->flags & 1)) return pointer_type_size(next->attributes);
+            element = array_element_size(flags, information, next);
+            if (!next) return element;
+            count = next->field08;
+            size = (int)((unsigned)element * count);
+            if (size < element && count) {
+                report_syntax_error(148);
+                next->field08 = 1;
+            }
+            return size;
+        case 3: return pointer_type_size(shape->attributes);
+        case 4:
+            shape = shape->related;
+            if (shape && (shape->flags & 1)) return pointer_type_size(shape->attributes);
+            break;
+        default: return 0;
+        }
+    }
+}
