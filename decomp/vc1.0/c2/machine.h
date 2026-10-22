@@ -59,6 +59,7 @@ struct MachineInstruction {
     unsigned opcode;
     union { SymbolHeader *symbol; char *filename; unsigned source_location;
         MachineInstruction *next_use;
+        struct InstructionSchedule *scheduling; /* phase-owned scheduling payload */
         unsigned encoding_length;
         struct { short code, value; } directive; } record;
     union {

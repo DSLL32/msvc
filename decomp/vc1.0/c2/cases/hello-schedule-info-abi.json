@@ -1,0 +1,144 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@prepare_scheduled_instruction@8",
+      "start": "0x3fa40",
+      "end": "0x3fb10"
+    },
+    {
+      "name": "_new_instruction_schedule",
+      "start": "0x41dc0",
+      "end": "0x41df0"
+    }
+  ],
+  "ABI": {
+    "prepare_scheduled_instruction": "fastcall void(MachineInstruction*,int ordinal), ECX/EDX",
+    "new_instruction_schedule": "cdecl InstructionSchedule*(void), no stack arguments, pointer in EAX"
+  },
+  "layout": {
+    "record_bytes": 44,
+    "ordinal_offset": 32,
+    "priority_offset": 36,
+    "flags_offset": 40,
+    "allocation": "arena3, then all44 bytes explicitly cleared",
+    "instruction_payload": "typed InstructionSchedule* member in existing record union at offset12; MachineInstruction remains32 bytes",
+    "unknown_fields": "field00,field04,field1c retain offset names until dependency readers are reconstructed; no raw section data is used"
+  },
+  "graph": "Whole62-instruction preparation retains constructor, x87-state helper and full-EAX call-result count child;12-instruction constructor retains its arena_alloc call without introducing memset. Its extent includes native RET41de0 and ends at next actual function41df0.",
+  "captures": {
+    "constructor_return": {
+      "position": "new_instruction_schedule first RET, before caller attaches it",
+      "normalized_lines": 207,
+      "stream_records": 87,
+      "record_bytes": 44,
+      "all_bytes_zero": true,
+      "normalization": "omit exception header; no ECX argument oracle at RET; source/copy identities do not use raw addresses",
+      "events_sha256": {
+        "original": "494fed2cabcf73417429719833764c95a3824bb8dc9d3c3cf70bdf1fd6246fd0",
+        "reconstructed": "5e91c2d39d41a8f90c83e05a76c9e6c4c86998b5b0d5b69d10723b73ff4a4399"
+      }
+    },
+    "first_window": {
+      "position": "first schedule_window entry",
+      "normalized_lines": 214,
+      "stream_records": 87,
+      "window_lines": [
+        "schedule-window first 11 last 13",
+        "schedule-info instruction 11 ordinal 0 priority 0 flags 00000000",
+        "schedule-float instruction 11 input0 0 input1 0 result 0 arity 0 depth 0 leading-zero 1",
+        "schedule-info instruction 12 ordinal 1 priority -1 flags 00000000",
+        "schedule-float instruction 12 input0 0 input1 0 result 0 arity 0 depth 0 leading-zero 1",
+        "schedule-info instruction 13 ordinal 2 priority -2 flags 00000000",
+        "schedule-float instruction 13 input0 0 input1 0 result 0 arity 0 depth 0 leading-zero 1",
+        "schedule-info count 3"
+      ],
+      "normalization": "omit exception header; fastcall ECX/EDX map to real stream indices; metadata pointers are distinct and outside stream, live fields match with exact ordinal order; unknown dependency words verified0",
+      "events_sha256": {
+        "original": "9825870e71929c9581fc491d3becebd8a24d9b333a298b4a61d77b0057c93bb4",
+        "reconstructed": "cd0357c811c6204618f2c98b00fa4ae7ec716cf0fdfe4704292fea169a216f13"
+      }
+    }
+  },
+  "observed": {
+    "first_window_stream_indices": [
+      11,
+      13
+    ],
+    "metadata_nodes": 3,
+    "ordinals": [
+      0,
+      1,
+      2
+    ],
+    "priorities": [
+      0,
+      -1,
+      -2
+    ],
+    "metadata_flags": "all0",
+    "all_float_and_unread_dependency_words": "0",
+    "next_frontier": "@schedule_window@8 at0x3f840"
+  },
+  "limits": [
+    "Only the first integer scheduling window has reached its entry; window scheduling and the whole driver have not returned. Optimized hello remains incomplete.",
+    "Floating preparation and call-result classification retain named trapping children; their alternatives are not claimed dynamically exercised.",
+    "Constructor-return capture occurs before attachment; window-entry capture independently validates live node ownership and exact fastcall arguments.",
+    "Failure branches are not claimed exercised."
+  ],
+  "validation": {
+    "source_functions": 591,
+    "accepted_frontiers": 668,
+    "minimal_frontiers": 352,
+    "hello_frontiers": 316,
+    "W3": "scheduler clean",
+    "minimal_fixture": "286 bytes exact except timestamp4..7",
+    "replays": {
+      "minimal": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-375216/receipt.json",
+        "sha256": "5d81c3deda388eece4618411a5bd2d80560daad823f79b17e3bd5f028f189ab2",
+        "frontiers": 352,
+        "first": 0,
+        "last": 352,
+        "final": "exit:0",
+        "frozen": {
+          "functions.json": "8f50daf6e53fe3f71961b1d57d7eb7e4becbde0f16595e13ca995653e06fee59",
+          "build/c2.exe": "b01bfd65ec09d22ee87e192832df379b76c5c5b7c017581ac58ea96b21e69a5b",
+          "build/c2.map": "57e1ddc7be358a31d139fc4aa466c638c939e225e1344c7928f3500e70537f64",
+          "build/runtime.json": "bf313757a3536f8a13567bd0991cf4839ef20d18e5a01d06cb5105bb845f371f"
+        }
+      },
+      "hello": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-379633/receipt.json",
+        "sha256": "f65007fcc65124e15d8fcfdb62257d8e064db066eda65702c4887dc7354a3961",
+        "frontiers": 316,
+        "first": 352,
+        "last": 668,
+        "final": "@schedule_window@8",
+        "frozen": {
+          "functions.json": "8f50daf6e53fe3f71961b1d57d7eb7e4becbde0f16595e13ca995653e06fee59",
+          "build/c2.exe": "b01bfd65ec09d22ee87e192832df379b76c5c5b7c017581ac58ea96b21e69a5b",
+          "build/c2.map": "57e1ddc7be358a31d139fc4aa466c638c939e225e1344c7928f3500e70537f64",
+          "build/runtime.json": "bf313757a3536f8a13567bd0991cf4839ef20d18e5a01d06cb5105bb845f371f"
+        }
+      }
+    },
+    "coverage": {
+      "mask_verified": true,
+      "metric": "accepted original code-extent union; not branch coverage",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "accepted_frontiers": 668,
+      "accepted_code_bytes": 179183,
+      "original_code_bytes": 399693,
+      "percentage": 44.830157145609256,
+      "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+      "code_sections": [
+        [
+          "0x17000",
+          "0x7894d"
+        ]
+      ],
+      "union_ranges": 174
+    }
+  }
+}

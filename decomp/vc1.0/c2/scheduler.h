@@ -1,6 +1,19 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 #include "machine-analysis.h"
+/* Constructor41dc0:44 zeroed bytes in arena3. Leading/1c fields await
+   their dependency consumers; x87 values and ordering fields have live names. */
+typedef struct InstructionSchedule {
+    unsigned field00, field04;
+    int float_inputs[2], float_result, float_arity, float_depth;
+    unsigned field1c;
+    int ordinal, priority;
+    unsigned flags;
+} InstructionSchedule;
+typedef char InstructionScheduleSizeCheck[sizeof(InstructionSchedule) == 44 ? 1 : -1];
+InstructionSchedule *__cdecl new_instruction_schedule(void);
+void __fastcall prepare_float_schedule(MachineInstruction *instruction);
+int __fastcall call_float_result_count(MachineInstruction *instruction);
 /* Constructor use3f7d2: arena4 node, live only during scheduling. */
 typedef struct SchedulerRegionFrame {
     MachineInstruction *header, *end;

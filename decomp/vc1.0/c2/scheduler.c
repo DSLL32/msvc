@@ -187,3 +187,42 @@ void *__fastcall scheduler_allocate(unsigned bytes)
     if (!memory) compiler_internal_error("@(#)sched.c:1.33", 0x5ba);
     return memory;
 }
+
+/* Original [0003fa40,0003fb10). Attach per-window scheduling information;
+   preserve the native reverse-ordinal priority and Pentium x87 preference. */
+void __fastcall prepare_scheduled_instruction(MachineInstruction *instruction, int ordinal)
+{
+    InstructionSchedule *info = new_instruction_schedule();
+    unsigned operation;
+    instruction->record.scheduling = info;
+    info->ordinal = ordinal;
+    info->priority = -ordinal;
+    if (cpu_model != 5) return;
+    operation = (instruction->opcode >> 8) & 255;
+    if (SCHEDULER_FLOAT_OPERATION(operation)) {
+        scheduler_has_float = 1;
+        if (!scheduler_float_invalid) prepare_float_schedule(instruction);
+        if (operation == MC_FLD || operation == MC_FILD || operation == MC_FLDT || operation == MC_FLD1)
+            info->priority -= 100;
+        info->priority += 1000;
+    } else if (operation == MC_CALL) {
+        if (call_float_result_count(instruction) > 1) scheduler_float_invalid = 1;
+        if ((instruction->operands[0].flags & 15) == OPERAND_SYMBOL &&
+            (((FunctionSymbol *)instruction->operands[0].value.symbol)->field24 & 15) == 5 &&
+            !scheduler_float_invalid)
+            prepare_float_schedule(instruction);
+    }
+}
+
+/* Original [00041dc0,00041df0), including RET at41de0. Define the
+  44-byte record's zero state explicitly, without adding a memset call edge. */
+InstructionSchedule *__cdecl new_instruction_schedule(void)
+{
+    InstructionSchedule *info = arena_alloc(3, sizeof(InstructionSchedule));
+    info->field00 = info->field04 = info->field1c = 0;
+    info->float_inputs[0] = info->float_inputs[1] = 0;
+    info->float_result = info->float_arity = info->float_depth = 0;
+    info->ordinal = info->priority = 0;
+    info->flags = 0;
+    return info;
+}

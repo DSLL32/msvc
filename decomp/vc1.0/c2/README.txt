@@ -1646,3 +1646,30 @@ instruction boundaries pass. scheduler compiles /W3 clean. Minimal object/
 streams/exit remain exact except only timestamp4..7. Verified accepted original
 code-extent union178927/399693 bytes (44.7661 percent) includes clipped source/
 shared text/CRT/imports and actual-mask cross-check; it is not branch coverage.
+
+
+Per-instruction scheduling information (668 accepted frontiers)
+-------------------------------------------------------------
+Two whole functions recover62-instruction scheduling-info preparation and
+its12-instruction arena3 constructor. The existing instruction payload union
+now has a typed scheduling pointer; the32-byte instruction ABI is unchanged.
+The metadata record has44 bytes with ordering fields at32/36 and flags at40,
+plus named x87 fields. Three dependency fields retain offset names pending
+their readers. Explicit member clearing preserves the original arena_alloc
+callee graph without adding memset or copying image data. The constructor's
+extent includes RET41de0 and ends at the actual next entry41df0.
+
+Independent constructor-return capture matches207 normalized lines and all
+44 zero bytes before attachment. A separate first-window entry capture matches
+214 lines/87 records, exact ECX/EDX stream indices11/13, three unique metadata
+objects with ordinals0/1/2 and priorities0/-1/-2, and exact zero flags/x87/
+dependency fields. Floating preparation and call-result classification retain
+named trapping children and are not claimed exercised. The current matching
+frontier is schedule_window3f840; the first window and complete driver have not
+returned. Optimized hello remains incomplete. See cases/hello-schedule-info-abi.json.
+
+All352 minimal and316 hello frontiers replay,591 source graphs and668 accepted
+instruction boundaries pass. scheduler compiles /W3 clean. Minimal object/
+streams/exit match except only timestamp4..7. Verified accepted original code-
+extent union179183/399693 bytes (44.8302 percent) includes clipped source/shared
+text/CRT/imports and actual-mask verification; it is not branch coverage.
