@@ -1,0 +1,3 @@
+*.bin binary
+*.res binary
+/source/encoding.rc -text -diff

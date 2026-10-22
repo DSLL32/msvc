@@ -1,0 +1,126 @@
+{
+  "toolchain": "1.0-nt",
+  "target": "toolchains/1.0-nt/bin/RC.EXE",
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "status": "queued",
+  "source_inputs": [
+    {
+      "path": "source/encoding.rc",
+      "bytes": 427,
+      "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+    },
+    {
+      "path": "source/include/values.h",
+      "bytes": 65,
+      "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+    },
+    {
+      "path": "source/preprocessor-error.rc",
+      "bytes": 36,
+      "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+    },
+    {
+      "path": "source/wide-long.rc",
+      "bytes": 348,
+      "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+    }
+  ],
+  "environment": {
+    "INCLUDE": "{include}",
+    "WINEPATH": "{bin}"
+  },
+  "unset_environment": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS"
+  ],
+  "normalization": "None: compare raw streams, status and output bytes exactly.",
+  "cases": [
+    {
+      "id": "kanji",
+      "arguments": [
+        "/x",
+        "/l411",
+        "/Iinclude",
+        "/foencoding.res",
+        "encoding.rc"
+      ],
+      "expected_exit": 0,
+      "stdout": {
+        "path": "cases/kanji/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "cases/kanji/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": [
+        {
+          "path": "cases/kanji/encoding.res",
+          "output_name": "encoding.res",
+          "bytes": 480,
+          "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
+        }
+      ]
+    },
+    {
+      "id": "wide-long",
+      "arguments": [
+        "/x",
+        "/l411",
+        "/fowide-long.res",
+        "wide-long.rc"
+      ],
+      "expected_exit": 0,
+      "stdout": {
+        "path": "cases/wide-long/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "cases/wide-long/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": [
+        {
+          "path": "cases/wide-long/wide-long.res",
+          "output_name": "wide-long.res",
+          "bytes": 700,
+          "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
+        }
+      ]
+    },
+    {
+      "id": "preprocessor-error",
+      "arguments": [
+        "/x",
+        "/fofailed.res",
+        "preprocessor-error.rc"
+      ],
+      "expected_exit": 1,
+      "stdout": {
+        "path": "cases/preprocessor-error/stdout.bin",
+        "bytes": 69,
+        "sha256": "83638296ff1b2d3f24fedb0a9f3d1ae1256554d3510841987cdb7180eaf14d61"
+      },
+      "stderr": {
+        "path": "cases/preprocessor-error/stderr.bin",
+        "bytes": 100,
+        "sha256": "ea9e2445c648f60c4bb7daa6846d2725f1cf8e494a55f04f7d146fc5a8bb04cc"
+      },
+      "outputs": []
+    }
+  ],
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/RCPP.EXE",
+      "sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd"
+    }
+  ],
+  "runtime": "Native KANJI directive and /l411 are used; no host codepage/locale mutations or PID overrides."
+}
