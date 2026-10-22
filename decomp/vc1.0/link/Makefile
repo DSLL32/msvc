@@ -5,7 +5,7 @@ RECON = ../../../lib/recon
 HEADERS = $(filter-out src/omf.h src/demangle.h,$(wildcard src/*.h)) $(RECON)/include/recon.h
 OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor edit-stubs dump dump-stubs resources codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
-.PHONY: all clean check prefix replay replay-fresh replay-specialized replay-verify audit native native-check
+.PHONY: all clean check prefix replay replay-fresh replay-specialized replay-verify audit native native-check native-trace native-trace-check
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
 
 prefix:
@@ -138,7 +138,7 @@ NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_OBJECTS = $(patsubst build/%.obj,build/native/%.o,$(OBJECTS))
 NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
-NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
+NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
 
 native: build/native/LINK.EXE
 
@@ -153,3 +153,25 @@ build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makef
 
 native-check: native
 	$(PYTHON) scripts/check-native.py
+
+# Application entry tracing is separate from the uninstrumented A/B target.
+# The reconstructed CRT override and shared shims remain uninstrumented.
+NATIVE_TRACE_OBJECTS = $(patsubst build/native/%,build/native-trace/%,$(NATIVE_OBJECTS))
+NATIVE_TRACE_SHIMS = $(NATIVE_SHIMS) $(RECON)/src/trace.c
+
+native-trace: build/native-trace/LINK.EXE
+
+build/native-trace:
+	mkdir -p $@
+
+build/native-trace/%.o: src/%.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+
+build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+
+build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) -o $@
+
+native-trace-check: native-trace
+	$(PYTHON) scripts/check-native.py --trace

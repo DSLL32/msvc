@@ -72,7 +72,7 @@ def validate_output(work, fixture, record, parser):
                 normalized_sha256=sha(normalized), ignored_fields=expected_fields)
 
 
-def run_case(name, executable, directory, parser, state):
+def run_case(name, executable, directory, parser, state, tracing=None):
     start = time.perf_counter()
     work = directory / name
     work.mkdir()
@@ -92,6 +92,9 @@ def run_case(name, executable, directory, parser, state):
         metadata_path = BINARY / 'cases/help.json'
         metadata = json.loads(metadata_path.read_text())
         args, expected_exit = ['/?'], metadata['exit_status']
+        # Cached original help used wine-tool.py's LIB setting. This affects
+        # search-path function entry order even though help output is identical.
+        env['LIB'] = str(ROOT/'toolchains/1.0-nt/lib')
         fixture, phase = None, None
     else:
         fixture_name, phase_name = CASES[name]
@@ -117,18 +120,49 @@ def run_case(name, executable, directory, parser, state):
     if name == 'edit':
         catalog = json.loads((BINARY / 'cases/library-edit.json').read_text())['catalog']
         (work / 'link.err').write_bytes(captured(ROOT / catalog['path'], catalog))
+    trace_options = {}
+    trace_stream = None
+    if tracing is not None:
+        cache = tracing['cache']
+        entry = cache['cases'][tracing['aliases'].get(name,name)]
+        assert entry['terminal']==dict(kind='exit',code=expected_exit)
+        seen = cache['accepted_application'][:entry['seen_count']]
+        (work/'trace.seen').write_text(''.join(n+'\n' for n in seen))
+        (work/'trace.expected').write_text(''.join(n+'\n' for n in entry['expected']))
+        trace_stream = (work/'trace.entries').open('wb')
+        trace_options['pass_fds'] = (trace_stream.fileno(),)
+        env.update(RECON_TRACE_FD=str(trace_stream.fileno()),
+                   RECON_TRACE_FILTER=str(tracing['filter']),
+                   RECON_TRACE_SEEN=str(work/'trace.seen'))
     setup = time.perf_counter() - start
     state['setup_seconds'] = setup
     launch = time.perf_counter()
-    result = subprocess.run([str(executable), *args], cwd=work, env=env,
-                            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE, timeout=30)
+    try:
+        result = subprocess.run([str(executable), *args], cwd=work, env=env,
+                                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, timeout=30, **trace_options)
+    finally:
+        if trace_stream is not None:
+            trace_stream.close()
     run_seconds = time.perf_counter() - launch
     (work / 'stdout.bin').write_bytes(result.stdout)
     (work / 'stderr.bin').write_bytes(result.stderr)
     state.update(exit=result.returncode, execution_seconds=run_seconds,
                  stdout_bytes=len(result.stdout), stdout_sha256=sha(result.stdout),
                  stderr_bytes=len(result.stderr), stderr_sha256=sha(result.stderr))
+    if tracing is not None:
+        trace_start = time.perf_counter()
+        raw = (work/'trace.entries').read_bytes()
+        assert not raw or raw.endswith(b'\n'), 'incomplete native entry record'
+        actual = raw.decode('ascii').splitlines()
+        expected = entry['expected']
+        state.update(trace_entries=len(actual),trace_sha256=sha(raw),
+                     trace_prefix_entries=len(seen))
+        for i in range(max(len(actual),len(expected))):
+            left = expected[i] if i<len(expected) else '<end>'
+            right = actual[i] if i<len(actual) else '<end>'
+            assert left==right, f'native trace divergence at entry {i}: expected {left}, actual {right}'
+        state['trace_check_seconds'] = time.perf_counter()-trace_start
     check_start = time.perf_counter()
     assert result.returncode == expected_exit, f'exit {result.returncode}, expected {expected_exit}'
     if phase is None:
@@ -154,10 +188,13 @@ def run_case(name, executable, directory, parser, state):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--case', action='append', choices=CASES)
-    ap.add_argument('--exe', type=Path, default=BINARY / 'build/native/LINK.EXE')
+    ap.add_argument('--exe', type=Path)
+    ap.add_argument('--trace', action='store_true', help='check cached application entry segments using separate instrumented ELF')
     ap.add_argument('--directory', type=Path)
+    ap.add_argument('--trace-cache', type=Path, default=BINARY/'cases/native-traces.json',
+                    help='cached reference segments; override for divergence diagnostics')
     options = ap.parse_args()
-    executable = options.exe.resolve()
+    executable = (options.exe or BINARY/('build/native-trace/LINK.EXE' if options.trace else 'build/native/LINK.EXE')).resolve()
     assert executable.read_bytes()[:4] == b'\x7fELF', 'native checker requires ELF'
     directory = options.directory
     if directory is None:
@@ -166,16 +203,32 @@ def main():
         directory = Path(tempfile.mkdtemp(prefix='native-check-', dir=scratch))
     else:
         directory.mkdir(parents=True, exist_ok=False)
+    trace_prepare_start = time.perf_counter()
+    tracing = None
+    if options.trace:
+        spec = importlib.util.spec_from_file_location('native_trace_cache', Path(__file__).with_name('native-traces.py'))
+        trace_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(trace_module)
+        cache = trace_module.load(BINARY/'build/native-trace', options.trace_cache)
+        filter_path = directory/'trace.filter'
+        filter_path.write_text(''.join(n+'\n' for n in cache['application_definitions']))
+        tracing = dict(cache=cache,filter=filter_path,aliases=trace_module.ALIASES)
+    trace_prepare_seconds = time.perf_counter()-trace_prepare_start
     parser = parser_module()
     receipt = dict(mode='captured-reference-only', executable=str(executable),
                    executable_sha256=sha(executable.read_bytes()), directory=str(directory),
                    build_seconds='unmeasured; build is a separate make target', cases=[])
+    if options.trace:
+        receipt.update(trace_mode='cached application first-entry segments',
+                       trace_prepare_seconds=trace_prepare_seconds,
+                       trace_cache=str(options.trace_cache),
+                       trace_cache_sha256=sha(options.trace_cache.read_bytes()))
     start = time.perf_counter()
     for name in options.case or CASES:
         case_start = time.perf_counter()
         result = dict(case=name)
         try:
-            result.update(run_case(name, executable, directory, parser, result))
+            result.update(run_case(name, executable, directory, parser, result, tracing))
         except Exception as error:
             result.update(status='fail', error=str(error),
                           total_seconds=time.perf_counter()-case_start)

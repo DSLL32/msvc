@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "scope": "Native i386 application first-entry tracing runtime; no Wine or original/reference execution.",
+  "runs": [
+    {
+      "command": [
+        "make",
+        "-C",
+        "lib/recon",
+        "-B",
+        "-j4",
+        "trace-check",
+        "CC=clang"
+      ],
+      "status": "passed",
+      "checks": 18,
+      "check_seconds": 0.03310931380838156,
+      "receipt": "/root/.ai-tmp/vc1.0-native-trace/checks-q4ho64d6/receipt.json",
+      "receipt_sha256": "6b6243701e9232a58564cabf10626fe6cda9771b524d4ffd5e7f880de9bc38a2",
+      "log": "/root/.ai-tmp/vc1.0-native-trace/shared-clang-check.log"
+    },
+    {
+      "command": [
+        "make",
+        "-C",
+        "lib/recon",
+        "-B",
+        "-j4",
+        "trace-check",
+        "CC=gcc"
+      ],
+      "status": "passed",
+      "checks": 18,
+      "check_seconds": 0.03249476384371519,
+      "receipt": "/root/.ai-tmp/vc1.0-native-trace/checks-s2r4ab36/receipt.json",
+      "receipt_sha256": "2c26ea1690ed3f6c62549f8ed851e02dc833d73008320e6defd41914241b688d",
+      "log": "/root/.ai-tmp/vc1.0-native-trace/shared-gcc-check.log"
+    }
+  ],
+  "checks": [
+    "First-entry order uses global and static ELF names, repeated entries suppressed",
+    "Accepted application prefix produces no entries",
+    "Zero-new-entry case emits an empty trace",
+    "i386 fastcall arguments/results and errno survive hooks",
+    "PIE/ASLR and ET_EXEC resolve to the same names",
+    "Unset RECON_TRACE_FD succeeds with missing configuration and stripped symbols",
+    "Missing filter, unknown prefix, read-only descriptor and stripped symbols fail explicitly before application output"
+  ],
+  "source_sha256": {
+    "lib/recon/src/trace.c": "e6ebef3d3a44f29d3834401397c2015d57486a2bb484859c8e1ec6e28735c65f",
+    "lib/recon/tests/trace-target.c": "307ad4e1c3708b1f1053a3baa1c7ddb2041b46b4a93418b5d7e4f3b4b641d7da",
+    "lib/recon/tests/check-trace.py": "65b4d8f39bd735cfe1c03bfc6a5aeb556275883a14b6c80d0c12b9cbc8a29806",
+    "lib/recon/Makefile": "e45b9a071aaf35a7c31f5cbdcde5e7c42c5045aabb8cecaf3fbe652a7620fe56"
+  },
+  "link_integration_evidence": "decomp/vc1.0/link/cases/native-trace-validation.json",
+  "timing_note": "check_seconds sums the timed individual check runs, including each native launch and local trace-file setup/comparison. Building and strip preparation are outside these sums; their wall times were not separately measured. These are not total development times.",
+  "limits": "Single-thread ordinary native fixtures. CRT/import/shim entries excluded; canonical Win32 ABI checks remain separate."
+}

@@ -178,8 +178,8 @@ The native flags are -std=gnu89 -fms-extensions -fasm-blocks -O0 -g; the Microso
 extensions express the existing calling conventions and pending INT3 stubs.
 RECON_NATIVE_TEST enables the header mappings. Every reconstruction C/header
 includes recon.h last; the header is empty in the canonical build. Native object
-files live in build/native and the final link compiles lib/recon/src/*.c directly
-alongside those objects. No shim archive or alternate reconstruction is used.
+files live in build/native and the output link compiles lib/recon/src/crt.c and win32.c directly
+alongside those objects; the traced link additionally compiles trace.c. No shim archive or alternate reconstruction is used.
 
 scripts/check-native.py launches only the native ELF. It verifies captured input
 and output hashes before launch, compares exit and streams exactly, and compares
@@ -199,8 +199,9 @@ inputs. Fresh private working directories and timing receipts are written under
 output checks; build timing is labeled unmeasured unless separately recorded.
 Produced executable bytes are checked but never executed by this runner.
 
-This output checker does not implement native historical first-entry tracing or
-replace the canonical ABI/graph and paired-frontier audits. Windows SEH fault
+The uninstrumented output checker does not validate function entry order. The
+optional native entry checks below retain the canonical ABI/graph and paired-
+frontier audits as separate validation. Windows SEH fault
 paths, console-signal delivery and process-tree tests remain outside its scope.
 DLL import-library self-spawn, full-debug external CVPACK, GUI paint and DLL
 load/call/unload cases are not registered as native checks. The shim process
@@ -214,3 +215,70 @@ unmeasured diagnostic/build work. Raw receipts and logs remain in the recorded
 scratch directories. The original-toolchain parallel compile/link and all static
 call-target, callback, contextual-data, ABI and extent-boundary audits passed.
 The accepted 640 frontiers and 193671/281634-byte extent metric are unchanged.
+
+Native application entry checks
+
+Use a separate instrumented ELF while retaining the uninstrumented target:
+    make -j4 native-trace
+    make -j4 native-trace-check
+    python3 scripts/check-native.py --trace --case cpp-undecorate
+
+Only application objects use -finstrument-functions. The reconstructed CRT
+overrides in runtime.c and final-link shared CRT/Win32/tracer sources remain
+uninstrumented. The shared tracer resolves ELF function pointers to names once
+per process, logs first entries through an inherited descriptor, and suppresses
+the supplied accepted prefix. With no descriptor, callbacks are no-ops. Log
+records contain newline-delimited native names, without numeric logical IDs.
+
+scripts/native-traces.py derives all application definitions from native object
+symbols, validates their source/identity against functions.json driver metadata,
+and projects accepted/frontier_cases order after excluding CRT overrides, indexed
+CRT routines and imports. C/fastcall decorations are normalized only for app
+identities. All 581 application definitions, including unreconstructed stubs, are
+in the filter; unmapped definitions fail rather than disappearing from a trace.
+The existing metadata classifies 640 accepted identities as 466 application,
+142 CRT and 32 import entries. No compiler-generated application thunk needed
+a special exclusion in this build. The 15 supported native phases check 365 new
+application entries; four zero-new phases require an empty new-entry transcript
+and their existing concrete output/exit oracles. Earlier accepted app functions
+are seeded as seen, including prior specialized case acceptances.
+
+cases/native-traces.json is a cached projection, not a new original capture.
+Metadata hashes and current native object definitions are checked before launch.
+After deliberate acceptance-metadata updates, explicitly regenerate the cache:
+    python3 scripts/native-traces.py --write
+This operation reads metadata/objects only. A divergence preserves trace.seen,
+trace.expected and trace.entries beside streams and receipt.json. An alternate
+--trace-cache path supports scratch expected-sequence diagnostics. First-entry
+segments do not compare repeated calls, earlier prefix order, callers or sampled
+states. Unsupported native process/SEH/GUI cases remain outside this registry.
+
+cases/native-trace-validation.json records five matched before/after runs plus
+one disabled-tracer run, per-case component medians and raw receipt hashes. The
+first five requested baseline runs are retained separately: help initially lacked
+LIB, while the cached original environment set it. Adding the captured search
+path corrected entry order without changing help output; both matched timing
+groups use the same LIB environment and the identical uninstrumented ELF.
+No original/Win32/Wine reference was executed or refreshed for this work.
+
+Measured whole-suite median including Python startup was 0.225415s uninstrumented
+and 0.371439s traced (five runs each). The internal case-loop medians were
+0.148648s and 0.201966s; separate trace-cache/object-symbol preflight was 0.088673s.
+Median summed setup/execution/output-check times were respectively
+0.033082/0.045927/0.063523s before and 0.051112/0.069779/0.069630s after; traced
+sequence comparisons added 0.001855s. These are medians of per-run sums and do
+not sum exactly to independent medians. The disabled instrumented run passed all
+15 cases in 0.230985s externally (0.149876s internal; one sample). The measured
+instrumented build took 4.467905s using the actual make -j2 command and is excluded
+from suite timings; future builds above use the requested -j4. Deliberate wrong
+expected names and missing app-definition classification both fail as required.
+
+Historical context, without a new Wine run: the old 16-case ordinary continuous
+Win32 adapter totaled 58.080934s. Selecting the same 15 case names as the native
+suite from that receipt totals 48.923779s, after excluding hello-win32. That old
+selection includes paired original/reconstruction traces (507 logical entries
+including CRT/imports), a fresh untouched-original output reference and generated
+PE execution where applicable. The new suite checks one ELF, cached app-only
+segments and captured outputs. This is a historical scope comparison, not a
+controlled cross-mode speedup. Two specialized DLL/CVPACK histories (182.604980s
+previously) remain excluded. No reconstruction, coverage or acceptance changed.

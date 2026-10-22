@@ -82,5 +82,55 @@ handler. Full Windows console delivery, process trees, cross-process file-sharin
 rules, named mappings and asynchronous/overlapped I/O are outside this initial
 scope. Specialized fixtures stay explicit; unsupported modes must not be counted
 as successful native cases. Win32 ABI/function-graph validation remains on the
-canonical build. Native fixture output validation does not by itself constitute
-historical first-entry replay; that needs its own native symbol/trace adapter.
+canonical build. Output-only native fixture validation is separate from the
+application first-entry comparison supplied by the tracing adapter below.
+
+Native application entry tracing
+-------------------------------
+
+src/trace.c supplies __cyg_profile_func_enter/exit for reconstructed objects
+compiled with -finstrument-functions. Compile trace.c itself and compatibility
+sources without that flag. The callbacks also explicitly suppress instrumentation.
+The canonical Win32 build and source function bodies need no tracing changes.
+
+Set RECON_TRACE_FD to an inherited writable descriptor for a separate trace file.
+Set RECON_TRACE_FILTER to a newline-separated list of the target's native
+application function names, and RECON_TRACE_SEEN to a newline-separated list of
+application functions accepted before this case's historical segment. An empty
+seen file is valid. The target adapter builds these lists from its audited
+classification; CRT overrides, imports and shim functions are outside the
+application comparison on BOTH sides. Unmapped application functions must not
+be silently excluded by the adapter.
+
+Startup reads the running i386 executable's ELF symbol table once, resolves
+selected global and local functions, accounts for PIE/ASLR, and builds a pointer
+to name cache. Keep the executable unstripped; -g is already used by native
+builds. Names, not numeric logical IDs, are written one per line. Repeated calls
+and previously accepted prefix functions produce no records. The exit hook is
+empty. The adapter compares the emitted names to the cached original sequence
+projected onto the same application boundary, and checks the terminal status and
+fixture outputs. No original execution, Wine or reference refresh is involved.
+
+Records are written immediately with write(), separate from stdout/stderr and
+Microsoft stdio. First-entry writes preserve errno and survive an ordinary crash
+or INT3 without a later stream flush. This initial runtime supports the existing
+single-thread ordinary fixtures. Missing/bad configuration, missing or ambiguous
+symbols, and trace write failures fail explicitly with status126 and diagnostics.
+
+When RECON_TRACE_FD is UNSET, both callbacks immediately return. Startup reads no
+name files or ELF symbols and allocates no tracing state. Instrumented call
+instructions still have overhead, even when callbacks do nothing.
+
+Run make -j4 trace-check to exercise first-encounter names (including static
+functions), prefix exclusion, repeated calls, fastcall arguments, PIE and non-PIE
+addresses, errno preservation, disabled tracing and configuration/symbol errors.
+The source callback test target is instrumented; the tracer final-link source is
+compiled directly without instrumentation. No archive is built.
+
+LINK provides make -C decomp/vc1.0/link -j4 native-trace-check from the repository
+root. Its application-name cache is projected from the existing original-backed
+acceptance metadata. The runner checks that cache and all native application
+definitions before launch, then compares the emitted segments and captured
+outputs. make -C decomp/vc1.0/link -j4 native-check keeps the output-only build.
+See LINK's cases/native-trace-validation.json for before/after measurements;
+trace-validation.json here records the shared runtime checks.
