@@ -20,7 +20,7 @@ typedef struct BaseClassLink {
 typedef char BaseClassLinkStateOffsetMustBe20[(offsetof(BaseClassLink, state) == 20) ? 1 : -1];
 
 typedef struct ClassInfo {
-    unsigned field00, field04, field08, field0c;
+    unsigned size, nonvirtual_size, field08, field0c;
     unsigned field10, field14, field18, field1c, field20, field24;
     short type_index;
     unsigned short pointer_attributes;
@@ -56,7 +56,7 @@ typedef union CppSymbolState {
         ClassInfo *class_info; \
         CppSymbol *parameter_next; \
     } detail; \
-    union { unsigned value; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
+    union { unsigned value; short declaring_class; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
 typedef struct TagSymbol {
     COMMON_SYMBOL_FIELDS
 } TagSymbol;
@@ -148,7 +148,7 @@ void __stdcall insert_symbol(CppSymbol *symbol);
 void __stdcall insert_current_scope_symbol(CppSymbol *symbol);
 void __stdcall insert_scope_symbol(SymbolScope *scope, CppSymbol *symbol);
 CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *declaration);
-int __stdcall is_static_qualified_symbol(CppSymbol *symbol);
+int __stdcall is_static_data_member(CppSymbol *symbol);
 void __stdcall unwind_qualified_scopes(int stop_at_class);
 unsigned short begin_type_diagnostic(void);
 void end_type_diagnostic(void);

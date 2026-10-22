@@ -248,7 +248,16 @@
     "_resolve_typename_token@4",
     "_resolve_identifier_token@4",
     "_is_current_class@4",
-    "_current_declaration_type@4"
+    "_current_declaration_type@4",
+    "_declare_class_member@8",
+    "_is_unqualified_class_type@4",
+    "_capture_inline_member_declaration@16",
+    "_find_class_member_name@4",
+    "_type_qualifiers@4",
+    "_is_static_data_member@4",
+    "_layout_data_member@4",
+    "_type_size@4",
+    "_base_type_size@8"
   ],
   "driver": [
     {
@@ -1229,7 +1238,7 @@
       "end": 337568
     },
     {
-      "name": "_is_static_qualified_symbol@4",
+      "name": "_is_static_data_member@4",
       "start": 190752,
       "end": 190797
     },
@@ -1831,7 +1840,7 @@
     {
       "name": "_declare_class_member@8",
       "start": 193072,
-      "end": 193073
+      "end": 195157
     },
     {
       "name": "_declare_constructor@12",
@@ -2772,6 +2781,191 @@
       "name": "_check_constructor_storage@8",
       "start": 208464,
       "end": 208465
+    },
+    {
+      "name": "_record_friend@12",
+      "start": 204672,
+      "end": 204673
+    },
+    {
+      "name": "_browser_friend_reference@4",
+      "start": 181264,
+      "end": 181265
+    },
+    {
+      "name": "_validate_anonymous_aggregate@4",
+      "start": 188944,
+      "end": 188945
+    },
+    {
+      "name": "_declare_anonymous_aggregate@4",
+      "start": 192480,
+      "end": 192481
+    },
+    {
+      "name": "_select_destructor_type@16",
+      "start": 209040,
+      "end": 209041
+    },
+    {
+      "name": "_declare_friend_member@24",
+      "start": 195600,
+      "end": 195601
+    },
+    {
+      "name": "_apply_member_access_declaration@8",
+      "start": 200016,
+      "end": 200017
+    },
+    {
+      "name": "_last_type_shape@4",
+      "start": 407232,
+      "end": 407233
+    },
+    {
+      "name": "_inherit_class_dll_storage@8",
+      "start": 195168,
+      "end": 195169
+    },
+    {
+      "name": "_capture_inline_member_declaration@16",
+      "start": 216736,
+      "end": 218346
+    },
+    {
+      "name": "_find_class_member_name@4",
+      "start": 192400,
+      "end": 192480
+    },
+    {
+      "name": "_layout_bit_field@16",
+      "start": 190080,
+      "end": 190081
+    },
+    {
+      "name": "_configure_member_function@12",
+      "start": 196336,
+      "end": 196337
+    },
+    {
+      "name": "_validate_union_member@8",
+      "start": 196000,
+      "end": 196001
+    },
+    {
+      "name": "_class_type_of_member@4",
+      "start": 188656,
+      "end": 188657
+    },
+    {
+      "name": "_layout_data_member@4",
+      "start": 190800,
+      "end": 191618
+    },
+    {
+      "name": "_create_static_member_alias@4",
+      "start": 195248,
+      "end": 195249
+    },
+    {
+      "name": "_begin_pending_class_names",
+      "start": 209504,
+      "end": 209505
+    },
+    {
+      "name": "_next_pending_class_name",
+      "start": 209552,
+      "end": 209553
+    },
+    {
+      "name": "_format_work_text",
+      "start": 207696,
+      "end": 207697
+    },
+    {
+      "name": "_generated_member_pointer_kind@4",
+      "start": 225312,
+      "end": 225313
+    },
+    {
+      "name": "_emit_generated_default_constructor@12",
+      "start": 218528,
+      "end": 218529
+    },
+    {
+      "name": "_emit_generated_copy_constructor@12",
+      "start": 218608,
+      "end": 218609
+    },
+    {
+      "name": "_emit_generated_assignment@12",
+      "start": 219184,
+      "end": 219185
+    },
+    {
+      "name": "_pointer_kind_spelling@4",
+      "start": 218480,
+      "end": 218481
+    },
+    {
+      "name": "_reserve_type_diagnostic",
+      "start": 428416,
+      "end": 428417
+    },
+    {
+      "name": "_format_diagnostic_symbol@8",
+      "start": 426592,
+      "end": 426593
+    },
+    {
+      "name": "_generated_member_name@4",
+      "start": 226400,
+      "end": 226401
+    },
+    {
+      "name": "_print_inline_declaration@8",
+      "start": 424464,
+      "end": 424465
+    },
+    {
+      "name": "_align_class_member@4",
+      "start": 208032,
+      "end": 208033
+    },
+    {
+      "name": "_addition_overflows@16",
+      "start": 477520,
+      "end": 477521
+    },
+    {
+      "name": "_add_member_offset@8",
+      "start": 195984,
+      "end": 195985
+    },
+    {
+      "name": "_base_type_size@8",
+      "start": 324224,
+      "end": 324300
+    },
+    {
+      "name": "_inner_type_size@12",
+      "start": 323440,
+      "end": 323441
+    },
+    {
+      "name": "_data_member_pointer_size@4",
+      "start": 319888,
+      "end": 319889
+    },
+    {
+      "name": "_member_function_pointer_size@4",
+      "start": 319984,
+      "end": 319985
+    },
+    {
+      "name": "_pointer_kind_size@4",
+      "start": 324400,
+      "end": 324401
     }
   ],
   "cases": {

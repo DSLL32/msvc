@@ -35,7 +35,7 @@ CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *de
     if (STORAGE_KIND == 1)
         storage.flags |= 0x1000;
     qualifier = (QualifiedDeclarator *)declaration->next;
-    if (qualifier && is_static_qualified_symbol((CppSymbol *)qualifier->resolution->binding->target) &&
+    if (qualifier && is_static_data_member((CppSymbol *)qualifier->resolution->binding->target) &&
         (!(storage.flags & 0x20) || (storage.flags & 0x700) || (storage.extended & 7))) {
         if (options.configuration.extensions_enabled && STORAGE_KIND == 1)
             compiler_warning(1, 630, format_symbol_name(declaration), token_spellings[13]);

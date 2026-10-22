@@ -27,9 +27,9 @@ typedef struct ClassContext {
     CppSymbol *symbol;
     unsigned field04;
     CType *type;
-    unsigned field0c, field10, field14;
-    unsigned short field18, alignment;
-    unsigned char field1c, flags;
+    unsigned field0c, field10, size;
+    unsigned short bit_field_type, alignment;
+    unsigned char bit_field_bits, flags;
     unsigned short field1e;
 } ClassContext;
 typedef struct LabelStack {

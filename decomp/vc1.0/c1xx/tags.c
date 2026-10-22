@@ -63,7 +63,7 @@ CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned
             symbol->flags |= 3;
         else symbol->flags = (symbol->flags & ~3) | (class_contexts[current_class_context].flags & 3);
         enumerator_value = (unsigned)-1;
-        symbol->detail.class_info->field00 = 4;
+        symbol->detail.class_info->size = 4;
         symbol->flags |= 4;
         enumerator_context = type;
         current_enum_symbol = symbol;
@@ -88,9 +88,9 @@ CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned
     else context->flags &= ~0x10;
     context->symbol = symbol;
     context->field04 = 0;
-    context->field14 = 0;
-    context->field1c = 0;
-    context->field18 = 0;
+    context->size = 0;
+    context->bit_field_bits = 0;
+    context->bit_field_type = 0;
     context->type = type;
     context->alignment = 1;
     return symbol;

@@ -12,6 +12,9 @@
 #include "operators.h"
 #include "parser.h"
 #include "lexer.h"
+#include "class-members.h"
+#include "inline-capture.h"
+#include "type-sizes.h"
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
@@ -57,7 +60,6 @@ CType *__stdcall make_class_pointer_type(CppSymbol *class_symbol, unsigned short
 unsigned char __stdcall member_pointer_is_aggregate(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall method_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
-int __stdcall type_size(CType *type) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 int __stdcall parameter_stack_bytes(CppSymbol *symbol) { __asm { int 3 } return 0; }
 unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0; }
@@ -80,17 +82,14 @@ void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall resolve_deferred_declaration(void *declaration) { __asm { int 3 } }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
-unsigned short __stdcall type_qualifiers(CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall strip_based_shape(CType *type) { __asm { int 3 } return 0; }
 unsigned short __stdcall classify_incomplete_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
 CType *__stdcall replace_first_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
 DeclarationType *__stdcall global_declaration_type(DeclarationType *context) { __asm { int 3 } return 0; }
-int __stdcall is_unqualified_class_type(CType *type) { __asm { int 3 } return 0; }
 void retire_scope_directory_entry(void) { __asm { int 3 } }
 void pop_symbol_scope(void) { __asm { int 3 } }
-int __stdcall is_static_qualified_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall unwind_qualified_scopes(int stop_at_class) { __asm { int 3 } }
 unsigned short begin_type_diagnostic(void) { __asm { int 3 } return 0; }
 void end_type_diagnostic(void) { __asm { int 3 } }
@@ -185,7 +184,6 @@ IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, 
 IrToken *__stdcall convert_default_argument(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_initializer(int mode, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall check_constructor_storage(StorageSpec storage, char *class_name) { __asm { int 3 } }
-void __stdcall declare_class_member(DeclarationType *type, CppSymbol *member) { __asm { int 3 } }
 CppSymbol *__stdcall declare_constructor(DeclarationType *type, CppSymbol *class_symbol, CppSymbol *parameters) { __asm { int 3 } return 0; }
 void __stdcall declare_enumerator(char *name, CType *context, unsigned value) { __asm { int 3 } }
 void __stdcall declare_nctag(char *name) { __asm { int 3 } }
@@ -361,3 +359,41 @@ int __stdcall query_inheritance_model(int *model) { __asm { int 3 } return 0; }
 int __stdcall infer_inheritance_model(CppSymbol *tag) { __asm { int 3 } return 0; }
 
 unsigned __stdcall place_base_subobject(CppSymbol *base, CppSymbol **previous_base, CppSymbol *derived) { __asm { int 3 } return 0; }
+
+void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol *function) { __asm { int 3 } }
+void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall validate_anonymous_aggregate(DeclarationType *type) { __asm { int 3 } }
+void __stdcall declare_anonymous_aggregate(CType *type) { __asm { int 3 } }
+void __stdcall select_destructor_type(CppSymbol *member, DeclarationType *context,
+    CType **base, StorageSpec *storage) { __asm { int 3 } }
+void __stdcall declare_friend_member(DeclarationType *context, CppSymbol *member,
+    QualifiedDeclarator *qualified, CppSymbol *owner, StorageSpec storage, int pure) { __asm { int 3 } }
+void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclarator *qualified) { __asm { int 3 } }
+TypeShape *__stdcall last_type_shape(TypeShape *shape) { __asm { int 3 } return 0; }
+void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
+void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short flags, int new_member) { __asm { int 3 } }
+void __stdcall configure_member_function(StorageSpec storage, CppSymbol *member, int pure) { __asm { int 3 } }
+int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall class_type_of_member(CppSymbol *member) { __asm { int 3 } return 0; }
+void __stdcall align_class_member(unsigned alignment) { __asm { int 3 } }
+int __stdcall addition_overflows(int left, unsigned right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
+unsigned __stdcall add_member_offset(unsigned offset, unsigned displacement) { __asm { int 3 } return 0; }
+void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
+
+void begin_pending_class_names(void) { __asm { int 3 } }
+char *next_pending_class_name(void) { __asm { int 3 } return 0; }
+void __cdecl format_work_text(WorkingStack *stack, char *format, ...) { __asm { int 3 } }
+unsigned short __stdcall generated_member_pointer_kind(int context) { __asm { int 3 } return 0; }
+void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
+void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
+void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
+char *__stdcall pointer_kind_spelling(unsigned short kind) { __asm { int 3 } return 0; }
+short reserve_type_diagnostic(void) { __asm { int 3 } return 0; }
+void __stdcall format_diagnostic_symbol(short text, CppSymbol *symbol) { __asm { int 3 } }
+char *__stdcall generated_member_name(int kind) { __asm { int 3 } return 0; }
+void __stdcall print_inline_declaration(CppSymbol *symbol, unsigned *flags) { __asm { int 3 } }
+
+unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeShape *shape) { __asm { int 3 } return 0; }
+unsigned __stdcall data_member_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
+unsigned __stdcall member_function_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
+unsigned __stdcall pointer_kind_size(unsigned short attributes) { __asm { int 3 } return 0; }

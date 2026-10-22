@@ -109,3 +109,39 @@ unsigned short __stdcall merge_type_attributes(unsigned short left, unsigned sho
     }
     return left | right;
 }
+
+/* Original 0x3cd80..0x3ce2b. Retain the complete shape walk used by the
+   original classifier, then select only its bare-class result bit. */
+int __stdcall is_unqualified_class_type(CType *type)
+{
+    TypeShape *shape;
+    unsigned classification;
+    if (!type || !(type->flags & 0x400)) classification = 0;
+    else {
+        shape = type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (!shape) classification = 0x80;
+        else if ((shape->flags & 0x40) && !shape->related) classification = 0x40;
+        else if ((shape->flags & 0x77) == 2) {
+            shape = shape->related;
+            while (shape && (shape->flags & 0x77) == 2) shape = shape->related;
+            classification = shape ? 0 : 2;
+        } else classification = 0;
+    }
+    return classification & 0x80;
+}
+
+/* Original 0x635a0..0x635f2. Arrays/functions forward qualification to the
+   next shape; a bare base uses the descriptor's own const/volatile bits. */
+unsigned short __stdcall type_qualifiers(CType *type)
+{
+    TypeShape *shape = type->related;
+    unsigned kind;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    while (shape) {
+        kind = shape->flags & 0x77;
+        if (kind != 2 && kind != 4) break;
+        shape = shape->related;
+    }
+    return (unsigned short)((shape ? shape->attributes : type->attributes) & 0x3000);
+}

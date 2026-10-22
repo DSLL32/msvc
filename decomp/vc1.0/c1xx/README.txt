@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 244 accepted paired frontiers, including 169 frontend
+PARTIAL reconstruction: 253 accepted paired frontiers, including 178 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
-are reconstructed; the next matching trap is _declare_class_member@8 at original
-VA 0x2f230. The latest ordered replay is recorded in validation.json;
+are reconstructed; the next matching trap is _align_class_member@4 at original
+VA 0x32ca0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -294,3 +294,35 @@ a full optional descriptor, including its type index, rather than only three
 storage bytes. Whole-function argument slots and constructor diagnostics are
 preserved. This remains a partial reconstruction of the initial case.
 All 244 ordered frontiers replay exactly with these changes.
+
+Class-member declaration retains all 32 direct callees and its friend, anonymous-
+aggregate, pure-specifier, DLL-storage, bit-field, overload and recovery paths.
+Its four-byte StorageSpec arguments retain their individual stack slots. The
+member-function child's apparent decompiler this pointer is dead upper-ECX
+state, not an additional argument; its actual three stack slots and RET 12 are
+preserved. Existing data/bit-field storage class tests are now accurately named
+is_static_data_member instead of the provisional is_static_qualified_symbol.
+Class list lookup keeps interned name-flag and identity checks and skips bases.
+
+The former parse_declarator_initializer at 0x34ea0 is actually inline-member
+capture, now capture_inline_member_declaration. Its complete body retains 22
+call targets, paged text capture, default-argument declarations, source line
+handling, synthetic special-member text and grammar recovery. All encountered
+format strings are ordinary literals at their generating branches. Its output
+FILE pointer and temporary /E state use the existing shared lexer storage.
+
+Type qualifiers preserve arrays/functions and modifier behavior. Data-member
+layout retains nine callees, struct/union size differences, bit-field flushing,
+packing, zero-size extension recovery, overflow and aggregate property copies.
+The class context now names current size, bit-field type and consumed bits;
+ClassInfo distinguishes complete-object size at +0 and nonvirtual size at +4.
+The common symbol auxiliary word names its declaring-class short when that
+variant is encountered. The native structures keep their original sizes.
+
+Type size retains all six callees and its pointer/member-pointer dispatch.
+Array multiplication is explicitly unsigned before the original signed
+comparison, preserving 32-bit wrap without C signed-overflow undefined behavior.
+On overflow the original updates the bound to one but returns the product
+computed before that recovery; the C retains this ordering. Base sizing uses
+complete-object size, while base-subobject layout uses nonvirtual size.
+All 253 ordered frontiers replay exactly through this member-layout prefix.
