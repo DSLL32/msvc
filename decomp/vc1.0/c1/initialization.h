@@ -22,6 +22,7 @@ extern int normalized_Gs, normalized_PLMN, normalized_PLMF, normalized_Zr;
 extern int normalized_Oq, normalized_Gn, normalized_Ol;
 extern int target_cpu, target_cpu_mask;
 extern char token_buffer[7936];
+extern char *token_buffer_end;
 extern char *source_filename, *source_buffer_cursor;
 extern int browser_full, browser_enabled;
 extern char *browser_filename;

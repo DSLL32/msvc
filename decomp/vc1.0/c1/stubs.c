@@ -166,7 +166,6 @@ unsigned char __stdcall scan_assembler_number(int first_character) { __asm { int
 
 void report_ide_line(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
-void preprocess_directive(void) { __asm { int 3 } }
 
 void scan_continued_identifier(char *start, unsigned hash) { __asm { int 3 } }
 
@@ -548,3 +547,28 @@ unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol) { __asm
 
 int fclose(FILE *file) { __asm { int 3 } return 0; }
 int _unlink(const char *name) { __asm { int 3 } return 0; }
+
+
+void capture_directive_text(void) { __asm { int 3 } }
+
+int pch_find_conditional(void) { __asm { int 3 } return 0; }
+
+int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
+
+void __stdcall finish_directive(char *name) { __asm { int 3 } }
+
+int __stdcall pch_resolve_condition(int condition) { __asm { int 3 } return 0; }
+
+int __stdcall skip_inactive_directives(int mode) { __asm { int 3 } return 0; }
+
+
+int push_conditional_level(void) { __asm { int 3 } return 0; }
+
+void define_source_macro(void) { __asm { int 3 } }
+
+
+void process_pragma(void) { __asm { int 3 } }
+
+void undefine_source_macro(void) { __asm { int 3 } }
+
+void warn_ignored_token(void) { __asm { int 3 } }

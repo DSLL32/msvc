@@ -81,16 +81,27 @@ def mask(pe, records, accepted, output):
                 data[a:b] = pe.data[a:b]
     Path(output).write_bytes(data)
 
-FIXTURE = Path('../fixtures/minimal-c')
+FIXTURES = {'minimal': 'minimal-c', 'hello-win32': 'hello-win32'}
+CASE_NAME = 'minimal'
+FIXTURE = Path('../fixtures') / FIXTURES[CASE_NAME]
 CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
+
+def select_case(name):
+    global CASE_NAME, FIXTURE, CASE
+    CASE_NAME = name
+    FIXTURE = Path('../fixtures') / FIXTURES[name]
+    CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
 
 def run(label, exe, case=''):
     stem = Path('build') / label
-    directory = Path('build') / ('minimal-' + label)
+    directory = Path('build') / (CASE_NAME + '-' + label)
     if directory.exists():
         shutil.rmtree(directory)
     directory.mkdir()
-    shutil.copyfile(FIXTURE / 'c1/test.c', directory / 'test.c')
+    for source in CASE['inputs']:
+        data = (FIXTURE / source['path']).read_bytes()
+        assert hashlib.sha256(data).hexdigest() == source['sha256'], 'fixture input changed'
+        (directory / Path(source['path']).name).write_bytes(data)
     flags = CASE['environment']['MSC_CMD_FLAGS'].format(
         bin=wt.windows(wt.TC / 'bin'), include=wt.windows(wt.TC / 'include'))
     args = ['wine', 'build/debug-run.exe', wt.windows(exe), case,
@@ -132,9 +143,9 @@ def prepare(accepted_count=None):
     return orig, rec, cfg, oi, ri
 
 def check_artifacts(labels):
-    expected = {'test.c'} | {r['output_name'] for r in CASE['outputs']}
+    expected = {Path(source['path']).name for source in CASE['inputs']} | {r['output_name'] for r in CASE['outputs']}
     for label in labels:
-        directory = Path('build') / ('minimal-' + label)
+        directory = Path('build') / (CASE_NAME + '-' + label)
         assert {p.name for p in directory.iterdir()} == expected, 'unexpected files: ' + label
         for output in CASE['outputs']:
             data = (directory / output['output_name']).read_bytes()
@@ -156,8 +167,8 @@ def compare(accepted_count=None, case='', baseline=True):
     assert not any(re.search(r'unreadable|invalid', row) for row in pending_a), \
         'could not inspect pending intermediate bytes\n'+ae
     # At each matched frontier, compare the visible file writes made so far.
-    left = Path('build/minimal-original')
-    right = Path('build/minimal-reconstructed')
+    left = Path('build') / (CASE_NAME + '-original')
+    right = Path('build') / (CASE_NAME + '-reconstructed')
     assert {p.name for p in left.iterdir()} == {p.name for p in right.iterdir()}, 'frontier file sets differ'
     for path in left.iterdir():
         assert path.read_bytes() == (right / path.name).read_bytes(), 'frontier file differs: ' + path.name
@@ -181,21 +192,24 @@ if __name__ == '__main__':
     parser.add_argument('--runtime', action='store_true', help='advance exact library matches one trap at a time')
     parser.add_argument('--mask-only', action='store_true')
     parser.add_argument('--replay', action='store_true', help='verify every recorded trap frontier again')
+    parser.add_argument('--fixture', choices=sorted(FIXTURES), default='minimal')
     parser.add_argument('--case', default='', help='Windows command-line arguments for the case')
     args = parser.parse_args()
+    select_case(args.fixture)
     if args.mask_only:
         prepare()
         raise SystemExit(0)
     if args.replay:
         cfg = json.loads(Path('functions.json').read_text())
-        case = next(c for c in cfg['cases'].values() if c['arguments'] == args.case)
+        case = cfg['cases'][args.fixture]
+        assert case['arguments'] == args.case
         first, last = case.get('accepted_from', 0), case.get('accepted_count', len(cfg['accepted']))
         for count in range(first, last):
             expected = cfg['accepted'][count]
             print('frontier %d/%d: %s' % (count, last, expected), flush=True)
             actual = compare(count, args.case, baseline=False)
             assert actual == expected, 'recorded frontier changed: '+actual+' != '+expected
-        compare(case=args.case)
+        compare(accepted_count=last, case=args.case)
         raise SystemExit(0)
     while True:
         site = compare(case=args.case)

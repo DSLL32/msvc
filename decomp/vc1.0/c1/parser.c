@@ -9,7 +9,7 @@ ParserValue parser_value; /* original 0x5b1f0 */
 int parser_lookahead = -1; /* original 0x6b550 */
 char *parser_diagnostic_context; /* original 0x6d494 */
 unsigned char expression_storage[2052]; /* original 0x5f508..0x5fd0c */
-unsigned char *expression_next; /* original 0x6bff8 */
+unsigned char *text_work_cursor; /* original 0x6bff8 */
 unsigned constant_one; /* original 0x5ffc8 */
 int aggregate_depth = -1; /* original 0x6bf94 */
 int unevaluated_expression_depth; /* original 0x6c02c */
@@ -59,7 +59,7 @@ IrToken *default_label;
 #define CLEAR_DECLARATION_FLAGS() (declaration_spec_flags[declaration_depth] &= ~3)
 #define RESET_EXPRESSION_ARENA() do { \
     if (!parser_recovery_count) release_arena(2); \
-    expression_next = expression_storage; \
+    text_work_cursor = expression_storage; \
 } while (0)
 #define COPY_STORAGE(destination, source) do { \
     (destination)[0] = (source)[0]; \
@@ -387,7 +387,7 @@ read_action:
         case 53:
             if (!options.syntax_only) finish_initializer(right[-1].symbol, right[0].node);
             if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
-            expression_next = expression_storage;
+            text_work_cursor = expression_storage;
             break;
         case 54:
             if (!options.syntax_only) begin_aggregate_initializer(right[0].node);
@@ -407,7 +407,7 @@ read_action:
         case 60:
             if (!options.syntax_only) emit_initializer(right[0].node);
             if (!unevaluated_type_depth && !type_description_depth) release_arena(2);
-            expression_next = expression_storage;
+            text_work_cursor = expression_storage;
             break;
         case 61:
             if (!options.syntax_only) begin_nested_initializer();
@@ -1492,7 +1492,7 @@ void __stdcall end_function_context(int direct_scope_exit)
     scope_cleanup_stack = 0;
     initializer_temporary = 0;
     global_expression_scope_active = 0;
-    expression_next = expression_storage;
+    text_work_cursor = expression_storage;
     global_record_kind = 0;
     parameter_nesting = 0;
     function_reserved_state = 0;
@@ -1505,7 +1505,7 @@ void __stdcall finish_external_declaration(int recovering)
 {
     if (!recovering) release_arena(1);
     if (!recovering) release_arena(2);
-    expression_next = expression_storage;
+    text_work_cursor = expression_storage;
     function_symbol = 0;
     function_parameter_declarations = 0;
     current_parameter = function_parameter_declarations;

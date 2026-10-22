@@ -19,7 +19,7 @@ STATE = [
     ('_function_records', 0x6b63c, 4),
     ('_last_function_records', 0x6b640, 4),
     ('_function_record_index', 0x6b7e4, 4),
-    ('_include_pragma_state', 0x6bf74, 4),
+    ('_conditional_depth', 0x6bf74, 4),
     ('_include_depth', 0x6a7d4, 2),
     ('_source_handle', 0x6a7d8, 4),
     ('_pch_include_state', 0x6be70, 1),

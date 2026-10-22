@@ -15,6 +15,7 @@ int normalized_Gs, normalized_PLMN, normalized_PLMF, normalized_Zr;
 int normalized_Oq, normalized_Gn, normalized_Ol;
 int target_cpu, target_cpu_mask;
 char token_buffer[7936]; /* original scanner buffer 0x5d5bc..0x5f4bc */
+char *token_buffer_end = token_buffer + sizeof(token_buffer); /* original 0x6c004 */
 char *source_filename = token_buffer, *source_buffer_cursor = token_buffer;
 int browser_full, browser_enabled; /* original 0x6bc3c / 0x6bc38 */
 char *browser_filename; /* original 0x5b588 */

@@ -1,29 +1,6 @@
 /* Assignment and type compatibility diagnostics. */
 #include "parser.h"
 
-/* Diagnostic vocabulary indexed by the frontend's named lexical token codes.
-   These are token spellings, not executable-image strings or an image layout. */
-static char *conversion_token_names[153] = {
-    0, "newline", "identifier", "string", "float constant", "double constant",
-    "long double constant", "int constant", "long constant", "unsigned int constant",
-    "unsigned long constant", "auto", "static", "extern", "__inline", "register",
-    "typedef", "fortran", "pascal", "cdecl", "_fastcall", "_syscall", "interrupt",
-    "saveregs", "loadds", "export", "_asm", "_based", "near", "far", "_far16",
-    "huge", "const", "volatile", "char", "int", "float", "double", "short", "long",
-    "void", "_segment", "_segname", "signed", "unsigned", "enum", "struct", "union",
-    "&", "&&", "&=", "=", "bit field", ":", ",", "--", "/", "/=", "==", "!", "*",
-    ">", ">=", "++", "[", "<<=", "<<", "<", "<=", "-", "-=", "%", "%=", "*", "*=",
-    "!=", "|", "|=", "||", ".", "+", "+=", "->", "--", "++", "?", ">>=", ">>", "~",
-    "unary minus", "^", "^=", "based reference", ":>", "deseg", "argument",
-    "assignment operator", "break", "case", "cast", "storage class", "constant",
-    "continue", "default", "division operator", "do", "...", "else", "entry",
-    "end of file", "equality operator", "_except", "_finally", "for", "argument",
-    "goto", "if", "increment operator", "initializing", "{", "(", "intrinsic", "modifier",
-    "_oldcall", "]", "}", "relational operator", "return", ")", "_self", ";", "shift operator",
-    "sizeof", "_stdcall", "struct/union operator", "switch", 0, "_try", "type", "typedef name",
-    "unary plus", "while", 0, "type", "<class-head>", "enum [tag]", "<storage modifier>",
-    "__unaligned", "__builtin_alignof", "__leave", "__sysapi", "__declspec", "alignment notifier"
-};
 
 /* Original 0x3e760..0x3ef74, void-pointer dispatch 0x3ef74..0x3efc0. */
 int __stdcall check_type_conversion(unsigned char operation, CType *target, CType *source)
@@ -75,7 +52,7 @@ int __stdcall check_type_conversion(unsigned char operation, CType *target, CTyp
         if ((target_flags & 0x140) && (source_flags & 0x340)) return 1;
         if (target->field08 != source->field08 &&
             !(operation == TOK_COLON && (target_flags & 0x200) && (source_flags & 0x200))) {
-            report_syntax_error(115, conversion_token_names[operation]);
+            report_syntax_error(115, token_names[operation]);
             return 0;
         }
         return 1;
@@ -100,7 +77,7 @@ int __stdcall check_type_conversion(unsigned char operation, CType *target, CTyp
         left_kind &= 7;
         if (left_kind == 3) {
             if (!compatible_function_attributes(left_attributes, right_attributes)) {
-                report_syntax_error(152, conversion_token_names[operation]);
+                report_syntax_error(152, token_names[operation]);
                 return 0;
             }
             if ((left_attributes ^ right_attributes) & 0xf00)
@@ -170,7 +147,7 @@ next_shape:
         }
         if ((!target->related && !(target_flags & 0x40)) ||
             (!source->related && !(source_flags & 0x40)))
-            report_syntax_error(115, conversion_token_names[operation]);
+            report_syntax_error(115, token_names[operation]);
         else report_conversion_mismatch(operation, target, source);
         return 0;
     }

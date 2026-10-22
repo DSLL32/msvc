@@ -176,3 +176,27 @@ DeclarationCode declaration_codes[] = {
     { TOK_MODIFIER, 0x9e }, { TOK_OLDCALL, 0 }, { TOK_SYSAPI, 0x96 }
 };
 unsigned declaration_code_count = sizeof(declaration_codes) / sizeof(declaration_codes[0]);
+
+/* Diagnostic vocabulary indexed by the frontend's named lexical token codes.
+   These are token spellings, not executable-image strings or an image layout. */
+char *token_names[153] = {
+    0, "newline", "identifier", "string", "float constant", "double constant",
+    "long double constant", "int constant", "long constant", "unsigned int constant",
+    "unsigned long constant", "auto", "static", "extern", "__inline", "register",
+    "typedef", "fortran", "pascal", "cdecl", "_fastcall", "_syscall", "interrupt",
+    "saveregs", "loadds", "export", "_asm", "_based", "near", "far", "_far16",
+    "huge", "const", "volatile", "char", "int", "float", "double", "short", "long",
+    "void", "_segment", "_segname", "signed", "unsigned", "enum", "struct", "union",
+    "&", "&&", "&=", "=", "bit field", ":", ",", "--", "/", "/=", "==", "!", "*",
+    ">", ">=", "++", "[", "<<=", "<<", "<", "<=", "-", "-=", "%", "%=", "*", "*=",
+    "!=", "|", "|=", "||", ".", "+", "+=", "->", "--", "++", "?", ">>=", ">>", "~",
+    "unary minus", "^", "^=", "based reference", ":>", "deseg", "argument",
+    "assignment operator", "break", "case", "cast", "storage class", "constant",
+    "continue", "default", "division operator", "do", "...", "else", "entry",
+    "end of file", "equality operator", "_except", "_finally", "for", "argument",
+    "goto", "if", "increment operator", "initializing", "{", "(", "intrinsic", "modifier",
+    "_oldcall", "]", "}", "relational operator", "return", ")", "_self", ";", "shift operator",
+    "sizeof", "_stdcall", "struct/union operator", "switch", 0, "_try", "type", "typedef name",
+    "unary plus", "while", 0, "type", "<class-head>", "enum [tag]", "<storage modifier>",
+    "__unaligned", "__builtin_alignof", "__leave", "__sysapi", "__declspec", "alignment notifier"
+};

@@ -262,7 +262,13 @@
     "__endstdio",
     "__flushall",
     "_flsall",
-    "import:ExitProcess"
+    "import:ExitProcess",
+    "_preprocess_directive",
+    "_classify_directive@4",
+    "_read_include_filename",
+    "_read_angle_include_filename",
+    "_skip_directive_space",
+    "_trim_filename_space"
   ],
   "driver": [
     {
@@ -1145,7 +1151,7 @@
     {
       "name": "_preprocess_directive",
       "start": 132528,
-      "end": 132529
+      "end": 134576
     },
     {
       "name": "_scan_continued_identifier",
@@ -2219,6 +2225,86 @@
       "name": "__unlink",
       "start": 338848,
       "end": 338849
+    },
+    {
+      "name": "_classify_directive@4",
+      "start": 115744,
+      "end": 115880
+    },
+    {
+      "name": "_capture_directive_text",
+      "start": 131776,
+      "end": 131777
+    },
+    {
+      "name": "_pch_find_conditional",
+      "start": 283136,
+      "end": 283137
+    },
+    {
+      "name": "_evaluate_preprocessor_expression",
+      "start": 99968,
+      "end": 99969
+    },
+    {
+      "name": "_finish_directive@4",
+      "start": 135072,
+      "end": 135073
+    },
+    {
+      "name": "_pch_resolve_condition@4",
+      "start": 282960,
+      "end": 282961
+    },
+    {
+      "name": "_skip_inactive_directives@4",
+      "start": 134576,
+      "end": 134577
+    },
+    {
+      "name": "_skip_directive_space",
+      "start": 141744,
+      "end": 141864
+    },
+    {
+      "name": "_push_conditional_level",
+      "start": 131552,
+      "end": 131553
+    },
+    {
+      "name": "_define_source_macro",
+      "start": 116304,
+      "end": 116305
+    },
+    {
+      "name": "_read_include_filename",
+      "start": 132048,
+      "end": 132236
+    },
+    {
+      "name": "_process_pragma",
+      "start": 125936,
+      "end": 125937
+    },
+    {
+      "name": "_undefine_source_macro",
+      "start": 116144,
+      "end": 116145
+    },
+    {
+      "name": "_warn_ignored_token",
+      "start": 185216,
+      "end": 185217
+    },
+    {
+      "name": "_read_angle_include_filename",
+      "start": 131600,
+      "end": 131771
+    },
+    {
+      "name": "_trim_filename_space",
+      "start": 136032,
+      "end": 136161
     }
   ],
   "cases": {
@@ -2226,6 +2312,10 @@
       "arguments": "",
       "accepted_from": 0,
       "accepted_count": 258
+    },
+    "hello-win32": {
+      "arguments": "",
+      "accepted_from": 258
     }
   },
   "buffered_streams": [

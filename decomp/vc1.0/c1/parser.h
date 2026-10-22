@@ -275,4 +275,6 @@ void *__stdcall append_argument(void *arguments, IrToken *argument, int flags);
 void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol);
 unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol);
 
+extern unsigned char *text_work_cursor;
+
 #endif

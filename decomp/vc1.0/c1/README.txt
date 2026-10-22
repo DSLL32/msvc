@@ -9,14 +9,20 @@ exits 0 with empty stdout/stderr and produces all four captured intermediate
 files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodified
 original independently produces the same files and process result.
 
-The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
-frontend invocation. It will be attempted after the minimal-C case passes.
+The active second case is fixtures/hello-win32, the captured CL /O2 /G5
+hello.c frontend invocation. Six additional functions bring the total to
+185 reconstructed source functions and 264 accepted frontiers. Its first
+#include now reaches open_forced_include (0x20490) after directive dispatch
+and angle-filename parsing; all six new frontiers replay successfully.
+The minimal-C regression still completes with the captured raw files.
 
 Build and differential workflow
 -------------------------------
   make -j2
   make check
   make replay
+  make check CASE=hello-win32
+  make replay CASE=hello-win32
 
 Builds use the original CL.EXE and LINK.EXE through Wine, with a private
 prefix at ~/.ai-tmp/vc1.0-c1/wine. The original toolchain is read-only.
@@ -60,6 +66,8 @@ memory.c / vectors.c: original permanent and temporary allocation schemes.
 diagnostics.c: typed diagnostic vocabulary lookup table.
 frontend.c / initialization.c: translation-unit driver, startup state,
   intermediate stream creation, and builtin type initialization.
+preprocessor-directives.c: directive classification and dispatch, conditional
+  state, directive whitespace, and quoted/angle include filename readers.
 preprocessor.c / keywords.c: identifier/keyword interning and vocabulary.
 lexer.c / token-data.c / tokens.h: token pushback, lexical source dispatch,
   line beginnings, and named token categories.

@@ -10,14 +10,16 @@ typedef struct SourceFile {
     int available;
     long offset;
     int saved_packing;
-    unsigned input_kind, saved_pragma;
+    unsigned input_kind;
+    int saved_conditional_depth;
     struct SourceFile *next;
 } SourceFile;
 extern SourceFile *active_input, *root_input, *free_inputs;
 extern int source_handle;
 extern char source_storage[3 * 4099];
 extern char *source_text_cursor;
-extern unsigned source_line_number, include_pragma_state;
+extern unsigned source_line_number;
+extern int conditional_depth;
 extern int macro_expansion_active;
 extern char *macro_saved_input_cursor;
 extern unsigned browser_file_cookie;
