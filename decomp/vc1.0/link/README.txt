@@ -32,8 +32,8 @@ member pointers and function pointers. Templates were rejected by the original
 compiler and are not claimed. Unreached demangler branches remain named traps.
 
 Current verification: original-toolchain make -j4, all 20 cached native
-entry/status/stream/artifact regressions, 530 direct/indirect/tail-call checks,
-521 callback checks, 412 contextual-data checks, 684 original extent instruction
+entry/status/stream/artifact regressions, 536 direct/indirect/tail-call checks,
+527 callback checks, 412 contextual-data checks, 690 original extent instruction
 boundaries and 38 ECX-member return-cleanup checks pass. The previous 640-frontier
 Win32 history remains historical evidence; current function acceptance uses a
 masked original-only capture paired with native GDB.
@@ -41,7 +41,7 @@ cases/omf-undecorate-queue.json records case provenance and verification hashes.
 SOURCE-NOTES.txt retains historical checkpoints and recovered implementation
 choices; later completed checkpoints supersede earlier active-frontier notes.
 
-The accepted .text extent union is 200167/281634 bytes=71.0734% (678 frontiers), up from
+The accepted .text extent union is 200684/281634 bytes=71.2570% (684 frontiers), up from
 160229/281634=56.8926% at 528 frontiers and 110787/281634=39.3372% at 400.
 This includes accepted inline tables/alignment, not dynamic branch coverage.
 cases/disassembler-x86-rich/progress.json records the current in-progress union;
@@ -341,10 +341,10 @@ addressing/branch/prefix/x87 disassembly, then original-validated Macintosh/m68k
 COFF linking. No public-input reachability is claimed before original capture.
 
 Richer x86 disassembly is in progress. Its original-compiled661-byte COFF object
-has181 code bytes across four functions. Fourteen further native/GDB frontiers
+has181 code bytes across four functions. Twenty further native/GDB frontiers
 are accepted through memory/SIB,16-bit operand/address overrides, arithmetic
-selectors and compressed0F dispatch. Current terminal is the mode-sized immediate
-helper at0004c0e0. The canonical build/audits and all20 completed cached-native
+selectors and compressed0F dispatch. Branches/immediates and F3 MOVSB now match. Current terminal is the F2 prefix
+helper at0004b8e0. The canonical build/audits and all20 completed cached-native
 fixtures pass at this checkpoint; the new case is enabled only after its complete
 reached graph closes. See cases/disassembler-x86-rich/{README.txt,manifest.json,
 progress.json}. No new reference or fixture execution is needed for old cases.

@@ -1,6 +1,6 @@
 {
   "status": "in-progress",
-  "terminal": "_decode_op_4c0e0",
+  "terminal": "_decode_op_4b8e0",
   "accepted_functions": [
     {
       "name": "_compare_disassembly_symbols",
@@ -85,30 +85,80 @@
       "start": 308720,
       "end": 308805,
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_immediate",
+      "start": 311520,
+      "end": 311607,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_update_counter_registers",
+      "start": 309648,
+      "end": 309690,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_short_relative",
+      "start": 311888,
+      "end": 312058,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_repe_prefix",
+      "start": 309440,
+      "end": 309466,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_string_byte_destination",
+      "start": 310832,
+      "end": 310924,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_string_byte_source",
+      "start": 311040,
+      "end": 311140,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
     }
   ],
   "coverage": {
-    "frontiers": 678,
-    "accepted_extent_bytes": 200167,
+    "frontiers": 684,
+    "accepted_extent_bytes": 200684,
     "text_bytes": 281634,
-    "percent": 71.0734
+    "percent": 71.257
   },
   "validation": {
     "canonical": "make -j4 audit",
-    "calls": 530,
-    "callbacks": 521,
+    "calls": 536,
+    "callbacks": 527,
     "contextual_data": 412,
-    "instruction_boundaries": 684,
+    "instruction_boundaries": 690,
     "ecx_cleanup": 38,
     "completed_native_cases": 20,
     "native_fixture_status": "pass",
     "app_trace_entries": 490,
     "active_fixture_not_yet_enabled": true,
-    "case_loop_seconds": 1.096228027716279,
-    "external_checkpoint_suite_seconds": "unmeasured",
+    "case_loop_seconds": 1.0865567177534103,
+    "trace_prepare_seconds": 0.08912669401615858,
+    "timing": {
+      "third-batch-audit": {
+        "seconds": 31.5175960091874,
+        "exit": 0
+      },
+      "third-batch-native-trace-build": {
+        "seconds": 3.9911755388602614,
+        "exit": 0
+      },
+      "native20-second-checkpoint": {
+        "seconds": 1.2589719593524933,
+        "exit": 0
+      }
+    },
     "receipt": {
-      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/native20-checkpoint/receipt.json",
-      "sha256": "4fa79f51fead078e2e7bd57e8e6af354152058a53bf55f4c59463dd6512c19f5"
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/native20-second-checkpoint/receipt.json",
+      "sha256": "6e73b63bf13827af71338a4536163f1fb1f78d69b3f9894b7d59702a39a9d8a7"
     }
   },
   "fresh_frontiers": [
@@ -402,6 +452,126 @@
         "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
         "instruction_bytes_match": 16
       }
+    },
+    {
+      "label": "immediate-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/immediate-after-time.json",
+      "sha256": "ae2cb366b0f54e2c616d3644c2d071c607ac6756473b1b6f4c9333b7fdc051cd",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.815976720303297
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16462478414177895
+        },
+        "logical": "_decode_op_4b990",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "counter-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/counter-after-time.json",
+      "sha256": "cf492e3bf440be8e2dfc8c0851d35e5a9fe4f09c42b781fbd4915ae4999b195a",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.9672115761786699
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1649818131700158
+        },
+        "logical": "_decode_op_4c250",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "short-relative-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/short-relative-after-time.json",
+      "sha256": "de9fab103557b5047ce1701c85367daaf7edd3b40a996c3cbea2227fb0cf981a",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3172031957656145
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16498388722538948
+        },
+        "logical": "_decode_op_4b8c0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "repe-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/repe-after-time.json",
+      "sha256": "bef03d531484e91a6520e9a56549c58812ec264d896baaf0e02352d5dd45e483",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4681775020435452
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16572911012917757
+        },
+        "logical": "_decode_op_4be30",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "string-destination-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/string-destination-after-time.json",
+      "sha256": "3acecfb38a9ccb1e5feb8357fd21b30633d2038ba97d5669788aba30a6924839",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.0169022399932146
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16465646028518677
+        },
+        "logical": "_decode_op_4bf00",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "string-source-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/string-source-after-time.json",
+      "sha256": "28e075f79fce61db51ea56cf4c9e49c511a3e20ae7133bfa88f1ecac13beb393",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3177868872880936
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1650593364611268
+        },
+        "logical": "_decode_op_4b8e0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
     }
   ],
   "evidence": [
@@ -440,7 +610,47 @@
     {
       "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/second-batch-audit.log",
       "sha256": "12b387af95ee1913e90b7324101c3f9c71c5fd5f93dba8077d23c29ca4ca78f3"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/third-batch-audit.log",
+      "sha256": "ce95300c1f48648bcadb5146a0fdccd6835983434ed3951346aca6a2dd2d2c30"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/third-batch-build-time.json",
+      "sha256": "9a5d17095269498595b8ff33238950d4519fdfeef17ee1bddc0d386365cc9a04"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/checkpoint-coverage.json",
+      "sha256": "f80a4c693cb6dc957d33e115530b49bd8198c048025c4a3513542422b1248cbc"
     }
   ],
-  "scope": "Only reached functions accepted; complete original output frozen before reconstruction. Typed full indexed tables include named trapping targets for all other valid indexes. No dynamic coverage claimed for unused table branches."
+  "scope": "Only reached functions accepted; complete original output frozen before reconstruction. Typed full indexed tables include named trapping targets for all other valid indexes. No dynamic coverage claimed for unused table branches.",
+  "previous_checkpoints": [
+    {
+      "coverage": {
+        "frontiers": 678,
+        "accepted_extent_bytes": 200167,
+        "text_bytes": 281634,
+        "percent": 71.0734
+      },
+      "validation": {
+        "canonical": "make -j4 audit",
+        "calls": 530,
+        "callbacks": 521,
+        "contextual_data": 412,
+        "instruction_boundaries": 684,
+        "ecx_cleanup": 38,
+        "completed_native_cases": 20,
+        "native_fixture_status": "pass",
+        "app_trace_entries": 490,
+        "active_fixture_not_yet_enabled": true,
+        "case_loop_seconds": 1.096228027716279,
+        "external_checkpoint_suite_seconds": "unmeasured",
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/native20-checkpoint/receipt.json",
+          "sha256": "4fa79f51fead078e2e7bd57e8e6af354152058a53bf55f4c59463dd6512c19f5"
+        }
+      }
+    }
+  ]
 }
