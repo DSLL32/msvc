@@ -225,3 +225,48 @@ int _isindst(struct tm *time)
     return sunday > time->tm_yday ||
         (sunday == time->tm_yday && time->tm_hour < 1);
 }
+
+/* Original 0x517e0..0x51914. This CRT variant counts buffered text-mode
+   line endings and uses the original stream flags when seeking read buffers. */
+long ftell(FILE *stream)
+{
+    int descriptor = stream->_file;
+    int flags = stream->_flag;
+    long position, buffered, used;
+    char *cursor, *end;
+    if (stream->_cnt < 0) stream->_cnt = 0;
+    position = _lseek(descriptor, 0L, SEEK_CUR);
+    if (position < 0) return -1L;
+    if (!(flags & 0x108)) return position - stream->_cnt;
+    used = stream->_ptr - stream->_base;
+    buffered = used;
+    if (flags & 3) {
+        if (_osfile[descriptor] & 0x80)
+            for (cursor = stream->_base; cursor < stream->_ptr; ++cursor)
+                if (*cursor == '\n') ++buffered;
+    } else if (!(flags & 0x80)) {
+        errno = EINVAL;
+        return -1L;
+    }
+    if (!position) return buffered;
+    if (flags & 1) {
+        if (!stream->_cnt) buffered = 0;
+        else {
+            used += stream->_cnt;
+            if (_osfile[descriptor] & 0x80) {
+                if (_lseek(descriptor, 0L, SEEK_END) == position) {
+                    cursor = stream->_base;
+                    end = cursor + used;
+                    while (cursor < end) if (*cursor++ == '\n') ++used;
+                    if (stream->_flag & 0x2000) ++used;
+                } else {
+                    _lseek(descriptor, position, SEEK_SET);
+                    used = stream->_bufsiz;
+                    if (_osfile[descriptor] & 4) ++used;
+                }
+            }
+            position -= used;
+        }
+    }
+    return position + buffered;
+}

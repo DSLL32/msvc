@@ -199,7 +199,18 @@
     "_remove_type_prefix@4",
     "_drop_first_type_shape@4",
     "_type_size@4",
-    "_base_type_size@8"
+    "_base_type_size@8",
+    "_begin_function_definition",
+    "_start_function_ir",
+    "_initialize_expression_stream@4",
+    "_ftell",
+    "_record_line_information@4",
+    "_write_ir_index",
+    "_write_ir_filename",
+    "_emit_warning_controls@4",
+    "_make_symbol_reference@4",
+    "_make_ir_expression@12",
+    "_make_typed_ir_expression@16"
   ],
   "driver": [
     {
@@ -678,7 +689,7 @@
     {
       "name": "_ftell",
       "start": 333792,
-      "end": 333793
+      "end": 334100
     },
     {
       "name": "_new_type_shape@12",
@@ -884,7 +895,7 @@
     {
       "name": "_write_ir_index",
       "start": 308864,
-      "end": 308865
+      "end": 309237
     },
     {
       "name": "_open_input_handle@4",
@@ -914,7 +925,13 @@
     {
       "name": "_record_line_information@4",
       "start": 239248,
-      "end": 239249
+      "end": 240940,
+      "shared": [
+        [
+          240940,
+          241032
+        ]
+      ]
     },
     {
       "name": "_browser_include_begin",
@@ -1196,7 +1213,7 @@
     {
       "name": "_begin_function_definition",
       "start": 174560,
-      "end": 174561
+      "end": 175414
     },
     {
       "name": "_finish_function_definition",
@@ -1527,7 +1544,7 @@
     {
       "name": "_make_symbol_reference@4",
       "start": 259104,
-      "end": 259105
+      "end": 259306
     },
     {
       "name": "_make_member_expression@8",
@@ -1818,6 +1835,81 @@
       "name": "_pointer_type_size@4",
       "start": 208592,
       "end": 208593
+    },
+    {
+      "name": "_start_function_ir",
+      "start": 175504,
+      "end": 176042
+    },
+    {
+      "name": "_parameter_list_bytes@4",
+      "start": 174368,
+      "end": 174369
+    },
+    {
+      "name": "_compatible_parameter_types@8",
+      "start": 177184,
+      "end": 177185
+    },
+    {
+      "name": "_begin_syntax_trace",
+      "start": 273680,
+      "end": 273681
+    },
+    {
+      "name": "_end_syntax_trace",
+      "start": 273696,
+      "end": 273697
+    },
+    {
+      "name": "_print_function_declaration@8",
+      "start": 271072,
+      "end": 271073
+    },
+    {
+      "name": "_initialize_expression_stream@4",
+      "start": 237424,
+      "end": 237618
+    },
+    {
+      "name": "_emit_ir_expression@4",
+      "start": 234400,
+      "end": 234401
+    },
+    {
+      "name": "_make_ir_expression@12",
+      "start": 258848,
+      "end": 258875
+    },
+    {
+      "name": "_define_register_parameter@4",
+      "start": 175424,
+      "end": 175425
+    },
+    {
+      "name": "_record_inline_parameter@4",
+      "start": 191159,
+      "end": 191160
+    },
+    {
+      "name": "_write_counted_ir",
+      "start": 309824,
+      "end": 309825
+    },
+    {
+      "name": "_emit_warning_controls@4",
+      "start": 241040,
+      "end": 241542
+    },
+    {
+      "name": "_make_typed_ir_expression@16",
+      "start": 258912,
+      "end": 258989
+    },
+    {
+      "name": "_make_based_pointer_base@4",
+      "start": 155744,
+      "end": 155745
     }
   ],
   "cases": {

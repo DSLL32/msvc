@@ -1,11 +1,11 @@
 {
   "case": "../fixtures/minimal-c/manifest.json phases.c1",
   "status": "incomplete",
-  "accepted_frontiers": 195,
-  "reconstructed_source_functions": 126,
-  "current_matching_trap": "_begin_function_definition",
-  "original_va": "0x2a9e0",
-  "replay": "All 195 accepted frontiers replayed in order; final matching function-body initialization trap verified.",
+  "accepted_frontiers": 206,
+  "reconstructed_source_functions": 137,
+  "current_matching_trap": "_emit_ir_expression@4",
+  "original_va": "0x393a0",
+  "replay": "All 206 accepted frontiers replayed in order on the current build; final recursive-expression writer trap verified.",
   "artifact_verification": "Pending completion; fixture outputs not embedded in reconstruction.",
   "frontier_artifacts": "Visible file sets and raw contents match at every checked frontier, including the initial global IR header."
 }

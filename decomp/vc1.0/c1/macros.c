@@ -29,7 +29,8 @@ static struct SpecialIdentifier {
     { &anonymous_symbol_name, "__LOCAL_SIZE" },
     { 0, 0 }
 };
-char macro_timestamp[25]; /* original 0x607f8 */
+/* The original 25 copied bytes are followed by a zeroed BSS terminator. */
+char macro_timestamp[26]; /* original 0x607f8 */
 char *macro_date, *macro_time; /* original 0x607f4 / 0x607f0 */
 
 /* Original 0x1bf70..0x1c185. */
@@ -99,7 +100,8 @@ long __stdcall frontend_time(long *result)
 }
 
 /* Original timestamp workspace at 0x68350. */
-static char formatted_timestamp[25];
+/* Include the zeroed BSS byte read by the caller's string-copy loop. */
+static char formatted_timestamp[26];
 
 /* Original 0x4bda0..0x4bdfb. */
 char *__stdcall format_timestamp(long timestamp)

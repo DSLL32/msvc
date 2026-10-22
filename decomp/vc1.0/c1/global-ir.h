@@ -26,7 +26,7 @@ enum GlobalField {
     GF_ALIAS_INDEX = 21,
     GF_TAG_INDEX = 22,
     GF_TAG_KIND = 23,
-    GF_FRAME_SIZE = 24,
+    GF_STREAM_POSITIONS = 24,
     GF_COMPLEXITY = 25,
     GF_OPTIMIZATION = 26,
     GF_TYPE_STACK = 27,
@@ -49,7 +49,7 @@ typedef struct PragmaValue {
 typedef struct FunctionIrState {
     unsigned complexity;
     unsigned short parameter_count, reserved;
-    unsigned local_bytes, frame_bytes;
+    unsigned symbol_offset, expression_offset;
     int no_inline;
 } FunctionIrState;
 extern unsigned char global_record_kind;

@@ -22,6 +22,31 @@ typedef union ParserValue {
     TypeShape *shape;
 } ParserValue;
 
+typedef union ParserValueStack {
+    ParserValue values[341];
+    struct {
+        ParserValue reserved_values[340];
+        int fastcall_stack_warning;
+        unsigned reserved_word;
+    } control;
+} ParserValueStack;
+extern ParserValueStack parser_values;
+extern void *syntax_declaration_context;
+IrToken *__stdcall make_typed_ir_expression(unsigned char operation, IrToken *left, IrToken *right, CType *type);
+IrToken *__stdcall make_based_pointer_base(CType *type);
+void start_function_ir(void);
+void __stdcall initialize_expression_stream(int mode);
+void __stdcall emit_ir_expression(IrToken *expression);
+IrToken *__stdcall make_ir_expression(unsigned char operation, IrToken *left, IrToken *right);
+void __stdcall define_register_parameter(FrontendSymbol *parameter);
+void __stdcall record_inline_parameter(FrontendSymbol *parameter);
+unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters);
+int __stdcall compatible_parameter_types(CType *expected, CType *actual);
+void begin_syntax_trace(void);
+void end_syntax_trace(void);
+void __stdcall print_function_declaration(FrontendSymbol *symbol, void *context);
+void __stdcall record_line_information(unsigned kind);
+
 /* The grammar keeps explicit logical transitions here. These structures do
    not reproduce the original yacc table compression or image layout. */
 typedef struct ParserTransition {

@@ -3,13 +3,12 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-initialize_function_definition, original VA 0x2a9e0. There are 118
-reconstructed source functions and 195 accepted trap frontiers, all replayed
-in order on the current shared-state implementation. The case has parsed
-`int main ()`, classified its empty parameter list, constructed and interned
-its function type, restored the outer scope, and declared its global symbol.
-Function initialization, the body, and completion of the four intermediate
-files remain unfinished. This is a checkpoint, not a completed compiler case.
+emit_ir_expression, original VA 0x393a0. There are 137 reconstructed source
+functions and 206 accepted trap frontiers, all replayed in order. The case
+has declared main, initialized its function context, serialized the initial
+source/option controls, and constructed its entry expression. The expression
+writer, statements, and completion of the four intermediate files remain
+unfinished. This is a checkpoint, not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -74,6 +73,8 @@ parser-grammar.c: logical token shifts, reduction exceptions, production
 scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,
   and typed intrinsic definitions.
 constants.c / ir.c / ir-formats.c: integer nodes and schema-driven IR writer.
+control-ir.c / control-formats.c: source and option control-record schemas,
+  compact state encoding, deferred pragmas, and warning override lists.
 intermediate.c: intermediate stream opening and expression-header reservation.
 runtime.c: encountered old CRT variants whose shipped LIBC implementations
   differ, including binary-mode open, stream seek/buffering, timezone

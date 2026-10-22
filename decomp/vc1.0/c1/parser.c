@@ -17,7 +17,11 @@ int parser_error_count; /* original 0x6b554 */
 short parser_recovery_count; /* original 0x6b558 */
 static short parser_state_stack[340]; /* original 0x650f0 */
 typedef char ParserValue_must_be_eight_bytes[(sizeof(ParserValue) == 8) ? 1 : -1];
-static ParserValue parser_value_stack[341]; /* original 0x653a0 */
+/* The original depth bound admits entry 340, aliasing two control words.
+   Keep that observable overlap in one union rather than duplicate state. */
+ParserValueStack parser_values; /* original 0x653a0..0x65e48 */
+#define parser_value_stack parser_values.values
+void *syntax_declaration_context; /* original 0x5b1d8 */
 
 /* The declaration stack includes the entry immediately before depth zero;
    storage-class lookahead may update that preceding declaration. */
@@ -1235,4 +1239,221 @@ FrontendSymbol *__stdcall initialize_function_definition(FrontendSymbol *symbol)
     function_scope_level = 1;
     string_record_count = 0;
     return symbol;
+}
+
+/* Original 0x2a9e0..0x2ad36. Validate the definition's parameter list,
+   replace its prototype shape, and enter the statement-scanning context. */
+void begin_function_definition(void)
+{
+    TypeShape *shape;
+    FrontendSymbol *chain, *first, *parameter, *parameters;
+    ParameterInfo *information;
+    CType *replacement, *saved_type;
+    unsigned convention, bytes;
+    int index;
+    if (!function_symbol) return;
+    start_function_ir();
+    shape = function_symbol->type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    convention = function_symbol->type->attributes & 0x70;
+    if (!parser_values.control.fastcall_stack_warning && convention == 0x40 && normalized_Gs) {
+        compiler_warning(1, 124);
+        parser_values.control.fastcall_stack_warning = 1;
+    }
+    chain = current_parameter;
+    if (!options.syntax_only && (convention == 0x60 || convention == 0x40)) {
+        bytes = parameter_list_bytes(current_parameter);
+        if (function_symbol->attributes & 0x4000) {
+            if (function_symbol->detail.value != bytes)
+                report_syntax_error(708, function_symbol->name);
+        } else {
+            function_symbol->detail.value = bytes;
+            function_symbol->attributes |= 0x4000;
+        }
+    }
+    for (parameter = chain; parameter; parameter = parameter->next)
+        if ((parameter->kind & 0x1f) == 10 || (parameter->kind & 0x1f) == 11) break;
+    first = parameter ? parameter->detail.parameter_next : 0;
+    parameter = first;
+    information = (ParameterInfo *)shape->field08;
+    if (parameter) {
+        if ((int)information->count > 0) {
+            index = 1;
+            if (shape->flags & 0x4000) {
+                if (parameter->type != type_0080) {
+                    compiler_warning(1, 27, index);
+                    goto parameters_checked;
+                }
+            } else if (parameter->type == type_0080) {
+                compiler_warning(1, 26);
+                goto parameters_checked;
+            }
+            while (parameter && index <= (int)information->count) {
+                if (information->types[index - 1] != parameter->type &&
+                    !compatible_parameter_types(information->types[index - 1], parameter->type))
+                    compiler_warning(1, 28, index);
+                ++index;
+                parameter = parameter->detail.parameter_next;
+                if (parameter == first) parameter = 0;
+            }
+            if ((int)information->count - index != -1 || (parameter && !(shape->flags & 0x8000)))
+                compiler_warning(1, 29);
+        } else if (function_parameter_context != 2) {
+            if (shape->flags & 0x4000) compiler_warning(1, 27);
+            else if ((shape->flags & 0x800) && !chain->type) {
+                if (options.z_a) compiler_warning(1, 52);
+                else report_syntax_error(142);
+            }
+        }
+    } else if (!(shape->flags & 0x4000) && information->count && function_parameter_context == 1)
+        compiler_warning(1, 26);
+parameters_checked:
+    if (active_parameter_context == 1) active_parameter_context = 5;
+    parameters = current_parameter;
+    replacement = replace_outer_type_shape(function_symbol->type,
+        (unsigned short)(active_parameter_context == 5 ? 0x4004 : 4), shape->attributes, &parameters);
+    if (active_parameter_context == 3 || active_parameter_context == 5) {
+        function_symbol->type = replacement;
+        if (options.syntax_only) {
+            begin_syntax_trace();
+            print_function_declaration(function_symbol, syntax_declaration_context);
+            end_syntax_trace();
+        }
+    } else if (options.syntax_only) {
+        saved_type = function_symbol->type;
+        function_symbol->type = replacement;
+        begin_syntax_trace();
+        print_function_declaration(function_symbol, syntax_declaration_context);
+        end_syntax_trace();
+        function_symbol->type = saved_type;
+    }
+    if (options.debug_info && !options.syntax_only) record_line_information(0x11);
+    scanner_flags |= 0x80000;
+}
+
+/* Original 0x2ad90..0x2afaa. Begin the expression stream and account for
+   parameters, retaining the separate inline-parameter pass. */
+void start_function_ir(void)
+{
+    FrontendSymbol *parameter, *first;
+    unsigned storage;
+    function_symbol->flags |= 1;
+    function_ir.parameter_count = 0;
+    function_symbol->attributes &= ~0x10;
+    if (normalized_Ol && options.option_qc) reset_inline_function_state();
+    if (!options.syntax_only) {
+        initialize_expression_stream(0);
+        write_ir_record(0x53, 0);
+        write_ir_record(0x53, 0);
+        emit_ir_expression(make_ir_expression(0x6c, make_symbol_reference(function_symbol), 0));
+        for (parameter = current_parameter; parameter; parameter = parameter->next)
+            if ((parameter->kind & 0x1f) == 10 || (parameter->kind & 0x1f) == 11) break;
+        if (parameter) {
+            first = parameter->detail.parameter_next;
+            parameter = first;
+            do {
+                storage = parameter->storage[0] & 7;
+                if (storage >= 5 && storage <= 6) define_register_parameter(parameter);
+                else if (!storage) parameter->storage[0] = (parameter->storage[0] & ~3) | 4;
+                if (parameter->type && parameter->type != type_0080) ++function_ir.parameter_count;
+                parameter = parameter->detail.parameter_next;
+            } while (parameter && parameter != first);
+        }
+    }
+    if (normalized_Ol && options.option_qc) {
+        for (parameter = current_parameter; parameter; parameter = parameter->next)
+            if ((parameter->kind & 0x1f) == 10 || (parameter->kind & 0x1f) == 11) break;
+        if (parameter) {
+            first = parameter->detail.parameter_next;
+            parameter = first;
+            do {
+                if (parameter->type) record_inline_parameter(parameter);
+                parameter = parameter->detail.parameter_next;
+            } while (parameter && parameter != first);
+        }
+    }
+}
+
+/* Original 0x39f70..0x3a032. Save stream positions before the function's
+   expression and symbol records, then emit its source/option boundaries. */
+void __stdcall initialize_expression_stream(int mode)
+{
+    int saved_stack_check;
+    function_ir.expression_offset = ftell(expression_file);
+    function_ir.symbol_offset = ftell(symbol_file);
+    function_ir.complexity = 0;
+    if (scanner_flags & 0x40) {
+        saved_stack_check = normalized_Gs;
+        normalized_Gs = 0;
+    }
+    record_line_information(0x1f);
+    if (scanner_flags & 0x40) normalized_Gs = saved_stack_check;
+    if (options.option_Ob > 0) record_line_information(0x20);
+    if (!mode) {
+        record_line_information(2);
+        record_line_information(1);
+        record_line_information(0x23);
+    } else {
+        ++global_record_kind;
+        write_global_record(6, 0);
+        --global_record_kind;
+    }
+}
+
+/* Original 0x3f420..0x3f4ea. References retain the symbol's type, removing
+   its declaration prefix or supplying the base of a based pointer. */
+IrToken *__stdcall make_symbol_reference(FrontendSymbol *symbol)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    IrToken *node;
+    CType *type, *inner_type;
+    TypeShape *shape;
+    if (!symbol) return 0;
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    node = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    node->flags = 4;
+    node->kind = 2;
+    node->value.pointer = symbol;
+    if (symbol->flags & 4) {
+        report_syntax_error(275, symbol->name);
+        return 0;
+    }
+    node->type = symbol->type;
+    if (symbol->attributes & 2) {
+        shape = symbol->type->related;
+        if ((symbol->kind & 0x1f) != 7 && (shape->attributes & 7) >= 5 &&
+            (((FrontendSymbol *)shape->field08)->kind & 0x1f) != 13) {
+            scanner_flags |= 0x800;
+            type = node->type;
+            inner_type = drop_first_type_shape(type);
+            return make_typed_ir_expression(0x5c, node, make_based_pointer_base(type), inner_type);
+        }
+        node->type = drop_first_type_shape(symbol->type);
+    }
+    return node;
+}
+
+/* Original 0x3f320..0x3f33b. Infer the result type from the left child. */
+IrToken *__stdcall make_ir_expression(unsigned char operation, IrToken *left, IrToken *right)
+{
+    return make_typed_ir_expression(operation, left, right, left->type);
+}
+
+/* Original 0x3f360..0x3f3ad. The general two-child IR node constructor. */
+IrToken *__stdcall make_typed_ir_expression(unsigned char operation, IrToken *left, IrToken *right, CType *type)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    ExpressionNode *node;
+    if (pool->remaining < (int)sizeof(ExpressionNode)) refill_arena(&compiler_arena, pool);
+    node = (ExpressionNode *)pool->next;
+    pool->remaining -= sizeof(ExpressionNode);
+    pool->next += sizeof(ExpressionNode);
+    node->flags = 2;
+    node->kind = operation;
+    node->value.children.left = left;
+    node->value.children.right = right;
+    node->type = type;
+    return (IrToken *)node;
 }

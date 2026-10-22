@@ -19,7 +19,7 @@ extern unsigned macro_work_bytes;
 extern char *macro_work_buffer, *macro_work_midpoint;
 extern char *macro_replacement_start, *macro_expansion_start, *macro_replacement_text;
 extern short include_depth;
-extern char macro_timestamp[25];
+extern char macro_timestamp[26];
 extern char *macro_date, *macro_time;
 void __tzset(void);
 int _isindst(struct tm *time);

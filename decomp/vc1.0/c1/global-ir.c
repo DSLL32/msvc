@@ -363,9 +363,9 @@ formats:
             code = (unsigned char)symbol->field24;
             GLOBAL_BYTE(stream, code == 0 || code == 2 ? code : 1);
             break;
-        case GF_FRAME_SIZE:
-            GLOBAL_INTEGER(function_ir.frame_bytes);
-            GLOBAL_INTEGER(function_ir.local_bytes + (hidden_frame_enabled ? hidden_frame_bytes : 0));
+        case GF_STREAM_POSITIONS:
+            GLOBAL_INTEGER(function_ir.expression_offset);
+            GLOBAL_INTEGER(function_ir.symbol_offset + (hidden_frame_enabled ? hidden_frame_bytes : 0));
             break;
         case GF_COMPLEXITY:
             GLOBAL_SHORT(function_ir.complexity > 65535 ? -1 : (short)function_ir.complexity);
@@ -462,4 +462,25 @@ formats:
             break;
         }
     }
+}
+
+/* Original 0x4b680..0x4b7f5. Two bytes hold indices through 0x7fff;
+   larger indices set bit 15 and shift their upper bits around that marker. */
+void write_ir_index(unsigned *index)
+{
+    unsigned value = *index;
+    putc((signed char)value, auxiliary_ir_stream);
+    if (value <= 0x7fff) putc((signed char)(value >> 8), auxiliary_ir_stream);
+    else {
+        putc((short)(signed char)(value >> 8) | 0x80, auxiliary_ir_stream);
+        value <<= 1;
+        putc((signed char)(value >> 16), auxiliary_ir_stream);
+        putc((signed char)(value >> 24), auxiliary_ir_stream);
+    }
+}
+
+/* Original 0x4b9a0..0x4b9e5. The terminating NUL is part of the IR name. */
+void write_ir_filename(char *text)
+{
+    do { putc((signed char)*text, auxiliary_ir_stream); } while (*text++);
 }

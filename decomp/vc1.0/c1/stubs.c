@@ -8,6 +8,7 @@
 #include "source-input.h"
 #include "lexer.h"
 #include "parser.h"
+#include "control-ir.h"
 
 /* Original 0x43ea0. */
 void compiler_signal(int signal_number) { __asm { int 3 } }
@@ -97,7 +98,6 @@ void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode) { __asm {
 void __stdcall reference_ir_symbol(IrSymbol *symbol) { __asm { int 3 } }
 unsigned get_ir_symbol_index(IrSymbol *symbol) { __asm { int 3 } return 0; }
 
-long ftell(FILE *stream) { __asm { int 3 } return -1; }
 
 ParameterInfo *void_parameter_info(void) { __asm { int 3 } return 0; }
 unsigned __stdcall hash_parameters(ParameterInfo *parameters) { __asm { int 3 } return 0; }
@@ -123,14 +123,11 @@ unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0;
 void __stdcall emit_symbol_declaration(FrontendSymbol *symbol) { __asm { int 3 } }
 FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall write_decorated_name(FILE *stream, FrontendSymbol *symbol) { __asm { int 3 } }
-void write_ir_filename(char *text) { __asm { int 3 } }
 void write_ir_string(char *text) { __asm { int 3 } }
-void write_ir_index(unsigned *index) { __asm { int 3 } }
 
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return -1; }
 void emit_line_directive(void) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
-void __stdcall record_line_information(unsigned flags) { __asm { int 3 } }
 void browser_include_begin(void) { __asm { int 3 } }
 void browser_open_file(void) { __asm { int 3 } }
 
@@ -249,7 +246,6 @@ IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function
 /* Original 0x2a530. */
 
 /* Original 0x2a9e0. */
-void begin_function_definition(void) { __asm { int 3 } }
 
 /* Original 0x2b110. */
 void finish_function_definition(void) { __asm { int 3 } }
@@ -434,7 +430,6 @@ IrToken *__stdcall make_binary_expression(unsigned char operation, IrToken *left
 IrToken *__stdcall make_unary_expression(unsigned char operation, IrToken *operand) { __asm { int 3 } return 0; }
 
 /* Original 0x3f420. */
-IrToken *__stdcall make_symbol_reference(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 /* Original 0x3f820. */
 IrToken *__stdcall make_member_expression(IrToken *operand, char *member) { __asm { int 3 } return 0; }
@@ -511,3 +506,17 @@ void reset_inline_function_state(void) { __asm { int 3 } }
 
 int __stdcall array_element_size(unsigned short flags, void *information, TypeShape *shape) { __asm { int 3 } return 0; }
 int __stdcall pointer_type_size(unsigned short attributes) { __asm { int 3 } return 0; }
+
+unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters) { __asm { int 3 } return 0; }
+int __stdcall compatible_parameter_types(CType *expected, CType *actual) { __asm { int 3 } return 0; }
+void begin_syntax_trace(void) { __asm { int 3 } }
+void end_syntax_trace(void) { __asm { int 3 } }
+void __stdcall print_function_declaration(FrontendSymbol *symbol, void *context) { __asm { int 3 } }
+
+void __stdcall emit_ir_expression(IrToken *expression) { __asm { int 3 } }
+void __stdcall define_register_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
+void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
+
+void write_counted_ir(short length, char *text) { __asm { int 3 } }
+
+IrToken *__stdcall make_based_pointer_base(CType *type) { __asm { int 3 } return 0; }
