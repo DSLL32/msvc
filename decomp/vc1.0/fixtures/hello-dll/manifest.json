@@ -1,0 +1,477 @@
+{
+  "case": "CL.EXE /O2 /G5 /LD /Fehello.dll hello-dll.c",
+  "toolchain": "1.0-nt",
+  "source": {
+    "path": "c1/hello-dll.c",
+    "bytes": 1749,
+    "sha256": "4e75bd57e12322c38246eb2019b569f6d2943db1894bceeb3a261828adb18638"
+  },
+  "capture": {
+    "method": "Debugger breakpoint at original CL CreateProcessA import thunk, VA0x21000/RVA0x11000",
+    "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+    "arguments": "/O2 /G5 /LD /Fehello.dll hello-dll.c",
+    "diagnostic_options": false,
+    "snapshot": "Copied each intermediate input before the consuming process was started",
+    "compiler_environment_keys": [
+      "MSC_CMD_FLAGS"
+    ],
+    "current_directory_parameter": null,
+    "inherited_working_directory": "/root/.ai-tmp/vc1.0-hello-dll/run",
+    "stdin": "closed"
+  },
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f hello-dll.c -W 1 -Ze -Zp8 -Fohello-dll.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -D_MT -I {include} "
+      },
+      "environment_inheritance": false,
+      "working_directory": "c1",
+      "queue_after": null,
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Z:\\root\\.ai-tmp\\vc1.0-hello-dll\\run\\000292 -f hello-dll.c -W 1 -Ze -Zp8 -Fohello-dll.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -D_MT -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c1/hello-dll.c",
+          "bytes": 1749,
+          "sha256": "4e75bd57e12322c38246eb2019b569f6d2943db1894bceeb3a261828adb18638"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 2129,
+          "sha256": "6df18a9be0cc854ae53d417309f52e801a3a88901d69be13e0501820d8e49622",
+          "output_name": "irex"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 499,
+          "sha256": "d0ae0c3e86ff5b49f909a34ba9e5e95f0778637400ccf7eb7a2e5878a25a04f7",
+          "output_name": "irsy"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 49,
+          "sha256": "b6fd24e98e6f4ab38566a4d2063b8ba26a0ff1fadf508b1f8f2a4f249d0fa254",
+          "output_name": "irin"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 669,
+          "sha256": "d00c510a18b5bc1040e7e61ce3e4dfaab64d92b36976d12473fedef8b2916789",
+          "output_name": "irgl"
+        }
+      ],
+      "toolchain_include_directory": "toolchains/1.0-nt/include",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/include/CDERR.H",
+          "sha256": "1d62a8e0c8e239d0e0e30c2071fd49b0db1777b67d770b3e147e14e8dcae7059"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/COMMDLG.H",
+          "sha256": "2c572a2cfc45bd4337ae18847132f13e3b23bc72bf14255f4dc45597599b97c5"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/CTYPE.H",
+          "sha256": "e473824224557abbce7bbb4fd63d85049f0f4b36435d7d7e564a50d5cfe737d0"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/DDE.H",
+          "sha256": "99105007054dd19a290a9e7d51943338df4df24fb999a931798f43636418c156"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/DDEML.H",
+          "sha256": "136b7947c869f3578757b2ebfe791badf6aebdc5dc8ed7e7690b0f280dcb06ad"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/DLGS.H",
+          "sha256": "6bae825c9cac31c426428ce020927520311f0c4054f3ed2ca5c9f5411856a33f"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/DRIVINIT.H",
+          "sha256": "0d2c7be7aa884cf5573c122e433e8df33b647447fa6e0b2ec9e0ddbbd7f28b2e"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/EXCPT.H",
+          "sha256": "117674b810e10e6b5a5326659ad1006088e7eb21740a03a0114581ba8c36ebf1"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/LZEXPAND.H",
+          "sha256": "a425be116f26a76708161a4ce687ab3cd3d4aa60efae9cb818f5498a60b9c452"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/MMSYSTEM.H",
+          "sha256": "6ce1bc8d6823758542a55f0b85ddbe6cf09317340be1b4defdecd7ad0e141d96"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/NB30.H",
+          "sha256": "6df640314417de73fa966f27c2b19383b4c62446c977eef1b3e7bf557ceaebf4"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/OLE.H",
+          "sha256": "24b6495c1358f77704943fdbcaff2f38c47f2c7cc0bbf3e2d20bcdfaefe494dc"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/RPC.H",
+          "sha256": "27f5fb0def3dfa8bf02afe2271a12b4df9c96cf338ca56934e5016a9a1c0d52d"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/RPCDCE.H",
+          "sha256": "ac30a6c1e46c5d08dc4dd34019d3284549dea5c97477e8f79eb91c694809aad7"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/RPCDCEP.H",
+          "sha256": "1b869a4090845e72e48f2e3903c60f7fc4e3d52882cbb930a5e270b92f7884a5"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/RPCNSI.H",
+          "sha256": "dcc0442ddb75d2ff81b7bc34859fd8c5e2d93e45251646dde039af8f2218ffc6"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/RPCNTERR.H",
+          "sha256": "4e6fca8cd128c84345104551e4e004eeb4247b514efcc1a4f89290a8bd32851d"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/SHELLAPI.H",
+          "sha256": "6fb31de7aa0571c2664bb3cdac9b4204e8ff6c1942ff41652bcc79e4f69ac21b"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/STDARG.H",
+          "sha256": "9ce7f824ddadd24b62bdf67ffaf0079d7a56e6e9437d2376938b0b67ec5ca432"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/STRING.H",
+          "sha256": "b18860b676bc157f412b1eda395cf2d47d905fd64e23f670f6cfbb197a993f60"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINBASE.H",
+          "sha256": "c1a4ef7e16b24c6f4134058876eb27ea5311b72af3692c2a7a74b2cbb7bc19df"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINCON.H",
+          "sha256": "4143ebb75ceae2452ef56c41a779c114aa5145ec357c5d023f4ca16ddfc1b77b"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINDEF.H",
+          "sha256": "ef355d655fa9ec2ce7ba766aa0e89ab2713484485734611334e8267e74d9b351"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINDOWS.H",
+          "sha256": "42faf2f02a4547bf077e17c0a27a7d59d5b5f0a4d07dc24eacc97492e19123ea"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINERROR.H",
+          "sha256": "de2366d30af886c818278209a5bf442ef00f5c74719c76a343f183eec13c53f5"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINGDI.H",
+          "sha256": "fe16e143fc0cb0453e5ce708e638543e7501d89b6cc46def9e9f80aab58cf3dc"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINNETWK.H",
+          "sha256": "c26914b8b9b5e30b1f302a5501d7d13a8684f2abca47f830aa7830f4dfe65af7"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINNLS.H",
+          "sha256": "2a3fc767d1b153022d2f30ebade53a9ced14ab6d4661824ce40c21ebd8fe4b92"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINNT.H",
+          "sha256": "24b34afc9883d4e64b79041aeb2dd06743159a82b78590c155d525cd75b0a524"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINPERF.H",
+          "sha256": "c3bc191b28c017f0334999706c89d083442b2fe78d369dea88bcea2566b2b80a"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINREG.H",
+          "sha256": "79e58bc98e4924cbe683b97a9b737134d06e6aee2cad8f473e34b3ae647bd871"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINSOCK.H",
+          "sha256": "518112d30a66efd8e1f5291805125e3dbeea258e538d11205e90e7a039060cef"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINSPOOL.H",
+          "sha256": "f92639c309bd0549404d5cd32240705ff124353335299184e8bac1f754eac3fe"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINSVC.H",
+          "sha256": "b841b22d0f4d7d926e0a70d6975c337b0b7a079913830ad875f38d80f15bfa89"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINUSER.H",
+          "sha256": "2221a3c59c361daa68a24070c596dad2a2f5c5163664e1632bbcbe0b8993eb79"
+        },
+        {
+          "path": "toolchains/1.0-nt/include/WINVER.H",
+          "sha256": "b6d2866358ce604d1373279e47b18676d0aa1cf2d496b0bb946fc591586bdd42"
+        }
+      ],
+      "reconstruction_status": "reference-only, not queued"
+    },
+    "c2": {
+      "target": "toolchains/1.0-nt/bin/C23232.EXE",
+      "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello-dll.c -W 1 -dos -Fohello-dll.obj -Gs4096 -Gy -G5 -MT "
+      },
+      "environment_inheritance": false,
+      "working_directory": "c2",
+      "queue_after": null,
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-hello-dll\\run\\000292 -f hello-dll.c -W 1 -dos -Fohello-dll.obj -Gs4096 -Gy -G5 -MT ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 2129,
+          "sha256": "6df18a9be0cc854ae53d417309f52e801a3a88901d69be13e0501820d8e49622"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 499,
+          "sha256": "d0ae0c3e86ff5b49f909a34ba9e5e95f0778637400ccf7eb7a2e5878a25a04f7"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 49,
+          "sha256": "b6fd24e98e6f4ab38566a4d2063b8ba26a0ff1fadf508b1f8f2a4f249d0fa254"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 669,
+          "sha256": "d00c510a18b5bc1040e7e61ce3e4dfaab64d92b36976d12473fedef8b2916789"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "link/hello-dll.obj",
+          "bytes": 2571,
+          "sha256": "7ec39e80a84ac4a813dfcab950e982f738710e8da6d4d750a2028320a97d5458",
+          "output_name": "hello-dll.obj",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "6e19dd798609507ec23c01def48a768ac9b267e24d172d874a36b7ed65e21afe"
+        }
+      ],
+      "reconstruction_status": "reference-only, not queued"
+    },
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "@link.rsp"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "environment_inheritance": true,
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS"
+      ],
+      "working_directory": "link",
+      "queue_after": "../hello-win32/manifest.json#/phases/link",
+      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @Z:\\root\\.ai-tmp\\vc1.0-hello-dll\\run\\000292lk",
+      "captured_LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+      "captured_environment_parameter": null,
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n-debug:none \r\n-dll \r\n-implib:hello.lib \r\n-out:hello.dll \r\nhello-dll.obj \r\n   Creating library hello.lib and object hello.exp ...\r\n",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "link/hello-dll.obj",
+          "bytes": 2571,
+          "sha256": "7ec39e80a84ac4a813dfcab950e982f738710e8da6d4d750a2028320a97d5458"
+        },
+        {
+          "path": "link/link.rsp",
+          "bytes": 69,
+          "sha256": "7e771baec9e9aba89901dbf774abae63b67e8cec19e678525fc273ec40028de7"
+        }
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/lib/LIBCMT.LIB",
+          "sha256": "9dcf7b0aa9fa3005fc1f6d3ebf0da662f8da37ca15f5a914a0f11da20d873496"
+        },
+        {
+          "path": "toolchains/1.0-nt/lib/KERNEL32.LIB",
+          "sha256": "dae2fe533f7debcbfb1d65f41957299bc0dea1500b7c6207e18db0956ce6c4ea"
+        },
+        {
+          "path": "toolchains/1.0-nt/lib/USER32.LIB",
+          "sha256": "490ea3213de77e9c3ca623b2f446c0a26839ad602dbec1f2e65126187a0496ef"
+        },
+        {
+          "path": "toolchains/1.0-nt/lib/GDI32.LIB",
+          "sha256": "899f834cef75d17010c9dc466598bcb2e653c76c3077e6b33c5934a2b7aeda89"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/hello.dll",
+          "bytes": 2097152,
+          "sha256": "1b4e29f67e220063919b45ee5b59ca61e54a18cffb4e46c4ce273ce247943744",
+          "output_name": "hello.dll",
+          "artifact_kind": "pe",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 12804,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "322ba54da6475e88c38e583e208cfe9a29caff7c827cf4e009a8556d50a73102"
+        },
+        {
+          "path": "expected/hello.lib",
+          "bytes": 2097152,
+          "sha256": "36432402cbb9a597472d0f89a80b4f1ce290dcd6acc06067d58f136807f0182f",
+          "output_name": "hello.lib",
+          "artifact_kind": "archive",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 230,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 448,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 496,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1092,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 1140,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1278,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 1326,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1492,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 1540,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 1600,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            },
+            {
+              "offset": 1922,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 1970,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "a686c62d37c456499183fb0fc174ad393b2458f9df44ef57d6c8735f94ed6d57"
+        },
+        {
+          "path": "expected/hello.exp",
+          "bytes": 2097152,
+          "sha256": "3c383411a706a1b39858e7163fbe7d50b344fdaf3c16a8e9f6cda80b4132d530",
+          "output_name": "hello.exp",
+          "artifact_kind": "coff",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            },
+            {
+              "offset": 64,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9"
+        }
+      ],
+      "generated_program": {
+        "path": "hello.dll",
+        "kind": "win32-dll-gui",
+        "host_source": "dll-host.c",
+        "export_name": "_HelloMain@16",
+        "export_ordinal": 1,
+        "calling_convention": "__stdcall",
+        "class_name": "HelloWindow",
+        "title": "Hello, world!",
+        "painted_text": "Hello, world!",
+        "close_message": "WM_CLOSE",
+        "exit_status": 0,
+        "checker_source": "decomp/vc1.0/cl/gui-check.c"
+      }
+    }
+  },
+  "scope": "LINK reconstruction case; C1/C2 captures are independent original-only references, not queued reconstruction tasks.",
+  "derivation": {
+    "source": "../hello-win32/c1/hello.c",
+    "changes": [
+      "Rename WinMain to HelloMain and add __declspec(dllexport) and explicit __stdcall.",
+      "Add a minimal DllMain returning TRUE."
+    ],
+    "export": "_HelloMain@16",
+    "loader_entry": "CRT DLL startup calls DllMain; exported HelloMain runs the original GUI outside loader initialization."
+  }
+}
