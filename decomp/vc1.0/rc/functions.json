@@ -376,8 +376,7 @@
     {
       "name": "_emit_font_directory",
       "start": 16817632,
-      "end": 16817633,
-      "pending_extent": true
+      "end": 16817767
     },
     {
       "name": "_emit_string_tables@4",
@@ -397,8 +396,7 @@
     {
       "name": "_read_icon_file_header@4",
       "start": 16820512,
-      "end": 16820513,
-      "pending_extent": true
+      "end": 16820707
     },
     {
       "name": "_read_bitmap_file_header",
@@ -428,8 +426,7 @@
     {
       "name": "_parse_font@4",
       "start": 16822128,
-      "end": 16822129,
-      "pending_extent": true
+      "end": 16822495
     },
     {
       "name": "_parse_accelerators@4",
@@ -1005,6 +1002,21 @@
       "start": 16840928,
       "end": 16840929,
       "pending_extent": true
+    },
+    {
+      "name": "__stbuf",
+      "start": 16845984,
+      "end": 16846142
+    },
+    {
+      "name": "__isatty",
+      "start": 16846240,
+      "end": 16846266
+    },
+    {
+      "name": "__ftbuf",
+      "start": 16846144,
+      "end": 16846221
     }
   ],
   "accepted": [
@@ -1227,7 +1239,22 @@
     "__flushall",
     "_flsall",
     "_fflush",
-    "import:ExitProcess"
+    "import:ExitProcess",
+    "_fprintf",
+    "__stbuf",
+    "__isatty",
+    "__ftbuf",
+    "_vfprintf",
+    "_apply_operator@12",
+    "_parse_dialog_class",
+    "_scan_octal_number",
+    "_concatenate_wide_string@4",
+    "_parse_font@4",
+    "_read_icon_file_header@4",
+    "_emit_font_directory",
+    "_lexical_error@8",
+    "_parser_error@8",
+    "_resource_data_error@8"
   ],
   "cases": {
     "resources-rich": {
@@ -1235,6 +1262,72 @@
       "accepted_start": 0,
       "status": "complete",
       "accepted_end": 220
+    },
+    "help": {
+      "arguments": "/?",
+      "status": "complete",
+      "exit": 0,
+      "accepted_start": 220,
+      "accepted_end": 227
+    },
+    "invalid-switch": {
+      "arguments": "/z",
+      "status": "complete",
+      "exit": 1,
+      "accepted_start": 220,
+      "accepted_end": 227
+    },
+    "missing-input": {
+      "arguments": "missing.rc",
+      "status": "complete",
+      "exit": 1,
+      "accepted_start": 220,
+      "accepted_end": 227
+    },
+    "alternate": {
+      "arguments": "/foalternate.res alternate.rc",
+      "status": "complete",
+      "exit": 0,
+      "accepted_start": 220,
+      "accepted_end": 232
+    },
+    "lexical-error": {
+      "arguments": "/fobad.res bad.rc",
+      "status": "complete",
+      "exit": 1,
+      "accepted_start": 232,
+      "accepted_end": 235
+    },
+    "parser-error": {
+      "arguments": "/fobad.res bad.rc",
+      "status": "complete",
+      "exit": 1,
+      "accepted_start": 232,
+      "accepted_end": 235
+    },
+    "resource-error": {
+      "arguments": "/fobad.res bad.rc",
+      "status": "complete",
+      "exit": 1,
+      "accepted_start": 232,
+      "accepted_end": 235
     }
+  },
+  "frontier_cases": {
+    "_fprintf": "help",
+    "__stbuf": "help",
+    "__isatty": "help",
+    "__ftbuf": "help",
+    "_vfprintf": "invalid-switch",
+    "_apply_operator@12": "alternate",
+    "_parse_dialog_class": "alternate",
+    "_scan_octal_number": "alternate",
+    "_concatenate_wide_string@4": "alternate",
+    "_parse_font@4": "alternate",
+    "_read_icon_file_header@4": "alternate",
+    "_emit_font_directory": "alternate",
+    "_lexical_error@8": "lexical-error",
+    "_parser_error@8": "parser-error",
+    "_resource_data_error@8": "resource-error"
   }
 }

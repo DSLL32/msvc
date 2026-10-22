@@ -1,0 +1,25 @@
+{
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "arguments": "/fobad.res bad.rc",
+  "exit": 1,
+  "inputs": {
+    "bad.img": {
+      "bytes": 14,
+      "sha256": "029d766abac9f78f05d52db9abbe1dbade88bac6f952e66bb1ed1af2213e6a0e"
+    },
+    "bad.rc": {
+      "bytes": 14,
+      "sha256": "fac345589d67ad670e8406af1b4aedde83659ed7d6d0afd3bec060d268635af7"
+    }
+  },
+  "oracle": {
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 78,
+      "sha256": "19dc56b0f17b3d469c8af112976bae2d957f250b4eed013e2ea6237e503c4dd1"
+    }
+  }
+}

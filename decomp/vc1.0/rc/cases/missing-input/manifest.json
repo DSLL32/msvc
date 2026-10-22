@@ -1,0 +1,16 @@
+{
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "arguments": "missing.rc",
+  "exit": 1,
+  "inputs": {},
+  "oracle": {
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 54,
+      "sha256": "c5733cbc6adbdcbdb7c09acab4439eba78a9ff4cf9b7bcc4bbb39c68a3444f3a"
+    }
+  }
+}

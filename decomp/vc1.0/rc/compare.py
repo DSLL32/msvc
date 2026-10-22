@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replay exact paired INT3 frontiers for the resource-rich RC case."""
+"""Replay exact paired INT3 frontiers and complete captured RC cases."""
 import argparse
 import concurrent.futures
 import hashlib
@@ -15,6 +15,28 @@ wt = importlib.machinery.SourceFileLoader('wine_tool', 'wine-tool.py').load_modu
 FIXTURE = Path('../fixtures/resources-rich').resolve()
 SCRATCH = Path.home() / '.ai-tmp/vc1.0-rc'
 ARGUMENTS = '/dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc'
+CASE = 'resources-rich'
+ORACLE = FIXTURE / 'rc'
+EXPECTED_EXIT = 0
+
+
+def select_case(name):
+    global CASE, FIXTURE, ORACLE, ARGUMENTS, EXPECTED_EXIT
+    cfg = json.loads(Path('functions.json').read_text())
+    settings = cfg['cases'][name]
+    CASE, ARGUMENTS = name, settings['arguments']
+    EXPECTED_EXIT = settings.get('exit', 0)
+    if name == 'resources-rich':
+        FIXTURE = Path('../fixtures/resources-rich').resolve()
+        ORACLE = FIXTURE / 'rc'
+    else:
+        FIXTURE = (Path('cases') / name).resolve()
+        ORACLE = FIXTURE / 'oracle'
+
+
+def work_directory(label):
+    suffix = '' if CASE == 'resources-rich' else CASE + '-'
+    return SCRATCH / ('case-' + suffix + label)
 
 
 def captured_resource(number):
@@ -91,10 +113,13 @@ def prepare(count=None):
 
 
 def run(label, executable):
-    work = SCRATCH / ('case-' + label)
+    work = work_directory(label)
     if work.exists():
         shutil.rmtree(work)
-    shutil.copytree(FIXTURE / 'source', work)
+    if (FIXTURE / 'source').exists():
+        shutil.copytree(FIXTURE / 'source', work)
+    else:
+        work.mkdir(parents=True)
     stem = Path('build') / label
     payload = Path(str(stem) + '.payload')
     payload.unlink(missing_ok=True)
@@ -135,6 +160,7 @@ def logical(events, pe, index):
 
 def compare(count=None):
     original, reconstruction, cfg, oi, ri = prepare(count)
+    print('case: %s; accepted: %d' % (CASE, len(cfg['accepted']) if count is None else count), flush=True)
     with concurrent.futures.ThreadPoolExecutor(2) as pool:
         left = pool.submit(run, 'original', 'build/original.exe')
         right = pool.submit(run, 'reconstructed', 'build/reconstructed.exe')
@@ -142,61 +168,74 @@ def compare(count=None):
     ol, rl = logical(oe, original, oi), logical(revents, reconstruction, ri)
     print('original: %s; reconstruction: %s' % (ol, rl), flush=True)
     assert ol == rl, 'logical trap mismatch\n' + oe + revents
-    if ol in ('_write_resource@8', '_copy_resource_data@16'):
+    if CASE == 'resources-rich' and ol in ('_write_resource@8', '_copy_resource_data@16'):
         menu = captured_resource(0)
         for label in ('original', 'reconstructed'):
             assert Path('build/' + label + '.payload').read_bytes() == menu, (label, 'menu payload differs')
         print('Both first menu payloads match the captured %d bytes exactly.' % len(menu))
-    if ol == '_resource_free@4':
+    if CASE == 'resources-rich' and ol == '_resource_free@4':
         dialog = captured_resource(1)
         for label in ('original', 'reconstructed'):
             assert Path('build/' + label + '.payload').read_bytes() == dialog, (label, 'dialog payload differs')
         print('Both first dialog payloads match the captured %d bytes exactly.' % len(dialog))
-    if ol in ('_parse_dialog@4', '_parse_string_table@4'):
+    if CASE == 'resources-rich' and ol in ('_parse_dialog@4', '_parse_string_table@4'):
         expected = (FIXTURE / 'rc/resources.res').read_bytes()
         prefixes = []
         for label in ('original', 'reconstructed'):
-            written = (SCRATCH / ('case-' + label) / 'resources.res').read_bytes()
+            written = (work_directory(label) / 'resources.res').read_bytes()
             assert len(written) > 32 and expected.startswith(written), (label, 'first resource header differs')
             prefixes.append(written)
         assert prefixes[0] == prefixes[1], 'flushed output prefixes differ'
         print('Both flushed output prefixes match the captured %d bytes exactly.' % len(prefixes[0]))
-    if ol == '__freebuf':
+    if CASE == 'resources-rich' and ol == '__freebuf':
         expected = (FIXTURE / 'rcpp/RC000360').read_bytes()
         for label in ('original', 'reconstructed'):
-            temporary = list((SCRATCH / ('case-' + label)).glob('RC[0-9]*'))
+            temporary = list(work_directory(label).glob('RC[0-9]*'))
             assert len(temporary) == 1, (label, 'missing prepared RCPP input')
             assert temporary[0].read_bytes() == expected, (label, 'prepared RCPP input differs')
         print('Both prepared RCPP inputs match the captured 3,381 bytes exactly.')
     if ol.startswith('exit:'):
-        assert ol == 'exit:0'
+        assert ol == 'exit:%d' % EXPECTED_EXIT
         for stream in ('stdout', 'stderr'):
-            expected = (FIXTURE / 'rc' / (stream + '.bin')).read_bytes()
-            assert Path('build/original.' + stream).read_bytes() == expected
-            assert Path('build/reconstructed.' + stream).read_bytes() == expected
-        expected = (FIXTURE / 'rc/resources.res').read_bytes()
+            expected = (ORACLE / (stream + '.bin')).read_bytes()
+            for label in ('original', 'reconstructed'):
+                assert Path('build/' + label + '.' + stream).read_bytes() == expected, (label, stream, 'raw stream differs')
+        products = {str(p.relative_to(FIXTURE / 'source')):p.read_bytes()
+                    for p in (FIXTURE / 'source').rglob('*') if p.is_file()}
+        for product in ORACLE.iterdir():
+            if product.name not in ('stdout.bin', 'stderr.bin') and product.is_file():
+                products[product.name] = product.read_bytes()
         for label in ('original', 'reconstructed'):
-            assert (SCRATCH / ('case-' + label) / 'resources.res').read_bytes() == expected
-            inputs = {str(p.relative_to(FIXTURE / 'source')):p.read_bytes()
-                      for p in (FIXTURE / 'source').rglob('*') if p.is_file()}
-            products = dict(inputs, **{'resources.res':expected})
-            work = SCRATCH / ('case-' + label)
+            work = work_directory(label)
             observed = {str(p.relative_to(work)):p.read_bytes() for p in work.rglob('*') if p.is_file()}
             assert observed == products, (label, 'case files or product set differ')
-        print('Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.')
+        if CASE == 'resources-rich':
+            print('Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.')
+        else:
+            print('Both raw streams, exit status and complete case file set match the %s oracle exactly.' % CASE)
+
     return ol
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case', default='resources-rich')
     parser.add_argument('--mask-only', action='store_true')
+    parser.add_argument('--all-cases', action='store_true')
     parser.add_argument('--replay', action='store_true')
     parser.add_argument('--accept', help='Accept only a matching current function frontier')
     parser.add_argument('--advance-imports', action='store_true')
     parser.add_argument('--advance-runtime', action='store_true')
     args = parser.parse_args()
+    select_case(args.case)
     if args.mask_only:
         prepare()
+    elif args.all_cases:
+        cfg = json.loads(Path('functions.json').read_text())
+        for name, settings in cfg['cases'].items():
+            if settings.get('status') == 'complete':
+                select_case(name)
+                assert compare() == 'exit:%d' % settings.get('exit', 0)
     elif args.advance_imports or args.advance_runtime:
         while True:
             frontier = compare()
@@ -209,17 +248,23 @@ if __name__ == '__main__':
                 break
             assert frontier not in cfg['accepted']
             cfg['accepted'].append(frontier)
+            cfg.setdefault('frontier_cases', {})[frontier] = CASE
             Path('functions.json').write_text(json.dumps(cfg, indent=2) + '\n')
     elif args.replay:
         cfg = json.loads(Path('functions.json').read_text())
         for number, name in enumerate(cfg['accepted']):
+            select_case(cfg.get('frontier_cases', {}).get(name, 'resources-rich'))
             assert compare(number) == name
-        compare()
+        for name, settings in cfg['cases'].items():
+            if settings.get('status') == 'complete' or name == args.case:
+                select_case(name)
+                assert compare() == 'exit:%d' % settings.get('exit', 0)
     elif args.accept:
         assert compare() == args.accept
         cfg = json.loads(Path('functions.json').read_text())
         assert args.accept not in cfg['accepted']
         cfg['accepted'].append(args.accept)
+        cfg.setdefault('frontier_cases', {})[args.accept] = CASE
         Path('functions.json').write_text(json.dumps(cfg, indent=2) + '\n')
         compare()
     else:

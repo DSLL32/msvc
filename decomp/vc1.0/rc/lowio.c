@@ -216,3 +216,11 @@ int __cdecl _write(int descriptor, const void *buffer, unsigned int count)
     _doserrno = 0;
     return -1;
 }
+
+/* Original 0x01010da0..0x01010dba. */
+int __cdecl _isatty(int descriptor)
+{
+    if ((unsigned int)descriptor >= (unsigned int)_nhandle)
+        return 0;
+    return _osfile[descriptor] & 0x40;
+}

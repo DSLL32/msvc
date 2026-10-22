@@ -1,0 +1,22 @@
+LANGUAGE (1+8), (3-2)
+1 DIALOG 0, 0, 60, 30
+CLASS "FixtureWindow"
+CAPTION L"Unicode"
+BEGIN
+    LTEXT "item", 101, 0, 0, 10, 10
+END
+2 RCDATA BEGIN 0o17, ~0, 0x12345678L, L"wide", "ansi" END
+3 VERSIONINFO
+FILEVERSION 1,2,3,4
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "Comments", "first" "second"
+        END
+    END
+END
+4 FONT "tiny.fnt"
+5 3 "legacy.img"
+6 1 "inline.img"

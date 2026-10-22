@@ -18,6 +18,8 @@ binary remains partly reconstructed: pending functions have typed named INT3
 stubs, and this case does not establish coverage of every input or branch. The
 accepted order and original function/code-data extents are in functions.json;
 validation.json records the complete durable replay and remaining named stubs.
+The rich case and seven follow-up cases currently complete; this is not a claim
+that all original functions have been identified or all branches exercised.
 
 Build and differential checks
 -----------------------------
@@ -37,14 +39,49 @@ both masked processes concurrently and rejects a different logical trap or an
 interior trap. --accept NAME first verifies the matching current frontier,
 records that whole function, and reruns. --advance-runtime advances exact CRT
 and import matches one verified frontier at a time. make replay repeats every
-accepted frontier from a fully masked entry through the current stopping point.
-Successful final runs require exact raw streams, status and resources.res bytes,
+accepted frontier from a fully masked entry in the case that first reached it,
+then checks all completed cases. --case NAME selects one case; make check checks
+every completed case.
+Successful final runs require exact raw streams, status and captured product bytes,
 and the exact complete case file set, including unchanged input files and no
 unexpected products or leftover temporary files.
 
 Early PE section headers have VirtualSize=0. binary.py uses backed raw sizes
 for the code extent and returns zeros for uninitialized sections; BSS
 is not interpreted as executable-file bytes at raw offset zero.
+
+Follow-up cases
+---------------
+The local cases/ directory retains exact original streams/products and input
+hashes for seven additional cases:
+  help             /?; all 424 help bytes go to stdout, exit 0.
+  invalid-switch   /z; fatal diagnostic, exit 1.
+  missing-input    Missing source; diagnostic, exit 1, no output/temp files.
+  alternate        Expressions, explicit 0o octal, custom dialog CLASS,
+                   adjacent VERSIONINFO strings, FONT/FONTDIR and both old
+                   2.03 image-header forms; exact 940-byte resource product.
+  lexical-error    Unknown resource keyword; RW2001, exit 1.
+  parser-error     Invalid dialog caption; RW2002, exit 1.
+  resource-error   Invalid legacy image format; RW2003, exit 1.
+
+    python3 capture-original.py
+    python3 compare.py --case alternate
+
+capture-original.py reruns the untouched RC.EXE and verifies saved oracle files
+and manifests. --record deliberately refreshes those local captures. It never
+writes the shared rich fixture. cases/alternate/make-assets.py generates the
+small input images and font metadata; no binary data came from an executable.
+The font input exercises RC's observed 148-byte directory-header reader and
+name offsets. It is a deliberately minimal parser fixture, not a renderable
+font: RC copies its file bytes and extracts directory information without
+validating glyphs. Uninterpreted font metrics stay in a contextual input-header
+structure alongside the two file offsets RC actually uses.
+
+Remaining measured limitations include fonts' untested duplicate-ID branch,
+KANJI strings, verbose resource reports, additional encoding/CRT-error paths
+and many unexercised branches within accepted functions. Unaccepted named
+vertices remain masked and trap if reached. The list in validation.json counts
+known vertices only, not every as-yet-unidentified function in the executable.
 
 Recovery and audit
 ------------------

@@ -30,7 +30,7 @@ int __cdecl resource_main(int argc, char **argv, char **environment)
 
     error_count = kanji_mode = verbose = 0;
     include_paths[0] = input_filename[0] = resource_filename[0] = 0;
-    diagnostics = stderr;
+    diagnostics = stdout;
     while (argc > 1) {
         option = argv + 1;
         if (!switch_character((*option)[0]))
