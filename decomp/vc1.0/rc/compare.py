@@ -17,6 +17,20 @@ SCRATCH = Path.home() / '.ai-tmp/vc1.0-rc'
 ARGUMENTS = '/dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc'
 
 
+def captured_resource(number):
+    product = (FIXTURE / 'rc/resources.res').read_bytes()
+    offset = 0
+    while offset < len(product):
+        size, header = u32(product, offset), u32(product, offset + 4)
+        assert header >= 8 and offset + header + size <= len(product)
+        if size:
+            if number == 0:
+                return product[offset + header:offset + header + size]
+            number -= 1
+        offset = (offset + header + size + 3) & ~3
+    raise AssertionError('missing captured resource')
+
+
 def publics():
     result = {}
     for line in Path('build/rc.map').read_text().splitlines():
@@ -127,14 +141,16 @@ def compare(count=None):
     print('original: %s; reconstruction: %s' % (ol, rl), flush=True)
     assert ol == rl, 'logical trap mismatch\n' + oe + revents
     if ol in ('_write_resource@8', '_copy_resource_data@16'):
-        expected = (FIXTURE / 'rc/resources.res').read_bytes()
-        first = u32(expected, 4) # Skip the mandatory empty record.
-        data_size, header_size = u32(expected, first), u32(expected, first + 4)
-        menu = expected[first + header_size:first + header_size + data_size]
+        menu = captured_resource(0)
         for label in ('original', 'reconstructed'):
             assert Path('build/' + label + '.payload').read_bytes() == menu, (label, 'menu payload differs')
-        print('Both first menu payloads match the captured %d bytes exactly.' % data_size)
-    if ol == '_parse_dialog@4':
+        print('Both first menu payloads match the captured %d bytes exactly.' % len(menu))
+    if ol == '_resource_free@4':
+        dialog = captured_resource(1)
+        for label in ('original', 'reconstructed'):
+            assert Path('build/' + label + '.payload').read_bytes() == dialog, (label, 'dialog payload differs')
+        print('Both first dialog payloads match the captured %d bytes exactly.' % len(dialog))
+    if ol in ('_parse_dialog@4', '_parse_string_table@4'):
         expected = (FIXTURE / 'rc/resources.res').read_bytes()
         prefixes = []
         for label in ('original', 'reconstructed'):

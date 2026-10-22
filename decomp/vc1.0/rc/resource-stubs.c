@@ -1,12 +1,6 @@
 /* Named graph vertices pending reconstruction at their paired frontiers. */
 #include "resource.h"
 
-DWORD __stdcall parse_style(DWORD initial)
-{
-    __asm int 3
-    return 0;
-}
-
 BOOL __stdcall parse_string_table(struct ResourceInfo *resource)
 {
     __asm int 3
@@ -44,11 +38,6 @@ unsigned int __cdecl read_bitmap_file_header(void)
 {
     __asm int 3
     return 0;
-}
-
-void __stdcall parse_dialog(struct ResourceInfo *resource)
-{
-    __asm int 3
 }
 
 BOOL __stdcall parse_font(struct ResourceInfo *resource)

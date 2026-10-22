@@ -15,7 +15,7 @@ decoder.detail = True
 def describe(pe, function):
     start, end = function['start'], function['end']
     queue = [start]
-    seen, calls, references, returns = set(), set(), set(), set()
+    seen, calls, references, returns, tail_calls = set(), set(), set(), set(), set()
     indirect = False
     while queue:
         address = queue.pop()
@@ -59,6 +59,7 @@ def describe(pe, function):
                         queue.append(target)
                     elif insn.mnemonic == 'jmp':
                         calls.add(target)
+                        tail_calls.add(target)
                 elif operand.type == X86_OP_MEM and operand.mem.disp and (operand.mem.base or operand.mem.index):
                     table = operand.mem.disp & 0xffffffff
                     for index in range(512):
@@ -75,7 +76,28 @@ def describe(pe, function):
                 break
             address = after
     return dict(calls=calls, references=references - calls, returns=returns,
-                indirect=indirect, instructions=len(seen))
+                tail_calls=tail_calls, indirect=indirect, instructions=len(seen))
+
+
+def return_cleanup(pe, function, index, visiting=None):
+    """An optimized tail jump inherits its callee's RET convention.
+
+    Follow only identified whole functions. This keeps a C call/return wrapper
+    comparable with the original tail-call wrapper without accepting an
+    unknown stack convention or introducing reconstruction assembly.
+    """
+    visiting = set() if visiting is None else visiting
+    assert function['start'] not in visiting, ('tail-call cycle', function['name'])
+    visiting = visiting | {function['start']}
+    description = describe(pe, function)
+    result = set(description['returns'])
+    for address in description['tail_calls']:
+        candidates = [r for r in index if r['start'] == address and not r.get('pending_extent')]
+        assert candidates, ('unidentified tail-call ABI', function['name'], hex(address))
+        inherited = return_cleanup(pe, candidates[-1], index, visiting)
+        assert inherited, ('tail callee has no determined RET convention', candidates[-1]['name'])
+        result.update(inherited)
+    return result
 
 
 def aliases(index):
@@ -121,11 +143,13 @@ def main():
         lrefs = {a for a in left['references'] if a in oa and a not in lc}
         rrefs = {a for a in right['references'] if a in ra and a not in rc}
         assert equivalent(lrefs, rrefs, oa, ra), (name, 'function references differ', lrefs, rrefs)
-        assert left['returns'] == right['returns'], (name, 'return stack cleanup differs', left, right)
+        left_returns = return_cleanup(original, function, oi)
+        right_returns = return_cleanup(reconstruction, other, ri)
+        assert left_returns == right_returns, (name, 'return stack cleanup differs', left_returns, right_returns)
         assert left['indirect'] == right['indirect'], (name, 'indirect call topology differs')
         report[name] = dict(original_calls={hex(a): sorted(oa[a]) for a in lc},
                             reconstructed_calls={hex(a): sorted(ra[a]) for a in rc},
-                            stack_cleanup=sorted(left['returns']),
+                            stack_cleanup=sorted(left_returns),
                             indirect_calls=left['indirect'])
     Path('build/graph-audit.json').write_text(json.dumps(report, indent=2) + '\n')
     print('%d accepted source functions: direct calls, function references and return cleanup agree.' % len(report))

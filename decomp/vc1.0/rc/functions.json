@@ -424,8 +424,7 @@
     {
       "name": "_parse_dialog@4",
       "start": 16824512,
-      "end": 16824513,
-      "pending_extent": true
+      "end": 16824865
     },
     {
       "name": "_write_resource@8",
@@ -619,8 +618,7 @@
     {
       "name": "_parse_style@4",
       "start": 16823296,
-      "end": 16823297,
-      "pending_extent": true
+      "end": 16823545
     },
     {
       "name": "_resource_data_error@8",
@@ -742,6 +740,152 @@
       "start": 16806336,
       "end": 16806337,
       "pending_extent": true
+    },
+    {
+      "name": "_put_dialog_header@4",
+      "start": 16821088,
+      "end": 16821309
+    },
+    {
+      "name": "_advance_argument_flags@4",
+      "start": 16828288,
+      "end": 16828356
+    },
+    {
+      "name": "_is_style_token",
+      "start": 16826624,
+      "end": 16826669
+    },
+    {
+      "name": "_parse_dialog_options@4",
+      "start": 16826768,
+      "end": 16827114
+    },
+    {
+      "name": "_parse_dialog_controls",
+      "start": 16823600,
+      "end": 16824309,
+      "shared": [
+        [
+          16824312,
+          16824420
+        ]
+      ]
+    },
+    {
+      "name": "_wide_atoi@4",
+      "start": 16840080,
+      "end": 16840118
+    },
+    {
+      "name": "_parse_dialog_font",
+      "start": 16827120,
+      "end": 16827435
+    },
+    {
+      "name": "_parse_dialog_menu",
+      "start": 16827440,
+      "end": 16827572
+    },
+    {
+      "name": "_parse_dialog_class",
+      "start": 16827872,
+      "end": 16828201
+    },
+    {
+      "name": "_parse_dialog_caption",
+      "start": 16827584,
+      "end": 16827871
+    },
+    {
+      "name": "_wide_itoa@12",
+      "start": 16840128,
+      "end": 16840224
+    },
+    {
+      "name": "_control_style@4",
+      "start": 16823280,
+      "end": 16823292
+    },
+    {
+      "name": "_put_dialog_control@4",
+      "start": 16821312,
+      "end": 16821499
+    },
+    {
+      "name": "_end_dialog_control",
+      "start": 16821504,
+      "end": 16821512
+    },
+    {
+      "name": "_increment_dialog_controls",
+      "start": 16821520,
+      "end": 16821536
+    },
+    {
+      "name": "_parse_button_control@4",
+      "start": 16825488,
+      "end": 16825560
+    },
+    {
+      "name": "_parse_group_control@4",
+      "start": 16825568,
+      "end": 16825593
+    },
+    {
+      "name": "_parse_static_control@4",
+      "start": 16825600,
+      "end": 16825631
+    },
+    {
+      "name": "_parse_icon_control@4",
+      "start": 16825632,
+      "end": 16825657
+    },
+    {
+      "name": "_parse_listbox_control@4",
+      "start": 16825664,
+      "end": 16825761
+    },
+    {
+      "name": "_parse_scrollbar_control@4",
+      "start": 16825776,
+      "end": 16825873
+    },
+    {
+      "name": "_parse_combobox_control@4",
+      "start": 16825888,
+      "end": 16825985
+    },
+    {
+      "name": "_parse_edit_control@4",
+      "start": 16826096,
+      "end": 16826219
+    },
+    {
+      "name": "_parse_generic_control@4",
+      "start": 16824880,
+      "end": 16825481
+    },
+    {
+      "name": "_parse_caption_control@4",
+      "start": 16826000,
+      "end": 16826091
+    },
+    {
+      "name": "_parse_control_text@4",
+      "start": 16826224,
+      "end": 16826549
+    },
+    {
+      "name": "_parse_control_id@4",
+      "start": 16826560,
+      "end": 16826621
+    },
+    {
+      "name": "_parse_control_rectangle@4",
+      "start": 16826672,
+      "end": 16826758
     }
   ],
   "accepted": [
@@ -888,7 +1032,42 @@
     "_write_record_header@20",
     "_resource_payload_size",
     "_write_resource_name@8",
-    "_copy_resource_data@16"
+    "_copy_resource_data@16",
+    "_parse_dialog@4",
+    "_parse_word_expression",
+    "_parse_dialog_options@4",
+    "_parse_style@4",
+    "_advance_argument_flags@4",
+    "_scan_number_token",
+    "_is_style_token",
+    "_parse_dialog_caption",
+    "_parse_dialog_font",
+    "_parse_dialog_menu",
+    "_put_dialog_header@4",
+    "_put_dword@4",
+    "_wide_atoi@4",
+    "_put_wide_string@4",
+    "_parse_dialog_controls",
+    "_control_style@4",
+    "_parse_static_control@4",
+    "_parse_caption_control@4",
+    "_parse_control_text@4",
+    "_parse_control_id@4",
+    "_parse_control_rectangle@4",
+    "_put_dialog_control@4",
+    "_align_resource_data",
+    "_end_dialog_control",
+    "_increment_dialog_controls",
+    "_parse_edit_control@4",
+    "_parse_group_control@4",
+    "_parse_button_control@4",
+    "_parse_listbox_control@4",
+    "_parse_combobox_control@4",
+    "_parse_scrollbar_control@4",
+    "_parse_generic_control@4",
+    "_parse_icon_control@4",
+    "_wide_itoa@12",
+    "_resource_free@4"
   ],
   "cases": {
     "resources-rich": {

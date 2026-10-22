@@ -52,7 +52,7 @@ unsigned int __stdcall read_icon_file_header(unsigned int);
 unsigned int __cdecl read_bitmap_file_header(void);
 void __stdcall put_word(WORD);
 BOOL __stdcall parse_menu(int, struct ResourceInfo *);
-void __stdcall parse_dialog(struct ResourceInfo *);
+BOOL __stdcall parse_dialog(struct ResourceInfo *);
 void __stdcall write_resource(struct ResourceType *, struct ResourceInfo *);
 void __stdcall record_resource(struct ResourceType *, struct ResourceInfo *, void *, long, long);
 BOOL __stdcall parse_font(struct ResourceInfo *);

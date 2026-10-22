@@ -26,6 +26,9 @@ if prepared:
 menu_verified = '_write_resource@8' in configuration['accepted']
 if menu_verified:
     assert 'Both first menu payloads match the captured 190 bytes exactly.' in log
+dialog_verified = '_resource_free@4' in configuration['accepted']
+if dialog_verified:
+    assert 'Both first dialog payloads match the captured 506 bytes exactly.' in log
 report = dict(status='incomplete', case='resources-rich',
               accepted_frontiers=len(configuration['accepted']),
               replayed_frontiers=len(frontiers), current_frontier=last,
@@ -42,6 +45,9 @@ if menu_verified:
     product = Path('../fixtures/resources-rich/rc/resources.res').read_bytes()
     report['first_menu_payload'] = dict(exact_bytes=True, bytes=190,
                                       sha256=hashlib.sha256(product[64:254]).hexdigest())
+if dialog_verified:
+    report['first_dialog_payload'] = dict(exact_bytes=True, bytes=506,
+                                        sha256=hashlib.sha256(product[288:794]).hexdigest())
 if prepared:
     payload = Path('../fixtures/resources-rich/rcpp/RC000360').read_bytes()
     report['prepared_rcpp_input'] = dict(exact_bytes=True, bytes=len(payload),

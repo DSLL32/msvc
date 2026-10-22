@@ -147,3 +147,40 @@ original: _copy_resource_data@16; reconstruction: _copy_resource_data@16
 Both first menu payloads match the captured 190 bytes exactly.
 original: _parse_dialog@4; reconstruction: _parse_dialog@4
 Both flushed output prefixes match the captured 64 bytes exactly.
+original: _parse_word_expression; reconstruction: _parse_word_expression
+original: _parse_dialog_options@4; reconstruction: _parse_dialog_options@4
+original: _parse_style@4; reconstruction: _parse_style@4
+original: _advance_argument_flags@4; reconstruction: _advance_argument_flags@4
+original: _scan_number_token; reconstruction: _scan_number_token
+original: _is_style_token; reconstruction: _is_style_token
+original: _parse_dialog_caption; reconstruction: _parse_dialog_caption
+original: _parse_dialog_font; reconstruction: _parse_dialog_font
+original: _parse_dialog_menu; reconstruction: _parse_dialog_menu
+original: _put_dialog_header@4; reconstruction: _put_dialog_header@4
+original: _put_dword@4; reconstruction: _put_dword@4
+original: _wide_atoi@4; reconstruction: _wide_atoi@4
+original: _put_wide_string@4; reconstruction: _put_wide_string@4
+original: _parse_dialog_controls; reconstruction: _parse_dialog_controls
+original: _control_style@4; reconstruction: _control_style@4
+original: _parse_static_control@4; reconstruction: _parse_static_control@4
+original: _parse_caption_control@4; reconstruction: _parse_caption_control@4
+original: _parse_control_text@4; reconstruction: _parse_control_text@4
+original: _parse_control_id@4; reconstruction: _parse_control_id@4
+original: _parse_control_rectangle@4; reconstruction: _parse_control_rectangle@4
+original: _put_dialog_control@4; reconstruction: _put_dialog_control@4
+original: _align_resource_data; reconstruction: _align_resource_data
+original: _end_dialog_control; reconstruction: _end_dialog_control
+original: _increment_dialog_controls; reconstruction: _increment_dialog_controls
+original: _parse_edit_control@4; reconstruction: _parse_edit_control@4
+original: _parse_group_control@4; reconstruction: _parse_group_control@4
+original: _parse_button_control@4; reconstruction: _parse_button_control@4
+original: _parse_listbox_control@4; reconstruction: _parse_listbox_control@4
+original: _parse_combobox_control@4; reconstruction: _parse_combobox_control@4
+original: _parse_scrollbar_control@4; reconstruction: _parse_scrollbar_control@4
+original: _parse_generic_control@4; reconstruction: _parse_generic_control@4
+original: _parse_icon_control@4; reconstruction: _parse_icon_control@4
+original: _wide_itoa@12; reconstruction: _wide_itoa@12
+original: _resource_free@4; reconstruction: _resource_free@4
+Both first dialog payloads match the captured 506 bytes exactly.
+original: _parse_string_table@4; reconstruction: _parse_string_table@4
+Both flushed output prefixes match the captured 852 bytes exactly.
