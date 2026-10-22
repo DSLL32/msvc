@@ -350,3 +350,308 @@ unsigned char *update_frame_registers(unsigned char *data,int operand,
     state->registers_written|=register_masks[reg];
     return data;
 }
+
+/* Original [0004b1a0,0004b1c7). */
+int compare_disassembly_symbols(const void *left,const void *right)
+{
+    unsigned long a=(*(PIMAGE_SYMBOL const *)left)->Value;
+    unsigned long b=(*(PIMAGE_SYMBOL const *)right)->Value;
+    if (a<b) return -1;
+    return a>b;
+}
+
+/* Original [0004b310,0004b40b). */
+unsigned char *decode_sib_address(unsigned char *data,unsigned long mod,
+    DecodedAddress *address)
+{
+    unsigned long base=*data&7;
+    unsigned char *displacement=data+1;
+    switch (mod) {
+    case 0:
+        if (base==5) {
+            address->value=*(long *)displacement;
+            address->value_bytes=4;
+        } else address->base=disassembly_dword_registers[base];
+        break;
+    case 1:
+        address->base=disassembly_dword_registers[base];
+        *(unsigned char *)&address->value=*displacement;
+        address->value_bytes=1;
+        break;
+    case 2:
+        address->base=disassembly_dword_registers[base];
+        address->value=*(long *)displacement;
+        address->value_bytes=4;
+        break;
+    default:
+        longjmp(disassembler_jump,1);
+    }
+    address->scale=*data>>6;
+    address->index=disassembly_dword_registers[(*data&0x38)>>3];
+    if (address->index==DIS_REG_ESP) {
+        address->index=0;
+        if (*data&0xc0) longjmp(disassembler_jump,1);
+    }
+    /* The original conditional SS store is immediately overwritten by DS. */
+    address->segment=DIS_REG_DS;
+    return displacement+address->value_bytes;
+}
+
+/* Original [0004ca10,0004ca52). */
+unsigned char *decode_memory_operand(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    data=decode_modrm_operand(data,operand,state);
+    if (state->operands[operand-1].kind!=1) longjmp(disassembler_jump,1);
+    return data;
+}
+
+const unsigned long disassembly_byte_registers[8]={1,2,3,4,5,6,7,8};
+
+/* Original [0004d6f0,0004d74b). */
+unsigned char *decode_modrm_byte_register(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *modrm=state->modrm?state->modrm:data;
+    unsigned long reg=disassembly_byte_registers[(*modrm&0x38)>>3];
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004c750,0004c82a). */
+unsigned char *decode_modrm_byte_operand(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    unsigned char *next;
+    state->modrm=data;
+    if ((*data&0xc0)==0xc0) result->kind=2;
+    else {
+        result->kind=1;
+        result->size=1;
+    }
+    if (state->address32)
+        next=decode_address32(data,disassembly_byte_registers,&result->address);
+    else next=decode_address16(data,disassembly_byte_registers,&result->address);
+    if (result->kind==2) {
+        if (operand==1) state->registers_written|=register_masks[result->address.base];
+        else state->registers_read|=register_masks[result->address.base];
+    } else {
+        if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+        if (result->address.base) state->registers_read|=register_masks[result->address.base];
+        if (result->address.index) state->registers_read|=register_masks[result->address.index];
+    }
+    return next;
+}
+
+/* Original [0004b880,0004b89e). */
+unsigned char *decode_operand_size_prefix(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->operand32=!state->operand32;
+    return decode_opcode(data,state);
+}
+
+/* Original [0004bda0,0004bdc3). */
+unsigned char *decode_ds_prefix(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->segment=DIS_REG_DS;
+    /* Segment-prefix bodies use the ES effect mask in the original. */
+    state->registers_read|=register_masks[DIS_REG_ES];
+    return decode_opcode(data,state);
+}
+
+/* Original [0004ddb0,0004ddfd). */
+unsigned char *decode_eax_register(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EAX:DIS_REG_AX;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004c440,0004c4b7). */
+unsigned char *decode_absolute_memory(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=1;
+    result->address.segment=DIS_REG_DS;
+    if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+    result->size=state->operand32?3:2;
+    if (state->address32) {
+        result->address.value_bytes=4;
+        result->address.value=*(long *)data;
+    } else {
+        result->address.value_bytes=2;
+        *(short *)&result->address.value=*(short *)data;
+    }
+    return data+result->address.value_bytes;
+}
+
+/* Original [0004b8a0,0004b8be). */
+unsigned char *decode_address_size_prefix(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->address32=!state->address32;
+    return decode_opcode(data,state);
+}
+
+const unsigned long disassembly_address16_registers[8][2]={
+    {DIS_REG_BX,DIS_REG_SI},{DIS_REG_BX,DIS_REG_DI},
+    {DIS_REG_BP,DIS_REG_SI},{DIS_REG_BP,DIS_REG_DI},
+    {0,DIS_REG_SI},{0,DIS_REG_DI},{DIS_REG_BP,0},{DIS_REG_BX,0}
+};
+
+/* Original [0004b1d0,0004b305). */
+unsigned char *decode_address16(unsigned char *data,const unsigned long *registers,
+    DecodedAddress *address)
+{
+    unsigned long mod=*data>>6,rm=*data&7;
+    unsigned char *next=data+1;
+    memset(address,0,sizeof(*address));
+    if (mod==3) address->base=registers[rm];
+    else if (!mod && rm==6) {
+        *(unsigned short *)&address->value=*(unsigned short *)next;
+        address->value_bytes=2;
+        address->segment=DIS_REG_DS;
+    } else {
+        address->base=disassembly_address16_registers[rm][0];
+        address->index=disassembly_address16_registers[rm][1];
+        address->segment=address->base==DIS_REG_BP?DIS_REG_SS:DIS_REG_DS;
+        if (mod==1) {
+            *(unsigned char *)&address->value=*next;
+            address->value_bytes=1;
+        } else if (mod==2) {
+            *(unsigned short *)&address->value=*(unsigned short *)next;
+            address->value_bytes=2;
+        }
+    }
+    return next+address->value_bytes;
+}
+
+/* Original [0004b6a0,0004b6ca). */
+unsigned char *decode_signed_byte_group(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,&disassembly_signed_byte_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004c080,0004c0ac). */
+unsigned char *decode_byte_immediate(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=3;
+    result->address.value_bytes=1;
+    *(unsigned char *)&result->address.value=*data;
+    return data+1;
+}
+
+/* Original [0004b5f0,0004b645). */
+unsigned char *decode_extended_opcode(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    long page=disassembly_extended_pages[*data>>4];
+    if (page==-1) longjmp(disassembler_jump,1);
+    return apply_opcode(data+1,
+        &disassembly_extended_opcodes[page|(*data&15)],state);
+}
+
+/* Original [0004c0e0,0004c137). */
+unsigned char *decode_immediate(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=3;
+    if (state->operand32) {
+        result->address.value_bytes=4;
+        result->address.value=*(long *)data;
+    } else {
+        result->address.value_bytes=2;
+        *(short *)&result->address.value=*(short *)data;
+    }
+    return data+result->address.value_bytes;
+}
+
+/* Original [0004b990,0004b9ba). */
+unsigned char *update_counter_registers(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_ECX:DIS_REG_CX;
+    state->registers_read|=register_masks[reg];
+    state->registers_written|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004c250,0004c2fa). */
+unsigned char *decode_short_relative(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    long displacement=(signed char)*data;
+    unsigned long target;
+    result->kind=4;
+    result->address.value_bytes=1;
+    *(unsigned char *)&result->address.value=*data++;
+    target=state->address+(data-state->bytes);
+    if (!state->default32) target&=0xffff;
+    target+=displacement;
+    if (!state->operand32) target&=0xffff;
+    state->target_address=target;
+    if (!state->default32) {
+        if (target>0xffff) longjmp(disassembler_jump,1);
+        state->target_address+=state->address&0xffff0000;
+    }
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_CS];
+    else state->registers_read|=register_masks[DIS_REG_CS];
+    return data;
+}
+
+/* Original [0004b8c0,0004b8da). */
+unsigned char *decode_repe_prefix(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    /* The F3 prefix selects the original "repnz" display entry. */
+    state->prefix=DIS_PREFIX_REPNZ;
+    return decode_opcode(data,state);
+}
+
+/* Original [0004be30,0004be8c). */
+unsigned char *decode_string_byte_destination(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    unsigned long reg=state->address32?DIS_REG_EDI:DIS_REG_DI;
+    result->kind=1;
+    result->address.segment=DIS_REG_ES;
+    state->registers_read|=register_masks[DIS_REG_ES];
+    result->size=1;
+    result->address.base=reg;
+    state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004bf00,0004bf64). */
+unsigned char *decode_string_byte_source(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    unsigned long reg=state->address32?DIS_REG_ESI:DIS_REG_SI;
+    result->kind=1;
+    result->address.segment=DIS_REG_DS;
+    if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+    result->size=1;
+    result->address.base=reg;
+    state->registers_read|=register_masks[reg];
+    return data;
+}

@@ -186,6 +186,16 @@
         "code": 0
       },
       "reason": "Fresh original-only masked capture and native GDB completed with byte-identical full captured output; native regression uses only cached references."
+    },
+    {
+      "case": "dump-disasm-x86-rich",
+      "mode": "native",
+      "status": "in-progress",
+      "terminal": {
+        "kind": "trap",
+        "logical": "_decode_op_4b8e0"
+      },
+      "reason": "Original-backed181-byte code fixture, fresh native/GDB reconstruction. Cached output fixture enabled only after reached graph closes."
     }
   ]
 }

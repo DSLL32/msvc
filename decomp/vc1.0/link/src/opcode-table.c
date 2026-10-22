@@ -95,71 +95,71 @@ enum DisassemblyMnemonic {
 };
 
 const OpcodeEntry opcode_table[256]={
-    {MN_ADD,0x11f,0x0,0x0,decode_op_4c750,decode_op_4d6f0,1}, /* 00 */
+    {MN_ADD,0x11f,0x0,0x0,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 00 */
     {MN_ADD,0x11f,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* 01 */
-    {MN_ADD,0x11f,0x0,0x0,decode_op_4d6f0,decode_op_4c750,1}, /* 02 */
+    {MN_ADD,0x11f,0x0,0x0,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 02 */
     {MN_ADD,0x11f,0x0,0x0,decode_modrm_register,decode_modrm_operand_effects,1}, /* 03 */
-    {MN_ADD,0x11f,0x0,0x0,decode_op_4dbb0,decode_op_4c080,1}, /* 04 */
-    {MN_ADD,0x11f,0x0,0x0,decode_op_4ddb0,decode_op_4c0e0,1}, /* 05 */
+    {MN_ADD,0x11f,0x0,0x0,decode_op_4dbb0,decode_byte_immediate,1}, /* 04 */
+    {MN_ADD,0x11f,0x0,0x0,decode_eax_register,decode_immediate,1}, /* 05 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4da30,1}, /* 06 */
     {MN_POP,0x0,0x0,0x0,decode_op_4da30,update_stack_registers,1}, /* 07 */
-    {MN_OR,0x11b,0x0,0x4,decode_op_4c750,decode_op_4d6f0,1}, /* 08 */
+    {MN_OR,0x11b,0x0,0x4,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 08 */
     {MN_OR,0x11b,0x0,0x4,decode_modrm_operand_effects,decode_modrm_register,1}, /* 09 */
-    {MN_OR,0x11b,0x0,0x4,decode_op_4d6f0,decode_op_4c750,1}, /* 0A */
+    {MN_OR,0x11b,0x0,0x4,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 0A */
     {MN_OR,0x11b,0x0,0x4,decode_modrm_register,decode_modrm_operand_effects,1}, /* 0B */
-    {MN_OR,0x11b,0x0,0x4,decode_op_4dbb0,decode_op_4c080,1}, /* 0C */
-    {MN_OR,0x11b,0x0,0x4,decode_op_4ddb0,decode_op_4c0e0,1}, /* 0D */
+    {MN_OR,0x11b,0x0,0x4,decode_op_4dbb0,decode_byte_immediate,1}, /* 0C */
+    {MN_OR,0x11b,0x0,0x4,decode_eax_register,decode_immediate,1}, /* 0D */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4da70,1}, /* 0E */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b5f0,NULL,1}, /* 0F */
-    {MN_ADC,0x11f,0x0,0x0,decode_op_4c750,decode_op_4d6f0,1}, /* 10 */
+    {MN_NONE,0x0,0x0,0x0,decode_extended_opcode,NULL,1}, /* 0F */
+    {MN_ADC,0x11f,0x0,0x0,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 10 */
     {MN_ADC,0x11f,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* 11 */
-    {MN_ADC,0x11f,0x0,0x0,decode_op_4d6f0,decode_op_4c750,1}, /* 12 */
+    {MN_ADC,0x11f,0x0,0x0,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 12 */
     {MN_ADC,0x11f,0x0,0x0,decode_modrm_register,decode_modrm_operand_effects,1}, /* 13 */
-    {MN_ADC,0x11f,0x0,0x0,decode_op_4dbb0,decode_op_4c080,1}, /* 14 */
-    {MN_ADC,0x11f,0x0,0x0,decode_op_4ddb0,decode_op_4c0e0,1}, /* 15 */
+    {MN_ADC,0x11f,0x0,0x0,decode_op_4dbb0,decode_byte_immediate,1}, /* 14 */
+    {MN_ADC,0x11f,0x0,0x0,decode_eax_register,decode_immediate,1}, /* 15 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4dab0,1}, /* 16 */
     {MN_POP,0x0,0x0,0x0,decode_op_4dab0,update_stack_registers,1}, /* 17 */
-    {MN_SBB,0x11f,0x0,0x0,decode_op_4c750,decode_op_4d6f0,1}, /* 18 */
+    {MN_SBB,0x11f,0x0,0x0,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 18 */
     {MN_SBB,0x11f,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* 19 */
-    {MN_SBB,0x11f,0x0,0x0,decode_op_4d6f0,decode_op_4c750,1}, /* 1A */
+    {MN_SBB,0x11f,0x0,0x0,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 1A */
     {MN_SBB,0x11f,0x0,0x0,decode_modrm_register,decode_modrm_operand_effects,1}, /* 1B */
-    {MN_SBB,0x11f,0x0,0x0,decode_op_4dbb0,decode_op_4c080,1}, /* 1C */
-    {MN_SBB,0x11f,0x0,0x0,decode_op_4ddb0,decode_op_4c0e0,1}, /* 1D */
+    {MN_SBB,0x11f,0x0,0x0,decode_op_4dbb0,decode_byte_immediate,1}, /* 1C */
+    {MN_SBB,0x11f,0x0,0x0,decode_eax_register,decode_immediate,1}, /* 1D */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4daf0,1}, /* 1E */
     {MN_POP,0x0,0x0,0x0,decode_op_4daf0,update_stack_registers,1}, /* 1F */
-    {MN_AND,0x11b,0x0,0x4,decode_op_4c750,decode_op_4d6f0,1}, /* 20 */
+    {MN_AND,0x11b,0x0,0x4,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 20 */
     {MN_AND,0x11b,0x0,0x4,decode_modrm_operand_effects,decode_modrm_register,1}, /* 21 */
-    {MN_AND,0x11b,0x0,0x4,decode_op_4d6f0,decode_op_4c750,1}, /* 22 */
+    {MN_AND,0x11b,0x0,0x4,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 22 */
     {MN_AND,0x11b,0x0,0x4,decode_modrm_register,decode_modrm_operand_effects,1}, /* 23 */
-    {MN_AND,0x11b,0x0,0x4,decode_op_4dbb0,decode_op_4c080,1}, /* 24 */
-    {MN_AND,0x11b,0x0,0x4,decode_op_4ddb0,decode_op_4c0e0,1}, /* 25 */
+    {MN_AND,0x11b,0x0,0x4,decode_op_4dbb0,decode_byte_immediate,1}, /* 24 */
+    {MN_AND,0x11b,0x0,0x4,decode_eax_register,decode_immediate,1}, /* 25 */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bd10,1}, /* 26 */
     {MN_DAA,0x1f,0x5,0x100,decode_op_4ba50,decode_op_4ba50,1}, /* 27 */
-    {MN_SUB,0x11f,0x0,0x0,decode_op_4c750,decode_op_4d6f0,1}, /* 28 */
+    {MN_SUB,0x11f,0x0,0x0,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 28 */
     {MN_SUB,0x11f,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* 29 */
-    {MN_SUB,0x11f,0x0,0x0,decode_op_4d6f0,decode_op_4c750,1}, /* 2A */
+    {MN_SUB,0x11f,0x0,0x0,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 2A */
     {MN_SUB,0x11f,0x0,0x0,decode_modrm_register,decode_modrm_operand_effects,1}, /* 2B */
-    {MN_SUB,0x11f,0x0,0x0,decode_op_4dbb0,decode_op_4c080,1}, /* 2C */
-    {MN_SUB,0x11f,0x0,0x0,decode_op_4ddb0,decode_op_4c0e0,1}, /* 2D */
+    {MN_SUB,0x11f,0x0,0x0,decode_op_4dbb0,decode_byte_immediate,1}, /* 2C */
+    {MN_SUB,0x11f,0x0,0x0,decode_eax_register,decode_immediate,1}, /* 2D */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bd40,1}, /* 2E */
     {MN_DAS,0x1f,0x5,0x100,decode_op_4ba50,decode_op_4ba50,1}, /* 2F */
-    {MN_XOR,0x11b,0x0,0x4,decode_op_4c750,decode_op_4d6f0,1}, /* 30 */
+    {MN_XOR,0x11b,0x0,0x4,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 30 */
     {MN_XOR,0x11b,0x0,0x4,decode_modrm_operand_effects,decode_modrm_register,1}, /* 31 */
-    {MN_XOR,0x11b,0x0,0x4,decode_op_4d6f0,decode_op_4c750,1}, /* 32 */
+    {MN_XOR,0x11b,0x0,0x4,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 32 */
     {MN_XOR,0x11b,0x0,0x4,decode_modrm_register,decode_modrm_operand_effects,1}, /* 33 */
-    {MN_XOR,0x11b,0x0,0x4,decode_op_4dbb0,decode_op_4c080,1}, /* 34 */
-    {MN_XOR,0x11b,0x0,0x4,decode_op_4ddb0,decode_op_4c0e0,1}, /* 35 */
+    {MN_XOR,0x11b,0x0,0x4,decode_op_4dbb0,decode_byte_immediate,1}, /* 34 */
+    {MN_XOR,0x11b,0x0,0x4,decode_eax_register,decode_immediate,1}, /* 35 */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bd70,1}, /* 36 */
     {MN_AAA,0x5,0x4,0x11b,decode_op_4ba90,NULL,1}, /* 37 */
-    {MN_CMP,0x11f,0x0,0x0,decode_op_4c750,decode_op_4d6f0,1}, /* 38 */
+    {MN_CMP,0x11f,0x0,0x0,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 38 */
     {MN_CMP,0x11f,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* 39 */
-    {MN_CMP,0x11f,0x0,0x0,decode_op_4d6f0,decode_op_4c750,1}, /* 3A */
+    {MN_CMP,0x11f,0x0,0x0,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 3A */
     {MN_CMP,0x11f,0x0,0x0,decode_modrm_register,decode_modrm_operand_effects,1}, /* 3B */
-    {MN_CMP,0x11f,0x0,0x0,decode_op_4dbb0,decode_op_4c080,1}, /* 3C */
-    {MN_CMP,0x11f,0x0,0x0,decode_op_4ddb0,decode_op_4c0e0,1}, /* 3D */
-    {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bda0,1}, /* 3E */
+    {MN_CMP,0x11f,0x0,0x0,decode_op_4dbb0,decode_byte_immediate,1}, /* 3C */
+    {MN_CMP,0x11f,0x0,0x0,decode_eax_register,decode_immediate,1}, /* 3D */
+    {MN_NONE,0x0,0x0,0x0,NULL,decode_ds_prefix,1}, /* 3E */
     {MN_AAS,0x5,0x4,0x11b,decode_op_4ba90,NULL,1}, /* 3F */
-    {MN_INC,0x11e,0x0,0x0,decode_op_4ddb0,decode_op_4bb10,1}, /* 40 */
+    {MN_INC,0x11e,0x0,0x0,decode_eax_register,decode_op_4bb10,1}, /* 40 */
     {MN_INC,0x11e,0x0,0x0,decode_op_4ded0,decode_op_4bb90,1}, /* 41 */
     {MN_INC,0x11e,0x0,0x0,decode_op_4df50,decode_op_4bbd0,1}, /* 42 */
     {MN_INC,0x11e,0x0,0x0,decode_ebx_register,decode_op_4bb50,1}, /* 43 */
@@ -167,7 +167,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_INC,0x11e,0x0,0x0,decode_ebp_register,decode_op_4bc50,1}, /* 45 */
     {MN_INC,0x11e,0x0,0x0,decode_esi_register,decode_op_4bc90,1}, /* 46 */
     {MN_INC,0x11e,0x0,0x0,decode_edi_register,decode_op_4bcd0,1}, /* 47 */
-    {MN_DEC,0x11e,0x0,0x0,decode_op_4ddb0,decode_op_4bb10,1}, /* 48 */
+    {MN_DEC,0x11e,0x0,0x0,decode_eax_register,decode_op_4bb10,1}, /* 48 */
     {MN_DEC,0x11e,0x0,0x0,decode_op_4ded0,decode_op_4bb90,1}, /* 49 */
     {MN_DEC,0x11e,0x0,0x0,decode_op_4df50,decode_op_4bbd0,1}, /* 4A */
     {MN_DEC,0x11e,0x0,0x0,decode_ebx_register,decode_op_4bb50,1}, /* 4B */
@@ -175,7 +175,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_DEC,0x11e,0x0,0x0,decode_ebp_register,decode_op_4bc50,1}, /* 4D */
     {MN_DEC,0x11e,0x0,0x0,decode_esi_register,decode_op_4bc90,1}, /* 4E */
     {MN_DEC,0x11e,0x0,0x0,decode_edi_register,decode_op_4bcd0,1}, /* 4F */
-    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4ddb0,1}, /* 50 */
+    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_eax_register,1}, /* 50 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4ded0,1}, /* 51 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4df50,1}, /* 52 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_ebx_register,1}, /* 53 */
@@ -183,7 +183,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_ebp_register,1}, /* 55 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_esi_register,1}, /* 56 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_edi_register,1}, /* 57 */
-    {MN_POP,0x0,0x0,0x0,decode_op_4ddb0,update_stack_registers,1}, /* 58 */
+    {MN_POP,0x0,0x0,0x0,decode_eax_register,update_stack_registers,1}, /* 58 */
     {MN_POP,0x0,0x0,0x0,decode_op_4ded0,update_stack_registers,1}, /* 59 */
     {MN_POP,0x0,0x0,0x0,decode_op_4df50,update_stack_registers,1}, /* 5A */
     {MN_POP,0x0,0x0,0x0,decode_ebx_register,update_stack_registers,1}, /* 5B */
@@ -197,46 +197,46 @@ const OpcodeEntry opcode_table[256]={
     {MN_ARPL,0x8,0x0,0x0,decode_op_4c830,decode_op_4c4c0,1}, /* 63 */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bdd0,1}, /* 64 */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4be00,1}, /* 65 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b880,NULL,1}, /* 66 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b8a0,NULL,1}, /* 67 */
-    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4c0e0,1}, /* 68 */
+    {MN_NONE,0x0,0x0,0x0,decode_operand_size_prefix,NULL,1}, /* 66 */
+    {MN_NONE,0x0,0x0,0x0,decode_address_size_prefix,NULL,1}, /* 67 */
+    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_immediate,1}, /* 68 */
     {MN_IMUL,0x101,0x0,0x1e,decode_modrm_register,decode_op_4c910,1}, /* 69 */
-    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4c080,1}, /* 6A */
+    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_byte_immediate,1}, /* 6A */
     {MN_IMUL,0x101,0x0,0x1e,decode_modrm_register,decode_op_4c940,1}, /* 6B */
-    {MN_INS,0x0,0x80,0x0,decode_op_4be30,decode_op_4df20,1}, /* 6C */
+    {MN_INS,0x0,0x80,0x0,decode_string_byte_destination,decode_op_4df20,1}, /* 6C */
     {MN_INS,0x0,0x80,0x0,decode_op_4be90,decode_op_4df20,1}, /* 6D */
-    {MN_OUTS,0x0,0x80,0x0,decode_op_4df20,decode_op_4bf00,1}, /* 6E */
+    {MN_OUTS,0x0,0x80,0x0,decode_op_4df20,decode_string_byte_source,1}, /* 6E */
     {MN_OUTS,0x0,0x80,0x0,decode_op_4df20,decode_op_4bfe0,1}, /* 6F */
-    {MN_JO,0x0,0x100,0x0,NULL,decode_op_4c250,14}, /* 70 */
-    {MN_JNO,0x0,0x100,0x0,NULL,decode_op_4c250,14}, /* 71 */
-    {MN_JB,0x0,0x1,0x0,NULL,decode_op_4c250,14}, /* 72 */
-    {MN_JAE,0x0,0x1,0x0,NULL,decode_op_4c250,14}, /* 73 */
-    {MN_JE,0x0,0x8,0x0,NULL,decode_op_4c250,14}, /* 74 */
-    {MN_JNE,0x0,0x8,0x0,NULL,decode_op_4c250,14}, /* 75 */
-    {MN_JBE,0x0,0x9,0x0,NULL,decode_op_4c250,14}, /* 76 */
-    {MN_JA,0x0,0x9,0x0,NULL,decode_op_4c250,14}, /* 77 */
-    {MN_JS,0x0,0x10,0x0,NULL,decode_op_4c250,14}, /* 78 */
-    {MN_JNS,0x0,0x10,0x0,NULL,decode_op_4c250,14}, /* 79 */
-    {MN_JP,0x0,0x2,0x0,NULL,decode_op_4c250,14}, /* 7A */
-    {MN_JNP,0x0,0x2,0x0,NULL,decode_op_4c250,14}, /* 7B */
-    {MN_JL,0x0,0x110,0x0,NULL,decode_op_4c250,14}, /* 7C */
-    {MN_JGE,0x0,0x110,0x0,NULL,decode_op_4c250,14}, /* 7D */
-    {MN_JLE,0x0,0x18,0x0,NULL,decode_op_4c250,14}, /* 7E */
-    {MN_JG,0x0,0x18,0x0,NULL,decode_op_4c250,14}, /* 7F */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b670,decode_op_4c080,1}, /* 80 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b6a0,decode_op_4c0e0,1}, /* 81 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dbb0,decode_op_4c080,1}, /* 82 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b6a0,decode_op_4c080,1}, /* 83 */
-    {MN_TEST,0x11b,0x0,0x4,decode_op_4c750,decode_op_4d6f0,1}, /* 84 */
+    {MN_JO,0x0,0x100,0x0,NULL,decode_short_relative,14}, /* 70 */
+    {MN_JNO,0x0,0x100,0x0,NULL,decode_short_relative,14}, /* 71 */
+    {MN_JB,0x0,0x1,0x0,NULL,decode_short_relative,14}, /* 72 */
+    {MN_JAE,0x0,0x1,0x0,NULL,decode_short_relative,14}, /* 73 */
+    {MN_JE,0x0,0x8,0x0,NULL,decode_short_relative,14}, /* 74 */
+    {MN_JNE,0x0,0x8,0x0,NULL,decode_short_relative,14}, /* 75 */
+    {MN_JBE,0x0,0x9,0x0,NULL,decode_short_relative,14}, /* 76 */
+    {MN_JA,0x0,0x9,0x0,NULL,decode_short_relative,14}, /* 77 */
+    {MN_JS,0x0,0x10,0x0,NULL,decode_short_relative,14}, /* 78 */
+    {MN_JNS,0x0,0x10,0x0,NULL,decode_short_relative,14}, /* 79 */
+    {MN_JP,0x0,0x2,0x0,NULL,decode_short_relative,14}, /* 7A */
+    {MN_JNP,0x0,0x2,0x0,NULL,decode_short_relative,14}, /* 7B */
+    {MN_JL,0x0,0x110,0x0,NULL,decode_short_relative,14}, /* 7C */
+    {MN_JGE,0x0,0x110,0x0,NULL,decode_short_relative,14}, /* 7D */
+    {MN_JLE,0x0,0x18,0x0,NULL,decode_short_relative,14}, /* 7E */
+    {MN_JG,0x0,0x18,0x0,NULL,decode_short_relative,14}, /* 7F */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b670,decode_byte_immediate,1}, /* 80 */
+    {MN_NONE,0x0,0x0,0x0,decode_signed_byte_group,decode_immediate,1}, /* 81 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dbb0,decode_byte_immediate,1}, /* 82 */
+    {MN_NONE,0x0,0x0,0x0,decode_signed_byte_group,decode_byte_immediate,1}, /* 83 */
+    {MN_TEST,0x11b,0x0,0x4,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 84 */
     {MN_TEST,0x11b,0x0,0x4,decode_modrm_operand_effects,decode_modrm_register,1}, /* 85 */
-    {MN_XCHG,0x0,0x0,0x0,decode_op_4c750,decode_op_4d6f0,1}, /* 86 */
+    {MN_XCHG,0x0,0x0,0x0,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 86 */
     {MN_XCHG,0x0,0x0,0x0,decode_modrm_operand_effects,decode_op_4d690,1}, /* 87 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4c750,decode_op_4d640,1}, /* 88 */
+    {MN_MOV,0x0,0x0,0x11f,decode_modrm_byte_operand,decode_op_4d640,1}, /* 88 */
     {MN_MOV,0x0,0x0,0x11f,decode_modrm_operand_effects,decode_modrm_register,1}, /* 89 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4d6f0,decode_op_4c750,1}, /* 8A */
+    {MN_MOV,0x0,0x0,0x11f,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 8A */
     {MN_MOV,0x0,0x0,0x11f,decode_modrm_register,decode_modrm_operand_effects,1}, /* 8B */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4c830,decode_op_4d5e0,1}, /* 8C */
-    {MN_LEA,0x0,0x0,0x0,decode_modrm_register,decode_op_4ca10,1}, /* 8D */
+    {MN_LEA,0x0,0x0,0x0,decode_modrm_register,decode_memory_operand,1}, /* 8D */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4d5e0,decode_op_4c830,1}, /* 8E */
     {MN_POP,0x0,0x0,0x0,decode_modrm_operand_effects,update_stack_registers,1}, /* 8F */
     {MN_NOP,0x0,0x0,0x0,NULL,NULL,1}, /* 90 */
@@ -256,51 +256,51 @@ const OpcodeEntry opcode_table[256]={
     {MN_SAHF,0x1f,0x0,0x0,NULL,decode_op_4ba70,1}, /* 9E */
     {MN_LAHF,0x0,0x0,0x0,decode_op_4ba70,NULL,1}, /* 9F */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4dbb0,decode_op_4c3d0,1}, /* A0 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4ddb0,decode_op_4c440,1}, /* A1 */
+    {MN_MOV,0x0,0x0,0x11f,decode_eax_register,decode_absolute_memory,1}, /* A1 */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4c3d0,decode_op_4dbb0,1}, /* A2 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4c440,decode_op_4ddb0,1}, /* A3 */
-    {MN_MOVS,0x0,0x80,0x0,decode_op_4be30,decode_op_4bf00,1}, /* A4 */
+    {MN_MOV,0x0,0x0,0x11f,decode_absolute_memory,decode_eax_register,1}, /* A3 */
+    {MN_MOVS,0x0,0x80,0x0,decode_string_byte_destination,decode_string_byte_source,1}, /* A4 */
     {MN_MOVS,0x0,0x80,0x0,decode_op_4be90,decode_op_4bfe0,1}, /* A5 */
-    {MN_CMPS,0x11f,0x80,0x0,decode_op_4bf00,decode_op_4be30,1}, /* A6 */
+    {MN_CMPS,0x11f,0x80,0x0,decode_string_byte_source,decode_string_byte_destination,1}, /* A6 */
     {MN_CMPS,0x11f,0x80,0x0,decode_op_4bfe0,decode_op_4be90,1}, /* A7 */
-    {MN_TEST,0x11b,0x0,0x4,decode_op_4dbb0,decode_op_4c080,1}, /* A8 */
-    {MN_TEST,0x11b,0x0,0x4,decode_op_4ddb0,decode_op_4c0e0,1}, /* A9 */
-    {MN_STOS,0x0,0x80,0x0,decode_op_4be30,decode_op_4ba50,1}, /* AA */
+    {MN_TEST,0x11b,0x0,0x4,decode_op_4dbb0,decode_byte_immediate,1}, /* A8 */
+    {MN_TEST,0x11b,0x0,0x4,decode_eax_register,decode_immediate,1}, /* A9 */
+    {MN_STOS,0x0,0x80,0x0,decode_string_byte_destination,decode_op_4ba50,1}, /* AA */
     {MN_STOS,0x0,0x80,0x0,decode_op_4be90,decode_op_4bb10,1}, /* AB */
-    {MN_LODS,0x0,0x80,0x0,decode_op_4ba50,decode_op_4bf00,1}, /* AC */
+    {MN_LODS,0x0,0x80,0x0,decode_op_4ba50,decode_string_byte_source,1}, /* AC */
     {MN_LODS,0x0,0x80,0x0,decode_op_4bb10,decode_op_4bfe0,1}, /* AD */
-    {MN_SCAS,0x11f,0x80,0x0,decode_op_4be30,decode_op_4ba50,1}, /* AE */
+    {MN_SCAS,0x11f,0x80,0x0,decode_string_byte_destination,decode_op_4ba50,1}, /* AE */
     {MN_SCAS,0x11f,0x80,0x0,decode_op_4be90,decode_op_4bb10,1}, /* AF */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dbb0,decode_op_4c080,1}, /* B0 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dc30,decode_op_4c080,1}, /* B1 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dc70,decode_op_4c080,1}, /* B2 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dbf0,decode_op_4c080,1}, /* B3 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dcb0,decode_op_4c080,1}, /* B4 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dd30,decode_op_4c080,1}, /* B5 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dd70,decode_op_4c080,1}, /* B6 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dcf0,decode_op_4c080,1}, /* B7 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4ddb0,decode_op_4c0e0,1}, /* B8 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4ded0,decode_op_4c0e0,1}, /* B9 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4df50,decode_op_4c0e0,1}, /* BA */
-    {MN_MOV,0x0,0x0,0x11f,decode_ebx_register,decode_op_4c0e0,1}, /* BB */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4dfa0,decode_op_4c0e0,1}, /* BC */
-    {MN_MOV,0x0,0x0,0x11f,decode_ebp_register,decode_op_4c0e0,1}, /* BD */
-    {MN_MOV,0x0,0x0,0x11f,decode_esi_register,decode_op_4c0e0,1}, /* BE */
-    {MN_MOV,0x0,0x0,0x11f,decode_edi_register,decode_op_4c0e0,1}, /* BF */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b6d0,decode_op_4c080,1}, /* C0 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b700,decode_op_4c080,1}, /* C1 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dbb0,decode_byte_immediate,1}, /* B0 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dc30,decode_byte_immediate,1}, /* B1 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dc70,decode_byte_immediate,1}, /* B2 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dbf0,decode_byte_immediate,1}, /* B3 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dcb0,decode_byte_immediate,1}, /* B4 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dd30,decode_byte_immediate,1}, /* B5 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dd70,decode_byte_immediate,1}, /* B6 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dcf0,decode_byte_immediate,1}, /* B7 */
+    {MN_MOV,0x0,0x0,0x11f,decode_eax_register,decode_immediate,1}, /* B8 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4ded0,decode_immediate,1}, /* B9 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4df50,decode_immediate,1}, /* BA */
+    {MN_MOV,0x0,0x0,0x11f,decode_ebx_register,decode_immediate,1}, /* BB */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4dfa0,decode_immediate,1}, /* BC */
+    {MN_MOV,0x0,0x0,0x11f,decode_ebp_register,decode_immediate,1}, /* BD */
+    {MN_MOV,0x0,0x0,0x11f,decode_esi_register,decode_immediate,1}, /* BE */
+    {MN_MOV,0x0,0x0,0x11f,decode_edi_register,decode_immediate,1}, /* BF */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b6d0,decode_byte_immediate,1}, /* C0 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b700,decode_byte_immediate,1}, /* C1 */
     {MN_RET,0x0,0x0,0x0,update_stack_registers,decode_op_4c0b0,11}, /* C2 */
     {MN_RET,0x0,0x0,0x0,update_stack_registers,NULL,11}, /* C3 */
     {MN_LES,0x0,0x0,0x0,decode_op_4d8a0,decode_op_4ca60,1}, /* C4 */
     {MN_LDS,0x0,0x0,0x0,decode_op_4d900,decode_op_4ca60,1}, /* C5 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4c750,decode_op_4c080,1}, /* C6 */
-    {MN_MOV,0x0,0x0,0x11f,decode_modrm_operand_effects,decode_op_4c0e0,1}, /* C7 */
-    {MN_ENTER,0x0,0x0,0x0,decode_op_4d990,decode_op_4c080,1}, /* C8 */
+    {MN_MOV,0x0,0x0,0x11f,decode_modrm_byte_operand,decode_byte_immediate,1}, /* C6 */
+    {MN_MOV,0x0,0x0,0x11f,decode_modrm_operand_effects,decode_immediate,1}, /* C7 */
+    {MN_ENTER,0x0,0x0,0x0,decode_op_4d990,decode_byte_immediate,1}, /* C8 */
     {MN_LEAVE,0x0,0x0,0x0,update_stack_registers,update_frame_registers,1}, /* C9 */
     {MN_RETF,0x0,0x0,0x0,decode_op_4b9c0,decode_op_4c0b0,12}, /* CA */
     {MN_RETF,0x0,0x0,0x0,decode_op_4b9c0,NULL,12}, /* CB */
     {MN_INT,0x30,0x0,0x0,decode_op_4b9c0,decode_op_4c170,9}, /* CC */
-    {MN_INT,0x30,0x0,0x0,decode_op_4b9c0,decode_op_4c080,8}, /* CD */
+    {MN_INT,0x30,0x0,0x0,decode_op_4b9c0,decode_byte_immediate,8}, /* CD */
     {MN_INTO,0x30,0x0,0x0,decode_op_4b9c0,NULL,7}, /* CE */
     {MN_IRET,0x0,0x0,0x0,decode_op_4b9c0,NULL,10}, /* CF */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b6d0,decode_op_4c140,1}, /* D0 */
@@ -319,26 +319,26 @@ const OpcodeEntry opcode_table[256]={
     {MN_NONE,0x0,0x0,0x0,decode_op_4d0e0,NULL,1}, /* DD */
     {MN_NONE,0x0,0x0,0x0,decode_op_4d1e0,NULL,1}, /* DE */
     {MN_NONE,0x0,0x0,0x0,decode_op_4d330,NULL,1}, /* DF */
-    {MN_LOOPNE,0x0,0x8,0x0,decode_op_4b990,decode_op_4c250,20}, /* E0 */
-    {MN_LOOPE,0x0,0x8,0x0,decode_op_4b990,decode_op_4c250,20}, /* E1 */
-    {MN_LOOP,0x0,0x0,0x0,decode_op_4b990,decode_op_4c250,20}, /* E2 */
-    {MN_JCXZ,0x0,0x0,0x0,decode_op_4b990,decode_op_4c250,21}, /* E3 */
-    {MN_IN,0x0,0x0,0x0,decode_op_4dbb0,decode_op_4c080,1}, /* E4 */
-    {MN_IN,0x0,0x0,0x0,decode_op_4ddb0,decode_op_4c080,1}, /* E5 */
-    {MN_OUT,0x0,0x0,0x0,decode_op_4c080,decode_op_4dbb0,1}, /* E6 */
-    {MN_OUT,0x0,0x0,0x0,decode_op_4c080,decode_op_4ddb0,1}, /* E7 */
+    {MN_LOOPNE,0x0,0x8,0x0,update_counter_registers,decode_short_relative,20}, /* E0 */
+    {MN_LOOPE,0x0,0x8,0x0,update_counter_registers,decode_short_relative,20}, /* E1 */
+    {MN_LOOP,0x0,0x0,0x0,update_counter_registers,decode_short_relative,20}, /* E2 */
+    {MN_JCXZ,0x0,0x0,0x0,update_counter_registers,decode_short_relative,21}, /* E3 */
+    {MN_IN,0x0,0x0,0x0,decode_op_4dbb0,decode_byte_immediate,1}, /* E4 */
+    {MN_IN,0x0,0x0,0x0,decode_eax_register,decode_byte_immediate,1}, /* E5 */
+    {MN_OUT,0x0,0x0,0x0,decode_byte_immediate,decode_op_4dbb0,1}, /* E6 */
+    {MN_OUT,0x0,0x0,0x0,decode_byte_immediate,decode_eax_register,1}, /* E7 */
     {MN_CALL,0x0,0x0,0x0,update_stack_registers,decode_near_relative,2}, /* E8 */
     {MN_JMP,0x0,0x0,0x0,NULL,decode_near_relative,15}, /* E9 */
     {MN_JMP,0x0,0x0,0x0,decode_op_4bac0,decode_op_4c1a0,18}, /* EA */
-    {MN_JMP,0x0,0x0,0x0,NULL,decode_op_4c250,13}, /* EB */
+    {MN_JMP,0x0,0x0,0x0,NULL,decode_short_relative,13}, /* EB */
     {MN_IN,0x0,0x0,0x0,decode_op_4dbb0,decode_op_4df20,1}, /* EC */
-    {MN_IN,0x0,0x0,0x0,decode_op_4ddb0,decode_op_4df20,1}, /* ED */
+    {MN_IN,0x0,0x0,0x0,decode_eax_register,decode_op_4df20,1}, /* ED */
     {MN_OUT,0x0,0x0,0x0,decode_op_4df20,decode_op_4dbb0,1}, /* EE */
     {MN_OUT,0x0,0x0,0x0,decode_op_4df20,decode_op_4de00,1}, /* EF */
     {MN_LOCK,0x0,0x0,0x0,NULL,NULL,1}, /* F0 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b650,NULL,1}, /* F1 */
     {MN_REPNZ,0x0,0x8,0x0,decode_op_4b8e0,NULL,1}, /* F2 */
-    {MN_REP,0x0,0x8,0x0,decode_op_4b8c0,NULL,1}, /* F3 */
+    {MN_REP,0x0,0x8,0x0,decode_repe_prefix,NULL,1}, /* F3 */
     {MN_HLT,0x0,0x0,0x0,NULL,NULL,4}, /* F4 */
     {MN_CMC,0x1,0x1,0x0,NULL,NULL,1}, /* F5 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b730,NULL,1}, /* F6 */
@@ -356,4 +356,181 @@ const OpcodeEntry opcode_table[256]={
 /* Encoding class to instruction category, shared by opcode descriptors. */
 const unsigned char instruction_categories[22]={
     0,1,6,6,7,7,7,9,7,7,3,3,3,2,4,2,4,3,2,3,4,4
+};
+
+/* ModRM.reg arithmetic selectors for opcode83, original [00083bc0,00083c60). */
+const OpcodeEntry disassembly_signed_byte_group[8]={
+    {MN_ADD,0x11f,0,0,decode_modrm_operand_effects,0,1},
+    {MN_OR, 0x11b,0,4,decode_modrm_operand_effects,0,1},
+    {MN_ADC,0x11f,0,0,decode_modrm_operand_effects,0,1},
+    {MN_SBB,0x11f,0,0,decode_modrm_operand_effects,0,1},
+    {MN_AND,0x11b,0,4,decode_modrm_operand_effects,0,1},
+    {MN_SUB,0x11f,0,0,decode_modrm_operand_effects,0,1},
+    {MN_XOR,0x11b,0,4,decode_modrm_operand_effects,0,1},
+    {MN_CMP,0x11f,0,0,decode_modrm_operand_effects,0,1}
+};
+
+/* Names used by the compressed0F descriptor pages. */
+enum ExtendedMnemonic {
+    MN_BSF=10,
+    MN_BSR=11,
+    MN_BSWAP=12,
+    MN_BT=13,
+    MN_BTC=14,
+    MN_BTR=15,
+    MN_BTS=16,
+    MN_CLTS=23,
+    MN_CMPXCHG=27,
+    MN_IBTS=121,
+    MN_INVD=130,
+    MN_LAR=156,
+    MN_LFS=159,
+    MN_LGS=160,
+    MN_LOADALL=161,
+    MN_LSS=162,
+    MN_LSL=180,
+    MN_MOVSX=184,
+    MN_MOVZX=185,
+    MN_SETB=220,
+    MN_SETAE=221,
+    MN_SETBE=222,
+    MN_SETA=223,
+    MN_SETE=224,
+    MN_SETNE=225,
+    MN_SETL=226,
+    MN_SETGE=227,
+    MN_SETLE=228,
+    MN_SETG=229,
+    MN_SETS=230,
+    MN_SETNS=231,
+    MN_SETO=234,
+    MN_SETNO=235,
+    MN_SETP=236,
+    MN_SETNP=237,
+    MN_SHLD=245,
+    MN_SHRD=246,
+    MN_WBINVD=258,
+    MN_XADD=259,
+    MN_XBTS=260
+};
+
+/* High-nibble page bases; unsupported pages use the native -1 sentinel. */
+const long disassembly_extended_pages[16]={
+    0,-1,16,-1,-1,-1,-1,-1,32,48,64,80,96,-1,-1,-1
+};
+
+/* Actual112 compressed0F descriptors, original [00083260,00083b20). */
+const OpcodeEntry disassembly_extended_opcodes[112]={
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b7f0,0,1}, /* page slot 00 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b820,0,1}, /* page slot 01 */
+    {MN_LAR,0x8,0x0,0x0,decode_modrm_register,decode_op_4c830,1}, /* page slot 02 */
+    {MN_LSL,0x8,0x0,0x0,decode_modrm_register,decode_op_4c830,1}, /* page slot 03 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 04 */
+    {MN_LOADALL,0x0,0x0,0x0,0,0,1}, /* page slot 05 */
+    {MN_CLTS,0x0,0x0,0x0,0,0,1}, /* page slot 06 */
+    {MN_LOADALL,0x0,0x0,0x0,decode_string_byte_destination,0,1}, /* page slot 07 */
+    {MN_INVD,0x0,0x0,0x0,0,0,1}, /* page slot 08 */
+    {MN_WBINVD,0x0,0x0,0x0,0,0,1}, /* page slot 09 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 0A */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 0B */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 0C */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 0D */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 0E */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 0F */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4d520,decode_op_4c530,1}, /* page slot 10 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4d560,decode_op_4c530,1}, /* page slot 11 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4c530,decode_op_4d520,1}, /* page slot 12 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4c530,decode_op_4d560,1}, /* page slot 13 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4d5a0,decode_op_4c530,1}, /* page slot 14 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 15 */
+    {MN_MOV,0x0,0x0,0x11f,decode_op_4c530,decode_op_4d5a0,1}, /* page slot 16 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 17 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 18 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 19 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 1A */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 1B */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 1C */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 1D */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 1E */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 1F */
+    {MN_JO,0x0,0x100,0x0,0,decode_near_relative,16}, /* page slot 20 */
+    {MN_JNO,0x0,0x100,0x0,0,decode_near_relative,16}, /* page slot 21 */
+    {MN_JB,0x0,0x1,0x0,0,decode_near_relative,16}, /* page slot 22 */
+    {MN_JAE,0x0,0x1,0x0,0,decode_near_relative,16}, /* page slot 23 */
+    {MN_JE,0x0,0x8,0x0,0,decode_near_relative,16}, /* page slot 24 */
+    {MN_JNE,0x0,0x8,0x0,0,decode_near_relative,16}, /* page slot 25 */
+    {MN_JBE,0x0,0x9,0x0,0,decode_near_relative,16}, /* page slot 26 */
+    {MN_JA,0x0,0x9,0x0,0,decode_near_relative,16}, /* page slot 27 */
+    {MN_JS,0x0,0x10,0x0,0,decode_near_relative,16}, /* page slot 28 */
+    {MN_JNS,0x0,0x10,0x0,0,decode_near_relative,16}, /* page slot 29 */
+    {MN_JP,0x0,0x2,0x0,0,decode_near_relative,16}, /* page slot 2A */
+    {MN_JNP,0x0,0x2,0x0,0,decode_near_relative,16}, /* page slot 2B */
+    {MN_JL,0x0,0x110,0x0,0,decode_near_relative,16}, /* page slot 2C */
+    {MN_JGE,0x0,0x110,0x0,0,decode_near_relative,16}, /* page slot 2D */
+    {MN_JLE,0x0,0x18,0x0,0,decode_near_relative,16}, /* page slot 2E */
+    {MN_JG,0x0,0x18,0x0,0,decode_near_relative,16}, /* page slot 2F */
+    {MN_SETO,0x0,0x100,0x0,decode_modrm_byte_operand,0,1}, /* page slot 30 */
+    {MN_SETNO,0x0,0x100,0x0,decode_modrm_byte_operand,0,1}, /* page slot 31 */
+    {MN_SETB,0x0,0x1,0x0,decode_modrm_byte_operand,0,1}, /* page slot 32 */
+    {MN_SETAE,0x0,0x1,0x0,decode_modrm_byte_operand,0,1}, /* page slot 33 */
+    {MN_SETE,0x0,0x8,0x0,decode_modrm_byte_operand,0,1}, /* page slot 34 */
+    {MN_SETNE,0x0,0x8,0x0,decode_modrm_byte_operand,0,1}, /* page slot 35 */
+    {MN_SETBE,0x0,0x9,0x0,decode_modrm_byte_operand,0,1}, /* page slot 36 */
+    {MN_SETA,0x0,0x9,0x0,decode_modrm_byte_operand,0,1}, /* page slot 37 */
+    {MN_SETS,0x0,0x10,0x0,decode_modrm_byte_operand,0,1}, /* page slot 38 */
+    {MN_SETNS,0x0,0x10,0x0,decode_modrm_byte_operand,0,1}, /* page slot 39 */
+    {MN_SETP,0x0,0x2,0x0,decode_modrm_byte_operand,0,1}, /* page slot 3A */
+    {MN_SETNP,0x0,0x2,0x0,decode_modrm_byte_operand,0,1}, /* page slot 3B */
+    {MN_SETL,0x0,0x110,0x0,decode_modrm_byte_operand,0,1}, /* page slot 3C */
+    {MN_SETGE,0x0,0x110,0x0,decode_modrm_byte_operand,0,1}, /* page slot 3D */
+    {MN_SETLE,0x0,0x18,0x0,decode_modrm_byte_operand,0,1}, /* page slot 3E */
+    {MN_SETG,0x0,0x18,0x0,decode_modrm_byte_operand,0,1}, /* page slot 3F */
+    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4db30,1}, /* page slot 40 */
+    {MN_POP,0x0,0x0,0x0,decode_op_4db30,update_stack_registers,1}, /* page slot 41 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 42 */
+    {MN_BT,0x1,0x0,0x0,decode_op_4c6d0,decode_modrm_register,1}, /* page slot 43 */
+    {MN_SHLD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d7d0,1}, /* page slot 44 */
+    {MN_SHLD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d810,1}, /* page slot 45 */
+    {MN_XBTS,0x0,0x0,0x0,decode_op_4d850,decode_modrm_operand_effects,1}, /* page slot 46 */
+    {MN_IBTS,0x0,0x0,0x0,decode_modrm_operand_effects,decode_op_4d850,1}, /* page slot 47 */
+    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4db70,1}, /* page slot 48 */
+    {MN_POP,0x0,0x0,0x0,decode_op_4db70,update_stack_registers,1}, /* page slot 49 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 4A */
+    {MN_BTS,0x1,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* page slot 4B */
+    {MN_SHRD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d7d0,1}, /* page slot 4C */
+    {MN_SHRD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d810,1}, /* page slot 4D */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 4E */
+    {MN_IMUL,0x101,0x0,0x1e,decode_modrm_register,decode_modrm_operand_effects,1}, /* page slot 4F */
+    {MN_CMPXCHG,0x11f,0x0,0x0,decode_op_4d9d0,decode_modrm_byte_register,1}, /* page slot 50 */
+    {MN_CMPXCHG,0x11f,0x0,0x0,decode_op_4da00,decode_modrm_register,1}, /* page slot 51 */
+    {MN_LSS,0x0,0x0,0x0,decode_op_4d8d0,decode_op_4ca60,1}, /* page slot 52 */
+    {MN_BTR,0x1,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* page slot 53 */
+    {MN_LFS,0x0,0x0,0x0,decode_op_4d930,decode_op_4ca60,1}, /* page slot 54 */
+    {MN_LGS,0x0,0x0,0x0,decode_op_4d960,decode_op_4ca60,1}, /* page slot 55 */
+    {MN_MOVZX,0x0,0x0,0x0,decode_modrm_register,decode_modrm_byte_operand,1}, /* page slot 56 */
+    {MN_MOVZX,0x0,0x0,0x0,decode_modrm_register,decode_op_4c830,1}, /* page slot 57 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 58 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 59 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b850,0,1}, /* page slot 5A */
+    {MN_BTC,0x1,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* page slot 5B */
+    {MN_BSF,0x8,0x0,0x0,decode_modrm_register,decode_modrm_operand_effects,1}, /* page slot 5C */
+    {MN_BSR,0x8,0x0,0x0,decode_modrm_register,decode_modrm_operand_effects,1}, /* page slot 5D */
+    {MN_MOVSX,0x0,0x0,0x0,decode_modrm_register,decode_modrm_byte_operand,1}, /* page slot 5E */
+    {MN_MOVSX,0x0,0x0,0x0,decode_modrm_register,decode_op_4c830,1}, /* page slot 5F */
+    {MN_XADD,0x11f,0x0,0x0,decode_modrm_byte_operand,decode_op_4d640,1}, /* page slot 60 */
+    {MN_XADD,0x11f,0x0,0x0,decode_modrm_operand_effects,decode_op_4c710,1}, /* page slot 61 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 62 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 63 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 64 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 65 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 66 */
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 67 */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bb10,0,1}, /* page slot 68 */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bb90,0,1}, /* page slot 69 */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bbd0,0,1}, /* page slot 6A */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bb50,0,1}, /* page slot 6B */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bc10,0,1}, /* page slot 6C */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bc50,0,1}, /* page slot 6D */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bc90,0,1}, /* page slot 6E */
+    {MN_BSWAP,0x0,0x0,0x0,decode_op_4bcd0,0,1}, /* page slot 6F */
 };

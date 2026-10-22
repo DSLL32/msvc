@@ -8,7 +8,7 @@
     },
     {
       "case": "dump-disasm-x86-rich",
-      "status": "next",
+      "status": "in-progress",
       "scope": "Addressing/SIB, branches/immediates, prefixes/operand-size overrides and x87; capture original-valid inputs and complete output before native acceptance."
     },
     {

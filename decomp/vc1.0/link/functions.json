@@ -663,7 +663,27 @@
     "_decode_esi_register",
     "_decode_edi_register",
     "_decode_near_relative",
-    "_update_frame_registers"
+    "_update_frame_registers",
+    "_compare_disassembly_symbols",
+    "_decode_sib_address",
+    "_decode_memory_operand",
+    "_decode_modrm_byte_register",
+    "_decode_modrm_byte_operand",
+    "_decode_operand_size_prefix",
+    "_decode_ds_prefix",
+    "_decode_eax_register",
+    "_decode_absolute_memory",
+    "_decode_address_size_prefix",
+    "_decode_address16",
+    "_decode_signed_byte_group",
+    "_decode_byte_immediate",
+    "_decode_extended_opcode",
+    "_decode_immediate",
+    "_update_counter_registers",
+    "_decode_short_relative",
+    "_decode_repe_prefix",
+    "_decode_string_byte_destination",
+    "_decode_string_byte_source"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -6000,10 +6020,11 @@
     {
       "name": "_compare_disassembly_symbols",
       "start": 307616,
-      "end": 307617,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
-      "abi": "cdecl int(const void *,const void *)"
+      "end": 307655,
+      "implementation": "C",
+      "source": "src/disassembler.c",
+      "abi": "cdecl int(const void *,const void *)",
+      "evidence": "Matched4b1a0 original/native qsort callback; full39-byte no-call body orders symbol pointers by unsigned COFF Value. Fresh next4b310/native SIB parser matches exact partial streams; all four functions retain original symbol order."
     },
     {
       "name": "_create_disassembler",
@@ -6060,13 +6081,13 @@
       "evidence": "Matched4b550 original/native pointer-to-primary-table opcode55 frontier; full109-byte body maps class/category, merges flags, sets mnemonic and invokes first/second operand handlers preserving slot numbers. Fresh next original4b900/native update_stack_registers match (slot1), with exact prior streams."
     },
     {
-      "name": "_decode_op_4b5f0",
+      "name": "_decode_extended_opcode",
       "start": 308720,
-      "end": 308721,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 308805,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4b5f0 original/native0F dispatch. Full85-byte body selects compressed high-nibble page, faults on -1 and dispatches next byte to actual112 typed descriptors. Fresh next4c0e0 original/native mode-sized immediate matches54 scalar state words and16 bytes; JNE target/output exact."
     },
     {
       "name": "_decode_op_4b650",
@@ -6087,13 +6108,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4b6a0",
+      "name": "_decode_signed_byte_group",
       "start": 308896,
-      "end": 308897,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 308938,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4b6a0 original/native arithmetic-group dispatch. Complete42-byte body indexes actual eight-entry ModRM.reg descriptor table and calls apply_opcode with unchanged input. Fresh next4c080 native/original byte-immediate decoder matches54 scalar words and16 instruction bytes."
     },
     {
       "name": "_decode_op_4b6d0",
@@ -6150,31 +6171,31 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4b880",
+      "name": "_decode_operand_size_prefix",
       "start": 309376,
-      "end": 309377,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309406,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4b880 original/native prefix entry. Full30-byte body toggles operand32 and recursively decodes remaining opcode. Fresh4bda0 original/native DS override decoder agrees on54 scalar words and16 bytes; both16-bit MOV forms exact."
     },
     {
-      "name": "_decode_op_4b8a0",
+      "name": "_decode_address_size_prefix",
       "start": 309408,
-      "end": 309409,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309438,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4b8a0 original/native address-size override. Complete30-byte body toggles address32 and recurses to decode next opcode. Fresh next4b1d0/native16-bit address parser matches exact partial streams and named address/register-map arguments."
     },
     {
-      "name": "_decode_op_4b8c0",
+      "name": "_decode_repe_prefix",
       "start": 309440,
-      "end": 309441,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309466,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4b8c0 original/native F3 prefix. Full26-byte body selects original repnz display entry213 and recurses. Fresh next4be30 native/original string-byte destination agrees on54 scalar state words and16 input bytes, including prefix state."
     },
     {
       "name": "_decode_op_4b8e0",
@@ -6213,13 +6234,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4b990",
+      "name": "_update_counter_registers",
       "start": 309648,
-      "end": 309649,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 309690,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4b990 original/native LOOP helper. Full42-byte body selectsCX/ECX from operand32 exactly as original, merges read/write mask and leaves cursor unchanged. Fresh next4c250/native short-relative decoder matches54 scalar words and16 input bytes."
     },
     {
       "name": "_decode_op_4b9c0",
@@ -6393,13 +6414,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4bda0",
+      "name": "_decode_ds_prefix",
       "start": 310688,
-      "end": 310689,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310723,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4bda0 original/native DS override. Full35-byte body setsDS, preserves original ES read-mask quirk and recurses into opcode decoder. Fresh next4ddb0 original/native accumulator operand agrees on54 scalar state words and16 instruction bytes."
     },
     {
       "name": "_decode_op_4bdd0",
@@ -6420,13 +6441,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4be30",
+      "name": "_decode_string_byte_destination",
       "start": 310832,
-      "end": 310833,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 310924,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4be30 original/native MOVSB destination. Complete92-byte no-call body constructs ES:DI/EDI byte memory operand and original read masks. Fresh next4bf00 native/original string source agrees on54 scalar words and16 instruction bytes."
     },
     {
       "name": "_decode_op_4be90",
@@ -6438,13 +6459,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4bf00",
+      "name": "_decode_string_byte_source",
       "start": 311040,
-      "end": 311041,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311140,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4bf00 original/native MOVSB source. Complete100-byte body recovers DS:SI/ESI byte-memory operand, override-sensitiveDS and index masks. Fresh next4b8e0 original/native F2 prefix matches54 scalar words and16 bytes; complete repnz MOVS output exact."
     },
     {
       "name": "_decode_op_4bf70",
@@ -6474,13 +6495,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4c080",
+      "name": "_decode_byte_immediate",
       "start": 311424,
-      "end": 311425,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311468,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4c080 original/native immediate entry. Complete44-byte no-call body writes only low payload byte, records width1 and advances exactly1. Fresh next4b5f0 original/native extended-opcode dispatch matches54 scalar state words and16 bytes; CMP EAX,07 line exact."
     },
     {
       "name": "_decode_op_4c0b0",
@@ -6492,13 +6513,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4c0e0",
+      "name": "_decode_immediate",
       "start": 311520,
-      "end": 311521,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 311607,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4c0e0 original/native ADD immediate. Full87-byte no-call body recovers operand-size-selected payload and partial16-bit store. Fresh next4b990 original/native LOOP register effects matches54 scalar state words and16 input bytes; ADD,JMP,XOR,TEST,JE output exact."
     },
     {
       "name": "_decode_op_4c140",
@@ -6528,13 +6549,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4c250",
+      "name": "_decode_short_relative",
       "start": 311888,
-      "end": 311889,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 312058,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4c250 original/native LOOP displacement entry. Complete170-byte body stores byte payload, sign-extends target addition, preserves mode wrapping/range fault and CS effect masks. Fresh next4b8c0 original/native F3 prefix agrees on54 scalar words and16 input bytes; full branch/loop/call and lock/add output exact."
     },
     {
       "name": "_decode_near_relative",
@@ -6555,13 +6576,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4c440",
+      "name": "_decode_absolute_memory",
       "start": 312384,
-      "end": 312385,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 312503,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4c440 original/native absolute memory source. Complete119-byte no-call body sets memory size/defaultDS and mode-selected address payload. Fresh next4b8a0 original/native address-size prefix agrees on54 scalar state words and16 bytes; explicitDS absolute MOV exact."
     },
     {
       "name": "_decode_op_4c4c0",
@@ -6582,13 +6603,13 @@
       "evidence": "Matched4c680 original/native frontier, previously decode_op_4c680. Full70-byte wrapper decodes r/m operand, merges GPR mask for register form with destination/source slot convention, and returns advanced cursor. Full prior state and input bytes match. Fresh next original4c5a0/native decode_modrm_operand matches all54 scalar words and instruction contents."
     },
     {
-      "name": "_decode_op_4c750",
+      "name": "_decode_modrm_byte_operand",
       "start": 313168,
-      "end": 313169,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313386,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4c750 original/native byte memory operand. Full218-byte body recovers kind/size, byte register map,16/32-bit address dispatch and GPR/default segment effects. Fresh next4b880 original/native operand-size prefix agrees on54 scalar words and16 input bytes; byte MOV line exact."
     },
     {
       "name": "_decode_op_4c830",
@@ -6627,13 +6648,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4ca10",
+      "name": "_decode_memory_operand",
       "start": 313872,
-      "end": 313873,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313938,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4ca10 original/native LEA source operand entry. Complete66-byte wrapper delegates shared ModRM decoder and rejects register form with original longjmp. Fresh next4d6f0/native byte-register decoder matches54 scalar state words and16 input bytes; LEA memory line exact."
     },
     {
       "name": "_decode_op_4ca60",
@@ -6744,13 +6765,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4d6f0",
+      "name": "_decode_modrm_byte_register",
       "start": 317168,
-      "end": 317169,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317259,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4d6f0 original/native byte-register source. Complete91-byte no-call body uses authentic eight-entry byte-register map and overlapping effects. Fresh next4c750 original/native byte operand agrees on54 scalar words and16 input bytes."
     },
     {
       "name": "_decode_modrm_register",
@@ -6897,13 +6918,13 @@
       "evidence": "Named target in typed primary opcode table; individual body remains masked."
     },
     {
-      "name": "_decode_op_4ddb0",
+      "name": "_decode_eax_register",
       "start": 318896,
-      "end": 318897,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 318973,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in typed primary opcode table; individual body remains masked."
+      "evidence": "Matched4ddb0 original/native accumulator operand entry. Full77-byte AX/EAX no-call body recovered independently of other fixed-register vertices. Fresh4c440 original/native absolute memory operand agrees on54 scalar state words and16 input bytes."
     },
     {
       "name": "_decode_op_4de00",
@@ -7052,10 +7073,11 @@
     {
       "name": "_decode_address16",
       "start": 307664,
-      "end": 307665,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
-      "abi": "cdecl unsigned char *(unsigned char *,const unsigned long *,DecodedAddress *)"
+      "end": 307973,
+      "implementation": "C",
+      "source": "src/disassembler.c",
+      "abi": "cdecl unsigned char *(unsigned char *,const unsigned long *,DecodedAddress *)",
+      "evidence": "Matched4b1d0 original/native16-bit addressing entry. Full309-byte no-call body recovers zeroed address payload, actual eight base/index pairs, absolute/direct modes and byte/word displacement stores. Fresh next4b6a0 original/native signed-byte group decoder matches54 scalar state words and16 instruction bytes; address-override MOV line exact."
     },
     {
       "name": "_decode_address32",
@@ -7069,10 +7091,182 @@
     {
       "name": "_decode_sib_address",
       "start": 307984,
-      "end": 307985,
+      "end": 308235,
+      "implementation": "C",
+      "source": "src/disassembler.c",
+      "abi": "cdecl unsigned char *(unsigned char *,unsigned long,DecodedAddress *)",
+      "evidence": "Matched4b310 original/native SIB entry. Complete251-byte body handles base/index/scale/displacements, original no-index scale fault and unconditional finalDS override. Fresh4ca10 original/native memory-only decoder matches54 scalar state words and16 input bytes; all three preceding memory addressing lines are exact."
+    },
+    {
+      "name": "_decode_op_4b7f0",
+      "start": 309232,
+      "end": 309233,
       "implementation": "stub-C",
       "source": "src/disassembler-stubs.c",
-      "abi": "cdecl unsigned char *(unsigned char *,unsigned long,DecodedAddress *)"
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4b820",
+      "start": 309280,
+      "end": 309281,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4b850",
+      "start": 309328,
+      "end": 309329,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4c530",
+      "start": 312624,
+      "end": 312625,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4c6d0",
+      "start": 313040,
+      "end": 313041,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4c710",
+      "start": 313104,
+      "end": 313105,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d520",
+      "start": 316704,
+      "end": 316705,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d560",
+      "start": 316768,
+      "end": 316769,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d5a0",
+      "start": 316832,
+      "end": 316833,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d7d0",
+      "start": 317392,
+      "end": 317393,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d810",
+      "start": 317456,
+      "end": 317457,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d850",
+      "start": 317520,
+      "end": 317521,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d8d0",
+      "start": 317648,
+      "end": 317649,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d930",
+      "start": 317744,
+      "end": 317745,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d960",
+      "start": 317792,
+      "end": 317793,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4d9d0",
+      "start": 317904,
+      "end": 317905,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4da00",
+      "start": 317952,
+      "end": 317953,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4db30",
+      "start": 318256,
+      "end": 318257,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+    },
+    {
+      "name": "_decode_op_4db70",
+      "start": 318320,
+      "end": 318321,
+      "implementation": "stub-C",
+      "source": "src/disassembler-stubs.c",
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
     }
   ],
   "c_stub_references": [
@@ -7742,6 +7936,26 @@
     "dump-disasm-code",
     "dump-disasm-code",
     "dump-disasm-code",
-    "dump-disasm-code"
+    "dump-disasm-code",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich",
+    "dump-disasm-x86-rich"
   ]
 }
