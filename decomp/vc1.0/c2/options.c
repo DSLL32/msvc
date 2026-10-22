@@ -49,7 +49,8 @@ int optimization_immediate_registers = 1, optimization_jumps = 1;
 int optimization_jump_schedule = 1, optimization_range = 1, force_risc;
 int optimization_recycle = 1, optimization_risc = 1, optimization_schedule = 1;
 int optimization_schedule_model, optimization_split = 1, optimization_stack = 1;
-int optimization_unroll = 1, optimize_global, optimize_alias, optimize_weak;
+int optimization_unroll = 1, optimize_alias, optimize_weak;
+int optimize_global; /* 00080624 */
 int optimize_speed = 1, optimize_precision, omit_frame_pointer;
 int optimize_stack_checks, optimize_stack_check_inverse;
 int windows_prolog, hook_functions, floating_prolog, cpu_model = 3, frame_pointer;
@@ -57,7 +58,8 @@ int runtime_single, runtime_dll, runtime_multi;
 int warning_level = 1, warnings_as_errors;
 int byte_align, print_registers, debug_commands, reproducible_build;
 int codeview_debug, line_debug, ansi_mode, default_library = 1;
-int integer_size = 4, dos_object, generate_disabled;
+extern int default_integer_bytes;
+int dos_object, generate_disabled;
 int coff_object = 1, seh_disabled, c6_compatibility;
 Suboption optimize_options[] = {
     {'a', 1, &optimize_alias}, {'w', 1, &optimize_weak},
@@ -91,7 +93,7 @@ Option compiler_options[] = {
     SWITCH("-ef#", error_filename, 34),
     SWITCH("-f#", source_filename, 34),
     SWITCH("-ide", debugger_enabled, 1),
-    SWITCH("-isize#", integer_size, 36),
+    SWITCH("-isize#", default_integer_bytes, 36),
     SWITCH("-il#", intermediate_prefix, 34),
     SWITCH("-ML", runtime_single, 1),
     SWITCH("-MD", runtime_dll, 1),

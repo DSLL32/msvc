@@ -15,12 +15,15 @@ typedef struct BackendSymbol {
 } BackendSymbol;
 #pragma pack(2)
 typedef struct LabelSymbol {
-    BackendSymbol storage;
+    SymbolHeader symbol;
+    unsigned short field20, output_flags;
+    MachineInstruction *instruction;
     unsigned field28;
     long line;
     unsigned char label_kind, lexical_level;
 } LabelSymbol;
 #pragma pack()
+typedef char LabelSymbolSizeCheck[sizeof(LabelSymbol) == 50 ? 1 : -1];
 typedef struct MachineAddress {
     unsigned flags;
     SymbolHeader *symbol;
@@ -31,14 +34,31 @@ typedef struct MachineOperand {
         unsigned constant;
         SymbolHeader *symbol;
         MachineAddress *address;
+        struct MachineCallInfo *call;
     } value;
 } MachineOperand;
+typedef char MachineOperandSizeCheck[sizeof(MachineOperand) == 8 ? 1 : -1];
+typedef struct MachineCallInfo {
+    unsigned field00, field04, field08;
+} MachineCallInfo;
+typedef char MachineCallInfoSizeCheck[sizeof(MachineCallInfo) == 12 ? 1 : -1];
 struct MachineInstruction {
     MachineInstruction *next, *previous;
     unsigned opcode;
-    SymbolHeader *symbol;
+    union { SymbolHeader *symbol; unsigned source_location; } record;
     MachineOperand operands[2];
 };
+typedef char MachineInstructionSizeCheck[sizeof(MachineInstruction) == 32 ? 1 : -1];
+/* Kind 7 shares the machine-record header and carries block register sets. */
+typedef struct MachineBlockHeader {
+    MachineInstruction *next, *previous;
+    unsigned opcode;
+    struct BitSet *uses, *definitions;
+    int number;
+    unsigned field18;
+    unsigned short flags, field1e;
+} MachineBlockHeader;
+typedef char MachineBlockHeaderSizeCheck[sizeof(MachineBlockHeader) == 32 ? 1 : -1];
 struct BackendSymbolList {
     BackendSymbolList *next;
     SymbolHeader *symbol;

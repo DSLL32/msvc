@@ -42,7 +42,7 @@ BackendSymbolList *__fastcall collect_machine_symbols(MachineInstruction *instru
             }
             break;
         case 1:
-            symbol = instruction->symbol;
+            symbol = instruction->record.symbol;
             label = (LabelSymbol *)symbol;
             if (codeview_debug && (!symbol->field0d || (symbol->field0e & 0x1000))) {
                 if (symbol->field0e & 0x1000) {
@@ -57,7 +57,7 @@ BackendSymbolList *__fastcall collect_machine_symbols(MachineInstruction *instru
             if (label->label_kind == 4) queue_symbol_debug(symbol);
             break;
         case 2:
-            queue_symbol_debug(instruction->symbol);
+            queue_symbol_debug(instruction->record.symbol);
             break;
         }
     }

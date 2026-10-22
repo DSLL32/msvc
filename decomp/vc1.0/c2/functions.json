@@ -220,7 +220,18 @@
     "@cleanup_expressions@4",
     "@cleanup_expression_tree@4",
     "@build_local_work@4",
-    "_new_work_item"
+    "_new_work_item",
+    "@prepare_work@4",
+    "@prepare_parameter_storage@4",
+    "_function_stack_alignment",
+    "@finalize_work_trees@4",
+    "@lower_machine_tree@4",
+    "@generate_work@4",
+    "_new_machine_record",
+    "@new_machine_instruction@4",
+    "@select_work_item@4",
+    "@new_selection_block@16",
+    "@append_machine_instruction@4"
   ],
   "driver": [
     {
@@ -611,8 +622,7 @@
     {
       "name": "@prepare_work@4",
       "start": 421424,
-      "end": 421425,
-      "provisional": true
+      "end": 421648
     },
     {
       "name": "_finish_global_work",
@@ -623,14 +633,12 @@
     {
       "name": "@finalize_work_trees@4",
       "start": 422736,
-      "end": 422737,
-      "provisional": true
+      "end": 422816
     },
     {
       "name": "@generate_work@4",
       "start": 94208,
-      "end": 94209,
-      "provisional": true
+      "end": 94400
     },
     {
       "name": "@free_work@4",
@@ -2399,6 +2407,112 @@
       "name": "_new_work_item",
       "start": 325264,
       "end": 325344
+    },
+    {
+      "name": "@prepare_parameter_storage@4",
+      "start": 422256,
+      "end": 422736
+    },
+    {
+      "name": "@lower_assignment@4",
+      "start": 421792,
+      "end": 421793,
+      "provisional": true
+    },
+    {
+      "name": "@lower_expression_stack@12",
+      "start": 421648,
+      "end": 421649,
+      "provisional": true
+    },
+    {
+      "name": "_function_stack_alignment",
+      "start": 160464,
+      "end": 160528
+    },
+    {
+      "name": "@bitset_include@8",
+      "start": 421104,
+      "end": 421105,
+      "provisional": true
+    },
+    {
+      "name": "@insert_tree_expression@12",
+      "start": 326928,
+      "end": 326929,
+      "provisional": true
+    },
+    {
+      "name": "@lower_machine_tree@4",
+      "start": 423360,
+      "end": 423904
+    },
+    {
+      "name": "@lower_float_expression@4",
+      "start": 422816,
+      "end": 422817,
+      "provisional": true
+    },
+    {
+      "name": "_finish_target_expression",
+      "start": 159232,
+      "end": 159233,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_generated_intrinsic@8",
+      "start": 408816,
+      "end": 408817,
+      "provisional": true
+    },
+    {
+      "name": "@new_machine_instruction@4",
+      "start": 94960,
+      "end": 95040
+    },
+    {
+      "name": "_new_machine_record",
+      "start": 94560,
+      "end": 94960
+    },
+    {
+      "name": "@select_work_item@4",
+      "start": 94400,
+      "end": 94560
+    },
+    {
+      "name": "@finish_selected_block@8",
+      "start": 122016,
+      "end": 122017,
+      "provisional": true
+    },
+    {
+      "name": "@peephole_selected_block@8",
+      "start": 219616,
+      "end": 219617,
+      "provisional": true
+    },
+    {
+      "name": "@new_selection_block@16",
+      "start": 97472,
+      "end": 97520
+    },
+    {
+      "name": "@select_expression@4",
+      "start": 95040,
+      "end": 95041,
+      "provisional": true
+    },
+    {
+      "name": "@emit_source_marker@4",
+      "start": 97440,
+      "end": 97441,
+      "provisional": true
+    },
+    {
+      "name": "@append_machine_instruction@4",
+      "start": 108000,
+      "end": 108064
     }
   ],
   "cases": {

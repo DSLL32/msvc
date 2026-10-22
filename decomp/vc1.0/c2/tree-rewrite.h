@@ -3,7 +3,7 @@
 #include "functions.h"
 #include "temporaries.h"
 extern unsigned expression_side_effects;
-extern int expression_integer_bytes, checking_expression;
+extern int expression_integer_bytes;
 typedef struct TreeReference {
     SymbolHeader *symbol;
     unsigned flags;

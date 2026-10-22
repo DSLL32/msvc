@@ -5,13 +5,13 @@
     "signature": "void __fastcall prepare_work(WorkItem *work)",
     "argument": "ECX is copied to ESI at 0x66e34 and used as the linked block list",
     "caller": "compile_functions calls at 0x4c437 with the block list in ECX",
-    "status": "typed trapping stub; body not yet unmasked"
+    "status": "complete body reconstructed; minimal-C paired execution passes"
   },
   "generate_work": {
     "entry_va": "0x17000",
     "signature": "void __fastcall generate_work(WorkItem *work)",
     "caller": "compile_functions calls at 0x4c47b with the block list in ECX",
-    "status": "typed trapping stub; body not yet unmasked"
+    "status": "complete body reconstructed; paired execution passes record/block setup and reaches select_expression"
   },
   "shared_optimizer_flag": {
     "original_va": "0x80624",
@@ -25,7 +25,25 @@
     "TreeScratch_size": 36,
     "cleanup_cursor_offset": 32,
     "type_stack_limit_offset": 32,
-    "checks": "original-compiler sizeof assertions; original pointer arithmetic and field offsets"
+    "checks": "original-compiler sizeof assertions; original pointer arithmetic and field offsets",
+    "MachineInstruction_size": 32,
+    "MachineBlockHeader_size": 32,
+    "MachineOperand_size": 8,
+    "MachineCallInfo_size": 12,
+    "LabelSymbol_size": 50,
+    "WorkItem_body_offset": 8,
+    "WorkItem_uses_offset": 28,
+    "WorkItem_definitions_offset": 32
   },
-  "limits": "The minimal case reaches prepare_work's entry trap. It has no inline calls, protected regions, expression-type stack operations or algebraic arithmetic rewrites, so those branches and the generation body are not dynamically validated by this checkpoint."
+  "limits": "The minimal case passes preparation, machine-record construction and block setup, then traps at select_expression. It has no inline calls, protected regions, floating operations, expression-type stack operations or algebraic arithmetic rewrites. Their named helper stubs and diagnostic failure paths remain unvalidated; object generation is incomplete.",
+  "shared_backend_stage": {
+    "original_va": "0x83174",
+    "source": "backend_stage in functions.c",
+    "uses": "canonicalization stage, type promotion diagnostics and backend pass dispatch"
+  },
+  "shared_integer_width": {
+    "original_va": "0x83164",
+    "source": "default_integer_bytes in expression-fields.c",
+    "uses": "-isize option destination, tree typing and default scalar construction"
+  }
 }

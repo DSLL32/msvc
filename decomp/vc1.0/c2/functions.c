@@ -6,7 +6,8 @@ extern int optimize_global, generate_disabled;
 FunctionSymbol *pending_functions, *current_symbol;
 WorkItem *current_work;
 Function *current_function;
-int backend_stage, global_work_enabled;
+int backend_stage; /* 00083174: also the canonicalizer's expression-check state */
+int global_work_enabled;
 Node *(__fastcall *tree_transform)(Node *node);
 /* Original [0004c2c0,0004c4d0). */
 void compile_functions(void)

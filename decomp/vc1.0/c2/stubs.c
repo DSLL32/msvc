@@ -144,15 +144,25 @@ Node *__fastcall cleanup_unused_tree(Node *node) { __asm int 3 }
 void __fastcall optimize_function_flow(Function *function) { __asm int 3 }
 WorkItem *__fastcall build_global_work(void *expressions) { __asm int 3 }
 void optimize_work(void) { __asm int 3 }
-void __fastcall prepare_work(WorkItem *work) { __asm int 3 }
+#include "work-prepare.h"
+BitSet *__fastcall bitset_include(BitSet *set, unsigned member) { __asm int 3 }
+Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree) { __asm int 3 }
+void __fastcall lower_assignment(Node *node) { __asm int 3 }
+void __fastcall lower_expression_stack(WorkItem *work, Expression *expression, Node *node) { __asm int 3 }
 void finish_global_work(void) { __asm int 3 }
-void __fastcall finalize_work_trees(WorkItem *work) { __asm int 3 }
-void __fastcall generate_work(WorkItem *work) { __asm int 3 }
+void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
+void __fastcall lower_float_expression(Node *node) { __asm int 3 }
+void finish_target_expression(void) { __asm int 3 }
+#include "instruction-selection.h"
+void __fastcall select_expression(Node *node) { __asm int 3 }
+void __fastcall emit_source_marker(unsigned source_location) { __asm int 3 }
+MachineInstruction *__fastcall finish_selected_block(MachineBlockHeader *block, int mode) { __asm int 3 }
+void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) { __asm int 3 }
 void __fastcall free_work(WorkItem *work) { __asm int 3 }
 void reset_work(void) { __asm int 3 }
 void release_function_symbols(void) { __asm int 3 }
 void __fastcall queue_symbol_debug(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall reserve_symbol_storage(SymbolHeader *symbol) { __asm int 3 }
+unsigned __fastcall reserve_symbol_storage(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }

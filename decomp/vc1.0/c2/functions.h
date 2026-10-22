@@ -5,7 +5,7 @@
 #include "warnings.h"
 typedef struct FunctionSymbol {
     SymbolHeader symbol;
-    unsigned field20, field24, field28, field2c, field30, field34;
+    unsigned field20, field24, field28, field2c, field30, parameter_bytes;
     unsigned field38, field3c, field40, field44, field48;
     struct FunctionSymbol *pending_next;
     unsigned short field50;
@@ -14,8 +14,9 @@ typedef struct FunctionSymbol {
 typedef struct WorkItem {
     struct WorkItem *next;
     unsigned field04;
-    struct Expression *expressions;
-    unsigned field0c, field10, field14, field18, field1c, field20;
+    union { struct Expression *expressions; struct MachineBlockHeader *block; } body;
+    unsigned field0c, field10, field14, field18;
+    struct BitSet *uses, *definitions;
     unsigned field24, field28, field2c, field30, field34, field38;
     short field3c;
     unsigned short field3e;
@@ -67,6 +68,7 @@ void __fastcall optimize_function_flow(Function *function);
 WorkItem *__fastcall build_global_work(void *expressions);
 WorkItem *__fastcall build_local_work(Expression *expressions);
 WorkItem *new_work_item(void);
+Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree);
 void optimize_work(void);
 void __fastcall prepare_work(WorkItem *work);
 void finish_global_work(void);

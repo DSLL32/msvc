@@ -194,7 +194,7 @@ void __fastcall read_node_type(Node *node)
 }
 
 extern unsigned char floating_point_used;
-int default_integer_bytes = 4;
+int default_integer_bytes = 4; /* 00083164: also the -isize option destination */
 /* Original [0004cad0,0004cb70), including the kind dispatch table. */
 unsigned __fastcall encode_node_type(signed char kind, unsigned bytes)
 {

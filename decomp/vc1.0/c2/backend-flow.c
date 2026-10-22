@@ -6,8 +6,8 @@
 extern int optimize_global, optimization_schedule, optimization_schedule_model;
 extern int optimization_split, optimization_jump_schedule, cpu_model;
 int backend_initialized;
-MachineInstruction *machine_instructions;
-MachineContext *machine_context;
+MachineInstruction *machine_instructions; /* 0007b940 */
+MachineContext *machine_context; /* 0007b944 */
 char *listing_source_filename;
 unsigned frame_size, saved_register_mask;
 /* Original [00067fc0,00068300). */

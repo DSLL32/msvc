@@ -8,7 +8,7 @@ typedef struct SmallLeafBucket {
 } SmallLeafBucket;
 SmallLeafBucket small_leaves[16];
 unsigned next_leaf_identifier = 0xffffffffU;
-int code_pointer_bytes = 4;
+int code_pointer_bytes = 4; /* 00083160 */
 
 /* Original [0004f790,0004fa60). This is a cdecl varargs interface:
    4c consumes only the opcode; 26 consumes flags/symbol/offset and, when the

@@ -1,7 +1,7 @@
 C23232.EXE 1.0-nt reconstruction (project vc1.0)
 
 Status: in progress. The captured minimal-C backend case currently stops at
-canonicalize_node, original VA 00050300. Object generation is incomplete. No completed C2 output-equivalence claim is made.
+select_expression, original VA 00017340. Object generation is incomplete. No completed C2 output-equivalence claim is made.
 
 Target: toolchains/1.0-nt/bin/C23232.EXE
 SHA256: 0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26
@@ -91,8 +91,8 @@ the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 155 reconstructed source functions and 216 recorded
-matching trap frontiers. All 216 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 166 reconstructed source functions and 227 recorded
+matching trap frontiers. All 227 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -155,7 +155,15 @@ tree-scratch.h records the shared type-stack boundary and cleanup cursor as a
 typed union: the original permitted boundary word aliases the cursor at
 0007e840. No type-stack push/pop is exercised by this case.
 
-The case now reaches prepare_work at 00066e30. Its argument, and generate_work's,
-is the block list in ECX. The callers and trapping stubs use ordinary typed
-__fastcall declarations. These bodies remain masked; see cases/work-abi.json
-for the static evidence and validation limits.
+Work preparation now includes parameter storage, target-tree lowering and block
+selection. instruction-selection.c drives machine generation; machine-records.c
+constructs the typed instruction and block variants. The case passes generate_work
+and stops at the main expression selector, select_expression at 00017340.
+MachineInstruction and MachineBlockHeader are 32-byte tagged layouts; WorkItem's
+body changes from an expression list to a selected block. Its use/definition
+fields are register sets. Original-compiler size assertions cover these layouts,
+eight-byte operands, twelve-byte call metadata and fifty-byte label symbols.
+
+The optimizer, backend stage and default integer width reuse their original
+shared option destinations. No duplicate phase or integer-width state is kept.
+See cases/work-abi.json for ABI evidence and dynamic validation limits.

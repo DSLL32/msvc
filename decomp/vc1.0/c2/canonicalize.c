@@ -5,7 +5,6 @@
 extern int default_integer_bytes;
 unsigned expression_side_effects;
 int expression_integer_bytes = 4;
-int checking_expression;
 /* Original [000501f0,00050300). Keep source markers, and diagnose ordinary
    expressions without effects after the recursive rewrite. */
 Node *__fastcall canonicalize_tree(Function *function, Node *node)
@@ -14,7 +13,7 @@ Node *__fastcall canonicalize_tree(Function *function, Node *node)
     expression_integer_bytes = default_integer_bytes;
     node = prepare_target_tree(node);
     expression_side_effects = 0;
-    checking_expression = 1;
+    backend_stage = 1;
     switch (node->opcode) {
     case 1: case 0x29: case 0x2a: case 0x2b: case 0x3a: case 0x4f:
         break;
@@ -37,7 +36,7 @@ rewrite:
         if (!(expression_side_effects & 2)) compiler_warning(4, 0x2c1);
         break;
     }
-    checking_expression = 0;
+    backend_stage = 0;
     expression_integer_bytes = 1;
     return node;
 }

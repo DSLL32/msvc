@@ -36,7 +36,7 @@ WorkItem *__fastcall build_local_work(Expression *expression)
             work = new_work_item();
             *link = work;
             link = &work->next;
-            work->expressions = expression;
+            work->body.expressions = expression;
             new_block = 1;
             goto next_expression;
         }
@@ -63,7 +63,7 @@ split_block:
         *link = work;
         link = &work->next;
         if (region_depth) work->flags |= 2;
-        work->expressions = expression;
+        work->body.expressions = expression;
 next_expression:
         previous = expression;
         expression = next;

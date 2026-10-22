@@ -42,7 +42,7 @@ Node *__fastcall convert_node_type(Node *node, unsigned short target)
             if (((source | target) & 255) == 5)
                 node = convert_node_once(node, (unsigned short)((target & 0xff02) | 2));
             else if (!floating_frontend && source == 0x408 && (target & 255) < 4 &&
-                     checking_expression == 1 && !is_constant_value(node, 0)) {
+                     backend_stage == 1 && !is_constant_value(node, 0)) {
                 warn = 1;
                 if (node->opcode == 0x68 && node->second.node->opcode == 0x69) {
                     selector = node->second.node->right.symbol->identifier;
@@ -94,7 +94,7 @@ Node *__fastcall finish_canonical_node(Node *node)
     SymbolHeader *symbol;
     int saved_suppression, warn;
     unsigned bytes;
-    suppress_type_warnings = checking_expression != 1;
+    suppress_type_warnings = backend_stage != 1;
     if (shape == NODE_BINARY) right_type = node->second.node->attributes.words.type;
     if (shape == NODE_BINARY || shape == NODE_UNARY)
         left_type = node->left.node->attributes.words.type;
@@ -113,7 +113,7 @@ Node *__fastcall finish_canonical_node(Node *node)
         suppress_type_warnings = saved_suppression;
         node->attributes.words.type = left_class && right_class ? 0x104 : type;
         type = node->attributes.words.type;
-        if (((type & 0xc00) == 0xc00 || type == 0x408) && checking_expression == 1)
+        if (((type & 0xc00) == 0xc00 || type == 0x408) && backend_stage == 1)
             node = lift_typed_sequence(node, 0x68);
         break;
     case 4: case 5: case 6: case 7: case 0xb: case 0xc: case 0xd:
@@ -187,7 +187,7 @@ Node *__fastcall finish_canonical_node(Node *node)
         } else node->left.node = value;
         break;
     case 0x3b:
-        if (checking_expression == 1) {
+        if (backend_stage == 1) {
             if ((left_type & 255) < (unsigned)expression_integer_bytes) {
                 left_type = (unsigned short)(expression_integer_bytes | 0x100);
                 node->left.node = convert_node_type(node->left.node, left_type);
@@ -200,7 +200,7 @@ Node *__fastcall finish_canonical_node(Node *node)
         }
         break;
     case 0x3c:
-        if (checking_expression == 1) {
+        if (backend_stage == 1) {
             node->attributes.words.type = *expression_type_top--;
             if (expression_type_top < expression_type_stack)
                 compiler_internal_error("@(#)typer.c:1.114", 0x310);
@@ -232,7 +232,7 @@ Node *__fastcall finish_canonical_node(Node *node)
                 type = (unsigned short)(bytes | 0x400);
             }
             node->attributes.words.type = type;
-        } else if (!floating_frontend && checking_expression == 1) {
+        } else if (!floating_frontend && backend_stage == 1) {
             if ((type & 0x300) && (type & 255) < (left_type & 255) && node->left.node->opcode != 0x33)
                 compiler_warning(1, 0x2f9);
             else if ((type & 0xc00) && (type & 255) < (left_type & 255) &&

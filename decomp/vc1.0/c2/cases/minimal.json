@@ -3,16 +3,16 @@
   "status": "in progress",
   "fixture_manifest": "../fixtures/minimal-c/manifest.json",
   "fixture_manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
-  "accepted_frontiers": 216,
-  "reconstructed_functions": 155,
+  "accepted_frontiers": 227,
+  "reconstructed_functions": 166,
   "current_frontier": {
-    "name": "@prepare_work@4",
-    "original_va": 421424
+    "name": "@select_expression@4",
+    "original_va": 95040
   },
   "validation": [
     "clean GNU Make -j2 frontier build with original 1.0-nt compiler/linker",
-    "all 216 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
-    "155 reconstructed source functions have matching direct, indirect and tail-call graph edges",
+    "all 227 recorded matching logical trap frontiers replayed with BINMODE.OBJ",
+    "166 reconstructed source functions have matching direct, indirect and tail-call graph edges",
     "original and reconstructed CRT _fmode defaults both equal 0x8000",
     "182 expression recipes, 47 control recipes and 182 semantic tree shapes match original classifications",
     "five encountered scalar initializers match original .data values",
@@ -25,7 +25,9 @@
     "WorkItem and TreeScratch original-compiler size assertions pass (68 and 36 bytes)",
     "prepare_work and generate_work receive the block list through typed ECX fastcall arguments",
     "inliner readers share the existing optimize_global flag at original 0x80624",
-    "fresh original-toolchain build has no compiler warnings"
+    "fresh original-toolchain build has no compiler warnings",
+    "machine record, block header, operand, call metadata and label size assertions pass",
+    "all accepted work preparation and block selection frontiers replay through generate_work"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed"
