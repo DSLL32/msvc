@@ -1,4 +1,5 @@
 #include "flow-edges.h"
+#include "work-optimizer.h"
 /* Unreached graph vertices trap deliberately for the paired reconstruction workflow. */
 #include "options.h"
 #include "input.h"
@@ -51,7 +52,6 @@ Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
 Node *__fastcall canonicalize_conditional(Node *node) { __asm int 3 }
 Node *__fastcall integer_node(unsigned value, unsigned type) { __asm int 3 }
 unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
-int __fastcall trees_equal(Node *left, Node *right, int flags) { __asm int 3 }
 Node *__fastcall lower_intrinsic(Node *node, Node *parent) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
 unsigned short __fastcall common_node_type(unsigned short left, unsigned short right) { __asm int 3 }
@@ -67,9 +67,7 @@ Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
 Node *__fastcall new_temporary_reference(unsigned bytes, unsigned flags) { __asm int 3 }
 Node *__cdecl build_tree(const char *format, ...) { __asm int 3 }
 unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse) { __asm int 3 }
-Node *__fastcall copy_tree(Node *node) { __asm int 3 }
 Node *__fastcall assignment_value(Node *node) { __asm int 3 }
-Node *__fastcall clone_node(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_reference(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
@@ -95,7 +93,6 @@ void __fastcall release_node_children(Node *node) { __asm int 3 }
 void __fastcall reassociate_right_chain(Node *node) { __asm int 3 }
 int __fastcall rotate_left_chain(Node *node, unsigned right_key, unsigned prior_key, int under_load) { __asm int 3 }
 unsigned __fastcall sort_commutative_operands(Node *node, unsigned left_key, unsigned right_key) { __asm int 3 }
-int __fastcall is_nonnull_address(Node *node) { __asm int 3 }
 Node *__fastcall fold_integer_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
@@ -126,7 +123,6 @@ int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall conversion_loses_value(unsigned short source, unsigned short target) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm int 3 }
-void __fastcall optimize_work(WorkItem *work) { __asm int 3 }
 #include "work-prepare.h"
 Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree) { __asm int 3 }
 void __fastcall lower_assignment(Node *node) { __asm int 3 }
@@ -418,3 +414,10 @@ void __fastcall redirect_flow_label(WorkItem *work, SymbolHeader *old_label, Sym
 void __fastcall assign_flow_region(FlowRegion *region) { __asm int 3 }
 
 int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }
+
+void __fastcall build_work_references(WorkItem *work) { __asm int 3 }
+void clear_work_expression_cache(void) { __asm int 3 }
+void __fastcall rewrite_work_values(WorkItem *work) { __asm int 3 }
+void __fastcall rewrite_work_expressions(WorkItem *work) { __asm int 3 }
+void __fastcall collect_region_values(FlowRegion *region) { __asm int 3 }
+void __fastcall hoist_region_values(FlowRegion *regions) { __asm int 3 }

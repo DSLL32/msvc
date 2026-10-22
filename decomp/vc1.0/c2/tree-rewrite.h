@@ -87,4 +87,7 @@ Node *__fastcall fold_floating_comparison(Node *node);
 Node *__fastcall cleanup_expression_tree(Node *node);
 Node *__fastcall cleanup_unused_tree(Node *node);
 extern int tree_changed;
+Node *__fastcall strip_conversions(Node *node);
+int __fastcall equal_tree_nodes(Node *left, Node *right);
+extern int tree_comparison_flags;
 #endif

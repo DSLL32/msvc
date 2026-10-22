@@ -434,7 +434,20 @@
     "@clear_flow_visit_marks@4",
     "@rotate_flow_regions@4",
     "@finish_flow_regions@4",
-    "@insert_function_boundaries@4"
+    "@insert_function_boundaries@4",
+    "@optimize_work@4",
+    "@initialize_work_optimizer@4",
+    "@initialize_work_value_tree@12",
+    "@intern_work_value@4",
+    "@memory_value_node@8",
+    "@is_global_work_value@8",
+    "@is_nonnull_address@4",
+    "@is_address_exposed_value@4",
+    "@copy_tree@4",
+    "@clone_node@4",
+    "@trees_equal@12",
+    "@equal_tree_nodes@8",
+    "@strip_conversions@4"
   ],
   "driver": [
     {
@@ -816,8 +829,7 @@
     {
       "name": "@optimize_work@4",
       "start": 375408,
-      "end": 375409,
-      "provisional": true
+      "end": 375584
     },
     {
       "name": "@prepare_work@4",
@@ -1992,8 +2004,7 @@
     {
       "name": "@copy_tree@4",
       "start": 361696,
-      "end": 361697,
-      "provisional": true
+      "end": 361776
     },
     {
       "name": "@assignment_value@4",
@@ -2004,8 +2015,7 @@
     {
       "name": "@clone_node@4",
       "start": 328128,
-      "end": 328129,
-      "provisional": true
+      "end": 328176
     },
     {
       "name": "@lower_bitfield_reference@4",
@@ -2145,8 +2155,7 @@
     {
       "name": "@trees_equal@12",
       "start": 360704,
-      "end": 360705,
-      "provisional": true
+      "end": 360736
     },
     {
       "name": "@lower_intrinsic@8",
@@ -2388,8 +2397,7 @@
     {
       "name": "@is_nonnull_address@4",
       "start": 361968,
-      "end": 361969,
-      "provisional": true
+      "end": 362032
     },
     {
       "name": "@fold_integer_comparison@4",
@@ -4139,6 +4147,82 @@
       "start": 375376,
       "end": 375377,
       "provisional": true
+    },
+    {
+      "name": "@initialize_work_optimizer@4",
+      "start": 377200,
+      "end": 377360
+    },
+    {
+      "name": "@build_work_references@4",
+      "start": 376224,
+      "end": 376225,
+      "provisional": true
+    },
+    {
+      "name": "_clear_work_expression_cache",
+      "start": 375584,
+      "end": 375585,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_work_values@4",
+      "start": 375696,
+      "end": 375697,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_work_expressions@4",
+      "start": 376128,
+      "end": 376129,
+      "provisional": true
+    },
+    {
+      "name": "@collect_region_values@4",
+      "start": 377120,
+      "end": 377121,
+      "provisional": true
+    },
+    {
+      "name": "@hoist_region_values@4",
+      "start": 376864,
+      "end": 376865,
+      "provisional": true
+    },
+    {
+      "name": "@initialize_work_value_tree@12",
+      "start": 383760,
+      "end": 384032
+    },
+    {
+      "name": "@intern_work_value@4",
+      "start": 383344,
+      "end": 383696
+    },
+    {
+      "name": "@strip_conversions@4",
+      "start": 365248,
+      "end": 365264
+    },
+    {
+      "name": "@memory_value_node@8",
+      "start": 379552,
+      "end": 379600
+    },
+    {
+      "name": "@is_global_work_value@8",
+      "start": 380512,
+      "end": 380640
+    },
+    {
+      "name": "@is_address_exposed_value@4",
+      "start": 381888,
+      "end": 381936
+    },
+    {
+      "name": "@equal_tree_nodes@8",
+      "start": 360736,
+      "end": 361280
     }
   ],
   "cases": {

@@ -107,3 +107,14 @@ Node *__fastcall reverse_node_list(Node *node)
     first->second.node = node;
     return previous;
 }
+
+/* Original [000501c0,000501f0). Interned leaves retain identity; all
+   other nodes receive a shallow copy in the ordinary node arena. */
+Node *__fastcall clone_node(Node *node)
+{
+    Node *copy;
+    if (node_shapes[node->opcode] & NODE_INTERNED) return node;
+    copy = new_node(node->opcode);
+    *copy = *node;
+    return copy;
+}

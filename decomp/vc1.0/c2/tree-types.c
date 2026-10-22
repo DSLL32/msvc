@@ -313,3 +313,26 @@ Node *__fastcall convert_node_once(Node *node, unsigned short type)
     if (node->opcode == 0x33) conversion = fold_constant_conversion(conversion);
     return conversion;
 }
+
+/* Original [000585f0,00058630). Constants and symbols with the indicated
+   storage modes are known to denote a non-null address. */
+int __fastcall is_nonnull_address(Node *node)
+{
+    TemporarySymbol *symbol = (TemporarySymbol *)node->right.symbol;
+    unsigned storage;
+    if (symbol->symbol.kind == 19) return 1;
+    if (symbol->symbol.kind == 1 &&
+        (!symbol->symbol.field0d || symbol->symbol.field0d == 0x26)) {
+        storage = symbol->attributes & 0x70;
+        if (storage == 0x10 || storage == 0x30) return 1;
+    }
+    return 0;
+}
+
+/* Original [000592c0,000592d0). Ignore every explicit conversion while
+   locating the underlying expression, regardless of its resulting type. */
+Node *__fastcall strip_conversions(Node *node)
+{
+    while (node->opcode == 0x34) node = node->left.node;
+    return node;
+}

@@ -617,3 +617,41 @@ After the caller correction, all 352 minimal and all 78 hello frontiers replay.
 All source graphs agree, six changed modules compile /W3 clean and the complete
 minimal object/exit regression passes. Hello output remains pending at the typed
 optimize_work entry, 0x5ba70.
+
+The optimizer now completes value initialization and reaches reference-map
+construction. The driver, initializer and recursive value walk preserve their
+separate graph vertices. The walk has a fixed three-argument fastcall ABI with
+one unused callee-cleaned stack slot (RET 4), expressed in ordinary typed C.
+
+Memory accesses have a contextual NODE_MEMORY_ACCESS property. Its exact 18
+members agree with the original across all 182 opcode entries; the existing
+side-effect, assignment-target and interned-identity properties were also checked
+across the full opcode range. This extends the named semantic recipes rather
+than copying the native packed table. WorkValue defines only its encountered
+16-byte prefix; the interner retains the original 24-byte allocation and leaves
+the final two words uninterpreted. Hash buckets, classification sets and creation
+links are built at runtime. Ordinary literals remain at their uses.
+
+The interner normalizes memory operators to loads, reuses equal address/type
+values and classifies new identifiers into the native bitsets. Tree cloning,
+conversion stripping and recursive equality are reconstructed individually.
+Equality retains its shared mode wrapper, assignment/load equivalences, volatile
+checks and floating-comparison helper trap. The optimizer's later reference,
+rewrite and region passes remain named typed traps until encountered.
+
+Independent stopped-process comparison before build_work_references matches all
+64 value buckets, ten typed value records, creation links and identifiers, 22
+canonical-tree nodes and eight classification-set chunks. The existing six
+blocks, 23 expressions, 93 work-tree nodes, edges, symbols and dominators still
+match. Debugger exception addresses are normalized; non-self canonical memory
+pointers are compared by their value identifiers, while canonical self pointers
+remain explicitly checked. Both stopped children pass the same work head in
+ECX. No loop regions occur in this first function. Strict/volatile and floating
+equality branches remain outside this successful prefix's dynamic coverage.
+See cases/hello-work-values-abi.json for extents, data provenance and limits.
+
+This checkpoint has 366 reconstructed functions and 443 accepted frontiers.
+All 352 minimal and all 91 hello historical frontiers replay. All source graphs
+agree, six changed implementation modules compile /W3 clean and the complete
+minimal object/exit regression passes. Hello output remains pending at
+build_work_references, 0x5bda0.

@@ -70,8 +70,12 @@
     "global-work completion checkpoint passes all 352 minimal and all 78 hello replays after correcting optimizer caller to typed fastcall(WorkItem *)",
     "all 353 source function graphs match; six changed implementation modules compile /W3 clean",
     "independent final first-function work output matches six blocks, 23 expressions, 93 nodes and twelve dominator chunks, with explicit ECX=head optimizer argument check in both children",
-    "complete minimal object/exit regression passes after caller ABI correction"
+    "complete minimal object/exit regression passes after caller ABI correction",
+    "value-initialization checkpoint passes all 352 minimal and all 91 hello historical frontiers",
+    "all 366 source function graphs match; six changed implementation modules compile /W3 clean",
+    "independent initialized-value state matches ten value records, all 64 hash buckets, creation links, 22 canonical nodes and eight classification bitset chunks, plus six blocks / 23 expressions / 93 work nodes",
+    "complete minimal object/exit regression passes; hello reaches build_work_references"
   ],
-  "total_accepted_frontiers": 430,
-  "reconstructed_functions": 353
+  "total_accepted_frontiers": 443,
+  "reconstructed_functions": 366
 }

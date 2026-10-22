@@ -69,3 +69,16 @@ Node *__fastcall cleanup_unused_tree(Node *node)
     }
     return node;
 }
+
+/* Original [000584e0,00058530). Clone the node and recursively clone
+   each operand selected by its arity and second-operand property. */
+Node *__fastcall copy_tree(Node *node)
+{
+    Node *copy = clone_node(node);
+    if ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        copy->left.node = copy_tree(node->left.node);
+        if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+            copy->second.node = copy_tree(node->second.node);
+    }
+    return copy;
+}
