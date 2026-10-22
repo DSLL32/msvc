@@ -1,22 +1,102 @@
 {
   "target": "C23232.EXE",
   "functions": [
-    {"name": "coff_finish_module", "start": "0x6c9a0", "end": "0x6ca10", "instructions": 37},
-    {"name": "coff_alignment_flags", "start": "0x6ca50", "end": "0x6cac0", "instructions": 35},
-    {"name": "coff_set_section_flags", "start": "0x6e7d0", "end": "0x6e7f0", "instructions": 9},
-    {"name": "coff_close_all_sections", "start": "0x6e7f0", "end": "0x6e830", "instructions": 14},
-    {"name": "coff_vector_next", "start": "0x6de90", "end": "0x6def0", "instructions": 27},
-    {"name": "coff_finalize", "start": "0x6def0", "end": "0x6e0d0", "instructions": 125},
-    {"name": "coff_reserve_sections", "start": "0x6dd00", "end": "0x6ddc0", "instructions": 49},
-    {"name": "coff_vector_count", "start": "0x6ddc0", "end": "0x6ddd0", "instructions": 2},
-    {"name": "coff_flush_section", "start": "0x6ddd0", "end": "0x6de90", "instructions": 56},
-    {"name": "coff_flush_scope", "start": "0x6e0d0", "end": "0x6e180", "instructions": 57},
-    {"name": "coff_timestamp", "start": "0x6c920", "end": "0x6c950", "instructions": 13},
-    {"name": "coff_write_symbol", "start": "0x6e220", "end": "0x6e4f0", "instructions": 202},
-    {"name": "coff_write_section_header", "start": "0x6e190", "end": "0x6e220", "instructions": 44},
-    {"name": "ftell", "start": "0x71d50", "end": "0x71e90", "instructions": 120},
-    {"name": "finish_globals", "start": "0x28930", "end": "0x289b0", "instructions": 32},
-    {"name": "compiler_cleanup", "start": "0x4c4e0", "end": "0x4c560", "instructions": 31}
+    {
+      "name": "coff_finish_module",
+      "start": "0x6c9a0",
+      "end": "0x6ca10",
+      "instructions": 37
+    },
+    {
+      "name": "coff_alignment_flags",
+      "start": "0x6ca50",
+      "end": "0x6cac0",
+      "instructions": 35
+    },
+    {
+      "name": "coff_set_section_flags",
+      "start": "0x6e7d0",
+      "end": "0x6e7f0",
+      "instructions": 9
+    },
+    {
+      "name": "coff_close_all_sections",
+      "start": "0x6e7f0",
+      "end": "0x6e830",
+      "instructions": 14
+    },
+    {
+      "name": "coff_vector_next",
+      "start": "0x6de90",
+      "end": "0x6def0",
+      "instructions": 27
+    },
+    {
+      "name": "coff_finalize",
+      "start": "0x6def0",
+      "end": "0x6e0d0",
+      "instructions": 125
+    },
+    {
+      "name": "coff_reserve_sections",
+      "start": "0x6dd00",
+      "end": "0x6ddc0",
+      "instructions": 49
+    },
+    {
+      "name": "coff_vector_count",
+      "start": "0x6ddc0",
+      "end": "0x6ddd0",
+      "instructions": 2
+    },
+    {
+      "name": "coff_flush_section",
+      "start": "0x6ddd0",
+      "end": "0x6de90",
+      "instructions": 56
+    },
+    {
+      "name": "coff_flush_scope",
+      "start": "0x6e0d0",
+      "end": "0x6e180",
+      "instructions": 57
+    },
+    {
+      "name": "coff_timestamp",
+      "start": "0x6c920",
+      "end": "0x6c950",
+      "instructions": 13
+    },
+    {
+      "name": "coff_write_symbol",
+      "start": "0x6e220",
+      "end": "0x6e4f0",
+      "instructions": 202
+    },
+    {
+      "name": "coff_write_section_header",
+      "start": "0x6e190",
+      "end": "0x6e220",
+      "instructions": 44
+    },
+    {
+      "name": "ftell",
+      "start": "0x71d50",
+      "end": "0x71e90",
+      "instructions": 120
+    },
+    {
+      "name": "finish_globals",
+      "start": "0x28930",
+      "end": "0x289b0",
+      "instructions": 32
+    },
+    {
+      "name": "compiler_cleanup",
+      "start": "0x4c4e0",
+      "end": "0x4c560",
+      "instructions": 31
+    }
   ],
   "abis": "Writer helpers use fixed fastcall arguments as declared in coff-writer.h; module completion, timestamp and exit hooks use cdecl. ftell is the standard cdecl long(FILE *) and calls only _lseek.",
   "typed_layout_checks": {
@@ -50,7 +130,11 @@
     "stdout": "empty in all three",
     "stderr": "empty in all three",
     "object_bytes": 286,
-    "normalization": {"field": "COFF TimeDateStamp", "offset": 4, "bytes": 4},
+    "normalization": {
+      "field": "COFF TimeDateStamp",
+      "offset": 4,
+      "bytes": 4
+    },
     "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
     "comparison": "all other bytes match the captured expected object",
     "scratch_receipt": "~/.ai-tmp/vc1.0-c2/minimal-complete-validation.json"
@@ -60,7 +144,7 @@
     "accepted_frontiers": 352,
     "clean_original_toolchain_make_j2_check": "passed",
     "implementation_modules_w3_clean": 7,
-    "full_replay": "running"
+    "full_replay": "all 352 recorded frontiers and final exit/output comparison passed"
   },
   "limits": "This establishes the captured minimal-C backend case. Optional listing/debug/FPO output, nonempty relocations and line records, long symbol names, error branches and ftell text/read corner cases are not dynamically validated here; helpers on unvisited paths may still trap. Optimized hello remains queued."
 }

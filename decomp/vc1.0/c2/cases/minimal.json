@@ -70,7 +70,8 @@
     "all 275 source function graphs match original edges",
     "seven final implementation modules compile cleanly with /W3",
     "573 driver extents are disjoint and checked against original CRT ranges",
-    "original earlier-CRT ftell reconstructed in C; adjacent fgets remains masked"
+    "original earlier-CRT ftell reconstructed in C; adjacent fgets remains masked",
+    "all 352 recorded frontiers and the final successful output comparison replayed with corrected driver/CRT masks"
   ],
   "complete_object_comparison": false,
   "replay_status": "passed",

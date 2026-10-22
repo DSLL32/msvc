@@ -362,3 +362,8 @@ normal exit hooks preserve incomplete-output cleanup and listing finalization;
 failure/optional listing paths are not dynamically exercised by this case.
 See cases/coff-serialization-abi.json for extents, record/state provenance and
 remaining validation limits. Optimized Win32 hello remains the next case.
+
+The completed minimal case passes a clean original-toolchain make -j2 check,
+all 275 function-graph audits and all 352 recorded frontier replays through final
+exit/output comparison. Seven final implementation modules are /W3 clean.
+The queued optimized hello case follows this frozen 352-frontier history.

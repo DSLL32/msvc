@@ -1,5 +1,5 @@
 {
-  "active": "minimal-c",
+  "active": null,
   "queued": [
     {
       "case": "hello-win32",
@@ -8,6 +8,16 @@
       "phase": "c2",
       "description": "Original CL /O2 /G5 hello.c backend invocation",
       "status": "queued"
+    }
+  ],
+  "completed": [
+    {
+      "case": "minimal-c",
+      "accepted_frontiers": 352,
+      "reconstructed_functions": 275,
+      "exit": 0,
+      "object_bytes": 286,
+      "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929"
     }
   ]
 }
