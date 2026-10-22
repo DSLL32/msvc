@@ -4,6 +4,8 @@
 #include "cpp-context.h"
 #include "global-ir.h"
 #include "parameters.h"
+#include "inline-capture.h"
+#include "macros.h"
 
 int __stdcall has_class_initialization(CType *type);
 CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration);
@@ -26,6 +28,9 @@ SymbolScope *declaration_scope(void);
 CppSymbol *__stdcall find_name_in_chain(CppSymbol *symbol, char *name);
 CppSymbol *__stdcall reconcile_declaration(CppSymbol *existing, CppSymbol *declaration);
 CppSymbol *__stdcall lookup_scope_declaration(CppSymbol *symbol, SymbolScope *scope);
+
+CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions);
+void __stdcall prepend_function_overload(CppSymbol *overloads, CppSymbol *declaration);
 
 /* Original 0x535e0..0x535f3. */
 CppSymbol *__stdcall lookup_declaration(CppSymbol *symbol)
@@ -430,4 +435,156 @@ CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *dec
     if (!qualified) return target;
     qualified->resolution->binding->target = (ClassReference *)target;
     return (CppSymbol *)qualified;
+}
+
+/* Original 0x55c80..0x55e41. Match an existing signature or introduce a
+   distinct overload, retaining C linkage restrictions and global index reuse. */
+CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration)
+{
+    CppSymbol *matched, *global;
+    TypeShape *shape;
+    int intrinsic;
+    matched = find_matching_overload(overloads, declaration->type, 1);
+    if (!matched) {
+        if ((declaration->name == name_main || declaration->name == name_winmain ||
+             declaration->name == name_dllmain) && !(declaration->declaration_flags & 0x400))
+            report_syntax_error(731, format_symbol_name(declaration));
+        if (declaration->declaration_flags & 0x200) {
+            if (find_c_linkage_function(overloads)) report_syntax_error(733, declaration->name);
+            else {
+                intrinsic = find_intrinsic_index(declaration->name);
+                if (intrinsic != -1 && intrinsic_enabled(intrinsic)) apply_intrinsic(declaration, intrinsic);
+            }
+        }
+        shape = declaration->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        check_function_defaults(shape->data.parameters, declaration);
+        prepend_function_overload(overloads, declaration);
+        if (declaration_mode >= 2) {
+            global = find_scope_symbol(global_scope, declaration->name,
+                (declaration->type->attributes & 0x70) == 0x20);
+            if (global && ((global->kind & 31) == 16 || (global->kind & 31) == 17)) {
+                global = find_matching_overload(global, declaration->type, 0);
+                if (global) {
+                    declaration->index = global->index;
+                    declaration->flags |= 8;
+                    global->flags &= ~8;
+                    declaration->attributes = (declaration->attributes & ~2) | (global->attributes & 2);
+                    ++global->references;
+                    return declaration;
+                }
+            }
+        }
+        if (!declaration->index) {
+            if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+            if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+            declaration->index = next_symbol_index++;
+        }
+        return declaration;
+    }
+    if ((matched->declaration_flags & 2) || (declaration->declaration_flags & 2)) return matched;
+    if (merge_declared_symbol(matched, declaration)) return 0;
+    merge_declaration_storage(matched, declaration);
+    return matched;
+}
+
+int __stdcall compare_declaration_parameters(DeclarationParameterInfo *left,
+    DeclarationParameterInfo *right);
+unsigned __stdcall reconcile_declaration_type(CppSymbol *existing,
+    CppSymbol *declaration, CType *type);
+short __stdcall format_function_parameters(short text, FunctionParameters *parameters,
+    unsigned flags);
+
+/* Original 0x3a6e0..0x3a9ac. Function-shape identity provides the fast
+   path; otherwise compare the implicit object and explicit parameters before
+   merging the return type and defaults. Callers supply an existing symbol.
+   Like the original, a null initial symbol leaves the iterator uninitialized. */
+CppSymbol *__stdcall find_matching_overload(CppSymbol *functions, CType *type,
+    int merge_defaults)
+{
+    CppSymbol *next, *candidate, *owner_function;
+    CType *old_type, *object_type, *old_object;
+    TypeShape *shape = type->related, *old_shape;
+    FunctionParameters *parameters, *old_parameters;
+    int result;
+    short old_text, new_text;
+    char *owner, *old_string, *new_string;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    parameters = shape->data.parameters;
+    object_type = parameters->associated_type;
+    if (functions) {
+        if ((functions->kind & 31) == 16 || (functions->kind & 31) == 17)
+            next = ((OverloadSet *)functions)->functions;
+        else next = functions;
+    }
+    for (;;) {
+        candidate = next;
+        if (!candidate || ((candidate->kind & 31) != 6 &&
+                           (candidate->kind & 31) != 7)) return 0;
+        next = candidate->next;
+        old_shape = candidate->type->related;
+        if (old_shape && !(old_shape->flags & 0x77)) old_shape = old_shape->related;
+        old_parameters = old_shape->data.parameters;
+        old_object = old_parameters->associated_type;
+        if (shape != old_shape) {
+            if (object_type != old_object) {
+                if (!object_type) {
+                    if (!(old_parameters->flags & 1)) continue;
+                } else if (!old_object ||
+                    ((object_type->attributes ^ old_object->attributes) & 0x3000) ||
+                    ((object_type->related->attributes ^ old_object->related->attributes) & 7))
+                    continue;
+            }
+            if (parameters->declarations != old_parameters->declarations ||
+                (parameters->default_count && old_parameters->default_count &&
+                 old_parameters->default_count >= parameters->default_count)) {
+                result = compare_declaration_parameters(parameters->declarations,
+                    old_parameters->declarations);
+                if (result == 1) {
+                    begin_type_diagnostic();
+                    old_text = reserve_type_diagnostic();
+                    new_text = reserve_type_diagnostic();
+                    owner = "";
+                    owner_function = ((OverloadSet *)functions)->functions;
+                    if (owner_function->declaration_flags & 0x400)
+                        owner = ((CppSymbol *)cpp_context_stack->items[
+                            owner_function->auxiliary.declaring_class])->name;
+                    format_function_parameters(old_text, old_parameters, 0);
+                    format_function_parameters(new_text, parameters, 0);
+                    new_string = type_diagnostic_text(new_text);
+                    old_string = type_diagnostic_text(old_text);
+                    report_syntax_error(579, owner, candidate->name, new_string,
+                        owner, candidate->name, old_string);
+                    candidate->declaration_flags |= 2;
+                    end_type_diagnostic();
+                    return candidate;
+                }
+                if (result == 2) {
+                    if (candidate->name == name_delete &&
+                        (candidate->declaration_flags & 0x400) &&
+                        parameters->declarations->count != old_parameters->declarations->count) {
+                        report_syntax_error(669);
+                        candidate->declaration_flags |= 2;
+                        return candidate;
+                    }
+                    continue;
+                }
+            }
+        }
+        old_type = candidate->type;
+        old_shape = old_type->related;
+        if (old_shape && !(old_shape->flags & 0x77)) old_shape = old_shape->related;
+        if (!((type->flags ^ old_type->flags) & 0xefff) &&
+            type->field08 == old_type->field08) {
+            if (old_shape->related == shape->related) {
+                merge_function_defaults(parameters, old_parameters, candidate, merge_defaults);
+                return candidate;
+            }
+            if (!reconcile_declaration_type(candidate, 0, type)) return candidate;
+        }
+        if (candidate->name != name_new) {
+            report_symbol_declaration_error(556, candidate);
+            return candidate;
+        }
+    }
 }

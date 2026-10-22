@@ -90,7 +90,6 @@ CType *__stdcall strip_based_shape(CType *type) { __asm { int 3 } return 0; }
 unsigned short __stdcall classify_incomplete_type(CType *type) { __asm { int 3 } return 0; }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
-CType *__stdcall replace_first_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
 void __stdcall unwind_qualified_scopes(int stop_at_class) { __asm { int 3 } }
 unsigned short begin_type_diagnostic(void) { __asm { int 3 } return 0; }
 void end_type_diagnostic(void) { __asm { int 3 } }
@@ -113,12 +112,10 @@ void __stdcall record_local_declaration(CppSymbol *declaration) { __asm { int 3 
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
 void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current, unsigned diagnostic) { __asm { int 3 } }
-int __stdcall merge_member_pointer_shape(CppSymbol *symbol, ShapeCursor inner, ShapeCursor *current, ShapeCursor outer) { __asm { int 3 } return 0; }
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __asm { int 3 } return 0; }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 int __stdcall has_class_initialization(CType *type) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall merge_declaration_storage(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } }
 void __stdcall merge_function_defaults(FunctionParameters *current, FunctionParameters *previous, CppSymbol *declaration, int inherit) { __asm { int 3 } }
@@ -364,14 +361,12 @@ void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
 void begin_pending_class_names(void) { __asm { int 3 } }
 char *next_pending_class_name(void) { __asm { int 3 } return 0; }
 void __cdecl format_work_text(WorkingStack *stack, char *format, ...) { __asm { int 3 } }
-unsigned short __stdcall generated_member_pointer_kind(int context) { __asm { int 3 } return 0; }
 void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_generated_assignment(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 char *__stdcall pointer_kind_spelling(unsigned short kind) { __asm { int 3 } return 0; }
 short reserve_type_diagnostic(void) { __asm { int 3 } return 0; }
 void __stdcall format_diagnostic_symbol(short text, CppSymbol *symbol) { __asm { int 3 } }
-char *__stdcall generated_member_name(int kind) { __asm { int 3 } return 0; }
 void __stdcall print_inline_declaration(CppSymbol *symbol, unsigned *flags) { __asm { int 3 } }
 
 unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeShape *shape) { __asm { int 3 } return 0; }
@@ -385,8 +380,7 @@ QualifierResolution *__stdcall search_class_name_paths(QualifierResolution *path
     ClassNameSearch *search) { __asm { int 3 } return 0; }
 void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *hidden) { __asm { int 3 } }
 
-CppSymbol *__stdcall find_matching_overload(CppSymbol *functions, CType *type,
-    int merge_defaults) { __asm { int 3 } return 0; }
+
 
 void __stdcall set_deferred_type_name(DeferredToken *token) { __asm { int 3 } }
 int __stdcall deferred_scope_allows_expression(int depth) { __asm { int 3 } return 0; }
@@ -422,4 +416,13 @@ VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *poin
 int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int first) { __asm { int 3 } return 0; }
 void __stdcall merge_subobject_special_members(CppSymbol *tag, CppSymbol *subobject, SpecialMemberState *states, int model) { __asm { int 3 } }
 void __stdcall record_special_member(CppSymbol *tag, SpecialMemberState *states, int kind, int model, unsigned nonprivate, unsigned warning) { __asm { int 3 } }
-CppSymbol *__stdcall create_implicit_special_member(CppSymbol *tag, int kind, int model, unsigned short attributes, int generated) { __asm { int 3 } return 0; }
+void __stdcall defer_generated_member(CppSymbol *member) { __asm { int 3 } }
+CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
+void __stdcall prepend_function_overload(CppSymbol *overloads, CppSymbol *declaration) { __asm { int 3 } }
+
+int __stdcall compare_declaration_parameters(DeclarationParameterInfo *left,
+    DeclarationParameterInfo *right) { __asm { int 3 } return 0; }
+unsigned __stdcall reconcile_declaration_type(CppSymbol *existing,
+    CppSymbol *declaration, CType *type) { __asm { int 3 } return 0; }
+short __stdcall format_function_parameters(short text, FunctionParameters *parameters,
+    unsigned flags) { __asm { int 3 } return 0; }

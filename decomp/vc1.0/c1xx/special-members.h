@@ -30,5 +30,7 @@ void __stdcall record_special_member(CppSymbol *tag, SpecialMemberState *states,
     int kind, int model, unsigned nonprivate, unsigned warning);
 CppSymbol *__stdcall create_implicit_special_member(CppSymbol *tag, int kind, int model,
     unsigned short attributes, int generated);
+CppSymbol *__stdcall make_copy_parameter(unsigned short pointer_kind, unsigned short qualifiers);
+void __stdcall defer_generated_member(CppSymbol *member);
 int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int first);
 #endif

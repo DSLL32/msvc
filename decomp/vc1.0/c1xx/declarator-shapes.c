@@ -2,6 +2,8 @@
 #include "declarations.h"
 #include "cpp-context.h"
 #include "macros.h"
+#include "keywords.h"
+#include "operators.h"
 
 /* The original expands this test at each data-pointer/array/member-pointer
    case. Keep it local to that folding operation rather than inventing a
@@ -135,7 +137,7 @@ void __stdcall merge_declaration_type(CppSymbol *symbol, CType *base, int is_typ
             case 0x40:
                 INHERIT_CLASS_DISTANCE();
                 current.shape = work;
-                if (!merge_member_pointer_shape(symbol, inner, &current, outer)) {
+                if (!merge_reference_shape(symbol, inner, &current, outer)) {
                     base_shape = inner.shape;
                     work = next;
                     continue;
@@ -483,4 +485,55 @@ void __stdcall finish_function_declarator(CppSymbol *symbol, TypeShape **result)
     shape = new_type_shape(3, attributes, 0);
     shape->related = *result;
     *result = intern_type_shape(shape);
+}
+
+/* Original 0x49140..0x492e8. Fold a reference shape onto its referred type,
+   validating calling conventions, pointer qualifiers and array boundaries.
+   Both neighboring ShapeCursor values retain their eight-byte value ABI. */
+int __stdcall merge_reference_shape(CppSymbol *symbol, ShapeCursor inner,
+    ShapeCursor *current, ShapeCursor outer)
+{
+    unsigned convention;
+    char *spelling = 0;
+    if ((inner.flags & 0x77) == 4) {
+        current->flags |= 4;
+        current->flags |= inner.flags & 0xc800;
+        if ((current->attributes & 0x70) == 0x60 && (current->flags & 0x8000))
+            current->attributes &= ~0x70;
+        current->attributes = merge_type_attributes(current->attributes, inner.attributes);
+    } else {
+        convention = current->attributes & 0x70;
+        if (convention == 0x10) spelling = token_spellings[TOK_CDECL];
+        else if (convention == 0x20) spelling = token_spellings[TOK_PASCAL];
+        else if (convention == 0x40) spelling = token_spellings[TOK_FASTCALL];
+        else if (convention == 0x60) spelling = token_spellings[TOK_STDCALL];
+        if (spelling) report_syntax_error(532, spelling);
+        if (current->attributes & 0x0f00) {
+            compiler_warning(1, 105, symbol->name);
+            current->attributes &= ~0x0f00;
+        }
+        if ((current->attributes & 7) == 2) {
+            report_syntax_error(532, "_far");
+            current->attributes &= ~7;
+        }
+    }
+    if (inner.flags & 0x40) {
+        report_syntax_error(529);
+        current->flags = 1;
+        symbol->declaration_flags |= 2;
+    }
+    if ((outer.flags & 0x77) == 2) {
+        report_syntax_error(234);
+        symbol->declaration_flags |= 2;
+        return 0;
+    }
+    if ((inner.flags & 0x77) == 2) {
+        if (inner.flags & 0x1000) report_syntax_error(266, format_symbol_name(symbol));
+        else if (!inner.shape->data.array_bound) {
+            report_syntax_error(265, format_symbol_name(symbol));
+            symbol->declaration_flags |= 2;
+        }
+    }
+    current->attributes = (current->attributes & ~0x3000) | (outer.attributes & 0x3000);
+    return 1;
 }

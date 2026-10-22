@@ -1,6 +1,7 @@
 /* C++ special-member synthesis after class member and virtual layout. */
 #include "special-members.h"
 #include "class-members.h"
+#include "inline-capture.h"
 
 /* Original 0x36790..0x36967. Classify bases, fields and declared functions,
    then decide each implicit member independently with its original diagnostics. */
@@ -201,4 +202,153 @@ void __stdcall complete_special_member(CppSymbol *tag, SpecialMemberState *state
         *qualifiers = (*qualifiers & ~12) | ((state->fields.qualifiers << 2) & 12);
     }
     create_implicit_special_member(tag, kind, model, 0, 1);
+}
+
+/* Original code 0x374d0..0x37729, seven-entry switch table 0x3772c..0x37747.
+   Build the implicit declarator through the same parameter/type/member paths
+   as a user declaration, preserving its permanent symbol and arena type. */
+CppSymbol *__stdcall create_implicit_special_member(CppSymbol *tag, int kind, int model,
+    unsigned short attributes, int generated)
+{
+    CppSymbol *member, *parameters = 0;
+    CType *return_type;
+    ArenaPool *pool;
+    DeclarationType declaration;
+    unsigned char traits;
+    unsigned short pointer_kind, qualifiers;
+    pointer_kind = generated_member_pointer_kind(model);
+    member = allocate_permanent(sizeof(CppSymbol));
+    member->flags |= 0x80;
+    member->cpp.parts.token = 1;
+    member->cpp.parts.member_flags |= 1;
+    member->flags |= 3;
+    member->cpp.parts.member_flags = (member->cpp.parts.member_flags & ~8) |
+        (((unsigned)generated << 3) & 8);
+    member->cpp.parts.low_flags = (unsigned char)kind;
+    member->name = generated_member_name(kind);
+    switch (kind) {
+    case 0:
+        member->name = tag->name;
+        member->cpp.parts.member_flags |= 0x10;
+        member->declaration_flags |= 0x1000;
+        break;
+    case 1:
+        member->name = tag->name;
+        member->cpp.parts.member_flags |= 0x20;
+        member->declaration_flags |= 0x1000;
+        traits = CLASS_SPECIAL_BYTE(tag->detail.class_info, qualifiers, model);
+        qualifiers = 0;
+        if (traits & 1) qualifiers |= 0x1000;
+        if (traits & 2) qualifiers |= 0x2000;
+        parameters = make_copy_parameter(pointer_kind, qualifiers);
+        break;
+    case 2:
+        member->cpp.parts.token = 0x3d;
+        member->cpp.parts.member_flags |= 0x40;
+        traits = CLASS_SPECIAL_BYTE(tag->detail.class_info, qualifiers, model);
+        qualifiers = 0;
+        if (traits & 4) qualifiers |= 0x1000;
+        if (traits & 8) qualifiers |= 0x2000;
+        parameters = make_copy_parameter(pointer_kind, qualifiers);
+        break;
+    case 3:
+        member->name = tag->name;
+        member->declaration_flags |= 0x2000;
+        break;
+    case 5: case 6:
+        add_declaration_parameter(1, &parameters, name_flags, type_4064_first);
+        break;
+    }
+    if (!parameters) parameters = make_ellipsis_parameter();
+    if (!(token_allocation_flags & 0x20)) {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+        member->type = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    } else member->type = allocate_permanent(sizeof(CType));
+    pending_function_qualifiers = pointer_kind;
+    member = attach_function_parameters(member, parameters);
+    member->kind = 3;
+    if (kind == 2) {
+        attach_type_shape(member, new_type_shape(0x40, pointer_kind, 0));
+        return_type = class_contexts[current_class_context].type;
+    } else {
+        return_type = type_0080;
+        if (kind > 4 && kind < 7) {
+            attach_type_shape(member, new_type_shape(1, pointer_kind, 0));
+            return_type = type_0080;
+        }
+    }
+    declaration.storage[0] = (declaration_storage[0] & ~7) | 0x10;
+    declaration.storage[1] = declaration_storage[1];
+    declaration.storage[2] = declaration_storage[2];
+    declaration.type = return_type;
+    declaration_spec_flags[declaration_depth] |= 1;
+    member->type->attributes |= attributes;
+    declare_class_member(&declaration, member);
+    if ((member->storage[2] & 12) == 12 && generated) defer_generated_member(member);
+    return member;
+}
+
+/* Original 0x37020..0x37032. Both special-member models use the near
+   pointer kind in this flat-model build; the result ABI is unsigned short. */
+unsigned short __stdcall generated_member_pointer_kind(int context)
+{
+    if (context) return 1;
+    return 1;
+}
+
+/* Original 0x37460..0x374af, eight-entry switch table 0x374b0..0x374cf.
+   Return the existing interned identities shared by mangling and lookup. */
+char *__stdcall generated_member_name(int kind)
+{
+    switch (kind) {
+    case 0: case 1: return name_ctor;
+    case 2: return name_assignment;
+    case 3: return name_dtor;
+    case 4: return name_vbase_dtor;
+    case 5: return name_delete_dtor;
+    case 6: return name_vector_delete_dtor;
+    case 7: return name_default_ctor_closure;
+    default: return 0;
+    }
+}
+
+/* Original 0x37820..0x3797e. Build the internal reference parameter and
+   its circular parameter link, applying cv qualification to the class type. */
+CppSymbol *__stdcall make_copy_parameter(unsigned short pointer_kind, unsigned short qualifiers)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    CppSymbol *parameter;
+    TypeDescription *description;
+    CType *type;
+    if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+    parameter = (CppSymbol *)pool->next;
+    pool->remaining -= sizeof(CppSymbol);
+    pool->next += sizeof(CppSymbol);
+    parameter->kind = 10;
+    parameter->name = name_that;
+    if (!(token_allocation_flags & 0x20)) {
+        if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+        parameter->type = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    } else parameter->type = allocate_permanent(sizeof(CType));
+    if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+    parameter->index = next_symbol_index++;
+    attach_type_shape(parameter, new_type_shape(0x40, pointer_kind, 0));
+    parameter->storage[0] = (declaration_storage[0] & ~7) | 5;
+    parameter->storage[1] = declaration_storage[1];
+    parameter->storage[2] = declaration_storage[2];
+    if (qualifiers) {
+        description = copy_type_description(class_contexts[current_class_context].type);
+        description->attributes = qualifiers;
+        type = intern_type(description);
+        --type_description_depth;
+        normalize_symbol_type(type, parameter);
+    } else normalize_symbol_type(class_contexts[current_class_context].type, parameter);
+    parameter->detail.parameter_next = parameter;
+    return parameter;
 }

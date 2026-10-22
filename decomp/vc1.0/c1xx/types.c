@@ -263,3 +263,55 @@ CType *__stdcall finish_type(CType *type)
     --type_description_depth;
     return result;
 }
+
+/* Original mutable prefix at 0x98170, reached through the stable pointer
+   0xa1e34. Keep one workspace for the modifier reapplied after replacement. */
+TypeShape replacement_shape_prefix;
+
+/* Original 0x62380..0x6248f. Replace the first effective shape, moving array
+   cv bits onto the remaining element type and retaining a leading modifier. */
+CType *__stdcall replace_first_type_shape(CType *type, unsigned short kind,
+    unsigned short attributes, void *parameter)
+{
+    TypeDescription *description = &type_description_stack[++type_description_depth];
+    TypeShape *replacement, *remaining, *following, *element;
+    CType *result;
+    int prefix = 0;
+    description->flags = type->flags;
+    description->attributes = type->attributes;
+    description->related = type->related;
+    description->field08 = type->field08;
+    description->field0a = type->debug_index;
+    replacement = new_type_shape(kind, attributes, parameter);
+    remaining = type->related;
+    if (remaining) {
+        if (!(remaining->flags & 0x77)) {
+            remaining = remaining->related;
+            prefix = 1;
+        }
+        if ((remaining->flags & 0x77) == 2) {
+            following = remaining->related;
+            if (!following) {
+                description->attributes |= remaining->attributes & 0x3000;
+                remaining = 0;
+            } else {
+                element = new_type_shape(following->flags,
+                    (unsigned short)(following->attributes | (remaining->attributes & 0x3000)),
+                    &following->data);
+                element->related = following->related;
+                remaining = intern_type_shape(element);
+            }
+        } else remaining = remaining->related;
+    }
+    replacement->related = remaining;
+    remaining = intern_type_shape(replacement);
+    if (prefix) {
+        replacement_shape_prefix = *type->related;
+        replacement_shape_prefix.related = remaining;
+        remaining = intern_type_shape(&replacement_shape_prefix);
+    }
+    description->related = remaining;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}

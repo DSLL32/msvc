@@ -255,7 +255,7 @@ unsigned short __stdcall merge_type_attributes(unsigned short left, unsigned sho
 void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current, unsigned diagnostic);
 TypeShape *__stdcall merge_function_shape(CppSymbol *symbol, ShapeCursor inner,
     ShapeCursor *current, ShapeCursor outer, int is_typedef);
-int __stdcall merge_member_pointer_shape(CppSymbol *symbol, ShapeCursor inner,
+int __stdcall merge_reference_shape(CppSymbol *symbol, ShapeCursor inner,
     ShapeCursor *current, ShapeCursor outer);
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol);
 void __stdcall merge_declaration_type(CppSymbol *symbol, CType *base, int is_typedef);

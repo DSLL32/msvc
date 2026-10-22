@@ -316,7 +316,15 @@
     "_class_type_of_member@4",
     "_is_const_or_reference_member@4",
     "_inspect_declared_special_members@16",
-    "_complete_special_member@28"
+    "_complete_special_member@28",
+    "_create_implicit_special_member@20",
+    "_generated_member_pointer_kind@4",
+    "_generated_member_name@4",
+    "_make_copy_parameter@8",
+    "_merge_reference_shape@24",
+    "_replace_first_type_shape@16",
+    "_bind_function_overload@8",
+    "_find_matching_overload@12"
   ],
   "driver": [
     {
@@ -1472,7 +1480,7 @@
       "end": 300874
     },
     {
-      "name": "_merge_member_pointer_shape@24",
+      "name": "_merge_reference_shape@24",
       "start": 299328,
       "end": 299753
     },
@@ -2944,7 +2952,7 @@
     {
       "name": "_generated_member_pointer_kind@4",
       "start": 225312,
-      "end": 225313
+      "end": 225331
     },
     {
       "name": "_emit_generated_default_constructor@12",
@@ -2979,7 +2987,7 @@
     {
       "name": "_generated_member_name@4",
       "start": 226400,
-      "end": 226401
+      "end": 226512
     },
     {
       "name": "_print_inline_declaration@8",
@@ -3074,7 +3082,7 @@
     {
       "name": "_find_matching_overload@12",
       "start": 239328,
-      "end": 239329
+      "end": 240044
     },
     {
       "name": "_append_deferred_token@4",
@@ -3379,7 +3387,42 @@
     {
       "name": "_create_implicit_special_member@20",
       "start": 226512,
-      "end": 226513
+      "end": 227144
+    },
+    {
+      "name": "_make_copy_parameter@8",
+      "start": 227360,
+      "end": 227711
+    },
+    {
+      "name": "_defer_generated_member@4",
+      "start": 227744,
+      "end": 227745
+    },
+    {
+      "name": "_find_c_linkage_function@4",
+      "start": 351232,
+      "end": 351233
+    },
+    {
+      "name": "_prepend_function_overload@8",
+      "start": 351824,
+      "end": 351825
+    },
+    {
+      "name": "_compare_declaration_parameters@8",
+      "start": 238288,
+      "end": 238289
+    },
+    {
+      "name": "_reconcile_declaration_type@12",
+      "start": 344720,
+      "end": 344721
+    },
+    {
+      "name": "_format_function_parameters@12",
+      "start": 427536,
+      "end": 427537
     }
   ],
   "cases": {
@@ -4309,6 +4352,18 @@
           "name": "_active_parameter_symbols",
           "original": 574464,
           "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_replacement_shape_prefix",
+      "original": 622960,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_replacement_shape_prefix",
+          "original": 622960,
+          "bytes": 12
         }
       ]
     }

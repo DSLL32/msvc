@@ -1,0 +1,58 @@
+Implicit-member declarators and overload binding
+================================================
+
+Original C1XX3232.EXE SHA256:
+333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7
+
+All addresses below are original virtual addresses; ends are exclusive.
+The case and original environment are the unchanged cpp-basic fixture.
+
+Whole functions accepted in order after the 312-frontier checkpoint:
+  create_implicit_special_member@20 374d0..37748 (12 callees)
+  generated_member_pointer_kind@4  37020..37033 (no callees)
+  generated_member_name@4          37460..374d0 (no callees)
+  make_copy_parameter@8            37820..3797f (9 callees)
+  merge_reference_shape@24         49140..492e9 (4 callees)
+  replace_first_type_shape@16      62380..62490 (3 callees)
+  bind_function_overload@8         55c80..55e42 (14 callees)
+  find_matching_overload@12        3a6e0..3a9ac (10 callees)
+
+Their code and in-text tables are restored only after paired entry and complete
+call-target audits. The corresponding check-*.log files record the next matching
+logical traps, including comparisons of pending FILE buffers. The full ordered
+replay result and its source-build hash are recorded in validation.json.
+
+The creator switch has seven entries at 3772c..37748. Its complete member-name
+helper has eight entries at 374b0..374d0 and returns already-interned names;
+these identities remain shared with parser and mangling users. Both switch
+implementations are ordinary C control flow. No native table is read at runtime.
+
+The copy parameter and generated symbol allocate their full 52-byte CppSymbol
+objects; associated CType objects have 12 bytes. The copy parameter's +0x20
+link is circular and points to itself. Its reference shape is kind 0x40, and cv
+qualification is placed in the copied class type before normalization. The
+reference merger receives two distinct eight-byte ShapeCursor values by value,
+plus its symbol and current-cursor pointer: six stack slots, RET 24.
+
+Shape replacement uses a single contextual mutable TypeShape at original 98170.
+The original immutable pointer a1e34 has exactly three read uses (6244d, 62463,
+6246c), all referring to that workspace; the reconstruction directly names the
+same canonical object. Its twelve initial BSS bytes and address alias are audited.
+It is distinct from the two existing function-shape workspaces at 98150/98160.
+
+The overload matcher preserves return-type field08 as the existing two-byte
+CType field, not a ClassReference interpretation. Its ambiguity diagnostic uses
+six string arguments: owner, candidate name, new parameters, owner, candidate
+name, prior parameters. Operator-new return mismatches continue the search;
+other return mismatches call report_symbol_declaration_error(556, candidate).
+Operator-delete arity mismatches on class members set declaration error bit 2.
+
+The native matcher does not initialize its iterator when given a null initial
+symbol (3a706..3a733). Its reconstructed control flow preserves that internal
+nonnull-caller precondition rather than assigning invented null-input semantics.
+No reached cpp-basic call supplies null. This is not a promise of defined
+behavior outside that original internal contract.
+
+The earlier provisional merge_member_pointer_shape name was corrected to
+merge_reference_shape after its whole body and referring declarator case proved
+the kind-0x40 reference operation. Its original function identity/ABI are retained.
