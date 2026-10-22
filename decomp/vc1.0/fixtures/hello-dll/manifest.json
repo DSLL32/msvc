@@ -29,7 +29,7 @@
       },
       "environment_inheritance": false,
       "working_directory": "c1",
-      "queue_after": null,
+      "queue_after": "../hello-win32/manifest.json#/phases/c1",
       "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Z:\\root\\.ai-tmp\\vc1.0-hello-dll\\run\\000292 -f hello-dll.c -W 1 -Ze -Zp8 -Fohello-dll.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -D_MT -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
@@ -216,7 +216,7 @@
           "sha256": "b6d2866358ce604d1373279e47b18676d0aa1cf2d496b0bb946fc591586bdd42"
         }
       ],
-      "reconstruction_status": "reference-only, not queued"
+      "reconstruction_status": "queued"
     },
     "c2": {
       "target": "toolchains/1.0-nt/bin/C23232.EXE",
@@ -464,7 +464,7 @@
       }
     }
   },
-  "scope": "LINK reconstruction case; C1/C2 captures are independent original-only references, not queued reconstruction tasks.",
+  "scope": "LINK completed; C1 frontend queued; C2 capture remains an original-only reference, not queued.",
   "derivation": {
     "source": "../hello-win32/c1/hello.c",
     "changes": [

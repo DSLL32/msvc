@@ -1,0 +1,4 @@
+*.bin binary
+/cases/**/result.i -text -diff
+/source/dbcs*.rc -text -diff
+/source/utf16.rc -text -diff

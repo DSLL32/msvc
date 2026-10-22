@@ -17,9 +17,8 @@ matching stdcall function pointer, unregisters the destroyed window's class,
 and unloads the DLL. The existing original-toolchain-built gui-check.c checks
 HelloWindow/Hello, world!, centered painted pixels, WM_CLOSE and host exit 0.
 
-LINK is queued after hello-win32. C1/C2 inputs are retained as independently
-replayable original-only references; they are not additional reconstruction
-assignments. /LD selects the multithreaded static CRT (LIBCMT.LIB).
+LINK is queued after hello-win32. C1 is now queued with the captured DLL frontend case. C2 inputs remain an
+independently replayable original-only reference, not a reconstruction assignment. /LD selects the multithreaded static CRT (LIBCMT.LIB).
 
 The actual captured response file, with CRLF endings, is:
     -debug:none
