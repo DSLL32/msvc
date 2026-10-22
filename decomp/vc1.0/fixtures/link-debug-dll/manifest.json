@@ -1,0 +1,676 @@
+{
+  "case": "hello-debug-dll",
+  "toolchain": "1.0-nt",
+  "sources": "Copied verbatim from link-coverage commit 68789b5; not reconstruction implementations",
+  "capture": {
+    "scratch": "/root/.ai-tmp/vc1.0-link/coverage-capture",
+    "working_directory": "/root/.ai-tmp/vc1.0-link/coverage-capture/work",
+    "original_receipts": [
+      {
+        "label": "hello-debug-compile",
+        "tool": "CL.EXE",
+        "arguments": [
+          "/nologo",
+          "/c",
+          "/O2",
+          "/G5",
+          "/Zi",
+          "/Gy",
+          "/MT",
+          "/Fohello-debug.obj",
+          "hello-debug.c"
+        ],
+        "cwd": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work",
+        "buffered": false,
+        "exit": 0,
+        "streams": {
+          "stdout": {
+            "bytes": 15,
+            "sha256": "87a2ef352bed4a9dfa97f923bb048c478dba50fd509dbbe6e053b9b3e16fa6f8"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "label": "alpha-compile",
+        "tool": "CL.EXE",
+        "arguments": [
+          "/nologo",
+          "/c",
+          "/O2",
+          "/G5",
+          "/Zi",
+          "/Gy",
+          "/MT",
+          "/Foalpha.obj",
+          "alpha.cpp"
+        ],
+        "cwd": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work",
+        "buffered": false,
+        "exit": 0,
+        "streams": {
+          "stdout": {
+            "bytes": 11,
+            "sha256": "b79892b310e73166ec3dd0c477f226aa7e89bd6934b64ea052b4a038d05995f4"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "label": "beta-compile",
+        "tool": "CL.EXE",
+        "arguments": [
+          "/nologo",
+          "/c",
+          "/O2",
+          "/G5",
+          "/Zi",
+          "/Gy",
+          "/MT",
+          "/Fobeta.obj",
+          "beta.cpp"
+        ],
+        "cwd": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work",
+        "buffered": false,
+        "exit": 0,
+        "streams": {
+          "stdout": {
+            "bytes": 10,
+            "sha256": "d05db66b49aa5f96de629466b0887a9177ac0c8271e403745dd15ac1642a5a83"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "label": "library-create",
+        "tool": "LINK.EXE",
+        "arguments": [
+          "-lib",
+          "/out:helpers.lib",
+          "member-with-a-long-name-alpha.obj",
+          "beta.obj"
+        ],
+        "cwd": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work",
+        "buffered": true,
+        "exit": 0,
+        "streams": {
+          "stdout": {
+            "bytes": 113,
+            "sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "label": "debug-dll-1",
+        "tool": "LINK.EXE",
+        "arguments": [
+          "-link",
+          "@debug-link.rsp"
+        ],
+        "cwd": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work",
+        "buffered": false,
+        "exit": 0,
+        "streams": {
+          "stdout": {
+            "bytes": 19836,
+            "sha256": "ab209278885d271e9c1ba0d71413c57193901f5a0764697174d0d746923f3cc5"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "label": "debug-dll-2",
+        "tool": "LINK.EXE",
+        "arguments": [
+          "-link",
+          "@debug-link.rsp"
+        ],
+        "cwd": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work",
+        "buffered": false,
+        "exit": 0,
+        "streams": {
+          "stdout": {
+            "bytes": 19836,
+            "sha256": "ab209278885d271e9c1ba0d71413c57193901f5a0764697174d0d746923f3cc5"
+          },
+          "stderr": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      }
+    ],
+    "compiler_flags": [
+      "/nologo",
+      "/c",
+      "/O2",
+      "/G5",
+      "/Zi",
+      "/Gy",
+      "/MT"
+    ],
+    "compile_inputs_frozen": true
+  },
+  "normalization": "Only structural timestamp fields. Validate the raw PE checksum exactly, then derive its normalized value from the timestamp-normalized image; no checksum field is ignored. Paths/padding/order remain exact.",
+  "phases": {
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "@debug-link.rsp"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Processed -nodefaultlib:OLDNAMES\r\nMicrosoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n/dll \r\n/debug:full \r\n/debugtype:both \r\n/map:hello-debug.map \r\n/order:@order.txt \r\n/release \r\n/verbose \r\n/nodefaultlib:OLDNAMES \r\n/def:hello-debug.def \r\n/out:hello-debug.dll \r\n/implib:hello-debug.lib \r\nhello-debug.obj \r\nhelpers.lib \r\nresources.res \r\n\r\nStart Pass1\r\nProcessed -defaultlib:gdi32.lib\r\nProcessed -defaultlib:user32.lib\r\nProcessed -defaultlib:LIBCMT\r\n\r\nSearching Libraries\r\n\tSearching helpers.lib:\r\n\tSearching Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib\\gdi32.lib:\r\n\t\tFound _SetBkMode@8\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded gdi32.lib(gdi32.def)\r\n\t\tFound __imp__SetBkMode@8\r\n\t\t      (referenced in gdi32.lib(gdi32.def))\r\n\t\t      *** loaded gdi32.lib(gdi32.def)\r\n\t\tFound GDI32_IMPORT_DESCRIPTOR\r\n\t\t      (referenced in gdi32.lib(gdi32.def))\r\n\t\t      *** loaded gdi32.lib(gdi32.def)\r\n\t\tFound NULL_IMPORT_DESCRIPTOR\r\n\t\t      (referenced in gdi32.lib(gdi32.def))\r\n\t\t      *** loaded gdi32.lib(gdi32.def)\r\n\t\tFound \u007fGDI32__imp__NULL\r\n\t\t      (referenced in gdi32.lib(gdi32.def))\r\n\t\t      *** loaded gdi32.lib(gdi32.def)\r\n\tSearching Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib\\user32.lib:\r\n\t\tFound _EndPaint@8\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _DrawTextA@20\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _GetClientRect@8\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _BeginPaint@8\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _PostQuitMessage@4\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _DefWindowProcA@16\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _DispatchMessageA@4\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _TranslateMessage@4\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _GetMessageA@16\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _UpdateWindow@4\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _ShowWindow@8\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _CreateWindowExA@48\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _RegisterClassA@4\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _LoadCursorA@8\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound _LoadIconA@8\r\n\t\t      (referenced in hello-debug.obj)\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__EndPaint@8\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__DrawTextA@20\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__GetClientRect@8\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__BeginPaint@8\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__PostQuitMessage@4\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__DefWindowProcA@16\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__DispatchMessageA@4\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__TranslateMessage@4\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__GetMessageA@16\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__UpdateWindow@4\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__ShowWindow@8\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__CreateWindowExA@48\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__RegisterClassA@4\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__LoadCursorA@8\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound __imp__LoadIconA@8\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound USER32_IMPORT_DESCRIPTOR\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\t\tFound \u007fUSER32__imp__NULL\r\n\t\t      (referenced in user32.lib(user32.def))\r\n\t\t      *** loaded user32.lib(user32.def)\r\n\tSearching Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib\\LIBCMT.lib:\r\n\t\tFound __DllMainCRTStartup@12\r\n\t\t      *** loaded LIBCMT.lib(DLLCRT0.OBJ)\r\n\t\tFound __exit\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(CRT0DAT.OBJ)\r\n\t\tFound __heap_term\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(HEAPINIT.OBJ)\r\n\t\tFound __mtterm\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(TIDTABLE.OBJ)\r\n\t\tFound __setenvp\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(STDENVP.OBJ)\r\n\t\tFound __setargv\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(STDARGV.OBJ)\r\n\t\tFound __ioinit\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(IOINIT.OBJ)\r\n\t\tFound __NMSG_WRITE\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(CRT0MSG.OBJ)\r\n\t\tFound ___xc_a\r\n\t\t      (referenced in LIBCMT.lib(CRT0DAT.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(crt0init.obj)\r\nProcessed -defaultlib:kernel32.lib\r\n\t\tFound __lock\r\n\t\t      (referenced in LIBCMT.lib(CRT0DAT.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(MLOCK.OBJ)\r\n\t\tFound __heap_abort\r\n\t\t      (referenced in LIBCMT.lib(HEAPINIT.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(HPABORT.OBJ)\r\n\t\tFound __XcptActTab\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(WINXFLTR.OBJ)\r\n\t\tFound _calloc\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(CALLOC.OBJ)\r\n\t\tFound _malloc\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      (referenced in LIBCMT.lib(STDARGV.OBJ))\r\n\t\t      (referenced in LIBCMT.lib(STDENVP.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(MALLOC.OBJ)\r\n\t\tFound _free\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(FREE.OBJ)\r\n\t\tFound __heap_search\r\n\t\t      (referenced in LIBCMT.lib(MALLOC.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(HEAPSRCH.OBJ)\r\n\t\tFound __heap_grow\r\n\t\t      (referenced in LIBCMT.lib(MALLOC.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(HEAPGROW.OBJ)\r\n\t\tFound __heap_addblock\r\n\t\t      (referenced in LIBCMT.lib(HEAPGROW.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(HEAPADD.OBJ)\r\n\t\tFound __heap_findaddr\r\n\t\t      (referenced in LIBCMT.lib(HEAPADD.OBJ))\r\n\t\t      *** loaded LIBCMT.lib(FINDADDR.OBJ)\r\n\tSearching Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib\\kernel32.lib:\r\n\t\tFound _GetVersion@0\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetEnvironmentStrings@0\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetCommandLineA@0\r\n\t\t      (referenced in LIBCMT.lib(DLLCRT0.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _ExitProcess@4\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      (referenced in LIBCMT.lib(CRT0DAT.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _VirtualFree@12\r\n\t\t      (referenced in LIBCMT.lib(HEAPGROW.OBJ))\r\n\t\t      (referenced in LIBCMT.lib(HEAPINIT.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _VirtualAlloc@16\r\n\t\t      (referenced in LIBCMT.lib(HEAPGROW.OBJ))\r\n\t\t      (referenced in LIBCMT.lib(HEAPINIT.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetCurrentThreadId@0\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _TlsSetValue@8\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _TlsAlloc@0\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _TlsFree@4\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _TlsGetValue@4\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetCurrentThread@0\r\n\t\t      (referenced in LIBCMT.lib(TIDTABLE.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetModuleFileNameA@12\r\n\t\t      (referenced in LIBCMT.lib(STDARGV.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetFileType@4\r\n\t\t      (referenced in LIBCMT.lib(IOINIT.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetStdHandle@4\r\n\t\t      (referenced in LIBCMT.lib(IOINIT.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetStartupInfoA@4\r\n\t\t      (referenced in LIBCMT.lib(IOINIT.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _WriteFile@20\r\n\t\t      (referenced in LIBCMT.lib(CRT0MSG.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _InitializeCriticalSection@4\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _DeleteCriticalSection@4\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _EnterCriticalSection@4\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _LeaveCriticalSection@4\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _FatalAppExitA@8\r\n\t\t      (referenced in LIBCMT.lib(MLOCK.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _UnhandledExceptionFilter@4\r\n\t\t      (referenced in LIBCMT.lib(WINXFLTR.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound _GetLastError@0\r\n\t\t      (referenced in LIBCMT.lib(HEAPGROW.OBJ))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetVersion@0\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetEnvironmentStrings@0\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetCommandLineA@0\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__ExitProcess@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__VirtualFree@12\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__VirtualAlloc@16\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetCurrentThreadId@0\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__TlsSetValue@8\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__TlsAlloc@0\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__TlsFree@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__TlsGetValue@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetCurrentThread@0\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetModuleFileNameA@12\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetFileType@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetStdHandle@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetStartupInfoA@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__WriteFile@20\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__InitializeCriticalSection@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__DeleteCriticalSection@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__EnterCriticalSection@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__LeaveCriticalSection@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__FatalAppExitA@8\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__UnhandledExceptionFilter@4\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound __imp__GetLastError@0\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound KERNEL32_IMPORT_DESCRIPTOR\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in ker   Creating library hello-debug.lib and object hello-debug.exp ...\r\nnel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\t\tFound \u007fKERNEL32__imp__NULL\r\n\t\t      (referenced in kernel32.lib(kernel32.def))\r\n\t\t      *** loaded kernel32.lib(kernel32.def)\r\n\r\nDone Searching Libraries\r\nGenerating .exp file ...\r\ncommand: Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE -lib -def:hello-debug.def -out:hello-debug.lib -name:hello-debug.dll -machine:ix86 -nologo hello-debug.obj helpers.lib resources.res\r\n\r\nSearching Libraries\r\n\tSearching helpers.lib:\r\n\t\tFound _alpha\r\n\t\t      (referenced in hello-debug.exp)\r\n\t\t      *** loaded helpers.lib(member-with-a-long-name-alpha.obj)\r\n\t\tFound _beta\r\n\t\t      (referenced in hello-debug.exp)\r\n\t\t      *** loaded helpers.lib(beta.obj)\r\n\r\nDone Searching Libraries\r\n\r\nEnd Pass1\r\n\r\nStart Pass2\r\n     hello-debug.exp\r\n     resources.res\r\n     hello-debug.obj\r\n     helpers.lib(beta.obj)\r\n     helpers.lib(member-with-a-long-name-alpha.obj)\r\n     gdi32.lib(gdi32.def)\r\n     gdi32.lib(gdi32.def)\r\n     gdi32.lib(gdi32.def)\r\n     gdi32.lib(gdi32.def)\r\n     gdi32.lib(gdi32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     user32.lib(user32.def)\r\n     LIBCMT.lib(FINDADDR.OBJ)\r\n     LIBCMT.lib(HEAPADD.OBJ)\r\n     LIBCMT.lib(HEAPGROW.OBJ)\r\n     LIBCMT.lib(HEAPSRCH.OBJ)\r\n     LIBCMT.lib(FREE.OBJ)\r\n     LIBCMT.lib(MALLOC.OBJ)\r\n     LIBCMT.lib(CALLOC.OBJ)\r\n     LIBCMT.lib(WINXFLTR.OBJ)\r\n     LIBCMT.lib(HPABORT.OBJ)\r\n     LIBCMT.lib(MLOCK.OBJ)\r\n     LIBCMT.lib(crt0init.obj)\r\n     LIBCMT.lib(CRT0MSG.OBJ)\r\n     LIBCMT.lib(IOINIT.OBJ)\r\n     LIBCMT.lib(STDARGV.OBJ)\r\n     LIBCMT.lib(STDENVP.OBJ)\r\n     LIBCMT.lib(TIDTABLE.OBJ)\r\n     LIBCMT.lib(HEAPINIT.OBJ)\r\n     LIBCMT.lib(CRT0DAT.OBJ)\r\n     LIBCMT.lib(DLLCRT0.OBJ)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\n     kernel32.lib(kernel32.def)\r\nEnd Pass2\r\n",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "inputs/link/hello-debug.obj",
+          "bytes": 8545,
+          "sha256": "d9bbca1fd36974e4e8c1839067c31825db1770fb12011479ff942c6cb0e0fd2e"
+        },
+        {
+          "path": "inputs/link/helpers.lib",
+          "bytes": 4184,
+          "sha256": "e599a7f1611fbb2dc2f9946cf90ade080426b07fa341b16b668f751dc88d5fa1"
+        },
+        {
+          "path": "inputs/link/resources.res",
+          "bytes": 3684,
+          "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d"
+        },
+        {
+          "path": "inputs/link/hello-debug.def",
+          "bytes": 233,
+          "sha256": "1048f2570042bbc4e57c2ecfbba78f6ceefc7d7ccbb8ca6273e884cb23dcbc26"
+        },
+        {
+          "path": "inputs/link/order.txt",
+          "bytes": 43,
+          "sha256": "d2fc91539ef33278304438a69a02efdd85b4f4f2faf1fe552381a3269eb388da"
+        },
+        {
+          "path": "inputs/link/debug-link.rsp",
+          "bytes": 221,
+          "sha256": "dc8d9305fa68c9566012a522b779ec10d184eaf758bbd70eb36cbc1734130592"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/link/hello-debug.dll",
+          "bytes": 71800,
+          "sha256": "987755d2110aa5a7e337c290f3b0cc0d3991c2cb12737e3c718340a33aa54321",
+          "output_name": "hello-debug.dll",
+          "artifact_kind": "debug-pe",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 7172,
+              "bytes": 4,
+              "name": "Debug directory TimeDateStamp"
+            },
+            {
+              "offset": 7200,
+              "bytes": 4,
+              "name": "Debug directory TimeDateStamp"
+            },
+            {
+              "offset": 7228,
+              "bytes": 4,
+              "name": "Debug directory TimeDateStamp"
+            },
+            {
+              "offset": 11780,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 11916,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 11940,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 11964,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 11988,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12020,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12044,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12076,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12108,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12132,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12156,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12180,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12204,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12228,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12252,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12276,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12300,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12324,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12348,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12372,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12396,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12420,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12444,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12468,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12492,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12524,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12548,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12572,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12596,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12620,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12644,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12668,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12692,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 12716,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 17924,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa"
+        },
+        {
+          "path": "expected/link/hello-debug.lib",
+          "bytes": 2097152,
+          "sha256": "7996d6e9cc5d29b266852f6a0fe1dba8d30bd6fd2048b09612f53e372f982504",
+          "output_name": "hello-debug.lib",
+          "artifact_kind": "archive-generated",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 448,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 890,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 938,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 1552,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 1600,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 1738,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 1786,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 1958,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 2006,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 2146,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            },
+            {
+              "offset": 3088,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 3136,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 3660,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 3708,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 4240,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 4288,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 4786,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 4834,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 5330,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 5378,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 5672,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 5720,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 6256,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 6304,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7"
+        },
+        {
+          "path": "expected/link/hello-debug.exp",
+          "bytes": 2097152,
+          "sha256": "aa244042e574a219db1d592aeea3b809cf4c2fccccf4d49b2d156d57ae15bae9",
+          "output_name": "hello-debug.exp",
+          "artifact_kind": "coff",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            },
+            {
+              "offset": 144,
+              "bytes": 4,
+              "name": "Export directory TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98"
+        },
+        {
+          "path": "expected/link/hello-debug.map",
+          "bytes": 17519,
+          "sha256": "ec08891dbda62f1505d2ae0c2b9e3a33d4962c766afa71bc4243c4a656a9537a",
+          "output_name": "hello-debug.map",
+          "artifact_kind": "map",
+          "ignored_fields": [
+            {
+              "offset": 30,
+              "bytes": 8,
+              "name": "Map PE timestamp hexadecimal"
+            },
+            {
+              "offset": 40,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ],
+          "normalized_sha256": "9e2d30773ec62646c0761dbf99ea0bedb6af67d8b919d5fa73321229df56a6ee"
+        }
+      ],
+      "generated_program": {
+        "kind": "win32-dll-gui",
+        "export_name": "HelloEntry",
+        "export_ordinal": 7,
+        "exit_status": 0,
+        "class_name": "HelloWindow",
+        "title": "Hello, world!",
+        "host_binary": "build/debug-dll-host.exe"
+      }
+    }
+  },
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/CL.EXE",
+      "sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4"
+    },
+    {
+      "path": "toolchains/1.0-nt/bin/CVPACK.EXE",
+      "sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/LIBCMT.LIB",
+      "sha256": "9dcf7b0aa9fa3005fc1f6d3ebf0da662f8da37ca15f5a914a0f11da20d873496"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/KERNEL32.LIB",
+      "sha256": "dae2fe533f7debcbfb1d65f41957299bc0dea1500b7c6207e18db0956ce6c4ea"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/USER32.LIB",
+      "sha256": "490ea3213de77e9c3ca623b2f446c0a26839ad602dbec1f2e65126187a0496ef"
+    },
+    {
+      "path": "toolchains/1.0-nt/lib/GDI32.LIB",
+      "sha256": "899f834cef75d17010c9dc466598bcb2e653c76c3077e6b33c5934a2b7aeda89"
+    }
+  ],
+  "source_inputs": [
+    {
+      "path": "sources/alpha.cpp",
+      "bytes": 150,
+      "sha256": "aa5ecf556e5f645fcefd7c63943e68e5cdb54853e4fa8174f2d5acddb977c07a"
+    },
+    {
+      "path": "sources/beta.cpp",
+      "bytes": 147,
+      "sha256": "4d78fd78bb671f4d83b2e132fb854fddcc568452d5e777ff4939cf483c83b17e"
+    },
+    {
+      "path": "sources/hello-debug.c",
+      "bytes": 1798,
+      "sha256": "719a0f9757ce41cdb4f6abfd8f2016f8c432bce061173b3c9b00448b80ea3c58"
+    },
+    {
+      "path": "sources/hello-debug.def",
+      "bytes": 233,
+      "sha256": "1048f2570042bbc4e57c2ecfbba78f6ceefc7d7ccbb8ca6273e884cb23dcbc26"
+    },
+    {
+      "path": "sources/inline.h",
+      "bytes": 61,
+      "sha256": "1de5fb1d86d03c07a918df80867ab7a89affac1b3b6b0217764045d8d80f1421"
+    },
+    {
+      "path": "sources/order.txt",
+      "bytes": 43,
+      "sha256": "d2fc91539ef33278304438a69a02efdd85b4f4f2faf1fe552381a3269eb388da"
+    }
+  ]
+}

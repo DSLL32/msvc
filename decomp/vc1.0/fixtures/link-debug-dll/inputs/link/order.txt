@@ -1,0 +1,3 @@
+HelloMain@16
+HelloWindowProc@16
+DllMain@12

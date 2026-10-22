@@ -76,9 +76,16 @@ def mask(pe, records, accepted, output):
     Path(output).write_bytes(data)
 
 def fixture(case):
-    if case not in ('minimal-c', 'hello-win32', 'hello-dll'): return None
-    root = Path('../fixtures') / case
-    return root, json.loads((root / 'manifest.json').read_text())['phases']['link']
+    if case in ('minimal-c', 'hello-win32', 'hello-dll', 'hello-debug-dll'):
+        root = Path('../fixtures') / ('link-debug-dll' if case == 'hello-debug-dll' else case)
+        phase = 'link'
+    elif case.startswith('library-') and case[8:] in (
+            'create', 'list', 'extract', 'remove', 'list-trimmed',
+            'dump-library', 'dump-object', 'dump-dll', 'edit', 'dump-edited'):
+        root, phase = Path('../fixtures/link-library-tools'), case[8:]
+    else:
+        return None
+    return root, json.loads((root / 'manifest.json').read_text())['phases'][phase]
 
 def case_directory(case, label):
     return Path('build/cases') / case / label
@@ -100,6 +107,10 @@ def run(label, exe, case='/?', cwd=None, arguments=None):
             shutil.copyfile(source, cwd / source.name)
         for key in phase['unset_environment']: env.pop(key, None)
         env['LIB'] = wt.windows(wt.TC / 'lib')
+        for key, value in phase.get('environment', {}).items():
+            env[key] = value.format(lib=wt.windows(wt.TC / 'lib'),
+                                    bin=wt.windows(wt.TC / 'bin'),
+                                    include=wt.windows(wt.TC / 'include'))
         arguments = ' '.join(phase['arguments'])
     # argv[0] must name this image: DLL links spawn themselves in -lib mode.
     # Use the original basename so diagnostics and subprocess selection agree.
@@ -125,7 +136,7 @@ def check_artifacts(case, labels):
         artifact_checker = SourceFileLoader('fixture_artifacts', str(root / 'artifacts.py')).load_module()
     for label in labels:
         for stream in ('stdout', 'stderr'):
-            assert Path('build/'+label+'.'+stream).read_bytes() == phase['expected_'+stream].encode(), label+' unexpected '+stream
+            assert Path('build/'+label+'.'+stream).read_bytes() == phase['expected_'+stream].encode('latin1'), label+' unexpected '+stream
         assert Path('build/'+label+'.events').read_text() == 'exit %d\n' % phase['expected_exit']
         for spec in phase['outputs']:
             path = case_directory(case, label) / spec['output_name']
@@ -140,9 +151,13 @@ def check_artifacts(case, labels):
                     assert info['dll'] and info['entry_rva']
                     assert [(entry['name'], entry['ordinal']) for entry in info['exports']] == [
                         (program['export_name'], program['export_ordinal'])]
-            for field in spec.get('ignored_fields', []):
-                start, size = field['offset'], field['bytes']
-                contents[start:start+size] = expected[start:start+size] = bytes(size)
+            if artifact_checker and hasattr(artifact_checker, 'normalize_artifact'):
+                contents = artifact_checker.normalize_artifact(contents, spec['artifact_kind'])
+                expected = artifact_checker.normalize_artifact(expected, spec['artifact_kind'])
+            else:
+                for field in spec.get('ignored_fields', []):
+                    start, size = field['offset'], field['bytes']
+                    contents[start:start+size] = expected[start:start+size] = bytes(size)
             assert contents == expected, label+' generated '+spec['output_name']+' differs'
             assert hashlib.sha256(contents).hexdigest() == spec['normalized_sha256']
         program = phase.get('generated_program')
@@ -150,12 +165,13 @@ def check_artifacts(case, labels):
             path = case_directory(case, label) / phase['outputs'][0]['output_name']
             if program.get('kind') in ('win32-gui', 'win32-dll-gui'):
                 targets = ['build/gui-check.exe']
+                host_binary = program.get('host_binary', 'build/dll-host.exe')
                 if program['kind'] == 'win32-dll-gui':
-                    targets.append('build/dll-host.exe')
+                    targets.append(host_binary)
                 subprocess.run(['make', '-j2'] + targets, check=True)
                 if program['kind'] == 'win32-dll-gui':
                     host = path.parent / 'dll-host.exe'
-                    shutil.copyfile('build/dll-host.exe', host)
+                    shutil.copyfile(host_binary, host)
                     path = host
                 report = case_directory(case, label) / 'gui-window.json'
                 report.unlink(missing_ok=True)

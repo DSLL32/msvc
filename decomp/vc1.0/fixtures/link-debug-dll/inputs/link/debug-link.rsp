@@ -1,0 +1,14 @@
+/dll
+/debug:full
+/debugtype:both
+/map:hello-debug.map
+/order:@order.txt
+/release
+/verbose
+/nodefaultlib:OLDNAMES
+/def:hello-debug.def
+/out:hello-debug.dll
+/implib:hello-debug.lib
+hello-debug.obj
+helpers.lib
+resources.res

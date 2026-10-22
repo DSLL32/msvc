@@ -108,3 +108,9 @@ build/dll-host.obj: ../fixtures/hello-dll/dll-host.c | build prefix
 
 build/dll-host.exe: build/dll-host.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB
+
+build/debug-dll-host.obj: ../fixtures/link-debug-dll/dll-host.c | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fo$@ $<
+
+build/debug-dll-host.exe: build/debug-dll-host.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB

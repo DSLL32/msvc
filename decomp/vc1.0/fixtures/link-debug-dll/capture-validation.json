@@ -1,0 +1,457 @@
+{
+  "hello-debug.dll": {
+    "independent_original_runs": 2,
+    "ignored_fields": [
+      {
+        "offset": 136,
+        "bytes": 4,
+        "name": "PE COFF TimeDateStamp"
+      },
+      {
+        "offset": 7172,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 7200,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 7228,
+        "bytes": 4,
+        "name": "Debug directory TimeDateStamp"
+      },
+      {
+        "offset": 11780,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11916,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11940,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11964,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 11988,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12020,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12044,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12076,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12108,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12132,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12156,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12180,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12204,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12228,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12252,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12276,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12300,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12324,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12348,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12372,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12396,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12420,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12444,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12468,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12492,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12524,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12548,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12572,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12596,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12620,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12644,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12668,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12692,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 12716,
+        "bytes": 4,
+        "name": "Resource directory TimeDateStamp"
+      },
+      {
+        "offset": 17924,
+        "bytes": 4,
+        "name": "Export directory TimeDateStamp"
+      }
+    ],
+    "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa",
+    "differing_byte_offsets": [
+      136,
+      216,
+      7172,
+      7200,
+      7228,
+      11780,
+      11916,
+      11940,
+      11964,
+      11988,
+      12020,
+      12044,
+      12076,
+      12108,
+      12132,
+      12156,
+      12180,
+      12204,
+      12228,
+      12252,
+      12276,
+      12300,
+      12324,
+      12348,
+      12372,
+      12396,
+      12420,
+      12444,
+      12468,
+      12492,
+      12524,
+      12548,
+      12572,
+      12596,
+      12620,
+      12644,
+      12668,
+      12692,
+      12716,
+      17924
+    ]
+  },
+  "hello-debug.lib": {
+    "independent_original_runs": 2,
+    "ignored_fields": [
+      {
+        "offset": 24,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 448,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 890,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 938,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 1552,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 1600,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 1738,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 1786,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 1958,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 2006,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 2146,
+        "bytes": 4,
+        "name": "Export directory TimeDateStamp"
+      },
+      {
+        "offset": 3088,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 3136,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 3660,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 3708,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 4240,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 4288,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 4786,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 4834,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 5330,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 5378,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 5672,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 5720,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 6256,
+        "bytes": 12,
+        "name": "Archive member date"
+      },
+      {
+        "offset": 6304,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      }
+    ],
+    "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7",
+    "differing_byte_offsets": [
+      32,
+      33,
+      456,
+      457,
+      898,
+      899,
+      938,
+      1560,
+      1561,
+      1600,
+      1746,
+      1747,
+      1786,
+      1966,
+      1967,
+      2006,
+      2146,
+      3096,
+      3097,
+      3136,
+      3668,
+      3669,
+      3708,
+      4248,
+      4249,
+      4288,
+      4794,
+      4795,
+      4834,
+      5338,
+      5339,
+      5378,
+      5680,
+      5681,
+      5720,
+      6264,
+      6265,
+      6304
+    ]
+  },
+  "hello-debug.exp": {
+    "independent_original_runs": 2,
+    "ignored_fields": [
+      {
+        "offset": 4,
+        "bytes": 4,
+        "name": "Generated COFF TimeDateStamp"
+      },
+      {
+        "offset": 144,
+        "bytes": 4,
+        "name": "Export directory TimeDateStamp"
+      }
+    ],
+    "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98",
+    "differing_byte_offsets": [
+      4,
+      144
+    ]
+  },
+  "hello-debug.map": {
+    "independent_original_runs": 2,
+    "ignored_fields": [
+      {
+        "offset": 30,
+        "bytes": 8,
+        "name": "Map PE timestamp hexadecimal"
+      },
+      {
+        "offset": 40,
+        "bytes": 24,
+        "name": "Map timestamp ctime rendering"
+      }
+    ],
+    "normalized_sha256": "9e2d30773ec62646c0761dbf99ea0bedb6af67d8b919d5fa73321229df56a6ee",
+    "differing_byte_offsets": [
+      37,
+      57,
+      58
+    ]
+  }
+}
