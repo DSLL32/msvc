@@ -319,7 +319,18 @@
     "_write_section_header",
     "_set_section_directory_rva",
     "_write_local_imports",
-    "_pass_two"
+    "_pass_two",
+    "_process_module_output",
+    "_process_output_symbol",
+    "_update_file_symbol",
+    "_process_symbol_auxiliaries",
+    "_update_static_symbol",
+    "_update_external_symbol",
+    "_write_contribution",
+    "_process_contribution_debug",
+    "_mapped_output_pointer",
+    "_close_mapped_file",
+    "_prepare_relocations"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1932,7 +1943,8 @@
       "end": 220369,
       "implementation": "stub-C",
       "source": "machine-stubs.c",
-      "abi": "cdecl void(Contribution *,void *,PIMAGE_SYMBOL,Contribution **)"
+      "abi": "cdecl void(Contribution *contribution,void *data,PIMAGE_SYMBOL symbols,Image *image)",
+      "evidence": "Fourth relocation callback argument recovered as current Image pointer from write_contribution1d530; backend still a pending trap."
     },
     {
       "name": "_apply_m68k_relocations",
@@ -1940,7 +1952,8 @@
       "end": 228993,
       "implementation": "stub-C",
       "source": "machine-stubs.c",
-      "abi": "cdecl void(Contribution *,void *,PIMAGE_SYMBOL,Contribution **)"
+      "abi": "cdecl void(Contribution *contribution,void *data,PIMAGE_SYMBOL symbols,Image *image)",
+      "evidence": "Fourth relocation callback argument recovered as current Image pointer from write_contribution1d530; backend still a pending trap."
     },
     {
       "name": "_seek_buffered_file",
@@ -2400,10 +2413,11 @@
     {
       "name": "_close_mapped_file",
       "start": 251088,
-      "end": 251089,
-      "implementation": "stub-C",
-      "source": "files-stubs.c",
-      "abi": "cdecl int(FileSlot *file)"
+      "end": 251248,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl int(FileSlot *file)",
+      "evidence": "Matching mapped-input closure3d4d0..3d570; unmap, truncate writable files, close handles, remove output-table references, clear mapping state and free the cached name."
     },
     {
       "name": "_external_referenced_by",
@@ -2985,10 +2999,204 @@
     {
       "name": "_process_module_output",
       "start": 125552,
-      "end": 125553,
+      "end": 126496,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,Module *module)",
+      "evidence": "Matching per-module pass-two frontier1ea70..1ee20; full symbol/contribution walks, Mac segment redirection, optional debug metadata and buffer release. Private debug records name the consumed fields; unreached maps/helpers remain typed traps."
+    },
+    {
+      "name": "_allocate_function_symbol_maps",
+      "start": 219968,
+      "end": 219969,
       "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image,Module *module)"
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl FunctionSymbolMap *(unsigned short count)"
+    },
+    {
+      "name": "_release_function_symbol_maps",
+      "start": 220288,
+      "end": 220289,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(FunctionSymbolMap *maps,unsigned short count)"
+    },
+    {
+      "name": "_process_output_symbol",
+      "start": 124960,
+      "end": 125552,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,Module *module,PIMAGE_SYMBOL symbol,PIMAGE_SYMBOL *cursor,FunctionSymbolMap *maps,unsigned long *index)",
+      "evidence": "Matching output-symbol dispatcher1e820..1ea70; recover original section before class update, exclude removed contributions, preserve external emission/auxiliary paths and Mac line-file adjustments."
+    },
+    {
+      "name": "_write_contribution",
+      "start": 120112,
+      "end": 121248,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,Contribution *contribution,PIMAGE_SYMBOL symbols)",
+      "evidence": "Matching contribution writer1d530..1d9a0; full mapped/temporary-buffer paths, relocation callback with Image fourth argument, serialized alignment fill and CV contribution ranges. Fill templates are used output data, not execution of copied LINK code."
+    },
+    {
+      "name": "_process_contribution_debug",
+      "start": 121248,
+      "end": 122272,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,Contribution *contribution,unsigned short section_index,FunctionSymbolMap *maps)",
+      "evidence": "Matching contribution debug-lines1d9a0..1dda0; full COFF line relocation/function-aux patching, variable CodeView source header and cumulative count updates. Minimal-C exercises the early line-count/debug guards."
+    },
+    {
+      "name": "_find_mac_contribution_external",
+      "start": 234832,
+      "end": 234833,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl External *(Contribution *contribution)"
+    },
+    {
+      "name": "_update_debug_symbol",
+      "start": 123248,
+      "end": 123249,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol)"
+    },
+    {
+      "name": "_update_external_symbol",
+      "start": 123616,
+      "end": 124224,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl External *(Image *image,PIMAGE_SYMBOL symbol,Module *module)",
+      "evidence": "Matching external relocation1e2e0..1e540; preserve name lookup, defined/absolute/common/reference branches, final values and Mac-relative addresses. Dispatcher passes an unused third Module argument. Original leaves displacement unset for unresolved zero-valued/special negative inputs; no such path reached by this fixture."
+    },
+    {
+      "name": "_update_static_symbol",
+      "start": 124224,
+      "end": 124608,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol,Module *module)",
+      "evidence": "Matching static/label symbol relocation1e540..1e6c0; intern emitted long names, update output section/value, optional map entry and Mac-relative addressing."
+    },
+    {
+      "name": "_update_file_symbol",
+      "start": 124608,
+      "end": 124960,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol,unsigned char *special)",
+      "evidence": "Matching FILE-symbol update1e6c0..1e820; patch previous emitted FILE link, preserve first symbol index, and allocate mutable source-name storage for CV auxiliary records."
+    },
+    {
+      "name": "_update_section_symbol",
+      "start": 123328,
+      "end": 123329,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol,Module *module)"
+    },
+    {
+      "name": "_process_symbol_auxiliaries",
+      "start": 122992,
+      "end": 123248,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol,short original_section,PIMAGE_SYMBOL *cursor,unsigned char emitted,unsigned char special,FunctionSymbolMap *maps,unsigned long *index)",
+      "evidence": "Matching auxiliary-symbol loop1e070..1e170, including out-of-line FUNCTION branch1e150. Preserve original per-class graph, stream index/count updates, and mutable FILE-source concatenation."
+    },
+    {
+      "name": "_is_section_symbol",
+      "start": 122832,
+      "end": 122833,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl unsigned char(Image *image,PIMAGE_SYMBOL symbol)"
+    },
+    {
+      "name": "_update_function_auxiliary",
+      "start": 122560,
+      "end": 122561,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL symbol,short section,PIMAGE_AUX_SYMBOL auxiliary,unsigned long *previous,unsigned long *function,FunctionSymbolMap *maps,unsigned long index,Image *image)"
+    },
+    {
+      "name": "_update_block_auxiliary",
+      "start": 122272,
+      "end": 122273,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(PIMAGE_SYMBOL symbol,PIMAGE_AUX_SYMBOL auxiliary,unsigned long *previous,unsigned long *function,unsigned long *block,unsigned long remaining)"
+    },
+    {
+      "name": "_write_coff_auxiliary",
+      "start": 152080,
+      "end": 152081,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_AUX_SYMBOL auxiliary)"
+    },
+    {
+      "name": "_record_map_symbol",
+      "start": 161824,
+      "end": 161825,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(const char *name,Contribution *contribution,unsigned long value,unsigned char function)"
+    },
+    {
+      "name": "_write_mac_loader_prologue",
+      "start": 221952,
+      "end": 221953,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(Contribution *contribution)"
+    },
+    {
+      "name": "_mapped_output_pointer",
+      "start": 251632,
+      "end": 251712,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl void *(int handle,unsigned long offset,unsigned size)",
+      "evidence": "Matching direct mapped-output span3d6f0..3d740; mapped-only, unsigned end/capacity/length checks, return view+offset without changing the file cursor."
+    },
+    {
+      "name": "_prepare_relocations",
+      "start": 127872,
+      "end": 127888,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matching relocation prelude1f380..1f390; original function is RET with alignment and has no state or calls."
+    },
+    {
+      "name": "_read_coff_lines",
+      "start": 152176,
+      "end": 152177,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_LINENUMBER lines,unsigned long count)"
+    },
+    {
+      "name": "_write_coff_lines",
+      "start": 152208,
+      "end": 152209,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_LINENUMBER lines,unsigned long count,ImageOptions *options)"
+    },
+    {
+      "name": "_lookup_function_symbol",
+      "start": 220208,
+      "end": 220209,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl unsigned char(FunctionSymbolMap *maps,unsigned short section,unsigned long input,unsigned long *offset,unsigned long *output)"
     }
   ],
   "c_stub_references": [
@@ -3085,6 +3293,17 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

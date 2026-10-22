@@ -11,8 +11,8 @@ to stderr. Both streams and status match the unmodified original byte for byte.
 The stdout SHA-256 is:
 957c1782d7ebeed2733e7596f4502ffb6ffd5ffc01858add77f54c7fb4b8dff4
 
-The ordered history contains 320 accepted frontiers. The active minimal-C link
-case stops in both programs at process_module_output, original address 0001ea70.
+The ordered history contains 331 accepted frontiers. The active minimal-C link
+case stops in both programs at apply_i386_relocations, original address 00035cd0.
 It has not yet produced a validated executable. The hello-win32 link fixture
 is queued after minimal-C. The fixtures are shared, immutable inputs under
 ../fixtures; cases/ records the queue and exact invocation.
@@ -28,17 +28,20 @@ The original binary's entire code section is masked with INT3. The harness
 restores accepted function extents and runs both variants concurrently, asserting
 that each trap names the same logical function. The reconstruction's entry point
 and all unaccepted functions are masked as well. The clean parallel build passed at the 238-frontier archive-index checkpoint.
-The current 320-frontier case-aware replay passes in full, followed by exact
-help and a recheck of minimal-C's matching module-output frontier. Later frontiers cover
+The 320-frontier case-aware replay passes in full. The 11 newer frontiers and
+affected predecessors have since been replayed, followed by exact help and a
+recheck of minimal-C's matching i386-relocation frontier. Later frontiers cover
 member extraction, import ordering, section merging, symbol diagnostics/emission,
 cached name sorting, nested hash enumeration, COMDAT reachability, and section
 layout. The mapped writer, COFF section headers, PE directory RVAs and pass-two
-driver have also been reconstructed. At the current stop, the partial2MB output
-files match byte for byte; contribution data and final image headers are pending.
+driver have also been reconstructed. Per-module symbol conversion, raw
+contribution copies, optional line processing, and mapped-input closure now have
+C bodies. At the current stop, the partial2MB output files match byte for byte;
+relocation application and final image metadata are pending.
 
 The static audits compare direct calls, tail calls, indirect-call presence, and
-relocated callback references. The current all-C build checks 212 source/runtime
-call graphs, 203 source callback-reference sets, and 183 contextual data objects.
+relocated callback references. The current all-C build checks 223 source/runtime
+call graphs, 214 source callback-reference sets, and 194 contextual data objects.
 These checks and the frontier replay cover the reached paths; pending helpers
 still trap, and unexecuted output-format branches need later case coverage.
 

@@ -62,4 +62,3 @@ void adjust_rom_section_header(Section *section,IMAGE_SECTION_HEADER *header,Ima
 void write_mac_section_debug(Section *section) { __asm { int 3 } }
 
 void record_mac_section_resource(unsigned long mask,Section *section) { __asm { int 3 } }
-void process_module_output(Image *image,Module *module) { __asm { int 3 } }

@@ -13,7 +13,13 @@ typedef struct BaseFixup {
     union { unsigned long adjustment,symbol_index; } value;
 } BaseFixup;
 extern BaseFixup *base_fixups,*base_fixup_next;
-typedef struct ModuleDebugInfo ModuleDebugInfo;
+typedef struct ModuleDebugInfo {
+    Module *module;
+    const char *library_name,*module_name;
+    char *source_name;
+    unsigned long symbol_offset,symbol_size,type_offset,type_size,precompiled_types;
+    unsigned long line_offset,line_size;
+} ModuleDebugInfo;
 extern SectionDefault readonly_section_defaults,bss_section_defaults,debug_section_defaults;
 extern SectionDefault idata_directory_defaults,reloc_section_defaults;
 extern Module *output_module;

@@ -308,3 +308,39 @@ unsigned write_mapped_file(FileSlot *file,const void *buffer,unsigned size)
     return size;
 }
 
+
+void *mapped_output_pointer(int handle,unsigned long offset,unsigned size)
+{
+    FileSlot *file=files[handle];
+    unsigned long end;
+    if (!(file->flags&8)) return NULL;
+    end=offset+size;
+    if (file->allocated<end) grow_mapping(file,end);
+    if ((unsigned long)file->length<end) file->length=end;
+    return file->contents.view+offset;
+}
+
+
+int close_mapped_file(FileSlot *file)
+{
+    int result,index;
+    mapping_unmap(file->contents.view);
+    if (file->flags&2) {
+        SetFilePointer(file->source.handle,file->length,NULL,FILE_BEGIN);
+        SetEndOfFile(file->source.handle);
+    }
+    CloseHandle(file->storage.mapping);
+    result=CloseHandle(file->source.handle);
+    for (index=0;index<16;++index)
+        if (mapped_outputs[index]==file) mapped_outputs[index]=NULL;
+    file->source.handle=NULL;
+    file->storage.mapping=NULL;
+    file->contents.view=NULL;
+    file->cursor.position=0;
+    file->allocated=0;
+    file->flags=0;
+    free(file->name);
+    file->name=NULL;
+    return result;
+}
+

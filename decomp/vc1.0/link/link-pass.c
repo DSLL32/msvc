@@ -399,7 +399,7 @@ int link_passes(Image *image,unsigned char *pack)
         end_symbol->value.final_value=data_rva;
     }
     if (image->options.debug_level && (image->options.debug_types&2)) {
-        module_debug_info=calloc(count_modules(image->libraries.first),76);
+        module_debug_info=calloc(count_modules(image->libraries.first),sizeof(*module_debug_info));
         if (!module_debug_info) out_of_memory();
     }
     bss_size=bss_contribution->rva;

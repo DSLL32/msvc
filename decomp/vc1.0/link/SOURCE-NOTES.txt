@@ -66,7 +66,7 @@ archive linker-member indexes now have C implementations. The archive code model
 member offsets, symbol/member indices, raw names, and a name-pointer index as
 separate fields. The file cursor and archive globals are named input_file and
 archive_data_offset for their observed roles. The case currently stops at
-process_module_output. Extraction now reads the needed CRT/import members and
+apply_i386_relocations. Extraction now reads the needed CRT/import members and
 updates the undefined list after definitions, while contribution iterators mark
 .idata sections. Relocation reachability edges have named, resolved-node,
 and contribution fields; linker-defined nodes grow their edge capacity as needed.
@@ -151,3 +151,28 @@ base; earlier names had those roles reversed. BaseFixup models the observed type
 RVA and adjustment/ROM-symbol payload, omitting an unconsumed original DWORD from
 its private layout. Allocation now uses sizeof that type. The queued backend C
 implementations must use those fields and the named base/next pointers.
+
+The contribution checkpoint contains331 accepted frontiers. The11 additions
+since the full320 replay and affected predecessors replay successfully, followed
+by exact help and the matching i386 relocation frontier. Partial2MB outputs,
+including initial raw contribution copies, match exactly at this stop (SHA256
+05c9b37b69a2d16122c0668098b64990a5fd7088df1d628ee4540cbbcc3c5ee9).
+Per-module output, COFF class dispatch, FILE/static/external symbol conversion,
+auxiliary iteration, raw contribution emission and line processing now have C
+bodies. Individual map, debug and Macintosh helpers still trap when unreached.
+ModuleDebugInfo models only the named consumed fields; its allocation uses sizeof
+rather than an opaque original76-byte record. Function-symbol maps remain opaque
+typed pointers until their constructors/consumers are reached. Source names are
+mutable buffers. The16-byte zero/NOP templates serve serialized alignment writes;
+they are explicit output-data patterns used by the contribution writer.
+The relocation callback's fourth argument is the current Image, correcting the
+provisional Contribution** type in both backend declarations/stubs. The empty
+prepare_relocations vertex is retained as an empty C function matching original
+RET1f380. Mapped-output spans update capacity/logical length without moving the
+cursor. Mapped closure unmaps/closes handles, clears table references and frees
+the cached filename while retaining the original untouched slot fields.
+The older external-symbol routine leaves its displacement unset for unresolved
+zero-valued or unsupported negative external symbols; the C body retains that
+property. Minimal-C has not exercised these inputs. No assembly ABI exception
+was needed. Fixture completion still requires relocations, final image metadata,
+normalized byte comparison and generated-program execution.
