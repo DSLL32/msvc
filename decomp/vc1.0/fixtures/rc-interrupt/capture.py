@@ -59,7 +59,8 @@ def execute(executable, arguments, work, stem, rvas):
         assert set(map(int,re.findall(r'console_member=(\d+)',proof))) == {target,controller}
         assert 'group_semantics=console-local-broadcast event=0' in proof
         assert 'registration_return=TRUE' in proof and 'primary_suspended=1' in proof
-        assert 'primary_resuspended=1 boundary=OS_callback_thread_creation' in proof
+        assert ('primary_resuspended=1 boundary=OS_callback_thread_creation' in proof or
+                'primary_resuspended=1 boundary=repeated_lexer_barrier' in proof)
         assert 'control_exception=40010005' in proof and 'disposition=not_handled' in proof
         callback = re.search(r'callback pid=(\d+) tid=(\d+) argument=(\d+) handler_rva=([0-9a-f]+)',proof)
         assert callback and int(callback[1]) == target and int(callback[2]) != primary and int(callback[3]) == 0

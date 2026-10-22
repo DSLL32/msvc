@@ -213,7 +213,21 @@ int main(int argc, char **argv)
                     note("registration_return=TRUE\n");
                 } else if (address == lexer.address) {
                     require(registered && event.dwThreadId == pi.dwThreadId, "registered pre-lexer boundary");
-                    restore(pi.hProcess, &lexer);
+                    /* Keep the lexer entry trapped: Wine's primary thread must
+                     * run briefly to dispatch SIGINT, but may not enter RC code.
+                     * CREATE_THREAD and this repeat trap may arrive either first.
+                     */
+                    if (generated) {
+                        if (waiting_delivery) {
+                            require(SuspendThread(pi.hThread) == 0, "suspend primary at repeated lexer barrier");
+                            waiting_delivery = 0;
+                            note("primary_resuspended=1 boundary=repeated_lexer_barrier\n");
+                        } else note("pending_primary_breakpoint=lexer barrier_already_suspended=1\n");
+                        context.Eip = address;
+                        require(SetThreadContext(thread, &context), "restore repeated lexer barrier EIP");
+                        ContinueDebugEvent(event.dwProcessId, event.dwThreadId, status);
+                        continue;
+                    }
                     context.Eip = address;
                     require(SetThreadContext(thread, &context), "restore lexer breakpoint EIP");
                     context_repaired = 1;
@@ -251,6 +265,27 @@ int main(int argc, char **argv)
                     context.Eip = address;
                     require(SetThreadContext(thread, &context), "restore breakpoint EIP");
                 }
+            } else if (code != EXCEPTION_BREAKPOINT && event.u.Exception.dwFirstChance) {
+                HANDLE failed_thread = 0;
+                DWORD stack[128], frame;
+                for (index = 0; index != thread_count; ++index)
+                    if (thread_ids[index] == event.dwThreadId) failed_thread = thread_handles[index];
+                memset(&context, 0, sizeof(context));
+                context.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER;
+                if (failed_thread && GetThreadContext(failed_thread, &context) &&
+                    ReadProcessMemory(pi.hProcess, (void *)context.Esp, stack, sizeof(stack), &done)) {
+                    note("exception_context esp=%08lx ebp=%08lx eax=%08lx\n",context.Esp,context.Ebp,context.Eax);
+                    for (index=0; index<128; ++index) note("stack%lu=%08lx\n",index,stack[index]);
+                    frame=context.Ebp;
+                    for (index=0; index<12 && frame; ++index) {
+                        note("frame%lu=%08lx caller=%08lx arg=%08lx\n",index,frame,read_word(pi.hProcess,frame+4),read_word(pi.hProcess,frame+8));
+                        frame=read_word(pi.hProcess,frame);
+                    }
+                }
+
+                note("first_chance_exception=%08lx address=%08lx tid=%lu disposition=not_handled\n",
+                     code, address, event.dwThreadId);
+                status = DBG_EXCEPTION_NOT_HANDLED;
             } else {
                 sprintf(line, "exception %08lx rva %08lx base %08lx first %lu\n",
                         code, address-base, base, event.u.Exception.dwFirstChance);

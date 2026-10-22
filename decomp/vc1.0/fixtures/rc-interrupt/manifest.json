@@ -44,14 +44,14 @@
       "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
     },
     {
-      "path": "evidence/original/before/RC000484",
+      "path": "evidence/original/before/RC002016",
       "bytes": 54,
       "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
     },
     {
-      "path": "evidence/original/before/RD000484",
+      "path": "evidence/original/before/RD002016",
       "bytes": 90,
-      "sha256": "38e7538aa067e3cfe9c9d459e805dd1992083ff381d3588be099752917ecdefb"
+      "sha256": "eda342ab42258a98f722dfb71af3b1cd295dd5eb416bb801c8bc352ea40da6b5"
     },
     {
       "path": "evidence/original/before/interrupt.rc",
@@ -70,8 +70,8 @@
     },
     {
       "path": "evidence/original/proof.log",
-      "bytes": 852,
-      "sha256": "2f03b33d28c70ec35e450bde18df7caa66f710af9624532b51a3ec4b51883d76"
+      "bytes": 923,
+      "sha256": "fffad0726e2dab187412c99a27f6197edec8fdb348aa7d77dde653f1d70c8f07"
     },
     {
       "path": "evidence/original/stderr.bin",
@@ -149,13 +149,13 @@
   "analysis_helper": [
     {
       "path": "capture-interrupt.c",
-      "bytes": 15255,
-      "sha256": "584da531266205dff8cec5563bccb7951c5179366b56c6efe53d8728682fda14"
+      "bytes": 17644,
+      "sha256": "96d83fc0ddce81055ededeabb417c1c9d19239160e563170b38468e1755bd453"
     },
     {
       "path": "capture.py",
-      "bytes": 5195,
-      "sha256": "b4da4cbfe3f7f5fc2bcfd40a0b6a662ece9bffb7cf8eff86cc198b4ba8a2846f"
+      "bytes": 5281,
+      "sha256": "df2732c3099043ab8da778c61da926f842d9cef4af2f86a0e9b3a0c06f9e185c"
     }
   ],
   "wine_version": "wine-10.0 (Debian 10.0~repack-6)"
