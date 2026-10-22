@@ -12,6 +12,8 @@
 #include "lexer.h"
 #include "parser.h"
 #include "literal-names.h"
+#include "initializer-records.h"
+#include "initializers.h"
 #include "control-ir.h"
 #include "expressions.h"
 
@@ -109,7 +111,6 @@ void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 
 
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
-int __stdcall parameter_stack_bytes(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
 
@@ -290,13 +291,11 @@ void __stdcall begin_for_statement(IrToken *initial, IrToken *condition, IrToken
 void finish_for_statement(void) { __asm { int 3 } }
 
 /* Original 0x2fdb0. */
-FrontendSymbol *__stdcall declare_initialized_symbol(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 /* Original 0x2fe60. */
 void __stdcall finish_initializer(FrontendSymbol *symbol, IrToken *initializer) { __asm { int 3 } }
 
 /* Original 0x300c0. */
-void __stdcall begin_aggregate_initializer(IrToken *initializer) { __asm { int 3 } }
 
 /* Original 0x301a0. */
 void __stdcall emit_initializer(IrToken *initializer) { __asm { int 3 } }
@@ -318,7 +317,6 @@ void begin_do_statement(void) { __asm { int 3 } }
 /* Original 0x330f0. */
 
 /* Original 0x332d0. */
-void finish_switch_statement(void) { __asm { int 3 } }
 
 /* Original 0x33360. */
 
@@ -444,7 +442,6 @@ void __stdcall print_function_declaration(FrontendSymbol *symbol, FILE *stream) 
 void __stdcall define_register_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 
-void write_counted_ir(short length, char *text) { __asm { int 3 } }
 
 IrToken *__stdcall make_based_pointer_base(CType *type) { __asm { int 3 } return 0; }
 
@@ -479,7 +476,6 @@ void finish_inline_function(void) { __asm { int 3 } }
 void browser_close_file(void) { __asm { int 3 } }
 void report_ide_file_end(void) { __asm { int 3 } }
 
-FrontendSymbol *__stdcall prepare_initializer_symbol(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 void __stdcall emit_debug_type(CType *type) { __asm { int 3 } }
 void flush_debug_types(void) { __asm { int 3 } }
@@ -787,4 +783,11 @@ void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendS
 
 unsigned __stdcall write_initializer_bytes(void *data, unsigned size, unsigned count, InitializerBuffer *buffer) { __asm { int 3 } }
 int __stdcall put_initializer_byte(int value, InitializerBuffer *buffer) { __asm { int 3 } }
-void __stdcall write_initializer_value(FrontendSymbol *symbol, IrToken *value, FILE *stream) { __asm { int 3 } }
+
+int __stdcall find_initializer_address(IrToken *value, FrontendSymbol **symbol, int *offset) { __asm { int 3 } }
+unsigned __stdcall initializer_address_size(FrontendSymbol *symbol) { __asm { int 3 } }
+int extended_to_double(const Extended *value, double *result) { __asm { int 3 } }
+int extended_to_float(const Extended *value, float *result) { __asm { int 3 } }
+int extended_to_integer(const Extended *value, int *result) { __asm { int 3 } }
+void write_ir_float(float *value) { __asm { int 3 } }
+void write_ir_double(double *value) { __asm { int 3 } }

@@ -198,7 +198,7 @@ void __stdcall initialize_thread_symbol(FrontendSymbol *symbol);
 void __stdcall process_symbol_storage(FrontendSymbol *symbol);
 FrontendSymbol *__stdcall apply_declarator_type(DeclarationSpec *declaration, FrontendSymbol *symbol);
 void __stdcall finish_initializer(FrontendSymbol *symbol, IrToken *initializer);
-void __stdcall begin_aggregate_initializer(IrToken *initializer);
+void __stdcall begin_aggregate_initializer(FrontendSymbol *symbol);
 void __stdcall finish_aggregate_initializer(FrontendSymbol *symbol);
 FrontendSymbol *__stdcall declare_initialized_symbol(FrontendSymbol *symbol);
 void __stdcall report_declaration_error(unsigned code, DeclarationSpec *declaration);

@@ -213,7 +213,7 @@ formats:
             GLOBAL_BYTE(stream, (signed char)tag);
             break;
         case GF_ARGUMENT_BYTES:
-            if (array_type) GLOBAL_INTEGER(parameter_stack_bytes(symbol));
+            if (array_type) GLOBAL_INTEGER(symbol_element_size(symbol));
             else GLOBAL_INTEGER(0);
             break;
         case GF_SYMBOL_INDEX:
@@ -540,4 +540,26 @@ void write_ir_integer(int *value)
     }
     putc(0x80, auxiliary_ir_stream);
     for (count = 0; count < 4; ++count) putc(byte[count], auxiliary_ir_stream);
+}
+
+/* Original 0x4ba40..0x4baa0. Retain the signed sixteen-bit loop count
+   used by the frontend's counted text records. */
+void write_counted_ir(short length, char *text)
+{
+    write_ir_short(&length);
+    while (--length >= 0) putc((signed char)*text++, auxiliary_ir_stream);
+}
+
+/* Original 0x4b580..0x4b675. A reserved byte distinguishes a complete
+   little-endian short from the single-byte signed representation. */
+void write_ir_short(short *value)
+{
+    signed char *byte = (signed char *)value;
+    if (*value >= -127 && *value <= 127) {
+        putc(*byte, auxiliary_ir_stream);
+        return;
+    }
+    putc(0x80, auxiliary_ir_stream);
+    putc(byte[0], auxiliary_ir_stream);
+    putc(byte[1], auxiliary_ir_stream);
 }

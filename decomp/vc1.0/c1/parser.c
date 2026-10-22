@@ -390,7 +390,7 @@ read_action:
             text_work_cursor = expression_storage;
             break;
         case 54:
-            if (!options.prototypes_only) begin_aggregate_initializer(right[0].node);
+            if (!options.prototypes_only) begin_aggregate_initializer(right[0].symbol);
             break;
         case 55:
             finish_aggregate_initializer(right[-5].symbol);
@@ -1665,4 +1665,23 @@ void __stdcall emit_case_statement(IrToken *value)
     entry->next = next;
     if (previous) previous->next = entry;
     else switch_labels->value.cases = entry;
+}
+
+/* Original 0x332d0..0x33357. The switch record owns the sorted case
+   chain and selects either the explicit default or the common break label. */
+void finish_switch_statement(void)
+{
+    IrToken *expression = make_ir_expression(TOK_SWITCH, continue_labels->value.label,
+        (IrToken *)switch_labels->value.cases);
+    FrontendSymbol *symbol;
+    IrToken *default_label;
+    expression->type = continue_labels->value.label->type;
+    symbol = continue_labels->value.label->value.pointer;
+    symbol->flags |= 1;
+    symbol->metadata.value = (symbol->metadata.value & 0xffffff00UL) | parameter_nesting;
+    default_label = default_labels->value.label;
+    if (!default_label) default_label = break_labels->value.label;
+    current_label_symbol = default_label->value.pointer;
+    emit_ir_expression(expression);
+    emit_code_label(break_labels->value.label);
 }

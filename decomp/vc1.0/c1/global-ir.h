@@ -91,7 +91,7 @@ extern unsigned *source_file_index, source_file_counter;
 extern char last_record_source[256];
 int __stdcall type_size(CType *type);
 void __stdcall require_complete_type(CType *type);
-int __stdcall parameter_stack_bytes(FrontendSymbol *symbol);
+int __stdcall symbol_element_size(FrontendSymbol *symbol);
 unsigned short __stdcall type_alignment(CType *type);
 void __stdcall emit_symbol_declaration(FrontendSymbol *symbol);
 FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol);
@@ -105,4 +105,5 @@ void __stdcall cache_parameter_bytes(FrontendSymbol *symbol);
 int format_integer(int value, char *destination, unsigned radix);
 
 extern char symbol_name_buffer[248];
+void write_ir_short(short *value);
 #endif

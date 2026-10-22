@@ -2123,3 +2123,24 @@ void __stdcall record_local_declaration(FrontendSymbol *symbol)
     record_symbol_alias(symbol, copy);
     insert_scope_symbol(global_scope, copy);
 }
+
+/* Original 0x2fdb0..0x2fe5b. An initializer turns a file-scope extern
+   into a definition; typedef initializers are rejected before preparation. */
+FrontendSymbol *__stdcall declare_initialized_symbol(FrontendSymbol *symbol)
+{
+    unsigned char storage;
+    if (!symbol) return 0;
+    storage = symbol->storage[0] & 7;
+    if (storage == 7) {
+        report_syntax_error(71, symbol->name);
+        return 0;
+    }
+    if (storage == 1) {
+        if (parameter_nesting) report_syntax_error(205, symbol->name);
+        symbol->storage[0] = (symbol->storage[0] & ~7) | 2;
+    }
+    if (options.prototypes_only) return symbol;
+    if ((symbol->storage[2] & 4) && !(symbol->storage[2] & 8))
+        parser_flags |= 0x20000000;
+    return prepare_initializer_symbol(symbol);
+}

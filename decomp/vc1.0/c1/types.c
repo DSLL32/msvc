@@ -671,3 +671,15 @@ int __stdcall is_void_pointer_type(CType *type)
     } while (shape);
     return 1;
 }
+
+/* Original 0x32e80..0x32ec4. Array dimensions do not affect the size
+   of an element; a pointer shape ends that search at its pointer width. */
+int __stdcall symbol_element_size(FrontendSymbol *symbol)
+{
+    CType *type = symbol->type;
+    TypeShape *shape = type->related;
+    if (symbol->attributes & 2) shape = shape->related;
+    while (shape && !(shape->flags & 1)) shape = shape->related;
+    if (shape) return pointer_type_size(shape->attributes);
+    return base_type_size(type->flags, (void *)type->field08);
+}
