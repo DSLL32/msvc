@@ -30,8 +30,11 @@ and N: mapping, so outputs cannot collide and no paths are normalized.
 Auxiliary oracles: irdb51 bytes, msvc.pdb574 bytes. Compare all auxiliary bytes
 except the shared timestamp DWORD at irdb+14 and msvc.pdb+48; require both values
 to agree within each run before normalization. The PDB format signature and
-full file-set receipts are recorded in validation.json. Native writer/field
-provenance is to be audited during reconstruction before final acceptance.
+full file-set receipts are recorded in validation.json. Reconstruction checkpoint
+ff868c1 established native provenance: begin_program_database passes time(0),
+create_program_database writes it at PDB header byte 48, and
+write_program_database_reference copies program_database_signature into the
+LF_TYPESERVER record at irdb byte 14. Age and all remaining bytes are exact.
 The simple minimal-c verifier does not configure this namespace; use the C1
 harness numeric-varargs case for the complete six-output check.
 
