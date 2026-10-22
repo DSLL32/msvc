@@ -1,6 +1,6 @@
 {
   "case": "hello-dll",
-  "status": "active",
+  "status": "complete",
   "fixture": "../fixtures/hello-dll/manifest.json",
   "phase": "link",
   "arguments": [
@@ -54,32 +54,232 @@
         }
       ],
       "reconstructed_dll_complete": false
+    },
+    {
+      "accepted_frontiers": 49,
+      "total_accepted_frontiers": 396,
+      "current_frontier": "_write_single_import_member",
+      "previous_frontiers_replayed": 383,
+      "new_frontiers_replayed": 13,
+      "new_replay_sha256": "39fe4602e0600b1947b8c25b0b6da1fea563bca34abdd9db90ce758f3579e6a5",
+      "regressions_pass": true,
+      "calls_audited": 273,
+      "callback_sets_audited": 264,
+      "contextual_data_definitions_audited": 230,
+      "export_object_normalized_sha256": "b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9",
+      "export_object_ignored_fields": [
+        {
+          "offset": 4,
+          "bytes": 4,
+          "name": "COFF timestamp"
+        },
+        {
+          "offset": 64,
+          "bytes": 4,
+          "name": "Export directory timestamp"
+        }
+      ],
+      "reconstructed_dll_complete": false
     }
   ],
-  "checkpoint": {
-    "accepted_frontiers": 49,
-    "total_accepted_frontiers": 396,
-    "current_frontier": "_write_single_import_member",
-    "previous_frontiers_replayed": 383,
-    "new_frontiers_replayed": 13,
-    "new_replay_sha256": "39fe4602e0600b1947b8c25b0b6da1fea563bca34abdd9db90ce758f3579e6a5",
-    "regressions_pass": true,
-    "calls_audited": 273,
-    "callback_sets_audited": 264,
-    "contextual_data_definitions_audited": 230,
-    "export_object_normalized_sha256": "b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9",
-    "export_object_ignored_fields": [
-      {
-        "offset": 4,
-        "bytes": 4,
-        "name": "COFF timestamp"
+  "exit_status": 0,
+  "streams": {
+    "stdout": {
+      "bytes": 245,
+      "sha256": "123a1e6dde48af4ba21e7e6c5667f4b7ee926ddc4b7025bd9ef72b647d5459a3"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "outputs": [
+    {
+      "output_name": "hello.dll",
+      "bytes": 2097152,
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "name": "PE COFF TimeDateStamp"
+        },
+        {
+          "offset": 12804,
+          "bytes": 4,
+          "name": "Export directory TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "322ba54da6475e88c38e583e208cfe9a29caff7c827cf4e009a8556d50a73102"
+    },
+    {
+      "output_name": "hello.lib",
+      "bytes": 2097152,
+      "ignored_fields": [
+        {
+          "offset": 24,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 230,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 448,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 496,
+          "bytes": 4,
+          "name": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1092,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 1140,
+          "bytes": 4,
+          "name": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1278,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 1326,
+          "bytes": 4,
+          "name": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1492,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 1540,
+          "bytes": 4,
+          "name": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1600,
+          "bytes": 4,
+          "name": "Export directory TimeDateStamp"
+        },
+        {
+          "offset": 1922,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 1970,
+          "bytes": 4,
+          "name": "COFF TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "a686c62d37c456499183fb0fc174ad393b2458f9df44ef57d6c8735f94ed6d57"
+    },
+    {
+      "output_name": "hello.exp",
+      "bytes": 2097152,
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "bytes": 4,
+          "name": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 64,
+          "bytes": 4,
+          "name": "Export directory TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9"
+    }
+  ],
+  "generated_program": {
+    "path": "hello.dll",
+    "kind": "win32-dll-gui",
+    "host_source": "dll-host.c",
+    "export_name": "_HelloMain@16",
+    "export_ordinal": 1,
+    "calling_convention": "__stdcall",
+    "class_name": "HelloWindow",
+    "title": "Hello, world!",
+    "painted_text": "Hello, world!",
+    "close_message": "WM_CLOSE",
+    "exit_status": 0,
+    "checker_source": "decomp/vc1.0/cl/gui-check.c",
+    "verified_reports": {
+      "original": {
+        "width": 632,
+        "height": 326,
+        "dark_pixels": 300,
+        "bounds": [
+          276,
+          157,
+          354,
+          167
+        ],
+        "exit_status": 0
       },
-      {
-        "offset": 64,
-        "bytes": 4,
-        "name": "Export directory timestamp"
+      "reconstructed": {
+        "width": 632,
+        "height": 326,
+        "dark_pixels": 300,
+        "bounds": [
+          276,
+          157,
+          354,
+          167
+        ],
+        "exit_status": 0
+      },
+      "baseline": {
+        "width": 632,
+        "height": 326,
+        "dark_pixels": 300,
+        "bounds": [
+          276,
+          157,
+          354,
+          167
+        ],
+        "exit_status": 0
       }
+    }
+  },
+  "validation": {
+    "clean_parallel_build": [
+      "make clean",
+      "make -j2 check"
     ],
-    "reconstructed_dll_complete": false
+    "trap_replay": "python3 compare.py --replay --case hello-dll --require-exit",
+    "total_frontiers_replayed": 400,
+    "frontiers_by_case": {
+      "/?": 90,
+      "minimal-c": 254,
+      "hello-win32": 3,
+      "hello-dll": 53
+    },
+    "source_and_runtime_functions_with_matching_callee_sets": 276,
+    "source_functions_with_matching_callback_references": 267,
+    "contextual_data_definitions": 238,
+    "all_program_implementations_readable_c": true,
+    "assembly_abi_exceptions": false,
+    "unmodified_original_matches": true,
+    "replay_log_sha256": "4ffecc883bb4a60981719212574ac1479140cd8d7e5ce2d2652d5ecc12e00922",
+    "matching_trap_frontiers": 53,
+    "case_check": "python3 compare.py --case hello-dll --require-exit",
+    "regression_checks": [
+      "make -j2 check",
+      "python3 compare.py --case minimal-c --require-exit",
+      "python3 compare.py --case hello-win32 --require-exit"
+    ],
+    "longer_name_paired_variant": "cases/hello-dll-auxiliary.json"
   }
 }

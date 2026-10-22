@@ -1447,5 +1447,53 @@
     "address": 453392,
     "size": 4,
     "owner": "export-object.c"
+  },
+  {
+    "name": "import_jump_i386",
+    "address": 509952,
+    "size": 6,
+    "owner": "import-members.c"
+  },
+  {
+    "name": "import_jump_i860",
+    "address": 509968,
+    "size": 12,
+    "owner": "import-members.c"
+  },
+  {
+    "name": "import_jump_mips",
+    "address": 510008,
+    "size": 20,
+    "owner": "import-members.c"
+  },
+  {
+    "name": "import_relocations_i386",
+    "address": 509960,
+    "size": 3,
+    "owner": "import-members.c"
+  },
+  {
+    "name": "import_relocations_i860",
+    "address": 509984,
+    "size": 6,
+    "owner": "import-members.c"
+  },
+  {
+    "name": "import_relocations_mips",
+    "address": 510032,
+    "size": 9,
+    "owner": "import-members.c"
+  },
+  {
+    "name": "import_thunk_debug",
+    "address": 510168,
+    "size": 29,
+    "owner": "import-members.c"
+  },
+  {
+    "name": "import_debug_end",
+    "address": 510200,
+    "size": 4,
+    "owner": "import-members.c"
   }
 ]

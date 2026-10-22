@@ -305,3 +305,43 @@ Its private ExportDirectory uses DWORD RVAs because the original NT header
 incorrectly describes the three address fields as pointer-to-pointer types.
 No assembly implementation or section template was added. Forwarder/alias and
 alternate-machine branches remain dependent on future dynamic cases.
+
+The per-export COFF writer uses a private target description containing the
+encountered jump template, three-byte relocation recipes and relocation kinds.
+The i386 six-byte indirect jump and corresponding i860/MIPS templates are data
+serialized into output objects, never executable reconstruction implementations.
+The CodeView S_THUNK32 and S_END output records are explicitly packed typed
+structures. Their record lengths, names and relocations are emitted separately.
+The archive finalizer retains the original endian wrapper and separate index
+writer. The latter emits filtered member offsets or WORD member indexes.
+
+The original initializes 15 bytes of an 18-byte section auxiliary symbol and
+writes all 18. A scratch hardware watchpoint traced the final WORD to a prior
+kernel32 SetFilePointer temporary when close_mapped_file seeks to the .exp file
+length (call 3d4f2, reached from build_import_library close call 294b6). The target
+fixture's 370-byte object leaves unused tail 00 72 01. An untouched-original run
+using a longer output basename produces a 462-byte object and tail 00 ce 01.
+The private mapped_close_seek_position state in files.c explicitly preserves
+that observable value for the typed auxiliary output record, instead of relying
+on unrelated reconstructed stack contents or hard-coding fixture bytes. This
+state models reused stack storage; it is not claimed to be an original global.
+No timestamp/output normalization was expanded and no assembly exception added.
+The longer-name variant also passes the fully masked original/reconstruction
+pair with identical streams and all three outputs beyond timestamp fields. It
+exposed a descriptor alignment branch: the .idata$6 DLL-name record pads with
+NUL (original call 2b740, byte 7cb2c); archive member alignment remains newline.
+Primary trace locations/hashes, both variant checks and coverage limits
+are recorded in cases/hello-dll-auxiliary.json. Other file backends and call
+histories remain uncovered.
+
+The DLL case is complete at 400 accepted frontiers (53 introduced by hello-dll).
+A fresh clean make -j2 check succeeds without compiler warnings. All 400 recorded
+frontiers replay at matching logical traps, then exact streams/status, all three
+fixture artifacts and the DLL-host load/call/paint/close/unload checks pass for
+original, reconstruction and untouched baseline. Help, minimal-C and Win32 hello
+also pass from the clean build. Audits cover 276 call graphs, 267 callback sets
+and 238 named contextual data definitions. Final replay SHA256:
+4ffecc883bb4a60981719212574ac1479140cd8d7e5ce2d2652d5ecc12e00922.
+Only fixture timestamp fields are normalized. No implementation assembly ABI
+exception was needed. Pending helpers and uncovered target-machine, alias,
+forwarder and alternate file-backend paths remain outside these case results.

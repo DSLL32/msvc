@@ -19,9 +19,12 @@ unsigned char *export_ordinals;
 unsigned char import_only_export,export_error;
 unsigned short import_member_base=4;
 unsigned long first_export_ordinal=1,last_export_ordinal=1;
-ImportMachine import_i386={IMAGE_FILE_MACHINE_I386,0,7,7};
-ImportMachine import_i860={0x14d,1,7,7};
-ImportMachine import_mips={0x162,0,0x22,0x22};
+ImportMachine import_i386={IMAGE_FILE_MACHINE_I386,0,7,7,7,11,10,
+    &import_jump_i386,sizeof(import_jump_i386),import_relocations_i386,1};
+ImportMachine import_i860={0x14d,1,7,7,7,11,10,
+    import_jump_i860,sizeof(import_jump_i860),import_relocations_i860,2};
+ImportMachine import_mips={0x162,0,0x22,0x22,0x22,11,10,
+    import_jump_mips,sizeof(import_jump_mips),import_relocations_mips,3};
 
 int build_import_library(int argc,char **argv,Image *image)
 {

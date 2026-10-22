@@ -395,7 +395,11 @@
     "_write_export_symbols",
     "_write_coff_symbol",
     "_emit_string_table",
-    "_write_import_members"
+    "_write_import_members",
+    "_write_single_import_member",
+    "_finish_import_archive_indexes",
+    "_write_import_member_indexes",
+    "import:GetExitCodeProcess"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -3559,10 +3563,11 @@
     {
       "name": "_finish_import_archive_indexes",
       "start": 175232,
-      "end": 175233,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(SymbolTable *); entry only until reached"
+      "end": 175440,
+      "implementation": "C",
+      "source": "import-archive.c",
+      "abi": "cdecl void(SymbolTable *)",
+      "evidence": "Full extent 0x2ac80..0x2ad50: backfill first big-endian symbol offsets and second member offsets/indexes; preserves separate write_import_member_indexes call."
     },
     {
       "name": "_convert_omf_object",
@@ -3707,10 +3712,20 @@
     {
       "name": "_write_single_import_member",
       "start": 180704,
-      "end": 180705,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(Image *,External *,const ImportMachine *); entry only until reached"
+      "end": 184144,
+      "implementation": "C",
+      "source": "import-members.c",
+      "abi": "cdecl void(Image *,External *,const ImportMachine *)",
+      "evidence": "Complete 0x2c1e0..0x2cf50: COFF thunk/hint/lookup/IAT/debug sections, relocation recipes, auxiliary symbols and strings; cdecl three arguments. Target instruction arrays are serialized output data, not executable reconstruction source."
+    },
+    {
+      "name": "_write_import_member_indexes",
+      "start": 195952,
+      "end": 196096,
+      "implementation": "C",
+      "source": "import-archive.c",
+      "abi": "cdecl void(SymbolTable *,unsigned short)",
+      "evidence": "Full extent 0x2fd70..0x2fe00: emit big-endian member offsets for first archive index or WORD member indexes for the second; source/external enumeration graph retained."
     }
   ],
   "c_stub_references": [
@@ -4064,6 +4079,10 @@
     "hello-win32",
     "hello-win32",
     "hello-win32",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
     "hello-dll",
     "hello-dll",
     "hello-dll",

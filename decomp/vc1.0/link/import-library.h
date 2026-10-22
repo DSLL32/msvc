@@ -1,11 +1,29 @@
 #ifndef LINK_IMPORT_LIBRARY_H
 #define LINK_IMPORT_LIBRARY_H
 #include "library.h"
+typedef struct ImportThunkRelocation {
+    unsigned char offset,symbol,type;
+} ImportThunkRelocation;
+#pragma pack(1)
+typedef struct I386ImportJump {
+    unsigned short opcode;
+    unsigned long address;
+} I386ImportJump;
+#pragma pack()
+extern const I386ImportJump import_jump_i386;
+extern const unsigned long import_jump_i860[3],import_jump_mips[5];
+extern const ImportThunkRelocation import_relocations_i386[1];
+extern const ImportThunkRelocation import_relocations_i860[2],import_relocations_mips[3];
 /* Private target description, extended as import-member fields are recovered. */
 typedef struct ImportMachine {
     unsigned short machine;
     unsigned char helper_thunk;
     unsigned short descriptor_relocation,export_relocation;
+    unsigned short lookup_relocation,debug_offset_relocation,debug_section_relocation;
+    const void *jump;
+    unsigned long jump_size;
+    const ImportThunkRelocation *jump_relocations;
+    unsigned short jump_relocation_count;
 } ImportMachine;
 extern ImportMachine import_i386,import_i860,import_mips;
 extern SymbolTable *export_symbol_table;
@@ -60,4 +78,5 @@ void write_export_object(Image *,unsigned long,unsigned long,const ImportMachine
 void write_single_import_member(Image *,External *,const ImportMachine *);
 void write_import_members(Image *,const ImportMachine *);
 void finish_import_archive_indexes(SymbolTable *);
+void write_import_member_indexes(SymbolTable *,unsigned short);
 #endif

@@ -13,6 +13,11 @@ void (*failure)(char *,int,char *);
 CreateMapping mapping_create;
 MapFileView mapping_map;
 UnmapFileView mapping_unmap;
+/* Private compatibility state for the observable unused COFF auxiliary tail.
+ * The original exposes part of SetFilePointer's old stack local after closing
+ * the mapped .exp file. Retain the value explicitly instead of relying on the
+ * reconstructed compiler's unrelated stack layout. */
+unsigned long mapped_close_seek_position;
 
 int closed_file_count;
 FileSlot *active_files, *closed_files, *closed_files_tail;
@@ -326,6 +331,7 @@ int close_mapped_file(FileSlot *file)
     int result,index;
     mapping_unmap(file->contents.view);
     if (file->flags&2) {
+        mapped_close_seek_position=file->length;
         SetFilePointer(file->source.handle,file->length,NULL,FILE_BEGIN);
         SetEndOfFile(file->source.handle);
     }
@@ -362,4 +368,3 @@ void close_all_files(void)
         else release_file_slot(file);
     }
 }
-

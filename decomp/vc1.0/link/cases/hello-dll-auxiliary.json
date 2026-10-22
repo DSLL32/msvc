@@ -1,0 +1,58 @@
+{
+  "purpose": "Explain the observable uninitialized COFF auxiliary tail without copying stack bytes or broadening output normalization",
+  "original_writer": {
+    "name": "write_single_import_member",
+    "extent": [
+      "0x2c1e0",
+      "0x2cf50"
+    ],
+    "auxiliary_write": "0x2cb51",
+    "initialized_bytes": 15,
+    "written_bytes": 18,
+    "reused_stack_bytes": {
+      "offset": 15,
+      "bytes": 3
+    }
+  },
+  "provenance": {
+    "orchestrator_close_call": "0x294b6",
+    "mapped_close_seek_call": "0x3d4f2",
+    "watched_location_relative_to_import_writer_entry_esp": -44,
+    "watch_initial_value": 74,
+    "watch_last_value": 370,
+    "last_writer": "kernel32 SetFilePointer; seek to mapped .exp file length",
+    "original_trace_sha256": "e19b5b13f9779efcdf7ed7de4f8825312e8a071c90df2b19dbf5717863bd7804",
+    "original_trace_path": "/root/.ai-tmp/vc1.0-link/residue-watch-stack.log"
+  },
+  "original_only_variant": {
+    "change": "Longer DLL/import-library output basename; same hello-dll.obj",
+    "export_object_size": 462,
+    "auxiliary_tail": "00ce01",
+    "evidence_sha256": "78e67f1c788e9de5ae8aa76e6091243d8ca27fd43072b33c064ef47eb1118412",
+    "evidence_path": "/root/.ai-tmp/vc1.0-link/residue-long-name/proof.json"
+  },
+  "reconstruction": {
+    "state": "mapped_close_seek_position",
+    "owner": "files.c close_mapped_file",
+    "consumer": "import-members.c ImportSectionAuxiliary.old_mapped_close_position",
+    "meaning": "Retain the mapped close seek position explicitly and serialize its low WORD in the auxiliary tail; reserved byte remains zero",
+    "assembly_exception": false,
+    "extra_output_normalization": false
+  },
+  "limits": "The DLL fixture, original watchpoint trace and paired longer-name variant establish this residue for the mapped-close path in the current execution environment. Other file-backend/call-history paths require later cases.",
+  "paired_longer_name_variant": {
+    "events": [
+      "exit 0\n",
+      "exit 0\n"
+    ],
+    "streams_match": true,
+    "output_hashes": {
+      "a_longer_export_library_name.dll": "45d46d1c3c9eb86145d05d94acea953fa9f61aa77945414cc4469bd039ca1894",
+      "a_longer_export_library_name.lib": "020405471737742695f3964cd4d547992a1af04a2ee55db7caeca77aee03c3c2",
+      "a_longer_export_library_name.exp": "0f3a189899507058cc3e930b9db9a19bd69d21072a0027d2f2401455c654ddb1"
+    },
+    "proof_path": "/root/.ai-tmp/vc1.0-link/residue-variant-pair/proof.json",
+    "proof_sha256": "e482d0b58a4fdb7c16453a0188b50e53fe11ca1417e2323edcb4239da0046da8",
+    "new_branch_correction": "The .idata$6 DLL-name padding is NUL (original call 0x2b740 to data 0x7cb2c), while archive member alignment uses newline."
+  }
+}

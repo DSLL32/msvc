@@ -102,3 +102,35 @@ PIMAGE_ARCHIVE_MEMBER_HEADER build_archive_header(const char *name,unsigned char
     header->EndHeader[1]='\n';
     return header;
 }
+
+void finish_import_archive_indexes(SymbolTable *table)
+{
+    unsigned short member=0;
+    seek_file(output_file,72,SEEK_SET);
+    while (member<import_member_base) write_import_member_indexes(table,++member);
+    if (new_archive_index) {
+        seek_file(output_file,second_index_offset+64,SEEK_SET);
+        member=0;
+        while (member<import_member_base) {
+            write_file(output_file,import_member_offsets+member+1,4);
+            ++member;
+        }
+        seek_file(output_file,4,SEEK_CUR);
+        write_import_member_indexes(table,0);
+    }
+}
+
+void write_import_member_indexes(SymbolTable *table,unsigned short member)
+{
+    External **ordered=get_externals_by_name(table),*external;
+    unsigned long count=count_externals(table),index,offset;
+    for (index=0;index<count;++index) {
+        external=ordered[index];
+        if ((external->flags&0x2000) || !(external->flags&0x4001)) continue;
+        if (!member) write_file(output_file,&external->archive_member,2);
+        else if (external->archive_member==member) {
+            offset=encode_big_endian_dword(import_member_offsets+external->archive_member);
+            write_file(output_file,&offset,4);
+        }
+    }
+}

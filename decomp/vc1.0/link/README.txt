@@ -21,20 +21,24 @@ Completed cases:
   Original, reconstructed and untouched-baseline programs pass the GUI checker:
   HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
 
-There are 396 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 49
-from the active hello-dll case. The full 383-frontier checkpoint and the 13
-subsequent frontiers replay successfully. All three completed cases pass.
-Static audits check 273 source/runtime call graphs, 264 callback-reference sets
-and 230 contextual data definitions. Pending helpers trap; unexecuted branches
-need later coverage.
+There are 400 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 53
+hello-dll. A clean parallel build, full 400-frontier replay and all four completed
+cases pass. Static audits check 276 source/runtime call graphs, 267 callback
+reference sets and 238 contextual data definitions. Pending helpers trap;
+unexecuted branches need later coverage.
 
-The active hello-dll case reaches per-export import-member emission in the -lib
-child. Descriptor and null members are complete. The generated hello.exp matches
-the fixture after only its two timestamp fields; normalized SHA256:
-b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9.
-The DLL and import library remain incomplete. The immutable original DLL passes
-artifact and load/call/GUI checks in this harness. Its manifest lists the sole
-allowed timestamp normalizations.
+hello-dll (-link @link.rsp) exits 0 with exact streams and matching 2 MB hello.dll,
+hello.lib and hello.exp. Normalization uses only the structurally identified
+archive/COFF/export timestamp fields in the immutable fixture. The DLL exports
+_HelloMain@16, ordinal 1, RVA 0x1090. Original, reconstructed and untouched-baseline
+DLLs pass load, stdcall invocation, painting (300 dark pixels), WM_CLOSE,
+unregistration, unload and exit 0. Normalized SHA256:
+  hello.dll 322ba54da6475e88c38e583e208cfe9a29caff7c827cf4e009a8556d50a73102
+  hello.lib a686c62d37c456499183fb0fc174ad393b2458f9df44ef57d6c8735f94ed6d57
+  hello.exp b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9
+A separate paired longer-output-name variant also matches all three artifacts.
+It checks the observable auxiliary-symbol stack residue model and DLL-name NUL
+padding; cases/hello-dll-auxiliary.json records the original watchpoint evidence.
 
 Shared fixtures under ../fixtures are immutable. cases/ records invocations,
 normalization, generated-program checks and verification evidence.
@@ -45,8 +49,10 @@ Check minimal-C, its output bytes and the generated program:
     python3 compare.py --case minimal-c --require-exit
 Check hello-win32, its output bytes and GUI behavior:
     python3 compare.py --case hello-win32 --require-exit
-Replay every recorded frontier and finish with the hello-win32 artifact check:
-    python3 compare.py --replay --case hello-win32 --require-exit
+Check the DLL, import library, export object and DLL-host GUI behavior:
+    python3 compare.py --case hello-dll --require-exit
+Replay every recorded frontier and finish with the DLL artifact check:
+    python3 compare.py --replay --case hello-dll --require-exit
 
 The harness masks the original's entire code section with INT3 and restores only
 accepted function extents and encountered inline data. The reconstruction's entry
