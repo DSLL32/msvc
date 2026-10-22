@@ -2,13 +2,18 @@
 #define GLOBAL_WORK_H
 #include "functions.h"
 /* The region tree and predecessor/successor links have distinct owners. */
-/* Encountered region prefix. The original allocator reserves 44 bytes;
-   fields beyond this prefix are defined when their uses are reconstructed. */
+/* Native 44-byte region record. Reference analysis encounters the
+   trailing loop/reference/candidate pointers and availability set. */
 typedef struct FlowRegion {
     struct FlowRegion *next, *children, *parent;
     WorkItem *entry, *header, *last;
     unsigned flags;
+    struct LoopTreeRecord *loop_trees;
+    union WorkReferenceTable *references;
+    struct RegionValue *candidates;
+    struct BitSet *available_values;
 } FlowRegion;
+typedef char FlowRegionSizeCheck[sizeof(FlowRegion) == 44 ? 1 : -1];
 typedef struct FlowLink {
     struct FlowLink *next;
     WorkItem *work;

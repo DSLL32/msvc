@@ -30,4 +30,75 @@ extern WorkValue *last_work_value;
 Node *__fastcall memory_value_node(Node *scratch, Node *node);
 int __fastcall is_global_work_value(Node *node, int include_anonymous);
 int __fastcall is_address_exposed_value(Node *node);
+typedef struct WorkReference {
+    struct WorkReference *next;
+    Node *node, *value;
+} WorkReference;
+enum { WORK_REFERENCE_BUCKETS = 32 };
+typedef union WorkReferenceTable {
+    WorkReference *buckets[WORK_REFERENCE_BUCKETS];
+    union WorkReferenceTable *free_next;
+} WorkReferenceTable;
+typedef char WorkReferenceSizeCheck[sizeof(WorkReference) == 12 ? 1 : -1];
+typedef char WorkReferenceTableSizeCheck[sizeof(WorkReferenceTable) == 128 ? 1 : -1];
+extern WorkReferenceTable work_references;
+extern WorkReferenceTable *free_work_reference_tables;
+extern int next_work_reference;
+extern BitSet *work_clobbered_values;
+void __fastcall merge_predecessor_references(WorkItem *work);
+void __fastcall analyze_block_references(WorkItem *work);
+WorkReferenceTable *new_work_reference_table(void);
+/* Encountered prefix of the 24-byte record linked through region+24.
+   The current consumer reads next and tree only; field04 is uninterpreted. */
+typedef struct RegionValue {
+    struct RegionValue *next;
+    unsigned field04;
+    Node *tree;
+} RegionValue;
+extern BitSet *work_killed_values;
+void __fastcall release_work_reference_table(WorkReferenceTable *table);
+void flag_killed_work_references(void);
+void __fastcall invalidate_work_reference(Node *node);
+WorkReference *new_work_reference(void);
+int __fastcall available_chain_operands(Node *node, BitSet *available);
+typedef struct PendingWorkEffect {
+    struct PendingWorkEffect *next;
+    Node *tree;
+} PendingWorkEffect;
+extern PendingWorkEffect *pending_work_effects;
+extern Expression *work_expression;
+extern Node *enclosing_work_effect;
+Node *__fastcall substitute_work_values(Node *node, int *changed);
+Node *__fastcall analyze_reference_tree(Node *node, unsigned *effects, WorkReference **reference);
+void __fastcall release_pending_work_effect(PendingWorkEffect *effect);
+WorkReference *__fastcall lookup_work_reference(Node *node, int mode);
+void __fastcall retarget_empty_work_branch(WorkItem *work, Node *node);
+extern WorkReference *free_work_references;
+/* A separate numbered-expression index, distinct from WorkValue's
+   memory-value table. 0005dec0 constructs and caches temporary_load. */
+typedef struct ExpressionUse {
+    struct ExpressionUse *next;
+    Node *tree;
+} ExpressionUse;
+typedef struct NumberedExpression {
+    struct NumberedExpression *hash_next, *identifier_next;
+    Node *canonical, *temporary_load;
+    ExpressionUse *uses;
+} NumberedExpression;
+typedef char NumberedExpressionSizeCheck[sizeof(NumberedExpression) == 20 ? 1 : -1];
+enum { NUMBERED_EXPRESSION_BUCKETS = 64 };
+extern NumberedExpression *numbered_expressions[NUMBERED_EXPRESSION_BUCKETS];
+extern NumberedExpression *numbered_expressions_by_id[NUMBERED_EXPRESSION_BUCKETS];
+Node *__fastcall copy_numbered_expression(Node *node);
+NumberedExpression *__fastcall intern_numbered_expression(Node *node);
+void __fastcall add_expression_use(NumberedExpression *expression, Node *node);
+int __fastcall equal_chain_value_ids(Node *left, Node *right);
+extern Node *work_reference_parent;
+PendingWorkEffect *new_pending_work_effect(void);
+void __fastcall mark_work_reference(Node *node);
+NumberedExpression *__fastcall find_numbered_expression(Node *node);
+int __fastcall tree_uses_killed_value(Node *node);
+extern PendingWorkEffect *free_pending_work_effects;
+int __fastcall work_effect_invalidates_value(Node *effect, Node *value);
+int __fastcall is_private_work_value(Node *node);
 #endif

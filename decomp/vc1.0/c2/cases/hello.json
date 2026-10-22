@@ -74,8 +74,13 @@
     "value-initialization checkpoint passes all 352 minimal and all 91 hello historical frontiers",
     "all 366 source function graphs match; six changed implementation modules compile /W3 clean",
     "independent initialized-value state matches ten value records, all 64 hash buckets, creation links, 22 canonical nodes and eight classification bitset chunks, plus six blocks / 23 expressions / 93 work nodes",
-    "complete minimal object/exit regression passes; hello reaches build_work_references"
+    "complete minimal object/exit regression passes; hello reaches build_work_references",
+    "first reference-pass checkpoint passes all 352 minimal and all 112 hello historical frontiers",
+    "all 387 source function graphs agree; five changed implementation modules compile /W3 clean",
+    "independent completed reference-pass capture matches all 267 normalized lines: six numbered load expressions, identifier chains/use lists, two map-entry occurrences and ten flow-set chunks, plus existing work/memory-value state",
+    "both contextual 16-byte alias-policy matrices exactly match their original bounded extents",
+    "complete minimal object/exit regression passes; hello reaches clear_work_expression_cache"
   ],
-  "total_accepted_frontiers": 443,
-  "reconstructed_functions": 366
+  "total_accepted_frontiers": 464,
+  "reconstructed_functions": 387
 }

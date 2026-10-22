@@ -21,7 +21,10 @@ typedef struct WorkItem {
     struct FlowLink *successors, *predecessors;
     union { unsigned traversal_mark; struct BitSet *dominators; } analysis;
     struct FlowRegion *region;
-    struct BitSet *uses, *definitions;
+    union {
+        struct { struct BitSet *uses, *definitions; } selection;
+        struct { union WorkReferenceTable *references; unsigned successor_count; } optimization;
+    } pass;
     struct BitSet *flow_sets[6];
     short number;
     unsigned short region_depth;

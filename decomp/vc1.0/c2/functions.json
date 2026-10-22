@@ -447,7 +447,28 @@
     "@clone_node@4",
     "@trees_equal@12",
     "@equal_tree_nodes@8",
-    "@strip_conversions@4"
+    "@strip_conversions@4",
+    "@build_work_references@4",
+    "@merge_predecessor_references@4",
+    "@analyze_block_references@4",
+    "_new_work_reference_table",
+    "@release_work_reference_table@4",
+    "@substitute_work_values@8",
+    "@lookup_work_reference@8",
+    "@analyze_reference_tree@12",
+    "_new_work_reference",
+    "@intern_numbered_expression@4",
+    "@copy_numbered_expression@4",
+    "@add_expression_use@8",
+    "_flag_killed_work_references",
+    "@tree_uses_killed_value@4",
+    "@copy_bitset@4",
+    "@mark_work_reference@4",
+    "_new_pending_work_effect",
+    "@invalidate_work_reference@4",
+    "@work_effect_invalidates_value@8",
+    "@is_private_work_value@4",
+    "@release_pending_work_effect@4"
   ],
   "driver": [
     {
@@ -3275,8 +3296,7 @@
     {
       "name": "@copy_bitset@4",
       "start": 419360,
-      "end": 419361,
-      "provisional": true
+      "end": 419440
     },
     {
       "name": "@resolve_frame_allocation@4",
@@ -4156,8 +4176,7 @@
     {
       "name": "@build_work_references@4",
       "start": 376224,
-      "end": 376225,
-      "provisional": true
+      "end": 376864
     },
     {
       "name": "_clear_work_expression_cache",
@@ -4223,6 +4242,125 @@
       "name": "@equal_tree_nodes@8",
       "start": 360736,
       "end": 361280
+    },
+    {
+      "name": "@merge_predecessor_references@4",
+      "start": 377936,
+      "end": 378800
+    },
+    {
+      "name": "@analyze_block_references@4",
+      "start": 377424,
+      "end": 377936
+    },
+    {
+      "name": "_new_work_reference_table",
+      "start": 377360,
+      "end": 377424
+    },
+    {
+      "name": "@release_work_reference_table@4",
+      "start": 378800,
+      "end": 378880
+    },
+    {
+      "name": "_flag_killed_work_references",
+      "start": 378880,
+      "end": 378944
+    },
+    {
+      "name": "@invalidate_work_reference@4",
+      "start": 378944,
+      "end": 379072
+    },
+    {
+      "name": "_new_work_reference",
+      "start": 379072,
+      "end": 379136
+    },
+    {
+      "name": "@available_chain_operands@8",
+      "start": 379136,
+      "end": 379137,
+      "provisional": true
+    },
+    {
+      "name": "@substitute_work_values@8",
+      "start": 380112,
+      "end": 380512
+    },
+    {
+      "name": "@analyze_reference_tree@12",
+      "start": 379760,
+      "end": 380112
+    },
+    {
+      "name": "@release_pending_work_effect@4",
+      "start": 379744,
+      "end": 379760
+    },
+    {
+      "name": "@lookup_work_reference@8",
+      "start": 379216,
+      "end": 379552
+    },
+    {
+      "name": "@retarget_empty_work_branch@8",
+      "start": 379600,
+      "end": 379601,
+      "provisional": true
+    },
+    {
+      "name": "@intern_numbered_expression@4",
+      "start": 384080,
+      "end": 384400
+    },
+    {
+      "name": "@add_expression_use@8",
+      "start": 384032,
+      "end": 384080
+    },
+    {
+      "name": "@equal_chain_value_ids@8",
+      "start": 384400,
+      "end": 384401,
+      "provisional": true
+    },
+    {
+      "name": "_new_pending_work_effect",
+      "start": 381040,
+      "end": 381088
+    },
+    {
+      "name": "@mark_work_reference@4",
+      "start": 380640,
+      "end": 381040
+    },
+    {
+      "name": "@copy_numbered_expression@4",
+      "start": 384480,
+      "end": 384608
+    },
+    {
+      "name": "@find_numbered_expression@4",
+      "start": 381088,
+      "end": 381089,
+      "provisional": true
+    },
+    {
+      "name": "@tree_uses_killed_value@4",
+      "start": 381664,
+      "end": 381792
+    },
+    {
+      "name": "@work_effect_invalidates_value@8",
+      "start": 381152,
+      "end": 381664
+    },
+    {
+      "name": "@is_private_work_value@4",
+      "start": 381792,
+      "end": 381888
     }
   ],
   "cases": {

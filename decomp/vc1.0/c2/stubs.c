@@ -290,7 +290,6 @@ int __fastcall instruction_modifies_operand(MachineInstruction *instruction, Mac
 #include "unoptimized.h"
 unsigned __fastcall assign_physical_register(MachineInstruction *instruction, unsigned reg, int last_use) { __asm int 3 }
 BitSet *__fastcall bitset_remove(BitSet *set, unsigned member) { __asm int 3 }
-BitSet *__fastcall copy_bitset(BitSet *source) { __asm int 3 }
 void __fastcall advance_operand_byte(MachineOperand *operand) { __asm int 3 }
 int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
@@ -415,9 +414,19 @@ void __fastcall assign_flow_region(FlowRegion *region) { __asm int 3 }
 
 int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }
 
-void __fastcall build_work_references(WorkItem *work) { __asm int 3 }
 void clear_work_expression_cache(void) { __asm int 3 }
 void __fastcall rewrite_work_values(WorkItem *work) { __asm int 3 }
 void __fastcall rewrite_work_expressions(WorkItem *work) { __asm int 3 }
 void __fastcall collect_region_values(FlowRegion *region) { __asm int 3 }
 void __fastcall hoist_region_values(FlowRegion *regions) { __asm int 3 }
+
+
+int __fastcall available_chain_operands(Node *node, BitSet *available) { __asm int 3 }
+
+void __fastcall retarget_empty_work_branch(WorkItem *work, Node *node) { __asm int 3 }
+
+int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
+
+
+
+NumberedExpression *__fastcall find_numbered_expression(Node *node) { __asm int 3 }

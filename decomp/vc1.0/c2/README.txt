@@ -655,3 +655,50 @@ All 352 minimal and all 91 hello historical frontiers replay. All source graphs
 agree, six changed implementation modules compile /W3 clean and the complete
 minimal object/exit regression passes. Hello output remains pending at
 build_work_references, 0x5bda0.
+
+The first reference-building pass now completes. Its 21 reconstructed functions
+cover 1,674 reachable native instructions, including predecessor availability
+merging, block/tree reference analysis, value substitution, expression numbering,
+delayed memory effects, alias policy and the separate record/table free lists.
+
+WorkItem now states explicitly that offsets 0x1c/0x20 hold reference-table and
+successor-count fields during optimization, then uses/definitions bitsets during
+instruction selection. Its size remains 68 bytes. FlowRegion's trailing loop,
+reference, candidate and availability pointers complete its native 44-byte
+layout. WorkReference is a typed 12-byte next/node/value record, and its 128-byte
+table is a union of 32 bucket heads and a pool link. The numbered-expression
+index uses distinct typed 20-byte records with structural and identifier chains,
+a canonical node, cached temporary load and an eight-byte use-list type.
+
+Two contextual alias-policy matrices define exactly 16 one-byte cells each.
+Each cell names the predicate performed by the effect helper: escaped address,
+same symbol, same address, nonprivate value, same/unknown symbol or unconditional
+aliasing. Both compiled matrices match their complete native extents exactly,
+ending before adjacent state at 0x837f0. No unrelated image data is copied.
+Reference-root and value-expression properties refine the named opcode recipes;
+all 182 entries agree with the native 90/53 membership sets. Ordinary diagnostic
+strings remain literals at their uses.
+
+flag_killed_work_references replaces its provisional pruning name: it marks
+references that depend on killed canonical memory values without removing them.
+The separate invalidator removes aliasing loads, records their canonical IDs and
+leaves detached record storage to its arena. Allocators retain native distinctions
+between fresh arena storage and explicitly cleared recycled records.
+
+An independent stopped-process capture before expression-cache cleanup matches
+all 267 normalized lines: six blocks, 23 expressions, 93 work-tree nodes, ten
+memory values, six numbered expressions and their identifier/use chains, two
+map-entry occurrences, and ten flow-set chunks. It visits 143 total tree nodes
+across the work and indices. Canonical-operand pointer identity is checked, but
+all such fields are zero here: the numbered expressions are simple loads, so
+non-leaf canonical sharing remains unvisited. The capture normalizes debugger
+exception addresses, canonical-memory pointers by value ID and list/symbol
+pointers by their contextual identity. Region paths and final reference marking
+remain outside this first pass's dynamic coverage. Exact extents, data provenance,
+ABI details and limits are in cases/hello-work-references-abi.json.
+
+This checkpoint has 387 reconstructed functions and 464 accepted frontiers.
+All 352 minimal and all 112 hello historical frontiers replay. All source graphs
+agree, five changed implementation modules compile /W3 clean and the complete
+minimal object/exit regression passes. Hello output remains pending at
+clear_work_expression_cache, 0x5bb20.

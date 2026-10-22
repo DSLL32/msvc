@@ -27,7 +27,7 @@ MachineBlockHeader *__fastcall select_work_item(WorkItem *work)
     MachineBlockHeader *block;
     Expression *expression, *next;
     current_source_location = 0;
-    block = new_selection_block(work->definitions, work->uses, work->number, work->flags);
+    block = new_selection_block(work->pass.selection.definitions, work->pass.selection.uses, work->number, work->flags);
     if (!optimize_global) next_machine_register = 32;
     selected_block = block;
     expression = work->body.expressions;
@@ -42,8 +42,8 @@ MachineBlockHeader *__fastcall select_work_item(WorkItem *work)
         release_tree(expression->tree);
         release_expression(expression);
         block = selected_block;
-        work->uses = block->uses;
-        work->definitions = block->definitions;
+        work->pass.selection.uses = block->uses;
+        work->pass.selection.definitions = block->definitions;
         expression = next;
     }
     selected_block = block;

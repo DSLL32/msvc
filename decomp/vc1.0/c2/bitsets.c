@@ -225,3 +225,19 @@ BitSet *__fastcall assign_bitset(BitSet *destination, BitSet *source)
         source = source->next;
     }
 }
+
+/* Original [00066620,00066670). Copy every chunk including the sentinel,
+   and explicitly terminate the new chain; a null source yields null. */
+BitSet *__fastcall copy_bitset(BitSet *source)
+{
+    BitSet *head, *chunk;
+    BitSet **link = &head;
+    for (; source; source = source->next) {
+        chunk = new_bitset_node();
+        *link = chunk;
+        *chunk = *source;
+        link = &(*link)->next;
+    }
+    *link = 0;
+    return head;
+}
