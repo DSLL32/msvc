@@ -1,0 +1,6 @@
+exception 80000003 rva 00001350 base 00010000 first 1
+buffer 0 1 00
+buffer 1 0 
+buffer 2 0 
+buffer 3 12 1186032e1d30016400000000
+exit 99

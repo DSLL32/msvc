@@ -45,8 +45,8 @@ InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 CType *builtin_integer_type(void) { __asm { int 3 } return 0; }
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode) { __asm { int 3 } }
-void __stdcall reference_ir_symbol(IrSymbol *symbol) { __asm { int 3 } }
-unsigned get_ir_symbol_index(IrSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall reference_ir_symbol(CppSymbol *symbol) { __asm { int 3 } }
+unsigned get_ir_symbol_index(CppSymbol *symbol) { __asm { int 3 } return 0; }
 long ftell(FILE *file) { __asm { int 3 } return 0; }
 DeclarationParameterInfo *intern_declaration_parameters(int count, CppSymbol *head) { __asm { int 3 } return 0; }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
@@ -56,4 +56,18 @@ void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
 int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
-void __stdcall write_global_record(unsigned tag, CppSymbol *symbol) { __asm { int 3 } }
+CType *__stdcall drop_first_type_shape(CType *type) { __asm { int 3 } return 0; }
+CType *__stdcall make_class_pointer_type(CppSymbol *class_symbol, unsigned short attributes) { __asm { int 3 } return 0; }
+unsigned char __stdcall member_pointer_is_aggregate(CType *type) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall method_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
+int __stdcall type_size(CType *type) { __asm { int 3 } return 0; }
+void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
+int __stdcall parameter_stack_bytes(CppSymbol *symbol) { __asm { int 3 } return 0; }
+unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0; }
+void __stdcall emit_symbol_declaration(CppSymbol *symbol) { __asm { int 3 } }
+CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
+char *__stdcall write_decorated_name(FILE *stream, CppSymbol *symbol, void *context, int flags) { __asm { int 3 } return 0; }
+void write_ir_filename(char *text) { __asm { int 3 } }
+void write_ir_string(char *text) { __asm { int 3 } }
+void write_ir_index(unsigned *index) { __asm { int 3 } }

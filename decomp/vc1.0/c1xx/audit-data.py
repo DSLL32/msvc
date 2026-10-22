@@ -113,6 +113,12 @@ for table in cfg.get('tables', []):
             assert forward.setdefault(a, b) == b and backward.setdefault(b, a) == a, \
                 'CRT string identity differs'
         print('%d CRT string defaults and identities match the original.' % table['count'])
+    elif kind == 'state':
+        for field in table['fields']:
+            assert read(original, field['original'], field['bytes']) == \
+                   read(rebuilt, names[field['name']], field['bytes']), \
+                'initial frontend state differs: '+field['name']
+        print('%d shared frontend state defaults match the original.' % len(table['fields']))
     elif kind == 'schemas':
         for index in range(table['count']):
             a = word(original, old + index*table['original_stride'])

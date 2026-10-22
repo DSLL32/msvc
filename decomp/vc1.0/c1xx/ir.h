@@ -1,6 +1,7 @@
 #ifndef IR_H
 #define IR_H
 #include "types.h"
+#include "global-ir.h"
 
 enum IrField {
     IR_FIELD_END = 0,
@@ -26,20 +27,12 @@ enum IrField {
     IR_FIELD_RESERVED_112 = 112
 };
 
-typedef struct IrSymbol {
-    unsigned field00;
-    CType *type;
-    unsigned field08, field0c, index, field14;
-    unsigned short references;
-} IrSymbol;
-
 extern unsigned char *ir_record_formats[191];
-extern unsigned expression_record_count;
-extern IrToken *current_function_node;
-extern IrSymbol *current_label_symbol;
-extern int function_storage_seen, function_storage_compatible;
+#define expression_record_count (function_ir.complexity)
+extern CppSymbol *function_symbol;
+extern CppSymbol *current_label_symbol;
 CType *builtin_integer_type(void);
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode);
-void __stdcall reference_ir_symbol(IrSymbol *symbol);
-unsigned get_ir_symbol_index(IrSymbol *symbol);
+void __stdcall reference_ir_symbol(CppSymbol *symbol);
+unsigned get_ir_symbol_index(CppSymbol *symbol);
 #endif

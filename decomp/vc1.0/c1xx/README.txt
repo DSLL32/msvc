@@ -6,11 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 145 accepted paired frontiers, including 73 frontend
+PARTIAL reconstruction: 147 accepted paired frontiers, including 74 frontend
 functions and six older CRT routines. C++ builtin types, signatures, linkage,
-initial scopes, predefined macros and command-line macro definitions are
-reconstructed. The next matching trap is _write_global_record@8 at original
-VA 0x57190. All 145 frontiers replay successfully; the expression stream begins
+initial scopes, predefined macros, command-line macro definitions and the complete
+global-record writer are reconstructed. The next matching trap is
+_open_source_file@8 at original VA 0x1e480. All 147 frontiers replay successfully;
+the expression stream begins
 with the exact six bytes 5b8034030000. The complete frontend case is not yet
 reconstructed or claimed equivalent.
 
@@ -31,7 +32,8 @@ Only accepted whole-function extents and explicitly recorded shared text data
 are restored. The original toolchain files are never modified. The pair runs
 concurrently with identical MSC_CMD_FLAGS, isolated working directories, closed
 stdin, captured output and a debugger that terminates on the next trap. At
-matching frontiers, visible file sets and contents are compared. At successful
+matching frontiers, visible file sets, contents and pending FILE buffer bytes are compared without
+flushing or altering the child. At successful
 completion, streams, statuses and all four intermediate files must also match
 the independent original fixture exactly. Scratch and a private 32-bit Wine
 prefix live under ~/.ai-tmp/vc1.0-c1xx.
@@ -57,7 +59,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-macros.log.
+The current full ordered replay is recorded in evidence/replay-global.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -71,3 +73,12 @@ names, timezone/daylight scalar defaults and the month offsets are verified
 against the original and the linked CRT. Timestamp workspaces include the
 observed BSS terminator after the 25 copied ctime bytes; no timestamps or
 frontend output bytes are normalized by the reconstruction oracle.
+
+The global writer retains all 37 field branches and its original 20 call targets.
+Its 19 schemas and 16 shared-state defaults are checked against the original.
+Function complexity aliases the expression record count, and call/inline flags
+are shared by both writers. Expression call operands are typed IrToken nodes;
+symbol-index operands and the current-function symbol use CppSymbol. The
+initial pending global-header bytes match as 1186032e1d30016400000000.
+This header contains the initial symbol count and is rewritten at completion;
+it is not assumed to be a prefix of the completed fixture.

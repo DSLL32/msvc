@@ -106,6 +106,15 @@ def run(label, exe, case=''):
             wt.windows(str(stem)+'.events'), wt.windows(directory),
             'MSC_CMD_FLAGS=' + flags,
             CASE['command_line_template'].format(bin=wt.windows(wt.TC/'bin'))]
+    cfg = json.loads(Path('functions.json').read_text())
+    if label == 'reconstructed':
+        addresses = publics()
+        image = PE('build/c1xx.exe')
+        rvas = [addresses[s['name']] - image.base for s in cfg['buffered_streams']]
+    else:
+        image = PE(wt.TC/'bin/C1XX3232.EXE')
+        rvas = [s['original'] - image.base for s in cfg['buffered_streams']]
+    args.append(','.join('%x' % rva for rva in rvas))
     subprocess.run(args, env=wt.environment(), check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return Path(str(stem)+'.events').read_text()
@@ -150,6 +159,11 @@ def compare(accepted_count=None, case='', baseline=True):
     al, bl = logical(ae,orig,oi), logical(be,rec,ri)
     print('original: %s; reconstruction: %s' % (al,bl), flush=True)
     if al != bl: raise RuntimeError('logical trap mismatch\n'+ae+be)
+    pending_a = re.findall(r'^buffer .*$', ae, re.M)
+    pending_b = re.findall(r'^buffer .*$', be, re.M)
+    assert pending_a == pending_b, 'pending intermediate bytes differ\n'+ae+be
+    assert not any(re.search(r'unreadable|invalid', row) for row in pending_a), \
+        'could not inspect pending intermediate bytes\n'+ae
     # At each matched frontier, compare the visible file writes made so far.
     left = Path('build/minimal-original')
     right = Path('build/minimal-reconstructed')

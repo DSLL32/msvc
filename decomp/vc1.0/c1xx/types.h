@@ -18,6 +18,7 @@ struct TypeShape {
         unsigned word;
         int array_bound;
         void *based_symbol;
+        CppSymbol *tag_symbol;
         FunctionParameters *parameters;
     } data;
 };
@@ -42,4 +43,5 @@ TypeShape *__stdcall new_type_shape(unsigned short kind, unsigned short attribut
 FunctionParameters *__stdcall build_parameter_info(void *declarations,
                                                    unsigned short *kind);
 typedef char CTypeSizeMustBe12[(sizeof(CType) == 12) ? 1 : -1];
+typedef char TypeShapeSizeMustBe12[(sizeof(TypeShape) == 12) ? 1 : -1];
 #endif

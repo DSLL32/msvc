@@ -149,7 +149,9 @@
     "_define_command_line_macro@4",
     "_copy_arena_bytes@12",
     "_write_global_header",
-    "_rewind"
+    "_rewind",
+    "_write_global_record@8",
+    "_fwrite"
   ],
   "driver": [
     {
@@ -797,7 +799,82 @@
     {
       "name": "_write_global_record@8",
       "start": 356752,
-      "end": 356753
+      "end": 367328
+    },
+    {
+      "name": "_make_class_pointer_type@8",
+      "start": 209280,
+      "end": 209498
+    },
+    {
+      "name": "_write_decorated_name@16",
+      "start": 273168,
+      "end": 273371
+    },
+    {
+      "name": "_member_pointer_is_aggregate@4",
+      "start": 319680,
+      "end": 319783
+    },
+    {
+      "name": "_require_complete_type@4",
+      "start": 323296,
+      "end": 323374
+    },
+    {
+      "name": "_type_size@4",
+      "start": 323936,
+      "end": 324117
+    },
+    {
+      "name": "_parameter_stack_bytes@4",
+      "start": 324304,
+      "end": 324386
+    },
+    {
+      "name": "_symbol_alias@4",
+      "start": 352000,
+      "end": 352019
+    },
+    {
+      "name": "_lookup_symbol_binding@8",
+      "start": 352368,
+      "end": 352416
+    },
+    {
+      "name": "_method_alias@4",
+      "start": 352704,
+      "end": 352723
+    },
+    {
+      "name": "_type_alignment@4",
+      "start": 353712,
+      "end": 353785
+    },
+    {
+      "name": "_emit_symbol_declaration@4",
+      "start": 355616,
+      "end": 356745
+    },
+    {
+      "name": "_drop_first_type_shape@4",
+      "start": 402672,
+      "end": 402765
+    },
+    {
+      "name": "_write_ir_index",
+      "start": 474672,
+      "end": 475045
+    },
+    {
+      "name": "_write_ir_filename",
+      "start": 475472,
+      "end": 475541
+    },
+    {
+      "name": "_write_ir_string",
+      "start": 475552,
+      "end": 475621
     }
   ],
   "cases": {
@@ -881,6 +958,125 @@
       "original": 715264,
       "kind": "bytes",
       "bytes": 52
+    },
+    {
+      "name": "_global_record_formats",
+      "original": 668088,
+      "kind": "schemas",
+      "count": 19,
+      "original_stride": 8,
+      "rebuilt_stride": 4
+    },
+    {
+      "name": "_next_symbol_index",
+      "original": 652352,
+      "kind": "bytes",
+      "bytes": 4
+    },
+    {
+      "name": "_function_ir",
+      "original": 594788,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_function_ir",
+          "original": 594788,
+          "bytes": 20
+        },
+        {
+          "name": "_hidden_frame_enabled",
+          "original": 654264,
+          "bytes": 4
+        },
+        {
+          "name": "_hidden_frame_bytes",
+          "original": 652368,
+          "bytes": 4
+        },
+        {
+          "name": "_function_not_inlinable",
+          "original": 654344,
+          "bytes": 4
+        },
+        {
+          "name": "_pragma_record_number",
+          "original": 652376,
+          "bytes": 4
+        },
+        {
+          "name": "_pragma_text",
+          "original": 654004,
+          "bytes": 4
+        },
+        {
+          "name": "_pragma_values",
+          "original": 652072,
+          "bytes": 4
+        },
+        {
+          "name": "_declaration_type_stack",
+          "original": 594676,
+          "bytes": 4
+        },
+        {
+          "name": "_declaration_type_index",
+          "original": 594688,
+          "bytes": 2
+        },
+        {
+          "name": "_source_file_index",
+          "original": 594812,
+          "bytes": 4
+        },
+        {
+          "name": "_source_file_counter",
+          "original": 653196,
+          "bytes": 4
+        },
+        {
+          "name": "_last_record_source",
+          "original": 622672,
+          "bytes": 256
+        },
+        {
+          "name": "_function_call_seen",
+          "original": 654340,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_candidate",
+          "original": 654336,
+          "bytes": 4
+        },
+        {
+          "name": "_global_record_kind",
+          "original": 594780,
+          "bytes": 1
+        },
+        {
+          "name": "_auxiliary_ir_stream",
+          "original": 666028,
+          "bytes": 4
+        }
+      ]
+    }
+  ],
+  "buffered_streams": [
+    {
+      "name": "_expression_file",
+      "original": 577508
+    },
+    {
+      "name": "_symbol_file",
+      "original": 577512
+    },
+    {
+      "name": "_line_file",
+      "original": 577516
+    },
+    {
+      "name": "_global_file",
+      "original": 577520
     }
   ]
 }

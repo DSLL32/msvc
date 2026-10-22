@@ -32,8 +32,8 @@ CompilerOptions options = {
         0, /* option_Yd */
         0, /* field6c */
         1, /* option_Gn */
-        0, /* field74 */
-        0, /* field78 */
+        0, /* far_call_mode */
+        0, /* prologue_mode */
         0, /* field7c */
         0, /* option_EP */
         0, /* option_pf */

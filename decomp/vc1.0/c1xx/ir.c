@@ -1,11 +1,10 @@
 /* Expression-stream records. Buffer operations stay inside their original caller. */
 #include "ir.h"
 
-unsigned expression_record_count; /* original 0x91364; also consumed by function metadata */
-IrToken *current_function_node; /* original 0x8c140 */
-IrSymbol *current_label_symbol; /* original 0x91384 */
-int function_storage_seen; /* original 0x9fc04 */
-int function_storage_compatible = 1; /* original 0x9fc00; shared with global serialization */
+CppSymbol *function_symbol; /* original 0x8c140 */
+CppSymbol *current_label_symbol; /* original 0x91384 */
+int function_call_seen; /* original 0x9fc04; shared with global serialization */
+int inline_candidate = 1; /* original 0x9fc00 */
 
 #define PUT_IR_WORD(stream, value) do { \
     FILE *word_stream = (stream); \
@@ -44,7 +43,7 @@ void __stdcall write_ir_record(unsigned tag, void *value)
     FILE *file;
     CType *type;
     TypeShape *shape;
-    IrSymbol *symbol;
+    CppSymbol *symbol;
     unsigned index, storage;
     unsigned short attributes;
     putc(tag, expression_file);
@@ -63,14 +62,15 @@ void __stdcall write_ir_record(unsigned tag, void *value)
             PUT_IR_INTEGER(expression_file, node->value.integer);
             break;
         case IR_FIELD_STORAGE:
-            shape = ((IrSymbol *)node->value.pointer)->type->related;
+            /* Call records contain a callee expression, unlike symbol records. */
+            shape = ((IrToken *)node->value.pointer)->type->related;
             if (shape && !(shape->flags & 0x77))
                 shape = shape->related;
             attributes = shape->attributes;
             if ((attributes & 7) == 1) {
-                function_storage_seen = 1;
-                function_storage_compatible &=
-                    ((((IrSymbol *)current_function_node->value.pointer)->type->attributes & 7) == 1);
+                function_call_seen = 1;
+                inline_candidate &=
+                    ((function_symbol->type->related->attributes & 7) == 1);
             }
             if (attributes & 0x100)
                 storage = 12;
@@ -118,7 +118,7 @@ void __stdcall write_ir_record(unsigned tag, void *value)
             case 0x2a:
             case 0x2b:
             case 0x2d:
-                index = ((IrSymbol *)node->value.pointer)->index;
+                index = ((CppSymbol *)node->value.pointer)->index;
                 break;
             case 0x38:
             case 0x39:

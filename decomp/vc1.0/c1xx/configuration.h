@@ -33,8 +33,8 @@ typedef struct CompilerConfiguration {
     int option_Yd; /* original 0x9f800 */
     int field6c; /* original 0x9f804 */
     int option_Gn; /* original 0x9f808 */
-    int field74; /* original 0x9f80c */
-    int field78; /* original 0x9f810 */
+    int far_call_mode; /* original 0x9f80c */
+    int prologue_mode; /* original 0x9f810 */
     int field7c; /* original 0x9f814 */
     int option_EP; /* original 0x9f818 */
     int option_pf; /* original 0x9f81c */
