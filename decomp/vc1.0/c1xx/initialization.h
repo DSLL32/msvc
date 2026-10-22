@@ -15,7 +15,7 @@ typedef struct TypeDescription {
 typedef char TypeDescriptionSizeMustBe12[(sizeof(TypeDescription) == 12) ? 1 : -1];
 
 extern WorkingStack *compiler_stack;
-extern int builtin_type_context;
+extern int pragma_vtordisp;
 extern int pch_separate_debug, pch_read_enabled, pch_write_enabled;
 extern int data_pointer_bytes, code_pointer_bytes;
 extern int data_pointer_alignment, code_pointer_alignment;

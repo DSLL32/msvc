@@ -148,7 +148,6 @@ void __stdcall apply_constructor_initializers(IrToken *initializers) { __asm { i
 void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape) { __asm { int 3 } }
 CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration, TypeShape *modifier) { __asm { int 3 } return 0; }
 void __stdcall begin_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
-void begin_class_body(void) { __asm { int 3 } }
 void begin_compound_statement(void) { __asm { int 3 } }
 void begin_do_condition(void) { __asm { int 3 } }
 void begin_do_statement(void) { __asm { int 3 } }
@@ -334,10 +333,6 @@ void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } 
 
 void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
                                     unsigned char modifier, unsigned unused) { __asm { int 3 } }
-CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags,
-                                      unsigned short added_flags) { __asm { int 3 } return 0; }
-CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
-                                   unsigned short *attributes) { __asm { int 3 } return 0; }
 void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
 unsigned char resolve_type_parenthesis(void) { __asm { int 3 } return 0; }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
@@ -357,3 +352,8 @@ void __stdcall browser_enter_tag(CppSymbol *tag) { __asm { int 3 } }
 
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
+
+int __stdcall query_inheritance_model(int *model) { __asm { int 3 } return 0; }
+int __stdcall infer_inheritance_model(CppSymbol *tag) { __asm { int 3 } return 0; }
+
+unsigned __stdcall place_base_subobject(CppSymbol *base, CppSymbol **previous_base, CppSymbol *derived) { __asm { int 3 } return 0; }

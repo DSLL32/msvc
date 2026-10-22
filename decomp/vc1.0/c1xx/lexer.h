@@ -62,6 +62,13 @@ TagSymbol *__stdcall new_tag_record(int arena);
 void __stdcall register_tag_context(CppSymbol *tag);
 int __stdcall is_current_class_name(char *name);
 void __stdcall apply_inheritance_model(CppSymbol *tag);
+void __stdcall prepare_base_layout(CppSymbol *tag);
+unsigned __stdcall place_base_subobject(CppSymbol *base, CppSymbol **previous_base, CppSymbol *derived);
+void __stdcall inherit_class_pointer_attributes(CppSymbol *tag);
+void __stdcall apply_default_vtordisp(CppSymbol *unused_tag);
+void __stdcall check_inheritance_model(CppSymbol *tag);
+int __stdcall query_inheritance_model(int *model);
+int __stdcall infer_inheritance_model(CppSymbol *tag);
 CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
                                    unsigned short *attributes);
 void read_declspec_attributes(StorageSpec *storage);

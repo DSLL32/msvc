@@ -4,7 +4,7 @@
 #include "initialization.h"
 
 WorkingStack *compiler_stack;
-int builtin_type_context;
+int pragma_vtordisp; /* original 0x9f460: default and #pragma vtordisp mode */
 int pch_separate_debug, pch_read_enabled, pch_write_enabled;
 int data_pointer_bytes, code_pointer_bytes;
 int data_pointer_alignment, code_pointer_alignment;
@@ -194,7 +194,7 @@ void initialize_frontend(void)
         description->related = 0;
         description->field08 = 0;
         initialize_declaration_table();
-        builtin_type_context = 1;
+        pragma_vtordisp = 1;
         description->flags = 0;
         type_0000 = intern_type(description);
         description->flags = 0x4041;

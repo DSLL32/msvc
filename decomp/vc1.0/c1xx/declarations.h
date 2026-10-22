@@ -1,8 +1,23 @@
 #ifndef DECLARATIONS_H
 #define DECLARATIONS_H
+#include <stddef.h>
 #include "hash-table.h"
 #include "types.h"
 #include "scopes.h"
+
+/* Encountered base-list node prefix through its state byte at +0x14.
+   The same source-order chain also contains ordinary declaration variants. */
+typedef struct BaseClassLink {
+    unsigned char kind, flags;
+    unsigned short attributes;
+    CppSymbol *next;
+    unsigned field08;
+    short context_index;
+    unsigned short field0e;
+    unsigned displacement;
+    unsigned char state;
+} BaseClassLink;
+typedef char BaseClassLinkStateOffsetMustBe20[(offsetof(BaseClassLink, state) == 20) ? 1 : -1];
 
 typedef struct ClassInfo {
     unsigned field00, field04, field08, field0c;
@@ -11,7 +26,7 @@ typedef struct ClassInfo {
     unsigned short pointer_attributes;
     unsigned field2c;
     unsigned short debug_index;
-    unsigned char alignment, flags, flags2, inheritance_model;
+    unsigned char alignment_flags, flags, flags2, inheritance_model;
     unsigned short field36;
     unsigned field38;
 } ClassInfo;

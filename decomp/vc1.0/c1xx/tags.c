@@ -3,6 +3,11 @@
 
 CppSymbol *current_enum_symbol; /* original 0x948f8 */
 
+/* Original 0xa0b20: shared by inheritance-model diagnostics. */
+static char *inheritance_model_names[] = {
+    "unknown", "single", "multiple", "virtual", "virtual", 0
+};
+
 /* Original 0x2d570..0x2d8c1. A definition owns a temporary completed type;
    the tag's interned type is finalized by the corresponding end-tag routine. */
 CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned short attributes)
@@ -215,7 +220,6 @@ int __stdcall is_current_class_name(char *name)
    model; later incompatible specifications name that previous model. */
 void __stdcall apply_inheritance_model(CppSymbol *tag)
 {
-    static char *model_names[] = { "unknown", "single", "multiple", "virtual", "virtual", 0 };
     unsigned model;
     unsigned char prior;
     if (!(cpp_parser_flags & 0x00e00000UL)) return;
@@ -225,7 +229,7 @@ void __stdcall apply_inheritance_model(CppSymbol *tag)
         tag->detail.class_info->inheritance_model = (prior & ~7) | model;
         tag->detail.class_info->inheritance_model |= 8;
     } else if (model != (unsigned)(prior & 7))
-        report_syntax_error(286, tag->name, model_names[prior & 7]);
+        report_syntax_error(286, tag->name, inheritance_model_names[prior & 7]);
     cpp_parser_flags &= ~0x00e00000UL;
 }
 
@@ -310,4 +314,98 @@ int __stdcall symbol_has_tag_scope(CppSymbol *symbol)
     if ((symbol->kind & 31) == 4) return 1;
     if (!symbol->type) return 0;
     return (symbol->flags & 0x10) && (symbol->type->flags & 0x200) ? 1 : 0;
+}
+
+/* Original 0x2ddf0..0x2de56. Re-read the active class after each child,
+   retaining the original global-context calling pattern. */
+void begin_class_body(void)
+{
+    class_contexts[current_class_context].symbol->detail.class_info->flags2 |= 0x10;
+    prepare_base_layout(class_contexts[current_class_context].symbol);
+    inherit_class_pointer_attributes(class_contexts[current_class_context].symbol);
+    apply_default_vtordisp(class_contexts[current_class_context].symbol);
+    check_inheritance_model(class_contexts[current_class_context].symbol);
+}
+
+/* Original 0x79300..0x793b5. The previous-base pointer spans both passes.
+   Save each successor before placing a base, since placement can alter state. */
+void __stdcall prepare_base_layout(CppSymbol *tag)
+{
+    CppSymbol *previous_base = 0, *member, *next, *base_tag;
+    BaseClassLink *base;
+    int pass;
+    for (pass = 1; pass >= 0; --pass) {
+        for (member = tag->auxiliary.scope_members; member; member = next) {
+            next = member->next;
+            if ((member->kind & 31) != 15 || (member->flags & 0x80)) continue;
+            base = (BaseClassLink *)member;
+            base_tag = cpp_context_stack->items[base->context_index];
+            if (((base_tag->detail.class_info->alignment_flags & 0x40) != 0) == pass &&
+                !(base->state & 1))
+                base->displacement = place_base_subobject(base_tag, &previous_base, tag);
+        }
+    }
+}
+
+/* Original 0x2de60..0x2df96. An unspecified model comes from the first
+   visible base, or the default data-pointer kind when there are no bases. */
+void __stdcall inherit_class_pointer_attributes(CppSymbol *tag)
+{
+    int inherited = !tag->detail.class_info->pointer_attributes;
+    CppSymbol *member = tag->auxiliary.scope_members, *base_tag;
+    BaseClassLink *base;
+    if (inherited) {
+        for (;;) {
+            if (!member) {
+                tag->detail.class_info->pointer_attributes = (unsigned short)data_pointer_kind;
+                break;
+            }
+            base = (BaseClassLink *)member;
+            member = member->next;
+            if ((base->kind & 31) != 15 || (base->flags & 0x80)) continue;
+            base_tag = cpp_context_stack->items[base->context_index];
+            tag->detail.class_info->pointer_attributes = base_tag->detail.class_info->pointer_attributes;
+            break;
+        }
+    }
+    while (member) {
+        base = (BaseClassLink *)member;
+        member = member->next;
+        if ((base->kind & 31) != 15 || (base->flags & 0x80)) continue;
+        base_tag = cpp_context_stack->items[base->context_index];
+        if (base_tag->detail.class_info->pointer_attributes == tag->detail.class_info->pointer_attributes)
+            continue;
+        if (inherited) report_syntax_error(269, tag->name, base_tag->name);
+        else compiler_warning(3, 149, tag->name, base_tag->name);
+        return;
+    }
+}
+
+/* Original 0x2dfa0..0x2dfba. The original retains a tag argument but does
+   not read it; #pragma vtordisp only contributes to this shared switch. */
+void __stdcall apply_default_vtordisp(CppSymbol *unused_tag)
+{
+    suppress_vtordisp |= pragma_vtordisp == 0;
+}
+
+/* Original 0x49f00..0x49fb3. Explicit models are checked once the class
+   body exists, either exactly or as a lower bound under general pointers. */
+void __stdcall check_inheritance_model(CppSymbol *tag)
+{
+    unsigned char model;
+    int configured_model, general, actual, mismatch;
+    if (!(tag->detail.class_info->flags2 & 0x10)) return;
+    model = tag->detail.class_info->inheritance_model;
+    if (!(model & 8) || (model & 0x10)) return;
+    general = query_inheritance_model(&configured_model);
+    model = tag->detail.class_info->inheritance_model;
+    actual = infer_inheritance_model(tag);
+    mismatch = general ? (int)(model & 7) < actual : (int)(model & 7) != actual;
+    if (mismatch) {
+        tag->detail.class_info->inheritance_model |= 0x10;
+        actual = infer_inheritance_model(tag);
+        report_syntax_error(general ? 287 : 292, tag->name,
+            inheritance_model_names[tag->detail.class_info->inheritance_model & 7],
+            inheritance_model_names[actual]);
+    }
 }

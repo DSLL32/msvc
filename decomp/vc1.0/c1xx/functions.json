@@ -233,7 +233,14 @@
     "_enter_class_scope@8",
     "_symbol_has_tag_scope@4",
     "_push_symbol_scope@4",
-    "_record_scope_directory_entry@4"
+    "_record_scope_directory_entry@4",
+    "_apply_type_symbol@12",
+    "_merge_type_specifier@12",
+    "_begin_class_body",
+    "_prepare_base_layout@4",
+    "_inherit_class_pointer_attributes@4",
+    "_apply_default_vtordisp@4",
+    "_check_inheritance_model@4"
   ],
   "driver": [
     {
@@ -1611,7 +1618,7 @@
     {
       "name": "_begin_class_body",
       "start": 187888,
-      "end": 187889
+      "end": 187990
     },
     {
       "name": "_begin_compound_statement",
@@ -2536,7 +2543,7 @@
     {
       "name": "_merge_type_specifier@12",
       "start": 120544,
-      "end": 120545
+      "end": 121319
     },
     {
       "name": "_read_tag_specifier@8",
@@ -2546,7 +2553,7 @@
     {
       "name": "_apply_type_symbol@12",
       "start": 106976,
-      "end": 106977
+      "end": 107212
     },
     {
       "name": "_read_declspec_attributes",
@@ -2672,6 +2679,41 @@
       "name": "_record_scope_directory_entry@4",
       "start": 353504,
       "end": 353578
+    },
+    {
+      "name": "_prepare_base_layout@4",
+      "start": 496384,
+      "end": 496565
+    },
+    {
+      "name": "_inherit_class_pointer_attributes@4",
+      "start": 188000,
+      "end": 188310
+    },
+    {
+      "name": "_apply_default_vtordisp@4",
+      "start": 188320,
+      "end": 188346
+    },
+    {
+      "name": "_check_inheritance_model@4",
+      "start": 302848,
+      "end": 303027
+    },
+    {
+      "name": "_place_base_subobject@12",
+      "start": 496576,
+      "end": 496577
+    },
+    {
+      "name": "_query_inheritance_model@4",
+      "start": 302256,
+      "end": 302257
+    },
+    {
+      "name": "_infer_inheritance_model@4",
+      "start": 302800,
+      "end": 302801
     }
   ],
   "cases": {
@@ -3438,6 +3480,18 @@
           "name": "_scope_directory_index",
           "original": 658716,
           "bytes": 1
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_pragma_vtordisp",
+      "original": 652384,
+      "fields": [
+        {
+          "name": "_pragma_vtordisp",
+          "original": 652384,
+          "bytes": 4
         }
       ]
     }

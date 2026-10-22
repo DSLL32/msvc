@@ -353,3 +353,125 @@ define_tag:
     return 38;
 }
 
+
+/* Original 0x1a1e0..0x1a2cc. Keep the original name wrapper for diagnostics,
+   while applying the resolved symbol's type and class-context identity. */
+CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
+                                   unsigned short *attributes)
+{
+    CppSymbol *resolved = symbol;
+    QualifiedDeclarator *qualified;
+    CType *type;
+    TypeShape *shape;
+    TypeDescription *description;
+    if ((resolved->kind & 31) == 18) {
+        qualified = (QualifiedDeclarator *)resolved;
+        resolved = (CppSymbol *)qualified->resolution->binding->target;
+    }
+    type = merge_type_specifier(resolved->type, flags, resolved->type->flags);
+    if (!type) return 0;
+    shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    if (shape) {
+        if (*attributes & 0x3000) {
+            type = replace_first_type_shape(type, shape->flags,
+                (unsigned short)(shape->attributes | *attributes), &shape->data);
+            *attributes &= ~0x3000;
+        }
+    } else *attributes = merge_type_attributes(*attributes, type->attributes);
+    type_specifier_symbol = symbol;
+    if ((resolved->kind & 31) == 4) {
+        description = copy_type_description(type);
+        description->flags |= 0x10;
+        description->attributes |= *attributes;
+        description->field08 = resolved->detail.class_info->type_index;
+        type = intern_type(description);
+        --type_description_depth;
+        return type;
+    }
+    if (!resolved->references) resolved->references = 1;
+    return type;
+}
+
+/* Original 0x1d6e0..0x1d9e7. Declaration-word combinations retain their
+   ordering-sensitive warnings and the original recovery type/flags. */
+CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags,
+                                      unsigned short added_flags)
+{
+    unsigned short old_flags = *flags;
+    unsigned short sign = old_flags & 0xc000, added_sign = added_flags & 0xc000;
+    unsigned short base = old_flags & 0x2fff, added = added_flags & 0x2fff;
+    unsigned short result = base;
+    int invalid = 0;
+    if (sign && added_sign) {
+        if (sign & added_sign) compiler_warning(1, 114);
+        else {
+            added_flags &= ~0xc000;
+            report_syntax_error(42);
+        }
+        *flags |= added_flags;
+        return type;
+    }
+    if (added_sign) {
+        *flags = old_flags | added_flags;
+        return type;
+    }
+    if ((old_flags & 0xefff) == sign) {
+        *flags = old_flags | added_flags;
+        return type;
+    }
+    if (old_flags & 0x400) {
+        report_syntax_error(628, type_specifier_symbol->name, type_kind_name(added));
+        type_specifier_symbol = 0;
+        *flags = added_flags;
+        return 0;
+    }
+    switch (base) {
+    case 0x80: /* void */
+        report_syntax_error(120);
+        break;
+    case 0x42: /* short [int] */
+        result = 0x2042;
+        invalid = added != 100;
+        break;
+    case 0x44: /* long */
+        if (added == 100) result = 0x2044;
+        else if (added == 0x104) {
+            compiler_warning(1, 215); /* long float */
+            result = 0x108;
+        } else if (added == 0x108) {
+            result = 0x128;
+            compiler_warning(3, 69); /* long double */
+        } else invalid = 1;
+        break;
+    case 100: /* int short / int long */
+        if (added == 0x42) result = 0x2042;
+        else if (added == 0x44) result = 0x2044;
+        else invalid = 1;
+        break;
+    case 0x104: /* float long */
+        if (added == 0x44) {
+            compiler_warning(1, 216);
+            result = 0x108;
+        } else invalid = 1;
+        break;
+    case 0x108: /* double long */
+        if (added == 0x44) result = 0x128;
+        else invalid = 1;
+        break;
+    case 0x41: /* char */
+    case 0x128: /* long double */
+    case 0x210: case 0x214: /* defined enum forms */
+    case 0x412: case 0x414: case 0x418: /* defined aggregate forms */
+    case 0x802: /* segment */
+    case 0x2042: case 0x2044: /* explicit short/long int */
+        invalid = 1;
+        break;
+    }
+    if (invalid) {
+        report_syntax_error(632, type_kind_name(result), type_kind_name(added));
+        type = 0;
+    }
+    *flags = result | sign;
+    return type;
+}

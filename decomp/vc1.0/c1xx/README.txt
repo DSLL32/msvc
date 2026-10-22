@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 229 accepted paired frontiers, including 154 frontend
+PARTIAL reconstruction: 236 accepted paired frontiers, including 161 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
-targets. The token driver and replay wrapper are also reconstructed; the next
-matching trap is _apply_type_symbol@12 at original VA 0x1a1e0.
-All 229 frontiers replay successfully, including exact pending FILE buffers;
+targets. Type-symbol application, type combinations and class-body initialization
+are reconstructed; the next matching trap is _release_arena@4 at original
+VA 0x72d50. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -252,3 +252,19 @@ predicate, stack push and directory registration are reconstructed separately.
 Directory registration retains its unsigned byte index at 0xa0d1c and 128-slot
 limit; it is distinct from the declaration-scope counter. Its initial value
 joins the address/default audit. All 229 ordered frontiers replay exactly.
+
+Type-symbol application keeps the original qualified name for diagnostics while
+using its resolved tag/type. Type combinations retain ordering-sensitive
+long/float warnings and all sign, width and aggregate recovery branches.
+Class-body initialization retains its four separate helpers. Base layout saves
+the next member before placement and shares the preceding-base pointer across
+both passes; the low six alignment bits are distinct from its pass-selection
+flag. BaseClassLink currently represents its encountered prefix, not a claim
+about the producer's full allocation size. Pointer attributes come from the
+first visible base when unspecified, with distinct mismatch errors/warnings.
+Inheritance-model checks retain the class and both model-name arguments which
+the decompiler omitted. The diagnostic table is shared where the original uses
+it. Existing state 0x9f460 is #pragma vtordisp mode, established from startup,
+pragma dispatch and its directive-name table; its provisional name
+builtin_type_context was removed, and its zero initial value is audited.
+All 236 ordered frontiers replay exactly through class-body initialization.
