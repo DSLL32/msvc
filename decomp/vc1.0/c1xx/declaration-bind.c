@@ -71,7 +71,7 @@ CppSymbol *__stdcall apply_declaration_type(DeclarationType *context, CppSymbol 
         if (storage && storage != 7 && storage != 1 && !(symbol->attributes & 4) &&
             (!(symbol->flags & 4) || !symbol_construction_class(symbol)) &&
             (symbol->kind & 31) == 9 && declaration == symbol) {
-            if (symbol_has_array_shape(symbol))
+            if (symbol_has_reference_shape(symbol))
                 report_syntax_error(530, symbol->name);
             else if (symbol->attributes & 0x400) {
                 shape = symbol->type->related->related;

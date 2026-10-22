@@ -98,7 +98,7 @@ void __stdcall browser_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member) { __asm { int 3 } return 0; }
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
-int __stdcall symbol_has_array_shape(CppSymbol *symbol) { __asm { int 3 } return 0; }
+int __stdcall symbol_has_reference_shape(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
 short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
@@ -491,4 +491,8 @@ void __stdcall diagnose_parameter_list_difference(FunctionParameters *existing,
 
 CppSymbol *make_missing_function_declaration(void) { __asm { int 3 } return 0; }
 void initialize_function_inline_analysis(void) { __asm { int 3 } }
-void __stdcall begin_function_ir(CppSymbol *function, CppSymbol *parameters) { __asm { int 3 } }
+
+
+FrontendRecord *__stdcall reuse_frontend_record(unsigned char size_class) { __asm { int 3 } return 0; }
+FrontendRecord *__stdcall find_frontend_record(FrontendRecord *from, unsigned char kind,
+    int recover_on_missing) { __asm { int 3 } return 0; }

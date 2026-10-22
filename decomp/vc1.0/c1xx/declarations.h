@@ -263,7 +263,7 @@ void __stdcall browser_declaration(CppSymbol *symbol);
 CppSymbol *__stdcall declare_qualified_member(CppSymbol *symbol, QualifiedDeclarator *qualifier, CppSymbol *member);
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose);
 CppSymbol *__stdcall symbol_construction_class(CppSymbol *symbol);
-int __stdcall symbol_has_array_shape(CppSymbol *symbol);
+int __stdcall symbol_has_reference_shape(CppSymbol *symbol);
 void __stdcall initialize_zero_object(CppSymbol *symbol);
 void __stdcall finalize_object_storage(CppSymbol *symbol);
 void __stdcall validate_special_function(CppSymbol *symbol, int definition);

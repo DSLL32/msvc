@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 383,
-  "driver_functions": 308,
+  "accepted_frontiers": 390,
+  "driver_functions": 315,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 314,
-  "current_frontier": "_begin_function_ir@8",
-  "original_frontier_va": "0x3d6a0",
+  "reconstructed_source_functions": 321,
+  "current_frontier": "_identifier_expression@4",
+  "original_frontier_va": "0x3c330",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "bb38c0e54203a8926d3a2e378f9a1a29615b2ea073f0c094f2e3c17dc14f47df",
-  "call_graph_audit_functions": 314,
+  "replay_log_sha256": "10d87f453b7286f8dfd559750908a77ff6a9d234ba5a0111be1119b85592fcf5",
+  "call_graph_audit_functions": 321,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -91,7 +91,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-function-preparation.log",
+  "replay_log": "evidence/replay-frontend-records.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -308,7 +308,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 115908,
+  "accepted_source_text_and_switch_bytes": 117356,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -656,9 +656,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 125999,
+    "bytes": 127447,
     "total_original_executable_bytes": 476418,
-    "percent": 26.447153550033793,
+    "percent": 26.751088329995927,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -701,5 +701,31 @@
     "all_314_source_extents_pass_boundary_audit": true,
     "all_383_frontiers_replayed": true,
     "constructor_body_parsed": false
+  },
+  "frontend_records": {
+    "new_functions": 7,
+    "common_header_size": 16,
+    "next_offset": 8,
+    "previous_offset": 12,
+    "symbol_record_size": 20,
+    "function_record_size": 24,
+    "function_symbol_offset": 16,
+    "allocation_classes": [
+      16,
+      32,
+      48,
+      64
+    ],
+    "append_native_callees": 7,
+    "runtime_checkpoint_fields": 10,
+    "pointer_fields_compare_nullness": 2,
+    "scalar_fields_compare_exact": 8,
+    "symbol_index_and_ir_sequence_compared": true,
+    "initializer_list_flag_uses_existing_parser_state": true,
+    "syntax_diagnostic_count": "0x914cc, distinct from yacc and total compiler error counts",
+    "original_setjmp_matches_shipped_library": true,
+    "jump_buffer_bytes": 32,
+    "all_390_frontiers_replayed": true,
+    "constructor_initializer_expression_reached": true
   }
 }

@@ -1,6 +1,7 @@
 #ifndef FUNCTION_DEFINITIONS_H
 #define FUNCTION_DEFINITIONS_H
 #include "parser.h"
+#include "frontend-records.h"
 
 extern CppSymbol *qualified_definition_class;
 extern CType *current_return_type, *structure_return_pointer_type;
@@ -18,7 +19,6 @@ extern IrToken *function_exit_label;
 extern unsigned function_expression_sequence;
 CppSymbol *make_missing_function_declaration(void);
 void initialize_function_inline_analysis(void);
-void __stdcall begin_function_ir(CppSymbol *function, CppSymbol *parameters);
 void discard_function_definition(void);
 void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol);
 void activate_qualified_definition_scopes(void);

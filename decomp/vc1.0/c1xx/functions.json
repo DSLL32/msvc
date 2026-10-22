@@ -387,7 +387,14 @@
     "_register_label@4",
     "_function_return_type@4",
     "_strip_based_shape@4",
-    "_drop_first_type_shape@4"
+    "_drop_first_type_shape@4",
+    "_begin_function_ir@8",
+    "_reset_frontend_records",
+    "_append_frontend_record@8",
+    "_begin_frontend_scope",
+    "_record_parameter_cleanup@4",
+    "_end_frontend_scope",
+    "_remove_last_frontend_record"
   ],
   "driver": [
     {
@@ -1418,7 +1425,7 @@
       "end": 295738
     },
     {
-      "name": "_symbol_has_array_shape@4",
+      "name": "_symbol_has_reference_shape@4",
       "start": 351856,
       "end": 351912
     },
@@ -3805,7 +3812,47 @@
     {
       "name": "_begin_function_ir@8",
       "start": 251552,
-      "end": 251553
+      "end": 251940
+    },
+    {
+      "name": "_reset_frontend_records",
+      "start": 265904,
+      "end": 266045
+    },
+    {
+      "name": "_append_frontend_record@8",
+      "start": 265088,
+      "end": 265554
+    },
+    {
+      "name": "_begin_frontend_scope",
+      "start": 251952,
+      "end": 252010
+    },
+    {
+      "name": "_end_frontend_scope",
+      "start": 252016,
+      "end": 252105
+    },
+    {
+      "name": "_record_parameter_cleanup@4",
+      "start": 252416,
+      "end": 252606
+    },
+    {
+      "name": "_reuse_frontend_record@4",
+      "start": 264912,
+      "end": 264913
+    },
+    {
+      "name": "_find_frontend_record@12",
+      "start": 268848,
+      "end": 268849
+    },
+    {
+      "name": "_remove_last_frontend_record",
+      "start": 265568,
+      "end": 265684
     }
   ],
   "cases": {
@@ -4892,6 +4939,117 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_ir_record_head",
+      "original": 657920,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_ir_record_head",
+          "original": 657920,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_record_tail",
+          "original": 657924,
+          "bytes": 4
+        },
+        {
+          "name": "_function_ir_tail",
+          "original": 658012,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_function_error_count",
+          "original": 658016,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_records_suppressed",
+          "original": 658020,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_ir_free_records",
+      "original": 657928,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_ir_free_records",
+          "original": 657928,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_expression_depth",
+          "original": 657932,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_record_sequence",
+          "original": 657936,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_goto_count",
+          "original": 657940,
+          "bytes": 4
+        },
+        {
+          "name": "_initializing_symbol",
+          "original": 657944,
+          "bytes": 4
+        },
+        {
+          "name": "_initializing_reference",
+          "original": 657948,
+          "bytes": 4
+        },
+        {
+          "name": "_member_initializer_active",
+          "original": 657952,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_list_started",
+          "original": 657956,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_label_records",
+          "original": 657960,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_goto_records",
+          "original": 657964,
+          "bytes": 4
+        },
+        {
+          "name": "_ir_switch_records",
+          "original": 657968,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_ir_record_error_context",
+      "original": 658024,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_ir_record_error_context",
+          "original": 658024,
+          "bytes": 4
+        },
+        {
+          "name": "_syntax_diagnostic_count",
+          "original": 595148,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [
@@ -4956,6 +5114,11 @@
     {
       "name": "_next_symbol_index",
       "original": 652352,
+      "pointer": false
+    },
+    {
+      "name": "_ir_record_sequence",
+      "original": 657936,
       "pointer": false
     }
   ]

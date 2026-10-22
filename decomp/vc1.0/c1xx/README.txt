@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 383 accepted paired frontiers, including 308 frontend
+PARTIAL reconstruction: 390 accepted paired frontiers, including 315 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _begin_function_ir@8 at original VA 0x3d6a0. The latest ordered replay is recorded in validation.json;
+trap is _identifier_expression@4 at original VA 0x3c330. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -607,3 +607,28 @@ operands; all 314 source extents pass. No C1XX extent correction was needed.
 Current matching trap: begin_function_ir at native 0x3d6a0. The constructor body
 is not yet parsed. Accepted executable extent union is 125,999 / 476,418 bytes
 (26.447%, not branch coverage), and full frontend equivalence remains partial.
+
+Frontend work-record construction is now recovered: common headers are sixteen
+bytes (next +8, previous +12), symbol records twenty bytes, and function records
+twenty-four bytes with their symbol at +16. Allocations use 16/32/48/64-byte
+classes, forward word/byte copying and a reusable-record chain. Function entry
+retains its list rotation, nontrivial parameter cleanup and empty-scope removal.
+The allocator preserves seven native callees, including the matched original CRT
+_setjmp used by its overflow recovery path. The original header defines an
+8-word/32-byte jmp_buf; no assembly replacement is introduced.
+
+The context reset uses the existing parser initializer_list_started object at
+0xa0a24. Its reference-initialization predicate at 0x55e70 tests shape bit0x40,
+so its earlier unaccepted provisional array name is corrected to
+symbol_has_reference_shape. The distinct syntax diagnostic counter at 0x914cc
+is shared by native parser reporters and record-recovery guards; those reporters
+remain trapping stubs until reached.
+
+All 390 accepted frontiers replay with exact files, streams and pending buffers,
+logical callers and ten runtime observations (two pointer nullness checks and
+eight exact scalars). Both symbol numbering and IR-record sequence progression
+are now compared directly. Evidence: evidence/replay-frontend-records.log.
+Current matching trap is identifier_expression at 0x3c330, while reading value
+in the constructor's value_(value) initializer. Recovered extent union is
+127,447 / 476,418 executable bytes (26.751%, not branch coverage). Complete
+frontend equivalence remains partial.

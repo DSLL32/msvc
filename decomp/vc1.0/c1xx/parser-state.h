@@ -39,6 +39,7 @@ typedef union ParserStackStorage {
 extern ParserStackStorage parser_stacks;
 extern ParserValue parser_value, current_token_value;
 extern int parser_lookahead, parser_error_count;
+extern unsigned syntax_diagnostic_count;
 extern short parser_recovery_count;
 #define parser_state_stack parser_stacks.states_with_boundary
 #define parser_value_stack parser_stacks.data.semantic.values
