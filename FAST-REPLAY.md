@@ -9,16 +9,42 @@ Avoid restarting Wine processes for every historical frontier. Start each side
 once per case segment, then restore accepted functions progressively as their
 entry traps are encountered.
 
+Design for the common case: ordinary inputs with concrete expected outputs.
+Most cases should follow this simple path. At the end of a fast run, reuse the
+case's existing validators to compare exit status, streams, and output files,
+with only its already established normalization rules. These output checks do
+not require a restart for each frontier or live state comparisons at every stop.
+
 This is a regression check of the recorded **first-encounter sequence of logical
 functions**, including the expected terminal event. It does not record every
 repeated call, branch, or loop iteration, and is not branch coverage or a proof
 of complete control-flow equivalence.
 
 Keep the existing fresh paired reconstruction loop for newly reconstructed
-functions. Existing state/buffer comparisons, ABI and function-graph audits,
-artifact comparisons, and final-case checks remain separate validation
-obligations. The fast historical pass need not duplicate all of those checks at
-every frontier. Their cadence was not changed by this discussion.
+functions. Existing specialized state/buffer comparisons, ABI and function-graph
+audits, and independent fresh/untouched-original checks remain in their
+appropriate validation paths. The fast historical pass need not duplicate those
+checks at every frontier. Ordinary final input/output validation belongs at the
+end of the fast case run.
+
+## Simple cases and complex replay cadence
+
+Fast replay should serve the majority of cases with captured inputs and concrete
+outputs. A specialized setup such as creating a console, arranging a blocked
+read, and delivering a real Ctrl+C is an exception, not a requirement for the
+common walker.
+
+Keep such complex cases on their existing specialized runners initially. Batch
+their historical replays after substantial reconstruction progress for a case,
+at meaningful checkpoints and case completion, rather than replaying the whole
+complex history after each small addition. Changes that directly affect the
+special behavior can justify an earlier targeted rerun. No fixed batch size was
+chosen.
+
+This batching applies to historical regression work. It does not defer the
+focused paired check needed to accept a newly reconstructed function or to
+investigate an actual divergence. Implementation and default changes remain
+deferred; this is the intended policy when fast replay is adopted.
 
 ## Agreed execution model
 
@@ -85,7 +111,7 @@ validation; a single uninterrupted session cannot replace that dependency.
 | C2 | Completed minimal case and optimized hello segment; hello starts after its accepted prefix and ends at its current unaccepted frontier | Existing state captures, artifact checks, and fresh reconstruction loop |
 | CL | Ordinary per-case segments with its existing environment, `Q:` mappings, and normal C1/C2/LINK child execution | Controlled-clock, injected OMF/IDE state, and interrupt/callback modes until their existing hooks are ported |
 | LINK | Help, ordinary archive operations, dump/edit, and ordinary console/non-debug linking | Import-library/DLL cases that self-spawn LINK, full-debug cases invoking CVPACK, and signal-handler segments |
-| RC | Ordinary historical segments: worker identified 251 of 254 frontiers across 12 segments | One Ctrl+C frontier, two direct-helper frontiers, and existing fresh final-case checks |
+| RC | Ordinary historical segments: worker identified 251 of 254 frontiers across 12 segments, with final input/output validation | One Ctrl+C frontier, two direct-helper frontiers, and independent fresh acceptance checks |
 | RCPP | Ordinary per-case acceptance groups | Real Ctrl+C case; special direct-helper runner until explicitly adapted |
 
 LINK's deferred cases require deliberate child-image/process handling, rather
