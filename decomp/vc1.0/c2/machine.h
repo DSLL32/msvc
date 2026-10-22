@@ -75,7 +75,7 @@ typedef struct MachineBlockHeader {
     unsigned opcode;
     struct BitSet *uses, *definitions;
     int number;
-    unsigned field18;
+    union { unsigned field18; int rematerialization_cost; };
     unsigned short flags, field1e;
 } MachineBlockHeader;
 typedef char MachineBlockHeaderSizeCheck[sizeof(MachineBlockHeader) == 32 ? 1 : -1];

@@ -139,3 +139,13 @@ void __fastcall compact_machine_context(MachineContext *context)
         instruction = next;
     }
 }
+
+/* Original [00068c50,00068c70). Start after the supplied record and find
+   the next kind7 boundary, including the terminating block header. */
+MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction)
+{
+    do {
+        instruction = instruction->next;
+    } while (instruction && (instruction->opcode & 15) != 7);
+    return instruction;
+}

@@ -1188,3 +1188,37 @@ COFF timestamp. Verified accepted original code-extent union is148383 /399693 by
 (37.1242 percent), including source/shared text/CRT/imports with clipping and
 actual-mask verification; this is not branch coverage. Hello remains pending
 at allocate_machine_registers,0002aa80.
+
+Physical register allocation now reaches its conflict-graph builder. The whole
+allocator driver is reconstructed: establish available colors, compare both
+ordering strategies by signed spill cost, retry after spill rewriting, and
+select EBP/ESP frame addressing before assigning machine operands. Its later
+coloring/spill/frame helpers retain separate named traps; only the prelude is
+claimed dynamically. Seven more complete functions cover eligibility, floating
+block iteration, physical variable construction, rematerialization pruning,
+allocation-round reset and the shared next-block iterator.
+
+RegisterVariable retains its52-byte layout with typed work/conflict links,
+signed degree/spill-cost shorts, priority/weight and deferred machine blocks.
+Original current_work and stack_frame_extent state are reused. An independent
+capture caught a preliminary mistaken alias between the eligibility gate's
+stack state80688 and the unrelated -Gy switch806e4; the corrected capture
+agrees on7 available colors, limit2,20 variable records,12 counters,31 cleared
+physical costs,32 cleared temporary heads and exact current-work/callback
+identities. It matches41 normalized lines. See
+cases/hello-physical-prelude-abi.json and cases/allocation-state.txt.
+
+The native statistics clearing spans69 DWORDs. Only12 active counters are
+represented contextually;57 clear-only words are omitted after checking mapped
+pointer constants, indexed neighboring arrays, pointer arithmetic and address
+escape. No original data snapshot or opaque native gap is introduced. The
+spill-home hash and physical cost tables have semantic types and extents from
+their constructor/index consumers.
+
+All352 minimal and223 hello frontiers replay after the correction;498 source
+graphs and575 accepted extent instruction boundaries pass. Three changed
+modules compile /W3 clean. Minimal object/streams/exit match except only the
+four-byte COFF timestamp. Verified accepted original code-extent union is
+149679/399693 bytes (37.4485 percent), with source/shared text/CRT/imports
+unioned, clipped and checked against actual masks; this is not branch coverage.
+Hello remains pending at build_register_conflicts,0002bbd0.

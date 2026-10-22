@@ -1,4 +1,5 @@
 #include "machine-analysis.h"
+#include "physical-allocation.h"
 #include "machine-transfers.h"
 #include "register-transfers.h"
 #include "register-variables.h"
@@ -137,7 +138,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void allocate_machine_registers(void) { __asm int 3 }
 void __fastcall prepare_machine_blocks(WorkItem *work) { __asm int 3 }
 void __fastcall set_machine_frame(MachineContext *context, unsigned flags) { __asm int 3 }
 void __fastcall peephole_machine_33f50(MachineContext *context) { __asm int 3 }
@@ -222,7 +222,6 @@ int __fastcall try_select_assignment(Node *node) { __asm int 3 }
 void emit_float_return(void) { __asm int 3 }
 void __fastcall select_assembly_record(Node *node) { __asm int 3 }
 LabelSymbol *new_internal_label(void) { __asm int 3 }
-MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction) { __asm int 3 }
 
 #include "register-use.h"
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
@@ -457,3 +456,21 @@ void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 
 void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement) { __asm int 3 }
 void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use) { __asm int 3 }
+void finish_register_assignment(void) { __asm int 3 }
+void __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions) { __asm int 3 }
+void record_debug_register_locations(void) { __asm int 3 }
+int __fastcall frame_references_exceed_cost(WorkItem *work, int limit) { __asm int 3 }
+void __fastcall assign_machine_registers(MachineInstruction *instructions) { __asm int 3 }
+void optimize_allocated_machine_regions(void) { __asm int 3 }
+void __fastcall spill_register_variables(RegisterVariable *variables, int simplification) { __asm int 3 }
+RegisterVariable *__fastcall color_register_variables(RegisterVariable **variables) { __asm int 3 }
+RegisterVariable *__fastcall order_allocation_variables(int strategy) { __asm int 3 }
+int __fastcall count_register_conflicts(RegisterConflict *conflicts) { __asm int 3 }
+void finish_allocation_constraints(void) { __asm int 3 }
+void build_allocation_constraints(void) { __asm int 3 }
+int simplify_unspillable_variables(void) { __asm int 3 }
+void __fastcall build_register_conflicts(WorkItem *work, RegisterConflictVisitor visitor) { __asm int 3 }
+int __fastcall add_register_conflict(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
+void __fastcall allocate_frame_symbols(WorkItem *work, int use_stack_pointer) { __asm int 3 }
+int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
+int __fastcall machine_sequence_cost(MachineInstruction *instruction) { __asm int 3 }

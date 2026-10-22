@@ -4,7 +4,7 @@
 #include "input.h"
 extern int optimize_global, generate_disabled;
 FunctionSymbol *pending_functions, *current_symbol;
-WorkItem *current_work;
+WorkItem *current_work; /* 0007b948: shared with physical allocation */
 Function *current_function;
 int backend_stage; /* 00083174: also the canonicalizer's expression-check state */
 Node *(__fastcall *tree_transform)(Node *node);

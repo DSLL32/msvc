@@ -1,0 +1,84 @@
+Physical allocation state provenance (original C23232.EXE)
+
+The driver at2aa80 clears69 DWORDs, [7c520,7c634). This is not an
+implementation array. Twelve counters have subsequent accesses:7c520,
+524,528,52c,534,538,53c,540,544,548,62c,630. The remaining57 words
+have no observed identity and are omitted. The contextual statistics
+structure retains those twelve counters without reproducing native gaps.
+Counter names awaiting their producing pass keep an offset suffix.
+
+Address and escape audit:
+
+An unaligned four-byte-window scan of every file-backed mapped PE section
+for ANY value in [7c520,7c634), including interior byte addresses, finds
+18 occurrences in .text and none in .rdata/.data/.rsrc/.idata/.reloc.
+The occurrences are instruction operands at2aa92,2aafa,2ab04,2ab0a,
+2ab42,2ac33,2b7f5,2b819,2bb94,2c2e8,2c3c7,2c596,2c778,2eaf7,
+2ec90,2ed20,2ed63,2f005. Each was inspected in instruction context.
+They are the clearing address, direct accesses to the listed counters,
+and the strategy counter base7c62c. Strategy is0/1, derived from the two
+iteration choices; its index cannot reach the cleared gap.
+
+The only address-producing use of7c520 is MOV EDI,7c520 at2aa91,
+followed by ECX=69/EAX=0 and REP STOSD. EDI is not stored, passed or
+used as a pointer afterward. The other7c520 operand updates its counter
+directly. There is no escaping pointer or interior pointer to this span.
+
+The proof also considers base-plus-index/displacement and pointer walks,
+rather than equating absence of exact-address references with deadness:
+
+* The preceding register-head array7c4a4 has8 DWORD entries, explicitly
+  cleared by2f76f with ECX=8, ending at7c4c4. Its indexed uses are2fc0d,
+  3001b,307f7,30ccb. The explicit index loop at3001b is0..7. Other uses
+  select a physical integer color from the assigned variable flags, or
+  the eight-entry register permutation at7c480. These late allocation
+  passes operate after successful coloring, where color32 is unassigned
+  and cannot be an allocated physical register. Register24 is resolved
+  to its assigned physical color first. There is no negative displacement
+  or pointer walk from those heads into the statistics. Reaching7c520
+  would require the invalid physical color31 (and larger indices would
+  remain outside that array's contract).
+  Specifically,2fb85..2fba9 and30c56..30c7a reject physical numbers8..31,
+  plus4/5, before those helpers can form an indexed pointer. The sole
+  exception is logical frame number24, which is resolved through its
+  canonical variable before indexing. Thus the apparently broad direct
+  register case later in those functions cannot pass physical31 onward.
+* The x87 permutation7c480 is eight WORDs; its pointer loops end7c490,
+  with separate marker words7c490/494. The preceding28-byte records are
+  eight entries ending7c494. Neither their loops nor indexed accesses
+  overlap7c520. Scalar state7c498..7c4a0 does not escape to statistics.
+* The following head array starts7c634. It is cleared with ECX=31 at
+  2e70b/2e8b7. Its indices are zero-extended register WORDs (2e7c0,
+  2e82f and corresponding later consumers), or nonnegative bit-mask
+  enumeration. The explicit loop2e867..2e897 uses0..7. Pointer walks
+  add4 from7c634 to7c654. There are no signed negative register indices
+  or backward walks into the preceding counters. Later pointer chains
+  traverse allocated nodes rather than subtracting from the head base.
+* The further physical cost array7c6b4 has31 DWORDs, initialized at
+  2bd45. Its indices are physical colors/zero-extended register numbers;
+  it has no negative displacement or pointer escape into statistics.
+
+The above is a proof under the recovered valid register/index contracts,
+not a promise to preserve native out-of-bounds behavior for corrupt IR.
+The entire function/callee graph and all twelve contextual counter
+updates are retained as their producing functions are reconstructed.
+
+PE caveat: .bss has a raw-size field but file offset0. It is zero-filled
+virtual storage, not bytes from the DOS header. Four apparent constants
+in the DOS16 stub are outside mapped NT32 sections and are not aliases.
+No original data bytes are copied into a reconstruction initializer.
+
+Shared-state identities independently confirmed:
+7b948=current_work (compile_functions writes and allocation reads it).
+831b4=current_function. RegisterVariable+04 is its coloring work-list
+link; +08 points to8-byte {next,variable} conflict nodes. +14/+16 are
+signed short degree/spill cost, respectively; native MOVSX is preserved.
+Option table destinations: -Zi record80a28 ->8313c=codeview_debug;
+-cost# record809d4 ->80638=optimization_cost; -forcerisc record80974
+->80660=force_risc; -norisc record8098c ->80668=optimization_risc.
+The eligibility gate's80688 is the existing stack_frame_extent in frame.c,
+cleared by reset_stack_frame26e30 and set by dynamic stack selection.
+It is unrelated to the -Gy suboption destination806e4. An independent
+capture caught and corrected that mistaken preliminary alias: native and
+reconstructed now both expose7 available colors, cost limit2, frame color
+available1 and allocated0 at the conflict-builder entry.

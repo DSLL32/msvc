@@ -3,11 +3,16 @@
 #include "symbols.h"
 /* Native 52-byte variable. Unconsumed allocation fields retain offset
    names until their owning pass establishes their meanings. */
+typedef struct RegisterConflict RegisterConflict;
 typedef struct RegisterVariable {
     struct RegisterVariable *next;
-    unsigned field04, field08, field0c, field10, field14;
+    struct RegisterVariable *work_next;
+    RegisterConflict *conflicts;
+    int spill_priority, spill_weight;
+    short degree, spill_cost;
     unsigned short number, field1a;
-    unsigned flags, field20;
+    unsigned flags;
+    struct MachineBlockHeader *rematerialization;
     short first_block, last_block;
     signed char storage_bytes;
     unsigned char field29;
@@ -15,6 +20,11 @@ typedef struct RegisterVariable {
     SymbolHeader *home_symbol;
     unsigned home_offset;
 } RegisterVariable;
+struct RegisterConflict {
+    RegisterConflict *next;
+    RegisterVariable *variable;
+};
+typedef char RegisterConflictSizeCheck[sizeof(RegisterConflict) == 8 ? 1 : -1];
 typedef char RegisterVariableSizeCheck[sizeof(RegisterVariable) == 52 ? 1 : -1];
 enum { REGISTER_VARIABLE_CLASSES = 3, REGISTER_VARIABLE_BUCKETS = 32 };
 extern RegisterVariable *register_variable_buckets[REGISTER_VARIABLE_CLASSES][REGISTER_VARIABLE_BUCKETS];

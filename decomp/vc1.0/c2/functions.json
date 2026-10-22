@@ -572,7 +572,14 @@
     "_simplify_machine_branches",
     "_combine_machine_instructions",
     "@promote_region_immediates@4",
-    "_finish_tree_optimization"
+    "_finish_tree_optimization",
+    "_allocate_machine_registers",
+    "_frame_register_can_be_allocated",
+    "_analyze_allocation_float_blocks",
+    "@next_machine_block@4",
+    "_initialize_physical_variables",
+    "_prune_rematerialized_variables",
+    "_initialize_allocation_round"
   ],
   "driver": [
     {
@@ -1178,8 +1185,7 @@
     {
       "name": "_allocate_machine_registers",
       "start": 174720,
-      "end": 174721,
-      "provisional": true
+      "end": 175456
     },
     {
       "name": "@prepare_machine_blocks@4",
@@ -2925,8 +2931,7 @@
     {
       "name": "@next_machine_block@4",
       "start": 429136,
-      "end": 429137,
-      "provisional": true
+      "end": 429168
     },
     {
       "name": "@analyze_selected_block@4",
@@ -4996,6 +5001,139 @@
       "name": "@record_region_register@16",
       "start": 305984,
       "end": 305985,
+      "provisional": true
+    },
+    {
+      "name": "_finish_register_assignment",
+      "start": 175456,
+      "end": 175457,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_stack_pointer_frame@4",
+      "start": 175600,
+      "end": 175601,
+      "provisional": true
+    },
+    {
+      "name": "_record_debug_register_locations",
+      "start": 176560,
+      "end": 176561,
+      "provisional": true
+    },
+    {
+      "name": "@frame_references_exceed_cost@8",
+      "start": 176720,
+      "end": 176721,
+      "provisional": true
+    },
+    {
+      "name": "@assign_machine_registers@4",
+      "start": 176944,
+      "end": 176945,
+      "provisional": true
+    },
+    {
+      "name": "_optimize_allocated_machine_regions",
+      "start": 177824,
+      "end": 177825,
+      "provisional": true
+    },
+    {
+      "name": "@spill_register_variables@8",
+      "start": 177920,
+      "end": 177921,
+      "provisional": true
+    },
+    {
+      "name": "@color_register_variables@4",
+      "start": 178304,
+      "end": 178305,
+      "provisional": true
+    },
+    {
+      "name": "@order_allocation_variables@4",
+      "start": 178592,
+      "end": 178593,
+      "provisional": true
+    },
+    {
+      "name": "@count_register_conflicts@4",
+      "start": 178816,
+      "end": 178817,
+      "provisional": true
+    },
+    {
+      "name": "_finish_allocation_constraints",
+      "start": 178832,
+      "end": 178833,
+      "provisional": true
+    },
+    {
+      "name": "_build_allocation_constraints",
+      "start": 178960,
+      "end": 178961,
+      "provisional": true
+    },
+    {
+      "name": "_simplify_unspillable_variables",
+      "start": 179024,
+      "end": 179025,
+      "provisional": true
+    },
+    {
+      "name": "@build_register_conflicts@8",
+      "start": 179152,
+      "end": 179153,
+      "provisional": true
+    },
+    {
+      "name": "@add_register_conflict@8",
+      "start": 179408,
+      "end": 179409,
+      "provisional": true
+    },
+    {
+      "name": "_initialize_allocation_round",
+      "start": 179504,
+      "end": 179680
+    },
+    {
+      "name": "_prune_rematerialized_variables",
+      "start": 179680,
+      "end": 179856
+    },
+    {
+      "name": "_initialize_physical_variables",
+      "start": 179856,
+      "end": 179888
+    },
+    {
+      "name": "_analyze_allocation_float_blocks",
+      "start": 179888,
+      "end": 179936
+    },
+    {
+      "name": "_frame_register_can_be_allocated",
+      "start": 179936,
+      "end": 180032
+    },
+    {
+      "name": "@allocate_frame_symbols@8",
+      "start": 218352,
+      "end": 218353,
+      "provisional": true
+    },
+    {
+      "name": "@function_allows_frame_register@4",
+      "start": 193792,
+      "end": 193793,
+      "provisional": true
+    },
+    {
+      "name": "@machine_sequence_cost@4",
+      "start": 185088,
+      "end": 185089,
       "provisional": true
     }
   ],

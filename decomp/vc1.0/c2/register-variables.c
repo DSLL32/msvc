@@ -59,11 +59,13 @@ RegisterVariable *__fastcall new_register_variable(unsigned short number)
 {
     RegisterVariable *variable = arena_alloc(2, sizeof(RegisterVariable));
     variable->next = 0;
-    variable->field04 = variable->field08 = variable->field0c = 0;
-    variable->field10 = variable->field14 = 0;
+    variable->work_next = 0;
+    variable->conflicts = 0;
+    variable->spill_priority = variable->spill_weight = 0;
+    variable->degree = variable->spill_cost = 0;
     variable->number = variable->field1a = number;
     variable->flags = 0;
-    variable->field20 = 0;
+    variable->rematerialization = 0;
     variable->first_block = variable->last_block = 0;
     variable->storage_bytes = variable->field29 = 0;
     variable->field2a = 0;
