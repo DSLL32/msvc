@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 269,
+  "accepted_frontiers": 276,
   "current_frontier": {
-    "name": "@assign_machine_registers@4",
-    "original_va": 176944
+    "name": "@rewrite_stack_pointer_frame@4",
+    "original_va": 175600
   },
   "expected": {
     "exit": 0,
@@ -200,18 +200,23 @@
     "all352 minimal and269 hello historical frontiers replay with frozen native build/config hashes; original-toolchain minimal object/streams/exit still exact except timestamp",
     "all544 source graphs and621 accepted instruction-boundary extents pass; physical-rewrite /W3 clean",
     "post-value-reuse independent capture matches188 normalized lines/87 records, including actual0x4023-to-EDX linked definition/use replacement and all alias lifetimes retired",
-    "verified accepted original code-extent union163119/399693 bytes=40.8111 percent; not branch coverage"
+    "verified accepted original code-extent union163119/399693 bytes=40.8111 percent; not branch coverage",
+    "all352 minimal and276 hello historical frontiers replay with frozen native build/config hashes; minimal object/streams/exit match except only COFF timestamp",
+    "all551 source graphs and628 accepted instruction boundaries pass; physical-allocation, physical-rewrite, frame-symbols and symbols /W3 clean",
+    "independent frame capture matches15 normalized lines/12 symbols, including paint -64/64 bytes, client -80/16 bytes, exact assignment flags and canonical frame counters",
+    "independent pruned-stream capture matches184 normalized lines/85 records and removal of unused EBX save/restore pair",
+    "verified accepted original code-extent union165103/399693 bytes=41.3075 percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 621,
-  "reconstructed_functions": 544,
+  "total_accepted_frontiers": 628,
+  "reconstructed_functions": 551,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 621,
-    "accepted_code_bytes": 163119,
+    "accepted_frontiers": 628,
+    "accepted_code_bytes": 165103,
     "original_code_bytes": 399693,
-    "percentage": 40.81107249814232,
+    "percentage": 41.30745347053864,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [

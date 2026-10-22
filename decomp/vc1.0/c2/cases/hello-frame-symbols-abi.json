@@ -1,0 +1,191 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@assign_machine_registers@4",
+      "start": "0x2b330",
+      "end": "0x2b6a0",
+      "instructions": 252
+    },
+    {
+      "name": "@frame_references_exceed_cost@8",
+      "start": "0x2b250",
+      "end": "0x2b330",
+      "instructions": 82
+    },
+    {
+      "name": "@allocate_frame_symbols@8",
+      "start": "0x354f0",
+      "end": "0x35680",
+      "instructions": 132
+    },
+    {
+      "name": "@for_each_symbol@8",
+      "start": "0x4e7f0",
+      "end": "0x4e830",
+      "instructions": 28
+    },
+    {
+      "name": "@next_scope_symbol@8",
+      "start": "0x4e730",
+      "end": "0x4e7f0",
+      "instructions": 54
+    },
+    {
+      "name": "@clear_local_frame_assignment@4",
+      "start": "0x35740",
+      "end": "0x35760",
+      "instructions": 8
+    },
+    {
+      "name": "@count_frame_symbol_reference@8",
+      "start": "0x35680",
+      "end": "0x35740",
+      "instructions": 70
+    }
+  ],
+  "ABI": "All seven are ordinary C fastcall; two-argument functions use ECX/EDX without stack arguments. SymbolVisitor is a one-argument fastcall callback; for_each_symbol preserves the indirect callback edge.",
+  "data": [
+    {
+      "original_address": "0x7c354",
+      "definition": "FrameSymbolReference **frame_symbol_references",
+      "meaning": "Points to the local head during frame allocation; node is exactly16 bytes: next, signed size, signed weighted-use count, SymbolHeader*. Arena3 owns nodes. Ordinary fields introduced at their constructor/consumer."
+    },
+    {
+      "original_address": "0x83280,0x8327c,0x7e6a8",
+      "definition": "ScopeHash*, int, SymbolHeader*",
+      "meaning": "One active scope-symbol iterator, preserving caller/previous identity and64-bucket traversal. A failed continuation retains original internal-error child and diagnostic literal at use."
+    },
+    {
+      "original_address": "0x7c950",
+      "definition": "existing selected_save_register_mask",
+      "meaning": "Reuses the original canonical EBX/ESI/EDI mask introduced by initialization and save emission; no duplicate mask."
+    },
+    {
+      "original_address": "0x806dc,0x806e0,0x80688",
+      "definition": "existing local_stack_offset, parameter_stack_offset, stack_frame_extent",
+      "meaning": "Canonical frame state reused from frame.c; no replacement snapshot or duplicate storage."
+    }
+  ],
+  "dead_stack_word_proof": "Native allocator clears two stack DWORDs beginning at its local head. Only the first escapes at7c354. All seven global-pointer sites are in354f0/35680. The counting helper dereferences that address solely as a next-link pointer at offset0, then traverses allocated16-byte nodes (node+4 is size, never head+4). No address of the second word escapes or is read; only the live head is represented.",
+  "captures": {
+    "frame_symbols": {
+      "frontier": "@rewrite_stack_pointer_frame@4",
+      "original_va": "0x2adf0",
+      "normalized_lines": 15,
+      "normalization": "omit exception header and represent symbols by logical identity; only stack/register variables have an offset field. Kind3 field04 is code identity, not a frame offset.",
+      "events": {
+        "original": "267e1e76e154cbfa9477932a9a8f503fbbe657e6282f072ad9072422bd18fdb2",
+        "reconstructed": "672bead00ff64b638a16ce49e8bc68bb048238b8693485591ea0fdfc049023c8"
+      }
+    },
+    "pruned_stream": {
+      "frontier": "@rewrite_stack_pointer_frame@4",
+      "original_va": "0x2adf0",
+      "normalized_lines": 184,
+      "instruction_records": 85,
+      "normalization": "omit exception header; represent pointers by normalized operand/symbol/link identity",
+      "events": {
+        "original": "f64c4d4c28d60767de11bdcd29b5a39b93802e6aa821ae9775737526b1f14e11",
+        "reconstructed": "f2fe324c8b4553560dea2c3588dd583a1f4f69a84ea6baf97a16766dc8dbb2d4"
+      }
+    }
+  },
+  "observed": {
+    "symbols": 12,
+    "locals": {
+      "paint": {
+        "offset": -64,
+        "bytes": 64,
+        "assigned": true
+      },
+      "client": {
+        "offset": -80,
+        "bytes": 16,
+        "assigned": true
+      },
+      "dc": {
+        "old_offset": -4,
+        "reassigned": false,
+        "reason": "register-resident; absent from referenced frame list"
+      }
+    },
+    "parameter_offsets": [
+      8,
+      12,
+      16,
+      20
+    ],
+    "local_stack_offset": -80,
+    "parameter_stack_offset": 24,
+    "frame_extent_before_ESP_rewrite": 0,
+    "saved_registers_retained": [
+      "ESI",
+      "EDI"
+    ],
+    "unused_save_restore_removed": "EBX",
+    "instruction_records_before": 87,
+    "instruction_records_after": 85
+  },
+  "limits": [
+    "Pentium case exercises frame-cost early return0; whole386 counting path and internal-error branches retained but unvisited.",
+    "Only the first function has reached frame conversion. No completed optimized hello object claimed.",
+    "Frame capture represents symbol identity semantically; kind3 field04 is an address identity rather than a frame offset and is not compared as a raw integer. Only variable/temporary offsets and sizes are treated as frame values.",
+    "The temporary frame-list head intentionally has the native during-call lifetime; no post-return dangling-head dereference is used as an oracle."
+  ],
+  "validation": {
+    "source_functions": 551,
+    "accepted_frontiers": 628,
+    "minimal_frontiers": 352,
+    "hello_frontiers": 276,
+    "W3": "physical-allocation, physical-rewrite, frame-symbols, symbols clean",
+    "minimal_fixture": "286 bytes exact except timestamp4..7",
+    "replays": {
+      "minimal": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-201416/receipt.json",
+        "sha256": "2574be27d6028a0e72c0b4c8370ca8a9fc56100fbac415a0be813909a1e3c70c",
+        "frontiers": 352,
+        "first": 0,
+        "last": 352,
+        "final": "exit:0",
+        "frozen": {
+          "functions.json": "4047790aba3175e4db820353497935f4bd45004dee549e03524dacf0c831e524",
+          "build/c2.exe": "c6116780a1528fa4b29bf52fccf0ca64f0672c729121e8cd0200d27107efbfb4",
+          "build/c2.map": "1d5889cd3f6e3b945b497c205b905fc86b18ff58525835b6eca7e50e1c2a0af0",
+          "build/runtime.json": "492d78ee5c700675da96c80a525e4ff42353dd6bb1e6371c186d735c68efd700"
+        }
+      },
+      "hello": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-206207/receipt.json",
+        "sha256": "8cc93447fc9718a98234ffc6bf7e8293d41c7524531f04e796a68605a2158029",
+        "frontiers": 276,
+        "first": 352,
+        "last": 628,
+        "final": "@rewrite_stack_pointer_frame@4",
+        "frozen": {
+          "functions.json": "4047790aba3175e4db820353497935f4bd45004dee549e03524dacf0c831e524",
+          "build/c2.exe": "c6116780a1528fa4b29bf52fccf0ca64f0672c729121e8cd0200d27107efbfb4",
+          "build/c2.map": "1d5889cd3f6e3b945b497c205b905fc86b18ff58525835b6eca7e50e1c2a0af0",
+          "build/runtime.json": "492d78ee5c700675da96c80a525e4ff42353dd6bb1e6371c186d735c68efd700"
+        }
+      }
+    },
+    "coverage": {
+      "mask_verified": true,
+      "metric": "accepted original code-extent union; not branch coverage",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "accepted_frontiers": 628,
+      "accepted_code_bytes": 165103,
+      "original_code_bytes": 399693,
+      "percentage": 41.30745347053864,
+      "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+      "code_sections": [
+        [
+          "0x17000",
+          "0x7894d"
+        ]
+      ],
+      "union_ranges": 169
+    }
+  }
+}

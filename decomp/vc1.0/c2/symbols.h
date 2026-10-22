@@ -22,4 +22,5 @@ extern ScopeHash *current_scope;
 extern ScopeHash global_scope;
 void __fastcall insert_symbol(SymbolHeader *symbol, int local);
 char *__fastcall symbol_display_name(SymbolHeader *symbol);
+SymbolHeader *__fastcall next_scope_symbol(ScopeHash *scope, SymbolHeader *previous);
 #endif

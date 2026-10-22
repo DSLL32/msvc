@@ -625,7 +625,14 @@
     "@order_reusable_registers@12",
     "@preferred_reuse_colors@12",
     "@cached_operands_equal@8",
-    "@operand_ends_physical_register@8"
+    "@operand_ends_physical_register@8",
+    "@assign_machine_registers@4",
+    "@frame_references_exceed_cost@8",
+    "@allocate_frame_symbols@8",
+    "@for_each_symbol@8",
+    "@next_scope_symbol@8",
+    "@clear_local_frame_assignment@4",
+    "@count_frame_symbol_reference@8"
   ],
   "driver": [
     {
@@ -1840,8 +1847,7 @@
     {
       "name": "@for_each_symbol@8",
       "start": 321520,
-      "end": 321521,
-      "provisional": true
+      "end": 321584
     },
     {
       "name": "@write_public_listing@4",
@@ -5070,14 +5076,12 @@
     {
       "name": "@frame_references_exceed_cost@8",
       "start": 176720,
-      "end": 176721,
-      "provisional": true
+      "end": 176944
     },
     {
       "name": "@assign_machine_registers@4",
       "start": 176944,
-      "end": 176945,
-      "provisional": true
+      "end": 177824
     },
     {
       "name": "_optimize_allocated_machine_regions",
@@ -5158,8 +5162,7 @@
     {
       "name": "@allocate_frame_symbols@8",
       "start": 218352,
-      "end": 218353,
-      "provisional": true
+      "end": 218752
     },
     {
       "name": "@function_allows_frame_register@4",
@@ -5405,6 +5408,21 @@
       "name": "@cached_operands_equal@8",
       "start": 202304,
       "end": 203008
+    },
+    {
+      "name": "@clear_local_frame_assignment@4",
+      "start": 218944,
+      "end": 218976
+    },
+    {
+      "name": "@count_frame_symbol_reference@8",
+      "start": 218752,
+      "end": 218944
+    },
+    {
+      "name": "@next_scope_symbol@8",
+      "start": 321328,
+      "end": 321520
     }
   ],
   "cases": {

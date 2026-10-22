@@ -3,7 +3,11 @@
 #include "symbols.h"
 #include "functions.h"
 #include "temporaries.h"
+#include "listing.h"
 unsigned descriptor_bytes[7];
+static ScopeHash *symbol_iteration_scope; /*83280*/
+static int symbol_iteration_bucket; /*8327c*/
+static SymbolHeader *symbol_iteration_current; /*7e6a8*/
 /* Original [0004e330,0004e370). Release arena-one symbol scratch and
    disconnect its temporary-register and current-scope roots. */
 void release_function_symbols(void)
@@ -124,5 +128,40 @@ SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier)
             if (symbol->identifier == identifier) return symbol;
     for (symbol = global_scope.buckets[bucket]; symbol; symbol = symbol->hash_next)
         if (symbol->identifier == identifier) return symbol;
+    return 0;
+}
+
+/* Original [0004e7f0,0004e830). Visit exactly the selected scope. The
+   stateful iterator verifies the preceding symbol on each continuation. */
+void __fastcall for_each_symbol(int local, SymbolVisitor visit)
+{
+    ScopeHash *scope = local ? current_scope : &global_scope;
+    SymbolHeader *symbol;
+    if (!scope) return;
+    for (symbol = next_scope_symbol(scope, 0); symbol;
+         symbol = next_scope_symbol(scope, symbol)) visit(symbol);
+}
+
+/* Original [0004e730,0004e7f0). Shared continuation state belongs to one
+   scope at a time; nested or stale iterator continuations are internal errors. */
+SymbolHeader *__fastcall next_scope_symbol(ScopeHash *scope, SymbolHeader *previous)
+{
+    if (!previous) {
+        symbol_iteration_scope = scope;
+        symbol_iteration_bucket = -1;
+        symbol_iteration_current = 0;
+    }
+    if (symbol_iteration_current != previous || symbol_iteration_scope != scope)
+        compiler_internal_error("@(#)p2symtab.c:1.89", 0x58c);
+    if (previous && previous->hash_next) {
+        symbol_iteration_current = previous->hash_next;
+        return symbol_iteration_current;
+    }
+    for (++symbol_iteration_bucket; symbol_iteration_bucket < 64; ++symbol_iteration_bucket) {
+        if (scope->buckets[symbol_iteration_bucket]) {
+            symbol_iteration_current = scope->buckets[symbol_iteration_bucket];
+            return symbol_iteration_current;
+        }
+    }
     return 0;
 }

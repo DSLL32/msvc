@@ -1397,3 +1397,33 @@ object/streams/exit match unmodified original and fixture except only timestamp.
 Verified accepted original code-extent union163119/399693 bytes (40.8111 percent)
 includes clipped source/shared text/CRT/imports and actual-mask cross-check;
 it is not branch coverage. Optimized hello remains incomplete.
+
+
+Frame-symbol assignment and save pruning (628 accepted frontiers)
+---------------------------------------------------------------
+Seven whole functions recover written-color/save/frame-setup pruning, the386
+frame-reference cost estimate, repacking of referenced locals, its weighted
+size-group list and scope symbol visiting/assignment callback. The stateful
+symbol iterator preserves selected-scope/previous-node identity and its64
+hash buckets. Existing save masks and frame counters are reused at their
+canonical definitions. The encountered list node is typed16-byte next/size/
+weight/symbol data, allocated in arena3. Only its live local-head pointer is
+represented: native analysis proves the adjacent cleared stack word is never
+read and its address never escapes. See cases/hello-frame-symbols-abi.json.
+
+Independent frame capture matches15 normalized lines and12 symbols. The new
+paint/client locals are64/16 bytes at -64/-80 with exact assignment flags;
+register-resident dc retains its old offset without a new frame assignment.
+All parameter offsets remain8/12/16/20, local offset is -80, next parameter24,
+and canonical frame extent remains0 until ESP conversion. A second capture
+matches184 normalized lines/85 instruction records: the unused EBX save and
+restore are removed, while ESI/EDI saves remain. No raw address is treated as
+a frame offset for non-variable symbols. The next matching trap is
+rewrite_stack_pointer_frame2adf0. Optimized hello remains incomplete.
+
+All352 minimal and276 hello frontiers replay,551 source graphs and628 accepted
+instruction boundaries pass. All four changed implementation modules compile
+/W3 clean. Minimal object/streams/exit still match unmodified original and
+fixture except only timestamp bytes4..7. Verified accepted original code-extent
+union165103/399693 bytes (41.3075 percent) includes clipped source/shared text/
+CRT/import ranges and actual-mask verification; it is not branch coverage.

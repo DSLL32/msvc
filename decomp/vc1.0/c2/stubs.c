@@ -1,3 +1,4 @@
+#include "frame-symbols.h"
 #include "machine-analysis.h"
 #include "physical-allocation.h"
 #include "physical-rewrite.h"
@@ -206,7 +207,6 @@ int __fastcall initializer_symbols_available(SymbolHeader *symbol) { __asm int 3
 void __fastcall queue_initializer_dependencies(SymbolHeader *symbol) { __asm int 3 }
 BackendSymbolList *new_symbol_list_node(void) { __asm int 3 }
 #include "symbol-output.h"
-void __fastcall for_each_symbol(int local, SymbolVisitor visit) { __asm int 3 }
 void __fastcall write_public_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_external_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_common_listing(SymbolHeader *symbol) { __asm int 3 }
@@ -460,10 +460,7 @@ void __fastcall record_region_register(MachineFlowRegion *region, unsigned short
 void finish_register_assignment(void) { __asm int 3 }
 void __fastcall rewrite_stack_pointer_frame(MachineInstruction *instructions) { __asm int 3 }
 void record_debug_register_locations(void) { __asm int 3 }
-int __fastcall frame_references_exceed_cost(WorkItem *work, int limit) { __asm int 3 }
-void __fastcall assign_machine_registers(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall spill_register_variables(RegisterVariable *variables, int simplification) { __asm int 3 }
-void __fastcall allocate_frame_symbols(WorkItem *work, int use_stack_pointer) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
 int __fastcall machine_sequence_cost(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }

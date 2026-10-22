@@ -323,3 +323,30 @@ RegisterVariable *__fastcall color_register_variables(RegisterVariable **variabl
     }
     return spills;
 }
+
+/* Original [0002b250,0002b330). On386, retain EBP when weighted
+   explicit frame references exceed the cost of omitting that register.
+   486/Pentium selection bypasses this estimate. */
+int __fastcall frame_references_exceed_cost(WorkItem *work, int limit)
+{
+    MachineInstruction *instruction;
+    MachineOperand *operand;
+    int total = 0, weight, i;
+    unsigned kind;
+    if (cpu_model > 3) return 0;
+    for (; work; work = work->next) {
+        weight = loop_depth_weight((unsigned)(short)work->region_depth);
+        instruction = work->body.block->next;
+        for (; (instruction->opcode & 15) != 7; instruction = instruction->next) {
+            if ((instruction->opcode & 15) != 0) continue;
+            for (i = machine_operand_counts[(instruction->opcode >> 8) & 255]; i > 0; --i) {
+                operand = &instruction->operands[i == 2 ? 1 : 0];
+                kind = operand->flags & 15;
+                if ((kind == OPERAND_BASED || kind == OPERAND_INDEXED) &&
+                    operand->value.address->base.words.number == REG_EBP) total += weight;
+            }
+            if (total > limit) return 1;
+        }
+    }
+    return 0;
+}

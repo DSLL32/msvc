@@ -4,6 +4,7 @@
 #include "bitsets.h"
 #include "instruction-rewrite.h"
 #include "register-use.h"
+#include "frame.h"
 extern int optimize_speed, optimization_recycle;
 #define DIRECT_REGISTER_COLOR(n) ((((n) > 7 && (n) <= 31) || (n) == REG_ESP || (n) == REG_EBP) && (n) != 24)
 #define MEMORY_OPERAND(p) (((p)->flags & 15) == OPERAND_ABSOLUTE || \
@@ -685,4 +686,96 @@ int __fastcall operand_ends_physical_register(MachineOperand *operand, unsigned 
         number = (unsigned short)(variable->flags & 63);
     }
     return number == color;
+}
+
+/* Original [0002b330,0002b6a0). Collect colors actually written and
+   frame-symbol requirements, then prune unused save/restore and frame setup
+   instructions. The historical name predates identification of this role. */
+void __fastcall assign_machine_registers(MachineInstruction *instructions)
+{
+    MachineInstruction *instruction, *next;
+    MachineOperand *operand;
+    RegisterVariable *variable;
+    SymbolHeader *symbol;
+    unsigned written = 0, kind, operation, count, number, mask;
+    int locals_unused = 1, parameters_unused = 1, in_prologue = 0, remove;
+    for (instruction = instructions; instruction; instruction = instruction->next) {
+        kind = instruction->opcode & 15;
+        operation = (instruction->opcode >> 8) & 255;
+        if (kind == 2) {
+            if (instruction->record.symbol->field0e & 0x1000) written |= selected_save_register_mask;
+            continue;
+        }
+        if (kind != 0 && kind != 8 && kind != 9) continue;
+        if (kind == 0 && (operation == MC_EPUSH || operation == MC_EPOP)) continue;
+        count = machine_operand_counts[operation];
+        if (count == 2) {
+            operand = &instruction->operands[1];
+            kind = operand->flags & 15;
+            if ((kind == OPERAND_BASED || kind == OPERAND_INDEXED) && operand->value.address->symbol) {
+                symbol = operand->value.address->symbol;
+                if ((symbol->kind == 1 && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x10) || symbol->kind == 19)
+                    locals_unused = 0;
+                else if (symbol->kind == 1 && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x30)
+                    parameters_unused = 0;
+            }
+        }
+        if (count == 1 || count == 2) {
+            operand = &instruction->operands[0];
+            kind = operand->flags & 15;
+            if (kind == OPERAND_REGISTER) {
+                number = operand->value.reg.words.number;
+                if (!(number > 7 && number <= 31) && number != REG_EBP && number != REG_ESP &&
+                    writes_first_operand(instruction)) {
+                    variable = lookup_register_variable((unsigned short)number, 1);
+                    if (variable->flags & 0x800) variable = lookup_register_variable(variable->representative, 1);
+                    written |= 1U << (variable->flags & 63);
+                }
+            } else if ((kind == OPERAND_BASED || kind == OPERAND_INDEXED) && operand->value.address->symbol) {
+                symbol = operand->value.address->symbol;
+                if ((symbol->kind == 1 && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x10) || symbol->kind == 19)
+                    locals_unused = 0;
+                else if (symbol->kind == 1 && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x30)
+                    parameters_unused = 0;
+            }
+        }
+        if (machine_selection_properties[operation] & MC_IMPLICIT_REGISTERS)
+            written |= implicit_register_mask(instruction, 2);
+    }
+    if (frame_register_allocated && !(written & selected_save_register_mask))
+        compiler_internal_error("@(#)color.c:1.101", 0xb73);
+    for (instruction = instructions; instruction; instruction = next) {
+        next = instruction->next;
+        kind = instruction->opcode & 15;
+        if (kind == 2) { in_prologue = 1; continue; }
+        if (kind == 7) { in_prologue = 0; continue; }
+        if (kind != 0 && kind != 8 && kind != 9) continue;
+        operation = (instruction->opcode >> 8) & 255;
+        remove = 0;
+        switch (operation) {
+        case MC_MOV:
+            if (in_prologue && locals_unused && parameters_unused && !stack_frame_extent &&
+                (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                (instruction->operands[1].flags & 15) == OPERAND_REGISTER &&
+                instruction->operands[0].value.reg.words.number == REG_EBP &&
+                instruction->operands[1].value.reg.words.number == REG_ESP) remove = 1;
+            break;
+        case MC_SUB:
+            if (in_prologue && (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                instruction->operands[0].value.reg.words.number == REG_ESP && locals_unused) remove = 1;
+            break;
+        case MC_LEAVE:
+            if (locals_unused && parameters_unused && !stack_frame_extent) remove = 1;
+            break;
+        case MC_EPUSH:
+            if (instruction->operands[0].value.reg.words.number == REG_EBP &&
+                locals_unused && parameters_unused && !stack_frame_extent) { remove = 1; break; }
+            /* fall through */
+        case MC_EPOP:
+            mask = 1U << instruction->operands[0].value.reg.words.number;
+            if ((selected_save_register_mask & mask) && !(written & mask)) remove = 1;
+            break;
+        }
+        if (remove) remove_machine_instruction(instruction);
+    }
 }
