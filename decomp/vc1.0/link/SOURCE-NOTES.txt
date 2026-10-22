@@ -629,3 +629,17 @@ its own older native body51550..516a4. Both DOS-stub and OMF callers use that on
 vertex. Buffer/direct-read/refill/partial-element semantics are human C, with
 scoped memcpy intrinsic preserving native inline copy without extra graph calls.
 The already completed fifteen cases are unchanged by this runtime replacement.
+
+OMF checkpoint569: SEGDEF/GROUP/PUBDEF/EXTDEF, explicit-allocation COMDAT,
+COMENT, LEDATA, saved FIXUPP contexts, frame/target/thread parsing, MODEND,
+ordinary/weak/lazy symbol serialization, second-pass fixups and relocation
+queues are readable C with their own native vertices. Typed source line records
+are8 bytes; serialized COFF lines remain6 bytes. COMDAT auxiliary CheckSum is
+the peeked one-byte OMF record checksum, with native attribute selection values.
+Only the actually shared8-integer SEGDEF/COMDAT alignment table is named.
+The original still traps at COFF output48480; no completed OMF case is claimed.
+All41 additions since full528 replay and all15 earlier cases pass. Audits:
+424 graph,415 callbacks,381 contextual data aliases,575 accepted instruction
+boundaries. Union172169/281634=61.1322%; this includes inline tables/alignment,
+not branch coverage. Original toolchain parallel make passes; no ABI assembly
+exception, extra normalization, copied data sections or extra case family.

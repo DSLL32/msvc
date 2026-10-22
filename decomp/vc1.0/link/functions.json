@@ -544,7 +544,31 @@
     "_omf_append_auxiliary",
     "_omf_skip_record",
     "_omf_read_byte",
-    "_omf_record_names"
+    "_omf_record_names",
+    "_omf_record_segments",
+    "_omf_read_dword",
+    "_omf_read_index",
+    "_omf_create_section",
+    "_omf_record_groups",
+    "_omf_record_publics",
+    "_omf_insert_symbol",
+    "_omf_hash_name",
+    "_omf_record_externals",
+    "_omf_lookup_symbol",
+    "_omf_record_comdat",
+    "_omf_write_section_data",
+    "_omf_record_comment",
+    "_omf_record_data",
+    "_omf_save_fixup_record",
+    "_omf_record_fixups",
+    "_omf_read_fixup_target",
+    "_omf_record_modend",
+    "_omf_finish_symbols",
+    "_omf_convert_symbol_types",
+    "_omf_write_lines",
+    "_omf_second_pass",
+    "_omf_emit_relocation",
+    "_omf_queue_relocation"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -4736,34 +4760,38 @@
     {
       "name": "_omf_finish_symbols",
       "start": 291728,
-      "end": 291729,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 291888,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched47390..47430. Iterate actual211 displacement-symbol buckets, synthesize native8-byte $$R%04X names for positive-section symbols and append static COFF symbols; nonpositive sections retain original symbol index. Recovered16-byte node fields."
     },
     {
       "name": "_omf_convert_symbol_types",
       "start": 294208,
-      "end": 294209,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 294928,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched47d40..48010. Recover ordinary/local/weak/lazy symbol classes and ordinal maps, full debug type/line auxiliary branches, preserve reused auxiliary-count/type state and native first-line adjustment order, free all hash nodes. LINNUM source records are natural8-byte offset/WORD-line structures, distinct from serialized6-byte COFF line records."
     },
     {
-      "name": "_omf_release_line_data",
+      "name": "_omf_write_lines",
       "start": 299712,
-      "end": 299713,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 299776,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched492c0..49300. Walk natural8-byte input line vector, invoke distinct serialized-COFF-line append vertex with original section/offset/line values; corrected provisional release name to actual output role."
     },
     {
       "name": "_omf_second_pass",
       "start": 293968,
-      "end": 293969,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 294208,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched47c50..47d40. Replay saved stream positions with native unchecked seek, getc macro graph, restore per-record data context, invoke shared FIXUPP parser in pass2, free nodes and clear both list ends; preserve native redundant masked-type comparison."
     },
     {
       "name": "_omf_convert_debug_types",
@@ -4836,34 +4864,38 @@
     {
       "name": "_omf_record_comment",
       "start": 283984,
-      "end": 283985,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 284368,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched COMENT45550..456d0. Full extension/machine,256-entry EXESTR allocation and weak/lazy external comment paths, exact ordinal lookup through211 symbol buckets and native warnings; unsupported classes leave bytes for record skipper."
     },
     {
       "name": "_omf_record_modend",
       "start": 286896,
-      "end": 286897,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 287024,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched MODEND460b0..46130. Mark end, optional.comment section with accumulated EXESTR size, native string-vector data writer and freeing each comment without resetting count."
     },
     {
       "name": "_omf_record_externals",
       "start": 284368,
-      "end": 284369,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(unsigned char named,unsigned short storage)"
+      "end": 284704,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(unsigned char,unsigned short)",
+      "evidence": "Matched external declarations456d0..45820. Counted/named forms and local-name suppression,4096 logical ordinal limit, external-index map before ignored CRT markers, global/local kind mapping, native existing-section hint and duplicate hash-node insertion."
     },
     {
       "name": "_omf_record_publics",
       "start": 287024,
-      "end": 287025,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(unsigned short storage)"
+      "end": 287216,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(unsigned short)",
+      "evidence": "Matched PUBDEF46130..461f0. Native caller storage argument is unused; consume group/segment or absolute frame, sized value/type, enforce4096 logical-symbol bound and insert fixed kind3 public with native section/index fields."
     },
     {
       "name": "_omf_record_lines",
@@ -4885,42 +4917,47 @@
     {
       "name": "_omf_record_segments",
       "start": 287216,
-      "end": 287217,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 288416,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched SEGDEF461f0..466a0. Full typed16-byte segment metadata, literal-at-use class/debug naming, original two-WORD absolute frame reads, signed count limit256, class suffix tests,8-entry alignment table, symbol/auxiliary creation. Private debug-segment vectors use logical256-segment bound; only observed first slots are initializer-aliased, no unknown original gap/padding is retained."
     },
     {
       "name": "_omf_record_groups",
       "start": 285680,
-      "end": 285681,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 285824,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched GRPDEF45bf0..45c80. Read group name and repeated FF-marker/segment ordinals, retain final constituent COFF section (ffff if empty), increment signed-bounded group count, append distinct static COFF group symbol and map its index."
     },
     {
       "name": "_omf_save_fixup_record",
       "start": 293856,
-      "end": 293857,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(long position)"
+      "end": 293968,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(long)",
+      "evidence": "Matched47be0..47c50. Allocate actual16-byte saved FIXUPP record, capture stream/data context, append typed head/tail linked list; preserve native uninitialized globals across passes."
     },
     {
       "name": "_omf_record_fixups",
       "start": 284704,
-      "end": 284705,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 285680,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched FIXUPP45820..45bf0 including15-entry switch table. Typed1024 COFF relocation/displacement arrays, frame/target/thread parsing, native relocation kinds and displacement-symbol remap, reverse emission in second pass; debug-symbol fixups retain separate native helper."
     },
     {
       "name": "_omf_record_data",
       "start": 285824,
-      "end": 285825,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 286192,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched LEDATA45c80..45df0. Full4096-byte stack buffer, narrow/wide offsets, signed record sizing, separate debug type/symbol segment filters with exact mode0/2 behavior and named debug output vertices, ordinary section data writer."
     },
     {
       "name": "_omf_record_iterated_data",
@@ -4949,10 +4986,11 @@
     {
       "name": "_omf_record_comdat",
       "start": 288416,
-      "end": 288417,
-      "source": "omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 289296,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched COMDAT466a0..46a10; complete new/continuation paths, shared alignment table, actual18-byte section auxiliary selection/checksum peek, native section creation and individual output symbols. Local4096-byte payload preserves stack-probe ABI; no generated assembly."
     },
     {
       "name": "_omf_record_symbol_lines",
@@ -5013,6 +5051,176 @@
       "implementation": "C",
       "abi": "cdecl unsigned long(const IMAGE_AUX_SYMBOL *)",
       "evidence": "Matched COFF auxiliary append48ff0..490b0. Preserve distinct vertex and returned prior18-byte record index, exact128KiB calloc/copy/free pool growth and typed auxiliary copy."
+    },
+    {
+      "name": "_omf_read_dword",
+      "start": 290752,
+      "end": 290816,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(void)",
+      "evidence": "Matched32-bit OMF field primitive46fc0..47000. Read exactly4 bytes through original block reader and combine explicit little-endian unsigned shifts into EAX."
+    },
+    {
+      "name": "_omf_read_index",
+      "start": 290816,
+      "end": 290912,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned short(void)",
+      "evidence": "Matched OMF variable-width index47000..47060. First byte high bit chooses second byte; explicit7-bit high index and8-bit low combination, through native block reader rather than byte primitive so graph remains exact."
+    },
+    {
+      "name": "_omf_create_section",
+      "start": 297360,
+      "end": 297632,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned short(const char *,unsigned long,unsigned long,unsigned long,unsigned long)",
+      "evidence": "Matched COFF section creator48990..48aa0. Genuine256-element typed40-byte headers, data pointers and capacities,128KiB initial buffers, exact partial header assignment and alignment switch/default16, returned1-based section count. Correct actual auxiliary-index base619ec using section-1, so no reserved/padding slot is copied."
+    },
+    {
+      "name": "_omf_insert_symbol",
+      "start": 291312,
+      "end": 291440,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(char *,unsigned long,unsigned short,short,unsigned short,unsigned short)",
+      "evidence": "Matched symbol insertion471f0..47270. Allocate and zero actual24-byte node, named value/kind/section/ordinal/type/weak-default fields, hash name, prepend to211-bucket list. Word weak-default at10 recovered from native WKEXT use; normal compiler pointer alignment supplies next14 without invented padding."
+    },
+    {
+      "name": "_omf_hash_name",
+      "start": 291264,
+      "end": 291312,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned(const char *)",
+      "evidence": "Matched symbol-name hash471c0..471f0. Unsigned32-bit multiply-by3/add unsigned byte, wrap on each character, unsigned remainder211; native leaf preserves own vertex."
+    },
+    {
+      "name": "_omf_lookup_symbol",
+      "start": 291440,
+      "end": 291536,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl OmfSymbol *(const char *)",
+      "evidence": "Matched named-symbol lookup47270..472d0. Existing211-bucket name hash, exact inline string equality and next-pointer traversal, return matched node orNULL. Scoped strcmp intrinsic retains original single hash call."
+    },
+    {
+      "name": "_omf_write_section_data",
+      "start": 297696,
+      "end": 297888,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(short,unsigned long,const void *,unsigned long)",
+      "evidence": "Matched48ae0..48ba0; exact1-based signed section indexing,128KiB buffer growth plus incoming length, inline copies and original calloc/free/out-of-memory vertices."
+    },
+    {
+      "name": "_omf_extend_section",
+      "start": 297632,
+      "end": 297633,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(short,unsigned long,const void *,unsigned long)"
+    },
+    {
+      "name": "_omf_write_debug_type_data",
+      "start": 306352,
+      "end": 306353,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned long,const void *,unsigned long)"
+    },
+    {
+      "name": "_omf_write_debug_symbol_data",
+      "start": 302112,
+      "end": 302113,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned long,const void *,unsigned long)"
+    },
+    {
+      "name": "_omf_read_fixup_target",
+      "start": 290128,
+      "end": 290288,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(unsigned)",
+      "evidence": "Matched FIXUP method resolver46d50..46df0. Signed OMF indices, segment/group symbol maps, native local-name-first/external-to-COFF lookup and absolute-method sentinel; malformed method retains converter error."
+    },
+    {
+      "name": "_omf_insert_relocation_symbol",
+      "start": 291536,
+      "end": 291537,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned long,unsigned long)"
+    },
+    {
+      "name": "_omf_lookup_relocation_symbol",
+      "start": 291664,
+      "end": 291665,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl unsigned long(unsigned long,unsigned long)"
+    },
+    {
+      "name": "_omf_emit_relocation",
+      "start": 298080,
+      "end": 298368,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(short,unsigned long,unsigned long,unsigned short,unsigned long)",
+      "evidence": "Matched48c60..48d80 including22-entry switch table. Exact6-byte.file suppression, section/global counts, distinct relocation queue, native byte/WORD/DWORD addends and no-op type7. Typed256 genuine section lists; no padding snapshots."
+    },
+    {
+      "name": "_omf_save_debug_fixups",
+      "start": 293360,
+      "end": 293361,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_write_comment_data",
+      "start": 297888,
+      "end": 297889,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(short,unsigned long,char *const *,short)"
+    },
+    {
+      "name": "_omf_debug_type_auxiliary",
+      "start": 305840,
+      "end": 305841,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl unsigned short(unsigned short,unsigned short *,IMAGE_AUX_SYMBOL *)"
+    },
+    {
+      "name": "_omf_append_function_auxiliary",
+      "start": 299184,
+      "end": 299185,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned long,unsigned short,unsigned long,unsigned short,unsigned long,unsigned short)"
+    },
+    {
+      "name": "_omf_append_line",
+      "start": 298368,
+      "end": 298369,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(short,unsigned long,unsigned short)"
+    },
+    {
+      "name": "_omf_queue_relocation",
+      "start": 295888,
+      "end": 295984,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(OmfRelocationList *,unsigned long,unsigned long,unsigned short)",
+      "evidence": "Matched483d0..48430. Allocate actual16-byte relocation node, append through12-byte per-section list, preserve WORD count and native malloc/out-of-memory graph."
     }
   ],
   "c_stub_references": [
@@ -5547,6 +5755,30 @@
     "library-edit",
     "library-edit",
     "library-edit",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
     "omf-library",
     "omf-library",
     "omf-library",

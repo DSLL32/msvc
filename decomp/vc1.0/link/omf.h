@@ -2,8 +2,34 @@
 #define LINK_OMF_H
 #include "library.h"
 #include <setjmp.h>
-typedef struct OmfSymbol OmfSymbol;
-typedef struct OmfRelocationSymbol OmfRelocationSymbol;
+#define OMF_MAX_SEGMENTS 256
+typedef struct OmfSegment {
+    unsigned short name_index,class_index,overlay_index,coff_section;
+    unsigned long alignment,characteristics;
+} OmfSegment;
+typedef char OmfSegmentSize[(sizeof(OmfSegment)==16)?1:-1];
+typedef struct OmfSymbol {
+    char *name;
+    unsigned long value;
+    unsigned short kind;
+    short section;
+    unsigned short ordinal,type,weak_default;
+    struct OmfSymbol *next;
+} OmfSymbol;
+typedef char OmfSymbolSize[(sizeof(OmfSymbol)==24)?1:-1];
+typedef struct OmfRelocationSymbol {
+    unsigned long symbol,offset,resolved;
+    struct OmfRelocationSymbol *next;
+} OmfRelocationSymbol;
+typedef char OmfRelocationSymbolSize[(sizeof(OmfRelocationSymbol)==16)?1:-1];
+typedef struct OmfFixupRecord {
+    long position;
+    unsigned long data_offset;
+    unsigned short segment,data_record_type;
+    struct OmfFixupRecord *next;
+} OmfFixupRecord;
+typedef char OmfFixupRecordSize[(sizeof(OmfFixupRecord)==16)?1:-1];
+extern OmfFixupRecord *omf_fixup_head,*omf_fixup_tail;
 extern OmfSymbol **omf_symbol_buckets;
 extern OmfRelocationSymbol **omf_relocation_buckets;
 extern jmp_buf omf_abort;
@@ -45,17 +71,24 @@ extern unsigned short omf_defined_segment_count;
 extern unsigned long omf_exestr_bytes;
 extern unsigned short omf_type_segment_count;
 extern unsigned short omf_symbol_segment_count;
-extern unsigned short omf_first_type_segment;
-extern unsigned short omf_first_symbol_segment;
+extern unsigned short omf_type_segments[OMF_MAX_SEGMENTS];
+extern unsigned short omf_symbol_segments[OMF_MAX_SEGMENTS];
 extern unsigned char omf_record_checksum;
-extern PIMAGE_LINENUMBER omf_line_data;
+typedef struct OmfLine {
+    unsigned long offset;
+    unsigned short line;
+} OmfLine;
+typedef char OmfLineSize[(sizeof(OmfLine)==8)?1:-1];
+extern OmfLine *omf_line_data;
+extern unsigned long omf_line_base,omf_line_symbol_index;
+extern unsigned short omf_line_section;
 extern unsigned char * omf_symbol_fixup_data;
 extern unsigned long omf_symbol_indices[4096];
 extern unsigned long omf_external_indices[4096];
 void omf_initialize_symbols(void);
 void omf_finish_symbols(void);
 void omf_convert_symbol_types(void);
-void omf_release_line_data(void);
+void omf_write_lines(void);
 void omf_second_pass(void);
 void omf_convert_debug_types(void);
 void omf_convert_debug_symbols(void);
@@ -96,4 +129,53 @@ extern char * omf_coff_strings;
 extern unsigned long omf_coff_string_capacity;
 extern char *omf_names[2048];
 extern int omf_local_names[2048];
+extern OmfSegment omf_segments[OMF_MAX_SEGMENTS];
+extern unsigned long omf_segment_symbol_indices[OMF_MAX_SEGMENTS];
+extern unsigned long omf_section_aux_indices[OMF_MAX_SEGMENTS];
+unsigned long omf_read_dword(void);
+unsigned short omf_read_index(void);
+unsigned short omf_create_section(const char *,unsigned long,unsigned long,unsigned long,unsigned long);
+extern unsigned short omf_coff_section_count;
+extern unsigned long omf_coff_raw_bytes;
+extern IMAGE_SECTION_HEADER omf_coff_sections[OMF_MAX_SEGMENTS];
+extern unsigned char * omf_coff_section_data[OMF_MAX_SEGMENTS];
+extern unsigned long omf_coff_section_capacity[OMF_MAX_SEGMENTS];
+extern unsigned long omf_group_symbol_indices[OMF_MAX_SEGMENTS];
+void omf_insert_symbol(char *,unsigned long,unsigned short,short,unsigned short,unsigned short);
+unsigned omf_hash_name(const char *);
+OmfSymbol *omf_lookup_symbol(const char *);
+extern const unsigned long omf_alignment_bytes[8];
+extern int omf_last_comdat_segment;
+void omf_write_section_data(short,unsigned long,const void *,unsigned long);
+void omf_extend_section(short,unsigned long,const void *,unsigned long);
+extern unsigned short omf_coff_machine;
+extern char *omf_exestr[256];
+void omf_write_debug_type_data(unsigned long,const void *,unsigned long);
+void omf_write_debug_symbol_data(unsigned long,const void *,unsigned long);
+extern unsigned long omf_thread_symbols[4];
+extern unsigned char omf_thread_segments[4];
+unsigned long omf_read_fixup_target(unsigned);
+void omf_insert_relocation_symbol(unsigned long,unsigned long);
+unsigned long omf_lookup_relocation_symbol(unsigned long,unsigned long);
+void omf_emit_relocation(short,unsigned long,unsigned long,unsigned short,unsigned long);
+void omf_save_debug_fixups(void);
+void omf_write_comment_data(short,unsigned long,char *const *,short);
+unsigned short omf_debug_type_auxiliary(unsigned short,unsigned short *,IMAGE_AUX_SYMBOL *);
+void omf_append_function_auxiliary(unsigned long,unsigned short,unsigned long,unsigned short,unsigned long,unsigned short);
+void omf_append_line(short,unsigned long,unsigned short);
+typedef struct OmfRelocation {
+    unsigned long address,symbol;
+    unsigned short type;
+    struct OmfRelocation *next;
+} OmfRelocation;
+typedef struct OmfRelocationList {
+    OmfRelocation *head,*tail;
+    unsigned short count;
+} OmfRelocationList;
+typedef char OmfRelocationSize[(sizeof(OmfRelocation)==16)?1:-1];
+typedef char OmfRelocationListSize[(sizeof(OmfRelocationList)==12)?1:-1];
+extern OmfRelocationList omf_relocation_lists[OMF_MAX_SEGMENTS];
+extern unsigned short omf_file_relocation_seen;
+extern unsigned long omf_coff_relocation_count;
+void omf_queue_relocation(OmfRelocationList *,unsigned long,unsigned long,unsigned short);
 #endif

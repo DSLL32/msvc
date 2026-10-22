@@ -2294,13 +2294,13 @@
   },
   {
     "address": 490976,
-    "name": "omf_first_type_segment",
+    "name": "omf_type_segments",
     "size": 2,
     "owner": "omf.c"
   },
   {
     "address": 490960,
-    "name": "omf_first_symbol_segment",
+    "name": "omf_symbol_segments",
     "size": 2,
     "owner": "omf.c"
   },
@@ -2398,6 +2398,144 @@
     "address": 463272,
     "name": "omf_local_names",
     "size": 8192,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414228,
+    "name": "omf_segments",
+    "size": 4096,
+    "owner": "omf.c"
+  },
+  {
+    "address": 472512,
+    "name": "omf_segment_symbol_indices",
+    "size": 1024,
+    "owner": "omf.c"
+  },
+  {
+    "address": 399852,
+    "name": "omf_section_aux_indices",
+    "size": 1024,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491052,
+    "name": "omf_coff_section_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491036,
+    "name": "omf_coff_raw_bytes",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 400876,
+    "name": "omf_coff_sections",
+    "size": 10240,
+    "owner": "omf.c"
+  },
+  {
+    "address": 398828,
+    "name": "omf_coff_section_data",
+    "size": 1024,
+    "owner": "omf.c"
+  },
+  {
+    "address": 397804,
+    "name": "omf_coff_section_capacity",
+    "size": 1024,
+    "owner": "omf.c"
+  },
+  {
+    "address": 473536,
+    "name": "omf_group_symbol_indices",
+    "size": 1024,
+    "owner": "omf.c"
+  },
+  {
+    "address": 526248,
+    "name": "omf_alignment_bytes",
+    "size": 32,
+    "owner": "omf.c"
+  },
+  {
+    "address": 472508,
+    "name": "omf_last_comdat_segment",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 528276,
+    "name": "omf_coff_machine",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 471464,
+    "name": "omf_exestr",
+    "size": 1024,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414212,
+    "name": "omf_fixup_tail",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414216,
+    "name": "omf_fixup_head",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491000,
+    "name": "omf_thread_symbols",
+    "size": 16,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491016,
+    "name": "omf_thread_segments",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414188,
+    "name": "omf_line_base",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378316,
+    "name": "omf_line_symbol_index",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378320,
+    "name": "omf_line_section",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 394724,
+    "name": "omf_relocation_lists",
+    "size": 3072,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491032,
+    "name": "omf_file_relocation_seen",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491044,
+    "name": "omf_coff_relocation_count",
+    "size": 4,
     "owner": "omf.c"
   }
 ]
