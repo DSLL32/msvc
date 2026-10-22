@@ -504,7 +504,16 @@
     "_classify_type_conversion@16",
     "_classify_pointer_conversion@16",
     "_finish_scalar_cast@12",
-    "_convert_expression@12"
+    "_convert_expression@12",
+    "_classify_void_pointer_conversion@12",
+    "_decay_array_expression_type@4",
+    "_emit_conditional_branch@12",
+    "_classify_long_integer@4",
+    "_begin_for_statement@12",
+    "_finish_for_statement",
+    "_convert_pointer_representation@8",
+    "_format_integer",
+    "_write_ir_string"
   ],
   "driver": [
     {
@@ -1663,12 +1672,12 @@
     {
       "name": "_begin_for_statement@12",
       "start": 193296,
-      "end": 193297
+      "end": 193561
     },
     {
       "name": "_finish_for_statement",
       "start": 193568,
-      "end": 193569
+      "end": 193793
     },
     {
       "name": "_declare_initialized_symbol@4",
@@ -1824,7 +1833,7 @@
     {
       "name": "_emit_conditional_branch@12",
       "start": 236816,
-      "end": 236817
+      "end": 237142
     },
     {
       "name": "_emit_code_label@4",
@@ -2249,7 +2258,7 @@
     {
       "name": "_classify_long_integer@4",
       "start": 139952,
-      "end": 139953
+      "end": 139973
     },
     {
       "name": "_classify_unsigned_integer@4",
@@ -3220,7 +3229,7 @@
     {
       "name": "_decay_array_expression_type@4",
       "start": 250880,
-      "end": 250881
+      "end": 251134
     },
     {
       "name": "_convert_binary_operands@4",
@@ -3730,7 +3739,7 @@
     {
       "name": "_convert_pointer_representation@8",
       "start": 269424,
-      "end": 269425
+      "end": 269444
     },
     {
       "name": "_classify_pointer_conversion@16",
@@ -3740,7 +3749,7 @@
     {
       "name": "_classify_void_pointer_conversion@12",
       "start": 265424,
-      "end": 265425
+      "end": 265479
     },
     {
       "name": "_classify_pointer_qualifiers@12",
@@ -3761,6 +3770,16 @@
       "name": "_double_to_extended",
       "start": 313016,
       "end": 313017
+    },
+    {
+      "name": "_recognize_qc_loop@12",
+      "start": 192432,
+      "end": 192433
+    },
+    {
+      "name": "_finish_qc_loop",
+      "start": 193104,
+      "end": 193105
     }
   ],
   "cases": {

@@ -1685,3 +1685,57 @@ void finish_switch_statement(void)
     emit_ir_expression(expression);
     emit_code_label(break_labels->value.label);
 }
+
+LabelStack *qc_loop_labels, *qc_loop_work; /* original 0x60464 / 0x60468 */
+
+/* Original 0x2f310..0x2f419. While and for share this entry; a separate
+   increment label lets continue execute the increment before testing again. */
+void __stdcall begin_for_statement(IrToken *initial, IrToken *condition, IrToken *increment)
+{
+    LabelStack *entry;
+    push_label_stack(&continue_labels, 8);
+    push_label_stack(&do_labels, 12);
+    push_label_stack(&break_labels, 11);
+    if (options.option_qc) push_label_stack(&qc_loop_labels, 32);
+    if (initial) emit_expression_statement(initial);
+    if (options.option_qc) {
+        if (!normalized_Oq) {
+            entry = push_work_list((void **)&qc_loop_work, 3);
+            if (recognize_qc_loop(condition, increment, entry)) return;
+        }
+        qc_loop_labels->value.label = 0;
+    }
+    if (increment) {
+        write_ir_record(0x3a, continue_labels->value.label);
+        emit_code_label(do_labels->value.label);
+        emit_expression_statement(increment);
+        emit_code_label(continue_labels->value.label);
+    } else {
+        continue_labels->value.label = do_labels->value.label;
+        emit_code_label(do_labels->value.label);
+    }
+    if (condition) emit_conditional_branch(condition, break_labels->value.label, 0);
+}
+
+/* Original 0x2f420..0x2f501. Close the back edge and release the three
+   common loop labels, together with the optional quick-compiler context. */
+void finish_for_statement(void)
+{
+    if (options.option_qc) {
+        if (!qc_loop_labels->value.label) {
+            if (current_token_code == TOK_RIGHT_BRACE) record_line_information(1);
+            write_ir_record(0x3a, do_labels->value.label);
+            emit_code_label(break_labels->value.label);
+        } else finish_qc_loop();
+        qc_loop_labels = qc_loop_labels->next;
+        if (!normalized_Oq) qc_loop_work = qc_loop_work->next;
+    } else {
+        write_ir_record(0x3a, do_labels->value.label);
+        emit_code_label(break_labels->value.label);
+    }
+    continue_labels = continue_labels->next;
+    do_labels = do_labels->next;
+    break_labels = break_labels->next;
+    label_stack_count -= options.option_qc ? 4 : 3;
+    if (!label_stack_count) release_arena(3);
+}

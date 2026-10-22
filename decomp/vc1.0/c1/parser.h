@@ -283,7 +283,7 @@ typedef struct SwitchCase {
 } SwitchCase;
 typedef struct LabelStack {
     struct LabelStack *next;
-    union { IrToken *label; SwitchCase *cases; } value;
+    union { IrToken *label; SwitchCase *cases; struct QcLoopState *qc_loop; } value;
 } LabelStack;
 void __stdcall push_label_stack(LabelStack **stack, unsigned flags);
 void __stdcall begin_switch_statement(IrToken *condition);
@@ -344,4 +344,7 @@ extern unsigned constant_one;
 extern unsigned char expression_storage[2052];
 extern unsigned char *text_work_cursor;
 
+extern LabelStack *qc_loop_labels, *qc_loop_work;
+int __stdcall recognize_qc_loop(IrToken *condition, IrToken *increment, LabelStack *entry);
+void finish_qc_loop(void);
 #endif

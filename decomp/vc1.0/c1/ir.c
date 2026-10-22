@@ -813,3 +813,58 @@ int __stdcall type_requires_intrinsic_fallback(CType *type)
     if (type && type->related) return 0;
     return 0;
 }
+
+/* Original 0x39d10..0x39e56. Preserve short-circuit evaluation with a
+   shared temporary label for the half that must skip the final branch. */
+void __stdcall emit_conditional_branch(IrToken *condition, IrToken *label, int sense)
+{
+    IrToken *skip;
+    ExpressionNode *node;
+    FrontendSymbol *symbol;
+    unsigned record, rule;
+    for (;;) {
+        if (condition->type->flags == 0x80 && !condition->type->related)
+            report_syntax_error(180);
+        if ((condition->flags & 7) == 3 || (condition->flags & 7) == 5)
+            compiler_warning(4, 127);
+        record = 0x9e;
+        for (rule = 0; rule < declaration_code_count; ++rule)
+            if (declaration_codes[rule].token == condition->kind) {
+                record = declaration_codes[rule].value;
+                break;
+            }
+        for (rule = 0; rule < expression_record_rule_count; ++rule)
+            if (expression_record_rules[rule].operation == condition->kind) {
+                record = expression_record_rules[rule].record;
+                break;
+            }
+        node = (ExpressionNode *)condition;
+        if (record != 0x1a) break;
+        sense = !sense;
+        condition = node->value.children.left;
+    }
+    if (record == 0x1b) {
+        if (!sense) {
+            symbol = label->value.pointer;
+            skip = make_internal_label(symbol->detail.value);
+        } else skip = label;
+        emit_conditional_branch(node->value.children.left, skip, 1);
+        emit_conditional_branch(node->value.children.right, label, sense);
+        if (!sense) emit_code_label(skip);
+    } else if (record == 0x1c) {
+        if (sense) {
+            symbol = label->value.pointer;
+            skip = make_internal_label(symbol->detail.value);
+        } else skip = label;
+        emit_conditional_branch(node->value.children.left, skip, 0);
+        emit_conditional_branch(node->value.children.right, label, sense);
+        if (sense) emit_code_label(skip);
+    } else {
+        if (condition && is_record_type(condition->type)) {
+            report_syntax_error(83, type_specifier_name(condition->type->flags));
+            return;
+        }
+        emit_ir_expression(condition);
+        write_ir_record(sense ? 0x39 : 0x38, label);
+    }
+}

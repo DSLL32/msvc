@@ -563,3 +563,34 @@ void write_ir_short(short *value)
     putc(byte[0], auxiliary_ir_stream);
     putc(byte[1], auxiliary_ir_stream);
 }
+
+/* Original 0x4bbd0..0x4bc49. Format integer suffixes in the requested
+   radix, with a leading minus sign only for signed decimal output. */
+int format_integer(int value, char *destination, unsigned radix)
+{
+    char reverse[33];
+    unsigned magnitude = (unsigned)value;
+    int count = 0, length = 0;
+    if (value < 0 && radix == 10) {
+        magnitude = 0U - magnitude;
+        *destination++ = '-';
+        ++length;
+    }
+    do {
+        reverse[count++] = "0123456789abcdef"[magnitude % radix];
+        magnitude /= radix;
+    } while (magnitude);
+    while (count) {
+        *destination++ = reverse[--count];
+        ++length;
+    }
+    *destination = 0;
+    return length;
+}
+
+/* Original 0x4b9f0..0x4ba35. Preserve the separate string entry;
+   its terminating NUL is written to the selected auxiliary stream. */
+void write_ir_string(char *text)
+{
+    do { putc((signed char)*text, auxiliary_ir_stream); } while (*text++);
+}

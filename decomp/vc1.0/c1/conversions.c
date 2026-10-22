@@ -682,3 +682,18 @@ finish:
     operand->type = target;
     return operand;
 }
+
+/* Original 0x40cd0..0x40d07. A single ordinary pointer to void permits
+   conversion across base types without requiring identical nested shapes. */
+unsigned __stdcall classify_void_pointer_conversion(unsigned result, TypeShape *target, TypeShape *source)
+{
+    if (source && !target->related && (target->flags & 7) == 1) return 0x100;
+    return result;
+}
+
+/* Original 0x41c70..0x41c84. Retain the separate representation-cast
+   entry and its ordinary typed unary expression node. */
+IrToken *__stdcall convert_pointer_representation(CType *target, IrToken *operand)
+{
+    return make_typed_unary_expression(TOK_CAST, target, operand);
+}

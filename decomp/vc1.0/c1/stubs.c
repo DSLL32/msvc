@@ -112,7 +112,6 @@ void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
-void write_ir_string(char *text) { __asm { int 3 } }
 
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return -1; }
 void emit_line_directive(void) { __asm { int 3 } }
@@ -284,10 +283,8 @@ void finish_inline_region(void) { __asm { int 3 } }
 void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 
 /* Original 0x2f310. */
-void __stdcall begin_for_statement(IrToken *initial, IrToken *condition, IrToken *increment) { __asm { int 3 } }
 
 /* Original 0x2f420. */
-void finish_for_statement(void) { __asm { int 3 } }
 
 /* Original 0x2fdb0. */
 
@@ -361,7 +358,6 @@ FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned
 /* Original 0x39370. */
 
 /* Original 0x39d10. */
-void __stdcall emit_conditional_branch(IrToken *condition, IrToken *label, int sense) { __asm { int 3 } }
 
 /* Original 0x39e60. */
 
@@ -442,7 +438,6 @@ IrToken *__stdcall make_based_pointer_base(CType *type) { __asm { int 3 } return
 
 
 
-unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
 unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
 
 
@@ -475,7 +470,6 @@ void __stdcall emit_debug_type(CType *type) { __asm { int 3 } }
 void flush_debug_types(void) { __asm { int 3 } }
 
 void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
-int format_integer(int value, char *destination, unsigned radix) { __asm { int 3 } return 0; }
 
 void __stdcall prepare_symbol_debug_type(FrontendSymbol *symbol) { __asm { int 3 } }
 unsigned short __stdcall debug_symbol_type_index(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
@@ -690,7 +684,6 @@ void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
 /* Original 0x3c6d0. */
 /* Original 0x27930. */
 /* Original 0x3d400. */
-CType * __stdcall decay_array_expression_type(IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x3ddf0. */
 /* Original 0x3e2e0. */
 /* Original 0x3f4f0. */
@@ -830,12 +823,10 @@ CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes) {
 /* Original 0x41eb0. */
 
 /* Original 0x41c70. */
-IrToken *__stdcall convert_pointer_representation(CType *target, IrToken *operand) { __asm { int 3 } }
 
 /* Original 0x40e60. */
 
 /* Original 0x40cd0. */
-unsigned __stdcall classify_void_pointer_conversion(unsigned result, TypeShape *target, TypeShape *source) { __asm { int 3 } }
 /* Original 0x40e00. */
 unsigned __stdcall classify_pointer_qualifiers(unsigned result, unsigned short target, unsigned short source) { __asm { int 3 } }
 /* Original 0x40d10. */
@@ -845,3 +836,9 @@ unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target
 int float_to_extended(const float *value, Extended *number) { __asm { int 3 } }
 /* Original 0x4c6b8. */
 int double_to_extended(const double *value, Extended *number) { __asm { int 3 } }
+
+/* Original 0x2efb0. */
+int __stdcall recognize_qc_loop(IrToken *condition, IrToken *increment, LabelStack *entry) { __asm { int 3 } }
+
+/* Original 0x2f250. */
+void finish_qc_loop(void) { __asm { int 3 } }

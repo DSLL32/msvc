@@ -2,24 +2,26 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-The captured minimal-C case is complete: 179 reconstructed source functions
-and 258 accepted trap frontiers. Every frontier was replayed in order with
-exact pending-buffer and visible-file comparison. The reconstructed frontend
-exits 0 with empty stdout/stderr and produces all four captured intermediate
-files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodified
-original independently produces the same files and process result.
+Both captured cases are complete, with 428 reconstructed source functions
+and 509 accepted trap frontiers. A clean original-toolchain make -j2 build
+passes all call-graph, state and grammar audits.
 
-The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 419 reconstructed source functions
-and 500 accepted frontiers. The case opens the original SDK's windows.h,
-reads its include guard, evaluates architecture-selection #if expressions,
-expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
-the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
-prototypes and nonempty macro replacements. Its current matching trap is
-classify_void_pointer_conversion, original VA 0x40cd0.
-All 242 hello frontiers replay successfully with exact pending-buffer/visible-file
-checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
-frontiers; its current regression still completes with the four raw files.
+The minimal-C case originally required 179 source functions and 258
+frontiers. All 258 frontiers replay successfully against the final build,
+with exact pending-buffer and visible-file comparison. Both executables
+exit 0 with empty stdout/stderr and produce the captured raw intermediates:
+irex 866, irsy 13, irin 3, and irgl 50 bytes.
+
+The optimized Win32 hello case uses the captured CL /O2 /G5 frontend
+invocation and original SDK headers. All 251 additional frontiers replay
+successfully, then both executables exit 0 with empty stdout/stderr. The
+four intermediate files match the capture byte for byte: irex 2066, irsy 422,
+irin 46, and irgl 629 bytes. The unmodified original independently reproduces
+both captures. No fixture intermediate bytes are linked into the compiler.
+
+Unvisited functions remain individually named trapping stubs for subsequent
+cases. The accepted functions retain their complete control flow and calls
+to those entries.
 
 Build and differential workflow
 -------------------------------
@@ -97,7 +99,12 @@ scopes.c / builtins.c / builtin-data.c: active/completed symbol scopes,
 constants.c / ir.c / ir-formats.c: constant nodes, recursive expression emission,
   and schema-driven IR writer.
 conversions.c: pointer, qualifier, function-prototype, and base-type compatibility
-  checks, with the diagnostic token vocabulary they consume.
+  checks, explicit casts and constant payload conversion.
+expressions.c / calls.c: semantic expression construction, member selection,
+  argument conversion and function-call context.
+initializers.c / initializer-records.c: scalar and braced initialization,
+  aggregate traversal, runtime zero fill and static initializer records.
+literal-names.c: pooled literal names and string-literal serialization.
 expression-records.c: named token-to-record rules, sharing declaration meanings
   with token-data.c rather than duplicating the original combined vocabulary.
 control-ir.c / control-formats.c: source and option control-record schemas,
@@ -137,7 +144,7 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 166 encountered
+audit-state.py checks the initial bytes and address aliases of 168 encountered
 frontend state objects, 72 scalar options, the 21 option-table targets, 17 pragma optimization
 rules, and five hash callback identities, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
@@ -332,3 +339,14 @@ normalized /Op option. Type-name cast semantic values now use their actual
 FrontendSymbol pointer. All 242 hello frontiers replay with exact pending
 and visible bytes; minimal-C retains all four captured raw files. The current
 matching trap is the void-pointer classifier at 0x40cd0.
+
+Checkpoint 428 completes the optimized Win32 hello case. The final entries
+handle void-pointer classification, array decay, short-circuit branches,
+long-literal classification, loop setup/cleanup, representation casts and
+symbol-name/string output. The optional quick-compiler loop stacks are
+contextual typed objects, sharing the existing normalized_Oq option.
+A clean make -j2 check CASE=hello-win32, all 251 hello frontiers and all 258
+minimal-C frontiers pass. The 428 function call graphs, 168 initial-state and
+alias checks, option/pragma identities, and logical grammar audit pass.
+Both final runs and independent unmodified-original runs produce identical
+raw captures with successful exit and empty stdout/stderr.

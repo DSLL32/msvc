@@ -1159,3 +1159,10 @@ unsigned char *__stdcall convert_string_segment(unsigned char *text, int wide, u
     text[1] = scratch[1];
     return text + 2;
 }
+
+/* Original 0x222b0..0x222c5. A long suffix uses unsigned long when
+   the literal's high bit cannot be represented by signed long. */
+unsigned char __stdcall classify_long_integer(unsigned value)
+{
+    return value & 0x80000000UL ? TOK_ULONG_CONSTANT : TOK_LONG_CONSTANT;
+}

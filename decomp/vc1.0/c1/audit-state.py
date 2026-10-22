@@ -65,6 +65,8 @@ STATE = [
     ('_current_parameter', 0x60064, 4),
     ('_current_label_symbol', 0x60068, 4),
     ('_label_stack_count', 0x60088, 4),
+    ('_qc_loop_labels', 0x60464, 4),
+    ('_qc_loop_work', 0x60468, 4),
     ('_continue_labels', 0x6008c, 4),
     ('_break_labels', 0x60090, 4),
     ('_do_labels', 0x60094, 4),

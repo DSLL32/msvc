@@ -1196,3 +1196,43 @@ IrToken *__stdcall make_cast_expression(FrontendSymbol *declarator, IrToken *ope
     }
     return convert_cast_expression(type, operand);
 }
+
+/* Original 0x3d400..0x3d4fe. Array decay retains a symbol's segment or
+   the enclosing expression's address model before replacing its shape. */
+CType *__stdcall decay_array_expression_type(IrToken *operand)
+{
+    IrToken *base;
+    FrontendSymbol *symbol;
+    TypeShape *shape;
+    unsigned parameter;
+    unsigned short attributes;
+    if (operand->kind == TOK_MEMBER) {
+        base = ((ExpressionNode *)operand)->value.children.left;
+        if (base->kind == TOK_ARGUMENT_END && !base->type->related)
+            compiler_warning(options.extensions_enabled ? 4 : 1, 223);
+    }
+    if ((operand->flags & 7) == 5) return operand->type;
+    symbol = find_expression_symbol(operand);
+    if (symbol) {
+        shape = symbol->type->related;
+        if ((symbol->attributes & 2) && !(shape->flags & 7) && (shape->attributes & 4)) {
+            attributes = shape->attributes;
+            parameter = shape->field08;
+        } else {
+            attributes = symbol->type->attributes;
+            parameter = operand->type->related->field08;
+        }
+    } else {
+        base = find_expression_type_base(operand);
+        shape = base && base->type ? base->type->related : 0;
+        if (shape && (shape->flags & 7) != 2) {
+            attributes = shape->attributes;
+            parameter = shape->field08;
+        } else {
+            parameter = operand->type->related->field08;
+            attributes = operand->type->attributes;
+        }
+    }
+    attributes = normalize_type_attributes(1, attributes) & 15;
+    return replace_outer_type_shape(operand->type, 1, attributes, &parameter);
+}
