@@ -30,7 +30,7 @@ void select_entry_point(Image *,unsigned char);
 void set_subsystem_version(IMAGE_OPTIONAL_HEADER *);
 int run_cvpack(ImageOptions *);
 void close_all_files(void);
-void free_argument_names(void);
+void remove_temporary_inputs(void);
 void close_trace_file(void);
 void write_map(int,Image *,const char *);
 #endif

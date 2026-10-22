@@ -298,3 +298,35 @@ void set_section_directory_rva(Section *section,IMAGE_OPTIONAL_HEADER *header,
         header->DataDirectory[directory].VirtualAddress=section->rva;
 }
 
+
+void finish_pe_image(Image *image,void *zeroes)
+{
+    SectionEnumerator sections;
+    Section *section;
+    Group *resources;
+    unsigned long padding;
+    abort_phase="ZeroPad";
+    initialize_section_enumerator(&sections,&image->sections);
+    while (next_section(&sections)) {
+        section=sections.current;
+        if ((section->characteristics&0x1e0)==IMAGE_SCN_CNT_UNINITIALIZED_DATA ||
+            !section->raw_size || (section->characteristics&0x800)) continue;
+        padding=((section->file_end-1)/image->optional.FileAlignment+1)*
+                 image->optional.FileAlignment-section->file_end;
+        if (padding) {
+            seek_file(output_file,section->file_end,SEEK_SET);
+            write_file(output_file,zeroes,padding);
+        }
+        if (!strncmp(".pdata",section->name,8))
+            image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXCEPTION].Size=section->raw_size-padding;
+        else if (!strncmp(".edata",section->name,8))
+            image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size=section->raw_size-padding;
+        else if (!strncmp(".rsrc",section->name,8)) {
+            resources=find_group(section,".rsrc$01");
+            if (resources->contribution_count>1)
+                warning_message(resources->last->module->path,0x82,resources->first->module->path,"");
+            image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_RESOURCE].Size=section->raw_size-padding;
+        }
+    }
+}
+

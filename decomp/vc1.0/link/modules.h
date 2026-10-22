@@ -143,6 +143,7 @@ Contribution *create_contribution(const char *,unsigned long,unsigned short,
     unsigned short,unsigned long,unsigned long,unsigned long,unsigned long,
     unsigned long,unsigned long,Module *,unsigned char,SectionList *,IMAGE_OPTIONAL_HEADER *);
 Section *create_section(const char *,unsigned long,SectionList *,IMAGE_OPTIONAL_HEADER *);
+Section *find_section_for_group(const char *,SectionList *);
 Section *find_section_by_name(const char *,SectionList *);
 void merge_sections(Section *,Section *);
 Section *find_section(const char *,unsigned long,SectionList *,IMAGE_OPTIONAL_HEADER *);

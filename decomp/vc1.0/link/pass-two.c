@@ -504,3 +504,31 @@ void prepare_relocations(void)
 {
 }
 
+
+#pragma intrinsic(strcmp)
+void update_section_symbol(Image *image,PIMAGE_SYMBOL symbol,Module *module)
+{
+    const char *name;
+    Section *section;
+    GroupContributionEnumerator contributions;
+    if (symbol->N.Name.Short)
+        name=strncpy(short_symbol_name,(const char *)symbol,8);
+    else name=image->symbols->strings.data+symbol->N.Name.Long;
+    section=find_section_for_group(name,&image->sections);
+    if (!strncmp(name,".idata",6)) {
+        initialize_group_contribution_enumerator(&contributions,find_group(section,name));
+        while (next_group_contribution(&contributions)) {
+            if (!strcmp(contributions.current->module->path,module->path)) {
+                symbol->Value=contributions.current->rva;
+                end_group_contribution_enumerator(&contributions);
+                break;
+            }
+        }
+    } else symbol->Value=section->rva;
+    if (!strncmp((const char *)symbol,idata_directory_defaults.name,8) &&
+        (!image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress ||
+         image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress>symbol->Value))
+        image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress=symbol->Value;
+    symbol->SectionNumber=section->index;
+}
+

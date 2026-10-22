@@ -188,3 +188,15 @@ void classify_argument(char *text,unsigned char copy)
     if (copy) text=duplicate_string(text);
     append_argument(list,text);
 }
+
+#pragma intrinsic(strcmp)
+void remove_temporary_inputs(void)
+{
+    ArgumentList *list=tool_kind==1?&input_files:&library_files;
+    Argument *argument=list->first;
+    unsigned short index;
+    for (index=0;index<list->count;++index) {
+        if (strcmp(argument->text,argument->original)) remove(argument->original);
+        argument=argument->next;
+    }
+}

@@ -85,13 +85,15 @@ void dump_symbols(SymbolTable *);
 void pass_two(Image *);
 void emit_rom_relocations(void);
 void emit_base_relocations(IMAGE_OPTIONAL_HEADER *);
+int compare_base_fixups(const void *,const void *);
 unsigned long count_externals(SymbolTable *);
 unsigned char emit_symbol_class(unsigned char,ImageOptions *);
 void emit_string_table(SymbolTable *);
 void emit_codeview(Image *);
 int compare_fpo_records(const void *,const void *);
 void finish_pe_image(Image *,void *);
-void write_coff_header(int,IMAGE_FILE_HEADER *);
+unsigned char is_big_endian(void);
+unsigned write_coff_header(int,IMAGE_FILE_HEADER *);
 void write_optional_header(int,IMAGE_OPTIONAL_HEADER *,unsigned short);
 void update_checksum(int);
 #endif

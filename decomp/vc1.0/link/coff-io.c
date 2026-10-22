@@ -1,6 +1,7 @@
 /* COFF file-format reads and reusable symbol/string buffers. */
 #include "object.h"
 #include "files.h"
+#include "link-pass.h"
 TextBuffer coff_string_buffer, coff_symbol_buffer;
 unsigned char coff_strings_cached, coff_symbols_cached;
 char section_name_buffer[9];
@@ -141,5 +142,20 @@ void make_section_header(Section *section,IMAGE_SECTION_HEADER *header)
 unsigned write_section_header(int file,IMAGE_SECTION_HEADER *header)
 {
     return write_file(file,header,sizeof(*header));
+}
+
+
+unsigned write_coff_header(int file,IMAGE_FILE_HEADER *header)
+{
+    /* This target tests the probe address and sets both reverse-byte flags. */
+    if (is_big_endian)
+        header->Characteristics |= IMAGE_FILE_BYTES_REVERSED_LO|IMAGE_FILE_BYTES_REVERSED_HI;
+    return write_file(file,header,sizeof(*header));
+}
+
+
+void write_optional_header(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)
+{
+    if (size) write_file(file,header,size);
 }
 

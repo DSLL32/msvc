@@ -1,6 +1,6 @@
 {
   "case": "minimal-c",
-  "status": "active",
+  "status": "complete",
   "fixture": "../fixtures/minimal-c/manifest.json",
   "phase": "link",
   "arguments": [
@@ -8,5 +8,55 @@
     "@link.rsp"
   ],
   "normalization": "Only the four-byte PE COFF timestamp at file offset 0x88",
-  "regression": "/?"
+  "regression": "/?",
+  "exit_status": 0,
+  "streams": {
+    "stdout": {
+      "bytes": 156,
+      "sha256": "03a539ebb40f718ec3032243565e204c403461d34a96ef728e30b3dc2794ae2c"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "outputs": [
+    {
+      "output_name": "test.exe",
+      "bytes": 2097152,
+      "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "name": "PE COFF TimeDateStamp"
+        }
+      ]
+    }
+  ],
+  "generated_program": {
+    "exit_status": 0,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0
+  },
+  "validation": {
+    "clean_parallel_build": [
+      "make clean",
+      "make -j2 check"
+    ],
+    "trap_replay": "python3 compare.py --replay --case minimal-c --require-exit",
+    "total_frontiers_replayed": 344,
+    "frontiers_by_case": {
+      "/?": 90,
+      "minimal-c": 254
+    },
+    "source_and_runtime_functions_with_matching_callee_sets": 233,
+    "source_functions_with_matching_callback_references": 224,
+    "contextual_data_definitions": 194,
+    "all_program_implementations_readable_c": true,
+    "unmodified_original_matches": true,
+    "replay_log_sha256": "6c3d2bb91f94251eb20563d9721ce52f4ec83ba7af672b257ff49fec7a3d6c66",
+    "case_check": "python3 compare.py --case minimal-c --require-exit",
+    "matching_trap_frontiers": 254
+  }
 }

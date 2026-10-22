@@ -19,6 +19,8 @@ void process_output_symbol(Image *,Module *,PIMAGE_SYMBOL,PIMAGE_SYMBOL *,Functi
 void write_mac_loader_prologue(Contribution *);
 void *mapped_output_pointer(int,unsigned long,unsigned);
 void prepare_relocations(void);
+void record_debug_fixup(unsigned short,unsigned long,unsigned long);
+void record_map_relocation(unsigned long);
 void write_contribution(Image *,Contribution *,PIMAGE_SYMBOL);
 unsigned read_coff_lines(int,PIMAGE_LINENUMBER,unsigned long);
 unsigned write_coff_lines(int,PIMAGE_LINENUMBER,unsigned long,ImageOptions *);

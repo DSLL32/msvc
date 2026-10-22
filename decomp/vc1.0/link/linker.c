@@ -61,7 +61,7 @@ int linker_main(int argc,char **argv)
         image->options.eliminate_unreferenced=image->options.debug_level==0;
     result=link_passes(image,&pack);
     close_all_files();
-    free_argument_names();
+    remove_temporary_inputs();
     if (pack) {
         fflush(stdout);
         result=run_cvpack(&image->options);

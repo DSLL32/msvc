@@ -21,13 +21,23 @@
     }
   },
   "validation": {
-    "clean_parallel_build": "make clean && make -j2 check",
-    "trap_replay": "make replay",
-    "matching_trap_frontiers": 90,
-    "source_and_runtime_functions_with_matching_callee_sets": 29,
-    "assembly_functions_with_matching_instructions": 11,
-    "contextual_data_definitions": 176,
+    "clean_parallel_build": [
+      "make clean",
+      "make -j2 check"
+    ],
+    "trap_replay": "python3 compare.py --replay --case minimal-c --require-exit",
+    "total_frontiers_replayed": 344,
+    "frontiers_by_case": {
+      "/?": 90,
+      "minimal-c": 254
+    },
+    "source_and_runtime_functions_with_matching_callee_sets": 233,
+    "source_functions_with_matching_callback_references": 224,
+    "contextual_data_definitions": 194,
+    "all_program_implementations_readable_c": true,
     "unmodified_original_matches": true,
-    "replay_log_sha256": "de1947302b454d35b01b7536f11cff7cce488be002a5536da9e077210c5bc1e4"
-  }
+    "replay_log_sha256": "6c3d2bb91f94251eb20563d9721ce52f4ec83ba7af672b257ff49fec7a3d6c66",
+    "matching_trap_frontiers": 90
+  },
+  "status": "complete"
 }

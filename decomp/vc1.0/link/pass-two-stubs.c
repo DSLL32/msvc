@@ -15,7 +15,6 @@ void update_debug_symbol(Image *image,PIMAGE_SYMBOL symbol) { __asm { int 3 }  }
 
 
 
-void update_section_symbol(Image *image,PIMAGE_SYMBOL symbol,Module *module) { __asm { int 3 }  }
 
 
 unsigned char is_section_symbol(Image *image,PIMAGE_SYMBOL symbol) { __asm { int 3 } return 0; }
@@ -36,3 +35,6 @@ unsigned read_coff_lines(int file,PIMAGE_LINENUMBER lines,unsigned long count) {
 unsigned write_coff_lines(int file,PIMAGE_LINENUMBER lines,unsigned long count,ImageOptions *options) { __asm { int 3 } return 0; }
 
 unsigned char lookup_function_symbol(FunctionSymbolMap *maps,unsigned short section,unsigned long input,unsigned long *offset,unsigned long *output) { __asm { int 3 } return 0; }
+void record_debug_fixup(unsigned short type,unsigned long rva,unsigned long target) { __asm { int 3 } }
+void record_map_relocation(unsigned long rva) { __asm { int 3 } }
+unsigned char is_big_endian(void) { __asm { int 3 } return 0; }

@@ -523,3 +523,11 @@ int compare_sections_by_rva(const void *left,const void *right)
     return a->rva<b->rva ? -1 : 0;
 }
 
+
+Section *find_section_for_group(const char *name,SectionList *sections)
+{
+    char *section_name,*group_name;
+    split_section_group(name,&section_name,&group_name);
+    return find_section_by_name(section_name,sections);
+}
+

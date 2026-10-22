@@ -22,13 +22,9 @@ void write_mac_resources(void) { __asm { int 3 } }
 void write_mac_swapper(void) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }
-void emit_base_relocations(IMAGE_OPTIONAL_HEADER *header) { __asm { int 3 } }
 void emit_string_table(SymbolTable *table) { __asm { int 3 } }
 void emit_codeview(Image *image) { __asm { int 3 } }
 int compare_fpo_records(const void *left,const void *right) { __asm { int 3 } return 0; }
-void finish_pe_image(Image *image,void *zeroes) { __asm { int 3 } }
-void write_coff_header(int file,IMAGE_FILE_HEADER *header) { __asm { int 3 } }
-void write_optional_header(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size) { __asm { int 3 } }
 void update_checksum(int file) { __asm { int 3 } }
 
 External **get_externals_by_address(SymbolTable *table) { __asm { int 3 } return 0; }

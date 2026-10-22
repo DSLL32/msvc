@@ -330,7 +330,20 @@
     "_process_contribution_debug",
     "_mapped_output_pointer",
     "_close_mapped_file",
-    "_prepare_relocations"
+    "_prepare_relocations",
+    "_apply_i386_relocations",
+    "_update_section_symbol",
+    "_find_section_for_group",
+    "_emit_base_relocations",
+    "_compare_base_fixups",
+    "_finish_pe_image",
+    "_write_coff_header",
+    "_write_optional_header",
+    "_close_all_files",
+    "import:SetFilePointer",
+    "import:SetEndOfFile",
+    "_remove_temporary_inputs",
+    "import:SetStdHandle"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -570,12 +583,13 @@
       "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
     },
     {
-      "name": "_free_argument_names",
+      "name": "_remove_temporary_inputs",
       "start": 134512,
-      "end": 134513,
-      "implementation": "stub-C",
-      "source": "driver-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 134624,
+      "implementation": "C",
+      "source": "arguments.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matching input cleanup20d70..20de0; pending free_argument_names label corrected before acceptance. Select linker/library input list and remove differing effective backing paths; original does not free argument nodes."
     },
     {
       "name": "_warning_message",
@@ -614,10 +628,11 @@
     {
       "name": "_close_all_files",
       "start": 247920,
-      "end": 247921,
-      "implementation": "stub-C",
-      "source": "driver-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 248096,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matching close-all file traversal3c870..3c920; save next before list transfer, release active slots, decrement cached count and release closed slots through mapped/buffered dispatch."
     },
     {
       "name": "_seek_file",
@@ -1033,10 +1048,11 @@
     {
       "name": "_finish_pe_image",
       "start": 107040,
-      "end": 107041,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image,void *zeroes)"
+      "end": 107408,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl void(Image *image,void *zeroes)",
+      "evidence": "Matching final PE section padding1a220..1a390; zero-fill alignment tails, derive exception/export/resource directory sizes, and retain multiple-resource warning argument order."
     },
     {
       "name": "_pad_contribution",
@@ -1076,10 +1092,11 @@
     {
       "name": "_emit_base_relocations",
       "start": 126784,
-      "end": 126785,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(IMAGE_OPTIONAL_HEADER *header)"
+      "end": 127616,
+      "implementation": "C",
+      "source": "base-relocations.c",
+      "abi": "cdecl void(IMAGE_OPTIONAL_HEADER *header)",
+      "evidence": "Matching base-relocation output1ef40..1f280; sort/group4KB pages, serialize blocks/entries and alignment, retain all-ABSOLUTE behavior and distinct final-page HIGHADJ reservation, update directory and fill section tail."
     },
     {
       "name": "_emit_rom_relocations",
@@ -1186,18 +1203,20 @@
     {
       "name": "_write_coff_header",
       "start": 151648,
-      "end": 151649,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(int file,IMAGE_FILE_HEADER *header)"
+      "end": 151696,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,IMAGE_FILE_HEADER *header)",
+      "evidence": "Matching COFF file-header write25060..25090; original tests the endian probe function address and therefore sets both byte-reversed bits. Preserve named address reference and returned byte count."
     },
     {
       "name": "_write_optional_header",
       "start": 151744,
-      "end": 151745,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)"
+      "end": 151792,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl void(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short size)",
+      "evidence": "Matching optional-header writer250c0..250f0; serialize the requested nonzero WORD byte count without the read-side224-byte clamp."
     },
     {
       "name": "_make_section_header",
@@ -1940,11 +1959,11 @@
     {
       "name": "_apply_i386_relocations",
       "start": 220368,
-      "end": 220369,
-      "implementation": "stub-C",
-      "source": "machine-stubs.c",
+      "end": 221344,
+      "implementation": "C",
+      "source": "i386-relocations.c",
       "abi": "cdecl void(Contribution *contribution,void *data,PIMAGE_SYMBOL symbols,Image *image)",
-      "evidence": "Fourth relocation callback argument recovered as current Image pointer from write_contribution1d530; backend still a pending trap."
+      "evidence": "Matching i386 relocation backend35cd0..360a0, including inline switch table36048..3609c. Full readable C covers DIR32/NOBASE/REL32, debug section-relative forms, base fixups, map/debug hooks and unsupported types. Original SECTION case reuses the prior found flag; unmatched targets remain unexercised."
     },
     {
       "name": "_apply_m68k_relocations",
@@ -3094,10 +3113,11 @@
     {
       "name": "_update_section_symbol",
       "start": 123328,
-      "end": 123329,
-      "implementation": "stub-C",
-      "source": "pass-two-stubs.c",
-      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol,Module *module)"
+      "end": 123616,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image,PIMAGE_SYMBOL symbol,Module *module)",
+      "evidence": "Matching SECTION-symbol update1e1c0..1e2e0; resolve group section, bind import group contribution by module path, minimize import descriptor RVA, and set output section index."
     },
     {
       "name": "_process_symbol_auxiliaries",
@@ -3197,6 +3217,48 @@
       "implementation": "stub-C",
       "source": "pass-two-stubs.c",
       "abi": "cdecl unsigned char(FunctionSymbolMap *maps,unsigned short section,unsigned long input,unsigned long *offset,unsigned long *output)"
+    },
+    {
+      "name": "_record_debug_fixup",
+      "start": 126576,
+      "end": 126577,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(unsigned short type,unsigned long rva,unsigned long target)"
+    },
+    {
+      "name": "_record_map_relocation",
+      "start": 152704,
+      "end": 152705,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl void(unsigned long rva)"
+    },
+    {
+      "name": "_find_section_for_group",
+      "start": 243312,
+      "end": 243360,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl Section *(const char *name,SectionList *sections)",
+      "evidence": "Matching group-name section lookup3b670..3b6a0; split section/group using the retained parser and resolve output section by its section portion."
+    },
+    {
+      "name": "_compare_base_fixups",
+      "start": 150864,
+      "end": 150880,
+      "implementation": "C",
+      "source": "base-relocations.c",
+      "abi": "cdecl int(const void *left,const void *right)",
+      "evidence": "Matching base-fixup sort callback24d50..24d60; preserve DWORD RVA subtraction and signed result."
+    },
+    {
+      "name": "_is_big_endian",
+      "start": 151584,
+      "end": 151585,
+      "implementation": "stub-C",
+      "source": "pass-two-stubs.c",
+      "abi": "cdecl unsigned char(void)"
     }
   ],
   "c_stub_references": [
@@ -3293,6 +3355,19 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

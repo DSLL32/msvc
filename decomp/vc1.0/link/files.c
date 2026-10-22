@@ -344,3 +344,22 @@ int close_mapped_file(FileSlot *file)
     return result;
 }
 
+
+void close_all_files(void)
+{
+    FileSlot *file,*next;
+    for (file=active_files;file;file=next) {
+        next=file->next;
+        move_file_slot(file,&active_files,NULL,&free_files,NULL,0);
+        if (file->flags&8) close_mapped_file(file);
+        else release_file_slot(file);
+    }
+    for (file=closed_files;file;file=next) {
+        next=file->next;
+        --closed_file_count;
+        move_file_slot(file,&closed_files,&closed_files_tail,&free_files,NULL,0);
+        if (file->flags&8) close_mapped_file(file);
+        else release_file_slot(file);
+    }
+}
+
