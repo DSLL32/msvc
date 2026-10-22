@@ -410,3 +410,10 @@ int __fastcall bitsets_overlap(BitSet *left, BitSet *right)
     }
     return 0;
 }
+
+/* Original [000667e0,00066800). A null set or a sentinel without member
+   chunks is empty. Sentinel fields themselves do not affect this test. */
+int __fastcall is_empty_bitset(BitSet *set)
+{
+    return !set || !set->next;
+}

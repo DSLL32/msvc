@@ -84,8 +84,8 @@ void finish_function_selection(void)
     MachineBlockHeader *block;
     if (deferred_tail) {
         block = (MachineBlockHeader *)new_machine_instruction(7);
-        block->definitions = selection_anchor;
-        block->uses = selection_anchor;
+        block->definitions = allocation_candidate_registers;
+        block->uses = allocation_candidate_registers;
         deferred_tail->next = (MachineInstruction *)block;
         block->previous = deferred_tail;
         deferred_tail = (MachineInstruction *)block;

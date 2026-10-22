@@ -517,7 +517,18 @@
     "@rewrite_allocation_registers@4",
     "@solve_allocation_liveness@4",
     "@solve_allocation_history@4",
-    "@exclude_exception_registers@4"
+    "@exclude_exception_registers@4",
+    "_assign_global_registers",
+    "@emit_global_register_transfer@20",
+    "@tree_uses_virtual_register@8",
+    "@is_empty_bitset@4",
+    "_extend_global_register_ranges",
+    "_record_global_register_ranges",
+    "@get_stack_address@12",
+    "@is_parameter_memory_value@4",
+    "@record_register_variable_range@32",
+    "@create_register_variable@4",
+    "@new_register_variable@4"
   ],
   "driver": [
     {
@@ -4648,20 +4659,17 @@
     {
       "name": "_assign_global_registers",
       "start": 398320,
-      "end": 398321,
-      "provisional": true
+      "end": 400320
     },
     {
       "name": "_extend_global_register_ranges",
       "start": 401296,
-      "end": 401297,
-      "provisional": true
+      "end": 401440
     },
     {
       "name": "_record_global_register_ranges",
       "start": 401440,
-      "end": 401441,
-      "provisional": true
+      "end": 401664
     },
     {
       "name": "@next_work_value_node@4",
@@ -4751,6 +4759,58 @@
       "start": 406928,
       "end": 406929,
       "provisional": true
+    },
+    {
+      "name": "@emit_global_register_transfer@20",
+      "start": 400320,
+      "end": 400704
+    },
+    {
+      "name": "@split_register_transfer_edge@16",
+      "start": 400704,
+      "end": 400705,
+      "provisional": true
+    },
+    {
+      "name": "@mark_register_definition_ends@12",
+      "start": 398192,
+      "end": 398193,
+      "provisional": true
+    },
+    {
+      "name": "@is_empty_bitset@4",
+      "start": 419808,
+      "end": 419840
+    },
+    {
+      "name": "@tree_uses_virtual_register@8",
+      "start": 406816,
+      "end": 406928
+    },
+    {
+      "name": "@get_stack_address@12",
+      "start": 107920,
+      "end": 107984
+    },
+    {
+      "name": "@is_parameter_memory_value@4",
+      "start": 362032,
+      "end": 362080
+    },
+    {
+      "name": "@record_register_variable_range@32",
+      "start": 186944,
+      "end": 187088
+    },
+    {
+      "name": "@create_register_variable@4",
+      "start": 177872,
+      "end": 177920
+    },
+    {
+      "name": "@new_register_variable@4",
+      "start": 186848,
+      "end": 186944
     }
   ],
   "cases": {

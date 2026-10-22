@@ -3,7 +3,6 @@
 #include "tree-rewrite.h"
 #include "function-input.h"
 extern int optimize_global;
-BitSet *selection_anchor; /* 0007b9e0 */
 MachineBlockHeader *selection_global_header; /* 0007c2a4 */
 MachineBlockHeader *selection_end; /* 0007ce48 */
 MachineBlockHeader *selected_block; /* 0007cb04 */
@@ -55,8 +54,8 @@ void __fastcall generate_work(WorkItem *work)
 {
     if (optimize_global) {
         selection_global_header = (MachineBlockHeader *)new_machine_instruction(7);
-        selection_global_header->definitions = selection_anchor;
-        selection_global_header->uses = selection_anchor;
+        selection_global_header->definitions = allocation_candidate_registers;
+        selection_global_header->uses = allocation_candidate_registers;
     }
     selection_end = (MachineBlockHeader *)new_machine_record(7,
         (BitSet *)0, (BitSet *)0, -1, 0);

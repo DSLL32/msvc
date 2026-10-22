@@ -21,6 +21,7 @@ BitSet *__fastcall copy_bitset(BitSet *source);
 BitSet *__fastcall ensure_bitset(BitSet *set, int capacity);
 BitSet *__fastcall fill_bitset(BitSet *set, int count);
 BitSet *__fastcall intersect_bitset(BitSet *destination, BitSet *source);
+int __fastcall is_empty_bitset(BitSet *set);
 int __fastcall equal_bitsets(BitSet *left, BitSet *right);
 BitSet *__fastcall assign_bitset(BitSet *destination, BitSet *source);
 BitSet *__fastcall subtract_bitset(BitSet *destination, BitSet *source);

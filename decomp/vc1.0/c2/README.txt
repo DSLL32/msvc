@@ -938,3 +938,42 @@ Verified accepted code-extent coverage is 135,199 / 399,693 bytes, or 33.8257
 percent, including source/shared text/CRT/import thunks with union, clipping and
 the actual-mask cross-check. This is not branch coverage. Hello output remains
 pending at assign_global_registers, 000613f0, whose role is transfer insertion.
+
+The global transfer/range pass now completes. Eleven more functions cover
+1,034 native instructions: scalar transfer insertion and placement, virtual
+register-use walking, live-range extension and recording, stack-home and
+parameter classification, both register-variable constructors and sparse-set
+emptiness. The transfer pass builds typed arena-one register/value/range and
+definition/block indices. Six native 52-byte register-variable records retain
+numbered-block bounds, type, parameter/observable flags and symbol/offset homes.
+Unknown allocation fields remain named by offset until their consumers are
+encountered; all are initialized by the factory, with no data-section image.
+
+Tracing the selection handoff exposed two early duplicate-state interpretations.
+The candidate set and former selection_anchor are one original pointer at
+0007b9e0. Likewise the old optimizer-tree cache is the canonical work-value
+hash table and reverse creation root at0007bc48/0007bc40. Selection now uses
+the actual candidate set; cleanup releases and clears the actual WorkValue
+records before arena-two reset. The recovered24-byte layout supersedes the old
+OptimizerTreeEntry names. These corrections preserve the original function
+graph while fixing the shared state needed by later functions in this compile.
+
+Fresh clean-build captures match407 normalized lines at transfer insertion
+return and413 at range-recording return, including five inserted scalar loads,
+all38 register bindings, all eight definition-owner slots and six variable
+records. A separate nine-line capture at the next logical trap verifies both
+selection-global-header pointers equal the candidate set containing32..37,
+ECX identifies the selected entry block and the work-value root has ID11.
+Return breakpoints stop before the caller releases definition sets; the
+selection capture reads the machine-block body only after its ownership changes.
+Hinted stores, pinned placement, critical-edge splitting, floating ranges and
+populated cache cleanup remain outside this checkpoint's dynamic validation.
+See cases/hello-register-transfers-abi.json for extents, ABI and ownership evidence.
+
+Historical replay now uses replay-frontiers.py with four isolated original/
+reconstruction pairs by default. Each frontier has separate masked binaries,
+IR inputs, working directories and debugger output under the private scratch
+area. Every pair must hit its recorded logical trap, and hashes assert the
+native build/config stayed frozen. After all pairs finish, the ordinary final
+comparator retains baseline, streams and object checks. Set REPLAY_JOBS=1 for
+one pair at a time; compare.py --replay also retains the earlier serial path.

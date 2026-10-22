@@ -1,3 +1,4 @@
+#include "register-transfers.h"
 #include "register-variables.h"
 #include "global-registers.h"
 #include "work-expressions.h"
@@ -452,9 +453,6 @@ void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node
 int __fastcall find_assignment_operand(Node *node, unsigned has_addition) { __asm int 3 }
 
 void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol) { __asm int 3 }
-void assign_global_registers(void) { __asm int 3 }
-void extend_global_register_ranges(void) { __asm int 3 }
-void record_global_register_ranges(void) { __asm int 3 }
 
 
 
@@ -465,3 +463,6 @@ int __fastcall allocation_use_dominates_backedges(WorkItem *work) { __asm int 3 
 void __fastcall release_allocation_range(AllocationRange *range) { __asm int 3 }
 
 void __fastcall restore_excluded_registers(Node *node) { __asm int 3 }
+
+void __fastcall split_register_transfer_edge(AllocationRange *range, Node *value, WorkItem *work, FlowLink *edge) { __asm int 3 }
+void __fastcall mark_register_definition_ends(WorkItem *work, AllocationValue *value, AllocationRange *range) { __asm int 3 }

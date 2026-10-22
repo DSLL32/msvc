@@ -1,7 +1,7 @@
 #ifndef INSTRUCTION_SELECTION_H
 #define INSTRUCTION_SELECTION_H
 #include "machine.h"
-extern BitSet *selection_anchor;
+extern BitSet *allocation_candidate_registers;
 extern MachineBlockHeader *selection_global_header, *selection_end, *selected_block;
 extern int temporary_operand_count;
 extern int x87_stack_depth;
