@@ -390,7 +390,17 @@
     "@partition_global_work@4",
     "@set_flow_expression_input@4",
     "_next_flow_expression",
-    "_build_work_lists"
+    "_build_work_lists",
+    "@reference_flow_label@8",
+    "@lookup_flow_label@4",
+    "_new_flow_label",
+    "@has_flow_reference@8",
+    "@new_flow_link@4",
+    "@fold_adjacent_flow_labels@4",
+    "@putback_flow_expression@4",
+    "@define_flow_label@8",
+    "_resolve_flow_labels",
+    "@canonical_flow_label@4"
   ],
   "driver": [
     {
@@ -3768,8 +3778,7 @@
     {
       "name": "_resolve_flow_labels",
       "start": 370912,
-      "end": 370913,
-      "provisional": true
+      "end": 370960
     },
     {
       "name": "@prepare_flow_blocks@4",
@@ -3867,26 +3876,53 @@
     {
       "name": "@fold_adjacent_flow_labels@4",
       "start": 372080,
-      "end": 372081,
-      "provisional": true
+      "end": 372384
     },
     {
       "name": "@putback_flow_expression@4",
       "start": 372064,
-      "end": 372065,
-      "provisional": true
+      "end": 372080
     },
     {
       "name": "@define_flow_label@8",
       "start": 371888,
-      "end": 371889,
-      "provisional": true
+      "end": 371984
     },
     {
       "name": "@reference_flow_label@8",
       "start": 371744,
-      "end": 371745,
+      "end": 371792
+    },
+    {
+      "name": "@lookup_flow_label@4",
+      "start": 371664,
+      "end": 371728
+    },
+    {
+      "name": "_new_flow_label",
+      "start": 371728,
+      "end": 371744
+    },
+    {
+      "name": "@has_flow_reference@8",
+      "start": 371856,
+      "end": 371888
+    },
+    {
+      "name": "@new_flow_link@4",
+      "start": 371792,
+      "end": 371856
+    },
+    {
+      "name": "@is_boundary_flow_label@4",
+      "start": 372432,
+      "end": 372433,
       "provisional": true
+    },
+    {
+      "name": "@canonical_flow_label@4",
+      "start": 371984,
+      "end": 372064
     }
   ],
   "cases": {

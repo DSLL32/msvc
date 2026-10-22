@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 34,
+  "accepted_frontiers": 44,
   "current_frontier": {
-    "name": "@reference_flow_label@8",
-    "original_va": 371744
+    "name": "@prepare_flow_blocks@4",
+    "original_va": 370272
   },
   "expected": {
     "exit": 0,
@@ -45,8 +45,12 @@
     "all 309 source functions pass graph audit",
     "seven changed work/cleanup modules compile /W3 clean",
     "independent post-global-optimization comparison matches 29 roots and 99 visited nodes; only debugger exception address differs",
-    "complete minimal object/exit regression passes after typed work-state refinement"
+    "complete minimal object/exit regression passes after typed work-state refinement",
+    "label checkpoint replays all 44 hello frontiers; all 319 function graphs match",
+    "two changed label/work implementation modules compile /W3 clean",
+    "independent first-function partition comparison matches eight blocks, 25 expressions and 95 visited nodes, normalizing only debugger exception address",
+    "complete minimal exit/object regression passes after label reconstruction"
   ],
-  "total_accepted_frontiers": 386,
-  "reconstructed_functions": 309
+  "total_accepted_frontiers": 396,
+  "reconstructed_functions": 319
 }

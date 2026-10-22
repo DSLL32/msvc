@@ -448,3 +448,23 @@ This checkpoint has 309 source functions and 386 accepted frontiers. All 352
 minimal and all 34 hello frontiers replay with matching logical traps. Seven
 changed modules compile /W3 clean; the graph audit and full minimal object/exit
 regression pass. The hello object remains pending at reference_flow_label.
+
+Hello now passes symbol-identity label lookup, descriptor/link allocation,
+reference deduplication, recursive adjacent-label folding, alias definition and
+canonicalization. FlowLabel has a checked 20-byte layout and FlowLink has a
+checked 12-byte layout; neither is supplied by a data snapshot. Recycled links
+retain their flag byte, as in the original allocator. Label descriptor, hash,
+block and reference pointers remain distinct typed fields.
+
+At prepare_flow_blocks, an independent debugger capture matches all eight
+partitioned blocks, 25 expressions and 95 visited nodes of the first function.
+This includes block order, entry/exit identity, previous-link consistency, flags,
+region presence and captured expression/tree fields; only the debugger exception
+address is normalized. See cases/hello-labels-abi.json for exact ABI/extents and
+remaining branch limits. Protected-label and scope helpers remain named traps.
+
+The label checkpoint has 319 functions and 396 accepted frontiers. All 44 hello
+frontiers replay, all graph edges agree, both changed implementation modules
+compile /W3 clean, and the complete minimal object/exit regression passes. The
+352-frontier minimal history was fully replayed at the preceding work checkpoint.
+Hello output remains pending at prepare_flow_blocks.

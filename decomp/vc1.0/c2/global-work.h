@@ -3,7 +3,13 @@
 #include "functions.h"
 /* The region tree and predecessor/successor links have distinct owners. */
 typedef struct FlowRegion FlowRegion;
-typedef struct FlowLink FlowLink;
+typedef struct FlowLink {
+    struct FlowLink *next;
+    WorkItem *work;
+    unsigned char flags; /* low bit distinguishes protected exception edges */
+} FlowLink;
+typedef char FlowLinkSizeCheck[sizeof(FlowLink) == 12 ? 1 : -1];
+typedef struct FlowLabel FlowLabel;
 extern WorkItem *global_entry_work;
 extern FlowRegion *global_flow_regions;
 extern FlowLink *free_flow_links;
@@ -33,4 +39,10 @@ Expression *__fastcall fold_adjacent_flow_labels(Expression *expression);
 void __fastcall putback_flow_expression(Expression *expression);
 void __fastcall define_flow_label(SymbolHeader *label, WorkItem *work);
 void __fastcall reference_flow_label(SymbolHeader *label, WorkItem *work);
+FlowLabel *__fastcall lookup_flow_label(SymbolHeader *label);
+FlowLabel *new_flow_label(void);
+int __fastcall has_flow_reference(FlowLink *references, WorkItem *work);
+FlowLink *__fastcall new_flow_link(WorkItem *work);
+int __fastcall is_boundary_flow_label(Node *node);
+FlowLabel *__fastcall canonical_flow_label(FlowLabel *record);
 #endif

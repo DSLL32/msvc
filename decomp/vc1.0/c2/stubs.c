@@ -374,7 +374,6 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 
 
-void resolve_flow_labels(void) { __asm int 3 }
 
 void __fastcall prepare_flow_blocks(WorkItem *work) { __asm int 3 }
 
@@ -402,7 +401,6 @@ void __fastcall finish_flow_regions(FlowRegion *regions) { __asm int 3 }
 
 void __fastcall remove_empty_flow_blocks(WorkItem *work) { __asm int 3 }
 
-Expression *__fastcall fold_adjacent_flow_labels(Expression *expression) { __asm int 3 }
-void __fastcall putback_flow_expression(Expression *expression) { __asm int 3 }
-void __fastcall define_flow_label(SymbolHeader *label, WorkItem *work) { __asm int 3 }
-void __fastcall reference_flow_label(SymbolHeader *label, WorkItem *work) { __asm int 3 }
+
+
+int __fastcall is_boundary_flow_label(Node *node) { __asm int 3 }

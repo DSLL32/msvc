@@ -153,3 +153,11 @@ Expression *next_flow_expression(void)
     }
     return expression;
 }
+
+/* Original [0005ad60,0005ad70). Return a detached record to the front
+   of the expression stream consumed by the block partitioner. */
+void __fastcall putback_flow_expression(Expression *expression)
+{
+    expression->next = flow_expression_input;
+    flow_expression_input = expression;
+}
