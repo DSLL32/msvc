@@ -26,18 +26,30 @@ typedef struct VirtualEntry {
     unsigned field04, field08, field0c;
 } VirtualEntry;
 typedef struct VirtualTable {
-    unsigned field00, field04, field08, field0c;
+    unsigned kind;
+    CppSymbol *symbol, *pointer;
+    unsigned short pointer_attributes, flags;
     int entry_count;
-    unsigned field14;
+    unsigned entry_capacity;
     VirtualEntry *entries;
+    unsigned byte_size, object_offset, field24, field28, field2c;
+    CppSymbol *unshared_owner;
+    Vector *shared_owners;
 } VirtualTable;
 typedef struct VirtualTableGroup {
     unsigned field00, field04, field08, field0c, field10;
-    Vector *tables;
+    Vector *tables, *base_tables;
+    unsigned field1c, field20;
 } VirtualTableGroup;
 typedef char VirtualEntrySizeMustBe16[(sizeof(VirtualEntry) == 16) ? 1 : -1];
+typedef char VirtualTableSizeMustBe56[(sizeof(VirtualTable) == 56) ? 1 : -1];
+typedef char VirtualTableOwnerOffsetMustBe48[(offsetof(VirtualTable, unshared_owner) == 48) ? 1 : -1];
+typedef char VirtualTableOwnersOffsetMustBe52[(offsetof(VirtualTable, shared_owners) == 52) ? 1 : -1];
 typedef char VirtualTableCountOffsetMustBe16[(offsetof(VirtualTable, entry_count) == 16) ? 1 : -1];
 typedef char VirtualTableEntriesOffsetMustBe24[(offsetof(VirtualTable, entries) == 24) ? 1 : -1];
+typedef char VirtualTableGroupSizeMustBe36[(sizeof(VirtualTableGroup) == 36) ? 1 : -1];
+typedef char VirtualTableGroupBaseTablesOffsetMustBe24[(offsetof(VirtualTableGroup, base_tables) == 24) ? 1 : -1];
+typedef char VirtualTableGroupContextOffsetMustBe32[(offsetof(VirtualTableGroup, field20) == 32) ? 1 : -1];
 typedef char VirtualTableGroupTablesOffsetMustBe20[(offsetof(VirtualTableGroup, tables) == 20) ? 1 : -1];
 /* The final four class-info bytes pack availability/access/ambiguity bits
    for special members, followed by copy/assignment cv qualification. */
@@ -82,6 +94,11 @@ typedef union CppSymbolState {
 
 /* Tags own the common forty-byte record; full declarations additionally own
    the trailing C++ declaration state. Scope chains hold either variant. */
+typedef struct SymbolVirtualFunction {
+    short declaring_class, table_class;
+} SymbolVirtualFunction;
+typedef char SymbolVirtualFunctionTableClassOffsetMustBe2[(offsetof(SymbolVirtualFunction, table_class) == 2) ? 1 : -1];
+
 #define COMMON_SYMBOL_FIELDS \
     unsigned char kind, flags; \
     unsigned short declaration_flags; \
@@ -94,13 +111,13 @@ typedef union CppSymbolState {
     unsigned short field1e; \
     union { \
         struct { unsigned short operation, flags; } intrinsic; \
-        unsigned value; \
+        unsigned value, virtual_table_offset; \
         unsigned short scope_number; \
         char *text; \
         ClassInfo *class_info; \
         CppSymbol *parameter_next; \
     } detail; \
-    union { unsigned value; short declaring_class; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
+    union { unsigned value; short declaring_class; SymbolVirtualFunction virtual_function; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
 typedef struct TagSymbol {
     COMMON_SYMBOL_FIELDS
 } TagSymbol;
@@ -110,6 +127,7 @@ struct CppSymbol {
     CppSymbolState cpp;
 };
 #undef COMMON_SYMBOL_FIELDS
+typedef char CppSymbolAuxiliaryOffsetMustBe36[(offsetof(CppSymbol, auxiliary) == 36) ? 1 : -1];
 /* Overload sets share the ordinary symbol prefix through the name slot.
    Their final word holds functions rather than a CType pointer. */
 typedef struct OverloadSet {

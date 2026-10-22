@@ -2,6 +2,8 @@
 #include "class-finalization.h"
 #include "class-type-sets.h"
 #include "class-members.h"
+#include "global-ir.h"
+#include "cpp-context.h"
 
 /* Original 0x2dfc0..0x2e0e7. Retain the temporary class type while running
    completion passes, then leave the wrapper scope and build its name index. */
@@ -182,11 +184,11 @@ void __stdcall complete_class_virtual_layout(CppSymbol *tag)
     reset_previous_base_class();
     complete_base_class_layout(tag);
     finish_class_size(tag);
-    combine_virtual_table_groups(tag);
+    assign_virtual_base_group_offsets(tag);
     resolve_virtual_overrides(tag);
     diagnose_virtual_ambiguities(tag);
     coalesce_virtual_table_paths(tag);
-    sort_class_virtual_tables(tag);
+    persist_class_virtual_tables(tag);
     abstract = class_has_pure_virtual(tag);
     tag->detail.class_info->flags = (tag->detail.class_info->flags & 0x7f) |
         ((abstract & 1) << 7);
@@ -199,4 +201,271 @@ CppSymbol *previous_base_class; /* original 0xa8134 */
 void reset_previous_base_class(void)
 {
     previous_base_class = 0;
+}
+
+void __stdcall complete_direct_base_layout(BaseClassLink *base, CppSymbol *tag);
+
+/* Original 0x79dc0..0x79e31. Finalize every visible direct base before the
+   derived size and virtual overrides are resolved. Save the next link first. */
+void __stdcall complete_base_class_layout(CppSymbol *tag)
+{
+    BaseClassLink *base = (BaseClassLink *)tag->auxiliary.scope_members, *next;
+    while (base) {
+        next = (BaseClassLink *)base->next;
+        if ((base->kind & 31) == 15 && !(base->flags & 0x80))
+            complete_direct_base_layout(base, tag);
+        base = next;
+    }
+}
+
+
+/* Original 0x79d10..0x79d5b. Empty class objects still occupy one byte;
+   both the active layout context and the canonical class information agree. */
+void __stdcall finish_class_size(CppSymbol *tag)
+{
+    ClassInfo *info = tag->detail.class_info;
+    info->size = class_contexts[current_class_context].size;
+    if (!info->size) {
+        class_contexts[current_class_context].size = 1;
+        info->size = 1;
+        info->flags |= 8;
+        info->flags |= 4;
+    }
+}
+
+int __stdcall find_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag);
+void __stdcall create_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag);
+
+/* Original 0x7a970..0x7a9cf. Reuse a group's existing virtual-base entry
+   where present, otherwise add the entry and record its offsets. */
+void __stdcall assign_virtual_base_group_offsets(CppSymbol *tag)
+{
+    Vector *groups = tag->detail.class_info->virtual_table_groups;
+    VirtualTableGroup *group;
+    short index = 0;
+    while (index < groups->count) {
+        group = groups->items[index++];
+        if (!find_virtual_base_group_offsets(group, tag))
+            create_virtual_base_group_offsets(group, tag);
+    }
+}
+
+void __stdcall resolve_function_virtual_overrides(CppSymbol *member, CppSymbol *tag);
+
+/* Original 0x7a5f0..0x7a679. Only visible function-overload wrappers
+   participate; each function is visited with its next link saved first. */
+void __stdcall resolve_virtual_overrides(CppSymbol *tag)
+{
+    CppSymbol *member = tag->auxiliary.scope_members, *next, *function, *following;
+    while (member) {
+        next = member->next;
+        if ((member->kind & 31) == 17 && !(member->flags & 0x80)) {
+            function = ((OverloadSet *)member)->functions;
+            while (function) {
+                following = function->next;
+                resolve_function_virtual_overrides(function, tag);
+                function = following;
+            }
+        }
+        member = next;
+    }
+}
+
+void __stdcall resolve_table_override(CppSymbol *member, VirtualTable *table,
+    CppSymbol *tag, char virtual_path);
+VirtualTable *__stdcall primary_virtual_table(CppSymbol *tag);
+void __stdcall initialize_virtual_entry(VirtualEntry *entry, CppSymbol *member);
+void __stdcall append_virtual_entry(VirtualTable *table, VirtualEntry *entry);
+unsigned __stdcall reserve_virtual_table_offset(VirtualTable *table, unsigned size);
+
+/* Original 0x7a680..0x7a7ac. Resolve this function against inherited
+   primary/group tables before allocating any newly introduced virtual slot. */
+void __stdcall resolve_function_virtual_overrides(CppSymbol *member, CppSymbol *tag)
+{
+    Vector *tables = tag->detail.class_info->virtual_tables;
+    Vector *groups = tag->detail.class_info->virtual_table_groups;
+    VirtualTableGroup *group = 0;
+    VirtualTable *table;
+    VirtualEntry entry;
+    short table_index = 0, group_index = 0;
+    for (;;) {
+        while (table_index < tables->count) {
+            table = tables->items[table_index++];
+            resolve_table_override(member, table, tag, (char)(group && group->field20));
+        }
+        if (group_index >= groups->count) break;
+        group = groups->items[group_index++];
+        tables = group->tables;
+        table_index = 0;
+    }
+    if (member->cpp.parts.member_flags & 2) {
+        member->storage[1] |= 2;
+        ((unsigned char *)member->name)[-1] |= 0x10;
+        return;
+    }
+    if (member->storage[1] & 2) {
+        table = primary_virtual_table(tag);
+        initialize_virtual_entry(&entry, member);
+        append_virtual_entry(table, &entry);
+        member->detail.virtual_table_offset = reserve_virtual_table_offset(table, type_size(member->type));
+        member->auxiliary.virtual_function.table_class = tag->detail.class_info->type_index;
+    }
+}
+
+void __stdcall collapse_virtual_conflicts(VirtualEntry *entry);
+
+/* Original 0x7a460..0x7a5e1. Diagnose every conflicting final overrider
+   before collapsing its alternative list; retain the warning-only flag too. */
+void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag)
+{
+    Vector *groups = tag->detail.class_info->virtual_table_groups;
+    Vector *tables = tag->detail.class_info->virtual_tables, *conflicts;
+    VirtualTableGroup *group;
+    VirtualTable *table;
+    VirtualEntry *entry;
+    CppSymbol *function, *owner;
+    short group_index = 0, table_index = 0, conflict_index;
+    int index;
+    for (;;) {
+        while (table_index < tables->count) {
+            table = tables->items[table_index++];
+            if (table->kind != 2) continue;
+            for (index = 0; index < table->entry_count; ++index) {
+                entry = &table->entries[index];
+                if (entry->field0c & 4) {
+                    conflicts = (Vector *)entry->function;
+                    for (conflict_index = 0; conflict_index < conflicts->count; ++conflict_index) {
+                        function = conflicts->items[conflict_index];
+                        owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                        report_syntax_error(250, tag->name, owner->name, function->name);
+                    }
+                    collapse_virtual_conflicts(entry);
+                } else if (entry->field0c & 2) {
+                    function = entry->function;
+                    owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                    compiler_warning(2, 250, tag->name, owner->name, function->name);
+                }
+            }
+        }
+        if (group_index >= groups->count) break;
+        group = groups->items[group_index++];
+        tables = group->tables;
+        table_index = 0;
+    }
+}
+
+/* Original 0x7aab0..0x7ac6d. Tables with equal owner paths share their
+   owners explicitly. Scan both vfptr/vbptr families and every virtual group. */
+void __stdcall coalesce_virtual_table_paths(CppSymbol *tag)
+{
+    Vector *groups, *tables, *other_groups, *other_tables;
+    VirtualTableGroup *group;
+    VirtualTable *table, *other;
+    short group_index, table_index, other_group_index, other_table_index;
+    int kind, matched;
+    for (kind = 0; kind < 2; ++kind) {
+        tables = kind ? tag->detail.class_info->virtual_base_tables : tag->detail.class_info->virtual_tables;
+        groups = tag->detail.class_info->virtual_table_groups;
+        group_index = table_index = 0;
+        for (;;) {
+            while (table_index < tables->count) {
+                table = tables->items[table_index++];
+                if (!table->unshared_owner) continue;
+                matched = 0;
+                other_tables = kind ? tag->detail.class_info->virtual_base_tables : tag->detail.class_info->virtual_tables;
+                other_groups = tag->detail.class_info->virtual_table_groups;
+                other_group_index = other_table_index = 0;
+                for (;;) {
+                    while (other_table_index < other_tables->count) {
+                        other = other_tables->items[other_table_index++];
+                        if (other == table || !other->unshared_owner) continue;
+                        if (equal_vectors(table->shared_owners, other->shared_owners)) {
+                            matched = 1;
+                            append_vector(other->shared_owners, other->unshared_owner);
+                            other->unshared_owner = 0;
+                        }
+                    }
+                    if (other_group_index >= other_groups->count) break;
+                    group = other_groups->items[other_group_index++];
+                    other_tables = kind ? group->base_tables : group->tables;
+                    other_table_index = 0;
+                }
+                if (matched) {
+                    append_vector(table->shared_owners, table->unshared_owner);
+                    table->unshared_owner = 0;
+                }
+            }
+            if (group_index >= groups->count) break;
+            group = groups->items[group_index++];
+            tables = kind ? group->base_tables : group->tables;
+            table_index = 0;
+        }
+    }
+}
+
+/* Both copy callbacks retain two stack slots (RET 8). The table callback
+   does not read its arena slot in the native body. */
+void *__stdcall clone_class_virtual_table(void *item, int arena);
+void *__stdcall clone_class_virtual_group(void *item, int arena);
+
+/* Original 0x7ac70..0x7acb6. Move the completed tables and their grouped
+   collections into permanent arena zero through native copy callbacks. */
+void __stdcall persist_class_virtual_tables(CppSymbol *tag)
+{
+    ClassInfo *info = tag->detail.class_info;
+    info->virtual_tables = copy_vector_elements(info->virtual_tables, 0, clone_class_virtual_table);
+    info->virtual_base_tables = copy_vector_elements(info->virtual_base_tables, 0, clone_class_virtual_table);
+    info->virtual_table_groups = copy_vector_elements(info->virtual_table_groups, 0, clone_class_virtual_group);
+}
+
+/* Original 0x7acc0..0x7adb2. Every primary or grouped vftable contributes
+   its final-overrider flags to the abstract-class classification. */
+int __stdcall class_has_pure_virtual(CppSymbol *tag)
+{
+    Vector *groups = tag->detail.class_info->virtual_table_groups;
+    Vector *tables = tag->detail.class_info->virtual_tables;
+    VirtualTableGroup *group;
+    VirtualTable *table;
+    short group_index = 0, table_index = 0;
+    int index;
+    for (;;) {
+        while (table_index < tables->count) {
+            table = tables->items[table_index++];
+            for (index = 0; index < table->entry_count; ++index)
+                if (table->entries[index].function->cpp.parts.member_flags & 4) return 1;
+        }
+        if (group_index >= groups->count) break;
+        group = groups->items[group_index++];
+        tables = group->tables;
+        table_index = 0;
+    }
+    return 0;
+}
+
+CppSymbol *__stdcall declare_virtual_table_symbol(int kind, VirtualTable *table, CppSymbol *tag);
+
+/* Original 0x7adc0..0x7ae7c. Declare every primary and grouped vfptr/vbptr
+   table after permanence, storing its resulting declaration symbol at +4. */
+void __stdcall declare_class_virtual_tables(CppSymbol *tag)
+{
+    Vector *groups, *tables;
+    VirtualTableGroup *group;
+    VirtualTable *table;
+    short group_index, table_index;
+    int kind;
+    for (kind = 0; kind < 2; ++kind) {
+        tables = kind ? tag->detail.class_info->virtual_base_tables : tag->detail.class_info->virtual_tables;
+        groups = tag->detail.class_info->virtual_table_groups;
+        group_index = table_index = 0;
+        for (;;) {
+            while (table_index < tables->count) {
+                table = tables->items[table_index++];
+                table->symbol = declare_virtual_table_symbol(kind, table, tag);
+            }
+            if (group_index >= groups->count) break;
+            group = groups->items[group_index++];
+            tables = kind ? group->base_tables : group->tables;
+            table_index = 0;
+        }
+    }
 }

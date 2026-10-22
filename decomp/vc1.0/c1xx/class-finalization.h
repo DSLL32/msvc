@@ -23,10 +23,10 @@ void __stdcall build_class_member_index(CppSymbol *tag);
 void reset_previous_base_class(void);
 void __stdcall complete_base_class_layout(CppSymbol *tag);
 void __stdcall finish_class_size(CppSymbol *tag);
-void __stdcall combine_virtual_table_groups(CppSymbol *tag);
+void __stdcall assign_virtual_base_group_offsets(CppSymbol *tag);
 void __stdcall resolve_virtual_overrides(CppSymbol *tag);
 void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag);
 void __stdcall coalesce_virtual_table_paths(CppSymbol *tag);
-void __stdcall sort_class_virtual_tables(CppSymbol *tag);
+void __stdcall persist_class_virtual_tables(CppSymbol *tag);
 int __stdcall class_has_pure_virtual(CppSymbol *tag);
 #endif

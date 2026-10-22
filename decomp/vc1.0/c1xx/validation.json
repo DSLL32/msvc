@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 330,
-  "driver_functions": 255,
+  "accepted_frontiers": 342,
+  "driver_functions": 267,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 261,
-  "current_frontier": "_complete_base_class_layout@4",
-  "original_frontier_va": "0x79dc0",
+  "reconstructed_source_functions": 273,
+  "current_frontier": "_declare_default_constructor_closures@4",
+  "original_frontier_va": "0x37070",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "f508cdda7c1122c2b1b966453c284541512ff139f6a17cf554036735c4e22c65",
-  "call_graph_audit_functions": 261,
+  "replay_log_sha256": "7578dc7dbef509b360227f1844ea77cb99ed9e62fc699e2e91cc0422ed1d5c85",
+  "call_graph_audit_functions": 273,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -89,7 +89,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-special-member-finish.log",
+  "replay_log": "evidence/replay-virtual-layout-finish.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -306,7 +306,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 104300,
+  "accepted_source_text_and_switch_bytes": 106472,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -425,7 +425,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "f66140dca765f6360143f3779c36b1f4d0a40f1756795fa4ff39d7cf274ad014",
+  "replay_build_text_sha256": "630f0e9559d4f895a8c01355cfad0f761ae38e215f7130cf4af5e81cf71bfc17",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -504,6 +504,75 @@
       "0x7a13b"
     ],
     "previous_base_state": "0xa8134",
+    "full_ordered_replay_pass": true
+  },
+  "virtual_layout_completion": {
+    "evidence": "evidence/virtual-layout-completion.txt",
+    "whole_functions_added": 12,
+    "base_layout": [
+      "0x79dc0",
+      "0x79e31"
+    ],
+    "size_completion": [
+      "0x79d10",
+      "0x79d5b"
+    ],
+    "virtual_base_offsets": [
+      "0x7a970",
+      "0x7a9cf"
+    ],
+    "override_driver": [
+      "0x7a5f0",
+      "0x7a679"
+    ],
+    "per_method_overrides": [
+      "0x7a680",
+      "0x7a7ac"
+    ],
+    "per_method_callees": 6,
+    "ambiguity_diagnostics": [
+      "0x7a460",
+      "0x7a5e1"
+    ],
+    "ambiguity_diagnostic_string_arguments": 3,
+    "owner_path_coalescing": [
+      "0x7aab0",
+      "0x7ac6d"
+    ],
+    "table_persistence": [
+      "0x7ac70",
+      "0x7acb6"
+    ],
+    "vector_element_copy": [
+      "0x4ea40",
+      "0x4eaa4"
+    ],
+    "vector_copy_indirect_callback_stack_bytes": 8,
+    "vector_count": [
+      "0x4eab0",
+      "0x4eac6"
+    ],
+    "vector_count_result": "signed short AX",
+    "abstract_class_query": [
+      "0x7acc0",
+      "0x7adb2"
+    ],
+    "table_symbol_declaration": [
+      "0x7adc0",
+      "0x7ae7c"
+    ],
+    "virtual_table_bytes": 56,
+    "virtual_table_owner_offsets": [
+      48,
+      52
+    ],
+    "virtual_group_bytes": 36,
+    "virtual_group_vector_offsets": [
+      20,
+      24
+    ],
+    "symbol_virtual_offset": 32,
+    "symbol_virtual_class_index": 38,
     "full_ordered_replay_pass": true
   }
 }

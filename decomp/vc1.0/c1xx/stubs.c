@@ -428,14 +428,40 @@ short __stdcall format_function_parameters(short text, FunctionParameters *param
 
 
 
-void __stdcall declare_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
 
 
-void __stdcall complete_base_class_layout(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall finish_class_size(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall combine_virtual_table_groups(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall resolve_virtual_overrides(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall coalesce_virtual_table_paths(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall sort_class_virtual_tables(CppSymbol *tag) { __asm { int 3 } }
-int __stdcall class_has_pure_virtual(CppSymbol *tag) { __asm { int 3 } return 0; }
+
+
+
+
+
+
+
+
+
+
+void __stdcall complete_direct_base_layout(BaseClassLink *base, CppSymbol *tag) { __asm { int 3 } }
+
+int __stdcall find_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag) { __asm { int 3 } return 0; }
+void __stdcall create_virtual_base_group_offsets(VirtualTableGroup *group, CppSymbol *tag) { __asm { int 3 } }
+
+
+
+void __stdcall resolve_table_override(CppSymbol *member, VirtualTable *table,
+    CppSymbol *tag, char virtual_path) { __asm { int 3 } }
+VirtualTable *__stdcall primary_virtual_table(CppSymbol *tag) { __asm { int 3 } return 0; }
+void __stdcall initialize_virtual_entry(VirtualEntry *entry, CppSymbol *member) { __asm { int 3 } }
+void __stdcall append_virtual_entry(VirtualTable *table, VirtualEntry *entry) { __asm { int 3 } }
+unsigned __stdcall reserve_virtual_table_offset(VirtualTable *table, unsigned size) { __asm { int 3 } return 0; }
+
+void __stdcall collapse_virtual_conflicts(VirtualEntry *entry) { __asm { int 3 } }
+
+int __stdcall equal_vectors(Vector *left, Vector *right) { __asm { int 3 } return 0; }
+
+
+void *__stdcall clone_class_virtual_table(void *item, int arena) { __asm { int 3 } return 0; }
+void *__stdcall clone_class_virtual_group(void *item, int arena) { __asm { int 3 } return 0; }
+
+
+
+CppSymbol *__stdcall declare_virtual_table_symbol(int kind, VirtualTable *table, CppSymbol *tag) { __asm { int 3 } return 0; }

@@ -1,7 +1,7 @@
 python3 wine-tool.py --init
 python3 compare.py --mask-only
 python3 audit-graph.py
-227 reconstructed functions have matching call targets (including indirect calls).
+271 reconstructed functions have matching call targets (including indirect calls).
 python3 audit-data.py
 98 option rules and their aliases/defaults match the original.
 764-byte typed configuration defaults match the original.
@@ -53,6 +53,8 @@ python3 audit-data.py
 1 shared frontend state defaults match the original.
 7 shared frontend state defaults match the original.
 1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
+1 shared frontend state defaults match the original.
 python3 audit-parser-grammar.py
 356 productions regenerate all 575 original state identities.
 147775 actions, 82800 gotos and lexer timing match the original.
@@ -64,4 +66,4 @@ python3 audit-lookahead-grammar.py
 332 precedence conflicts; logical C actions, gotos and productions match.
 46 non-default semantic rules retain source actions.
 python3 compare.py
-original: _release_inline_vector; reconstruction: _release_inline_vector
+original: _class_has_pure_virtual@4; reconstruction: _class_has_pure_virtual@4

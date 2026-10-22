@@ -334,7 +334,19 @@
     "_find_special_member_model@12",
     "_finalize_class_virtual_tables@4",
     "_complete_class_virtual_layout@4",
-    "_reset_previous_base_class"
+    "_reset_previous_base_class",
+    "_complete_base_class_layout@4",
+    "_finish_class_size@4",
+    "_assign_virtual_base_group_offsets@4",
+    "_resolve_virtual_overrides@4",
+    "_resolve_function_virtual_overrides@8",
+    "_diagnose_virtual_ambiguities@4",
+    "_coalesce_virtual_table_paths@4",
+    "_persist_class_virtual_tables@4",
+    "_copy_vector_elements@12",
+    "_vector_count@4",
+    "_class_has_pure_virtual@4",
+    "_declare_class_virtual_tables@4"
   ],
   "driver": [
     {
@@ -3447,7 +3459,7 @@
     {
       "name": "_declare_class_virtual_tables@4",
       "start": 503232,
-      "end": 503233
+      "end": 503420
     },
     {
       "name": "_reset_previous_base_class",
@@ -3457,42 +3469,122 @@
     {
       "name": "_complete_base_class_layout@4",
       "start": 499136,
-      "end": 499137
+      "end": 499249
     },
     {
       "name": "_finish_class_size@4",
       "start": 498960,
-      "end": 498961
+      "end": 499035
     },
     {
-      "name": "_combine_virtual_table_groups@4",
+      "name": "_assign_virtual_base_group_offsets@4",
       "start": 502128,
-      "end": 502129
+      "end": 502223
     },
     {
       "name": "_resolve_virtual_overrides@4",
       "start": 501232,
-      "end": 501233
+      "end": 501369
     },
     {
       "name": "_diagnose_virtual_ambiguities@4",
       "start": 500832,
-      "end": 500833
+      "end": 501217
     },
     {
       "name": "_coalesce_virtual_table_paths@4",
       "start": 502448,
-      "end": 502449
+      "end": 502893
     },
     {
-      "name": "_sort_class_virtual_tables@4",
+      "name": "_persist_class_virtual_tables@4",
       "start": 502896,
-      "end": 502897
+      "end": 502966
     },
     {
       "name": "_class_has_pure_virtual@4",
       "start": 502976,
-      "end": 502977
+      "end": 503218
+    },
+    {
+      "name": "_complete_direct_base_layout@8",
+      "start": 499264,
+      "end": 499265
+    },
+    {
+      "name": "_find_virtual_base_group_offsets@8",
+      "start": 502224,
+      "end": 502225
+    },
+    {
+      "name": "_create_virtual_base_group_offsets@8",
+      "start": 502352,
+      "end": 502353
+    },
+    {
+      "name": "_resolve_function_virtual_overrides@8",
+      "start": 501376,
+      "end": 501676
+    },
+    {
+      "name": "_resolve_table_override@16",
+      "start": 501680,
+      "end": 501681
+    },
+    {
+      "name": "_primary_virtual_table@4",
+      "start": 494368,
+      "end": 494369
+    },
+    {
+      "name": "_initialize_virtual_entry@8",
+      "start": 494688,
+      "end": 494689
+    },
+    {
+      "name": "_append_virtual_entry@8",
+      "start": 494432,
+      "end": 494433
+    },
+    {
+      "name": "_reserve_virtual_table_offset@8",
+      "start": 494608,
+      "end": 494609
+    },
+    {
+      "name": "_collapse_virtual_conflicts@4",
+      "start": 494928,
+      "end": 494929
+    },
+    {
+      "name": "_equal_vectors@8",
+      "start": 322400,
+      "end": 322401
+    },
+    {
+      "name": "_copy_vector_elements@12",
+      "start": 322112,
+      "end": 322212
+    },
+    {
+      "name": "_clone_class_virtual_table@8",
+      "start": 494144,
+      "end": 494145
+    },
+    {
+      "name": "_clone_class_virtual_group@8",
+      "start": 495712,
+      "end": 495713
+    },
+    {
+      "name": "_vector_count@4",
+      "start": 322224,
+      "end": 322246
+    },
+    {
+      "name": "_declare_virtual_table_symbol@12",
+      "start": 503424,
+      "end": 503425
     }
   ],
   "cases": {

@@ -82,3 +82,27 @@ Vector *__stdcall new_empty_vector(int arena)
 {
     return new_vector(0, arena);
 }
+
+short __stdcall vector_count(Vector *vector);
+
+/* Original 0x4ea40..0x4eaa4. Copy the pointer collection into the requested
+   arena through its two-slot native element-copy callback. */
+Vector *__stdcall copy_vector_elements(Vector *vector, int arena, VectorCopyElement copy)
+{
+    Vector *result = new_vector(vector_count(vector), arena);
+    short index = 0;
+    void *item;
+    while (index < vector->count) {
+        item = vector->items[index++];
+        item = copy(item, arena);
+        append_vector(result, item);
+    }
+    return result;
+}
+
+/* Original 0x4eab0..0x4eac6. The native result is a signed short in AX. */
+short __stdcall vector_count(Vector *vector)
+{
+    if (!vector) return 0;
+    return vector->count;
+}

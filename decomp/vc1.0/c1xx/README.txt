@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 330 accepted paired frontiers, including 255 frontend
+PARTIAL reconstruction: 342 accepted paired frontiers, including 267 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _complete_base_class_layout@4 at original VA 0x79dc0. The latest ordered replay is recorded in validation.json;
+trap is _declare_default_constructor_closures@4 at original VA 0x37070. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -507,3 +507,17 @@ pass's nine child calls; the previous-base pointer's BSS default is audited.
 All 330 accepted frontiers replay exactly in evidence/replay-special-member-finish.log,
 including pending FILE buffers. The next matching trap is direct-base layout
 at 0x79dc0. Complete frontend output equivalence is still unclaimed.
+
+
+The complete virtual-finalization path now passes: base/size completion,
+virtual-base offsets, per-method override resolution, ambiguity diagnostics,
+owner-path coalescing, permanent vector copies, abstract-class classification
+and table-symbol declarations. The full 56-byte table and 36-byte group layouts
+have native size/offset checks. Vector copying retains its indirect two-slot
+callback ABI; unvisited table-copy callbacks remain named trapping stubs.
+See evidence/virtual-layout-completion.txt for native ABI/data findings.
+
+All 342 accepted frontiers replay exactly in evidence/replay-virtual-layout-finish.log,
+including pending FILE buffers. The next matching trap is constructor-closure
+processing at 0x37070. Accepted source/table ranges total 106,472 original text
+bytes; complete frontend equivalence remains unclaimed.
