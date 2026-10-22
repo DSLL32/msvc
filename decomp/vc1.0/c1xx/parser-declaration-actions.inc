@@ -297,7 +297,7 @@
             break;
         case 88:
             declare_constructor(current_declaration_type(&right[-1].declaration),
-                cpp_context_stack->items[((ClassReference *)right[-1].type_name.type)->context_index],
+                cpp_context_stack->items[right[-1].declaration.type->field08],
                 right[0].symbol);
             break;
         case 91:

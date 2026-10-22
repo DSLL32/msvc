@@ -436,3 +436,26 @@ void __stdcall set_member_access(unsigned char access)
 {
     CLASS_CONTEXT.flags = (CLASS_CONTEXT.flags & ~3) | (access & 3);
 }
+
+/* Original 0x32e50..0x32e72. Constructor syntax requires an implicit return
+   type and excludes the two conflicting storage bits. Preserve the supplied
+   class spelling as the diagnostic's variadic argument. */
+void __stdcall check_constructor_storage(StorageSpec storage, char *class_name)
+{
+    if ((storage.flags & 0x600) || !(storage.flags & 0x20))
+        report_syntax_error(633, class_name);
+}
+
+/* Original 0x33040..0x3308e. A constructor for the active class uses the
+   interned internal spelling; a mismatched class keeps its diagnostic name. */
+CppSymbol *__stdcall declare_constructor(DeclarationType *type, CppSymbol *class_symbol,
+    CppSymbol *parameters)
+{
+    char *name = is_current_class(class_symbol) ? name_ctor : class_symbol->name;
+    CppSymbol *member = new_declarator(name);
+    member->kind = 3;
+    member = attach_function_parameters(member, parameters);
+    if (name == name_ctor) member->declaration_flags |= 0x1000;
+    declare_class_member(type, member);
+    return member;
+}

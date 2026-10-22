@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 274 accepted paired frontiers, including 199 frontend
+PARTIAL reconstruction: 284 accepted paired frontiers, including 209 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _begin_parameter_scope@4 at original VA 0x36670. The latest ordered replay is recorded in validation.json;
+trap is _configure_member_function@12 at original VA 0x2fef0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -383,3 +383,22 @@ All 274 accepted frontiers replay exactly, including pending FILE buffers,
 through this complete lookahead-parser integration. The matched current frontier
 is begin_parameter_scope at original 0x36670. No complete-case equivalence is
 claimed yet.
+
+Constructor prototype reconstruction now includes parameter-scope creation,
+deferred bucket allocation, parameter-chain insertion, constructor storage
+checks, modifier merging, constructor dispatch and implicit-class pointer types.
+The active parameter chain at 0x8c400 is a distinct object from the preserved
+parsed-parameter chain at 0x91168. Scope retirement and popping remain separate
+functions; deferred scope creation preserves the native high flag byte.
+
+The reached constructor branch exposed an earlier unvisited parser action's
+layout error: rule 88 used ClassReference +12 for a CType pointer. Native block
+0x27680 reads CType +8. The typed access is corrected and compile-time offset
+checks guard both layouts. Related rule 117 legitimately reads kind-15 class
+references at +12; it was independently verified and remains unchanged. The
+proof and paired/full-replay result are in evidence/constructor-type-index.txt.
+
+All 284 frontiers replay exactly through the constructor/parameter prefix.
+The next trap is configure_member_function at 0x2fef0. Accepted source-function
+and switch-table ranges now cover 94,645 original .text bytes, excluding the
+separate exact CRT/import frontier ranges; this is not executed-block coverage.

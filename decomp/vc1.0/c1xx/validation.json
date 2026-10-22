@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 274,
-  "driver_functions": 199,
+  "accepted_frontiers": 284,
+  "driver_functions": 209,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 205,
-  "current_frontier": "_begin_parameter_scope@4",
-  "original_frontier_va": "0x36670",
+  "reconstructed_source_functions": 215,
+  "current_frontier": "_configure_member_function@12",
+  "original_frontier_va": "0x2fef0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "74b5df168a9de9ed43cb6331d7bc06bbbbe24847ddd1077fe8fd8f4455df9911",
-  "call_graph_audit_functions": 205,
+  "replay_log_sha256": "cd169f909094f96538c9984f1734407867185317c6a34f5e9ed5b7c5d19f467e",
+  "call_graph_audit_functions": 215,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -59,7 +59,8 @@
     "parenthesis_lookahead_depth_defaults": 1,
     "lookahead_parser_state_defaults": 7,
     "lookahead_stack_bytes": 1510,
-    "declarator_nesting_bytes": 4
+    "declarator_nesting_bytes": 4,
+    "active_parameter_symbol_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -87,7 +88,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-lookahead-parser.log",
+  "replay_log": "evidence/replay-constructor-parameters.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -174,7 +175,21 @@
       "0x74a03"
     ],
     "width_bound_tables_byte_audited": true,
-    "member_chain_splice_preserves_last_next": true
+    "member_chain_splice_preserves_last_next": true,
+    "constructor_declaration_range": [
+      "0x33040",
+      "0x3308f"
+    ],
+    "constructor_declaration_callees": 4,
+    "constructor_storage_range": [
+      "0x32e50",
+      "0x32e73"
+    ],
+    "class_pointer_type_range": [
+      "0x33180",
+      "0x3325a"
+    ],
+    "class_pointer_type_callees": 4
   },
   "scoped_name_lookup": {
     "lookup_range": [
@@ -233,5 +248,33 @@
     "allocated_semantic_cells": 150,
     "allocated_state_cells": 150,
     "boundary_aliases_preserved": true
-  }
+  },
+  "constructor_parser_layout": {
+    "rule": 88,
+    "native_action_range": [
+      "0x27680",
+      "0x276a9"
+    ],
+    "ctype_context_index_offset": 8,
+    "ctype_context_index_bytes": 2,
+    "class_reference_context_index_offset": 12,
+    "class_info_type_index_offset": 40,
+    "related_rule117_class_reference_verified": true,
+    "native_compile_time_checks": true,
+    "evidence": "evidence/constructor-type-index.txt",
+    "paired_constructor_path_and_full_replay_pass": true
+  },
+  "parameter_scopes": {
+    "begin_scope_range": [
+      "0x36670",
+      "0x366fa"
+    ],
+    "begin_scope_callees": 3,
+    "active_parameter_symbols_original": "0x8c400",
+    "parsed_parameter_symbols_original": "0x91168",
+    "scope_objects_bytes": 20,
+    "deferred_bucket_count": 16,
+    "high_scope_flags_preserved": true
+  },
+  "accepted_source_text_and_switch_bytes": 94645
 }

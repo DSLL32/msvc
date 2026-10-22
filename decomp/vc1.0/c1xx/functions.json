@@ -278,7 +278,17 @@
     "_resolve_parenthesis_candidate@4",
     "_initialize_lookahead_parser",
     "_lookahead_parse",
-    "_classify_deferred_type@4"
+    "_classify_deferred_type@4",
+    "_begin_parameter_scope@4",
+    "_initialize_scope_buckets@8",
+    "_append_parameter_declaration@8",
+    "_check_constructor_storage@8",
+    "_merge_storage_spec@8",
+    "_declare_constructor@12",
+    "_global_declaration_type@4",
+    "_make_class_pointer_type@8",
+    "_retire_scope_directory_entry",
+    "_pop_symbol_scope"
   ],
   "driver": [
     {
@@ -1631,7 +1641,7 @@
     {
       "name": "_append_parameter_declaration@8",
       "start": 223056,
-      "end": 223057
+      "end": 223110
     },
     {
       "name": "_apply_constructor_initializers@4",
@@ -1731,7 +1741,7 @@
     {
       "name": "_begin_parameter_scope@4",
       "start": 222832,
-      "end": 222833
+      "end": 222970
     },
     {
       "name": "_begin_qc_control@4",
@@ -1866,7 +1876,7 @@
     {
       "name": "_declare_constructor@12",
       "start": 208960,
-      "end": 208961
+      "end": 209039
     },
     {
       "name": "_declare_enumerator@12",
@@ -2801,7 +2811,7 @@
     {
       "name": "_check_constructor_storage@8",
       "start": 208464,
-      "end": 208465
+      "end": 208499
     },
     {
       "name": "_record_friend@12",
@@ -3999,6 +4009,18 @@
           "bytes": 4,
           "pointer_to": "_lookahead_stacks",
           "original_target": 631160
+        }
+      ]
+    },
+    {
+      "name": "_active_parameter_symbols",
+      "original": 574464,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_active_parameter_symbols",
+          "original": 574464,
+          "bytes": 4
         }
       ]
     }

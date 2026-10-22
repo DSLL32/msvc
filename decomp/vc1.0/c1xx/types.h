@@ -1,5 +1,6 @@
 #ifndef TYPES_H
 #define TYPES_H
+#include <stddef.h>
 #include "initialization.h"
 
 /* Interned C++ type descriptors are twelve bytes; their hash links live in a
@@ -46,6 +47,10 @@ TypeShape *__stdcall new_type_shape(unsigned short kind, unsigned short attribut
                                     void *parameter);
 FunctionParameters *__stdcall build_parameter_info(void *declarations,
                                                    unsigned short *kind);
+/* Declaration action 88 loads this signed class-context index from CType,
+   whereas kind-15 class references use their distinct +0xc index field. */
+typedef char CTypeContextIndexOffsetMustBe8[(offsetof(CType, field08) == 8) ? 1 : -1];
+typedef char CTypeContextIndexSizeMustBe2[(sizeof(((CType *)0)->field08) == 2) ? 1 : -1];
 typedef char CTypeSizeMustBe12[(sizeof(CType) == 12) ? 1 : -1];
 typedef char TypeShapeSizeMustBe12[(sizeof(TypeShape) == 12) ? 1 : -1];
 #endif

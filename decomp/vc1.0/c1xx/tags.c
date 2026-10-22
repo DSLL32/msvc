@@ -423,3 +423,31 @@ int __stdcall is_current_class(CppSymbol *symbol)
     return current_class_context >= 0 &&
         class_contexts[current_class_context].symbol->name == symbol->name;
 }
+
+/* Original 0x33180..0x33259. Make an implicit-class pointer type from either
+   a named tag or the active class's unfinished type. The latter discards the
+   two top-level qualifier bits before the descriptor is interned. */
+CType *__stdcall make_class_pointer_type(CppSymbol *class_symbol, unsigned short attributes)
+{
+    CType *base;
+    TypeDescription description;
+    if (class_symbol) base = class_symbol->type;
+    else base = class_contexts[current_class_context].type;
+    description.flags = base->flags;
+    description.attributes = base->attributes;
+    description.related = base->related;
+    description.field08 = (unsigned short)base->field08;
+    description.field0a = base->debug_index;
+    if (class_symbol) {
+        description.flags |= 0x10;
+        description.field08 = class_symbol->detail.class_info->type_index;
+        if (!(attributes & 7)) attributes |= class_symbol->detail.class_info->pointer_attributes;
+    } else {
+        if (!(attributes & 7))
+            attributes |= class_contexts[current_class_context].symbol->detail.class_info->pointer_attributes;
+        description.attributes = base->attributes & 0xcfff;
+    }
+    description.related = intern_type_shape(new_type_shape(1,
+        normalize_type_attributes(0x2001, attributes), 0));
+    return intern_type(&description);
+}

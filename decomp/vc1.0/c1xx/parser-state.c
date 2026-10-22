@@ -59,3 +59,15 @@ DeclarationType *__stdcall current_declaration_type(DeclarationType *explicit_ty
     declaration_spec_flags[declaration_depth] |= 1;
     return &declaration_spec_stack[declaration_depth];
 }
+
+/* Original 0x32e80..0x32ea4. Query the outermost declaration context while
+   preserving the caller's depth and the helper's returned context pointer. */
+DeclarationType *__stdcall global_declaration_type(DeclarationType *context)
+{
+    int saved_depth = declaration_depth;
+    DeclarationType *result;
+    declaration_depth = 0;
+    result = current_declaration_type(context);
+    declaration_depth = saved_depth;
+    return result;
+}

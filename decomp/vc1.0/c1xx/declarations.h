@@ -88,6 +88,10 @@ typedef struct ClassReference {
     short context_index;
     unsigned short field0e;
 } ClassReference;
+typedef char ClassReferenceContextIndexOffsetMustBe12[
+    (offsetof(ClassReference, context_index) == 12) ? 1 : -1];
+typedef char ClassInfoTypeIndexOffsetMustBe40[
+    (offsetof(ClassInfo, type_index) == 40) ? 1 : -1];
 typedef struct QualifierBinding {
     struct QualifierBinding *next;
     struct QualifierBinding *following;

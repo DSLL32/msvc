@@ -1,6 +1,6 @@
 /* Frontend symbol scopes. */
 #include "scopes.h"
-#include "declarations.h"
+#include "parser.h"
 
 SymbolScope *global_scope, *current_scope, *lookup_scope;
 SymbolScope **scope_directory;
@@ -58,4 +58,41 @@ void __stdcall record_scope_directory_entry(SymbolScope *scope)
         if (scope_directory_index >= 128) fatal_error(61);
         scope_directory[scope_directory_index] = scope;
     }
+}
+
+/* Original 0x54a20..0x54ac9. Deferred scopes get sixteen zeroed arena
+   buckets when their first declaration arrives. QC can open a control record
+   before allocation, except for ordinary parameter declarations. */
+void __stdcall initialize_scope_buckets(SymbolScope *scope, CppSymbol *symbol)
+{
+    ArenaPool *pool;
+    unsigned kind;
+    if (options.configuration.option_qc && !symbol) scope->qc_context = current_qc_context;
+    if (scope->buckets) return;
+    kind = symbol ? symbol->kind & 31 : 0;
+    if (options.configuration.option_qc && normalized_Ol && declaration_mode > 2 &&
+        (!symbol || (kind != 10 && kind != 11)) && !scope->qc_context)
+        begin_qc_control(8);
+    pool = &compiler_arena.pools[1];
+    if (pool->remaining < 16 * (int)sizeof(CppSymbol *)) refill_arena(&compiler_arena, pool);
+    scope->buckets = (CppSymbol **)pool->next;
+    pool->remaining -= 16 * sizeof(CppSymbol *);
+    pool->next += 16 * sizeof(CppSymbol *);
+    record_scope_directory_entry(scope);
+}
+
+/* Original 0x56530..0x56555. A materialized scope owns the current directory
+   slot. The byte index retains the original decrement/wrap behavior. */
+void retire_scope_directory_entry(void)
+{
+    if (current_scope->buckets) {
+        scope_directory[scope_directory_index] = 0;
+        --scope_directory_index;
+    }
+}
+
+/* Original 0x564d0..0x564dc. Directory retirement is a separate operation. */
+void pop_symbol_scope(void)
+{
+    current_scope = current_scope->next;
 }

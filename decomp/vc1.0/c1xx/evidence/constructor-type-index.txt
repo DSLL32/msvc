@@ -1,0 +1,25 @@
+Parser class-index layout correction
+
+Main parser action 88 (native semantic block 0x27680..0x276a9) loads the
+second word of the preceding declaration semantic value as a CType pointer,
+then sign-extends the short at CType +8 for the cpp_context_stack lookup.
+The earlier source incorrectly cast this pointer to ClassReference and used
+its +12 context_index. That selected an invalid class-symbol argument when
+constructor declaration was first enabled. The source now uses the typed
+right[-1].declaration.type->field08 access.
+
+All main-parser C++ context-stack actions were inspected. The only other
+class-index action is rule 117 (block 0x27ae5..0x27bf5): its qualifier binding
+contains a class-reference symbol, tested for kind 15 before loading the short
+at +12. That ClassReference interpretation is correct and remains in place.
+Its final ClassInfo type index is at +40. No other ClassReference casts or
+context-stack indexing occur in the parser semantic action include files.
+
+Native offset checks now assert CType.field08 at +8 and two bytes wide,
+ClassReference.context_index at +12, and ClassInfo.type_index at +40.
+Constructor entry is paired again before constructor acceptance is restored.
+
+Validation: constructor entry paired after the correction and native layout
+checks, then both images reached global_declaration_type. The subsequent full
+284-frontier replay passes through constructor creation, class-pointer typing
+and parameter-scope teardown to the matching configure_member_function trap.
