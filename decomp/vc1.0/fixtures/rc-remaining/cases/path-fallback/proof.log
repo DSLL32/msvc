@@ -1,0 +1,12 @@
+target_PATH=;;Z:\root\.ai-tmp\vc1.0-rc-remaining\no-such-directory;;"Z:\root\.ai-tmp\vc1.0-rc-remaining\preprocessor bin";;
+target_pid=324 primary_tid=328
+process_created pid=324 base=01000000 image=\\?\Z:\root\.ai-tmp\vc1.0-rc-remaining\launch\rc.exe
+function_rva=0000ed20 caller=01007af5 args=00000000,0101b6ac,0101b018,00000000
+native_temporary_input=RC000324
+native_temporary_output=RD000324
+function_rva=0000ed50 caller=0100ed36 args=00000000,0101b6ac,0101b018,00000000
+function_rva=0000eef0 caller=0100eddc args=00344b2d,00345ab8,00000103,0031ff0c
+PATH_parser_input=;;Z:\root\.ai-tmp\vc1.0-rc-remaining\no-such-directory;;"Z:\root\.ai-tmp\vc1.0-rc-remaining\preprocessor bin";;
+process_created pid=332 base=01000000 image=\\?\T:\bin\RCPP.EXE
+exit pid=332 status=0
+exit pid=324 status=0

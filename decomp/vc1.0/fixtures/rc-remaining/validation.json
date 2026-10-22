@@ -1,0 +1,22 @@
+{
+  "status": "original-captured-and-independently-recaptured",
+  "cases": [
+    {
+      "id": "verbose-names",
+      "exit": 0,
+      "product_bytes": 180,
+      "stdout_bytes": 349,
+      "stderr_bytes": 0,
+      "exact_file_set": true
+    },
+    {
+      "id": "path-fallback",
+      "exit": 0,
+      "product_bytes": 68,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "exact_file_set": true
+    }
+  ],
+  "symbolic_stdout_limit": "Only two six-byte PID fields, each bound to actual process ID and native temporary filenames; every other stdout byte exact."
+}

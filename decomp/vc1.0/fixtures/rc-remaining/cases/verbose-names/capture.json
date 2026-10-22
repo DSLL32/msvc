@@ -1,0 +1,27 @@
+{
+  "native_pid": 292,
+  "arguments": "/v /x /foverbose.res verbose-names.rc",
+  "exit": 0,
+  "source_files": [
+    "path-fallback.rc",
+    "verbose-names.rc"
+  ],
+  "remaining_files": [
+    "path-fallback.rc",
+    "verbose-names.rc",
+    "verbose.res"
+  ],
+  "product": "verbose.res",
+  "product_digest": {
+    "bytes": 180,
+    "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
+  },
+  "stdout_digest": {
+    "bytes": 349,
+    "sha256": "b71a766fbfd54dd07d9e2f30f900ba5510c333e32804bcf2a549ce62e3056ea4"
+  },
+  "stderr_digest": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "source_inputs": [
+    {
+      "path": "source/path-fallback.rc",
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    },
+    {
+      "path": "source/verbose-names.rc",
+      "bytes": 77,
+      "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+    }
+  ],
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/RCPP.EXE",
+      "sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd"
+    }
+  ],
+  "analysis_helper": [
+    {
+      "path": "trace-original.c",
+      "bytes": 7740,
+      "sha256": "0dfa32cab031720e5a3227b009b423c3a8bc703994c36e0e417caf503bc70655"
+    },
+    {
+      "path": "capture.py",
+      "bytes": 6588,
+      "sha256": "5dd4e460b98bd541c90ffb6bfac56f3d3fbefd7aea25042773db74fb3958cfa2"
+    }
+  ],
+  "cases": [
+    {
+      "id": "verbose-names",
+      "arguments": [
+        "/v",
+        "/x",
+        "/foverbose.res",
+        "verbose-names.rc"
+      ],
+      "expected_exit": 0,
+      "stdout": {
+        "path": "cases/verbose-names/stdout.bin",
+        "bytes": 349,
+        "sha256": "b71a766fbfd54dd07d9e2f30f900ba5510c333e32804bcf2a549ce62e3056ea4"
+      },
+      "stderr": {
+        "path": "cases/verbose-names/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": [
+        {
+          "output_name": "verbose.res",
+          "path": "cases/verbose-names/verbose.res",
+          "bytes": 180,
+          "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
+        }
+      ],
+      "proof": {
+        "path": "cases/verbose-names/proof.log",
+        "bytes": 536,
+        "sha256": "d32765f95e4215d2d8457a0c38b8134f02180f1addf72d2f31fd95fc3dbe5998"
+      },
+      "native_pid": 292,
+      "symbolic_stdout": {
+        "bytes": 349,
+        "fields": [
+          {
+            "offset": 161,
+            "length": 6,
+            "meaning": "native PID six low decimal digits",
+            "temporary_prefix": "RC",
+            "full_name_offset": 159,
+            "full_name_length": 8
+          },
+          {
+            "offset": 173,
+            "length": 6,
+            "meaning": "native PID six low decimal digits",
+            "temporary_prefix": "RD",
+            "full_name_offset": 171,
+            "full_name_length": 8
+          }
+        ],
+        "fixed_ranges": [
+          {
+            "offset": 0,
+            "length": 161,
+            "sha256": "226c2d43f612788728e1f4e1e8f45807eafbe33ca7704c6fca4a79aa18757385"
+          },
+          {
+            "offset": 167,
+            "length": 6,
+            "sha256": "c67a0d6ea50ebf3bdaee9480ebf43b1b291c592a8725f91183cb1721470f33d9"
+          },
+          {
+            "offset": 179,
+            "length": 170,
+            "sha256": "be10e2074087b5d5a3a0322732178efb6a24c843576056029d07352029727f8c"
+          }
+        ],
+        "writer": {
+          "function": "_resource_main",
+          "call_address": "0x01007a54",
+          "callee": "_fprintf",
+          "format_address": "0x0101b660"
+        },
+        "native_name_generator": {
+          "function": "__mktemp",
+          "start": "0x0100e050",
+          "pid_callee": "__getpid",
+          "pid_callee_start": "0x0100e3a0",
+          "collision_rule": "first candidate absent in fresh source-only case directory"
+        }
+      }
+    },
+    {
+      "id": "path-fallback",
+      "arguments": [
+        "/x",
+        "/fopath.res",
+        "path-fallback.rc"
+      ],
+      "expected_exit": 0,
+      "stdout": {
+        "path": "cases/path-fallback/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "cases/path-fallback/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": [
+        {
+          "output_name": "path.res",
+          "path": "cases/path-fallback/path.res",
+          "bytes": 68,
+          "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
+        }
+      ],
+      "proof": {
+        "path": "cases/path-fallback/proof.log",
+        "bytes": 792,
+        "sha256": "1f77c8faa4593d6e76287941dba225b106906738fa9540edfdffa54bfb100c54"
+      },
+      "native_pid": 324,
+      "launch": {
+        "sibling_rcpp": false,
+        "current_directory_rcpp": false,
+        "PATH": ";;<missing-directory>;;\"<original-RCPP-directory-with-space>\";;",
+        "WINEPATH": "",
+        "child_final_path": "T:\\bin\\RCPP.EXE"
+      }
+    }
+  ]
+}
