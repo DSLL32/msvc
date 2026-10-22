@@ -380,7 +380,6 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 
 
-void __fastcall compute_work_dominators(WorkItem *work) { __asm int 3 }
 
 void __fastcall find_flow_regions(WorkItem *work) { __asm int 3 }
 

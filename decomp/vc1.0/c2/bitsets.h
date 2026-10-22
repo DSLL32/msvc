@@ -18,4 +18,9 @@ BitSet *__fastcall clear_bitset(BitSet *set);
 BitSet *__fastcall bitset_union(BitSet *destination, BitSet *source);
 BitSet *__fastcall bitset_remove(BitSet *set, unsigned member);
 BitSet *__fastcall copy_bitset(BitSet *source);
+BitSet *__fastcall ensure_bitset(BitSet *set, int capacity);
+BitSet *__fastcall fill_bitset(BitSet *set, int count);
+BitSet *__fastcall intersect_bitset(BitSet *destination, BitSet *source);
+int __fastcall equal_bitsets(BitSet *left, BitSet *right);
+BitSet *__fastcall assign_bitset(BitSet *destination, BitSet *source);
 #endif

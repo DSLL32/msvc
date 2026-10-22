@@ -420,7 +420,13 @@
     "@ensure_flow_branch@8",
     "@last_flow_expression@4",
     "@connect_flow_blocks@8",
-    "@transfer_flow_region_work@8"
+    "@transfer_flow_region_work@8",
+    "@compute_work_dominators@4",
+    "@ensure_bitset@8",
+    "@fill_bitset@8",
+    "@intersect_bitset@8",
+    "@equal_bitsets@8",
+    "@assign_bitset@8"
   ],
   "driver": [
     {
@@ -3828,8 +3834,7 @@
     {
       "name": "@compute_work_dominators@4",
       "start": 366096,
-      "end": 366097,
-      "provisional": true
+      "end": 366336
     },
     {
       "name": "@find_flow_regions@4",
@@ -4061,6 +4066,31 @@
       "start": 374592,
       "end": 374593,
       "provisional": true
+    },
+    {
+      "name": "@ensure_bitset@8",
+      "start": 419344,
+      "end": 419360
+    },
+    {
+      "name": "@fill_bitset@8",
+      "start": 419648,
+      "end": 419808
+    },
+    {
+      "name": "@intersect_bitset@8",
+      "start": 420496,
+      "end": 420656
+    },
+    {
+      "name": "@equal_bitsets@8",
+      "start": 420080,
+      "end": 420176
+    },
+    {
+      "name": "@assign_bitset@8",
+      "start": 419440,
+      "end": 419600
     }
   ],
   "cases": {

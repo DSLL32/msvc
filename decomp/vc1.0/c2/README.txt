@@ -540,3 +540,24 @@ frontiers. All 64 hello frontiers replay, all source graphs agree, four changed
 modules compile /W3 clean, and the complete minimal object/exit regression passes.
 The frozen minimal history was fully replayed at the preceding clean-build
 checkpoint. Hello output remains pending at compute_work_dominators.
+
+Hello now completes dominator construction. The driver initializes the entry's
+set to block zero, initializes other blocks to the universal set and repeatedly
+intersects predecessor sets before adding each block itself. Sparse bitset
+initialization, universal fill, intersection, equality and in-place assignment
+preserve the original call graph and node-recycling behavior. The allocator
+interface retains the caller's capacity register even though the native helper
+ignores that capacity for this sparse representation.
+
+An independent capture before region discovery matches all six dominator
+sentinel/member chains: 12 chunks with exact signed bases and 32-bit membership.
+The six-block graph, 21 expressions, 91 visited nodes, edge orders, numbering,
+label reference counts and captured symbol fields still match. Only the debugger
+exception address is normalized. Full-word fills and copy-tail assignment
+remain unvisited in this first function; their downstream copy helper retains
+its typed trap. See cases/hello-dominators-abi.json for extents and branch limits.
+
+The dominator checkpoint has 345 source functions and 422 accepted frontiers.
+All 70 hello frontiers replay, all graph edges agree, both changed implementation
+modules compile /W3 clean, and the complete minimal object/exit regression passes.
+Hello output remains pending at find_flow_regions.

@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 64,
+  "accepted_frontiers": 70,
   "current_frontier": {
-    "name": "@compute_work_dominators@4",
-    "original_va": 366096
+    "name": "@find_flow_regions@4",
+    "original_va": 369504
   },
   "expected": {
     "exit": 0,
@@ -60,8 +60,11 @@
     "independent post-simplification capture matches eight blocks, 24 expressions and 94 nodes; post-reachability capture matches seven blocks, 23 expressions and 93 nodes, including all eight ordered edges in each direction",
     "ordering checkpoint replays all 64 hello frontiers; all 339 source graphs agree",
     "four changed implementation modules compile /W3 clean; complete minimal object/exit regression passes",
-    "independent ordered/re-simplified first-function capture matches six blocks, 21 expressions, 91 nodes and seven edges each direction, including block numbers, all previous links and label reference counts"
+    "independent ordered/re-simplified first-function capture matches six blocks, 21 expressions, 91 nodes and seven edges each direction, including block numbers, all previous links and label reference counts",
+    "dominator checkpoint replays all 70 hello frontiers; all 345 source function graphs agree",
+    "two changed implementation modules compile /W3 clean and complete minimal exit/object regression passes",
+    "independent post-dominator capture matches all six sentinel/member chains (12 chunks), plus the existing work/edge/tree/symbol state; only debugger exception address differs"
   ],
-  "total_accepted_frontiers": 416,
-  "reconstructed_functions": 339
+  "total_accepted_frontiers": 422,
+  "reconstructed_functions": 345
 }
