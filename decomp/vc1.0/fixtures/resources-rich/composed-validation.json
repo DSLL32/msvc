@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "components": {
+    "RC.EXE": {
+      "source": "decomp/vc1.0/rc/build/reconstructed.exe",
+      "sha256": "f7238dfcb63af9cbfcf63fdc6b39f8ee25b7a903884f310f87b9827cb411e75f",
+      "masked_reconstruction": true
+    },
+    "RCPP.EXE": {
+      "source": "decomp/vc1.0/rcpp/build/reconstructed.exe",
+      "sha256": "b918d4d5b9bc6e9af3585e2702d502842a39b7d6313bb2ee28371a1dada026c3",
+      "masked_reconstruction": true
+    }
+  },
+  "arguments": [
+    "/dCASE_FROM_COMMAND=7",
+    "/Iinclude",
+    "/foresources.res",
+    "resources.rc"
+  ],
+  "exit": 0,
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "output_bytes": 3684,
+  "output_sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d",
+  "exact_bytes": true,
+  "ignored_fields": [],
+  "inputs_unchanged": true,
+  "exact_file_set": true,
+  "original_toolchain_unchanged": true,
+  "child_resolution": "Both RC and RCPP in T:\\bin are masked reconstructions; no original RCPP in overlay"
+}

@@ -35,6 +35,19 @@ layout under source/. The verifier replays the captured child independently.
 RC's case invokes the original RCPP child normally; reconstructing RCPP is a
 separate task. RC does not import RCDLL.DLL on this case.
 
+Composed reconstruction check:
+
+    python3 /root/msvc2/decomp/vc1.0/fixtures/resources-rich/verify-composed.py
+
+This requires both verified reconstructions to have been built. It copies their
+masked reconstructed.exe images into a private T:\bin overlay, with headers
+and libraries linked read-only from the original toolchain. Reconstructed RC
+then invokes reconstructed RCPP from the same bin directory. The composed rich
+case also passes: exit 0, empty streams and exact 3,684-byte resources.res, with
+unchanged inputs and no temporary files left over. No original executable is
+changed. composed-validation.json records component hashes and the result;
+runtime files remain under ~/.ai-tmp/vc1.0-resource-composed.
+
 Features exercised
 ------------------
 
