@@ -473,7 +473,8 @@ void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineIn
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction *label, MachineInstruction *before_target) { __asm int 3 }
 void __fastcall scheduler_release(void *memory) { __asm int 3 }
-void __fastcall schedule_window(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 MachineInstruction *__fastcall recombine_scheduled_loads(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 void __fastcall prepare_float_schedule(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall call_float_result_count(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall schedule_pentium_instruction(MachineInstruction *instruction) { __asm int 3 }

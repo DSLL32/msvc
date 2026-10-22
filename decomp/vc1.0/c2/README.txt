@@ -1677,3 +1677,27 @@ instruction boundaries pass. scheduler compiles /W3 clean. Minimal object/
 streams/exit match except only timestamp4..7. Verified accepted original code-
 extent union179183/399693 bytes (44.8302 percent) includes clipped source/shared
 text/CRT/imports and actual-mask verification; it is not branch coverage.
+
+Scheduling window setup WIP (670 accepted frontiers)
+--------------------------------------------------
+At the user's request, preserve the existing whole schedule_window3f840..3fa40
+and prepare_schedule_window3fd30..3fe70 implementations. They retain their
+native callee graphs and fastcall ABIs, typed pair/undo/window state and named
+traps for both processor-specific instruction schedulers. The non-Pentium x87
+delay switch defines encountered opcode semantics; its87 values were checked
+against bounded original reads, including newer-opcode indices that address
+neighboring diagnostic bytes. No neighboring data section was copied.
+
+The exact code/configuration passed the original-toolchain build,593 source
+function graphs, extent/mask audits, all352 minimal and318 hello fresh history
+entries, and equivalent continuous histories. The minimal object/streams/exit
+and untouched-original checks pass. See cases/fast-replay.json for those
+existing frozen receipts; the WIP commit did not repeat broad replay histories.
+
+Current matching frontier is schedule_pentium_instruction42960. The first
+window and complete scheduler have not returned; the optimized hello object is
+still incomplete. Return-state capture, scheduler /W3 and refreshed coverage
+remain pending. Last formal coverage is179183/399693=44.8302percent at668
+accepted, not a new670-entry measurement and not branch coverage. Unvisited
+floating/failure branches remain unvalidated. PAUSED.txt records the exact
+resume work; the user cancelled the post-harness function trial.

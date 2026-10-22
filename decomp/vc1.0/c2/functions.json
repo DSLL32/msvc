@@ -672,7 +672,9 @@
     "@instruction_accesses_memory@4",
     "@scheduler_allocate@4",
     "@prepare_scheduled_instruction@8",
-    "_new_instruction_schedule"
+    "_new_instruction_schedule",
+    "@schedule_window@8",
+    "@prepare_schedule_window@8"
   ],
   "driver": [
     {
@@ -5602,8 +5604,7 @@
     {
       "name": "@schedule_window@8",
       "start": 260160,
-      "end": 260161,
-      "provisional": true
+      "end": 260672
     },
     {
       "name": "@recombine_scheduled_loads@8",
@@ -5626,6 +5627,23 @@
       "name": "@call_float_result_count@4",
       "start": 248192,
       "end": 248193,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_schedule_window@8",
+      "start": 261424,
+      "end": 261744
+    },
+    {
+      "name": "@schedule_generic_instruction@4",
+      "start": 261104,
+      "end": 261105,
+      "provisional": true
+    },
+    {
+      "name": "@schedule_pentium_instruction@4",
+      "start": 272736,
+      "end": 272737,
       "provisional": true
     }
   ],

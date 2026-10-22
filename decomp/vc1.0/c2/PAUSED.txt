@@ -1,0 +1,76 @@
+C2 reconstruction paused at the user's request, 2026-10-22.
+Do not reconstruct another function or start another case without explicit
+instructions. Minimal-C is complete; optimized Win32 hello is incomplete.
+The proposed post-harness one-function trial was cancelled by the user.
+
+Committed WIP: scheduling window setup
+-------------------------------------
+The user explicitly requested preserving this existing work in a WIP commit.
+No function was reconstructed during the harness adoption or WIP commit task.
+
+functions.json, src/scheduler.c, src/scheduler.h, src/stubs.c contain:
+  Whole schedule_window, native extent [0x3f840,0x3fa40), 133 instructions.
+  Whole prepare_schedule_window, [0x3fd30,0x3fe70), 89 instructions.
+  Typed window state, instruction-pair storage and floating-position capacity.
+  Named typed traps for generic and Pentium instruction schedulers.
+  Contextual named-opcode float-delay mapping, including native newer-opcode
+  lookup values that address adjacent diagnostic bytes. All 87 native x87
+  lookup values were checked analytically; this floating branch was not
+  dynamically exercised by the integer Pentium hello case.
+
+Current source count is 593; accepted entries 670 (hello suffix 318). Both
+executions stop at @schedule_pentium_instruction@4, native 0x42960. The first
+scheduling window and full scheduler have not returned. No mismatch or external
+blocker is known. This is an incomplete reconstruction checkpoint.
+
+Validation already completed on this exact code/configuration
+------------------------------------------------------------
+Original-toolchain build; 593 function-graph edges; extent/mask/frontier checks.
+Minimal object/streams/exit and independent untouched-original comparison pass,
+normalizing only COFF timestamp bytes 4..7. All 352 minimal and 318 hello fresh
+historical replay entries pass. Continuous replay independently matches the
+same complete sequences and terminal events; fresh/continuous stop-at100 matches.
+The four WIP code/config files were checked against the frozen hashes in the
+final successful hello replay receipt before committing. See
+cases/fast-replay.json and its referenced scratch receipts for the evidence.
+No broad history was repeated merely to prepare this WIP commit.
+
+The last formally verified coverage/state checkpoint is baf042b (591 source,
+668 accepted): accepted code-extent union 179183 / 399693 bytes =44.8301571456%.
+It includes source/shared text/CRT/import thunks, union/clipping and mask
+crosscheck. It is not branch coverage and is not a new measurement at 670.
+The new scheduler-return state capture, scheduler /W3 check and refreshed
+coverage measurement remain pending. Failure and floating branches have not
+been dynamically validated merely because their function extents are accepted.
+
+No build, replay, capture or analysis process is left in flight.
+Scratch/prefix: /root/.ai-tmp/vc1.0-c2, wine subdirectory.
+Source is in src/, scripts in scripts/; commands run from this binary directory.
+Harness adoption/reorganization is commit 04dd905. Historical replay now uses
+the shared fast runner by default; explicit fresh fallback remains available.
+See FAST-REPLAY.txt. This WIP commit does not change that replay policy.
+
+Resume instructions (only after explicit resume)
+-----------------------------------------------
+1. Read current AGENTS.md, this note and cases/hello.json. Preserve other workers'
+   files and do not edit shared fixtures or another binary.
+2. The scratch capture helper was built but its new preparation-return mode was
+   not executed. Its helper paths predate the source/scripts reorganization;
+   adjust scratch-only paths/imports if necessary. The intended invocation is:
+     PYTHONPATH=scripts python3 /root/.ai-tmp/vc1.0-c2/capture-memory-flow.py --window-prepare-return
+   It patches the native unique RET at 0x3fe60 and reconstructed return. Compare
+   normalized events after the exception header, retain capture copies/receipt.
+   Expected first-window return: EAX 3, three metadata nodes, flags 0/4/2,
+   ordinals 0..2, priorities 0/-1/-2, 87 stream records.
+3. Complete the pending scheduler /W3, return-state capture and coverage checks.
+   Existing full replay/output evidence can be reused while its frozen code
+   remains unchanged. Run further regression only as changed code or a finding
+   warrants; do not repeat broad histories without a reason.
+4. If further reconstruction is authorized, the next whole function is
+   schedule_pentium_instruction at 0x42960. Analysis is in scratch
+   ghidra/decompiled/42960.c; no source draft was accepted for it. Determine its
+   extent/ABI and add correctly typed named traps for its children before
+   accepting it. No further case beyond assigned hello has been authorized.
+
+Do not describe the hello object, full scheduler or failure paths as passing:
+they still encounter unreconstructed named traps.

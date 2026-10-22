@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
   "accepted_from": 352,
-  "accepted_frontiers": 316,
+  "accepted_frontiers": 318,
   "current_frontier": {
-    "name": "@schedule_window@8",
-    "original_va": 260160
+    "name": "@schedule_pentium_instruction@4",
+    "original_va": 272736
   },
   "expected": {
     "exit": 0,
@@ -242,7 +242,10 @@
     "all591 source graphs and668 accepted instruction boundaries pass; scheduler /W3 clean",
     "independent constructor return matches207 normalized lines and all44 zero bytes before attachment",
     "independent first-window capture matches214 normalized lines/87 records, exact fastcall indices11..13 and three unique metadata nodes with ordinals0/1/2, priorities0/-1/-2",
-    "verified accepted original code-extent union179183/399693 bytes=44.8302 percent; not branch coverage"
+    "verified accepted original code-extent union179183/399693 bytes=44.8302 percent; not branch coverage",
+    "scheduling-window WIP build:593 source function graphs and670 accepted entries pass graph/extent/mask and matching-frontier checks; all352 minimal and318 hello fresh historical entries pass",
+    "same frozen670 build matches complete minimal/hello continuous sequences and terminals; minimal object/streams/exit and independent untouched original pass; see cases/fast-replay.json",
+    "WIP preservation commit reuses the existing validated code/config hashes; scheduler-return state capture, scheduler /W3 and updated coverage remain pending; first window/full scheduler have not returned"
   ],
   "total_accepted_frontiers": 668,
   "reconstructed_functions": 591,
@@ -262,5 +265,13 @@
       ]
     ],
     "union_ranges": 174
+  },
+  "checkpoint_status": "Committed scheduling-window WIP; return-state capture, scheduler /W3 and refreshed coverage pending",
+  "pending_window_validation": {
+    "capture": "prepare_schedule_window return at original0x3fe60; helper built, not run",
+    "compiler_warnings": "scheduler /W3 not run for these two new functions",
+    "coverage": "last formally verified extent union179183/399693 at668 accepted; no new measurement claimed",
+    "unexercised": "non-Pentium floating delay branch and unvisited failure paths",
+    "analysis_evidence": "/root/.ai-tmp/vc1.0-c2/scheduler-float-delay-receipt.json"
   }
 }

@@ -226,3 +226,137 @@ InstructionSchedule *__cdecl new_instruction_schedule(void)
     info->flags = 0;
     return info;
 }
+
+/* Window state:7c304 is an undo-record pointer (restore traversal404c0).
+   Both pair words are instruction pointers (432e0/437e0). */
+SchedulerUndo *scheduler_undo; /*7c304*/
+MachineInstruction *scheduler_cursor; /*7c2fc*/
+MachineInstruction *scheduler_last_float; /*7c34c*/
+signed char scheduler_float_delay; /*82fcc: native BYTE writes*/
+int scheduler_stop_window; /*82ff4*/
+int scheduler_ready_count; /*82ff8*/
+SchedulerPairs scheduler_pairs; /*7c2ac..7c2d4*/
+
+/* Legacy non-Pentium x87 delay lookup, expressed by opcode semantics.
+   Original83000..83050 covers FADD..FLD1. Later FUCOM..FCOS indices read
+  8308c..83092, the tail of "fp concurrency" and start of "@(#)sched.c";
+   preserve those fixed-image values without copying neighboring data. */
+#define SET_SCHEDULER_FLOAT_DELAY(destination, operation) do { \
+    switch (operation) { \
+    case MC_FICOM: case MC_FICOMP: case MC_FCOM: case MC_FCOMP: case MC_FCOMPP: \
+        (destination) = 1; break; \
+    case MC_F2XM1: case MC_FPREM: case MC_FSCALE: \
+        (destination) = 2; break; \
+    case MC_FILD: case MC_FPATAN: (destination) = 5; break; \
+    case MC_FADD: case MC_FSUB: case MC_FSUBR: case MC_FADDP: case MC_FSUBP: case MC_FSUBRP: \
+    case MC_FIADD: case MC_FISUB: case MC_FISUBR: case MC_FBLD: case MC_FRNDINT: \
+        (destination) = 7; break; \
+    case MC_FIMUL: (destination) = 8; break; \
+    case MC_FMUL: case MC_FMULP: (destination) = 11; break; \
+    case MC_FYL2X: case MC_FYL2XP1: (destination) = 13; break; \
+    case MC_FDIV: case MC_FDIVR: case MC_FDIVP: case MC_FDIVRP: \
+    case MC_FIDIV: case MC_FIDIVR: case MC_FPTAN: (destination) = 70; break; \
+    case MC_FUCOM: (destination) = 99; break; \
+    case MC_FUCOMP: (destination) = 121; break; \
+    case MC_FSINCOS: (destination) = 64; break; \
+    case MC_FSIN: (destination) = 40; break; \
+    case MC_FCOS: (destination) = 35; break; \
+    default: (destination) = 0; break; \
+    } \
+} while (0)
+
+/* Original [0003f840,0003fa40). Set up one inclusive scheduling window,
+   retain processor-specific entry rules and place the resulting end barrier. */
+void __fastcall schedule_window(MachineInstruction *first, MachineInstruction *last)
+{
+    MachineInstruction *end = last->next, *chosen, *tail;
+    unsigned kind, operation, i;
+    scheduler_instruction = 0;
+    scheduler_last_float = 0;
+    scheduler_undo = 0;
+    scheduler_float_delay = 0;
+    scheduler_stop_window = 0;
+    if (cpu_model == 5) {
+        scheduler_ready_count = 0;
+        for (i = 0; i < 2; ++i) {
+            scheduler_pairs.previous[i].first = 0;
+            scheduler_pairs.previous[i].second = 0;
+        }
+        scheduler_pairs.candidates[0].first = 0;
+        scheduler_pairs.candidates[0].second = 0;
+        for (i = 0; i < 8; ++i) scheduler_float_values[i] = -1;
+    }
+    if (first == last || !prepare_schedule_window(first, last)) return;
+    while (first != end && !SCHEDULABLE_KIND(first->opcode & 15)) first = first->next;
+    scheduler_cursor = first->previous;
+    if (cpu_model != 5) {
+        chosen = first;
+        if (scheduler_after_label && cpu_model == 3) {
+            first = schedule_generic_instruction(first);
+            chosen = first->previous;
+            scheduler_after_label = 0;
+        }
+        if (first != end) first = first->next;
+        operation = (chosen->opcode >> 8) & 255;
+        if (SCHEDULER_FLOAT_OPERATION(operation)) {
+            scheduler_last_float = chosen;
+            SET_SCHEDULER_FLOAT_DELAY(scheduler_float_delay, operation);
+        }
+        scheduler_instruction = chosen;
+        if (instruction_accesses_memory(chosen)) ++scheduler_memory_run;
+        else scheduler_memory_run = 0;
+    }
+    while (first != end && !scheduler_stop_window) {
+        kind = first->opcode & 15;
+        if (SCHEDULABLE_KIND(kind)) {
+            if (cpu_model == 5) first = schedule_pentium_instruction(first);
+            else first = schedule_generic_instruction(first);
+        } else {
+            scheduler_cursor = first;
+            first = first->next;
+        }
+    }
+    for (tail = end->previous; tail && !SCHEDULABLE_KIND(tail->opcode & 15); tail = tail->previous) ;
+    if (tail) tail->opcode |= 0x800000UL;
+}
+
+unsigned scheduler_float_position_capacity; /*7c344: serial-indexed position slots*/
+
+/* Original [0003fd30,0003fe70). Prepare x87 value-position storage and
+   annotate flag definitions/consumers while counting scheduling operations. */
+int __fastcall prepare_schedule_window(MachineInstruction *first, MachineInstruction *last)
+{
+    MachineInstruction *scan, *before;
+    unsigned kind, operation, properties, i;
+    int flags_live, count = 0;
+    if (scheduler_float_depth) scheduler_float_invalid = 1;
+    if (scheduler_has_float && cpu_model == 5 && !scheduler_float_invalid) {
+        scheduler_float_position_capacity = (unsigned)scheduler_float_serial + 1;
+        if ((scheduler_float_position_capacity & 0x3fffffffUL) < 250)
+            scheduler_float_positions = arena_alloc(3, scheduler_float_position_capacity * sizeof(int));
+        else {
+            scheduler_float_positions = scheduler_allocate(scheduler_float_position_capacity * sizeof(int));
+            scheduler_float_positions_owned = 1;
+        }
+        if (scheduler_float_serial >= 0)
+            for (i = 0; i < scheduler_float_position_capacity; ++i) scheduler_float_positions[i] = -1;
+    }
+    flags_live = find_flags_use(last) != 0;
+    before = first->previous;
+    for (scan = last; scan != before; scan = scan->previous) {
+        kind = scan->opcode & 15;
+        if (!SCHEDULABLE_KIND(kind)) continue;
+        ++count;
+        operation = (scan->opcode >> 8) & 255;
+        properties = machine_selection_properties[operation];
+        if (((properties & MC_WRITES_FLAGS) || operation == MC_CALL) && flags_live) {
+            flags_live = 0;
+            scan->record.scheduling->flags |= 4;
+        }
+        if (properties & MC_READS_FLAGS) {
+            flags_live = 1;
+            scan->record.scheduling->flags |= 2;
+        }
+    }
+    return count;
+}
