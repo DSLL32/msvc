@@ -200,7 +200,7 @@ read_action:
             if (scanner_flags & 0x2000000) compiler_warning(4, 218);
             break;
         case 7:
-            if (!options.z_a) compiler_warning(4, 19);
+            if (!options.extensions_enabled) compiler_warning(4, 19);
             break;
         case 8:
             if (!(scanner_flags & 0x2000000))
@@ -828,7 +828,7 @@ read_action:
             parser_value.words.low = 0;
             break;
         case 171:
-            if ((aggregate_depth < 0 || !options.z_a) && !right[0].node)
+            if ((aggregate_depth < 0 || !options.extensions_enabled) && !right[0].node)
                 report_syntax_error(466);
             break;
         case 172:
@@ -897,15 +897,15 @@ read_action:
         case 206:
             if ((scanner_flags & 0x800) && parser_value.symbol)
                 parser_value.node = normalize_based_expression(parser_value.node);
-            finish_type_description((CType *)parser_value.symbol);
+            finish_call_arguments(parser_value.node);
             POP_DECLARATION();
             break;
         case 207:
             if (parser_value.symbol) {
-                parser_value.symbol->index = right[-1].words.low;
+                ((ExpressionNode *)parser_value.node)->value.children.right = right[-1].node;
                 if (scanner_flags & 0x800) parser_value.node = normalize_based_expression(parser_value.node);
             }
-            finish_type_description((CType *)parser_value.symbol);
+            finish_call_arguments(parser_value.node);
             POP_DECLARATION();
             break;
         case 208:
@@ -1095,7 +1095,7 @@ int __stdcall classify_parameter_declarations(FrontendSymbol *parameters)
             if ((parameter->kind & 0x1f) == 11)
                 report_type_syntax_error(122, parameter->type);
             else if ((parameter->kind & 0x1f) == 10 && !(parameter->attributes & 0x10)) {
-                if (parameter->name == name_ellipsis && options.z_a)
+                if (parameter->name == name_ellipsis && options.extensions_enabled)
                     compiler_warning(4, 202);
                 else report_syntax_error(122, parameter->name);
             }
@@ -1284,7 +1284,7 @@ void begin_function_definition(void)
         } else if (function_parameter_context != 2) {
             if (shape->flags & 0x4000) compiler_warning(1, 27);
             else if ((shape->flags & 0x800) && !chain->type) {
-                if (options.z_a) compiler_warning(1, 52);
+                if (options.extensions_enabled) compiler_warning(1, 52);
                 else report_syntax_error(142);
             }
         }
@@ -1651,7 +1651,7 @@ void __stdcall emit_case_statement(IrToken *value)
     entry->label_index = label->index;
     ++label->references;
     is_unsigned = (flags & 0x4000) ||
-        (!options.z_a && options.option_J && (flags & 0x2fdf) == 0x41 && !(flags & 0x8000));
+        (!options.extensions_enabled && options.option_J && (flags & 0x2fdf) == 0x41 && !(flags & 0x8000));
     previous = 0;
     next = switch_labels->value.cases;
     while (next && (is_unsigned ? next->value < number : (int)next->value < (int)number)) {

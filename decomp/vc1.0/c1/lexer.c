@@ -637,7 +637,7 @@ fold_specifiers:
                 type = copy_mutable_type(type);
                 if (shape) {
                     if (attributes & inherited_attributes & 0x3000) {
-                        if (options.z_a) compiler_warning(1, 114);
+                        if (options.extensions_enabled) compiler_warning(1, 114);
                         else report_syntax_error(289);
                     }
                     type = replace_outer_type_shape(type, shape->flags,
@@ -864,7 +864,7 @@ int skip_source_comment(void)
         scanner_flags &= ~0x1000UL;
         return 1;
     }
-    if ((options.z_a || options.z_E) && match_source_character('/')) {
+    if ((options.extensions_enabled || options.z_E) && match_source_character('/')) {
         scanner_flags |= 0x1000;
         skip_line_comment();
         scanner_flags &= ~0x1000UL;

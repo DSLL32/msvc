@@ -82,7 +82,7 @@ void initialize_keyword_table(void)
         intern_keyword(keyword->name);
         KEYWORD_FROM_NAME(interned_name)->token = keyword->token;
         SYMBOL_FROM_NAME(interned_name)->flags |= 1;
-        if (!strncmp(keyword->name, "__", 2) && (options.z_a || options.z_E)) {
+        if (!strncmp(keyword->name, "__", 2) && (options.extensions_enabled || options.z_E)) {
             intern_keyword(keyword->name + 1);
             KEYWORD_FROM_NAME(interned_name)->token = keyword->token;
             SYMBOL_FROM_NAME(interned_name)->flags |= 1;
@@ -102,7 +102,7 @@ void __stdcall disable_keyword(char *name)
     char *stored_name = intern_identifier(name);
     PreprocessorSymbol *symbol = SYMBOL_FROM_NAME(stored_name);
     if (symbol->flags & 1) {
-        if (options.z_a)
+        if (options.extensions_enabled)
             KEYWORD_FROM_NAME(stored_name)->token = TOK_DISABLED_KEYWORD;
         else
             symbol->flags &= ~1;

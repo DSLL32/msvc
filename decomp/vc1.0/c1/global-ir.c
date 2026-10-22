@@ -27,8 +27,13 @@ int plmf_pragma_seen, plmn_pragma_seen; /* original 0x6bbc4 / 0x6bbc8 */
 unsigned pragma_record_number; /* original 0x6b80c */
 char *pragma_text; /* original 0x6be6c */
 PragmaValue *pragma_values; /* original 0x6b790 */
-CType *declaration_type_stack; /* original 0x5ffd4 */
-unsigned short declaration_type_index; /* original 0x5ffe0 */
+InlineRegion *inline_regions; /* original 0x5ffd4 */
+InlineScope *inline_scopes; /* original 0x5ffdc */
+int inline_scope_depth; /* original 0x5ffd8 */
+unsigned short inline_base_region; /* original 0x5ffd0 */
+unsigned inline_parameter_slots[20]; /* original 0x5ffe4..0x60034 */
+unsigned char inline_slot_count; /* original 0x60034 */
+unsigned short inline_region_index; /* original 0x5ffe0 */
 unsigned *source_file_index; /* original 0x6005c */
 unsigned source_file_counter = 10; /* original 0x6bb40 */
 char last_record_source[256]; /* original 0x66240..0x66340 */
@@ -287,7 +292,7 @@ formats:
             else {
                 switch (type_flags) {
                 case 0x41:
-                    code |= !options.z_a && options.option_J && !(type_flags & 0x8000) ? 2 : 1;
+                    code |= !options.extensions_enabled && options.option_J && !(type_flags & 0x8000) ? 2 : 1;
                     break;
                 case 0x42: case 0x44: case 0x64: case 0x214: case 0x8041: code |= 1; break;
                 case 0x80: code |= 7; break;
@@ -413,10 +418,10 @@ formats:
             }
             GLOBAL_BYTE(stream, (signed char)code);
             break;
-        case GF_TYPE_STACK:
+        case GF_INLINE_REGIONS:
             GLOBAL_SHORT((symbol->attributes & 0x1000) >> 12);
-            GLOBAL_SHORT((unsigned short)((declaration_type_index + 1) << 4));
-            fwrite(declaration_type_stack, 16, (unsigned)declaration_type_index + 1, stream);
+            GLOBAL_SHORT((unsigned short)((inline_region_index + 1) << 4));
+            fwrite(inline_regions, 16, (unsigned)inline_region_index + 1, stream);
             break;
         case GF_MACHINE_LEGACY:
         case GF_MACHINE:

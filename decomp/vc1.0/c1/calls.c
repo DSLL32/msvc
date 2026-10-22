@@ -204,7 +204,7 @@ ArgumentNode *__stdcall make_call_argument(IrToken *argument, int flags)
         }
     } else if (call_context->parameter_count <= 0 && !(call_context->flags & 4) &&
         (call_context->flags & 8) && !(call_context->flags & 0x20)) {
-        if (options.z_a) compiler_warning(1, 20, call_context->name);
+        if (options.extensions_enabled) compiler_warning(1, 20, call_context->name);
         else report_syntax_error(197, call_context->name);
         call_context->flags |= 0x20;
     }
@@ -237,4 +237,77 @@ ArgumentNode *__stdcall make_call_argument(IrToken *argument, int flags)
     }
     node->type = type_0000;
     return node;
+}
+
+/* Original 0x2c220..0x2c39d. Finish checking this call's arity and
+   record its stack cleanup size before restoring the enclosing call. */
+IrToken *__stdcall finish_call_arguments(IrToken *call)
+{
+    FrontendSymbol *symbol;
+    TypeShape *shape;
+    unsigned bytes;
+    int expected;
+    if (!call_context) return 0;
+    if (call_context->flags & 1) {
+        expected = call_context->symbol->detail.intrinsic.flags & 7;
+        if (call_context->argument_count > expected)
+            report_syntax_error(167, call_context->name);
+        else if (call_context->argument_count < expected)
+            report_syntax_error(168, call_context->name);
+    } else if (call_context->parameter_count > 0 && *call_context->parameter &&
+        !(call_context->flags & 2)) report_syntax_error(198, call_context->name);
+    symbol = call_context->symbol;
+    if (symbol && symbol->type->related) {
+        shape = symbol->type->related;
+        if (!(shape->flags & 7)) shape = shape->related;
+        if ((shape->flags & 7) == 4 &&
+            ((symbol->type->related->attributes & 0x70) == 0x60 ||
+             (symbol->type->related->attributes & 0x70) == 0x40)) {
+            bytes = call_argument_bytes(call);
+            if (symbol->attributes & 0x4000) {
+                if (((symbol->attributes & 0x800) || (shape->flags & 0x800)) &&
+                    symbol->detail.value != bytes)
+                    report_syntax_error(708, call_context->name);
+            } else {
+                if (!(symbol->attributes & 0x800) && !(shape->flags & 0x800))
+                    bytes = parameter_info_bytes((ParameterInfo *)shape->field08);
+                symbol->detail.value = bytes;
+                symbol->attributes |= 0x4000;
+            }
+        }
+    }
+    call_context = call_context->previous;
+    if (scanner_flags & 0x800) call = normalize_based_expression(call);
+    return call;
+}
+
+/* Original 0x2c1d0..0x2c21f. Arguments without a declared parameter
+   retain the sentinel type and use the expression's promoted size. */
+unsigned __stdcall call_argument_bytes(IrToken *call)
+{
+    unsigned bytes = 0;
+    ArgumentNode *argument;
+    CType *type;
+    if (!call) return 0;
+    argument = (ArgumentNode *)((ExpressionNode *)call)->value.children.right;
+    while (argument) {
+        type = argument->type;
+        if (type == type_0000) type = argument->expression->type;
+        bytes += (parameter_type_size(type, 1) + 3) & ~3;
+        argument = argument->previous;
+    }
+    return bytes;
+}
+
+/* Original 0x34020..0x34059. Prototype parameter sizes use their declared
+   floating precision; each stack slot is rounded to a four-byte boundary. */
+unsigned __stdcall parameter_info_bytes(ParameterInfo *parameters)
+{
+    unsigned bytes = 0, count = parameters->count;
+    CType **type = parameters->types;
+    while (count--) {
+        bytes += (parameter_type_size(*type, 0) + 3) & ~3;
+        ++type;
+    }
+    return bytes;
 }

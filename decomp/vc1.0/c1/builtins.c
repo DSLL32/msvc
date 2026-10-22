@@ -46,7 +46,7 @@ void initialize_intermediate_output(void)
             symbol->index = next_symbol_index++;
             mark_builtin(symbol, index);
             flags = definition->return_type;
-            if ((flags & 0x2fdf) == 0x41 && options.z_a && options.option_J && !(flags & 0x8000))
+            if ((flags & 0x2fdf) == 0x41 && options.extensions_enabled && options.option_J && !(flags & 0x8000))
                 flags |= 0x4000;
             description->flags = flags;
             underscore = options.option_MT || (interned[0] == '_' && interned[1] == 'f');
@@ -77,7 +77,7 @@ int __stdcall builtin_enabled(unsigned index)
     if (definition->flags & 0x80)
         return 1;
     if (options.option_Oi) {
-        if (!options.z_a && (definition->flags & 0x40))
+        if (!options.extensions_enabled && (definition->flags & 0x40))
             return 0;
         if (normalized_Op && !(definition->return_type & 0x100))
             return 0;

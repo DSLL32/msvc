@@ -279,6 +279,7 @@ CType *__stdcall make_qualified_type(CType *base, unsigned short kind, unsigned 
 /* Original description stack at 0x5ff1c, followed by a separate global
    at 0x5ffbc. Entry zero is reserved by the pre-increment convention. */
 TypeDescription type_description_stack[10];
+FrontendSymbol *pointer_base_symbol; /* original 0x5ffbc */
 
 /* Original 0x40530..0x40560. */
 TypeDescription *__stdcall copy_type_description(CType *type)
@@ -379,14 +380,14 @@ CType *__stdcall finalize_type_description(TypeDescription *description)
     flags = description->flags;
     base = flags & 0x2fdf;
     if (base == 0x41) {
-        if (options.z_a && options.option_J && !(flags & 0x8000)) flags |= 0x4000;
+        if (options.extensions_enabled && options.option_J && !(flags & 0x8000)) flags |= 0x4000;
     } else if (!base) flags |= 0x64;
     flags &= 0xcfff;
     if (flags & 0xc000) {
         if (!(flags & 0x840)) {
             compiler_warning(1, 76, (flags & 0x4000) ? "unsigned" : "signed");
             flags &= 0x3fff;
-        } else if (options.z_a || (flags & 0x2fdf) != 0x41)
+        } else if (options.extensions_enabled || (flags & 0x2fdf) != 0x41)
             flags &= 0x7fff;
     }
     description->flags = flags;
@@ -414,7 +415,7 @@ void __stdcall attach_type_shape(FrontendSymbol *symbol, TypeShape *shape)
 unsigned short __stdcall merge_type_attributes(unsigned short existing, unsigned short added)
 {
     if (existing & added & 0x3000) {
-        if (options.z_a) compiler_warning(1, 114);
+        if (options.extensions_enabled) compiler_warning(1, 114);
         else report_syntax_error(289);
     }
     if ((existing ^ added) & 15) {

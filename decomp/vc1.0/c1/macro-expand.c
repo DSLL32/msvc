@@ -182,7 +182,7 @@ void begin_macro_replacement(void)
     MacroDefinition *definition = macro_frames[macro_expansion_active].definition;
     int remaining = definition->parameter_count;
     source_text_cursor = definition->replacement;
-    if (!options.z_a) {
+    if (!options.extensions_enabled) {
         while (remaining-- > 0)
             source_text_cursor += (unsigned char)*source_text_cursor;
     }

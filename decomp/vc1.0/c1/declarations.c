@@ -61,7 +61,7 @@ FrontendSymbol *__stdcall declare_symbol(DeclarationSpec *declaration, FrontendS
     existing = merge_global_declaration(symbol);
     if (!existing) {
         if (parameter_nesting >= 2) existing = merge_local_declaration(symbol);
-        else if (!options.z_a && (current_scope->flags & 0xff) == 1) {
+        else if (!options.extensions_enabled && (current_scope->flags & 0xff) == 1) {
             existing = find_identifier_symbol(symbol->name);
             if (existing && (existing->flags & 4)) compiler_warning(1, 224, symbol->name);
             existing = 0;
@@ -567,7 +567,7 @@ FrontendSymbol *__stdcall merge_scoped_declaration(FrontendSymbol *symbol, Symbo
 FrontendSymbol *__stdcall reconcile_declarations(FrontendSymbol *existing, FrontendSymbol *symbol)
 {
     if (!existing) return 0;
-    if (options.z_a && (existing->storage[0] & 7) == 7 &&
+    if (options.extensions_enabled && (existing->storage[0] & 7) == 7 &&
         (symbol->storage[0] & 7) == 7 && existing->type == symbol->type) {
         compiler_warning(4, 209);
         return existing;
@@ -926,8 +926,8 @@ FrontendSymbol *__stdcall create_tag(char *name, unsigned short kind,
     if (name) {
         tag->name = name;
         if (declaration_depth > 0) {
-            compiler_warning(options.z_a ? 4 : 1, 115, name);
-            if (!definition && options.z_a) {
+            compiler_warning(options.extensions_enabled ? 4 : 1, 115, name);
+            if (!definition && options.extensions_enabled) {
                 insert_scope_symbol(enclosing_declaration_scope(), tag);
                 goto published;
             }
@@ -1050,7 +1050,7 @@ void __stdcall add_enumerator(char *name, CType *context, unsigned value)
     if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
     symbol->index = next_symbol_index++;
     if (integer_conversion_overflow(4, 0, 0, value))
-        compiler_warning(options.z_a ? 3 : 1, 341, symbol->name);
+        compiler_warning(options.extensions_enabled ? 3 : 1, 341, symbol->name);
     ((EnumeratorSymbol *)symbol)->value = value;
     enumerator_value = value;
     if (browser_filename && (!parameter_nesting || options.option_FR)) browser_symbol_definition(symbol);
@@ -1063,7 +1063,7 @@ typedef char EnumeratorSymbol_must_be_28_bytes[(sizeof(EnumeratorSymbol) == 28) 
 CType *parse_enum_specifier(void)
 {
     FrontendSymbol *tag = (FrontendSymbol *)enumerator_context->field08;
-    if (!options.z_a && !hash_table_count(tag->associated.enumerators)) report_syntax_error(138);
+    if (!options.extensions_enabled && !hash_table_count(tag->associated.enumerators)) report_syntax_error(138);
     tag = (FrontendSymbol *)enumerator_context->field08;
     if (tag->name != name_unnamed && browser_filename && (!parameter_nesting || options.option_FR))
         browser_finish_scope();
@@ -1196,13 +1196,13 @@ void __stdcall process_declaration(DeclarationSpec *declaration)
     case 0x41: case 0x42: case 0x44: case 0x80:
     case 0x104: case 0x108: case 0x128:
         if (parser_flags & 0x4000) return;
-        if (options.z_a) compiler_warning(2, 91);
+        if (options.extensions_enabled) compiler_warning(2, 91);
         else report_syntax_error(59, "empty declaration");
         break;
     case 0x412: case 0x414: case 0x418:
         name = ((FrontendSymbol *)type->field08)->name;
         if (name == name_unnamed) {
-            if (options.z_a) compiler_warning(2, 94, type_specifier_name(flags));
+            if (options.extensions_enabled) compiler_warning(2, 94, type_specifier_name(flags));
             else report_syntax_error(59, "empty declaration");
         } else if (!tag_in_current_scope)
             create_tag(name, (unsigned short)(flags ^ 0x10), insert_current_scope_symbol, 0);
@@ -1326,7 +1326,7 @@ int __stdcall compare_declaration_types(FrontendSymbol *left, FrontendSymbol *ri
                 !(depth == 1 && (!left_shape->field08 || !right_shape->field08))) return 369;
         } else if (kind == 4 && right && !(right->flags & 1)) {
             if ((left_shape->flags ^ right_shape->flags) & 0x8000) {
-                if (options.z_a) compiler_warning(4, 52);
+                if (options.extensions_enabled) compiler_warning(4, 52);
                 else report_syntax_error(142);
             }
             if (left_shape->field08 != right_shape->field08) {
@@ -1372,10 +1372,10 @@ CType *__stdcall merge_function_parameter_types(CType *left, CType *right, int f
         count = left_count;
         if (find_function && right_count < left_count) {
             count = right_count;
-            if (options.z_a) compiler_warning(1, 30);
+            if (options.extensions_enabled) compiler_warning(1, 30);
             else report_syntax_error(190);
         } else if (find_function && right_count > left_count) {
-            if (options.z_a) compiler_warning(1, 31);
+            if (options.extensions_enabled) compiler_warning(1, 31);
             else report_syntax_error(191);
         }
         for (index = 0; index < count; ++index) {
@@ -1402,7 +1402,7 @@ CType *__stdcall merge_function_parameter_types(CType *left, CType *right, int f
                 merged_parameters->types[index] = parameter;
             } else {
                 if (!find_function) return 0;
-                if (options.z_a) compiler_warning(1, 28, index + 1);
+                if (options.extensions_enabled) compiler_warning(1, 28, index + 1);
                 else report_syntax_error(192, index + 1);
             }
         }
@@ -1433,7 +1433,7 @@ CType *__stdcall merge_function_parameter_types(CType *left, CType *right, int f
         promoted = default_argument_promotion(parameter);
         if ((promoted && promoted != parameter) ||
             (!parameter->related && parameter->flags == 0x104)) {
-            if (options.z_a) compiler_warning(4, 32, index + 1);
+            if (options.extensions_enabled) compiler_warning(4, 32, index + 1);
             else report_syntax_error(379, index + 1);
         }
     }
@@ -1456,7 +1456,7 @@ int __stdcall compatible_storage_classes(FrontendSymbol *left, FrontendSymbol *r
         }
     }
     if (right_class == 3) {
-        if (options.z_a && left_class == 1 && !(left->flags & 1)) {
+        if (options.extensions_enabled && left_class == 1 && !(left->flags & 1)) {
             compiler_warning(4, 211);
             return 1;
         }
@@ -1676,7 +1676,7 @@ void __stdcall add_struct_member(DeclarationSpec *declaration, FrontendSymbol *m
             report_type_syntax_error(208, base);
             return;
         }
-        if (options.z_a) compiler_warning(4, 201);
+        if (options.extensions_enabled) compiler_warning(4, 201);
         else report_syntax_error(467, (base->flags & 0x404) == 0x404 ? "union" :
             (base->flags & 0x402) == 0x402 ? "struct" : "enum");
         tag = (FrontendSymbol *)base->field08;
@@ -1750,7 +1750,7 @@ unsigned __stdcall layout_data_member(FrontendSymbol *member)
             report_syntax_error(79, member->name, tag->name);
             return 0;
         }
-        if (!options.z_a) {
+        if (!options.extensions_enabled) {
             report_syntax_error(133, member->name);
             return 0;
         }
@@ -1984,7 +1984,7 @@ void __stdcall layout_bitfield_member(FrontendSymbol *member, char *name, unsign
         aggregate_contexts[aggregate_depth].tag->attributes &= ~0x100UL;
     }
     if (!(flags & 0x40) || !(flags & 0x20)) {
-        if (!options.z_a && !options.z_E) {
+        if (!options.extensions_enabled && !options.z_E) {
             report_syntax_error(150, name);
             member->type = type_4064_first;
             flags = 0x4064;
@@ -2090,7 +2090,7 @@ FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol)
 void __stdcall record_local_declaration(FrontendSymbol *symbol)
 {
     FrontendSymbol *copy;
-    if (options.z_a && (symbol->kind & 0x1f) == 7) {
+    if (options.extensions_enabled && (symbol->kind & 0x1f) == 7) {
         compiler_warning(4, 210);
         copy = allocate_permanent(sizeof(FrontendSymbol));
         *copy = *symbol;

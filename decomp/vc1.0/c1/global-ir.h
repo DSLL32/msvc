@@ -29,7 +29,7 @@ enum GlobalField {
     GF_STREAM_POSITIONS = 24,
     GF_COMPLEXITY = 25,
     GF_OPTIMIZATION = 26,
-    GF_TYPE_STACK = 27,
+    GF_INLINE_REGIONS = 27,
     GF_MACHINE_LEGACY = 28,
     GF_MACHINE = 29,
     GF_COMPILER_VERSION = 30,
@@ -63,8 +63,30 @@ extern int plmf_pragma_seen, plmn_pragma_seen;
 extern unsigned pragma_record_number;
 extern char *pragma_text;
 extern PragmaValue *pragma_values;
-extern CType *declaration_type_stack;
-extern unsigned short declaration_type_index;
+/* Serialized inline-analysis regions; only the encountered slot fields
+   have established meanings so far. */
+typedef struct InlineRegion {
+    unsigned field00;
+    unsigned short field04;
+    unsigned char left_slot, right_slot;
+    unsigned field08, field0c;
+} InlineRegion;
+#pragma pack(2)
+typedef struct InlineScope {
+    unsigned field00, field04;
+    unsigned short field08, region;
+    unsigned char flags, reserved;
+} InlineScope;
+#pragma pack()
+typedef char InlineRegion_must_be_16_bytes[sizeof(InlineRegion) == 16 ? 1 : -1];
+typedef char InlineScope_must_be_14_bytes[sizeof(InlineScope) == 14 ? 1 : -1];
+extern InlineRegion *inline_regions;
+extern InlineScope *inline_scopes;
+extern int inline_scope_depth;
+extern unsigned short inline_base_region;
+extern unsigned inline_parameter_slots[20];
+extern unsigned char inline_slot_count;
+extern unsigned short inline_region_index;
 extern unsigned *source_file_index, source_file_counter;
 extern char last_record_source[256];
 int __stdcall type_size(CType *type);

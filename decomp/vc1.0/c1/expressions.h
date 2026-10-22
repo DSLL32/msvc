@@ -13,7 +13,7 @@ IrToken * __stdcall convert_binary_operands(IrToken *expression);
 void __stdcall check_binary_type_conversion(unsigned char operation, IrToken *left, IrToken *right);
 void __stdcall report_function_operand(unsigned char operation, int argument);
 int __stdcall check_expression_operands(unsigned char operation, unsigned char arity, IrToken *left, IrToken *right);
-IrToken * __stdcall modifiable_lvalue(IrToken *expression, int warn_cast);
+IrToken * __stdcall modifiable_lvalue(IrToken *expression, int modifying);
 IrToken * __stdcall convert_expression(unsigned char operation, CType *type, IrToken *expression);
 IrToken * __stdcall convert_scalar_expression(unsigned char operation, CType *type, IrToken *expression);
 int __stdcall allows_record_operands(unsigned char operation, unsigned char arity, int left_record);
@@ -57,4 +57,15 @@ void __stdcall push_call_context(CType *function_type);
 FrontendSymbol *__stdcall find_call_designator_symbol(IrToken *expression);
 ArgumentNode *__stdcall make_call_argument(IrToken *argument, int flags);
 int __stdcall is_void_pointer_type(CType *type);
+
+CType * __stdcall change_function_reference_kind(CType *type, int kind);
+CType * __stdcall dereference_pointer_type(CType *type);
+FrontendSymbol * __stdcall find_expression_symbol(IrToken *expression);
+IrToken * __stdcall find_expression_type_base(IrToken *expression);
+int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index);
+void __stdcall type_warning(unsigned level, unsigned code, CType *type);
+int subtract_extended(const Extended *left, const Extended *right, Extended *result);
+Extended * __stdcall save_extended_constant(Extended *value);
+unsigned __stdcall call_argument_bytes(IrToken *call);
+unsigned __stdcall parameter_info_bytes(ParameterInfo *parameters);
 #endif

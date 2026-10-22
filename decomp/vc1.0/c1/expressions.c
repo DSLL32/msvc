@@ -1,5 +1,6 @@
 /* Semantic construction of C expressions. */
 #include "expressions.h"
+#include "global-ir.h"
 
 Extended extended_zero = { 0, 0, 0, 4 }; /* original 0x6c0f0 */
 int target_signed_int_maximum = 2147483647; /* original 0x6bfd0 */
@@ -391,7 +392,7 @@ IrToken *__stdcall fold_binary_constants(IrToken *expression, IrToken *left, IrT
         } else {
             truth = left->value.integer != 0;
             is_unsigned = (left_flags & 0x4000) ||
-                (!options.z_a && options.option_J && (left_flags & 0x2fdf) == 0x41 &&
+                (!options.extensions_enabled && options.option_J && (left_flags & 0x2fdf) == 0x41 &&
                  !(left_flags & 0x8000));
         }
         if ((operation == TOK_LOGICAL_AND) == truth) return expression;
@@ -622,7 +623,7 @@ unsigned __stdcall convert_integer_constant(unsigned char operation, IrToken *no
                 value = source_flags & 0x4000 ? value & 0xffff : (unsigned)(int)(short)value;
             else if (source_bytes != 4) {
                 if ((source_flags & 0x4000) ||
-                    (!options.z_a && options.option_J && !(source_flags & 0x8000)))
+                    (!options.extensions_enabled && options.option_J && !(source_flags & 0x8000)))
                     value &= 0xff;
                 else value = (unsigned)(int)(signed char)value;
             }
@@ -636,7 +637,7 @@ unsigned __stdcall convert_integer_constant(unsigned char operation, IrToken *no
     case 4: return value;
     case 2: return target_unsigned ? value & 0xffff : (unsigned)(int)(short)value;
     default:
-        if (target_unsigned || (!options.z_a && options.option_J && !(type_flags & 0x8000)))
+        if (target_unsigned || (!options.extensions_enabled && options.option_J && !(type_flags & 0x8000)))
             return value & 0xff;
         return (unsigned)(int)(signed char)value;
     }
@@ -671,4 +672,277 @@ IrToken *__stdcall prepare_named_function_call(char *name)
     }
     report_syntax_error(63, name);
     return make_indirection(make_symbol_reference(declare_implicit_function(name)));
+}
+
+/* Original 0x3d580..0x3dde8. Unary constant folding reuses the operand;
+   address-taking instead recovers its lvalue and pointer-model attributes. */
+IrToken *__stdcall make_unary_expression(unsigned char operation, IrToken *operand)
+{
+    unsigned char original_operation = operation;
+    unsigned short shape_flags, kind, attributes, region;
+    unsigned value;
+    int slot, index;
+    IrToken *result, *lvalue, *base, *right;
+    FrontendSymbol *symbol;
+    TypeShape *shape, *array;
+    Extended number;
+    if (!operand) return 0;
+    if (operation == TOK_LOGICAL_AND) operation = TOK_BIT_AND;
+    shape_flags = operand->type->related ? operand->type->related->flags : 0;
+    result = make_typed_unary_expression(operation, operand->type, operand);
+    if (!check_expression_operands(operation, 1, 0, operand)) return 0;
+    switch (operation) {
+    case TOK_BIT_AND: case TOK_SELF:
+        if ((operand->flags & 7) == 3) {
+            report_syntax_error(101, token_names[operation]);
+            return operand;
+        }
+        kind = shape_flags & 7;
+        if (kind == 4) {
+            operand->type = function_designator_type(operand->type);
+            operand->type = change_function_reference_kind(operand->type, 2);
+            return operand;
+        }
+        if (shape_flags & 8) {
+            operand->type = change_function_reference_kind(operand->type, 2);
+            return operand;
+        }
+        lvalue = modifiable_lvalue(operand, 0);
+        if (!lvalue) {
+            if (kind == 2) {
+                lvalue = operand;
+                if ((operand->flags & 7) == 5) return operand;
+            } else if (kind == 3) {
+                if (shape_flags & 0x400) report_syntax_error(102, token_names[operation]);
+                return operand;
+            } else {
+                if (original_operation == TOK_LOGICAL_AND) return operand;
+                report_syntax_error(102, token_names[operation]);
+                return 0;
+            }
+        }
+        attributes = operand->type->attributes;
+        if ((lvalue->flags & 7) == 4) {
+            symbol = lvalue->value.pointer;
+            if (symbol->attributes & 2) {
+                pointer_base_symbol = (FrontendSymbol *)symbol->type->related->field08;
+                attributes = symbol->type->related->attributes;
+            }
+            if (normalized_Ol && options.option_qc) {
+                inline_scopes[inline_scope_depth].flags |= 2;
+                slot = find_inline_parameter_slot(inline_parameter_slots, inline_slot_count, symbol->index);
+                if (slot != -1) {
+                    inline_parameter_slots[(unsigned char)slot] = 0xffff;
+                    region = (unsigned short)(inline_region_index - 1);
+                    while (inline_base_region < region) {
+                        for (index = 0; index < inline_scope_depth; ++index)
+                            if (inline_scopes[inline_scope_depth-index].region == region) break;
+                        if (index >= inline_scope_depth) {
+                            if (inline_regions[region].left_slot == (unsigned char)slot)
+                                inline_regions[region].left_slot = 0xff;
+                            if (inline_regions[region].right_slot == (unsigned char)slot)
+                                inline_regions[region].right_slot = 0xff;
+                        }
+                        --region;
+                    }
+                }
+            }
+            symbol->attributes |= 0x800;
+            if (original_operation == TOK_BIT_AND && (symbol->storage[0] & 7) >= 5 &&
+                (symbol->storage[0] & 7) <= 6) {
+                report_syntax_error(103, token_names[operation]);
+                return lvalue;
+            }
+        } else {
+            if (lvalue->kind == TOK_BIT_FIELD && operation == TOK_BIT_AND)
+                report_syntax_error(104, token_names[operation]);
+            if (lvalue->kind == TOK_ARROW &&
+                (((ExpressionNode *)lvalue)->value.children.left->flags & 7) == 3) {
+                right = ((ExpressionNode *)lvalue)->value.children.right;
+                right->value.integer += ((ExpressionNode *)lvalue)->value.children.left->value.integer;
+                lvalue = right;
+            } else {
+                symbol = find_expression_symbol(lvalue);
+                if (symbol) {
+                    symbol->attributes |= 0x800;
+                    if (!(attributes & 15)) attributes |= symbol->type->attributes & 15;
+                    if (attributes & 4)
+                        pointer_base_symbol = (FrontendSymbol *)symbol->type->related->field08;
+                } else {
+                    base = find_expression_type_base(lvalue);
+                    if (base) {
+                        shape = base->type->related;
+                        if (shape->attributes & 4)
+                            pointer_base_symbol = (FrontendSymbol *)shape->field08;
+                        attributes = shape->attributes;
+                    }
+                }
+            }
+        }
+        if (!(attributes & 15)) attributes = normalize_type_attributes(1, attributes);
+        lvalue->type = make_qualified_type(operand->type, 1, attributes & 15, &pointer_base_symbol);
+        return lvalue;
+
+    case TOK_LOGICAL_NOT:
+        if (!(operand->type->flags & 0x340) && !(shape_flags & 3)) {
+            report_syntax_error(171, token_names[TOK_LOGICAL_NOT]);
+            return result;
+        }
+        result->type = type_0064;
+        if ((operand->flags & 7) != 3) return result;
+        if (!(operand->type->flags & 0x240) && !(shape_flags & 1))
+            return make_binary_expression(TOK_EQUAL, operand, make_integer_constant(0));
+        value = operand->value.integer == 0;
+        break;
+
+    case TOK_DEREFERENCE:
+        kind = shape_flags & 7;
+        if (kind == 3) {
+            if (!(shape_flags & 8))
+                operand->type = change_function_reference_kind(operand->type, 1);
+            return operand;
+        }
+        if (kind == 1) {
+            result->type = dereference_pointer_type(operand->type);
+            shape = result->type->related;
+            if (shape) {
+                if ((shape->flags & 7) != 2) {
+                    if (scanner_flags & 0x800) return normalize_based_expression(result);
+                    return result;
+                }
+                operand->flags |= 0x20;
+                array = shape;
+                operand->type = replace_outer_type_shape(result->type, 2,
+                    (operand->type->related->attributes & 0xf77) | (array->attributes & 0x3000),
+                    &array->field08);
+                return operand;
+            }
+            if ((result->type->flags & 0x2fdf) != 0x80) return result;
+        } else if (kind == 2)
+            return make_binary_expression(TOK_LEFT_BRACKET, operand, make_integer_constant(0));
+        else if (kind == 4) return operand;
+        report_syntax_error(100);
+        return ((ExpressionNode *)result)->value.children.left;
+
+    case TOK_BIT_NOT:
+        if (!(operand->type->flags & 0x240) || shape_flags) {
+            report_syntax_error(171, token_names[TOK_BIT_NOT]);
+            return result;
+        }
+        operand = promote_integer_expression(operand);
+        result->type = operand->type;
+        if ((operand->flags & 7) != 3) return result;
+        value = ~operand->value.integer;
+        break;
+
+    case TOK_UNARY_MINUS:
+        if (shape_flags || !(operand->type->flags & 0x340)) {
+            report_syntax_error(171, token_names[TOK_UNARY_MINUS]);
+            return result;
+        }
+        operand = promote_integer_expression(operand);
+        result->type = operand->type;
+        if ((operand->type->flags & 0x4000) ||
+            (!options.extensions_enabled && options.option_J && (operand->type->flags & 0x2fdf) == 0x41 &&
+             !(operand->type->flags & 0x8000)))
+            type_warning(2, 146, operand->type);
+        if ((operand->flags & 7) != 3) return result;
+        if (operand->type->flags & 0x100) {
+            if (subtract_extended(&extended_zero, operand->value.pointer, &number))
+                compiler_warning(2, 56);
+            operand->value.pointer = save_extended_constant(&number);
+            return operand;
+        }
+        value = 0 - operand->value.integer;
+        break;
+
+    case TOK_LEFT_PAREN:
+        if (!(result->type->flags & 0x100) || (operand->flags & 7) == 3 || shape_flags)
+            return operand;
+        return result;
+
+    case TOK_UNARY_PLUS:
+        if (shape_flags || !(operand->type->flags & 0x340))
+            report_syntax_error(171, token_names[TOK_UNARY_PLUS]);
+        operand = promote_integer_expression(operand);
+        result->type = operand->type;
+        if ((operand->flags & 7) != 3)
+            return operand->type == result->type ? operand : result;
+        if (!shape_flags && (operand->type->flags & 0x100)) return operand;
+        value = operand->value.integer;
+        break;
+    }
+    operand->type = result->type;
+    operand->value.integer = value;
+    return operand;
+}
+
+/* Original 0x3f530..0x3f5bc. Struct/union values permit lvalue and
+   selection operations while remaining invalid arithmetic operands. */
+int __stdcall allows_record_operands(unsigned char operation, unsigned char arity, int left_record)
+{
+    if (arity == 1)
+        return operation == TOK_BIT_AND || operation == TOK_LEFT_PAREN ||
+               token_categories[operation] == TOK_DEREFERENCE;
+    if (arity == 2) {
+        switch (operation) {
+        case TOK_ASSIGN: case TOK_COLON: case TOK_COMMA: case TOK_INITIALIZING:
+            return 1;
+        case TOK_QUESTION: return !left_record;
+        default: return 0;
+        }
+    }
+    return 1;
+}
+
+/* Original 0x3f670..0x3f7ed. Recover the underlying address expression,
+   diagnose writes to const data, and retain the Microsoft cast-lvalue rule. */
+IrToken *__stdcall modifiable_lvalue(IrToken *expression, int modifying)
+{
+    IrToken *inner, *base;
+    FrontendSymbol *symbol;
+    unsigned inner_bytes, outer_bytes;
+    int is_const;
+    if (!expression || (expression->flags & 0x20)) return 0;
+    while (expression && expression->kind == TOK_LEFT_PAREN)
+        expression = ((ExpressionNode *)expression)->value.children.left;
+    if (expression->kind == TOK_CAST) {
+        if (!options.extensions_enabled) return 0;
+        if (modifying) compiler_warning(4, 213);
+        do {
+            inner = ((ExpressionNode *)expression)->value.children.left;
+            inner_bytes = type_size(inner->type);
+            outer_bytes = type_size(expression->type);
+            if (inner_bytes < outer_bytes) return 0;
+            expression = inner;
+        } while (expression->kind == TOK_CAST);
+        if ((expression->flags & 7) == 4) {
+            symbol = expression->value.pointer;
+            symbol->attributes |= 0x800;
+        } else {
+            base = token_categories[expression->kind] == TOK_DEREFERENCE ?
+                ((ExpressionNode *)expression)->value.children.left : expression;
+            base = find_expression_type_base(base);
+            if (base && (base->flags & 7) == 4) {
+                symbol = base->value.pointer;
+                symbol->attributes |= 0x800;
+            }
+        }
+    }
+    if (expression->kind == TOK_BASED_REFERENCE)
+        expression = ((ExpressionNode *)expression)->value.children.left;
+    if (expression->kind == TOK_SEGMENT_OFFSET ||
+        token_categories[expression->kind] != TOK_DEREFERENCE) return 0;
+    is_const = (effective_type_qualifiers(expression->type) & 0x1000) != 0;
+    if ((expression->type->flags & 0x400) && !expression->type->related) {
+        symbol = (FrontendSymbol *)expression->type->field08;
+        is_const |= (symbol->metadata.value & 0x04000000) != 0;
+    }
+    expression = ((ExpressionNode *)expression)->value.children.left;
+    if (expression->kind == TOK_MEMBER) {
+        inner = ((ExpressionNode *)expression)->value.children.left;
+        if (inner->kind == TOK_ARGUMENT_END && !inner->type->related) return 0;
+    }
+    if (modifying && is_const) report_syntax_error(166);
+    return expression;
 }

@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 351 reconstructed source functions
-and 432 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 357 reconstructed source functions
+and 438 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-make_unary_expression, original VA 0x3d580.
-All 174 hello frontiers replay successfully with exact pending-buffer/visible-file
+convert_binary_operands, original VA 0x3ddf0.
+All 180 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -137,7 +137,7 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 135 encountered
+audit-state.py checks the initial bytes and address aliases of 143 encountered
 frontend state objects, 72 scalar options, the 21 option-table targets, 17 pragma optimization
 rules, and five hash callback identities, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
@@ -270,3 +270,15 @@ owned function_scope_level, as the byte-alias audit establishes. All 174 hello
 frontiers replay with exact pending/visible bytes, and minimal-C remains
 raw-byte identical. Current frontier is address-taking for BeginPaint's paint
 argument, in the whole unary-expression constructor.
+
+Checkpoint 357 reconstructs whole unary expressions, struct/union operand
+permissions, modifiable lvalues and call completion. Call completion checks
+prototype/intrinsic arity, computes actual and declared argument stack sizes,
+and restores the enclosing call context. The parser intentionally discards
+its return value. Address-taking now owns typed /qc inline-region and scope
+records at their encountered consumers; no data sections were imported.
+The -Za/-Ze option field is named extensions_enabled after checking the
+original option actions. All 180 hello frontiers replay with exact pending
+and visible IR bytes, the 143-state/default/alias audit passes, and minimal-C
+still exits successfully with all four raw fixture files identical.
+Current matching frontier is binary operand conversion, original 0x3ddf0.

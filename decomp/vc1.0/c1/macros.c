@@ -46,7 +46,7 @@ void __stdcall define_command_line_macros(Vector *definitions)
     character_class[2] = CC_MACRO_STRING;
     character_class[3] = CC_MACRO_TOKEN;
     character_class[4] = CC_MACRO_END;
-    if (options.z_a) {
+    if (options.extensions_enabled) {
         character_class['$'] = CC_IDENTIFIER;
         character_flags['$'] = CF_IDENTIFIER;
     }
@@ -78,7 +78,7 @@ void __stdcall define_command_line_macros(Vector *definitions)
     define_macro(0, 0, -6);
     intern_identifier("__TIMESTAMP__");
     define_macro(0, 0, -8);
-    if (!options.z_a) {
+    if (!options.extensions_enabled) {
         intern_identifier("__STDC__");
         define_macro(0, 0, -7);
     }

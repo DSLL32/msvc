@@ -107,7 +107,7 @@ typedef struct CompilerOptions {
     int pch_auto; /* original 0x6be60 */
     char *pch_link_name; /* original 0x6be64 */
     char *unrecognized_argument; /* original 0x6c104 */
-    int z_a; /* original 0x6bb54 */
+    int extensions_enabled; /* original 0x6bb54 */
     int z_E; /* original 0x6bb50 */
     int debug_info; /* original 0x6bb98 */
     int debug_old_format; /* original 0x6c108 */

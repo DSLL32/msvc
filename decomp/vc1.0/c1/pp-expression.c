@@ -336,7 +336,7 @@ PreprocessorValue *__stdcall apply_pp_operator(unsigned char operation,
         unsigned_result = 0;
         break;
     case TOK_LEFT_SHIFT:
-        unsigned_result = (flags & 0x4000) || (!options.z_a && options.option_J &&
+        unsigned_result = (flags & 0x4000) || (!options.extensions_enabled && options.option_J &&
                            (flags & 0x2fdf) == 0x41 && !(flags & 0x8000));
         left->value <<= right->value & 31;
         break;
@@ -369,7 +369,7 @@ PreprocessorValue *__stdcall apply_pp_operator(unsigned char operation,
         break;
     case TOK_PLUS: left->value += right->value; break;
     case TOK_RIGHT_SHIFT:
-        unsigned_result = (flags & 0x4000) || (!options.z_a && options.option_J &&
+        unsigned_result = (flags & 0x4000) || (!options.extensions_enabled && options.option_J &&
                            (flags & 0x2fdf) == 0x41 && !(flags & 0x8000));
         if (unsigned_result) left->value >>= right->value & 31;
         else left->value = (int)left->value >> (right->value & 31);

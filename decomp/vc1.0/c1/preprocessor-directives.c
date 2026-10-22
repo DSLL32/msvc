@@ -148,7 +148,7 @@ classify_directive:
         index = conditional_depth--;
         if (index < 0) fatal_error(20);
         if (!options.option_EP) emit_line_directive();
-        if (options.z_a) skip_source_line();
+        if (options.extensions_enabled) skip_source_line();
         else finish_directive("#endif");
         break;
     case 6: /* define */
@@ -187,7 +187,7 @@ classify_directive:
         }
         number = current_token_value.literal->value.integer;
         if ((int)number <= 0 || (int)number > 0x7fff) {
-            compiler_warning(options.z_a ? 4 : 1, 112);
+            compiler_warning(options.extensions_enabled ? 4 : 1, 112);
             if ((int)current_token_value.literal->value.integer <= 0)
                 current_token_value.literal->value.integer = 1;
         }
@@ -513,7 +513,7 @@ void define_source_macro(void)
         break;
     }
     bytes = read_macro_replacement();
-    if (!options.z_a) {
+    if (!options.extensions_enabled) {
         bytes += macro_replacement_text - macro_work_buffer;
         define_macro(macro_work_buffer, bytes, macro_parameter_count);
     } else define_macro(macro_replacement_text, bytes, macro_parameter_count);
@@ -535,7 +535,7 @@ int __stdcall skip_inactive_directives(int mode)
             if (nested) break;
             if (mode == 6) { fatal_error(22); break; }
             if (directive == 1) return 2;
-            if (options.z_a) skip_source_line();
+            if (options.extensions_enabled) skip_source_line();
             else finish_directive("#else");
             return 3;
         case 3:
@@ -664,7 +664,7 @@ read_initial:
                 continue;
             }
             if (lookahead_class == CC_AT) {
-                if (macro_parameter_count && options.z_a) characterize = 1;
+                if (macro_parameter_count && options.extensions_enabled) characterize = 1;
                 else goto literal_hash;
             } else if (!macro_parameter_count) {
 literal_hash:
@@ -706,7 +706,7 @@ read_identifier_character:
             continue;
         case CC_NEWLINE:
             --source_text_cursor;
-            if (destination == (options.z_a ? macro_replacement_text : macro_work_buffer)) return 0;
+            if (destination == (options.extensions_enabled ? macro_replacement_text : macro_work_buffer)) return 0;
             CHECK_REPLACEMENT_SPACE(destination);
             *destination++ = 0;
             *destination++ = 'D';

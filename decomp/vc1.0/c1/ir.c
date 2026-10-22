@@ -314,9 +314,9 @@ int __stdcall check_assignment_conversion(unsigned char operation, CType *target
         if (void_count == 1) compiler_warning(4, 53);
     } else if (void_count == 1 && operation == TOK_RETURN) {
         if (target_void) {
-            if (options.z_a) compiler_warning(1, 98, function_symbol->name);
+            if (options.extensions_enabled) compiler_warning(1, 98, function_symbol->name);
             else report_syntax_error(562, function_symbol->name);
-        } else if (options.z_a) compiler_warning(1, 70, function_symbol->name);
+        } else if (options.extensions_enabled) compiler_warning(1, 70, function_symbol->name);
         else if (!(function_symbol->storage[2] & 1)) report_syntax_error(561, function_symbol->name);
     } else if (void_count == 1 || void_count == 2) report_syntax_error(120);
     switch (operation) {
@@ -344,7 +344,7 @@ int __stdcall check_assignment_conversion(unsigned char operation, CType *target
         constant = value->value.integer;
         target_unsigned = destination_flags & 0x4000;
         source_unsigned = (source_flags & 0x4000) ||
-            (!options.z_a && options.option_J && (source_flags & 0x2fdf) == 0x41 && !(source_flags & 0x8000));
+            (!options.extensions_enabled && options.option_J && (source_flags & 0x2fdf) == 0x41 && !(source_flags & 0x8000));
         if (target_unsigned && !source_unsigned && (int)constant < 0) compiler_warning(3, 18, context_name);
         if (source_flags != destination_flags && integer_conversion_overflow(
                 (unsigned short)(destination_flags & 15), target_unsigned, (unsigned short)source_unsigned, constant))
@@ -387,7 +387,7 @@ void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode)
         flags = type->flags;
         alignment_value = node_alignment(node);
         if (flags & 0x40) {
-            kind = (flags & 0x4000) || (!options.z_a && options.option_J &&
+            kind = (flags & 0x4000) || (!options.extensions_enabled && options.option_J &&
                 (flags & 0x2fdf) == 0x41 && !(flags & 0x8000)) ? IR_TYPE_UNSIGNED : IR_TYPE_SIGNED;
             bytes = flags & 15;
         } else if (flags & 0x100) {

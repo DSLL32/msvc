@@ -215,7 +215,7 @@ void __stdcall insert_current_scope_symbol(FrontendSymbol *parameter);
 void __stdcall link_parameter_after(FrontendSymbol *list, FrontendSymbol *parameter);
 FrontendSymbol *__stdcall append_parameter(FrontendSymbol *list, FrontendSymbol *parameter);
 FrontendSymbol *__stdcall make_parameter(char *name);
-void __stdcall finish_type_description(CType *type);
+IrToken *__stdcall finish_call_arguments(IrToken *call);
 FrontendSymbol *__stdcall declare_symbol(DeclarationSpec *declaration, FrontendSymbol *symbol);
 typedef struct ShapeCursor {
     TypeShape *shape;

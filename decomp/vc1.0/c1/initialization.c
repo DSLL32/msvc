@@ -102,40 +102,40 @@ void initialize_frontend(void)
     if (!options.z_f) {
         disable_keyword("fortran");
         disable_keyword("__fortran");
-        if (options.z_a || options.z_E)
+        if (options.extensions_enabled || options.z_E)
             disable_keyword("_fortran");
         if (!options.option_m) {
             disable_keyword("pascal");
             disable_keyword("__pascal");
-            if (options.z_a || options.z_E)
+            if (options.extensions_enabled || options.z_E)
                 disable_keyword("_pascal");
         }
         disable_keyword("near");
         disable_keyword("__near");
-        if (options.z_a || options.z_E)
+        if (options.extensions_enabled || options.z_E)
             disable_keyword("_near");
         disable_keyword("far");
         disable_keyword("__far");
-        if (options.z_a || options.z_E)
+        if (options.extensions_enabled || options.z_E)
             disable_keyword("_far");
         disable_keyword("huge");
         disable_keyword("__huge");
-        if (options.z_a || options.z_E)
+        if (options.extensions_enabled || options.z_E)
             disable_keyword("_huge");
         disable_keyword("__far16");
-        if (options.z_a || options.z_E)
+        if (options.extensions_enabled || options.z_E)
             disable_keyword("_far16");
         disable_keyword("__syscall");
-        if (options.z_a || options.z_E)
+        if (options.extensions_enabled || options.z_E)
             disable_keyword("_syscall");
     }
     disable_keyword("__export");
-    if (options.z_a || options.z_E)
+    if (options.extensions_enabled || options.z_E)
         disable_keyword("_export");
-    if (!options.z_a) {
+    if (!options.extensions_enabled) {
         if (!options.z_E) {
             disable_keyword("__asm");
-            if (options.z_a || options.z_E)
+            if (options.extensions_enabled || options.z_E)
                 disable_keyword("_asm");
         }
         disable_keyword("cdecl");

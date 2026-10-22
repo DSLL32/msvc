@@ -74,7 +74,7 @@ int compile_translation_unit(void)
     first = scan_token();
     unget_token(first);
     if (!first) {
-        if (options.z_a)
+        if (options.extensions_enabled)
             compiler_warning(4, 206);
         else
             report_syntax_error(183);

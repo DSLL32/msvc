@@ -108,7 +108,7 @@ int __stdcall check_type_conversion(unsigned char operation, CType *target, CTyp
                 source_count = (int)right_parameters->count;
                 if (count != source_count) {
                     if (!(left->flags & 0x8000) && !(right->flags & 0x8000)) {
-                        if (count || !options.z_a) conversion_diagnostic(113, 1, operation, source, target);
+                        if (count || !options.extensions_enabled) conversion_diagnostic(113, 1, operation, source, target);
                         goto next_shape;
                     }
                     if (count > source_count) count = source_count;
@@ -122,14 +122,14 @@ int __stdcall check_type_conversion(unsigned char operation, CType *target, CTyp
                         if (!check_type_conversion(TOK_ARGUMENT_END, *left_parameter, *right_parameter)) failed = 1;
                     } else {
                         comparison = compare_prototype_parameter_types(*left_parameter, *right_parameter);
-                        if (comparison == 1 || (comparison == 2 && !options.z_a)) {
+                        if (comparison == 1 || (comparison == 2 && !options.extensions_enabled)) {
                             compiler_warning(1, 28, index + 1);
                             failed = 1;
                         }
                     }
                 }
             } else if (!(left->flags & 0x4000) && !(right->flags & 0x4000)) break;
-            if (!failed && options.z_a &&
+            if (!failed && options.extensions_enabled &&
                 ((left_parameter && !*left_parameter) != (right_parameter && !*right_parameter)))
                 compiler_warning(4, 220);
             break;
@@ -153,7 +153,7 @@ next_shape:
     }
 base_types:
     if (target_flags == source_flags && target->field08 == source->field08) return !failed;
-    if (options.z_a && !((target_flags ^ source_flags) & 0x2fdf) && target->field08 == source->field08) {
+    if (options.extensions_enabled && !((target_flags ^ source_flags) & 0x2fdf) && target->field08 == source->field08) {
         conversion_diagnostic(57, 4, operation, target, source);
         return !failed;
     }

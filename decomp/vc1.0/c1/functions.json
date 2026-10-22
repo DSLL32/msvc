@@ -436,7 +436,13 @@
     "_find_call_designator_symbol@4",
     "_append_argument@12",
     "_make_call_argument@8",
-    "_is_void_pointer_type@4"
+    "_is_void_pointer_type@4",
+    "_make_unary_expression@8",
+    "_allows_record_operands@12",
+    "_modifiable_lvalue@8",
+    "_finish_call_arguments@4",
+    "_call_argument_bytes@4",
+    "_parameter_info_bytes@4"
   ],
   "driver": [
     {
@@ -1503,9 +1509,9 @@
       "end": 179313
     },
     {
-      "name": "_finish_type_description@4",
+      "name": "_finish_call_arguments@4",
       "start": 180768,
-      "end": 180769
+      "end": 181149
     },
     {
       "name": "_report_declaration_error@8",
@@ -1771,7 +1777,7 @@
     {
       "name": "_make_unary_expression@8",
       "start": 251264,
-      "end": 251265
+      "end": 253416
     },
     {
       "name": "_make_symbol_reference@4",
@@ -3177,7 +3183,7 @@
     {
       "name": "_modifiable_lvalue@8",
       "start": 259696,
-      "end": 259697
+      "end": 260077
     },
     {
       "name": "_convert_expression@12",
@@ -3192,7 +3198,7 @@
     {
       "name": "_allows_record_operands@12",
       "start": 259376,
-      "end": 259377
+      "end": 259516
     },
     {
       "name": "_compare_extended",
@@ -3308,6 +3314,56 @@
       "name": "_is_void_pointer_type@4",
       "start": 182112,
       "end": 182182
+    },
+    {
+      "name": "_change_function_reference_kind@8",
+      "start": 262688,
+      "end": 262689
+    },
+    {
+      "name": "_dereference_pointer_type@4",
+      "start": 262496,
+      "end": 262497
+    },
+    {
+      "name": "_find_expression_symbol@4",
+      "start": 181328,
+      "end": 181329
+    },
+    {
+      "name": "_find_expression_type_base@4",
+      "start": 251136,
+      "end": 251137
+    },
+    {
+      "name": "_find_inline_parameter_slot@12",
+      "start": 192100,
+      "end": 192101
+    },
+    {
+      "name": "_type_warning@12",
+      "start": 246192,
+      "end": 246193
+    },
+    {
+      "name": "_subtract_extended",
+      "start": 312632,
+      "end": 312633
+    },
+    {
+      "name": "_save_extended_constant@4",
+      "start": 165104,
+      "end": 165105
+    },
+    {
+      "name": "_call_argument_bytes@4",
+      "start": 180688,
+      "end": 180767
+    },
+    {
+      "name": "_parameter_info_bytes@4",
+      "start": 213024,
+      "end": 213081
     }
   ],
   "cases": {
