@@ -18,6 +18,21 @@ typedef struct IrToken {
     unsigned short length, auxiliary_flags;
 } IrToken;
 
+/* Expression nodes use the same twenty-byte header/payload as IrToken.
+   The eight-byte payload is a string value, two children, or symbol pointer. */
+typedef struct ExpressionNode {
+    unsigned char kind, flags;
+    unsigned short attributes;
+    CType *type;
+    unsigned auxiliary;
+    union {
+        struct { unsigned low, high; } words;
+        struct { IrToken *left, *right; } children;
+        struct FrontendSymbol *symbol;
+    } value;
+} ExpressionNode;
+typedef char ExpressionNode_must_be_twenty_bytes[(sizeof(ExpressionNode) == 20) ? 1 : -1];
+
 typedef struct SavedConfiguration {
     CompilerOptions options;
     char database_path[256];
@@ -40,7 +55,7 @@ void initialize_frontend(void);
 unsigned pack_option_flags(void);
 void preprocess_translation_unit(void);
 void __stdcall record_version_token(IrToken *token);
-void __stdcall emit_version_token(IrToken *token);
+IrToken *__stdcall emit_version_token(IrToken *token);
 int compare_filenames(char *first, char *second);
 void begin_automatic_pch(void);
 void begin_debug_info(void);

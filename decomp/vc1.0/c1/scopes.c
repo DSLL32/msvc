@@ -1,5 +1,7 @@
 /* Frontend symbol scopes. */
 #include "builtins.h"
+#include "parser.h"
+#include "global-ir.h"
 
 SymbolScope *global_scope, *current_scope, *lookup_scope;
 SymbolScope **scope_directory;
@@ -115,4 +117,36 @@ FrontendSymbol *__stdcall lookup_symbol_chain(FrontendSymbol *head, char *name)
 void __stdcall insert_current_scope_symbol(FrontendSymbol *symbol)
 {
     insert_scope_symbol(current_scope, symbol);
+}
+
+/* Original 0x35e70..0x35e75: public scope-entry wrapper. */
+void begin_compound_statement(void)
+{
+    enter_compound_scope();
+}
+
+/* Original 0x35e80..0x35f2a. Nested declaration scopes use pool one and
+   carry their statement depth in the low byte of the scope flags. */
+void enter_compound_scope(void)
+{
+    ArenaPool *pool;
+    SymbolScope *scope;
+    if (browser_filename) browser_begin_function_scope();
+    ++parameter_nesting;
+    global_record_kind = parameter_nesting;
+    ++function_scope_level;
+    if (!(scanner_flags & 0x40)) {
+        pool = &compiler_arena.pools[1];
+        if (pool->remaining < (int)sizeof(SymbolScope)) refill_arena(&compiler_arena, pool);
+        scope = (SymbolScope *)pool->next;
+        pool->remaining -= sizeof(SymbolScope);
+        pool->next += sizeof(SymbolScope);
+        scope->bucket_mask = 15;
+        scope->flags = (scope->flags & 0xff00) | parameter_nesting;
+        scope->parent = current_scope;
+        push_symbol_scope(scope);
+        activate_symbol_scope(scope);
+    }
+    write_ir_record(0x53, 0);
+    if (options.option_qc && normalized_Ol && parameter_nesting == 2) begin_inline_region(0);
 }

@@ -1,5 +1,6 @@
 /* Frontend expression constants. */
 #include "initialization.h"
+#include "parser.h"
 
 /* Original 0x278f0..0x27907. */
 IrToken *__stdcall make_integer_constant(unsigned value)
@@ -25,4 +26,43 @@ IrToken *__stdcall new_integer_constant(unsigned value)
     constant->type = type_0064;
     constant->value.integer = value;
     return constant;
+}
+
+/* Original 0x27780..0x27884, switch table 0x27884..0x278a0. Numeric
+   constants have a const-qualified interned type and retain a zero marker. */
+IrToken *__stdcall make_constant_token(unsigned char token, void *value)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    IrToken *node;
+    TypeDescription *description;
+    unsigned short flags; /* Original unspecified for nonnumeric token codes. */
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    node = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    node->flags = 3;
+    node->kind = token;
+    switch (token) {
+    case TOK_FLOAT_CONSTANT: flags = 0x104; node->value.integer = *(unsigned *)value; break;
+    case TOK_DOUBLE_CONSTANT: flags = 0x108; node->value.integer = *(unsigned *)value; break;
+    case TOK_LONG_DOUBLE_CONSTANT: flags = 0x128; node->value.integer = *(unsigned *)value; break;
+    case TOK_INT_CONSTANT: flags = 0x64; goto integer_value;
+    case TOK_LONG_CONSTANT: flags = 0x44; goto integer_value;
+    case TOK_UINT_CONSTANT: flags = 0x4064; goto integer_value;
+    case TOK_ULONG_CONSTANT:
+        flags = 0x4044;
+integer_value:
+        node->value.integer = *(unsigned *)value;
+        if (!node->value.integer) node->flags |= 0x80;
+        break;
+    }
+    description = &type_description_stack[++type_description_depth];
+    description->flags = flags;
+    description->attributes = 0x1000;
+    description->related = 0;
+    description->field08 = 0;
+    description->field0c = 0;
+    node->type = intern_type(description);
+    --type_description_depth;
+    return node;
 }

@@ -2,7 +2,6 @@
 #define SCOPES_H
 #include "ir.h"
 
-typedef struct FrontendSymbol FrontendSymbol;
 typedef struct SymbolScope {
     struct SymbolScope *next, *parent;
     FrontendSymbol **buckets;

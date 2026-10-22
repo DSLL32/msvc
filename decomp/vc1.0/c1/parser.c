@@ -21,7 +21,6 @@ typedef char ParserValue_must_be_eight_bytes[(sizeof(ParserValue) == 8) ? 1 : -1
    Keep that observable overlap in one union rather than duplicate state. */
 ParserValueStack parser_values; /* original 0x653a0..0x65e48 */
 #define parser_value_stack parser_values.values
-void *syntax_declaration_context; /* original 0x5b1d8 */
 
 /* The declaration stack includes the entry immediately before depth zero;
    storage-class lookahead may update that preceding declaration. */
@@ -47,21 +46,6 @@ LabelStack *continue_labels, *break_labels, *do_labels;
 LabelStack *switch_labels, *default_labels;
 int label_stack_count;
 IrToken *default_label;
-
-/* Expression nodes use the same twenty-byte header/payload as IrToken.
-   The eight-byte payload is a string value, two children, or symbol pointer. */
-typedef struct ExpressionNode {
-    unsigned char kind, flags;
-    unsigned short attributes;
-    CType *type;
-    unsigned auxiliary;
-    union {
-        struct { unsigned low, high; } words;
-        struct { IrToken *left, *right; } children;
-        FrontendSymbol *symbol;
-    } value;
-} ExpressionNode;
-typedef char ExpressionNode_must_be_twenty_bytes[(sizeof(ExpressionNode) == 20) ? 1 : -1];
 
 /* The original yacc bound permits one state beyond its 340-element array.
    That halfword aliases the following array-bound temporary at 0x65398. */

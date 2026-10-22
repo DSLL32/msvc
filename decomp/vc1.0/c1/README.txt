@@ -3,12 +3,13 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-emit_ir_expression, original VA 0x393a0. There are 137 reconstructed source
-functions and 206 accepted trap frontiers, all replayed in order. The case
-has declared main, initialized its function context, serialized the initial
-source/option controls, and constructed its entry expression. The expression
-writer, statements, and completion of the four intermediate files remain
-unfinished. This is a checkpoint, not a completed compiler case.
+emit_return_statement, original VA 0x32f10. There are 149 reconstructed source
+functions and 218 accepted trap frontiers, all replayed in order. The case
+has emitted main's entry expression, entered its compound scope, and parsed
+`return 0` through integer conversion and const-qualified constant creation.
+Return conversion/emission, scope teardown, and completion of the four
+intermediate files remain unfinished. This is a checkpoint, not a completed
+compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -72,7 +73,10 @@ parser-grammar.c: logical token shifts, reduction exceptions, production
   The original compressed action/check layout is not reproduced.
 scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,
   and typed intrinsic definitions.
-constants.c / ir.c / ir-formats.c: integer nodes and schema-driven IR writer.
+constants.c / ir.c / ir-formats.c: constant nodes, recursive expression emission,
+  and schema-driven IR writer.
+expression-records.c: named token-to-record rules, sharing declaration meanings
+  with token-data.c rather than duplicating the original combined vocabulary.
 control-ir.c / control-formats.c: source and option control-record schemas,
   compact state encoding, deferred pragmas, and warning override lists.
 intermediate.c: intermediate stream opening and expression-header reservation.
@@ -85,7 +89,8 @@ source-input.c: file opening and overlapping buffered include windows.
 global-ir.c / global-formats.c: global/symbol IR schema serialization.
 option-state.c: optimization-state bit packing.
 The expression writer and function serializer share the original expression
-count and call/inline state; interned identifier globals are shared with
+count and call/inline state and the shared FrontendSymbol layout; interned
+identifier globals are shared with
 predefined-macro initialization.
 stubs.c: named, trapping entries for functions not yet reconstructed.
 

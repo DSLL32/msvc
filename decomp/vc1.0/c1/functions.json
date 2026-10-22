@@ -210,7 +210,19 @@
     "_emit_warning_controls@4",
     "_make_symbol_reference@4",
     "_make_ir_expression@12",
-    "_make_typed_ir_expression@16"
+    "_make_typed_ir_expression@16",
+    "_emit_ir_expression@4",
+    "_get_ir_symbol_index",
+    "_replace_outer_type_shape@16",
+    "_begin_compound_statement",
+    "_enter_compound_scope",
+    "_scan_number@4",
+    "_read_numeric_character",
+    "_next_source_character",
+    "_convert_integer_digits@12",
+    "_integer_digit_value@4",
+    "_classify_radix_integer@4",
+    "_make_constant_token@8"
   ],
   "driver": [
     {
@@ -684,7 +696,7 @@
     {
       "name": "_get_ir_symbol_index",
       "start": 237632,
-      "end": 237633
+      "end": 237729
     },
     {
       "name": "_ftell",
@@ -997,7 +1009,7 @@
     {
       "name": "_next_source_character",
       "start": 142080,
-      "end": 142081
+      "end": 142185
     },
     {
       "name": "_begin_source_line",
@@ -1068,7 +1080,7 @@
     {
       "name": "_scan_number@4",
       "start": 138672,
-      "end": 138673
+      "end": 139157
     },
     {
       "name": "_scan_float_tail@4",
@@ -1173,7 +1185,13 @@
     {
       "name": "_make_constant_token@8",
       "start": 161664,
-      "end": 161665
+      "end": 161924,
+      "shared": [
+        [
+          161924,
+          161952
+        ]
+      ]
     },
     {
       "name": "_parse_enum_specifier",
@@ -1509,7 +1527,7 @@
     {
       "name": "_begin_compound_statement",
       "start": 220784,
-      "end": 220785
+      "end": 220789
     },
     {
       "name": "_finish_compound_statement",
@@ -1624,7 +1642,7 @@
     {
       "name": "_replace_outer_type_shape@16",
       "start": 262208,
-      "end": 262209
+      "end": 262489
     },
     {
       "name": "_type_specifier_name@4",
@@ -1874,7 +1892,7 @@
     {
       "name": "_emit_ir_expression@4",
       "start": 234400,
-      "end": 234401
+      "end": 234991
     },
     {
       "name": "_make_ir_expression@12",
@@ -1910,6 +1928,56 @@
       "name": "_make_based_pointer_base@4",
       "start": 155744,
       "end": 155745
+    },
+    {
+      "name": "_make_typed_unary_expression@12",
+      "start": 247552,
+      "end": 247553
+    },
+    {
+      "name": "_emit_intrinsic_expression@4",
+      "start": 223584,
+      "end": 223585
+    },
+    {
+      "name": "_enter_compound_scope",
+      "start": 220800,
+      "end": 220970
+    },
+    {
+      "name": "_read_numeric_character",
+      "start": 142016,
+      "end": 142076
+    },
+    {
+      "name": "_convert_integer_digits@12",
+      "start": 139616,
+      "end": 139878
+    },
+    {
+      "name": "_classify_decimal_integer@4",
+      "start": 139920,
+      "end": 139921
+    },
+    {
+      "name": "_classify_radix_integer@4",
+      "start": 139888,
+      "end": 139909
+    },
+    {
+      "name": "_classify_long_integer@4",
+      "start": 139952,
+      "end": 139953
+    },
+    {
+      "name": "_classify_unsigned_integer@4",
+      "start": 139984,
+      "end": 139985
+    },
+    {
+      "name": "_integer_digit_value@4",
+      "start": 140000,
+      "end": 140034
     }
   ],
   "cases": {

@@ -491,3 +491,47 @@ int __stdcall base_type_size(unsigned short flags, void *information)
     if (flags & 0x200) return 4;
     return flags & 15;
 }
+
+/* Original prefix-shape workspace at 0x66360, referenced by 0x6d9e0. */
+static TypeShape replacement_prefix;
+
+/* Original 0x40040..0x40159. Replace the first substantive shape, preserving
+   a declaration prefix and propagating qualifiers through an array shape. */
+CType *__stdcall replace_outer_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter)
+{
+    TypeDescription *description = &type_description_stack[++type_description_depth];
+    TypeShape *replacement, *shape, *remaining, *next;
+    CType *result;
+    int prefix = 0;
+    *description = *type;
+    replacement = new_type_shape(kind, attributes, parameter);
+    shape = type->related;
+    remaining = 0;
+    if (shape) {
+        if (!(shape->flags & 7)) {
+            shape = shape->related;
+            prefix = 1;
+        }
+        if ((shape->flags & 7) == 2) {
+            next = shape->related;
+            if (!next) description->attributes |= shape->attributes & 0x3000;
+            else {
+                remaining = new_type_shape(next->flags,
+                    (unsigned short)(next->attributes | (shape->attributes & 0x3000)), &next->field08);
+                remaining->related = next->related;
+                remaining = intern_type_shape(remaining);
+            }
+        } else remaining = shape->related;
+    }
+    replacement->related = remaining;
+    replacement = intern_type_shape(replacement);
+    if (prefix) {
+        replacement_prefix = *type->related;
+        replacement_prefix.related = replacement;
+        replacement = intern_type_shape(&replacement_prefix);
+    }
+    description->related = replacement;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}

@@ -31,7 +31,7 @@ void preprocess_translation_unit(void) { __asm { int 3 } }
 void __stdcall record_version_token(IrToken *token) { __asm { int 3 } }
 
 /* Original 0x3c080. */
-void __stdcall emit_version_token(IrToken *token) { __asm { int 3 } }
+IrToken *__stdcall emit_version_token(IrToken *token) { __asm { int 3 } return 0; }
 
 /* Original 0x213f0. */
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
@@ -95,8 +95,7 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode) { __asm { int 3 } }
-void __stdcall reference_ir_symbol(IrSymbol *symbol) { __asm { int 3 } }
-unsigned get_ir_symbol_index(IrSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall reference_ir_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 ParameterInfo *void_parameter_info(void) { __asm { int 3 } return 0; }
@@ -146,7 +145,6 @@ unsigned recover_trigraph(void) { __asm { int 3 } return 0; }
 
 int consume_line_escape(void) { __asm { int 3 } return 0; }
 
-unsigned char next_source_character(void) { __asm { int 3 } return 0; }
 
 
 void skip_source_line(void) { __asm { int 3 } }
@@ -170,7 +168,6 @@ int __stdcall match_source_character(int character) { __asm { int 3 } return 0; 
 
 unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
 
-unsigned char __stdcall scan_number(int first_character) { __asm { int 3 } return 0; }
 
 unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
 
@@ -223,7 +220,6 @@ unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 
 FrontendSymbol *__stdcall finish_declarator(FrontendSymbol *declarator) { __asm { int 3 } return 0; }
 
 /* Original 0x27780. */
-IrToken *__stdcall make_constant_token(unsigned char token, void *value) { __asm { int 3 } return 0; }
 
 /* Original 0x28a70. */
 CType *parse_enum_specifier(void) { __asm { int 3 } return 0; }
@@ -409,7 +405,6 @@ FrontendSymbol *__stdcall apply_declarator_type(DeclarationSpec *declaration, Fr
 FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned kind, int arena) { __asm { int 3 } return 0; }
 
 /* Original 0x35e70. */
-void begin_compound_statement(void) { __asm { int 3 } }
 
 /* Original 0x35f30. */
 void finish_compound_statement(void) { __asm { int 3 } }
@@ -462,7 +457,6 @@ TypeDescription *__stdcall copy_mutable_type(CType *type) { __asm { int 3 } retu
 
 
 
-CType *__stdcall replace_outer_type_shape(CType *type, unsigned short kind, unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
 
 char *__stdcall type_specifier_name(unsigned short flags) { __asm { int 3 } return 0; }
 
@@ -513,10 +507,18 @@ void begin_syntax_trace(void) { __asm { int 3 } }
 void end_syntax_trace(void) { __asm { int 3 } }
 void __stdcall print_function_declaration(FrontendSymbol *symbol, void *context) { __asm { int 3 } }
 
-void __stdcall emit_ir_expression(IrToken *expression) { __asm { int 3 } }
 void __stdcall define_register_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 
 void write_counted_ir(short length, char *text) { __asm { int 3 } }
 
 IrToken *__stdcall make_based_pointer_base(CType *type) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall make_typed_unary_expression(unsigned char operation, CType *type, IrToken *operand) { __asm { int 3 } return 0; }
+int __stdcall emit_intrinsic_expression(IrToken *expression) { __asm { int 3 } return 0; }
+
+
+unsigned char __stdcall classify_decimal_integer(unsigned value) { __asm { int 3 } return 0; }
+unsigned char __stdcall classify_long_integer(unsigned value) { __asm { int 3 } return 0; }
+unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
+

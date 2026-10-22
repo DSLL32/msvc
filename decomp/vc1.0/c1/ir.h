@@ -26,18 +26,13 @@ enum IrField {
     IR_FIELD_RESERVED_112 = 112
 };
 
-typedef struct IrSymbol {
-    unsigned field00;
-    CType *type;
-    unsigned field08, field0c, index, field14;
-    unsigned short references;
-} IrSymbol;
+typedef struct FrontendSymbol FrontendSymbol;
 
 extern unsigned char *ir_record_formats[191];
 extern unsigned string_record_count;
 extern struct FrontendSymbol *function_symbol;
-extern IrSymbol *current_label_symbol;
+extern FrontendSymbol *current_label_symbol;
 void __stdcall emit_record_node(unsigned tag, IrToken *node, int mode);
-void __stdcall reference_ir_symbol(IrSymbol *symbol);
-unsigned get_ir_symbol_index(IrSymbol *symbol);
+void __stdcall reference_ir_symbol(FrontendSymbol *symbol);
+unsigned get_ir_symbol_index(FrontendSymbol *symbol);
 #endif

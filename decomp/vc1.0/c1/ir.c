@@ -1,8 +1,12 @@
 /* Expression-stream records. Buffer operations stay inside their original caller. */
 #include "global-ir.h"
+#include "parser.h"
+#include "expression-records.h"
+
+typedef struct IrRecordLink { struct IrRecordLink *next; } IrRecordLink;
 
 unsigned string_record_count; /* original 0x60040 */
-IrSymbol *current_label_symbol; /* original 0x60068 */
+FrontendSymbol *current_label_symbol; /* original 0x60068 */
 
 #define PUT_IR_WORD(stream, value) do { \
     FILE *word_stream = (stream); \
@@ -41,7 +45,7 @@ void __stdcall write_ir_record(unsigned tag, void *value)
     FILE *file;
     CType *type;
     TypeShape *shape;
-    IrSymbol *symbol;
+    FrontendSymbol *symbol;
     unsigned index, storage;
     unsigned short attributes;
     putc(tag, expression_file);
@@ -60,7 +64,7 @@ void __stdcall write_ir_record(unsigned tag, void *value)
             PUT_IR_INTEGER(expression_file, node->value.integer);
             break;
         case IR_FIELD_STORAGE:
-            shape = ((IrSymbol *)node->value.pointer)->type->related;
+            shape = ((FrontendSymbol *)node->value.pointer)->type->related;
             if (shape && !(shape->flags & 7))
                 shape = shape->related;
             attributes = shape->attributes;
@@ -114,7 +118,7 @@ void __stdcall write_ir_record(unsigned tag, void *value)
             case 0x2a:
             case 0x2b:
             case 0x2d:
-                index = ((IrSymbol *)node->value.pointer)->index;
+                index = ((FrontendSymbol *)node->value.pointer)->index;
                 break;
             case 0x38:
             case 0x39:
@@ -157,4 +161,105 @@ void __stdcall write_ir_record(unsigned tag, void *value)
             break;
         }
     }
+}
+
+/* Original 0x393a0..0x395ef. Recursively serialize an expression, with
+   explicit entry, call-argument, and switch-list record boundaries. */
+void __stdcall emit_ir_expression(IrToken *expression)
+{
+    ExpressionNode *node;
+    FrontendSymbol *symbol;
+    IrRecordLink *link;
+    unsigned record, rule;
+    if (current_function) return;
+    while (expression) {
+        node = (ExpressionNode *)expression;
+        switch (node->kind) {
+        case TOK_CAST:
+            if (node->type->flags == 0x80 && !node->type->related) {
+                expression = node->value.children.left;
+                if (current_function) return;
+                continue;
+            }
+            break;
+        case TOK_STRING:
+            expression = emit_version_token(expression);
+            WRITE_EXPRESSION_RECORD(expression);
+            return;
+        case TOK_BASED_REFERENCE:
+            if (!node->value.children.right)
+                node->value.children.right = make_typed_unary_expression(0x2a, type_4064_first, 0);
+            break;
+        case TOK_ENTRY:
+            emit_ir_expression(node->value.children.left);
+            symbol = (FrontendSymbol *)node->value.children.left->value.pointer;
+            --symbol->references;
+            WRITE_EXPRESSION_RECORD(expression);
+            for (symbol = current_parameter; symbol; symbol = symbol->next)
+                if (symbol->type && !(symbol->flags & 2) &&
+                    ((symbol->kind & 0x1f) == 10 || (symbol->kind & 0x1f) == 11))
+                    write_ir_record(0x2d, make_symbol_reference(symbol));
+            write_ir_record(0x4c, 0);
+            return;
+        case TOK_INTRINSIC:
+            if (emit_intrinsic_expression(expression)) return;
+            /* An unexpanded intrinsic has the ordinary argument-list form. */
+        case TOK_ARGUMENT_END:
+            emit_ir_expression(node->value.children.left);
+            WRITE_EXPRESSION_RECORD(expression);
+            node = (ExpressionNode *)node->value.children.right;
+            while (node) {
+                emit_ir_expression(node->value.children.left);
+                write_ir_record(0x55, node);
+                node = (ExpressionNode *)node->value.children.right;
+            }
+            write_ir_record(0x4c, 0);
+            return;
+        case TOK_SWITCH:
+            emit_ir_expression(node->value.children.left);
+            WRITE_EXPRESSION_RECORD(expression);
+            link = (IrRecordLink *)node->value.children.right;
+            while (link) {
+                write_ir_record(0x3d, link);
+                link = link->next;
+            }
+            write_ir_record(0x4c, 0);
+            return;
+        }
+        switch (node->flags & 7) {
+        case 0:
+            if (node->flags & 0x40) {
+                report_syntax_error(124);
+                return;
+            }
+            break;
+        case 1:
+            emit_ir_expression(node->value.children.left);
+            break;
+        case 2:
+            emit_ir_expression(node->value.children.left);
+            emit_ir_expression(node->value.children.right);
+            break;
+        }
+        WRITE_EXPRESSION_RECORD(expression);
+        return;
+    }
+}
+
+/* Original 0x3a040..0x3a0a1. References account for aliases and disable
+   inlining when a declaration's parameter context requires it. */
+unsigned get_ir_symbol_index(FrontendSymbol *symbol)
+{
+    ++symbol->references;
+    if (symbol->attributes & 0x40) {
+        symbol = symbol_alias(symbol);
+        ++symbol->references;
+    }
+    if ((symbol->attributes & 2) &&
+        ((FrontendSymbol *)symbol->type->related->field08)->index == 5 &&
+        function_symbol && !(function_symbol->storage[1] & 1)) {
+        function_call_seen = 1;
+        inline_candidate = 0;
+    }
+    return symbol->index;
 }

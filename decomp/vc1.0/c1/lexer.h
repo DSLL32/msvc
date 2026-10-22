@@ -31,7 +31,22 @@ extern LexicalToken *token_stack_top, *token_stack_read;
 extern int token_stack_count;
 extern unsigned parser_flags;
 extern unsigned char pch_output_written;
-extern char token_text[128];
+/* The numeric scanner accepts the buffer-end entry before rejecting the
+   next digit. That byte overlaps the following syntax-output context. */
+typedef union LexerTextStorage {
+    char bytes[132];
+    struct { char text[128]; void *syntax_context; } fields;
+} LexerTextStorage;
+extern LexerTextStorage lexer_text_storage;
+#define token_text lexer_text_storage.bytes
+#define syntax_declaration_context lexer_text_storage.fields.syntax_context
+unsigned char read_numeric_character(void);
+int __stdcall integer_digit_value(int character);
+unsigned __stdcall convert_integer_digits(char *digits, int length, int radix);
+unsigned char __stdcall classify_decimal_integer(unsigned value);
+unsigned char __stdcall classify_radix_integer(unsigned value);
+unsigned char __stdcall classify_long_integer(unsigned value);
+unsigned char __stdcall classify_unsigned_integer(unsigned value);
 typedef struct DeclarationCode {
     unsigned char token;
     unsigned short value;
@@ -42,6 +57,7 @@ int skip_source_comment(void);
 unsigned recover_special_character(void);
 unsigned recover_trigraph(void);
 int consume_line_escape(void);
+extern int preprocessor_token_output;
 unsigned char next_source_character(void);
 void report_ide_line(void);
 void finish_pch_capture(void);

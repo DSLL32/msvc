@@ -37,7 +37,7 @@ unsigned char scan_token(void)
 
 unsigned parser_flags; /* original 0x6bb48 */
 unsigned char pch_output_written; /* original 0x6be74 */
-char token_text[128]; /* original 0x5b158..0x5b1d8 */
+LexerTextStorage lexer_text_storage; /* original 0x5b158..0x5b1dc */
 
 #define NEXT_CHARACTER_CLASS() \
     character_class[(unsigned char)*source_text_cursor++]
@@ -697,4 +697,158 @@ unsigned char __stdcall lookup_identifier_token(FrontendSymbol *explicit_symbol)
         browser_symbol_reference(symbol);
     current_token_value.symbol = symbol;
     return TOK_TYPEDEF_NAME;
+}
+
+/* Original 0x21db0..0x21f95. Scan radix and U/L suffixes before selecting
+   the original integer token kind; decimal fractions use a separate entry. */
+unsigned char __stdcall scan_number(int first_character)
+{
+    unsigned char character = (unsigned char)first_character, token = TOK_INT_CONSTANT;
+    unsigned char following;
+    unsigned value;
+    int radix;
+    char *destination = token_text;
+    if (character == '0') {
+        character = read_numeric_character();
+        if ((character & 0xdf) == 'X') {
+            radix = 16;
+            character = read_numeric_character();
+            while (character_flags[character] & CF_HEX) {
+                *destination++ = character;
+                character = read_numeric_character();
+            }
+            if (destination == token_text) report_syntax_error(153);
+            goto integer_suffix;
+        }
+        radix = 8;
+        *destination++ = '0';
+    } else radix = 10;
+    while (character_flags[character] & CF_DECIMAL) {
+        *destination++ = character;
+        character = read_numeric_character();
+        if (destination > token_text + 128) fatal_error(64);
+    }
+    if (character == '.' || (character & 0xdf) == 'E') {
+        --source_text_cursor;
+        return scan_float_tail(destination);
+    }
+integer_suffix:
+    character &= 0xdf;
+    if (character == 'L') {
+        following = read_numeric_character() & 0xdf;
+        if (following == 'U') token = TOK_ULONG_CONSTANT;
+        else { token = TOK_LONG_CONSTANT; --source_text_cursor; }
+    } else if (character == 'U') {
+        following = read_numeric_character() & 0xdf;
+        if (following == 'L') token = TOK_ULONG_CONSTANT;
+        else { token = TOK_UINT_CONSTANT; --source_text_cursor; }
+    } else --source_text_cursor;
+    following = character_class[(unsigned char)*source_text_cursor];
+    if (following == CC_IDENTIFIER || following == CC_WIDE_PREFIX)
+        report_syntax_error(59, "bad suffix on number");
+    *destination = 0;
+    value = convert_integer_digits(token_text, destination - token_text, radix);
+    switch (token) {
+    case TOK_INT_CONSTANT:
+        token = radix == 10 ? classify_decimal_integer(value) : classify_radix_integer(value);
+        break;
+    case TOK_LONG_CONSTANT: token = classify_long_integer(value); break;
+    case TOK_UINT_CONSTANT: token = classify_unsigned_integer(value); break;
+    }
+    current_token_value.literal = make_constant_token(token, &value);
+    return token;
+}
+
+/* Original 0x22ac0..0x22afc. Numeric scanning uses the full character
+   reader except at an input-window sentinel. A recovered space ends it. */
+unsigned char read_numeric_character(void)
+{
+    char *cursor = source_text_cursor++;
+    if (!*cursor) {
+        if (recover_special_character() == ' ') {
+            ++source_text_cursor;
+            return 0;
+        }
+        return (unsigned char)*source_text_cursor++;
+    }
+    --source_text_cursor;
+    return next_source_character();
+}
+
+int preprocessor_token_output; /* original 0x6389c */
+
+/* Original 0x22b00..0x22b69. Read through source-window boundaries,
+   trigraph rewriting, and escaped newlines unless raw scanning is active. */
+unsigned char next_source_character(void)
+{
+    unsigned char character;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        while (!character && preprocessor_token_output <= 0) {
+            recover_special_character();
+            character = (unsigned char)*source_text_cursor++;
+        }
+        if (parser_flags & 0x02000000) return character;
+        if (character == '?' && (recover_trigraph() & ~0x40U)) continue;
+        if (character == '\\' && consume_line_escape()) continue;
+        return character;
+    }
+}
+
+/* Original 0x22160..0x22266. Validate the 32-bit radix limit before
+   accumulating digits with unsigned wrap, reporting invalid radix digits. */
+unsigned __stdcall convert_integer_digits(char *digits, int length, int radix)
+{
+    unsigned value = 0;
+    int digit, comparison, i;
+    char *limit = "4294967295";
+    if (length > 8) {
+        while (*digits == '0') { ++digits; --length; }
+        if (!length) return 0;
+        if (length > 8) {
+            switch (radix) {
+            case 8:
+                if (length > 10 && !(length == 11 && *digits <= '3')) goto overflow;
+                break;
+            case 10:
+                if (length == 9) break;
+                if (length != 10) goto overflow;
+                comparison = 0;
+                for (i = 0; i < 11; ++i)
+                    if ((unsigned char)digits[i] != (unsigned char)limit[i]) {
+                        comparison = (unsigned char)digits[i] - (unsigned char)limit[i];
+                        break;
+                    }
+                if (comparison > 0) goto overflow;
+                break;
+            case 16: goto overflow;
+            }
+        }
+    }
+    do {
+        digit = integer_digit_value((unsigned char)*digits);
+        if (digit >= radix) report_syntax_error(41, (unsigned char)*digits, radix);
+        ++digits;
+        value += digit;
+        if (!*digits) return value;
+        value *= radix;
+    } while (1);
+overflow:
+    report_syntax_error(177);
+    return 0;
+}
+
+/* Original 0x222e0..0x22302. Decimal digits use their ordinary value;
+   hexadecimal letters are folded without a locale-dependent CRT call. */
+int __stdcall integer_digit_value(int character)
+{
+    if (character_flags[(unsigned char)character] & CF_DECIMAL) return character - '0';
+    return (character & 0xdf) - ('A' - 10);
+}
+
+/* Original 0x22270..0x22285. Octal and hexadecimal literals select unsigned
+   int when their high bit is set. Int and long are both 32 bits here. */
+unsigned char __stdcall classify_radix_integer(unsigned value)
+{
+    return (value & 0x80000000U) ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
 }
