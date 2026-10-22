@@ -1,6 +1,55 @@
 /* Expression constants. */
 #include "initialization.h"
 #include "lexer.h"
+#include "types.h"
+
+/* Original 0x2c600..0x2c71f; seven-way dispatch at 0x2c720..0x2c73c.
+   Floating payloads are pointers to their separately saved values. */
+IrToken *__stdcall new_literal_constant(unsigned char kind, void *value)
+{
+    ArenaPool *pool;
+    IrToken *constant;
+    TypeDescription *description;
+    unsigned short flags;
+    if (token_allocation_flags & 0x20000020)
+        constant = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken))
+            refill_arena(&compiler_arena, pool);
+        constant = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    constant->flags = 3;
+    constant->kind = kind;
+    switch (kind) {
+    case 4: flags = 0x0104; goto floating_value;
+    case 5: flags = 0x0108; goto floating_value;
+    case 6: flags = 0x0128;
+floating_value:
+        constant->value.integer = *(unsigned *)value;
+        break;
+    case 7: flags = 0x0064; goto integer_value;
+    case 8: flags = 0x0044; goto integer_value;
+    case 9: flags = 0x4064; goto integer_value;
+    case 10: flags = 0x4044;
+integer_value:
+        constant->value.integer = *(unsigned *)value;
+        if (!constant->value.integer) constant->flags |= 0x80;
+        break;
+    /* The native default reads an unwritten local flags word. Its callers
+       supply the seven literal token kinds above; no invented default type. */
+    }
+    description = &type_description_stack[++type_description_depth];
+    description->flags = flags;
+    description->attributes = 0x1000;
+    description->related = 0;
+    description->field08 = description->field0a = 0;
+    constant->type = intern_type(description);
+    --type_description_depth;
+    return constant;
+}
 
 /* Original 0x2c7b0..0x2c7c7. */
 IrToken *__stdcall make_integer_constant(unsigned value)

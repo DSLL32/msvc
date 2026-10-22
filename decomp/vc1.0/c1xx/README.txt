@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 517 accepted paired frontiers, including 437 frontend
+PARTIAL reconstruction: 525 accepted paired frontiers, including 445 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _find_forward_frontend_record@12 at original VA 0x41ac0. The latest ordered replay is recorded in validation.json;
+trap is _reject_function_initializer@4 at original VA 0x266a0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -998,3 +998,19 @@ union is 174,359 / 476,418 bytes (36.598%, not branch coverage), with 444 source
 functions. The increment and return IR now match; both runs reach the forward
 record search at 0x41ac0 during nonvoid method path checking. Complete assigned
 frontend equivalence remains pending.
+
+
+The complete numeric scanner preserves radix and suffix selection, overflow and
+bad-suffix diagnostics, numeric-sentinel handling and the general character
+reader's trigraph/line-escape paths. Typed literal allocation reuses the existing
+arenas and canonical type-description stack. Rescan depth is the existing parser
+stack word at offset 2204, with signed tests and an explicit layout assertion;
+it is not separate state. Evidence: evidence/numeric-scanner.txt.
+
+All 525 frontiers pass the frozen full comparator in 132.553 seconds, including
+raw files/streams/pending buffers, callers and fourteen runtime observations.
+Receipt: evidence/replay-numeric-scanner-receipt.json. Accepted executable extent
+union is 175,771 / 476,418 bytes (36.894%, not branch coverage), with 452 source
+functions. Both constructor and next() now complete their definition paths;
+main's literal 41 is scanned and both runs reach reject_function_initializer at
+0x266a0. Complete assigned frontend equivalence remains pending.

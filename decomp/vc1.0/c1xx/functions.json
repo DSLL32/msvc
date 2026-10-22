@@ -521,7 +521,15 @@
     "_convert_integral_constant@20",
     "_integer_constant_overflows@16",
     "_resolve_assignment_operand@8",
-    "_can_initialize@8"
+    "_can_initialize@8",
+    "_find_forward_frontend_record@12",
+    "_scan_number@4",
+    "_read_numeric_character",
+    "_next_source_character",
+    "_convert_integer_digits@12",
+    "_integer_digit_value@4",
+    "_classify_decimal_integer@4",
+    "_new_literal_constant@8"
   ],
   "driver": [
     {
@@ -2689,7 +2697,7 @@
     {
       "name": "_next_source_character",
       "start": 155936,
-      "end": 155937
+      "end": 156041
     },
     {
       "name": "_recover_trigraph",
@@ -2764,7 +2772,7 @@
     {
       "name": "_scan_number@4",
       "start": 152480,
-      "end": 152481
+      "end": 152965
     },
     {
       "name": "_scan_float_tail@4",
@@ -4537,7 +4545,13 @@
     {
       "name": "_new_literal_constant@8",
       "start": 181760,
-      "end": 181761
+      "end": 182047,
+      "shared": [
+        [
+          182048,
+          182076
+        ]
+      ]
     },
     {
       "name": "_fold_binary_constant@12",
@@ -4749,7 +4763,7 @@
     {
       "name": "_find_forward_frontend_record@12",
       "start": 268992,
-      "end": 268993
+      "end": 269118
     },
     {
       "name": "_resolve_goto_cleanup@12",
@@ -5086,6 +5100,41 @@
       "name": "_resolve_qualified_assignment_operand@8",
       "start": 237488,
       "end": 237489
+    },
+    {
+      "name": "_read_numeric_character",
+      "start": 155872,
+      "end": 155932
+    },
+    {
+      "name": "_convert_integer_digits@12",
+      "start": 153424,
+      "end": 153690
+    },
+    {
+      "name": "_classify_decimal_integer@4",
+      "start": 153728,
+      "end": 153749
+    },
+    {
+      "name": "_classify_radix_integer@4",
+      "start": 153696,
+      "end": 153697
+    },
+    {
+      "name": "_classify_long_integer@4",
+      "start": 153760,
+      "end": 153761
+    },
+    {
+      "name": "_classify_unsigned_integer@4",
+      "start": 153792,
+      "end": 153793
+    },
+    {
+      "name": "_integer_digit_value@4",
+      "start": 153808,
+      "end": 153842
     }
   ],
   "cases": {

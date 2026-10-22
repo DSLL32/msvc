@@ -1,0 +1,62 @@
+Numeric scanning, source readers and typed literals
+
+Eight whole functions accepted after frontier 517 (ends exclusive):
+  find_forward_frontend_record 0x41ac0..0x41b3e stdcall 12, 2 native callees
+  scan_number                  0x253a0..0x25585 stdcall 4, 10 native callees
+  read_numeric_character       0x260e0..0x2611c cdecl, 2 native callees
+  next_source_character        0x26120..0x26189 cdecl, 3 native callees
+  convert_integer_digits       0x25750..0x2585a stdcall 12, 2 native callees
+  integer_digit_value          0x258d0..0x258f2 stdcall 4, 0 native callees
+  classify_decimal_integer     0x25880..0x25895 stdcall 4, 0 native callees
+  new_literal_constant         0x2c600..0x2c71f stdcall 8, 3 native callees
+  shared literal dispatch      0x2c720..0x2c73c, 28 bytes
+
+Forward record matching preserves nesting and missing-record longjmp recovery.
+Unlike backward matching it has no function-entry barrier. The case's direct
+return bypasses the still-unreconstructed general return-tree scanner; that
+scanner and its analysis-only jump tables are not accepted by this checkpoint.
+
+The numeric scanner retains decimal/octal/hexadecimal digits, L/U suffix order,
+invalid hex/bad suffix diagnostics and float-tail delegation. Native hexadecimal
+text has no length guard; decimal accumulation retains its original 128-byte
+boundary behavior in the existing 132-byte lexer text/preprocessor FILE union.
+Ordinary diagnostic strings stay at point of use. Hex/octal/suffix/floating
+branches are reconstructed statically but not exercised by this decimal case.
+Their separately unreconstructed classifier/float helpers remain named traps.
+
+Numeric sentinel handling distinguishes exactly status 0x20 and preserves the
+native final jump from read_numeric_character to next_source_character. The
+caller comparator verifies that tail-entry relationship. The general reader
+retains macro sentinel, trigraph and escaped-line behavior and tests the same
+canonical cpp_parser_flags word. Data auditing caught an attempted separate
+macro-depth object before acceptance: original 0x956e0 is parser_stacks+2204,
+the high word of the 221st semantic value. The existing union now names its
+signed rescan depth, with explicit 2204/2208-byte layout checks and the existing
+full parser-stack default/address audit. No second global remains.
+
+Integer conversion preserves leading-zero removal, unsigned octal leading-digit
+comparison, the eleven-byte inline comparison against the decimal UINT_MAX
+literal (including NUL), radix diagnostics and unsigned arithmetic wrapping.
+The digit helper indexes character_flags with the low byte but retains the full
+argument word in its result arithmetic. Decimal high-bit values select ulong;
+other radix and suffix classifiers remain separate named native entries.
+No new empty-input guard alters native diagnostic recovery behavior.
+
+Typed literals retain temporary/permanent arena selection, the seven native
+floating/integer token types, raw payload word, integer-zero flag and canonical
+interned type construction. The twelve-byte type-description stack is reused,
+not duplicated. Native unsupported-kind flags are an unwritten local; source
+records this without inventing a default type. No unsupported kind is exercised.
+Complete function extents include all RET operands; graph/instruction-boundary,
+state/data and both declarative grammar audits pass.
+
+All 525 frozen historical pairs passed in 132.553 seconds, with raw visible files,
+stdout/stderr, pending FILE buffers, logical callers, fourteen runtime state
+observations and final ordinary comparator. Receipt and immutable hashes are in
+evidence/replay-numeric-scanner-receipt.json. No frontend bytes are normalized.
+Coverage is the clipped union of accepted source/CRT/import/shared code extents:
+175771 / 476418 = 36.8942819121024 percent, not branch coverage.
+
+The constructor and Counter::next definition paths complete; main has read 41.
+Both programs now trap at reject_function_initializer@4, original 0x266a0.
+The complete assigned case and final four-stream equivalence remain unfinished.

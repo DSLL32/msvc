@@ -46,6 +46,28 @@ FrontendRecord *__stdcall find_frontend_record(FrontendRecord *from,
     return 0;
 }
 
+/* Original 0x41ac0..0x41b3e. Unlike backward lookup, the forward search
+   has no function-begin barrier. Paired delimiters still count nesting. */
+FrontendRecord *__stdcall find_forward_frontend_record(FrontendRecord *from,
+    unsigned char kind, int recover_on_missing)
+{
+    unsigned char mate = FRONTEND_RECORD_MATE(kind), found_kind;
+    int depth = 1;
+    while (from) {
+        found_kind = from->kind & 0x3f;
+        if (found_kind == kind) {
+            if (!--depth) return from;
+        } else if (found_kind == mate) ++depth;
+        from = from->next;
+    }
+    if (recover_on_missing && ir_record_error_context) {
+        reset_frontend_records();
+        ir_records_suppressed = 1;
+        longjmp(ir_record_error_context, -1);
+    }
+    return 0;
+}
+
 /* Original 0x40fc0..0x417e0, with three dispatch tables through 0x419e0.
    An enclosing error-recovery context belongs to its caller; only a context
    installed in this invocation is cleared here. */

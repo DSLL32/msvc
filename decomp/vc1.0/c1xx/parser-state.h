@@ -19,14 +19,14 @@ typedef union ParserValue {
 
 /* The driver admits index 220 although the original arrays have 220 cells.
    Its last state aliases the first semantic halfword. Its last semantic cell
-   aliases the macro workspace pointer and the following macro control word.
+   aliases the macro workspace pointer and the following signed rescan depth.
    These are shared original objects, not independent parser allocations. */
 typedef union ParserSemanticStack {
     ParserValue values[221];
     struct {
         ParserValue allocated_values[220];
         char *macro_midpoint;
-        unsigned macro_control;
+        int rescan_depth;
     } control;
 } ParserSemanticStack;
 typedef union ParserStackStorage {
@@ -44,11 +44,16 @@ extern short parser_recovery_count;
 #define parser_state_stack parser_stacks.states_with_boundary
 #define parser_value_stack parser_stacks.data.semantic.values
 #define macro_work_midpoint parser_stacks.data.semantic.control.macro_midpoint
+#define macro_rescan_depth parser_stacks.data.semantic.control.rescan_depth
 
 typedef char ParserValueSizeMustBe8[(sizeof(ParserValue) == 8) ? 1 : -1];
 typedef char ParserStackStorageSizeMustBe2208[(sizeof(ParserStackStorage) == 2208) ? 1 : -1];
 typedef char ParserValueStackOffsetMustBe440[
     (sizeof(ParserStackStorage) - sizeof(ParserSemanticStack) == 440) ? 1 : -1];
 typedef char ParserMacroPointerOffsetMustBe2200[
-    (sizeof(ParserStackStorage) - sizeof(char *) - sizeof(unsigned) == 2200) ? 1 : -1];
+    (sizeof(ParserStackStorage) - sizeof(char *) - sizeof(int) == 2200) ? 1 : -1];
+/* Original 0x94e44 + 2204 = 0x956e0. The 221st semantic value's
+   high word is the same object read by the general character reader. */
+typedef char ParserMacroRescanDepthOffsetMustBe2204[
+    (sizeof(ParserStackStorage) - sizeof(int) == 2204) ? 1 : -1];
 #endif

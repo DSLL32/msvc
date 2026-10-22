@@ -4,6 +4,24 @@
 #include "source-input.h"
 #include "characters.h"
 
+/* Original 0x26120..0x26189. Source-window sentinels are recovered outside
+   active macro rescanning. Raw scanning suppresses trigraph/escape handling. */
+unsigned char next_source_character(void)
+{
+    unsigned char character;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        while (!character && macro_rescan_depth <= 0) {
+            recover_special_character();
+            character = (unsigned char)*source_text_cursor++;
+        }
+        if (cpp_parser_flags & 0x02000000U) return character;
+        if (character == '?' && (recover_trigraph() & ~0x40U)) continue;
+        if (character == '\\' && consume_line_escape()) continue;
+        return character;
+    }
+}
+
 TokenReplayStorage token_replay; /* original 0x96b8c..0x9783c */
 DeferredToken *deferred_token_end = deferred_tokens; /* original 0x9d7c4 */
 DeferredToken *deferred_token_cursor = deferred_tokens; /* original 0x9d7c8 */
