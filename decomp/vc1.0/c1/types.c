@@ -683,3 +683,17 @@ int __stdcall symbol_element_size(FrontendSymbol *symbol)
     if (shape) return pointer_type_size(shape->attributes);
     return base_type_size(type->flags, (void *)type->field08);
 }
+
+/* Original 0x40c70..0x40ca6. Retain the member's qualifiers while
+   replacing its address-model bits with those of the containing object. */
+CType *__stdcall qualify_member_type(CType *type, unsigned short model)
+{
+    TypeDescription *description;
+    CType *result;
+    description = copy_type_description(type);
+    description->attributes &= ~7;
+    description->attributes |= model & 7;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}

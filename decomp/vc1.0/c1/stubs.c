@@ -209,7 +209,6 @@ IrToken *__stdcall normalize_based_expression(IrToken *expression) { __asm { int
 /* Original 0x29700. */
 
 /* Original 0x29970. */
-IrToken *__stdcall select_member_expression(unsigned char operation, IrToken *operand, char *name) { __asm { int 3 } return 0; }
 
 /* Original 0x2a530. */
 
@@ -381,7 +380,6 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 /* Original 0x40560. */
 
 /* Original 0x41490. */
-IrToken *__stdcall make_cast_expression(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
 
 /* Original 0x4a5a0. */
 
@@ -700,9 +698,7 @@ void __stdcall report_function_operand(unsigned char operation, int argument) { 
 /* Original 0x3f5c0. */
 /* Original 0x3f670. */
 /* Original 0x419a0. */
-IrToken * __stdcall convert_expression(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x41ff0. */
-IrToken * __stdcall convert_scalar_expression(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 /* Original 0x3f530. */
 
@@ -818,3 +814,34 @@ FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation) { __
 
 /* Original 0x3af90. */
 void flush_initializer_buffer(void) { __asm { int 3 } }
+
+/* Original 0x29930. */
+/* Original 0x40c70. */
+
+/* Original 0x336f0. */
+CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes) { __asm { int 3 } }
+/* Original 0x414e0. */
+
+/* Original 0x413d0. */
+/* Original 0x41910. */
+
+/* Original 0x41180. */
+
+/* Original 0x41eb0. */
+
+/* Original 0x41c70. */
+IrToken *__stdcall convert_pointer_representation(CType *target, IrToken *operand) { __asm { int 3 } }
+
+/* Original 0x40e60. */
+
+/* Original 0x40cd0. */
+unsigned __stdcall classify_void_pointer_conversion(unsigned result, TypeShape *target, TypeShape *source) { __asm { int 3 } }
+/* Original 0x40e00. */
+unsigned __stdcall classify_pointer_qualifiers(unsigned result, unsigned short target, unsigned short source) { __asm { int 3 } }
+/* Original 0x40d10. */
+unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target, unsigned short source, TypeShape *shape) { __asm { int 3 } }
+
+/* Original 0x4c696. */
+int float_to_extended(const float *value, Extended *number) { __asm { int 3 } }
+/* Original 0x4c6b8. */
+int double_to_extended(const double *value, Extended *number) { __asm { int 3 } }

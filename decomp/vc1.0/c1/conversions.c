@@ -1,5 +1,7 @@
 /* Assignment and type compatibility diagnostics. */
 #include "parser.h"
+#include "expressions.h"
+#include "initializer-records.h"
 
 
 /* Original 0x3e760..0x3ef74, void-pointer dispatch 0x3ef74..0x3efc0. */
@@ -277,4 +279,406 @@ int __stdcall check_conversion_attributes(unsigned char operation,
         return 1;
     default: return 2;
     }
+}
+
+/* Original 0x414e0..0x418c5. Validate an explicit cast, diagnosing
+   incompatible aggregate classes and changes in pointer representation. */
+IrToken *__stdcall convert_cast_expression(CType *target, IrToken *operand)
+{
+    CType *source;
+    TypeShape *target_shape, *source_shape;
+    unsigned classification;
+    unsigned short target_kind, source_kind, target_attributes, source_attributes;
+    unsigned short target_flags, source_flags;
+    int source_bytes, target_bytes;
+    target_shape = target->related;
+    if (target_shape && !(target_shape->flags & 7)) {
+        target = drop_first_type_shape(target);
+        target_shape = target->related;
+    }
+    target_kind = target_attributes = 0;
+    if (target_shape) {
+        target_kind = target_shape->flags;
+        if ((target_kind & 7) == 4) {
+            report_syntax_error(66);
+            return 0;
+        }
+        if ((target_kind & 7) == 2) {
+            report_syntax_error(67);
+            return 0;
+        }
+        target_attributes = target_shape->attributes;
+    }
+    source = operand->type;
+    classification = classify_expression_conversion(target, operand, 0, 0);
+    if (classification < 0x400) return convert_scalar_expression(TOK_CAST, target, operand);
+    if (classification & 0x1000) {
+        report_type_syntax_error(585, target);
+        return 0;
+    }
+    target_flags = target->flags;
+    source_flags = source->flags;
+    source_shape = source->related;
+    source_kind = source_attributes = 0;
+    if (source_shape) {
+        source_kind = source_shape->flags;
+        source_attributes = source_shape->attributes;
+        if ((source_kind & 7) == 2) source_kind = (source_kind & ~6) | 1;
+    }
+    if (target == type_0080) goto finish;
+    if ((source_flags & 0x80) && !source_shape) {
+        report_syntax_error(69);
+        goto finish;
+    }
+    if (source_kind) {
+        if (!target_kind) {
+            if (target_flags & 0x800)
+                return make_typed_unary_expression(TOK_SEGMENT, target, operand);
+            if (!(target_flags & 0x40))
+                conversion_diagnostic(440, 0, TOK_CAST, source, target);
+            if (pointer_type_size(source_attributes) > (target_flags & 15))
+                conversion_diagnostic(305, 4, TOK_CAST, source, target);
+            goto finish;
+        }
+        source_kind &= 7;
+        target_kind &= 7;
+        if (source_kind == 3) {
+            if (target_kind == 3) goto compare_sizes;
+            if (target_kind == 1) {
+                conversion_diagnostic(54, options.extensions_enabled ? 4 : 1,
+                    TOK_CAST, source, target);
+                goto compare_sizes;
+            }
+        } else if (source_kind == 1) {
+            if (target_kind == 3) {
+                conversion_diagnostic(55, 4, TOK_CAST, source, target);
+                goto compare_sizes;
+            }
+            if (target_kind == 1) {
+                source_bytes = pointer_type_size(source_attributes);
+                target_bytes = pointer_type_size(target_attributes);
+                if (source_bytes > target_bytes)
+                    conversion_diagnostic(305, 4, TOK_CAST, source, target);
+                else if (source_bytes < target_bytes && (target_attributes & 7) == 5 && (operand->flags & 7) == 5)
+                    compiler_warning(1, 120);
+            }
+        }
+        goto finish;
+    }
+    if (target_kind) {
+        if (source_flags & 0x40) {
+            target_bytes = pointer_type_size(target_attributes);
+            source_bytes = source_flags & 15;
+            if (source_bytes > target_bytes)
+                conversion_diagnostic(305, 4, TOK_CAST, source, target);
+            else if (source_bytes < target_bytes)
+                conversion_diagnostic(306, 4, TOK_CAST, source, target);
+            goto finish;
+        }
+    } else if (!(target_flags & 0x400) && !(source_flags & 0x400)) goto finish;
+    conversion_diagnostic(440, 0, TOK_CAST, source, target);
+    return 0;
+compare_sizes:
+    source_bytes = pointer_type_size(source_attributes);
+    target_bytes = pointer_type_size(target_attributes);
+    if (source_bytes > target_bytes)
+        conversion_diagnostic(305, 4, TOK_CAST, source, target);
+finish:
+    return finish_scalar_cast(TOK_CAST, target, operand);
+}
+
+/* Original 0x413d0..0x41485. Null constants convert directly to pointer
+   targets; array operands decay before the common type comparison. */
+unsigned __stdcall classify_expression_conversion(CType *target, IrToken *operand,
+    unsigned mode, unsigned flags)
+{
+    CType *source;
+    if (!operand) return 0x2000;
+    if (!target) return 0x400;
+    source = operand->type;
+    if (!source) return 0x2000;
+    if (is_record_type(source) || is_record_type(target)) return 0x2000;
+    if ((operand->flags & 0x80) && target->related) return 1;
+    if (target->related && (target->related->flags & 7) == 1 &&
+        source->related && (source->related->flags & 7) == 2)
+        source = decay_array_expression_type(operand);
+    return classify_type_conversion(target, source, mode, flags);
+}
+
+/* Original 0x41ff0..0x420bf. Equal scalar representations reuse the
+   operand, preserving qualifiers and clearing the null-constant marker. */
+IrToken *__stdcall convert_scalar_expression(unsigned char operation, CType *target, IrToken *operand)
+{
+    CType *source;
+    TypeDescription *description;
+    unsigned short target_qualifiers, source_qualifiers;
+    if (!operand) return 0;
+    source = remove_type_prefix(operand->type);
+    target = remove_type_prefix(target);
+    if (!target->related && !source->related) {
+        if (source == target) {
+            operand->flags &= ~0x80;
+            return operand;
+        }
+        if (!((source->flags ^ target->flags) & 0xefdf) && source->field08 == target->field08) {
+            target_qualifiers = target->attributes & 0x3000;
+            source_qualifiers = source->attributes & 0x3000;
+            if ((source_qualifiers | target_qualifiers) != target_qualifiers) {
+                description = copy_type_description(target);
+                description->attributes |= source_qualifiers;
+                target = intern_type(description);
+                --type_description_depth;
+            }
+            operand->type = target;
+            operand->flags &= ~0x80;
+            return operand;
+        }
+        return finish_scalar_cast(operation, target, operand);
+    }
+    if (source == target) return operand;
+    return convert_pointer_expression(target, operand);
+}
+
+/* Original 0x41eb0..0x41fed. Null pointers acquire the target's pointer
+   type directly; other values retain the original representation helpers. */
+IrToken *__stdcall convert_pointer_expression(CType *target, IrToken *operand)
+{
+    CType *source;
+    TypeDescription *description;
+    TypeShape *target_shape, *source_shape;
+    unsigned short target_flags, target_attributes, attributes;
+    int same_base;
+    target_flags = target->flags;
+    target_shape = target->related;
+    if (target_shape && (operand->flags & 0x80)) {
+        if ((target_shape->attributes & 7) >= 5) {
+            description = copy_type_description(target);
+            attributes = normalize_type_attributes(1, 0);
+            operand->type = replace_outer_type_shape(description, 1, attributes, 0);
+            --type_description_depth;
+        } else operand->type = target;
+        source = operand->type;
+        source_shape = source->related;
+        if (!(source->flags & 0x80) || !source_shape ||
+            (source_shape->flags & 7) != 1 || source_shape->related)
+            operand->flags &= ~0x80;
+        return operand;
+    }
+    target_attributes = target_shape ? target_shape->attributes : 0;
+    source = operand->type;
+    source_shape = source->related;
+    same_base = !((source->flags ^ target->flags) & 0xefdf) &&
+        source->field08 == target->field08;
+    if (!source_shape) return finish_scalar_cast(1, target, operand);
+    if ((target_flags & 0x800) && !target_shape)
+        return make_typed_unary_expression(TOK_SEGMENT, target, operand);
+    if (target_attributes & 12)
+        return normalize_based_expression(convert_based_pointer(target, operand));
+    if (!(target_flags & 0x80) && !same_base)
+        return finish_scalar_cast(1, target, operand);
+    return convert_pointer_representation(target, operand);
+}
+
+/* Original 0x41180..0x413c2. Classification values retain the original
+   ordering: 1 equivalent, 0x10 promotion, 0x20 conversion, 0x2000 invalid. */
+unsigned __stdcall classify_type_conversion(CType *target, CType *source,
+    unsigned mode, unsigned flags)
+{
+    unsigned result;
+    unsigned short target_flags, source_flags, source_kind;
+    target = remove_type_prefix(target);
+    source = remove_type_prefix(source);
+    if (target == source) return 1;
+    result = classify_pointer_conversion(target, source, mode, flags);
+    if (result) return result;
+    target_flags = target->flags;
+    source_flags = source->flags;
+    if ((!((target_flags & 0x140) || (target_flags & 0x880) || target->related)) ||
+        (!(source_flags & 0x9c0) && !source->related)) {
+        if ((target_flags & 0x200) && (source_flags & 0x200))
+            return target->field08 == source->field08 ? 1 : 0x2000;
+        if (!(target_flags & 0x200) && (source_flags & 0x200) && (target_flags & 0x140))
+            return (target_flags & 0x20) && (target_flags & 0x40) ? 0x10 : 0x20;
+        if (!((source_flags ^ target_flags) & 0xefdf) && source->field08 == target->field08)
+            return 1;
+        return 0x2000;
+    }
+    if (target_flags == source_flags) return 1;
+    if (source_flags & 0x80) return 0x2000;
+    if ((source_flags & 0x40) && (target_flags & 0x40)) {
+        if (!((source_flags ^ target_flags) & 0xefff)) return 1;
+        source_kind = source_flags & 0x2fdf;
+        if ((source_kind == 0x41 || source_kind == 0x42) &&
+            (target_flags & 0x20) && (target_flags & 0x40) && !(target_flags & 0x4000))
+            return 0x10;
+        return 0x20;
+    }
+    if ((source_flags & 0x100) && (target_flags & 0x100)) {
+        if (!((source_flags ^ target_flags) & 15) &&
+            !!(source_flags & 0x20) == !!(target_flags & 0x20)) return 1;
+        if ((source_flags & 15) < (target_flags & 15) && (target_flags & 15) <= 8)
+            return 0x10;
+        return 0x20;
+    }
+    if (target_flags & 0x800) return source_flags & 0x800 ? 1 : 0x2000;
+    return 0x20;
+}
+
+/* Original 0x40e60..0x41178. Compare pointer shape, qualification and
+   address model, retaining separate function and array shape rules. */
+unsigned __stdcall classify_pointer_conversion(CType *target, CType *source,
+    unsigned mode, unsigned flags)
+{
+    TypeShape *left = target->related, *right = source->related, *nested;
+    unsigned result = 1;
+    unsigned short left_kind, right_kind, source_qualifiers, difference;
+    if (!left && !right) return 0;
+    if (!left) return 0x2000;
+    left_kind = left->flags;
+    if ((target->flags & 0x80) && (left_kind & 7) != 4)
+        result = classify_void_pointer_conversion(result, left, right);
+    if (!right) return 0x2000;
+    right_kind = right->flags;
+    if (result != 0x100 && right->related != left->related) return 0x2000;
+    if (left->related) {
+        if ((target->attributes ^ source->attributes) & 0x3000) return 0x2000;
+    } else {
+        source_qualifiers = source->attributes;
+        if (result == 0x100 && source->related && source->related->related) {
+            nested = source->related->related;
+            source_qualifiers = nested->attributes;
+        }
+        result = classify_pointer_qualifiers(result, target->attributes, source_qualifiers);
+        if (result & 0x2000) {
+            if (!(parser_flags & 2) || (mode & 1)) return 0x2000;
+            result &= 0x1fff;
+            if (result != 5 && result != 6) return 0x2000;
+            result = 1;
+        }
+    }
+    result = classify_pointer_model(result, left->attributes, right->attributes, right);
+    if (result & 0x2000) return 0x2000;
+    if ((left_kind ^ right_kind) & 7) {
+        left_kind &= 7;
+        right_kind &= 7;
+        if ((left_kind == 1 && right_kind == 2) ||
+            (left_kind == 2 && right_kind == 1))
+            result = result == 1 ? 2 : result | 2;
+        else return 0x2000;
+    } else {
+        left_kind &= 7;
+        if (left_kind == 2 && left->field08 && left->field08 != right->field08)
+            return 0x2000;
+    }
+    if ((left_kind == 3 || left_kind == 4) &&
+        ((right_kind & 7) == 3 || (right_kind & 7) == 4)) {
+        if (left_kind == 3) left = left->related;
+        if ((right_kind & 7) == 3) right = right->related;
+        if (left->field08 != right->field08) return 0x2000;
+        difference = left->attributes ^ right->attributes;
+        if ((difference & 0xf0ff) || (difference & 0x100)) return 0x2000;
+    }
+    if ((!((source->flags ^ target->flags) & 0xefdf) && source->field08 == target->field08) ||
+        (result & 0x100)) return result;
+    return 0x2000;
+}
+
+/* Original 0x41910..0x41996. Fold constant operands when the target
+   permits it, otherwise retain conversion checks and representation nodes. */
+IrToken *__stdcall finish_scalar_cast(unsigned char operation, CType *target, IrToken *operand)
+{
+    if (!operand) return 0;
+    if ((scanner_flags & 0x800) && target->related && (target->related->attributes & 12))
+        return normalize_based_expression(convert_based_pointer(target, operand));
+    if ((operand->flags & 7) == 3 && (!(target->flags & 0x800) || target->related))
+        return convert_expression(operation, target, operand);
+    if (operation != TOK_CAST && operation != 1)
+        check_assignment_conversion(operation, target, operand);
+    return convert_pointer_representation(target, operand);
+}
+
+/* Original 0x419a0..0x41c66. Convert constant payloads in place, retaining
+   the compiler's twelve-byte extended representation until final rounding. */
+IrToken *__stdcall convert_expression(unsigned char operation, CType *target, IrToken *operand)
+{
+    CType *source;
+    TypeShape *shape;
+    TypeDescription *description;
+    unsigned short target_flags, source_flags, target_shape, source_shape;
+    unsigned short target_attributes, source_attributes;
+    Extended number;
+    double double_value;
+    float float_value;
+    int integer_value, failed, is_unsigned;
+    source = operand->type;
+    if ((source->flags & 0x200) && !(target->flags & 0x200)) {
+        operand->type = type_0064;
+        source = operand->type;
+    }
+    target_flags = target->flags;
+    source_flags = source->flags;
+    shape = target->related;
+    target_shape = shape ? shape->flags : 0;
+    target_attributes = shape ? shape->attributes : 0;
+    shape = source->related;
+    source_shape = shape ? shape->flags : 0;
+    source_attributes = shape ? shape->attributes : 0;
+    if ((source_flags & 0x40) || source_shape) {
+        if ((target_flags & 0x40) || target_shape) {
+            if (source_shape && (target_attributes & 7) == 2 &&
+                (source_attributes & 7) != 2 && !(operand->flags & 0x80))
+                return convert_pointer_representation(target, operand);
+            operand->value.integer = convert_integer_constant(operation, operand,
+                target_shape, target_attributes, target_flags);
+            if ((target->flags & 0x4000) && !(operand->type->flags & 0x4000)) {
+                description = copy_type_description(operand->type);
+                operand->type = description;
+                description->flags |= 0x4000;
+                operand->type = intern_type(description);
+                --type_description_depth;
+            }
+        } else if (target_flags & 0x100) {
+            if (source_flags & 0x4000)
+                failed = unsigned_to_extended(&operand->value.integer, &number);
+            else failed = integer_to_extended((int *)&operand->value.integer, &number);
+            if (failed) compiler_warning(2, 56);
+        } else goto finish;
+    } else if (source_flags & 0x100) {
+        if (target_flags & 0x40) {
+            if (extended_to_integer(operand->value.pointer, &integer_value)) compiler_warning(2, 56);
+            is_unsigned = (target_flags & 0x4000) ||
+                (!options.extensions_enabled && (target_flags & 0x2fdf) == 0x41 &&
+                 options.option_J && !(target_flags & 0x8000));
+            if ((target_flags & 0x2fdf) == 0x44)
+                operand->kind = is_unsigned ? TOK_ULONG_CONSTANT : TOK_LONG_CONSTANT;
+            else operand->kind = is_unsigned ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
+            operand->value.integer = integer_value;
+        } else if (target_flags & 0x100) {
+            if (!target_shape) number = *(Extended *)operand->value.pointer;
+        } else goto finish;
+    }
+    if ((target_flags & 0x100) && !target_shape) {
+        if (target_flags == 0x108) {
+            if (normalized_Op) {
+                extended_to_double(&number, &double_value);
+                double_to_extended(&double_value, &number);
+            }
+            number.format = 8;
+            operand->kind = TOK_DOUBLE_CONSTANT;
+        } else if (target_flags == 0x104) {
+            if (normalized_Op) {
+                extended_to_float(&number, &float_value);
+                float_to_extended(&float_value, &number);
+            }
+            number.format = 4;
+            operand->kind = TOK_FLOAT_CONSTANT;
+        } else {
+            number.format = 8;
+            operand->kind = TOK_LONG_DOUBLE_CONSTANT;
+        }
+        operand->value.pointer = save_extended_constant(&number);
+    }
+finish:
+    operand->type = target;
+    return operand;
 }

@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 407 reconstructed source functions
-and 488 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 419 reconstructed source functions
+and 500 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-select_member_expression, original VA 0x29970.
-All 230 hello frontiers replay successfully with exact pending-buffer/visible-file
+classify_void_pointer_conversion, original VA 0x40cd0.
+All 242 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -323,3 +323,12 @@ objects are audited. All 230 hello frontiers and the minimal-C raw-output
 regression pass. The next function at 0x29970 selects a member with . or ->;
 its provisional function-call name and argument-list prototype are corrected
 to select_member_expression(operation, operand, name).
+
+Checkpoint 419 reconstructs member selection, member address/model handling,
+and the explicit-cast pipeline: declarator cleanup, cast validation, scalar
+and pointer classification, null-pointer conversion and constant payload
+conversion. Float branches retain named conversion entries and the existing
+normalized /Op option. Type-name cast semantic values now use their actual
+FrontendSymbol pointer. All 242 hello frontiers replay with exact pending
+and visible bytes; minimal-C retains all four captured raw files. The current
+matching trap is the void-pointer classifier at 0x40cd0.

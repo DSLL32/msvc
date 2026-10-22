@@ -492,7 +492,19 @@
     "_emit_memory_initializer_call@8",
     "_emit_intrinsic_expression@4",
     "_type_requires_intrinsic_fallback@4",
-    "_finish_initializer_symbol@4"
+    "_finish_initializer_symbol@4",
+    "_select_member_expression@12",
+    "_address_member_operand@4",
+    "_qualify_member_type@8",
+    "_make_cast_expression@8",
+    "_convert_cast_expression@8",
+    "_classify_expression_conversion@16",
+    "_convert_scalar_expression@12",
+    "_convert_pointer_expression@8",
+    "_classify_type_conversion@16",
+    "_classify_pointer_conversion@16",
+    "_finish_scalar_cast@12",
+    "_convert_expression@12"
   ],
   "driver": [
     {
@@ -1491,7 +1503,7 @@
     {
       "name": "_select_member_expression@12",
       "start": 170352,
-      "end": 170353
+      "end": 171215
     },
     {
       "name": "_prepare_function_definition@8",
@@ -1852,7 +1864,7 @@
     {
       "name": "_make_cast_expression@8",
       "start": 267408,
-      "end": 267409
+      "end": 267482
     },
     {
       "name": "_release_arena@4",
@@ -3238,12 +3250,12 @@
     {
       "name": "_convert_expression@12",
       "start": 268704,
-      "end": 268705
+      "end": 269414
     },
     {
       "name": "_convert_scalar_expression@12",
       "start": 270320,
-      "end": 270321
+      "end": 270527
     },
     {
       "name": "_allows_record_operands@12",
@@ -3674,6 +3686,81 @@
       "name": "_flush_initializer_buffer",
       "start": 241552,
       "end": 241553
+    },
+    {
+      "name": "_address_member_operand@4",
+      "start": 170288,
+      "end": 170349
+    },
+    {
+      "name": "_qualify_member_type@8",
+      "start": 265328,
+      "end": 265382
+    },
+    {
+      "name": "_clear_type_attributes@8",
+      "start": 210672,
+      "end": 210673
+    },
+    {
+      "name": "_convert_cast_expression@8",
+      "start": 267488,
+      "end": 268485
+    },
+    {
+      "name": "_classify_expression_conversion@16",
+      "start": 267216,
+      "end": 267397
+    },
+    {
+      "name": "_finish_scalar_cast@12",
+      "start": 268560,
+      "end": 268694
+    },
+    {
+      "name": "_classify_type_conversion@16",
+      "start": 266624,
+      "end": 267202
+    },
+    {
+      "name": "_convert_pointer_expression@8",
+      "start": 270000,
+      "end": 270317
+    },
+    {
+      "name": "_convert_pointer_representation@8",
+      "start": 269424,
+      "end": 269425
+    },
+    {
+      "name": "_classify_pointer_conversion@16",
+      "start": 265824,
+      "end": 266616
+    },
+    {
+      "name": "_classify_void_pointer_conversion@12",
+      "start": 265424,
+      "end": 265425
+    },
+    {
+      "name": "_classify_pointer_qualifiers@12",
+      "start": 265728,
+      "end": 265729
+    },
+    {
+      "name": "_classify_pointer_model@16",
+      "start": 265488,
+      "end": 265489
+    },
+    {
+      "name": "_float_to_extended",
+      "start": 312982,
+      "end": 312983
+    },
+    {
+      "name": "_double_to_extended",
+      "start": 313016,
+      "end": 313017
     }
   ],
   "cases": {

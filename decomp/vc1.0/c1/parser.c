@@ -889,7 +889,7 @@ read_action:
             --unevaluated_expression_depth;
             break;
         case 204:
-            parser_value.node = make_cast_expression((CType *)right[-1].words.low, right[0].node);
+            parser_value.node = make_cast_expression(right[-1].symbol, right[0].node);
             break;
         case 205:
             parser_value.node = make_binary_expression(right[-2].bytes[0], right[-3].node, right[-1].node);

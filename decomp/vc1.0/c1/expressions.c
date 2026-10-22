@@ -1056,3 +1056,143 @@ IrToken *__stdcall convert_binary_operands(IrToken *expression)
     }
     return 0;
 }
+
+/* Original 0x29970..0x29ccf. Select a named aggregate member for . or ->,
+   preserving the enclosing qualifiers and explicit bitfield descriptors. */
+IrToken *__stdcall select_member_expression(unsigned char operation, IrToken *operand, char *name)
+{
+    CType *type, *result_type;
+    TypeShape **shape_slot;
+    TypeShape *shape;
+    TypeDescription *description;
+    FrontendSymbol *tag, *member;
+    ExpressionNode *node;
+    IrToken *result, *width, *offset;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    unsigned kind, displacement, parameter;
+    unsigned short qualifiers, flags;
+    int preserve_value = 0;
+    if (!operand) return 0;
+    type = operand->type;
+    flags = type->flags;
+    kind = flags & 0x2fdf;
+    if (kind != 0x412 && kind != 0x414 && kind != 0x418) {
+        report_syntax_error(operation == TOK_ARROW ? 223 : 224, name);
+        return 0;
+    }
+    tag = (FrontendSymbol *)type->field08;
+    member = tag->associated.members;
+    if (!member) {
+        report_syntax_error(37, name, tag->name);
+        return 0;
+    }
+    while (member && member->name != name) member = member->next;
+    if (!member) {
+        report_syntax_error(39, name, tag->name);
+        return 0;
+    }
+    displacement = member->detail.value;
+    shape_slot = &type->related;
+    shape = type->related;
+    if (operation == TOK_ARROW) {
+        if (!shape) {
+            report_syntax_error(232, type_specifier_name(flags));
+            return 0;
+        }
+        if (shape->related || !(shape->flags & 3)) {
+            report_syntax_error(223, member->name);
+            return 0;
+        }
+        if ((shape->attributes & 7) == 4) {
+            report_syntax_error(214);
+            return 0;
+        }
+    } else if (shape) {
+        if ((shape->flags & 3) && !shape->related)
+            report_syntax_error(231, type_specifier_name(flags));
+        else report_syntax_error(224, member->name);
+    } else {
+        operand = address_member_operand(operand);
+        preserve_value = operand->flags & 0x20;
+        if (operand->kind == TOK_ASSIGN && operand->type && !operand->type->related)
+            preserve_value = 1;
+    }
+    qualifiers = type->attributes & 0x3000;
+    if (token_categories[operand->kind] == TOK_MEMBER_OPERATOR) {
+        ((ExpressionNode *)operand)->value.children.right->value.integer += displacement;
+        result = operand;
+    } else {
+        if (pool->remaining < (int)sizeof(ExpressionNode)) refill_arena(&compiler_arena, pool);
+        node = (ExpressionNode *)pool->next;
+        pool->remaining -= sizeof(ExpressionNode);
+        pool->next += sizeof(ExpressionNode);
+        node->flags = 2;
+        node->kind = operation;
+        node->value.children.left = operand;
+        node->value.children.right = make_integer_constant(displacement);
+        result = (IrToken *)node;
+    }
+    result_type = qualify_member_type(member->type,
+        operation == TOK_ARROW ? (*shape_slot)->attributes & 7 : type->attributes & 7);
+    result->type = result_type;
+    if (qualifiers) {
+        shape = result_type->related;
+        if (shape) {
+            parameter = shape->field08;
+            if ((shape->attributes & 0x3000) != qualifiers)
+                result->type = replace_outer_type_shape(result_type, shape->flags,
+                    qualifiers | shape->attributes, &parameter);
+        } else if ((result_type->attributes & 0x3000) != qualifiers) {
+            description = copy_type_description(result_type);
+            description->attributes |= qualifiers;
+            result->type = intern_type(description);
+            --type_description_depth;
+        }
+    }
+    if (member->attributes & 0x400) return result;
+    if ((member->kind & 0x1f) == 2) {
+        width = make_integer_constant(member->metadata.bitfield.width);
+        offset = make_integer_constant(member->metadata.bitfield.offset);
+        offset = make_ir_expression(TOK_COLON, offset, width);
+        result = make_ir_expression(TOK_BIT_FIELD, result, offset);
+        if (qualifiers) {
+            description = copy_type_description(result->type);
+            description->attributes |= qualifiers;
+            result->type = intern_type(description);
+            --type_description_depth;
+        }
+    }
+    result = make_indirection(result);
+    if (preserve_value) result->flags |= 0x20;
+    return result;
+}
+
+/* Original 0x29930..0x2996d. Address the object selected by a member
+   expression, retaining comma sequencing and discarding cast wrappers. */
+IrToken *__stdcall address_member_operand(IrToken *operand)
+{
+    ExpressionNode *node;
+    while (operand->kind == TOK_CAST || operand->kind == TOK_LEFT_PAREN)
+        operand = ((ExpressionNode *)operand)->value.children.left;
+    if (operand->kind == TOK_COMMA) {
+        node = (ExpressionNode *)operand;
+        node->value.children.right = address_member_operand(node->value.children.right);
+        operand->type = node->value.children.right->type;
+        return operand;
+    }
+    return make_unary_expression(TOK_LOGICAL_AND, operand);
+}
+
+/* Original 0x41490..0x414da. Type-name semantic values retain their
+   declarator symbol until unsupported storage attributes are removed. */
+IrToken *__stdcall make_cast_expression(FrontendSymbol *declarator, IrToken *operand)
+{
+    CType *type;
+    if (!declarator || !operand) return 0;
+    type = declarator->type;
+    if (type->attributes & 15) {
+        normalize_symbol_storage(type->attributes, declarator);
+        type = clear_type_attributes(declarator->type, 7);
+    }
+    return convert_cast_expression(type, operand);
+}

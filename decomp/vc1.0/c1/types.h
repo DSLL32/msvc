@@ -65,4 +65,6 @@ TypeShape *__stdcall intern_type_shape(TypeShape *shape);
 TypeShape *__stdcall prepend_interned_type_shape(TypeShape *related, unsigned short kind, unsigned short attributes, void *parameter);
 int __stdcall parameter_type_size(CType *type, int promote_float);
 extern struct FrontendSymbol *pointer_base_symbol;
+CType *__stdcall qualify_member_type(CType *type, unsigned short model);
+CType *__stdcall clear_type_attributes(CType *type, unsigned short attributes);
 #endif

@@ -68,4 +68,17 @@ int subtract_extended(const Extended *left, const Extended *right, Extended *res
 Extended * __stdcall save_extended_constant(Extended *value);
 unsigned __stdcall call_argument_bytes(IrToken *call);
 unsigned __stdcall parameter_info_bytes(ParameterInfo *parameters);
+IrToken *__stdcall address_member_operand(IrToken *operand);
+IrToken *__stdcall convert_cast_expression(CType *type, IrToken *operand);
+unsigned __stdcall classify_expression_conversion(CType *target, IrToken *operand, unsigned mode, unsigned flags);
+IrToken *__stdcall finish_scalar_cast(unsigned char operation, CType *target, IrToken *operand);
+unsigned __stdcall classify_type_conversion(CType *target, CType *source, unsigned mode, unsigned flags);
+IrToken *__stdcall convert_pointer_expression(CType *target, IrToken *operand);
+IrToken *__stdcall convert_pointer_representation(CType *target, IrToken *operand);
+unsigned __stdcall classify_pointer_conversion(CType *target, CType *source, unsigned mode, unsigned flags);
+unsigned __stdcall classify_void_pointer_conversion(unsigned result, TypeShape *target, TypeShape *source);
+unsigned __stdcall classify_pointer_qualifiers(unsigned result, unsigned short target, unsigned short source);
+unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target, unsigned short source, TypeShape *shape);
+int float_to_extended(const float *value, Extended *number);
+int double_to_extended(const double *value, Extended *number);
 #endif
