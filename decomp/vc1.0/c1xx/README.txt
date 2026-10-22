@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 533 accepted paired frontiers, including 453 frontend
+PARTIAL reconstruction: 534 accepted paired frontiers, including 454 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _initialize_object@8 at original VA 0x46290. The latest ordered replay is recorded in validation.json;
+trap is _initialize_object_value@8 at original VA 0x462c0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -1029,3 +1029,20 @@ Receipt: evidence/replay-object-declaration-setup-receipt.json. Accepted executa
 extent union is 177,693 / 476,418 bytes (37.298%, not branch coverage), with 460
 source functions. Both runs reach initialize_object at 0x46290 with Counter and
 literal 41. Complete assigned frontend equivalence remains pending.
+
+
+PAUSED by explicit user request. The separate initialize_object wrapper at
+0x46290..0x462ba is accepted after the 533-frontier checkpoint. Its entry pair,
+one native call edge, all audits and the subsequent ordinary comparison pass;
+both programs trap at initialize_object_value@8 (0x462c0). Current accepted
+extent union is 177,735 / 476,418 bytes (37.307%, not branch coverage), with 461
+source functions and 534 frontiers. The last full frozen history remains the
+533-frontier replay in commit 6ed56aa (37.298%); this last wrapper has not received
+a new historical replay. Evidence: evidence/initialize-object-wrapper.txt.
+
+No build, debugger or replay is pending. The larger initializer dispatcher is
+still a named trap, with read-only Ghidra/raw analysis in the worker's scratch.
+Resume only when explicitly requested: make -j2 check, then reconstruct
+initialize_object_value@8 as a whole function and continue the established paired
+process. Run the full frozen history at the next normal batch checkpoint.
+The assigned frontend case remains incomplete.

@@ -537,7 +537,8 @@
     "_finalize_object_storage@4",
     "_check_global_object_definition@4",
     "_begin_object_initializer@4",
-    "_prepare_initializer_symbol@4"
+    "_prepare_initializer_symbol@4",
+    "_initialize_object@8"
   ],
   "driver": [
     {
@@ -2350,7 +2351,7 @@
     {
       "name": "_initialize_object@8",
       "start": 287376,
-      "end": 287377
+      "end": 287418
     },
     {
       "name": "_lookup_based_symbol@4",
@@ -5173,6 +5174,11 @@
       "name": "_prepare_initializer_symbol@4",
       "start": 287072,
       "end": 287193
+    },
+    {
+      "name": "_initialize_object_value@8",
+      "start": 287424,
+      "end": 287425
     }
   ],
   "cases": {

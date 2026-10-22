@@ -200,7 +200,7 @@ void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) 
 void __stdcall finish_object_initializer(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
-void __stdcall initialize_object(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
+void __stdcall initialize_object_value(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
 
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }

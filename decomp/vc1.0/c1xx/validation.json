@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 533,
-  "driver_functions": 453,
+  "accepted_frontiers": 534,
+  "driver_functions": 454,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 460,
-  "current_frontier": "_initialize_object@8",
-  "original_frontier_va": "0x46290",
+  "reconstructed_source_functions": 461,
+  "current_frontier": "_initialize_object_value@8",
+  "original_frontier_va": "0x462c0",
   "all_accepted_frontiers_replayed": true,
   "replay_log_sha256": "a9cea3a0839a806d206c7d72708983756e602562ec1ea04e1f71f22616c25a96",
-  "call_graph_audit_functions": 460,
+  "call_graph_audit_functions": 461,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -324,7 +324,7 @@
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true
   },
-  "accepted_source_text_and_switch_bytes": 167250,
+  "accepted_source_text_and_switch_bytes": 167292,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -672,9 +672,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 177693,
+    "bytes": 177735,
     "total_original_executable_bytes": 476418,
-    "percent": 37.29770915456595,
+    "percent": 37.30652494238253,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -1130,5 +1130,26 @@
     "new_initializer_state_defaults_audited": 6,
     "assigned_frontend_case_completed": false,
     "no_frontend_output_normalization": true
+  },
+  "graceful_pause": {
+    "requested": true,
+    "complete": false,
+    "current_frontier": "_initialize_object_value@8",
+    "original_va": "0x462c0",
+    "new_accepted_function": "_initialize_object@8",
+    "new_function_range": [
+      "0x46290",
+      "0x462ba"
+    ],
+    "new_function_native_callees": 1,
+    "ordinary_pair_passed": true,
+    "ordinary_check_log": "evidence/check-initialize-object-wrapper.log",
+    "full_historical_replay_frontiers": 533,
+    "new_wrapper_full_history_replayed": false,
+    "last_full_checkpoint": "6ed56aa",
+    "last_full_coverage_bytes": 177693,
+    "last_full_coverage_percent": 37.29770915456595,
+    "pending_function_edits": false,
+    "resume": "Read README pause note; make -j2 check, then reconstruct initialize_object_value@8 at 0x462c0. Run a frozen historical replay at the next normal batch boundary."
   }
 }

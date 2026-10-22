@@ -71,3 +71,14 @@ CppSymbol *__stdcall begin_object_initializer(CppSymbol *declaration)
         cpp_parser_flags |= 0x20000000UL;
     return prepare_initializer_symbol(declaration);
 }
+
+/* Original 0x46290..0x462ba. Complete DLL-import recovery after the
+   separately represented initializer dispatcher has processed the value. */
+void __stdcall initialize_object(CppSymbol *symbol, IrToken *value)
+{
+    initialize_object_value(symbol, value);
+    if (cpp_parser_flags & 0x20000000UL) {
+        cpp_parser_flags &= ~0x20000000UL;
+        symbol->attributes &= ~4UL;
+    }
+}

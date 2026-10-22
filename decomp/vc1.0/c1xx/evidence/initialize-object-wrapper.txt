@@ -1,0 +1,28 @@
+Object initialization wrapper, graceful pause
+
+Whole initialize_object@8 accepted: original 0x46290..0x462ba (42 bytes),
+stdcall two pointer slots, one native callee initialize_object_value@8.
+The wrapper retains its distinct function graph node, delegates initialization,
+then clears canonical cpp_parser_flags bit 0x20000000 and symbol attribute 4
+when recovering a DLL-import initializer. No additional null guard is added.
+
+The existing paired entry check, exact call-graph acceptance and subsequent
+ordinary make -j2 check pass. All source graph/state/data/grammar audits pass.
+Both runs trap at initialize_object_value@8, original 0x462c0. That dispatcher
+remains a named trapping stub; no part of its implementation has been started.
+Durable ordinary check: evidence/check-initialize-object-wrapper.log.
+
+Accepted current frontier count 534, source functions 461. Current clipped-union
+accepted executable extent 177735/476418 (37.306525%); not branch coverage.
+Last frozen full history remains 533 frontiers at commit 6ed56aa, 136.731 seconds,
+177693/476418 (37.297709%). This wrapper has not had a new full-history replay;
+the user requested a graceful pause before another batch. No check is pending.
+The whole frontend case remains incomplete, with no claimed final equivalence.
+
+Resume only when explicitly requested. Run make -j2 check to reestablish the
+frontier, then reconstruct the whole initializer dispatcher 0x462c0..0x46589
+with individual named callees. Read-only native analysis is already available
+under ~/.ai-tmp/vc1.0-c1xx/ghidra-output/462c0.txt and the full listing
+~/.ai-tmp/vc1.0-c1xx/initialize-object-value.asm.txt. The wrapper's input is
+main's Counter symbol and literal 41. Continue the existing paired procedure;
+freeze and replay the accepted history at the next ordinary batch checkpoint.

@@ -6,4 +6,5 @@ extern unsigned initializer_offset;
 extern int initializer_runtime_override, initializer_value_error_reported;
 extern unsigned initializer_constructor_offset, initializer_constructor_count;
 CppSymbol *__stdcall prepare_initializer_symbol(CppSymbol *symbol);
+void __stdcall initialize_object_value(CppSymbol *symbol, IrToken *value);
 #endif
