@@ -31,9 +31,9 @@ destructors, inheritance, operators, qualifiers, overloads, arrays, references,
 member pointers and function pointers. Templates were rejected by the original
 compiler and are not claimed. Unreached demangler branches remain named traps.
 
-Current verification: original-toolchain make -j4, all 19 cached native
-entry/status/stream/artifact regressions, 493 direct/indirect/tail-call checks,
-484 callback checks, 393 contextual-data checks, 647 original extent instruction
+Current verification: original-toolchain make -j4, all 20 cached native
+entry/status/stream/artifact regressions, 516 direct/indirect/tail-call checks,
+507 callback checks, 407 contextual-data checks, 670 original extent instruction
 boundaries and 38 ECX-member return-cleanup checks pass. The previous 640-frontier
 Win32 history remains historical evidence; current function acceptance uses a
 masked original-only capture paired with native GDB.
@@ -41,14 +41,14 @@ cases/omf-undecorate-queue.json records case provenance and verification hashes.
 SOURCE-NOTES.txt retains historical checkpoints and recovered implementation
 choices; later completed checkpoints supersede earlier active-frontier notes.
 
-The accepted .text extent union is 193690/281634 bytes=68.7737% (641 frontiers), up from
+The accepted .text extent union is 198731/281634 bytes=70.5636% (664 frontiers), up from
 160229/281634=56.8926% at 528 frontiers and 110787/281634=39.3372% at 400.
 This includes accepted inline tables/alignment, not dynamic branch coverage.
-cases/one-function-native-validation.json records the current union;
+cases/disassembler-code/validation.json records the current union;
 cases/coverage-after-omf-undecorate.json is the preceding checkpoint. Separate partial
 body accounting is reproducible with scripts/measure-components.py and the analysis-only
-Ghidra inventory: 127920 accepted known target-body bytes, 26904 known CRT-body
-bytes and 192 import-thunk bytes. Another 38655 accepted extent bytes are outside
+Ghidra inventory: 131627 accepted known target-body bytes, 26904 known CRT-body
+bytes and 192 import-thunk bytes. Another 40008 accepted extent bytes are outside
 that old body inventory. All one-byte inventory entries are excluded. The
 unclassified remainder includes uninventoried bodies, inline data and padding;
 no exact padding total or target-wide body percentage is claimed.
@@ -75,7 +75,7 @@ Inputs are not trimmed or patched. Extracted alpha is raw-exact and the trimmed
 archive omits beta. Native DEF limitations remain: NONAME and forwarder fixture
 inputs exercise parsing, not effective ordinal-only/forwarder output.
 
-Normal native fixtures and cached entry replay (all nineteen cases):
+Normal native fixtures and cached entry replay (all twenty cases):
     make -j4 check
     make -j4 replay
 Select one cached native fixture:
@@ -245,9 +245,9 @@ segments and captured outputs. This is a historical scope comparison, not a
 controlled cross-mode speedup. Two specialized DLL/CVPACK histories (182.604980s
 previously) are excluded from that initial 15-case timing comparison. No reconstruction, coverage or acceptance changed.
 
-All nineteen native fixtures
+All twenty native fixtures
 
-The current commands build/run all nineteen LINK cases, including hello-win32,
+The current commands build/run all twenty LINK cases, including hello-win32,
 hello-dll and hello-debug-dll:
     make -j4 native-trace-check
     make -j4 native-check
@@ -311,4 +311,31 @@ callees or inline code data. A data-only original-compiled COFF object selects
 entry/return capture and named native GDB break/finish agree on callback state
 and caller-owned argument cleanup; output is exact. The cached nineteenth case
 contains no Wine or capture path. See cases/one-function-native-validation.json.
-Exactly one original function was reconstructed; decoding remains pending.
+That trial reconstructed exactly one original function. The subsequent code-bearing
+disassembly case below completes its reached instruction path.
+
+Code-bearing i386 disassembly checkpoint
+
+cases/disassembler-code/inputs/test.obj is the original-compiled minimal-C object,
+with18 code bytes. Its untouched-original /dump /disasm output was captured once
+outside fixture execution. Twenty-three further functions now decode and format
+its PUSH/MOV/SUB/JMP/POP/LEAVE/RET sequence exactly, preserving distinct operand
+helpers and the original mode/flag/register effects. Native GDB and masked-original
+frontiers agree on54 scalar state words plus instruction bytes and relocated
+pointer relationships. The final full streams and exit0 match the fixed reference.
+
+The20 native fixture suite checks490 application entries in1.384s external wall
+(single sample); its internal loop is1.193s and trace preparation0.093s. The
+canonical compiler build/audit takes31.629s; native plus trace build3.724s.
+See cases/disassembler-code/validation.json for individual measured phases,
+per-case timing, accepted extents/ABIs and hashes of private scratch evidence.
+The19-case midpoint regression is also retained in scratch; no fixture runs Wine.
+
+Remaining disassembler handlers are individually named traps. The old Ghidra
+inventory's zero remaining i386 entries is incomplete: a separate original CFG
+survey finds at least7565 then-unaccepted instruction bytes in102 decoder bodies,
+with five unresolved indirect switches. The completed small case consumes some
+of those leaves. This is not an exhaustion or branch-coverage claim.
+cases/disassembly-queue.json records the user-selected next stages: richer x86
+addressing/branch/prefix/x87 disassembly, then original-validated Macintosh/m68k
+COFF linking. No public-input reachability is claimed before original capture.

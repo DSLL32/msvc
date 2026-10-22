@@ -3,11 +3,14 @@
 import json,struct
 from pathlib import Path
 from binary import PE,u16,u32
-from indexes import publics
+from indexes import publics, indexes
 from importlib.machinery import SourceFileLoader
 wt=SourceFileLoader('wine_tool',str(Path(__file__).with_name('wine-tool.py'))).load_module()
 a,b=PE(wt.TC/'bin/LINK.EXE'),PE('build/link.exe')
 symbols=json.loads(Path('data-symbols.json').read_text());names=publics()
+_,_,_,original_functions,rebuilt_functions=indexes()
+function_names={r['start']:r['name'] for r in original_functions}
+rebuilt_functions={r['name']:r['start'] for r in rebuilt_functions}
 def read(pe,address,size):
     sec=next(s for s in pe.sections if pe.base+s['rva']<=address<pe.base+s['rva']+s['virtual_size'])
     return pe.read(address,size) if sec['off'] else bytes(size)
@@ -29,6 +32,12 @@ for r in symbols:
     for q in sorted(fix):
         if start<=q and q+4<=start+size:
             value=u32(expected,q-start)
+            if q-start in r.get('function_pointers',[]):
+                assert value in function_names, (name,hex(value),'unresolved function pointer')
+                logical=function_names[value]
+                assert logical in rebuilt_functions, (name,logical,'missing reconstructed function')
+                struct.pack_into('<I',expected,q-start,rebuilt_functions[logical])
+                continue
             matches=[s for s in symbols if s['address']<=value<s['address']+s['size']]
             if not matches and q-start in r.get('string_pointers',[]):
                 target_pointer=u32(actual,q-start)

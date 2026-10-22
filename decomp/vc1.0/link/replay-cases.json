@@ -176,6 +176,16 @@
         "code": 0
       },
       "reason": "Cached original-backed application entry segment; native status/streams/artifact checks."
+    },
+    {
+      "case": "dump-disasm-code",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh original-only masked capture and native GDB completed with byte-identical full captured output; native regression uses only cached references."
     }
   ]
 }

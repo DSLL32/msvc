@@ -20,6 +20,7 @@ ROOT = BINARY.parents[2]
 FIXTURES = BINARY.parent / 'fixtures'
 CASES = {
     'help': None,
+    'dump-disasm-code': (BINARY/'cases/disassembler-code', 'dump'),
     'dump-disasm-data': (BINARY/'cases/disassembler-data', 'dump'),
     'library-create': ('link-library-tools', 'create'),
     'library-list': ('link-library-tools', 'list'),

@@ -774,3 +774,22 @@ The user cancelled the later one-function trial. No function was reconstructed,
 no new input case was added, and no further execution batch follows this required
 verification. No worker commit was made; the parent owns the single implementation
 commit. Current accepted extent remains 193671/281634 = 68.7669%. Worker idle.
+
+The paired Win32 replay runners described above were removed in7ac1f83.
+Current fixtures use native cached entry/output checks; new acceptance uses
+explicit original-only capture and native GDB outside fixture execution.
+
+Code-bearing native disassembly checkpoint (supersedes pending decoder notes):
+The original minimal-C COFF .text path now closes through23 additional functions,
+including the driver, core/state/operand decoders, output formatting and distinct
+fixed-register helpers. Default32, operand32 and mode-dependent relative wrapping
+preserve the original behavior, including its CS register-mask effects and typed
+16-bit payload store. Full state/output comparisons and the20-case cached-native
+regression pass. The primary opcode descriptor array is typed source data;
+unreached handler pointers resolve to individual cdecl trapping stubs. Pointer
+data audits normalize function identities, never copied code addresses.
+Current union198731/281634=70.5636%,664 accepted frontiers. Audits pass516 call,
+507 callback,407 data,670 instruction boundaries and38 ECX cleanup checks.
+See cases/disassembler-code/validation.json for timed evidence and the durable
+case queue for the two authorized follow-ons. Old disassembler-body inventory
+counts are incomplete; the original CFG survey is a separate conservative lead.

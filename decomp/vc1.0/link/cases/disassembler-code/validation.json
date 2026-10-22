@@ -1,0 +1,3206 @@
+{
+  "case": "dump-disasm-code",
+  "status": "pass",
+  "method": "Fresh original-only masked capture and simultaneous native i386 GDB per reached frontier. Fixture regressions consume immutable captured reference and projected acceptance history, never Wine/PE.",
+  "accepted_functions": [
+    {
+      "name": "_disassemble_section",
+      "start": 306720,
+      "end": 307602,
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *,unsigned short,PIMAGE_SYMBOL,unsigned long,unsigned char,DumpStringTable *,int,FILE *)"
+    },
+    {
+      "name": "_create_disassembler",
+      "start": 321776,
+      "end": 321842,
+      "abi": "cdecl DisassembledInstruction *(void)"
+    },
+    {
+      "name": "_decode_instruction",
+      "start": 321856,
+      "end": 321906,
+      "abi": "cdecl unsigned long(unsigned char *,unsigned long,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_instruction_body",
+      "start": 319712,
+      "end": 319805,
+      "abi": "cdecl unsigned char *(unsigned long,unsigned char *,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_opcode",
+      "start": 308672,
+      "end": 308707,
+      "abi": "cdecl unsigned char *(unsigned char *,DisassembledInstruction *)"
+    },
+    {
+      "name": "_apply_opcode",
+      "start": 308560,
+      "end": 308669,
+      "abi": "cdecl unsigned char *(unsigned char *,const OpcodeEntry *,DisassembledInstruction *)"
+    },
+    {
+      "name": "_update_stack_registers",
+      "start": 309504,
+      "end": 309546,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_ebp_register",
+      "start": 319472,
+      "end": 319549,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_format_instruction",
+      "start": 321920,
+      "end": 322449,
+      "abi": "cdecl char *(unsigned char,DisassembledInstruction *)"
+    },
+    {
+      "name": "_format_instruction_address",
+      "start": 322464,
+      "end": 322500,
+      "abi": "cdecl char *(unsigned long)"
+    },
+    {
+      "name": "_format_instruction_bytes",
+      "start": 321648,
+      "end": 321763,
+      "abi": "cdecl unsigned long(DisassembledInstruction *,unsigned long,char *)"
+    },
+    {
+      "name": "_format_instruction_text",
+      "start": 321184,
+      "end": 321641,
+      "abi": "cdecl char *(DisassembledInstruction *,unsigned long,char *)"
+    },
+    {
+      "name": "_select_disassembly_mnemonic",
+      "start": 321072,
+      "end": 321173,
+      "abi": "cdecl unsigned long(DisassembledInstruction *)"
+    },
+    {
+      "name": "_format_disassembly_operand",
+      "start": 319808,
+      "end": 321064,
+      "abi": "cdecl char *(DisassembledInstruction *,const DisassemblyOperand *,char *)"
+    },
+    {
+      "name": "_decode_modrm_register",
+      "start": 317264,
+      "end": 317385,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_modrm_operand_effects",
+      "start": 312960,
+      "end": 313030,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_modrm_operand",
+      "start": 312736,
+      "end": 312951,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_address32",
+      "start": 308240,
+      "end": 308550,
+      "abi": "cdecl unsigned char *(unsigned char *,const unsigned long *,DecodedAddress *)"
+    },
+    {
+      "name": "_decode_ebx_register",
+      "start": 319104,
+      "end": 319181,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_esi_register",
+      "start": 319552,
+      "end": 319629,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_edi_register",
+      "start": 319632,
+      "end": 319709,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_decode_near_relative",
+      "start": 312064,
+      "end": 312268,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    },
+    {
+      "name": "_update_frame_registers",
+      "start": 309552,
+      "end": 309594,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)"
+    }
+  ],
+  "coverage": {
+    "frontiers": 664,
+    "accepted_extent_bytes": 198731,
+    "text_bytes": 281634,
+    "percent": 70.5636,
+    "delta_functions": 23,
+    "delta_extent_bytes": 5041,
+    "not_branch_coverage": true
+  },
+  "verification": {
+    "canonical_original_compiler": "make -j4 audit",
+    "native": "make -j4 native native-trace",
+    "call_graph": 516,
+    "callbacks": 507,
+    "contextual_data": 407,
+    "instruction_boundaries": 670,
+    "ecx_cleanup": 38,
+    "native_cases": 20,
+    "native_application_entries": 490,
+    "all_status_streams_artifacts_traces_match": true
+  },
+  "timing": {
+    "build": {
+      "canonical-build-audit": {
+        "seconds": 31.628863828256726,
+        "exit": 0
+      },
+      "native-trace-build": {
+        "seconds": 3.7238276163116097,
+        "exit": 0
+      }
+    },
+    "external_fixture_suite": {
+      "seconds": 1.3837526701390743,
+      "exit": 0
+    },
+    "trace_prepare_seconds": 0.09323100093752146,
+    "case_loop_seconds": 1.1928165378049016,
+    "summed": {
+      "setup_seconds": 0.31791331619024277,
+      "execution_seconds": 0.1749098226428032,
+      "oracle_seconds": 0.6867947522550821,
+      "trace_check_seconds": 0.0026692766696214676
+    },
+    "cases": [
+      {
+        "case": "help",
+        "status": "pass",
+        "trace_entries": 20,
+        "setup_seconds": 0.001162680797278881,
+        "execution_seconds": 0.0038507767021656036,
+        "oracle_seconds": 0.0002556145191192627,
+        "trace_check_seconds": 0.00015877559781074524,
+        "total_seconds": 0.005828365683555603
+      },
+      {
+        "case": "dump-disasm-code",
+        "status": "pass",
+        "trace_entries": 23,
+        "setup_seconds": 0.0024656085297465324,
+        "execution_seconds": 0.0027936622500419617,
+        "oracle_seconds": 0.00023817270994186401,
+        "trace_check_seconds": 0.00010370276868343353,
+        "total_seconds": 0.0059831831604242325
+      },
+      {
+        "case": "dump-disasm-data",
+        "status": "pass",
+        "trace_entries": 1,
+        "setup_seconds": 0.0023432932794094086,
+        "execution_seconds": 0.002631758339703083,
+        "oracle_seconds": 0.00021366402506828308,
+        "trace_check_seconds": 0.00013297703117132187,
+        "total_seconds": 0.005728784017264843
+      },
+      {
+        "case": "library-create",
+        "status": "pass",
+        "trace_entries": 13,
+        "setup_seconds": 0.014574931934475899,
+        "execution_seconds": 0.003974359482526779,
+        "oracle_seconds": 0.0016684271395206451,
+        "trace_check_seconds": 0.00012680888175964355,
+        "total_seconds": 0.02068662829697132
+      },
+      {
+        "case": "library-list",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.013835513032972813,
+        "execution_seconds": 0.003598446026444435,
+        "oracle_seconds": 0.0010638125240802765,
+        "trace_check_seconds": 9.518209844827652e-05,
+        "total_seconds": 0.018928500823676586
+      },
+      {
+        "case": "library-extract",
+        "status": "pass",
+        "trace_entries": 1,
+        "setup_seconds": 0.012684597633779049,
+        "execution_seconds": 0.0032149655744433403,
+        "oracle_seconds": 0.0012680701911449432,
+        "trace_check_seconds": 0.00010165385901927948,
+        "total_seconds": 0.017618882469832897
+      },
+      {
+        "case": "library-remove",
+        "status": "pass",
+        "trace_entries": 1,
+        "setup_seconds": 0.01225537620484829,
+        "execution_seconds": 0.0030946508049964905,
+        "oracle_seconds": 0.001252850517630577,
+        "trace_check_seconds": 9.34898853302002e-05,
+        "total_seconds": 0.017019644379615784
+      },
+      {
+        "case": "library-list-trimmed",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.011093265376985073,
+        "execution_seconds": 0.0027905944734811783,
+        "oracle_seconds": 0.0009396811947226524,
+        "trace_check_seconds": 8.366815745830536e-05,
+        "total_seconds": 0.01522995438426733
+      },
+      {
+        "case": "dump-library",
+        "status": "pass",
+        "trace_entries": 15,
+        "setup_seconds": 0.011185928247869015,
+        "execution_seconds": 0.0040470631793141365,
+        "oracle_seconds": 0.001046985387802124,
+        "trace_check_seconds": 9.878259152173996e-05,
+        "total_seconds": 0.016790698282420635
+      },
+      {
+        "case": "dump-object",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.011146031320095062,
+        "execution_seconds": 0.0033257873728871346,
+        "oracle_seconds": 0.0010034814476966858,
+        "trace_check_seconds": 8.470471948385239e-05,
+        "total_seconds": 0.015927020460367203
+      },
+      {
+        "case": "dump-dll",
+        "status": "pass",
+        "trace_entries": 4,
+        "setup_seconds": 0.011516431346535683,
+        "execution_seconds": 0.013653923757374287,
+        "oracle_seconds": 0.0015441644936800003,
+        "trace_check_seconds": 9.889621287584305e-05,
+        "total_seconds": 0.02777910139411688
+      },
+      {
+        "case": "dump-edited",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.012318250723183155,
+        "execution_seconds": 0.004442746751010418,
+        "oracle_seconds": 0.001070321537554264,
+        "trace_check_seconds": 8.651800453662872e-05,
+        "total_seconds": 0.01829653140157461
+      },
+      {
+        "case": "edit",
+        "status": "pass",
+        "trace_entries": 9,
+        "setup_seconds": 0.012562685646116734,
+        "execution_seconds": 0.005407794378697872,
+        "oracle_seconds": 0.0023926598951220512,
+        "trace_check_seconds": 0.00010768137872219086,
+        "total_seconds": 0.020898512564599514
+      },
+      {
+        "case": "omf-library",
+        "status": "pass",
+        "trace_entries": 41,
+        "setup_seconds": 0.0020609479397535324,
+        "execution_seconds": 0.004512583836913109,
+        "oracle_seconds": 0.000506213866174221,
+        "trace_check_seconds": 0.00011778343468904495,
+        "total_seconds": 0.00756504200398922
+      },
+      {
+        "case": "omf-link",
+        "status": "pass",
+        "trace_entries": 2,
+        "setup_seconds": 0.002313622273504734,
+        "execution_seconds": 0.006685691885650158,
+        "oracle_seconds": 0.0005194619297981262,
+        "trace_check_seconds": 9.428337216377258e-05,
+        "total_seconds": 0.009937857277691364
+      },
+      {
+        "case": "cpp-undecorate",
+        "status": "pass",
+        "trace_entries": 64,
+        "setup_seconds": 0.0020422469824552536,
+        "execution_seconds": 0.004653387703001499,
+        "oracle_seconds": 0.0001885751262307167,
+        "trace_check_seconds": 0.00011677201837301254,
+        "total_seconds": 0.007343050092458725
+      },
+      {
+        "case": "minimal-c",
+        "status": "pass",
+        "trace_entries": 195,
+        "setup_seconds": 0.013925569131970406,
+        "execution_seconds": 0.006919615902006626,
+        "oracle_seconds": 0.06332272291183472,
+        "trace_check_seconds": 0.00017325673252344131,
+        "total_seconds": 0.08468454703688622
+      },
+      {
+        "case": "hello-win32",
+        "status": "pass",
+        "trace_entries": 3,
+        "setup_seconds": 0.0319570591673255,
+        "execution_seconds": 0.009707796387374401,
+        "oracle_seconds": 0.04806305654346943,
+        "trace_check_seconds": 0.00010322406888008118,
+        "total_seconds": 0.09017737582325935
+      },
+      {
+        "case": "hello-dll",
+        "status": "pass",
+        "trace_entries": 38,
+        "setup_seconds": 0.04018067382276058,
+        "execution_seconds": 0.01545067597180605,
+        "oracle_seconds": 0.26370755583047867,
+        "trace_check_seconds": 0.00033945217728614807,
+        "total_seconds": 0.3204724807292223
+      },
+      {
+        "case": "hello-debug-dll",
+        "status": "pass",
+        "trace_entries": 60,
+        "setup_seconds": 0.09628860279917717,
+        "execution_seconds": 0.07015354186296463,
+        "oracle_seconds": 0.2965292604640126,
+        "trace_check_seconds": 0.0003516636788845062,
+        "total_seconds": 0.4641518574208021
+      }
+    ]
+  },
+  "fresh_frontiers": [
+    {
+      "label": "first-frontier",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/first-frontier-time.json",
+      "sha256": "9bead3bea4cc50abdd332acc26257feabc69f4570e84854181519187bcd9a450",
+      "results": {
+        "original-entry": {
+          "exit": 0,
+          "seconds": 0.6660913750529289
+        },
+        "native-entry": {
+          "exit": 0,
+          "seconds": 0.1685199299827218
+        }
+      }
+    },
+    {
+      "label": "section-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/section-after-time.json",
+      "sha256": "c06db27896753b7c8a89506d6a665888a8eede009159615bba6f360057767044",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.667456615716219
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.21587000507861376
+        }
+      }
+    },
+    {
+      "label": "create-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/create-after-time.json",
+      "sha256": "6a70664d0db245489ac3d83bd2b1ea81dbf739d1d65797d1c478728911b1fa87",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4181643426418304
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16490197461098433
+        }
+      }
+    },
+    {
+      "label": "wrapper-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/wrapper-after-time.json",
+      "sha256": "76e27ae3f06ac8c1fc26f2a9264e0ae61e731484a95afe6a963f12e1926f5f23",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.6657622149214149
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16459683049470186
+        }
+      }
+    },
+    {
+      "label": "body-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/body-after-time.json",
+      "sha256": "797cfca8dd4caf1cd643c35c13854d19ff93953ca6c2977e66d4ddd7a0098af2",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.7662686789408326
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16457628179341555
+        }
+      }
+    },
+    {
+      "label": "opcode-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/opcode-after-time.json",
+      "sha256": "5b9f6b5c869b2b6235a7ec93232bdd14b4e6dbbc7d512cf9da9225d99173b05d",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.9670334607362747
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16493460349738598
+        }
+      }
+    },
+    {
+      "label": "apply-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/apply-after-time.json",
+      "sha256": "6b211fbc35bb8e286a444eb6a32e09c8a9da5493dcdefa12ec0f0d0bac359d75",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.418063322082162
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16478811483830214
+        },
+        "logical": "_update_stack_registers",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "stack-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/stack-after-time.json",
+      "sha256": "efec6910a3f2f017539eaf06e2613b6f9e276beb517500543cadc29f98123f91",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.6658804770559072
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16449505556374788
+        },
+        "logical": "_decode_ebp_register",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "ebp-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/ebp-after-time.json",
+      "sha256": "e4eecea8b14e6096a1552b95dbcf7066bf760bc6f99f71da51ae8f28951cae65",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.2177964057773352
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16496858466416597
+        },
+        "logical": "_format_instruction",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "format-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/format-after-time.json",
+      "sha256": "f714666ff0aa4193a42bb7027b45ba7c9b2ba745fb49aef7ab581d589410160b",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.2678798660635948
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1646127523854375
+        },
+        "logical": "_format_instruction_address",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "address-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/address-after-time.json",
+      "sha256": "cfd73c0297b113716b8f3757fb4abf6c63678b670bb57da15177d919e808d6c8",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.6655855383723974
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16460351645946503
+        },
+        "logical": "_format_instruction_bytes",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "bytes-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/bytes-after-time.json",
+      "sha256": "4b8096af0363eab4a345eb8d04fd40f745946ca252fac24be3db4e5c531c8806",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4680468188598752
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16487393248826265
+        },
+        "logical": "_format_instruction_text",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "text-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/text-after-time.json",
+      "sha256": "c8942776b64dc8c9989d3a0b876fe0ed0acd152b799076ac291ce09d37dd59cc",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.7158561162650585
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1645015710964799
+        },
+        "logical": "_select_disassembly_mnemonic",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "select-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/select-after-time.json",
+      "sha256": "2998b3221942936cc9c5faf3122d99e1c17a4f794d64ca8c48b4509fcde39e7b",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.167197935283184
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16473313514143229
+        },
+        "logical": "_format_disassembly_operand",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "operand-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/operand-after-time.json",
+      "sha256": "0ab0e555a83e84e453d86c3ed88f7a8b208e2ad3e32426052d5da4b2e9615a6c",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4681591372936964
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16485347505658865
+        },
+        "logical": "_decode_op_4d750",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "modrm-reg-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/modrm-reg-after-time.json",
+      "sha256": "0077d83d8e6ccb8df215ab30320f076dd4a0c1bcb6d6f963c47c53d16bdf3167",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.2673947513103485
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16462653130292892
+        },
+        "logical": "_decode_op_4c680",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "modrm-effects-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/modrm-effects-after-time.json",
+      "sha256": "36ae5f7f52ae97c8ba1604a135dbae6867dd4a7fce762251fd929417d19140ff",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.8163017556071281
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1647488120943308
+        },
+        "logical": "_decode_modrm_operand",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "modrm-base-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/modrm-base-after-time.json",
+      "sha256": "8be0f916a8750c773b5a0c1247579d4951d7fbb60233216f010775f7e097d522",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.317883494310081
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16492623183876276
+        },
+        "logical": "_decode_address32",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "address32-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/address32-after-time.json",
+      "sha256": "6258923680f41563d37ad536897680d42bac61acb8a4ebea8862370abaeb3b0b",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4679495841264725
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16469683311879635
+        },
+        "logical": "_decode_op_4de80",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 15
+      }
+    },
+    {
+      "label": "ebx-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/ebx-after-time.json",
+      "sha256": "98614923a496b3883217da1f3bc468fa49be7b4d0d2ee3a4074e7c5a8ea6ce27",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.81770692858845
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16564107220619917
+        },
+        "logical": "_decode_op_4e040",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 14
+      }
+    },
+    {
+      "label": "esi-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/esi-after-time.json",
+      "sha256": "656e5e7249011a229e1ecd385eecbecd25840f97b50ef067eae0b9a772f8d929",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4177175080403686
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1648518880829215
+        },
+        "logical": "_decode_op_4e090",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 13
+      }
+    },
+    {
+      "label": "edi-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/edi-after-time.json",
+      "sha256": "b07497177e096229f26a3ed9b49faf814b2594b657b5c5a4246710515b303754",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.7164734601974487
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.21480019949376583
+        },
+        "logical": "_decode_op_4c300",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 10
+      }
+    },
+    {
+      "label": "relative-after",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/relative-after-time.json",
+      "sha256": "f7061dd75e595df359aec4779d2b0277fc28e2bf4fe33740c957d3598a93bb4b",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.2685772757977247
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16541057638823986
+        },
+        "logical": "_decode_op_4b930",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 2
+      }
+    },
+    {
+      "label": "complete",
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/complete-time.json",
+      "sha256": "4ba867e974c5269be3ec389b795d94dfb02e6312cb12c7c9756783e4474a8a3e",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.167446916922927
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1649469193071127
+        },
+        "exit": 0,
+        "full_streams_match": true,
+        "reference": "separately captured untouched original"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/capture.c",
+      "sha256": "562d52d29925e773eff2bf8ed3e7e8b72b7e79a8f74ab8ac529b2b0e8bc66b20"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/capture.exe",
+      "sha256": "9fc160c5a45b0fc50923414ea56e49ae9bae7829d3bf18fee6a25d374fea68ed"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/original-reference.stdout",
+      "sha256": "ec60d9dd2c4a28deee97eef8ce9001f0c41149b19c1225eea9489fb3fb0b534a"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/original-reference.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/first-instruction-state.json",
+      "sha256": "c52f62630d66b92cb91b962e600be1c5704fcc8aaca2445409db18ab1870a120"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/final-build-time.json",
+      "sha256": "08976f1220971ca3f0f2b93c4d090f71628f12a9910cb3da1927f4b8e55b2e91"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/native20/receipt.json",
+      "sha256": "fe35167b8b37b561c6189a1d3b440d7388f77a32639760271047ed3123992f89"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/native20-time.json",
+      "sha256": "97bdefd1b688680252b6c9448f187b6da296cc60cc3bea012ff9e66591aeb114"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/remaining-handlers.json",
+      "sha256": "70119d7386d191213b349964b7291bf6f0da147d088df57c2280853041407709"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/code-disassembler/components.json",
+      "sha256": "4fc2f8a55bc4dfe88985ce94e6043ddd24bd3fe019f113a8bac7689cb9143017"
+    }
+  ],
+  "experience": "Native GDB names and typed state made successive decoder stops easy to compare. Matching54 scalar words plus relocated pointer contents caught the complete live224-byte state without preserving host pointer values. Initial GDB run-redirection argument mistake was corrected before acceptance (initial-capture-time.json remains scratch failure evidence). Canonical Win32 build and static audits prove graph/data/stack cleanup separately; new unexercised addressing/opcode branches remain traps. No new shim change was required.",
+  "data": "Explicit opcode descriptors and authentic shared mnemonic/register/size tables are contextual typed definitions. Function-pointer table audit compares logical identities. No copied executable payload or section snapshot.",
+  "partial_body_inventory": {
+    "method": "Partial Ghidra11.4.2 body inventory, checked with Capstone. Ranges omit inter-block/function gaps. All one-byte entries are excluded. Native/CRT partition uses the layout boundary at verified mainCRTStartup 0x509d0, not complete library provenance. Imports are IAT-resolving FF25 thunks. Unclassified includes accepted bodies absent from this old inventory, inline data and padding; it is not all padding. This is not branch coverage or a complete body denominator.",
+    "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+    "inventory_sha256": "9f5bd61adbe6de54e53104108bcc90ece5b2bd0ba9b2f48c39e126a242e80082",
+    "accepted_frontiers": 664,
+    "total_text_bytes": 281634,
+    "accepted_extent_bytes": 198731,
+    "excluded_one_byte_entries": [
+      "0x17970",
+      "0x179f0",
+      "0x17a50",
+      "0x1f380",
+      "0x209f0",
+      "0x20b00",
+      "0x20ca0",
+      "0x20e60",
+      "0x217d0",
+      "0x25250",
+      "0x25ba0",
+      "0x26020",
+      "0x26130",
+      "0x26fe0",
+      "0x278a0",
+      "0x27ff0",
+      "0x289b0",
+      "0x29520",
+      "0x2a9c0",
+      "0x2ac80",
+      "0x2ad50",
+      "0x2b460",
+      "0x2bab0",
+      "0x2bc80",
+      "0x2bec0",
+      "0x2c180",
+      "0x2c1e0",
+      "0x2cf50",
+      "0x2cfc0",
+      "0x2d180",
+      "0x2d240",
+      "0x2d3d0",
+      "0x2dd90",
+      "0x2de70",
+      "0x2e030",
+      "0x2ebc0",
+      "0x2f170",
+      "0x2fb50",
+      "0x2fc80",
+      "0x2fcd0",
+      "0x2fd70",
+      "0x2fe00",
+      "0x2fee0",
+      "0x3a990",
+      "0x3aa00",
+      "0x3bdf0",
+      "0x3be50",
+      "0x3bec0",
+      "0x3bf20",
+      "0x3bfb0",
+      "0x3c010",
+      "0x50b00",
+      "0x50c60",
+      "0x50ec0",
+      "0x50f40",
+      "0x51790",
+      "0x517a0",
+      "0x523f0",
+      "0x52940",
+      "0x52960",
+      "0x52cf0",
+      "0x52d40",
+      "0x52ecb",
+      "0x53170",
+      "0x531a0",
+      "0x53520",
+      "0x53630",
+      "0x53670",
+      "0x53700",
+      "0x53a80",
+      "0x53aa0",
+      "0x53ab0",
+      "0x53ec0",
+      "0x541b0",
+      "0x54250",
+      "0x54380",
+      "0x54690",
+      "0x54b00",
+      "0x55ba0",
+      "0x569a0",
+      "0x569f0",
+      "0x56fe0",
+      "0x570f0",
+      "0x572b0",
+      "0x57300",
+      "0x57c40",
+      "0x57db0",
+      "0x585b0",
+      "0x585f0",
+      "0x58630",
+      "0x58670",
+      "0x586b0",
+      "0x58730",
+      "0x58770",
+      "0x587b0",
+      "0x587f0",
+      "0x58830",
+      "0x58870",
+      "0x58880",
+      "0x58890",
+      "0x588a0",
+      "0x588f0",
+      "0x58b90",
+      "0x59320",
+      "0x594a0",
+      "0x59500",
+      "0x59b30",
+      "0x59bb0",
+      "0x59c00",
+      "0x59e50",
+      "0x5b690",
+      "0x5b6e0",
+      "0x5bbb0",
+      "0x5bbc0",
+      "0x5bbd0"
+    ],
+    "components": [
+      {
+        "name": "known target-body inventory",
+        "total_bytes": 168045,
+        "accepted_bytes": 131627,
+        "remaining_bytes": 36418
+      },
+      {
+        "name": "known CRT-body inventory",
+        "total_bytes": 37088,
+        "accepted_bytes": 26904,
+        "remaining_bytes": 10184
+      },
+      {
+        "name": "IAT import thunk bodies",
+        "total_bytes": 348,
+        "accepted_bytes": 192,
+        "remaining_bytes": 156
+      },
+      {
+        "name": "unclassified: uninventoried bodies, inline data and padding",
+        "total_bytes": 76153,
+        "accepted_bytes": 40008,
+        "remaining_bytes": 36145
+      }
+    ],
+    "body_function_counts": {
+      "target": 587,
+      "crt_non_import": 210,
+      "import_thunks": 58
+    },
+    "accepted_extent_regions": [
+      {
+        "region": "before verified CRT 0x509d0",
+        "accepted_bytes": 169678
+      },
+      {
+        "region": "CRT region including IAT thunks",
+        "accepted_bytes": 29053
+      }
+    ],
+    "remaining_components": [
+      {
+        "name": "OMF conversion",
+        "root_entries": [
+          "0x20b30"
+        ],
+        "uncovered_body_bytes": 9800,
+        "uncovered_functions": 38,
+        "functions": [
+          {
+            "entry": "0x45470",
+            "name": "_omf_record_common",
+            "body_ranges": [
+              [
+                "0x45470",
+                "0x45543"
+              ]
+            ],
+            "uncovered_bytes": 211,
+            "body_sha256": "5794b4d7900fa5cb326aec6cf072655d2b9aacb9bcb6cb4a5f245c15483c26e0",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x45df0",
+            "name": "_omf_record_lheadr",
+            "body_ranges": [
+              [
+                "0x45df0",
+                "0x45dff"
+              ]
+            ],
+            "uncovered_bytes": 15,
+            "body_sha256": "894ea5627c9f4ca388f61fbab8da9bda24a4ca7d6ee7c873494c955861da6c51",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x45e00",
+            "name": "_omf_record_iterated_data",
+            "body_ranges": [
+              [
+                "0x45e00",
+                "0x45e5e"
+              ]
+            ],
+            "uncovered_bytes": 94,
+            "body_sha256": "6ee548d02113e0ebca529bfd497a3cf6746bdd72e71e30ac2995b5bb37dc9792",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x45e60",
+            "name": "_omf_record_lines",
+            "body_ranges": [
+              [
+                "0x45e60",
+                "0x45f1a"
+              ]
+            ],
+            "uncovered_bytes": 186,
+            "body_sha256": "74d88a0fb4e6f6e2b33dfd6efe11bf57ee0ef3c4827f984f7c502b82c512533d",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x45f20",
+            "name": "_omf_record_symbol_lines",
+            "body_ranges": [
+              [
+                "0x45f20",
+                "0x45f67"
+              ]
+            ],
+            "uncovered_bytes": 71,
+            "body_sha256": "6a06c12ee49dbca2614271f6178920d06ae9e9bd5ddf41f273ad0ceccde59e33",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x46020",
+            "name": "_omf_record_local_publics",
+            "body_ranges": [
+              [
+                "0x46020",
+                "0x4603d"
+              ],
+              [
+                "0x46040",
+                "0x460a4"
+              ]
+            ],
+            "uncovered_bytes": 129,
+            "body_sha256": "62d32bec03b2b0dcd6af486225ee92cc3dfd7f9e693de55869e703a6aaebb754",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x46a10",
+            "name": "_omf_record_named_backpatch",
+            "body_ranges": [
+              [
+                "0x46a10",
+                "0x46a6f"
+              ],
+              [
+                "0x46a70",
+                "0x46add"
+              ]
+            ],
+            "uncovered_bytes": 204,
+            "body_sha256": "ba160f44f9030051f8fe4ea40e7fa2cd4bc5ebebe4db8fba45ac17513e4f6ea5",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x46ae0",
+            "name": "_omf_record_backpatch",
+            "body_ranges": [
+              [
+                "0x46ae0",
+                "0x46ba5"
+              ]
+            ],
+            "uncovered_bytes": 197,
+            "body_sha256": "39368b2aa23d6825dcf7b7c00aee5015bfd000e85fbb3a59a86e54c3d9e8b229",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x46df0",
+            "name": "FUN_00046df0",
+            "body_ranges": [
+              [
+                "0x46df0",
+                "0x46e0d"
+              ],
+              [
+                "0x46e10",
+                "0x46f19"
+              ]
+            ],
+            "uncovered_bytes": 294,
+            "body_sha256": "8c042a298d7527dc64eebeeaeadaf6865a5a473909661d9760321a4e0df80e90",
+            "callers": [
+              "0x45e00",
+              "0x46df0"
+            ]
+          },
+          {
+            "entry": "0x47060",
+            "name": "FUN_00047060",
+            "body_ranges": [
+              [
+                "0x47060",
+                "0x4711e"
+              ]
+            ],
+            "uncovered_bytes": 190,
+            "body_sha256": "b26e99eca631334fb8cd06e959c044b2b67bd0fda0151d758029a754a2bb5c38",
+            "callers": [
+              "0x45470"
+            ]
+          },
+          {
+            "entry": "0x472d0",
+            "name": "_omf_insert_relocation_symbol",
+            "body_ranges": [
+              [
+                "0x472d0",
+                "0x47341"
+              ]
+            ],
+            "uncovered_bytes": 113,
+            "body_sha256": "89b2d43284d2a1d81bb16c8f7192872c19082674c6395b35fc6a38629a741144",
+            "callers": [
+              "0x45820"
+            ]
+          },
+          {
+            "entry": "0x47350",
+            "name": "_omf_lookup_relocation_symbol",
+            "body_ranges": [
+              [
+                "0x47350",
+                "0x4737e"
+              ],
+              [
+                "0x47380",
+                "0x47386"
+              ]
+            ],
+            "uncovered_bytes": 52,
+            "body_sha256": "c3bc20bbfeac0c3961b168dc9b51e76cd37d741b4b66956e0a78bd13f66e1e13",
+            "callers": [
+              "0x45820"
+            ]
+          },
+          {
+            "entry": "0x47430",
+            "name": "FUN_00047430",
+            "body_ranges": [
+              [
+                "0x47430",
+                "0x4748f"
+              ]
+            ],
+            "uncovered_bytes": 95,
+            "body_sha256": "14f3d4239c5b63463af0af6987f750f95f7dab45a3b0e674577e89ffdafb567a",
+            "callers": [
+              "0x46020"
+            ]
+          },
+          {
+            "entry": "0x479f0",
+            "name": "_omf_save_debug_fixups",
+            "body_ranges": [
+              [
+                "0x479f0",
+                "0x47a8f"
+              ],
+              [
+                "0x47a90",
+                "0x47afb"
+              ],
+              [
+                "0x47b00",
+                "0x47b8b"
+              ]
+            ],
+            "uncovered_bytes": 405,
+            "body_sha256": "7b41b480ee5ab94fbf8789ae0eb2086a170eeee1590034cde97c6357230e03a0",
+            "callers": [
+              "0x45820"
+            ]
+          },
+          {
+            "entry": "0x47b90",
+            "name": "FUN_00047b90",
+            "body_ranges": [
+              [
+                "0x47b90",
+                "0x47bd7"
+              ]
+            ],
+            "uncovered_bytes": 71,
+            "body_sha256": "1498a87be6247cffcda0aa036b0923a10d760d7469e17ea40bc015eda8239df3",
+            "callers": [
+              "0x49310"
+            ]
+          },
+          {
+            "entry": "0x48150",
+            "name": "_omf_warning",
+            "body_ranges": [
+              [
+                "0x48150",
+                "0x481a6"
+              ]
+            ],
+            "uncovered_bytes": 86,
+            "body_sha256": "b884bfa3b091279b827ee4c2fa819c93e7700f2ad1ecce851cdc1f902bdc26ee",
+            "callers": [
+              "0x45550",
+              "0x461f0",
+              "0x47520",
+              "0x48010",
+              "0x49310",
+              "0x49d00",
+              "0x4a4c0"
+            ]
+          },
+          {
+            "entry": "0x481b0",
+            "name": "_omf_error",
+            "body_ranges": [
+              [
+                "0x481b0",
+                "0x4821b"
+              ]
+            ],
+            "uncovered_bytes": 107,
+            "body_sha256": "bae100cc1d8555037c67dc32a85afacf8359d4d3524f2584dc5581ff8782a04b",
+            "callers": [
+              "0x453c0",
+              "0x45470",
+              "0x456d0",
+              "0x45820",
+              "0x45bf0",
+              "0x45c80",
+              "0x45e60",
+              "0x45f70",
+              "0x46130",
+              "0x461f0",
+              "0x466a0",
+              "0x46a10",
+              "0x46ae0",
+              "0x46d50",
+              "0x46df0",
+              "0x46f20",
+              "0x47120",
+              "0x47180",
+              "0x471f0",
+              "0x472d0",
+              "0x47490",
+              "0x47520",
+              "0x479f0",
+              "0x47be0",
+              "0x47c50",
+              "0x48010",
+              "0x48480",
+              "0x48990",
+              "0x48c60",
+              "0x49c20",
+              "0x4a4c0",
+              "0x4a960",
+              "0x4acb0",
+              "0x4ad60"
+            ]
+          },
+          {
+            "entry": "0x48430",
+            "name": "FUN_00048430",
+            "body_ranges": [
+              [
+                "0x48430",
+                "0x4847f"
+              ]
+            ],
+            "uncovered_bytes": 79,
+            "body_sha256": "26958d7b9ae22663bc79ab7a3195002a4a1a392c699e2309bdfe640846c431e7",
+            "callers": [
+              "0x48d80"
+            ]
+          },
+          {
+            "entry": "0x48aa0",
+            "name": "_omf_extend_section",
+            "body_ranges": [
+              [
+                "0x48aa0",
+                "0x48ad1"
+              ]
+            ],
+            "uncovered_bytes": 49,
+            "body_sha256": "066bc4652d7b42d751267b9d7f1a198a1c6bb3cdfddba22db6ede45723847e39",
+            "callers": [
+              "0x466a0"
+            ]
+          },
+          {
+            "entry": "0x48ba0",
+            "name": "_omf_write_comment_data",
+            "body_ranges": [
+              [
+                "0x48ba0",
+                "0x48c55"
+              ]
+            ],
+            "uncovered_bytes": 181,
+            "body_sha256": "221259ca0ee0e0f4a7a68f6fae315885bfe58b94b6f233ae37edbb2ecd76d700",
+            "callers": [
+              "0x460b0"
+            ]
+          },
+          {
+            "entry": "0x48d80",
+            "name": "_omf_append_line",
+            "body_ranges": [
+              [
+                "0x48d80",
+                "0x48dba"
+              ]
+            ],
+            "uncovered_bytes": 58,
+            "body_sha256": "05acfe4ce2eb8d1553495a9a824c1132dc59feac5e2cca1c0d0308c5cacc2abe",
+            "callers": [
+              "0x492c0",
+              "0x49310"
+            ]
+          },
+          {
+            "entry": "0x490b0",
+            "name": "_omf_append_function_auxiliary",
+            "body_ranges": [
+              [
+                "0x490b0",
+                "0x492b3"
+              ]
+            ],
+            "uncovered_bytes": 515,
+            "body_sha256": "7d43efa0d265a4c9a49218996a18f5fcd06857779a0436bb8d110c098173ad80",
+            "callers": [
+              "0x47d40"
+            ]
+          },
+          {
+            "entry": "0x49310",
+            "name": "_omf_convert_debug_symbols",
+            "body_ranges": [
+              [
+                "0x49310",
+                "0x4944d"
+              ],
+              [
+                "0x49450",
+                "0x4946d"
+              ],
+              [
+                "0x49470",
+                "0x4952c"
+              ],
+              [
+                "0x49530",
+                "0x499b9"
+              ],
+              [
+                "0x499c0",
+                "0x499ea"
+              ],
+              [
+                "0x499f0",
+                "0x49ace"
+              ],
+              [
+                "0x49ad0",
+                "0x49bdc"
+              ]
+            ],
+            "uncovered_bytes": 2227,
+            "body_sha256": "36e94ed104543edb976ace515daf0c5c7945784e7a1a8be0669b7a5bcb775f3f",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x49c20",
+            "name": "_omf_write_debug_symbol_data",
+            "body_ranges": [
+              [
+                "0x49c20",
+                "0x49c5e"
+              ],
+              [
+                "0x49c60",
+                "0x49cfa"
+              ]
+            ],
+            "uncovered_bytes": 216,
+            "body_sha256": "1843d5b8cbf0f31c7d28e952ea6b9d5280d219ff77ca507f0acd40cb3c8094a6",
+            "callers": [
+              "0x45c80"
+            ]
+          },
+          {
+            "entry": "0x49d00",
+            "name": "FUN_00049d00",
+            "body_ranges": [
+              [
+                "0x49d00",
+                "0x49d3c"
+              ],
+              [
+                "0x49d40",
+                "0x49d4c"
+              ],
+              [
+                "0x49d50",
+                "0x49d56"
+              ]
+            ],
+            "uncovered_bytes": 78,
+            "body_sha256": "431e2ff1c279e5888c1c20ecae847c1889c92aa9893126e3f3ccbce6956786e7",
+            "callers": [
+              "0x49310"
+            ]
+          },
+          {
+            "entry": "0x49db0",
+            "name": "FUN_00049db0",
+            "body_ranges": [
+              [
+                "0x49db0",
+                "0x49dfe"
+              ],
+              [
+                "0x49e00",
+                "0x49e0c"
+              ],
+              [
+                "0x49e10",
+                "0x49e34"
+              ]
+            ],
+            "uncovered_bytes": 126,
+            "body_sha256": "a1dd10e1a41d4f4403165626d592015f1be1400431dd36fafc92cc5e8d6f0662",
+            "callers": [
+              "0x49f00",
+              "0x4a4c0",
+              "0x4ac00"
+            ]
+          },
+          {
+            "entry": "0x49e40",
+            "name": "FUN_00049e40",
+            "body_ranges": [
+              [
+                "0x49e40",
+                "0x49e4f"
+              ],
+              [
+                "0x49e50",
+                "0x49e5c"
+              ]
+            ],
+            "uncovered_bytes": 27,
+            "body_sha256": "1bf2fbeea7a0f7550340db968198d20637a3ba1b6eb79d77f1e83e7eaa93ad8b",
+            "callers": [
+              "0x49f00",
+              "0x4a4c0",
+              "0x4ac00"
+            ]
+          },
+          {
+            "entry": "0x49e60",
+            "name": "FUN_00049e60",
+            "body_ranges": [
+              [
+                "0x49e60",
+                "0x49ebf"
+              ],
+              [
+                "0x49ec0",
+                "0x49ecf"
+              ],
+              [
+                "0x49ed0",
+                "0x49edf"
+              ],
+              [
+                "0x49ee0",
+                "0x49ef7"
+              ]
+            ],
+            "uncovered_bytes": 148,
+            "body_sha256": "b3f6cb9389640c44e6b85b9b4a0d6ff17c1e01b8aabe6af4b065ebcb6c45aed6",
+            "callers": [
+              "0x49f00",
+              "0x4a4c0",
+              "0x4aab0"
+            ]
+          },
+          {
+            "entry": "0x49f00",
+            "name": "FUN_00049f00",
+            "body_ranges": [
+              [
+                "0x49f00",
+                "0x49f5e"
+              ],
+              [
+                "0x49f60",
+                "0x4a0ca"
+              ],
+              [
+                "0x4a0d0",
+                "0x4a1fb"
+              ],
+              [
+                "0x4a200",
+                "0x4a2bf"
+              ],
+              [
+                "0x4a2c0",
+                "0x4a2fb"
+              ],
+              [
+                "0x4a300",
+                "0x4a38f"
+              ],
+              [
+                "0x4a390",
+                "0x4a39e"
+              ],
+              [
+                "0x4a3a0",
+                "0x4a3be"
+              ],
+              [
+                "0x4a3c0",
+                "0x4a3ce"
+              ],
+              [
+                "0x4a3d0",
+                "0x4a4bf"
+              ]
+            ],
+            "uncovered_bytes": 1445,
+            "body_sha256": "00bde6b15798d941505e9b123bcf5ef44fbd45882144b7748b2925af9654517b",
+            "callers": [
+              "0x4a4c0"
+            ]
+          },
+          {
+            "entry": "0x4a4c0",
+            "name": "FUN_0004a4c0",
+            "body_ranges": [
+              [
+                "0x4a4c0",
+                "0x4a57e"
+              ],
+              [
+                "0x4a580",
+                "0x4a6ec"
+              ],
+              [
+                "0x4a6f0",
+                "0x4a72f"
+              ],
+              [
+                "0x4a730",
+                "0x4a79e"
+              ],
+              [
+                "0x4a7a0",
+                "0x4a7dc"
+              ],
+              [
+                "0x4a7e0",
+                "0x4a8c1"
+              ]
+            ],
+            "uncovered_bytes": 1012,
+            "body_sha256": "98773e2c696e769123c7fc6f59c0c0462ac0f835e6c7427fbeaafd45ec712aef",
+            "callers": [
+              "0x49f00",
+              "0x4a4c0",
+              "0x4a960"
+            ]
+          },
+          {
+            "entry": "0x4a960",
+            "name": "_omf_convert_debug_types",
+            "body_ranges": [
+              [
+                "0x4a960",
+                "0x4aaad"
+              ]
+            ],
+            "uncovered_bytes": 333,
+            "body_sha256": "e256f144519d3fff2cf6e0912c8666c38f8965e38c55478987e8eed6a2e2b6a1",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x4aab0",
+            "name": "_omf_debug_type_auxiliary",
+            "body_ranges": [
+              [
+                "0x4aab0",
+                "0x4ab1b"
+              ],
+              [
+                "0x4ab20",
+                "0x4ab9a"
+              ]
+            ],
+            "uncovered_bytes": 229,
+            "body_sha256": "70c045c32ddf49fd9c250d93d478a4999d263da57cf74dbb13bd05aedaec8829",
+            "callers": [
+              "0x47d40",
+              "0x49310"
+            ]
+          },
+          {
+            "entry": "0x4aba0",
+            "name": "FUN_0004aba0",
+            "body_ranges": [
+              [
+                "0x4aba0",
+                "0x4abae"
+              ],
+              [
+                "0x4abb0",
+                "0x4abcd"
+              ],
+              [
+                "0x4abd0",
+                "0x4abdc"
+              ],
+              [
+                "0x4abe0",
+                "0x4abfc"
+              ]
+            ],
+            "uncovered_bytes": 83,
+            "body_sha256": "2b7a7f272f4de11c9ce54a14aee549ba4edd56e84e9a5eddc46133e83e24c532",
+            "callers": [
+              "0x4a4c0"
+            ]
+          },
+          {
+            "entry": "0x4ac00",
+            "name": "FUN_0004ac00",
+            "body_ranges": [
+              [
+                "0x4ac00",
+                "0x4ac3c"
+              ],
+              [
+                "0x4ac40",
+                "0x4aca5"
+              ]
+            ],
+            "uncovered_bytes": 161,
+            "body_sha256": "1082aabd7c60cc1cce404e4ab9799fb122b25c87f6a86e86d141365dd337b6e5",
+            "callers": [
+              "0x49f00"
+            ]
+          },
+          {
+            "entry": "0x4acb0",
+            "name": "_omf_write_debug_type_data",
+            "body_ranges": [
+              [
+                "0x4acb0",
+                "0x4ad3e"
+              ]
+            ],
+            "uncovered_bytes": 142,
+            "body_sha256": "ba91365e66ed334feb3f4375af2d3f12ba50f59c3977f1f27feaf8d8f914af57",
+            "callers": [
+              "0x45c80"
+            ]
+          },
+          {
+            "entry": "0x4ad40",
+            "name": "_omf_finish_debug_types",
+            "body_ranges": [
+              [
+                "0x4ad40",
+                "0x4ad5d"
+              ]
+            ],
+            "uncovered_bytes": 29,
+            "body_sha256": "3c2d8aaeac3ad1215c27d4d9a7e10cce34a3954d5caabdb532247c786629e887",
+            "callers": [
+              "0x47520"
+            ]
+          },
+          {
+            "entry": "0x4ad60",
+            "name": "FUN_0004ad60",
+            "body_ranges": [
+              [
+                "0x4ad60",
+                "0x4ad9b"
+              ]
+            ],
+            "uncovered_bytes": 59,
+            "body_sha256": "3bf4b57f0951ed2dba3d07163886784b5a92f8468cc3f65c2c187f91f39e840a",
+            "callers": [
+              "0x49f00"
+            ]
+          },
+          {
+            "entry": "0x4ada0",
+            "name": "FUN_0004ada0",
+            "body_ranges": [
+              [
+                "0x4ada0",
+                "0x4adf3"
+              ]
+            ],
+            "uncovered_bytes": 83,
+            "body_sha256": "07cc72d16d9f33992118c88312531611ce3c752b1f7625e9212c9675a658748e",
+            "callers": [
+              "0x4a960"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "C++ undecoration",
+        "root_entries": [
+          "0x3d740"
+        ],
+        "uncovered_body_bytes": 1012,
+        "uncovered_functions": 8,
+        "functions": [
+          {
+            "entry": "0x3e080",
+            "name": "_demangle_parse_template",
+            "body_ranges": [
+              [
+                "0x3e080",
+                "0x3e0fd"
+              ]
+            ],
+            "uncovered_bytes": 125,
+            "body_sha256": "da08aadb335db56b926289f9a83cdd4d6e49c36862689b99f2a6db4cda42dfba",
+            "callers": [
+              "0x3dcf0",
+              "0x3e310"
+            ]
+          },
+          {
+            "entry": "0x3e100",
+            "name": "_demangle_parse_based",
+            "body_ranges": [
+              [
+                "0x3e100",
+                "0x3e16e"
+              ],
+              [
+                "0x3e170",
+                "0x3e20c"
+              ],
+              [
+                "0x3e210",
+                "0x3e29c"
+              ],
+              [
+                "0x3e2a0",
+                "0x3e2e0"
+              ]
+            ],
+            "uncovered_bytes": 470,
+            "body_sha256": "6a518d32881620199d47bc7d29a359bec1cb9760b957e6fbed6574bf13976872",
+            "callers": [
+              "0x3ecf0",
+              "0x3f010",
+              "0x3f860",
+              "0x40e80"
+            ]
+          },
+          {
+            "entry": "0x3fe00",
+            "name": "_demangle_prepend_status",
+            "body_ranges": [
+              [
+                "0x3fe00",
+                "0x3fe2a"
+              ]
+            ],
+            "uncovered_bytes": 42,
+            "body_sha256": "a97210c36de37d79ba2f8ba42b436554506c8888cc7af68dbad33cc18e6d286a",
+            "callers": [
+              "0x3e570",
+              "0x3e6b0",
+              "0x3ea50",
+              "0x3f010",
+              "0x3f860",
+              "0x40e80"
+            ]
+          },
+          {
+            "entry": "0x40440",
+            "name": "_demangle_name_plus_status",
+            "body_ranges": [
+              [
+                "0x40440",
+                "0x4046b"
+              ],
+              [
+                "0x40470",
+                "0x4048e"
+              ]
+            ],
+            "uncovered_bytes": 73,
+            "body_sha256": "c5c2724fc3e2313f759ecd93ed3089671e53f25a001a8d72b20eecced21d8faf",
+            "callers": [
+              "0x3e9b0",
+              "0x3ecf0",
+              "0x3f010"
+            ]
+          },
+          {
+            "entry": "0x40770",
+            "name": "_demangle_name_merge_error",
+            "body_ranges": [
+              [
+                "0x40770",
+                "0x407a9"
+              ]
+            ],
+            "uncovered_bytes": 57,
+            "body_sha256": "a753636aef9536556ad595966027ea2daf65afdd233703d782c41903daf584cb",
+            "callers": [
+              "0x3ecf0",
+              "0x3f010",
+              "0x3f860",
+              "0x40e80"
+            ]
+          },
+          {
+            "entry": "0x408e0",
+            "name": "_demangle_name_assign_status",
+            "body_ranges": [
+              [
+                "0x408e0",
+                "0x4092e"
+              ],
+              [
+                "0x40930",
+                "0x4094e"
+              ],
+              [
+                "0x40950",
+                "0x40974"
+              ]
+            ],
+            "uncovered_bytes": 144,
+            "body_sha256": "266e142519138f0ebf554a843d8ebfaa0c6be8f0c0b2bbf2db794b572ede061c",
+            "callers": [
+              "0x3dcf0",
+              "0x3e310",
+              "0x3ecf0",
+              "0x40440",
+              "0x406e0",
+              "0x40860",
+              "0x40980"
+            ]
+          },
+          {
+            "entry": "0x40df0",
+            "name": "_demangle_status_write",
+            "body_ranges": [
+              [
+                "0x40df0",
+                "0x40e25"
+              ]
+            ],
+            "uncovered_bytes": 53,
+            "body_sha256": "2bb5cdc7ec30a21e023addc03b67e0407c12b4079d140aba573be99a94a5679b",
+            "callers": [
+              "0x40ba0"
+            ]
+          },
+          {
+            "entry": "0x427c0",
+            "name": "_demangle_parse_vbtable_type",
+            "body_ranges": [
+              [
+                "0x427c0",
+                "0x427f0"
+              ]
+            ],
+            "uncovered_bytes": 48,
+            "body_sha256": "1111bacdc253f98565e4123bdbb08cc756c63bdeea45343e7ae10affaba0ffa9",
+            "callers": [
+              "0x40e80"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "i386 dump disassembly",
+        "root_entries": [
+          "0x4ae20"
+        ],
+        "uncovered_body_bytes": 0,
+        "uncovered_functions": 0,
+        "functions": []
+      },
+      {
+        "name": "Macintosh/m68k named-root static closure",
+        "root_entries": [
+          "0x36750",
+          "0x36870",
+          "0x37480",
+          "0x37b70",
+          "0x37c80",
+          "0x39460",
+          "0x39580",
+          "0x39930",
+          "0x39a30",
+          "0x39bc0",
+          "0x39d20",
+          "0x39f10",
+          "0x39f50",
+          "0x22090",
+          "0x37b30",
+          "0x37e80",
+          "0x373e0",
+          "0x39110",
+          "0x39920",
+          "0x3a280",
+          "0x37180",
+          "0x39130",
+          "0x372a0",
+          "0x39340",
+          "0x39220",
+          "0x37550",
+          "0x376e0",
+          "0x37b90",
+          "0x39d40",
+          "0x39550",
+          "0x36300"
+        ],
+        "uncovered_body_bytes": 16534,
+        "uncovered_functions": 57,
+        "functions": [
+          {
+            "entry": "0x218d0",
+            "name": "_fatal_message",
+            "body_ranges": [
+              [
+                "0x218d0",
+                "0x2198b"
+              ]
+            ],
+            "uncovered_bytes": 187,
+            "body_sha256": "6b453cbb252ecd0a139c22710f50fdfe279b1a16ade652442cece4a94973c18a",
+            "callers": [
+              "0x183d0",
+              "0x19e50",
+              "0x1a620",
+              "0x1c8d0",
+              "0x1d3a0",
+              "0x1d9a0",
+              "0x1ef40",
+              "0x1f7f0",
+              "0x1fc60",
+              "0x203f0",
+              "0x20b30",
+              "0x20de0",
+              "0x20ef0",
+              "0x20fa0",
+              "0x210d0",
+              "0x21130",
+              "0x21990",
+              "0x219f0",
+              "0x22090",
+              "0x22b40",
+              "0x23660",
+              "0x24500",
+              "0x26b10",
+              "0x287a0",
+              "0x29c70",
+              "0x2a000",
+              "0x2a130",
+              "0x2a460",
+              "0x2a530",
+              "0x307c0",
+              "0x30d50",
+              "0x36300",
+              "0x36a00",
+              "0x36f30",
+              "0x37180",
+              "0x372a0",
+              "0x37480",
+              "0x37800",
+              "0x37a40",
+              "0x37e80",
+              "0x38c50",
+              "0x38e50",
+              "0x38ff0",
+              "0x39580",
+              "0x39870",
+              "0x39c70",
+              "0x39f50",
+              "0x3a1c0",
+              "0x3a280",
+              "0x3a580",
+              "0x42870",
+              "0x42c10",
+              "0x42c90",
+              "0x42cd0",
+              "0x42d30",
+              "0x440a0",
+              "0x449a0"
+            ]
+          },
+          {
+            "entry": "0x21990",
+            "name": "_out_of_memory",
+            "body_ranges": [
+              [
+                "0x21990",
+                "0x219a6"
+              ]
+            ],
+            "uncovered_bytes": 22,
+            "body_sha256": "bbb5d0442400deabbbc3f59f4c1e0e15bb67c2b7a1f017e16263dd4a93fe175f",
+            "callers": [
+              "0x17000",
+              "0x183d0",
+              "0x1a620",
+              "0x1d530",
+              "0x1d9a0",
+              "0x1e6c0",
+              "0x1ee70",
+              "0x1ef40",
+              "0x1f7f0",
+              "0x1fe10",
+              "0x20330",
+              "0x203f0",
+              "0x20970",
+              "0x21130",
+              "0x219b0",
+              "0x219d0",
+              "0x23910",
+              "0x24b70",
+              "0x25480",
+              "0x256b0",
+              "0x25cd0",
+              "0x26030",
+              "0x26190",
+              "0x26380",
+              "0x265d0",
+              "0x26860",
+              "0x26a10",
+              "0x27820",
+              "0x2d440",
+              "0x2d4c0",
+              "0x31420",
+              "0x32410",
+              "0x32e20",
+              "0x33110",
+              "0x33fe0",
+              "0x344c0",
+              "0x35400",
+              "0x35b40",
+              "0x35ba0",
+              "0x360a0",
+              "0x36100",
+              "0x361d0",
+              "0x3a580",
+              "0x3ab40",
+              "0x3d740",
+              "0x483d0",
+              "0x48430",
+              "0x48990",
+              "0x48ae0",
+              "0x48ba0",
+              "0x48dc0",
+              "0x48ff0",
+              "0x49c20"
+            ]
+          },
+          {
+            "entry": "0x22090",
+            "name": "_set_mac_resource",
+            "body_ranges": [
+              [
+                "0x22090",
+                "0x2217e"
+              ],
+              [
+                "0x22180",
+                "0x22189"
+              ],
+              [
+                "0x22190",
+                "0x22199"
+              ],
+              [
+                "0x221a0",
+                "0x222da"
+              ]
+            ],
+            "uncovered_bytes": 570,
+            "body_sha256": "52c35de9d905f1c1b998ab5f63aea3c0e0b49e626815bde69c57a5332a9925b1",
+            "callers": [
+              "0x22610",
+              "0x3b580"
+            ]
+          },
+          {
+            "entry": "0x26860",
+            "name": "_expand_hash",
+            "body_ranges": [
+              [
+                "0x26860",
+                "0x269df"
+              ],
+              [
+                "0x269e0",
+                "0x26a02"
+              ]
+            ],
+            "uncovered_bytes": 417,
+            "body_sha256": "32e9d4e99c3053524a6012ebd6824f943ebbb28c3f6cec0b0af9c08270a21d7e",
+            "callers": [
+              "0x26720"
+            ]
+          },
+          {
+            "entry": "0x36300",
+            "name": "_write_mac_loader_prologue",
+            "body_ranges": [
+              [
+                "0x36300",
+                "0x366ef"
+              ],
+              [
+                "0x366f0",
+                "0x36742"
+              ]
+            ],
+            "uncovered_bytes": 1089,
+            "body_sha256": "b9ec461093dae06eb66dbf87a366d0299845db86d75f99c1af0506523647f6b9",
+            "callers": [
+              "0x1d530"
+            ]
+          },
+          {
+            "entry": "0x36750",
+            "name": "_build_mac_resources",
+            "body_ranges": [
+              [
+                "0x36750",
+                "0x36866"
+              ]
+            ],
+            "uncovered_bytes": 278,
+            "body_sha256": "212e129fcb5f5715dc75853ae1da440e36f3e13f74c6beda750611105c53c99f",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x36870",
+            "name": "_write_mac_swapper",
+            "body_ranges": [
+              [
+                "0x36870",
+                "0x3696c"
+              ]
+            ],
+            "uncovered_bytes": 252,
+            "body_sha256": "22ed324861a1b0e8a1d54a22cc248c2341dd696ddac8aabf2581773afab2ac16",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x36970",
+            "name": "FUN_00036970",
+            "body_ranges": [
+              [
+                "0x36970",
+                "0x369ba"
+              ]
+            ],
+            "uncovered_bytes": 74,
+            "body_sha256": "ce59a0360c04465a51d6072ac00fef177bb46463ad5ffac79194ddf99ec0c443",
+            "callers": [
+              "0x36a00"
+            ]
+          },
+          {
+            "entry": "0x369c0",
+            "name": "FUN_000369c0",
+            "body_ranges": [
+              [
+                "0x369c0",
+                "0x369f6"
+              ]
+            ],
+            "uncovered_bytes": 54,
+            "body_sha256": "4932d56c63e13398f9e34d6f111085fc57c88a8c7e8ebbd9b405c479fe2daf9b",
+            "callers": [
+              "0x36a00"
+            ]
+          },
+          {
+            "entry": "0x36a00",
+            "name": "FUN_00036a00",
+            "body_ranges": [
+              [
+                "0x36a00",
+                "0x36f2c"
+              ]
+            ],
+            "uncovered_bytes": 1324,
+            "body_sha256": "b04f20a8796053d3fab26e604ec9931727aef7a52aaf0043382b2f9a7e1cf305",
+            "callers": [
+              "0x39a30"
+            ]
+          },
+          {
+            "entry": "0x36f30",
+            "name": "FUN_00036f30",
+            "body_ranges": [
+              [
+                "0x36f30",
+                "0x3706b"
+              ]
+            ],
+            "uncovered_bytes": 315,
+            "body_sha256": "c306a1cae4a6cf8c86cfbc8fb5f2241ca6bc76e9321c32d11353bb36f0908937",
+            "callers": [
+              "0x39a30"
+            ]
+          },
+          {
+            "entry": "0x37100",
+            "name": "FUN_00037100",
+            "body_ranges": [
+              [
+                "0x37100",
+                "0x37178"
+              ]
+            ],
+            "uncovered_bytes": 120,
+            "body_sha256": "21b91ccc6f91926d1344dd22a042a516d6fc45fd0990ea5b32a1ba3df3ac2839",
+            "callers": [
+              "0x39a30"
+            ]
+          },
+          {
+            "entry": "0x37180",
+            "name": "_append_mac_fixup",
+            "body_ranges": [
+              [
+                "0x37180",
+                "0x3726e"
+              ],
+              [
+                "0x37270",
+                "0x37299"
+              ]
+            ],
+            "uncovered_bytes": 279,
+            "body_sha256": "e24baaa1ec4cdd2d0e2f482aa49aabece0638998af79a93fab9e2d3d58168b78",
+            "callers": [
+              "0x230c0",
+              "0x37480",
+              "0x39340",
+              "0x39870"
+            ]
+          },
+          {
+            "entry": "0x372a0",
+            "name": "_record_mac_data_reference",
+            "body_ranges": [
+              [
+                "0x372a0",
+                "0x373d3"
+              ]
+            ],
+            "uncovered_bytes": 307,
+            "body_sha256": "d2fb5ef9e97b5fe341184752ad36f43a919e5adcb9ea3be519bc6fe1c57fbb4e",
+            "callers": [
+              "0x230c0"
+            ]
+          },
+          {
+            "entry": "0x373e0",
+            "name": "_process_mac_object_symbols",
+            "body_ranges": [
+              [
+                "0x373e0",
+                "0x3747b"
+              ]
+            ],
+            "uncovered_bytes": 155,
+            "body_sha256": "72acd7105c12531fed10925c5dafca488094835d9044e143aa96d25d17449dcc",
+            "callers": [
+              "0x24330"
+            ]
+          },
+          {
+            "entry": "0x37480",
+            "name": "_initialize_mac_loader",
+            "body_ranges": [
+              [
+                "0x37480",
+                "0x3750e"
+              ],
+              [
+                "0x37510",
+                "0x3754f"
+              ]
+            ],
+            "uncovered_bytes": 205,
+            "body_sha256": "9346c4e4935abde922abfd7114aa215ee7f063a25d607ee60867b3f455eab868",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x37550",
+            "name": "_build_mac_section_fixups",
+            "body_ranges": [
+              [
+                "0x37550",
+                "0x3764b"
+              ]
+            ],
+            "uncovered_bytes": 251,
+            "body_sha256": "1d1e1b4f59127e298b9b5e1ea457f28d66ac8c6dd2b1786a620327e7dddb67b2",
+            "callers": [
+              "0x219f0"
+            ]
+          },
+          {
+            "entry": "0x37650",
+            "name": "FUN_00037650",
+            "body_ranges": [
+              [
+                "0x37650",
+                "0x376d4"
+              ]
+            ],
+            "uncovered_bytes": 132,
+            "body_sha256": "8bfcf99d0aa3804398ee3f7bfd03c3f3221248e3d88245ef975689aae8e0b3f9",
+            "callers": [
+              "0x37550"
+            ]
+          },
+          {
+            "entry": "0x376e0",
+            "name": "_size_mac_section_fixups",
+            "body_ranges": [
+              [
+                "0x376e0",
+                "0x377fc"
+              ]
+            ],
+            "uncovered_bytes": 284,
+            "body_sha256": "540393d4be09e2e086ffe9ca8b1a27ddabe4724e8814c9114dae5604d4fabb5a",
+            "callers": [
+              "0x219f0"
+            ]
+          },
+          {
+            "entry": "0x37800",
+            "name": "FUN_00037800",
+            "body_ranges": [
+              [
+                "0x37800",
+                "0x37a35"
+              ]
+            ],
+            "uncovered_bytes": 565,
+            "body_sha256": "1a268242091a96b979f6b05185684ce272fb01ae2ff8f8e91ad576a5bdf1165a",
+            "callers": [
+              "0x376e0",
+              "0x39bc0"
+            ]
+          },
+          {
+            "entry": "0x37a40",
+            "name": "FUN_00037a40",
+            "body_ranges": [
+              [
+                "0x37a40",
+                "0x37b22"
+              ]
+            ],
+            "uncovered_bytes": 226,
+            "body_sha256": "084978c1d10e74e64014a702eb1d992e105db963c5002636a9207d1ac2a5ae20",
+            "callers": [
+              "0x37b30"
+            ]
+          },
+          {
+            "entry": "0x37b30",
+            "name": "_initialize_mac_section",
+            "body_ranges": [
+              [
+                "0x37b30",
+                "0x37b62"
+              ]
+            ],
+            "uncovered_bytes": 50,
+            "body_sha256": "c00c237c40859104d1d44afd0fe0b21b7828638bb9a9cca2951bce8ccd2178c9",
+            "callers": [
+              "0x3b580"
+            ]
+          },
+          {
+            "entry": "0x37b70",
+            "name": "_finalize_mac_debug",
+            "body_ranges": [
+              [
+                "0x37b70",
+                "0x37b8d"
+              ]
+            ],
+            "uncovered_bytes": 29,
+            "body_sha256": "d1c7885878ac925f6f60339000b26e94dee77e370e9103897ef9c8fcb66f20bc",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x37b90",
+            "name": "_write_mac_section_debug",
+            "body_ranges": [
+              [
+                "0x37b90",
+                "0x37c1d"
+              ],
+              [
+                "0x37c20",
+                "0x37c7b"
+              ]
+            ],
+            "uncovered_bytes": 232,
+            "body_sha256": "4220ab54b8d28f1f6228cbc07e3d5f1c7fdd654b9f2c16600cac99eba540f311",
+            "callers": [
+              "0x22610"
+            ]
+          },
+          {
+            "entry": "0x37c80",
+            "name": "_write_mac_debug",
+            "body_ranges": [
+              [
+                "0x37c80",
+                "0x37d95"
+              ]
+            ],
+            "uncovered_bytes": 277,
+            "body_sha256": "fb73aa9997595438241ed5788148a450edde7513910eae38bcdf641993d09a63",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x37da0",
+            "name": "FUN_00037da0",
+            "body_ranges": [
+              [
+                "0x37da0",
+                "0x37dc9"
+              ],
+              [
+                "0x37dd0",
+                "0x37dfd"
+              ],
+              [
+                "0x37e00",
+                "0x37e79"
+              ]
+            ],
+            "uncovered_bytes": 207,
+            "body_sha256": "ccf0b45cf59ffe57a40ce33328bf7a88d65ef2ceac146b9c55a4439c3c399f6b",
+            "callers": [
+              "0x37e80",
+              "0x38c50"
+            ]
+          },
+          {
+            "entry": "0x37e80",
+            "name": "_apply_m68k_relocations",
+            "body_ranges": [
+              [
+                "0x37e80",
+                "0x37f6f"
+              ],
+              [
+                "0x37f70",
+                "0x38009"
+              ],
+              [
+                "0x38010",
+                "0x3808c"
+              ],
+              [
+                "0x38090",
+                "0x380fd"
+              ],
+              [
+                "0x38100",
+                "0x3812e"
+              ],
+              [
+                "0x38130",
+                "0x381fa"
+              ],
+              [
+                "0x38200",
+                "0x3822e"
+              ],
+              [
+                "0x38230",
+                "0x383bb"
+              ],
+              [
+                "0x383c0",
+                "0x38629"
+              ],
+              [
+                "0x38630",
+                "0x386df"
+              ],
+              [
+                "0x386e0",
+                "0x3872d"
+              ],
+              [
+                "0x38730",
+                "0x387ba"
+              ],
+              [
+                "0x387c0",
+                "0x3896e"
+              ],
+              [
+                "0x38970",
+                "0x389bd"
+              ],
+              [
+                "0x389c0",
+                "0x389da"
+              ],
+              [
+                "0x389e0",
+                "0x38aee"
+              ],
+              [
+                "0x38af0",
+                "0x38b81"
+              ]
+            ],
+            "uncovered_bytes": 3269,
+            "body_sha256": "303e5c3789f3439dcff91eacd723e54ebc853f0e5b7b461ad543e6b34341ed14",
+            "callers": []
+          },
+          {
+            "entry": "0x38c50",
+            "name": "FUN_00038c50",
+            "body_ranges": [
+              [
+                "0x38c50",
+                "0x38daf"
+              ],
+              [
+                "0x38db0",
+                "0x38e4d"
+              ]
+            ],
+            "uncovered_bytes": 508,
+            "body_sha256": "96b7d28369023cdd7d837247ecffc338dc7e0d9dbd97c707da960caf5161cdd5",
+            "callers": [
+              "0x37e80"
+            ]
+          },
+          {
+            "entry": "0x38e50",
+            "name": "FUN_00038e50",
+            "body_ranges": [
+              [
+                "0x38e50",
+                "0x38f61"
+              ]
+            ],
+            "uncovered_bytes": 273,
+            "body_sha256": "a704ba1d1e529975b33cbe1d5e79453637f9503ba7df73083ad89bbd2892f7b7",
+            "callers": [
+              "0x38f70",
+              "0x39a30"
+            ]
+          },
+          {
+            "entry": "0x38f70",
+            "name": "FUN_00038f70",
+            "body_ranges": [
+              [
+                "0x38f70",
+                "0x38fe1"
+              ]
+            ],
+            "uncovered_bytes": 113,
+            "body_sha256": "0f08ae69edf891fd94d2736715c21ac959f94d2e4cf15b1aba3ee87894167a14",
+            "callers": [
+              "0x37e80",
+              "0x38c50"
+            ]
+          },
+          {
+            "entry": "0x38ff0",
+            "name": "FUN_00038ff0",
+            "body_ranges": [
+              [
+                "0x38ff0",
+                "0x3900f"
+              ],
+              [
+                "0x39010",
+                "0x3903f"
+              ],
+              [
+                "0x39040",
+                "0x3904f"
+              ],
+              [
+                "0x39050",
+                "0x3906f"
+              ],
+              [
+                "0x39070",
+                "0x3909a"
+              ],
+              [
+                "0x390a0",
+                "0x390c7"
+              ]
+            ],
+            "uncovered_bytes": 205,
+            "body_sha256": "cd22e2dc2f6fc5c0c17fbaafd8e7571dbdf4b655a14755232fb015cc4f91fae0",
+            "callers": [
+              "0x37e80"
+            ]
+          },
+          {
+            "entry": "0x39110",
+            "name": "_initialize_mac_object_symbols",
+            "body_ranges": [
+              [
+                "0x39110",
+                "0x39125"
+              ]
+            ],
+            "uncovered_bytes": 21,
+            "body_sha256": "e8d020f6508c07659b545a6a374a299c4905ac9f07d0632cb803245bea44f4e0",
+            "callers": [
+              "0x24330"
+            ]
+          },
+          {
+            "entry": "0x39130",
+            "name": "_record_mac_symbol_reference",
+            "body_ranges": [
+              [
+                "0x39130",
+                "0x39174"
+              ]
+            ],
+            "uncovered_bytes": 68,
+            "body_sha256": "92c368e34c6e0ce3227decd374a95347f653cc2c0b07f8faf8bef8cdd5347274",
+            "callers": [
+              "0x230c0"
+            ]
+          },
+          {
+            "entry": "0x39220",
+            "name": "_record_mac_external",
+            "body_ranges": [
+              [
+                "0x39220",
+                "0x3925f"
+              ],
+              [
+                "0x39260",
+                "0x3933a"
+              ]
+            ],
+            "uncovered_bytes": 281,
+            "body_sha256": "b5c9e52ed5ec0a04b05ab4bfce1781a6a8fcd358e7d8edd1d1293e7414fe0c09",
+            "callers": [
+              "0x23d00"
+            ]
+          },
+          {
+            "entry": "0x39340",
+            "name": "_process_mac_static_symbol",
+            "body_ranges": [
+              [
+                "0x39340",
+                "0x393aa"
+              ]
+            ],
+            "uncovered_bytes": 106,
+            "body_sha256": "3e9bd197a4d913cdbbd6263e3973032fbdd34d4d74df8c44f0c6f4c65eff0992",
+            "callers": [
+              "0x23d00"
+            ]
+          },
+          {
+            "entry": "0x393b0",
+            "name": "FUN_000393b0",
+            "body_ranges": [
+              [
+                "0x393b0",
+                "0x3940f"
+              ],
+              [
+                "0x39410",
+                "0x3943d"
+              ],
+              [
+                "0x39440",
+                "0x39451"
+              ]
+            ],
+            "uncovered_bytes": 157,
+            "body_sha256": "276e03fd0d7f77a37bdd44cc9ac3c8a9f7d24201da13d02ef2ca41a7ec2ac6e1",
+            "callers": [
+              "0x39220",
+              "0x39580"
+            ]
+          },
+          {
+            "entry": "0x39460",
+            "name": "_initialize_mac_exports",
+            "body_ranges": [
+              [
+                "0x39460",
+                "0x394aa"
+              ],
+              [
+                "0x394b0",
+                "0x394b9"
+              ],
+              [
+                "0x394c0",
+                "0x394cf"
+              ],
+              [
+                "0x394d0",
+                "0x39549"
+              ]
+            ],
+            "uncovered_bytes": 219,
+            "body_sha256": "235ab62e8a06a20da677884f54ccc3998db7a369485b7a460ec754aefc5f1f71",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x39550",
+            "name": "_find_mac_contribution_external",
+            "body_ranges": [
+              [
+                "0x39550",
+                "0x39578"
+              ]
+            ],
+            "uncovered_bytes": 40,
+            "body_sha256": "a8062d54f3688b6a052f0ffccbc9c57e3fd5ecaeffb30c6e3df1ce5128d0e9e0",
+            "callers": [
+              "0x1ea70"
+            ]
+          },
+          {
+            "entry": "0x39580",
+            "name": "_set_mac_export_mode",
+            "body_ranges": [
+              [
+                "0x39580",
+                "0x396ed"
+              ],
+              [
+                "0x396f0",
+                "0x39768"
+              ]
+            ],
+            "uncovered_bytes": 485,
+            "body_sha256": "9f085fcbff1c7e23958739ffe9d102c3d054e37b72d0b2b6c805d936d493ea4b",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x39770",
+            "name": "FUN_00039770",
+            "body_ranges": [
+              [
+                "0x39770",
+                "0x3979e"
+              ],
+              [
+                "0x397a0",
+                "0x3986a"
+              ]
+            ],
+            "uncovered_bytes": 248,
+            "body_sha256": "49066bcd8b9bf3c3cd34c41d77e76224ae5390ad5e393e45b6a98dd3c33cdee6",
+            "callers": [
+              "0x36750"
+            ]
+          },
+          {
+            "entry": "0x39870",
+            "name": "FUN_00039870",
+            "body_ranges": [
+              [
+                "0x39870",
+                "0x398fa"
+              ],
+              [
+                "0x39900",
+                "0x3991f"
+              ]
+            ],
+            "uncovered_bytes": 169,
+            "body_sha256": "82c05c6a0319f66da50bbec17ede97812071c76c37ea2a0ff84747bbb65ffb77",
+            "callers": [
+              "0x39770"
+            ]
+          },
+          {
+            "entry": "0x39920",
+            "name": "_finish_mac_object_symbols",
+            "body_ranges": [
+              [
+                "0x39920",
+                "0x3992f"
+              ]
+            ],
+            "uncovered_bytes": 15,
+            "body_sha256": "da9e268bda93163ab1ed50516af4257ed41afab59519b404b58d6e1643c7df73",
+            "callers": [
+              "0x24330"
+            ]
+          },
+          {
+            "entry": "0x39930",
+            "name": "_size_mac_jump_table",
+            "body_ranges": [
+              [
+                "0x39930",
+                "0x3999c"
+              ],
+              [
+                "0x399a0",
+                "0x399ad"
+              ],
+              [
+                "0x399b0",
+                "0x39a0d"
+              ],
+              [
+                "0x39a10",
+                "0x39a2b"
+              ]
+            ],
+            "uncovered_bytes": 241,
+            "body_sha256": "8ed01b55c59c0a47f04f45b82ba077caf6e446f8cc6e738e397d9376e359a8a5",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x39a30",
+            "name": "_finalize_mac_fixups",
+            "body_ranges": [
+              [
+                "0x39a30",
+                "0x39bb4"
+              ]
+            ],
+            "uncovered_bytes": 388,
+            "body_sha256": "e7435d6727ff1d273dbd50293d200b06da576c3c4ef03566141df78be79a62ad",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x39bc0",
+            "name": "_size_mac_data_fixups",
+            "body_ranges": [
+              [
+                "0x39bc0",
+                "0x39c61"
+              ]
+            ],
+            "uncovered_bytes": 161,
+            "body_sha256": "9f2b65fff607eda7077727f59137cf5fe5282802a838d10237aa8f6f4695e970",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x39c70",
+            "name": "FUN_00039c70",
+            "body_ranges": [
+              [
+                "0x39c70",
+                "0x39d1a"
+              ]
+            ],
+            "uncovered_bytes": 170,
+            "body_sha256": "79ec154c2390d8d23c4816f67f404cd8fda91fe243cb3cd566cb42160546ded9",
+            "callers": [
+              "0x37650",
+              "0x39bc0"
+            ]
+          },
+          {
+            "entry": "0x39d20",
+            "name": "_initialize_mac_section_numbers",
+            "body_ranges": [
+              [
+                "0x39d20",
+                "0x39d3d"
+              ]
+            ],
+            "uncovered_bytes": 29,
+            "body_sha256": "b9cf1f00c7f297635ccf4ea19eb48c49e5d29f959bad95d5b643511f5e251da6",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x39d40",
+            "name": "_record_mac_section_resource",
+            "body_ranges": [
+              [
+                "0x39d40",
+                "0x39e3d"
+              ],
+              [
+                "0x39e40",
+                "0x39eba"
+              ],
+              [
+                "0x39ec0",
+                "0x39f02"
+              ]
+            ],
+            "uncovered_bytes": 441,
+            "body_sha256": "cbb3396eb987b450ee03e5bd92bce571968f4e19bd2cc89de0cf9b198b46801e",
+            "callers": [
+              "0x22610"
+            ]
+          },
+          {
+            "entry": "0x39f10",
+            "name": "_write_mac_resources",
+            "body_ranges": [
+              [
+                "0x39f10",
+                "0x39f4d"
+              ]
+            ],
+            "uncovered_bytes": 61,
+            "body_sha256": "5e05c28a46d2f1422a130bf49606841e46b54b52e1dc682d3cebf78523c1355c",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x39f50",
+            "name": "_initialize_mac_resources",
+            "body_ranges": [
+              [
+                "0x39f50",
+                "0x3a0e3"
+              ]
+            ],
+            "uncovered_bytes": 403,
+            "body_sha256": "a3194c8006203b9606f247147fd3ac53d137f2963d3f5ee7f65502bcd3fdeb9f",
+            "callers": [
+              "0x1a620"
+            ]
+          },
+          {
+            "entry": "0x3a120",
+            "name": "FUN_0003a120",
+            "body_ranges": [
+              [
+                "0x3a120",
+                "0x3a153"
+              ]
+            ],
+            "uncovered_bytes": 51,
+            "body_sha256": "e979040bc5b8341a5541df7408af0f971c8c0425407b8ba249cc171a255442fc",
+            "callers": [
+              "0x39f50"
+            ]
+          },
+          {
+            "entry": "0x3a160",
+            "name": "FUN_0003a160",
+            "body_ranges": [
+              [
+                "0x3a160",
+                "0x3a1bb"
+              ]
+            ],
+            "uncovered_bytes": 91,
+            "body_sha256": "e597c88f9cc1dfcd87c558bd03e8b3248e69e8c26dd8f58a32b21beb3604a29b",
+            "callers": [
+              "0x22090",
+              "0x39f50"
+            ]
+          },
+          {
+            "entry": "0x3a1c0",
+            "name": "FUN_0003a1c0",
+            "body_ranges": [
+              [
+                "0x3a1c0",
+                "0x3a22e"
+              ],
+              [
+                "0x3a230",
+                "0x3a237"
+              ]
+            ],
+            "uncovered_bytes": 117,
+            "body_sha256": "3c7b3f6c632e7a2b04b85691713beccaa5d735979cb654b63f4e655f015fe08d",
+            "callers": [
+              "0x39f50"
+            ]
+          },
+          {
+            "entry": "0x3a240",
+            "name": "FUN_0003a240",
+            "body_ranges": [
+              [
+                "0x3a240",
+                "0x3a26d"
+              ],
+              [
+                "0x3a270",
+                "0x3a27c"
+              ]
+            ],
+            "uncovered_bytes": 57,
+            "body_sha256": "fe95dfa42ac56697a60d2ffe9986f5d83fda0e0880f0024f58b16fa21fa0248d",
+            "callers": [
+              "0x22090"
+            ]
+          },
+          {
+            "entry": "0x3a280",
+            "name": "_validate_mac_code_relocation",
+            "body_ranges": [
+              [
+                "0x3a280",
+                "0x3a2be"
+              ]
+            ],
+            "uncovered_bytes": 62,
+            "body_sha256": "3477711ccf56d6248a7cea6893bb1188977008890f9a47f496ebd2a2485ddb0b",
+            "callers": [
+              "0x230c0"
+            ]
+          },
+          {
+            "entry": "0x3c1f0",
+            "name": "_grow_buffered_file",
+            "body_ranges": [
+              [
+                "0x3c1f0",
+                "0x3c25e"
+              ]
+            ],
+            "uncovered_bytes": 110,
+            "body_sha256": "73660ada12d8d22b9d365cf10651ad9deb52ef4c48ef80f66c2ca80b8fab3d3f",
+            "callers": [
+              "0x3ca00",
+              "0x3cc70"
+            ]
+          },
+          {
+            "entry": "0x3d570",
+            "name": "_grow_mapping",
+            "body_ranges": [
+              [
+                "0x3d570",
+                "0x3d5ba"
+              ]
+            ],
+            "uncovered_bytes": 74,
+            "body_sha256": "24b2fc010dce9136c940d169c709bcb8b5eaca6123960109f6fdfb8068eefd3c",
+            "callers": [
+              "0x3d3b0",
+              "0x3d410",
+              "0x3d470",
+              "0x3d6f0"
+            ]
+          }
+        ]
+      }
+    ],
+    "limits": "Remaining closures are analysis opportunities, not promised gains. OMF closure includes internal -g debug conversion, while normal LINK wrapper requests only -o/-co. No additional cases were executed."
+  }
+}

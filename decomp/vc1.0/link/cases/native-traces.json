@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "95cf785a4729e5a56365f4a1f4cb1e94c9716595be1a767c2257366296377323",
+    "functions.json": "ebb1cb74e6f178128c0805bafe505d939962d92ba7accfcdee8929006cb35931",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "67d80f6c093f4c723e4f37a4a4671fad9b5014832b1a5d2586745de0dc16f8e1"
+    "replay-cases.json": "8848864168eb20428b8bccede88809cec56adbc5b246b88b9c79d2e4ab75c7bf"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -121,6 +121,11 @@
       "source": "src/machine-stubs.c",
       "logical": "_apply_m68k_relocations",
       "implementation": "stub-C"
+    },
+    "apply_opcode": {
+      "source": "src/disassembler.c",
+      "logical": "_apply_opcode",
+      "implementation": "C"
     },
     "apply_order_file": {
       "source": "src/ordering.c",
@@ -277,6 +282,11 @@
       "logical": "_compare_contribution_module_names",
       "implementation": "C"
     },
+    "compare_disassembly_symbols": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_compare_disassembly_symbols",
+      "implementation": "stub-C"
+    },
     "compare_external_addresses": {
       "source": "src/symbols.c",
       "logical": "_compare_external_addresses",
@@ -402,6 +412,11 @@
       "logical": "_create_contribution",
       "implementation": "C"
     },
+    "create_disassembler": {
+      "source": "src/disassembler.c",
+      "logical": "_create_disassembler",
+      "implementation": "C"
+    },
     "create_group": {
       "source": "src/modules.c",
       "logical": "_create_group",
@@ -451,6 +466,551 @@
       "source": "src/driver.c",
       "logical": "_debug_initialize",
       "implementation": "C"
+    },
+    "decode_address16": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_address16",
+      "implementation": "stub-C"
+    },
+    "decode_address32": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_address32",
+      "implementation": "C"
+    },
+    "decode_ebp_register": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_ebp_register",
+      "implementation": "C"
+    },
+    "decode_ebx_register": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_ebx_register",
+      "implementation": "C"
+    },
+    "decode_edi_register": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_edi_register",
+      "implementation": "C"
+    },
+    "decode_esi_register": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_esi_register",
+      "implementation": "C"
+    },
+    "decode_instruction": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_instruction",
+      "implementation": "C"
+    },
+    "decode_instruction_body": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_instruction_body",
+      "implementation": "C"
+    },
+    "decode_modrm_operand": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_modrm_operand",
+      "implementation": "C"
+    },
+    "decode_modrm_operand_effects": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_modrm_operand_effects",
+      "implementation": "C"
+    },
+    "decode_modrm_register": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_modrm_register",
+      "implementation": "C"
+    },
+    "decode_near_relative": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_near_relative",
+      "implementation": "C"
+    },
+    "decode_op_4b5f0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b5f0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b650": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b650",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b670": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b670",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b6a0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b6a0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b6d0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b6d0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b700": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b700",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b730": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b730",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b760": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b760",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b790": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b790",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b7c0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b7c0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b880": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b880",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b8a0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b8a0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b8c0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b8c0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b8e0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b8e0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b960": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b960",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b990": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b990",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b9c0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b9c0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4b9f0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4b9f0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ba10": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ba10",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ba50": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ba50",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ba70": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ba70",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ba90": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ba90",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bac0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bac0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bae0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bae0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bb10": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bb10",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bb50": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bb50",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bb90": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bb90",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bbd0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bbd0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bc10": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bc10",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bc50": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bc50",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bc90": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bc90",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bcd0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bcd0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bd10": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bd10",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bd40": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bd40",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bd70": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bd70",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bda0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bda0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bdd0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bdd0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4be00": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4be00",
+      "implementation": "stub-C"
+    },
+    "decode_op_4be30": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4be30",
+      "implementation": "stub-C"
+    },
+    "decode_op_4be90": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4be90",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bf00": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bf00",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bf70": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bf70",
+      "implementation": "stub-C"
+    },
+    "decode_op_4bfe0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4bfe0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c060": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c060",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c080": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c080",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c0b0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c0b0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c0e0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c0e0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c140": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c140",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c170": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c170",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c1a0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c1a0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c250": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c250",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c3d0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c3d0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c440": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c440",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c4c0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c4c0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c750": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c750",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c830": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c830",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c910": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c910",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c940": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c940",
+      "implementation": "stub-C"
+    },
+    "decode_op_4c970": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4c970",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ca10": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ca10",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ca60": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ca60",
+      "implementation": "stub-C"
+    },
+    "decode_op_4cac0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4cac0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4cc90": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4cc90",
+      "implementation": "stub-C"
+    },
+    "decode_op_4cdf0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4cdf0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ce80": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ce80",
+      "implementation": "stub-C"
+    },
+    "decode_op_4cf10": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4cf10",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d0e0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d0e0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d1e0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d1e0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d330": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d330",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d5e0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d5e0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d640": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d640",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d690": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d690",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d6f0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d6f0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d8a0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d8a0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d900": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d900",
+      "implementation": "stub-C"
+    },
+    "decode_op_4d990": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4d990",
+      "implementation": "stub-C"
+    },
+    "decode_op_4da30": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4da30",
+      "implementation": "stub-C"
+    },
+    "decode_op_4da70": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4da70",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dab0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dab0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4daf0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4daf0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dbb0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dbb0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dbf0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dbf0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dc30": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dc30",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dc70": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dc70",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dcb0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dcb0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dcf0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dcf0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dd30": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dd30",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dd70": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dd70",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ddb0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ddb0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4de00": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4de00",
+      "implementation": "stub-C"
+    },
+    "decode_op_4de40": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4de40",
+      "implementation": "stub-C"
+    },
+    "decode_op_4ded0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4ded0",
+      "implementation": "stub-C"
+    },
+    "decode_op_4df20": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4df20",
+      "implementation": "stub-C"
+    },
+    "decode_op_4df50": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4df50",
+      "implementation": "stub-C"
+    },
+    "decode_op_4dfa0": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_op_4dfa0",
+      "implementation": "stub-C"
+    },
+    "decode_opcode": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_opcode",
+      "implementation": "C"
+    },
+    "decode_sib_address": {
+      "source": "src/disassembler-stubs.c",
+      "logical": "_decode_sib_address",
+      "implementation": "stub-C"
     },
     "define_external": {
       "source": "src/object.c",
@@ -818,9 +1378,9 @@
       "implementation": "C"
     },
     "disassemble_section": {
-      "source": "src/dump-stubs.c",
+      "source": "src/disassembler.c",
       "logical": "_disassemble_section",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "driver_usage": {
       "source": "src/stubs.c",
@@ -1187,10 +1747,35 @@
       "logical": "_flush_file_page",
       "implementation": "C"
     },
+    "format_disassembly_operand": {
+      "source": "src/disassembly-output.c",
+      "logical": "_format_disassembly_operand",
+      "implementation": "C"
+    },
     "format_input_reference": {
       "source": "src/object-stubs.c",
       "logical": "_format_input_reference",
       "implementation": "stub-C"
+    },
+    "format_instruction": {
+      "source": "src/disassembly-output.c",
+      "logical": "_format_instruction",
+      "implementation": "C"
+    },
+    "format_instruction_address": {
+      "source": "src/disassembly-output.c",
+      "logical": "_format_instruction_address",
+      "implementation": "C"
+    },
+    "format_instruction_bytes": {
+      "source": "src/disassembly-output.c",
+      "logical": "_format_instruction_bytes",
+      "implementation": "C"
+    },
+    "format_instruction_text": {
+      "source": "src/disassembly-output.c",
+      "logical": "_format_instruction_text",
+      "implementation": "C"
     },
     "format_module_name": {
       "source": "src/modules.c",
@@ -2522,6 +3107,11 @@
       "logical": "_select_comdat",
       "implementation": "C"
     },
+    "select_disassembly_mnemonic": {
+      "source": "src/disassembly-output.c",
+      "logical": "_select_disassembly_mnemonic",
+      "implementation": "C"
+    },
     "select_entry_point": {
       "source": "src/linker.c",
       "logical": "_select_entry_point",
@@ -2687,6 +3277,11 @@
       "logical": "_update_file_symbol",
       "implementation": "C"
     },
+    "update_frame_registers": {
+      "source": "src/disassembler.c",
+      "logical": "_update_frame_registers",
+      "implementation": "C"
+    },
     "update_function_auxiliary": {
       "source": "src/debug-symbols.c",
       "logical": "_update_function_auxiliary",
@@ -2695,6 +3290,11 @@
     "update_section_symbol": {
       "source": "src/pass-two.c",
       "logical": "_update_section_symbol",
+      "implementation": "C"
+    },
+    "update_stack_registers": {
+      "source": "src/disassembler.c",
+      "logical": "_update_stack_registers",
       "implementation": "C"
     },
     "update_static_symbol": {
@@ -3380,7 +3980,30 @@
     "demangle_read_dimension",
     "demangle_parse_dimension",
     "demangle_name_unsigned",
-    "initialize_disassembler"
+    "initialize_disassembler",
+    "disassemble_section",
+    "create_disassembler",
+    "decode_instruction",
+    "decode_instruction_body",
+    "decode_opcode",
+    "apply_opcode",
+    "update_stack_registers",
+    "decode_ebp_register",
+    "format_instruction",
+    "format_instruction_address",
+    "format_instruction_bytes",
+    "format_instruction_text",
+    "select_disassembly_mnemonic",
+    "format_disassembly_operand",
+    "decode_modrm_register",
+    "decode_modrm_operand_effects",
+    "decode_modrm_operand",
+    "decode_address32",
+    "decode_ebx_register",
+    "decode_esi_register",
+    "decode_edi_register",
+    "decode_near_relative",
+    "update_frame_registers"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -3959,9 +4582,9 @@
       }
     },
     "library-list": {
-      "first": 641,
-      "last": 641,
-      "seen_count": 467,
+      "first": 664,
+      "last": 664,
+      "seen_count": 490,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -3993,9 +4616,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 641,
-      "last": 641,
-      "seen_count": 467,
+      "first": 664,
+      "last": 664,
+      "seen_count": 490,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4029,9 +4652,9 @@
       }
     },
     "library-dump-object": {
-      "first": 641,
-      "last": 641,
-      "seen_count": 467,
+      "first": 664,
+      "last": 664,
+      "seen_count": 490,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4074,9 +4697,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 641,
-      "last": 641,
-      "seen_count": 467,
+      "first": 664,
+      "last": 664,
+      "seen_count": 490,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4229,6 +4852,40 @@
       "seen_count": 466,
       "expected": [
         "initialize_disassembler"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dump-disasm-code": {
+      "first": 641,
+      "last": 664,
+      "seen_count": 467,
+      "expected": [
+        "disassemble_section",
+        "create_disassembler",
+        "decode_instruction",
+        "decode_instruction_body",
+        "decode_opcode",
+        "apply_opcode",
+        "update_stack_registers",
+        "decode_ebp_register",
+        "format_instruction",
+        "format_instruction_address",
+        "format_instruction_bytes",
+        "format_instruction_text",
+        "select_disassembly_mnemonic",
+        "format_disassembly_operand",
+        "decode_modrm_register",
+        "decode_modrm_operand_effects",
+        "decode_modrm_operand",
+        "decode_address32",
+        "decode_ebx_register",
+        "decode_esi_register",
+        "decode_edi_register",
+        "decode_near_relative",
+        "update_frame_registers"
       ],
       "terminal": {
         "kind": "exit",

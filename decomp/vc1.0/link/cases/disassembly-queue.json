@@ -1,0 +1,22 @@
+{
+  "authorization": "User selected both follow-ons after current code-bearing disassembly case; parent dispatch received2026-10-22.",
+  "order": [
+    {
+      "case": "dump-disasm-code",
+      "status": "complete",
+      "input": "cases/disassembler-code/inputs/test.obj"
+    },
+    {
+      "case": "dump-disasm-x86-rich",
+      "status": "next",
+      "scope": "Addressing/SIB, branches/immediates, prefixes/operand-size overrides and x87; capture original-valid inputs and complete output before native acceptance."
+    },
+    {
+      "case": "macintosh-m68k-coff",
+      "status": "queued",
+      "scope": "Inspect documented target format and native machine/relocation/loader paths, obtain valid minimal object(s), capture successful original linking first; reconstruct only reached loader/relocation/resource graph."
+    }
+  ],
+  "method": "Native i386 -O0 -g/GDB; fixtures use cached original references exclusively. Explicit original-only capture and canonical original-toolchain compilation occur outside fixture execution. Shared shim changes requested from parent.",
+  "stop": "Pause after all selected stages, report actual remaining application gaps and next recommendation."
+}
