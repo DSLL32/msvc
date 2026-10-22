@@ -5,7 +5,8 @@ untouched original RCPP.EXE; manifest.json pins source bytes, arguments, status,
 raw stdout/stderr and exact full/partial outputs. No normalization is allowed.
 Copy source/ into an isolated case directory, substitute {bin} and {include}
 with original toolchain paths, clear the listed environment variables and run
-the selected arguments. -ef names the original C1.ERR message file.
+the selected arguments. -ef retains the original child invocation convention;
+RCPP obtains diagnostics from its embedded message catalog rather than C1.ERR.
 
 Positive cases cover pragmas, character/escape #if expressions, floating token
 lexing, macro stringizing/pasting, #line, -P/-C/-J, -Zp2/-Ze, -CP932 and a
