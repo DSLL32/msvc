@@ -416,7 +416,32 @@
     "_advance_file_page",
     "_flush_file_page",
     "_release_file_slot",
-    "_detach_file_page"
+    "_detach_file_page",
+    "_initialize_order",
+    "_exclude_default_library",
+    "_exclude_all_default_libraries",
+    "_fprintf",
+    "_convert_object",
+    "_convert_resource_input",
+    "__tempnam",
+    "__setjmp",
+    "_convert_resources",
+    "_resource_seek",
+    "_initialize_resource_buffers",
+    "import:GlobalAlloc",
+    "_resource_read",
+    "_convert_resource_file",
+    "_resource_allocate",
+    "_read_resource_name",
+    "_insert_resource",
+    "_resource_name_to_unicode",
+    "_wcscmp",
+    "_set_resource_directory",
+    "_set_resource_data",
+    "_copy_resource_data",
+    "_resource_write",
+    "__chsize",
+    "__chkstk"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -853,10 +878,11 @@
     {
       "name": "_initialize_order",
       "start": 96864,
-      "end": 96865,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl void(void (*fatal)(const char *,int,...),void (*warning)(const char *,unsigned,...))"
+      "end": 96896,
+      "implementation": "C",
+      "source": "ordering.c",
+      "abi": "cdecl void(FatalRoutine,WarningRoutine)",
+      "evidence": "Full 0x17a60..0x17a80: retain fatal/warning callback interfaces and enable the contextual order subsystem; no extra native graph vertex."
     },
     {
       "name": "_reproduce_input",
@@ -897,18 +923,20 @@
     {
       "name": "_exclude_default_library",
       "start": 219040,
-      "end": 219041,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl void(const char *name,LibraryList *libraries)"
+      "end": 219088,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl void(const char *name,LibraryList *libraries)",
+      "evidence": "Full disassembly357a0..357d0: tokenize with shared option delimiters and delegate each token to native exclusion helper."
     },
     {
       "name": "_exclude_all_default_libraries",
       "start": 219088,
-      "end": 219089,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl void(const char *name,LibraryList *libraries)"
+      "end": 219280,
+      "implementation": "C",
+      "source": "options.c",
+      "abi": "cdecl void(const char *name,LibraryList *libraries)",
+      "evidence": "Complete357d0..35890 disassembly; disable matching entries, append disabled sentinel if absent, NULL suppresses all defaults."
     },
     {
       "name": "_add_default_library",
@@ -1945,10 +1973,11 @@
     {
       "name": "_convert_object",
       "start": 119136,
-      "end": 119137,
-      "implementation": "stub-C",
-      "source": "pass-stubs.c",
-      "abi": "cdecl void(Argument *argument,unsigned short *machine,Image *image)"
+      "end": 119232,
+      "implementation": "C",
+      "source": "pass-one.c",
+      "abi": "cdecl void(Argument *argument,unsigned short *machine,Image *image)",
+      "evidence": "Matching debug DLL trap; complete1d160..1d1c0 wrapper closes input, converts resource, reopens effective path and rereads machine WORD."
     },
     {
       "name": "_convert_omf",
@@ -3839,6 +3868,164 @@
       "implementation": "C",
       "abi": "cdecl void(Page *)",
       "evidence": "Full 0x3c920..0x3ca00: flush dirty span via CRT seek/write, exact-count callbacks, page-index invalidation with uncached sentinel, logical file-length update; clean cached/unbacked pages use distinct index states."
+    },
+    {
+      "name": "_convert_resource_input",
+      "start": 135072,
+      "end": 135376,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl void(Argument *argument,unsigned short machine)",
+      "evidence": "Matched20fa0..210d0 resource conversion wrapper; typed argument vector and global CRT jump buffer; native embedded converter remains named trap."
+    },
+    {
+      "name": "_convert_resources",
+      "start": 272496,
+      "end": 273424,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl int(int argc,char **argv)",
+      "evidence": "Full42870..42c10 command driver: machine option parsing, resource format probe, native converter dispatch, CRT file closure. Default output extension scanning starts four characters from end."
+    },
+    {
+      "name": "_resource_usage",
+      "start": 272368,
+      "end": 272369,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(int error)"
+    },
+    {
+      "name": "_resource_allocate",
+      "start": 273424,
+      "end": 273472,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl void *(unsigned short size)",
+      "evidence": "Full42c10..42c40 calloc(1,WORD size), native out-of-memory diagnostic12 on failure."
+    },
+    {
+      "name": "_resource_seek",
+      "start": 273616,
+      "end": 273680,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl long(int file,long position,int origin)",
+      "evidence": "Full42cd0..42d10 seek wrapper preserves -1 failure diagnostic and returned position."
+    },
+    {
+      "name": "_resource_read",
+      "start": 273552,
+      "end": 273616,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl unsigned short(int file,void *buffer,unsigned short count)",
+      "evidence": "Full42c90..42cd0: CRT read, compare low WORD against requested WORD, zero result or native diagnostic6."
+    },
+    {
+      "name": "_initialize_resource_buffers",
+      "start": 280992,
+      "end": 281088,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Full449a0..44a00: two independent 64KiB GlobalAlloc buffers for legacy resource conversion; retain allocation order and diagnostics4/5."
+    },
+    {
+      "name": "_convert_resource_file",
+      "start": 275152,
+      "end": 277840,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl int(int input,int output,unsigned long size)",
+      "evidence": "Full432d0..43d50 analysis and native field offsets; two-level sorted resource tree with language leaves, WORD offset arithmetic, typed COFF directory/data sections and symbol/relocation emission. Pending parsers and serializers retain individual native vertices."
+    },
+    {
+      "name": "_read_resource_name",
+      "start": 273936,
+      "end": 274320,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl ResourceName *(int file)",
+      "evidence": "Full42e10..42f90: marker-based ordinal or interned string resource name; retain byte cursor advance even for two-byte input reads, WORD lengths and shared Unicode-name chain."
+    },
+    {
+      "name": "_insert_resource",
+      "start": 274320,
+      "end": 275152,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl ResourceEntry *(ResourceName *type_name,ResourceName *name,ResourceRecord *record)",
+      "evidence": "Full42f90..432d0: sorted type/name insertion and grouped language chains, duplicate diagnostic and longjmp, exact WORD counters and head language-count transfer."
+    },
+    {
+      "name": "_resource_name_to_ansi",
+      "start": 283008,
+      "end": 283009,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl int(char *output,const unsigned short *input,unsigned long count)"
+    },
+    {
+      "name": "_set_resource_directory",
+      "start": 277840,
+      "end": 277904,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl void(IMAGE_RESOURCE_DIRECTORY *directory,unsigned long characteristics,unsigned long version,unsigned long stamp,unsigned short named,unsigned short ids)",
+      "evidence": "Complete43d50..43d90 field stores: packed version highWORD major, lowWORD minor; native six-argument cdecl."
+    },
+    {
+      "name": "_set_resource_data",
+      "start": 277904,
+      "end": 277936,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl void(IMAGE_RESOURCE_DATA_ENTRY *entry,unsigned long offset,unsigned long size,unsigned long code_page,unsigned long reserved)",
+      "evidence": "Full43d90..43db0 four DWORD stores; native five-argument cdecl."
+    },
+    {
+      "name": "_copy_resource_data",
+      "start": 273792,
+      "end": 273920,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl int(int input,int output,unsigned long size)",
+      "evidence": "Complete42d80..42e00: shared1024-byte transfer buffer, WORD read status, early warning1 on nonzero status, total bytes transferred in EAX."
+    },
+    {
+      "name": "_convert_legacy_resource",
+      "start": 278688,
+      "end": 278689,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl int(int input,int output,ResourceRecord *record,unsigned short type,unsigned short name)"
+    },
+    {
+      "name": "_resource_write",
+      "start": 273712,
+      "end": 273792,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl unsigned long(int file,const void *buffer,unsigned long count)",
+      "evidence": "Full42d30..42d80: native10001h maximum check, CRT write count equality and diagnostics7/8, zero result on success."
+    },
+    {
+      "name": "_resource_name_to_unicode",
+      "start": 282928,
+      "end": 283008,
+      "implementation": "C",
+      "source": "resources.c",
+      "abi": "cdecl int(unsigned short *output,const char *input,unsigned long count)",
+      "evidence": "Full45130..45180: ANSI translation table is identity outside80h..9fh; return false if any mapped character is FFFF. Preserve native count and no calls."
+    },
+    {
+      "name": "_resource_error_prefix",
+      "start": 273920,
+      "end": 273936,
+      "implementation": "stub-C",
+      "source": "pass-stubs.c",
+      "abi": "cdecl void(void)"
     }
   ],
   "c_stub_references": [
@@ -4261,6 +4448,31 @@
     "library-create",
     "library-create",
     "library-create",
-    "library-create"
+    "library-create",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll"
   ]
 }

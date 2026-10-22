@@ -466,3 +466,42 @@ void apply_section_merges(Image *image)
         argument=argument->next;
     }
 }
+
+/* Original [000357a0,000357d0). A switch may suppress several libraries. */
+void exclude_default_library(const char *name,LibraryList *libraries)
+{
+    char *token=strtok((char *)name,option_delimiters);
+    while (token) {
+        exclude_all_default_libraries(token,libraries);
+        token=strtok(NULL,option_delimiters);
+    }
+}
+
+/* Original [000357d0,00035890). NULL disables the entire default list. */
+void exclude_all_default_libraries(const char *name,LibraryList *libraries)
+{
+    DefaultLibrary **link;
+    unsigned char found=0;
+    if (libraries->exclude_defaults) return;
+    if (!name) {
+        if (verbose_link)
+            fprintf(stdout,"Processed -nodefaultlib (suppressing all default libs)\n");
+        libraries->exclude_defaults=1;
+        return;
+    }
+    link=&libraries->default_libraries;
+    while (*link) {
+        if (matches_default_library(name,*link)) {
+            found=1;
+            (*link)->enabled=0;
+        }
+        link=&(*link)->next;
+    }
+    if (!found) {
+        *link=allocate_checked(sizeof(**link));
+        (*link)->next=NULL;
+        (*link)->name=duplicate_string(name);
+        (*link)->enabled=0;
+    }
+    if (verbose_link) fprintf(stdout,"Processed -nodefaultlib:%s\n",name);
+}

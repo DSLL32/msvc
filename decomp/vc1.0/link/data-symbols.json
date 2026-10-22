@@ -1519,5 +1519,224 @@
     "address": 520588,
     "size": 4,
     "owner": "files.c"
+  },
+  {
+    "name": "order_fatal",
+    "address": 451900,
+    "size": 4,
+    "owner": "ordering.c"
+  },
+  {
+    "name": "order_warning",
+    "address": 451904,
+    "size": 4,
+    "owner": "ordering.c"
+  },
+  {
+    "address": 378256,
+    "name": "resource_abort",
+    "size": 32,
+    "owner": "resources.c"
+  },
+  {
+    "address": 522436,
+    "name": "resource_input_name",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 522440,
+    "name": "resource_machine",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 522444,
+    "name": "resource_relocation",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 522448,
+    "name": "resource_debug",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 522452,
+    "name": "resource_verbose",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 378312,
+    "name": "resource_32bit",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 378292,
+    "name": "resource_output_buffer",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 378296,
+    "name": "resource_input_buffer",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 378300,
+    "name": "resource_directory",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523328,
+    "name": "resource_string_bytes",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523332,
+    "name": "resource_strings",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523336,
+    "name": "resource_file_entries",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523340,
+    "name": "resource_id_types",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523344,
+    "name": "resource_named_types",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523348,
+    "name": "resource_name_count",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523352,
+    "name": "resource_name_directories",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523356,
+    "name": "resource_type_count",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523360,
+    "name": "resource_id_type_count",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523364,
+    "name": "resource_named_type_count",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523368,
+    "name": "resource_count",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523372,
+    "name": "resource_language_count",
+    "size": 2,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523096,
+    "name": "resource_padding",
+    "size": 4,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523376,
+    "name": "resource_coff_header",
+    "size": 20,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523400,
+    "name": "resource_section_symbol",
+    "size": 18,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523424,
+    "name": "resource_coff_relocation",
+    "size": 10,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523440,
+    "name": "resource_directory_section",
+    "size": 40,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523480,
+    "name": "resource_data_section",
+    "size": 40,
+    "owner": "resources.c"
+  },
+  {
+    "address": 523256,
+    "name": "resource_type_names",
+    "size": 72,
+    "owner": "resources.c",
+    "string_pointers": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      32,
+      36,
+      40,
+      44,
+      48,
+      52,
+      56,
+      60,
+      64,
+      68
+    ]
+  },
+  {
+    "address": 525984,
+    "name": "resource_ansi_special",
+    "size": 64,
+    "owner": "resources.c",
+    "evidence": "Encountered ANSI/Unicode translation table special range; identity ranges expressed arithmetically, shared reverse lookup at451e0."
+  },
+  {
+    "address": 454040,
+    "name": "resource_copy_buffer",
+    "size": 1024,
+    "owner": "resources.c"
   }
 ]

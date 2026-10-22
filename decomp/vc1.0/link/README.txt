@@ -21,7 +21,7 @@ Completed cases:
   Original, reconstructed and untouched-baseline programs pass the GUI checker:
   HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
 
-The last completed coverage checkpoint has 400 frontiers: 90 help, 254 minimal-C,
+The four-case baseline checkpoint has 400 frontiers: 90 help, 254 minimal-C,
 3 hello-win32 and 53 hello-dll. Its clean parallel build, full frontier replay
 and all four completed cases pass. Pending helpers and unexecuted branches need
 later coverage.
@@ -36,10 +36,21 @@ archive member dates vary. Whole .text accepted extent is 115939/281634 bytes
 (41.1665%), up from 110787/281634 (39.3372%). This is whole-function extent
 coverage, not dynamic instruction or branch coverage.
 
-hello-debug-dll is next, at the matching initialize_order trap. The untouched
-original passes exact verbose output/artifact checks and the aliased HelloEntry
-load/call/paint/close/unload check. The reconstructed debug DLL and the remaining
-library/dump/edit lifecycle are not yet complete.
+hello-debug-dll now reaches the matching read_definition_file frontier in the
+library-manager child. Its resource input adapter and embedded CVTRES converter
+are readable C with typed name/type/language lists and COFF records. The emitted
+4630-byte intermediate resource objects match byte for byte, with no
+normalization. A clean parallel build, full 442-frontier replay, all five
+completed case checks, 309 call-graph audits, 300 callback audits and 275 contextual
+data checks pass. Whole .text accepted extent is 123285/281634 (43.7749%). This
+checkpoint does not complete the reconstructed debug DLL; DEF/debug/order/map
+work and the library/dump/edit lifecycle remain in the authorized queue.
+
+The untouched original passes exact verbose output/artifact checks and the
+aliased HelloEntry load/call/paint/close/unload check. The frozen output preserves
+native DEF quirks: OrdinalEntry remains named despite NONAME and ordinal 11 has
+no populated forwarder entry. Parser coverage does not establish those options'
+intended modern behavior.
 
 hello-dll (-link @link.rsp) exits 0 with exact streams and matching 2 MB hello.dll,
 hello.lib and hello.exp. Normalization uses only the structurally identified

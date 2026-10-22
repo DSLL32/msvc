@@ -399,3 +399,31 @@ extent is 115939/281634 (41.1665%). cases/library-create.json records replay
 hashes and validation; cases/coverage-after-library-create.json holds the union.
 The debug DLL begins at initialize_order and the rest of the coverage queue
 remains authorized work. These cases do not establish 99% coverage.
+
+Debug DLL resource checkpoint: 442 accepted frontiers; full replay, clean -j2
+build and all five previously completed cases pass. The native resource adapter
+closes the mapped input, obtains a CRT temporary name, enters the embedded
+converter under the original setjmp buffer, and reopens the converted COFF
+object. The converter retains its own file wrappers and serializers. Source
+uses typed ResourceName/ResourceType/ResourceEntry/ResourceRecord structures,
+WORD directory arithmetic, sorted language groups, original API allocation
+order, two explicit COFF section headers, relocation/symbol templates and shared
+scratch buffers. Compile-time checks validate the native private structure
+sizes. The ANSI mapping is identity outside 80h..9fh; the encountered 32-entry
+special range is a contextual translation table, not a section snapshot.
+
+The first setup replay caught LocalAlloc versus GlobalAlloc; the corrected C
+uses GlobalAlloc and the full 442-frontier replay passes. Initializer auditing
+also confirmed that both resource section Characteristics are exactly40h. The
+paired 4630-byte temporary resource COFF objects are identical without clock or
+other normalization. cases/hello-debug-dll.json records primary scratch paths,
+hashes and limits. Audits check 309 call graphs (including indirect/tail calls),
+300 callback sets and 275 initial data definitions. Accepted .text union is
+123285/281634 (43.7749%). All implementation remains readable C, with no assembly
+ABI exception. The debug DLL stops at matching read_definition_file; its final
+artifacts and GUI check have not been accepted.
+
+DEF analysis finds two observable target quirks in the frozen original output:
+NONAME is consumed into an unused local flag, so OrdinalEntry remains named at9;
+the expected DLL has no populated forwarder slot at11. Preserve the original
+bytes and record coverage limits rather than repairing these semantics.

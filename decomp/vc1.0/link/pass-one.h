@@ -19,6 +19,7 @@ void order_import_contributions(Image *);
 void apply_order_file(Image *);
 void free_pointer(void **);
 void begin_library(Library *,Image *);
+void convert_resource_input(Argument *,unsigned short);
 void convert_object(Argument *,unsigned short *,Image *);
 void convert_omf(Argument *,unsigned short *,ImageOptions *);
 long tell_file(int);

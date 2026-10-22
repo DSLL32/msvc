@@ -335,3 +335,12 @@ void search_library_members(Image *image,Library *library,unsigned char *changed
         else symbols.remaining=image->symbols->undefined;
     }
 }
+
+/* Original [0001d160,0001d1c0). Resource conversion replaces the input path. */
+void convert_object(Argument *argument,unsigned short *machine,Image *image)
+{
+    close_file(input_file,1);
+    convert_resource_input(argument,image->file.Machine);
+    input_file=open_file(argument->original,0x8000,0);
+    read_file(input_file,machine,sizeof(*machine));
+}
