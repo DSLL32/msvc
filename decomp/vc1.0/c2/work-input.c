@@ -43,7 +43,7 @@ WorkItem *new_work_item(void)
         count = 17;
         while (count--) *word++ = 0;
     } else work = arena_alloc(5, sizeof(WorkItem));
-    work->field3c = -1;
+    work->number = -1;
     work->field40 = -1;
     return work;
 }

@@ -1,6 +1,8 @@
 /* Predecessor/successor construction for global work blocks. */
 #include "flow-edges.h"
 #include "tree-rewrite.h"
+#include "function-input.h"
+#include "expression-fields.h"
 
 /* Original [0005a660,0005a8e0), including the 24-entry control table.
    Materialize predecessor references, normalize branch labels, then add
@@ -177,4 +179,17 @@ void __fastcall release_flow_link(FlowLink *link)
 {
     link->next = free_flow_links;
     free_flow_links = link;
+}
+
+
+/* Original [0005b170,0005b1a0). The requested edge must be present;
+   like the original, absence reaches the null link rather than being ignored. */
+void __fastcall remove_flow_reference(FlowLink **links, WorkItem *work)
+{
+    FlowLink *removed, *next;
+    while (*links && (*links)->work != work) links = &(*links)->next;
+    removed = *links;
+    next = removed->next;
+    release_flow_link(removed);
+    *links = next;
 }

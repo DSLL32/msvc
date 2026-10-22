@@ -20,4 +20,12 @@ void __fastcall visit_machine_symbols(MachineInstruction *instruction,
 unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *context);
 ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long identifier);
 unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context);
+void __fastcall connect_flow_blocks(WorkItem *source, WorkItem *target);
+void __fastcall remove_flow_reference(FlowLink **links, WorkItem *work);
+Expression *__fastcall last_flow_expression(Expression *expressions);
+void __fastcall remove_flow_work(WorkItem *work);
+void __fastcall destroy_flow_work(WorkItem *work);
+void __fastcall transfer_flow_region_work(WorkItem *source, WorkItem *replacement);
+void __fastcall mark_reachable_work(WorkItem *work);
+void __fastcall forget_exception_label(Function *function, SymbolHeader *label);
 #endif

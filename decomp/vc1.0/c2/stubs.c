@@ -376,11 +376,8 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 
 
-void __fastcall refresh_flow_edges(WorkItem *work) { __asm int 3 }
 
-void __fastcall number_work_blocks(WorkItem *work) { __asm int 3 }
 
-void __fastcall simplify_flow_branches(WorkItem *work) { __asm int 3 }
 
 void __fastcall merge_flow_blocks(WorkItem *work) { __asm int 3 }
 
@@ -410,3 +407,10 @@ unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *c
 ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long identifier) { __asm int 3 }
 
 unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
+
+void __fastcall connect_flow_blocks(WorkItem *source, WorkItem *target) { __asm int 3 }
+Expression *__fastcall last_flow_expression(Expression *expressions) { __asm int 3 }
+void __fastcall transfer_flow_region_work(WorkItem *source, WorkItem *replacement) { __asm int 3 }
+
+
+void __fastcall forget_exception_label(Function *function, SymbolHeader *label) { __asm int 3 }

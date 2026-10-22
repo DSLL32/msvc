@@ -405,7 +405,14 @@
     "@normalize_flow_targets@4",
     "@add_flow_successor@8",
     "@add_flow_predecessor@8",
-    "@release_flow_link@4"
+    "@release_flow_link@4",
+    "@simplify_flow_blocks@4",
+    "@number_work_blocks@4",
+    "@remove_unreachable_work@4",
+    "@mark_reachable_work@4",
+    "@remove_flow_work@4",
+    "@remove_flow_reference@8",
+    "@destroy_flow_work@4"
   ],
   "driver": [
     {
@@ -3791,22 +3798,19 @@
       "end": 370912
     },
     {
-      "name": "@refresh_flow_edges@4",
+      "name": "@simplify_flow_blocks@4",
       "start": 367152,
-      "end": 367153,
-      "provisional": true
+      "end": 367920
     },
     {
       "name": "@number_work_blocks@4",
       "start": 366336,
-      "end": 366337,
-      "provisional": true
+      "end": 366368
     },
     {
-      "name": "@simplify_flow_branches@4",
+      "name": "@remove_unreachable_work@4",
       "start": 370128,
-      "end": 370129,
-      "provisional": true
+      "end": 370272
     },
     {
       "name": "@merge_flow_blocks@4",
@@ -3976,6 +3980,50 @@
       "name": "@normalize_assembly_flow_symbol@8",
       "start": 373200,
       "end": 373201,
+      "provisional": true
+    },
+    {
+      "name": "@connect_flow_blocks@8",
+      "start": 373072,
+      "end": 373073,
+      "provisional": true
+    },
+    {
+      "name": "@remove_flow_reference@8",
+      "start": 373104,
+      "end": 373152
+    },
+    {
+      "name": "@last_flow_expression@4",
+      "start": 373872,
+      "end": 373873,
+      "provisional": true
+    },
+    {
+      "name": "@remove_flow_work@4",
+      "start": 374032,
+      "end": 374432
+    },
+    {
+      "name": "@destroy_flow_work@4",
+      "start": 374480,
+      "end": 374544
+    },
+    {
+      "name": "@transfer_flow_region_work@8",
+      "start": 374544,
+      "end": 374545,
+      "provisional": true
+    },
+    {
+      "name": "@mark_reachable_work@4",
+      "start": 374432,
+      "end": 374480
+    },
+    {
+      "name": "@forget_exception_label@8",
+      "start": 417936,
+      "end": 417937,
       "provisional": true
     }
   ],

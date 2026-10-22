@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 49,
+  "accepted_frontiers": 56,
   "current_frontier": {
-    "name": "@refresh_flow_edges@4",
-    "original_va": 367152
+    "name": "@merge_flow_blocks@4",
+    "original_va": 369984
   },
   "expected": {
     "exit": 0,
@@ -53,8 +53,12 @@
     "edge checkpoint replays all 49 hello frontiers; all 324 function graphs match",
     "two changed edge/label implementation modules compile /W3 clean",
     "independent prepared first-function comparison matches eight blocks, nine successor links, nine predecessor links, 25 expressions and 95 visited nodes; normalize only debugger exception address",
-    "complete minimal object/exit regression passes after edge reconstruction"
+    "complete minimal object/exit regression passes after edge reconstruction",
+    "block simplification/reachability checkpoint passes clean original-toolchain make -j2 check",
+    "all 352 minimal and all 56 hello historical frontiers replay on the clean build",
+    "all 331 function graphs match and five changed implementation modules compile /W3 clean",
+    "independent post-simplification capture matches eight blocks, 24 expressions and 94 nodes; post-reachability capture matches seven blocks, 23 expressions and 93 nodes, including all eight ordered edges in each direction"
   ],
-  "total_accepted_frontiers": 401,
-  "reconstructed_functions": 324
+  "total_accepted_frontiers": 408,
+  "reconstructed_functions": 331
 }

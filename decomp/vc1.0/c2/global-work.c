@@ -26,12 +26,12 @@ WorkItem *__fastcall build_global_work(Expression *expressions)
     if (!global_exit_work) return work;
     resolve_flow_labels();
     prepare_flow_blocks(work);
-    refresh_flow_edges(work);
+    simplify_flow_blocks(work);
     global_work_capacity = 0;
     number_work_blocks(work);
-    simplify_flow_branches(work);
+    remove_unreachable_work(work);
     merge_flow_blocks(work);
-    refresh_flow_edges(work);
+    simplify_flow_blocks(work);
     number_work_blocks(work);
     compute_work_dominators(work);
     find_flow_regions(work);
@@ -45,7 +45,7 @@ WorkItem *__fastcall build_global_work(Expression *expressions)
         if (global_flow_changed) number_work_blocks(work);
     }
     analyze_flow_regions(global_flow_regions);
-    refresh_flow_edges(work);
+    simplify_flow_blocks(work);
     finish_flow_regions(global_flow_regions);
     remove_empty_flow_blocks(work);
     number_work_blocks(work);

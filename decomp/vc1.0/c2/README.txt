@@ -486,3 +486,31 @@ This edge checkpoint has 324 source functions and 401 accepted frontiers. All 49
 hello frontiers replay, all graph edges agree, both changed implementation
 modules compile /W3 clean, and the complete minimal object/exit regression passes.
 Hello output remains pending at refresh_flow_edges.
+
+Hello additionally passes block simplification, numbering, reachability marking
+and unreachable-block cleanup. The 245-instruction routine at 0x59a30 is now
+named simplify_flow_blocks: it removes unused labels and fall-through branches,
+inverts conditional branches when appropriate and coalesces compatible adjacent
+blocks. The 51-instruction driver at 0x5a5d0 is remove_unreachable_work. The full
+129-instruction removal body preserves edge unlinking, six dynamic bitset slots,
+region landmarks, label bookkeeping and diagnostics; optional diagnostic paths
+remain unvisited rather than claimed as passing while their helpers trap.
+
+WorkItem names its short block number and uses an explicit union for the phase-
+specific traversal mark/dominator set at offset 20. Six runtime BitSet pointers
+occupy offsets 36 through 56. FlowRegion has a typed encountered prefix for
+sibling/child/parent links, entry/header/last work blocks and flags. Its original
+allocator reserves 44 bytes; fields beyond the encountered prefix are deferred.
+These are contextual dynamic structures, not image data or snapshots.
+
+Independent captures agree after simplification (8 blocks, 24 expressions,
+94 visited nodes, 9 ordered edges each direction) and after reachability removal
+(7 blocks, 23 expressions, 93 visited nodes, 8 edges each direction). Only the
+debugger exception address is normalized. Detailed function extents, ABI,
+branch limits and region-storage provenance are in cases/hello-blocks-abi.json.
+
+This checkpoint has 331 reconstructed functions and 408 accepted frontiers.
+A clean original-toolchain make -j2 check passes, followed by all 352 minimal
+and all 56 hello frontier replays. All source graphs agree and five changed
+implementation modules compile /W3 clean. Hello output remains pending at
+merge_flow_blocks, the physical block-ordering pass at 0x5a540.

@@ -2,7 +2,13 @@
 #define GLOBAL_WORK_H
 #include "functions.h"
 /* The region tree and predecessor/successor links have distinct owners. */
-typedef struct FlowRegion FlowRegion;
+/* Encountered region prefix. The original allocator reserves 44 bytes;
+   fields beyond this prefix are defined when their uses are reconstructed. */
+typedef struct FlowRegion {
+    struct FlowRegion *next, *children, *parent;
+    WorkItem *entry, *header, *last;
+    unsigned flags;
+} FlowRegion;
 typedef struct FlowLink {
     struct FlowLink *next;
     WorkItem *work;
@@ -26,9 +32,9 @@ void initialize_flow_labels(void);
 WorkItem * __fastcall partition_global_work(Expression *expressions);
 void resolve_flow_labels(void);
 void __fastcall prepare_flow_blocks(WorkItem *work);
-void __fastcall refresh_flow_edges(WorkItem *work);
+void __fastcall simplify_flow_blocks(WorkItem *work);
 void __fastcall number_work_blocks(WorkItem *work);
-void __fastcall simplify_flow_branches(WorkItem *work);
+void __fastcall remove_unreachable_work(WorkItem *work);
 void __fastcall merge_flow_blocks(WorkItem *work);
 void __fastcall compute_work_dominators(WorkItem *work);
 void __fastcall find_flow_regions(WorkItem *work);

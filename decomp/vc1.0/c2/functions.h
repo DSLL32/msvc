@@ -19,11 +19,11 @@ typedef struct WorkItem {
     struct WorkItem *previous;
     union { struct Expression *expressions; struct MachineBlockHeader *block; } body;
     struct FlowLink *successors, *predecessors;
-    unsigned field14;
+    union { unsigned traversal_mark; struct BitSet *dominators; } analysis;
     struct FlowRegion *region;
     struct BitSet *uses, *definitions;
-    unsigned field24, field28, field2c, field30, field34, field38;
-    short field3c;
+    struct BitSet *flow_sets[6];
+    short number;
     unsigned short field3e;
     short field40;
     unsigned short flags;
