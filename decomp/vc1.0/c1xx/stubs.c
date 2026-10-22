@@ -1,3 +1,5 @@
+#include "statement-scopes.h"
+#include "work-list.h"
 #include "cpp-context.h"
 #include "expression-records.h"
 #include "function-definitions.h"
@@ -126,7 +128,6 @@ void __stdcall add_qualified_base(unsigned char access, int is_virtual, Qualifie
 void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape) { __asm { int 3 } }
 CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration, TypeShape *modifier) { __asm { int 3 } return 0; }
 void __stdcall begin_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
-void begin_compound_statement(void) { __asm { int 3 } }
 void begin_do_condition(void) { __asm { int 3 } }
 void begin_do_statement(void) { __asm { int 3 } }
 void begin_else_body(void) { __asm { int 3 } }
@@ -479,7 +480,6 @@ CppSymbol *make_missing_function_declaration(void) { __asm { int 3 } return 0; }
 void initialize_function_inline_analysis(void) { __asm { int 3 } }
 
 
-FrontendRecord *__stdcall reuse_frontend_record(unsigned char size_class) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall find_frontend_record(FrontendRecord *from, unsigned char kind,
     int recover_on_missing) { __asm { int 3 } return 0; }
 
@@ -505,7 +505,6 @@ IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymb
 unsigned __stdcall function_parameter_bytes(CppSymbol *parameters) { __asm { int 3 } return 0; }
 void __stdcall print_declaration(CppSymbol *symbol, FILE *stream) { __asm { int 3 } }
 
-void __stdcall emit_parameter_declaration(CppSymbol *parameter) { __asm { int 3 } }
 void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } }
 
 void write_counted_ir(short length, char *text) { __asm { int 3 } }
@@ -538,3 +537,8 @@ int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } retur
 
 unsigned __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall member_pointer_inheritance_model(CType *type) { __asm { int 3 } return 0; }
+int __stdcall emit_constructor_initializers(CppSymbol *tag, IrToken *initializers) { __asm { int 3 } return 0; }
+void __stdcall begin_destructor_body(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall emit_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }

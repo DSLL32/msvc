@@ -1,3 +1,4 @@
+#include "work-list.h"
 /* Permanent zeroed allocation arena, original globals 0x9f1e0/0x9f41c. */
 #include <stdlib.h>
 #include "options.h"
@@ -157,4 +158,26 @@ void __stdcall release_arena(int index)
    allocations; preserve this separate no-op entry and both stack slots. */
 void __stdcall release_permanent(void *block, unsigned bytes)
 {
+}
+
+/* Original 0x50770..0x507bd. Only the link is initialized here; callers
+   own the payload, including the byte-sized depth entries used by scopes. */
+WorkList *__stdcall push_work_list(WorkList **stack, int arena)
+{
+    WorkList *entry;
+    ArenaPool *pool;
+    if (!arena)
+        entry = allocate_permanent(sizeof(WorkList));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(WorkList))
+            refill_arena(&compiler_arena, pool);
+        entry = (WorkList *)pool->next;
+        pool->remaining -= sizeof(WorkList);
+        pool->next += sizeof(WorkList);
+    }
+    entry->next = *stack;
+    *stack = entry;
+    return entry;
 }

@@ -1,0 +1,47 @@
+Parameter declarations and compound-statement scope entry
+
+Six whole functions accepted after frontier 427 (end addresses exclusive):
+  emit_parameter_declaration 0x34740..0x34783, stdcall 4,  3 native callees
+  push_work_list             0x50770..0x507bd, stdcall 8,  2 native callees
+  begin_compound_statement   0x555b0..0x555b5, cdecl,      1 native tail target
+  enter_compound_scope       0x555c0..0x5574c, cdecl,     14 native callees
+  record_compound_scope      0x3e610..0x3e6af, cdecl,      1 native callee
+  reuse_frontend_record      0x40ad0..0x40b79, stdcall 4,  0 native callees
+
+Each emitted ABI parameter gets record 0x2a and a symbol/depth pair in the
+canonical scope_cleanup_stack at 0x9139c. Its initial null value and address
+identity are audited. The shared eight-byte WorkList is link plus word payload;
+its union also exposes the byte depth consumed by ordinary local declarations.
+The native parameter producer writes a whole word with value one. The allocator
+initializes only the link, preserving caller ownership of the payload. Arena
+zero selects permanent allocation; -1 maps to compiler arena pool zero, and
+other nonzero arena arguments select their original pool. Return and stdcall
+width are verified at the native RET 8.
+
+The compound entry at 0x555b0 is a five-byte native tail jump. Its target is a
+separate original function at 0x555c0. The C preserves both graph nodes without
+copying the jump as assembly. Paired callers are equivalent through the already
+verified native direct-tail rule. The shared body retains browser and optional
+QC entry, byte declaration depth, global record kind, word scope sequence,
+lazy SymbolScope allocation, symbol-scope/directory setup and record 0x53.
+Its first function-body scope retains constructor, destructor, scalar/vector
+deleting destructor and default-constructor-closure dispatch. Named unresolved
+children retain independently checked native calling widths. Error 550 retains
+the formatted function-name argument.
+
+The scope marker uses the existing FrontendRecord header and canonical record
+list. Its saved function boundary is restored by the original linked-list
+rotation; no second tail or sequence state was introduced. Suppressed records
+retain the original no-append behavior. Reuse searches the free list by its
+four-bit size class, unlinks the chosen block, and splits a larger block after
+(size_class+1)*16 bytes. The remainder preserves unrelated flag bits and is
+linked back into the same free list. Return ABI is FrontendRecord*, despite the
+analysis decompiler's provisional void annotation.
+
+At frontier 433 both sides reach emit_constructor_initializers at 0x35f90,
+after exact parameter and scope output. All comparisons continue to require
+raw files/streams, pending FILE buffers, logical callers and eleven runtime
+observations. The accepted executable extent union is 141,046 / 476,418 bytes
+(29.606%), including source functions, shared text, matched CRT and import
+thunks, clipped and unioned. It is not branch coverage. Complete frontend case
+equivalence remains pending.

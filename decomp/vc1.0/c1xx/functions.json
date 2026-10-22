@@ -431,7 +431,13 @@
     "_emit_record_node@12",
     "_pointer_kind_size@4",
     "_node_alignment@4",
-    "_expression_type_alignment@4"
+    "_expression_type_alignment@4",
+    "_emit_parameter_declaration@4",
+    "_push_work_list@8",
+    "_begin_compound_statement",
+    "_enter_compound_scope",
+    "_record_compound_scope",
+    "_reuse_frontend_record@4"
   ],
   "driver": [
     {
@@ -1814,7 +1820,7 @@
     {
       "name": "_begin_compound_statement",
       "start": 349616,
-      "end": 349617
+      "end": 349621
     },
     {
       "name": "_begin_do_condition",
@@ -3879,7 +3885,7 @@
     {
       "name": "_reuse_frontend_record@4",
       "start": 264912,
-      "end": 264913
+      "end": 265081
     },
     {
       "name": "_find_frontend_record@12",
@@ -4009,7 +4015,7 @@
     {
       "name": "_emit_parameter_declaration@4",
       "start": 214848,
-      "end": 214849
+      "end": 214915
     },
     {
       "name": "_analyze_inline_parameter@4",
@@ -4165,6 +4171,46 @@
       "name": "_expression_type_alignment@4",
       "start": 353632,
       "end": 353705
+    },
+    {
+      "name": "_push_work_list@8",
+      "start": 329584,
+      "end": 329661
+    },
+    {
+      "name": "_enter_compound_scope",
+      "start": 349632,
+      "end": 350028
+    },
+    {
+      "name": "_record_compound_scope",
+      "start": 255504,
+      "end": 255663
+    },
+    {
+      "name": "_emit_constructor_initializers@8",
+      "start": 221072,
+      "end": 221073
+    },
+    {
+      "name": "_begin_destructor_body@4",
+      "start": 229344,
+      "end": 229345
+    },
+    {
+      "name": "_emit_deleting_destructor_body@4",
+      "start": 230096,
+      "end": 230097
+    },
+    {
+      "name": "_emit_vector_deleting_destructor_body@4",
+      "start": 230528,
+      "end": 230529
+    },
+    {
+      "name": "_emit_default_ctor_closure_body@4",
+      "start": 225872,
+      "end": 225873
     }
   ],
   "cases": {
@@ -5491,6 +5537,18 @@
         {
           "name": "_member_context_links",
           "original": 652108,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_scope_cleanup_stack",
+      "original": 594844,
+      "fields": [
+        {
+          "name": "_scope_cleanup_stack",
+          "original": 594844,
           "bytes": 4
         }
       ]

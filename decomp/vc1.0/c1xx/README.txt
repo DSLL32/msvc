@@ -748,3 +748,20 @@ evidence/replay-expression-output.log. Current matching trap is
 emit_parameter_declaration at 0x34740, after matching function-entry output.
 Accepted executable extent union is 140,173 / 476,418 bytes (29.422%, not branch
 coverage), with 358 source functions. Complete frontend equivalence is pending.
+
+
+ABI parameter declarations now emit their records and canonical scope-cleanup
+symbol/depth pairs. The shared work-list allocator preserves permanent and
+arena allocation, including the -1 pool selection. Compound entry retains its
+separate native wrapper and whole shared body, including optional QC/browser
+work, lazy symbol scopes and all C++ special-member branches. The linked-record
+marker and free-record allocator retain their original list rotation, size
+classes, splitting and unrelated flag bits. Evidence: evidence/parameter-scopes.txt.
+
+All 433 frontiers pass with the full comparator at every frontier in
+evidence/replay-parameter-scopes.log; frozen source/build/harness/fixture hashes
+and receipts are in evidence/replay-parameter-scopes-receipt.json. Current
+matching trap is emit_constructor_initializers at 0x35f90, after matching ABI
+parameters and constructor-body scope entry. Accepted executable extent union
+is 141,046 / 476,418 bytes (29.606%, not branch coverage), with 364 source
+functions. Complete frontend equivalence remains pending.

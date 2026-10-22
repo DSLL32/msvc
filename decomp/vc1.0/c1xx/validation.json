@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 427,
-  "driver_functions": 351,
+  "accepted_frontiers": 433,
+  "driver_functions": 357,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 358,
-  "current_frontier": "_emit_parameter_declaration@4",
-  "original_frontier_va": "0x34740",
+  "reconstructed_source_functions": 364,
+  "current_frontier": "_emit_constructor_initializers@8",
+  "original_frontier_va": "0x35f90",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "35c7fe54170289bc3ad803139cc4f01dc6b731177cbee12d65d5bcf8e4478f8f",
-  "call_graph_audit_functions": 358,
+  "replay_log_sha256": "93ea67e860b0214175ebd1e5c5e73c88b0e25d98f790813cea1b255f665dae0e",
+  "call_graph_audit_functions": 364,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -68,7 +68,8 @@
     "control_record_state_defaults": 8,
     "builtin_unary_state_defaults": 7,
     "expression_record_meanings": 213,
-    "member_context_map_defaults": 1
+    "member_context_map_defaults": 1,
+    "scope_cleanup_stack_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -96,7 +97,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-expression-output.log",
+  "replay_log": "evidence/replay-parameter-scopes.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -302,16 +303,19 @@
     "paired_constructor_path_and_full_replay_pass": true
   },
   "parameter_scopes": {
-    "begin_scope_range": [
-      "0x36670",
-      "0x366fa"
-    ],
-    "begin_scope_callees": 3,
-    "active_parameter_symbols_original": "0x8c400",
-    "parsed_parameter_symbols_original": "0x91168",
-    "scope_objects_bytes": 20,
-    "deferred_bucket_count": 16,
-    "high_scope_flags_preserved": true
+    "evidence": "evidence/parameter-scopes.txt",
+    "new_whole_functions": 6,
+    "work_list_bytes": 8,
+    "scope_cleanup_stack": "0x9139c",
+    "parameter_depth_write_bytes": 4,
+    "compound_scope_native_callees": 14,
+    "entry_tail_target_verified": true,
+    "shared_frontend_tail_state": true,
+    "free_record_splitting_preserves_flags": true,
+    "all_433_frontiers_replayed": true,
+    "constructor_initializers_reached": true,
+    "constructor_body_completed": false,
+    "no_frontend_output_normalization": true
   },
   "accepted_source_text_and_switch_bytes": 127692,
   "class_completion_setup": {
@@ -432,7 +436,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "c9df423bc11ebdca860169ae365e7c11cf61d1b915ce89e174c9e30874497a8c",
+  "replay_build_text_sha256": "965425fd4e77095106c1d230984a57f92f3c5c7fbc843a5c86f2a796ebd9d25c",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -661,9 +665,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 140173,
+    "bytes": 141046,
     "total_original_executable_bytes": 476418,
-    "percent": 29.422272038420044,
+    "percent": 29.605514485178983,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -836,11 +840,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-expression-output-receipt.json",
-    "receipt_sha256": "e107beb81b91951daa24f09470899c459cbd3cb3b61897e3c804b3f469261287",
+    "receipt": "evidence/replay-parameter-scopes-receipt.json",
+    "receipt_sha256": "329f6f3c8e4abc93dc7b0c7bbb46911000108f0cb5871161613a4d2985177a78",
     "jobs": 4,
-    "frontiers": 427,
-    "seconds": 106.52818580064923,
+    "frontiers": 433,
+    "seconds": 108.23446547426283,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 11,
     "private_masked_executables_workdirs_logs": true,

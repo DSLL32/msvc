@@ -1,3 +1,4 @@
+#include "statement-scopes.h"
 /* Linked records assembled before frontend expression output. */
 #include "frontend-records.h"
 #include "parameters.h"
@@ -251,4 +252,56 @@ ExpressionSymbolList *detach_expression_symbols(void)
     if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x3a)
         remove_last_frontend_record();
     return symbols;
+}
+
+/* Original 0x3e610..0x3e6af. Insert the compound marker after the saved
+   function boundary, then restore the previously active list tail. */
+void record_compound_scope(void)
+{
+    FrontendRecord record;
+    FrontendRecord *following, *previous;
+    record.kind = 15;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    if (!ir_records_suppressed) {
+        append_frontend_record(&record, sizeof(record));
+        if (function_ir_tail) {
+            following = function_ir_tail->next;
+            previous = ir_record_tail->previous;
+            ir_record_tail->next = following;
+            following->previous = ir_record_tail;
+            ir_record_tail->previous = function_ir_tail;
+            function_ir_tail->next = ir_record_tail;
+            previous->next = 0;
+            ir_record_tail = previous;
+            function_ir_tail = 0;
+        }
+    }
+}
+
+/* Original 0x40ad0..0x40b79. Free records are grouped in sixteen-byte
+   size classes; retain a larger block's unused suffix as a new free record. */
+FrontendRecord *__stdcall reuse_frontend_record(unsigned char size_class)
+{
+    FrontendRecord *record = ir_free_records, *remainder;
+    while (record && ((record->flags & 0x30) >> 4) < size_class)
+        record = record->previous;
+    if (record) {
+        if (record->previous) record->previous->next = record->next;
+        if (record->next) record->next->previous = record->previous;
+        else ir_free_records = record->previous;
+        if (size_class < ((record->flags & 0x30) >> 4)) {
+            remainder = (FrontendRecord *)((char *)record + (size_class + 1) * 16);
+            remainder->flags = (remainder->flags & ~0x30) |
+                ((record->flags - ((size_class + 1) << 4)) & 0x30);
+            remainder->next = 0;
+            remainder->previous = ir_free_records;
+            if (ir_free_records) ir_free_records->next = remainder;
+            ir_free_records = remainder;
+        }
+    }
+    return record;
 }

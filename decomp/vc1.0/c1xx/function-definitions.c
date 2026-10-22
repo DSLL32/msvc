@@ -1,3 +1,4 @@
+#include "work-list.h"
 /* Entry, hidden parameters and scope setup for function definitions. */
 #include "function-definitions.h"
 #include "lexer.h"
@@ -395,4 +396,18 @@ IrToken *__stdcall this_pointer_expression(CppSymbol *parameter)
     if (!validate_expression_symbol(parameter)) return 0;
     expression->flags |= 0x20;
     return expression;
+}
+
+/* Scope cleanup pairs are a symbol followed by its declaration depth. */
+WorkList *scope_cleanup_stack; /* original 0x9139c */
+
+/* Original 0x34740..0x34783. Parameter records are followed by two scope
+   cleanup entries, with depth one for the function's ABI parameter scope. */
+void __stdcall emit_parameter_declaration(CppSymbol *parameter)
+{
+    write_ir_record(0x2a, symbol_reference(parameter));
+    push_work_list(&scope_cleanup_stack, 1);
+    scope_cleanup_stack->value.pointer = parameter;
+    push_work_list(&scope_cleanup_stack, 1);
+    scope_cleanup_stack->value.word = 1;
 }
