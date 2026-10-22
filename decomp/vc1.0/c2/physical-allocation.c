@@ -175,7 +175,7 @@ void initialize_allocation_round(void)
     for (group = 0; group < REGISTER_VARIABLE_CLASSES; ++group) {
         for (bucket = 0; bucket < REGISTER_VARIABLE_BUCKETS; ++bucket) {
             for (variable = register_variable_buckets[group][bucket]; variable; variable = variable->next) {
-                variable->field1a = variable->number;
+                variable->representative = variable->number;
                 variable->flags &= ~0x1800U;
                 variable->work_next = 0;
                 variable->conflicts = 0;
@@ -187,4 +187,26 @@ void initialize_allocation_round(void)
             }
         }
     }
+}
+
+/* Original [0002bb50,0002bbd0). Negative-cost unassigned variables can be
+   profitably simplified before coloring, except hard/combined constraints. */
+int simplify_unspillable_variables(void)
+{
+    RegisterVariable *variable, *candidates = 0;
+    unsigned group, bucket;
+    for (group = 0; group < REGISTER_VARIABLE_CLASSES; ++group) {
+        for (bucket = 0; bucket < REGISTER_VARIABLE_BUCKETS; ++bucket) {
+            for (variable = register_variable_buckets[group][bucket]; variable; variable = variable->next) {
+                if ((variable->flags & 63) != 32 || variable->spill_cost >= 0 ||
+                    (variable->flags & 0x1840)) continue;
+                variable->work_next = candidates;
+                candidates = variable;
+                ++register_allocation_statistics.simplify_candidates;
+            }
+        }
+    }
+    if (!candidates) return 0;
+    spill_register_variables(candidates, 1);
+    return 1;
 }

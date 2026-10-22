@@ -70,4 +70,23 @@ int __fastcall folded_spill_operand_cost(MachineInstruction *instruction, unsign
 MachineOperand *__fastcall operand_for_spill(MachineOperand *operand, unsigned short number, int apply);
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right);
 RegisterConflict *__fastcall new_register_conflict(unsigned arena);
+/* Native16-byte copy-affinity record, constructor2e5a0. The live list
+   and recycler are shared by affinity sorting and coalescing. */
+typedef struct RegisterAffinity {
+    struct RegisterAffinity *next;
+    RegisterVariable *left, *right;
+    int benefit;
+} RegisterAffinity;
+typedef char RegisterAffinitySizeCheck[sizeof(RegisterAffinity) == 16 ? 1 : -1];
+extern RegisterAffinity *register_affinities; /* 81114 */
+extern RegisterAffinity *free_register_affinities; /* 81118 */
+void __fastcall collect_register_affinities(WorkItem *work);
+void sort_register_affinities(void);
+int __fastcall coalesce_register_affinities(RegisterAffinity *affinity);
+void __fastcall add_register_affinity(unsigned short left, unsigned short right, int benefit);
+int __fastcall registers_conflict(RegisterVariable *left, RegisterVariable *right);
+RegisterAffinity *__fastcall new_register_affinity(RegisterVariable *left, RegisterVariable *right);
+RegisterAffinity *__fastcall merge_register_affinity(RegisterAffinity **list, RegisterAffinity *affinity);
+void __fastcall release_register_affinity(RegisterAffinity *affinity);
+void __fastcall insert_register_affinity(RegisterAffinity **list, RegisterAffinity *affinity);
 #endif

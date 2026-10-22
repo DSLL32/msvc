@@ -191,7 +191,7 @@ MachineOperand *__fastcall operand_for_spill(MachineOperand *operand, unsigned s
     }
     variable = lookup_register_variable(number, 1);
     if (variable->flags & 0x800) {
-        representative = lookup_register_variable(variable->field1a, 1);
+        representative = lookup_register_variable(variable->representative, 1);
         if (register_spill_homes_compatible(representative, variable)) number = representative->number;
     }
     if (number & 0x8000) {

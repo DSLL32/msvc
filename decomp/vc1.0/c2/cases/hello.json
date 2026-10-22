@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 238,
+  "accepted_frontiers": 247,
   "current_frontier": {
-    "name": "_simplify_unspillable_variables",
-    "original_va": 179024
+    "name": "@coalesce_register_affinities@4",
+    "original_va": 188656
   },
   "expected": {
     "exit": 0,
@@ -177,18 +177,24 @@
     "physical-spill, physical-conflicts and physical-allocation compile /W3 clean",
     "fresh completed-conflict capture matches104 normalized lines:24 variable records,14 symmetric edges, exact canonical pointer identities, signed costs/degrees and31 physical costs",
     "six independent completed-function block captures match291 further normalized lines",
-    "verified accepted code-extent union154143/399693 bytes=38.5653 percent; not branch coverage"
+    "verified accepted code-extent union154143/399693 bytes=38.5653 percent; not branch coverage",
+    "original-toolchain make -j2 check passes; minimal object/exit/streams match except only four-byte COFF timestamp",
+    "all352 minimal and247 hello historical frontiers replay with frozen native build/config hashes",
+    "all522 reconstructed source graphs and599 accepted extent instruction boundaries agree",
+    "physical-coalescing, physical-allocation, register-variables and physical-spill compile /W3 clean",
+    "fresh affinity-input capture matches107 normalized lines including exact live-head/endpoint pointer identities, one4020/4022 affinity of benefit8,24 variables and14 symmetric conflict edges",
+    "verified accepted code-extent union155087/399693 bytes=38.8015 percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 590,
-  "reconstructed_functions": 513,
+  "total_accepted_frontiers": 599,
+  "reconstructed_functions": 522,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 590,
-    "accepted_code_bytes": 154143,
+    "accepted_frontiers": 599,
+    "accepted_code_bytes": 155087,
     "original_code_bytes": 399693,
-    "percentage": 38.56534890528481,
+    "percentage": 38.80153017440886,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -196,6 +202,6 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 163
+    "union_ranges": 166
   }
 }

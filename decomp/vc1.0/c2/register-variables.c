@@ -63,7 +63,7 @@ RegisterVariable *__fastcall new_register_variable(unsigned short number)
     variable->conflicts = 0;
     variable->spill_priority = variable->spill_weight = 0;
     variable->degree = variable->spill_cost = 0;
-    variable->number = variable->field1a = number;
+    variable->number = variable->representative = number;
     variable->flags = 0;
     variable->rematerialization = 0;
     variable->first_block = variable->last_block = 0;

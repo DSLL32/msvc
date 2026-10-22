@@ -1278,3 +1278,29 @@ object/streams/exit match except only the four-byte timestamp. Verified accepted
 code-extent union154143/399693 bytes (38.5653 percent), including clipped
 source/shared text/CRT/import ranges checked against actual masks, is not branch
 coverage. Reconstruction continues through allocation simplification.
+
+Nine more functions collect and sort copy affinities before coalescing. The
+negative-cost simplifier is reconstructed in full; this first function has no
+negative final variable costs and skips its spill branch. The separate driver
+collects once, then repeatedly sorts and asks the still-trapping coalescer to
+merge one admissible pair. MOV/LEA weighting, representative lookup, fixed and
+interfering pair rejection, canonical16-byte record construction, duplicate
+benefit accumulation and descending list insertion retain their original graph.
+
+RegisterVariable+1a is consistently named representative across constructor,
+round reset, spill-home use and collection. The existing52-byte layout stays
+intact. Live/recycled affinity heads81114/81118 are typed pointers; records are
+computed from operands. Zero/one/larger LEA displacement magnitudes use weights
+8/4/1 with unsigned magnitude arithmetic. No original data table is copied.
+Current input has only one affinity4020/4022 with benefit8 and no recycler.
+Duplicate/recycler/nonpositive-disposal paths remain outside dynamic claims.
+
+Fresh independent input capture matches107 normalized lines: exact live-head
+and endpoint identities, canonical ordering/benefit, all24 variables and14
+undirected conflict edges. All352 minimal and247 hello frontiers replay;
+522 source graphs and599 accepted extent instruction boundaries pass. Four
+affected modules compile /W3 clean; minimal object/streams/exit match except
+only the four-byte timestamp. Verified accepted code-extent union155087/399693
+bytes (38.8015 percent), including clipped source/shared text/CRT/import ranges
+and actual-mask verification, is not branch coverage. The next frontier is
+coalesce_register_affinities2e0f0. See cases/hello-register-affinities-abi.json.

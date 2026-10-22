@@ -594,7 +594,16 @@
     "@operand_for_spill@12",
     "@folded_spill_operand_cost@8",
     "@add_register_conflict@8",
-    "@new_register_conflict@4"
+    "@new_register_conflict@4",
+    "_simplify_unspillable_variables",
+    "_build_allocation_constraints",
+    "@collect_register_affinities@4",
+    "@add_register_affinity@12",
+    "@registers_conflict@8",
+    "@new_register_affinity@8",
+    "@merge_register_affinity@8",
+    "_sort_register_affinities",
+    "@insert_register_affinity@8"
   ],
   "driver": [
     {
@@ -5087,14 +5096,12 @@
     {
       "name": "_build_allocation_constraints",
       "start": 178960,
-      "end": 178961,
-      "provisional": true
+      "end": 179024
     },
     {
       "name": "_simplify_unspillable_variables",
       "start": 179024,
-      "end": 179025,
-      "provisional": true
+      "end": 179152
     },
     {
       "name": "@build_register_conflicts@8",
@@ -5237,6 +5244,53 @@
       "name": "@new_register_conflict@4",
       "start": 188624,
       "end": 188640
+    },
+    {
+      "name": "@collect_register_affinities@4",
+      "start": 189120,
+      "end": 189328
+    },
+    {
+      "name": "_sort_register_affinities",
+      "start": 189056,
+      "end": 189120
+    },
+    {
+      "name": "@coalesce_register_affinities@4",
+      "start": 188656,
+      "end": 188657,
+      "provisional": true
+    },
+    {
+      "name": "@add_register_affinity@12",
+      "start": 189568,
+      "end": 189776
+    },
+    {
+      "name": "@registers_conflict@8",
+      "start": 189952,
+      "end": 190016
+    },
+    {
+      "name": "@new_register_affinity@8",
+      "start": 189856,
+      "end": 189952
+    },
+    {
+      "name": "@merge_register_affinity@8",
+      "start": 189776,
+      "end": 189856
+    },
+    {
+      "name": "@release_register_affinity@4",
+      "start": 190016,
+      "end": 190017,
+      "provisional": true
+    },
+    {
+      "name": "@insert_register_affinity@8",
+      "start": 190080,
+      "end": 190112
     }
   ],
   "cases": {

@@ -10,7 +10,7 @@ typedef struct RegisterVariable {
     RegisterConflict *conflicts;
     int spill_priority, spill_weight;
     short degree, spill_cost;
-    unsigned short number, field1a;
+    unsigned short number, representative;
     unsigned flags;
     struct MachineBlockHeader *rematerialization;
     short first_block, last_block;
