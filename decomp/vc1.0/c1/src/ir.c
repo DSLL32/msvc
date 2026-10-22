@@ -460,8 +460,8 @@ unsigned short __stdcall expression_type_alignment(CType *type)
     return type->flags & 15;
 }
 
-/* Original 0x6006c..0x60078: three structured-exception nesting depths.
-   Their individual roles will be named as the corresponding entries are met. */
+/* Original 0x6006c..0x60078: except-handler, finally-handler and
+   protected-try nesting depths, in that order. */
 int exception_scope_depth[3];
 
 /* Original 0x39ed0..0x39f63. Track the smallest nesting depth of a forward

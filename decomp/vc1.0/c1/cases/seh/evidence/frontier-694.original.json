@@ -1,0 +1,44 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/seh",
+  "phase": "c1",
+  "unmasked": false,
+  "accepted_count": 694,
+  "accepted_sha256": "55f2c68b44b0d74d71e0027ae345258bd40a95230109207967aaf6b6c7375ce2",
+  "executable_sha256": "b7dd4478b4fa7a160bad83296ab4bba6f4b92f454765372c724f1aaee3b67334",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "d24b418adc6c9aa9c0b88aa2b8e0538f9fcdd80dd9c55a44551d16c2274421d5",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "preparation_seconds": 0.052809023298323154,
+  "execution_seconds": 0.6875253394246101,
+  "total_seconds": 0.7403376456350088,
+  "files": [
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "test.c",
+      "bytes": 362,
+      "sha256": "a4f9644fba47349755cc41ec1eb2580ba7232eb0390fb8623e1827a53208b3b2"
+    }
+  ]
+}

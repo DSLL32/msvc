@@ -299,31 +299,31 @@ void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 /* Original 0x33360. */
 
 /* Original 0x33500. */
-void emit_default_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x33530. */
-void __stdcall set_except_filter(IrToken *filter) { __asm { int 3 } }
+
 
 /* Original 0x33580. */
-void begin_try_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x335a0. */
-void begin_except_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x335f0. */
-void finish_except_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x33630. */
-void emit_leave_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x33650. */
-void finish_try_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x33670. */
-void begin_finally_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x33680. */
-void finish_finally_statement(void) { __asm { int 3 } }
+
 
 /* Original 0x33800. */
 
@@ -941,4 +941,7 @@ void __stdcall restore_pch_debug_state(char *object_name) { __asm { int 3 } }
 void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
 
 void restore_pch_separate_debug(void) { __asm { int 3 } }
+
+
+/* Original 0x2c710. */
 

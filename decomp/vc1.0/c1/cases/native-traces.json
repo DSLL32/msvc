@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "759fee64a3da0a3580b7f17515f02edd9cc1087d5b64583f58220de86c703e05",
+    "functions.json": "c02a3ec061fb096988883e115c08795ccc00fdf8f9b709058e4305b7470ceeb0",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "387c2cc4428074cfc93112455a0f014a4f3a7b6fa1f3d7560f49f32371f5bdc8"
+    "sha256": "d383f615c5346d1602304bdde768bce30efb918bcbaa41725a2771ae025033af"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -56,6 +56,10 @@
     "address_member_operand": {
       "logical": "_address_member_operand@4",
       "source": "src/expressions.c"
+    },
+    "adjust_seh_label_depths": {
+      "logical": "_adjust_seh_label_depths",
+      "source": "src/seh.c"
     },
     "advance_initializer": {
       "logical": "_advance_initializer",
@@ -221,13 +225,13 @@
       "logical": "_begin_do_statement",
       "source": "src/parser.c"
     },
-    "begin_except_statement": {
-      "logical": "_begin_except_statement",
-      "source": "src/stubs.c"
+    "begin_except_block": {
+      "logical": "_begin_except_block@4",
+      "source": "src/seh.c"
     },
-    "begin_finally_statement": {
-      "logical": "_begin_finally_statement",
-      "source": "src/stubs.c"
+    "begin_finally_block": {
+      "logical": "_begin_finally_block",
+      "source": "src/seh.c"
     },
     "begin_for_statement": {
       "logical": "_begin_for_statement@12",
@@ -273,9 +277,9 @@
       "logical": "_begin_tag_definition@12",
       "source": "src/declarations.c"
     },
-    "begin_try_statement": {
-      "logical": "_begin_try_statement",
-      "source": "src/stubs.c"
+    "begin_try_block": {
+      "logical": "_begin_try_block",
+      "source": "src/seh.c"
     },
     "browser_begin_function_scope": {
       "logical": "_browser_begin_function_scope",
@@ -817,10 +821,6 @@
       "logical": "_emit_debug_type@4",
       "source": "src/debug-info.c"
     },
-    "emit_default_statement": {
-      "logical": "_emit_default_statement",
-      "source": "src/stubs.c"
-    },
     "emit_diagnostic": {
       "logical": "_emit_diagnostic",
       "source": "src/diagnostics.c"
@@ -863,7 +863,7 @@
     },
     "emit_leave_statement": {
       "logical": "_emit_leave_statement",
-      "source": "src/stubs.c"
+      "source": "src/seh.c"
     },
     "emit_line_directive": {
       "logical": "_emit_line_directive",
@@ -964,6 +964,10 @@
     "enter_compound_scope": {
       "logical": "_enter_compound_scope",
       "source": "src/scopes.c"
+    },
+    "enter_except_filter": {
+      "logical": "_enter_except_filter",
+      "source": "src/seh.c"
     },
     "evaluate_defined_operator": {
       "logical": "_evaluate_defined_operator@4",
@@ -1117,9 +1121,9 @@
       "logical": "_finish_directive@4",
       "source": "src/preprocessor-directives.c"
     },
-    "finish_except_statement": {
-      "logical": "_finish_except_statement",
-      "source": "src/stubs.c"
+    "finish_except_block": {
+      "logical": "_finish_except_block",
+      "source": "src/seh.c"
     },
     "finish_extended_arithmetic": {
       "logical": "_finish_extended_arithmetic",
@@ -1129,9 +1133,9 @@
       "logical": "_finish_external_declaration@4",
       "source": "src/parser.c"
     },
-    "finish_finally_statement": {
-      "logical": "_finish_finally_statement",
-      "source": "src/stubs.c"
+    "finish_finally_block": {
+      "logical": "_finish_finally_block",
+      "source": "src/seh.c"
     },
     "finish_for_statement": {
       "logical": "_finish_for_statement",
@@ -1217,9 +1221,9 @@
       "logical": "_finish_switch_statement",
       "source": "src/parser.c"
     },
-    "finish_try_statement": {
-      "logical": "_finish_try_statement",
-      "source": "src/stubs.c"
+    "finish_try_block": {
+      "logical": "_finish_try_block",
+      "source": "src/seh.c"
     },
     "fit_string_initializer": {
       "logical": "_fit_string_initializer@8",
@@ -1520,6 +1524,10 @@
     "leave_compound_scope": {
       "logical": "_leave_compound_scope",
       "source": "src/scopes.c"
+    },
+    "leave_except_filter": {
+      "logical": "_leave_except_filter",
+      "source": "src/seh.c"
     },
     "link_parameter_after": {
       "logical": "_link_parameter_after@8",
@@ -2777,10 +2785,6 @@
       "logical": "_set_declaration_name@8",
       "source": "src/stubs.c"
     },
-    "set_except_filter": {
-      "logical": "_set_except_filter@4",
-      "source": "src/stubs.c"
-    },
     "set_warning_level": {
       "logical": "_set_warning_level@8",
       "source": "src/pragma.c"
@@ -3674,7 +3678,17 @@
     "extract_pch_intermediates",
     "unpack_option_flags",
     "read_pch_pages",
-    "begin_do_statement"
+    "begin_do_statement",
+    "begin_try_block",
+    "emit_leave_statement",
+    "finish_try_block",
+    "adjust_seh_label_depths",
+    "begin_finally_block",
+    "finish_finally_block",
+    "enter_except_filter",
+    "begin_except_block",
+    "leave_except_filter",
+    "finish_except_block"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4442,6 +4456,27 @@
       "seen_count": 575,
       "expected": [
         "begin_do_statement"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "seh": {
+      "first": 688,
+      "last": 698,
+      "seen_count": 576,
+      "expected": [
+        "begin_try_block",
+        "emit_leave_statement",
+        "finish_try_block",
+        "adjust_seh_label_depths",
+        "begin_finally_block",
+        "finish_finally_block",
+        "enter_except_filter",
+        "begin_except_block",
+        "leave_except_filter",
+        "finish_except_block"
       ],
       "terminal": {
         "kind": "exit",

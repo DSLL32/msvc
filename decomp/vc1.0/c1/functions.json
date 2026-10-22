@@ -692,7 +692,17 @@
     "_extract_pch_intermediates",
     "_unpack_option_flags",
     "_read_pch_pages",
-    "_begin_do_statement"
+    "_begin_do_statement",
+    "_begin_try_block",
+    "_emit_leave_statement",
+    "_finish_try_block",
+    "_adjust_seh_label_depths",
+    "_begin_finally_block",
+    "_finish_finally_block",
+    "_enter_except_filter",
+    "_begin_except_block@4",
+    "_leave_except_filter",
+    "_finish_except_block"
   ],
   "driver": [
     {
@@ -1919,49 +1929,49 @@
       "end": 210174
     },
     {
-      "name": "_emit_default_statement",
-      "start": 210176,
-      "end": 210177
-    },
-    {
-      "name": "_set_except_filter@4",
-      "start": 210224,
-      "end": 210225
-    },
-    {
-      "name": "_begin_try_statement",
-      "start": 210304,
-      "end": 210305
-    },
-    {
-      "name": "_begin_except_statement",
-      "start": 210336,
-      "end": 210337
-    },
-    {
-      "name": "_finish_except_statement",
-      "start": 210416,
-      "end": 210417
-    },
-    {
       "name": "_emit_leave_statement",
+      "start": 210176,
+      "end": 210222
+    },
+    {
+      "name": "_begin_except_block@4",
+      "start": 210224,
+      "end": 210298
+    },
+    {
+      "name": "_begin_finally_block",
+      "start": 210304,
+      "end": 210328
+    },
+    {
+      "name": "_begin_try_block",
+      "start": 210336,
+      "end": 210415
+    },
+    {
+      "name": "_finish_try_block",
+      "start": 210416,
+      "end": 210469
+    },
+    {
+      "name": "_finish_except_block",
       "start": 210480,
-      "end": 210481
+      "end": 210509
     },
     {
-      "name": "_finish_try_statement",
+      "name": "_finish_finally_block",
       "start": 210512,
-      "end": 210513
+      "end": 210541
     },
     {
-      "name": "_begin_finally_statement",
+      "name": "_enter_except_filter",
       "start": 210544,
-      "end": 210545
+      "end": 210554
     },
     {
-      "name": "_finish_finally_statement",
+      "name": "_leave_except_filter",
       "start": 210560,
-      "end": 210561
+      "end": 210570
     },
     {
       "name": "_apply_declarator_type@8",
@@ -4665,6 +4675,11 @@
       "name": "_restore_pch_separate_debug",
       "start": 291888,
       "end": 291889
+    },
+    {
+      "name": "_adjust_seh_label_depths",
+      "start": 182032,
+      "end": 182111
     }
   ],
   "cases": {
@@ -4702,6 +4717,11 @@
       "arguments": "",
       "accepted_from": 687,
       "accepted_count": 688
+    },
+    "seh": {
+      "arguments": "",
+      "accepted_from": 688,
+      "accepted_count": 698
     }
   },
   "buffered_streams": [

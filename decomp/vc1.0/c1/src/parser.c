@@ -722,7 +722,7 @@ read_action:
             if (normalized_Ol && options.option_qc) finish_inline_region();
             break;
         case 146:
-            emit_default_statement();
+            emit_leave_statement();
             break;
         case 147:
             if (break_labels) {
@@ -757,13 +757,13 @@ read_action:
             parse_asm_statement();
             break;
         case 153:
-            emit_leave_statement();
+            finish_except_block();
             break;
         case 154:
-            begin_try_statement();
+            begin_finally_block();
             break;
         case 155:
-            finish_try_statement();
+            finish_finally_block();
             break;
         case 157:
             report_syntax_error(181);
@@ -772,17 +772,17 @@ read_action:
             parser_recovery_count = 0;
             break;
         case 159:
-            begin_except_statement();
+            begin_try_block();
             break;
         case 160:
-            finish_except_statement();
+            finish_try_block();
             break;
         case 161:
-            begin_finally_statement();
+            enter_except_filter();
             break;
         case 162:
-            set_except_filter(right[-1].node);
-            finish_finally_statement();
+            begin_except_block(right[-1].node);
+            leave_except_filter();
             POP_DECLARATION();
             CLEAR_DECLARATION_FLAGS();
             break;

@@ -1,0 +1,37 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f01025353266a00462d69004c534f01034f0103266c0033a641003286414b4f01048f534f01058f534f010626690030864133a6410022386f003a6e004f0107296f0029710026690030864133a6410024387200534f01084f0108266c002669003086410f86414b4f01094f0109266900338641011086414b4f010a54053a71002972004f010b5404",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000120a00746573742e6300",
+    "debug_file": null,
+    "pch_file": null
+  },
+  "frames": [
+    "finish_except_statement",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "finish_except_statement",
+  "pc": 1448856612,
+  "label_stack_count": 2,
+  "exception_scope_depth": [
+    0,
+    0,
+    2
+  ],
+  "original_logical": "_finish_except_statement",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.002443777397274971,
+  "execution_seconds": 0.18541769497096539,
+  "total_seconds": 0.19023613166064024,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+  },
+  "executable_sha256": "9e3a2df541a288a49b572a39c08e4e21622423e42fd6447ca370783fe5b39515"
+}
