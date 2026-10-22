@@ -31,8 +31,8 @@ void allocate_machine_registers(void)
     register_allocation_statistics.folded_spill_operands = 0;
     register_allocation_statistics.inserted_spill_loads = 0;
     register_allocation_statistics.inserted_spill_stores = 0;
-    register_allocation_statistics.count_c544 = 0;
-    register_allocation_statistics.count_c548 = 0;
+    register_allocation_statistics.eliminated_copies = 0;
+    register_allocation_statistics.propagated_copies = 0;
     register_allocation_statistics.strategies[0] = 0;
     register_allocation_statistics.strategies[1] = 0;
     frame_register_available = frame_register_can_be_allocated();

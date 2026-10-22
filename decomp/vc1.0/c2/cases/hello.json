@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 281,
+  "accepted_frontiers": 286,
   "current_frontier": {
-    "name": "@prepare_machine_blocks@4",
-    "original_va": 190208
+    "name": "@set_machine_frame@8",
+    "original_va": 217504
   },
   "expected": {
     "exit": 0,
@@ -210,18 +210,23 @@
     "all556 source graphs and633 accepted instruction boundaries pass; physical-allocation, frame-symbols and instruction-uses /W3 clean",
     "independent ESP and physical-assignment captures match181/208 normalized lines and83 records with exact block bitsets/physical operands",
     "first complete allocation returns; independent post-cleanup capture matches210 normalized lines and82 records",
-    "verified accepted original code-extent union166943/399693 bytes=41.7678 percent; not branch coverage"
+    "verified accepted original code-extent union166943/399693 bytes=41.7678 percent; not branch coverage",
+    "all352 minimal and286 hello historical frontiers replay; minimal object/streams/exit exact except timestamp4..7",
+    "all561 source graphs and638 accepted instruction boundaries pass; post-allocation and physical-allocation /W3 clean",
+    "independent live physical-copy constructor-return capture matches243 normalized lines, including exact instruction11 ownership in ECX bucket, all31 heads and disjoint/acyclic recycler",
+    "completed first-function post-allocation copy pass returns; independent210-line/82-record stream/block capture matches",
+    "verified accepted original code-extent union169375/399693 bytes=42.3763 percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 633,
-  "reconstructed_functions": 556,
+  "total_accepted_frontiers": 638,
+  "reconstructed_functions": 561,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 633,
-    "accepted_code_bytes": 166943,
+    "accepted_frontiers": 638,
+    "accepted_code_bytes": 169375,
     "original_code_bytes": 399693,
-    "percentage": 41.76780679171264,
+    "percentage": 42.37627379013393,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [

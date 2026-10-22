@@ -8,7 +8,7 @@
 typedef struct RegisterAllocationStatistics {
     int rewritten_instructions, rounds, spilled_variables, simplify_candidates;
     int rematerialized_operands, folded_spill_operands, inserted_spill_loads, inserted_spill_stores;
-    int count_c544, count_c548;
+    int eliminated_copies, propagated_copies;
     int strategies[2];
 } RegisterAllocationStatistics;
 extern RegisterAllocationStatistics register_allocation_statistics;

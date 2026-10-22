@@ -637,7 +637,12 @@
     "_finish_register_assignment",
     "@add_block_physical_registers@4",
     "@assign_operand_registers@12",
-    "@find_carry_flag_use@4"
+    "@find_carry_flag_use@4",
+    "@prepare_machine_blocks@4",
+    "@propagate_physical_copy@4",
+    "@release_physical_copies@4",
+    "@propagate_physical_operand@12",
+    "@remember_physical_copy@8"
   ],
   "driver": [
     {
@@ -1248,8 +1253,7 @@
     {
       "name": "@prepare_machine_blocks@4",
       "start": 190208,
-      "end": 190209,
-      "provisional": true
+      "end": 190704
     },
     {
       "name": "@set_machine_frame@8",
@@ -5435,6 +5439,38 @@
       "name": "@assign_operand_registers@12",
       "start": 184528,
       "end": 184848
+    },
+    {
+      "name": "@remember_physical_copy@8",
+      "start": 190112,
+      "end": 190176
+    },
+    {
+      "name": "@release_physical_copies@4",
+      "start": 190176,
+      "end": 190208
+    },
+    {
+      "name": "@propagate_physical_copy@4",
+      "start": 190704,
+      "end": 191920
+    },
+    {
+      "name": "@propagate_physical_operand@12",
+      "start": 191920,
+      "end": 192544
+    },
+    {
+      "name": "@equivalent_stack_copy_operands@16",
+      "start": 192784,
+      "end": 192785,
+      "provisional": true
+    },
+    {
+      "name": "@stack_copy_operand_changed@16",
+      "start": 192544,
+      "end": 192545,
+      "provisional": true
     }
   ],
   "cases": {

@@ -1461,3 +1461,40 @@ unmodified original and fixture except only timestamp bytes4..7. Verified
 accepted original code-extent union166943/399693 bytes (41.7678 percent)
 includes clipped source/shared text/CRT/import ranges and actual-mask
 verification; this is not branch coverage.
+
+
+Post-allocation physical copy propagation (638 accepted frontiers)
+----------------------------------------------------------------
+Five whole functions recover the145-instruction walk,393-instruction MOV/LEA
+elimination pass,194-instruction operand propagation and separate eight-byte
+copy constructor/recycler. Thirty-one named register-copy heads7c634..7c6b0
+end at a separate recycler word and remain disjoint from statistics/costs.
+Nodes hold a typed instruction pointer and next link at offsets0/4, allocated
+in arena3. Existing counters7c544/548 are now named eliminated_copies and
+propagated_copies from all their mapped updates, retaining canonical layout.
+No original image data is copied. Native x87 property1 uses the already
+audited opcode ranges, rather than a new raw flags table.
+
+The complete function graphs preserve memory-change, byte-lane, overlapping
+address, ESP-relative and floating-copy alternatives. Native22740 is the
+mutating replace_machine_operand with apply3; graph audit corrected an
+initial sibling-predicate selection before paired acceptance. The three-
+argument propagation helper retains fastcall ECX/EDX and RET4. Stack-relative
+and floating alternatives keep named trapping children and are outside
+current dynamic claims.
+
+An independent constructor-return breakpoint matches243 normalized lines,
+including the ECX copy bucket owning instruction11, all31 heads, empty
+recycler, counters and disjoint/acyclic ownership. This observes live nodes
+before arena retirement. The completed first-function pass matches210 lines/
+82 stream records with exact physical operands, links and block bitsets.
+The next matching frontier is set_machine_frame351a0; further post-allocation
+passes and the remaining function keep optimized hello incomplete.
+See cases/hello-physical-copies-abi.json.
+
+All352 minimal and286 hello frontiers replay,561 source graphs and638 accepted
+instruction boundaries pass. post-allocation and physical-allocation compile
+/W3 clean. Minimal object/streams/exit remain exact except only timestamp
+bytes4..7. Verified accepted original code-extent union169375/399693 bytes
+(42.3763 percent) includes clipped source/shared text/CRT/import ranges and
+actual-mask cross-check; it is not branch coverage.
