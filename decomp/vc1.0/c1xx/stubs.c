@@ -81,7 +81,6 @@ char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall declare_operator_delete(unsigned short attributes) { __asm { int 3 } }
 void __stdcall restore_declaration_context(unsigned char mode, SymbolScope *scope) { __asm { int 3 } }
-CppSymbol *__stdcall find_scope_symbol(SymbolScope *scope, char *name, int flags) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall prepend_declarator(CppSymbol *list, CppSymbol *declaration) { __asm { int 3 } }
 void __stdcall resolve_deferred_declaration(void *declaration) { __asm { int 3 } }
@@ -116,22 +115,28 @@ short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { i
 int __stdcall merge_storage_spec(StorageSpec *destination, StorageSpec source) { __asm { int 3 } return 0; }
 CType *__stdcall function_return_type(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
-QualifiedDeclarator *__stdcall lookup_qualified_declaration(QualifiedDeclarator *qualifier, CppSymbol *declaration) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *declaration) { __asm { int 3 } return 0; }
 int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 int __stdcall is_class_name_type(CType *type) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall lookup_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_outer_name(char *name) { __asm { int 3 } return 0; }
 void __stdcall record_local_declaration(CppSymbol *declaration) { __asm { int 3 } }
-void __stdcall insert_symbol(CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall insert_scope_symbol(SymbolScope *scope, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
-void __stdcall finish_function_declarator(CppSymbol *symbol, TypeShape **result) { __asm { int 3 } }
 void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
 void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current, unsigned diagnostic) { __asm { int 3 } }
-TypeShape *__stdcall merge_function_shape(CppSymbol *symbol, ShapeCursor inner, ShapeCursor *current, ShapeCursor outer, int is_typedef) { __asm { int 3 } return 0; }
 int __stdcall merge_member_pointer_shape(CppSymbol *symbol, ShapeCursor inner, ShapeCursor *current, ShapeCursor outer) { __asm { int 3 } return 0; }
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __asm { int 3 } return 0; }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
+int __stdcall has_class_initialization(CType *type) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
+void __stdcall merge_declaration_storage(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } }
+void __stdcall merge_function_defaults(FunctionParameters *current, FunctionParameters *previous, CppSymbol *declaration, int inherit) { __asm { int 3 } }
+void __stdcall initialize_scope_buckets(SymbolScope *scope, CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall insert_class_member(CppSymbol *symbol) { __asm { int 3 } }
+int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
+int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
+void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
+void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned parameter) { __asm { int 3 } }

@@ -284,8 +284,8 @@ void __stdcall attach_type_shape(CppSymbol *declaration, TypeShape *shape)
     shape->attributes = attributes;
     if ((attributes & 7) == 5) {
         based_symbol = shape->data.based_symbol;
-        if ((based_symbol->kind & 31) == 13 && (based_symbol->field24 & 0xff) == 8)
-            based_symbol->field24 = (based_symbol->field24 & ~0xffU) | 1;
+        if ((based_symbol->kind & 31) == 13 && (based_symbol->auxiliary.value & 0xff) == 8)
+            based_symbol->auxiliary.value = (based_symbol->auxiliary.value & ~0xffU) | 1;
     }
     shape->related = declaration->type->related;
     declaration->type->related = shape;

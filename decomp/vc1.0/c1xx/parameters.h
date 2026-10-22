@@ -8,7 +8,9 @@ typedef struct DeclarationParameterInfo {
     CType *types[1];
 } DeclarationParameterInfo;
 typedef struct DefaultArgument {
-    unsigned field00, field04, field08, field0c;
+    unsigned field00, field04;
+    struct DefaultArgument *following;
+    void *expression;
     struct DefaultArgument *next;
 } DefaultArgument;
 struct FunctionParameters {

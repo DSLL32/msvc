@@ -1,6 +1,7 @@
 /* Folding a parsed declarator onto its base type. */
 #include "declarations.h"
 #include "cpp-context.h"
+#include "macros.h"
 
 /* The original expands this test at each data-pointer/array/member-pointer
    case. Keep it local to that folding operation rather than inventing a
@@ -348,8 +349,9 @@ TypeShape *__stdcall extract_base_prefix(TypeShape *shape, TypeShape **prefix,
     }
     if (shape->related) {
         if (category == 4) flags |= 0x400;
+        merged = shape->attributes;
         related = extract_base_prefix(shape->related, prefix, symbol, is_typedef, attributes);
-        shape = intern_shape_on(related, flags, shape->attributes, &shape->data);
+        shape = intern_shape_on(related, flags, merged, &shape->data);
     }
     return shape;
 }
@@ -361,4 +363,124 @@ TypeShape *__stdcall intern_shape_on(TypeShape *related, unsigned short kind,
     TypeShape *shape = new_type_shape(kind, attributes, parameter);
     shape->related = related;
     return intern_type_shape(shape);
+}
+
+/* Original 0x493c0..0x4974a. Validate the result and combine the function's
+   calling convention with the surrounding declarator. */
+TypeShape *__stdcall merge_function_shape(CppSymbol *symbol, ShapeCursor inner,
+    ShapeCursor *current, ShapeCursor outer, int is_typedef)
+{
+    TypeShape *extra = 0;
+    CppSymbol *tag;
+    QualifiedDeclarator *qualifier;
+    unsigned category = inner.flags & 0x77;
+    unsigned convention_bits;
+    int pointer_follows = 0;
+    int member_function = (current->flags & 0x2000) ||
+        ((current->flags & 0x77) == 4 && (outer.flags & 0x10));
+    char *convention;
+    if (category == 2) {
+        report_syntax_error(90);
+        extra = new_type_shape(1, 0, 0);
+    } else if (category == 4) {
+        report_syntax_error(91);
+        extra = new_type_shape(3, 0, 0);
+    } else if (category == 1 && (inner.attributes & 8)) {
+        report_syntax_error(263);
+        extra = new_type_shape(1, 0, 0);
+    } else if (!inner.flags && (symbol->type->flags & 0x400)) {
+        tag = (CppSymbol *)cpp_context_stack->items[symbol->type->field08];
+        if (tag->detail.class_info->flags & 0x80)
+            report_syntax_error(259, tag->name);
+        if (linkage_stack[linkage_depth] == LINKAGE_C)
+            current->flags |= 0x100;
+        else current->flags |= 0x200;
+    }
+    if ((outer.flags & 0x77) == 1 || (outer.flags & 0x50)) {
+        pointer_follows = 1;
+        current->attributes = merge_type_attributes(current->attributes,
+            (unsigned short)(outer.attributes & 0xf77));
+        if (outer.attributes & 12) outer.shape->attributes &= ~15;
+    } else if (!outer.shape) {
+        current->attributes = merge_type_attributes(current->attributes, outer.attributes);
+        if (!inner.shape) current->attributes &= ~0x1000;
+        if (symbol->flags & 4) {
+            if (function_declaration_kind == 1) current->flags |= 0x4000;
+            if (is_typedef)
+                current->attributes = normalize_type_attributes(current->flags, current->attributes);
+        }
+    }
+    convention_bits = current->attributes & 0x70;
+    if (!convention_bits) {
+        if (!(current->flags & 0x2000) && !(outer.flags & 0x10)) {
+            convention = 0;
+            if ((options.configuration.option_Gr || options.configuration.option_Gc ||
+                 options.configuration.option_Gz) && symbol->name == name_main) {
+                current->attributes = (current->attributes & ~0x70) | 0x10;
+                convention = "cdecl";
+            } else if ((options.configuration.option_Gr || options.configuration.option_Gc ||
+                        options.configuration.option_Gd) &&
+                       (symbol->name == name_winmain || symbol->name == name_dllmain)) {
+                current->attributes = (current->attributes & ~0x70) | 0x60;
+                convention = "__stdcall";
+            }
+            if (convention) compiler_warning(3, 7, symbol->name, convention);
+        }
+        qualifier = (QualifiedDeclarator *)symbol->next;
+        if (member_function &&
+            !(!outer.shape && qualifier &&
+              (!qualifier->resolution || *qualifier->resolution->binding) &&
+              current_class_context < 0)) {
+            if (current->flags & 0x8000)
+                current->attributes = (current->attributes & ~0x70) | 0x10;
+            else if ((symbol->storage[0] & 7) != 3 || (outer.flags & 0x10))
+                current->attributes = (current->attributes & ~0x70) | 0x70;
+        }
+    } else if (!pointer_follows && (symbol->declaration_flags & 0x3000) &&
+               !(token_allocation_flags & 0x400)) {
+        if (convention_bits != 0x70 && convention_bits != 0x60)
+            compiler_warning(1, 166);
+        current->attributes = (current->attributes & ~0x70) |
+            ((current->flags & 0x8000) ? 0x10 : 0x70);
+    }
+    if (current->attributes & 12) {
+        report_syntax_error(212, symbol->name);
+        current->attributes &= ~15;
+        if (outer.shape && !(outer.flags & 0x77)) {
+            outer.shape = 0;
+            symbol->attributes &= ~2;
+        }
+    }
+    if ((current->attributes & 0x70) == 0x60 && (current->flags & 0x8000))
+        current->attributes &= ~0x70;
+    return extra;
+}
+
+/* Original 0x49750..0x497e7. Classify a completed function declarator or
+   supply the pointer shape required by a nonfunction symbol category. */
+void __stdcall finish_function_declarator(CppSymbol *symbol, TypeShape **result)
+{
+    unsigned char kind = symbol->kind;
+    unsigned short attributes;
+    TypeShape *shape;
+    if ((kind & 31) == 9) {
+        symbol->kind = 7;
+        return;
+    }
+    if (kind == 2) {
+        report_syntax_error(656, format_symbol_name(symbol));
+        symbol->kind = 7;
+        return;
+    }
+    if (kind == 3) {
+        symbol->kind = 7;
+        return;
+    }
+    if (kind == 12) report_syntax_error(66);
+    attributes = normalize_type_attributes(3,
+        (unsigned short)(symbol->type->attributes & 15));
+    symbol->type->attributes &= ~7;
+    shape = new_type_shape(3, attributes, 0);
+    shape->related = *result;
+    *result = intern_type_shape(shape);
 }

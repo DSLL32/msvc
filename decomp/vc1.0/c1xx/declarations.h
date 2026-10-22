@@ -38,7 +38,8 @@ struct CppSymbol {
         ClassInfo *class_info;
         CppSymbol *parameter_next;
     } detail;
-    unsigned field24, field28, field2c;
+    union { unsigned value; CppSymbol *scope_members; } auxiliary;
+    unsigned field28, field2c;
     CppSymbolState cpp;
 };
 /* A transient qualified declarator uses the link slot before it joins a
@@ -102,7 +103,7 @@ short __stdcall format_storage_spec(short text, StorageSpec storage);
 int __stdcall merge_storage_spec(StorageSpec *destination, StorageSpec source);
 CType *__stdcall function_return_type(CppSymbol *declaration);
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol);
-QualifiedDeclarator *__stdcall lookup_qualified_declaration(QualifiedDeclarator *qualifier, CppSymbol *declaration);
+CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *declaration);
 int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration);
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol);
 int __stdcall is_class_name_type(CType *type);

@@ -125,7 +125,7 @@ CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *de
             return declaration;
     }
     if (qualifier) {
-        qualified = lookup_qualified_declaration(qualifier, declaration);
+        qualified = (QualifiedDeclarator *)resolve_declaration_alias((CppSymbol *)qualifier, declaration);
         if (!qualified)
             return 0;
         target = (CppSymbol *)(*qualified->resolution->binding)->target;

@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 180 accepted paired frontiers, including 105 frontend
+PARTIAL reconstruction: 193 accepted paired frontiers, including 118 frontend
 functions and six older CRT routines. The frontend now reads cpp-basic.cpp,
 initializes builtin operator candidates and constructs their function signatures.
 The complete global-record writer, declaration storage/type normalizer and final
 declaration checks are reconstructed. The next matching trap is
-_merge_function_shape@28 at original VA 0x493c0. All 180 frontiers replay successfully;
+_validate_special_function@8 at original VA 0x50ed0. All 193 frontiers replay successfully;
 the expression stream begins with the exact six bytes 5b8034030000. The complete
 frontend case is not yet reconstructed or claimed equivalent.
 
@@ -59,7 +59,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-type-folding.log.
+The current full ordered replay is recorded in evidence/replay-symbols.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -114,3 +114,12 @@ categories, class distance inheritance, detached prefix chains and function/
 array finalization calls. ShapeCursor is an eight-byte aggregate, including its
 original by-value calling conventions. Data/code pointer-kind names now follow
 their proven original globals (0x90f28/0x90f30); the rename preserves data flow.
+
+Function-shape reconciliation includes class returns, entry-point calling
+conventions and variadic member functions. Scope lookup uses interned-name
+identity and retains the original temporary wrappers. Declaration reconciliation
+keeps const-object, extern, typedef, alias and overload branches. Overload sets
+have a separate 16-byte layout; a full declaration is 52 bytes. Default records
+retain separate declaration-order and following-parameter links. The per-scope
+qc_context and its shared current value are explicit; the latter's four initial
+bytes are audited. All unvisited callees remain named trapping stubs.

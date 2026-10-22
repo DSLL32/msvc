@@ -184,7 +184,20 @@
     "_extract_declarator_prefix@16",
     "_extract_base_prefix@20",
     "_merge_type_attributes@8",
-    "_intern_shape_on@16"
+    "_intern_shape_on@16",
+    "_merge_function_shape@28",
+    "_finish_function_declarator@8",
+    "_lookup_declaration@4",
+    "_declaration_scope",
+    "_lookup_scope_declaration@8",
+    "_find_scope_symbol@12",
+    "_find_name_in_chain@8",
+    "_reconcile_declaration@8",
+    "_insert_symbol@4",
+    "_insert_scope_symbol@8",
+    "_make_overload_symbol@4",
+    "_check_function_defaults@8",
+    "_check_missing_defaults@20"
   ],
   "driver": [
     {
@@ -1255,7 +1268,7 @@
       "end": 331463
     },
     {
-      "name": "_lookup_qualified_declaration@8",
+      "name": "_resolve_declaration_alias@8",
       "start": 345120,
       "end": 345308
     },
@@ -1373,6 +1386,96 @@
       "name": "_intern_shape_on@16",
       "start": 403248,
       "end": 403286
+    },
+    {
+      "name": "_declaration_scope",
+      "start": 346624,
+      "end": 346648
+    },
+    {
+      "name": "_lookup_scope_declaration@8",
+      "start": 341536,
+      "end": 341590
+    },
+    {
+      "name": "_reconcile_declaration@8",
+      "start": 341600,
+      "end": 342169
+    },
+    {
+      "name": "_find_name_in_chain@8",
+      "start": 347728,
+      "end": 347765
+    },
+    {
+      "name": "_has_class_initialization@4",
+      "start": 228144,
+      "end": 228159
+    },
+    {
+      "name": "_bind_function_overload@8",
+      "start": 351360,
+      "end": 351810
+    },
+    {
+      "name": "_reconcile_typedef@8",
+      "start": 345872,
+      "end": 346131
+    },
+    {
+      "name": "_merge_declaration_storage@8",
+      "start": 342896,
+      "end": 343762
+    },
+    {
+      "name": "_merge_function_defaults@16",
+      "start": 239008,
+      "end": 239323
+    },
+    {
+      "name": "_make_overload_symbol@4",
+      "start": 346144,
+      "end": 346388
+    },
+    {
+      "name": "_check_function_defaults@8",
+      "start": 238512,
+      "end": 238548
+    },
+    {
+      "name": "_initialize_scope_buckets@8",
+      "start": 346656,
+      "end": 346826
+    },
+    {
+      "name": "_insert_class_member@4",
+      "start": 208448,
+      "end": 208462
+    },
+    {
+      "name": "_find_intrinsic_index@4",
+      "start": 250656,
+      "end": 250795
+    },
+    {
+      "name": "_intrinsic_enabled@4",
+      "start": 250960,
+      "end": 251093
+    },
+    {
+      "name": "_apply_intrinsic@8",
+      "start": 250800,
+      "end": 250890
+    },
+    {
+      "name": "_check_missing_defaults@20",
+      "start": 238416,
+      "end": 238508
+    },
+    {
+      "name": "_report_parameter_error@12",
+      "start": 238384,
+      "end": 238407
     }
   ],
   "cases": {
@@ -1757,6 +1860,12 @@
           "bytes": 2
         }
       ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_current_qc_context",
+      "original": 654400,
+      "bytes": 4
     }
   ],
   "buffered_streams": [

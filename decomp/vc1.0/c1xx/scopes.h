@@ -6,7 +6,7 @@ typedef struct SymbolScope {
     struct SymbolScope *next, *parent;
     CppSymbol **buckets;
     unsigned short bucket_mask, flags;
-    unsigned field10;
+    unsigned qc_context;
 } SymbolScope;
 extern SymbolScope *global_scope, *current_scope, *lookup_scope;
 extern SymbolScope **scope_directory;

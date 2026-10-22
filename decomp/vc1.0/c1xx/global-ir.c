@@ -154,7 +154,7 @@ formats:
             }
             if ((symbol->attributes & 4) && (type_flags & 0x400) &&
                 (((CppSymbol *)cpp_context_stack->items[type->field08])->attributes & 0x100) && !shape)
-                size += symbol->field24;
+                size += symbol->auxiliary.value;
             GLOBAL_INTEGER(size);
             break;
         case GF_FLAGS:
@@ -228,7 +228,7 @@ formats:
                 GLOBAL_SHORT(type->debug_index);
             break;
         case GF_CONTEXT:
-            GLOBAL_BYTE(stream, tag == 3 ? (unsigned char)symbol->field24 : global_record_kind);
+            GLOBAL_BYTE(stream, tag == 3 ? (unsigned char)symbol->auxiliary.value : global_record_kind);
             break;
         case GF_REGISTER:
             kind = symbol->kind & 31;
@@ -384,7 +384,7 @@ formats:
             GLOBAL_INDEX(tag_symbol->index);
             break;
         case GF_TAG_KIND:
-            code = (unsigned char)symbol->field24;
+            code = (unsigned char)symbol->auxiliary.value;
             GLOBAL_BYTE(stream, code == 0 || code == 2 ? code : 1);
             break;
         case GF_STREAM_POSITIONS:
