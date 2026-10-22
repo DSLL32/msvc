@@ -3,10 +3,10 @@ TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
 HEADERS = $(filter-out src/omf.h src/demangle.h,$(wildcard src/*.h)) $(RECON)/include/recon.h
-OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor edit-stubs dump dump-stubs resources codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
+OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor edit-stubs dump disassembler dump-stubs resources codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
-.PHONY: all clean check prefix replay audit native native-check native-trace native-trace-check check-reference replay-reference replay-fresh-reference replay-specialized-reference replay-verify-reference
-all: build/original.exe build/reconstructed.exe build/debug-run.exe
+.PHONY: all clean check prefix replay audit native native-check native-trace native-trace-check
+all: build/link.exe
 
 prefix:
 	$(PYTHON) scripts/wine-tool.py --init
@@ -17,32 +17,13 @@ runtime.json: scripts/identify-runtime.py scripts/binary.py functions.json $(TC)
 build/runtime.json: build/link.exe scripts/identify-runtime.py scripts/binary.py functions.json
 	$(PYTHON) scripts/identify-runtime.py build/link.exe $@
 
-build/original.exe build/reconstructed.exe &: build/link.exe build/runtime.json runtime.json functions.json scripts/compare.py scripts/binary.py
-	$(PYTHON) scripts/compare.py --mask-only
-
 check replay: native-trace-check
-
-# Explicit Win32 reference/diagnostic work; never normal fixture dependencies.
-check-reference: all audit
-	$(PYTHON) scripts/compare.py --require-exit
 
 audit: build/runtime.json runtime.json
 	$(PYTHON) scripts/audit-graph.py
 	$(PYTHON) scripts/audit-callbacks.py
 	$(PYTHON) scripts/audit-data.py
 	$(PYTHON) scripts/audit-abi.py
-
-replay-reference: all audit
-	$(PYTHON) scripts/compare.py --replay --require-exit
-
-replay-fresh-reference: all audit
-	$(PYTHON) scripts/replay-frontiers.py --fresh
-
-replay-specialized-reference: all audit
-	$(PYTHON) scripts/replay-frontiers.py --include-specialized
-
-replay-verify-reference: all audit
-	$(PYTHON) scripts/replay-frontiers.py --verify-fresh --include-specialized
 
 build:
 	mkdir -p $@
@@ -52,9 +33,6 @@ build/%.obj: src/%.c $(HEADERS) | build prefix
 
 build/link.exe: $(OBJECTS) Makefile
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/link.map /out:$@ $(OBJECTS)
-
-build/debug-run.exe: build/debug-run.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 
 build/linker.obj: src/image.h src/arguments.h src/linker-types.h
 build/repro.obj: src/linker-types.h
@@ -108,26 +86,6 @@ build/option-stubs.obj: src/options.h src/image.h src/modules.h src/linker-types
 
 build/link-pass-stubs.obj: src/link-pass.h src/object.h src/options.h src/comdat.h src/modules.h src/image.h
 build/dos-stub.obj: src/dos-stub.h
-
-# Shared behavioral checker is an immutable fixture dependency.
-build/gui-check.obj: ../cl/src/gui-check.c | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fo$@ $<
-
-build/gui-check.exe: build/gui-check.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB GDI32.LIB
-
-# The fixture host loads the generated DLL and calls its exported stdcall entry.
-build/dll-host.obj: ../fixtures/hello-dll/dll-host.c | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fo$@ $<
-
-build/dll-host.exe: build/dll-host.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB
-
-build/debug-dll-host.obj: ../fixtures/link-debug-dll/dll-host.c | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fo$@ $<
-
-build/debug-dll-host.exe: build/debug-dll-host.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB
 
 # Converter-only interfaces do not invalidate unrelated translation units.
 build/omf.obj build/omf-stubs.obj: src/omf.h

@@ -4,7 +4,7 @@ import re
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM
 from binary import u32
-from compare import indexes
+from indexes import indexes
 
 original, rebuilt, config, _, counterparts = indexes()
 decoder = Cs(CS_ARCH_X86, CS_MODE_32)

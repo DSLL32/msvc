@@ -5,7 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-from compare import indexes, imports
+from indexes import indexes, imports
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output', type=Path)

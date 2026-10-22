@@ -3,7 +3,7 @@
 import json,struct
 from pathlib import Path
 from binary import PE,u16,u32
-from compare import publics
+from indexes import publics
 from importlib.machinery import SourceFileLoader
 wt=SourceFileLoader('wine_tool',str(Path(__file__).with_name('wine-tool.py'))).load_module()
 a,b=PE(wt.TC/'bin/LINK.EXE'),PE('build/link.exe')

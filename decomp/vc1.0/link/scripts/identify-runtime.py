@@ -44,7 +44,7 @@ for name, data in objects:
                 record=dict(name=sym['name'],start=start,end=start+b-a,
                             object=name,library='LIBC.LIB')
                 candidates.append((part,start,[record]))
-from compare import imports
+from indexes import imports
 from collections import defaultdict
 import struct
 import_targets={r['name'][7:]:r['start'] for r in imports(pe)}
@@ -56,7 +56,7 @@ while True:
     if len(sys.argv)==1:
         for r in cfg['driver']:known[r['name']].add(r['start'])
     else:
-        from compare import publics
+        from indexes import publics
         linked=publics()
         for r in cfg['driver']:
             if r['name'] in linked:known[r['name']].add(linked[r['name']])

@@ -2,8 +2,6 @@
 #include "dump.h"
 #include <recon.h>
 
-void initialize_disassembler(FatalRoutine fatal,WarningRoutine warning) { __asm { int 3 } }
-
 void dump_symbol_map(void) { __asm { int 3 } }
 
 

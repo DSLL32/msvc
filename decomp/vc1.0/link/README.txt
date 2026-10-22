@@ -10,14 +10,14 @@ C sources and headers live in src/; executable Python tooling lives in scripts/.
 Run make and script commands from this binary root. Metadata, cases and build/
 retain their existing roles. analysis/ is non-executable evidence only.
 
-Eighteen cases are complete:
+Nineteen cases are complete:
   /? (exit 3, exact 884-byte stdout, empty stderr)
   minimal-c, hello-win32, hello-dll
   library-create, hello-debug-dll
   library-list, library-extract, library-remove, library-list-trimmed
   library-dump-library, library-dump-object, library-dump-dll
   library-edit, library-dump-edited
-  omf-library, omf-link, cpp-undecorate
+  omf-library, omf-link, cpp-undecorate, dump-disasm-data
 
 The two latest assigned families use immutable original-backed fixtures
 link-omf and link-undecorate (86a7f87). The valid 32-bit OMF input covers segment,
@@ -31,18 +31,21 @@ destructors, inheritance, operators, qualifiers, overloads, arrays, references,
 member pointers and function pointers. Templates were rejected by the original
 compiler and are not claimed. Unreached demangler branches remain named traps.
 
-Current verification: clean original-toolchain make -j2, full 640 historical
-frontier replay, all 18 completed-case regressions, 492 direct/indirect/tail-call
-checks, 483 callback checks, 391 contextual-data initializer checks, 646 original
-extent instruction-boundary checks and 38 ECX-member return-cleanup checks pass.
+Current verification: original-toolchain make -j4, all 19 cached native
+entry/status/stream/artifact regressions, 493 direct/indirect/tail-call checks,
+484 callback checks, 393 contextual-data checks, 647 original extent instruction
+boundaries and 38 ECX-member return-cleanup checks pass. The previous 640-frontier
+Win32 history remains historical evidence; current function acceptance uses a
+masked original-only capture paired with native GDB.
 cases/omf-undecorate-queue.json records case provenance and verification hashes.
 SOURCE-NOTES.txt retains historical checkpoints and recovered implementation
 choices; later completed checkpoints supersede earlier active-frontier notes.
 
-The accepted .text extent union is 193671/281634 bytes=68.7669%, up from
+The accepted .text extent union is 193690/281634 bytes=68.7737% (641 frontiers), up from
 160229/281634=56.8926% at 528 frontiers and 110787/281634=39.3372% at 400.
 This includes accepted inline tables/alignment, not dynamic branch coverage.
-cases/coverage-after-omf-undecorate.json records the union. Separate partial
+cases/one-function-native-validation.json records the current union;
+cases/coverage-after-omf-undecorate.json is the preceding checkpoint. Separate partial
 body accounting is reproducible with scripts/measure-components.py and the analysis-only
 Ghidra inventory: 127920 accepted known target-body bytes, 26904 known CRT-body
 bytes and 192 import-thunk bytes. Another 38655 accepted extent bytes are outside
@@ -72,7 +75,7 @@ Inputs are not trimmed or patched. Extracted alpha is raw-exact and the trimmed
 archive omits beta. Native DEF limitations remain: NONAME and forwarder fixture
 inputs exercise parsing, not effective ordinal-only/forwarder output.
 
-Normal native fixtures and cached entry replay (all eighteen cases):
+Normal native fixtures and cached entry replay (all nineteen cases):
     make -j4 check
     make -j4 replay
 Select one cached native fixture:
@@ -80,22 +83,16 @@ Select one cached native fixture:
     python3 scripts/check-native.py --trace --case omf-link
 Fixtures never invoke Wine, originals, PE helpers or automatic reference capture.
 Original-toolchain compilation and Win32 reference/diagnostic work are separate
-explicit operations; see the reference commands below.
+explicit operations; see the original-only build and analysis commands below.
 Measure accepted extents and partial native-body components:
     python3 scripts/measure-coverage.py
     python3 scripts/measure-components.py
 
-The explicit Win32 reference/diagnostic harness masks the original code section and restores only accepted
-function extents and encountered inline data. Unaccepted reconstruction functions
-and its entry are masked too. Each pair runs concurrently and must stop at the
-same logical function. Per-run Wine namespaces expose the matching masked tool
-copy at its canonical original DOS path; other toolchain files resolve to
-untouched originals. argv[0], recursive verbose text and self-spawned LINK
-children remain exact. The debugger follows the full child tree with per-process
-image bases and loader breaks. Original CVPACK remains an external dependency.
-Focused reconstruction acceptance requires fresh original/native evidence.
-The retained Win32 diagnostic adapter uses continuous ordinary histories and
-specialized fresh histories when explicitly requested. Original toolchain files are never modified.
+New acceptance uses an explicitly captured masked original and a native GDB
+session. The old paired Win32 runners and their replay/reference targets have
+been removed. No fixture or replay target can launch them. Original toolchain
+files are never modified; pure scripts/indexes.py analysis can mask a scratch
+original copy for a separately authorized original-only capture.
 
 Runtime members come from relocation-target-verified original LIBC objects.
 Older CRT differences, including text-mode ftell/fseek, are readable C in
@@ -116,61 +113,14 @@ paths and unclassified bytes mean 99% whole-binary coverage is not established.
 Shared fixtures remain immutable. Scratch/evidence/private Wine prefixes live
 under ~/.ai-tmp/vc1.0-link. New cases require the user's next selection.
 
-Explicit Win32 reference diagnostics
+Original-only compilation and static analysis
 
-These commands deliberately use Wine and originals outside fixture execution.
-They are never prerequisites of normal check/replay. Original-toolchain build
-and static ABI/graph/data/boundary audits remain available explicitly:
+These explicit build commands use Wine solely for the original compiler/linker;
+they are never prerequisites of normal native check/replay:
     make -j4 all audit
-    make -j4 check-reference
-The retained Win32 historical adapter walks ordinary segments continuously:
-    make -j4 replay-reference
-    python3 scripts/compare.py --replay --case cpp-undecorate --require-exit
-The latter retains the old final comparator for the requested case. Ordinary
-segments still validate final streams, artifacts and generated programs using
-the existing fixture rules and an independent untouched-original run. This
-checks first encounters, not repeated calls/branches or live-state equivalence.
-
-Select one segment, batch specialized histories or explicitly restart every
-historical frontier:
-    python3 scripts/replay-frontiers.py --case minimal-c
-    make -j4 replay-specialized-reference
-    make -j4 replay-fresh-reference
-    python3 scripts/compare.py --fresh-replay --case cpp-undecorate --require-exit
-
-replay-cases.json declares the initial migration: 510 frontiers in 12 ordinary
-acceptance groups, plus four zero-step completed-case checks. DLL import-library
-self-spawn and full-debug/CVPACK retain 130 frontiers in the existing specialized
-DEBUG_PROCESS runner. Batch those histories at meaningful checkpoints and case
-completion, or sooner when a change directly affects them. An explicitly selected
-specialized case uses that runner. Unknown fast cases are rejected. This policy
-does not defer focused fresh paired acceptance of any newly reached function.
-GUI painting and DLL load/call/unload remain post-link checks.
-
-Independent walkers use the shared tooling/replay helper. LINK retains its
-canonical per-side DOS namespaces and complete prepared launch environment,
-including inherited-environment semantics, LIB and buffered-I/O settings.
-Registry terminals are case-specific: help exits 3; other completed cases exit 0.
-Each segment restores its prior accepted prefix, then only its own introduced
-frontiers. Shared text ranges, import thunks and indexed CRT entry aliases are
-included. The whole source/build/index/fixture batch and individual plans are
-hashed; changes during replay fail. Preferred bases and root-only process/thread
-execution are enforced; unsupported tree/thread modes stay on specialized paths.
-
-For a divergence, preserve the receipt directory and use its failure.json, native
-events/context, actual logical site and rerun commands. For example:
-    python3 scripts/replay-frontiers.py --case minimal-c --fresh-frontier 232
-    python3 scripts/replay-frontiers.py --case minimal-c --stop-at __inc
-The continuous rerun leaves that terminal entry masked; it does not accept or
-reconstruct it. Restart cleanly after any failure or rebuild. No acceptance
-metadata is changed by replay.
-
-cases/fast-replay-validation.json records the frozen build, complete fresh/fast
-sequence agreement, final oracles, LINK-specific stop/fallback tests and measured
-per-case wall times. Setup, fast pair, final output oracles and fresh history/
-terminal calls are separated where measured. Unsplit overhead and unmeasured
-clean-build/startup time are labeled. Other workers were active during timing;
-prototype speedups are not assumed for this adapter.
+    python3 scripts/measure-coverage.py
+Historical receipts retain evidence of the removed Win32 replay infrastructure;
+their former commands are provenance, not supported fixture commands.
 
 Native Linux output checks
 
@@ -295,9 +245,9 @@ segments and captured outputs. This is a historical scope comparison, not a
 controlled cross-mode speedup. Two specialized DLL/CVPACK histories (182.604980s
 previously) are excluded from that initial 15-case timing comparison. No reconstruction, coverage or acceptance changed.
 
-All eighteen native fixtures
+All nineteen native fixtures
 
-The current commands build/run all existing LINK cases, including hello-win32,
+The current commands build/run all nineteen LINK cases, including hello-win32,
 hello-dll and hello-debug-dll:
     make -j4 native-trace-check
     make -j4 native-check
@@ -350,4 +300,15 @@ a wrong CVPACK option in separate checks. Both reject before applying the packed
 response, and neither launches a process. Actual Windows GUI painting, DLL
 load/call/unload, SEH and console behavior retain their separate Windows evidence.
 The initial 15-case adoption and before/after timing receipts above remain
-historical records; current complete native evidence is native-all-validation.
+historical records; the subsequent one-function-native-validation receipt adds the nineteenth case.
+
+One-function native reconstruction trial
+
+initialize_disassembler is readable cdecl C in src/disassembler.c. Its complete
+19-byte original body stores the supplied fatal/warning callbacks, with no
+callees or inline code data. A data-only original-compiled COFF object selects
+/dump /disasm without entering the pending instruction decoder. Fresh original
+entry/return capture and named native GDB break/finish agree on callback state
+and caller-owned argument cleanup; output is exact. The cached nineteenth case
+contains no Wine or capture path. See cases/one-function-native-validation.json.
+Exactly one original function was reconstructed; decoding remains pending.

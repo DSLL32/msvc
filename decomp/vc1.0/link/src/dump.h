@@ -9,6 +9,8 @@ extern unsigned char dump_invalid_columns;
 void process_dump_options(void);
 void dump_file(const char *,const char *,unsigned char);
 void initialize_disassembler(FatalRoutine,WarningRoutine);
+extern FatalRoutine disassembler_fatal;
+extern WarningRoutine disassembler_warning;
 extern unsigned long dump_file_size;
 extern unsigned short dump_file_count;
 extern PIMAGE_SYMBOL dump_symbol_table;

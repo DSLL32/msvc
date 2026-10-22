@@ -1,4 +1,4 @@
-from compare import indexes, publics
+from indexes import indexes, publics
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 from capstone.x86 import X86_OP_MEM
 from binary import u32

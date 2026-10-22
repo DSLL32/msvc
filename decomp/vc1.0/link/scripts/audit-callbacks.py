@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare reconstructed routines' relocated function-pointer constants."""
 from binary import u16,u32
-from compare import indexes
+from indexes import indexes
 original,reconstructed,cfg,oi,ri=indexes()
 def fixups(pe):
     result=[]

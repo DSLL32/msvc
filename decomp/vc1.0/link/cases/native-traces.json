@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "da1eb4df39c1304a937ac526e022eb83ee0e2eb3935703e42b9887759f009ef6",
+    "functions.json": "95cf785a4729e5a56365f4a1f4cb1e94c9716595be1a767c2257366296377323",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "bbb4303c133eda6b0a31c49db52a77fa23bfe0c5f967db2e00779414822ce1a4"
+    "replay-cases.json": "67d80f6c093f4c723e4f37a4a4671fad9b5014832b1a5d2586745de0dc16f8e1"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -1283,9 +1283,9 @@
       "implementation": "C"
     },
     "initialize_disassembler": {
-      "source": "src/dump-stubs.c",
+      "source": "src/disassembler.c",
       "logical": "_initialize_disassembler",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "initialize_group_contribution_enumerator": {
       "source": "src/modules.c",
@@ -3379,7 +3379,8 @@
     "demangle_replicator_get",
     "demangle_read_dimension",
     "demangle_parse_dimension",
-    "demangle_name_unsigned"
+    "demangle_name_unsigned",
+    "initialize_disassembler"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -3958,9 +3959,9 @@
       }
     },
     "library-list": {
-      "first": 640,
-      "last": 640,
-      "seen_count": 466,
+      "first": 641,
+      "last": 641,
+      "seen_count": 467,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -3992,9 +3993,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 640,
-      "last": 640,
-      "seen_count": 466,
+      "first": 641,
+      "last": 641,
+      "seen_count": 467,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4028,9 +4029,9 @@
       }
     },
     "library-dump-object": {
-      "first": 640,
-      "last": 640,
-      "seen_count": 466,
+      "first": 641,
+      "last": 641,
+      "seen_count": 467,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4073,9 +4074,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 640,
-      "last": 640,
-      "seen_count": 466,
+      "first": 641,
+      "last": 641,
+      "seen_count": 467,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4216,6 +4217,18 @@
         "demangle_read_dimension",
         "demangle_parse_dimension",
         "demangle_name_unsigned"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dump-disasm-data": {
+      "first": 640,
+      "last": 641,
+      "seen_count": 466,
+      "expected": [
+        "initialize_disassembler"
       ],
       "terminal": {
         "kind": "exit",

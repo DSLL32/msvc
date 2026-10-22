@@ -3,7 +3,7 @@
 import argparse
 import json
 from pathlib import Path
-from compare import indexes
+from indexes import indexes
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output', type=Path)

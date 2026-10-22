@@ -639,7 +639,8 @@
     "_demangle_replicator_get",
     "_demangle_read_dimension",
     "_demangle_parse_dimension",
-    "_demangle_name_unsigned"
+    "_demangle_name_unsigned",
+    "_initialize_disassembler"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -4486,10 +4487,11 @@
     {
       "name": "_initialize_disassembler",
       "start": 306688,
-      "end": 306689,
-      "source": "src/dump-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(FatalRoutine,WarningRoutine)"
+      "end": 306707,
+      "source": "src/disassembler.c",
+      "implementation": "C",
+      "abi": "cdecl void initialize_disassembler(FatalRoutine fatal,WarningRoutine warning)",
+      "evidence": "Complete19-byte body4ae00..4ae13: stores two cdecl callback pointers at77ee8/77eec, RET; no calls or inline data. Fresh masked original and native GDB stop at the same named entry; original return probe verifies both callback stores and cdecl ESP delta 4. Native finish verifies the same named callbacks; exact streams/status match without another new function. See cases/one-function-native-validation.json."
     },
     {
       "name": "_dump_headers",
@@ -6615,6 +6617,7 @@
     "cpp-undecorate",
     "cpp-undecorate",
     "cpp-undecorate",
-    "cpp-undecorate"
+    "cpp-undecorate",
+    "dump-disasm-data"
   ]
 }

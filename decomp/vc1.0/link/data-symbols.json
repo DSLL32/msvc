@@ -2597,5 +2597,17 @@
     "name": "demangle_flags",
     "size": 2,
     "owner": "src/demangle.c"
+  },
+  {
+    "address": 491240,
+    "name": "disassembler_fatal",
+    "size": 4,
+    "owner": "src/disassembler.c"
+  },
+  {
+    "address": 491244,
+    "name": "disassembler_warning",
+    "size": 4,
+    "owner": "src/disassembler.c"
   }
 ]
