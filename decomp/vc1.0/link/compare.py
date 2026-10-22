@@ -76,7 +76,7 @@ def mask(pe, records, accepted, output):
     Path(output).write_bytes(data)
 
 def fixture(case):
-    if case not in ('minimal-c', 'hello-win32'): return None
+    if case not in ('minimal-c', 'hello-win32', 'hello-dll'): return None
     root = Path('../fixtures') / case
     return root, json.loads((root / 'manifest.json').read_text())['phases']['link']
 
@@ -101,6 +101,13 @@ def run(label, exe, case='/?', cwd=None, arguments=None):
         for key in phase['unset_environment']: env.pop(key, None)
         env['LIB'] = wt.windows(wt.TC / 'lib')
         arguments = ' '.join(phase['arguments'])
+    # argv[0] must name this image: DLL links spawn themselves in -lib mode.
+    # Use the original basename so diagnostics and subprocess selection agree.
+    if item or case == '/?':
+        target = Path('build/targets') / label / 'LINK.EXE'
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(exe, target)
+        exe = target
     args = ['wine', 'build/debug-run.exe', wt.windows(exe), case if arguments is None else arguments,
             wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
             wt.windows(str(stem)+'.events')]
@@ -113,6 +120,9 @@ def check_artifacts(case, labels):
     item = fixture(case)
     if not item: return
     root, phase = item
+    artifact_checker = None
+    if (root / 'artifacts.py').exists():
+        artifact_checker = SourceFileLoader('fixture_artifacts', str(root / 'artifacts.py')).load_module()
     for label in labels:
         for stream in ('stdout', 'stderr'):
             assert Path('build/'+label+'.'+stream).read_bytes() == phase['expected_'+stream].encode(), label+' unexpected '+stream
@@ -122,6 +132,14 @@ def check_artifacts(case, labels):
             contents = bytearray(path.read_bytes())
             expected = bytearray((root / spec['path']).read_bytes())
             assert len(contents) == spec['bytes']
+            if artifact_checker:
+                assert artifact_checker.timestamp_fields(contents, spec['artifact_kind']) == spec['ignored_fields']
+                if spec['artifact_kind'] == 'pe':
+                    info = artifact_checker.pe_info(contents)
+                    program = phase['generated_program']
+                    assert info['dll'] and info['entry_rva']
+                    assert [(entry['name'], entry['ordinal']) for entry in info['exports']] == [
+                        (program['export_name'], program['export_ordinal'])]
             for field in spec.get('ignored_fields', []):
                 start, size = field['offset'], field['bytes']
                 contents[start:start+size] = expected[start:start+size] = bytes(size)
@@ -130,8 +148,15 @@ def check_artifacts(case, labels):
         program = phase.get('generated_program')
         if program:
             path = case_directory(case, label) / phase['outputs'][0]['output_name']
-            if program.get('kind') == 'win32-gui':
-                subprocess.run(['make', '-j2', 'build/gui-check.exe'], check=True)
+            if program.get('kind') in ('win32-gui', 'win32-dll-gui'):
+                targets = ['build/gui-check.exe']
+                if program['kind'] == 'win32-dll-gui':
+                    targets.append('build/dll-host.exe')
+                subprocess.run(['make', '-j2'] + targets, check=True)
+                if program['kind'] == 'win32-dll-gui':
+                    host = path.parent / 'dll-host.exe'
+                    shutil.copyfile('build/dll-host.exe', host)
+                    path = host
                 report = case_directory(case, label) / 'gui-window.json'
                 report.unlink(missing_ok=True)
                 subprocess.run(['xvfb-run', '-a', 'wine', 'build/gui-check.exe',

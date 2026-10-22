@@ -2,7 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
 HEADERS = $(wildcard *.h)
-OBJECTS = $(addprefix build/,$(addsuffix .obj,link stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
+OBJECTS = $(addprefix build/,$(addsuffix .obj,link stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports library library-options library-stubs import-library import-library-stubs imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
 .PHONY: all clean check prefix replay audit
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
@@ -101,3 +101,10 @@ build/gui-check.obj: ../cl/gui-check.c | build prefix
 
 build/gui-check.exe: build/gui-check.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB GDI32.LIB
+
+# The fixture host loads the generated DLL and calls its exported stdcall entry.
+build/dll-host.obj: ../fixtures/hello-dll/dll-host.c | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fo$@ $<
+
+build/dll-host.exe: build/dll-host.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< USER32.LIB

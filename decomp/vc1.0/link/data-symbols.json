@@ -1240,5 +1240,122 @@
     "name": "comdat_scan_index",
     "size": 4,
     "owner": "comdat-selection.c"
+  },
+  {
+    "address": 447656,
+    "name": "_aenvptr",
+    "size": 4,
+    "owner": "LIBC.LIB"
+  },
+  {
+    "name": "library_listing_name",
+    "address": 510844,
+    "size": 4,
+    "owner": "library.c"
+  },
+  {
+    "name": "first_input_library",
+    "address": 510848,
+    "size": 4,
+    "owner": "library.c"
+  },
+  {
+    "name": "remove_members_requested",
+    "address": 510852,
+    "size": 1,
+    "owner": "library.c"
+  },
+  {
+    "name": "extract_member",
+    "address": 453704,
+    "size": 4,
+    "owner": "library.c"
+  },
+  {
+    "name": "export_symbol_table",
+    "address": 376836,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "export_image",
+    "address": 453696,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "exports_table_symbol",
+    "address": 453668,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "null_thunk_name",
+    "address": 453672,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "export_object_name",
+    "address": 505732,
+    "size": 4,
+    "owner": "import-library.c",
+    "string_pointers": [
+      0
+    ]
+  },
+  {
+    "name": "dll_basename_length",
+    "address": 453680,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "import_name_bytes",
+    "address": 510252,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "import_member_offsets",
+    "address": 377872,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "export_ordinals",
+    "address": 453688,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "import_only_export",
+    "address": 506252,
+    "size": 1,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "export_error",
+    "address": 510244,
+    "size": 1,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "import_member_base",
+    "address": 506256,
+    "size": 2,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "first_export_ordinal",
+    "address": 506260,
+    "size": 4,
+    "owner": "import-library.c"
+  },
+  {
+    "name": "last_export_ordinal",
+    "address": 506264,
+    "size": 4,
+    "owner": "import-library.c"
   }
 ]

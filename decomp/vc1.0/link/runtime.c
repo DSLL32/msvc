@@ -287,3 +287,124 @@ void __tzset(void)
     else _tzname[1][0]=0;
 }
 
+
+#include <process.h>
+extern char *_getpath(const char *,char *,int);
+#pragma intrinsic(strlen,strcpy)
+/* [00056b60,00056cf0). This older PATH search tests only '/' initially. */
+int _spawnvpe(int mode,const char *file,const char *const *arguments,
+               const char *const *environment)
+{
+    int result;
+    const char *path;
+    char *buffer=NULL;
+    unsigned length;
+    result=_spawnve(mode,file,arguments,environment);
+    if (result==-1 && errno==ENOENT && !strchr(file,'/')) {
+        path=getenv("PATH");
+        if (path) {
+            buffer=malloc(MAX_PATH+4);
+            if (buffer) {
+                while ((path=_getpath(path,buffer,MAX_PATH+3))!=NULL && *buffer) {
+                    length=strlen(buffer);
+                    if (buffer[length-1]!='\\' && buffer[length-1]!='/') {
+                        buffer[length]='\\';
+                        buffer[length+1]=0;
+                    }
+                    if (strlen(buffer)+strlen(file)>=MAX_PATH+4) break;
+                    strcpy(buffer+strlen(buffer),file);
+                    result=_spawnve(mode,buffer,arguments,environment);
+                    if (result!=-1) break;
+                    if (errno!=ENOENT &&
+                        !((buffer[0]=='\\' || buffer[0]=='/') &&
+                          (buffer[1]=='\\' || buffer[1]=='/'))) break;
+                }
+                free(buffer);
+            }
+        }
+    }
+    return result;
+}
+
+extern char *_aenvptr;
+#pragma intrinsic(memcpy)
+/* [00058ec0,00059230). Build the older CRT's command and environment blocks. */
+int _cenvarg(const char *const *arguments,const char *const *environment,
+              char **command,char **block,const char *file)
+{
+    const char *const *entry;
+    unsigned command_size=2,environment_size=2,drive_start,drive_end,length;
+    char *cursor;
+    for (entry=arguments;*entry && command_size<=0x7fff;++entry)
+        command_size+=strlen(*entry)+1;
+    if (command_size>=0x7fff) {
+        *block=NULL;
+        errno=E2BIG;
+        _doserrno=10;
+        return -1;
+    }
+    *command=malloc(command_size);
+    if (!*command) {
+        *block=NULL;
+        errno=ENOMEM;
+        _doserrno=8;
+        return -1;
+    }
+    if (environment) {
+        for (entry=environment;*entry && environment_size<=0x7fff;++entry)
+            environment_size+=strlen(*entry)+1;
+        drive_start=0;
+        while (_aenvptr[drive_start] && _aenvptr[drive_start]!='=')
+            drive_start+=strlen(_aenvptr+drive_start)+1;
+        drive_end=drive_start;
+        while (_aenvptr[drive_end]=='=' && _aenvptr[drive_end+1] &&
+                _aenvptr[drive_end+2]==':' && _aenvptr[drive_end+3]=='=')
+            drive_end+=4+strlen(_aenvptr+drive_end+4)+1;
+        environment_size+=drive_end-drive_start;
+        if (command_size+environment_size+strlen(file)>0x7ffe) {
+            free(*command);
+            *command=NULL;
+            errno=E2BIG;
+            _doserrno=10;
+            return -1;
+        }
+        *block=malloc(environment_size);
+        if (!*block) {
+            free(*command);
+            *command=NULL;
+            errno=ENOMEM;
+            _doserrno=8;
+            return -1;
+        }
+    } else *block=NULL;
+    cursor=*command;
+    if (*arguments) {
+        strcpy(cursor,*arguments);
+        cursor+=strlen(*arguments)+1;
+        ++arguments;
+    } else ++cursor;
+    while (*arguments) {
+        strcpy(cursor,*arguments);
+        cursor+=strlen(*arguments);
+        *cursor++=' ';
+        ++arguments;
+    }
+    cursor[-1]=0;
+    *cursor=0;
+    cursor=*block;
+    if (environment) {
+        length=drive_end-drive_start;
+        memcpy(cursor,_aenvptr+drive_start,length);
+        cursor+=length;
+        while (*environment) {
+            strcpy(cursor,*environment);
+            cursor+=strlen(*environment)+1;
+            ++environment;
+        }
+    }
+    if (cursor) {
+        if (cursor==*block) *cursor++=0;
+        *cursor=0;
+    }
+    return 0;
+}

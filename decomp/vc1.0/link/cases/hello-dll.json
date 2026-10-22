@@ -1,0 +1,32 @@
+{
+  "case": "hello-dll",
+  "status": "active",
+  "fixture": "../fixtures/hello-dll/manifest.json",
+  "phase": "link",
+  "arguments": [
+    "-link",
+    "@link.rsp"
+  ],
+  "regressions": [
+    "/?",
+    "minimal-c",
+    "hello-win32"
+  ],
+  "normalization": "Only structurally identified timestamp fields recorded in the immutable fixture manifest",
+  "process_tree": "The exact paired LINK image is invoked recursively in -lib mode under the debugger",
+  "checkpoint": {
+    "accepted_frontiers": 20,
+    "total_accepted_frontiers": 367,
+    "current_frontier": "_parse_export",
+    "previous_frontiers_replayed": 347,
+    "new_frontiers_replayed": 20,
+    "previous_replay_sha256": "6f83b614f6ce5dab5c937f653849a18d0bccca47e6ef7952b034f9999c714ae9",
+    "new_replay_sha256": "91be733927797c1f0e1afc83b99ace546d453fe847bd5bb2b44f8d685dea03f0",
+    "regressions_pass": true,
+    "calls_audited": 247,
+    "callback_sets_audited": 238,
+    "contextual_data_definitions_audited": 215,
+    "untouched_original_artifact_and_dll_host_check_pass": true,
+    "reconstructed_dll_complete": false
+  }
+}

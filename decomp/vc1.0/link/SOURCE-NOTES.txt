@@ -230,3 +230,30 @@ remain separate paths through the existing COFF reader. Individual function
 boundaries and cdecl interfaces are preserved. No assembly ABI exception or
 copied data section was required. Pending helpers and uncovered branches remain
 explicit limitations; these three fixtures do not establish general LINK parity.
+
+The active DLL checkpoint contains 367 accepted frontiers, including 20 new DLL
+frontiers. The paired images are copied to separate build/targets directories
+under their original LINK.EXE basename, and argv[0] names that exact image. This
+fixes the prior harness gap where a recursive -lib spawn could otherwise resolve
+to untouched toolchain LINK. The debugger now follows the complete process tree,
+tracks image bases and initial loader breaks per process, and terminates the
+whole debugged tree on a frontier. All previous 347 frontiers replay with this
+harness, and the 20 DLL additions replay independently. Parallel make check,
+help and both completed executable cases pass; audits check 247 call graphs,
+238 callback-reference sets and 215 contextual data definitions. The untouched
+DLL fixture also passes this harness's exact artifact and DLL-host GUI checks.
+
+The older CRT PATH search and command/environment block builder are readable C
+in runtime.c. The latter aliases native CRT _aenvptr rather than copying the
+inherited environment. Full library-manager dispatch, options, archive signature
+classification, output/input collision checks, OMF input scanning, machine
+validation, argument transfer/release and the import-library orchestration now
+have C bodies. Library input machine validation preserves the observed unsigned
+index>count repeat condition. The import-library builder clears ImageBase, owns
+named export/import state, and keeps individual export resolution, ordinal,
+archive index, descriptor, thunk, export-object and import-member calls separate.
+ImportMachine is a private contextual description of target kind/helper-thunk
+presence consumed so far; its pending emitters will recover further fields when
+reached. No platform section snapshot, assembly implementation or globalized
+ordinary literal was added. DLL execution currently stops at parse_export; its
+output generation is incomplete and its pending helpers retain typed traps.

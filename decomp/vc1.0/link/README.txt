@@ -21,11 +21,17 @@ Completed cases:
   Original, reconstructed and untouched-baseline programs pass the GUI checker:
   HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
 
-There are 347 accepted frontiers: 90 help, 254 minimal-C and 3 hello-win32. The
-clean parallel build, full case-aware replay and all three completed case checks
-pass. Static audits check 236 source/runtime call graphs, 227 source callback-
-reference sets and 197 contextual data definitions. These checks cover reached
-cases; pending helpers trap and unexecuted branches need later coverage.
+There are 367 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 20
+from the active hello-dll case. The earlier 347 frontiers pass full replay with
+the process-tree harness; all 20 DLL additions replay and all three completed
+cases still pass. Static audits check 247 source/runtime call graphs, 238 source
+callback-reference sets and 215 contextual data definitions. Pending helpers
+trap and unexecuted branches need later coverage.
+
+The active hello-dll case reaches export parsing in the self-spawned -lib child.
+Its DLL, import library and .exp outputs have not yet been reconstructed to
+completion. The immutable original DLL passes artifact and load/call/GUI checks
+in this harness. Its manifest lists the sole allowed timestamp normalizations.
 
 Shared fixtures under ../fixtures are immutable. cases/ records invocations,
 normalization, generated-program checks and verification evidence.
@@ -42,7 +48,11 @@ Replay every recorded frontier and finish with the hello-win32 artifact check:
 The harness masks the original's entire code section with INT3 and restores only
 accepted function extents and encountered inline data. The reconstruction's entry
 and unaccepted routines are masked too. Each pair runs concurrently and must trap
-at the same logical function before another function is accepted.
+at the same logical function before another function is accepted. Each tool copy
+has its original LINK.EXE basename and passes its exact path as argv[0], so the
+library-manager subprocess runs that same masked image. The debugger follows the
+whole child tree, records image bases and loader breaks per process, and stops
+all debugged processes when one reaches a frontier.
 
 Data is named and typed with its owning code. Ordinary literals remain at use;
 shared mutable buffers, tables and observable sentinels retain their roles. The

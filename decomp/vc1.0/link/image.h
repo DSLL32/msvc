@@ -11,6 +11,8 @@ typedef struct ImageOptions {
     unsigned long global_pointer_size, map_format, debug_level, debug_types;
     char *default_extension;
     unsigned long optimize;
+    unsigned char library_list,library_definition;
+    char *library_image_name;
 } ImageOptions;
 typedef struct Image {
     IMAGE_FILE_HEADER file;

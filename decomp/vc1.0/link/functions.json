@@ -346,7 +346,27 @@
     "import:SetStdHandle",
     "_select_comdat",
     "_skip_coff_auxiliaries",
-    "_end_library_enumerator"
+    "_end_library_enumerator",
+    "__spawnvp",
+    "__spawnvpe",
+    "__spawnve",
+    "_comexecmd",
+    "__cenvarg",
+    "__dospawn",
+    "import:CreateProcessA",
+    "import:WaitForSingleObject",
+    "_library_main",
+    "_is_library_file",
+    "_process_library_options",
+    "_build_import_library",
+    "_strncat",
+    "_reject_output_input_collision",
+    "__fullpath",
+    "__getdcwd",
+    "_convert_omf_inputs",
+    "_validate_library_inputs",
+    "_copy_argument_node",
+    "_clear_argument_list"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -373,10 +393,11 @@
     {
       "name": "_library_main",
       "start": 188464,
-      "end": 188465,
-      "implementation": "stub-C",
-      "source": "stubs.c",
-      "abi": "cdecl int(int argc,char **argv)"
+      "end": 191424,
+      "implementation": "C",
+      "source": "library.c",
+      "abi": "cdecl int(int argc,char **argv)",
+      "evidence": "Matching DLL self-spawn frontier2e030..2ebc0; full library driver including definition mode, archive enumeration, listing/extraction, member replacement and temporary-output rename."
     },
     {
       "name": "_dumper_main",
@@ -773,10 +794,11 @@
     {
       "name": "_is_library_file",
       "start": 135376,
-      "end": 135377,
-      "implementation": "stub-C",
-      "source": "argument-stubs.c",
-      "abi": "cdecl unsigned char(const char *,int)"
+      "end": 135472,
+      "implementation": "C",
+      "source": "arguments.c",
+      "abi": "cdecl unsigned char(const char *path,int file)",
+      "evidence": "Matching DLL child input-classification frontier210d0..21130; eight-byte archive signature and exact WORD-sized read-result check."
     },
     {
       "name": "_initialize_order",
@@ -3273,6 +3295,239 @@
       "source": "coff-io.c",
       "abi": "cdecl unsigned char(PIMAGE_SYMBOL *cursor,unsigned char count)",
       "evidence": "Matching hello-win32 auxiliary skip24490..24500; advance cached symbol pointer or read/discard exactly count streamed records, returning BYTE count."
+    },
+    {
+      "name": "__spawnvpe",
+      "start": 355168,
+      "end": 355568,
+      "implementation": "C",
+      "abi": "cdecl int(int mode,const char *file,const char *const *argv,const char *const *environment)",
+      "evidence": "Matching DLL spawn frontier; full56b60..56cf0 reviewed. Older PATH search tests only forward slash before lookup, preserves bounded path assembly and UNC retry behavior.",
+      "source": "runtime.c"
+    },
+    {
+      "name": "__cenvarg",
+      "start": 364224,
+      "end": 365104,
+      "implementation": "C",
+      "abi": "cdecl int(const char *const *arguments,const char *const *environment,char **command,char **block,const char *file)",
+      "source": "runtime.c",
+      "evidence": "Matching DLL command/environment frontier58ec0..59230; preserve old32767-byte limits, inherited drive entries, separate first command argument and remaining space-separated arguments, exact error pointer updates."
+    },
+    {
+      "name": "_process_library_options",
+      "start": 191424,
+      "end": 192880,
+      "implementation": "C",
+      "source": "library-options.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching DLL child options frontier2ebc0..2f170; full library-mode switch parser including definition/name, export/include, target/subsystem, debug and archive operations."
+    },
+    {
+      "name": "_build_import_library",
+      "start": 166320,
+      "end": 169248,
+      "implementation": "C",
+      "source": "import-library.c",
+      "abi": "cdecl int(int argc,char **argv,Image *image)",
+      "evidence": "Matching DLL library builder289b0..29520; full export/import orchestration in readable C, typed contextual state and pending member emitters. Private ImportMachine initially models target kind/helper-thunk presence consumed here, with emitter-specific fields to recover at their frontiers."
+    },
+    {
+      "name": "_convert_omf_inputs",
+      "start": 134304,
+      "end": 134512,
+      "implementation": "C",
+      "source": "library.c",
+      "abi": "cdecl void(unsigned char warn,ImageOptions *options)",
+      "evidence": "Matching DLL input-conversion frontier20ca0..20d70; inspect original first byte, dispatch OMF0x80 conversion with mode complement; provisional resolve_library_inputs label corrected before acceptance."
+    },
+    {
+      "name": "_validate_library_inputs",
+      "start": 134752,
+      "end": 134896,
+      "implementation": "C",
+      "source": "library.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching DLL machine-validation frontier20e60..20ef0; preserve original unsigned index>count repeat condition, which validates only first input for ordinary nonempty lists."
+    },
+    {
+      "name": "_release_library_list",
+      "start": 242656,
+      "end": 242657,
+      "implementation": "stub-C",
+      "source": "library-stubs.c",
+      "abi": "cdecl void(LibraryList *); entry only until reached"
+    },
+    {
+      "name": "_remove_library_member",
+      "start": 196096,
+      "end": 196097,
+      "implementation": "stub-C",
+      "source": "library-stubs.c",
+      "abi": "cdecl unsigned char(Image *,const char *); entry only until reached"
+    },
+    {
+      "name": "_write_library",
+      "start": 192880,
+      "end": 192881,
+      "implementation": "stub-C",
+      "source": "library-stubs.c",
+      "abi": "cdecl int(unsigned char,Image *); entry only until reached"
+    },
+    {
+      "name": "_reject_output_input_collision",
+      "start": 154528,
+      "end": 154720,
+      "implementation": "C",
+      "source": "library.c",
+      "abi": "cdecl void(const char *output,Argument *inputs)",
+      "evidence": "Matching DLL collision-check frontier25ba0..25c60; canonicalize output and every input, clear output_name before fatal collision diagnostic."
+    },
+    {
+      "name": "_read_definition_file",
+      "start": 169248,
+      "end": 169249,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(Image *,const char *); entry only until reached"
+    },
+    {
+      "name": "_copy_argument_node",
+      "start": 133616,
+      "end": 133648,
+      "implementation": "C",
+      "source": "arguments.c",
+      "abi": "cdecl void(ArgumentList *list,char *text,char *original)",
+      "evidence": "Matching DLL argument transfer209f0..20a10; retain separate forwarding vertex to append_argument_node."
+    },
+    {
+      "name": "_clear_argument_list",
+      "start": 133888,
+      "end": 133936,
+      "implementation": "C",
+      "source": "arguments.c",
+      "abi": "cdecl void(ArgumentList *list)",
+      "evidence": "Matching DLL argument-list release20b00..20b30; free nodes only for nonzero count, reset count while retaining original head/tail pointer state."
+    },
+    {
+      "name": "_parse_export",
+      "start": 240128,
+      "end": 240129,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(const char *,Image *,unsigned char,const char *); entry only until reached"
+    },
+    {
+      "name": "_merge_export_definitions",
+      "start": 185536,
+      "end": 185537,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(SymbolTable *,SymbolTable *,unsigned char,Library *); entry only until reached"
+    },
+    {
+      "name": "_prepare_export_order",
+      "start": 156848,
+      "end": 156849,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(SymbolTable *); entry only until reached"
+    },
+    {
+      "name": "_count_export_symbols",
+      "start": 195712,
+      "end": 195713,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl unsigned long(SymbolTable *,unsigned long *); entry only until reached"
+    },
+    {
+      "name": "_count_export_name_bytes",
+      "start": 188016,
+      "end": 188017,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl unsigned long(SymbolTable *); entry only until reached"
+    },
+    {
+      "name": "_assign_export_ordinals",
+      "start": 184144,
+      "end": 184145,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(SymbolTable *,unsigned char *); entry only until reached"
+    },
+    {
+      "name": "_write_import_archive_indexes",
+      "start": 174528,
+      "end": 174529,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(unsigned long,SymbolTable *); entry only until reached"
+    },
+    {
+      "name": "_write_import_descriptor",
+      "start": 177248,
+      "end": 177249,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(const ImportMachine *,Image *); entry only until reached"
+    },
+    {
+      "name": "_write_null_import_descriptor",
+      "start": 178864,
+      "end": 178865,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(Image *); entry only until reached"
+    },
+    {
+      "name": "_write_null_thunk_member",
+      "start": 179328,
+      "end": 179329,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(Image *); entry only until reached"
+    },
+    {
+      "name": "_write_helper_thunk_member",
+      "start": 179904,
+      "end": 179905,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(const ImportMachine *,Image *); entry only until reached"
+    },
+    {
+      "name": "_write_export_object",
+      "start": 175440,
+      "end": 175441,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(Image *,unsigned long,unsigned long,const ImportMachine *,unsigned char); entry only until reached"
+    },
+    {
+      "name": "_write_import_members",
+      "start": 180608,
+      "end": 180609,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(Image *,const ImportMachine *); entry only until reached"
+    },
+    {
+      "name": "_finish_import_archive_indexes",
+      "start": 175232,
+      "end": 175233,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(SymbolTable *); entry only until reached"
+    },
+    {
+      "name": "_convert_omf_object",
+      "start": 133936,
+      "end": 133937,
+      "implementation": "stub-C",
+      "source": "library-stubs.c",
+      "abi": "cdecl void(Argument *,unsigned char,ImageOptions *); entry only until reached"
     }
   ],
   "c_stub_references": [
@@ -3625,6 +3880,26 @@
     "minimal-c",
     "hello-win32",
     "hello-win32",
-    "hello-win32"
+    "hello-win32",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll"
   ]
 }

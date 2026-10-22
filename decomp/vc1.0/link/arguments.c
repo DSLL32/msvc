@@ -200,3 +200,38 @@ void remove_temporary_inputs(void)
         argument=argument->next;
     }
 }
+
+extern unsigned long archive_data_offset;
+unsigned char is_library_file(const char *path,int file)
+{
+    char signature[8];
+    if ((unsigned short)read_file(file,signature,8)!=8)
+        fatal_message(path,0x27,"");
+    if (!strncmp(signature,"!<arch>\n",8)) {
+        archive_data_offset=8;
+        return 1;
+    }
+    return 0;
+}
+
+
+void copy_argument_node(ArgumentList *list,char *text,char *original)
+{
+    append_argument_node(list,text,original);
+}
+
+
+void clear_argument_list(ArgumentList *list)
+{
+    Argument *argument,*next;
+    if (list->count) {
+        argument=list->first;
+        while (argument) {
+            next=argument->next;
+            free(argument);
+            argument=next;
+        }
+        list->count=0;
+    }
+}
+
