@@ -2,6 +2,8 @@
 #include "machine.h"
 #include "initializers.h"
 #include "records.h"
+#include "symbol-output.h"
+#include "functions.h"
 #include <recon.h>
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol);
 int __fastcall initializer_symbols_available(SymbolHeader *symbol);
@@ -51,4 +53,32 @@ BackendSymbolList *collect_global_symbols(void)
         }
     }
     return symbols;
+}
+/* Original [0004ee20,0004eebe). Queue a static symbol and recursively
+   queue symbol-valued initializer references not already under consideration. */
+void __fastcall queue_initializer_dependencies(SymbolHeader *symbol)
+{
+    Initializer *initializer;
+    SymbolHeader *referenced;
+    if (((BackendSymbol *)symbol)->output_flags & 3) return;
+    queue_symbol_debug(symbol);
+    if (symbol->kind == 1) {
+        if (!(symbol->field0e & 0x480)) return;
+        initializer = find_initializer(symbol->identifier)->next;
+        for (; initializer; initializer = initializer->next) {
+            if (initializer->kind != 2) continue;
+            referenced = lookup_global_symbol(initializer->content.relocation.symbol_id);
+            if ((referenced->kind == 1 || referenced->kind == 4) &&
+                (((BackendSymbol *)referenced)->attributes & 0x1000)) referenced = lookup_alias_target(referenced);
+            if (!(((BackendSymbol *)referenced)->output_flags & 4)) queue_initializer_dependencies(referenced);
+        }
+    } else if (symbol->kind == 4) {
+        if (((FunctionSymbol *)symbol)->field24 & 0x4000) ((FunctionSymbol *)symbol)->flags52 |= 0x20;
+    }
+}
+
+/* Original [0004efc0,0004efcf). Transient eight-byte output dependency. */
+BackendSymbolList *new_symbol_list_node(void)
+{
+    return arena_alloc(4, sizeof(BackendSymbolList));
 }

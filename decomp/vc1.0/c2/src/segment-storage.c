@@ -138,3 +138,24 @@ void __fastcall update_symbol_storage(SymbolHeader *header)
     segment->parent = (Segment *)lookup_global_symbol(header->field18.identifier);
     header->field18.identifier = segment->symbol.identifier;
 }
+
+extern int cpu_model, byte_align;
+/* Original [00027200,0002728d). Allocate static storage within its selected
+   segment, promoting eligible wide values to eight-byte segment alignment.
+   byte_align is the existing -bzalign destination at original7caac. */
+void __fastcall reserve_segment_storage(SymbolHeader *symbol)
+{
+    Segment *segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+    unsigned bytes = symbol->value, offset;
+    int alignment;
+    if (!segment) compiler_internal_error("@(#)MDmisc.c:1.87", 0x35e);
+    if (cpu_model > 3 && bytes >= 8 && segment->alignment == 4 &&
+        !(symbol->field0e & 0x400) && !byte_align) segment->alignment = 8;
+    alignment = (int)segment->alignment;
+    if (bytes > 4 && !(symbol->field0e & 0x400)) {
+        if (alignment >= 8) alignment = 8;
+    } else if (alignment >= 4) alignment = 4;
+    offset = (segment->symbol.field04 + alignment - 1) & ~(alignment - 1U);
+    symbol->field04 = offset;
+    segment->symbol.field04 = offset + bytes;
+}

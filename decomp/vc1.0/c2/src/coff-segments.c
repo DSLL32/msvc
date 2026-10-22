@@ -123,3 +123,18 @@ void __fastcall register_coff_segment(Segment *segment)
     link->next = *bucket;
     *bucket = link;
 }
+
+/* Original [0006da60,0006da9f). Translate compiler COMDAT policy to COFF
+   selection: internal1 means ANY, internal2 means NODUPLICATES. */
+unsigned char __fastcall coff_comdat_selection(unsigned char selection)
+{
+    switch (selection) {
+    case 1: return 2;
+    case 2: return 1;
+    case 3: return 3;
+    case 4: return 4;
+    case 5: return 5;
+    }
+    compiler_internal_error("@(#)coff.c:1.14", 0x4e9);
+    return 0;
+}

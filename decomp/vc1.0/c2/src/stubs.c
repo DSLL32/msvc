@@ -145,7 +145,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall finish_machine_lowering(MachineContext *context) { __asm int 3 }
 void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned flags) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
 SymbolHeader *__fastcall require_external_symbol(char *name) { __asm int 3 }
@@ -188,7 +187,6 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 void __fastcall coff_write_comment(char *text) { __asm int 3 }
 #include "coff-segments.h"
 void __fastcall coff_fill_bytes(unsigned char value, unsigned bytes) { __asm int 3 }
-unsigned char __fastcall coff_comdat_selection(unsigned char selection) { __asm int 3 }
 unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
     unsigned char selection, unsigned short associated, int definition) { __asm int 3 }
 #include "listing.h"
@@ -198,14 +196,11 @@ char *__fastcall listing_segment_name(Segment *segment) { __asm int 3 }
 #include "machine.h"
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
 int __fastcall initializer_symbols_available(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall queue_initializer_dependencies(SymbolHeader *symbol) { __asm int 3 }
-BackendSymbolList *new_symbol_list_node(void) { __asm int 3 }
 #include "symbol-output.h"
 void __fastcall write_public_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_external_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_common_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall mark_listing_symbols(SymbolHeader *symbol) { __asm int 3 }
-Initializer *__fastcall find_initializer(unsigned identifier) { __asm int 3 }
 void __fastcall emit_initializer(Initializer *initializer) { __asm int 3 }
 void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int 3 }
 #include "frame.h"
@@ -223,7 +218,6 @@ int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 
 #include "instruction-rewrite.h"
 void __fastcall release_machine_address(MachineAddress *address) { __asm int 3 }
-MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous, MachineInstruction *instruction) { __asm int 3 }
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
@@ -260,7 +254,6 @@ void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
 
 #include "instruction-encoding.h"
 #include <recon.h>
-unsigned __fastcall displacement_mode(MachineInstruction *instruction, MachineOperand *operand, unsigned *bytes) { __asm int 3 }
 int __fastcall alignment_lookahead(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
@@ -269,7 +262,6 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
 unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix) { __asm int 3 }
 unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, void **auxiliary) { __asm int 3 }
-unsigned __fastcall coff_data_position(CoffScope *scope) { __asm int 3 }
 void __fastcall prepare_source_listing(MachineInstruction *instructions) { __asm int 3 }
 void __fastcall open_listing_source(char *filename) { __asm int 3 }
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
@@ -288,7 +280,6 @@ void __fastcall coff_end_lines(unsigned short line, unsigned offset) { __asm int
 void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned base) { __asm int 3 }
 void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
 unsigned input_float_bits(void) { __asm int 3 }
-void __fastcall reserve_segment_storage(SymbolHeader *symbol) { __asm int 3 }
 
 
 void unsigned_integer_to_extended(const unsigned *integer, Extended *number) { __asm int 3 }

@@ -1,11 +1,10 @@
 C2 ACTIVE: finish /O2 /G5 hello, then independent original-captured optimizer
 stress cases (loops/pressure/spills, aliasing/struct copies, x87).
-Verified711 accepted/634 source graphs; scheduling and branch scheduling returned.
-Current matching frontier finish_machine_lowering at0x33330 (branch relaxation).
-Hello object incomplete. Coverage202235/399693=50.597583645447884 percent,
-clipped union/mask verified; not branch coverage. Canonical build, new modules
-/W3, graph/extent/mask and both native fixtures pass.
-Durable evidence: cases/hello-late-scheduling.json and original708..711 receipts.
-FP splitting body is statically recovered only: first hello function skips guard.
+Verified720 accepted/643 source graphs; layout and static dependencies returned.
+Current matching frontier coff_create_comdat_section at0x6e580. Hello object
+incomplete. Coverage203328/399693=50.87104352590613 percent, clipped union
+/mask verified; not branch coverage. Canonical build, seven changed modules/W3,
+graph/extent/mask and both native fixtures pass.
+Durable evidence cases/hello-layout-and-symbols.json; original712..720 receipts.
 No shim request. Scratch optimizer-queue under ~/.ai-tmp/vc1.0-c2; own wine prefix.
 Use shared Git index lock for scoped checkpoints; continue queue.

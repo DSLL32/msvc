@@ -207,3 +207,13 @@ byte_string:
         goto finish_record;
     }
 }
+/* Original [0004ed40,0004ed66). Find the head of a symbol's initializer
+   records along the distinct-symbol chain; a missing head is an internal error. */
+Initializer *__fastcall find_initializer(unsigned identifier)
+{
+    Initializer *initializer;
+    for (initializer = global_initializers; initializer; initializer = initializer->content.reference.link)
+        if (initializer->content.reference.symbol_id == identifier) return initializer;
+    compiler_internal_error("@(#)p2symtab.c:1.89", 0x66d);
+    return initializer;
+}

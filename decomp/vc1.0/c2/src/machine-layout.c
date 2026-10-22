@@ -176,3 +176,64 @@ MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *in
     } while ((instruction->opcode & 15) != 0);
     return instruction;
 }
+/* Original [00033330,00033524). Begin local branches in short form and
+   repeatedly widen those outside signed-byte reach, propagating changed label
+   offsets and alignment until no length or label position changes. */
+void __fastcall finish_machine_lowering(MachineContext *context)
+{
+    MachineInstruction *instruction, *label, *target;
+    SymbolHeader *symbol;
+    unsigned operation, kind, old_length, new_length;
+    int offset = -1, growth, changed, excluded, destination, distance;
+    unsigned old_offset;
+    for (instruction = context; instruction; instruction = instruction->next) {
+        operation = (instruction->opcode >> 8) & 255;
+        if ((instruction->opcode & 15) == 0 && (operation == MC_JCC || operation == MC_JMP) &&
+            (instruction->operands[0].flags & 15) == 8 && instruction->operands[0].value.symbol->kind == 3)
+            instruction->opcode = (instruction->opcode & 0xffffff1fUL) | 0x10;
+    }
+    layout_machine_stream(context, 0);
+    label = context->labels.next;
+    do {
+        growth = 0;
+        changed = 0;
+        for (instruction = label; instruction; instruction = instruction->labels.next)
+            instruction->opcode &= ~0x800000UL;
+        excluded = 0;
+        for (instruction = context; instruction; instruction = instruction->next) {
+            kind = instruction->opcode & 15;
+            switch (kind) {
+            case 0:
+                operation = (instruction->opcode >> 8) & 255;
+                if ((operation == MC_JCC || operation == MC_JMP) &&
+                    (instruction->operands[0].flags & 15) == 8 && (instruction->opcode & 0xf0) == 0x10) {
+                    symbol = instruction->operands[0].value.symbol;
+                    destination = (int)symbol->field04;
+                    target = label_machine_instruction((LabelSymbol *)symbol);
+                    if (!(target->opcode & 0x800000UL)) destination += growth;
+                    old_length = instruction->record.encoding_length & 0x3ff;
+                    distance = destination - old_length - offset;
+                    if (distance < 0) distance = -distance;
+                    if (distance > 127) {
+                        changed = 1;
+                        instruction->opcode = (instruction->opcode & 0xffffff4fUL) | 0x40;
+                        new_length = machine_instruction_size(instruction) & 0x3ff;
+                        instruction->record.encoding_length = (instruction->record.encoding_length & ~0x3ffUL) | new_length;
+                        growth += new_length - old_length;
+                    }
+                }
+                offset += instruction->record.encoding_length & 0x3ff;
+                break;
+            case 1:
+                old_offset = instruction->record.symbol->field04;
+                if (!excluded) offset = align_machine_location(offset, instruction, 0);
+                instruction->record.symbol->field04 = (unsigned)offset;
+                if (old_offset != instruction->record.symbol->field04) changed = 1;
+                instruction->opcode |= 0x800000UL;
+                break;
+            case 2: offset = (int)current_symbol->symbol.field04; break;
+            case 7: excluded = ((MachineBlockHeader *)instruction)->flags & 2; break;
+            }
+        }
+    } while (changed);
+}

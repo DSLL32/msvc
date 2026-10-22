@@ -1,6 +1,7 @@
 /* x86 register and memory-address encodings. */
 #include "instruction-encoding.h"
 #include "instruction-selection.h"
+#include "function-input.h"
 #include <recon.h>
 /* Original [00026540,00026700). Address forms choose ModR/M, optional SIB,
    and displacement bytes. Only the low words hold physical register IDs. */
@@ -52,4 +53,27 @@ indexed:
         }
     }
     encode_operand(operand, bytes, 0);
+}
+/* Original [00026970,00026a0c). Choose the address displacement width,
+   including a resolved frame offset and any explicit padding enlargement. */
+unsigned __fastcall displacement_mode(MachineInstruction *instruction,
+    MachineOperand *operand, unsigned *bytes)
+{
+    /* Original805c0..805d4: five width-indexed ModR/M mode fields. Widths
+       two/three are invalid (-1); the adjacent805d4 object is a source string. */
+    static const unsigned displacement_modes[5] = { 0, 0x40, ~0U, ~0U, 0x80 };
+    MachineAddress *address = operand->value.address;
+    SymbolHeader *symbol = address->symbol;
+    unsigned storage;
+    if (!symbol) {
+        if (!address->first.displacement && address->base.words.number != REG_EBP) *bytes = 0;
+        else *bytes = fits_signed_byte(address->first.displacement) ? 1 : 4;
+    } else {
+        storage = symbol->kind == 1 ? ((TemporarySymbol *)symbol)->attributes & 0x70 : 0;
+        if (((symbol->kind == 1 && (storage == 0x10 || storage == 0x30)) || symbol->kind == 19) &&
+            fits_signed_byte(symbol->field04 + address->first.displacement)) *bytes = 1;
+        else *bytes = 4;
+    }
+    *bytes += (instruction->record.encoding_length >> 13) & 7;
+    return displacement_modes[*bytes];
 }

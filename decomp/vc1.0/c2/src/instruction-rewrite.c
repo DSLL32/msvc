@@ -1327,3 +1327,14 @@ int __fastcall eliminate_redundant_compare(MachineInstruction *instruction, Mach
     remove_machine_instruction(instruction);
     return 1;
 }
+
+/* Original [0001a5d0,0001a5df). Insert inside a nonterminal stream. */
+MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous,
+    MachineInstruction *instruction)
+{
+    instruction->previous = previous;
+    instruction->next = previous->next;
+    instruction->next->previous = instruction;
+    previous->next = instruction;
+    return instruction;
+}

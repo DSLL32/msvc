@@ -426,3 +426,10 @@ void __fastcall coff_write_byte(unsigned char value)
 {
     coff_write_scope_data(&value, 1);
 }
+
+/* Original [0006f190,0006f197). String-table data position; distinct from
+   coff_scope_position despite the same two-field sum. */
+unsigned __fastcall coff_data_position(CoffScope *scope)
+{
+    return scope->completed_bytes + scope->buffered_bytes;
+}

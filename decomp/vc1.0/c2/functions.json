@@ -715,7 +715,16 @@
     "@split_machine_instructions@4",
     "@schedule_i586_branches@4",
     "@set_scheduler_register_tracking@4",
-    "@schedule_pentium_branch_edge@20"
+    "@schedule_pentium_branch_edge@20",
+    "@finish_machine_lowering@4",
+    "@displacement_mode@12",
+    "@queue_initializer_dependencies@4",
+    "@find_initializer@4",
+    "_new_symbol_list_node",
+    "@reserve_segment_storage@4",
+    "@insert_machine_after@8",
+    "@coff_data_position@4",
+    "@coff_comdat_selection@4"
   ],
   "driver": [
     {
@@ -1386,8 +1395,7 @@
     {
       "name": "@finish_machine_lowering@4",
       "start": 209712,
-      "end": 209713,
-      "provisional": true
+      "end": 210212
     },
     {
       "name": "_lower_unoptimized_machine",
@@ -1805,8 +1813,7 @@
     {
       "name": "@coff_comdat_selection@4",
       "start": 449120,
-      "end": 449121,
-      "provisional": true
+      "end": 449183
     },
     {
       "name": "@register_coff_segment@4",
@@ -1887,14 +1894,12 @@
     {
       "name": "@queue_initializer_dependencies@4",
       "start": 323104,
-      "end": 323105,
-      "provisional": true
+      "end": 323262
     },
     {
       "name": "_new_symbol_list_node",
       "start": 323520,
-      "end": 323521,
-      "provisional": true
+      "end": 323535
     },
     {
       "name": "_flush_queued_symbols",
@@ -1948,8 +1953,7 @@
     {
       "name": "@find_initializer@4",
       "start": 322880,
-      "end": 322881,
-      "provisional": true
+      "end": 322918
     },
     {
       "name": "@write_initializer_assembly@4",
@@ -3172,8 +3176,7 @@
     {
       "name": "@insert_machine_after@8",
       "start": 107984,
-      "end": 107985,
-      "provisional": true
+      "end": 107999
     },
     {
       "name": "@register_replacement_blocked@12",
@@ -3564,8 +3567,7 @@
     {
       "name": "@displacement_mode@12",
       "start": 158064,
-      "end": 158065,
-      "provisional": true
+      "end": 158220
     },
     {
       "name": "@label_has_fallthrough_predecessor@4",
@@ -3635,8 +3637,7 @@
     {
       "name": "@coff_data_position@4",
       "start": 455056,
-      "end": 455057,
-      "provisional": true
+      "end": 455063
     },
     {
       "name": "@prepare_source_listing@4",
@@ -3813,8 +3814,7 @@
     {
       "name": "@reserve_segment_storage@4",
       "start": 160256,
-      "end": 160257,
-      "provisional": true
+      "end": 160397
     },
     {
       "name": "@reserve_local_storage@4",
