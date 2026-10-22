@@ -1,5 +1,6 @@
 /* Top-level RCPP driver, original [01007030,010071aa). */
-#include "preprocessor.h"
+#include "lexer.h"
+#include "tokens.h"
 #include <string.h>
 
 static int argument_count;
@@ -98,4 +99,25 @@ char *rc_next_argument(void)
 {
     if (--argument_count > 0) return *++argument_vector;
     return NULL;
+}
+
+/* Original [010071d0,01007252). The lexer writes identifiers, whitespace,
+ * numbers and quoted text itself; this loop emits punctuation spellings. */
+void rc_emit_tokens(void)
+{
+    unsigned category, length;
+    const char *text;
+    for (;;) {
+        category = rc_next_token();
+        if (!category) return;
+        if (category == 1) continue;
+        if (!rc_token_kind) {
+            rc_message_format = rc_message(1068);
+            rc_format(rc_diagnostic_buffer, rc_message_format);
+            rc_fatal(1068);
+        }
+        text = rc_token_info[rc_token_kind].name;
+        for (length = 0; text[length]; ++length) ;
+        fwrite(text, length, 1, rc_output);
+    }
 }

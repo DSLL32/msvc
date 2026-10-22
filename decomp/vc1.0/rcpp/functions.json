@@ -91,7 +91,36 @@
     "_rc_search_include_directories",
     "_rc_skip_comment",
     "_rc_match_character@4",
-    "_rc_discard_block_comment"
+    "_rc_discard_block_comment",
+    "_rc_push_condition",
+    "_rc_parse_define",
+    "_rc_evaluate_condition",
+    "_rc_conditional_expression",
+    "_rc_logical_or_expression",
+    "_rc_logical_and_expression",
+    "_rc_bitwise_or_expression",
+    "_rc_bitwise_xor_expression",
+    "_rc_bitwise_and_expression",
+    "_rc_equality_expression",
+    "_rc_relational_expression",
+    "_rc_shift_expression",
+    "_rc_additive_expression",
+    "_rc_multiplicative_expression",
+    "_rc_unary_expression",
+    "_rc_match_expression_token@4",
+    "_rc_primary_expression",
+    "_rc_identifier_value@4",
+    "_rc_skip_macro_whitespace",
+    "_rc_skip_inactive@4",
+    "_rc_find_inactive_directive",
+    "_rc_skip_inactive_quote@4",
+    "_rc_emit_tokens",
+    "__write",
+    "import:WriteFile",
+    "_rc_read_macro_body",
+    "_rc_check_macro_storage@4",
+    "_rc_find_macro_parameter@4",
+    "_rc_remove_macro"
   ],
   "functions": [
     {
@@ -230,7 +259,7 @@
       "name": "_rc_emit_tokens",
       "start": 16806352,
       "end": 16806482,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_strncpy",
@@ -471,15 +500,15 @@
       "name": "__filbuf",
       "start": 16836880,
       "end": 16837076,
-      "status": "library-boundary",
-      "classification": "fread/fgetc input-buffer CRT helper"
+      "status": "source-runtime",
+      "classification": "Identified CRT stdio helper; reconstructed original buffer size and state behavior after paired flush timing mismatch."
     },
     {
       "name": "__getbuf",
       "start": 16813296,
       "end": 16813375,
-      "status": "library-boundary",
-      "classification": "CRT stdio buffer allocation, called by filbuf/flsbuf"
+      "status": "source-runtime",
+      "classification": "Identified CRT stdio helper; reconstructed original buffer size and state behavior after paired flush timing mismatch."
     },
     {
       "name": "__flush",
@@ -574,8 +603,8 @@
     {
       "name": "_rc_evaluate_condition",
       "start": 16835552,
-      "end": 16835553,
-      "status": "stub"
+      "end": 16835753,
+      "status": "source"
     },
     {
       "name": "_rc_expect_end@4",
@@ -586,20 +615,26 @@
     {
       "name": "_rc_skip_inactive@4",
       "start": 16833712,
-      "end": 16833713,
-      "status": "stub"
+      "end": 16833877,
+      "status": "source",
+      "shared": [
+        [
+          16833880,
+          16833904
+        ]
+      ]
     },
     {
       "name": "_rc_push_condition",
       "start": 16831392,
       "end": 16831458,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_parse_define",
       "start": 16818688,
-      "end": 16818689,
-      "status": "stub"
+      "end": 16819008,
+      "status": "source"
     },
     {
       "name": "_rc_next_token",
@@ -641,7 +676,7 @@
       "name": "_rc_remove_macro",
       "start": 16818512,
       "end": 16818684,
-      "status": "stub"
+      "status": "source"
     },
     {
       "name": "_rc_get_logical_character",
@@ -805,6 +840,162 @@
       "start": 16835392,
       "end": 16835447,
       "status": "source"
+    },
+    {
+      "name": "_rc_read_macro_parameters",
+      "start": 16819008,
+      "end": 16819528,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_read_macro_body",
+      "start": 16820160,
+      "end": 16820958,
+      "status": "source",
+      "shared": [
+        [
+          16820960,
+          16821124
+        ]
+      ]
+    },
+    {
+      "name": "_rc_conditional_expression",
+      "start": 16835760,
+      "end": 16835832,
+      "status": "source"
+    },
+    {
+      "name": "_rc_logical_or_expression",
+      "start": 16835840,
+      "end": 16835897,
+      "status": "source"
+    },
+    {
+      "name": "_rc_logical_and_expression",
+      "start": 16835904,
+      "end": 16835958,
+      "status": "source"
+    },
+    {
+      "name": "_rc_bitwise_or_expression",
+      "start": 16835968,
+      "end": 16836009,
+      "status": "source"
+    },
+    {
+      "name": "_rc_bitwise_xor_expression",
+      "start": 16836016,
+      "end": 16836057,
+      "status": "source"
+    },
+    {
+      "name": "_rc_bitwise_and_expression",
+      "start": 16836064,
+      "end": 16836105,
+      "status": "source"
+    },
+    {
+      "name": "_rc_equality_expression",
+      "start": 16836112,
+      "end": 16836177,
+      "status": "source"
+    },
+    {
+      "name": "_rc_relational_expression",
+      "start": 16836192,
+      "end": 16836320,
+      "status": "source"
+    },
+    {
+      "name": "_rc_shift_expression",
+      "start": 16836320,
+      "end": 16836380,
+      "status": "source"
+    },
+    {
+      "name": "_rc_additive_expression",
+      "start": 16836384,
+      "end": 16836440,
+      "status": "source"
+    },
+    {
+      "name": "_rc_multiplicative_expression",
+      "start": 16836448,
+      "end": 16836536,
+      "status": "source"
+    },
+    {
+      "name": "_rc_unary_expression",
+      "start": 16836544,
+      "end": 16836616,
+      "status": "source"
+    },
+    {
+      "name": "_rc_primary_expression",
+      "start": 16836624,
+      "end": 16836783,
+      "status": "source"
+    },
+    {
+      "name": "_rc_match_expression_token@4",
+      "start": 16835040,
+      "end": 16835308,
+      "status": "source"
+    },
+    {
+      "name": "_rc_identifier_value@4",
+      "start": 16834544,
+      "end": 16835038,
+      "status": "source"
+    },
+    {
+      "name": "_rc_skip_macro_whitespace",
+      "start": 16825392,
+      "end": 16825568,
+      "status": "source"
+    },
+    {
+      "name": "_rc_collect_macro_identifier@4",
+      "start": 16824736,
+      "end": 16825321,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_macro_fatal@4",
+      "start": 16825568,
+      "end": 16825618,
+      "status": "stub"
+    },
+    {
+      "name": "_rc_find_inactive_directive",
+      "start": 16834368,
+      "end": 16834544,
+      "status": "source"
+    },
+    {
+      "name": "_rc_skip_inactive_quote@4",
+      "start": 16834208,
+      "end": 16834360,
+      "status": "source"
+    },
+    {
+      "name": "_rc_find_macro_parameter@4",
+      "start": 16821136,
+      "end": 16821235,
+      "status": "source"
+    },
+    {
+      "name": "_rc_check_macro_storage@4",
+      "start": 16821248,
+      "end": 16821305,
+      "status": "source"
+    },
+    {
+      "name": "_rc_copy_macro_quote@8",
+      "start": 16821312,
+      "end": 16821541,
+      "status": "stub"
     }
   ],
   "cases": {

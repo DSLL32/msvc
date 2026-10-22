@@ -27,6 +27,10 @@ typedef struct RcMacro {
     unsigned char flags;
 } RcMacro;
 extern RcMacro *rc_macros[256];
+extern char *rc_define_storage;
+extern int rc_define_argument_count;
+void rc_read_macro_parameters(void);
+unsigned rc_read_macro_body(void);
 RcMacro *rc_find_macro(void);
 int __stdcall rc_compare_macro_text(char *, char *, unsigned);
 char *__stdcall rc_copy_bytes(const char *, unsigned);

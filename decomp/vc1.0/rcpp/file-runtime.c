@@ -82,3 +82,44 @@ int _sopen(const char *name, int mode, int sharing, ...)
     if (!(flags & 0x48) && (mode & 8)) _osfile[fd] |= 0x20;
     return fd;
 }
+
+/* Original [01008cf0,01008d3f). Preserve the embedded CRT's 512-byte
+ * stream buffers so masked I/O frontiers occur at the same stream position. */
+extern int _cflush;
+void _getbuf(FILE *stream)
+{
+    ++_cflush;
+    stream->_base = rc_malloc(512);
+    if (stream->_base) {
+        stream->_flag |= _IOMYBUF;
+        stream->_bufsiz = 512;
+    } else {
+        stream->_flag |= _IONBF;
+        stream->_base = (char *)&stream->_charbuf;
+        stream->_bufsiz = 2;
+    }
+    stream->_ptr = stream->_base;
+    stream->_cnt = 0;
+}
+
+/* Original [0100e910,0100e9cc). Retain this variant's buffer size and
+ * Ctrl-Z bookkeeping rather than promoting its private input buffer. */
+int _filbuf(FILE *stream)
+{
+    int flags = stream->_flag;
+    if (!(flags & 0x83) || (flags & 0x40)) return EOF;
+    if (flags & _IOWRT) { stream->_flag |= _IOERR; return EOF; }
+    stream->_flag |= _IOREAD;
+    if (!(stream->_flag & 0x10c)) _getbuf(stream);
+    else stream->_ptr = stream->_base;
+    stream->_cnt = _read(stream->_file, stream->_base, stream->_bufsiz);
+    if (!stream->_cnt || stream->_cnt == -1) {
+        stream->_flag |= stream->_cnt ? _IOERR : _IOEOF;
+        stream->_cnt = 0;
+        return EOF;
+    }
+    if (!(stream->_flag & 0x82) && (_osfile[stream->_file] & 0x82) == 0x82)
+        stream->_flag |= 0x2000;
+    --stream->_cnt;
+    return (unsigned char)*stream->_ptr++;
+}

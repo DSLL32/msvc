@@ -4,18 +4,15 @@
   "originating_runtime": "Unidentified; differs from the shipped LIBC/LIBCMT/MSVCRT10 allocator implementation.",
   "native_function_graph_relaxed": false,
   "substitutions_using_graph_exception": [],
-  "compatible_runtime_variants": [
+  "compatible_runtime_variants": [],
+  "reconstructed_runtime_variants": [
     {
       "function": "__getbuf",
-      "original": "512-byte allocation with two-byte unbuffered fallback",
-      "reused": "LIBC allocates its own larger stdio buffer",
-      "contract": "FILE layout, owned-buffer flags and abstract stream operations preserved; full artifact comparison remains pending"
+      "reason": "512-byte original versus larger shipped LIBC buffer caused a measured paired flush frontier mismatch. Original allocation/fallback and call set reconstructed."
     },
     {
       "function": "__filbuf",
-      "original": "Maintains the original private stream buffer size",
-      "reused": "LIBC may promote its private buffer size",
-      "contract": "Native code uses the 32-byte FILE layout and standard stream operations; full artifact comparison remains pending"
+      "reason": "Preserve original buffer size and Ctrl-Z bookkeeping across standard FILE operations. Original full body and call set reconstructed."
     }
   ]
 }

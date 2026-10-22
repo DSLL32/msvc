@@ -245,3 +245,105 @@ void __stdcall rc_expect_end(const char *directive)
         rc_skip_line();
     }
 }
+
+/* Original [0100d3a0,0100d3e2): the conditional stack has 32 entries. */
+int rc_push_condition(void)
+{
+    ++rc_conditional_depth;
+    if (rc_conditional_depth >= 32) {
+        rc_message_format = rc_message(1052);
+        rc_format(rc_diagnostic_buffer, rc_message_format);
+        rc_fatal(1052);
+    }
+    return rc_conditional_depth;
+}
+
+unsigned char rc_find_inactive_directive(void);
+void __stdcall rc_skip_inactive_quote(unsigned char);
+
+/* Original [0100dcb0,0100dd55), six-entry switch [0100dd58,0100dd70). */
+int __stdcall rc_skip_inactive(int mode)
+{
+    int nesting = 0;
+    unsigned char directive;
+    for (;;) {
+        directive = rc_find_inactive_directive();
+        switch (directive) {
+        case PP_IF: case PP_IFDEF: case PP_IFNDEF:
+            ++nesting;
+            break;
+        case PP_ELIF: case PP_ELSE:
+            if (nesting) break;
+            if (mode == 6) {
+                rc_message_format = rc_message(1022);
+                rc_format(rc_diagnostic_buffer, rc_message_format);
+                rc_fatal(1022);
+                break;
+            }
+            if (directive == PP_ELSE) {
+                rc_expect_end("#else");
+                return 3;
+            }
+            return 2;
+        case PP_ENDIF:
+            if (nesting) { --nesting; break; }
+            rc_expect_end("#endif");
+            return 4;
+        }
+    }
+}
+
+/* Original [0100df40,0100dff0). Directive names are only recognized after
+ * a physical/logical newline. Quotes protect hashes in skipped text. */
+unsigned char rc_find_inactive_directive(void)
+{
+    unsigned char ch;
+    for (;;) {
+        ch = rc_read_nonspace();
+    inspect:
+        switch (rc_character_class[ch]) {
+        case LC_NEWLINE:
+            ++rc_line_number;
+            if (rc_preprocessing_started) fputc('\n', rc_output);
+            ch = rc_read_nonspace();
+            if (ch != '#') goto inspect;
+            ch = rc_read_nonspace();
+            if (rc_character_class[ch] != LC_IDENTIFIER) goto inspect;
+            rc_read_identifier(ch);
+            return rc_directive_code(rc_macro_name);
+        case LC_END:
+            if (rc_resume_input() == 16) ++rc_input_cursor;
+            break;
+        case LC_CHARACTER: case LC_STRING:
+            rc_skip_inactive_quote(ch);
+            break;
+        }
+    }
+}
+
+/* Original [0100dea0,0100df38). Skipped quotes retain the old permissive
+ * escape handling; reaching newline reports a warning and leaves it unread. */
+void __stdcall rc_skip_inactive_quote(unsigned char quote)
+{
+    unsigned char ch;
+    for (;;) {
+        ch = *rc_input_cursor++;
+        switch (rc_character_class[ch]) {
+        case LC_END:
+            if (rc_resume_input() == 16) ++rc_input_cursor;
+            break;
+        case LC_NEWLINE:
+            rc_message_format = rc_message(4093);
+            rc_format(rc_diagnostic_buffer, rc_message_format);
+            rc_warning(4093);
+            --rc_input_cursor;
+            return;
+        case LC_CHARACTER: case LC_STRING:
+            if (ch == quote) return;
+            break;
+        case LC_DBCS_LEAD:
+            rc_get_logical_character();
+            break;
+        }
+    }
+}

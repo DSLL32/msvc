@@ -101,3 +101,27 @@ char *__stdcall rc_copy_string(const char *text)
     for (i = 0; i < count; ++i) copy[i] = text[i];
     return copy;
 }
+
+/* Original [0100a150,0100a1fc). Undefinition unlinks the symbol without
+ * freeing its name/body, allowing pending expansions to retain their data. */
+void rc_remove_macro(void)
+{
+    RcMacro *macro, *previous = NULL;
+    unsigned i;
+    for (macro = rc_macros[rc_macro_hash]; macro; macro = macro->next) {
+        for (i = 0; i < (unsigned)rc_macro_name_length; ++i)
+            if (macro->name[i] != rc_macro_name[i]) break;
+        if (i == (unsigned)rc_macro_name_length) {
+            if (macro->arguments < -2) {
+                rc_message_format = rc_message(4112);
+                rc_format(rc_diagnostic_buffer, rc_message_format, rc_macro_name, "#undef");
+                rc_warning(4112);
+                return;
+            }
+            if (previous) previous->next = macro->next;
+            else rc_macros[rc_macro_hash] = macro->next;
+            return;
+        }
+        previous = macro;
+    }
+}

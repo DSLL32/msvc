@@ -2,9 +2,10 @@ RCPP.EXE, MSVC 1.0 NT / vc1.0
 ============================
 
 Status: partial reconstruction. The resources-rich case currently reaches a
-matching trap at rc_push_condition (original 0100d3a0) while reading WINDOWS.H.
+matching trap at rc_expand_macro (original 0100ad30) while reading headers.
 Startup, native directive dispatch, the full main lexer, numeric/string tokens,
-include-name handling, header search and buffered input setup are recovered;
+include handling, header search, #if expression evaluation, inactive branches,
+macro definition encoding and the main output loop are recovered;
 no successful preprocessing output is claimed yet. The oracle is 336,686 exact
 bytes, exit zero and empty stdout/stderr. No fields or paths are normalized.
 
@@ -58,9 +59,11 @@ and malloc implementations remain because they are straightforward and work.
 
 The current milestone has not needed to exercise the relaxed graph exception:
 every accepted non-import function still has equal direct/indirect call-target
-sets. Compatible stdio variants use different private buffer sizes; these are
-recorded separately in crt-boundaries.json, without claiming byte identity. Future compatible CRT substitutions may use it, and must be recorded in
-crt-boundaries.json; that file initially records no substitutions.
+sets. A measured flush-frontier mismatch exposed the original
+512-byte stdio buffers versus the larger shipped LIBC buffers. Original _getbuf
+and _filbuf are now reconstructed in readable C to retain their size and state
+behavior. crt-boundaries.json records this evidence and currently records no
+graph substitutions; future compatible substitutions must be recorded there.
 
 IOINIT and STDENVP are linked from the shipped LIBC.LIB. prove-library.py checks
 all code bytes outside relocation fields, every REL32 call destination, every
@@ -83,16 +86,17 @@ functions.json records accepted order and discovered function extents, including
 unaccepted callees for all recovered branches. Native control-handler,
 diagnostic and alternate option paths remain trapping stubs where not reached.
 A matching trap is a reconstruction checkpoint, not evidence of complete branch
-coverage or final artifact equivalence. Further focused/error cases follow the
+coverage or final artifact equivalence. The recovered expression evaluator
+preserves eager operand evaluation and its single equality/relational/shift
+operator limits. Further focused/error cases follow the
 broad starting case. No preprocessing output has passed reconstruction yet.
 
 Current input milestone
 -----------------------
 
-85 recorded logical frontiers replay to the conditional-stack stub in the first
-toolchain header. The 71 accepted non-import functions have equal native/CRT
-call-target sets. No full
-preprocessed output has been accepted. Macro entries are typed linked nodes;
+114 recorded logical frontiers replay to the native macro-expansion entry.
+The 99 accepted non-import functions have equal native/CRT call-target sets.
+No full preprocessed output has been accepted. Macro entries are typed linked nodes;
 input files use typed 40-byte saved contexts and shared segmented byte/word
 buffers. The lexer tables contain encountered semantic categories and radix/
 identifier flags, verified independently against original initial values.
