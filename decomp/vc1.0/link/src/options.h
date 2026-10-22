@@ -2,6 +2,7 @@
 #define LINK_OPTIONS_H
 #include "image.h"
 #include "arguments.h"
+#include <recon.h>
 typedef struct SwitchValue { char *key,*value; } SwitchValue;
 typedef struct ParsedSwitch {
     char *name;

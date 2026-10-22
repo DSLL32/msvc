@@ -1,6 +1,7 @@
 /* Command-line, response-file, and library-search argument collection. */
 #include "arguments.h"
 #include <io.h>
+#include <recon.h>
 
 Argument *first_argument;
 ArgumentList search_paths, input_files, library_files, other_inputs;

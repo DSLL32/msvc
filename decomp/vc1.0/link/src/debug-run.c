@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <recon.h>
 
 typedef struct DebugProcess {
     struct DebugProcess *next;

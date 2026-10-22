@@ -1,5 +1,6 @@
 /* Library-manager switches share the collected argument lists with the linker. */
 #include "library.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcat)
 extern char *output_name,default_output_name[],*def_filename;
 extern unsigned char verbose_link,mac_image;

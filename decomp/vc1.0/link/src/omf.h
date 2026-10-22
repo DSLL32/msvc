@@ -2,6 +2,7 @@
 #define LINK_OMF_H
 #include "library.h"
 #include <setjmp.h>
+#include <recon.h>
 #define OMF_MAX_SEGMENTS 256
 typedef struct OmfSegment {
     unsigned short name_index,class_index,overlay_index,coff_section;

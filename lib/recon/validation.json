@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "scope": "Initial shared native i386 compatibility layer, exercised independently and by LINK captured-only fixtures. No archive, PE loader or original execution fallback.",
+  "runs": [
+    {
+      "command": [
+        "make",
+        "-C",
+        "lib/recon",
+        "-B",
+        "-j4",
+        "check",
+        "CC=gcc"
+      ],
+      "build_and_check_seconds": 0.5003364374861121,
+      "exit_code": 0,
+      "log": "/root/.ai-tmp/vc1.0-native-shims/gcc-complete.log"
+    },
+    {
+      "command": [
+        "make",
+        "-C",
+        "lib/recon",
+        "-B",
+        "-j4",
+        "check",
+        "CC=clang"
+      ],
+      "build_and_check_seconds": 0.5895499717444181,
+      "exit_code": 0,
+      "log": "/root/.ai-tmp/vc1.0-native-shims/clang-complete.log"
+    }
+  ],
+  "checks": [
+    "i386 PE/COFF and Microsoft FILE layouts",
+    "CRLF text output and translated input",
+    "bounded raw text-read and first-LF positioning flag",
+    "case-insensitive mapped-drive file lookup",
+    "modulo-32 integer scanning",
+    "zero-sized CRT output buffers and trailing-percent formatting",
+    "VC1 equal-key qsort ordering and ordinary numeric sorting",
+    "writable mapping persistence, handle/view lifetime, mapped-truncation failure",
+    "module/export registry including absent IsTNT and unknown DLL",
+    "16-bit CP1252/Unicode conversion and case mapping",
+    "fixed test clock and file-error translation",
+    "PE child rejection without interpreter or Wine fallback"
+  ],
+  "source_sha256": {
+    "lib/recon/include/recon.h": "c0180ad091dc55312616f56448d13237e5f5f5356ff8ac86b0a2e97dafe4b861",
+    "lib/recon/include/win32.h": "8f2d4710eafad3a250abdba7ca91b91aa7129b550738a3a2c014fd3c8e951e6e",
+    "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "lib/recon/src/crt.c": "2c1607cc61410cef3581f3df2d303ad3f4e31d789565ea59a557e3f9e693def6",
+    "lib/recon/src/win32.c": "04e790550c115427f36d6c4410b270c07ce60c5f3e025bb0671d6035880b7d03",
+    "lib/recon/tests/check.c": "d2bd79493f787e23ca6709354d0efe160bf101c07d5246592ba6742f654e06db"
+  },
+  "link_fixture_evidence": "decomp/vc1.0/link/cases/native-validation.json",
+  "limits": "LINK native fixture checks are output comparisons. Historical first-entry tracing, Windows SEH, specialized console/process/GUI and external PE dependencies are outside this initial implementation.",
+  "timing_note": "Build and execution combined in each independent check. Prior checks during development were not all timed; these measurements are not total implementation work."
+}

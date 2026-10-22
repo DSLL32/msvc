@@ -2,6 +2,7 @@
 #define LINK_MACHINE_H
 #include "image.h"
 #include "arguments.h"
+#include <recon.h>
 typedef void (*ApplyRelocations)(Contribution *,void *,PIMAGE_SYMBOL,Image *);
 extern ApplyRelocations apply_relocations;
 void apply_i386_relocations(Contribution *,void *,PIMAGE_SYMBOL,Image *);

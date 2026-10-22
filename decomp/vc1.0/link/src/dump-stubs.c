@@ -1,5 +1,6 @@
 /* Named frontiers of the dump-mode graph. */
 #include "dump.h"
+#include <recon.h>
 
 void initialize_disassembler(FatalRoutine fatal,WarningRoutine warning) { __asm { int 3 } }
 

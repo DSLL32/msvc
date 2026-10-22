@@ -1,4 +1,5 @@
 #include "demangle.h"
+#include <recon.h>
 DemangleName * __fastcall demangle_name_assign_status(DemangleName *self,void *unused,int status) { __asm { int 3 } return 0; }
 DemangleName * demangle_parse_template(DemangleName *result) { __asm { int 3 } return 0; }
 DemangleName * demangle_prepend_status(DemangleName *result,int status,const DemangleName *source) { __asm { int 3 } return 0; }

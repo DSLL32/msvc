@@ -1,6 +1,7 @@
 #ifndef LINK_IMPORT_LIBRARY_H
 #define LINK_IMPORT_LIBRARY_H
 #include "library.h"
+#include <recon.h>
 typedef struct ImportThunkRelocation {
     unsigned char offset,symbol,type;
 } ImportThunkRelocation;

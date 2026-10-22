@@ -1,6 +1,7 @@
 #ifndef LINK_ARGUMENTS_H
 #define LINK_ARGUMENTS_H
 #include "linker-types.h"
+#include <recon.h>
 struct ParsedSwitch;
 typedef struct Argument {
     char *text, *original;

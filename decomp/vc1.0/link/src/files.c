@@ -2,6 +2,7 @@
 #include "files.h"
 #include <sys/stat.h>
 #include <io.h>
+#include <recon.h>
 
 Page *free_pages;
 FileSlot *free_files;

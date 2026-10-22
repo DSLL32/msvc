@@ -1,6 +1,7 @@
 #ifndef LINK_RESOURCES_H
 #define LINK_RESOURCES_H
 #include "pass-one.h"
+#include <recon.h>
 int convert_resources(int,char **);
 void resource_usage(int error);
 void * resource_allocate(unsigned short size);

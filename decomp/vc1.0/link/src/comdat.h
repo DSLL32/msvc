@@ -1,6 +1,7 @@
 #ifndef LINK_COMDAT_H
 #define LINK_COMDAT_H
 #include "modules.h"
+#include <recon.h>
 typedef struct External External;
 typedef struct ComdatEdge {
     char *name;

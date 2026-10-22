@@ -1,5 +1,6 @@
 /* Select an input COMDAT definition while retaining the COFF scan position. */
 #include "object.h"
+#include <recon.h>
 extern char *coff_strings;
 Module *comdat_scan_module;
 PIMAGE_SYMBOL comdat_scan_cursor;

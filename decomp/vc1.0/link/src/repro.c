@@ -1,5 +1,6 @@
 /* Optional LINK_REPRO response-file capture. */
 #include "linker-types.h"
+#include <recon.h>
 FILE *repro_stream;
 char *repro_directory;
 

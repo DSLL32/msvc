@@ -3,6 +3,7 @@
 #include <io.h>
 #include <setjmp.h>
 #include <time.h>
+#include <recon.h>
 jmp_buf resource_abort;
 unsigned char *resource_input_buffer,*resource_output_buffer;
 unsigned char resource_copy_buffer[1024];

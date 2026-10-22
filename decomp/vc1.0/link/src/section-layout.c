@@ -1,5 +1,6 @@
 /* Count and lay out output sections and their live contributions. */
 #include "link-pass.h"
+#include <recon.h>
 
 unsigned short count_output_sections(Image *image)
 {

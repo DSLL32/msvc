@@ -1,5 +1,6 @@
 /* Command dispatcher [00026b40,00026fe0). */
 #include "link.h"
+#include <recon.h>
 extern int _fltused;
 int *floating_runtime = &_fltused;
 char *executable_path, *program_name = "CVTRES", *tool_name;

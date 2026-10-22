@@ -4,6 +4,7 @@
 #include "arguments.h"
 #include <io.h>
 #include <process.h>
+#include <recon.h>
 int input_file;
 unsigned long pe_header_offset;
 unsigned long symbol_record_size, output_file_size;

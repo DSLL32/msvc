@@ -1,6 +1,7 @@
 /* i386 COFF relocation application and optional base/debug fixup records. */
 #include "machine.h"
 #include "pass-two.h"
+#include <recon.h>
 
 void apply_i386_relocations(Contribution *contribution,void *data,
                             PIMAGE_SYMBOL symbols,Image *image)

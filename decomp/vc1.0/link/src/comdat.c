@@ -1,6 +1,7 @@
 /* COMDAT reachability graph and its synthetic root contribution. */
 #include "comdat.h"
 #include "link-pass.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcpy)
 Contribution comdat_root_contribution;
 ComdatNode comdat_root_node;

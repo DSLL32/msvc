@@ -1,6 +1,7 @@
 #ifndef LINK_CODEVIEW_H
 #define LINK_CODEVIEW_H
 #include "pass-two.h"
+#include <recon.h>
 typedef struct CvModuleSegment {
     Group *group;
     Contribution *first,*last;

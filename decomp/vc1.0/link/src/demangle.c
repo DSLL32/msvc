@@ -1,5 +1,6 @@
 /* LINK's display wrapper and embedded C++ name formatter. */
 #include "demangle.h"
+#include <recon.h>
 DemangleHeap demangle_heap;
 DemangleReplicator *demangle_type_replicator,*demangle_name_replicator;
 const char *demangle_original,*demangle_input;

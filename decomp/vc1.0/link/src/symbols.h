@@ -1,6 +1,7 @@
 #ifndef LINK_SYMBOLS_H
 #define LINK_SYMBOLS_H
 #include "modules.h"
+#include <recon.h>
 
 typedef struct SymbolTable SymbolTable;
 typedef struct HashNode { void *value; struct HashNode *next; } HashNode;

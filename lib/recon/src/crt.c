@@ -1,0 +1,771 @@
+#define _GNU_SOURCE
+#define RECON_SHIM_IMPL
+#include <recon.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <limits.h>
+#include <sys/wait.h>
+#include <elf.h>
+#include <dirent.h>
+
+/* Reconstructed CRT overrides in a target take precedence over these fallbacks. */
+#define WEAK __attribute__((weak))
+ShimFILE recon_iob[20];
+unsigned char recon_osfile[256];
+unsigned recon_nhandle=256;
+int recon_fmode=0x4000,recon_commode,recon_cflush,recon_umaskval;
+unsigned long recon_doserrno,recon_lc_handle[6];
+unsigned recon_lc_codepage;
+int recon_mb_cur_max=1;
+static unsigned short character_flags[257];
+unsigned short *recon_pctype=character_flags+1;
+char *recon_pgmptr,*recon_aenvptr;
+long recon_timezone;
+int recon_daylight;
+static char zone_names[2][32]={"PST","PDT"};
+char *recon_tzname[2]={zone_names[0],zone_names[1]};
+int recon_days[13]={-1,30,58,89,119,150,180,211,242,272,303,333,364};
+int recon_fltused,recon_tmpoff;
+static long os_handles[256];
+static int pushed_byte[256];
+
+void recon_unsupported(const char *operation)
+{
+    dprintf(2,"recon: unsupported native operation: %s\n",operation);
+    _exit(125);
+}
+
+static int existing_spelling(char *path,size_t capacity)
+{
+    char original[PATH_MAX],resolved[PATH_MAX],*part,*save;
+    size_t used=0;
+    if (strlen(path)>=sizeof(original)) { errno=ENAMETOOLONG; return -1; }
+    strcpy(original,path);
+    if (path[0]=='/') resolved[used++]='/';
+    resolved[used]=0;
+    for (part=strtok_r(original,"/",&save);part;part=strtok_r(NULL,"/",&save)) {
+        struct stat st;
+        size_t prefix=used,length=strlen(part);
+        DIR *directory; struct dirent *entry; char match[NAME_MAX+1]; int found=0;
+        if (used && resolved[used-1]!='/') resolved[used++]='/';
+        if (used+length+1>sizeof(resolved)) { errno=ENAMETOOLONG; return -1; }
+        strcpy(resolved+used,part);
+        if (lstat(resolved,&st)<0 && errno==ENOENT) {
+            char parent[PATH_MAX];
+            memcpy(parent,resolved,prefix); parent[prefix]=0;
+            directory=opendir(prefix?parent:".");
+            if (directory) {
+                while ((entry=readdir(directory))!=NULL) if (!strcasecmp(entry->d_name,part)) {
+                    if (found) { closedir(directory); errno=EEXIST; return -1; }
+                    strcpy(match,entry->d_name); found=1;
+                }
+                closedir(directory);
+                if (found) { strcpy(resolved+used,match); length=strlen(match); }
+            }
+        }
+        used+=length;
+    }
+    if (used+1>capacity) { errno=ENAMETOOLONG; return -1; }
+    strcpy(path,resolved);
+    return 0;
+}
+
+int recon_host_path(const char *name,char *output,size_t capacity)
+{
+    char variable[]="RECON_DRIVE_Z";
+    const char *root="",*rest=name;
+    size_t n=0;
+    if (!name || !capacity) { errno=EINVAL; return -1; }
+    if (name[0] && name[1]==':') {
+        unsigned char drive=(unsigned char)toupper((unsigned char)name[0]);
+        if (drive<'A' || drive>'Z') { errno=EINVAL; return -1; }
+        variable[12]=(char)drive;
+        root=getenv(variable);
+        if (!root && drive=='Z') root="/";
+        if (!root) { errno=ENOENT; return -1; }
+        rest=name+2;
+        /* Drive-relative paths need per-drive CWD state, not a guessed root. */
+        if (*rest && *rest!='/' && *rest!='\\') { errno=ENOTSUP; return -1; }
+        if (strlen(root)+2>=capacity) { errno=ENAMETOOLONG; return -1; }
+        strcpy(output,root); n=strlen(root);
+        if (n && output[n-1]!='/') output[n++]='/';
+        while (*rest=='/' || *rest=='\\') ++rest;
+    }
+    while (*rest) {
+        if (n+1>=capacity) { errno=ENAMETOOLONG; return -1; }
+        output[n++]=*rest=='\\'?'/':*rest; ++rest;
+    }
+    output[n]=0;
+    /* Resolve existing components with Windows' case-insensitive spelling;
+     * leave nonexistent output names as requested by the application. */
+    return existing_spelling(output,capacity);
+}
+
+void recon_dosmaperr(unsigned long code)
+{
+    recon_doserrno=code;
+    switch (code) {
+    case 2: case 3: errno=ENOENT; break;
+    case 5: case 32: case 33: errno=EACCES; break;
+    case 6: errno=EBADF; break;
+    case 8: errno=ENOMEM; break;
+    case 80: case 183: errno=EEXIST; break;
+    case 87: errno=EINVAL; break;
+    case 112: errno=ENOSPC; break;
+    default: errno=EIO; break;
+    }
+}
+int recon_alloc_osfhnd(void)
+{
+    unsigned n;
+    for (n=0;n<recon_nhandle;++n) if (!recon_osfile[n]) { recon_osfile[n]=1; return n; }
+    errno=EMFILE; return -1;
+}
+int recon_set_osfhnd(int fd,long handle)
+{
+    if ((unsigned)fd>=recon_nhandle) { errno=EBADF; return -1; }
+    os_handles[fd]=handle; return 0;
+}
+long recon_get_osfhandle(int fd)
+{
+    if ((unsigned)fd>=recon_nhandle || !(recon_osfile[fd]&1)) { errno=EBADF; return -1; }
+    return os_handles[fd];
+}
+static int valid_descriptor(int fd)
+{
+    if ((unsigned)fd<recon_nhandle && (recon_osfile[fd]&1)) return 1;
+    errno=EBADF; return 0;
+}
+WEAK int recon_sopen(const char *name,int mode,int sharing,...)
+{
+    DWORD access,disposition;
+    HANDLE handle;
+    int fd;
+    (void)sharing;
+    access=(mode&3)==2?GENERIC_READ|GENERIC_WRITE:(mode&1)?GENERIC_WRITE:GENERIC_READ;
+    disposition=(mode&0x500)==0x500?CREATE_NEW:(mode&0x300)==0x300?CREATE_ALWAYS:
+        mode&0x100?OPEN_ALWAYS:mode&0x200?TRUNCATE_EXISTING:OPEN_EXISTING;
+    handle=recon_CreateFileA(name,access,FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,disposition,FILE_ATTRIBUTE_NORMAL,NULL);
+    if (handle==INVALID_HANDLE_VALUE) { recon_dosmaperr(recon_GetLastError()); return -1; }
+    fd=recon_alloc_osfhnd();
+    if (fd<0) { recon_CloseHandle(handle); return -1; }
+    os_handles[fd]=(long)handle;
+    recon_osfile[fd]=1|((mode&0x8000)?0:(mode&0x4000 || recon_fmode!=0x8000)?0x80:0);
+    if (mode&8) recon_osfile[fd]|=0x20;
+    pushed_byte[fd]=-1;
+    return fd;
+}
+WEAK int recon_open(const char *name,int mode,...)
+{
+    int permission=0666; va_list args;
+    if (mode&0x100) { va_start(args,mode); permission=va_arg(args,int); va_end(args); }
+    return recon_sopen(name,mode,0x40,permission);
+}
+WEAK long recon_lseek(int fd,long offset,int origin)
+{
+    DWORD p;
+    if (!valid_descriptor(fd)) return -1;
+    recon_SetLastError(0);
+    p=recon_SetFilePointer((HANDLE)os_handles[fd],offset,NULL,origin);
+    if (p==0xffffffffUL && recon_GetLastError()) { recon_dosmaperr(recon_GetLastError()); return -1; }
+    pushed_byte[fd]=-1; recon_osfile[fd]&=~2; return p;
+}
+long recon_tell(int fd) { return recon_lseek(fd,0,SEEK_CUR); }
+long recon_filelength(int fd)
+{
+    long old=recon_tell(fd),end;
+    if (old<0) return -1;
+    end=recon_lseek(fd,0,SEEK_END); recon_lseek(fd,old,SEEK_SET); return end;
+}
+int recon_chsize(int fd,long length)
+{
+    long old=recon_tell(fd); int result;
+    if (old<0 || recon_lseek(fd,length,SEEK_SET)<0) return -1;
+    result=recon_SetEndOfFile((HANDLE)os_handles[fd])?0:-1;
+    if (result) recon_dosmaperr(recon_GetLastError());
+    recon_lseek(fd,old,SEEK_SET); return result;
+}
+int recon_close(int fd)
+{
+    if (!valid_descriptor(fd)) return -1;
+    if (!recon_CloseHandle((HANDLE)os_handles[fd])) { recon_dosmaperr(recon_GetLastError()); return -1; }
+    recon_osfile[fd]=0; os_handles[fd]=0; pushed_byte[fd]=-1; return 0;
+}
+static int read_raw(int fd,void *buffer,unsigned count)
+{
+    DWORD got;
+    if (!recon_ReadFile((HANDLE)os_handles[fd],buffer,count,&got,NULL)) {
+        recon_dosmaperr(recon_GetLastError()); return -1;
+    }
+    return got;
+}
+int recon_read(int fd,void *buffer,unsigned count)
+{
+    unsigned char *raw=buffer,next;
+    unsigned consumed=0,produced=0,available=0;
+    int got;
+    if (!valid_descriptor(fd)) return -1;
+    if (!count || (recon_osfile[fd]&2)) return 0;
+    if (pushed_byte[fd]>=0) {
+        raw[available++]=pushed_byte[fd]; pushed_byte[fd]=-1;
+    }
+    got=read_raw(fd,raw+available,count-available);
+    if (got<0) return available?(int)available:-1;
+    available+=got;
+    if (!(recon_osfile[fd]&0x80)) return available;
+    if (available && raw[0]=='\n') recon_osfile[fd]|=4;
+    else recon_osfile[fd]&=~4;
+    /* VC1 bounds a text read by RAW bytes, then compacts CRLF in place.
+     * Filling count translated bytes breaks the CRT's ftell buffer accounting. */
+    while (consumed<available) {
+        unsigned char c=raw[consumed++];
+        if (c==0x1a) {
+            if (!(recon_osfile[fd]&0x40)) recon_osfile[fd]|=2;
+            break;
+        }
+        if (c!='\r') { raw[produced++]=c; continue; }
+        if (consumed<available) {
+            if (raw[consumed]=='\n') { ++consumed; c='\n'; }
+            raw[produced++]=c; continue;
+        }
+        got=read_raw(fd,&next,1);
+        if (got!=1) { raw[produced++]='\r'; continue; }
+        if (recon_osfile[fd]&0x48) {
+            if (next=='\n') raw[produced++]='\n';
+            else { raw[produced++]='\r'; pushed_byte[fd]=next; }
+        } else if (!produced && next=='\n') raw[produced++]='\n';
+        else {
+            recon_lseek(fd,-1,SEEK_CUR);
+            if (next!='\n') raw[produced++]='\r';
+        }
+    }
+    return produced;
+}
+static int write_raw(int fd,const void *buffer,unsigned count)
+{
+    unsigned done=0; DWORD bytes;
+    while (done<count) {
+        if (!recon_WriteFile((HANDLE)os_handles[fd],(const char *)buffer+done,count-done,&bytes,NULL)) {
+            recon_dosmaperr(recon_GetLastError()); return -1;
+        }
+        if (!bytes) { errno=ENOSPC; return -1; }
+        done+=bytes;
+    }
+    return done;
+}
+int recon_write(int fd,const void *buffer,unsigned count)
+{
+    char translated[4096]; unsigned n=0,i;
+    if (!valid_descriptor(fd)) return -1;
+    if (recon_osfile[fd]&0x20) recon_lseek(fd,0,SEEK_END);
+    if (!(recon_osfile[fd]&0x80)) return write_raw(fd,buffer,count);
+    for (i=0;i<count;++i) {
+        if (n+2>sizeof(translated)) { if (write_raw(fd,translated,n)<0) return -1; n=0; }
+        if (((const char *)buffer)[i]=='\n') translated[n++]='\r';
+        translated[n++]=((const char *)buffer)[i];
+    }
+    if (n && write_raw(fd,translated,n)<0) return -1;
+    return count;
+}
+int recon_access(const char *name,int mode)
+{
+    char path[PATH_MAX];
+    return recon_host_path(name,path,sizeof(path))<0?-1:access(path,mode);
+}
+int recon_stat(const char *name,struct recon_stat *out)
+{
+    struct stat st; char path[PATH_MAX];
+    if (recon_host_path(name,path,sizeof(path))<0 || stat(path,&st)<0) return -1;
+    if (st.st_size>LONG_MAX) { errno=EOVERFLOW; return -1; }
+    out->st_size=st.st_size; return 0;
+}
+int recon_remove(const char *name)
+{
+    char path[PATH_MAX]; return recon_host_path(name,path,sizeof(path))<0?-1:remove(path);
+}
+int recon_rename(const char *from,const char *to)
+{
+    char a[PATH_MAX],b[PATH_MAX];
+    if (recon_host_path(from,a,sizeof(a))<0 || recon_host_path(to,b,sizeof(b))<0) return -1;
+    return rename(a,b);
+}
+
+void recon_getbuf(ShimFILE *s)
+{
+    s->_base=malloc(4096);
+    if (s->_base) { s->_flag|=8; s->_bufsiz=4096; }
+    else { s->_base=(char *)&s->_charbuf; s->_flag|=4; s->_bufsiz=2; }
+    s->_ptr=s->_base; s->_cnt=0;
+}
+WEAK void recon_freebuf(ShimFILE *s)
+{
+    if (s->_flag&8) free(s->_base);
+    s->_base=s->_ptr=NULL; s->_cnt=0; s->_flag&=~8;
+}
+int recon_flush(ShimFILE *s)
+{
+    int size;
+    if ((s->_flag&2) && s->_base && s->_ptr>s->_base) {
+        size=s->_ptr-s->_base;
+        if (recon_write(s->_file,s->_base,size)!=size) { s->_flag|=0x20; return EOF; }
+    }
+    s->_ptr=s->_base; s->_cnt=0; return 0;
+}
+int recon_fflush(ShimFILE *s)
+{
+    int i,result=0;
+    if (s) return recon_flush(s);
+    for (i=0;i<20;++i) if (recon_iob[i]._flag&2)
+        if (recon_flush(&recon_iob[i])) result=EOF;
+    return result;
+}
+WEAK int recon_filbuf(ShimFILE *s)
+{
+    if (s->_flag&2) { s->_flag|=0x20; return EOF; }
+    s->_flag|=1;
+    if (!s->_base) recon_getbuf(s);
+    s->_ptr=s->_base; s->_cnt=recon_read(s->_file,s->_base,s->_bufsiz);
+    if (s->_cnt<=0) { s->_flag|=s->_cnt?0x20:0x10; s->_cnt=0; return EOF; }
+    --s->_cnt; return (unsigned char)*s->_ptr++;
+}
+int recon_fgetc(ShimFILE *s)
+{
+    if (--s->_cnt>=0) return (unsigned char)*s->_ptr++;
+    return recon_filbuf(s);
+}
+int recon_fputc(int c,ShimFILE *s)
+{
+    unsigned char byte=c;
+    if (!(s->_flag&2)) {
+        if ((s->_flag&1) && !(s->_flag&0x80)) { s->_flag|=0x20; return EOF; }
+        s->_flag=(s->_flag&~1)|2; s->_cnt=0; s->_ptr=s->_base;
+    }
+    if ((s->_flag&4) || (s->_base && s->_bufsiz<=0))
+        return recon_write(s->_file,&byte,1)==1?byte:EOF;
+    if (!s->_base) recon_getbuf(s);
+    if (s->_ptr==s->_base+s->_bufsiz && recon_flush(s)) return EOF;
+    *s->_ptr++=byte;
+    /* _cnt is observable to the reconstructed CRT. */
+    s->_cnt=s->_bufsiz-(s->_ptr-s->_base);
+    return byte;
+}
+char *recon_fgets(char *dest,int size,ShimFILE *s)
+{
+    int n=0,c;
+    if (size<=0) return NULL;
+    while (n<size-1) { c=recon_fgetc(s); if (c==EOF) break; dest[n++]=c; if (c=='\n') break; }
+    if (!n && size!=1) return NULL;
+    dest[n]=0; return dest;
+}
+WEAK size_t recon_fread(void *p,size_t size,size_t count,ShimFILE *s)
+{
+    size_t n,total=size*count; int c;
+    if (!size) return 0;
+    for (n=0;n<total;++n) { c=recon_fgetc(s); if (c==EOF) break; ((char *)p)[n]=c; }
+    return n/size;
+}
+size_t recon_fwrite(const void *p,size_t size,size_t count,ShimFILE *s)
+{
+    size_t n,total=size*count;
+    if (!size) return 0;
+    for (n=0;n<total;++n) if (recon_fputc(((const unsigned char *)p)[n],s)==EOF) break;
+    return n/size;
+}
+int recon_fputs(const char *text,ShimFILE *s) { size_t n=strlen(text); return recon_fwrite(text,1,n,s)==n?0:EOF; }
+int recon_puts(const char *text) { return recon_fputs(text,&recon_iob[1])==EOF?EOF:recon_fputc('\n',&recon_iob[1]); }
+int recon_vfprintf(ShimFILE *s,const char *format,va_list args)
+{
+    char *text,*copy=NULL; size_t length=strlen(format),percent=0;
+    int count,result;
+    /* VC1 prints the valid prefix of LINK's formats ending in a lone '%'.
+     * glibc rejects the whole conversion. Preserve literal %% pairs. */
+    while (percent<length && format[length-percent-1]=='%') ++percent;
+    if (percent&1) {
+        copy=strdup(format); if (!copy) return -1;
+        copy[length-1]=0; format=copy;
+    }
+    count=vasprintf(&text,format,args); free(copy);
+    if (count<0) return -1;
+    result=recon_fwrite(text,1,count,s)==(unsigned)count?count:-1; free(text); return result;
+}
+int recon_fprintf(ShimFILE *s,const char *format,...)
+{
+    va_list args; int n; va_start(args,format); n=recon_vfprintf(s,format,args); va_end(args); return n;
+}
+int recon_printf(const char *format,...)
+{
+    va_list args; int n; va_start(args,format); n=recon_vfprintf(&recon_iob[1],format,args); va_end(args); return n;
+}
+WEAK ShimFILE *recon_openfile(const char *name,const char *mode,int sharing,ShimFILE *s)
+{
+    int flags,fd;
+    if (*mode=='r') flags=0;
+    else if (*mode=='w') flags=0x301;
+    else if (*mode=='a') flags=0x109;
+    else { errno=EINVAL; return NULL; }
+    if (strchr(mode,'+')) flags=(flags&~3)|2;
+    flags|=strchr(mode,'b')?0x8000:0x4000;
+    fd=recon_sopen(name,flags,sharing,0666); if (fd<0) return NULL;
+    memset(s,0,sizeof(*s)); s->_file=fd;
+    s->_flag=strchr(mode,'+')?0x80:*mode=='r'?1:2; return s;
+}
+ShimFILE *recon_fopen(const char *name,const char *mode)
+{
+    int n;
+    for (n=3;n<20;++n) if (!recon_iob[n]._flag) return recon_openfile(name,mode,0x40,&recon_iob[n]);
+    errno=EMFILE; return NULL;
+}
+int recon_fclose(ShimFILE *s)
+{
+    int result=recon_flush(s),closed=recon_close(s->_file);
+    recon_freebuf(s); memset(s,0,sizeof(*s)); return result || closed?EOF:0;
+}
+WEAK int recon_setvbuf(ShimFILE *s,char *buffer,int mode,size_t size)
+{
+    recon_flush(s); recon_freebuf(s);
+    if (mode==4) { s->_base=(char *)&s->_charbuf; s->_bufsiz=2; s->_flag|=4; }
+    else if (!size || (mode!=0 && mode!=0x40)) return -1;
+    else { s->_base=buffer?buffer:malloc(size); if (!s->_base) return -1; s->_bufsiz=size; s->_flag|=buffer?0x100:8; }
+    s->_ptr=s->_base; s->_cnt=0; return 0;
+}
+WEAK long recon_ftell(ShimFILE *s)
+{
+    long position=recon_tell(s->_file);
+    if (position<0) return -1;
+    if (s->_flag&1) return position-s->_cnt;
+    return position+(s->_base?s->_ptr-s->_base:0);
+}
+WEAK int recon_fseek(ShimFILE *s,long offset,int origin)
+{
+    if (origin==SEEK_CUR) { offset+=recon_ftell(s); origin=SEEK_SET; }
+    if (recon_flush(s)) return -1;
+    s->_flag&=~0x10;
+    return recon_lseek(s->_file,offset,origin)<0?-1:0;
+}
+int recon_ungetc(int c,ShimFILE *s)
+{
+    if (c==EOF || !s->_base || s->_ptr==s->_base) return EOF;
+    *--s->_ptr=c; ++s->_cnt; s->_flag&=~0x10; return (unsigned char)c;
+}
+int recon_ferror(ShimFILE *s) { return !!(s->_flag&0x20); }
+int recon_feof(ShimFILE *s) { return !!(s->_flag&0x10); }
+void recon_clearerr(ShimFILE *s) { s->_flag&=~0x30; }
+void recon_rewind(ShimFILE *s) { recon_fseek(s,0,SEEK_SET); recon_clearerr(s); }
+int recon_fileno(ShimFILE *s) { return s->_file; }
+void recon_endstdio(void) { recon_fflush(NULL); }
+void recon_rmtmp(void) { }
+void recon_exit(int code) { recon_fflush(NULL); exit(code); }
+
+void recon_splitpath(const char *path,char *drive,char *directory,char *name,char *extension)
+{
+    const char *start=path,*slash=NULL,*dot=NULL,*p;
+    if (drive) *drive=0;
+    if (path[0] && path[1]==':') { if (drive) { drive[0]=path[0]; drive[1]=':'; drive[2]=0; } start+=2; }
+    for (p=start;*p;++p) { if (*p=='/' || *p=='\\') { slash=p; dot=NULL; } else if (*p=='.') dot=p; }
+    if (directory) { size_t n=slash?slash+1-start:0; memcpy(directory,start,n); directory[n]=0; }
+    start=slash?slash+1:start;
+    if (name) { size_t n=dot?(size_t)(dot-start):strlen(start); memcpy(name,start,n); name[n]=0; }
+    if (extension) strcpy(extension,dot?dot:"");
+}
+void recon_makepath(char *out,const char *drive,const char *dir,const char *name,const char *ext)
+{
+    size_t n; *out=0;
+    if (drive && *drive) { out[0]=*drive; out[1]=':'; out[2]=0; }
+    if (dir && *dir) { strcat(out,dir); n=strlen(out); if (out[n-1]!='/' && out[n-1]!='\\') strcat(out,"\\"); }
+    if (name) strcat(out,name);
+    if (ext && *ext) { if (*ext!='.') strcat(out,"."); strcat(out,ext); }
+}
+char *recon_fullpath(char *out,const char *name,size_t capacity)
+{
+    char host[PATH_MAX],absolute[PATH_MAX],normalized[PATH_MAX],*part,*save;
+    size_t len=0; char *result=out;
+    if (recon_host_path(name && *name?name:".",host,sizeof(host))<0) return NULL;
+    if (host[0]=='/') strcpy(absolute,host);
+    else { if (!getcwd(absolute,sizeof(absolute))) return NULL; if (strlen(absolute)+strlen(host)+2>sizeof(absolute)) { errno=ENAMETOOLONG; return NULL; } strcat(absolute,"/"); strcat(absolute,host); }
+    normalized[0]=0;
+    for (part=strtok_r(absolute,"/",&save);part;part=strtok_r(NULL,"/",&save)) {
+        if (!strcmp(part,".")) continue;
+        if (!strcmp(part,"..")) { while (len && normalized[len-1]!='\\') --len; if (len) --len; normalized[len]=0; continue; }
+        normalized[len++]='\\'; strcpy(normalized+len,part); len+=strlen(part);
+    }
+    if (!len) { normalized[len++]='\\'; normalized[len]=0; }
+    if (!result) { capacity=len+3; result=malloc(capacity); if (!result) return NULL; }
+    if (capacity<len+3) { errno=ERANGE; return NULL; }
+    strcpy(result,"Z:"); strcat(result,normalized); return result;
+}
+char *recon_strupr(char *s) { char *p; for (p=s;*p;++p) *p=toupper((unsigned char)*p); return s; }
+char *recon_strlwr(char *s) { char *p; for (p=s;*p;++p) *p=tolower((unsigned char)*p); return s; }
+char *recon_ultoa(unsigned long value,char *out,int radix)
+{
+    char b[33]; unsigned n=0,i;
+    if (radix<2 || radix>36) { errno=EINVAL; *out=0; return out; }
+    do { b[n++]="0123456789abcdefghijklmnopqrstuvwxyz"[value%radix]; value/=radix; } while (value);
+    for (i=0;i<n;++i) out[i]=b[n-i-1];
+    out[n]=0;
+    return out;
+}
+char *recon_itoa(int n,char *s,int radix) { if (n<0 && radix==10) { *s='-'; recon_ultoa(0U-(unsigned)n,s+1,radix); } else recon_ultoa((unsigned)n,s,radix); return s; }
+char *recon_mktemp(char *pattern)
+{
+    char host[PATH_MAX]; int fd;
+    if (recon_host_path(pattern,host,sizeof(host))<0) return NULL;
+    fd=mkstemp(host); if (fd<0) { *pattern=0; return NULL; }
+    close(fd); unlink(host);
+    /* Replace only the randomized basename tail, preserving the DOS spelling. */
+    if (strlen(pattern)>=6) memcpy(pattern+strlen(pattern)-6,host+strlen(host)-6,6);
+    return pattern;
+}
+char *recon_tempnam(const char *dir,const char *prefix)
+{
+    char *path; const char *base=dir?dir:getenv("TMP");
+    if (!base) base=".";
+    if (asprintf(&path,"%s\\%sXXXXXX",base,prefix?prefix:"")<0) return NULL;
+    if (!recon_mktemp(path)) { free(path); return NULL; } return path;
+}
+char *recon_getpath(const char *path,char *out,int capacity)
+{
+    int n=0,quoted=0;
+    while (*path==';') ++path;
+    if (!*path) return NULL;
+    while (*path && (*path!=';' || quoted)) {
+        if (*path=='"') quoted=!quoted;
+        else if (n+1<capacity) out[n++]=*path;
+        ++path;
+    }
+    out[n]=0; return (char *)(*path?path+1:path);
+}
+int recon_isctype(int c,int flags) { return c>=-1 && c<256?(recon_pctype[c]&flags):0; }
+int recon_wcscmp(const WCHAR *a,const WCHAR *b)
+{
+    while (*a && *a==*b) { ++a; ++b; }
+    return *a<*b?-1:*a>*b;
+}
+WEAK int recon_toupper(int c) { return toupper(c); }
+WEAK int recon_tolower(int c) { return tolower(c); }
+WEAK void recon_tzset(void) { tzset(); recon_timezone=timezone; recon_daylight=daylight; }
+WEAK int recon_isindst(struct tm *tm) { return tm->tm_isdst>0; }
+time_t recon_time(time_t *out)
+{
+    const char *fixed=getenv("RECON_FIXED_TIME"); time_t value=fixed?(time_t)strtoll(fixed,NULL,10):time(NULL);
+    if (out) *out=value;
+    return value;
+}
+/* Reject PE files and scripts; there is no interpreter or Wine fallback. */
+static int native_program(const char *file,char *path)
+{
+    unsigned char header[20]; int fd,n;
+    if (recon_host_path(file,path,PATH_MAX)<0) return -1;
+    fd=open(path,O_RDONLY); if (fd<0) return -1;
+    n=read(fd,header,sizeof(header)); close(fd);
+    if (n!=sizeof(header) || memcmp(header,ELFMAG,SELFMAG) || header[EI_CLASS]!=ELFCLASS32 || header[18]!=EM_386 || header[19]) {
+        errno=ENOEXEC; return -1;
+    }
+    return 0;
+}
+int recon_spawnve(int mode,const char *file,const char *const *argv,const char *const *env)
+{
+    char path[PATH_MAX]; pid_t pid; int status;
+    if (mode!=_P_WAIT) { errno=ENOTSUP; return -1; }
+    if (native_program(file,path)<0) return -1;
+    pid=fork(); if (pid<0) return -1;
+    if (!pid) { execve(path,(char *const *)argv,(char *const *)(env?env:(const char *const *)environ)); _exit(127); }
+    while (waitpid(pid,&status,0)<0) if (errno!=EINTR) return -1;
+    if (!WIFEXITED(status)) { errno=EINTR; return -1; }
+    return WEXITSTATUS(status);
+}
+WEAK int recon_spawnvpe(int mode,const char *file,const char *const *argv,const char *const *env)
+{
+    const char *path=getenv("PATH"); char buffer[PATH_MAX],program[PATH_MAX]; int result;
+    result=recon_spawnve(mode,file,argv,env);
+    if (result!=-1 || errno!=ENOENT || !path) return result;
+    while ((path=recon_getpath(path,buffer,sizeof(buffer)))!=NULL) {
+        if (snprintf(program,sizeof(program),"%s\\%s",buffer,file)>=(int)sizeof(program)) continue;
+        result=recon_spawnve(mode,program,argv,env); if (result!=-1 || errno!=ENOENT) return result;
+    }
+    return -1;
+}
+int recon_spawnvp(int mode,const char *file,const char *const *argv) { return recon_spawnvpe(mode,file,argv,NULL); }
+static int spawn_list(int search,int mode,const char *file,const char *first,va_list args)
+{
+    const char *argv[256]; unsigned n=0; argv[n++]=first;
+    while (n<256 && (argv[n]=va_arg(args,const char *))!=NULL) ++n;
+    if (n==256) { errno=E2BIG; return -1; }
+    return search?recon_spawnvp(mode,file,argv):recon_spawnve(mode,file,argv,NULL);
+}
+int recon_spawnl(int mode,const char *file,const char *first,...)
+{
+    va_list args; int n; va_start(args,first); n=spawn_list(0,mode,file,first,args); va_end(args); return n;
+}
+int recon_spawnlp(int mode,const char *file,const char *first,...)
+{
+    va_list args; int n; va_start(args,first); n=spawn_list(1,mode,file,first,args); va_end(args); return n;
+}
+__attribute__((constructor)) static void initialize_crt(void)
+{
+    int i; FILE *command; char program[PATH_MAX]; size_t bytes,total=1; char **e,*cursor;
+    for (i=0;i<256;++i) pushed_byte[i]=-1;
+    for (i=0;i<3;++i) {
+        os_handles[i]=(long)recon_GetStdHandle((DWORD)(-10-i)); recon_osfile[i]=0x81;
+        if (recon_GetFileType((HANDLE)os_handles[i])==FILE_TYPE_PIPE) recon_osfile[i]|=8;
+        else if (recon_GetFileType((HANDLE)os_handles[i])==FILE_TYPE_CHAR) recon_osfile[i]|=0x40;
+        recon_iob[i]._file=i; recon_iob[i]._flag=i?2:1;
+    }
+    recon_iob[2]._flag|=4;
+    for (i=0;i<256;++i) {
+        unsigned bits=0;
+        if (isupper(i)) bits|=1;
+        if (islower(i)) bits|=2;
+        if (isdigit(i)) bits|=4;
+        if (isspace(i)) bits|=8;
+        if (ispunct(i)) bits|=16;
+        if (iscntrl(i)) bits|=32;
+        if (i==' ' || i=='\t') bits|=64;
+        if (isxdigit(i)) bits|=128;
+        recon_pctype[i]=bits;
+    }
+    if (getenv("RECON_PROGRAM_PATH")) recon_pgmptr=strdup(getenv("RECON_PROGRAM_PATH"));
+    else {
+        command=fopen("/proc/self/cmdline","rb");
+        bytes=command?fread(program,1,sizeof(program)-1,command):0;
+        if (command) fclose(command);
+        program[bytes]=0;
+        recon_pgmptr=strdup(bytes?program:"LINK.EXE");
+    }
+    for (e=environ;*e;++e) total+=strlen(*e)+1;
+    recon_aenvptr=malloc(total); if (!recon_aenvptr) _exit(125);
+    cursor=recon_aenvptr;
+    for (e=environ;*e;++e) { strcpy(cursor,*e); cursor+=strlen(*e)+1; }
+    *cursor=0;
+    atexit(recon_endstdio);
+}
+
+/* The VC1 scanner accumulates integer conversions modulo 2^32. glibc's
+ * strtol-based scanner saturates overflowing long fields in COFF archives.
+ * Implement the conversion families actually used by LINK, without changing
+ * the reconstructed archive reader or adding terminators to its raw records. */
+int recon_sscanf(const char *input,const char *format,...)
+{
+    const char *start=input;
+    va_list args;
+    int assigned=0,converted=0;
+    va_start(args,format);
+    while (*format) {
+        int suppress=0,width=INT_MAX,length=0,base=10,negative=0,digits=0;
+        unsigned long value=0;
+        char conversion;
+        if (isspace((unsigned char)*format)) {
+            while (isspace((unsigned char)*format)) ++format;
+            while (isspace((unsigned char)*input)) ++input;
+            continue;
+        }
+        if (*format!='%') {
+            if (*input!=*format) break;
+            ++input; ++format; continue;
+        }
+        ++format;
+        if (*format=='%') { if (*input!='%') break; ++input; ++format; continue; }
+        if (*format=='*') { suppress=1; ++format; }
+        if (isdigit((unsigned char)*format)) {
+            width=0;
+            while (isdigit((unsigned char)*format)) width=width*10+*format++-'0';
+        }
+        if (*format=='h') { length=-1; ++format; }
+        else if (*format=='l') { length=1; ++format; }
+        conversion=*format++;
+        if (conversion=='n') {
+            if (!suppress) *va_arg(args,int *)=input-start;
+            ++converted; continue;
+        }
+        if (conversion!='c') while (isspace((unsigned char)*input)) ++input;
+        if (!*input) { if (!converted) assigned=EOF; break; }
+        if (conversion=='s' || conversion=='c') {
+            char *output=suppress?NULL:va_arg(args,char *);
+            int n=0;
+            if (conversion=='c' && width==INT_MAX) width=1;
+            while (n<width && *input && (conversion=='c' || !isspace((unsigned char)*input))) {
+                if (output) output[n]=*input;
+                ++n; ++input;
+            }
+            if (!n) break;
+            if (output) { if (conversion=='s') output[n]=0; ++assigned; }
+            ++converted; continue;
+        }
+        if (!strchr("diuoxX",conversion)) recon_unsupported("sscanf conversion");
+        if (*input=='+' || *input=='-') { negative=*input=='-'; ++input; --width; }
+        if (conversion=='o') base=8;
+        else if (conversion=='x' || conversion=='X') base=16;
+        else if (conversion=='i') base=0;
+        if ((base==0 || base==16) && width>2 && input[0]=='0' && (input[1]=='x' || input[1]=='X') && isxdigit((unsigned char)input[2])) {
+            base=16; input+=2; width-=2;
+        } else if (!base) base=*input=='0'?8:10;
+        while (width>0 && *input) {
+            unsigned char c=*input; unsigned digit;
+            if (c>='0' && c<='9') digit=c-'0';
+            else if (c>='a' && c<='f') digit=c-'a'+10;
+            else if (c>='A' && c<='F') digit=c-'A'+10;
+            else break;
+            if (digit>=(unsigned)base) break;
+            value=value*base+digit; ++input; --width; ++digits;
+        }
+        if (!digits) break;
+        if (negative) value=0UL-value;
+        if (!suppress) {
+            if (length<0) *va_arg(args,unsigned short *)=(unsigned short)value;
+            else if (length>0) *va_arg(args,unsigned long *)=value;
+            else *va_arg(args,unsigned *)=value;
+            ++assigned;
+        }
+        ++converted;
+    }
+    va_end(args);
+    return assigned;
+}
+
+static void sort_swap(unsigned char *a,unsigned char *b,size_t width)
+{
+    if (a!=b) while (width--) { unsigned char c=*a; *a++=*b; *b++=c; }
+}
+/* VC1 QSORT.OBJ: midpoint pivot, <=8-element maximum-selection shortsort.
+ * This tie ordering is observable in LINK's serialized import tables.
+ * Verified against LINK.EXE [0x519d0,0x51b40) and shortsort [0x51b40,0x51ba0).
+ * Host qsort need not preserve the ordering of equal keys. */
+void recon_qsort(void *array,size_t count,size_t width,int (*compare)(const void *,const void *))
+{
+    unsigned char *base=array;
+    size_t lo=0,hi,low_stack[32],high_stack[32];
+    unsigned stack=0;
+    if (count<2 || !width) return;
+    hi=count-1;
+    for (;;) {
+        if (hi-lo+1<=8) {
+            size_t end;
+            for (end=hi;end>lo;--end) {
+                size_t max=lo,p;
+                for (p=lo+1;p<=end;++p)
+                    if (compare(base+p*width,base+max*width)>0) max=p;
+                sort_swap(base+max*width,base+end*width,width);
+            }
+        } else {
+            size_t left=lo,right=hi+1;
+            sort_swap(base+(lo+(hi-lo+1)/2)*width,base+lo*width,width);
+            for (;;) {
+                do ++left; while (left<=hi && compare(base+left*width,base+lo*width)<=0);
+                do --right; while (right>lo && compare(base+right*width,base+lo*width)>=0);
+                if (right<left) break;
+                sort_swap(base+left*width,base+right*width,width);
+            }
+            sort_swap(base+lo*width,base+right*width,width);
+            /* Push the larger side, iterate the smaller: bounded stack. The
+             * original compares byte distances, including its minus-one byte. */
+            if ((long)((right-lo)*width)-1 >= (long)(hi*width)-(long)(left*width)) {
+                if (lo+1<right) { low_stack[stack]=lo; high_stack[stack++]=right-1; }
+                if (left<hi) { lo=left; continue; }
+            } else {
+                if (left<hi) { low_stack[stack]=left; high_stack[stack++]=hi; }
+                if (lo+1<right) { hi=right-1; continue; }
+            }
+        }
+        if (!stack) break;
+        --stack; lo=low_stack[stack]; hi=high_stack[stack];
+    }
+}

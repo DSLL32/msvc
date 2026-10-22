@@ -1,6 +1,7 @@
 #ifndef LINK_MODULES_H
 #define LINK_MODULES_H
 #include "linker-types.h"
+#include <recon.h>
 typedef struct ComdatNode ComdatNode;
 typedef struct ComdatModule ComdatModule;
 typedef struct Module Module;

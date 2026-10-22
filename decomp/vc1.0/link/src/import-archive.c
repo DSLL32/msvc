@@ -68,6 +68,7 @@ void write_import_member_names(SymbolTable *table,unsigned short member)
 
 
 #include <time.h>
+#include <recon.h>
 #pragma intrinsic(memcpy,memset)
 IMAGE_ARCHIVE_MEMBER_HEADER generated_archive_header;
 

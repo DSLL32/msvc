@@ -1,6 +1,7 @@
 #ifndef LINK_FILES_H
 #define LINK_FILES_H
 #include "linker-types.h"
+#include <recon.h>
 
 typedef struct Page {
     int handle;

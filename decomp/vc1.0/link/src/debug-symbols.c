@@ -1,6 +1,7 @@
 /* Per-input-section COFF function/line-number associations. */
 #include "pass-two.h"
 #include <stddef.h>
+#include <recon.h>
 typedef char cv_subsection_layout[(sizeof(CvSubsection)==12)?1:-1];
 typedef char module_debug_layout[(sizeof(ModuleDebugInfo)==76)?1:-1];
 typedef char module_debug_symbols_layout[(offsetof(ModuleDebugInfo,symbols)==0x1c)?1:-1];

@@ -1,5 +1,6 @@
 /* Per-module output helpers waiting for matching frontiers. */
 #include "pass-two.h"
+#include <recon.h>
 
 
 

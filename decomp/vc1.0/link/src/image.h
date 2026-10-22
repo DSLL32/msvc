@@ -2,6 +2,8 @@
 #define LINK_IMAGE_H
 #include "modules.h"
 #include "symbols.h"
+#include <recon.h>
+struct Argument;
 /* Mode-private options share the native library/dump display word. */
 typedef enum RawDumpFormat { DUMP_BYTES,DUMP_SHORTS,DUMP_LONGS } RawDumpFormat;
 typedef struct DumpListingFlags {

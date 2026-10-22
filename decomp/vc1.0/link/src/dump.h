@@ -1,6 +1,7 @@
 #ifndef LINK_DUMP_H
 #define LINK_DUMP_H
 #include "library.h"
+#include <recon.h>
 extern Image *dump_image;
 extern unsigned char *dump_buffer;
 extern unsigned short dump_buffer_size;

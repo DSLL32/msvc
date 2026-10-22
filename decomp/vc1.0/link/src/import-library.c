@@ -1,6 +1,7 @@
 /* Import-library and .exp construction orchestrator. */
 #include "import-library.h"
 #include <time.h>
+#include <recon.h>
 #pragma intrinsic(strlen,strcpy,strcat,memcpy)
 extern char *output_name,default_output_name[],*def_filename;
 extern Module *output_module;

@@ -2,6 +2,7 @@
 #define LINK_PASS_ONE_H
 #include "image.h"
 #include "arguments.h"
+#include <recon.h>
 void pass_one(Image *);
 void process_input_argument(Argument *,Image *);
 void recognize_input_file(Argument *,Library *,Image *,Module **);

@@ -1,5 +1,6 @@
 /* Keep imported DLL contributions together and move terminating thunks last. */
 #include "link-pass.h"
+#include <recon.h>
 #pragma intrinsic(strlen)
 
 void order_import_contributions(Image *image)

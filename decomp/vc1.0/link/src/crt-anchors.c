@@ -1,3 +1,4 @@
+#include <recon.h>
 /* Pull in the same static CRT termination-table members as LINK.EXE.
  * Merely using printf/fopen does not pull these separate objects from LIBC.
  */

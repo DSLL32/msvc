@@ -1,6 +1,7 @@
 #ifndef LINK_ARCHIVE_H
 #define LINK_ARCHIVE_H
 #include "image.h"
+#include <recon.h>
 extern unsigned long archive_data_offset,archive_member_size;
 void read_archive_index(Library *,unsigned short,Image *);
 PIMAGE_ARCHIVE_MEMBER_HEADER read_archive_header(void);

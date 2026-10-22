@@ -1,5 +1,6 @@
 /* Module-definition language used while building import libraries. */
 #include "definition-file.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcpy,strcat,strcmp)
 FILE *definition_stream;
 char *definition_cursor;

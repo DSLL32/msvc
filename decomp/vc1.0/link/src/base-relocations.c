@@ -1,5 +1,6 @@
 /* PE base relocation blocks emitted from the target's typed fixup records. */
 #include "link-pass.h"
+#include <recon.h>
 
 /* Group fixups by4KB page and serialize IMAGE_BASE_RELOCATION blocks. */
 extern const unsigned char output_zero_padding[16];

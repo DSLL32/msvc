@@ -1,6 +1,7 @@
 /* Build an import-library command and feed its generated .exp back to pass one. */
 #include "link-pass.h"
 #include <process.h>
+#include <recon.h>
 #pragma intrinsic(strlen)
 extern char *output_name;
 

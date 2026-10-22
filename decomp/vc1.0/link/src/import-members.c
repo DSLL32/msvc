@@ -1,5 +1,6 @@
 /* Construct ordinary COFF objects within the generated import archive. */
 #include "import-library.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcpy,memset)
 extern unsigned long symbol_record_size;
 extern unsigned long mapped_close_seek_position;

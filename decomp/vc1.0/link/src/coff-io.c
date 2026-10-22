@@ -2,6 +2,7 @@
 #include "object.h"
 #include "files.h"
 #include "link-pass.h"
+#include <recon.h>
 TextBuffer coff_string_buffer, coff_symbol_buffer;
 unsigned char coff_strings_cached, coff_symbols_cached;
 char section_name_buffer[9];

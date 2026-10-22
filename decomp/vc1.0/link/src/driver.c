@@ -1,4 +1,5 @@
 #include "link.h"
+#include <recon.h>
 /* The following independent global begins at original 0005c06c. */
 char debug_flags[100];
 void debug_initialize(char *text,char *variable)

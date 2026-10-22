@@ -1,5 +1,6 @@
 /* Input modules and libraries, output sections, and sorted contribution groups. */
 #include "modules.h"
+#include <recon.h>
 #pragma intrinsic(strcat,strcmp)
 extern unsigned char mac_image, mac_small_model;
 void (*module_error)(char *,int,char *);

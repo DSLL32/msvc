@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <recon.h>
 typedef struct Tool { char *name; unsigned short length, padding; int kind; int (*run)(int, char **); } Tool;
 extern Tool tools[];
 extern char *executable_path, *program_name, *tool_name;

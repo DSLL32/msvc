@@ -1,6 +1,7 @@
 /* Object operations not yet entered by an accepted frontier. */
 #include "object.h"
 #include "comdat.h"
+#include <recon.h>
 void initialize_mac_object_symbols(unsigned long count) { __asm { int 3 } }
 void finish_mac_object_symbols(void) { __asm { int 3 } }
 void process_mac_object_symbols(SymbolTable *table,PIMAGE_SYMBOL symbols,char *strings) { __asm { int 3 } }

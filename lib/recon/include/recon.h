@@ -1,0 +1,278 @@
+#ifndef RECON_SHIMS_H
+#define RECON_SHIMS_H
+/* Empty in the canonical Win32 build. Include last, after ordinary includes. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+/* Consume host declarations before any token remapping. Project headers may
+ * include this header before their caller has finished its own include list. */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+#include <stdarg.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <ctype.h>
+#include <errno.h>
+#include <time.h>
+#include <setjmp.h>
+#include <sys/stat.h>
+#include <win32.h>
+
+#define _MAX_PATH 260
+#define _MAX_DRIVE 3
+#define _MAX_DIR 256
+#define _MAX_FNAME 256
+#define _MAX_EXT 256
+#define _P_WAIT 0
+#define _P_NOWAIT 1
+#define _P_OVERLAY 2
+
+typedef struct ShimFILE {
+ char *_ptr; int _cnt; char *_base; int _flag,_file,_charbuf,_bufsiz; char *_tmpfname;
+} ShimFILE;
+typedef char ReconFileIs32[(sizeof(ShimFILE)==32)?1:-1];
+struct recon_stat { long st_size; };
+extern ShimFILE recon_iob[20];
+extern unsigned char recon_osfile[256];
+extern unsigned recon_nhandle;
+extern int recon_fmode,recon_commode,recon_cflush,recon_umaskval;
+extern unsigned long recon_doserrno,recon_lc_handle[6];
+extern unsigned recon_lc_codepage;
+extern int recon_mb_cur_max;
+extern unsigned short *recon_pctype;
+extern char *recon_pgmptr,*recon_aenvptr;
+extern long recon_timezone;
+extern int recon_daylight;
+extern char *recon_tzname[2];
+extern int recon_days[13],recon_fltused,recon_tmpoff;
+
+ShimFILE *recon_fopen(const char *,const char *);
+int recon_fclose(ShimFILE *),recon_fflush(ShimFILE *);
+size_t recon_fread(void *,size_t,size_t,ShimFILE *);
+size_t recon_fwrite(const void *,size_t,size_t,ShimFILE *);
+int recon_fseek(ShimFILE *,long,int);
+long recon_ftell(ShimFILE *);
+int recon_setvbuf(ShimFILE *,char *,int,size_t);
+int recon_fgetc(ShimFILE *),recon_fputc(int,ShimFILE *);
+char *recon_fgets(char *,int,ShimFILE *);
+int recon_fputs(const char *,ShimFILE *),recon_puts(const char *);
+int recon_fprintf(ShimFILE *,const char *,...),recon_printf(const char *,...);
+int recon_vfprintf(ShimFILE *,const char *,va_list);
+int recon_sscanf(const char *,const char *,...);
+void recon_qsort(void *,size_t,size_t,int (*)(const void *,const void *));
+int recon_ungetc(int,ShimFILE *),recon_ferror(ShimFILE *),recon_feof(ShimFILE *);
+void recon_clearerr(ShimFILE *),recon_rewind(ShimFILE *);
+int recon_fileno(ShimFILE *);
+int recon_open(const char *,int,...),recon_sopen(const char *,int,int,...);
+ShimFILE *recon_openfile(const char *,const char *,int,ShimFILE *);
+int recon_read(int,void *,unsigned),recon_write(int,const void *,unsigned),recon_close(int);
+long recon_lseek(int,long,int),recon_tell(int),recon_filelength(int);
+int recon_chsize(int,long),recon_access(const char *,int),recon_stat(const char *,struct recon_stat *);
+int recon_alloc_osfhnd(void),recon_set_osfhnd(int,long);
+long recon_get_osfhandle(int);
+void recon_dosmaperr(unsigned long),recon_getbuf(ShimFILE *),recon_freebuf(ShimFILE *);
+int recon_flush(ShimFILE *),recon_filbuf(ShimFILE *);
+int recon_remove(const char *),recon_rename(const char *,const char *);
+void recon_splitpath(const char *,char *,char *,char *,char *);
+void recon_makepath(char *,const char *,const char *,const char *,const char *);
+char *recon_fullpath(char *,const char *,size_t),*recon_strupr(char *),*recon_strlwr(char *);
+char *recon_ultoa(unsigned long,char *,int),*recon_itoa(int,char *,int);
+char *recon_mktemp(char *),*recon_tempnam(const char *,const char *);
+char *recon_getpath(const char *,char *,int);
+int recon_wcscmp(const WCHAR *,const WCHAR *);
+int recon_isctype(int,int),recon_toupper(int),recon_tolower(int);
+void recon_tzset(void),recon_endstdio(void),recon_rmtmp(void);
+int recon_isindst(struct tm *);
+int recon_spawnve(int,const char *,const char *const *,const char *const *);
+int recon_spawnvpe(int,const char *,const char *const *,const char *const *);
+int recon_spawnvp(int,const char *,const char *const *);
+int recon_spawnl(int,const char *,const char *,...);
+int recon_spawnlp(int,const char *,const char *,...);
+int recon_cenvarg(const char *const *,const char *const *,char **,char **,const char *);
+time_t recon_time(time_t *);
+void recon_exit(int);
+/* Resolve DOS paths with explicit RECON_DRIVE_X mappings (Z defaults to /).
+ * No Wine prefix or executable discovery is performed. */
+int recon_host_path(const char *,char *,size_t);
+void recon_unsupported(const char *);
+
+#define RECON_WIN32_FUNCTIONS(X) \
+ X(HANDLE,CreateFileA,(LPCSTR,DWORD,DWORD,LPSECURITY_ATTRIBUTES,DWORD,DWORD,HANDLE)) \
+ X(BOOL,CloseHandle,(HANDLE)) X(DWORD,GetLastError,(void)) X(void,SetLastError,(DWORD)) \
+ X(DWORD,GetFileType,(HANDLE)) X(DWORD,SetFilePointer,(HANDLE,LONG,LONG *,DWORD)) \
+ X(BOOL,SetEndOfFile,(HANDLE)) X(BOOL,ReadFile,(HANDLE,LPVOID,DWORD,LPDWORD,LPVOID)) \
+ X(BOOL,WriteFile,(HANDLE,LPCVOID,DWORD,LPDWORD,LPVOID)) X(BOOL,FlushFileBuffers,(HANDLE)) \
+ X(HANDLE,GetStdHandle,(DWORD)) X(BOOL,SetStdHandle,(DWORD,HANDLE)) \
+ X(HMODULE,GetModuleHandleA,(LPCSTR)) X(HMODULE,LoadLibraryA,(LPCSTR)) \
+ X(FARPROC,GetProcAddress,(HMODULE,LPCSTR)) \
+ X(HANDLE,CreateFileMappingA,(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR)) \
+ X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
+ X(BOOL,SetConsoleCtrlHandler,(BOOL (WINAPI *)(DWORD),BOOL)) \
+ X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(DWORD,GetVersion,(void)) \
+ X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) \
+ X(LPVOID,VirtualAlloc,(LPVOID,DWORD,DWORD,DWORD)) X(BOOL,VirtualFree,(LPVOID,DWORD,DWORD)) \
+ X(HGLOBAL,GlobalAlloc,(UINT,DWORD)) X(HGLOBAL,GlobalFree,(HGLOBAL)) \
+ X(int,MultiByteToWideChar,(UINT,DWORD,LPCSTR,int,LPWSTR,int)) \
+ X(int,WideCharToMultiByte,(UINT,DWORD,LPCWSTR,int,LPSTR,int,LPCSTR,BOOL *)) \
+ X(int,LCMapStringW,(DWORD,DWORD,LPCWSTR,int,LPWSTR,int))
+#define RECON_DECLARE_WIN32(result,name,args) result WINAPI recon_##name args;
+RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
+#undef RECON_DECLARE_WIN32
+
+#ifndef RECON_SHIM_IMPL
+/* Clang accepts the original MS inline-assembly trap bodies. Native fixtures
+ * run ordinary paths; SEH faults must fail the native test, never be swallowed. */
+#define __try if (1)
+#define __except(filter) else if (0)
+#define FILE ShimFILE
+#define wcscmp recon_wcscmp
+#undef stdin
+#undef stdout
+#undef stderr
+#define stdin (&recon_iob[0])
+#define stdout (&recon_iob[1])
+#define stderr (&recon_iob[2])
+#undef getc
+#undef putc
+#undef getchar
+#undef putchar
+#define getc recon_fgetc
+#define putc recon_fputc
+#define getchar() recon_fgetc(stdin)
+#define putchar(c) recon_fputc((c),stdout)
+#define fopen recon_fopen
+#define fclose recon_fclose
+#define fflush recon_fflush
+#define fread recon_fread
+#define fwrite recon_fwrite
+#define fseek recon_fseek
+#define ftell recon_ftell
+#define setvbuf recon_setvbuf
+#define fgetc recon_fgetc
+#define fputc recon_fputc
+#define fgets recon_fgets
+#define fputs recon_fputs
+#define puts recon_puts
+#define fprintf recon_fprintf
+#define printf recon_printf
+#define vfprintf recon_vfprintf
+#define sscanf recon_sscanf
+#define qsort recon_qsort
+#define ungetc recon_ungetc
+#define ferror recon_ferror
+#define feof recon_feof
+#define clearerr recon_clearerr
+#define rewind recon_rewind
+#define fileno recon_fileno
+#define remove recon_remove
+#define rename recon_rename
+#define time recon_time
+#define exit recon_exit
+#define _open recon_open
+#define _sopen recon_sopen
+#define _openfile recon_openfile
+#define _read recon_read
+#define _write recon_write
+#define _close recon_close
+#define _lseek recon_lseek
+#define _tell recon_tell
+#define _filelength recon_filelength
+#define _chsize recon_chsize
+#define _access recon_access
+#define _stat recon_stat
+#define _alloc_osfhnd recon_alloc_osfhnd
+#define _set_osfhnd recon_set_osfhnd
+#define _get_osfhandle recon_get_osfhandle
+#define _dosmaperr recon_dosmaperr
+#define _getbuf recon_getbuf
+#define _freebuf recon_freebuf
+#define _flush recon_flush
+#define _filbuf recon_filbuf
+#define _splitpath recon_splitpath
+#define _makepath recon_makepath
+#define _fullpath recon_fullpath
+#define _strupr recon_strupr
+#define _strlwr recon_strlwr
+#define _ultoa recon_ultoa
+#define _itoa recon_itoa
+#define _mktemp recon_mktemp
+#define _tempnam recon_tempnam
+#define _getpath recon_getpath
+#define _isctype recon_isctype
+#define _endstdio recon_endstdio
+#define _rmtmp recon_rmtmp
+#define _spawnve recon_spawnve
+#define _spawnvpe recon_spawnvpe
+#define _spawnvp recon_spawnvp
+#define _spawnl recon_spawnl
+#define _spawnlp recon_spawnlp
+#define _cenvarg recon_cenvarg
+#define _isindst recon_isindst
+#define _osfile recon_osfile
+#define _nhandle recon_nhandle
+#define _fmode recon_fmode
+#define _commode recon_commode
+#define _cflush recon_cflush
+#define _umaskval recon_umaskval
+#define _doserrno recon_doserrno
+#define _lc_handle recon_lc_handle
+#define _lc_codepage recon_lc_codepage
+#define _pctype recon_pctype
+#define _pgmptr recon_pgmptr
+#define _aenvptr recon_aenvptr
+#define _timezone recon_timezone
+#define _daylight recon_daylight
+#define _tzname recon_tzname
+#define _days recon_days
+#define _fltused recon_fltused
+#define _tmpoff recon_tmpoff
+#define CreateFileA recon_CreateFileA
+#define CloseHandle recon_CloseHandle
+#define GetLastError recon_GetLastError
+#define SetLastError recon_SetLastError
+#define GetFileType recon_GetFileType
+#define SetFilePointer recon_SetFilePointer
+#define SetEndOfFile recon_SetEndOfFile
+#define ReadFile recon_ReadFile
+#define WriteFile recon_WriteFile
+#define FlushFileBuffers recon_FlushFileBuffers
+#define GetStdHandle recon_GetStdHandle
+#define SetStdHandle recon_SetStdHandle
+#define GetModuleHandleA recon_GetModuleHandleA
+#define LoadLibraryA recon_LoadLibraryA
+#define GetProcAddress recon_GetProcAddress
+#define CreateFileMappingA recon_CreateFileMappingA
+#define MapViewOfFile recon_MapViewOfFile
+#define UnmapViewOfFile recon_UnmapViewOfFile
+#define SetConsoleCtrlHandler recon_SetConsoleCtrlHandler
+#define GetModuleFileNameA recon_GetModuleFileNameA
+#define GetVersion recon_GetVersion
+#define GetSystemTime recon_GetSystemTime
+#define ExitProcess recon_ExitProcess
+#define VirtualAlloc recon_VirtualAlloc
+#define VirtualFree recon_VirtualFree
+#define GlobalAlloc recon_GlobalAlloc
+#define GlobalFree recon_GlobalFree
+#define MultiByteToWideChar recon_MultiByteToWideChar
+#define WideCharToMultiByte recon_WideCharToMultiByte
+#define LCMapStringW recon_LCMapStringW
+#undef toupper
+#define toupper recon_toupper
+#undef tolower
+#define tolower recon_tolower
+#define _strdup strdup
+#define _stricmp strcasecmp
+#define _strcmpi strcasecmp
+#define _strnicmp strncasecmp
+#define _iob recon_iob
+#define __mb_cur_max recon_mb_cur_max
+#define __tzset recon_tzset
+#undef _IOFBF
+#undef _IOLBF
+#undef _IONBF
+#define _IOFBF 0
+#define _IOLBF 0x40
+#define _IONBF 4
+#endif /* !RECON_SHIM_IMPL */
+#endif /* Linux native test build */
+#endif

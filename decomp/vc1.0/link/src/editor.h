@@ -1,6 +1,7 @@
 #ifndef LINK_EDITOR_H
 #define LINK_EDITOR_H
 #include "library.h"
+#include <recon.h>
 extern Image *edit_image;
 extern PIMAGE_SECTION_HEADER edit_section_headers;
 extern unsigned char edit_optional_changed;

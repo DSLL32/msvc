@@ -2,6 +2,7 @@
 #define LINK_LIBRARY_H
 #include "link-pass.h"
 #include "archive.h"
+#include <recon.h>
 extern char *library_listing_name,*extract_member;
 extern Library *first_input_library;
 extern unsigned char remove_members_requested;

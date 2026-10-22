@@ -164,3 +164,53 @@ per-case wall times. Setup, fast pair, final output oracles and fresh history/
 terminal calls are separated where measured. Unsplit overhead and unmeasured
 clean-build/startup time are labeled. Other workers were active during timing;
 prototype speedups are not assumed for this adapter.
+
+Native Linux output checks
+
+The original-toolchain Win32 build remains the default. An additional i386 ELF
+build compiles the same reconstruction sources with the shared lib/recon shims:
+    make -j4 native
+    make -j4 native-check
+    python3 scripts/check-native.py --case cpp-undecorate
+
+Clang, 32-bit libc development files and a working -m32 compiler are required.
+The native flags are -std=gnu89 -fms-extensions -fasm-blocks -O0 -g; the Microsoft
+extensions express the existing calling conventions and pending INT3 stubs.
+RECON_NATIVE_TEST enables the header mappings. Every reconstruction C/header
+includes recon.h last; the header is empty in the canonical build. Native object
+files live in build/native and the final link compiles lib/recon/src/*.c directly
+alongside those objects. No shim archive or alternate reconstruction is used.
+
+scripts/check-native.py launches only the native ELF. It verifies captured input
+and output hashes before launch, compares exit and streams exactly, and compares
+artifacts using the fixtures' existing structural timestamp rules. Missing
+captured references fail. Toolchain libraries and the editor message catalog are
+read-only inputs with previously captured hashes. It never invokes Wine, an
+original executable, reference-refresh tooling, generated PE programs, or the GUI
+and DLL-load helpers. The native clock runs normally; only the timestamp fields
+already declared by the immutable fixture may differ. Pacific timezone settings
+match the captured NT CRT rendering, including daylight saving.
+
+The ordinary native set comprises help, archive create/list/extract/remove,
+trimmed listing, four dump phases, editor, OMF library/conversion link, C++
+undecoration and the minimal C link. Each phase starts independently with captured
+inputs. Fresh private working directories and timing receipts are written under
+~/.ai-tmp/vc1.0-link/native-check-*. Receipts separate setup, native execution and
+output checks; build timing is labeled unmeasured unless separately recorded.
+Produced executable bytes are checked but never executed by this runner.
+
+This output checker does not implement native historical first-entry tracing or
+replace the canonical ABI/graph and paired-frontier audits. Windows SEH fault
+paths, console-signal delivery and process-tree tests remain outside its scope.
+DLL import-library self-spawn, full-debug external CVPACK, GUI paint and DLL
+load/call/unload cases are not registered as native checks. The shim process
+boundary rejects PE dependencies instead of automatically running Wine.
+
+cases/native-validation.json records the completed native adoption: all fifteen
+registered phases passed with exact captured streams/status and artifacts under
+the existing timestamp rules. It records per-case setup/execution/oracle times,
+three earlier diagnostic fixture batches, measured build receipts and explicitly
+unmeasured diagnostic/build work. Raw receipts and logs remain in the recorded
+scratch directories. The original-toolchain parallel compile/link and all static
+call-target, callback, contextual-data, ABI and extent-boundary audits passed.
+The accepted 640 frontiers and 193671/281634-byte extent metric are unchanged.

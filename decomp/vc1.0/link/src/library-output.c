@@ -1,5 +1,6 @@
 /* Ordinary COFF archive creation: indexes, long names and original members. */
 #include "import-library.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcpy)
 
 int write_library(unsigned char raw_members,Image *image)

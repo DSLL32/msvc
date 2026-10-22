@@ -1,5 +1,6 @@
 /* Split name[:[key=]value,...], original [0003a580,0003a710). */
 #include "options.h"
+#include <recon.h>
 ParsedSwitch *parse_switch(char *text)
 {
     char *colon = strchr(text, ':'), *scan, *copy, *value, *next, *equals;

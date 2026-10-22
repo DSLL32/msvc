@@ -1,5 +1,6 @@
 /* Zeroed allocation blocks chained for bulk release by the COMDAT owner. */
 #include "linker-types.h"
+#include <recon.h>
 
 void *allocate_arena(ArenaBlock **arena,unsigned long size)
 {

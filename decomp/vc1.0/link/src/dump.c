@@ -409,6 +409,7 @@ void dump_base_relocation_block(IMAGE_BASE_RELOCATION *block,unsigned short *fix
 void dump_relocations(unsigned long count,IMAGE_SECTION_HEADER *section);
 void dump_lines(unsigned long count);
 #include <ctype.h>
+#include <recon.h>
 /* This shared row is mutated for each sixteen-byte ASCII preview. */
 char dump_ascii[]="12345678|12345678";
 

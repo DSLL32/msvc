@@ -1,5 +1,6 @@
 /* Growable byte buffers. Length excludes any terminator supplied by a caller. */
 #include "linker-types.h"
+#include <recon.h>
 
 void reserve_text(TextBuffer *buffer,unsigned long required)
 {

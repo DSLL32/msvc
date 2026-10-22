@@ -1,5 +1,6 @@
 /* Image editing, with mode helpers retaining their native graph vertices. */
 #include "editor.h"
+#include <recon.h>
 Image *edit_image;
 PIMAGE_SECTION_HEADER edit_section_headers;
 unsigned char edit_optional_changed;

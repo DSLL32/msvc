@@ -1,5 +1,6 @@
 /* Native diagnostics and lazily opened external message catalog. */
 #include "linker-types.h"
+#include <recon.h>
 char *lookup_diagnostic_text(unsigned);
 const char *lookup_diagnostic_code(unsigned);
 void open_diagnostic_file(const char *);

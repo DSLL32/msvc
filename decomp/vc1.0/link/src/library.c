@@ -1,6 +1,7 @@
 /* Library-manager driver and archive member replacement/extraction. */
 #include "library.h"
 #include <io.h>
+#include <recon.h>
 #pragma intrinsic(strlen,strcat)
 extern char *output_name,default_output_name[],*def_filename;
 extern Module *output_module;

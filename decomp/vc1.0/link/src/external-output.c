@@ -1,5 +1,6 @@
 /* Sorted external-symbol diagnostics and COFF symbol emission. */
 #include "link-pass.h"
+#include <recon.h>
 
 void emit_externals(SymbolTable *table,unsigned char defined,unsigned char emit,
                     unsigned char name_order,ImageOptions *options)

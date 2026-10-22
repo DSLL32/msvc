@@ -1,3 +1,4 @@
+#include <recon.h>
 #ifndef LINK_DOS_STUB_H
 #define LINK_DOS_STUB_H
 #pragma pack(1)

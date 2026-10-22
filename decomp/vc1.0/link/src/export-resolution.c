@@ -1,5 +1,6 @@
 /* Resolve undecorated exports against linked definitions and archive indexes. */
 #include "import-library.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcmp,strcpy,strcat,memcpy)
 extern char *def_filename;
 

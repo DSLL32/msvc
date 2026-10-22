@@ -1,6 +1,7 @@
 #ifndef LINK_OBJECT_H
 #define LINK_OBJECT_H
 #include "pass-one.h"
+#include <recon.h>
 typedef struct MacRelocationRef { Contribution *contribution; unsigned long offset; } MacRelocationRef;
 typedef struct MacFixupList {
     MacRelocationRef *records;

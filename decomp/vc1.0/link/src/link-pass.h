@@ -4,6 +4,7 @@
 #include "options.h"
 #include "comdat.h"
 #include <time.h>
+#include <recon.h>
 typedef struct SectionDefault { char *name; unsigned long flags; } SectionDefault;
 typedef struct Fixup { unsigned long type,offset,rva; } Fixup;
 typedef struct FixupBlock { struct FixupBlock *next; Fixup records[341]; } FixupBlock;

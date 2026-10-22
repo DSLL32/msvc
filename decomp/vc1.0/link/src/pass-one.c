@@ -5,6 +5,7 @@
 #pragma intrinsic(strcmp)
 #include "machine.h"
 #include "comdat.h"
+#include <recon.h>
 unsigned long archive_data_offset,archive_member_size;
 Library *explicit_input_library;
 unsigned char output_open, infer_entry_point;

@@ -1,6 +1,7 @@
 /* Segmented linear hash table and external-symbol table initialization. */
 #include "options.h"
 #include "link-pass.h"
+#include <recon.h>
 #pragma intrinsic(strcmp,strlen,strcpy)
 char short_symbol_name[9];
 

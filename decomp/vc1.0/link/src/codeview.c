@@ -1,5 +1,6 @@
 /* NB05 CodeView module, public, library and segment-map subsections. */
 #include "codeview.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcmp)
 extern ModuleDebugInfo *module_debug_info;
 extern unsigned long output_module_index,codeview_start,codeview_end;

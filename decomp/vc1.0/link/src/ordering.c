@@ -2,6 +2,7 @@
 #include "pass-one.h"
 #include "options.h"
 #include "link-pass.h"
+#include <recon.h>
 #pragma intrinsic(strlen)
 unsigned char order_enabled;
 void reorder_code_contributions(Image *);

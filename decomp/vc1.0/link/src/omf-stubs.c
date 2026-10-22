@@ -1,5 +1,6 @@
 /* Named native conversion frontiers not yet reconstructed. */
 #include "omf.h"
+#include <recon.h>
 void omf_warning(const char *format,...) { __asm { int 3 } }
 void omf_error(const char *format,...) { __asm { int 3 } }
 void omf_convert_debug_types(void) { __asm { int 3 } }

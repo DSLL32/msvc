@@ -1,5 +1,6 @@
 /* Build the COFF .exp object containing the PE export directory. */
 #include "import-library.h"
+#include <recon.h>
 #pragma intrinsic(strlen,strcpy,strcat,memcpy)
 extern unsigned long symbol_record_size;
 char *export_description,*export_directives;

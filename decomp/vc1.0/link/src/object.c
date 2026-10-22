@@ -1,6 +1,7 @@
 /* COFF sections and symbols read during pass one. */
 #include "link-pass.h"
 #include "comdat.h"
+#include <recon.h>
 #pragma intrinsic(strcmp,strcpy)
 char *coff_strings;
 unsigned long section_header_offset;

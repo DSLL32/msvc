@@ -2,6 +2,7 @@
 #include "pass-two.h"
 #include "archive.h"
 #include "machine.h"
+#include <recon.h>
 
 void pass_two(Image *image)
 {

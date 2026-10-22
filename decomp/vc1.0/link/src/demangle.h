@@ -1,6 +1,7 @@
 #ifndef LINK_DEMANGLE_H
 #define LINK_DEMANGLE_H
 #include "symbols.h"
+#include <recon.h>
 typedef void *(__cdecl *DemangleAllocate)(unsigned);
 typedef void (__cdecl *DemangleRelease)(void *);
 char *demangle_symbol(char *,const char *,int,DemangleAllocate,DemangleRelease,unsigned short);

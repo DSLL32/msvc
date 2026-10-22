@@ -3,6 +3,7 @@
 #include "dos-stub.h"
 #include "pass-one.h"
 #include <io.h>
+#include <recon.h>
 #pragma intrinsic(strlen,strcpy,strcat)
 ArgumentList switches,section_merges,section_overrides,exports;
 TextBuffer image_comments;

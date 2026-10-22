@@ -2,6 +2,7 @@
 #include "omf.h"
 #include <io.h>
 #include <time.h>
+#include <recon.h>
 jmp_buf omf_abort;
 char omf_source_filename[260];
 int omf_argument_index,omf_option_character,omf_debug_mode;

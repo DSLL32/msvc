@@ -1,6 +1,13 @@
 /* Runtime differences from the shipped LIBC.LIB, reconstructed from LINK.EXE. */
-#include "link.h"
+#include <ctype.h>
 #include <io.h>
+#include <errno.h>
+#include <time.h>
+#include <process.h>
+#undef toupper
+#undef tolower
+#include "link.h"
+#include <recon.h>
 extern int _flush(FILE *);
 extern void _freebuf(FILE *);
 extern int _cflush;
@@ -89,7 +96,6 @@ FILE *_openfile(const char *name, const char *mode, int sharing, FILE *stream)
     return stream;
 }
 
-#include <errno.h>
 extern unsigned char _osfile[];
 extern int _umaskval;
 extern int _alloc_osfhnd(void);
@@ -191,7 +197,6 @@ int _filbuf(FILE *stream)
 }
 
 /* [00052970,00052ae0). Both locale handle and code page select the fast path. */
-#undef toupper
 extern unsigned long _lc_handle[];
 extern unsigned int _lc_codepage;
 int toupper(int c)
@@ -221,7 +226,6 @@ int toupper(int c)
 }
 
 /* [00059510,00059680). The older locale/code-page fast-path test. */
-#undef tolower
 int tolower(int c)
 {
     char bytes[3];
@@ -249,7 +253,6 @@ int tolower(int c)
 }
 
 /* The executable predates the library parser's Win32 timezone fallback. */
-#include <time.h>
 char *timezone_previous;
 void __tzset(void)
 {
@@ -289,7 +292,6 @@ void __tzset(void)
 }
 
 
-#include <process.h>
 extern char *_getpath(const char *,char *,int);
 #pragma intrinsic(strlen,strcpy)
 /* [00056b60,00056cf0). This older PATH search tests only '/' initially. */

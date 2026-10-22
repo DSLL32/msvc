@@ -2,6 +2,7 @@
 #include "archive.h"
 #include "machine.h"
 #include "pass-one.h"
+#include <recon.h>
 extern unsigned read_coff_header(int,IMAGE_FILE_HEADER *);
 
 void read_archive_index(Library *library,unsigned short flags,Image *image)

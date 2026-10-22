@@ -1,6 +1,7 @@
 /* Initial COFF, PE32, and linker settings. */
 #include "image.h"
 #include <stddef.h>
+#include <recon.h>
 typedef char image_options_layout[(sizeof(ImageOptions)==72)?1:-1];
 typedef char image_layout[(sizeof(Image)==0x158)?1:-1];
 typedef char image_sections_layout[(offsetof(Image,sections)==0x13c)?1:-1];

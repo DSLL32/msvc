@@ -1,5 +1,6 @@
 /* Image checksum entry point shared by linking and editing. */
 #include "pass-two.h"
+#include <recon.h>
 PIMAGE_NT_HEADERS checksum_mapped_image(void *,unsigned long,unsigned long *,unsigned long *);
 
 /* Original [00025c60,00025cd0). This operation requires the mapped file backend. */

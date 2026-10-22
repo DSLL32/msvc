@@ -1,5 +1,6 @@
 /* Parse mutable .drectve export specifications. */
 #include "import-library.h"
+#include <recon.h>
 
 void parse_export(char *text,Image *image,unsigned char directives,const char *context)
 {

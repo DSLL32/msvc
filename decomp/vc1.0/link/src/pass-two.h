@@ -1,6 +1,7 @@
 #ifndef LINK_PASS_TWO_H
 #define LINK_PASS_TWO_H
 #include "link-pass.h"
+#include <recon.h>
 typedef struct FunctionSymbol {
     unsigned long input_index,auxiliary_offset,output_index;
 } FunctionSymbol;

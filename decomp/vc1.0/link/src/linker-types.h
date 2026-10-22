@@ -1,6 +1,7 @@
 #ifndef LINKER_TYPES_H
 #define LINKER_TYPES_H
 #include "link.h"
+#include <recon.h>
 
 typedef struct TextBuffer {
     char *data;

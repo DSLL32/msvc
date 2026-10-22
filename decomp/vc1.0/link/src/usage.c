@@ -1,5 +1,6 @@
 /* Banner and linker help, original 000254f0 and 00020160. */
 #include "linker-types.h"
+#include <recon.h>
 TextBuffer command_trace;
 void print_banner(void)
 {

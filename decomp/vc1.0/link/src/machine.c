@@ -1,6 +1,7 @@
 /* Target-machine validation and relocation callback selection. */
 #include "machine.h"
 #include "comdat.h"
+#include <recon.h>
 typedef struct SectionDefault { char *name; unsigned long flags; } SectionDefault;
 extern SectionDefault bss_section_defaults;
 ApplyRelocations apply_relocations;

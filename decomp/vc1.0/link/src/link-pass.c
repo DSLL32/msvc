@@ -1,6 +1,7 @@
 /* Output layout and emission around the two linker passes. */
 #include "link-pass.h"
 #include "dos-stub.h"
+#include <recon.h>
 #pragma intrinsic(strlen)
 SectionDefault readonly_section_defaults={".rdata",0x40000040UL};
 SectionDefault bss_section_defaults={".bss",0xc0000080UL};

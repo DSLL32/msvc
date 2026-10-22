@@ -1,5 +1,6 @@
 /* Map-file symbol and relocation records accumulated during output. */
 #include "pass-two.h"
+#include <recon.h>
 #pragma intrinsic(strlen)
 typedef struct MapRelocationBlock {
     unsigned long rvas[32];
