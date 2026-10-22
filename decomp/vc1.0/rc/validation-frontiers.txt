@@ -1,3 +1,7 @@
+python3 wine-tool.py --init
+python3 audit-graph.py
+187 accepted source functions: direct calls, function references and return cleanup agree.
+python3 compare.py --replay
 case: resources-rich; accepted: 0
 original: _mainCRTStartup; reconstruction: _mainCRTStartup
 case: resources-rich; accepted: 1
@@ -496,42 +500,47 @@ case: rcinclude; accepted: 244
 original: _trim_token@4; reconstruction: _trim_token@4
 case: scanf-pushback; accepted: 245
 original: _ungetc; reconstruction: _ungetc
-case: resources-rich; accepted: 246
+case: console-interrupt; accepted: 246
+original: _interrupt_resource@4; reconstruction: _interrupt_resource@4
+case: resources-rich; accepted: 247
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.
-case: help; accepted: 246
+case: help; accepted: 247
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the help oracle exactly.
-case: invalid-switch; accepted: 246
+case: invalid-switch; accepted: 247
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the invalid-switch oracle exactly.
-case: missing-input; accepted: 246
+case: missing-input; accepted: 247
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the missing-input oracle exactly.
-case: alternate; accepted: 246
+case: alternate; accepted: 247
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the alternate oracle exactly.
-case: lexical-error; accepted: 246
+case: lexical-error; accepted: 247
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the lexical-error oracle exactly.
-case: parser-error; accepted: 246
+case: parser-error; accepted: 247
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the parser-error oracle exactly.
-case: resource-error; accepted: 246
+case: resource-error; accepted: 247
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the resource-error oracle exactly.
-case: kanji; accepted: 246
+case: kanji; accepted: 247
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the kanji oracle exactly.
-case: wide-long; accepted: 246
+case: wide-long; accepted: 247
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the wide-long oracle exactly.
-case: preprocessor-error; accepted: 246
+case: preprocessor-error; accepted: 247
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the preprocessor-error oracle exactly.
-case: rcinclude; accepted: 246
+case: rcinclude; accepted: 247
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the rcinclude oracle exactly.
-case: scanf-pushback; accepted: 246
+case: scanf-pushback; accepted: 247
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the scanf-pushback oracle exactly.
+case: console-interrupt; accepted: 247
+original: exit:1; reconstruction: exit:1
+Both raw streams, exit status and complete case file set match the console-interrupt oracle exactly.

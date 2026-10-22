@@ -34,11 +34,15 @@ for name in selected:
     stem = Path('build') / ('capture-' + name)
     env = wt.environment()
     env.update(TEMP=wt.windows(work), TMP=wt.windows(work))
-    subprocess.run(['wine', 'build/debug-run.exe', wt.windows(original), settings['arguments'],
-                    wt.windows(str(stem) + '.stdout'), wt.windows(str(stem) + '.stderr'),
-                    wt.windows(str(stem) + '.events'), wt.windows(work)], env=env,
-                   stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
-                   stderr=subprocess.DEVNULL, check=True, timeout=90)
+    if settings.get('execution') == 'real-console-ctrl-c':
+        helper = importlib.machinery.SourceFileLoader('interrupt_case', 'interrupt-case.py').load_module()
+        helper.run(original, settings['arguments'], work, stem, original=True)
+    else:
+        subprocess.run(['wine', 'build/debug-run.exe', wt.windows(original), settings['arguments'],
+                        wt.windows(str(stem) + '.stdout'), wt.windows(str(stem) + '.stderr'),
+                        wt.windows(str(stem) + '.events'), wt.windows(work)], env=env,
+                       stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                       stderr=subprocess.DEVNULL, check=True, timeout=90)
     assert Path(str(stem) + '.events').read_text() == 'exit %d\n' % settings.get('exit', 0)
     observed = {str(p.relative_to(work)):p.read_bytes() for p in work.rglob('*') if p.is_file()}
     assert all(observed.get(n) == data for n, data in source.items()), 'original changed fixture input'

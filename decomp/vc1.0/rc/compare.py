@@ -12,19 +12,22 @@ import subprocess
 from binary import PE, imports, u32
 
 wt = importlib.machinery.SourceFileLoader('wine_tool', 'wine-tool.py').load_module()
+interrupt = importlib.machinery.SourceFileLoader('interrupt_case', 'interrupt-case.py').load_module()
 FIXTURE = Path('../fixtures/resources-rich').resolve()
 SCRATCH = Path.home() / '.ai-tmp/vc1.0-rc'
 ARGUMENTS = '/dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc'
 CASE = 'resources-rich'
 ORACLE = FIXTURE / 'rc'
 EXPECTED_EXIT = 0
+EXECUTION = None
 
 
 def select_case(name):
-    global CASE, FIXTURE, ORACLE, ARGUMENTS, EXPECTED_EXIT
+    global CASE, FIXTURE, ORACLE, ARGUMENTS, EXPECTED_EXIT, EXECUTION
     cfg = json.loads(Path('functions.json').read_text())
     settings = cfg['cases'][name]
     CASE, ARGUMENTS = name, settings['arguments']
+    EXECUTION = settings.get('execution')
     EXPECTED_EXIT = settings.get('exit', 0)
     if settings.get('fixture'):
         FIXTURE = Path(settings['fixture']).resolve()
@@ -47,7 +50,8 @@ def verify_suite(settings):
     assert manifest['target_sha256'] == cfg['target']['sha256']
     case = next(c for c in manifest['cases'] if c['id'] == CASE)
     assert ARGUMENTS == ' '.join(case['arguments']) and EXPECTED_EXIT == case['expected_exit']
-    for record in manifest['source_inputs'] + [case['stdout'], case['stderr']] + case['outputs']:
+    for record in (manifest['source_inputs'] + [case['stdout'], case['stderr']] + case['outputs'] +
+                   manifest.get('analysis_helper', []) + manifest.get('evidence', []) + manifest.get('limitations', [])):
         data = (FIXTURE / record['path']).read_bytes()
         assert len(data) == record['bytes'] and hashlib.sha256(data).hexdigest() == record['sha256']
     for record in manifest['toolchain_dependencies']:
@@ -143,6 +147,8 @@ def run(label, executable):
     else:
         work.mkdir(parents=True)
     stem = Path('build') / label
+    if EXECUTION == 'real-console-ctrl-c':
+        return interrupt.run(executable, ARGUMENTS, work, stem, original=label == 'original')
     payload = Path(str(stem) + '.payload')
     payload.unlink(missing_ok=True)
     if label == 'original':

@@ -126,6 +126,23 @@ if prepared:
     payload = Path('../fixtures/resources-rich/rcpp/RC000360').read_bytes()
     report['prepared_rcpp_input'] = dict(exact_bytes=True, bytes=len(payload),
                                         sha256=hashlib.sha256(payload).hexdigest())
+if 'console-interrupt' in complete_cases:
+    console = dict(event='CTRL_C_EVENT', argument=0, requested_group=0,
+                   private_console_members=2, direct_callback_injection=False,
+                   main_execution_barrier='initialize_lexer breakpoint retained during native signal dispatch',
+                   font_directory_branch_exercised=False, paired={})
+    for label in ('original','reconstructed'):
+        stem = Path('build')/label
+        proof = Path(str(stem)+'.proof').read_bytes()
+        assert b'argument=0 handler_rva=' in proof
+        assert b'reached_handler=1 controller_breaks=0 controller_interrupts=1' in proof
+        assert b'exit=1 generated=1' in proof and b'first_chance_exception=' not in proof
+        files = {}
+        for file in sorted(Path(str(stem)+'.before').iterdir()):
+            data = file.read_bytes()
+            files[file.name] = dict(bytes=len(data),sha256=hashlib.sha256(data).hexdigest())
+        console['paired'][label] = dict(proof_sha256=hashlib.sha256(proof).hexdigest(),before=files)
+    report['real_console_interrupt'] = console
 Path('validation-frontiers.txt').write_text(log)
 Path('validation.json').write_text(json.dumps(report, indent=2) + '\n')
 print('Recorded %d accepted frontiers, %d source functions and %d complete cases.' %

@@ -1,0 +1,156 @@
+console=real controller_pid=404
+target_pid=384 primary_tid=436 group=0 flags=00000002
+group_semantics=console-local-broadcast event=0
+registration handler_rva=00007cd0 tid=436
+registration_return=TRUE
+boundary=before_initialize_lexer primary_suspended=1
+before_file name=interrupt.rc bytes=21
+before_file name=interrupt.res bytes=0
+before_file name=RC000384 bytes=54
+before_file name=RD000384 bytes=90
+console_member=404
+console_member=384
+signal=CTRL_C_EVENT group=0 api=GenerateConsoleCtrlEvent success=1
+primary_resumed=1 reason=deliver_pending_console_signal
+primary_resuspended=1 boundary=OS_callback_thread_creation
+target_thread=528 start=7bd2ac70
+control_exception=40010005 tid=528 disposition=not_handled
+callback pid=384 tid=528 argument=0 handler_rva=00007cd0
+exception_context esp=00a2fe34 ebp=00a2fe8c eax=00a2fe34
+stack0=c0000008
+stack1=00000000
+stack2=00000000
+stack3=7bd00bae
+stack4=00000000
+stack5=00000000
+stack6=00000000
+stack7=00000000
+stack8=00000000
+stack9=00000000
+stack10=00000000
+stack11=00000000
+stack12=00000000
+stack13=00000000
+stack14=00000000
+stack15=00000000
+stack16=00000000
+stack17=00000000
+stack18=00000000
+stack19=00000000
+stack20=003454a0
+stack21=00000004
+stack22=00a2fe9c
+stack23=7b60e2d4
+stack24=00000044
+stack25=003454a0
+stack26=00a2ff44
+stack27=0100f70d
+stack28=00000044
+stack29=00000000
+stack30=0101d430
+stack31=0100f671
+stack32=00000004
+stack33=00000001
+stack34=0101d430
+stack35=0100de77
+stack36=0101d430
+stack37=00000000
+stack38=00000000
+stack39=01007cd5
+stack40=7b61497f
+stack41=00000000
+stack42=00000000
+stack43=00000000
+stack44=00000000
+stack45=00a2ff94
+stack46=7b66f680
+stack47=00000000
+stack48=00000000
+stack49=00a2ff44
+stack50=00000000
+stack51=00000000
+stack52=00000000
+stack53=00a2fed4
+stack54=7b6149c1
+stack55=00000000
+stack56=00000000
+stack57=00000000
+stack58=00000000
+stack59=00000000
+stack60=00000000
+stack61=00000000
+stack62=00000000
+stack63=00000000
+stack64=00000000
+stack65=40010005
+stack66=00a2fee8
+stack67=00000000
+stack68=00a2ff50
+stack69=7bd2ac8a
+stack70=00000000
+stack71=00a2ff68
+stack72=7bb7ea40
+stack73=00000000
+stack74=7bcfce83
+stack75=7bcfce83
+stack76=00000000
+stack77=00a2ff80
+stack78=7bcfce83
+stack79=00000000
+stack80=00000000
+stack81=00000000
+stack82=00000000
+stack83=00a2ffec
+stack84=7bd31aa5
+stack85=7bb7ea30
+stack86=7bd2ac70
+stack87=00000000
+stack88=ffffffff
+stack89=7bd2b150
+stack90=7bd31c60
+stack91=00000000
+stack92=00a2ffec
+stack93=00000000
+stack94=00000000
+stack95=00000000
+stack96=00a2ff84
+stack97=7bd31a56
+stack98=00000000
+stack99=00000000
+stack100=00000000
+stack101=00000000
+stack102=00000000
+stack103=00000000
+stack104=00000000
+stack105=00000000
+stack106=00000000
+stack107=002b002b
+stack108=7bcfce5c
+stack109=002b0023
+stack110=00000000
+stack111=00000000
+stack112=7bd2ac70
+stack113=00000000
+stack114=00000000
+stack115=00000000
+stack116=00000000
+stack117=00000000
+stack118=00000000
+stack119=00000000
+stack120=00000000
+stack121=00000000
+stack122=00000000
+stack123=00000000
+stack124=00000000
+stack125=00000000
+stack126=00000000
+stack127=00000000
+frame0=00a2fe8c caller=7b60e2d4 arg=00000044
+frame1=00a2fe9c caller=0100f70d arg=00000044
+frame2=00a2ff44 caller=7bd2ac8a arg=00000000
+frame3=00a2ff50 caller=7bb7ea40 arg=00000000
+frame4=00a2ff68 caller=7bcfce83 arg=00000000
+frame5=00a2ff80 caller=7bd31aa5 arg=7bb7ea30
+frame6=00a2ffec caller=00000000 arg=7bd2ac70
+first_chance_exception=c0000008 address=7bd00bae tid=528 disposition=not_handled
+exit=99 generated=1 reached_handler=1 controller_breaks=0 controller_interrupts=1

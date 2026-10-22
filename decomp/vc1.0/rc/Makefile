@@ -2,7 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
 .PHONY: all prefix check replay audit clean
-all: build/rcpp.exe build/original.exe build/reconstructed.exe build/debug-run.exe
+all: build/interrupt-run.exe build/rcpp.exe build/original.exe build/reconstructed.exe build/debug-run.exe
 prefix:
 	$(TOOL) --init
 build:
@@ -34,3 +34,9 @@ build/rcpp.exe: $(TC)/bin/RCPP.EXE | build
 
 audit: build/runtime.json runtime.json
 	$(PYTHON) audit-graph.py
+
+# Console-signal debugger is analysis tooling, never part of RC's target link.
+build/interrupt-run.obj: ../fixtures/rc-interrupt/capture-interrupt.c | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/interrupt-run.obj $<
+build/interrupt-run.exe: build/interrupt-run.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

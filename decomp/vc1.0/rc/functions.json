@@ -75,8 +75,7 @@
     {
       "name": "_interrupt_resource@4",
       "start": 16809168,
-      "end": 16809169,
-      "pending_extent": true
+      "end": 16809263
     },
     {
       "name": "_resource_finish",
@@ -1316,7 +1315,8 @@
     "_scan_kanji_string",
     "_is_kanji_lead@4",
     "_trim_token@4",
-    "_ungetc"
+    "_ungetc",
+    "_interrupt_resource@4"
   ],
   "cases": {
     "resources-rich": {
@@ -1423,6 +1423,17 @@
       "oracle": "cases/scanf-pushback",
       "suite_manifest_sha256": "be573edcc3bc8230cd15fd7abfd139335e82b9f334843249ba4a7dd5e8eb394a",
       "accepted_end": 246
+    },
+    "console-interrupt": {
+      "arguments": "/x /fointerrupt.res interrupt.rc",
+      "status": "complete",
+      "exit": 1,
+      "accepted_start": 246,
+      "fixture": "../fixtures/rc-interrupt",
+      "oracle": "oracle",
+      "execution": "real-console-ctrl-c",
+      "suite_manifest_sha256": "fb83f0b70913a1e69455b46a49f2f88c09c186ef2d5bdc1a1e2751a30a5db511",
+      "accepted_end": 247
     }
   },
   "frontier_cases": {
@@ -1451,6 +1462,7 @@
     "_scan_kanji_string": "kanji",
     "_is_kanji_lead@4": "kanji",
     "_trim_token@4": "rcinclude",
-    "_ungetc": "scanf-pushback"
+    "_ungetc": "scanf-pushback",
+    "_interrupt_resource@4": "console-interrupt"
   }
 }

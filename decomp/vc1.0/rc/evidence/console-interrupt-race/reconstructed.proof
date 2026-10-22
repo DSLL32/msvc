@@ -1,0 +1,45 @@
+console=real controller_pid=2032
+target_pid=2060 primary_tid=2064 group=0 flags=00000002
+group_semantics=console-local-broadcast event=0
+registration handler_rva=0000d442 tid=2064
+registration_return=TRUE
+boundary=before_initialize_lexer primary_suspended=1
+before_file name=interrupt.rc bytes=21
+before_file name=interrupt.res bytes=0
+before_file name=RC002060 bytes=54
+before_file name=RD002060 bytes=90
+console_member=2032
+console_member=2060
+signal=CTRL_C_EVENT group=0 api=GenerateConsoleCtrlEvent success=1
+primary_resumed=1 reason=deliver_pending_console_signal
+primary_resuspended=1 boundary=OS_callback_thread_creation
+target_thread=308 start=7bd2ac70
+control_exception=40010005 tid=308 disposition=not_handled
+callback pid=2060 tid=308 argument=0 handler_rva=0000d442
+exception_context esp=0094fe10 ebp=0094fe68 eax=0094fe10
+stack0=c0000008
+stack1=00000000
+stack2=00000000
+stack3=7bd00bae
+stack4=00000000
+stack5=00000000
+stack6=00000000
+stack7=00000000
+stack8=00000000
+stack9=00000000
+stack10=00000000
+stack11=00000000
+stack12=00000000
+stack13=00000000
+stack14=00000000
+stack15=00000000
+stack16=00000000
+stack17=00000000
+stack18=00000000
+stack19=00000000
+stack20=002656e8
+stack21=00000000
+stack22=0094fe78
+stack23=7b60e2d4
+first_chance_exception=c0000008 address=7bd00bae tid=308 disposition=not_handled
+exit=99 generated=1 reached_handler=1 controller_breaks=0 controller_interrupts=1

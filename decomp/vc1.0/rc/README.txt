@@ -18,7 +18,7 @@ binary remains partly reconstructed: pending functions have typed named INT3
 stubs, and this case does not establish coverage of every input or branch. The
 accepted order and original function/code-data extents are in functions.json;
 validation.json records the complete durable replay and remaining named stubs.
-The rich case, seven local follow-ups and five shared follow-ups complete; this is not a claim
+The rich case, seven local follow-ups and six shared follow-ups complete; this is not a claim
 that all original functions have been identified or all branches exercised.
 
 Build and differential checks
@@ -179,3 +179,28 @@ or code and adds no conversion-wrapper function to the original graph.
 Source INT3 instructions are pending-function traps. The debugger helper is
 analysis tooling, separate from the target reconstruction. Assembly listings
 under ~/.ai-tmp/vc1.0-rc are analysis artifacts, not reconstruction source.
+
+Real console interrupt
+----------------------
+The readonly ../fixtures/rc-interrupt case uses a fresh private two-process
+console and a real group-zero CTRL_C_EVENT. Native successful registration,
+actual OS-created callback thread and argument zero are observed with debugger
+breakpoints. The primary remains behind a lexer-entry barrier while Wine
+services pending SIGINT. There is no callback injection or PID substitution.
+The whole 95-byte BOOL WINAPI interrupt_resource callback is recovered in
+finish.c with its original distinct _fcloseall/remove/exit call graph and RET 4.
+Exact status 1, empty streams and deletion of output plus both temporary files
+are required. Its font-directory branch is recovered but not exercised here.
+
+The analysis-only helper is compiled from the fixture and excluded from RC's
+link. It uses ~/.ai-tmp/vc1.0-rc-interrupt/wine; other cases retain the existing
+private prefix. The fixture also labels the Wine 10 CTRL_BREAK limitation,
+where no registered callback runs. Failed initial delivery-race evidence is
+retained under evidence/console-interrupt-race; the durable replay uses the
+fixed lexer barrier and never accepts or normalizes those failed outcomes.
+
+Current verified coverage is 45,471 / 53,248 original code-extent bytes (85.39%).
+This is the union of accepted source/CRT extents, shared text data and import
+thunks, clipped to original sections using VirtualSize or backed raw fallback;
+it is not branch coverage. Validation replays all 247 accepted frontiers and
+14 final cases (261 paired outcomes), with 187 source-function graph/ABI checks.
