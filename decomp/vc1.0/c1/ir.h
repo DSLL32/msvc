@@ -38,6 +38,18 @@ enum IrField {
 typedef struct FrontendSymbol FrontendSymbol;
 
 extern unsigned char *ir_record_formats[191];
+typedef struct FunctionRecord {
+    FrontendSymbol *symbol;
+    unsigned expression_offset, symbol_offset, complexity;
+    unsigned short parameter_count, reserved;
+    unsigned flags;
+} FunctionRecord;
+typedef struct FunctionRecordBlock {
+    struct FunctionRecordBlock *next;
+    FunctionRecord records[20];
+} FunctionRecordBlock;
+extern FunctionRecordBlock *function_records, *last_function_records;
+extern unsigned function_record_index;
 extern unsigned string_record_count;
 extern int exception_scope_depth[3];
 extern struct FrontendSymbol *function_symbol;

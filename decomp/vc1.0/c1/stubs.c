@@ -242,7 +242,6 @@ IrToken *__stdcall make_function_call(unsigned char operation, IrToken *function
 /* Original 0x2a9e0. */
 
 /* Original 0x2b110. */
-void finish_function_definition(void) { __asm { int 3 } }
 
 /* Original 0x2b1e0. */
 
@@ -404,7 +403,6 @@ FrontendSymbol *__stdcall declare_named_entity(char *name, char *alias, unsigned
 /* Original 0x35e70. */
 
 /* Original 0x35f30. */
-void finish_compound_statement(void) { __asm { int 3 } }
 
 /* Original 0x39370. */
 void __stdcall emit_expression_statement(IrToken *expression) { __asm { int 3 } }
@@ -413,7 +411,6 @@ void __stdcall emit_expression_statement(IrToken *expression) { __asm { int 3 } 
 void __stdcall emit_conditional_branch(IrToken *condition, IrToken *label, int sense) { __asm { int 3 } }
 
 /* Original 0x39e60. */
-void __stdcall emit_code_label(IrToken *label) { __asm { int 3 } }
 
 /* Original 0x3c750. */
 IrToken *__stdcall make_binary_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
@@ -533,3 +530,13 @@ void __stdcall report_conversion_mismatch(unsigned char operation, CType *target
 
 int __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
 
+
+void browser_finish_scope(void) { __asm { int 3 } }
+
+void *__stdcall pop_work_list(void **head) { __asm { int 3 } return 0; }
+
+
+
+void finish_inline_function(void) { __asm { int 3 } }
+
+int defer_global_symbol(FrontendSymbol *symbol) { __asm { int 3 } return 0; }

@@ -4,7 +4,7 @@
 
 unsigned initial_option_flags, precompiled_option_flags;
 SavedConfiguration saved_configuration;
-int version_directive_emitted, current_function, error_count;
+int global_expression_scope_active, current_function, error_count;
 char version_string[256];
 Vector *forced_source_inputs;
 short forced_source_index;
@@ -43,7 +43,7 @@ int compile_translation_unit(void)
             version_string[i] = options.option_V[i];
         record_version_token(token);
         emit_version_token(token);
-        version_directive_emitted = 1;
+        global_expression_scope_active = 1;
     }
     if (options.pch_use ||
         (options.pch_use_file && (!options.pch_create_file ||
@@ -81,7 +81,7 @@ int compile_translation_unit(void)
     parse_translation_unit();
     if (!options.syntax_only) {
         finish_declarations();
-        if (version_directive_emitted) {
+        if (global_expression_scope_active) {
             write_ir_record(0x53, 0);
             write_ir_record(0x54, make_integer_constant(0));
         }

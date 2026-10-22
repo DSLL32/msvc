@@ -230,7 +230,19 @@
     "_node_alignment@4",
     "_expression_type_alignment@4",
     "_reference_ir_symbol@4",
-    "_release_arena@4"
+    "_release_arena@4",
+    "_finish_compound_statement",
+    "_leave_compound_scope",
+    "_emit_scope_cleanup_records",
+    "_queue_completed_scope@4",
+    "_finish_function_definition",
+    "_end_function_context@4",
+    "_emit_code_label@4",
+    "_finish_function_records",
+    "_finish_label_symbols",
+    "_serialize_scope@4",
+    "_record_function_definition@4",
+    "_clear_symbol_aliases"
   ],
   "driver": [
     {
@@ -1244,7 +1256,7 @@
     {
       "name": "_finish_function_definition",
       "start": 176400,
-      "end": 176401
+      "end": 176478
     },
     {
       "name": "_finish_function_declarator@8",
@@ -1540,7 +1552,7 @@
     {
       "name": "_finish_compound_statement",
       "start": 220976,
-      "end": 220977
+      "end": 220981
     },
     {
       "name": "_emit_expression_statement@4",
@@ -1555,7 +1567,7 @@
     {
       "name": "_emit_code_label@4",
       "start": 237152,
-      "end": 237153
+      "end": 237256
     },
     {
       "name": "_make_binary_expression@12",
@@ -2062,6 +2074,71 @@
       "name": "_expression_type_alignment@4",
       "start": 222400,
       "end": 222461
+    },
+    {
+      "name": "_leave_compound_scope",
+      "start": 220992,
+      "end": 221262
+    },
+    {
+      "name": "_browser_finish_scope",
+      "start": 161008,
+      "end": 161009
+    },
+    {
+      "name": "_emit_scope_cleanup_records",
+      "start": 216192,
+      "end": 216281
+    },
+    {
+      "name": "_queue_completed_scope@4",
+      "start": 221264,
+      "end": 221341
+    },
+    {
+      "name": "_pop_work_list@4",
+      "start": 209008,
+      "end": 209009
+    },
+    {
+      "name": "_end_function_context@4",
+      "start": 176048,
+      "end": 176393
+    },
+    {
+      "name": "_clear_symbol_aliases",
+      "start": 222048,
+      "end": 222059
+    },
+    {
+      "name": "_finish_function_records",
+      "start": 221728,
+      "end": 221886
+    },
+    {
+      "name": "_finish_label_symbols",
+      "start": 181904,
+      "end": 182028
+    },
+    {
+      "name": "_serialize_scope@4",
+      "start": 221456,
+      "end": 221727
+    },
+    {
+      "name": "_finish_inline_function",
+      "start": 189441,
+      "end": 189442
+    },
+    {
+      "name": "_record_function_definition@4",
+      "start": 237744,
+      "end": 238632
+    },
+    {
+      "name": "_defer_global_symbol",
+      "start": 221344,
+      "end": 221345
     }
   ],
   "cases": {

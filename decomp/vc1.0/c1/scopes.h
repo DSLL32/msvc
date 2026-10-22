@@ -8,7 +8,13 @@ typedef struct SymbolScope {
     unsigned short bucket_mask, flags;
     unsigned field10;
 } SymbolScope;
+typedef struct ScopeCleanupEntry {
+    struct ScopeCleanupEntry *next;
+    union { unsigned char depth; FrontendSymbol *symbol; } value;
+} ScopeCleanupEntry;
+extern ScopeCleanupEntry *scope_cleanup_stack;
 extern SymbolScope *global_scope, *current_scope, *lookup_scope;
+extern SymbolScope *completed_scopes;
 extern SymbolScope **scope_directory;
 extern unsigned scope_serial;
 extern unsigned char scope_depth;

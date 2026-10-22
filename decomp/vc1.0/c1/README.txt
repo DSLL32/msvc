@@ -3,12 +3,13 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The captured minimal-C case currently reaches matching traps at
-finish_compound_statement, original VA 0x35f30. There are 157 reconstructed
-source functions and 226 accepted trap frontiers, all replayed in order.
-The case has emitted main's entry and `return 0`, including arithmetic/type
-conversion checks, compact type encoding, and the branch to its exit label.
-Scope teardown and completion of the four intermediate files remain
-unfinished. This is a checkpoint, not a completed compiler case.
+finish_external_declaration, original VA 0x230c0. There are 169 reconstructed
+source functions and 238 accepted trap frontiers, all replayed in order with
+exact pending-buffer comparison. The case has completed main's return path,
+closed its statement/parameter scopes, serialized its labels and scope records,
+and retained its typed function-directory entry. End-of-file handling, final
+directory emission, and output closure remain unfinished. This is a checkpoint,
+not a completed compiler case.
 
 The next queued case is fixtures/hello-win32, the original CL /O2 /G5 hello.c
 frontend invocation. It will be attempted after the minimal-C case passes.
@@ -73,7 +74,8 @@ declarations.c: symbol declaration, storage validation, type-shape folding,
 parser-grammar.c: logical token shifts, reduction exceptions, production
   lengths, and nonterminal gotos, decoded from the encountered yacc tables.
   The original compressed action/check layout is not reproduced.
-scopes.c / builtins.c / builtin-data.c: symbol scopes, sentinel objects,
+scopes.c / builtins.c / builtin-data.c: active/completed symbol scopes,
+  scope cleanup and serialization, sentinel objects,
   and typed intrinsic definitions.
 constants.c / ir.c / ir-formats.c: constant nodes, recursive expression emission,
   and schema-driven IR writer.

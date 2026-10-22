@@ -1,11 +1,11 @@
 {
   "case": "../fixtures/minimal-c/manifest.json phases.c1",
   "status": "incomplete",
-  "accepted_frontiers": 226,
-  "reconstructed_source_functions": 157,
-  "current_matching_trap": "_finish_compound_statement",
-  "original_va": "0x35f30",
-  "replay": "All 226 accepted frontiers replayed in order, including exact debugger-only pending FILE-buffer comparison; final compound-scope teardown trap verified.",
+  "accepted_frontiers": 238,
+  "reconstructed_source_functions": 169,
+  "current_matching_trap": "_finish_external_declaration@4",
+  "original_va": "0x230c0",
+  "replay": "All 238 accepted frontiers replayed in order with exact pending FILE-buffer and visible-file comparison; final external-declaration cleanup trap verified.",
   "artifact_verification": "Pending completion; fixture outputs not embedded in reconstruction.",
   "frontier_artifacts": "Visible files and pending bytes in all four intermediate FILE buffers match exactly at every checked frontier."
 }

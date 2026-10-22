@@ -43,7 +43,7 @@ extern unsigned initial_option_flags, precompiled_option_flags;
 extern int optimization_enabled;
 extern int *packed_option_values[21];
 extern SavedConfiguration saved_configuration;
-extern int version_directive_emitted, current_function, error_count;
+extern int global_expression_scope_active, current_function, error_count;
 extern char version_string[256];
 extern Vector *forced_source_inputs;
 extern short forced_source_index;

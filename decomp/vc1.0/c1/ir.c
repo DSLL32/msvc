@@ -64,7 +64,8 @@ void __stdcall write_ir_record(unsigned tag, void *value)
             PUT_IR_INTEGER(expression_file, node->value.integer);
             break;
         case IR_FIELD_STORAGE:
-            shape = ((FrontendSymbol *)node->value.pointer)->type->related;
+            /* This operand is the callee expression, not its symbol payload. */
+            shape = ((IrToken *)node->value.pointer)->type->related;
             if (shape && !(shape->flags & 7))
                 shape = shape->related;
             attributes = shape->attributes;
@@ -478,4 +479,66 @@ void __stdcall reference_ir_symbol(FrontendSymbol *symbol)
             symbol->field24 = (symbol->field24 & 0xffff00ffU) | ((unsigned char)depth << 8);
     }
     if (symbol->flags & 1) symbol->attributes |= 0x400;
+}
+
+/* Original 0x39e60..0x39ec8. Define a label at the current statement and
+   exception depths, checking the depths recorded by forward references. */
+void __stdcall emit_code_label(IrToken *label)
+{
+    FrontendSymbol *symbol = label->value.pointer;
+    int depth;
+    symbol->flags |= 1;
+    symbol->field24 = (symbol->field24 & 0xffffff00U) | parameter_nesting;
+    depth = exception_scope_depth[2] + exception_scope_depth[1] + exception_scope_depth[0];
+    if (symbol->references && depth > (int)((symbol->field24 >> 8) & 0xff))
+        report_syntax_error(705, symbol->name);
+    symbol->field24 = (symbol->field24 & 0xffff00ffU) | ((unsigned char)depth << 8);
+    write_ir_record(0x29, label);
+}
+
+/* Function-directory blocks, original roots 0x6b63c/0x6b640 and index
+   0x6b7e4. Each block holds twenty typed entries and one link. */
+FunctionRecordBlock *function_records, *last_function_records;
+unsigned function_record_index = 19;
+
+/* Original 0x3a0b0..0x3a428. Retain the function's stream positions and
+   optimization state for the final directory, and mark it in the line stream. */
+void __stdcall record_function_definition(FrontendSymbol *symbol)
+{
+    FunctionRecordBlock *block;
+    FunctionRecord *record;
+    unsigned index;
+    if (!symbol) return;
+    function_record_index = (function_record_index + 1) % 20;
+    if (!function_record_index) {
+        block = allocate_permanent(sizeof(FunctionRecordBlock));
+        if (!function_records) function_records = last_function_records = block;
+        else { last_function_records->next = block; last_function_records = block; }
+    }
+    record = &last_function_records->records[function_record_index];
+    record->symbol = symbol;
+    if (pch_write_enabled && !pch_output_written) {
+        record->flags |= 0x10;
+        if (pch_read_enabled) {
+            function_ir.expression_offset += pch_expression_bytes + 0x334;
+            function_ir.symbol_offset += pch_symbol_bytes;
+        }
+    } else record->flags &= ~0x10;
+    record->expression_offset = function_ir.expression_offset;
+    record->symbol_offset = function_ir.symbol_offset;
+    record->complexity = function_ir.complexity;
+    record->flags = (record->flags & ~15) | (inline_candidate & 1) |
+        ((function_call_seen << 1) & 2) | ((function_not_inlinable << 2) & 4) | ((normalized_Oq << 3) & 8);
+    record->parameter_count = function_ir.parameter_count;
+    function_ir.complexity = 0;
+    if (parser_flags & 0x20000000) return;
+    putc(9, line_file);
+    if (function_symbol) {
+        index = function_symbol->index;
+        if (index > 0x7fff) { PUT_IR_WORD(line_file, index | 0x8000); index >>= 15; }
+        PUT_IR_WORD(line_file, index);
+    } else {
+        putc(0, line_file);
+        putc(0, line_file);
+    }
 }

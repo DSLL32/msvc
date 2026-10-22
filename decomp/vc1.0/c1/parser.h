@@ -127,6 +127,14 @@ void __stdcall replace_function_parameters(FrontendSymbol *symbol, ParameterInfo
 FrontendSymbol *__stdcall initialize_function_definition(FrontendSymbol *symbol);
 void browser_begin_function_scope(void);
 void __stdcall browser_function_parameters(FrontendSymbol *symbol);
+void finish_label_symbols(void);
+int defer_global_symbol(FrontendSymbol *symbol);
+int __stdcall serialize_scope(SymbolScope *scope);
+void finish_inline_function(void);
+void __stdcall record_function_definition(FrontendSymbol *symbol);
+void finish_function_records(void);
+void __stdcall end_function_context(int direct_scope_exit);
+void clear_symbol_aliases(void);
 void finish_function_definition(void);
 void __stdcall release_arena(int arena);
 void __stdcall process_declaration(DeclarationSpec *declaration);
@@ -194,6 +202,11 @@ FrontendSymbol *__stdcall attach_function_parameters(FrontendSymbol *declarator,
 extern unsigned short function_scope_level;
 void enter_compound_scope(void);
 void begin_compound_statement(void);
+void leave_compound_scope(void);
+void browser_finish_scope(void);
+void *__stdcall pop_work_list(void **head);
+void emit_scope_cleanup_records(void);
+void __stdcall queue_completed_scope(SymbolScope *scope);
 void finish_compound_statement(void);
 void __stdcall emit_expression_statement(IrToken *expression);
 void __stdcall emit_label_statement(FrontendSymbol *label);

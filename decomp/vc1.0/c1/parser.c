@@ -1441,3 +1441,60 @@ IrToken *__stdcall make_typed_ir_expression(unsigned char operation, IrToken *le
     node->type = type;
     return (IrToken *)node;
 }
+
+/* Original 0x2b110..0x2b15e. End the function's statement context before
+   releasing parameter symbols and the per-function alias table. */
+void finish_function_definition(void)
+{
+    end_function_context(0);
+    function_parameter_declarations = 0;
+    current_parameter = 0;
+    function_parameter_context = 0;
+    active_parameter_context = 0;
+    scanner_flags &= ~0x80000;
+    function_symbol = 0;
+    release_arena(1);
+    clear_symbol_aliases();
+}
+
+FrontendSymbol *initializer_temporary; /* original 0x60460 */
+/* This image only clears the reserved per-function word at 0x6bf70. */
+static unsigned function_reserved_state;
+
+/* Original 0x2afb0..0x2b109. Finish the common exit, serialize completed
+   scopes and function state, then reset per-function parser workspaces. */
+void __stdcall end_function_context(int direct_scope_exit)
+{
+    CType *result;
+    if (function_symbol) {
+        if (!options.syntax_only) {
+            if (!(parser_flags & 0x8000)) {
+                result = function_return_type;
+                if (result->flags != 0x80 || result->related) {
+                    if (!result->related && (result->flags == 0x128 ||
+                        ((function_symbol->type->attributes & 0x70) == 0x40 && (result->flags & 0x100))))
+                        compiler_warning(1, 137, function_symbol->name);
+                    else compiler_warning(3, 35, function_symbol->name);
+                }
+            }
+            if (!direct_scope_exit) record_line_information(1);
+            emit_code_label(function_exit_label);
+            if (options.debug_info) record_line_information(0x12);
+            write_ir_record(0x47, 0);
+        }
+        if (direct_scope_exit) leave_compound_scope();
+        else finish_compound_statement();
+        finish_function_records();
+        if (!options.syntax_only) write_ir_record(0x54, make_integer_constant(0));
+    }
+    completed_scopes = 0;
+    function_return_type = 0;
+    scope_cleanup_stack = 0;
+    initializer_temporary = 0;
+    global_expression_scope_active = 0;
+    expression_next = expression_storage;
+    global_record_kind = 0;
+    parameter_nesting = 0;
+    function_reserved_state = 0;
+    function_scope_level = 0;
+}

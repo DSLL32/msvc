@@ -641,3 +641,21 @@ CType *__stdcall function_result_type(FrontendSymbol *symbol)
     --type_description_depth;
     return result;
 }
+
+/* Original 0x2c690..0x2c70c. Diagnose unresolved/unused named labels and
+   serialize every label defined in the function. */
+void finish_label_symbols(void)
+{
+    FrontendSymbol *label;
+    if (!current_function) {
+        for (label = label_symbols; label; label = label->next) {
+            if (!(label->flags & 1) && !label->detail.value)
+                report_syntax_error(94, label->name);
+            else {
+                if (!label->references && label->name) compiler_warning(3, 102, label->name);
+                if (label->flags & 1) write_global_record(3, label);
+            }
+        }
+    }
+    label_symbols = 0;
+}

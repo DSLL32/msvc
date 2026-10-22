@@ -11,6 +11,7 @@ typedef CType TypeDescription;
 extern WorkingStack *compiler_stack;
 extern int pch_mode;
 extern int pch_separate_debug, pch_read_enabled, pch_write_enabled;
+extern unsigned pch_expression_bytes, pch_symbol_bytes;
 extern int data_pointer_bytes, code_pointer_bytes;
 extern int data_pointer_alignment, code_pointer_alignment;
 extern int data_pointer_kind, code_pointer_kind;

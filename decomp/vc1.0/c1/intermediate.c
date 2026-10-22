@@ -22,6 +22,7 @@ FILE *open_intermediate(char *prefix, char *extension, char *mode)
 }
 
 int pch_expression_output, intermediate_status;
+unsigned pch_expression_bytes, pch_symbol_bytes; /* original 0x6dde4 / 0x6dddc */
 char *pch_diagnostic_name = ""; /* original 0x6be8c */
 
 /* Original 0x462f0..0x46401. Reserve the expression stream's header area. */

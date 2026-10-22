@@ -150,3 +150,147 @@ void enter_compound_scope(void)
     write_ir_record(0x53, 0);
     if (options.option_qc && normalized_Ol && parameter_nesting == 2) begin_inline_region(0);
 }
+
+/* Original 0x35f30..0x35f35: public scope-exit wrapper. */
+void finish_compound_statement(void)
+{
+    leave_compound_scope();
+}
+
+/* Original 0x35f40..0x3604e. Close the declaration scope, retain it for
+   later symbol serialization, and write the matching expression boundary. */
+void leave_compound_scope(void)
+{
+    SymbolScope *scope; /* Original unspecified in raw scanner mode. */
+    if (!parameter_nesting) return;
+    if (browser_filename) browser_finish_scope();
+    if (parameter_nesting == 2) function_scope_level = 0;
+    if (!(scanner_flags & 0x40)) {
+        scope = current_scope;
+        if ((scope->flags & 0xff) != parameter_nesting) fatal_error(506);
+        deactivate_symbol_scope();
+        pop_symbol_scope();
+        if (scope->buckets && options.option_qc && normalized_Ol &&
+            parameter_nesting > 2 && !scope->field10) finish_inline_region();
+        if (options.option_qc) {
+            scope->field10 = 0;
+            if (normalized_Ol && parameter_nesting == 2) finish_inline_region();
+        }
+        emit_scope_cleanup_records();
+    }
+    if (!options.syntax_only) {
+        if (!(scanner_flags & 0x40)) queue_completed_scope(scope);
+        write_ir_record(0x54, make_integer_constant(parameter_nesting));
+    }
+    --parameter_nesting;
+    global_record_kind = parameter_nesting;
+}
+
+/* Cleanup registration uses two consecutive eight-byte work-list entries:
+   statement depth followed by the symbol whose cleanup record is emitted. */
+ScopeCleanupEntry *scope_cleanup_stack; /* original 0x60078 */
+
+/* Original 0x34c80..0x34cd9. */
+void emit_scope_cleanup_records(void)
+{
+    if (options.syntax_only) return;
+    while (scope_cleanup_stack && scope_cleanup_stack->value.depth == parameter_nesting) {
+        pop_work_list((void **)&scope_cleanup_stack);
+        write_ir_record(0x2b, make_symbol_reference(scope_cleanup_stack->value.symbol));
+        pop_work_list((void **)&scope_cleanup_stack);
+    }
+}
+
+SymbolScope *completed_scopes; /* original 0x60080 */
+
+/* Original 0x36050..0x3609d. Keep completed parent scopes ahead of their
+   children while retaining the original ordering among unrelated scopes. */
+void __stdcall queue_completed_scope(SymbolScope *scope)
+{
+    SymbolScope *previous = 0, *next = completed_scopes;
+    if (!scope) return;
+    while (next && (next->flags & 0xff) <= (scope->flags & 0xff)) {
+        previous = next;
+        next = next->next;
+    }
+    while (next && next->parent != scope) {
+        previous = next;
+        next = next->next;
+    }
+    if (previous) previous->next = scope;
+    else completed_scopes = scope;
+    scope->next = next;
+}
+
+/* Original 0x36220..0x362be. Serialize labels and completed lexical scopes
+   before recording the function's stream positions and final attributes. */
+void finish_function_records(void)
+{
+    SymbolScope *scope; /* Original unspecified when no scope was queued. */
+    if (options.syntax_only) return;
+    global_record_kind = 1;
+    finish_label_symbols();
+    if (!completed_scopes) {
+        global_record_kind = 1;
+        write_global_record(13, 0);
+        global_record_kind = 2;
+        write_global_record(13, 0);
+    } else {
+        for (scope = completed_scopes; scope; scope = scope->next) serialize_scope(scope);
+    }
+    if (global_scope != scope) {
+        if (options.option_qc && normalized_Ol) finish_inline_function();
+        write_global_record(6, 0);
+    }
+    record_function_definition(function_symbol);
+}
+
+/* Original 0x36110..0x3621f. Emit a scope in bucket order, postponing
+   dependent global declarations until their prerequisites have been emitted. */
+int __stdcall serialize_scope(SymbolScope *scope)
+{
+    FrontendSymbol *pending = 0, *symbol, *next, **link;
+    int changed = 1, bucket, count;
+    if (current_function) return 0;
+    global_record_kind = (unsigned char)scope->flags;
+    if (global_scope != scope) write_global_record(13, 0);
+    if (scope->buckets) {
+        count = scope->bucket_mask + 1;
+        for (bucket = 0; bucket < count; ++bucket) {
+            symbol = scope->buckets[scope->bucket_mask & bucket];
+            while (symbol) {
+                if (!global_record_kind && defer_global_symbol(symbol)) {
+                    next = symbol->next;
+                    symbol->next = pending;
+                    pending = symbol;
+                    symbol = next;
+                } else {
+                    emit_symbol_declaration(symbol);
+                    symbol = symbol->next;
+                }
+            }
+        }
+    }
+    while (pending && changed) {
+        changed = 0;
+        link = &pending;
+        while ((symbol = *link) != 0) {
+            if (!defer_global_symbol(symbol)) {
+                changed = 1;
+                emit_symbol_declaration(symbol);
+                *link = symbol->next;
+            } else link = &symbol->next;
+        }
+    }
+    return 0;
+}
+
+/* Per-function alias map, original 0x6ce74. Its entries are allocated in
+   the function arena, so finishing a function only discards the root. */
+static struct SymbolAliasTable *symbol_aliases;
+
+/* Original 0x36360..0x3636b. */
+void clear_symbol_aliases(void)
+{
+    symbol_aliases = 0;
+}
