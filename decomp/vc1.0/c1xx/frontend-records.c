@@ -305,3 +305,12 @@ FrontendRecord *__stdcall reuse_frontend_record(unsigned char size_class)
     }
     return record;
 }
+
+/* Original 0x42a60..0x42a91. Share the same initializer context used
+   by expression preparation and member-constructor processing. */
+void __stdcall mark_initialized_symbol(CppSymbol *symbol)
+{
+    initializing_symbol = symbol;
+    if (symbol && symbol_has_reference_shape(symbol)) initializing_reference = 1;
+    else initializing_reference = 0;
+}

@@ -1,3 +1,4 @@
+#include "expression-preparation.h"
 #include "constructor-initializers.h"
 #include "statement-scopes.h"
 #include "work-list.h"
@@ -209,7 +210,6 @@ CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0;
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
 char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
 void mark_evaluation_boundary(void) { __asm { int 3 } }
-void __stdcall mark_initialized_symbol(CppSymbol *symbol) { __asm { int 3 } }
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
 IrToken *__stdcall member_expression(unsigned char operation, IrToken *object, IrToken *member) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall new_abstract_declarator(TypeShape *shape) { __asm { int 3 } return 0; }
@@ -222,7 +222,6 @@ IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken 
 unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language) { __asm { int 3 } return 0; }
 void pop_linkage(void) { __asm { int 3 } }
 void prepare_do_body(void) { __asm { int 3 } }
-IrToken *__stdcall prepare_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
 void record_break_statement(void) { __asm { int 3 } }
 void record_continue_statement(void) { __asm { int 3 } }
 void record_default_label(void) { __asm { int 3 } }
@@ -230,7 +229,7 @@ void __stdcall record_goto(CppSymbol *label, int known) { __asm { int 3 } }
 void __stdcall record_qc_jump(unsigned char kind) { __asm { int 3 } }
 IrToken *__stdcall member_pointer_expression(QualifiedDeclarator *qualifier) { __asm { int 3 } return 0; }
 int __stdcall reject_function_initializer(CppSymbol *unused_declaration) { __asm { int 3 } return 0; }
-void __stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } }
+IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination) { __asm { int 3 } }
 void __stdcall report_type_error(unsigned code, CType *type) { __asm { int 3 } }
@@ -547,8 +546,11 @@ void __stdcall set_base_initialization_access(int enabled) { __asm { int 3 } }
 void __stdcall emit_virtual_base_initializers(CppSymbol *tag, IrToken **initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
-int __stdcall initialize_member_expression(unsigned displacement, CType *type, IrToken *value, CppSymbol *member) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attributes, unsigned displacement) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_constructor_call(CppSymbol *tag, IrToken *object, IrToken *arguments, int emit, int member_subobject) { __asm { int 3 } return 0; }
 void __stdcall emit_class_table_initializers(CppSymbol *tag, int initialize) { __asm { int 3 } }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
+int __stdcall has_deferred_expression_symbols(unsigned mode) { __asm { int 3 } return 0; }
+IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall process_expression_records(IrToken *expression) { __asm { int 3 } return 0; }
+int __stdcall initialize_lvalue(IrToken *target, IrToken *value) { __asm { int 3 } return 0; }

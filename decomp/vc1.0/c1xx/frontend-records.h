@@ -15,6 +15,15 @@ typedef struct SymbolFrontendRecord {
     CppSymbol *symbol;
 } SymbolFrontendRecord;
 typedef char SymbolFrontendRecordSizeMustBe20[(sizeof(SymbolFrontendRecord) == 20) ? 1 : -1];
+/* Declaration records additionally retain a second payload word. */
+typedef struct DeclarationFrontendRecord {
+    FrontendRecord header;
+    CppSymbol *symbol;
+    unsigned field14;
+} DeclarationFrontendRecord;
+typedef char DeclarationFrontendRecordSizeMustBe24[(sizeof(DeclarationFrontendRecord) == 24) ? 1 : -1];
+typedef char DeclarationFrontendRecordSymbolOffsetMustBe16[(offsetof(DeclarationFrontendRecord, symbol) == 16) ? 1 : -1];
+typedef char DeclarationFrontendRecordPayloadOffsetMustBe20[(offsetof(DeclarationFrontendRecord, field14) == 20) ? 1 : -1];
 typedef struct FunctionRecord {
     FrontendRecord header;
     CppSymbol *function;

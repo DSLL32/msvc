@@ -188,7 +188,7 @@ void begin_else_body(void);
 unsigned __stdcall evaluate_integer_constant(IrToken *expression);
 IrToken *__stdcall binary_expression(unsigned char operation, IrToken *left, IrToken *right);
 IrToken *__stdcall resolve_assignment_operand(CType *type, IrToken *expression);
-void __stdcall report_expression_error(unsigned char operation, IrToken *expression);
+IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression);
 IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, IrToken *if_false);
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset);
 IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression);

@@ -443,7 +443,12 @@
     "_prepare_class_initialization@4",
     "_require_deleting_destructor@4",
     "_require_class_member_definitions@8",
-    "_take_member_initializer@8"
+    "_take_member_initializer@8",
+    "_prepare_expression@8",
+    "_mark_initialized_symbol@4",
+    "_initialize_member_expression@16",
+    "_adjusted_this_expression@4",
+    "_replace_type_pointer_kind@8"
   ],
   "driver": [
     {
@@ -2286,7 +2291,7 @@
     {
       "name": "_mark_initialized_symbol@4",
       "start": 272992,
-      "end": 272993
+      "end": 273041
     },
     {
       "name": "_member_destructor_expression@12",
@@ -2361,7 +2366,7 @@
     {
       "name": "_prepare_expression@8",
       "start": 255872,
-      "end": 255873
+      "end": 256835
     },
     {
       "name": "_symbol_expression@4",
@@ -4261,7 +4266,7 @@
     {
       "name": "_initialize_member_expression@16",
       "start": 222528,
-      "end": 222529
+      "end": 222674
     },
     {
       "name": "_make_subobject_pointer@12",
@@ -4292,6 +4297,36 @@
       "name": "_restore_expression_symbols@4",
       "start": 254624,
       "end": 254625
+    },
+    {
+      "name": "_has_deferred_expression_symbols@4",
+      "start": 266048,
+      "end": 266049
+    },
+    {
+      "name": "_new_temporary_reference@8",
+      "start": 421984,
+      "end": 421985
+    },
+    {
+      "name": "_process_expression_records@4",
+      "start": 266176,
+      "end": 266177
+    },
+    {
+      "name": "_adjusted_this_expression@4",
+      "start": 214960,
+      "end": 215022
+    },
+    {
+      "name": "_replace_type_pointer_kind@8",
+      "start": 407168,
+      "end": 407222
+    },
+    {
+      "name": "_initialize_lvalue@8",
+      "start": 286784,
+      "end": 286785
     }
   ],
   "cases": {
@@ -5720,6 +5755,21 @@
       "name": "_pending_constructor_initializers",
       "original": 595144,
       "pointer": true
+    },
+    {
+      "name": "_initializing_symbol",
+      "original": 657944,
+      "pointer": true
+    },
+    {
+      "name": "_initializing_reference",
+      "original": 657948,
+      "pointer": false
+    },
+    {
+      "name": "_member_initializer_active",
+      "original": 657952,
+      "pointer": false
     }
   ]
 }

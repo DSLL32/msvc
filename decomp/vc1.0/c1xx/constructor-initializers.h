@@ -23,4 +23,7 @@ int __stdcall has_class_initialization(CType *type);
 void __stdcall require_deleting_destructor(CppSymbol *tag);
 void __stdcall require_class_member_definitions(CppSymbol *tag, char *name);
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols);
+IrToken *__stdcall adjusted_this_expression(CppSymbol *parameter);
+CType *__stdcall replace_type_pointer_kind(CType *type, unsigned short kind);
+int __stdcall initialize_lvalue(IrToken *target, IrToken *value);
 #endif

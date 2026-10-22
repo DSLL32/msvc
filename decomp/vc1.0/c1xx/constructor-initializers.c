@@ -203,3 +203,51 @@ IrToken *__stdcall take_member_initializer(IrToken **initializers, char *name)
     }
     return 0;
 }
+
+/* Original 0x36540..0x365d2. Address a member relative to the adjusted
+   this expression, preserving optional bit-field position/width metadata. */
+int __stdcall initialize_member_expression(unsigned displacement, CType *type,
+    IrToken *value, CppSymbol *member)
+{
+    IrToken *object, *offset, *target, *position, *width, *range;
+    CType *member_type;
+    object = adjusted_this_expression(0);
+    member_type = replace_type_pointer_kind(type, (unsigned short)(object->type->related->attributes & 7));
+    offset = make_integer_constant(displacement);
+    target = new_ir_expression(0x5c, object, offset, member_type);
+    if (member && (member->kind & 0x1f) == 2) {
+        width = make_integer_constant((member->auxiliary.value >> 8) & 0xff);
+        position = make_integer_constant(member->auxiliary.value & 0xff);
+        range = new_left_typed_expression(0x3f, position, width);
+        target = new_left_typed_expression(0x3e, target, range);
+    }
+    if (value->kind == 0x6a && !value->tail.right) value = value->value.pointer;
+    return initialize_lvalue(target, value);
+}
+
+/* Original 0x347b0..0x347ee. An adjusted member function subtracts its
+   recorded this displacement and marks the resulting address expression. */
+IrToken *__stdcall adjusted_this_expression(CppSymbol *parameter)
+{
+    IrToken *object = this_pointer_expression(parameter), *offset;
+    if (!object) return 0;
+    if (function_symbol->field28) {
+        offset = make_integer_constant(function_symbol->field28);
+        object = new_left_typed_expression(0x4f, object, offset);
+        object->flags |= 0x20;
+    }
+    return object;
+}
+
+/* Original 0x63680..0x636b6. Replace only the low pointer-kind bits in
+   a copied type description, then release that description-stack entry. */
+CType *__stdcall replace_type_pointer_kind(CType *type, unsigned short kind)
+{
+    TypeDescription *description = copy_type_description(type);
+    CType *result;
+    description->attributes &= 0xfff8;
+    description->attributes |= kind & 7;
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
+}

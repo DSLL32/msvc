@@ -784,3 +784,24 @@ evidence/replay-constructor-initializers-receipt.json. Evidence and ABI details
 are in evidence/constructor-initializers.txt. Accepted executable extent union
 is 142,513 / 476,418 bytes (29.913%, not branch coverage), with 370 source
 functions. The constructor body and complete frontend case remain unfinished.
+
+
+Expression preparation now retains its diagnostic recovery, 32-byte original-CRT
+jmp_buf, deferred declaration records, temporary values, marker records and
+nesting cleanup. Its shaped-void branch retains the exact native condition.
+The shared DeclarationFrontendRecord has checked 24-byte layout and payload
+offsets. The old unaccepted report_expression_error placeholder now returns
+its recovered IrToken pointer, matching the actual native return.
+
+Initializer context shares its canonical symbol/reference/member flags. All
+frontiers now compare fourteen runtime observations: four pointer nullness
+checks and ten exact scalars, including active initializer state. Member access
+retains this adjustment, pointer-kind replacement and bit-field metadata. Both
+runs reach initialize_lvalue at 0x46040 with the same active member context.
+
+All 444 frontiers pass the stronger full comparator in
+evidence/replay-expression-preparation.log, with frozen receipts/hashes in
+evidence/replay-expression-preparation-receipt.json. Detailed evidence is in
+evidence/expression-preparation.txt. Accepted executable extent union is
+143,787 / 476,418 bytes (30.181%, not branch coverage), with 375 source functions.
+The constructor body and complete frontend case remain unfinished.
