@@ -524,3 +524,43 @@ int fseek(FILE *stream,long offset,int origin)
     else if ((stream->_flag & 9)==9) stream->_bufsiz=512;
     return _lseek(stream->_file,offset,origin)==-1L ? -1 : 0;
 }
+
+
+#pragma intrinsic(memcpy)
+/* Native older CRT fread [00051550,000516a4). */
+size_t fread(void *buffer,size_t size,size_t count,FILE *stream)
+{
+    unsigned char *destination=buffer;
+    unsigned total=size*count,remaining=total,buffer_size,bytes;
+    int result;
+    if (!total) return 0;
+    buffer_size=(stream->_flag&0x10c)?stream->_bufsiz:4096;
+    while (remaining) {
+        if ((stream->_flag&0x10c) && stream->_cnt) {
+            bytes=remaining;
+            if (bytes>=(unsigned)stream->_cnt) bytes=stream->_cnt;
+            memcpy(destination,stream->_ptr,bytes);
+            remaining-=bytes;
+            stream->_cnt-=bytes;
+            stream->_ptr+=bytes;
+            destination+=bytes;
+        } else if (remaining>=buffer_size) {
+            bytes=remaining-remaining%buffer_size;
+            result=_read(stream->_file,destination,bytes);
+            if (!result || result==-1) {
+                stream->_flag |= result ? 0x20 : 0x10;
+                return (total-remaining)/size;
+            }
+            remaining-=result;
+            destination+=result;
+        } else {
+            result=_filbuf(stream);
+            if (result==EOF) return (total-remaining)/size;
+            *destination++=(unsigned char)result;
+            --remaining;
+            buffer_size=stream->_bufsiz;
+        }
+    }
+    return count;
+}
+#pragma function(memcpy)

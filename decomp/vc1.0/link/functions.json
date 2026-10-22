@@ -527,7 +527,24 @@
     "_open_diagnostic_file",
     "_ftell",
     "_fseek",
-    "_lookup_diagnostic_code"
+    "_lookup_diagnostic_code",
+    "_convert_omf_object",
+    "_omf_main",
+    "_omf_get_option",
+    "_omf_open_input",
+    "_fread",
+    "_rewind",
+    "_omf_convert_pass",
+    "_omf_initialize_symbols",
+    "_omf_read_word",
+    "_omf_read_block",
+    "_omf_record_theadr",
+    "_omf_read_name",
+    "_omf_append_symbol",
+    "_omf_append_auxiliary",
+    "_omf_skip_record",
+    "_omf_read_byte",
+    "_omf_record_names"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1076,12 +1093,13 @@
       "abi": "cdecl Library *find_library(const char *name,Library *first,unsigned char basename)"
     },
     {
-      "name": "_crt_fread",
+      "name": "_fread",
       "start": 333136,
-      "end": 333137,
-      "implementation": "stub-C",
-      "source": "option-stubs.c",
-      "abi": "cdecl unsigned(void *buffer,unsigned size,unsigned count,FILE *stream)"
+      "end": 333476,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl size_t(void *,size_t,size_t,FILE *)",
+      "evidence": "Matched native fread51550..516a4 after renaming prior unaccepted crt_fread stub. Full old CRT buffering/direct-read/refill loop, unsigned product/count behavior, EOF/error partial element count and intrinsic copy. Calls only existing _read55980 and _filbuf53b30; shipped CRT body not assumed equivalent."
     },
     {
       "name": "_crt_filelength",
@@ -3743,10 +3761,11 @@
     {
       "name": "_convert_omf_object",
       "start": 133936,
-      "end": 133937,
-      "implementation": "stub-C",
-      "source": "library-stubs.c",
-      "abi": "cdecl void(Argument *,unsigned char,ImageOptions *); entry only until reached"
+      "end": 134304,
+      "implementation": "C",
+      "source": "omf.c",
+      "abi": "cdecl void(Argument *,unsigned char,ImageOptions *)",
+      "evidence": "Matched omf-library frontier20b30..20ca0. Complete temporary output adapter, debug_types bit2 argv flag, own setjmp, effective filename replacement and optional C/C++ source-extension conversion warning. Native source buffer260 bytes ends atresource_abort5c590; jmp_buf32 bytes."
     },
     {
       "name": "_take_export_token",
@@ -4636,6 +4655,364 @@
       "implementation": "C",
       "abi": "cdecl int(FILE *,long,int)",
       "evidence": "Matched editor catalog seek frontier52f90..53026. Native validates modes/origin, clears EOF, ftell-relative seeks, flushes, resets read/write flags or512-byte owned read buffer and calls original _lseek; no newer LIBC flag400 logic."
+    },
+    {
+      "name": "_omf_main",
+      "start": 294928,
+      "end": 295248,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl int(int,char **)",
+      "evidence": "Matched omf-library entry48010..48150. Full embedded driver: reset option state, parse c/g/o and usage, native diagnostics, input open/convert/write/close loop. One explicit argument to convert pass; decompiler extra register parameters rejected by call-site evidence."
+    },
+    {
+      "name": "_omf_get_option",
+      "start": 295456,
+      "end": 295888,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl int(int,char **,const char *)",
+      "evidence": "Matching omf-library getopt frontier48220..483d0. Full clustered-option scan and -- terminator, signed character, attached/detached operand state, exact diagnostics and native attached-operand offset retention. Distinct last-option character651fc and within-word offset80e6c."
+    },
+    {
+      "name": "_omf_warning",
+      "start": 295248,
+      "end": 295249,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(const char *format,...)"
+    },
+    {
+      "name": "_omf_error",
+      "start": 295344,
+      "end": 295345,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(const char *format,...)"
+    },
+    {
+      "name": "_omf_open_input",
+      "start": 283584,
+      "end": 283744,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl int(const char *)",
+      "evidence": "Matching omf-library input-open frontier453c0..45460. fopen rb, read exactly one2-byte machine item, skip alreadyCOFF14c by fclose/return0; otherwise rewind and return1. Preserve shared FILE owner and error calls."
+    },
+    {
+      "name": "_omf_convert_pass",
+      "start": 292128,
+      "end": 293360,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(int)",
+      "evidence": "Matching omf-library first-pass frontier47520..479f0; complete869-byte instruction-body plus75-entry dispatch table. Typed per-record state,4096-entry index maps, line/fixup buffers, complete record dispatch and final symbol/debug/second-pass graph. Only two first-segment WORDs are reset, not whole arrays; pending walkers will recover capacity at their own frontiers. Full graph audit caught separate LPUBDEF46020; retains its distinct pending vertex rather than routing it through PUBDEF46130."
+    },
+    {
+      "name": "_omf_write_coff",
+      "start": 296064,
+      "end": 296065,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(const char *path)"
+    },
+    {
+      "name": "_omf_close_input",
+      "start": 283744,
+      "end": 283745,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_initialize_symbols",
+      "start": 291984,
+      "end": 292128,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched first-pass initialization47490..47520. Lazily allocate and clear two211-bucket hash tables, one for OMF named symbols and one for relocation symbol+offset pairs. Typed forward declarations leave node layouts for their individual frontiers; no original layout snapshots."
+    },
+    {
+      "name": "_omf_finish_symbols",
+      "start": 291728,
+      "end": 291729,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_convert_symbol_types",
+      "start": 294208,
+      "end": 294209,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_release_line_data",
+      "start": 299712,
+      "end": 299713,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_second_pass",
+      "start": 293968,
+      "end": 293969,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_convert_debug_types",
+      "start": 305504,
+      "end": 305505,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_convert_debug_symbols",
+      "start": 299792,
+      "end": 299793,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_finish_debug_types",
+      "start": 306496,
+      "end": 306497,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_read_word",
+      "start": 290688,
+      "end": 290752,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned short(void)",
+      "evidence": "Matched record-header reader46f80..46fc0. Exact2-byte read via native block helper, explicit little-endian assembly and WORD result; record-length underflow at initial header read is retained in shared helper."
+    },
+    {
+      "name": "_omf_read_byte",
+      "start": 290656,
+      "end": 290688,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned char(void)",
+      "evidence": "Matched checksum-byte primitive46f60..46f80. One-byte stack buffer read through original block-reader vertex, returns AL unsigned byte; no additional stdio graph."
+    },
+    {
+      "name": "_omf_skip_record",
+      "start": 290592,
+      "end": 290656,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched record-tail skip46f20..46f60. SignedWORD remaining>1, seek remaining-1 relative bytes so checksum stays unread, native failure diagnostic, then remaining=1. Preserve original fseek graph and remaining underflow semantics."
+    },
+    {
+      "name": "_omf_record_theadr",
+      "start": 289776,
+      "end": 290128,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched translator-header46bf0..46d50: allocate/read module name, retain first module pointer and source-name copy, signedWORD module test, native secondary-header scan and18-byte COFF FILE auxiliary records. No invented string-library vertices; append-symbol/auxiliary retain distinct native graph."
+    },
+    {
+      "name": "_omf_record_lheadr",
+      "start": 286192,
+      "end": 286193,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_comment",
+      "start": 283984,
+      "end": 283985,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_modend",
+      "start": 286896,
+      "end": 286897,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_externals",
+      "start": 284368,
+      "end": 284369,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned char named,unsigned short storage)"
+    },
+    {
+      "name": "_omf_record_publics",
+      "start": 287024,
+      "end": 287025,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned short storage)"
+    },
+    {
+      "name": "_omf_record_lines",
+      "start": 286304,
+      "end": 286305,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_names",
+      "start": 286576,
+      "end": 286688,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(int)",
+      "evidence": "Matched LNAMES45f70..45fe0. Read complete counted names while signedWORD remaining>1, increment and validate signed name ordinal below2048, store allocated strings and actual0/-1 local-name flags in two typed2048-entry tables."
+    },
+    {
+      "name": "_omf_record_segments",
+      "start": 287216,
+      "end": 287217,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_groups",
+      "start": 285680,
+      "end": 285681,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_save_fixup_record",
+      "start": 293856,
+      "end": 293857,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(long position)"
+    },
+    {
+      "name": "_omf_record_fixups",
+      "start": 284704,
+      "end": 284705,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_data",
+      "start": 285824,
+      "end": 285825,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_iterated_data",
+      "start": 286208,
+      "end": 286209,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_common",
+      "start": 283760,
+      "end": 283761,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned short storage)"
+    },
+    {
+      "name": "_omf_record_backpatch",
+      "start": 289504,
+      "end": 289505,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_comdat",
+      "start": 288416,
+      "end": 288417,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_symbol_lines",
+      "start": 286496,
+      "end": 286497,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_named_backpatch",
+      "start": 289296,
+      "end": 289297,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_omf_record_local_publics",
+      "start": 286752,
+      "end": 286753,
+      "source": "omf-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(unsigned short storage)"
+    },
+    {
+      "name": "_omf_read_block",
+      "start": 291200,
+      "end": 291264,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void *,unsigned)",
+      "evidence": "Matched record block reader47180..471c0. fread(buffer,1,count), exact count failure diagnostic, then subtract lowWORD count from shared signed remaining length; header reads intentionally decrement fromzero before assigning their returned length."
+    },
+    {
+      "name": "_omf_read_name",
+      "start": 291104,
+      "end": 291200,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl char *(int)",
+      "evidence": "Matched THEADR name-reader47120..47180. The native caller argument is deliberately unused; read length byte, malloc length+1, read exact string and append NUL. Native calls block reader twice and malloc/error; no speculative normalization or ownership changes."
+    },
+    {
+      "name": "_omf_append_symbol",
+      "start": 298432,
+      "end": 298992,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(const char *,unsigned long,short,unsigned char,unsigned short,unsigned char)",
+      "evidence": "Matched COFF append-symbol48dc0..48ff0. Typed18-byte records; native128KiB calloc/copy/free symbol and long-name pools, string-size header reserve4, signed short-name length test, exact capacity arithmetic, storage/type/aux field widths and returned prior index."
+    },
+    {
+      "name": "_omf_append_auxiliary",
+      "start": 298992,
+      "end": 299184,
+      "source": "omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(const IMAGE_AUX_SYMBOL *)",
+      "evidence": "Matched COFF auxiliary append48ff0..490b0. Preserve distinct vertex and returned prior18-byte record index, exact128KiB calloc/copy/free pool growth and typed auxiliary copy."
     }
   ],
   "c_stub_references": [
@@ -5169,6 +5546,23 @@
     "library-edit",
     "library-edit",
     "library-edit",
-    "library-edit"
+    "library-edit",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library",
+    "omf-library"
   ]
 }

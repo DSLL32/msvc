@@ -31,5 +31,4 @@ typedef void (*FatalRoutine)(const char *,int,...);
 typedef void (*WarningRoutine)(const char *,unsigned,...);
 void initialize_order(FatalRoutine,WarningRoutine);
 long crt_filelength(int);
-unsigned crt_fread(void *,unsigned,unsigned,FILE *);
 #endif

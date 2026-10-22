@@ -603,3 +603,29 @@ C++ undecoration, with native incoming callers, per-body ranges and hashes.
 Padding, placeholder extents and CRT aliases are excluded. Static closure is not
 a promise that one input executes every function. No unassigned cases were run;
 Mac/m68k,ROM,bind/rebase,disassembler,error and dormant CRT gaps remain.
+
+New selected families begin at frozen original fixture commit86a7f87. OMF input
+has264 bytes and exercises USE32 segments/publics/externals/32-bit fixups and an
+explicit pick-any COMDAT. Both original conversion-library and direct-link paths
+succeed; runner evaluates20+7+15=42 and returns0. C++ symbol archive compilation
+and dump succeed with5511 exact stdout bytes; unsupported templates are excluded.
+
+OMF first-record checkpoint:545 accepted frontiers,164825/281634 bytes(58.5245%).
+All17 additions since full528 replay and all15 prior cases pass;400 graph/391
+callback/358 data/551 boundary audits pass. Current matched frontier is SEGDEF.
+This is partial progress, not completed OMF or undecoration reconstruction.
+
+omf.c recovers temporary conversion input adaptation, driver/getopt, two211-bucket
+hash initializers, complete first record-pass dispatch, typed runtime index maps,
+FILE-name auxiliaries and128KiB COFF symbol/string pool growth. Name tables have
+2048 slots proved by explicit native bounds; actual mutable index tables have4096.
+No original section is copied. First debug-segment WORDs remain separate until
+pending SEGDEF walkers recover their array roles. Named callees retain native
+individual ABIs. The full graph audit exposed distinct LPUBDEF46020, which now
+has its own pending function instead of being routed through PUBDEF46130.
+
+The unaccepted crt_fread placeholder was renamed canonical fread before accepting
+its own older native body51550..516a4. Both DOS-stub and OMF callers use that one
+vertex. Buffer/direct-read/refill/partial-element semantics are human C, with
+scoped memcpy intrinsic preserving native inline copy without extra graph calls.
+The already completed fifteen cases are unchanged by this runtime replacement.

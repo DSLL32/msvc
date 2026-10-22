@@ -2087,5 +2087,317 @@
       540,
       544
     ]
+  },
+  {
+    "address": 377916,
+    "name": "omf_abort",
+    "size": 32,
+    "owner": "omf.c"
+  },
+  {
+    "address": 377996,
+    "name": "omf_source_filename",
+    "size": 260,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414192,
+    "name": "omf_program_name",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414196,
+    "name": "omf_argument_index",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414200,
+    "name": "omf_option_argument",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414204,
+    "name": "omf_option_character",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 527964,
+    "name": "omf_debug_mode",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 527980,
+    "name": "omf_option_offset",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491020,
+    "name": "omf_input",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 472504,
+    "name": "omf_external_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 446996,
+    "name": "omf_symbol_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 472500,
+    "name": "omf_group_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 472496,
+    "name": "omf_segment_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 455076,
+    "name": "omf_name_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491024,
+    "name": "omf_module_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 526240,
+    "name": "omf_extensions_seen",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 455068,
+    "name": "omf_record_remaining",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 455064,
+    "name": "omf_record_wide",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491028,
+    "name": "omf_record_type",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490944,
+    "name": "omf_data_record_type",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490948,
+    "name": "omf_data_segment",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490952,
+    "name": "omf_data_offset",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490996,
+    "name": "omf_pass",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490956,
+    "name": "omf_modend_seen",
+    "size": 1,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378324,
+    "name": "omf_line_count",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 526280,
+    "name": "omf_symbol_fixup_bytes",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414220,
+    "name": "omf_bss_section",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 394720,
+    "name": "omf_data_section",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378320,
+    "name": "omf_text_section",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 472488,
+    "name": "omf_exestr_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414224,
+    "name": "omf_defined_segment_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 472492,
+    "name": "omf_exestr_bytes",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490992,
+    "name": "omf_type_segment_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490988,
+    "name": "omf_symbol_segment_count",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490976,
+    "name": "omf_first_type_segment",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 490960,
+    "name": "omf_first_symbol_segment",
+    "size": 2,
+    "owner": "omf.c"
+  },
+  {
+    "address": 455072,
+    "name": "omf_record_checksum",
+    "size": 1,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378328,
+    "name": "omf_line_data",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378332,
+    "name": "omf_symbol_fixup_data",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378336,
+    "name": "omf_symbol_indices",
+    "size": 16384,
+    "owner": "omf.c"
+  },
+  {
+    "address": 474560,
+    "name": "omf_external_indices",
+    "size": 16384,
+    "owner": "omf.c"
+  },
+  {
+    "address": 447000,
+    "name": "omf_symbol_buckets",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 414208,
+    "name": "omf_relocation_buckets",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 526284,
+    "name": "omf_first_module_name",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 378316,
+    "name": "omf_coff_symbol_count",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 528272,
+    "name": "omf_coff_symbols",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 397800,
+    "name": "omf_coff_symbol_capacity",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 491040,
+    "name": "omf_coff_string_size",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 377856,
+    "name": "omf_coff_strings",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 397796,
+    "name": "omf_coff_string_capacity",
+    "size": 4,
+    "owner": "omf.c"
+  },
+  {
+    "address": 455080,
+    "name": "omf_names",
+    "size": 8192,
+    "owner": "omf.c"
+  },
+  {
+    "address": 463272,
+    "name": "omf_local_names",
+    "size": 8192,
+    "owner": "omf.c"
   }
 ]

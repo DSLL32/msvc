@@ -6,13 +6,22 @@ all 70 formerly lifted implementations and their generators were removed. Only
 INT3 statements in pending named stubs remain. No assembly ABI exception exists.
 Data is contextual and typed; no original section snapshots are retained.
 
-All 15 assigned cases are complete:
+The fifteen prior cases are complete:
   /? (exit 3, exact 884-byte stdout, empty stderr)
   minimal-c, hello-win32, hello-dll
   library-create, hello-debug-dll
   library-list, library-extract, library-remove, library-list-trimmed
   library-dump-library, library-dump-object, library-dump-dll
   library-edit, library-dump-edited
+
+The user selected both remaining-code candidates. Frozen original-backed fixtures
+link-omf and link-undecorate are in commit86a7f87. Current OMF reconstruction stops
+at matching omf_record_segments:545 frontiers,164825/281634 bytes=58.5245%.
+All17 additions since full528 replay, all15 prior cases and400 graph/391 callback/
+358 data/551 boundary audits pass. The newly assigned families remain incomplete.
+cases/omf-undecorate-queue.json records order and provenance. No lifted assembly,
+bulk data or ABI exception was introduced. The original compiler rejects template
+syntax; the C++ fixture covers supported name kinds without a template claim.
 
 The expanded scenarios cover buffered C++ archive creation and member lifecycle,
 COMDAT selection, full COFF/CodeView/FPO debug DLL linking, native CVPACK,
@@ -22,7 +31,8 @@ original/reconstructed/baseline GUI executables and DLLs pass load/call, 300 pai
 pixels, WM_CLOSE, exit 0 and DLL unload checks where applicable. Streams and exit
 status match the frozen fixtures and untouched original.
 
-Final verification: a fresh original-toolchain make -j2, full 528-frontier replay,
+Previous completed-family verification (933267c): a fresh original-toolchain
+make -j2, full 528-frontier replay,
 all 15 completed-case regressions, 384 direct/indirect/tail-call graph audits,
 375 callback audits,306 contextual-data initializer audits and 534 accepted-record
 instruction-boundary checks pass. cases/coverage-after-library-tools.json records
@@ -78,8 +88,7 @@ message sentences stay in the original external catalog.
 cases/remaining-gaps.json ranks analysis-only follow-ups using actual decoded
 body ranges and native callers, excluding CRT aliases, padding and placeholder
 extents: about 21.3 KB in OMF conversion and 19.0 KB in C++ undecoration. These are
-static opportunities, not promised coverage from a single input. No further
-cases were started. Remaining Macintosh/m68k, ROM, bind/rebase, disassembly,
+static opportunities, not promised coverage from a single input. Those two families are now authorized and active. Remaining Macintosh/m68k, ROM, bind/rebase, disassembly,
 diagnostic/error and dormant CRT paths mean 99% whole-binary coverage is not
 established. Shared fixtures remain immutable. Scratch/evidence/private Wine
 prefixes live under ~/.ai-tmp/vc1.0-link.

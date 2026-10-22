@@ -12,20 +12,36 @@
       "case": "omf-library",
       "fixture": "../fixtures/link-omf/manifest.json",
       "phase": "library",
-      "status": "original-validated; paired frontier pending"
+      "status": "active",
+      "current_frontier": "_omf_record_segments"
     },
     {
       "case": "omf-link",
       "fixture": "../fixtures/link-omf/manifest.json",
       "phase": "link",
-      "status": "original-validated; queued"
+      "status": "queued"
     },
     {
       "case": "cpp-undecorate",
       "fixture": "../fixtures/link-undecorate/manifest.json",
       "phase": "dump",
-      "status": "original-validated; queued"
+      "status": "queued after OMF",
+      "matched_initial_frontier": "_undecorate_symbol_name"
     }
   ],
-  "limits": "Two assigned families only. Preserve prior15 cases/full528 frontiers; final clean -j2, full replay and graph/callback/data/boundary audits; component-body accounting separately from accepted-extent union."
+  "limits": "Two assigned families only. Preserve prior15 cases/full528 frontiers; final clean -j2, full replay and graph/callback/data/boundary audits; component-body accounting separately from accepted-extent union.",
+  "checkpoint": {
+    "accepted_frontiers": 545,
+    "last_full_frontier_replay": 528,
+    "all_seventeen_additions_replayed": true,
+    "all_fifteen_prior_cases_pass": true,
+    "graph_audits": 400,
+    "callback_audits": 391,
+    "data_audits": 358,
+    "original_extent_boundaries": 551,
+    "coverage": "cases/coverage-after-omf-first-records.json",
+    "added_replay_sha256": "d725b9b635e3dfcb7b5411306a25a20f96a14ba2a354213b7c3c97d456d2dd65",
+    "prior_case_regressions_sha256": "07d00adeab75ad96935372cde280e7fffa00a3ecaa5029abed76a49c4f6885de",
+    "audit_sha256": "a9286b31d96c108e2f68d5095883eb307d6f76ec43118297709296ac7cc6b68b"
+  }
 }

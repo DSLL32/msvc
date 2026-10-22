@@ -308,7 +308,7 @@ void process_options(Image *image,unsigned char directives,unsigned char library
             aligned=(size+7)&~7UL;
             dos_stub_template=malloc(aligned+4);
             if (!dos_stub_template) out_of_memory();
-            if (crt_fread(dos_stub_template,1,size,stream)!=size) fatal_message(program_name,0xa,text+5);
+            if (fread(dos_stub_template,1,size,stream)!=size) fatal_message(program_name,0xa,text+5);
             fclose(stream);
             if (dos_stub_template[0]!='M' || dos_stub_template[1]!='Z') fatal_message(program_name,0x23,text+5);
             if (((IMAGE_DOS_HEADER *)dos_stub_template)->e_lfarlc<64) warning_message(text+5,0x83,"","");
