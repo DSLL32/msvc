@@ -308,7 +308,18 @@
     "_release_comdat_storage",
     "_release_arena",
     "_layout_sections",
-    "_contribution_discarded"
+    "_contribution_discarded",
+    "_sort_sections_by_rva",
+    "_compare_sections_by_rva",
+    "_write_file",
+    "_write_mapped_file",
+    "_write_section_headers",
+    "_collect_section_records",
+    "_make_section_header",
+    "_write_section_header",
+    "_set_section_directory_rva",
+    "_write_local_imports",
+    "_pass_two"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1036,10 +1047,11 @@
     {
       "name": "_pass_two",
       "start": 116480,
-      "end": 116481,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 116784,
+      "implementation": "C",
+      "source": "pass-two.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching pass-two driver1c700..1c830; reopen each object/archive, set member data origin, emit module, then close/cache input."
     },
     {
       "name": "_pass_one",
@@ -1084,12 +1096,13 @@
       "evidence": "Matching minimal-C frontier provisionally called collect_symbol_layout; full1fe10..20060 resolves locally defined __imp_ references, creates synthetic pointer slots, and records alias/definition pairs."
     },
     {
-      "name": "_assign_external_addresses",
+      "name": "_write_local_imports",
       "start": 131168,
-      "end": 131169,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Contribution *storage,ExternalLink **aliases,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options)"
+      "end": 131424,
+      "implementation": "C",
+      "source": "imports.c",
+      "abi": "cdecl void(Contribution *storage,ExternalLink **aliases,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options)",
+      "evidence": "Matching local-import pointer-slot output20060..20160; provisional assign_external_addresses renamed before acceptance. Alias/definition pairs produce absolute slots, HIGHLOW fixups, final alias value/index, then free pair records. BaseFixup private layout omits unconsumed original field4."
     },
     {
       "name": "_layout_sections",
@@ -1103,10 +1116,11 @@
     {
       "name": "_write_section_headers",
       "start": 140816,
-      "end": 140817,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(unsigned long mask,unsigned long *state,unsigned long *rva,Image *image)"
+      "end": 141456,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl void(unsigned long mask,unsigned long *relocations,unsigned long *lines,Image *image)",
+      "evidence": "Matching section-header orchestration22610..22890; collect record offsets, build/adjust/write COFF headers, assign section indices and record directory RVAs."
     },
     {
       "name": "_emit_externals",
@@ -1177,18 +1191,20 @@
     {
       "name": "_make_section_header",
       "start": 151792,
-      "end": 151793,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Section *section,IMAGE_SECTION_HEADER *header)"
+      "end": 151952,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl void(Section *section,IMAGE_SECTION_HEADER *header)",
+      "evidence": "Matching COFF section-header construction250f0..25190; full PE/Mac header fields and Mac flags."
     },
     {
       "name": "_write_section_header",
       "start": 151984,
-      "end": 151985,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(int file,IMAGE_SECTION_HEADER *header)"
+      "end": 152016,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,IMAGE_SECTION_HEADER *header)",
+      "evidence": "Matching serialized section-header write251b0..251d0; preserve returned write byte count."
     },
     {
       "name": "_compare_fpo_records",
@@ -1399,12 +1415,13 @@
       "abi": "cdecl Section *find_section(const char *name,unsigned long flags,SectionList *list,IMAGE_OPTIONAL_HEADER *header)"
     },
     {
-      "name": "_assign_section_numbers",
+      "name": "_sort_sections_by_rva",
       "start": 243824,
-      "end": 243825,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(SectionList *sections)"
+      "end": 244048,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(SectionList *sections)",
+      "evidence": "Matching section sort3b870..3b950; provisional assign_section_numbers label corrected before acceptance. Materialize sections, qsort by RVA, and rebuild linked list/tail."
     },
     {
       "name": "_find_group",
@@ -1436,10 +1453,11 @@
     {
       "name": "_write_file",
       "start": 249488,
-      "end": 249489,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl unsigned(int file,const void *data,unsigned size)"
+      "end": 249536,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl unsigned(int handle,const void *buffer,unsigned size)",
+      "evidence": "Matching file-write dispatcher3ce90..3cec0; mapped versus buffered slot flag dispatch."
     },
     {
       "name": "___tzset",
@@ -1483,7 +1501,7 @@
       "end": 139409,
       "implementation": "stub-C",
       "source": "module-stubs.c",
-      "abi": "cdecl void(const char *name,Section *section,unsigned char apply)"
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *header,Section *section,unsigned char apply)"
     },
     {
       "name": "_normalize_section_flags",
@@ -2895,6 +2913,82 @@
       "implementation": "stub-C",
       "source": "link-pass-stubs.c",
       "abi": "cdecl unsigned long(Section *section,unsigned long file)"
+    },
+    {
+      "name": "_compare_sections_by_rva",
+      "start": 243776,
+      "end": 243824,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl int(const void *left,const void *right)",
+      "evidence": "Matching section-RVA qsort comparator3b840..3b870; unsigned address ordering returns -1/0/1."
+    },
+    {
+      "name": "_write_mapped_file",
+      "start": 250992,
+      "end": 251088,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl unsigned(FileSlot *file,const void *buffer,unsigned size)",
+      "evidence": "Matching mapped-file write3d470..3d4d0; signed capacity/length checks, forward intrinsic copy, and cursor advancement."
+    },
+    {
+      "name": "_write_buffered_file",
+      "start": 248944,
+      "end": 248945,
+      "implementation": "stub-C",
+      "source": "files-stubs.c",
+      "abi": "cdecl unsigned(FileSlot *file,const void *buffer,unsigned size)"
+    },
+    {
+      "name": "_collect_section_records",
+      "start": 140528,
+      "end": 140816,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl void(Section *section,Image *image,unsigned long *relocations,unsigned long *lines)",
+      "evidence": "Matching output-record collection224f0..22610; skip unreferenced contributions, count relocations, and reserve COFF/CodeView line-source bytes."
+    },
+    {
+      "name": "_adjust_rom_section_header",
+      "start": 140000,
+      "end": 140001,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Section *section,IMAGE_SECTION_HEADER *header,Image *image)"
+    },
+    {
+      "name": "_set_section_directory_rva",
+      "start": 140240,
+      "end": 140528,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl void(Section *section,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options)",
+      "evidence": "Matching PE directory RVA assignment223d0..224f0; recognized debug/export/resource/exception sections populate only empty directory addresses."
+    },
+    {
+      "name": "_write_mac_section_debug",
+      "start": 228240,
+      "end": 228241,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Section *section)"
+    },
+    {
+      "name": "_record_mac_section_resource",
+      "start": 236864,
+      "end": 236865,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(unsigned long mask,Section *section)"
+    },
+    {
+      "name": "_process_module_output",
+      "start": 125552,
+      "end": 125553,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Image *image,Module *module)"
     }
   ],
   "c_stub_references": [
@@ -2991,6 +3085,17 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

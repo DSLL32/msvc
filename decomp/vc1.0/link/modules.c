@@ -495,3 +495,31 @@ void move_section_last(Section *section,SectionList *sections)
     section->next=NULL;
 }
 
+
+void sort_sections_by_rva(SectionList *sections)
+{
+    SectionEnumerator scan;
+    Section **sorted;
+    unsigned short index=0;
+    sorted=malloc((unsigned long)section_count*sizeof(*sorted));
+    if (!sorted) module_error(NULL,5,"");
+    initialize_section_enumerator(&scan,sections);
+    while (next_section(&scan)) sorted[index++]=scan.current;
+    qsort(sorted,section_count,sizeof(*sorted),compare_sections_by_rva);
+    sections->tail=&sections->first;
+    for (index=0;index<section_count;++index) {
+        *sections->tail=sorted[index];
+        sections->tail=&(*sections->tail)->next;
+    }
+    *sections->tail=NULL;
+    free(sorted);
+}
+
+
+int compare_sections_by_rva(const void *left,const void *right)
+{
+    Section *a=*(Section *const *)left,*b=*(Section *const *)right;
+    if (a->rva>b->rva) return 1;
+    return a->rva<b->rva ? -1 : 0;
+}
+

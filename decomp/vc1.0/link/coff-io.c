@@ -1,5 +1,6 @@
 /* COFF file-format reads and reusable symbol/string buffers. */
 #include "object.h"
+#include "files.h"
 TextBuffer coff_string_buffer, coff_symbol_buffer;
 unsigned char coff_strings_cached, coff_symbols_cached;
 char section_name_buffer[9];
@@ -111,3 +112,34 @@ void read_optional_header(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short 
         read_file(file,header,size);
     }
 }
+
+extern unsigned char mac_image,mac_swappable;
+void make_section_header(Section *section,IMAGE_SECTION_HEADER *header)
+{
+    strncpy((char *)header->Name,section->name,8);
+    header->Misc.VirtualSize=section->virtual_size;
+    header->VirtualAddress=section->rva;
+    header->SizeOfRawData=section->raw_size;
+    header->PointerToRawData=section->file_offset;
+    header->PointerToRelocations=0;
+    header->PointerToLinenumbers=section->line_offset;
+    header->NumberOfRelocations=0;
+    header->NumberOfLinenumbers=section->line_count;
+    header->Characteristics=section->characteristics;
+    if (mac_image) {
+        if (section->characteristics&IMAGE_SCN_CNT_UNINITIALIZED_DATA)
+            header->SizeOfRawData=0;
+        if (section->characteristics&IMAGE_SCN_CNT_CODE)
+            header->Characteristics |= 0x400000;
+        if (mac_swappable && (section->characteristics&0x08000000UL))
+            header->Characteristics |= 0x1800000;
+        header->Misc.VirtualSize=section->raw_size;
+    }
+}
+
+
+unsigned write_section_header(int file,IMAGE_SECTION_HEADER *header)
+{
+    return write_file(file,header,sizeof(*header));
+}
+

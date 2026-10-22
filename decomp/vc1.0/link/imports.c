@@ -76,3 +76,33 @@ void resolve_local_imports(Image *image,Contribution **storage,ExternalLink **ta
     }
     *tail=NULL;
 }
+
+void write_local_imports(Contribution *storage,ExternalLink **aliases,
+                         IMAGE_OPTIONAL_HEADER *header,ImageOptions *options)
+{
+    ExternalLink *alias_entry,*definition_entry;
+    External *alias,*definition;
+    unsigned long address;
+    if (!*aliases) return;
+    seek_file(output_file,storage->file_offset,SEEK_SET);
+    while (*aliases) {
+        alias_entry=*aliases;
+        definition_entry=alias_entry->next;
+        alias=alias_entry->external;
+        definition=definition_entry->external;
+        address=definition->symbol.Value+definition->owner.contribution->rva+header->ImageBase;
+        write_file(output_file,&address,sizeof(address));
+        if (!options->fixed && !options->rom) {
+            base_fixup_next->type=IMAGE_REL_BASED_HIGHLOW;
+            base_fixup_next->rva=alias->symbol.Value+alias->owner.contribution->rva;
+            base_fixup_next->value.adjustment=0;
+            ++base_fixup_next;
+        }
+        alias->value.final_value=alias->symbol.Value+alias->owner.contribution->rva+header->ImageBase;
+        alias->symbol.SectionNumber=alias->owner.contribution->group->section->index;
+        *aliases=definition_entry->next;
+        free(definition_entry);
+        free(alias_entry);
+    }
+}
+

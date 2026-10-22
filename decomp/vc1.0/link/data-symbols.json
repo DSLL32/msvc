@@ -493,7 +493,7 @@
   },
   {
     "address": 377836,
-    "name": "base_fixup_buffer",
+    "name": "base_fixup_next",
     "size": 4,
     "owner": "link-pass.c"
   },
@@ -517,7 +517,7 @@
   },
   {
     "address": 377952,
-    "name": "base_fixup_cursor",
+    "name": "base_fixups",
     "size": 4,
     "owner": "link-pass.c"
   },
@@ -1143,6 +1143,18 @@
     "address": 519640,
     "name": "mac_max_code_size",
     "size": 4,
+    "owner": "section-layout.c"
+  },
+  {
+    "address": 503360,
+    "name": "next_section_index",
+    "size": 2,
+    "owner": "section-layout.c"
+  },
+  {
+    "address": 519576,
+    "name": "mac_code_section_count",
+    "size": 2,
     "owner": "section-layout.c"
   }
 ]

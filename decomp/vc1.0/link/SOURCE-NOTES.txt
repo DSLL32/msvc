@@ -66,7 +66,7 @@ archive linker-member indexes now have C implementations. The archive code model
 member offsets, symbol/member indices, raw names, and a name-pointer index as
 separate fields. The file cursor and archive globals are named input_file and
 archive_data_offset for their observed roles. The case currently stops at
-assign_section_numbers. Extraction now reads the needed CRT/import members and
+process_module_output. Extraction now reads the needed CRT/import members and
 updates the undefined list after definitions, while contribution iterators mark
 .idata sections. Relocation reachability edges have named, resolved-node,
 and contribution fields; linker-defined nodes grow their edge capacity as needed.
@@ -131,3 +131,23 @@ rather than a provisional wrapper name. Its mutable previous-TZ cache is local
 to runtime.c and its timezone/daylight/name state aliases the native CRT globals.
 Minimal-C has not yet emitted a validated image. Output and unreached Macintosh
 helpers remain typed named traps; new branches need later dynamic coverage.
+
+The output-header checkpoint contains320 accepted frontiers. Full320 replay,
+exact help, and the current minimal-C module-output frontier pass. The partially
+written2MB original/reconstructed files are identical at this stop: DOS stub and
+all section headers have been emitted, while contribution contents and final
+image metadata remain pending. This is not a completed fixture result.
+The section-list operation3b870 is sort_sections_by_rva, correcting its pending
+assign_section_numbers label before acceptance. The mapped writer grows capacity
+when needed, extends logical length and advances the file cursor. Its forward
+copy uses the original compiler's memcpy intrinsic, with no assembly exception.
+Section header construction and writing retain the40-byte COFF format; the writer
+returns the underlying byte count. The orchestration assigns section indices and
+records recognized directory RVAs without replacing an existing address.
+The20060 routine writes local-import slots and is now named write_local_imports,
+replacing a provisional assign_external_addresses label before acceptance.
+The original5c3ec global is the next base-fixup record, and5c460 is the allocation
+base; earlier names had those roles reversed. BaseFixup models the observed type,
+RVA and adjustment/ROM-symbol payload, omitting an unconsumed original DWORD from
+its private layout. Allocation now uses sizeof that type. The queued backend C
+implementations must use those fields and the named base/next pointers.

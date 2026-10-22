@@ -288,3 +288,23 @@ long tell_file(int handle)
     if (file->flags&8) return file->cursor.position;
     return file->cursor.page->position;
 }
+
+unsigned write_file(int handle,const void *buffer,unsigned size)
+{
+    FileSlot *file=files[handle];
+    if (file->flags&8) return write_mapped_file(file,buffer,size);
+    return write_buffered_file(file,buffer,size);
+}
+
+
+#pragma intrinsic(memcpy)
+unsigned write_mapped_file(FileSlot *file,const void *buffer,unsigned size)
+{
+    long end=file->cursor.position+size;
+    if (end>(long)file->allocated) grow_mapping(file,end);
+    if (file->length<end) file->length=end;
+    memcpy(file->contents.view+file->cursor.position,buffer,size);
+    file->cursor.position+=size;
+    return size;
+}
+

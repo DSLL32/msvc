@@ -14,20 +14,13 @@ void build_mac_resources(Image *image) { __asm { int 3 } }
 void finalize_mac_debug(void) { __asm { int 3 } }
 void initialize_mac_loader(void) { __asm { int 3 } }
 unsigned long size_mac_data_fixups(Image *image,unsigned long file) { __asm { int 3 } return 0; }
-void assign_section_numbers(SectionList *sections) { __asm { int 3 } }
-unsigned write_file(int file,const void *data,unsigned size) { __asm { int 3 } return 0; }
 void pad_contribution(Contribution *contribution) { __asm { int 3 } }
-void write_section_headers(unsigned long mask,unsigned long *state,unsigned long *rva,Image *image) { __asm { int 3 } }
-void make_section_header(Section *section,IMAGE_SECTION_HEADER *header) { __asm { int 3 } }
-void write_section_header(int file,IMAGE_SECTION_HEADER *header) { __asm { int 3 } }
-void assign_external_addresses(Contribution *storage,ExternalLink **aliases,IMAGE_OPTIONAL_HEADER *header,ImageOptions *options) { __asm { int 3 } }
 unsigned long count_modules(Library *libraries) { __asm { int 3 } return 0; }
 void finalize_mac_fixups(void) { __asm { int 3 } }
 void write_mac_debug(Image *image) { __asm { int 3 } }
 void write_mac_resources(void) { __asm { int 3 } }
 void write_mac_swapper(void) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
-void pass_two(Image *image) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }
 void emit_base_relocations(IMAGE_OPTIONAL_HEADER *header) { __asm { int 3 } }
 void emit_string_table(SymbolTable *table) { __asm { int 3 } }
@@ -61,3 +54,12 @@ void end_comdat_root_enumerator(ComdatRootEnumerator *scan) { __asm { int 3 }  }
 
 void build_mac_section_fixups(Section *section,Image *image) { __asm { int 3 } }
 unsigned long size_mac_section_fixups(Section *section,unsigned long file) { __asm { int 3 } return 0; }
+
+
+void adjust_rom_section_header(Section *section,IMAGE_SECTION_HEADER *header,Image *image) { __asm { int 3 } }
+
+
+void write_mac_section_debug(Section *section) { __asm { int 3 } }
+
+void record_mac_section_resource(unsigned long mask,Section *section) { __asm { int 3 } }
+void process_module_output(Image *image,Module *module) { __asm { int 3 } }

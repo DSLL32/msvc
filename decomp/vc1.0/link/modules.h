@@ -72,6 +72,7 @@ struct Section {
     Section *next;
 };
 typedef struct SectionList { Section *first, **tail; } SectionList;
+int compare_sections_by_rva(const void *,const void *);
 typedef struct DefaultLibrary {
     struct DefaultLibrary *next;
     char *name;
@@ -163,5 +164,5 @@ void initialize_module_enumerator(ModuleEnumerator *,Library *);
 unsigned char next_module(ModuleEnumerator *);
 void end_module_enumerator(ModuleEnumerator *);
 void initialize_mac_section(Section *);
-void set_mac_resource(const char *,Section *,unsigned char);
+void set_mac_resource(IMAGE_SECTION_HEADER *,Section *,unsigned char);
 #endif

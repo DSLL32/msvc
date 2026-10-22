@@ -208,3 +208,93 @@ void layout_sections(Image *image,unsigned long mask,unsigned long *rva,
     }
 }
 
+
+unsigned short next_section_index=1,mac_code_section_count=1;
+void write_section_headers(unsigned long mask,unsigned long *relocations,
+                           unsigned long *lines,Image *image)
+{
+    unsigned long far_data=mask&0x100000,discardable=mask&0x2000000;
+    unsigned long kind=mac_image ? mask&0x1e0 : mask&~0x2000000UL;
+    unsigned long relocation_start,line_start,file_offset;
+    SectionEnumerator sections;
+    Section *section;
+    IMAGE_SECTION_HEADER header;
+    if (mac_image && kind==IMAGE_SCN_CNT_CODE)
+        next_section_index=mac_code_section_count+1;
+    initialize_section_enumerator(&sections,&image->sections);
+    while (next_section(&sections)) {
+        section=sections.current;
+        if ((section->characteristics&0x2000000)!=discardable ||
+            (section->characteristics&0x1e0)!=kind || !section->raw_size ||
+            (mac_image && (section->characteristics&0x100000)!=far_data)) continue;
+        relocation_start=*relocations;
+        line_start=*lines;
+        collect_section_records(section,image,relocations,lines);
+        if (section->relocation_count)
+            *relocations+=(image->options.rom?8:10)*section->relocation_count;
+        if (section->relocation_count) section->relocation_offset=relocation_start;
+        if (!section->line_count || !image->options.debug_level) {
+            section->line_offset=0;
+            section->line_count=0;
+        } else section->line_offset=line_start;
+        file_offset=section->file_offset;
+        if (kind==IMAGE_SCN_CNT_UNINITIALIZED_DATA || !section->raw_size)
+            section->file_offset=0;
+        make_section_header(section,&header);
+        if (section_overrides.count || mac_image) {
+            set_mac_resource(&header,section,0);
+            if (mac_image && image->options.debug_level) write_mac_section_debug(section);
+        }
+        if (image->options.rom) adjust_rom_section_header(section,&header,image);
+        if ((!image->options.rom || header.Characteristics) &&
+            _strnicmp(debug_section_defaults.name,section->name,8)) {
+            write_section_header(output_file,&header);
+            if (!mac_image || (section->characteristics&0x1e0)!=IMAGE_SCN_CNT_CODE)
+                section->index=next_section_index++;
+            if (mac_image) record_mac_section_resource(kind,section);
+        }
+        section->file_offset=file_offset;
+        set_section_directory_rva(section,&image->optional,&image->options);
+    }
+}
+
+
+void collect_section_records(Section *section,Image *image,unsigned long *relocations,
+                             unsigned long *lines)
+{
+    GroupEnumerator groups;
+    GroupContributionEnumerator contributions;
+    Contribution *contribution;
+    initialize_group_enumerator(&groups,section);
+    while (next_group(&groups)) {
+        initialize_group_contribution_enumerator(&contributions,groups.current);
+        while (next_group_contribution(&contributions)) {
+            contribution=contributions.current;
+            if (image->options.eliminate_unreferenced && contribution_discarded(contribution))
+                continue;
+            section->relocation_count+=contribution->relocation_count;
+            *relocations+=(image->options.rom?8:10)*contribution->relocation_count;
+            if ((image->options.debug_level==2 || image->options.debug_level==3) &&
+                contribution->line_count && contribution->raw_size) {
+                if ((image->options.debug_types&2) && (image->options.debug_types&4)) *lines+=261;
+                *lines+=contribution->line_count*6;
+            }
+        }
+    }
+}
+
+
+#pragma intrinsic(strcmp)
+void set_section_directory_rva(Section *section,IMAGE_OPTIONAL_HEADER *header,
+                               ImageOptions *options)
+{
+    unsigned short directory=0xffff;
+    if (!strcmp(debug_section_defaults.name,section->name)) {
+        if (options->debug_level) directory=IMAGE_DIRECTORY_ENTRY_DEBUG;
+    } else if (!strcmp(".edata",section->name)) directory=IMAGE_DIRECTORY_ENTRY_EXPORT;
+    else if (!strcmp(".rsrc",section->name)) directory=IMAGE_DIRECTORY_ENTRY_RESOURCE;
+    else if (!strcmp(".pdata",section->name)) directory=IMAGE_DIRECTORY_ENTRY_EXCEPTION;
+    if (directory!=0xffff && !header->DataDirectory[directory].VirtualAddress)
+        header->DataDirectory[directory].VirtualAddress=section->rva;
+}
+

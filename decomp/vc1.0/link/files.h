@@ -35,6 +35,9 @@ void move_file_slot(FileSlot *,FileSlot **,FileSlot **,FileSlot **,FileSlot **,u
 int open_mapped_file(FileSlot *,int,unsigned char);
 int map_file(FileSlot *);
 unsigned read_mapped_file(FileSlot *,void *,unsigned);
+unsigned write_mapped_file(FileSlot *,const void *,unsigned);
+unsigned write_buffered_file(FileSlot *,const void *,unsigned);
+unsigned write_file(int,const void *,unsigned);
 long seek_mapped_file(FileSlot *,long,int);
 int open_buffered_file(FileSlot *,int,int,unsigned char);
 unsigned read_buffered_file(FileSlot *,void *,unsigned);

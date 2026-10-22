@@ -7,7 +7,12 @@
 typedef struct SectionDefault { char *name; unsigned long flags; } SectionDefault;
 typedef struct Fixup { unsigned long type,offset,rva; } Fixup;
 typedef struct FixupBlock { struct FixupBlock *next; Fixup records[341]; } FixupBlock;
-typedef struct BaseFixup BaseFixup;
+typedef struct BaseFixup {
+    unsigned short type;
+    unsigned long rva;
+    union { unsigned long adjustment,symbol_index; } value;
+} BaseFixup;
+extern BaseFixup *base_fixups,*base_fixup_next;
 typedef struct ModuleDebugInfo ModuleDebugInfo;
 extern SectionDefault readonly_section_defaults,bss_section_defaults,debug_section_defaults;
 extern SectionDefault idata_directory_defaults,reloc_section_defaults;
@@ -53,13 +58,18 @@ void layout_sections(Image *,unsigned long,unsigned long *,unsigned long *,unsig
 void build_mac_section_fixups(Section *,Image *);
 unsigned long size_mac_section_fixups(Section *,unsigned long);
 unsigned long size_mac_data_fixups(Image *,unsigned long);
-void assign_section_numbers(SectionList *);
+void sort_sections_by_rva(SectionList *);
 unsigned write_file(int,const void *,unsigned);
 void pad_contribution(Contribution *);
 void write_section_headers(unsigned long,unsigned long *,unsigned long *,Image *);
+void collect_section_records(Section *,Image *,unsigned long *,unsigned long *);
+void adjust_rom_section_header(Section *,IMAGE_SECTION_HEADER *,Image *);
+void set_section_directory_rva(Section *,IMAGE_OPTIONAL_HEADER *,ImageOptions *);
+void write_mac_section_debug(Section *);
+void record_mac_section_resource(unsigned long,Section *);
 void make_section_header(Section *,IMAGE_SECTION_HEADER *);
-void write_section_header(int,IMAGE_SECTION_HEADER *);
-void assign_external_addresses(Contribution *,ExternalLink **,IMAGE_OPTIONAL_HEADER *,ImageOptions *);
+unsigned write_section_header(int,IMAGE_SECTION_HEADER *);
+void write_local_imports(Contribution *,ExternalLink **,IMAGE_OPTIONAL_HEADER *,ImageOptions *);
 unsigned long count_modules(Library *);
 void finalize_mac_fixups(void);
 void write_mac_debug(Image *);

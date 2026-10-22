@@ -7,7 +7,7 @@ SectionDefault bss_section_defaults={".bss",0xc0000080UL};
 SectionDefault debug_section_defaults={".debug",0x42000048UL};
 SectionDefault idata_directory_defaults={".idata$2",0xc0000048UL};
 SectionDefault reloc_section_defaults={".reloc",0x42000040UL};
-BaseFixup *base_fixup_buffer,*base_fixup_cursor;
+BaseFixup *base_fixup_next,*base_fixups;
 unsigned long codeview_start,codeview_end,undefined_symbols;
 External **sorted_externals;
 unsigned long symbol_table_file_offset;
@@ -131,9 +131,9 @@ int link_passes(Image *image,unsigned char *pack)
             if (!header->DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size)
                 ++header->DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
             base_relocation_section->raw_size=1;
-            base_fixup_buffer=calloc(header->DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size,16);
-            base_fixup_cursor=base_fixup_buffer;
-            if (!base_fixup_buffer) out_of_memory();
+            base_fixups=calloc(header->DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size,sizeof(*base_fixups));
+            base_fixup_next=base_fixups;
+            if (!base_fixups) out_of_memory();
         }
     }
     if (image->options.debug_level) {
@@ -330,7 +330,7 @@ int link_passes(Image *image,unsigned char *pack)
     if (header->BaseOfCode>header->BaseOfData) {
         if (data_rva>header->BaseOfCode) warning_message(output_name,0x5b,data_rva,"");
     } else if (code_rva>header->BaseOfData) warning_message(output_name,0x5c,code_rva,"");
-    assign_section_numbers(sections);
+    sort_sections_by_rva(sections);
     if (mac_image) {
         mac_resource_map->group->section->raw_size=image->file.NumberOfSections*6;
         seek_file(output_file,0,SEEK_SET);
@@ -393,7 +393,7 @@ int link_passes(Image *image,unsigned char *pack)
     if (!zeroes) out_of_memory();
     padding=(header_last/header->FileAlignment+1)*header->FileAlignment-header_end;
     if (padding) write_file(output_file,zeroes,padding);
-    assign_external_addresses(local_imports,&import_aliases,header,&image->options);
+    write_local_imports(local_imports,&import_aliases,header,&image->options);
     if (end_symbol) {
         end_symbol->symbol.Value=data_rva-header->ImageBase;
         end_symbol->value.final_value=data_rva;
