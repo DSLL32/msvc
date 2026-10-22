@@ -31,4 +31,5 @@ unsigned short __stdcall expression_type_alignment(CType *type);
 unsigned short __stdcall node_alignment(IrToken *expression);
 unsigned __stdcall complete_type_size(CType *type);
 unsigned __stdcall member_pointer_inheritance_model(CType *type);
+IrToken *__stdcall strip_address_expression(IrToken *expression);
 #endif

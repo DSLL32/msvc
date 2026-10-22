@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 457 accepted paired frontiers, including 381 frontend
+PARTIAL reconstruction: 461 accepted paired frontiers, including 385 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _check_type_conversion_warning@12 at original VA 0x60830. The latest ordered replay is recorded in validation.json;
+trap is _emit_class_table_initializers@8 at original VA 0x7b710. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -849,3 +849,17 @@ evidence/replay-binary-expressions-receipt.json. Accepted executable extent
 union is 153,945 / 476,418 bytes (32.313%, not branch coverage), with 388 source
 functions. Both runs reach check_type_conversion_warning at 0x60830 during the
 constructor assignment. The constructor and full frontend case remain unfinished.
+
+
+The constructor member assignment now serializes with matching bytes. Type-only
+conversion warnings, modifiable-lvalue selection, statement output and constant
+symbol folding retain their full native graph and checked typed layouts. The
+19- and 42-entry switches retain only contextual shared text in the masked
+original. Evidence: evidence/assignment-output.txt.
+
+All 461 frontiers pass the frozen full comparator in 114.054 seconds, including
+exact emitted/pending intermediate bytes and fourteen state observations.
+Receipt: evidence/replay-assignment-output-receipt.json. Accepted executable
+extent union is 156,405 / 476,418 bytes (32.829%, not branch coverage), with 392
+source functions. Both runs reach emit_class_table_initializers at 0x7b710.
+The constructor body and complete frontend case remain unfinished.

@@ -174,7 +174,7 @@ IrToken *__stdcall delete_expression(unsigned char operation, IrToken *expressio
 void __stdcall detach_new_array_bound(CppSymbol *type) { __asm { int 3 } }
 void __stdcall emit_condition_to_label(IrToken *condition, IrToken *label, int sense) { __asm { int 3 } }
 void __stdcall emit_conditional_branch(IrToken *first, IrToken *condition, IrToken *increment) { __asm { int 3 } }
-void __stdcall emit_expression_statement(IrToken *expression) { __asm { int 3 } }
+IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
 void __stdcall emit_label(IrToken *label) { __asm { int 3 } }
 void __stdcall emit_return_statement(IrToken *expression, int mode) { __asm { int 3 } }
@@ -519,7 +519,6 @@ int __stdcall operator_has_builtin_fallback(unsigned char operation, unsigned ch
 int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall fold_symbol_constant(IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall has_single_function(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_expression_symbol(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall promote_arithmetic_expression(IrToken *expression) { __asm { int 3 } return 0; }
@@ -534,13 +533,17 @@ CType * __stdcall common_binary_type(unsigned char operation, CType *left, CType
 int __stdcall reject_member_pointer_arithmetic(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
-int __stdcall check_type_conversion_warning(unsigned char operation, CType *target, CType *source) { __asm { int 3 } return 0; }
+void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
+int __stdcall check_conversion_qualifiers(unsigned char operation, unsigned short target, unsigned short source, int first_layer) { __asm { int 3 } return 0; }
+void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
 int __stdcall integer_constant_overflows(unsigned short width, short target_unsigned, short source_unsigned, unsigned value) { __asm { int 3 } return 0; }
 void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
 IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsigned *selection) { __asm { int 3 } return 0; }
 IrToken * __stdcall convert_numeric_constant(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall find_expression_type_base(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall modifiable_lvalue(IrToken *expression, int mode) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 CType *__stdcall change_function_reference_kind(CType *type, int mode) { __asm { int 3 } return 0; }
 CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 0; }
 int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }

@@ -461,7 +461,11 @@
     "_builtin_binary_expression@12",
     "_convert_binary_operands@4",
     "_warn_pointer_conversion@12",
-    "_check_conversion_warning@12"
+    "_check_conversion_warning@12",
+    "_check_type_conversion_warning@12",
+    "_modifiable_lvalue@8",
+    "_emit_expression_statement@4",
+    "_fold_symbol_constant@4"
   ],
   "driver": [
     {
@@ -2089,7 +2093,7 @@
     {
       "name": "_emit_expression_statement@4",
       "start": 367328,
-      "end": 367329
+      "end": 367491
     },
     {
       "name": "_emit_inline_assembly",
@@ -4079,7 +4083,7 @@
     {
       "name": "_fold_symbol_constant@4",
       "start": 182256,
-      "end": 182257
+      "end": 182310
     },
     {
       "name": "_save_extended_constant@4",
@@ -4150,7 +4154,13 @@
     {
       "name": "_modifiable_lvalue@8",
       "start": 398992,
-      "end": 398993
+      "end": 399327,
+      "shared": [
+        [
+          399328,
+          399496
+        ]
+      ]
     },
     {
       "name": "_dereference_pointer_type@4",
@@ -4541,12 +4551,53 @@
     {
       "name": "_check_type_conversion_warning@12",
       "start": 395312,
-      "end": 395313
+      "end": 396976,
+      "shared": [
+        [
+          396976,
+          397052
+        ]
+      ]
     },
     {
       "name": "_integer_constant_overflows@16",
       "start": 477792,
       "end": 477793
+    },
+    {
+      "name": "_report_incompatible_type_shapes@12",
+      "start": 395280,
+      "end": 395281
+    },
+    {
+      "name": "_check_conversion_qualifiers@16",
+      "start": 397056,
+      "end": 397057
+    },
+    {
+      "name": "_check_based_pointer_conversion@12",
+      "start": 397312,
+      "end": 397313
+    },
+    {
+      "name": "_make_assignment_lvalue@4",
+      "start": 399792,
+      "end": 399793
+    },
+    {
+      "name": "_make_comma_lvalue@4",
+      "start": 400000,
+      "end": 400001
+    },
+    {
+      "name": "_make_conditional_lvalue@4",
+      "start": 400064,
+      "end": 400065
+    },
+    {
+      "name": "_strip_address_expression@4",
+      "start": 237472,
+      "end": 237473
     }
   ],
   "cases": {

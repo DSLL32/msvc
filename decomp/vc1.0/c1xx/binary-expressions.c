@@ -6,6 +6,8 @@
 
 unsigned integer_constant_scratch; /* original 0x912e8: shared constant payload */
 long maximum_signed_int_constant = 0x7fffffffL; /* original 0x9fc20 */
+typedef char LvalueClassFlags2OffsetMustBe52[
+    (offsetof(ClassInfo, flags2) == 52) ? 1 : -1];
 
 #define DECAY_TYPED_ARRAY(expression_) do { \
     if ((expression_)->type && (expression_)->type->related && \
@@ -600,4 +602,199 @@ diagnose_numeric_conversion:
     else if (precision_loss || promotion_loss)
         compiler_warning(precision_loss ? 3 : 4, (target_flags & 0x100) ? 136 : 135);
     return result;
+}
+
+/* Original 0x60830..0x60eb0, with its 19-entry operator switch at
+   0x60eb0..0x60efc. Compare qualifiers and nested declarator shapes. */
+int __stdcall check_type_conversion_warning(unsigned char operation, CType *target, CType *source)
+{
+    TypeShape *destination, *origin, *other;
+    unsigned short target_flags, source_flags, destination_flags, origin_flags;
+    unsigned short destination_attributes, origin_attributes;
+    unsigned short target_qualifiers, source_qualifiers, destination_kind, other_kind;
+    int target_void, source_void, target_void_pointer, source_void_pointer;
+    int first_layer, qualifiers;
+    first_layer = 1;
+    if (source == target) return 1;
+    target_flags = target->flags;
+    source_flags = source->flags;
+    destination = target->related;
+    if (destination && !(destination->flags & 0x77)) destination = destination->related;
+    origin = source->related;
+    if (origin && !(origin->flags & 0x77)) origin = origin->related;
+    target_void = target_flags & 0x80;
+    source_void = source_flags & 0x80;
+    target_void_pointer = target_void && destination &&
+        (destination->flags & 0x77) == 1 && !destination->related;
+    source_void_pointer = source_void && origin &&
+        (origin->flags & 0x77) == 1 && !origin->related;
+    if (target_void_pointer != source_void_pointer) {
+        other = target_void_pointer ? origin : destination;
+        other_kind = other ? other->flags & 0x77 : 0;
+        if (other_kind == 1 || other_kind == 3 || other_kind == 2) {
+            switch (operation) {
+            case 0x3d: case 0x7a: case 0x7e: case 0x87:
+                if (source_void_pointer) {
+                    report_syntax_error(551, token_spellings[operation]);
+                    return 0;
+                }
+                if (!check_conversion_qualifiers(operation, target->attributes, source->attributes, 1))
+                    return 0;
+                break;
+            case 0x44: case 0x55:
+                break;
+            case 0x47: case 0x48: case 0x4d: case 0x4e: case 0x4f:
+                report_type_conversion(133, 3, operation, source, target);
+                return 1;
+            default:
+                return 1;
+            }
+            if (token_allocation_flags & 0x800)
+                check_based_pointer_conversion(operation, destination, origin);
+            return 1;
+        }
+    }
+    if (origin == destination) {
+        if (!destination) {
+            if ((target_flags & 0x140) && (source_flags & 0x340)) return 1;
+            if (source->field08 != target->field08 &&
+                (operation != 0x3f || !(target_flags & 0x200) || !(source_flags & 0x200))) {
+                report_syntax_error(115, token_spellings[operation]);
+                return 0;
+            }
+            return 1;
+        }
+        if (!check_conversion_qualifiers(operation, target->attributes, source->attributes, 1))
+            return 0;
+    } else if (destination) {
+        if (!origin) {
+            if (destination->flags & 0x40) {
+                report_syntax_error(115, token_spellings[operation]);
+                return 0;
+            }
+        } else {
+            while (destination && origin) {
+                destination_flags = destination->flags;
+                origin_flags = origin->flags;
+                destination_attributes = destination->attributes;
+                origin_attributes = origin->attributes;
+                target_qualifiers = destination->related ? destination->related->attributes : target->attributes;
+                source_qualifiers = origin->related ? origin->related->attributes : source->attributes;
+                if ((destination_flags & 0x77) == 2)
+                    target_qualifiers |= destination_attributes & 0x3000;
+                if ((origin_flags & 0x77) == 2)
+                    source_qualifiers |= origin_attributes & 0x3000;
+                if (first_layer) {
+                    if ((destination_flags & 0x77) == 2) destination_flags = 1;
+                    if ((origin_flags & 0x77) == 2) origin_flags = 1;
+                }
+                if (((origin_flags ^ destination_flags) & 0x77) &&
+                    !(first_layer && (destination_flags & 0x40) && (origin_flags & 0x77) == 1) &&
+                    !((destination_flags & 0x44) == 0x44 && (origin_flags & 8))) {
+                    report_incompatible_type_shapes(operation, target, source);
+                    return 0;
+                }
+                destination_kind = destination_flags & 0x77;
+                if (destination_kind == 3) {
+                    if (!equivalent_shape_attributes(destination_attributes, origin_attributes)) {
+                        report_syntax_error(152, token_spellings[operation]);
+                        return 0;
+                    }
+                    if ((origin_attributes ^ destination_attributes) & 0xf00)
+                        report_type_conversion(50, 4, operation, target, source);
+                }
+                if (token_allocation_flags & 0x800)
+                    check_based_pointer_conversion(operation, destination, origin);
+                qualifiers = check_conversion_qualifiers(operation, target_qualifiers, source_qualifiers, first_layer);
+                if (!qualifiers) return 0;
+                if (qualifiers == 2 && destination_kind != 3 &&
+                    (destination_kind != 2 || (origin_flags & 0x77) != 2) &&
+                    !equivalent_shape_attributes(destination_attributes, origin_attributes)) {
+                    report_type_conversion(47, 1, operation, target, source);
+                    return 0;
+                }
+                if (destination_kind == 2) {
+                    if (origin->data.word != destination->data.word) {
+                        report_type_conversion(48, 1, operation, target, source);
+                        return 0;
+                    }
+                } else if (destination_kind == 4 &&
+                    origin->data.parameters->declarations != destination->data.parameters->declarations) {
+                    report_syntax_error(116);
+                }
+                first_layer = 0;
+                destination = destination->related;
+                origin = origin->related;
+                if (origin == destination) origin = destination = 0;
+            }
+            if (origin != destination) {
+                if (first_layer && ((source_void && !origin) || (target_void && !destination))) {
+                    report_syntax_error(120);
+                    return 0;
+                }
+                if ((target->related || (target_flags & 0x40)) &&
+                    (source->related || (source_flags & 0x40)) &&
+                    (!first_layer || (!(destination_flags & 0x40) && (origin_flags & 0x77) != 1))) {
+                    report_incompatible_type_shapes(operation, target, source);
+                    return 0;
+                }
+                report_syntax_error(115, token_spellings[operation]);
+                return 0;
+            }
+        }
+    }
+    if (source_flags == target_flags && source->field08 == target->field08) return 1;
+    report_syntax_error(230, token_spellings[operation]);
+    return 0;
+}
+
+/* Original 0x61690..0x617df, switch data 0x617e0..0x61888.
+   Return the actual storage expression, retaining extension lvalue forms. */
+IrToken *__stdcall modifiable_lvalue(IrToken *expression, int diagnose)
+{
+    IrToken *inner;
+    CppSymbol *class_symbol;
+    CType *type;
+    int converted, constant;
+    converted = 0;
+    if (!expression || (expression->flags & 0x20)) return 0;
+    while (expression && expression->kind == 0x80)
+        expression = expression->value.pointer;
+    if (expression->kind == 0x6e) return 0;
+    if (expression->kind == 0x67) expression = expression->value.pointer;
+    if (expression->kind == 0x68) return 0;
+    if (token_categories[expression->kind] != 0x46) {
+        if (!expression->type) return 0;
+        switch (expression->kind) {
+        case 0x3c: case 0x3d: case 0x43: case 0x4b: case 0x50: case 0x52:
+        case 0x54: case 0x57: case 0x5b: case 0x5d: case 0x5e: case 0x60: case 0x65:
+            expression = make_assignment_lvalue(expression);
+            break;
+        case 0x40:
+            expression = make_comma_lvalue(expression);
+            break;
+        case 0x5f:
+            expression = make_conditional_lvalue(expression);
+            break;
+        default:
+            if (!expression->type->related || !(expression->type->related->flags & 0x40))
+                return 0;
+            break;
+        }
+        if (!expression) return 0;
+        converted = 1;
+    }
+    constant = (type_qualifiers(expression->type) & 0x1000) != 0;
+    type = expression->type;
+    if ((type->flags & 0x400) && !type->related) {
+        class_symbol = cpp_context_stack->items[type->field08];
+        constant |= (class_symbol->detail.class_info->flags2 & 0x40) >> 6;
+    }
+    if (!converted) expression = expression->value.pointer;
+    if (expression->kind == 0x59) {
+        inner = expression->value.pointer;
+        if (inner->kind == 0x7a && !inner->type->related) return 0;
+    }
+    if (diagnose && constant) report_syntax_error(166);
+    return expression;
 }

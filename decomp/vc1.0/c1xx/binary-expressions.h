@@ -24,4 +24,11 @@ int __stdcall check_conversion_warning(unsigned char operation, CType *target, I
 int __stdcall check_type_conversion_warning(unsigned char operation, CType *target, CType *source);
 int __stdcall integer_constant_overflows(unsigned short width, short target_unsigned,
     short source_unsigned, unsigned value);
+int __stdcall equivalent_shape_attributes(unsigned short left, unsigned short right);
+void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source);
+int __stdcall check_conversion_qualifiers(unsigned char operation, unsigned short target, unsigned short source, int first_layer);
+void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source);
+IrToken *__stdcall make_assignment_lvalue(IrToken *expression);
+IrToken *__stdcall make_comma_lvalue(IrToken *expression);
+IrToken *__stdcall make_conditional_lvalue(IrToken *expression);
 #endif

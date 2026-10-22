@@ -3,6 +3,13 @@
 #include "initialization.h"
 #include "parameter-scopes.h"
 #include "unary-expressions.h"
+#include "source-input.h"
+
+typedef char StatementValueOffsetMustBe12[(offsetof(IrToken, value) == 12) ? 1 : -1];
+typedef char StatementQualifierResolutionOffsetMustBe12[
+    (offsetof(QualifiedDeclarator, resolution) == 12) ? 1 : -1];
+typedef char StatementResolutionBindingOffsetMustBe0[
+    (offsetof(QualifierResolution, binding) == 0) ? 1 : -1];
 
 /* Only the switch-case chain link is consumed here. Case payload layout
    belongs to its record writer. */
@@ -104,4 +111,31 @@ void __stdcall emit_expression_tree(IrToken *expression)
         WRITE_EXPRESSION_RECORD(expression);
         return;
     }
+}
+
+/* Original 0x59ae0..0x59b83: typed statements emit a line marker, tree
+   and terminator. Untyped overload names retain their diagnostic path. */
+void __stdcall emit_expression_statement(IrToken *expression)
+{
+    IrToken *root;
+    QualifiedDeclarator *qualified;
+    CppSymbol *overload;
+    if (error_count) return;
+    if (!expression || expression->type) {
+        record_line_information(1);
+        emit_expression_tree(expression);
+        write_ir_record(0x4b, 0);
+        return;
+    }
+    root = strip_address_expression(expression);
+    overload = 0;
+    if (root->kind == 0x5c) {
+        qualified = root->tail.right->value.pointer;
+        overload = (CppSymbol *)qualified->resolution->binding->target;
+    } else if (root->kind == 2) {
+        overload = root->value.pointer;
+    }
+    if (overload && ((overload->kind & 0x1f) == 16 || (overload->kind & 0x1f) == 17) &&
+        !has_single_function(overload))
+        report_syntax_error(568, token_spellings[root->kind], overload->name);
 }
