@@ -590,3 +590,147 @@ void __stdcall skip_inactive_literal(int delimiter)
         } else if (class == CC_LEAD_BYTE) next_source_character();
     }
 }
+
+/* The replacement workspace reserves five bytes for scanner markers. */
+#define CHECK_REPLACEMENT_SPACE(cursor_) do { \
+    if (macro_work_buffer + macro_work_bytes - 5 <= (cursor_)) fatal_error(11, token_text); \
+} while (0)
+
+/* Original 0x1cae0..0x1ced9. Read the complete replacement token sequence,
+   encoding formal references and preserving the deferred end marker. */
+unsigned read_macro_replacement(void)
+{
+    char *destination = macro_replacement_text, *identifier;
+    unsigned char character, class, lookahead_class;
+    unsigned recovery;
+    int stringize = 0, characterize = 0, parameter;
+read_initial:
+    character = skip_directive_space();
+    for (;;) {
+        CHECK_REPLACEMENT_SPACE(destination);
+        class = character_class[character];
+        switch (class) {
+        case CC_SLASH:
+            if (!skip_source_comment()) goto copy_character;
+            /* A comment separates adjacent tokens just as whitespace does. */
+        case CC_SPACE: case CC_CARRIAGE_RETURN:
+            character = skip_directive_space();
+            if (character_class[character] != CC_NEWLINE) *destination++ = ' ';
+            continue;
+        case CC_ESCAPE_OR_END:
+            recovery = recover_special_character();
+            if (!(recovery & 0x50)) {
+                character = (unsigned char)*source_text_cursor++;
+                continue;
+            }
+            if (!(recovery & 0x10)) goto copy_character;
+            *destination++ = character;
+            character = next_source_character();
+            class = character_class[character];
+            if (class == CC_APOSTROPHE || class == CC_QUOTE) {
+                --destination;
+                report_syntax_error(295, character);
+                goto read_initial;
+            }
+            goto copy_character;
+        case CC_APOSTROPHE: case CC_QUOTE:
+            destination = copy_macro_quoted_literal(destination,
+                macro_work_buffer + macro_work_bytes - 5, character);
+            character = (unsigned char)*source_text_cursor++;
+            continue;
+        case CC_INVALID:
+            report_syntax_error(18, character);
+            character = (unsigned char)*source_text_cursor++;
+            continue;
+        case CC_HASH:
+            for (;;) {
+                lookahead_class = character_class[(unsigned char)*source_text_cursor++];
+                if (lookahead_class != CC_ESCAPE_OR_END) break;
+                if (!(recover_special_character() & ~0x50U)) break;
+            }
+            if (lookahead_class == CC_HASH) {
+                if (destination == macro_replacement_text) {
+                    report_syntax_error(160);
+                    continue;
+                }
+                if (destination[-1] == ' ') --destination;
+                character = skip_directive_space();
+                if (character_class[character] == CC_NEWLINE) {
+                    --source_text_cursor;
+                    report_syntax_error(161);
+                }
+                continue;
+            }
+            if (lookahead_class == CC_AT) {
+                if (macro_parameter_count && options.z_a) characterize = 1;
+                else goto literal_hash;
+            } else if (!macro_parameter_count) {
+literal_hash:
+                *destination++ = '#';
+                character = (unsigned char)source_text_cursor[-1];
+                continue;
+            } else {
+                --source_text_cursor;
+                stringize = 1;
+            }
+            character = skip_directive_space();
+            class = character_class[character];
+            if (class != CC_IDENTIFIER && class != CC_WIDE_PREFIX) {
+                stringize = characterize = 0;
+                report_syntax_error(162);
+                continue;
+            }
+            /* A # or #@ consumes the following formal identifier here. */
+        case CC_IDENTIFIER: case CC_WIDE_PREFIX:
+            identifier = destination;
+            for (;;) {
+                CHECK_REPLACEMENT_SPACE(destination);
+                *destination++ = character;
+read_identifier_character:
+                character = (unsigned char)*source_text_cursor++;
+                if (character_flags[character] & CF_IDENTIFIER) continue;
+                if (character_class[character] == CC_ESCAPE_OR_END &&
+                    (recover_special_character() & ~0x50U)) goto read_identifier_character;
+                break;
+            }
+            *destination = 0;
+            parameter = find_macro_parameter(identifier);
+            if (parameter >= 1) {
+                identifier[0] = stringize ? 2 : (characterize ? 3 : 1);
+                identifier[1] = (char)parameter;
+                destination = identifier + 2;
+            } else if (stringize || characterize) report_syntax_error(162);
+            stringize = characterize = 0;
+            continue;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            if (destination == (options.z_a ? macro_replacement_text : macro_work_buffer)) return 0;
+            CHECK_REPLACEMENT_SPACE(destination);
+            *destination++ = 0;
+            *destination++ = 'D';
+            return destination - macro_replacement_text;
+        default:
+copy_character:
+            *destination++ = character;
+            character = (unsigned char)*source_text_cursor++;
+            continue;
+        }
+    }
+}
+#undef CHECK_REPLACEMENT_SPACE
+
+/* Original 0x1cee0..0x1cf43. Formal descriptors contain a byte span,
+   followed by a terminated spelling. Replacement markers use indices from 1. */
+int __stdcall find_macro_parameter(char *name)
+{
+    char *descriptor = macro_work_buffer, *left, *right;
+    int index;
+    for (index = 1; index <= macro_parameter_count; ++index) {
+        left = name;
+        right = descriptor + 1;
+        while (*left && *left == *right) { ++left; ++right; }
+        if (*left == *right) return index;
+        descriptor += (unsigned char)*descriptor;
+    }
+    return -1;
+}

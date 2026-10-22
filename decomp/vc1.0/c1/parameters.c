@@ -117,3 +117,36 @@ ParameterInfo *empty_parameter_info(void)
     }
     return empty_parameters;
 }
+
+/* Original 0x40740..0x40791. Interned type identities contribute their
+   flags and page offsets. A null type stops advancing the cursor, matching
+   the original handling of an incomplete parameter description. */
+unsigned __stdcall hash_parameters(ParameterInfo *parameters)
+{
+    unsigned remaining = parameters->count, hash = remaining;
+    CType **cursor = parameters->types;
+    CType *type;
+    while (remaining--) {
+        type = *cursor;
+        if (type) {
+            hash += ((unsigned)type->related & 0xffc) +
+                    ((type->field08 & 0xffc) >> 2) + type->flags;
+            ++cursor;
+        }
+    }
+    return hash;
+}
+
+static ParameterInfo *void_parameters; /* original 0x6b794 */
+
+/* Original 0x407a0..0x407d6. Canonical descriptor for an explicit (void)
+   prototype, distinct from the zero-count unspecified-parameter descriptor. */
+ParameterInfo *void_parameter_info(void)
+{
+    if (!void_parameters) {
+        void_parameters = allocate_permanent(sizeof(ParameterInfo));
+        void_parameters->count = 1;
+        void_parameters->types[0] = type_0080;
+    }
+    return void_parameters;
+}

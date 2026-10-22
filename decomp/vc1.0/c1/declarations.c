@@ -1,6 +1,7 @@
 /* Symbol declaration and redeclaration processing. */
 #include "parser.h"
 #include "global-ir.h"
+#include "pragma.h"
 
 int default_thread_storage; /* original 0x6bc44 */
 
@@ -1056,3 +1057,191 @@ void __stdcall add_enumerator(char *name, CType *context, unsigned value)
 }
 
 typedef char EnumeratorSymbol_must_be_28_bytes[(sizeof(EnumeratorSymbol) == 28) ? 1 : -1];
+
+/* Original 0x28a70..0x28add. Finish a C enum definition while retaining
+   its tag's browser scope and exposing ordinary int as its declaration type. */
+CType *parse_enum_specifier(void)
+{
+    FrontendSymbol *tag = (FrontendSymbol *)enumerator_context->field08;
+    if (!options.z_a && !hash_table_count((HashTable *)tag->field28)) report_syntax_error(138);
+    tag = (FrontendSymbol *)enumerator_context->field08;
+    if (tag->name != name_unnamed && browser_filename && (!parameter_nesting || options.option_FR))
+        browser_finish_scope();
+    parser_flags |= 0x4000;
+    return type_0064;
+}
+
+/* Original 0x33800..0x339e2. Commit a declarator, diagnose definitions of
+   imported data, and apply storage handling to nonfunction declarations. */
+FrontendSymbol *__stdcall apply_declarator_type(DeclarationSpec *declaration, FrontendSymbol *input)
+{
+    FrontendSymbol *symbol = declare_symbol(declaration, input);
+    unsigned kind, storage;
+    int external;
+    if (!symbol) return 0;
+    kind = symbol->kind & 0x1f;
+    if (kind == 4) return symbol;
+    if (browser_filename && (!parameter_nesting || options.option_FR)) {
+        if (!symbol->index) {
+            if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+            if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();
+            symbol->index = next_symbol_index++;
+        }
+        browser_symbol_definition(symbol);
+    }
+    kind = symbol->kind & 0x1f;
+    if (kind == 6 || kind == 7) {
+        if (symbol->attributes & 4) {
+            report_syntax_error(72, symbol->name);
+            symbol->type = type_0064;
+        }
+        if (symbol->attributes & 0x10) report_syntax_error(136, symbol->name);
+        if (declaration->storage[2] & 1) report_syntax_error(488, symbol->name);
+        return symbol;
+    }
+    external = (symbol->storage[0] & 7) == 1 && !(symbol->attributes & 4) &&
+               ((symbol->storage[1] & 0x10) ||
+                ((symbol->attributes & 0x400) && (symbol->attributes & 0x100)));
+    if (!external && !((symbol->storage[2] & 4) && !(symbol->storage[2] & 8))) symbol->flags |= 1;
+    if ((symbol->storage[2] & 4) && !(symbol->storage[2] & 8) &&
+        ((symbol->flags & 1) || (symbol->attributes & 4))) {
+        if (!((scanner_flags & 0x08000000) && (function_symbol->storage[2] & 4) &&
+              !(function_symbol->storage[2] & 8) && (function_symbol->storage[1] & 1)))
+            report_syntax_error(491, symbol->name, "data");
+    }
+    storage = symbol->storage[0] & 7;
+    if (storage && storage != 7 && storage != 1 && !(symbol->attributes & 4) &&
+        (symbol->kind & 0x1f) == 9 && input == symbol) {
+        if (effective_type_qualifiers(symbol->type) & 0x1000) compiler_warning(4, 132, symbol->name);
+        if (symbol->storage[2] & 2) initialize_thread_symbol(symbol);
+    }
+    process_symbol_storage(symbol);
+    global_expression_scope_active = 1;
+    return symbol;
+}
+
+/* Original 0x33d00..0x33f18. Validate local storage, record cleanup/quick
+   compilation work, apply the default data segment, and reject incomplete data. */
+void __stdcall process_symbol_storage(FrontendSymbol *symbol)
+{
+    unsigned char storage[3];
+    unsigned kind;
+    TypeShape *shape;
+    FrontendSymbol *tag;
+    storage[0] = symbol->storage[0];
+    storage[1] = symbol->storage[1];
+    storage[2] = symbol->storage[2];
+    kind = storage[0] & 7;
+    if (kind == 1 || kind == 7) return;
+    if (kind == 4 || kind == 5 || kind == 6) {
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 7)) {
+            report_syntax_error(185, symbol->name);
+            symbol->type = intern_type(remove_type_prefix(symbol->type));
+        }
+        if (kind != 4) {
+            if (options.option_qc && normalized_Ol) symbol->references += 16;
+            if (options.option_m) {
+                write_ir_record(0x2a, make_symbol_reference(symbol));
+                push_work_list((void **)&scope_cleanup_stack, 1);
+                scope_cleanup_stack->value.symbol = symbol;
+                push_work_list((void **)&scope_cleanup_stack, 1);
+                scope_cleanup_stack->value.depth = parameter_nesting;
+            }
+        }
+        if (options.option_qc && normalized_Ol && !scope_serial) record_inline_parameter(symbol);
+    }
+    if ((kind == 2 || kind == 3) && default_data_segment && (symbol->attributes & 4)) {
+        if (symbol->attributes & 2) {
+            if ((FrontendSymbol *)symbol->type->related->field08 != default_data_segment)
+                report_syntax_error(193, symbol->name);
+            return;
+        }
+        assign_symbol_segment(symbol, default_data_segment);
+    }
+    if (!(symbol->attributes & 4) && !type_size(symbol->type) && kind != 1) {
+        if (symbol->type->flags & 0x400) {
+            tag = (FrontendSymbol *)symbol->type->field08;
+            if ((tag->kind & 0x1f) != 4) tag = (FrontendSymbol *)tag->type->field08;
+            if (!(tag->flags & 1)) {
+                report_syntax_error(79, symbol->name, tag->name);
+                symbol->flags |= 0x80;
+                return;
+            }
+        }
+        report_syntax_error(133, symbol->name);
+    }
+}
+
+/* Original 0x28a10..0x28a6c. Resolve the C tag namespace, introducing
+   an incomplete tag when no enclosing scope already supplies one. */
+FrontendSymbol *__stdcall lookup_or_declare_tag(char *name, unsigned short kind,
+    void (__stdcall *insert)(FrontendSymbol *))
+{
+    FrontendSymbol *tag = lookup_tag(name);
+    if (tag) tag = check_tag_kind(tag, kind);
+    else tag = create_tag(name, kind, insert, 0);
+    if (browser_filename && (!parameter_nesting || options.option_FR)) browser_symbol_reference(tag);
+    return tag;
+}
+
+/* Original 0x2c980..0x2ca94. A declaration without a declarator may still
+   introduce a tag in the current scope; scalar-only declarations are diagnosed. */
+void __stdcall process_declaration(DeclarationSpec *declaration)
+{
+    CType *type = declaration->type;
+    unsigned short flags = type->flags;
+    char *name;
+    switch (flags & 0x2fdf) {
+    case 0x41: case 0x42: case 0x44: case 0x80:
+    case 0x104: case 0x108: case 0x128:
+        if (parser_flags & 0x4000) return;
+        if (options.z_a) compiler_warning(2, 91);
+        else report_syntax_error(59, "empty declaration");
+        break;
+    case 0x412: case 0x414: case 0x418:
+        name = ((FrontendSymbol *)type->field08)->name;
+        if (name == name_unnamed) {
+            if (options.z_a) compiler_warning(2, 94, type_specifier_name(flags));
+            else report_syntax_error(59, "empty declaration");
+        } else if (!tag_in_current_scope)
+            create_tag(name, (unsigned short)(flags ^ 0x10), insert_current_scope_symbol, 0);
+        break;
+    }
+}
+
+/* Original 0x2cf90..0x2d00e. Based/segment attributes require a retained
+   prefix shape; ordinary attributes can be stored directly in the type. */
+FrontendSymbol *__stdcall apply_declarator_prefix(FrontendSymbol *declarator, TypeShape *prefix)
+{
+    TypeDescription *description;
+    ArenaPool *pool;
+    if (prefix->attributes & 0xc) {
+        declarator->attributes |= 2;
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(TypeDescription)) refill_arena(&compiler_arena, pool);
+        description = (TypeDescription *)pool->next;
+        pool->remaining -= sizeof(TypeDescription);
+        pool->next += sizeof(TypeDescription);
+        *description = *declarator->type;
+        prefix->related = description->related;
+        description->related = prefix;
+        declarator->type = description;
+    } else declarator->type->attributes = prefix->attributes;
+    return declarator;
+}
+
+/* Original 0x33f20..0x33f5b. Automatic/register storage discards an
+   explicit segment prefix and diagnoses unsupported memory-model attributes. */
+unsigned short __stdcall normalize_symbol_storage(unsigned short attributes, FrontendSymbol *symbol)
+{
+    if (symbol->attributes & 2) {
+        symbol->type = remove_type_prefix(symbol->type);
+        symbol->attributes &= ~2;
+    }
+    if (attributes & 0xf) {
+        warn_ignored_storage_model(symbol);
+        attributes &= 0xfbf8;
+    }
+    return attributes;
+}

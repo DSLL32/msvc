@@ -13,11 +13,11 @@ typedef struct ScopeCleanupEntry {
     union { unsigned char depth; FrontendSymbol *symbol; } value;
 } ScopeCleanupEntry;
 extern ScopeCleanupEntry *scope_cleanup_stack;
-extern SymbolScope *global_scope, *current_scope, *lookup_scope;
+extern SymbolScope *global_scope, *current_scope, *lookup_scope, *found_symbol_scope;
 extern SymbolScope *completed_scopes;
 extern SymbolScope **scope_directory;
 extern unsigned scope_serial;
-extern unsigned char scope_depth;
+extern unsigned char scope_depth, found_scope_depth;
 void __stdcall push_symbol_scope(SymbolScope *scope);
 void __stdcall activate_symbol_scope(SymbolScope *scope);
 void deactivate_symbol_scope(void);

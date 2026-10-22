@@ -26,4 +26,5 @@ int hash_keys_equal(void *left, void *right);
 int hash_symbol_indices_equal(void *left, void *right);
 extern unsigned (__cdecl *hash_functions[])(void *);
 extern int (__cdecl *hash_equal_functions[])(void *, void *);
+unsigned __stdcall hash_table_count(HashTable *table);
 #endif

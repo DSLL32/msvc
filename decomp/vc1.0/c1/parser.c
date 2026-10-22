@@ -378,7 +378,7 @@ read_action:
             ((unsigned char *)parser_value.symbol)[0x25] = right[0].bytes[0];
             break;
         case 48:
-            parser_value.symbol = new_declarator(0);
+            parser_value.symbol = make_abstract_declarator(0);
             parser_value.symbol->name = name_alignment;
             break;
         case 52:
@@ -419,7 +419,7 @@ read_action:
             parser_value.symbol = make_named_declarator(right[0].name);
             break;
         case 64:
-            parser_value.symbol = combine_declarators(make_named_declarator(right[0].name), right[-1].symbol);
+            parser_value.symbol = apply_declarator_prefix(make_named_declarator(right[0].name), right[-1].shape);
             break;
         case 65:
             parser_value.symbol = right[0].symbol;
@@ -576,18 +576,18 @@ read_action:
             POP_DECLARATION();
             break;
         case 106:
-            parser_value.symbol = new_declarator(0);
+            parser_value.symbol = make_abstract_declarator(0);
             break;
         case 107:
-            parser_value.symbol = new_declarator(right[0].name);
+            parser_value.symbol = make_abstract_declarator(right[0].shape);
             break;
         case 108:
             finish_parameter_scope();
-            parser_value.symbol = attach_function_parameters(new_declarator(0), right[0].symbol);
+            parser_value.symbol = attach_function_parameters(make_abstract_declarator(0), right[0].symbol);
             break;
         case 109:
             finish_parameter_scope();
-            parser_value.symbol = attach_function_parameters(new_declarator(right[-1].name), right[0].symbol);
+            parser_value.symbol = attach_function_parameters(make_abstract_declarator(right[-1].shape), right[0].symbol);
             break;
         case 110:
             parser_value.symbol = right[0].symbol;
@@ -1165,7 +1165,7 @@ void __stdcall prepare_function_definition(DeclarationSpec *declaration, Fronten
         if (symbol->attributes & 2) {
             if ((FrontendSymbol *)symbol->type->related->field08 != default_code_segment)
                 report_syntax_error(193, symbol->name);
-        } else assign_function_segment(symbol, default_code_segment);
+        } else assign_symbol_segment(symbol, default_code_segment);
     }
     function_symbol = initialize_function_definition(symbol);
     current_parameter = function_parameter_declarations;
@@ -1521,4 +1521,42 @@ void __stdcall finish_external_declaration(int recovering)
         global_record_kind = 0;
         function_scope_level = 0;
     }
+}
+
+/* Original 0x2b780..0x2b7b6. The list value is the last element of a
+   circular parameter chain, whose link points to the first parameter. */
+FrontendSymbol *__stdcall append_parameter(FrontendSymbol *list, FrontendSymbol *parameter)
+{
+    if (!parameter) return list;
+    if (!list) parameter->detail.parameter_next = parameter;
+    else link_parameter_after(list, parameter);
+    return parameter;
+}
+
+/* Original 0x2c950..0x2c975. Retain both the circular order and the
+   backwards declaration link used while constructing a parameter list. */
+void __stdcall link_parameter_after(FrontendSymbol *list, FrontendSymbol *parameter)
+{
+    if (!parameter) return;
+    if (!list) parameter->detail.parameter_next = parameter;
+    else {
+        parameter->detail.parameter_next = list->detail.parameter_next;
+        list->detail.parameter_next = parameter;
+        parameter->next = list;
+    }
+}
+
+/* Original 0x2d010..0x2d0d2. Abstract declarators use the cast sentinel
+   and allocate both symbol and mutable type in the parameter-selected arena. */
+FrontendSymbol *__stdcall make_abstract_declarator(TypeShape *prefix)
+{
+    FrontendSymbol *symbol;
+    ArenaPool *pool;
+    int allocation_arena;
+    ALLOCATE_PARSER_NODE(symbol, sizeof(FrontendSymbol), parameter_depth <= 0 ? 2 : 1);
+    symbol->kind = 12;
+    symbol->name = name_cast;
+    ALLOCATE_PARSER_NODE(symbol->type, sizeof(TypeDescription), parameter_depth <= 0 ? 2 : 1);
+    if (!prefix) prefix = new_type_shape(0, 0, 0);
+    return apply_declarator_prefix(symbol, prefix);
 }

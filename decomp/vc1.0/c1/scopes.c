@@ -312,3 +312,86 @@ int defer_global_symbol(FrontendSymbol *symbol)
     }
     return 0;
 }
+
+unsigned char found_scope_depth; /* original 0x5b138 */
+
+/* Original 0x285c0..0x28650. Search active scopes from innermost to
+   outermost, retaining the lookup depth for subsequent declaration checks. */
+FrontendSymbol *__stdcall lookup_tag(char *name)
+{
+    unsigned char depth = scope_depth;
+    SymbolScope *scope;
+    FrontendSymbol *head, *tag;
+    if (name == name_unnamed) return 0;
+    for (;;) {
+        scope = scope_directory[depth];
+        head = scope->buckets ? scope->buckets[(unsigned)name & scope->bucket_mask] : 0;
+        if (head) {
+            tag = lookup_tag_chain(name, head);
+            if (tag) {
+                found_scope_depth = depth;
+                tag_in_current_scope = depth == scope_depth;
+                return tag;
+            }
+        }
+        if (!depth--) break;
+    }
+    tag_in_current_scope = 0;
+    return 0;
+}
+
+SymbolScope *found_symbol_scope; /* original 0x6007c */
+
+/* Original 0x35700..0x35774. Ordinary identifiers share scope hash buckets
+   with tags but occupy the other C namespace. Preserve the scope of a hit. */
+FrontendSymbol *__stdcall find_identifier_symbol(char *name)
+{
+    unsigned char depth = scope_depth;
+    SymbolScope *scope;
+    FrontendSymbol *symbol;
+    if (!name) return 0;
+    for (;;) {
+        scope = scope_directory[depth];
+        symbol = scope->buckets[(unsigned)name & scope->bucket_mask];
+        while (symbol) {
+            if (symbol->name == name && (symbol->kind & 0x1f) != 4) {
+                found_scope_depth = (unsigned char)scope->flags;
+                found_symbol_scope = scope;
+                return symbol;
+            }
+            symbol = symbol->next;
+        }
+        if (!depth--) break;
+    }
+    return 0;
+}
+
+/* Original 0x28590..0x285b3. Callers supply a nonempty bucket chain. */
+FrontendSymbol *__stdcall lookup_tag_chain(char *name, FrontendSymbol *head)
+{
+    do {
+        if (head->name == name && (head->kind & 0x1f) == 4) return head;
+        head = head->next;
+    } while (head);
+    return 0;
+}
+
+/* Original 0x355f0..0x3569a. Delay the sixteen-bucket allocation until
+   a scope first needs symbols, then make that scope visible to lookup. */
+void __stdcall create_scope_buckets(SymbolScope *scope, FrontendSymbol *symbol)
+{
+    ArenaPool *pool;
+    unsigned kind;
+    if (options.option_qc && !symbol) scope->field10 = scope_serial;
+    if (scope->buckets) return;
+    if (options.option_qc && normalized_Ol && parameter_nesting > 2) {
+        kind = symbol ? symbol->kind & 0x1f : 0;
+        if (kind != 10 && kind != 11 && !scope->field10) begin_inline_region(8);
+    }
+    pool = &compiler_arena.pools[1];
+    if (pool->remaining < 64) refill_arena(&compiler_arena, pool);
+    scope->buckets = (FrontendSymbol **)pool->next;
+    pool->remaining -= 64;
+    pool->next += 64;
+    activate_symbol_scope(scope);
+}

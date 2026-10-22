@@ -47,6 +47,7 @@ void __stdcall pch_record_include(char *name_end);
 
 void read_macro_parameters(void);
 unsigned read_macro_replacement(void);
+int __stdcall find_macro_parameter(char *name);
 extern int macro_parameter_count;
 
 unsigned char find_conditional_directive(void);

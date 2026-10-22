@@ -535,3 +535,14 @@ CType *__stdcall replace_outer_type_shape(CType *type, unsigned short kind, unsi
     --type_description_depth;
     return result;
 }
+
+/* Original 0x2d3e0..0x2d415. A struct/union base is a record only when
+   no substantive pointer, array or function shape remains around it. */
+int __stdcall is_record_type(CType *type)
+{
+    TypeShape *shape;
+    if (!type || !(type->flags & 0x400)) return 0;
+    shape = type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    return !shape;
+}

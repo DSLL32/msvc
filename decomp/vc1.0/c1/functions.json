@@ -326,7 +326,26 @@
     "_hash_interned_name",
     "_find_hash_entry@12",
     "_integer_conversion_overflow@16",
-    "_hash_keys_equal"
+    "_hash_keys_equal",
+    "_parse_enum_specifier",
+    "_apply_declarator_type@8",
+    "_is_record_type@4",
+    "_process_symbol_storage@4",
+    "_lookup_or_declare_tag@12",
+    "_lookup_tag@4",
+    "_process_declaration@4",
+    "_find_identifier_symbol@4",
+    "_apply_declarator_prefix@8",
+    "_lookup_tag_chain@8",
+    "_normalize_symbol_storage@8",
+    "_create_scope_buckets@8",
+    "_append_parameter@8",
+    "_link_parameter_after@8",
+    "_hash_parameters@4",
+    "_read_macro_replacement",
+    "_find_macro_parameter@4",
+    "_make_abstract_declarator@4",
+    "_void_parameter_info"
   ],
   "driver": [
     {
@@ -870,7 +889,7 @@
     {
       "name": "_create_scope_buckets@8",
       "start": 218608,
-      "end": 218609
+      "end": 218778
     },
     {
       "name": "_frontend_time@4",
@@ -1300,7 +1319,7 @@
     {
       "name": "_parse_enum_specifier",
       "start": 166512,
-      "end": 166513
+      "end": 166621
     },
     {
       "name": "_parse_struct_specifier",
@@ -1375,7 +1394,7 @@
     {
       "name": "_append_parameter@8",
       "start": 178048,
-      "end": 178049
+      "end": 178102
     },
     {
       "name": "_begin_sizeof_expression@4",
@@ -1445,7 +1464,7 @@
     {
       "name": "_process_declaration@4",
       "start": 182656,
-      "end": 182657
+      "end": 182932
     },
     {
       "name": "_make_named_declarator@4",
@@ -1453,14 +1472,14 @@
       "end": 184197
     },
     {
-      "name": "_combine_declarators@8",
+      "name": "_apply_declarator_prefix@8",
       "start": 184208,
-      "end": 184209
+      "end": 184334
     },
     {
-      "name": "_new_declarator@4",
+      "name": "_make_abstract_declarator@4",
       "start": 184336,
-      "end": 184337
+      "end": 184530
     },
     {
       "name": "_make_identifier_expression@4",
@@ -1600,7 +1619,7 @@
     {
       "name": "_apply_declarator_type@8",
       "start": 210944,
-      "end": 210945
+      "end": 211426
     },
     {
       "name": "_declare_symbol@8",
@@ -1756,7 +1775,7 @@
     {
       "name": "_find_identifier_symbol@4",
       "start": 218880,
-      "end": 218881
+      "end": 218996
     },
     {
       "name": "_browser_symbol_reference@4",
@@ -1804,7 +1823,7 @@
       "end": 173281
     },
     {
-      "name": "_assign_function_segment@8",
+      "name": "_assign_symbol_segment@8",
       "start": 263392,
       "end": 263393
     },
@@ -1836,7 +1855,7 @@
     {
       "name": "_is_record_type@4",
       "start": 185312,
-      "end": 185313
+      "end": 185365
     },
     {
       "name": "_merge_global_declaration@4",
@@ -1866,7 +1885,7 @@
     {
       "name": "_normalize_symbol_storage@8",
       "start": 212768,
-      "end": 212769
+      "end": 212827
     },
     {
       "name": "_prepare_declarator_shapes@28",
@@ -2422,7 +2441,7 @@
     {
       "name": "_read_macro_replacement",
       "start": 117472,
-      "end": 117473
+      "end": 118489
     },
     {
       "name": "_find_conditional_directive",
@@ -2697,7 +2716,7 @@
     {
       "name": "_lookup_or_declare_tag@12",
       "start": 166416,
-      "end": 166417
+      "end": 166508
     },
     {
       "name": "_begin_tag_definition@12",
@@ -2707,7 +2726,7 @@
     {
       "name": "_lookup_tag_chain@8",
       "start": 165264,
-      "end": 165265
+      "end": 165299
     },
     {
       "name": "_create_tag@16",
@@ -2773,6 +2792,51 @@
       "name": "_hash_symbol_indices_equal",
       "start": 222144,
       "end": 222145
+    },
+    {
+      "name": "_hash_table_count@4",
+      "start": 207568,
+      "end": 207578
+    },
+    {
+      "name": "_effective_type_qualifiers@4",
+      "start": 265232,
+      "end": 265233
+    },
+    {
+      "name": "_initialize_thread_symbol@4",
+      "start": 210768,
+      "end": 210769
+    },
+    {
+      "name": "_process_symbol_storage@4",
+      "start": 212224,
+      "end": 212760
+    },
+    {
+      "name": "_push_work_list@8",
+      "start": 208928,
+      "end": 209005
+    },
+    {
+      "name": "_lookup_tag@4",
+      "start": 165312,
+      "end": 165456
+    },
+    {
+      "name": "_warn_ignored_storage_model@4",
+      "start": 212192,
+      "end": 212215
+    },
+    {
+      "name": "_link_parameter_after@8",
+      "start": 182608,
+      "end": 182645
+    },
+    {
+      "name": "_find_macro_parameter@4",
+      "start": 118496,
+      "end": 118595
     }
   ],
   "cases": {

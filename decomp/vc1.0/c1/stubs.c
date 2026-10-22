@@ -95,13 +95,10 @@ void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 
 
 
-ParameterInfo *void_parameter_info(void) { __asm { int 3 } return 0; }
-unsigned __stdcall hash_parameters(ParameterInfo *parameters) { __asm { int 3 } return 0; }
 
 void browser_index_overflow(void) { __asm { int 3 } }
 void __stdcall browser_symbol_definition(FrontendSymbol *symbol) { __asm { int 3 } }
 
-void __stdcall create_scope_buckets(SymbolScope *scope, FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 
@@ -208,7 +205,6 @@ FrontendSymbol *__stdcall finish_declarator(FrontendSymbol *declarator) { __asm 
 /* Original 0x27780. */
 
 /* Original 0x28a70. */
-CType *parse_enum_specifier(void) { __asm { int 3 } return 0; }
 
 /* Original 0x28ae0. */
 CType *parse_struct_specifier(void) { __asm { int 3 } return 0; }
@@ -244,7 +240,6 @@ FrontendSymbol *__stdcall make_parameter(char *name) { __asm { int 3 } return 0;
 /* Original 0x2b730. */
 
 /* Original 0x2b780. */
-FrontendSymbol *__stdcall append_parameter(FrontendSymbol *list, FrontendSymbol *parameter) { __asm { int 3 } return 0; }
 
 /* Original 0x2b7c0. */
 IrToken *__stdcall begin_sizeof_expression(IrToken *operand) { __asm { int 3 } return 0; }
@@ -284,15 +279,12 @@ IrToken *__stdcall make_sizeof_type(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_full_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 /* Original 0x2c980. */
-void __stdcall process_declaration(DeclarationSpec *declaration) { __asm { int 3 } }
 
 /* Original 0x2cf00. */
 
 /* Original 0x2cf90. */
-FrontendSymbol *__stdcall combine_declarators(FrontendSymbol *declarator, FrontendSymbol *qualifier) { __asm { int 3 } return 0; }
 
 /* Original 0x2d010. */
-FrontendSymbol *__stdcall new_declarator(char *name) { __asm { int 3 } return 0; }
 
 /* Original 0x2d150. */
 IrToken *__stdcall make_identifier_expression(char *name) { __asm { int 3 } return 0; }
@@ -375,7 +367,6 @@ void begin_finally_statement(void) { __asm { int 3 } }
 void finish_finally_statement(void) { __asm { int 3 } }
 
 /* Original 0x33800. */
-FrontendSymbol *__stdcall apply_declarator_type(DeclarationSpec *declaration, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 /* Original 0x339f0. */
 
@@ -436,7 +427,6 @@ TypeDescription *__stdcall copy_mutable_type(CType *type) { __asm { int 3 } retu
 
 char *__stdcall type_specifier_name(unsigned short flags) { __asm { int 3 } return 0; }
 
-FrontendSymbol *__stdcall find_identifier_symbol(char *name) { __asm { int 3 } return 0; }
 void __stdcall browser_symbol_reference(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
@@ -446,17 +436,15 @@ void __stdcall report_type_syntax_error(unsigned code, CType *type) { __asm { in
 
 
 void abort_function_definition(void) { __asm { int 3 } }
-void __stdcall assign_function_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
+void __stdcall assign_symbol_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
 void browser_begin_function_scope(void) { __asm { int 3 } }
 void __stdcall browser_function_parameters(FrontendSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
-int __stdcall is_record_type(CType *type) { __asm { int 3 } return 0; }
 FrontendSymbol *__stdcall merge_local_declaration(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall record_local_declaration(FrontendSymbol *symbol) { __asm { int 3 } }
 
 void report_declaration_context_error(unsigned code, unsigned detail, char *name) { __asm { int 3 } }
-unsigned short __stdcall normalize_symbol_storage(unsigned short attributes, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
 void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 void __stdcall finish_array_declarator(FrontendSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
@@ -571,7 +559,6 @@ void skip_line_comment(void) { __asm { int 3 } }
 void copy_block_comment(void) { __asm { int 3 } }
 
 void read_macro_parameters(void) { __asm { int 3 } }
-unsigned read_macro_replacement(void) { __asm { int 3 } return 0; }
 
 
 
@@ -668,12 +655,10 @@ void warn_bad_pragma(void) { __asm { int 3 } }
 void synchronize_pch_pragma(void) { __asm { int 3 } }
 
 /* Original 0x28a10. */
-FrontendSymbol *__stdcall lookup_or_declare_tag(char *name, unsigned short kind, void (__stdcall *insert)(FrontendSymbol *)) { __asm { int 3 } return 0; }
 
 /* Original 0x28650. */
 
 /* Original 0x28590. */
-FrontendSymbol *__stdcall lookup_tag_chain(char *name, FrontendSymbol *head) { __asm { int 3 } return 0; }
 
 /* Original 0x28860. */
 
@@ -704,3 +689,26 @@ unsigned hash_symbol_index(void *key) { __asm { int 3 } return 0; }
 
 /* Original 0x363c0. */
 int hash_symbol_indices_equal(void *left, void *right) { __asm { int 3 } return 0; }
+
+/* Original 0x32ad0. */
+unsigned __stdcall hash_table_count(HashTable *table) { __asm { int 3 } return 0; }
+
+/* Original 0x40c10. */
+unsigned short __stdcall effective_type_qualifiers(CType *type) { __asm { int 3 } return 0; }
+
+/* Original 0x33750. */
+void __stdcall initialize_thread_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
+
+/* Original 0x33d00. */
+
+/* Original 0x33020. */
+void *__stdcall push_work_list(void **head, int arena) { __asm { int 3 } return 0; }
+
+/* Original 0x285c0. */
+
+/* Original 0x33ce0. */
+void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol) { __asm { int 3 } }
+
+/* Original 0x2c950. */
+
+/* Original 0x1cee0. */
