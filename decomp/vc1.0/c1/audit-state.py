@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_control_counted_name', 0x5b0a4, 1),
     ('_legacy_tag_auxiliary', 0x6e084, 2),
     ('_codeview_default_attributes', 0x6e138, 2),
     ('_type_0080', 0x6b704, 4),

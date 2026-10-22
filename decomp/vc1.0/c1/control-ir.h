@@ -20,7 +20,7 @@ extern unsigned char *pending_pragma_text;
 extern unsigned char function_control_flags;
 extern unsigned short control_word;
 extern unsigned control_alignment, control_alignment_mode;
-extern char control_counted_name[152];
+extern char control_counted_name[1];
 void write_counted_ir(short length, char *text);
 void __stdcall emit_warning_controls(unsigned tag);
 #endif

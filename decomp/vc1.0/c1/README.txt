@@ -497,9 +497,19 @@ The final clean original-toolchain make -j2 check passes. All 633 frontiers
 replay: 258 minimal-C, 251 hello-win32, one hello-dll, and 123 numeric-varargs.
 Each case then matches its immutable capture and independent untouched
 original. All 534 source call graphs and instruction-boundary checks pass,
-along with recovered size/offset assertions, 206 state defaults/aliases,
+along with recovered size/offset assertions, 207 state defaults/aliases,
 logical tables and the complete grammar audit. Final accepted original
 code-extent union is 176607/277234 bytes (63.7032254341%), including shared
 text data, CRT and import thunks, clipped to code-section VirtualSize.
 This measures accepted byte extents, not branch coverage. The assigned work
 stops here; no additional case has been queued by this checkpoint.
+
+Final data-extent cross-check: control_counted_name's old provisional
+152-byte array crossed the distinct found_scope_depth at original 0x5b138.
+Only its signed count byte at 0x5b0a4 is established by the reconstructed
+reader; its bytecode producer remains a named trap. The object now models
+that one-byte prefix, deferring payload capacity until the producer is
+reached. The count joins the address/default audit, bringing it to 207
+state checks. A further clean original-toolchain -j2 build and every one of
+the 633 frontiers pass after this correction, with all four final captures
+and independent original outputs unchanged. Extent coverage is unchanged.
