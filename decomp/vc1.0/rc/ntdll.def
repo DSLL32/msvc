@@ -1,0 +1,4 @@
+LIBRARY ntdll.dll
+EXPORTS
+RtlAnsiStringToUnicodeString@12
+RtlUnicodeStringToAnsiString@12

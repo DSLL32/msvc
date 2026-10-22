@@ -79,3 +79,8 @@ int __cdecl rc_tolower(int character)
         return input[0];
     return (input[1] << 8) | input[0];
 }
+
+int __stdcall switch_character(char character)
+{
+    return character == '/' || character == '-';
+}

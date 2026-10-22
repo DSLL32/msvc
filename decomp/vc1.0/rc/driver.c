@@ -13,7 +13,7 @@ char resource_filename[MAX_PATH], input_filename[MAX_PATH];
 char preprocessor_options[1032], include_paths[520];
 char *temporary_input, *temporary_output;
 unsigned int default_language = 0x409;
-int error_count, token_error_count, verbose;
+int error_count, kanji_mode, verbose;
 static char *preprocessor_arguments[] = { "RCPP.EXE", preprocessor_options, 0 };
 extern char *_pgmptr;
 
@@ -28,7 +28,7 @@ int __cdecl resource_main(int argc, char **argv, char **environment)
     unsigned long padding = 0;
     long position;
 
-    error_count = token_error_count = verbose = 0;
+    error_count = kanji_mode = verbose = 0;
     include_paths[0] = input_filename[0] = resource_filename[0] = 0;
     diagnostics = stderr;
     while (argc > 1) {

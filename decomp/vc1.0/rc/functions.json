@@ -97,14 +97,18 @@
     {
       "name": "_compile_resources",
       "start": 16817776,
-      "end": 16817777,
-      "pending_extent": true
+      "end": 16819337,
+      "shared": [
+        [
+          16819340,
+          16819476
+        ]
+      ]
     },
     {
       "name": "_seek_file@12",
       "start": 16806144,
-      "end": 16806145,
-      "pending_extent": true
+      "end": 16806220
     },
     {
       "name": "_write_file@12",
@@ -317,8 +321,351 @@
     {
       "name": "_lexical_error@8",
       "start": 16815344,
-      "end": 16815345,
+      "end": 16815414
+    },
+    {
+      "name": "_parse_resource_identifier",
+      "start": 16815424,
+      "end": 16815686
+    },
+    {
+      "name": "_next_token@4",
+      "start": 16812448,
+      "end": 16812728
+    },
+    {
+      "name": "_advance_argument",
+      "start": 16828208,
+      "end": 16828209,
       "pending_extent": true
+    },
+    {
+      "name": "_parse_word_expression",
+      "start": 16823552,
+      "end": 16823553,
+      "pending_extent": true
+    },
+    {
+      "name": "_parse_language",
+      "start": 16819488,
+      "end": 16819680
+    },
+    {
+      "name": "_parser_error@8",
+      "start": 16815840,
+      "end": 16815910
+    },
+    {
+      "name": "_ansi_to_wide@12",
+      "start": 16810176,
+      "end": 16810254
+    },
+    {
+      "name": "_parse_memory_flag@4",
+      "start": 16817232,
+      "end": 16817436,
+      "shared": [
+        [
+          16817436,
+          16817468
+        ]
+      ]
+    },
+    {
+      "name": "_parse_string_table@4",
+      "start": 16831264,
+      "end": 16831265,
+      "pending_extent": true
+    },
+    {
+      "name": "_emit_font_directory",
+      "start": 16817632,
+      "end": 16817633,
+      "pending_extent": true
+    },
+    {
+      "name": "_emit_string_tables@4",
+      "start": 16831920,
+      "end": 16831921,
+      "pending_extent": true
+    },
+    {
+      "name": "_parse_raw_data@4",
+      "start": 16821680,
+      "end": 16821681,
+      "pending_extent": true
+    },
+    {
+      "name": "_read_resource_file",
+      "start": 16815920,
+      "end": 16815921,
+      "pending_extent": true
+    },
+    {
+      "name": "_read_icon_file_header@4",
+      "start": 16820512,
+      "end": 16820513,
+      "pending_extent": true
+    },
+    {
+      "name": "_read_bitmap_file_header",
+      "start": 16820720,
+      "end": 16820721,
+      "pending_extent": true
+    },
+    {
+      "name": "_put_word@4",
+      "start": 16820192,
+      "end": 16820267
+    },
+    {
+      "name": "_parse_menu@8",
+      "start": 16828368,
+      "end": 16828369,
+      "pending_extent": true
+    },
+    {
+      "name": "_parse_dialog@4",
+      "start": 16824512,
+      "end": 16824513,
+      "pending_extent": true
+    },
+    {
+      "name": "_write_resource@8",
+      "start": 16822496,
+      "end": 16822497,
+      "pending_extent": true
+    },
+    {
+      "name": "_parse_font@4",
+      "start": 16822128,
+      "end": 16822129,
+      "pending_extent": true
+    },
+    {
+      "name": "_parse_accelerators@4",
+      "start": 16832240,
+      "end": 16832241,
+      "pending_extent": true
+    },
+    {
+      "name": "_split_icon_file@12",
+      "start": 16822592,
+      "end": 16822593,
+      "pending_extent": true
+    },
+    {
+      "name": "_parse_version_info",
+      "start": 16829536,
+      "end": 16829537,
+      "pending_extent": true
+    },
+    {
+      "name": "_parse_dialog_include@4",
+      "start": 16831072,
+      "end": 16831073,
+      "pending_extent": true
+    },
+    {
+      "name": "_initialize_resource_types",
+      "start": 16817472,
+      "end": 16817629
+    },
+    {
+      "name": "_find_resource_type@8",
+      "start": 16817072,
+      "end": 16817222
+    },
+    {
+      "name": "_duplicate_wide@4",
+      "start": 16805968,
+      "end": 16806028
+    },
+    {
+      "name": "_resource_free@4",
+      "start": 16805936,
+      "end": 16805958
+    },
+    {
+      "name": "_allocate_resource_data",
+      "start": 16819760,
+      "end": 16819776
+    },
+    {
+      "name": "_begin_resource_data",
+      "start": 16819776,
+      "end": 16819797
+    },
+    {
+      "name": "_release_resource_data",
+      "start": 16819840,
+      "end": 16819852
+    },
+    {
+      "name": "_wcscpy",
+      "start": 16858480,
+      "end": 16858518
+    },
+    {
+      "name": "_read_identifier",
+      "start": 16815696,
+      "end": 16815834
+    },
+    {
+      "name": "_scan_wide_string",
+      "start": 16811696,
+      "end": 16811697,
+      "pending_extent": true
+    },
+    {
+      "name": "_scan_ansi_string",
+      "start": 16813920,
+      "end": 16813921,
+      "pending_extent": true
+    },
+    {
+      "name": "_scan_kanji_string",
+      "start": 16814608,
+      "end": 16814609,
+      "pending_extent": true
+    },
+    {
+      "name": "_scan_keyword_or_symbol@4",
+      "start": 16814992,
+      "end": 16815267
+    },
+    {
+      "name": "_scan_expression",
+      "start": 16813344,
+      "end": 16813437,
+      "pending_extent": false
+    },
+    {
+      "name": "_scan_number_token",
+      "start": 16813440,
+      "end": 16813445,
+      "pending_extent": false
+    },
+    {
+      "name": "_scan_number_literal",
+      "start": 16813040,
+      "end": 16813341,
+      "pending_extent": false
+    },
+    {
+      "name": "_next_numeric_character",
+      "start": 16810912,
+      "end": 16810931,
+      "pending_extent": false
+    },
+    {
+      "name": "_scan_hex_number",
+      "start": 16812736,
+      "end": 16812872,
+      "pending_extent": false
+    },
+    {
+      "name": "_scan_octal_number",
+      "start": 16812880,
+      "end": 16812926,
+      "pending_extent": false
+    },
+    {
+      "name": "_scan_decimal_number",
+      "start": 16812928,
+      "end": 16813026,
+      "pending_extent": false
+    },
+    {
+      "name": "_expression_value",
+      "start": 16813456,
+      "end": 16813542,
+      "pending_extent": false
+    },
+    {
+      "name": "_expression_factor",
+      "start": 16813648,
+      "end": 16813802,
+      "pending_extent": false
+    },
+    {
+      "name": "_apply_operator@12",
+      "start": 16813552,
+      "end": 16813643,
+      "pending_extent": false
+    },
+    {
+      "name": "_expression_operator@4",
+      "start": 16813808,
+      "end": 16813874,
+      "pending_extent": false
+    },
+    {
+      "name": "_skip_expression_space",
+      "start": 16813888,
+      "end": 16813919,
+      "pending_extent": false
+    },
+    {
+      "name": "_lookup_keyword@4",
+      "start": 16815280,
+      "end": 16815344
+    },
+    {
+      "name": "_atol",
+      "start": 16839040,
+      "end": 16839210
+    },
+    {
+      "name": "_atoi",
+      "start": 16839216,
+      "end": 16839230
+    },
+    {
+      "name": "_parse_style@4",
+      "start": 16823296,
+      "end": 16823297,
+      "pending_extent": true
+    },
+    {
+      "name": "_resource_data_error@8",
+      "start": 16819680,
+      "end": 16819750
+    },
+    {
+      "name": "_resource_stream@4",
+      "start": 16819808,
+      "end": 16819829
+    },
+    {
+      "name": "_put_wide_string@4",
+      "start": 16819856,
+      "end": 16819885
+    },
+    {
+      "name": "_concatenate_wide_string@4",
+      "start": 16819888,
+      "end": 16819927
+    },
+    {
+      "name": "_put_byte@4",
+      "start": 16819936,
+      "end": 16819990
+    },
+    {
+      "name": "_put_dword@4",
+      "start": 16820000,
+      "end": 16820124
+    },
+    {
+      "name": "_align_resource_data",
+      "start": 16820128,
+      "end": 16820192
+    },
+    {
+      "name": "_put_bytes@8",
+      "start": 16820272,
+      "end": 16820319
     }
   ],
   "accepted": [
@@ -417,7 +764,38 @@
     "_read_source_character",
     "_read_buffered_character",
     "_read_file@12",
-    "_rc_tolower"
+    "_rc_tolower",
+    "_compile_resources",
+    "_initialize_resource_types",
+    "_find_resource_type@8",
+    "_duplicate_wide@4",
+    "_wcslen",
+    "_wcscpy",
+    "_wcscmp",
+    "_allocate_resource_data",
+    "_parse_resource_identifier",
+    "_read_identifier",
+    "_parse_language",
+    "_next_token@4",
+    "_scan_expression",
+    "_expression_value",
+    "_expression_factor",
+    "_scan_number_literal",
+    "_next_numeric_character",
+    "_scan_hex_number",
+    "_skip_expression_space",
+    "_expression_operator@4",
+    "_strchr",
+    "_scan_keyword_or_symbol@4",
+    "_atoi",
+    "_atol",
+    "_ansi_to_wide@12",
+    "import:RtlAnsiStringToUnicodeString",
+    "_lookup_keyword@4",
+    "__strcmpi",
+    "_parse_memory_flag@4",
+    "_begin_resource_data",
+    "_put_word@4"
   ],
   "cases": {
     "resources-rich": {

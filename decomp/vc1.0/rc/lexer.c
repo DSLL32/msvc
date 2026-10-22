@@ -13,7 +13,8 @@ struct LexOperator operator_tokens[] = {
 unsigned char token_delimiters[128];
 char source_character, source_filename[MAX_PATH];
 FILE *lexer_input;
-int source_line, lexer_status, token_attributes;
+int source_line, lexer_status;
+struct LexToken current_token;
 static char source_buffer[4097];
 static int buffer_position = sizeof(source_buffer);
 static int start_of_line = 1;
@@ -22,7 +23,7 @@ static int start_of_line = 1;
 BOOL __stdcall initialize_lexer(FILE *input)
 {
     struct LexOperator *operator;
-    token_attributes = 0;
+    current_token.attributes = 0;
     source_line = 1;
     lexer_status = 0;
     lexer_input = input;
@@ -141,7 +142,3 @@ int __cdecl read_source_character(void)
     }
 }
 
-void __stdcall lexical_error(char *format, char *context)
-{
-    __asm int 3
-}

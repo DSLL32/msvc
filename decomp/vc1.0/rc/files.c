@@ -15,3 +15,15 @@ unsigned int __stdcall read_file(FILE *file, void *bytes, unsigned int count)
         resource_finish("RC : fatal error RW1021: I/O error reading file.");
     return received;
 }
+
+/* Checked position change, original 0x01007100..0x0100714c. */
+long __stdcall seek_file(FILE *file, long offset, int origin)
+{
+    long position;
+    if (fseek(file, offset, origin))
+        resource_finish("RC : fatal error RW1023: I/O error seeking in file");
+    position = ftell(file);
+    if (position == -1)
+        resource_finish("RC : fatal error RW1023: I/O error seeking in file");
+    return position;
+}

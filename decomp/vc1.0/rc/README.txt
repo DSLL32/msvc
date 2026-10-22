@@ -68,6 +68,18 @@ address references and compares RET stack cleanup and indirect-call presence.
 It does not claim branch coverage or prove dataflow equivalence by itself;
 paired execution and final byte oracles remain required.
 
+The current resource frontier includes the top-level dispatcher, type interning,
+identifiers, LANGUAGE, numeric expressions, keyword lookup, memory flags and the
+initial binary payload words. Both masked programs stop at the menu parser.
+Remaining resource parsers and writer functions are still named traps; no final
+resource product is claimed at this milestone.
+
+RC calls NTDLL's counted-string conversion routine directly. The shipped SDK has
+no NTDLL import library. ntdll.def and import-library.py use original LIB.EXE to
+generate one, retaining stdcall COFF link symbols and removing their @12 suffix
+only from generated DLL lookup-name records. The script copies no target data
+or code and adds no conversion-wrapper function to the original graph.
+
 Source INT3 instructions are pending-function traps. The debugger helper is
 analysis tooling, separate from the target reconstruction. Assembly listings
 under ~/.ai-tmp/vc1.0-rc are analysis artifacts, not reconstruction source.
