@@ -1,6 +1,7 @@
 #ifndef RECORD_PROCESSING_H
 #define RECORD_PROCESSING_H
 #include "frontend-records.h"
+#include <recon.h>
 
 /* Record kinds 0x0f..0x32 form eighteen pairs of nested delimiters. */
 extern const unsigned char frontend_record_mates[36];

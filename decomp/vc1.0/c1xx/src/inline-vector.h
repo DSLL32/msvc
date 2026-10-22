@@ -1,5 +1,6 @@
 #ifndef INLINE_VECTOR_H
 #define INLINE_VECTOR_H
+#include <recon.h>
 /* Permanent vectors whose pointer array immediately follows a short header. */
 typedef struct InlineVector {
     short count, capacity;

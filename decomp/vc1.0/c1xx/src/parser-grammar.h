@@ -1,5 +1,6 @@
 #ifndef PARSER_GRAMMAR_H
 #define PARSER_GRAMMAR_H
+#include <recon.h>
 
 /* Logical yacc tables, generated from grammar.bnf rather than copied from
    the packed tables of the executable. State identities remain observable. */

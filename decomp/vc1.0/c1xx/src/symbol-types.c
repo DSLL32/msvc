@@ -3,6 +3,7 @@
 #include "cpp-context.h"
 #include "operators.h"
 #include "parameters.h"
+#include <recon.h>
 
 void *deferred_declarations[60]; /* original 0x913cc; bounded declaration depth */
 int current_class_context = -1; /* original 0x9fbe8 */

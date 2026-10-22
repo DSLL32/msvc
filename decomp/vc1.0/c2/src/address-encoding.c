@@ -1,6 +1,7 @@
 /* x86 register and memory-address encodings. */
 #include "instruction-encoding.h"
 #include "instruction-selection.h"
+#include <recon.h>
 /* Original [00026540,00026700). Address forms choose ModR/M, optional SIB,
    and displacement bytes. Only the low words hold physical register IDs. */
 void __fastcall encode_modrm(MachineInstruction *instruction, MachineOperand *operand, unsigned reg)

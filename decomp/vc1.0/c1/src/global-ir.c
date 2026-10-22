@@ -1,5 +1,6 @@
 /* Global intermediate record serialization. */
 #include "global-ir.h"
+#include <recon.h>
 
 /* Shared name-formatting workspace, original 0x65e60. The diagnostic
    name formatter truncates at 247 characters. */

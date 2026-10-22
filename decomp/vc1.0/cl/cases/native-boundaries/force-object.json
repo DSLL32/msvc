@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "force-object",
+  "arguments": "/To object.blob /Feobject.exe",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\force-object",
+    "TEMP": "Q:\\force-object"
+  },
+  "initial": {
+    "object.blob": {
+      "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
+      "bytes": 286
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+        "-link",
+        "@Q:\\force-object\\000292lk"
+      ],
+      "environment": null,
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\force-object",
+      "before": {
+        "000292lk": {
+          "sha256": "cfe907e4d8436f6a5d64c4b468e3a4341706f51258b845bb2a00d8bf98e2aa22",
+          "bytes": 43
+        },
+        "object.blob": {
+          "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
+          "bytes": 286
+        }
+      },
+      "after": {
+        "000292lk": {
+          "sha256": "cfe907e4d8436f6a5d64c4b468e3a4341706f51258b845bb2a00d8bf98e2aa22",
+          "bytes": 43
+        },
+        "object.blob": {
+          "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
+          "bytes": 286
+        },
+        "object.exe": {
+          "sha256": "8d1d16260c0003334403c230991d92f0357c40a787b985f25a2aa6267bab48f4",
+          "bytes": 2097152
+        }
+      },
+      "stdout": {
+        "sha256": "25c968bfe86e1d56f9f0dd8cff188b4048bfe4deb1f5e65c2c52d4611201f01f",
+        "bytes": 161
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "object.blob": {
+      "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
+      "bytes": 286
+    },
+    "object.exe": {
+      "sha256": "8d1d16260c0003334403c230991d92f0357c40a787b985f25a2aa6267bab48f4",
+      "bytes": 2097152
+    }
+  },
+  "stdout": {
+    "sha256": "25c968bfe86e1d56f9f0dd8cff188b4048bfe4deb1f5e65c2c52d4611201f01f",
+    "bytes": 161
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.004763352684676647,
+    "capture_execution_seconds": 4.216350800357759,
+    "capture_checks_seconds": 0.048760646022856236,
+    "total_seconds": 4.2698764419183135
+  }
+}

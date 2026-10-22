@@ -2,6 +2,7 @@
 #define REGION_MOTION_H
 #include "work-optimizer.h"
 #include "transformation-cursor.h"
+#include <recon.h>
 extern FlowRegion *hoist_current_region;
 extern WorkItem *hoist_entry_work, *hoist_header_work, *hoist_first_work;
 extern WorkItem *hoist_last_work, *hoist_after_work;

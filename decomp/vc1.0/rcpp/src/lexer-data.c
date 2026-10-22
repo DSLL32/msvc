@@ -2,6 +2,7 @@
  * ASCII rows are explicit lexical categories. Unassigned high bytes are errors
  * until a selected multibyte codepage marks its lead bytes. */
 #include "lexer.h"
+#include <recon.h>
 #define BAD8 LC_BAD,LC_BAD,LC_BAD,LC_BAD,LC_BAD,LC_BAD,LC_BAD,LC_BAD
 #define IDENT8 LC_IDENTIFIER,LC_IDENTIFIER,LC_IDENTIFIER,LC_IDENTIFIER,LC_IDENTIFIER,LC_IDENTIFIER,LC_IDENTIFIER,LC_IDENTIFIER
 unsigned char rc_character_class[256] = {

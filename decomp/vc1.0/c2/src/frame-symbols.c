@@ -3,6 +3,7 @@
 #include "frame.h"
 #include "listing.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 FrameSymbolReference **frame_symbol_references;
 
 /* Original [000354f0,00035680). Repack referenced frame locals after

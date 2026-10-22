@@ -1,6 +1,7 @@
 /* Original 0x0100ba30..0x0100bc89: the generic CONTROL statement. */
 #include "dialog.h"
 #include <string.h>
+#include <recon.h>
 
 void __stdcall parse_generic_control(struct DialogControl *control)
 {

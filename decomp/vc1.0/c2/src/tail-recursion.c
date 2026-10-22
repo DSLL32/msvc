@@ -3,6 +3,7 @@
 #include "function-input.h"
 #include "expression-fields.h"
 #include "instruction-selection.h"
+#include <recon.h>
 SymbolHeader *__fastcall tail_argument_address(Node *node);
 int __fastcall is_tail_call_position(Expression *expressions, Expression *call);
 

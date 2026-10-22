@@ -2,6 +2,7 @@
 #include "expression-fields.h"
 #include "records.h"
 #include "algebra.h"
+#include <recon.h>
 extern int optimize_precision;
 /* Original [00057850,000579e0). Scalar conversions retain the compiler's
    twelve-byte extended representation until the final leaf is interned. */

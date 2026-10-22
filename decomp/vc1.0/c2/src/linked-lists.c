@@ -1,5 +1,6 @@
 /* Stable ordering of compiler-owned linked records. */
 #include "linked-lists.h"
+#include <recon.h>
 
 /* Original [00059350,00059440). Bottom-up stable merge sort for
    records whose first field is their next pointer. Runs double each pass. */

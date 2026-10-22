@@ -2,6 +2,7 @@
 #define PCH_H
 #include "initialization.h"
 #include "pch-format.h"
+#include <recon.h>
 
 /* Encountered PCH event prefix; payload bytes immediately follow it. */
 typedef struct PchRecord {

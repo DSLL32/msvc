@@ -1,6 +1,7 @@
 #ifndef WORK_STACK_H
 #define WORK_STACK_H
 #include "initialization.h"
+#include <recon.h>
 /* Segmented storage shared by source replay and initializer records. */
 typedef struct WorkingBlock {
     unsigned char bytes[2040];

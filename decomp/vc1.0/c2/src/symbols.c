@@ -70,6 +70,7 @@ SymbolHeader *__fastcall put_symbol(ScopeHash *scope, SymbolHeader *symbol)
 }
 
 #include "options.h"
+#include <recon.h>
 extern unsigned next_serial;
 /* Original [0004df20,0004df50). */
 unsigned next_symbol_identifier(void)

@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "global-ir.h"
 #include "pragma.h"
+#include <recon.h>
 
 int default_thread_storage; /* original 0x6bc44 */
 

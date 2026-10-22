@@ -1,4 +1,5 @@
 #include "cl.h"
+#include <recon.h>
 
 /* [0001affa,0001b007) */
 void install_control_handler(void)

@@ -1,6 +1,7 @@
 #ifndef RECORDS_H
 #define RECORDS_H
 #include "functions.h"
+#include <recon.h>
 typedef struct DebugLink {
     struct DebugLink *next;
     SymbolHeader *symbol;

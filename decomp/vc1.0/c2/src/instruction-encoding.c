@@ -15,6 +15,7 @@ unsigned __fastcall machine_instruction_size(MachineInstruction *instruction)
 #include "encoding-recipes.h"
 #include "instruction-selection.h"
 #include "output.h"
+#include <recon.h>
 extern int coff_object, byte_block_first;
 unsigned encoding_location; /* 0007cab0 */
 int encoding_emit_relocations; /* 0007cab4 */

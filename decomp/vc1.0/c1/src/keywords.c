@@ -1,6 +1,7 @@
 /* Language keyword and __declspec vocabularies, encountered at 0x1c330. */
 #include <string.h>
 #include "keywords.h"
+#include <recon.h>
 
 KeywordSpec keyword_specs[] = {
     { "auto", TOK_AUTO, {0,0,0} },

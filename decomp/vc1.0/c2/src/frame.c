@@ -43,6 +43,7 @@ void initialize_stack_alignment(void)
 int dynamic_stack_allocation; /* 00083188: an alloca changes the epilogue stack restore */
 
 #include "instruction-rewrite.h"
+#include <recon.h>
 extern int function_optimization, stack_probe_size;
 SymbolHeader *__fastcall require_external_symbol(char *name);
 /* Original [00022b20,00022c20). Resolve the frame pseudo operand, using

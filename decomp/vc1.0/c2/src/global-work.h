@@ -1,6 +1,7 @@
 #ifndef GLOBAL_WORK_H
 #define GLOBAL_WORK_H
 #include "functions.h"
+#include <recon.h>
 /* The region tree and predecessor/successor links have distinct owners. */
 /* Native 44-byte region record. Reference analysis encounters the
    trailing loop/reference/candidate pointers and availability set. */

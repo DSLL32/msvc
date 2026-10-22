@@ -5,6 +5,7 @@
 #include "ir.h"
 #include "operators.h"
 #include "preprocessor.h"
+#include <recon.h>
 
 DeclarationType conversion_declaration; /* original 0x91394..0x9139c */
 unsigned short current_declaration_scope; /* original 0x9fc3c */

@@ -2,6 +2,7 @@
  * stay together so calls do not use the newer private FFLUSH.OBJ neighbor. */
 #include "lowio.h"
 #include <stdio.h>
+#include <recon.h>
 extern FILE *_lastiob;
 int __cdecl _flush(FILE *);
 int __cdecl flsall(int);

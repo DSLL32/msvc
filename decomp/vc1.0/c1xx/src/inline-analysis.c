@@ -1,5 +1,6 @@
 /* Shared qc state encountered by address-taking. */
 #include "inline-analysis.h"
+#include <recon.h>
 unsigned short inline_base_region; /* original 0x912f0 */
 int inline_scope_depth; /* original 0x912f8 */
 InlineScope *inline_scopes; /* original 0x912fc */

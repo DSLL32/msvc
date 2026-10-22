@@ -1,6 +1,7 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 #include "declarations.h"
+#include <recon.h>
 
 typedef struct DeclarationParameterInfo {
     int count;

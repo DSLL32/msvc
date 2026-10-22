@@ -4,6 +4,7 @@
 #include "options.h"
 #include "register-transfers.h"
 #include "value-selection.h"
+#include <recon.h>
 static MachineOperand temporary_operands[100]; /* 0007cb28 */
 /* Original [00017e00,00017e20). Each reference receives its own temporary
    operand so later per-use annotations do not alter the shared register data. */

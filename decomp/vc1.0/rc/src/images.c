@@ -1,5 +1,6 @@
 /* ICO/CUR directory splitting into individual images and group resources. */
 #include "resource-data.h"
+#include <recon.h>
 
 #pragma pack(2)
 struct ImageDirectory {

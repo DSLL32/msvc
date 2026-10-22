@@ -1,6 +1,7 @@
 /* Original 0x0100d260..0x0100d2a6. The record parameter is unused. */
 #include "tokens.h"
 #include "resource-data.h"
+#include <recon.h>
 
 void __stdcall parse_dialog_include(struct ResourceInfo *resource)
 {

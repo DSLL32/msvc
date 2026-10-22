@@ -1498,7 +1498,7 @@
       "accepted_start": 252,
       "fixture": "cases/direct-helpers",
       "oracle": "whitespace",
-      "suite_manifest_sha256": "93d900be081d769bbe7a33be8d6cba2e85c8e460ed58b333ea9a33a737cfcb7e",
+      "suite_manifest_sha256": "2b56da7d23d2deab6bc8a9d2cfb3190daec792d269dedbb8f1044a03f517bfc8",
       "accepted_end": 254
     },
     "direct-basename": {
@@ -1510,7 +1510,7 @@
       "accepted_start": 252,
       "fixture": "cases/direct-helpers",
       "oracle": "basename",
-      "suite_manifest_sha256": "93d900be081d769bbe7a33be8d6cba2e85c8e460ed58b333ea9a33a737cfcb7e",
+      "suite_manifest_sha256": "2b56da7d23d2deab6bc8a9d2cfb3190daec792d269dedbb8f1044a03f517bfc8",
       "accepted_end": 254
     }
   },

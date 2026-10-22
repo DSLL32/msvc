@@ -4,6 +4,7 @@
 #include "parameter-scopes.h"
 #include "unary-expressions.h"
 #include "source-input.h"
+#include <recon.h>
 
 typedef char StatementValueOffsetMustBe12[(offsetof(IrToken, value) == 12) ? 1 : -1];
 typedef char StatementQualifierResolutionOffsetMustBe12[

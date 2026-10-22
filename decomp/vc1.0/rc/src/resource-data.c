@@ -1,5 +1,6 @@
 /* Storage used to assemble one resource's binary payload. */
 #include "resource-data.h"
+#include <recon.h>
 unsigned char *resource_data;
 unsigned int resource_data_size;
 FILE *resource_data_file;

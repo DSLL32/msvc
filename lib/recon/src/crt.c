@@ -10,10 +10,21 @@
 
 /* Reconstructed CRT overrides in a target take precedence over these fallbacks. */
 #define WEAK __attribute__((weak))
+/* The old CRT copies forward. CL also uses it to remove an escape byte with
+ * strcpy(p,p+1); host vectorized strcpy need not preserve that behavior. */
+WEAK char *recon_strcpy(char *destination,const char *source)
+{
+    char *result=destination;
+    while ((*destination++=*source++)!=0) {}
+    return result;
+}
 ShimFILE recon_iob[20];
-unsigned char recon_osfile[256];
-unsigned recon_nhandle=256;
-int recon_fmode=0x4000,recon_commode,recon_cflush,recon_umaskval;
+WEAK unsigned char recon_osfile[256];
+WEAK unsigned recon_nhandle=256;
+#ifndef RECON_DEFAULT_FMODE
+#define RECON_DEFAULT_FMODE 0x4000
+#endif
+int recon_fmode=RECON_DEFAULT_FMODE,recon_commode,recon_cflush,recon_umaskval;
 unsigned long recon_doserrno,recon_lc_handle[6];
 unsigned recon_lc_codepage;
 int recon_mb_cur_max=1;
@@ -26,7 +37,9 @@ static char zone_names[2][32]={"PST","PDT"};
 char *recon_tzname[2]={zone_names[0],zone_names[1]};
 int recon_days[13]={-1,30,58,89,119,150,180,211,242,272,303,333,364};
 int recon_fltused,recon_tmpoff;
-static long os_handles[256];
+WEAK long recon_osfhnd[256];
+#define os_handles recon_osfhnd
+char *recon_decimal_point=".";
 static int pushed_byte[256];
 
 void recon_unsupported(const char *operation)
@@ -76,7 +89,15 @@ int recon_host_path(const char *name,char *output,size_t capacity)
     const char *root="",*rest=name;
     size_t n=0;
     if (!name || !capacity) { errno=EINVAL; return -1; }
-    if (name[0] && name[1]==':') {
+    if (!strncasecmp(name,"\\\\.\\pipe\\",9)) {
+        root=getenv("RECON_NAMED_PIPE_ROOT");
+        if (!root || !*root) { errno=ENOENT; return -1; }
+        rest=name+9;
+        if (!*rest || strchr(rest,'/') || strchr(rest,'\\')) { errno=EINVAL; return -1; }
+        if (strlen(root)+2>=capacity) { errno=ENAMETOOLONG; return -1; }
+        strcpy(output,root); n=strlen(root);
+        if (n && output[n-1]!='/') output[n++]='/';
+    } else if (name[0] && name[1]==':') {
         unsigned char drive=(unsigned char)toupper((unsigned char)name[0]);
         if (drive<'A' || drive>'Z') { errno=EINVAL; return -1; }
         variable[12]=(char)drive;
@@ -108,6 +129,7 @@ void recon_dosmaperr(unsigned long code)
     case 2: case 3: errno=ENOENT; break;
     case 5: case 32: case 33: errno=EACCES; break;
     case 6: errno=EBADF; break;
+    case 131: errno=EINVAL; break;
     case 8: errno=ENOMEM; break;
     case 80: case 183: errno=EEXIST; break;
     case 87: errno=EINVAL; break;
@@ -290,7 +312,7 @@ int recon_rename(const char *from,const char *to)
     return rename(a,b);
 }
 
-void recon_getbuf(ShimFILE *s)
+WEAK void recon_getbuf(ShimFILE *s)
 {
     s->_base=malloc(4096);
     if (s->_base) { s->_flag|=8; s->_bufsiz=4096; }
@@ -404,7 +426,8 @@ WEAK ShimFILE *recon_openfile(const char *name,const char *mode,int sharing,Shim
     else if (*mode=='a') flags=0x109;
     else { errno=EINVAL; return NULL; }
     if (strchr(mode,'+')) flags=(flags&~3)|2;
-    flags|=strchr(mode,'b')?0x8000:0x4000;
+    if (strchr(mode,'b')) flags|=0x8000;
+    else if (strchr(mode,'t')) flags|=0x4000;
     fd=recon_sopen(name,flags,sharing,0666); if (fd<0) return NULL;
     memset(s,0,sizeof(*s)); s->_file=fd;
     s->_flag=strchr(mode,'+')?0x80:*mode=='r'?1:2; return s;
@@ -415,7 +438,7 @@ ShimFILE *recon_fopen(const char *name,const char *mode)
     for (n=3;n<20;++n) if (!recon_iob[n]._flag) return recon_openfile(name,mode,0x40,&recon_iob[n]);
     errno=EMFILE; return NULL;
 }
-int recon_fclose(ShimFILE *s)
+WEAK int recon_fclose(ShimFILE *s)
 {
     int result=recon_flush(s),closed=recon_close(s->_file);
     recon_freebuf(s); memset(s,0,sizeof(*s)); return result || closed?EOF:0;
@@ -477,21 +500,52 @@ void recon_makepath(char *out,const char *drive,const char *dir,const char *name
 }
 char *recon_fullpath(char *out,const char *name,size_t capacity)
 {
-    char host[PATH_MAX],absolute[PATH_MAX],normalized[PATH_MAX],*part,*save;
-    size_t len=0; char *result=out;
-    if (recon_host_path(name && *name?name:".",host,sizeof(host))<0) return NULL;
-    if (host[0]=='/') strcpy(absolute,host);
-    else { if (!getcwd(absolute,sizeof(absolute))) return NULL; if (strlen(absolute)+strlen(host)+2>sizeof(absolute)) { errno=ENAMETOOLONG; return NULL; } strcat(absolute,"/"); strcat(absolute,host); }
+    const char *canonical=getenv("RECON_CANONICAL_CWD"),*input=name&&*name?name:".";
+    char host[PATH_MAX],absolute[PATH_MAX],normalized[PATH_MAX],check[PATH_MAX],cwd[PATH_MAX];
+    char *part,*save,*result=out,drive='Z'; size_t len=0;
+    if (canonical) {
+        if (!canonical[0] || canonical[1]!=':' ||
+            (canonical[2]!='\\' && canonical[2]!='/') ||
+            recon_host_path(canonical,host,sizeof(host))<0 || !realpath(host,check) ||
+            !getcwd(cwd,sizeof(cwd)) || strcmp(check,cwd)) { errno=EINVAL; return NULL; }
+    }
+    if (input[0] && input[1]==':') {
+        if (recon_host_path(input,host,sizeof(host))<0) return NULL;
+        drive=(char)toupper((unsigned char)input[0]);
+        if (strlen(input+2)>=sizeof(absolute)) { errno=ENAMETOOLONG; return NULL; }
+        strcpy(absolute,input+2);
+    } else if (canonical && input[0]!='/') {
+        drive=(char)toupper((unsigned char)canonical[0]);
+        if (input[0]=='\\') {
+            if (strlen(input)>=sizeof(absolute)) { errno=ENAMETOOLONG; return NULL; }
+            strcpy(absolute,input);
+        } else {
+            if (strlen(canonical+2)+strlen(input)+2>sizeof(absolute)) { errno=ENAMETOOLONG; return NULL; }
+            strcpy(absolute,canonical+2); strcat(absolute,"\\"); strcat(absolute,input);
+        }
+    } else {
+        if (recon_host_path(input,host,sizeof(host))<0) return NULL;
+        if (host[0]=='/') strcpy(absolute,host);
+        else {
+            if (!getcwd(absolute,sizeof(absolute))) return NULL;
+            if (strlen(absolute)+strlen(host)+2>sizeof(absolute)) { errno=ENAMETOOLONG; return NULL; }
+            strcat(absolute,"/"); strcat(absolute,host);
+        }
+    }
     normalized[0]=0;
-    for (part=strtok_r(absolute,"/",&save);part;part=strtok_r(NULL,"/",&save)) {
+    for (part=strtok_r(absolute,"/\\",&save);part;part=strtok_r(NULL,"/\\",&save)) {
         if (!strcmp(part,".")) continue;
-        if (!strcmp(part,"..")) { while (len && normalized[len-1]!='\\') --len; if (len) --len; normalized[len]=0; continue; }
+        if (!strcmp(part,"..")) {
+            while (len && normalized[len-1]!='\\') --len;
+            if (len) --len;
+            normalized[len]=0; continue;
+        }
         normalized[len++]='\\'; strcpy(normalized+len,part); len+=strlen(part);
     }
     if (!len) { normalized[len++]='\\'; normalized[len]=0; }
     if (!result) { capacity=len+3; result=malloc(capacity); if (!result) return NULL; }
     if (capacity<len+3) { errno=ERANGE; return NULL; }
-    strcpy(result,"Z:"); strcat(result,normalized); return result;
+    result[0]=drive; result[1]=':'; strcpy(result+2,normalized); return result;
 }
 char *recon_strupr(char *s) { char *p; for (p=s;*p;++p) *p=toupper((unsigned char)*p); return s; }
 char *recon_strlwr(char *s) { char *p; for (p=s;*p;++p) *p=tolower((unsigned char)*p); return s; }
@@ -507,13 +561,23 @@ char *recon_ultoa(unsigned long value,char *out,int radix)
 char *recon_itoa(int n,char *s,int radix) { if (n<0 && radix==10) { *s='-'; recon_ultoa(0U-(unsigned)n,s+1,radix); } else recon_ultoa((unsigned)n,s,radix); return s; }
 char *recon_mktemp(char *pattern)
 {
-    char host[PATH_MAX]; int fd;
-    if (recon_host_path(pattern,host,sizeof(host))<0) return NULL;
-    fd=mkstemp(host); if (fd<0) { *pattern=0; return NULL; }
-    close(fd); unlink(host);
-    /* Replace only the randomized basename tail, preserving the DOS spelling. */
-    if (strlen(pattern)>=6) memcpy(pattern+strlen(pattern)-6,host+strlen(host)-6,6);
-    return pattern;
+    const char *fixed=getenv("RECON_MKTEMP_SUFFIX");
+    size_t length=strlen(pattern),i; unsigned pid=(unsigned)getpid();
+    int saved_errno=errno,collision; char letter=0;
+    if (length<6 || strcmp(pattern+length-6,"XXXXXX") ||
+        (length>6 && pattern[length-7]=='X')) return NULL;
+    if (fixed) {
+        if (strlen(fixed)!=6) recon_unsupported("RECON_MKTEMP_SUFFIX requires six alphanumeric characters");
+        for (i=0;i<6;++i) if (!isalnum((unsigned char)fixed[i]))
+            recon_unsupported("invalid RECON_MKTEMP_SUFFIX");
+        memcpy(pattern+length-6,fixed,6);
+    } else for (i=0;i<6;++i) { pattern[length-1-i]=(char)('0'+pid%10); pid/=10; }
+    for (;;) {
+        collision=recon_access(pattern,0)==0 || errno==EACCES;
+        if (!collision) { errno=saved_errno; return pattern; }
+        if (letter=='z') { errno=saved_errno; return NULL; }
+        letter=letter?(char)(letter+1):'a'; pattern[length-6]=letter;
+    }
 }
 char *recon_tempnam(const char *dir,const char *prefix)
 {
@@ -746,3 +810,86 @@ void recon_qsort(void *array,size_t count,size_t width,int (*compare)(const void
         --stack; lo=low_stack[stack]; hi=high_stack[stack];
     }
 }
+
+/* CRT variants supplied by a target override these native fallbacks. */
+ShimFILE *recon_freopen(const char *name,const char *mode,ShimFILE *stream)
+{
+    if (stream->_flag) recon_fclose(stream);
+    return recon_openfile(name,mode,0x40,stream);
+}
+void recon_setbuf(ShimFILE *stream,char *buffer)
+{
+    recon_setvbuf(stream,buffer,buffer?0:4,buffer?512:0);
+}
+int recon_flushall(void)
+{
+    int n,count=0;
+    for (n=0;n<20;++n) if (recon_iob[n]._flag) {
+        if (recon_flush(&recon_iob[n])) return EOF;
+        ++count;
+    }
+    return count;
+}
+int recon_fcloseall(void)
+{
+    int n,count=0;
+    for (n=3;n<20;++n) if (recon_iob[n]._flag) {
+        if (recon_fclose(&recon_iob[n])) return EOF;
+        ++count;
+    }
+    return count;
+}
+int recon_flsbuf(int byte,ShimFILE *stream) { return recon_fputc(byte,stream); }
+int _fileno(ShimFILE *stream) { return recon_fileno(stream); }
+int recon_spawnv(int mode,const char *file,const char *const *argv)
+{
+    return recon_spawnve(mode,file,argv,NULL);
+}
+int recon_dup(int source)
+{
+    int dest,fd;
+    if (!valid_descriptor(source)) return -1;
+    dest=recon_alloc_osfhnd(); if (dest<0) return -1;
+    fd=dup((int)os_handles[source]-1);
+    if (fd<0) { recon_osfile[dest]=0; return -1; }
+    os_handles[dest]=fd+1; recon_osfile[dest]=recon_osfile[source];
+    return dest;
+}
+int recon_dup2(int source,int dest)
+{
+    int host,old;
+    if (!valid_descriptor(source)) return -1;
+    if (dest<0 || (unsigned)dest>=recon_nhandle) { errno=EBADF; return -1; }
+    if (source==dest) return 0;
+    old=(recon_osfile[dest]&1)?(int)os_handles[dest]-1:-1;
+    if (dest<3) {
+        host=dup2((int)os_handles[source]-1,dest);
+        if (host<0) return -1;
+        if (old>=3 && old!=host) close(old);
+    } else {
+        host=dup((int)os_handles[source]-1); if (host<0) return -1;
+        if (old>=0) close(old);
+    }
+    os_handles[dest]=host+1; recon_osfile[dest]=recon_osfile[source];
+    if (dest<3) recon_SetStdHandle((DWORD)(-10-dest),(HANDLE)(long)(host+1));
+    return 0;
+}
+static ReconSignalHandler break_handler;
+static void dispatch_break(int signo)
+{
+    (void)signo;
+    if (break_handler && break_handler!=SIG_IGN && break_handler!=SIG_DFL)
+        break_handler(SIGBREAK);
+}
+ReconSignalHandler recon_signal(int signo,ReconSignalHandler handler)
+{
+    ReconSignalHandler old;
+    if (signo!=SIGBREAK) return signal(signo,handler);
+    old=break_handler;
+    if (signal(SIGQUIT,handler==SIG_IGN?SIG_IGN:handler==SIG_DFL?SIG_DFL:dispatch_break)==SIG_ERR)
+        return SIG_ERR;
+    break_handler=handler;
+    return old;
+}
+
+WEAK int recon_unlink(const char *name) { return recon_remove(name); }

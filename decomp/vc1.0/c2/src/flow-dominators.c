@@ -1,6 +1,7 @@
 /* Dominator sets for globally optimized work blocks. */
 #include "global-work.h"
 #include "bitsets.h"
+#include <recon.h>
 
 /* Original [00059610,00059700). Initialize non-entry blocks to the
    universal set, intersect predecessor dominators and add each block itself

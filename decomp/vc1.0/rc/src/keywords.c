@@ -3,6 +3,7 @@
  * MESAGETABLE and the shared memory-flag values belong to this RC version. */
 #include "tokens.h"
 #include <string.h>
+#include <recon.h>
 
 WORD __stdcall lookup_keyword(char *text)
 {

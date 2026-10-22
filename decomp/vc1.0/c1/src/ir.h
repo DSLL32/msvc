@@ -1,6 +1,7 @@
 #ifndef IR_H
 #define IR_H
 #include "types.h"
+#include <recon.h>
 
 enum IrBaseTypeKind {
     IR_TYPE_UNKNOWN = 0, IR_TYPE_SIGNED = 1, IR_TYPE_UNSIGNED = 2,

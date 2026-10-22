@@ -1,5 +1,6 @@
 /* Diagnostic vocabulary used by message_text, original table 0xa3a48. */
 #include "c1xx.h"
+#include <recon.h>
 
 typedef struct MessageText {
     unsigned code;

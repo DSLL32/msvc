@@ -1,6 +1,7 @@
 #ifndef MEMBER_EXPRESSIONS_H
 #define MEMBER_EXPRESSIONS_H
 #include "parser.h"
+#include <recon.h>
 IrToken *__stdcall materialize_member_object(IrToken *object);
 IrToken *__stdcall adjust_qualified_member_object(IrToken *object,
     QualifiedDeclarator *member, int pointer_conversion, int derived_to_base,

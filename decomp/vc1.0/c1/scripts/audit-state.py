@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Check initial bytes and address aliases of encountered frontend state."""
-from compare import indexes, publics
+from images import indexes, publics
 import struct
 import re
 from pathlib import Path

@@ -1,0 +1,250 @@
+{
+  "scope": "Six native migrations: current shared code, cached original entry/stream/status/artifact checks. Sequential suites; each build uses make -j4. No original reference recapture.",
+  "shared_sha256": {
+    "lib/recon/include/recon.h": "5fa1a22f52d82aea4837ed72229f0513f3a374a2948e23d85cfa4d24e02b6df6",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+    "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+    "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+    "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "lib/recon/native/sys/timeb.h": "43956856b08374c73e15d66054507401bfcb710ee615865ecafce8da83f03e55",
+    "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+    "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+    "lib/recon/src/crt.c": "53a660e8675b68b43527d9d10fa9d95ce56f796dc969fca1789719fbc0010c26",
+    "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+    "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+    "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+  },
+  "results": [
+    {
+      "binary": "c1",
+      "build": {
+        "command": [
+          "make",
+          "-j4",
+          "native-trace"
+        ],
+        "seconds": 0.010679895989596844,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/c1-build.log"
+      },
+      "fixtures": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.4035681486129761,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/c1-fixtures.log"
+      },
+      "executable": {
+        "path": "decomp/vc1.0/c1/build/native-trace/C13232.EXE",
+        "sha256": "28acc9eee1db70b52e0843d44d805dfb6b23c2608c47456a5d4459887fd27574"
+      },
+      "adoption_receipt": {
+        "path": "decomp/vc1.0/c1/cases/native-all-validation.json",
+        "sha256": "e68f96ad2e2a856609c1d57e4eeae33502bab723f13ca773bedccc7497d2f5b2"
+      }
+    },
+    {
+      "binary": "c1xx",
+      "build": {
+        "command": [
+          "make",
+          "-j4",
+          "native-trace"
+        ],
+        "seconds": 0.020823501981794834,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/c1xx-build.log"
+      },
+      "fixtures": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.22930449433624744,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/c1xx-fixtures.log"
+      },
+      "executable": {
+        "path": "decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE",
+        "sha256": "c76e7a6a21efd137448fb5572d87ca2ecbad77891b80c570d641570f87a97109"
+      },
+      "adoption_receipt": {
+        "path": "decomp/vc1.0/c1xx/cases/native-all-validation.json",
+        "sha256": "1bb84820acbc0174584bd575553fce58849276f92ace609a76e1a777b8a77136"
+      }
+    },
+    {
+      "binary": "c2",
+      "build": {
+        "command": [
+          "make",
+          "-j4",
+          "native-trace"
+        ],
+        "seconds": 1.3792193373665214,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/c2-build.log"
+      },
+      "fixtures": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.3262735391035676,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/c2-fixtures.log"
+      },
+      "executable": {
+        "path": "decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+        "sha256": "b4d631bbc3db2d6591c405eeb2a9a7ed2d9bb992f6adb6d298a8bf7fa953ac61"
+      },
+      "adoption_receipt": {
+        "path": "decomp/vc1.0/c2/cases/native-all-validation.json",
+        "sha256": "3904aa3b4cf129c55a288e4f0a5775339349bf3b53a7e498926ea50db1d53d32"
+      }
+    },
+    {
+      "binary": "cl",
+      "build": {
+        "command": [
+          "make",
+          "-j4",
+          "native-trace"
+        ],
+        "seconds": 0.0050671761855483055,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/cl-build.log"
+      },
+      "fixtures": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 2.9606342958286405,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/cl-fixtures.log"
+      },
+      "executable": {
+        "path": "decomp/vc1.0/cl/build/native-trace/CL.EXE",
+        "sha256": "71ea5a27db5d8fb865707dc3e71cdf4eb1d32b04a3c9b1f15120fdd247a4dac1"
+      },
+      "adoption_receipt": {
+        "path": "decomp/vc1.0/cl/cases/native-all-validation.json",
+        "sha256": "b8b844a59331c4a88d11e953a0248876e58d2304bd1a254ec25b8af2b499bd6c"
+      }
+    },
+    {
+      "binary": "rc",
+      "build": {
+        "command": [
+          "make",
+          "-j4",
+          "native-trace"
+        ],
+        "seconds": 0.007240366190671921,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/rc-build.log"
+      },
+      "fixtures": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 2.1240918496623635,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/rc-fixtures.log"
+      },
+      "executable": {
+        "path": "decomp/vc1.0/rc/build/native-trace/RC.EXE",
+        "sha256": "6770ae17d1c58c602d7a5edc58988dd73271b0c52d10030754c03912fe3bdce3"
+      },
+      "adoption_receipt": {
+        "path": "decomp/vc1.0/rc/cases/native-all-validation.json",
+        "sha256": "f0a3bcd50cc840c20744c002d3f86788a65049266650f702115f67a57299b5e8"
+      }
+    },
+    {
+      "binary": "rcpp",
+      "build": {
+        "command": [
+          "make",
+          "-j4",
+          "native-trace",
+          "build/native-trace/option-check",
+          "build/native-trace/classifier-check",
+          "build/native-trace/message-check"
+        ],
+        "seconds": 0.006772488355636597,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/rcpp-build.log"
+      },
+      "fixtures": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.7614571126177907,
+        "status": 0,
+        "log": "/root/.ai-tmp/native-migration-final/rcpp-fixtures.log"
+      },
+      "executable": {
+        "path": "decomp/vc1.0/rcpp/build/native-trace/RCPP.EXE",
+        "sha256": "c5d5d5d2f021054eef22a9b06c0f04313a9d3584ef0a2899c2e48252138feecc"
+      },
+      "adoption_receipt": {
+        "path": "decomp/vc1.0/rcpp/cases/native-all-validation.json",
+        "sha256": "828b1327e4bef01eddf055e6ad6a606d95bb99f0bdd608e529ede70261a29474"
+      }
+    }
+  ],
+  "shared_validation": [
+    {
+      "path": "lib/recon/adoption-validation.json",
+      "sha256": "6cb864ad85162f78a39d68abb2ecbad3112cf060c005b02f136f1290f0ab8513"
+    },
+    {
+      "path": "lib/recon/trace-allocation-validation.json",
+      "sha256": "659e2faeb33b134147eb552e09a4faed68a34cbf2e825e75110048ec744ed833"
+    },
+    {
+      "path": "lib/recon/spawn-stream-validation.json",
+      "sha256": "956b694743ee785d6d580ccc31f8f73c41bbb0b6d6972909998cd9290fba77d3"
+    },
+    {
+      "path": "lib/recon/adoption-production-validation.json",
+      "sha256": "3722f941ecf9c1a43e6fb65a827b4e45d401b26b6bc95d3f5e2ac0fba7d3a3c8"
+    }
+  ],
+  "case_counts": {
+    "c1": 6,
+    "c1xx": 1,
+    "c2": 2,
+    "cl": 57,
+    "rc": 18,
+    "rcpp": 20
+  },
+  "fixture_command_seconds": 6.805329440161586,
+  "build_note": "Final builds are incremental relinks/freshness checks, not clean builds. Per-binary adoption receipts record clean build and canonical original-toolchain timings.",
+  "limits": [
+    "C1XX and optimized C2 cases intentionally end at their recorded unreconstructed named trap.",
+    "Native signal cases cover observed handler/status/output behavior; Windows console callback-thread scheduling and SEH dispatch are not modeled.",
+    "Captured external process responses validate invocation and complete prepared inputs; they do not exercise reconstructed child tools."
+  ],
+  "supplemental_validation": "RC finalized isolation of its PATH-case prepared original PE alias after the aggregate run. Its focused native path case passed in 0.132s; cases/native-all-validation.json records that receipt. No shared/application changes followed the aggregate validation."
+}

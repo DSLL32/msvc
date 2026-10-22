@@ -1,5 +1,6 @@
 /* Low-level preprocessing characters and identifier transport. */
 #include "numbers.h"
+#include <recon.h>
 /* Original [0100d020,0100d098). Consume horizontal whitespace, comments and
  * continued lines, while leaving the first significant character consumed. */
 unsigned char rc_read_nonspace(void)

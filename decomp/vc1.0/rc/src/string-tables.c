@@ -3,6 +3,7 @@
 #include "menu.h"
 #include <stdlib.h>
 #include <wchar.h>
+#include <recon.h>
 
 #pragma pack(2)
 struct StringBlock {

@@ -49,6 +49,7 @@ void *__fastcall arena_calloc(unsigned arena, unsigned bytes)
 }
 
 #include "options.h"
+#include <recon.h>
 /* Original [00070b80,00070bc0). Callers in this case use flags == 0. */
 void *__fastcall compiler_allocate(unsigned bytes, int flags)
 {

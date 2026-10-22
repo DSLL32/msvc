@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include "runtime.h"
+#include <recon.h>
 
 extern unsigned char _osfile[];
 extern int _umaskval;

@@ -1,6 +1,7 @@
 #ifndef DIAGNOSTICS_H
 #define DIAGNOSTICS_H
 #include "frontend.h"
+#include <recon.h>
 typedef struct DiagnosticMessagePosition {
     int code;
     long offset;

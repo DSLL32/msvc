@@ -2,6 +2,7 @@
 #include <float.h>
 #include "initialization.h"
 #include "floating.h"
+#include <recon.h>
 
 /* Original 0x74b30..0x74b3d. */
 void initialize_floating_point(void)

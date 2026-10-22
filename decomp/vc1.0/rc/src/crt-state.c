@@ -2,6 +2,7 @@
  * These are semantic declarations of encountered runtime objects, not an image
  * of the original data section. Initializer boundaries remain SDK CRT sections. */
 #include "crt-runtime.h"
+#include <recon.h>
 unsigned int _osver, _winver, _winmajor, _winminor;
 unsigned int _umaskval;
 unsigned long _doserrno;

@@ -1,6 +1,7 @@
 #ifndef MANGLING_H
 #define MANGLING_H
 #include "global-ir.h"
+#include <recon.h>
 #define DECORATED_NAME_LIMIT 247
 /* Original 0x97c38..0x98018. The following ten name-reference pointers
    start at 0x98018; they are separate from this four-name workspace. */

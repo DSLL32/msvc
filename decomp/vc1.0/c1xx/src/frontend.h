@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include "options.h"
+#include <recon.h>
 
 typedef struct CType CType;
 typedef struct CppSymbol CppSymbol;

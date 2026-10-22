@@ -1,6 +1,7 @@
 #ifndef FRAME_SYMBOLS_H
 #define FRAME_SYMBOLS_H
 #include "physical-allocation.h"
+#include <recon.h>
 /* Constructor35680 allocates16-byte entries in arena3. Equal-size
    groups order their referenced symbols by descending weighted use count. */
 typedef struct FrameSymbolReference {

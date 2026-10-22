@@ -1,6 +1,7 @@
 /* Symbol discovery in the machine-instruction stream. */
 #include "machine.h"
 #include "records.h"
+#include <recon.h>
 extern int codeview_debug;
 const signed char machine_operand_counts[MC_OPCODE_COUNT] = {
 #define OP(name,count,properties) count,

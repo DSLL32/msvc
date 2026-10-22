@@ -1,6 +1,7 @@
 /* Synthetic region and function boundaries in global work chains. */
 #include "flow-edges.h"
 #include "expression-fields.h"
+#include <recon.h>
 extern int codeview_debug; /* 0008313c: optional CodeView boundary records */
 
 /* Original [00059880,00059a30). Insert synthetic region-boundary

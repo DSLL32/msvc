@@ -2,6 +2,7 @@
 #define INITIALIZERS_H
 #include "c2.h"
 #include "extended.h"
+#include <recon.h>
 typedef union InitializerValue {
     unsigned char byte;
     short word;

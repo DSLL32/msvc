@@ -1,5 +1,6 @@
 #include "function-input.h"
 #include "input.h"
+#include <recon.h>
 extern FILE *aux_expression_file, *aux_symbol_file;
 extern int floating_frontend;
 unsigned pending_source_location = 1;

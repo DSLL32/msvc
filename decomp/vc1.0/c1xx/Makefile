@@ -1,18 +1,20 @@
 PYTHON ?= python3
 TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
-.PHONY: all prefix check replay replay-fresh replay-verify audit clean
-all: build/original.exe build/reconstructed.exe build/debug-run.exe
+RECON = ../../../lib/recon
+.PHONY: all win32 prefix check replay audit reference-capture native-rejections clean
+all: native-trace
+win32: build/c1xx.exe build/debug-run.exe
 prefix:
 	$(TOOL) --init
 build:
 	mkdir -p $@
 build/%.obj: src/%.c | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fobuild/$*.obj $<
 build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/grammar.bnf | build
 	$(PYTHON) scripts/generate-parser.py $@
 build/parser-grammar.obj: build/parser-grammar.c src/parser-grammar.h | prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Isrc /Fo$@ $<
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Isrc /I$(RECON)/include /Fo$@ $<
 OBJECTS = build/c1xx.obj build/stubs.obj build/diagnostics.obj build/options.obj build/linkage.obj build/packing.obj build/memory.obj build/checksums.obj build/characters.obj build/arguments.obj build/vectors.obj build/option-data.obj build/frontend.obj build/initialization.obj build/preprocessor.obj build/keywords.obj build/floating.obj build/cpp-context.obj build/inline-vector.obj build/intermediate.obj build/runtime.obj build/constants.obj build/ir.obj build/ir-formats.obj build/types.obj build/scopes.obj build/declarations.obj build/declaration-bind.obj build/declaration-lookup.obj build/special-functions.obj build/runtime-symbols.obj build/option-state.obj build/parser-state.obj build/resolve-declaration.obj build/declarator-shapes.obj build/symbol-types.obj build/hash-table.obj build/type-attributes.obj build/parameters.obj build/macros.obj build/global-ir.obj build/global-formats.obj build/source-input.obj build/operators.obj build/token-spellings.obj
 OBJECTS += build/record-processing.obj build/expression-preparation.obj build/binary-expressions.obj
 OBJECTS += build/constructor-initializers.obj
@@ -31,25 +33,21 @@ build/parser.obj: src/parser-declaration-actions.inc src/parser-declarator-actio
 build/lookahead-grammar.c: scripts/generate-lookahead.py scripts/generate-parser.py scripts/grammar.py src/lookahead.bnf | build
 	$(PYTHON) scripts/generate-lookahead.py $@
 build/lookahead-grammar.obj: build/lookahead-grammar.c src/lookahead-grammar.h | prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Isrc /Fo$@ $<
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Isrc /I$(RECON)/include /Fo$@ $<
 build/c1xx.exe: $(OBJECTS) $(TC)/lib/BINMODE.OBJ Makefile
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1xx.map /out:$@ $(OBJECTS) $(TC)/lib/BINMODE.OBJ
 runtime.json: scripts/identify-runtime.py scripts/binary.py $(TC)/bin/C1XX3232.EXE $(TC)/lib/LIBC.LIB $(TC)/lib/SETARGV.OBJ
 	$(PYTHON) scripts/identify-runtime.py
 build/runtime.json: build/c1xx.exe scripts/identify-runtime.py scripts/binary.py
 	$(PYTHON) scripts/identify-runtime.py build/c1xx.exe $@
-build/original.exe build/reconstructed.exe &: build/c1xx.exe build/runtime.json runtime.json functions.json scripts/compare.py scripts/binary.py
-	$(PYTHON) scripts/compare.py --mask-only
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
-check: all audit
-	$(PYTHON) scripts/compare.py
-replay: all
-	$(PYTHON) scripts/replay-frontiers.py
-replay-fresh: all
-	$(PYTHON) scripts/replay-frontiers.py --fresh
-replay-verify: all
-	$(PYTHON) scripts/replay-frontiers.py --verify
+# Ordinary regressions consume only cached original references, natively.
+check replay: native-trace-check
+reference-capture: build/debug-run.exe
+	$(PYTHON) scripts/capture-original.py
+native-rejections: native-trace
+	$(PYTHON) scripts/check-native-boundary.py
 audit: build/runtime.json runtime.json src/grammar.bnf scripts/grammar.py scripts/audit-parser-grammar.py src/lookahead.bnf scripts/audit-lookahead-grammar.py
 	$(PYTHON) scripts/audit-graph.py
 	$(PYTHON) scripts/audit-data.py
@@ -63,3 +61,41 @@ build/dependencies.mk: scripts/dependencies.py $(wildcard src/*.c) $(wildcard sr
 ifneq ($(MAKECMDGOALS),clean)
 -include build/dependencies.mk
 endif
+
+# Native fixture builds preserve the Win32 C bodies and individual ABIs.
+NATIVE_CC ?= clang
+NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
+NATIVE_OBJECTS = $(patsubst build/%.obj,build/native/%.o,$(OBJECTS))
+NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
+NATIVE_TRACE_OBJECTS = $(patsubst build/native/%,build/native-trace/%,$(NATIVE_OBJECTS))
+
+.PHONY: native native-trace native-check native-trace-check
+native: build/native/C1XX3232.EXE
+native-trace: build/native-trace/C1XX3232.EXE
+build/native build/native-trace:
+	mkdir -p $@
+build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/native-trace/%.o: src/%.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/native/parser-grammar.o: build/parser-grammar.c $(NATIVE_HEADERS) | build/native
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/native/lookahead-grammar.o: build/lookahead-grammar.c $(NATIVE_HEADERS) | build/native
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
+build/native-trace/parser-grammar.o: build/parser-grammar.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+build/native-trace/lookahead-grammar.o: build/lookahead-grammar.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+build/native/C1XX3232.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@
+build/native-trace/C1XX3232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
+
+native-check: native
+	$(PYTHON) scripts/check-native.py
+native-trace-check: native-trace
+	$(PYTHON) scripts/check-native.py --trace

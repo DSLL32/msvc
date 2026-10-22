@@ -1,5 +1,6 @@
 /* Language-linkage nesting, original 0x3cd30..0x3cd62. */
 #include "options.h"
+#include <recon.h>
 
 int linkage_depth = -1;
 LanguageLinkage linkage_stack[10];

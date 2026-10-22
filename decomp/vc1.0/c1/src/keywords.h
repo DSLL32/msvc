@@ -1,6 +1,7 @@
 #ifndef KEYWORDS_H
 #define KEYWORDS_H
 #include "preprocessor.h"
+#include <recon.h>
 
 enum KeywordToken {
     TOK_DISABLED_KEYWORD = 1,

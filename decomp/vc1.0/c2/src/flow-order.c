@@ -3,6 +3,7 @@
 #include "expression-fields.h"
 #include "function-input.h"
 #include "instruction-selection.h"
+#include <recon.h>
 static WorkItem *flow_order_head; /* 0007bec0: reverse postorder chain head */
 
 /* Original [0005a540,0005a5d0). Order reachable blocks by the successor

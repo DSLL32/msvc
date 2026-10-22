@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <process.h>
 #include "lowio.h"
+#include <recon.h>
 #pragma intrinsic(strcpy, strlen, memcpy, memset)
 extern unsigned long _doserrno;
 

@@ -3,6 +3,7 @@
 #include "options.h"
 #include "parser.h"
 #include "pch-relocate.h"
+#include <recon.h>
 
 unsigned char *permanent_next;
 unsigned permanent_available;

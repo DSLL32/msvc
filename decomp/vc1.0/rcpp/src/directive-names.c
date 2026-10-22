@@ -1,5 +1,6 @@
 /* Reserved preprocessing directive names, grouped by first character. */
 #include "directives.h"
+#include <recon.h>
 /* Original [0100f8d0,0100f958). The original stores the initial-character
  * group index separately from the suffix spellings and result codes. */
 unsigned char __stdcall rc_directive_code(const char *word)

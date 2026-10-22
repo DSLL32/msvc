@@ -3,6 +3,7 @@
 #include "parser.h"
 #include "ir.h"
 #include "types.h"
+#include <recon.h>
 extern int target_signed_int_maximum;
 IrToken * __stdcall promote_integer_expression(IrToken *expression);
 CType * __stdcall usual_arithmetic_type(unsigned char operation, CType *left, CType *right);

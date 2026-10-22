@@ -2,6 +2,7 @@
 #define UNOPTIMIZED_H
 #include "instruction-selection.h"
 #include "bitsets.h"
+#include <recon.h>
 typedef struct RegisterSlot {
     unsigned virtual_register;
     BitSet *conflicts;

@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "dll-output",
+  "arguments": "/LD /Fedemo.dll dll.c",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\dll-output",
+    "TEMP": "Q:\\dll-output"
+  },
+  "initial": {
+    "dll.c": {
+      "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+      "bytes": 163
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\dll-output\\000292 -f dll.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fodll.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -D_MT -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\dll-output",
+      "before": {
+        "dll.c": {
+          "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+          "bytes": 163
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "43b9aa8ab81b717f66c32f7f4c223e10a213111baa590d500a6e1b0a288fb814",
+          "bytes": 1055
+        },
+        "000292gl": {
+          "sha256": "4639601ae4e909db2925c33f4b6b4d5a0f36aa8903714d8c776163ce502aedcb",
+          "bytes": 81
+        },
+        "000292in": {
+          "sha256": "c4ae960af5e15e52f0707cf63ded71f43aabdefdc600158ca144c30b8b7615f1",
+          "bytes": 6
+        },
+        "000292sy": {
+          "sha256": "ee1027870dce90da33efb1f8121062fc4d7e294c68ca9d623d49fbd9b096f359",
+          "bytes": 90
+        },
+        "dll.c": {
+          "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+          "bytes": 163
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\dll-output\\000292 -f dll.c -W 1 -G4 -Gs4096 -dos -Fodll.obj -MT "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\dll-output",
+      "before": {
+        "000292ex": {
+          "sha256": "43b9aa8ab81b717f66c32f7f4c223e10a213111baa590d500a6e1b0a288fb814",
+          "bytes": 1055
+        },
+        "000292gl": {
+          "sha256": "4639601ae4e909db2925c33f4b6b4d5a0f36aa8903714d8c776163ce502aedcb",
+          "bytes": 81
+        },
+        "000292in": {
+          "sha256": "c4ae960af5e15e52f0707cf63ded71f43aabdefdc600158ca144c30b8b7615f1",
+          "bytes": 6
+        },
+        "000292sy": {
+          "sha256": "ee1027870dce90da33efb1f8121062fc4d7e294c68ca9d623d49fbd9b096f359",
+          "bytes": 90
+        },
+        "dll.c": {
+          "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+          "bytes": 163
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "43b9aa8ab81b717f66c32f7f4c223e10a213111baa590d500a6e1b0a288fb814",
+          "bytes": 1055
+        },
+        "000292gl": {
+          "sha256": "4639601ae4e909db2925c33f4b6b4d5a0f36aa8903714d8c776163ce502aedcb",
+          "bytes": 81
+        },
+        "000292in": {
+          "sha256": "c4ae960af5e15e52f0707cf63ded71f43aabdefdc600158ca144c30b8b7615f1",
+          "bytes": 6
+        },
+        "000292sy": {
+          "sha256": "ee1027870dce90da33efb1f8121062fc4d7e294c68ca9d623d49fbd9b096f359",
+          "bytes": 90
+        },
+        "dll.c": {
+          "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+          "bytes": 163
+        },
+        "dll.obj": {
+          "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
+          "bytes": 360
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+        "-link",
+        "@Q:\\dll-output\\000292lk"
+      ],
+      "environment": null,
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\dll-output",
+      "before": {
+        "000292lk": {
+          "sha256": "eaf3f35a8559b1543c56240f5ed8af3d7dc56d40d21436cc5dbc7791bd5032cd",
+          "bytes": 61
+        },
+        "dll.c": {
+          "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+          "bytes": 163
+        },
+        "dll.obj": {
+          "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
+          "bytes": 360
+        }
+      },
+      "after": {
+        "000292lk": {
+          "sha256": "eaf3f35a8559b1543c56240f5ed8af3d7dc56d40d21436cc5dbc7791bd5032cd",
+          "bytes": 61
+        },
+        "demo.dll": {
+          "sha256": "7916fe28c6c4c298e4e76d6ca6ea804a82e6295f50958494dada9164c0205733",
+          "bytes": 2097152
+        },
+        "demo.exp": {
+          "sha256": "805cccbb293097a0bf7dec0c4593b166b9e9238eecec41ba0e7e0d26d6afdd24",
+          "bytes": 2097152
+        },
+        "demo.lib": {
+          "sha256": "8b487b57d594454c539d6194df8c638a3aaca3c4689ebd6c4fb9c6690d1eec94",
+          "bytes": 2097152
+        },
+        "dll.c": {
+          "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+          "bytes": 163
+        },
+        "dll.obj": {
+          "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
+          "bytes": 360
+        }
+      },
+      "stdout": {
+        "sha256": "dc7f7daf8a0db9cd6efc685c7cbb76cced6ef0bae1e853af6aeaa008e23069c6",
+        "bytes": 235
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "demo.dll": {
+      "sha256": "7916fe28c6c4c298e4e76d6ca6ea804a82e6295f50958494dada9164c0205733",
+      "bytes": 2097152
+    },
+    "demo.exp": {
+      "sha256": "805cccbb293097a0bf7dec0c4593b166b9e9238eecec41ba0e7e0d26d6afdd24",
+      "bytes": 2097152
+    },
+    "demo.lib": {
+      "sha256": "8b487b57d594454c539d6194df8c638a3aaca3c4689ebd6c4fb9c6690d1eec94",
+      "bytes": 2097152
+    },
+    "dll.c": {
+      "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+      "bytes": 163
+    },
+    "dll.obj": {
+      "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
+      "bytes": 360
+    }
+  },
+  "stdout": {
+    "sha256": "3324ac0cde088dac10759786c4b1d9d2f3814979362e4349422cbfa4bd4d65bb",
+    "bytes": 242
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.005856487900018692,
+    "capture_execution_seconds": 6.6892026690766215,
+    "capture_checks_seconds": 0.12918223068118095,
+    "total_seconds": 6.824242881499231
+  }
+}

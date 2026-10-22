@@ -1,6 +1,7 @@
 /* Scanner token vocabulary, also used for builtin operator-name interning.
    Original pointer table 0xa15cc..0xa1920. Null entries are reserved tokens. */
 #include "operators.h"
+#include <recon.h>
 char *token_spellings[213] = {
     0, "newline", "identifier", "string", "float constant", "double constant",
     "long double constant", "int constant", "long constant", "unsigned int constant",

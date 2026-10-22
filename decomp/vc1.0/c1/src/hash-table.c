@@ -1,6 +1,7 @@
 /* Arena-backed hash tables used by enum definitions and other symbol maps. */
 #include "options.h"
 #include "hash-table.h"
+#include <recon.h>
 
 /* Original 0x328c0..0x32985. Both the header and its initially empty bucket
    vector use the same arena; arena 0 is permanent, -1 selects pool 0. */

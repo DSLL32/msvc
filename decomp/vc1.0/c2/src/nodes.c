@@ -1,5 +1,6 @@
 #include "expression-fields.h"
 #include "tree-rewrite.h"
+#include <recon.h>
 Node *free_nodes;
 unsigned allocated_nodes;
 /* Original [0004f740,0004f790). Only reused nodes are explicitly cleared. */

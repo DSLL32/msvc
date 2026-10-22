@@ -1,6 +1,7 @@
 #ifndef POST_ALLOCATION_H
 #define POST_ALLOCATION_H
 #include "instruction-selection.h"
+#include <recon.h>
 /* Native2e6a0 allocates eight-byte copy-list nodes in arena3. */
 typedef struct PhysicalRegisterCopy {
     MachineInstruction *instruction;

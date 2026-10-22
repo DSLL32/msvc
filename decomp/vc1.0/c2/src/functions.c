@@ -2,6 +2,7 @@
 #include "functions.h"
 #include "function-input.h"
 #include "input.h"
+#include <recon.h>
 extern int optimize_global, generate_disabled;
 FunctionSymbol *pending_functions, *current_symbol;
 WorkItem *current_work; /* 0007b948: shared with physical allocation */

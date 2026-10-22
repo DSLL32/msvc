@@ -2,6 +2,7 @@
  * unsigned and accumulates modulo 2^32, without a range-error path. */
 #include <stdlib.h>
 #include <ctype.h>
+#include <recon.h>
 
 long __cdecl atol(const char *text)
 {

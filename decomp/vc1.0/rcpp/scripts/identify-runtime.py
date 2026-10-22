@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 from binary import PE, COFF, archive, match_section
-from compare import wt
+from reference import wt
 
 pe = PE(wt.TC/'bin/RCPP.EXE')
 text = next(s for s in pe.sections if s['name'] == '.text')

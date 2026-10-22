@@ -1,5 +1,6 @@
 /* String constants used in expressions, #line and include directives. */
 #include "directives.h"
+#include <recon.h>
 unsigned short rc_peek_wide_character(void);
 /* Original [0100c390,0100c4b3). Include-name mode preserves backslashes;
  * ordinary constants translate escapes. The target warns once and discards

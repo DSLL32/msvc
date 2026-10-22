@@ -1,6 +1,7 @@
 /* Expression-stream source and option control records. */
 #include "control-ir.h"
 #include "parser.h"
+#include <recon.h>
 
 FrontendSymbol *record_context_symbol; /* original 0x6b6c4 */
 unsigned pending_pragma_kind; /* original 0x6b144 */

@@ -6,6 +6,7 @@
 #include "parser.h"
 #include "cpp-context.h"
 #include <setjmp.h>
+#include <recon.h>
 
 FrontendRecord *ir_record_head; /* original 0xa0a00 */
 FrontendRecord *ir_record_tail; /* original 0xa0a04 */

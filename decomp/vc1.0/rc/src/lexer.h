@@ -1,6 +1,7 @@
 #ifndef RC_LEXER_H
 #define RC_LEXER_H
 #include "driver.h"
+#include <recon.h>
 enum ResourceToken {
     TOKEN_LPAREN = 1, TOKEN_RPAREN = 2, TOKEN_OR = 12,
     TOKEN_BEGIN = 13, TOKEN_END = 14, TOKEN_COMMA = 15,

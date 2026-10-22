@@ -4,6 +4,7 @@
 #include "ir.h"
 #include "parameters.h"
 #include "parser.h"
+#include <recon.h>
 
 #define GENERATING_MEMBER (token_allocation_flags & 0x08000000UL)
 

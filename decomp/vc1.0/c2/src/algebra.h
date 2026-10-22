@@ -1,6 +1,7 @@
 #ifndef ALGEBRA_H
 #define ALGEBRA_H
 #include "tree-rewrite.h"
+#include <recon.h>
 int __fastcall operator_identity(Node *node);
 int __fastcall integer_type_limit(Node *node, int limit);
 Node *__fastcall strip_integer_cast(Node *node);

@@ -9,6 +9,7 @@
 #include "expression-preparation.h"
 #include "operators.h"
 #include "unary-expressions.h"
+#include <recon.h>
 
 typedef char InitializerClassTrivialOffsetMustBe54[
     (offsetof(ClassInfo, trivial_special_members) == 54) ? 1 : -1];

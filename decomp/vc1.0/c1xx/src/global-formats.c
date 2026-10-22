@@ -1,5 +1,6 @@
 /* Schemas consumed by the global intermediate record writer at 0x57190. */
 #include "global-ir.h"
+#include <recon.h>
 
 static unsigned char stream_end_fields[] = { GF_RECORD_TAG, GF_END };
 static unsigned char symbol_fields[] = { GF_RECORD_TAG, GF_CONTEXT, GF_SYMBOL_INDEX, GF_REGISTER, GF_NAME, GF_TYPE, GF_ZERO, GF_DISTANCE, GF_STORAGE, GF_SIZE, GF_FLAGS, GF_DEBUG_TYPE, GF_END };

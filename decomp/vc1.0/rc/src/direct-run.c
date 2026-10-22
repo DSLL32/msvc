@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <recon.h>
 
 static HANDLE proof;
 static void note(char *format, ...)

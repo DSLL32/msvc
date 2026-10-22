@@ -5,7 +5,7 @@ import json
 import struct
 from pathlib import Path
 from binary import PE, COFF, archive, match_section, u32
-from compare import imports, wt
+from reference import imports, wt
 
 pe = PE(wt.TC / 'bin/RCPP.EXE')
 member, payload = next((n, d) for n, d in archive(wt.TC/'lib/LIBC.LIB') if n.endswith('IOINIT.OBJ'))

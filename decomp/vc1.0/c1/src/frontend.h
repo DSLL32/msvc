@@ -2,6 +2,7 @@
 #define FRONTEND_H
 #include <stdio.h>
 #include "options.h"
+#include <recon.h>
 
 typedef struct TypeShape TypeShape;
 typedef struct CType {

@@ -1,6 +1,7 @@
 /* C23232.EXE main, original [0004c100,0004c2c0). */
 #include "c2.h"
 #include "options.h"
+#include <recon.h>
 extern int object_generation_started;
 extern FILE *object_file;
 static int cleanup_started; /* 000831b8 */

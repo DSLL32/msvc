@@ -2,6 +2,7 @@
 #include "unoptimized.h"
 #include "register-use.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 RegisterSlot unoptimized_registers[8]; /* 0007c358 */
 unsigned unoptimized_live_mask; /* 0007c398 */
 BitSet *unoptimized_live_temporaries; /* 0007c39c */

@@ -2,6 +2,7 @@
 #include "member-expressions.h"
 #include "lexer.h"
 #include "constructor-initializers.h"
+#include <recon.h>
 
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol);
 IrToken *__stdcall finish_symbol_expression(CppSymbol *symbol, IrToken *expression);

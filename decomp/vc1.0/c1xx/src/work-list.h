@@ -1,5 +1,6 @@
 #ifndef WORK_LIST_H
 #define WORK_LIST_H
+#include <recon.h>
 /* Compiler work lists pair a link with one machine-word payload. */
 typedef struct WorkList {
     struct WorkList *next;

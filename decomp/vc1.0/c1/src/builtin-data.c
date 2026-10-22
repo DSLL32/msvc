@@ -1,5 +1,6 @@
 /* Intrinsic vocabulary consumed by the registration pass at 0x2d860. */
 #include "builtins.h"
+#include <recon.h>
 
 enum BuiltinOperation {
     BUILTIN_STRSET = 163,

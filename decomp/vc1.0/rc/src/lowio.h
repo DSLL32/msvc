@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <share.h>
 #include <errno.h>
+#include <recon.h>
 extern unsigned char _osfile[];
 extern long _osfhnd[];
 extern int _nhandle, _umaskval, _fmode;

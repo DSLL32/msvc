@@ -2,6 +2,7 @@
 #define LITERAL_NAMES_H
 #include "lexer.h"
 #include "work-stack.h"
+#include <recon.h>
 char *__stdcall string_pool_name(StringToken *string, int wide);
 IrToken *__stdcall define_string_literal(IrToken *token, char *name, int pooled);
 char *__stdcall encode_string_pool_name(char *destination, unsigned char *text, unsigned bytes, int wide);

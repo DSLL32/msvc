@@ -2,6 +2,7 @@
 #include "tree-input.h"
 #include "expression-fields.h"
 #include "records.h"
+#include <recon.h>
 unsigned function_tree_state; /* 0007e81c */
 extern int floating_frontend;
 /* Original [00050e30,00051130), including the convention dispatch table. */

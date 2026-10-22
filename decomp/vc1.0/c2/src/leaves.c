@@ -1,6 +1,7 @@
 /* Canonical symbol references, constants and small signed values. */
 #include "expression-fields.h"
 #include <stdarg.h>
+#include <recon.h>
 Node *symbol_leaves[32], *number_leaves[32];
 typedef struct SmallLeafBucket {
     Node *head;

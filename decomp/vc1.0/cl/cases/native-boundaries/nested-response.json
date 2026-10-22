@@ -1,0 +1,213 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "nested-response",
+  "arguments": "@outer.rsp",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\nested-response",
+    "TEMP": "Q:\\nested-response"
+  },
+  "initial": {
+    "inner.rsp": {
+      "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+      "bytes": 52
+    },
+    "outer.rsp": {
+      "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+      "bytes": 20
+    },
+    "space name.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\nested-response\\000292 -f \"space name.c\" -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -pc \\:/ -D_MSC_VER=800 -D_WIN32 -DVALUE=42 -Fo\"space output.obj\" -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\nested-response",
+      "before": {
+        "inner.rsp": {
+          "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+          "bytes": 52
+        },
+        "outer.rsp": {
+          "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+          "bytes": 20
+        },
+        "space name.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
+          "bytes": 866
+        },
+        "000292gl": {
+          "sha256": "c0298ef1aaee38d8231ac61eec3572973a889a17a04c180b054945dc718276df",
+          "bytes": 56
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "inner.rsp": {
+          "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+          "bytes": 52
+        },
+        "outer.rsp": {
+          "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+          "bytes": 20
+        },
+        "space name.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\nested-response\\000292 -f \"space name.c\" -W 1 -G4 -Gs4096 -dos -ML -Fo\"space output.obj\" "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\nested-response",
+      "before": {
+        "000292ex": {
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
+          "bytes": 866
+        },
+        "000292gl": {
+          "sha256": "c0298ef1aaee38d8231ac61eec3572973a889a17a04c180b054945dc718276df",
+          "bytes": 56
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "inner.rsp": {
+          "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+          "bytes": 52
+        },
+        "outer.rsp": {
+          "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+          "bytes": 20
+        },
+        "space name.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
+          "bytes": 866
+        },
+        "000292gl": {
+          "sha256": "c0298ef1aaee38d8231ac61eec3572973a889a17a04c180b054945dc718276df",
+          "bytes": 56
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "inner.rsp": {
+          "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+          "bytes": 52
+        },
+        "outer.rsp": {
+          "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+          "bytes": 20
+        },
+        "space name.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        },
+        "space output.obj": {
+          "sha256": "e72c40842ef2914059687d219b5e55618c2e153d3c851e2793fe724c96310798",
+          "bytes": 286
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "inner.rsp": {
+      "sha256": "1823250379894e5ce395bbee3d69f16a4ae56fcc939e6c465a1c72383194b009",
+      "bytes": 52
+    },
+    "outer.rsp": {
+      "sha256": "68724358821b2835755ce31e2d153ceb9f1b87477ab39905e824b7cc2493b74f",
+      "bytes": 20
+    },
+    "space name.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    },
+    "space output.obj": {
+      "sha256": "e72c40842ef2914059687d219b5e55618c2e153d3c851e2793fe724c96310798",
+      "bytes": 286
+    }
+  },
+  "stdout": {
+    "sha256": "db2f540c598623cbcc65b5e5d65c365da6560419519c53cc5b00989c3ed3a0a9",
+    "bytes": 14
+  },
+  "stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.010299663990736008,
+    "capture_execution_seconds": 6.344197914935648,
+    "capture_checks_seconds": 0.021767730824649334,
+    "total_seconds": 6.376267237588763
+  }
+}

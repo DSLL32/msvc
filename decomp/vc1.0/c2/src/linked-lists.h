@@ -1,5 +1,6 @@
 #ifndef LINKED_LISTS_H
 #define LINKED_LISTS_H
+#include <recon.h>
 /* Generic algorithms require only a next pointer at offset zero. */
 typedef struct LinkedListLink {
     struct LinkedListLink *next;

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <wchar.h>
 #include <stddef.h>
+#include <recon.h>
 typedef char ScanFileSize[(sizeof(FILE) == 32) ? 1 : -1];
 typedef char ScanFileCountOffset[(offsetof(FILE, _cnt) == 4) ? 1 : -1];
 typedef char ScanFileFlagsOffset[(offsetof(FILE, _flag) == 12) ? 1 : -1];

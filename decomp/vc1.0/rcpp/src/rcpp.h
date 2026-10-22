@@ -1,6 +1,7 @@
 #ifndef RCPP_RECONSTRUCTION_H
 #define RCPP_RECONSTRUCTION_H
 #include <windows.h>
+#include <recon.h>
 #define rc_malloc malloc
 #define rc_exit exit
 #define rc_fast_exit _exit
@@ -18,9 +19,9 @@ extern int rc_argc;
 extern char **rc_argv, **rc_envp;
 extern HANDLE rc_process_heap;
 void rc_heap_initialize(void);
-extern unsigned char _osfile[64];
+extern unsigned char _osfile[];
 #define rc_handle_flags _osfile
-extern HANDLE _osfhnd[64];
+extern HANDLE _osfhnd[];
 #define rc_handles _osfhnd
 void _ioinit(void);
 extern char *rc_program_name;

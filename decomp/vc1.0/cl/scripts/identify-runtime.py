@@ -7,7 +7,8 @@ from collections import defaultdict
 from pathlib import Path
 from importlib.machinery import SourceFileLoader
 from binary import PE, COFF, archive, match_section
-from compare import imports, publics
+analysis = SourceFileLoader('cl_binary_analysis',str(Path(__file__).resolve().with_name('binary-analysis.py'))).load_module()
+imports,publics=analysis.imports,analysis.publics
 
 wt = SourceFileLoader('wine_tool', str(Path(__file__).resolve().with_name('wine-tool.py'))).load_module()
 path = sys.argv[1] if len(sys.argv) > 1 else wt.TC / 'bin/CL.EXE'

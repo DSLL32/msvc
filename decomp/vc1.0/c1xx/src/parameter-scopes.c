@@ -1,5 +1,6 @@
 /* Parameter-declaration scopes and their active symbol chain. */
 #include "parameter-scopes.h"
+#include <recon.h>
 
 CppSymbol *active_parameter_symbols; /* original 0x8c400 */
 

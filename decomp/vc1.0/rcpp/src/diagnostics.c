@@ -1,5 +1,6 @@
 /* Diagnostic reporting and severity wrappers. */
 #include "numbers.h"
+#include <recon.h>
 void __stdcall rc_report_diagnostic(int, unsigned, const char *);
 char *rc_reported_filename = rc_source_name;
 int rc_mirror_diagnostics;

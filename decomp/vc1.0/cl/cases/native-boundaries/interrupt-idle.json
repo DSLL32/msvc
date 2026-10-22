@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "interrupt-idle",
+  "arguments": "/?",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\interrupt-idle",
+    "TEMP": "Q:\\interrupt-idle"
+  },
+  "initial": {},
+  "boundaries": [],
+  "final": {},
+  "stdout": {
+    "sha256": "afd6494988447462e90fdd2bb91be57e11222c7ebb117624ceef69703b3e64a3",
+    "bytes": 1468
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "child-running 00000000\nexit 00000004\n",
+  "timing": {
+    "setup_seconds": 0.0028010858222842216,
+    "capture_execution_seconds": 4.155133116990328,
+    "capture_checks_seconds": 0.005885949358344078,
+    "total_seconds": 4.163821645081043
+  }
+}

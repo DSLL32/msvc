@@ -4,6 +4,7 @@
 #include "tree-rewrite.h"
 #include "algebra.h"
 #include "work-prepare.h"
+#include <recon.h>
 extern int optimize_precision, cpu_model, code_pointer_bytes;
 SymbolHeader *__fastcall require_external_symbol(char *name);
 MachineOperand operand_st1 = { OPERAND_REGISTER, { 15 } }; /* 00080058 */

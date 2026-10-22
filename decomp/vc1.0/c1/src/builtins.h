@@ -1,6 +1,7 @@
 #ifndef BUILTINS_H
 #define BUILTINS_H
 #include "scopes.h"
+#include <recon.h>
 struct FrontendSymbol {
     unsigned char kind, flags;
     unsigned short field02;

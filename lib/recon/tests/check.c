@@ -2,6 +2,11 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <recon.h>
+/* Raw POSIX probes deliberately bypass the legacy descriptor aliases. */
+#undef read
+#undef write
+#undef close
+#undef unlink
 typedef struct SortItem { int key,identity; } SortItem;
 static int compare_item(const void *a,const void *b)
 {
@@ -26,6 +31,15 @@ int main(void)
     assert(snprintf(directory,sizeof(directory),"%s/.ai-tmp/recon-check-XXXXXX",getenv("HOME"))<(int)sizeof(directory));
     assert(mkdtemp(directory));
     assert(setenv("RECON_DRIVE_N",directory,1)==0);
+    strcpy(bytes,"a\\b\\c");
+    assert(strcpy(bytes+1,bytes+2)==bytes+1 && !strcmp(bytes,"ab\\c"));
+    cwd=getcwd(NULL,0); assert(cwd && chdir(directory)==0);
+    assert(setenv("RECON_CANONICAL_CWD","N:\\",1)==0);
+    assert(_fullpath(host,"folder\\..\\sample.txt",sizeof(host))==host);
+    assert(!strcmp(host,"N:\\sample.txt"));
+    assert(chdir(cwd)==0); free(cwd);
+    assert(!_fullpath(host,"sample.txt",sizeof(host)) && errno==EINVAL);
+    unsetenv("RECON_CANONICAL_CWD");
     assert(recon_host_path("N:\\sample.txt",host,sizeof(host))==0);
     assert(strstr(host,"sample.txt"));
     stream=fopen("N:\\sample.txt","wt"); assert(stream);
@@ -76,6 +90,19 @@ int main(void)
     assert(SetFilePointer(file,4096,NULL,SEEK_SET)==4096);
     assert(ReadFile(file,bytes,6,&count,NULL) && count==6 && !memcmp(bytes,"mapped",6));
     assert(CloseHandle(file));
+    file=CreateFileA("N:\\mapped.bin",GENERIC_READ,0,NULL,OPEN_EXISTING,0,NULL);
+    assert(file!=INVALID_HANDLE_VALUE);
+    assert(SetFilePointer(file,-1,NULL,FILE_BEGIN)==(DWORD)-1);
+    assert(GetLastError()==ERROR_NEGATIVE_SEEK);
+    recon_dosmaperr(GetLastError()); assert(errno==EINVAL);
+    assert(CloseHandle(file));
+    recon_fmode=0x8000;
+    stream=fopen("N:\\binary-default.bin","w"); assert(stream);
+    assert(fwrite("a\nb",1,3,stream)==3 && !fclose(stream));
+    stream=fopen("N:\\binary-default.bin","rb"); assert(stream);
+    assert(fread(bytes,1,sizeof(bytes),stream)==3 && !memcmp(bytes,"a\nb",3));
+    assert(!fclose(stream) && !remove("N:\\binary-default.bin"));
+    recon_fmode=0x4000;
     _splitpath("N:\\hello\\world.obj",dos,host,bytes,bytes+32);
     assert(!strcmp(dos,"N:") && !strcmp(host,"\\hello\\"));
     assert(!strcmp(bytes,"world") && !strcmp(bytes+32,".obj"));

@@ -1,5 +1,6 @@
 /* Primitive encodings on the selected intermediate stream. */
 #include "global-ir.h"
+#include <recon.h>
 
 /* Original 0x73e30..0x73fa4. Indices use a little-endian 15-bit short
    form, or two words with the high-bit continuation marker in the first.

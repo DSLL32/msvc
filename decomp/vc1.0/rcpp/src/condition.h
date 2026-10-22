@@ -1,6 +1,7 @@
 #ifndef RCPP_CONDITION_H
 #define RCPP_CONDITION_H
 #include "numbers.h"
+#include <recon.h>
 extern int rc_expression_depth;
 extern long rc_expression_value;
 extern unsigned char rc_expression_token;

@@ -95,6 +95,7 @@ void __fastcall coff_write_directive(char *prefix, char *text, int quote)
 
 #include "coff-writer.h"
 #include "coff-segments.h"
+#include <recon.h>
 /* Original [0006ca50,0006cac0). COFF encodes log2(alignment)+1 in the
    section-characteristics alignment field, starting at bit twenty. */
 unsigned __fastcall coff_alignment_flags(unsigned alignment)

@@ -6,6 +6,7 @@
 #include "debug-info.h"
 #include "parser.h"
 #include "hash-table.h"
+#include <recon.h>
 unsigned *debug_record_buffer; /* original 0x5b24c */
 unsigned debug_type_bytes; /* original 0x6b810 */
 

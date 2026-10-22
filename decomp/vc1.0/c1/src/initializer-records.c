@@ -5,6 +5,7 @@
 #include "literal-names.h"
 #include "global-ir.h"
 #include "control-ir.h"
+#include <recon.h>
 
 FrontendSymbol *pending_initializer_symbol; /* original 0x6c068 */
 

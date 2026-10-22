@@ -3,6 +3,7 @@
 #include "global-ir.h"
 #include "macro-expand.h"
 #include "work-stack.h"
+#include <recon.h>
 typedef struct SourceFile {
     unsigned capacity;
     int handle;

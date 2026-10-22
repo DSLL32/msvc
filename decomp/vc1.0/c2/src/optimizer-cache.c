@@ -1,6 +1,7 @@
 /* Canonical work values retained by the global optimizer. */
 #include "optimizer-cache.h"
 #include "tree-rewrite.h"
+#include <recon.h>
 /* Original [0005d3f0,0005d430). The hash heads at0007bc48 and reverse
    creation root at0007bc40 are the same globals the value interner updates.
    Release each retained tree before reset_work discards arena two. */

@@ -2,6 +2,7 @@
 #define EXPRESSION_FIELDS_H
 #include "tree-input.h"
 #include "extended.h"
+#include <recon.h>
 /* Semantic fields in the expression-stream recipes. */
 typedef enum ExpressionField {
     FIELD_END, FIELD_IGNORE_BYTE, FIELD_LONG, FIELD_CONTROL_BYTE,

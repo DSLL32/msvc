@@ -7,6 +7,7 @@
 #include "source-input.h"
 #include "parameters.h"
 #include "operators.h"
+#include <recon.h>
 
 #define POP_DECLARATION() do { if (declaration_depth > 0) --declaration_depth; } while (0)
 #define CLEAR_DECLARATION_FLAGS() (declaration_spec_flags[declaration_depth] &= ~3)

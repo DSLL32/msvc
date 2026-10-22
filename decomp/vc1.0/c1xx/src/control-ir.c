@@ -1,6 +1,7 @@
 /* Source, pragma and option records in the expression intermediate stream. */
 #include "control-ir.h"
 #include "parser.h"
+#include <recon.h>
 
 CppSymbol *record_context_symbol; /* original 0x9f25c */
 unsigned pending_pragma_kind; /* original 0x9e54c */

@@ -2,6 +2,7 @@
 #include "tree-rewrite.h"
 #include "register-use.h"
 #include "function-input.h"
+#include <recon.h>
 /* Original [000217c0,00021860). Determine whether an intervening instruction
    invalidates an operand before its use. Symbolic/immediate values are stable;
    a label ends availability for the other operand forms. */

@@ -2,6 +2,7 @@
 #include "numbers.h"
 #include "legacy-ctype.h"
 #include <string.h>
+#include <recon.h>
 /* Original [0100d3f0,0100d4e9). Leading preprocessing whitespace is skipped,
  * trailing C whitespace trimmed, and an empty <> name remains an empty name. */
 char *rc_parse_angle_name(void)

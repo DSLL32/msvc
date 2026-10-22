@@ -1,6 +1,7 @@
 /* Qualified C++ identifiers, including constructor/destructor/operator names. */
 #include "lexer.h"
 #include "class-lookup.h"
+#include <recon.h>
 
 SymbolScope *last_lookup_scope; /* original 0x914bc */
 

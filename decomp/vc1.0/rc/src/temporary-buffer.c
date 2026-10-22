@@ -2,6 +2,7 @@
 #include "driver.h"
 #include <stdlib.h>
 #include <io.h>
+#include <recon.h>
 extern int _cflush;
 void *_stdbuf[2];
 

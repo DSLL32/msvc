@@ -1,6 +1,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 #include "c1.h"
+#include <recon.h>
 
 typedef struct Vector {
     short count, capacity;

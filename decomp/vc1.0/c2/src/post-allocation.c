@@ -4,6 +4,7 @@
 #include "instruction-rewrite.h"
 #include "register-use.h"
 #include "physical-allocation.h"
+#include <recon.h>
 #define MEMORY_COPY_OPERAND(p) (((p)->flags & 15) == OPERAND_ABSOLUTE || \
     ((p)->flags & 15) == OPERAND_BASED || ((p)->flags & 15) == OPERAND_INDEXED)
 #define X87_COPY_OPERATION(op) (((op) >= MC_FADD && (op) <= MC_FLD1) || \

@@ -1,5 +1,6 @@
 /* Original 0x0100a520..0x0100a5e0. LANGUAGE's two numeric fields. */
 #include "tokens.h"
+#include <recon.h>
 
 WORD __cdecl parse_language(void)
 {

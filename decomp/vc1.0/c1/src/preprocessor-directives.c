@@ -8,6 +8,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "control-ir.h"
+#include <recon.h>
 
 /* Conditional-compilation state, shared with source/include restoration. */
 unsigned conditional_branch_state[32]; /* original 0x638a0 */

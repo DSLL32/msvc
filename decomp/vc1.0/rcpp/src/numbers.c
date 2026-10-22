@@ -1,6 +1,7 @@
 /* Integer token spelling, suffixes and value classification. */
 #include "numbers.h"
 #include <ctype.h>
+#include <recon.h>
 int rc_collecting_macro_text;
 char *rc_expansion_output = rc_text_buffer + 1024;
 /* Original [0100c5e0,0100c8a6). Output/collection paths keep spellings; the

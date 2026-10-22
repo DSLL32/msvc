@@ -1,6 +1,7 @@
 /* Definition parsing, original [0100a200,0100a340). The same work buffer
  * first holds packed formal names and then the encoded replacement text. */
 #include "directives.h"
+#include <recon.h>
 int __stdcall rc_find_macro_parameter(const char *);
 void __stdcall rc_check_macro_storage(char *);
 char *__stdcall rc_copy_macro_quote(char *, unsigned char);

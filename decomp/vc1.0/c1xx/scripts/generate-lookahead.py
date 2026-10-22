@@ -17,7 +17,7 @@ def tables(model):
 
 def emit(model):
     lines = ['/* Generated from lookahead.bnf; edit that grammar. */',
-             '#include "lookahead-grammar.h"', '']
+             '#include "lookahead-grammar.h"', '#include <recon.h>', '']
     for ctype, name, rows in tables(model):
         lines.append('%s %s[%d] = {' % (ctype, name, len(rows)))
         lines.extend('    { %s },' % ', '.join(map(str, row)) for row in rows)

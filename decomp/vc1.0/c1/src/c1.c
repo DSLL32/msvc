@@ -1,6 +1,7 @@
 /* Frontend process setup, original main at 0x43850. */
 #include <signal.h>
 #include "options.h"
+#include <recon.h>
 
 int driver_argc; /* original 0x5b218 */
 char **driver_argv; /* original 0x5b214 */

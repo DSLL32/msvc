@@ -85,8 +85,8 @@
   "analysis_helper": [
     {
       "path": "../../src/direct-run.c",
-      "bytes": 8414,
-      "sha256": "cd6e2eda80c6a9380efff7e42ca24e641a04caa0c6366813e0ba33be8f239190"
+      "bytes": 8433,
+      "sha256": "e8b89f44546f8c0311554f9c2a8b1881dca2cb0f8f76f38d3a26b428fb6e7980"
     },
     {
       "path": "../../scripts/capture-direct.py",

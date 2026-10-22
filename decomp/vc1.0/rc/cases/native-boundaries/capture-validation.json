@@ -1,0 +1,168 @@
+{
+  "status": "pass",
+  "cases": [
+    {
+      "case": "alternate",
+      "manifest": {
+        "path": "alternate/manifest.json",
+        "sha256": "c1d98de02da6a670d8233155576e3770ed30e72ac2f9d3a5cb1c128ea575dff3"
+      },
+      "setup_seconds": 0.0018781833350658417,
+      "original_capture_seconds": 0.8914850475266576,
+      "independent_original_seconds": 0.6336541464552283,
+      "total_seconds": 1.534942477941513
+    },
+    {
+      "case": "console-interrupt",
+      "manifest": {
+        "path": "console-interrupt/manifest.json",
+        "sha256": "8eb39ef4cf10d67f663b8ed3f13e9d4defbc7bdf5a216e033e17914de17f9c7f"
+      },
+      "setup_seconds": 0.000859568826854229,
+      "original_capture_seconds": 0.8766382914036512,
+      "independent_original_seconds": 1.308116632513702,
+      "total_seconds": 2.192355108447373
+    },
+    {
+      "case": "kanji",
+      "manifest": {
+        "path": "kanji/manifest.json",
+        "sha256": "0727a821d180c7bbc9f5b6f3fd36b384aff65a74b87940f050d03645428e8095"
+      },
+      "setup_seconds": 0.001902473159134388,
+      "original_capture_seconds": 0.8562661549076438,
+      "independent_original_seconds": 0.6024883845821023,
+      "total_seconds": 1.467744274996221
+    },
+    {
+      "case": "lexical-error",
+      "manifest": {
+        "path": "lexical-error/manifest.json",
+        "sha256": "ed123ee37226b38a275abb3de4bf80094ad6cedcd4317e2d6d13fc9ccb914036"
+      },
+      "setup_seconds": 0.0008644573390483856,
+      "original_capture_seconds": 0.9052091091871262,
+      "independent_original_seconds": 0.6582411117851734,
+      "total_seconds": 1.5703393565490842
+    },
+    {
+      "case": "parser-error",
+      "manifest": {
+        "path": "parser-error/manifest.json",
+        "sha256": "e5fd048986b8fca2ea40195c94f436e5255851b455a65af183a118e1c3173669"
+      },
+      "setup_seconds": 0.0008701756596565247,
+      "original_capture_seconds": 0.891020406037569,
+      "independent_original_seconds": 0.6291529340669513,
+      "total_seconds": 1.5277045713737607
+    },
+    {
+      "case": "path-fallback",
+      "manifest": {
+        "path": "path-fallback/manifest.json",
+        "sha256": "399b768f5bacf53c576e59e99090549de8f74229d52c05e1f4ad5a54473f5b79"
+      },
+      "setup_seconds": 0.004681231454014778,
+      "original_capture_seconds": 1.2667046207934618,
+      "independent_original_seconds": 1.0941901337355375,
+      "total_seconds": 2.3764593973755836
+    },
+    {
+      "case": "preprocessor-error",
+      "manifest": {
+        "path": "preprocessor-error/manifest.json",
+        "sha256": "cb5f0924afafe476c4c5344553fa72b95ec8515bd69f3ff49f57aa59eb5b7b21"
+      },
+      "setup_seconds": 0.0018916595727205276,
+      "original_capture_seconds": 1.002586548216641,
+      "independent_original_seconds": 0.6309122508391738,
+      "total_seconds": 1.6451766984537244
+    },
+    {
+      "case": "rcinclude",
+      "manifest": {
+        "path": "rcinclude/manifest.json",
+        "sha256": "cc2c91b507e60deb4c36b4c2dc4c67fdbd9635082c9d46ec90a6982236b91472"
+      },
+      "setup_seconds": 0.0031418120488524437,
+      "original_capture_seconds": 1.142220901325345,
+      "independent_original_seconds": 0.9175353664904833,
+      "total_seconds": 2.074678990058601
+    },
+    {
+      "case": "resource-error",
+      "manifest": {
+        "path": "resource-error/manifest.json",
+        "sha256": "4d6719d80218e6b70a7c769f3e6043e27bcf9173176f14b0e8974e56dfdc59b4"
+      },
+      "setup_seconds": 0.0010985974222421646,
+      "original_capture_seconds": 0.9210244612768292,
+      "independent_original_seconds": 0.6428182777017355,
+      "total_seconds": 1.571672448888421
+    },
+    {
+      "case": "resources-rich",
+      "manifest": {
+        "path": "resources-rich/manifest.json",
+        "sha256": "893d44f1ecbccbdf982f99f39d673e5021acf4e46fda7abda57d7b32bdc39ba2"
+      },
+      "setup_seconds": 0.011583218351006508,
+      "original_capture_seconds": 1.1781817581504583,
+      "independent_original_seconds": 0.8544430918991566,
+      "total_seconds": 2.0935573568567634
+    },
+    {
+      "case": "scanf-pushback",
+      "manifest": {
+        "path": "scanf-pushback/manifest.json",
+        "sha256": "766f746e92f268f90e94acffd55bf24b661ff23ceac40f10ec482da5ce5dd9c6"
+      },
+      "setup_seconds": 0.0031667957082390785,
+      "original_capture_seconds": 0.9522328544408083,
+      "independent_original_seconds": 0.745279723778367,
+      "total_seconds": 1.7085691429674625
+    },
+    {
+      "case": "verbose-names",
+      "manifest": {
+        "path": "verbose-names/manifest.json",
+        "sha256": "05cb72c563bd21b1af0a792e4bc9b4f592d1a13fb5e8b575caa68dff269ce4a7"
+      },
+      "setup_seconds": 0.0011341618373990059,
+      "original_capture_seconds": 0.9135301085188985,
+      "independent_original_seconds": 0.7435082048177719,
+      "total_seconds": 1.666408073157072
+    },
+    {
+      "case": "wide-long",
+      "manifest": {
+        "path": "wide-long/manifest.json",
+        "sha256": "7ccc000df818410b12386b09db6af6cb385fbeac6f40755578f47e10cf57ae11"
+      },
+      "setup_seconds": 0.0018380321562290192,
+      "original_capture_seconds": 0.8773883553221822,
+      "independent_original_seconds": 0.6296319346874952,
+      "total_seconds": 1.516304176300764
+    }
+  ],
+  "original_capture_seconds": 12.674488617107272,
+  "independent_original_seconds": 10.089972193352878,
+  "setup_seconds": 0.034910366870462894,
+  "source": "Explicit original-only RC/RCPP boundary capture, not fixture execution; each saved response independently reproduced by untouched RCPP",
+  "helper_source_sha256": "8eb6cf6f9acac1676dbabb97f5d909bbe1e26091b9f28d15cf063fee25c868c3",
+  "capture_script_sha256": "7c7358949b1ff11a5f301feddabfff3b8564841f97383e5316a11d51ada0acac",
+  "helper_build_seconds": "unmeasured; explicit original-toolchain build precedes capture",
+  "argv_provenance": {
+    "array_address": "0x0101b018",
+    "original_array_pointers": [
+      "0x101b008",
+      "0x1018670",
+      "0x0"
+    ],
+    "original_argv0": "RCPP.EXE",
+    "original_options_object": "0x01018670",
+    "spawnv_call": "0x01007acb",
+    "spawnvp_call": "0x01007af0",
+    "derivation": "Original PE argv array has exactly two strings then NULL; captured original CreateProcessA command equals argv[0]+one separator+the live options string. Native broker preserves this parent vector, including the leading options space."
+  }
+}

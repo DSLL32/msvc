@@ -1,5 +1,5 @@
 """Compare direct callees and indirect-call presence, excluding switch data."""
-from compare import indexes
+from win32_indexes import indexes
 from binary import u32
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 import re

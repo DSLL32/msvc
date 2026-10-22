@@ -1,6 +1,7 @@
 #ifndef MACHINE_H
 #define MACHINE_H
 #include "backend-flow.h"
+#include <recon.h>
 typedef enum MachineOpcode {
 #define OP(name,count,properties) MC_##name,
 #include "machine-opcodes.def"

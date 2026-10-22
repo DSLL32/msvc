@@ -3,6 +3,7 @@
 #include "parser.h"
 #include "operators.h"
 #include "macros.h"
+#include <recon.h>
 
 /* A captured token retains both its grammar class and its lexical code. */
 typedef struct DeferredToken {

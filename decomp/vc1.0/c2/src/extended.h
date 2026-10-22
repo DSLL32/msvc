@@ -1,5 +1,6 @@
 #ifndef EXTENDED_H
 #define EXTENDED_H
+#include <recon.h>
 /* Ten x87 value bytes followed by the compiler's two-byte format tag. */
 typedef struct Extended {
     unsigned long low, high;

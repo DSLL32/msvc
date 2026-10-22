@@ -1,6 +1,7 @@
 /* Typed numeric tokens retained from the original compiler front end. */
 #include "numbers.h"
 #include <stddef.h>
+#include <recon.h>
 typedef char ConstantSizeMustBe20[sizeof(RcConstant) == 20 ? 1 : -1];
 typedef char ConstantPayloadMustBe12[offsetof(RcConstant, value) == 12 ? 1 : -1];
 typedef char TypeSizeMustBe20[sizeof(RcType) == 20 ? 1 : -1];

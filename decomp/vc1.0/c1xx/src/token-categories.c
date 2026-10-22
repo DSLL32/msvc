@@ -2,6 +2,7 @@
    operator spellings which yacc groups into precedence/semantic classes.
    Original 0xa191f..0xa19f4; the final two slots are reserved. */
 #include "lexer.h"
+#include <recon.h>
 enum TokenCategory {
     CAT_TYPE = 35, CAT_STORAGE = 36, CAT_STORAGE_MODIFIER = 37,
     CAT_MODIFIER = 130, CAT_CONSTANT = 111, CAT_ASSIGNMENT = 107,

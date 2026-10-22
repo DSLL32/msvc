@@ -1,6 +1,7 @@
 #ifndef RC_DIALOG_H
 #define RC_DIALOG_H
 #include "menu.h"
+#include <recon.h>
 
 /* Scratch objects are Windows WORD-packed templates, not serialized host
  * structs. Serialization still passes through the original writer functions. */

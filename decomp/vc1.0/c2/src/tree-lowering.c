@@ -2,6 +2,7 @@
 #include "tree-input.h"
 #include "expression-fields.h"
 #include "records.h"
+#include <recon.h>
 extern int optimize_global;
 /* Original [00051e20,000520d0). Expand statement-level forms before their
    operands are visited, and record uses of variable values. */

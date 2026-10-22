@@ -2,6 +2,7 @@
 #define DEBUG_INFO_H
 #include "global-ir.h"
 #include <stddef.h>
+#include <recon.h>
 typedef struct DebugRecordFormat {
     char *fields;
     unsigned flags;

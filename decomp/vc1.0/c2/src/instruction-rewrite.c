@@ -2,6 +2,7 @@
 #include "register-use.h"
 #include "tree-rewrite.h"
 #include "algebra.h"
+#include <recon.h>
 extern int optimize_speed, cpu_model, optimization_risc;
 
 #define MACHINE_OP(i) (((i)->opcode >> 8) & 255)

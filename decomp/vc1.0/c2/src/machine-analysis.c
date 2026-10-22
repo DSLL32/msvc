@@ -2,6 +2,7 @@
 #include "machine-analysis.h"
 #include "backend-passes.h"
 #include "instruction-selection.h"
+#include <recon.h>
 MachineFlowRegion *active_machine_region; /* 000830c8 */
 MachineFlowRegion *machine_region_root; /* 000830c4 */
 int machine_analysis_needs_label_cleanup; /* 0007c29c */

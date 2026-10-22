@@ -3,6 +3,7 @@
 #include "options.h"
 #include "backend-passes.h"
 #include "output.h"
+#include <recon.h>
 extern int optimize_global, optimization_schedule, optimization_schedule_model;
 extern int optimization_split, optimization_jump_schedule, cpu_model;
 int backend_initialized;

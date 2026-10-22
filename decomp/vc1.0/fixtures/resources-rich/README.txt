@@ -9,7 +9,7 @@ there are no ignored fields, path replacements or timestamp exclusions.
 
 Run from any directory:
 
-    python3 /root/msvc2/decomp/vc1.0/fixtures/resources-rich/verify.py
+    python3 /root/msvc2/decomp/vc1.0/fixtures/resources-rich/capture-original.py
 
 Use rc or rcpp as the positional argument to verify one phase. --prefix selects
 a private Wine prefix; the default is ~/.ai-tmp/vc1.0-resource-capture/wine.
@@ -35,18 +35,18 @@ layout under source/. The verifier replays the captured child independently.
 RC's case invokes the original RCPP child normally; reconstructing RCPP is a
 separate task. RC does not import RCDLL.DLL on this case.
 
-Composed reconstruction check:
+Native reconstruction checks:
 
-    python3 /root/msvc2/decomp/vc1.0/fixtures/resources-rich/verify-composed.py
+    make -C /root/msvc2/decomp/vc1.0/rc -j4 check
+    make -C /root/msvc2/decomp/vc1.0/rcpp -j4 check
 
-This requires both verified reconstructions to have been built. It copies their
-masked reconstructed.exe images into a private T:\bin overlay, with headers
-and libraries linked read-only from the original toolchain. Reconstructed RC
-then invokes reconstructed RCPP from the same bin directory. The composed rich
-case also passes: exit 0, empty streams and exact 3,684-byte resources.res, with
-unchanged inputs and no temporary files left over. No original executable is
-changed. composed-validation.json records component hashes and the result;
-runtime files remain under ~/.ai-tmp/vc1.0-resource-composed.
+Normal fixtures run native i386 reconstructions against cached original
+references. They do not invoke Wine or refresh the original captures. The
+capture-original.py command above is an explicit original-only verification
+operation, outside normal regression execution.
+
+composed-validation.json retains historical evidence from the former Win32
+composed RC/RCPP experiment. Its Wine runner has been removed.
 
 Features exercised
 ------------------

@@ -293,5 +293,17 @@
     "working_directory": "binary root",
     "validation": "reorganization-validation.json",
     "fast_replay_adopted": false
+  },
+  "native_workflow": {
+    "status": "verified",
+    "validation": "cases/native-all-validation.json",
+    "normal_build": "native-trace",
+    "normal_checks": "native cached original traces and exact observables",
+    "cases": 20,
+    "application_definitions": 112,
+    "paired_reconstructed_wine_runner_removed": true,
+    "original_capture_target": "capture-original",
+    "reconstruction_acceptance_unchanged": true,
+    "unsupported_original_state": "Windows console callback thread/read-return barrier/exclusive sharing; observable native SIGINT case passes"
   }
 }

@@ -2,6 +2,7 @@
 #define INPUT_H
 #include "c2.h"
 #include "extended.h"
+#include <recon.h>
 extern FILE *input_file;
 unsigned char input_byte(void);
 unsigned short input_word(void);

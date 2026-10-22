@@ -1,6 +1,7 @@
 /* Semantic construction of C expressions. */
 #include "expressions.h"
 #include "global-ir.h"
+#include <recon.h>
 
 Extended extended_zero = { 0, 0, 0, 4 }; /* original 0x6c0f0 */
 int target_signed_int_maximum = 2147483647; /* original 0x6bfd0 */

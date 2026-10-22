@@ -1,4 +1,7 @@
-from compare import indexes, publics
+from importlib.machinery import SourceFileLoader
+from pathlib import Path
+analysis = SourceFileLoader('cl_binary_analysis',str(Path(__file__).resolve().with_name('binary-analysis.py'))).load_module()
+indexes,publics=analysis.indexes,analysis.publics
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 import re
 orig,rec,cfg,oi,ri=indexes()

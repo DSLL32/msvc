@@ -1,6 +1,7 @@
 #ifndef REGISTER_VARIABLES_H
 #define REGISTER_VARIABLES_H
 #include "symbols.h"
+#include <recon.h>
 /* Native 52-byte variable. Unconsumed allocation fields retain offset
    names until their owning pass establishes their meanings. */
 typedef struct RegisterConflict RegisterConflict;

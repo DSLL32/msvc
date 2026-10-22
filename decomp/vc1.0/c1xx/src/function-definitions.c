@@ -6,6 +6,7 @@
 #include "parameter-scopes.h"
 #include "parameters.h"
 #include "source-input.h"
+#include <recon.h>
 
 int __stdcall validate_expression_symbol(CppSymbol *symbol);
 

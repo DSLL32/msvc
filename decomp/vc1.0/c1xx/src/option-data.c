@@ -1,5 +1,6 @@
 /* Command-line option grammar and defaults, reached by parse_options. */
 #include "options.h"
+#include <recon.h>
 
 CompilerOptions options = {
     {

@@ -242,6 +242,7 @@ void __fastcall apply_option(Option *option, char *value, int copy)
 
 #include <ctype.h>
 #include <errno.h>
+#include <recon.h>
 /* Original [00071010,000710b0). */
 long __fastcall parse_number(char *text)
 {

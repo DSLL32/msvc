@@ -1,0 +1,33 @@
+{
+  "method": "native application entry and captured-output check",
+  "executable": "/root/msvc2/decomp/vc1.0/c2/build/native/C23232.EXE",
+  "executable_sha256": "f563ffce47d5ac1898c2a56c887c68c4d6d20aafb9e97579b1826e278bb116a5",
+  "trace_enabled": false,
+  "results": [
+    {
+      "profile": "minimal",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 0,
+      "seeded_entries": 0,
+      "output": {
+        "name": "test.obj",
+        "bytes": 286,
+        "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.011498200707137585,
+      "execution_seconds": 0.001934741623699665,
+      "check_seconds": 0.0011001182720065117,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-n_akz9zz/minimal"
+    }
+  ],
+  "rejected": [],
+  "fixture_seconds": 0.16089950315654278,
+  "suite_setup_seconds": 0.1408944446593523,
+  "negative_check_seconds": 0,
+  "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+}

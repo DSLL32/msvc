@@ -1,6 +1,7 @@
 #ifndef INLINE_CALLS_H
 #define INLINE_CALLS_H
 #include "functions.h"
+#include <recon.h>
 typedef struct InlineSite {
     struct InlineSite *next;
     Node *call, *parent;

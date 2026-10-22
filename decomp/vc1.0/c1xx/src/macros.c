@@ -5,6 +5,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <recon.h>
 
 char *name_return_udt, *name_this, *name_that;
 char *name_vftable, *name_vbtable, *name_vfptr, *name_vbptr, *name_vdispmap;

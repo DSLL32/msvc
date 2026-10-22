@@ -2,6 +2,7 @@
 #include "initialization.h"
 #include "lexer.h"
 #include "types.h"
+#include <recon.h>
 
 /* Original 0x2c600..0x2c71f; seven-way dispatch at 0x2c720..0x2c73c.
    Floating payloads are pointers to their separately saved values. */

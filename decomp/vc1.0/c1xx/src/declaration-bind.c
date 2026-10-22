@@ -5,6 +5,7 @@
 #include "work-list.h"
 #include "cpp-context.h"
 #include "function-definitions.h"
+#include <recon.h>
 
 SegmentSymbol *default_data_segment; /* original 0x9f3e8 */
 typedef char ClassInfoDestructorTraitsOffsetMustBe54[

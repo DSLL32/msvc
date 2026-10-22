@@ -1,5 +1,6 @@
 #ifndef CHARACTERS_H
 #define CHARACTERS_H
+#include <recon.h>
 
 /* Dispatch classes used by the frontend lexer. */
 enum CharacterClass {

@@ -1,0 +1,5275 @@
+{
+  "schema": 1,
+  "description": "Cached original application-entry projection; no capture or Wine",
+  "metadata_sha256": {
+    "functions.json": "f9db9fd8492c8c692a62324a2d698d288665cb3b93a6c5e2e14d706824fc6d4f",
+    "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
+  },
+  "application_definitions": {
+    "activate_scope": {
+      "logical": "@activate_scope@4",
+      "source": "src/symbols.c"
+    },
+    "add_allocation_live_register": {
+      "logical": "@add_allocation_live_register@8",
+      "source": "src/physical-conflicts.c"
+    },
+    "add_block_physical_registers": {
+      "logical": "@add_block_physical_registers@4",
+      "source": "src/physical-allocation.c"
+    },
+    "add_expression_use": {
+      "logical": "@add_expression_use@8",
+      "source": "src/work-optimizer.c"
+    },
+    "add_flow_predecessor": {
+      "logical": "@add_flow_predecessor@8",
+      "source": "src/flow-edges.c"
+    },
+    "add_flow_successor": {
+      "logical": "@add_flow_successor@8",
+      "source": "src/flow-edges.c"
+    },
+    "add_machine_region_reference": {
+      "logical": "@add_machine_region_reference@12",
+      "source": "src/machine-analysis.c"
+    },
+    "add_module_directive": {
+      "logical": "@add_module_directive@8",
+      "source": "src/output.c"
+    },
+    "add_physical_register_alias": {
+      "logical": "@add_physical_register_alias@4",
+      "source": "src/physical-rewrite.c"
+    },
+    "add_protected_flow_edge": {
+      "logical": "@add_protected_flow_edge@8",
+      "source": "src/stubs.c"
+    },
+    "add_register_affinity": {
+      "logical": "@add_register_affinity@12",
+      "source": "src/physical-coalescing.c"
+    },
+    "add_register_conflict": {
+      "logical": "@add_register_conflict@8",
+      "source": "src/physical-conflicts.c"
+    },
+    "address_changed_between": {
+      "logical": "@address_changed_between@12",
+      "source": "src/instruction-uses.c"
+    },
+    "adjust_machine_symbol_references": {
+      "logical": "@adjust_machine_symbol_references@8",
+      "source": "src/instruction-uses.c"
+    },
+    "adjust_operand_label_references": {
+      "logical": "@adjust_operand_label_references@8",
+      "source": "src/instruction-uses.c"
+    },
+    "advance_operand_byte": {
+      "logical": "@advance_operand_byte@4",
+      "source": "src/stubs.c"
+    },
+    "align_machine_location": {
+      "logical": "@align_machine_location@12",
+      "source": "src/machine-layout.c"
+    },
+    "align_stack_storage": {
+      "logical": "@align_stack_storage@8",
+      "source": "src/frame.c"
+    },
+    "aligned_value_size": {
+      "logical": "@aligned_value_size@4",
+      "source": "src/stubs.c"
+    },
+    "alignment_lookahead": {
+      "logical": "@alignment_lookahead@4",
+      "source": "src/stubs.c"
+    },
+    "allocate_descriptor": {
+      "logical": "@allocate_descriptor@8",
+      "source": "src/symbols.c"
+    },
+    "allocate_frame_symbols": {
+      "logical": "@allocate_frame_symbols@8",
+      "source": "src/frame-symbols.c"
+    },
+    "allocate_machine_registers": {
+      "logical": "_allocate_machine_registers",
+      "source": "src/physical-allocation.c"
+    },
+    "allocate_stack_temporary": {
+      "logical": "@allocate_stack_temporary@4",
+      "source": "src/temporaries.c"
+    },
+    "allocation_expression_has_call": {
+      "logical": "@allocation_expression_has_call@4",
+      "source": "src/global-registers.c"
+    },
+    "allocation_operand_cost": {
+      "logical": "@allocation_operand_cost@28",
+      "source": "src/physical-spill.c"
+    },
+    "allocation_use_dominates_backedges": {
+      "logical": "@allocation_use_dominates_backedges@4",
+      "source": "src/stubs.c"
+    },
+    "analyze_allocation_float_blocks": {
+      "logical": "_analyze_allocation_float_blocks",
+      "source": "src/physical-allocation.c"
+    },
+    "analyze_block_references": {
+      "logical": "@analyze_block_references@4",
+      "source": "src/work-optimizer.c"
+    },
+    "analyze_inline_returns": {
+      "logical": "@analyze_inline_returns@8",
+      "source": "src/stubs.c"
+    },
+    "analyze_machine_instructions": {
+      "logical": "@analyze_machine_instructions@8",
+      "source": "src/machine-analysis.c"
+    },
+    "analyze_machine_regions": {
+      "logical": "@analyze_machine_regions@8",
+      "source": "src/stubs.c"
+    },
+    "analyze_reference_tree": {
+      "logical": "@analyze_reference_tree@12",
+      "source": "src/work-optimizer.c"
+    },
+    "analyze_selected_block": {
+      "logical": "@analyze_selected_block@4",
+      "source": "src/register-use.c"
+    },
+    "analyze_tree_references": {
+      "logical": "@analyze_tree_references@8",
+      "source": "src/tree-references.c"
+    },
+    "append_embedded_record": {
+      "logical": "@append_embedded_record@4",
+      "source": "src/stubs.c"
+    },
+    "append_environment_arguments": {
+      "logical": "@append_environment_arguments@4",
+      "source": "src/arguments.c"
+    },
+    "append_machine_instruction": {
+      "logical": "@append_machine_instruction@4",
+      "source": "src/machine-records.c"
+    },
+    "append_segment": {
+      "logical": "@append_segment@4",
+      "source": "src/segments.c"
+    },
+    "apply_function_options": {
+      "logical": "@apply_function_options@4",
+      "source": "src/options.c"
+    },
+    "apply_option": {
+      "logical": "@apply_option@12",
+      "source": "src/options.c"
+    },
+    "apply_warning_state": {
+      "logical": "@apply_warning_state@4",
+      "source": "src/warnings.c"
+    },
+    "arena_alloc": {
+      "logical": "@arena_alloc@8",
+      "source": "src/memory.c"
+    },
+    "arena_calloc": {
+      "logical": "@arena_calloc@8",
+      "source": "src/memory.c"
+    },
+    "arena_strdup": {
+      "logical": "@arena_strdup@8",
+      "source": "src/memory.c"
+    },
+    "arrange_x87_left": {
+      "logical": "@arrange_x87_left@4",
+      "source": "src/stubs.c"
+    },
+    "assign_bitset": {
+      "logical": "@assign_bitset@8",
+      "source": "src/bitsets.c"
+    },
+    "assign_difference_bitset": {
+      "logical": "@assign_difference_bitset@12",
+      "source": "src/bitsets.c"
+    },
+    "assign_flow_region": {
+      "logical": "@assign_flow_region@4",
+      "source": "src/stubs.c"
+    },
+    "assign_global_registers": {
+      "logical": "_assign_global_registers",
+      "source": "src/register-transfers.c"
+    },
+    "assign_machine_registers": {
+      "logical": "@assign_machine_registers@4",
+      "source": "src/physical-rewrite.c"
+    },
+    "assign_operand_registers": {
+      "logical": "@assign_operand_registers@12",
+      "source": "src/physical-allocation.c"
+    },
+    "assign_parameter_register": {
+      "logical": "@assign_parameter_register@12",
+      "source": "src/stubs.c"
+    },
+    "assign_physical_register": {
+      "logical": "@assign_physical_register@12",
+      "source": "src/stubs.c"
+    },
+    "assign_union_bitset": {
+      "logical": "@assign_union_bitset@12",
+      "source": "src/bitsets.c"
+    },
+    "assignment_value": {
+      "logical": "@assignment_value@4",
+      "source": "src/stubs.c"
+    },
+    "available_chain_operands": {
+      "logical": "@available_chain_operands@8",
+      "source": "src/stubs.c"
+    },
+    "begin_debug_function": {
+      "logical": "_begin_debug_function",
+      "source": "src/stubs.c"
+    },
+    "bind_inline_arguments": {
+      "logical": "@bind_inline_arguments@12",
+      "source": "src/stubs.c"
+    },
+    "bitset_contains": {
+      "logical": "@bitset_contains@8",
+      "source": "src/bitsets.c"
+    },
+    "bitset_include": {
+      "logical": "@bitset_include@8",
+      "source": "src/bitsets.c"
+    },
+    "bitset_remove": {
+      "logical": "@bitset_remove@8",
+      "source": "src/stubs.c"
+    },
+    "bitset_union": {
+      "logical": "@bitset_union@8",
+      "source": "src/bitsets.c"
+    },
+    "bitsets_overlap": {
+      "logical": "@bitsets_overlap@8",
+      "source": "src/bitsets.c"
+    },
+    "branch_falls_through": {
+      "logical": "@branch_falls_through@4",
+      "source": "src/instruction-uses.c"
+    },
+    "build_allocation_constraints": {
+      "logical": "_build_allocation_constraints",
+      "source": "src/physical-coalescing.c"
+    },
+    "build_global_work": {
+      "logical": "@build_global_work@4",
+      "source": "src/global-work.c"
+    },
+    "build_local_work": {
+      "logical": "@build_local_work@4",
+      "source": "src/work-input.c"
+    },
+    "build_machine_regions": {
+      "logical": "@build_machine_regions@4",
+      "source": "src/machine-analysis.c"
+    },
+    "build_register_conflicts": {
+      "logical": "@build_register_conflicts@8",
+      "source": "src/physical-conflicts.c"
+    },
+    "build_tree": {
+      "logical": "_build_tree",
+      "source": "src/tree-builder.c"
+    },
+    "build_work_alias_sets": {
+      "logical": "_build_work_alias_sets",
+      "source": "src/work-optimizer.c"
+    },
+    "build_work_lists": {
+      "logical": "_build_work_lists",
+      "source": "src/work-lists.c"
+    },
+    "build_work_references": {
+      "logical": "@build_work_references@4",
+      "source": "src/work-optimizer.c"
+    },
+    "byte_register_available": {
+      "logical": "@byte_register_available@4",
+      "source": "src/stubs.c"
+    },
+    "cached_operands_equal": {
+      "logical": "@cached_operands_equal@8",
+      "source": "src/physical-rewrite.c"
+    },
+    "calculate_stack_frame_size": {
+      "logical": "_calculate_stack_frame_size",
+      "source": "src/frame.c"
+    },
+    "call_float_result_count": {
+      "logical": "@call_float_result_count@4",
+      "source": "src/stubs.c"
+    },
+    "can_combine_constants": {
+      "logical": "@can_combine_constants@12",
+      "source": "src/stubs.c"
+    },
+    "can_keep_conditional": {
+      "logical": "@can_keep_conditional@4",
+      "source": "src/stubs.c"
+    },
+    "can_repeat_tree": {
+      "logical": "@can_repeat_tree@4",
+      "source": "src/stubs.c"
+    },
+    "cancel_unary_factors": {
+      "logical": "@cancel_unary_factors@12",
+      "source": "src/stubs.c"
+    },
+    "canonical_flow_label": {
+      "logical": "@canonical_flow_label@4",
+      "source": "src/flow-labels.c"
+    },
+    "canonicalize_after_children": {
+      "logical": "@canonicalize_after_children@8",
+      "source": "src/canonical-after.c"
+    },
+    "canonicalize_before_children": {
+      "logical": "@canonicalize_before_children@12",
+      "source": "src/canonical-before.c"
+    },
+    "canonicalize_conditional": {
+      "logical": "@canonicalize_conditional@4",
+      "source": "src/stubs.c"
+    },
+    "canonicalize_function": {
+      "logical": "@canonicalize_function@4",
+      "source": "src/functions.c"
+    },
+    "canonicalize_function_reference": {
+      "logical": "@canonicalize_function_reference@4",
+      "source": "src/function-references.c"
+    },
+    "canonicalize_node": {
+      "logical": "@canonicalize_node@12",
+      "source": "src/canonicalize.c"
+    },
+    "canonicalize_return_value": {
+      "logical": "@canonicalize_return_value@8",
+      "source": "src/canonical-before.c"
+    },
+    "canonicalize_tree": {
+      "logical": "@canonicalize_tree@8",
+      "source": "src/canonicalize.c"
+    },
+    "check_inline_argument_aliases": {
+      "logical": "@check_inline_argument_aliases@4",
+      "source": "src/stubs.c"
+    },
+    "choose_memory_split_register": {
+      "logical": "@choose_memory_split_register@8",
+      "source": "src/stubs.c"
+    },
+    "cleanup_expression_tree": {
+      "logical": "@cleanup_expression_tree@4",
+      "source": "src/tree-cleanup.c"
+    },
+    "cleanup_expressions": {
+      "logical": "@cleanup_expressions@4",
+      "source": "src/tree-cleanup.c"
+    },
+    "cleanup_unused_tree": {
+      "logical": "@cleanup_unused_tree@4",
+      "source": "src/tree-cleanup.c"
+    },
+    "clear_bitset": {
+      "logical": "@clear_bitset@4",
+      "source": "src/bitsets.c"
+    },
+    "clear_flow_visit_marks": {
+      "logical": "@clear_flow_visit_marks@4",
+      "source": "src/flow-regions.c"
+    },
+    "clear_local_frame_assignment": {
+      "logical": "@clear_local_frame_assignment@4",
+      "source": "src/frame-symbols.c"
+    },
+    "clear_optimizer_trees": {
+      "logical": "_clear_optimizer_trees",
+      "source": "src/optimizer-cache.c"
+    },
+    "clear_work_expression_cache": {
+      "logical": "_clear_work_expression_cache",
+      "source": "src/work-optimizer.c"
+    },
+    "clone_alias_symbol": {
+      "logical": "@clone_alias_symbol@4",
+      "source": "src/stubs.c"
+    },
+    "clone_machine_record": {
+      "logical": "@clone_machine_record@4",
+      "source": "src/machine-records.c"
+    },
+    "clone_node": {
+      "logical": "@clone_node@4",
+      "source": "src/nodes.c"
+    },
+    "close_machine_region": {
+      "logical": "@close_machine_region@8",
+      "source": "src/stubs.c"
+    },
+    "close_segment_listing": {
+      "logical": "@close_segment_listing@4",
+      "source": "src/stubs.c"
+    },
+    "coalesce_register_affinities": {
+      "logical": "@coalesce_register_affinities@4",
+      "source": "src/physical-coalescing.c"
+    },
+    "coalesce_switch_ranges": {
+      "logical": "@coalesce_switch_ranges@4",
+      "source": "src/work-prepare.c"
+    },
+    "coff_alignment_flags": {
+      "logical": "@coff_alignment_flags@4",
+      "source": "src/coff-output.c"
+    },
+    "coff_allocate": {
+      "logical": "@coff_allocate@4",
+      "source": "src/coff-output.c"
+    },
+    "coff_begin_function": {
+      "logical": "@coff_begin_function@16",
+      "source": "src/coff-functions.c"
+    },
+    "coff_begin_lines": {
+      "logical": "@coff_begin_lines@16",
+      "source": "src/stubs.c"
+    },
+    "coff_close_all_sections": {
+      "logical": "_coff_close_all_sections",
+      "source": "src/coff-writer.c"
+    },
+    "coff_comdat_selection": {
+      "logical": "@coff_comdat_selection@4",
+      "source": "src/stubs.c"
+    },
+    "coff_create_comdat_section": {
+      "logical": "@coff_create_comdat_section@20",
+      "source": "src/stubs.c"
+    },
+    "coff_create_section": {
+      "logical": "@coff_create_section@12",
+      "source": "src/coff-writer.c"
+    },
+    "coff_data_position": {
+      "logical": "@coff_data_position@4",
+      "source": "src/stubs.c"
+    },
+    "coff_declare_segment": {
+      "logical": "@coff_declare_segment@4",
+      "source": "src/coff-segments.c"
+    },
+    "coff_define_aux_symbol": {
+      "logical": "@coff_define_aux_symbol@24",
+      "source": "src/stubs.c"
+    },
+    "coff_define_function": {
+      "logical": "@coff_define_function@28",
+      "source": "src/coff-writer.c"
+    },
+    "coff_define_symbol": {
+      "logical": "@coff_define_symbol@20",
+      "source": "src/coff-writer.c"
+    },
+    "coff_define_weak_symbol": {
+      "logical": "@coff_define_weak_symbol@28",
+      "source": "src/stubs.c"
+    },
+    "coff_end_lines": {
+      "logical": "@coff_end_lines@8",
+      "source": "src/stubs.c"
+    },
+    "coff_error": {
+      "logical": "@coff_error@12",
+      "source": "src/stubs.c"
+    },
+    "coff_fill_bytes": {
+      "logical": "@coff_fill_bytes@8",
+      "source": "src/stubs.c"
+    },
+    "coff_finalize": {
+      "logical": "_coff_finalize",
+      "source": "src/coff-finalize.c"
+    },
+    "coff_finish_module": {
+      "logical": "_coff_finish_module",
+      "source": "src/coff-output.c"
+    },
+    "coff_flush_scope": {
+      "logical": "@coff_flush_scope@4",
+      "source": "src/coff-finalize.c"
+    },
+    "coff_flush_section": {
+      "logical": "@coff_flush_section@4",
+      "source": "src/coff-finalize.c"
+    },
+    "coff_initialize": {
+      "logical": "@coff_initialize@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_line_marker": {
+      "logical": "@coff_line_marker@4",
+      "source": "src/stubs.c"
+    },
+    "coff_mark_symbol": {
+      "logical": "@coff_mark_symbol@4",
+      "source": "src/coff-functions.c"
+    },
+    "coff_new_data_block": {
+      "logical": "_coff_new_data_block",
+      "source": "src/coff-writer.c"
+    },
+    "coff_new_scope": {
+      "logical": "@coff_new_scope@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_new_vector": {
+      "logical": "@coff_new_vector@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_open_contribution": {
+      "logical": "@coff_open_contribution@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_open_module": {
+      "logical": "_coff_open_module",
+      "source": "src/coff-output.c"
+    },
+    "coff_output_address": {
+      "logical": "_coff_output_address",
+      "source": "src/stubs.c"
+    },
+    "coff_output_bytes": {
+      "logical": "_coff_output_bytes",
+      "source": "src/stubs.c"
+    },
+    "coff_output_debug_pair": {
+      "logical": "_coff_output_debug_pair",
+      "source": "src/stubs.c"
+    },
+    "coff_output_debug_record": {
+      "logical": "_coff_output_debug_record",
+      "source": "src/stubs.c"
+    },
+    "coff_output_function": {
+      "logical": "@coff_output_function@4",
+      "source": "src/coff-functions.c"
+    },
+    "coff_output_offset": {
+      "logical": "_coff_output_offset",
+      "source": "src/stubs.c"
+    },
+    "coff_output_record": {
+      "logical": "@coff_output_record@4",
+      "source": "src/coff-output.c"
+    },
+    "coff_output_relocation": {
+      "logical": "_coff_output_relocation",
+      "source": "src/stubs.c"
+    },
+    "coff_output_size": {
+      "logical": "_coff_output_size",
+      "source": "src/stubs.c"
+    },
+    "coff_output_symbol": {
+      "logical": "@coff_output_symbol@4",
+      "source": "src/coff-functions.c"
+    },
+    "coff_output_value": {
+      "logical": "_coff_output_value",
+      "source": "src/stubs.c"
+    },
+    "coff_record_contribution": {
+      "logical": "@coff_record_contribution@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_record_filename": {
+      "logical": "@coff_record_filename@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_reserve_sections": {
+      "logical": "@coff_reserve_sections@4",
+      "source": "src/coff-finalize.c"
+    },
+    "coff_reset_scopes": {
+      "logical": "_coff_reset_scopes",
+      "source": "src/coff-writer.c"
+    },
+    "coff_resolve_function": {
+      "logical": "@coff_resolve_function@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_scope_position": {
+      "logical": "@coff_scope_position@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_section_position": {
+      "logical": "@coff_section_position@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_select_section": {
+      "logical": "@coff_select_section@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_select_segment": {
+      "logical": "@coff_select_segment@4",
+      "source": "src/coff-segments.c"
+    },
+    "coff_set_section_flags": {
+      "logical": "@coff_set_section_flags@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_set_symbol_name": {
+      "logical": "@coff_set_symbol_name@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_symbol_type": {
+      "logical": "@coff_symbol_type@4",
+      "source": "src/coff-functions.c"
+    },
+    "coff_timestamp": {
+      "logical": "_coff_timestamp",
+      "source": "src/coff-output.c"
+    },
+    "coff_vector_append": {
+      "logical": "@coff_vector_append@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_vector_count": {
+      "logical": "@coff_vector_count@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_vector_get": {
+      "logical": "@coff_vector_get@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_vector_next": {
+      "logical": "@coff_vector_next@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_write_byte": {
+      "logical": "@coff_write_byte@4",
+      "source": "src/coff-writer.c"
+    },
+    "coff_write_comment": {
+      "logical": "@coff_write_comment@4",
+      "source": "src/stubs.c"
+    },
+    "coff_write_data": {
+      "logical": "@coff_write_data@8",
+      "source": "src/coff-output.c"
+    },
+    "coff_write_directive": {
+      "logical": "@coff_write_directive@12",
+      "source": "src/coff-output.c"
+    },
+    "coff_write_lines": {
+      "logical": "@coff_write_lines@8",
+      "source": "src/stubs.c"
+    },
+    "coff_write_relocations": {
+      "logical": "@coff_write_relocations@8",
+      "source": "src/stubs.c"
+    },
+    "coff_write_scope_data": {
+      "logical": "@coff_write_scope_data@8",
+      "source": "src/coff-writer.c"
+    },
+    "coff_write_section_header": {
+      "logical": "@coff_write_section_header@4",
+      "source": "src/coff-finalize.c"
+    },
+    "coff_write_symbol": {
+      "logical": "@coff_write_symbol@4",
+      "source": "src/coff-finalize.c"
+    },
+    "collect_allocation_ranges": {
+      "logical": "@collect_allocation_ranges@4",
+      "source": "src/global-registers.c"
+    },
+    "collect_basic_region_inductions": {
+      "logical": "_collect_basic_region_inductions",
+      "source": "src/stubs.c"
+    },
+    "collect_derived_region_inductions": {
+      "logical": "_collect_derived_region_inductions",
+      "source": "src/stubs.c"
+    },
+    "collect_frame_accesses": {
+      "logical": "@collect_frame_accesses@16",
+      "source": "src/frame-access.c"
+    },
+    "collect_global_symbols": {
+      "logical": "_collect_global_symbols",
+      "source": "src/initializer-symbols.c"
+    },
+    "collect_inline_sites": {
+      "logical": "@collect_inline_sites@8",
+      "source": "src/inline-candidates.c"
+    },
+    "collect_machine_symbols": {
+      "logical": "@collect_machine_symbols@4",
+      "source": "src/machine-symbols.c"
+    },
+    "collect_region_values": {
+      "logical": "@collect_region_values@4",
+      "source": "src/stubs.c"
+    },
+    "collect_register_affinities": {
+      "logical": "@collect_register_affinities@4",
+      "source": "src/physical-coalescing.c"
+    },
+    "collect_work_memory_reads": {
+      "logical": "@collect_work_memory_reads@4",
+      "source": "src/work-optimizer.c"
+    },
+    "color_register_variables": {
+      "logical": "@color_register_variables@4",
+      "source": "src/physical-allocation.c"
+    },
+    "combine_complementary_masks": {
+      "logical": "@combine_complementary_masks@4",
+      "source": "src/stubs.c"
+    },
+    "combine_frame_accesses": {
+      "logical": "@combine_frame_accesses@8",
+      "source": "src/frame-access.c"
+    },
+    "combine_machine_instructions": {
+      "logical": "_combine_machine_instructions",
+      "source": "src/machine-simplify.c"
+    },
+    "combine_region_inductions": {
+      "logical": "_combine_region_inductions",
+      "source": "src/stubs.c"
+    },
+    "common_node_type": {
+      "logical": "@common_node_type@8",
+      "source": "src/tree-types.c"
+    },
+    "compact_machine_context": {
+      "logical": "@compact_machine_context@4",
+      "source": "src/machine-state.c"
+    },
+    "compare_allocation_load_counts": {
+      "logical": "_compare_allocation_load_counts",
+      "source": "src/stubs.c"
+    },
+    "compare_extended": {
+      "logical": "_compare_extended",
+      "source": "src/stubs.c"
+    },
+    "compare_frame_accesses": {
+      "logical": "@compare_frame_accesses@8",
+      "source": "src/frame-access.c"
+    },
+    "comparison_uses_intrinsic_flags": {
+      "logical": "@comparison_uses_intrinsic_flags@4",
+      "source": "src/value-selection.c"
+    },
+    "compile_functions": {
+      "logical": "_compile_functions",
+      "source": "src/functions.c"
+    },
+    "compiler_allocate": {
+      "logical": "@compiler_allocate@8",
+      "source": "src/memory.c"
+    },
+    "compiler_cleanup": {
+      "logical": "_compiler_cleanup",
+      "source": "src/c2.c"
+    },
+    "compiler_control": {
+      "logical": "_compiler_control@4",
+      "source": "src/stubs.c"
+    },
+    "compiler_error": {
+      "logical": "_compiler_error",
+      "source": "src/stubs.c"
+    },
+    "compiler_internal_error": {
+      "logical": "@compiler_internal_error@8",
+      "source": "src/stubs.c"
+    },
+    "compiler_report": {
+      "logical": "_compiler_report",
+      "source": "src/stubs.c"
+    },
+    "compiler_warning": {
+      "logical": "_compiler_warning",
+      "source": "src/stubs.c"
+    },
+    "compute_work_dominators": {
+      "logical": "@compute_work_dominators@4",
+      "source": "src/flow-dominators.c"
+    },
+    "compute_work_memory_liveness": {
+      "logical": "@compute_work_memory_liveness@4",
+      "source": "src/work-optimizer.c"
+    },
+    "configure_arena": {
+      "logical": "@configure_arena@12",
+      "source": "src/memory.c"
+    },
+    "conflict_with_live_registers": {
+      "logical": "@conflict_with_live_registers@12",
+      "source": "src/physical-conflicts.c"
+    },
+    "connect_flow_blocks": {
+      "logical": "@connect_flow_blocks@8",
+      "source": "src/flow-edges.c"
+    },
+    "constant_as_integer": {
+      "logical": "@constant_as_integer@8",
+      "source": "src/stubs.c"
+    },
+    "consume_string": {
+      "logical": "@consume_string@4",
+      "source": "src/options.c"
+    },
+    "conversion_loses_value": {
+      "logical": "@conversion_loses_value@8",
+      "source": "src/stubs.c"
+    },
+    "convert_integer_constant": {
+      "logical": "@convert_integer_constant@8",
+      "source": "src/constant-conversion.c"
+    },
+    "convert_node_once": {
+      "logical": "@convert_node_once@8",
+      "source": "src/tree-types.c"
+    },
+    "convert_node_type": {
+      "logical": "@convert_node_type@8",
+      "source": "src/tree-types.c"
+    },
+    "copy_arguments": {
+      "logical": "_copy_arguments",
+      "source": "src/arguments.c"
+    },
+    "copy_bitset": {
+      "logical": "@copy_bitset@4",
+      "source": "src/bitsets.c"
+    },
+    "copy_machine_operand": {
+      "logical": "@copy_machine_operand@8",
+      "source": "src/physical-rewrite.c"
+    },
+    "copy_numbered_expression": {
+      "logical": "@copy_numbered_expression@4",
+      "source": "src/work-optimizer.c"
+    },
+    "copy_symbol_type": {
+      "logical": "@copy_symbol_type@4",
+      "source": "src/symbol-input.c"
+    },
+    "copy_tree": {
+      "logical": "@copy_tree@4",
+      "source": "src/tree-cleanup.c"
+    },
+    "count_frame_symbol_reference": {
+      "logical": "@count_frame_symbol_reference@8",
+      "source": "src/frame-symbols.c"
+    },
+    "count_global_allocation_loads": {
+      "logical": "@count_global_allocation_loads@4",
+      "source": "src/global-registers.c"
+    },
+    "count_ordinary_flow_links": {
+      "logical": "@count_ordinary_flow_links@4",
+      "source": "src/flow-edges.c"
+    },
+    "count_region_label_references": {
+      "logical": "@count_region_label_references@8",
+      "source": "src/machine-analysis.c"
+    },
+    "count_register_conflicts": {
+      "logical": "@count_register_conflicts@4",
+      "source": "src/physical-allocation.c"
+    },
+    "count_shared_register_conflicts": {
+      "logical": "@count_shared_register_conflicts@8",
+      "source": "src/stubs.c"
+    },
+    "create_register_variable": {
+      "logical": "@create_register_variable@4",
+      "source": "src/register-variables.c"
+    },
+    "create_segment": {
+      "logical": "@create_segment@12",
+      "source": "src/segments.c"
+    },
+    "create_temporary": {
+      "logical": "@create_temporary@28",
+      "source": "src/stubs.c"
+    },
+    "decode_expression": {
+      "logical": "@decode_expression@8",
+      "source": "src/expression-fields.c"
+    },
+    "decode_inline_assembly": {
+      "logical": "@decode_inline_assembly@8",
+      "source": "src/stubs.c"
+    },
+    "default_runtime_library": {
+      "logical": "_default_runtime_library",
+      "source": "src/output.c"
+    },
+    "define_flow_label": {
+      "logical": "@define_flow_label@8",
+      "source": "src/flow-labels.c"
+    },
+    "descriptor_size": {
+      "logical": "@descriptor_size@4",
+      "source": "src/symbols.c"
+    },
+    "destroy_flow_work": {
+      "logical": "@destroy_flow_work@4",
+      "source": "src/flow-blocks.c"
+    },
+    "discard_sequence_tail": {
+      "logical": "@discard_sequence_tail@4",
+      "source": "src/stubs.c"
+    },
+    "displacement_mode": {
+      "logical": "@displacement_mode@12",
+      "source": "src/stubs.c"
+    },
+    "distribute_constant": {
+      "logical": "@distribute_constant@8",
+      "source": "src/stubs.c"
+    },
+    "distribute_unary_tree": {
+      "logical": "@distribute_unary_tree@4",
+      "source": "src/stubs.c"
+    },
+    "double_to_extended": {
+      "logical": "_double_to_extended",
+      "source": "src/stubs.c"
+    },
+    "duplicate_operand": {
+      "logical": "@duplicate_operand@4",
+      "source": "src/stubs.c"
+    },
+    "eliminate_redundant_compare": {
+      "logical": "@eliminate_redundant_compare@8",
+      "source": "src/instruction-rewrite.c"
+    },
+    "emit_backend_work": {
+      "logical": "_emit_backend_work",
+      "source": "src/backend-flow.c"
+    },
+    "emit_call": {
+      "logical": "@emit_call@20",
+      "source": "src/machine-operations.c"
+    },
+    "emit_float_return": {
+      "logical": "_emit_float_return",
+      "source": "src/stubs.c"
+    },
+    "emit_function_exception_table": {
+      "logical": "@emit_function_exception_table@8",
+      "source": "src/stubs.c"
+    },
+    "emit_function_inline_data": {
+      "logical": "@emit_function_inline_data@4",
+      "source": "src/stubs.c"
+    },
+    "emit_function_symbol": {
+      "logical": "@emit_function_symbol@4",
+      "source": "src/machine-records.c"
+    },
+    "emit_global_register_transfer": {
+      "logical": "@emit_global_register_transfer@20",
+      "source": "src/register-transfers.c"
+    },
+    "emit_initializer": {
+      "logical": "@emit_initializer@4",
+      "source": "src/stubs.c"
+    },
+    "emit_label": {
+      "logical": "@emit_label@4",
+      "source": "src/machine-records.c"
+    },
+    "emit_linear_switch": {
+      "logical": "@emit_linear_switch@8",
+      "source": "src/work-prepare.c"
+    },
+    "emit_machine_directive": {
+      "logical": "@emit_machine_directive@8",
+      "source": "src/machine-records.c"
+    },
+    "emit_machine_instructions": {
+      "logical": "@emit_machine_instructions@4",
+      "source": "src/machine-emission.c"
+    },
+    "emit_machine_operation": {
+      "logical": "_emit_machine_operation",
+      "source": "src/machine-operations.c"
+    },
+    "emit_pending_symbols": {
+      "logical": "@emit_pending_symbols@4",
+      "source": "src/symbol-output.c"
+    },
+    "emit_register_barrier": {
+      "logical": "@emit_register_barrier@8",
+      "source": "src/stubs.c"
+    },
+    "emit_register_lifetime": {
+      "logical": "@emit_register_lifetime@16",
+      "source": "src/machine-transfers.c"
+    },
+    "emit_saved_register_pops": {
+      "logical": "_emit_saved_register_pops",
+      "source": "src/function-selection.c"
+    },
+    "emit_saved_register_pushes": {
+      "logical": "_emit_saved_register_pushes",
+      "source": "src/function-selection.c"
+    },
+    "emit_source_filename": {
+      "logical": "@emit_source_filename@4",
+      "source": "src/machine-records.c"
+    },
+    "emit_source_marker": {
+      "logical": "@emit_source_marker@4",
+      "source": "src/machine-records.c"
+    },
+    "emit_static_initializers": {
+      "logical": "@emit_static_initializers@4",
+      "source": "src/symbol-output.c"
+    },
+    "emit_switch_dispatch": {
+      "logical": "@emit_switch_dispatch@8",
+      "source": "src/work-prepare.c"
+    },
+    "emit_switch_table": {
+      "logical": "@emit_switch_table@16",
+      "source": "src/stubs.c"
+    },
+    "encode_integer": {
+      "logical": "@encode_integer@8",
+      "source": "src/operand-encoding.c"
+    },
+    "encode_machine_instruction": {
+      "logical": "@encode_machine_instruction@16",
+      "source": "src/instruction-encoding.c"
+    },
+    "encode_modrm": {
+      "logical": "@encode_modrm@12",
+      "source": "src/address-encoding.c"
+    },
+    "encode_node_type": {
+      "logical": "@encode_node_type@8",
+      "source": "src/expression-fields.c"
+    },
+    "encode_operand": {
+      "logical": "@encode_operand@12",
+      "source": "src/operand-encoding.c"
+    },
+    "end_debug_function": {
+      "logical": "_end_debug_function",
+      "source": "src/stubs.c"
+    },
+    "ensure_bitset": {
+      "logical": "@ensure_bitset@8",
+      "source": "src/bitsets.c"
+    },
+    "ensure_flow_branch": {
+      "logical": "@ensure_flow_branch@8",
+      "source": "src/flow-order.c"
+    },
+    "equal_bitsets": {
+      "logical": "@equal_bitsets@8",
+      "source": "src/bitsets.c"
+    },
+    "equal_chain_value_ids": {
+      "logical": "@equal_chain_value_ids@8",
+      "source": "src/stubs.c"
+    },
+    "equal_tree_nodes": {
+      "logical": "@equal_tree_nodes@8",
+      "source": "src/tree-equality.c"
+    },
+    "equivalent_stack_copy_operands": {
+      "logical": "@equivalent_stack_copy_operands@16",
+      "source": "src/stubs.c"
+    },
+    "exclude_exception_registers": {
+      "logical": "@exclude_exception_registers@4",
+      "source": "src/global-registers.c"
+    },
+    "expand_constant_multiply": {
+      "logical": "@expand_constant_multiply@4",
+      "source": "src/stubs.c"
+    },
+    "expand_inline_calls": {
+      "logical": "@expand_inline_calls@4",
+      "source": "src/inline-calls.c"
+    },
+    "expand_zero_extension": {
+      "logical": "@expand_zero_extension@4",
+      "source": "src/stubs.c"
+    },
+    "extend_global_register_ranges": {
+      "logical": "_extend_global_register_ranges",
+      "source": "src/register-transfers.c"
+    },
+    "extend_previous_instruction": {
+      "logical": "@extend_previous_instruction@8",
+      "source": "src/stubs.c"
+    },
+    "extended_format": {
+      "logical": "_extended_format",
+      "source": "src/stubs.c"
+    },
+    "extended_to_double": {
+      "logical": "_extended_to_double",
+      "source": "src/stubs.c"
+    },
+    "extended_to_float": {
+      "logical": "_extended_to_float",
+      "source": "src/stubs.c"
+    },
+    "extended_to_integer": {
+      "logical": "_extended_to_integer",
+      "source": "src/stubs.c"
+    },
+    "extract_assembly_labels": {
+      "logical": "@extract_assembly_labels@4",
+      "source": "src/stubs.c"
+    },
+    "extract_complement": {
+      "logical": "@extract_complement@4",
+      "source": "src/stubs.c"
+    },
+    "extract_negative": {
+      "logical": "@extract_negative@4",
+      "source": "src/stubs.c"
+    },
+    "extract_reciprocal": {
+      "logical": "@extract_reciprocal@4",
+      "source": "src/stubs.c"
+    },
+    "factor_bitwise_chain": {
+      "logical": "@factor_bitwise_chain@8",
+      "source": "src/stubs.c"
+    },
+    "factor_common_operator": {
+      "logical": "@factor_common_operator@12",
+      "source": "src/stubs.c"
+    },
+    "factor_compatible_operator": {
+      "logical": "@factor_compatible_operator@12",
+      "source": "src/stubs.c"
+    },
+    "factor_global_node": {
+      "logical": "@factor_global_node@4",
+      "source": "src/global-tree.c"
+    },
+    "factor_global_tree": {
+      "logical": "@factor_global_tree@4",
+      "source": "src/global-tree.c"
+    },
+    "factor_machine_branch_code": {
+      "logical": "@factor_machine_branch_code@4",
+      "source": "src/jump-threading.c"
+    },
+    "fill_bitset": {
+      "logical": "@fill_bitset@8",
+      "source": "src/bitsets.c"
+    },
+    "finalize_machine_context": {
+      "logical": "@finalize_machine_context@4",
+      "source": "src/final-instructions.c"
+    },
+    "finalize_work_trees": {
+      "logical": "@finalize_work_trees@4",
+      "source": "src/work-prepare.c"
+    },
+    "find_allocation_value": {
+      "logical": "@find_allocation_value@8",
+      "source": "src/global-registers.c"
+    },
+    "find_assignment_operand": {
+      "logical": "@find_assignment_operand@8",
+      "source": "src/stubs.c"
+    },
+    "find_block_terminator": {
+      "logical": "@find_block_terminator@4",
+      "source": "src/jump-threading.c"
+    },
+    "find_carry_flag_use": {
+      "logical": "@find_carry_flag_use@4",
+      "source": "src/instruction-uses.c"
+    },
+    "find_flags_use": {
+      "logical": "@find_flags_use@4",
+      "source": "src/instruction-uses.c"
+    },
+    "find_flow_regions": {
+      "logical": "@find_flow_regions@4",
+      "source": "src/flow-regions.c"
+    },
+    "find_function_end": {
+      "logical": "@find_function_end@4",
+      "source": "src/jump-threading.c"
+    },
+    "find_initializer": {
+      "logical": "@find_initializer@4",
+      "source": "src/stubs.c"
+    },
+    "find_inline_binding": {
+      "logical": "@find_inline_binding@8",
+      "source": "src/stubs.c"
+    },
+    "find_irreducible_flow_end": {
+      "logical": "@find_irreducible_flow_end@4",
+      "source": "src/flow-regions.c"
+    },
+    "find_numbered_expression": {
+      "logical": "@find_numbered_expression@4",
+      "source": "src/work-optimizer.c"
+    },
+    "find_register_allocation": {
+      "logical": "@find_register_allocation@8",
+      "source": "src/register-transfers.c"
+    },
+    "find_transfer_call_boundary": {
+      "logical": "@find_transfer_call_boundary@4",
+      "source": "src/stubs.c"
+    },
+    "find_transfer_use_boundary": {
+      "logical": "@find_transfer_use_boundary@8",
+      "source": "src/machine-transfers.c"
+    },
+    "find_work_value": {
+      "logical": "@find_work_value@4",
+      "source": "src/work-optimizer.c"
+    },
+    "finish_allocation_constraints": {
+      "logical": "_finish_allocation_constraints",
+      "source": "src/physical-allocation.c"
+    },
+    "finish_block_registers": {
+      "logical": "@finish_block_registers@4",
+      "source": "src/register-use.c"
+    },
+    "finish_canonical_node": {
+      "logical": "@finish_canonical_node@4",
+      "source": "src/tree-types.c"
+    },
+    "finish_closed_machine_region": {
+      "logical": "@finish_closed_machine_region@8",
+      "source": "src/stubs.c"
+    },
+    "finish_debug_module": {
+      "logical": "_finish_debug_module",
+      "source": "src/stubs.c"
+    },
+    "finish_debugging": {
+      "logical": "_finish_debugging",
+      "source": "src/output.c"
+    },
+    "finish_flow_regions": {
+      "logical": "@finish_flow_regions@4",
+      "source": "src/flow-boundaries.c"
+    },
+    "finish_function_selection": {
+      "logical": "_finish_function_selection",
+      "source": "src/function-selection.c"
+    },
+    "finish_global_node": {
+      "logical": "@finish_global_node@4",
+      "source": "src/global-tree.c"
+    },
+    "finish_global_selection": {
+      "logical": "_finish_global_selection",
+      "source": "src/function-selection.c"
+    },
+    "finish_global_tree": {
+      "logical": "@finish_global_tree@4",
+      "source": "src/global-tree.c"
+    },
+    "finish_global_work": {
+      "logical": "_finish_global_work",
+      "source": "src/global-registers.c"
+    },
+    "finish_globals": {
+      "logical": "_finish_globals",
+      "source": "src/listing.c"
+    },
+    "finish_inline_function": {
+      "logical": "@finish_inline_function@4",
+      "source": "src/stubs.c"
+    },
+    "finish_machine_blocks": {
+      "logical": "@finish_machine_blocks@8",
+      "source": "src/selection-finishing.c"
+    },
+    "finish_machine_instruction": {
+      "logical": "@finish_machine_instruction@8",
+      "source": "src/instruction-rewrite.c"
+    },
+    "finish_machine_lowering": {
+      "logical": "@finish_machine_lowering@4",
+      "source": "src/stubs.c"
+    },
+    "finish_machine_schedule": {
+      "logical": "_finish_machine_schedule",
+      "source": "src/stubs.c"
+    },
+    "finish_output": {
+      "logical": "_finish_output",
+      "source": "src/output.c"
+    },
+    "finish_region_motion": {
+      "logical": "_finish_region_motion",
+      "source": "src/stubs.c"
+    },
+    "finish_register_assignment": {
+      "logical": "_finish_register_assignment",
+      "source": "src/physical-allocation.c"
+    },
+    "finish_register_lifetime": {
+      "logical": "@finish_register_lifetime@4",
+      "source": "src/register-use.c"
+    },
+    "finish_selected_block": {
+      "logical": "@finish_selected_block@8",
+      "source": "src/selection-finishing.c"
+    },
+    "finish_target_expression": {
+      "logical": "_finish_target_expression",
+      "source": "src/stubs.c"
+    },
+    "finish_tree_optimization": {
+      "logical": "_finish_tree_optimization",
+      "source": "src/machine-simplify.c"
+    },
+    "fits_signed_byte": {
+      "logical": "@fits_signed_byte@4",
+      "source": "src/operand-encoding.c"
+    },
+    "flag_killed_work_references": {
+      "logical": "_flag_killed_work_references",
+      "source": "src/work-optimizer.c"
+    },
+    "float_to_extended": {
+      "logical": "_float_to_extended",
+      "source": "src/stubs.c"
+    },
+    "floating_constant_symbol": {
+      "logical": "@floating_constant_symbol@4",
+      "source": "src/stubs.c"
+    },
+    "flush_queued_symbols": {
+      "logical": "_flush_queued_symbols",
+      "source": "src/symbol-output.c"
+    },
+    "fold_absorbing_constant": {
+      "logical": "@fold_absorbing_constant@8",
+      "source": "src/stubs.c"
+    },
+    "fold_address_offset": {
+      "logical": "@fold_address_offset@4",
+      "source": "src/stubs.c"
+    },
+    "fold_adjacent_flow_labels": {
+      "logical": "@fold_adjacent_flow_labels@4",
+      "source": "src/flow-labels.c"
+    },
+    "fold_bitwise_and": {
+      "logical": "@fold_bitwise_and@4",
+      "source": "src/stubs.c"
+    },
+    "fold_constant_conversion": {
+      "logical": "@fold_constant_conversion@4",
+      "source": "src/constant-conversion.c"
+    },
+    "fold_constant_node": {
+      "logical": "@fold_constant_node@4",
+      "source": "src/tree-optimizer.c"
+    },
+    "fold_floating_comparison": {
+      "logical": "@fold_floating_comparison@4",
+      "source": "src/stubs.c"
+    },
+    "fold_floating_node": {
+      "logical": "@fold_floating_node@4",
+      "source": "src/stubs.c"
+    },
+    "fold_integer_comparison": {
+      "logical": "@fold_integer_comparison@4",
+      "source": "src/stubs.c"
+    },
+    "fold_integer_node": {
+      "logical": "@fold_integer_node@4",
+      "source": "src/stubs.c"
+    },
+    "fold_lea_address": {
+      "logical": "@fold_lea_address@12",
+      "source": "src/instruction-uses.c"
+    },
+    "fold_local_tree": {
+      "logical": "@fold_local_tree@4",
+      "source": "src/tree-optimizer.c"
+    },
+    "fold_special_node": {
+      "logical": "@fold_special_node@4",
+      "source": "src/tree-optimizer.c"
+    },
+    "folded_spill_operand_cost": {
+      "logical": "@folded_spill_operand_cost@8",
+      "source": "src/physical-spill.c"
+    },
+    "for_each_symbol": {
+      "logical": "@for_each_symbol@8",
+      "source": "src/symbols.c"
+    },
+    "forget_exception_label": {
+      "logical": "@forget_exception_label@8",
+      "source": "src/stubs.c"
+    },
+    "format_function_name": {
+      "logical": "@format_function_name@4",
+      "source": "src/stubs.c"
+    },
+    "format_integer": {
+      "logical": "@format_integer@12",
+      "source": "src/stubs.c"
+    },
+    "frame_access_distance": {
+      "logical": "@frame_access_distance@8",
+      "source": "src/frame-access.c"
+    },
+    "frame_references_exceed_cost": {
+      "logical": "@frame_references_exceed_cost@8",
+      "source": "src/physical-allocation.c"
+    },
+    "frame_register_can_be_allocated": {
+      "logical": "_frame_register_can_be_allocated",
+      "source": "src/physical-allocation.c"
+    },
+    "frame_temporary_operand": {
+      "logical": "@frame_temporary_operand@8",
+      "source": "src/stubs.c"
+    },
+    "free_arena_blocks": {
+      "logical": "@free_arena_blocks@4",
+      "source": "src/memory.c"
+    },
+    "free_work": {
+      "logical": "@free_work@4",
+      "source": "src/work-input.c"
+    },
+    "function_allows_frame_register": {
+      "logical": "@function_allows_frame_register@4",
+      "source": "src/stubs.c"
+    },
+    "function_retains_symbols": {
+      "logical": "@function_retains_symbols@8",
+      "source": "src/records.c"
+    },
+    "function_stack_alignment": {
+      "logical": "_function_stack_alignment",
+      "source": "src/frame.c"
+    },
+    "generate_work": {
+      "logical": "@generate_work@4",
+      "source": "src/instruction-selection.c"
+    },
+    "get_stack_address": {
+      "logical": "@get_stack_address@12",
+      "source": "src/register-transfers.c"
+    },
+    "has_flow_reference": {
+      "logical": "@has_flow_reference@8",
+      "source": "src/flow-labels.c"
+    },
+    "has_no_later_work_store": {
+      "logical": "@has_no_later_work_store@4",
+      "source": "src/stubs.c"
+    },
+    "high_dword_operand": {
+      "logical": "@high_dword_operand@4",
+      "source": "src/stubs.c"
+    },
+    "hoist_invariant_region_stores": {
+      "logical": "_hoist_invariant_region_stores",
+      "source": "src/stubs.c"
+    },
+    "hoist_region_values": {
+      "logical": "@hoist_region_values@4",
+      "source": "src/region-motion.c"
+    },
+    "ide_message": {
+      "logical": "_ide_message",
+      "source": "src/stubs.c"
+    },
+    "immediate_operand": {
+      "logical": "@immediate_operand@4",
+      "source": "src/stubs.c"
+    },
+    "implicit_register_mask": {
+      "logical": "@implicit_register_mask@8",
+      "source": "src/register-use.c"
+    },
+    "initialize_allocation_live_registers": {
+      "logical": "@initialize_allocation_live_registers@4",
+      "source": "src/physical-conflicts.c"
+    },
+    "initialize_allocation_round": {
+      "logical": "_initialize_allocation_round",
+      "source": "src/physical-allocation.c"
+    },
+    "initialize_backend": {
+      "logical": "_initialize_backend",
+      "source": "src/initialize.c"
+    },
+    "initialize_codegen": {
+      "logical": "_initialize_codegen",
+      "source": "src/initialize.c"
+    },
+    "initialize_codeview_output": {
+      "logical": "_initialize_codeview_output",
+      "source": "src/stubs.c"
+    },
+    "initialize_debugging": {
+      "logical": "_initialize_debugging",
+      "source": "src/stubs.c"
+    },
+    "initialize_flow_labels": {
+      "logical": "_initialize_flow_labels",
+      "source": "src/flow-labels.c"
+    },
+    "initialize_frontend_data": {
+      "logical": "_initialize_frontend_data",
+      "source": "src/initialize.c"
+    },
+    "initialize_global_values": {
+      "logical": "_initialize_global_values",
+      "source": "src/global-registers.c"
+    },
+    "initialize_globals": {
+      "logical": "_initialize_globals",
+      "source": "src/initializers.c"
+    },
+    "initialize_limits": {
+      "logical": "_initialize_limits",
+      "source": "src/initialize.c"
+    },
+    "initialize_lowering_block": {
+      "logical": "@initialize_lowering_block@4",
+      "source": "src/unoptimized.c"
+    },
+    "initialize_operand": {
+      "logical": "@initialize_operand@20",
+      "source": "src/machine-operands.c"
+    },
+    "initialize_output": {
+      "logical": "_initialize_output",
+      "source": "src/initialize.c"
+    },
+    "initialize_output_callbacks": {
+      "logical": "_initialize_output_callbacks",
+      "source": "src/output.c"
+    },
+    "initialize_physical_variables": {
+      "logical": "_initialize_physical_variables",
+      "source": "src/physical-allocation.c"
+    },
+    "initialize_registers": {
+      "logical": "_initialize_registers",
+      "source": "src/initialize.c"
+    },
+    "initialize_segments": {
+      "logical": "_initialize_segments",
+      "source": "src/segments.c"
+    },
+    "initialize_stack_alignment": {
+      "logical": "_initialize_stack_alignment",
+      "source": "src/frame.c"
+    },
+    "initialize_symbols": {
+      "logical": "_initialize_symbols",
+      "source": "src/initialize.c"
+    },
+    "initialize_work_optimizer": {
+      "logical": "@initialize_work_optimizer@4",
+      "source": "src/work-optimizer.c"
+    },
+    "initialize_work_value_tree": {
+      "logical": "@initialize_work_value_tree@12",
+      "source": "src/work-optimizer.c"
+    },
+    "initializer_symbols_available": {
+      "logical": "@initializer_symbols_available@4",
+      "source": "src/stubs.c"
+    },
+    "inline_argument_prefix": {
+      "logical": "@inline_argument_prefix@4",
+      "source": "src/stubs.c"
+    },
+    "inline_function_calls": {
+      "logical": "@inline_function_calls@12",
+      "source": "src/inline-calls.c"
+    },
+    "input_byte": {
+      "logical": "_input_byte",
+      "source": "src/input.c"
+    },
+    "input_bytes": {
+      "logical": "@input_bytes@8",
+      "source": "src/input.c"
+    },
+    "input_compact_short": {
+      "logical": "_input_compact_short",
+      "source": "src/input.c"
+    },
+    "input_compact_signed": {
+      "logical": "_input_compact_signed",
+      "source": "src/input.c"
+    },
+    "input_counted_string": {
+      "logical": "@input_counted_string@8",
+      "source": "src/stubs.c"
+    },
+    "input_double_bits": {
+      "logical": "_input_double_bits",
+      "source": "src/stubs.c"
+    },
+    "input_dword": {
+      "logical": "_input_dword",
+      "source": "src/input.c"
+    },
+    "input_expression_opcode": {
+      "logical": "_input_expression_opcode",
+      "source": "src/tree-input.c"
+    },
+    "input_extended": {
+      "logical": "_input_extended@0",
+      "source": "src/stubs.c"
+    },
+    "input_float_bits": {
+      "logical": "_input_float_bits",
+      "source": "src/stubs.c"
+    },
+    "input_string": {
+      "logical": "@input_string@8",
+      "source": "src/input.c"
+    },
+    "input_type": {
+      "logical": "_input_type",
+      "source": "src/input.c"
+    },
+    "input_varuint": {
+      "logical": "_input_varuint",
+      "source": "src/input.c"
+    },
+    "input_word": {
+      "logical": "_input_word",
+      "source": "src/input.c"
+    },
+    "insert_function_boundaries": {
+      "logical": "@insert_function_boundaries@4",
+      "source": "src/flow-boundaries.c"
+    },
+    "insert_initializer": {
+      "logical": "@insert_initializer@4",
+      "source": "src/initializers.c"
+    },
+    "insert_machine_after": {
+      "logical": "@insert_machine_after@8",
+      "source": "src/stubs.c"
+    },
+    "insert_register_affinity": {
+      "logical": "@insert_register_affinity@8",
+      "source": "src/physical-coalescing.c"
+    },
+    "insert_return_parameter": {
+      "logical": "@insert_return_parameter@8",
+      "source": "src/canonical-before.c"
+    },
+    "insert_symbol": {
+      "logical": "@insert_symbol@8",
+      "source": "src/symbols.c"
+    },
+    "insert_tree_expression": {
+      "logical": "@insert_tree_expression@12",
+      "source": "src/work-lists.c"
+    },
+    "instruction_accesses_memory": {
+      "logical": "@instruction_accesses_memory@4",
+      "source": "src/scheduler.c"
+    },
+    "instruction_has_side_effects": {
+      "logical": "@instruction_has_side_effects@4",
+      "source": "src/instruction-uses.c"
+    },
+    "instruction_mentions_register": {
+      "logical": "@instruction_mentions_register@8",
+      "source": "src/instruction-uses.c"
+    },
+    "instruction_modifies_operand": {
+      "logical": "@instruction_modifies_operand@12",
+      "source": "src/instruction-uses.c"
+    },
+    "instruction_operands_equal": {
+      "logical": "@instruction_operands_equal@16",
+      "source": "src/instruction-uses.c"
+    },
+    "integer_log2": {
+      "logical": "@integer_log2@4",
+      "source": "src/stubs.c"
+    },
+    "integer_node": {
+      "logical": "@integer_node@8",
+      "source": "src/stubs.c"
+    },
+    "integer_sign_bit": {
+      "logical": "@integer_sign_bit@4",
+      "source": "src/stubs.c"
+    },
+    "integer_to_extended": {
+      "logical": "_integer_to_extended",
+      "source": "src/extended.c"
+    },
+    "integer_type_limit": {
+      "logical": "@integer_type_limit@8",
+      "source": "src/stubs.c"
+    },
+    "integer_width_bits": {
+      "logical": "@integer_width_bits@4",
+      "source": "src/stubs.c"
+    },
+    "integer_width_mask": {
+      "logical": "@integer_width_mask@4",
+      "source": "src/stubs.c"
+    },
+    "intern_leaf": {
+      "logical": "_intern_leaf",
+      "source": "src/leaves.c"
+    },
+    "intern_numbered_expression": {
+      "logical": "@intern_numbered_expression@4",
+      "source": "src/work-optimizer.c"
+    },
+    "intern_symbol_name": {
+      "logical": "@intern_symbol_name@12",
+      "source": "src/names.c"
+    },
+    "intern_typed_label": {
+      "logical": "@intern_typed_label@8",
+      "source": "src/stubs.c"
+    },
+    "intern_work_value": {
+      "logical": "@intern_work_value@4",
+      "source": "src/work-optimizer.c"
+    },
+    "intersect_bitset": {
+      "logical": "@intersect_bitset@8",
+      "source": "src/bitsets.c"
+    },
+    "invalidate_work_reference": {
+      "logical": "@invalidate_work_reference@4",
+      "source": "src/work-optimizer.c"
+    },
+    "invalidate_work_tree": {
+      "logical": "@invalidate_work_tree@4",
+      "source": "src/stubs.c"
+    },
+    "is_address_exposed_value": {
+      "logical": "@is_address_exposed_value@4",
+      "source": "src/work-optimizer.c"
+    },
+    "is_boundary_flow_label": {
+      "logical": "@is_boundary_flow_label@4",
+      "source": "src/stubs.c"
+    },
+    "is_constant_symbol": {
+      "logical": "@is_constant_symbol@4",
+      "source": "src/segment-storage.c"
+    },
+    "is_constant_value": {
+      "logical": "@is_constant_value@8",
+      "source": "src/stubs.c"
+    },
+    "is_empty_bitset": {
+      "logical": "@is_empty_bitset@4",
+      "source": "src/bitsets.c"
+    },
+    "is_function_reference": {
+      "logical": "@is_function_reference@4",
+      "source": "src/stubs.c"
+    },
+    "is_global_work_value": {
+      "logical": "@is_global_work_value@8",
+      "source": "src/work-optimizer.c"
+    },
+    "is_negatable_negative_constant": {
+      "logical": "@is_negatable_negative_constant@4",
+      "source": "src/stubs.c"
+    },
+    "is_nonnegative_tree": {
+      "logical": "@is_nonnegative_tree@4",
+      "source": "src/stubs.c"
+    },
+    "is_nonnull_address": {
+      "logical": "@is_nonnull_address@4",
+      "source": "src/tree-types.c"
+    },
+    "is_parameter_memory_value": {
+      "logical": "@is_parameter_memory_value@4",
+      "source": "src/register-transfers.c"
+    },
+    "is_private_work_value": {
+      "logical": "@is_private_work_value@4",
+      "source": "src/work-alias.c"
+    },
+    "is_register_return_size": {
+      "logical": "@is_register_return_size@4",
+      "source": "src/stubs.c"
+    },
+    "is_tail_call_position": {
+      "logical": "@is_tail_call_position@8",
+      "source": "src/stubs.c"
+    },
+    "label_has_fallthrough_predecessor": {
+      "logical": "@label_has_fallthrough_predecessor@4",
+      "source": "src/jump-threading.c"
+    },
+    "label_machine_instruction": {
+      "logical": "@label_machine_instruction@4",
+      "source": "src/machine-layout.c"
+    },
+    "last_flow_expression": {
+      "logical": "@last_flow_expression@4",
+      "source": "src/flow-edges.c"
+    },
+    "layout_machine_stream": {
+      "logical": "@layout_machine_stream@8",
+      "source": "src/machine-layout.c"
+    },
+    "lift_both_unary": {
+      "logical": "@lift_both_unary@4",
+      "source": "src/stubs.c"
+    },
+    "lift_left_sequence": {
+      "logical": "@lift_left_sequence@4",
+      "source": "src/stubs.c"
+    },
+    "lift_left_unary": {
+      "logical": "@lift_left_unary@4",
+      "source": "src/stubs.c"
+    },
+    "lift_right_sequence": {
+      "logical": "@lift_right_sequence@4",
+      "source": "src/stubs.c"
+    },
+    "lift_typed_sequence": {
+      "logical": "@lift_typed_sequence@8",
+      "source": "src/stubs.c"
+    },
+    "lift_unary_operand": {
+      "logical": "@lift_unary_operand@8",
+      "source": "src/stubs.c"
+    },
+    "limit_global_allocation_values": {
+      "logical": "@limit_global_allocation_values@4",
+      "source": "src/global-registers.c"
+    },
+    "listing_segment_name": {
+      "logical": "@listing_segment_name@4",
+      "source": "src/stubs.c"
+    },
+    "lookup_alias_target": {
+      "logical": "@lookup_alias_target@4",
+      "source": "src/stubs.c"
+    },
+    "lookup_exception_scope": {
+      "logical": "@lookup_exception_scope@8",
+      "source": "src/stubs.c"
+    },
+    "lookup_filename": {
+      "logical": "@lookup_filename@4",
+      "source": "src/records.c"
+    },
+    "lookup_floating_opcode": {
+      "logical": "@lookup_floating_opcode@8",
+      "source": "src/stubs.c"
+    },
+    "lookup_flow_label": {
+      "logical": "@lookup_flow_label@4",
+      "source": "src/flow-labels.c"
+    },
+    "lookup_global_symbol": {
+      "logical": "@lookup_global_symbol@4",
+      "source": "src/symbols.c"
+    },
+    "lookup_opcode": {
+      "logical": "@lookup_opcode@8",
+      "source": "src/machine-operands.c"
+    },
+    "lookup_register_lifetime": {
+      "logical": "@lookup_register_lifetime@8",
+      "source": "src/register-use.c"
+    },
+    "lookup_register_variable": {
+      "logical": "@lookup_register_variable@8",
+      "source": "src/register-variables.c"
+    },
+    "lookup_symbol": {
+      "logical": "@lookup_symbol@8",
+      "source": "src/symbols.c"
+    },
+    "lookup_work_reference": {
+      "logical": "@lookup_work_reference@8",
+      "source": "src/work-optimizer.c"
+    },
+    "loop_depth_weight": {
+      "logical": "@loop_depth_weight@4",
+      "source": "src/physical-conflicts.c"
+    },
+    "lower_assignment": {
+      "logical": "@lower_assignment@4",
+      "source": "src/work-prepare.c"
+    },
+    "lower_bitfield_assignment": {
+      "logical": "@lower_bitfield_assignment@4",
+      "source": "src/stubs.c"
+    },
+    "lower_bitfield_reference": {
+      "logical": "@lower_bitfield_reference@4",
+      "source": "src/stubs.c"
+    },
+    "lower_comma": {
+      "logical": "@lower_comma@8",
+      "source": "src/stubs.c"
+    },
+    "lower_conditional": {
+      "logical": "@lower_conditional@8",
+      "source": "src/stubs.c"
+    },
+    "lower_far_pointer_cast": {
+      "logical": "@lower_far_pointer_cast@4",
+      "source": "src/stubs.c"
+    },
+    "lower_float_expression": {
+      "logical": "@lower_float_expression@4",
+      "source": "src/stubs.c"
+    },
+    "lower_intrinsic": {
+      "logical": "@lower_intrinsic@8",
+      "source": "src/stubs.c"
+    },
+    "lower_machine_tree": {
+      "logical": "@lower_machine_tree@4",
+      "source": "src/work-prepare.c"
+    },
+    "lower_switch_dispatch": {
+      "logical": "@lower_switch_dispatch@12",
+      "source": "src/work-prepare.c"
+    },
+    "lower_target_address": {
+      "logical": "@lower_target_address@4",
+      "source": "src/stubs.c"
+    },
+    "lower_unoptimized_machine": {
+      "logical": "_lower_unoptimized_machine",
+      "source": "src/unoptimized.c"
+    },
+    "lowest_set_bit": {
+      "logical": "@lowest_set_bit@4",
+      "source": "src/bitsets.c"
+    },
+    "machine_block_protected": {
+      "logical": "@machine_block_protected@4",
+      "source": "src/comparison-branches.c"
+    },
+    "machine_instruction_size": {
+      "logical": "@machine_instruction_size@4",
+      "source": "src/instruction-encoding.c"
+    },
+    "machine_operand_bytes": {
+      "logical": "@machine_operand_bytes@8",
+      "source": "src/instruction-uses.c"
+    },
+    "machine_operand_label": {
+      "logical": "@machine_operand_label@4",
+      "source": "src/machine-analysis.c"
+    },
+    "machine_records_equal": {
+      "logical": "@machine_records_equal@8",
+      "source": "src/machine-records.c"
+    },
+    "machine_sequence_cost": {
+      "logical": "@machine_sequence_cost@4",
+      "source": "src/stubs.c"
+    },
+    "main": {
+      "logical": "_main",
+      "source": "src/c2.c"
+    },
+    "make_switch_pivot": {
+      "logical": "@make_switch_pivot@4",
+      "source": "src/stubs.c"
+    },
+    "make_truth_test": {
+      "logical": "@make_truth_test@4",
+      "source": "src/stubs.c"
+    },
+    "map_assignment_opcode": {
+      "logical": "@map_assignment_opcode@8",
+      "source": "src/stubs.c"
+    },
+    "map_comparison_opcode": {
+      "logical": "@map_comparison_opcode@8",
+      "source": "src/stubs.c"
+    },
+    "mark_listing_symbols": {
+      "logical": "@mark_listing_symbols@4",
+      "source": "src/stubs.c"
+    },
+    "mark_lowering_register_dead": {
+      "logical": "@mark_lowering_register_dead@4",
+      "source": "src/unoptimized.c"
+    },
+    "mark_lowering_register_live": {
+      "logical": "@mark_lowering_register_live@4",
+      "source": "src/unoptimized.c"
+    },
+    "mark_reachable_work": {
+      "logical": "@mark_reachable_work@4",
+      "source": "src/flow-blocks.c"
+    },
+    "mark_register_definition_ends": {
+      "logical": "@mark_register_definition_ends@12",
+      "source": "src/stubs.c"
+    },
+    "mark_unwritten_symbol": {
+      "logical": "_mark_unwritten_symbol",
+      "source": "src/stubs.c"
+    },
+    "mark_work_reference": {
+      "logical": "@mark_work_reference@4",
+      "source": "src/work-optimizer.c"
+    },
+    "mark_x87_call_result": {
+      "logical": "_mark_x87_call_result",
+      "source": "src/stubs.c"
+    },
+    "match_option": {
+      "logical": "@match_option@16",
+      "source": "src/options.c"
+    },
+    "matches_assignment_load": {
+      "logical": "@matches_assignment_load@8",
+      "source": "src/stubs.c"
+    },
+    "materialize_boolean": {
+      "logical": "@materialize_boolean@8",
+      "source": "src/stubs.c"
+    },
+    "materialize_expression": {
+      "logical": "@materialize_expression@4",
+      "source": "src/stubs.c"
+    },
+    "materialize_inline_arguments": {
+      "logical": "@materialize_inline_arguments@12",
+      "source": "src/stubs.c"
+    },
+    "materialize_numbered_tree": {
+      "logical": "@materialize_numbered_tree@4",
+      "source": "src/stubs.c"
+    },
+    "memory_displacements_overlap": {
+      "logical": "@memory_displacements_overlap@16",
+      "source": "src/stubs.c"
+    },
+    "memory_value_node": {
+      "logical": "@memory_value_node@8",
+      "source": "src/work-optimizer.c"
+    },
+    "merge_inline_scope": {
+      "logical": "@merge_inline_scope@8",
+      "source": "src/stubs.c"
+    },
+    "merge_jump_diamond": {
+      "logical": "@merge_jump_diamond@12",
+      "source": "src/stubs.c"
+    },
+    "merge_predecessor_references": {
+      "logical": "@merge_predecessor_references@4",
+      "source": "src/work-optimizer.c"
+    },
+    "merge_register_affinity": {
+      "logical": "@merge_register_affinity@8",
+      "source": "src/physical-coalescing.c"
+    },
+    "merge_register_graph": {
+      "logical": "@merge_register_graph@8",
+      "source": "src/physical-coalescing.c"
+    },
+    "merge_sorted_lists": {
+      "logical": "@merge_sorted_lists@12",
+      "source": "src/linked-lists.c"
+    },
+    "move_data_blocks_to_end": {
+      "logical": "@move_data_blocks_to_end@4",
+      "source": "src/jump-threading.c"
+    },
+    "narrow_binary_conversion": {
+      "logical": "@narrow_binary_conversion@8",
+      "source": "src/stubs.c"
+    },
+    "narrow_comparison_condition": {
+      "logical": "@narrow_comparison_condition@4",
+      "source": "src/stubs.c"
+    },
+    "narrow_result_safe": {
+      "logical": "@narrow_result_safe@4",
+      "source": "src/stubs.c"
+    },
+    "needs_return_temp": {
+      "logical": "@needs_return_temp@12",
+      "source": "src/function-input.c"
+    },
+    "negate_condition": {
+      "logical": "@negate_condition@4",
+      "source": "src/stubs.c"
+    },
+    "negate_tree": {
+      "logical": "@negate_tree@4",
+      "source": "src/stubs.c"
+    },
+    "negate_tree_in_place": {
+      "logical": "@negate_tree_in_place@4",
+      "source": "src/stubs.c"
+    },
+    "new_allocation_range": {
+      "logical": "_new_allocation_range",
+      "source": "src/global-registers.c"
+    },
+    "new_bitset": {
+      "logical": "_new_bitset",
+      "source": "src/bitsets.c"
+    },
+    "new_bitset_node": {
+      "logical": "_new_bitset_node",
+      "source": "src/bitsets.c"
+    },
+    "new_call_definitions": {
+      "logical": "_new_call_definitions",
+      "source": "src/global-registers.c"
+    },
+    "new_expression": {
+      "logical": "_new_expression",
+      "source": "src/nodes.c"
+    },
+    "new_flow_label": {
+      "logical": "_new_flow_label",
+      "source": "src/flow-labels.c"
+    },
+    "new_flow_label_node": {
+      "logical": "_new_flow_label_node",
+      "source": "src/stubs.c"
+    },
+    "new_flow_link": {
+      "logical": "@new_flow_link@4",
+      "source": "src/flow-labels.c"
+    },
+    "new_flow_region": {
+      "logical": "_new_flow_region",
+      "source": "src/flow-regions.c"
+    },
+    "new_frame_access": {
+      "logical": "@new_frame_access@20",
+      "source": "src/frame-access.c"
+    },
+    "new_initializer": {
+      "logical": "@new_initializer@4",
+      "source": "src/initializers.c"
+    },
+    "new_inline_site": {
+      "logical": "@new_inline_site@16",
+      "source": "src/stubs.c"
+    },
+    "new_inline_storage": {
+      "logical": "@new_inline_storage@8",
+      "source": "src/stubs.c"
+    },
+    "new_instruction_schedule": {
+      "logical": "_new_instruction_schedule",
+      "source": "src/scheduler.c"
+    },
+    "new_internal_label": {
+      "logical": "_new_internal_label",
+      "source": "src/stubs.c"
+    },
+    "new_machine_address": {
+      "logical": "_new_machine_address",
+      "source": "src/machine-operands.c"
+    },
+    "new_machine_instruction": {
+      "logical": "@new_machine_instruction@4",
+      "source": "src/machine-records.c"
+    },
+    "new_machine_record": {
+      "logical": "_new_machine_record",
+      "source": "src/machine-records.c"
+    },
+    "new_machine_region": {
+      "logical": "@new_machine_region@12",
+      "source": "src/machine-analysis.c"
+    },
+    "new_node": {
+      "logical": "@new_node@4",
+      "source": "src/nodes.c"
+    },
+    "new_operand": {
+      "logical": "@new_operand@16",
+      "source": "src/machine-operands.c"
+    },
+    "new_pending_work_effect": {
+      "logical": "_new_pending_work_effect",
+      "source": "src/work-optimizer.c"
+    },
+    "new_register_affinity": {
+      "logical": "@new_register_affinity@8",
+      "source": "src/physical-coalescing.c"
+    },
+    "new_register_conflict": {
+      "logical": "@new_register_conflict@4",
+      "source": "src/physical-conflicts.c"
+    },
+    "new_register_variable": {
+      "logical": "@new_register_variable@4",
+      "source": "src/register-variables.c"
+    },
+    "new_scope": {
+      "logical": "_new_scope",
+      "source": "src/symbols.c"
+    },
+    "new_selection_block": {
+      "logical": "@new_selection_block@16",
+      "source": "src/instruction-selection.c"
+    },
+    "new_storage_reference": {
+      "logical": "@new_storage_reference@4",
+      "source": "src/stubs.c"
+    },
+    "new_symbol_list_node": {
+      "logical": "_new_symbol_list_node",
+      "source": "src/stubs.c"
+    },
+    "new_temporary_descriptor": {
+      "logical": "@new_temporary_descriptor@4",
+      "source": "src/temporaries.c"
+    },
+    "new_temporary_reference": {
+      "logical": "@new_temporary_reference@8",
+      "source": "src/temporaries.c"
+    },
+    "new_value_register": {
+      "logical": "@new_value_register@4",
+      "source": "src/machine-operands.c"
+    },
+    "new_work_item": {
+      "logical": "_new_work_item",
+      "source": "src/work-input.c"
+    },
+    "new_work_reference": {
+      "logical": "_new_work_reference",
+      "source": "src/work-optimizer.c"
+    },
+    "new_work_reference_table": {
+      "logical": "_new_work_reference_table",
+      "source": "src/work-optimizer.c"
+    },
+    "next_argument": {
+      "logical": "_next_argument",
+      "source": "src/arguments.c"
+    },
+    "next_bitset_member": {
+      "logical": "@next_bitset_member@4",
+      "source": "src/bitsets.c"
+    },
+    "next_flow_expression": {
+      "logical": "_next_flow_expression",
+      "source": "src/global-work.c"
+    },
+    "next_machine_block": {
+      "logical": "@next_machine_block@4",
+      "source": "src/machine-state.c"
+    },
+    "next_machine_operation": {
+      "logical": "@next_machine_operation@4",
+      "source": "src/machine-layout.c"
+    },
+    "next_scope_symbol": {
+      "logical": "@next_scope_symbol@8",
+      "source": "src/symbols.c"
+    },
+    "next_symbol_identifier": {
+      "logical": "_next_symbol_identifier",
+      "source": "src/symbols.c"
+    },
+    "next_work_value_node": {
+      "logical": "@next_work_value_node@4",
+      "source": "src/work-optimizer.c"
+    },
+    "node_hash_key": {
+      "logical": "@node_hash_key@4",
+      "source": "src/tree-equality.c"
+    },
+    "node_type_kind": {
+      "logical": "@node_type_kind@4",
+      "source": "src/expression-fields.c"
+    },
+    "normalize_assembly_flow_symbol": {
+      "logical": "@normalize_assembly_flow_symbol@8",
+      "source": "src/stubs.c"
+    },
+    "normalize_flow_targets": {
+      "logical": "@normalize_flow_targets@4",
+      "source": "src/flow-edges.c"
+    },
+    "normalize_integer_width": {
+      "logical": "@normalize_integer_width@8",
+      "source": "src/constant-conversion.c"
+    },
+    "number_work_blocks": {
+      "logical": "@number_work_blocks@4",
+      "source": "src/flow-blocks.c"
+    },
+    "omf_finish_module": {
+      "logical": "_omf_finish_module",
+      "source": "src/stubs.c"
+    },
+    "omf_mark_symbol": {
+      "logical": "_omf_mark_symbol",
+      "source": "src/stubs.c"
+    },
+    "omf_open_module": {
+      "logical": "_omf_open_module",
+      "source": "src/stubs.c"
+    },
+    "omf_output_bytes": {
+      "logical": "_omf_output_bytes",
+      "source": "src/stubs.c"
+    },
+    "omf_output_data": {
+      "logical": "_omf_output_data",
+      "source": "src/stubs.c"
+    },
+    "omf_output_debug_pair": {
+      "logical": "_omf_output_debug_pair",
+      "source": "src/stubs.c"
+    },
+    "omf_output_debug_record": {
+      "logical": "_omf_output_debug_record",
+      "source": "src/stubs.c"
+    },
+    "omf_output_offset": {
+      "logical": "_omf_output_offset",
+      "source": "src/stubs.c"
+    },
+    "omf_output_record": {
+      "logical": "_omf_output_record",
+      "source": "src/stubs.c"
+    },
+    "omf_output_relocation": {
+      "logical": "_omf_output_relocation",
+      "source": "src/stubs.c"
+    },
+    "omf_output_size": {
+      "logical": "_omf_output_size",
+      "source": "src/stubs.c"
+    },
+    "omf_output_symbol": {
+      "logical": "_omf_output_symbol",
+      "source": "src/stubs.c"
+    },
+    "omf_output_value": {
+      "logical": "_omf_output_value",
+      "source": "src/stubs.c"
+    },
+    "omf_select_segment": {
+      "logical": "_omf_select_segment",
+      "source": "src/stubs.c"
+    },
+    "open_intermediate": {
+      "logical": "@open_intermediate@16",
+      "source": "src/input.c"
+    },
+    "open_listing_source": {
+      "logical": "@open_listing_source@4",
+      "source": "src/stubs.c"
+    },
+    "operand_changed_between": {
+      "logical": "@operand_changed_between@16",
+      "source": "src/instruction-uses.c"
+    },
+    "operand_ends_physical_register": {
+      "logical": "@operand_ends_physical_register@8",
+      "source": "src/physical-rewrite.c"
+    },
+    "operand_for_register": {
+      "logical": "@operand_for_register@4",
+      "source": "src/machine-operands.c"
+    },
+    "operand_for_spill": {
+      "logical": "@operand_for_spill@12",
+      "source": "src/physical-spill.c"
+    },
+    "operand_mentions_register": {
+      "logical": "@operand_mentions_register@8",
+      "source": "src/instruction-uses.c"
+    },
+    "operand_replacement_allowed": {
+      "logical": "@operand_replacement_allowed@16",
+      "source": "src/instruction-uses.c"
+    },
+    "operand_value_depends_on_color": {
+      "logical": "@operand_value_depends_on_color@8",
+      "source": "src/stubs.c"
+    },
+    "operands_equal": {
+      "logical": "@operands_equal@8",
+      "source": "src/machine-operands.c"
+    },
+    "operands_overlap_storage": {
+      "logical": "@operands_overlap_storage@16",
+      "source": "src/instruction-uses.c"
+    },
+    "operator_identity": {
+      "logical": "@operator_identity@4",
+      "source": "src/algebra.c"
+    },
+    "operator_identity_node": {
+      "logical": "@operator_identity_node@8",
+      "source": "src/stubs.c"
+    },
+    "optimize_allocated_machine_regions": {
+      "logical": "_optimize_allocated_machine_regions",
+      "source": "src/physical-rewrite.c"
+    },
+    "optimize_branch_comparisons": {
+      "logical": "@optimize_branch_comparisons@4",
+      "source": "src/comparison-branches.c"
+    },
+    "optimize_function_flow": {
+      "logical": "@optimize_function_flow@4",
+      "source": "src/tail-recursion.c"
+    },
+    "optimize_machine_flow": {
+      "logical": "_optimize_machine_flow",
+      "source": "src/selection-finishing.c"
+    },
+    "optimize_sahf": {
+      "logical": "@optimize_sahf@4",
+      "source": "src/stubs.c"
+    },
+    "optimize_tree_global": {
+      "logical": "@optimize_tree_global@4",
+      "source": "src/global-tree.c"
+    },
+    "optimize_tree_local": {
+      "logical": "@optimize_tree_local@4",
+      "source": "src/tree-optimizer.c"
+    },
+    "optimize_unconditional_jumps": {
+      "logical": "@optimize_unconditional_jumps@4",
+      "source": "src/jump-threading.c"
+    },
+    "optimize_work": {
+      "logical": "@optimize_work@4",
+      "source": "src/work-optimizer.c"
+    },
+    "order_allocation_variables": {
+      "logical": "@order_allocation_variables@4",
+      "source": "src/physical-allocation.c"
+    },
+    "order_flow_blocks": {
+      "logical": "@order_flow_blocks@4",
+      "source": "src/flow-order.c"
+    },
+    "order_reusable_registers": {
+      "logical": "@order_reusable_registers@12",
+      "source": "src/physical-rewrite.c"
+    },
+    "order_tree_operands": {
+      "logical": "@order_tree_operands@8",
+      "source": "src/tree-optimizer.c"
+    },
+    "output_noop": {
+      "logical": "_output_noop",
+      "source": "src/output.c"
+    },
+    "output_noop_data": {
+      "logical": "_output_noop_data",
+      "source": "src/stubs.c"
+    },
+    "output_noop_debug": {
+      "logical": "@output_noop_debug@8",
+      "source": "src/output.c"
+    },
+    "output_noop_function": {
+      "logical": "_output_noop_function",
+      "source": "src/stubs.c"
+    },
+    "output_noop_pair": {
+      "logical": "@output_noop_pair@4",
+      "source": "src/output.c"
+    },
+    "output_noop_record": {
+      "logical": "_output_noop_record",
+      "source": "src/stubs.c"
+    },
+    "output_noop_relocation": {
+      "logical": "_output_noop_relocation",
+      "source": "src/stubs.c"
+    },
+    "output_noop_symbol": {
+      "logical": "@output_noop_symbol@4",
+      "source": "src/output.c"
+    },
+    "output_noop_value": {
+      "logical": "_output_noop_value",
+      "source": "src/stubs.c"
+    },
+    "overwrites_first_register": {
+      "logical": "@overwrites_first_register@8",
+      "source": "src/register-use.c"
+    },
+    "overwrites_second_register": {
+      "logical": "@overwrites_second_register@8",
+      "source": "src/register-use.c"
+    },
+    "pad_listing_column": {
+      "logical": "@pad_listing_column@4",
+      "source": "src/stubs.c"
+    },
+    "parse_number": {
+      "logical": "@parse_number@4",
+      "source": "src/options.c"
+    },
+    "parse_options": {
+      "logical": "_parse_options",
+      "source": "src/options.c"
+    },
+    "partition_global_work": {
+      "logical": "@partition_global_work@4",
+      "source": "src/global-work.c"
+    },
+    "partition_loop_predecessors": {
+      "logical": "@partition_loop_predecessors@8",
+      "source": "src/stubs.c"
+    },
+    "peephole_selected_block": {
+      "logical": "@peephole_selected_block@8",
+      "source": "src/stubs.c"
+    },
+    "preferred_reuse_colors": {
+      "logical": "@preferred_reuse_colors@12",
+      "source": "src/physical-rewrite.c"
+    },
+    "prepare_backend_symbols": {
+      "logical": "_prepare_backend_symbols",
+      "source": "src/backend-symbols.c"
+    },
+    "prepare_float_machine_data": {
+      "logical": "@prepare_float_machine_data@4",
+      "source": "src/stubs.c"
+    },
+    "prepare_float_schedule": {
+      "logical": "@prepare_float_schedule@4",
+      "source": "src/stubs.c"
+    },
+    "prepare_float_stream_uses": {
+      "logical": "_prepare_float_stream_uses",
+      "source": "src/stubs.c"
+    },
+    "prepare_flow_blocks": {
+      "logical": "@prepare_flow_blocks@4",
+      "source": "src/flow-edges.c"
+    },
+    "prepare_generated_intrinsic": {
+      "logical": "@prepare_generated_intrinsic@8",
+      "source": "src/stubs.c"
+    },
+    "prepare_global_node": {
+      "logical": "@prepare_global_node@4",
+      "source": "src/global-tree.c"
+    },
+    "prepare_global_tree": {
+      "logical": "@prepare_global_tree@4",
+      "source": "src/global-tree.c"
+    },
+    "prepare_inline_function": {
+      "logical": "@prepare_inline_function@4",
+      "source": "src/stubs.c"
+    },
+    "prepare_machine_blocks": {
+      "logical": "@prepare_machine_blocks@4",
+      "source": "src/post-allocation.c"
+    },
+    "prepare_machine_context": {
+      "logical": "@prepare_machine_context@4",
+      "source": "src/machine-transfers.c"
+    },
+    "prepare_machine_region_transform": {
+      "logical": "@prepare_machine_region_transform@4",
+      "source": "src/stubs.c"
+    },
+    "prepare_parameter_storage": {
+      "logical": "@prepare_parameter_storage@4",
+      "source": "src/parameter-storage.c"
+    },
+    "prepare_region_exit_motion": {
+      "logical": "_prepare_region_exit_motion",
+      "source": "src/stubs.c"
+    },
+    "prepare_region_insertion": {
+      "logical": "@prepare_region_insertion@4",
+      "source": "src/stubs.c"
+    },
+    "prepare_schedule_window": {
+      "logical": "@prepare_schedule_window@8",
+      "source": "src/scheduler.c"
+    },
+    "prepare_scheduled_instruction": {
+      "logical": "@prepare_scheduled_instruction@8",
+      "source": "src/scheduler.c"
+    },
+    "prepare_source_listing": {
+      "logical": "@prepare_source_listing@4",
+      "source": "src/stubs.c"
+    },
+    "prepare_target_tree": {
+      "logical": "@prepare_target_tree@4",
+      "source": "src/canonicalize.c"
+    },
+    "prepare_work": {
+      "logical": "@prepare_work@4",
+      "source": "src/work-prepare.c"
+    },
+    "previous_machine_operation": {
+      "logical": "@previous_machine_operation@4",
+      "source": "src/machine-layout.c"
+    },
+    "process_machine_region_reference": {
+      "logical": "@process_machine_region_reference@12",
+      "source": "src/machine-analysis.c"
+    },
+    "process_special_machine_region_reference": {
+      "logical": "@process_special_machine_region_reference@8",
+      "source": "src/stubs.c"
+    },
+    "promote_region_immediates": {
+      "logical": "@promote_region_immediates@4",
+      "source": "src/machine-simplify.c"
+    },
+    "propagate_physical_copy": {
+      "logical": "@propagate_physical_copy@4",
+      "source": "src/post-allocation.c"
+    },
+    "propagate_physical_operand": {
+      "logical": "@propagate_physical_operand@12",
+      "source": "src/post-allocation.c"
+    },
+    "prune_rematerialized_variables": {
+      "logical": "_prune_rematerialized_variables",
+      "source": "src/physical-allocation.c"
+    },
+    "push_unary_below_conversion": {
+      "logical": "@push_unary_below_conversion@4",
+      "source": "src/stubs.c"
+    },
+    "put_symbol": {
+      "logical": "@put_symbol@8",
+      "source": "src/symbols.c"
+    },
+    "putback_flow_expression": {
+      "logical": "@putback_flow_expression@4",
+      "source": "src/global-work.c"
+    },
+    "queue_initializer_dependencies": {
+      "logical": "@queue_initializer_dependencies@4",
+      "source": "src/stubs.c"
+    },
+    "queue_symbol_debug": {
+      "logical": "@queue_symbol_debug@4",
+      "source": "src/symbol-output.c"
+    },
+    "read_control_fields": {
+      "logical": "@read_control_fields@4",
+      "source": "src/control-input.c"
+    },
+    "read_expression": {
+      "logical": "@read_expression@4",
+      "source": "src/tree-input.c"
+    },
+    "read_expression_record": {
+      "logical": "@read_expression_record@4",
+      "source": "src/tree-input.c"
+    },
+    "read_frontend_header": {
+      "logical": "_read_frontend_header",
+      "source": "src/initialize.c"
+    },
+    "read_function": {
+      "logical": "@read_function@4",
+      "source": "src/function-input.c"
+    },
+    "read_function_body": {
+      "logical": "@read_function_body@4",
+      "source": "src/function-input.c"
+    },
+    "read_global_records": {
+      "logical": "@read_global_records@4",
+      "source": "src/records.c"
+    },
+    "read_initializer_body": {
+      "logical": "@read_initializer_body@4",
+      "source": "src/initializers.c"
+    },
+    "read_initializers": {
+      "logical": "@read_initializers@4",
+      "source": "src/initializers.c"
+    },
+    "read_module_directive": {
+      "logical": "@read_module_directive@4",
+      "source": "src/control-input.c"
+    },
+    "read_node_type": {
+      "logical": "@read_node_type@4",
+      "source": "src/expression-fields.c"
+    },
+    "read_qualified_symbol": {
+      "logical": "@read_qualified_symbol@8",
+      "source": "src/stubs.c"
+    },
+    "read_symbol": {
+      "logical": "@read_symbol@4",
+      "source": "src/symbol-input.c"
+    },
+    "reassociate_global_node": {
+      "logical": "@reassociate_global_node@4",
+      "source": "src/global-tree.c"
+    },
+    "reassociate_right_chain": {
+      "logical": "@reassociate_right_chain@4",
+      "source": "src/stubs.c"
+    },
+    "rebuild_region_header_references": {
+      "logical": "_rebuild_region_header_references",
+      "source": "src/stubs.c"
+    },
+    "recombine_scheduled_loads": {
+      "logical": "@recombine_scheduled_loads@8",
+      "source": "src/stubs.c"
+    },
+    "record_allocation_operand": {
+      "logical": "@record_allocation_operand@20",
+      "source": "src/physical-conflicts.c"
+    },
+    "record_byte_register_constraints": {
+      "logical": "@record_byte_register_constraints@8",
+      "source": "src/unoptimized.c"
+    },
+    "record_debug_register_locations": {
+      "logical": "_record_debug_register_locations",
+      "source": "src/stubs.c"
+    },
+    "record_filename": {
+      "logical": "@record_filename@4",
+      "source": "src/records.c"
+    },
+    "record_float_register": {
+      "logical": "@record_float_register@8",
+      "source": "src/stubs.c"
+    },
+    "record_global_register_ranges": {
+      "logical": "_record_global_register_ranges",
+      "source": "src/register-transfers.c"
+    },
+    "record_implicit_register_conflicts": {
+      "logical": "@record_implicit_register_conflicts@8",
+      "source": "src/physical-conflicts.c"
+    },
+    "record_lowering_conflicts": {
+      "logical": "@record_lowering_conflicts@4",
+      "source": "src/unoptimized.c"
+    },
+    "record_machine_definition_range": {
+      "logical": "@record_machine_definition_range@12",
+      "source": "src/stubs.c"
+    },
+    "record_operand_conflicts": {
+      "logical": "@record_operand_conflicts@16",
+      "source": "src/physical-conflicts.c"
+    },
+    "record_operand_uses": {
+      "logical": "@record_operand_uses@12",
+      "source": "src/register-use.c"
+    },
+    "record_region_register": {
+      "logical": "@record_region_register@16",
+      "source": "src/stubs.c"
+    },
+    "record_register_use": {
+      "logical": "@record_register_use@12",
+      "source": "src/register-use.c"
+    },
+    "record_register_variable_range": {
+      "logical": "@record_register_variable_range@32",
+      "source": "src/register-variables.c"
+    },
+    "record_rematerialized_registers": {
+      "logical": "@record_rematerialized_registers@8",
+      "source": "src/stubs.c"
+    },
+    "record_special_register_conflicts": {
+      "logical": "@record_special_register_conflicts@8",
+      "source": "src/physical-conflicts.c"
+    },
+    "record_written_register_aliases": {
+      "logical": "@record_written_register_aliases@4",
+      "source": "src/physical-rewrite.c"
+    },
+    "record_x87_node": {
+      "logical": "@record_x87_node@4",
+      "source": "src/stubs.c"
+    },
+    "recycle_inline_binding": {
+      "logical": "@recycle_inline_binding@4",
+      "source": "src/stubs.c"
+    },
+    "recycle_inline_site": {
+      "logical": "@recycle_inline_site@4",
+      "source": "src/stubs.c"
+    },
+    "redirect_flow_label": {
+      "logical": "@redirect_flow_label@12",
+      "source": "src/stubs.c"
+    },
+    "reduce_additive_chain": {
+      "logical": "@reduce_additive_chain@4",
+      "source": "src/stubs.c"
+    },
+    "reduce_assignment_operator": {
+      "logical": "@reduce_assignment_operator@16",
+      "source": "src/stubs.c"
+    },
+    "reduce_bitwise_terms": {
+      "logical": "@reduce_bitwise_terms@8",
+      "source": "src/stubs.c"
+    },
+    "reduce_constant_bits": {
+      "logical": "@reduce_constant_bits@8",
+      "source": "src/stubs.c"
+    },
+    "reduce_flow_regions": {
+      "logical": "@reduce_flow_regions@4",
+      "source": "src/stubs.c"
+    },
+    "reduce_global_node": {
+      "logical": "@reduce_global_node@4",
+      "source": "src/global-tree.c"
+    },
+    "reduce_multiplicative_chain": {
+      "logical": "@reduce_multiplicative_chain@4",
+      "source": "src/stubs.c"
+    },
+    "reduce_region_induction_strength": {
+      "logical": "_reduce_region_induction_strength",
+      "source": "src/stubs.c"
+    },
+    "reference_assembly_flow_symbol": {
+      "logical": "@reference_assembly_flow_symbol@8",
+      "source": "src/stubs.c"
+    },
+    "reference_flow_label": {
+      "logical": "@reference_flow_label@8",
+      "source": "src/flow-labels.c"
+    },
+    "refresh_region_entries": {
+      "logical": "@refresh_region_entries@4",
+      "source": "src/stubs.c"
+    },
+    "refresh_tree_references": {
+      "logical": "@refresh_tree_references@4",
+      "source": "src/stubs.c"
+    },
+    "register_coff_segment": {
+      "logical": "@register_coff_segment@4",
+      "source": "src/coff-segments.c"
+    },
+    "register_definition_width": {
+      "logical": "@register_definition_width@12",
+      "source": "src/register-use.c"
+    },
+    "register_follows_lea": {
+      "logical": "@register_follows_lea@8",
+      "source": "src/stubs.c"
+    },
+    "register_machine_label": {
+      "logical": "@register_machine_label@4",
+      "source": "src/stubs.c"
+    },
+    "register_memory_address": {
+      "logical": "@register_memory_address@4",
+      "source": "src/register-transfers.c"
+    },
+    "register_mentioned_between": {
+      "logical": "@register_mentioned_between@12",
+      "source": "src/stubs.c"
+    },
+    "register_partial_write_safe": {
+      "logical": "@register_partial_write_safe@4",
+      "source": "src/stubs.c"
+    },
+    "register_precedes_lea": {
+      "logical": "@register_precedes_lea@8",
+      "source": "src/stubs.c"
+    },
+    "register_replacement_blocked": {
+      "logical": "@register_replacement_blocked@12",
+      "source": "src/instruction-uses.c"
+    },
+    "register_result_ignores_old_value": {
+      "logical": "@register_result_ignores_old_value@4",
+      "source": "src/register-use.c"
+    },
+    "register_reuse_barriers": {
+      "logical": "@register_reuse_barriers@8",
+      "source": "src/physical-rewrite.c"
+    },
+    "register_source_changed_between": {
+      "logical": "@register_source_changed_between@12",
+      "source": "src/stubs.c"
+    },
+    "register_spill_homes_compatible": {
+      "logical": "@register_spill_homes_compatible@8",
+      "source": "src/stubs.c"
+    },
+    "register_storage_bytes": {
+      "logical": "@register_storage_bytes@4",
+      "source": "src/register-variables.c"
+    },
+    "registers_conflict": {
+      "logical": "@registers_conflict@8",
+      "source": "src/physical-coalescing.c"
+    },
+    "release_allocation_range": {
+      "logical": "@release_allocation_range@4",
+      "source": "src/stubs.c"
+    },
+    "release_bitset": {
+      "logical": "@release_bitset@4",
+      "source": "src/bitsets.c"
+    },
+    "release_expression": {
+      "logical": "@release_expression@4",
+      "source": "src/nodes.c"
+    },
+    "release_flow_link": {
+      "logical": "@release_flow_link@4",
+      "source": "src/flow-edges.c"
+    },
+    "release_function_symbols": {
+      "logical": "_release_function_symbols",
+      "source": "src/symbols.c"
+    },
+    "release_initializer": {
+      "logical": "@release_initializer@4",
+      "source": "src/stubs.c"
+    },
+    "release_machine_address": {
+      "logical": "@release_machine_address@4",
+      "source": "src/stubs.c"
+    },
+    "release_machine_instruction": {
+      "logical": "@release_machine_instruction@4",
+      "source": "src/machine-records.c"
+    },
+    "release_node": {
+      "logical": "@release_node@4",
+      "source": "src/nodes.c"
+    },
+    "release_node_children": {
+      "logical": "@release_node_children@4",
+      "source": "src/stubs.c"
+    },
+    "release_operand_address": {
+      "logical": "@release_operand_address@4",
+      "source": "src/machine-operands.c"
+    },
+    "release_pending_work_effect": {
+      "logical": "@release_pending_work_effect@4",
+      "source": "src/work-optimizer.c"
+    },
+    "release_physical_copies": {
+      "logical": "@release_physical_copies@4",
+      "source": "src/post-allocation.c"
+    },
+    "release_region_motion": {
+      "logical": "_release_region_motion",
+      "source": "src/stubs.c"
+    },
+    "release_register_affinity": {
+      "logical": "@release_register_affinity@4",
+      "source": "src/physical-coalescing.c"
+    },
+    "release_tree": {
+      "logical": "@release_tree@4",
+      "source": "src/nodes.c"
+    },
+    "release_work_reference_table": {
+      "logical": "@release_work_reference_table@4",
+      "source": "src/work-optimizer.c"
+    },
+    "remember_physical_copy": {
+      "logical": "@remember_physical_copy@8",
+      "source": "src/post-allocation.c"
+    },
+    "remove_allocation_live_register": {
+      "logical": "@remove_allocation_live_register@8",
+      "source": "src/physical-conflicts.c"
+    },
+    "remove_flow_reference": {
+      "logical": "@remove_flow_reference@8",
+      "source": "src/flow-edges.c"
+    },
+    "remove_flow_work": {
+      "logical": "@remove_flow_work@4",
+      "source": "src/flow-blocks.c"
+    },
+    "remove_left_wrapper": {
+      "logical": "@remove_left_wrapper@4",
+      "source": "src/stubs.c"
+    },
+    "remove_machine_instruction": {
+      "logical": "@remove_machine_instruction@4",
+      "source": "src/machine-records.c"
+    },
+    "remove_physical_register_alias": {
+      "logical": "@remove_physical_register_alias@4",
+      "source": "src/physical-rewrite.c"
+    },
+    "remove_register_conflict": {
+      "logical": "@remove_register_conflict@8",
+      "source": "src/stubs.c"
+    },
+    "remove_right_wrapper": {
+      "logical": "@remove_right_wrapper@4",
+      "source": "src/stubs.c"
+    },
+    "remove_unreachable_machine_code": {
+      "logical": "@remove_unreachable_machine_code@4",
+      "source": "src/jump-threading.c"
+    },
+    "remove_unreachable_work": {
+      "logical": "@remove_unreachable_work@4",
+      "source": "src/flow-blocks.c"
+    },
+    "replace_flow_region_last": {
+      "logical": "@replace_flow_region_last@8",
+      "source": "src/stubs.c"
+    },
+    "replace_machine_definition": {
+      "logical": "@replace_machine_definition@12",
+      "source": "src/stubs.c"
+    },
+    "replace_machine_operand": {
+      "logical": "@replace_machine_operand@16",
+      "source": "src/instruction-uses.c"
+    },
+    "replace_machine_region_suffix": {
+      "logical": "@replace_machine_region_suffix@12",
+      "source": "src/stubs.c"
+    },
+    "report_context_error": {
+      "logical": "@report_context_error@12",
+      "source": "src/stubs.c"
+    },
+    "require_external_symbol": {
+      "logical": "@require_external_symbol@4",
+      "source": "src/stubs.c"
+    },
+    "reserve_local_storage": {
+      "logical": "@reserve_local_storage@4",
+      "source": "src/frame.c"
+    },
+    "reserve_segment_storage": {
+      "logical": "@reserve_segment_storage@4",
+      "source": "src/stubs.c"
+    },
+    "reserve_symbol_storage": {
+      "logical": "@reserve_symbol_storage@4",
+      "source": "src/segment-storage.c"
+    },
+    "reset_arena": {
+      "logical": "@reset_arena@4",
+      "source": "src/memory.c"
+    },
+    "reset_flow_label_state": {
+      "logical": "_reset_flow_label_state",
+      "source": "src/flow-labels.c"
+    },
+    "reset_flow_labels": {
+      "logical": "_reset_flow_labels",
+      "source": "src/flow-labels.c"
+    },
+    "reset_global_register_map": {
+      "logical": "_reset_global_register_map",
+      "source": "src/register-variables.c"
+    },
+    "reset_leaf_tables": {
+      "logical": "_reset_leaf_tables",
+      "source": "src/leaves.c"
+    },
+    "reset_machine_state": {
+      "logical": "_reset_machine_state",
+      "source": "src/machine-state.c"
+    },
+    "reset_stack_frame": {
+      "logical": "_reset_stack_frame",
+      "source": "src/frame.c"
+    },
+    "reset_temporary_registers": {
+      "logical": "_reset_temporary_registers",
+      "source": "src/temporaries.c"
+    },
+    "reset_work": {
+      "logical": "_reset_work",
+      "source": "src/work-input.c"
+    },
+    "resolve_flow_labels": {
+      "logical": "_resolve_flow_labels",
+      "source": "src/flow-labels.c"
+    },
+    "resolve_frame_allocation": {
+      "logical": "@resolve_frame_allocation@4",
+      "source": "src/frame.c"
+    },
+    "restore_excluded_registers": {
+      "logical": "@restore_excluded_registers@4",
+      "source": "src/stubs.c"
+    },
+    "retarget_comparison_branch": {
+      "logical": "@retarget_comparison_branch@16",
+      "source": "src/stubs.c"
+    },
+    "retarget_empty_work_branch": {
+      "logical": "@retarget_empty_work_branch@8",
+      "source": "src/stubs.c"
+    },
+    "retire_physical_register_aliases": {
+      "logical": "@retire_physical_register_aliases@4",
+      "source": "src/physical-rewrite.c"
+    },
+    "return_value_register": {
+      "logical": "@return_value_register@4",
+      "source": "src/function-selection.c"
+    },
+    "reuse_physical_register_values": {
+      "logical": "@reuse_physical_register_values@4",
+      "source": "src/physical-rewrite.c"
+    },
+    "reverse_node_list": {
+      "logical": "@reverse_node_list@4",
+      "source": "src/nodes.c"
+    },
+    "rewrite_after_left": {
+      "logical": "@rewrite_after_left@12",
+      "source": "src/tree-lowering.c"
+    },
+    "rewrite_allocation_registers": {
+      "logical": "@rewrite_allocation_registers@4",
+      "source": "src/global-registers.c"
+    },
+    "rewrite_before_children": {
+      "logical": "@rewrite_before_children@12",
+      "source": "src/tree-lowering.c"
+    },
+    "rewrite_expression": {
+      "logical": "@rewrite_expression@4",
+      "source": "src/tree-references.c"
+    },
+    "rewrite_float_machine_data": {
+      "logical": "_rewrite_float_machine_data",
+      "source": "src/stubs.c"
+    },
+    "rewrite_numbered_tree": {
+      "logical": "@rewrite_numbered_tree@4",
+      "source": "src/work-expressions.c"
+    },
+    "rewrite_region_inductions": {
+      "logical": "_rewrite_region_inductions",
+      "source": "src/stubs.c"
+    },
+    "rewrite_register_block": {
+      "logical": "@rewrite_register_block@8",
+      "source": "src/physical-rewrite.c"
+    },
+    "rewrite_register_regions": {
+      "logical": "@rewrite_register_regions@4",
+      "source": "src/physical-rewrite.c"
+    },
+    "rewrite_shift_as_multiply": {
+      "logical": "@rewrite_shift_as_multiply@4",
+      "source": "src/stubs.c"
+    },
+    "rewrite_short_circuit": {
+      "logical": "@rewrite_short_circuit@4",
+      "source": "src/stubs.c"
+    },
+    "rewrite_stack_pointer_frame": {
+      "logical": "@rewrite_stack_pointer_frame@4",
+      "source": "src/frame-symbols.c"
+    },
+    "rewrite_subtree": {
+      "logical": "@rewrite_subtree@12",
+      "source": "src/tree-references.c"
+    },
+    "rewrite_work_expressions": {
+      "logical": "@rewrite_work_expressions@4",
+      "source": "src/work-expressions.c"
+    },
+    "rewrite_work_values": {
+      "logical": "@rewrite_work_values@4",
+      "source": "src/work-optimizer.c"
+    },
+    "rotate_flow_regions": {
+      "logical": "@rotate_flow_regions@4",
+      "source": "src/flow-rotation.c"
+    },
+    "rotate_left_chain": {
+      "logical": "@rotate_left_chain@16",
+      "source": "src/stubs.c"
+    },
+    "scan_inline_candidates": {
+      "logical": "@scan_inline_candidates@24",
+      "source": "src/inline-candidates.c"
+    },
+    "scan_irreducible_predecessors": {
+      "logical": "@scan_irreducible_predecessors@4",
+      "source": "src/flow-regions.c"
+    },
+    "scan_machine_context": {
+      "logical": "@scan_machine_context@4",
+      "source": "src/machine-state.c"
+    },
+    "schedule_generic_instruction": {
+      "logical": "@schedule_generic_instruction@4",
+      "source": "src/stubs.c"
+    },
+    "schedule_i586_branches": {
+      "logical": "@schedule_i586_branches@4",
+      "source": "src/stubs.c"
+    },
+    "schedule_machine_instructions": {
+      "logical": "@schedule_machine_instructions@4",
+      "source": "src/scheduler.c"
+    },
+    "schedule_pentium_instruction": {
+      "logical": "@schedule_pentium_instruction@4",
+      "source": "src/stubs.c"
+    },
+    "schedule_window": {
+      "logical": "@schedule_window@8",
+      "source": "src/scheduler.c"
+    },
+    "scheduler_allocate": {
+      "logical": "@scheduler_allocate@4",
+      "source": "src/scheduler.c"
+    },
+    "scheduler_release": {
+      "logical": "@scheduler_release@4",
+      "source": "src/stubs.c"
+    },
+    "segment_defaults": {
+      "logical": "@segment_defaults@4",
+      "source": "src/segments.c"
+    },
+    "select_assembly_record": {
+      "logical": "@select_assembly_record@4",
+      "source": "src/stubs.c"
+    },
+    "select_condition": {
+      "logical": "@select_condition@4",
+      "source": "src/value-selection.c"
+    },
+    "select_conditional_value": {
+      "logical": "@select_conditional_value@4",
+      "source": "src/stubs.c"
+    },
+    "select_constant": {
+      "logical": "@select_constant@8",
+      "source": "src/value-selection.c"
+    },
+    "select_directive": {
+      "logical": "@select_directive@4",
+      "source": "src/function-selection.c"
+    },
+    "select_expression": {
+      "logical": "@select_expression@4",
+      "source": "src/expression-selection.c"
+    },
+    "select_intrinsic": {
+      "logical": "@select_intrinsic@4",
+      "source": "src/stubs.c"
+    },
+    "select_lvalue_operand": {
+      "logical": "@select_lvalue_operand@4",
+      "source": "src/machine-operands.c"
+    },
+    "select_value_register": {
+      "logical": "@select_value_register@4",
+      "source": "src/value-selection.c"
+    },
+    "select_work_item": {
+      "logical": "@select_work_item@4",
+      "source": "src/instruction-selection.c"
+    },
+    "set_flow_expression_input": {
+      "logical": "@set_flow_expression_input@4",
+      "source": "src/global-work.c"
+    },
+    "set_machine_frame": {
+      "logical": "@set_machine_frame@8",
+      "source": "src/frame-access.c"
+    },
+    "set_warning_override": {
+      "logical": "@set_warning_override@8",
+      "source": "src/stubs.c"
+    },
+    "shallow_tree_hash": {
+      "logical": "@shallow_tree_hash@4",
+      "source": "src/tree-equality.c"
+    },
+    "shift_discard_mask": {
+      "logical": "@shift_discard_mask@4",
+      "source": "src/stubs.c"
+    },
+    "simplify_branch": {
+      "logical": "@simplify_branch@4",
+      "source": "src/instruction-uses.c"
+    },
+    "simplify_flow_blocks": {
+      "logical": "@simplify_flow_blocks@4",
+      "source": "src/flow-blocks.c"
+    },
+    "simplify_flow_regions": {
+      "logical": "@simplify_flow_regions@4",
+      "source": "src/stubs.c"
+    },
+    "simplify_global_conversion": {
+      "logical": "@simplify_global_conversion@4",
+      "source": "src/stubs.c"
+    },
+    "simplify_local_node": {
+      "logical": "@simplify_local_node@4",
+      "source": "src/algebra.c"
+    },
+    "simplify_machine_branches": {
+      "logical": "_simplify_machine_branches",
+      "source": "src/machine-simplify.c"
+    },
+    "simplify_machine_data": {
+      "logical": "_simplify_machine_data",
+      "source": "src/machine-simplify.c"
+    },
+    "simplify_machine_pairs": {
+      "logical": "@simplify_machine_pairs@4",
+      "source": "src/late-peepholes.c"
+    },
+    "simplify_masked_tree": {
+      "logical": "@simplify_masked_tree@8",
+      "source": "src/stubs.c"
+    },
+    "simplify_reciprocal": {
+      "logical": "@simplify_reciprocal@4",
+      "source": "src/stubs.c"
+    },
+    "simplify_region_exit": {
+      "logical": "_simplify_region_exit",
+      "source": "src/stubs.c"
+    },
+    "simplify_short_circuit": {
+      "logical": "@simplify_short_circuit@8",
+      "source": "src/stubs.c"
+    },
+    "simplify_unspillable_variables": {
+      "logical": "_simplify_unspillable_variables",
+      "source": "src/physical-allocation.c"
+    },
+    "skip_node_conversions": {
+      "logical": "@skip_node_conversions@4",
+      "source": "src/tree-types.c"
+    },
+    "solve_allocation_history": {
+      "logical": "@solve_allocation_history@4",
+      "source": "src/global-registers.c"
+    },
+    "solve_allocation_liveness": {
+      "logical": "@solve_allocation_liveness@4",
+      "source": "src/global-registers.c"
+    },
+    "solve_definition_reachability": {
+      "logical": "@solve_definition_reachability@4",
+      "source": "src/global-registers.c"
+    },
+    "sort_commutative_operands": {
+      "logical": "@sort_commutative_operands@12",
+      "source": "src/stubs.c"
+    },
+    "sort_flow_successors": {
+      "logical": "@sort_flow_successors@8",
+      "source": "src/flow-order.c"
+    },
+    "sort_linked_list": {
+      "logical": "@sort_linked_list@8",
+      "source": "src/linked-lists.c"
+    },
+    "sort_register_affinities": {
+      "logical": "_sort_register_affinities",
+      "source": "src/physical-coalescing.c"
+    },
+    "spill_register_variables": {
+      "logical": "@spill_register_variables@8",
+      "source": "src/stubs.c"
+    },
+    "spill_x87_for_node": {
+      "logical": "@spill_x87_for_node@4",
+      "source": "src/stubs.c"
+    },
+    "splice_expressions": {
+      "logical": "_splice_expressions",
+      "source": "src/tree-references.c"
+    },
+    "split_machine_instructions": {
+      "logical": "@split_machine_instructions@4",
+      "source": "src/stubs.c"
+    },
+    "split_register_transfer_edge": {
+      "logical": "@split_register_transfer_edge@16",
+      "source": "src/stubs.c"
+    },
+    "split_switch_ranges": {
+      "logical": "@split_switch_ranges@24",
+      "source": "src/stubs.c"
+    },
+    "stack_copy_operand_changed": {
+      "logical": "@stack_copy_operand_changed@16",
+      "source": "src/stubs.c"
+    },
+    "store_extended": {
+      "logical": "_store_extended",
+      "source": "src/extended.c"
+    },
+    "strip_assignment_conversion": {
+      "logical": "@strip_assignment_conversion@4",
+      "source": "src/work-prepare.c"
+    },
+    "strip_conversions": {
+      "logical": "@strip_conversions@4",
+      "source": "src/tree-types.c"
+    },
+    "strip_integer_cast": {
+      "logical": "@strip_integer_cast@4",
+      "source": "src/stubs.c"
+    },
+    "substitute_inline_body": {
+      "logical": "@substitute_inline_body@24",
+      "source": "src/stubs.c"
+    },
+    "substitute_work_values": {
+      "logical": "@substitute_work_values@8",
+      "source": "src/work-optimizer.c"
+    },
+    "subtract_bitset": {
+      "logical": "@subtract_bitset@8",
+      "source": "src/bitsets.c"
+    },
+    "suffix_matches": {
+      "logical": "@suffix_matches@12",
+      "source": "src/stubs.c"
+    },
+    "summarize_switch_ranges": {
+      "logical": "@summarize_switch_ranges@20",
+      "source": "src/work-prepare.c"
+    },
+    "summarize_work_memory": {
+      "logical": "@summarize_work_memory@4",
+      "source": "src/work-optimizer.c"
+    },
+    "swap_comparison_for_match": {
+      "logical": "@swap_comparison_for_match@12",
+      "source": "src/comparison-branches.c"
+    },
+    "symbol_display_name": {
+      "logical": "@symbol_display_name@4",
+      "source": "src/names.c"
+    },
+    "symbol_operand": {
+      "logical": "@symbol_operand@8",
+      "source": "src/machine-operands.c"
+    },
+    "sync_machine_work": {
+      "logical": "@sync_machine_work@8",
+      "source": "src/machine-state.c"
+    },
+    "tail_argument_address": {
+      "logical": "@tail_argument_address@4",
+      "source": "src/stubs.c"
+    },
+    "take_left_operand": {
+      "logical": "@take_left_operand@4",
+      "source": "src/stubs.c"
+    },
+    "transfer_bitset": {
+      "logical": "@transfer_bitset@16",
+      "source": "src/bitsets.c"
+    },
+    "transfer_flow_region_work": {
+      "logical": "@transfer_flow_region_work@8",
+      "source": "src/flow-blocks.c"
+    },
+    "transform_function_trees": {
+      "logical": "@transform_function_trees@4",
+      "source": "src/functions.c"
+    },
+    "tree_contains_opcode": {
+      "logical": "@tree_contains_opcode@8",
+      "source": "src/stubs.c"
+    },
+    "tree_order_key": {
+      "logical": "@tree_order_key@12",
+      "source": "src/tree-optimizer.c"
+    },
+    "tree_uses_killed_value": {
+      "logical": "@tree_uses_killed_value@4",
+      "source": "src/work-optimizer.c"
+    },
+    "tree_uses_virtual_register": {
+      "logical": "@tree_uses_virtual_register@8",
+      "source": "src/register-transfers.c"
+    },
+    "trees_equal": {
+      "logical": "@trees_equal@12",
+      "source": "src/tree-equality.c"
+    },
+    "try_select_assignment": {
+      "logical": "@try_select_assignment@4",
+      "source": "src/stubs.c"
+    },
+    "typed_integer_node": {
+      "logical": "@typed_integer_node@8",
+      "source": "src/stubs.c"
+    },
+    "unlink_register_affinity": {
+      "logical": "@unlink_register_affinity@4",
+      "source": "src/physical-coalescing.c"
+    },
+    "unsigned_integer_to_extended": {
+      "logical": "_unsigned_integer_to_extended",
+      "source": "src/stubs.c"
+    },
+    "update_symbol_storage": {
+      "logical": "@update_symbol_storage@4",
+      "source": "src/segment-storage.c"
+    },
+    "uppercase_name": {
+      "logical": "@uppercase_name@4",
+      "source": "src/stubs.c"
+    },
+    "value_node_type": {
+      "logical": "@value_node_type@8",
+      "source": "src/stubs.c"
+    },
+    "visit_flow_order": {
+      "logical": "@visit_flow_order@4",
+      "source": "src/flow-order.c"
+    },
+    "visit_machine_symbols": {
+      "logical": "@visit_machine_symbols@12",
+      "source": "src/stubs.c"
+    },
+    "work_effect_invalidates_value": {
+      "logical": "@work_effect_invalidates_value@8",
+      "source": "src/work-alias.c"
+    },
+    "work_in_flow_region": {
+      "logical": "@work_in_flow_region@8",
+      "source": "src/stubs.c"
+    },
+    "write_common_listing": {
+      "logical": "@write_common_listing@4",
+      "source": "src/stubs.c"
+    },
+    "write_demangled_listing": {
+      "logical": "@write_demangled_listing@8",
+      "source": "src/stubs.c"
+    },
+    "write_external_listing": {
+      "logical": "@write_external_listing@4",
+      "source": "src/stubs.c"
+    },
+    "write_function_listing": {
+      "logical": "@write_function_listing@4",
+      "source": "src/listing.c"
+    },
+    "write_initializer_assembly": {
+      "logical": "@write_initializer_assembly@4",
+      "source": "src/stubs.c"
+    },
+    "write_initializer_listing": {
+      "logical": "@write_initializer_listing@4",
+      "source": "src/listing.c"
+    },
+    "write_instruction_listing": {
+      "logical": "@write_instruction_listing@8",
+      "source": "src/stubs.c"
+    },
+    "write_listing_comment": {
+      "logical": "@write_listing_comment@4",
+      "source": "src/stubs.c"
+    },
+    "write_listing_line": {
+      "logical": "@write_listing_line@4",
+      "source": "src/stubs.c"
+    },
+    "write_listing_source": {
+      "logical": "@write_listing_source@4",
+      "source": "src/stubs.c"
+    },
+    "write_listing_symbol": {
+      "logical": "@write_listing_symbol@4",
+      "source": "src/stubs.c"
+    },
+    "write_local_listing": {
+      "logical": "@write_local_listing@4",
+      "source": "src/stubs.c"
+    },
+    "write_module_directives": {
+      "logical": "_write_module_directives",
+      "source": "src/output.c"
+    },
+    "write_module_listing": {
+      "logical": "@write_module_listing@4",
+      "source": "src/listing.c"
+    },
+    "write_public_listing": {
+      "logical": "@write_public_listing@4",
+      "source": "src/stubs.c"
+    },
+    "write_segment_listing": {
+      "logical": "@write_segment_listing@8",
+      "source": "src/stubs.c"
+    },
+    "write_symbol_declarations": {
+      "logical": "_write_symbol_declarations",
+      "source": "src/listing.c"
+    },
+    "writes_first_operand": {
+      "logical": "@writes_first_operand@4",
+      "source": "src/register-use.c"
+    }
+  },
+  "excluded_crt": [
+    "__filbuf",
+    "__freebuf",
+    "__sopen",
+    "_fseek",
+    "_ftell"
+  ],
+  "provenance": {
+    "minimal": {
+      "path": "/root/.ai-tmp/vc1.0-c2/fast-adoption-continuous-minimal.json",
+      "sha256": "486d4a88266a60cfb8b48d2f4647d690360145c080704e4fdd75caf619d7e9d5",
+      "original_target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "original_logical_entries": [
+        "_mainCRTStartup",
+        "import:GetCommandLineA",
+        "import:GetEnvironmentStrings",
+        "import:GetVersion",
+        "__heap_init",
+        "__ioinit",
+        "import:GetStartupInfoA",
+        "import:GetStdHandle",
+        "import:GetFileType",
+        "__setargv",
+        "import:GetModuleFileNameA",
+        "_parse_cmdline",
+        "_malloc",
+        "__heap_search",
+        "__heap_grow",
+        "__heap_new_region",
+        "import:VirtualAlloc",
+        "__heap_grow_region",
+        "__heap_addblock",
+        "__heap_findaddr",
+        "__heap_grow_emptylist",
+        "__before",
+        "__heap_split_block",
+        "__setenvp",
+        "__cinit",
+        "__fpmath",
+        "__cfltcvt_init",
+        "__setdefaultprecision",
+        "__controlfp",
+        "__control87",
+        "__abstract_cw",
+        "__hw_cw",
+        "__initterm",
+        "__onexitinit",
+        "_main",
+        "import:SetConsoleCtrlHandler",
+        "_atexit",
+        "__onexit",
+        "__msize",
+        "_getenv",
+        "__strnicmp",
+        "@append_environment_arguments@4",
+        "_copy_arguments",
+        "_parse_options",
+        "_next_argument",
+        "@match_option@16",
+        "@apply_option@12",
+        "@parse_number@4",
+        "_strtol",
+        "_strtoxl",
+        "@consume_string@4",
+        "_initialize_limits",
+        "@open_intermediate@16",
+        "_fopen",
+        "__fsopen",
+        "__getstream",
+        "__openfile",
+        "__sopen",
+        "__alloc_osfhnd",
+        "import:CreateFileA",
+        "__set_osfhnd",
+        "_initialize_frontend_data",
+        "_read_frontend_header",
+        "_input_byte",
+        "__filbuf",
+        "__getbuf",
+        "__read",
+        "import:ReadFile",
+        "_input_word",
+        "_input_dword",
+        "_initialize_backend",
+        "@configure_arena@12",
+        "@arena_calloc@8",
+        "@compiler_allocate@8",
+        "_initialize_symbols",
+        "_initialize_output",
+        "@allocate_descriptor@8",
+        "@descriptor_size@4",
+        "@arena_alloc@8",
+        "_initialize_codegen",
+        "_integer_to_extended",
+        "_store_extended",
+        "_initialize_registers",
+        "_initialize_segments",
+        "@create_segment@12",
+        "@insert_symbol@8",
+        "@append_segment@4",
+        "@segment_defaults@4",
+        "_initialize_globals",
+        "@read_initializers@4",
+        "_input_varuint",
+        "_compile_functions",
+        "@read_global_records@4",
+        "@read_symbol@4",
+        "@input_string@8",
+        "@intern_symbol_name@12",
+        "@arena_strdup@8",
+        "@record_filename@4",
+        "@copy_symbol_type@4",
+        "_input_type",
+        "_input_compact_signed",
+        "_input_compact_short",
+        "@update_symbol_storage@4",
+        "@put_symbol@8",
+        "_fclose",
+        "__flush",
+        "__freebuf",
+        "_free",
+        "__close",
+        "__get_osfhandle",
+        "import:CloseHandle",
+        "__free_osfhnd",
+        "_emit_backend_work",
+        "_prepare_backend_symbols",
+        "_initialize_output_callbacks",
+        "_default_runtime_library",
+        "@add_module_directive@8",
+        "_coff_open_module",
+        "@coff_initialize@4",
+        "@coff_new_vector@4",
+        "@coff_allocate@4",
+        "@coff_record_filename@4",
+        "@coff_vector_append@8",
+        "_coff_reset_scopes",
+        "@coff_new_scope@8",
+        "_coff_new_data_block",
+        "_next_symbol_identifier",
+        "_write_module_directives",
+        "@coff_output_record@4",
+        "@coff_write_directive@12",
+        "@coff_select_segment@4",
+        "@coff_declare_segment@4",
+        "@coff_create_section@12",
+        "@coff_open_contribution@8",
+        "@coff_vector_get@8",
+        "@coff_record_contribution@4",
+        "@register_coff_segment@4",
+        "@coff_select_section@4",
+        "@coff_section_position@4",
+        "@coff_scope_position@4",
+        "@coff_write_data@8",
+        "@coff_write_scope_data@8",
+        "@coff_write_byte@4",
+        "@write_module_listing@4",
+        "@collect_machine_symbols@4",
+        "_collect_global_symbols",
+        "@emit_pending_symbols@4",
+        "_flush_queued_symbols",
+        "_write_symbol_declarations",
+        "@emit_static_initializers@4",
+        "@write_initializer_listing@4",
+        "_reset_machine_state",
+        "_reset_stack_frame",
+        "_initialize_stack_alignment",
+        "@read_function@4",
+        "@read_function_body@4",
+        "_new_scope",
+        "_fseek",
+        "__lseek",
+        "import:SetFilePointer",
+        "@function_retains_symbols@8",
+        "@read_expression@4",
+        "@read_expression_record@4",
+        "_input_expression_opcode",
+        "@decode_expression@8",
+        "@new_node@4",
+        "@read_control_fields@4",
+        "@release_node@4",
+        "@lookup_filename@4",
+        "_new_expression",
+        "@lookup_symbol@8",
+        "_intern_leaf",
+        "@needs_return_temp@12",
+        "@read_node_type@4",
+        "@encode_node_type@8",
+        "@activate_scope@4",
+        "@apply_function_options@4",
+        "@apply_warning_state@4",
+        "@canonicalize_function@4",
+        "@canonicalize_tree@8",
+        "@prepare_target_tree@4",
+        "@rewrite_expression@4",
+        "@rewrite_subtree@12",
+        "@rewrite_before_children@12",
+        "@rewrite_after_left@12",
+        "@analyze_tree_references@8",
+        "@canonicalize_node@12",
+        "@canonicalize_before_children@12",
+        "_reset_temporary_registers",
+        "@reverse_node_list@4",
+        "@insert_return_parameter@8",
+        "@canonicalize_function_reference@4",
+        "@canonicalize_after_children@8",
+        "@finish_canonical_node@4",
+        "@canonicalize_return_value@8",
+        "@convert_node_type@8",
+        "@skip_node_conversions@4",
+        "@expand_inline_calls@4",
+        "@inline_function_calls@12",
+        "@collect_inline_sites@8",
+        "@scan_inline_candidates@24",
+        "@reset_arena@4",
+        "@free_arena_blocks@4",
+        "@transform_function_trees@4",
+        "@optimize_tree_local@4",
+        "@order_tree_operands@8",
+        "@tree_order_key@12",
+        "@fold_local_tree@4",
+        "@fold_constant_node@4",
+        "@fold_special_node@4",
+        "@simplify_local_node@4",
+        "@operator_identity@4",
+        "@cleanup_expressions@4",
+        "@cleanup_expression_tree@4",
+        "@build_local_work@4",
+        "_new_work_item",
+        "@prepare_work@4",
+        "@prepare_parameter_storage@4",
+        "_function_stack_alignment",
+        "@finalize_work_trees@4",
+        "@lower_machine_tree@4",
+        "@generate_work@4",
+        "_new_machine_record",
+        "@new_machine_instruction@4",
+        "@select_work_item@4",
+        "@new_selection_block@16",
+        "@append_machine_instruction@4",
+        "@select_expression@4",
+        "@emit_source_filename@4",
+        "@release_tree@4",
+        "@release_expression@4",
+        "@finish_selected_block@8",
+        "@analyze_selected_block@4",
+        "@finish_block_registers@4",
+        "@emit_source_marker@4",
+        "@emit_function_symbol@4",
+        "_emit_machine_operation",
+        "@new_operand@16",
+        "@initialize_operand@20",
+        "_emit_saved_register_pushes",
+        "@overwrites_first_register@8",
+        "@register_result_ignores_old_value@4",
+        "@record_operand_uses@12",
+        "@record_register_use@12",
+        "@lookup_register_lifetime@8",
+        "@writes_first_operand@4",
+        "@overwrites_second_register@8",
+        "@finish_register_lifetime@4",
+        "@operands_equal@8",
+        "@finish_machine_instruction@8",
+        "@select_directive@4",
+        "@emit_machine_directive@8",
+        "@select_value_register@4",
+        "@new_value_register@4",
+        "@select_constant@8",
+        "@operand_for_register@4",
+        "@bitset_include@8",
+        "_new_bitset",
+        "_new_bitset_node",
+        "@bitset_contains@8",
+        "@operand_changed_between@16",
+        "@machine_operand_bytes@8",
+        "@replace_machine_operand@16",
+        "@operand_replacement_allowed@16",
+        "@release_operand_address@4",
+        "@remove_machine_instruction@4",
+        "@release_machine_instruction@4",
+        "@simplify_branch@4",
+        "@branch_falls_through@4",
+        "@emit_label@4",
+        "_emit_saved_register_pops",
+        "@return_value_register@4",
+        "_finish_global_selection",
+        "_finish_function_selection",
+        "@instruction_has_side_effects@4",
+        "_lower_unoptimized_machine",
+        "@initialize_lowering_block@4",
+        "@clear_bitset@4",
+        "@record_byte_register_constraints@8",
+        "@mark_lowering_register_live@4",
+        "@record_lowering_conflicts@4",
+        "@mark_lowering_register_dead@4",
+        "@bitset_union@8",
+        "@release_bitset@4",
+        "@finalize_machine_context@4",
+        "@resolve_frame_allocation@4",
+        "_calculate_stack_frame_size",
+        "@find_flags_use@4",
+        "@queue_symbol_debug@4",
+        "@layout_machine_stream@8",
+        "@lookup_global_symbol@4",
+        "@machine_instruction_size@4",
+        "@encode_machine_instruction@16",
+        "@encode_modrm@12",
+        "@encode_operand@12",
+        "@encode_integer@8",
+        "@align_machine_location@12",
+        "@coff_begin_function@16",
+        "@coff_mark_symbol@4",
+        "@coff_symbol_type@4",
+        "@symbol_display_name@4",
+        "@coff_define_function@28",
+        "@coff_define_symbol@20",
+        "@coff_set_symbol_name@8",
+        "_strncpy",
+        "@coff_resolve_function@8",
+        "@write_function_listing@4",
+        "@emit_machine_instructions@4",
+        "@output_noop_pair@4",
+        "@coff_output_symbol@4",
+        "@output_noop_debug@8",
+        "@coff_output_function@4",
+        "@output_noop_symbol@4",
+        "@free_work@4",
+        "_reset_work",
+        "_clear_optimizer_trees",
+        "_reset_leaf_tables",
+        "_release_function_symbols",
+        "_finish_output",
+        "_finish_debugging",
+        "_output_noop",
+        "_coff_finish_module",
+        "@coff_alignment_flags@4",
+        "@coff_set_section_flags@8",
+        "_coff_close_all_sections",
+        "@coff_vector_next@4",
+        "_coff_finalize",
+        "@coff_reserve_sections@4",
+        "@coff_vector_count@4",
+        "@coff_flush_section@4",
+        "_ftell",
+        "@coff_flush_scope@4",
+        "_fwrite",
+        "__flsbuf",
+        "_coff_timestamp",
+        "_time",
+        "import:GetSystemTime",
+        "___gmtotime_t",
+        "@coff_write_symbol@4",
+        "_fputc",
+        "__write",
+        "import:WriteFile",
+        "@coff_write_section_header@4",
+        "_finish_globals",
+        "_exit",
+        "_doexit",
+        "_compiler_cleanup",
+        "__endstdio",
+        "__flushall",
+        "_flsall",
+        "_fflush",
+        "import:ExitProcess"
+      ]
+    },
+    "hello": {
+      "path": "/root/.ai-tmp/vc1.0-c2/fast-adoption-continuous-hello.json",
+      "sha256": "5e0abcdeaf7e43e8a3a6f788c2355efcb45f3a77a5a20c8091d31482ab35f10b",
+      "original_target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "original_logical_entries": [
+        "@new_initializer@4",
+        "@read_initializer_body@4",
+        "@input_bytes@8",
+        "@insert_initializer@4",
+        "@is_constant_symbol@4",
+        "@read_module_directive@4",
+        "@reserve_symbol_storage@4",
+        "@reserve_local_storage@4",
+        "@align_stack_storage@8",
+        "_splice_expressions",
+        "@node_type_kind@4",
+        "@convert_node_once@8",
+        "@fold_constant_conversion@4",
+        "@convert_integer_constant@8",
+        "@normalize_integer_width@8",
+        "@optimize_tree_global@4",
+        "@prepare_global_tree@4",
+        "@prepare_global_node@4",
+        "@reassociate_global_node@4",
+        "@factor_global_tree@4",
+        "@factor_global_node@4",
+        "@finish_global_tree@4",
+        "@reduce_global_node@4",
+        "@finish_global_node@4",
+        "@cleanup_unused_tree@4",
+        "@optimize_function_flow@4",
+        "@build_global_work@4",
+        "_reset_flow_label_state",
+        "_initialize_flow_labels",
+        "_reset_flow_labels",
+        "@partition_global_work@4",
+        "@set_flow_expression_input@4",
+        "_next_flow_expression",
+        "_build_work_lists",
+        "@reference_flow_label@8",
+        "@lookup_flow_label@4",
+        "_new_flow_label",
+        "@has_flow_reference@8",
+        "@new_flow_link@4",
+        "@fold_adjacent_flow_labels@4",
+        "@putback_flow_expression@4",
+        "@define_flow_label@8",
+        "_resolve_flow_labels",
+        "@canonical_flow_label@4",
+        "@prepare_flow_blocks@4",
+        "@normalize_flow_targets@4",
+        "@add_flow_successor@8",
+        "@add_flow_predecessor@8",
+        "@release_flow_link@4",
+        "@simplify_flow_blocks@4",
+        "@number_work_blocks@4",
+        "@remove_unreachable_work@4",
+        "@mark_reachable_work@4",
+        "@remove_flow_work@4",
+        "@remove_flow_reference@8",
+        "@destroy_flow_work@4",
+        "@order_flow_blocks@4",
+        "@visit_flow_order@4",
+        "@sort_flow_successors@8",
+        "@count_ordinary_flow_links@4",
+        "@ensure_flow_branch@8",
+        "@last_flow_expression@4",
+        "@connect_flow_blocks@8",
+        "@transfer_flow_region_work@8",
+        "@compute_work_dominators@4",
+        "@ensure_bitset@8",
+        "@fill_bitset@8",
+        "@intersect_bitset@8",
+        "@equal_bitsets@8",
+        "@assign_bitset@8",
+        "@find_flow_regions@4",
+        "_new_flow_region",
+        "@find_irreducible_flow_end@4",
+        "@scan_irreducible_predecessors@4",
+        "@clear_flow_visit_marks@4",
+        "@rotate_flow_regions@4",
+        "@finish_flow_regions@4",
+        "@insert_function_boundaries@4",
+        "@optimize_work@4",
+        "@initialize_work_optimizer@4",
+        "@initialize_work_value_tree@12",
+        "@intern_work_value@4",
+        "@memory_value_node@8",
+        "@is_global_work_value@8",
+        "@is_nonnull_address@4",
+        "@is_address_exposed_value@4",
+        "@copy_tree@4",
+        "@clone_node@4",
+        "@trees_equal@12",
+        "@equal_tree_nodes@8",
+        "@strip_conversions@4",
+        "@build_work_references@4",
+        "@merge_predecessor_references@4",
+        "@analyze_block_references@4",
+        "_new_work_reference_table",
+        "@release_work_reference_table@4",
+        "@substitute_work_values@8",
+        "@lookup_work_reference@8",
+        "@analyze_reference_tree@12",
+        "_new_work_reference",
+        "@intern_numbered_expression@4",
+        "@copy_numbered_expression@4",
+        "@add_expression_use@8",
+        "_flag_killed_work_references",
+        "@tree_uses_killed_value@4",
+        "@copy_bitset@4",
+        "@mark_work_reference@4",
+        "_new_pending_work_effect",
+        "@invalidate_work_reference@4",
+        "@work_effect_invalidates_value@8",
+        "@is_private_work_value@4",
+        "@release_pending_work_effect@4",
+        "_clear_work_expression_cache",
+        "@rewrite_work_values@4",
+        "_build_work_alias_sets",
+        "@summarize_work_memory@4",
+        "@collect_work_memory_reads@4",
+        "@find_work_value@4",
+        "@subtract_bitset@8",
+        "@compute_work_memory_liveness@4",
+        "@transfer_bitset@16",
+        "@assign_union_bitset@12",
+        "@assign_difference_bitset@12",
+        "@hoist_region_values@4",
+        "@find_numbered_expression@4",
+        "@rewrite_work_expressions@4",
+        "@rewrite_numbered_tree@4",
+        "@new_temporary_reference@8",
+        "@allocate_stack_temporary@4",
+        "@new_temporary_descriptor@4",
+        "_build_tree",
+        "@lower_switch_dispatch@12",
+        "@coalesce_switch_ranges@4",
+        "@emit_switch_dispatch@8",
+        "@summarize_switch_ranges@20",
+        "@emit_linear_switch@8",
+        "@common_node_type@8",
+        "@insert_tree_expression@12",
+        "@lower_assignment@4",
+        "@strip_assignment_conversion@4",
+        "_finish_global_work",
+        "_initialize_global_values",
+        "@next_work_value_node@4",
+        "@find_allocation_value@8",
+        "@shallow_tree_hash@4",
+        "@node_hash_key@4",
+        "@limit_global_allocation_values@4",
+        "@count_global_allocation_loads@4",
+        "@allocation_expression_has_call@4",
+        "_new_call_definitions",
+        "@next_bitset_member@4",
+        "@lowest_set_bit@4",
+        "@solve_definition_reachability@4",
+        "@collect_allocation_ranges@4",
+        "_new_allocation_range",
+        "@bitsets_overlap@8",
+        "_reset_global_register_map",
+        "@rewrite_allocation_registers@4",
+        "@solve_allocation_liveness@4",
+        "@solve_allocation_history@4",
+        "@exclude_exception_registers@4",
+        "_assign_global_registers",
+        "@emit_global_register_transfer@20",
+        "@tree_uses_virtual_register@8",
+        "@is_empty_bitset@4",
+        "_extend_global_register_ranges",
+        "_record_global_register_ranges",
+        "@get_stack_address@12",
+        "@is_parameter_memory_value@4",
+        "@record_register_variable_range@32",
+        "@create_register_variable@4",
+        "@new_register_variable@4",
+        "@prepare_machine_context@4",
+        "@emit_register_lifetime@16",
+        "@register_memory_address@4",
+        "@find_register_allocation@8",
+        "@symbol_operand@8",
+        "_new_machine_address",
+        "@select_lvalue_operand@4",
+        "@select_condition@4",
+        "@comparison_uses_intrinsic_flags@4",
+        "@lookup_opcode@8",
+        "@find_transfer_use_boundary@8",
+        "@instruction_mentions_register@8",
+        "@operand_mentions_register@8",
+        "@register_storage_bytes@4",
+        "@lookup_register_variable@8",
+        "@register_replacement_blocked@12",
+        "@instruction_modifies_operand@12",
+        "@operands_overlap_storage@16",
+        "@eliminate_redundant_compare@8",
+        "@instruction_operands_equal@16",
+        "@emit_call@20",
+        "@implicit_register_mask@8",
+        "@register_definition_width@12",
+        "@address_changed_between@12",
+        "@fold_lea_address@12",
+        "@sync_machine_work@8",
+        "@adjust_machine_symbol_references@8",
+        "@adjust_operand_label_references@8",
+        "@scan_machine_context@4",
+        "@compact_machine_context@4",
+        "_optimize_machine_flow",
+        "@finish_machine_blocks@8",
+        "@analyze_machine_instructions@8",
+        "@build_machine_regions@4",
+        "@new_machine_region@12",
+        "@machine_operand_label@4",
+        "@process_machine_region_reference@12",
+        "@add_machine_region_reference@12",
+        "@count_region_label_references@8",
+        "_simplify_machine_data",
+        "_simplify_machine_branches",
+        "_combine_machine_instructions",
+        "@promote_region_immediates@4",
+        "_finish_tree_optimization",
+        "_allocate_machine_registers",
+        "_frame_register_can_be_allocated",
+        "_analyze_allocation_float_blocks",
+        "@next_machine_block@4",
+        "_initialize_physical_variables",
+        "_prune_rematerialized_variables",
+        "_initialize_allocation_round",
+        "@build_register_conflicts@8",
+        "@initialize_allocation_live_registers@4",
+        "@record_operand_conflicts@16",
+        "@record_allocation_operand@20",
+        "@record_special_register_conflicts@8",
+        "@record_implicit_register_conflicts@8",
+        "@conflict_with_live_registers@12",
+        "@add_allocation_live_register@8",
+        "@remove_allocation_live_register@8",
+        "@allocation_operand_cost@28",
+        "@loop_depth_weight@4",
+        "@operand_for_spill@12",
+        "@folded_spill_operand_cost@8",
+        "@add_register_conflict@8",
+        "@new_register_conflict@4",
+        "_simplify_unspillable_variables",
+        "_build_allocation_constraints",
+        "@collect_register_affinities@4",
+        "@add_register_affinity@12",
+        "@registers_conflict@8",
+        "@new_register_affinity@8",
+        "@merge_register_affinity@8",
+        "_sort_register_affinities",
+        "@insert_register_affinity@8",
+        "@coalesce_register_affinities@4",
+        "@merge_register_graph@8",
+        "@unlink_register_affinity@4",
+        "@release_register_affinity@4",
+        "_finish_allocation_constraints",
+        "@order_allocation_variables@4",
+        "@count_register_conflicts@4",
+        "@color_register_variables@4",
+        "_optimize_allocated_machine_regions",
+        "@rewrite_register_regions@4",
+        "@rewrite_register_block@8",
+        "@record_written_register_aliases@4",
+        "@add_physical_register_alias@4",
+        "@reuse_physical_register_values@4",
+        "@copy_machine_operand@8",
+        "@retire_physical_register_aliases@4",
+        "@remove_physical_register_alias@4",
+        "@register_reuse_barriers@8",
+        "@order_reusable_registers@12",
+        "@preferred_reuse_colors@12",
+        "@cached_operands_equal@8",
+        "@operand_ends_physical_register@8",
+        "@assign_machine_registers@4",
+        "@frame_references_exceed_cost@8",
+        "@allocate_frame_symbols@8",
+        "@for_each_symbol@8",
+        "@next_scope_symbol@8",
+        "@clear_local_frame_assignment@4",
+        "@count_frame_symbol_reference@8",
+        "@rewrite_stack_pointer_frame@4",
+        "_finish_register_assignment",
+        "@add_block_physical_registers@4",
+        "@assign_operand_registers@12",
+        "@find_carry_flag_use@4",
+        "@prepare_machine_blocks@4",
+        "@propagate_physical_copy@4",
+        "@release_physical_copies@4",
+        "@propagate_physical_operand@12",
+        "@remember_physical_copy@8",
+        "@set_machine_frame@8",
+        "@collect_frame_accesses@16",
+        "@new_frame_access@20",
+        "@sort_linked_list@8",
+        "@merge_sorted_lists@12",
+        "@compare_frame_accesses@8",
+        "@frame_access_distance@8",
+        "@combine_frame_accesses@8",
+        "@optimize_branch_comparisons@4",
+        "@next_machine_operation@4",
+        "@machine_block_protected@4",
+        "@label_machine_instruction@4",
+        "@machine_records_equal@8",
+        "@swap_comparison_for_match@12",
+        "@optimize_unconditional_jumps@4",
+        "@move_data_blocks_to_end@4",
+        "@find_function_end@4",
+        "@find_block_terminator@4",
+        "@previous_machine_operation@4",
+        "@label_has_fallthrough_predecessor@4",
+        "@fits_signed_byte@4",
+        "@clone_machine_record@4",
+        "@factor_machine_branch_code@4",
+        "@remove_unreachable_machine_code@4",
+        "@simplify_machine_pairs@4",
+        "@schedule_machine_instructions@4",
+        "@instruction_accesses_memory@4",
+        "@scheduler_allocate@4",
+        "@prepare_scheduled_instruction@8",
+        "_new_instruction_schedule",
+        "@schedule_window@8",
+        "@prepare_schedule_window@8"
+      ]
+    }
+  },
+  "cases": {
+    "minimal": {
+      "first": 0,
+      "last": 352,
+      "seen": [],
+      "expected": [
+        "main",
+        "append_environment_arguments",
+        "copy_arguments",
+        "parse_options",
+        "next_argument",
+        "match_option",
+        "apply_option",
+        "parse_number",
+        "consume_string",
+        "initialize_limits",
+        "open_intermediate",
+        "initialize_frontend_data",
+        "read_frontend_header",
+        "input_byte",
+        "input_word",
+        "input_dword",
+        "initialize_backend",
+        "configure_arena",
+        "arena_calloc",
+        "compiler_allocate",
+        "initialize_symbols",
+        "initialize_output",
+        "allocate_descriptor",
+        "descriptor_size",
+        "arena_alloc",
+        "initialize_codegen",
+        "integer_to_extended",
+        "store_extended",
+        "initialize_registers",
+        "initialize_segments",
+        "create_segment",
+        "insert_symbol",
+        "append_segment",
+        "segment_defaults",
+        "initialize_globals",
+        "read_initializers",
+        "input_varuint",
+        "compile_functions",
+        "read_global_records",
+        "read_symbol",
+        "input_string",
+        "intern_symbol_name",
+        "arena_strdup",
+        "record_filename",
+        "copy_symbol_type",
+        "input_type",
+        "input_compact_signed",
+        "input_compact_short",
+        "update_symbol_storage",
+        "put_symbol",
+        "emit_backend_work",
+        "prepare_backend_symbols",
+        "initialize_output_callbacks",
+        "default_runtime_library",
+        "add_module_directive",
+        "coff_open_module",
+        "coff_initialize",
+        "coff_new_vector",
+        "coff_allocate",
+        "coff_record_filename",
+        "coff_vector_append",
+        "coff_reset_scopes",
+        "coff_new_scope",
+        "coff_new_data_block",
+        "next_symbol_identifier",
+        "write_module_directives",
+        "coff_output_record",
+        "coff_write_directive",
+        "coff_select_segment",
+        "coff_declare_segment",
+        "coff_create_section",
+        "coff_open_contribution",
+        "coff_vector_get",
+        "coff_record_contribution",
+        "register_coff_segment",
+        "coff_select_section",
+        "coff_section_position",
+        "coff_scope_position",
+        "coff_write_data",
+        "coff_write_scope_data",
+        "coff_write_byte",
+        "write_module_listing",
+        "collect_machine_symbols",
+        "collect_global_symbols",
+        "emit_pending_symbols",
+        "flush_queued_symbols",
+        "write_symbol_declarations",
+        "emit_static_initializers",
+        "write_initializer_listing",
+        "reset_machine_state",
+        "reset_stack_frame",
+        "initialize_stack_alignment",
+        "read_function",
+        "read_function_body",
+        "new_scope",
+        "function_retains_symbols",
+        "read_expression",
+        "read_expression_record",
+        "input_expression_opcode",
+        "decode_expression",
+        "new_node",
+        "read_control_fields",
+        "release_node",
+        "lookup_filename",
+        "new_expression",
+        "lookup_symbol",
+        "intern_leaf",
+        "needs_return_temp",
+        "read_node_type",
+        "encode_node_type",
+        "activate_scope",
+        "apply_function_options",
+        "apply_warning_state",
+        "canonicalize_function",
+        "canonicalize_tree",
+        "prepare_target_tree",
+        "rewrite_expression",
+        "rewrite_subtree",
+        "rewrite_before_children",
+        "rewrite_after_left",
+        "analyze_tree_references",
+        "canonicalize_node",
+        "canonicalize_before_children",
+        "reset_temporary_registers",
+        "reverse_node_list",
+        "insert_return_parameter",
+        "canonicalize_function_reference",
+        "canonicalize_after_children",
+        "finish_canonical_node",
+        "canonicalize_return_value",
+        "convert_node_type",
+        "skip_node_conversions",
+        "expand_inline_calls",
+        "inline_function_calls",
+        "collect_inline_sites",
+        "scan_inline_candidates",
+        "reset_arena",
+        "free_arena_blocks",
+        "transform_function_trees",
+        "optimize_tree_local",
+        "order_tree_operands",
+        "tree_order_key",
+        "fold_local_tree",
+        "fold_constant_node",
+        "fold_special_node",
+        "simplify_local_node",
+        "operator_identity",
+        "cleanup_expressions",
+        "cleanup_expression_tree",
+        "build_local_work",
+        "new_work_item",
+        "prepare_work",
+        "prepare_parameter_storage",
+        "function_stack_alignment",
+        "finalize_work_trees",
+        "lower_machine_tree",
+        "generate_work",
+        "new_machine_record",
+        "new_machine_instruction",
+        "select_work_item",
+        "new_selection_block",
+        "append_machine_instruction",
+        "select_expression",
+        "emit_source_filename",
+        "release_tree",
+        "release_expression",
+        "finish_selected_block",
+        "analyze_selected_block",
+        "finish_block_registers",
+        "emit_source_marker",
+        "emit_function_symbol",
+        "emit_machine_operation",
+        "new_operand",
+        "initialize_operand",
+        "emit_saved_register_pushes",
+        "overwrites_first_register",
+        "register_result_ignores_old_value",
+        "record_operand_uses",
+        "record_register_use",
+        "lookup_register_lifetime",
+        "writes_first_operand",
+        "overwrites_second_register",
+        "finish_register_lifetime",
+        "operands_equal",
+        "finish_machine_instruction",
+        "select_directive",
+        "emit_machine_directive",
+        "select_value_register",
+        "new_value_register",
+        "select_constant",
+        "operand_for_register",
+        "bitset_include",
+        "new_bitset",
+        "new_bitset_node",
+        "bitset_contains",
+        "operand_changed_between",
+        "machine_operand_bytes",
+        "replace_machine_operand",
+        "operand_replacement_allowed",
+        "release_operand_address",
+        "remove_machine_instruction",
+        "release_machine_instruction",
+        "simplify_branch",
+        "branch_falls_through",
+        "emit_label",
+        "emit_saved_register_pops",
+        "return_value_register",
+        "finish_global_selection",
+        "finish_function_selection",
+        "instruction_has_side_effects",
+        "lower_unoptimized_machine",
+        "initialize_lowering_block",
+        "clear_bitset",
+        "record_byte_register_constraints",
+        "mark_lowering_register_live",
+        "record_lowering_conflicts",
+        "mark_lowering_register_dead",
+        "bitset_union",
+        "release_bitset",
+        "finalize_machine_context",
+        "resolve_frame_allocation",
+        "calculate_stack_frame_size",
+        "find_flags_use",
+        "queue_symbol_debug",
+        "layout_machine_stream",
+        "lookup_global_symbol",
+        "machine_instruction_size",
+        "encode_machine_instruction",
+        "encode_modrm",
+        "encode_operand",
+        "encode_integer",
+        "align_machine_location",
+        "coff_begin_function",
+        "coff_mark_symbol",
+        "coff_symbol_type",
+        "symbol_display_name",
+        "coff_define_function",
+        "coff_define_symbol",
+        "coff_set_symbol_name",
+        "coff_resolve_function",
+        "write_function_listing",
+        "emit_machine_instructions",
+        "output_noop_pair",
+        "coff_output_symbol",
+        "output_noop_debug",
+        "coff_output_function",
+        "output_noop_symbol",
+        "free_work",
+        "reset_work",
+        "clear_optimizer_trees",
+        "reset_leaf_tables",
+        "release_function_symbols",
+        "finish_output",
+        "finish_debugging",
+        "output_noop",
+        "coff_finish_module",
+        "coff_alignment_flags",
+        "coff_set_section_flags",
+        "coff_close_all_sections",
+        "coff_vector_next",
+        "coff_finalize",
+        "coff_reserve_sections",
+        "coff_vector_count",
+        "coff_flush_section",
+        "coff_flush_scope",
+        "coff_timestamp",
+        "coff_write_symbol",
+        "coff_write_section_header",
+        "finish_globals",
+        "compiler_cleanup"
+      ],
+      "terminal": "exit:0",
+      "returncode": 0
+    },
+    "hello": {
+      "first": 352,
+      "last": 670,
+      "seen": [
+        "main",
+        "append_environment_arguments",
+        "copy_arguments",
+        "parse_options",
+        "next_argument",
+        "match_option",
+        "apply_option",
+        "parse_number",
+        "consume_string",
+        "initialize_limits",
+        "open_intermediate",
+        "initialize_frontend_data",
+        "read_frontend_header",
+        "input_byte",
+        "input_word",
+        "input_dword",
+        "initialize_backend",
+        "configure_arena",
+        "arena_calloc",
+        "compiler_allocate",
+        "initialize_symbols",
+        "initialize_output",
+        "allocate_descriptor",
+        "descriptor_size",
+        "arena_alloc",
+        "initialize_codegen",
+        "integer_to_extended",
+        "store_extended",
+        "initialize_registers",
+        "initialize_segments",
+        "create_segment",
+        "insert_symbol",
+        "append_segment",
+        "segment_defaults",
+        "initialize_globals",
+        "read_initializers",
+        "input_varuint",
+        "compile_functions",
+        "read_global_records",
+        "read_symbol",
+        "input_string",
+        "intern_symbol_name",
+        "arena_strdup",
+        "record_filename",
+        "copy_symbol_type",
+        "input_type",
+        "input_compact_signed",
+        "input_compact_short",
+        "update_symbol_storage",
+        "put_symbol",
+        "emit_backend_work",
+        "prepare_backend_symbols",
+        "initialize_output_callbacks",
+        "default_runtime_library",
+        "add_module_directive",
+        "coff_open_module",
+        "coff_initialize",
+        "coff_new_vector",
+        "coff_allocate",
+        "coff_record_filename",
+        "coff_vector_append",
+        "coff_reset_scopes",
+        "coff_new_scope",
+        "coff_new_data_block",
+        "next_symbol_identifier",
+        "write_module_directives",
+        "coff_output_record",
+        "coff_write_directive",
+        "coff_select_segment",
+        "coff_declare_segment",
+        "coff_create_section",
+        "coff_open_contribution",
+        "coff_vector_get",
+        "coff_record_contribution",
+        "register_coff_segment",
+        "coff_select_section",
+        "coff_section_position",
+        "coff_scope_position",
+        "coff_write_data",
+        "coff_write_scope_data",
+        "coff_write_byte",
+        "write_module_listing",
+        "collect_machine_symbols",
+        "collect_global_symbols",
+        "emit_pending_symbols",
+        "flush_queued_symbols",
+        "write_symbol_declarations",
+        "emit_static_initializers",
+        "write_initializer_listing",
+        "reset_machine_state",
+        "reset_stack_frame",
+        "initialize_stack_alignment",
+        "read_function",
+        "read_function_body",
+        "new_scope",
+        "function_retains_symbols",
+        "read_expression",
+        "read_expression_record",
+        "input_expression_opcode",
+        "decode_expression",
+        "new_node",
+        "read_control_fields",
+        "release_node",
+        "lookup_filename",
+        "new_expression",
+        "lookup_symbol",
+        "intern_leaf",
+        "needs_return_temp",
+        "read_node_type",
+        "encode_node_type",
+        "activate_scope",
+        "apply_function_options",
+        "apply_warning_state",
+        "canonicalize_function",
+        "canonicalize_tree",
+        "prepare_target_tree",
+        "rewrite_expression",
+        "rewrite_subtree",
+        "rewrite_before_children",
+        "rewrite_after_left",
+        "analyze_tree_references",
+        "canonicalize_node",
+        "canonicalize_before_children",
+        "reset_temporary_registers",
+        "reverse_node_list",
+        "insert_return_parameter",
+        "canonicalize_function_reference",
+        "canonicalize_after_children",
+        "finish_canonical_node",
+        "canonicalize_return_value",
+        "convert_node_type",
+        "skip_node_conversions",
+        "expand_inline_calls",
+        "inline_function_calls",
+        "collect_inline_sites",
+        "scan_inline_candidates",
+        "reset_arena",
+        "free_arena_blocks",
+        "transform_function_trees",
+        "optimize_tree_local",
+        "order_tree_operands",
+        "tree_order_key",
+        "fold_local_tree",
+        "fold_constant_node",
+        "fold_special_node",
+        "simplify_local_node",
+        "operator_identity",
+        "cleanup_expressions",
+        "cleanup_expression_tree",
+        "build_local_work",
+        "new_work_item",
+        "prepare_work",
+        "prepare_parameter_storage",
+        "function_stack_alignment",
+        "finalize_work_trees",
+        "lower_machine_tree",
+        "generate_work",
+        "new_machine_record",
+        "new_machine_instruction",
+        "select_work_item",
+        "new_selection_block",
+        "append_machine_instruction",
+        "select_expression",
+        "emit_source_filename",
+        "release_tree",
+        "release_expression",
+        "finish_selected_block",
+        "analyze_selected_block",
+        "finish_block_registers",
+        "emit_source_marker",
+        "emit_function_symbol",
+        "emit_machine_operation",
+        "new_operand",
+        "initialize_operand",
+        "emit_saved_register_pushes",
+        "overwrites_first_register",
+        "register_result_ignores_old_value",
+        "record_operand_uses",
+        "record_register_use",
+        "lookup_register_lifetime",
+        "writes_first_operand",
+        "overwrites_second_register",
+        "finish_register_lifetime",
+        "operands_equal",
+        "finish_machine_instruction",
+        "select_directive",
+        "emit_machine_directive",
+        "select_value_register",
+        "new_value_register",
+        "select_constant",
+        "operand_for_register",
+        "bitset_include",
+        "new_bitset",
+        "new_bitset_node",
+        "bitset_contains",
+        "operand_changed_between",
+        "machine_operand_bytes",
+        "replace_machine_operand",
+        "operand_replacement_allowed",
+        "release_operand_address",
+        "remove_machine_instruction",
+        "release_machine_instruction",
+        "simplify_branch",
+        "branch_falls_through",
+        "emit_label",
+        "emit_saved_register_pops",
+        "return_value_register",
+        "finish_global_selection",
+        "finish_function_selection",
+        "instruction_has_side_effects",
+        "lower_unoptimized_machine",
+        "initialize_lowering_block",
+        "clear_bitset",
+        "record_byte_register_constraints",
+        "mark_lowering_register_live",
+        "record_lowering_conflicts",
+        "mark_lowering_register_dead",
+        "bitset_union",
+        "release_bitset",
+        "finalize_machine_context",
+        "resolve_frame_allocation",
+        "calculate_stack_frame_size",
+        "find_flags_use",
+        "queue_symbol_debug",
+        "layout_machine_stream",
+        "lookup_global_symbol",
+        "machine_instruction_size",
+        "encode_machine_instruction",
+        "encode_modrm",
+        "encode_operand",
+        "encode_integer",
+        "align_machine_location",
+        "coff_begin_function",
+        "coff_mark_symbol",
+        "coff_symbol_type",
+        "symbol_display_name",
+        "coff_define_function",
+        "coff_define_symbol",
+        "coff_set_symbol_name",
+        "coff_resolve_function",
+        "write_function_listing",
+        "emit_machine_instructions",
+        "output_noop_pair",
+        "coff_output_symbol",
+        "output_noop_debug",
+        "coff_output_function",
+        "output_noop_symbol",
+        "free_work",
+        "reset_work",
+        "clear_optimizer_trees",
+        "reset_leaf_tables",
+        "release_function_symbols",
+        "finish_output",
+        "finish_debugging",
+        "output_noop",
+        "coff_finish_module",
+        "coff_alignment_flags",
+        "coff_set_section_flags",
+        "coff_close_all_sections",
+        "coff_vector_next",
+        "coff_finalize",
+        "coff_reserve_sections",
+        "coff_vector_count",
+        "coff_flush_section",
+        "coff_flush_scope",
+        "coff_timestamp",
+        "coff_write_symbol",
+        "coff_write_section_header",
+        "finish_globals",
+        "compiler_cleanup"
+      ],
+      "expected": [
+        "new_initializer",
+        "read_initializer_body",
+        "input_bytes",
+        "insert_initializer",
+        "is_constant_symbol",
+        "read_module_directive",
+        "reserve_symbol_storage",
+        "reserve_local_storage",
+        "align_stack_storage",
+        "splice_expressions",
+        "node_type_kind",
+        "convert_node_once",
+        "fold_constant_conversion",
+        "convert_integer_constant",
+        "normalize_integer_width",
+        "optimize_tree_global",
+        "prepare_global_tree",
+        "prepare_global_node",
+        "reassociate_global_node",
+        "factor_global_tree",
+        "factor_global_node",
+        "finish_global_tree",
+        "reduce_global_node",
+        "finish_global_node",
+        "cleanup_unused_tree",
+        "optimize_function_flow",
+        "build_global_work",
+        "reset_flow_label_state",
+        "initialize_flow_labels",
+        "reset_flow_labels",
+        "partition_global_work",
+        "set_flow_expression_input",
+        "next_flow_expression",
+        "build_work_lists",
+        "reference_flow_label",
+        "lookup_flow_label",
+        "new_flow_label",
+        "has_flow_reference",
+        "new_flow_link",
+        "fold_adjacent_flow_labels",
+        "putback_flow_expression",
+        "define_flow_label",
+        "resolve_flow_labels",
+        "canonical_flow_label",
+        "prepare_flow_blocks",
+        "normalize_flow_targets",
+        "add_flow_successor",
+        "add_flow_predecessor",
+        "release_flow_link",
+        "simplify_flow_blocks",
+        "number_work_blocks",
+        "remove_unreachable_work",
+        "mark_reachable_work",
+        "remove_flow_work",
+        "remove_flow_reference",
+        "destroy_flow_work",
+        "order_flow_blocks",
+        "visit_flow_order",
+        "sort_flow_successors",
+        "count_ordinary_flow_links",
+        "ensure_flow_branch",
+        "last_flow_expression",
+        "connect_flow_blocks",
+        "transfer_flow_region_work",
+        "compute_work_dominators",
+        "ensure_bitset",
+        "fill_bitset",
+        "intersect_bitset",
+        "equal_bitsets",
+        "assign_bitset",
+        "find_flow_regions",
+        "new_flow_region",
+        "find_irreducible_flow_end",
+        "scan_irreducible_predecessors",
+        "clear_flow_visit_marks",
+        "rotate_flow_regions",
+        "finish_flow_regions",
+        "insert_function_boundaries",
+        "optimize_work",
+        "initialize_work_optimizer",
+        "initialize_work_value_tree",
+        "intern_work_value",
+        "memory_value_node",
+        "is_global_work_value",
+        "is_nonnull_address",
+        "is_address_exposed_value",
+        "copy_tree",
+        "clone_node",
+        "trees_equal",
+        "equal_tree_nodes",
+        "strip_conversions",
+        "build_work_references",
+        "merge_predecessor_references",
+        "analyze_block_references",
+        "new_work_reference_table",
+        "release_work_reference_table",
+        "substitute_work_values",
+        "lookup_work_reference",
+        "analyze_reference_tree",
+        "new_work_reference",
+        "intern_numbered_expression",
+        "copy_numbered_expression",
+        "add_expression_use",
+        "flag_killed_work_references",
+        "tree_uses_killed_value",
+        "copy_bitset",
+        "mark_work_reference",
+        "new_pending_work_effect",
+        "invalidate_work_reference",
+        "work_effect_invalidates_value",
+        "is_private_work_value",
+        "release_pending_work_effect",
+        "clear_work_expression_cache",
+        "rewrite_work_values",
+        "build_work_alias_sets",
+        "summarize_work_memory",
+        "collect_work_memory_reads",
+        "find_work_value",
+        "subtract_bitset",
+        "compute_work_memory_liveness",
+        "transfer_bitset",
+        "assign_union_bitset",
+        "assign_difference_bitset",
+        "hoist_region_values",
+        "find_numbered_expression",
+        "rewrite_work_expressions",
+        "rewrite_numbered_tree",
+        "new_temporary_reference",
+        "allocate_stack_temporary",
+        "new_temporary_descriptor",
+        "build_tree",
+        "lower_switch_dispatch",
+        "coalesce_switch_ranges",
+        "emit_switch_dispatch",
+        "summarize_switch_ranges",
+        "emit_linear_switch",
+        "common_node_type",
+        "insert_tree_expression",
+        "lower_assignment",
+        "strip_assignment_conversion",
+        "finish_global_work",
+        "initialize_global_values",
+        "next_work_value_node",
+        "find_allocation_value",
+        "shallow_tree_hash",
+        "node_hash_key",
+        "limit_global_allocation_values",
+        "count_global_allocation_loads",
+        "allocation_expression_has_call",
+        "new_call_definitions",
+        "next_bitset_member",
+        "lowest_set_bit",
+        "solve_definition_reachability",
+        "collect_allocation_ranges",
+        "new_allocation_range",
+        "bitsets_overlap",
+        "reset_global_register_map",
+        "rewrite_allocation_registers",
+        "solve_allocation_liveness",
+        "solve_allocation_history",
+        "exclude_exception_registers",
+        "assign_global_registers",
+        "emit_global_register_transfer",
+        "tree_uses_virtual_register",
+        "is_empty_bitset",
+        "extend_global_register_ranges",
+        "record_global_register_ranges",
+        "get_stack_address",
+        "is_parameter_memory_value",
+        "record_register_variable_range",
+        "create_register_variable",
+        "new_register_variable",
+        "prepare_machine_context",
+        "emit_register_lifetime",
+        "register_memory_address",
+        "find_register_allocation",
+        "symbol_operand",
+        "new_machine_address",
+        "select_lvalue_operand",
+        "select_condition",
+        "comparison_uses_intrinsic_flags",
+        "lookup_opcode",
+        "find_transfer_use_boundary",
+        "instruction_mentions_register",
+        "operand_mentions_register",
+        "register_storage_bytes",
+        "lookup_register_variable",
+        "register_replacement_blocked",
+        "instruction_modifies_operand",
+        "operands_overlap_storage",
+        "eliminate_redundant_compare",
+        "instruction_operands_equal",
+        "emit_call",
+        "implicit_register_mask",
+        "register_definition_width",
+        "address_changed_between",
+        "fold_lea_address",
+        "sync_machine_work",
+        "adjust_machine_symbol_references",
+        "adjust_operand_label_references",
+        "scan_machine_context",
+        "compact_machine_context",
+        "optimize_machine_flow",
+        "finish_machine_blocks",
+        "analyze_machine_instructions",
+        "build_machine_regions",
+        "new_machine_region",
+        "machine_operand_label",
+        "process_machine_region_reference",
+        "add_machine_region_reference",
+        "count_region_label_references",
+        "simplify_machine_data",
+        "simplify_machine_branches",
+        "combine_machine_instructions",
+        "promote_region_immediates",
+        "finish_tree_optimization",
+        "allocate_machine_registers",
+        "frame_register_can_be_allocated",
+        "analyze_allocation_float_blocks",
+        "next_machine_block",
+        "initialize_physical_variables",
+        "prune_rematerialized_variables",
+        "initialize_allocation_round",
+        "build_register_conflicts",
+        "initialize_allocation_live_registers",
+        "record_operand_conflicts",
+        "record_allocation_operand",
+        "record_special_register_conflicts",
+        "record_implicit_register_conflicts",
+        "conflict_with_live_registers",
+        "add_allocation_live_register",
+        "remove_allocation_live_register",
+        "allocation_operand_cost",
+        "loop_depth_weight",
+        "operand_for_spill",
+        "folded_spill_operand_cost",
+        "add_register_conflict",
+        "new_register_conflict",
+        "simplify_unspillable_variables",
+        "build_allocation_constraints",
+        "collect_register_affinities",
+        "add_register_affinity",
+        "registers_conflict",
+        "new_register_affinity",
+        "merge_register_affinity",
+        "sort_register_affinities",
+        "insert_register_affinity",
+        "coalesce_register_affinities",
+        "merge_register_graph",
+        "unlink_register_affinity",
+        "release_register_affinity",
+        "finish_allocation_constraints",
+        "order_allocation_variables",
+        "count_register_conflicts",
+        "color_register_variables",
+        "optimize_allocated_machine_regions",
+        "rewrite_register_regions",
+        "rewrite_register_block",
+        "record_written_register_aliases",
+        "add_physical_register_alias",
+        "reuse_physical_register_values",
+        "copy_machine_operand",
+        "retire_physical_register_aliases",
+        "remove_physical_register_alias",
+        "register_reuse_barriers",
+        "order_reusable_registers",
+        "preferred_reuse_colors",
+        "cached_operands_equal",
+        "operand_ends_physical_register",
+        "assign_machine_registers",
+        "frame_references_exceed_cost",
+        "allocate_frame_symbols",
+        "for_each_symbol",
+        "next_scope_symbol",
+        "clear_local_frame_assignment",
+        "count_frame_symbol_reference",
+        "rewrite_stack_pointer_frame",
+        "finish_register_assignment",
+        "add_block_physical_registers",
+        "assign_operand_registers",
+        "find_carry_flag_use",
+        "prepare_machine_blocks",
+        "propagate_physical_copy",
+        "release_physical_copies",
+        "propagate_physical_operand",
+        "remember_physical_copy",
+        "set_machine_frame",
+        "collect_frame_accesses",
+        "new_frame_access",
+        "sort_linked_list",
+        "merge_sorted_lists",
+        "compare_frame_accesses",
+        "frame_access_distance",
+        "combine_frame_accesses",
+        "optimize_branch_comparisons",
+        "next_machine_operation",
+        "machine_block_protected",
+        "label_machine_instruction",
+        "machine_records_equal",
+        "swap_comparison_for_match",
+        "optimize_unconditional_jumps",
+        "move_data_blocks_to_end",
+        "find_function_end",
+        "find_block_terminator",
+        "previous_machine_operation",
+        "label_has_fallthrough_predecessor",
+        "fits_signed_byte",
+        "clone_machine_record",
+        "factor_machine_branch_code",
+        "remove_unreachable_machine_code",
+        "simplify_machine_pairs",
+        "schedule_machine_instructions",
+        "instruction_accesses_memory",
+        "scheduler_allocate",
+        "prepare_scheduled_instruction",
+        "new_instruction_schedule",
+        "schedule_window",
+        "prepare_schedule_window",
+        "schedule_pentium_instruction"
+      ],
+      "terminal": "@schedule_pentium_instruction@4",
+      "returncode": -5
+    }
+  }
+}

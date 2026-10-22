@@ -1,6 +1,7 @@
 #ifndef FLOATING_H
 #define FLOATING_H
 #include "expressions.h"
+#include <recon.h>
 #pragma pack(2)
 typedef struct LDouble12 {
     unsigned short extra;

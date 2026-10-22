@@ -1,6 +1,7 @@
 /* Name handling and macro symbol storage. */
 #include "lexer.h"
 #include <string.h>
+#include <recon.h>
 /* Original [0100be50,0100be6a). The eight-bit sum deliberately folds case
  * for hashing; later lookup still compares the identifier's actual spelling. */
 unsigned char __stdcall rc_hash_name(const char *name)

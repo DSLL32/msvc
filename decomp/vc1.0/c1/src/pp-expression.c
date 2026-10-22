@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "source-input.h"
 #include "characters.h"
+#include <recon.h>
 
 unsigned char preprocessor_expression_token = 1; /* original 0x6a7b0 */
 int preprocessor_parentheses; /* original 0x6a7b4 */

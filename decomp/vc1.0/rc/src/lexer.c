@@ -1,6 +1,7 @@
 /* Input state and character scanning for resource tokens. */
 #include "lexer.h"
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memset)
 
 struct LexOperator operator_tokens[] = {

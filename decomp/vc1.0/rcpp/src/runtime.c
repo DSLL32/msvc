@@ -1,5 +1,6 @@
 /* Runtime variants in RCPP.EXE; these differ from the shipped LIBC.LIB. */
 #include "rcpp.h"
+#include <recon.h>
 HANDLE rc_process_heap;
 /* Original [010089f0,010089fb); process heap shared by the allocation routines. */
 void rc_heap_initialize(void)

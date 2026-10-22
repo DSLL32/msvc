@@ -2,6 +2,7 @@
 #define OUTPUT_H
 #include "backend-flow.h"
 #include "segments.h"
+#include <recon.h>
 /* Callback slots 0007b8f0..0007b938. Signatures are refined with their
    callers; no opaque image data is retained. */
 typedef struct ModuleDirective {

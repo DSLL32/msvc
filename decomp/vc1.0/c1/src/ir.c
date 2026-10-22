@@ -4,6 +4,7 @@
 #include "literal-names.h"
 #include "pragma.h"
 #include "expression-records.h"
+#include <recon.h>
 
 typedef struct IrRecordLink { struct IrRecordLink *next; } IrRecordLink;
 

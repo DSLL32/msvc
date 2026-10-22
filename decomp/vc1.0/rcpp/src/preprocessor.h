@@ -1,6 +1,7 @@
 #ifndef RCPP_PREPROCESSOR_H
 #define RCPP_PREPROCESSOR_H
 #include "rcpp.h"
+#include <recon.h>
 typedef struct RcOption {
     const char *pattern;
     void *destination;

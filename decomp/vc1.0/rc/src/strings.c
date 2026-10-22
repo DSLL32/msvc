@@ -2,6 +2,7 @@
 #include "tokens.h"
 #include <ctype.h>
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memcpy)
 
 /* Original 0x01008f60..0x010091c5. Unlike C, \a maps to backspace;

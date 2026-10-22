@@ -1,6 +1,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 #include "c2.h"
+#include <recon.h>
 typedef struct Option {
     char *pattern;
     void *destination;

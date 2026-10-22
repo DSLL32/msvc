@@ -2,6 +2,7 @@
 #define TYPES_H
 #include <stddef.h>
 #include "initialization.h"
+#include <recon.h>
 
 /* Interned C++ type descriptors are twelve bytes; their hash links live in a
    separate TypeEntry prefix. The debug index occupies the final short. */

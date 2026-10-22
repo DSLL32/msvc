@@ -1,0 +1,28 @@
+#line 1 "RC001572"
+#line 1 "RCINCLUDE.RC"
+#line 1 "RCINCLUDE.RC"
+
+#line 1 "part.rc"
+#line 1 "values.h"
+
+#line 2 "part.rc"
+STRINGTABLE
+BEGIN
+    1 "Native RCINCLUDE"
+    17 "Whitespace trimmed"
+END
+#line 3 "RCINCLUDE.RC"
+#line 1 "second.rc"
+200 MENU
+BEGIN
+    POPUP "Included"
+    BEGIN
+        MENUITEM "Action", 1001
+    END
+END
+#line 4 "RCINCLUDE.RC"
+#line 6 "RCINCLUDE.RC"
+202 RCDATA
+BEGIN
+0x1234, 0x89abcdefL
+END

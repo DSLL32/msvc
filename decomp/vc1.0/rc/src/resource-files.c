@@ -2,6 +2,7 @@
 #include "resource-data.h"
 #include <stdlib.h>
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(strcmp, strcpy)
 void __stdcall resolve_resource_path(char *, char *, char *);
 

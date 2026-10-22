@@ -2,6 +2,7 @@
    vocabulary with expression opcodes; declarations retain their own meanings
    here, rather than importing the unrelated expression entries. */
 #include "parser.h"
+#include <recon.h>
 
 DeclarationCode declaration_codes[] = {
     { TOK_AUTO, 4 }, { TOK_STATIC, 3 }, { TOK_EXTERN, 1 },

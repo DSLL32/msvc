@@ -1,5 +1,8 @@
 /* Runtime differences from the shipped LIBC.LIB, reconstructed from CL.EXE. */
 #include "cl.h"
+#include <errno.h>
+#include <time.h>
+#include <recon.h>
 extern int _flush(FILE *);
 extern void _freebuf(FILE *);
 extern int _cflush;
@@ -38,7 +41,6 @@ void _freebuf(FILE *stream)
     }
 }
 
-#include <errno.h>
 extern unsigned char _osfile[];
 extern int _umaskval;
 extern int _alloc_osfhnd(void);
@@ -143,7 +145,6 @@ int _filbuf(FILE *stream)
 }
 
 /* [00020180,000202db): older timezone parser, reached by the timer. */
-#include <time.h>
 void __tzset(void)
 {
     static char *previous;

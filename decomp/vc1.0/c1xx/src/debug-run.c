@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <recon.h>
 
 /* Inspect pending bytes without flushing or changing the debugged process.
    The addresses are RVAs of FILE* objects in the old 32-bit CRT ABI. */

@@ -1,0 +1,4 @@
+child pid 1048
+read missing 1 error 2
+child exit 0 pid 1048
+exit 1; captured 1 launches and 3 deletes

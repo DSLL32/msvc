@@ -2,6 +2,7 @@
 #define SEGMENTS_H
 #include "c2.h"
 #include "symbols.h"
+#include <recon.h>
 typedef struct Segment {
     SymbolHeader symbol;
     unsigned field20;

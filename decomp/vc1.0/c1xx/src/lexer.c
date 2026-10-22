@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "source-input.h"
 #include "characters.h"
+#include <recon.h>
 
 /* Original 0x26120..0x26189. Source-window sentinels are recovered outside
    active macro rescanning. Raw scanning suppresses trigraph/escape handling. */

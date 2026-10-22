@@ -3,6 +3,7 @@
 #ifndef PCH_FORMAT_H
 #define PCH_FORMAT_H
 #include <stddef.h>
+#include <recon.h>
 typedef struct PchSettingsImage {
     int z_E;
     int extensions_enabled;

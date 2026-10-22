@@ -1,9 +1,10 @@
 CC ?= gcc
+PYTHON ?= python3
 CPPFLAGS += -DRECON_NATIVE_TEST -Iinclude -Inative
 CFLAGS += -m32 -std=gnu89 -O0 -g -Wall -Wextra
-SOURCES = src/crt.c src/win32.c src/process.c
-HEADERS = $(wildcard include/*.h native/*.h)
-.PHONY: all check trace-check process-check clean
+SOURCES = src/crt.c src/win32.c src/process.c src/compat.c src/entry.c src/decimal.c
+HEADERS = $(wildcard include/*.h native/*.h native/sys/*.h)
+.PHONY: all check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
 all: build/check
 build:
 	mkdir -p $@
@@ -25,5 +26,11 @@ build/process-target: build/process-target.o $(SOURCES) src/trace.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
 process-check: build/process-target
 	python3 tests/check-process.py build/process-target
+adoption-check:
+	$(PYTHON) tests/check-adoption.py $(SOURCES)
+process-stream-check:
+	$(PYTHON) tests/check-spawn-streams.py
+trace-allocation-check:
+	$(PYTHON) tests/check-trace-allocation.py
 clean:
 	rm -rf build

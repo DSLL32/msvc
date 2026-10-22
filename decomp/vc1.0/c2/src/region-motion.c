@@ -1,6 +1,7 @@
 /* Region invariant and induction-value motion. */
 #include "region-motion.h"
 #include "expression-fields.h"
+#include <recon.h>
 FlowRegion *hoist_current_region; /* 0007bea8 */
 WorkItem *hoist_entry_work;  /* 0007bea0 */
 WorkItem *hoist_header_work; /* 0007be9c */

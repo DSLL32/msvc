@@ -3,6 +3,7 @@
 #include "tree-rewrite.h"
 #include "function-input.h"
 #include "expression-fields.h"
+#include <recon.h>
 
 /* Original [0005a660,0005a8e0), including the 24-entry control table.
    Materialize predecessor references, normalize branch labels, then add

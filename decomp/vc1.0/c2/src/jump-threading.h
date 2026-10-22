@@ -1,6 +1,7 @@
 #ifndef JUMP_THREADING_H
 #define JUMP_THREADING_H
 #include "comparison-branches.h"
+#include <recon.h>
 void __fastcall simplify_machine_pairs(MachineContext *context);
 void __fastcall remove_unreachable_machine_code(MachineContext *context);
 void __fastcall factor_machine_branch_code(MachineContext *context);

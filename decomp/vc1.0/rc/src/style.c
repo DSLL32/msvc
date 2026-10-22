@@ -1,6 +1,7 @@
 /* Dialog/control style expressions keep token handling separate from RC's
  * general numeric evaluator. NOT clears bits in the current style value. */
 #include "tokens.h"
+#include <recon.h>
 WORD __stdcall advance_argument_flags(WORD);
 BOOL __cdecl is_style_token(void);
 

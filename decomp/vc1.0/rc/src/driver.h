@@ -2,6 +2,7 @@
 #define RC_DRIVER_H
 #include "rc.h"
 #include <stdio.h>
+#include <recon.h>
 extern FILE *diagnostics, *resource_output, *preprocessor_input;
 extern char resource_filename[MAX_PATH], input_filename[MAX_PATH];
 extern char preprocessor_options[1032], include_paths[520];

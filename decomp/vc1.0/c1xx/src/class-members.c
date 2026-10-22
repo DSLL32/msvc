@@ -1,6 +1,7 @@
 /* Class member declarations and their storage, access and layout dispatch. */
 #include "class-members.h"
 #include "parameters.h"
+#include <recon.h>
 
 void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
     FunctionParameters *parameters, unsigned first_parameter, CppSymbol *symbol);

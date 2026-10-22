@@ -1,6 +1,7 @@
 /* Natural and irreducible regions in the global work graph. */
 #include "flow-edges.h"
 #include "bitsets.h"
+#include <recon.h>
 static WorkItem *region_candidate; /* 0007becc */
 static WorkItem *irreducible_last; /* 0007bec8 */
 

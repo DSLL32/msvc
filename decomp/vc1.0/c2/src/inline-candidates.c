@@ -2,6 +2,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "records.h"
+#include <recon.h>
 /* Original [00065030,000650c0). Keep the current inlining directive while
    collecting calls from the function's expression records. */
 InlineSite *__fastcall collect_inline_sites(Function *function, int *count)

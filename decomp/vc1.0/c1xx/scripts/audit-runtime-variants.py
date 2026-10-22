@@ -5,7 +5,7 @@ from capstone import Cs,CS_ARCH_X86,CS_MODE_32
 from capstone.x86 import X86_OP_IMM,X86_OP_MEM
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from binary import PE
-from compare import imports
+from win32_indexes import imports
 root=Path(__file__).resolve().parents[4];a=PE(root/'toolchains/1.0-nt/bin/C13232.EXE');b=PE(root/'toolchains/1.0-nt/bin/C1XX3232.EXE')
 def records(folder,pe):
  return json.loads((folder/'functions.json').read_text())['driver']+json.loads((folder/'runtime.json').read_text())+imports(pe)

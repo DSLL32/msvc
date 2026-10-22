@@ -7,6 +7,7 @@
 #include "inline-capture.h"
 #include "macros.h"
 #include "parameter-scopes.h"
+#include <recon.h>
 
 int __stdcall has_class_initialization(CType *type);
 CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration);

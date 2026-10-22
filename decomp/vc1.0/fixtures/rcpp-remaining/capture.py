@@ -11,7 +11,7 @@ import sys
 HERE=Path(__file__).resolve().parent
 RCPP=HERE.parent.parent/'rcpp'
 sys.path.insert(0,str(RCPP/'scripts'))
-from compare import run,location,wt
+from reference import run,location,wt
 
 CASES=['long-suffix','unsigned-suffix']
 

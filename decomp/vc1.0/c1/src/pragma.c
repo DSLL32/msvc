@@ -10,6 +10,7 @@
 #include "source-input.h"
 #include "global-ir.h"
 #include "control-ir.h"
+#include <recon.h>
 
 PragmaArgument pragma_argument; /* original 0x63920 */
 short listing_number; /* original 0x63850 */

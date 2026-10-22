@@ -1,6 +1,7 @@
 #ifndef BACKEND_FLOW_H
 #define BACKEND_FLOW_H
 #include "functions.h"
+#include <recon.h>
 typedef struct MachineInstruction MachineInstruction;
 /* The function context is the kind-2 machine record marking its symbol. */
 typedef struct MachineInstruction MachineContext;

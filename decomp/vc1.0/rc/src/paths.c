@@ -1,6 +1,7 @@
 /* Path helpers in RC's older CRT. */
 #include <stdlib.h>
 #include <string.h>
+#include <recon.h>
 
 /* Original 0x0100ef90..0x0100f0e2. Each component is truncated to 255 bytes. */
 void __cdecl _splitpath(const char *path, char *drive, char *directory,

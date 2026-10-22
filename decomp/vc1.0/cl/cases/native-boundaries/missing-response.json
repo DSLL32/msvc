@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "missing-response",
+  "arguments": "@absent.rsp",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\missing-response",
+    "TEMP": "Q:\\missing-response"
+  },
+  "initial": {},
+  "boundaries": [],
+  "final": {},
+  "stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "stderr": {
+    "sha256": "7b249ee55fb961ae9db65a8b7261bd6c1d09149589917eaed6cd55314fc62ce7",
+    "bytes": 184
+  },
+  "events": "exit 00000002\n",
+  "timing": {
+    "setup_seconds": 0.006087765097618103,
+    "capture_execution_seconds": 5.302801128476858,
+    "capture_checks_seconds": 0.007051132619380951,
+    "total_seconds": 5.315941710025072
+  }
+}

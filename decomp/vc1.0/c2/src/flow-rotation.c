@@ -4,6 +4,7 @@
 #include "function-input.h"
 #include "expression-fields.h"
 #include "options.h"
+#include <recon.h>
 
 /* Original [00059d30,0005a140). Rotate an eligible natural loop's test
    into its bottom block, retaining an entry test and an explicit exit bridge.

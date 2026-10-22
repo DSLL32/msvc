@@ -1,6 +1,7 @@
 #ifndef CLASS_FINALIZATION_H
 #define CLASS_FINALIZATION_H
 #include "lexer.h"
+#include <recon.h>
 void browser_end_tag(void);
 void __stdcall build_conversion_type_sets(CppSymbol *tag);
 void __stdcall prepare_class_virtual_tables(CppSymbol *tag);

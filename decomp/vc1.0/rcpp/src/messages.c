@@ -3,8 +3,13 @@
  * does not replace this embedded catalog. No section bytes, pointer addresses
  * or neighboring/padding data are represented here. */
 #include "preprocessor.h"
+#include <recon.h>
 char *__stdcall rc_message(unsigned code)
 {
+    /* These original records have equal spelling but distinct observable
+     * addresses. Explicit objects prevent native compiler literal pooling. */
+    static char redefined_label_2045[] = "'%s' : label redefined";
+    static char redefined_label_2412[] = "'%s' : label redefined";
     static const struct RcMessage {
         unsigned code;
         char *text;
@@ -121,7 +126,7 @@ char *__stdcall rc_message(unsigned code)
         { 2042, "signed/unsigned keywords mutually exclusive" },
         { 2043, "illegal break" },
         { 2044, "illegal continue" },
-        { 2045, "'%s' : label redefined" },
+        { 2045, redefined_label_2045 },
         { 2046, "illegal case" },
         { 2047, "illegal default" },
         { 2048, "more than one default" },
@@ -267,7 +272,7 @@ char *__stdcall rc_message(unsigned code)
         { 2409, "illegal type used as operator %s" },
         { 2410, "'%s' : ambiguous member name %s" },
         { 2411, "'%s' : illegal struct/union member %s" },
-        { 2412, "'%s' : label redefined" },
+        { 2412, redefined_label_2412 },
         { 2413, "'%s' : illegal align size" },
         { 2414, "illegal number of operands" },
         { 2415, "improper operand type" },

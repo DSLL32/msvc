@@ -1,6 +1,7 @@
 /* Expression meanings of the frontend's shared token vocabulary. Declaration
    keywords retain their meanings in declaration_codes, not a duplicate table. */
 #include "expression-records.h"
+#include <recon.h>
 ExpressionRecordRule expression_record_rules[] = {
     { TOK_NONE, 0 }, { TOK_UNALIGNED, 0 },
     { TOK_IDENTIFIER, 0x26 },

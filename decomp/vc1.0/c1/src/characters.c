@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "options.h"
 #include "characters.h"
+#include <recon.h>
 
 static CPINFO console_codepage; /* original 0x65e48 */
 static unsigned char fallback_lead_bytes[] = {

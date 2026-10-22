@@ -1,0 +1,35 @@
+child pid 816
+read missing 1 error 2
+read missing 3 error 2
+read missing 5 error 2
+read missing 7 error 2
+read missing 9 error 2
+read missing 11 error 2
+read missing 13 error 2
+read missing 15 error 2
+read missing 17 error 2
+read missing 19 error 2
+read missing 21 error 2
+read missing 23 error 2
+read missing 25 error 2
+read missing 27 error 2
+read missing 29 error 2
+read missing 31 error 2
+read missing 33 error 2
+read missing 35 error 2
+read missing 37 error 2
+read missing 39 error 2
+read missing 41 error 2
+read missing 43 error 2
+read missing 45 error 2
+read missing 47 error 2
+read missing 53 error 2
+read missing 55 error 2
+read missing 57 error 2
+read missing 59 error 2
+read missing 61 error 2
+read missing 63 error 2
+read missing 65 error 2
+read missing 67 error 2
+child exit 0 pid 816
+exit 0; captured 1 launches and 2 deletes

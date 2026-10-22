@@ -3,6 +3,7 @@
 #include "input.h"
 #include "records.h"
 #include "options.h"
+#include <recon.h>
 static const ExpressionField no_fields[] = {FIELD_END};
 static const ExpressionField type_fields[] = {FIELD_TYPE, FIELD_END};
 static const ExpressionField symbol_fields[] = {FIELD_SYMBOL, FIELD_END};

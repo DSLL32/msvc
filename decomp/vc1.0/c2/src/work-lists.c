@@ -2,6 +2,7 @@
 #include "global-work.h"
 #include "function-input.h"
 #include <stdarg.h>
+#include <recon.h>
 
 /* Original [00058db0,000590b0), including the 51-entry command table.
    Uppercase commands edit the doubly linked work chain; lowercase commands

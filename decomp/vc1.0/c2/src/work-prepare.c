@@ -3,6 +3,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "expression-fields.h"
+#include <recon.h>
 extern int floating_frontend;
 extern int optimize_global;
 int tree_uses_floating; /* 00084f60 */

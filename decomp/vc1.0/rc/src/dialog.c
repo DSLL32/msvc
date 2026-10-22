@@ -1,5 +1,6 @@
 /* Dialog coordinates, metadata and template emission. */
 #include "dialog.h"
+#include <recon.h>
 unsigned int dialog_control_count_offset;
 
 /* Original 0x0100b8c0..0x0100ba21. */

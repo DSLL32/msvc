@@ -8,7 +8,7 @@ from pathlib import Path
 import json
 from collections import defaultdict
 import importlib.machinery
-import compare
+import reference_indexes as compare
 
 GROUPS = {
  'verbose-public': [(0x8110,0x8166,'wide_to_ansi'),(0xdb80,0xdb86,'RtlUnicodeStringToAnsiString thunk')],

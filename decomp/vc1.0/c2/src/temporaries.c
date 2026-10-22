@@ -2,6 +2,7 @@
 #include "tree-rewrite.h"
 #include "expression-fields.h"
 #include "frame.h"
+#include <recon.h>
 extern int default_segment_alignment;
 TemporaryRegister *temporary_registers;
 /* Original [00058530,00058540). */

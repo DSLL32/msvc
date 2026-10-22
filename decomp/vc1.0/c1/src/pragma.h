@@ -1,6 +1,7 @@
 #ifndef PRAGMA_H
 #define PRAGMA_H
 #include "builtins.h"
+#include <recon.h>
 
 typedef union PragmaArgument {
     int integer;

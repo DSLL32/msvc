@@ -4,6 +4,7 @@
 #include "driver.h"
 #include <ctype.h>
 #include <locale.h>
+#include <recon.h>
 extern unsigned long _lc_handle[];
 extern unsigned int _lc_codepage;
 

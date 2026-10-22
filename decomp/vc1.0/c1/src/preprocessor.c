@@ -3,6 +3,7 @@
 #include "source-input.h"
 #include "characters.h"
 #include "lexer.h"
+#include <recon.h>
 
 PreprocessorSymbol **preprocessor_buckets; /* original 0x6b654 */
 unsigned char *macro_text_begin, *macro_text_next; /* original 0x6b678/0x6b67c */

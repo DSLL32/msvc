@@ -3,7 +3,7 @@
 
 This is a clipped byte-extent union, not instruction or branch coverage.
 """
-from compare import indexes
+from images import indexes
 import json
 import re
 from pathlib import Path

@@ -1,6 +1,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "extended.h"
+#include <recon.h>
 unsigned __fastcall node_hash_key(Node *node);
 int tree_comparison_flags; /* 0007e844: shared recursive equality mode */
 

@@ -1,6 +1,7 @@
 #ifndef OPERATORS_H
 #define OPERATORS_H
 #include "ir.h"
+#include <recon.h>
 /* Parser token codes, including the distinct prefix/postfix and unary forms. */
 enum OperatorToken {
     OP_BIT_AND = 0x3a, OP_LOGICAL_AND = 0x3b, OP_AND_ASSIGN = 0x3c,

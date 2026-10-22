@@ -1,6 +1,7 @@
 #ifndef OBJECT_INITIALIZERS_H
 #define OBJECT_INITIALIZERS_H
 #include "parser.h"
+#include <recon.h>
 extern CppSymbol *initializer_storage_symbol;
 extern unsigned initializer_offset;
 extern int initializer_runtime_override, initializer_value_error_reported;

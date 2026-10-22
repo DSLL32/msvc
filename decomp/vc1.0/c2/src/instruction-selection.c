@@ -2,6 +2,7 @@
 #include "backend-passes.h"
 #include "tree-rewrite.h"
 #include "function-input.h"
+#include <recon.h>
 extern int optimize_global;
 MachineBlockHeader *selection_global_header; /* 0007c2a4 */
 MachineBlockHeader *selection_end; /* 0007ce48 */

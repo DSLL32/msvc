@@ -1,5 +1,6 @@
 /* Lexer code-to-category grammar table, original 0x6d627. */
 #include "lexer.h"
+#include <recon.h>
 
 unsigned char token_categories[153] = {
     TOK_NONE, /* TOK_NONE */

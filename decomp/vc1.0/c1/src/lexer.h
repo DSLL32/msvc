@@ -3,6 +3,7 @@
 #include "tokens.h"
 #include "macros.h"
 #include "macro-expand.h"
+#include <recon.h>
 
 typedef struct StringToken {
     unsigned char *text;

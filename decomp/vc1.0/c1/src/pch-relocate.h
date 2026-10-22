@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "parser.h"
 #include "preprocessor.h"
+#include <recon.h>
 
 typedef struct PermanentPage {
     unsigned char *start;

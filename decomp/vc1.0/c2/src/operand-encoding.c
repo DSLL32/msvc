@@ -3,6 +3,7 @@
 #include "instruction-selection.h"
 #include "function-input.h"
 #include "output.h"
+#include <recon.h>
 extern int coff_object, byte_block_first;
 /* Original [00026700,00026900). Resolve relative values and known frame
    symbols, notify the output format, then write the chosen immediate width. */

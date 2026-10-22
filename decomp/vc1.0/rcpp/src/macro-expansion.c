@@ -1,6 +1,7 @@
 /* Macro rescanning, original [0100ad30,0100b0be), switch data
  * [0100b0c0,0100b164). Definitions keep their internal D/A/R markers. */
 #include "macros.h"
+#include <recon.h>
 RcMacroStorage rc_macro_storage;
 char *rc_expansion_work = rc_text_buffer;
 char *rc_macro_output_start, *rc_argument_work;

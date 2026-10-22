@@ -3,6 +3,7 @@
 #include "functions.h"
 #include "machine.h"
 #include "bitsets.h"
+#include <recon.h>
 void __fastcall prepare_parameter_storage(WorkItem *work);
 void __fastcall lower_assignment(Node *node);
 void __fastcall lower_switch_dispatch(WorkItem *work, Expression *expression, Node *node);

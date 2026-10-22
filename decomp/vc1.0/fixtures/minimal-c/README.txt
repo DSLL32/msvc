@@ -51,7 +51,7 @@ Their internal formats have not been decoded.
 
 Verify all three cases from any working directory:
 
-    python3 /root/msvc2/decomp/vc1.0/fixtures/minimal-c/verify.py
+    python3 /root/msvc2/decomp/vc1.0/fixtures/minimal-c/capture-original.py
 
 Select one with a c1, c2, or link argument. The verifier builds run-phase.c using the
 original compiler/linker, creates a private 32-bit prefix, and uses isolated

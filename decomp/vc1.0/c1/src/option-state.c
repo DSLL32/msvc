@@ -1,6 +1,7 @@
 /* Optimization state bits saved in precompiled and intermediate streams. */
 #include "initialization.h"
 #include "pragma.h"
+#include <recon.h>
 
 int optimization_enabled = 1; /* original 0x6bf98 */
 int *packed_option_values[21] = {

@@ -2,6 +2,7 @@
 #define TREE_REWRITE_H
 #include "functions.h"
 #include "temporaries.h"
+#include <recon.h>
 extern unsigned expression_side_effects;
 extern int expression_integer_bytes;
 typedef struct TreeReference {

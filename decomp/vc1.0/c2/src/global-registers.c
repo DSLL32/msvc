@@ -12,6 +12,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "machine.h"
+#include <recon.h>
 extern int optimize_precision, optimize_alias;
 AllocationValue *allocation_values[ALLOCATION_VALUE_BUCKETS]; /* 0007b9f0..0007ba70 */
 BitSet *allocation_live_definitions; /* 0007b9ec */

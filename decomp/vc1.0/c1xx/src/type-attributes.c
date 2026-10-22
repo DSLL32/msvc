@@ -1,5 +1,6 @@
 /* Calling conventions and segmented pointer attributes. */
 #include "declarations.h"
+#include <recon.h>
 
 int active_plmn_pragma, active_plmf_pragma; /* original 0x9f42c/0x9f430 */
 

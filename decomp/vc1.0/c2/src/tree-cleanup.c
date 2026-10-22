@@ -2,6 +2,7 @@
 #include "tree-scratch.h"
 #include "expression-fields.h"
 #include "global-work.h"
+#include <recon.h>
 /* Original [00058bd0,00058c80), including its record dispatch table. */
 Node *__fastcall cleanup_expression_tree(Node *node)
 {

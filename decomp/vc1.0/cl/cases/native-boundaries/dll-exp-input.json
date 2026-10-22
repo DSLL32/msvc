@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "dll-exp-input",
+  "arguments": "/Bz /Bk:temp /LD test.c sample.exp",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\dll-exp-input",
+    "TEMP": "Q:\\dll-exp-input"
+  },
+  "initial": {
+    "sample.exp": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "boundaries": [],
+  "final": {
+    "sample.exp": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "stdout": {
+    "sha256": "2a0bc0f3e0ab6636fa4fbbabe0f418512f6c3e0ddc76a8d65248f4f3bd46b097",
+    "bytes": 538
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.00417065154761076,
+    "capture_execution_seconds": 5.2809546403586864,
+    "capture_checks_seconds": 0.003720933571457863,
+    "total_seconds": 5.288847389630973
+  }
+}

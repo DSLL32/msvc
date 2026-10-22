@@ -1,6 +1,7 @@
 /* Permanent vectors with an inline pointer array. */
 #include "options.h"
 #include "inline-vector.h"
+#include <recon.h>
 
 InlineVector *empty_inline_vector; /* original 0x9f3cc */
 

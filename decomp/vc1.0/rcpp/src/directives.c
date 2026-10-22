@@ -2,6 +2,7 @@
  * [0100dc6c,0100dca4). Every directive arm remains in this one function. */
 #include "numbers.h"
 #include <string.h>
+#include <recon.h>
 int rc_in_directive, rc_in_condition_expression, rc_header_mode;
 int rc_condition_state[32];
 

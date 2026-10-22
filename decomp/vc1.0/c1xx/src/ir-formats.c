@@ -1,5 +1,6 @@
 /* Expression record field schemas, original format pointers at 0xa2b0c, stride eight in the original record table. */
 #include "ir.h"
+#include <recon.h>
 
 static unsigned char annotation_fields[] = { IR_FIELD_RESERVED_15, IR_FIELD_END };
 static unsigned char node_fields[] = { IR_FIELD_NODE, IR_FIELD_END };

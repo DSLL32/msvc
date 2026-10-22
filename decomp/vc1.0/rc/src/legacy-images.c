@@ -1,6 +1,7 @@
 /* Old 2.03 image resources have either a retained twelve-byte description or
  * an external image table preceding their remaining bytes. */
 #include "resource-data.h"
+#include <recon.h>
 
 /* Original 0x0100a920..0x0100a9e3. */
 unsigned int __stdcall read_icon_file_header(unsigned int size)

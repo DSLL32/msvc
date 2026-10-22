@@ -58,7 +58,7 @@ original-toolchain-built checker in decomp/vc1.0/cl/src/gui-check.c.
 
 Verification from the repository root:
 
-    python3 decomp/vc1.0/fixtures/minimal-c/verify.py --fixture decomp/vc1.0/fixtures/hello-win32
+    python3 decomp/vc1.0/fixtures/minimal-c/capture-original.py --fixture decomp/vc1.0/fixtures/hello-win32
 
 Append c1, c2, or link to select one phase. The shared verifier builds its
 launchers using the original toolchain, uses its own Wine prefix, and creates

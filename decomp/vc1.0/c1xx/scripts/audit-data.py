@@ -1,6 +1,6 @@
 """Compare encountered grammar/vocabulary data with the original executable."""
 import struct
-from compare import indexes, publics
+from win32_indexes import indexes, publics
 
 original, rebuilt, cfg, _, _ = indexes()
 names = publics()

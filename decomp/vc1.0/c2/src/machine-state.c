@@ -5,6 +5,7 @@
 #include "instruction-rewrite.h"
 #include "global-work.h"
 #include "frame.h"
+#include <recon.h>
 MachineInstruction *machine_tail; /* 0007b94c */
 MachineInstruction *free_machine_instructions; /* 0007b950 */
 MachineInstruction *deferred_instructions, *deferred_tail; /* 0007b954, 0007b958 */

@@ -1,6 +1,7 @@
 /* Interned frontend types and the associated parameter tables. */
 #include "types.h"
 #include "operators.h"
+#include <recon.h>
 
 TypeEntry **type_descriptor_buckets; /* original 0x9f410 */
 TypeShapeEntry **type_shape_buckets; /* original 0x9f1e8 */

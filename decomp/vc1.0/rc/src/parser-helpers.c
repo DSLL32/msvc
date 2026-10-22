@@ -1,4 +1,5 @@
 #include "menu.h"
+#include <recon.h>
 BOOL argument_had_comma;
 
 /* Original 0x0100c730..0x0100c775. Repeated commas are accepted. */

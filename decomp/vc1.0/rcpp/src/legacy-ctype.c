@@ -5,6 +5,7 @@
  * and ctype-pointer storage before its C-locale array. Only flags tested by
  * RCPP are represented, never the original pointer words or section bytes. */
 #include "legacy-ctype.h"
+#include <recon.h>
 #define A 0x100 /* The CRT's additional alphabetic classification bit. */
 unsigned short rc_negative_native_ctype_flags[128] = {
     0,0,0,0,0,0,0,0, /* -128..-121 */

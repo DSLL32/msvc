@@ -1,6 +1,7 @@
 /* Process driver, original 0x69630..0x696a8. */
 #include <signal.h>
 #include "options.h"
+#include <recon.h>
 
 int argument_count;
 char **argument_vector;

@@ -5,6 +5,7 @@
 #include "instruction-rewrite.h"
 #include "register-use.h"
 #include "frame.h"
+#include <recon.h>
 extern int optimize_speed, optimization_recycle;
 #define DIRECT_REGISTER_COLOR(n) ((((n) > 7 && (n) <= 31) || (n) == REG_ESP || (n) == REG_EBP) && (n) != 24)
 #define MEMORY_OPERAND(p) (((p)->flags & 15) == OPERAND_ABSOLUTE || \

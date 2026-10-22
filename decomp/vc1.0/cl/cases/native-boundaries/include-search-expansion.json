@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "include-search-expansion",
+  "arguments": "/c preprocess.c",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Q:\\include-search-expansion\\missing; ;Q:\\include-search-expansion\\include-here",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\include-search-expansion",
+    "TEMP": "Q:\\include-search-expansion"
+  },
+  "initial": {
+    "include-here/settings.h": {
+      "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+      "bytes": 17
+    },
+    "preprocess.c": {
+      "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+      "bytes": 60
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\include-search-expansion\\000292 -f preprocess.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fopreprocess.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Q:\\include-search-expansion\\missing -I Q:\\include-search-expansion\\include-here "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\include-search-expansion",
+      "before": {
+        "include-here/settings.h": {
+          "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+          "bytes": 17
+        },
+        "preprocess.c": {
+          "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+          "bytes": 60
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "eea2ddb9e6c54244bf659dcfb4ee43ca6b82b5f4e364b239cd9f7650390072da",
+          "bytes": 869
+        },
+        "000292gl": {
+          "sha256": "18782874eb1f0d9a12c75871e0d89263452979a41434fc82968e70631c60baed",
+          "bytes": 56
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "include-here/settings.h": {
+          "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+          "bytes": 17
+        },
+        "preprocess.c": {
+          "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+          "bytes": 60
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\include-search-expansion\\000292 -f preprocess.c -W 1 -G4 -Gs4096 -dos -Fopreprocess.obj -ML "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\include-search-expansion",
+      "before": {
+        "000292ex": {
+          "sha256": "eea2ddb9e6c54244bf659dcfb4ee43ca6b82b5f4e364b239cd9f7650390072da",
+          "bytes": 869
+        },
+        "000292gl": {
+          "sha256": "18782874eb1f0d9a12c75871e0d89263452979a41434fc82968e70631c60baed",
+          "bytes": 56
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "include-here/settings.h": {
+          "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+          "bytes": 17
+        },
+        "preprocess.c": {
+          "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+          "bytes": 60
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "eea2ddb9e6c54244bf659dcfb4ee43ca6b82b5f4e364b239cd9f7650390072da",
+          "bytes": 869
+        },
+        "000292gl": {
+          "sha256": "18782874eb1f0d9a12c75871e0d89263452979a41434fc82968e70631c60baed",
+          "bytes": 56
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "include-here/settings.h": {
+          "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+          "bytes": 17
+        },
+        "preprocess.c": {
+          "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+          "bytes": 60
+        },
+        "preprocess.obj": {
+          "sha256": "b78b2a41e4748293ed63afcf991a817a21764d0dcb009b50178752c921ec097f",
+          "bytes": 286
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "include-here/settings.h": {
+      "sha256": "96c9971d37aa6acbeecdc172f0b4bba0e2074179361368404e4e9ae1dc512ead",
+      "bytes": 17
+    },
+    "preprocess.c": {
+      "sha256": "1d6a950d841f49fc3dfcf829dcb38a6b20b7fd4be1f9de3a5f5f435e72a102bf",
+      "bytes": 60
+    },
+    "preprocess.obj": {
+      "sha256": "b78b2a41e4748293ed63afcf991a817a21764d0dcb009b50178752c921ec097f",
+      "bytes": 286
+    }
+  },
+  "stdout": {
+    "sha256": "f2b7d15199a6fdb9d69bb5e059ce29e927cc307331c1c1d2f1e20b37f12daa0c",
+    "bytes": 14
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.00411984883248806,
+    "capture_execution_seconds": 4.972877447493374,
+    "capture_checks_seconds": 0.013299752026796341,
+    "total_seconds": 4.990298438817263
+  }
+}

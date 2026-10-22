@@ -1,6 +1,7 @@
 #ifndef RCPP_LEGACY_CTYPE_H
 #define RCPP_LEGACY_CTYPE_H
 #include <ctype.h>
+#include <recon.h>
 /* Native RCPP passes signed bytes to these macros. The original table's
  * negative prefix differs from later LIBC layout. Retain the actual observed
  * PRINT/SPACE/DIGIT flags, while ordinary indices use compatible LIBC data.

@@ -1,6 +1,7 @@
 #ifndef INITIALIZATION_H
 #define INITIALIZATION_H
 #include "frontend.h"
+#include <recon.h>
 
 typedef struct WorkingStack {
     unsigned count;

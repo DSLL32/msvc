@@ -1,5 +1,6 @@
 /* Original 0x010080c0..0x0100810e. NT counted-string conversion bridge. */
 #include "resource.h"
+#include <recon.h>
 struct AnsiString { USHORT length, capacity; char *text; };
 struct UnicodeString { USHORT length, capacity; WCHAR *text; };
 LONG __stdcall RtlAnsiStringToUnicodeString(struct UnicodeString *, struct AnsiString *, BYTE);

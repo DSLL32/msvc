@@ -2,6 +2,7 @@
 #include "numeric-conversion.h"
 #include "lexer.h"
 #include <limits.h>
+#include <recon.h>
 
 /* Original 0x65dc0..0x6607a. Retain the native enum-to-int view, integral
    range conversion, far-pointer casts and precision-limited floating roundtrip. */

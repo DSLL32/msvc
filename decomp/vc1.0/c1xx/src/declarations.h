@@ -4,6 +4,7 @@
 #include "hash-table.h"
 #include "types.h"
 #include "scopes.h"
+#include <recon.h>
 
 /* Encountered base-list node prefix through its state byte at +0x14.
    The same source-order chain also contains ordinary declaration variants. */

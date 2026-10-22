@@ -1,6 +1,7 @@
 #ifndef LOOKAHEAD_GRAMMAR_H
 #define LOOKAHEAD_GRAMMAR_H
 #include "parser-grammar.h"
+#include <recon.h>
 extern ParserState lookahead_states[279];
 extern ParserTransition lookahead_shifts[], lookahead_exceptions[];
 extern ParserTransition lookahead_goto_transitions[];

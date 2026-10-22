@@ -1,6 +1,7 @@
 #ifndef LOOKAHEAD_H
 #define LOOKAHEAD_H
 #include "lexer.h"
+#include <recon.h>
 extern int parenthesis_lookahead_depth;
 /* The first value is the original yypv=-1 cell. The last value overlaps the
    first state cells; yys=-1 is the final halfword of the last allocated value.

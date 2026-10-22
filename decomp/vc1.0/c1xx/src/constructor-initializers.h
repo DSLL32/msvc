@@ -1,6 +1,7 @@
 #ifndef CONSTRUCTOR_INITIALIZERS_H
 #define CONSTRUCTOR_INITIALIZERS_H
 #include "function-definitions.h"
+#include <recon.h>
 unsigned short __stdcall constructor_pointer_attributes(CppSymbol *unused_function);
 void __stdcall prepare_class_initialization(CppSymbol *tag);
 int get_base_initialization_access(void);

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <recon.h>
 #pragma intrinsic(strcpy, strcat, strlen)
 
 char * __cdecl _getpath(char *, char *, unsigned int);

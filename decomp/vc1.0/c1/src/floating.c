@@ -4,6 +4,7 @@
 #include "initialization.h"
 #include "floating.h"
 #include "initializer-records.h"
+#include <recon.h>
 
 extern int _atoldbl(Extended *result, const char *text);
 
@@ -304,6 +305,8 @@ int float_to_extended(const float *value, Extended *number)
    No C frame is needed or permitted at this private entry. */
 __declspec(naked) void store_extended(void)
 {
+    /* Native trace entry preserves the live private ESI/x87 ABI. Empty Win32. */
+    RECON_TRACE_NAKED_ENTRY(store_extended)
     __asm {
         fstp tbyte ptr [esi]
         fwait

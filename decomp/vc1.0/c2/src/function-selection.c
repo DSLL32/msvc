@@ -1,4 +1,5 @@
 #include "instruction-selection.h"
+#include <recon.h>
 extern int codeview_debug;
 /* Original [000193a0,000194c0), including its 31-entry control table.
    CodeView-only scope markers are filtered here; register lifetime and

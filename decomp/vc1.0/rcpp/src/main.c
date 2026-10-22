@@ -2,6 +2,7 @@
 #include "lexer.h"
 #include "tokens.h"
 #include <string.h>
+#include <recon.h>
 
 static int argument_count;
 static char **argument_vector;

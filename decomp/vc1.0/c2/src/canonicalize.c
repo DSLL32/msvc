@@ -2,6 +2,7 @@
 #include "tree-input.h"
 #include "control-input.h"
 #include "records.h"
+#include <recon.h>
 extern int default_integer_bytes;
 unsigned expression_side_effects;
 int expression_integer_bytes = 4;

@@ -9,6 +9,7 @@
 #include <iconv.h>
 #include <locale.h>
 #include <wctype.h>
+#include <sys/ioctl.h>
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
 static DWORD last_error;
@@ -90,7 +91,17 @@ DWORD WINAPI recon_SetFilePointer(HANDLE handle,LONG low,LONG *high,DWORD origin
     if (fd<0) return 0xffffffffUL;
     if (high && *high) { last_error=ERROR_NOT_SUPPORTED; return 0xffffffffUL; }
     position=lseek(fd,low,origin);
-    if (position<0) { last_error=error_code(errno); return 0xffffffffUL; }
+    if (position<0) {
+        int error=errno;
+        off_t base=-1; struct stat st;
+        if (error==EINVAL && low<0) {
+            if (origin==FILE_BEGIN) base=0;
+            else if (origin==FILE_CURRENT) base=lseek(fd,0,SEEK_CUR);
+            else if (origin==FILE_END && fstat(fd,&st)==0) base=st.st_size;
+        }
+        last_error=(base>=0 && base+(off_t)low<0)?ERROR_NEGATIVE_SEEK:error_code(error);
+        errno=error; return 0xffffffffUL;
+    }
     if (high) *high=0;
     last_error=0; return position;
 }
@@ -148,6 +159,57 @@ BOOL WINAPI recon_SetStdHandle(DWORD kind,HANDLE handle)
 {
     if (kind>STD_INPUT_HANDLE || kind<STD_ERROR_HANDLE) { last_error=ERROR_INVALID_PARAMETER; return FALSE; }
     standard_handles[STD_INPUT_HANDLE-kind]=handle; return TRUE;
+}
+UINT WINAPI recon_SetHandleCount(UINT count)
+{
+    /* NT has no DOS handle-table limit. This compatibility call echoes the
+     * requested count; actual descriptor allocation still fails normally. */
+    return count;
+}
+UINT WINAPI recon_GetConsoleCP(void)
+{
+    const char *setting=getenv("RECON_CONSOLE_CP"); char *end; unsigned long page;
+    if (!setting) return 437;
+    errno=0; page=strtoul(setting,&end,10);
+    if (!*setting || *end || errno || !page || page>UINT_MAX) {
+        last_error=ERROR_INVALID_PARAMETER; return 0;
+    }
+    return (UINT)page;
+}
+BOOL WINAPI recon_GetCPInfo(UINT page,CPINFO *info)
+{
+    CPINFO result;
+    if (!info) { last_error=ERROR_INVALID_PARAMETER; return FALSE; }
+    memset(&result,0,sizeof(result)); result.DefaultChar[0]='?';
+    switch (page) {
+    case 0: case 1: case 437: case 1252: result.MaxCharSize=1; break;
+    case 932:
+        result.MaxCharSize=2;
+        result.LeadByte[0]=0x81; result.LeadByte[1]=0x9f;
+        result.LeadByte[2]=0xe0; result.LeadByte[3]=0xfc;
+        break;
+    case 65001: result.MaxCharSize=4; break;
+    default: last_error=ERROR_INVALID_PARAMETER; return FALSE;
+    }
+    *info=result; last_error=0; return TRUE;
+}
+BOOL WINAPI recon_GetConsoleScreenBufferInfo(HANDLE handle,CONSOLE_SCREEN_BUFFER_INFO *info)
+{
+    struct winsize size; int fd=handle_fd(handle);
+    if (fd<0) return FALSE;
+    if (!info) { last_error=ERROR_INVALID_PARAMETER; return FALSE; }
+    if (ioctl(fd,TIOCGWINSZ,&size)<0) {
+        last_error=errno==ENOTTY?ERROR_INVALID_HANDLE:error_code(errno); return FALSE;
+    }
+    if (!size.ws_col || !size.ws_row || size.ws_col>SHRT_MAX || size.ws_row>SHRT_MAX) {
+        last_error=ERROR_NOT_SUPPORTED; return FALSE;
+    }
+    memset(info,0,sizeof(*info));
+    info->dwSize.X=size.ws_col; info->dwSize.Y=size.ws_row;
+    info->wAttributes=7;
+    info->srWindow.Right=size.ws_col-1; info->srWindow.Bottom=size.ws_row-1;
+    info->dwMaximumWindowSize=info->dwSize;
+    last_error=0; return TRUE;
 }
 HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
 {
@@ -231,6 +293,13 @@ void WINAPI recon_GetSystemTime(SYSTEMTIME *out)
     out->wYear=tm.tm_year+1900; out->wMonth=tm.tm_mon+1; out->wDay=tm.tm_mday; out->wDayOfWeek=tm.tm_wday;
     out->wHour=tm.tm_hour; out->wMinute=tm.tm_min; out->wSecond=tm.tm_sec;
 }
+void WINAPI recon_GetLocalTime(SYSTEMTIME *out)
+{
+    struct tm tm; time_t now=recon_time(NULL);
+    localtime_r(&now,&tm); memset(out,0,sizeof(*out));
+    out->wYear=tm.tm_year+1900; out->wMonth=tm.tm_mon+1; out->wDay=tm.tm_mday; out->wDayOfWeek=tm.tm_wday;
+    out->wHour=tm.tm_hour; out->wMinute=tm.tm_min; out->wSecond=tm.tm_sec;
+}
 void WINAPI recon_ExitProcess(UINT code) { _exit(code); }
 LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD protection)
 {
@@ -272,7 +341,10 @@ static int convert(const char *to,const char *from,const void *input,size_t byte
     do {
         dest=output?(char *)output+done:scratch; available=output?capacity-done:sizeof(scratch);
         { size_t before=available,r=iconv(cd,&cursor,&left,&dest,&available); done+=before-available;
-          if (r==(size_t)-1 && (errno!=E2BIG || output)) { last_error=ERROR_NO_UNICODE_TRANSLATION; iconv_close(cd); return 0; } }
+          if (r==(size_t)-1 && (errno!=E2BIG || output)) {
+              last_error=errno==E2BIG?ERROR_INSUFFICIENT_BUFFER:ERROR_NO_UNICODE_TRANSLATION;
+              iconv_close(cd); return 0;
+          } }
     } while (left);
     iconv_close(cd); last_error=0; return done;
 }
@@ -280,7 +352,8 @@ static const char *code_page(UINT page)
 {
     if (page==0 || page==1252) return "CP1252";
     if (page==65001) return "UTF-8";
-    if (page==437) return "CP437";
+    if (page==1 || page==437) return "CP437";
+    if (page==932) return "CP932";
     return NULL;
 }
 int WINAPI recon_MultiByteToWideChar(UINT page,DWORD flags,LPCSTR input,int count,LPWSTR output,int capacity)
@@ -288,7 +361,7 @@ int WINAPI recon_MultiByteToWideChar(UINT page,DWORD flags,LPCSTR input,int coun
     const char *encoding=code_page(page); int bytes;
     if (!encoding || count==0 || count< -1 || capacity<0 || (flags&~9U)) { last_error=ERROR_NOT_SUPPORTED; return 0; }
     bytes=count<0?(int)strlen(input)+1:count;
-    return convert("UTF-16LE",encoding,input,bytes,output,(size_t)capacity*2)/2;
+    return convert("UTF-16LE",encoding,input,bytes,capacity?output:NULL,(size_t)capacity*2)/2;
 }
 int WINAPI recon_WideCharToMultiByte(UINT page,DWORD flags,LPCWSTR input,int count,LPSTR output,int capacity,LPCSTR replacement,BOOL *used)
 {
@@ -297,7 +370,7 @@ int WINAPI recon_WideCharToMultiByte(UINT page,DWORD flags,LPCWSTR input,int cou
     if (used) *used=FALSE;
     if (!encoding || !count || count< -1 || capacity<0 || (flags&~0x610U)) { last_error=ERROR_NOT_SUPPORTED; return 0; }
     if (n<0) for (n=1;input[n-1];++n) ;
-    return convert(encoding,"UTF-16LE",input,(size_t)n*2,output,capacity);
+    return convert(encoding,"UTF-16LE",input,(size_t)n*2,capacity?output:NULL,capacity);
 }
 int WINAPI recon_LCMapStringW(DWORD locale,DWORD flags,LPCWSTR input,int count,LPWSTR output,int capacity)
 {
@@ -310,4 +383,57 @@ int WINAPI recon_LCMapStringW(DWORD locale,DWORD flags,LPCWSTR input,int count,L
     if (!host) { last_error=ERROR_NOT_SUPPORTED; return 0; }
     for (i=0;i<n;++i) output[i]=flags==0x200?towupper_l(input[i],host):towlower_l(input[i],host);
     freelocale(host); return n;
+}
+
+/* RC's NT counted strings use byte lengths and 16-bit UTF-16 characters,
+ * independent of the host's wchar_t. The system ANSI page is CP1252, as for
+ * MultiByteToWideChar(CP_ACP). Undefined CP1252 bytes retain their control
+ * codepoints; iconv rejects those bytes, unlike the NT ANSI conversion. */
+struct AnsiString { USHORT length,capacity; char *text; };
+struct UnicodeString { USHORT length,capacity; WCHAR *text; };
+static const WCHAR ansi_controls[32]={
+    0x20ac,0x0081,0x201a,0x0192,0x201e,0x2026,0x2020,0x2021,
+    0x02c6,0x2030,0x0160,0x2039,0x0152,0x008d,0x017d,0x008f,
+    0x0090,0x2018,0x2019,0x201c,0x201d,0x2022,0x2013,0x2014,
+    0x02dc,0x2122,0x0161,0x203a,0x0153,0x009d,0x017e,0x0178
+};
+LONG WINAPI recon_RtlAnsiStringToUnicodeString(struct UnicodeString *out,struct AnsiString *in,BYTE allocate)
+{
+    unsigned i,bytes; WCHAR *text;
+    if (!out || !in || (in->length && !in->text) || in->length>in->capacity)
+        return (LONG)0xc000000dUL; /* STATUS_INVALID_PARAMETER */
+    bytes=(unsigned)in->length*2;
+    if (bytes>65532) return (LONG)0xc000000dUL;
+    if (allocate) {
+        text=malloc(bytes+2);
+        if (!text) return (LONG)0xc0000017UL; /* STATUS_NO_MEMORY */
+        out->text=text; out->capacity=bytes+2;
+    }
+    if (!out->text || out->capacity<bytes+2)
+        return (LONG)0x80000005UL; /* STATUS_BUFFER_OVERFLOW */
+    for (i=0;i<in->length;++i) {
+        BYTE value=(BYTE)in->text[i];
+        out->text[i]=value>=0x80 && value<0xa0?ansi_controls[value-0x80]:value;
+    }
+    out->text[in->length]=0; out->length=bytes; return 0;
+}
+LONG WINAPI recon_RtlUnicodeStringToAnsiString(struct AnsiString *out,struct UnicodeString *in,BYTE allocate)
+{
+    unsigned i,j,length; BYTE value; WCHAR ch; char *text;
+    if (!out || !in || (in->length && !in->text) || in->length>in->capacity || (in->length&1))
+        return (LONG)0xc000000dUL;
+    length=in->length/2;
+    if (allocate) {
+        text=malloc(length+1);
+        if (!text) return (LONG)0xc0000017UL;
+        out->text=text; out->capacity=length+1;
+    }
+    if (!out->text || out->capacity<length+1) return (LONG)0x80000005UL;
+    for (i=0;i<length;++i) {
+        ch=in->text[i]; value='?';
+        if (ch<0x80 || (ch>=0xa0 && ch<=0xff)) value=(BYTE)ch;
+        else for (j=0;j<32;++j) if (ansi_controls[j]==ch) { value=j+0x80; break; }
+        out->text[i]=value;
+    }
+    out->text[length]=0; out->length=length; return 0;
 }

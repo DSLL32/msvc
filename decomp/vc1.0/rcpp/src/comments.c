@@ -1,5 +1,6 @@
 /* Comment handling separates forced discarding from the /C-preserving paths. */
 #include "directives.h"
+#include <recon.h>
 /* Original [0100ce00,0100ce27). Failed matching puts one logical character
  * back; any skipped CRs and continued lines remain consumed. */
 int __stdcall rc_match_character(int expected)

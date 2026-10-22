@@ -2,6 +2,7 @@
 #include "prepare.h"
 #include <ctype.h>
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(strlen)
 
 int input_encoding;

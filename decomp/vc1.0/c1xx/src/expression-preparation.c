@@ -3,6 +3,7 @@
 #include "return-statements.h"
 #include "lexer.h"
 #include <setjmp.h>
+#include <recon.h>
 
 typedef char ExpressionJumpBufferSizeMustBe32[(sizeof(jmp_buf) == 32) ? 1 : -1];
 #define INIT_EXPRESSION_MARKER() do { \

@@ -1,6 +1,7 @@
 /* COFF directory, section data and symbol-table serialization. */
 #include "coff-writer.h"
 #include <string.h>
+#include <recon.h>
 CoffScope *coff_trailer_scope; /* 000851c0: optional bytes following the string table */
 CoffObjectSymbol *coff_last_written_symbol; /* 000851dc */
 /* Original [0006e190,0006e220). A directory entry describes one physical

@@ -4,8 +4,8 @@
 This follows the masking records, including shared text, matched CRT and imports.
 It measures recovered extents, not branch coverage.
 """
-import compare,json
-orig,rec,cfg,oi,ri=compare.indexes()
+import win32_indexes,json
+orig,rec,cfg,oi,ri=win32_indexes.indexes()
 sections=[(orig.base+s['rva'],orig.base+s['rva']+(s['virtual_size'] or s['size'])) for s in orig.sections if s['flags']&0x20000000]
 def union(ranges):
  out=[]

@@ -2,6 +2,7 @@
 #include "instruction-selection.h"
 #include "instruction-rewrite.h"
 #include "work-prepare.h"
+#include <recon.h>
 BitSet *block_live_registers; /* 0007e1bc */
 static RegisterLifetime *register_lifetimes[16]; /* 0007cac0 */
 /* Original [00022e30,00022ea0). Registers retain their full tagged 16-bit

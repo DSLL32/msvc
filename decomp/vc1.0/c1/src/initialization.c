@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <io.h>
 #include "initialization.h"
+#include <recon.h>
 
 WorkingStack *compiler_stack; /* original 0x5f4f4, also initializer buffer */
 int pch_mode; /* original 0x5b564: inactive, recording, replaying */

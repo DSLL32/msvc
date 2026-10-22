@@ -23,7 +23,7 @@ calculation is unsupported on this OS; preserve the warning and exact bytes.
 No checksum success is claimed. The following header dump is likewise exact.
 
 Run the untouched original independently:
-  python3 ../link-debug-dll/verify.py --fixture .
+  python3 ../link-debug-dll/capture-original.py --fixture .
 
 artifacts.py shares the structural parser from ../link-debug-dll/artifacts.py.
 All original invocations and outputs passed independent fixture replay; see

@@ -3,6 +3,7 @@
 #include "initializer-records.h"
 #include "literal-names.h"
 #include "global-ir.h"
+#include <recon.h>
 
 FrontendSymbol *initializer_symbol; /* original 0x6023c */
 unsigned initializer_offset; /* original 0x60244 */

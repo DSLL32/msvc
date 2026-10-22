@@ -1,6 +1,7 @@
 #ifndef NUMERIC_SCANNING_H
 #define NUMERIC_SCANNING_H
 #include "lexer.h"
+#include <recon.h>
 enum IntegerLiteralToken {
     TOK_INT_CONSTANT = 7, TOK_LONG_CONSTANT = 8,
     TOK_UINT_CONSTANT = 9, TOK_ULONG_CONSTANT = 10

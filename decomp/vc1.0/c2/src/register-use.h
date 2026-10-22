@@ -1,6 +1,7 @@
 #ifndef REGISTER_USE_H
 #define REGISTER_USE_H
 #include "machine.h"
+#include <recon.h>
 typedef struct RegisterLifetime {
     struct RegisterLifetime *next;
     unsigned short reg;

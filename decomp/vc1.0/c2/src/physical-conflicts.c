@@ -3,6 +3,7 @@
 #include "bitsets.h"
 #include "register-use.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 extern int cpu_model;
 int allocation_live_register_count;
 RegisterConflict *allocation_live_registers;

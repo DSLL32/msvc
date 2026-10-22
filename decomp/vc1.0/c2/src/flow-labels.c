@@ -2,6 +2,7 @@
 #include "global-work.h"
 #include "machine.h"
 #include "tree-rewrite.h"
+#include <recon.h>
 static FlowLabel *flow_label_buckets[32]; /* 0007bed0: label hash heads */
 static FlowLabel *pending_flow_labels; /* 00083774: current alias group */
 

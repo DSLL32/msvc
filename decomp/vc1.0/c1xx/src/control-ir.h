@@ -1,6 +1,7 @@
 #ifndef CONTROL_IR_H
 #define CONTROL_IR_H
 #include "source-input.h"
+#include <recon.h>
 /* Logical fields of source/option control records. Ignored fields belong to
    the shared native descriptor vocabulary but have no action in this writer. */
 enum ControlField {

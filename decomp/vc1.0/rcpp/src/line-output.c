@@ -1,5 +1,6 @@
 /* Stable #line output emitted when entering, leaving or renaming an input. */
 #include "lexer.h"
+#include <recon.h>
 /* Original [01009ba0,01009c14). The name formatter returns an end pointer
  * rather than a terminated string; the following caller supplies newlines. */
 void rc_emit_line(void)

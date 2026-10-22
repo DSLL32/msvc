@@ -1,6 +1,7 @@
 #ifndef PREPROCESSOR_H
 #define PREPROCESSOR_H
 #include "initialization.h"
+#include <recon.h>
 
 #pragma pack(1)
 typedef struct PreprocessorSymbol {

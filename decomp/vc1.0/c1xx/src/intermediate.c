@@ -1,5 +1,6 @@
 /* Frontend intermediate file creation and output. */
 #include "initialization.h"
+#include <recon.h>
 
 /* Original 0x3d310..0x3d311 is an empty target-specific hook. */
 void initialize_intermediate_output(void)

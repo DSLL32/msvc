@@ -2,6 +2,7 @@
 #define PHYSICAL_REWRITE_H
 #include "physical-allocation.h"
 #include "machine-analysis.h"
+#include <recon.h>
 /* Native cache objects at7c3a0..7c480 are eight28-byte records.
    The block reset starts at member+20 and clears two reference pointers;
    saved operand payloads remain live until their consumers replace them. */

@@ -2,6 +2,7 @@
 #include "special-members.h"
 #include "class-members.h"
 #include "inline-capture.h"
+#include <recon.h>
 
 /* Original 0x36790..0x36967. Classify bases, fields and declared functions,
    then decide each implicit member independently with its original diagnostics. */

@@ -4,6 +4,7 @@
 #include "resource-data.h"
 #include <string.h>
 #include <stddef.h>
+#include <recon.h>
 #pragma intrinsic(memcpy)
 struct FontDirectoryEntry *first_font, *last_font;
 

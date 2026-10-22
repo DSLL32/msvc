@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <recon.h>
 
 typedef struct Site { DWORD rva; BYTE original; int hit; } Site;
 typedef struct Thread { DWORD id; HANDLE handle; } Thread;

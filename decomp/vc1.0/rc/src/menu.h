@@ -2,6 +2,7 @@
 #define RC_MENU_H
 #include "tokens.h"
 #include "resource-data.h"
+#include <recon.h>
 struct MenuItem {
     WORD command;
     WCHAR text[257];

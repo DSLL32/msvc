@@ -4,6 +4,7 @@
 #include "function-input.h"
 #include "tree-scratch.h"
 #include "records.h"
+#include <recon.h>
 extern int floating_frontend, code_pointer_bytes;
 int data_pointer_bytes = 4; /* 0008317c */
 int suppress_type_warnings; /* 00083478 */

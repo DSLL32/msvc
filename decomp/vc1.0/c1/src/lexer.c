@@ -5,6 +5,7 @@
 #include "characters.h"
 #include "parser.h"
 #include "expressions.h"
+#include <recon.h>
 
 struct FrontendSymbol *last_lookup_symbol; /* original 0x604b8 */
 typedef char LexicalToken_must_be_sixteen_bytes[(sizeof(LexicalToken) == 16) ? 1 : -1];

@@ -2,6 +2,7 @@
 #define WORK_OPTIMIZER_H
 #include "global-work.h"
 #include "bitsets.h"
+#include <recon.h>
 typedef struct LoopTreeRecord LoopTreeRecord;
 /* Native 24-byte memory-value record, including last local store and alias set. */
 typedef struct WorkValue {

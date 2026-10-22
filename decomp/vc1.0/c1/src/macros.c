@@ -7,6 +7,7 @@
 #include "characters.h"
 #include "lexer.h"
 #include "source-input.h"
+#include <recon.h>
 
 char *name_defined, *name_formal, *name_ellipsis, *name_cast;
 char *name_main, *name_winmain, *name_dllmain, *name_alignment;

@@ -1,5 +1,6 @@
 /* Canonical type sets in the compiler's permanent inline vectors. */
 #include "class-type-sets.h"
+#include <recon.h>
 
 /* Original 0x4e370..0x4e37a. Keep the empty-set factory as a separate call. */
 TypeSet *new_type_set(void)

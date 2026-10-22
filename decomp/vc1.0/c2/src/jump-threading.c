@@ -2,6 +2,7 @@
 #include "jump-threading.h"
 #include "machine-layout.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 extern int optimize_speed;
 
 /* Original [00033550,00033870). Remove fall-through jumps, move isolated

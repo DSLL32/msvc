@@ -1,6 +1,7 @@
 /* Builtin C++ operator candidates and their operand type patterns. */
 #include "operators.h"
 #include "keywords.h"
+#include <recon.h>
 
 /* The pattern flag words are replaced in place by interned descriptors at
    initialization, matching the mutable operand union in the original table. */

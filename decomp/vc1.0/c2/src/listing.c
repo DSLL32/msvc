@@ -152,6 +152,7 @@ void write_symbol_declarations(void)
 }
 
 #include "symbol-output.h"
+#include <recon.h>
 /* Original [000298f0,00029920). */
 void __fastcall write_initializer_listing(BackendSymbolList *symbols)
 {

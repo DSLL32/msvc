@@ -4,6 +4,7 @@
 #include <io.h>
 #include <fcntl.h>
 #include "debug-info.h"
+#include <recon.h>
 
 /* Original 0x17b70..0x17dc3. Each list owns its own allocation chain;
    failure while opening or validating the file releases both chains. */

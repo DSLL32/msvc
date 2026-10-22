@@ -1,6 +1,7 @@
 #ifndef CLASS_LOOKUP_H
 #define CLASS_LOOKUP_H
 #include "declarations.h"
+#include <recon.h>
 
 /* Stack-local state shared by recursive base/member lookup. */
 typedef struct ClassNameSearch {

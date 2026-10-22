@@ -3,6 +3,7 @@
 #include "machine-layout.h"
 #include "instruction-rewrite.h"
 #include "register-use.h"
+#include <recon.h>
 extern int optimization_jumps, cpu_model;
 
 /* Original [00033f50,00034360). Share a comparison already present at a

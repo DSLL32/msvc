@@ -3,6 +3,7 @@
 #include "input.h"
 #include "segments.h"
 #include <string.h>
+#include <recon.h>
 extern int string_blocks, frame_pointer;
 FunctionSymbol symbol_template;
 long il_option_flags;

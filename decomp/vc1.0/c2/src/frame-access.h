@@ -2,6 +2,7 @@
 #define FRAME_ACCESS_H
 #include "frame-symbols.h"
 #include "linked-lists.h"
+#include <recon.h>
 /* Constructor35150 allocates16 bytes in zeroed arena4. Low flag bits
    select operand1/2; bits4/8 mark protected and retained definitions. */
 typedef struct FrameAccess {

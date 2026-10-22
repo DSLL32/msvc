@@ -1,6 +1,7 @@
 #ifndef RC_RESOURCE_DATA_H
 #define RC_RESOURCE_DATA_H
 #include "resource.h"
+#include <recon.h>
 extern unsigned char *resource_data;
 extern unsigned int resource_data_size;
 extern FILE *resource_data_file;

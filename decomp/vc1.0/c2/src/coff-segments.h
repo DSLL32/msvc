@@ -1,6 +1,7 @@
 #ifndef COFF_SEGMENTS_H
 #define COFF_SEGMENTS_H
 #include "segments.h"
+#include <recon.h>
 unsigned short __fastcall coff_declare_segment(Segment *segment);
 typedef struct CoffSegmentLink {
     struct CoffSegmentLink *next;

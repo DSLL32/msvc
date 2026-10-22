@@ -2,6 +2,7 @@
 #include "expression-fields.h"
 #include "tree-input.h"
 #include <stdarg.h>
+#include <recon.h>
 
 /* Original [0004fe10,000501c0), including its 51-entry character dispatch
    table [000500f0,000501bc). The format is a postfix tree recipe. Helpers

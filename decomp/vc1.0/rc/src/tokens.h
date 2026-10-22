@@ -1,6 +1,7 @@
 #ifndef RC_TOKENS_H
 #define RC_TOKENS_H
 #include "resource.h"
+#include <recon.h>
 #define TOKEN_NUMBER 20
 #define TOKEN_STRING 21
 #define TOKEN_WIDE_STRING 23

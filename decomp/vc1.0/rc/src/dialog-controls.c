@@ -1,5 +1,6 @@
 /* Dispatch and serialization retain the original per-control function graph. */
 #include "dialog.h"
+#include <recon.h>
 BOOL control_consumed;
 
 /* Original 0x0100b530..0x0100b7f5, switch table through 0x0100b864. */

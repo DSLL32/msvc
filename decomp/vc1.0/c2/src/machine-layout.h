@@ -1,6 +1,7 @@
 #ifndef MACHINE_LAYOUT_H
 #define MACHINE_LAYOUT_H
 #include "machine.h"
+#include <recon.h>
 unsigned __fastcall machine_instruction_size(MachineInstruction *instruction);
 int __fastcall align_machine_location(int offset, MachineInstruction *instruction, unsigned apply);
 MachineInstruction *__fastcall label_machine_instruction(LabelSymbol *label);

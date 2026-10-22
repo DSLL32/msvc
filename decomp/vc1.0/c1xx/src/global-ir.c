@@ -2,6 +2,7 @@
 #include "global-ir.h"
 #include "cpp-context.h"
 #include "parameters.h"
+#include <recon.h>
 
 unsigned char global_record_kind; /* original 0x9135c */
 

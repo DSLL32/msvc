@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "force-cpp",
+  "arguments": "/c /Tp cplusplus.src",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\force-cpp",
+    "TEMP": "Q:\\force-cpp"
+  },
+  "initial": {
+    "cplusplus.src": {
+      "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+      "bytes": 183
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\force-cpp\\000292 -f cplusplus.src -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Focplusplus.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\force-cpp",
+      "before": {
+        "cplusplus.src": {
+          "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+          "bytes": 183
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "fbff8e6856cd5e09d3b3938da37a289ced23ad167e62d468ab406afd0dd76988",
+          "bytes": 1114
+        },
+        "000292gl": {
+          "sha256": "6d4b23ae2b09cdaeac3be79de0826a9e62280a5f13cb6fa94aac6c1e5692b083",
+          "bytes": 138
+        },
+        "000292in": {
+          "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f",
+          "bytes": 9
+        },
+        "000292sy": {
+          "sha256": "d99b4946ab54d966889fdac666c7aec6f5b96f677e11b25f38deab4b009898f3",
+          "bytes": 122
+        },
+        "cplusplus.src": {
+          "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+          "bytes": 183
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\force-cpp\\000292 -f cplusplus.src -W 1 -G4 -Gs4096 -dos -Focplusplus.obj -ML "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\force-cpp",
+      "before": {
+        "000292ex": {
+          "sha256": "fbff8e6856cd5e09d3b3938da37a289ced23ad167e62d468ab406afd0dd76988",
+          "bytes": 1114
+        },
+        "000292gl": {
+          "sha256": "6d4b23ae2b09cdaeac3be79de0826a9e62280a5f13cb6fa94aac6c1e5692b083",
+          "bytes": 138
+        },
+        "000292in": {
+          "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f",
+          "bytes": 9
+        },
+        "000292sy": {
+          "sha256": "d99b4946ab54d966889fdac666c7aec6f5b96f677e11b25f38deab4b009898f3",
+          "bytes": 122
+        },
+        "cplusplus.src": {
+          "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+          "bytes": 183
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "fbff8e6856cd5e09d3b3938da37a289ced23ad167e62d468ab406afd0dd76988",
+          "bytes": 1114
+        },
+        "000292gl": {
+          "sha256": "6d4b23ae2b09cdaeac3be79de0826a9e62280a5f13cb6fa94aac6c1e5692b083",
+          "bytes": 138
+        },
+        "000292in": {
+          "sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f",
+          "bytes": 9
+        },
+        "000292sy": {
+          "sha256": "d99b4946ab54d966889fdac666c7aec6f5b96f677e11b25f38deab4b009898f3",
+          "bytes": 122
+        },
+        "cplusplus.obj": {
+          "sha256": "b2b92a37dfd138e0e4ca37bccb88a4683ea180ef96dd628910e5d3d1b2e3255c",
+          "bytes": 697
+        },
+        "cplusplus.src": {
+          "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+          "bytes": 183
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "cplusplus.obj": {
+      "sha256": "b2b92a37dfd138e0e4ca37bccb88a4683ea180ef96dd628910e5d3d1b2e3255c",
+      "bytes": 697
+    },
+    "cplusplus.src": {
+      "sha256": "b0e9364c34c4ff4d47acb09e135f24f96e6b04961882aa1b2506a9a27cfbbead",
+      "bytes": 183
+    }
+  },
+  "stdout": {
+    "sha256": "55344ce5ccaeb8915366a92b0e95ce02acdffc3a0d407f9fc7e2a682a1ee3017",
+    "bytes": 15
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.005334763787686825,
+    "capture_execution_seconds": 6.548799449577928,
+    "capture_checks_seconds": 0.010741543024778366,
+    "total_seconds": 6.564876958727837
+  }
+}

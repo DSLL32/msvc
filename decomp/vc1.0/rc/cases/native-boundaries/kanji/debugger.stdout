@@ -1,0 +1,4 @@
+child pid 1360
+read missing 1 error 2
+child exit 0 pid 1360
+exit 0; captured 1 launches and 2 deletes

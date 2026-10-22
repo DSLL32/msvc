@@ -4,6 +4,7 @@
 #include "constructor-initializers.h"
 #include "class-lookup.h"
 #include "unary-expressions.h"
+#include <recon.h>
 
 IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol);
 

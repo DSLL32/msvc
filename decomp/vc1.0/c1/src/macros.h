@@ -2,6 +2,7 @@
 #define MACROS_H
 #include <time.h>
 #include "builtins.h"
+#include <recon.h>
 extern char *anonymous_symbol_name;
 extern char *name_defined, *name_formal, *name_ellipsis, *name_cast;
 extern char *name_main, *name_winmain, *name_dllmain, *name_alignment;

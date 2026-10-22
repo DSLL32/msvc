@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <share.h>
 #include "source-input.h"
+#include <recon.h>
 #undef _fileno
 
 SourceFile *active_input, *root_input, *free_inputs; /* 0x9d7e8/ec/f0 */

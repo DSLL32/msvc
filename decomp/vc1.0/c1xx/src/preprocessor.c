@@ -1,5 +1,6 @@
 /* Identifier lookup and macro text storage. */
 #include "preprocessor.h"
+#include <recon.h>
 
 PreprocessorSymbol **preprocessor_buckets; /* original 0x9f1e4 */
 

@@ -1,6 +1,7 @@
 #ifndef RC_RESOURCE_H
 #define RC_RESOURCE_H
 #include "lexer.h"
+#include <recon.h>
 
 struct ResourceInfo;
 struct ResourceType {

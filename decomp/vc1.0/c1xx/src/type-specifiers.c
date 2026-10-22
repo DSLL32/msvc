@@ -1,5 +1,6 @@
 /* C++ declaration type and tag interpretation. */
 #include "lexer.h"
+#include <recon.h>
 
 #define LEXICAL_DECLARATION_CODE(destination_, token_) do { \
     for (code_index = 0; code_index < declaration_code_count; ++code_index) \

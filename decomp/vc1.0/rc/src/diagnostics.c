@@ -1,6 +1,7 @@
 /* The three original RC diagnostics have distinct source-line conventions
  * and error numbers; keep their function vertices and call sites separate. */
 #include "resource-data.h"
+#include <recon.h>
 
 /* Original 0x010094f0..0x01009536. */
 void __stdcall lexical_error(char *format, char *context)

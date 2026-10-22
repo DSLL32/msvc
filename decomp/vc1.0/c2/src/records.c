@@ -1,6 +1,7 @@
 /* Symbol record input and scope registration. */
 #include "records.h"
 #include "segments.h"
+#include <recon.h>
 extern int codeview_debug, stack_alignment;
 DebugScope *current_debug_scope;
 FunctionSymbol **pending_insertion;

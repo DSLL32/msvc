@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "internal-omf-dryrun",
+  "arguments": "/Bz /Bk:temp /Femodule.exe test.c /link /legacy:option",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\internal-omf-dryrun",
+    "TEMP": "Q:\\internal-omf-dryrun"
+  },
+  "initial": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "boundaries": [],
+  "final": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "stdout": {
+    "sha256": "95a5de0f2817b4424c20fca7553a51b334e8826f98d457e87e89d35f34fea8a1",
+    "bytes": 552
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "internal-omf-state 00000000\nexit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.005819878540933132,
+    "capture_execution_seconds": 5.04908468388021,
+    "capture_checks_seconds": 0.006136828102171421,
+    "total_seconds": 5.061043348163366
+  }
+}

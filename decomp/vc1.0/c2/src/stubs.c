@@ -153,36 +153,36 @@ void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned f
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
 SymbolHeader *__fastcall require_external_symbol(char *name) { __asm int 3 }
 #include "output.h"
-__declspec(naked) void output_noop_data(void) { __asm int 3 }
-__declspec(naked) void output_noop_function(void) { __asm int 3 }
-__declspec(naked) void output_noop_value(void) { __asm int 3 }
-__declspec(naked) void output_noop_relocation(void) { __asm int 3 }
-__declspec(naked) void output_noop_record(void) { __asm int 3 }
-__declspec(naked) void mark_unwritten_symbol(void) { __asm int 3 }
-__declspec(naked) void end_debug_function(void) { __asm int 3 }
-__declspec(naked) void begin_debug_function(void) { __asm int 3 }
-__declspec(naked) void finish_debug_module(void) { __asm int 3 }
-__declspec(naked) void coff_output_debug_pair(void) { __asm int 3 }
-__declspec(naked) void coff_output_debug_record(void) { __asm int 3 }
-__declspec(naked) void coff_output_value(void) { __asm int 3 }
-__declspec(naked) void coff_output_bytes(void) { __asm int 3 }
-__declspec(naked) void coff_output_address(void) { __asm int 3 }
-__declspec(naked) void coff_output_offset(void) { __asm int 3 }
-__declspec(naked) void coff_output_size(void) { __asm int 3 }
-__declspec(naked) void coff_output_relocation(void) { __asm int 3 }
-__declspec(naked) void omf_output_symbol(void) { __asm int 3 }
-__declspec(naked) void omf_select_segment(void) { __asm int 3 }
-__declspec(naked) void omf_output_data(void) { __asm int 3 }
-__declspec(naked) void omf_output_debug_pair(void) { __asm int 3 }
-__declspec(naked) void omf_output_debug_record(void) { __asm int 3 }
-__declspec(naked) void omf_output_value(void) { __asm int 3 }
-__declspec(naked) void omf_output_bytes(void) { __asm int 3 }
-__declspec(naked) void omf_output_offset(void) { __asm int 3 }
-__declspec(naked) void omf_output_size(void) { __asm int 3 }
-__declspec(naked) void omf_finish_module(void) { __asm int 3 }
-__declspec(naked) void omf_output_relocation(void) { __asm int 3 }
-__declspec(naked) void omf_output_record(void) { __asm int 3 }
-__declspec(naked) void omf_mark_symbol(void) { __asm int 3 }
+__declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
+__declspec(naked) void output_noop_function(void) { RECON_TRACE_NAKED_ENTRY(output_noop_function) __asm int 3 }
+__declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_noop_value) __asm int 3 }
+__declspec(naked) void output_noop_relocation(void) { RECON_TRACE_NAKED_ENTRY(output_noop_relocation) __asm int 3 }
+__declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
+__declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
+__declspec(naked) void end_debug_function(void) { RECON_TRACE_NAKED_ENTRY(end_debug_function) __asm int 3 }
+__declspec(naked) void begin_debug_function(void) { RECON_TRACE_NAKED_ENTRY(begin_debug_function) __asm int 3 }
+__declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finish_debug_module) __asm int 3 }
+__declspec(naked) void coff_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_pair) __asm int 3 }
+__declspec(naked) void coff_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_record) __asm int 3 }
+__declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
+__declspec(naked) void coff_output_bytes(void) { RECON_TRACE_NAKED_ENTRY(coff_output_bytes) __asm int 3 }
+__declspec(naked) void coff_output_address(void) { RECON_TRACE_NAKED_ENTRY(coff_output_address) __asm int 3 }
+__declspec(naked) void coff_output_offset(void) { RECON_TRACE_NAKED_ENTRY(coff_output_offset) __asm int 3 }
+__declspec(naked) void coff_output_size(void) { RECON_TRACE_NAKED_ENTRY(coff_output_size) __asm int 3 }
+__declspec(naked) void coff_output_relocation(void) { RECON_TRACE_NAKED_ENTRY(coff_output_relocation) __asm int 3 }
+__declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
+__declspec(naked) void omf_select_segment(void) { RECON_TRACE_NAKED_ENTRY(omf_select_segment) __asm int 3 }
+__declspec(naked) void omf_output_data(void) { RECON_TRACE_NAKED_ENTRY(omf_output_data) __asm int 3 }
+__declspec(naked) void omf_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_pair) __asm int 3 }
+__declspec(naked) void omf_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_debug_record) __asm int 3 }
+__declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_output_value) __asm int 3 }
+__declspec(naked) void omf_output_bytes(void) { RECON_TRACE_NAKED_ENTRY(omf_output_bytes) __asm int 3 }
+__declspec(naked) void omf_output_offset(void) { RECON_TRACE_NAKED_ENTRY(omf_output_offset) __asm int 3 }
+__declspec(naked) void omf_output_size(void) { RECON_TRACE_NAKED_ENTRY(omf_output_size) __asm int 3 }
+__declspec(naked) void omf_finish_module(void) { RECON_TRACE_NAKED_ENTRY(omf_finish_module) __asm int 3 }
+__declspec(naked) void omf_output_relocation(void) { RECON_TRACE_NAKED_ENTRY(omf_output_relocation) __asm int 3 }
+__declspec(naked) void omf_output_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_record) __asm int 3 }
+__declspec(naked) void omf_mark_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_mark_symbol) __asm int 3 }
 void omf_open_module(void) { __asm int 3 }
 void initialize_codeview_output(void) { __asm int 3 }
 #include "coff-output.h"
@@ -262,6 +262,7 @@ void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
 #include "machine-layout.h"
 
 #include "instruction-encoding.h"
+#include <recon.h>
 unsigned __fastcall displacement_mode(MachineInstruction *instruction, MachineOperand *operand, unsigned *bytes) { __asm int 3 }
 int __fastcall alignment_lookahead(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }

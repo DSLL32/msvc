@@ -1,5 +1,6 @@
 #include "instruction-selection.h"
 #include <stdarg.h>
+#include <recon.h>
 /* Original [00017cf0,00017e00). The opcode determines how many operands
    follow type; conditional operations take one additional condition code.
    Only floating classification and x87 depth effects are used from the

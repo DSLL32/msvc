@@ -5,6 +5,7 @@
 #include "expression-fields.h"
 #include "bitsets.h"
 #include "records.h"
+#include <recon.h>
 /* Original [00059a30,00059d30). Keep the entry block fixed while deleting
    unused labels, folding fall-through branches, redirecting a conditional
    around an unconditional branch, and coalescing compatible adjacent blocks.

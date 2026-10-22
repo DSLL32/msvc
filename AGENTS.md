@@ -13,8 +13,6 @@ Use ~/.ai-tmp for scratch space, creating folders under here as required. Create
    root so existing case and build paths remain stable. Keep case metadata under cases/.
  - lib/recon/
    Shared native Win32/CRT compatibility and tracing support.
- - tooling/replay/
-   Original Win32 historical replay and diagnostic infrastructure.
 
 ## Reconstruction of a binary
 

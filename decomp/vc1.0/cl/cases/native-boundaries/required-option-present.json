@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "required-option-present",
+  "arguments": "/C /E test.c",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\required-option-present",
+    "TEMP": "Q:\\required-option-present"
+  },
+  "initial": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\required-option-present\\000292 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -C -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\required-option-present",
+      "before": {
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "stdout": {
+        "sha256": "bb64c6594f6d22d7881a576899ae98ffd10470b1512598348ba39a5140f569b6",
+        "bytes": 45
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "stdout": {
+    "sha256": "bb64c6594f6d22d7881a576899ae98ffd10470b1512598348ba39a5140f569b6",
+    "bytes": 45
+  },
+  "stderr": {
+    "sha256": "f92b8f3241c7ab729a2b848501c85fffdf62c62ea813e415dc2e87cf03ce2f20",
+    "bytes": 139
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.00432071927934885,
+    "capture_execution_seconds": 4.308170611038804,
+    "capture_checks_seconds": 0.005383297801017761,
+    "total_seconds": 4.3178758062422276
+  }
+}

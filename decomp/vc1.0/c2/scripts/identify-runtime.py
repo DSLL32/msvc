@@ -7,7 +7,7 @@ from collections import defaultdict
 from pathlib import Path
 from importlib.machinery import SourceFileLoader
 from binary import PE, COFF, archive, match_section
-from compare import imports
+from pe_indexes import imports
 
 wt = SourceFileLoader('wine_tool', str(Path(__file__).with_name('wine-tool.py'))).load_module()
 path = sys.argv[1] if len(sys.argv) > 1 else wt.TC / 'bin/C23232.EXE'

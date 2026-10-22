@@ -97,6 +97,7 @@ CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned
 }
 
 #include "linkage.h"
+#include <recon.h>
 int tag_declaration_seen; /* original 0x9187c */
 
 /* Original 0x2d8d0..0x2db11. Assign a tag's identity/type, merge a visible

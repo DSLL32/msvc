@@ -1,4 +1,6 @@
 #include "cl.h"
+#include <sys/timeb.h>
+#include <recon.h>
 
 /* [00018f2b,00018f4f) */
 void usage(void)
@@ -407,7 +409,6 @@ int ide_message(int code, ...)
     return result;
 }
 
-#include <sys/timeb.h>
 static struct _timeb timer_start, timer_end;
 
 /* [0001abc3,0001abd1) */

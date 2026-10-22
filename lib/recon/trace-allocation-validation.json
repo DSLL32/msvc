@@ -1,0 +1,559 @@
+{
+  "status": "passed",
+  "builds": [
+    {
+      "compiler": "gcc",
+      "seconds": 0.4052816042676568
+    },
+    {
+      "compiler": "clang",
+      "seconds": 0.5675591314211488
+    }
+  ],
+  "checks": [
+    {
+      "executable": "gcc-pie",
+      "check": "empty-prefix-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.0007203146815299988,
+      "execution_seconds": 0.0016115689650177956,
+      "checks_seconds": 0.00014694593846797943
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "crlf-and-final-record",
+      "status": "passed",
+      "setup_seconds": 0.0005483143031597137,
+      "execution_seconds": 0.001244821585714817,
+      "checks_seconds": 0.00015859119594097137
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "all-seen-final-record",
+      "status": "passed",
+      "setup_seconds": 0.000551840290427208,
+      "execution_seconds": 0.0012459419667720795,
+      "checks_seconds": 0.00012476183474063873
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "disabled-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.0005178749561309814,
+      "execution_seconds": 0.0011291448026895523,
+      "checks_seconds": 0.00011606886982917786
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "guard-malloc",
+      "status": "passed",
+      "setup_seconds": 0.0004711812362074852,
+      "execution_seconds": 0.0012176502496004105,
+      "checks_seconds": 0.00014502648264169693
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "guard-calloc",
+      "status": "passed",
+      "setup_seconds": 0.00053444504737854,
+      "execution_seconds": 0.0011248448863625526,
+      "checks_seconds": 9.737256914377213e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "guard-realloc",
+      "status": "passed",
+      "setup_seconds": 0.00042194686830043793,
+      "execution_seconds": 0.0011223647743463516,
+      "checks_seconds": 9.417720139026642e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "guard-free",
+      "status": "passed",
+      "setup_seconds": 0.0005137147381901741,
+      "execution_seconds": 0.0011318335309624672,
+      "checks_seconds": 9.253993630409241e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "empty-filter",
+      "status": "passed",
+      "setup_seconds": 0.0003811279311776161,
+      "execution_seconds": 0.0010264944285154343,
+      "checks_seconds": 9.348150342702866e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "embedded-zero",
+      "status": "passed",
+      "setup_seconds": 0.0004192749038338661,
+      "execution_seconds": 0.001066630706191063,
+      "checks_seconds": 0.00011154171079397202
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "blank-record",
+      "status": "passed",
+      "setup_seconds": 0.0004290686920285225,
+      "execution_seconds": 0.0010017752647399902,
+      "checks_seconds": 9.673088788986206e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "space-in-name",
+      "status": "passed",
+      "setup_seconds": 0.00040405336767435074,
+      "execution_seconds": 0.001014677807688713,
+      "checks_seconds": 0.00011565256863832474
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "tab-in-name",
+      "status": "passed",
+      "setup_seconds": 0.0004304787144064903,
+      "execution_seconds": 0.0010347478091716766,
+      "checks_seconds": 0.0001061614602804184
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "duplicate-filter",
+      "status": "passed",
+      "setup_seconds": 0.0004085348919034004,
+      "execution_seconds": 0.0010457569733262062,
+      "checks_seconds": 9.57287847995758e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "duplicate-prefix",
+      "status": "passed",
+      "setup_seconds": 0.00044888444244861603,
+      "execution_seconds": 0.0010627685114741325,
+      "checks_seconds": 9.435415267944336e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "unknown-prefix",
+      "status": "passed",
+      "setup_seconds": 0.0004316195845603943,
+      "execution_seconds": 0.00104623194783926,
+      "checks_seconds": 9.640771895647049e-05
+    },
+    {
+      "executable": "gcc-pie",
+      "check": "page-boundary-final-record",
+      "status": "passed",
+      "setup_seconds": 0.0004089316353201866,
+      "execution_seconds": 0.0011469414457678795,
+      "checks_seconds": 0.00010774750262498856
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "empty-prefix-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.0005387775599956512,
+      "execution_seconds": 0.0015084175392985344,
+      "checks_seconds": 0.000138171948492527
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "crlf-and-final-record",
+      "status": "passed",
+      "setup_seconds": 0.0004577469080686569,
+      "execution_seconds": 0.0012489166110754013,
+      "checks_seconds": 0.00012884661555290222
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "all-seen-final-record",
+      "status": "passed",
+      "setup_seconds": 0.0004794728010892868,
+      "execution_seconds": 0.0011681998148560524,
+      "checks_seconds": 9.419303387403488e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "disabled-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.00040813256055116653,
+      "execution_seconds": 0.0009265020489692688,
+      "checks_seconds": 9.4548799097538e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "guard-malloc",
+      "status": "passed",
+      "setup_seconds": 0.00042912550270557404,
+      "execution_seconds": 0.00105280801653862,
+      "checks_seconds": 0.00011492054909467697
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "guard-calloc",
+      "status": "passed",
+      "setup_seconds": 0.0004471363499760628,
+      "execution_seconds": 0.0010614776983857155,
+      "checks_seconds": 9.48077067732811e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "guard-realloc",
+      "status": "passed",
+      "setup_seconds": 0.0003942316398024559,
+      "execution_seconds": 0.001065739430487156,
+      "checks_seconds": 9.50247049331665e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "guard-free",
+      "status": "passed",
+      "setup_seconds": 0.00039876997470855713,
+      "execution_seconds": 0.0010762708261609077,
+      "checks_seconds": 0.00011482462286949158
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "empty-filter",
+      "status": "passed",
+      "setup_seconds": 0.00042226817458868027,
+      "execution_seconds": 0.0010172519832849503,
+      "checks_seconds": 9.483844041824341e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "embedded-zero",
+      "status": "passed",
+      "setup_seconds": 0.00040106382220983505,
+      "execution_seconds": 0.001096075400710106,
+      "checks_seconds": 0.00010927580296993256
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "blank-record",
+      "status": "passed",
+      "setup_seconds": 0.0004105083644390106,
+      "execution_seconds": 0.0010049473494291306,
+      "checks_seconds": 9.374413639307022e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "space-in-name",
+      "status": "passed",
+      "setup_seconds": 0.00039608217775821686,
+      "execution_seconds": 0.0010417988523840904,
+      "checks_seconds": 9.392388164997101e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "tab-in-name",
+      "status": "passed",
+      "setup_seconds": 0.0004388885572552681,
+      "execution_seconds": 0.0010834550485014915,
+      "checks_seconds": 0.0001137126237154007
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "duplicate-filter",
+      "status": "passed",
+      "setup_seconds": 0.00044382084161043167,
+      "execution_seconds": 0.0010369988158345222,
+      "checks_seconds": 9.553134441375732e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "duplicate-prefix",
+      "status": "passed",
+      "setup_seconds": 0.0004261462017893791,
+      "execution_seconds": 0.0010442966595292091,
+      "checks_seconds": 9.560491889715195e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "unknown-prefix",
+      "status": "passed",
+      "setup_seconds": 0.00043721869587898254,
+      "execution_seconds": 0.0010313531383872032,
+      "checks_seconds": 9.320955723524094e-05
+    },
+    {
+      "executable": "gcc-exec",
+      "check": "page-boundary-final-record",
+      "status": "passed",
+      "setup_seconds": 0.0004225755110383034,
+      "execution_seconds": 0.0012284554541110992,
+      "checks_seconds": 9.443704038858414e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "empty-prefix-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.000560482032597065,
+      "execution_seconds": 0.0014940127730369568,
+      "checks_seconds": 0.00012967083603143692
+    },
+    {
+      "executable": "clang-pie",
+      "check": "crlf-and-final-record",
+      "status": "passed",
+      "setup_seconds": 0.00044116657227277756,
+      "execution_seconds": 0.001318167895078659,
+      "checks_seconds": 0.00011872779577970505
+    },
+    {
+      "executable": "clang-pie",
+      "check": "all-seen-final-record",
+      "status": "passed",
+      "setup_seconds": 0.0004827147349715233,
+      "execution_seconds": 0.0011233938857913017,
+      "checks_seconds": 0.00011374615132808685
+    },
+    {
+      "executable": "clang-pie",
+      "check": "disabled-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.0004278905689716339,
+      "execution_seconds": 0.001032782718539238,
+      "checks_seconds": 9.519420564174652e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "guard-malloc",
+      "status": "passed",
+      "setup_seconds": 0.00041215401142835617,
+      "execution_seconds": 0.0010582758113741875,
+      "checks_seconds": 0.00011619273573160172
+    },
+    {
+      "executable": "clang-pie",
+      "check": "guard-calloc",
+      "status": "passed",
+      "setup_seconds": 0.0004238588735461235,
+      "execution_seconds": 0.0012031784281134605,
+      "checks_seconds": 9.44826751947403e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "guard-realloc",
+      "status": "passed",
+      "setup_seconds": 0.00041914917528629303,
+      "execution_seconds": 0.0011923741549253464,
+      "checks_seconds": 0.0001155417412519455
+    },
+    {
+      "executable": "clang-pie",
+      "check": "guard-free",
+      "status": "passed",
+      "setup_seconds": 0.0004302319139242172,
+      "execution_seconds": 0.0011691078543663025,
+      "checks_seconds": 0.0001044170930981636
+    },
+    {
+      "executable": "clang-pie",
+      "check": "empty-filter",
+      "status": "passed",
+      "setup_seconds": 0.0003779623657464981,
+      "execution_seconds": 0.0010212408378720284,
+      "checks_seconds": 0.00012329500168561935
+    },
+    {
+      "executable": "clang-pie",
+      "check": "embedded-zero",
+      "status": "passed",
+      "setup_seconds": 0.0004400135949254036,
+      "execution_seconds": 0.0010750414803624153,
+      "checks_seconds": 9.41278412938118e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "blank-record",
+      "status": "passed",
+      "setup_seconds": 0.00041272304952144623,
+      "execution_seconds": 0.0009752567857503891,
+      "checks_seconds": 9.371992200613022e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "space-in-name",
+      "status": "passed",
+      "setup_seconds": 0.0004228167235851288,
+      "execution_seconds": 0.0010276436805725098,
+      "checks_seconds": 0.00011365674436092377
+    },
+    {
+      "executable": "clang-pie",
+      "check": "tab-in-name",
+      "status": "passed",
+      "setup_seconds": 0.0004260959103703499,
+      "execution_seconds": 0.001073705032467842,
+      "checks_seconds": 9.503308683633804e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "duplicate-filter",
+      "status": "passed",
+      "setup_seconds": 0.00039798300713300705,
+      "execution_seconds": 0.0010125590488314629,
+      "checks_seconds": 0.00011621695011854172
+    },
+    {
+      "executable": "clang-pie",
+      "check": "duplicate-prefix",
+      "status": "passed",
+      "setup_seconds": 0.00045400112867355347,
+      "execution_seconds": 0.0010652849450707436,
+      "checks_seconds": 9.526778012514114e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "unknown-prefix",
+      "status": "passed",
+      "setup_seconds": 0.00041463784873485565,
+      "execution_seconds": 0.001090768724679947,
+      "checks_seconds": 9.560026228427887e-05
+    },
+    {
+      "executable": "clang-pie",
+      "check": "page-boundary-final-record",
+      "status": "passed",
+      "setup_seconds": 0.0004123728722333908,
+      "execution_seconds": 0.0010846089571714401,
+      "checks_seconds": 9.356904774904251e-05
+    },
+    {
+      "executable": "clang-exec",
+      "check": "empty-prefix-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.0005419813096523285,
+      "execution_seconds": 0.0014971960335969925,
+      "checks_seconds": 0.00013951025903224945
+    },
+    {
+      "executable": "clang-exec",
+      "check": "crlf-and-final-record",
+      "status": "passed",
+      "setup_seconds": 0.00044618919491767883,
+      "execution_seconds": 0.0011734431609511375,
+      "checks_seconds": 0.000125235877931118
+    },
+    {
+      "executable": "clang-exec",
+      "check": "all-seen-final-record",
+      "status": "passed",
+      "setup_seconds": 0.00046322867274284363,
+      "execution_seconds": 0.0011384794488549232,
+      "checks_seconds": 0.00011359807103872299
+    },
+    {
+      "executable": "clang-exec",
+      "check": "disabled-no-heap",
+      "status": "passed",
+      "setup_seconds": 0.0004234854131937027,
+      "execution_seconds": 0.0009543253108859062,
+      "checks_seconds": 9.348243474960327e-05
+    },
+    {
+      "executable": "clang-exec",
+      "check": "guard-malloc",
+      "status": "passed",
+      "setup_seconds": 0.0004287548363208771,
+      "execution_seconds": 0.0011675413697957993,
+      "checks_seconds": 0.00012738071382045746
+    },
+    {
+      "executable": "clang-exec",
+      "check": "guard-calloc",
+      "status": "passed",
+      "setup_seconds": 0.000451832078397274,
+      "execution_seconds": 0.0010957075282931328,
+      "checks_seconds": 0.0001224856823682785
+    },
+    {
+      "executable": "clang-exec",
+      "check": "guard-realloc",
+      "status": "passed",
+      "setup_seconds": 0.0005586342886090279,
+      "execution_seconds": 0.0012791668996214867,
+      "checks_seconds": 0.00013388413935899734
+    },
+    {
+      "executable": "clang-exec",
+      "check": "guard-free",
+      "status": "passed",
+      "setup_seconds": 0.0005415836349129677,
+      "execution_seconds": 0.001270059496164322,
+      "checks_seconds": 0.0001264140009880066
+    },
+    {
+      "executable": "clang-exec",
+      "check": "empty-filter",
+      "status": "passed",
+      "setup_seconds": 0.0004040263593196869,
+      "execution_seconds": 0.0010062800720334053,
+      "checks_seconds": 0.00011670030653476715
+    },
+    {
+      "executable": "clang-exec",
+      "check": "embedded-zero",
+      "status": "passed",
+      "setup_seconds": 0.0004514344036579132,
+      "execution_seconds": 0.00106815155595541,
+      "checks_seconds": 9.567290544509888e-05
+    },
+    {
+      "executable": "clang-exec",
+      "check": "blank-record",
+      "status": "passed",
+      "setup_seconds": 0.0004131188616156578,
+      "execution_seconds": 0.0010499628260731697,
+      "checks_seconds": 9.416695684194565e-05
+    },
+    {
+      "executable": "clang-exec",
+      "check": "space-in-name",
+      "status": "passed",
+      "setup_seconds": 0.0004014521837234497,
+      "execution_seconds": 0.0010097110643982887,
+      "checks_seconds": 0.00011567212641239166
+    },
+    {
+      "executable": "clang-exec",
+      "check": "tab-in-name",
+      "status": "passed",
+      "setup_seconds": 0.00042918790131807327,
+      "execution_seconds": 0.0010249679908156395,
+      "checks_seconds": 9.956397116184235e-05
+    },
+    {
+      "executable": "clang-exec",
+      "check": "duplicate-filter",
+      "status": "passed",
+      "setup_seconds": 0.0004380689933896065,
+      "execution_seconds": 0.001027476042509079,
+      "checks_seconds": 0.00011691451072692871
+    },
+    {
+      "executable": "clang-exec",
+      "check": "duplicate-prefix",
+      "status": "passed",
+      "setup_seconds": 0.000466005876660347,
+      "execution_seconds": 0.0010613705962896347,
+      "checks_seconds": 0.0001094285398721695
+    },
+    {
+      "executable": "clang-exec",
+      "check": "unknown-prefix",
+      "status": "passed",
+      "setup_seconds": 0.0004262961447238922,
+      "execution_seconds": 0.0011864081025123596,
+      "checks_seconds": 0.00011760182678699493
+    },
+    {
+      "executable": "clang-exec",
+      "check": "page-boundary-final-record",
+      "status": "passed",
+      "setup_seconds": 0.00045288167893886566,
+      "execution_seconds": 0.0011509135365486145,
+      "checks_seconds": 9.471084922552109e-05
+    }
+  ]
+}

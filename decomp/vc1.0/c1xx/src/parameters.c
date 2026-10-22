@@ -1,5 +1,6 @@
 /* C++ function signatures combine interned declaration types with defaults. */
 #include "parameters.h"
+#include <recon.h>
 
 DeclarationControl declaration_control; /* original 0x8cc18..0x8cc58 */
 /* The parser also owns the entry immediately before declaration depth zero. */

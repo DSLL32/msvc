@@ -13,5 +13,5 @@ with C2143; unsupported syntax was removed before freezing. No template output
 coverage is claimed. These are fixture inputs, not reconstruction implementations.
 
 From repository root:
- python3 decomp/vc1.0/fixtures/link-undecorate/verify.py
+ python3 decomp/vc1.0/fixtures/link-undecorate/capture-original.py
 Scratch receipt: ~/.ai-tmp/vc1.0-link/omf-undecorate-capture.

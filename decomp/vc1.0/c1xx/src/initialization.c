@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <io.h>
 #include "initialization.h"
+#include <recon.h>
 
 WorkingStack *compiler_stack; /* original 0x8cfd0: deferred inline text */
 WorkingStack *initializer_record_stack; /* original 0x90f4c: binary initializer records */

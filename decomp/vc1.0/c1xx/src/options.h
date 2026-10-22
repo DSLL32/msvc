@@ -3,6 +3,7 @@
 #include "c1xx.h"
 #include "configuration.h"
 #include "linkage.h"
+#include <recon.h>
 typedef struct Vector {
     short count, capacity;
     int arena;

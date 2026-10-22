@@ -1,6 +1,7 @@
 #ifndef FRONTEND_RECORDS_H
 #define FRONTEND_RECORDS_H
 #include "ir.h"
+#include <recon.h>
 
 /* Linked frontend work records, distinct from the twenty-byte parser IR
    tokens and from the serialized intermediate-file record formats. */

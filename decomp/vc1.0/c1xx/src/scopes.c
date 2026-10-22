@@ -1,6 +1,7 @@
 /* Frontend symbol scopes. */
 #include "scopes.h"
 #include "parser.h"
+#include <recon.h>
 
 SymbolScope *global_scope, *current_scope, *lookup_scope;
 SymbolScope **scope_directory;

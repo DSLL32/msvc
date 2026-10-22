@@ -3,6 +3,7 @@
 #include "operators.h"
 #include "floating.h"
 #include "inline-analysis.h"
+#include <recon.h>
 IrToken *__stdcall fold_symbol_constant(IrToken *expression);
 int __stdcall has_single_function(CppSymbol *symbol);
 CppSymbol *__stdcall find_expression_symbol(IrToken *expression);

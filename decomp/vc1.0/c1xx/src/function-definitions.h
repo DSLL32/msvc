@@ -2,6 +2,7 @@
 #define FUNCTION_DEFINITIONS_H
 #include "parser.h"
 #include "frontend-records.h"
+#include <recon.h>
 
 extern CppSymbol *qualified_definition_class;
 extern CType *current_return_type, *structure_return_pointer_type;

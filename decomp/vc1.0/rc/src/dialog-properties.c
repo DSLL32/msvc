@@ -1,6 +1,7 @@
 /* FONT, MENU, CLASS and CAPTION properties of the active dialog scratch object. */
 #include "dialog.h"
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memcpy)
 
 /* Original 0x0100c2f0..0x0100c42b. */

@@ -1,6 +1,7 @@
 #ifndef MEMBER_ACCESS_H
 #define MEMBER_ACCESS_H
 #include "member-expressions.h"
+#include <recon.h>
 CppSymbol *__stdcall declaring_class_for_symbol(CppSymbol *symbol);
 void reset_member_access_failure(void);
 void __stdcall set_initial_member_access_failure(unsigned char protection,

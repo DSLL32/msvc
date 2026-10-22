@@ -1,5 +1,6 @@
 /* Conditional expression front end, original [0100e3e0,0100e4a9). */
 #include "condition.h"
+#include <recon.h>
 int rc_expression_depth;
 long rc_expression_value;
 unsigned char rc_expression_token;

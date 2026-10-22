@@ -2,6 +2,7 @@
 #define FLOW_EDGES_H
 #include "global-work.h"
 #include "machine.h"
+#include <recon.h>
 /* Source exception-scope records are distinct from the optimizer region tree. */
 typedef struct ExceptionScope {
     struct ExceptionScope *next;

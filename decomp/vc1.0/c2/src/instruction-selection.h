@@ -1,6 +1,7 @@
 #ifndef INSTRUCTION_SELECTION_H
 #define INSTRUCTION_SELECTION_H
 #include "machine.h"
+#include <recon.h>
 extern BitSet *allocation_candidate_registers;
 extern MachineBlockHeader *selection_global_header, *selection_end, *selected_block;
 extern int temporary_operand_count;

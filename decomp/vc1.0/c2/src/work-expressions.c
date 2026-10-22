@@ -3,6 +3,7 @@
 #include "expression-fields.h"
 #include "tree-rewrite.h"
 #include "tree-input.h"
+#include <recon.h>
 WorkItem *current_expression_work; /* 0007ba78 */
 Expression *work_expression_anchor; /* 0007be8c: dummy head permits insertion before the first tree */
 

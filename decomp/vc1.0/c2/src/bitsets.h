@@ -1,6 +1,7 @@
 #ifndef BITSETS_H
 #define BITSETS_H
 #include "machine.h"
+#include <recon.h>
 /* A sentinel with base -1 precedes sorted 32-member chunks. */
 struct BitSet {
     BitSet *next;

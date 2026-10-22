@@ -1,6 +1,7 @@
 #ifndef INITIALIZER_RECORDS_H
 #define INITIALIZER_RECORDS_H
 #include "expressions.h"
+#include <recon.h>
 extern FrontendSymbol *pending_initializer_symbol;
 int __stdcall is_character_array_initializer(FrontendSymbol *symbol, IrToken *value);
 int __stdcall find_initializer_address(IrToken *value, FrontendSymbol **symbol, int *offset);

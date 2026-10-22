@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <recon.h>
 
 static DWORD child_id;
 static HWND child_window;

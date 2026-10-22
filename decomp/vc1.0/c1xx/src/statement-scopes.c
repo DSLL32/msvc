@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "class-finalization.h"
 #include "work-list.h"
+#include <recon.h>
 
 SymbolScope *closed_scopes; /* original 0x914d0 */
 

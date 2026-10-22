@@ -1,6 +1,7 @@
 #ifndef STATEMENT_SCOPES_H
 #define STATEMENT_SCOPES_H
 #include "function-definitions.h"
+#include <recon.h>
 void enter_compound_scope(void);
 void record_compound_scope(void);
 int __stdcall emit_constructor_initializers(CppSymbol *tag, IrToken *initializers);

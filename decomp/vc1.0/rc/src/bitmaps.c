@@ -1,5 +1,6 @@
 /* Windows and OS/2 DIB headers and their RGB/RGBTRIPLE palettes. */
 #include "resource-data.h"
+#include <recon.h>
 #pragma pack(2)
 struct BitmapFileHeader {
     WORD type;

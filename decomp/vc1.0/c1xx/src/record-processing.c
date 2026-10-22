@@ -7,6 +7,7 @@
 #include "cpp-context.h"
 #include "lexer.h"
 #include <setjmp.h>
+#include <recon.h>
 
 /* Original 0xa0a38: adjacent entries describe both directions of each pair.
    The pairs group compound, selection, iteration and switch delimiters. */

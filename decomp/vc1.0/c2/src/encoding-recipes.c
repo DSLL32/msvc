@@ -4,6 +4,7 @@
    extension bytes [00081648,0008172f). These are handwritten ISA recipes;
    original packed form flags are expressed as named modifiers below. */
 #include "encoding-recipes.h"
+#include <recon.h>
 #define G(n) ((n) << 3)
 #define P(form,byte,flags) { ENC_##form, byte, flags }
 #define W ENCODE_WIDTH

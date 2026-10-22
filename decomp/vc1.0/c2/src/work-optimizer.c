@@ -3,6 +3,7 @@
 #include "options.h"
 #include "tree-input.h"
 #include "tree-rewrite.h"
+#include <recon.h>
 extern int floating_frontend, optimize_alias, optimize_weak_inverse;
 extern void *output_state;
 int work_optimization_active; /* 0007beac: work optimizer / integer folder state */

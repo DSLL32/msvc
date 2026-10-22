@@ -1,5 +1,6 @@
 #ifndef TEMPORARIES_H
 #define TEMPORARIES_H
+#include <recon.h>
 /* Kind 19 descriptors are the short, non-hashable register variant. */
 #pragma pack(1)
 typedef struct TemporaryRegister {

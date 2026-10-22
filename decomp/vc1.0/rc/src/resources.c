@@ -3,6 +3,7 @@
 #include "resource.h"
 #include <string.h>
 #include <wchar.h>
+#include <recon.h>
 #pragma intrinsic(strlen, strcmp)
 
 DWORD default_resource_version, default_characteristics;

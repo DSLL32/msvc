@@ -1,4 +1,5 @@
 #include "bitsets.h"
+#include <recon.h>
 int __fastcall lowest_set_bit(unsigned bits);
 /* Original [00066dc0,00066e20). The original one-bit table is the ordinary
    32-bit shift below; signed base comparisons match chunk ordering. */

@@ -2,6 +2,7 @@
 #include "lexer.h"
 #include "parser-state.h"
 #include "object-initializers.h"
+#include <recon.h>
 
 int initializer_runtime_override; /* original 0x9157c */
 CppSymbol *initializer_storage_symbol; /* original 0x91590 */

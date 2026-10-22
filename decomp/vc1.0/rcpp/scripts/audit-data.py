@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check encountered semantic lexical tables against original initialization."""
 from binary import PE
-from compare import wt, publics
+from reference import wt, publics
 
 original = PE(wt.TC/'bin/RCPP.EXE')
 reconstructed = PE('build/rcpp.exe')

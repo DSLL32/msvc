@@ -6,6 +6,7 @@
 #include "pragma.h"
 #include "source-input.h"
 #include "global-ir.h"
+#include <recon.h>
 
 typedef struct MessageText {
     unsigned code;

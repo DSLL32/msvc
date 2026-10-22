@@ -4,6 +4,7 @@
 #include "constructor-initializers.h"
 #include "expression-records.h"
 #include "expression-preparation.h"
+#include <recon.h>
 IrToken *__stdcall convert_based_expression(CType *type, IrToken *expression);
 IrToken *__stdcall new_literal_constant(unsigned char kind, void *value);
 IrToken *__stdcall fold_binary_constant(IrToken *expression, IrToken *left, IrToken *right);

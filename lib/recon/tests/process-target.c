@@ -2,6 +2,11 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <recon.h>
+/* Raw POSIX probes deliberately bypass the legacy descriptor aliases. */
+#undef read
+#undef write
+#undef close
+#undef unlink
 
 int __attribute__((noinline)) common(int value) { return value+1; }
 int __attribute__((noinline)) child_only(void)

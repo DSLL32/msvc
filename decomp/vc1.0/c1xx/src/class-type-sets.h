@@ -2,6 +2,7 @@
 #define CLASS_TYPE_SETS_H
 #include "class-finalization.h"
 #include "inline-vector.h"
+#include <recon.h>
 /* Sorted type sets use the existing permanent inline-vector representation. */
 typedef InlineVector TypeSet;
 typedef struct TypeSetIterator {

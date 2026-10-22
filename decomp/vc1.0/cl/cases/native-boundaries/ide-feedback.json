@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "ide-feedback",
+  "arguments": "/FEEDBACK /c test.c",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\ide-feedback",
+    "TEMP": "Q:\\ide-feedback"
+  },
+  "initial": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\ide-feedback\\000292 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -ide -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\ide-feedback",
+      "before": {
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
+          "bytes": 866
+        },
+        "000292gl": {
+          "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
+          "bytes": 50
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "95416df0a1d77d4199a71138d86c8cba1b6a21bc18bf79ba4f4ca405972d96e9",
+        "bytes": 39
+      }
+    },
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\ide-feedback\\000292 -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML -ide "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\ide-feedback",
+      "before": {
+        "000292ex": {
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
+          "bytes": 866
+        },
+        "000292gl": {
+          "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
+          "bytes": 50
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
+          "bytes": 866
+        },
+        "000292gl": {
+          "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
+          "bytes": 50
+        },
+        "000292in": {
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
+          "bytes": 13
+        },
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        },
+        "test.obj": {
+          "sha256": "3b32a963d486c3c91fc365742e4c8f0ac9bac57f74cc9a4840148d36e7fc623e",
+          "bytes": 286
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "87ad5e1409a4be38455963db4ec4c837b34a4320b7fd17977ada9688138d3792",
+        "bytes": 7
+      }
+    }
+  ],
+  "final": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    },
+    "test.obj": {
+      "sha256": "3b32a963d486c3c91fc365742e4c8f0ac9bac57f74cc9a4840148d36e7fc623e",
+      "bytes": 286
+    }
+  },
+  "stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "stderr": {
+    "sha256": "e17832726a93c29fc44247d113c63e230e7e631de464faa9c7d5fc475f553d77",
+    "bytes": 354
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.00544853787869215,
+    "capture_execution_seconds": 6.1101567121222615,
+    "capture_checks_seconds": 0.008635077625513077,
+    "total_seconds": 6.124241718091071
+  }
+}

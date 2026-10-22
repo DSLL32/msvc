@@ -1,6 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 #include "initialization.h"
+#include <recon.h>
 
 typedef struct TypeEntry {
     struct TypeEntry *next;

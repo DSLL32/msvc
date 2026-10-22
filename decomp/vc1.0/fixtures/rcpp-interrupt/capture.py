@@ -39,13 +39,6 @@ def environment(label, work):
     return env
 
 
-def prepare():
-    # Initialize all target prefixes before launching the paired processes.
-    work=SCRATCH/'prepare'
-    work.mkdir(parents=True,exist_ok=True)
-    for label in ['original','reconstructed','baseline']: environment(label,work)
-
-
 def execute(executable, arguments, work, stem, rvas, label):
     stem,work=Path(stem).resolve(),Path(work).resolve()
     before=Path(str(stem)+'.before')
@@ -100,7 +93,7 @@ def tree(directory):
 def capture():
     import sys
     sys.path.insert(0,str(RCPP/'scripts'))
-    from compare import imports
+    from reference import imports
     from binary import PE
     manifest=json.loads((HERE/'manifest.json').read_text())
     for item in manifest['source_inputs']+manifest['capture_evidence']+manifest['analysis_tooling']:

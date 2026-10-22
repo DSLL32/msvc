@@ -1,6 +1,7 @@
 #ifndef C1_H
 #define C1_H
 
+#include <recon.h>
 extern int driver_argc;
 extern char **driver_argv;
 extern char *fatal_error_label;

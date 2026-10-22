@@ -1,9 +1,10 @@
 PYTHON ?= python3
 TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
+RECON = ../../../lib/recon
 
-.PHONY: all clean check prefix replay audit probe
-all: build/original.exe build/reconstructed.exe build/debug-run.exe build/gui-check.exe
+.PHONY: all clean check prefix replay audit probe reference-build
+all: native
 
 prefix:
 	$(PYTHON) scripts/wine-tool.py --init
@@ -14,41 +15,25 @@ runtime.json: functions.json scripts/identify-runtime.py scripts/binary.py $(TC)
 build/runtime.json: build/cl.exe functions.json scripts/identify-runtime.py scripts/binary.py
 	$(PYTHON) scripts/identify-runtime.py build/cl.exe $@
 
-build/original.exe build/reconstructed.exe &: build/cl.exe build/runtime.json runtime.json functions.json scripts/compare.py scripts/binary.py
-	$(PYTHON) scripts/compare.py --mask-only
-
-check: all audit build/paired-run.exe build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe
-	$(PYTHON) scripts/compare.py
-	$(PYTHON) scripts/compare.py --case=test.c
-	$(PYTHON) scripts/compare.py --case='/O2 /G5 hello.c'
-	$(PYTHON) scripts/remaining.py --all
+# Original toolchain compilation and static graph validation are explicit.
+reference-build: build/cl.exe
 
 audit: build/runtime.json runtime.json
 	$(PYTHON) scripts/audit-graph.py
 
-replay: all build/paired-run.exe build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe
-	$(PYTHON) scripts/compare.py --replay
-	$(PYTHON) scripts/compare.py --replay --case=test.c
-	$(PYTHON) scripts/compare.py --replay --case='/O2 /G5 hello.c'
-	$(PYTHON) scripts/remaining.py --all --replay
 
 build:
 	mkdir -p $@
 
 build/cl.obj: src/cl.c src/cl.h | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/cl.obj src/cl.c
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fobuild/cl.obj src/cl.c
 
 build/%.obj: src/%.c src/cl.h | build prefix
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fobuild/$*.obj $<
 
 build/cl.exe: build/cl.obj build/stubs.obj build/data.obj build/runtime.obj build/driver.obj build/remaining.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/cl.map /out:$@ $^ $(TC)/lib/SETARGV.OBJ
 
-build/debug-run.obj: src/debug-run.c | build prefix
-	$(TOOL) CL.EXE /nologo /c /O1 /G3 /Fobuild/debug-run.obj src/debug-run.c
-
-build/debug-run.exe: build/debug-run.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 
 build/gui-check.exe: build/gui-check.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< $(TC)/lib/USER32.LIB $(TC)/lib/GDI32.LIB
@@ -61,11 +46,41 @@ build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe &: build/pass-helpe
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:build/fail-pass.exe $<
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:build/wait-pass.exe $<
 
-probe: all build/trace-run.exe build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe
+probe: build/trace-run.exe build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe
 	$(PYTHON) scripts/probe-cases.py
 
 clean:
 	rm -rf build
 
-build/paired-run.exe: build/paired-run.obj
+# Native fixture execution never depends on Wine or a PE executable.
+.PHONY: native native-trace native-check native-trace-check native-reject-check
+native-reject-check: native-trace
+	$(PYTHON) scripts/check-native-negative.py
+check replay: native-trace-check
+native: build/native/CL.EXE
+native-trace: build/native-trace/CL.EXE
+native-check: native
+	$(PYTHON) scripts/check-native.py
+native-trace-check: native-trace
+	$(PYTHON) scripts/check-native.py --trace
+NATIVE_CC ?= clang
+NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -O0 -g -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_NAMES = cl stubs data runtime driver remaining
+NATIVE_HEADERS = $(wildcard src/*.h) $(wildcard $(RECON)/include/*.h) $(wildcard $(RECON)/native/*.h) $(wildcard $(RECON)/native/sys/*.h)
+NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
+build/native build/native-trace:
+	mkdir -p $@
+build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
+	$(NATIVE_CC) $(NATIVE_FLAGS) -c $< -o $@
+build/native-trace/%.o: src/%.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-trace
+	$(NATIVE_CC) $(NATIVE_FLAGS) -c $< -o $@
+build/native/CL.EXE: $(addprefix build/native/,$(addsuffix .o,$(NATIVE_NAMES))) $(NATIVE_SHIMS) Makefile
+	$(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) $(NATIVE_SHIMS) -o $@
+build/native-trace/CL.EXE: $(addprefix build/native-trace/,$(addsuffix .o,$(NATIVE_NAMES))) $(NATIVE_SHIMS) $(RECON)/src/trace.c Makefile
+	$(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
+
+# Original-only capture helper; this target is never a fixture dependency.
+build/capture-run.exe: build/capture-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

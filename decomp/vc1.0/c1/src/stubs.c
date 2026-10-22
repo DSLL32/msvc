@@ -899,6 +899,7 @@ unsigned __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, unsign
 
 
 #include "pch-relocate.h"
+#include <recon.h>
 
 
 

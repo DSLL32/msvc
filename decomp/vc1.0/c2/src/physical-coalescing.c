@@ -1,5 +1,6 @@
 /* Copy affinities and interference-preserving register coalescence. */
 #include "physical-allocation.h"
+#include <recon.h>
 RegisterAffinity *register_affinities, *free_register_affinities;
 
 /* Original [0002bb10,0002bb50). Build copy affinities once, then sort

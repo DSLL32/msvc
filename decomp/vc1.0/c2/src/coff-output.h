@@ -2,6 +2,7 @@
 #define COFF_OUTPUT_H
 #include "c2.h"
 #include "segments.h"
+#include <recon.h>
 typedef struct CoffConfiguration {
     unsigned short version, machine;
     unsigned flags;

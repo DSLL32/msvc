@@ -1,6 +1,7 @@
 /* Windows NT .res records: payload, header, names and file-backed suffixes. */
 #include "resource-data.h"
 #include <wchar.h>
+#include <recon.h>
 
 void __stdcall write_record_header(struct ResourceType *, struct ResourceInfo *, void *, long, long);
 void __stdcall write_resource_name(WORD, WCHAR *);

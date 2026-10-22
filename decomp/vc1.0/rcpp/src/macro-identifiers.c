@@ -1,5 +1,6 @@
 /* Identifier assembly during replacement collection and its final rescan. */
 #include "macros.h"
+#include <recon.h>
 
 /* Original [0100b9a0,0100bbe9). Parameter text can supply only a fragment
  * of a pasted identifier. Keep nonidentifiers in output without looking them

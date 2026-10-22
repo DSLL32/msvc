@@ -3,7 +3,7 @@ import hashlib
 import json
 import tempfile
 from pathlib import Path
-from compare import PE, imports, mask, wt
+from pe_indexes import PE, imports, mask, wt
 
 def union(ranges):
     result = []

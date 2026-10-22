@@ -1,6 +1,7 @@
 /* Arena-backed tables shared by declaration lookup and later frontend passes. */
 #include "hash-table.h"
 #include "options.h"
+#include <recon.h>
 
 /* Original 0x4ec10..0x4ecd5. */
 HashTable *__stdcall new_hash_table(unsigned short buckets, short arena,

@@ -2,6 +2,7 @@
 #include "backend-passes.h"
 #include "segments.h"
 #include "records.h"
+#include <recon.h>
 extern int coff_object, floating_frontend, codeview_debug;
 unsigned char floating_point_used; /* 000805f8 */
 SymbolHeader *__fastcall require_external_symbol(char *name);

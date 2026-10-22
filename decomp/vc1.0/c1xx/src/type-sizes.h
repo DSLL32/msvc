@@ -1,6 +1,7 @@
 #ifndef TYPE_SIZES_H
 #define TYPE_SIZES_H
 #include "class-members.h"
+#include <recon.h>
 
 unsigned __stdcall base_type_size(unsigned short flags, CppSymbol *tag);
 unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeShape *shape);

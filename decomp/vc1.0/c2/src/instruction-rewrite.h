@@ -1,6 +1,7 @@
 #ifndef INSTRUCTION_REWRITE_H
 #define INSTRUCTION_REWRITE_H
 #include "instruction-selection.h"
+#include <recon.h>
 unsigned short __fastcall new_value_register(unsigned short type);
 void __fastcall release_machine_address(MachineAddress *address);
 MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous, MachineInstruction *instruction);

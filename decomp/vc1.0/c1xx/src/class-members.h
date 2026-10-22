@@ -1,6 +1,7 @@
 #ifndef CLASS_MEMBERS_H
 #define CLASS_MEMBERS_H
 #include "lexer.h"
+#include <recon.h>
 
 void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol *function);
 void __stdcall browser_friend_reference(CppSymbol *symbol);

@@ -1,6 +1,7 @@
 /* Frontend intermediate file creation and output. */
 #include <io.h>
 #include "initialization.h"
+#include <recon.h>
 
 /* Preserve the original out-of-line CRT entry. */
 #undef _fileno

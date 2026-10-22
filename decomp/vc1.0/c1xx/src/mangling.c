@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "operators.h"
 #include "keywords.h"
+#include <recon.h>
 
 char decorated_name_workspace[DECORATED_NAME_WORKSPACE_BYTES]; /* original 0x97c38 */
 int decorated_type_count; /* original 0x97c30: ten-entry type cache count */

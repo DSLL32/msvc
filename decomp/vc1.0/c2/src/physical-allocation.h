@@ -2,6 +2,7 @@
 #define PHYSICAL_ALLOCATION_H
 #include "register-variables.h"
 #include "instruction-selection.h"
+#include <recon.h>
 /* Twelve active counters in the native clearing span7c520..7c634.
    No address of that span escapes. These contextual counters deliberately
    do not reproduce its57 clear-only words; see cases/allocation-state.txt. */

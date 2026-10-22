@@ -1,6 +1,7 @@
 #ifndef TOKENS_H
 #define TOKENS_H
 #include "keywords.h"
+#include <recon.h>
 
 /* Codes retained alongside the parser's broader token categories. */
 enum LexicalTokenCode {

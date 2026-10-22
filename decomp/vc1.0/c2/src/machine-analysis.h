@@ -1,6 +1,7 @@
 #ifndef MACHINE_ANALYSIS_H
 #define MACHINE_ANALYSIS_H
 #include "machine.h"
+#include <recon.h>
 typedef struct MachineRegionEdge {
     struct MachineRegionEdge *next;
     SymbolHeader *label;

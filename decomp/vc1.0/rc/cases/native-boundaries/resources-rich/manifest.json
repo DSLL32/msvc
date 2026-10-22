@@ -1,0 +1,556 @@
+{
+  "schema": 1,
+  "case": "resources-rich",
+  "kind": "captured-original-RCPP-process-boundary",
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "child_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "arguments": "/dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc",
+  "application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+  "command_line": "RCPP.EXE  -f RC001096 -g RD001096 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IT:\\include  -DCASE_FROM_COMMAND=7",
+  "argv": [
+    "RCPP.EXE",
+    " -f RC001096 -g RD001096 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IT:\\include  -DCASE_FROM_COMMAND=7"
+  ],
+  "input_name": "RC001096",
+  "output_name": "RD001096",
+  "input": {
+    "path": "input.bin",
+    "bytes": 3381,
+    "sha256": "bcf079a08386aee55016e382db7490301ed690f72e1e84e3d5b1f7cde2b8231e"
+  },
+  "response": {
+    "path": "response.bin",
+    "bytes": 336686,
+    "sha256": "2a81ca8f6b54e1c32ec9457231c042b4beab85858b5411f794a46b65e86a1841"
+  },
+  "stdout": {
+    "path": "stdout.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": "stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "exit": 0,
+  "reads": [
+    {
+      "path": "RD001096",
+      "exists": false
+    },
+    {
+      "path": "RC001096",
+      "exists": true,
+      "capture": {
+        "path": "read-1.bin",
+        "bytes": 3381,
+        "sha256": "bcf079a08386aee55016e382db7490301ed690f72e1e84e3d5b1f7cde2b8231e"
+      }
+    },
+    {
+      "path": "include/windows.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/windows.h",
+      "exists": true,
+      "capture": {
+        "path": "read-3.bin",
+        "bytes": 3972,
+        "sha256": "42faf2f02a4547bf077e17c0a27a7d59d5b5f0a4d07dc24eacc97492e19123ea"
+      }
+    },
+    {
+      "path": "include/windef.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/windef.h",
+      "exists": true,
+      "capture": {
+        "path": "read-5.bin",
+        "bytes": 6475,
+        "sha256": "ef355d655fa9ec2ce7ba766aa0e89ab2713484485734611334e8267e74d9b351"
+      }
+    },
+    {
+      "path": "include/winnt.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winnt.h",
+      "exists": true,
+      "capture": {
+        "path": "read-7.bin",
+        "bytes": 138278,
+        "sha256": "24b34afc9883d4e64b79041aeb2dd06743159a82b78590c155d525cd75b0a524"
+      }
+    },
+    {
+      "path": "include/ctype.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/ctype.h",
+      "exists": true,
+      "capture": {
+        "path": "read-9.bin",
+        "bytes": 5972,
+        "sha256": "e473824224557abbce7bbb4fd63d85049f0f4b36435d7d7e564a50d5cfe737d0"
+      }
+    },
+    {
+      "path": "include/string.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/string.h",
+      "exists": true,
+      "capture": {
+        "path": "read-11.bin",
+        "bytes": 5352,
+        "sha256": "b18860b676bc157f412b1eda395cf2d47d905fd64e23f670f6cfbb197a993f60"
+      }
+    },
+    {
+      "path": "include/winbase.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winbase.h",
+      "exists": true,
+      "capture": {
+        "path": "read-13.bin",
+        "bytes": 110154,
+        "sha256": "c1a4ef7e16b24c6f4134058876eb27ea5311b72af3692c2a7a74b2cbb7bc19df"
+      }
+    },
+    {
+      "path": "include/winerror.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winerror.h",
+      "exists": true,
+      "capture": {
+        "path": "read-15.bin",
+        "bytes": 106884,
+        "sha256": "de2366d30af886c818278209a5bf442ef00f5c74719c76a343f183eec13c53f5"
+      }
+    },
+    {
+      "path": "include/wingdi.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/wingdi.h",
+      "exists": true,
+      "capture": {
+        "path": "read-17.bin",
+        "bytes": 113497,
+        "sha256": "fe16e143fc0cb0453e5ce708e638543e7501d89b6cc46def9e9f80aab58cf3dc"
+      }
+    },
+    {
+      "path": "include/winuser.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winuser.h",
+      "exists": true,
+      "capture": {
+        "path": "read-19.bin",
+        "bytes": 122598,
+        "sha256": "2221a3c59c361daa68a24070c596dad2a2f5c5163664e1632bbcbe0b8993eb79"
+      }
+    },
+    {
+      "path": "include/stdarg.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/stdarg.h",
+      "exists": true,
+      "capture": {
+        "path": "read-21.bin",
+        "bytes": 834,
+        "sha256": "9ce7f824ddadd24b62bdf67ffaf0079d7a56e6e9437d2376938b0b67ec5ca432"
+      }
+    },
+    {
+      "path": "include/winnls.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winnls.h",
+      "exists": true,
+      "capture": {
+        "path": "read-23.bin",
+        "bytes": 19157,
+        "sha256": "2a3fc767d1b153022d2f30ebade53a9ced14ab6d4661824ce40c21ebd8fe4b92"
+      }
+    },
+    {
+      "path": "include/wincon.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/wincon.h",
+      "exists": true,
+      "capture": {
+        "path": "read-25.bin",
+        "bytes": 13874,
+        "sha256": "4143ebb75ceae2452ef56c41a779c114aa5145ec357c5d023f4ca16ddfc1b77b"
+      }
+    },
+    {
+      "path": "include/winver.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winver.h",
+      "exists": true,
+      "capture": {
+        "path": "read-27.bin",
+        "bytes": 9459,
+        "sha256": "b6d2866358ce604d1373279e47b18676d0aa1cf2d496b0bb946fc591586bdd42"
+      }
+    },
+    {
+      "path": "include/winreg.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winreg.h",
+      "exists": true,
+      "capture": {
+        "path": "read-29.bin",
+        "bytes": 10985,
+        "sha256": "79e58bc98e4924cbe683b97a9b737134d06e6aee2cad8f473e34b3ae647bd871"
+      }
+    },
+    {
+      "path": "include/winnetwk.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winnetwk.h",
+      "exists": true,
+      "capture": {
+        "path": "read-31.bin",
+        "bytes": 8298,
+        "sha256": "c26914b8b9b5e30b1f302a5501d7d13a8684f2abca47f830aa7830f4dfe65af7"
+      }
+    },
+    {
+      "path": "include/cderr.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/cderr.h",
+      "exists": true,
+      "capture": {
+        "path": "read-33.bin",
+        "bytes": 1538,
+        "sha256": "1d62a8e0c8e239d0e0e30c2071fd49b0db1777b67d770b3e147e14e8dcae7059"
+      }
+    },
+    {
+      "path": "include/dde.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/dde.h",
+      "exists": true,
+      "capture": {
+        "path": "read-35.bin",
+        "bytes": 4473,
+        "sha256": "99105007054dd19a290a9e7d51943338df4df24fb999a931798f43636418c156"
+      }
+    },
+    {
+      "path": "include/ddeml.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/ddeml.h",
+      "exists": true,
+      "capture": {
+        "path": "read-37.bin",
+        "bytes": 17737,
+        "sha256": "136b7947c869f3578757b2ebfe791badf6aebdc5dc8ed7e7690b0f280dcb06ad"
+      }
+    },
+    {
+      "path": "include/dlgs.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/dlgs.h",
+      "exists": true,
+      "capture": {
+        "path": "read-39.bin",
+        "bytes": 5839,
+        "sha256": "6bae825c9cac31c426428ce020927520311f0c4054f3ed2ca5c9f5411856a33f"
+      }
+    },
+    {
+      "path": "include/lzexpand.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/lzexpand.h",
+      "exists": true,
+      "capture": {
+        "path": "read-41.bin",
+        "bytes": 1679,
+        "sha256": "a425be116f26a76708161a4ce687ab3cd3d4aa60efae9cb818f5498a60b9c452"
+      }
+    },
+    {
+      "path": "include/mmsystem.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/mmsystem.h",
+      "exists": true,
+      "capture": {
+        "path": "read-43.bin",
+        "bytes": 115009,
+        "sha256": "6ce1bc8d6823758542a55f0b85ddbe6cf09317340be1b4defdecd7ad0e141d96"
+      }
+    },
+    {
+      "path": "include/nb30.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/nb30.h",
+      "exists": true,
+      "capture": {
+        "path": "read-45.bin",
+        "bytes": 12786,
+        "sha256": "6df640314417de73fa966f27c2b19383b4c62446c977eef1b3e7bf557ceaebf4"
+      }
+    },
+    {
+      "path": "include/rpc.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/rpc.h",
+      "exists": true,
+      "capture": {
+        "path": "read-47.bin",
+        "bytes": 1834,
+        "sha256": "27f5fb0def3dfa8bf02afe2271a12b4df9c96cf338ca56934e5016a9a1c0d52d"
+      }
+    },
+    {
+      "path": "T:\\include/rpcdce.h",
+      "exists": true,
+      "capture": {
+        "path": "read-48.bin",
+        "bytes": 26784,
+        "sha256": "ac30a6c1e46c5d08dc4dd34019d3284549dea5c97477e8f79eb91c694809aad7"
+      }
+    },
+    {
+      "path": "T:\\include/rpcdcep.h",
+      "exists": true,
+      "capture": {
+        "path": "read-49.bin",
+        "bytes": 6679,
+        "sha256": "1b869a4090845e72e48f2e3903c60f7fc4e3d52882cbb930a5e270b92f7884a5"
+      }
+    },
+    {
+      "path": "T:\\include/rpcnsi.h",
+      "exists": true,
+      "capture": {
+        "path": "read-50.bin",
+        "bytes": 15094,
+        "sha256": "dcc0442ddb75d2ff81b7bc34859fd8c5e2d93e45251646dde039af8f2218ffc6"
+      }
+    },
+    {
+      "path": "T:\\include/rpcnterr.h",
+      "exists": true,
+      "capture": {
+        "path": "read-51.bin",
+        "bytes": 1501,
+        "sha256": "4e6fca8cd128c84345104551e4e004eeb4247b514efcc1a4f89290a8bd32851d"
+      }
+    },
+    {
+      "path": "include/windows.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/windows.h",
+      "exists": true,
+      "capture": {
+        "path": "read-53.bin",
+        "bytes": 3972,
+        "sha256": "42faf2f02a4547bf077e17c0a27a7d59d5b5f0a4d07dc24eacc97492e19123ea"
+      }
+    },
+    {
+      "path": "include/excpt.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/excpt.h",
+      "exists": true,
+      "capture": {
+        "path": "read-55.bin",
+        "bytes": 1933,
+        "sha256": "117674b810e10e6b5a5326659ad1006088e7eb21740a03a0114581ba8c36ebf1"
+      }
+    },
+    {
+      "path": "include/winerror.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winerror.h",
+      "exists": true,
+      "capture": {
+        "path": "read-57.bin",
+        "bytes": 106884,
+        "sha256": "de2366d30af886c818278209a5bf442ef00f5c74719c76a343f183eec13c53f5"
+      }
+    },
+    {
+      "path": "include/shellapi.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/shellapi.h",
+      "exists": true,
+      "capture": {
+        "path": "read-59.bin",
+        "bytes": 2748,
+        "sha256": "6fb31de7aa0571c2664bb3cdac9b4204e8ff6c1942ff41652bcc79e4f69ac21b"
+      }
+    },
+    {
+      "path": "include/winperf.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winperf.h",
+      "exists": true,
+      "capture": {
+        "path": "read-61.bin",
+        "bytes": 26174,
+        "sha256": "c3bc191b28c017f0334999706c89d083442b2fe78d369dea88bcea2566b2b80a"
+      }
+    },
+    {
+      "path": "include/winsock.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winsock.h",
+      "exists": true,
+      "capture": {
+        "path": "read-63.bin",
+        "bytes": 30727,
+        "sha256": "518112d30a66efd8e1f5291805125e3dbeea258e538d11205e90e7a039060cef"
+      }
+    },
+    {
+      "path": "include/windows.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/windows.h",
+      "exists": true,
+      "capture": {
+        "path": "read-65.bin",
+        "bytes": 3972,
+        "sha256": "42faf2f02a4547bf077e17c0a27a7d59d5b5f0a4d07dc24eacc97492e19123ea"
+      }
+    },
+    {
+      "path": "include/winsvc.h",
+      "exists": false
+    },
+    {
+      "path": "T:\\include/winsvc.h",
+      "exists": true,
+      "capture": {
+        "path": "read-67.bin",
+        "bytes": 18621,
+        "sha256": "b841b22d0f4d7d926e0a70d6975c337b0b7a079913830ad875f38d80f15bfa89"
+      }
+    },
+    {
+      "path": "resource.h",
+      "exists": true,
+      "capture": {
+        "path": "read-68.bin",
+        "bytes": 746,
+        "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
+      }
+    },
+    {
+      "path": "include/features.h",
+      "exists": true,
+      "capture": {
+        "path": "read-69.bin",
+        "bytes": 938,
+        "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070"
+      }
+    },
+    {
+      "path": "include/nested/values.h",
+      "exists": true,
+      "capture": {
+        "path": "read-70.bin",
+        "bytes": 129,
+        "sha256": "edcf2670a9f6af506a4ba80a5a3fab40619a765bb2d2dd50f149f9fffed5ef51"
+      }
+    },
+    {
+      "path": "resource.h",
+      "exists": true,
+      "capture": {
+        "path": "read-71.bin",
+        "bytes": 746,
+        "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
+      }
+    }
+  ],
+  "temporary_input_response_offsets": [
+    9
+  ],
+  "environment": {
+    "INCLUDE": "T:\\include",
+    "WINEPATH": "T:\\bin"
+  },
+  "PATH": null,
+  "cwd": "source-only isolated case working directory",
+  "original_RC_exit": 0,
+  "console_signal": null,
+  "independently_verified": true,
+  "timing": {
+    "setup_seconds": 0.011583218351006508,
+    "original_capture_seconds": 1.1781817581504583,
+    "independent_original_seconds": 0.8544430918991566,
+    "total_seconds": 2.0935573568567634
+  },
+  "debugger_stdout": {
+    "path": "debugger.stdout",
+    "bytes": 875,
+    "sha256": "29412702209b8144ec8c53bf9763b41a5c5e2e118412962f5c8bfbfbe471ab6d"
+  },
+  "debugger_stderr": {
+    "path": "debugger.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "program": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\RC.EXE"
+}

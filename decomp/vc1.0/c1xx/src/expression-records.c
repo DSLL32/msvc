@@ -2,6 +2,7 @@
    The frontend shares this vocabulary with declaration_codes. Keep only the
    expression overrides here, rather than reproducing the packed data area. */
 #include "expression-records.h"
+#include <recon.h>
 ExpressionRecordRule expression_record_rules[] = {
     { 0, 0 }, { 2, 0x26 }, /* end and symbol reference */
     { 3, 0x33 }, /* string constant */

@@ -4,6 +4,7 @@
 #include "cpp-context.h"
 #include "parameters.h"
 #include "operators.h"
+#include <recon.h>
 
 HashTable *declaration_table; /* original 0x9f340 */
 

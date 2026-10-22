@@ -4,6 +4,7 @@
 #include "bitsets.h"
 #include "frame.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 extern int cpu_model, optimization_cost, force_risc, optimization_risc;
 extern int codeview_debug, omit_frame_pointer;
 RegisterAllocationStatistics register_allocation_statistics;

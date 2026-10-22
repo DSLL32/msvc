@@ -5,6 +5,7 @@
 #include "work-optimizer.h"
 #include "expression-fields.h"
 #include "function-input.h"
+#include <recon.h>
 
 AllocationBinding *allocation_register_bindings; /* 0007b9bc */
 WorkItem **allocation_definition_blocks; /* 0007b9c0 */

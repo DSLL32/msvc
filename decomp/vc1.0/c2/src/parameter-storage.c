@@ -4,6 +4,7 @@
 #include "expression-fields.h"
 #include "records.h"
 #include "frame.h"
+#include <recon.h>
 extern int optimize_global;
 BitSet *spilled_parameter_registers; /* 0007b990 */
 /* Original [00067170,00067350). Find the procedure entry, assign incoming

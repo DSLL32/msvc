@@ -5,6 +5,7 @@
 #include "source-input.h"
 #include "global-ir.h"
 #include "expressions.h"
+#include <recon.h>
 
 ParserValue parser_value; /* original 0x5b1f0 */
 int parser_lookahead = -1; /* original 0x6b550 */
@@ -1456,7 +1457,7 @@ void finish_function_definition(void)
     clear_symbol_aliases();
 }
 
-FrontendSymbol *initializer_temporary; /* original 0x60460 */
+extern FrontendSymbol *initializer_temporary; /* canonical definition in initializers.c, 0x60460 */
 /* This image only clears the reserved per-function word at 0x6bf70. */
 static unsigned function_reserved_state;
 

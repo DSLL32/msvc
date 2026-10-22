@@ -1,6 +1,7 @@
 #ifndef INLINE_ANALYSIS_H
 #define INLINE_ANALYSIS_H
 #include "global-ir.h"
+#include <recon.h>
 /* Encountered scope prefix, through its region and flags. */
 typedef struct InlineScope {
     unsigned char prefix[10];

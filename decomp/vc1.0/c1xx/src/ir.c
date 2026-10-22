@@ -5,6 +5,7 @@
 #include "expression-records.h"
 #include "type-sizes.h"
 #include "function-finalization.h"
+#include <recon.h>
 
 CppSymbol *function_symbol; /* original 0x8c140 */
 CppSymbol *current_label_symbol; /* original 0x91384 */

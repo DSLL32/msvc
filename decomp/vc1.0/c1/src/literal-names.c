@@ -3,6 +3,7 @@
 #include "literal-names.h"
 #include "global-ir.h"
 #include "parser.h"
+#include <recon.h>
 
 /* Original 0x2ddf0..0x2de40. Name formatting shares the symbol-name
    workspace; the bound applies before adding its terminating NUL. */

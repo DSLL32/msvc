@@ -2,6 +2,7 @@
 #include "machine.h"
 #include "initializers.h"
 #include "records.h"
+#include <recon.h>
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol);
 int __fastcall initializer_symbols_available(SymbolHeader *symbol);
 void __fastcall queue_initializer_dependencies(SymbolHeader *symbol);

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memcpy)
 int __cdecl _flush(FILE *);
 

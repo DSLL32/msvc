@@ -1,35 +1,16 @@
 #!/usr/bin/env python3
-"""Directly call original and reconstructed leaf classifiers with their ABI."""
-import hashlib
-import json
-import subprocess
+"""Native-linked classifiers against the existing independently captured original."""
+import hashlib,json,os,subprocess,time
 from pathlib import Path
-from compare import wt, publics, PE, SCRATCH
-
-functions = ['_rc_integer_nondecimal_kind@4','_rc_integer_decimal_kind@4',
-             '_rc_long_kind@4','_rc_unsigned_kind@4']
-original_rvas = [0xcb40,0xcb60,0xcb80,0xcba0]
-rec = PE('build/rcpp.exe')
-names = publics()
-rec_rvas = [names[name]-rec.base for name in functions]
-expected = ''.join('classifier %d: 10012 values returned %d\r\n' % (i,result)
-                   for i,result in enumerate([7,7,8,9])).encode()
-report = dict(probe='direct leaf ABI calls; independent of the trapped whole-program case',
-              samples_per_function=10012,convention='stdcall(unsigned long) -> unsigned char',
-              boundary_values=['00000000','00000001','00000009','00007fff','00008000','0000ffff',
-                               '00010000','7ffffffe','7fffffff','80000000','fffffffe','ffffffff'],
-              lcg=dict(seed='13579bdf',multiplier=1664525,increment=1013904223,bits=32),runs={})
-for label, executable, rvas in [('original',wt.TC/'bin/RCPP.EXE',original_rvas),
-                                ('reconstruction',Path('build/rcpp.exe'),rec_rvas)]:
-    output = SCRATCH/('classifiers-'+label+'.stdout')
-    with output.open('wb') as stream:
-        result = subprocess.run(['wine','build/classifier-check.exe',wt.windows(executable)]+
-                                ['%x' % n for n in rvas],env=wt.environment(),
-                                stdin=subprocess.DEVNULL,stdout=stream,stderr=subprocess.DEVNULL,
-                                timeout=30)
-    assert result.returncode == 0, (label,result.returncode,output.read_bytes())
-    assert output.read_bytes() == expected, (label,output.read_bytes())
-    report['runs'][label] = dict(sha256=hashlib.sha256(Path(executable).read_bytes()).hexdigest(),
-                                 functions=[dict(name=n,rva=r)for n,r in zip(functions,rvas)])
-Path('classifier-validation.json').write_text(json.dumps(report,indent=2)+'\n')
-print('Original/reconstruction classifier ABIs match for 40048 direct calls each.')
+from importlib.machinery import SourceFileLoader
+HERE=Path(__file__).resolve().parents[1]
+checker=SourceFileLoader('rcpp_native_abi_checker',str(HERE/'scripts/check-native.py')).load_module()
+checker.require_elf(HERE/'build/native-trace/classifier-check')
+reference=json.loads((HERE/'cases/native-abi.json').read_text())['classifier']
+start=time.perf_counter()
+result=subprocess.run([str(HERE/'build/native-trace/classifier-check')],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
+assert result.returncode==0 and not result.stderr,(result.returncode,result.stderr)
+assert result.stdout==reference['stdout_latin1'].encode('latin1')
+assert hashlib.sha256(result.stdout).hexdigest()==reference['stdout_sha256']
+(HERE/'cases/native-classifier-validation.json').write_text(json.dumps(dict(status='passed',calls=reference['calls'],execution_seconds=time.perf_counter()-start,capture_performed=False),indent=2)+'\n')
+print('Native classifier ABI results match cached original for 40048 calls.')

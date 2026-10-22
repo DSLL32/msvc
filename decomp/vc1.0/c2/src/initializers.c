@@ -2,6 +2,7 @@
 #include "initializers.h"
 #include "input.h"
 #include "backend.h"
+#include <recon.h>
 Initializer *global_initializers; /* 0007c14c */
 static Initializer *free_initializers; /* 0007c144 */
 typedef char InitializerSizeCheck[sizeof(Initializer) == 28 ? 1 : -1];

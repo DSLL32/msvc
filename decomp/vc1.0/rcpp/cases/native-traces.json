@@ -1,0 +1,976 @@
+{
+  "schema": 1,
+  "description": "Projection of cached original-backed acceptance history; no original execution or recapture",
+  "metadata_sha256": {
+    "functions.json": "8e95a057451dd79c616e1fc27b86ac030a8904dc13e9e60e997a7bd6d48ed222",
+    "../fixtures/resources-rich/manifest.json": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
+    "../fixtures/rcpp-followups/manifest.json": "4071307ee9e254524104c782f62ed5b74b6681bd2e2516b379ea38434e165969",
+    "../fixtures/rcpp-targeted/manifest.json": "f09b3d5d347a34a7bc4ce59853711f0f23371053791c4599bbf3555a1007dc73",
+    "../fixtures/rcpp-interrupt/manifest.json": "18803f172e076531cf08ea70bcfb5555852ff4cf717fbae8e5e43b621a640438",
+    "../fixtures/rcpp-remaining/manifest.json": "83612bac1ac2c1b2ee2099c88ddf2437d1ca94c5b8eda7798e67b709fbca57aa"
+  },
+  "application_definitions": {
+    "rc_additive_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_additive_expression"
+    },
+    "rc_append_argument": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_append_argument@4"
+    },
+    "rc_apply_option": {
+      "source": "src/options.c",
+      "logical": "_rc_apply_option@12"
+    },
+    "rc_argument_is_pasted": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_argument_is_pasted"
+    },
+    "rc_begin_line": {
+      "source": "src/line-start.c",
+      "logical": "_rc_begin_line"
+    },
+    "rc_bitwise_and_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_bitwise_and_expression"
+    },
+    "rc_bitwise_or_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_bitwise_or_expression"
+    },
+    "rc_bitwise_xor_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_bitwise_xor_expression"
+    },
+    "rc_byte_order": {
+      "source": "src/encoding.c",
+      "logical": "_rc_byte_order"
+    },
+    "rc_check_macro_storage": {
+      "source": "src/macro-definition.c",
+      "logical": "_rc_check_macro_storage@4"
+    },
+    "rc_close_include": {
+      "source": "src/input.c",
+      "logical": "_rc_close_include"
+    },
+    "rc_collect_macro_identifier": {
+      "source": "src/macro-identifiers.c",
+      "logical": "_rc_collect_macro_identifier@4"
+    },
+    "rc_compact_macro_output": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_compact_macro_output@8"
+    },
+    "rc_compare_macro_text": {
+      "source": "src/symbols.c",
+      "logical": "_rc_compare_macro_text@12"
+    },
+    "rc_conditional_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_conditional_expression"
+    },
+    "rc_control_handler": {
+      "source": "src/main.c",
+      "logical": "_rc_control_handler@4"
+    },
+    "rc_copy_bytes": {
+      "source": "src/symbols.c",
+      "logical": "_rc_copy_bytes@8"
+    },
+    "rc_copy_macro_quote": {
+      "source": "src/macro-definition.c",
+      "logical": "_rc_copy_macro_quote@8"
+    },
+    "rc_copy_quoted_text": {
+      "source": "src/strings.c",
+      "logical": "_rc_copy_quoted_text@4"
+    },
+    "rc_copy_string": {
+      "source": "src/symbols.c",
+      "logical": "_rc_copy_string@4"
+    },
+    "rc_copy_text_end": {
+      "source": "src/input.c",
+      "logical": "_rc_copy_text_end@8"
+    },
+    "rc_define_macro": {
+      "source": "src/symbols.c",
+      "logical": "_rc_define_macro@12"
+    },
+    "rc_detect_encoding": {
+      "source": "src/encoding.c",
+      "logical": "_rc_detect_encoding@4"
+    },
+    "rc_digit_value": {
+      "source": "src/numbers.c",
+      "logical": "_rc_digit_value@4"
+    },
+    "rc_directive_code": {
+      "source": "src/directive-names.c",
+      "logical": "_rc_directive_code@4"
+    },
+    "rc_discard_block_comment": {
+      "source": "src/comments.c",
+      "logical": "_rc_discard_block_comment"
+    },
+    "rc_discard_line_comment": {
+      "source": "src/comments.c",
+      "logical": "_rc_discard_line_comment"
+    },
+    "rc_emit_line": {
+      "source": "src/line-output.c",
+      "logical": "_rc_emit_line"
+    },
+    "rc_emit_tokens": {
+      "source": "src/main.c",
+      "logical": "_rc_emit_tokens"
+    },
+    "rc_equal_type": {
+      "source": "src/constants.c",
+      "logical": "_rc_equal_type@8"
+    },
+    "rc_equality_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_equality_expression"
+    },
+    "rc_error": {
+      "source": "src/diagnostics.c",
+      "logical": "_rc_error@4"
+    },
+    "rc_escape_value": {
+      "source": "src/characters.c",
+      "logical": "_rc_escape_value@4"
+    },
+    "rc_evaluate_condition": {
+      "source": "src/condition.c",
+      "logical": "_rc_evaluate_condition"
+    },
+    "rc_expand_macro": {
+      "source": "src/macro-expansion.c",
+      "logical": "_rc_expand_macro@4"
+    },
+    "rc_expect_end": {
+      "source": "src/directives.c",
+      "logical": "_rc_expect_end@4"
+    },
+    "rc_fatal": {
+      "source": "src/diagnostics.c",
+      "logical": "_rc_fatal@4"
+    },
+    "rc_find_inactive_directive": {
+      "source": "src/directives.c",
+      "logical": "_rc_find_inactive_directive"
+    },
+    "rc_find_macro": {
+      "source": "src/symbols.c",
+      "logical": "_rc_find_macro"
+    },
+    "rc_find_macro_parameter": {
+      "source": "src/macro-definition.c",
+      "logical": "_rc_find_macro_parameter@4"
+    },
+    "rc_finish_macro_body": {
+      "source": "src/macro-expansion.c",
+      "logical": "_rc_finish_macro_body"
+    },
+    "rc_format": {
+      "source": "src/format.c",
+      "logical": "_rc_format"
+    },
+    "rc_get_logical_character": {
+      "source": "src/scanning.c",
+      "logical": "_rc_get_logical_character"
+    },
+    "rc_hash_name": {
+      "source": "src/symbols.c",
+      "logical": "_rc_hash_name@4"
+    },
+    "rc_identifier_value": {
+      "source": "src/condition.c",
+      "logical": "_rc_identifier_value@4"
+    },
+    "rc_initialize_preprocessor": {
+      "source": "src/initialize.c",
+      "logical": "_rc_initialize_preprocessor@12"
+    },
+    "rc_integer_decimal_kind": {
+      "source": "src/numbers.c",
+      "logical": "_rc_integer_decimal_kind@4"
+    },
+    "rc_integer_nondecimal_kind": {
+      "source": "src/numbers.c",
+      "logical": "_rc_integer_nondecimal_kind@4"
+    },
+    "rc_integer_value": {
+      "source": "src/numbers.c",
+      "logical": "_rc_integer_value@8"
+    },
+    "rc_intern_type": {
+      "source": "src/constants.c",
+      "logical": "_rc_intern_type@4"
+    },
+    "rc_logical_and_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_logical_and_expression"
+    },
+    "rc_logical_or_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_logical_or_expression"
+    },
+    "rc_long_kind": {
+      "source": "src/numbers.c",
+      "logical": "_rc_long_kind@4"
+    },
+    "rc_macro_argument": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_macro_argument"
+    },
+    "rc_macro_fatal": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_macro_fatal@4"
+    },
+    "rc_main": {
+      "source": "src/main.c",
+      "logical": "_rc_main"
+    },
+    "rc_make_constant": {
+      "source": "src/constants.c",
+      "logical": "_rc_make_constant@8"
+    },
+    "rc_match_character": {
+      "source": "src/comments.c",
+      "logical": "_rc_match_character@4"
+    },
+    "rc_match_expression_token": {
+      "source": "src/condition.c",
+      "logical": "_rc_match_expression_token@4"
+    },
+    "rc_match_suffix": {
+      "source": "src/options.c",
+      "logical": "_rc_match_suffix@8"
+    },
+    "rc_message": {
+      "source": "src/messages.c",
+      "logical": "_rc_message@4"
+    },
+    "rc_multiplicative_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_multiplicative_expression"
+    },
+    "rc_next_argument": {
+      "source": "src/main.c",
+      "logical": "_rc_next_argument"
+    },
+    "rc_next_token": {
+      "source": "src/lexer.c",
+      "logical": "_rc_next_token"
+    },
+    "rc_number_text": {
+      "source": "src/format.c",
+      "logical": "_rc_number_text@12"
+    },
+    "rc_open_include": {
+      "source": "src/input.c",
+      "logical": "_rc_open_include@8"
+    },
+    "rc_option_contains_character": {
+      "source": "src/options.c",
+      "logical": "_rc_option_contains_character@8"
+    },
+    "rc_parse_angle_name": {
+      "source": "src/includes.c",
+      "logical": "_rc_parse_angle_name"
+    },
+    "rc_parse_character": {
+      "source": "src/characters.c",
+      "logical": "_rc_parse_character"
+    },
+    "rc_parse_define": {
+      "source": "src/macro-definition.c",
+      "logical": "_rc_parse_define"
+    },
+    "rc_parse_directive": {
+      "source": "src/directives.c",
+      "logical": "_rc_parse_directive"
+    },
+    "rc_parse_number": {
+      "source": "src/numbers.c",
+      "logical": "_rc_parse_number@4"
+    },
+    "rc_parse_option": {
+      "source": "src/options.c",
+      "logical": "_rc_parse_option@16"
+    },
+    "rc_parse_option_number": {
+      "source": "src/options.c",
+      "logical": "_rc_parse_option_number@4"
+    },
+    "rc_parse_pragma": {
+      "source": "src/directives.c",
+      "logical": "_rc_parse_pragma"
+    },
+    "rc_parse_string": {
+      "source": "src/strings.c",
+      "logical": "_rc_parse_string"
+    },
+    "rc_peek_wide_character": {
+      "source": "src/strings.c",
+      "logical": "_rc_peek_wide_character"
+    },
+    "rc_primary_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_primary_expression"
+    },
+    "rc_push_condition": {
+      "source": "src/directives.c",
+      "logical": "_rc_push_condition"
+    },
+    "rc_push_macro": {
+      "source": "src/macro-expansion.c",
+      "logical": "_rc_push_macro@4"
+    },
+    "rc_quote_filename": {
+      "source": "src/line-output.c",
+      "logical": "_rc_quote_filename@8"
+    },
+    "rc_read_expanded_identifier": {
+      "source": "src/macro-identifiers.c",
+      "logical": "_rc_read_expanded_identifier@4"
+    },
+    "rc_read_floating": {
+      "source": "src/numbers.c",
+      "logical": "_rc_read_floating@4"
+    },
+    "rc_read_identifier": {
+      "source": "src/scanning.c",
+      "logical": "_rc_read_identifier@4"
+    },
+    "rc_read_macro_arguments": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_read_macro_arguments@8"
+    },
+    "rc_read_macro_body": {
+      "source": "src/macro-definition.c",
+      "logical": "_rc_read_macro_body"
+    },
+    "rc_read_macro_parameters": {
+      "source": "src/macro-definition.c",
+      "logical": "_rc_read_macro_parameters"
+    },
+    "rc_read_nonspace": {
+      "source": "src/scanning.c",
+      "logical": "_rc_read_nonspace"
+    },
+    "rc_refill_input": {
+      "source": "src/input.c",
+      "logical": "_rc_refill_input"
+    },
+    "rc_relational_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_relational_expression"
+    },
+    "rc_remove_macro": {
+      "source": "src/symbols.c",
+      "logical": "_rc_remove_macro"
+    },
+    "rc_report_diagnostic": {
+      "source": "src/diagnostics.c",
+      "logical": "_rc_report_diagnostic@12"
+    },
+    "rc_resume_input": {
+      "source": "src/macro-expansion.c",
+      "logical": "_rc_resume_input"
+    },
+    "rc_search_current_directory": {
+      "source": "src/includes.c",
+      "logical": "_rc_search_current_directory"
+    },
+    "rc_search_include_directories": {
+      "source": "src/includes.c",
+      "logical": "_rc_search_include_directories"
+    },
+    "rc_select_macro_argument": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_select_macro_argument@4"
+    },
+    "rc_shift_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_shift_expression"
+    },
+    "rc_skip_block_comment": {
+      "source": "src/comments.c",
+      "logical": "_rc_skip_block_comment"
+    },
+    "rc_skip_comment": {
+      "source": "src/comments.c",
+      "logical": "_rc_skip_comment"
+    },
+    "rc_skip_inactive": {
+      "source": "src/directives.c",
+      "logical": "_rc_skip_inactive@4"
+    },
+    "rc_skip_inactive_quote": {
+      "source": "src/directives.c",
+      "logical": "_rc_skip_inactive_quote@4"
+    },
+    "rc_skip_line": {
+      "source": "src/scanning.c",
+      "logical": "_rc_skip_line"
+    },
+    "rc_skip_line_comment": {
+      "source": "src/comments.c",
+      "logical": "_rc_skip_line_comment"
+    },
+    "rc_skip_macro_whitespace": {
+      "source": "src/condition.c",
+      "logical": "_rc_skip_macro_whitespace"
+    },
+    "rc_splice_line": {
+      "source": "src/scanning.c",
+      "logical": "_rc_splice_line"
+    },
+    "rc_start_macro_argument": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_start_macro_argument"
+    },
+    "rc_start_macro_body": {
+      "source": "src/macro-expansion.c",
+      "logical": "_rc_start_macro_body"
+    },
+    "rc_stringize_argument": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_stringize_argument@8"
+    },
+    "rc_substituted_argument": {
+      "source": "src/macro-arguments.c",
+      "logical": "_rc_substituted_argument@4"
+    },
+    "rc_unary_expression": {
+      "source": "src/condition.c",
+      "logical": "_rc_unary_expression"
+    },
+    "rc_unsigned_kind": {
+      "source": "src/numbers.c",
+      "logical": "_rc_unsigned_kind@4"
+    },
+    "rc_warning": {
+      "source": "src/diagnostics.c",
+      "logical": "_rc_warning@4"
+    }
+  },
+  "accepted_application": [
+    "rc_main",
+    "rc_next_argument",
+    "rc_parse_option",
+    "rc_apply_option",
+    "rc_initialize_preprocessor",
+    "rc_hash_name",
+    "rc_define_macro",
+    "rc_find_macro",
+    "rc_copy_bytes",
+    "rc_open_include",
+    "rc_detect_encoding",
+    "rc_byte_order",
+    "rc_refill_input",
+    "rc_copy_string",
+    "rc_emit_line",
+    "rc_format",
+    "rc_number_text",
+    "rc_quote_filename",
+    "rc_begin_line",
+    "rc_parse_directive",
+    "rc_read_nonspace",
+    "rc_read_identifier",
+    "rc_directive_code",
+    "rc_next_token",
+    "rc_parse_number",
+    "rc_get_logical_character",
+    "rc_integer_value",
+    "rc_digit_value",
+    "rc_integer_decimal_kind",
+    "rc_make_constant",
+    "rc_intern_type",
+    "rc_parse_string",
+    "rc_expect_end",
+    "rc_equal_type",
+    "rc_parse_angle_name",
+    "rc_search_include_directories",
+    "rc_skip_comment",
+    "rc_match_character",
+    "rc_discard_block_comment",
+    "rc_push_condition",
+    "rc_parse_define",
+    "rc_evaluate_condition",
+    "rc_conditional_expression",
+    "rc_logical_or_expression",
+    "rc_logical_and_expression",
+    "rc_bitwise_or_expression",
+    "rc_bitwise_xor_expression",
+    "rc_bitwise_and_expression",
+    "rc_equality_expression",
+    "rc_relational_expression",
+    "rc_shift_expression",
+    "rc_additive_expression",
+    "rc_multiplicative_expression",
+    "rc_unary_expression",
+    "rc_match_expression_token",
+    "rc_primary_expression",
+    "rc_identifier_value",
+    "rc_skip_macro_whitespace",
+    "rc_skip_inactive",
+    "rc_find_inactive_directive",
+    "rc_skip_inactive_quote",
+    "rc_emit_tokens",
+    "rc_read_macro_body",
+    "rc_check_macro_storage",
+    "rc_find_macro_parameter",
+    "rc_remove_macro",
+    "rc_expand_macro",
+    "rc_push_macro",
+    "rc_start_macro_body",
+    "rc_collect_macro_identifier",
+    "rc_resume_input",
+    "rc_finish_macro_body",
+    "rc_read_expanded_identifier",
+    "rc_read_macro_parameters",
+    "rc_copy_macro_quote",
+    "rc_close_include",
+    "rc_copy_text_end",
+    "rc_discard_line_comment",
+    "rc_skip_line_comment",
+    "rc_splice_line",
+    "rc_read_macro_arguments",
+    "rc_compact_macro_output",
+    "rc_start_macro_argument",
+    "rc_select_macro_argument",
+    "rc_substituted_argument",
+    "rc_argument_is_pasted",
+    "rc_skip_block_comment",
+    "rc_compare_macro_text",
+    "rc_integer_nondecimal_kind",
+    "rc_search_current_directory",
+    "rc_copy_quoted_text",
+    "rc_macro_argument",
+    "rc_stringize_argument",
+    "rc_parse_pragma",
+    "rc_parse_character",
+    "rc_escape_value",
+    "rc_append_argument",
+    "rc_read_floating",
+    "rc_parse_option_number",
+    "rc_match_suffix",
+    "rc_peek_wide_character",
+    "rc_message",
+    "rc_error",
+    "rc_report_diagnostic",
+    "rc_fatal",
+    "rc_warning",
+    "rc_skip_line",
+    "rc_macro_fatal",
+    "rc_control_handler",
+    "rc_long_kind",
+    "rc_unsigned_kind",
+    "rc_option_contains_character"
+  ],
+  "excluded_accepted": {
+    "CRT": [
+      "_rcpp_start",
+      "_rc_heap_initialize",
+      "__ioinit",
+      "_rc_setargv",
+      "_rc_parse_command",
+      "_malloc",
+      "__setenvp",
+      "_rc_initialize_c",
+      "_rc_initterm",
+      "_strncpy",
+      "_fopen",
+      "__fsopen",
+      "__getstream",
+      "__openfile",
+      "__sopen",
+      "__alloc_osfhnd",
+      "__set_osfhnd",
+      "__lseek",
+      "__get_osfhandle",
+      "__dosmaperr",
+      "_ftell",
+      "_fread",
+      "__filbuf",
+      "__getbuf",
+      "__read",
+      "_fseek",
+      "__flush",
+      "_fwrite",
+      "__flsbuf",
+      "_toupper",
+      "_fputc",
+      "_strchr",
+      "__write",
+      "_fclose",
+      "__freebuf",
+      "_free",
+      "__close",
+      "__free_osfhnd",
+      "_strncmp",
+      "_rc_exit",
+      "_doexit",
+      "__endstdio",
+      "__flushall",
+      "_flsall",
+      "_fflush",
+      "_atol",
+      "__isatty",
+      "_fgetc",
+      "__fcloseall"
+    ],
+    "import": [
+      "import:GetCommandLineA",
+      "import:GetEnvironmentStrings",
+      "import:GetVersion",
+      "import:GetProcessHeap",
+      "import:GetStartupInfoA",
+      "import:GetStdHandle",
+      "import:GetFileType",
+      "import:GetModuleFileNameA",
+      "import:HeapAlloc",
+      "import:SetConsoleCtrlHandler",
+      "import:CreateFileA",
+      "import:SetFilePointer",
+      "import:GetLastError",
+      "import:ReadFile",
+      "import:WriteFile",
+      "import:HeapFree",
+      "import:CloseHandle",
+      "import:ExitProcess"
+    ]
+  },
+  "cases": {
+    "resources-rich": {
+      "first": 0,
+      "last": 156,
+      "seen_count": 0,
+      "expected": [
+        "rc_main",
+        "rc_next_argument",
+        "rc_parse_option",
+        "rc_apply_option",
+        "rc_initialize_preprocessor",
+        "rc_hash_name",
+        "rc_define_macro",
+        "rc_find_macro",
+        "rc_copy_bytes",
+        "rc_open_include",
+        "rc_detect_encoding",
+        "rc_byte_order",
+        "rc_refill_input",
+        "rc_copy_string",
+        "rc_emit_line",
+        "rc_format",
+        "rc_number_text",
+        "rc_quote_filename",
+        "rc_begin_line",
+        "rc_parse_directive",
+        "rc_read_nonspace",
+        "rc_read_identifier",
+        "rc_directive_code",
+        "rc_next_token",
+        "rc_parse_number",
+        "rc_get_logical_character",
+        "rc_integer_value",
+        "rc_digit_value",
+        "rc_integer_decimal_kind",
+        "rc_make_constant",
+        "rc_intern_type",
+        "rc_parse_string",
+        "rc_expect_end",
+        "rc_equal_type",
+        "rc_parse_angle_name",
+        "rc_search_include_directories",
+        "rc_skip_comment",
+        "rc_match_character",
+        "rc_discard_block_comment",
+        "rc_push_condition",
+        "rc_parse_define",
+        "rc_evaluate_condition",
+        "rc_conditional_expression",
+        "rc_logical_or_expression",
+        "rc_logical_and_expression",
+        "rc_bitwise_or_expression",
+        "rc_bitwise_xor_expression",
+        "rc_bitwise_and_expression",
+        "rc_equality_expression",
+        "rc_relational_expression",
+        "rc_shift_expression",
+        "rc_additive_expression",
+        "rc_multiplicative_expression",
+        "rc_unary_expression",
+        "rc_match_expression_token",
+        "rc_primary_expression",
+        "rc_identifier_value",
+        "rc_skip_macro_whitespace",
+        "rc_skip_inactive",
+        "rc_find_inactive_directive",
+        "rc_skip_inactive_quote",
+        "rc_emit_tokens",
+        "rc_read_macro_body",
+        "rc_check_macro_storage",
+        "rc_find_macro_parameter",
+        "rc_remove_macro",
+        "rc_expand_macro",
+        "rc_push_macro",
+        "rc_start_macro_body",
+        "rc_collect_macro_identifier",
+        "rc_resume_input",
+        "rc_finish_macro_body",
+        "rc_read_expanded_identifier",
+        "rc_read_macro_parameters",
+        "rc_copy_macro_quote",
+        "rc_close_include",
+        "rc_copy_text_end",
+        "rc_discard_line_comment",
+        "rc_skip_line_comment",
+        "rc_splice_line",
+        "rc_read_macro_arguments",
+        "rc_compact_macro_output",
+        "rc_start_macro_argument",
+        "rc_select_macro_argument",
+        "rc_substituted_argument",
+        "rc_argument_is_pasted",
+        "rc_skip_block_comment",
+        "rc_compare_macro_text",
+        "rc_integer_nondecimal_kind",
+        "rc_search_current_directory",
+        "rc_copy_quoted_text",
+        "rc_macro_argument",
+        "rc_stringize_argument"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "pragma-character-float": {
+      "first": 156,
+      "last": 161,
+      "seen_count": 93,
+      "expected": [
+        "rc_parse_pragma",
+        "rc_parse_character",
+        "rc_escape_value",
+        "rc_append_argument",
+        "rc_read_floating"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "plain-comments": {
+      "first": 179,
+      "last": 179,
+      "seen_count": 112,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "unsigned-char": {
+      "first": 179,
+      "last": 179,
+      "seen_count": 112,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "packing-options": {
+      "first": 161,
+      "last": 164,
+      "seen_count": 98,
+      "expected": [
+        "rc_parse_option_number",
+        "rc_match_suffix"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "error": {
+      "first": 165,
+      "last": 169,
+      "seen_count": 101,
+      "expected": [
+        "rc_message",
+        "rc_error",
+        "rc_report_diagnostic"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "missing-include": {
+      "first": 169,
+      "last": 170,
+      "seen_count": 104,
+      "expected": [
+        "rc_fatal"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "unterminated": {
+      "first": 179,
+      "last": 179,
+      "seen_count": 112,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "macro-arity": {
+      "first": 170,
+      "last": 171,
+      "seen_count": 105,
+      "expected": [
+        "rc_warning"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "character": {
+      "first": 179,
+      "last": 179,
+      "seen_count": 112,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "invalid-option": {
+      "first": 179,
+      "last": 179,
+      "seen_count": 112,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "dbcs-codepage": {
+      "first": 179,
+      "last": 179,
+      "seen_count": 112,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dbcs-backslash": {
+      "first": 179,
+      "last": 179,
+      "seen_count": 112,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "unicode-input": {
+      "first": 164,
+      "last": 165,
+      "seen_count": 100,
+      "expected": [
+        "rc_peek_wide_character"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "directive-tail": {
+      "first": 171,
+      "last": 172,
+      "seen_count": 106,
+      "expected": [
+        "rc_skip_line"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "oversized-macro": {
+      "first": 172,
+      "last": 173,
+      "seen_count": 107,
+      "expected": [
+        "rc_macro_fatal"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "console-interrupt": {
+      "first": 173,
+      "last": 176,
+      "seen_count": 108,
+      "expected": [
+        "rc_control_handler"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "long-suffix": {
+      "first": 176,
+      "last": 177,
+      "seen_count": 109,
+      "expected": [
+        "rc_long_kind"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "unsigned-suffix": {
+      "first": 177,
+      "last": 178,
+      "seen_count": 110,
+      "expected": [
+        "rc_unsigned_kind"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "option-helper": {
+      "first": 178,
+      "last": 179,
+      "seen_count": 111,
+      "expected": [
+        "rc_option_contains_character"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    }
+  }
+}

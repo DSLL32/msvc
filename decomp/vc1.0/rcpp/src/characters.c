@@ -1,5 +1,6 @@
 /* Character-expression constants and escape decoding. */
 #include "numbers.h"
+#include <recon.h>
 
 /* Original [0100c1e0,0100c384). Plain bytes and escape results deliberately
  * differ in signedness; /J masks an escape result before making its constant. */

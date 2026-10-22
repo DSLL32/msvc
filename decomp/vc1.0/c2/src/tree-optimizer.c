@@ -1,6 +1,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include "expression-fields.h"
+#include <recon.h>
 int tree_changed; /* 00083154 */
 extern int default_integer_bytes;
 unsigned last_operand_key; /* 0007bf5c */

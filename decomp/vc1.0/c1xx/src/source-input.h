@@ -1,6 +1,7 @@
 #ifndef SOURCE_INPUT_H
 #define SOURCE_INPUT_H
 #include "global-ir.h"
+#include <recon.h>
 typedef struct SourceFile {
     unsigned capacity;
     int handle;

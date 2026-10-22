@@ -2,6 +2,7 @@
 #include "builtins.h"
 #include "keywords.h"
 #include "parser.h"
+#include <recon.h>
 
 unsigned next_symbol_index = 100; /* original 0x6b7f4 */
 unsigned browser_symbol_limit = 65535; /* original 0x6b7f8 */

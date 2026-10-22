@@ -1,6 +1,7 @@
 /* Command-line setup in the older RC runtime. */
 #include "rc.h"
 #include <stdlib.h>
+#include <recon.h>
 
 extern char *_acmdln;
 extern char *_pgmptr;

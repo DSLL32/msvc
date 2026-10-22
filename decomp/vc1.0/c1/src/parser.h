@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "builtins.h"
 #include "hash-table.h"
+#include <recon.h>
 
 /* Declaration specifiers occupy one yacc semantic value. The three storage
    bytes are shared with the symbol table's declaration representation. */

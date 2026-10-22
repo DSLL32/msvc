@@ -2,6 +2,7 @@
 #define MACROS_H
 #include "declarations.h"
 #include "parser-state.h"
+#include <recon.h>
 
 typedef struct SpecialIdentifier {
     char **destination;

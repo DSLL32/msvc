@@ -1,6 +1,7 @@
 /* Integer-width bounds used by the frontend's addition checks. */
 #include <limits.h>
 #include "class-members.h"
+#include <recon.h>
 
 /* Original 0xa3860/0xa3878/0xa3890. Widths one, two and four carry the
    target integer bounds; the other encountered slots are reserved zeroes. */

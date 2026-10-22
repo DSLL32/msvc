@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "case": "scanf-pushback",
+  "kind": "captured-original-RCPP-process-boundary",
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "child_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "arguments": "/x /l411z /fopushback.res pushback.rc",
+  "application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+  "command_line": "RCPP.EXE  -f RC001152 -g RD001152 -D RC_INVOKED -pc \\:/ -E ",
+  "argv": [
+    "RCPP.EXE",
+    " -f RC001152 -g RD001152 -D RC_INVOKED -pc \\:/ -E "
+  ],
+  "input_name": "RC001152",
+  "output_name": "RD001152",
+  "input": {
+    "path": "input.bin",
+    "bytes": 61,
+    "sha256": "2f0998badf20c650650b2e009e7d2c7ae9f44d8bb3f8b89adab1dfc79c480ef9"
+  },
+  "response": {
+    "path": "response.bin",
+    "bytes": 96,
+    "sha256": "b6fd383b31eea3c81fb93c0ac87f60c69999e05419ea31a2ab2666d7f157bdc0"
+  },
+  "stdout": {
+    "path": "stdout.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "path": "stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "exit": 0,
+  "reads": [
+    {
+      "path": "RD001152",
+      "exists": false
+    },
+    {
+      "path": "RC001152",
+      "exists": true,
+      "capture": {
+        "path": "read-1.bin",
+        "bytes": 61,
+        "sha256": "2f0998badf20c650650b2e009e7d2c7ae9f44d8bb3f8b89adab1dfc79c480ef9"
+      }
+    }
+  ],
+  "temporary_input_response_offsets": [
+    9
+  ],
+  "environment": {
+    "INCLUDE": "T:\\include",
+    "WINEPATH": "T:\\bin"
+  },
+  "PATH": null,
+  "cwd": "source-only isolated case working directory",
+  "original_RC_exit": 0,
+  "console_signal": null,
+  "independently_verified": true,
+  "timing": {
+    "setup_seconds": 0.0031667957082390785,
+    "original_capture_seconds": 0.9522328544408083,
+    "independent_original_seconds": 0.745279723778367,
+    "total_seconds": 1.7085691429674625
+  },
+  "debugger_stdout": {
+    "path": "debugger.stdout",
+    "bytes": 106,
+    "sha256": "e8c7bc5fbcada5d1827c2beee9e4f4574ad663690c9cdc74ab42e0a08cda5eaf"
+  },
+  "debugger_stderr": {
+    "path": "debugger.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "program": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\RC.EXE"
+}

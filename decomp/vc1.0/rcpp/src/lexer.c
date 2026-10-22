@@ -1,6 +1,7 @@
 /* Main compiler-derived token scanner. Original [0100f970,010106dc),
  * category dispatch table [010106dc,0101078c). */
 #include "directives.h"
+#include <recon.h>
 
 unsigned char rc_next_token(void)
 {

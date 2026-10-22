@@ -5,6 +5,7 @@
 #include "lexer.h"
 #include "control-ir.h"
 #include "debug-info.h"
+#include <recon.h>
 
 /* Original 0x45e90..0x462e4. Diagnose incompatible command settings
    before replacing permanent state with the saved compiler graph. */

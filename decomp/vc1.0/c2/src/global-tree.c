@@ -5,6 +5,7 @@
 #include "options.h"
 #include "expression-fields.h"
 #include "algebra.h"
+#include <recon.h>
 extern int floating_frontend, optimize_precision;
 Node *__fastcall prepare_global_tree(Node *node);
 Node *__fastcall factor_global_tree(Node *node);

@@ -3,6 +3,7 @@
 #include "segments.h"
 #include "initializers.h"
 #include "machine.h"
+#include <recon.h>
 extern int listing_enabled;
 extern unsigned listing_column;
 extern Segment *listed_segment;

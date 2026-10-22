@@ -4,6 +4,7 @@
 #include "tokens.h"
 #include <string.h>
 #include <stddef.h>
+#include <recon.h>
 typedef char KanjiRangeSize[(sizeof(struct KanjiRange) == 8) ? 1 : -1];
 typedef char KanjiUpperOffset[(offsetof(struct KanjiRange, last) == 4) ? 1 : -1];
 #pragma intrinsic(strcpy)

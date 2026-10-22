@@ -21,6 +21,7 @@ void flush_queued_symbols(void)
 }
 
 #include "options.h"
+#include <recon.h>
 /* Original [00069330,00069360). */
 void __fastcall emit_static_initializers(BackendSymbolList *symbols)
 {

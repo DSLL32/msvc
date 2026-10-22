@@ -1,6 +1,7 @@
 /* Unary C++ operator dispatch and builtin fallback. */
 #include "lexer.h"
 #include "unary-expressions.h"
+#include <recon.h>
 
 /* Original 0x5f0f0..0x5f206. Try class operator lookup while temporarily
    permitting its evaluation context, diagnose a failed conversion when no

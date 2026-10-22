@@ -2,6 +2,7 @@
 #define RC_VERSION_H
 #include "tokens.h"
 #include "resource-data.h"
+#include <recon.h>
 struct VersionHeader { WORD length, value_length, type; };
 struct VersionHeader * __cdecl parse_fixed_version(void);
 void __stdcall parse_version_number(DWORD *);

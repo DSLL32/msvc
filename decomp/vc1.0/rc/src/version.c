@@ -1,6 +1,7 @@
 /* Fixed VERSIONINFO fields and recursive BLOCK/VALUE records. */
 #include "version.h"
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memset, strlen)
 
 /* Original 0x0100cc60..0x0100cc7f. */

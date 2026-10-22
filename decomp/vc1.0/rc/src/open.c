@@ -2,6 +2,7 @@
 #include "lowio.h"
 #include <stdarg.h>
 #include <sys/stat.h>
+#include <recon.h>
 
 int __cdecl _sopen(const char *path, int flags, int sharing, ...)
 {

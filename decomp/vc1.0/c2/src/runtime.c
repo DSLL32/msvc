@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include <io.h>
 #include <errno.h>
+#include <recon.h>
 extern unsigned char _osfile[];
 extern int _umaskval;
 extern int _alloc_osfhnd(void);

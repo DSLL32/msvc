@@ -2,6 +2,7 @@
  * switch table [0100b4c0,0100b564). */
 #include "macros.h"
 #include <string.h>
+#include <recon.h>
 void __stdcall rc_select_macro_argument(unsigned char);
 int rc_argument_is_pasted(void);
 void __stdcall rc_append_argument(const char *);

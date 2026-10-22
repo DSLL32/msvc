@@ -35,6 +35,7 @@
 #include "special-members.h"
 #include "inline-capture.h"
 #include "type-sizes.h"
+#include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }

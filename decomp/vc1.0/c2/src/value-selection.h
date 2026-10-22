@@ -3,6 +3,7 @@
 #include "temporaries.h"
 #include "instruction-selection.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 typedef struct FloatingOpcode {
     unsigned tree_opcode;
     char *description;

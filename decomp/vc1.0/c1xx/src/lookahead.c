@@ -1,5 +1,6 @@
 /* Deferred C++ declaration/expression lookahead and token reinterpretation. */
 #include "lookahead.h"
+#include <recon.h>
 
 int parenthesis_lookahead_depth; /* original 0x9d7cc */
 

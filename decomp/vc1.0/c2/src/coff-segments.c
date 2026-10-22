@@ -17,6 +17,7 @@ void __fastcall coff_select_segment(Segment *segment)
 #include <string.h>
 #include "coff-output.h"
 #include "backend.h"
+#include <recon.h>
 extern int optimize_speed, stack_alignment;
 unsigned char __fastcall coff_comdat_selection(unsigned char selection);
 void __fastcall register_coff_segment(Segment *segment);

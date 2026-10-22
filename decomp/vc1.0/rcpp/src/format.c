@@ -1,6 +1,7 @@
 /* The small formatter used by line directives and preprocessor diagnostics. */
 #include "preprocessor.h"
 #include <stdarg.h>
+#include <recon.h>
 /* Original [010072a0,010073e0). Supported conversions are c, d, x and s;
  * F is an ignored far-pointer qualifier, l selects a 32-bit long argument.
  * Unsupported conversions copy the current format character literally. */

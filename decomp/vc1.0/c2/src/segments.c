@@ -56,6 +56,7 @@ void initialize_segments(void)
 }
 
 #include "backend.h"
+#include <recon.h>
 void __fastcall append_segment(Segment *segment);
 /* Original [0006a120,0006a160). */
 Segment *__fastcall create_segment(char *name, char *class_name, unsigned identifier)

@@ -2,6 +2,7 @@
 #include "backend-passes.h"
 #include "function-input.h"
 #include "tree-rewrite.h"
+#include <recon.h>
 /* Original [0001dca0,0001dd60). Reanalyze the block after any rewrite.
    The return value is the following block marker, including for skipped blocks. */
 MachineInstruction *__fastcall finish_selected_block(MachineBlockHeader *block, int mode)

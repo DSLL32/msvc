@@ -3,6 +3,7 @@
 #include "instruction-rewrite.h"
 #include "frame.h"
 #include "register-use.h"
+#include <recon.h>
 extern int optimize_speed, cpu_model;
 #define MACHINE_OP(i) (((i)->opcode >> 8) & 255)
 #define MACHINE_BYTES(i) (((i)->opcode >> 4) & 15)

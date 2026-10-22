@@ -2,6 +2,7 @@
 #include "input.h"
 #include "records.h"
 #include "output.h"
+#include <recon.h>
 typedef enum ControlField {
     CONTROL_END, CONTROL_INVALID, CONTROL_SOURCE_LINE, CONTROL_SOURCE_FILE,
     CONTROL_DIRECTIVE, CONTROL_STRING, CONTROL_UNSUPPORTED, CONTROL_WORD,

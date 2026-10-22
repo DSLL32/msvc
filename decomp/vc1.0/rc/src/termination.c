@@ -3,6 +3,7 @@
  * shared rather than calling newer private neighbors in CRT0DAT.OBJ. */
 #include "crt-runtime.h"
 #include <stdlib.h>
+#include <recon.h>
 
 /* Original 0x0100e1b0..0x0100e1e0. */
 void __cdecl _cinit(void)

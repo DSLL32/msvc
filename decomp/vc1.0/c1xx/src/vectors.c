@@ -1,6 +1,7 @@
 /* Short-count pointer vectors allocated from the compiler's arenas. */
 #include <stdlib.h>
 #include "initialization.h"
+#include <recon.h>
 
 /* Original 0x4e810..0x4e8cd. */
 Vector *__stdcall new_vector(short capacity, int arena)

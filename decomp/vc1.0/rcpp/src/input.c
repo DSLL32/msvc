@@ -1,6 +1,7 @@
 /* Nested input files and shared segmented scanner buffers. */
 #include "lexer.h"
 #include <string.h>
+#include <recon.h>
 char *__stdcall rc_copy_text_end(char *, const char *);
 RcInput rc_inputs[10];
 int rc_input_depth = -1, rc_line_number, rc_input_encoding, rc_expanding_macro;

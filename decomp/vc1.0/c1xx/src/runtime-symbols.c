@@ -2,6 +2,7 @@
 #include "macros.h"
 #include "parameters.h"
 #include "keywords.h"
+#include <recon.h>
 
 void __stdcall declare_runtime_function(char *name, unsigned short pointer_attributes,
     unsigned short function_attributes, unsigned reserved_attributes, int runtime_kind);

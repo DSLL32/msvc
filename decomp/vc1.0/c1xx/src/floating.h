@@ -1,5 +1,6 @@
 #ifndef FLOATING_H
 #define FLOATING_H
+#include <recon.h>
 /* Ten x87 value bytes followed by the frontend's representation tag. */
 typedef struct Extended {
     unsigned low, high;

@@ -1,6 +1,7 @@
 #ifndef INITIALIZERS_H
 #define INITIALIZERS_H
 #include "parser.h"
+#include <recon.h>
 int __stdcall remaining_string_initializer_bytes(FrontendSymbol *symbol, IrToken *value);
 void __stdcall finish_scalar_initializer(FrontendSymbol *symbol, IrToken *initializer);
 extern FrontendSymbol *initializer_symbol;

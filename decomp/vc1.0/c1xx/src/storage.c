@@ -1,5 +1,6 @@
 /* Declaration storage modifiers shared by parser and declaration binding. */
 #include "declarations.h"
+#include <recon.h>
 
 /* Original 0x61c90..0x61d73. Storage kind and the unlisted modifier bits are
    excluded. The result reports selected source bits, even if already present

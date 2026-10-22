@@ -1,6 +1,7 @@
 #ifndef EXPRESSION_RECORDS_H
 #define EXPRESSION_RECORDS_H
 #include "lexer.h"
+#include <recon.h>
 typedef struct ExpressionRecordRule {
     unsigned char operation;
     unsigned short record;

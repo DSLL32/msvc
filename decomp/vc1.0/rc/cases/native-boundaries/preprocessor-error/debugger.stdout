@@ -1,0 +1,5 @@
+child pid 1512
+read missing 1 error 2
+read missing 3 error 2
+child exit 1 pid 1512
+exit 1; captured 1 launches and 3 deletes

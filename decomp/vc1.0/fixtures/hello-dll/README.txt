@@ -45,7 +45,7 @@ The manifest records exact positions, raw hashes and normalized hashes.
 No path, padding, ordering, symbol or relocation normalization is permitted.
 
 Verification from the repository root:
-    python3 decomp/vc1.0/fixtures/hello-dll/verify.py
+    python3 decomp/vc1.0/fixtures/hello-dll/capture-original.py
 Select c1, c2 or link as an optional positional argument. The link check runs
 twice independently, compares all three products, checks DLL/export metadata,
 and exercises load, exported stdcall invocation, painting, close and unload.

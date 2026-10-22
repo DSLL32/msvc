@@ -1,6 +1,7 @@
 /* Dispatch between resource keywords, string literals and numeric expressions. */
 #include "tokens.h"
 #include <ctype.h>
+#include <recon.h>
 
 /* Original 0x010089a0..0x01008ab8. */
 unsigned int __stdcall next_token(unsigned int flags)

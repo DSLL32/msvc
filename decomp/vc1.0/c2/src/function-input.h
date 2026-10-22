@@ -1,6 +1,7 @@
 #ifndef FUNCTION_INPUT_H
 #define FUNCTION_INPUT_H
 #include "functions.h"
+#include <recon.h>
 typedef struct TemporarySymbol {
     SymbolHeader symbol;
     unsigned field20, attributes;

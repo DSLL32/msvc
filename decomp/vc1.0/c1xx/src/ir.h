@@ -2,6 +2,7 @@
 #define IR_H
 #include "types.h"
 #include "global-ir.h"
+#include <recon.h>
 
 enum IrField {
     IR_FIELD_END = 0,

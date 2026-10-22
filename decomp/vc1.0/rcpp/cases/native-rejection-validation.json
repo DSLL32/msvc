@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "rejections": [
+    {
+      "test": "PE/non-ELF executable rejected before launch"
+    },
+    {
+      "test": "actual native ELF self-spawn denied before child execution",
+      "status": 125
+    },
+    {
+      "test": "wrong cached original first entry",
+      "reason": "('entry trace', 'long-suffix', ['rc_long_kind'], ['rc_unsigned_kind'])"
+    },
+    {
+      "test": "wrong captured artifact byte",
+      "reason": "('output bytes', 'result.i', 408, 409)"
+    },
+    {
+      "test": "wrong complete input digest"
+    }
+  ],
+  "capture_performed": false
+}

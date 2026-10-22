@@ -8,6 +8,7 @@
 #include <io.h>
 #include <process.h>
 #include <errno.h>
+#include <recon.h>
 
 typedef struct Item {
     struct Item *next;

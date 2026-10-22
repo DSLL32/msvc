@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "work-stack.h"
 #include "pch.h"
+#include <recon.h>
 
 /* Original 0x324c0..0x3257d. */
 Vector *__stdcall new_vector(short capacity, int arena)

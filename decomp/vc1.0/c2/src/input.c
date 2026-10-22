@@ -21,6 +21,7 @@ FILE *__fastcall open_intermediate(char *prefix, char *suffix, char *mode, char 
 }
 
 #include "input.h"
+#include <recon.h>
 FILE *input_file;
 /* Original [00070060,000700b0): an exact-length byte span, without a
    terminator or EOF diagnostic. getc preserves the original _filbuf edge. */

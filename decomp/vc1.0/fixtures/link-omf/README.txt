@@ -26,5 +26,5 @@ The buffered backend LINK32_DB=27 is the same original-validated library workaro
 as link-library-tools. Inputs/expected/manifest become immutable after capture.
 
 From repository root:
- python3 decomp/vc1.0/fixtures/link-omf/verify.py
+ python3 decomp/vc1.0/fixtures/link-omf/capture-original.py
 Scratch receipt: ~/.ai-tmp/vc1.0-link/omf-undecorate-capture.

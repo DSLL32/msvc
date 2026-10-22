@@ -1,6 +1,7 @@
 /* Declaration selection for symbol and global intermediate streams. */
 #include "symbol-output.h"
 #include "lexer.h"
+#include <recon.h>
 
 /* Original 0x56d20..0x57189. PCH/debug selection, class member passes,
    aliases, unused-declaration diagnostics and final record selection. */

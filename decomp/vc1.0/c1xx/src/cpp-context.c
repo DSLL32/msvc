@@ -1,6 +1,7 @@
 #include "hash-table.h"
 /* C++ context stack starts with a null sentinel, original 0x2e620..0x2e655. */
 #include "cpp-context.h"
+#include <recon.h>
 
 InlineVector *cpp_context_stack; /* original 0x9f32c */
 

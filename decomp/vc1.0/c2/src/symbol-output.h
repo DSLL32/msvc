@@ -2,6 +2,7 @@
 #define SYMBOL_OUTPUT_H
 #include "machine.h"
 #include "initializers.h"
+#include <recon.h>
 extern BackendSymbolList *queued_output_symbols;
 void flush_queued_symbols(void);
 void write_symbol_declarations(void);

@@ -4,6 +4,7 @@
 #include "instruction-rewrite.h"
 #include "register-use.h"
 #include "frame.h"
+#include <recon.h>
 extern int cpu_model;
 
 /* Original [000349e0,00034d00). Simplify adjacent CALL/RET, immediate

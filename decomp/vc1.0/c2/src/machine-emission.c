@@ -6,6 +6,7 @@
 #include "records.h"
 #include "function-input.h"
 #include "options.h"
+#include <recon.h>
 extern int string_blocks;
 /* Original [00068390,000685d0), including twelve-way record dispatch. */
 void __fastcall emit_machine_instructions(MachineInstruction *instruction)

@@ -15,7 +15,7 @@ HERE=Path(__file__).resolve().parent
 RCPP=HERE.parent.parent/'rcpp'
 sys.path.insert(0,str(RCPP/'scripts'))
 from binary import PE
-from compare import imports
+from reference import imports
 
 # Actual complete bodies from return/branch-boundary analysis. Shared-entry
 # string code is one union extent, not multiple aliases counted twice.

@@ -34,7 +34,7 @@ it returns zero with empty stdout and stderr.
 
 Run all independent original phases with:
 
-    python3 decomp/vc1.0/fixtures/cpp-basic/verify.py
+    python3 decomp/vc1.0/fixtures/cpp-basic/capture-original.py
 
 The verifier builds run-phase.c with the original toolchain,
 reproducing the explicit one-variable environment for compiler phases and

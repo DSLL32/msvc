@@ -1,6 +1,7 @@
 /* RCPP preprocessing initialization, original [01009d90,01009f89). */
 #include "lexer.h"
 #include "legacy-ctype.h"
+#include <recon.h>
 
 void __stdcall rc_initialize_preprocessor(char *input_name, char *output_name,
                                           RcStringOptions *definitions)

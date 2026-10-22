@@ -1,5 +1,6 @@
 /* Command line transport used by this RCPP, before its option parser. */
 #include "rcpp.h"
+#include <recon.h>
 static char module_name[MAX_PATH];
 char *rc_program_name;
 

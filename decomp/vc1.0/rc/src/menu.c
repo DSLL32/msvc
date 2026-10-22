@@ -1,6 +1,7 @@
 /* Nested Windows menu templates. */
 #include "menu.h"
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memcpy)
 unsigned int last_resource_item_offset;
 

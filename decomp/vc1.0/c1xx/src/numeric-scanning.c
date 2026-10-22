@@ -3,6 +3,7 @@
 #include "binary-expressions.h"
 #include "source-input.h"
 #include "characters.h"
+#include <recon.h>
 
 /* Original 0x253a0..0x25585. Fractions/exponents retain a separate scanner;
    hexadecimal accumulation deliberately has no added length guard. */

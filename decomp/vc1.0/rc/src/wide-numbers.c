@@ -1,5 +1,6 @@
 /* RC's own wide-number utilities, distinct from CRT conversion functions. */
 #include "dialog.h"
+#include <recon.h>
 
 /* Original 0x0100f590..0x0100f5b6. Every nonzero WCHAR contributes its signed
  * low byte; there is no whitespace, sign or digit validation. */

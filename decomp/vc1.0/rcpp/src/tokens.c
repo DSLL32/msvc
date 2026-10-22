@@ -5,6 +5,7 @@
  * not a valid descriptor, so no raw padding/preceding data is reproduced. */
 #include "tokens.h"
 #include <stddef.h>
+#include <recon.h>
 RcTokenInfo rc_token_info[133] = {
     {NULL,TK_INVALID},
     {"newline",TK_NEWLINE}, {"identifier",TK_IDENTIFIER}, {"string",TK_STRING},

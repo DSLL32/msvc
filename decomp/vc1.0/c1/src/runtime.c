@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <io.h>
 #include <fcntl.h>
+#include <recon.h>
 
 extern int _flush(FILE *);
 extern void _freebuf(FILE *);

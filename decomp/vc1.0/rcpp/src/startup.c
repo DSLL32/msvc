@@ -1,5 +1,6 @@
 /* RCPP.EXE startup, original [01008d80,01008ed6). */
 #include "rcpp.h"
+#include <recon.h>
 char *rc_command_line, *rc_environment;
 unsigned rc_os_build, rc_os_version, rc_os_major, rc_os_minor;
 unsigned rc_base_build, rc_base_major, rc_base_minor;

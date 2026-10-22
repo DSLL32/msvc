@@ -1,6 +1,7 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 #include "machine-analysis.h"
+#include <recon.h>
 /* Constructor41dc0:44 zeroed bytes in arena3. Leading/1c fields await
    their dependency consumers; x87 values and ordering fields have live names. */
 typedef struct InstructionSchedule {

@@ -4,6 +4,7 @@
 #include <io.h>
 #include "pch.h"
 #include "source-input.h"
+#include <recon.h>
 
 int pch_replace_expression; /* original 0x6be78 */
 /* Encountered SBR bitmap payload serialized by the browser PCH branch. */

@@ -67,6 +67,7 @@ void *initialize_output(void)
 }
 
 #include "extended.h"
+#include <recon.h>
 Extended extended_zero; /* 0007bf9c */
 Extended extended_one; /* 0007bf90 */
 /* Original [00057be0,00057c20). */

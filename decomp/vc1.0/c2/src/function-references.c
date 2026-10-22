@@ -1,5 +1,6 @@
 #include "tree-rewrite.h"
 #include "expression-fields.h"
+#include <recon.h>
 /* Original [00051130,000512a0). Separate the hidden object argument from
    member-function designators, evaluating the object expression once. */
 Node *__fastcall canonicalize_function_reference(Node *node)

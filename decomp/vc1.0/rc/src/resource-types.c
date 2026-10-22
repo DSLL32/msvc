@@ -1,6 +1,7 @@
 /* Resource type interning and predefined spellings. */
 #include "resource.h"
 #include <wchar.h>
+#include <recon.h>
 
 static struct ResourceType *resource_types;
 

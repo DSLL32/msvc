@@ -2,6 +2,7 @@
 #include "expression-fields.h"
 #include "function-input.h"
 #include "records.h"
+#include <recon.h>
 extern int floating_frontend;
 
 /* Original [000503b0,00050e30), including both opcode/convention tables.

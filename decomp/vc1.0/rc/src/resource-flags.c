@@ -1,5 +1,6 @@
 /* Original 0x01009c50..0x01009d1c, switch table through 0x01009d3c. */
 #include "tokens.h"
+#include <recon.h>
 
 BOOL __stdcall parse_memory_flag(struct ResourceInfo *resource)
 {

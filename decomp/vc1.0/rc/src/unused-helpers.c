@@ -2,6 +2,7 @@
  * library/compiler provenance remains uncertain; direct cases identify the ABI.
  */
 #include "rc.h"
+#include <recon.h>
 
 /* Original 0x0100f3d0..0x0100f3fb, signed low byte, RET 4.
  * This is not C isspace: VT/FF are false, while ff (signed EOF) is true. */

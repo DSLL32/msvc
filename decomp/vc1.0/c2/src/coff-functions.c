@@ -6,6 +6,7 @@
 #include "functions.h"
 #include "machine.h"
 #include "coff-segments.h"
+#include <recon.h>
 extern int codeview_debug, line_debug;
 extern int byte_block_first;
 extern char *generated_source;

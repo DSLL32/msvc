@@ -1,5 +1,6 @@
 /* Expression record field schemas, original format pointers at 0x6e594. */
 #include "ir.h"
+#include <recon.h>
 
 static unsigned char format_00[] = { IR_FIELD_RESERVED_15, IR_FIELD_END };
 static unsigned char format_01[] = { IR_FIELD_NODE, IR_FIELD_END };

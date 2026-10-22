@@ -2,6 +2,7 @@
 #include <windows.h>
 #include "options.h"
 #include "characters.h"
+#include <recon.h>
 
 /* Original 0x3cf50..0x3cf80. */
 void initialize_lead_bytes(void)

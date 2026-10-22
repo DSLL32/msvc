@@ -1,5 +1,6 @@
 /* Structure packing state, original initialize_packing at 0x1e4e0. */
 #include "options.h"
+#include <recon.h>
 
 void initialize_packing(void)
 {

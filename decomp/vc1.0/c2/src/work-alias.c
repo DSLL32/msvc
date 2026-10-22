@@ -2,6 +2,7 @@
 #include "work-optimizer.h"
 #include "tree-input.h"
 #include "tree-rewrite.h"
+#include <recon.h>
 extern int optimize_alias, optimize_weak_inverse;
 extern void *output_state; /* existing unknown-base descriptor, original 000831b0 */
 

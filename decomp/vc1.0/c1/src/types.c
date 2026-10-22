@@ -2,6 +2,7 @@
 #include "types.h"
 #include "lexer.h"
 #include "builtins.h"
+#include <recon.h>
 
 TypeEntry **type_descriptor_buckets; /* original 0x6b7d0 */
 TypeShapeEntry **type_shape_buckets;  /* original 0x6b658 */

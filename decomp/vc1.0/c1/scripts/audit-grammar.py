@@ -7,7 +7,7 @@ logical shifts, reductions, gotos, and production records.
 from pathlib import Path
 import re
 import struct
-from compare import indexes, publics
+from images import indexes, publics
 
 original, rebuilt, _, _, _ = indexes()
 names = publics()

@@ -5,7 +5,7 @@ All 42 catalog cases now pass paired masked-original/reconstruction verification
 as do three explicit internal-state cases and nine additional timezone cases.
 The reconstruction has 110 source functions: all 104 native driver functions
 and six differing CRT functions. functions.json records 233 accepted frontiers
-across these and the three original cases. make replay verifies every frontier;
+across these and the three original cases. the native cache retains the application projection of every frontier;
 make check verifies every completed case. No indexed source function is stubbed.
 
 coverage.json preserves the earlier original-only entry-probe observations,
@@ -14,25 +14,17 @@ traps identified additional diagnostic, IDE and forced-input helpers and two
 older CRT routines. That historical report is discovery evidence. validation.json
 is the completed paired-case evidence; neither report is branch coverage.
 
-Run from decomp/vc1.0/cl:
+Run native regressions from decomp/vc1.0/cl:
 
-    make -j2 check
+    make -j4 check
     make replay
-    python3 scripts/remaining.py nested-response conflicting-options
-    python3 scripts/remaining.py --replay timing
-    python3 scripts/remaining.py --all
+    python3 scripts/check-native.py --trace --case nested-response
 
-Original-only entry discovery remains available with make -j2 probe and
-scripts/probe-cases.py. It does not accept reconstruction functions.
-
-The original toolchain builds src/paired-run.c, src/debug-run.c and the controlled pass
-helpers. Each original/reconstruction pair runs concurrently. Three private Wine
-prefixes under ~/.ai-tmp/vc1.0-cl/remaining expose separate storage at the same
-Q: working path; this permits exact comparison of IDE and preprocessor filenames.
-The base private prefix is used only for building tools and the original cases.
-No original executable on disk is modified. Runtime masks are rebuilt from the
-verified original hash and accepted function ranges. Per-case streams, events,
-products and validation records remain under the same scratch directory.
+The original paired runs described below are historical evidence. Their runners
+have been removed. Current checks run only native i386 CL, compare cached original
+application entry segments and frozen outputs, and replay validated original child
+boundaries. See ../../README.txt and ../native-boundaries for current tooling.
+Original-only discovery remains explicit with make -j4 probe; it accepts nothing.
 
 Case groups
 -----------
@@ -88,8 +80,8 @@ Control handler:
   until the callback completes. The traces verify child_running=0 and 1,
   respectively, and both CL processes return 4. These test callback behavior;
   they do not test OS console-event delivery, which did not work in this Wine
-  environment. src/paired-run.c supplies the same dispatch to both masked images and
-  the unmodified original, asserting each child_running state.
+  environment. The historical debugger supplied the same dispatch to both masked images
+  and the unmodified original, asserting each child_running state.
 
 Legacy selector investigation:
   legacy-omf-selector.
@@ -121,7 +113,8 @@ unmodified original. validation.json records raw and normalized product hashes,
 stream contents/hashes, debugger events, and exact excluded timestamp offsets.
 The expected nonzero statuses are intentional: diagnostic/compiler failures
 return 2; interrupt callbacks return 4. The original INCLUDE-space failure is
-preserved. The original C1/C2/LINK children are used for successful builds.
+preserved. The historical captures used original C1/C2/LINK children; current native
+fixtures replay validated captured responses and execute no PE children.
 
 Artifact normalization excludes only parsed timestamp fields:
   - Four-byte COFF TimeDateStamp fields in objects and PE headers.
@@ -148,7 +141,7 @@ Explicit internal-state cases
 ----------------------------
 
 internal.json documents the exact state inputs; they are not public selector
-claims. src/paired-run.c installs a one-shot entry breakpoint only when the relevant
+claims. The historical paired debugger installed a one-shot entry breakpoint only when the relevant
 function is already accepted. A masked entry remains an ordinary frontier.
 
 internal-omf-dryrun:

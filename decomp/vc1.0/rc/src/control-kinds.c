@@ -1,5 +1,6 @@
 /* Built-in Windows control classes preserve their individual RC parsers. */
 #include "dialog.h"
+#include <recon.h>
 
 /* Original 0x0100bc90..0x0100bcd8. */
 void __stdcall parse_button_control(struct DialogControl *control)

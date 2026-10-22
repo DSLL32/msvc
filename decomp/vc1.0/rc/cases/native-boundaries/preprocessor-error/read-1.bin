@@ -1,0 +1,3 @@
+#line 1"PREPROCESSOR-ERROR.RC"
+#line 1
+#include "absent-resource-header.h"

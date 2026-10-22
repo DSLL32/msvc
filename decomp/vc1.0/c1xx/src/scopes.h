@@ -1,6 +1,7 @@
 #ifndef SCOPES_H
 #define SCOPES_H
 #include "initialization.h"
+#include <recon.h>
 
 typedef struct SymbolScope {
     struct SymbolScope *next, *parent;

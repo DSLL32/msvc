@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "child-failure",
+  "arguments": "/B1Z:\\root\\msvc2\\decomp\\vc1.0\\cl\\build\\fail-pass.exe /c test.c",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\child-failure",
+    "TEMP": "Q:\\child-failure"
+  },
+  "initial": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\decomp\\vc1.0\\cl\\build\\fail-pass.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\decomp\\vc1.0\\cl\\build\\fail-pass.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\child-failure\\000296 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "executable_input": {
+        "path": "/root/msvc2/decomp/vc1.0/cl/build/fail-pass.exe",
+        "sha256": "433c07a355d9b01a8f2e90714d1bfc5c77cbe67d94d408fb755cdad227994d5a",
+        "bytes": 2097152,
+        "fixture_source": {
+          "path": "src/pass-helper.c",
+          "sha256": "01309618a5a95d8aeb4553074369a3369d7d688c896ab5e571054f2322a89e59"
+        }
+      },
+      "status": 7,
+      "errno": 0,
+      "cwd": "Q:\\child-failure",
+      "before": {
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "stdout": {
+    "sha256": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+    "bytes": 8
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000002\n",
+  "timing": {
+    "setup_seconds": 0.004291655495762825,
+    "capture_execution_seconds": 4.152264536358416,
+    "capture_checks_seconds": 0.0375295439735055,
+    "total_seconds": 4.194086975418031
+  }
+}

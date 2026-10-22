@@ -46,20 +46,22 @@ been dynamically validated merely because their function extents are accepted.
 No build, replay, capture or analysis process is left in flight.
 Scratch/prefix: /root/.ai-tmp/vc1.0-c2, wine subdirectory.
 Source is in src/, scripts in scripts/; commands run from this binary directory.
-Harness adoption/reorganization is commit 04dd905. Historical replay now uses
-the shared fast runner by default; explicit fresh fallback remains available.
-See FAST-REPLAY.txt. This WIP commit does not change that replay policy.
+Harness adoption/reorganization was commit 04dd905. The later native adoption
+supersedes its paired Wine workflow: normal check/replay executes native i386
+against cached original application-entry traces. Paired Wine runners were
+removed. Original compilation and PE graph audits remain explicit operations
+outside fixtures. See README.txt and cases/native-all-validation.json.
 
 Resume instructions (only after explicit resume)
 -----------------------------------------------
 1. Read current AGENTS.md, this note and cases/hello.json. Preserve other workers'
    files and do not edit shared fixtures or another binary.
-2. The scratch capture helper was built but its new preparation-return mode was
-   not executed. Its helper paths predate the source/scripts reorganization;
-   adjust scratch-only paths/imports if necessary. The intended invocation is:
-     PYTHONPATH=scripts python3 /root/.ai-tmp/vc1.0-c2/capture-memory-flow.py --window-prepare-return
-   It patches the native unique RET at 0x3fe60 and reconstructed return. Compare
-   normalized events after the exception header, retain capture copies/receipt.
+2. The preparation-return state comparison remains pending. Existing scratch
+   capture helpers predate the native adoption and import removed paired-runner
+   modules; they are not fixture runners. Use native GDB for reconstructed state
+   and an explicit original-only capture outside fixtures if that reference is
+   genuinely missing, coordinating it with root first. The original unique RET
+   is 0x3fe60. Retain normalized state evidence before resuming reconstruction.
    Expected first-window return: EAX 3, three metadata nodes, flags 0/4/2,
    ordinals 0..2, priorities 0/-1/-2, 87 stream records.
 3. Complete the pending scheduler /W3, return-state capture and coverage checks.

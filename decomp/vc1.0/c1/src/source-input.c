@@ -8,6 +8,7 @@
 #include "source-input.h"
 #include "preprocessor.h"
 #include "lexer.h"
+#include <recon.h>
 #undef _fileno
 
 SourceFile *active_input, *root_input, *free_inputs;

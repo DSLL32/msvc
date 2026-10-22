@@ -6,6 +6,7 @@
 #include "backend-passes.h"
 #include "register-transfers.h"
 #include "value-selection.h"
+#include <recon.h>
 
 /* Original [00023e30,00023ee0). Place each virtual-register load/store
    at its nearest required instruction or call boundary. Preserve the saved

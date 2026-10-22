@@ -1,5 +1,6 @@
 #ifndef WARNINGS_H
 #define WARNINGS_H
+#include <recon.h>
 /* Saved warning state is a packed sequence of number/level pairs, terminated
    by a number of -1 without a following level byte. */
 #pragma pack(1)

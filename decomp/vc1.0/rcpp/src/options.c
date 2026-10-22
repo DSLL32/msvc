@@ -51,6 +51,7 @@ int __stdcall rc_parse_option(RcOption *options, char *argument,
 }
 
 #include <string.h>
+#include <recon.h>
 /* Original [01007540,01007763). The table defines flag, scalar, bounded list,
  * single string, and single-letter group actions. */
 void __stdcall rc_apply_option(RcOption *option, char *value, int copy)

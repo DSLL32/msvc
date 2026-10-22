@@ -1,6 +1,7 @@
 #include "algebra.h"
 #include "tree-input.h"
 #include "expression-fields.h"
+#include <recon.h>
 /* Original [00056230,000562f0), including its nine-entry opcode table.
    2a denotes an operator without a removable right-hand identity. */
 int __fastcall operator_identity(Node *node)

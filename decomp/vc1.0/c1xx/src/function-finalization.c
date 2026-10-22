@@ -5,6 +5,7 @@
 #include "statement-scopes.h"
 #include "work-list.h"
 #include "control-ir.h"
+#include <recon.h>
 
 /* Lazily allocated by the aggregate-data initializer at original 0x45f00;
    it is distinct from the local-static guard immediately following it. */

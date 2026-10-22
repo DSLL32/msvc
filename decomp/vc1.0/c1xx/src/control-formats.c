@@ -1,5 +1,6 @@
 /* Logical control-record field schemas, native descriptors at 0xa3380. */
 #include "control-ir.h"
+#include <recon.h>
 static unsigned char ignored18[] = { CONTROL_IGNORED_18, CONTROL_END };
 static unsigned char ignored19[] = { CONTROL_IGNORED_19, CONTROL_END };
 static unsigned char ignored11[] = { CONTROL_IGNORED_11, CONTROL_END };

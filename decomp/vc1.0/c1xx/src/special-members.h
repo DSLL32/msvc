@@ -1,6 +1,7 @@
 #ifndef SPECIAL_MEMBERS_H
 #define SPECIAL_MEMBERS_H
 #include "class-finalization.h"
+#include <recon.h>
 /* One 28-byte record per default/copy constructor, assignment and destructor.
    The word view also admits the native model -1 prefix accesses used while
    classifying declarations without an associated this type. */

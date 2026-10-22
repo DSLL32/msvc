@@ -1,6 +1,7 @@
 /* Literal WORD/DWORD, byte-string and wide-string RCDATA contents. */
 #include "tokens.h"
 #include "resource-data.h"
+#include <recon.h>
 
 /* Original 0x0100adb0..0x0100af6e. */
 void __stdcall parse_raw_data(struct ResourceInfo *resource)

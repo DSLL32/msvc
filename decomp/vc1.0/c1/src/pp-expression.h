@@ -1,6 +1,7 @@
 #ifndef PP_EXPRESSION_H
 #define PP_EXPRESSION_H
 #include "preprocessor.h"
+#include <recon.h>
 
 /* Compact constant descriptor used by the preprocessor evaluator. */
 typedef struct PreprocessorValue {

@@ -1,5 +1,6 @@
 #ifndef RECON_SHIMS_H
 #define RECON_SHIMS_H
+#include <trace-abi.h>
 /* Empty in the canonical Win32 build. Include last, after ordinary includes. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 /* Consume host declarations before any token remapping. Project headers may
@@ -16,6 +17,11 @@
 #include <time.h>
 #include <setjmp.h>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <wchar.h>
+#include <signal.h>
+#include <float.h>
+#include <sys/timeb.h>
 #include <win32.h>
 
 #define _MAX_PATH 260
@@ -33,7 +39,7 @@ typedef struct ShimFILE {
 typedef char ReconFileIs32[(sizeof(ShimFILE)==32)?1:-1];
 struct recon_stat { long st_size; };
 extern ShimFILE recon_iob[20];
-extern unsigned char recon_osfile[256];
+extern unsigned char recon_osfile[];
 extern unsigned recon_nhandle;
 extern int recon_fmode,recon_commode,recon_cflush,recon_umaskval;
 extern unsigned long recon_doserrno,recon_lc_handle[6];
@@ -45,8 +51,37 @@ extern long recon_timezone;
 extern int recon_daylight;
 extern char *recon_tzname[2];
 extern int recon_days[13],recon_fltused,recon_tmpoff;
+extern char *recon_decimal_point;
+#ifndef SIGBREAK
+#define SIGBREAK 21
+#endif
+#ifndef _UPPER
+#define _UPPER 1
+#define _LOWER 2
+#define _DIGIT 4
+#define _SPACE 8
+#define _PUNCT 16
+#define _CONTROL 32
+#define _BLANK 64
+#define _HEX 128
+#define _ALPHA 0x103
+#endif
+#ifndef _IOREAD
+#define _IOREAD 1
+#define _IOWRT 2
+#define _IORW 0x80
+#define _IOMYBUF 8
+#define _IOEOF 0x10
+#define _IOERR 0x20
+#define _IOSTRG 0x40
+#endif
 
 ShimFILE *recon_fopen(const char *,const char *);
+ShimFILE *recon_freopen(const char *,const char *,ShimFILE *);
+void recon_setbuf(ShimFILE *,char *);
+int recon_flushall(void),recon_fcloseall(void),recon_flsbuf(int,ShimFILE *);
+int recon_dup(int),recon_dup2(int,int);
+int _fileno(ShimFILE *);
 int recon_fclose(ShimFILE *),recon_fflush(ShimFILE *);
 size_t recon_fread(void *,size_t,size_t,ShimFILE *);
 size_t recon_fwrite(const void *,size_t,size_t,ShimFILE *);
@@ -72,20 +107,28 @@ int recon_alloc_osfhnd(void),recon_set_osfhnd(int,long);
 long recon_get_osfhandle(int);
 void recon_dosmaperr(unsigned long),recon_getbuf(ShimFILE *),recon_freebuf(ShimFILE *);
 int recon_flush(ShimFILE *),recon_filbuf(ShimFILE *);
-int recon_remove(const char *),recon_rename(const char *,const char *);
+int recon_remove(const char *),recon_unlink(const char *),recon_rename(const char *,const char *);
 void recon_splitpath(const char *,char *,char *,char *,char *);
 void recon_makepath(char *,const char *,const char *,const char *,const char *);
 char *recon_fullpath(char *,const char *,size_t),*recon_strupr(char *),*recon_strlwr(char *);
 char *recon_ultoa(unsigned long,char *,int),*recon_itoa(int,char *,int);
 char *recon_mktemp(char *),*recon_tempnam(const char *,const char *);
+char *recon_strcpy(char *,const char *);
 char *recon_getpath(const char *,char *,int);
 int recon_wcscmp(const WCHAR *,const WCHAR *);
+size_t recon_wcslen(const WCHAR *);
+WCHAR *recon_wcscpy(WCHAR *,const WCHAR *),*recon_wcsncpy(WCHAR *,const WCHAR *,size_t);
+unsigned recon_control87(unsigned,unsigned),recon_controlfp(unsigned,unsigned);
+void recon_ftime(struct _timeb *);
+typedef void (*ReconSignalHandler)(int);
+ReconSignalHandler recon_signal(int,ReconSignalHandler);
 int recon_isctype(int,int),recon_toupper(int),recon_tolower(int);
 void recon_tzset(void),recon_endstdio(void),recon_rmtmp(void);
 int recon_isindst(struct tm *);
 int recon_spawnve(int,const char *,const char *const *,const char *const *);
 int recon_spawnvpe(int,const char *,const char *const *,const char *const *);
 int recon_spawnvp(int,const char *,const char *const *);
+int recon_spawnv(int,const char *,const char *const *);
 int recon_spawnl(int,const char *,const char *,...);
 int recon_spawnlp(int,const char *,const char *,...);
 int recon_cenvarg(const char *const *,const char *const *,char **,char **,const char *);
@@ -114,7 +157,13 @@ void recon_unsupported(const char *);
  X(HGLOBAL,GlobalAlloc,(UINT,DWORD)) X(HGLOBAL,GlobalFree,(HGLOBAL)) \
  X(int,MultiByteToWideChar,(UINT,DWORD,LPCSTR,int,LPWSTR,int)) \
  X(int,WideCharToMultiByte,(UINT,DWORD,LPCWSTR,int,LPSTR,int,LPCSTR,BOOL *)) \
- X(int,LCMapStringW,(DWORD,DWORD,LPCWSTR,int,LPWSTR,int))
+ X(int,LCMapStringW,(DWORD,DWORD,LPCWSTR,int,LPWSTR,int)) \
+ X(UINT,GetConsoleCP,(void)) X(BOOL,GetCPInfo,(UINT,CPINFO *)) \
+ X(UINT,SetHandleCount,(UINT)) \
+ X(BOOL,GetConsoleScreenBufferInfo,(HANDLE,CONSOLE_SCREEN_BUFFER_INFO *)) \
+ X(void,GetLocalTime,(SYSTEMTIME *)) \
+ X(LONG,RtlAnsiStringToUnicodeString,(struct UnicodeString *,struct AnsiString *,BYTE)) \
+ X(LONG,RtlUnicodeStringToAnsiString,(struct AnsiString *,struct UnicodeString *,BYTE))
 #define RECON_DECLARE_WIN32(result,name,args) result WINAPI recon_##name args;
 RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #undef RECON_DECLARE_WIN32
@@ -126,6 +175,15 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __except(filter) else if (0)
 #define FILE ShimFILE
 #define wcscmp recon_wcscmp
+#define wcslen recon_wcslen
+#define wcscpy recon_wcscpy
+#define wcsncpy recon_wcsncpy
+#define _control87 recon_control87
+#define _controlfp recon_controlfp
+#define _ftime recon_ftime
+#define signal recon_signal
+#undef MB_CUR_MAX
+#define MB_CUR_MAX recon_mb_cur_max
 #undef stdin
 #undef stdout
 #undef stderr
@@ -141,6 +199,27 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define getchar() recon_fgetc(stdin)
 #define putchar(c) recon_fputc((c),stdout)
 #define fopen recon_fopen
+#define freopen recon_freopen
+#define setbuf recon_setbuf
+#define flushall recon_flushall
+#define _flushall recon_flushall
+#define _fcloseall recon_fcloseall
+#define _flsbuf recon_flsbuf
+#define _fileno recon_fileno
+#define read recon_read
+#define write recon_write
+#define close recon_close
+#define dup recon_dup
+#define _dup recon_dup
+#define dup2 recon_dup2
+#define _dup2 recon_dup2
+#define unlink recon_unlink
+#define _unlink recon_unlink
+#define mktemp recon_mktemp
+#define strupr recon_strupr
+#define strlwr recon_strlwr
+#define stricmp strcasecmp
+#define strnicmp strncasecmp
 #define fclose recon_fclose
 #define fflush recon_fflush
 #define fread recon_fread
@@ -166,10 +245,11 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define fileno recon_fileno
 #define remove recon_remove
 #define rename recon_rename
-#define time recon_time
+#define time(...) recon_time(__VA_ARGS__)
 #define exit recon_exit
 #define _open recon_open
 #define _sopen recon_sopen
+#define strcpy recon_strcpy
 #define _openfile recon_openfile
 #define _read recon_read
 #define _write recon_write
@@ -178,6 +258,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _tell recon_tell
 #define _filelength recon_filelength
 #define _chsize recon_chsize
+#define access recon_access
 #define _access recon_access
 #define _stat recon_stat
 #define _alloc_osfhnd recon_alloc_osfhnd
@@ -201,6 +282,11 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _isctype recon_isctype
 #define _endstdio recon_endstdio
 #define _rmtmp recon_rmtmp
+#define _spawnv recon_spawnv
+#define spawnv recon_spawnv
+#define spawnvp recon_spawnvp
+#define spawnve recon_spawnve
+#define spawnvpe recon_spawnvpe
 #define _spawnve recon_spawnve
 #define _spawnvpe recon_spawnvpe
 #define _spawnvp recon_spawnvp
@@ -209,6 +295,11 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _cenvarg recon_cenvarg
 #define _isindst recon_isindst
 #define _osfile recon_osfile
+#define _osfhnd recon_osfhnd
+#define _decimal_point recon_decimal_point
+#define _atoldbl recon_atoldbl
+#define __mtold12 recon_mtold12
+#define __multtenpow12 recon_multtenpow12
 #define _nhandle recon_nhandle
 #define _fmode recon_fmode
 #define _commode recon_commode
@@ -256,6 +347,13 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define MultiByteToWideChar recon_MultiByteToWideChar
 #define WideCharToMultiByte recon_WideCharToMultiByte
 #define LCMapStringW recon_LCMapStringW
+#define GetConsoleCP recon_GetConsoleCP
+#define GetCPInfo recon_GetCPInfo
+#define SetHandleCount recon_SetHandleCount
+#define GetConsoleScreenBufferInfo recon_GetConsoleScreenBufferInfo
+#define GetLocalTime recon_GetLocalTime
+#define RtlAnsiStringToUnicodeString recon_RtlAnsiStringToUnicodeString
+#define RtlUnicodeStringToAnsiString recon_RtlUnicodeStringToAnsiString
 #undef toupper
 #define toupper recon_toupper
 #undef tolower

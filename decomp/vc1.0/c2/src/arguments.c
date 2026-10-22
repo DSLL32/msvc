@@ -1,5 +1,6 @@
 /* Compiler argument handling; options supplied through MSC_CMD_FLAGS. */
 #include "c2.h"
+#include <recon.h>
 char **copy_arguments(void);
 /* Original [000710f0,00071180). */
 void __fastcall append_environment_arguments(char *flags)

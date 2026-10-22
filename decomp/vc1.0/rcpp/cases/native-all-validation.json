@@ -1,0 +1,254 @@
+{
+  "status": "passed",
+  "scope": "Native workflow adoption only; no new reconstruction, cases, original captures or frontier acceptance",
+  "build": {
+    "architecture": "i386",
+    "debug_flags": "-O0 -g",
+    "shared_link": "compatibility/tracing C linked directly; no archive",
+    "final_verification": [
+      {
+        "label": "native-final-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "build/native-trace/option-check",
+          "build/native-trace/classifier-check",
+          "build/native-trace/message-check"
+        ],
+        "elapsed_seconds": 0.0098625048995018,
+        "exit": 0
+      },
+      {
+        "label": "native-final-output",
+        "command": [
+          "python3",
+          "scripts/check-native.py"
+        ],
+        "elapsed_seconds": 0.34368599113076925,
+        "exit": 0
+      },
+      {
+        "label": "native-final-check",
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "elapsed_seconds": 0.7064925823360682,
+        "exit": 0
+      },
+      {
+        "label": "native-final-rejections",
+        "command": [
+          "make",
+          "-j4",
+          "native-reject-check"
+        ],
+        "elapsed_seconds": 0.14043154660612345,
+        "exit": 0
+      }
+    ],
+    "timing_caveat": "Final native build timing is an up-to-date verification. Final shared-tracer relink succeeded but elapsed build time was not measured. No clean-build timing is claimed for the final tracer."
+  },
+  "canonical_original_toolchain": {
+    "command": [
+      "make",
+      "-j4",
+      "build/rcpp.exe",
+      "build/native-option-check.obj",
+      "build/native-message-check.obj",
+      "build/native-classifier-check.obj",
+      "audit"
+    ],
+    "elapsed_seconds": 10.584026612341404,
+    "exit": 0
+  },
+  "canonical_checks": [
+    "original compiler compiles full Win32 target and three native-probe sources",
+    "161 accepted nonimport complete CFG call sets",
+    "358 code/data extent boundaries and data/alias audits"
+  ],
+  "case_count": 20,
+  "production_case_count": 19,
+  "direct_helper_case_count": 1,
+  "application_definitions": 112,
+  "application_first_entries": 112,
+  "exact_observables": [
+    "exit status",
+    "raw stdout/stderr",
+    "complete artifact set and bytes",
+    "unchanged input bytes",
+    "cached original projected application first-entry sequence"
+  ],
+  "process_boundary": "Every ELF fixture launch attaches a deny-all SpawnBroker; zero child requests in all 20 cases; actual valid native ELF self-spawn rejection verified",
+  "receipt_files": {
+    "native-validation.json": {
+      "path": "cases/native-validation.json",
+      "bytes": 16169,
+      "sha256": "100c3b5ac3ba225d276344d56924ad91d00926286a52862de94246dfce3df856"
+    },
+    "native-trace-validation.json": {
+      "path": "cases/native-trace-validation.json",
+      "bytes": 16185,
+      "sha256": "1b4863054804b45919050968baad18d373511a99045a667efe34c59d15ff19ea"
+    },
+    "native-classifier-validation.json": {
+      "path": "cases/native-classifier-validation.json",
+      "bytes": 119,
+      "sha256": "0bf738b9576f7688b0b6a1227da13ef5146956f7aa789873bb78e9010731baa2"
+    },
+    "native-message-validation.json": {
+      "path": "cases/native-message-validation.json",
+      "bytes": 205,
+      "sha256": "2c1be27df3a7cc39be592a0f98d1015d1f02c1d9b5c93dd83c923ea539a71883"
+    },
+    "native-rejection-validation.json": {
+      "path": "cases/native-rejection-validation.json",
+      "bytes": 586,
+      "sha256": "9871404bc5e85490bd0e22e227f15196ae0150ee7bd06b2ee3f1aa3216c8ee08"
+    }
+  },
+  "trace_execution": {
+    "executable_sha256": "c5d5d5d2f021054eef22a9b06c0f04313a9d3584ef0a2899c2e48252138feecc",
+    "cache_sha256": "64f60ac1fb073bfff2614fa152641b5479766faaa44cd88b757bb32bd2299c27",
+    "preparation_seconds": 0.05403665732592344,
+    "timing_totals": {
+      "setup_seconds": 0.13370706047862768,
+      "execution_seconds": 0.12118380889296532,
+      "check_seconds": 0.03320243302732706
+    },
+    "elapsed_seconds": 0.2926298212260008,
+    "run_directory": "/root/.ai-tmp/vc1.0-rcpp/native/trace-amzwvoz5"
+  },
+  "capture": {
+    "performed": false,
+    "seconds": 0,
+    "reference_refresh": false
+  },
+  "rich_stability": {
+    "runs": [
+      {
+        "repeat": 1,
+        "exit": 0,
+        "seconds": 0.22779049072414637
+      },
+      {
+        "repeat": 2,
+        "exit": 0,
+        "seconds": 0.2258002022281289
+      },
+      {
+        "repeat": 3,
+        "exit": 0,
+        "seconds": 0.23038434609770775
+      },
+      {
+        "repeat": 4,
+        "exit": 0,
+        "seconds": 0.2244730368256569
+      },
+      {
+        "repeat": 5,
+        "exit": 0,
+        "seconds": 0.21625630464404821
+      },
+      {
+        "repeat": 6,
+        "exit": 0,
+        "seconds": 0.21646736096590757
+      },
+      {
+        "repeat": 7,
+        "exit": 0,
+        "seconds": 0.22349554579705
+      },
+      {
+        "repeat": 8,
+        "exit": 0,
+        "seconds": 0.2417796654626727
+      },
+      {
+        "repeat": 9,
+        "exit": 0,
+        "seconds": 0.21450665965676308
+      },
+      {
+        "repeat": 10,
+        "exit": 0,
+        "seconds": 0.21638881601393223
+      }
+    ],
+    "successful_runs": 10,
+    "elapsed_seconds": 2.2373424284160137,
+    "scope": "Ten fresh traced resources-rich runs after final shared tracer isolation; exact bytes and projected application entries"
+  },
+  "resolved_tooling_issue": {
+    "cause": "Tracer startup allocations left tracer symbol/ELF bytes in application allocator storage read by the original partially initialized type interning logic.",
+    "fix": "Shared successful-path tracer allocations and stdio replaced by private mmap storage/mapped inputs and in-place heapsort.",
+    "application_workaround": false,
+    "remaining_observed_drift": false,
+    "shared_validation": "68 allocation-rejecting startup checks reported by shared owner; existing tracer/process checks passed"
+  },
+  "native_crt_boundary": {
+    "authorized_omissions": [
+      "startup.c",
+      "arguments.c",
+      "runtime.c",
+      "stubs.c"
+    ],
+    "recovered_file_runtime_retained": true,
+    "native_application_graph_and_abis_preserved": true,
+    "canonical_win32_bodies_retained": true
+  },
+  "console_interrupt": {
+    "actual_native_signal": "SIGINT during independently observed blocked FIFO read",
+    "output_before_bytes": 0,
+    "output_after_bytes": 46,
+    "exit": 1,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "callback_invoked_directly": false,
+    "unsupported_original_state": [
+      "Windows OS-created callback thread",
+      "retained ReadFile-return barrier",
+      "Windows exclusive file sharing state"
+    ]
+  },
+  "native_probe_counts": {
+    "classifier": 40048,
+    "messages": 131080,
+    "option_examples": 10,
+    "option_cleanup_nonvolatile_check": 1
+  },
+  "rejections": [
+    "PE/non-ELF executable rejected before launch",
+    "actual native ELF self-spawn denied before child execution",
+    "wrong cached original first entry",
+    "wrong captured artifact byte",
+    "wrong complete input digest"
+  ],
+  "legacy_execution": {
+    "paired_reconstructed_wine_runner_removed": true,
+    "normal_check_and_replay_wine_dependencies": false,
+    "explicit_original_capture_target": "capture-original",
+    "explicit_canonical_targets": [
+      "win32",
+      "audit",
+      "coverage"
+    ]
+  },
+  "coverage_unchanged": {
+    "accepted_frontiers": 179,
+    "accepted_extent_union_bytes": 35590,
+    "original_code_bytes": 40448,
+    "extent_percentage": 87.98951740506328,
+    "branch_coverage": false,
+    "remaining_identified_native_support_body_bytes": 0,
+    "remaining_crt_body_bytes": 2287,
+    "remaining_crt_import_bytes": 54,
+    "remaining_padding_bytes": 2517
+  },
+  "timing_units": "elapsed wall seconds; single samples with other workers active; setup/execution/check/capture kept separate"
+}

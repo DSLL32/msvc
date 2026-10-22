@@ -1,6 +1,7 @@
 #ifndef SYMBOLS_H
 #define SYMBOLS_H
 #include "c2.h"
+#include <recon.h>
 /* Common prefix of the hashable descriptor variants. */
 typedef struct SymbolHeader {
     struct SymbolHeader *hash_next;

@@ -1,5 +1,6 @@
 #ifndef LINKAGE_H
 #define LINKAGE_H
+#include <recon.h>
 typedef enum LanguageLinkage {
     LINKAGE_DEFAULT = 0,
     LINKAGE_CPP = 1,

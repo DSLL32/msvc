@@ -1,5 +1,6 @@
 /* Logical schemas used by record_line_information (original 0x3a690). */
 #include "control-ir.h"
+#include <recon.h>
 static unsigned char empty_control[] = { CONTROL_END };
 static unsigned char line_control[] = { CONTROL_LINE, CONTROL_END };
 static unsigned char source_control[] = { CONTROL_SOURCE_FILE, CONTROL_END };

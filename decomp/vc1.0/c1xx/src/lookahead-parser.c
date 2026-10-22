@@ -2,6 +2,7 @@
    its 165-entry semantic switch occupies 0x75a54..0x75ce8. */
 #include "lookahead.h"
 #include "lookahead-grammar.h"
+#include <recon.h>
 
 #define POP_LOOKAHEAD_DECLARATION() do { \
     if (declaration_depth > 0) --declaration_depth; \

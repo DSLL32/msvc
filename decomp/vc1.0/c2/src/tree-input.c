@@ -1,6 +1,7 @@
 #include "tree-input.h"
 #include "input.h"
 #include "options.h"
+#include <recon.h>
 /* Original opcode classification at 000857b8. Only the encountered tree properties
    are represented; this is not the original packed flag table. */
 const unsigned short node_shapes[NODE_OPCODE_COUNT] = {

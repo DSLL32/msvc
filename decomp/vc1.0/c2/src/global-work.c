@@ -2,6 +2,7 @@
 #include "global-work.h"
 #include "function-input.h"
 #include "tree-rewrite.h"
+#include <recon.h>
 WorkItem *global_exit_work;       /* 0007ba80: block containing opcode 47 */
 WorkItem *global_entry_work;      /* 0007beb8: block containing opcode 46 */
 FlowRegion *global_flow_regions;  /* 0007beb0: nested region list */

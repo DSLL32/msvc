@@ -2,6 +2,7 @@
 #include "menu.h"
 #include <ctype.h>
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(strlen)
 void __stdcall accelerator_word_operators(WORD *);
 void __cdecl mark_accelerator(void);

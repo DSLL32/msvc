@@ -1,5 +1,6 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
+#include <recon.h>
 /* The PCH configuration snapshot copies this complete logical state. Original
    0x9f798..0x9fa94: 63 scalar slots followed by two 256-byte paths. Reserved
    fields retain their original offsets until their consumers are reached. */

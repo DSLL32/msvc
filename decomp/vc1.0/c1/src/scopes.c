@@ -2,6 +2,7 @@
 #include "builtins.h"
 #include "parser.h"
 #include "global-ir.h"
+#include <recon.h>
 
 SymbolScope *global_scope, *current_scope, *lookup_scope;
 SymbolScope **scope_directory;

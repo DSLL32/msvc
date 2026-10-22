@@ -5,7 +5,7 @@ from pathlib import Path
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32, CS_GRP_JUMP
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM
 from binary import u32
-from compare import indexes
+from reference import indexes
 
 cfg, original, reconstructed, oi, ri = indexes()
 cs = Cs(CS_ARCH_X86, CS_MODE_32)

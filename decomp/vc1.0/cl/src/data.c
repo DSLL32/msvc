@@ -1,4 +1,5 @@
 #include "cl.h"
+#include <recon.h>
 char *frontend_defaults[] = {
     "-ef%e",
     "-il%t",
@@ -17,8 +18,10 @@ char *frontend_defaults[] = {
     "-bCdebug:none",
     NULL
 };
+/* The /D callback temporarily terminates this mutable default at =. */
+static char msc_version_default[] = "-D_MSC_VER=800";
 char *preprocessor_defaults[] = {
-    "-D_MSC_VER=800",
+    msc_version_default,
     "-D_WIN32",
     NULL
 };

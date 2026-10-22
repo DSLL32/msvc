@@ -4,6 +4,7 @@
 #include "resource.h"
 #include <ctype.h>
 #include <stdlib.h>
+#include <recon.h>
 
 /* Original 0x01009540..0x01009646. */
 BOOL __cdecl parse_resource_identifier(void)

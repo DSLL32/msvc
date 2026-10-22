@@ -6,7 +6,7 @@ from pathlib import Path
 from collections import defaultdict
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32, CS_GRP_JUMP
 from capstone.x86 import X86_OP_IMM, X86_OP_MEM
-import compare
+import reference_indexes as compare
 from binary import u32
 
 decoder = Cs(CS_ARCH_X86, CS_MODE_32)

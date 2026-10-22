@@ -1,6 +1,7 @@
 #ifndef BACKEND_PASSES_H
 #define BACKEND_PASSES_H
 #include "backend-flow.h"
+#include <recon.h>
 void prepare_backend_symbols(void);
 void initialize_output_callbacks(void);
 void __fastcall write_module_listing(char *source);

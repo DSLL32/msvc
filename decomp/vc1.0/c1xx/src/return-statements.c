@@ -2,6 +2,7 @@
 #include "return-statements.h"
 #include "binary-expressions.h"
 #include "lexer.h"
+#include <recon.h>
 
 /* Original 0x50250..0x50764, stdcall 8. The return expression, temporary
    cleanup and function-exit branch remain separate native operations. */

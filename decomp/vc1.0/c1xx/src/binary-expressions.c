@@ -3,6 +3,7 @@
    the source switch below, rather than copied addresses or instructions. */
 #include "binary-expressions.h"
 #include "lexer.h"
+#include <recon.h>
 
 unsigned integer_constant_scratch; /* original 0x912e8: shared constant payload */
 long maximum_signed_int_constant = 0x7fffffffL; /* original 0x9fc20 */

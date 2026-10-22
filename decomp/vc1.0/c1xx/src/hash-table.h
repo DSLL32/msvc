@@ -1,5 +1,6 @@
 #ifndef HASH_TABLE_H
 #define HASH_TABLE_H
+#include <recon.h>
 
 typedef struct HashEntry {
     void *key, *value;

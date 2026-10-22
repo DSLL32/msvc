@@ -1,6 +1,7 @@
 #ifndef RC_CRT_RUNTIME_H
 #define RC_CRT_RUNTIME_H
 #include "rc.h"
+#include <recon.h>
 typedef void (__cdecl *CRTCallback)(void);
 extern CRTCallback _FPinit;
 extern CRTCallback *__onexitbegin, *__onexitend;

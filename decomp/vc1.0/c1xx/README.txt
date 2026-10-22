@@ -18,28 +18,50 @@ the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
 
-Build and check the current frontier using the original toolchain:
+Native regression commands (run from this binary directory):
 
-    make -j2
-    make -j2 check
+    make -j4 check
+    make -j4 replay
+    make -j4 native-check
+    make -j4 native-rejections
 
-make replay checks the recorded first-encounter sequence with continuous live unmasking. scripts/compare.py --runtime
-advances only exact original CRT/import matches, stopping at the next native
-frontier. functions.json records the accepted order and original ranges.
-scripts/identify-runtime.py matches library bytes while checking relocated direct-call
-and jump destinations, so a similarly shaped but unrelated CRT routine is not
-silently substituted. Driver call targets are audited by scripts/audit-graph.py.
+check and replay use the instrumented i386 Linux binary and cached original
+application first-entry history. native-check is the output-only variant.
+No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
+functions.json retains the accepted original ranges/order; cases/native-traces.json
+projects that original history to all 911 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 455 first
+entries: 454 accepted frontend functions plus initialize_object_value, whose INT3
+must terminate with SIGTRAP. No new reconstruction was accepted during migration.
 
-Both on-disk original and reconstructed .text copies are masked with INT3.
-Only accepted whole-function extents and explicitly recorded shared text data
-are restored. The original toolchain files are never modified. The pair runs
-concurrently with identical MSC_CMD_FLAGS, isolated working directories, closed
-stdin, captured output and a debugger that terminates on the next trap. At
-matching frontiers, visible file sets, contents and pending FILE buffer bytes are compared without
-flushing or altering the child. At successful
-completion, streams, statuses and all four intermediate files must also match
-the independent original fixture exactly. Scratch and a private 32-bit Wine
-prefix live under ~/.ai-tmp/vc1.0-c1xx.
+Visible streams and all four intermediate files are compared byte-for-byte:
+irex is six bytes and irsy/irin/irgl are empty at this partial frontier. These
+are original-backed cached terminal bytes, independent of the reconstruction.
+Pending CRT buffers were checked by the earlier original paired evidence; the
+native regression compares visible artifacts and does not claim that live-state
+oracle. Complete frontend output is still not reached.
+
+The native final link compiles shared lib/recon C directly, without an archive.
+Only application objects are instrumented; reconstructed runtime.c and shared
+shims are excluded. Prefix/seen state is explicit and shared-FD ready; this
+case's prefix is empty and it has no children. Every process request is rejected.
+Only native compatibility is supplied by lib/recon; Win32 APIs, original source
+ABIs, layouts, and function bodies are preserved.
+
+Explicit reference/compiler operations are separate:
+
+    make -j4 win32
+    make -j4 audit
+    make -j4 reference-capture
+
+The default all target builds native-trace. win32 builds with the original
+toolchain in the private Wine prefix. audit reads
+both canonical binaries to check function graphs, ABIs and contextual data;
+it does not execute either target. reference-capture executes only the masked
+original in a new scratch directory and never updates checked-in references.
+The old paired Wine regression and fallback runners have been removed. Historical
+receipts/logs below remain evidence of the acceptance process that produced the
+current checkpoint. Scratch lives under ~/.ai-tmp/vc1.0-c1xx.
 
 The only inline assembly currently used in native source is INT3 in named
 unreconstructed stubs, as required by the reconstruction protocol. Native
@@ -47,7 +69,7 @@ implementations use readable C; original CRT code is linked from the original
 library after exact matching. No executable data sections are copied into C.
 
 The original CRT __fmode is 0x8000 at VA 0xaa3bc. BINMODE.OBJ supplies that
-same binary-default setting to this reconstruction; scripts/compare.py checks the
+same binary-default setting to this reconstruction; scripts/win32_indexes.py checks the
 original and rebuilt globals against the recorded value. The PCH configuration
 snapshot is represented by the typed CompilerConfiguration structure, with an
 asserted size of 764 bytes. Its two path buffers and known flags are named;
@@ -716,13 +738,13 @@ member-pointer constructor's provisional signature is corrected to accept a
 QualifiedDeclarator; parser calls preserve its stdcall ABI. Evidence and the
 native unrecognized-operation fallthrough are in evidence/builtin-unary.txt.
 
-The full-oracle history runs four isolated frontier pairs with scripts/replay-fresh.py;
+The historical full-oracle history ran four isolated frontier pairs;
 --jobs selects one to eight pairs. Each pair invokes the full comparator, with
 private masked images, working folders and event/output logs. Every frontier
 still checks exact files, stdout/stderr, pending FILE buffers, logical callers
 and all eleven runtime observations. Frozen source, build, harness, original
 target and fixture hashes are verified before and after the final ordinary
-comparison. Serial full-oracle replay remains python3 scripts/compare.py --replay.
+comparison. Those paired runners are retired; the immutable receipts remain.
 
 All 420 frontiers pass in evidence/replay-builtin-unary.log (102.118 seconds),
 with the frozen receipt in evidence/replay-builtin-unary-receipt.json. Current
@@ -1042,7 +1064,7 @@ a new historical replay. Evidence: evidence/initialize-object-wrapper.txt.
 
 No build, debugger or replay is pending. The larger initializer dispatcher is
 still a named trap, with read-only Ghidra/raw analysis in the worker's scratch.
-Resume only when explicitly requested: make -j2 check, then reconstruct
+Resume only when explicitly requested: make -j4 check, then reconstruct
 initialize_object_value@8 as a whole function and continue the established paired
 process. Run the full frozen history at the next normal batch checkpoint.
 The assigned frontend case remains incomplete.
@@ -1056,62 +1078,10 @@ historical receipts retain the original frozen path names as evidence of those
 runs; they do not describe current source locations.
 
 
-Ordinary historical replay uses the shared walker in tooling/replay/ at the
-repository root. The C1XX adapter is scripts/fast_replay_adapter.py. Commands
-continue to run from this binary directory:
-
-    make replay
-    make replay-fresh
-    make replay-verify
-    python3 scripts/replay-frontiers.py --stop-at 100
-    python3 scripts/replay-frontiers.py --fresh-stop-at 100
-
-The fast path restores complete accepted functions and shared text at their
-first entry, checks the frozen logical transcript and the named terminal, then
-compares ordinary output files and streams exactly. Completed cases additionally
-reuse the captured four-file oracle. It does not inspect live state at every
-stop. The existing fresh comparator remains the focused reconstruction loop and
-retains its fourteen state fields, pending FILE buffers and logical callers.
-
-Case metadata records accepted_from/accepted_count and an explicit terminal.
-A new next terminal must come from a successful fresh paired check; a fast run
-cannot update or infer it from its own observations. The terminal stays masked.
-The original C1XX argv0, MSC_CMD_FLAGS-only environment, closed stdin, fixture
-inputs and private Wine prefix are preserved; these simple cases declare one
-process and the main thread. Both images must load at their preferred base.
-
-On divergence the shared walker retains process/thread identity, image base,
-frontier index and register/caller context under its scratch run directory.
-Use --fresh-stop-at INDEX to repeat that frontier with the full original oracle,
-or --stop-at INDEX for a clean continuous rerun ending at the same boundary.
-Each rerun starts new processes and fresh case directories. --fresh replays the
-whole historical suite; it remains available regardless of the default.
-Historical first encounters are not complete call/branch traces or branch coverage.
-
-
-Migration verification passed for cpp_basic: all 534 first encounters, prefix 0
-and the masked initialize_object_value@8 terminal match the full fresh transcript
-on one frozen build. Raw visible files and streams are exact; the frontend case
-is still incomplete, so final captured four-stream hashes are not yet reached.
-The default history now uses fast replay. No target function was reconstructed
-for this migration; all 153 moved C/header/include/grammar files are byte-identical.
-Clean make -j2 check, the full 534 fresh history and adapter rejection/fallback
-checks pass. Shared bad-restore/exception/child/thread/timeout checks are in the
-root-owned tooling/replay/scripts/check.py suite.
-
-Measured cpp_basic timing, with other workers active (seconds):
-  standalone fast process wall             3.921
-  fast pair                               3.231
-  case/restore-plan setup                  0.397
-  input freeze setup                      0.083
-  final file/stream oracle                 0.001
-  final frozen-input verification          0.057
-  cached helper ensure-built check         0.003
-  full fresh reference                   133.849
-The separate definitive comparison observed a 1.428-second fast pair. Timings vary
-with concurrent work; these are observed runs. Standalone wall includes startup,
-receipt serialization and exit, which internal phase timings exclude. Warm prefix
-setup was unchanged and not timed. The successful clean target build was not
-timed; helper compilation was already cached. No unsplit time is labeled as a
-measured compilation cost. Detailed timings, frozen receipts and failure-check
-evidence are indexed in evidence/fast-replay-validation.json.
+Native migration verification and measurements are recorded in
+cases/native-all-validation.json. Existing frozen original evidence remains in
+evidence/fast-replay-verification-receipt.json and
+cases/native-cpp-basic/manifest.json; the historic receipt name describes its
+capture mechanism, not a current executable dependency. No automatic recapture
+or paired Wine fallback remains. Historical fast/full replay timing receipts
+are preserved under evidence/ and are not native benchmark measurements.

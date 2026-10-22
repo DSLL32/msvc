@@ -1,273 +1,113 @@
-RC.EXE reconstruction, Visual C++ 1.0 for Windows NT
-===================================================
+vc1.0 RC.EXE reconstruction
+==========================
 
-Target: toolchains/1.0-nt/bin/RC.EXE
-SHA-256: eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591
-Image base: 0x01000000; entry: 0x01011950.
+Target: toolchains/1.0-nt/bin/RC.EXE (resource compiler 3.10).
+SHA256: eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591.
+Reconstructed C and headers live in src/; utilities live in scripts/.
+Run make and scripts from this binary folder. Scratch is ~/.ai-tmp/vc1.0-rc.
 
-Initial case:
-    RC.EXE /dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc
+Native reconstruction tests
+---------------------------
+    make -j4 native
+    make -j4 native-trace
+    make -j4 check
+    make -j4 replay
+    python3 scripts/check-native-rejections.py
 
-The read-only case and exact original oracle are in
-../fixtures/resources-rich. Expected success has empty stdout/stderr and an
-exact 3,684-byte resources.res with 19 records. Original RCPP is intentionally
-used as RC's child; a separate reconstruction owns that executable.
+check and replay both run the native instrumented i386 executable against the
+cached original application first-entry segments and existing case oracles.
+Neither target has a Wine or original-toolchain build prerequisite. native-check
+runs the separate output-only ELF build. Native objects use -O0 -g; GDB can use
+source names and preserved stdcall/fastcall declarations. The shared compatibility
+sources under ../../../lib/recon compile directly at final link, without an
+archive or application instrumentation. Include <recon.h> last in reconstructed
+C/header include lists; it is empty for the original Win32 compiler.
 
-The initial rich resource case completes with exactly the captured output. The
-binary remains partly reconstructed: pending functions have typed named INT3
-stubs, and this case does not establish coverage of every input or branch. The
-accepted order and original function/code-data extents are in functions.json;
-validation.json records the complete durable replay and remaining named stubs.
-The rich case, seven local follow-ups and eight shared follow-ups complete; this is not a claim
-that all original functions have been identified or all branches exercised.
+The suite has 16 CLI cases and two explicitly labelled direct helper cases:
+resources-rich, help, invalid-switch, missing-input, alternate, lexical-error,
+parser-error, resource-error, kanji, wide-long, preprocessor-error, rcinclude,
+scanf-pushback, console-interrupt, verbose-names, path-fallback, and the whitespace
+and basename helpers. The rich case covers menus, dialogs/controls, multilingual
+strings, accelerators, icon/cursor groups, bitmap/raw/custom resources, FONT,
+DLGINCLUDE, message tables and VERSIONINFO. Other cases cover older image formats,
+CP932 KANJI ranges, Unicode escapes, native RCINCLUDE rewriting and diagnostics.
 
-Build and differential checks
------------------------------
-    make -j2
-    make -j2 check
-    make replay
+scripts/native-traces.py projects the frozen original acceptance history onto
+137 source-backed application definitions. Both sides exclude CRT, imports and
+shims. Prefix functions are seeded as already seen; repeated calls are not a
+new entry. Native object definitions must match this classification, including
+the three explicitly retained mixed-file CRT routines. The native entry adapter
+and shared shims are not reconstructed application functions. Each case has a
+fresh trace/state file; the shared state descriptor supports synchronous child
+history, although RC currently uses captured external RCPP responses. This is
+first-encounter regression evidence, not branch coverage or complete dataflow.
 
-Reconstructed C, headers and linker definitions are in src/. Build and
-verification scripts are in scripts/. Run the commands below from this binary
-folder; cases/, metadata and generated build/ paths keep their prior roles.
-
-Builds use the original CL.EXE and LINK.EXE through Wine. scripts/wine-tool.py creates
-its own prefix under ~/.ai-tmp/vc1.0-rc/wine and maps T: to the original
-1.0-nt toolchain so header paths are stable. Each debugger run gets a separate
-copy of the case under ~/.ai-tmp/vc1.0-rc. The local build/rcpp.exe symlink points
-to original RCPP.EXE; neither original binary nor fixture is edited.
-
-scripts/compare.py masks the entire backed code section in both executables and restores
-only accepted functions plus explicitly recorded adjacent text data. It launches
-both masked processes concurrently and rejects a different logical trap or an
-interior trap. --accept NAME first verifies the matching current frontier,
-records that whole function, and reruns. --advance-runtime advances exact CRT
-and import matches one verified frontier at a time. make replay repeats every
-accepted frontier from a fully masked entry in the case that first reached it,
-then checks all completed cases. --case NAME selects one case; make check checks
-every completed case.
-Successful final runs require exact raw streams, status and captured product bytes,
-and the exact complete case file set, including unchanged input files and no
-unexpected products or leftover temporary files. The verbose-names case has
-the explicit two-field native-PID stdout comparison described below.
-
-Early PE section headers have VirtualSize=0. scripts/binary.py uses backed raw sizes
-for the code extent and returns zeros for uninitialized sections; BSS
-is not interpreted as executable-file bytes at raw offset zero.
-
-Follow-up cases
----------------
-The local cases/ directory retains exact original streams/products and input
-hashes for seven additional cases:
-  help             /?; all 424 help bytes go to stdout, exit 0.
-  invalid-switch   /z; fatal diagnostic, exit 1.
-  missing-input    Missing source; diagnostic, exit 1, no output/temp files.
-  alternate        Expressions, explicit 0o octal, custom dialog CLASS,
-                   adjacent VERSIONINFO strings, FONT/FONTDIR and both old
-                   2.03 image-header forms; exact 940-byte resource product.
-  lexical-error    Unknown resource keyword; RW2001, exit 1.
-  parser-error     Invalid dialog caption; RW2002, exit 1.
-  resource-error   Invalid legacy image format; RW2003, exit 1.
-
-    python3 scripts/capture-original.py
-    python3 scripts/compare.py --case alternate
-
-scripts/capture-original.py reruns the untouched RC.EXE and verifies saved oracle files
-and manifests. --record deliberately refreshes those local captures. It never
-writes the shared rich fixture. scripts/make-alternate-assets.py generates the
-small input images and font metadata; no binary data came from an executable.
-The font input exercises RC's observed 148-byte directory-header reader and
-name offsets. It is a deliberately minimal parser fixture, not a renderable
-font: RC copies its file bytes and extracts directory information without
-validating glyphs. Uninterpreted font metrics stay in a contextual input-header
-structure alongside the two file offsets RC actually uses.
-
-The parent-owned read-only ../fixtures/resources-encoding suite adds:
-  kanji                /x /l411 /Iinclude /foencoding.res encoding.rc
-                       Native lead-byte ranges, Japanese byte strings in menus,
-                       dialog and STRINGTABLE, and escaped wide RCDATA. Exact
-                       480-byte output, exit 0, no diagnostics.
-  wide-long            /x /l411 /fowide-long.res wide-long.rc
-                       A 300-character wide string and Unicode escapes. Exact
-                       700-byte output, exit 0, no warning.
-  preprocessor-error   /x /fofailed.res preprocessor-error.rc
-                       Missing include: exact child RC1015 on stderr (100 bytes),
-                       RC RW1016 on stdout (69 bytes), exit 1, no products/temps.
-
-The parent-owned ../fixtures/rc-targeted suite adds:
-  rcinclude            /x /forcinclude.res rcinclude.rc
-                       Mixed-case native RCINCLUDE, bare filename boundaries,
-                       intentional leading/trailing whitespace, two parts and
-                       nested ordinary includes/macros. Exact 344-byte output.
-  scanf-pushback       /x /l411z /fopushback.res pushback.rc
-                       The original accepts trailing z after hexadecimal 411.
-                       Non-EOF pushback preserves the string-stream byte and
-                       produces an exact 68-byte resource with language 0x411.
-Both exit 0, have empty streams and remove all temporary files. Source whitespace
-is pinned and copied byte for byte, including whitespace in rcinclude.rc.
-
-Shared manifests, source/output bytes and original RCPP identity are pinned
-and independently verified by scripts/capture-original.py. All source/ files are copied
-into isolated case directories. No host codepage/locale changes, PID overrides
-or stream normalization are used. --record refuses shared-suite mutation.
-The runtime harness also requires the child symlink to resolve to original RCPP.
-
-The native KANJI scanner preserves lead/trail pairs and its own escape/quote
-rules. Unlike the ANSI scanner, its token length includes the terminating NUL.
-Its bounds occupy signed WORD fields at offsets 0/4/8/12 in a 16-byte object;
-source compile-time checks and the instruction/layout audit preserve that shape.
-
-Remaining measured limitations include fonts' untested duplicate-ID branch,
-verbose resource reports, other encoding/error branches and exceptional CRT
-paths. The scanf engine is complete recovered C, with its native helper graph;
-mbtowc remains a named trap because these cases do not reach it. ungetc is
-now fully recovered C, retaining all original flag/buffer branches and its
-separate _getbuf call; the new case exercises matching-byte string pushback. Unaccepted named vertices remain masked. The list in validation.json
-counts known vertices only, not every unidentified original function.
-
-Recovery and audit
-------------------
-The process driver is recovered C with original option mutations, INCLUDE
-processing, temporary names, RCPP command construction, error paths and exception
-handling. Custom CRT code retains RC's older command parser, Win32 process-heap
-allocator, path helpers, locale conversion, shared file opening, 512-byte stream
-buffers, formatted output and buffered write behavior. Ordinary literals remain
-in their use context; no data section or machine-code implementation is copied.
-
-RC predates the allocator in shipped LIBC.LIB and LIBCMT.LIB. Its allocator
-calls GetProcessHeap/HeapAlloc/HeapFree, whereas both shipped libraries use
-region/block allocation. The old routines are reconstructed explicitly rather
-than substituted with a different allocator graph. scripts/identify-runtime.py searches
-both libraries and checks relocation-aware code and direct call/jump targets.
-Matching fragments do not authorize a changed private neighbor: differing
-routines are reconstructed separately when encountered. Explicit source records
-override candidate CRT aliases, preventing a small generic library body from
-unmasking an unrelated function with the same candidate name.
-
-scripts/audit-graph.py walks source-function control flow, switch-table targets and SEH
-filters/handlers. It checks a bijection of direct call vertices and function
-address references and compares RET stack cleanup and indirect-call presence.
-It does not claim branch coverage or prove dataflow equivalence by itself;
-paired execution and final byte oracles remain required. It also checks the
-encountered FILE/stream aliases, C-locale classification table and decimal point,
-six floating callback slots and signed KANJI field offsets. Callback targets
-that are identified but unaccepted remain masked, including __fptrap.
-
-Recovered resource logic includes the dispatcher and type interning, identifiers,
-LANGUAGE, numeric expressions, keyword lookup, memory flags, nested menus,
-dialogs and controls, string tables, accelerators, icon/cursor splitting, Windows
-and OS/2 bitmap headers, raw/custom data, DLGINCLUDE, VERSIONINFO and the .res
-record writer. The debugger snapshots payloads without changing execution: the
-first menu matches all 190 captured bytes and the first dialog matches all 506
-bytes, including its 12 controls. Deferred multilingual string tables and normal
-cleanup produce the complete 3,684-byte product with 19 resource records.
-
-RC also predates shipped LIBC's termination state, scanf engine and private
-stream-flushing helper. Those variants are recovered C, preserving the shared callback walker,
-exit wrappers and stream graph. The graph audit separately verifies all CRT
-initializer/termination callback sequences, including the single __endstdio
-pretermination callback. Exact matched routines keep their original library
-implementation only where their complete bytes and named call targets agree.
-
-Dialog reconstruction preserves the original class/control parser functions,
-WORD-packed scratch layouts, style handling and private wide-number helpers.
-The graph audit follows a known tail-call target when deriving stack cleanup,
-so an original optimized tail jump can be compared with an idiomatic C wrapper
-without introducing assembly or accepting an unknown return convention.
-
-RC calls NTDLL's counted-string conversion routine directly. The shipped SDK has
-no NTDLL import library. src/ntdll.def and scripts/import-library.py use original LIB.EXE to
-generate one, retaining stdcall COFF link symbols and removing their @12 suffix
-only from generated DLL lookup-name records. The script copies no target data
-or code and adds no conversion-wrapper function to the original graph.
-
-Source INT3 instructions are pending-function traps. The debugger helper is
-analysis tooling, separate from the target reconstruction. Assembly listings
-under ~/.ai-tmp/vc1.0-rc are analysis artifacts, not reconstruction source.
-
-Real console interrupt
+Captured RCPP boundary
 ----------------------
-The readonly ../fixtures/rc-interrupt case uses a fresh private two-process
-console and a real group-zero CTRL_C_EVENT. Native successful registration,
-actual OS-created callback thread and argument zero are observed with debugger
-breakpoints. The primary remains behind a lexer-entry barrier while Wine
-services pending SIGINT. There is no callback injection or PID substitution.
-The whole 95-byte BOOL WINAPI interrupt_resource callback is recovered in
-src/finish.c with its original distinct _fcloseall/remove/exit call graph and RET 4.
-Exact status 1, empty streams and deletion of output plus both temporary files
-are required. Its font-directory branch is recovered but not exercised here.
+Thirteen cases require RCPP. They consume independently verified original-only
+captures under cases/native-boundaries; no fixture launches RCPP.EXE or Wine.
+Each capture records exact invocation, relevant environment, full prepared input,
+every attempted input read including transitive includes and missing candidates,
+raw child streams, status and emitted bytes. Every response was independently
+reproduced with untouched original RCPP before adoption. Capture elapsed times
+are separate from native fixture setup/execution/check times.
 
-The analysis-only helper is compiled from the fixture and excluded from RC's
-link. It uses ~/.ai-tmp/vc1.0-rc-interrupt/wine; other cases retain the existing
-private prefix. The fixture also labels the Wine 10 CTRL_BREAK limitation,
-where no registered callback runs. Failed initial delivery-race evidence is
-retained under evidence/console-interrupt-race; the durable replay uses the
-fixed lexer barrier and never accepts or normalizes those failed outcomes.
+The broker checks executable spelling and hash, mode, argv, cwd, environment,
+complete prepared input and the full recorded read set before replying. Unknown
+invocations or changed bytes fail. Only recorded temporary filename tokens in
+RCPP #line directives are bound to RC's actual native PID; every other response
+byte is unchanged. PATHfallback requests a natural ENOENT for absent sibling,
+current-directory and first PATH candidates, then replays the verified original
+RCPP response at the declared existing target. No PE execution is permitted.
 
-Current verified coverage is 46,249 / 53,248 original code-extent bytes (86.86%).
-This is the union of accepted source/CRT extents, shared text data and import
-thunks, clipped to original sections using VirtualSize or backed raw fallback;
-it is not branch coverage. Validation replays all 254 accepted frontiers and
-18 final cases (272 paired outcomes), with 193 source-function graph/ABI checks.
-The final cases comprise 16 CLI cases and 2 explicitly labelled direct ABI cases.
+Every final case checks status, streams, output bytes and the complete remaining
+file set, including unchanged source files and cleanup. verbose-names compares
+all 349 stdout bytes, binding only six-digit fields at offsets 161 and 173 to the
+actual process PID and native RC/RD names. No PID override or broad path/stream
+normalization is used. All resource products are byte-exact.
 
-Measured remaining-code cases
------------------------------
-The immutable ../fixtures/rc-remaining suite adds two original-backed cases.
-verbose-names uses /v with both named resource types and names; its exact
-180-byte product reaches wide_to_ansi and the native NTDLL conversion import.
-Every stdout byte is retained. Only six native PID digits at offsets161 and173
-are symbolic; length349, prefixes RC/RD, all surrounding bytes, stderr, status,
-product and complete case file set are exact. The debugger records the actual
-CreateProcess PID and reads native temporary_input/output objects at successful
-console-handler registration. Fresh pinned source directories prove no first-
-candidate collision. The immutable capture identifies native _mktemp and the
-original fprintf writer; no PID override or broad stream normalization occurs.
+Specialized cases
+------------------
+console-interrupt runs the real native SIGINT shim at a GDB pre-initialize_lexer
+boundary. It snapshots exact source/temporary/empty-output files before signal,
+observes callback argument zero, and requires status 1, empty streams and exact
+cleanup. Windows console membership, Windows signal-created callback threads
+and Windows SEH delivery remain original-only evidence; native Linux signals do
+not claim to reproduce those OS mechanisms.
 
-path-fallback stages RC alone, with no sibling/current-directory RCPP. A
-controlled PATH starts with a nonexistent directory, then a quoted directory
-with a space containing the pinned original RCPP. Its streams are empty and
-its product is exactly68 bytes. src/spawn-search.c recovers the whole older
-_spawnvp/_spawnvpe/_getpath group as distinct C functions with the original
-ABIs and native error/UNC/quoted-PATH branches. The native search parser extent
-is129 bytes; the public wrapper26 and search walker395, excluding alignment.
+The two direct cases run the existing stateless helpers without inventing CLI
+callers: one loop checks all 256 low-byte whitespace inputs; six basename cases
+check NUL-inclusive counts and every output canary. Returned data matches frozen
+original results. Canonical Win32 stdcall cleanup/nonvolatile ABI evidence and
+current original-toolchain function-graph/RET audits are retained separately.
 
-The audit now requires link-map proof of both name/address for reconstruction
-CRT candidates, preventing RET/padding aliases from becoming fake callbacks.
-Its instruction-end guard decodes beyond each accepted extent and rejects an
-end inside an instruction, including CRT/import bodies on both images.
+Original compiler and reference analysis
+----------------------------------------
+    make -j4 reference-build
+    make -j4 reference-audit
 
-scripts/audit-uncovered.py inventories the executable-byte complement rather than
-ranking aliases or one-byte pending stubs. At the original14-case checkpoint,
-7,777 bytes remained:3,622 recognized padding plus4,155 function/region bytes.
-Those two cases recovered642 bytes. At that checkpoint,7,135 bytes remained:
-3,622 padding bytes and3,513 conditional/unused function/region bytes, including
-the 136 provenance-uncertain helper bytes reconstructed below.
-No bytes remain unclassified in this native extent inventory. It distinguishes
-locale-only paths, exception callbacks, startup allocation failure, conditional
-commit/text-resize paths and unused linked CRT siblings from public RC cases.
-The detailed original gap map is frozen with the fixture; uncovered-code.json
-is regenerated by make audit using the current accepted union.
+These explicit operations compile Win32 C with original CL/LINK under Wine and
+perform PE/map graph, ABI, text-boundary, callback-table and data-layout analysis;
+they do not run regression fixtures. scripts/reference_indexes.py contains pure
+PE/map indexing, with no paired runner or execution fallback. Old paired Wine
+regression drivers and masked-image targets have been removed.
 
-Two direct utility cases
-------------------------
-The two provenance-uncertain, apparently unreferenced native utilities are now
-recovered in src/unused-helpers.c. is_space_byte takes a signed low byte and returns
--1/0 with RET4; copy_basename copies after the last slash/backslash/colon and
-returns the byte count including NUL with RET8. No production caller was added.
+Explicit original-only capture is also separate. capture-native-boundaries-reference
+builds the small original debugger and calls scripts/capture-native-boundaries.py;
+it refuses to overwrite a frozen case. CAPTURE_OPTIONS can select a new output
+directory and individual cases. capture-direct-reference independently verifies
+the two original helper oracles. These operations are never fixture dependencies.
 
-cases/direct-helpers is a small external debugger harness with frozen original
-oracles. The whitespace test is one 256-input loop. Six basename examples cover
-empty/plain/mixed-separator/drive/trailing paths and output canaries. Each helper
-has a single stdcall-cleanup/nonvolatile-register check. A supplied test frame
-calls each real helper, using the process entrypoint only as a return barrier;
-no implementation code is injected and RC startup/CLI is deliberately not run.
-Controller termination 0 means direct-test completion, not a natural RC exit.
-These are separately labelled direct-function-ABI cases, retaining the paired
-matching-trap acceptance/replay process and exact original returned data.
+RC predates the allocator in shipped LIBC/LIBCMT; heap-crt.c preserves its
+GetProcessHeap/HeapAlloc/HeapFree graph. heap.c contains the separate checked
+application wrappers. Native builds substitute the shared CRT boundary while
+canonical builds retain all recovered original CRT implementations. Early PE
+VirtualSize=0 uses backed raw extents, and uninitialized sections are zero-fill.
 
-Both uncertain native utility candidates (136 bytes) are complete. The remaining
-6,999 code-extent bytes are 3,622 recognized padding and 3,377 high-confidence
-CRT/common-runtime function/import bytes. This classification is independent of
-the total 86.86% accepted extent metric; no remaining positively identified RC
-parser/driver function or provenance-uncertain utility candidate is pending.
+Original accepted coverage remains 46,249 / 53,248 code-extent bytes (86.86%),
+including accepted CRT, shared text data and import thunks. It is not branch
+coverage. All 254 accepted frontiers and the 193 source-function graph/ABI audits
+remain recorded in validation.json/validation-frontiers.txt as historical
+original-backed evidence; native-adoption receipts are under cases/. Remaining
+unaccepted bytes are 3,377 CRT/common-runtime bytes and 3,622 recognized padding;
+no additional reconstruction was performed during native workflow adoption.

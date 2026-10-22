@@ -3,6 +3,7 @@
 #include "tree-rewrite.h"
 #include "function-input.h"
 #include "expression-fields.h"
+#include <recon.h>
 InlineSite *free_inline_sites; /* 0007b9ac */
 InlineBinding *free_inline_bindings; /* 0007b9b0 */
 int inline_expansion_cost; /* 0007b9a8 */

@@ -2,7 +2,7 @@
 """Accepted original code extents, not executed-instruction/branch coverage."""
 import json
 from pathlib import Path
-from compare import indexes
+from reference import indexes
 
 def union(ranges):
     merged=[]

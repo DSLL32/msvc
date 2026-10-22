@@ -4,6 +4,7 @@
 #include "instruction-selection.h"
 #include "instruction-rewrite.h"
 #include <stdlib.h>
+#include <recon.h>
 extern int cpu_model;
 SchedulerRegionFrame *scheduler_regions; /*82ff0*/
 MachineInstruction *scheduler_instruction; /*7c300*/

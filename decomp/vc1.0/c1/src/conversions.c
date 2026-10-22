@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "expressions.h"
 #include "initializer-records.h"
+#include <recon.h>
 
 
 /* Original 0x3e760..0x3ef74, void-pointer dispatch 0x3ef74..0x3efc0. */

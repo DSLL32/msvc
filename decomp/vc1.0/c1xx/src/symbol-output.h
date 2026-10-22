@@ -1,6 +1,7 @@
 #ifndef SYMBOL_OUTPUT_H
 #define SYMBOL_OUTPUT_H
 #include "global-ir.h"
+#include <recon.h>
 unsigned short __stdcall debug_tag_type(CppSymbol *tag);
 void __stdcall reference_debug_type(CType *type);
 void flush_debug_types(void);

@@ -6,6 +6,7 @@
 #include "cpp-context.h"
 #include "parameters.h"
 #include "ir.h"
+#include <recon.h>
 
 /* Expression operators reuse the lexer node's common twenty-byte prefix. */
 typedef struct IrExpression {

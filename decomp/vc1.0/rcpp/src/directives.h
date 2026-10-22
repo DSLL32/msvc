@@ -2,6 +2,7 @@
 #define RCPP_DIRECTIVES_H
 #include "lexer.h"
 #include "tokens.h"
+#include <recon.h>
 enum RcDirective {
     PP_IF, PP_ELIF, PP_ELSE, PP_ENDIF, PP_IFDEF, PP_IFNDEF, PP_DEFINE,
     PP_INCLUDE, PP_PRAGMA, PP_UNDEF, PP_LINE, PP_UNKNOWN, PP_ERROR, PP_IDENT

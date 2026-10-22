@@ -3,6 +3,7 @@
 #include "segments.h"
 #include "function-input.h"
 #include "frame.h"
+#include <recon.h>
 extern int default_segment_alignment, stack_alignment;
 extern int code_pointer_bytes, default_integer_bytes;
 void __fastcall reserve_segment_storage(SymbolHeader *symbol);

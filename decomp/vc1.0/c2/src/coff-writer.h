@@ -1,6 +1,7 @@
 #ifndef COFF_WRITER_H
 #define COFF_WRITER_H
 #include "coff-output.h"
+#include <recon.h>
 typedef struct CoffVectorBlock {
     struct CoffVectorBlock *next;
     void *items[1];

@@ -2,14 +2,27 @@
 
 The callback receives mode, pid, file, cwd, argv, environment. Returning None
 allows the shim's real native spawn; returning an integer replays that exit code
-after the callback has checked inputs and applied captured side effects. Raising
-rejects the request and fails the target. Full environment stays in memory only;
+after the callback has checked inputs and applied captured side effects. Returning
+exactly {'status': int, 'stdout': bytes, 'stderr': bytes} also replays raw captured
+streams through the target's logical stdout/stderr handles, synchronously before
+spawn returns. Stream bytes are never text-translated; stdout precedes stderr
+when both handles refer to one destination. Their combined size is at most
+64 MiB. Status is always an integer from 0 to 255 (not bool). Raising rejects the
+request and fails the target. Full environment stays in memory only;
 adapters should retain only fixture-relevant values in their evidence.
+
+A captured failure to start a process uses {'status': -1, 'errno': int}, where
+errno is 1..4095; optional stdout/stderr byte strings default to empty. This
+restores the caller's CRT errno before returning -1 and never launches a child.
+Positive-status dictionaries still require exactly status/stdout/stderr. Bare
+integer -1, unknown keys and invalid errno values are rejected.
 """
 import os
 import socket
 import struct
 import threading
+
+MAX_STREAM_BYTES = 64*1024*1024
 
 
 class SpawnBroker:
@@ -81,13 +94,43 @@ class SpawnBroker:
                     raise ValueError('invalid spawn protocol header')
                 request = self._decode(self._read(self._server, length))
                 result = self.callback(request)
-                if result is not None and (type(result) is not int or not 0 <= result <= 255):
+                streams = None
+                failure_errno = None
+                if isinstance(result, dict):
+                    if type(result.get('status')) is int and result['status'] == -1:
+                        if not {'status', 'errno'} <= set(result) <= {'status', 'errno', 'stdout', 'stderr'}:
+                            raise ValueError('mock spawn failure requires status and errno with optional streams')
+                        failure_errno = result['errno']
+                        if type(failure_errno) is not int or not 1 <= failure_errno <= 4095:
+                            raise ValueError('mock spawn errno must be an integer from 1 to 4095')
+                        streams = (result.get('stdout', b''), result.get('stderr', b''))
+                    else:
+                        if set(result) != {'status', 'stdout', 'stderr'}:
+                            raise ValueError('mock process response requires status, stdout and stderr')
+                        streams = (result['stdout'], result['stderr'])
+                    if any(type(data) is not bytes for data in streams):
+                        raise ValueError('mock process streams must be bytes')
+                    if sum(map(len, streams)) > MAX_STREAM_BYTES:
+                        raise ValueError('mock process streams are too large')
+                    result = result['status']
+                    if result is None:
+                        raise ValueError('mock process status must be an integer from 0 to 255')
+                if failure_errno is None and result is not None and (type(result) is not int or not 0 <= result <= 255):
                     raise ValueError('mock process status must be an integer from 0 to 255')
                 # Do not retain a copy of the host environment in receipts.
                 self.requests.append({**{k:v for k,v in request.items() if k != 'environment'},
                                       'action': 'native' if result is None else 'replay',
                                       'status': result})
-                self._server.sendall(struct.pack('<4sii', b'RSP1', int(result is not None), result or 0))
+                if failure_errno is not None:
+                    self.requests[-1]['errno'] = failure_errno
+                action = 4 if failure_errno is not None else 3 if streams is not None else int(result is not None)
+                self._server.sendall(struct.pack('<4sii', b'RSP1', action, result or 0))
+                if failure_errno is not None:
+                    self._server.sendall(struct.pack('<I', failure_errno))
+                if streams is not None:
+                    self._server.sendall(struct.pack('<II', *map(len, streams)))
+                    for data in streams:
+                        self._server.sendall(data)
         except Exception as error:
             self.errors.append(str(error))
             try:

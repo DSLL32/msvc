@@ -1,6 +1,7 @@
 /* COFF writer state is introduced by its initializer, not copied from an image. */
 #include "coff-writer.h"
 #include <string.h>
+#include <recon.h>
 unsigned short coff_machine;
 unsigned coff_flags;
 char *coff_source_filename;

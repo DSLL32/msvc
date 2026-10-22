@@ -2,6 +2,7 @@
 #define EXPRESSION_RECORDS_H
 #include "function-definitions.h"
 #include "operators.h"
+#include <recon.h>
 /* Expression meanings override the shared declaration vocabulary. Unknown
    and declaration-only tokens retain the original invalid record, 0x9e. */
 typedef struct ExpressionRecordRule {

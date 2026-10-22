@@ -1,5 +1,6 @@
 #ifndef RCPP_TOKENS_H
 #define RCPP_TOKENS_H
+#include <recon.h>
 /* Token numbers retained by the compiler-derived resource preprocessor. */
 enum RcTokenKind {
     TK_INVALID, TK_NEWLINE, TK_IDENTIFIER, TK_STRING,

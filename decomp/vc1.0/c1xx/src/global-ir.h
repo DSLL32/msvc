@@ -1,6 +1,7 @@
 #ifndef GLOBAL_IR_H
 #define GLOBAL_IR_H
 #include "macros.h"
+#include <recon.h>
 enum GlobalField {
     GF_END = 0,
     GF_SIZE = 1,

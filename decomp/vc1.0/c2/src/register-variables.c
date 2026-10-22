@@ -2,6 +2,7 @@
 #include "register-variables.h"
 #include "backend.h"
 #include "register-use.h"
+#include <recon.h>
 /* Original [0007c730,0007c8b0). Constructor/lookup indexing selects a
    128-byte table from the register's class bits (00, 4000 or 8000), then
    selects one of 32 hash heads with its low five bits. The reset clears

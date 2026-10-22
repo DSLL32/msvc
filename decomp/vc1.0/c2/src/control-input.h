@@ -1,6 +1,7 @@
 #ifndef CONTROL_INPUT_H
 #define CONTROL_INPUT_H
 #include "expression-fields.h"
+#include <recon.h>
 void __fastcall read_module_directive(int kind);
 short __fastcall input_counted_string(char *buffer, unsigned limit);
 char *__fastcall lookup_filename(unsigned identifier);

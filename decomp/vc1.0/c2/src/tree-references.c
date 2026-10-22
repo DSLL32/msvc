@@ -1,6 +1,7 @@
 #include "tree-rewrite.h"
 #include "tree-input.h"
 #include <stdarg.h>
+#include <recon.h>
 Expression *current_expression;
 /* Original [000516b0,000516e0). The first rewrite may replace the current
    expression, so reload that global before recording the returned tree. */

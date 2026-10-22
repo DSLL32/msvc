@@ -1,6 +1,7 @@
 #ifndef RCPP_MACROS_H
 #define RCPP_MACROS_H
 #include "condition.h"
+#include <recon.h>
 extern char *rc_expansion_work, *rc_macro_output_start, *rc_argument_work;
 extern unsigned rc_argument_count;
 extern int rc_expansion_line;

@@ -4,6 +4,7 @@
 #include "source-input.h"
 #include "characters.h"
 #include "pp-expression.h"
+#include <recon.h>
 
 typedef char MacroFrame_must_be_twenty_bytes[(sizeof(MacroFrame) == 20) ? 1 : -1];
 MacroFrame macro_frames[256]; /* original 0x63944..0x64d44 */

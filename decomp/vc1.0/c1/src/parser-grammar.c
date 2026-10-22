@@ -4,6 +4,7 @@
    compressed action/check snapshots, or unrelated data here. State and rule
    numbers retain the grammar generator's identities for differential work. */
 #include "parser.h"
+#include <recon.h>
 
 ParserTransition parser_shifts[] = {
     /* State 0. */

@@ -1,6 +1,7 @@
 #ifndef INSTRUCTION_ENCODING_H
 #define INSTRUCTION_ENCODING_H
 #include "machine.h"
+#include <recon.h>
 unsigned __fastcall encode_machine_instruction(MachineInstruction *instruction,
     unsigned char *buffer, unsigned location, int emit);
 extern unsigned encoding_location;

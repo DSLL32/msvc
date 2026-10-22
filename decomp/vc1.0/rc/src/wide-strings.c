@@ -2,6 +2,7 @@
 #include "tokens.h"
 #include <ctype.h>
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memcpy)
 
 /* Original 0x010086b0..0x01008991. */

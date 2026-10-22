@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <limits.h>
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(strlen)
 
 enum FormatState { NORMAL, PERCENT, FLAG, WIDTH, DOT, PRECISION, SIZE, TYPE };

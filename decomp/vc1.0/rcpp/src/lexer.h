@@ -3,6 +3,7 @@
 #include "preprocessor.h"
 #include <stdio.h>
 #include <stddef.h>
+#include <recon.h>
 /* Values are dispatch categories in the original lexer, not output tokens. */
 enum RcCharacterClass {
     LC_SPACE=0, LC_CR=1, LC_SLASH=2, LC_END=3, LC_STAR=4, LC_NEWLINE=5,

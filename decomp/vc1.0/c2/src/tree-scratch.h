@@ -1,6 +1,7 @@
 #ifndef TREE_SCRATCH_H
 #define TREE_SCRATCH_H
 #include "functions.h"
+#include <recon.h>
 /* Original [0007e820,0007e844). The typer permits a push at its limit,
    which aliases the low word of the cleanup cursor at 0007e840. */
 typedef union TreeScratch {

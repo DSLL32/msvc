@@ -6,6 +6,7 @@
 #include "register-variables.h"
 #include "temporaries.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 extern int optimize_precision, cpu_model, optimization_immediate_registers;
 unsigned short immediate_register_cutoff; /* 0007e2ac */
 

@@ -1,5 +1,6 @@
 /* Pending old CRT handle and transfer routines. */
 #include "lowio.h"
+#include <recon.h>
 int __cdecl _alloc_osfhnd(void)
 {
     int descriptor;

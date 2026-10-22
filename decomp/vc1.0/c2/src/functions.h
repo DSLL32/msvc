@@ -3,6 +3,7 @@
 #include "backend.h"
 #include "symbols.h"
 #include "warnings.h"
+#include <recon.h>
 typedef struct FunctionSymbol {
     SymbolHeader symbol;
     unsigned field20, field24, field28, field2c, field30, parameter_bytes;

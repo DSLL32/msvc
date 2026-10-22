@@ -1,6 +1,7 @@
 #ifndef PARSER_STATE_H
 #define PARSER_STATE_H
 #include "declarations.h"
+#include <recon.h>
 
 /* yacc copies exactly two words for each token/reduction value. Its typed
    views overlap; declaration storage uses the same three bytes as symbols. */

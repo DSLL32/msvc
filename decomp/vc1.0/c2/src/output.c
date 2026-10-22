@@ -129,6 +129,7 @@ char *default_runtime_library(void)
 }
 
 #include "backend.h"
+#include <recon.h>
 ModuleDirective *module_directives; /* 00084fdc */
 /* Original [00069120,00069160). */
 void __fastcall add_module_directive(unsigned kind, char *text)

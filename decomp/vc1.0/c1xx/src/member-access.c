@@ -1,6 +1,7 @@
 /* Class qualification, protection levels and friend access. */
 #include "member-access.h"
 #include "constructor-initializers.h"
+#include <recon.h>
 
 CppSymbol *access_failure_member; /* original 0x97bd4 */
 unsigned char access_failure_protection; /* original 0x97be0 */

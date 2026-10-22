@@ -1,6 +1,7 @@
 /* Interned function parameter descriptions. */
 #include "types.h"
 #include "parser.h"
+#include <recon.h>
 
 int declaration_context; /* original 0x5ffc0 */
 

@@ -79,6 +79,7 @@ void __fastcall layout_machine_stream(MachineInstruction *instruction, unsigned 
 /* Alignment and padding of the selected machine stream. */
 #include "machine-layout.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 extern int optimization_align, optimize_speed, optimize_global, byte_block_second, cpu_model;
 /* Original [00032bb0,00032e60), including its eight-entry padding table. */
 int __fastcall align_machine_location(int offset, MachineInstruction *instruction, unsigned apply)

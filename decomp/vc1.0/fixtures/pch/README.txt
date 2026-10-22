@@ -23,11 +23,16 @@ portable phase environments. File/path bytes in outputs are never normalized.
 The 38164-byte state.pch matches raw across two full driver runs and two
 independent original C1 producer/consumer replays. All four IR outputs of each
 phase also match raw. There are no ignored fields. The generated producer PCH
-is the consumer dependency, and verify.py checks that dependency before use.
+is the consumer dependency, and capture-original.py checks that dependency before use.
 Native PCH serialization/loading provenance remains part of reconstruction.
 
-Run python3 verify.py for an independent original-toolchain phase replay. It
+Run python3 capture-original.py for an independent original-toolchain phase replay. It
 builds run-phase.c with the original toolchain and uses a private Wine prefix
 under ~/.ai-tmp/vc1.0-c1/pch/independent. This helper passes exactly the captured
 single environment entry, with an explicit canonical child working directory.
 All fixture contents are immutable after this original-backed capture commit.
+
+Explicit original evidence tooling is capture-original.py with run-phase.c.
+It is separate from native regression execution and is never called by check/replay.
+Native C1 regressions use c1/scripts/check-native.py without Wine or originals.
+Captured input/output/reference bytes remain unchanged.

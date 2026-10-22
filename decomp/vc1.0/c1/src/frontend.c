@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "pragma.h"
 #include "global-ir.h"
+#include <recon.h>
 
 unsigned initial_option_flags, precompiled_option_flags;
 int global_expression_scope_active; /* original 0x5b25c */

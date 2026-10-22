@@ -1,0 +1,4 @@
+child pid 904
+read missing 1 error 2
+child exit 0 pid 904
+exit 1; captured 1 launches and 3 deletes

@@ -1,0 +1,1157 @@
+{
+  "status": "passed",
+  "scope": "native i386 shared adoption checks; no Wine/original execution",
+  "compilers": {
+    "gcc": "gcc (Debian 14.2.0-19) 14.2.0",
+    "clang": "Debian clang version 19.1.7 (3+b1)"
+  },
+  "source_sha256": {
+    "include/recon.h": "5fa1a22f52d82aea4837ed72229f0513f3a374a2948e23d85cfa4d24e02b6df6",
+    "include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+    "native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+    "native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+    "native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "native/sys/timeb.h": "43956856b08374c73e15d66054507401bfcb710ee615865ecafce8da83f03e55",
+    "native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+    "src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+    "src/crt.c": "53a660e8675b68b43527d9d10fa9d95ce56f796dc969fca1789719fbc0010c26",
+    "src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+    "src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+    "src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+  },
+  "checks": [
+    {
+      "check": "gcc-O0-context-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/context-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-context"
+      ],
+      "seconds": 0.8993073403835297,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-context-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-context-build.stderr"
+    },
+    {
+      "check": "gcc-O0-context",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-context"
+      ],
+      "seconds": 0.0015836097300052643,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-context.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-context.stderr"
+    },
+    {
+      "check": "gcc-O0-decimal-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/decimal-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-decimal"
+      ],
+      "seconds": 0.8456476265564561,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-decimal-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-decimal-build.stderr"
+    },
+    {
+      "check": "gcc-O0-decimal",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-decimal"
+      ],
+      "seconds": 0.009878978133201599,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-decimal.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-decimal.stderr"
+    },
+    {
+      "check": "gcc-O0-win32-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/check-win32-adoption.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-win32"
+      ],
+      "seconds": 0.8904455620795488,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-win32-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-win32-build.stderr"
+    },
+    {
+      "check": "gcc-O0-win32",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-win32"
+      ],
+      "seconds": 0.0023865634575486183,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-win32.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-win32.stderr"
+    },
+    {
+      "check": "gcc-O2-context-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/context-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-context"
+      ],
+      "seconds": 2.8517538318410516,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-context-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-context-build.stderr"
+    },
+    {
+      "check": "gcc-O2-context",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-context"
+      ],
+      "seconds": 0.0015994831919670105,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-context.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-context.stderr"
+    },
+    {
+      "check": "gcc-O2-decimal-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/decimal-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-decimal"
+      ],
+      "seconds": 3.0703435074537992,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-decimal-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-decimal-build.stderr"
+    },
+    {
+      "check": "gcc-O2-decimal",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-decimal"
+      ],
+      "seconds": 0.0037176702171564102,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-decimal.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-decimal.stderr"
+    },
+    {
+      "check": "gcc-O2-win32-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/check-win32-adoption.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-win32"
+      ],
+      "seconds": 2.794067868962884,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-win32-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-win32-build.stderr"
+    },
+    {
+      "check": "gcc-O2-win32",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-win32"
+      ],
+      "seconds": 0.0017745541408658028,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-win32.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-win32.stderr"
+    },
+    {
+      "check": "gcc-O0-naked-exec-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/naked-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-DRECON_NATIVE_TRACE",
+        "/root/msvc2/lib/recon/src/trace.c",
+        "-fno-pie",
+        "-no-pie",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec"
+      ],
+      "seconds": 0.928264744579792,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-build.stderr"
+    },
+    {
+      "check": "gcc-O0-naked-exec-first-entry",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec"
+      ],
+      "seconds": 0.0017586564645171165,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-first-entry.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-first-entry.stderr",
+      "entries": [
+        "naked_store_extended"
+      ]
+    },
+    {
+      "check": "gcc-O0-naked-exec-accepted-prefix",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec"
+      ],
+      "seconds": 0.001473887823522091,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-accepted-prefix.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-accepted-prefix.stderr",
+      "entries": []
+    },
+    {
+      "check": "gcc-O0-naked-exec-disabled",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec"
+      ],
+      "seconds": 0.0011878600344061852,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-disabled.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O0-naked-exec-disabled.stderr",
+      "entries": []
+    },
+    {
+      "check": "gcc-O2-naked-exec-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/naked-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-DRECON_NATIVE_TRACE",
+        "/root/msvc2/lib/recon/src/trace.c",
+        "-fno-pie",
+        "-no-pie",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec"
+      ],
+      "seconds": 3.0621002139523625,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-build.stderr"
+    },
+    {
+      "check": "gcc-O2-naked-exec-first-entry",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec"
+      ],
+      "seconds": 0.0017910785973072052,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-first-entry.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-first-entry.stderr",
+      "entries": [
+        "naked_store_extended"
+      ]
+    },
+    {
+      "check": "gcc-O2-naked-exec-accepted-prefix",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec"
+      ],
+      "seconds": 0.0017835814505815506,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-accepted-prefix.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-accepted-prefix.stderr",
+      "entries": []
+    },
+    {
+      "check": "gcc-O2-naked-exec-disabled",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec"
+      ],
+      "seconds": 0.0017015403136610985,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-disabled.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-exec-disabled.stderr",
+      "entries": []
+    },
+    {
+      "check": "gcc-O2-naked-pie-build",
+      "phase": "build",
+      "command": [
+        "gcc",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/naked-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-DRECON_NATIVE_TRACE",
+        "/root/msvc2/lib/recon/src/trace.c",
+        "-fPIE",
+        "-pie",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie"
+      ],
+      "seconds": 3.208844693377614,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-build.stderr"
+    },
+    {
+      "check": "gcc-O2-naked-pie-first-entry",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie"
+      ],
+      "seconds": 0.0024998942390084267,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-first-entry.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-first-entry.stderr",
+      "entries": [
+        "naked_store_extended"
+      ]
+    },
+    {
+      "check": "gcc-O2-naked-pie-accepted-prefix",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie"
+      ],
+      "seconds": 0.00125961285084486,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-accepted-prefix.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-accepted-prefix.stderr",
+      "entries": []
+    },
+    {
+      "check": "gcc-O2-naked-pie-disabled",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie"
+      ],
+      "seconds": 0.0011692149564623833,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-disabled.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/gcc-O2-naked-pie-disabled.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O0-context-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/context-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-context"
+      ],
+      "seconds": 1.2575151706114411,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-context-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-context-build.stderr"
+    },
+    {
+      "check": "clang-O0-context",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-context"
+      ],
+      "seconds": 0.002630678005516529,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-context.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-context.stderr"
+    },
+    {
+      "check": "clang-O0-decimal-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/decimal-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-decimal"
+      ],
+      "seconds": 1.3038926906883717,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-decimal-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-decimal-build.stderr"
+    },
+    {
+      "check": "clang-O0-decimal",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-decimal"
+      ],
+      "seconds": 0.00838467851281166,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-decimal.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-decimal.stderr"
+    },
+    {
+      "check": "clang-O0-win32-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/check-win32-adoption.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-win32"
+      ],
+      "seconds": 1.1847071954980493,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-win32-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-win32-build.stderr"
+    },
+    {
+      "check": "clang-O0-win32",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-win32"
+      ],
+      "seconds": 0.0020968401804566383,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-win32.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-win32.stderr"
+    },
+    {
+      "check": "clang-O2-context-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/context-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-context"
+      ],
+      "seconds": 2.8901921585202217,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-context-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-context-build.stderr"
+    },
+    {
+      "check": "clang-O2-context",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-context"
+      ],
+      "seconds": 0.0017789658159017563,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-context.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-context.stderr"
+    },
+    {
+      "check": "clang-O2-decimal-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/decimal-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-decimal"
+      ],
+      "seconds": 2.823665466159582,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-decimal-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-decimal-build.stderr"
+    },
+    {
+      "check": "clang-O2-decimal",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-decimal"
+      ],
+      "seconds": 0.0038523562252521515,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-decimal.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-decimal.stderr"
+    },
+    {
+      "check": "clang-O2-win32-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/check-win32-adoption.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-win32"
+      ],
+      "seconds": 2.8839624766260386,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-win32-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-win32-build.stderr"
+    },
+    {
+      "check": "clang-O2-win32",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-win32"
+      ],
+      "seconds": 0.0017538852989673615,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-win32.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-win32.stderr"
+    },
+    {
+      "check": "clang-O0-naked-exec-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/naked-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-DRECON_NATIVE_TRACE",
+        "/root/msvc2/lib/recon/src/trace.c",
+        "-fno-pie",
+        "-no-pie",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec"
+      ],
+      "seconds": 1.2842658590525389,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-build.stderr"
+    },
+    {
+      "check": "clang-O0-naked-exec-first-entry",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec"
+      ],
+      "seconds": 0.0018239403143525124,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-first-entry.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-first-entry.stderr",
+      "entries": [
+        "naked_store_extended"
+      ]
+    },
+    {
+      "check": "clang-O0-naked-exec-accepted-prefix",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec"
+      ],
+      "seconds": 0.001275419257581234,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-accepted-prefix.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-accepted-prefix.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O0-naked-exec-disabled",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec"
+      ],
+      "seconds": 0.001108543947339058,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-disabled.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-exec-disabled.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O0-naked-pie-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/naked-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-DRECON_NATIVE_TRACE",
+        "/root/msvc2/lib/recon/src/trace.c",
+        "-fPIE",
+        "-pie",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie"
+      ],
+      "seconds": 1.3591707786545157,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-build.stderr"
+    },
+    {
+      "check": "clang-O0-naked-pie-first-entry",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie"
+      ],
+      "seconds": 0.002009088173508644,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-first-entry.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-first-entry.stderr",
+      "entries": [
+        "naked_store_extended"
+      ]
+    },
+    {
+      "check": "clang-O0-naked-pie-accepted-prefix",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie"
+      ],
+      "seconds": 0.0012350725010037422,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-accepted-prefix.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-accepted-prefix.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O0-naked-pie-disabled",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie"
+      ],
+      "seconds": 0.002220551483333111,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-disabled.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O0-naked-pie-disabled.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O2-naked-exec-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/naked-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-DRECON_NATIVE_TRACE",
+        "/root/msvc2/lib/recon/src/trace.c",
+        "-fno-pie",
+        "-no-pie",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec"
+      ],
+      "seconds": 3.126114971935749,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-build.stderr"
+    },
+    {
+      "check": "clang-O2-naked-exec-first-entry",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec"
+      ],
+      "seconds": 0.0027673477306962013,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-first-entry.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-first-entry.stderr",
+      "entries": [
+        "naked_store_extended"
+      ]
+    },
+    {
+      "check": "clang-O2-naked-exec-accepted-prefix",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec"
+      ],
+      "seconds": 0.0019394271075725555,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-accepted-prefix.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-accepted-prefix.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O2-naked-exec-disabled",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec"
+      ],
+      "seconds": 0.0012102480977773666,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-disabled.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-exec-disabled.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O2-naked-pie-build",
+      "phase": "build",
+      "command": [
+        "clang",
+        "-m32",
+        "-std=gnu89",
+        "-O2",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-DRECON_NATIVE_TEST",
+        "-I/root/msvc2/lib/recon/include",
+        "-I/root/msvc2/lib/recon/native",
+        "/root/msvc2/lib/recon/tests/naked-target.c",
+        "/root/msvc2/lib/recon/src/crt.c",
+        "/root/msvc2/lib/recon/src/win32.c",
+        "/root/msvc2/lib/recon/src/process.c",
+        "/root/msvc2/lib/recon/src/compat.c",
+        "/root/msvc2/lib/recon/src/entry.c",
+        "/root/msvc2/lib/recon/src/decimal.c",
+        "-DRECON_NATIVE_TRACE",
+        "/root/msvc2/lib/recon/src/trace.c",
+        "-fPIE",
+        "-pie",
+        "-o",
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie"
+      ],
+      "seconds": 2.9848190834745765,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-build.stderr"
+    },
+    {
+      "check": "clang-O2-naked-pie-first-entry",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie"
+      ],
+      "seconds": 0.001727534458041191,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-first-entry.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-first-entry.stderr",
+      "entries": [
+        "naked_store_extended"
+      ]
+    },
+    {
+      "check": "clang-O2-naked-pie-accepted-prefix",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie"
+      ],
+      "seconds": 0.0013174284249544144,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-accepted-prefix.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-accepted-prefix.stderr",
+      "entries": []
+    },
+    {
+      "check": "clang-O2-naked-pie-disabled",
+      "phase": "execution",
+      "command": [
+        "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie"
+      ],
+      "seconds": 0.001115269958972931,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-disabled.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/clang-O2-naked-pie-disabled.stderr",
+      "entries": []
+    },
+    {
+      "check": "existing-suites-build",
+      "phase": "build",
+      "command": [
+        "make",
+        "-j4",
+        "build/check",
+        "build/trace-pie",
+        "build/trace-exec",
+        "build/process-target"
+      ],
+      "seconds": 0.0029378002509474754,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-suites-build.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-suites-build.stderr"
+    },
+    {
+      "check": "existing-crt",
+      "phase": "execution",
+      "command": [
+        "/root/msvc2/lib/recon/build/check"
+      ],
+      "seconds": 0.0031528379768133163,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-crt.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-crt.stderr"
+    },
+    {
+      "check": "existing-trace",
+      "phase": "execution",
+      "command": [
+        "/usr/bin/python3",
+        "/root/msvc2/lib/recon/tests/check-trace.py",
+        "/root/msvc2/lib/recon/build/trace-pie",
+        "/root/msvc2/lib/recon/build/trace-exec"
+      ],
+      "seconds": 0.09549591038376093,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-trace.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-trace.stderr"
+    },
+    {
+      "check": "existing-process",
+      "phase": "execution",
+      "command": [
+        "/usr/bin/python3",
+        "/root/msvc2/lib/recon/tests/check-process.py",
+        "/root/msvc2/lib/recon/build/process-target"
+      ],
+      "seconds": 0.10195968765765429,
+      "status": "passed",
+      "exit_status": 0,
+      "stdout": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-process.stdout",
+      "stderr": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/existing-process.stderr"
+    }
+  ],
+  "measured_seconds": {
+    "build": 39.65201904065907,
+    "setup": 0.01438860036432743,
+    "execution": 0.2764218971133232,
+    "checks": 0.007215492427349091
+  },
+  "elapsed_seconds": 40.02100903727114,
+  "limitation": "GCC O0 PIE inserts a register/flags-clobbering naked-function GOT thunk",
+  "receipt": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/production-receipt.json",
+  "test_sha256": {
+    "Makefile": "66a77f6624f37fff8378395309cc9d0c43be44811c320c1325730416ea5aeaa8",
+    "tests/check-adoption.py": "97db990a673f5f955f05b0269d6ba9547aed270de8aad7882c4fef42db426a45",
+    "tests/check-process.py": "2693e56d08865ea0b4939bcdd22803938a40cb886de62069294cc84aaa847c09",
+    "tests/check-spawn-streams.py": "bd118f51e3f8ba85bd6be5f154bceb59b3a0b9094d719fc41b2608be658f8a28",
+    "tests/check-trace-allocation.py": "5430e6ca8cecb96602acb33188c04cfe610273d7aafdf60e020fffeabdbc265f",
+    "tests/check-trace.py": "65b4d8f39bd735cfe1c03bfc6a5aeb556275883a14b6c80d0c12b9cbc8a29806",
+    "tests/check-win32-adoption.c": "5b8fde8c3266398c0b72db787a15a7a7806fe90ca14f5d4b3260fb07e20eba33",
+    "tests/check.c": "5e8301eda697e3549a32c442a9d55c3754424b35a83f20b8d17793b41b6e5bb3",
+    "tests/context-target.c": "ca1afda1e1263c31f21ceb8316f09001eda14ea0098f44a8771648512316df25",
+    "tests/decimal-target.c": "ea7cf67fa88a6cfca87eaa3730a9a1425b9febc7609416d461bde44da53c0d0d",
+    "tests/naked-target.c": "db64b3c1660904ec2c583a56801dd99456a8e574c7e3a292accbfd14bb02f71f",
+    "tests/process-target.c": "9bc8c73b24359826d9455640f62b8292d8a56e9b89af928ae996fee370e741c6",
+    "tests/trace-target.c": "307ad4e1c3708b1f1053a3baa1c7ddb2041b46b4a93418b5d7e4f3b4b641d7da"
+  },
+  "original_validation_receipt": "/root/.ai-tmp/recon-adoption/checks-8fo37o5d/receipt.json",
+  "post_validation_changes": {
+    "Makefile": {
+      "tested": "66a77f6624f37fff8378395309cc9d0c43be44811c320c1325730416ea5aeaa8",
+      "current": "c23c0db0afc5102a3de7f4fc79f166312c6f26d93820afb1895de013a072d3de"
+    },
+    "tests/check-adoption.py": {
+      "tested": "97db990a673f5f955f05b0269d6ba9547aed270de8aad7882c4fef42db426a45",
+      "current": "39015f5e829cc7c62a96599847c7e7250d4f3637a1274e6806aaab8faddf80ab"
+    }
+  },
+  "production_recheck_seconds": 0.0036852536723017693,
+  "production_rechecked_at": "2026-10-22T21:46:07.402783+00:00",
+  "bookkeeping": "All production hashes and executed test bodies match the passing aggregate run. After that run, Makefile gained two standalone check targets; the runner now separates production and test fingerprints. No suites were repeated or results recaptured."
+}

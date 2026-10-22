@@ -1,6 +1,7 @@
 #ifndef RCPP_NUMBERS_H
 #define RCPP_NUMBERS_H
 #include "directives.h"
+#include <recon.h>
 /* Compiler token/type layouts observed in constant construction. Unknown
  * ancillary fields retain explicit offsets until their uses are recovered. */
 typedef struct RcType {

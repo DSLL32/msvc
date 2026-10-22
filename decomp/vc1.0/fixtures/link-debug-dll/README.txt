@@ -24,9 +24,9 @@ FPO debug entries. Other embedded input timestamps and CodeView bytes remain
 unchanged. The buffered lifecycle fixture references a frozen debug DLL.
 
 Run the untouched original independently:
-  python3 verify.py --phase link
+  python3 capture-original.py --phase link
 Run the shared archive/tools fixture:
-  python3 verify.py --fixture ../link-library-tools
+  python3 capture-original.py --fixture ../link-library-tools
 
 The original reconstruction cases remain separate. These files are immutable
 inputs/expected products; acceptance and replay evidence belongs under LINK.

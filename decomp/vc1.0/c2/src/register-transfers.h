@@ -1,6 +1,7 @@
 #ifndef REGISTER_TRANSFERS_H
 #define REGISTER_TRANSFERS_H
 #include "global-registers.h"
+#include <recon.h>
 /* Arena-one indices created only for this transfer-insertion pass. */
 typedef struct AllocationBinding {
     AllocationValue *value;

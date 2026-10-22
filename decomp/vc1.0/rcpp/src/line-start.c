@@ -1,5 +1,6 @@
 /* Processing at the beginning of an input line. */
 #include "lexer.h"
+#include <recon.h>
 /* Original [0100c4c0,0100c5aa), jump table [0100c5ac,0100c5dc). */
 void rc_begin_line(void)
 {

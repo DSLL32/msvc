@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "options.h"
+#include <recon.h>
 
 unsigned char warning_levels[800];
 unsigned lowest_warning_700 = 800, highest_warning_700 = 700;

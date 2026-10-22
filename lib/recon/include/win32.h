@@ -20,6 +20,7 @@
 #define max(a,b) ((a)>(b)?(a):(b))
 typedef unsigned char BYTE;
 typedef unsigned short WORD, WCHAR;
+typedef unsigned short USHORT;
 typedef unsigned long DWORD;
 typedef long LONG;
 typedef short SHORT;
@@ -36,6 +37,30 @@ typedef void (WINAPI *FARPROC)(void);
 typedef struct { DWORD nLength; LPVOID lpSecurityDescriptor; BOOL bInheritHandle; } SECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
 typedef struct { WORD wYear,wMonth,wDayOfWeek,wDay,wHour,wMinute,wSecond,wMilliseconds; } SYSTEMTIME;
 typedef struct { DWORD dwLowDateTime,dwHighDateTime; } FILETIME;
+typedef struct _cpinfo {
+ UINT MaxCharSize; BYTE DefaultChar[2]; BYTE LeadByte[12];
+} CPINFO, *LPCPINFO;
+typedef struct _COORD { SHORT X,Y; } COORD;
+typedef struct _SMALL_RECT { SHORT Left,Top,Right,Bottom; } SMALL_RECT;
+typedef struct _CONSOLE_SCREEN_BUFFER_INFO {
+ COORD dwSize,dwCursorPosition; WORD wAttributes;
+ SMALL_RECT srWindow; COORD dwMaximumWindowSize;
+} CONSOLE_SCREEN_BUFFER_INFO, *PCONSOLE_SCREEN_BUFFER_INFO;
+/* No reconstructed exception filter currently reads the CPU context. Keep
+ * its genuine tag opaque until a consumer encounters the i386 context ABI. */
+typedef struct _CONTEXT CONTEXT;
+typedef struct _EXCEPTION_RECORD {
+ DWORD ExceptionCode,ExceptionFlags;
+ struct _EXCEPTION_RECORD *ExceptionRecord;
+ LPVOID ExceptionAddress; DWORD NumberParameters;
+ DWORD ExceptionInformation[15];
+} EXCEPTION_RECORD;
+typedef struct _EXCEPTION_POINTERS {
+ EXCEPTION_RECORD *ExceptionRecord; CONTEXT *ContextRecord;
+} EXCEPTION_POINTERS;
+/* RC owns these counted-string structures, including their field names. */
+struct AnsiString;
+struct UnicodeString;
 #define INVALID_HANDLE_VALUE ((HANDLE)-1)
 #define GENERIC_READ 0x80000000UL
 #define GENERIC_WRITE 0x40000000UL
@@ -49,7 +74,10 @@ typedef struct { DWORD dwLowDateTime,dwHighDateTime; } FILETIME;
 #define TRUNCATE_EXISTING 5
 #define FILE_ATTRIBUTE_READONLY 1
 #define FILE_ATTRIBUTE_NORMAL 0x80
+#define FILE_ATTRIBUTE_TEMPORARY 0x100
 #define FILE_FLAG_DELETE_ON_CLOSE 0x04000000
+#define FILE_FLAG_SEQUENTIAL_SCAN 0x08000000
+#define FILE_FLAG_RANDOM_ACCESS 0x10000000
 #define FILE_TYPE_UNKNOWN 0
 #define FILE_TYPE_DISK 1
 #define FILE_TYPE_CHAR 2
@@ -79,10 +107,22 @@ typedef struct { DWORD dwLowDateTime,dwHighDateTime; } FILETIME;
 #define ERROR_INVALID_DATA 13
 #define ERROR_NOT_SUPPORTED 50
 #define ERROR_INVALID_PARAMETER 87
+#define ERROR_NEGATIVE_SEEK 131
 #define ERROR_ALREADY_EXISTS 183
+#define ERROR_INSUFFICIENT_BUFFER 122
 #define ERROR_NO_UNICODE_TRANSLATION 1113
+#define LCMAP_LOWERCASE 0x100
+#define LCMAP_UPPERCASE 0x200
 #define CTRL_C_EVENT 0
 #define CTRL_BREAK_EVENT 1
+
+typedef struct {
+ DWORD biSize; LONG biWidth,biHeight; WORD biPlanes,biBitCount;
+ DWORD biCompression,biSizeImage; LONG biXPelsPerMeter,biYPelsPerMeter;
+ DWORD biClrUsed,biClrImportant;
+} BITMAPINFOHEADER,*PBITMAPINFOHEADER;
+typedef struct { DWORD bcSize; WORD bcWidth,bcHeight,bcPlanes,bcBitCount; }
+ BITMAPCOREHEADER,*PBITMAPCOREHEADER;
 
 #pragma pack(push,2)
 typedef struct {

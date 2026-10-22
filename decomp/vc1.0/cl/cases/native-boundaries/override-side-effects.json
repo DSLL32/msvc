@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "override-side-effects",
+  "arguments": "/Ge /O2 /c test.c",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\override-side-effects",
+    "TEMP": "Q:\\override-side-effects"
+  },
+  "initial": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    }
+  },
+  "boundaries": [
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\override-side-effects\\000292 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gf -Og -Oi -Ot -Oy -Ob1 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\override-side-effects",
+      "before": {
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "422fc29b0681d1b4c1377f7d97f87945be4f0bc7fb04dc3345552bc85f51eea7",
+          "bytes": 869
+        },
+        "000292gl": {
+          "sha256": "bbaf54e3bcc06ea3ea65e707870bc78b50d080c31e4978cd8a42ac3cbee05581",
+          "bytes": 50
+        },
+        "000292in": {
+          "sha256": "f86b99f28e22226ae3a57ad21fe0d8ef326c370b7961580931a27ebf30955084",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "68e9be13dd5689985f9f7774e058dd970c9b918d5e4a541d2ad148e8fb904aee",
+          "bytes": 13
+        },
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "mode": 0,
+      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\override-side-effects\\000292 -f test.c -W 1 -G4 -dos -Fotest.obj -ML -Gs0 -Gy "
+      ],
+      "status": 0,
+      "errno": 0,
+      "cwd": "Q:\\override-side-effects",
+      "before": {
+        "000292ex": {
+          "sha256": "422fc29b0681d1b4c1377f7d97f87945be4f0bc7fb04dc3345552bc85f51eea7",
+          "bytes": 869
+        },
+        "000292gl": {
+          "sha256": "bbaf54e3bcc06ea3ea65e707870bc78b50d080c31e4978cd8a42ac3cbee05581",
+          "bytes": 50
+        },
+        "000292in": {
+          "sha256": "f86b99f28e22226ae3a57ad21fe0d8ef326c370b7961580931a27ebf30955084",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "68e9be13dd5689985f9f7774e058dd970c9b918d5e4a541d2ad148e8fb904aee",
+          "bytes": 13
+        },
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        }
+      },
+      "after": {
+        "000292ex": {
+          "sha256": "422fc29b0681d1b4c1377f7d97f87945be4f0bc7fb04dc3345552bc85f51eea7",
+          "bytes": 869
+        },
+        "000292gl": {
+          "sha256": "bbaf54e3bcc06ea3ea65e707870bc78b50d080c31e4978cd8a42ac3cbee05581",
+          "bytes": 50
+        },
+        "000292in": {
+          "sha256": "f86b99f28e22226ae3a57ad21fe0d8ef326c370b7961580931a27ebf30955084",
+          "bytes": 3
+        },
+        "000292sy": {
+          "sha256": "68e9be13dd5689985f9f7774e058dd970c9b918d5e4a541d2ad148e8fb904aee",
+          "bytes": 13
+        },
+        "test.c": {
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+          "bytes": 26
+        },
+        "test.obj": {
+          "sha256": "63154292be7668f00e84534fba008fae4fec7a02b54ac2d10a3ca3b54739fb43",
+          "bytes": 404
+        }
+      },
+      "stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "final": {
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    },
+    "test.obj": {
+      "sha256": "63154292be7668f00e84534fba008fae4fec7a02b54ac2d10a3ca3b54739fb43",
+      "bytes": 404
+    }
+  },
+  "stdout": {
+    "sha256": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad",
+    "bytes": 8
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.004887932911515236,
+    "capture_execution_seconds": 5.167750007472932,
+    "capture_checks_seconds": 0.011750828474760056,
+    "total_seconds": 5.184390286915004
+  }
+}

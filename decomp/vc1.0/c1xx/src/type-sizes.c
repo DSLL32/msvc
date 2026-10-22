@@ -1,5 +1,6 @@
 /* Sizes of base types, arrays, pointers and C++ member pointers. */
 #include "type-sizes.h"
+#include <recon.h>
 
 /* Original 0x4f160..0x4f215. Array multiplication wraps in the original
    32-bit IMUL before its signed comparison. Recovery changes the bound to

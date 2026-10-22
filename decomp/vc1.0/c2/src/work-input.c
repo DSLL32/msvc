@@ -3,6 +3,7 @@
 #include "bitsets.h"
 #include "frame.h"
 #include "optimizer-cache.h"
+#include <recon.h>
 extern unsigned next_leaf_identifier;
 extern Node *floating_temporary_nodes;
 void reset_leaf_tables(void);

@@ -2,6 +2,7 @@
 #define GLOBAL_REGISTERS_H
 #include "global-work.h"
 #include "bitsets.h"
+#include <recon.h>
 /* Native connected definition range. field06 is not consumed by this driver. */
 typedef struct AllocationRange {
     struct AllocationRange *next;

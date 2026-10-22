@@ -1,5 +1,6 @@
 #ifndef C1XX_H
 #define C1XX_H
+#include <recon.h>
 extern int argument_count;
 extern char **argument_vector;
 extern char *fatal_error_label;

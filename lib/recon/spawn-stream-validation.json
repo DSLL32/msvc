@@ -1,0 +1,555 @@
+{
+  "status": "passed",
+  "builds": [
+    {
+      "compiler": "gcc",
+      "seconds": 0.6028165742754936
+    },
+    {
+      "compiler": "clang",
+      "seconds": 0.8455216819420457
+    }
+  ],
+  "checks": [
+    {
+      "compiler": "gcc",
+      "check": "binary-streams-status-zero",
+      "status": "passed",
+      "setup_seconds": 0.000640534795820713,
+      "execution_seconds": 0.0022891834378242493,
+      "checks_seconds": 1.5484169125556946e-05
+    },
+    {
+      "compiler": "gcc",
+      "check": "short-writes-and-eintr",
+      "status": "passed",
+      "setup_seconds": 0.00039041507989168167,
+      "execution_seconds": 0.013118933886289597,
+      "checks_seconds": 1.3123266398906708e-05
+    },
+    {
+      "compiler": "gcc",
+      "check": "merged-logical-handles",
+      "status": "passed",
+      "setup_seconds": 0.0003313440829515457,
+      "execution_seconds": 0.0016365302726626396,
+      "checks_seconds": 1.254212111234665e-05
+    },
+    {
+      "compiler": "gcc",
+      "check": "redirected-logical-handles",
+      "status": "passed",
+      "setup_seconds": 0.00034537073224782944,
+      "execution_seconds": 0.0019947420805692673,
+      "checks_seconds": 0.0001526186242699623
+    },
+    {
+      "compiler": "gcc",
+      "check": "legacy-integer",
+      "status": "passed",
+      "setup_seconds": 0.0003397110849618912,
+      "execution_seconds": 0.0013070804998278618,
+      "checks_seconds": 2.6123598217964172e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "real-native",
+      "status": "passed",
+      "setup_seconds": 0.00033858325332403183,
+      "execution_seconds": 0.002665494568645954,
+      "checks_seconds": 1.7836689949035645e-05
+    },
+    {
+      "compiler": "gcc",
+      "check": "captured-enoent",
+      "status": "passed",
+      "setup_seconds": 0.0003539305180311203,
+      "execution_seconds": 0.0016502216458320618,
+      "checks_seconds": 2.5546178221702576e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "captured-enoent-streams",
+      "status": "passed",
+      "setup_seconds": 0.0003978582099080086,
+      "execution_seconds": 0.0018817037343978882,
+      "checks_seconds": 1.0783784091472626e-05
+    },
+    {
+      "compiler": "gcc",
+      "check": "preflight-missing-no-request",
+      "status": "passed",
+      "setup_seconds": 0.00033995509147644043,
+      "execution_seconds": 0.0011676130816340446,
+      "checks_seconds": 2.5453045964241028e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "preflight-existing-pe-replayed",
+      "status": "passed",
+      "setup_seconds": 0.0005009938031435013,
+      "execution_seconds": 0.0016132164746522903,
+      "checks_seconds": 1.0695308446884155e-05
+    },
+    {
+      "compiler": "gcc",
+      "check": "preflight-virtual-self-route",
+      "status": "passed",
+      "setup_seconds": 0.00031768903136253357,
+      "execution_seconds": 0.002538190223276615,
+      "checks_seconds": 2.5695189833641052e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "preflight-invalid-config",
+      "status": "passed",
+      "setup_seconds": 0.00034101586788892746,
+      "execution_seconds": 0.0010056626051664352,
+      "checks_seconds": 7.051974534988403e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "unknown-dependency",
+      "status": "passed",
+      "setup_seconds": 0.0003216266632080078,
+      "execution_seconds": 0.0013703806325793266,
+      "checks_seconds": 1.0514631867408752e-05
+    },
+    {
+      "compiler": "gcc",
+      "check": "bool-status",
+      "status": "passed",
+      "setup_seconds": 0.00037377700209617615,
+      "execution_seconds": 0.0014811605215072632,
+      "checks_seconds": 7.675029337406158e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "negative-status",
+      "status": "passed",
+      "setup_seconds": 0.0004392433911561966,
+      "execution_seconds": 0.0015405891463160515,
+      "checks_seconds": 7.855705916881561e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "large-status",
+      "status": "passed",
+      "setup_seconds": 0.00037907715886831284,
+      "execution_seconds": 0.0014250483363866806,
+      "checks_seconds": 7.282942533493042e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "missing-stream",
+      "status": "passed",
+      "setup_seconds": 0.0004134746268391609,
+      "execution_seconds": 0.0015750983729958534,
+      "checks_seconds": 6.113201379776001e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "text-stream",
+      "status": "passed",
+      "setup_seconds": 0.0004146415740251541,
+      "execution_seconds": 0.0013205371797084808,
+      "checks_seconds": 7.077120244503021e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "null-status",
+      "status": "passed",
+      "setup_seconds": 0.00039471033960580826,
+      "execution_seconds": 0.0013621756806969643,
+      "checks_seconds": 5.388632416725159e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "failure-no-errno",
+      "status": "passed",
+      "setup_seconds": 0.00035250186920166016,
+      "execution_seconds": 0.0014622705057263374,
+      "checks_seconds": 8.082017302513123e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "failure-zero-errno",
+      "status": "passed",
+      "setup_seconds": 0.0004243273288011551,
+      "execution_seconds": 0.0013968450948596,
+      "checks_seconds": 5.220063030719757e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "failure-large-errno",
+      "status": "passed",
+      "setup_seconds": 0.00041049905121326447,
+      "execution_seconds": 0.001352326013147831,
+      "checks_seconds": 7.227994501590729e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "failure-bool-errno",
+      "status": "passed",
+      "setup_seconds": 0.000411083921790123,
+      "execution_seconds": 0.0013614725321531296,
+      "checks_seconds": 5.295500159263611e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "failure-unknown-key",
+      "status": "passed",
+      "setup_seconds": 0.00041790492832660675,
+      "execution_seconds": 0.001397736370563507,
+      "checks_seconds": 5.140900611877441e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "failure-wrong-status",
+      "status": "passed",
+      "setup_seconds": 0.00041052140295505524,
+      "execution_seconds": 0.001346471719443798,
+      "checks_seconds": 4.905276000499725e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "failure-text-stream",
+      "status": "passed",
+      "setup_seconds": 0.00036130379885435104,
+      "execution_seconds": 0.0015829429030418396,
+      "checks_seconds": 4.945322871208191e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "oversized-callback-streams",
+      "status": "passed",
+      "setup_seconds": 0.00035346392542123795,
+      "execution_seconds": 0.0013322234153747559,
+      "checks_seconds": 5.122274160385132e-06
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-magic",
+      "status": "passed",
+      "seconds": 0.0016182325780391693
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-action",
+      "status": "passed",
+      "seconds": 0.0015480965375900269
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-status",
+      "status": "passed",
+      "seconds": 0.0015682047232985497
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-native-status",
+      "status": "passed",
+      "seconds": 0.001505410298705101
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-size",
+      "status": "passed",
+      "seconds": 0.001582711935043335
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-truncated",
+      "status": "passed",
+      "seconds": 0.0017410852015018463
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-failure-status",
+      "status": "passed",
+      "seconds": 0.0015844665467739105
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-failure-errno-zero",
+      "status": "passed",
+      "seconds": 0.0018570106476545334
+    },
+    {
+      "compiler": "gcc",
+      "check": "wire-failure-errno-large",
+      "status": "passed",
+      "seconds": 0.0016221348196268082
+    },
+    {
+      "compiler": "clang",
+      "check": "binary-streams-status-zero",
+      "status": "passed",
+      "setup_seconds": 0.0009430088102817535,
+      "execution_seconds": 0.002829141914844513,
+      "checks_seconds": 2.4508684873580933e-05
+    },
+    {
+      "compiler": "clang",
+      "check": "short-writes-and-eintr",
+      "status": "passed",
+      "setup_seconds": 0.0004565194249153137,
+      "execution_seconds": 0.013273823074996471,
+      "checks_seconds": 1.1336058378219604e-05
+    },
+    {
+      "compiler": "clang",
+      "check": "merged-logical-handles",
+      "status": "passed",
+      "setup_seconds": 0.00038450490683317184,
+      "execution_seconds": 0.0016061710193753242,
+      "checks_seconds": 1.054815948009491e-05
+    },
+    {
+      "compiler": "clang",
+      "check": "redirected-logical-handles",
+      "status": "passed",
+      "setup_seconds": 0.0003497181460261345,
+      "execution_seconds": 0.001878557726740837,
+      "checks_seconds": 0.00027543213218450546
+    },
+    {
+      "compiler": "clang",
+      "check": "legacy-integer",
+      "status": "passed",
+      "setup_seconds": 0.0003499230369925499,
+      "execution_seconds": 0.0015077479183673859,
+      "checks_seconds": 2.8507784008979797e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "real-native",
+      "status": "passed",
+      "setup_seconds": 0.00036664586514234543,
+      "execution_seconds": 0.002558755688369274,
+      "checks_seconds": 3.2838433980941772e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "captured-enoent",
+      "status": "passed",
+      "setup_seconds": 0.00042056571692228317,
+      "execution_seconds": 0.0013980241492390633,
+      "checks_seconds": 2.4829059839248657e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "captured-enoent-streams",
+      "status": "passed",
+      "setup_seconds": 0.000347762368619442,
+      "execution_seconds": 0.0015920987352728844,
+      "checks_seconds": 1.0642223060131073e-05
+    },
+    {
+      "compiler": "clang",
+      "check": "preflight-missing-no-request",
+      "status": "passed",
+      "setup_seconds": 0.0003460366278886795,
+      "execution_seconds": 0.0012026075273752213,
+      "checks_seconds": 2.4996697902679443e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "preflight-existing-pe-replayed",
+      "status": "passed",
+      "setup_seconds": 0.000497797504067421,
+      "execution_seconds": 0.0016342280432581902,
+      "checks_seconds": 1.0872259736061096e-05
+    },
+    {
+      "compiler": "clang",
+      "check": "preflight-virtual-self-route",
+      "status": "passed",
+      "setup_seconds": 0.000353141687810421,
+      "execution_seconds": 0.0025785574689507484,
+      "checks_seconds": 2.6552006602287292e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "preflight-invalid-config",
+      "status": "passed",
+      "setup_seconds": 0.00031196698546409607,
+      "execution_seconds": 0.0012074736878275871,
+      "checks_seconds": 7.905997335910797e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "unknown-dependency",
+      "status": "passed",
+      "setup_seconds": 0.0003686239942908287,
+      "execution_seconds": 0.0014169756323099136,
+      "checks_seconds": 5.1083043217659e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "bool-status",
+      "status": "passed",
+      "setup_seconds": 0.0003288295120000839,
+      "execution_seconds": 0.0014680903404951096,
+      "checks_seconds": 7.889233529567719e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "negative-status",
+      "status": "passed",
+      "setup_seconds": 0.000438944436609745,
+      "execution_seconds": 0.0013132821768522263,
+      "checks_seconds": 4.973262548446655e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "large-status",
+      "status": "passed",
+      "setup_seconds": 0.0003384053707122803,
+      "execution_seconds": 0.0013527711853384972,
+      "checks_seconds": 4.82611358165741e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "missing-stream",
+      "status": "passed",
+      "setup_seconds": 0.0003395862877368927,
+      "execution_seconds": 0.0012333840131759644,
+      "checks_seconds": 5.0067901611328125e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "text-stream",
+      "status": "passed",
+      "setup_seconds": 0.00034759100526571274,
+      "execution_seconds": 0.0012863576412200928,
+      "checks_seconds": 4.916451871395111e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "null-status",
+      "status": "passed",
+      "setup_seconds": 0.000314418226480484,
+      "execution_seconds": 0.0013316618278622627,
+      "checks_seconds": 8.967705070972443e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "failure-no-errno",
+      "status": "passed",
+      "setup_seconds": 0.0003344584256410599,
+      "execution_seconds": 0.0012469766661524773,
+      "checks_seconds": 4.9211084842681885e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "failure-zero-errno",
+      "status": "passed",
+      "setup_seconds": 0.0003186045214533806,
+      "execution_seconds": 0.0012992685660719872,
+      "checks_seconds": 4.827044904232025e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "failure-large-errno",
+      "status": "passed",
+      "setup_seconds": 0.00033167190849781036,
+      "execution_seconds": 0.0012472327798604965,
+      "checks_seconds": 4.9620866775512695e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "failure-bool-errno",
+      "status": "passed",
+      "setup_seconds": 0.0003158440813422203,
+      "execution_seconds": 0.001277112402021885,
+      "checks_seconds": 4.7050416469573975e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "failure-unknown-key",
+      "status": "passed",
+      "setup_seconds": 0.0003334963694214821,
+      "execution_seconds": 0.0013639619573950768,
+      "checks_seconds": 7.689930498600006e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "failure-wrong-status",
+      "status": "passed",
+      "setup_seconds": 0.0004039257764816284,
+      "execution_seconds": 0.001308976672589779,
+      "checks_seconds": 4.98257577419281e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "failure-text-stream",
+      "status": "passed",
+      "setup_seconds": 0.00032276101410388947,
+      "execution_seconds": 0.0014141667634248734,
+      "checks_seconds": 7.057562470436096e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "oversized-callback-streams",
+      "status": "passed",
+      "setup_seconds": 0.0003734417259693146,
+      "execution_seconds": 0.001252608373761177,
+      "checks_seconds": 5.056150257587433e-06
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-magic",
+      "status": "passed",
+      "seconds": 0.001443108543753624
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-action",
+      "status": "passed",
+      "seconds": 0.0014659669250249863
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-status",
+      "status": "passed",
+      "seconds": 0.0014327270910143852
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-native-status",
+      "status": "passed",
+      "seconds": 0.0014786282554268837
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-size",
+      "status": "passed",
+      "seconds": 0.0014232276007533073
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-truncated",
+      "status": "passed",
+      "seconds": 0.0014084652066230774
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-failure-status",
+      "status": "passed",
+      "seconds": 0.0015752911567687988
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-failure-errno-zero",
+      "status": "passed",
+      "seconds": 0.001482916995882988
+    },
+    {
+      "compiler": "clang",
+      "check": "wire-failure-errno-large",
+      "status": "passed",
+      "seconds": 0.0013801706954836845
+    }
+  ]
+}

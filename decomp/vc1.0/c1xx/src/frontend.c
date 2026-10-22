@@ -1,6 +1,7 @@
 /* Translation-unit orchestration, original 0x69730..0x69a97. */
 #include <stdlib.h>
 #include "frontend.h"
+#include <recon.h>
 
 unsigned initial_option_flags, token_allocation_flags;
 unsigned cpp_parser_flags; /* original 0x9f794 */

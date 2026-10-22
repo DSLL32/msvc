@@ -2,6 +2,7 @@
 #include "resource.h"
 #include <stdarg.h>
 #include <stdlib.h>
+#include <recon.h>
 
 void __cdecl resource_finish(char *format, ...)
 {

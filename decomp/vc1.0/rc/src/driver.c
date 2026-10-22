@@ -6,6 +6,7 @@
 #include <process.h>
 #include <errno.h>
 #include <excpt.h>
+#include <recon.h>
 #pragma intrinsic(strcpy, strcat, strlen, strcmp)
 
 FILE *diagnostics, *resource_output, *preprocessor_input;

@@ -3,6 +3,7 @@
 #include "tokens.h"
 #include <ctype.h>
 #include <string.h>
+#include <recon.h>
 static char numeric_character;
 static char *numeric_cursor;
 static int expression_has_long, parenthesis_depth;

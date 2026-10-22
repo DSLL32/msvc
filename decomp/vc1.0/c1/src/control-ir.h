@@ -1,6 +1,7 @@
 #ifndef CONTROL_IR_H
 #define CONTROL_IR_H
 #include "source-input.h"
+#include <recon.h>
 /* Control-record schemas retain their logical fields, not the original
    combined table's alternate output descriptors. */
 enum ControlField {

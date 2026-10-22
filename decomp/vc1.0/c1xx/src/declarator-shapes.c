@@ -4,6 +4,7 @@
 #include "macros.h"
 #include "keywords.h"
 #include "operators.h"
+#include <recon.h>
 
 /* The original expands this test at each data-pointer/array/member-pointer
    case. Keep it local to that folding operation rather than inventing a

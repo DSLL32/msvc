@@ -1,5 +1,6 @@
 /* Compiler checksum transform tables, original 0x6efc8..0x6f2e8. */
 #include "options.h"
+#include <recon.h>
 
 unsigned char checksum_low[256];
 unsigned char checksum_high[256];

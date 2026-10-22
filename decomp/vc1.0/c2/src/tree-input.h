@@ -1,6 +1,7 @@
 #ifndef TREE_INPUT_H
 #define TREE_INPUT_H
 #include "function-input.h"
+#include <recon.h>
 /* Define opcode properties only as their uses are encountered. */
 typedef enum NodeArity { NODE_BINARY, NODE_UNARY, NODE_LEAF, NODE_CHAIN } NodeArity;
 #define NODE_ARITY 3

@@ -1,6 +1,7 @@
 /* MSC_CMD_FLAGS argv extension, preserving original quote and DBCS rules. */
 #include "options.h"
 #include "characters.h"
+#include <recon.h>
 
 /* Original 0x73c60..0x73d2a. */
 void read_env_arguments(char *text)

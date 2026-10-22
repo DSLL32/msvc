@@ -2,6 +2,7 @@
 #include "rc.h"
 #include <stdlib.h>
 #include <excpt.h>
+#include <recon.h>
 
 char *_acmdln;
 char *_aenvptr;

@@ -1,5 +1,5 @@
 """Audit function edges without interpreting jump tables as instructions."""
-from compare import indexes
+from pe_indexes import indexes
 from binary import u32
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32, CS_GRP_JUMP, CS_GRP_RET
 from capstone.x86_const import X86_OP_IMM, X86_OP_MEM

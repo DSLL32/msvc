@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <io.h>
+#include <recon.h>
 extern int _umaskval;
 extern int _alloc_osfhnd(void);
 extern int _set_osfhnd(int, long);

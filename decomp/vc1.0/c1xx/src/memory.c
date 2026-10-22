@@ -2,6 +2,7 @@
 /* Permanent zeroed allocation arena, original globals 0x9f1e0/0x9f41c. */
 #include <stdlib.h>
 #include "options.h"
+#include <recon.h>
 
 static unsigned char *permanent_next;
 static unsigned permanent_available;

@@ -4,6 +4,7 @@
 #include "register-use.h"
 #include "function-input.h"
 #include "temporaries.h"
+#include <recon.h>
 extern int cpu_model, optimization_cost, optimize_speed;
 
 /* Original [0002bff0,0002c7c0). Measure or apply spilling for one operand.

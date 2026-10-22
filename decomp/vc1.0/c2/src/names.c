@@ -3,6 +3,7 @@
 #include "machine.h"
 #include "function-input.h"
 #include "options.h"
+#include <recon.h>
 extern unsigned descriptor_bytes[7];
 void __fastcall uppercase_name(char *name);
 unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix);

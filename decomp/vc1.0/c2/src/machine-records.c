@@ -32,6 +32,7 @@ void __fastcall emit_source_filename(char *filename)
     instruction->record.filename = filename;
 }
 #include <stdarg.h>
+#include <recon.h>
 /* Original [000172f0,00017340). All variants occupy eight words. */
 MachineInstruction *__fastcall new_machine_instruction(unsigned kind)
 {

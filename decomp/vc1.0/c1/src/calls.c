@@ -1,5 +1,6 @@
 /* Function call designators and argument conversion contexts. */
 #include "expressions.h"
+#include <recon.h>
 
 CallContext *call_context; /* original 0x6b5d4 */
 int call_designator_depth; /* original 0x6bf6c */

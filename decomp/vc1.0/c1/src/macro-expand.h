@@ -1,6 +1,7 @@
 #ifndef MACRO_EXPAND_H
 #define MACRO_EXPAND_H
 #include "macros.h"
+#include <recon.h>
 
 /* Variable-length actual argument; the span includes text terminators. */
 

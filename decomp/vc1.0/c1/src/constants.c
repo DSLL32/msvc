@@ -2,6 +2,7 @@
 #include "initialization.h"
 #include "parser.h"
 #include "expressions.h"
+#include <recon.h>
 
 /* Original 0x278f0..0x27907. */
 IrToken *__stdcall make_integer_constant(unsigned value)

@@ -1,6 +1,7 @@
 /* Shared dialog-control text, ID and coordinate readers. */
 #include "dialog.h"
 #include <string.h>
+#include <recon.h>
 #pragma intrinsic(memcpy)
 WORD __stdcall advance_argument_flags(WORD);
 

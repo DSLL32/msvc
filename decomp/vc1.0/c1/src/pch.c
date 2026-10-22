@@ -10,6 +10,7 @@
 #include "control-ir.h"
 #include "lexer.h"
 #include "preprocessor.h"
+#include <recon.h>
 
 PchRecord *pch_record_cursor; /* original 0x5b568 */
 short pch_include_count = -1; /* original 0x6de1c */

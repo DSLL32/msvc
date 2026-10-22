@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "case": "help",
+  "arguments": "/?",
+  "environment": {
+    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "TMP": "Q:\\help",
+    "TEMP": "Q:\\help"
+  },
+  "initial": {},
+  "boundaries": [],
+  "final": {},
+  "stdout": {
+    "sha256": "51f4a347b8d10b930fcba947306fb12ce0027ec7f627d5dfa82e1234ce78808c",
+    "bytes": 3192
+  },
+  "stderr": {
+    "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
+    "bytes": 131
+  },
+  "events": "exit 00000000\n",
+  "timing": {
+    "setup_seconds": 0.0034356005489826202,
+    "capture_execution_seconds": 3.523110719397664,
+    "capture_checks_seconds": 0.0038089342415332794,
+    "total_seconds": 3.530356456525624
+  }
+}

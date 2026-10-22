@@ -5,6 +5,7 @@
 #include "class-members.h"
 #include "global-ir.h"
 #include "cpp-context.h"
+#include <recon.h>
 
 /* Original 0x2dfc0..0x2e0e7. Retain the temporary class type while running
    completion passes, then leave the wrapper scope and build its name index. */

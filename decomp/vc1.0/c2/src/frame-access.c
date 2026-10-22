@@ -2,6 +2,7 @@
 #include "frame-access.h"
 #include "register-use.h"
 #include "instruction-rewrite.h"
+#include <recon.h>
 /* Original [000351a0,00035210). Only ordinary frames enter collection;
    both lists use the native generic sorter and its separate comparator. */
 void __fastcall set_machine_frame(MachineContext *context, unsigned flags)

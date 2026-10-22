@@ -1,6 +1,7 @@
 #ifndef FUNCTION_FINALIZATION_H
 #define FUNCTION_FINALIZATION_H
 #include "function-definitions.h"
+#include <recon.h>
 void __stdcall finish_function_body(int recovering);
 void reset_function_symbol_tables(void);
 extern CppSymbol *initializer_data_symbol;

@@ -7,6 +7,7 @@
 #include "control-ir.h"
 #include "lexer.h"
 #include "keywords.h"
+#include <recon.h>
 
 /* Serialized cells with no ordinary executable consumers retain their
    native defaults and any values restored from a compatible PCH. */

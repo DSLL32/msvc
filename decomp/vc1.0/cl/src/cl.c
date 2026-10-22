@@ -1,5 +1,6 @@
 /* CL.EXE 8.00, original main: [000186cb, 00018a85). */
 #include "cl.h"
+#include <recon.h>
 Driver driver_storage, *driver = &driver_storage;
 int show_commands = 1, quiet = 1, errors, help_mode, preprocess;
 int echo_response, output_produced;

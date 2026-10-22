@@ -2,6 +2,7 @@
 #include "work-prepare.h"
 #include "tree-rewrite.h"
 #include "algebra.h"
+#include <recon.h>
 extern int hook_functions, code_pointer_bytes;
 SymbolHeader *__fastcall require_external_symbol(char *name);
 

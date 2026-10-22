@@ -3,6 +3,7 @@
 #include "parameters.h"
 #include "cpp-context.h"
 #include "operators.h"
+#include <recon.h>
 
 TypeShape *__stdcall skip_reference_shape(TypeShape *shape);
 

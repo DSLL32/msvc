@@ -1,6 +1,7 @@
 #ifndef INLINE_CAPTURE_H
 #define INLINE_CAPTURE_H
 #include "class-members.h"
+#include <recon.h>
 
 extern int captured_class_error_count;
 void begin_pending_class_names(void);

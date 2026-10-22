@@ -11,11 +11,10 @@ On this Debian host gcc-multilib and libc6-dev-i386 supply the missing support.
 The shims themselves compile with GCC or Clang. LINK's existing Microsoft inline
 assembly requires Clang's -fms-extensions -fasm-blocks in its native build.
 
-Run make check here to build and execute the shared checks. No archive is built.
-A target's final native compiler/link command supplies src/crt.c, src/win32.c
-and src/process.c directly alongside its reconstructed object files, using -m32
-and the same native
-preprocessor/include settings. Add both include/ and native/ to the native include
+Run make -j4 check trace-check process-check adoption-check for shared checks.
+No archive is built. A target's final native link compiles src/*.c directly
+alongside reconstructed objects, without instrumentation, using -m32 and the
+same native preprocessor/include settings. Add both include/ and native/ to the native include
 path; add only include/ to the original Win32 build.
 
 Header contract
@@ -36,7 +35,7 @@ reconstructed implementation wins. Ordinary host libc calls remain outside the
 native application's reconstructed function graph.
 
 The native Windows overlay contains the types, PE/COFF layouts and constants
-encountered in LINK. Layout assertions require i386 pointers and long. This is
+encountered in the reconstructed tools. Layout assertions require i386 pointers and long. This is
 not a replacement Windows SDK. Add declarations as targets encounter them.
 
 Execution and paths
@@ -63,10 +62,10 @@ resolves the supported mapping exports to their native implementations. Missing
 exports (including LINK's IsTNT probe) return NULL with the Windows error code;
 unsupported DLLs fail. No dynamic PE loading is involved.
 
-Initial scope
--------------
+Compatibility scope
+-------------------
 
-The first implementation targets ordinary LINK fixtures. Streams preserve text
+Streams preserve text
 CRLF translation and Ctrl+Z input EOF; binary files remain binary. File mappings
 extend writable files to their declared size and remain valid after mapping
 handles close. Truncation fails while a mapping handle is open, preserving the
@@ -92,7 +91,8 @@ Native application entry tracing
 src/trace.c supplies __cyg_profile_func_enter/exit for reconstructed objects
 compiled with -finstrument-functions. Compile trace.c itself and compatibility
 sources without that flag. The callbacks also explicitly suppress instrumentation.
-The canonical Win32 build and source function bodies need no tracing changes.
+Naked functions use RECON_TRACE_NAKED_ENTRY(name), empty in the Win32 build;
+it preserves registers, flags and floating-point state around the entry callback.
 
 Set RECON_TRACE_FD to an inherited writable descriptor for a separate trace file.
 Set RECON_TRACE_FILTER to a newline-separated list of the target's native
@@ -176,14 +176,17 @@ Use a context manager or close() after the target exits, then check() to report
 broker errors. requests records each accepted invocation and whether it used a
 native child or replay. This is a test boundary, not an implementation of the
 external tool: input and response data must be backed by independent original
-captures, never by the reconstruction currently under test. Current replay
-supplies status and callback-applied file effects; dependencies with nonempty
-stdout/stderr need additional stream replay support before being registered.
+captures, never by the reconstruction currently under test. Captured replies may supply status, raw stdout/stderr bytes and callback-applied
+file effects. Stream bytes pass through the logical inherited descriptors without
+text conversion. Captured spawn failures supply status=-1 and errno. Each adapter
+must validate the complete prepared input and requested invocation first.
 
 The socket protocol is local little-endian RSP1: magic plus uint32 payload size,
 then int32 mode, uint32 PID/argc/envc and length-prefixed executable, cwd, argument
 and environment byte strings. Replies contain magic, int32 action (0 native,
-1 replay, 2 reject), and int32 result. It is opt-in; unset RECON_SPAWN_FD sends no
+1 status replay, 2 reject, 3 stream replay, 4 spawn-failure replay), and int32
+result. Stream replies append bounded stream lengths and bytes; failure replies
+also include the captured errno. It is opt-in; unset RECON_SPAWN_FD sends no
 requests. The Python adapter and C shim enforce bounded message/list sizes.
 
 Run make -j4 process-check for real self-exec with canonical argv/environment,
@@ -191,3 +194,28 @@ child artifact/PID proof, shared and local first-entry behavior, accepted prefix
 input-checked response replay, rejection, PE refusal and disabled tracing. Source
 is compiled directly with the shims at final link. process-validation.json
 records the shared checks and build/check elapsed times.
+
+Adopted tool compatibility
+--------------------------
+
+RECON_DEFAULT_FMODE=0x8000 selects the BINMODE.OBJ default for C1/C2; explicit
+fopen b/t modes override it. Legacy FILE layouts, x87 controls, 32-byte setjmp
+buffers, counted NT strings and CP932 conversions are shared here. Decimal
+helpers preserve the encountered x87/12-byte formats; unusual invalid literal
+syntax and Windows best-fit character conversion are outside tested scope.
+
+RECON_CANONICAL_CWD preserves a captured absolute DOS working-directory spelling
+only after its drive mapping resolves to the actual host cwd. RECON_MKTEMP_SUFFIX
+can supply a captured six-character suffix; otherwise mktemp uses the original
+PID-derived naming and collision sequence. RECON_NAMED_PIPE_ROOT maps simple
+Windows pipe names to prepared native FIFOs.
+
+RECON_LOCAL_CLOCK=YYYY-MM-DDTHH:MM:SS.mmm/step_ms supplies an advancing local
+calendar clock for CL timing fixtures, using reconstructed timezone/DST hooks.
+RECON_FIXED_TIME and RECON_FIXED_MILLISECONDS provide fixed clock inputs.
+RECON_SPAWN_REQUIRE_EXISTS=1 makes missing executable candidates fail ENOENT
+before a captured response is requested, supporting original PATH search.
+
+Native signal fixtures test observable handler/output behavior. They do not
+claim equivalence of Windows console callback threads or SEH fault dispatch.
+Shared changes belong to the orchestrator; binary workers request additions.
