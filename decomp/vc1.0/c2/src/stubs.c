@@ -145,7 +145,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void finish_machine_schedule(void) { __asm int 3 }
 void __fastcall split_machine_instructions(MachineContext *context) { __asm int 3 }
 void __fastcall schedule_i586_branches(MachineContext *context) { __asm int 3 }
 void __fastcall finish_machine_lowering(MachineContext *context) { __asm int 3 }
@@ -473,24 +472,15 @@ int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInst
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction *label, MachineInstruction *before_target) { __asm int 3 }
-void __fastcall scheduler_release(void *memory) { __asm int 3 }
-MachineInstruction *__fastcall recombine_scheduled_loads(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 void __fastcall prepare_float_schedule(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall call_float_result_count(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 
-void __cdecl compact_pentium_candidates(void) { __asm int 3 }
 void __fastcall insert_pentium_stall(int reason) { __asm int 3 }
 void __fastcall remove_scheduled_float_exchange(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment) { __asm int 3 }
-int __fastcall scheduled_stack_overlap(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
-int __fastcall rewrite_scheduled_stack(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerMemoryAccess *last, int forward) { __asm int 3 }
 int __fastcall compare_scheduled_memory(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes, int mode, int conservative, int *relation, SchedulerMemoryAccess *left_memory, SchedulerMemoryAccess *right_memory) { __asm int 3 }
-int __fastcall can_schedule_pentium(MachineInstruction *instruction, int forward) { __asm int 3 }
-void __fastcall remove_pentium_ready_pair(int first, int last) { __asm int 3 }
 int __fastcall scheduled_float_latency(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall remove_pentium_candidate_undo(MachineInstruction *instruction, SchedulerCandidate *candidate) { __asm int 3 }
 int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }

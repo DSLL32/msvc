@@ -1,0 +1,471 @@
+{
+  "checkpoint": 707,
+  "base_commit": "b44cec4",
+  "status": "active queue; first function scheduler returned; late instruction splitting next",
+  "accepted_functions": [
+    {
+      "name": "@recombine_scheduled_loads@8",
+      "start": 203248,
+      "end": 204155
+    },
+    {
+      "name": "@call_float_result_count@4",
+      "start": 248192,
+      "end": 248217
+    },
+    {
+      "name": "@scheduled_stack_overlap@8",
+      "start": 272256,
+      "end": 272483
+    },
+    {
+      "name": "@rewrite_scheduled_stack@8",
+      "start": 270944,
+      "end": 271109
+    },
+    {
+      "name": "@remove_pentium_ready_pair@8",
+      "start": 282368,
+      "end": 282508
+    },
+    {
+      "name": "@remove_pentium_candidate_undo@8",
+      "start": 286368,
+      "end": 286429
+    },
+    {
+      "name": "_compact_pentium_candidates",
+      "start": 275680,
+      "end": 275905
+    },
+    {
+      "name": "@can_schedule_pentium@8",
+      "start": 273600,
+      "end": 274567
+    },
+    {
+      "name": "@scheduler_release@4",
+      "start": 260144,
+      "end": 260154
+    },
+    {
+      "name": "_finish_machine_schedule",
+      "start": 272672,
+      "end": 272723
+    }
+  ],
+  "source_graphs": 630,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 707,
+    "accepted_code_bytes": 198794,
+    "original_code_bytes": 399693,
+    "percentage": 49.73667289644803,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 207
+  },
+  "coverage_delta_bytes": 2778,
+  "current_frontier": {
+    "name": "@split_machine_instructions@4",
+    "original_va": "0x4b950"
+  },
+  "validation": {
+    "canonical_build": "pass",
+    "scheduler_W3": "clean",
+    "graph_extent_mask": "pass",
+    "native_fixtures": {
+      "method": "native application entry and captured-output check",
+      "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+      "executable_sha256": "cc478885acc7c213cf3e55586266f5da1a1ef65393d18f077199b02192496b7d",
+      "trace_enabled": true,
+      "shared_hashes": {
+        "lib/recon/include/recon.h": "5fa1a22f52d82aea4837ed72229f0513f3a374a2948e23d85cfa4d24e02b6df6",
+        "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+        "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+        "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+        "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+        "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+        "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+        "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+        "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+        "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+        "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+        "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+        "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+        "lib/recon/src/crt.c": "53a660e8675b68b43527d9d10fa9d95ce56f796dc969fca1789719fbc0010c26",
+        "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+        "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+        "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+        "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+        "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+      },
+      "results": [
+        {
+          "profile": "minimal",
+          "terminal": "exit:0",
+          "returncode": 0,
+          "application_entries": 270,
+          "seeded_entries": 0,
+          "output": {
+            "name": "test.obj",
+            "bytes": 286,
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_timestamp": [
+              4,
+              4
+            ]
+          },
+          "setup_seconds": 0.015987019054591656,
+          "execution_seconds": 0.005065255798399448,
+          "check_seconds": 0.0016547450795769691,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-j4pv0abk/minimal"
+        },
+        {
+          "profile": "hello",
+          "terminal": "@split_machine_instructions@4",
+          "returncode": -5,
+          "application_entries": 356,
+          "seeded_entries": 270,
+          "output": null,
+          "setup_seconds": 0.012832186184823513,
+          "execution_seconds": 0.006371702998876572,
+          "check_seconds": 0.0009399577975273132,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-j4pv0abk/hello"
+        }
+      ],
+      "rejected": [
+        "wrong expected application entry",
+        "non-clock object corruption",
+        "changed captured IR input"
+      ],
+      "fixture_seconds": 0.19378073047846556,
+      "suite_setup_seconds": 0.11961339227855206,
+      "negative_check_seconds": 0.022366265766322613,
+      "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+    }
+  },
+  "original_references": [
+    "cases/hello-original-698.json",
+    "cases/hello-original-699.json",
+    "cases/hello-original-700.json",
+    "cases/hello-original-701.json",
+    "cases/hello-original-702.json",
+    "cases/hello-original-703.json",
+    "cases/hello-original-704.json",
+    "cases/hello-original-705.json",
+    "cases/hello-original-706.json",
+    "cases/hello-original-707.json"
+  ],
+  "native_frontiers": {
+    "recombine": {
+      "executable_sha256": "4e7cf76995cc481a7ac3ca01c85a45995aa364f51d333821afa5a2d5f99ee9b4",
+      "config_sha256": "f6495ae4878afabfb1fd5f06949e60e9c2878a4bbf40a05df8461ffc2f0d5362",
+      "seconds": 0.1446692654863,
+      "logical": "@call_float_result_count@4",
+      "matched": true,
+      "log_sha256": "5dbc41a6602e93f2e5cff358c5ef9e6c55d4ef7ee985e6c0e14437baf815eb05"
+    },
+    "call-float": {
+      "executable_sha256": "18a10e833d73a1518faf469de8e5a93940eb4b1b16b984c5549c29992cbbff1a",
+      "config_sha256": "8fae3312ba559f6d3c2e0dc79d12b949c598b4c7cdab6a1cb291bd999d45f617",
+      "seconds": 0.1671379031613469,
+      "logical": "@scheduled_stack_overlap@8",
+      "matched": true,
+      "log_sha256": "9a636943b65d1fd9ecdbc13450a915c892e5eef0c9b657921a16898b72aad936"
+    },
+    "stack-overlap": {
+      "executable_sha256": "fe03e353328d94ae80950dbb5c84e1705b41bd9ecb51910b758a7f90364040a2",
+      "config_sha256": "95e5d93b6216f7a65b41db8d6f79d099e75acce88dd339876ba2b3b5c8f80c9e",
+      "seconds": 0.14384352695196867,
+      "logical": "@rewrite_scheduled_stack@8",
+      "matched": true,
+      "log_sha256": "b0535b9e815a2eea974aed6812dd83255406ac814c80a4145b0c5b37d0e5b7ab"
+    },
+    "rewrite-stack": {
+      "executable_sha256": "a1a9cc6a7cafde5a7e78d6d69263edda929d9a1935b1629d43d73cd4dd7a74e4",
+      "config_sha256": "031f7aaf5dfbbb82314abfb038e645e405fdded4a50e311ea6ad416429ad8c50",
+      "seconds": 0.1639289641752839,
+      "logical": "@remove_pentium_ready_pair@8",
+      "matched": true,
+      "log_sha256": "08197ee1076f44977f7e95035acf027ae0f2cf8e71010a54d00b94d28f6aedc9"
+    },
+    "remove-pair": {
+      "executable_sha256": "7d307d37df85180a46867047199dff6e61ea810a961999af3ddc78bf6b064234",
+      "config_sha256": "aab1e8fd520aef342d7c245f0ddee70b751c0e974a2b2316d3c2b8b8a4432122",
+      "seconds": 0.15040830336511135,
+      "logical": "@remove_pentium_candidate_undo@8",
+      "matched": true,
+      "log_sha256": "b855754a5b1bd33fa6bc75027d7f4c021c7f1c0ab97e43bfe0935cb0d93fb1bf"
+    },
+    "remove-undo": {
+      "executable_sha256": "86fe55fc17aa875b18e06c5b820f7a6576f65c3675056ceff5138584851a0396",
+      "config_sha256": "21b138767d872fe0563b36b25e203bfd83f0ac0a4b514e96fdd203f252166265",
+      "seconds": 0.1463077887892723,
+      "logical": "_compact_pentium_candidates",
+      "matched": true,
+      "log_sha256": "dce89bf43ae11fff9f64434e5434d702552698ce2b3663ef27113fb5a850c589"
+    },
+    "compact": {
+      "executable_sha256": "59e9fdb0d30c987462a47931354cbf42b4073bfa8d39d091c06fa50cd125fde1",
+      "config_sha256": "6d015aec1c2d6217a200174d43586f34f681525cbcb2f177064a9661ee3c69da",
+      "seconds": 0.14219823200255632,
+      "logical": "@can_schedule_pentium@8",
+      "matched": true,
+      "log_sha256": "2acaa5ef4679755175f2f7f16aa3a991b5ca32db0e9c8a6e5f8c11a0847b90fc"
+    },
+    "backward": {
+      "executable_sha256": "a646305941907770dbeef0736ed535b6e5a2bb7a83e9dc81a86318adeb924547",
+      "config_sha256": "97e676499f4ba58aa555e0dccf26724c666bcffba134958b1bcb0536261ed484",
+      "seconds": 0.1400400334969163,
+      "logical": "@scheduler_release@4",
+      "matched": true,
+      "log_sha256": "7b4ec0b23c869a0086759986d65dc9646b78d6768fc4d69d210beee545625bc5"
+    },
+    "release": {
+      "executable_sha256": "0bf9b8cb011b7095421c794b5c60a92099c6c5c2e424583f56acda8bb5bdeff0",
+      "config_sha256": "9e031939f062496186df085842542c306821afcf78753a82a93aa753392363c5",
+      "seconds": 0.14564867783337831,
+      "logical": "_finish_machine_schedule",
+      "matched": true,
+      "log_sha256": "7bdaf31c08a172f3981a4c0ac3bcc1af565ee1c3f37a6da925b4711e36025ab4"
+    },
+    "finish": {
+      "executable_sha256": "157c2ccfe611a3ddca98251287bc79a6c412ebe151dd856c4084218834edf6a7",
+      "config_sha256": "f8776b94d29ba36b4544e25e4b4017eb02973cac5da22b1b0397a518e2cc9fb5",
+      "seconds": 0.19324687961488962,
+      "logical": "@split_machine_instructions@4",
+      "matched": true,
+      "log_sha256": "8411b742446002ae75a30c7ff8443152d8fdd07593a38fe55005e807d536e7ff"
+    }
+  },
+  "timings": {
+    "recombine-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.1081323139369488,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "call-float-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.86665057297796,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "stack-overlap-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.164574666880071,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "rewrite-stack-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.8993307622149587,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "remove-pair-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.195536366663873,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "remove-undo-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.070407971739769,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "compact-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.8942768275737762,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "backward-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.080204132013023,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "release-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.2374531598761678,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "finish-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.1059315437451005,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "checkpoint704-warnings-timing.json": {
+      "command": [
+        "python3",
+        "scripts/wine-tool.py",
+        "CL.EXE",
+        "/nologo",
+        "/W3",
+        "/I../../../lib/recon/include",
+        "/c",
+        "/Od",
+        "/G3",
+        "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\scheduler-704.obj",
+        "src/scheduler.c"
+      ],
+      "seconds": 1.917543912306428,
+      "returncode": 0,
+      "log_sha256": "ee069219d9141deb6e9a2ea922c4e4fd0487fa0780bd4505d075398ec9650580"
+    },
+    "checkpoint704-audit-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 3.365624572150409,
+      "returncode": 0,
+      "log_sha256": "6833b97cd69869e2dc8c092afe204748bc9bd38038344d1b8d6698b47508acb3"
+    },
+    "checkpoint704-win32-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 2.0470942491665483,
+      "returncode": 0,
+      "log_sha256": "dc7603fd22fd458f13ac70ce5c22f195810bc7c2036476237bb98967c7347dcc"
+    },
+    "checkpoint707-audit-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 3.3733299328014255,
+      "returncode": 0,
+      "log_sha256": "aae14c1af8b8ddc8804b8beb0742db403e4a269d72bb1438aa7c5ae16ad3e1d3"
+    },
+    "checkpoint707-win32-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 1.6418594559654593,
+      "returncode": 0,
+      "log_sha256": "632ae95571a3168b0c9430ca72d302ef10868723f5c3f75e74bdc65ffc606770"
+    },
+    "checkpoint704-native-check-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.30723544023931026,
+      "returncode": 0,
+      "log_sha256": "83c18cb72cbc377271f777e136b34853cce3c3bc5dfe66d37e0fb8d06a860b0d"
+    },
+    "checkpoint707-warnings-timing.json": {
+      "command": [
+        "python3",
+        "scripts/wine-tool.py",
+        "CL.EXE",
+        "/nologo",
+        "/W3",
+        "/I../../../lib/recon/include",
+        "/c",
+        "/Od",
+        "/G3",
+        "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\scheduler-707.obj",
+        "src/scheduler.c"
+      ],
+      "seconds": 1.3039957471191883,
+      "returncode": 0,
+      "log_sha256": "ee069219d9141deb6e9a2ea922c4e4fd0487fa0780bd4505d075398ec9650580"
+    },
+    "checkpoint707-native-check-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.2894091298803687,
+      "returncode": 0,
+      "log_sha256": "dbbacfe718f909d02a89d2de7f4d31e26b43ad91812c90b9cacc1287b61645aa"
+    }
+  },
+  "limits": [
+    "First function completed scheduling and reached the post-scheduling pass. Full optimized hello object is incomplete.",
+    "First returned window already has durable original/native state equality in hello-first-scheduled-window.json. No additional whole-driver state dump claimed.",
+    "Integer case enters but does not exercise the floating-store correction branch; that whole implementation preserves the native unassigned owner word in its undo-record variant.",
+    "Floating/generic scheduling families remain named traps where unreached."
+  ],
+  "notes": [
+    "Load/store recombination retains all operand-legality, matching-store, branch-boundary and end-of-window checks, preserving original callees.",
+    "Candidate removal/compaction preserves native hole-filling order; backward movement validates both former neighbors and preceding-pair address dependencies.",
+    "Scheduler cleanup uses the original free wrapper then clears only scheduling-class record union fields."
+  ],
+  "timing_notes": "All recorded times are wall seconds; explicit original reference capture is outside native fixtures. Each original receipt stores setup/execution-check. Analysis/source-writing and other uninstrumented phases are unmeasured."
+}

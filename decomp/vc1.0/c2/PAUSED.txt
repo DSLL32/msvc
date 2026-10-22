@@ -1,17 +1,11 @@
-C2 ACTIVE after user resume; one-function limit revoked.
-Queue: finish optimized /O2 /G5 hello, then independently original-capture and
-reconstruct loops/pressure/spills, aliasing/struct copies and x87 stress cases.
-Verified697accepted/620source graphs; first scheduling window RETURNS and
-independent original/native state matches87stream records/3metadata/65register
-slots plus live history/ready/undo/global fields. Next matching named trap:
-@recombine_scheduled_loads@8 at0x319f0. Hello object still incomplete.
-Actual accepted extent union196016/399693=49.0416394583percent, not branch
-coverage. Canonical build, full graph/extent/mask checks, whole scheduler/W3
-and native minimal+hello regressions pass. See cases/hello-first-scheduled-
-window.json and durable cases/hello-original-681.json..697.json receipts.
-Standalone preparation EAX comparison remains unperformed; later returned-window
-state comparison is complete. Unvisited floating/failure alternatives remain
-unvalidated and retain named traps. No shared shim request.
-Scratch /root/.ai-tmp/vc1.0-c2/optimizer-queue; prefix../wine.
-Preserve root optimized audit; shared lib/recon root-owned; use shared Git lock
-for scoped commits. Continue authorized queue without routine approval.
+C2 ACTIVE: finish /O2 /G5 hello, then independent original-captured optimizer
+stress cases (loops/pressure/spills, aliasing/struct copies, x87).
+Verified707accepted/630source graphs; first function scheduler fully returned.
+Current matching frontier split_machine_instructions at0x4b950, late x87 store
+splitting pass. Hello object incomplete. Coverage198794/399693=49.7366728964
+percent, clipped union/mask verified; not branch coverage. Canonical build,
+whole scheduler /W3, graph/extent/mask and both native fixtures pass.
+Durable evidence: cases/hello-scheduler-complete.json and original698..707
+receipts. First returned-window state equality remains documented separately.
+No shim request. Shared recon/root audit untouched. Scratch optimizer-queue
+under /root/.ai-tmp/vc1.0-c2; own prefix wine/. Use shared Git index lock.

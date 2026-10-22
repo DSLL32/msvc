@@ -6,7 +6,7 @@
 #include "register-use.h"
 #include <stdlib.h>
 #include <recon.h>
-extern int cpu_model;
+extern int cpu_model, optimize_speed;
 SchedulerRegionFrame *scheduler_regions; /*82ff0*/
 MachineInstruction *scheduler_instruction; /*7c300*/
 unsigned short scheduler_register_capacity; /*7e290*/
@@ -245,7 +245,7 @@ InstructionSchedule *__cdecl new_instruction_schedule(void)
 }
 
 /* Window state:7c304 is an undo-record pointer (restore traversal404c0).
-   Both pair words are instruction pointers (432e0/437e0). */
+   History pairs hold instructions; selected/ready records hold undo chains. */
 SchedulerUndo *scheduler_undo; /*7c304*/
 MachineInstruction *scheduler_cursor; /*7c2fc*/
 MachineInstruction *scheduler_last_float; /*7c34c*/
@@ -1497,4 +1497,230 @@ int __fastcall pentium_pair_independent(MachineInstruction *first, MachineInstru
         if (kind == OPERAND_BASED || kind == OPERAND_INDEXED || kind == OPERAND_ABSOLUTE) return 0;
     }
     return 1;
+}
+/* Original [000319f0,00031d7b). Recombine speed-split loads/stores when
+   scheduling leaves their consumer adjacent and x86 operand rules permit it. */
+#define RECOMBINE_MEMORY_OPERAND(p) (((p)->flags & 15) == OPERAND_BASED || \
+    ((p)->flags & 15) == OPERAND_INDEXED || ((p)->flags & 15) == OPERAND_ABSOLUTE)
+/* Native opcode property0x400, expressed by the permitted operation set. */
+#define RECOMBINE_MEMORY_OPERATION(op) ((op) == MC_XCHG || (op) == MC_PUSH || \
+    (op) == MC_DEC || (op) == MC_INC || ((op) >= MC_NEG && (op) <= MC_XOR))
+MachineInstruction *__fastcall recombine_scheduled_loads(MachineInstruction *first, MachineInstruction *last)
+{
+    MachineInstruction *before, *end, *next, *consumer, *store = 0, *tail;
+    MachineOperand *second;
+    unsigned operation, kind;
+    unsigned short reg;
+    int seen_operation = 0, boundary = 0, destination;
+    if (!optimize_speed) return last;
+    for (before = first->previous; (before->opcode & 15) == 4 || (before->opcode & 15) == 7; before = before->previous) ;
+    if ((before->opcode & 15) == 1 || ((before->opcode & 15) == 0 && ((before->opcode >> 8) & 255) == MC_JCC)) boundary = 1;
+    end = last->next;
+    while (first != end) {
+        next = first->next;
+        if ((first->opcode & 15) == 0 && ((first->opcode >> 8) & 255) == MC_MOV &&
+            (first->operands[0].flags & 15) == OPERAND_REGISTER &&
+            ((first->opcode & 0xf0) == 0x10 || (first->opcode & 0xf0) == 0x40) &&
+            RECOMBINE_MEMORY_OPERAND(&first->operands[1]) && (first->opcode & 0x400000UL) &&
+            !(first->record.scheduling->flags & 0x40)) {
+            seen_operation = 1;
+            if (first == last) return first->previous;
+            reg = first->operands[0].value.reg.words.number;
+            for (consumer = next; (consumer->opcode & 15) == 4; consumer = consumer->next) ;
+            operation = (consumer->opcode >> 8) & 255;
+            if ((consumer->opcode & 15) != 0 || !RECOMBINE_MEMORY_OPERATION(operation) ||
+                ((first->opcode ^ consumer->opcode) & 0xf0)) goto next_instruction;
+            second = machine_operand_counts[operation] == 2 ? &consumer->operands[1] : 0;
+            kind = consumer->operands[0].flags & 15;
+            if (kind == OPERAND_REGISTER && consumer->operands[0].value.reg.words.number == reg) {
+                if (second && (operand_mentions_register(second, reg) || RECOMBINE_MEMORY_OPERAND(second))) goto next_instruction;
+                destination = 1;
+            } else if (second && (second->flags & 15) == OPERAND_REGISTER && second->value.reg.words.number == reg &&
+                kind != OPERAND_BASED && kind != OPERAND_INDEXED && kind != OPERAND_ABSOLUTE) destination = 0;
+            else goto next_instruction;
+            if (!replace_machine_operand(consumer, !destination, &first->operands[1], 0)) goto next_instruction;
+            if (destination && writes_first_operand(consumer)) {
+                if (consumer == last) return first->previous;
+                for (store = consumer->next; (store->opcode & 15) == 4; store = store->next) ;
+                if ((store->opcode & 15) != 0 || ((store->opcode >> 8) & 255) != MC_MOV ||
+                    ((first->opcode ^ store->opcode) & 0xf0) ||
+                    (store->operands[1].flags & 15) != OPERAND_REGISTER || store->operands[1].value.reg.words.number != reg ||
+                    !operands_equal(&store->operands[0], &first->operands[1]) || !(store->opcode & 0x400000UL)) goto next_instruction;
+            }
+            if (boundary) {
+                tail = destination && writes_first_operand(consumer) ? store->next : consumer->next;
+                while ((tail->opcode & 15) == 4 || (tail->opcode & 15) == 7) tail = tail->next;
+                operation = (tail->opcode >> 8) & 255;
+                if ((tail->opcode & 15) == 0 && (operation == MC_JCC || operation == MC_JMP || operation == MC_RET)) goto next_instruction;
+            }
+            if (destination) consumer->operands[0] = first->operands[1];
+            else consumer->operands[1] = first->operands[1];
+            remove_machine_instruction(first);
+            if (destination && writes_first_operand(consumer)) remove_machine_instruction(store);
+            next = consumer->next;
+        } else if ((first->opcode & 15) == 0) seen_operation = 1;
+next_instruction:
+        first = next;
+        boundary = !seen_operation;
+    }
+    return end->previous;
+}
+#undef RECOMBINE_MEMORY_OPERAND
+#undef RECOMBINE_MEMORY_OPERATION
+/* Original [0003c980,0003c999). Call metadata records up to two x87
+   results independently in bits14/15. */
+int __fastcall call_float_result_count(MachineInstruction *instruction)
+{
+    unsigned flags = instruction->operands[1].value.call->result_flags;
+    int count = (flags & 0x4000) != 0;
+    if (flags & 0x8000) ++count;
+    return count;
+}
+/* Original [00042780,00042863). Check whether changing ESP can affect
+   another operation's memory reference; fixed ESP/EBP-based stack locations
+   and absolute addresses have the native exceptions. */
+int __fastcall scheduled_stack_overlap(MachineInstruction *first, MachineInstruction *last)
+{
+    unsigned operation = (first->opcode >> 8) & 255, kind;
+    int count;
+    MachineOperand *operand;
+    MachineAddress *address;
+    if ((operation != MC_MOV && operation != MC_ADD) ||
+        (first->operands[0].flags & 15) != OPERAND_REGISTER) return 0;
+    count = machine_operand_counts[(last->opcode >> 8) & 255];
+    if (count != 1 && count != 2) return 1;
+    operand = &last->operands[0];
+    if (count == 2) {
+        kind = last->operands[1].flags & 15;
+        if (kind == OPERAND_BASED || kind == OPERAND_INDEXED || kind == OPERAND_ABSOLUTE)
+            operand = &last->operands[1];
+    }
+    kind = operand->flags & 15;
+    if (kind != OPERAND_BASED && kind != OPERAND_INDEXED && kind != OPERAND_ABSOLUTE) return 1;
+    if (kind == OPERAND_ABSOLUTE) return 0;
+    if (kind != OPERAND_BASED) return 1;
+    address = operand->value.address;
+    if (address->base.words.number == REG_ESP) return 0;
+    if (address->base.words.number == REG_EBP && !(current_function->field28 & 0x10)) {
+        if (address->symbol) return (long)address->symbol->field04 + address->first.displacement < 0;
+        return address->first.displacement < 0;
+    }
+    return 1;
+}
+/* Original [00042260,00042305). Defer an ESP-relative floating-store
+   displacement correction when a push can move across it. This native
+   undo variant does not assign the owner word; retain that write behavior. */
+int __fastcall rewrite_scheduled_stack(MachineInstruction *first, MachineInstruction *last)
+{
+    unsigned operation = (first->opcode >> 8) & 255, kind;
+    SchedulerUndo *undo;
+    if ((operation != MC_FST && operation != MC_FSTP) ||
+        (first->operands[0].flags & 15) != OPERAND_BASED ||
+        first->operands[0].value.address->base.words.number != REG_ESP) return 0;
+    operation = (last->opcode >> 8) & 255;
+    if (operation != MC_PUSH && operation != MC_EPUSH) return 0;
+    kind = last->operands[0].flags & 15;
+    if ((kind == OPERAND_BASED || kind == OPERAND_INDEXED) &&
+        last->operands[0].value.address->symbol == first->operands[0].value.address->symbol) return 0;
+    undo = arena_alloc(3, sizeof(SchedulerUndo));
+    undo->operand = &first->operands[0];
+    undo->adjustment = (last->opcode >> 4) & 15;
+    undo->replacement = 0xffff;
+    undo->next = scheduler_undo;
+    scheduler_undo = undo;
+    return 1;
+}
+/* Original [00044f00,00044f8c). Fill the holes left by two selected
+   entries using the ready set's last two records, preserving native order. */
+void __fastcall remove_pentium_ready_pair(int first, int last)
+{
+    int count = scheduler_ready_count;
+    if (last < count - 2) {
+        scheduler_pairs.ready[first] = scheduler_pairs.ready[count - 2];
+        scheduler_pairs.ready[last] = scheduler_pairs.ready[count - 1];
+    } else if (count - last == 2) scheduler_pairs.ready[first] = scheduler_pairs.ready[count - 1];
+    else scheduler_pairs.ready[first] = scheduler_pairs.ready[count - 2];
+}
+/* Original [00045ea0,00045edd). Unlink the first pending adjustment
+   owned by an instruction that has now been committed. Arena ownership is
+   retained; the native function does not release the detached record. */
+void __fastcall remove_pentium_candidate_undo(MachineInstruction *instruction, SchedulerCandidate *candidate)
+{
+    SchedulerUndo **link = &candidate->undo, *undo;
+    while ((undo = *link) != 0) {
+        if (undo->owner == instruction) {
+            *link = undo->next;
+            return;
+        }
+        link = &undo->next;
+    }
+}
+/* Original [000434e0,000435c1). Discard candidates that another
+   committed scheduling unit has already consumed. */
+void __cdecl compact_pentium_candidates(void)
+{
+    int first = 0, last = scheduler_ready_count - 1;
+    while (last >= 0 && (scheduler_pairs.ready[last].instruction->record.scheduling->flags & 0x800)) {
+        --last;
+        --scheduler_ready_count;
+    }
+    if (last == -1) scheduler_ready_count = 0;
+    while (first <= last && !(scheduler_pairs.ready[first].instruction->record.scheduling->flags & 0x800)) ++first;
+    while (first <= last) {
+        scheduler_pairs.ready[first] = scheduler_pairs.ready[last];
+        --scheduler_ready_count;
+        --last;
+        ++first;
+        if (first <= last) {
+            /* The unmarked record just copied below first bounds this scan. */
+            while (scheduler_pairs.ready[last].instruction->record.scheduling->flags & 0x800) --last;
+            while (first < scheduler_ready_count && !(scheduler_pairs.ready[first].instruction->record.scheduling->flags & 0x800)) ++first;
+        }
+    }
+}
+/* Original [00042cc0,00043087). Moving a candidate backward must not
+   expose an address-generation dependency between its former neighbors or
+   across the preceding pair. Forward movement needs no extra check here. */
+int __fastcall can_schedule_pentium(MachineInstruction *instruction, int forward)
+{
+    MachineInstruction *previous, *next;
+    unsigned flags, operation;
+    if (forward == 1) return 1;
+    flags = instruction->record.scheduling->flags;
+    if (flags & 0x40) return 0;
+    operation = (instruction->opcode >> 8) & 255;
+    if (SCHEDULER_FLOAT_OPERATION(operation) || ((flags >> 8) & 6) > 2) return 0;
+    previous = instruction->previous;
+    while (previous && !SCHEDULABLE_KIND(previous->opcode & 15) && !SCHEDULER_BARRIER(previous))
+        previous = previous->previous;
+    next = instruction;
+    if (!SCHEDULER_BARRIER(instruction)) {
+        for (next = instruction->next; next; next = next->next)
+            if (SCHEDULABLE_KIND(next->opcode & 15) || SCHEDULER_BARRIER(next)) break;
+    }
+    if (next) {
+        if (!previous) return 1;
+        if (!SCHEDULER_BARRIER(previous) && !SCHEDULER_BARRIER(next) &&
+            SCHEDULABLE_KIND(previous->opcode & 15) && SCHEDULABLE_KIND(next->opcode & 15) &&
+            instruction_pair_conflict(next, previous)) return 0;
+    }
+    if (previous && !SCHEDULER_BARRIER(previous) && (previous->record.scheduling->flags & 0x40)) {
+        for (previous = previous->previous; previous; previous = previous->previous)
+            if (SCHEDULABLE_KIND(previous->opcode & 15) || SCHEDULER_BARRIER(previous)) break;
+        if (!SCHEDULER_BARRIER(previous) && instruction_pair_conflict(next, previous)) return 0;
+    }
+    return 1;
+}
+/* Original [0003f830,0003f83a). Release scheduler-owned heap arrays. */
+void __fastcall scheduler_release(void *memory)
+{
+    free(memory);
+}
+/* Original [00042920,00042953). End the scheduling payload's lifetime
+   before subsequent passes reuse the instruction record union. */
+void finish_machine_schedule(void)
+{
+    MachineInstruction *instruction;
+    for (instruction = machine_instructions; instruction; instruction = instruction->next)
+        if (SCHEDULABLE_KIND(instruction->opcode & 15)) instruction->record.scheduling = 0;
 }
