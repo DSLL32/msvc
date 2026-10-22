@@ -1,0 +1,59 @@
+{
+  "scope": "direct leaf case; no production caller or public option reachability claimed",
+  "samples": 10,
+  "abi": "stdcall(const char *, int), low eight bits of second argument; exact int 0/1; 8-byte callee cleanup and EBX/ESI/EDI/EBP preservation",
+  "frontier": {
+    "original": {
+      "result": "_rc_option_contains_character@8",
+      "events": "exception 80000003 rva ff007830 base 02000000 first 1\nexit 99\n",
+      "stdout": "mapped 01000000\r\n",
+      "stderr": "",
+      "binary_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+      "rva": 30768
+    },
+    "reconstructed": {
+      "result": "_rc_option_contains_character@8",
+      "events": "exception 80000003 rva fe941f03 base 02000000 first 1\nexit 99\n",
+      "stdout": "mapped 00940000\r\n",
+      "stderr": "",
+      "binary_sha256": "f38c8694887842e4355b1c45def5ec8a591fe604a4bfcf326bf1efb3693a7610",
+      "rva": 7939
+    }
+  },
+  "initial_stub_frontier": {
+    "original": {
+      "result": "_rc_option_contains_character@8",
+      "events": "exception 80000003 rva ff007830 base 02000000 first 1\nexit 99\n",
+      "stdout": "mapped 01000000\r\n",
+      "stderr": "",
+      "binary_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+      "rva": 30768
+    },
+    "reconstructed": {
+      "result": "_rc_option_contains_character@8",
+      "events": "exception 80000003 rva fe9411a3 base 02000000 first 1\nexit 99\n",
+      "stdout": "mapped 00940000\r\n",
+      "stderr": "",
+      "binary_sha256": "755ce2b1f54dc4c496fa0752fd1fa290fd9f9ac4181dfe42582d91583c7df2ae",
+      "rva": 4515
+    }
+  },
+  "accepted": {
+    "original": {
+      "result": "exit:0",
+      "events": "exit 0\n",
+      "stdout": "mapped 01000000\r\n10 examples and stdcall ABI match\r\n",
+      "stderr": "",
+      "binary_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+      "rva": 30768
+    },
+    "reconstructed": {
+      "result": "exit:0",
+      "events": "exit 0\n",
+      "stdout": "mapped 00940000\r\n10 examples and stdcall ABI match\r\n",
+      "stderr": "",
+      "binary_sha256": "f38c8694887842e4355b1c45def5ec8a591fe604a4bfcf326bf1efb3693a7610",
+      "rva": 7939
+    }
+  }
+}

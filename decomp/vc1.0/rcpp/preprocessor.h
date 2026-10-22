@@ -23,6 +23,7 @@ typedef struct RcOptions {
     char *path_characters, *codepage, *input_name, *output_name, *debug_file;
     char *error_file, *il_file, *version, *A, *Q, *unmatched_input;
 } RcOptions;
+int __stdcall rc_option_contains_character(const char *, int);
 extern char *rc_current_option;
 unsigned __stdcall rc_parse_option_number(char *);
 void __stdcall rc_apply_option(RcOption *, char *, int);

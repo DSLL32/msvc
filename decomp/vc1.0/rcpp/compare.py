@@ -180,6 +180,9 @@ def logical(events, pe, records):
     return f['name'] + ('+%x' % (address-f['start']) if address != f['start'] else '')
 
 def compare(count=None, case_name="resources-rich"):
+    if case_name == "option-helper":
+        direct = SourceFileLoader("rcpp_option_case", str(HERE/"check-option-helper.py")).load_module()
+        return direct.compare_direct(count)
     cfg, original, rec, oi, ri = indexes()
     accepted = cfg['accepted'] if count is None else cfg['accepted'][:count]
     for name in accepted:

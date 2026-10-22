@@ -141,3 +141,15 @@ int __stdcall rc_match_suffix(const char *pattern, const char *value)
     while (*pattern_end == *value_end) { --pattern_end; --value_end; }
     return pattern_end == pattern && (unsigned)value_end >= (unsigned)value;
 }
+
+/* Original [01007830,01007855). Unused option-support leaf: test only
+ * bytes before the terminator, and compare the low byte of the stack slot. */
+int __stdcall rc_option_contains_character(const char *text, int character)
+{
+    if (!text) return 0;
+    while (*text) {
+        if ((unsigned char)*text == (unsigned char)character) return 1;
+        ++text;
+    }
+    return 0;
+}

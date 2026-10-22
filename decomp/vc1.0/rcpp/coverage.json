@@ -8,16 +8,16 @@
     "import thunks"
   ],
   "extent_rule": "VirtualSize, or backed raw size when VirtualSize is zero",
-  "accepted_union_bytes": 35553,
+  "accepted_union_bytes": 35590,
   "total_original_code_bytes": 40448,
-  "percentage": 87.89804193037975,
+  "percentage": 87.9895174050633,
   "sections": [
     {
       "name": ".text",
       "start": 16805888,
       "end": 16846336,
       "total_bytes": 40448,
-      "accepted_union_bytes": 35553
+      "accepted_union_bytes": 35590
     }
   ],
   "accepted_clipped_union": [
@@ -60,6 +60,10 @@
     [
       16807792,
       16807981
+    ],
+    [
+      16807984,
+      16808021
     ],
     [
       16808032,

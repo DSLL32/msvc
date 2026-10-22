@@ -36,26 +36,36 @@ accept the separate 17-byte long and 21-byte unsigned classifiers, whose full
 readable implementations were already independently ABI-probed. No C body
 change was needed.
 
-functions.json records 178 accepted frontiers: 160 non-import functions and
+The otherwise uncalled 37-byte option-support helper is also reconstructed
+as readable C and accepted through a separate direct leaf case. Ten examples
+check NULL/empty strings, beginning/middle/end matches, absence, high-bit bytes,
+low-eight-bit truncation and exclusion of the terminating NUL. One extra call
+checks eight-byte callee stack cleanup and EBX/ESI/EDI/EBP preservation.
+option-helper-validation.json retains the initial stub trap, matching masked
+frontier and successful paired results. No production caller was added.
+
+functions.json records 179 accepted frontiers: 161 non-import functions and
 18 Win32 import interfaces. Every accepted function's complete call-target set
 matches the original. acceptance_cases preserves all 156 initial frontiers
-and records the case used for each subsequent acceptance. All 176 previous
-frontiers are retained, and all 19 cases pass exactly. Two named trapping stubs
+and records the case used for each subsequent acceptance. All 178 previous
+frontiers are retained; all 19 production cases and the direct helper case pass. Two named trapping stubs
 remain: exception filter and CRT fatal startup abort. Unvisited complete helpers also remain masked
 until a case reaches them. This completes the assigned cases, not the whole
 binary.
 
 coverage.json measures the clipped union of accepted full code extents,
-including shared .text data, identified CRT and import thunks: 35,553 of
-40,448 original code bytes (87.90%). This is neither branch coverage nor
-executed-instruction coverage. The remaining 4,895 bytes comprise 2,378
-identified body/import bytes and 2,517 alignment or zero-fill bytes. The exhaustive static gap map
+including shared .text data, identified CRT and import thunks: 35,590 of
+40,448 original code bytes (87.99%). This is neither branch coverage nor
+executed-instruction coverage. The remaining 4,858 bytes comprise 2,341
+identified CRT/import bytes and 2,517 alignment or zero-fill bytes. No identified
+native/support body remains unaccepted. This is a classification of the
+remaining bodies, not a separately audited native-only coverage percentage. The exhaustive static gap map
 and caller constraints live in ../fixtures/rcpp-remaining/GAP-AUDIT.md and
 gap-map.json; the latter preserves the pre-case 4,933-byte baseline complement.
 
     make -j2 check-suite
     make -j2 replay-suite
-    make -j2 classifiers messages coverage
+    make -j2 classifiers messages coverage option-helper
     make -j2 interrupt-check
 
 Builds use original CL.EXE and LINK.EXE from toolchains/1.0-nt. GNU Make supports
@@ -189,7 +199,7 @@ audit-graph.py follows complete CFGs and switch tables, not linear decoding of
 jump-table bytes. Known tail calls count as callee edges. Startup's detached
 SEH blocks are inspected separately. Original ranges are checked for overlap;
 ftell ends at 0100f8b4, before separate native directive lookup 0100f8d0.
-All 356 accepted original/reconstruction ranges (functions and import thunks)
+All 358 accepted original/reconstruction ranges (functions and import thunks)
 also receive a 15-byte lookahead check for split instructions, including RET
 immediates. Reachable CFG instructions and the final detached/alignment segment
 are checked; switch data is treated as data. boundary-validation.json records
@@ -243,7 +253,24 @@ assignment was narrowed to static analysis and successful ordinary inputs; no
 exception, crash or resource-failure experiment was created or run.
 
 A useful next action is a static CRT provenance/caller review of the remaining
-2,378 body/import bytes, such as the dormant 480-byte resize chain. The current
+2,341 CRT/import bytes, such as the dormant 480-byte resize chain. The current
 public option table, fixed file modes and CRT locale state provide no evidenced
 ordinary successful input route to those functions. No further cases were
-started, and complete binary or branch coverage is not claimed.
+started after the assigned direct helper, and complete binary or branch
+coverage is not claimed.
+
+The helper retains its original two-slot stdcall ABI: an input pointer followed
+by a value whose low byte is searched. It returns exactly zero or one, performs
+no calls, and does not read or write globals. Its native/shared option-support
+classification follows its surrounding option helpers and nonstandard boolean
+semantics; exact source/library provenance is unknown. The static gap audit
+found no direct call, tail jump or stored address reference.
+
+option-check.c is analysis-only and excluded from rcpp.exe. Its small assembly
+block observes ESP and seeds nonvolatile registers, which C cannot express;
+the reconstructed helper itself contains no assembly. The probe maps each
+masked image without startup, records the actual OS mapping address and checks
+the trap's address relative to that mapping. These leaf bodies have no absolute
+address operands. compare.py replays this direct acceptance separately from the
+19 public-input cases; make option-helper also checks both the masked frontier
+and accepted results.

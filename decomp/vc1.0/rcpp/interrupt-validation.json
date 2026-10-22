@@ -567,15 +567,15 @@
   ],
   "final_replay": {
     "original": {
-      "pid": 1724,
-      "primary_tid": 1728,
-      "callback_tid": 1764,
+      "pid": 2000,
+      "primary_tid": 2004,
+      "callback_tid": 2040,
       "argument": 0,
       "handler_rva": 29104,
       "exit": 1,
       "proof": {
         "bytes": 967,
-        "sha256": "14dd696beb57b5589503d9aad68f2445e84272946f9e3eb424b31862ebadd75d"
+        "sha256": "25bb71e5d25246b02909ceea9911bc38c2fa966ac5f48742a0f4b6749272628c"
       },
       "output": {
         "bytes": 46,
@@ -585,15 +585,15 @@
       "output_exclusive_open": true
     },
     "reconstructed": {
-      "pid": 1664,
-      "primary_tid": 1668,
-      "callback_tid": 1704,
+      "pid": 1940,
+      "primary_tid": 1944,
+      "callback_tid": 1980,
       "argument": 0,
       "handler_rva": 6012,
       "exit": 1,
       "proof": {
         "bytes": 967,
-        "sha256": "705c9f1b56a4ee90a8159471e41a8d8f2b08a162f35c39bd6514e85bc7b52e3d"
+        "sha256": "bcde6cbc3f2e72af323c9eb58c045092b45b0de5792cf2246aeacfc500c3f2c2"
       },
       "output": {
         "bytes": 46,
@@ -603,15 +603,15 @@
       "output_exclusive_open": true
     },
     "baseline": {
-      "pid": 1616,
-      "primary_tid": 1620,
-      "callback_tid": 1656,
+      "pid": 1820,
+      "primary_tid": 1824,
+      "callback_tid": 1860,
       "argument": 0,
       "handler_rva": 29104,
       "exit": 1,
       "proof": {
         "bytes": 967,
-        "sha256": "41ea69bdc205d5a51fc309ce9dbfc09a9a9dfd899c382c11e7b90e655f951368"
+        "sha256": "e400c768cb79d4c72aa1c22da4c41b97dbf84fe40075e3d4de71ab0935138a7b"
       },
       "output": {
         "bytes": 46,
@@ -622,5 +622,5 @@
     }
   },
   "stress_reconstructed_sha256": "7006eb4bcff8d23b6b60fd84a13f107b3aaac76c35c632ff555643da2ca6ad1b",
-  "final_replay_reconstructed_sha256": "c740cb1ab1e1e1534008c18a725e5b63bc22e0e15f725eaaa8673f6763d41c07"
+  "final_replay_reconstructed_sha256": "f38c8694887842e4355b1c45def5ec8a591fe604a4bfcf326bf1efb3693a7610"
 }

@@ -1,12 +1,12 @@
 {
-  "status": "assigned-successful-suffix-cases-complete",
+  "status": "assigned-direct-option-helper-complete",
   "case": "resources-rich",
-  "accepted_frontiers": 178,
-  "accepted_nonimport_functions": 160,
+  "accepted_frontiers": 179,
+  "accepted_nonimport_functions": 161,
   "next_matching_trap": null,
   "all_recorded_frontiers_replayed": true,
-  "replay_sha256": "6d03ed161476ad0a83402b795ffd889e1c77fc9c5abefc0258d16fc93c489022",
-  "native_call_graph_audit": "passed; all 160 accepted non-import functions have equal complete CFG call sets",
+  "replay_sha256": "e8c8c046fcb200a1bbec80d81a8b9375f5083a8340b21f10d679c0dd68bdaae7",
+  "native_call_graph_audit": "passed; all 161 accepted non-import functions have equal complete CFG call sets",
   "original_oracle": {
     "exit": 0,
     "stdout_bytes": 0,
@@ -16,7 +16,7 @@
     "exact_bytes": true
   },
   "reconstructed_output_verified": true,
-  "case_result": "all-19-exact-pass",
+  "case_result": "all-19-production-and-one-direct-helper-exact-pass",
   "binary_reconstruction_complete": false,
   "branch_coverage_complete": false,
   "remaining_named_stubs": [
@@ -52,9 +52,9 @@
   ],
   "coverage": {
     "metric": "accepted original code-extent union; not branch or executed-instruction coverage",
-    "accepted_union_bytes": 35553,
+    "accepted_union_bytes": 35590,
     "total_original_code_bytes": 40448,
-    "percentage": 87.89804193037975,
+    "percentage": 87.9895174050633,
     "extent_rule": "VirtualSize, or backed raw size when VirtualSize is zero"
   },
   "original_cases": {
@@ -136,14 +136,13 @@
     }
   },
   "checks": {
-    "remaining-clean-build.log": "f25edfbbc366ceb2184aee5eef50d49ad8f686dc4356225dc8f6720920c2ee45",
-    "remaining-final-checks.log": "b530a8294fe877b3c0afca612e63c89e89f92e9a39ee37badc3630b9e5271954",
-    "remaining-original-recapture.log": "711660051c0427f2177c5336375314b6ca0f78346b818ed52b37cb99ede0285e",
-    "remaining-original-replay.log": "b5c69f12697a5a7798f7e29cb72f41a5936cf1c178418f673af365390201fbd0",
-    "remaining-frontier-replay.log": "6d03ed161476ad0a83402b795ffd889e1c77fc9c5abefc0258d16fc93c489022",
-    "remaining-frontiers.log": "be9cda1cfa69df13f0965b258e671dc4bb851181ee7ce2b5def8503279a514c5",
-    "remaining-record-proof.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "remaining-static-recheck.log": "adfc9ec87a956943c5d359f736ed2ed3572354263c89c3e3bd0a5204b404a4dc"
+    "option-initial-build.log": "f8d166bd5bf4b01c8f3c0a222fda7ebef3c214a150cb05ff667396c3b6eb85cf",
+    "option-acceptance.log": "c2ff852e77fd31be32261fce4ccb5628934ac97e37c5db551121846c2ac6122f",
+    "option-clean-build.log": "4410b19cb553e58fae9951cf84cc038105f8ee90f31192221e97e537d6fa19fe",
+    "option-final-checks.log": "946931f87dd62af9f4007d79e432c9379f97995b9095edad46363f21744f2cbf",
+    "option-original-replay.log": "b5c69f12697a5a7798f7e29cb72f41a5936cf1c178418f673af365390201fbd0",
+    "option-frontier-replay.log": "e8c8c046fcb200a1bbec80d81a8b9375f5083a8340b21f10d679c0dd68bdaae7",
+    "option-record-proof.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "independent_abi_probes": [
     "classifier-validation.json",
@@ -190,6 +189,22 @@
         "interrupt-frontier-replay.log": "c6aaa0d80974e018b7835138862f348ac72156572cfd7f25b8d6746ba81aa374",
         "interrupt-frontiers.log": "ac6813b955e99ba72bd5fdc01c8719b292bb6676adf73b013f53a6e96b2fdbe7"
       }
+    },
+    {
+      "commit": "d6324ad",
+      "accepted_frontiers": 178,
+      "accepted_nonimport_functions": 160,
+      "replay_sha256": "6d03ed161476ad0a83402b795ffd889e1c77fc9c5abefc0258d16fc93c489022",
+      "checks": {
+        "remaining-clean-build.log": "f25edfbbc366ceb2184aee5eef50d49ad8f686dc4356225dc8f6720920c2ee45",
+        "remaining-final-checks.log": "b530a8294fe877b3c0afca612e63c89e89f92e9a39ee37badc3630b9e5271954",
+        "remaining-original-recapture.log": "711660051c0427f2177c5336375314b6ca0f78346b818ed52b37cb99ede0285e",
+        "remaining-original-replay.log": "b5c69f12697a5a7798f7e29cb72f41a5936cf1c178418f673af365390201fbd0",
+        "remaining-frontier-replay.log": "6d03ed161476ad0a83402b795ffd889e1c77fc9c5abefc0258d16fc93c489022",
+        "remaining-frontiers.log": "be9cda1cfa69df13f0965b258e671dc4bb851181ee7ce2b5def8503279a514c5",
+        "remaining-record-proof.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "remaining-static-recheck.log": "adfc9ec87a956943c5d359f736ed2ed3572354263c89c3e3bd0a5204b404a4dc"
+      }
     }
   ],
   "boundary_validation": "boundary-validation.json",
@@ -211,7 +226,7 @@
     "historical_stress_checkpoint": "1e9a09d",
     "final_replay_uses_current_clean_build": true
   },
-  "next_suggested_action": "Static CRT provenance/caller review of the remaining 2,378 body/import bytes, including the dormant 480-byte resize chain; no further ordinary successful input-only route was evidenced.",
+  "next_suggested_action": "Static CRT provenance/caller review of the remaining 2,341 CRT/import bytes, including the dormant 480-byte resize chain. No identified native/support body remains masked; no additional ordinary successful public input route was evidenced.",
   "remaining_code_audit": {
     "fixture_commit": "a9721b7",
     "gap_map": "../fixtures/rcpp-remaining/gap-map.json",
@@ -219,10 +234,16 @@
     "baseline_complement_bytes": 4933,
     "baseline_body_import_union_bytes": 2416,
     "padding_zero_fill_bytes": 2517,
-    "newly_accepted_bytes": 38,
-    "remaining_body_import_union_bytes": 2378,
-    "remaining_total_bytes": 4895,
-    "scope": "static analysis and two successful suffix cases only; automatic safety review stopped exception-dispatch investigation; no fault experiment created or run"
+    "remaining_body_import_union_bytes": 2341,
+    "remaining_total_bytes": 4858,
+    "scope": "static analysis and two successful suffix cases only; automatic safety review stopped exception-dispatch investigation; no fault experiment created or run",
+    "newly_accepted_bytes_since_baseline": 75,
+    "suffix_cases_accepted_bytes": 38,
+    "direct_helper_accepted_bytes": 37,
+    "remaining_identified_native_support_body_bytes": 0,
+    "remaining_identified_crt_body_bytes": 2287,
+    "remaining_crt_used_import_thunk_bytes": 54,
+    "classification_caveat": "No native-only denominator audited; exact provenance of the accepted 37-byte option-support helper remains unknown."
   },
   "suffix_cases": {
     "long-suffix": {
@@ -249,6 +270,21 @@
       "end": "0100914b",
       "bytes": 43,
       "accepted": false
+    }
+  },
+  "direct_cases": {
+    "option-helper": {
+      "function": "_rc_option_contains_character@8",
+      "accepted_bytes": 37,
+      "examples_per_binary": 10,
+      "additional_abi_calls_per_binary": 1,
+      "validation": "option-helper-validation.json",
+      "production_caller_added": false,
+      "full_original_extent": [
+        "01007830",
+        "01007855"
+      ],
+      "scope": "direct leaf case, separate from 19 public-input cases"
     }
   }
 }

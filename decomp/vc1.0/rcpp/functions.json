@@ -184,7 +184,8 @@
     "_rc_control_handler@4",
     "__fcloseall",
     "_rc_long_kind@4",
-    "_rc_unsigned_kind@4"
+    "_rc_unsigned_kind@4",
+    "_rc_option_contains_character@8"
   ],
   "functions": [
     {
@@ -1264,6 +1265,13 @@
       "start": 16809152,
       "end": 16809655,
       "status": "source"
+    },
+    {
+      "name": "_rc_option_contains_character@8",
+      "start": 16807984,
+      "end": 16808021,
+      "status": "reconstructed",
+      "classification": "Unused option-support byte search; native/support attribution inferred from neighboring stdcall option helpers, exact source provenance unknown."
     }
   ],
   "cases": {
@@ -1520,6 +1528,13 @@
     "_rc_control_handler@4": "console-interrupt",
     "__fcloseall": "console-interrupt",
     "_rc_long_kind@4": "long-suffix",
-    "_rc_unsigned_kind@4": "unsigned-suffix"
+    "_rc_unsigned_kind@4": "unsigned-suffix",
+    "_rc_option_contains_character@8": "option-helper"
+  },
+  "direct_cases": {
+    "option-helper": {
+      "description": "Direct paired leaf call/ABI test; no production caller added",
+      "function": "_rc_option_contains_character@8"
+    }
   }
 }

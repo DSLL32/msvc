@@ -1,7 +1,7 @@
 PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
-.PHONY: all prefix check replay check-suite replay-suite clean audit classifiers messages coverage interrupt-check
+.PHONY: all prefix check replay check-suite replay-suite clean audit classifiers messages coverage interrupt-check option-helper
 all: build/rcpp.exe build/debug-run.exe build/interrupt-run.exe
 prefix:
 	$(TOOL) --init
@@ -48,3 +48,9 @@ build/interrupt-run.exe: build/interrupt-run.obj
 
 interrupt-check: all
 	$(PYTHON) check-interrupt.py
+
+# Small analysis-only direct case for the otherwise uncalled option helper.
+build/option-check.exe: build/option-check.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /base:0x02000000 /out:$@ $< $(TC)/lib/KERNEL32.LIB
+option-helper: all build/option-check.exe
+	$(PYTHON) check-option-helper.py
