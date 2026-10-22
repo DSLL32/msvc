@@ -1,0 +1,677 @@
+# Recovered C1XX C++ grammar. Rule order and lexer token identities are ABI data.
+# Empty productions with *_begin/end names are original midrule semantic actions.
+# This source regenerates the automaton; it contains no original packed tables.
+%start translation_unit
+
+%token IDENTIFIER 2
+%token STRING_LITERAL 3
+%token VIRTUAL 18
+%token SEGNAME 27
+%token CLASS_HEAD 38
+%token ENUM_HEAD 39
+%token TYPE_NAME 40
+%token ASM_BLOCK 50
+%token BASED 51
+%token CONST 56
+%token VOLATILE 57
+%token AMPERSAND 58
+%token LOGICAL_AND 59
+%token ASSIGN 61
+%token COLON 63
+%token COMMA 64
+%token NOT 69
+%token LBRACKET 74
+%token MINUS 79
+%token STAR 83
+%token BIT_OR 86
+%token LOGICAL_OR 88
+%token PLUS 90
+%token QUESTION 95
+%token TILDE 98
+%token BIT_XOR 100
+%token SEGMENT_OFFSET 104
+%token ASSIGNMENT_OPERATOR 107
+%token BREAK 108
+%token CASE 109
+%token CONSTANT 111
+%token CONTINUE 112
+%token DEFAULT 113
+%token DIVISION_OPERATOR 114
+%token DO 115
+%token ELLIPSIS 116
+%token ELSE 117
+%token EQUALITY_OPERATOR 120
+%token FOR 121
+%token GOTO 123
+%token IF 124
+%token INCREMENT_OPERATOR 125
+%token LBRACE 127
+%token LPAREN 128
+%token MODIFIER 130
+%token RBRACKET 132
+%token RBRACE 133
+%token RELATIONAL_OPERATOR 134
+%token RETURN 135
+%token RPAREN 136
+%token SELF 137
+%token SEMICOLON 138
+%token SHIFT_OPERATOR 139
+%token SIZEOF 140
+%token MEMBER_ACCESS_OPERATOR 142
+%token SWITCH 143
+%token WHILE 146
+%token NEW 151
+%token DELETE 152
+%token OPERATOR_ID 153
+%token CONVERSION_ID 154
+%token THIS 155
+%token ACCESS_SPECIFIER 156
+%token MEMBER_POINTER_OPERATOR 159
+%token QUALIFIED_ID 161
+%token OPERATOR 162
+%token SIMPLE_TYPE_CALL 163
+%token CONSTRUCTOR_ID 166
+%token MEMBER_POINTER_DECLARATOR 170
+%token CONVERSION_STAR 171
+%token CONVERSION_AMPERSAND 172
+%token CONVERSION_MODIFIER 173
+%token CONVERSION_CONST 174
+%token CONVERSION_VOLATILE 175
+%token CONVERSION_BASED 176
+%token SEH_TRY 178
+%token SEH_EXCEPT 179
+%token SEH_FINALLY 180
+%token QUALIFIER_PAIR 182
+%token NCTAG 183
+%token SYMBOL 184
+%token ASM 186
+%token CATCH 187
+%token THROW 189
+%token TRY 190
+%token ALIGNOF 193
+%token SEH_LEAVE 194
+%token DEFAULT_ARGUMENT_TEXT 195
+%token UNALIGNED 206
+%token ERROR 256
+
+%nonterminal translation_unit 1
+%nonterminal type_modifier 2
+%nonterminal conversion_type_modifier 3
+%nonterminal based_operand 4
+%nonterminal based_cast_operand 5
+%nonterminal conversion_function_id 6
+%nonterminal declaration_specifiers 7
+%nonterminal type_specifier 8
+%nonterminal aggregate_specifier 9
+%nonterminal class_specifier 10
+%nonterminal enum_specifier 11
+%nonterminal expression 12
+%nonterminal optional_expression 13
+%nonterminal cast_expression 14
+%nonterminal unary_expression 15
+%nonterminal postfix_expression 16
+%nonterminal primary_expression 17
+%nonterminal expression_id 18
+%nonterminal member_id 19
+%nonterminal call_arguments 20
+%nonterminal argument_list 21
+%nonterminal if_head 22
+%nonterminal else_head 23
+%nonterminal string_literal_seq 24
+%nonterminal constructor_initializer_opt 25
+%nonterminal mem_initializer_list 26
+%nonterminal mem_initializer 27
+%nonterminal parenthesized_initializer 28
+%nonterminal initializer_arguments_opt 29
+%nonterminal initializer_arguments 30
+%nonterminal new_initializer_opt 31
+%nonterminal new_expression 32
+%nonterminal completed_new_expression 33
+%nonterminal delete_expression 34
+%nonterminal typed_function_declarator 35
+%nonterminal declarator 36
+%nonterminal initializer_head 37
+%nonterminal qualified_declarator 38
+%nonterminal declarator_id 39
+%nonterminal member_declarator 40
+%nonterminal function_suffix 41
+%nonterminal qualified_function_suffix 42
+%nonterminal parameter_clause 43
+%nonterminal parameter_list 44
+%nonterminal parameter_declaration 45
+%nonterminal parameter_with_default 46
+%nonterminal parameter_declaration_base 47
+%nonterminal named_parameter 48
+%nonterminal abstract_parameter 49
+%nonterminal type_cast 50
+%nonterminal direct_abstract_declarator 51
+%nonterminal parenthesized_abstract_declarator 52
+%nonterminal abstract_declarator 53
+%nonterminal abstract_declarator_head 54
+%nonterminal ellipsis_opt 55
+%nonterminal new_type 56
+%nonterminal new_declarator_opt 57
+%nonterminal parenthesized_new_type 58
+%nonterminal segment_name 59
+%nonterminal default_argument_head 60
+%nonterminal conversion_declarator 61
+%nonterminal conversion_pointer_operator 62
+%nonterminal type_modifiers_opt 63
+%nonterminal type_modifier_seq 64
+%nonterminal conversion_type_modifier_seq 65
+%nonterminal for_closing_semicolon_opt 66
+%nonterminal trailing_comma_opt 67
+%nonterminal initializer_trailing_separator_opt 68
+%nonterminal array_bound_opt 69
+%nonterminal constant_expression 70
+%nonterminal statement 71
+%nonterminal base_attributes 72
+%nonterminal new_keyword 73
+%nonterminal external_definition 74
+%nonterminal external_declaration 75
+%nonterminal init_declarator_list 76
+%nonterminal declaration 77
+%nonterminal untyped_function_begin 78
+%nonterminal function_initializer_end 79
+%nonterminal compound_statement 80
+%nonterminal constructor_initializer_begin 81
+%nonterminal mem_initializer_arguments_begin 82
+%nonterminal declaration_head 83
+%nonterminal linkage_specification 84
+%nonterminal asm_definition 85
+%nonterminal typed_function_begin 86
+%nonterminal linkage_head 87
+%nonterminal linkage_body 88
+%nonterminal linkage_mode_begin 89
+%nonterminal class_body_begin 90
+%nonterminal member_specification 91
+%nonterminal base_clause_begin 92
+%nonterminal base_specifier_list 93
+%nonterminal derived_class_body_begin 94
+%nonterminal enumerator_list 95
+%nonterminal base_specifier 96
+%nonterminal enumerator 97
+%nonterminal member_declaration 98
+%nonterminal member_declarator_list 99
+%nonterminal init_declarator 100
+%nonterminal initializer_list_begin 101
+%nonterminal initializer_list 102
+%nonterminal initializer_element 103
+%nonterminal nested_initializer_begin 104
+%nonterminal exception_specification 105
+%nonterminal parameter_scope_begin 106
+%nonterminal compound_statement_begin 107
+%nonterminal statement_seq_opt 108
+%nonterminal compound_statement_end 109
+%nonterminal labeled_statement 110
+%nonterminal label_seq_opt 111
+%nonterminal while_condition_begin 112
+%nonterminal while_body_begin 113
+%nonterminal for_scope_begin 114
+%nonterminal for_initializer 115
+%nonterminal for_condition_begin 116
+%nonterminal for_increment_begin 117
+%nonterminal for_body_begin 118
+%nonterminal do_body_begin 119
+%nonterminal do_condition_begin 120
+%nonterminal switch_condition_begin 121
+%nonterminal switch_body_begin 122
+%nonterminal return_expression_begin 123
+%nonterminal seh_except_head 124
+%nonterminal seh_try_statement 125
+%nonterminal seh_finally_begin 126
+%nonterminal try_block 127
+%nonterminal handlers_begin 128
+%nonterminal handler_seq_opt 129
+%nonterminal handler 130
+%nonterminal handler_head 131
+%nonterminal catch_parameter_clause 132
+%nonterminal seh_try_begin 133
+%nonterminal seh_filter_begin 134
+%nonterminal for_init_statement 135
+%nonterminal label 136
+%nonterminal if_condition_begin 137
+%nonterminal conditional_true_begin 138
+%nonterminal conditional_false_begin 139
+%nonterminal logical_or_rhs_begin 140
+%nonterminal logical_and_rhs_begin 141
+%nonterminal complement_operand_begin 142
+%nonterminal call_arguments_begin 143
+%nonterminal member_lookup_begin 144
+
+%left COMMA
+%right ASSIGN ASSIGNMENT_OPERATOR THROW
+%right QUESTION COLON
+%left LOGICAL_OR
+%left LOGICAL_AND
+%left BIT_OR
+%left BIT_XOR
+%left AMPERSAND
+%left EQUALITY_OPERATOR
+%left RELATIONAL_OPERATOR
+%left SHIFT_OPERATOR
+%left PLUS MINUS
+%left STAR DIVISION_OPERATOR
+%left MEMBER_POINTER_OPERATOR
+%left SEGMENT_OFFSET
+%left SIZEOF
+
+translation_unit :  ; # rule 1, translation_unit[1]
+translation_unit : translation_unit external_definition ; # rule 2, translation_unit[2]
+external_definition : external_declaration ; # rule 3, external_definition[1]
+external_definition : LBRACE ; # rule 4, external_definition[2]
+external_declaration : init_declarator_list SEMICOLON ; # rule 5, external_declaration[1]
+external_declaration : declaration ; # rule 6, external_declaration[2]
+external_declaration : SEMICOLON ; # rule 7, external_declaration[3]
+external_declaration : NCTAG SEMICOLON ; # rule 8, external_declaration[4]
+external_declaration : ERROR SEMICOLON ; # rule 9, external_declaration[5]
+untyped_function_begin :  ; # rule 10, untyped_function_begin[1]
+function_initializer_end :  ; # rule 11, function_initializer_end[1]
+external_declaration : declarator untyped_function_begin constructor_initializer_opt function_initializer_end compound_statement ; # rule 12, external_declaration[6]
+typed_function_declarator : declaration_specifiers declarator ; # rule 13, typed_function_declarator[1]
+constructor_initializer_opt :  ; # rule 14, constructor_initializer_opt[1]
+constructor_initializer_begin :  ; # rule 15, constructor_initializer_begin[1]
+constructor_initializer_opt : COLON constructor_initializer_begin mem_initializer_list initializer_trailing_separator_opt ; # rule 16, constructor_initializer_opt[2]
+mem_initializer_list : mem_initializer ; # rule 17, mem_initializer_list[1]
+mem_initializer_list : mem_initializer_list COMMA mem_initializer ; # rule 18, mem_initializer_list[2]
+mem_initializer_list : mem_initializer_list SEMICOLON mem_initializer ; # rule 19, mem_initializer_list[3]
+mem_initializer_arguments_begin :  ; # rule 20, mem_initializer_arguments_begin[1]
+mem_initializer : IDENTIFIER LPAREN mem_initializer_arguments_begin initializer_arguments_opt RPAREN ; # rule 21, mem_initializer[1]
+mem_initializer : parenthesized_initializer ; # rule 22, mem_initializer[2]
+mem_initializer : LPAREN RPAREN ; # rule 23, mem_initializer[3]
+mem_initializer : ERROR ; # rule 24, mem_initializer[4]
+parenthesized_initializer : LPAREN initializer_arguments RPAREN ; # rule 25, parenthesized_initializer[1]
+initializer_arguments_opt :  ; # rule 26, initializer_arguments_opt[1]
+initializer_arguments_opt : initializer_arguments ; # rule 27, initializer_arguments_opt[2]
+initializer_arguments : expression %prec COMMA ; # rule 28, initializer_arguments[1]
+initializer_arguments : initializer_arguments COMMA expression ; # rule 29, initializer_arguments[2]
+declaration : declaration_head SEMICOLON ; # rule 30, declaration[1]
+declaration : linkage_specification ; # rule 31, declaration[2]
+declaration : asm_definition SEMICOLON ; # rule 32, declaration[3]
+typed_function_begin :  ; # rule 33, typed_function_begin[1]
+declaration : typed_function_declarator constructor_initializer_opt typed_function_begin compound_statement ; # rule 34, declaration[4]
+declaration : typed_function_declarator ERROR SEMICOLON ; # rule 35, declaration[5]
+declaration_head : declaration_specifiers init_declarator_list ; # rule 36, declaration_head[1]
+declaration_head : declaration_specifiers ; # rule 37, declaration_head[2]
+linkage_specification : linkage_head LBRACE linkage_body RBRACE ; # rule 38, linkage_specification[1]
+linkage_specification : linkage_head external_declaration ; # rule 39, linkage_specification[2]
+linkage_mode_begin :  ; # rule 40, linkage_mode_begin[1]
+linkage_head : TYPE_NAME linkage_mode_begin string_literal_seq ; # rule 41, linkage_head[1]
+linkage_body :  ; # rule 42, linkage_body[1]
+linkage_body : linkage_body external_definition ; # rule 43, linkage_body[2]
+asm_definition : ASM LPAREN string_literal_seq RPAREN ; # rule 44, asm_definition[1]
+declaration_specifiers : type_specifier ; # rule 45, declaration_specifiers[1]
+type_specifier : TYPE_NAME ; # rule 46, type_specifier[1]
+type_specifier : aggregate_specifier ; # rule 47, type_specifier[2]
+aggregate_specifier : class_specifier ; # rule 48, aggregate_specifier[1]
+aggregate_specifier : enum_specifier ; # rule 49, aggregate_specifier[2]
+class_body_begin :  ; # rule 50, class_body_begin[1]
+class_specifier : CLASS_HEAD LBRACE class_body_begin member_specification RBRACE ; # rule 51, class_specifier[1]
+base_clause_begin :  ; # rule 52, base_clause_begin[1]
+derived_class_body_begin :  ; # rule 53, derived_class_body_begin[1]
+class_specifier : CLASS_HEAD COLON base_clause_begin base_specifier_list initializer_trailing_separator_opt derived_class_body_begin LBRACE member_specification RBRACE ; # rule 54, class_specifier[2]
+enum_specifier : ENUM_HEAD LBRACE enumerator_list trailing_comma_opt RBRACE ; # rule 55, enum_specifier[1]
+enum_specifier : ENUM_HEAD LBRACE RBRACE ; # rule 56, enum_specifier[2]
+base_specifier_list : base_specifier ; # rule 57, base_specifier_list[1]
+base_specifier_list : base_specifier_list COMMA base_specifier ; # rule 58, base_specifier_list[2]
+base_specifier : base_attributes IDENTIFIER ; # rule 59, base_specifier[1]
+base_specifier : base_attributes QUALIFIED_ID ; # rule 60, base_specifier[2]
+base_specifier : ERROR LBRACE ; # rule 61, base_specifier[3]
+base_attributes :  ; # rule 62, base_attributes[1]
+base_attributes : base_attributes ACCESS_SPECIFIER ; # rule 63, base_attributes[2]
+base_attributes : base_attributes VIRTUAL ; # rule 64, base_attributes[3]
+enumerator_list : enumerator ; # rule 65, enumerator_list[1]
+enumerator_list : enumerator_list COMMA enumerator ; # rule 66, enumerator_list[2]
+enumerator : IDENTIFIER ; # rule 67, enumerator[1]
+enumerator : IDENTIFIER ASSIGN constant_expression ; # rule 68, enumerator[2]
+member_specification :  ; # rule 69, member_specification[1]
+member_specification : member_specification member_declaration ; # rule 70, member_specification[2]
+member_declaration : SEMICOLON ; # rule 71, member_declaration[1]
+member_declaration : declaration_specifiers SEMICOLON ; # rule 72, member_declaration[2]
+member_declaration : member_declarator_list SEMICOLON ; # rule 73, member_declaration[3]
+member_declaration : declaration_specifiers member_declarator_list SEMICOLON ; # rule 74, member_declaration[4]
+member_declaration : declaration_specifiers member_declarator LBRACE ; # rule 75, member_declaration[5]
+member_declaration : member_declarator LBRACE ; # rule 76, member_declaration[6]
+member_declaration : ACCESS_SPECIFIER COLON ; # rule 77, member_declaration[7]
+member_declaration : ERROR COLON ; # rule 78, member_declaration[8]
+member_declaration : ERROR SEMICOLON ; # rule 79, member_declaration[9]
+member_declarator_list : member_declarator ; # rule 80, member_declarator_list[1]
+member_declarator_list : member_declarator_list COMMA member_declarator ; # rule 81, member_declarator_list[2]
+member_declarator_list : member_declarator_list COMMA ERROR ; # rule 82, member_declarator_list[3]
+member_declarator_list : member_declarator_list ERROR ; # rule 83, member_declarator_list[4]
+member_declarator : declarator ; # rule 84, member_declarator[1]
+member_declarator : declarator ASSIGN expression ; # rule 85, member_declarator[2]
+member_declarator : declarator COLON constant_expression ; # rule 86, member_declarator[3]
+member_declarator : COLON constant_expression ; # rule 87, member_declarator[4]
+member_declarator : CONSTRUCTOR_ID function_suffix ; # rule 88, member_declarator[5]
+init_declarator_list : init_declarator ; # rule 89, init_declarator_list[1]
+init_declarator_list : init_declarator_list COMMA init_declarator ; # rule 90, init_declarator_list[2]
+init_declarator : declarator ; # rule 91, init_declarator[1]
+init_declarator : declarator parenthesized_initializer ; # rule 92, init_declarator[2]
+init_declarator : initializer_head expression %prec COMMA ; # rule 93, init_declarator[3]
+initializer_list_begin :  ; # rule 94, initializer_list_begin[1]
+init_declarator : initializer_head initializer_list_begin LBRACE initializer_list trailing_comma_opt RBRACE ; # rule 95, init_declarator[4]
+initializer_head : declarator ASSIGN ; # rule 96, initializer_head[1]
+initializer_head : ASSIGN ; # rule 97, initializer_head[2]
+initializer_list : initializer_element ; # rule 98, initializer_list[1]
+initializer_list : initializer_list COMMA initializer_element ; # rule 99, initializer_list[2]
+initializer_element : expression %prec COMMA ; # rule 100, initializer_element[1]
+nested_initializer_begin :  ; # rule 101, nested_initializer_begin[1]
+initializer_element : LBRACE nested_initializer_begin initializer_list trailing_comma_opt RBRACE ; # rule 102, initializer_element[2]
+declarator : qualified_declarator ; # rule 103, declarator[1]
+declarator : declarator function_suffix ; # rule 104, declarator[2]
+declarator : type_modifiers_opt STAR declarator ; # rule 105, declarator[3]
+declarator : type_modifiers_opt AMPERSAND declarator ; # rule 106, declarator[4]
+declarator : type_modifiers_opt MEMBER_POINTER_DECLARATOR declarator ; # rule 107, declarator[5]
+declarator : declarator LBRACKET array_bound_opt RBRACKET ; # rule 108, declarator[6]
+declarator : LPAREN declarator RPAREN ; # rule 109, declarator[7]
+qualified_declarator : type_modifier_seq declarator_id ; # rule 110, qualified_declarator[1]
+qualified_declarator : declarator_id ; # rule 111, qualified_declarator[2]
+declarator_id : IDENTIFIER ; # rule 112, declarator_id[1]
+declarator_id : SYMBOL ; # rule 113, declarator_id[2]
+declarator_id : TILDE IDENTIFIER ; # rule 114, declarator_id[3]
+declarator_id : OPERATOR_ID ; # rule 115, declarator_id[4]
+declarator_id : conversion_function_id ; # rule 116, declarator_id[5]
+declarator_id : QUALIFIED_ID ; # rule 117, declarator_id[6]
+declarator_id : QUALIFIED_ID conversion_function_id ; # rule 118, declarator_id[7]
+conversion_function_id : CONVERSION_ID ; # rule 119, conversion_function_id[1]
+conversion_function_id : CONVERSION_ID conversion_declarator ; # rule 120, conversion_function_id[2]
+function_suffix : qualified_function_suffix ; # rule 121, function_suffix[1]
+function_suffix : qualified_function_suffix type_modifier_seq ; # rule 122, function_suffix[2]
+function_suffix : qualified_function_suffix TYPE_NAME ; # rule 123, function_suffix[3]
+qualified_function_suffix : parameter_clause THROW exception_specification ; # rule 124, qualified_function_suffix[1]
+qualified_function_suffix : parameter_clause ; # rule 125, qualified_function_suffix[2]
+parameter_clause : LPAREN RPAREN ; # rule 126, parameter_clause[1]
+parameter_scope_begin :  ; # rule 127, parameter_scope_begin[1]
+parameter_clause : LPAREN parameter_scope_begin parameter_list ellipsis_opt RPAREN ; # rule 128, parameter_clause[2]
+parameter_clause : LPAREN ELLIPSIS RPAREN ; # rule 129, parameter_clause[3]
+parameter_list : parameter_declaration ; # rule 130, parameter_list[1]
+parameter_list : parameter_list COMMA parameter_declaration ; # rule 131, parameter_list[2]
+parameter_declaration : parameter_with_default ; # rule 132, parameter_declaration[1]
+parameter_with_default : parameter_declaration_base ; # rule 133, parameter_with_default[1]
+parameter_with_default : default_argument_head expression %prec COMMA ; # rule 134, parameter_with_default[2]
+parameter_with_default : default_argument_head DEFAULT_ARGUMENT_TEXT ; # rule 135, parameter_with_default[3]
+parameter_with_default : default_argument_head ERROR ; # rule 136, parameter_with_default[4]
+default_argument_head : parameter_declaration_base ASSIGN ; # rule 137, default_argument_head[1]
+parameter_declaration_base : named_parameter ; # rule 138, parameter_declaration_base[1]
+parameter_declaration_base : abstract_parameter ; # rule 139, parameter_declaration_base[2]
+parameter_declaration_base : ERROR ; # rule 140, parameter_declaration_base[3]
+named_parameter : declaration_specifiers declarator ; # rule 141, named_parameter[1]
+abstract_parameter : declaration_specifiers abstract_declarator ; # rule 142, abstract_parameter[1]
+type_modifiers_opt :  ; # rule 143, type_modifiers_opt[1]
+type_modifiers_opt : type_modifier_seq ; # rule 144, type_modifiers_opt[2]
+type_modifier_seq : type_modifier ; # rule 145, type_modifier_seq[1]
+type_modifier_seq : type_modifier_seq type_modifier ; # rule 146, type_modifier_seq[2]
+type_modifier : MODIFIER ; # rule 147, type_modifier[1]
+type_modifier : CONST ; # rule 148, type_modifier[2]
+type_modifier : VOLATILE ; # rule 149, type_modifier[3]
+type_modifier : UNALIGNED ; # rule 150, type_modifier[4]
+type_modifier : BASED LPAREN based_operand RPAREN ; # rule 151, type_modifier[5]
+type_modifier : QUALIFIER_PAIR ; # rule 152, type_modifier[6]
+based_operand : segment_name ; # rule 153, based_operand[1]
+based_operand : based_cast_operand ; # rule 154, based_operand[2]
+based_operand : IDENTIFIER ; # rule 155, based_operand[3]
+based_operand : THIS ; # rule 156, based_operand[4]
+based_operand : TYPE_NAME ; # rule 157, based_operand[5]
+based_operand : ERROR ; # rule 158, based_operand[6]
+based_cast_operand : LPAREN TYPE_NAME RPAREN IDENTIFIER ; # rule 159, based_cast_operand[1]
+based_cast_operand : LPAREN TYPE_NAME RPAREN AMPERSAND IDENTIFIER ; # rule 160, based_cast_operand[2]
+based_cast_operand : LPAREN TYPE_NAME RPAREN SELF ; # rule 161, based_cast_operand[3]
+abstract_declarator : abstract_declarator_head ; # rule 162, abstract_declarator[1]
+abstract_declarator : direct_abstract_declarator ; # rule 163, abstract_declarator[2]
+abstract_declarator_head :  ; # rule 164, abstract_declarator_head[1]
+abstract_declarator_head : type_modifier_seq ; # rule 165, abstract_declarator_head[2]
+abstract_declarator_head : function_suffix ; # rule 166, abstract_declarator_head[3]
+abstract_declarator_head : type_modifier_seq function_suffix ; # rule 167, abstract_declarator_head[4]
+direct_abstract_declarator : type_modifiers_opt STAR abstract_declarator ; # rule 168, direct_abstract_declarator[1]
+direct_abstract_declarator : type_modifiers_opt AMPERSAND abstract_declarator ; # rule 169, direct_abstract_declarator[2]
+direct_abstract_declarator : type_modifiers_opt MEMBER_POINTER_DECLARATOR abstract_declarator ; # rule 170, direct_abstract_declarator[3]
+direct_abstract_declarator : abstract_declarator LBRACKET optional_expression RBRACKET ; # rule 171, direct_abstract_declarator[4]
+direct_abstract_declarator : parenthesized_abstract_declarator function_suffix ; # rule 172, direct_abstract_declarator[5]
+direct_abstract_declarator : parenthesized_abstract_declarator ; # rule 173, direct_abstract_declarator[6]
+parenthesized_abstract_declarator : LPAREN direct_abstract_declarator RPAREN ; # rule 174, parenthesized_abstract_declarator[1]
+conversion_declarator : conversion_pointer_operator ; # rule 175, conversion_declarator[1]
+conversion_declarator : conversion_declarator conversion_pointer_operator ; # rule 176, conversion_declarator[2]
+conversion_pointer_operator : CONVERSION_STAR ; # rule 177, conversion_pointer_operator[1]
+conversion_pointer_operator : CONVERSION_AMPERSAND ; # rule 178, conversion_pointer_operator[2]
+conversion_pointer_operator : conversion_type_modifier_seq STAR ; # rule 179, conversion_pointer_operator[3]
+conversion_pointer_operator : conversion_type_modifier_seq AMPERSAND ; # rule 180, conversion_pointer_operator[4]
+conversion_type_modifier_seq : conversion_type_modifier ; # rule 181, conversion_type_modifier_seq[1]
+conversion_type_modifier_seq : conversion_type_modifier_seq conversion_type_modifier ; # rule 182, conversion_type_modifier_seq[2]
+conversion_type_modifier : CONVERSION_MODIFIER ; # rule 183, conversion_type_modifier[1]
+conversion_type_modifier : CONVERSION_CONST ; # rule 184, conversion_type_modifier[2]
+conversion_type_modifier : CONVERSION_VOLATILE ; # rule 185, conversion_type_modifier[3]
+conversion_type_modifier : CONVERSION_BASED LPAREN based_operand RPAREN ; # rule 186, conversion_type_modifier[4]
+ellipsis_opt :  ; # rule 187, ellipsis_opt[1]
+ellipsis_opt : COMMA ELLIPSIS ; # rule 188, ellipsis_opt[2]
+ellipsis_opt : ELLIPSIS ; # rule 189, ellipsis_opt[3]
+compound_statement_begin :  ; # rule 190, compound_statement_begin[1]
+compound_statement_end :  ; # rule 191, compound_statement_end[1]
+compound_statement : LBRACE compound_statement_begin statement_seq_opt compound_statement_end RBRACE ; # rule 192, compound_statement[1]
+statement_seq_opt :  ; # rule 193, statement_seq_opt[1]
+statement_seq_opt : statement_seq_opt labeled_statement ; # rule 194, statement_seq_opt[2]
+labeled_statement : label_seq_opt statement ; # rule 195, labeled_statement[1]
+statement : expression SEMICOLON ; # rule 196, statement[1]
+statement : declaration ; # rule 197, statement[2]
+statement : compound_statement ; # rule 198, statement[3]
+statement : if_head labeled_statement ; # rule 199, statement[4]
+statement : else_head labeled_statement ; # rule 200, statement[5]
+while_condition_begin :  ; # rule 201, while_condition_begin[1]
+while_body_begin :  ; # rule 202, while_body_begin[1]
+statement : WHILE LPAREN while_condition_begin expression RPAREN while_body_begin labeled_statement ; # rule 203, statement[6]
+for_scope_begin :  ; # rule 204, for_scope_begin[1]
+for_condition_begin :  ; # rule 205, for_condition_begin[1]
+for_increment_begin :  ; # rule 206, for_increment_begin[1]
+for_body_begin :  ; # rule 207, for_body_begin[1]
+statement : FOR LPAREN for_scope_begin for_initializer for_condition_begin optional_expression SEMICOLON for_increment_begin optional_expression for_closing_semicolon_opt RPAREN for_body_begin labeled_statement ; # rule 208, statement[7]
+do_body_begin :  ; # rule 209, do_body_begin[1]
+do_condition_begin :  ; # rule 210, do_condition_begin[1]
+statement : DO do_body_begin labeled_statement WHILE LPAREN do_condition_begin expression RPAREN SEMICOLON ; # rule 211, statement[8]
+switch_condition_begin :  ; # rule 212, switch_condition_begin[1]
+switch_body_begin :  ; # rule 213, switch_body_begin[1]
+statement : SWITCH LPAREN switch_condition_begin expression RPAREN switch_body_begin labeled_statement ; # rule 214, statement[9]
+statement : SEH_LEAVE SEMICOLON ; # rule 215, statement[10]
+statement : BREAK SEMICOLON ; # rule 216, statement[11]
+statement : CONTINUE SEMICOLON ; # rule 217, statement[12]
+statement : RETURN SEMICOLON ; # rule 218, statement[13]
+return_expression_begin :  ; # rule 219, return_expression_begin[1]
+statement : RETURN return_expression_begin expression SEMICOLON ; # rule 220, statement[14]
+statement : GOTO IDENTIFIER SEMICOLON ; # rule 221, statement[15]
+statement : ASM_BLOCK ; # rule 222, statement[16]
+statement : seh_except_head compound_statement ; # rule 223, statement[17]
+seh_finally_begin :  ; # rule 224, seh_finally_begin[1]
+statement : seh_try_statement SEH_FINALLY seh_finally_begin compound_statement ; # rule 225, statement[18]
+statement : try_block ; # rule 226, statement[19]
+statement : ELSE ; # rule 227, statement[20]
+statement : SEMICOLON ; # rule 228, statement[21]
+statement : ERROR SEMICOLON ; # rule 229, statement[22]
+handlers_begin :  ; # rule 230, handlers_begin[1]
+try_block : TRY compound_statement handlers_begin handler_seq_opt ; # rule 231, try_block[1]
+handler_seq_opt :  ; # rule 232, handler_seq_opt[1]
+handler_seq_opt : handler_seq_opt handler ; # rule 233, handler_seq_opt[2]
+handler : handler_head compound_statement ; # rule 234, handler[1]
+handler_head : CATCH catch_parameter_clause ; # rule 235, handler_head[1]
+exception_specification : LPAREN RPAREN ; # rule 236, exception_specification[1]
+exception_specification : catch_parameter_clause ; # rule 237, exception_specification[2]
+catch_parameter_clause : LPAREN parameter_list RPAREN ; # rule 238, catch_parameter_clause[1]
+catch_parameter_clause : LPAREN ELLIPSIS RPAREN ; # rule 239, catch_parameter_clause[2]
+seh_try_begin :  ; # rule 240, seh_try_begin[1]
+seh_try_statement : SEH_TRY seh_try_begin compound_statement ; # rule 241, seh_try_statement[1]
+seh_filter_begin :  ; # rule 242, seh_filter_begin[1]
+seh_except_head : seh_try_statement SEH_EXCEPT seh_filter_begin LPAREN expression RPAREN ; # rule 243, seh_except_head[1]
+for_closing_semicolon_opt :  ; # rule 244, for_closing_semicolon_opt[1]
+for_closing_semicolon_opt : SEMICOLON ; # rule 245, for_closing_semicolon_opt[2]
+for_initializer : for_init_statement ; # rule 246, for_initializer[1]
+for_init_statement : expression SEMICOLON ; # rule 247, for_init_statement[1]
+for_init_statement : declaration ; # rule 248, for_init_statement[2]
+for_init_statement : SEMICOLON ; # rule 249, for_init_statement[3]
+label_seq_opt :  ; # rule 250, label_seq_opt[1]
+label_seq_opt : label_seq_opt label ; # rule 251, label_seq_opt[2]
+label : IDENTIFIER COLON ; # rule 252, label[1]
+label : CASE expression COLON ; # rule 253, label[2]
+label : DEFAULT COLON ; # rule 254, label[3]
+if_condition_begin :  ; # rule 255, if_condition_begin[1]
+if_head : IF LPAREN if_condition_begin expression RPAREN ; # rule 256, if_head[1]
+else_head : if_head labeled_statement ELSE ; # rule 257, else_head[1]
+array_bound_opt :  ; # rule 258, array_bound_opt[1]
+array_bound_opt : constant_expression ; # rule 259, array_bound_opt[2]
+constant_expression : expression %prec COMMA ; # rule 260, constant_expression[1]
+optional_expression :  ; # rule 261, optional_expression[1]
+optional_expression : expression ; # rule 262, optional_expression[2]
+expression : expression COMMA expression ; # rule 263, expression[1]
+expression : THROW expression ; # rule 264, expression[2]
+expression : expression ASSIGN expression ; # rule 265, expression[3]
+expression : expression ASSIGNMENT_OPERATOR expression ; # rule 266, expression[4]
+conditional_true_begin :  ; # rule 267, conditional_true_begin[1]
+conditional_false_begin :  ; # rule 268, conditional_false_begin[1]
+expression : expression QUESTION conditional_true_begin expression COLON conditional_false_begin expression ; # rule 269, expression[5]
+logical_or_rhs_begin :  ; # rule 270, logical_or_rhs_begin[1]
+expression : expression LOGICAL_OR logical_or_rhs_begin expression ; # rule 271, expression[6]
+logical_and_rhs_begin :  ; # rule 272, logical_and_rhs_begin[1]
+expression : expression LOGICAL_AND logical_and_rhs_begin expression ; # rule 273, expression[7]
+expression : expression BIT_OR expression ; # rule 274, expression[8]
+expression : expression BIT_XOR expression ; # rule 275, expression[9]
+expression : expression AMPERSAND expression ; # rule 276, expression[10]
+expression : expression EQUALITY_OPERATOR expression ; # rule 277, expression[11]
+expression : expression RELATIONAL_OPERATOR expression ; # rule 278, expression[12]
+expression : expression SHIFT_OPERATOR expression ; # rule 279, expression[13]
+expression : expression PLUS expression ; # rule 280, expression[14]
+expression : expression MINUS expression ; # rule 281, expression[15]
+expression : expression STAR expression ; # rule 282, expression[16]
+expression : expression DIVISION_OPERATOR expression ; # rule 283, expression[17]
+expression : expression SEGMENT_OFFSET expression ; # rule 284, expression[18]
+expression : expression MEMBER_POINTER_OPERATOR cast_expression ; # rule 285, expression[19]
+expression : cast_expression ; # rule 286, expression[20]
+cast_expression : unary_expression ; # rule 287, cast_expression[1]
+cast_expression : type_cast cast_expression ; # rule 288, cast_expression[2]
+unary_expression : postfix_expression ; # rule 289, unary_expression[1]
+unary_expression : INCREMENT_OPERATOR unary_expression ; # rule 290, unary_expression[2]
+unary_expression : STAR cast_expression ; # rule 291, unary_expression[3]
+unary_expression : AMPERSAND cast_expression ; # rule 292, unary_expression[4]
+unary_expression : PLUS cast_expression ; # rule 293, unary_expression[5]
+unary_expression : MINUS cast_expression ; # rule 294, unary_expression[6]
+unary_expression : NOT cast_expression ; # rule 295, unary_expression[7]
+complement_operand_begin :  ; # rule 296, complement_operand_begin[1]
+unary_expression : TILDE complement_operand_begin cast_expression ; # rule 297, unary_expression[8]
+unary_expression : SIZEOF cast_expression ; # rule 298, unary_expression[9]
+unary_expression : SIZEOF type_cast ; # rule 299, unary_expression[10]
+unary_expression : ALIGNOF type_cast ; # rule 300, unary_expression[11]
+unary_expression : completed_new_expression ; # rule 301, unary_expression[12]
+unary_expression : delete_expression ; # rule 302, unary_expression[13]
+postfix_expression : primary_expression ; # rule 303, postfix_expression[1]
+postfix_expression : postfix_expression LBRACKET expression RBRACKET ; # rule 304, postfix_expression[2]
+call_arguments_begin :  ; # rule 305, call_arguments_begin[1]
+postfix_expression : postfix_expression call_arguments_begin call_arguments ; # rule 306, postfix_expression[3]
+member_lookup_begin :  ; # rule 307, member_lookup_begin[1]
+postfix_expression : postfix_expression MEMBER_ACCESS_OPERATOR member_lookup_begin member_id ; # rule 308, postfix_expression[4]
+postfix_expression : postfix_expression INCREMENT_OPERATOR ; # rule 309, postfix_expression[5]
+postfix_expression : OPERATOR call_arguments ; # rule 310, postfix_expression[6]
+primary_expression : CONSTANT ; # rule 311, primary_expression[1]
+primary_expression : string_literal_seq ; # rule 312, primary_expression[2]
+primary_expression : THIS ; # rule 313, primary_expression[3]
+primary_expression : LPAREN expression RPAREN ; # rule 314, primary_expression[4]
+primary_expression : segment_name ; # rule 315, primary_expression[5]
+primary_expression : expression_id ; # rule 316, primary_expression[6]
+member_id : expression_id ; # rule 317, member_id[1]
+member_id : TILDE IDENTIFIER ; # rule 318, member_id[2]
+expression_id : IDENTIFIER ; # rule 319, expression_id[1]
+expression_id : OPERATOR_ID ; # rule 320, expression_id[2]
+expression_id : conversion_function_id ; # rule 321, expression_id[3]
+expression_id : QUALIFIED_ID ; # rule 322, expression_id[4]
+expression_id : QUALIFIED_ID conversion_function_id ; # rule 323, expression_id[5]
+expression_id : SIMPLE_TYPE_CALL ; # rule 324, expression_id[6]
+type_cast : LPAREN declaration_specifiers abstract_declarator RPAREN ; # rule 325, type_cast[1]
+call_arguments : LPAREN argument_list RPAREN ; # rule 326, call_arguments[1]
+call_arguments : LPAREN RPAREN ; # rule 327, call_arguments[2]
+argument_list : expression %prec COMMA ; # rule 328, argument_list[1]
+argument_list : argument_list COMMA expression ; # rule 329, argument_list[2]
+segment_name : SEGNAME LPAREN string_literal_seq RPAREN ; # rule 330, segment_name[1]
+string_literal_seq : STRING_LITERAL ; # rule 331, string_literal_seq[1]
+string_literal_seq : string_literal_seq STRING_LITERAL ; # rule 332, string_literal_seq[2]
+completed_new_expression : new_expression ; # rule 333, completed_new_expression[1]
+new_expression : new_keyword type_modifiers_opt new_type new_initializer_opt ; # rule 334, new_expression[1]
+new_expression : new_keyword type_modifiers_opt parenthesized_new_type new_initializer_opt ; # rule 335, new_expression[2]
+new_expression : new_keyword type_modifiers_opt parenthesized_initializer new_type new_initializer_opt ; # rule 336, new_expression[3]
+new_expression : new_keyword type_modifiers_opt parenthesized_initializer parenthesized_new_type new_initializer_opt ; # rule 337, new_expression[4]
+new_keyword : NEW ; # rule 338, new_keyword[1]
+new_type : declaration_specifiers new_declarator_opt ; # rule 339, new_type[1]
+new_type : SIMPLE_TYPE_CALL ; # rule 340, new_type[2]
+parenthesized_new_type : LPAREN declaration_specifiers abstract_declarator RPAREN ; # rule 341, parenthesized_new_type[1]
+new_declarator_opt :  ; # rule 342, new_declarator_opt[1]
+new_declarator_opt : type_modifier_seq ; # rule 343, new_declarator_opt[2]
+new_declarator_opt : STAR new_declarator_opt ; # rule 344, new_declarator_opt[3]
+new_declarator_opt : type_modifier_seq STAR new_declarator_opt ; # rule 345, new_declarator_opt[4]
+new_declarator_opt : new_declarator_opt LBRACKET optional_expression RBRACKET ; # rule 346, new_declarator_opt[5]
+new_initializer_opt :  ; # rule 347, new_initializer_opt[1]
+new_initializer_opt : parenthesized_initializer ; # rule 348, new_initializer_opt[2]
+new_initializer_opt : LPAREN RPAREN ; # rule 349, new_initializer_opt[3]
+delete_expression : DELETE cast_expression ; # rule 350, delete_expression[1]
+delete_expression : DELETE LBRACKET optional_expression RBRACKET cast_expression ; # rule 351, delete_expression[2]
+trailing_comma_opt :  ; # rule 352, trailing_comma_opt[1]
+trailing_comma_opt : COMMA ; # rule 353, trailing_comma_opt[2]
+initializer_trailing_separator_opt :  ; # rule 354, initializer_trailing_separator_opt[1]
+initializer_trailing_separator_opt : COMMA ; # rule 355, initializer_trailing_separator_opt[2]
+initializer_trailing_separator_opt : SEMICOLON ; # rule 356, initializer_trailing_separator_opt[3]
+
+# Recovery inserts are expressed by production/dot contexts, not state numbers.
+# A leading ! excludes an item; deferred suppresses an immediate repeat diagnostic.
+%recover $accept@1 SEMICOLON deferred
+%recover external_declaration[1]@1 SEMICOLON deferred
+%recover external_declaration[4]@1 SEMICOLON
+%recover external_declaration[5]@1 SEMICOLON
+%recover declaration[1]@1 SEMICOLON
+%recover declaration[3]@1 SEMICOLON
+%recover declaration[4]@1 COLON deferred
+%recover linkage_specification[1]@1 SEMICOLON deferred
+%recover class_specifier[1]@1 COLON deferred
+%recover parenthesized_initializer[1]@1,parameter_clause[1]@1 RPAREN deferred
+%recover declaration[5]@2 SEMICOLON
+%recover declarator[7]@2 RPAREN deferred
+%recover parenthesized_initializer[1]@2 RPAREN deferred
+%recover parameter_clause[1]@1,!parenthesized_abstract_declarator[1]@1,!parenthesized_initializer[1]@1 RPAREN deferred
+%recover primary_expression[4]@2 RPAREN deferred
+%recover call_arguments[1]@1 RPAREN deferred
+%recover linkage_specification[1]@3 SEMICOLON deferred
+%recover asm_definition[1]@3 RPAREN deferred
+%recover parameter_clause[2]@3 COMMA deferred
+%recover exception_specification[1]@1 RPAREN deferred
+%recover constructor_initializer_opt[2]@3 SEMICOLON deferred
+%recover mem_initializer[3]@1 RPAREN deferred
+%recover postfix_expression[2]@3 RBRACKET deferred
+%recover type_cast[1]@3 RPAREN deferred
+%recover parenthesized_abstract_declarator[1]@1,!declarator[7]@1 RPAREN deferred
+%recover call_arguments[1]@2 RPAREN deferred
+%recover optional_expression[2]@1 COMMA deferred
+%recover segment_name[1]@3 RPAREN deferred
+%recover class_specifier[1]@4 SEMICOLON deferred
+%recover class_specifier[2]@4 SEMICOLON deferred
+%recover declarator[7]@1,parameter_clause[1]@1 RPAREN deferred
+%recover catch_parameter_clause[1]@2 RPAREN deferred
+%recover expression[5]@4 COMMA deferred
+%recover new_initializer_opt[3]@1 RPAREN deferred
+%recover member_declaration[2]@1 SEMICOLON deferred
+%recover member_declaration[3]@1 SEMICOLON deferred
+%recover member_declaration[8]@1 SEMICOLON deferred
+%recover member_declarator[1]@1 COLON deferred
+%recover parenthesized_new_type[1]@3 RPAREN deferred
+%recover member_declaration[4]@2 SEMICOLON deferred
+%recover member_declarator_list[2]@2 COLON deferred
+%recover labeled_statement[1]@1 SEMICOLON deferred
+%recover statement[1]@1 SEMICOLON deferred
+%recover statement[10]@1 SEMICOLON
+%recover statement[11]@1 SEMICOLON
+%recover statement[12]@1 SEMICOLON
+%recover statement[22]@1 SEMICOLON
+%recover class_specifier[2]@8 SEMICOLON deferred
+%recover statement[15]@2 SEMICOLON
+%recover label[2]@2 COMMA deferred
+%recover statement[7]@3 SEMICOLON deferred
+%recover statement[14]@3 SEMICOLON deferred
+%recover statement[6]@4 RPAREN deferred
+%recover for_init_statement[1]@1 SEMICOLON deferred
+%recover statement[9]@4 RPAREN deferred
+%recover if_head[1]@4 RPAREN deferred
+%recover seh_except_head[1]@5 RPAREN deferred
+%recover statement[7]@6 SEMICOLON
+%recover statement[8]@7 RPAREN deferred
+%recover statement[8]@8 SEMICOLON

@@ -68,5 +68,20 @@
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
-  "state_address_aliases_checked": true
+  "state_address_aliases_checked": true,
+  "generated_grammar_validation": {
+    "source": "grammar.bnf",
+    "generator": "grammar.py",
+    "states": 575,
+    "productions": 356,
+    "precedence_conflicts": 353,
+    "token_decisions": 147775,
+    "gotos": 82800,
+    "recovery_inserts": 60,
+    "lexer_query_timing_matches": true,
+    "source_reads_original_binary": false,
+    "semantic_actions_reconstructed": false,
+    "log": "evidence/grammar-validation.log",
+    "log_sha256": "9c70ff151a4c32915465034ff927907cd6513986f47e4dad03d3d55903c1d3f1"
+  }
 }

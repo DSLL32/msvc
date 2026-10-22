@@ -136,3 +136,14 @@ their aliases and initial defaults are audited; this established the original
 normalized_Gs=1 and normalized_Gn=1 defaults before frontend initialization.
 The current trap is the complete yacc parser; its grammar and semantic actions
 remain unreconstructed. No original parser tables have been imported as source.
+
+The parser's declarative grammar is recovered in grammar.bnf. grammar.py reads
+only that named grammar, precedence and recovery annotations; it never reads an
+original binary. Sorted LR kernels and queued closure regenerate the original
+state numbering. LALR lookaheads, ordinary operator precedence and six comma
+boundary overrides regenerate its actions and default reductions. Recovery
+inserts identify production/dot contexts; destination states follow from shifts.
+audit-parser-grammar.py compares all 147775 token decisions, 82800 gotos, lexer
+query timing and 60 recovery inserts against the original. All match. The
+analysis-only recovery proof is in analysis/recover-grammar.py; it is not part
+of the build. Parser semantic C actions and the complete C++ case remain pending.

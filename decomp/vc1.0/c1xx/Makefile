@@ -24,9 +24,10 @@ check: all audit
 	$(PYTHON) compare.py
 replay: all
 	$(PYTHON) compare.py --replay
-audit: build/runtime.json runtime.json
+audit: build/runtime.json runtime.json grammar.bnf grammar.py audit-parser-grammar.py
 	$(PYTHON) audit-graph.py
 	$(PYTHON) audit-data.py
+	$(PYTHON) audit-parser-grammar.py
 clean:
 	rm -rf build
 
