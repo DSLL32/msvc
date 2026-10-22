@@ -1,6 +1,9 @@
 /* Frontend orchestration, original compile_translation_unit 0x43950. */
 #include <stdlib.h>
 #include "frontend.h"
+#include "pch.h"
+#include "pragma.h"
+#include "global-ir.h"
 
 unsigned initial_option_flags, precompiled_option_flags;
 SavedConfiguration saved_configuration;
@@ -61,6 +64,7 @@ int compile_translation_unit(void)
                 begin_debug_info();
         }
         saved_configuration.options = options;
+        CAPTURE_PCH_SETTINGS(saved_pch_settings, options, database_path, pch_object_name, i);
         for (i = 0; i < 256; ++i) {
             saved_configuration.database_path[i] = database_path[i];
             saved_configuration.pch_object_name[i] = pch_object_name[i];

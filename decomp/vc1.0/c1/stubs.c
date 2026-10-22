@@ -41,7 +41,6 @@ void preprocess_translation_unit(void) { __asm { int 3 } }
 /* Original 0x3c080. */
 
 /* Original 0x213f0. */
-int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 
 /* Original 0x45880. */
 void begin_automatic_pch(void) { __asm { int 3 } }
@@ -93,7 +92,6 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 
 /* Original 0x1bf70. */
 
-void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 
 
 
@@ -121,7 +119,6 @@ void browser_open_file(void) { __asm { int 3 } }
 
 void release_input_handle(void) { __asm { int 3 } }
 
-char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 
 
 
@@ -140,7 +137,6 @@ void __stdcall copy_quoted_literal(int delimiter) { __asm { int 3 } }
 
 
 
-void finish_pch_output(void) { __asm { int 3 } }
 
 
 unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
@@ -461,7 +457,6 @@ void report_ide_file_end(void) { __asm { int 3 } }
 void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
-int fclose(FILE *file) { __asm { int 3 } return 0; }
 int _unlink(const char *name) { __asm { int 3 } return 0; }
 
 
@@ -889,3 +884,52 @@ unsigned short pdb_complete_enum_type_index(FrontendSymbol *tag) { __asm { int 3
 
 
 unsigned short write_codeview_signed_leaf(unsigned char *destination, int number) { __asm { int 3 } }
+
+
+void declare_pch_debug_library(void) { __asm { int 3 }  }
+
+void finish_pch_debug_symbols(void) { __asm { int 3 }  }
+
+void begin_browser_pch_record(void) { __asm { int 3 }  }
+
+
+
+
+
+unsigned __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, unsigned *checksum) { __asm { int 3 } return 0; }
+
+
+
+
+#include "pch-relocate.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

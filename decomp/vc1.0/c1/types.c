@@ -44,7 +44,7 @@ CType *__stdcall intern_type(TypeDescription *description)
 }
 
 /* Pointer shape cache and reusable descriptors, original 0x6b73c/0x66340/0x66350. */
-TypeShape *function_shapes[37];
+TypeShape *function_shapes[21];
 CType function_type_scratch;
 TypeShape function_shape_scratch;
 

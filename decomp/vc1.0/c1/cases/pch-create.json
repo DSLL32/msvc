@@ -1,0 +1,49 @@
+{
+  "case": "../fixtures/pch/manifest.json phases.c1-create",
+  "status": "complete",
+  "after": "numeric-varargs",
+  "requested_driver_case": "/nologo /c /Od /W3 /Ycpch.h /Fpstate.pch producer.c",
+  "accepted_from": 633,
+  "accepted_frontiers": 680,
+  "reconstructed_source_functions": 578,
+  "current_matching_trap": null,
+  "outputs": [
+    {
+      "path": "expected/c1-create/irex",
+      "bytes": 94,
+      "sha256": "3824b3a4eb7c135c5c4291131115fe194252bfcd916446796780fbfe706d7887",
+      "output_name": "irex"
+    },
+    {
+      "path": "expected/c1-create/irsy",
+      "bytes": 33,
+      "sha256": "c90290406c71bedb00865b04bab157c1b67cd0418a754cf6302e2d6513b6d794",
+      "output_name": "irsy"
+    },
+    {
+      "path": "expected/c1-create/irin",
+      "bytes": 3,
+      "sha256": "9e83ad5430b7f2282ca3775b5f2048ca89a2d7971f12be376e92910d00a58215",
+      "output_name": "irin"
+    },
+    {
+      "path": "expected/c1-create/irgl",
+      "bytes": 68,
+      "sha256": "e68d5d2de9da43c9606bc5ec7280a47490155fbead2833fc8b11d33352f1ce79",
+      "output_name": "irgl"
+    },
+    {
+      "path": "expected/c1-create/state.pch",
+      "bytes": 38164,
+      "sha256": "2a2796c517fe6c707290d5932db5eccc456e623c356a8887121bee53b6f89c06",
+      "output_name": "state.pch"
+    }
+  ],
+  "validation": "All 47 new producer frontiers replay; raw outputs and independent untouched-original run match. Four prior final cases and graph/state/layout/grammar audits pass. Full old frontier replay is reserved for the final paired-case build.",
+  "coverage": {
+    "accepted_union_bytes": 184545,
+    "original_code_bytes": 277234,
+    "percent": 66.56651060115281,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  }
+}

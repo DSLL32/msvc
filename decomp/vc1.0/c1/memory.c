@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include "options.h"
 #include "parser.h"
+#include "pch-relocate.h"
 
-static unsigned char *permanent_next;
-static unsigned permanent_available;
+unsigned char *permanent_next;
+unsigned permanent_available;
 
 /* Original 0x44ba0..0x44bea. */
 void *__stdcall allocate_permanent(unsigned bytes)
@@ -27,13 +28,9 @@ void *__stdcall allocate_permanent(unsigned bytes)
 }
 
 /* Pages and relocation maps used to serialize permanent arena pointers. */
-typedef struct PermanentPage {
-    unsigned char *start;
-    BitSet *relocations;
-} PermanentPage;
-static PermanentPage permanent_pages[512]; /* original 0x66370 */
+PermanentPage permanent_pages[512]; /* original 0x66370 */
 int permanent_page_count;           /* original 0x6de00 */
-static PermanentPage *current_page;         /* original 0x6ddcc */
+PermanentPage *current_page;         /* original 0x6ddcc */
 
 /* Original 0x44b00..0x44b7a. */
 void *new_permanent_page(void)
@@ -177,4 +174,26 @@ void *__stdcall push_work_list(void **head, int arena)
     entry->next = *head;
     *head = entry;
     return entry;
+}
+
+/* Original 0x4bc50..0x4bcd3. Round the allocation to four bytes while
+   copying only the original string and its terminator. */
+char *__stdcall copy_string(char *text, int arena)
+{
+    unsigned length, bytes, i;
+    char *copy;
+    ArenaPool *pool;
+    for (length = 0; text[length]; ++length) ;
+    bytes = (length + 4) & ~3;
+    if (!arena) copy = allocate_permanent(bytes);
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)bytes) refill_arena(&compiler_arena, pool);
+        copy = (char *)pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+    }
+    for (i = 0; (copy[i] = text[i]) != 0; ++i) ;
+    return copy;
 }

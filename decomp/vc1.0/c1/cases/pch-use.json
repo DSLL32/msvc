@@ -1,0 +1,9 @@
+{
+  "case": "../fixtures/pch/manifest.json phases.c1-use",
+  "status": "in progress",
+  "after": "pch-create",
+  "accepted_from": 680,
+  "current_matching_trap": "_load_precompiled_header",
+  "original_va": "0x1fda0",
+  "dependency": "Exact state.pch from producer; independently verified originals. Consumer matched replay currently uses immutable captured input; final generated producer-to-consumer replay remains required."
+}

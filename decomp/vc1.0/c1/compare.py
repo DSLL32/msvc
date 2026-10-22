@@ -81,7 +81,7 @@ def mask(pe, records, accepted, output):
                 data[a:b] = pe.data[a:b]
     Path(output).write_bytes(data)
 
-FIXTURES = {'minimal': 'minimal-c', 'hello-win32': 'hello-win32', 'hello-dll': 'hello-dll', 'numeric-varargs': 'numeric-varargs'}
+FIXTURES = {'minimal': 'minimal-c', 'hello-win32': 'hello-win32', 'hello-dll': 'hello-dll', 'numeric-varargs': 'numeric-varargs', 'pch-create': 'pch', 'pch-use': 'pch'}
 CASE_NAME = 'minimal'
 FIXTURE = Path('../fixtures') / FIXTURES[CASE_NAME]
 CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
@@ -90,7 +90,7 @@ def select_case(name):
     global CASE_NAME, FIXTURE, CASE
     CASE_NAME = name
     FIXTURE = Path('../fixtures') / FIXTURES[name]
-    CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
+    CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases'][{'pch-create':'c1-create', 'pch-use':'c1-use'}.get(name,'c1')]
 
 def target_namespace(label, directory):
     """Give paired children the same DOS cwd in independent private prefixes."""
@@ -98,7 +98,7 @@ def target_namespace(label, directory):
     env = wt.environment()
     if not canonical:
         return env, wt.windows(directory)
-    assert canonical == r'N:\numeric-varargs', 'unhandled canonical namespace'
+    assert canonical.startswith('N:\\') and len(canonical.split('\\')) == 2, 'unhandled canonical namespace'
     scratch = wt.PREFIX.parent / 'paired-prefixes' / label
     prefix, root = scratch / 'wine', scratch / 'root'
     if not (prefix / 'system.reg').exists():
@@ -110,7 +110,7 @@ def target_namespace(label, directory):
         (prefix / 'dosdevices/z:').symlink_to('/')
         (prefix / 'dosdevices/n:').symlink_to(root)
     root.mkdir(parents=True, exist_ok=True)
-    mapped = root / 'numeric-varargs'
+    mapped = root / canonical.split('\\')[1]
     if mapped.is_symlink():
         mapped.unlink()
     assert not mapped.exists()
@@ -208,7 +208,10 @@ def check_artifacts(labels):
             data = artifact_bytes(output['output_name'], data)
             digest = output.get('normalized_sha256', output['sha256'])
             assert hashlib.sha256(data).hexdigest() == digest, output['output_name'] + ' differs: ' + label
-    print('All captured frontend outputs match; only declared database timestamp fields are normalized.')
+    if any(output.get('ignored_fields') for output in CASE['outputs']):
+        print('All captured frontend outputs match; only declared database timestamp fields are normalized.')
+    else:
+        print('All captured frontend outputs match raw bytes.')
 
 def compare(accepted_count=None, case='', baseline=True):
     orig, rec, cfg, oi, ri = prepare(accepted_count)

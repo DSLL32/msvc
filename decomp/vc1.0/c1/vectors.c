@@ -1,6 +1,7 @@
 /* Short-count pointer vectors allocated from the compiler's arenas. */
 #include <stdlib.h>
 #include "work-stack.h"
+#include "pch.h"
 
 /* Original 0x324c0..0x3257d. */
 Vector *__stdcall new_vector(short capacity, int arena)
@@ -139,4 +140,25 @@ int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
         while (count > 0) { *destination++ = *source++; --count; }
     }
     return total;
+}
+
+/* Original 0x326f0..0x32754. Copy a vector to another arena through its
+   element callback, retaining the original signed short iteration count. */
+Vector *__stdcall copy_vector(Vector *source, int arena,
+                              void *(__stdcall *copy_item)(void *, int))
+{
+    Vector *copy = new_vector(vector_count(source), arena);
+    short index = 0;
+    void *item;
+    while (index < source->count) {
+        item = source->items[index++];
+        append_vector(copy, copy_item(item, arena));
+    }
+    return copy;
+}
+
+/* Original 0x32760..0x32776. */
+short __stdcall vector_count(Vector *vector)
+{
+    return vector ? vector->count : 0;
 }

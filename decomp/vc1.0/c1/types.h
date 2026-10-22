@@ -38,7 +38,8 @@ typedef struct ParameterList {
 extern TypeEntry **type_descriptor_buckets;
 extern TypeShapeEntry **type_shape_buckets;
 extern ParameterEntry **parameter_buckets;
-extern TypeShape *function_shapes[37];
+extern ParameterInfo *empty_parameters, *void_parameters;
+extern TypeShape *function_shapes[21];
 extern CType function_type_scratch;
 extern TypeShape function_shape_scratch;
 extern int active_plmn_pragma, active_plmf_pragma;

@@ -2,13 +2,13 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-All four captured cases are complete: 534 reconstructed source functions
-and 633 accepted trap frontiers. A clean original-toolchain make -j2 build
-and every recorded frontier pass against the final build, with exact pending
-FILE buffers, visible outputs and diagnostics. Independent untouched-original
-replays also reproduce all four captures. Numeric debug files retain their
-canonical path bytes; only two native timestamp DWORDs are normalized after
-their raw within-run equality has been checked.
+The four earlier cases and the new PCH producer complete. The current build
+contains 578 reconstructed source functions and 680 accepted frontiers.
+All 47 new producer frontiers replay with exact pending FILE buffers, visible
+files and diagnostics; all five final cases also match independent untouched
+originals. The previous 633-frontier history will be replayed again after the
+assigned PCH pair is complete. Consumer reconstruction is now at the matching
+load_precompiled_header trap. There is no PCH normalization.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -513,3 +513,29 @@ reached. The count joins the address/default audit, bringing it to 207
 state checks. A further clean original-toolchain -j2 build and every one of
 the 633 frontiers pass after this correction, with all four final captures
 and independent original outputs unchanged. Extent coverage is unchanged.
+
+PCH producer checkpoint (paired /Yc and /Yu assignment)
+------------------------------------------------------
+Immutable fixture ../fixtures/pch was captured from original CL at its
+CreateProcessA import thunk, with complete before-child file snapshots.
+Two full original driver runs and two fresh-prefix C1 producer/consumer
+replays pass; both original-built programs exit 0 silently. The canonical
+cwd is N:\pch in distinct original/reconstruction/baseline prefixes.
+
+The /Ycpch.h /Fpstate.pch producer emits raw-exact irex94, irsy33, irin3,
+irgl68 and state.pch38164. Its complete graph traversal, pointer bitmap,
+page-relative references, backward patch chains, stream staging and header
+writing are readable C. Native roots are described by canonical pointer-cell
+identities; settings/root/header wire records are assembled from semantic
+state. No original data sections or PCH snapshots are compiled into C1.
+
+The source/default audit now checks 105 root identities, twelve subsystem
+callbacks, 210 state cells and the function-shape cache's exact 21-entry
+boundary. The former 37-entry cache crossed known pragma/parameter state;
+its native calling-convention*3+pointer-model indexing and following globals
+establish the corrected bound. The FILE oracle also caught three settings
+compatibility/default fields; their native initial values now have explicit
+canonical objects and audits. All 578 graphs, instruction boundaries,
+compile-time wire layouts and the full grammar audit pass. All four prior
+final artifacts/streams and the new producer remain exact after these fixes.
+Consumer reconstruction and complete old/new replay remain pending.

@@ -637,7 +637,54 @@
     "_finish_program_database",
     "_commit_program_database",
     "@write_program_database@4",
-    "_close_program_database"
+    "_close_program_database",
+    "_prepare_pch_output@4",
+    "_compare_filenames",
+    "_toupper",
+    "_finish_pch_output",
+    "_copy_vector@12",
+    "_vector_count@4",
+    "_copy_string@8",
+    "_stage_pch_intermediates",
+    "_append_pch_intermediates",
+    "_copy_pch_stream@12",
+    "_fread",
+    "__chsize",
+    "_relocate_pch_state",
+    "_mark_pch_graph",
+    "_mark_pch_scopes",
+    "_mark_pch_pointer@4",
+    "_pointer_to_pch_reference@4",
+    "_mark_pch_symbol_chain@4",
+    "_mark_pch_tag@4",
+    "_mark_pch_hash_table@12",
+    "_mark_pch_hash_entries@12",
+    "_mark_pch_types",
+    "_mark_pch_type_entries@4",
+    "_mark_pch_type@4",
+    "_mark_pch_shapes",
+    "_mark_pch_shape_entries@4",
+    "_mark_pch_shape@4",
+    "_mark_pch_macros",
+    "_mark_pch_macro_entries@4",
+    "_mark_pch_identifiers",
+    "_mark_pch_identifier_entries@4",
+    "_mark_pch_function_records",
+    "_mark_pch_scope_directory",
+    "_mark_pch_pointer_array@8",
+    "_mark_pch_parameters",
+    "_mark_pch_parameter_entries@4",
+    "_mark_pch_parameter_info@4",
+    "_mark_pch_pragma_values",
+    "_mark_pch_defines",
+    "_mark_pch_vector@8",
+    "_mark_pch_include_directories",
+    "_mark_pch_packing",
+    "_initialize_pch_relocations",
+    "_relocate_pch_pages",
+    "_write_pch_pages",
+    "_restore_pch_pointers",
+    "_fclose"
   ],
   "driver": [
     {
@@ -839,7 +886,7 @@
     {
       "name": "_compare_filenames",
       "start": 136176,
-      "end": 136177
+      "end": 136282
     },
     {
       "name": "_begin_automatic_pch",
@@ -1086,7 +1133,7 @@
     {
       "name": "_prepare_pch_output@4",
       "start": 130800,
-      "end": 130801
+      "end": 131005
     },
     {
       "name": "_fseek",
@@ -1480,7 +1527,7 @@
     {
       "name": "_finish_pch_output",
       "start": 289392,
-      "end": 289393
+      "end": 290343
     },
     {
       "name": "_match_source_character@4",
@@ -2588,7 +2635,7 @@
     {
       "name": "_fclose",
       "start": 338688,
-      "end": 338689
+      "end": 338796
     },
     {
       "name": "__unlink",
@@ -4349,6 +4396,227 @@
       "name": "@write_program_database@4",
       "start": 96880,
       "end": 97074
+    },
+    {
+      "name": "_copy_vector@12",
+      "start": 206576,
+      "end": 206676
+    },
+    {
+      "name": "_declare_pch_debug_library",
+      "start": 297472,
+      "end": 297473
+    },
+    {
+      "name": "_finish_pch_debug_symbols",
+      "start": 222016,
+      "end": 222017
+    },
+    {
+      "name": "_begin_browser_pch_record",
+      "start": 161408,
+      "end": 161409
+    },
+    {
+      "name": "_stage_pch_intermediates",
+      "start": 287760,
+      "end": 289385
+    },
+    {
+      "name": "_relocate_pch_state",
+      "start": 280304,
+      "end": 280353
+    },
+    {
+      "name": "_write_pch_pages",
+      "start": 281664,
+      "end": 281799
+    },
+    {
+      "name": "_restore_pch_pointers",
+      "start": 281088,
+      "end": 281330
+    },
+    {
+      "name": "_write_pch_event_stack@12",
+      "start": 172192,
+      "end": 172193
+    },
+    {
+      "name": "_vector_count@4",
+      "start": 206688,
+      "end": 206710
+    },
+    {
+      "name": "_copy_pch_stream@12",
+      "start": 290608,
+      "end": 290798
+    },
+    {
+      "name": "_append_pch_intermediates",
+      "start": 290800,
+      "end": 291413
+    },
+    {
+      "name": "_mark_pch_graph",
+      "start": 278352,
+      "end": 278373
+    },
+    {
+      "name": "_pointer_to_pch_reference@4",
+      "start": 280048,
+      "end": 280216
+    },
+    {
+      "name": "_initialize_pch_relocations",
+      "start": 280368,
+      "end": 280486
+    },
+    {
+      "name": "_relocate_pch_pages",
+      "start": 280496,
+      "end": 280988
+    },
+    {
+      "name": "_mark_pch_scopes",
+      "start": 278384,
+      "end": 278476
+    },
+    {
+      "name": "_mark_pch_types",
+      "start": 278768,
+      "end": 278811
+    },
+    {
+      "name": "_mark_pch_shapes",
+      "start": 278896,
+      "end": 278939
+    },
+    {
+      "name": "_mark_pch_macros",
+      "start": 279520,
+      "end": 279563
+    },
+    {
+      "name": "_mark_pch_identifiers",
+      "start": 279616,
+      "end": 279659
+    },
+    {
+      "name": "_mark_pch_function_records",
+      "start": 239184,
+      "end": 239248
+    },
+    {
+      "name": "_mark_pch_scope_directory",
+      "start": 278288,
+      "end": 278337
+    },
+    {
+      "name": "_mark_pch_parameters",
+      "start": 279088,
+      "end": 279171
+    },
+    {
+      "name": "_mark_pch_pragma_values",
+      "start": 279232,
+      "end": 279271
+    },
+    {
+      "name": "_mark_pch_defines",
+      "start": 280016,
+      "end": 280030
+    },
+    {
+      "name": "_mark_pch_include_directories",
+      "start": 280032,
+      "end": 280046
+    },
+    {
+      "name": "_mark_pch_packing",
+      "start": 124976,
+      "end": 125036
+    },
+    {
+      "name": "_mark_pch_pointer@4",
+      "start": 282032,
+      "end": 282165
+    },
+    {
+      "name": "_mark_pch_symbol_chain@4",
+      "start": 278480,
+      "end": 278650,
+      "shared": [
+        [
+          278652,
+          278700
+        ]
+      ]
+    },
+    {
+      "name": "_mark_pch_tag@4",
+      "start": 278704,
+      "end": 278764
+    },
+    {
+      "name": "_mark_pch_hash_table@12",
+      "start": 279840,
+      "end": 279926
+    },
+    {
+      "name": "_mark_pch_hash_entries@12",
+      "start": 279936,
+      "end": 280013
+    },
+    {
+      "name": "_mark_pch_type_entries@4",
+      "start": 278816,
+      "end": 278850
+    },
+    {
+      "name": "_mark_pch_type@4",
+      "start": 278864,
+      "end": 278891
+    },
+    {
+      "name": "_mark_pch_shape_entries@4",
+      "start": 278944,
+      "end": 278978
+    },
+    {
+      "name": "_mark_pch_shape@4",
+      "start": 278992,
+      "end": 279085
+    },
+    {
+      "name": "_mark_pch_macro_entries@4",
+      "start": 279568,
+      "end": 279611
+    },
+    {
+      "name": "_mark_pch_identifier_entries@4",
+      "start": 279664,
+      "end": 279689
+    },
+    {
+      "name": "_mark_pch_pointer_array@8",
+      "start": 279696,
+      "end": 279731
+    },
+    {
+      "name": "_mark_pch_parameter_entries@4",
+      "start": 279184,
+      "end": 279218
+    },
+    {
+      "name": "_mark_pch_parameter_info@4",
+      "start": 279280,
+      "end": 279316
+    },
+    {
+      "name": "_mark_pch_vector@8",
+      "start": 279744,
+      "end": 279828
     }
   ],
   "cases": {
@@ -4371,6 +4639,16 @@
       "arguments": "",
       "accepted_from": 510,
       "accepted_count": 633
+    },
+    "pch-create": {
+      "arguments": "",
+      "accepted_from": 633,
+      "accepted_count": 680
+    },
+    "pch-use": {
+      "arguments": "",
+      "accepted_from": 680,
+      "accepted_count": 680
     }
   },
   "buffered_streams": [
@@ -4394,6 +4672,11 @@
       "name": "_debug_file",
       "original": 373344,
       "output_name": "irdb"
+    },
+    {
+      "name": "_pch_file",
+      "original": 374144,
+      "output_name": "state.pch"
     }
   ]
 }

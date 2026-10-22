@@ -106,7 +106,7 @@ ParameterInfo *__stdcall build_parameter_info(void *parameters, unsigned short *
     return &entry->info;
 }
 
-static ParameterInfo *empty_parameters; /* original 0x6b798 */
+ParameterInfo *empty_parameters; /* original 0x6b798 */
 
 /* Original 0x407e0..0x40813. */
 ParameterInfo *empty_parameter_info(void)
@@ -138,7 +138,7 @@ unsigned __stdcall hash_parameters(ParameterInfo *parameters)
     return hash;
 }
 
-static ParameterInfo *void_parameters; /* original 0x6b794 */
+ParameterInfo *void_parameters; /* original 0x6b794 */
 
 /* Original 0x407a0..0x407d6. Canonical descriptor for an explicit (void)
    prototype, distinct from the zero-count unspecified-parameter descriptor. */

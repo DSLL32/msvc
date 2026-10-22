@@ -9,6 +9,9 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_pch_compatibility', 0x6bb68, 24),
+    ('_pch_optimization_reserved', 0x6bbf8, 4),
+    ('_pch_optimization_sentinel', 0x6bbfc, 4),
     ('_control_counted_name', 0x5b0a4, 1),
     ('_legacy_tag_auxiliary', 0x6e084, 2),
     ('_codeview_default_attributes', 0x6e138, 2),
@@ -272,6 +275,22 @@ for index in range(18):
         old_target, new_target = struct.unpack_from('<I', old, 4)[0], struct.unpack_from('<I', new, 4)[0]
         assert forward[old_target] == new_target, ('pragma option target', index)
 
+# PCH serializes the pointer-root range independently of source layout.
+# Check each descriptor against its canonical storage, including overlapping
+# previously named state and the exact 21-entry function-shape cache.
+check('function shape cache', 0x6b73c, names['_function_shapes'], 21 * 4)
+for index in range(105):
+    old = 0x6b630 + 4 * index
+    target = struct.unpack('<I', read(rebuilt, names['_pch_root_cells'] + 4 * index, 4))[0]
+    if target:
+        check('PCH root %d' % index, old, target, 4)
+    else:
+        assert read(original, old, 4) == bytes(4), ('unused PCH root', index)
+for index, old in enumerate(struct.unpack('<12I', read(original, 0x6dd78, 48))):
+    new = struct.unpack('<I', read(rebuilt, names['_pch_graph_markers'] + 4 * index, 4))[0]
+    entry = next(row for row in config['driver'] if row['start'] == old)
+    assert names[entry['name']] == new, ('PCH graph marker', index)
+
 # Generic hash dispatch keeps all original callback identities, including traps.
 callbacks = [('_hash_functions', 0x6ce60,
               ['_hash_interned_name', '_hash_pointer_low12', '_hash_symbol_index']),
@@ -335,4 +354,5 @@ for index in range(6):
 for name, address, count in [('_pdb_floating_codes',0x6e140,12), ('_pdb_natural_unsigned_codes',0x6e158,12), ('_pdb_natural_signed_codes',0x6e170,12), ('_pdb_explicit_unsigned_codes',0x6e188,12), ('_pdb_signed_pointer_codes',0x6e1a0,12)]:
     assert read(original,address,2*count) == read(rebuilt,names[name],2*count), name
 
+print('105 PCH root identities, 12 PCH graph callbacks and the 21-entry shape-cache boundary match.')
 print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match; 58 primitive debug codes and four pointer models match.' % (len(STATE), option_scalar_count))

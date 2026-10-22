@@ -1,5 +1,14 @@
 /* Precompiled-header event playback and include ownership. */
+#include <stdlib.h>
+#include <ctype.h>
+#undef toupper
+#include <string.h>
 #include "pch.h"
+#include "global-ir.h"
+#include "source-input.h"
+#include "pragma.h"
+#include "control-ir.h"
+#include "lexer.h"
 #include "preprocessor.h"
 
 PchRecord *pch_record_cursor; /* original 0x5b568 */
@@ -40,4 +49,140 @@ int __stdcall pch_skip_include(char *filename)
         }
     }
     return pch_replay_mismatch();
+}
+
+/* Original 0x1fef0..0x1ffbd. Choose the explicit PCH pathname or replace
+   the header's extension with .pch, retaining its drive and directory. */
+void __stdcall prepare_pch_output(char *filename)
+{
+    char drive[4], directory[256], basename[256];
+    unsigned drive_bytes, directory_bytes, basename_bytes;
+    if (!options.option_Fp) {
+        _splitpath(filename, drive, directory, basename, 0);
+        for (drive_bytes = 0; drive[drive_bytes]; ++drive_bytes) ;
+        for (directory_bytes = 0; directory[directory_bytes]; ++directory_bytes) ;
+        for (basename_bytes = 0; basename[basename_bytes]; ++basename_bytes) ;
+        options.option_Fp = (char *)malloc(drive_bytes + directory_bytes + basename_bytes + 5);
+        if (!options.option_Fp) fatal_error(60);
+        _makepath(options.option_Fp, drive, directory, basename, ".pch");
+    }
+    pragma_text = options.option_Fp;
+}
+
+/* Original 0x213f0..0x2145a. Case-insensitive DOS path comparison treats
+   slash and backslash as the same separator without canonicalizing paths. */
+int compare_filenames(char *first, char *second)
+{
+    int left, right;
+    while (*first && *second) {
+        left = toupper((unsigned char)*first);
+        right = toupper((unsigned char)*second);
+        if (left != right &&
+            !((*first == '/' || *first == '\\') &&
+              (*second == '/' || *second == '\\'))) return 0;
+        ++first;
+        ++second;
+    }
+    return *first == *second;
+}
+
+/* Separate wire images hold serialized views; canonical runtime state remains
+   in its owning modules and is gathered before writing. */
+Vector *pch_saved_defines, *pch_saved_include_directories; /* 0x6b664/668 */
+/* Native compatibility fields are compared before a PCH is accepted.
+   They have no executable setters outside configuration restoration. */
+int pch_compatibility[6] = { 0, 0, 0, 0, 0, 1 }; /* original 0x6bb68 */
+int pch_optimization_reserved; /* original 0x6bbf8 */
+int pch_optimization_sentinel = -1; /* original 0x6bbfc */
+PchSettingsImage saved_pch_settings;
+PchCompilerImage pch_compiler_image;
+unsigned short pch_object_name_bytes, pch_browser_name_bytes; /* 0x6bbbc/e */
+unsigned pch_global_bytes, pch_line_bytes, pch_debug_bytes, pch_browser_bytes;
+unsigned pch_event_checksum, pch_event_offset, pch_header_reserved;
+WorkingStack *pch_event_stack; /* original 0x6de14 */
+
+/* Original 0x46a70..0x46e27. Append saved state and relocated arena pages,
+   rewrite the leading header, then restore the running compiler's pointers. */
+void finish_pch_output(void)
+{
+    unsigned i, length;
+    int separate_debug, stream_error;
+    PchSettingsImage settings;
+    PchHeader header;
+    if (!pch_mode && conditional_depth >= 0) report_syntax_error(856);
+    if (error_count) return;
+    if (options.debug_info && !options.option_Yd && pch_object_name[0])
+        declare_pch_debug_library();
+    separate_debug = pch_separate_debug;
+    if (separate_debug) finish_pch_debug_symbols();
+    pch_saved_include_directories = copy_vector(options.include_directories, 0,
+                                      (void *(__stdcall *)(void *, int))copy_string);
+    pch_saved_defines = copy_vector(options.defines, 0,
+                                      (void *(__stdcall *)(void *, int))copy_string);
+    stage_pch_intermediates();
+    if (options.option_Fo) {
+        for (length = 0; options.option_Fo[length]; ++length) ;
+        pch_object_name_bytes = (unsigned short)(length + 1);
+    }
+    if (browser_filename) {
+        for (length = 0; options.option_Fr[length]; ++length) ;
+        pch_browser_name_bytes = (unsigned short)(length + 1);
+        if (!pch_mode) begin_browser_pch_record();
+    }
+    relocate_pch_state();
+    if (pch_mode == 1) {
+        intermediate_status = fflush(pch_file);
+        if (intermediate_status == -1)
+            report_error(88, message_text(344), options.option_Fp, pch_diagnostic_name, 1342);
+        intermediate_status = ftell(pch_file);
+        if (intermediate_status == -1)
+            report_error(87, message_text(344), options.option_Fp, pch_diagnostic_name, 1343);
+        pch_event_offset = intermediate_status;
+        pch_event_checksum = write_pch_event_stack(pch_event_stack, pch_file, 0) & 0xffff;
+    }
+    precompiled_option_flags = pack_option_flags();
+    CAPTURE_PCH_SETTINGS(settings, options, database_path, pch_object_name, i);
+    intermediate_status = fwrite(&settings, 1, sizeof(settings), pch_file);
+    if (intermediate_status == -1)
+        report_error(85, message_text(344), options.option_Fp, pch_diagnostic_name, 1350);
+    fwrite(&pch_compiler_image, 1, sizeof(pch_compiler_image), pch_file);
+    fwrite(browser_filename, 1, pch_browser_name_bytes, pch_file);
+    fwrite(options.option_Fo, 1, pch_object_name_bytes, pch_file);
+    write_pch_pages();
+    stream_error = (pch_file->_flag & 0x20) != 0;
+    rewind(pch_file);
+    for (i = 0; i < 8; ++i) header.signature[i] = "DTJPCH0"[i];
+    header.format = 0x80117112;
+    header.symbol_bytes = pch_symbol_bytes;
+    header.global_bytes = pch_global_bytes;
+    header.expression_bytes = pch_expression_bytes;
+    header.line_bytes = pch_line_bytes;
+    header.debug_bytes = pch_debug_bytes;
+    header.browser_bytes = pch_browser_bytes;
+    header.event_checksum = pch_event_checksum;
+    header.event_offset = pch_event_offset;
+    header.browser_offset = browser_saved_position;
+    header.page_count = permanent_page_count;
+    header.reserved = pch_header_reserved;
+    intermediate_status = fwrite(&header, sizeof(header), 1, pch_file);
+    if (intermediate_status == -1)
+        report_error(85, message_text(344), options.option_Fp, pch_diagnostic_name, 1394);
+    fwrite(&saved_pch_settings, 1, sizeof(saved_pch_settings), pch_file);
+    restore_pch_pointers();
+    pch_output_written = 1;
+    intermediate_status = fclose(pch_file);
+    if (intermediate_status == -1)
+        report_error(82, message_text(344), options.option_Fp, pch_diagnostic_name, 1415);
+    pch_file_incomplete = 0;
+    if (error_count || stream_error) {
+        if (options.option_Fp && options.option_Fp[0]) remove(options.option_Fp);
+        intermediate_status = stream_error;
+        if (stream_error)
+            report_error(85, message_text(344), options.option_Fp, pch_diagnostic_name, 1423);
+    }
+    if (separate_debug && !options.line_records) {
+        pending_pragma_kind = 7;
+        pending_pragma_text = (unsigned char *)"\003\000\240\007";
+        record_line_information(11);
+    }
 }

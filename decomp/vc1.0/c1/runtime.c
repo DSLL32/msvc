@@ -298,3 +298,22 @@ int _filbuf(FILE *stream)
     --stream->_cnt;
     return (unsigned char)*stream->_ptr++;
 }
+
+/* Original 0x52b00..0x52b6c. This CRT version's fclose excludes string
+   streams and frees a temporary pathname only after a successful close. */
+int fclose(FILE *file)
+{
+    int result = -1;
+    if (file->_flag & 0x40) {
+        file->_flag = 0;
+        return result;
+    }
+    if (file->_flag & 0x83) {
+        result = _flush(file);
+        _freebuf(file);
+        if (_close(file->_file) < 0) result = -1;
+        else if (file->_tmpfname) free(file->_tmpfname);
+    }
+    file->_flag = 0;
+    return result;
+}
