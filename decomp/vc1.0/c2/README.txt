@@ -91,8 +91,8 @@ the tree rewrites and propagates reference annotations. The 182
 expression recipes, 47 control recipes and 182 semantic shape entries were
 checked against the original classifications.
 
-The current checkpoint has 125 reconstructed source functions and 186 recorded
-matching trap frontiers. All 186 frontiers replay successfully with the matching binary CRT default. Callback stubs
+The current checkpoint has 136 reconstructed source functions and 197 recorded
+matching trap frontiers. All 197 frontiers replay successfully with the matching binary CRT default. Callback stubs
 remain trapped until reached; their signatures and extents are refined at that
 point. The Makefile follows transitive local-header dependencies and continues
 to compile and link entirely with the original toolchain.
@@ -116,10 +116,23 @@ See cases/input-abi.json. The floating-input helper bodies remain trapped;
 these static checks and the integer case do not validate floating input.
 
 The tree classification table defines arity, self-contained records, second
-operands and left-operand writes as those properties are encountered. Its
+operands, left-operand writes and side effects as those properties are encountered. Its
 182 entries match those original properties; it does not copy the packed
 original opcode flags. Reference propagation records the four intrinsic
 descriptors that carry an operand reference, without importing their name,
 implementation or argument-format tables. Saved warning state uses packed
 three-byte records. Its setter remains a trap; nonempty warning overrides
 have not yet been exercised by the minimal case.
+
+canonical-before.c and canonical-after.c implement the recursive canonicalizer's
+pre-order and post-order hooks. Function-reference rewriting separates hidden
+object arguments; temporaries.c owns the encountered temporary-register list.
+tree-types.c implements full opcode typing, promotions, staged conversions,
+type-stack records and conversion warnings. All 106 non-error opcode dispatch
+arms match the original type-finishing table. The five tree properties match
+all 182 original opcode entries; the intrinsic call-class predicate matches
+all 247 valid descriptors, with 110 selected entries. Ordinary format strings
+remain at their points of use. The separate tree-construction and intrinsic
+helpers remain traps until reached; the minimal case does not validate those
+unexercised branches. It now finishes canonicalization and reaches the inline
+call-expansion phase (still named prepare_function_codegen provisionally).

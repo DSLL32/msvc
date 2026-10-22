@@ -41,3 +41,18 @@ Expression *new_expression(void)
     expression->field08 = expression->source_location = 0;
     return expression;
 }
+
+/* Original [00058030,00058060). Retain the shared end marker at the tail. */
+Node *__fastcall reverse_node_list(Node *node)
+{
+    Node *first = node, *previous = 0, *next;
+    if (node->opcode == 0x4c) return node;
+    do {
+        next = node->second.node;
+        node->second.node = previous;
+        previous = node;
+        node = next;
+    } while (node->opcode != 0x4c);
+    first->second.node = node;
+    return previous;
+}

@@ -190,7 +190,18 @@
     "@rewrite_subtree@12",
     "@rewrite_before_children@12",
     "@rewrite_after_left@12",
-    "@analyze_tree_references@8"
+    "@analyze_tree_references@8",
+    "@canonicalize_node@12",
+    "@canonicalize_before_children@12",
+    "_reset_temporary_registers",
+    "@reverse_node_list@4",
+    "@insert_return_parameter@8",
+    "@canonicalize_function_reference@4",
+    "@canonicalize_after_children@8",
+    "@finish_canonical_node@4",
+    "@canonicalize_return_value@8",
+    "@convert_node_type@8",
+    "@skip_node_conversions@4"
   ],
   "driver": [
     {
@@ -1687,8 +1698,7 @@
     {
       "name": "@canonicalize_node@12",
       "start": 328448,
-      "end": 328449,
-      "provisional": true
+      "end": 328624
     },
     {
       "name": "@rewrite_subtree@12",
@@ -1725,8 +1735,7 @@
     {
       "name": "@skip_node_conversions@4",
       "start": 360384,
-      "end": 360385,
-      "provisional": true
+      "end": 360448
     },
     {
       "name": "@can_keep_conditional@4",
@@ -1761,8 +1770,7 @@
     {
       "name": "@convert_node_type@8",
       "start": 337200,
-      "end": 337201,
-      "provisional": true
+      "end": 337840
     },
     {
       "name": "@new_temporary_reference@8",
@@ -1822,6 +1830,172 @@
       "name": "@lower_bitfield_assignment@4",
       "start": 364944,
       "end": 364945,
+      "provisional": true
+    },
+    {
+      "name": "@canonicalize_before_children@12",
+      "start": 331312,
+      "end": 332080
+    },
+    {
+      "name": "@canonicalize_after_children@8",
+      "start": 328624,
+      "end": 331312
+    },
+    {
+      "name": "@finish_canonical_node@4",
+      "start": 338016,
+      "end": 340624
+    },
+    {
+      "name": "_reset_temporary_registers",
+      "start": 361776,
+      "end": 361792
+    },
+    {
+      "name": "@reverse_node_list@4",
+      "start": 360496,
+      "end": 360544
+    },
+    {
+      "name": "@insert_return_parameter@8",
+      "start": 332448,
+      "end": 332496
+    },
+    {
+      "name": "@canonicalize_function_reference@4",
+      "start": 332080,
+      "end": 332448
+    },
+    {
+      "name": "@canonicalize_return_value@8",
+      "start": 332496,
+      "end": 332672
+    },
+    {
+      "name": "@is_constant_value@8",
+      "start": 348272,
+      "end": 348273,
+      "provisional": true
+    },
+    {
+      "name": "@new_storage_reference@4",
+      "start": 361920,
+      "end": 361921,
+      "provisional": true
+    },
+    {
+      "name": "@can_repeat_tree@4",
+      "start": 362192,
+      "end": 362193,
+      "provisional": true
+    },
+    {
+      "name": "@make_truth_test@4",
+      "start": 333008,
+      "end": 333009,
+      "provisional": true
+    },
+    {
+      "name": "@negate_condition@4",
+      "start": 333360,
+      "end": 333361,
+      "provisional": true
+    },
+    {
+      "name": "@materialize_boolean@8",
+      "start": 333072,
+      "end": 333073,
+      "provisional": true
+    },
+    {
+      "name": "@simplify_short_circuit@8",
+      "start": 333168,
+      "end": 333169,
+      "provisional": true
+    },
+    {
+      "name": "@lift_left_sequence@4",
+      "start": 332672,
+      "end": 332673,
+      "provisional": true
+    },
+    {
+      "name": "@lift_right_sequence@4",
+      "start": 332704,
+      "end": 332705,
+      "provisional": true
+    },
+    {
+      "name": "@canonicalize_conditional@4",
+      "start": 332736,
+      "end": 332737,
+      "provisional": true
+    },
+    {
+      "name": "@integer_node@8",
+      "start": 361520,
+      "end": 361521,
+      "provisional": true
+    },
+    {
+      "name": "@node_value_size@4",
+      "start": 361584,
+      "end": 361585,
+      "provisional": true
+    },
+    {
+      "name": "@trees_equal@12",
+      "start": 360704,
+      "end": 360705,
+      "provisional": true
+    },
+    {
+      "name": "@lower_intrinsic@8",
+      "start": 407712,
+      "end": 407713,
+      "provisional": true
+    },
+    {
+      "name": "@assign_parameter_register@12",
+      "start": 162336,
+      "end": 162337,
+      "provisional": true
+    },
+    {
+      "name": "@node_type_kind@4",
+      "start": 314224,
+      "end": 314225,
+      "provisional": true
+    },
+    {
+      "name": "@common_node_type@8",
+      "start": 337888,
+      "end": 337889,
+      "provisional": true
+    },
+    {
+      "name": "@discard_sequence_tail@4",
+      "start": 337840,
+      "end": 337841,
+      "provisional": true
+    },
+    {
+      "name": "@lift_typed_sequence@8",
+      "start": 353136,
+      "end": 353137,
+      "provisional": true
+    },
+    {
+      "name": "@is_function_reference@4",
+      "start": 160528,
+      "end": 160529,
+      "provisional": true
+    },
+    {
+      "name": "@convert_node_once@8",
+      "start": 337136,
+      "end": 337137,
       "provisional": true
     }
   ],

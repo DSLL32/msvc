@@ -1,4 +1,5 @@
 #include "tree-rewrite.h"
+#include "tree-input.h"
 #include "control-input.h"
 #include "records.h"
 extern int default_integer_bytes;
@@ -45,4 +46,31 @@ rewrite:
 Node *__fastcall prepare_target_tree(Node *node)
 {
     return node;
+}
+
+/* Original [00050300,000503b0). The third argument is the parent node.
+   Argument-chain entries are rewritten for their effects, as in the original. */
+Node *__fastcall canonicalize_node(Function *function, Node *node, Node *parent)
+{
+    Node *argument;
+    node = canonicalize_before_children(function, node, parent);
+    switch (node_shapes[node->opcode] & NODE_ARITY) {
+    case NODE_BINARY:
+        node->left.node = canonicalize_node(function, node->left.node, node);
+        node->second.node = canonicalize_node(function, node->second.node, node);
+        break;
+    case NODE_UNARY:
+        node->left.node = canonicalize_node(function, node->left.node, node);
+        break;
+    case NODE_CHAIN:
+        node->left.node = canonicalize_node(function, node->left.node, node);
+        argument = node->second.node;
+        while (argument->opcode != 0x4c) {
+            canonicalize_node(function, argument, node);
+            argument = argument->second.node;
+        }
+        break;
+    }
+    node = canonicalize_after_children(node, parent);
+    return finish_canonical_node(node);
 }
