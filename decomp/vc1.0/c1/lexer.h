@@ -4,10 +4,16 @@
 #include "macros.h"
 #include "macro-expand.h"
 
+typedef struct StringToken {
+    unsigned char *text;
+    unsigned short bytes, flags;
+} StringToken;
+
 typedef union TokenValue {
     unsigned char bytes[8];
     struct { unsigned low, high; } words;
     double floating;
+    StringToken string;
     char *identifier;
     IrToken *literal;
     struct FrontendSymbol *symbol;
@@ -58,6 +64,10 @@ void skip_source_line(void);
 void __stdcall copy_quoted_literal(int delimiter);
 unsigned char __stdcall scan_character_literal(int wide);
 void __stdcall scan_string_literal(int wide, int delimiter);
+unsigned char *__stdcall ensure_string_space(unsigned char *cursor);
+unsigned char *__stdcall convert_string_segment(unsigned char *text, int wide, unsigned bytes);
+unsigned short __stdcall decode_escape(unsigned char character, int wide);
+void __stdcall convert_pascal_string(StringToken *string);
 void scan_source_identifier(void);
 int scan_macro_identifier(void);
 int __stdcall expand_macro(MacroDefinition *definition);

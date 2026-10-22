@@ -9,7 +9,7 @@ ParserValue parser_value; /* original 0x5b1f0 */
 int parser_lookahead = -1; /* original 0x6b550 */
 char *parser_diagnostic_context; /* original 0x6d494 */
 unsigned char expression_storage[2052]; /* original 0x5f508..0x5fd0c */
-unsigned char *text_work_cursor; /* original 0x6bff8 */
+unsigned char *text_work_cursor = expression_storage; /* original 0x6bff8 */
 unsigned constant_one; /* original 0x5ffc8 */
 int aggregate_depth = -1; /* original 0x6bf94 */
 int unevaluated_expression_depth; /* original 0x6c02c */

@@ -1,10 +1,12 @@
 /* Source input stack and overlapping buffered file windows. */
 #include <io.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <share.h>
 #include "source-input.h"
+#include "preprocessor.h"
 #include "lexer.h"
 #undef _fileno
 
@@ -286,4 +288,37 @@ void refill_source_boundary(void)
     else if (scanner_flags & 0x2000) macro_scan_error(57);
     else if (final_newline_emitted) fatal_error(10);
     else fatal_error(4);
+}
+
+/* Original 0x1bc70..0x1bd92. Quoted includes try the active source's
+   directory, then each enclosing source directory, before /I search begins. */
+int __stdcall open_include_in_source_directory(char *filename)
+{
+    SourceFile *input = active_input;
+    char *directory, *scan, *separator, *start, *text;
+    unsigned bytes;
+    do {
+        directory = input->filename;
+        input = input->next;
+        separator = 0;
+        for (scan = directory; *scan; ++scan)
+            if (strchr(options.path_characters, (unsigned char)*scan)) separator = scan;
+        bytes = 1;
+        for (text = filename; *text; ++text) ++bytes;
+        for (text = directory; *text; ++text) ++bytes;
+        if (source_buffer_cursor + bytes > token_buffer_end) fatal_error(14, include_depth + 1);
+        start = source_buffer_cursor;
+        if (separator && separator >= directory) {
+            scan = directory;
+            do { *source_buffer_cursor++ = *scan++; } while (scan <= separator);
+        }
+        text = filename;
+        do { *source_buffer_cursor++ = *text++; } while (text[-1]);
+        if (open_source_file(start, 0)) {
+            if (pch_mode == 1) pch_record_include(start);
+            return 1;
+        }
+        source_buffer_cursor = start;
+    } while (input);
+    return 0;
 }

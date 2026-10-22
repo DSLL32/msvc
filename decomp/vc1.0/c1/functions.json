@@ -405,7 +405,11 @@
     "_activate_macro_argument@4",
     "_select_macro_argument@4",
     "_macro_identifier_follows",
-    "_macro_replacement_diff@12"
+    "_macro_replacement_diff@12",
+    "_scan_string_literal@8",
+    "_ensure_string_space@4",
+    "_convert_string_segment@12",
+    "_open_include_in_source_directory@4"
   ],
   "driver": [
     {
@@ -1223,7 +1227,7 @@
     {
       "name": "_scan_string_literal@8",
       "start": 137520,
-      "end": 137521
+      "end": 137970
     },
     {
       "name": "_scan_source_identifier",
@@ -2451,7 +2455,7 @@
     {
       "name": "_open_include_in_source_directory@4",
       "start": 113776,
-      "end": 113777
+      "end": 114066
     },
     {
       "name": "_search_include_directories@4",
@@ -3077,6 +3081,26 @@
       "name": "_macro_identifier_follows",
       "start": 122176,
       "end": 122236
+    },
+    {
+      "name": "_ensure_string_space@4",
+      "start": 137392,
+      "end": 137421
+    },
+    {
+      "name": "_convert_string_segment@12",
+      "start": 137424,
+      "end": 137520
+    },
+    {
+      "name": "_decode_escape@8",
+      "start": 140048,
+      "end": 140049
+    },
+    {
+      "name": "_convert_pascal_string@4",
+      "start": 136288,
+      "end": 136289
     }
   ],
   "cases": {

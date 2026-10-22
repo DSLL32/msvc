@@ -38,6 +38,9 @@ STATE = [
     ('_declaration_controls', 0x6079b, 1, 3),
     ('_declaration_controls', 0x6079c, 60, 4),
     ('_parser_lookahead', 0x6b550, 4),
+    ('_current_token_value', 0x5b150, 8),
+    ('_expression_storage', 0x5f508, 2052),
+    ('_text_work_cursor', 0x6bff8, 4),
     ('_scope_cleanup_stack', 0x60078, 4),
     ('_aggregate_contexts', 0x600a8, 384),
     ('_tag_in_current_scope', 0x604a4, 4),
@@ -124,7 +127,12 @@ def read(image, address, size):
 
 forward, backward = {}, {}
 def check(name, old, new, size):
-    assert read(original, old, size) == read(rebuilt, new, size), 'state default differs: '+name
+    if name == '_text_work_cursor':
+        # Initialized pointers must retain semantic targets after relocation.
+        assert struct.unpack('<I', read(original, old, 4))[0] == 0x5f508
+        assert struct.unpack('<I', read(rebuilt, new, 4))[0] == names['_expression_storage']
+    else:
+        assert read(original, old, size) == read(rebuilt, new, size), 'state default differs: '+name
     for offset in range(size):
         a, b = old+offset, new+offset
         assert forward.setdefault(a, b) == b, 'shared state was split: '+name

@@ -1,4 +1,5 @@
 /* Lexical token pushback and source dispatch. */
+#include <stdlib.h>
 #include "lexer.h"
 #include "source-input.h"
 #include "characters.h"
@@ -1068,4 +1069,93 @@ int consume_line_escape(void)
         }
         return 1;
     }
+}
+
+/* Original 0x21930..0x21af2. Scan one byte/wide string into the lexical
+   workspace, decoding escapes and retaining Pascal-string prefix handling. */
+void __stdcall scan_string_literal(int wide, int delimiter)
+{
+    unsigned char *write = text_work_cursor, *segment, *end;
+    unsigned short character;
+    unsigned flags;
+    unsigned char class;
+    current_token_value.string.text = write;
+    current_token_value.string.flags =
+        (current_token_value.string.flags & ~3) | (wide & 1);
+    for (;;) {
+        segment = write;
+        character = (unsigned char)*source_text_cursor++;
+        class = character_class[(unsigned char)character];
+        switch (class) {
+        case CC_ESCAPE_OR_END:
+            flags = recover_special_character();
+            if (flags & ~0x50U) continue;
+            if ((flags & 0x10) && !(scanner_flags & 0x4000)) {
+                character = next_source_character();
+                if (options.option_m && (character == 'p' || character == 'P') &&
+                    text_work_cursor == write)
+                    current_token_value.string.flags |= 2;
+                else {
+                    character = decode_escape(character, wide);
+                    if (wide && character != (unsigned char)character) {
+                        write = ensure_string_space(write);
+                        *write++ = (unsigned char)character;
+                        *write++ = (unsigned char)(character >> 8);
+                        continue;
+                    }
+                }
+            }
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            report_syntax_error(1);
+            if (character_class[write[-1]] == CC_CARRIAGE_RETURN) --write;
+            character = (unsigned short)(signed char)delimiter;
+            /* Complete an unterminated string with its expected delimiter. */
+        case CC_APOSTROPHE: case CC_QUOTE:
+            if ((int)(signed char)delimiter == character) goto complete;
+            break;
+        case CC_LEAD_BYTE:
+            write = ensure_string_space(write);
+            *write++ = (unsigned char)character;
+            character = next_source_character();
+            break;
+        }
+        write = ensure_string_space(write);
+        *write++ = (unsigned char)character;
+        *write = 0;
+        write = convert_string_segment(segment, wide, write - segment);
+    }
+complete:
+    end = ensure_string_space(write);
+    *end++ = 0;
+    end = convert_string_segment(segment, wide, end - segment);
+    current_token_value.string.bytes = (unsigned short)(end - current_token_value.string.text);
+    if (current_token_value.string.flags & 2) convert_pascal_string(&current_token_value.string);
+    text_work_cursor = end;
+}
+
+/* Original 0x218b0..0x218cd. The lexical text area reserves four guard
+   bytes; overflow reports an error and restarts at the area's beginning. */
+unsigned char *__stdcall ensure_string_space(unsigned char *cursor)
+{
+    if (cursor >= expression_storage + 2048) {
+        report_syntax_error(26);
+        return expression_storage;
+    }
+    return cursor;
+}
+
+/* Original 0x218d0..0x21930. A wide character is converted in aligned
+   scratch space, then copied back to its possibly unaligned lexical position. */
+unsigned char *__stdcall convert_string_segment(unsigned char *text, int wide, unsigned bytes)
+{
+    unsigned char *scratch;
+    if (!wide) return text + bytes;
+    scratch = (unsigned char *)(((unsigned)(text + bytes + 1) + 3) & ~3U);
+    scratch = ensure_string_space(scratch);
+    if (mbtowc((wchar_t *)scratch, (char *)text, bytes) < 0) report_syntax_error(2);
+    text[0] = scratch[0];
+    text[1] = scratch[1];
+    return text + 2;
 }

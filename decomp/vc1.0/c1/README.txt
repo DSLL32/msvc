@@ -10,14 +10,14 @@ files byte for byte: irex 866, irsy 13, irin 3, and irgl 50 bytes. The unmodifie
 original independently produces the same files and process result.
 
 The active second case is fixtures/hello-win32, the captured CL /O2 /G5
-hello.c frontend invocation. There are now 320 reconstructed source functions
-and 401 accepted frontiers. The case opens the original SDK's windows.h,
+hello.c frontend invocation. There are now 324 reconstructed source functions
+and 405 accepted frontiers. The case opens the original SDK's windows.h,
 reads its include guard, evaluates architecture-selection #if expressions,
 expands _MSC_VER through the typed macro-frame/rescan machinery, and handles
 the SDK warning pragma. The case now handles SDK enum/typedef declarations, function
 prototypes and nonempty macro replacements. Its current matching trap is
-scan_string_literal, original VA 0x21930.
-All 143 hello frontiers replay successfully with exact pending-buffer/visible-file
+make_binary_expression, original VA 0x3c750.
+All 147 hello frontiers replay successfully with exact pending-buffer/visible-file
 checks. The earlier 200-function checkpoint also replayed all 258 minimal-C
 frontiers; its current regression still completes with the four raw files.
 
@@ -137,7 +137,7 @@ audit-graph.py compares direct call and tail-jump targets and the presence of in
 calls for every accepted source function. It identifies switch tables so
 their address entries are not mistaken for instructions or call edges.
 
-audit-state.py checks the initial bytes and address aliases of 106 encountered
+audit-state.py checks the initial bytes and address aliases of 109 encountered
 frontend state objects, 72 scalar options, the 21 option-table targets, 17 pragma optimization
 rules, and five hash callback identities, including PCH ownership, function-directory state,
 parser defaults, and source/include state. These checks read the binaries
@@ -238,3 +238,11 @@ typed view of the original shared word. MacroArgument represents the packed,
 span-linked argument stream, with zero/'A' continuation markers. All 143 hello
 frontiers replay with exact pending/visible bytes; minimal-C still matches the
 four captured raw intermediates.
+
+Checkpoint 324 adds string-literal scanning, workspace bounds and wide-character
+conversion, plus quoted-include lookup through the source directory chain.
+StringToken gives the scanner's pointer/length/flags payload a typed view.
+The expanded default-state audit establishes that text_work_cursor initially
+points to expression_storage; the reconstruction now preserves that initialized
+relationship before parser startup. All 147 hello frontiers replay with exact
+buffered/visible bytes, and minimal-C retains its four raw captured files.

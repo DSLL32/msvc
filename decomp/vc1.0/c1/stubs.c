@@ -137,7 +137,6 @@ void __stdcall copy_quoted_literal(int delimiter) { __asm { int 3 } }
 
 unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 
-void __stdcall scan_string_literal(int wide, int delimiter) { __asm { int 3 } }
 
 
 
@@ -528,7 +527,6 @@ int __stdcall pch_resolve_condition(int condition) { __asm { int 3 } return 0; }
 void warn_ignored_token(void) { __asm { int 3 } }
 
 
-int __stdcall open_include_in_source_directory(char *filename) { __asm { int 3 } return 0; }
 
 
 void __stdcall pch_record_include(char *name_end) { __asm { int 3 } }
@@ -709,3 +707,6 @@ void emit_diagnostic(unsigned category, unsigned code, char *format, char *argum
 
 void __stdcall push_pragma_packing(int alignment, char *label) { __asm { int 3 } }
 void __stdcall pop_pragma_packing(int alignment, char *label) { __asm { int 3 } }
+
+unsigned short __stdcall decode_escape(unsigned char character, int wide) { __asm { int 3 } return 0; }
+void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
