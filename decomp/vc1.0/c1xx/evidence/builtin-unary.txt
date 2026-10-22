@@ -1,0 +1,62 @@
+Builtin unary expressions and constructor this-operand completion
+
+Five whole functions accepted after frontier 415:
+  builtin_unary_expression    0x5f210..0x5fd47, stdcall 8, 29 callees
+  check_expression_operands  0x615e0..0x6168c, stdcall 16, 4 callees
+  reject_special_indirection 0x5fd50..0x5fd7e, stdcall 8, 1 callee
+  dereference_pointer_type   0x62490..0x624e6, stdcall 4, 3 callees
+  new_left_typed_expression  0x61240..0x6125a, stdcall 12, 1 callee
+
+The builtin body retains unresolved member/function designators, address-taking,
+inline-analysis bookkeeping, integer/floating negation, logical/bitwise not,
+unary plus, callable operands, indirection and pointer/array model handling.
+Every original callee identity and indirect-call presence matches the rebuilt
+whole function. Unvisited callees remain named INT3 stubs, including C++ member
+pointer construction, arithmetic conversion, floating subtraction and lvalue
+analysis. This is complete source for the whole function, not a claim that all
+branches were exercised or that the entire frontend case has completed.
+
+An unrecognized internal operation code in the native body falls through at
+0x5f4ec with its folded-value local unset. The C retains that control flow and
+does not invent a zero or a new recovery path. Such internal codes are not
+exercised by the current case. Valid arithmetic paths assign their folded value
+before reusing the operand, and floating negation returns its retained value.
+
+Native 0x49fc0 first reads a QualifiedDeclarator's +12 resolution and its binding;
+it constructs a C++ member pointer, rather than taking an arbitrary IrToken.
+The former unaccepted recover_address_expression stub is now
+member_pointer_expression(QualifiedDeclarator *). The parser's unary-address
+special case and the builtin's qualified-symbol calls use explicit casts,
+preserving the original stdcall 4 ABI and function graph.
+
+Encountered layouts are checked in C:
+  Extended: 12 bytes, ten x87 value bytes plus a two-byte representation tag.
+  InlineScope: 14 bytes, region ushort at +10, flags byte at +12.
+  SerializedType: 16 bytes, inline parameter-slot bytes at +6 and +7.
+The typed slot views extend the existing declaration_type_stack object; no
+second serialized stack or declaration_type_index was introduced. The builtin
+uses the native byte inline_slot_count, DWORD depth and symbol-index array,
+and WORD base-region boundary. New defaults and identities are audited.
+
+The zero floating constant is defined contextually as {0,0,0,4}, matching the
+original 12 bytes at 0x9fd50. Based-pointer state at 0x911e8 is a separate pointer
+after the ten TypeDescription entries, and both address-taking and pointer-type
+dereference share that canonical object. The pointer-type helper retains its
+214 diagnostic and original attribute-bit combination before type interning.
+
+The constructor's implicit this path now passes builtin indirection, operand
+checks, pointer-type recovery and left-typed node construction. Its next matching
+trap is emit_expression_tree at 0x59b90, before function-entry expression output.
+At frontier 420, accepted executable extent union is 137,783 / 476,418 bytes
+(28.921%), with source/shared text, matched CRT and import thunks clipped and
+unioned. It is not branch coverage. Whole-case frontend equivalence is pending.
+
+The replay runner now gives every frontier its own masked image pair, work
+folders and stream/event logs. Each private pair invokes the same full C1XX
+comparator: exact files, stdout/stderr, pending FILE buffers, logical callers
+(with only proven native tail-jump equivalence), and all eleven runtime state
+observations. Four isolated pairs run at once. Frozen hashes cover C/header/
+semantic/grammar source, harness scripts, metadata, built image/map/debugger,
+original target and fixture inputs, and are checked before and after the final
+ordinary comparator. No shared masked/work files are touched concurrently.
+The serial comparator remains available as python3 compare.py --replay.

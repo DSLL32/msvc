@@ -419,7 +419,12 @@
     "_emit_warning_controls@4",
     "_this_pointer_expression@4",
     "_unary_expression@8",
-    "_is_overload_operand@4"
+    "_is_overload_operand@4",
+    "_builtin_unary_expression@8",
+    "_check_expression_operands@16",
+    "_reject_special_indirection@8",
+    "_dereference_pointer_type@4",
+    "_new_left_typed_expression@12"
   ],
   "driver": [
     {
@@ -2327,7 +2332,7 @@
     {
       "name": "_builtin_unary_expression@8",
       "start": 389648,
-      "end": 389649
+      "end": 392520
     },
     {
       "name": "_prepare_do_body",
@@ -2375,7 +2380,7 @@
       "end": 282718
     },
     {
-      "name": "_recover_address_expression@4",
+      "name": "_member_pointer_expression@4",
       "start": 303040,
       "end": 303041
     },
@@ -3987,7 +3992,7 @@
     {
       "name": "_new_left_typed_expression@12",
       "start": 397888,
-      "end": 397889
+      "end": 397915
     },
     {
       "name": "_emit_expression_tree@4",
@@ -4033,6 +4038,96 @@
       "name": "_report_operator_resolution_failure@20",
       "start": 407424,
       "end": 407425
+    },
+    {
+      "name": "_fold_symbol_constant@4",
+      "start": 182256,
+      "end": 182257
+    },
+    {
+      "name": "_save_extended_constant@4",
+      "start": 185328,
+      "end": 185329
+    },
+    {
+      "name": "_has_single_function@4",
+      "start": 199840,
+      "end": 199841
+    },
+    {
+      "name": "_find_expression_symbol@4",
+      "start": 242560,
+      "end": 242561
+    },
+    {
+      "name": "_find_inline_parameter_slot@12",
+      "start": 282924,
+      "end": 282925
+    },
+    {
+      "name": "_promote_arithmetic_expression@4",
+      "start": 380144,
+      "end": 380145
+    },
+    {
+      "name": "_type_warning@12",
+      "start": 380256,
+      "end": 380257
+    },
+    {
+      "name": "_requires_address_temporary@4",
+      "start": 383152,
+      "end": 383153
+    },
+    {
+      "name": "_make_address_temporary@4",
+      "start": 383264,
+      "end": 383265
+    },
+    {
+      "name": "_builtin_binary_expression@12",
+      "start": 385088,
+      "end": 385089
+    },
+    {
+      "name": "_find_expression_type_base@4",
+      "start": 389232,
+      "end": 389233
+    },
+    {
+      "name": "_reject_special_indirection@8",
+      "start": 392528,
+      "end": 392575
+    },
+    {
+      "name": "_check_expression_operands@16",
+      "start": 398816,
+      "end": 398989
+    },
+    {
+      "name": "_modifiable_lvalue@8",
+      "start": 398992,
+      "end": 398993
+    },
+    {
+      "name": "_dereference_pointer_type@4",
+      "start": 402576,
+      "end": 402663
+    },
+    {
+      "name": "_change_function_reference_kind@8",
+      "start": 402768,
+      "end": 402769
+    },
+    {
+      "name": "_function_designator_type@4",
+      "start": 402928,
+      "end": 402929
+    },
+    {
+      "name": "_subtract_extended",
+      "start": 478440,
+      "end": 478441
     }
   ],
   "cases": {
@@ -5300,6 +5395,48 @@
           "name": "_control_counted_data",
           "original": 573604,
           "bytes": 1
+        }
+      ]
+    },
+    {
+      "name": "_pointer_base_symbol",
+      "original": 594408,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_pointer_base_symbol",
+          "original": 594408,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_base_region",
+          "original": 594672,
+          "bytes": 2
+        },
+        {
+          "name": "_inline_scope_depth",
+          "original": 594680,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_scopes",
+          "original": 594684,
+          "bytes": 4
+        },
+        {
+          "name": "_inline_parameter_slots",
+          "original": 594692,
+          "bytes": 40
+        },
+        {
+          "name": "_inline_slot_count",
+          "original": 594772,
+          "bytes": 1
+        },
+        {
+          "name": "_extended_zero",
+          "original": 654672,
+          "bytes": 12
         }
       ]
     }

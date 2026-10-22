@@ -1,4 +1,5 @@
 #include "function-definitions.h"
+#include "unary-expressions.h"
 #include "control-ir.h"
 /* Named, unaccepted reconstruction frontiers. */
 #include "initialization.h"
@@ -218,7 +219,6 @@ unsigned __stdcall next_enumerator_value(unsigned value, char *unused_name) { __
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments) { __asm { int 3 } return 0; }
 unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language) { __asm { int 3 } return 0; }
 void pop_linkage(void) { __asm { int 3 } }
-IrToken *__stdcall builtin_unary_expression(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void prepare_do_body(void) { __asm { int 3 } }
 IrToken *__stdcall prepare_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
 void record_break_statement(void) { __asm { int 3 } }
@@ -226,7 +226,7 @@ void record_continue_statement(void) { __asm { int 3 } }
 void record_default_label(void) { __asm { int 3 } }
 void __stdcall record_goto(CppSymbol *label, int known) { __asm { int 3 } }
 void __stdcall record_qc_jump(unsigned char kind) { __asm { int 3 } }
-IrToken *__stdcall recover_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall member_pointer_expression(QualifiedDeclarator *qualifier) { __asm { int 3 } return 0; }
 int __stdcall reject_function_initializer(CppSymbol *unused_declaration) { __asm { int 3 } return 0; }
 void __stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
@@ -506,7 +506,6 @@ IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymb
 unsigned __stdcall function_parameter_bytes(CppSymbol *parameters) { __asm { int 3 } return 0; }
 void __stdcall print_declaration(CppSymbol *symbol, FILE *stream) { __asm { int 3 } }
 
-IrToken *__stdcall new_left_typed_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 void __stdcall emit_expression_tree(IrToken *expression) { __asm { int 3 } }
 void __stdcall emit_parameter_declaration(CppSymbol *parameter) { __asm { int 3 } }
 void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } }
@@ -519,3 +518,19 @@ int __stdcall operator_has_builtin_fallback(unsigned char operation, unsigned ch
     unsigned classification) { __asm { int 3 } return 0; }
 int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall fold_symbol_constant(IrToken *expression) { __asm { int 3 } return 0; }
+int __stdcall has_single_function(CppSymbol *symbol) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall find_expression_symbol(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall promote_arithmetic_expression(IrToken *expression) { __asm { int 3 } return 0; }
+void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
+int __stdcall requires_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall builtin_binary_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+IrToken *__stdcall find_expression_type_base(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall modifiable_lvalue(IrToken *expression, int mode) { __asm { int 3 } return 0; }
+CType *__stdcall change_function_reference_kind(CType *type, int mode) { __asm { int 3 } return 0; }
+CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 0; }
+int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
+Extended *__stdcall save_extended_constant(Extended *value) { __asm { int 3 } return 0; }
+int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }

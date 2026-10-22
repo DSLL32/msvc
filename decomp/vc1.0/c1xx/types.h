@@ -37,6 +37,7 @@ extern TypeEntry **type_descriptor_buckets;
 extern TypeShapeEntry **type_shape_buckets;
 extern ParameterEntry **parameter_buckets;
 extern DeclarationParameterEntry **declaration_parameter_buckets;
+extern CppSymbol *pointer_base_symbol;
 extern int type_description_depth;
 extern TypeDescription type_description_stack[10];
 CType *__stdcall copy_unfinished_type(CType *type);

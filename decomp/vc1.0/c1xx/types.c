@@ -350,3 +350,17 @@ CType *__stdcall drop_first_type_shape(CType *type)
     result->related = type->related->related;
     return result;
 }
+
+CppSymbol *pointer_base_symbol; /* original 0x911e8, based-pointer context */
+
+/* Original 0x62490..0x624e6. Drop indirection while carrying its pointer
+   model and based-symbol state into the interned result descriptor. */
+CType *__stdcall dereference_pointer_type(CType *type)
+{
+    unsigned short attributes = type->related->attributes;
+    if ((attributes & 7) == 4) report_syntax_error(0xd6);
+    pointer_base_symbol = type->related->data.based_symbol;
+    type = drop_first_type_shape(type);
+    type->attributes = (type->attributes & 0xfff8) | (attributes & 15);
+    return intern_type((TypeDescription *)type);
+}

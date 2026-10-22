@@ -193,7 +193,7 @@ IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, 
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset);
 IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression);
 IrToken *__stdcall unary_expression(unsigned char operation, IrToken *expression);
-IrToken *__stdcall recover_address_expression(IrToken *expression);
+IrToken *__stdcall member_pointer_expression(QualifiedDeclarator *qualifier);
 void __stdcall clear_reference_cache(IrToken *expression);
 IrToken *__stdcall sizeof_expression(IrToken *expression);
 IrToken *__stdcall sizeof_type(CType *type);

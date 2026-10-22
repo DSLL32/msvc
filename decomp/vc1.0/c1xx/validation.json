@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 415,
-  "driver_functions": 339,
+  "accepted_frontiers": 420,
+  "driver_functions": 344,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 346,
-  "current_frontier": "_builtin_unary_expression@8",
-  "original_frontier_va": "0x5f210",
+  "reconstructed_source_functions": 351,
+  "current_frontier": "_emit_expression_tree@4",
+  "original_frontier_va": "0x59b90",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "079cf72a4c350d9a1a5b5619b903b17fb605a319d04944b0a6173805c16b17ed",
-  "call_graph_audit_functions": 346,
+  "replay_log_sha256": "afe43e9b95e576c83090e65c1ee4e5f57b716e5d97e833df4f0d380adc705df9",
+  "call_graph_audit_functions": 351,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -65,7 +65,8 @@
     "initializer_record_stack_defaults": 1,
     "captured_class_error_count_defaults": 1,
     "control_record_schemas": 36,
-    "control_record_state_defaults": 8
+    "control_record_state_defaults": 8,
+    "builtin_unary_state_defaults": 7
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -93,7 +94,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-control-unary-entry.log",
+  "replay_log": "evidence/replay-builtin-unary.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -310,7 +311,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 124486,
+  "accepted_source_text_and_switch_bytes": 127692,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -429,7 +430,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "5c5527472ec8deab4641cb723ab06046cd781e9871ea48adfa9d36cb01e863d7",
+  "replay_build_text_sha256": "efb6e0949f0720d617d6dffe17aa346dbd74e21aa83c4717da4bad2cb216d91c",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -658,9 +659,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 134577,
+    "bytes": 137783,
     "total_original_executable_bytes": 476418,
-    "percent": 28.24767326171555,
+    "percent": 28.920611731714587,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -801,5 +802,48 @@
     "all_415_frontiers_replayed": true,
     "no_frontend_output_normalization": true,
     "constructor_body_completed": false
+  },
+  "builtin_unary": {
+    "evidence": "evidence/builtin-unary.txt",
+    "new_whole_functions": 5,
+    "builtin_range": [
+      "0x5f210",
+      "0x5fd48"
+    ],
+    "builtin_native_callees": 29,
+    "operand_checker_native_callees": 4,
+    "pointer_type_native_callees": 3,
+    "extended_bytes": 12,
+    "extended_zero_format": 4,
+    "inline_scope_bytes": 14,
+    "inline_scope_region_offset": 10,
+    "inline_scope_flags_offset": 12,
+    "serialized_inline_record_bytes": 16,
+    "serialized_inline_slot_offsets": [
+      6,
+      7
+    ],
+    "inline_slot_count_bytes": 1,
+    "based_pointer_symbol": "0x911e8",
+    "new_state_defaults": 7,
+    "member_pointer_qualified_signature_verified": true,
+    "all_420_frontiers_replayed": true,
+    "no_frontend_output_normalization": true,
+    "constructor_this_operand_completed": true,
+    "constructor_body_completed": false
+  },
+  "isolated_replay": {
+    "script": "replay-frontiers.py",
+    "receipt": "evidence/replay-builtin-unary-receipt.json",
+    "receipt_sha256": "40dec72a97c2a3b81838e5e9836e6cb462ec64ef69dfcccb4ac3ce21362aca36",
+    "jobs": 4,
+    "frontiers": 420,
+    "seconds": 102.11799751315266,
+    "full_comparator_at_every_frontier": true,
+    "runtime_checkpoint_fields": 11,
+    "private_masked_executables_workdirs_logs": true,
+    "frozen_source_build_harness_fixture_hashes_checked": true,
+    "final_ordinary_comparator": true,
+    "serial_replay_available": true
   }
 }

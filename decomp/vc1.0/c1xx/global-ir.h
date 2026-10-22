@@ -61,7 +61,14 @@ extern unsigned hidden_frame_bytes;
 extern unsigned pragma_record_number;
 extern char *pragma_text;
 extern PragmaValue *pragma_values;
-typedef struct SerializedType SerializedType;
+/* Encountered serialized inline-region slots; other record bytes remain
+   an uninterpreted prefix/suffix until their writers are reconstructed. */
+typedef struct SerializedType {
+    unsigned char prefix[6], left_slot, right_slot, suffix[8];
+} SerializedType;
+typedef char SerializedTypeSizeMustBe16[(sizeof(SerializedType) == 16) ? 1 : -1];
+typedef char SerializedTypeLeftSlotOffsetMustBe6[(offsetof(SerializedType, left_slot) == 6) ? 1 : -1];
+typedef char SerializedTypeRightSlotOffsetMustBe7[(offsetof(SerializedType, right_slot) == 7) ? 1 : -1];
 extern SerializedType *declaration_type_stack;
 extern unsigned short declaration_type_index;
 extern unsigned *source_file_index, source_file_counter;

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 415 accepted paired frontiers, including 339 frontend
+PARTIAL reconstruction: 420 accepted paired frontiers, including 344 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _builtin_unary_expression@8 at original VA 0x5f210. The latest ordered replay is recorded in validation.json;
+trap is _emit_expression_tree@4 at original VA 0x59b90. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -700,3 +700,32 @@ evidence/replay-control-unary-entry.log. The next matching trap is
 builtin_unary_expression at 0x5f210, while forming the constructor's this
 operand. Accepted executable extent union is 134,577 / 476,418 bytes
 (28.248%, not branch coverage). Complete frontend equivalence remains pending.
+
+
+The complete builtin unary helper retains member/function name resolution,
+address-taking, constant folding, callable operands, indirection and optional
+inline-analysis branches. Its 29 native callees match the rebuilt graph, with
+named unresolved children. Operand checks, special-indirection diagnostics,
+pointer-type recovery and left-typed node construction are also accepted. The
+constructor's implicit this operand now reaches expression-tree output.
+
+The source has checked 12-byte tagged x87 values, 14-byte inline-scope records
+and 16-byte serialized inline records with their encountered slot bytes. It
+shares the existing serialized stack/index and based-pointer state. The
+member-pointer constructor's provisional signature is corrected to accept a
+QualifiedDeclarator; parser calls preserve its stdcall ABI. Evidence and the
+native unrecognized-operation fallthrough are in evidence/builtin-unary.txt.
+
+make replay now runs four isolated frontier pairs with replay-frontiers.py;
+--jobs selects one to eight pairs. Each pair invokes the full comparator, with
+private masked images, working folders and event/output logs. Every frontier
+still checks exact files, stdout/stderr, pending FILE buffers, logical callers
+and all eleven runtime observations. Frozen source, build, harness, original
+target and fixture hashes are verified before and after the final ordinary
+comparison. Serial replay remains python3 compare.py --replay.
+
+All 420 frontiers pass in evidence/replay-builtin-unary.log (102.118 seconds),
+with the frozen receipt in evidence/replay-builtin-unary-receipt.json. Current
+matching trap is emit_expression_tree at 0x59b90. Accepted executable extent
+union is 137,783 / 476,418 bytes (28.921%, not branch coverage). Complete frontend
+equivalence remains pending.

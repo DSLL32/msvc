@@ -335,3 +335,10 @@ IrToken *__stdcall append_constructor_initializer(IrToken *list, IrToken *initia
     initializer->linkage.list_head = node;
     return node;
 }
+
+/* Original 0x61240..0x6125a. The operation preserves its left operand's
+   type while retaining the ordinary two-operand node constructor. */
+IrToken *__stdcall new_left_typed_expression(unsigned char operation, IrToken *left, IrToken *right)
+{
+    return new_ir_expression(operation, left, right, left->type);
+}

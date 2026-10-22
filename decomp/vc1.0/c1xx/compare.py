@@ -92,9 +92,10 @@ def mask(pe, records, accepted, output):
 FIXTURE = Path('../fixtures/cpp-basic')
 CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']
 
-def run(label, exe, case=''):
-    stem = Path('build') / label
-    directory = Path('build') / ('minimal-' + label)
+def run(label, exe, case='', workspace='build'):
+    workspace = Path(workspace)
+    stem = workspace / label
+    directory = workspace / ('minimal-' + label)
     if directory.exists():
         shutil.rmtree(directory)
     directory.mkdir()
@@ -173,31 +174,34 @@ def tail_caller_equivalence(events, pe, records, nearer_caller, callee):
         target = int(last.op_str, 16)
     return None
 
-def prepare(accepted_count=None):
+def prepare(accepted_count=None, workspace='build'):
+    workspace = Path(workspace)
+    workspace.mkdir(parents=True, exist_ok=True)
     orig, rec, cfg, oi, ri = indexes()
     accepted = cfg['accepted'] if accepted_count is None else cfg['accepted'][:accepted_count]
     for name in accepted:
         assert any(r['name'] == name for r in oi), 'missing original '+name
         assert any(r['name'] == name for r in ri), 'missing reconstruction '+name
-    mask(orig, oi, accepted, 'build/original.exe')
-    mask(rec, ri, accepted, 'build/reconstructed.exe')
+    mask(orig, oi, accepted, workspace / 'original.exe')
+    mask(rec, ri, accepted, workspace / 'reconstructed.exe')
     return orig, rec, cfg, oi, ri
 
-def check_artifacts(labels):
+def check_artifacts(labels, workspace='build'):
     expected = {'cpp-basic.cpp'} | {r['output_name'] for r in CASE['outputs']}
     for label in labels:
-        directory = Path('build') / ('minimal-' + label)
+        directory = Path(workspace) / ('minimal-' + label)
         assert {p.name for p in directory.iterdir()} == expected, 'unexpected files: ' + label
         for output in CASE['outputs']:
             data = (directory / output['output_name']).read_bytes()
             assert hashlib.sha256(data).hexdigest() == output['sha256'], output['output_name'] + ' differs: ' + label
     print('All four frontend intermediates match the captured fixture byte for byte.')
 
-def compare(accepted_count=None, case='', baseline=True):
-    orig, rec, cfg, oi, ri = prepare(accepted_count)
+def compare(accepted_count=None, case='', baseline=True, workspace='build'):
+    workspace = Path(workspace)
+    orig, rec, cfg, oi, ri = prepare(accepted_count, workspace)
     with concurrent.futures.ThreadPoolExecutor(2) as pool:
-        a = pool.submit(run, 'original', 'build/original.exe', case)
-        b = pool.submit(run, 'reconstructed', 'build/reconstructed.exe', case)
+        a = pool.submit(run, 'original', workspace / 'original.exe', case, workspace)
+        b = pool.submit(run, 'reconstructed', workspace / 'reconstructed.exe', case, workspace)
         ae, be = a.result(), b.result()
     al, bl = logical(ae,orig,oi), logical(be,rec,ri)
     print('original: %s; reconstruction: %s' % (al,bl), flush=True)
@@ -221,25 +225,25 @@ def compare(accepted_count=None, case='', baseline=True):
     assert not any(re.search(r'unreadable|invalid', row) for row in pending_a), \
         'could not inspect pending intermediate bytes\n'+ae
     # At each matched frontier, compare the visible file writes made so far.
-    left = Path('build/minimal-original')
-    right = Path('build/minimal-reconstructed')
+    left = workspace / 'minimal-original'
+    right = workspace / 'minimal-reconstructed'
     assert {p.name for p in left.iterdir()} == {p.name for p in right.iterdir()}, 'frontier file sets differ'
     for path in left.iterdir():
         assert path.read_bytes() == (right / path.name).read_bytes(), 'frontier file differs: ' + path.name
     for stream in ('stdout', 'stderr'):
-        assert Path('build/original.'+stream).read_bytes() == Path('build/reconstructed.'+stream).read_bytes(), 'frontier '+stream+' differs'
+        assert (workspace / ('original.'+stream)).read_bytes() == (workspace / ('reconstructed.'+stream)).read_bytes(), 'frontier '+stream+' differs'
     if al.startswith('exit:'):
         for stream in ('stdout','stderr'):
-            assert Path('build/original.'+stream).read_bytes() == Path('build/reconstructed.'+stream).read_bytes(), stream+' differs'
+            assert (workspace / ('original.'+stream)).read_bytes() == (workspace / ('reconstructed.'+stream)).read_bytes(), stream+' differs'
         print('Output streams and exit status match.')
         if baseline:
-            events = run('baseline', wt.TC / 'bin/C1XX3232.EXE', case)
+            events = run('baseline', wt.TC / 'bin/C1XX3232.EXE', case, workspace)
             assert events == ae, 'unmodified original exit status differs'
             for stream in ('stdout', 'stderr'):
-                assert Path('build/baseline.'+stream).read_bytes() == Path('build/original.'+stream).read_bytes(), 'unmodified original '+stream+' differs'
+                assert (workspace / ('baseline.'+stream)).read_bytes() == (workspace / ('original.'+stream)).read_bytes(), 'unmodified original '+stream+' differs'
             print('Unmodified original output streams and exit status also match.')
         assert al == 'exit:0', 'frontend failed'
-        check_artifacts(['original', 'reconstructed'] + (['baseline'] if baseline else []))
+        check_artifacts(['original', 'reconstructed'] + (['baseline'] if baseline else []), workspace)
     return al
 
 if __name__ == '__main__':

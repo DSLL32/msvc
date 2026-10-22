@@ -132,7 +132,7 @@
             expression = right[0].expression;
             if (!expression) parser_value.expression = 0;
             else if (expression->kind == OP_DEREFERENCE && EXPR(expression)->right)
-                parser_value.expression = recover_address_expression(EXPR(expression)->right);
+                parser_value.expression = member_pointer_expression((QualifiedDeclarator *)EXPR(expression)->right);
             else if (expression->kind == OP_ARROW && (EXPR(expression)->right->flags & 7) == 4 &&
                      EXPR(EXPR(expression)->right)->right)
                 parser_value.expression = unary_expression(OP_BIT_AND, EXPR(expression)->right);
