@@ -238,18 +238,15 @@ MachineInstruction *__fastcall next_machine_block(MachineInstruction *instructio
 unsigned __fastcall register_definition_width(MachineInstruction *instruction, short reg, unsigned *byte_lane) { __asm int 3 }
 unsigned __fastcall implicit_register_mask(MachineInstruction *instruction, int mode) { __asm int 3 }
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
-int __fastcall register_storage_bytes(unsigned short reg) { __asm int 3 }
 
 #include "instruction-rewrite.h"
 void __fastcall release_machine_address(MachineAddress *address) { __asm int 3 }
 MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous, MachineInstruction *instruction) { __asm int 3 }
-int __fastcall register_replacement_blocked(MachineInstruction *user, unsigned unused_edx, unsigned reg) { __asm int 3 }
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall find_carry_flag_use(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
-int __fastcall eliminate_redundant_compare(MachineInstruction *instruction, MachineInstruction **next) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 int __fastcall address_changed_between(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand) { __asm int 3 }
@@ -273,7 +270,6 @@ MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
 void __fastcall spill_x87_for_node(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic(Node *node) { __asm int 3 }
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
-int __fastcall instruction_modifies_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 #include "bitsets.h"
 
 #include "unoptimized.h"
@@ -460,3 +456,6 @@ void __fastcall split_register_transfer_edge(AllocationRange *range, Node *value
 void __fastcall mark_register_definition_ends(WorkItem *work, AllocationValue *value, AllocationRange *range) { __asm int 3 }
 
 MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *transfer) { __asm int 3 }
+
+
+int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes) { __asm int 3 }

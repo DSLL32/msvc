@@ -1,0 +1,171 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@register_storage_bytes@4",
+      "start": "0x2e0e0",
+      "end": "0x2e0f0",
+      "instructions": 4
+    },
+    {
+      "name": "@lookup_register_variable@8",
+      "start": "0x2c870",
+      "end": "0x2c8c0",
+      "instructions": 23
+    },
+    {
+      "name": "@register_replacement_blocked@12",
+      "start": "0x21790",
+      "end": "0x217c0",
+      "instructions": 14
+    },
+    {
+      "name": "@instruction_modifies_operand@12",
+      "start": "0x23830",
+      "end": "0x239f0",
+      "instructions": 155
+    },
+    {
+      "name": "@operands_overlap_storage@16",
+      "start": "0x23a20",
+      "end": "0x23c70",
+      "instructions": 221
+    },
+    {
+      "name": "@eliminate_redundant_compare@8",
+      "start": "0x21cb0",
+      "end": "0x21fc0",
+      "instructions": 250
+    },
+    {
+      "name": "@instruction_operands_equal@16",
+      "start": "0x22d20",
+      "end": "0x22dd0",
+      "instructions": 62
+    }
+  ],
+  "native_instructions": 729,
+  "accepted_extent_bytes": 2144,
+  "abis": [
+    "register_storage_bytes returns the sign-extended byte at RegisterVariable offset 0x28. lookup_register_variable takes a required flag; missing required entries diagnose color.c:1.101 line 0x797, without allocation.",
+    "register_replacement_blocked has a private ABI: ECX instruction, unused EDX, one stack register argument and RET 4. A three-argument ordinary fastcall declaration preserves that layout.",
+    "operands_overlap_storage and instruction_operands_equal are fixed fastcall4 functions with RET 8; eliminate_redundant_compare is fastcall2 with plain RET."
+  ],
+  "data_provenance": [
+    {
+      "name": "implicit-register property",
+      "original_extent": [
+        "0x82210",
+        "0x823de"
+      ],
+      "implementation": "reuse contextual MC_IMPLICIT_REGISTERS property; all 231 rows independently checked against original bit 0x40 with zero differences"
+    },
+    {
+      "name": "zero-result flag compatibility",
+      "original_extent": [
+        "0x80330",
+        "0x80348"
+      ],
+      "implementation": "readable equality/signed-less/greater-equal condition rules replace bounded 8-byte transition table and 16-byte condition-class table"
+    },
+    {
+      "name": "condition_relation",
+      "original_extent": [
+        "0x80348",
+        "0x80358"
+      ],
+      "implementation": "contextual signed-char table in compare elimination, with named x86 conditions and documented strict/inclusive pairing"
+    },
+    {
+      "name": "operation dispatch",
+      "original_extent": [
+        "0x21f5c",
+        "0x21fb8"
+      ],
+      "implementation": "named opcode switch; 23 native jump-table entries belong to the accepted parent extent; next function starts at 0x21fc0"
+    },
+    {
+      "name": "register storage width",
+      "original_offset": "0x28",
+      "implementation": "signed char storage_bytes replaces provisional unsigned type field, retaining 52-byte RegisterVariable extent"
+    }
+  ],
+  "independent_capture": {
+    "logical_stop": "@emit_call@20",
+    "original_stop": "0x195a0",
+    "completed_work": 1,
+    "linked_records": 11,
+    "normalized_lines": 39,
+    "normalization": "omit only first debugger exception-address line",
+    "all_lines_identical": true,
+    "normalized_sha256": "3b19cdf9a4bed518505df48b9e2cd168e3d2800c098bf8b8dc01b3f4a3ba590e",
+    "event_sha256": {
+      "original": "5b57ed44690d97c607c839ea405c9f9d0097dd0628fea98b68bb01c936022b40",
+      "reconstructed": "1e84ecbb50e607a6e1c95ab153f1de90ae63b2d4b54f52fd19018f76cacb0e44"
+    },
+    "scope": "completed first real block, all opcode/operand flags, links and header sets through next block boundary; next call target/type also match: type4, symbol3940 _DefWindowProcA@16. Boundary next link intentionally continues outside this capture."
+  },
+  "limits": [
+    "Hello remains incomplete at emit_call 0x195a0; no final hello object comparison is claimed.",
+    "Overlap interval helper memory_displacements_overlap 0x239f0 remains a named trap: the exercised overlap paths compare registers, not equal-base memory intervals.",
+    "Physical implicit-register masks remain a named trap. Conservative aliasing, private-home and all condition-rewrite branches have full source but are not claimed as branch coverage.",
+    "Missing register diagnostics and other failure callees remain typed traps; failure branches are not claimed to pass.",
+    "Independent capture at call selection reads completed work1, whose body is already a machine block; current work still owns expressions and is not misinterpreted."
+  ],
+  "validation_status": "passed",
+  "validation": [
+    "original-toolchain make -j2 check passes; minimal object/exit/streams match except only four-byte COFF timestamp",
+    "all 352 minimal and 192 hello historical frontiers replay in isolated pairs with frozen build/config hashes",
+    "all 467 source function graphs and all 544 accepted extent instruction boundaries agree",
+    "three changed implementation modules compile /W3 clean",
+    "independent completed-first-block capture matches 39 normalized lines at the first call-emission frontier",
+    "verified accepted code-extent union 142255/399693 bytes = 35.5911 percent; not branch coverage"
+  ],
+  "replay_receipts": [
+    {
+      "profile": "minimal",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-4115616/receipt.json",
+      "sha256": "78d3bf7b94ef40339d8849f73e3f9530c6e2505f5046174045ae27e15b66e035",
+      "frontiers": 352,
+      "seconds": 68.63513311836869,
+      "frozen": {
+        "functions.json": "d19243cedf65f23fe0fcd7adb87303d6042cd1e6a4edbd51193ad989800f7ed3",
+        "build/c2.exe": "c2215aab311c7e006f679a3fbebd2bb11683f75b4f827df26102c78e0573ea89",
+        "build/c2.map": "fc23ba111e1a17aadc1cf2565b78af40c1f4b1dd8a387b32329d13ef770d466e",
+        "build/runtime.json": "f7768d3d0eebce9142a0f9007680020706202d26d6b59d44e3e5637fade664b9"
+      },
+      "final": "exit:0"
+    },
+    {
+      "profile": "hello",
+      "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-4120277/receipt.json",
+      "sha256": "6542ad0429382a448518013be6cb90e3c035ae9d1173bb874f0e6f9eb0fe4a21",
+      "frontiers": 192,
+      "seconds": 35.439004784449935,
+      "frozen": {
+        "functions.json": "d19243cedf65f23fe0fcd7adb87303d6042cd1e6a4edbd51193ad989800f7ed3",
+        "build/c2.exe": "c2215aab311c7e006f679a3fbebd2bb11683f75b4f827df26102c78e0573ea89",
+        "build/c2.map": "fc23ba111e1a17aadc1cf2565b78af40c1f4b1dd8a387b32329d13ef770d466e",
+        "build/runtime.json": "f7768d3d0eebce9142a0f9007680020706202d26d6b59d44e3e5637fade664b9"
+      },
+      "final": "@emit_call@20"
+    }
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 544,
+    "accepted_code_bytes": 142255,
+    "original_code_bytes": 399693,
+    "percentage": 35.59106614326495,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 159
+  }
+}

@@ -1,6 +1,7 @@
 #include "instruction-rewrite.h"
 #include "tree-rewrite.h"
 #include "register-use.h"
+#include "function-input.h"
 /* Original [000217c0,00021860). Determine whether an intervening instruction
    invalidates an operand before its use. Symbolic/immediate values are stable;
    a label ends availability for the other operand forms. */
@@ -280,4 +281,145 @@ int __fastcall operand_mentions_register(MachineOperand *operand, unsigned short
         return operand->value.address->base.words.number == reg;
     }
     return 0;
+}
+
+/* Original [00021790,000217c0). Tree-virtual registers cannot replace an
+   absent/nonregister destination or another tree-virtual destination. The
+   native private ABI leaves EDX unused and receives reg on the stack. */
+int __fastcall register_replacement_blocked(MachineInstruction *user, unsigned unused_edx, unsigned reg)
+{
+    (void)unused_edx;
+    if (!(reg & 0x4000)) return 0;
+    return !user || (user->operands[0].flags & 15) != OPERAND_REGISTER ||
+        (user->operands[0].value.reg.words.number & 0x4000) != 0;
+}
+
+/* Original [00023830,000239f0). Calls clobber exposed memory homes,
+   string writers clobber memory operands, and explicit destinations are
+   checked for overlapping storage. Implicit register writes also invalidate
+   physical bases/indexes, with one shared mask query for an indexed pair. */
+int __fastcall instruction_modifies_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes)
+{
+    unsigned operation = (unsigned char)(instruction->opcode >> 8);
+    unsigned kind = operand->flags & 15, attributes, storage, mask;
+    unsigned short reg;
+    SymbolHeader *symbol;
+    MachineAddress *address;
+    if (operation == MC_CALL) {
+        if (kind == OPERAND_ABSOLUTE) return 1;
+        if (kind == OPERAND_BASED || kind == OPERAND_INDEXED) {
+            symbol = operand->value.address->symbol;
+            if (!symbol) return 1;
+            if (symbol->kind != 19) {
+                if (symbol->kind != 1) return 1;
+                attributes = ((TemporarySymbol *)symbol)->attributes;
+                storage = attributes & 0x70;
+                if ((storage != 0x10 && storage != 0x30) || (attributes & 0x12000)) return 1;
+            }
+        }
+    } else if (operation == MC_INS || operation == MC_MOVS || operation == MC_STOS) {
+        if (kind == OPERAND_ABSOLUTE || kind == OPERAND_BASED || kind == OPERAND_INDEXED) return 1;
+    }
+    if (machine_operand_counts[operation] > 0 && writes_first_operand(instruction))
+        return operands_overlap_storage(&instruction->operands[0], (instruction->opcode >> 4) & 15, operand, bytes);
+    if (!(machine_selection_properties[operation] & MC_IMPLICIT_REGISTERS)) return 0;
+    switch (kind) {
+    case OPERAND_REGISTER:
+        reg = operand->value.reg.words.number;
+        break;
+    case OPERAND_INDEXED:
+        address = operand->value.address;
+        reg = address->index.words.number;
+        if (!(reg & 0xc000)) {
+            mask = implicit_register_mask(instruction, 2);
+            if (mask & (1U << (reg & 31))) return 1;
+            reg = address->base.words.number;
+            return !(reg & 0xc000) && (mask & (1U << (reg & 31))) != 0;
+        }
+        /* A virtual index cannot be modified implicitly; test the base. */
+    case OPERAND_BASED:
+        reg = operand->value.address->base.words.number;
+        break;
+    default:
+        return 0;
+    }
+    return !(reg & 0xc000) && (implicit_register_mask(instruction, 2) & (1U << (reg & 31))) != 0;
+}
+
+/* Original [00023a20,00023c70). Compare explicit storage locations before
+   treating unrelated addressing expressions conservatively. Absolute versus
+   indexed storage is intentionally asymmetric in this native analysis. */
+int __fastcall operands_overlap_storage(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes)
+{
+    unsigned left_kind = left->flags & 15, right_kind = right->flags & 15;
+    unsigned attributes, storage;
+    MachineAddress *a, *b;
+    SymbolHeader *left_symbol, *right_symbol;
+    if (left_kind == OPERAND_REGISTER)
+        return operand_mentions_register(right, left->value.reg.words.number) != 0;
+    if (left_kind == OPERAND_ABSOLUTE) {
+        if (right_kind == OPERAND_ABSOLUTE) {
+            if (left->value.address->symbol != right->value.address->symbol) return 0;
+            return memory_displacements_overlap(left, left_bytes, right, right_bytes) != 0;
+        }
+        if (right_kind == OPERAND_BASED)
+            return right->value.address->base.words.number != REG_EBP;
+        return right_kind == OPERAND_INDEXED;
+    }
+    if (left_kind == OPERAND_BASED) {
+        if (right_kind == OPERAND_ABSOLUTE) {
+            if (left->value.address->base.words.number == REG_EBP) return 0;
+        } else if (right_kind == OPERAND_BASED) {
+            a = left->value.address;
+            b = right->value.address;
+            if (a->symbol == b->symbol && a->base.words.number == b->base.words.number &&
+                !memory_displacements_overlap(left, left_bytes, right, right_bytes)) return 0;
+        } else if (right_kind != OPERAND_INDEXED) return 0;
+    } else if (left_kind == OPERAND_INDEXED) {
+        if (right_kind == OPERAND_ABSOLUTE) return 1;
+        if (right_kind == OPERAND_INDEXED) {
+            a = left->value.address;
+            b = right->value.address;
+            if (a->symbol == b->symbol && a->base.words.number == b->base.words.number &&
+                a->index.words.number == b->index.words.number &&
+                !((left->flags ^ right->flags) & 0x300) &&
+                !memory_displacements_overlap(left, left_bytes, right, right_bytes)) return 0;
+        } else if (right_kind != OPERAND_BASED) return 0;
+    } else return 0;
+
+    left_symbol = left->value.address->symbol;
+    right_symbol = right->value.address->symbol;
+    if (!right_symbol) {
+        if (left_symbol) {
+            if (left_symbol->kind == 19) return 0;
+            if (left_symbol->kind == 1) {
+                attributes = ((TemporarySymbol *)left_symbol)->attributes;
+                storage = attributes & 0x70;
+                if ((storage == 0x10 || storage == 0x30) && !(attributes & 0x12000)) return 0;
+            }
+        }
+    } else if (!left_symbol) {
+        if (right_symbol->kind == 19) return 0;
+        if (right_symbol->kind == 1) {
+            attributes = ((TemporarySymbol *)right_symbol)->attributes;
+            storage = attributes & 0x70;
+            if ((storage == 0x10 || storage == 0x30) && !(attributes & 0x12000)) return 0;
+        }
+    } else if (left_symbol != right_symbol) return 0;
+    return 1;
+}
+
+/* Original [00022d20,00022dd0). Address equality is insufficient when
+   instruction widths differ or byte operands select different register lanes. */
+int __fastcall instruction_operands_equal(MachineInstruction *left, unsigned left_index, MachineInstruction *right, unsigned right_index)
+{
+    unsigned left_flags = left->opcode, right_flags = right->opcode;
+    unsigned left_high, right_high;
+    if ((left_flags ^ right_flags) & 0xf0) return 0;
+    if ((left_flags & 0xf0) == 0x10) {
+        left_high = (left_flags >> (left_index ? 20 : 19)) & 1;
+        right_high = (right_flags >> (right_index ? 20 : 19)) & 1;
+        if (left_high != right_high) return 0;
+    }
+    return operands_equal(&left->operands[left_index ? 1 : 0], &right->operands[right_index ? 1 : 0]);
 }

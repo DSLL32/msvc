@@ -9,7 +9,8 @@ typedef struct RegisterVariable {
     unsigned short number, field1a;
     unsigned flags, field20;
     short first_block, last_block;
-    unsigned char type, field29;
+    signed char storage_bytes;
+    unsigned char field29;
     unsigned short field2a;
     SymbolHeader *home_symbol;
     unsigned home_offset;
@@ -22,4 +23,5 @@ void __fastcall record_register_variable_range(unsigned short number, short firs
     int observable, int parameter, unsigned type, SymbolHeader *symbol, unsigned offset);
 RegisterVariable *__fastcall create_register_variable(unsigned short number);
 RegisterVariable *__fastcall new_register_variable(unsigned short number);
+RegisterVariable *__fastcall lookup_register_variable(unsigned short number, int required);
 #endif

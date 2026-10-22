@@ -1,6 +1,7 @@
 /* Register-variable records shared by global and machine allocation. */
 #include "register-variables.h"
 #include "backend.h"
+#include "register-use.h"
 /* Original [0007c730,0007c8b0). Constructor/lookup indexing selects a
    128-byte table from the register's class bits (00, 4000 or 8000), then
    selects one of 32 hash heads with its low five bits. The reset clears
@@ -32,11 +33,11 @@ void __fastcall record_register_variable_range(unsigned short number, short firs
         variable->home_symbol = symbol;
         variable->home_offset = offset;
         if (type != 8) break;
-        variable->type = 4;
+        variable->storage_bytes = 4;
         ++number;
         type = 4;
     }
-    variable->type = (unsigned char)type;
+    variable->storage_bytes = (signed char)type;
 }
 
 /* Original [0002b6d0,0002b700). Link a newly constructed variable into
@@ -64,11 +65,31 @@ RegisterVariable *__fastcall new_register_variable(unsigned short number)
     variable->flags = 0;
     variable->field20 = 0;
     variable->first_block = variable->last_block = 0;
-    variable->type = variable->field29 = 0;
+    variable->storage_bytes = variable->field29 = 0;
     variable->field2a = 0;
     variable->home_symbol = 0;
     variable->home_offset = 0;
     if (number & 0xc000) variable->flags = (variable->flags & ~31U) | 32;
     else variable->flags = (variable->flags & ~63U) | (number & 63);
     return variable;
+}
+
+/* Original [0002e0e0,0002e0f0). The required variable's byte width is
+   signed, matching the native sign-extending byte load into EAX. */
+int __fastcall register_storage_bytes(unsigned short reg)
+{
+    return lookup_register_variable(reg, 1)->storage_bytes;
+}
+
+/* Original [0002c870,0002c8c0). Look up a tagged short register in its
+   class and low-five-bit bucket. A required miss reports an internal error;
+   the flag does not create a replacement record. */
+RegisterVariable *__fastcall lookup_register_variable(unsigned short number, int required)
+{
+    RegisterVariable *variable;
+    variable = register_variable_buckets[number >> 14][number & 31];
+    for (; variable; variable = variable->next)
+        if (variable->number == number) return variable;
+    if (required) compiler_internal_error("@(#)color.c:1.101", 0x797);
+    return 0;
 }

@@ -16,6 +16,7 @@ int __fastcall instruction_mentions_register(MachineInstruction *instruction, un
 MachineInstruction *__fastcall find_carry_flag_use(MachineInstruction *instruction);
 unsigned __fastcall integer_width_mask(unsigned bytes);
 int __fastcall narrow_comparison_condition(unsigned condition);
+int __fastcall instruction_operands_equal(MachineInstruction *left, unsigned left_index, MachineInstruction *right, unsigned right_index);
 int __fastcall eliminate_redundant_compare(MachineInstruction *instruction, MachineInstruction **next);
 unsigned __fastcall integer_sign_bit(unsigned bytes);
 int __fastcall operand_mentions_register(MachineOperand *operand, unsigned short reg);
@@ -42,4 +43,7 @@ int __fastcall expand_zero_extension(MachineInstruction *instruction);
 void __fastcall optimize_sahf(MachineInstruction *instruction);
 extern int conservative_flag_analysis;
 MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *instruction);
+int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes);
+int __fastcall operands_overlap_storage(MachineOperand *left, unsigned left_bytes,
+    MachineOperand *right, unsigned right_bytes);
 #endif

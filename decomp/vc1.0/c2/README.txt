@@ -1021,3 +1021,37 @@ The fresh minimal object/streams/exit regression passes. Verified accepted
 code-extent union is140,111 /399,693 bytes, including source/shared text/CRT/
 import thunks with clipping and actual-mask verification; this is not branch
 coverage. Hello remains pending at register_storage_bytes,0002e0e0.
+
+Seven more functions now carry the optimized first block through storage and
+register-width analysis, redundant comparison elimination and operand identity.
+RegisterVariable offset 0x28 is a signed storage width; its lookup flag requires
+an existing record rather than creating one. A private replacement predicate
+uses ECX plus one stack argument with EDX unused, expressed as typed fastcall C.
+The full operand overlap tree retains its asymmetric absolute/indexed rules
+and avoids reading beyond short frame-temporary symbols when testing private
+homes. Its interval callee remains a named trap until that path is encountered.
+
+Comparison elimination retains the earlier flag producer, unchanged-operand
+checks, signed/inclusive condition relations and branch combination. Named
+opcode and condition constants express the bounded native tables. All 231 ISA
+implicit-register properties were independently checked before their reuse;
+no copied section or opaque data was introduced. See
+cases/hello-instruction-analysis-abi.json for exact extents, ABI and provenance.
+
+At the first call-emission frontier, an independent capture matches 39 lines
+of completed work1: eleven linked records, full opcode/operand flags, register
+use links, memory homes, branch conditions and block header sets. The next
+call target also matches _DefWindowProcA@16, symbol3940 and type4. Current
+call selection still owns expressions, so the capture explicitly reads the
+completed earlier block rather than interpreting the current body as machine
+records. Its final boundary links onward outside the captured interval.
+
+This checkpoint has 467 reconstructed functions and 544 accepted frontiers.
+All 352 minimal and 192 hello historical pairs replay; all source graphs and
+accepted extent instruction boundaries pass. Three affected modules compile
+/W3 clean; minimal object/streams/exit match except the four-byte timestamp.
+Accepted original code-extent union is 142,255 / 399,693 bytes (35.5911 percent),
+including source, shared text, CRT and import thunks with clipping and actual
+mask verification; this is not branch coverage. Physical implicit masks,
+interval overlap and failure paths remain named traps and are not dynamically
+claimed. Hello remains incomplete at emit_call, 000195a0.

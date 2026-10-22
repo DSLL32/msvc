@@ -541,7 +541,14 @@
     "@lookup_opcode@8",
     "@find_transfer_use_boundary@8",
     "@instruction_mentions_register@8",
-    "@operand_mentions_register@8"
+    "@operand_mentions_register@8",
+    "@register_storage_bytes@4",
+    "@lookup_register_variable@8",
+    "@register_replacement_blocked@12",
+    "@instruction_modifies_operand@12",
+    "@operands_overlap_storage@16",
+    "@eliminate_redundant_compare@8",
+    "@instruction_operands_equal@16"
   ],
   "driver": [
     {
@@ -2998,8 +3005,7 @@
     {
       "name": "@register_storage_bytes@4",
       "start": 188640,
-      "end": 188641,
-      "provisional": true
+      "end": 188656
     },
     {
       "name": "@operands_equal@8",
@@ -3031,8 +3037,7 @@
     {
       "name": "@register_replacement_blocked@12",
       "start": 137104,
-      "end": 137105,
-      "provisional": true
+      "end": 137152
     },
     {
       "name": "@operand_changed_between@16",
@@ -3082,8 +3087,7 @@
     {
       "name": "@eliminate_redundant_compare@8",
       "start": 138416,
-      "end": 138417,
-      "provisional": true
+      "end": 139200
     },
     {
       "name": "@integer_sign_bit@4",
@@ -3274,8 +3278,7 @@
     {
       "name": "@instruction_modifies_operand@12",
       "start": 145456,
-      "end": 145457,
-      "provisional": true
+      "end": 145904
     },
     {
       "name": "@operand_replacement_allowed@16",
@@ -4841,6 +4844,27 @@
       "name": "@comparison_uses_intrinsic_flags@4",
       "start": 121872,
       "end": 121968
+    },
+    {
+      "name": "@lookup_register_variable@8",
+      "start": 182384,
+      "end": 182464
+    },
+    {
+      "name": "@operands_overlap_storage@16",
+      "start": 145952,
+      "end": 146544
+    },
+    {
+      "name": "@memory_displacements_overlap@16",
+      "start": 145904,
+      "end": 145905,
+      "provisional": true
+    },
+    {
+      "name": "@instruction_operands_equal@16",
+      "start": 142624,
+      "end": 142800
     }
   ],
   "cases": {

@@ -1245,3 +1245,84 @@ remove_instruction:
     tree_changed = 1;
     return next;
 }
+
+/* Original [00021cb0,00021fc0), including the 23-entry operation dispatch
+   at 21f5c..21fb8. Reuse an earlier flags definition when both compared
+   operands are unchanged, then combine adjacent compatible conditions. */
+int __fastcall eliminate_redundant_compare(MachineInstruction *instruction, MachineInstruction **next)
+{
+    enum { CC_B = 2, CC_AE = 3, CC_E = 4, CC_NE = 5, CC_BE = 6, CC_A = 7,
+           CC_S = 8, CC_NS = 9, CC_L = 12, CC_GE = 13, CC_LE = 14, CC_G = 15 };
+    /* Original 80348..80358. A positive relation denotes a strict condition
+       implying its paired inclusive condition; the negative reverse relation
+       cannot be combined with equality. Indexed by the x86 condition number. */
+    static const signed char condition_relation[16] = {
+        0, 0, -CC_BE, CC_A, 0, 0, CC_B, -CC_AE,
+        0, 0, 0, 0, -CC_LE, CC_G, CC_L, -CC_GE
+    };
+    MachineInstruction *producer, *consumer, *preceding;
+    unsigned kind, operation, condition, earlier_condition, difference;
+    int exact_compare, relation;
+    for (producer = instruction->previous; producer; producer = producer->previous) {
+        kind = producer->opcode & 15;
+        if (kind == 1) return 0;
+        if (!kind && (machine_selection_properties[MACHINE_OP(producer)] & MC_WRITES_FLAGS)) break;
+    }
+    if (!producer) return 0;
+    operation = MACHINE_OP(producer);
+    switch (operation) {
+    case MC_DEC: case MC_INC: case MC_ADC: case MC_ADD: case MC_SBB: case MC_SUB:
+        if (OPERAND_KIND(&instruction->operands[1]) != OPERAND_IMMEDIATE ||
+            instruction->operands[1].value.constant) return 0;
+        exact_compare = 0;
+        break;
+    case MC_AND: case MC_OR: case MC_XOR:
+        if (OPERAND_KIND(&instruction->operands[1]) != OPERAND_IMMEDIATE ||
+            instruction->operands[1].value.constant) return 0;
+        exact_compare = 1;
+        break;
+    case MC_CMP:
+        if (!instruction_operands_equal(producer, 1, instruction, 1) ||
+            operand_changed_between(producer, instruction, &producer->operands[1], MACHINE_BYTES(producer))) return 0;
+        exact_compare = 1;
+        break;
+    default:
+        return 0;
+    }
+    if (!instruction_operands_equal(producer, 0, instruction, 0) ||
+        operand_changed_between(producer, instruction, &producer->operands[0], MACHINE_BYTES(producer))) return 0;
+    for (consumer = instruction->next; (consumer->opcode & 15) &&
+         (consumer->opcode & 15) != 1 && (consumer->opcode & 15) != 7; consumer = consumer->next) ;
+    if ((consumer->opcode & 15) || (MACHINE_OP(consumer) != MC_JCC && MACHINE_OP(consumer) != MC_SCC)) return 0;
+    condition = consumer->operands[1].flags & 15;
+    /* The native two-stage condition tables at 80330..80348 allow only
+       equality and signed less/greater-equal after a zero-result test.
+       An exact comparison or logical result already has the required flags. */
+    if (!exact_compare) {
+        if (condition == CC_L) consumer->operands[1].flags =
+            (consumer->operands[1].flags & ~15U) | CC_S;
+        else if (condition == CC_GE) consumer->operands[1].flags =
+            (consumer->operands[1].flags & ~15U) | CC_NS;
+        else if (condition != CC_E && condition != CC_NE) return 0;
+    }
+    for (preceding = producer->next; (preceding->opcode & 15) &&
+         (preceding->opcode & 15) != 1 && (preceding->opcode & 15) != 7; preceding = preceding->next) ;
+    if (!(preceding->opcode & 15) && MACHINE_OP(preceding) == MACHINE_OP(consumer)) {
+        condition = consumer->operands[1].flags & 15;
+        earlier_condition = preceding->operands[1].flags & 15;
+        difference = condition ^ earlier_condition;
+        relation = condition_relation[earlier_condition];
+        if (!difference || relation == (int)condition || (relation > 0 && condition == CC_E)) {
+            if (*next == consumer) *next = consumer->next;
+            --((LabelSymbol *)consumer->operands[0].value.symbol)->references;
+            remove_machine_instruction(consumer);
+        } else if ((MACHINE_OP(consumer) == MC_JCC && difference == 1) ||
+                   (int)(condition ^ 1) == relation ||
+                   (earlier_condition == CC_NE && condition_relation[condition] > 0)) {
+            consumer->opcode = (consumer->opcode & 0xffff10ffU) | (MC_JMP << 8);
+        }
+    }
+    tree_changed = 1;
+    remove_machine_instruction(instruction);
+    return 1;
+}
