@@ -91,7 +91,7 @@ unsigned short __stdcall normalize_type_attributes(unsigned short kind, unsigned
 unsigned short __stdcall merge_type_attributes(unsigned short left, unsigned short right)
 {
     if (left & right & 0x3000) {
-        if (options.configuration.z_a) compiler_warning(1, 114);
+        if (options.configuration.extensions_enabled) compiler_warning(1, 114);
         else report_syntax_error(289);
     }
     if ((left ^ right) & 15) {

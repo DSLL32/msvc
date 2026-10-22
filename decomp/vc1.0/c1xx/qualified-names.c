@@ -1,0 +1,263 @@
+/* Qualified C++ identifiers, including constructor/destructor/operator names. */
+#include "lexer.h"
+
+extern unsigned char symbol_scope_mode;
+SymbolScope *last_lookup_scope; /* original 0x914bc */
+
+/* Original 0x1cc50..0x1d480. The interned spelling is retained separately
+   from constructor/destructor internal names throughout recovery. */
+unsigned char __stdcall resolve_identifier_token(char *name)
+{
+    QualifierResolution *scope = 0, *previous;
+    QualifiedDeclarator *qualified;
+    CppSymbol *symbol, *target;
+    char *member, *original_member;
+    unsigned char token, operator_code;
+    unsigned short first_modifier = 0;
+    unsigned i;
+    int errors = 0, global = name == 0;
+    int constructor = 0, destructor = 0, inherited = 0, temporary = 0;
+
+    token = scan_token();
+    if (token != 160) {
+        unget_token(token);
+        current_token_value.name = name;
+        current_token_code = 2;
+        return 2;
+    }
+    if (name) {
+        symbol = find_qualifier_name(name);
+        if (!symbol) {
+            symbol = find_outer_name(name);
+            if (symbol) {
+                if ((symbol->kind & 31) == 18)
+                    symbol = (CppSymbol *)((QualifiedDeclarator *)symbol)->resolution->binding->target;
+                if (!(symbol->flags & 0x10) || !is_unqualified_class_type(symbol->type)) symbol = 0;
+                else symbol = cpp_context_stack->items[symbol->type->field08];
+            }
+            if (!symbol) {
+                report_syntax_error(653, name);
+                errors = 1;
+            }
+        }
+        if (symbol) {
+            if ((symbol->kind & 31) == 18)
+                scope = ((QualifiedDeclarator *)symbol)->resolution;
+            else {
+                begin_qualification_allocation(1);
+                scope = append_qualifier_reference(0, 0, symbol);
+                end_qualification_allocation();
+            }
+            if (!(token_allocation_flags & 0x80)) {
+                target = (CppSymbol *)scope->binding->target;
+                if (symbol_scope_mode == 255 && (last_lookup_scope->flags & 0x100) &&
+                    (!(target->flags & 0x10) ||
+                     (is_unqualified_class_type(target->type) && last_lookup_scope->buckets[0] == target)))
+                    inherited = 1;
+                else if (symbol_scope_mode == 252) temporary = 1;
+            }
+            enter_qualified_class((CppSymbol *)scope->binding->target, name, 1);
+        }
+    }
+
+    do {
+        original_member = 0;
+        member = 0;
+        operator_code = 1;
+read_member:
+        token = scan_token();
+        switch (token) {
+        case 130: /* storage/model modifier before a qualified member */
+            if (!first_modifier) {
+                for (i = 0; i < declaration_code_count; ++i)
+                    if (declaration_codes[i].token == current_token_code) break;
+                first_modifier = (unsigned short)(i < declaration_code_count ? declaration_codes[i].value : 0x9e);
+                report_syntax_error(615);
+            }
+            goto read_member;
+        case 151: /* new/delete */
+        case 152:
+            if (!global) report_syntax_error(834, token_spellings[151]);
+            if (cpp_parser_flags & 0x20)
+                report_syntax_error(722, token_spellings[token], token_spellings[token]);
+            current_token_value.bytes[0] = 2;
+            return token;
+        case 162: /* operator */
+            token = read_operator_function_id();
+            if (token == 1) goto next_qualifier;
+            if (token == 3) {
+                if (token_allocation_flags & 0x400) {
+                    member = intern_identifier(current_token_value.name);
+                    goto lookup_member;
+                }
+                report_syntax_error(59, token_spellings[3]);
+                ++errors;
+                if (scope) unwind_qualified_scopes(1);
+                scope = 0;
+                goto next_qualifier;
+            }
+            if (token == 153) {
+                operator_code = current_token_value.bytes[0];
+                member = (char *)current_token_value.words.high;
+                goto resolve_member;
+            }
+            if (token == 154) {
+                token_allocation_flags |= 1;
+                goto unread;
+            }
+            member = current_token_value.name;
+            goto resolve_member;
+        case 98: /* ~class-name */
+            token = scan_token();
+            if (token != 2) {
+                report_syntax_error(611, token_spellings[token]);
+                return token;
+            }
+            member = current_token_value.name;
+            if (scope) {
+                target = (CppSymbol *)scope->binding->target;
+                if (member != target->name) report_syntax_error(523, target->name, member);
+                if (destructor) report_syntax_error(596, member);
+                if (constructor) report_syntax_error(595, member);
+                destructor = 1;
+                original_member = member;
+                member = name_dtor;
+                goto lookup_member;
+            }
+            if (!errors) {
+                report_syntax_error(588, member);
+                errors = 1;
+            }
+            goto next_qualifier;
+        case 0:
+            fatal_error(4);
+            goto lookup_member;
+        case 2:
+            member = current_token_value.name;
+            goto resolve_member;
+        case 83: /* qualified member pointer */
+            if (!scope) {
+                report_syntax_error(645);
+                token = 83;
+            } else {
+                unwind_qualified_scopes(1);
+                token = 170;
+            }
+            goto finish;
+        default:
+            report_syntax_error(589, token_spellings[token]);
+            if (scope) unwind_qualified_scopes(1);
+            scope = 0;
+            goto unread;
+        }
+
+resolve_member:
+        if (!scope) {
+            if (!errors) {
+                symbol = find_scope_symbol(global_scope, member, 0);
+                if (!symbol) {
+                    if (token == 153) return 162;
+                    report_syntax_error(581, member);
+                    ++errors;
+                    scope = 0;
+                } else {
+                    if ((symbol->kind & 31) == 9 && (symbol->flags & 0x10) &&
+                        is_unqualified_class_type(symbol->type)) {
+                        symbol = cpp_context_stack->items[symbol->type->field08];
+                        if (cpp_parser_flags & 0x10000) {
+                            token = scan_token();
+                            unget_token(token);
+                            if (token != 160) report_syntax_error(242);
+                        }
+                    }
+                    begin_qualification_allocation(1);
+                    scope = append_qualifier_reference(0, 0, symbol);
+                    end_qualification_allocation();
+                    enter_qualified_class((CppSymbol *)scope->binding->target, member, 1);
+                }
+            }
+            goto next_qualifier;
+        }
+        if (((CppSymbol *)scope->binding->target)->name == member) {
+            if (constructor) report_syntax_error(595, member);
+            if (destructor) report_syntax_error(596, member);
+            constructor = 1;
+            original_member = member;
+            member = name_ctor;
+        }
+lookup_member:
+        previous = scope;
+        scope = lookup_qualified_member(scope, member, 0);
+        if (!scope) {
+            if (current_class_context < 0) constructor = destructor = 0;
+            if (destructor) {
+                current_token_value.symbol = new_declarator(name_dtor);
+                current_token_value.symbol->declaration_flags |= 0x2000;
+                current_token_code = 184;
+                return 184;
+            }
+            if (constructor) {
+                current_token_value.symbol = new_declarator(name_ctor);
+                current_token_value.symbol->declaration_flags |= 0x1000;
+                current_token_code = 184;
+                return 184;
+            }
+            target = (CppSymbol *)previous->binding->target;
+            if (!(target->flags & 4) && current_class_name() == target->name) {
+                if (operator_code != 1) {
+                    current_token_value.bytes[0] = operator_code;
+                    current_token_value.words.high = (unsigned)member;
+                    return 153;
+                }
+                if (token == 2) {
+                    current_token_value.name = member;
+                    return 2;
+                }
+            }
+            ++errors;
+        }
+        if (token == 3) {
+            token = 161;
+            current_token_code = 3;
+            goto finish;
+        }
+next_qualifier:
+        token = scan_token();
+    } while (token == 160);
+unread:
+    unget_token(token);
+    token = 161;
+finish:
+    if (!scope) {
+        if (original_member) member = original_member;
+        if (member) {
+            current_token_value.name = member;
+            current_token_code = 2;
+            return 2;
+        }
+        if (token == 83) {
+            current_token_code = 83;
+            current_token_value.bytes[0] = 83;
+            return token_categories[83];
+        }
+        current_token_code = 160;
+        current_token_value.bytes[0] = 160;
+        return token_categories[160];
+    }
+    qualified = new_qualified_declarator(scope, member, declaration_mode != 0);
+    current_token_value.symbol = (CppSymbol *)qualified;
+    if (cpp_parser_flags & 0x10000) {
+        target = (CppSymbol *)qualified->resolution->binding->target;
+        if ((target->kind & 31) == 9 && (target->flags & 0x10) &&
+            is_unqualified_class_type(target->type)) report_syntax_error(242);
+    }
+    resolve_declaration_alias(current_token_value.symbol, 0);
+    qualified = (QualifiedDeclarator *)current_token_value.symbol;
+    if (constructor) qualified->declaration_flags |= 0x1000;
+    if (destructor) qualified->declaration_flags |= 0x2000;
+    if (inherited) qualified->declaration_flags |= 0x8000;
+    if (temporary) qualified->flags |= 0x80;
+    if (current_token_code == 3) qualified->declaration_flags |= 0x4000;
+    else current_token_code = token;
+    return token;
+}

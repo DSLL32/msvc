@@ -296,7 +296,7 @@
             declare_class_member(current_declaration_type(0), parser_value.symbol);
             break;
         case 88:
-            declare_constructor(current_declaration_type(right[-1].bytes),
+            declare_constructor(current_declaration_type(&right[-1].declaration),
                 cpp_context_stack->items[((ClassReference *)right[-1].type_name.type)->context_index],
                 right[0].symbol);
             break;

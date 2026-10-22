@@ -409,3 +409,17 @@ void __stdcall check_inheritance_model(CppSymbol *tag)
             inheritance_model_names[actual]);
     }
 }
+
+/* Original 0x32bf0..0x32c0e. */
+char *current_class_name(void)
+{
+    return current_class_context < 0 ? 0 : class_contexts[current_class_context].symbol->name;
+}
+
+/* Original 0x33140..0x33172. Class identity here is the interned name,
+   rather than the address of a potentially separate declaration record. */
+int __stdcall is_current_class(CppSymbol *symbol)
+{
+    return current_class_context >= 0 &&
+        class_contexts[current_class_context].symbol->name == symbol->name;
+}

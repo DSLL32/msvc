@@ -81,7 +81,7 @@ void __stdcall define_command_line_macros(Vector *definitions)
     character_class[2] = CC_MACRO_STRING;
     character_class[3] = CC_MACRO_TOKEN;
     character_class[4] = CC_MACRO_END;
-    if (options.configuration.z_a) {
+    if (options.configuration.extensions_enabled) {
         character_class['$'] = CC_IDENTIFIER;
         character_flags['$'] = CF_IDENTIFIER;
     }

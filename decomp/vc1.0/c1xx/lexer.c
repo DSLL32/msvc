@@ -715,3 +715,71 @@ void __stdcall unget_token(unsigned char token)
     if (pushed_token_top >= pushed_tokens + 3)
         token_allocation_flags |= 0x40000000UL;
 }
+
+/* Original 0x1aae0..0x1ad28. Recognize type names without losing the
+   qualified wrapper needed by deferred lookup and browser reporting. */
+unsigned char __stdcall resolve_typename_token(CppSymbol *input)
+{
+    unsigned char token;
+    int resolved_name = 0;
+    CppSymbol *symbol, *found, *browser_symbol;
+    QualifiedDeclarator *qualified = 0;
+    QualifierResolution *resolution = 0;
+    if (!input) {
+        token = resolve_identifier_token(current_token_value.name);
+        if (token != 2) {
+            if (token != 161) return token;
+            resolved_name = 1;
+            input = current_token_value.symbol;
+        }
+    } else token = 161;
+    if (!(cpp_parser_flags & 1)) {
+        if (token_allocation_flags & 1) {
+            token_allocation_flags &= ~1UL;
+            return token;
+        }
+        if ((declaration_spec_flags[declaration_depth] & 2) ||
+            (token_allocation_flags & 0x80)) return token;
+    }
+    if (token == 2) {
+        if (!(((unsigned char *)current_token_value.name)[-1] & 2)) return token;
+        input = find_outer_name(current_token_value.name);
+    }
+    if (!input) return token;
+    symbol = input;
+    if ((symbol->kind & 31) == 18) {
+        qualified = (QualifiedDeclarator *)symbol;
+        resolution = qualified->resolution;
+        symbol = (CppSymbol *)resolution->binding->target;
+    }
+    if ((symbol->kind & 31) == 15)
+        symbol = cpp_context_stack->items[((BaseClassLink *)symbol)->context_index];
+    if (!(symbol->flags & 0x10)) return token;
+    if (symbol->kind & 0x80) {
+        found = find_tag_declaration(symbol);
+        if (resolved_name) {
+            qualified->resolution->binding->target = (ClassReference *)found;
+            current_token_value.symbol = (CppSymbol *)qualified;
+            token = 161;
+        }
+        return token;
+    }
+    if (resolved_name) {
+        if (!options.configuration.extensions_enabled) resolve_deferred_declaration(qualified);
+        else deferred_declarations[declaration_depth] = copy_qualified_declarator(qualified, 1);
+    } else deferred_declarations[declaration_depth] = 0;
+    if ((symbol->kind & 31) == 4 && (declaration_spec_flags[declaration_depth] & 1) &&
+        !(cpp_parser_flags & 0x20)) return 34;
+    if (browser_filename && (!declaration_mode || options.option_FR)) {
+        browser_symbol = symbol;
+        if ((symbol->kind & 31) == 18)
+            browser_symbol = (CppSymbol *)((QualifiedDeclarator *)symbol)->resolution->binding->target;
+        browser_type_reference(browser_symbol);
+    }
+    if (resolved_name && resolution && resolution->binding->next) unwind_qualified_scopes(1);
+    current_token_value.symbol = qualified ? (CppSymbol *)qualified : symbol;
+    if ((token_allocation_flags & 0x80000000UL) &&
+        (token_allocation_flags & 0x10000000UL))
+        deferred_token_cursor[-1].type_specifier = current_token_value.symbol;
+    return 34;
+}

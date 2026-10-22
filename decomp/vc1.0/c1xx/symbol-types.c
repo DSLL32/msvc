@@ -105,7 +105,7 @@ void __stdcall normalize_symbol_type(CType *base, CppSymbol *symbol)
                 }
             } else if (STORAGE_KIND == 1 && member && !(storage & 0x20)) {
                 display = format_symbol_name(symbol);
-                if (current_class_context < 0 && options.configuration.z_a)
+                if (current_class_context < 0 && options.configuration.extensions_enabled)
                     compiler_warning(1, 630, display, token_spellings[13]);
                 else
                     report_syntax_error(720, display, token_spellings[13]);

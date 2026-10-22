@@ -127,3 +127,28 @@ void *__stdcall copy_arena_bytes(void *source, int arena, unsigned bytes)
         destination[i] = ((unsigned char *)source)[i];
     return destination;
 }
+
+/* Original 0xa1e1c/0xa1e24: release bookkeeping with no identified reader
+   in this image. A different global occupies the intervening word. */
+unsigned arena_release_word_1, arena_release_word_2;
+
+/* Original 0x72d50..0x72db0. The original root range contains just the
+   compiler arena; the diagnostic arena is the excluded upper bound. */
+void __stdcall release_arena(int index)
+{
+    ArenaPool *pool = &compiler_arena.pools[index];
+    ArenaBlock *last = pool->last;
+    if (last) {
+        last->bytes = compiler_arena.block_bytes - pool->remaining;
+        if (last->bytes) {
+            last->next = compiler_arena.free_blocks;
+            compiler_arena.free_blocks = pool->first;
+            pool->first = 0;
+            pool->last = 0;
+            pool->next = 0;
+            pool->remaining = 0;
+            arena_release_word_2 = 0;
+            arena_release_word_1 = 0;
+        }
+    }
+}

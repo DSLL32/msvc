@@ -79,14 +79,15 @@ typedef struct ClassReference {
 } ClassReference;
 typedef struct QualifierBinding {
     struct QualifierBinding *next;
-    unsigned field04;
+    struct QualifierBinding *following;
     ClassReference *target;
 } QualifierBinding;
 typedef struct QualifierResolution {
     /* The leaf contains the currently resolved target. Its next link is
        the enclosing qualifier, inspected separately for implicit this. */
-    QualifierBinding *binding;
+    QualifierBinding *binding, *tail;
 } QualifierResolution;
+typedef char QualifierResolutionSizeMustBe8[(sizeof(QualifierResolution) == 8) ? 1 : -1];
 typedef struct QualifiedDeclarator {
     unsigned char kind, flags;
     unsigned short declaration_flags;

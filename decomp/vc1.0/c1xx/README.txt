@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 236 accepted paired frontiers, including 161 frontend
+PARTIAL reconstruction: 244 accepted paired frontiers, including 169 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
-are reconstructed; the next matching trap is _release_arena@4 at original
-VA 0x72d50. The latest ordered replay is recorded in validation.json;
+are reconstructed; the next matching trap is _declare_class_member@8 at original
+VA 0x2f230. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -268,3 +268,29 @@ it. Existing state 0x9f460 is #pragma vtordisp mode, established from startup,
 pragma dispatch and its directive-name table; its provisional name
 builtin_type_context was removed, and its zero initial value is audited.
 All 236 ordered frontiers replay exactly through class-body initialization.
+
+Arena release returns nonempty used chains to the compiler free list and leaves
+its fifth pool word intact. The original diagnostic arena is the excluded root
+bound. The 128-byte compiler arena and two separate release words are audited;
+the intervening word between the reset globals is not merged into that state.
+Type completion preserves its null-input canonical-int path and nonnull stack
+consumption; sign warnings use the existing lexical spelling pointers.
+Type-parenthesis resolution retains deferred capture and expression paths.
+Typename recognition keeps qualified wrappers, base references and browser
+reporting, with seven exact callees. The copied-qualified-declarator child has
+a pointer return in EAX despite the decompiler's void label.
+
+The whole qualified-identifier resolver retains twenty call targets, global
+lookup, constructors/destructors, operator names and all recovery paths. Its
+qualified-resolution head/tail object is eight bytes; each reference node has
+a distinct enclosing and forward link. The original 0x914bc last-lookup-scope
+pointer remains separate from the other scope pointers and joins the alias
+checks. The former lookup_conversion_qualification stub is now named
+lookup_qualified_member because ordinary qualified names use it as well.
+Original Z rules {'a',5,target} and {'e',1,target} clear/set the same flag, so
+its provisional z_a field is now extensions_enabled. The already byte-verified
+rules and all users retain their behavior. Declaration-context setup consumes
+a full optional descriptor, including its type index, rather than only three
+storage bytes. Whole-function argument slots and constructor diagnostics are
+preserved. This remains a partial reconstruction of the initial case.
+All 244 ordered frontiers replay exactly with these changes.

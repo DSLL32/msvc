@@ -26,7 +26,6 @@ void begin_automatic_pch(void) { __asm { int 3 } }
 void begin_debug_info(void) { __asm { int 3 } }
 void load_precompiled_header(void) { __asm { int 3 } }
 int __stdcall open_forced_include(char *filename, int flags) { __asm { int 3 } return 0; }
-void __stdcall release_arena(int pool) { __asm { int 3 } }
 void finish_declarations(void) { __asm { int 3 } }
 void finish_types(void) { __asm { int 3 } }
 void finish_inline_functions(void) { __asm { int 3 } }
@@ -79,7 +78,6 @@ char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall resolve_deferred_declaration(void *declaration) { __asm { int 3 } }
-int __stdcall is_current_class(CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall format_symbol_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 unsigned short __stdcall type_qualifiers(CType *type) { __asm { int 3 } return 0; }
@@ -186,8 +184,7 @@ void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source
 IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, IrToken *if_false) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_default_argument(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_initializer(int mode, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
-char * current_class_name(void) { __asm { int 3 } return 0; }
-DeclarationType *__stdcall current_declaration_type(unsigned char *storage) { __asm { int 3 } return 0; }
+void __stdcall check_constructor_storage(StorageSpec storage, char *class_name) { __asm { int 3 } }
 void __stdcall declare_class_member(DeclarationType *type, CppSymbol *member) { __asm { int 3 } }
 CppSymbol *__stdcall declare_constructor(DeclarationType *type, CppSymbol *class_symbol, CppSymbol *parameters) { __asm { int 3 } return 0; }
 void __stdcall declare_enumerator(char *name, CType *context, unsigned value) { __asm { int 3 } }
@@ -235,7 +232,7 @@ IrToken *__stdcall identifier_expression(char *name) { __asm { int 3 } return 0;
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 void __stdcall initialize_object(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
-QualifierResolution *__stdcall lookup_conversion_qualification(QualifierResolution *scope, char *name, CType *type) { __asm { int 3 } return 0; }
+QualifierResolution *__stdcall lookup_qualified_member(QualifierResolution *scope, char *name, CType *type) { __asm { int 3 } return 0; }
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
 char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
 void mark_evaluation_boundary(void) { __asm { int 3 } }
@@ -297,9 +294,17 @@ int deferred_tokens_may_be_declaration(void) { __asm { int 3 } return 0; }
 unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
 void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
 unsigned char __stdcall resolve_parenthesis_candidate(int allow_expression) { __asm { int 3 } return 0; }
-unsigned char __stdcall resolve_typename_token(CppSymbol *symbol) { __asm { int 3 } return 0; }
+QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }
+void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
 unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
-unsigned char __stdcall resolve_identifier_token(char *name) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall find_qualifier_name(char *name) { __asm { int 3 } return 0; }
+void __stdcall begin_qualification_allocation(int arena) { __asm { int 3 } }
+void end_qualification_allocation(void) { __asm { int 3 } }
+QualifierResolution *__stdcall append_qualifier_reference(QualifierResolution *resolution,
+    QualifierBinding *parent, CppSymbol *target) { __asm { int 3 } return 0; }
+void __stdcall enter_qualified_class(CppSymbol *symbol, char *name, int temporary) { __asm { int 3 } }
+QualifiedDeclarator *__stdcall new_qualified_declarator(QualifierResolution *resolution,
+    char *name, int arena) { __asm { int 3 } return 0; }
 
 
 int skip_source_comment(void) { __asm { int 3 } return 0; }
@@ -334,9 +339,8 @@ void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } 
 void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
                                     unsigned char modifier, unsigned unused) { __asm { int 3 } }
 void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
-unsigned char resolve_type_parenthesis(void) { __asm { int 3 } return 0; }
+void __stdcall convert_deferred_type_token(DeferredToken *token, unsigned storage_word) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
-CType *__stdcall finish_type(CType *type) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
                                          void (__stdcall *insert)(CppSymbol *)) { __asm { int 3 } return 0; }

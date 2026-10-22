@@ -27,3 +27,35 @@ LabelStack *switch_labels, *default_labels;
 /* The five original heads are 0x9155c, 0x91560, 0x91564, 0x91568, 0x9156c. */
 int label_stack_count; /* original 0x91558 */
 IrToken *default_label; /* original 0x91570 */
+
+/* Original 0x32eb0..0x32fb2. Reuse an established declaration context when
+   no additional specification is supplied; otherwise rebuild implicit int
+   storage and merge the supplied constructor declaration's modifiers. */
+DeclarationType *__stdcall current_declaration_type(DeclarationType *explicit_type)
+{
+    DeclarationType *context;
+    StorageSpec storage;
+    if (declaration_spec_flags[declaration_depth] & 1) {
+        if (!explicit_type) return &declaration_spec_stack[declaration_depth];
+        if (!(explicit_type->storage[0] & 0x10) &&
+            explicit_type->type->field08 != class_contexts[current_class_context].type->field08)
+            report_syntax_error(533, class_contexts[current_class_context].symbol->name);
+        else {
+            storage.flags = explicit_type->storage[0] | (explicit_type->storage[1] << 8);
+            storage.extended = explicit_type->storage[2];
+            check_constructor_storage(storage, class_contexts[current_class_context].symbol->name);
+        }
+    }
+    context = &declaration_spec_stack[declaration_depth];
+    context->type = type_0064;
+    context->storage[0] = (declaration_storage[0] & ~7) | 0x30;
+    context->storage[1] = declaration_storage[1];
+    context->storage[2] = declaration_storage[2];
+    if (explicit_type) {
+        storage.flags = explicit_type->storage[0] | (explicit_type->storage[1] << 8);
+        storage.extended = explicit_type->storage[2];
+        merge_storage_spec((StorageSpec *)context->storage, storage);
+    }
+    declaration_spec_flags[declaration_depth] |= 1;
+    return &declaration_spec_stack[declaration_depth];
+}

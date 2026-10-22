@@ -111,7 +111,7 @@
             if (qualified) {
                 conversion_declaration = right[0].declaration;
                 parser_name = encode_type_name(conversion_declaration.type);
-                qualified->resolution = lookup_conversion_qualification(qualified->resolution,
+                qualified->resolution = lookup_qualified_member(qualified->resolution,
                     parser_name, conversion_declaration.type);
                 if (!qualified->resolution)
                     parser_value.symbol = new_declarator(make_anonymous_identifier());

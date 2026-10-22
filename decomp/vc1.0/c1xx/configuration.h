@@ -5,7 +5,7 @@
    fields retain their original offsets until their consumers are reached. */
 typedef struct CompilerConfiguration {
     int z_E; /* original 0x9f798 */
-    int z_a; /* original 0x9f79c */
+    int extensions_enabled; /* original 0x9f79c */
     int option_Gr; /* original 0x9f7a0 */
     int field0c; /* original 0x9f7a4 */
     int japanese_identifiers; /* original 0x9f7a8 */

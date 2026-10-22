@@ -8,7 +8,7 @@ typedef struct SymbolScope {
     unsigned short bucket_mask, flags;
     unsigned qc_context;
 } SymbolScope;
-extern SymbolScope *global_scope, *current_scope, *lookup_scope;
+extern SymbolScope *global_scope, *current_scope, *lookup_scope, *last_lookup_scope;
 extern SymbolScope **scope_directory;
 extern unsigned char scope_directory_index;
 void retire_scope_directory_entry(void);

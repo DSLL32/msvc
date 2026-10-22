@@ -63,7 +63,7 @@
             parser_value.expression = 0;
             break;
         case 259:
-            if ((current_class_context < 0 || !options.configuration.z_a) && !right[0].words.low)
+            if ((current_class_context < 0 || !options.configuration.extensions_enabled) && !right[0].words.low)
                 report_syntax_error(466);
             break;
         case 260:
@@ -228,7 +228,7 @@
             qualified = right[-1].context;
             if (qualified) {
                 parser_name = encode_type_name(right[0].declaration.type);
-                qualified->resolution = lookup_conversion_qualification(qualified->resolution,
+                qualified->resolution = lookup_qualified_member(qualified->resolution,
                     parser_name, right[0].declaration.type);
                 parser_value.expression = qualified_identifier_expression(qualified);
             }

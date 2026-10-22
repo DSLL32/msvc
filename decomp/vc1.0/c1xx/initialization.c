@@ -100,40 +100,40 @@ void initialize_frontend(void)
     if (!options.z_f) {
         disable_keyword("fortran");
         disable_keyword("__fortran");
-        if (options.configuration.z_a || options.configuration.z_E)
+        if (options.configuration.extensions_enabled || options.configuration.z_E)
             disable_keyword("_fortran");
         if (!options.option_m) {
             disable_keyword("pascal");
             disable_keyword("__pascal");
-            if (options.configuration.z_a || options.configuration.z_E)
+            if (options.configuration.extensions_enabled || options.configuration.z_E)
                 disable_keyword("_pascal");
         }
         disable_keyword("near");
         disable_keyword("__near");
-        if (options.configuration.z_a || options.configuration.z_E)
+        if (options.configuration.extensions_enabled || options.configuration.z_E)
             disable_keyword("_near");
         disable_keyword("far");
         disable_keyword("__far");
-        if (options.configuration.z_a || options.configuration.z_E)
+        if (options.configuration.extensions_enabled || options.configuration.z_E)
             disable_keyword("_far");
         disable_keyword("huge");
         disable_keyword("__huge");
-        if (options.configuration.z_a || options.configuration.z_E)
+        if (options.configuration.extensions_enabled || options.configuration.z_E)
             disable_keyword("_huge");
         disable_keyword("__far16");
-        if (options.configuration.z_a || options.configuration.z_E)
+        if (options.configuration.extensions_enabled || options.configuration.z_E)
             disable_keyword("_far16");
         disable_keyword("__syscall");
-        if (options.configuration.z_a || options.configuration.z_E)
+        if (options.configuration.extensions_enabled || options.configuration.z_E)
             disable_keyword("_syscall");
     }
     disable_keyword("__export");
-    if (options.configuration.z_a || options.configuration.z_E)
+    if (options.configuration.extensions_enabled || options.configuration.z_E)
         disable_keyword("_export");
-    if (!options.configuration.z_a) {
+    if (!options.configuration.extensions_enabled) {
         if (!options.configuration.z_E) {
             disable_keyword("__asm");
-            if (options.configuration.z_a || options.configuration.z_E)
+            if (options.configuration.extensions_enabled || options.configuration.z_E)
                 disable_keyword("_asm");
         }
         disable_keyword("cdecl");

@@ -37,7 +37,7 @@ CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *de
     qualifier = (QualifiedDeclarator *)declaration->next;
     if (qualifier && is_static_qualified_symbol((CppSymbol *)qualifier->resolution->binding->target) &&
         (!(storage.flags & 0x20) || (storage.flags & 0x700) || (storage.extended & 7))) {
-        if (options.configuration.z_a && STORAGE_KIND == 1)
+        if (options.configuration.extensions_enabled && STORAGE_KIND == 1)
             compiler_warning(1, 630, format_symbol_name(declaration), token_spellings[13]);
         else {
             begin_type_diagnostic();
@@ -167,7 +167,7 @@ CppSymbol *__stdcall resolve_declaration(DeclarationType *context, CppSymbol *de
         existing_scope = 1;
     else if (declaration_mode >= 2)
         symbol = lookup_outer_declaration(declaration);
-    else if (!options.configuration.z_a && (current_scope->flags & 0xff) == 1) {
+    else if (!options.configuration.extensions_enabled && (current_scope->flags & 0xff) == 1) {
         target = find_outer_name(declaration->name);
         if (target && (target->flags & 0x10))
             compiler_warning(1, 224, format_symbol_name(declaration));

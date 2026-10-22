@@ -240,7 +240,15 @@
     "_prepare_base_layout@4",
     "_inherit_class_pointer_attributes@4",
     "_apply_default_vtordisp@4",
-    "_check_inheritance_model@4"
+    "_check_inheritance_model@4",
+    "_release_arena@4",
+    "_current_class_name",
+    "_finish_type@4",
+    "_resolve_type_parenthesis",
+    "_resolve_typename_token@4",
+    "_resolve_identifier_token@4",
+    "_is_current_class@4",
+    "_current_declaration_type@4"
   ],
   "driver": [
     {
@@ -471,7 +479,7 @@
     {
       "name": "_release_arena@4",
       "start": 470352,
-      "end": 470353
+      "end": 470448
     },
     {
       "name": "_finish_declarations",
@@ -1813,12 +1821,12 @@
     {
       "name": "_current_class_name",
       "start": 207856,
-      "end": 207857
+      "end": 207886
     },
     {
       "name": "_current_declaration_type@4",
       "start": 208560,
-      "end": 208561
+      "end": 208818
     },
     {
       "name": "_declare_class_member@8",
@@ -2061,7 +2069,7 @@
       "end": 173441
     },
     {
-      "name": "_lookup_conversion_qualification@12",
+      "name": "_lookup_qualified_member@12",
       "start": 119936,
       "end": 119937
     },
@@ -2378,7 +2386,7 @@
     {
       "name": "_resolve_typename_token@4",
       "start": 109280,
-      "end": 109281
+      "end": 109864
     },
     {
       "name": "_read_operator_function_id",
@@ -2388,7 +2396,7 @@
     {
       "name": "_resolve_identifier_token@4",
       "start": 117840,
-      "end": 117841
+      "end": 119936
     },
     {
       "name": "_read_lexical_token",
@@ -2563,7 +2571,7 @@
     {
       "name": "_resolve_type_parenthesis",
       "start": 103232,
-      "end": 103233
+      "end": 103687
     },
     {
       "name": "_copy_unfinished_type@4",
@@ -2573,7 +2581,7 @@
     {
       "name": "_finish_type@4",
       "start": 401392,
-      "end": 401393
+      "end": 401531
     },
     {
       "name": "_reference_tag_symbol@12",
@@ -2714,6 +2722,56 @@
       "name": "_infer_inheritance_model@4",
       "start": 302800,
       "end": 302801
+    },
+    {
+      "name": "_convert_deferred_type_token@8",
+      "start": 102048,
+      "end": 102049
+    },
+    {
+      "name": "_copy_qualified_declarator@8",
+      "start": 117744,
+      "end": 117745
+    },
+    {
+      "name": "_browser_type_reference@4",
+      "start": 181280,
+      "end": 181281
+    },
+    {
+      "name": "_find_qualifier_name@4",
+      "start": 347072,
+      "end": 347073
+    },
+    {
+      "name": "_begin_qualification_allocation@4",
+      "start": 490976,
+      "end": 490977
+    },
+    {
+      "name": "_end_qualification_allocation",
+      "start": 491008,
+      "end": 491009
+    },
+    {
+      "name": "_append_qualifier_reference@12",
+      "start": 491040,
+      "end": 491041
+    },
+    {
+      "name": "_enter_qualified_class@12",
+      "start": 209664,
+      "end": 209665
+    },
+    {
+      "name": "_new_qualified_declarator@12",
+      "start": 241968,
+      "end": 241969
+    },
+    {
+      "name": "_check_constructor_storage@8",
+      "start": 208464,
+      "end": 208465
     }
   ],
   "cases": {
@@ -3491,6 +3549,40 @@
         {
           "name": "_pragma_vtordisp",
           "original": 652384,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_compiler_arena",
+      "original": 665408,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_compiler_arena",
+          "original": 665408,
+          "bytes": 128
+        },
+        {
+          "name": "_arena_release_word_1",
+          "original": 663068,
+          "bytes": 4
+        },
+        {
+          "name": "_arena_release_word_2",
+          "original": 663076,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_last_lookup_scope",
+      "original": 595132,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_last_lookup_scope",
+          "original": 595132,
           "bytes": 4
         }
       ]

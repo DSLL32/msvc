@@ -1,5 +1,6 @@
 /* Interned frontend types and the associated parameter tables. */
 #include "types.h"
+#include "operators.h"
 
 TypeEntry **type_descriptor_buckets; /* original 0x9f410 */
 TypeShapeEntry **type_shape_buckets; /* original 0x9f1e8 */
@@ -239,4 +240,26 @@ int __stdcall is_class_name_type(CType *type)
         if (shape) return (shape->flags & 0x40) && !shape->related;
     }
     return 1;
+}
+
+/* Original 0x61ff0..0x6207b. Complete a mutable descriptor, then consume
+   its stack slot. A null descriptor requests the canonical int type. */
+CType *__stdcall finish_type(CType *type)
+{
+    unsigned short flags;
+    CType *result;
+    if (!type) return type_0064;
+    flags = type->flags;
+    if (!(flags & 0x2fdf)) flags |= 100;
+    flags &= 0xcfff;
+    if (flags & 0xc000) {
+        if (!(flags & 0x840)) {
+            compiler_warning(1, 76, token_spellings[(flags & 0x4000) ? 29 : 28]);
+            flags &= 0x3fff;
+        } else if ((flags & 0x2fdf) != 0x41) flags &= 0x7fff;
+    }
+    type->flags = flags;
+    result = intern_type((TypeDescription *)type);
+    --type_description_depth;
+    return result;
 }

@@ -4,7 +4,7 @@
 CompilerOptions options = {
     {
         0, /* z_E */
-        0, /* z_a */
+        0, /* extensions_enabled */
         0, /* option_Gr */
         0, /* field0c */
         0, /* japanese_identifiers */
@@ -121,8 +121,8 @@ CompilerOptions options = {
 };
 
 static ZRule z_rules[] = {
-    { 'a', 5, &options.configuration.z_a },
-    { 'e', 1, &options.configuration.z_a },
+    { 'a', 5, &options.configuration.extensions_enabled },
+    { 'e', 1, &options.configuration.extensions_enabled },
     { 'E', 1, &options.configuration.z_E },
     { 'i', 1, &options.configuration.debug_info },
     { '7', 1, &options.debug_old_format },

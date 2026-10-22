@@ -181,7 +181,7 @@ finish_specifiers:
         type = copy_unfinished_type(type);
         if (shape) {
             if (attributes & prior_attributes & 0x3000) {
-                if (!options.configuration.z_a) report_syntax_error(289);
+                if (!options.configuration.extensions_enabled) report_syntax_error(289);
                 else compiler_warning(1, 114);
             }
             type = replace_first_type_shape(type, shape->flags,
@@ -474,4 +474,54 @@ CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags,
     }
     *flags = result | sign;
     return type;
+}
+
+/* Original 0x19340..0x19507. Resolve a completed type followed by a possible
+   parenthesized declaration/expression, retaining deferred replay records. */
+unsigned char resolve_type_parenthesis(void)
+{
+    ParserValue saved = current_token_value;
+    unsigned char token = scan_token(), recorded;
+    if (token != 128) {
+        unget_token(token);
+        current_token_value = saved;
+        current_token_code = 40;
+        if (!(token_allocation_flags & 0x20000000UL))
+            declaration_spec_flags[declaration_depth] |= 2;
+        return 40;
+    }
+    if (token_allocation_flags & 0x20000000UL) {
+        recorded = 181;
+        if (token_allocation_flags & 8) {
+            recorded = 40;
+            token_allocation_flags &= ~8UL;
+        }
+        deferred_token_end->parser_token = deferred_token_end->lexical_token = recorded;
+        deferred_token_end->value = saved;
+        deferred_token_end->type_specifier = type_specifier_symbol;
+        ++deferred_token_end;
+        return token;
+    }
+    if ((token_allocation_flags & 0x80000000UL) &&
+        (token_allocation_flags & 0x10000000UL)) {
+        unget_token(token);
+        convert_deferred_type_token(deferred_token_cursor - 1, saved.words.high);
+        current_token_value = deferred_token_cursor[-1].value;
+        current_token_code = 163;
+        return 163;
+    }
+    if (deferred_token_cursor != deferred_tokens || deferred_token_end != deferred_tokens)
+        fatal_error(505);
+    token_allocation_flags &= ~0x40000000UL;
+    deferred_token_end->parser_token = deferred_token_end->lexical_token = 40;
+    deferred_token_end->value = saved;
+    deferred_token_end->type_specifier = type_specifier_symbol;
+    ++deferred_token_end;
+    deferred_token_end->parser_token = deferred_token_end->lexical_token = 128;
+    deferred_token_end->value.bytes[0] = 128;
+    ++deferred_token_end;
+    capture_declaration_tokens(1);
+    token_allocation_flags &= ~0x80000000UL;
+    token_allocation_flags |= 0x10000000UL;
+    return resolve_parenthesis_candidate(1);
 }

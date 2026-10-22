@@ -31,8 +31,18 @@ unsigned char read_deferred_argument_text(void);
 void __stdcall restore_qualified_lookup(QualifierBinding *binding);
 unsigned char __stdcall resolve_parenthesis_candidate(int allow_expression);
 unsigned char __stdcall resolve_typename_token(CppSymbol *symbol);
+QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena);
+void __stdcall browser_type_reference(CppSymbol *symbol);
 unsigned char read_operator_function_id(void);
 unsigned char __stdcall resolve_identifier_token(char *name);
+CppSymbol *__stdcall find_qualifier_name(char *name);
+void __stdcall begin_qualification_allocation(int arena);
+void end_qualification_allocation(void);
+QualifierResolution *__stdcall append_qualifier_reference(QualifierResolution *resolution,
+    QualifierBinding *parent, CppSymbol *target);
+void __stdcall enter_qualified_class(CppSymbol *symbol, char *name, int temporary);
+QualifiedDeclarator *__stdcall new_qualified_declarator(QualifierResolution *resolution,
+    char *name, int arena);
 unsigned char read_lexical_token(void);
 void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
                                     unsigned char modifier, unsigned unused);
@@ -73,6 +83,7 @@ CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
                                    unsigned short *attributes);
 void read_declspec_attributes(StorageSpec *storage);
 unsigned char resolve_type_parenthesis(void);
+void __stdcall convert_deferred_type_token(DeferredToken *token, unsigned storage_word);
 extern unsigned char token_categories[213];
 extern unsigned char pch_output_written;
 int skip_source_comment(void);

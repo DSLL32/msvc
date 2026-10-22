@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 236,
-  "driver_functions": 161,
+  "accepted_frontiers": 244,
+  "driver_functions": 169,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 167,
-  "current_frontier": "_release_arena@4",
-  "original_frontier_va": "0x72d50",
+  "reconstructed_source_functions": 175,
+  "current_frontier": "_declare_class_member@8",
+  "original_frontier_va": "0x2f230",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "0fbf3cf99dbbd5573c149f38188323aa4b62a498ca8927bb6bc67fe0a20d5ae0",
-  "call_graph_audit_functions": 167,
+  "replay_log_sha256": "e12b55acf714992fd955854f880394f18945a5900a9a062939424e8111530cd2",
+  "call_graph_audit_functions": 175,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -49,7 +49,10 @@
     "pch_separate_debug_defaults": 1,
     "cpp_context_stack_defaults": 1,
     "scope_directory_index_defaults": 1,
-    "pragma_vtordisp_defaults": 1
+    "pragma_vtordisp_defaults": 1,
+    "compiler_arena_bytes": 128,
+    "arena_release_word_defaults": 2,
+    "last_lookup_scope_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -77,7 +80,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-class-body.log",
+  "replay_log": "evidence/replay-qualified-names.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -119,5 +122,17 @@
     "base_layout_pass_flag": "0x40",
     "pragma_vtordisp_original": "0x9f460",
     "inheritance_diagnostic_arguments_preserved": true
+  },
+  "qualified_identifier_resolution": {
+    "original_range": [
+      "0x1cc50",
+      "0x1d480"
+    ],
+    "callees": 20,
+    "resolution_bytes": 8,
+    "reference_node_bytes": 12,
+    "typename_resolution_callees": 7,
+    "extensions_flag_original": "0x9f79c",
+    "extensions_option_rules_verified": true
   }
 }

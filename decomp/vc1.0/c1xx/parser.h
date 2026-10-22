@@ -70,7 +70,8 @@ unsigned char synchronize_tokens(unsigned first, ...);
 void __stdcall finish_external_definition(int recovering);
 void skip_balanced_brace_body(void);
 void __stdcall declare_nctag(char *name);
-DeclarationType *__stdcall current_declaration_type(unsigned char *storage);
+DeclarationType *__stdcall current_declaration_type(DeclarationType *explicit_type);
+void __stdcall check_constructor_storage(StorageSpec storage, char *class_name);
 void __stdcall begin_function_definition(DeclarationType *type, CppSymbol *declaration);
 void __stdcall apply_constructor_initializers(IrToken *initializers);
 void end_function_definition(void);
@@ -113,7 +114,7 @@ void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclara
 CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration, TypeShape *modifier);
 char *current_class_name(void);
 char *__stdcall encode_type_name(CType *type);
-QualifierResolution *__stdcall lookup_conversion_qualification(QualifierResolution *scope, char *name, CType *type);
+QualifierResolution *__stdcall lookup_qualified_member(QualifierResolution *scope, char *name, CType *type);
 char *make_anonymous_identifier(void);
 void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape);
 CppSymbol *empty_parameter_declaration(void);
