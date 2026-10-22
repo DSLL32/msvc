@@ -1,8 +1,8 @@
 {
   "status": "cases-complete",
   "case": "resources-rich",
-  "accepted_frontiers": 247,
-  "replayed_frontiers": 261,
+  "accepted_frontiers": 252,
+  "replayed_frontiers": 268,
   "current_frontiers": {
     "resources-rich": "exit:0",
     "help": "exit:0",
@@ -17,16 +17,19 @@
     "preprocessor-error": "exit:1",
     "rcinclude": "exit:0",
     "scanf-pushback": "exit:0",
-    "console-interrupt": "exit:1"
+    "console-interrupt": "exit:1",
+    "verbose-names": "exit:0",
+    "path-fallback": "exit:0"
   },
-  "replayed_cases": 14,
+  "replayed_cases": 16,
   "exact_final_product_verified": true,
-  "source_functions_audited": 187,
+  "source_functions_audited": 191,
   "checks": [
     "all accepted paired frontiers replayed from masked entry in their originating case",
     "direct call vertices, callback references and RET cleanup agree for accepted source functions",
+    "instruction-end guards pass for every accepted source/CRT/import extent in both images",
     "CRT initializer and termination callback sequences agree",
-    "raw streams, exit statuses, input files and complete product sets match all 14 oracles"
+    "exit statuses, input files, products and stderr match all 16 oracles; stdout exact except explicitly validated six-digit native PID fields in verbose-names"
   ],
   "target": {
     "path": "toolchains/1.0-nt/bin/RC.EXE",
@@ -34,9 +37,9 @@
     "image_base": 16777216,
     "entry": 16849232
   },
-  "reconstruction_sha256": "34a39de2b8557a7ec6056b5fdc62faac5882cb68f30537a4a3de3934ee9ee2fd",
+  "reconstruction_sha256": "2ee5bb4193aee5217c8e6193f5b4955c2c2834f575d04849f5d2b864ead101f2",
   "fixture_manifest_sha256": "a0fe303d0ad3c13671e666d8d5af6df7c0d0c9ed2b4ee26362ad75f317e64f8f",
-  "frontier_log_sha256": "30f8ddfe8c824e8e50b8088068ee73363d289f62572375757d5b10e58caf1f09",
+  "frontier_log_sha256": "e695065522da3fc23302e06d94d9ce319e134c40c5beb9bcb3779c0d451b0a3b",
   "graph_audit": {
     "_mainCRTStartup": {
       "original_calls": {
@@ -78,10 +81,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f600": [
-          "__ioinit"
+        "0x1f8a0": [
+          "__setenvp"
         ],
-        "0x20b44": [
+        "0x1f740": [
+          "__XcptFilter"
+        ],
+        "0x20c84": [
           "import:GetCommandLineA"
         ],
         "0x11304": [
@@ -102,16 +108,13 @@
         "0x1d50a": [
           "_exit"
         ],
-        "0x1f530": [
-          "__setenvp"
+        "0x1f970": [
+          "__ioinit"
         ],
-        "0x1f3d0": [
-          "__XcptFilter"
-        ],
-        "0x20b38": [
+        "0x20c78": [
           "import:GetVersion"
         ],
-        "0x20b3e": [
+        "0x20c7e": [
           "import:GetEnvironmentStrings"
         ]
       },
@@ -127,7 +130,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b4a": [
+        "0x20c8a": [
           "import:GetProcessHeap"
         ]
       },
@@ -179,8 +182,7 @@
           "__strupr"
         ],
         "0x100e3d0": [
-          "__spawnv",
-          "__spawnvp"
+          "__spawnv"
         ],
         "0x1010c50": [
           "_fprintf",
@@ -218,43 +220,38 @@
         "0x12982": [
           "__makepath"
         ],
-        "0x1f780": [
-          "__spawnvp"
+        "0x1fb90": [
+          "__mktemp"
         ],
-        "0x1f910": [
-          "__strupr"
+        "0x1fa90": [
+          "_fopen"
+        ],
+        "0x1fb10": [
+          "_getenv"
+        ],
+        "0x1f210": [
+          "__spawnvp"
         ],
         "0x12394": [
           "_rc_toupper"
         ],
+        "0x1fc90": [
+          "_sscanf"
+        ],
         "0x11296": [
           "_resource_alloc@4"
         ],
-        "0x1f720": [
-          "_fopen"
-        ],
-        "0x1f7a0": [
-          "__spawnv"
+        "0x20ca2": [
+          "import:SetConsoleCtrlHandler"
         ],
         "0x1272c": [
           "_switch_character@4"
         ],
+        "0x1fab0": [
+          "_fprintf"
+        ],
         "0x1d638": [
           "_fflush"
-        ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
-        "0x1f840": [
-          "__mktemp"
-        ],
-        "0x1f7c0": [
-          "__getenv_lk",
-          "_getenv"
-        ],
-        "0x1f940": [
-          "_sscanf"
         ],
         "0x1d442": [
           "_interrupt_resource@4"
@@ -265,11 +262,14 @@
         "0x1d358": [
           "_resource_finish"
         ],
-        "0x20b62": [
-          "import:SetConsoleCtrlHandler"
+        "0x1fc60": [
+          "__strupr"
         ],
         "0x12764": [
           "__splitpath"
+        ],
+        "0x1faf0": [
+          "__spawnv"
         ],
         "0x1527a": [
           "_seek_file@12"
@@ -290,7 +290,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b50": [
+        "0x20c90": [
           "import:HeapAlloc"
         ]
       },
@@ -321,7 +321,7 @@
         "0x113c2": [
           "_parse_cmdline"
         ],
-        "0x20b5c": [
+        "0x20c9c": [
           "import:GetModuleFileNameA"
         ],
         "0x1119d": [
@@ -365,17 +365,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ],
-        "0x20b74": [
+        "0x20ca8": [
+          "import:WideCharToMultiByte"
+        ],
+        "0x20cb4": [
           "import:MultiByteToWideChar"
         ],
-        "0x20b6e": [
+        "0x20cae": [
           "import:LCMapStringW"
-        ],
-        "0x20b68": [
-          "import:WideCharToMultiByte"
         ]
       },
       "stack_cleanup": [
@@ -390,7 +390,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fa50": [
+        "0x1fda0": [
           "_strncpy"
         ]
       },
@@ -442,14 +442,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x202d0": [
+        "0x20620": [
           "__fcloseall"
+        ],
+        "0x205e0": [
+          "_remove"
         ],
         "0x1d50a": [
           "_exit"
-        ],
-        "0x20290": [
-          "_remove"
         ]
       },
       "stack_cleanup": [
@@ -478,22 +478,20 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
+        "0x20620": [
+          "__fcloseall"
+        ],
+        "0x20660": [
+          "_vfprintf"
+        ],
+        "0x205e0": [
+          "_remove"
         ],
         "0x1d50a": [
           "_exit"
         ],
-        "0x20310": [
-          "_vfprintf",
-          "_vfwprintf"
-        ],
-        "0x20290": [
-          "_remove"
-        ],
-        "0x202d0": [
-          "__fcloseall"
+        "0x1fab0": [
+          "_fprintf"
         ]
       },
       "stack_cleanup": [
@@ -536,12 +534,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fc60": [
-          "__alloca_probe",
-          "__chkstk"
+        "0x1ff40": [
+          "_sprintf"
         ],
-        "0x1f720": [
-          "_fopen"
+        "0x1fce0": [
+          "__isctype"
         ],
         "0x13b62": [
           "_detect_encoding@4"
@@ -549,17 +546,18 @@
         "0x13ea0": [
           "_trim_token@4"
         ],
-        "0x1fb80": [
-          "_fclose"
-        ],
         "0x13d2c": [
           "_read_source_line@12"
         ],
-        "0x1fbf0": [
-          "_sprintf"
+        "0x1ffb0": [
+          "__alloca_probe",
+          "__chkstk"
         ],
-        "0x1f990": [
-          "__isctype"
+        "0x1fa90": [
+          "_fopen"
+        ],
+        "0x1fed0": [
+          "_fclose"
         ],
         "0x13e33": [
           "_prefix_matches@8"
@@ -708,6 +706,9 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
+        "0x20500": [
+          "_wcscmp"
+        ],
         "0x1db05": [
           "_emit_font_directory"
         ],
@@ -744,8 +745,8 @@
         "0x182ac": [
           "_parse_memory_flag@4"
         ],
-        "0x201b0": [
-          "_wcscmp"
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x17131": [
           "_release_resource_data"
@@ -761,10 +762,6 @@
         ],
         "0x16fb8": [
           "_initialize_resource_types"
-        ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
         ],
         "0x1dbc4": [
           "_read_icon_file_header@4"
@@ -874,7 +871,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b56": [
+        "0x20c96": [
           "import:HeapFree"
         ]
       },
@@ -890,7 +887,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b50": [
+        "0x20c90": [
           "import:HeapAlloc"
         ]
       },
@@ -936,26 +933,26 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb00": [
-          "__dosmaperr"
-        ],
-        "0x20b80": [
+        "0x20cc0": [
           "import:CloseHandle"
-        ],
-        "0x1fa80": [
-          "__lseek"
         ],
         "0x132a2": [
           "__read"
         ],
-        "0x20b86": [
+        "0x20cc6": [
           "import:GetFileType"
         ],
         "0x135ea": [
           "__chsize"
         ],
-        "0x20b8c": [
+        "0x20ccc": [
           "import:CreateFileA"
+        ],
+        "0x1fe50": [
+          "__dosmaperr"
+        ],
+        "0x1fdd0": [
+          "__lseek"
         ],
         "0x12f74": [
           "__alloc_osfhnd"
@@ -963,7 +960,7 @@
         "0x12fd6": [
           "__set_osfhnd"
         ],
-        "0x20b7a": [
+        "0x20cba": [
           "import:GetLastError"
         ],
         "0x131bd": [
@@ -990,7 +987,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b92": [
+        "0x20cd2": [
           "import:SetStdHandle"
         ]
       },
@@ -1006,7 +1003,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b92": [
+        "0x20cd2": [
           "import:SetStdHandle"
         ]
       },
@@ -1042,19 +1039,19 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b80": [
+        "0x20cc0": [
           "import:CloseHandle"
-        ],
-        "0x1fb00": [
-          "__dosmaperr"
         ],
         "0x13165": [
           "__get_osfhandle"
         ],
+        "0x1fe50": [
+          "__dosmaperr"
+        ],
         "0x13096": [
           "__free_osfhnd"
         ],
-        "0x20b7a": [
+        "0x20cba": [
           "import:GetLastError"
         ]
       },
@@ -1079,16 +1076,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20b98": [
+        "0x20cd8": [
           "import:ReadFile"
         ],
-        "0x1fb00": [
-          "__dosmaperr"
-        ],
-        "0x20b7a": [
+        "0x20cba": [
           "import:GetLastError"
         ],
-        "0x1fa80": [
+        "0x1fe50": [
+          "__dosmaperr"
+        ],
+        "0x1fdd0": [
           "__lseek"
         ]
       },
@@ -1119,17 +1116,17 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1ffe0": [
+          "_fgetc"
+        ],
         "0x15541": [
           "_ftell"
         ],
+        "0x1fce0": [
+          "__isctype"
+        ],
         "0x15744": [
           "_fseek"
-        ],
-        "0x1fc90": [
-          "_fgetc"
-        ],
-        "0x1f990": [
-          "__isctype"
         ],
         "0x157f8": [
           "_fread"
@@ -1150,7 +1147,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fc90": [
+        "0x1ffe0": [
           "_fgetc"
         ]
       },
@@ -1182,7 +1179,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ]
       },
@@ -1244,7 +1241,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fcd0": [
+        "0x20020": [
           "__flsbuf"
         ]
       },
@@ -1306,13 +1303,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fe50": [
+        "0x201a0": [
           "__flush"
         ],
         "0x13600": [
           "__write"
         ],
-        "0x1fcd0": [
+        "0x20020": [
           "__flsbuf"
         ]
       },
@@ -1337,16 +1334,16 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fa80": [
+        "0x1fdd0": [
           "__lseek"
         ],
-        "0x1fb00": [
-          "__dosmaperr"
-        ],
-        "0x20b7a": [
+        "0x20cba": [
           "import:GetLastError"
         ],
-        "0x20b9e": [
+        "0x1fe50": [
+          "__dosmaperr"
+        ],
+        "0x20cde": [
           "import:WriteFile"
         ]
       },
@@ -1386,7 +1383,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fa80": [
+        "0x1fdd0": [
           "__lseek"
         ]
       },
@@ -1408,13 +1405,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fe50": [
+        "0x201a0": [
           "__flush"
         ],
         "0x15541": [
           "_ftell"
         ],
-        "0x1fa80": [
+        "0x1fdd0": [
           "__lseek"
         ]
       },
@@ -1536,10 +1533,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb00": [
-          "__dosmaperr"
-        ],
-        "0x20b80": [
+        "0x20cc0": [
           "import:CloseHandle"
         ],
         "0x11222": [
@@ -1548,19 +1542,22 @@
         "0x1d524": [
           "__exit"
         ],
-        "0x20ba4": [
+        "0x20ce4": [
           "import:GetExitCodeProcess"
         ],
         "0x11207": [
           "_free"
         ],
-        "0x20baa": [
+        "0x20cea": [
           "import:WaitForSingleObject"
         ],
-        "0x20bb0": [
+        "0x20cf0": [
           "import:CreateProcessA"
         ],
-        "0x20b7a": [
+        "0x1fe50": [
+          "__dosmaperr"
+        ],
+        "0x20cba": [
           "import:GetLastError"
         ]
       },
@@ -1595,7 +1592,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb80": [
+        "0x1fed0": [
           "_fclose"
         ],
         "0x15232": [
@@ -1651,17 +1648,17 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ],
-        "0x20b74": [
+        "0x20ca8": [
+          "import:WideCharToMultiByte"
+        ],
+        "0x20cb4": [
           "import:MultiByteToWideChar"
         ],
-        "0x20b6e": [
+        "0x20cae": [
           "import:LCMapStringW"
-        ],
-        "0x20b68": [
-          "import:WideCharToMultiByte"
         ]
       },
       "stack_cleanup": [
@@ -1702,9 +1699,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x1d358": [
           "_resource_finish"
@@ -1731,13 +1727,13 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f910": [
+        "0x1fc60": [
           "__strupr"
         ],
         "0x181e2": [
           "_atoi"
         ],
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ],
         "0x1757e": [
@@ -1777,6 +1773,9 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1fce0": [
+          "__isctype"
+        ],
         "0x17c84": [
           "_scan_number_token"
         ],
@@ -1788,9 +1787,6 @@
         ],
         "0x177a5": [
           "_scan_keyword_or_symbol@4"
-        ],
-        "0x1f990": [
-          "__isctype"
         ],
         "0x17c94": [
           "_scan_expression"
@@ -1872,9 +1868,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x1d358": [
           "_resource_finish"
@@ -1892,7 +1887,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f20d": [
+        "0x1f583": [
           "import:RtlAnsiStringToUnicodeString"
         ]
       },
@@ -1963,14 +1958,14 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
-        "0x20200": [
-          "_wcslen"
-        ],
         "0x1b4c8": [
           "_copy_resource_memory@8"
         ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x20550": [
+          "_wcslen"
         ],
         "0x17f58": [
           "_parse_language"
@@ -2061,14 +2056,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20200": [
-          "_wcslen"
-        ],
         "0x17328": [
           "_put_word@4"
         ],
         "0x190e8": [
           "_write_resource@8"
+        ],
+        "0x20550": [
+          "_wcslen"
         ],
         "0x16eb0": [
           "_find_resource_type@8"
@@ -2156,9 +2151,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f720": [
-          "_fopen"
-        ],
         "0x1c044": [
           "_resolve_resource_path@12"
         ],
@@ -2167,6 +2159,9 @@
         ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x1fa90": [
+          "_fopen"
         ],
         "0x1527a": [
           "_seek_file@12"
@@ -2440,12 +2435,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x17147": [
           "_resource_stream@4"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x15232": [
           "_read_file@12"
@@ -2500,9 +2494,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
+        "0x1fce0": [
+          "__isctype"
         ],
         "0x1bcc5": [
           "_finish_accelerators"
@@ -2516,8 +2509,8 @@
         "0x1bbed": [
           "_accelerator_word_operators@4"
         ],
-        "0x1f990": [
-          "__isctype"
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x1bcb0": [
           "_mark_accelerator"
@@ -2577,9 +2570,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb80": [
-          "_fclose"
-        ],
         "0x1bfa4": [
           "_read_resource_file"
         ],
@@ -2597,6 +2587,9 @@
         ],
         "0x16eb0": [
           "_find_resource_type@8"
+        ],
+        "0x1fed0": [
+          "_fclose"
         ],
         "0x15232": [
           "_read_file@12"
@@ -2698,7 +2691,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x201b0": [
+        "0x20500": [
           "_wcscmp"
         ],
         "0x11296": [
@@ -2726,7 +2719,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20200": [
+        "0x20550": [
           "_wcslen"
         ],
         "0x170b1": [
@@ -2854,16 +2847,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fc60": [
-          "__alloca_probe",
-          "__chkstk"
+        "0x1fce0": [
+          "__isctype"
         ],
         "0x18400": [
           "_lexical_error@8"
-        ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
         ],
         "0x16286": [
           "_advance_character"
@@ -2871,8 +2859,12 @@
         "0x1636a": [
           "_read_source_character"
         ],
-        "0x1f990": [
-          "__isctype"
+        "0x1ffb0": [
+          "__alloca_probe",
+          "__chkstk"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x12394": [
           "_rc_toupper"
@@ -2906,12 +2898,11 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fc60": [
-          "__alloca_probe",
-          "__chkstk"
-        ],
         "0x18400": [
           "_lexical_error@8"
+        ],
+        "0x1fce0": [
+          "__isctype"
         ],
         "0x16286": [
           "_advance_character"
@@ -2919,8 +2910,9 @@
         "0x1636a": [
           "_read_source_character"
         ],
-        "0x1f990": [
-          "__isctype"
+        "0x1ffb0": [
+          "__alloca_probe",
+          "__chkstk"
         ],
         "0x12394": [
           "_rc_toupper"
@@ -2951,10 +2943,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fc60": [
-          "__alloca_probe",
-          "__chkstk"
-        ],
         "0x18400": [
           "_lexical_error@8"
         ],
@@ -2966,6 +2954,10 @@
         ],
         "0x1636a": [
           "_read_source_character"
+        ],
+        "0x1ffb0": [
+          "__alloca_probe",
+          "__chkstk"
         ]
       },
       "stack_cleanup": [
@@ -3106,7 +3098,7 @@
         "0x12394": [
           "_rc_toupper"
         ],
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ]
       },
@@ -3141,7 +3133,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ],
         "0x17920": [
@@ -3215,6 +3207,9 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1fce0": [
+          "__isctype"
+        ],
         "0x16286": [
           "_advance_character"
         ],
@@ -3229,9 +3224,6 @@
         ],
         "0x17f30": [
           "_skip_expression_space"
-        ],
-        "0x1f990": [
-          "__isctype"
         ]
       },
       "stack_cleanup": [
@@ -3260,7 +3252,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20220": [
+        "0x20570": [
           "_strchr"
         ],
         "0x17f30": [
@@ -3299,7 +3291,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20248": [
+        "0x20598": [
           "__strcmpi",
           "__stricmp"
         ]
@@ -3316,7 +3308,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ]
       },
@@ -3386,9 +3378,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x1d358": [
           "_resource_finish"
@@ -3544,10 +3535,6 @@
         "0x19060": [
           "_combine_word_operators@4"
         ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x18200": [
           "_ansi_to_wide@12"
         ],
@@ -3559,6 +3546,9 @@
         ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x18fd4": [
           "_advance_argument"
@@ -3682,15 +3672,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20200": [
-          "_wcslen"
-        ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x196a5": [
           "_copy_resource_data@16"
+        ],
+        "0x20550": [
+          "_wcslen"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x18252": [
           "_wide_to_ansi@12"
@@ -3723,7 +3712,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x20200": [
+        "0x20550": [
           "_wcslen"
         ],
         "0x151fc": [
@@ -3767,7 +3756,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fb80": [
+        "0x1fed0": [
           "_fclose"
         ],
         "0x19791": [
@@ -3782,6 +3771,22 @@
       },
       "stack_cleanup": [
         16
+      ],
+      "indirect_calls": false
+    },
+    "_wide_to_ansi@12": {
+      "original_calls": {
+        "0x100db80": [
+          "import:RtlUnicodeStringToAnsiString"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1f589": [
+          "import:RtlUnicodeStringToAnsiString"
+        ]
+      },
+      "stack_cleanup": [
+        12
       ],
       "indirect_calls": false
     },
@@ -4094,12 +4099,11 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x18fd4": [
           "_advance_argument"
@@ -4130,9 +4134,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x18200": [
           "_ansi_to_wide@12"
@@ -4172,15 +4175,14 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x1a34b": [
           "_wide_itoa@12"
         ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x17638": [
           "_next_token@4"
@@ -4214,12 +4216,11 @@
         "0x18200": [
           "_ansi_to_wide@12"
         ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ]
       },
       "stack_cleanup": [
@@ -4330,9 +4331,8 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x1aae2": [
           "_parse_caption_control@4"
@@ -4596,25 +4596,24 @@
         "0x1a8c0": [
           "_parse_control_text@4"
         ],
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x18200": [
           "_ansi_to_wide@12"
         ],
         "0x1aa23": [
           "_parse_control_id@4"
         ],
-        "0x19c48": [
-          "_parse_style@4"
-        ],
-        "0x20248": [
+        "0x20598": [
           "__strcmpi",
           "__stricmp"
         ],
+        "0x19c48": [
+          "_parse_style@4"
+        ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x1aa72": [
           "_parse_control_rectangle@4"
@@ -4697,10 +4696,6 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f740": [
-          "_fprintf",
-          "_fwprintf"
-        ],
         "0x18200": [
           "_ansi_to_wide@12"
         ],
@@ -4709,6 +4704,9 @@
         ],
         "0x1844c": [
           "_parser_error@8"
+        ],
+        "0x1fab0": [
+          "_fprintf"
         ],
         "0x19dba": [
           "_advance_argument_flags@4"
@@ -4849,15 +4847,14 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f720": [
+        "0x1fa90": [
           "_fopen"
         ],
-        "0x1fb80": [
-          "_fclose"
-        ],
-        "0x1f7c0": [
-          "__getenv_lk",
+        "0x1fb10": [
           "_getenv"
+        ],
+        "0x1fed0": [
+          "_fclose"
         ]
       },
       "stack_cleanup": [
@@ -5174,7 +5171,7 @@
         "0x1d604": [
           "__initterm"
         ],
-        "0x20bb6": [
+        "0x20cf6": [
           "import:ExitProcess"
         ]
       },
@@ -5255,11 +5252,11 @@
         "0x1d6c0": [
           "_flsall"
         ],
-        "0x1fe50": [
-          "__flush"
-        ],
         "0x1d784": [
           "__commit"
+        ],
+        "0x201a0": [
+          "__flush"
         ]
       },
       "stack_cleanup": [
@@ -5320,7 +5317,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1fe50": [
+        "0x201a0": [
           "__flush"
         ]
       },
@@ -5354,6 +5351,9 @@
         ]
       },
       "reconstructed_calls": {
+        "0x1fce0": [
+          "__isctype"
+        ],
         "0x1ed62": [
           "__inc"
         ],
@@ -5371,9 +5371,6 @@
         ],
         "0x1eeaf": [
           "_mbtowc"
-        ],
-        "0x1f990": [
-          "__isctype"
         ]
       },
       "stack_cleanup": [
@@ -5442,7 +5439,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ]
       },
@@ -5458,7 +5455,7 @@
         ]
       },
       "reconstructed_calls": {
-        "0x1f990": [
+        "0x1fce0": [
           "__isctype"
         ]
       },
@@ -5486,6 +5483,77 @@
           "__getbuf"
         ]
       },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__spawnvp": {
+      "original_calls": {
+        "0x100ed50": [
+          "__spawnvpe"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x1f233": [
+          "__spawnvpe"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__spawnvpe": {
+      "original_calls": {
+        "0x1012540": [
+          "__getenv_lk",
+          "_getenv"
+        ],
+        "0x10137e8": [
+          "_strchr"
+        ],
+        "0x100e470": [
+          "__spawnve"
+        ],
+        "0x100eef0": [
+          "__getpath"
+        ],
+        "0x100f2f0": [
+          "_malloc"
+        ],
+        "0x100f330": [
+          "_free"
+        ]
+      },
+      "reconstructed_calls": {
+        "0x11207": [
+          "_free"
+        ],
+        "0x1f44b": [
+          "__getpath"
+        ],
+        "0x20710": [
+          "__spawnve"
+        ],
+        "0x1fb10": [
+          "_getenv"
+        ],
+        "0x20570": [
+          "_strchr"
+        ],
+        "0x1119d": [
+          "_malloc"
+        ]
+      },
+      "stack_cleanup": [
+        0
+      ],
+      "indirect_calls": false
+    },
+    "__getpath": {
+      "original_calls": {},
+      "reconstructed_calls": {},
       "stack_cleanup": [
         0
       ],
@@ -6065,12 +6133,222 @@
         }
       },
       "exact_streams_status_and_file_set": true
+    },
+    "verbose-names": {
+      "shared_fixture": "../fixtures/rc-remaining",
+      "manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "case": {
+        "id": "verbose-names",
+        "arguments": [
+          "/v",
+          "/x",
+          "/foverbose.res",
+          "verbose-names.rc"
+        ],
+        "expected_exit": 0,
+        "stdout": {
+          "path": "cases/verbose-names/stdout.bin",
+          "bytes": 349,
+          "sha256": "b71a766fbfd54dd07d9e2f30f900ba5510c333e32804bcf2a549ce62e3056ea4"
+        },
+        "stderr": {
+          "path": "cases/verbose-names/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "output_name": "verbose.res",
+            "path": "cases/verbose-names/verbose.res",
+            "bytes": 180,
+            "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
+          }
+        ],
+        "proof": {
+          "path": "cases/verbose-names/proof.log",
+          "bytes": 536,
+          "sha256": "d32765f95e4215d2d8457a0c38b8134f02180f1addf72d2f31fd95fc3dbe5998"
+        },
+        "native_pid": 292,
+        "symbolic_stdout": {
+          "bytes": 349,
+          "fields": [
+            {
+              "offset": 161,
+              "length": 6,
+              "meaning": "native PID six low decimal digits",
+              "temporary_prefix": "RC",
+              "full_name_offset": 159,
+              "full_name_length": 8
+            },
+            {
+              "offset": 173,
+              "length": 6,
+              "meaning": "native PID six low decimal digits",
+              "temporary_prefix": "RD",
+              "full_name_offset": 171,
+              "full_name_length": 8
+            }
+          ],
+          "fixed_ranges": [
+            {
+              "offset": 0,
+              "length": 161,
+              "sha256": "226c2d43f612788728e1f4e1e8f45807eafbe33ca7704c6fca4a79aa18757385"
+            },
+            {
+              "offset": 167,
+              "length": 6,
+              "sha256": "c67a0d6ea50ebf3bdaee9480ebf43b1b291c592a8725f91183cb1721470f33d9"
+            },
+            {
+              "offset": 179,
+              "length": 170,
+              "sha256": "be10e2074087b5d5a3a0322732178efb6a24c843576056029d07352029727f8c"
+            }
+          ],
+          "writer": {
+            "function": "_resource_main",
+            "call_address": "0x01007a54",
+            "callee": "_fprintf",
+            "format_address": "0x0101b660"
+          },
+          "native_name_generator": {
+            "function": "__mktemp",
+            "start": "0x0100e050",
+            "pid_callee": "__getpid",
+            "pid_callee_start": "0x0100e3a0",
+            "collision_rule": "first candidate absent in fresh source-only case directory"
+          }
+        }
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "/v /x /foverbose.res verbose-names.rc",
+        "exit": 0,
+        "inputs": {
+          "path-fallback.rc": {
+            "bytes": 21,
+            "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+          },
+          "verbose-names.rc": {
+            "bytes": 77,
+            "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+          }
+        },
+        "oracle": {
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 349,
+            "sha256": "7121f7c37f9c548fab5a158e91c6cfdfe91b082b43c5fc1cb79931559c1824be"
+          },
+          "verbose.res": {
+            "bytes": 180,
+            "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
+          }
+        },
+        "symbolic_stdout": {
+          "pid": 1540,
+          "bytes": 349,
+          "fields": [
+            {
+              "offset": 161,
+              "length": 6,
+              "native_digits": "001540"
+            },
+            {
+              "offset": 173,
+              "length": 6,
+              "native_digits": "001540"
+            }
+          ]
+        }
+      },
+      "exact_streams_status_and_file_set": false,
+      "comparison_limit": "Only stdout bytes161..166 and173..178 are symbolic; both six-digit fields are verified against actual native PID and temporary name objects; every other byte is exact."
+    },
+    "path-fallback": {
+      "shared_fixture": "../fixtures/rc-remaining",
+      "manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "case": {
+        "id": "path-fallback",
+        "arguments": [
+          "/x",
+          "/fopath.res",
+          "path-fallback.rc"
+        ],
+        "expected_exit": 0,
+        "stdout": {
+          "path": "cases/path-fallback/stdout.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "cases/path-fallback/stderr.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "outputs": [
+          {
+            "output_name": "path.res",
+            "path": "cases/path-fallback/path.res",
+            "bytes": 68,
+            "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
+          }
+        ],
+        "proof": {
+          "path": "cases/path-fallback/proof.log",
+          "bytes": 792,
+          "sha256": "1f77c8faa4593d6e76287941dba225b106906738fa9540edfdffa54bfb100c54"
+        },
+        "native_pid": 324,
+        "launch": {
+          "sibling_rcpp": false,
+          "current_directory_rcpp": false,
+          "PATH": ";;<missing-directory>;;\"<original-RCPP-directory-with-space>\";;",
+          "WINEPATH": "",
+          "child_final_path": "T:\\bin\\RCPP.EXE"
+        }
+      },
+      "independently_recaptured": {
+        "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+        "arguments": "/x /fopath.res path-fallback.rc",
+        "exit": 0,
+        "inputs": {
+          "path-fallback.rc": {
+            "bytes": 21,
+            "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+          },
+          "verbose-names.rc": {
+            "bytes": 77,
+            "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+          }
+        },
+        "oracle": {
+          "path.res": {
+            "bytes": 68,
+            "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
+          },
+          "stderr.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.bin": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "exact_streams_status_and_file_set": true
     }
   },
   "restored_text": {
-    "bytes": 45471,
+    "bytes": 46113,
     "total_bytes": 53248,
-    "percentage": 85.39,
+    "percentage": 86.6,
     "definition": "union of accepted source/CRT functions, shared text data and import thunks, clipped to original code extents; VirtualSize or backed raw fallback; not branch coverage"
   },
   "unaccepted_named_functions": [
@@ -6082,8 +6360,7 @@
     "__exit",
     "_get_short_arg",
     "_mbtowc",
-    "_wctomb",
-    "_wide_to_ansi@12"
+    "_wctomb"
   ],
   "result": {
     "exit": 0,
@@ -6094,6 +6371,455 @@
     "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d",
     "exact_file_set": true
   },
+  "accepted_instruction_extents": {
+    "original": {
+      "checked_extents": 252,
+      "checked_names": 252,
+      "complete_instruction_ends": true
+    },
+    "reconstruction": {
+      "checked_extents": 252,
+      "checked_names": 252,
+      "complete_instruction_ends": true
+    }
+  },
+  "uncovered_code_inventory": {
+    "accepted_code_extent_bytes": 46113,
+    "total_code_extent_bytes": 53248,
+    "uncovered_bytes": 7135,
+    "groups": {
+      "verbose-public": {
+        "bytes": 0,
+        "ranges": [
+          {
+            "start": 16810256,
+            "end": 16810342,
+            "label": "wide_to_ansi",
+            "uncovered_bytes": 0
+          },
+          {
+            "start": 16833408,
+            "end": 16833414,
+            "label": "RtlUnicodeStringToAnsiString thunk",
+            "uncovered_bytes": 0
+          }
+        ]
+      },
+      "PATH-public": {
+        "bytes": 0,
+        "ranges": [
+          {
+            "start": 16837920,
+            "end": 16837946,
+            "label": "spawnvp",
+            "uncovered_bytes": 0
+          },
+          {
+            "start": 16837968,
+            "end": 16838363,
+            "label": "spawnvpe",
+            "uncovered_bytes": 0
+          },
+          {
+            "start": 16838384,
+            "end": 16838513,
+            "label": "getpath",
+            "uncovered_bytes": 0
+          }
+        ]
+      },
+      "exception-and-nonlocal-jump": {
+        "bytes": 997,
+        "ranges": [
+          {
+            "start": 16833480,
+            "end": 16834103,
+            "label": "packed SEH2/unwind/setjmp/longjmp/raiser group",
+            "uncovered_bytes": 623
+          },
+          {
+            "start": 16834128,
+            "end": 16834134,
+            "label": "RtlUnwind thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16849856,
+            "end": 16850157,
+            "label": "XcptFilter",
+            "uncovered_bytes": 301
+          },
+          {
+            "start": 16850160,
+            "end": 16850203,
+            "label": "xcptlookup",
+            "uncovered_bytes": 43
+          },
+          {
+            "start": 16850224,
+            "end": 16850230,
+            "label": "UnhandledExceptionFilter thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16835072,
+            "end": 16835090,
+            "label": "quick exit",
+            "uncovered_bytes": 18
+          }
+        ]
+      },
+      "startup-fatal-and-unused-exit": {
+        "bytes": 200,
+        "ranges": [
+          {
+            "start": 16849200,
+            "end": 16849211,
+            "label": "floating-format trap",
+            "uncovered_bytes": 11
+          },
+          {
+            "start": 16849584,
+            "end": 16849617,
+            "label": "amsg_exit",
+            "uncovered_bytes": 33
+          },
+          {
+            "start": 16849696,
+            "end": 16849734,
+            "label": "FF_MSGBANNER",
+            "uncovered_bytes": 38
+          },
+          {
+            "start": 16849744,
+            "end": 16849832,
+            "label": "NMSG_WRITE",
+            "uncovered_bytes": 88
+          },
+          {
+            "start": 16835104,
+            "end": 16835119,
+            "label": "cexit",
+            "uncovered_bytes": 15
+          },
+          {
+            "start": 16835120,
+            "end": 16835135,
+            "label": "c_exit",
+            "uncovered_bytes": 15
+          }
+        ]
+      },
+      "stdio-lowio-conditional-or-unused": {
+        "bytes": 789,
+        "ranges": [
+          {
+            "start": 16840928,
+            "end": 16841023,
+            "label": "commit",
+            "uncovered_bytes": 95
+          },
+          {
+            "start": 16841040,
+            "end": 16841046,
+            "label": "FlushFileBuffers thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16841440,
+            "end": 16841588,
+            "label": "open_osfhandle",
+            "uncovered_bytes": 148
+          },
+          {
+            "start": 16841616,
+            "end": 16841622,
+            "label": "SetStdHandle thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16842512,
+            "end": 16842526,
+            "label": "getc wrapper",
+            "uncovered_bytes": 14
+          },
+          {
+            "start": 16844320,
+            "end": 16844346,
+            "label": "open wrapper",
+            "uncovered_bytes": 26
+          },
+          {
+            "start": 16845360,
+            "end": 16845689,
+            "label": "chsize",
+            "uncovered_bytes": 329
+          },
+          {
+            "start": 16845712,
+            "end": 16845718,
+            "label": "SetEndOfFile thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16845728,
+            "end": 16845873,
+            "label": "setmode",
+            "uncovered_bytes": 145
+          },
+          {
+            "start": 16852576,
+            "end": 16852590,
+            "label": "unlink wrapper",
+            "uncovered_bytes": 14
+          }
+        ]
+      },
+      "locale-and-unused-ctype": {
+        "bytes": 1321,
+        "ranges": [
+          {
+            "start": 16834224,
+            "end": 16834415,
+            "label": "isctype",
+            "uncovered_bytes": 191
+          },
+          {
+            "start": 16834432,
+            "end": 16834438,
+            "label": "GetStringTypeW thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16834448,
+            "end": 16834454,
+            "label": "MultiByteToWideChar thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16855872,
+            "end": 16855924,
+            "label": "isalpha mask103",
+            "uncovered_bytes": 52
+          },
+          {
+            "start": 16855936,
+            "end": 16855986,
+            "label": "isupper mask1",
+            "uncovered_bytes": 50
+          },
+          {
+            "start": 16856000,
+            "end": 16856050,
+            "label": "islower mask2",
+            "uncovered_bytes": 50
+          },
+          {
+            "start": 16856064,
+            "end": 16856114,
+            "label": "isdigit mask4",
+            "uncovered_bytes": 50
+          },
+          {
+            "start": 16856128,
+            "end": 16856180,
+            "label": "isxdigit mask80",
+            "uncovered_bytes": 52
+          },
+          {
+            "start": 16856256,
+            "end": 16856306,
+            "label": "ispunct mask10",
+            "uncovered_bytes": 50
+          },
+          {
+            "start": 16856320,
+            "end": 16856372,
+            "label": "isalnum mask107",
+            "uncovered_bytes": 52
+          },
+          {
+            "start": 16856384,
+            "end": 16856436,
+            "label": "isprint mask157",
+            "uncovered_bytes": 52
+          },
+          {
+            "start": 16856448,
+            "end": 16856500,
+            "label": "isgraph mask117",
+            "uncovered_bytes": 52
+          },
+          {
+            "start": 16856512,
+            "end": 16856562,
+            "label": "iscntrl mask20",
+            "uncovered_bytes": 50
+          },
+          {
+            "start": 16856576,
+            "end": 16856593,
+            "label": "isascii",
+            "uncovered_bytes": 17
+          },
+          {
+            "start": 16856608,
+            "end": 16856616,
+            "label": "toascii",
+            "uncovered_bytes": 8
+          },
+          {
+            "start": 16856624,
+            "end": 16856695,
+            "label": "identifier-character helper",
+            "uncovered_bytes": 71
+          },
+          {
+            "start": 16856704,
+            "end": 16856775,
+            "label": "identifier-character helper",
+            "uncovered_bytes": 71
+          },
+          {
+            "start": 16856800,
+            "end": 16857055,
+            "label": "mbtowc",
+            "uncovered_bytes": 255
+          },
+          {
+            "start": 16857216,
+            "end": 16857224,
+            "label": "tolower wrapper",
+            "uncovered_bytes": 8
+          },
+          {
+            "start": 16857632,
+            "end": 16857638,
+            "label": "LCMapStringW thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16857648,
+            "end": 16857654,
+            "label": "WideCharToMultiByte thunk",
+            "uncovered_bytes": 6
+          },
+          {
+            "start": 16857664,
+            "end": 16857672,
+            "label": "toupper wrapper",
+            "uncovered_bytes": 8
+          },
+          {
+            "start": 16858592,
+            "end": 16858750,
+            "label": "wctomb",
+            "uncovered_bytes": 158
+          }
+        ]
+      },
+      "unused-formatter-and-string-helpers": {
+        "bytes": 206,
+        "ranges": [
+          {
+            "start": 16839632,
+            "end": 16839675,
+            "label": "whitespace helper",
+            "uncovered_bytes": 43
+          },
+          {
+            "start": 16839984,
+            "end": 16840077,
+            "label": "copy basename helper",
+            "uncovered_bytes": 93
+          },
+          {
+            "start": 16848848,
+            "end": 16848864,
+            "label": "get_short_arg",
+            "uncovered_bytes": 16
+          },
+          {
+            "start": 16858416,
+            "end": 16858470,
+            "label": "wcscat",
+            "uncovered_bytes": 54
+          }
+        ]
+      }
+    },
+    "recognized_padding_outside_functions": 3622,
+    "unclassified_bytes": 0,
+    "unclassified_addresses": [],
+    "uncovered_incoming_edges": {
+      "0x100dbc8": [
+        "_mainCRTStartup",
+        "_resource_main"
+      ],
+      "0x100deb0": [
+        "__hextodec",
+        "__input",
+        "_atol",
+        "_detect_encoding@4",
+        "_expression_factor",
+        "_isspace",
+        "_next_token@4",
+        "_parse_accelerators@4",
+        "_parse_resource_identifier",
+        "_prepare_input@4",
+        "_rc_tolower",
+        "_rc_toupper",
+        "_scan_ansi_string",
+        "_scan_decimal_number",
+        "_scan_hex_number",
+        "_scan_wide_string",
+        "_trim_token@4"
+      ],
+      "0x100df90": [
+        "_rc_tolower",
+        "_rc_toupper"
+      ],
+      "0x100e200": [
+        "__dospawn",
+        "_mainCRTStartup"
+      ],
+      "0x100f8e0": [
+        "_fflush"
+      ],
+      "0x100fb90": [
+        "__free_osfhnd",
+        "__set_osfhnd"
+      ],
+      "0x1010a30": [
+        "__sopen"
+      ],
+      "0x10117d0": [
+        "__output"
+      ],
+      "0x1011ab0": [
+        "__setargv",
+        "__setenvp"
+      ],
+      "0x1011bc0": [
+        "_mainCRTStartup"
+      ],
+      "0x10136e0": [
+        "__input"
+      ],
+      "0x1013a20": [
+        "_rc_tolower",
+        "_rc_toupper"
+      ],
+      "0x1013a30": [
+        "_rc_tolower",
+        "_rc_toupper"
+      ],
+      "0x1013de0": [
+        "__output"
+      ]
+    },
+    "note": "Native disassembly extent inventory, not branch coverage. No alias candidate or one-byte pending stub is counted as a function."
+  },
   "runtime_callback_tables": {
     "xc": {
       "original_range": [
@@ -6101,8 +6827,8 @@
         "0x101f010"
       ],
       "reconstructed_range": [
-        "0x2abf0",
-        "0x2abf8"
+        "0x2abe8",
+        "0x2abf0"
       ],
       "callbacks": []
     },
@@ -6112,8 +6838,8 @@
         "0x101f030"
       ],
       "reconstructed_range": [
-        "0x2ac00",
-        "0x2ac08"
+        "0x2abf8",
+        "0x2ac00"
       ],
       "callbacks": []
     },
@@ -6123,8 +6849,8 @@
         "0x101f060"
       ],
       "reconstructed_range": [
-        "0x2ac10",
-        "0x2ac18"
+        "0x2ac08",
+        "0x2ac10"
       ],
       "callbacks": [
         {
@@ -6132,7 +6858,7 @@
             "__endstdio"
           ],
           "original": "0x100f8b0",
-          "reconstruction": "0x1ff40"
+          "reconstruction": "0x20290"
         }
       ]
     },
@@ -6142,8 +6868,8 @@
         "0x101f080"
       ],
       "reconstructed_range": [
-        "0x2ac20",
-        "0x2ac28"
+        "0x2ac18",
+        "0x2ac20"
       ],
       "callbacks": []
     }
@@ -6245,15 +6971,15 @@
     "font_directory_branch_exercised": false,
     "paired": {
       "original": {
-        "proof_sha256": "e053bfa2c2c909810e70136f60f4d52a25cfbdc682cc10e3ecfbfa382f12fa23",
+        "proof_sha256": "9df5c2826e7d12ada8e11e7adbcd406e27912fb2b40a2f8d333b76e64dfa9863",
         "before": {
-          "RC000780": {
+          "RC001120": {
             "bytes": 54,
             "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
           },
-          "RD000780": {
+          "RD001120": {
             "bytes": 90,
-            "sha256": "54ded0143e2a3ccca74b6824d75f74153fd7c24d1a2da7c5fa2526aed82adfcb"
+            "sha256": "b23f4404a3f760b99b6064c65eb1d3ff60214d6719b0e5131bf25a9949c952e5"
           },
           "interrupt.rc": {
             "bytes": 21,
@@ -6266,15 +6992,15 @@
         }
       },
       "reconstructed": {
-        "proof_sha256": "e81f79cff4ea19a1deed34153cbcdd2d63902adc52eee085e3dddb4356d8211c",
+        "proof_sha256": "e63ebada4373db0a7db9ff506e80c68d18945344a6026f94c3b2c55b6d588ea4",
         "before": {
-          "RC000876": {
+          "RC001288": {
             "bytes": 54,
             "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
           },
-          "RD000876": {
+          "RD001288": {
             "bytes": 90,
-            "sha256": "336b9585d37a90449642ba2008365f0173fdbbf178b4421481d61340c1c3f502"
+            "sha256": "ecae97b06e6c81ce40c689f418c80523e54a718b4651de4b4314b5e16f4a8d37"
           },
           "interrupt.rc": {
             "bytes": 21,
@@ -6287,5 +7013,40 @@
         }
       }
     }
+  },
+  "verbose_native_stdout": {
+    "original": {
+      "pid": 1896,
+      "bytes": 349,
+      "fields": [
+        {
+          "offset": 161,
+          "length": 6,
+          "native_digits": "001896"
+        },
+        {
+          "offset": 173,
+          "length": 6,
+          "native_digits": "001896"
+        }
+      ]
+    },
+    "reconstructed": {
+      "pid": 1892,
+      "bytes": 349,
+      "fields": [
+        {
+          "offset": 161,
+          "length": 6,
+          "native_digits": "001892"
+        },
+        {
+          "offset": 173,
+          "length": 6,
+          "native_digits": "001892"
+        }
+      ]
+    },
+    "comparison": "Full349-byte streams validated; only two six-digit fields at161/173 are symbolic. Raw streams retained unchanged."
   }
 }

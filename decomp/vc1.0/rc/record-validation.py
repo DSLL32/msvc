@@ -36,7 +36,9 @@ for name, count, outcome in entries[len(accepted):]:
 assert set(completed) == set(complete_cases)
 assert 'Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.' in log
 for name in complete_cases:
-    if name != 'resources-rich':
+    if name == 'verbose-names':
+        assert 'Both verbose stdout streams match all 349 bytes with only the two exact six-digit native PID fields compared symbolically; stderr, exit status and complete case file set match the verbose-names oracle exactly.' in log
+    elif name != 'resources-rich':
         assert ('Both raw streams, exit status and complete case file set match the %s oracle exactly.' % name) in log
 graph = json.loads(Path('build/graph-audit.json').read_text())
 source = {record['name'] for record in configuration['driver']}
@@ -57,8 +59,9 @@ report = dict(status='cases-complete', case='resources-rich',
               source_functions_audited=len(graph),
               checks=['all accepted paired frontiers replayed from masked entry in their originating case',
                       'direct call vertices, callback references and RET cleanup agree for accepted source functions',
+                      'instruction-end guards pass for every accepted source/CRT/import extent in both images',
                       'CRT initializer and termination callback sequences agree',
-                      'raw streams, exit statuses, input files and complete product sets match all %d oracles' % len(completed)],
+                      'exit statuses, input files, products and stderr match all %d oracles; stdout exact except explicitly validated six-digit native PID fields in verbose-names' % len(completed)],
               target=configuration['target'],
               reconstruction_sha256=hashlib.sha256(Path('build/rc.exe').read_bytes()).hexdigest(),
               fixture_manifest_sha256=hashlib.sha256(Path('../fixtures/resources-rich/manifest.json').read_bytes()).hexdigest(),
@@ -81,10 +84,19 @@ for name in complete_cases:
         assert capture['arguments'] == settings['arguments'] and capture['exit'] == settings['exit']
         for record in [case['stdout'],case['stderr']] + case['outputs']:
             file = record.get('output_name',Path(record['path']).name)
-            assert capture['oracle'][file] == dict(bytes=record['bytes'],sha256=record['sha256'])
+            if name == 'verbose-names' and file == 'stdout.bin':
+                proof = compare.remaining.verify_verbose('capture-'+name)
+                assert capture['symbolic_stdout'] == proof
+                data = Path('build/capture-'+name+'.stdout').read_bytes()
+                assert len(data)==record['bytes']==349
+                assert capture['oracle'][file] == dict(bytes=349,sha256=hashlib.sha256(data).hexdigest())
+            else:
+                assert capture['oracle'][file] == dict(bytes=record['bytes'],sha256=record['sha256'])
         report['additional_cases'][name] = dict(shared_fixture=settings['fixture'],
                 manifest_sha256=hashlib.sha256(raw).hexdigest(), case=case,
-                independently_recaptured=capture, exact_streams_status_and_file_set=True)
+                independently_recaptured=capture, exact_streams_status_and_file_set=name!='verbose-names')
+        if name == 'verbose-names':
+            report['additional_cases'][name]['comparison_limit'] = 'Only stdout bytes161..166 and173..178 are symbolic; both six-digit fields are verified against actual native PID and temporary name objects; every other byte is exact.'
     else:
         manifest_path = Path('cases') / name / 'manifest.json'
         report['additional_cases'][name] = dict(manifest=json.loads(manifest_path.read_text()),
@@ -113,6 +125,8 @@ report['result'] = dict(exit=0, stdout_bytes=0, stderr_bytes=0,
                       output_bytes=len(product), resource_records=19,
                       sha256=hashlib.sha256(product).hexdigest(),
                       exact_file_set=True)
+report['accepted_instruction_extents'] = json.loads(Path('build/instruction-extents.json').read_text())
+report['uncovered_code_inventory'] = json.loads(Path('uncovered-code.json').read_text())
 report['runtime_callback_tables'] = json.loads(Path('build/runtime-tables.json').read_text())
 report['runtime_layout_and_alias_audit'] = json.loads(Path('build/runtime-aliases.json').read_text())
 if menu_verified:
@@ -143,6 +157,10 @@ if 'console-interrupt' in complete_cases:
             files[file.name] = dict(bytes=len(data),sha256=hashlib.sha256(data).hexdigest())
         console['paired'][label] = dict(proof_sha256=hashlib.sha256(proof).hexdigest(),before=files)
     report['real_console_interrupt'] = console
+if 'verbose-names' in complete_cases:
+    report['verbose_native_stdout'] = {label:compare.remaining.verify_verbose(label,Path('build/verbose-native'))
+                                      for label in ('original','reconstructed')}
+    report['verbose_native_stdout']['comparison'] = 'Full349-byte streams validated; only two six-digit fields at161/173 are symbolic. Raw streams retained unchanged.'
 Path('validation-frontiers.txt').write_text(log)
 Path('validation.json').write_text(json.dumps(report, indent=2) + '\n')
 print('Recorded %d accepted frontiers, %d source functions and %d complete cases.' %

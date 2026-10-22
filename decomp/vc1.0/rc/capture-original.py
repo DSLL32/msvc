@@ -37,6 +37,9 @@ for name in selected:
     if settings.get('execution') == 'real-console-ctrl-c':
         helper = importlib.machinery.SourceFileLoader('interrupt_case', 'interrupt-case.py').load_module()
         helper.run(original, settings['arguments'], work, stem, original=True)
+    elif settings.get('execution') in ('verbose-native-pid','missing-sibling-PATH'):
+        compare.remaining.run('original',original,settings['arguments'],work,stem,
+                              settings['execution']=='missing-sibling-PATH',compare.publics())
     else:
         subprocess.run(['wine', 'build/debug-run.exe', wt.windows(original), settings['arguments'],
                         wt.windows(str(stem) + '.stdout'), wt.windows(str(stem) + '.stderr'),
@@ -53,13 +56,23 @@ for name in selected:
                     exit=settings.get('exit', 0),
                     inputs={n:dict(bytes=len(d), sha256=hashlib.sha256(d).hexdigest()) for n,d in sorted(source.items())},
                     oracle={n:dict(bytes=len(d), sha256=hashlib.sha256(d).hexdigest()) for n,d in sorted(oracle.items())})
+    if settings.get('execution') == 'verbose-native-pid':
+        manifest['symbolic_stdout'] = compare.remaining.verify_verbose(stem.name)
     if args.record:
         (fixture / 'oracle').mkdir(parents=True, exist_ok=True)
         for file, data in oracle.items():
             (fixture / 'oracle' / file).write_bytes(data)
         (fixture / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     else:
-        expected = {p.name:p.read_bytes() for p in oracle_directory.iterdir() if p.is_file()}
+        if settings.get('fixture'):
+            suite = json.loads((fixture/'manifest.json').read_text())
+            case = next(c for c in suite['cases'] if c['id']==name)
+            expected = {p+'.bin':(fixture/case[p]['path']).read_bytes() for p in ('stdout','stderr')}
+            expected.update({r.get('output_name',Path(r['path']).name):(fixture/r['path']).read_bytes() for r in case['outputs']})
+        else:
+            expected = {p.name:p.read_bytes() for p in oracle_directory.iterdir() if p.is_file()}
+        if settings.get('execution') == 'verbose-native-pid':
+            expected['stdout.bin'] = compare.remaining.fixture.verbose_bytes(manifest['symbolic_stdout']['pid'])
         assert expected == oracle, (name, 'captured oracle differs')
         if not settings.get('fixture'):
             assert json.loads((fixture / 'manifest.json').read_text()) == manifest

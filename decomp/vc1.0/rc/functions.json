@@ -1067,6 +1067,21 @@
       "name": "_ungetc",
       "start": 16858080,
       "end": 16858219
+    },
+    {
+      "name": "__spawnvp",
+      "start": 16837920,
+      "end": 16837946
+    },
+    {
+      "name": "__spawnvpe",
+      "start": 16837968,
+      "end": 16838363
+    },
+    {
+      "name": "__getpath",
+      "start": 16838384,
+      "end": 16838513
     }
   ],
   "accepted": [
@@ -1316,7 +1331,12 @@
     "_is_kanji_lead@4",
     "_trim_token@4",
     "_ungetc",
-    "_interrupt_resource@4"
+    "_interrupt_resource@4",
+    "_wide_to_ansi@12",
+    "import:RtlUnicodeStringToAnsiString",
+    "__spawnvp",
+    "__spawnvpe",
+    "__getpath"
   ],
   "cases": {
     "resources-rich": {
@@ -1434,6 +1454,28 @@
       "execution": "real-console-ctrl-c",
       "suite_manifest_sha256": "fb83f0b70913a1e69455b46a49f2f88c09c186ef2d5bdc1a1e2751a30a5db511",
       "accepted_end": 247
+    },
+    "verbose-names": {
+      "arguments": "/v /x /foverbose.res verbose-names.rc",
+      "status": "complete",
+      "exit": 0,
+      "accepted_start": 247,
+      "fixture": "../fixtures/rc-remaining",
+      "oracle": "cases/verbose-names",
+      "execution": "verbose-native-pid",
+      "suite_manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "accepted_end": 252
+    },
+    "path-fallback": {
+      "arguments": "/x /fopath.res path-fallback.rc",
+      "status": "complete",
+      "exit": 0,
+      "accepted_start": 247,
+      "fixture": "../fixtures/rc-remaining",
+      "oracle": "cases/path-fallback",
+      "execution": "missing-sibling-PATH",
+      "suite_manifest_sha256": "15b041b13e3586d2345498664b970df8eb5a4c4db0fddf62037e7e27534683cd",
+      "accepted_end": 252
     }
   },
   "frontier_cases": {
@@ -1463,6 +1505,11 @@
     "_is_kanji_lead@4": "kanji",
     "_trim_token@4": "rcinclude",
     "_ungetc": "scanf-pushback",
-    "_interrupt_resource@4": "console-interrupt"
+    "_interrupt_resource@4": "console-interrupt",
+    "_wide_to_ansi@12": "verbose-names",
+    "import:RtlUnicodeStringToAnsiString": "verbose-names",
+    "__spawnvp": "path-fallback",
+    "__spawnvpe": "path-fallback",
+    "__getpath": "path-fallback"
   }
 }

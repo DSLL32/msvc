@@ -2,14 +2,14 @@ PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
 .PHONY: all prefix check replay audit clean
-all: build/interrupt-run.exe build/rcpp.exe build/original.exe build/reconstructed.exe build/debug-run.exe
+all: build/remaining-trace.exe build/interrupt-run.exe build/rcpp.exe build/original.exe build/reconstructed.exe build/debug-run.exe
 prefix:
 	$(TOOL) --init
 build:
 	mkdir -p $@
 build/%.obj: %.c $(wildcard *.h) | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/$*.obj $<
-OBJECTS = build/startup.obj build/heap.obj build/stubs.obj build/arguments.obj build/driver.obj build/characters.obj build/paths.obj build/open.obj build/lowio.obj build/prepare.obj build/format.obj build/files.obj build/stdio.obj build/process.obj build/lexer.obj build/resources.obj build/resource-types.obj build/resource-data.obj build/identifiers.obj build/tokens.obj build/numbers.obj build/language.obj build/keywords.obj build/atol.obj build/conversion.obj build/resource-flags.obj build/diagnostics.obj build/menu.obj build/strings.obj build/parser-helpers.obj build/resource-writer.obj build/dialog.obj build/style.obj build/dialog-properties.obj build/wide-numbers.obj build/dialog-controls.obj build/control-fields.obj build/control-kinds.obj build/control-generic.obj build/string-tables.obj build/accelerators.obj build/images.obj build/resource-files.obj build/bitmaps.obj build/raw-data.obj build/wide-strings.obj build/dialog-include.obj build/version.obj build/finish.obj build/crt-state.obj build/termination.obj build/flush-all.obj build/temporary-buffer.obj build/fonts.obj build/legacy-images.obj build/scan-input.obj build/kanji-strings.obj
+OBJECTS = build/startup.obj build/heap.obj build/stubs.obj build/arguments.obj build/driver.obj build/characters.obj build/paths.obj build/open.obj build/lowio.obj build/prepare.obj build/format.obj build/files.obj build/stdio.obj build/process.obj build/lexer.obj build/resources.obj build/resource-types.obj build/resource-data.obj build/identifiers.obj build/tokens.obj build/numbers.obj build/language.obj build/keywords.obj build/atol.obj build/conversion.obj build/resource-flags.obj build/diagnostics.obj build/menu.obj build/strings.obj build/parser-helpers.obj build/resource-writer.obj build/dialog.obj build/style.obj build/dialog-properties.obj build/wide-numbers.obj build/dialog-controls.obj build/control-fields.obj build/control-kinds.obj build/control-generic.obj build/string-tables.obj build/accelerators.obj build/images.obj build/resource-files.obj build/bitmaps.obj build/raw-data.obj build/wide-strings.obj build/dialog-include.obj build/version.obj build/finish.obj build/crt-state.obj build/termination.obj build/flush-all.obj build/temporary-buffer.obj build/fonts.obj build/legacy-images.obj build/scan-input.obj build/kanji-strings.obj build/spawn-search.obj
 build/ntdll.lib: ntdll.def import-library.py binary.py | build prefix
 	$(PYTHON) import-library.py
 build/rc.exe: $(OBJECTS) build/ntdll.lib Makefile
@@ -34,9 +34,16 @@ build/rcpp.exe: $(TC)/bin/RCPP.EXE | build
 
 audit: build/runtime.json runtime.json
 	$(PYTHON) audit-graph.py
+	$(PYTHON) audit-uncovered.py
 
 # Console-signal debugger is analysis tooling, never part of RC's target link.
 build/interrupt-run.obj: ../fixtures/rc-interrupt/capture-interrupt.c | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/interrupt-run.obj $<
 build/interrupt-run.exe: build/interrupt-run.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+
+# Uncovered-code case capture, analysis-only and excluded from RC's link.
+build/remaining-trace.obj: ../fixtures/rc-remaining/trace-original.c | build prefix
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /Fobuild/remaining-trace.obj $<
+build/remaining-trace.exe: build/remaining-trace.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

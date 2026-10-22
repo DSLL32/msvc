@@ -1,6 +1,15 @@
 python3 wine-tool.py --init
 python3 audit-graph.py
-187 accepted source functions: direct calls, function references and return cleanup agree.
+191 accepted source functions: direct calls, function references and return cleanup agree.
+python3 audit-uncovered.py
+Uncovered 7135: functions/regions 3513, recognized padding 3622, unclassified 0.
+verbose-public 0
+PATH-public 0
+exception-and-nonlocal-jump 997
+startup-fatal-and-unused-exit 200
+stdio-lowio-conditional-or-unused 789
+locale-and-unused-ctype 1321
+unused-formatter-and-string-helpers 206
 python3 compare.py --replay
 case: resources-rich; accepted: 0
 original: _mainCRTStartup; reconstruction: _mainCRTStartup
@@ -502,45 +511,61 @@ case: scanf-pushback; accepted: 245
 original: _ungetc; reconstruction: _ungetc
 case: console-interrupt; accepted: 246
 original: _interrupt_resource@4; reconstruction: _interrupt_resource@4
-case: resources-rich; accepted: 247
+case: verbose-names; accepted: 247
+original: _wide_to_ansi@12; reconstruction: _wide_to_ansi@12
+case: verbose-names; accepted: 248
+original: import:RtlUnicodeStringToAnsiString; reconstruction: import:RtlUnicodeStringToAnsiString
+case: path-fallback; accepted: 249
+original: __spawnvp; reconstruction: __spawnvp
+case: path-fallback; accepted: 250
+original: __spawnvpe; reconstruction: __spawnvpe
+case: path-fallback; accepted: 251
+original: __getpath; reconstruction: __getpath
+case: resources-rich; accepted: 252
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.
-case: help; accepted: 247
+case: help; accepted: 252
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the help oracle exactly.
-case: invalid-switch; accepted: 247
+case: invalid-switch; accepted: 252
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the invalid-switch oracle exactly.
-case: missing-input; accepted: 247
+case: missing-input; accepted: 252
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the missing-input oracle exactly.
-case: alternate; accepted: 247
+case: alternate; accepted: 252
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the alternate oracle exactly.
-case: lexical-error; accepted: 247
+case: lexical-error; accepted: 252
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the lexical-error oracle exactly.
-case: parser-error; accepted: 247
+case: parser-error; accepted: 252
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the parser-error oracle exactly.
-case: resource-error; accepted: 247
+case: resource-error; accepted: 252
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the resource-error oracle exactly.
-case: kanji; accepted: 247
+case: kanji; accepted: 252
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the kanji oracle exactly.
-case: wide-long; accepted: 247
+case: wide-long; accepted: 252
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the wide-long oracle exactly.
-case: preprocessor-error; accepted: 247
+case: preprocessor-error; accepted: 252
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the preprocessor-error oracle exactly.
-case: rcinclude; accepted: 247
+case: rcinclude; accepted: 252
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the rcinclude oracle exactly.
-case: scanf-pushback; accepted: 247
+case: scanf-pushback; accepted: 252
 original: exit:0; reconstruction: exit:0
 Both raw streams, exit status and complete case file set match the scanf-pushback oracle exactly.
-case: console-interrupt; accepted: 247
+case: console-interrupt; accepted: 252
 original: exit:1; reconstruction: exit:1
 Both raw streams, exit status and complete case file set match the console-interrupt oracle exactly.
+case: verbose-names; accepted: 252
+original: exit:0; reconstruction: exit:0
+Both verbose stdout streams match all 349 bytes with only the two exact six-digit native PID fields compared symbolically; stderr, exit status and complete case file set match the verbose-names oracle exactly.
+case: path-fallback; accepted: 252
+original: exit:0; reconstruction: exit:0
+Both raw streams, exit status and complete case file set match the path-fallback oracle exactly.

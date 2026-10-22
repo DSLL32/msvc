@@ -238,13 +238,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "__spawnvp",
-    "start": 16835536,
-    "end": 16835568,
-    "object": "exec\\obj\\i386\\SPAWNVP.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "_comexecmd",
     "start": 16835584,
     "end": 16835696,

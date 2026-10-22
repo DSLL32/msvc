@@ -1,0 +1,72 @@
+{
+  "standard_streams": {
+    "count": 20,
+    "sizeof_FILE": 32,
+    "flag_offset": 12,
+    "descriptor_offset": 16,
+    "last_stream_offset": 608,
+    "diagnostics_stream_index": 1
+  },
+  "C_locale": {
+    "character_classes_including_EOF": 257,
+    "ctype_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+    "multibyte_max": 1,
+    "decimal_point": "."
+  },
+  "floating_conversion_slots": [
+    {
+      "slot": 0,
+      "names": [
+        "__fptrap"
+      ],
+      "accepted": false
+    },
+    {
+      "slot": 1,
+      "names": [
+        "__fptrap"
+      ],
+      "accepted": false
+    },
+    {
+      "slot": 2,
+      "names": [
+        "__fptrap"
+      ],
+      "accepted": false
+    },
+    {
+      "slot": 3,
+      "names": [
+        "__fptrap"
+      ],
+      "accepted": false
+    },
+    {
+      "slot": 4,
+      "names": [
+        "__fptrap"
+      ],
+      "accepted": false
+    },
+    {
+      "slot": 5,
+      "names": [
+        "__fptrap"
+      ],
+      "accepted": false
+    }
+  ],
+  "KANJI_bounds": {
+    "bytes": 16,
+    "element_bytes": 2,
+    "signed": true,
+    "field_offsets": [
+      0,
+      4,
+      8,
+      12
+    ],
+    "range_stride": 8
+  }
+}

@@ -22,11 +22,15 @@ def describe(pe, function):
         address = queue.pop()
         while start <= address < end and address not in seen:
             seen.add(address)
-            instructions = list(decoder.disasm(pe.read(address, min(16, end - address)), address, 1))
+            # Decode beyond the declared end: a clipped decoder can hide a
+            # truncated RET immediate or another final instruction operand.
+            instructions = list(decoder.disasm(pe.read(address, 15), address, 1))
             if not instructions:
                 raise AssertionError('invalid instruction at %08x' % address)
             insn = instructions[0]
             after = address + insn.size
+            assert after <= end, (function['name'], 'extent truncates instruction',
+                                  hex(address), insn.mnemonic, hex(end), hex(after))
             for operand in insn.operands:
                 if operand.type != X86_OP_IMM:
                     continue
@@ -211,6 +215,17 @@ def audit_runtime_aliases(original, reconstruction, oi, ri, cfg):
 def main():
     original, reconstruction, cfg, oi, ri = compare.indexes()
     oa, ra = aliases(oi), aliases(ri)
+    # CRT/import ranges also enter the mask and need complete instructions.
+    boundaries = {}
+    for label, pe, records in (('original',original,oi), ('reconstruction',reconstruction,ri)):
+        checked = set()
+        for record in records:
+            if record['name'] in cfg['accepted']:
+                describe(pe, record)
+                checked.add((record['name'],record['start'],record['end']))
+        boundaries[label] = dict(checked_extents=len(checked),
+            checked_names=len({r[0] for r in checked}), complete_instruction_ends=True)
+    Path('build/instruction-extents.json').write_text(json.dumps(boundaries,indent=2)+'\n')
     report = {}
     for function in cfg['driver']:
         name = function['name']

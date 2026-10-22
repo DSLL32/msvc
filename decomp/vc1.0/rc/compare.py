@@ -13,6 +13,7 @@ from binary import PE, imports, u32
 
 wt = importlib.machinery.SourceFileLoader('wine_tool', 'wine-tool.py').load_module()
 interrupt = importlib.machinery.SourceFileLoader('interrupt_case', 'interrupt-case.py').load_module()
+remaining = importlib.machinery.SourceFileLoader('remaining_case', 'remaining-case.py').load_module()
 FIXTURE = Path('../fixtures/resources-rich').resolve()
 SCRATCH = Path.home() / '.ai-tmp/vc1.0-rc'
 ARGUMENTS = '/dCASE_FROM_COMMAND=7 /Iinclude /foresources.res resources.rc'
@@ -28,6 +29,8 @@ def select_case(name):
     settings = cfg['cases'][name]
     CASE, ARGUMENTS = name, settings['arguments']
     EXECUTION = settings.get('execution')
+    if EXECUTION in ('verbose-native-pid','missing-sibling-PATH'):
+        remaining.prepare()
     EXPECTED_EXIT = settings.get('exit', 0)
     if settings.get('fixture'):
         FIXTURE = Path(settings['fixture']).resolve()
@@ -99,7 +102,10 @@ def indexes():
     names = publics()
     ri = [r for r in json.loads(Path('build/runtime.json').read_text())
           if r['name'] not in source_names] + imports(reconstruction)
-    ri = [r for r in ri if r['name'].startswith('import:') or names.get(r['name'], r['start']) == r['start']]
+    # A byte-identical RET/padding fragment can masquerade as an unrelated
+    # CRT symbol. The reconstruction's map must prove both name and address.
+    ri = [r for r in ri if r['name'].startswith('import:') or
+          (r['name'] in names and names[r['name']] == r['start'])]
     code_end = max(reconstruction.base + s['rva'] + s['virtual_size']
                    for s in reconstruction.sections if s['flags'] & 0x20)
     boundaries = sorted(set(names.values()) | {code_end})
@@ -149,6 +155,8 @@ def run(label, executable):
     stem = Path('build') / label
     if EXECUTION == 'real-console-ctrl-c':
         return interrupt.run(executable, ARGUMENTS, work, stem, original=label == 'original')
+    if EXECUTION in ('verbose-native-pid','missing-sibling-PATH'):
+        return remaining.run(label,executable,ARGUMENTS,work,stem,EXECUTION=='missing-sibling-PATH',publics())
     payload = Path(str(stem) + '.payload')
     payload.unlink(missing_ok=True)
     if label == 'original':
@@ -227,18 +235,32 @@ def compare(count=None):
         for stream in ('stdout', 'stderr'):
             expected = (ORACLE / (stream + '.bin')).read_bytes()
             for label in ('original', 'reconstructed'):
-                assert Path('build/' + label + '.' + stream).read_bytes() == expected, (label, stream, 'raw stream differs')
+                if EXECUTION == 'verbose-native-pid' and stream == 'stdout':
+                    remaining.verify_verbose(label)
+                else:
+                    assert Path('build/' + label + '.' + stream).read_bytes() == expected, (label, stream, 'raw stream differs')
         products = {str(p.relative_to(FIXTURE / 'source')):p.read_bytes()
                     for p in (FIXTURE / 'source').rglob('*') if p.is_file()}
-        for product in ORACLE.iterdir():
-            if product.name not in ('stdout.bin', 'stderr.bin') and product.is_file():
-                products[product.name] = product.read_bytes()
+        settings = cfg['cases'][CASE]
+        if settings.get('fixture'):
+            suite = json.loads((FIXTURE/'manifest.json').read_text())
+            case = next(c for c in suite['cases'] if c['id']==CASE)
+            for record in case['outputs']:
+                products[record.get('output_name',Path(record['path']).name)] = (FIXTURE/record['path']).read_bytes()
+        else:
+            for product in ORACLE.iterdir():
+                if product.name not in ('stdout.bin', 'stderr.bin') and product.is_file():
+                    products[product.name] = product.read_bytes()
         for label in ('original', 'reconstructed'):
             work = work_directory(label)
             observed = {str(p.relative_to(work)):p.read_bytes() for p in work.rglob('*') if p.is_file()}
             assert observed == products, (label, 'case files or product set differ')
         if CASE == 'resources-rich':
             print('Both raw streams, exit status and 3,684-byte resource product match the oracle exactly.')
+        elif EXECUTION == 'verbose-native-pid':
+            for label in ('original','reconstructed'):
+                remaining.retain_verbose(label)
+            print('Both verbose stdout streams match all 349 bytes with only the two exact six-digit native PID fields compared symbolically; stderr, exit status and complete case file set match the verbose-names oracle exactly.')
         else:
             print('Both raw streams, exit status and complete case file set match the %s oracle exactly.' % CASE)
 

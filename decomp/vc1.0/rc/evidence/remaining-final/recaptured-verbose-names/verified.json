@@ -1,0 +1,45 @@
+{
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "arguments": "/v /x /foverbose.res verbose-names.rc",
+  "exit": 0,
+  "inputs": {
+    "path-fallback.rc": {
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    },
+    "verbose-names.rc": {
+      "bytes": 77,
+      "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+    }
+  },
+  "oracle": {
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 349,
+      "sha256": "7121f7c37f9c548fab5a158e91c6cfdfe91b082b43c5fc1cb79931559c1824be"
+    },
+    "verbose.res": {
+      "bytes": 180,
+      "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
+    }
+  },
+  "symbolic_stdout": {
+    "pid": 1540,
+    "bytes": 349,
+    "fields": [
+      {
+        "offset": 161,
+        "length": 6,
+        "native_digits": "001540"
+      },
+      {
+        "offset": 173,
+        "length": 6,
+        "native_digits": "001540"
+      }
+    ]
+  }
+}
