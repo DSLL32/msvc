@@ -17,7 +17,7 @@ void reset_work(void)
     procedure_depth = 0;
     free_bitset_nodes = NULL;
     floating_temporary_nodes = NULL;
-    global_work_enabled = 0;
+    global_exit_work = 0;
     current_work = NULL;
     clear_optimizer_trees();
     reset_arena(2);

@@ -1,3 +1,4 @@
+#include "global-work.h"
 /* Unreached graph vertices trap deliberately for the paired reconstruction workflow. */
 #include "options.h"
 #include "input.h"
@@ -125,9 +126,6 @@ int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
 int __fastcall conversion_loses_value(unsigned short source, unsigned short target) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 unsigned __fastcall map_comparison_opcode(unsigned opcode, int negate) { __asm int 3 }
-Node *__fastcall cleanup_unused_tree(Node *node) { __asm int 3 }
-void __fastcall optimize_function_flow(Function *function) { __asm int 3 }
-WorkItem *__fastcall build_global_work(void *expressions) { __asm int 3 }
 void optimize_work(void) { __asm int 3 }
 #include "work-prepare.h"
 Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree) { __asm int 3 }
@@ -368,3 +366,43 @@ Node *__fastcall negate_tree(Node *node) { __asm int 3 }
 Node *__fastcall fold_bitwise_and(Node *node) { __asm int 3 }
 int __fastcall extract_reciprocal(Node **node) { __asm int 3 }
 int __fastcall extract_complement(Node **node) { __asm int 3 }
+
+
+SymbolHeader *__fastcall tail_argument_address(Node *node) { __asm int 3 }
+int __fastcall is_tail_call_position(Expression *expressions, Expression *call) { __asm int 3 }
+
+
+
+
+void resolve_flow_labels(void) { __asm int 3 }
+
+void __fastcall prepare_flow_blocks(WorkItem *work) { __asm int 3 }
+
+void __fastcall refresh_flow_edges(WorkItem *work) { __asm int 3 }
+
+void __fastcall number_work_blocks(WorkItem *work) { __asm int 3 }
+
+void __fastcall simplify_flow_branches(WorkItem *work) { __asm int 3 }
+
+void __fastcall merge_flow_blocks(WorkItem *work) { __asm int 3 }
+
+void __fastcall compute_work_dominators(WorkItem *work) { __asm int 3 }
+
+void __fastcall find_flow_regions(WorkItem *work) { __asm int 3 }
+
+unsigned __fastcall simplify_flow_regions(FlowRegion *regions) { __asm int 3 }
+
+void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
+
+WorkItem *__fastcall reduce_flow_regions(FlowRegion *regions) { __asm int 3 }
+
+void __fastcall analyze_flow_regions(FlowRegion *regions) { __asm int 3 }
+
+void __fastcall finish_flow_regions(FlowRegion *regions) { __asm int 3 }
+
+void __fastcall remove_empty_flow_blocks(WorkItem *work) { __asm int 3 }
+
+Expression *__fastcall fold_adjacent_flow_labels(Expression *expression) { __asm int 3 }
+void __fastcall putback_flow_expression(Expression *expression) { __asm int 3 }
+void __fastcall define_flow_label(SymbolHeader *label, WorkItem *work) { __asm int 3 }
+void __fastcall reference_flow_label(SymbolHeader *label, WorkItem *work) { __asm int 3 }

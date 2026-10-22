@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 24,
+  "accepted_frontiers": 34,
   "current_frontier": {
-    "name": "@cleanup_unused_tree@4",
-    "original_va": 363648
+    "name": "@reference_flow_label@8",
+    "original_va": 371744
   },
   "expected": {
     "exit": 0,
@@ -40,8 +40,13 @@
     "all 299 source functions pass graph audit",
     "both new constant-conversion/global-tree implementation modules compile /W3 clean",
     "independent canonicalized first-function trees match 29 roots and 99 nodes; only debugger exception address differs",
-    "complete minimal object/exit regression passes after all global tree passes are accepted"
+    "complete minimal object/exit regression passes after all global tree passes are accepted",
+    "global work checkpoint passes all 352 minimal and all 34 hello historical frontiers",
+    "all 309 source functions pass graph audit",
+    "seven changed work/cleanup modules compile /W3 clean",
+    "independent post-global-optimization comparison matches 29 roots and 99 visited nodes; only debugger exception address differs",
+    "complete minimal object/exit regression passes after typed work-state refinement"
   ],
-  "total_accepted_frontiers": 376,
-  "reconstructed_functions": 299
+  "total_accepted_frontiers": 386,
+  "reconstructed_functions": 309
 }

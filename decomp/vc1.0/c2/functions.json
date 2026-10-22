@@ -380,7 +380,17 @@
     "@factor_global_node@4",
     "@finish_global_tree@4",
     "@reduce_global_node@4",
-    "@finish_global_node@4"
+    "@finish_global_node@4",
+    "@cleanup_unused_tree@4",
+    "@optimize_function_flow@4",
+    "@build_global_work@4",
+    "_reset_flow_label_state",
+    "_initialize_flow_labels",
+    "_reset_flow_labels",
+    "@partition_global_work@4",
+    "@set_flow_expression_input@4",
+    "_next_flow_expression",
+    "_build_work_lists"
   ],
   "driver": [
     {
@@ -747,14 +757,12 @@
     {
       "name": "@optimize_function_flow@4",
       "start": 362640,
-      "end": 362641,
-      "provisional": true
+      "end": 363296
     },
     {
       "name": "@build_global_work@4",
       "start": 365728,
-      "end": 365729,
-      "provisional": true
+      "end": 366064
     },
     {
       "name": "@build_local_work@4",
@@ -2519,8 +2527,7 @@
     {
       "name": "@cleanup_unused_tree@4",
       "start": 363648,
-      "end": 363649,
-      "provisional": true
+      "end": 363952
     },
     {
       "name": "_new_work_item",
@@ -3724,6 +3731,161 @@
       "name": "@extract_complement@4",
       "start": 355744,
       "end": 355745,
+      "provisional": true
+    },
+    {
+      "name": "_build_work_lists",
+      "start": 363952,
+      "end": 364720
+    },
+    {
+      "name": "@tail_argument_address@4",
+      "start": 362400,
+      "end": 362401,
+      "provisional": true
+    },
+    {
+      "name": "@is_tail_call_position@8",
+      "start": 362512,
+      "end": 362513,
+      "provisional": true
+    },
+    {
+      "name": "_reset_flow_label_state",
+      "start": 371648,
+      "end": 371664
+    },
+    {
+      "name": "_initialize_flow_labels",
+      "start": 371632,
+      "end": 371648
+    },
+    {
+      "name": "@partition_global_work@4",
+      "start": 370960,
+      "end": 371632
+    },
+    {
+      "name": "_resolve_flow_labels",
+      "start": 370912,
+      "end": 370913,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_flow_blocks@4",
+      "start": 370272,
+      "end": 370273,
+      "provisional": true
+    },
+    {
+      "name": "@refresh_flow_edges@4",
+      "start": 367152,
+      "end": 367153,
+      "provisional": true
+    },
+    {
+      "name": "@number_work_blocks@4",
+      "start": 366336,
+      "end": 366337,
+      "provisional": true
+    },
+    {
+      "name": "@simplify_flow_branches@4",
+      "start": 370128,
+      "end": 370129,
+      "provisional": true
+    },
+    {
+      "name": "@merge_flow_blocks@4",
+      "start": 369984,
+      "end": 369985,
+      "provisional": true
+    },
+    {
+      "name": "@compute_work_dominators@4",
+      "start": 366096,
+      "end": 366097,
+      "provisional": true
+    },
+    {
+      "name": "@find_flow_regions@4",
+      "start": 369504,
+      "end": 369505,
+      "provisional": true
+    },
+    {
+      "name": "@simplify_flow_regions@4",
+      "start": 369408,
+      "end": 369409,
+      "provisional": true
+    },
+    {
+      "name": "@refresh_region_entries@4",
+      "start": 369456,
+      "end": 369457,
+      "provisional": true
+    },
+    {
+      "name": "@reduce_flow_regions@4",
+      "start": 368960,
+      "end": 368961,
+      "provisional": true
+    },
+    {
+      "name": "@analyze_flow_regions@4",
+      "start": 367920,
+      "end": 367921,
+      "provisional": true
+    },
+    {
+      "name": "@finish_flow_regions@4",
+      "start": 366720,
+      "end": 366721,
+      "provisional": true
+    },
+    {
+      "name": "@remove_empty_flow_blocks@4",
+      "start": 366368,
+      "end": 366369,
+      "provisional": true
+    },
+    {
+      "name": "_reset_flow_labels",
+      "start": 366064,
+      "end": 366096
+    },
+    {
+      "name": "@set_flow_expression_input@4",
+      "start": 372416,
+      "end": 372432
+    },
+    {
+      "name": "_next_flow_expression",
+      "start": 372384,
+      "end": 372416
+    },
+    {
+      "name": "@fold_adjacent_flow_labels@4",
+      "start": 372080,
+      "end": 372081,
+      "provisional": true
+    },
+    {
+      "name": "@putback_flow_expression@4",
+      "start": 372064,
+      "end": 372065,
+      "provisional": true
+    },
+    {
+      "name": "@define_flow_label@8",
+      "start": 371888,
+      "end": 371889,
+      "provisional": true
+    },
+    {
+      "name": "@reference_flow_label@8",
+      "start": 371744,
+      "end": 371745,
       "provisional": true
     }
   ],

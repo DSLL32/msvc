@@ -1,0 +1,156 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "cleanup_unused_tree",
+      "start": "0x58c80",
+      "end": "0x58db0",
+      "instructions": 105,
+      "abi": "fastcall 1: ECX node, EAX replacement node"
+    },
+    {
+      "name": "optimize_function_flow",
+      "start": "0x58890",
+      "end": "0x58b20",
+      "instructions": 199,
+      "abi": "fastcall 1: ECX function"
+    },
+    {
+      "name": "build_global_work",
+      "start": "0x594a0",
+      "end": "0x595f0",
+      "instructions": 80,
+      "abi": "fastcall 1: ECX expressions, EAX work chain"
+    },
+    {
+      "name": "reset_flow_label_state",
+      "start": "0x5abc0",
+      "end": "0x5abd0",
+      "instructions": 2,
+      "abi": "cdecl no arguments"
+    },
+    {
+      "name": "initialize_flow_labels",
+      "start": "0x5abb0",
+      "end": "0x5abc0",
+      "instructions": 1,
+      "abi": "cdecl no arguments, distinct tail adapter"
+    },
+    {
+      "name": "reset_flow_labels",
+      "start": "0x595f0",
+      "end": "0x59610",
+      "instructions": 9,
+      "abi": "cdecl no arguments"
+    },
+    {
+      "name": "partition_global_work",
+      "start": "0x5a910",
+      "end": "0x5abb0",
+      "instructions": 165,
+      "abi": "fastcall 1: ECX expressions, EAX work chain"
+    },
+    {
+      "name": "set_flow_expression_input",
+      "start": "0x5aec0",
+      "end": "0x5aed0",
+      "instructions": 2,
+      "abi": "fastcall 1: ECX expressions"
+    },
+    {
+      "name": "next_flow_expression",
+      "start": "0x5aea0",
+      "end": "0x5aec0",
+      "instructions": 9,
+      "abi": "cdecl no arguments, EAX detached expression"
+    },
+    {
+      "name": "build_work_lists",
+      "start": "0x58db0",
+      "end": "0x590b0",
+      "instructions": 163,
+      "abi": "cdecl format and variable arguments, EAX work or expression cursor"
+    }
+  ],
+  "data": [
+    {
+      "name": "WorkItem",
+      "size": 68,
+      "fields": {
+        "0x04": "WorkItem *previous",
+        "0x18": "FlowRegion *region"
+      },
+      "provenance": "build_work_lists links both directions and propagates the containing region; allocation/size checks retain 68 bytes"
+    },
+    {
+      "name": "global_exit_work",
+      "original_va": "0x7ba80",
+      "type": "WorkItem *",
+      "provenance": "partition_global_work assigns the block containing opcode 0x47; existing minimum-case gates test only whether this pointer is nonzero"
+    },
+    {
+      "name": "global_entry_work",
+      "original_va": "0x7beb8",
+      "type": "WorkItem *",
+      "provenance": "partition_global_work assigns the block containing opcode 0x46"
+    },
+    {
+      "name": "global_flow_regions",
+      "original_va": "0x7beb0",
+      "type": "FlowRegion *",
+      "provenance": "global-work driver passes the separate nested region list to region analysis helpers"
+    },
+    {
+      "name": "flow_label_buckets",
+      "original_va": "0x7bed0",
+      "type": "FlowLabel *[32]",
+      "provenance": "reset_flow_labels clears 32 heads then resets arena four"
+    },
+    {
+      "name": "pending_flow_labels",
+      "original_va": "0x83774",
+      "type": "FlowLabel *",
+      "provenance": "reset_flow_label_state clears the adjacent-label alias group"
+    },
+    {
+      "name": "flow_expression_input",
+      "original_va": "0x83778",
+      "type": "Expression *",
+      "provenance": "setter and detached-reader pair in flow.c"
+    },
+    {
+      "name": "terminator_dispatch",
+      "original_va": "0x5ab4c",
+      "bytes": 96,
+      "representation": "ordinary named opcode cases; not copied"
+    },
+    {
+      "name": "list_command_dispatch",
+      "original_va": "0x58fe4",
+      "bytes": 204,
+      "representation": "ordinary character-command cases with separate typed WorkItem and Expression cursors; not copied"
+    }
+  ],
+  "independent_validation": {
+    "frontier": "build_global_work",
+    "expressions": 29,
+    "nodes": 99,
+    "comparison": "all captured scalar fields, symbols and identities match after global optimization, expression cleanup and tail-call scanning",
+    "normalization": "debugger exception address only"
+  },
+  "validation_status": "passed",
+  "limits": [
+    "Hello has not produced its final object; current matching trap is reference_flow_label at 0x5ac20.",
+    "The first hello function exercises effectful-expression cleanup and the nonrecursive tail-call scan; self-call rewriting and side-effect splitting are source/ABI/graph audited but dynamically unvisited.",
+    "The shared constructor dynamically exercises SNLR in this case; other complete command paths retain original call edges but are not yet dynamically covered.",
+    "Region analysis and label-reference resolution retain typed named traps until reached.",
+    "Malformed scope diagnostics and other failure branches are not claimed to pass while their downstream helpers remain trapped."
+  ],
+  "validation": [
+    "all 352 frozen minimal frontiers replay with matching traps and final output",
+    "all 34 hello frontiers replay, ending at reference_flow_label",
+    "all 309 reconstructed function graphs agree, including indirect and tail edges",
+    "seven changed implementation modules compile with the original compiler /W3 without warnings",
+    "complete minimal exit/stream/object regression passes; normalize only COFF timestamp offset four, size four"
+  ]
+}

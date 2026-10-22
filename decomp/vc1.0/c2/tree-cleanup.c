@@ -1,5 +1,7 @@
 #include "tree-rewrite.h"
 #include "tree-scratch.h"
+#include "expression-fields.h"
+#include "global-work.h"
 /* Original [00058bd0,00058c80), including its record dispatch table. */
 Node *__fastcall cleanup_expression_tree(Node *node)
 {
@@ -28,4 +30,42 @@ void __fastcall cleanup_expressions(Expression **expressions)
         } else expression_cleanup_link = &expression->next;
         expression = *expression_cleanup_link;
     }
+}
+
+/* Original [00058c80,00058db0). Preserve effectful/volatile expressions,
+   otherwise retain only operand effects and split two surviving operands. */
+Node *__fastcall cleanup_unused_tree(Node *node)
+{
+    Node *left, *right;
+    unsigned arity;
+    if ((node_shapes[node->opcode] & NODE_SIDE_EFFECT) ||
+        (node->attributes.words.flags & 0x800)) return node;
+    if (node->opcode == 0x42 && !can_repeat_tree(node->second.node)) return node;
+    arity = node_shapes[node->opcode] & NODE_ARITY;
+    switch (arity) {
+    case NODE_BINARY: case NODE_CHAIN:
+        node->left.node = left = cleanup_unused_tree(node->left.node);
+        node->second.node = right = cleanup_unused_tree(node->second.node);
+        if (left->opcode == 1) {
+            release_node(left);
+            release_node(node);
+            return right;
+        }
+        if (right->opcode == 1) {
+            release_node(right);
+            release_node(node);
+            return left;
+        }
+        build_work_lists("snl", *expression_cleanup_link, right);
+        release_node(node);
+        return left;
+    case NODE_UNARY:
+        left = cleanup_unused_tree(node->left.node);
+        release_node(node);
+        return left;
+    case NODE_LEAF:
+        release_node(node);
+        return new_node(1);
+    }
+    return node;
 }

@@ -426,3 +426,25 @@ The global-tree checkpoint has 299 source functions and 376 accepted frontiers.
 The final build passes the complete 352-frontier minimal history, all 24 hello
 frontiers, the graph audit, both new modules compiled /W3 and the full minimal
 object/exit regression. Hello output remains pending at cleanup_unused_tree.
+
+Hello now passes expression cleanup, tail-call scanning, the global-work driver,
+block partitioning and its shared list constructor. The constructor retains
+separate typed work/expression cursors for every command. WorkItem now names its
+previous-block link at offset 4 and containing region at offset 24; the original
+68-byte layout is checked. The state at 0x7ba80 is the exit WorkItem pointer,
+assigned on opcode 0x47, and is distinct from the entry pointer and region tree.
+Label hash heads, the current alias group and the detached input cursor have
+separate owners. Typed trapping helpers retain the remaining flow analysis.
+
+An independent capture after all global tree passes, cleanup and tail-call
+scanning still matches the first function's 29 roots and 99 visited nodes,
+including captured scalar/symbol/self-reference fields. Only the debugger
+exception address is normalized. The first hello function does not exercise
+self-recursive tail-call rewriting or the list constructor's alternate modes;
+those paths are source/ABI/graph audited rather than claimed as runtime passes.
+See cases/hello-work-abi.json for exact extents, layouts and validation limits.
+
+This checkpoint has 309 source functions and 386 accepted frontiers. All 352
+minimal and all 34 hello frontiers replay with matching logical traps. Seven
+changed modules compile /W3 clean; the graph audit and full minimal object/exit
+regression pass. The hello object remains pending at reference_flow_label.

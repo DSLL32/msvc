@@ -16,9 +16,10 @@ typedef struct FunctionSymbol {
 typedef char FunctionSymbolSizeCheck[sizeof(FunctionSymbol) == 84 ? 1 : -1];
 typedef struct WorkItem {
     struct WorkItem *next;
-    unsigned field04;
+    struct WorkItem *previous;
     union { struct Expression *expressions; struct MachineBlockHeader *block; } body;
-    unsigned field0c, field10, field14, field18;
+    unsigned field0c, field10, field14;
+    struct FlowRegion *region;
     struct BitSet *uses, *definitions;
     unsigned field24, field28, field2c, field30, field34, field38;
     short field3c;
@@ -47,7 +48,8 @@ typedef struct Function {
 extern FunctionSymbol *pending_functions, *current_symbol;
 extern WorkItem *current_work;
 extern Function *current_function;
-extern int backend_stage, global_work_enabled;
+extern int backend_stage;
+extern WorkItem *global_exit_work;
 extern Node *(__fastcall *tree_transform)(Node *node);
 void __fastcall read_global_records(Function *function);
 void emit_backend_work(void);
@@ -68,7 +70,7 @@ Node *__fastcall optimize_tree_local(Node *node);
 void __fastcall transform_function_trees(Function *function);
 void __fastcall cleanup_expressions(Expression **expressions);
 void __fastcall optimize_function_flow(Function *function);
-WorkItem *__fastcall build_global_work(void *expressions);
+WorkItem *__fastcall build_global_work(Expression *expressions);
 WorkItem *__fastcall build_local_work(Expression *expressions);
 WorkItem *new_work_item(void);
 Expression *__fastcall insert_tree_expression(Expression *expressions, Node *before, Node *tree);
