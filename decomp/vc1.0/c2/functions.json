@@ -726,7 +726,13 @@
     "@coff_data_position@4",
     "@coff_comdat_selection@4",
     "@coff_create_comdat_section@20",
-    "_strncmp"
+    "_strncmp",
+    "@emit_initializer@4",
+    "@coff_output_relocation@12",
+    "@coff_output_offset@8",
+    "@coff_add_relocation@16",
+    "@coff_output_bytes@8",
+    "@coff_output_typed_reference@12"
   ],
   "driver": [
     {
@@ -993,8 +999,7 @@
     {
       "name": "@emit_initializer@4",
       "start": 430944,
-      "end": 431136,
-      "provisional": true
+      "end": 431125
     },
     {
       "name": "@release_initializer@4",
@@ -1491,7 +1496,7 @@
       "end": 429472
     },
     {
-      "name": "_output_noop_relocation",
+      "name": "@output_noop_relocation@12",
       "start": 429472,
       "end": 429473,
       "provisional": true
@@ -1565,10 +1570,9 @@
       "provisional": true
     },
     {
-      "name": "_coff_output_bytes",
+      "name": "@coff_output_bytes@8",
       "start": 447728,
-      "end": 447729,
-      "provisional": true
+      "end": 447755
     },
     {
       "name": "_coff_output_address",
@@ -1577,10 +1581,9 @@
       "provisional": true
     },
     {
-      "name": "_coff_output_offset",
+      "name": "@coff_output_offset@8",
       "start": 448096,
-      "end": 448097,
-      "provisional": true
+      "end": 448134
     },
     {
       "name": "_coff_output_size",
@@ -1594,10 +1597,9 @@
       "end": 444944
     },
     {
-      "name": "_coff_output_relocation",
+      "name": "@coff_output_relocation@12",
       "start": 448176,
-      "end": 448177,
-      "provisional": true
+      "end": 448937
     },
     {
       "name": "@coff_output_record@4",
@@ -1670,7 +1672,7 @@
       "provisional": true
     },
     {
-      "name": "_omf_output_relocation",
+      "name": "@omf_output_relocation@12",
       "start": 438208,
       "end": 438209,
       "provisional": true
@@ -5921,6 +5923,40 @@
       "name": "@redirect_pentium_branch_labels@8",
       "start": 292736,
       "end": 292737,
+      "provisional": true
+    },
+    {
+      "name": "@coff_write_word@4",
+      "start": 454640,
+      "end": 454641,
+      "provisional": true
+    },
+    {
+      "name": "@coff_write_dword@4",
+      "start": 454672,
+      "end": 454673,
+      "provisional": true
+    },
+    {
+      "name": "@coff_add_relocation@16",
+      "start": 453504,
+      "end": 453628
+    },
+    {
+      "name": "@coff_add_function_fixup@8",
+      "start": 453632,
+      "end": 453633,
+      "provisional": true
+    },
+    {
+      "name": "@coff_output_typed_reference@12",
+      "start": 447760,
+      "end": 447992
+    },
+    {
+      "name": "@coff_section_symbol@4",
+      "start": 453472,
+      "end": 453473,
       "provisional": true
     }
   ],

@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
   "accepted_from": 352,
-  "accepted_frontiers": 370,
+  "accepted_frontiers": 376,
   "current_frontier": {
-    "name": "@emit_initializer@4",
-    "original_va": 430944
+    "name": "@emit_function_exception_table@8",
+    "original_va": 431168
   },
   "expected": {
     "exit": 0,
@@ -254,7 +254,8 @@
     "Scheduler completion checkpoint707:10new whole functions after697; first function scheduler completes all windows, load recombination and cleanup.630source graphs/extents/masks and whole scheduler /W3 pass. Native minimal exactobject and hello356-entry late-split terminal pass; coverage198794/399693=49.7366728964percent, not branch coverage. See cases/hello-scheduler-complete.json.",
     "checkpoint711: four late scheduling functions,634 graph/extent audits, native minimal and hello prefix checks pass; floating transformation guard body unexercised",
     "checkpoint720: nine layout/symbol/COFF functions;643 graph and extent audits, seven original CL /W3 modules clean, native minimal and hello prefix checks pass",
-    "checkpoint722: COMDAT constructor plus explicit indexed CRT strncmp acceptance; strings/count/result1 match, six inconsistent evidence variants rejected,644 source graphs and both native cases pass"
+    "checkpoint722: COMDAT constructor plus explicit indexed CRT strncmp acceptance; strings/count/result1 match, six inconsistent evidence variants rejected,644 source graphs and both native cases pass",
+    "checkpoint728: six initializer/relocation functions,650 source graphs, four /W3 modules and native fixtures pass; preflight found final near-JMP split and corrected end6d5f8, fresh original/native prefix revalidated; first function frame metadata next"
   ],
   "total_accepted_frontiers": 707,
   "reconstructed_functions": 630,

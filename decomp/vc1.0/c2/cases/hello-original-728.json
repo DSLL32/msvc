@@ -1,0 +1,24 @@
+{
+  "label": "coff-typed-after",
+  "accepted": 728,
+  "logical": "@emit_function_exception_table@8",
+  "original_va": "0x69440",
+  "events": "exception 80000003 rva 00059440 base 00010000 first 1\nexit 99\n",
+  "setup_seconds": 0.17689477186650038,
+  "execution_check_seconds": 1.029942074790597,
+  "total_seconds": 1.206837309524417,
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "95ccf0417b59dc52cf565cb11ee07035818b247f9e9e28c1ab50387a7d554adf",
+  "config_sha256": "485aabe4dbf85e47df962262e697eb504c239f48fb31e197386ebf70ef3662dc",
+  "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+  "inputs": {
+    "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+    "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+    "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+    "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/coff-typed-after"
+}

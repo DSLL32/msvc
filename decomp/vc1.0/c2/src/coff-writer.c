@@ -450,3 +450,31 @@ unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
     section->number = (unsigned short)index;
     return (unsigned short)index;
 }
+
+/* Original [0006eb80,0006ebfc). Append a ten-byte COFF relocation to the
+   current contribution. Blocks hold50 records and form a circular list whose
+   last block is stored on the contribution. Unresolved handles are fixed later. */
+void __fastcall coff_add_relocation(unsigned identifier, unsigned offset,
+    unsigned handle, unsigned short type)
+{
+    CoffSection *section = coff_current_section;
+    CoffContribution *contribution = section->last;
+    CoffRelocationBlock *block = contribution->relocations, *next;
+    unsigned count = block->count;
+    CoffRelocation *relocation = &block->entries[count];
+    block->count = ++count;
+    relocation->address = offset - section->base_offset;
+    relocation->symbol = handle;
+    relocation->type = type;
+    if (!handle) coff_add_function_fixup(identifier, relocation);
+    ++contribution->relocation_count;
+    if ((int)count >= 50) {
+        next = coff_free_relocations;
+        if (next) coff_free_relocations = next->next;
+        else next = coff_allocator(sizeof(CoffRelocationBlock));
+        next->count = 0;
+        next->next = block->next;
+        block->next = next;
+        contribution->relocations = next;
+    }
+}

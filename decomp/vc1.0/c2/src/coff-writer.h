@@ -183,4 +183,9 @@ void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned 
 void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base);
 extern CoffScope *coff_trailer_scope;
 extern CoffObjectSymbol *coff_last_written_symbol;
+void __fastcall coff_write_word(unsigned short value);
+void __fastcall coff_write_dword(unsigned value);
+void __fastcall coff_add_relocation(unsigned identifier, unsigned offset, unsigned handle, unsigned short type);
+void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation);
+unsigned __fastcall coff_section_symbol(unsigned short identifier);
 #endif

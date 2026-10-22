@@ -135,7 +135,10 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     assert sha(BINARY/'runtime.json') == cache['metadata_sha256']['runtime.json'], 'runtime classification changed during one-function extension'
     assert after['config_sha256'] == sha(BINARY/'functions.json'), 'after capture is not current code metadata'
     name = accepted[old_count]
-    assert before['logical'] == name, 'wrong original entry before acceptance'
+    # An untyped naked stub can acquire its recovered calling convention at
+    # acceptance. Require the same C identity and exact original entry below;
+    # only the decoration changes, never the function being accepted.
+    assert native_name(before['logical']) == native_name(name), 'wrong original entry before acceptance'
     drivers = {r['name']:r for r in config['driver']}
     runtime = {r['name']:r for r in json.loads((BINARY/'runtime.json').read_text())}
     records = dict(runtime, **drivers)
@@ -151,7 +154,7 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     assert after['original_va'] == hex(records[terminal]['start'])
     assert after['logical'] not in accepted
     case = cache['cases']['hello']
-    assert case['last'] == old_count and case['terminal'] == name
+    assert case['last'] == old_count and case['terminal'] == before['logical']
     if name in application_names:
         assert case['expected'][-1] == native_name(name)
         assert runtime_evidence is None, 'runtime evidence supplied for application acceptance'
@@ -180,6 +183,7 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     cache['metadata_sha256'] = {n:sha(BINARY/n) for n in ('functions.json','runtime.json')}
     cache['provenance']['hello'].setdefault('extensions', []).append(dict(
         accepted_function=name, accepted_kind='application' if name in application_names else 'runtime-library',
+        previous_logical=before['logical'],
         original_extent=[hex(records[name]['start']),hex(records[name]['end'])],
         before=dict(path=str(before_path), sha256=sha(before_path), capture=before),
         after=dict(path=str(after_path), sha256=sha(after_path), capture=after)))

@@ -216,3 +216,50 @@ void __fastcall coff_mark_symbol(SymbolHeader *symbol)
     handle = coff_define_symbol(name, section, storage, value, type);
     if (!symbol->field14) symbol->field14 = handle;
 }
+/* Original [0006d660,0006d686). Encode an i386 REL32 reference at an
+   instruction-relative byte offset within the current COFF contribution. */
+void __fastcall coff_output_offset(unsigned offset, SymbolHeader *symbol)
+{
+    unsigned position = coff_section_position(coff_selected_section);
+    coff_add_relocation(symbol->identifier, offset + position, symbol->field14, 0x14);
+}
+
+/* Original [0006d4f0,0006d50b). Local COMDAT data uses SECREL (11);
+   other absolute addresses use i386 DIR32 (6). */
+void __fastcall coff_output_bytes(unsigned offset, SymbolHeader *symbol)
+{
+    unsigned short type = 6;
+    if (symbol->kind == 1 && (symbol->field0e & 0x1000)) type = 11;
+    coff_output_typed_reference(offset, symbol, type);
+}
+/* Original [0006d510,0006d5f8). Choose either a symbol-table handle or the
+   symbol of its defining contribution before emitting a typed relocation. */
+void __fastcall coff_output_typed_reference(unsigned offset, SymbolHeader *symbol,
+    unsigned short type)
+{
+    unsigned handle, storage;
+    Segment *segment;
+    offset += coff_section_position(coff_selected_section);
+    if (byte_block_first) handle = symbol->field14;
+    else switch (symbol->kind) {
+    case 1:
+        storage = symbol->field0e & 0x20 ? 2 : (((BackendSymbol *)symbol)->attributes & 0x780) >> 7;
+        if (storage == 1 || storage == 4) {
+            segment = (Segment *)lookup_global_symbol(symbol->field18.identifier);
+            handle = coff_section_symbol((unsigned short)segment->object_section);
+        } else if (storage == 2 || storage == 3) handle = symbol->field14;
+        /* Unsupported allocation codes leave the original handle indeterminate. */
+        break;
+    case 3:
+        if (current_symbol->symbol.field0e & 0x20) {
+            symbol = &current_symbol->symbol;
+            handle = symbol->field14;
+        } else {
+            segment = (Segment *)lookup_global_symbol(current_symbol->symbol.field18.identifier);
+            handle = coff_section_symbol((unsigned short)segment->object_section);
+        }
+        break;
+    case 4: handle = symbol->field14; break;
+    }
+    coff_add_relocation(symbol->identifier, offset, handle, type);
+}

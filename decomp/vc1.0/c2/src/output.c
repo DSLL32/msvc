@@ -58,7 +58,7 @@ void initialize_output_callbacks(void)
     output_callbacks.debug_pair = (void (__fastcall *)(char *))output_noop_pair;
     output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;
     output_callbacks.finish_module = (OutputRoutine)output_noop;
-    output_callbacks.relocation = (OutputRoutine)output_noop_relocation;
+    output_callbacks.relocation = output_noop_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))output_noop_record;
     output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))mark_unwritten_symbol;
         return;
@@ -70,12 +70,12 @@ void initialize_output_callbacks(void)
     output_callbacks.data = (void (__fastcall *)(void *, unsigned))coff_write_data;
     output_callbacks.select_segment = (void (__fastcall *)(Segment *))coff_select_segment;
     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_value;
-    output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_bytes;
+    output_callbacks.absolute_reference = coff_output_bytes;
     output_callbacks.address = (OutputRoutine)coff_output_address;
-    output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_offset;
+    output_callbacks.relative_reference = coff_output_offset;
     output_callbacks.size = (OutputRoutine)coff_output_size;
     output_callbacks.finish_module = (OutputRoutine)coff_finish_module;
-    output_callbacks.relocation = (OutputRoutine)coff_output_relocation;
+    output_callbacks.relocation = coff_output_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))coff_output_record;
     output_callbacks.mark_symbol = coff_mark_symbol;
         if (codeview_debug || line_debug) {
@@ -97,7 +97,7 @@ void initialize_output_callbacks(void)
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_offset;
     output_callbacks.size = (OutputRoutine)omf_output_size;
     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;
-    output_callbacks.relocation = (OutputRoutine)omf_output_relocation;
+    output_callbacks.relocation = omf_output_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))omf_output_record;
     output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))omf_mark_symbol;
         if (codeview_debug || line_debug) {

@@ -1,8 +1,9 @@
 C2 ACTIVE: finish /O2 /G5 hello, then original-captured optimizer stress.
-Verified722 logical acceptances/644 application source graphs. Current matching
-frontier emit_initializer0x69360. Hello object incomplete.
-Extent union203462/399693=50.90456925690467 percent, mask checked;
-not branch coverage. Native fixtures, canonical build and graph audit pass.
-CRT strncmp is an explicit library acceptance with strings/count/result matched;
-excluded from application coverage. See cases/hello-comdat-crt.json.
-No shim request. Continue queue; shared Git index lock for scoped commits.
+Verified728 logical acceptances/650 source graphs. First function machine bytes
+emitted; matching frontier emit_function_exception_table0x69440 (frame metadata).
+Hello object incomplete. Extent union204825/399693=51.245580983404764
+percent, not branch coverage. Canonical /W3 modules, graph/extent/mask and native
+fixtures pass. Unchanged preflight caught/corrected final near-JMP operand split;
+fresh original728-corrected matches native; unvisited tail explicitly documented.
+See cases/hello-initializer-relocations.json. No shared shim request.
+Continue queue and use shared Git index lock for scoped checkpoints.

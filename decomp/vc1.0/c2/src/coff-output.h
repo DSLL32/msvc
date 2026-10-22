@@ -34,4 +34,5 @@ extern int coff_emitted_function;
 unsigned __fastcall coff_alignment_flags(unsigned alignment);
 extern Segment *coff_function_fpo_segment, *coff_function_debug_segment;
 unsigned short __fastcall coff_symbol_type(SymbolHeader *symbol);
+void __fastcall coff_output_typed_reference(unsigned offset, SymbolHeader *symbol, unsigned short type);
 #endif

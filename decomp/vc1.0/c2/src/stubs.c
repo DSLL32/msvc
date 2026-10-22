@@ -152,7 +152,7 @@ SymbolHeader *__fastcall require_external_symbol(char *name) { __asm int 3 }
 __declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
 __declspec(naked) void output_noop_function(void) { RECON_TRACE_NAKED_ENTRY(output_noop_function) __asm int 3 }
 __declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_noop_value) __asm int 3 }
-__declspec(naked) void output_noop_relocation(void) { RECON_TRACE_NAKED_ENTRY(output_noop_relocation) __asm int 3 }
+unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 __declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
 __declspec(naked) void end_debug_function(void) { RECON_TRACE_NAKED_ENTRY(end_debug_function) __asm int 3 }
@@ -161,11 +161,8 @@ __declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finis
 __declspec(naked) void coff_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_pair) __asm int 3 }
 __declspec(naked) void coff_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_record) __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
-__declspec(naked) void coff_output_bytes(void) { RECON_TRACE_NAKED_ENTRY(coff_output_bytes) __asm int 3 }
 __declspec(naked) void coff_output_address(void) { RECON_TRACE_NAKED_ENTRY(coff_output_address) __asm int 3 }
-__declspec(naked) void coff_output_offset(void) { RECON_TRACE_NAKED_ENTRY(coff_output_offset) __asm int 3 }
 __declspec(naked) void coff_output_size(void) { RECON_TRACE_NAKED_ENTRY(coff_output_size) __asm int 3 }
-__declspec(naked) void coff_output_relocation(void) { RECON_TRACE_NAKED_ENTRY(coff_output_relocation) __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { RECON_TRACE_NAKED_ENTRY(omf_select_segment) __asm int 3 }
 __declspec(naked) void omf_output_data(void) { RECON_TRACE_NAKED_ENTRY(omf_output_data) __asm int 3 }
@@ -176,7 +173,7 @@ __declspec(naked) void omf_output_bytes(void) { RECON_TRACE_NAKED_ENTRY(omf_outp
 __declspec(naked) void omf_output_offset(void) { RECON_TRACE_NAKED_ENTRY(omf_output_offset) __asm int 3 }
 __declspec(naked) void omf_output_size(void) { RECON_TRACE_NAKED_ENTRY(omf_output_size) __asm int 3 }
 __declspec(naked) void omf_finish_module(void) { RECON_TRACE_NAKED_ENTRY(omf_finish_module) __asm int 3 }
-__declspec(naked) void omf_output_relocation(void) { RECON_TRACE_NAKED_ENTRY(omf_output_relocation) __asm int 3 }
+unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void omf_output_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_record) __asm int 3 }
 __declspec(naked) void omf_mark_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_mark_symbol) __asm int 3 }
 void omf_open_module(void) { __asm int 3 }
@@ -199,7 +196,6 @@ void __fastcall write_public_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_external_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_common_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall mark_listing_symbols(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall emit_initializer(Initializer *initializer) { __asm int 3 }
 void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int 3 }
 #include "frame.h"
 
@@ -474,3 +470,7 @@ int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { _
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
 int __fastcall pair_pentium_taken_edge(MachineInstruction *branch, MachineInstruction **middle, MachineInstruction *label, int *changed) { __asm int 3 }
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
+void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
+void __fastcall coff_write_dword(unsigned value) { __asm int 3 }
+void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation) { __asm int 3 }
+unsigned __fastcall coff_section_symbol(unsigned short identifier) { __asm int 3 }
