@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 284 accepted paired frontiers, including 209 frontend
+PARTIAL reconstruction: 289 accepted paired frontiers, including 214 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _configure_member_function@12 at original VA 0x2fef0. The latest ordered replay is recorded in validation.json;
+trap is _end_class_specifier at original VA 0x2dfc0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -402,3 +402,20 @@ All 284 frontiers replay exactly through the constructor/parameter prefix.
 The next trap is configure_member_function at 0x2fef0. Accepted source-function
 and switch-table ranges now cover 94,645 original .text bytes, excluding the
 separate exact CRT/import frontier ranges; this is not executed-block coverage.
+
+Member-function completion through the end of the Counter member list adds
+configure_member_function, classify_constructor, overrides_virtual_member,
+validate_function_default_arguments and make_ellipsis_parameter. The dispatcher
+retains thirteen direct callees and its three-stack-slot stdcall ABI; full
+virtual lookup retains both calls, all base/table passes and the four-string
+return-type diagnostic. Virtual table entry stride, count/entry offsets, group
+vector offset and ClassInfo vector offsets are guarded in the native build.
+CppSymbol member flags and constructor qualifier bits share their original
+bytes at +0x32/+0x33. The former empty_parameter_declaration placeholder is an
+ellipsis marker allocator, with the untouched arena bytes and copied storage
+preserved rather than clearing the record. Source ranges now total 96,634
+original text/switch bytes; this is not executed-block coverage.
+
+All 289 accepted frontiers replay exactly in evidence/replay-member-functions.log.
+The matched current trap is end_class_specifier at 0x2dfc0. The complete frontend
+case is still partial; no complete output equivalence is claimed.

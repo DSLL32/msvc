@@ -1,5 +1,9 @@
 /* Class member declarations and their storage, access and layout dispatch. */
 #include "class-members.h"
+#include "parameters.h"
+
+void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
+    FunctionParameters *parameters, unsigned first_parameter, CppSymbol *symbol);
 
 #define CLASS_CONTEXT (class_contexts[current_class_context])
 #define CLASS_TAG (CLASS_CONTEXT.symbol)
@@ -458,4 +462,202 @@ CppSymbol *__stdcall declare_constructor(DeclarationType *type, CppSymbol *class
     if (name == name_ctor) member->declaration_flags |= 0x1000;
     declare_class_member(type, member);
     return member;
+}
+
+/* Original 0x2fef0..0x3022c. Configure access and implicit-this status,
+   classify special members, then apply virtual/default-argument/inline work.
+   All original diagnostics retain their variadic names and qualifier strings. */
+void __stdcall configure_member_function(StorageSpec storage, CppSymbol *member, int pure)
+{
+    TypeShape *shape;
+    ClassContext *context;
+    StorageSpec member_storage;
+    char *formatted;
+    member->flags = (member->flags & ~3) | (CLASS_CONTEXT.flags & 3);
+    if (!member->index) {
+        if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+        member->index = next_symbol_index++;
+    }
+    member->declaration_flags |= 0x400;
+    member->auxiliary.declaring_class = CLASS_TAG->detail.class_info->type_index;
+    if (member->name == name_new || member->name == name_delete)
+        member->cpp.parts.member_flags &= ~1;
+    else if ((storage.flags & 7) == 3) {
+        shape = member->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (has_qualified_this_type(shape->data.parameters->associated_type))
+            report_syntax_error(272, member->name);
+    } else member->cpp.parts.member_flags |= 1;
+    if (!(member->cpp.parts.member_flags & 1))
+        member->type = transform_function_parameters(member->type, mark_static_parameters);
+    if (member->declaration_flags & 0x1000) {
+        classify_constructor(member);
+        shape = member->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (shape->data.parameters->associated_type->attributes & 0x1000)
+            report_syntax_error(583, format_symbol_name(member), token_spellings[TOK_CONST]);
+        shape = member->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (shape->data.parameters->associated_type->attributes & 0x2000)
+            report_syntax_error(583, format_symbol_name(member), token_spellings[TOK_VOLATILE]);
+    } else if (member->declaration_flags & 0x2000) {
+        shape = member->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (shape->data.parameters->associated_type->attributes & 0x1000)
+            report_syntax_error(583, format_symbol_name(member), token_spellings[TOK_CONST]);
+        shape = member->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (shape->data.parameters->associated_type->attributes & 0x2000)
+            report_syntax_error(583, format_symbol_name(member), token_spellings[TOK_VOLATILE]);
+        if ((storage.flags & 0x200) && !(CLASS_CONTEXT.flags & 0x10)) {
+            context = &CLASS_CONTEXT;
+            formatted = format_symbol_name(member);
+            report_syntax_error(571, context->symbol->name, formatted);
+        }
+    } else if (member->name == name_assignment) {
+        if ((storage.flags & 7) == 3) report_syntax_error(581, CLASS_TAG->name);
+        else classify_copy_assignment(member);
+    } else if ((storage.flags & 0x200) && !(CLASS_CONTEXT.flags & 0x10)) {
+        report_syntax_error(571, CLASS_TAG->name, member->name);
+        return;
+    }
+    if (member->storage[1] & 2) ((unsigned char *)member->name)[-1] |= 0x10;
+    if ((member->cpp.parts.member_flags & 1) && overrides_virtual_member(member, CLASS_TAG, 1)) {
+        member->storage[1] |= 2;
+        ((unsigned char *)member->name)[-1] |= 0x10;
+    }
+    if (pure) {
+        member_storage.flags = member->storage[0] | (member->storage[1] << 8);
+        member_storage.extended = member->storage[2];
+        set_pure_virtual_member(member, CLASS_TAG, member_storage);
+    }
+    validate_special_function(member, 0);
+    validate_function_default_arguments(member);
+    capture_inline_member_declaration(member, -1, -1, 0);
+}
+
+/* Original 0x30230..0x3035e. Constructor classification recognizes default
+   arguments and the single reference-to-self form, retaining its cv bits. */
+void __stdcall classify_constructor(CppSymbol *member)
+{
+    TypeShape *outer = member->type->related, *function, *shape;
+    FunctionParameters *parameters;
+    DeclarationParameterInfo *declarations;
+    CType *type;
+    CppSymbol *tag;
+    unsigned required, qualifiers;
+    if (outer->flags & 0x4000) {
+        member->cpp.parts.member_flags |= 0x10;
+        return;
+    }
+    function = outer;
+    if (function && !(function->flags & 0x77)) function = function->related;
+    parameters = function->data.parameters;
+    declarations = parameters->declarations;
+    if ((outer->flags & 0x8000) && declarations->count == 1) {
+        member->cpp.parts.member_flags |= 0x30;
+        return;
+    }
+    required = (unsigned)declarations->count - parameters->default_count;
+    if (!required) member->cpp.parts.member_flags |= 0x10;
+    else if (required != 1) return;
+    type = declarations->types[0];
+    if (!(type->flags & 0x400) || type->field08 != CLASS_CONTEXT.type->field08) return;
+    shape = type->related;
+    if (!shape || (!(shape->flags & 0x77) && !shape->related)) {
+        tag = cpp_context_stack->items[type->field08];
+        report_syntax_error(652, tag->name, tag->name);
+        member->declaration_flags |= 2;
+        member->cpp.parts.member_flags |= 0x20;
+        return;
+    }
+    if ((shape->flags & 0x40) && !shape->related) {
+        member->cpp.parts.member_flags |= 0x20;
+        qualifiers = 0;
+        if (type->attributes & 0x1000) qualifiers |= 1;
+        if (type->attributes & 0x2000) qualifiers |= 2;
+        member->cpp.parts.member_qualifiers =
+            (member->cpp.parts.member_qualifiers & 0x3f) | (qualifiers << 6);
+    }
+}
+
+/* Original 0x796a0..0x798ef. Name identity and canonical parameter lists
+   select overloads before comparing return types. With diagnostics enabled,
+   continue across all inherited slots so each conflicting return is reported. */
+int __stdcall overrides_virtual_member(CppSymbol *member, CppSymbol *owner, int diagnose)
+{
+    BaseClassLink *base;
+    CppSymbol *base_tag, *inherited, *inherited_owner;
+    Vector *tables, *groups;
+    VirtualTableGroup *group;
+    VirtualTable *table;
+    TypeShape *member_shape, *inherited_shape;
+    FunctionParameters *member_parameters, *inherited_parameters;
+    CType *member_this, *inherited_this;
+    short table_index, group_index;
+    int entry_index, found = 0;
+    if (!(((unsigned char *)member->name)[-1] & 0x10)) return 0;
+    for (base = (BaseClassLink *)owner->auxiliary.scope_members; base;
+            base = (BaseClassLink *)base->next) {
+        if ((base->kind & 31) != 15 || (base->flags & 0x80)) continue;
+        base_tag = cpp_context_stack->items[base->context_index];
+        tables = base_tag->detail.class_info->virtual_tables;
+        groups = base_tag->detail.class_info->virtual_table_groups;
+        table_index = group_index = 0;
+        for (;;) {
+            if (table_index >= tables->count) {
+                if (group_index >= groups->count) break;
+                group = groups->items[group_index++];
+                tables = group->tables;
+                table_index = 0;
+                continue;
+            }
+            table = tables->items[table_index++];
+            for (entry_index = 0; entry_index < table->entry_count; ++entry_index) {
+                inherited = table->entries[entry_index].function;
+                if (member->name != inherited->name) continue;
+                member_shape = member->type->related;
+                if (member_shape && !(member_shape->flags & 0x77)) member_shape = member_shape->related;
+                inherited_shape = inherited->type->related;
+                if (inherited_shape && !(inherited_shape->flags & 0x77)) inherited_shape = inherited_shape->related;
+                member_parameters = member_shape->data.parameters;
+                inherited_parameters = inherited_shape->data.parameters;
+                if (member_parameters->declarations != inherited_parameters->declarations) continue;
+                member_this = member_parameters->associated_type;
+                inherited_this = inherited_parameters->associated_type;
+                if ((member->type->attributes ^ inherited->type->attributes) & 7) continue;
+                if ((member_this->related->attributes ^ inherited_this->related->attributes) & 7) continue;
+                if ((member_this->attributes ^ inherited_this->attributes) & 0x3000) continue;
+                if (!compatible_override_return(member->type, inherited->type)) {
+                    if (diagnose) {
+                        inherited_owner = cpp_context_stack->items[inherited->auxiliary.declaring_class];
+                        report_syntax_error(555, owner->name, member->name,
+                            inherited_owner->name, inherited->name);
+                    }
+                    continue;
+                }
+                if (!diagnose) return 1;
+                found = 1;
+            }
+        }
+    }
+    return found;
+}
+
+/* Original 0x3a550..0x3a596. Validate defaults on a function declaration,
+   stripping the optional leading type modifier before accessing its list. */
+void __stdcall validate_function_default_arguments(CppSymbol *function)
+{
+    TypeShape *shape;
+    FunctionParameters *parameters;
+    unsigned count;
+    if (!function || (function->kind & 31) != 7 || !function->type) return;
+    shape = function->type->related;
+    if (!shape) return;
+    if (!(shape->flags & 0x77)) shape = shape->related;
+    parameters = shape->data.parameters;
+    count = parameters->default_count;
+    check_missing_defaults(parameters->defaults, count, parameters,
+        parameters->declarations->count - count, function);
 }

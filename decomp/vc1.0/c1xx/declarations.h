@@ -19,9 +19,32 @@ typedef struct BaseClassLink {
 } BaseClassLink;
 typedef char BaseClassLinkStateOffsetMustBe20[(offsetof(BaseClassLink, state) == 20) ? 1 : -1];
 
+/* Encountered virtual-dispatch record prefixes. Unused words retain their
+   offsets until allocation and initialization paths establish their meaning. */
+typedef struct VirtualEntry {
+    CppSymbol *function;
+    unsigned field04, field08, field0c;
+} VirtualEntry;
+typedef struct VirtualTable {
+    unsigned field00, field04, field08, field0c;
+    int entry_count;
+    unsigned field14;
+    VirtualEntry *entries;
+} VirtualTable;
+typedef struct VirtualTableGroup {
+    unsigned field00, field04, field08, field0c, field10;
+    Vector *tables;
+} VirtualTableGroup;
+typedef char VirtualEntrySizeMustBe16[(sizeof(VirtualEntry) == 16) ? 1 : -1];
+typedef char VirtualTableCountOffsetMustBe16[(offsetof(VirtualTable, entry_count) == 16) ? 1 : -1];
+typedef char VirtualTableEntriesOffsetMustBe24[(offsetof(VirtualTable, entries) == 24) ? 1 : -1];
+typedef char VirtualTableGroupTablesOffsetMustBe20[(offsetof(VirtualTableGroup, tables) == 20) ? 1 : -1];
 typedef struct ClassInfo {
-    unsigned size, nonvirtual_size, field08, field0c;
-    unsigned field10, field14, field18, field1c, field20, field24;
+    unsigned size, nonvirtual_size;
+    Vector *virtual_tables;
+    unsigned field0c;
+    Vector *virtual_table_groups;
+    unsigned field14, field18, field1c, field20, field24;
     short type_index;
     unsigned short pointer_attributes;
     unsigned field2c;
@@ -31,9 +54,12 @@ typedef struct ClassInfo {
     unsigned field38;
 } ClassInfo;
 
+typedef char ClassInfoVirtualTablesOffsetMustBe8[(offsetof(ClassInfo, virtual_tables) == 8) ? 1 : -1];
+typedef char ClassInfoVirtualGroupsOffsetMustBe16[(offsetof(ClassInfo, virtual_table_groups) == 16) ? 1 : -1];
+
 typedef union CppSymbolState {
     unsigned flags;
-    struct { unsigned char low_flags, token, high_flags[2]; } parts;
+    struct { unsigned char low_flags, token, member_flags, member_qualifiers; } parts;
 } CppSymbolState;
 
 /* Tags own the common forty-byte record; full declarations additionally own

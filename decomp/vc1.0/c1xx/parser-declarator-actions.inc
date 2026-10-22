@@ -154,7 +154,7 @@
             parser_value.symbol = right[0].symbol;
             break;
         case 126:
-            parser_value.symbol = empty_parameter_declaration();
+            parser_value.symbol = make_ellipsis_parameter();
             POP_DECLARATION();
             declaration_kind = 1;
             begin_parameter_scope(0);

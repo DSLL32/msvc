@@ -186,7 +186,6 @@ void __stdcall emit_label(IrToken *label) { __asm { int 3 } }
 void __stdcall emit_return_statement(IrToken *expression, int mode) { __asm { int 3 } }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
-CppSymbol * empty_parameter_declaration(void) { __asm { int 3 } return 0; }
 char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
 CType * end_class_specifier(void) { __asm { int 3 } return 0; }
@@ -357,7 +356,6 @@ void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclar
 TypeShape *__stdcall last_type_shape(TypeShape *shape) { __asm { int 3 } return 0; }
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
 void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short flags, int new_member) { __asm { int 3 } }
-void __stdcall configure_member_function(StorageSpec storage, CppSymbol *member, int pure) { __asm { int 3 } }
 int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall class_type_of_member(CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
@@ -395,3 +393,10 @@ void __stdcall resolve_nested_deferred_types(unsigned char unused_mode) { __asm 
 int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }
+
+int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
+CType *__stdcall transform_function_parameters(CType *type, ParameterTransform transform) { __asm { int 3 } return 0; }
+FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *parameters) { __asm { int 3 } return 0; }
+void __stdcall classify_copy_assignment(CppSymbol *member) { __asm { int 3 } }
+int __stdcall compatible_override_return(CType *member, CType *inherited) { __asm { int 3 } return 0; }
+void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }

@@ -110,7 +110,7 @@ char *__stdcall encode_type_name(CType *type);
 QualifierResolution *__stdcall lookup_qualified_member(QualifierResolution *scope, char *name, CType *type);
 char *make_anonymous_identifier(void);
 void __stdcall apply_conversion_declarator(DeclarationType *type, TypeShape *shape);
-CppSymbol *empty_parameter_declaration(void);
+CppSymbol *make_ellipsis_parameter(void);
 void __stdcall begin_parameter_scope(CppSymbol *first);
 CppSymbol *__stdcall append_parameter_declaration(CppSymbol *list, CppSymbol *declaration);
 int __stdcall can_initialize(CType *type, IrToken *expression);

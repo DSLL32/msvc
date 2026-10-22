@@ -36,3 +36,31 @@ CppSymbol *__stdcall append_parameter_declaration(CppSymbol *list, CppSymbol *de
     else prepend_declarator(list, declaration);
     return declaration;
 }
+
+/* Original 0x37750..0x37811. The grammar's ellipsis marker is a full symbol
+   record with storage kind four; retain untouched arena bytes in other slots. */
+CppSymbol *make_ellipsis_parameter(void)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    CppSymbol *symbol;
+    unsigned char kind;
+    declaration_kind = 1;
+    if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+    symbol = (CppSymbol *)pool->next;
+    pool->remaining -= sizeof(CppSymbol);
+    pool->next += sizeof(CppSymbol);
+    symbol->kind = 11;
+    symbol->storage[0] = (symbol->storage[0] & 0xfc) | 4;
+    kind = symbol->storage[0] & 7;
+    symbol->storage[0] = declaration_storage[0];
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+    symbol->storage[0] = (symbol->storage[0] & ~7) | kind;
+    symbol->name = name_ellipsis;
+    symbol->references = 1;
+    if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_symbol_rollover();
+    symbol->index = next_symbol_index++;
+    symbol->type = type_0080;
+    return symbol;
+}

@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 284,
-  "driver_functions": 209,
+  "accepted_frontiers": 289,
+  "driver_functions": 214,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 215,
-  "current_frontier": "_configure_member_function@12",
-  "original_frontier_va": "0x2fef0",
+  "reconstructed_source_functions": 220,
+  "current_frontier": "_end_class_specifier",
+  "original_frontier_va": "0x2dfc0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "cd169f909094f96538c9984f1734407867185317c6a34f5e9ed5b7c5d19f467e",
-  "call_graph_audit_functions": 215,
+  "replay_log_sha256": "571eddd879b830b79b6628590601edcea7e46f68a72713a919abd98805871e7c",
+  "call_graph_audit_functions": 220,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -88,7 +88,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-constructor-parameters.log",
+  "replay_log": "evidence/replay-member-functions.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -189,7 +189,36 @@
       "0x33180",
       "0x3325a"
     ],
-    "class_pointer_type_callees": 4
+    "class_pointer_type_callees": 4,
+    "member_dispatch_range": [
+      "0x2fef0",
+      "0x3022d"
+    ],
+    "member_dispatch_callees": 13,
+    "constructor_classification_range": [
+      "0x30230",
+      "0x3035f"
+    ],
+    "virtual_override_search_range": [
+      "0x796a0",
+      "0x798f0"
+    ],
+    "virtual_override_search_callees": 2,
+    "virtual_return_diagnostic_string_arguments": 4,
+    "virtual_entry_bytes": 16,
+    "virtual_table_count_offset": 16,
+    "virtual_table_entries_offset": 24,
+    "virtual_group_tables_offset": 20,
+    "member_flag_offset": 50,
+    "constructor_qualifier_offset": 51,
+    "default_argument_wrapper_range": [
+      "0x3a550",
+      "0x3a597"
+    ],
+    "ellipsis_parameter_range": [
+      "0x37750",
+      "0x37812"
+    ]
   },
   "scoped_name_lookup": {
     "lookup_range": [
@@ -276,5 +305,5 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 94645
+  "accepted_source_text_and_switch_bytes": 96634
 }

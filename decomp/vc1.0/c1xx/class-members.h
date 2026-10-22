@@ -19,6 +19,16 @@ void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short fl
 /* Original 0x2fef0 uses three stack arguments and RET 12. The decompiler's
    apparent this pointer is dead upper-ECX state after a byte write to CL. */
 void __stdcall configure_member_function(StorageSpec storage, CppSymbol *member, int pure);
+int __stdcall has_qualified_this_type(CType *type);
+typedef FunctionParameters *(__stdcall *ParameterTransform)(FunctionParameters *parameters);
+CType *__stdcall transform_function_parameters(CType *type, ParameterTransform transform);
+FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *parameters);
+void __stdcall classify_constructor(CppSymbol *member);
+void __stdcall classify_copy_assignment(CppSymbol *member);
+int __stdcall overrides_virtual_member(CppSymbol *member, CppSymbol *owner, int diagnose);
+int __stdcall compatible_override_return(CType *member, CType *inherited);
+void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage);
+void __stdcall validate_function_default_arguments(CppSymbol *function);
 int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member);
 CppSymbol *__stdcall class_type_of_member(CppSymbol *member);
 unsigned __stdcall layout_data_member(CppSymbol *member);
