@@ -414,8 +414,6 @@ void __fastcall assign_flow_region(FlowRegion *region) { __asm int 3 }
 
 int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }
 
-void clear_work_expression_cache(void) { __asm int 3 }
-void __fastcall rewrite_work_values(WorkItem *work) { __asm int 3 }
 void __fastcall rewrite_work_expressions(WorkItem *work) { __asm int 3 }
 void __fastcall collect_region_values(FlowRegion *region) { __asm int 3 }
 void __fastcall hoist_region_values(FlowRegion *regions) { __asm int 3 }
@@ -430,3 +428,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
 
 NumberedExpression *__fastcall find_numbered_expression(Node *node) { __asm int 3 }
+
+void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
+int __fastcall has_no_later_work_store(Expression *expression) { __asm int 3 }

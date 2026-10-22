@@ -702,3 +702,45 @@ All 352 minimal and all 112 hello historical frontiers replay. All source graphs
 agree, five changed implementation modules compile /W3 clean and the complete
 minimal object/exit regression passes. Hello output remains pending at
 clear_work_expression_cache, 0x5bb20.
+
+The first memory-value rewrite now completes and reaches region hoisting.
+Eleven newly reconstructed functions cover 802 reachable native instructions:
+numbered-cache cleanup, canonical alias-set construction, block memory summaries,
+backward memory liveness and their sparse-bitset operations. WorkValue's full
+24-byte layout now names its last local store pointer and alias-set pointer.
+Interning leaves those two fields untouched until their owning pass initializes
+them. Block flow-set indices have explicit names for reads, stores, unread stores,
+live-in and live-out. All these sets and pointer chains are built at runtime.
+
+Memory liveness solves uses | (live-out - definitions) backwards to a fixed
+point, keeping externally observable memory values live at the exit. The transfer
+helper has a fixed four-argument fastcall ABI with RET 8; its provisional return
+type was corrected to void before unmasking. Union/difference assignment helpers
+are fixed three-argument fastcall functions with RET 4 and no return value.
+Their C preserves native sentinel handling, allocation order and chunk recycling,
+including difference allocation before its zero-result test. Cache cleanup
+releases indexed roots shallowly before resetting arena four.
+
+Independent capture after the first rewrite and dominator refresh matches all
+259 normalized lines: six blocks, 23 expressions, 93 work-tree nodes, ten canonical
+memory values, 20 alias-set chunks and 45 block flow-set chunks. Canonical memory
+pointers are compared through their indexed value identity, including any operator
+whose opcode was converted during rewriting. Numbered/reference storage has been
+reset and is no longer followed; last-store slots are no longer logically live
+after cleanup and are not interpreted. The first function does not actually
+remove a dead store or contain loop regions, so those paths retain their named
+typed downstream traps. See cases/hello-memory-flow-abi.json for exact extents,
+ABI corrections, ownership details and dynamic coverage limits.
+
+This checkpoint has 398 reconstructed functions and 475 accepted frontiers.
+All 352 minimal and all 123 hello historical frontiers replay. All source graphs
+agree, three affected implementation modules compile /W3 clean and the complete
+minimal object/exit regression passes. Hello output remains pending at
+hoist_region_values, 0x5c020.
+
+Run make coverage for the accepted original code-extent union, including source,
+shared text data, CRT and import thunks. The report unions overlapping intervals,
+clips them to original code sections using VirtualSize (raw size if zero), and
+verifies that union against the actual INT3 masker. Current coverage is 126,319
+of 399,693 original code bytes, or 31.6040 percent. This is code-extent coverage,
+not branch coverage; the original target hash is included in the JSON report.

@@ -3,13 +3,15 @@
 #include "global-work.h"
 #include "bitsets.h"
 typedef struct LoopTreeRecord LoopTreeRecord;
-/* Encountered prefix of the native 24-byte value record. The final two
-   words remain undefined until their uses are reconstructed. */
+/* Native 24-byte memory-value record, including last local store and alias set. */
 typedef struct WorkValue {
     struct WorkValue *hash_next, *previous;
     Node *canonical;
     unsigned identifier;
+    Node *last_store;
+    BitSet *aliases;
 } WorkValue;
+typedef char WorkValueSizeCheck[sizeof(WorkValue) == 24 ? 1 : -1];
 enum { WORK_VALUE_BUCKETS = 64 };
 extern WorkValue *work_value_buckets[WORK_VALUE_BUCKETS];
 extern BitSet *work_memory_values, *work_global_values, *work_direct_values, *work_indirect_values;
@@ -101,4 +103,20 @@ int __fastcall tree_uses_killed_value(Node *node);
 extern PendingWorkEffect *free_pending_work_effects;
 int __fastcall work_effect_invalidates_value(Node *effect, Node *value);
 int __fastcall is_private_work_value(Node *node);
+void build_work_alias_sets(void);
+void __fastcall summarize_work_memory(WorkItem *work);
+void __fastcall compute_work_memory_liveness(WorkItem *work);
+void __fastcall invalidate_work_tree(Node *node);
+int __fastcall has_no_later_work_store(Expression *expression);
+enum {
+    WORK_REFERENCE_AVAILABLE,
+    WORK_MEMORY_READS,
+    WORK_UNREAD_STORES,
+    WORK_MEMORY_STORES,
+    WORK_MEMORY_LIVE_IN,
+    WORK_MEMORY_LIVE_OUT
+};
+extern BitSet *work_unread_stores, *work_stored_values, *work_upward_reads;
+void __fastcall collect_work_memory_reads(Node *node);
+WorkValue *__fastcall find_work_value(Node *node);
 #endif

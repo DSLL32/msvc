@@ -23,4 +23,8 @@ BitSet *__fastcall fill_bitset(BitSet *set, int count);
 BitSet *__fastcall intersect_bitset(BitSet *destination, BitSet *source);
 int __fastcall equal_bitsets(BitSet *left, BitSet *right);
 BitSet *__fastcall assign_bitset(BitSet *destination, BitSet *source);
+BitSet *__fastcall subtract_bitset(BitSet *destination, BitSet *source);
+void __fastcall transfer_bitset(BitSet *destination, BitSet *source, BitSet *removed, BitSet *added);
+void __fastcall assign_union_bitset(BitSet *destination, BitSet *left, BitSet *right);
+void __fastcall assign_difference_bitset(BitSet *destination, BitSet *source, BitSet *removed);
 #endif

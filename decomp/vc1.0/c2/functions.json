@@ -468,7 +468,18 @@
     "@invalidate_work_reference@4",
     "@work_effect_invalidates_value@8",
     "@is_private_work_value@4",
-    "@release_pending_work_effect@4"
+    "@release_pending_work_effect@4",
+    "_clear_work_expression_cache",
+    "@rewrite_work_values@4",
+    "_build_work_alias_sets",
+    "@summarize_work_memory@4",
+    "@collect_work_memory_reads@4",
+    "@find_work_value@4",
+    "@subtract_bitset@8",
+    "@compute_work_memory_liveness@4",
+    "@transfer_bitset@16",
+    "@assign_union_bitset@12",
+    "@assign_difference_bitset@12"
   ],
   "driver": [
     {
@@ -4181,14 +4192,12 @@
     {
       "name": "_clear_work_expression_cache",
       "start": 375584,
-      "end": 375585,
-      "provisional": true
+      "end": 375696
     },
     {
       "name": "@rewrite_work_values@4",
       "start": 375696,
-      "end": 375697,
-      "provisional": true
+      "end": 376128
     },
     {
       "name": "@rewrite_work_expressions@4",
@@ -4361,6 +4370,63 @@
       "name": "@is_private_work_value@4",
       "start": 381792,
       "end": 381888
+    },
+    {
+      "name": "_build_work_alias_sets",
+      "start": 382704,
+      "end": 382976
+    },
+    {
+      "name": "@summarize_work_memory@4",
+      "start": 382384,
+      "end": 382704
+    },
+    {
+      "name": "@compute_work_memory_liveness@4",
+      "start": 382128,
+      "end": 382384
+    },
+    {
+      "name": "@invalidate_work_tree@4",
+      "start": 382000,
+      "end": 382001,
+      "provisional": true
+    },
+    {
+      "name": "@has_no_later_work_store@4",
+      "start": 382064,
+      "end": 382065,
+      "provisional": true
+    },
+    {
+      "name": "@collect_work_memory_reads@4",
+      "start": 383072,
+      "end": 383344
+    },
+    {
+      "name": "@find_work_value@4",
+      "start": 382976,
+      "end": 383072
+    },
+    {
+      "name": "@subtract_bitset@8",
+      "start": 420656,
+      "end": 420784
+    },
+    {
+      "name": "@transfer_bitset@16",
+      "start": 420992,
+      "end": 421104
+    },
+    {
+      "name": "@assign_union_bitset@12",
+      "start": 420336,
+      "end": 420496
+    },
+    {
+      "name": "@assign_difference_bitset@12",
+      "start": 420784,
+      "end": 420992
     }
   ],
   "cases": {

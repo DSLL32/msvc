@@ -3,7 +3,8 @@
 #include "options.h"
 #include "tree-input.h"
 #include "tree-rewrite.h"
-extern int floating_frontend, optimize_alias;
+extern int floating_frontend, optimize_alias, optimize_weak_inverse;
+extern void *output_state;
 int work_optimization_active; /* 0007beac: work optimizer / integer folder state */
 int work_reference_first_pass; /* 0007bc24: initial versus final reference pass */
 /* 0007bc20: free list, not a counter. The allocator at 00060820 reserves
@@ -113,8 +114,8 @@ WorkValue *last_work_value; /* 0007bc40: reverse creation chain */
 
 /* Original [0005d970,0005dad0). Normalize memory expressions to a load,
    index by their symbol, then compare type, addressing flags and address
-   trees. The native allocation is 24 bytes; the last two words are not
-   initialized by this function and remain outside our encountered prefix. */
+   trees. The native allocation is 24 bytes; its final two words are not
+   initialized by this function. Alias construction initializes the last one. */
 WorkValue *__fastcall intern_work_value(Node *node)
 {
     Node *value = memory_value_node(scratch_node, node);
@@ -137,7 +138,7 @@ WorkValue *__fastcall intern_work_value(Node *node)
         work_direct_values = bitset_include(work_direct_values, next_work_value);
     else if (is_global_work_value(value, 1))
         work_global_values = bitset_include(work_global_values, next_work_value);
-    record = arena_alloc(2, 24);
+    record = arena_alloc(2, sizeof(WorkValue));
     node = copy_tree(value);
     record->canonical = node;
     node->info.words.identifier = (short)next_work_value;
@@ -228,7 +229,7 @@ void __fastcall build_work_references(WorkItem *work)
             for (reference = table->buckets[i]; reference; reference = reference->next)
                 available = bitset_include(available, (int)reference->node->info.words.identifier);
         }
-        block->flow_sets[0] = available;
+        block->flow_sets[WORK_REFERENCE_AVAILABLE] = available;
         region_values = stored_values = 0;
         following = block->next;
         if (!following || !following->region || following->region->header != following) continue;
@@ -283,8 +284,8 @@ void __fastcall merge_predecessor_references(WorkItem *work)
     for (predecessor = work->predecessors; predecessor; predecessor = predecessor->next) {
         block = predecessor->work;
         if (region_header && block->number >= work->number) continue;
-        if (!available) available = assign_bitset(available, block->flow_sets[0]);
-        else available = intersect_bitset(available, block->flow_sets[0]);
+        if (!available) available = assign_bitset(available, block->flow_sets[WORK_REFERENCE_AVAILABLE]);
+        else available = intersect_bitset(available, block->flow_sets[WORK_REFERENCE_AVAILABLE]);
         if ((short)work->region_depth < (short)block->region_depth && block->region)
             available = intersect_bitset(available, block->region->available_values);
     }
@@ -785,4 +786,235 @@ void __fastcall release_pending_work_effect(PendingWorkEffect *effect)
 {
     effect->next = free_pending_work_effects;
     free_pending_work_effects = effect;
+}
+
+/* Original [0005bb20,0005bb90). Canonical numbered operands may share
+   nodes, so release only each indexed root before resetting arena four.
+   The native clobbered-set pointer is left unchanged after recycling. */
+void clear_work_expression_cache(void)
+{
+    NumberedExpression *expression;
+    unsigned i;
+    for (i = 0; i < NUMBERED_EXPRESSION_BUCKETS; ++i) {
+        for (expression = numbered_expressions[i]; expression; expression = expression->hash_next)
+            release_node(expression->canonical);
+        numbered_expressions[i] = 0;
+        numbered_expressions_by_id[i] = 0;
+    }
+    free_pending_work_effects = 0;
+    free_work_references = 0;
+    free_work_reference_tables = 0;
+    reset_arena(4);
+    release_bitset(work_clobbered_values);
+}
+
+/* Original [0005bb90,0005bd40). Compute memory-value liveness and remove
+   eligible dead stores, then remove unavailable region references and clean
+   expression lists. The assignment becomes an ordinary addition so cleanup
+   retains operand effects without retaining the store itself. */
+void __fastcall rewrite_work_values(WorkItem *work)
+{
+    WorkItem *block;
+    WorkReference *reference, *head, **link;
+    WorkReferenceTable *table;
+    Expression *expression;
+    TemporarySymbol *symbol;
+    Node *node;
+    short identifier;
+    unsigned i;
+    for (block = work; block; block = block->next)
+        if (block->region && block->region->header == block) {
+            table = block->region->references;
+            for (i = 0; i < WORK_REFERENCE_BUCKETS; ++i)
+                for (reference = table->buckets[i]; reference; reference = reference->next)
+                    reference->node->attributes.words.flags &= 0xfff7;
+        }
+    build_work_alias_sets();
+    for (block = work; block; block = block->next) summarize_work_memory(block);
+    compute_work_memory_liveness(work);
+    for (block = work; block; block = block->next)
+        for (expression = block->body.expressions; expression; expression = expression->next) {
+            node = expression->tree;
+            if (node->opcode != 0x32 || !(node->attributes.words.flags & 1) ||
+                (node->attributes.words.flags & 0x800) || is_address_exposed_value(node) ||
+                (!optimize_alias && !is_private_work_value(node))) continue;
+            symbol = (TemporarySymbol *)node->right.symbol;
+            if (symbol && symbol->symbol.kind != 19 && (void *)symbol != output_state &&
+                ((symbol->attributes & 0x10000) || (symbol->attributes & 15) == 6)) continue;
+            identifier = node->detail.node->info.words.identifier;
+            if (!bitset_contains(block->flow_sets[WORK_MEMORY_LIVE_OUT], (int)identifier) &&
+                bitset_contains(block->flow_sets[WORK_UNREAD_STORES], (int)identifier) && has_no_later_work_store(expression)) {
+                node->opcode = 2;
+                invalidate_work_tree(node);
+            }
+        }
+    for (block = work; block; block = block->next)
+        if (block->region && block->region->header == block) {
+            table = block->region->references;
+            for (i = 0; i < WORK_REFERENCE_BUCKETS; ++i) {
+                head = table->buckets[i];
+                link = &head;
+                for (reference = head; reference; reference = reference->next) {
+                    if (reference->node->attributes.words.flags & 8) *link = reference->next;
+                    else link = &(*link)->next;
+                }
+                table->buckets[i] = head;
+            }
+        }
+    for (block = work; block; block = block->next) cleanup_expressions(&block->body.expressions);
+}
+
+/* Original [0005d6f0,0005d800). Build each canonical memory value's
+   conservative alias set, beginning with its own identifier. Values with
+   the same hash bucket receive precise policy checks when alias analysis
+   is enabled; broad direct/indirect categories supply the other cases. */
+void build_work_alias_sets(void)
+{
+    WorkValue *value, *other;
+    Node *node;
+    BitSet *aliases;
+    unsigned i;
+    for (i = 0; i < WORK_VALUE_BUCKETS; ++i)
+        for (value = work_value_buckets[i]; value; value = value->hash_next) {
+            node = value->canonical;
+            aliases = bitset_include(0, value->identifier);
+            if (!(node->attributes.words.flags & 1)) {
+                aliases = bitset_union(aliases, work_direct_values);
+                if (optimize_alias) {
+                    for (other = work_value_buckets[i]; other; other = other->hash_next)
+                        if (work_effect_invalidates_value(node, other->canonical))
+                            aliases = bitset_include(aliases, other->identifier);
+                } else aliases = bitset_union(aliases, work_indirect_values);
+            } else {
+                if (node->attributes.words.flags & 2)
+                    for (other = work_value_buckets[i]; other; other = other->hash_next)
+                        if (work_effect_invalidates_value(node, other->canonical))
+                            aliases = bitset_include(aliases, other->identifier);
+                if (is_address_exposed_value(node) || (is_global_work_value(node, 1) && !optimize_alias))
+                    aliases = bitset_union(aliases, work_indirect_values);
+            }
+            value->aliases = aliases;
+        }
+}
+
+BitSet *work_unread_stores; /* 0007bd54: stores not yet read within this block */
+BitSet *work_stored_values; /* 0007bd5c: block memory definitions */
+BitSet *work_upward_reads;  /* 0007bd64: reads before a block definition */
+
+/* Original [0005d5b0,0005d6f0). Collect upward-exposed reads and store
+   definitions. A repeated store with no intervening read invalidates the
+   previous store before recording its replacement. */
+void __fastcall summarize_work_memory(WorkItem *work)
+{
+    Expression *expression;
+    Node *node, *previous;
+    TemporarySymbol *symbol;
+    WorkValue *value;
+    work_stored_values = 0;
+    work_unread_stores = 0;
+    work_upward_reads = 0;
+    for (expression = work->body.expressions; expression; expression = expression->next) {
+        node = expression->tree;
+        collect_work_memory_reads(node);
+        if (node->opcode != 0x32 || !(node->attributes.words.flags & 1) ||
+            (node->attributes.words.flags & 0x800) || (work->flags & 1) ||
+            is_address_exposed_value(node) || (!optimize_alias && !is_private_work_value(node))) continue;
+        symbol = (TemporarySymbol *)node->right.symbol;
+        if (symbol && symbol->symbol.kind != 19 && (void *)symbol != output_state &&
+            ((symbol->attributes & 0x10000) || (symbol->attributes & 15) == 6)) continue;
+        value = find_work_value(node->detail.node);
+        if (!bitset_contains(work_unread_stores, value->identifier)) {
+            work_unread_stores = bitset_include(work_unread_stores, value->identifier);
+            work_stored_values = bitset_include(work_stored_values, value->identifier);
+        } else {
+            previous = value->last_store;
+            previous->opcode = 2;
+            invalidate_work_tree(previous);
+        }
+        value->last_store = node;
+    }
+    work->flow_sets[WORK_MEMORY_READS] = work_upward_reads;
+    work->flow_sets[WORK_MEMORY_STORES] = work_stored_values;
+    work->flow_sets[WORK_UNREAD_STORES] = work_unread_stores;
+}
+
+/* Original [0005d860,0005d970). Visit operands, then collect memory
+   values read by loads and call-like effects. Reads retire pending stores;
+   only reads preceding a definition become upward-exposed block uses. */
+void __fastcall collect_work_memory_reads(Node *node)
+{
+    BitSet *reads;
+    WorkValue *value;
+    Node *operand;
+    if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return;
+    collect_work_memory_reads(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+        collect_work_memory_reads(node->second.node);
+    if (node->opcode == 0x30) {
+        value = find_work_value(node->detail.node);
+        reads = assign_bitset(0, value->aliases);
+    } else if (node->opcode == 0x3e || node->opcode == 0x40) {
+        reads = node->opcode == 0x3e ? assign_bitset(0, work_global_values) : 0;
+        for (operand = node->second.node; operand->opcode != 0x4c; operand = operand->second.node)
+            if (operand->detail.node) {
+                value = find_work_value(operand->detail.node);
+                reads = bitset_union(reads, value->aliases);
+            }
+        if (!optimize_alias || !optimize_weak_inverse) {
+            reads = bitset_union(reads, work_indirect_values);
+            reads = bitset_union(reads, work_direct_values);
+        }
+    } else return;
+    subtract_bitset(work_unread_stores, reads);
+    work_upward_reads = bitset_union(work_upward_reads, subtract_bitset(reads, work_stored_values));
+    release_bitset(reads);
+}
+
+/* Original [0005d800,0005d860). Find an already interned canonical
+   memory value by symbol hash, type and address tree. Unlike insertion,
+   this lookup does not compare the node's low address-attribute bits. */
+WorkValue *__fastcall find_work_value(Node *node)
+{
+    SymbolHeader *symbol = node->right.symbol;
+    unsigned hash = (symbol->kind == 19 ? symbol->field04 : symbol->identifier) & 63;
+    WorkValue *value;
+    for (value = work_value_buckets[hash]; value; value = value->hash_next)
+        if (value->canonical->attributes.words.type == node->attributes.words.type &&
+            trees_equal(node->left.node, value->canonical->left.node, 0)) return value;
+    return 0;
+}
+
+/* Original [0005d4b0,0005d5b0). Solve live-in = uses | (live-out -
+   definitions) backwards to a fixed point, keeping externally observable
+   memory values live at the exit block. */
+void __fastcall compute_work_memory_liveness(WorkItem *work)
+{
+    WorkItem *block;
+    FlowLink *successor;
+    BitSet *live_out;
+    int changed;
+    for (block = work; block; block = block->next) {
+        if (block == global_exit_work && work_memory_values)
+            block->flow_sets[WORK_MEMORY_LIVE_OUT] = assign_bitset(block->flow_sets[WORK_MEMORY_LIVE_OUT], work_memory_values);
+        else clear_bitset(block->flow_sets[WORK_MEMORY_LIVE_OUT]);
+        block->flow_sets[WORK_MEMORY_LIVE_IN] = ensure_bitset(block->flow_sets[WORK_MEMORY_LIVE_IN], 1);
+        transfer_bitset(block->flow_sets[WORK_MEMORY_LIVE_IN], block->flow_sets[WORK_MEMORY_LIVE_OUT],
+            block->flow_sets[WORK_MEMORY_STORES], block->flow_sets[WORK_MEMORY_READS]);
+    }
+    live_out = ensure_bitset(0, 1);
+    do {
+        changed = 0;
+        for (block = global_exit_work->previous; block; block = block->previous) {
+            clear_bitset(live_out);
+            for (successor = block->successors; successor; successor = successor->next)
+                bitset_union(live_out, successor->work->flow_sets[WORK_MEMORY_LIVE_IN]);
+            if (!equal_bitsets(live_out, block->flow_sets[WORK_MEMORY_LIVE_OUT])) {
+                block->flow_sets[WORK_MEMORY_LIVE_OUT] = assign_bitset(block->flow_sets[WORK_MEMORY_LIVE_OUT], live_out);
+                changed = 1;
+                transfer_bitset(block->flow_sets[WORK_MEMORY_LIVE_IN], block->flow_sets[WORK_MEMORY_LIVE_OUT],
+                    block->flow_sets[WORK_MEMORY_STORES], block->flow_sets[WORK_MEMORY_READS]);
+            }
+        }
+    } while (changed);
+    release_bitset(live_out);
 }

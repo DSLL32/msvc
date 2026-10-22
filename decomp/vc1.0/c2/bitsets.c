@@ -241,3 +241,120 @@ BitSet *__fastcall copy_bitset(BitSet *source)
     *link = 0;
     return head;
 }
+
+/* Original [00066b30,00066bb0). Remove source members in place, keeping
+   the destination sentinel and recycling chunks whose bits become empty. */
+BitSet *__fastcall subtract_bitset(BitSet *destination, BitSet *source)
+{
+    BitSet *previous, *chunk, *member;
+    if (!source) return destination;
+    if (!destination) return 0;
+    previous = destination;
+    member = source->next;
+    while (previous->next && member) {
+        chunk = previous->next;
+        while (member && member->base < chunk->base) member = member->next;
+        if (!member) break;
+        if (member->base == chunk->base) {
+            chunk->bits &= ~member->bits;
+            if (!chunk->bits) {
+                previous->next = chunk->next;
+                chunk->next = 0;
+                release_bitset(chunk);
+                continue;
+            }
+        }
+        previous = chunk;
+    }
+    return destination;
+}
+
+/* Original [00066c80,00066cf0). Write (source - removed) | added into
+   an existing destination sentinel. This fixed four-argument fastcall
+   function returns no value and removes two stack arguments (RET 8). */
+void __fastcall transfer_bitset(BitSet *destination, BitSet *source, BitSet *removed, BitSet *added)
+{
+    if (source && source->next) {
+        if (removed && removed->next) {
+            if (added && added->next) {
+                assign_difference_bitset(destination, source, removed);
+                bitset_union(destination, added);
+            } else assign_difference_bitset(destination, source, removed);
+        } else assign_union_bitset(destination, source, added);
+    } else assign_bitset(destination, added);
+}
+
+/* Original [000669f0,00066a90). Merge member chains into an existing
+   destination sentinel. Native code drops its prior member pointer first;
+   it does not recycle that discarded chain or rewrite sentinel fields. */
+void __fastcall assign_union_bitset(BitSet *destination, BitSet *left, BitSet *right)
+{
+    BitSet *tail = destination, *chunk;
+    destination->next = 0;
+    if (left) left = left->next;
+    if (right) right = right->next;
+    while (left && right) {
+        if (!tail->next) tail->next = new_bitset_node();
+        chunk = tail->next;
+        if (left->base == right->base) {
+            chunk->bits = left->bits | right->bits;
+            chunk->base = left->base;
+            left = left->next;
+            right = right->next;
+        } else if (left->base < right->base) {
+            chunk->bits = left->bits;
+            chunk->base = left->base;
+            left = left->next;
+        } else {
+            chunk->bits = right->bits;
+            chunk->base = right->base;
+            right = right->next;
+        }
+        tail = tail->next;
+    }
+    tail->next = assign_bitset(tail->next, left ? left : right);
+}
+
+/* Original [00066bb0,00066c80). Reuse destination chunks while writing
+   source minus removed. Allocation precedes the zero-result test, as in
+   native code; surplus chunks are recycled after the source is exhausted. */
+void __fastcall assign_difference_bitset(BitSet *destination, BitSet *source, BitSet *removed)
+{
+    BitSet *tail = destination, *member;
+    unsigned bits;
+    if (!source || !source->next) {
+        release_bitset(destination->next);
+        destination->next = 0;
+        return;
+    }
+    member = source->next;
+    if (!removed || !removed->next) {
+        assign_bitset(destination, source);
+        return;
+    }
+    while (member) {
+        while (removed && removed->base < member->base) removed = removed->next;
+        if (!removed) {
+            tail->next = assign_bitset(tail->next, member);
+            return;
+        }
+        if (!tail->next) tail->next = new_bitset_node();
+        if (removed->base == member->base) {
+            bits = member->bits & ~removed->bits;
+            if (bits) {
+                tail = tail->next;
+                tail->bits = bits;
+                tail->base = member->base;
+            }
+        } else {
+            tail = tail->next;
+            tail->bits = member->bits;
+            tail->base = member->base;
+        }
+        member = member->next;
+    }
+    if (tail->next) {
+        release_bitset(tail->next);
+        tail->next = 0;
+    }
+}

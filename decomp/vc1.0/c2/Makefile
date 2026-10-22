@@ -2,7 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
 
-.PHONY: all clean check frontier prefix replay audit hello-frontier hello-check hello-replay
+.PHONY: all clean check frontier prefix replay audit hello-frontier hello-check hello-replay coverage
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
 
 prefix:
@@ -66,3 +66,6 @@ build/dependencies.mk: dependencies.py $(wildcard *.c) $(wildcard *.h) $(wildcar
 ifneq ($(MAKECMDGOALS),clean)
 -include build/dependencies.mk
 endif
+
+coverage: runtime.json
+	$(PYTHON) coverage.py

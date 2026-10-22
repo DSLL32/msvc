@@ -79,8 +79,30 @@
     "all 387 source function graphs agree; five changed implementation modules compile /W3 clean",
     "independent completed reference-pass capture matches all 267 normalized lines: six numbered load expressions, identifier chains/use lists, two map-entry occurrences and ten flow-set chunks, plus existing work/memory-value state",
     "both contextual 16-byte alias-policy matrices exactly match their original bounded extents",
-    "complete minimal object/exit regression passes; hello reaches clear_work_expression_cache"
+    "complete minimal object/exit regression passes; hello reaches clear_work_expression_cache",
+    "memory-flow checkpoint passes all 352 minimal and all 123 hello historical frontiers",
+    "all 398 source function graphs agree; three affected implementation modules compile /W3 clean",
+    "independent completed first memory rewrite matches all259 normalized lines:6 blocks,23 expressions,93 work nodes,10 memory values,20 alias chunks and45 flow-set chunks",
+    "complete minimal object/exit regression passes; hello reaches hoist_region_values",
+    "verified accepted original code-extent union126319/399693 bytes=31.6040 percent, including source/shared text/CRT/import thunks; not branch coverage"
   ],
-  "total_accepted_frontiers": 464,
-  "reconstructed_functions": 387
+  "total_accepted_frontiers": 475,
+  "reconstructed_functions": 398,
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 475,
+    "accepted_code_bytes": 126319,
+    "original_code_bytes": 399693,
+    "percentage": 31.604006074662305,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 150
+  }
 }
