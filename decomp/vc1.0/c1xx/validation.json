@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 433,
-  "driver_functions": 357,
+  "accepted_frontiers": 439,
+  "driver_functions": 363,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 364,
-  "current_frontier": "_emit_constructor_initializers@8",
-  "original_frontier_va": "0x35f90",
+  "reconstructed_source_functions": 370,
+  "current_frontier": "_prepare_expression@8",
+  "original_frontier_va": "0x3e780",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "93ea67e860b0214175ebd1e5c5e73c88b0e25d98f790813cea1b255f665dae0e",
-  "call_graph_audit_functions": 364,
+  "replay_log_sha256": "caf3e94e78f847dddbcb8ef12ced48ba4455ebd450d8e9cb4b2e18657db027e2",
+  "call_graph_audit_functions": 370,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -69,7 +69,8 @@
     "builtin_unary_state_defaults": 7,
     "expression_record_meanings": 213,
     "member_context_map_defaults": 1,
-    "scope_cleanup_stack_defaults": 1
+    "scope_cleanup_stack_defaults": 1,
+    "classes_pending_table_output_defaults": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -97,7 +98,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-parameter-scopes.log",
+  "replay_log": "evidence/replay-constructor-initializers.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -436,7 +437,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "965425fd4e77095106c1d230984a57f92f3c5c7fbc843a5c86f2a796ebd9d25c",
+  "replay_build_text_sha256": "4b164176558d435c8f76d7f88d4d594b98ad73ef45eb2f2e2ae256611e01df83",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -665,9 +666,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 141046,
+    "bytes": 142513,
     "total_original_executable_bytes": 476418,
-    "percent": 29.605514485178983,
+    "percent": 29.91343735962957,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -840,11 +841,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-parameter-scopes-receipt.json",
-    "receipt_sha256": "329f6f3c8e4abc93dc7b0c7bbb46911000108f0cb5871161613a4d2985177a78",
+    "receipt": "evidence/replay-constructor-initializers-receipt.json",
+    "receipt_sha256": "391002aba6ff503efedbd46cd83fbee93cfa607bc66797422e31f1ecef0d5ae4",
     "jobs": 4,
-    "frontiers": 433,
-    "seconds": 108.23446547426283,
+    "frontiers": 439,
+    "seconds": 110.13654170185328,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 11,
     "private_masked_executables_workdirs_logs": true,
@@ -869,5 +870,20 @@
     "constructor_body_completed": false,
     "pending_expression_buffer": "004f1f80000080244f020a004f01075353267d002687005aa643998643462d86004c",
     "pending_global_buffer": "1186032e1d30016400000000120a006370702d62617369632e63707000"
+  },
+  "constructor_initializers": {
+    "evidence": "evidence/constructor-initializers.txt",
+    "new_whole_functions": 6,
+    "processor_native_callees": 20,
+    "pointer_attribute_helper_argument_bytes": 4,
+    "unused_formal_and_ushort_return_preserved": true,
+    "class_preparation_native_callees": 3,
+    "generic_pointer_set_entry": "0x4e440",
+    "generic_pointer_set_name": "add_inline_pointer",
+    "member_lookup_preserves_detached_symbols": true,
+    "all_439_frontiers_replayed": true,
+    "explicit_member_initializer_selected": true,
+    "constructor_body_completed": false,
+    "no_frontend_output_normalization": true
   }
 }

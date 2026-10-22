@@ -7,6 +7,7 @@ typedef struct InlineVector {
 } InlineVector;
 InlineVector *new_inline_vector(short capacity);
 InlineVector *grow_inline_vector(InlineVector *vector);
+InlineVector *add_inline_pointer(InlineVector *vector, void *pointer);
 unsigned inline_vector_bytes(short capacity);
 short inline_vector_count(InlineVector *vector);
 int equal_inline_vectors(InlineVector *left, InlineVector *right);

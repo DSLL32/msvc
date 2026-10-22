@@ -1,0 +1,53 @@
+Constructor-initializer selection and class preparation
+
+Six whole functions accepted after frontier 433 (end addresses exclusive):
+  emit_constructor_initializers   0x35f90..0x363c3, stdcall 8, 20 native callees
+  constructor_pointer_attributes  0x363d0..0x363fa, stdcall 4,  0 native callees
+  prepare_class_initialization    0x7b3f0..0x7b439, stdcall 4,  3 native callees
+  require_deleting_destructor     0x38bb0..0x38bc3, stdcall 4,  1 native callee
+  require_class_member_definitions 0x38b20..0x38ba6, stdcall 8,  2 native callees
+  take_member_initializer         0x364c0..0x3653c, stdcall 8,  1 native callee
+
+The constructor processor retains virtual-base, direct-base, member, class-array
+and array-copy branches. It distinguishes absent and explicit initializers,
+checks constructor availability, preserves base-access state changes, emits
+member initialization through the canonical initializing-symbol state, and
+handles remaining invalid initializers. Native diagnostics retain their full
+arguments, including class/member names for 536 and 614, and member names for
+439, 542 and 758. The class table initialization mode retains both special-member
+flag tests and the class's implicit-member requirement bits.
+
+The constructor's pointer attributes come from the active function descriptor's
+associated implicit-this type. Native 0x363d0 reads the global function_symbol
+but still has an unused formal argument: caller 0x35f97 pushes function_symbol,
+and RET 4 at 0x363f7 consumes it. The C preserves this stdcall 4 signature and
+ushort return, rather than following the decompiler's omitted parameter/uint
+annotation. The other new constructor child signatures have independently
+checked RET widths. Unreconstructed children remain named trapping functions.
+
+Class preparation queues classes with virtual dispatch/base table flags using
+the canonical classes_pending_table_output at 0x9f3d0, whose null default and
+address identity are audited. It then makes deleting-destructor definitions
+available. Special-member processing unwraps an overload set and saves each
+member's successor before deferring generated definitions, matching native
+mutation-sensitive traversal.
+
+Native 0x4e440 stores class-symbol pointers as well as CType pointers. Its
+unaccepted CType-only add_type_set placeholder is now generic
+add_inline_pointer(InlineVector *, void *). The existing class conversion-set
+callers use that same original entry. No additional wrapper/function graph
+node was introduced. Native address and cdecl ABI are unchanged.
+
+Initializer lookup traverses the expression-owned list by pointer-to-link,
+unwraps a deferred-symbol expression when present, compares the interned symbol
+name, removes only the matched list item, and returns its argument list. A
+matched expression can restore detached symbols except in prototype-only mode;
+that still-unreconstructed child has its own named stdcall 4 trap. The current
+cpp-basic initializer reaches expression preparation without this optional call.
+
+At frontier 439 both sides reach prepare_expression at 0x3e780 after selecting
+value_(value). All raw files, streams, pending FILE buffers, logical callers and
+eleven runtime observations still match. Accepted executable extent union is
+142,513 / 476,418 bytes (29.913%), including source functions, shared text,
+matched CRT and import thunks, clipped and unioned. This is not branch coverage.
+The constructor body and complete frontend case remain unfinished.

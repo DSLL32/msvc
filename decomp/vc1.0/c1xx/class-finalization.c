@@ -71,13 +71,13 @@ void __stdcall build_conversion_type_sets(CppSymbol *tag)
         base_tag = cpp_context_stack->items[base->context_index];
         begin_type_set(&iterator, base_tag->detail.class_info->conversion_types);
         while (next_type_set(&iterator)) {
-            if (!type_set_contains(types, iterator.type)) types = add_type_set(types, iterator.type);
-            else ambiguous = add_type_set(ambiguous, iterator.type);
+            if (!type_set_contains(types, iterator.type)) types = add_inline_pointer(types, iterator.type);
+            else ambiguous = add_inline_pointer(ambiguous, iterator.type);
         }
     }
     begin_conversion_functions(&members, tag);
     while (next_conversion_function(&members)) {
-        types = add_type_set(types, members.type);
+        types = add_inline_pointer(types, members.type);
         ambiguous = remove_type_set(ambiguous, members.type);
     }
     types = share_inherited_type_set(types, tag);

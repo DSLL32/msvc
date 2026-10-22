@@ -765,3 +765,22 @@ matching trap is emit_constructor_initializers at 0x35f90, after matching ABI
 parameters and constructor-body scope entry. Accepted executable extent union
 is 141,046 / 476,418 bytes (29.606%, not branch coverage), with 364 source
 functions. Complete frontend equivalence remains pending.
+
+
+The constructor-initializer processor now retains its whole virtual/direct-base,
+member, array and implicit-copy logic, diagnostics, access-state changes and
+class-table setup. All 20 native callees match the C graph. Its pointer-type
+helper preserves the unused stack argument and ushort result established by
+the native caller and RET 4. Class preparation and special-member definition
+traversal retain their canonical queue, overload handling and mutation order.
+The pointer set entry at 0x4e440 accepts both type and class-symbol pointers, so
+its provisional CType-only name/signature is now add_inline_pointer.
+
+Member lookup consumes the matching initializer through a pointer-to-link and
+retains optional detached-symbol restoration. Both runs now select value_(value)
+and reach prepare_expression at 0x3e780. All 439 frontiers pass in
+evidence/replay-constructor-initializers.log, with frozen hashes and receipts in
+evidence/replay-constructor-initializers-receipt.json. Evidence and ABI details
+are in evidence/constructor-initializers.txt. Accepted executable extent union
+is 142,513 / 476,418 bytes (29.913%, not branch coverage), with 370 source
+functions. The constructor body and complete frontend case remain unfinished.

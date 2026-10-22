@@ -437,7 +437,13 @@
     "_begin_compound_statement",
     "_enter_compound_scope",
     "_record_compound_scope",
-    "_reuse_frontend_record@4"
+    "_reuse_frontend_record@4",
+    "_emit_constructor_initializers@8",
+    "_constructor_pointer_attributes@4",
+    "_prepare_class_initialization@4",
+    "_require_deleting_destructor@4",
+    "_require_class_member_definitions@8",
+    "_take_member_initializer@8"
   ],
   "driver": [
     {
@@ -3358,7 +3364,7 @@
       "end": 320817
     },
     {
-      "name": "_add_type_set",
+      "name": "_add_inline_pointer",
       "start": 320576,
       "end": 320577
     },
@@ -4190,7 +4196,7 @@
     {
       "name": "_emit_constructor_initializers@8",
       "start": 221072,
-      "end": 221073
+      "end": 222147
     },
     {
       "name": "_begin_destructor_body@4",
@@ -4211,6 +4217,81 @@
       "name": "_emit_default_ctor_closure_body@4",
       "start": 225872,
       "end": 225873
+    },
+    {
+      "name": "_constructor_pointer_attributes@4",
+      "start": 222160,
+      "end": 222202
+    },
+    {
+      "name": "_prepare_class_initialization@4",
+      "start": 504816,
+      "end": 504889
+    },
+    {
+      "name": "_get_base_initialization_access",
+      "start": 204896,
+      "end": 204897
+    },
+    {
+      "name": "_set_base_initialization_access@4",
+      "start": 204912,
+      "end": 204913
+    },
+    {
+      "name": "_emit_virtual_base_initializers@12",
+      "start": 222208,
+      "end": 222209
+    },
+    {
+      "name": "_take_member_initializer@8",
+      "start": 222400,
+      "end": 222524
+    },
+    {
+      "name": "_emit_array_copy_initialization@16",
+      "start": 220160,
+      "end": 220161
+    },
+    {
+      "name": "_emit_class_array_initialization@24",
+      "start": 220368,
+      "end": 220369
+    },
+    {
+      "name": "_initialize_member_expression@16",
+      "start": 222528,
+      "end": 222529
+    },
+    {
+      "name": "_make_subobject_pointer@12",
+      "start": 241536,
+      "end": 241537
+    },
+    {
+      "name": "_make_constructor_call@20",
+      "start": 241584,
+      "end": 241585
+    },
+    {
+      "name": "_emit_class_table_initializers@8",
+      "start": 505616,
+      "end": 505617
+    },
+    {
+      "name": "_require_deleting_destructor@4",
+      "start": 232368,
+      "end": 232387
+    },
+    {
+      "name": "_require_class_member_definitions@8",
+      "start": 232224,
+      "end": 232358
+    },
+    {
+      "name": "_restore_expression_symbols@4",
+      "start": 254624,
+      "end": 254625
     }
   ],
   "cases": {
@@ -5549,6 +5630,18 @@
         {
           "name": "_scope_cleanup_stack",
           "original": 594844,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_classes_pending_table_output",
+      "original": 652240,
+      "fields": [
+        {
+          "name": "_classes_pending_table_output",
+          "original": 652240,
           "bytes": 4
         }
       ]

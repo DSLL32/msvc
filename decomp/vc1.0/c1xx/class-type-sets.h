@@ -25,7 +25,6 @@ TypeSet *union_type_sets(TypeSet *set, TypeSet *source);
 void begin_type_set(TypeSetIterator *iterator, TypeSet *set);
 int next_type_set(TypeSetIterator *iterator);
 int type_set_contains(TypeSet *set, CType *type);
-TypeSet *add_type_set(TypeSet *set, CType *type);
 TypeSet *remove_type_set(TypeSet *set, CType *type);
 void __stdcall begin_conversion_functions(ConversionIterator *iterator, CppSymbol *tag);
 int __stdcall next_conversion_function(ConversionIterator *iterator);

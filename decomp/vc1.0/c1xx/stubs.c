@@ -1,3 +1,4 @@
+#include "constructor-initializers.h"
 #include "statement-scopes.h"
 #include "work-list.h"
 #include "cpp-context.h"
@@ -377,7 +378,7 @@ TypeSet *union_type_sets(TypeSet *set, TypeSet *source) { __asm { int 3 } return
 void begin_type_set(TypeSetIterator *iterator, TypeSet *set) { __asm { int 3 } }
 int next_type_set(TypeSetIterator *iterator) { __asm { int 3 } return 0; }
 int type_set_contains(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
-TypeSet *add_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
+InlineVector *add_inline_pointer(InlineVector *vector, void *pointer) { __asm { int 3 } return 0; }
 TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
@@ -537,8 +538,17 @@ int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } retur
 
 unsigned __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall member_pointer_inheritance_model(CType *type) { __asm { int 3 } return 0; }
-int __stdcall emit_constructor_initializers(CppSymbol *tag, IrToken *initializers) { __asm { int 3 } return 0; }
 void __stdcall begin_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
+int get_base_initialization_access(void) { __asm { int 3 } return 0; }
+void __stdcall set_base_initialization_access(int enabled) { __asm { int 3 } }
+void __stdcall emit_virtual_base_initializers(CppSymbol *tag, IrToken **initializers, unsigned short attributes) { __asm { int 3 } }
+void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
+void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
+int __stdcall initialize_member_expression(unsigned displacement, CType *type, IrToken *value, CppSymbol *member) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attributes, unsigned displacement) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_constructor_call(CppSymbol *tag, IrToken *object, IrToken *arguments, int emit, int member_subobject) { __asm { int 3 } return 0; }
+void __stdcall emit_class_table_initializers(CppSymbol *tag, int initialize) { __asm { int 3 } }
+void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
