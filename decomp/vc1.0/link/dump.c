@@ -1035,3 +1035,216 @@ void print_dump_auxiliary(PIMAGE_SYMBOL symbol,PIMAGE_AUX_SYMBOL auxiliary)
     }
     fputc('\n',map_stream);
 }
+
+/* Original [00034730,00034850). Print the image's debug-directory descriptors. */
+void dump_debug_directory(IMAGE_SECTION_HEADER *section)
+{
+    unsigned long rva=dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress;
+    unsigned long count;
+    IMAGE_DEBUG_DIRECTORY directory;
+    if (!rva) return;
+    seek_file(input_file,section->PointerToRawData-section->VirtualAddress+rva+archive_data_offset,SEEK_SET);
+    count=dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG].Size/28;
+    fprintf(map_stream,"\n\nDebug Directories(%d)\n",count);
+    fprintf(map_stream,"\tType       Size     Address  Pointer\n\n");
+    while (count--) {
+        read_file(input_file,&directory,28);
+        switch (directory.Type) {
+        case 1: fprintf(map_stream,"\tcoff   "); break;
+        case 2: fprintf(map_stream,"\tcv     "); break;
+        case 3: fprintf(map_stream,"\tfpo    "); break;
+        case 6: fprintf(map_stream,"\tfixup  "); break;
+        default: fprintf(map_stream,"\t???    "); break;
+        }
+        fprintf(map_stream,"%8x    %8x %8x\n",directory.SizeOfData,directory.AddressOfRawData,directory.PointerToRawData);
+    }
+}
+
+typedef struct DumpImportDescriptor {
+    unsigned long lookup_rva,timestamp,forwarder,name_rva,address_rva;
+} DumpImportDescriptor;
+typedef char dump_import_descriptor_layout[(sizeof(DumpImportDescriptor)==20)?1:-1];
+
+/* Original [00033c20,00033fe0). Import descriptors and named/ordinal thunks. */
+void dump_imports(IMAGE_SECTION_HEADER *section)
+{
+    /* The native formatter shares this indentation object between its rows. */
+    static const char indent[]="            ";
+    DumpImportDescriptor descriptor;
+    IMAGE_SECTION_HEADER *names;
+    unsigned long descriptor_offset,lookup_offset,bound_offset,thunk,bound_value;
+    unsigned short index,name_section,hint;
+    unsigned char character;
+    char *date;
+    fprintf(map_stream,"\n         Section contains the following Imports\n");
+    descriptor_offset=dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress-
+        section->VirtualAddress+section->PointerToRawData;
+    if (!valid_dump_range(descriptor_offset,0)) {
+        warning_message(program_name,0x65,descriptor_offset,"IMPORTS");
+        return;
+    }
+    for (;;) {
+        seek_file(input_file,descriptor_offset,SEEK_SET);
+        read_file(input_file,&descriptor,20);
+        if (!descriptor.lookup_rva && !descriptor.name_rva && !descriptor.address_rva) break;
+        for (index=0;index<dump_image->file.NumberOfSections;++index) {
+            names=&dump_section_headers[index];
+            if (names->VirtualAddress<=descriptor.name_rva &&
+                descriptor.name_rva<names->VirtualAddress+names->SizeOfRawData) {
+                name_section=index;
+                break;
+            }
+        }
+        names=&dump_section_headers[name_section];
+        seek_file(input_file,names->PointerToRawData-names->VirtualAddress+descriptor.name_rva,SEEK_SET);
+        fprintf(map_stream,"\n%s",indent);
+        for (;;) {
+            read_file(input_file,&character,1);
+            if (!character) break;
+            fputc(character,map_stream);
+        }
+        fprintf(map_stream,"\n\n%s% 8lX characteristics\n",indent,descriptor.lookup_rva);
+        fprintf(map_stream,"%s% 8lX time date stamp",indent,descriptor.timestamp);
+        date=ctime((time_t *)&descriptor.timestamp);
+        if (date) fprintf(map_stream," %s",date);
+        else fputc('\n',map_stream);
+        if (descriptor.forwarder!=0xffffffffUL)
+            fprintf(map_stream,"%s% 8lX index of first forwarder reference\n",indent,descriptor.forwarder);
+        lookup_offset=descriptor.address_rva+section->PointerToRawData-section->VirtualAddress;
+        if (descriptor.lookup_rva && descriptor.timestamp) {
+            bound_offset=lookup_offset;
+            lookup_offset=descriptor.lookup_rva+section->PointerToRawData-section->VirtualAddress;
+        } else bound_offset=0;
+        for (;;) {
+            seek_file(input_file,lookup_offset,SEEK_SET);
+            read_file(input_file,&thunk,4);
+            lookup_offset+=4;
+            if (bound_offset) {
+                seek_file(input_file,bound_offset,SEEK_SET);
+                bound_offset+=4;
+                read_file(input_file,&bound_value,4);
+            }
+            if (!thunk) break;
+            fprintf(map_stream,"               ");
+            if (bound_offset) fprintf(map_stream,"% 8X  ",bound_value);
+            if (thunk&0x80000000UL) fprintf(map_stream,"Ordinal % 8lX\n",thunk);
+            else {
+                seek_file(input_file,names->PointerToRawData-names->VirtualAddress+thunk,SEEK_SET);
+                read_file(input_file,&hint,2);
+                fprintf(map_stream,"% 4hX   ",hint);
+                for (;;) {
+                    read_file(input_file,&character,1);
+                    if (!character) break;
+                    fputc(character,map_stream);
+                }
+                fputc('\n',map_stream);
+            }
+        }
+        descriptor_offset+=20;
+    }
+}
+
+typedef struct DumpExportDirectory {
+    unsigned long characteristics,timestamp;
+    unsigned short major,minor;
+    unsigned long name_rva,base,function_count,name_count,functions_rva,names_rva,ordinals_rva;
+} DumpExportDirectory;
+typedef char dump_export_directory_layout[(sizeof(DumpExportDirectory)==40)?1:-1];
+
+/* Original [00033fe0,000344a0). Preserve the native name-order/EAT-order pairing. */
+void dump_exports(IMAGE_SECTION_HEADER *section)
+{
+    static const char indent[]="            ";
+    DumpExportDirectory directory;
+    unsigned long offset,index,*functions,*names,export_rva,export_size;
+    unsigned short *ordinals,length,spaces;
+    unsigned char character;
+    char *date,version[32];
+    export_rva=dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+    export_size=dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
+    offset=export_rva-section->VirtualAddress+section->PointerToRawData;
+    if (!valid_dump_range(offset,0)) {
+        warning_message(program_name,0x65,offset,"EXPORTS");
+        return;
+    }
+    seek_file(input_file,offset,SEEK_SET);
+    read_file(input_file,&directory,40);
+    seek_file(input_file,section->PointerToRawData-section->VirtualAddress+directory.name_rva,SEEK_SET);
+    fprintf(map_stream,"\n         Section contains the following Exports for ");
+    for (;;) {
+        read_file(input_file,&character,1);
+        if (!character) break;
+        fputc(character,map_stream);
+    }
+    fprintf(map_stream,"\n\n%s% 8lX characteristics\n",indent,directory.characteristics);
+    fprintf(map_stream,"%s% 8lX time date stamp",indent,directory.timestamp);
+    date=ctime((time_t *)&directory.timestamp);
+    if (date) fprintf(map_stream," %s",date);
+    else fputc('\n',map_stream);
+    length=(unsigned short)sprintf(version,"%hX.%hX",directory.major,directory.minor);
+    if (length>8) length=8;
+    for (spaces=8-length;spaces;--spaces) fputc(' ',map_stream);
+    fprintf(map_stream,"%s%s version\n",indent,version);
+    fprintf(map_stream,"%s% 8lX base\n",indent,directory.base);
+    fprintf(map_stream,"%s% 8lX # functions\n",indent,directory.function_count);
+    fprintf(map_stream,"%s% 8lX # names\n",indent,directory.name_count);
+    fprintf(map_stream,"\n%sordinal hint   name\n\n",indent);
+    functions=calloc(directory.function_count,4);
+    if (!functions) out_of_memory();
+    names=calloc(directory.name_count,4);
+    if (!names) out_of_memory();
+    ordinals=calloc(directory.name_count,2);
+    if (!ordinals) out_of_memory();
+    seek_file(input_file,section->PointerToRawData-section->VirtualAddress+directory.functions_rva,SEEK_SET);
+    read_file(input_file,functions,directory.function_count*4);
+    seek_file(input_file,section->PointerToRawData-section->VirtualAddress+directory.names_rva,SEEK_SET);
+    read_file(input_file,names,directory.name_count*4);
+    seek_file(input_file,section->PointerToRawData-section->VirtualAddress+directory.ordinals_rva,SEEK_SET);
+    read_file(input_file,ordinals,directory.name_count*2);
+    for (index=0;index<directory.name_count;++index) {
+        seek_file(input_file,names[index]-section->VirtualAddress+section->PointerToRawData,SEEK_SET);
+        fprintf(map_stream,"%s   % 4hX % 4hX   ",indent,
+            (unsigned short)(ordinals[index]+directory.base),(unsigned short)index);
+        for (;;) {
+            read_file(input_file,&character,1);
+            if (!character) break;
+            fputc(character,map_stream);
+        }
+        if (export_rva<functions[index] && functions[index]<export_rva+export_size) {
+            fprintf(map_stream," (forwarded to ");
+            seek_file(input_file,functions[index]-section->VirtualAddress+section->PointerToRawData,SEEK_SET);
+            for (;;) {
+                read_file(input_file,&character,1);
+                if (!character) break;
+                fputc(character,map_stream);
+            }
+            fprintf(map_stream,")\n");
+        } else fprintf(map_stream,"  (%08x)\n",functions[index]);
+    }
+    free(functions);
+    free(names);
+    free(ordinals);
+}
+
+/* Original [00032ce0,00032e20). Decode one base-relocation block. */
+void dump_base_relocation_block(IMAGE_BASE_RELOCATION *block,unsigned short *fixups)
+{
+    static const char *names[]={"ABS","HIGH","LOW","HIGHLOW","HIGHADJ","JMPADDR","BRADDR","SPLIT"};
+    unsigned long count=(block->SizeOfBlock-8)>>1;
+    unsigned short entry,type;
+    const char *description;
+    fprintf(map_stream,"% 8lX virtual address, % 8lX SizeOfBlock\n",block->VirtualAddress,block->SizeOfBlock);
+    while (count--) {
+        entry=*fixups++;
+        type=(unsigned short)(entry>>12);
+        if (type<8) description=names[type];
+        else {
+            fprintf(map_stream,"0x%hx ",type);
+            description="UNKNOWN BASED RELOCATION";
+        }
+        fprintf(map_stream,"% 8hX %s",entry&0xfff,description);
+        /* The native HIGHADJ path consumes this WORD without another count decrement. */
+        if (type==4) fprintf(map_stream," (%04hx)\n",*fixups++);
+        else fprintf(map_stream,"\n");
+    }
+}

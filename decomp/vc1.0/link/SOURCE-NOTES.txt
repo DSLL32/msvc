@@ -567,3 +567,39 @@ preserve18-byte FILE concatenation, original-symbol copies before streamed
 auxiliaries, derived type ordering, name sanitization/optional undecoration,
 section/COMDAT and weak metadata, and the actual unknown-auxiliary hex output.
 No executable payload, bulk data or assembly exception was introduced.
+
+Final assigned-family checkpoint:528 frontiers,160229/281634 accepted .text bytes
+(56.8926%). Fresh clean -j2, full528 replay, all15 completed-case regressions,
+384 graph/375 callback/306 contextual-data/534 instruction-boundary audits pass.
+All prior400 frontiers are included. cases/coverage-queue.json records completion;
+cases/library-dumps.json and library-edit.json retain log hashes and exact output
+provenance. No ABI assembly exception or new normalization was introduced.
+
+DLL/all now formats debug directories, imports, exports and base relocations.
+Native export printing indexes function RVAs sequentially while ordinal-table
+entries only affect displayed ordinals; this quirk is preserved. HIGHADJ consumes
+an extra WORD while decrementing the loop count once, as in the native code.
+
+editor.c owns image/section/change state and recovers editor_main, file preparation,
+option application and shared reserve/commit parsing. One-based section arrays
+use typed IMAGE_SECTION_HEADER records. Bind/rebase and section-edit children keep
+their named cdecl traps until those public options are assigned. checksum.c owns
+the native mapped-only gate. Buffered /release emits actual LNK4058; edited.dll is
+raw-exact with CheckSum1, stack180000/2000 and heap140000/2000. No checksum-success
+claim is made. Edited-header dump also matches exact frozen output and original.
+
+diagnostics.c lazily loads external LINK.ERR beside CRT _pgmptr, records text-mode
+ftell cookies, and reuses a256-byte line buffer. Its137-entry code pointer table
+is actual indexed shared data with all strings/pointers audited; catalog sentences
+are not embedded. The native warning wrapper consumes exactly two DWORD arguments.
+The catalog exposed older ftell53030..53164 and fseek52f90..53026. Their own complete
+C bodies preserve native512-byte read-buffer reset and text position fallback;
+the newer shipped CRT behavior was not accepted as an equivalent alias. Intrinsic
+string scans/copies use inline C loops to preserve the original call graph.
+
+cases/remaining-gaps.json is analysis evidence only. Ghidra actual body ranges
+minus accepted extents identify21345 bytes in OMF conversion and18956 bytes in
+C++ undecoration, with native incoming callers, per-body ranges and hashes.
+Padding, placeholder extents and CRT aliases are excluded. Static closure is not
+a promise that one input executes every function. No unassigned cases were run;
+Mac/m68k,ROM,bind/rebase,disassembler,error and dormant CRT gaps remain.

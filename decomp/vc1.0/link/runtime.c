@@ -459,3 +459,68 @@ int _isindst(struct tm *time)
     return time->tm_yday<transition ||
         (time->tm_yday==transition && time->tm_hour<1);
 }
+
+/* Native LINK [00053030,00053164): own older text-buffer positioning.
+ * Independently checked against its disassembly; shipped LIBC fallback differs. */
+long ftell(FILE *stream)
+{
+    int descriptor = stream->_file;
+    int flags;
+    long position, buffered, used;
+    char *cursor, *end;
+    if (stream->_cnt < 0) stream->_cnt = 0;
+    position = _lseek(descriptor, 0L, SEEK_CUR);
+    if (position < 0) return -1L;
+    flags = stream->_flag;
+    if (!(flags & 0x108)) return position - stream->_cnt;
+    used = stream->_ptr - stream->_base;
+    buffered = used;
+    if (flags & 3) {
+        if (_osfile[descriptor] & 0x80)
+            for (cursor = stream->_base; cursor < stream->_ptr; ++cursor)
+                if (*cursor == '\n') ++buffered;
+    } else if (!(flags & 0x80)) {
+        errno = EINVAL;
+        return -1L;
+    }
+    if (!position) return buffered;
+    if (flags & 1) {
+        if (!stream->_cnt) buffered = 0;
+        else {
+            used += stream->_cnt;
+            if (_osfile[descriptor] & 0x80) {
+                if (_lseek(descriptor, 0L, SEEK_END) == position) {
+                    cursor = stream->_base;
+                    end = cursor + used;
+                    while (cursor < end) if (*cursor++ == '\n') ++used;
+                    if (stream->_flag & 0x2000) ++used;
+                } else {
+                    _lseek(descriptor, position, SEEK_SET);
+                    used = stream->_bufsiz;
+                    if (_osfile[descriptor] & 4) ++used;
+                }
+            }
+            position -= used;
+        }
+    }
+    return position + buffered;
+}
+
+/* Native LINK [00052f90,00053026): older read-buffer seek reset. */
+int fseek(FILE *stream,long offset,int origin)
+{
+    if (!(stream->_flag & 0x83) ||
+        (origin!=SEEK_SET && origin!=SEEK_CUR && origin!=SEEK_END)) {
+        errno=EINVAL;
+        return -1;
+    }
+    stream->_flag &= ~0x10;
+    if (origin==SEEK_CUR) {
+        offset+=ftell(stream);
+        origin=SEEK_SET;
+    }
+    _flush(stream);
+    if (stream->_flag & 0x80) stream->_flag &= ~3;
+    else if ((stream->_flag & 9)==9) stream->_bufsiz=512;
+    return _lseek(stream->_file,offset,origin)==-1L ? -1 : 0;
+}

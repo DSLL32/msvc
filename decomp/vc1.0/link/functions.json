@@ -511,7 +511,23 @@
     "_print_dump_symbol_name",
     "_dump_coff_symbols",
     "_print_dump_symbol",
-    "_print_dump_auxiliary"
+    "_print_dump_auxiliary",
+    "_dump_debug_directory",
+    "_dump_imports",
+    "_dump_exports",
+    "_dump_base_relocation_block",
+    "_editor_main",
+    "_prepare_edit_input",
+    "_apply_edit_options",
+    "_parse_reserve_commit",
+    "__hextodec",
+    "_update_checksum",
+    "_warning_message",
+    "_lookup_diagnostic_text",
+    "_open_diagnostic_file",
+    "_ftell",
+    "_fseek",
+    "_lookup_diagnostic_code"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -556,10 +572,11 @@
     {
       "name": "_editor_main",
       "start": 161952,
-      "end": 161953,
-      "implementation": "stub-C",
-      "source": "stubs.c",
-      "abi": "cdecl int(int argc,char **argv)"
+      "end": 163824,
+      "implementation": "C",
+      "source": "editor.c",
+      "abi": "cdecl int(int argc,char **argv)",
+      "evidence": "Matched278a0 trap; complete278a0..27ff0: native usage, archive exclusion, parsed bind/rebase vectors and child vertices, per-file PE/COFF reads, one-based section table, option/header rewrite and conditional checksum; invalid-machine close behavior preserved."
     },
     {
       "name": "_helper_main",
@@ -766,10 +783,11 @@
     {
       "name": "_warning_message",
       "start": 137264,
-      "end": 137265,
-      "implementation": "stub-C",
+      "end": 137424,
+      "implementation": "C",
       "source": "diagnostics.c",
-      "abi": "cdecl void(const char *,unsigned,...)"
+      "abi": "cdecl void(const char *,unsigned,...)",
+      "evidence": "Matching editor warning frontier21830..218d0: lazy catalog label/text, low-WORD message index, exactly two DWORD printf substitutions and stdout flush."
     },
     {
       "name": "_write_map",
@@ -1439,10 +1457,11 @@
     {
       "name": "_update_checksum",
       "start": 154720,
-      "end": 154721,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(int file)"
+      "end": 154832,
+      "implementation": "C",
+      "source": "checksum.c",
+      "abi": "cdecl void(int)",
+      "evidence": "Matched25c60 trap; full25c60..25cd0: size, mapped-only output span, named cdecl checksum helper(previous-sum pointer,NULL result means in-place), otherwise original warning81; no invented buffered checksum path."
     },
     {
       "name": "_find_external",
@@ -4427,26 +4446,29 @@
     {
       "name": "_dump_debug_directory",
       "start": 214832,
-      "end": 214833,
-      "implementation": "stub-C",
-      "source": "dump-stubs.c",
-      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+      "end": 215120,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)",
+      "evidence": "Matched34730 trap; complete34730..34850: archive-relative section-to-directory seek, count by28, typed IMAGE_DEBUG_DIRECTORY records, native type labels and size/address/file-pointer rows."
     },
     {
       "name": "_dump_imports",
       "start": 212000,
-      "end": 212001,
-      "implementation": "stub-C",
-      "source": "dump-stubs.c",
-      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+      "end": 212960,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)",
+      "evidence": "Matched33c20 trap; complete33c20..33fe0: typed20-byte import descriptors, native section/RVA arithmetic, byte-streamed DLL/function names, bound-table choice and values, full ordinal DWORD output and initial range diagnostic."
     },
     {
       "name": "_dump_exports",
       "start": 212960,
-      "end": 212961,
-      "implementation": "stub-C",
-      "source": "dump-stubs.c",
-      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+      "end": 214176,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)",
+      "evidence": "Matched33fe0 trap; complete33fe0..344a0: typed40-byte export directory and DWORD/WORD tables, byte-streamed names, WORD ordinal/hint display and native sequential EAT/name pairing (not ordinal-indexed), strict forwarder interval and version/date formatting."
     },
     {
       "name": "_valid_dump_range",
@@ -4460,10 +4482,11 @@
     {
       "name": "_dump_base_relocation_block",
       "start": 208096,
-      "end": 208097,
-      "implementation": "stub-C",
-      "source": "dump-stubs.c",
-      "abi": "cdecl void(IMAGE_BASE_RELOCATION *,unsigned short *)"
+      "end": 208416,
+      "implementation": "C",
+      "source": "dump.c",
+      "abi": "cdecl void(IMAGE_BASE_RELOCATION *,unsigned short *)",
+      "evidence": "Matched32ce0 trap; complete32ce0..32e20 including8-entry dispatch table32e00. Native upper-nibble type/12-bit displacement, unknown prefix, HIGHADJ extra WORD with only one iteration decrement, exact block/row formats."
     },
     {
       "name": "_dump_relocations",
@@ -4509,6 +4532,110 @@
       "source": "dump.c",
       "abi": "cdecl void(PIMAGE_SYMBOL,PIMAGE_AUX_SYMBOL)",
       "evidence": "Matched33840 trap; complete33840..33c20: external/function records, static section/COMDAT selection, tags, blocks, FILE and weak aliases; typed array dimensions and native18-byte unknown-auxiliary hex fallback."
+    },
+    {
+      "name": "_prepare_edit_input",
+      "start": 165472,
+      "end": 165712,
+      "implementation": "C",
+      "source": "editor.c",
+      "abi": "cdecl void(Argument *)",
+      "evidence": "Matched28660 trap; complete28660..28750: writable open/close probe, inline case-sensitive effective/original comparison, checked command allocation, original probe and native copy-through-system fallback."
+    },
+    {
+      "name": "_apply_edit_options",
+      "start": 163824,
+      "end": 164224,
+      "implementation": "C",
+      "source": "editor.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched27ff0 trap; complete27ff0..28180: parse each switch again, skip bind/rebase, release sets checksum1 only, shared reserve/commit parser and changed flag, section child and native diagnostics."
+    },
+    {
+      "name": "_rebase_main",
+      "start": 326624,
+      "end": 326625,
+      "implementation": "stub-C",
+      "source": "edit-stubs.c",
+      "abi": "cdecl int(int,char **,char **)"
+    },
+    {
+      "name": "_bind_main",
+      "start": 322912,
+      "end": 322913,
+      "implementation": "stub-C",
+      "source": "edit-stubs.c",
+      "abi": "cdecl int(int,char **,char **)"
+    },
+    {
+      "name": "_parse_reserve_commit",
+      "start": 106288,
+      "end": 106576,
+      "implementation": "C",
+      "source": "editor.c",
+      "abi": "cdecl void(const char *,unsigned long *,unsigned long *)",
+      "evidence": "Matched19f30 trap; complete19f30..1a050: native scanf count-to-field mask, leading-comma unconditional commit mask, trailing-token handling and DWORD four-byte rounding; preserve omitted-value state."
+    },
+    {
+      "name": "_edit_section",
+      "start": 164224,
+      "end": 164225,
+      "implementation": "stub-C",
+      "source": "edit-stubs.c",
+      "abi": "cdecl void(char *)"
+    },
+    {
+      "name": "_checksum_mapped_image",
+      "start": 322512,
+      "end": 322513,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl PIMAGE_NT_HEADERS(void *,unsigned long,unsigned long *,unsigned long *)"
+    },
+    {
+      "name": "_lookup_diagnostic_text",
+      "start": 166048,
+      "end": 166272,
+      "source": "diagnostics.c",
+      "implementation": "C",
+      "abi": "cdecl char *(unsigned)",
+      "evidence": "Matching editor catalog frontier288a0..28980: external LINK.ERR, text-mode ftell cookies, shared line buffer, final-character removal and colon lookup. Native offset array has138 slots; shipped catalog137 lines."
+    },
+    {
+      "name": "_lookup_diagnostic_code",
+      "start": 166272,
+      "end": 166288,
+      "source": "diagnostics.c",
+      "implementation": "C",
+      "abi": "cdecl const char *(unsigned)",
+      "evidence": "Matching editor code-table frontier28980..28990; direct index into contextual137-entry native code catalog. Each shared pointer entry and string is initializer-audited; external message sentences are not copied."
+    },
+    {
+      "name": "_open_diagnostic_file",
+      "start": 165872,
+      "end": 166048,
+      "source": "diagnostics.c",
+      "implementation": "C",
+      "abi": "cdecl void(const char *)",
+      "evidence": "Matching editor catalog-open frontier287f0..288a0: recover drive then directory in shared264-byte buffer, append backslash/link.err, fopen rt and native missing-file fallback."
+    },
+    {
+      "name": "_ftell",
+      "start": 340016,
+      "end": 340324,
+      "source": "runtime.c",
+      "implementation": "C",
+      "abi": "cdecl long(FILE *)",
+      "evidence": "Matched own ftell frontier53030..53164; complete121-instruction body reviewed against C1XX older runtime as analysis lead. Native fallback always takes stream->_bufsiz, unlike shipped LIBC minimum512 logic. All three calls target existing _lseek55bb0; data errno852d8 and _osfile85620 are CRT aliases."
+    },
+    {
+      "name": "_fseek",
+      "start": 339856,
+      "end": 340006,
+      "source": "runtime.c",
+      "implementation": "C",
+      "abi": "cdecl int(FILE *,long,int)",
+      "evidence": "Matched editor catalog seek frontier52f90..53026. Native validates modes/origin, clears EOF, ftell-relative seeks, flushes, resets read/write flags or512-byte owned read buffer and calls original _lseek; no newer LIBC flag400 logic."
     }
   ],
   "c_stub_references": [
@@ -5026,6 +5153,22 @@
     "library-dump-library",
     "library-dump-library",
     "library-dump-library",
-    "library-dump-library"
+    "library-dump-library",
+    "library-dump-dll",
+    "library-dump-dll",
+    "library-dump-dll",
+    "library-dump-dll",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit",
+    "library-edit"
   ]
 }

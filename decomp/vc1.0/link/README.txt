@@ -1,111 +1,85 @@
 Visual C++ 1.0 for NT: LINK.EXE reconstruction
 
-Target: toolchains/1.0-nt/bin/LINK.EXE, built with its original 1.0-nt compiler,
-linker, headers and libraries through Wine. Program logic is readable C. All 70
-formerly lifted routines were replaced; assembly includes/generators and bulk
-section snapshots were removed. Only INT3 statements in pending stubs remain.
-No assembly ABI exception was needed.
+Target: toolchains/1.0-nt/bin/LINK.EXE. Build with its original compiler,
+linker, headers and libraries through Wine. Program logic is readable period C;
+all 70 formerly lifted implementations and their generators were removed. Only
+INT3 statements in pending named stubs remain. No assembly ABI exception exists.
+Data is contextual and typed; no original section snapshots are retained.
 
-Completed cases:
-  /? exits 3, stdout 884 bytes and stderr empty, exact against the untouched target.
-  stdout SHA256:
-  957c1782d7ebeed2733e7596f4502ffb6ffd5ffc01858add77f54c7fb4b8dff4
-  minimal-C (-link @link.rsp) exits 0 with exact streams and a matching 2 MB test.exe.
-  Only the four-byte PE COFF timestamp specified by its fixture is ignored.
-  Normalized executable SHA256:
-  92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16
-  The generated program returns 0 with empty streams.
-  hello-win32 (-link @link.rsp) exits 0 with exact streams and a matching 2 MB hello.exe.
-  The same four-byte timestamp normalization applies. Normalized executable SHA256:
-  17f34769a7c0089cf4f74f79175082d30709175839af2c8cae7b7cbf2a8b97ca
-  Original, reconstructed and untouched-baseline programs pass the GUI checker:
-  HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
+All 15 assigned cases are complete:
+  /? (exit 3, exact 884-byte stdout, empty stderr)
+  minimal-c, hello-win32, hello-dll
+  library-create, hello-debug-dll
+  library-list, library-extract, library-remove, library-list-trimmed
+  library-dump-library, library-dump-object, library-dump-dll
+  library-edit, library-dump-edited
 
-The four-case baseline checkpoint has 400 frontiers: 90 help, 254 minimal-C,
-3 hello-win32 and 53 hello-dll. Its clean parallel build, full frontier replay
-and all four completed cases pass. Pending helpers and unexecuted branches need
-later coverage.
+The expanded scenarios cover buffered C++ archive creation and member lifecycle,
+COMDAT selection, full COFF/CodeView/FPO debug DLL linking, native CVPACK,
+resources, DEF/order parsing, map/verbose output, archive/COFF/PE dump formatting,
+and editing PE stack/heap reserve/commit values. Generated console programs exit 0;
+original/reconstructed/baseline GUI executables and DLLs pass load/call, 300 painted
+pixels, WM_CLOSE, exit 0 and DLL unload checks where applicable. Streams and exit
+status match the frozen fixtures and untouched original.
 
-Both new user-authorized coverage scenarios are active in the durable order in
-cases/coverage-queue.json. Shared buffered C++ archive creation is complete:
-417 accepted frontiers (17 additions), a clean parallel build, full replay under
-the canonical-path namespace harness, exact archive/streams and all four prior
-cases pass. Audits check 291 call graphs, 282 callback sets and 242 contextual
-data definitions. Embedded member bytes and timestamps remain exact; only
-archive member dates vary. Whole .text accepted extent is 115939/281634 bytes
-(41.1665%), up from 110787/281634 (39.3372%). This is whole-function extent
-coverage, not dynamic instruction or branch coverage.
+Final verification: a fresh original-toolchain make -j2, full 528-frontier replay,
+all 15 completed-case regressions, 384 direct/indirect/tail-call graph audits,
+375 callback audits,306 contextual-data initializer audits and 534 accepted-record
+instruction-boundary checks pass. cases/coverage-after-library-tools.json records
+the accepted .text union: 160229/281634 bytes=56.8926%, up from 110787/281634=39.3372%
+at the 400-frontier baseline. This is whole-function extent coverage, including
+accepted inline tables; it is not dynamic instruction or branch coverage.
+Verification log hashes and case provenance are in cases/library-dumps.json and
+cases/library-edit.json. SOURCE-NOTES.txt preserves implementation milestones.
 
-hello-debug-dll is complete. Full COFF/CodeView/FPO debug, embedded resources,
-COMDAT archive selection, DEF/order processing, native CVPACK, map and verbose
-streams run through exit0. DLL71800 bytes, import library, export object and map
-match frozen reference artifacts with only structural clocks and validated PE
-checksum derivation. Original/reconstruction/baseline DLL load/call,300 painted
-pixels, close and unload checks pass. Clean -j2, all six cases,352 graph/343
-callback/287 data audits and499 accepted-original boundary checks pass. Full485
-replay plus all9 additions pass. Current .text union137819/281634=48.9355%.
-Archive list/extract/remove/list-trimmed also pass, with an exact extracted
-member and beta omitted from the trimmed archive.496 accepted frontiers cover
-138251/281634 bytes(49.0889%); full485 plus all11 additions and ten completed
-case regressions pass. The dump driver, option parser and by-value archive
-metadata formatter now reach matching dump_headers. Fresh clean -j2, full501
-replay and ten completed regressions pass;141995/281634 bytes=50.4183%.
-Archive/all and object/all now complete with exact streams/status and untouched
-original agreement (archive stdout23108 bytes). Clean -j2, all11 additions since
-full501 replay, twelve completed regressions,369 graph/360 callback/297 data
-and517 boundary audits pass.512 frontiers cover153435/281634 bytes=54.4803%.
-DLL/all reaches matching dump_debug_directory with33347 flushed output bytes
-raw-identical. Remaining directory formatters and editor paths remain pending.
+Normalization remains limited to structurally proved clocks and the independently
+validated PE checksum derivation where a fixture requires them. No path, padding,
+output-order or arbitrary byte normalization is used. The editor's 71800-byte
+edited.dll is raw-exact with no ignored fields. Its stack reserve/commit are
+0x180000/0x2000; heap reserve/commit are 0x140000/0x2000. Native /release sets the
+checksum field to 1 before the buffered backend emits LNK4058, reporting checksum
+calculation unsupported on this OS; the actual resulting bytes and warning are
+preserved. No checksum-success behavior is claimed for that path.
 
-The untouched original passes exact verbose output/artifact checks and the
-aliased HelloEntry load/call/paint/close/unload check. The frozen output preserves
-native DEF quirks: OrdinalEntry remains named despite NONAME and ordinal 11 has
-no populated forwarder entry. Parser coverage does not establish those options'
-intended modern behavior.
-
-hello-dll (-link @link.rsp) exits 0 with exact streams and matching 2 MB hello.dll,
-hello.lib and hello.exp. Normalization uses only the structurally identified
-archive/COFF/export timestamp fields in the immutable fixture. The DLL exports
-_HelloMain@16, ordinal 1, RVA 0x1090. Original, reconstructed and untouched-baseline
-DLLs pass load, stdcall invocation, painting (300 dark pixels), WM_CLOSE,
-unregistration, unload and exit 0. Normalized SHA256:
-  hello.dll 322ba54da6475e88c38e583e208cfe9a29caff7c827cf4e009a8556d50a73102
-  hello.lib a686c62d37c456499183fb0fc174ad393b2458f9df44ef57d6c8735f94ed6d57
-  hello.exp b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9
-A separate paired longer-output-name variant also matches all three artifacts.
-It checks the observable auxiliary-symbol stack residue model and DLL-name NUL
-padding; cases/hello-dll-auxiliary.json records the original watchpoint evidence.
-
-Shared fixtures under ../fixtures are immutable. cases/ records invocations,
-normalization, generated-program checks and verification evidence.
+The debug DLL uses default mapped IO. Library setup/lifecycle uses LINK32_DB=27,
+the original's buffered backend: under Wine the original mapped library creator
+otherwise leaves its 2 MB allocation and subsequent listing calls it corrupt.
+Inputs are not trimmed or patched. Extracted alpha is byte-exact and the trimmed
+archive contains no beta member. The native DEF limitations are retained:
+OrdinalEntry stays named despite NONAME, and ordinal 11 has no populated forwarder
+entry. These inputs prove parsing, not effective ordinal-only/forwarder emission.
 
 Build and check help:
     make -j2 check
-Check minimal-C, its output bytes and the generated program:
-    python3 compare.py --case minimal-c --require-exit
-Check hello-win32, its output bytes and GUI behavior:
-    python3 compare.py --case hello-win32 --require-exit
-Check the DLL, import library, export object and DLL-host GUI behavior:
-    python3 compare.py --case hello-dll --require-exit
-Replay every recorded frontier and finish with the DLL artifact check:
-    python3 compare.py --replay --case hello-dll --require-exit
+Check one fixture (the harness sets its original environment):
+    python3 compare.py --case hello-debug-dll --require-exit
+    python3 compare.py --case library-edit --require-exit
+Replay every recorded frontier and finish with edited headers:
+    python3 compare.py --replay --case library-dump-edited --require-exit
+Measure accepted original code extents:
+    python3 measure-coverage.py
 
-The harness masks the original's entire code section with INT3 and restores only
-accepted function extents and encountered inline data. The reconstruction's entry
-and unaccepted routines are masked too. Each pair runs concurrently and must trap
-at the same logical function before another function is accepted. Each paired
-tool copy is
-exposed at the original canonical DOS toolchain path in its own Wine namespace.
-That path resolves to the corresponding masked copy; other files resolve to
-untouched originals. argv[0] and verbose recursive command text therefore match
-exactly while the library-manager subprocess runs the same masked image. The
-debugger follows the
-whole child tree, records image bases and loader breaks per process, and stops
-all debugged processes when one reaches a frontier.
+The harness masks the entire original code section and restores only accepted
+function extents and encountered inline data. Unaccepted reconstruction functions
+and its entry are masked too. Each pair runs concurrently and must stop at the
+same logical function. Per-run Wine namespaces expose the matching masked tool
+copy at its canonical original DOS path; other toolchain files resolve to
+untouched originals. argv[0], recursive verbose command text and self-spawned
+LINK children therefore remain exact. The debugger follows the full child tree
+with per-process image bases and loader breaks. The external original CVPACK
+helper is retained as a dependency. Original toolchain files are never modified.
 
-Data is named and typed with its owning code. Ordinary literals remain at use;
-shared mutable buffers, tables and observable sentinels retain their roles. The
-native CRT comes from verified original LIBC.LIB members, with older differences
-in runtime.c. SOURCE-NOTES.txt describes interfaces, private layouts and limits.
-Scratch, disassembly evidence, logs and this reconstruction's private Wine prefix
-live under ~/.ai-tmp/vc1.0-link. Original toolchain files remain untouched.
+Runtime members come from relocation-target-verified original LIBC objects.
+Older differences, including text-mode ftell/fseek discovered by the editor's
+external LINK.ERR catalog, are readable C in runtime.c. Catalog path/offset/line
+buffers and the genuinely indexed shared code table belong to diagnostics.c;
+message sentences stay in the original external catalog.
+
+cases/remaining-gaps.json ranks analysis-only follow-ups using actual decoded
+body ranges and native callers, excluding CRT aliases, padding and placeholder
+extents: about 21.3 KB in OMF conversion and 19.0 KB in C++ undecoration. These are
+static opportunities, not promised coverage from a single input. No further
+cases were started. Remaining Macintosh/m68k, ROM, bind/rebase, disassembly,
+diagnostic/error and dormant CRT paths mean 99% whole-binary coverage is not
+established. Shared fixtures remain immutable. Scratch/evidence/private Wine
+prefixes live under ~/.ai-tmp/vc1.0-link.

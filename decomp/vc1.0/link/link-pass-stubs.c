@@ -20,7 +20,6 @@ void write_mac_resources(void) { __asm { int 3 } }
 void write_mac_swapper(void) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }
-void update_checksum(int file) { __asm { int 3 } }
 
 char *undecorate_symbol_name(const char *name,unsigned char decorated) { __asm { int 3 } return 0; }
 
@@ -51,3 +50,5 @@ void adjust_rom_section_header(Section *section,IMAGE_SECTION_HEADER *header,Ima
 void write_mac_section_debug(Section *section) { __asm { int 3 } }
 
 void record_mac_section_resource(unsigned long mask,Section *section) { __asm { int 3 } }
+
+PIMAGE_NT_HEADERS checksum_mapped_image(void *image,unsigned long size,unsigned long *previous,unsigned long *checksum) { __asm { int 3 } return 0; }
