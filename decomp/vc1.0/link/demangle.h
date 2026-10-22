@@ -32,6 +32,11 @@ typedef struct DemangleName {
     DemangleNode *head;
     unsigned long flags;
 } DemangleName;
+typedef struct DemangleReferenceNode {
+    DemangleNode base;
+    DemangleName *name;
+} DemangleReferenceNode;
+typedef char DemangleReferenceNodeSize[(sizeof(DemangleReferenceNode)==12)?1:-1];
 typedef struct DemangleReplicator {
     int index;
     DemangleName *values[10];
@@ -85,4 +90,14 @@ DemangleCharNode * __fastcall demangle_char_node(DemangleCharNode *self,void *un
 DemangleTextNode * __fastcall demangle_text_node(DemangleTextNode *self,void *unused,const char *text,int length);
 int demangle_text_length(const char *text);
 char *demangle_copy_text(char *output,const char *input,unsigned length);
+DemangleName * demangle_prepend_char(DemangleName *result,char character,const DemangleName *source);
+DemangleName * __fastcall demangle_name_plus_char(DemangleName *self,void *unused,DemangleName *result,char character);
+DemangleName * demangle_parse_template(DemangleName *result);
+DemangleName * demangle_parse_dimension(DemangleName *result);
+DemangleName * __fastcall demangle_name_append_status(DemangleName *self,void *unused,int status);
+DemangleName * __fastcall demangle_name_append_name(DemangleName *self,void *unused,const DemangleName *source);
+DemangleNode * __fastcall demangle_node_wrap(DemangleNode *self,void *unused);
+DemangleNode * __fastcall demangle_node_append(DemangleNode *self,void *unused,DemangleNode *next);
+DemangleReferenceNode *__fastcall demangle_reference_node(DemangleReferenceNode *self,void *unused,DemangleName *name);
+DemangleName *__fastcall demangle_name_append_text(DemangleName *self,void *unused,const char *text);
 #endif

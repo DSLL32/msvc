@@ -328,3 +328,181 @@ DemangleName *__fastcall demangle_name_copy(DemangleName *self,void *unused,
     self->head=source->head;
     return self;
 }
+
+/* Parse enclosing scopes [0003dcf0,0003df10). */
+DemangleName *demangle_parse_scope(DemangleName *result)
+{
+    DemangleName scope,separator,component,qualified,quoted,closed,truncated;
+    DemangleName *value;
+    int first=1;
+    demangle_name_empty(&scope,NULL);
+    while (!(scope.flags&15) && *demangle_input && *demangle_input!='@') {
+        if (first) first=0;
+        else {
+            value=demangle_prepend_text(&separator,"::",&scope);
+            demangle_name_assign(&scope,NULL,value);
+        }
+        if (*demangle_input=='?') {
+            ++demangle_input;
+            if (*demangle_input=='$') {
+                ++demangle_input;
+                value=demangle_parse_template(&component);
+                value=demangle_name_plus_name(value,NULL,&qualified,&scope);
+                demangle_name_assign(&scope,NULL,value);
+            } else {
+                if (*demangle_input=='?') value=demangle_parse_declaration(&component);
+                else value=demangle_parse_dimension(&component);
+                value=demangle_prepend_char(&quoted,'`',value);
+                value=demangle_name_plus_char(value,NULL,&closed,'\'');
+                value=demangle_name_plus_name(value,NULL,&qualified,&scope);
+                demangle_name_assign(&scope,NULL,value);
+            }
+        } else {
+            value=demangle_parse_name(&component);
+            value=demangle_name_plus_name(value,NULL,&qualified,&scope);
+            demangle_name_assign(&scope,NULL,value);
+        }
+    }
+    if (!*demangle_input) {
+        if (first) demangle_name_assign_status(&scope,NULL,2);
+        else {
+            value=demangle_name_status(&truncated,NULL,2);
+            value=demangle_name_plus_text(value,NULL,&separator,"::");
+            value=demangle_name_plus_name(value,NULL,&qualified,&scope);
+            demangle_name_assign(&scope,NULL,value);
+        }
+    } else if (*demangle_input!='@') demangle_name_assign_status(&scope,NULL,1);
+    return demangle_name_copy(result,NULL,&scope);
+}
+
+/* Native thiscall [00040370,000403f0); hidden result and source, RET8. */
+DemangleName *__fastcall demangle_name_plus_name(DemangleName *self,void *unused,
+                                                 DemangleName *result,const DemangleName *source)
+{
+    DemangleName combined;
+    demangle_name_copy(&combined,NULL,self);
+    if (demangle_name_is_empty(&combined,NULL)) demangle_name_assign(&combined,NULL,source);
+    else if (demangle_name_is_empty(source,NULL))
+        demangle_name_append_status(&combined,NULL,(long)(source->flags<<28)>>28);
+    else demangle_name_append_name(&combined,NULL,source);
+    return demangle_name_copy(result,NULL,&combined);
+}
+
+/* Native thiscall [000406e0,00040770); RET4. */
+DemangleName *__fastcall demangle_name_append_status(DemangleName *self,void *unused,int status)
+{
+    DemangleStatusNode *node;
+    if (demangle_name_is_empty(self,NULL) || status==1 || status==3)
+        return demangle_name_assign_status(self,NULL,status);
+    node=demangle_allocate(&demangle_heap,NULL,sizeof(*node),0);
+    if (node) node=demangle_status_node(node,NULL,status);
+    if (node) {
+        self->head=demangle_node_wrap(self->head,NULL);
+        if (self->head) demangle_node_append(self->head,NULL,&node->base);
+    } else self->head=NULL;
+    if (!self->head) self->flags=(self->flags&~15UL)|3;
+    return self;
+}
+
+/* Native thiscall [00040b00,00040b60); no stack arguments. */
+DemangleNode *__fastcall demangle_node_wrap(DemangleNode *self,void *unused)
+{
+    DemangleReferenceNode *node;
+    DemangleName *name;
+    node=demangle_allocate(&demangle_heap,NULL,sizeof(*node),0);
+    if (!node) return NULL;
+    name=demangle_allocate(&demangle_heap,NULL,sizeof(*name),0);
+    if (name) {
+        name->head=self;
+        name->flags&=~0x3fUL;
+    }
+    return (DemangleNode *)demangle_reference_node(node,NULL,name);
+}
+
+/* Native thiscall [00040d50,00040d90); RET4. */
+DemangleReferenceNode *__fastcall demangle_reference_node(DemangleReferenceNode *self,
+                                                           void *unused,DemangleName *name)
+{
+    demangle_node_initialize(&self->base,NULL,2);
+    if (name && ((name->flags&15)==1 || (name->flags&15)==3)) self->name=NULL;
+    else self->name=name;
+    return self;
+}
+
+/* Native thiscall [00040c10,00040c50); RET4. */
+DemangleNode *__fastcall demangle_node_append(DemangleNode *self,void *unused,DemangleNode *next)
+{
+    DemangleNode *tail;
+    if (next) {
+        tail=self->next;
+        if (tail) {
+            while (tail->next) tail=tail->next;
+            tail->next=next;
+        } else self->next=next;
+    }
+    return self;
+}
+
+/* Native thiscall [00040810,00040860); RET4. */
+DemangleName *__fastcall demangle_name_assign(DemangleName *self,void *unused,
+                                              const DemangleName *source)
+{
+    unsigned status=self->flags&15;
+    if (!status || status==2) {
+        self->flags=(self->flags&~0x3fUL)|(source->flags&0x3f);
+        self->head=source->head;
+    }
+    return self;
+}
+
+/* Native thiscall [00040320,00040370); hidden result/text, RET8. */
+DemangleName *__fastcall demangle_name_plus_text(DemangleName *self,void *unused,
+                                                 DemangleName *result,const char *text)
+{
+    DemangleName combined;
+    demangle_name_copy(&combined,NULL,self);
+    if (demangle_name_is_empty(&combined,NULL)) demangle_name_assign_text(&combined,NULL,text);
+    else demangle_name_append_text(&combined,NULL,text);
+    return demangle_name_copy(result,NULL,&combined);
+}
+
+/* Native thiscall [00040510,000405a0); RET4. */
+DemangleName *__fastcall demangle_name_append_text(DemangleName *self,void *unused,const char *text)
+{
+    DemangleTextNode *node;
+    if (text && *text) {
+        if (demangle_name_is_empty(self,NULL)) demangle_name_assign_text(self,NULL,text);
+        else {
+            self->head=demangle_node_wrap(self->head,NULL);
+            if (self->head) {
+                node=demangle_allocate(&demangle_heap,NULL,sizeof(*node),0);
+                if (node) node=demangle_text_node(node,NULL,text,0);
+                demangle_node_append(self->head,NULL,(DemangleNode *)node);
+            } else self->flags=(self->flags&~15UL)|3;
+        }
+    }
+    return self;
+}
+
+/* Original [00040e30,00040e50). */
+int demangle_text_length(const char *text)
+{
+    int length=0;
+    while (*text++) ++length;
+    return length;
+}
+
+/* Native thiscall [000405a0,00040630); RET4. */
+DemangleName *__fastcall demangle_name_append_name(DemangleName *self,void *unused,
+                                                   const DemangleName *source)
+{
+    if (demangle_name_is_empty(source,NULL))
+        demangle_name_append_status(self,NULL,(long)(source->flags<<28)>>28);
+    else if (demangle_name_is_empty(self,NULL)) demangle_name_assign(self,NULL,source);
+    else {
+        self->head=demangle_node_wrap(self->head,NULL);
+        if (self->head) demangle_node_append(self->head,NULL,source->head);
+        else self->flags=(self->flags&~15UL)|3;
+    }
+    return self;
+}

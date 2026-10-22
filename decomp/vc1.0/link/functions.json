@@ -590,7 +590,18 @@
     "_demangle_replicator_add",
     "_demangle_name_is_empty",
     "_demangle_name_is_valid",
-    "_demangle_name_copy"
+    "_demangle_name_copy",
+    "_demangle_parse_scope",
+    "_demangle_name_plus_name",
+    "_demangle_name_append_status",
+    "_demangle_node_wrap",
+    "_demangle_reference_node",
+    "_demangle_node_append",
+    "_demangle_name_assign",
+    "_demangle_name_plus_text",
+    "_demangle_name_append_text",
+    "_demangle_text_length",
+    "_demangle_name_append_name"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5281,11 +5292,12 @@
     {
       "name": "_demangle_name_assign",
       "start": 264208,
-      "end": 264209,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "native thiscall; rebuilt fastcall ECX-this/ignored EDX: DemangleName *(DemangleName *self,void *unused,const DemangleName *source)",
-      "symbol": "@demangle_name_assign@12"
+      "end": 264288,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleName *ECX,const DemangleName *); RET4; C fastcall reserves ignored EDX",
+      "symbol": "@demangle_name_assign@12",
+      "evidence": "Matched40810..40860. Native ECX-this/RET4 through ignored EDX; conditional shallow assignment only for normal/truncated destination status, six native flags copied while higher bits retained; no extra copy-constructor vertex."
     },
     {
       "name": "_demangle_name_assign_text",
@@ -5394,20 +5406,22 @@
     {
       "name": "_demangle_name_plus_text",
       "start": 262944,
-      "end": 262945,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "native thiscall; rebuilt fastcall ECX-this/ignored EDX: DemangleName *(DemangleName *self,void *unused,DemangleName *result,const char *text)",
-      "symbol": "@demangle_name_plus_text@16"
+      "end": 263024,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleName *ECX,DemangleName *result,const char *); RET8; C fastcall reserves ignored EDX",
+      "symbol": "@demangle_name_plus_text@16",
+      "evidence": "Matched40320..40370. Native ECX-this/hidden output+text RET8 through ignored EDX; shallow temporary, empty-name assignment versus text append, then distinct output copy constructor."
     },
     {
       "name": "_demangle_name_plus_name",
       "start": 263024,
-      "end": 263025,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "native thiscall; rebuilt fastcall ECX-this/ignored EDX: DemangleName *(DemangleName *self,void *unused,DemangleName *result,const DemangleName *source)",
-      "symbol": "@demangle_name_plus_name@16"
+      "end": 263152,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleName *ECX,DemangleName *result,const DemangleName *); RET8; C fastcall reserves ignored EDX",
+      "symbol": "@demangle_name_plus_name@16",
+      "evidence": "Matched40370..403f0. Native ECX-this/hidden output+source RET8 via ignored EDX; temporary shallow copy, empty-self assignment, signed status propagation from empty source, distinct append-name path and output constructor."
     },
     {
       "name": "_demangle_parse_operator",
@@ -5429,10 +5443,11 @@
     {
       "name": "_demangle_parse_scope",
       "start": 253168,
-      "end": 253169,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result)"
+      "end": 253712,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *)",
+      "evidence": "Matched3dcf0..3df10. Complete reversed enclosing-scope construction, template/local/nested-declaration quoted branches, shared operator vertices, truncated prefix/status handling and final shallow-copy constructor; ordinary :: literals stay at use."
     },
     {
       "name": "_demangle_parse_type_declaration",
@@ -5512,10 +5527,11 @@
     {
       "name": "_demangle_text_length",
       "start": 265776,
-      "end": 265777,
-      "source": "demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl int(const char *)"
+      "end": 265808,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "cdecl int(const char *)",
+      "evidence": "Matched40e30..40e50. Native leaf length scan with no NULL special case and own graph vertex, no substituted CRT strlen call."
     },
     {
       "name": "_demangle_copy_text",
@@ -5525,6 +5541,99 @@
       "implementation": "C",
       "abi": "cdecl char *(char *,const char *,unsigned)",
       "evidence": "Matched40e50..40e80. Native leaf copies at most count bytes, includes first NUL then stops without zero fill, returns original destination; preserve own vertex rather than substituting CRT copy."
+    },
+    {
+      "name": "_demangle_prepend_char",
+      "start": 261584,
+      "end": 261585,
+      "source": "demangle-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl DemangleName *(DemangleName *result,char character,const DemangleName *source)"
+    },
+    {
+      "name": "_demangle_name_plus_char",
+      "start": 262864,
+      "end": 262865,
+      "source": "demangle-stubs.c",
+      "implementation": "stub-C",
+      "abi": "native thiscall; rebuilt fastcall ECX-this/ignored EDX: DemangleName *(DemangleName *self,void *unused,DemangleName *result,char character)",
+      "symbol": "@demangle_name_plus_char@16"
+    },
+    {
+      "name": "_demangle_parse_template",
+      "start": 254080,
+      "end": 254081,
+      "source": "demangle-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl DemangleName *(DemangleName *result)"
+    },
+    {
+      "name": "_demangle_parse_dimension",
+      "start": 253712,
+      "end": 253713,
+      "source": "demangle-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl DemangleName *(DemangleName *result)"
+    },
+    {
+      "name": "_demangle_name_append_status",
+      "symbol": "@demangle_name_append_status@12",
+      "start": 263904,
+      "end": 264048,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleName *ECX,int); RET4; C fastcall reserves ignored EDX",
+      "evidence": "Matched406e0..40770. Native ECX-this/RET4 through ignored EDX; propagate fatal/invalid states through own assignment, otherwise build status node, wrap existing chain and append via native vertices; exact failure flags."
+    },
+    {
+      "name": "_demangle_name_append_name",
+      "symbol": "@demangle_name_append_name@12",
+      "start": 263584,
+      "end": 263728,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleName *ECX,const DemangleName *); RET4; C fastcall reserves ignored EDX",
+      "evidence": "Matched405a0..40630. Native ECX-this/RET4 through ignored EDX; empty-source signed status append, empty-self shallow assignment, otherwise wrap destination then share/append source chain, preserve allocation-failure status."
+    },
+    {
+      "name": "_demangle_node_wrap",
+      "symbol": "@demangle_node_wrap@8",
+      "start": 264960,
+      "end": 265056,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleNode *(DemangleNode *ECX); RET; C fastcall reserves ignored EDX",
+      "evidence": "Matched40b00..40b60. Native ECX-this/no stack arguments via ignored EDX; allocate12-byte reference node and8-byte shallow-name container, initialize only observed fields inline, construct reference even if inner name allocation fails."
+    },
+    {
+      "name": "_demangle_node_append",
+      "symbol": "@demangle_node_append@12",
+      "start": 265232,
+      "end": 265296,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleNode *(DemangleNode *ECX,DemangleNode *); RET4; C fastcall reserves ignored EDX",
+      "evidence": "Matched40c10..40c50. Native ECX-this/RET4 through ignored EDX; append non-NULL node chain at actual tail without allocation/copy, preserve self return and leaf graph."
+    },
+    {
+      "name": "_demangle_reference_node",
+      "symbol": "@demangle_reference_node@12",
+      "start": 265552,
+      "end": 265616,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleReferenceNode *(DemangleReferenceNode *ECX,DemangleName *); RET4; C fastcall reserves ignored EDX",
+      "evidence": "Matched40d50..40d90. Native ECX-this/RET4 through ignored EDX; construct tagged kind2 reference, suppress only invalid/error name statuses1/3, preserve NULL and normal/truncated references without extra predicate call."
+    },
+    {
+      "name": "_demangle_name_append_text",
+      "symbol": "@demangle_name_append_text@12",
+      "start": 263440,
+      "end": 263584,
+      "source": "demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(DemangleName *ECX,const char *); RET4; C fastcall reserves ignored EDX",
+      "evidence": "Matched40510..405a0. Native ECX-this/RET4 through ignored EDX; ignore empty input, empty destination assignment, otherwise wrap old chain then allocate/text-construct/append, preserving different wrapper-failure and text-node-failure status behavior."
     }
   ],
   "c_stub_references": [
@@ -6105,6 +6214,17 @@
     "omf-library",
     "omf-link",
     "omf-link",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
+    "cpp-undecorate",
     "cpp-undecorate",
     "cpp-undecorate",
     "cpp-undecorate",

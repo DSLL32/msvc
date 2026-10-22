@@ -671,3 +671,13 @@ audits pass:445 graph,436 callbacks,391 data,597 instruction boundaries.
 All63 additions since full528 replay and all17 completed cases pass. The C++
 dump remains incomplete at scope parser3dcf0. Union176841/281634=62.7911%;
 final clean/full replay remains queued after this assigned family completes.
+
+Demangler scope checkpoint602: full enclosing-scope parser, name/text/status
+concatenation operators, tagged reference-node wrapping and chain append,
+conditional assignment and text-length leaf are readable C. Existing chains
+remain shared behind actual12-byte reference nodes; no flattening or extra
+helper graph vertices. All11 additions since591 replay; combined with the
+prior63 addition replay, all74 additions since full528 have replayed. Audits
+456 graph/447 callbacks/391 data/608 instruction boundaries/21 native ECX RET
+cleanup checks pass. Completed17-case regression checkpoint remains591.
+Current trap is full type-declaration parser40e80. Coverage178361/281634=63.3308%.
