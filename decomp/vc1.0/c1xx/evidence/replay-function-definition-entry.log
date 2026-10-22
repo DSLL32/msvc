@@ -1,0 +1,744 @@
+python3 wine-tool.py --init
+python3 compare.py --replay
+frontier 0/370: _mainCRTStartup
+original: _mainCRTStartup; reconstruction: _mainCRTStartup
+frontier 1/370: import:GetCommandLineA
+original: import:GetCommandLineA; reconstruction: import:GetCommandLineA
+frontier 2/370: import:GetEnvironmentStrings
+original: import:GetEnvironmentStrings; reconstruction: import:GetEnvironmentStrings
+frontier 3/370: import:GetVersion
+original: import:GetVersion; reconstruction: import:GetVersion
+frontier 4/370: __heap_init
+original: __heap_init; reconstruction: __heap_init
+frontier 5/370: __ioinit
+original: __ioinit; reconstruction: __ioinit
+frontier 6/370: import:GetStartupInfoA
+original: import:GetStartupInfoA; reconstruction: import:GetStartupInfoA
+frontier 7/370: import:GetStdHandle
+original: import:GetStdHandle; reconstruction: import:GetStdHandle
+frontier 8/370: import:GetFileType
+original: import:GetFileType; reconstruction: import:GetFileType
+frontier 9/370: __setargv
+original: __setargv; reconstruction: __setargv
+frontier 10/370: import:GetModuleFileNameA
+original: import:GetModuleFileNameA; reconstruction: import:GetModuleFileNameA
+frontier 11/370: _parse_cmdline
+original: _parse_cmdline; reconstruction: _parse_cmdline
+frontier 12/370: _malloc
+original: _malloc; reconstruction: _malloc
+frontier 13/370: __heap_search
+original: __heap_search; reconstruction: __heap_search
+frontier 14/370: __heap_grow
+original: __heap_grow; reconstruction: __heap_grow
+frontier 15/370: __heap_new_region
+original: __heap_new_region; reconstruction: __heap_new_region
+frontier 16/370: import:VirtualAlloc
+original: import:VirtualAlloc; reconstruction: import:VirtualAlloc
+frontier 17/370: __heap_grow_region
+original: __heap_grow_region; reconstruction: __heap_grow_region
+frontier 18/370: __heap_addblock
+original: __heap_addblock; reconstruction: __heap_addblock
+frontier 19/370: __heap_findaddr
+original: __heap_findaddr; reconstruction: __heap_findaddr
+frontier 20/370: __heap_grow_emptylist
+original: __heap_grow_emptylist; reconstruction: __heap_grow_emptylist
+frontier 21/370: __before
+original: __before; reconstruction: __before
+frontier 22/370: __heap_split_block
+original: __heap_split_block; reconstruction: __heap_split_block
+frontier 23/370: __setenvp
+original: __setenvp; reconstruction: __setenvp
+frontier 24/370: __cinit
+original: __cinit; reconstruction: __cinit
+frontier 25/370: __initterm
+original: __initterm; reconstruction: __initterm
+frontier 26/370: _main
+original: _main; reconstruction: _main
+frontier 27/370: _signal
+original: _signal; reconstruction: _signal
+frontier 28/370: import:SetConsoleCtrlHandler
+original: import:SetConsoleCtrlHandler; reconstruction: import:SetConsoleCtrlHandler
+frontier 29/370: _message_text
+original: _message_text; reconstruction: _message_text
+frontier 30/370: _parse_options
+original: _parse_options; reconstruction: _parse_options
+frontier 31/370: _push_linkage@4
+original: _push_linkage@4; reconstruction: _push_linkage@4
+frontier 32/370: _initialize_packing
+original: _initialize_packing; reconstruction: _initialize_packing
+frontier 33/370: _new_packing_stack
+original: _new_packing_stack; reconstruction: _new_packing_stack
+frontier 34/370: _allocate_permanent@4
+original: _allocate_permanent@4; reconstruction: _allocate_permanent@4
+frontier 35/370: _new_permanent_page
+original: _new_permanent_page; reconstruction: _new_permanent_page
+frontier 36/370: _new_bitset@4
+original: _new_bitset@4; reconstruction: _new_bitset@4
+frontier 37/370: _push_packing
+original: _push_packing; reconstruction: _push_packing
+frontier 38/370: _initialize_checksums
+original: _initialize_checksums; reconstruction: _initialize_checksums
+frontier 39/370: _initialize_lead_bytes
+original: _initialize_lead_bytes; reconstruction: _initialize_lead_bytes
+frontier 40/370: import:GetConsoleCP
+original: import:GetConsoleCP; reconstruction: import:GetConsoleCP
+frontier 41/370: import:GetCPInfo
+original: import:GetCPInfo; reconstruction: import:GetCPInfo
+frontier 42/370: _mark_lead_byte_ranges
+original: _mark_lead_byte_ranges; reconstruction: _mark_lead_byte_ranges
+frontier 43/370: _getenv
+original: _getenv; reconstruction: _getenv
+frontier 44/370: __strnicmp
+original: __strnicmp; reconstruction: __strnicmp
+frontier 45/370: _read_env_arguments
+original: _read_env_arguments; reconstruction: _read_env_arguments
+frontier 46/370: _extend_argument_vector
+original: _extend_argument_vector; reconstruction: _extend_argument_vector
+frontier 47/370: _checked_malloc@4
+original: _checked_malloc@4; reconstruction: _checked_malloc@4
+frontier 48/370: _new_vector@8
+original: _new_vector@8; reconstruction: _new_vector@8
+frontier 49/370: _refill_arena@8
+original: _refill_arena@8; reconstruction: _refill_arena@8
+frontier 50/370: _next_argument
+original: _next_argument; reconstruction: _next_argument
+frontier 51/370: _match_option
+original: _match_option; reconstruction: _match_option
+frontier 52/370: _prefix_character
+original: _prefix_character; reconstruction: _prefix_character
+frontier 53/370: _apply_option
+original: _apply_option; reconstruction: _apply_option
+frontier 54/370: _parse_option_number
+original: _parse_option_number; reconstruction: _parse_option_number
+frontier 55/370: _atol
+original: _atol; reconstruction: _atol
+frontier 56/370: _match_option_suffix
+original: _match_option_suffix; reconstruction: _match_option_suffix
+frontier 57/370: _append_vector@8
+original: _append_vector@8; reconstruction: _append_vector@8
+frontier 58/370: __fullpath
+original: __fullpath; reconstruction: __fullpath
+frontier 59/370: __getdcwd
+original: __getdcwd; reconstruction: __getdcwd
+frontier 60/370: import:GetCurrentDirectoryA
+original: import:GetCurrentDirectoryA; reconstruction: import:GetCurrentDirectoryA
+frontier 61/370: _finalize_options
+original: _finalize_options; reconstruction: _finalize_options
+frontier 62/370: _free
+original: _free; reconstruction: _free
+frontier 63/370: _guarded_compile
+original: _guarded_compile; reconstruction: _guarded_compile
+frontier 64/370: _compile_translation_unit
+original: _compile_translation_unit; reconstruction: _compile_translation_unit
+frontier 65/370: _initialize_frontend
+original: _initialize_frontend; reconstruction: _initialize_frontend
+frontier 66/370: import:SetHandleCount
+original: import:SetHandleCount; reconstruction: import:SetHandleCount
+frontier 67/370: _initialize_work_stack@4
+original: _initialize_work_stack@4; reconstruction: _initialize_work_stack@4
+frontier 68/370: _reset_work_stack@4
+original: _reset_work_stack@4; reconstruction: _reset_work_stack@4
+frontier 69/370: _initialize_preprocessor
+original: _initialize_preprocessor; reconstruction: _initialize_preprocessor
+frontier 70/370: _initialize_macro_text
+original: _initialize_macro_text; reconstruction: _initialize_macro_text
+caller equivalence through native tail jumps: _initialize_preprocessor -> _initialize_macro_text
+frontier 71/370: _initialize_keyword_table
+original: _initialize_keyword_table; reconstruction: _initialize_keyword_table
+frontier 72/370: _intern_keyword@4
+original: _intern_keyword@4; reconstruction: _intern_keyword@4
+frontier 73/370: _strncmp
+original: _strncmp; reconstruction: _strncmp
+frontier 74/370: _initialize_floating_point
+original: _initialize_floating_point; reconstruction: _initialize_floating_point
+frontier 75/370: __control87
+original: __control87; reconstruction: __control87
+frontier 76/370: __abstract_cw
+original: __abstract_cw; reconstruction: __abstract_cw
+frontier 77/370: __hw_cw
+original: __hw_cw; reconstruction: __hw_cw
+frontier 78/370: _top_packing
+original: _top_packing; reconstruction: _top_packing
+frontier 79/370: _disable_keyword@4
+original: _disable_keyword@4; reconstruction: _disable_keyword@4
+frontier 80/370: _intern_identifier@4
+original: _intern_identifier@4; reconstruction: _intern_identifier@4
+frontier 81/370: _initialize_cpp_context_stack
+original: _initialize_cpp_context_stack; reconstruction: _initialize_cpp_context_stack
+frontier 82/370: _new_inline_vector
+original: _new_inline_vector; reconstruction: _new_inline_vector
+frontier 83/370: _inline_vector_bytes
+original: _inline_vector_bytes; reconstruction: _inline_vector_bytes
+frontier 84/370: _open_intermediate
+original: _open_intermediate; reconstruction: _open_intermediate
+frontier 85/370: _fopen
+original: _fopen; reconstruction: _fopen
+frontier 86/370: __fsopen
+original: __fsopen; reconstruction: __fsopen
+frontier 87/370: __getstream
+original: __getstream; reconstruction: __getstream
+frontier 88/370: __openfile
+original: __openfile; reconstruction: __openfile
+frontier 89/370: __sopen
+original: __sopen; reconstruction: __sopen
+frontier 90/370: __alloc_osfhnd
+original: __alloc_osfhnd; reconstruction: __alloc_osfhnd
+frontier 91/370: import:CreateFileA
+original: import:CreateFileA; reconstruction: import:CreateFileA
+frontier 92/370: __set_osfhnd
+original: __set_osfhnd; reconstruction: __set_osfhnd
+frontier 93/370: _setvbuf
+original: _setvbuf; reconstruction: _setvbuf
+frontier 94/370: __flush
+original: __flush; reconstruction: __flush
+frontier 95/370: __freebuf
+original: __freebuf; reconstruction: __freebuf
+frontier 96/370: _open_expression_intermediate
+original: _open_expression_intermediate; reconstruction: _open_expression_intermediate
+frontier 97/370: _make_integer_constant@4
+original: _make_integer_constant@4; reconstruction: _make_integer_constant@4
+frontier 98/370: _new_integer_constant@4
+original: _new_integer_constant@4; reconstruction: _new_integer_constant@4
+frontier 99/370: _write_ir_record@8
+original: _write_ir_record@8; reconstruction: _write_ir_record@8
+frontier 100/370: __flsbuf
+original: __flsbuf; reconstruction: __flsbuf
+frontier 101/370: _fseek
+original: _fseek; reconstruction: _fseek
+frontier 102/370: __write
+original: __write; reconstruction: __write
+frontier 103/370: import:WriteFile
+original: import:WriteFile; reconstruction: import:WriteFile
+frontier 104/370: __lseek
+original: __lseek; reconstruction: __lseek
+frontier 105/370: __get_osfhandle
+original: __get_osfhandle; reconstruction: __get_osfhandle
+frontier 106/370: import:SetFilePointer
+original: import:SetFilePointer; reconstruction: import:SetFilePointer
+frontier 107/370: _fputc
+original: _fputc; reconstruction: _fputc
+frontier 108/370: _initialize_type_table
+original: _initialize_type_table; reconstruction: _initialize_type_table
+frontier 109/370: _initialize_global_scope
+original: _initialize_global_scope; reconstruction: _initialize_global_scope
+frontier 110/370: _initialize_declaration_table
+original: _initialize_declaration_table; reconstruction: _initialize_declaration_table
+frontier 111/370: _new_hash_table@16
+original: _new_hash_table@16; reconstruction: _new_hash_table@16
+frontier 112/370: _intern_type@4
+original: _intern_type@4; reconstruction: _intern_type@4
+frontier 113/370: _make_function_type@8
+original: _make_function_type@8; reconstruction: _make_function_type@8
+frontier 114/370: _normalize_type_attributes@8
+original: _normalize_type_attributes@8; reconstruction: _normalize_type_attributes@8
+frontier 115/370: _new_type_shape@12
+original: _new_type_shape@12; reconstruction: _new_type_shape@12
+frontier 116/370: _build_parameter_info@8
+original: _build_parameter_info@8; reconstruction: _build_parameter_info@8
+frontier 117/370: _void_parameter_list
+original: _void_parameter_list; reconstruction: _void_parameter_list
+frontier 118/370: _intern_function_parameters@4
+original: _intern_function_parameters@4; reconstruction: _intern_function_parameters@4
+frontier 119/370: _intern_type_shape@4
+original: _intern_type_shape@4; reconstruction: _intern_type_shape@4
+frontier 120/370: _make_tagged_type@4
+original: _make_tagged_type@4; reconstruction: _make_tagged_type@4
+frontier 121/370: _make_qualified_type@16
+original: _make_qualified_type@16; reconstruction: _make_qualified_type@16
+frontier 122/370: _copy_type_description@4
+original: _copy_type_description@4; reconstruction: _copy_type_description@4
+frontier 123/370: _initialize_intermediate_output
+original: _initialize_intermediate_output; reconstruction: _initialize_intermediate_output
+frontier 124/370: _initialize_translation_state
+original: _initialize_translation_state; reconstruction: _initialize_translation_state
+frontier 125/370: _define_command_line_macros@4
+original: _define_command_line_macros@4; reconstruction: _define_command_line_macros@4
+frontier 126/370: _frontend_time@4
+original: _frontend_time@4; reconstruction: _frontend_time@4
+frontier 127/370: _time
+original: _time; reconstruction: _time
+frontier 128/370: import:GetSystemTime
+original: import:GetSystemTime; reconstruction: import:GetSystemTime
+frontier 129/370: ___gmtotime_t
+original: ___gmtotime_t; reconstruction: ___gmtotime_t
+frontier 130/370: _format_timestamp@4
+original: _format_timestamp@4; reconstruction: _format_timestamp@4
+frontier 131/370: _ctime
+original: _ctime; reconstruction: _ctime
+frontier 132/370: _localtime
+original: _localtime; reconstruction: _localtime
+frontier 133/370: ___tzset
+original: ___tzset; reconstruction: ___tzset
+frontier 134/370: _gmtime
+original: _gmtime; reconstruction: _gmtime
+frontier 135/370: __isindst
+original: __isindst; reconstruction: __isindst
+frontier 136/370: _asctime
+original: _asctime; reconstruction: _asctime
+frontier 137/370: _store_dt
+original: _store_dt; reconstruction: _store_dt
+frontier 138/370: _initialize_macro_storage
+original: _initialize_macro_storage; reconstruction: _initialize_macro_storage
+frontier 139/370: _define_macro@12
+original: _define_macro@12; reconstruction: _define_macro@12
+frontier 140/370: _lookup_macro
+original: _lookup_macro; reconstruction: _lookup_macro
+frontier 141/370: _define_command_line_macro@4
+original: _define_command_line_macro@4; reconstruction: _define_command_line_macro@4
+frontier 142/370: _copy_arena_bytes@12
+original: _copy_arena_bytes@12; reconstruction: _copy_arena_bytes@12
+frontier 143/370: _write_global_header
+original: _write_global_header; reconstruction: _write_global_header
+frontier 144/370: _rewind
+original: _rewind; reconstruction: _rewind
+frontier 145/370: _write_global_record@8
+original: _write_global_record@8; reconstruction: _write_global_record@8
+frontier 146/370: _fwrite
+original: _fwrite; reconstruction: _fwrite
+frontier 147/370: _open_source_file@8
+original: _open_source_file@8; reconstruction: _open_source_file@8
+frontier 148/370: _open_input_handle@4
+original: _open_input_handle@4; reconstruction: _open_input_handle@4
+frontier 149/370: _normalize_input_name
+original: _normalize_input_name; reconstruction: _normalize_input_name
+frontier 150/370: _fill_source_buffer
+original: _fill_source_buffer; reconstruction: _fill_source_buffer
+frontier 151/370: __read
+original: __read; reconstruction: __read
+frontier 152/370: import:ReadFile
+original: import:ReadFile; reconstruction: import:ReadFile
+frontier 153/370: _initialize_operators
+original: _initialize_operators; reconstruction: _initialize_operators
+frontier 154/370: _intern_operator_name@4
+original: _intern_operator_name@4; reconstruction: _intern_operator_name@4
+frontier 155/370: _initialize_allocation_operators
+original: _initialize_allocation_operators; reconstruction: _initialize_allocation_operators
+frontier 156/370: _declare_operator_new@4
+original: _declare_operator_new@4; reconstruction: _declare_operator_new@4
+frontier 157/370: _save_declaration_context@8
+original: _save_declaration_context@8; reconstruction: _save_declaration_context@8
+frontier 158/370: _new_declarator@4
+original: _new_declarator@4; reconstruction: _new_declarator@4
+frontier 159/370: _add_declaration_parameter@16
+original: _add_declaration_parameter@16; reconstruction: _add_declaration_parameter@16
+frontier 160/370: _normalize_symbol_type@8
+original: _normalize_symbol_type@8; reconstruction: _normalize_symbol_type@8
+frontier 161/370: _normalize_symbol_distance@8
+original: _normalize_symbol_distance@8; reconstruction: _normalize_symbol_distance@8
+frontier 162/370: _append_declarator@8
+original: _append_declarator@8; reconstruction: _append_declarator@8
+frontier 163/370: _attach_function_parameters@8
+original: _attach_function_parameters@8; reconstruction: _attach_function_parameters@8
+frontier 164/370: _attach_plain_function_parameters@8
+original: _attach_plain_function_parameters@8; reconstruction: _attach_plain_function_parameters@8
+frontier 165/370: _build_function_declarator@8
+original: _build_function_declarator@8; reconstruction: _build_function_declarator@8
+frontier 166/370: _add_function_shape@12
+original: _add_function_shape@12; reconstruction: _add_function_shape@12
+frontier 167/370: _is_member_declarator@4
+original: _is_member_declarator@4; reconstruction: _is_member_declarator@4
+frontier 168/370: _intern_declaration_parameters
+original: _intern_declaration_parameters; reconstruction: _intern_declaration_parameters
+frontier 169/370: _hash_declaration_parameters@4
+original: _hash_declaration_parameters@4; reconstruction: _hash_declaration_parameters@4
+frontier 170/370: _attach_type_shape@8
+original: _attach_type_shape@8; reconstruction: _attach_type_shape@8
+frontier 171/370: _finish_parameter_scope
+original: _finish_parameter_scope; reconstruction: _finish_parameter_scope
+frontier 172/370: _apply_declaration_type@8
+original: _apply_declaration_type@8; reconstruction: _apply_declaration_type@8
+frontier 173/370: _resolve_declaration@8
+original: _resolve_declaration@8; reconstruction: _resolve_declaration@8
+frontier 174/370: _merge_declaration_type@12
+original: _merge_declaration_type@12; reconstruction: _merge_declaration_type@12
+frontier 175/370: _prepare_declarator_shapes@28
+original: _prepare_declarator_shapes@28; reconstruction: _prepare_declarator_shapes@28
+frontier 176/370: _extract_declarator_prefix@16
+original: _extract_declarator_prefix@16; reconstruction: _extract_declarator_prefix@16
+frontier 177/370: _extract_base_prefix@20
+original: _extract_base_prefix@20; reconstruction: _extract_base_prefix@20
+frontier 178/370: _merge_type_attributes@8
+original: _merge_type_attributes@8; reconstruction: _merge_type_attributes@8
+frontier 179/370: _intern_shape_on@16
+original: _intern_shape_on@16; reconstruction: _intern_shape_on@16
+frontier 180/370: _merge_function_shape@28
+original: _merge_function_shape@28; reconstruction: _merge_function_shape@28
+frontier 181/370: _finish_function_declarator@8
+original: _finish_function_declarator@8; reconstruction: _finish_function_declarator@8
+frontier 182/370: _lookup_declaration@4
+original: _lookup_declaration@4; reconstruction: _lookup_declaration@4
+frontier 183/370: _declaration_scope
+original: _declaration_scope; reconstruction: _declaration_scope
+frontier 184/370: _lookup_scope_declaration@8
+original: _lookup_scope_declaration@8; reconstruction: _lookup_scope_declaration@8
+frontier 185/370: _find_scope_symbol@12
+original: _find_scope_symbol@12; reconstruction: _find_scope_symbol@12
+frontier 186/370: _find_name_in_chain@8
+original: _find_name_in_chain@8; reconstruction: _find_name_in_chain@8
+frontier 187/370: _reconcile_declaration@8
+original: _reconcile_declaration@8; reconstruction: _reconcile_declaration@8
+frontier 188/370: _insert_symbol@4
+original: _insert_symbol@4; reconstruction: _insert_symbol@4
+frontier 189/370: _insert_scope_symbol@8
+original: _insert_scope_symbol@8; reconstruction: _insert_scope_symbol@8
+frontier 190/370: _make_overload_symbol@4
+original: _make_overload_symbol@4; reconstruction: _make_overload_symbol@4
+frontier 191/370: _check_function_defaults@8
+original: _check_function_defaults@8; reconstruction: _check_function_defaults@8
+frontier 192/370: _check_missing_defaults@20
+original: _check_missing_defaults@20; reconstruction: _check_missing_defaults@20
+frontier 193/370: _validate_special_function@8
+original: _validate_special_function@8; reconstruction: _validate_special_function@8
+frontier 194/370: _is_class_name_type@4
+original: _is_class_name_type@4; reconstruction: _is_class_name_type@4
+frontier 195/370: _restore_declaration_context@8
+original: _restore_declaration_context@8; reconstruction: _restore_declaration_context@8
+frontier 196/370: _declare_operator_delete@4
+original: _declare_operator_delete@4; reconstruction: _declare_operator_delete@4
+frontier 197/370: _declare_runtime_helpers
+original: _declare_runtime_helpers; reconstruction: _declare_runtime_helpers
+frontier 198/370: _declare_vector_helper@8
+original: _declare_vector_helper@8; reconstruction: _declare_vector_helper@8
+frontier 199/370: _declare_runtime_function@20
+original: _declare_runtime_function@20; reconstruction: _declare_runtime_function@20
+frontier 200/370: _runtime_void_pointer@4
+original: _runtime_void_pointer@4; reconstruction: _runtime_void_pointer@4
+frontier 201/370: _prepend_declarator@8
+original: _prepend_declarator@8; reconstruction: _prepend_declarator@8
+frontier 202/370: _runtime_callback_type@8
+original: _runtime_callback_type@8; reconstruction: _runtime_callback_type@8
+frontier 203/370: _initialize_purecall
+original: _initialize_purecall; reconstruction: _initialize_purecall
+frontier 204/370: _runtime_function_symbol@4
+original: _runtime_function_symbol@4; reconstruction: _runtime_function_symbol@4
+frontier 205/370: _new_symbol@8
+original: _new_symbol@8; reconstruction: _new_symbol@8
+frontier 206/370: _pack_option_flags
+original: _pack_option_flags; reconstruction: _pack_option_flags
+frontier 207/370: _parse_translation_unit
+original: _parse_translation_unit; reconstruction: _parse_translation_unit
+frontier 208/370: _read_parser_token
+original: _read_parser_token; reconstruction: _read_parser_token
+frontier 209/370: _scan_token
+original: _scan_token; reconstruction: _scan_token
+frontier 210/370: _read_lexical_token
+original: _read_lexical_token; reconstruction: _read_lexical_token
+frontier 211/370: _begin_source_line
+original: _begin_source_line; reconstruction: _begin_source_line
+frontier 212/370: _scan_source_identifier
+original: _scan_source_identifier; reconstruction: _scan_source_identifier
+frontier 213/370: _read_type_specifier@4
+original: _read_type_specifier@4; reconstruction: _read_type_specifier@4
+frontier 214/370: _read_tag_specifier@8
+original: _read_tag_specifier@8; reconstruction: _read_tag_specifier@8
+frontier 215/370: _unget_token@4
+original: _unget_token@4; reconstruction: _unget_token@4
+frontier 216/370: _define_tag_symbol@12
+original: _define_tag_symbol@12; reconstruction: _define_tag_symbol@12
+frontier 217/370: _allocate_tag_symbol@16
+original: _allocate_tag_symbol@16; reconstruction: _allocate_tag_symbol@16
+frontier 218/370: _new_tag_record@4
+original: _new_tag_record@4; reconstruction: _new_tag_record@4
+frontier 219/370: _register_tag_context@4
+original: _register_tag_context@4; reconstruction: _register_tag_context@4
+frontier 220/370: _lookup_current_scope_declaration@4
+original: _lookup_current_scope_declaration@4; reconstruction: _lookup_current_scope_declaration@4
+frontier 221/370: _is_current_class_name@4
+original: _is_current_class_name@4; reconstruction: _is_current_class_name@4
+frontier 222/370: _insert_current_scope_symbol@4
+original: _insert_current_scope_symbol@4; reconstruction: _insert_current_scope_symbol@4
+frontier 223/370: _apply_inheritance_model@4
+original: _apply_inheritance_model@4; reconstruction: _apply_inheritance_model@4
+frontier 224/370: _match_tag_symbol@8
+original: _match_tag_symbol@8; reconstruction: _match_tag_symbol@8
+frontier 225/370: _enter_class_scope@8
+original: _enter_class_scope@8; reconstruction: _enter_class_scope@8
+frontier 226/370: _symbol_has_tag_scope@4
+original: _symbol_has_tag_scope@4; reconstruction: _symbol_has_tag_scope@4
+frontier 227/370: _push_symbol_scope@4
+original: _push_symbol_scope@4; reconstruction: _push_symbol_scope@4
+frontier 228/370: _record_scope_directory_entry@4
+original: _record_scope_directory_entry@4; reconstruction: _record_scope_directory_entry@4
+frontier 229/370: _apply_type_symbol@12
+original: _apply_type_symbol@12; reconstruction: _apply_type_symbol@12
+frontier 230/370: _merge_type_specifier@12
+original: _merge_type_specifier@12; reconstruction: _merge_type_specifier@12
+frontier 231/370: _begin_class_body
+original: _begin_class_body; reconstruction: _begin_class_body
+frontier 232/370: _prepare_base_layout@4
+original: _prepare_base_layout@4; reconstruction: _prepare_base_layout@4
+frontier 233/370: _inherit_class_pointer_attributes@4
+original: _inherit_class_pointer_attributes@4; reconstruction: _inherit_class_pointer_attributes@4
+frontier 234/370: _apply_default_vtordisp@4
+original: _apply_default_vtordisp@4; reconstruction: _apply_default_vtordisp@4
+frontier 235/370: _check_inheritance_model@4
+original: _check_inheritance_model@4; reconstruction: _check_inheritance_model@4
+frontier 236/370: _release_arena@4
+original: _release_arena@4; reconstruction: _release_arena@4
+frontier 237/370: _current_class_name
+original: _current_class_name; reconstruction: _current_class_name
+frontier 238/370: _finish_type@4
+original: _finish_type@4; reconstruction: _finish_type@4
+frontier 239/370: _resolve_type_parenthesis
+original: _resolve_type_parenthesis; reconstruction: _resolve_type_parenthesis
+frontier 240/370: _resolve_typename_token@4
+original: _resolve_typename_token@4; reconstruction: _resolve_typename_token@4
+frontier 241/370: _resolve_identifier_token@4
+original: _resolve_identifier_token@4; reconstruction: _resolve_identifier_token@4
+frontier 242/370: _is_current_class@4
+original: _is_current_class@4; reconstruction: _is_current_class@4
+frontier 243/370: _current_declaration_type@4
+original: _current_declaration_type@4; reconstruction: _current_declaration_type@4
+frontier 244/370: _declare_class_member@8
+original: _declare_class_member@8; reconstruction: _declare_class_member@8
+frontier 245/370: _is_unqualified_class_type@4
+original: _is_unqualified_class_type@4; reconstruction: _is_unqualified_class_type@4
+frontier 246/370: _capture_inline_member_declaration@16
+original: _capture_inline_member_declaration@16; reconstruction: _capture_inline_member_declaration@16
+frontier 247/370: _find_class_member_name@4
+original: _find_class_member_name@4; reconstruction: _find_class_member_name@4
+frontier 248/370: _type_qualifiers@4
+original: _type_qualifiers@4; reconstruction: _type_qualifiers@4
+frontier 249/370: _is_static_data_member@4
+original: _is_static_data_member@4; reconstruction: _is_static_data_member@4
+frontier 250/370: _layout_data_member@4
+original: _layout_data_member@4; reconstruction: _layout_data_member@4
+frontier 251/370: _type_size@4
+original: _type_size@4; reconstruction: _type_size@4
+frontier 252/370: _base_type_size@8
+original: _base_type_size@8; reconstruction: _base_type_size@8
+frontier 253/370: _align_class_member@4
+original: _align_class_member@4; reconstruction: _align_class_member@4
+frontier 254/370: _class_alignment_padding@4
+original: _class_alignment_padding@4; reconstruction: _class_alignment_padding@4
+frontier 255/370: _alignment_padding_at@8
+original: _alignment_padding_at@8; reconstruction: _alignment_padding_at@8
+frontier 256/370: _addition_overflows@16
+original: _addition_overflows@16; reconstruction: _addition_overflows@16
+frontier 257/370: _add_member_offset@8
+original: _add_member_offset@8; reconstruction: _add_member_offset@8
+frontier 258/370: _insert_class_member@4
+original: _insert_class_member@4; reconstruction: _insert_class_member@4
+frontier 259/370: _append_class_members@8
+original: _append_class_members@8; reconstruction: _append_class_members@8
+frontier 260/370: _check_class_specifier@4
+original: _check_class_specifier@4; reconstruction: _check_class_specifier@4
+frontier 261/370: _set_member_access@4
+original: _set_member_access@4; reconstruction: _set_member_access@4
+frontier 262/370: _find_outer_name@4
+original: _find_outer_name@4; reconstruction: _find_outer_name@4
+frontier 263/370: _lookup_scoped_name@8
+original: _lookup_scoped_name@8; reconstruction: _lookup_scoped_name@8
+frontier 264/370: _lookup_class_name@16
+original: _lookup_class_name@16; reconstruction: _lookup_class_name@16
+frontier 265/370: _find_class_name_paths@12
+original: _find_class_name_paths@12; reconstruction: _find_class_name_paths@12
+frontier 266/370: _symbol_matches_categories@8
+original: _symbol_matches_categories@8; reconstruction: _symbol_matches_categories@8
+frontier 267/370: _resolve_declaration_alias@8
+original: _resolve_declaration_alias@8; reconstruction: _resolve_declaration_alias@8
+frontier 268/370: _capture_declaration_tokens@4
+original: _capture_declaration_tokens@4; reconstruction: _capture_declaration_tokens@4
+frontier 269/370: _append_deferred_token@4
+original: _append_deferred_token@4; reconstruction: _append_deferred_token@4
+frontier 270/370: _resolve_parenthesis_candidate@4
+original: _resolve_parenthesis_candidate@4; reconstruction: _resolve_parenthesis_candidate@4
+frontier 271/370: _initialize_lookahead_parser
+original: _initialize_lookahead_parser; reconstruction: _initialize_lookahead_parser
+frontier 272/370: _lookahead_parse
+original: _lookahead_parse; reconstruction: _lookahead_parse
+frontier 273/370: _classify_deferred_type@4
+original: _classify_deferred_type@4; reconstruction: _classify_deferred_type@4
+frontier 274/370: _begin_parameter_scope@4
+original: _begin_parameter_scope@4; reconstruction: _begin_parameter_scope@4
+frontier 275/370: _initialize_scope_buckets@8
+original: _initialize_scope_buckets@8; reconstruction: _initialize_scope_buckets@8
+frontier 276/370: _append_parameter_declaration@8
+original: _append_parameter_declaration@8; reconstruction: _append_parameter_declaration@8
+frontier 277/370: _check_constructor_storage@8
+original: _check_constructor_storage@8; reconstruction: _check_constructor_storage@8
+frontier 278/370: _merge_storage_spec@8
+original: _merge_storage_spec@8; reconstruction: _merge_storage_spec@8
+frontier 279/370: _declare_constructor@12
+original: _declare_constructor@12; reconstruction: _declare_constructor@12
+frontier 280/370: _global_declaration_type@4
+original: _global_declaration_type@4; reconstruction: _global_declaration_type@4
+frontier 281/370: _make_class_pointer_type@8
+original: _make_class_pointer_type@8; reconstruction: _make_class_pointer_type@8
+frontier 282/370: _retire_scope_directory_entry
+original: _retire_scope_directory_entry; reconstruction: _retire_scope_directory_entry
+frontier 283/370: _pop_symbol_scope
+original: _pop_symbol_scope; reconstruction: _pop_symbol_scope
+frontier 284/370: _configure_member_function@12
+original: _configure_member_function@12; reconstruction: _configure_member_function@12
+frontier 285/370: _classify_constructor@4
+original: _classify_constructor@4; reconstruction: _classify_constructor@4
+frontier 286/370: _overrides_virtual_member@12
+original: _overrides_virtual_member@12; reconstruction: _overrides_virtual_member@12
+frontier 287/370: _validate_function_default_arguments@4
+original: _validate_function_default_arguments@4; reconstruction: _validate_function_default_arguments@4
+frontier 288/370: _make_ellipsis_parameter
+original: _make_ellipsis_parameter; reconstruction: _make_ellipsis_parameter
+frontier 289/370: _end_class_specifier
+original: _end_class_specifier; reconstruction: _end_class_specifier
+frontier 290/370: _build_conversion_type_sets@4
+original: _build_conversion_type_sets@4; reconstruction: _build_conversion_type_sets@4
+frontier 291/370: _new_type_set
+original: _new_type_set; reconstruction: _new_type_set
+frontier 292/370: _begin_conversion_functions@8
+original: _begin_conversion_functions@8; reconstruction: _begin_conversion_functions@8
+frontier 293/370: _next_conversion_function@4
+original: _next_conversion_function@4; reconstruction: _next_conversion_function@4
+frontier 294/370: _share_inherited_type_set@8
+original: _share_inherited_type_set@8; reconstruction: _share_inherited_type_set@8
+frontier 295/370: _inline_vector_count
+original: _inline_vector_count; reconstruction: _inline_vector_count
+frontier 296/370: _release_inline_vector
+original: _release_inline_vector; reconstruction: _release_inline_vector
+frontier 297/370: _release_permanent@8
+original: _release_permanent@8; reconstruction: _release_permanent@8
+frontier 298/370: _prepare_class_virtual_tables@4
+original: _prepare_class_virtual_tables@4; reconstruction: _prepare_class_virtual_tables@4
+frontier 299/370: _initialize_class_virtual_tables@4
+original: _initialize_class_virtual_tables@4; reconstruction: _initialize_class_virtual_tables@4
+frontier 300/370: _new_empty_vector@4
+original: _new_empty_vector@4; reconstruction: _new_empty_vector@4
+frontier 301/370: _build_class_virtual_tables@4
+original: _build_class_virtual_tables@4; reconstruction: _build_class_virtual_tables@4
+frontier 302/370: _has_new_virtual_members@4
+original: _has_new_virtual_members@4; reconstruction: _has_new_virtual_members@4
+frontier 303/370: _finish_nonvirtual_class_size@4
+original: _finish_nonvirtual_class_size@4; reconstruction: _finish_nonvirtual_class_size@4
+frontier 304/370: _declare_implicit_special_members@4
+original: _declare_implicit_special_members@4; reconstruction: _declare_implicit_special_members@4
+frontier 305/370: _special_member_model@4
+original: _special_member_model@4; reconstruction: _special_member_model@4
+frontier 306/370: _inherit_base_special_members@12
+original: _inherit_base_special_members@12; reconstruction: _inherit_base_special_members@12
+frontier 307/370: _inherit_field_special_members@12
+original: _inherit_field_special_members@12; reconstruction: _inherit_field_special_members@12
+frontier 308/370: _class_type_of_member@4
+original: _class_type_of_member@4; reconstruction: _class_type_of_member@4
+frontier 309/370: _is_const_or_reference_member@4
+original: _is_const_or_reference_member@4; reconstruction: _is_const_or_reference_member@4
+frontier 310/370: _inspect_declared_special_members@16
+original: _inspect_declared_special_members@16; reconstruction: _inspect_declared_special_members@16
+frontier 311/370: _complete_special_member@28
+original: _complete_special_member@28; reconstruction: _complete_special_member@28
+frontier 312/370: _create_implicit_special_member@20
+original: _create_implicit_special_member@20; reconstruction: _create_implicit_special_member@20
+frontier 313/370: _generated_member_pointer_kind@4
+original: _generated_member_pointer_kind@4; reconstruction: _generated_member_pointer_kind@4
+frontier 314/370: _generated_member_name@4
+original: _generated_member_name@4; reconstruction: _generated_member_name@4
+frontier 315/370: _make_copy_parameter@8
+original: _make_copy_parameter@8; reconstruction: _make_copy_parameter@8
+frontier 316/370: _merge_reference_shape@24
+original: _merge_reference_shape@24; reconstruction: _merge_reference_shape@24
+frontier 317/370: _replace_first_type_shape@16
+original: _replace_first_type_shape@16; reconstruction: _replace_first_type_shape@16
+frontier 318/370: _bind_function_overload@8
+original: _bind_function_overload@8; reconstruction: _bind_function_overload@8
+frontier 319/370: _find_matching_overload@12
+original: _find_matching_overload@12; reconstruction: _find_matching_overload@12
+frontier 320/370: _compare_declaration_parameters@8
+original: _compare_declaration_parameters@8; reconstruction: _compare_declaration_parameters@8
+frontier 321/370: _compare_overload_parameter@12
+original: _compare_overload_parameter@12; reconstruction: _compare_overload_parameter@12
+frontier 322/370: _prepend_function_overload@8
+original: _prepend_function_overload@8; reconstruction: _prepend_function_overload@8
+frontier 323/370: _classify_copy_assignment@4
+original: _classify_copy_assignment@4; reconstruction: _classify_copy_assignment@4
+frontier 324/370: _skip_reference_shape@4
+original: _skip_reference_shape@4; reconstruction: _skip_reference_shape@4
+frontier 325/370: _select_destructor_type@16
+original: _select_destructor_type@16; reconstruction: _select_destructor_type@16
+frontier 326/370: _find_special_member_model@12
+original: _find_special_member_model@12; reconstruction: _find_special_member_model@12
+frontier 327/370: _finalize_class_virtual_tables@4
+original: _finalize_class_virtual_tables@4; reconstruction: _finalize_class_virtual_tables@4
+frontier 328/370: _complete_class_virtual_layout@4
+original: _complete_class_virtual_layout@4; reconstruction: _complete_class_virtual_layout@4
+frontier 329/370: _reset_previous_base_class
+original: _reset_previous_base_class; reconstruction: _reset_previous_base_class
+frontier 330/370: _complete_base_class_layout@4
+original: _complete_base_class_layout@4; reconstruction: _complete_base_class_layout@4
+frontier 331/370: _finish_class_size@4
+original: _finish_class_size@4; reconstruction: _finish_class_size@4
+frontier 332/370: _assign_virtual_base_group_offsets@4
+original: _assign_virtual_base_group_offsets@4; reconstruction: _assign_virtual_base_group_offsets@4
+frontier 333/370: _resolve_virtual_overrides@4
+original: _resolve_virtual_overrides@4; reconstruction: _resolve_virtual_overrides@4
+frontier 334/370: _resolve_function_virtual_overrides@8
+original: _resolve_function_virtual_overrides@8; reconstruction: _resolve_function_virtual_overrides@8
+frontier 335/370: _diagnose_virtual_ambiguities@4
+original: _diagnose_virtual_ambiguities@4; reconstruction: _diagnose_virtual_ambiguities@4
+frontier 336/370: _coalesce_virtual_table_paths@4
+original: _coalesce_virtual_table_paths@4; reconstruction: _coalesce_virtual_table_paths@4
+frontier 337/370: _persist_class_virtual_tables@4
+original: _persist_class_virtual_tables@4; reconstruction: _persist_class_virtual_tables@4
+frontier 338/370: _copy_vector_elements@12
+original: _copy_vector_elements@12; reconstruction: _copy_vector_elements@12
+frontier 339/370: _vector_count@4
+original: _vector_count@4; reconstruction: _vector_count@4
+frontier 340/370: _class_has_pure_virtual@4
+original: _class_has_pure_virtual@4; reconstruction: _class_has_pure_virtual@4
+frontier 341/370: _declare_class_virtual_tables@4
+original: _declare_class_virtual_tables@4; reconstruction: _declare_class_virtual_tables@4
+frontier 342/370: _declare_default_constructor_closures@4
+original: _declare_default_constructor_closures@4; reconstruction: _declare_default_constructor_closures@4
+frontier 343/370: _find_class_special_member@8
+original: _find_class_special_member@8; reconstruction: _find_class_special_member@8
+frontier 344/370: _begin_class_member_search@12
+original: _begin_class_member_search@12; reconstruction: _begin_class_member_search@12
+frontier 345/370: _next_class_member_search@4
+original: _next_class_member_search@4; reconstruction: _next_class_member_search@4
+frontier 346/370: _declare_deleting_destructors@4
+original: _declare_deleting_destructors@4; reconstruction: _declare_deleting_destructors@4
+frontier 347/370: _build_class_member_index@4
+original: _build_class_member_index@4; reconstruction: _build_class_member_index@4
+frontier 348/370: _class_member_hash_bits
+original: _class_member_hash_bits; reconstruction: _class_member_hash_bits
+frontier 349/370: _flush_scanned_declaration@4
+original: _flush_scanned_declaration@4; reconstruction: _flush_scanned_declaration@4
+frontier 350/370: _check_empty_declaration@4
+original: _check_empty_declaration@4; reconstruction: _check_empty_declaration@4
+frontier 351/370: _finish_external_definition@4
+original: _finish_external_definition@4; reconstruction: _finish_external_definition@4
+frontier 352/370: _find_qualifier_name@4
+original: _find_qualifier_name@4; reconstruction: _find_qualifier_name@4
+frontier 353/370: _begin_qualification_allocation@4
+original: _begin_qualification_allocation@4; reconstruction: _begin_qualification_allocation@4
+frontier 354/370: _append_qualifier_reference@12
+original: _append_qualifier_reference@12; reconstruction: _append_qualifier_reference@12
+frontier 355/370: _end_qualification_allocation
+original: _end_qualification_allocation; reconstruction: _end_qualification_allocation
+frontier 356/370: _enter_qualified_class@12
+original: _enter_qualified_class@12; reconstruction: _enter_qualified_class@12
+frontier 357/370: _lookup_qualified_member@12
+original: _lookup_qualified_member@12; reconstruction: _lookup_qualified_member@12
+frontier 358/370: _search_class_name_paths@8
+original: _search_class_name_paths@8; reconstruction: _search_class_name_paths@8
+frontier 359/370: _class_candidate_is_distinct@8
+original: _class_candidate_is_distinct@8; reconstruction: _class_candidate_is_distinct@8
+frontier 360/370: _begin_virtual_base_search@8
+original: _begin_virtual_base_search@8; reconstruction: _begin_virtual_base_search@8
+frontier 361/370: _next_virtual_base_search@4
+original: _next_virtual_base_search@4; reconstruction: _next_virtual_base_search@4
+frontier 362/370: _prune_hidden_class_paths@8
+original: _prune_hidden_class_paths@8; reconstruction: _prune_hidden_class_paths@8
+frontier 363/370: _attach_qualifier_parent@8
+original: _attach_qualifier_parent@8; reconstruction: _attach_qualifier_parent@8
+frontier 364/370: _new_qualified_declarator@12
+original: _new_qualified_declarator@12; reconstruction: _new_qualified_declarator@12
+frontier 365/370: _begin_function_definition@8
+original: _begin_function_definition@8; reconstruction: _begin_function_definition@8
+frontier 366/370: _merge_function_defaults@16
+original: _merge_function_defaults@16; reconstruction: _merge_function_defaults@16
+frontier 367/370: _merge_declared_symbol@8
+original: _merge_declared_symbol@8; reconstruction: _merge_declared_symbol@8
+frontier 368/370: _equivalent_base_type_flags@8
+original: _equivalent_base_type_flags@8; reconstruction: _equivalent_base_type_flags@8
+frontier 369/370: _reconcile_declaration_type@12
+original: _reconcile_declaration_type@12; reconstruction: _reconcile_declaration_type@12
+original: _equivalent_shape_attributes@8; reconstruction: _equivalent_shape_attributes@8

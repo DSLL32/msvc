@@ -411,3 +411,42 @@ resolved_tag:
     resolved = new_declarator(name);
     return append_qualifier_reference(0, scope->binding, resolved);
 }
+
+/* Original 0x787a0..0x787d5. Replace the first enclosing class-tag link
+   while retaining inherited-base links. The forward markers connect this
+   selected path to its parent, including the parent's native self marker. */
+QualifierBinding *__stdcall attach_qualifier_parent(QualifierBinding *binding,
+    QualifierBinding *parent)
+{
+    QualifierBinding *cursor = binding;
+    while (cursor->next && (((CppSymbol *)cursor->next->target)->kind & 31) != 4)
+        cursor = cursor->next;
+    cursor->next = parent;
+    binding->following = parent;
+    parent->following = parent;
+    return binding;
+}
+
+/* Original 0x3b130..0x3b187. The qualifier and interned spelling occupy
+   the final words of this sixteen-byte temporary declaration record. */
+QualifiedDeclarator *__stdcall new_qualified_declarator(QualifierResolution *resolution,
+    char *name, int arena)
+{
+    QualifiedDeclarator *declaration;
+    ArenaPool *pool;
+    if (!arena) declaration = allocate_permanent(sizeof(QualifiedDeclarator));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(QualifiedDeclarator))
+            refill_arena(&compiler_arena, pool);
+        declaration = (QualifiedDeclarator *)pool->next;
+        pool->remaining -= sizeof(QualifiedDeclarator);
+        pool->next += sizeof(QualifiedDeclarator);
+    }
+    declaration->kind = 18;
+    declaration->resolution = resolution;
+    declaration->name = name;
+    declaration->declaration_flags |= 0x800;
+    return declaration;
+}

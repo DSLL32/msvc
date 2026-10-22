@@ -1,3 +1,4 @@
+#include "function-definitions.h"
 /* Named, unaccepted reconstruction frontiers. */
 #include "initialization.h"
 #include "inline-vector.h"
@@ -105,7 +106,6 @@ void __stdcall finalize_object_storage(CppSymbol *symbol) { __asm { int 3 } }
 short __stdcall format_storage_spec(short text, StorageSpec storage) { __asm { int 3 } return 0; }
 CType *__stdcall function_return_type(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
-int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_outer_declaration(CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall record_local_declaration(CppSymbol *declaration) { __asm { int 3 } }
@@ -118,7 +118,6 @@ void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape 
 int __stdcall has_class_initialization(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 void __stdcall merge_declaration_storage(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } }
-void __stdcall merge_function_defaults(FunctionParameters *current, FunctionParameters *previous, CppSymbol *declaration, int inherit) { __asm { int 3 } }
 int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
 int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
 void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
@@ -144,7 +143,6 @@ void begin_else_body(void) { __asm { int 3 } }
 void begin_for_body(void) { __asm { int 3 } }
 void begin_for_condition(void) { __asm { int 3 } }
 void begin_for_increment(void) { __asm { int 3 } }
-void __stdcall begin_function_definition(DeclarationType *type, CppSymbol *declaration) { __asm { int 3 } }
 void begin_if_body(void) { __asm { int 3 } }
 void begin_if_condition(void) { __asm { int 3 } }
 unsigned __stdcall begin_implicit_statement_scope(IrToken *label) { __asm { int 3 } return 0; }
@@ -283,8 +281,6 @@ unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
 
 
 
-QualifiedDeclarator *__stdcall new_qualified_declarator(QualifierResolution *resolution,
-    char *name, int arena) { __asm { int 3 } return 0; }
 
 
 int skip_source_comment(void) { __asm { int 3 } return 0; }
@@ -374,7 +370,6 @@ unsigned __stdcall pointer_kind_size(unsigned short attributes) { __asm { int 3 
 
 
 
-void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *hidden) { __asm { int 3 } }
 
 
 
@@ -417,8 +412,6 @@ CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int
 
 
 
-unsigned __stdcall reconcile_declaration_type(CppSymbol *existing,
-    CppSymbol *declaration, CType *type) { __asm { int 3 } return 0; }
 short __stdcall format_function_parameters(short text, FunctionParameters *parameters,
     unsigned flags) { __asm { int 3 } return 0; }
 
@@ -480,9 +473,27 @@ void __stdcall finish_work_stack(WorkingStack *stack) { __asm { int 3 } }
 void __stdcall declare_anonymous_aggregate_object(DeclarationType *type) { __asm { int 3 } }
 
 CppSymbol *__stdcall lookup_tag_name(char *name) { __asm { int 3 } return 0; }
-QualifierBinding *__stdcall attach_qualifier_parent(QualifierBinding *binding, QualifierBinding *parent) { __asm { int 3 } return 0; }
 
 void *__stdcall find_hash_value(HashTable *table, void *key) { __asm { int 3 } return 0; }
 HashEntry *__stdcall set_hash_value(HashTable *table, void *key, void *value) { __asm { int 3 } return 0; }
-void __stdcall begin_virtual_base_search(VirtualBaseSearch *search, CppSymbol *tag) { __asm { int 3 } }
-int __stdcall next_virtual_base_search(VirtualBaseSearch *search) { __asm { int 3 } return 0; }
+
+int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden) { __asm { int 3 } return 0; }
+
+void discard_function_definition(void) { __asm { int 3 } }
+void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
+void activate_qualified_definition_scopes(void) { __asm { int 3 } }
+CppSymbol *__stdcall class_tag_for_type(CType *type) { __asm { int 3 } return 0; }
+void __stdcall assign_symbol_segment(CppSymbol *symbol, SegmentSymbol *segment) { __asm { int 3 } }
+CppSymbol *__stdcall prepare_function_definition(CppSymbol *symbol) { __asm { int 3 } return 0; }
+
+void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument *defaults,
+    FunctionParameters *previous, FunctionParameters *current, DefaultArgument *following) { __asm { int 3 } }
+
+int __stdcall compatible_declaration_storage(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
+unsigned __stdcall compatible_declaration_attributes(unsigned short left, unsigned short right, int function) { __asm { int 3 } return 0; }
+void __stdcall report_named_type_difference(unsigned code, CType *context, char *name,
+    CType *source, CType *destination) { __asm { int 3 } }
+
+int __stdcall equivalent_shape_attributes(unsigned short left, unsigned short right) { __asm { int 3 } return 0; }
+void __stdcall diagnose_parameter_list_difference(FunctionParameters *existing,
+    FunctionParameters *declaration) { __asm { int 3 } }

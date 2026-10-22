@@ -183,3 +183,58 @@ unsigned __stdcall hash_declaration_parameters(DeclarationParameterInfo *paramet
     }
     return hash;
 }
+
+void __stdcall validate_function_default_arguments(CppSymbol *function);
+void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned parameter);
+void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument *defaults,
+    FunctionParameters *previous, FunctionParameters *current, DefaultArgument *following);
+
+/* Original 0x3a5a0..0x3a6da. Merge declarations' trailing defaults, retaining
+   the deferred-expression replacement path and both native validation calls
+   after an overlapping-default diagnostic. */
+void __stdcall merge_function_defaults(FunctionParameters *current, FunctionParameters *previous,
+    CppSymbol *declaration, int inherit)
+{
+    DefaultArgument *old_default = previous->defaults, *new_default = current->defaults;
+    DefaultArgument *following;
+    unsigned remaining = current->default_count, first_parameter;
+    if ((cpp_parser_flags & 0x04000000UL) || !remaining) return;
+    if (inherit) {
+        if (!old_default) {
+            inherit_function_defaults(declaration, new_default, previous, current, 0);
+            validate_function_default_arguments(declaration);
+            current->default_count = 0;
+            current->defaults = 0;
+            return;
+        }
+        if (*(unsigned char *)old_default->expression == 0xc3) {
+            previous->defaults = new_default;
+            previous->default_count = (unsigned char)remaining;
+        } else {
+            if (inherit == 2 && ((declaration->declaration_flags & 0x400) ||
+                ((token_allocation_flags & 0x400) && (declaration->storage[1] & 4))))
+                return;
+            following = new_default->following;
+            first_parameter = current->declarations->count - remaining;
+            for (;;) {
+                if (new_default->expression) {
+                    report_parameter_error(572, declaration, first_parameter + remaining);
+                    new_default->expression = 0;
+                }
+                new_default = new_default->next;
+                if (!new_default) break;
+                old_default = old_default->next;
+                if (!old_default) {
+                    inherit_function_defaults(declaration, new_default, previous,
+                        current, following);
+                    break;
+                }
+                --remaining;
+            }
+            validate_function_default_arguments(declaration);
+            current->default_count = 0;
+            current->defaults = 0;
+        }
+    }
+    validate_function_default_arguments(declaration);
+}

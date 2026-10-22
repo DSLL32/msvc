@@ -364,7 +364,17 @@
     "_enter_qualified_class@12",
     "_lookup_qualified_member@12",
     "_search_class_name_paths@8",
-    "_class_candidate_is_distinct@8"
+    "_class_candidate_is_distinct@8",
+    "_begin_virtual_base_search@8",
+    "_next_virtual_base_search@4",
+    "_prune_hidden_class_paths@8",
+    "_attach_qualifier_parent@8",
+    "_new_qualified_declarator@12",
+    "_begin_function_definition@8",
+    "_merge_function_defaults@16",
+    "_merge_declared_symbol@8",
+    "_equivalent_base_type_flags@8",
+    "_reconcile_declaration_type@12"
   ],
   "driver": [
     {
@@ -1782,7 +1792,7 @@
     {
       "name": "_begin_function_definition@8",
       "start": 211392,
-      "end": 211393
+      "end": 212980
     },
     {
       "name": "_begin_if_body",
@@ -2882,7 +2892,7 @@
     {
       "name": "_new_qualified_declarator@12",
       "start": 241968,
-      "end": 241969
+      "end": 242056
     },
     {
       "name": "_check_constructor_storage@8",
@@ -3117,7 +3127,7 @@
     {
       "name": "_prune_hidden_class_paths@8",
       "start": 492368,
-      "end": 492369
+      "end": 492441
     },
     {
       "name": "_find_matching_overload@12",
@@ -3457,7 +3467,7 @@
     {
       "name": "_reconcile_declaration_type@12",
       "start": 344720,
-      "end": 344721
+      "end": 345117
     },
     {
       "name": "_format_function_parameters@12",
@@ -3662,7 +3672,7 @@
     {
       "name": "_attach_qualifier_parent@8",
       "start": 493472,
-      "end": 493473
+      "end": 493526
     },
     {
       "name": "_find_hash_value@8",
@@ -3677,17 +3687,87 @@
     {
       "name": "_begin_virtual_base_search@8",
       "start": 508000,
-      "end": 508001
+      "end": 508058
     },
     {
       "name": "_next_virtual_base_search@4",
       "start": 508064,
-      "end": 508065
+      "end": 508125
     },
     {
       "name": "_class_candidate_is_distinct@8",
       "start": 492096,
       "end": 492366
+    },
+    {
+      "name": "_qualifier_path_is_hidden@8",
+      "start": 492448,
+      "end": 492449
+    },
+    {
+      "name": "_discard_function_definition",
+      "start": 211312,
+      "end": 211313
+    },
+    {
+      "name": "_report_declaration_error@8",
+      "start": 211264,
+      "end": 211265
+    },
+    {
+      "name": "_activate_qualified_definition_scopes",
+      "start": 209776,
+      "end": 209777
+    },
+    {
+      "name": "_class_tag_for_type@4",
+      "start": 211184,
+      "end": 211185
+    },
+    {
+      "name": "_assign_symbol_segment@8",
+      "start": 403552,
+      "end": 403553
+    },
+    {
+      "name": "_prepare_function_definition@4",
+      "start": 214112,
+      "end": 214113
+    },
+    {
+      "name": "_inherit_function_defaults@20",
+      "start": 238560,
+      "end": 238561
+    },
+    {
+      "name": "_equivalent_base_type_flags@8",
+      "start": 344192,
+      "end": 344222
+    },
+    {
+      "name": "_compatible_declaration_storage@8",
+      "start": 344224,
+      "end": 344225
+    },
+    {
+      "name": "_compatible_declaration_attributes@12",
+      "start": 338320,
+      "end": 338321
+    },
+    {
+      "name": "_report_named_type_difference@20",
+      "start": 380320,
+      "end": 380321
+    },
+    {
+      "name": "_equivalent_shape_attributes@8",
+      "start": 397472,
+      "end": 397473
+    },
+    {
+      "name": "_diagnose_parameter_list_difference@8",
+      "start": 344528,
+      "end": 344529
     }
   ],
   "cases": {
@@ -4700,6 +4780,38 @@
         {
           "name": "_saved_qualification_arena",
           "original": 688388,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_qualified_definition_class",
+      "original": 654276,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_qualified_definition_class",
+          "original": 654276,
+          "bytes": 4
+        },
+        {
+          "name": "_current_return_type",
+          "original": 651864,
+          "bytes": 4
+        },
+        {
+          "name": "_structure_return_pointer_type",
+          "original": 609028,
+          "bytes": 4
+        },
+        {
+          "name": "_default_code_segment",
+          "original": 652272,
+          "bytes": 4
+        },
+        {
+          "name": "_browser_macro_end_suppressed",
+          "original": 609036,
           "bytes": 4
         }
       ]

@@ -224,6 +224,11 @@ int __stdcall merge_storage_spec(StorageSpec *destination, StorageSpec source);
 CType *__stdcall function_return_type(CppSymbol *declaration);
 void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol);
 CppSymbol *__stdcall resolve_declaration_alias(CppSymbol *symbol, CppSymbol *declaration);
+int __stdcall equivalent_base_type_flags(unsigned short left, unsigned short right);
+int __stdcall compatible_declaration_storage(CppSymbol *existing, CppSymbol *declaration);
+unsigned __stdcall compatible_declaration_attributes(unsigned short left, unsigned short right, int function);
+void __stdcall report_named_type_difference(unsigned code, CType *context, char *name,
+    CType *source, CType *destination);
 int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration);
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol);
 int __stdcall is_class_name_type(CType *type);

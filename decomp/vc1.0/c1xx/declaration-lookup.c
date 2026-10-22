@@ -799,3 +799,147 @@ int __stdcall class_candidate_is_distinct(CppSymbol *symbol, Vector *candidates)
     }
     return 1;
 }
+
+/* Original 0x7c060..0x7c099. A present, even empty, group vector enables
+   iteration. Leave the other cursor fields untouched when it is absent. */
+void __stdcall begin_virtual_base_search(VirtualBaseSearch *search, CppSymbol *tag)
+{
+    if (tag->detail.class_info->virtual_table_groups) {
+        search->active = 1;
+        search->groups = tag->detail.class_info->virtual_table_groups;
+        search->index = 0;
+    } else search->active = 0;
+}
+
+/* Original 0x7c0a0..0x7c0dc. The current group and both of its leading
+   words are observable cursor state; advancing consumes one short index. */
+int __stdcall next_virtual_base_search(VirtualBaseSearch *search)
+{
+    if (search->active && search->index < search->groups->count) {
+        search->group = search->groups->items[search->index++];
+        search->tag = (CppSymbol *)search->group->field00;
+        search->field14 = search->group->field04;
+        return 1;
+    }
+    return 0;
+}
+
+/* Original 0x78350..0x78398. Remove hidden alternatives in place, updating
+   the tail only for retained entries, as in the native linked-path walker. */
+void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *hidden)
+{
+    QualifierBinding **link;
+    if (!paths || paths->binding == paths->tail || !hidden) return;
+    link = &paths->binding;
+    while (*link) {
+        if (qualifier_path_is_hidden(*link, hidden))
+            *link = (*link)->following;
+        else {
+            paths->tail = *link;
+            link = &(*link)->following;
+        }
+    }
+}
+
+/* Original 0x53f40..0x5407b. Repeated declarations are checked against
+   their canonical type, storage, language and definition status. Return
+   nonzero on conflict, marking both declarations before reporting it. */
+int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration)
+{
+    unsigned code;
+    if (declaration->declaration_flags & 2) return 1;
+    if (!equivalent_base_type_flags(existing->type->flags, declaration->type->flags) ||
+        cpp_context_stack->items[existing->type->field08] !=
+        cpp_context_stack->items[declaration->type->field08]) code = 371;
+    else {
+        code = reconcile_declaration_type(existing, declaration, 0);
+        if (code == 40) {
+            declaration->declaration_flags |= 2;
+            existing->declaration_flags |= 2;
+            report_named_type_difference(40, 0, format_symbol_name(existing),
+                declaration->type, existing->type);
+            return 1;
+        }
+        if (!code) {
+            if (!compatible_declaration_storage(existing, declaration))
+                code = (existing->kind & 31) == 7 ? 375 : 370;
+            else if (!compatible_declaration_attributes(existing->type->attributes,
+                declaration->type->attributes, (existing->kind & 31) == 7)) code = 373;
+            else if (!(existing->attributes & 4) || !(declaration->attributes & 4))
+                return 0;
+            else code = 374;
+        }
+    }
+    declaration->declaration_flags |= 2;
+    existing->declaration_flags |= 2;
+    report_syntax_error(code, format_symbol_name(existing));
+    return 1;
+}
+
+/* Original 0x54080..0x5409d. Base-type equivalence ignores only the
+   qualifier bit 0x1000; the two stack arguments remain sixteen-bit values. */
+int __stdcall equivalent_base_type_flags(unsigned short left, unsigned short right)
+{
+    return !((left ^ right) & 0xefff);
+}
+
+int __stdcall equivalent_shape_attributes(unsigned short left, unsigned short right);
+void __stdcall diagnose_parameter_list_difference(FunctionParameters *existing,
+    FunctionParameters *declaration);
+
+/* Original 0x54290..0x5441c. Reconcile shape chains after the caller has
+   checked the base type. A leading based/segment modifier has its own
+   adoption rules; array bounds and function parameters are then compared
+   at their original nesting depths. */
+unsigned __stdcall reconcile_declaration_type(CppSymbol *existing,
+    CppSymbol *declaration, CType *type)
+{
+    TypeShape *old_shape = existing->type->related, *new_shape;
+    CppSymbol *old_segment;
+    int old_based, new_based;
+    unsigned depth = 0, kind;
+    if (declaration) type = declaration->type;
+    new_shape = type->related;
+    old_based = old_shape && !(old_shape->flags & 0x77);
+    new_based = new_shape && !(new_shape->flags & 0x77);
+    if (new_based) {
+        if (old_based) {
+            if (new_shape->data.based_symbol != old_shape->data.based_symbol) {
+                /* Segment records share the ordinary 52-byte symbol layout.
+                   Predefined segment identities 5 and 2 permit this change;
+                   this is their symbol index at +16, not a segment-kind field. */
+                old_segment = old_shape->data.based_symbol;
+                if (old_segment->index != 5 && old_segment->index != 2) return 376;
+            }
+        } else {
+            existing->type = make_qualified_type(existing->type, new_shape->flags,
+                new_shape->attributes, &new_shape->data.word);
+            existing->attributes |= 2;
+        }
+        if (new_shape && !(new_shape->flags & 0x77)) new_shape = new_shape->related;
+    }
+    if (old_based && old_shape && !(old_shape->flags & 0x77))
+        old_shape = old_shape->related;
+    for (;;) {
+        if (new_shape == old_shape) return 0;
+        if (!old_shape || !new_shape) return 40;
+        ++depth;
+        kind = old_shape->flags & 0x77;
+        if ((new_shape->flags ^ old_shape->flags) & 0x77) return 372;
+        if (!equivalent_shape_attributes(old_shape->attributes, new_shape->attributes))
+            return 373;
+        if (kind == 2) {
+            if (new_shape->data.array_bound != old_shape->data.array_bound &&
+                (depth != 1 || (old_shape->data.array_bound && new_shape->data.array_bound)))
+                return 369;
+        } else if (kind == 4) {
+            if (new_shape->data.parameters != old_shape->data.parameters)
+                diagnose_parameter_list_difference(old_shape->data.parameters,
+                    new_shape->data.parameters);
+            merge_function_defaults(new_shape->data.parameters, old_shape->data.parameters,
+                existing, 2);
+        }
+        old_shape = old_shape->related;
+        new_shape = new_shape->related;
+    }
+}

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 360 accepted paired frontiers, including 285 frontend
+PARTIAL reconstruction: 370 accepted paired frontiers, including 295 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _begin_virtual_base_search@8 at original VA 0x7c060. The latest ordered replay is recorded in validation.json;
+trap is _equivalent_shape_attributes@8 at original VA 0x610a0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -568,3 +568,22 @@ initialization at 0x7c060. The accepted executable extent union is 120,634 of
 476,418 bytes (25.321%); this includes matched CRT/import ranges and shared text,
 clipped and unioned against original executable VirtualSize. It is extent
 coverage, not branch coverage. Complete frontend equivalence remains partial.
+
+Function-definition entry is reconstructed as a whole function (0x339c0 through
+0x33ff3), preserving its 24 call targets, recovery branches, implicit object and
+structure-return parameters, storage diagnostics and browser declarations. Its
+five newly encountered shared globals retain distinct original storage and have
+checked initial values. The class's earlier declaration now passes through the
+recovered default-argument merger, compatibility dispatcher and shape-chain
+reconciler, retaining their three, seven and four native call targets.
+
+Based-type exceptions use the shared segment symbol index at +0x10 (predefined
+indices 5 and 2). Analysis of the 52-byte kind-13 segment allocator at 0x54f00
+establishes that prefix; the separate segment-kind byte is at +0x24. No segment
+allocator has been accepted merely from this analysis.
+
+All 370 accepted frontiers replay exactly with pending buffers, selected runtime
+state and logical callers in evidence/replay-function-definition-entry.log.
+Current matching trap: equivalent shape attributes, native 0x610a0. Recovered
+extent union: 123,614 / 476,418 executable bytes (25.947%; not branch coverage).
+Complete cpp-basic frontend equivalence remains partial.

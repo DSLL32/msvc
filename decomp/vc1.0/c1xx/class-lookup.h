@@ -28,6 +28,7 @@ typedef char VirtualBaseSearchTagOffsetMustBe16[(offsetof(VirtualBaseSearch, tag
 void __stdcall begin_virtual_base_search(VirtualBaseSearch *search, CppSymbol *tag);
 int __stdcall next_virtual_base_search(VirtualBaseSearch *search);
 int __stdcall class_candidate_is_distinct(CppSymbol *symbol, Vector *candidates);
+int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden);
 void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *hidden);
 CppSymbol *__stdcall find_matching_overload(CppSymbol *functions, CType *type,
     int merge_defaults);

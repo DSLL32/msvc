@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 360,
-  "driver_functions": 285,
+  "accepted_frontiers": 370,
+  "driver_functions": 295,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 291,
-  "current_frontier": "_begin_virtual_base_search@8",
-  "original_frontier_va": "0x7c060",
+  "reconstructed_source_functions": 301,
+  "current_frontier": "_equivalent_shape_attributes@8",
+  "original_frontier_va": "0x610a0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "09437eba3add665f1ebbbfbc74b688c3d90d2c8c4fc9e32737e2dce7195feab7",
-  "call_graph_audit_functions": 291,
+  "replay_log_sha256": "d2714bb229a07e1ed218e30d821279b23e84335e53640972c1116448607cecc0",
+  "call_graph_audit_functions": 301,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -91,7 +91,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-qualified-class-search.log",
+  "replay_log": "evidence/replay-function-definition-entry.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -308,7 +308,7 @@
     "deferred_bucket_count": 16,
     "high_scope_flags_preserved": true
   },
-  "accepted_source_text_and_switch_bytes": 110543,
+  "accepted_source_text_and_switch_bytes": 113523,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -656,11 +656,29 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 120634,
+    "bytes": 123614,
     "total_original_executable_bytes": 476418,
-    "percent": 25.3210416063205,
+    "percent": 25.94654274187793,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
+  },
+  "function_definition_entry": {
+    "whole_range": [
+      "0x339c0",
+      "0x33ff4"
+    ],
+    "native_callees": 24,
+    "type_reconciliation_native_callees": 4,
+    "declaration_compatibility_native_callees": 7,
+    "default_merge_native_callees": 3,
+    "canonical_state_defaults_checked": 5,
+    "function_return_type": "0x9f258",
+    "qualified_owner": "0x9fbc4",
+    "structure_return_pointer_type": "0x94b04",
+    "default_code_segment": "0x9f3f0",
+    "browser_macro_end_suppressed": "0x94b0c",
+    "based_segment_identity_field": "CppSymbol.index +0x10, not segment kind",
+    "all_370_frontiers_replayed": true
   }
 }
