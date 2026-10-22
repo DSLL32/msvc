@@ -228,3 +228,50 @@ int _isindst(struct tm *time)
     return sunday > time->tm_yday ||
         (sunday == time->tm_yday && time->tm_hour < 1);
 }
+
+/* Original 0x813b0..0x814e3. This older CRT variant counts text-mode
+   line endings and adjusts physical offsets for buffered input. Its full
+   instruction/call/data correspondence is in runtime-variants.json. */
+long ftell(FILE *stream)
+{
+    int descriptor = stream->_file;
+    int flags;
+    long position, buffered, used;
+    char *cursor, *end;
+    if (stream->_cnt < 0) stream->_cnt = 0;
+    position = _lseek(descriptor, 0L, SEEK_CUR);
+    if (position < 0) return -1L;
+    flags = stream->_flag;
+    if (!(flags & 0x108)) return position - stream->_cnt;
+    used = stream->_ptr - stream->_base;
+    buffered = used;
+    if (flags & 3) {
+        if (_osfile[descriptor] & 0x80)
+            for (cursor = stream->_base; cursor < stream->_ptr; ++cursor)
+                if (*cursor == '\n') ++buffered;
+    } else if (!(flags & 0x80)) {
+        errno = EINVAL;
+        return -1L;
+    }
+    if (!position) return buffered;
+    if (flags & 1) {
+        if (!stream->_cnt) buffered = 0;
+        else {
+            used += stream->_cnt;
+            if (_osfile[descriptor] & 0x80) {
+                if (_lseek(descriptor, 0L, SEEK_END) == position) {
+                    cursor = stream->_base;
+                    end = cursor + used;
+                    while (cursor < end) if (*cursor++ == '\n') ++used;
+                    if (stream->_flag & 0x2000) ++used;
+                } else {
+                    _lseek(descriptor, position, SEEK_SET);
+                    used = stream->_bufsiz;
+                    if (_osfile[descriptor] & 4) ++used;
+                }
+            }
+            position -= used;
+        }
+    }
+    return position + buffered;
+}

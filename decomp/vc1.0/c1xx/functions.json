@@ -404,7 +404,15 @@
     "_indirect_storage_expression@4",
     "_new_typed_unary_expression@12",
     "_symbol_has_reference_shape@4",
-    "_append_expression@12"
+    "_append_expression@12",
+    "_validate_value_expression@4",
+    "_new_ir_expression@16",
+    "_append_constructor_initializer@8",
+    "_detach_expression_symbols",
+    "_apply_constructor_initializers@4",
+    "_begin_function_body",
+    "_begin_function_output@4",
+    "_ftell"
   ],
   "driver": [
     {
@@ -924,7 +932,7 @@
     {
       "name": "_ftell",
       "start": 529328,
-      "end": 529329,
+      "end": 529636,
       "category": "runtime"
     },
     {
@@ -1747,7 +1755,7 @@
     {
       "name": "_append_constructor_initializer@8",
       "start": 222736,
-      "end": 222737
+      "end": 222820
     },
     {
       "name": "_append_expression@12",
@@ -1762,7 +1770,7 @@
     {
       "name": "_apply_constructor_initializers@4",
       "start": 214544,
-      "end": 214545
+      "end": 214838
     },
     {
       "name": "_apply_conversion_declarator@8",
@@ -2277,7 +2285,7 @@
     {
       "name": "_new_ir_expression@16",
       "start": 397952,
-      "end": 397953
+      "end": 398057
     },
     {
       "name": "_new_label@4",
@@ -2487,7 +2495,7 @@
     {
       "name": "_validate_value_expression@4",
       "start": 242304,
-      "end": 242305
+      "end": 242503
     },
     {
       "name": "_write_switch_dispatch",
@@ -3933,6 +3941,61 @@
       "name": "_convert_based_expression@8",
       "start": 174608,
       "end": 174609
+    },
+    {
+      "name": "_detach_expression_symbols",
+      "start": 254416,
+      "end": 254616
+    },
+    {
+      "name": "_attach_expression_symbols@8",
+      "start": 397552,
+      "end": 397553
+    },
+    {
+      "name": "_begin_function_body",
+      "start": 215408,
+      "end": 215985
+    },
+    {
+      "name": "_function_parameter_bytes@4",
+      "start": 214352,
+      "end": 214353
+    },
+    {
+      "name": "_print_declaration@8",
+      "start": 424512,
+      "end": 424513
+    },
+    {
+      "name": "_begin_function_output@4",
+      "start": 371024,
+      "end": 371218
+    },
+    {
+      "name": "_this_pointer_expression@4",
+      "start": 215024,
+      "end": 215025
+    },
+    {
+      "name": "_new_left_typed_expression@12",
+      "start": 397888,
+      "end": 397889
+    },
+    {
+      "name": "_emit_expression_tree@4",
+      "start": 367504,
+      "end": 367505
+    },
+    {
+      "name": "_emit_parameter_declaration@4",
+      "start": 214848,
+      "end": 214849
+    },
+    {
+      "name": "_analyze_inline_parameter@4",
+      "start": 281975,
+      "end": 281976
     }
   ],
   "cases": {
@@ -5130,6 +5193,23 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_convention_warning_emitted",
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_convention_warning_emitted",
+          "original": 621544,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_constructor_initializers",
+          "original": 595144,
+          "bytes": 4
+        }
+      ],
+      "original": 621544
     }
   ],
   "buffered_streams": [
@@ -5200,6 +5280,11 @@
       "name": "_ir_record_sequence",
       "original": 657936,
       "pointer": false
+    },
+    {
+      "name": "_pending_constructor_initializers",
+      "original": 595144,
+      "pointer": true
     }
   ]
 }

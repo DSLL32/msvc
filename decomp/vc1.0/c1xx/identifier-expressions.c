@@ -1,5 +1,6 @@
 /* Identifier lookup at the expression boundary. */
 #include "lexer.h"
+#include "frontend-records.h"
 
 IrToken *__stdcall resolve_symbol_expression(CppSymbol *symbol);
 
@@ -254,5 +255,83 @@ IrToken *__stdcall append_expression(IrToken *list, IrToken *expression, int mod
         list->linkage.list_head = node;
     }
     if (expression) expression->linkage.list_head = node;
+    return node;
+}
+
+/* Original 0x3b280..0x3b346. Check the underlying value after deferred
+   expression wrappers, propagating diagnostic state to both wrapper and
+   operand. A qualified overload set may remain unresolved at this point. */
+IrToken *__stdcall validate_value_expression(IrToken *expression)
+{
+    IrToken *value;
+    CppSymbol *symbol;
+    QualifierBinding *binding;
+    if (!expression) return 0;
+    if (expression->flags & 8) return expression;
+    value = expression;
+    while ((value->flags & 7) == 7) {
+        if (value->kind >= 0xc8 && value->kind <= 0xca)
+            value = value->value.pointer;
+    }
+    if (!(value->flags & 7) && value->kind == 0xa3) {
+        report_type_error(0x113, value->type);
+        value->flags |= 8;
+        expression->flags |= 8;
+        return expression;
+    }
+    if (value->kind == 2) {
+        symbol = value->value.pointer;
+        if ((symbol->kind & 31) == 18) {
+            binding = ((QualifiedDeclarator *)symbol)->resolution->binding;
+            if ((binding->target->kind & 31) != 17) {
+                report_syntax_error(0x255, format_qualified_name(binding, 0));
+                value->flags |= 8;
+                expression->flags |= 8;
+                return expression;
+            }
+        }
+    }
+    return expression;
+}
+
+/* Original 0x61280..0x612e8. Binary/list nodes have two expression
+   operands; the right operand shares the final word with literal metadata. */
+IrToken *__stdcall new_ir_expression(unsigned char operation, IrToken *left, IrToken *right, CType *type)
+{
+    ArenaPool *pool;
+    IrToken *expression;
+    if (token_allocation_flags & 0x20000020UL)
+        expression = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        expression = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    expression->flags = 2;
+    expression->kind = operation;
+    expression->value.pointer = left;
+    expression->tail.right = right;
+    expression->type = type;
+    return expression;
+}
+
+/* Original 0x36610..0x36663. Constructor initializers retain any trailing
+   symbol records on their expression before joining the circular list. */
+IrToken *__stdcall append_constructor_initializer(IrToken *list, IrToken *initializer)
+{
+    ExpressionSymbolList *symbols;
+    IrToken *node;
+    if (!initializer) return list;
+    symbols = detach_expression_symbols();
+    if (symbols) initializer = attach_expression_symbols(initializer, symbols);
+    node = new_ir_expression(0x6a, initializer, list, 0);
+    if (!list) node->linkage.list_head = node;
+    else {
+        node->linkage.list_head = list->linkage.list_head;
+        list->linkage.list_head = node;
+    }
+    initializer->linkage.list_head = node;
     return node;
 }

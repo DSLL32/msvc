@@ -25,6 +25,14 @@ typedef char FrontendRecordNextOffsetMustBe8[(offsetof(FrontendRecord, next) == 
 typedef char FrontendRecordPreviousOffsetMustBe12[(offsetof(FrontendRecord, previous) == 12) ? 1 : -1];
 typedef char FunctionRecordSizeMustBe24[(sizeof(FunctionRecord) == 24) ? 1 : -1];
 typedef char FunctionRecordSymbolOffsetMustBe16[(offsetof(FunctionRecord, function) == 16) ? 1 : -1];
+/* Trailing symbol records detached into an expression-owned list. */
+typedef struct ExpressionSymbolList {
+    struct ExpressionSymbolList *next;
+    CppSymbol *symbol;
+} ExpressionSymbolList;
+typedef char ExpressionSymbolListSizeMustBe8[(sizeof(ExpressionSymbolList) == 8) ? 1 : -1];
+ExpressionSymbolList *detach_expression_symbols(void);
+IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymbolList *symbols);
 extern FrontendRecord *ir_record_head, *ir_record_tail, *function_ir_tail;
 extern int ir_function_error_count, ir_records_suppressed;
 extern FrontendRecord *ir_free_records, *ir_label_records, *ir_goto_records, *ir_switch_records;

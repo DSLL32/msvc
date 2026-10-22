@@ -221,3 +221,34 @@ void remove_last_frontend_record(void)
     }
     --ir_record_sequence;
 }
+
+/* Original 0x3e1d0..0x3e297. Move trailing plain kind-13 symbol records
+   into a source-order list owned by the current expression. A preceding
+   kind-0x3a marker is consumed even when no symbols were moved. */
+ExpressionSymbolList *detach_expression_symbols(void)
+{
+    ExpressionSymbolList *symbols = 0, *entry;
+    SymbolFrontendRecord *record;
+    ArenaPool *pool;
+    if (ir_records_suppressed) return 0;
+    while (ir_record_tail && ir_record_tail->kind == 13) {
+        record = (SymbolFrontendRecord *)ir_record_tail;
+        if (token_allocation_flags & 0x20000020UL)
+            entry = allocate_permanent(sizeof(ExpressionSymbolList));
+        else {
+            pool = &compiler_arena.pools[1];
+            if (pool->remaining < (int)sizeof(ExpressionSymbolList))
+                refill_arena(&compiler_arena, pool);
+            entry = (ExpressionSymbolList *)pool->next;
+            pool->remaining -= sizeof(ExpressionSymbolList);
+            pool->next += sizeof(ExpressionSymbolList);
+        }
+        entry->next = symbols;
+        entry->symbol = record->symbol;
+        symbols = entry;
+        remove_last_frontend_record();
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 0x3a)
+        remove_last_frontend_record();
+    return symbols;
+}

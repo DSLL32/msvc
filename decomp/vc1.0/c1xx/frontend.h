@@ -11,10 +11,15 @@ typedef struct IrToken {
     CType *type;
     union { unsigned record_index; struct IrToken *list_head; } linkage;
     union { char *text; void *pointer; unsigned integer; } value;
-    unsigned short length, auxiliary_flags;
+    union {
+        struct { unsigned short length, auxiliary_flags; } string;
+        struct IrToken *right;
+        unsigned word;
+    } tail;
 } IrToken;
 typedef char IrTokenTypeOffsetMustBe4[(offsetof(IrToken, type) == 4) ? 1 : -1];
 typedef char IrTokenLinkageOffsetMustBe8[(offsetof(IrToken, linkage) == 8) ? 1 : -1];
+typedef char IrTokenTailOffsetMustBe16[(offsetof(IrToken, tail) == 16) ? 1 : -1];
 typedef char IrTokenSizeMustBe20[(sizeof(IrToken) == 20) ? 1 : -1];
 
 typedef struct CppSymbol CppSymbol;

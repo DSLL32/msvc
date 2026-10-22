@@ -8,6 +8,17 @@ extern CType *current_return_type, *structure_return_pointer_type;
 extern SegmentSymbol *default_code_segment;
 /* Suppress the macro-end browser event while emitting a synthetic scope. */
 extern int browser_macro_end_suppressed;
+extern int convention_warning_emitted;
+extern IrToken *pending_constructor_initializers;
+void begin_function_body(void);
+void __stdcall begin_function_output(int global_only);
+IrToken *__stdcall this_pointer_expression(CppSymbol *parameter);
+IrToken *__stdcall new_left_typed_expression(unsigned char operation, IrToken *left, IrToken *right);
+void __stdcall emit_expression_tree(IrToken *expression);
+void __stdcall emit_parameter_declaration(CppSymbol *parameter);
+void __stdcall analyze_inline_parameter(CppSymbol *parameter);
+unsigned __stdcall function_parameter_bytes(CppSymbol *parameters);
+void __stdcall print_declaration(CppSymbol *symbol, FILE *stream);
 typedef struct LocalStaticGuardState {
     CppSymbol *guard;
     unsigned state, count;

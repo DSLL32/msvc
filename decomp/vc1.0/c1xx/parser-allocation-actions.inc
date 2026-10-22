@@ -32,7 +32,7 @@
             parser_value.expression->flags = 5;
             parser_value.expression->kind = 3;
             parser_value.expression->value.pointer = right[0].context;
-            *(unsigned *)&parser_value.expression->length = right[0].words.high;
+            parser_value.expression->tail.word = right[0].words.high;
             break;
         case 332:
             concatenate_strings((ParserValue *)&right[-1].expression->value, &right[0]);

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 400 accepted paired frontiers, including 325 frontend
-functions and six older CRT routines. The complete yacc driver and its 285
+PARTIAL reconstruction: 408 accepted paired frontiers, including 332 frontend
+functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _validate_value_expression@4 at original VA 0x3b280. The latest ordered replay is recorded in validation.json;
+trap is _record_line_information@4 at original VA 0x5b0f0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -57,7 +57,7 @@ The launcher preserves the captured argv[0] identically for both images,
 independently of the selected application image. audit-data.py checks all 98
 option rules, their target sharing and defaults, the typed configuration, 81
 language keywords, four __declspec entries and all 191 IR record schemas against the original binary.
-The older CRT _sopen, setvbuf, _freebuf, fseek, __tzset and _isindst bodies have readable C replacements;
+The older CRT _sopen, setvbuf, _freebuf, fseek, __tzset, _isindst and ftell bodies have readable C replacements;
 audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
@@ -654,3 +654,26 @@ evidence/replay-identifier-expressions.log. Current matching trap is
 validate_value_expression at 0x3b280, while reading value in the constructor's
 value_(value) initializer. Recovered executable extent union is 129,119 / 476,418
 bytes (27.102%, not branch coverage). Complete frontend equivalence is pending.
+
+
+The constructor initializer now passes value validation, binary/list-node
+construction, list append and frontend symbol-record detachment. Its handoff
+starts function-body output while retaining the initializer pointer for the
+subsequent body pass. Original convention/prototype/debug branches remain C,
+with named unresolved children. IrToken's final word now has typed binary-right
+and string-metadata views, preserving its 20-byte layout.
+
+The parameter count at original 0x91368 is the unsigned-short field of the
+existing function_ir object. The address audit rejected a provisional separate
+counter before acceptance; body setup and serialization share that state. The
+older ftell implementation is independently matched against original C1 across
+121 instructions, branches, calls and data aliases. It has readable C source.
+Evidence: evidence/constructor-body-entry.txt and runtime-variants.json.
+
+All 408 accepted frontiers replay with exact files, streams, pending buffers,
+logical callers and eleven runtime observations (three pointer nullness checks
+and eight exact scalars). Evidence: evidence/replay-constructor-body-entry.log.
+The current matching trap is record_line_information at 0x5b0f0, the function
+output preamble's source/option control-record writer. Accepted executable extent
+union is 131,080 / 476,418 bytes (27.514%, not branch coverage). Complete frontend
+equivalence remains pending.

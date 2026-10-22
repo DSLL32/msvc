@@ -4,6 +4,7 @@
 #include "cpp-context.h"
 #include "parameter-scopes.h"
 #include "parameters.h"
+#include "source-input.h"
 
 CppSymbol *qualified_definition_class; /* original 0x9fbc4 */
 CType *current_return_type; /* original 0x9f258 */
@@ -233,4 +234,121 @@ CType *__stdcall function_return_type(CppSymbol *declaration)
     result = intern_type(description);
     --type_description_depth;
     return result;
+}
+
+int convention_warning_emitted; /* original 0x97be8 */
+IrToken *pending_constructor_initializers; /* original 0x914c8 */
+
+/* Original 0x34610..0x34735. Start body output, validate the callee's
+   parameter-byte convention, optionally print a prototype, and retain the
+   constructor initializer list for the subsequent body-initialization pass. */
+void __stdcall apply_constructor_initializers(IrToken *initializers)
+{
+    unsigned convention, bytes;
+    if (!function_symbol) return;
+    begin_function_body();
+    if (!convention_warning_emitted &&
+        (function_symbol->type->attributes & 0x70) == 0x40 && normalized_Gs) {
+        compiler_warning(1, 124);
+        convention_warning_emitted = 1;
+    }
+    if (!options.prototypes_only) {
+        convention = function_symbol->type->attributes & 0x70;
+        if ((convention == 0x60 || convention == 0x40) &&
+            (function_symbol->declaration_flags & 0x200)) {
+            bytes = function_parameter_bytes(active_parameter_symbols);
+            if (!(function_symbol->attributes & 0x4000)) {
+                function_symbol->field2c = bytes;
+                function_symbol->attributes |= 0x4000;
+            } else if (function_symbol->field2c != bytes)
+                report_syntax_error(0x2c4, function_symbol->name);
+        }
+    }
+    if (options.prototypes_only && !(function_symbol->declaration_flags & 0x400)) {
+        begin_type_diagnostic();
+        print_declaration(function_symbol, preprocessor_stream);
+        end_type_diagnostic();
+    }
+    if (options.configuration.debug_info && !options.prototypes_only)
+        record_line_information(0x11);
+    pending_constructor_initializers = initializers;
+    token_allocation_flags |= 0x80000UL;
+}
+
+/* Original 0x34970..0x34bb0. Emit the function entry and declarations,
+   count typed non-void ABI parameters, and retain the optional qc analysis
+   path over the same circular parameter-declaration list. */
+void begin_function_body(void)
+{
+    CppSymbol *parameter, *first;
+    IrToken *entry, *object;
+    unsigned storage;
+    function_symbol->flags |= 4;
+    function_ir.parameter_count = 0;
+    function_symbol->attributes &= ~0x10UL;
+    if (normalized_Ol && options.configuration.option_qc)
+        initialize_function_inline_analysis();
+    if (!options.prototypes_only) {
+        begin_function_output(0);
+        write_ir_record(0x53, 0);
+        write_ir_record(0x53, 0);
+        if ((function_symbol->declaration_flags & 0x400) &&
+            (function_symbol->cpp.parts.member_flags & 1)) {
+            object = this_pointer_expression(0);
+            entry = symbol_reference(function_symbol);
+            entry = new_left_typed_expression(0xa4, entry, object);
+        } else entry = symbol_reference(function_symbol);
+        entry = new_left_typed_expression(0x76, entry, 0);
+        emit_expression_tree(entry);
+        parameter = active_parameter_symbols;
+        while (parameter && (parameter->kind & 31) != 10 && (parameter->kind & 31) != 11)
+            parameter = parameter->next;
+        if (parameter) {
+            parameter = first = parameter->detail.parameter_next;
+            do {
+                storage = parameter->storage[0] & 7;
+                if (storage >= 5 && storage <= 6) emit_parameter_declaration(parameter);
+                if (parameter->type && parameter->type != type_0080) ++function_ir.parameter_count;
+                parameter = parameter->detail.parameter_next;
+            } while (parameter != first);
+        }
+    }
+    if (normalized_Ol && options.configuration.option_qc) {
+        parameter = active_parameter_symbols;
+        while (parameter && (parameter->kind & 31) != 10 && (parameter->kind & 31) != 11)
+            parameter = parameter->next;
+        if (parameter) {
+            parameter = first = parameter->detail.parameter_next;
+            do {
+                if (parameter->type) analyze_inline_parameter(parameter);
+                parameter = parameter->detail.parameter_next;
+            } while (parameter != first);
+        }
+    }
+}
+
+/* Original 0x5a950..0x5aa11. Save the function's stream positions before
+   line/debug headers, with the scoped stack-probe setting suppressed. */
+void __stdcall begin_function_output(int global_only)
+{
+    int saved_Gs;
+    function_ir.expression_offset = ftell(expression_file);
+    function_ir.symbol_offset = ftell(symbol_file);
+    function_ir.complexity = 0;
+    if (token_allocation_flags & 0x40) {
+        saved_Gs = normalized_Gs;
+        normalized_Gs = 0;
+    }
+    record_line_information(0x1f);
+    if (token_allocation_flags & 0x40) normalized_Gs = saved_Gs;
+    if (options.configuration.option_Ob > 0) record_line_information(0x20);
+    if (global_only) {
+        ++global_record_kind;
+        write_global_record(6, 0);
+        --global_record_kind;
+        return;
+    }
+    record_line_information(2);
+    record_line_information(1);
+    record_line_information(0x23);
 }

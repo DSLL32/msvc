@@ -232,7 +232,7 @@
             expression->flags = 5;
             expression->kind = 0xc3;
             expression->value.pointer = right[0].context;
-            *(unsigned *)&expression->length = right[0].words.high;
+            expression->tail.word = right[0].words.high;
             default_arguments[declaration_depth-1] = (DefaultArgument *)append_expression(
                 (IrToken *)default_arguments[declaration_depth-1], expression, 2);
             finish_default_argument_text();

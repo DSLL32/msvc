@@ -42,9 +42,9 @@ int compile_translation_unit(void)
         token->kind = 3;
         for (length = 0; options.option_V[length]; ++length)
             ;
-        token->length = (unsigned short)(length + 1);
+        token->tail.string.length = (unsigned short)(length + 1);
         token->value.text = version_string;
-        for (i = 0; i < token->length; ++i)
+        for (i = 0; i < token->tail.string.length; ++i)
             version_string[i] = options.option_V[i];
         record_string_literal(token);
         emit_version_token(token);

@@ -1,0 +1,64 @@
+Constructor initializer handoff and function-body entry
+
+Eight whole functions accepted after frontier 400:
+  validate_value_expression       0x3b280..0x3b346, stdcall 4, 3 callees
+  new_ir_expression               0x61280..0x612e8, stdcall 16, 2 callees
+  append_constructor_initializer  0x36610..0x36663, stdcall 8, 3 callees
+  detach_expression_symbols       0x3e1d0..0x3e297, cdecl, 3 callees
+  apply_constructor_initializers  0x34610..0x34735, stdcall 4, 8 callees
+  begin_function_body             0x34970..0x34bb0, cdecl, 9 callees
+  begin_function_output           0x5a950..0x5aa11, stdcall 4, 3 callees
+  ftell                           0x813b0..0x814e3, cdecl, 1 callee
+
+Native and rebuilt complete callee sets match. New unresolved children remain
+named trapping stubs. Source/option control-record serialization is the next
+frontier; complete frontend equivalence is still pending.
+
+IrToken's +16 word now has typed views for a binary expression's right operand
+and the existing string literal length/flags. Compile-time checks retain offset
+16 and total size 20. Parser actions that copy both literal halfwords use the
+same union word, rather than a pointer cast into the length member.
+
+validate_value_expression walks deferred wrappers (kinds 0xc8..0xca), diagnoses
+type values and unresolved qualified symbols, and propagates the original
+error bit to both underlying expression and wrapper. The qualifier diagnostic
+preserves its original string argument and does not reinterpret the binding as
+an ordinary declaration.
+
+Constructor lists retain a circular link. Any trailing plain kind-13 frontend
+symbol records are detached into eight-byte ExpressionSymbolList nodes; a
+following kind-0x3a marker is removed. This uses the existing ir_record_tail,
+ir_free_records and ir_record_sequence objects and their original arena 1.
+The unreached expression-attachment child remains a named stub.
+
+apply_constructor_initializers starts body output, checks stack-byte consistency,
+prints prototypes under /Zg, and retains the initializer list at original
+0x914c8. Its once-only convention warning uses original 0x97be8. Both defaults
+and address identities are audited. A new debugger checkpoint compares the
+initializer pointer's nullness, bringing observations to eleven: three pointer
+nullness checks and eight exact scalar comparisons.
+
+begin_function_body increments the SHORT at original 0x91368, not a DWORD.
+The state alias audit rejected a provisional separate counter: this is the
+existing function_ir.parameter_count field at +4 within the 20-byte function
+metadata record. Body setup and global-record serialization now use that same
+object. Parameters use the original circular detail.parameter_next chain.
+The /qc branch and synthetic member entry remain explicit C with named stubs.
+
+begin_function_output saves expression and symbol positions in the existing
+function_ir object, resets its complexity field, and emits source/option headers.
+Its caller temporarily pre-pushes an outer expression argument around the
+this-pointer helper; the latter's actual RET 4 establishes a single-argument
+ABI, despite the two adjacent PUSH 0 instructions in the caller.
+
+The older ftell body is independently matched against original C1 across all
+121 instructions, internal branches, _lseek calls, and _osfile/errno identities
+and defaults. The result is recorded by audit-runtime-variants.py and
+runtime-variants.json. This is the seventh older CRT routine reconstructed in C;
+it is not silently substituted with the differing shipped LIBC version.
+
+At frontier 408, accepted executable extent union is 131,080 / 476,418 bytes
+(27.514%), including functions, shared text, matched CRT and import thunks,
+clipped to executable sections. It is not branch coverage. The ordered replay
+with all eleven observations is evidence/replay-constructor-body-entry.log;
+validation.json records the actual result and replayed build hash.

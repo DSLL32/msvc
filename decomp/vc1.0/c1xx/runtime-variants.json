@@ -178,6 +178,30 @@
         "0x77940": "0xaea00",
         "0x77944": "0xaea04"
       }
+    },
+    {
+      "initial_data_values_equal": true,
+      "pointer_defaults": [],
+      "name": "ftell",
+      "original_c1_range": [
+        "0x517e0",
+        "0x51914"
+      ],
+      "original_c1xx_range": [
+        "0x813b0",
+        "0x814e4"
+      ],
+      "instructions": 121,
+      "all_nonrelocated_instruction_bytes_equal": true,
+      "internal_control_flow_equal": true,
+      "external_calls": [
+        "__lseek"
+      ],
+      "data_address_aliases_preserved": true,
+      "data_aliases": {
+        "0x73af0": "0xaab70",
+        "0x739cc": "0xaaa4c"
+      }
     }
   ]
 }
