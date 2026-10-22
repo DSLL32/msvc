@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 207,
-  "driver_functions": 132,
+  "accepted_frontiers": 208,
+  "driver_functions": 133,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 138,
-  "current_frontier": "_parse_translation_unit",
-  "original_frontier_va": "0x268f0",
+  "reconstructed_source_functions": 139,
+  "current_frontier": "_read_parser_token",
+  "original_frontier_va": "0x1af10",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "09e5f74b0e8462131f8e1d70cba1bf05bd6a88a462a8fef420971127e194fc08",
-  "call_graph_audit_functions": 138,
+  "replay_log_sha256": "3c564be29436a54036301722c08e1c6e3d8705be150d0ed66f9e78d5efadcb65",
+  "call_graph_audit_functions": 139,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -37,7 +37,9 @@
     "runtime_function_specifications": 1,
     "symbol_scope_mode_bytes": 1,
     "packed_option_targets": 21,
-    "parser_state_defaults": 6
+    "parser_state_defaults": 6,
+    "declaration_codes": 49,
+    "parser_semantic_state_defaults": 23
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -65,7 +67,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-qualification-links.log",
+  "replay_log": "evidence/replay-yacc-parser.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -81,10 +83,16 @@
     "recovery_inserts": 60,
     "lexer_query_timing_matches": true,
     "source_reads_original_binary": false,
-    "semantic_actions_reconstructed": false,
+    "semantic_actions_reconstructed": true,
     "log": "evidence/grammar-validation.log",
     "log_sha256": "95089fbc0bd926151132ef4d08263624392605012f5c9fc4be195010edaaa7a0",
     "build_generator": "generate-parser.py",
-    "logical_c_rows_checked": true
+    "logical_c_rows_checked": true,
+    "explicit_semantic_blocks": 285,
+    "parser_callees": 186,
+    "whole_parser_original_range": [
+      "0x268f0",
+      "0x2a524"
+    ]
   }
 }

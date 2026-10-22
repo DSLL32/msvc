@@ -1,8 +1,9 @@
 /* C++ function signatures combine interned declaration types with defaults. */
 #include "parameters.h"
 
-int declaration_depth; /* original 0x8cc18; parser checks depth < 60 */
-DefaultArgument *default_arguments[60]; /* original 0x911f8 */
+DeclarationControl declaration_control; /* original 0x8cc18..0x8cc58 */
+/* The parser also owns the entry immediately before declaration depth zero. */
+DefaultArgument *default_argument_storage[61]; /* original 0x911f4..0x912e8 */
 CType *parameter_associated_type; /* original 0xa1e38 */
 static DeclarationParameterInfo *void_parameters; /* original 0x9f3c0 */
 

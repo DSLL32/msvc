@@ -6,13 +6,13 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 207 accepted paired frontiers, including 132 frontend
-functions and six older CRT routines. The frontend now reads cpp-basic.cpp,
-initializes builtin operator candidates and constructs their function signatures.
-The complete global-record writer, declaration storage/type normalizer and final
-declaration checks are reconstructed. The next matching trap is
-_parse_translation_unit at original VA 0x268f0. All 207 frontiers replay successfully;
-the expression stream begins with the exact six bytes 5b8034030000. The complete
+PARTIAL reconstruction: 208 accepted paired frontiers, including 133 frontend
+functions and six older CRT routines. The complete yacc driver and its 285
+explicit semantic blocks are reconstructed, preserving all 186 original call
+targets. Its next matching trap is _read_parser_token at original VA 0x1af10.
+All 208 frontiers replay successfully, including exact pending FILE buffers;
+the expression stream begins with the six bytes 5b8034030000. Semantic branches
+will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
 
 Build and check the current frontier using the original toolchain:
@@ -59,7 +59,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-runtime-declarations.log.
+The current full ordered replay is recorded in evidence/replay-yacc-parser.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -134,8 +134,8 @@ by name and attributes. The ordinary-symbol allocator preserves permanent vs
 arena allocation and the separate scope-mode byte. Twenty-one option targets,
 their aliases and initial defaults are audited; this established the original
 normalized_Gs=1 and normalized_Gn=1 defaults before frontend initialization.
-The current trap is the complete yacc parser; its semantic actions
-remain unreconstructed. No original parser tables have been imported as source.
+The parser uses generated logical grammar tables; no original packed parser
+tables have been imported as source.
 
 The parser's declarative grammar is recovered in grammar.bnf. grammar.py reads
 only that named grammar, precedence and recovery annotations; it never reads an
@@ -146,7 +146,8 @@ inserts identify production/dot contexts; destination states follow from shifts.
 audit-parser-grammar.py compares all 147775 token decisions, 82800 gotos, lexer
 query timing and 60 recovery inserts against the original. All match. The
 analysis-only recovery proof is in analysis/recover-grammar.py; it is not part
-of the build. Parser semantic C actions and the complete C++ case remain pending.
+of the build. The whole semantic switch is readable C in parser-*-actions.inc;
+the complete C++ case remains pending.
 
 The yacc stacks share their boundary storage with macro_work_midpoint. The
 220-state array admits one extra halfword that aliases the first semantic
@@ -157,11 +158,11 @@ these aliases in evidence/replay-parser-state.log.
 
 generate-parser.py emits logical C tables from that same declarative grammar,
 without reading the executable. The original toolchain compiles these tables
-as part of the build; they are not used until the complete parser is accepted.
+as part of the build and the accepted parser uses those logical tables.
 The audit independently verifies every emitted row against the original,
 including shifts after precedence resolution. All 207 existing frontiers replay
-with the additional data in evidence/replay-grammar-c.log. Semantic C actions
-are being recovered separately in scratch; no partial parser is linked.
+with the additional data in evidence/replay-grammar-c.log. The subsequent
+whole-parser replay is evidence/replay-yacc-parser.log.
 
 Qualified-name resolution owns its current binding, whose next link denotes
 the enclosing qualifier. Declaration checks access the current target directly;
@@ -169,3 +170,20 @@ implicit-member checks deliberately inspect the enclosing link. Original loads
 at 0x52031 and 0x62a1d establish that distinction. These previously unvisited
 branches now use the appropriate typed view rather than an extra indirection.
 All accepted frontiers replay in evidence/replay-qualification-links.log.
+
+The accepted yacc extent is 0x268f0..0x2a524: code ends at 0x29fa1,
+followed by alignment and 352 switch destinations at 0x29fa4. Its C semantic
+switch retains all 285 explicit action blocks for 356 productions. Unrecovered
+callees are named traps with individually recovered stack slots, including the
+unused second enumerator argument, initializer argument and fourth segment
+argument that the decompiler omitted. ParserValue returns in EAX/EDX with the
+original eight-byte aggregate ABI under the original toolchain.
+
+Declaration flags[-1] overlap the high declaration-depth byte; both views use
+one union. Declaration specifiers and default arguments retain their preceding
+cells. Forty-nine contextual declaration-code meanings are audited separately
+from the unrelated expression entries in the original shared token vocabulary.
+Twenty-three additional state objects are audited, including the original
+text_work_cursor=expression_storage and enumerator_value=UINT_MAX defaults.
+The parser's qc-tracking condition uses existing normalized_Ol; a separate
+provisional object was rejected by the address-alias audit and removed.

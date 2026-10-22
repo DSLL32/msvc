@@ -46,7 +46,7 @@ int compile_translation_unit(void)
         token->value.text = version_string;
         for (i = 0; i < token->length; ++i)
             version_string[i] = options.option_V[i];
-        record_version_token(token);
+        record_string_literal(token);
         emit_version_token(token);
         global_expression_scope_active = 1;
     }

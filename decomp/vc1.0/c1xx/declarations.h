@@ -63,7 +63,10 @@ typedef struct QualifierResolution {
     QualifierBinding *binding;
 } QualifierResolution;
 typedef struct QualifiedDeclarator {
-    unsigned field00, field04, field08;
+    unsigned char kind, flags;
+    unsigned short declaration_flags;
+    struct QualifiedDeclarator *next;
+    char *name;
     QualifierResolution *resolution;
 } QualifiedDeclarator;
 typedef struct StorageSpec {

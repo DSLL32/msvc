@@ -120,9 +120,16 @@ for table in cfg.get('tables', []):
                 a, b = field['original'] + offset, names[field['name']] + offset
                 assert state_addresses.setdefault(a, b) == b, 'shared frontend state was split: '+field['name']
                 assert state_reverse_addresses.setdefault(b, a) == a, 'distinct frontend state was merged: '+field['name']
-            assert read(original, field['original'], field['bytes']) == \
-                   read(rebuilt, names[field['name']], field['bytes']), \
-                'initial frontend state differs: '+field['name']
+            if 'pointer_to' in field:
+                assert field['bytes'] == 4
+                assert word(original, field['original']) == field['original_target'], \
+                    'original frontend pointer target differs: '+field['name']
+                assert word(rebuilt, names[field['name']]) == names[field['pointer_to']], \
+                    'rebuilt frontend pointer target differs: '+field['name']
+            else:
+                assert read(original, field['original'], field['bytes']) == \
+                       read(rebuilt, names[field['name']], field['bytes']), \
+                    'initial frontend state differs: '+field['name']
         print('%d shared frontend state defaults match the original.' % len(table['fields']))
     elif kind == 'tokens':
         for index in range(table['count']):
@@ -155,6 +162,14 @@ for table in cfg.get('tables', []):
                     assert state_reverse_addresses.setdefault(b+offset, a+offset) == a+offset, 'packed-option state was merged'
                 assert read(original, a, 4) == read(rebuilt, b, 4), 'packed-option default differs: %d' % index
         print('%d packed options, aliases and defaults match the original.' % table['count'])
+    elif kind == 'declaration_codes':
+        seen = set()
+        for index in range(table['count']):
+            token, value = struct.unpack('<II', read(rebuilt, new+index*8, 8))
+            assert token not in seen, 'duplicate declaration code'
+            seen.add(token)
+            assert word(original, old+token*4) == value, 'declaration code differs: %d' % token
+        print('%d contextual declaration codes match the original vocabulary.' % table['count'])
     elif kind == 'configuration':
         assert read(original, old, table['bytes']) == read(rebuilt, new, table['bytes']), 'configuration defaults differ'
         print('%d-byte typed configuration defaults match the original.' % table['bytes'])

@@ -29,8 +29,20 @@ struct ParameterEntry {
     ParameterEntry *next;
     FunctionParameters parameters;
 };
-extern int declaration_depth;
-extern DefaultArgument *default_arguments[60];
+/* A preceding declaration may set flags[-1], the high depth byte. Keep
+   that boundary overlap rather than separate independently placed globals. */
+typedef union DeclarationControl {
+    struct {
+        int depth;
+        unsigned char flags[60];
+    } data;
+    unsigned char bytes[64];
+} DeclarationControl;
+extern DeclarationControl declaration_control;
+#define declaration_depth (declaration_control.data.depth)
+#define declaration_spec_flags (declaration_control.bytes + 4)
+extern DefaultArgument *default_argument_storage[61];
+#define default_arguments (default_argument_storage + 1)
 extern CType *parameter_associated_type;
 DeclarationParameterInfo *void_parameter_list(void);
 DeclarationParameterInfo *intern_declaration_parameters(int count, CppSymbol *head);
