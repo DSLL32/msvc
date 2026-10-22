@@ -33,6 +33,13 @@ extern char *token_spellings[213];
 extern char *name_arrow_operator, *name_call_operator;
 extern IrToken *operator_zero;
 char *__stdcall intern_operator_name(unsigned char token);
+int __stdcall is_overload_operand(IrToken *expression);
+IrToken *__stdcall resolve_operator_expression(unsigned char operation, IrToken *left,
+    IrToken *right, unsigned arity, unsigned *failure);
+int __stdcall operator_has_builtin_fallback(unsigned char operation, unsigned char arity,
+    unsigned classification);
+int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
+    unsigned failure, CType *left, CType *right);
 void initialize_allocation_operators(void);
 void __stdcall declare_operator_new(unsigned short attributes);
 void __stdcall declare_operator_delete(unsigned short attributes);

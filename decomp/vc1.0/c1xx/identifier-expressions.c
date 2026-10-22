@@ -190,7 +190,7 @@ IrToken *__stdcall finish_symbol_expression(CppSymbol *symbol, IrToken *expressi
 {
     expression = indirect_storage_expression(expression);
     if (symbol_has_reference_shape(symbol))
-        expression = postfix_expression(0x46, expression);
+        expression = builtin_unary_expression(0x46, expression);
     return expression;
 }
 

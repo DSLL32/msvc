@@ -1,4 +1,5 @@
 #include "function-definitions.h"
+#include "control-ir.h"
 /* Named, unaccepted reconstruction frontiers. */
 #include "initialization.h"
 #include "inline-vector.h"
@@ -69,13 +70,10 @@ unsigned short __stdcall type_alignment(CType *type) { __asm { int 3 } return 0;
 void __stdcall emit_symbol_declaration(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall write_decorated_name(FILE *stream, CppSymbol *symbol, void *context, int flags) { __asm { int 3 } return 0; }
-void write_ir_filename(char *text) { __asm { int 3 } }
 void write_ir_string(char *text) { __asm { int 3 } }
-void write_ir_index(unsigned *index) { __asm { int 3 } }
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return 0; }
 void emit_line_directive(void) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
-void __stdcall record_line_information(unsigned flags) { __asm { int 3 } }
 void browser_include_begin(void) { __asm { int 3 } }
 void browser_open_file(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
@@ -220,7 +218,7 @@ unsigned __stdcall next_enumerator_value(unsigned value, char *unused_name) { __
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments) { __asm { int 3 } return 0; }
 unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language) { __asm { int 3 } return 0; }
 void pop_linkage(void) { __asm { int 3 } }
-IrToken *__stdcall postfix_expression(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall builtin_unary_expression(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void prepare_do_body(void) { __asm { int 3 } }
 IrToken *__stdcall prepare_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
 void record_break_statement(void) { __asm { int 3 } }
@@ -242,7 +240,6 @@ IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } retu
 IrToken *__stdcall sizeof_type(CType *type) { __asm { int 3 } return 0; }
 void skip_balanced_brace_body(void) { __asm { int 3 } }
 unsigned char synchronize_tokens(unsigned first, ...) { __asm { int 3 } return 0; }
-IrToken *__stdcall unary_expression(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken * validate_based_self(void) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
@@ -509,8 +506,16 @@ IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymb
 unsigned __stdcall function_parameter_bytes(CppSymbol *parameters) { __asm { int 3 } return 0; }
 void __stdcall print_declaration(CppSymbol *symbol, FILE *stream) { __asm { int 3 } }
 
-IrToken *__stdcall this_pointer_expression(CppSymbol *parameter) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_left_typed_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 void __stdcall emit_expression_tree(IrToken *expression) { __asm { int 3 } }
 void __stdcall emit_parameter_declaration(CppSymbol *parameter) { __asm { int 3 } }
 void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } }
+
+void write_counted_ir(short length, char *text) { __asm { int 3 } }
+
+IrToken *__stdcall resolve_operator_expression(unsigned char operation, IrToken *left,
+    IrToken *right, unsigned arity, unsigned *failure) { __asm { int 3 } return 0; }
+int __stdcall operator_has_builtin_fallback(unsigned char operation, unsigned char arity,
+    unsigned classification) { __asm { int 3 } return 0; }
+int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
+    unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }

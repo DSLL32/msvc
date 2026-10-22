@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 408 accepted paired frontiers, including 332 frontend
+PARTIAL reconstruction: 415 accepted paired frontiers, including 339 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _record_line_information@4 at original VA 0x5b0f0. The latest ordered replay is recorded in validation.json;
+trap is _builtin_unary_expression@8 at original VA 0x5f210. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -677,3 +677,26 @@ The current matching trap is record_line_information at 0x5b0f0, the function
 output preamble's source/option control-record writer. Accepted executable extent
 union is 131,080 / 476,418 bytes (27.514%, not branch coverage). Complete frontend
 equivalence remains pending.
+
+
+Source/option control records now retain the full native field dispatch and
+23-entry switch table. All 36 logical field schemas and eight contextual state
+defaults/identities are audited. The counted-data consumer establishes only its
+signed count byte; the still-unreconstructed producer will establish capacity.
+Index and NUL-terminated filename encoders preserve byte promotion and their
+individual function graph. The complete warning-override serializer is C.
+
+The implicit this resolver preserves its circular parameter list, class-type
+attachment and original diagnostic name arguments. Unary dispatch retains C++
+overload lookup, builtin fallback and flag-restoration exits; clearing flag 0x10
+preserves the DWORD object's upper half. Operand classification reuses the
+already accepted type helper rather than introducing another function. The
+next helper's provisional postfix name is corrected to builtin_unary_expression.
+Evidence: evidence/control-unary-entry.txt.
+
+All 415 accepted frontiers replay with exact files, streams, pending buffers,
+logical callers and eleven runtime observations in
+evidence/replay-control-unary-entry.log. The next matching trap is
+builtin_unary_expression at 0x5f210, while forming the constructor's this
+operand. Accepted executable extent union is 134,577 / 476,418 bytes
+(28.248%, not branch coverage). Complete frontend equivalence remains pending.

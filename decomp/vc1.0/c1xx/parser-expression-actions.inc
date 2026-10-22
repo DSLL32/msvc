@@ -196,7 +196,7 @@
             parser_value.expression = validate_based_self();
             break;
         case 314:
-            parser_value.expression = postfix_expression(OP_CALL, right[-1].expression);
+            parser_value.expression = builtin_unary_expression(OP_CALL, right[-1].expression);
             clear_reference_cache(parser_value.expression);
             POP_DECLARATION();
             break;

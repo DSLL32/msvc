@@ -6,6 +6,8 @@
 #include "parameters.h"
 #include "source-input.h"
 
+int __stdcall validate_expression_symbol(CppSymbol *symbol);
+
 CppSymbol *qualified_definition_class; /* original 0x9fbc4 */
 CType *current_return_type; /* original 0x9f258 */
 CType *structure_return_pointer_type; /* original 0x94b04 */
@@ -351,4 +353,46 @@ void __stdcall begin_function_output(int global_only)
     record_line_information(2);
     record_line_information(1);
     record_line_information(0x23);
+}
+
+/* Original 0x347f0..0x3496d. Resolve the implicit this parameter, or
+   use an explicitly supplied declaration, and attach the member function's
+   associated class type to the language-level this operand. */
+IrToken *__stdcall this_pointer_expression(CppSymbol *parameter)
+{
+    CppSymbol *first, *declaration;
+    TypeShape *shape;
+    IrToken *expression;
+    if (!parameter) {
+        if (active_parameter_symbols) {
+            declaration = active_parameter_symbols;
+            while (declaration && (declaration->kind & 31) != 10 &&
+                (declaration->kind & 31) != 11) declaration = declaration->next;
+            first = declaration ? declaration->detail.parameter_next : 0;
+            parameter = first;
+            /* The native path dereferences this first slot before testing
+               nullness; an active parameter chain must contain its ABI list. */
+            if (parameter->type == type_0080) {
+                parameter = parameter->detail.parameter_next;
+                if (parameter == first) parameter = 0;
+            }
+            if (parameter && parameter->name != name_this) parameter = 0;
+        }
+        if (!parameter) {
+            if (!(function_symbol->declaration_flags & 0x400))
+                report_syntax_error(0x2a1, function_symbol->name);
+            else if ((function_symbol->storage[0] & 7) != 3)
+                report_syntax_error(0x2a0, function_symbol->name);
+            else report_syntax_error(0x29f, function_symbol->name);
+            return 0;
+        }
+    }
+    expression = symbol_reference(parameter);
+    expression = unary_expression(0xb1, expression);
+    shape = function_symbol->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    expression->type = shape->data.parameters->associated_type;
+    if (!validate_expression_symbol(parameter)) return 0;
+    expression->flags |= 0x20;
+    return expression;
 }

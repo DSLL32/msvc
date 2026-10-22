@@ -202,7 +202,7 @@ IrToken *__stdcall finish_call_expression(IrToken *expression, unsigned short fl
 IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object, int mode);
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments);
 void __stdcall record_string_literal(IrToken *literal);
-IrToken *__stdcall postfix_expression(unsigned char operation, IrToken *expression);
+IrToken *__stdcall builtin_unary_expression(unsigned char operation, IrToken *expression);
 IrToken *__stdcall new_unary_ir_expression(unsigned char operation, void *value);
 IrToken *__stdcall member_expression(unsigned char operation, IrToken *object, IrToken *member);
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name);

@@ -23,6 +23,7 @@ extern int code_pointer_kind, data_pointer_kind;
 extern int code_pointer_model, data_pointer_model;
 extern int normalized_Op, normalized_Oy, normalized_Oa, normalized_Ow, normalized_Oz;
 extern int normalized_Gs, normalized_PLMN, normalized_PLMF, normalized_Zr;
+extern int optimization_enabled;
 extern int normalized_Oq, normalized_Gn, normalized_Ol;
 extern int target_cpu, target_cpu_mask;
 extern char token_buffer[7936];

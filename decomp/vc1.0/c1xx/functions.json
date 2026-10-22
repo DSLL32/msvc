@@ -412,7 +412,14 @@
     "_apply_constructor_initializers@4",
     "_begin_function_body",
     "_begin_function_output@4",
-    "_ftell"
+    "_ftell",
+    "_record_line_information@4",
+    "_write_ir_index",
+    "_write_ir_filename",
+    "_emit_warning_controls@4",
+    "_this_pointer_expression@4",
+    "_unary_expression@8",
+    "_is_overload_operand@4"
   ],
   "driver": [
     {
@@ -1165,7 +1172,7 @@
     {
       "name": "_record_line_information@4",
       "start": 372976,
-      "end": 374748
+      "end": 374840
     },
     {
       "name": "_browser_include_begin",
@@ -2318,7 +2325,7 @@
       "end": 249201
     },
     {
-      "name": "_postfix_expression@8",
+      "name": "_builtin_unary_expression@8",
       "start": 389648,
       "end": 389649
     },
@@ -2460,7 +2467,7 @@
     {
       "name": "_unary_expression@8",
       "start": 389360,
-      "end": 389361
+      "end": 389639
     },
     {
       "name": "_unget_token@4",
@@ -3975,7 +3982,7 @@
     {
       "name": "_this_pointer_expression@4",
       "start": 215024,
-      "end": 215025
+      "end": 215406
     },
     {
       "name": "_new_left_typed_expression@12",
@@ -3996,6 +4003,36 @@
       "name": "_analyze_inline_parameter@4",
       "start": 281975,
       "end": 281976
+    },
+    {
+      "name": "_write_counted_ir",
+      "start": 475632,
+      "end": 475633
+    },
+    {
+      "name": "_emit_warning_controls@4",
+      "start": 374848,
+      "end": 375350
+    },
+    {
+      "name": "_is_overload_operand@4",
+      "start": 243872,
+      "end": 243900
+    },
+    {
+      "name": "_resolve_operator_expression@20",
+      "start": 490752,
+      "end": 490753
+    },
+    {
+      "name": "_operator_has_builtin_fallback@12",
+      "start": 398656,
+      "end": 398657
+    },
+    {
+      "name": "_report_operator_resolution_failure@20",
+      "start": 407424,
+      "end": 407425
     }
   ],
   "cases": {
@@ -5210,6 +5247,61 @@
         }
       ],
       "original": 621544
+    },
+    {
+      "name": "_control_record_formats",
+      "original": 668544,
+      "kind": "schemas",
+      "count": 36,
+      "original_stride": 8,
+      "rebuilt_stride": 4
+    },
+    {
+      "name": "_record_context_symbol",
+      "original": 651868,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_record_context_symbol",
+          "original": 651868,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_pragma_kind",
+          "original": 648524,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_pragma_text",
+          "original": 648528,
+          "bytes": 4
+        },
+        {
+          "name": "_function_control_flags",
+          "original": 594808,
+          "bytes": 1
+        },
+        {
+          "name": "_control_word",
+          "original": 573472,
+          "bytes": 2
+        },
+        {
+          "name": "_control_alignment",
+          "original": 654324,
+          "bytes": 2
+        },
+        {
+          "name": "_control_alignment_mode",
+          "original": 654328,
+          "bytes": 2
+        },
+        {
+          "name": "_control_counted_data",
+          "original": 573604,
+          "bytes": 1
+        }
+      ]
     }
   ],
   "buffered_streams": [
