@@ -1,3 +1,4 @@
+#include "binary-expressions.h"
 #include "expression-preparation.h"
 #include "constructor-initializers.h"
 #include "statement-scopes.h"
@@ -525,7 +526,19 @@ IrToken *__stdcall promote_arithmetic_expression(IrToken *expression) { __asm { 
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 int __stdcall requires_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall builtin_binary_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+IrToken * __stdcall new_literal_constant(unsigned char kind, void *value) { __asm { int 3 } return 0; }
+IrToken * __stdcall fold_binary_constant(IrToken *expression, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
+IrToken * __stdcall convert_pointer_operands(IrToken *expression, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+CType * __stdcall common_binary_type(unsigned char operation, CType *left, CType *right) { __asm { int 3 } return 0; }
+int __stdcall reject_member_pointer_arithmetic(IrToken *expression) { __asm { int 3 } return 0; }
+void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
+IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
+int __stdcall check_type_conversion_warning(unsigned char operation, CType *target, CType *source) { __asm { int 3 } return 0; }
+int __stdcall integer_constant_overflows(unsigned short width, short target_unsigned, short source_unsigned, unsigned value) { __asm { int 3 } return 0; }
+void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
+IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsigned *selection) { __asm { int 3 } return 0; }
+IrToken * __stdcall convert_numeric_constant(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall find_expression_type_base(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall modifiable_lvalue(IrToken *expression, int mode) { __asm { int 3 } return 0; }
 CType *__stdcall change_function_reference_kind(CType *type, int mode) { __asm { int 3 } return 0; }

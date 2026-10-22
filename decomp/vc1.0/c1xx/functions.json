@@ -457,7 +457,11 @@
     "_classify_derived_type_conversion@16",
     "_convert_initializer@12",
     "_same_unqualified_class_type@8",
-    "_prepare_reference_initializer@8"
+    "_prepare_reference_initializer@8",
+    "_builtin_binary_expression@12",
+    "_convert_binary_operands@4",
+    "_warn_pointer_conversion@12",
+    "_check_conversion_warning@12"
   ],
   "driver": [
     {
@@ -4120,7 +4124,13 @@
     {
       "name": "_builtin_binary_expression@12",
       "start": 385088,
-      "end": 385089
+      "end": 388571,
+      "shared": [
+        [
+          388572,
+          388976
+        ]
+      ]
     },
     {
       "name": "_find_expression_type_base@4",
@@ -4451,6 +4461,92 @@
       "name": "_convert_scalar_initializer@12",
       "start": 416992,
       "end": 416993
+    },
+    {
+      "name": "_new_literal_constant@8",
+      "start": 181760,
+      "end": 181761
+    },
+    {
+      "name": "_fold_binary_constant@12",
+      "start": 182320,
+      "end": 182321
+    },
+    {
+      "name": "_apply_member_pointer@4",
+      "start": 305424,
+      "end": 305425
+    },
+    {
+      "name": "_convert_pointer_operands@12",
+      "start": 381744,
+      "end": 381745
+    },
+    {
+      "name": "_common_binary_type@12",
+      "start": 382976,
+      "end": 382977
+    },
+    {
+      "name": "_reject_member_pointer_arithmetic@4",
+      "start": 392576,
+      "end": 392577
+    },
+    {
+      "name": "_convert_binary_operands@4",
+      "start": 392656,
+      "end": 394041,
+      "shared": [
+        [
+          394044,
+          394320
+        ]
+      ]
+    },
+    {
+      "name": "_warn_pointer_conversion@12",
+      "start": 394320,
+      "end": 394375
+    },
+    {
+      "name": "_report_invalid_operand@8",
+      "start": 398592,
+      "end": 398593
+    },
+    {
+      "name": "_convert_class_condition@12",
+      "start": 408416,
+      "end": 408417
+    },
+    {
+      "name": "_convert_numeric_constant@12",
+      "start": 417216,
+      "end": 417217
+    },
+    {
+      "name": "_resolve_untyped_binary_operand@12",
+      "start": 379952,
+      "end": 379953
+    },
+    {
+      "name": "_compare_member_pointer_expression@4",
+      "start": 308288,
+      "end": 308289
+    },
+    {
+      "name": "_check_conversion_warning@12",
+      "start": 394384,
+      "end": 395278
+    },
+    {
+      "name": "_check_type_conversion_warning@12",
+      "start": 395312,
+      "end": 395313
+    },
+    {
+      "name": "_integer_constant_overflows@16",
+      "start": 477792,
+      "end": 477793
     }
   ],
   "cases": {
@@ -5813,6 +5909,30 @@
         {
           "name": "_type_indirect_0080_2",
           "original": 651944,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_integer_constant_scratch",
+      "original": 594664,
+      "fields": [
+        {
+          "name": "_integer_constant_scratch",
+          "original": 594664,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_maximum_signed_int_constant",
+      "original": 654368,
+      "fields": [
+        {
+          "name": "_maximum_signed_int_constant",
+          "original": 654368,
           "bytes": 4
         }
       ]
