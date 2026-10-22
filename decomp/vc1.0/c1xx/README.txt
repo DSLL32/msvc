@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 213 accepted paired frontiers, including 138 frontend
+PARTIAL reconstruction: 217 accepted paired frontiers, including 142 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. The token driver and replay wrapper are also reconstructed; the next
-matching trap is _read_type_specifier@4 at original VA 0x1a2d0.
-All 213 frontiers replay successfully, including exact pending FILE buffers;
+matching trap is _allocate_tag_symbol@16 at original VA 0x2d8d0.
+All 217 frontiers replay successfully, including exact pending FILE buffers;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -60,7 +60,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-raw-scanner.log.
+The current full ordered replay is recorded in evidence/replay-type-specifiers.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -214,3 +214,17 @@ actual function_symbol (0x8c140). These defaults and aliases are audited.
 The former adjust_type_specifier stub at 0x1e7a0 has been renamed
 flush_scanned_declaration to reflect its scanner/PCH text role; its original
 four-byte argument remains unchanged.
+
+The whole type-specifier driver retains 21 call targets; its tag reader retains
+16, and tag-definition setup retains 15. The source includes unvisited storage,
+qualifier, constructor-name recovery, enum, inheritance-model and browser paths.
+The storage-specifier child retains its unused fourth argument (RET 16), which
+the decompiler omitted. Tag setup holds a completed temporary type in the active
+class context; it does not prematurely replace the tag's incomplete type.
+Token pushback rewinds deferred replay or stores a complete lookahead record.
+
+The scanner EOF browser state is the existing browser_filename pointer at
+0x8c404. Its earlier provisional separate flag was removed when tag consumers
+proved the alias. That canonical pointer, four scope pointers, the current enum
+symbol and vtordisp state are now included in the byte-address/default audits.
+All 217 frontiers replay with this correction and exact pending output buffers.

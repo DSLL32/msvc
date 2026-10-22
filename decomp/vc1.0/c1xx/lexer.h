@@ -34,9 +34,33 @@ unsigned char __stdcall resolve_typename_token(CppSymbol *symbol);
 unsigned char read_operator_function_id(void);
 unsigned char __stdcall resolve_identifier_token(char *name);
 unsigned char read_lexical_token(void);
+void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
+                                    unsigned char modifier, unsigned unused);
+CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags,
+                                      unsigned short added_flags);
+unsigned char __stdcall read_tag_specifier(unsigned short kind, unsigned short *attributes);
+extern int suppress_vtordisp;
+CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
+                                         void (__stdcall *insert)(CppSymbol *));
+CppSymbol *__stdcall match_tag_symbol(CppSymbol *symbol, unsigned short kind);
+CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned short attributes);
+char *__stdcall type_kind_name(unsigned short kind);
+extern CppSymbol *current_enum_symbol;
+void __stdcall flush_current_function(int retain);
+CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first);
+CppSymbol *__stdcall allocate_tag_symbol(char *name, unsigned short kind,
+                                        void (__stdcall *insert)(CppSymbol *), int definition);
+void __stdcall defer_nested_tag(CppSymbol *owner, CppSymbol *tag);
+void browser_begin_tag(void);
+int __stdcall browser_name_reference(int reference, char *name);
+void __stdcall browser_enter_tag(CppSymbol *tag);
+SymbolScope *__stdcall enter_class_scope(CppSymbol *tag, signed char mode);
+CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
+                                   unsigned short *attributes);
+void read_declspec_attributes(StorageSpec *storage);
+unsigned char resolve_type_parenthesis(void);
 extern unsigned char token_categories[213];
 extern unsigned char pch_output_written;
-extern int source_text_pending;
 int skip_source_comment(void);
 int consume_line_escape(void);
 unsigned char next_source_character(void);

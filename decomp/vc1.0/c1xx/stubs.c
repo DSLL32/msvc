@@ -259,7 +259,6 @@ IrToken *__stdcall postfix_expression(unsigned char operation, IrToken *expressi
 void prepare_do_body(void) { __asm { int 3 } }
 IrToken *__stdcall prepare_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall qualified_identifier_expression(QualifiedDeclarator *name) { __asm { int 3 } return 0; }
-unsigned char __stdcall read_type_specifier(unsigned char token) { __asm { int 3 } return 0; }
 void record_break_statement(void) { __asm { int 3 } }
 void record_continue_statement(void) { __asm { int 3 } }
 void record_default_label(void) { __asm { int 3 } }
@@ -283,7 +282,6 @@ void skip_balanced_brace_body(void) { __asm { int 3 } }
 IrToken *__stdcall symbol_reference(CppSymbol *symbol) { __asm { int 3 } return 0; }
 unsigned char synchronize_tokens(unsigned first, ...) { __asm { int 3 } return 0; }
 IrToken *__stdcall unary_expression(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
-void __stdcall unget_token(unsigned char token) { __asm { int 3 } }
 IrToken * validate_based_self(void) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
@@ -334,3 +332,29 @@ void preprocess_directive(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }
 
 void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } }
+
+void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
+                                    unsigned char modifier, unsigned unused) { __asm { int 3 } }
+CType *__stdcall merge_type_specifier(CType *type, unsigned short *flags,
+                                      unsigned short added_flags) { __asm { int 3 } return 0; }
+CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
+                                   unsigned short *attributes) { __asm { int 3 } return 0; }
+void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
+unsigned char resolve_type_parenthesis(void) { __asm { int 3 } return 0; }
+CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
+CType *__stdcall finish_type(CType *type) { __asm { int 3 } return 0; }
+
+CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
+                                         void (__stdcall *insert)(CppSymbol *)) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall match_tag_symbol(CppSymbol *symbol, unsigned short kind) { __asm { int 3 } return 0; }
+char *__stdcall type_kind_name(unsigned short kind) { __asm { int 3 } return 0; }
+
+void __stdcall flush_current_function(int retain) { __asm { int 3 } }
+CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall allocate_tag_symbol(char *name, unsigned short kind,
+                                        void (__stdcall *insert)(CppSymbol *), int definition) { __asm { int 3 } return 0; }
+void __stdcall defer_nested_tag(CppSymbol *owner, CppSymbol *tag) { __asm { int 3 } }
+void browser_begin_tag(void) { __asm { int 3 } }
+int __stdcall browser_name_reference(int reference, char *name) { __asm { int 3 } return 0; }
+void __stdcall browser_enter_tag(CppSymbol *tag) { __asm { int 3 } }
+SymbolScope *__stdcall enter_class_scope(CppSymbol *tag, signed char mode) { __asm { int 3 } return 0; }

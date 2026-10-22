@@ -37,6 +37,9 @@ extern TypeShapeEntry **type_shape_buckets;
 extern ParameterEntry **parameter_buckets;
 extern DeclarationParameterEntry **declaration_parameter_buckets;
 extern int type_description_depth;
+extern TypeDescription type_description_stack[10];
+CType *__stdcall copy_unfinished_type(CType *type);
+CType *__stdcall finish_type(CType *type);
 TypeDescription *__stdcall copy_type_description(CType *type);
 TypeShape *__stdcall intern_type_shape(TypeShape *shape);
 TypeShape *__stdcall new_type_shape(unsigned short kind, unsigned short attributes,

@@ -217,7 +217,11 @@
     "_scan_token",
     "_read_lexical_token",
     "_begin_source_line",
-    "_scan_source_identifier"
+    "_scan_source_identifier",
+    "_read_type_specifier@4",
+    "_read_tag_specifier@8",
+    "_unget_token@4",
+    "_define_tag_symbol@12"
   ],
   "driver": [
     {
@@ -2145,7 +2149,7 @@
     {
       "name": "_read_type_specifier@4",
       "start": 107216,
-      "end": 107217
+      "end": 109276
     },
     {
       "name": "_record_break_statement",
@@ -2270,7 +2274,7 @@
     {
       "name": "_unget_token@4",
       "start": 101632,
-      "end": 101633
+      "end": 101753
     },
     {
       "name": "_validate_based_self",
@@ -2511,6 +2515,106 @@
       "name": "_scan_identifier_continuation",
       "start": 122144,
       "end": 122145
+    },
+    {
+      "name": "_add_storage_specifier@16",
+      "start": 121328,
+      "end": 121329
+    },
+    {
+      "name": "_merge_type_specifier@12",
+      "start": 120544,
+      "end": 120545
+    },
+    {
+      "name": "_read_tag_specifier@8",
+      "start": 105840,
+      "end": 106970
+    },
+    {
+      "name": "_apply_type_symbol@12",
+      "start": 106976,
+      "end": 106977
+    },
+    {
+      "name": "_read_declspec_attributes",
+      "start": 105552,
+      "end": 105553
+    },
+    {
+      "name": "_resolve_type_parenthesis",
+      "start": 103232,
+      "end": 103233
+    },
+    {
+      "name": "_copy_unfinished_type@4",
+      "start": 401360,
+      "end": 401361
+    },
+    {
+      "name": "_finish_type@4",
+      "start": 401392,
+      "end": 401393
+    },
+    {
+      "name": "_reference_tag_symbol@12",
+      "start": 187728,
+      "end": 187729
+    },
+    {
+      "name": "_match_tag_symbol@8",
+      "start": 187440,
+      "end": 187441
+    },
+    {
+      "name": "_define_tag_symbol@12",
+      "start": 185712,
+      "end": 186561
+    },
+    {
+      "name": "_type_kind_name@4",
+      "start": 424160,
+      "end": 424161
+    },
+    {
+      "name": "_flush_current_function@4",
+      "start": 296288,
+      "end": 296289
+    },
+    {
+      "name": "_find_tag_in_chain@8",
+      "start": 185488,
+      "end": 185489
+    },
+    {
+      "name": "_allocate_tag_symbol@16",
+      "start": 186576,
+      "end": 186577
+    },
+    {
+      "name": "_defer_nested_tag@8",
+      "start": 345360,
+      "end": 345361
+    },
+    {
+      "name": "_browser_begin_tag",
+      "start": 181088,
+      "end": 181089
+    },
+    {
+      "name": "_browser_name_reference@8",
+      "start": 179920,
+      "end": 179921
+    },
+    {
+      "name": "_browser_enter_tag@4",
+      "start": 181392,
+      "end": 181393
+    },
+    {
+      "name": "_enter_class_scope@8",
+      "start": 209952,
+      "end": 209953
     }
   ],
   "cases": {
@@ -3167,7 +3271,7 @@
           "bytes": 1
         },
         {
-          "name": "_source_text_pending",
+          "name": "_browser_filename",
           "original": 574468,
           "bytes": 4
         },
@@ -3184,6 +3288,50 @@
         {
           "name": "_error_count",
           "original": 576648,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_suppress_vtordisp",
+      "original": 573944,
+      "fields": [
+        {
+          "name": "_suppress_vtordisp",
+          "original": 573944,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_current_enum_symbol",
+      "original": 608504,
+      "fields": [
+        {
+          "name": "_current_enum_symbol",
+          "original": 608504,
+          "bytes": 4
+        },
+        {
+          "name": "_current_scope",
+          "original": 651980,
+          "bytes": 4
+        },
+        {
+          "name": "_global_scope",
+          "original": 651976,
+          "bytes": 4
+        },
+        {
+          "name": "_lookup_scope",
+          "original": 651756,
+          "bytes": 4
+        },
+        {
+          "name": "_scope_directory",
+          "original": 651984,
           "bytes": 4
         }
       ]

@@ -18,7 +18,7 @@ int normalized_Oq, normalized_Ol;
 int target_cpu, target_cpu_mask;
 char token_buffer[7936];
 char *source_filename = token_buffer, *source_buffer_cursor = token_buffer;
-char *browser_filename;
+char *browser_filename; /* original 0x8c404; also cleared by the EOF scanner */
 FILE *diagnostic_trace_file, *listing_file;
 LexerTextStorage lexer_text_storage; /* original 0x8c158..0x8c1dc */
 CType *type_0000, *type_4041, *type_0064;

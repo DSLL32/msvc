@@ -234,7 +234,6 @@ have_token:
 }
 
 unsigned char pch_output_written; /* original 0x9fabc */
-int source_text_pending; /* original 0x8c404 */
 
 #define NEXT_CHARACTER_CLASS() character_class[(unsigned char)*source_text_cursor++]
 #define EMIT_LEXICAL_TOKEN(code_) do { \
@@ -423,7 +422,7 @@ dispatch:
             finish_translation_symbols();
         }
         if (!emit_pending_runtime_functions()) EMIT_LEXICAL_TOKEN(119);
-        source_text_pending = 0;
+        browser_filename = 0;
         flush_scanned_declaration(0);
         if (!source_text_cursor) EMIT_LEXICAL_TOKEN(119);
         goto next_character;
@@ -697,4 +696,22 @@ void scan_source_identifier(void)
     symbol->name[length] = 0;
     interned_name = symbol->name;
     macro_text_next += length + 6;
+}
+
+/* Original 0x18d00..0x18d79. Deferred replay rewinds its existing record;
+   ordinary lookahead stores a new record in the three-token pushback area. */
+void __stdcall unget_token(unsigned char token)
+{
+    if (token_allocation_flags & 0x10000000UL) {
+        --deferred_token_cursor;
+        return;
+    }
+    ++pushed_token_count;
+    pushed_token_top->parser_token = token;
+    pushed_token_top->lexical_token = current_token_code;
+    pushed_token_top->value = current_token_value;
+    pushed_token_top->type_specifier = type_specifier_symbol;
+    ++pushed_token_top;
+    if (pushed_token_top >= pushed_tokens + 3)
+        token_allocation_flags |= 0x40000000UL;
 }

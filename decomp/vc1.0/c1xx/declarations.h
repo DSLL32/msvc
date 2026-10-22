@@ -48,7 +48,8 @@ struct CppSymbol {
 typedef struct ClassReference {
     unsigned char kind, flags;
     unsigned short attributes;
-    unsigned field04, field08;
+    unsigned field04;
+    char *name;
     short context_index;
     unsigned short field0e;
 } ClassReference;
