@@ -1,0 +1,51 @@
+Class table setup and constructor scope exit
+
+Five whole functions accepted after frontier 461 (end addresses exclusive):
+  emit_class_table_initializers 0x7b710..0x7b72e, stdcall 8, 2 native callees
+  emit_vtable_pointer_initializers 0x7b8f0..0x7b9e0, stdcall 12, 5 native callees
+  emit_vtordisp_initializers   0x7b750..0x7b7c2, stdcall 8, 4 native callees
+  end_compound_statement      0x55750..0x55755, cdecl 0, native tail transfer
+  leave_compound_scope        0x55760..0x558a6, cdecl 0, 12 native callees
+
+The separate class-table wrapper retains function-table pointer setup before
+construction/destruction displacement slots. The shared table-pointer walker
+retains both primary and inherited group vectors, short indices and the optional
+member-address initialization path. Its two native callers pass only (kind,mode)
+(0,0) at 0x7b71a and (1,1) at 0x7b739, selecting function and virtual-base table
+vectors and their corresponding group fields. Those typed fields replace raw
+indexed accesses without adding synthetic functions to the native graph.
+
+Qualifier paths are existing QualifierBinding objects: make_table_qualifier_path
+and make_vtordisp_qualifier_path return the binding field of the already recovered
+QualifierResolution built by append_qualifier_reference. They are not expression
+nodes. Named unreconstructed path/offset/member helpers retain their independently
+checked stdcall argument widths. The vtordisp walker retains conditional zero
+values on teardown and calculated displacement values on construction.
+
+The native Counter class has empty table/group vectors. Both complete walkers
+are reconstructed, while their unvisited children retain traps. This case does
+not establish virtual-inheritance branch equivalence.
+
+The native end-compound entry is only a five-byte JMP to the shared scope-exit
+body. Its separate function identity is retained, just like the existing scope
+entry wrapper. The paired caller audit explicitly reports equivalence through
+end_compound_statement -> leave_compound_scope at the next trap.
+
+Scope exit retains browser and IR closure, conditional implicit return, function
+record finalization, scope-directory retirement and pop, optional QC state,
+canonical cleanup references and closed-scope ordering. SymbolScope.flags uses
+only its low byte as the native declaration depth; qc_context is the existing
+word at +16. All existing flags and options reuse their canonical objects.
+The native parser flag byte test at 0x9f795 corresponds to cpp_parser_flags bit
+0x8000. Declaration mode and the byte global_record_kind are decremented/copied
+only after the closing IR record is emitted.
+
+Both executions now reach end_compound_scope_record at 0x3e6b0 with matching
+visible/pending output, callers and fourteen state observations. The member
+assignment and class-table setup have completed for this case; the constructor
+return/finalization and complete frontend case remain unfinished.
+
+All 466 frontiers pass the full comparator in 117.849 seconds, with frozen
+source/build/harness/fixture hashes and a final ordinary comparison. Accepted
+executable extent union: 157,120 / 476,418 bytes (32.979%), including accepted
+functions/shared text, CRT and imports; not branch coverage.

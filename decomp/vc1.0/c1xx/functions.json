@@ -465,7 +465,12 @@
     "_check_type_conversion_warning@12",
     "_modifiable_lvalue@8",
     "_emit_expression_statement@4",
-    "_fold_symbol_constant@4"
+    "_fold_symbol_constant@4",
+    "_emit_class_table_initializers@8",
+    "_emit_vtable_pointer_initializers@12",
+    "_emit_vtordisp_initializers@8",
+    "_end_compound_statement",
+    "_leave_compound_scope"
   ],
   "driver": [
     {
@@ -2143,7 +2148,7 @@
     {
       "name": "_end_compound_statement",
       "start": 350032,
-      "end": 350033
+      "end": 350037
     },
     {
       "name": "_end_do_statement",
@@ -4310,7 +4315,7 @@
     {
       "name": "_emit_class_table_initializers@8",
       "start": 505616,
-      "end": 505617
+      "end": 505646
     },
     {
       "name": "_require_deleting_destructor@4",
@@ -4598,6 +4603,66 @@
       "name": "_strip_address_expression@4",
       "start": 237472,
       "end": 237473
+    },
+    {
+      "name": "_emit_vtable_pointer_initializers@12",
+      "start": 506096,
+      "end": 506336
+    },
+    {
+      "name": "_emit_vtordisp_initializers@8",
+      "start": 505680,
+      "end": 505794
+    },
+    {
+      "name": "_make_table_qualifier_path@8",
+      "start": 506336,
+      "end": 506337
+    },
+    {
+      "name": "_initialize_qualified_member@8",
+      "start": 222688,
+      "end": 222689
+    },
+    {
+      "name": "_virtual_table_object_offset@4",
+      "start": 494592,
+      "end": 494593
+    },
+    {
+      "name": "_make_vtordisp_value@8",
+      "start": 505808,
+      "end": 505809
+    },
+    {
+      "name": "_make_vtordisp_qualifier_path@8",
+      "start": 505920,
+      "end": 505921
+    },
+    {
+      "name": "_leave_compound_scope",
+      "start": 350048,
+      "end": 350374
+    },
+    {
+      "name": "_end_compound_scope_record",
+      "start": 255664,
+      "end": 255665
+    },
+    {
+      "name": "_finish_function_records",
+      "start": 252112,
+      "end": 252113
+    },
+    {
+      "name": "_emit_scope_cleanup_references",
+      "start": 343776,
+      "end": 343777
+    },
+    {
+      "name": "_queue_closed_scope@4",
+      "start": 350384,
+      "end": 350385
     }
   ],
   "cases": {

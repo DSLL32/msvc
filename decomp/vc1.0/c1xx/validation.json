@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 461,
-  "driver_functions": 385,
+  "accepted_frontiers": 466,
+  "driver_functions": 390,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 392,
-  "current_frontier": "_emit_class_table_initializers@8",
-  "original_frontier_va": "0x7b710",
+  "reconstructed_source_functions": 397,
+  "current_frontier": "_end_compound_scope_record",
+  "original_frontier_va": "0x3e6b0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "6bc69cabc9ebb44f38c6da320ef6e05b65c32c8089018934a619f92b058294cb",
-  "call_graph_audit_functions": 392,
+  "replay_log_sha256": "e55655b1ee88f4a921d9fd3a6b150bda0379172e06c0138d493baab036a11313",
+  "call_graph_audit_functions": 397,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -98,7 +98,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-assignment-output.log",
+  "replay_log": "evidence/replay-constructor-scope-exit.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -318,7 +318,7 @@
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true
   },
-  "accepted_source_text_and_switch_bytes": 146314,
+  "accepted_source_text_and_switch_bytes": 147029,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -437,7 +437,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "6bf13965844d7f656ebfea39bbae5722d0eac3e50859de5fb402d22af31e3596",
+  "replay_build_text_sha256": "3f93e132adad7d6626fa754d1c18b8ec2c8f954e5b68a71c316d5034738750ce",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -666,9 +666,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 156405,
+    "bytes": 157120,
     "total_original_executable_bytes": 476418,
-    "percent": 32.82936412981877,
+    "percent": 32.97944242241057,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -841,11 +841,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-assignment-output-receipt.json",
-    "receipt_sha256": "3f32230e4646f7ae6e4fc9a37603ff54a74c6f0b4b0042237be5caca00befd10",
+    "receipt": "evidence/replay-constructor-scope-exit-receipt.json",
+    "receipt_sha256": "73709eb9f508b8fc5e4ce4186378ff333932bd21b89207b4188015b3c5297561",
     "jobs": 4,
-    "frontiers": 461,
-    "seconds": 114.05443665571511,
+    "frontiers": 466,
+    "seconds": 117.84898234996945,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 14,
     "private_masked_executables_workdirs_logs": true,
@@ -960,6 +960,22 @@
     "typed_qualified_overload_path_checked": true,
     "constructor_assignment_serialized": true,
     "all_461_frontiers_replayed": true,
+    "runtime_checkpoint_fields": 14,
+    "constructor_body_completed": false,
+    "no_frontend_output_normalization": true
+  },
+  "constructor_scope_exit": {
+    "evidence": "evidence/constructor-scope-exit.txt",
+    "new_whole_functions": 5,
+    "table_wrapper_native_callees": 2,
+    "table_walker_native_callees": 5,
+    "vtordisp_native_callees": 4,
+    "scope_exit_native_callees": 12,
+    "separate_native_tail_wrapper": true,
+    "qualifier_paths_are_bindings": true,
+    "only_native_table_selectors_zero_and_one": true,
+    "constructor_assignment_and_tables_complete": true,
+    "all_466_frontiers_replayed": true,
     "runtime_checkpoint_fields": 14,
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true

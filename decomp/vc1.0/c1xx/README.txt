@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 461 accepted paired frontiers, including 385 frontend
+PARTIAL reconstruction: 466 accepted paired frontiers, including 390 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _emit_class_table_initializers@8 at original VA 0x7b710. The latest ordered replay is recorded in validation.json;
+trap is _end_compound_scope_record at original VA 0x3e6b0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -863,3 +863,18 @@ Receipt: evidence/replay-assignment-output-receipt.json. Accepted executable
 extent union is 156,405 / 476,418 bytes (32.829%, not branch coverage), with 392
 source functions. Both runs reach emit_class_table_initializers at 0x7b710.
 The constructor body and complete frontend case remain unfinished.
+
+
+Class-table pointer and vtordisp initialization now retain primary/inherited
+vectors and their named qualifier-path helpers. Counter's empty vectors pass;
+virtual-inheritance branches remain unexercised. Scope exit preserves its separate
+native tail-entry wrapper, implicit return/finalization hooks, scope retirement,
+QC state and cleanup/ordering graph. Evidence: evidence/constructor-scope-exit.txt.
+
+All 466 frontiers pass the frozen full comparator in 117.849 seconds, with exact
+output/pending buffers, logical callers and fourteen runtime state observations.
+Receipt: evidence/replay-constructor-scope-exit-receipt.json. Accepted executable
+extent union is 157,120 / 476,418 bytes (32.979%, not branch coverage), with 397
+source functions. Both runs reach end_compound_scope_record at 0x3e6b0 while the
+constructor body closes. Constructor return/finalization and complete frontend
+equivalence remain unfinished.

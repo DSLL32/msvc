@@ -622,3 +622,65 @@ IrToken *__stdcall prepare_reference_initializer(CType *type, IrToken *expressio
         return builtin_unary_expression(0x3a, expression);
     return expression;
 }
+
+/* Original 0x7b710..0x7b72e: initialize function-table pointers before
+   the class's construction/destruction displacement slots. */
+void __stdcall emit_class_table_initializers(CppSymbol *tag, int initialize)
+{
+    emit_vtable_pointer_initializers(tag, 0, 0);
+    emit_vtordisp_initializers(tag, initialize);
+}
+
+/* Original 0x7b8f0..0x7b9e0. The two native callers select function
+   tables (0) or virtual-base tables (1); both include inherited groups. */
+void __stdcall emit_vtable_pointer_initializers(CppSymbol *tag, int table_kind, int use_member_address)
+{
+    Vector *tables, *groups;
+    VirtualTableGroup *group;
+    VirtualTable *table;
+    QualifierBinding *path;
+    IrToken *reference;
+    short table_index, group_index;
+    tables = table_kind ? tag->detail.class_info->virtual_base_tables :
+                          tag->detail.class_info->virtual_tables;
+    groups = tag->detail.class_info->virtual_table_groups;
+    table_index = group_index = 0;
+    for (;;) {
+        while (table_index < tables->count) {
+            table = tables->items[table_index++];
+            reference = symbol_reference(table->symbol);
+            if (!use_member_address) {
+                path = make_table_qualifier_path(table, tag);
+                initialize_qualified_member(path, reference);
+            } else {
+                initialize_member_expression(virtual_table_object_offset(table), reference->type, reference, 0);
+            }
+        }
+        if (group_index >= groups->count) break;
+        group = groups->items[group_index++];
+        tables = table_kind ? group->base_tables : group->tables;
+        table_index = 0;
+    }
+}
+
+/* Original 0x7b750..0x7b7c2. Construction computes the displacement;
+   teardown writes zero to each group with a vtordisp slot. */
+void __stdcall emit_vtordisp_initializers(CppSymbol *tag, int initialize)
+{
+    Vector *groups;
+    VirtualTableGroup *group;
+    QualifierBinding *path;
+    IrToken *value;
+    short index;
+    groups = tag->detail.class_info->virtual_table_groups;
+    index = 0;
+    while (index < groups->count) {
+        group = groups->items[index++];
+        if (group->field20) {
+            if (!initialize) value = make_integer_constant(0);
+            else value = make_vtordisp_value(tag, group);
+            path = make_vtordisp_qualifier_path(tag, group);
+            initialize_qualified_member(path, value);
+        }
+    }
+}

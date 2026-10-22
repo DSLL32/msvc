@@ -1,6 +1,7 @@
 /* Entry to compound-statement scope processing. */
 #include "statement-scopes.h"
 #include "lexer.h"
+#include "class-finalization.h"
 
 /* Original 0x555b0..0x555b5 is a tail transfer to the shared scope entry. */
 void begin_compound_statement(void)
@@ -61,4 +62,45 @@ void enter_compound_scope(void)
         if (function_symbol->name == name_default_ctor_closure)
             emit_default_ctor_closure_body(qualified_definition_class);
     }
+}
+
+/* Original 0x55750..0x55755 is the separate native tail-entry wrapper. */
+void end_compound_statement(void)
+{
+    leave_compound_scope();
+}
+
+/* Original 0x55760..0x558a6: close the lexical/IR scope before retiring
+   symbols, preserving optional inline-analysis state and scope ordering. */
+void leave_compound_scope(void)
+{
+    SymbolScope *scope;
+    if (!declaration_mode) return;
+    if (browser_filename) browser_end_tag();
+    if (declaration_mode >= 2) end_compound_scope_record();
+    if (declaration_mode == 2 && current_return_type && !(cpp_parser_flags & 0x8000))
+        emit_return_statement(0, 0);
+    if (declaration_mode == 2) {
+        current_declaration_scope = 0;
+        finish_function_records();
+    }
+    scope = current_scope;
+    if (!(token_allocation_flags & 0x40)) {
+        if ((unsigned char)scope->flags != declaration_mode) fatal_error(506);
+        retire_scope_directory_entry();
+        pop_symbol_scope();
+        if (scope->buckets && options.configuration.option_qc && normalized_Ol &&
+            declaration_mode > 2 && !scope->qc_context)
+            end_qc_control();
+        if (options.configuration.option_qc) scope->qc_context = 0;
+        if (options.configuration.option_qc && normalized_Ol && declaration_mode == 2)
+            end_qc_control();
+        emit_scope_cleanup_references();
+    }
+    if (!options.prototypes_only) {
+        if (!(token_allocation_flags & 0x40)) queue_closed_scope(scope);
+        write_ir_record(0x54, make_integer_constant(declaration_mode));
+    }
+    --declaration_mode;
+    global_record_kind = declaration_mode;
 }

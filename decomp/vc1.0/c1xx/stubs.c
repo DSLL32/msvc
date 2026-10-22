@@ -182,7 +182,10 @@ void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
-void end_compound_statement(void) { __asm { int 3 } }
+void end_compound_scope_record(void) { __asm { int 3 } }
+void finish_function_records(void) { __asm { int 3 } }
+void emit_scope_cleanup_references(void) { __asm { int 3 } }
+void __stdcall queue_closed_scope(SymbolScope *scope) { __asm { int 3 } }
 void end_do_statement(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
 CType * end_enum_specifier(void) { __asm { int 3 } return 0; }
@@ -566,7 +569,11 @@ void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displa
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
 IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attributes, unsigned displacement) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_constructor_call(CppSymbol *tag, IrToken *object, IrToken *arguments, int emit, int member_subobject) { __asm { int 3 } return 0; }
-void __stdcall emit_class_table_initializers(CppSymbol *tag, int initialize) { __asm { int 3 } }
+QualifierBinding * __stdcall make_table_qualifier_path(VirtualTable *table, CppSymbol *tag) { __asm { int 3 } return 0; }
+void __stdcall initialize_qualified_member(QualifierBinding *path, IrToken *value) { __asm { int 3 } }
+unsigned __stdcall virtual_table_object_offset(VirtualTable *table) { __asm { int 3 } return 0; }
+IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
+QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 int __stdcall has_deferred_expression_symbols(unsigned mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }

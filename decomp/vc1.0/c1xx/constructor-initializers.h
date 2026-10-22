@@ -56,4 +56,11 @@ int __stdcall same_unqualified_class_type(CType *left, CType *right);
 CppSymbol * __stdcall find_copy_constructor(CType *type);
 IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression);
 IrToken * __stdcall convert_scalar_initializer(unsigned char operation, CType *type, IrToken *expression);
+void __stdcall emit_vtable_pointer_initializers(CppSymbol *tag, int table_kind, int use_member_address);
+void __stdcall emit_vtordisp_initializers(CppSymbol *tag, int initialize);
+QualifierBinding * __stdcall make_table_qualifier_path(VirtualTable *table, CppSymbol *tag);
+void __stdcall initialize_qualified_member(QualifierBinding *path, IrToken *value);
+unsigned __stdcall virtual_table_object_offset(VirtualTable *table);
+IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group);
+QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group);
 #endif
