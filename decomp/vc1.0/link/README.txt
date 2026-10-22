@@ -21,18 +21,20 @@ Completed cases:
   Original, reconstructed and untouched-baseline programs pass the GUI checker:
   HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
 
-There are 383 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 36
-from the active hello-dll case. Full 383-frontier replay and all three completed
-cases pass. Static audits check 260 source/runtime call graphs, 251 source
-callback-reference sets and 226 contextual data definitions. Pending helpers
-trap and unexecuted branches need later coverage.
+There are 396 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 49
+from the active hello-dll case. The full 383-frontier checkpoint and the 13
+subsequent frontiers replay successfully. All three completed cases pass.
+Static audits check 273 source/runtime call graphs, 264 callback-reference sets
+and 230 contextual data definitions. Pending helpers trap; unexecuted branches
+need later coverage.
 
-The active hello-dll case reaches import-descriptor emission in the -lib child.
-Both archive indexes, name lists and headers have been emitted. The partial
-2 MB import archives match after only their two archive member dates are ignored.
-Its DLL, import library and .exp outputs have not yet been reconstructed to
-completion. The immutable original DLL passes artifact and load/call/GUI checks
-in this harness. Its manifest lists the sole allowed timestamp normalizations.
+The active hello-dll case reaches per-export import-member emission in the -lib
+child. Descriptor and null members are complete. The generated hello.exp matches
+the fixture after only its two timestamp fields; normalized SHA256:
+b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9.
+The DLL and import library remain incomplete. The immutable original DLL passes
+artifact and load/call/GUI checks in this harness. Its manifest lists the sole
+allowed timestamp normalizations.
 
 Shared fixtures under ../fixtures are immutable. cases/ records invocations,
 normalization, generated-program checks and verification evidence.

@@ -172,3 +172,15 @@ unsigned char skip_coff_auxiliaries(PIMAGE_SYMBOL *cursor,unsigned char count)
     return count;
 }
 
+
+unsigned write_coff_relocations(int file,PIMAGE_RELOCATION relocations,unsigned long count)
+{
+    return write_file(file,relocations,count*sizeof(*relocations));
+}
+
+
+extern unsigned long symbol_record_size;
+unsigned write_coff_symbol(int file,IMAGE_SYMBOL *symbol)
+{
+    return write_file(file,symbol,symbol_record_size);
+}

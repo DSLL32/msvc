@@ -22,13 +22,11 @@ void write_mac_resources(void) { __asm { int 3 } }
 void write_mac_swapper(void) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }
-void emit_string_table(SymbolTable *table) { __asm { int 3 } }
 void emit_codeview(Image *image) { __asm { int 3 } }
 int compare_fpo_records(const void *left,const void *right) { __asm { int 3 } return 0; }
 void update_checksum(int file) { __asm { int 3 } }
 
 External **get_externals_by_address(SymbolTable *table) { __asm { int 3 } return 0; }
-unsigned write_coff_symbol(int file,IMAGE_SYMBOL *symbol) { __asm { int 3 } return 0; }
 char *undecorate_symbol_name(const char *name,unsigned char decorated) { __asm { int 3 } return 0; }
 
 

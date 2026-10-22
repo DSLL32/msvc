@@ -187,3 +187,15 @@ void mark_explicit_export_ordinals(SymbolTable *table,unsigned char *ordinals)
         }
     }
 }
+
+void intern_export_targets(SymbolTable *table)
+{
+    External **ordered=get_externals_by_name(table),*external;
+    unsigned long count=count_externals(table),index;
+    for (index=0;index<count;++index) {
+        external=ordered[index];
+        if ((external->flags&EXTERNAL_DEFINED) && !(external->flags&EXTERNAL_EMITTED) &&
+            external->export_target && !(external->flags&0x200) && strlen(external->export_target)>8)
+            intern_symbol_name(table,external->export_target);
+    }
+}

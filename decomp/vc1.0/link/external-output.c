@@ -56,3 +56,12 @@ void emit_externals(SymbolTable *table,unsigned char defined,unsigned char emit,
         }
     }
 }
+
+void emit_string_table(SymbolTable *table)
+{
+    unsigned long empty=0;
+    if (table->strings.data) {
+        *(unsigned long *)table->strings.data=table->strings.length;
+        write_file(output_file,table->strings.data,table->strings.length);
+    } else write_file(output_file,&empty,sizeof(empty));
+}

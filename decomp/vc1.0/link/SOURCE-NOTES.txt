@@ -288,3 +288,20 @@ constructor defines its shared COFF record by named fields. Its unusual default
 date/user/group/mode/size field contents are reproduced explicitly at use, with
 decimal time and size overlays. There is no copied opaque section/template
 snapshot. Import-member and export-object emitters remain named typed traps.
+
+The descriptor/export-object checkpoint contains 396 accepted frontiers (49 DLL).
+The 13 additions after the full 383 replay all replay at matching logical traps.
+Parallel make check and all three completed cases pass. Audits check 273 call
+graphs, 264 callback sets and 230 contextual data definitions. The paired .exp
+objects match the immutable fixture after only the COFF/export timestamps:
+b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9.
+The current trap is write_single_import_member; the DLL case is incomplete.
+
+import-members.c writes the import descriptor, null descriptor and null thunk
+as field-initialized COFF structures, string tables and individually typed
+relocations/symbols. export-object.c owns export directory/name/ordinal tables,
+relocations and symbols, retaining individual helper calls and cdecl interfaces.
+Its private ExportDirectory uses DWORD RVAs because the original NT header
+incorrectly describes the three address fields as pointer-to-pointer types.
+No assembly implementation or section template was added. Forwarder/alias and
+alternate-machine branches remain dependent on future dynamic cases.

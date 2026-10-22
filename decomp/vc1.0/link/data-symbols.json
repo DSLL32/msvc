@@ -1423,5 +1423,29 @@
     "address": 453712,
     "size": 60,
     "owner": "import-archive.c"
+  },
+  {
+    "name": "export_description",
+    "address": 510208,
+    "size": 4,
+    "owner": "export-object.c"
+  },
+  {
+    "name": "export_directives",
+    "address": 510212,
+    "size": 4,
+    "owner": "export-object.c"
+  },
+  {
+    "name": "export_name_bytes",
+    "address": 510256,
+    "size": 4,
+    "owner": "export-object.c"
+  },
+  {
+    "name": "forwarder_symbol_serial",
+    "address": 453392,
+    "size": 4,
+    "owner": "export-object.c"
   }
 ]

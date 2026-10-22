@@ -5,6 +5,7 @@
 typedef struct ImportMachine {
     unsigned short machine;
     unsigned char helper_thunk;
+    unsigned short descriptor_relocation,export_relocation;
 } ImportMachine;
 extern ImportMachine import_i386,import_i860,import_mips;
 extern SymbolTable *export_symbol_table;
@@ -47,7 +48,16 @@ void write_import_descriptor(const ImportMachine *,Image *);
 void write_null_import_descriptor(Image *);
 void write_null_thunk_member(Image *);
 void write_helper_thunk_member(const ImportMachine *,Image *);
+extern char *export_description,*export_directives;
+extern unsigned long export_name_bytes;
+void append_export_directive(const char *);
+void fill_export_tables(SymbolTable *,unsigned char *,unsigned char *,unsigned long **,unsigned short **,char **);
+void sort_export_name_table(unsigned char *,unsigned long,unsigned long,unsigned long);
+void intern_export_targets(SymbolTable *);
+void write_export_relocations(SymbolTable *,unsigned long,unsigned long *,unsigned short);
+void write_export_symbols(SymbolTable *);
 void write_export_object(Image *,unsigned long,unsigned long,const ImportMachine *,unsigned char);
+void write_single_import_member(Image *,External *,const ImportMachine *);
 void write_import_members(Image *,const ImportMachine *);
 void finish_import_archive_indexes(SymbolTable *);
 #endif

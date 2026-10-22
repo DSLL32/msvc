@@ -74,6 +74,7 @@ void set_section_directory_rva(Section *,IMAGE_OPTIONAL_HEADER *,ImageOptions *)
 void write_mac_section_debug(Section *);
 void record_mac_section_resource(unsigned long,Section *);
 void make_section_header(Section *,IMAGE_SECTION_HEADER *);
+unsigned write_coff_relocations(int,PIMAGE_RELOCATION,unsigned long);
 unsigned write_section_header(int,IMAGE_SECTION_HEADER *);
 void write_local_imports(Contribution *,ExternalLink **,IMAGE_OPTIONAL_HEADER *,ImageOptions *);
 unsigned long count_modules(Library *);

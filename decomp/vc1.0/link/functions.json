@@ -382,7 +382,20 @@
     "_write_import_member_names",
     "_build_archive_header",
     "__ultoa",
-    "_xtoa"
+    "_xtoa",
+    "_write_import_descriptor",
+    "_write_coff_relocations",
+    "_write_null_import_descriptor",
+    "_write_null_thunk_member",
+    "_write_export_object",
+    "_fill_export_tables",
+    "_sort_export_name_table",
+    "_intern_export_targets",
+    "_write_export_relocations",
+    "_write_export_symbols",
+    "_write_coff_symbol",
+    "_emit_string_table",
+    "_write_import_members"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1236,10 +1249,11 @@
     {
       "name": "_emit_string_table",
       "start": 151296,
-      "end": 151297,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(SymbolTable *table)"
+      "end": 151376,
+      "implementation": "C",
+      "source": "external-output.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Matching DLL COFF string-table emission24f00..24f50; prefix named buffer length and serialize, or write a zero DWORD when no buffer exists."
     },
     {
       "name": "_write_coff_header",
@@ -2775,10 +2789,11 @@
     {
       "name": "_write_coff_symbol",
       "start": 152048,
-      "end": 152049,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl unsigned(int file,IMAGE_SYMBOL *symbol)"
+      "end": 152080,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,IMAGE_SYMBOL *symbol)",
+      "evidence": "Matching DLL COFF symbol writer251f0..25210; serialize the named global symbol_record_size and return the underlying byte count."
     },
     {
       "name": "_undecorate_symbol_name",
@@ -3491,26 +3506,29 @@
     {
       "name": "_write_import_descriptor",
       "start": 177248,
-      "end": 177249,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(const ImportMachine *,Image *); entry only until reached"
+      "end": 178864,
+      "implementation": "C",
+      "source": "import-members.c",
+      "abi": "cdecl void(const ImportMachine *machine,Image *image)",
+      "evidence": "Matching DLL import-descriptor writer2b460..2bab0; two typed sections, import directory, three RVA relocations, seven COFF symbols and explicit string table."
     },
     {
       "name": "_write_null_import_descriptor",
       "start": 178864,
-      "end": 178865,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(Image *); entry only until reached"
+      "end": 179328,
+      "implementation": "C",
+      "source": "import-members.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching DLL null-descriptor member2bab0..2bc80; typed .idata$3 section, zero import directory, one symbol and explicit string table."
     },
     {
       "name": "_write_null_thunk_member",
       "start": 179328,
-      "end": 179329,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(Image *); entry only until reached"
+      "end": 179904,
+      "implementation": "C",
+      "source": "import-members.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching DLL null-thunk member2bc80..2bec0; preserve separate .idata$5/.idata$4 section headers and zero slots, one named symbol and explicit string table."
     },
     {
       "name": "_write_helper_thunk_member",
@@ -3523,18 +3541,20 @@
     {
       "name": "_write_export_object",
       "start": 175440,
-      "end": 175441,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(Image *,unsigned long,unsigned long,const ImportMachine *,unsigned char); entry only until reached"
+      "end": 177248,
+      "implementation": "C",
+      "source": "export-object.c",
+      "abi": "cdecl void(Image *image,unsigned long slots,unsigned long exports,const ImportMachine *machine,unsigned char linked)",
+      "evidence": "Matching DLL export-object writer2ad50..2b460; typed IMAGE_EXPORT_DIRECTORY and COFF section/symbol records, dynamic tables and named per-stage helpers, optional description/directive sections and explicit relocations."
     },
     {
       "name": "_write_import_members",
       "start": 180608,
-      "end": 180609,
-      "implementation": "stub-C",
-      "source": "import-library-stubs.c",
-      "abi": "cdecl void(Image *,const ImportMachine *); entry only until reached"
+      "end": 180704,
+      "implementation": "C",
+      "source": "import-members.c",
+      "abi": "cdecl void(Image *image,const ImportMachine *machine)",
+      "evidence": "Matching DLL per-export member driver2c180..2c1e0; name-sorted defined non-synthetic exports call the separate single-member writer."
     },
     {
       "name": "_finish_import_archive_indexes",
@@ -3621,6 +3641,76 @@
       "source": "archive.c",
       "abi": "cdecl unsigned long(const void *bytes)",
       "evidence": "Matching DLL byte-order wrapper217d0..217e0; retain distinct forwarding vertex to original reversal helper217a0."
+    },
+    {
+      "name": "_write_coff_relocations",
+      "start": 152144,
+      "end": 152176,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned(int file,PIMAGE_RELOCATION relocations,unsigned long count)",
+      "evidence": "Matching DLL relocation-writer wrapper25250..25270; preserve separate count-times-ten serialization vertex and byte-count return."
+    },
+    {
+      "name": "_append_export_directive",
+      "start": 185408,
+      "end": 185409,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(const char *); entry only until reached"
+    },
+    {
+      "name": "_fill_export_tables",
+      "start": 184256,
+      "end": 184704,
+      "implementation": "C",
+      "source": "export-object.c",
+      "abi": "cdecl void(SymbolTable *table,unsigned char *ordinals,unsigned char *base,unsigned long **names,unsigned short **name_ordinals,char **strings)",
+      "evidence": "Matching DLL export-table builder2cfc0..2d180; emit names/forwarder strings, strip optional decoration, assign explicit or first-free ordinal slots, update cursor arguments and export symbol values."
+    },
+    {
+      "name": "_sort_export_name_table",
+      "start": 187792,
+      "end": 188016,
+      "implementation": "C",
+      "source": "export-object.c",
+      "abi": "cdecl void(unsigned char *base,unsigned long name_offset,unsigned long ordinal_offset,unsigned long count)",
+      "evidence": "Matching DLL name-table sort2dd90..2de70; pairwise ascending string comparison, swap name RVAs and corresponding WORD ordinal entries together."
+    },
+    {
+      "name": "_intern_export_targets",
+      "start": 185296,
+      "end": 185408,
+      "implementation": "C",
+      "source": "export-resolution.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Matching DLL target-name interning2d3d0..2d440; intern long non-forwarder alias targets for defined symbols not already emitted."
+    },
+    {
+      "name": "_write_export_relocations",
+      "start": 184704,
+      "end": 184896,
+      "implementation": "C",
+      "source": "export-object.c",
+      "abi": "cdecl void(SymbolTable *table,unsigned long addresses,unsigned long *names,unsigned short type)",
+      "evidence": "Matching DLL export-relocation writer2d180..2d240; defined non-synthetic exports yield function-slot relocation to consecutive WORD symbol index and name-pointer relocation to section symbol0."
+    },
+    {
+      "name": "_write_export_symbols",
+      "start": 184896,
+      "end": 185296,
+      "implementation": "C",
+      "source": "export-object.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Matching DLL export-symbol writer2d240..2d3d0; copy selected external records, use alias/forwarder names and final values, recover contribution section index, write symbol and track emission. Forwarder synthetic owner remains local as in target; branch not covered by DLL fixture."
+    },
+    {
+      "name": "_write_single_import_member",
+      "start": 180704,
+      "end": 180705,
+      "implementation": "stub-C",
+      "source": "import-library-stubs.c",
+      "abi": "cdecl void(Image *,External *,const ImportMachine *); entry only until reached"
     }
   ],
   "c_stub_references": [
@@ -3974,6 +4064,19 @@
     "hello-win32",
     "hello-win32",
     "hello-win32",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
+    "hello-dll",
     "hello-dll",
     "hello-dll",
     "hello-dll",
