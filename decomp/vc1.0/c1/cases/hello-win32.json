@@ -13,5 +13,6 @@
   "state_verification": "168 state defaults/aliases, 72 scalar options, 21 option targets, 17 pragma rules and 5 hash callback identities match. All 51 builtin lookup suffixes and group boundaries match.",
   "grammar_verification": "57,904 actions/timings, all 227 productions and 34,216 used gotos match the original compressed automaton.",
   "artifact_verification": "Exit 0, empty stdout/stderr, and all four raw intermediates match captured fixtures and unmodified original: irex 2066, irsy 422, irin 46, irgl 629 bytes.",
-  "build_verification": "Clean original-toolchain make -j2 check CASE=hello-win32 passes; all 428 reconstructed function call graphs match."
+  "build_verification": "Clean original-toolchain make -j2 check CASE=hello-win32 passes; all 429 reconstructed function call graphs match.",
+  "last_regression_total_source_functions": 429
 }

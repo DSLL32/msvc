@@ -2,8 +2,8 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 
 Current status
 --------------
-Both captured cases are complete, with 428 reconstructed source functions
-and 509 accepted trap frontiers. A clean original-toolchain make -j2 build
+All three captured cases are complete, with 429 reconstructed source functions
+and 510 accepted trap frontiers. A clean original-toolchain make -j2 build
 passes all call-graph, state and grammar audits.
 
 The minimal-C case originally required 179 source functions and 258
@@ -17,7 +17,14 @@ invocation and original SDK headers. All 251 additional frontiers replay
 successfully, then both executables exit 0 with empty stdout/stderr. The
 four intermediate files match the capture byte for byte: irex 2066, irsy 422,
 irin 46, and irgl 629 bytes. The unmodified original independently reproduces
-both captures. No fixture intermediate bytes are linked into the compiler.
+all three captures. No fixture intermediate bytes are linked into the compiler.
+
+The DLL case uses the captured CL /O2 /G5 /LD /Fehello.dll hello-dll.c
+frontend invocation, including -D_MT. Its one additional frontier reconstructs
+the complete __declspec attribute parser. Both executables exit 0 with empty
+stdout/stderr and produce the captured raw intermediates: irex 2129, irsy 499,
+irin 49, and irgl 669 bytes. The new frontier and all 509 earlier frontiers
+replay successfully against this build on their recorded cases.
 
 Unvisited functions remain individually named trapping stubs for subsequent
 cases. The accepted functions retain their complete control flow and calls
@@ -30,6 +37,8 @@ Build and differential workflow
   make replay
   make check CASE=hello-win32
   make replay CASE=hello-win32
+  make check CASE=hello-dll
+  make replay CASE=hello-dll
 
 Builds use the original CL.EXE and LINK.EXE through Wine, with a private
 prefix at ~/.ai-tmp/vc1.0-c1/wine. The original toolchain is read-only.
@@ -350,3 +359,15 @@ minimal-C frontiers pass. The 428 function call graphs, 168 initial-state and
 alias checks, option/pragma identities, and logical grammar audit pass.
 Both final runs and independent unmodified-original runs produce identical
 raw captures with successful exit and empty stdout/stderr.
+
+Checkpoint 429 completes the DLL frontend case. parse_declspec retains its
+cdecl storage-vector ABI, identifier-mode flag, all attribute dispatch and
+error paths. It consumes the existing typed keyword/attribute vocabulary;
+no new implementation data are introduced. The data audit now independently
+checks all six attribute-table rows, including semantic names, integer fields
+and the sentinel. The immutable shared fixture and its source are unchanged.
+A clean original-toolchain make -j2 check CASE=hello-dll, the new DLL frontier,
+all 258 minimal-C frontiers and all 251 hello-win32 frontiers pass, including
+successful exits and raw capture comparison against the unmodified original.
+All 429 function call graphs, 168 state defaults/aliases, option and callback
+identities, six declspec rows and the logical grammar audit pass.

@@ -513,7 +513,8 @@
     "_finish_for_statement",
     "_convert_pointer_representation@8",
     "_format_integer",
-    "_write_ir_string"
+    "_write_ir_string",
+    "_parse_declspec"
   ],
   "driver": [
     {
@@ -1913,7 +1914,7 @@
     {
       "name": "_parse_declspec",
       "start": 101488,
-      "end": 101489
+      "end": 101773
     },
     {
       "name": "_copy_mutable_type@4",
@@ -3790,7 +3791,13 @@
     },
     "hello-win32": {
       "arguments": "",
-      "accepted_from": 258
+      "accepted_from": 258,
+      "accepted_count": 509
+    },
+    "hello-dll": {
+      "arguments": "",
+      "accepted_from": 509,
+      "accepted_count": 510
     }
   },
   "buffered_streams": [

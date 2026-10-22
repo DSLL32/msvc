@@ -387,7 +387,6 @@ void parse_asm_statement(void) { __asm { int 3 } }
 
 
 
-void parse_declspec(unsigned char *storage) { __asm { int 3 } }
 
 
 

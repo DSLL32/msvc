@@ -2144,3 +2144,41 @@ FrontendSymbol *__stdcall declare_initialized_symbol(FrontendSymbol *symbol)
         parser_flags |= 0x20000000;
     return prepare_initializer_symbol(symbol);
 }
+
+/* Original 0x18c70..0x18d8d. Inside __declspec the scanner returns
+   identifiers, and their interned keyword prefix selects storage modifiers. */
+void parse_declspec(unsigned char *storage)
+{
+    unsigned char token, flags, keyword;
+    char *name;
+    DeclspecSpec *attribute;
+    token = scan_token();
+    if (token != TOK_LEFT_PAREN) {
+        report_syntax_error(54, token_names[token]);
+        unget_token(token);
+        storage[0] |= 8;
+        return;
+    }
+    parser_flags |= 0x10000000UL;
+    while ((token = scan_token()) != TOK_RIGHT_PAREN) {
+        if (token == TOK_IDENTIFIER) {
+            name = current_token_value.identifier;
+            flags = SYMBOL_FROM_NAME(name)->flags;
+            if (flags & 0x20) {
+                keyword = KEYWORD_FROM_NAME(name)->token;
+                if (flags & 1) merge_storage_class(storage, 0, keyword, 0);
+                else {
+                    attribute = &declspec_specs[keyword];
+                    if (attribute->attribute == 2)
+                        merge_storage_class(storage, attribute->parameter_mode, 1, 0);
+                    else if (!attribute->reserved)
+                        merge_storage_class(storage, 0, attribute->attribute, 0);
+                }
+                continue;
+            }
+            report_syntax_error(485, name);
+        } else report_syntax_error(59, token_names[token]);
+        storage[0] |= 8;
+    }
+    parser_flags &= ~0x10000000UL;
+}

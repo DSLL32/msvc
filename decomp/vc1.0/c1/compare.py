@@ -81,7 +81,7 @@ def mask(pe, records, accepted, output):
                 data[a:b] = pe.data[a:b]
     Path(output).write_bytes(data)
 
-FIXTURES = {'minimal': 'minimal-c', 'hello-win32': 'hello-win32'}
+FIXTURES = {'minimal': 'minimal-c', 'hello-win32': 'hello-win32', 'hello-dll': 'hello-dll'}
 CASE_NAME = 'minimal'
 FIXTURE = Path('../fixtures') / FIXTURES[CASE_NAME]
 CASE = json.loads((FIXTURE / 'manifest.json').read_text())['phases']['c1']

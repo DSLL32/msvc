@@ -251,4 +251,15 @@ for index in range(51):
     new = struct.unpack('<I', read(rebuilt, names['_builtin_definitions'] + 16*index, 4))[0]
     assert cstring(original, old) == cstring(rebuilt, new+1), ('builtin suffix', index)
 
-print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups match.' % (len(STATE), option_scalar_count))
+# Declspec scanning indexes the same six logical rows populated at startup.
+# Compare names semantically and all three integer fields, including sentinel.
+for index in range(6):
+    old = read(original, 0x6ad50 + 16*index, 16)
+    new = read(rebuilt, names['_declspec_specs'] + 16*index, 16)
+    old_name, new_name = struct.unpack_from('<I', old)[0], struct.unpack_from('<I', new)[0]
+    assert bool(old_name) == bool(new_name), ('declspec sentinel', index)
+    if old_name:
+        assert cstring(original, old_name) == cstring(rebuilt, new_name), ('declspec name', index)
+    assert old[4:] == new[4:], ('declspec fields', index)
+
+print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows match.' % (len(STATE), option_scalar_count))

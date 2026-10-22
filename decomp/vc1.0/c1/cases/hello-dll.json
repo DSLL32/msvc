@@ -1,0 +1,18 @@
+{
+  "case": "../fixtures/hello-dll/manifest.json phases.c1",
+  "status": "complete",
+  "after": "hello-win32",
+  "requested_driver_case": "CL.EXE /O2 /G5 /LD /Fehello.dll hello-dll.c",
+  "notes": "User-authorized DLL frontend case; immutable captured phase includes -D_MT and uses only the explicit MSC_CMD_FLAGS environment entry.",
+  "accepted_from": 509,
+  "reconstructed_source_functions": 429,
+  "current_matching_trap": null,
+  "accepted_frontiers": 510,
+  "original_va": null,
+  "replay": "The additional DLL frontier (509/510, parse_declspec) replays with exact pending FILE buffers and visible files, followed by successful exit.",
+  "artifact_verification": "Exit 0, empty stdout/stderr, and all four raw intermediates match the immutable capture and unmodified original: irex 2129, irsy 499, irin 49, irgl 669 bytes.",
+  "regression": "All 258 minimal-C and 251 hello-win32 frontiers replay successfully; both earlier raw captures remain byte exact.",
+  "build_verification": "Clean original-toolchain make -j2 check CASE=hello-dll passes; all 429 source-function call graphs match.",
+  "state_verification": "168 state defaults/aliases, 72 scalar options, 21 option targets, 17 pragma rules, 5 callback identities, 51 builtin suffixes/groups and 6 declspec rows match.",
+  "grammar_verification": "All 376 states, 57,904 actions/timings, 227 productions and 34,216 gotos match."
+}
