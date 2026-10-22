@@ -17,14 +17,13 @@
       "case": "hello-debug-dll",
       "fixture": "../fixtures/link-debug-dll/manifest.json",
       "phase": "link",
-      "status": "active",
-      "current_frontier": "_write_map"
+      "status": "complete"
     },
     {
       "case": "library-list",
       "fixture": "../fixtures/link-library-tools/manifest.json",
       "phase": "list",
-      "status": "queued"
+      "status": "active"
     },
     {
       "case": "library-extract",

@@ -484,7 +484,16 @@
     "_remove",
     "import:DeleteFileA",
     "_run_cvpack",
-    "__spawnl"
+    "__spawnl",
+    "_write_map",
+    "_ctime",
+    "_localtime",
+    "_gmtime",
+    "__isindst",
+    "_asctime",
+    "_store_dt",
+    "_write_map_symbol",
+    "_sprintf"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -745,10 +754,11 @@
     {
       "name": "_write_map",
       "start": 160048,
-      "end": 160049,
-      "implementation": "stub-C",
-      "source": "driver-stubs.c",
-      "abi": "cdecl void(int,Image *,const char *)"
+      "end": 161472,
+      "implementation": "C",
+      "source": "map-file.c",
+      "abi": "cdecl void(int,Image *,const char *)",
+      "evidence": "Full27130..276c0: native timestamp/header, section/group enumeration, address/symbol order, escaped names, statics and head-ordered fixup-delta rows with WORD length."
     },
     {
       "name": "_open_file",
@@ -4269,6 +4279,32 @@
       "source": "codeview.c",
       "abi": "cdecl void(SymbolTable *,External *,unsigned short)",
       "evidence": "Full35310..35400: shared8-byte short-name buffer, per-record stdout flush,12-byte NB05 record, low-byte counted length plus full string write; native owner dereference preserved."
+    },
+    {
+      "name": "_get_externals_by_symbol",
+      "start": 156800,
+      "end": 156801,
+      "implementation": "stub-C",
+      "source": "driver-stubs.c",
+      "abi": "cdecl External **(SymbolTable *)"
+    },
+    {
+      "name": "_write_map_symbol",
+      "start": 161472,
+      "end": 161824,
+      "implementation": "C",
+      "source": "map-file.c",
+      "abi": "cdecl void(const char *,Contribution *,unsigned long,unsigned long,unsigned long,unsigned char)",
+      "evidence": "Matched276c0 trap; full276c0..27820: native section/absolute address arithmetic, function marker, library prefix, common/linker sentinel ownership and basename+extension formatting."
+    },
+    {
+      "name": "__isindst",
+      "start": 336080,
+      "end": 336288,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl int(struct tm *)",
+      "evidence": "Matched520d0 trap; complete520d0..521a0 older US DST rules using shared CRT_days table:1967 cutoff,1987 first-April-Sunday change, October hour1 boundary."
     }
   ],
   "c_stub_references": [
@@ -4692,6 +4728,15 @@
     "library-create",
     "library-create",
     "library-create",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
+    "hello-debug-dll",
     "hello-debug-dll",
     "hello-debug-dll",
     "hello-debug-dll",

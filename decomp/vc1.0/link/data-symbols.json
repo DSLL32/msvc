@@ -1828,5 +1828,11 @@
     "name": "codeview_module_name",
     "size": 4,
     "owner": "codeview.c"
+  },
+  {
+    "address": 547632,
+    "name": "_days",
+    "size": 52,
+    "owner": "runtime.c"
   }
 ]

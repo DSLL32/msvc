@@ -492,3 +492,23 @@ The graph auditor now decodes15-byte lookahead before asserting each declared
 end is an instruction boundary, retaining switch-table exclusion. All490
 accepted original records (aliases included) and349 graph-audited source/runtime
 records in both binaries pass; no extent correction was required.
+
+hello-debug-dll completed at494 frontiers,137819/281634 .text bytes(48.9355%).
+A fresh original-toolchain clean -j2 build, all9 additions since full485 replay,
+all six completed cases,352 graph/343 callback/287 data audits and499 accepted
+original record boundaries pass. Debug .dll/.lib/.exp/.map, exact verbose streams
+and exit0 match the frozen fixture; all three DLL GUI checks paint300 pixels and
+load/call/close/unload successfully. Clock normalization remains structural and
+unchanged; the PE checksum is independently validated before deriving its value
+with zeroed timestamps. DEF NONAME/forwarder limitations remain as documented.
+
+Map output preserves native section/group order, final-address symbol sorting,
+short-name sharing, high-byte name escaping, owner/sentinel tests, static-symbol
+release order and head-first fixup blocks with per-line delta resets at70 chars.
+The map timestamp reached the older CRT _isindst at520d0. It differs from shipped
+LIBC's Win32-aware helper. The full readable C preserves the1967 cutoff,1987
+April rule and October hour1 boundary, sharing the original-toolchain _days
+calendar table. Defining that helper also avoids linking an extra TZSET object
+with a duplicate __tzset. Its named trap was matched before reconstruction;
+all accepted routines retain their original graph and ABI. No assembly exception
+or bulk data definition was introduced.

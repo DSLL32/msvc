@@ -1,19 +1,19 @@
 {
   "case": "hello-debug-dll",
-  "status": "in progress",
-  "current_frontier": "_write_map",
+  "status": "complete",
   "fixture": "../fixtures/link-debug-dll/manifest.json",
   "checkpoint": {
-    "accepted_frontiers": 485,
-    "full_frontiers_replayed": 485,
-    "five_completed_cases_pass": true,
+    "accepted_frontiers": 494,
+    "last_full_frontier_replay": 485,
+    "new_frontiers_replayed_since_last_full_replay": 9,
+    "six_completed_cases_pass": true,
     "clean_parallel_build": true,
-    "call_graphs_audited": 349,
-    "callback_sets_audited": 340,
-    "contextual_data_definitions": 286,
-    "coverage": "cases/coverage-after-codeview.json",
-    "replay_log_sha256": "c3448e85abe8d0122f5301c34c38ad7cf8b1181f4be000118d22e57c9f9e29ad",
-    "instruction_boundary_records": 490
+    "call_graphs_audited": 352,
+    "instruction_boundary_records": 499,
+    "callback_sets_audited": 343,
+    "contextual_data_definitions": 287,
+    "coverage": "cases/coverage-after-debug-dll.json",
+    "new_replay_log_sha256": "c8a64eb8933b29eb29d62967964dbec086ee3cda9d59396580ccfaddf4210757"
   },
   "intermediate_resource_object": {
     "scope": "Intermediate resource object at matching DEF-parser trap; later DLL case remains incomplete",
@@ -33,7 +33,6 @@
     }
   },
   "abi_exceptions": [],
-  "remaining": "Map writer and helpers, final complete-case streams/map/GUI checks, followed by the authorized library/dump/edit lifecycle.",
   "previous_checkpoints": [
     {
       "accepted_frontiers": 442,
@@ -58,6 +57,18 @@
       "contextual_data_definitions": 281,
       "coverage": "cases/coverage-after-def-order.json",
       "new_replay_log_sha256": "469b6f6773fb1579bf86a236deeca0bdac4d316491257a6286bd749d85ed0b9b"
+    },
+    {
+      "accepted_frontiers": 485,
+      "full_frontiers_replayed": 485,
+      "five_completed_cases_pass": true,
+      "clean_parallel_build": true,
+      "call_graphs_audited": 349,
+      "callback_sets_audited": 340,
+      "contextual_data_definitions": 286,
+      "coverage": "cases/coverage-after-codeview.json",
+      "replay_log_sha256": "c3448e85abe8d0122f5301c34c38ad7cf8b1181f4be000118d22e57c9f9e29ad",
+      "instruction_boundary_records": 490
     }
   ],
   "child_artifacts_match_frozen_fixture": {
@@ -144,5 +155,448 @@
       "comparison": "raw exact, no normalization",
       "sha256": "411e3b4a3d5c7c40868bb4b9bc761cd560e4aa8609eb58a12ceb502728b2cefd"
     }
-  }
+  },
+  "arguments": [
+    "-link",
+    "@debug-link.rsp"
+  ],
+  "phase": "link",
+  "environment": {
+    "LINK32_DB": null,
+    "LIB": "{original toolchain}/lib"
+  },
+  "exit_status": 0,
+  "streams": {
+    "stdout": {
+      "bytes": 19836,
+      "sha256": "ab209278885d271e9c1ba0d71413c57193901f5a0764697174d0d746923f3cc5"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "outputs": [
+    {
+      "output_name": "hello-debug.dll",
+      "bytes": 71800,
+      "artifact_kind": "debug-pe",
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "name": "PE COFF TimeDateStamp"
+        },
+        {
+          "offset": 7172,
+          "bytes": 4,
+          "name": "Debug directory TimeDateStamp"
+        },
+        {
+          "offset": 7200,
+          "bytes": 4,
+          "name": "Debug directory TimeDateStamp"
+        },
+        {
+          "offset": 7228,
+          "bytes": 4,
+          "name": "Debug directory TimeDateStamp"
+        },
+        {
+          "offset": 11780,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 11916,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 11940,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 11964,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 11988,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12020,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12044,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12076,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12108,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12132,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12156,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12180,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12204,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12228,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12252,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12276,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12300,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12324,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12348,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12372,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12396,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12420,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12444,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12468,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12492,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12524,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12548,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12572,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12596,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12620,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12644,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12668,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12692,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 12716,
+          "bytes": 4,
+          "name": "Resource directory TimeDateStamp"
+        },
+        {
+          "offset": 17924,
+          "bytes": 4,
+          "name": "Export directory TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa"
+    },
+    {
+      "output_name": "hello-debug.lib",
+      "bytes": 2097152,
+      "artifact_kind": "archive-generated",
+      "ignored_fields": [
+        {
+          "offset": 24,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 448,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 890,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 938,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 1552,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 1600,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 1738,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 1786,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 1958,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 2006,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 2146,
+          "bytes": 4,
+          "name": "Export directory TimeDateStamp"
+        },
+        {
+          "offset": 3088,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 3136,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 3660,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 3708,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 4240,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 4288,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 4786,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 4834,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 5330,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 5378,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 5672,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 5720,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 6256,
+          "bytes": 12,
+          "name": "Archive member date"
+        },
+        {
+          "offset": 6304,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7"
+    },
+    {
+      "output_name": "hello-debug.exp",
+      "bytes": 2097152,
+      "artifact_kind": "coff",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "bytes": 4,
+          "name": "Generated COFF TimeDateStamp"
+        },
+        {
+          "offset": 144,
+          "bytes": 4,
+          "name": "Export directory TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98"
+    },
+    {
+      "output_name": "hello-debug.map",
+      "bytes": 17519,
+      "artifact_kind": "map",
+      "ignored_fields": [
+        {
+          "offset": 30,
+          "bytes": 8,
+          "name": "Map PE timestamp hexadecimal"
+        },
+        {
+          "offset": 40,
+          "bytes": 24,
+          "name": "Map timestamp ctime rendering"
+        }
+      ],
+      "normalized_sha256": "9e2d30773ec62646c0761dbf99ea0bedb6af67d8b919d5fa73321229df56a6ee"
+    }
+  ],
+  "generated_program": {
+    "kind": "win32-dll-gui",
+    "export_name": "HelloEntry",
+    "export_ordinal": 7,
+    "exit_status": 0,
+    "class_name": "HelloWindow",
+    "title": "Hello, world!",
+    "host_binary": "build/debug-dll-host.exe",
+    "reports": {
+      "original": {
+        "width": 632,
+        "height": 326,
+        "dark_pixels": 300,
+        "bounds": [
+          276,
+          157,
+          354,
+          167
+        ],
+        "exit_status": 0
+      },
+      "reconstructed": {
+        "width": 632,
+        "height": 326,
+        "dark_pixels": 300,
+        "bounds": [
+          276,
+          157,
+          354,
+          167
+        ],
+        "exit_status": 0
+      },
+      "baseline": {
+        "width": 632,
+        "height": 326,
+        "dark_pixels": 300,
+        "bounds": [
+          276,
+          157,
+          354,
+          167
+        ],
+        "exit_status": 0
+      }
+    }
+  },
+  "normalization": "Only structurally identified clock fields; PE checksum is validated before clocks are cleared and recomputed afterward. No path, padding, order or other output normalization.",
+  "export_coverage_limit": "DEF NONAME and forwarder inputs exercise parsing only: original output retains named OrdinalEntry at9 and no populated ForwardedSleep slot11."
 }
