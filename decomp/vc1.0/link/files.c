@@ -368,3 +368,173 @@ void close_all_files(void)
         else release_file_slot(file);
     }
 }
+
+int open_buffered_file(FileSlot *file,int mode,int permission,unsigned char fresh)
+{
+    struct _stat info;
+    FileSlot *previous;
+    unsigned long pages,index;
+    if (fresh) {
+        file->source.descriptor=_open(file->name,mode,permission);
+        if (file->source.descriptor==-1) {
+            if (active_files==file) {
+                active_files=file->next;
+                --file_count;
+            } else {
+                previous=active_files;
+                while (previous && previous->next!=file) previous=previous->next;
+                if (previous) {
+                    previous->next=file->next;
+                    --file_count;
+                }
+            }
+            failure(NULL,7,file->name);
+        }
+        file->length=0;
+        if ((file->flags&2) && (!(file->flags&3) || (file->flags&0x10)))
+            file->contents.capacity=0x400000;
+        else {
+            if (_stat(file->name,&info)==-1) failure(NULL,7,file->name);
+            if (!info.st_size) {
+                file->storage.pages=calloc(1,sizeof(Page *));
+                if (!file->storage.pages) failure(NULL,5,"");
+                failure(file->name,0x27,"");
+            }
+            file->contents.capacity=file->length=info.st_size;
+        }
+        pages=(file->contents.capacity+4096)>>12;
+        file->allocated=pages<<12;
+        file->storage.pages=calloc(1,pages*sizeof(Page *));
+        if (!file->storage.pages) failure(NULL,5,"");
+        if (!(file->flags&0x10) && (file->flags&3))
+            for (index=0;index<pages;++index) file->storage.pages[index]=(Page *)1;
+    }
+    seek_buffered_file(file,0,SEEK_SET);
+    return 0;
+}
+
+unsigned long buffered_page_reads;
+long seek_buffered_file(FileSlot *file,long offset,int origin)
+{
+    long position;
+    Page *page;
+    if (origin==SEEK_SET) position=offset;
+    else if (origin==SEEK_CUR) position=file->cursor.page->position+offset;
+    else position=file->length+offset;
+    while ((long)file->allocated<=position) grow_buffered_file(file);
+    page=file->storage.pages[position>>12];
+    if (file->cursor.page) {
+        file->cursor.page->flags &= ~0x10UL;
+        file->cursor.page=NULL;
+    }
+    if ((unsigned long)page<=1) {
+        file->cursor.page=acquire_file_page(file,position);
+        file->cursor.page->flags |= 0x10;
+        if (page==(Page *)1) {
+            read_file_page(file);
+            ++buffered_page_reads;
+            file->cursor.page->flags |= 4;
+        }
+    } else {
+        file->cursor.page=page;
+        page->flags |= 0x10;
+    }
+    page=file->cursor.page;
+    page->position=position;
+    page->cursor=page->data+position-page->start;
+    if ((file->flags&2) && page->dirty_end<page->position)
+        page->dirty_end=page->position;
+    touch_file_page(page);
+    return position;
+}
+
+#pragma intrinsic(memset)
+Page *acquire_file_page(FileSlot *file,long position)
+{
+    Page *page=free_pages;
+    if (!page) {
+        page=choose_file_page();
+        detach_file_page(page);
+    }
+    page->start=(position/4096)*4096;
+    page->limit=page->start+4096;
+    page->position=position;
+    page->dirty_end=page->start;
+    page->cursor=page->data+position-page->start;
+    if (file->flags&2) memset(page->data,0,sizeof(page->data));
+    else page->flags |= 8;
+    assign_file_page(file,page);
+    return page;
+}
+
+Page *active_pages;
+unsigned char assign_file_page(FileSlot *file,Page *page)
+{
+    if (!free_pages) return 0;
+    free_pages=page->next;
+    page->handle=file->handle;
+    page->next=active_pages;
+    active_pages=page;
+    page->flags |= 1;
+    file->storage.pages[page->start>>12]=page;
+    return 1;
+}
+
+void read_file_page(FileSlot *file)
+{
+    Page *page=file->cursor.page;
+    long count,position;
+    position=_lseek(file->source.descriptor,page->start,SEEK_SET);
+    if (position==-1) failure(file->name,9,(char *)position);
+    count=file->length-page->start;
+    if (count>=4096) count=4096;
+    if (_read(file->source.descriptor,page->data,count)!=count)
+        failure(file->name,10,(char *)_tell(file->source.descriptor));
+    file->cursor.page->flags &= ~8UL;
+}
+
+Page *page_cache_head,*page_cache_tail;
+void touch_file_page(Page *page)
+{
+    Page *scan=page_cache_head;
+    while (scan && scan!=page) scan=scan->older;
+    if (scan) {
+        if (page->newer) page->newer->older=page->older;
+        else page_cache_head=page->older;
+        if (page->older) page->older->newer=page->newer;
+        else page_cache_tail=page->newer;
+    }
+    if (!page_cache_head && !page_cache_tail) {
+        page_cache_head=page_cache_tail=page;
+        page->older=page->newer=NULL;
+        return;
+    }
+    page->older=page_cache_head;
+    page->newer=NULL;
+    page_cache_head->newer=page;
+    page_cache_head=page;
+}
+
+unsigned read_buffered_file(FileSlot *file,void *buffer,unsigned size)
+{
+    unsigned long end=file->cursor.page->position+size;
+    unsigned remaining=size;
+    long amount;
+    Page *page;
+    char *destination=buffer;
+    if (file->allocated<end) failure(file->name,10,(char *)end);
+    while (remaining) {
+        if (file->cursor.page->flags&8) read_file_page(file);
+        page=file->cursor.page;
+        amount=page->limit-page->position;
+        if (amount>=(long)remaining) amount=remaining;
+        memcpy(destination,page->cursor,amount);
+        file->cursor.page->position+=amount;
+        file->cursor.page->cursor+=amount;
+        if (file->cursor.page->position==file->cursor.page->limit)
+            advance_file_page(file);
+        remaining-=amount;
+        destination+=amount;
+    }
+    return size;
+}

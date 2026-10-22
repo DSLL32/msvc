@@ -1,0 +1,89 @@
+{
+  "authorized_by": "User-dispatched scenarios from link-coverage catalog commit 68789b5",
+  "baseline": {
+    "accepted_frontiers": 400,
+    "accepted_text_bytes": 110787,
+    "total_text_virtual_bytes": 281634,
+    "percent": 39.33722490892435
+  },
+  "order": [
+    {
+      "case": "library-create",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "create",
+      "status": "active"
+    },
+    {
+      "case": "hello-debug-dll",
+      "fixture": "../fixtures/link-debug-dll/manifest.json",
+      "phase": "link",
+      "status": "queued"
+    },
+    {
+      "case": "library-list",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "list",
+      "status": "queued"
+    },
+    {
+      "case": "library-extract",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "extract",
+      "status": "queued"
+    },
+    {
+      "case": "library-remove",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "remove",
+      "status": "queued"
+    },
+    {
+      "case": "library-list-trimmed",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "list-trimmed",
+      "status": "queued"
+    },
+    {
+      "case": "library-dump-library",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "dump-library",
+      "status": "queued"
+    },
+    {
+      "case": "library-dump-object",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "dump-object",
+      "status": "queued"
+    },
+    {
+      "case": "library-dump-dll",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "dump-dll",
+      "status": "queued"
+    },
+    {
+      "case": "library-edit",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "edit",
+      "status": "queued"
+    },
+    {
+      "case": "library-dump-edited",
+      "fixture": "../fixtures/link-library-tools/manifest.json",
+      "phase": "dump-edited",
+      "status": "queued"
+    }
+  ],
+  "regressions": [
+    "/?",
+    "minimal-c",
+    "hello-win32",
+    "hello-dll"
+  ],
+  "requirements": [
+    "Whole process tree remains paired/masked, including recursive LINK modes and original external helper processes",
+    "Readable C, meaningful native ABI, contextual typed data and literals at use",
+    "All original streams, artifact fields, padding, paths and ordering remain exact except proved clock fields and mathematically derived checksum",
+    "Final clean parallel original-toolchain build, graph/data audits, full frontier replay and measured accepted-text union"
+  ]
+}

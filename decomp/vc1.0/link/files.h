@@ -46,4 +46,12 @@ void cache_closed_file(FileSlot *);
 int close_mapped_file(FileSlot *);
 int release_file_slot(FileSlot *);
 void grow_mapping(FileSlot *,long);
+void grow_buffered_file(FileSlot *file);
+Page * acquire_file_page(FileSlot *file,long position);
+void read_file_page(FileSlot *file);
+void touch_file_page(Page *page);
+Page * choose_file_page(void);
+void detach_file_page(Page *page);
+unsigned char assign_file_page(FileSlot *file,Page *page);
+void advance_file_page(FileSlot *);
 #endif

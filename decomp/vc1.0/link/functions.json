@@ -399,7 +399,17 @@
     "_write_single_import_member",
     "_finish_import_archive_indexes",
     "_write_import_member_indexes",
-    "import:GetExitCodeProcess"
+    "import:GetExitCodeProcess",
+    "_open_buffered_file",
+    "__open",
+    "_seek_buffered_file",
+    "_acquire_file_page",
+    "_assign_file_page",
+    "_read_file_page",
+    "__lseek",
+    "_touch_file_page",
+    "_read_buffered_file",
+    "__getcwd"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -966,9 +976,11 @@
     {
       "name": "__lseek",
       "start": 351152,
-      "end": 351153,
-      "implementation": "runtime-stub",
-      "abi": "cdecl long(int fd,long offset,int origin); entry only until reached"
+      "end": 351280,
+      "implementation": "C",
+      "abi": "cdecl long(int,long,int)",
+      "source": "runtime.c",
+      "evidence": "Matching 0x55bb0 runtime frontier; full extent through 0x55c30. Unsigned descriptor limit, original GetLastError check and _osfile EOF-bit clear with native CRT globals."
     },
     {
       "name": "__openfile",
@@ -1818,10 +1830,11 @@
     {
       "name": "_open_buffered_file",
       "start": 247088,
-      "end": 247089,
-      "implementation": "stub-C",
+      "end": 247504,
+      "implementation": "C",
       "abi": "cdecl int(FileSlot *,int,int,unsigned char)",
-      "source": "files-stubs.c"
+      "source": "files.c",
+      "evidence": "Full 0x3c530..0x3c6d0: CRT open/stat, active-list failure removal, page-index allocation and uncached sentinel initialization; retains cdecl four arguments and seek helper."
     },
     {
       "name": "_open_mapped_file",
@@ -1949,10 +1962,11 @@
     {
       "name": "_read_buffered_file",
       "start": 248672,
-      "end": 248673,
-      "implementation": "stub-C",
+      "end": 248864,
+      "implementation": "C",
       "abi": "cdecl unsigned(FileSlot *,void *,unsigned)",
-      "source": "files-stubs.c"
+      "source": "files.c",
+      "evidence": "Full 0x3cb60..0x3cc20, ends before read_file dispatcher: validate allocated extent, load pending page, copy across page boundaries using distinct advance helper, return requested unsigned count."
     },
     {
       "name": "_read_mapped_file",
@@ -2037,10 +2051,11 @@
     {
       "name": "_seek_buffered_file",
       "start": 248320,
-      "end": 248321,
-      "implementation": "stub-C",
+      "end": 248560,
+      "implementation": "C",
       "abi": "cdecl long(FileSlot *,long,int)",
-      "source": "files-stubs.c"
+      "source": "files.c",
+      "evidence": "Full 0x3ca00..0x3caf0: seek origin, grow index, resident/uncached/zero page cases, pin state, page cursor/dirty-end and LRU touch. Distinct helper calls remain typed traps."
     },
     {
       "name": "_find_module",
@@ -3726,6 +3741,83 @@
       "source": "import-archive.c",
       "abi": "cdecl void(SymbolTable *,unsigned short)",
       "evidence": "Full extent 0x2fd70..0x2fe00: emit big-endian member offsets for first archive index or WORD member indexes for the second; source/external enumeration graph retained."
+    },
+    {
+      "name": "__open",
+      "start": 360704,
+      "end": 360736,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl int(const char *,int,...)",
+      "evidence": "Full 0x58100..0x58120: distinct CRT varargs open wrapper passes permission and sharing 0x40 to the already reconstructed older _sopen; avoids linking duplicate bundled native _sopen."
+    },
+    {
+      "name": "_grow_buffered_file",
+      "start": 246256,
+      "end": 246257,
+      "implementation": "stub-C",
+      "source": "files-stubs.c",
+      "abi": "cdecl void(FileSlot *); entry only until reached"
+    },
+    {
+      "name": "_acquire_file_page",
+      "start": 250176,
+      "end": 250304,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl Page *(FileSlot *,long)",
+      "evidence": "Full 0x3d140..0x3d1c0: free or reclaimed page selection, signed truncating page-start division, cursor setup, writable zero-fill or readonly flag, then distinct ownership assignment."
+    },
+    {
+      "name": "_read_file_page",
+      "start": 249184,
+      "end": 249312,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl void(FileSlot *)",
+      "evidence": "Full 0x3cd60..0x3cde0: seek/read current page, signed last-page length, exact-count checks through file failure callback, clear pending-read bit. Third callback argument retains original pointer-sized diagnostic word."
+    },
+    {
+      "name": "_touch_file_page",
+      "start": 249536,
+      "end": 249744,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl void(Page *)",
+      "evidence": "Full 0x3cec0..0x3cf90: locate existing LRU node, unlink with head/tail maintenance, then place at most-recent head; named Page older/newer links and contextual cache anchors."
+    },
+    {
+      "name": "_choose_file_page",
+      "start": 249744,
+      "end": 249745,
+      "implementation": "stub-C",
+      "source": "files-stubs.c",
+      "abi": "cdecl Page *(void); entry only until reached"
+    },
+    {
+      "name": "_detach_file_page",
+      "start": 249968,
+      "end": 249969,
+      "implementation": "stub-C",
+      "source": "files-stubs.c",
+      "abi": "cdecl void(Page *); entry only until reached"
+    },
+    {
+      "name": "_assign_file_page",
+      "start": 249872,
+      "end": 249968,
+      "implementation": "C",
+      "source": "files.c",
+      "abi": "cdecl unsigned char(FileSlot *,Page *)",
+      "evidence": "Full 0x3d010..0x3d070: AL boolean return, consume free-page chain, attach to all-page list, mark owned and publish in file page index."
+    },
+    {
+      "name": "_advance_file_page",
+      "start": 249312,
+      "end": 249313,
+      "source": "files-stubs.c",
+      "implementation": "stub-C",
+      "abi": "cdecl void(FileSlot *); entry only until reached"
     }
   ],
   "c_stub_references": [
@@ -4131,6 +4223,16 @@
     "hello-dll",
     "hello-dll",
     "hello-dll",
-    "hello-dll"
+    "hello-dll",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create",
+    "library-create"
   ]
 }

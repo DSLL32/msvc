@@ -1,5 +1,6 @@
 /* Runtime differences from the shipped LIBC.LIB, reconstructed from LINK.EXE. */
 #include "link.h"
+#include <io.h>
 extern int _flush(FILE *);
 extern void _freebuf(FILE *);
 extern int _cflush;
@@ -407,4 +408,35 @@ int _cenvarg(const char *const *arguments,const char *const *environment,
         *cursor=0;
     }
     return 0;
+}
+
+int _open(const char *name,int mode,...)
+{
+    int permission;
+    va_list arguments;
+    va_start(arguments,mode);
+    permission=va_arg(arguments,int);
+    va_end(arguments);
+    return _sopen(name,mode,0x40,permission);
+}
+
+extern unsigned _nhandle;
+extern long _get_osfhandle(int);
+/* [00055bb0,00055c30). Preserve the older CRT's EOF-flag clearing. */
+long _lseek(int descriptor,long offset,int origin)
+{
+    DWORD position,error=0;
+    if ((unsigned)descriptor>=_nhandle) {
+        errno=9;
+        _doserrno=0;
+        return -1;
+    }
+    position=SetFilePointer((HANDLE)_get_osfhandle(descriptor),offset,NULL,origin);
+    if (position==0xffffffffUL) error=GetLastError();
+    if (error) {
+        _dosmaperr(error);
+        return -1;
+    }
+    _osfile[descriptor] &= ~2;
+    return position;
 }

@@ -21,11 +21,20 @@ Completed cases:
   Original, reconstructed and untouched-baseline programs pass the GUI checker:
   HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
 
-There are 400 accepted frontiers: 90 help, 254 minimal-C, 3 hello-win32 and 53
-hello-dll. A clean parallel build, full 400-frontier replay and all four completed
-cases pass. Static audits check 276 source/runtime call graphs, 267 callback
-reference sets and 238 contextual data definitions. Pending helpers trap;
-unexecuted branches need later coverage.
+The last completed coverage checkpoint has 400 frontiers: 90 help, 254 minimal-C,
+3 hello-win32 and 53 hello-dll. Its clean parallel build, full frontier replay
+and all four completed cases pass. Pending helpers and unexecuted branches need
+later coverage.
+
+Both new user-authorized coverage scenarios are active in the durable order in
+cases/coverage-queue.json: shared buffered archive creation, debug DLL, then the
+remaining library/dump/edit lifecycle. The initial reader checkpoint has 410
+accepted frontiers. All ten additions replay; all four prior cases pass. Audits
+check 285 call graphs, 276 callback sets and 242 contextual data definitions.
+Original .text accepted extent is 112387/281634 bytes (39.9053%), up from
+110787/281634 (39.3372%). This measures whole-function accepted extents, not
+instruction or branch coverage. The current trap is the ordinary archive writer;
+these new scenarios are not complete.
 
 hello-dll (-link @link.rsp) exits 0 with exact streams and matching 2 MB hello.dll,
 hello.lib and hello.exp. Normalization uses only the structurally identified

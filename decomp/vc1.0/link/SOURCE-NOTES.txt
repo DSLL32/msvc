@@ -345,3 +345,28 @@ and 238 named contextual data definitions. Final replay SHA256:
 Only fixture timestamp fields are normalized. No implementation assembly ABI
 exception was needed. Pending helpers and uncovered target-machine, alias,
 forwarder and alternate file-backend paths remain outside these case results.
+
+The authorized coverage queue starts with buffered C++ helper archive creation,
+then the full debug DLL and remaining archive/dump/edit lifecycle. Frozen inputs,
+original outputs and independent original checks are in link-debug-dll and
+link-library-tools fixtures. Paths, object timestamps frozen in inputs, padding
+and stream ordering remain exact. Generated image checksums are checked against
+actual bytes, then recomputed only after structural clock-field normalization.
+
+The initial buffered-reader checkpoint has 410 accepted frontiers, with all ten
+new additions replayed and all four completed cases passing. Audits check 285
+call graphs, 276 callback sets and 242 contextual data definitions. Accepted
+.text extent increases from 110787 to 112387 of 281634 bytes. write_library is
+the current matching trap; ordinary archive creation remains incomplete.
+
+files.c now recovers buffered open/stat and index allocation, signed-origin
+seek, free/reclaimed page acquisition, ownership assignment, explicit page read,
+LRU maintenance and chunked buffered read. Page flags, all-page links, LRU links
+and the uncached-page sentinel have named roles. Pending grow/reclaim/flush and
+advance helpers retain typed traps. The ownership assigner returns its original
+AL boolean. Error callbacks preserve the original pointer-sized diagnostic word.
+The earlier CRT open wrapper is a separate C graph vertex because shipped
+OPEN.OBJ bundles it with a different _sopen. The older _lseek is also C, retaining
+unsigned descriptor validation, GetLastError behavior and EOF-flag clearing via
+native CRT _nhandle/_osfile globals. No assembly exception or section snapshot
+was added. Empty strings remain literals at use.

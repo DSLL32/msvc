@@ -1,0 +1,32 @@
+{
+  "case": "library-create",
+  "status": "active",
+  "fixture": "../fixtures/link-library-tools/manifest.json",
+  "phase": "create",
+  "arguments": [
+    "-lib",
+    "/out:helpers.lib",
+    "member-with-a-long-name-alpha.obj",
+    "beta.obj"
+  ],
+  "environment": {
+    "LINK32_DB": "27",
+    "LIB": "{original toolchain}/lib"
+  },
+  "current_frontier": "_write_library",
+  "checkpoint": {
+    "accepted_frontiers": 10,
+    "total_accepted_frontiers": 410,
+    "new_frontiers_replayed": 10,
+    "previous_full_replay_frontiers": 400,
+    "new_replay_sha256": "80d568519512dd3b5e095fa306bd6ba712f5375992e05cf1f26dc6d1c56ad709",
+    "all_four_completed_cases_pass": true,
+    "call_graphs_audited": 285,
+    "callback_sets_audited": 276,
+    "contextual_data_definitions_audited": 242,
+    "accepted_text_bytes": 112387,
+    "total_text_virtual_bytes": 281634,
+    "percent": 39.90533813389008,
+    "archive_creation_complete": false
+  }
+}

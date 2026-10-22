@@ -1495,5 +1495,29 @@
     "address": 510200,
     "size": 4,
     "owner": "import-members.c"
+  },
+  {
+    "name": "buffered_page_reads",
+    "address": 520600,
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "name": "active_pages",
+    "address": 520596,
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "name": "page_cache_head",
+    "address": 520584,
+    "size": 4,
+    "owner": "files.c"
+  },
+  {
+    "name": "page_cache_tail",
+    "address": 520588,
+    "size": 4,
+    "owner": "files.c"
   }
 ]
