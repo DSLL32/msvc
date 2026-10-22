@@ -87,7 +87,7 @@ CppSymbol *__stdcall define_tag_symbol(char *name, unsigned short kind, unsigned
         context->flags |= 0x10;
     else context->flags &= ~0x10;
     context->symbol = symbol;
-    context->field04 = 0;
+    context->last_member = 0;
     context->size = 0;
     context->bit_field_bits = 0;
     context->bit_field_type = 0;

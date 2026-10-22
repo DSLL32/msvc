@@ -25,7 +25,7 @@ typedef struct OverloadSet {
 } OverloadSet;
 typedef struct ClassContext {
     CppSymbol *symbol;
-    unsigned field04;
+    CppSymbol *last_member;
     CType *type;
     unsigned field0c, field10, size;
     unsigned short bit_field_type, alignment;

@@ -27,7 +27,7 @@ typedef struct ClassInfo {
     unsigned field2c;
     unsigned short debug_index;
     unsigned char alignment_flags, flags, flags2, inheritance_model;
-    unsigned short field36;
+    unsigned char field36, implicit_member_requirements;
     unsigned field38;
 } ClassInfo;
 

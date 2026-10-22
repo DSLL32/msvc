@@ -23,10 +23,13 @@ int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member);
 CppSymbol *__stdcall class_type_of_member(CppSymbol *member);
 unsigned __stdcall layout_data_member(CppSymbol *member);
 void __stdcall align_class_member(unsigned alignment);
+unsigned __stdcall class_alignment_padding(unsigned alignment);
+unsigned __stdcall alignment_padding_at(unsigned alignment, unsigned offset);
 int __stdcall addition_overflows(int left, unsigned right, short unsigned_arithmetic, unsigned short bytes);
 unsigned __stdcall add_member_offset(unsigned offset, unsigned displacement);
 void __stdcall create_static_member_alias(CppSymbol *member);
 void __stdcall insert_class_member(CppSymbol *symbol);
+void __stdcall append_class_members(CppSymbol *first, CppSymbol *last);
 CppSymbol *__stdcall make_overload_symbol(CppSymbol *symbol);
 CppSymbol *__stdcall reconcile_declaration(CppSymbol *existing, CppSymbol *declaration);
 #endif

@@ -125,7 +125,6 @@ CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declarati
 void __stdcall merge_declaration_storage(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } }
 void __stdcall merge_function_defaults(FunctionParameters *current, FunctionParameters *previous, CppSymbol *declaration, int inherit) { __asm { int 3 } }
 void __stdcall initialize_scope_buckets(SymbolScope *scope, CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall insert_class_member(CppSymbol *symbol) { __asm { int 3 } }
 int __stdcall find_intrinsic_index(char *name) { __asm { int 3 } return 0; }
 int __stdcall intrinsic_enabled(int index) { __asm { int 3 } return 0; }
 void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
@@ -174,7 +173,6 @@ IrToken *__stdcall boolean_expression(IrToken *expression, int mode) { __asm { i
 IrToken *__stdcall build_call_expression(IrToken *expression, IrToken *arguments) { __asm { int 3 } return 0; }
 int __stdcall can_initialize(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression) { __asm { int 3 } return 0; }
-void __stdcall check_class_specifier(DeclarationType *type) { __asm { int 3 } }
 void __stdcall check_empty_declaration(DeclarationType *type) { __asm { int 3 } }
 void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm { int 3 } }
 void __stdcall clear_reference_cache(IrToken *expression) { __asm { int 3 } }
@@ -268,7 +266,6 @@ IrToken *__stdcall resolve_assignment_operand(CType *type, IrToken *expression) 
 void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclarator *name) { __asm { int 3 } }
 DefaultArgument *__stdcall save_default_argument(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
-void __stdcall set_member_access(unsigned char access) { __asm { int 3 } }
 IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall sizeof_type(CType *type) { __asm { int 3 } return 0; }
 void skip_balanced_brace_body(void) { __asm { int 3 } }
@@ -375,9 +372,6 @@ void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short fl
 void __stdcall configure_member_function(StorageSpec storage, CppSymbol *member, int pure) { __asm { int 3 } }
 int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall class_type_of_member(CppSymbol *member) { __asm { int 3 } return 0; }
-void __stdcall align_class_member(unsigned alignment) { __asm { int 3 } }
-int __stdcall addition_overflows(int left, unsigned right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
-unsigned __stdcall add_member_offset(unsigned offset, unsigned displacement) { __asm { int 3 } return 0; }
 void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
 
 void begin_pending_class_names(void) { __asm { int 3 } }

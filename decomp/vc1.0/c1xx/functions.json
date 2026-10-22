@@ -257,7 +257,16 @@
     "_is_static_data_member@4",
     "_layout_data_member@4",
     "_type_size@4",
-    "_base_type_size@8"
+    "_base_type_size@8",
+    "_align_class_member@4",
+    "_class_alignment_padding@4",
+    "_alignment_padding_at@8",
+    "_addition_overflows@16",
+    "_add_member_offset@8",
+    "_insert_class_member@4",
+    "_append_class_members@8",
+    "_check_class_specifier@4",
+    "_set_member_access@4"
   ],
   "driver": [
     {
@@ -1785,7 +1794,7 @@
     {
       "name": "_check_class_specifier@4",
       "start": 187168,
-      "end": 187169
+      "end": 187428
     },
     {
       "name": "_check_empty_declaration@4",
@@ -2275,7 +2284,7 @@
     {
       "name": "_set_member_access@4",
       "start": 210240,
-      "end": 210241
+      "end": 210271
     },
     {
       "name": "_sizeof_expression@4",
@@ -2930,17 +2939,17 @@
     {
       "name": "_align_class_member@4",
       "start": 208032,
-      "end": 208033
+      "end": 208346
     },
     {
       "name": "_addition_overflows@16",
       "start": 477520,
-      "end": 477521
+      "end": 477699
     },
     {
       "name": "_add_member_offset@8",
       "start": 195984,
-      "end": 195985
+      "end": 195995
     },
     {
       "name": "_base_type_size@8",
@@ -2966,6 +2975,21 @@
       "name": "_pointer_kind_size@4",
       "start": 324400,
       "end": 324401
+    },
+    {
+      "name": "_class_alignment_padding@4",
+      "start": 207888,
+      "end": 207916
+    },
+    {
+      "name": "_alignment_padding_at@8",
+      "start": 207920,
+      "end": 208025
+    },
+    {
+      "name": "_append_class_members@8",
+      "start": 208352,
+      "end": 208435
     }
   ],
   "cases": {
@@ -3780,6 +3804,30 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "_addition_unsigned_max",
+      "original": 669792,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_addition_signed_max",
+      "original": 669816,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_addition_signed_min",
+      "original": 669840,
+      "kind": "bytes",
+      "bytes": 24
+    },
+    {
+      "name": "_implicit_member_descriptions",
+      "original": 650344,
+      "kind": "string_pointers",
+      "count": 4
     }
   ],
   "buffered_streams": [

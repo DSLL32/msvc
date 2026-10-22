@@ -6,12 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 253 accepted paired frontiers, including 178 frontend
+PARTIAL reconstruction: 262 accepted paired frontiers, including 187 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
-are reconstructed; the next matching trap is _align_class_member@4 at original
-VA 0x32ca0. The latest ordered replay is recorded in validation.json;
+are reconstructed; class-member alignment, insertion and access labels are
+accepted. The next matching trap is _find_outer_name@4 at original VA 0x54be0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -60,7 +60,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-class-scopes.log.
+The current full ordered replay is recorded in validation.json.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -325,4 +325,16 @@ comparison, preserving 32-bit wrap without C signed-overflow undefined behavior.
 On overflow the original updates the bound to one but returns the product
 computed before that recovery; the C retains this ordering. Base sizing uses
 complete-object size, while base-subobject layout uses nonvirtual size.
-All 253 ordered frontiers replay exactly through this member-layout prefix.
+The member-layout checkpoint has 253 exact ordered frontiers. The following
+nine functions implement packing/alignment, width-aware overflow checks, member
+offset arithmetic, chain insertion, anonymous-class checks and access labels.
+The class context names its last-member pointer at +4. The four special-member
+requirement bits live at ClassInfo +0x37; their shared diagnostic descriptions
+remain a contextual indexed table. Arithmetic bounds are defined using the
+target limits for byte, short and long widths, with the original reserved slots;
+all three 24-byte tables are audited against the original.
+
+All 262 frontiers now replay exactly through the insertion/access prefix,
+including pending FILE buffer contents. The next paired trap is find_outer_name,
+which enters the lookup of the constructor name after the public label. No
+complete frontend output is claimed at this still-partial frontier.

@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 253,
-  "driver_functions": 178,
+  "accepted_frontiers": 262,
+  "driver_functions": 187,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 184,
-  "current_frontier": "_align_class_member@4",
-  "original_frontier_va": "0x32ca0",
+  "reconstructed_source_functions": 193,
+  "current_frontier": "_find_outer_name@4",
+  "original_frontier_va": "0x54be0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "ec754a34f4560957d544b059016c9aa0cbef0baf2c512b11d54e91e16f138127",
-  "call_graph_audit_functions": 184,
+  "replay_log_sha256": "2964bf13e87817c60818f892c78562b0298e743ede06166d2e57a0bad9b373f1",
+  "call_graph_audit_functions": 193,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -52,7 +52,9 @@
     "pragma_vtordisp_defaults": 1,
     "compiler_arena_bytes": 128,
     "arena_release_word_defaults": 2,
-    "last_lookup_scope_defaults": 1
+    "last_lookup_scope_defaults": 1,
+    "addition_bound_table_bytes": 72,
+    "implicit_member_descriptions": 4
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -80,7 +82,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-member-layout.log",
+  "replay_log": "evidence/replay-member-insertion.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -159,6 +161,14 @@
     "class_context_bit_field_type_offset": 24,
     "class_context_bit_field_bits_offset": 28,
     "member_declaring_class_offset": 36,
-    "member_function_stack_argument_bytes": 12
+    "member_function_stack_argument_bytes": 12,
+    "class_context_last_member_offset": 4,
+    "implicit_member_requirements_offset": 55,
+    "addition_overflow_range": [
+      "0x74950",
+      "0x74a03"
+    ],
+    "width_bound_tables_byte_audited": true,
+    "member_chain_splice_preserves_last_next": true
   }
 }

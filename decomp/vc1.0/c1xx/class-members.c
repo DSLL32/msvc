@@ -308,3 +308,131 @@ place:
     }
     return add_member_offset(offset, 0);
 }
+
+/* Original 0x32ca0..0x32dda. Packing is consulted at the same points as in
+   the original, including its separate maximum-alignment update. Nonzero
+   padding is represented by an unnamed hidden data member in the class list. */
+void __stdcall align_class_member(unsigned alignment)
+{
+    unsigned effective = alignment, padding;
+    CppSymbol *member;
+    ArenaPool *pool;
+    if (top_packing(packing_stack)->alignment < alignment)
+        effective = top_packing(packing_stack)->alignment;
+    if (CLASS_CONTEXT.alignment <= (unsigned short)effective) {
+        effective = alignment;
+        if (top_packing(packing_stack)->alignment < alignment)
+            effective = top_packing(packing_stack)->alignment;
+        CLASS_CONTEXT.alignment = (unsigned short)effective;
+    }
+    padding = class_alignment_padding(alignment);
+    if (padding) {
+        effective = alignment;
+        if (top_packing(packing_stack)->alignment < alignment)
+            effective = top_packing(packing_stack)->alignment;
+        if (alignment != effective) compiler_warning(4, 121, CLASS_TAG->name);
+        if (!declaration_mode) member = allocate_permanent(sizeof(CppSymbol));
+        else {
+            pool = &compiler_arena.pools[1];
+            if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+            member = (CppSymbol *)pool->next;
+            pool->remaining -= sizeof(CppSymbol);
+            pool->next += sizeof(CppSymbol);
+        }
+        member->kind = 3;
+        member->flags |= 0x80;
+        member->name = name_alignment;
+        member->detail.value = padding;
+        insert_class_member(member);
+        CLASS_CONTEXT.size += padding;
+    }
+}
+
+/* Original 0x32c10..0x32c2c. */
+unsigned __stdcall class_alignment_padding(unsigned alignment)
+{
+    return alignment_padding_at(alignment, CLASS_CONTEXT.size);
+}
+
+/* Original 0x32c30..0x32c99. Re-read the packing entry for the nonzero-
+   remainder subtraction, as the original macro-expanded expression does. */
+unsigned __stdcall alignment_padding_at(unsigned alignment, unsigned offset)
+{
+    unsigned effective = alignment, remainder;
+    if (top_packing(packing_stack)->alignment < alignment)
+        effective = top_packing(packing_stack)->alignment;
+    remainder = offset % effective;
+    if (remainder) {
+        if (top_packing(packing_stack)->alignment < alignment)
+            alignment = top_packing(packing_stack)->alignment;
+        remainder = alignment - remainder;
+    }
+    return remainder;
+}
+
+/* Original 0x2fd90..0x2fd9b. Both words are offset quantities and wrap
+   exactly as the original 32-bit ADD. */
+unsigned __stdcall add_member_offset(unsigned offset, unsigned displacement)
+{
+    return offset + displacement;
+}
+
+/* Original 0x32e40..0x32e4e. The general list operation also accepts
+   chains; this wrapper inserts exactly one member. */
+void __stdcall insert_class_member(CppSymbol *symbol)
+{
+    append_class_members(symbol, symbol);
+}
+
+/* Original 0x32de0..0x32e33. Mark every interned spelling in the inclusive
+   chain, then splice it after the current tail without changing last->next. */
+void __stdcall append_class_members(CppSymbol *first, CppSymbol *last)
+{
+    CppSymbol *member = first;
+    for (;;) {
+        if (member->name) ((unsigned char *)member->name)[-1] |= 4;
+        if (member == last) break;
+        member = member->next;
+    }
+    if (CLASS_CONTEXT.last_member) CLASS_CONTEXT.last_member->next = first;
+    else CLASS_TAG->auxiliary.scope_members = first;
+    CLASS_CONTEXT.last_member = last;
+}
+
+/* Original 0x9ec68. These shared descriptions are indexed by the four
+   compiler-generated special-member requirements at ClassInfo +0x37. */
+char *implicit_member_descriptions[4] = {
+    "default constructor", "copy constructor", "assignment", "destructor"
+};
+
+/* Original 0x2db20..0x2dc23. An anonymous class must not introduce an
+   ordinary visible member function or require an implicit special member. */
+void __stdcall check_class_specifier(DeclarationType *type)
+{
+    CppSymbol *tag = cpp_context_stack->items[type->type->field08];
+    CppSymbol *member, *function;
+    unsigned requirement;
+    if (!tag || (tag->type->flags & 0x200) ||
+        (token_allocation_flags & 0x400) || !(tag->flags & 0x80)) return;
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        if ((member->kind & 31) != 17 || (member->flags & 0x80)) continue;
+        for (function = ((OverloadSet *)member)->functions; function; function = function->next) {
+            if (!(function->flags & 0x80)) {
+                report_syntax_error(627);
+                return;
+            }
+        }
+    }
+    for (requirement = 0; requirement < 4; ++requirement) {
+        if (tag->detail.class_info->implicit_member_requirements & (1 << requirement)) {
+            report_syntax_error(639, implicit_member_descriptions[requirement]);
+            return;
+        }
+    }
+}
+
+/* Original 0x33540..0x3355e. Access occupies the low two context bits. */
+void __stdcall set_member_access(unsigned char access)
+{
+    CLASS_CONTEXT.flags = (CLASS_CONTEXT.flags & ~3) | (access & 3);
+}
