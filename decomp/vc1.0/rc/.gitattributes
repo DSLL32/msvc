@@ -1,0 +1,5 @@
+# Captured streams/products and generated binary inputs are byte-exact data.
+*.bin binary
+*.res binary
+*.fnt binary
+*.img binary
