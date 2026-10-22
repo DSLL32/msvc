@@ -1,0 +1,162 @@
+{
+  "target": "toolchains/1.0-nt/bin/RC.EXE",
+  "target_sha256": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+  "source_inputs": [
+    {
+      "path": "source/interrupt.rc",
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    }
+  ],
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/RCPP.EXE",
+      "sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd"
+    }
+  ],
+  "cases": [
+    {
+      "id": "console-interrupt",
+      "arguments": [
+        "/x",
+        "/fointerrupt.res",
+        "interrupt.rc"
+      ],
+      "expected_exit": 1,
+      "execution": "real-console-ctrl-c",
+      "stdout": {
+        "path": "oracle/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "oracle/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": []
+    }
+  ],
+  "evidence": [
+    {
+      "path": "evidence/original/after/interrupt.rc",
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    },
+    {
+      "path": "evidence/original/before/RC000484",
+      "bytes": 54,
+      "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
+    },
+    {
+      "path": "evidence/original/before/RD000484",
+      "bytes": 90,
+      "sha256": "38e7538aa067e3cfe9c9d459e805dd1992083ff381d3588be099752917ecdefb"
+    },
+    {
+      "path": "evidence/original/before/interrupt.rc",
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    },
+    {
+      "path": "evidence/original/before/interrupt.res",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/original/events.log",
+      "bytes": 7,
+      "sha256": "0c6868c2c44f053619cef1cc383e1d530743b574ca192ace9168a9ccf46a86e3"
+    },
+    {
+      "path": "evidence/original/proof.log",
+      "bytes": 852,
+      "sha256": "2f03b33d28c70ec35e450bde18df7caa66f710af9624532b51a3ec4b51883d76"
+    },
+    {
+      "path": "evidence/original/stderr.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/original/stdout.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limitations": [
+    {
+      "path": "limitations/ctrl-break-wine10/after/RC000340",
+      "bytes": 54,
+      "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/after/RD000340",
+      "bytes": 90,
+      "sha256": "e46519af299778a243ee73d634c8e3531e5668f678aa0aa7fe52006f55daed78"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/after/interrupt.rc",
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/after/interrupt.res",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/before/RC000340",
+      "bytes": 54,
+      "sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/before/RD000340",
+      "bytes": 90,
+      "sha256": "e46519af299778a243ee73d634c8e3531e5668f678aa0aa7fe52006f55daed78"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/before/interrupt.rc",
+      "bytes": 21,
+      "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/before/interrupt.res",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/events.log",
+      "bytes": 7,
+      "sha256": "0c6868c2c44f053619cef1cc383e1d530743b574ca192ace9168a9ccf46a86e3"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/proof.log",
+      "bytes": 524,
+      "sha256": "39b2c1b26c04635f14cbc242c5204c87f510378f9157f580631a5a751ec8a0c5"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/stderr.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "limitations/ctrl-break-wine10/stdout.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "analysis_helper": [
+    {
+      "path": "capture-interrupt.c",
+      "bytes": 15255,
+      "sha256": "584da531266205dff8cec5563bccb7951c5179366b56c6efe53d8728682fda14"
+    },
+    {
+      "path": "capture.py",
+      "bytes": 5195,
+      "sha256": "b4da4cbfe3f7f5fc2bcfd40a0b6a662ece9bffb7cf8eff86cc198b4ba8a2846f"
+    }
+  ],
+  "wine_version": "wine-10.0 (Debian 10.0~repack-6)"
+}
