@@ -266,7 +266,7 @@ dispatch:
         } else
             scan_source_identifier();
         macro = lookup_macro();
-        if (macro && !macro->flags && expand_macro(macro))
+        if (macro && !macro->disabled && expand_macro(macro))
             goto next_character;
     identifier_ready:
         if (options.option_E) {
@@ -775,7 +775,6 @@ unsigned char read_numeric_character(void)
     return next_source_character();
 }
 
-int preprocessor_token_output; /* original 0x6389c */
 
 /* Original 0x22b00..0x22b69. Read through source-window boundaries,
    trigraph rewriting, and escaped newlines unless raw scanning is active. */
@@ -784,7 +783,7 @@ unsigned char next_source_character(void)
     unsigned char character;
     for (;;) {
         character = (unsigned char)*source_text_cursor++;
-        while (!character && preprocessor_token_output <= 0) {
+        while (!character && macro_rescan_depth <= 0) {
             recover_special_character();
             character = (unsigned char)*source_text_cursor++;
         }
@@ -922,4 +921,41 @@ void skip_source_line(void)
         case CC_LEAD_BYTE: ++source_text_cursor; break;
         }
     }
+}
+
+/* Original 0x1e310..0x1e448. Zero bytes introduce macro control markers
+   inside replacements and physical buffer refills outside an expansion. */
+unsigned recover_special_character(void)
+{
+    unsigned char character = (unsigned char)source_text_cursor[-1];
+    MacroFrame *frame;
+    if (character == '?') return recover_trigraph();
+    if (character == '\\') {
+        if (!macro_expansion_active && consume_line_escape()) return 1;
+        return 0x10;
+    }
+    if (!macro_expansion_active) { refill_source_boundary(); return 1; }
+    character = (unsigned char)*source_text_cursor++;
+    switch (character) {
+    case 'A':
+        save_macro_argument(macro_frames[macro_expansion_active].output_start, macro_expansion_next);
+        macro_expansion_next = macro_frames[macro_expansion_active].output_start;
+        advance_macro_argument();
+        return 2;
+    case 'D':
+        return pop_macro_frame() ? 8 : 4;
+    case 'R':
+        frame = &macro_frames[macro_expansion_active];
+        source_text_cursor = frame->source_cursor;
+        --frame->definition->disabled;
+        if (macro_expansion_active == 1) {
+            macro_expansion_start = macro_work_buffer;
+            macro_expansion_next = macro_work_buffer + (macro_work_bytes >> 1);
+        }
+        if (!browser_macro_context && browser_filename) browser_macro_end();
+        browser_macro_context = 0;
+        --macro_expansion_active;
+        return 0x20;
+    }
+    return 0;
 }

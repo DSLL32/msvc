@@ -1,6 +1,7 @@
 #ifndef SOURCE_INPUT_H
 #define SOURCE_INPUT_H
 #include "global-ir.h"
+#include "macro-expand.h"
 typedef struct SourceFile {
     unsigned capacity;
     int handle;
@@ -20,8 +21,6 @@ extern char source_storage[3 * 4099];
 extern char *source_text_cursor;
 extern unsigned source_line_number;
 extern int conditional_depth;
-extern int macro_expansion_active;
-extern char *macro_saved_input_cursor;
 extern unsigned browser_file_cookie;
 extern long browser_saved_position;
 extern FILE *browser_file;

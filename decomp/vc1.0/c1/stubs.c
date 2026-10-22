@@ -131,7 +131,6 @@ int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
 
 
 
-unsigned recover_special_character(void) { __asm { int 3 } return 0; }
 
 unsigned recover_trigraph(void) { __asm { int 3 } return 0; }
 
@@ -149,7 +148,6 @@ void __stdcall scan_string_literal(int wide, int delimiter) { __asm { int 3 } }
 
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }
 
-int __stdcall expand_macro(MacroDefinition *definition) { __asm { int 3 } return 0; }
 
 
 void finish_pch_output(void) { __asm { int 3 } }
@@ -599,6 +597,32 @@ void __stdcall skip_inactive_literal(int delimiter) { __asm { int 3 } }
 
 
 
-void __stdcall scan_macro_argument_identifier(int first_character) { __asm { int 3 } }
+int __stdcall scan_macro_argument_identifier(int first_character) { __asm { int 3 } return 0; }
 
 void __stdcall macro_scan_error(unsigned code) { __asm { int 3 } }
+
+long source_file_timestamp(void) { __asm { int 3 } return 0; }
+
+void __stdcall append_macro_string(int delimiter, char *text) { __asm { int 3 } }
+
+char *__stdcall quote_macro_filename(char *destination, char *filename) { __asm { int 3 } return 0; }
+
+void __stdcall append_macro_text(char *text) { __asm { int 3 } }
+
+
+
+
+void __stdcall expand_macro_arguments(MacroDefinition *definition, int parameter_count) { __asm { int 3 } }
+
+void __stdcall browser_macro_reference(MacroDefinition *definition) { __asm { int 3 } }
+
+char *__stdcall copy_macro_quoted_literal(char *destination, char *limit, int delimiter) { __asm { int 3 } return 0; }
+
+char *read_macro_string(void) { __asm { int 3 } return 0; }
+
+void format_text(char *destination, char *format, ...) { __asm { int 3 } }
+
+void __stdcall save_macro_argument(char *begin, char *end) { __asm { int 3 } }
+void advance_macro_argument(void) { __asm { int 3 } }
+void browser_macro_end(void) { __asm { int 3 } }
+void refill_source_boundary(void) { __asm { int 3 } }

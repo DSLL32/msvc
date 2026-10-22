@@ -299,7 +299,12 @@
     "_skip_macro_space",
     "_parse_pp_primary",
     "_apply_pp_operator@12",
-    "_skip_source_line"
+    "_skip_source_line",
+    "_expand_macro@4",
+    "_push_macro_frame@4",
+    "_begin_macro_replacement",
+    "_recover_special_character",
+    "_pop_macro_frame"
   ],
   "driver": [
     {
@@ -1071,7 +1076,7 @@
     {
       "name": "_recover_special_character",
       "start": 123664,
-      "end": 123665
+      "end": 123976
     },
     {
       "name": "_recover_trigraph",
@@ -1132,7 +1137,7 @@
     {
       "name": "_expand_macro@4",
       "start": 118848,
-      "end": 118849
+      "end": 120172
     },
     {
       "name": "_close_source_file",
@@ -2501,6 +2506,86 @@
       "name": "_macro_scan_error@4",
       "start": 123136,
       "end": 123162
+    },
+    {
+      "name": "_source_file_timestamp",
+      "start": 112048,
+      "end": 112049
+    },
+    {
+      "name": "_append_macro_string@8",
+      "start": 121472,
+      "end": 121473
+    },
+    {
+      "name": "_quote_macro_filename@8",
+      "start": 114080,
+      "end": 114081
+    },
+    {
+      "name": "_append_macro_text@4",
+      "start": 121776,
+      "end": 121777
+    },
+    {
+      "name": "_push_macro_frame@4",
+      "start": 121856,
+      "end": 121989
+    },
+    {
+      "name": "_pop_macro_frame",
+      "start": 121184,
+      "end": 121336
+    },
+    {
+      "name": "_begin_macro_replacement",
+      "start": 122000,
+      "end": 122077
+    },
+    {
+      "name": "_expand_macro_arguments@8",
+      "start": 120176,
+      "end": 120177
+    },
+    {
+      "name": "_browser_macro_reference@4",
+      "start": 161248,
+      "end": 161249
+    },
+    {
+      "name": "_copy_macro_quoted_literal@12",
+      "start": 118608,
+      "end": 118609
+    },
+    {
+      "name": "_read_macro_string",
+      "start": 122800,
+      "end": 122801
+    },
+    {
+      "name": "_format_text",
+      "start": 306976,
+      "end": 306977
+    },
+    {
+      "name": "_save_macro_argument@8",
+      "start": 121344,
+      "end": 121345
+    },
+    {
+      "name": "_advance_macro_argument",
+      "start": 122128,
+      "end": 122173
+    },
+    {
+      "name": "_browser_macro_end",
+      "start": 161312,
+      "end": 161313
+    },
+    {
+      "name": "_refill_source_boundary",
+      "start": 123168,
+      "end": 123248
     }
   ],
   "cases": {

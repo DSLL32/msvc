@@ -16,8 +16,6 @@ char source_storage[3 * 4099]; /* original first guard at 0x60838 */
 char *source_text_cursor; /* original 0x5b14c */
 unsigned source_line_number; /* original 0x5b238 */
 int conditional_depth = -1; /* original 0x6bf74 */
-int macro_expansion_active; /* original 0x63854 */
-char *macro_saved_input_cursor; /* original 0x63958 */
 unsigned browser_file_cookie; /* original 0x63894 */
 long browser_saved_position; /* original 0x6ddfc */
 FILE *browser_file; /* original 0x5d5a0 */

@@ -4,11 +4,11 @@
   "after": "minimal",
   "requested_driver_case": "CL.EXE /O2 /G5 hello.c",
   "notes": "Use the captured phase command exactly, including -D_M_IX86=500 and -G4. Compare all four intermediate files byte for byte.",
-  "accepted_frontiers": 295,
-  "reconstructed_source_functions": 215,
-  "current_matching_trap": "_expand_macro@4",
-  "original_va": "0x1d040",
-  "replay": "All 37 hello frontiers replayed with exact pending FILE-buffer and visible-file comparisons.",
+  "accepted_frontiers": 300,
+  "reconstructed_source_functions": 220,
+  "current_matching_trap": "_classify_decimal_integer@4",
+  "original_va": "0x22290",
+  "replay": "All 42 hello frontiers replayed with exact pending FILE-buffer and visible-file comparisons.",
   "regression": "Minimal-C exits0 and retains exact four captured raw intermediates.",
-  "state_verification": "All 41 encountered frontend state defaults and aliases match."
+  "state_verification": "All 49 encountered frontend state defaults and aliases match."
 }

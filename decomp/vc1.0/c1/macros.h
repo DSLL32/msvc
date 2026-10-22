@@ -10,7 +10,7 @@ typedef struct MacroDefinition {
     struct MacroDefinition *next;
     char *name, *replacement;
     signed char parameter_count;
-    unsigned char flags;
+    unsigned char disabled;
     unsigned short field0e;
     unsigned browser_index;
 } MacroDefinition;

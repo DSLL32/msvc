@@ -2,6 +2,7 @@
 #define LEXER_H
 #include "tokens.h"
 #include "macros.h"
+#include "macro-expand.h"
 
 typedef union TokenValue {
     unsigned char bytes[8];
@@ -48,7 +49,6 @@ int skip_source_comment(void);
 unsigned recover_special_character(void);
 unsigned recover_trigraph(void);
 int consume_line_escape(void);
-extern int preprocessor_token_output;
 unsigned char next_source_character(void);
 void report_ide_line(void);
 void finish_pch_capture(void);
@@ -76,5 +76,7 @@ void copy_block_comment(void);
 void skip_block_comment(void);
 
 unsigned char read_parser_token(void);
+
+void refill_source_boundary(void);
 
 #endif

@@ -237,15 +237,15 @@ int __stdcall evaluate_defined_operator(char *name)
     int result = 0, parenthesized = 0;
     while (*actual && *actual == *expected) { ++actual; ++expected; }
     if (*actual != *expected) return 0;
-    if (!skip_macro_space() && !preprocessor_token_output) return 0;
+    if (!skip_macro_space() && !macro_rescan_depth) return 0;
     if (*source_text_cursor == '(') {
         ++source_text_cursor;
         parenthesized = 1;
-        if (!skip_macro_space() && !preprocessor_token_output) return 0;
+        if (!skip_macro_space() && !macro_rescan_depth) return 0;
     }
     character = (unsigned char)*source_text_cursor;
     class = character_class[character];
-    if (preprocessor_token_output > 0) {
+    if (macro_rescan_depth > 0) {
         if (class == CC_MACRO_PARAMETER || class == CC_IDENTIFIER || class == CC_WIDE_PREFIX) {
             ++source_text_cursor;
             scan_macro_argument_identifier(character);
@@ -267,7 +267,7 @@ int __stdcall evaluate_defined_operator(char *name)
             ++source_text_cursor;
             --parenthesized;
         }
-        if (parenthesized > 0 && !preprocessor_token_output) compiler_warning(1, 4);
+        if (parenthesized > 0 && !macro_rescan_depth) compiler_warning(1, 4);
     }
     return result;
 }
