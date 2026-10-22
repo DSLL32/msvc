@@ -1,3 +1,4 @@
+#include "function-finalization.h"
 #include "record-processing.h"
 #include "binary-expressions.h"
 #include "return-statements.h"
@@ -176,20 +177,16 @@ void __stdcall emit_condition_to_label(IrToken *condition, IrToken *label, int s
 void __stdcall emit_conditional_branch(IrToken *first, IrToken *condition, IrToken *increment) { __asm { int 3 } }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
-void __stdcall emit_label(IrToken *label) { __asm { int 3 } }
 void emit_pending_function_cleanup(void) { __asm { int 3 } }
 IrToken *__stdcall new_right_typed_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
 void __stdcall end_braced_initializer(CppSymbol *symbol) { __asm { int 3 } }
-void emit_scope_cleanup_references(void) { __asm { int 3 } }
-void __stdcall queue_closed_scope(SymbolScope *scope) { __asm { int 3 } }
 void end_do_statement(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
 CType * end_enum_specifier(void) { __asm { int 3 } return 0; }
 void end_for_statement(void) { __asm { int 3 } }
-void end_function_definition(void) { __asm { int 3 } }
 void __stdcall end_if_statement(int mode) { __asm { int 3 } }
 void end_nested_initializer(void) { __asm { int 3 } }
 void end_qc_control(void) { __asm { int 3 } }
@@ -598,3 +595,11 @@ FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm
 
 
 unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop_kind) { __asm { int 3 } return 0; }
+
+
+void reset_function_symbol_tables(void) { __asm { int 3 } }
+
+void __stdcall emit_member_and_base_destructors(CppSymbol *tag) { __asm { int 3 } }
+void __stdcall emit_vbase_destructor_epilogue(CppSymbol *tag) { __asm { int 3 } }
+void finish_function_output(void) { __asm { int 3 } }
+void reset_materialized_value_index(void) { __asm { int 3 } }

@@ -12,5 +12,6 @@ void leave_compound_scope(void);
 void end_compound_scope_record(void);
 void finish_function_records(void);
 void emit_scope_cleanup_references(void);
+extern SymbolScope *closed_scopes;
 void __stdcall queue_closed_scope(SymbolScope *scope);
 #endif

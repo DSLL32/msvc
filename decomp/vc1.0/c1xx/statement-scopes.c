@@ -2,6 +2,9 @@
 #include "statement-scopes.h"
 #include "lexer.h"
 #include "class-finalization.h"
+#include "work-list.h"
+
+SymbolScope *closed_scopes; /* original 0x914d0 */
 
 /* Original 0x555b0..0x555b5 is a tail transfer to the shared scope entry. */
 void begin_compound_statement(void)
@@ -103,4 +106,39 @@ void leave_compound_scope(void)
     }
     --declaration_mode;
     global_record_kind = declaration_mode;
+}
+
+/* Original 0x53ee0..0x53f39. Cleanup entries are pairs: the scope-depth
+   word is on top of the symbol to reference at that depth. */
+void emit_scope_cleanup_references(void)
+{
+    if (options.prototypes_only) return;
+    while (scope_cleanup_stack) {
+        if (scope_cleanup_stack->value.byte != declaration_mode) return;
+        pop_work_list(&scope_cleanup_stack);
+        write_ir_record(0x2b, symbol_reference(scope_cleanup_stack->value.pointer));
+        pop_work_list(&scope_cleanup_stack);
+    }
+}
+
+/* Original 0x558b0..0x558fd. Retain depth ordering, then place a scope
+   immediately before any remaining descendants of that scope. */
+void __stdcall queue_closed_scope(SymbolScope *scope)
+{
+    SymbolScope *previous, *cursor;
+    if (!scope) return;
+    previous = 0;
+    cursor = closed_scopes;
+    while (cursor) {
+        if ((unsigned char)scope->flags < (unsigned char)cursor->flags) break;
+        previous = cursor;
+        cursor = cursor->next;
+    }
+    while (cursor && cursor->parent != scope) {
+        previous = cursor;
+        cursor = cursor->next;
+    }
+    if (previous) previous->next = scope;
+    else closed_scopes = scope;
+    scope->next = cursor;
 }

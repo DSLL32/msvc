@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 478 accepted paired frontiers, including 402 frontend
+PARTIAL reconstruction: 484 accepted paired frontiers, including 408 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _emit_scope_cleanup_references at original VA 0x53ee0. The latest ordered replay is recorded in validation.json;
+trap is _finish_function_output at original VA 0x55ac0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -913,3 +913,20 @@ evidence/replay-record-cleanup-receipt.json. Accepted executable extent union is
 Both runs reach emit_scope_cleanup_references at 0x53ee0 after implicit constructor
 return/finalization. Scope retirement and complete frontend equivalence remain
 unfinished; unused control-flow cleanup paths retain named trapping children.
+
+
+Function-body closure now retains exit-label emission, special-member epilogues,
+outer-scope retirement, symbol-output hooks and canonical context resets. The
+end-definition wrapper preserves its separate native tail-entry reset child.
+Label definitions share their checked auxiliary-byte scope/SEH layout with the
+reference tracker. Scope cleanup consumes paired depth/symbol entries through
+the separately reconstructed work-list pop; retained scopes preserve native
+parent/depth ordering. Evidence: evidence/function-scope-close.txt.
+
+All 484 frontiers pass the frozen full comparator in 119.761 seconds, including
+exact output/pending buffers, callers and fourteen runtime observations. Receipt:
+evidence/replay-function-scope-close-receipt.json. Accepted executable extent
+union is 163,607 / 476,418 bytes (34.341%, not branch coverage), with 415 source
+functions. Both runs reach finish_function_output at 0x55ac0. Constructor scope
+and metadata serialization, remaining definition cleanup and complete frontend
+equivalence are still unfinished.

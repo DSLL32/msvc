@@ -160,6 +160,14 @@ void __stdcall release_permanent(void *block, unsigned bytes)
 {
 }
 
+/* Original 0x507c0..0x507cd. Entries belong to their arena; popping only
+   advances the list head and returns that new head. */
+WorkList *__stdcall pop_work_list(WorkList **stack)
+{
+    *stack = (*stack)->next;
+    return *stack;
+}
+
 /* Original 0x50770..0x507bd. Only the link is initialized here; callers
    own the payload, including the byte-sized depth entries used by scopes. */
 WorkList *__stdcall push_work_list(WorkList **stack, int arena)

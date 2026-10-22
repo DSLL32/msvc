@@ -110,7 +110,7 @@ typedef char SymbolVirtualFunctionTableClassOffsetMustBe2[(offsetof(SymbolVirtua
 /* The reference tracker uses the second auxiliary byte for SEH nesting.
    Virtual members use the separate virtual_function interpretation. */
 typedef struct SymbolReferenceState {
-    unsigned char reserved, seh_depth;
+    unsigned char scope_depth, seh_depth;
     unsigned short reserved2;
 } SymbolReferenceState;
 typedef char SymbolReferenceDepthOffsetMustBe1[(offsetof(SymbolReferenceState, seh_depth) == 1) ? 1 : -1];

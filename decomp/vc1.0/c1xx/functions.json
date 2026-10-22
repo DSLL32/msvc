@@ -482,7 +482,13 @@
     "_emit_nonnull_expression_statement@4",
     "_has_unresolved_labels",
     "_function_paths_return",
-    "_finish_goto_cleanups"
+    "_finish_goto_cleanups",
+    "_emit_scope_cleanup_references",
+    "_queue_closed_scope@4",
+    "_end_function_definition",
+    "_finish_function_body@4",
+    "_emit_label@4",
+    "_pop_work_list@4"
   ],
   "driver": [
     {
@@ -2120,7 +2126,7 @@
     {
       "name": "_emit_label@4",
       "start": 370752,
-      "end": 370753
+      "end": 370856
     },
     {
       "name": "_emit_return_statement@8",
@@ -2185,7 +2191,7 @@
     {
       "name": "_end_function_definition",
       "start": 216336,
-      "end": 216337
+      "end": 216455
     },
     {
       "name": "_end_if_statement@4",
@@ -4675,12 +4681,12 @@
     {
       "name": "_emit_scope_cleanup_references",
       "start": 343776,
-      "end": 343777
+      "end": 343865
     },
     {
       "name": "_queue_closed_scope@4",
       "start": 350384,
-      "end": 350385
+      "end": 350461
     },
     {
       "name": "_emit_nonnull_expression_statement@4",
@@ -4756,6 +4762,41 @@
       "name": "_scan_return_paths@8",
       "start": 270784,
       "end": 270785
+    },
+    {
+      "name": "_pop_work_list@4",
+      "start": 329664,
+      "end": 329677
+    },
+    {
+      "name": "_finish_function_body@4",
+      "start": 216000,
+      "end": 216325
+    },
+    {
+      "name": "_reset_function_symbol_tables",
+      "start": 351920,
+      "end": 351921
+    },
+    {
+      "name": "_emit_member_and_base_destructors@4",
+      "start": 229376,
+      "end": 229377
+    },
+    {
+      "name": "_emit_vbase_destructor_epilogue@4",
+      "start": 229776,
+      "end": 229777
+    },
+    {
+      "name": "_finish_function_output",
+      "start": 350912,
+      "end": 350913
+    },
+    {
+      "name": "_reset_materialized_value_index",
+      "start": 383424,
+      "end": 383425
     }
   ],
   "cases": {
@@ -6187,6 +6228,30 @@
         {
           "name": "_seh_finally_depth",
           "original": 594832,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_closed_scopes",
+      "original": 595152,
+      "fields": [
+        {
+          "name": "_closed_scopes",
+          "original": 595152,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_initializer_data_symbol",
+      "original": 596016,
+      "fields": [
+        {
+          "name": "_initializer_data_symbol",
+          "original": 596016,
           "bytes": 4
         }
       ]

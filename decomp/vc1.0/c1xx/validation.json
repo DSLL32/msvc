@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 478,
-  "driver_functions": 402,
+  "accepted_frontiers": 484,
+  "driver_functions": 408,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 409,
-  "current_frontier": "_emit_scope_cleanup_references",
-  "original_frontier_va": "0x53ee0",
+  "reconstructed_source_functions": 415,
+  "current_frontier": "_finish_function_output",
+  "original_frontier_va": "0x55ac0",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "f07bcebcbfe02ccf6c6a717f0b52ac0e777516876735bfc963628cd595168153",
-  "call_graph_audit_functions": 409,
+  "replay_log_sha256": "75e923d57e0580efb77fdbc366453868afd84b04ba19169efbc86574cf3af9a5",
+  "call_graph_audit_functions": 415,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -72,7 +72,9 @@
     "scope_cleanup_stack_defaults": 1,
     "classes_pending_table_output_defaults": 1,
     "record_delimiter_mates": 36,
-    "seh_reference_depth_defaults": 3
+    "seh_reference_depth_defaults": 3,
+    "closed_scope_head_default": 1,
+    "initializer_data_symbol_default": 1
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -100,7 +102,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-record-cleanup.log",
+  "replay_log": "evidence/replay-function-scope-close.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -320,7 +322,7 @@
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true
   },
-  "accepted_source_text_and_switch_bytes": 152789,
+  "accepted_source_text_and_switch_bytes": 153516,
   "class_completion_setup": {
     "end_class_range": [
       "0x2dfc0",
@@ -439,7 +441,7 @@
     "state_flag_name": "nonprivate",
     "current_named_layout_build_fully_replayed": true
   },
-  "replay_build_text_sha256": "91148a248df0ba4dad50dfa05a10ce6ae5c24d5ef1f7e4f48ed7192eff34a5d0",
+  "replay_build_text_sha256": "826f407ae31d3e778229405647ed5e2966596ae83515d1dde786a37cee285da2",
   "implicit_member_overloads": {
     "evidence": "evidence/implicit-member-overloads.txt",
     "creator_range": [
@@ -668,9 +670,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 162880,
+    "bytes": 163607,
     "total_original_executable_bytes": 476418,
-    "percent": 34.188464751541716,
+    "percent": 34.341061840652536,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -843,11 +845,11 @@
   },
   "isolated_replay": {
     "script": "replay-frontiers.py",
-    "receipt": "evidence/replay-record-cleanup-receipt.json",
-    "receipt_sha256": "30efbe19118da842e967f02399f86b6dfb0ed8163c283b6ad795a68cde411679",
+    "receipt": "evidence/replay-function-scope-close-receipt.json",
+    "receipt_sha256": "ad2db7af84dd5298373f399449fdf9ca716224b865021b5c0fa0b080885b53cf",
     "jobs": 4,
-    "frontiers": 478,
-    "seconds": 119.98172099329531,
+    "frontiers": 484,
+    "seconds": 119.76095921266824,
     "full_comparator_at_every_frontier": true,
     "runtime_checkpoint_fields": 14,
     "private_masked_executables_workdirs_logs": true,
@@ -1012,6 +1014,20 @@
     "label_payload_is_symbol": true,
     "cleanup_label_payload_is_expression": true,
     "all_478_frontiers_replayed": true,
+    "runtime_checkpoint_fields": 14,
+    "constructor_body_completed": false,
+    "no_frontend_output_normalization": true
+  },
+  "function_scope_close": {
+    "evidence": "evidence/function-scope-close.txt",
+    "new_whole_functions": 6,
+    "body_finalizer_native_callees": 10,
+    "definition_wrapper_native_callees": 4,
+    "label_scope_depth_offset": 36,
+    "label_seh_depth_offset": 37,
+    "closed_scope_head_default_audited": true,
+    "initializer_data_symbol_default_audited": true,
+    "all_484_frontiers_replayed": true,
     "runtime_checkpoint_fields": 14,
     "constructor_body_completed": false,
     "no_frontend_output_normalization": true

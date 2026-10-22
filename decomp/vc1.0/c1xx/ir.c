@@ -13,6 +13,26 @@ int seh_try_depth; /* original 0x91388 */
 int seh_except_depth; /* original 0x9138c */
 int seh_finally_depth; /* original 0x91390 */
 
+typedef char LabelScopeDepthOffsetMustBe36[
+    (offsetof(CppSymbol, auxiliary) + offsetof(SymbolReferenceState, scope_depth) == 36) ? 1 : -1];
+typedef char LabelSehDepthOffsetMustBe37[
+    (offsetof(CppSymbol, auxiliary) + offsetof(SymbolReferenceState, seh_depth) == 37) ? 1 : -1];
+
+/* Original 0x5a840..0x5a8a8. A definition records both lexical and SEH
+   depth before serializing the label expression itself. */
+void __stdcall emit_label(IrToken *label)
+{
+    CppSymbol *symbol = label->value.pointer;
+    int depth;
+    symbol->flags |= 4;
+    symbol->auxiliary.reference.scope_depth = declaration_mode;
+    depth = seh_try_depth + seh_except_depth + seh_finally_depth;
+    if (symbol->references && depth > symbol->auxiliary.reference.seh_depth)
+        report_syntax_error(705, symbol->name);
+    symbol->auxiliary.reference.seh_depth = (unsigned char)depth;
+    write_ir_record(0x29, label);
+}
+
 /* Original 0x5a8b0..0x5a943. Record the shallowest SEH context in which an
    ordinary symbol was referenced; labels carry their own use/definition bits. */
 void __stdcall reference_ir_symbol(CppSymbol *symbol)
