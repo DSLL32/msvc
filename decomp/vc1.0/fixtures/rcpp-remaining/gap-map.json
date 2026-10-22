@@ -1,0 +1,810 @@
+{
+  "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "baseline_accepted_code_bytes": 35515,
+  "total_code_bytes": 40448,
+  "unaccepted_complement_bytes": 4933,
+  "identified_body_union_bytes": 2416,
+  "alignment_or_zero_fill_bytes": 2517,
+  "complete_bodies": [
+    {
+      "name": "option_contains_character",
+      "start": 16807984,
+      "end": 16808021,
+      "bytes": 37,
+      "reachability": "native-unused",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "__isctype",
+      "start": 16808144,
+      "end": 16808335,
+      "bytes": 191,
+      "reachability": "fixed-C-locale",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_rc_initialize_preprocessor@12",
+          "instruction": 16817776,
+          "target": 16808144
+        },
+        {
+          "owner": "_rc_parse_option_number@4",
+          "instruction": 16807824,
+          "target": 16808144
+        },
+        {
+          "owner": "_rc_parse_option_number@4",
+          "instruction": 16807879,
+          "target": 16808144
+        },
+        {
+          "owner": "_rc_detect_encoding@4",
+          "instruction": 16818244,
+          "target": 16808144
+        },
+        {
+          "owner": "_rc_parse_angle_name",
+          "instruction": 16831669,
+          "target": 16808144
+        },
+        {
+          "owner": "_toupper",
+          "instruction": 16845591,
+          "target": 16808144
+        },
+        {
+          "owner": "_toupper",
+          "instruction": 16845657,
+          "target": 16808144
+        },
+        {
+          "owner": "_atol",
+          "instruction": 16808464,
+          "target": 16808144
+        },
+        {
+          "owner": "_atol",
+          "instruction": 16808541,
+          "target": 16808144
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:GetStringTypeW",
+      "start": 16808352,
+      "end": 16808358,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__isctype",
+          "instruction": 16808305,
+          "target": 16808352
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:MultiByteToWideChar",
+      "start": 16808368,
+      "end": 16808374,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_toupper",
+          "instruction": 16845782,
+          "target": 16808368
+        },
+        {
+          "owner": "__isctype",
+          "instruction": 16808276,
+          "target": 16808368
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_strdup",
+      "start": 16808376,
+      "end": 16808415,
+      "bytes": 39,
+      "reachability": "option-copy-disabled",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_rc_apply_option@12",
+          "instruction": 16807390,
+          "target": 16808376
+        },
+        {
+          "owner": "_rc_apply_option@12",
+          "instruction": 16807499,
+          "target": 16808376
+        },
+        {
+          "owner": "_rc_apply_option@12",
+          "instruction": 16807602,
+          "target": 16808376
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_atoi",
+      "start": 16808608,
+      "end": 16808622,
+      "bytes": 14,
+      "reachability": "unused-wrapper",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "_rc_fast_exit",
+      "start": 16808720,
+      "end": 16808738,
+      "bytes": 18,
+      "reachability": "CRT-exception-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_rcpp_start",
+          "instruction": 16813751,
+          "target": 16808720
+        }
+      ],
+      "stored_address_references": [
+        {
+          "file_offset": 91248,
+          "addressed_entry": 16808720
+        }
+      ]
+    },
+    {
+      "name": "_cexit",
+      "start": 16808752,
+      "end": 16808767,
+      "bytes": 15,
+      "reachability": "unused-wrapper",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "_c_exit",
+      "start": 16808768,
+      "end": 16808783,
+      "bytes": 15,
+      "reachability": "unused-wrapper",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "__commit",
+      "start": 16810544,
+      "end": 16810639,
+      "bytes": 95,
+      "reachability": "commit-disabled",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_fflush",
+          "instruction": 16810211,
+          "target": 16810544
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:FlushFileBuffers",
+      "start": 16810656,
+      "end": 16810662,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__commit",
+          "instruction": 16810595,
+          "target": 16810656
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__open_osfhandle",
+      "start": 16811056,
+      "end": 16811204,
+      "bytes": 148,
+      "reachability": "unused-CRT-interface",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:SetStdHandle",
+      "start": 16811248,
+      "end": 16811254,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__set_osfhnd",
+          "instruction": 16810794,
+          "target": 16811248
+        },
+        {
+          "owner": "__set_osfhnd",
+          "instruction": 16810813,
+          "target": 16811248
+        },
+        {
+          "owner": "__set_osfhnd",
+          "instruction": 16810832,
+          "target": 16811248
+        },
+        {
+          "owner": "__free_osfhnd",
+          "instruction": 16810948,
+          "target": 16811248
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__amsg_exit",
+      "start": 16813792,
+      "end": 16813825,
+      "bytes": 33,
+      "reachability": "startup-failure-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_rc_setargv",
+          "instruction": 16815208,
+          "target": 16813792
+        },
+        {
+          "owner": "__setenvp",
+          "instruction": 16815751,
+          "target": 16813792
+        },
+        {
+          "owner": "__setenvp",
+          "instruction": 16815813,
+          "target": 16813792
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__FF_MSGBANNER",
+      "start": 16813904,
+      "end": 16813942,
+      "bytes": 38,
+      "reachability": "startup-failure-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__amsg_exit",
+          "instruction": 16813792,
+          "target": 16813904
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__NMSG_WRITE",
+      "start": 16813952,
+      "end": 16814040,
+      "bytes": 88,
+      "reachability": "startup-failure-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__amsg_exit",
+          "instruction": 16813802,
+          "target": 16813952
+        },
+        {
+          "owner": "__FF_MSGBANNER",
+          "instruction": 16813909,
+          "target": 16813952
+        },
+        {
+          "owner": "__FF_MSGBANNER",
+          "instruction": 16813933,
+          "target": 16813952
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__XcptFilter",
+      "start": 16814064,
+      "end": 16814365,
+      "bytes": 301,
+      "reachability": "CRT-exception-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_rcpp_start",
+          "instruction": 16813730,
+          "target": 16814064
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_xcptlookup",
+      "start": 16814368,
+      "end": 16814411,
+      "bytes": 43,
+      "reachability": "CRT-exception-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__XcptFilter",
+          "instruction": 16814071,
+          "target": 16814368
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:UnhandledExceptionFilter",
+      "start": 16814432,
+      "end": 16814438,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__XcptFilter",
+          "instruction": 16814357,
+          "target": 16814432
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__except_handler3",
+      "start": 16814440,
+      "end": 16814643,
+      "bytes": 203,
+      "reachability": "CRT-exception-only",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": [
+        {
+          "file_offset": 34720,
+          "addressed_entry": 16814440
+        }
+      ]
+    },
+    {
+      "name": "__global_unwind2",
+      "start": 16814643,
+      "end": 16814675,
+      "bytes": 32,
+      "reachability": "CRT-exception-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__except_handler3",
+          "instruction": 16814549,
+          "target": 16814643
+        },
+        {
+          "owner": "_longjmp",
+          "instruction": 16814949,
+          "target": 16814643
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__unwind_handler",
+      "start": 16814675,
+      "end": 16814713,
+      "bytes": 38,
+      "reachability": "CRT-exception-only",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": [
+        {
+          "file_offset": 35972,
+          "addressed_entry": 16814675
+        },
+        {
+          "file_offset": 36075,
+          "addressed_entry": 16814675
+        }
+      ]
+    },
+    {
+      "name": "__local_unwind2",
+      "start": 16814713,
+      "end": 16814815,
+      "bytes": 102,
+      "reachability": "CRT-exception-only",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__except_handler3",
+          "instruction": 16814562,
+          "target": 16814713
+        },
+        {
+          "owner": "__except_handler3",
+          "instruction": 16814621,
+          "target": 16814713
+        },
+        {
+          "owner": "_longjmp",
+          "instruction": 16814966,
+          "target": 16814713
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__abnormal_termination",
+      "start": 16814815,
+      "end": 16814858,
+      "bytes": 43,
+      "reachability": "unused-CRT-interface",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "__setjmp",
+      "start": 16814858,
+      "end": 16814921,
+      "bytes": 63,
+      "reachability": "unused-CRT-interface",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "_longjmp",
+      "start": 16814921,
+      "end": 16815004,
+      "bytes": 83,
+      "reachability": "unused-CRT-interface",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "__seh_longjmp_unwind4",
+      "start": 16815004,
+      "end": 16815063,
+      "bytes": 59,
+      "reachability": "unused-CRT-interface",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:RtlUnwind",
+      "start": 16815088,
+      "end": 16815094,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__global_unwind2",
+          "instruction": 16814662,
+          "target": 16815088
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_rc_long_kind@4",
+      "start": 16829312,
+      "end": 16829329,
+      "bytes": 17,
+      "reachability": "selected-successful-input",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_rc_parse_number@4",
+          "instruction": 16828501,
+          "target": 16829312
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_rc_unsigned_kind@4",
+      "start": 16829344,
+      "end": 16829365,
+      "bytes": 21,
+      "reachability": "selected-successful-input",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_rc_parse_number@4",
+          "instruction": 16828517,
+          "target": 16829344
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_getc",
+      "start": 16836848,
+      "end": 16836862,
+      "bytes": 14,
+      "reachability": "unused-wrapper",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "__open",
+      "start": 16838384,
+      "end": 16838410,
+      "bytes": 26,
+      "reachability": "unused-wrapper",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "__chsize",
+      "start": 16839424,
+      "end": 16839753,
+      "bytes": 329,
+      "reachability": "fixed-file-modes",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__sopen",
+          "instruction": 16839282,
+          "target": 16839424
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:SetEndOfFile",
+      "start": 16839776,
+      "end": 16839782,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__chsize",
+          "instruction": 16839673,
+          "target": 16839776
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__setmode",
+      "start": 16839792,
+      "end": 16839937,
+      "bytes": 145,
+      "reachability": "fixed-file-modes",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "__chsize",
+          "instruction": 16839559,
+          "target": 16839792
+        },
+        {
+          "owner": "__chsize",
+          "instruction": 16839639,
+          "target": 16839792
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_putc",
+      "start": 16840016,
+      "end": 16840035,
+      "bytes": 19,
+      "reachability": "unused-wrapper",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "strcat-strcpy-shared-entries",
+      "start": 16845320,
+      "end": 16845382,
+      "bytes": 62,
+      "reachability": "option-copy-disabled",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_strdup",
+          "instruction": 16808405,
+          "target": 16845324
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "_strlen",
+      "start": 16845384,
+      "end": 16845407,
+      "bytes": 23,
+      "reachability": "option-copy-disabled",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_strdup",
+          "instruction": 16808385,
+          "target": 16845384
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "__toupper_ascii",
+      "start": 16845536,
+      "end": 16845544,
+      "bytes": 8,
+      "reachability": "unused-wrapper",
+      "direct_callers_and_tail_jumps": [],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:LCMapStringW",
+      "start": 16845952,
+      "end": 16845958,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_toupper",
+          "instruction": 16845822,
+          "target": 16845952
+        }
+      ],
+      "stored_address_references": []
+    },
+    {
+      "name": "import:WideCharToMultiByte",
+      "start": 16845968,
+      "end": 16845974,
+      "bytes": 6,
+      "reachability": "import-dependent-on-callers",
+      "direct_callers_and_tail_jumps": [
+        {
+          "owner": "_toupper",
+          "instruction": 16845868,
+          "target": 16845968
+        }
+      ],
+      "stored_address_references": []
+    }
+  ],
+  "option_table": {
+    "address": 16883976,
+    "entries": [
+      {
+        "pattern": "-pc#",
+        "action": 34
+      },
+      {
+        "pattern": "-pf",
+        "action": 1
+      },
+      {
+        "pattern": "-C",
+        "action": 1
+      },
+      {
+        "pattern": "-CP#",
+        "action": 34
+      },
+      {
+        "pattern": "-D#",
+        "action": 38
+      },
+      {
+        "pattern": "-E",
+        "action": 1
+      },
+      {
+        "pattern": "-I#",
+        "action": 38
+      },
+      {
+        "pattern": "-P",
+        "action": 1
+      },
+      {
+        "pattern": "-f",
+        "action": 34
+      },
+      {
+        "pattern": "-g",
+        "action": 34
+      },
+      {
+        "pattern": "-J",
+        "action": 1
+      },
+      {
+        "pattern": "-Zp",
+        "action": 1
+      },
+      {
+        "pattern": "-Zp#",
+        "action": 36
+      },
+      {
+        "pattern": "-Z*",
+        "action": 35
+      },
+      {
+        "pattern": "-Oi",
+        "action": 1
+      },
+      {
+        "pattern": "-Ol",
+        "action": 1
+      },
+      {
+        "pattern": "-db#",
+        "action": 34
+      },
+      {
+        "pattern": "-ef#",
+        "action": 34
+      },
+      {
+        "pattern": "-il#",
+        "action": 34
+      },
+      {
+        "pattern": "-xc",
+        "action": 1
+      },
+      {
+        "pattern": "-H",
+        "action": 1
+      },
+      {
+        "pattern": "-V#",
+        "action": 34
+      },
+      {
+        "pattern": "-Gs",
+        "action": 5
+      },
+      {
+        "pattern": "-Gc",
+        "action": 1
+      },
+      {
+        "pattern": "-char#",
+        "action": 36
+      },
+      {
+        "pattern": "-A#",
+        "action": 34
+      },
+      {
+        "pattern": "-Q#",
+        "action": 34
+      },
+      {
+        "pattern": "-Fs",
+        "action": 1
+      },
+      {
+        "pattern": "-R",
+        "action": 1
+      },
+      {
+        "pattern": "*",
+        "action": 34
+      }
+    ],
+    "copy_argument": 0,
+    "sole_native_call": 16805972,
+    "copy_zero_push": 16805954
+  },
+  "selected_cases": [
+    {
+      "id": "long-suffix",
+      "function": "_rc_long_kind@4",
+      "additional_extent_bytes": 17
+    },
+    {
+      "id": "unsigned-suffix",
+      "function": "_rc_unsigned_kind@4",
+      "additional_extent_bytes": 21
+    }
+  ],
+  "caveats": [
+    "Complete body extents include internal alignment, but inter-function padding and aliases are excluded.",
+    "strcat/strcpy shared code is unioned once; placeholder one-byte commit extent is replaced by its actual 95-byte body for analysis only.",
+    "CRT exception/startup failure code is statically identified only; no fault, dispatch or resource-failure experiment was run.",
+    "No ordinary successful public route identified is not a claim of universal mathematical unreachability."
+  ]
+}

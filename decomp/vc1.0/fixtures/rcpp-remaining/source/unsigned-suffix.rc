@@ -1,0 +1,37 @@
+#define UNSIGNED_ONE 1U
+#define UNSIGNED_VALUE(x) (x)
+#if 0U
+unsigned_zero_nonzero
+#else
+unsigned_zero_ok
+#endif
+#if (UNSIGNED_ONE + 2u) == 3U
+unsigned_add_ok
+#else
+unsigned_add_false
+#endif
+#if 0x7fffffffU > 0U
+unsigned_low_half_positive
+#else
+unsigned_low_half_other
+#endif
+#if UNSIGNED_VALUE(0x80000000U) < 0U
+unsigned_high_bit_signed_expression
+#else
+unsigned_high_bit_nonnegative
+#endif
+#if 0xffffffffU == -1
+unsigned_all_bits_minus_one
+#else
+unsigned_all_bits_other
+#endif
+#if (0xfffffffeU & 0xffU) == 254U
+unsigned_mask_ok
+#else
+unsigned_mask_false
+#endif
+#if (1U << 4U) == 16U
+unsigned_shift_ok
+#else
+unsigned_shift_false
+#endif

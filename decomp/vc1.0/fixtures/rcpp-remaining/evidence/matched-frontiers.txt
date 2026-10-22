@@ -1,0 +1,2 @@
+long-suffix: original: _rc_long_kind@4; reconstruction: _rc_long_kind@4
+unsigned-suffix: original: _rc_unsigned_kind@4; reconstruction: _rc_unsigned_kind@4
