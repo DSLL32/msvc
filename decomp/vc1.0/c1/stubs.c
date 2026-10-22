@@ -13,6 +13,7 @@
 #include "parser.h"
 #include "debug-info.h"
 #include "floating.h"
+#include "diagnostics.h"
 #include "literal-names.h"
 #include "initializer-records.h"
 #include "initializers.h"
@@ -114,7 +115,6 @@ void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
-long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return -1; }
 void emit_line_directive(void) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
 void browser_include_begin(void) { __asm { int 3 } }
@@ -124,7 +124,6 @@ void release_input_handle(void) { __asm { int 3 } }
 
 char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 
-int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
 
 
 
@@ -289,7 +288,6 @@ void __stdcall emit_inline_jump(int kind) { __asm { int 3 } }
 /* Original 0x2fdb0. */
 
 /* Original 0x2fe60. */
-void __stdcall finish_initializer(FrontendSymbol *symbol, IrToken *initializer) { __asm { int 3 } }
 
 /* Original 0x300c0. */
 
@@ -531,7 +529,6 @@ void __stdcall append_macro_string(int delimiter, char *text) { __asm { int 3 } 
 
 char *__stdcall quote_macro_filename(char *destination, char *filename) { __asm { int 3 } return 0; }
 
-void __stdcall append_macro_text(char *text) { __asm { int 3 } }
 
 
 
@@ -542,7 +539,6 @@ void __stdcall browser_macro_reference(MacroDefinition *definition) { __asm { in
 
 char *read_macro_string(void) { __asm { int 3 } return 0; }
 
-void format_text(char *destination, char *format, ...) { __asm { int 3 } }
 
 void browser_macro_end(void) { __asm { int 3 } }
 
@@ -667,8 +663,6 @@ int __stdcall process_pch_string_event(unsigned kind, unsigned value, char *text
 
 void copy_line_comment(void) { __asm { int 3 } }
 
-char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
-void emit_diagnostic(unsigned category, unsigned code, char *format, char *arguments) { __asm { int 3 } }
 
 
 
@@ -764,17 +758,13 @@ int subtract_extended(const Extended *left, const Extended *right, Extended *res
 void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
 
 
-unsigned __stdcall write_initializer_bytes(void *data, unsigned size, unsigned count, InitializerBuffer *buffer) { __asm { int 3 } }
-int __stdcall put_initializer_byte(int value, InitializerBuffer *buffer) { __asm { int 3 } }
 
 unsigned __stdcall initializer_address_size(FrontendSymbol *symbol) { __asm { int 3 } }
-int extended_to_double(const Extended *value, double *result) { __asm { int 3 } }
 int extended_to_integer(const Extended *value, int *result) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 
 void __stdcall emit_runtime_initializer(IrToken *value) { __asm { int 3 } }
-unsigned __stdcall fit_string_initializer(FrontendSymbol *symbol, IrToken *value) { __asm { int 3 } }
 
 
 
@@ -785,7 +775,6 @@ void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *targe
 /* Original 0x31230. */
 
 /* Original 0x31180. */
-unsigned initializer_array_count(void) { __asm { int 3 } }
 /* Original 0x311a0. */
 
 /* Original 0x30f50. */
@@ -803,7 +792,6 @@ FrontendSymbol *__stdcall skip_initializer_anonymous_members(FrontendSymbol *mem
 FrontendSymbol *__stdcall get_intrinsic_fallback_symbol(unsigned operation) { __asm { int 3 } }
 
 /* Original 0x3af90. */
-void flush_initializer_buffer(void) { __asm { int 3 } }
 
 /* Original 0x29930. */
 /* Original 0x40c70. */
@@ -831,7 +819,6 @@ unsigned __stdcall classify_pointer_model(unsigned result, unsigned short target
 
 /* Original 0x4c696. */
 /* Original 0x4c6b8. */
-int double_to_extended(const double *value, Extended *number) { __asm { int 3 } }
 
 /* Original 0x2efb0. */
 int __stdcall recognize_qc_loop(IrToken *condition, IrToken *increment, LabelStack *entry) { __asm { int 3 } }
@@ -865,3 +852,17 @@ void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
 /* Original 0x4c8f1, ESI destination and ST(0) value. */
 
 /* Original 0x28530, twelve-byte value plus arena selector on stack. */
+
+/* Original initializer-buffer methods 0x29eb0/0x2a000/0x29e00/0x29cf0. */
+
+/* Original 0x2fe90. */
+
+/* Original 0x31340. */
+
+/* Original 0x4a940 and 0x4a770. */
+
+/* Message-catalog helpers, original 0x4a890/0x4a8f0/0x4a840. */
+
+/* Original CRT variant 0x528d0. */
+
+/* Original 0x4af40. */

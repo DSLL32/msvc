@@ -574,7 +574,7 @@ classify_character:
     }
 }
 
-/* Original 0x20fd0..0x21038. Quotes in discarded source still protect
+/* Original 0x20fd0..0x2103a. Quotes in discarded source still protect
    directive-looking text. Leave an unterminated literal's newline unread. */
 void __stdcall skip_inactive_literal(int delimiter)
 {

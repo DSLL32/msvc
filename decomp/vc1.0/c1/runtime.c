@@ -270,3 +270,31 @@ long ftell(FILE *stream)
     }
     return position + buffered;
 }
+
+extern void _getbuf(FILE *stream);
+
+/* Original 0x528d0..0x529a7. This CRT refill uses the executable's
+   older stream flags and restores a temporary 512-byte read buffer to 4K. */
+int _filbuf(FILE *stream)
+{
+    int flags = stream->_flag;
+    if (!(flags & 0x83) || (flags & 0x40)) return EOF;
+    if (flags & 2) {
+        stream->_flag |= 0x20;
+        return EOF;
+    }
+    stream->_flag |= 1;
+    if (!(stream->_flag & 0x10c)) _getbuf(stream);
+    else stream->_ptr = stream->_base;
+    stream->_cnt = _read(stream->_file, stream->_base, stream->_bufsiz);
+    if (!stream->_cnt || stream->_cnt == -1) {
+        stream->_flag |= !stream->_cnt ? 0x10 : 0x20;
+        stream->_cnt = 0;
+        return EOF;
+    }
+    if (!(stream->_flag & 0x82) && (_osfile[stream->_file] & 0x82) == 0x82)
+        stream->_flag |= 0x2000;
+    if (stream->_bufsiz == 512 && (stream->_flag & 8)) stream->_bufsiz = 4096;
+    --stream->_cnt;
+    return (unsigned char)*stream->_ptr++;
+}

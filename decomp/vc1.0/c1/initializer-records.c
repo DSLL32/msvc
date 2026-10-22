@@ -1,4 +1,5 @@
 /* Initializer-value records share the ordinary and buffered output encodings. */
+#include <stdlib.h>
 #include "initializer-records.h"
 #include "initializers.h"
 #include "literal-names.h"
@@ -261,4 +262,110 @@ int __stdcall find_initializer_address(IrToken *value, FrontendSymbol **symbol, 
         default: return 0;
         }
     }
+}
+
+/* Original 0x29d60..0x29df5. A null buffer selects the shared expression
+   workspace; segmented buffers retain allocated blocks for reuse. */
+int __stdcall put_initializer_byte(int value, InitializerBuffer *buffer)
+{
+    unsigned char *destination;
+    InitializerBlock *block;
+    if (!buffer) {
+        if (text_work_cursor >= expression_storage + 2048) fatal_error(64);
+        *text_work_cursor++ = (unsigned char)value;
+        return value;
+    }
+    destination = buffer->next;
+    if ((int)buffer->count >= 2040) {
+        block = ((InitializerBlock *)buffer->read)->next;
+        if (!block) {
+            block = malloc(sizeof(InitializerBlock));
+            block->next = 0;
+            ((InitializerBlock *)buffer->read)->next = block;
+        }
+        buffer->read = (unsigned char *)block;
+        block->used_bytes = 0;
+        buffer->count = 0;
+        destination = block->bytes;
+    }
+    *destination++ = (unsigned char)value;
+    ++buffer->count;
+    buffer->next = destination;
+    return value;
+}
+
+/* Original 0x29ed0..0x29ff8. Copy into the shared scratch or retained
+   initializer blocks. The legacy split path reuses the same source slice
+   for every full block after the first; preserve that behavior and its
+   incidental final-cursor return (callers discard the result). */
+unsigned __stdcall write_initializer_bytes(void *data, unsigned size, unsigned count, InitializerBuffer *buffer)
+{
+    unsigned bytes, available, i;
+    unsigned char *source, *destination;
+    InitializerBlock *block;
+    bytes = size * count;
+    source = data;
+    if (!buffer) {
+        for (i = 0; i < bytes; ++i) text_work_cursor[i] = source[i];
+        text_work_cursor += bytes;
+        return bytes;
+    }
+    block = (InitializerBlock *)buffer->read;
+    destination = buffer->next;
+    available = 2040U - buffer->count;
+    if (bytes <= available) {
+        for (i = 0; i < bytes; ++i) destination[i] = source[i];
+        buffer->next += bytes;
+        buffer->count += bytes;
+        return bytes;
+    }
+    for (i = 0; i < available; ++i) destination[i] = source[i];
+    bytes -= available;
+    source += available;
+    while (bytes) {
+        if (!block->next) {
+            block->next = malloc(sizeof(InitializerBlock));
+            block->next->next = 0;
+        }
+        block = block->next;
+        block->used_bytes = 0;
+        if (bytes <= 2040) {
+            for (i = 0; i < bytes; ++i) block->bytes[i] = source[i];
+            buffer->read = (unsigned char *)block;
+            buffer->count = bytes;
+            buffer->next = block->bytes + bytes;
+            return (unsigned)buffer->next;
+        }
+        for (i = 0; i < 2040; ++i) block->bytes[i] = source[i];
+        bytes -= 2040;
+    }
+    return (unsigned)source;
+}
+
+/* Original 0x3af90..0x3b071. Drain static initializer records into the
+   line stream, append its end marker, and reset the retained buffer. */
+void flush_initializer_buffer(void)
+{
+    unsigned char bytes[2040];
+    unsigned count;
+    if (!(parser_flags & 0x20000000UL)) {
+        finish_initializer_buffer(initializer_buffer);
+        seek_work_stack(initializer_buffer, 0, 0);
+        while ((count = read_work_stack(initializer_buffer, bytes, sizeof(bytes))) == sizeof(bytes))
+            fwrite(bytes, sizeof(bytes), 1, line_file);
+        fwrite(bytes, count, 1, line_file);
+        if (!(parser_flags & 0x20000000UL)) {
+            auxiliary_ir_stream = line_file;
+            initializer_tag = 7;
+            putc((signed char)initializer_tag, auxiliary_ir_stream);
+        }
+    }
+    initialize_work_stack(&initializer_buffer);
+}
+
+/* Original 0x29eb0..0x29ec2. A zero count marks a full intermediate
+   block; the final block records the actual number of bytes written. */
+void __stdcall finish_initializer_buffer(InitializerBuffer *buffer)
+{
+    ((InitializerBlock *)buffer->read)->used_bytes = buffer->count;
 }

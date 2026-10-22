@@ -782,3 +782,119 @@ void __stdcall finish_initializer_symbol(FrontendSymbol *symbol)
         flush_initializer_buffer();
     }
 }
+
+/* Original 0x31180..0x3119d. The first nonzero frame extent is the
+   inferred element count for the outer incomplete array. */
+unsigned initializer_array_count(void)
+{
+    InitializerFrame *frame = initializer_frames;
+    while (!frame->offset) ++frame;
+    return frame->offset;
+}
+
+/* Original 0x2fe60..0x2fe8a. Clear the deferred declaration marker after
+   completing the scalar initializer, retaining the original wrapper entry. */
+void __stdcall finish_initializer(FrontendSymbol *symbol, IrToken *initializer)
+{
+    finish_scalar_initializer(symbol, initializer);
+    if (parser_flags & 0x20000000UL) {
+        parser_flags &= ~0x20000000UL;
+        symbol->attributes &= ~4U;
+    }
+}
+
+/* Original 0x2fe90..0x300b8. Complete scalar/string initialization,
+   choosing constant records or runtime assignment and checking array extent. */
+void __stdcall finish_scalar_initializer(FrontendSymbol *symbol, IrToken *initializer)
+{
+    int string_initializer;
+    unsigned short flags;
+    TypeShape *shape;
+    IrToken *value;
+    if (!symbol || (symbol->flags & 0x80) || !initializer) return;
+    string_initializer = is_character_array_initializer(symbol, initializer);
+    if (string_initializer) initializer->length = (unsigned short)fit_string_initializer(symbol, initializer);
+    if (!(scanner_flags & 0x200000)) {
+        if (!check_static_initializer(symbol, &initializer)) {
+            report_syntax_error(99);
+            return;
+        }
+    }
+    if ((scanner_flags & 0x200000) && is_scalar_initializer_symbol(symbol)) {
+        emit_initializer_assignment(make_symbol_reference(symbol), initializer);
+        finish_initializer_symbol(symbol);
+        return;
+    }
+    shape = symbol->type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    if (shape) {
+        if ((symbol->attributes & 0x400) && !string_initializer) {
+            if (initializer->kind == 3 && !shape->related) {
+                flags = symbol->type->flags;
+                if ((initializer->auxiliary_flags & 1) ?
+                    (flags & 0x2fdf) == 0x41 : (flags & 0xefff) == 0x4042) {
+                    report_syntax_error(53, symbol->name);
+                    return;
+                }
+            }
+            report_syntax_error(75, symbol->name);
+            return;
+        }
+    } else if (symbol->type->flags & 0x400) {
+        if (scanner_flags & 0x200000) {
+            symbol->attributes &= ~4U;
+            emit_initializer_assignment(make_symbol_reference(symbol), initializer);
+            finish_initializer_symbol(symbol);
+            return;
+        }
+        report_syntax_error(74, type_specifier_name(symbol->type->flags), symbol->name);
+        return;
+    }
+    value = normalize_initializer_expression(initializer);
+    if (scanner_flags & 0x200000) emit_runtime_symbol_initializer(symbol, initializer);
+    else write_literal_initializer(symbol, value, 0);
+    if (!(scanner_flags & 0x200000) && !is_character_array_initializer(symbol, value)) {
+        shape = initializer->type->related;
+        if (shape && (shape->flags & 7) == 2)
+            initializer->type = decay_array_expression_type(initializer);
+        check_assignment_conversion(TOK_ASSIGN, remove_type_prefix(symbol->type), initializer);
+        finish_initializer_symbol(symbol);
+        return;
+    }
+    constant_one = remaining_string_initializer_bytes(symbol, value);
+    if ((int)constant_one > 0) emit_initializer_constant(0);
+    finish_initializer_symbol(symbol);
+}
+
+/* Original 0x2fa40..0x2faab. String lengths and array capacity are
+   sixteen-bit byte counts, including the terminator when it fits. */
+unsigned short __stdcall fit_string_initializer(FrontendSymbol *symbol, IrToken *value)
+{
+    TypeShape *shape = symbol->type->related;
+    unsigned short capacity;
+    if (symbol->attributes & 2) shape = shape->related;
+    capacity = (unsigned short)(((value->auxiliary_flags & 1) ? 2 : 1) * shape->field08);
+    if (capacity && value->length > capacity) {
+        if ((unsigned short)(value->length - 1) > capacity)
+            compiler_warning(1, 45, value->value.text);
+        return capacity;
+    }
+    return value->length;
+}
+
+/* Original 0x31340..0x313e3. Infer an unsized string array's bound;
+   otherwise return its remaining byte extent for zero initialization. */
+int __stdcall remaining_string_initializer_bytes(FrontendSymbol *symbol, IrToken *value)
+{
+    TypeShape *shape;
+    unsigned count, width;
+    if (initializer_depth >= 0) return 0;
+    shape = symbol->type->related;
+    if (symbol->attributes & 2) shape = shape->related;
+    count = shape->field08;
+    width = (value->auxiliary_flags & 1) ? 2 : 1;
+    if (count) return count * width - value->length;
+    count = value->length / width;
+    symbol->type = replace_outer_type_shape(symbol->type, shape->flags, shape->attributes, &count);
+    return 0;
+}

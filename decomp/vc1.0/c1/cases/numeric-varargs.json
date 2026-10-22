@@ -5,11 +5,15 @@
   "requested_driver_case": "CL.EXE /Zi /Od /G5 /W3 numeric-varargs.c",
   "accepted_from": 510,
   "notes": "The captured C4069 line-24 warning is expected verbatim, including CRLF; all four intermediate files are compared raw.",
-  "reconstructed_source_functions": 453,
-  "accepted_frontiers": 546,
-  "current_matching_trap": "_put_initializer_byte@8",
-  "original_va": "0x29d60",
-  "replay": "All 36 new frontiers replay through the current matched trap; all three prior raw-output cases independently pass again.",
+  "reconstructed_source_functions": 477,
+  "accepted_frontiers": 576,
+  "current_matching_trap": "_classify_pointer_qualifiers@12",
+  "original_va": "0x40e00",
+  "replay": "All 66 new frontiers replay, including visible files, pending FILE buffers, and stdout/stderr; all three prior raw-output cases independently pass again.",
   "auxiliary_oracle": "Canonical N:\\numeric-varargs in separate private Wine prefixes. Both original auxiliary files match the immutable capture after only timestamp DWORD normalization, with within-run equality checked before normalization. Native writer provenance established.",
-  "state_verification": "177 state defaults/aliases and all 13 logical debug schemas match; 453 source call graphs and the unchanged grammar audit pass."
+  "state_verification": "184 state defaults/aliases, all 13 logical debug schemas and 477 source call graphs match. Instruction-boundary lookahead validates original/rebuilt extents; three old RET operand truncations corrected. The logical grammar audit passes.",
+  "warning_verification": "Both processes emit the captured line-24 C4069 warning verbatim, including CRLF, before reaching the current frontier.",
+  "accepted_code_union_bytes": 168095,
+  "original_code_bytes": 277234,
+  "extent_coverage_percent": 60.63289495516423
 }

@@ -2,6 +2,7 @@
 #define SOURCE_INPUT_H
 #include "global-ir.h"
 #include "macro-expand.h"
+#include "work-stack.h"
 typedef struct SourceFile {
     unsigned capacity;
     int handle;
@@ -28,10 +29,8 @@ char *__stdcall copy_string(char *text, int arena);
 char *normalize_input_name(char *filename);
 void release_input_handle(void);
 int __stdcall open_input_handle(char *filename);
-long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin);
 extern unsigned scanner_flags;
 extern int final_newline_emitted;
-int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes);
 int fill_source_buffer(void);
 void emit_line_directive(void);
 void report_ide_source(void);

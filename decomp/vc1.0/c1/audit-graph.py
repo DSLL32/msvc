@@ -39,6 +39,15 @@ def instructions(pe, function):
             if count:
                 discovered[table] = table + count*4
         if discovered == tables:
+            # Include lookahead solely for analysis: a range ending inside
+            # RET n or another multi-byte instruction would mask its operand.
+            # The last segment begins after any excluded dispatch table.
+            tail_start = max([start] + list(tables.values()))
+            for instruction in cs.disasm(pe.read(tail_start, end-tail_start+15), tail_start):
+                assert not instruction.address < end < instruction.address + instruction.size, \
+                    'extent truncates instruction: %s at %x (end %x)' % (function['name'], instruction.address, end)
+                if instruction.address >= end:
+                    break
             return result
         tables = discovered
 

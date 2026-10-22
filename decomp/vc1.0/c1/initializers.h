@@ -1,6 +1,8 @@
 #ifndef INITIALIZERS_H
 #define INITIALIZERS_H
 #include "parser.h"
+int __stdcall remaining_string_initializer_bytes(FrontendSymbol *symbol, IrToken *value);
+void __stdcall finish_scalar_initializer(FrontendSymbol *symbol, IrToken *initializer);
 extern FrontendSymbol *initializer_symbol;
 extern unsigned initializer_offset;
 extern int initializer_runtime_override;
@@ -40,7 +42,7 @@ void __stdcall check_runtime_initializer(FrontendSymbol *symbol, IrToken *value)
 int __stdcall check_static_initializer(FrontendSymbol *symbol, IrToken **value);
 int advance_initializer(void);
 void __stdcall emit_runtime_initializer(IrToken *value);
-unsigned __stdcall fit_string_initializer(FrontendSymbol *symbol, IrToken *value);
+unsigned short __stdcall fit_string_initializer(FrontendSymbol *symbol, IrToken *value);
 void __stdcall emit_runtime_symbol_initializer(FrontendSymbol *symbol, IrToken *value);
 void __stdcall emit_initializer_constant(FrontendSymbol *symbol);
 int __stdcall descend_initializer_target(IrToken *value);

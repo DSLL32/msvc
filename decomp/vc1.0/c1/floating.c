@@ -310,3 +310,43 @@ __declspec(naked) void store_extended(void)
         ret
     }
 }
+
+/* Double-rounding threshold, original ten bytes at 0x7107e. */
+Extended double_round_limit = { 0xfffffbffU, 0xffffffffU, 0x43fe, 0 };
+
+/* Original 0x4c64c..0x4c673. Narrow transfers preserve the ten-byte
+   input and private x87 range-check ABI, which period C cannot express. */
+int extended_to_double(const Extended *value, double *result)
+{
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+        fld tbyte ptr double_round_limit
+    }
+    overflow = check_extended_range();
+    if (!overflow) {
+        __asm {
+            mov eax, result
+            fstp qword ptr [eax]
+            fwait
+        }
+    }
+    return overflow;
+}
+
+/* Original 0x4c6b8..0x4c6da. ESI/ST(0) bridges the original ten-byte
+   store entry; ordinary C records the target representation. */
+int double_to_extended(const double *value, Extended *number)
+{
+    __asm {
+        mov eax, value
+        fld qword ptr [eax]
+    }
+    number->format = 8;
+    __asm {
+        mov esi, number
+        call store_extended
+    }
+    return 0;
+}

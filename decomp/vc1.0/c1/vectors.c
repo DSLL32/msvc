@@ -1,6 +1,6 @@
 /* Short-count pointer vectors allocated from the compiler's arenas. */
 #include <stdlib.h>
-#include "initialization.h"
+#include "work-stack.h"
 
 /* Original 0x324c0..0x3257d. */
 Vector *__stdcall new_vector(short capacity, int arena)
@@ -49,7 +49,7 @@ void __stdcall append_vector(Vector *vector, void *item)
     vector->items[vector->count++] = item;
 }
 
-/* Original 0x29cf0..0x29d4f. */
+/* Original 0x29cf0..0x29d51. */
 void __stdcall initialize_work_stack(WorkingStack **stack)
 {
     WorkingStack *state = *stack;
@@ -72,4 +72,71 @@ void __stdcall reset_work_stack(WorkingStack *stack)
     stack->read = stack->storage;
     stack->count = 0;
     stack->next = stack->storage;
+}
+
+/* Original 0x2a000..0x2a091. Only absolute seeks are supported. The
+   terminal block has a recorded size; zero records a full linked block. */
+long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin)
+{
+    WorkingBlock *block;
+    long remaining = offset;
+    if (origin || !stack) return -1;
+    reset_work_stack(stack);
+    block = (WorkingBlock *)stack->read;
+    while (block) {
+        if (block->used_bytes) {
+            if ((long)block->used_bytes <= remaining) return -1;
+            stack->count = remaining;
+            stack->next = block->bytes + remaining;
+            return offset;
+        }
+        if (remaining < 2040) {
+            stack->count = remaining;
+            stack->next = block->bytes + remaining;
+            return offset;
+        }
+        block = block->next;
+        stack->read = (unsigned char *)block;
+        remaining -= 2040;
+    }
+    return -1;
+}
+
+/* Original 0x29e00..0x29ea5. A zero footer denotes a complete block;
+   a recorded terminal size ends the read even if more bytes were requested. */
+int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes)
+{
+    WorkingBlock *block;
+    unsigned char *source, *destination = buffer;
+    unsigned available, chunk, total = 0;
+    int count;
+    block = (WorkingBlock *)stack->read;
+    while (block) {
+        source = stack->next;
+        if (!block->used_bytes) {
+            available = 2040U - stack->count;
+            if (available >= bytes) {
+                chunk = bytes;
+                stack->count += chunk;
+                stack->next += chunk;
+                block = 0;
+            } else {
+                chunk = available;
+                bytes -= chunk;
+                stack->count = 0;
+                block = block->next;
+                stack->read = stack->next = (unsigned char *)block;
+            }
+        } else {
+            chunk = block->used_bytes - stack->count;
+            if (bytes <= chunk) chunk = bytes;
+            stack->count += chunk;
+            stack->next += chunk;
+            block = 0;
+        }
+        total += chunk;
+        count = (int)chunk;
+        while (count > 0) { *destination++ = *source++; --count; }
+    }
+    return total;
 }

@@ -219,6 +219,8 @@ def compare(accepted_count=None, case='', baseline=True):
     al, bl = logical(ae,orig,oi), logical(be,rec,ri)
     print('original: %s; reconstruction: %s' % (al,bl), flush=True)
     if al != bl: raise RuntimeError('logical trap mismatch\n'+ae+be)
+    for stream in ('stdout', 'stderr'):
+        assert Path('build/original.'+stream).read_bytes() == Path('build/reconstructed.'+stream).read_bytes(), 'frontier '+stream+' differs'
     def pending_rows(events, label):
         rows, pending = [], {}
         directory = Path('build') / (CASE_NAME + '-' + label)

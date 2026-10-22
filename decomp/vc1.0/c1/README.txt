@@ -3,11 +3,12 @@ C13232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 Current status
 --------------
 The first three captured cases are complete. The assigned fourth case,
-numeric-varargs (/Zi /Od /G5 /W3), is in progress: 453 reconstructed source
-functions and 546 accepted trap frontiers. All three earlier raw-output
+numeric-varargs (/Zi /Od /G5 /W3), is in progress: 477 reconstructed source
+functions and 576 accepted trap frontiers. All three earlier raw-output
 regressions pass. Every new numeric frontier replays with exact pending
-buffers and visible bytes except the two proven database timestamp fields.
-The current paired trap is put_initializer_byte at original 0x29d60.
+buffers, visible files and stdout/stderr except the two proven database
+timestamp fields. The current paired trap is classify_pointer_qualifiers
+at original 0x40e00.
 
 The minimal-C case originally required 179 source functions and 258
 frontiers. All 258 frontiers replay successfully against the final build,
@@ -403,3 +404,35 @@ call graphs match, 177 state defaults/aliases and 13 debug schemas pass,
 and all logical grammar checks pass. The three completed cases exit 0 and
 match their captures and independent untouched originals again. Full old-case
 frontier replay and the final clean build remain required at case completion.
+
+Checkpoint 477 adds generic work-stack read/seek and initializer byte/block
+output, scalar/string completion, incomplete-array inference, double
+conversion, the external diagnostic catalog, and the compiler's complete
+small formatter. Both processes now emit the exact captured C4069 warning
+at line 24, including CRLF, then continue into the variadic macros.
+
+The newly reached buffer flush proved that startup/source compiler_stack and
+initializer_buffer both name original pointer 0x5f4f4. They now share one
+object and the existing sixteen-byte WorkingStack layout, with contextual
+2048-byte linked WorkingBlock records. Their terminal used-byte field is
+shared by the writer, reader and finalizer. The original reset method is
+retained rather than introducing a second reset/release function.
+
+Masked-original single-step analysis identified a prior extent that ended
+inside initialize_work_stack's final RET 4. Masking changed its operand to
+0xCCCC on the existing-buffer branch. Its extent now includes all three RET
+bytes. A new graph-audit instruction-boundary lookahead found and corrected
+two equivalent unvisited RET operand truncations in intern_keyword and
+skip_inactive_literal. All 477 original and reconstructed source extents
+pass that guard. No code from those previously reconstructed functions was
+replaced or skipped.
+
+All 66 additional numeric frontiers replay after these fixes. Stdout/stderr
+are now compared at every matched trap as well as at successful exit.
+The three earlier cases independently reproduce their captures again.
+All 477 call graphs, 184 state defaults/aliases and the unchanged table and
+grammar audits pass. The current accepted original code-extent union is
+168095/277234 bytes (60.6329%), including shared text data, CRT and import
+thunks, clipped to code-section VirtualSize. This is not branch coverage.
+A clean build and full older-case frontier replay remain required before
+the fourth case is accepted as complete.

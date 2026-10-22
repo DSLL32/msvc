@@ -550,7 +550,37 @@
     "_float_to_extended",
     "_store_extended",
     "_save_extended_constant@4",
-    "_allocate_extended_value@16"
+    "_allocate_extended_value@16",
+    "_put_initializer_byte@8",
+    "_write_initializer_bytes@16",
+    "_initializer_array_count",
+    "_flush_initializer_buffer",
+    "_finish_initializer_buffer@4",
+    "_seek_work_stack@12",
+    "_read_work_stack@12",
+    "_extended_to_double",
+    "_double_to_extended",
+    "__ZeroTail",
+    "__IncMan",
+    "_mbtowc",
+    "_finish_initializer@8",
+    "_finish_scalar_initializer@8",
+    "_fit_string_initializer@8",
+    "_remaining_string_initializer_bytes@8",
+    "_diagnostic_format@4",
+    "_diagnostic_message_offset@4",
+    "_read_diagnostic_message@12",
+    "_fgets",
+    "__filbuf",
+    "__getbuf",
+    "_parse_diagnostic_code@8",
+    "_remember_diagnostic_position@8",
+    "_unquote_diagnostic_message@4",
+    "_emit_diagnostic",
+    "_format_text",
+    "_format_text_arguments",
+    "__isatty",
+    "_append_macro_text@4"
   ],
   "driver": [
     {
@@ -859,7 +889,7 @@
     {
       "name": "_initialize_work_stack@4",
       "start": 171248,
-      "end": 171343
+      "end": 171345
     },
     {
       "name": "_initialize_preprocessor",
@@ -974,7 +1004,7 @@
     {
       "name": "_intern_keyword@4",
       "start": 111712,
-      "end": 112007
+      "end": 112009
     },
     {
       "name": "_intern_identifier@4",
@@ -1245,7 +1275,7 @@
     {
       "name": "_seek_work_stack@12",
       "start": 172032,
-      "end": 172033
+      "end": 172177
     },
     {
       "name": "_fill_source_buffer",
@@ -1301,7 +1331,7 @@
     {
       "name": "_read_work_stack@12",
       "start": 171520,
-      "end": 171521
+      "end": 171685
     },
     {
       "name": "_scan_source_token",
@@ -1724,7 +1754,7 @@
     {
       "name": "_finish_initializer@8",
       "start": 196192,
-      "end": 196193
+      "end": 196234
     },
     {
       "name": "_begin_aggregate_initializer@4",
@@ -2656,7 +2686,7 @@
     {
       "name": "_skip_inactive_literal@4",
       "start": 135120,
-      "end": 135224
+      "end": 135226
     },
     {
       "name": "_parse_pp_conditional",
@@ -2771,7 +2801,7 @@
     {
       "name": "_append_macro_text@4",
       "start": 121776,
-      "end": 121777
+      "end": 121846
     },
     {
       "name": "_push_macro_frame@4",
@@ -2811,7 +2841,7 @@
     {
       "name": "_format_text",
       "start": 306976,
-      "end": 306977
+      "end": 307000
     },
     {
       "name": "_save_macro_argument@8",
@@ -3121,12 +3151,12 @@
     {
       "name": "_diagnostic_format@4",
       "start": 304864,
-      "end": 304865
+      "end": 304995
     },
     {
       "name": "_emit_diagnostic",
       "start": 306416,
-      "end": 306417
+      "end": 306892
     },
     {
       "name": "_prepend_interned_type_shape@16",
@@ -3521,12 +3551,12 @@
     {
       "name": "_write_initializer_bytes@16",
       "start": 171728,
-      "end": 171729
+      "end": 172024
     },
     {
       "name": "_put_initializer_byte@8",
       "start": 171360,
-      "end": 171361
+      "end": 171509
     },
     {
       "name": "_write_ir_integer",
@@ -3556,7 +3586,7 @@
     {
       "name": "_extended_to_double",
       "start": 312908,
-      "end": 312909
+      "end": 312947
     },
     {
       "name": "_extended_to_float",
@@ -3626,7 +3656,7 @@
     {
       "name": "_fit_string_initializer@8",
       "start": 195136,
-      "end": 195137
+      "end": 195243
     },
     {
       "name": "_emit_runtime_symbol_initializer@8",
@@ -3686,7 +3716,7 @@
     {
       "name": "_initializer_array_count",
       "start": 201088,
-      "end": 201089
+      "end": 201117
     },
     {
       "name": "_finish_initializer_symbol@4",
@@ -3731,7 +3761,7 @@
     {
       "name": "_flush_initializer_buffer",
       "start": 241552,
-      "end": 241553
+      "end": 241777
     },
     {
       "name": "_address_member_operand@4",
@@ -3806,7 +3836,7 @@
     {
       "name": "_double_to_extended",
       "start": 313016,
-      "end": 313017
+      "end": 313050
     },
     {
       "name": "_recognize_qc_loop@12",
@@ -3917,6 +3947,56 @@
       "name": "_allocate_extended_value@16",
       "start": 165168,
       "end": 165255
+    },
+    {
+      "name": "_finish_initializer_buffer@4",
+      "start": 171696,
+      "end": 171714
+    },
+    {
+      "name": "_finish_scalar_initializer@8",
+      "start": 196240,
+      "end": 196792
+    },
+    {
+      "name": "_remaining_string_initializer_bytes@8",
+      "start": 201536,
+      "end": 201699
+    },
+    {
+      "name": "_diagnostic_message_offset@4",
+      "start": 305472,
+      "end": 305604
+    },
+    {
+      "name": "_read_diagnostic_message@12",
+      "start": 305008,
+      "end": 305207
+    },
+    {
+      "name": "_parse_diagnostic_code@8",
+      "start": 305296,
+      "end": 305383
+    },
+    {
+      "name": "_remember_diagnostic_position@8",
+      "start": 305392,
+      "end": 305458
+    },
+    {
+      "name": "_unquote_diagnostic_message@4",
+      "start": 305216,
+      "end": 305289
+    },
+    {
+      "name": "__filbuf",
+      "start": 338128,
+      "end": 338343
+    },
+    {
+      "name": "_format_text_arguments",
+      "start": 307008,
+      "end": 307339
     }
   ],
   "cases": {

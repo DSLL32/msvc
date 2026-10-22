@@ -477,3 +477,15 @@ int macro_identifier_follows(void)
     --source_text_cursor;
     return result;
 }
+
+/* Original 0x1dbb0..0x1dbf6. Append a replacement without its NUL,
+   preserving the five-byte reserve used by the macro scanner. */
+void __stdcall append_macro_text(char *text)
+{
+    if (!text) return;
+    while (*text) {
+        if (macro_work_buffer + macro_work_bytes - 5 <= macro_expansion_next)
+            macro_scan_error(56);
+        *macro_expansion_next++ = *text++;
+    }
+}

@@ -9,6 +9,13 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_source_filename', 0x6c000, 4),
+    ('_source_line_number', 0x5b238, 4),
+    ('_diagnostic_trace_file', 0x5b230, 4),
+    ('_diagnostic_message_positions', 0x6e348, 160),
+    ('_diagnostic_message_file', 0x5b224, 4),
+    ('_diagnostic_message_buffer', 0x6e248, 256),
+    ('_double_round_limit', 0x7107e, 10),
     ('_floating_workspace', 0x710aa, 8),
     ('_float_round_limit', 0x71074, 10),
     ('_decimal_digits', 0x68b00, 25),
@@ -24,7 +31,7 @@ STATE = [
     ('_string_record_count', 0x60040, 4),
     ('_auxiliary_ir_stream', 0x6e434, 4),
     ('_initializer_tag', 0x60038, 1),
-    ('_initializer_buffer', 0x5f4f4, 4),
+    ('_compiler_stack', 0x5f4f4, 4),
     ('_pending_initializer_symbol', 0x6c068, 4),
     ('_initializer_temporary', 0x60460, 4),
     ('_initializer_temporary_assigned', 0x60238, 4),
@@ -195,7 +202,10 @@ def read(image, address, size):
 
 forward, backward = {}, {}
 def check(name, old, new, size):
-    if name == '_text_work_cursor':
+    if name == '_source_filename':
+        assert struct.unpack('<I', read(original, old, 4))[0] == 0x5d5bc
+        assert struct.unpack('<I', read(rebuilt, new, 4))[0] == names['_token_buffer']
+    elif name == '_text_work_cursor':
         # Initialized pointers must retain semantic targets after relocation.
         assert struct.unpack('<I', read(original, old, 4))[0] == 0x5f508
         assert struct.unpack('<I', read(rebuilt, new, 4))[0] == names['_expression_storage']

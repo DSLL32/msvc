@@ -24,7 +24,7 @@ void initialize_macro_text(void)
 
 char *interned_name; /* original 0x6b66c */
 
-/* Original 0x1b460..0x1b587. Keyword names reserve one prefix byte. */
+/* Original 0x1b460..0x1b589. Keyword names reserve one prefix byte. */
 void __stdcall intern_keyword(char *name)
 {
     char *input;

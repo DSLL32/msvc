@@ -7,7 +7,6 @@
 
 typedef struct IrRecordLink { struct IrRecordLink *next; } IrRecordLink;
 
-InitializerBuffer *initializer_buffer; /* original 0x5f4f4 */
 unsigned char initializer_tag; /* original 0x60038 */
 unsigned string_record_count; /* original 0x60040 */
 FrontendSymbol *current_label_symbol; /* original 0x60068 */
