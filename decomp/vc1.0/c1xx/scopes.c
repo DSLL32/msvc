@@ -112,3 +112,24 @@ void activate_qualified_definition_scopes(void)
         }
     }
 }
+
+/* Original 0x333b0..0x3341a. Qualified lookup/definition scopes stop at
+   the parameter marker; callers may request stopping at a class boundary. */
+void __stdcall unwind_qualified_scopes(int stop_at_class)
+{
+    unsigned char kind;
+    if (token_allocation_flags & 0x20000000U) return;
+    if ((unsigned char)current_scope->flags < 0xfa) return;
+    while ((kind = (unsigned char)current_scope->flags) != 0xfd) {
+        if (stop_at_class && kind != 0xfe) {
+            if (kind == 0xfc) {
+                retire_scope_directory_entry();
+                pop_symbol_scope();
+            }
+            return;
+        }
+        retire_scope_directory_entry();
+        pop_symbol_scope();
+        if ((unsigned char)current_scope->flags < 0xfa) return;
+    }
+}

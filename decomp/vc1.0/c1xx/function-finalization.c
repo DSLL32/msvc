@@ -146,3 +146,87 @@ int __stdcall serialize_scope(SymbolScope *scope)
     }
     return 0;
 }
+
+/* Linked directory blocks are retained until final translation-unit output. */
+FunctionDirectoryBlock *function_directory; /* original 0x9f1cc */
+FunctionDirectoryBlock *function_directory_tail; /* original 0x9f1d0 */
+unsigned function_directory_index = 19; /* original 0x9f424 */
+
+/* These FILE operations are inlined in the original caller. */
+#define DIRECTORY_WORD(value_) do { \
+    unsigned short word_ = (unsigned short)(value_); \
+    if ((line_file->_cnt -= 2) >= 0) { \
+        *(unsigned short *)line_file->_ptr = word_; line_file->_ptr += 2; \
+    } else { \
+        line_file->_cnt += 2; fwrite(&word_, 2, 1, line_file); \
+    } \
+} while (0)
+
+/* Original 0x5aae0..0x5ae58. Save positions before resetting complexity,
+   then write the compact function marker to the line intermediate stream. */
+void __stdcall record_function_definition(CppSymbol *function)
+{
+    FunctionDirectoryBlock *block;
+    FunctionDirectoryEntry *entry;
+    unsigned index;
+    if (!function) return;
+    function_directory_index = (function_directory_index + 1) % 20;
+    if (!function_directory_index) {
+        block = allocate_permanent(sizeof(FunctionDirectoryBlock));
+        if (!function_directory) function_directory = function_directory_tail = block;
+        else {
+            function_directory_tail->next = block;
+            function_directory_tail = block;
+        }
+    }
+    entry = &function_directory_tail->entries[function_directory_index];
+    entry->symbol = function;
+    if (pch_write_enabled && !pch_output_written) {
+        entry->flags |= 0x10;
+        if (pch_read_enabled) {
+            function_ir.expression_offset += pch_expression_bytes + 0x334;
+            function_ir.symbol_offset += pch_symbol_bytes;
+        }
+    } else entry->flags &= ~0x10;
+    entry->expression_offset = function_ir.expression_offset;
+    entry->symbol_offset = function_ir.symbol_offset;
+    entry->complexity = function_ir.complexity;
+    entry->flags = (entry->flags & ~15U) | (inline_candidate & 1) |
+        (((unsigned)function_call_seen << 1) & 2) |
+        (((unsigned)function_not_inlinable << 2) & 4) |
+        (((unsigned)normalized_Oq << 3) & 8);
+    entry->parameter_count = function_ir.parameter_count;
+    function_ir.complexity = 0;
+    if (cpp_parser_flags & 0x20000000U) return;
+    putc(9, line_file);
+    if (function_symbol) {
+        index = function_symbol->index;
+        if (index > 0x7fff) {
+            DIRECTORY_WORD(index | 0x8000);
+            index >>= 15;
+        }
+        DIRECTORY_WORD(index);
+    } else {
+        putc(0, line_file);
+        putc(0, line_file);
+    }
+}
+
+/* Original 0x5d9c0..0x5d9cb. A lazily assigned temporary symbol index,
+   consumed by the materialized-value expression helper at 0x5d920. */
+unsigned materialized_value_index; /* original 0xa1e20 */
+void reset_materialized_value_index(void)
+{
+    materialized_value_index = 0;
+}
+
+/* Original 0xa0d24/0xa0d28. Native 0x55ed0 and 0x56000 lazily create
+   these per-function alias and binding hash tables. */
+HashTable *function_symbol_aliases, *function_symbol_bindings;
+
+/* Original 0x55eb0..0x55ec5, also the final tail entry of 0x34d10. */
+void reset_function_symbol_tables(void)
+{
+    function_symbol_aliases = 0;
+    function_symbol_bindings = 0;
+}

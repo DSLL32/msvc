@@ -493,7 +493,18 @@
     "_finish_label_symbols",
     "_serialize_scope@4",
     "_emit_symbol_declaration@4",
-    "_write_decorated_name@16"
+    "_write_decorated_name@16",
+    "_mangle_symbol_name@12",
+    "_classify_symbol_decoration@4",
+    "_fputs",
+    "__stbuf",
+    "__isatty",
+    "__ftbuf",
+    "_type_alignment@4",
+    "_record_function_definition@4",
+    "_reset_materialized_value_index",
+    "_unwind_qualified_scopes@4",
+    "_reset_function_symbol_tables"
   ],
   "driver": [
     {
@@ -4781,7 +4792,7 @@
     {
       "name": "_reset_function_symbol_tables",
       "start": 351920,
-      "end": 351921
+      "end": 351941
     },
     {
       "name": "_emit_member_and_base_destructors@4",
@@ -4801,7 +4812,7 @@
     {
       "name": "_reset_materialized_value_index",
       "start": 383424,
-      "end": 383425
+      "end": 383435
     },
     {
       "name": "_finish_label_symbols",
@@ -4821,7 +4832,7 @@
     {
       "name": "_record_function_definition@4",
       "start": 371424,
-      "end": 371425
+      "end": 372312
     },
     {
       "name": "_emit_function_symbols@4",
@@ -4856,12 +4867,53 @@
     {
       "name": "_mangle_symbol_name@12",
       "start": 273376,
-      "end": 273377
+      "end": 273880
     },
     {
       "name": "_format_qualified_tag_name@8",
       "start": 279280,
       "end": 279281
+    },
+    {
+      "name": "_classify_symbol_decoration@4",
+      "start": 273888,
+      "end": 274959,
+      "shared": [
+        [
+          274960,
+          275364
+        ]
+      ]
+    },
+    {
+      "name": "_mangle_symbol_identifier@12",
+      "start": 275376,
+      "end": 275377
+    },
+    {
+      "name": "_mangle_symbol_scope@8",
+      "start": 275600,
+      "end": 275601
+    },
+    {
+      "name": "_mangle_symbol_encoding@16",
+      "start": 275792,
+      "end": 275793
+    },
+    {
+      "name": "_mangle_identifier@12",
+      "start": 275440,
+      "end": 275441
+    },
+    {
+      "name": "_cache_function_parameter_bytes@4",
+      "start": 280064,
+      "end": 280065
+    },
+    {
+      "name": "_format_integer",
+      "start": 476032,
+      "end": 476033
     }
   ],
   "cases": {
@@ -6344,6 +6396,99 @@
         {
           "name": "_mangle_name_only",
           "original": 622660,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_allow_plain_symbol_names",
+      "original": 658028,
+      "fields": [
+        {
+          "name": "_allow_plain_symbol_names",
+          "original": 658028,
+          "bytes": 4
+        },
+        {
+          "name": "_mangle_error_sequence",
+          "original": 658032,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_function_directory",
+      "original": 651724,
+      "fields": [
+        {
+          "name": "_function_directory",
+          "original": 651724,
+          "bytes": 4
+        },
+        {
+          "name": "_function_directory_tail",
+          "original": 651728,
+          "bytes": 4
+        },
+        {
+          "name": "_function_directory_index",
+          "original": 652324,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_symbol_bytes",
+          "original": 664348,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_expression_bytes",
+          "original": 664356,
+          "bytes": 4
+        },
+        {
+          "name": "_normalized_Oq",
+          "original": 576604,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_read_enabled",
+          "original": 654016,
+          "bytes": 4
+        },
+        {
+          "name": "_pch_write_enabled",
+          "original": 654020,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_materialized_value_index",
+      "original": 663072,
+      "fields": [
+        {
+          "name": "_materialized_value_index",
+          "original": 663072,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_function_symbol_aliases",
+      "original": 658724,
+      "fields": [
+        {
+          "name": "_function_symbol_aliases",
+          "original": 658724,
+          "bytes": 4
+        },
+        {
+          "name": "_function_symbol_bindings",
+          "original": 658728,
           "bytes": 4
         }
       ]

@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 489 accepted paired frontiers, including 413 frontend
+PARTIAL reconstruction: 500 accepted paired frontiers, including 420 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _mangle_symbol_name@12 at original VA 0x42be0. The latest ordered replay is recorded in validation.json;
+trap is _inherited_symbol_expression@8 at original VA 0x3c470. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -947,3 +947,20 @@ union is 165,531 / 476,418 bytes (34.745%, not branch coverage), with 420 source
 functions. Both runs reach mangle_symbol_name at 0x42be0 during constructor
 symbol serialization. Underlying name decoration, remaining metadata/definition
 cleanup and complete frontend equivalence remain unfinished.
+
+
+The complete decoration classifier now retains all 101 operator dispatch positions,
+member/access/storage forms and compiler-generated name codes. Its symbol wrapper
+preserves nested/plain fallbacks, convention suffixes and context mutations. The
+constructor's directory entry records exact intermediate offsets and flags in
+typed twenty-entry blocks. Type alignment, materialized-index clearing, qualified
+scope unwinding and native tail-entry symbol-table resets finish the definition.
+Evidence: evidence/constructor-definition-close.txt.
+
+All 500 frontiers pass the frozen full comparator in 127.122 seconds, including
+raw files/streams/pending buffers, callers and fourteen runtime observations.
+Receipt: evidence/replay-constructor-definition-close-receipt.json. Accepted
+executable extent union is 168,961 / 476,418 bytes (35.465%, not branch coverage),
+with 427 source functions. Both runs now reach inherited_symbol_expression at
+0x3c470 in the next method's member expression. Constructor definition teardown
+is complete; the assigned whole frontend case remains partial.

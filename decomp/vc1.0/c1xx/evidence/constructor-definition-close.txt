@@ -1,0 +1,62 @@
+Constructor directory output and complete definition teardown
+
+Seven whole functions accepted after frontier 489 (exclusive ends):
+  mangle_symbol_name            0x42be0..0x42dd8 stdcall 12, 7 native callees
+  classify_symbol_decoration    0x42de0..0x4320f stdcall 4, 0 native callees
+  type_alignment                0x565b0..0x565f9 stdcall 4, 0 native callees
+  record_function_definition    0x5aae0..0x5ae58 stdcall 4, 3 native callees
+  reset_materialized_value_index 0x5d9c0..0x5d9cb cdecl 0, 0 native callees
+  unwind_qualified_scopes       0x333b0..0x3341a stdcall 4, 2 native callees
+  reset_function_symbol_tables  0x55eb0..0x55ec5 cdecl 0, 0 native callees
+Shared text: classifier dispatch 0x43210..0x433a4,101 entries / 404 bytes.
+Exact original runtime matches advanced in order: fputs, stbuf, isatty, ftbuf.
+
+The mangler preserves plain-name allowance save/reset/restore, nested name-only
+fallback, compiler-generated local static destructor context mutations, decorated
+identifier/scope/type children, calling-convention byte suffixes and error-name
+sequence. Plain-name copy deliberately returns one byte after the copied NUL.
+The context storage/declaration flag mutations preserve their original asymmetric
+restore masks. The allow-plain flag starts1; error sequence starts0; both defaults
+and address identities are independently audited.
+
+The complete classifier retains C linkage, external entry names, function-shape
+parameter tests, member/access/storage combinations, compiler-generated functions,
+virtual tables, local-static guards, constructor/destructor/conversion forms and
+all 101 operator dispatch positions. The high byte names an operator, bit 7 in that
+byte requests its underscore extension, and the low byte describes member/storage
+encoding. Native impossible nested prefix test is retained. The logical C switch
+is source reconstruction; only the original dispatch region is separately unmasked.
+CppSymbol.cpp+48 and its four ordered byte fields establish token+49, member
+flags+50 and qualifiers+51; compile-time checks retain those layout facts.
+
+Type alignment retains arrays' base alignment, other shapes' four-byte alignment,
+class-context lookup through signed CType.field08 and ClassInfo.alignment_flags+50,
+and scalar size encoding. The class field offset is explicitly asserted.
+
+Function metadata uses typed 24-byte entries in 484-byte linked blocks with twenty
+entries. Original data at 0x9f424 proves initial slot 19, not zero. Record output
+stores expression/symbol offsets, complexity, parameter count and five flag bits;
+PCH read/write/output and optimization flags reuse canonical objects. The separate
+PCH expression/symbol byte counts remain intermediate-stream state. All new roots,
+index/defaults and previously shared state aliases are checked by audit-data.
+No allocator zeroing or entry flag initialization is invented. The original
+permanent allocator's behavior is retained by its existing accepted implementation.
+
+Line stream marker 9 uses inline FILE byte/word operations and the native 15-bit
+index continuation form; there is no new helper call replacing those operations.
+Materialized-value reset clears the same lazily assigned temporary index consumed
+by native 0x5d920. Qualified-scope unwinding preserves token-allocation suppression,
+parameter marker 0xfd, class-boundary handling and separate directory retirement
+and scope-pop entries. Function alias/binding roots are typed HashTable pointers:
+read-only native 0x55ed0/0x56000 establish their lazy table initialization, with
+0x55f00/0x56070 as corresponding consumers. Their separate reset remains a native
+final tail-entry child of end_function_definition, checked by caller equivalence.
+
+All 500 accepted frontiers pass the frozen full comparator in 127.122 seconds,
+including raw files/streams/pending buffers, callers and fourteen observations.
+Receipt: evidence/replay-constructor-definition-close-receipt.json. Accepted
+executable extent union is 168,961 / 476,418 bytes (35.465%, not branch coverage),
+including 427 source functions, shared text, exact CRT and import thunks. Both runs now reach inherited_symbol_expression at 0x3c470 after completing
+the constructor definition and entering the next method's member expression.
+The assigned frontend case remains partial; neither complete C++ equivalence nor
+branch coverage is claimed. No frontend bytes are normalized.

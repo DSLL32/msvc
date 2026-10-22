@@ -26,6 +26,8 @@ FILE *open_intermediate(char *prefix, char *extension, char *mode)
     return file;
 }
 
+unsigned pch_symbol_bytes; /* original 0xa231c */
+unsigned pch_expression_bytes; /* original 0xa2324 */
 int pch_expression_output, intermediate_status;
 char *pch_diagnostic_name = ""; /* original 0x9fad4 */
 

@@ -48,3 +48,17 @@ unsigned __stdcall pointer_kind_size(unsigned short attributes)
     }
     return 0;
 }
+
+/* Original 0x565b0..0x565f9. Arrays retain the base object's alignment;
+   other shape prefixes denote a four-byte pointer representation here. */
+unsigned short __stdcall type_alignment(CType *type)
+{
+    TypeShape *shape = type->related;
+    if (shape && (shape->flags & 0x77) != 2) return 4;
+    if (type->flags & 0x400)
+        return ((CppSymbol *)cpp_context_stack->items[type->field08])->detail.class_info->alignment_flags & 0x3f;
+    return type->flags & 15;
+}
+
+typedef char ClassAlignmentOffsetMustBe50[
+    (offsetof(ClassInfo, alignment_flags) == 50) ? 1 : -1];
