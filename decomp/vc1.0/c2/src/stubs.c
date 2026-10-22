@@ -145,8 +145,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall split_machine_instructions(MachineContext *context) { __asm int 3 }
-void __fastcall schedule_i586_branches(MachineContext *context) { __asm int 3 }
 void __fastcall finish_machine_lowering(MachineContext *context) { __asm int 3 }
 void __fastcall emit_function_exception_table(FunctionSymbol *symbol, unsigned flags) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
@@ -484,3 +482,6 @@ int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerM
 int __fastcall compare_scheduled_memory(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes, int mode, int conservative, int *relation, SchedulerMemoryAccess *left_memory, SchedulerMemoryAccess *right_memory) { __asm int 3 }
 int __fastcall scheduled_float_latency(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
+int __fastcall pair_pentium_taken_edge(MachineInstruction *branch, MachineInstruction **middle, MachineInstruction *label, int *changed) { __asm int 3 }
+void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }

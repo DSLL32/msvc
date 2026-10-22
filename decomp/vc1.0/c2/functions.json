@@ -711,7 +711,11 @@
     "_compact_pentium_candidates",
     "@can_schedule_pentium@8",
     "@scheduler_release@4",
-    "_finish_machine_schedule"
+    "_finish_machine_schedule",
+    "@split_machine_instructions@4",
+    "@schedule_i586_branches@4",
+    "@set_scheduler_register_tracking@4",
+    "@schedule_pentium_branch_edge@20"
   ],
   "driver": [
     {
@@ -1372,14 +1376,12 @@
     {
       "name": "@split_machine_instructions@4",
       "start": 309584,
-      "end": 309585,
-      "provisional": true
+      "end": 311542
     },
     {
       "name": "@schedule_i586_branches@4",
       "start": 291232,
-      "end": 291233,
-      "provisional": true
+      "end": 291937
     },
     {
       "name": "@finish_machine_lowering@4",
@@ -5890,6 +5892,34 @@
       "name": "@scheduler_instruction_cycles@4",
       "start": 261744,
       "end": 261745,
+      "provisional": true
+    },
+    {
+      "name": "@set_scheduler_register_tracking@4",
+      "start": 268192,
+      "end": 268199
+    },
+    {
+      "name": "@schedule_pentium_branch_edge@20",
+      "start": 291952,
+      "end": 292723
+    },
+    {
+      "name": "@pair_pentium_fallthrough_jump@8",
+      "start": 294272,
+      "end": 294273,
+      "provisional": true
+    },
+    {
+      "name": "@pair_pentium_taken_edge@16",
+      "start": 292944,
+      "end": 292945,
+      "provisional": true
+    },
+    {
+      "name": "@redirect_pentium_branch_labels@8",
+      "start": 292736,
+      "end": 292737,
       "provisional": true
     }
   ],

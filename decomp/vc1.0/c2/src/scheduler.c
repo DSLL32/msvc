@@ -1724,3 +1724,9 @@ void finish_machine_schedule(void)
     for (instruction = machine_instructions; instruction; instruction = instruction->next)
         if (SCHEDULABLE_KIND(instruction->opcode & 15)) instruction->record.scheduling = 0;
 }
+/* Original [000417a0,000417a7). The branch scheduler disables register
+   dependency tracking after physical instruction scheduling has finished. */
+void __fastcall set_scheduler_register_tracking(int enabled)
+{
+    scheduler_track_registers = enabled;
+}

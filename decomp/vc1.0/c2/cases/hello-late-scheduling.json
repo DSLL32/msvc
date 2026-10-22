@@ -1,0 +1,572 @@
+{
+  "checkpoint": 711,
+  "base_commit": "b90aac7",
+  "status": "active; first function scheduling returned; branch relaxation next",
+  "accepted_functions": [
+    {
+      "name": "@split_machine_instructions@4",
+      "start": 309584,
+      "end": 311542
+    },
+    {
+      "name": "@schedule_i586_branches@4",
+      "start": 291232,
+      "end": 291937
+    },
+    {
+      "name": "@set_scheduler_register_tracking@4",
+      "start": 268192,
+      "end": 268199
+    },
+    {
+      "name": "@schedule_pentium_branch_edge@20",
+      "start": 291952,
+      "end": 292723
+    }
+  ],
+  "source_graphs": 634,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 711,
+    "accepted_code_bytes": 202235,
+    "original_code_bytes": 399693,
+    "percentage": 50.597583645447884,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 210
+  },
+  "coverage_delta_bytes": 3441,
+  "current_frontier": {
+    "name": "@finish_machine_lowering@4",
+    "original_va": "0x33330"
+  },
+  "validation": {
+    "canonical_build": "pass after missing fastcall declaration include corrected",
+    "new_modules_W3": "clean after includes fixed",
+    "graph_extent_mask": "pass",
+    "native_fixtures": {
+      "method": "native application entry and captured-output check",
+      "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+      "executable_sha256": "35337f36baad9d14070f7646598b5dda345ad9150d0bda3c4d865065b91b7cba",
+      "trace_enabled": true,
+      "shared_hashes": {
+        "lib/recon/include/recon.h": "5fa1a22f52d82aea4837ed72229f0513f3a374a2948e23d85cfa4d24e02b6df6",
+        "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+        "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+        "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+        "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+        "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+        "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+        "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+        "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+        "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+        "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+        "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+        "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+        "lib/recon/src/crt.c": "53a660e8675b68b43527d9d10fa9d95ce56f796dc969fca1789719fbc0010c26",
+        "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+        "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+        "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+        "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+        "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+      },
+      "results": [
+        {
+          "profile": "minimal",
+          "terminal": "exit:0",
+          "returncode": 0,
+          "application_entries": 270,
+          "seeded_entries": 0,
+          "output": {
+            "name": "test.obj",
+            "bytes": 286,
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_timestamp": [
+              4,
+              4
+            ]
+          },
+          "setup_seconds": 0.012306176126003265,
+          "execution_seconds": 0.006029978394508362,
+          "check_seconds": 0.0013366620987653732,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-t16oeko4/minimal"
+        },
+        {
+          "profile": "hello",
+          "terminal": "@finish_machine_lowering@4",
+          "returncode": -5,
+          "application_entries": 360,
+          "seeded_entries": 270,
+          "output": null,
+          "setup_seconds": 0.013783125206828117,
+          "execution_seconds": 0.00735626183450222,
+          "check_seconds": 0.0010014772415161133,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-t16oeko4/hello"
+        }
+      ],
+      "rejected": [
+        "wrong expected application entry",
+        "non-clock object corruption",
+        "changed captured IR input"
+      ],
+      "fixture_seconds": 0.18450755067169666,
+      "suite_setup_seconds": 0.11312252003699541,
+      "negative_check_seconds": 0.0212063891813159,
+      "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+    }
+  },
+  "timings": {
+    "analysis": "not instrumented; no elapsed time inferred",
+    "measured_build_audit_fixture_attempts": [
+      {
+        "label": "branch-audit-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "audit",
+            "coverage"
+          ],
+          "seconds": 3.443781677633524,
+          "returncode": 0,
+          "log_sha256": "f851ad04f8a00230ddca1a02932f57cef28652c417062bec469814bab52ad727"
+        }
+      },
+      {
+        "label": "branch-native-build-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "native",
+            "native-trace"
+          ],
+          "seconds": 4.30945023521781,
+          "returncode": 2,
+          "log_sha256": "12146b29b12db9ca96785c8a0a26f8bdddfe10e14703d8fe3be9ce27ac44994d"
+        }
+      },
+      {
+        "label": "branch-native-fixed-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "native",
+            "native-trace"
+          ],
+          "seconds": 6.045353259891272,
+          "returncode": 0,
+          "log_sha256": "19698432a4ed97518db725793b532a8c9319fbeafd053952220a36657d01e6e7"
+        }
+      },
+      {
+        "label": "branch-warnings-fixed-timing.json",
+        "data": {
+          "command": [
+            "python3",
+            "scripts/wine-tool.py",
+            "CL.EXE",
+            "/nologo",
+            "/W3",
+            "/I../../../lib/recon/include",
+            "/c",
+            "/Od",
+            "/G3",
+            "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\branch-warning-fixed.obj",
+            "src/branch-scheduler.c"
+          ],
+          "seconds": 0.9614069135859609,
+          "returncode": 0,
+          "log_sha256": "11aa7119bfe7307e957d8cef763126eda18fe4b33c2f0bf166ee7e3fd5ac79cd"
+        }
+      },
+      {
+        "label": "branch-warnings-timing.json",
+        "data": {
+          "command": [
+            "python3",
+            "scripts/wine-tool.py",
+            "CL.EXE",
+            "/nologo",
+            "/W3",
+            "/I../../../lib/recon/include",
+            "/c",
+            "/Od",
+            "/G3",
+            "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\branch-warning.obj",
+            "src/branch-scheduler.c"
+          ],
+          "seconds": 1.3089334266260266,
+          "returncode": 0,
+          "log_sha256": "5bc87fcc32c7d21fac9a89d457118628a6a03ef816f437f3fb96058920aa1043"
+        }
+      },
+      {
+        "label": "branch-win32-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "win32"
+          ],
+          "seconds": 1.790486540645361,
+          "returncode": 0,
+          "log_sha256": "b8d4e7d8f117d20ab72622f6e2d189f2e3b31a133378e29dfa06bd56fca77536"
+        }
+      },
+      {
+        "label": "checkpoint711-audit-fixed-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "audit",
+            "coverage"
+          ],
+          "seconds": 3.33788416814059,
+          "returncode": 0,
+          "log_sha256": "9ee5ce2d3da19cf7b1e4da608f6b395eef6d065c794997ccf176226014a6690b"
+        }
+      },
+      {
+        "label": "checkpoint711-audit-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "audit",
+            "coverage"
+          ],
+          "seconds": 0.6597895910963416,
+          "returncode": 2,
+          "log_sha256": "fd712364051b58b85f9ee4ed265687047dc08037352408a62bb16368be5ead0c"
+        }
+      },
+      {
+        "label": "checkpoint711-canonical-fixed-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "win32"
+          ],
+          "seconds": 2.301055248826742,
+          "returncode": 0,
+          "log_sha256": "65d48eaadc9639b67ff2f7503e8f7bd11ae298d746e7882a0f7d586edd7a63b1"
+        }
+      },
+      {
+        "label": "checkpoint711-native-fixed-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "check"
+          ],
+          "seconds": 2.0118022579699755,
+          "returncode": 0,
+          "log_sha256": "c6f62e84b6123ccff989c13c125907a9980bdf0884511590de5804ebaa7ff8f0"
+        }
+      },
+      {
+        "label": "edge-check-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "check"
+          ],
+          "seconds": 0.34522922057658434,
+          "returncode": 0,
+          "log_sha256": "17c5f09c1a1f49450d7e0f3c741f35d7167769b5c8381de5c17e2162abb901d6"
+        }
+      },
+      {
+        "label": "edge-native-build-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "native",
+            "native-trace"
+          ],
+          "seconds": 10.321129010990262,
+          "returncode": 0,
+          "log_sha256": "4a78e28e4fefd4131233775e401c5817a7d9153da69b537d4d82395c0de10c92"
+        }
+      },
+      {
+        "label": "edge-win32-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "win32"
+          ],
+          "seconds": 1.7092380179092288,
+          "returncode": 2,
+          "log_sha256": "8c30527b186f47b892962da913b3e9b40a4ba0c1260349cead7ffa18ff9ae10c"
+        }
+      },
+      {
+        "label": "split-audit-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "audit",
+            "coverage"
+          ],
+          "seconds": 3.3859194796532393,
+          "returncode": 0,
+          "log_sha256": "001e6855756e3a5938f0cebe81746a077a3ce03917467f8374cfe68ed59acba1"
+        }
+      },
+      {
+        "label": "split-check-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "check"
+          ],
+          "seconds": 0.2849190626293421,
+          "returncode": 0,
+          "log_sha256": "95096f78253eee26e76f18088917f4f0bca9a3f98b26247a23cfaf87f6f2be5d"
+        }
+      },
+      {
+        "label": "split-native-build-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "native",
+            "native-trace"
+          ],
+          "seconds": 2.0678604850545526,
+          "returncode": 0,
+          "log_sha256": "3a638ec8086ab4b82d64c83e4ee28138f48f660f46a6f8922f2978b0e8b69876"
+        }
+      },
+      {
+        "label": "split-warnings-timing.json",
+        "data": {
+          "command": [
+            "python3",
+            "scripts/wine-tool.py",
+            "CL.EXE",
+            "/nologo",
+            "/W3",
+            "/I../../../lib/recon/include",
+            "/c",
+            "/Od",
+            "/G3",
+            "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\split-warning.obj",
+            "src/float-store-split.c"
+          ],
+          "seconds": 1.2080954797565937,
+          "returncode": 0,
+          "log_sha256": "488968f11cad3e92805e2a3e686d19542951003e305d7b76313f2f685a422ba4"
+        }
+      },
+      {
+        "label": "split-win32-fixed-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "win32"
+          ],
+          "seconds": 3.444177869707346,
+          "returncode": 0,
+          "log_sha256": "e918bdc8bb40c6183f8a7eb2fda50d1714b0c17e29b30f244de560497650c84c"
+        }
+      },
+      {
+        "label": "split-win32-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "win32"
+          ],
+          "seconds": 1.676349894143641,
+          "returncode": 2,
+          "log_sha256": "bb593c06fc79d07b48dc916f9d39332233b3fe388e63cdd9b20a6640b6d2ae20"
+        }
+      },
+      {
+        "label": "tracking-native-build-timing.json",
+        "data": {
+          "command": [
+            "make",
+            "-j4",
+            "native",
+            "native-trace"
+          ],
+          "seconds": 2.001548479311168,
+          "returncode": 0,
+          "log_sha256": "cb2a8a760c1a24d4c9c9d104e50068b5efa7bb15e3c3707165a6a3585b6deef8"
+        }
+      }
+    ],
+    "original_references": [
+      {
+        "label": "split-after",
+        "accepted": 708,
+        "logical": "@schedule_i586_branches@4",
+        "original_va": "0x471a0",
+        "events": "exception 80000003 rva 000371a0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.19410474319010973,
+        "execution_check_seconds": 1.2003657575696707,
+        "total_seconds": 1.3944711349904537,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "d40b93897f0438b6b7f02591868b983f5b06b9cdb059fb16ce83525e015f38a1",
+        "config_sha256": "6982bfc20e6afd610d6ae35404e076f9d7d08f1fd0442e7dd8926f8cf282d360",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/split-after"
+      },
+      {
+        "label": "branch-after",
+        "accepted": 709,
+        "logical": "@set_scheduler_register_tracking@4",
+        "original_va": "0x417a0",
+        "events": "exception 80000003 rva 000317a0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.17906819470226765,
+        "execution_check_seconds": 0.6288135107606649,
+        "total_seconds": 0.8078822139650583,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "ab17fcd17f4ddbcd4b5476522d9576d338a9a735ea29c8bf062d47865eac3d30",
+        "config_sha256": "b92c2cba074782482850d2ba9850fbd4c4b568a19ff3a5fc910adb0d183591ff",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/branch-after"
+      },
+      {
+        "label": "tracking-after",
+        "accepted": 710,
+        "logical": "@schedule_pentium_branch_edge@20",
+        "original_va": "0x47470",
+        "events": "exception 80000003 rva 00037470 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.24463606998324394,
+        "execution_check_seconds": 1.1621771082282066,
+        "total_seconds": 1.4068138217553496,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "dc9139b8a6c64f6d87e33910279e9ab028fc2b572ca83c953bcd85510dac69ea",
+        "config_sha256": "77c46661b4eff6b9cb23a3cb3fd24101361417f77d0d86af3e6e68675782a094",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/tracking-after"
+      },
+      {
+        "label": "edge-after",
+        "accepted": 711,
+        "logical": "@finish_machine_lowering@4",
+        "original_va": "0x33330",
+        "events": "exception 80000003 rva 00023330 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.17792110331356525,
+        "execution_check_seconds": 0.6346278563141823,
+        "total_seconds": 0.8125494252890348,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "ad79367885df8f6769282e1029ac8103dc7081de23c007816f0a530977340431",
+        "config_sha256": "c93035e6da453f217d450ea11d9b4419f344571129eb8cfc89b69fe2b0c617c9",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/edge-after"
+      }
+    ],
+    "native_debugger": [
+      {
+        "label": "split-after",
+        "executable_sha256": "fe77aacaa59b54733a56a644bbaaa26168c478d932207aacba618d7c7853787e",
+        "config_sha256": "6982bfc20e6afd610d6ae35404e076f9d7d08f1fd0442e7dd8926f8cf282d360",
+        "seconds": 0.1528681181371212,
+        "logical": "@schedule_i586_branches@4",
+        "matched": true,
+        "log_sha256": "2d318256b6548023b2f56905ac696d266cd6fc494eef5e858121ed228e9c8617"
+      },
+      {
+        "label": "branch-after",
+        "executable_sha256": "6f82c46bf0bb66a9a18f21b1341ba33be0726d8a436cf83bb28c1542da7c8e75",
+        "config_sha256": "b92c2cba074782482850d2ba9850fbd4c4b568a19ff3a5fc910adb0d183591ff",
+        "seconds": 0.19006895180791616,
+        "logical": "@set_scheduler_register_tracking@4",
+        "matched": true,
+        "log_sha256": "47af9c87b681b8f9d8b4027abba2fb56122c0a40d80b0b63a57bf828dade811b"
+      },
+      {
+        "label": "tracking-after",
+        "executable_sha256": "1c07c2026dd29de34136c099721d3428f9a06799f82091d85bda04ef15df2d0b",
+        "config_sha256": "77c46661b4eff6b9cb23a3cb3fd24101361417f77d0d86af3e6e68675782a094",
+        "seconds": 0.20747407525777817,
+        "logical": "@schedule_pentium_branch_edge@20",
+        "matched": true,
+        "log_sha256": "ec43a14ed1f9b58f7b9bdb607682e5608a81c4dfde3a27054a22b1123995a062"
+      },
+      {
+        "label": "edge-after",
+        "executable_sha256": "87ac92ca2b0b0b02aa1893ac10eb74035b3eb26cd190913bfe9ac14bef1a68cf",
+        "config_sha256": "c93035e6da453f217d450ea11d9b4419f344571129eb8cfc89b69fe2b0c617c9",
+        "seconds": 0.17067940067499876,
+        "logical": "@finish_machine_lowering@4",
+        "matched": true,
+        "log_sha256": "598b128c875297e41a3391fb085bfa3cd51dce750159477351a986acd48a3908"
+      }
+    ]
+  },
+  "evidence": [
+    "cases/hello-original-707.json",
+    "cases/hello-original-708.json",
+    "cases/hello-original-709.json",
+    "cases/hello-original-710.json",
+    "cases/hello-original-711.json"
+  ],
+  "limits": [
+    "split_machine_instructions is recovered in full, but the first integer hello function takes its false floating-work guard; transformation body unexercised",
+    "branch edge policy runs, but its movement helpers remain named trapping stubs and have not been reached",
+    "hello final object not produced yet; no final-output equivalence claimed",
+    "extent union is not branch coverage; native/original logical matching does not prove all unvisited paths"
+  ]
+}
