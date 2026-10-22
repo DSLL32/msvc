@@ -667,7 +667,10 @@
     "@clone_machine_record@4",
     "@factor_machine_branch_code@4",
     "@remove_unreachable_machine_code@4",
-    "@simplify_machine_pairs@4"
+    "@simplify_machine_pairs@4",
+    "@schedule_machine_instructions@4",
+    "@instruction_accesses_memory@4",
+    "@scheduler_allocate@4"
   ],
   "driver": [
     {
@@ -1318,8 +1321,7 @@
     {
       "name": "@schedule_machine_instructions@4",
       "start": 258624,
-      "end": 258625,
-      "provisional": true
+      "end": 260144
     },
     {
       "name": "_finish_machine_schedule",
@@ -5573,6 +5575,40 @@
       "name": "@find_function_end@4",
       "start": 210224,
       "end": 210256
+    },
+    {
+      "name": "@scheduler_allocate@4",
+      "start": 260880,
+      "end": 260928
+    },
+    {
+      "name": "@scheduler_release@4",
+      "start": 260144,
+      "end": 260145,
+      "provisional": true
+    },
+    {
+      "name": "@instruction_accesses_memory@4",
+      "start": 260928,
+      "end": 261104
+    },
+    {
+      "name": "@prepare_scheduled_instruction@8",
+      "start": 260672,
+      "end": 260673,
+      "provisional": true
+    },
+    {
+      "name": "@schedule_window@8",
+      "start": 260160,
+      "end": 260161,
+      "provisional": true
+    },
+    {
+      "name": "@recombine_scheduled_loads@8",
+      "start": 203248,
+      "end": 203249,
+      "provisional": true
     }
   ],
   "cases": {

@@ -1616,3 +1616,33 @@ clean. Minimal object/streams/exit match except only timestamp4..7. Verified
 accepted original code-extent union177183/399693 bytes (44.3298 percent) includes
 clipped source/shared text/CRT/imports and actual-mask verification; it is not
 branch coverage.
+
+
+Scheduler entry and typed state (666 accepted frontiers)
+-------------------------------------------------------
+Three whole functions recover the386-instruction scheduling driver,63-
+instruction memory-run cost predicate and checked allocator. The driver keeps
+all13 native callees, complete window/barrier/protected-block/Pentium/region
+and cleanup control flow. Scheduler state is defined contextually as named
+scalars, a typed12-byte arena4 region frame and an eight-element x87 value
+array. Native7c2e0+architectural-register14..21 aliases that same physical-array
+storage; consumers translate the base/index pair to reg-REG_ST0. Value serial,
+positions pointer and heap ownership are separate live fields, all retained.
+No image section snapshot or assembly is introduced.
+
+The register-tracking table is recovered as SchedulerRegisterState**, after
+its next consumer41df0 identifies each entry as a pointer to per-register
+state. It is not a counter table. Independent initial-state capture matches
+217 normalized lines/87 records: capacity65, all65 pointers NULL, ordinal0,
+memory-run2, x87 depth0/serial1, eight values -1, and empty region/positions
+ownership. The whole driver is reconstructed, but only its initialization,
+prologue scan and allocation have executed so far. Instruction information,
+windows, post-folding and floating alternatives keep named trapping children.
+Next matching frontier is prepare_scheduled_instruction3fa40; optimized hello
+remains incomplete. See cases/hello-scheduler-entry-abi.json.
+
+All352 minimal and314 hello frontiers replay,589 source graphs and666 accepted
+instruction boundaries pass. scheduler compiles /W3 clean. Minimal object/
+streams/exit remain exact except only timestamp4..7. Verified accepted original
+code-extent union178927/399693 bytes (44.7661 percent) includes clipped source/
+shared text/CRT/imports and actual-mask cross-check; it is not branch coverage.

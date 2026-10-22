@@ -1,3 +1,4 @@
+#include "scheduler.h"
 #include "jump-threading.h"
 #include "comparison-branches.h"
 #include "frame-access.h"
@@ -144,7 +145,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall schedule_machine_instructions(int first) { __asm int 3 }
 void finish_machine_schedule(void) { __asm int 3 }
 void __fastcall split_machine_instructions(MachineContext *context) { __asm int 3 }
 void __fastcall schedule_i586_branches(MachineContext *context) { __asm int 3 }
@@ -472,3 +472,7 @@ int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInst
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction *label, MachineInstruction *before_target) { __asm int 3 }
+void __fastcall scheduler_release(void *memory) { __asm int 3 }
+void __fastcall prepare_scheduled_instruction(MachineInstruction *instruction, int ordinal) { __asm int 3 }
+void __fastcall schedule_window(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+MachineInstruction *__fastcall recombine_scheduled_loads(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
