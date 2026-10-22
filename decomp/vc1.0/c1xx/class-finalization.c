@@ -1,4 +1,5 @@
 /* Completed class layout, synthesized members and member-name indexing. */
+#include <stdlib.h>
 #include "class-finalization.h"
 #include "class-type-sets.h"
 #include "class-members.h"
@@ -468,4 +469,85 @@ void __stdcall declare_class_virtual_tables(CppSymbol *tag)
             table_index = 0;
         }
     }
+}
+
+int class_member_hash_bits(unsigned count);
+
+typedef struct ClassMemberIndexLink {
+    CppSymbol *symbol;
+    struct ClassMemberIndexLink *next;
+} ClassMemberIndexLink;
+typedef struct ClassMemberIndexBucket {
+    ClassMemberIndexLink *first, *last;
+    unsigned count;
+} ClassMemberIndexBucket;
+typedef char ClassMemberIndexLinkSizeMustBe8[(sizeof(ClassMemberIndexLink) == 8) ? 1 : -1];
+typedef char ClassMemberIndexBucketSizeMustBe12[(sizeof(ClassMemberIndexBucket) == 12) ? 1 : -1];
+
+/* Original 0x33660..0x337ed. Preserve declaration order within each
+   interned-name bucket, then pack the persistent member-pointer arrays. */
+void __stdcall build_class_member_index(CppSymbol *tag)
+{
+    unsigned members = 0, bucket_count = 1, mask, index, bucket;
+    CppSymbol *member;
+    ClassMemberIndexBucket *temporary;
+    ClassMemberBucket *result;
+    ClassMemberIndexLink *link;
+    CppSymbol **destination;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    for (member = tag->auxiliary.scope_members; member; member = member->next) ++members;
+    if (members) bucket_count = 1U << (class_member_hash_bits(members) & 31);
+    mask = bucket_count - 1;
+    temporary = malloc(bucket_count * sizeof(ClassMemberIndexBucket));
+    if (!temporary) fatal_error(60);
+    for (index = 0; index < bucket_count; ++index) {
+        temporary[index].first = temporary[index].last = 0;
+        temporary[index].count = 0;
+    }
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        bucket = (unsigned)member->name & mask;
+        if (pool->remaining < (int)sizeof(ClassMemberIndexLink)) refill_arena(&compiler_arena, pool);
+        link = (ClassMemberIndexLink *)pool->next;
+        pool->remaining -= sizeof(ClassMemberIndexLink);
+        pool->next += sizeof(ClassMemberIndexLink);
+        link->symbol = member;
+        /* The native body retains the arena's zero-filled next slot. */
+        if (!temporary[bucket].first) {
+            temporary[bucket].first = temporary[bucket].last = link;
+            temporary[bucket].count = 1;
+        } else {
+            temporary[bucket].last->next = link;
+            temporary[bucket].last = link;
+            ++temporary[bucket].count;
+        }
+    }
+    result = allocate_permanent(bucket_count * sizeof(ClassMemberBucket));
+    if (!result) fatal_error(60);
+    for (index = 0; index < bucket_count; ++index) {
+        result[index].symbols = 0;
+        result[index].count = 0;
+    }
+    for (index = 0; index < bucket_count; ++index) {
+        if (!temporary[index].count) continue;
+        result[index].count = temporary[index].count;
+        destination = allocate_permanent(temporary[index].count * sizeof(CppSymbol *));
+        result[index].symbols = destination;
+        for (link = temporary[index].first; link; link = link->next) *destination++ = link->symbol;
+    }
+    free(temporary);
+    tag->detail.class_info->member_index = result;
+    tag->detail.class_info->member_index_mask = mask;
+}
+
+
+/* Original 0x33640..0x33654. The table-size exponent is floor(log2(count)). */
+int class_member_hash_bits(unsigned count)
+{
+    int bits = 0;
+    count >>= 1;
+    while (count) {
+        ++bits;
+        count >>= 1;
+    }
+    return bits;
 }

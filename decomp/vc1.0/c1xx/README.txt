@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 342 accepted paired frontiers, including 267 frontend
+PARTIAL reconstruction: 349 accepted paired frontiers, including 274 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _declare_default_constructor_closures@4 at original VA 0x37070. The latest ordered replay is recorded in validation.json;
+trap is _flush_scanned_declaration@4 at original VA 0x1e7a0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -521,3 +521,16 @@ All 342 accepted frontiers replay exactly in evidence/replay-virtual-layout-fini
 including pending FILE buffers. The next matching trap is constructor-closure
 processing at 0x37070. Accepted source/table ranges total 106,472 original text
 bytes; complete frontend equivalence remains unclaimed.
+
+
+Class completion now passes constructor-closure/deleting-destructor drivers,
+special-member lookup and both list/indexed search paths. The shared search
+object is 16 bytes with checked offsets. The final index builder preserves its
+six native callees and original temporary/arena/permanent allocation paths,
+packing declarations in order within each interned-name bucket. Its sizing
+helper retains cdecl. See evidence/class-member-completion.txt.
+
+All 349 accepted frontiers replay exactly in evidence/replay-class-member-completion.log,
+including pending FILE buffers. The next matching trap is deferred scanned-text
+flushing at 0x1e7a0, reached by the lexer's EOF lookahead path. Out-of-class
+function bodies have not yet been accepted as parsed; equivalence remains partial.

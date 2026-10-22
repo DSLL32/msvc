@@ -346,7 +346,14 @@
     "_copy_vector_elements@12",
     "_vector_count@4",
     "_class_has_pure_virtual@4",
-    "_declare_class_virtual_tables@4"
+    "_declare_class_virtual_tables@4",
+    "_declare_default_constructor_closures@4",
+    "_find_class_special_member@8",
+    "_begin_class_member_search@12",
+    "_next_class_member_search@4",
+    "_declare_deleting_destructors@4",
+    "_build_class_member_index@4",
+    "_class_member_hash_bits"
   ],
   "driver": [
     {
@@ -3224,12 +3231,12 @@
     {
       "name": "_declare_default_constructor_closures@4",
       "start": 225392,
-      "end": 225393
+      "end": 225648
     },
     {
       "name": "_declare_deleting_destructors@4",
       "start": 225904,
-      "end": 225905
+      "end": 226116
     },
     {
       "name": "_emit_deferred_class_terminator",
@@ -3239,7 +3246,7 @@
     {
       "name": "_build_class_member_index@4",
       "start": 210528,
-      "end": 210529
+      "end": 210925
     },
     {
       "name": "_new_type_set",
@@ -3585,6 +3592,36 @@
       "name": "_declare_virtual_table_symbol@12",
       "start": 503424,
       "end": 503425
+    },
+    {
+      "name": "_find_class_special_member@8",
+      "start": 228800,
+      "end": 228853
+    },
+    {
+      "name": "_make_default_constructor_closure@12",
+      "start": 225712,
+      "end": 225713
+    },
+    {
+      "name": "_begin_class_member_search@12",
+      "start": 210928,
+      "end": 211043
+    },
+    {
+      "name": "_next_class_member_search@4",
+      "start": 211056,
+      "end": 211178
+    },
+    {
+      "name": "_make_deleting_destructors@12",
+      "start": 226128,
+      "end": 226129
+    },
+    {
+      "name": "_class_member_hash_bits",
+      "start": 210496,
+      "end": 210516
     }
   ],
   "cases": {

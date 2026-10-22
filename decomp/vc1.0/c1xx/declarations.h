@@ -62,6 +62,12 @@ typedef union ClassSpecialTraits {
     unsigned char bytes[4];
 } ClassSpecialTraits;
 typedef char ClassSpecialTraitsSizeMustBe4[(sizeof(ClassSpecialTraits) == 4) ? 1 : -1];
+typedef struct ClassMemberBucket {
+    CppSymbol **symbols;
+    unsigned count;
+} ClassMemberBucket;
+typedef char ClassMemberBucketSizeMustBe8[(sizeof(ClassMemberBucket) == 8) ? 1 : -1];
+
 typedef struct ClassInfo {
     unsigned size, nonvirtual_size;
     Vector *virtual_tables;
@@ -69,7 +75,8 @@ typedef struct ClassInfo {
     Vector *virtual_table_groups;
     unsigned field14;
     struct InlineVector *conversion_types, *ambiguous_conversion_types;
-    unsigned field20, field24;
+    ClassMemberBucket *member_index;
+    unsigned member_index_mask;
     short type_index;
     unsigned short pointer_attributes;
     unsigned field2c;
@@ -79,6 +86,8 @@ typedef struct ClassInfo {
     ClassSpecialTraits special_members;
 } ClassInfo;
 
+typedef char ClassInfoMemberIndexOffsetMustBe32[(offsetof(ClassInfo, member_index) == 32) ? 1 : -1];
+typedef char ClassInfoMemberMaskOffsetMustBe36[(offsetof(ClassInfo, member_index_mask) == 36) ? 1 : -1];
 typedef char ClassInfoVirtualTablesOffsetMustBe8[(offsetof(ClassInfo, virtual_tables) == 8) ? 1 : -1];
 typedef char ClassInfoVirtualBaseTablesOffsetMustBe12[(offsetof(ClassInfo, virtual_base_tables) == 12) ? 1 : -1];
 typedef char ClassInfoConversionTypesOffsetMustBe24[(offsetof(ClassInfo, conversion_types) == 24) ? 1 : -1];

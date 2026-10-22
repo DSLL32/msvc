@@ -1,0 +1,52 @@
+Class completion: generated-member drivers and name indexing
+==========================================================
+
+Original C1XX SHA256:
+333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7
+
+Whole functions after the 342-frontier checkpoint, with exclusive ends:
+  declare_default_constructor_closures@4 37070..37170, three callees
+  find_class_special_member@8          37dc0..37df5, two callees
+  begin_class_member_search@12         337f0..33863, no callees
+  next_class_member_search@4           33870..338ea, no callees
+  declare_deleting_destructors@4       37270..37344, three callees
+  build_class_member_index@4           33660..337ed, six callees
+  class_member_hash_bits               33640..33654, no callees, cdecl
+
+The individual check logs prove entry and next logical trap matches. Full ordered
+replay and build-text hash are recorded in validation.json. Pending FILE buffers
+are compared without child flushes; complete-case equivalence remains partial.
+
+Both generated-member drivers preserve overload-chain iteration, pointer-model
+classification and the native low-five-bit mask for variable shifts. Constructor
+closures are emitted only when the default-constructor flag and explicit default
+arguments require one, once per model. Deleting forms are skipped for trivial
+destructors. Their unreached creator children remain typed named traps.
+
+The special-member lookup returns only kind-17 overload wrappers. Its apparent
+analysis void return is contradicted by EAX at the matching caller; it returns
+the next_class_member_search result when null or kind 17. It keeps both native
+search calls rather than substituting an unrelated higher-level lookup.
+
+ClassMemberSearch is the shared 16-byte native stack object: indexed mode +0,
+union of linked next pointer / array cursor +4, remaining array count +8,
+interned name +12. All four offsets and total size are checked by the original
+compiler. Before completion the cursor's remaining word is intentionally not
+initialized; it is read only in indexed mode. On a linked-list miss, the saved
+cursor stays unchanged, as in the native code. Indexed lookup consumes every
+inspected entry, decrementing its count even when names do not match.
+
+ClassInfo's former provisional words +32/+36 are now the canonical member-index
+pointer and bucket mask. Each persistent ClassMemberBucket is eight bytes:
+member-pointer array and count. The temporary bucket is twelve bytes and its
+arena-two link is eight bytes; all sizes and the class-info offsets are checked.
+The builder uses the original malloc/free pair for temporary buckets, arena two
+for links and allocate_permanent for packed index/member arrays. It retains
+native fatal-error checks, clearing passes and declaration order within buckets.
+The arena link's next field retains the zero-filled arena storage just as in
+the original body; no independent duplicate member list is introduced.
+
+Bucket count is one for an empty list; otherwise it is 1 << floor(log2(count)).
+The mask uses the same interned-name pointer bits at build and lookup. These are
+contextual runtime structures, not copied original data tables. The sizing helper
+is cdecl (native RET without a cleanup immediate), preserving its individual ABI.

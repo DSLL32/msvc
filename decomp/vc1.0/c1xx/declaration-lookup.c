@@ -651,3 +651,62 @@ void __stdcall prepend_function_overload(CppSymbol *overloads, CppSymbol *declar
     declaration->next = ((OverloadSet *)overloads)->functions;
     ((OverloadSet *)overloads)->functions = declaration;
 }
+
+/* Original 0x37dc0..0x37df5. Look only for a function-overload wrapper;
+   data/tag declarations with the same interned spelling do not qualify. */
+CppSymbol *__stdcall find_class_special_member(CppSymbol *tag, char *name)
+{
+    ClassMemberSearch search;
+    CppSymbol *member;
+    begin_class_member_search(&search, name, tag);
+    do {
+        member = next_class_member_search(&search);
+    } while (member && (member->kind & 31) != 17);
+    return member;
+}
+
+
+/* Original 0x337f0..0x33863. Before completion use the declaration list;
+   afterwards inspect only the bucket for this interned name. */
+void __stdcall begin_class_member_search(ClassMemberSearch *search, char *name, CppSymbol *tag)
+{
+    ClassInfo *info = tag->detail.class_info;
+    ClassMemberBucket *bucket;
+    if (!info->member_index) {
+        search->indexed = 0;
+        search->position.next = tag->auxiliary.scope_members;
+    } else {
+        bucket = &info->member_index[(unsigned)name & info->member_index_mask];
+        search->position.items = bucket->symbols;
+        search->remaining = bucket->count;
+        search->indexed = 1;
+    }
+    search->name = name;
+}
+
+
+/* Original 0x33870..0x338ea. The linked-list path advances its saved
+   cursor only on a match; the indexed path consumes each inspected entry. */
+CppSymbol *__stdcall next_class_member_search(ClassMemberSearch *search)
+{
+    CppSymbol *member;
+    if (search->indexed != 1) {
+        member = search->position.next;
+        while (member) {
+            if (member->name == search->name) {
+                search->position.next = member->next;
+                return member;
+            }
+            member = member->next;
+        }
+        return 0;
+    }
+    if (search->position.items && search->remaining) {
+        do {
+            member = *search->position.items++;
+            --search->remaining;
+            if (member->name == search->name) return member;
+        } while (search->remaining);
+    }
+    return 0;
+}

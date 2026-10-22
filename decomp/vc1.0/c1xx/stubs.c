@@ -396,10 +396,10 @@ int __stdcall compatible_override_return(CType *member, CType *inherited) { __as
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }
 void browser_end_tag(void) { __asm { int 3 } }
 
-void __stdcall declare_default_constructor_closures(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall declare_deleting_destructors(CppSymbol *tag) { __asm { int 3 } }
+
+
 void emit_deferred_class_terminator(void) { __asm { int 3 } }
-void __stdcall build_class_member_index(CppSymbol *tag) { __asm { int 3 } }
+
 TypeSet *union_type_sets(TypeSet *set, TypeSet *source) { __asm { int 3 } return 0; }
 void begin_type_set(TypeSetIterator *iterator, TypeSet *set) { __asm { int 3 } }
 int next_type_set(TypeSetIterator *iterator) { __asm { int 3 } return 0; }
@@ -465,3 +465,11 @@ void *__stdcall clone_class_virtual_group(void *item, int arena) { __asm { int 3
 
 
 CppSymbol *__stdcall declare_virtual_table_symbol(int kind, VirtualTable *table, CppSymbol *tag) { __asm { int 3 } return 0; }
+
+
+void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *constructor, int model) { __asm { int 3 } }
+
+
+
+
+void __stdcall make_deleting_destructors(CppSymbol *tag, CppSymbol *destructor, int model) { __asm { int 3 } }

@@ -132,7 +132,7 @@ void __stdcall inspect_declared_special_members(CppSymbol *tag, SpecialMemberSta
             if (parameters->associated_type) {
                 shape = function->type->related;
                 if (shape && !(shape->flags & 0x77)) shape = shape->related;
-                model = special_member_model(shape->data.parameters->associated_type->related->attributes & 7);
+                model = special_member_model((unsigned short)(shape->data.parameters->associated_type->related->attributes & 7));
             }
             if (function->cpp.parts.member_flags & 0x10)
                 record_special_member(tag, states, 0, model, nonprivate, 520);
@@ -364,4 +364,69 @@ int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int 
         ++first;
     }
     return -1;
+}
+
+CppSymbol *__stdcall find_class_special_member(CppSymbol *tag, char *name);
+void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *constructor, int model);
+void __stdcall make_deleting_destructors(CppSymbol *tag, CppSymbol *destructor, int model);
+
+/* Original 0x37070..0x37170. Create at most one closure for each pointer
+   model when a nontrivial default constructor takes explicit default arguments. */
+void __stdcall declare_default_constructor_closures(CppSymbol *tag)
+{
+    CppSymbol *member, *next;
+    TypeShape *shape;
+    unsigned created = 0, mask;
+    int model;
+    if (tag->detail.class_info->trivial_special_members & 1) return;
+    member = find_class_special_member(tag, name_ctor);
+    if (!member) return;
+    if ((member->kind & 31) == 16 || (member->kind & 31) == 17)
+        member = ((OverloadSet *)member)->functions;
+    while (member && ((member->kind & 31) == 6 || (member->kind & 31) == 7)) {
+        next = member->next;
+        shape = member->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        model = special_member_model((unsigned short)(shape->data.parameters->associated_type->related->attributes & 7));
+        if (member->cpp.parts.member_flags & 0x10) {
+            shape = member->type->related;
+            if (shape && !(shape->flags & 0x77)) shape = shape->related;
+            if (shape->data.parameters->default_count) {
+                mask = 1U << (model & 31);
+                if (!(created & mask)) {
+                    make_default_constructor_closure(tag, member, model);
+                    created |= mask;
+                }
+            }
+        }
+        member = next;
+    }
+}
+
+
+/* Original 0x37270..0x37344. A nontrivial destructor needs its deleting
+   forms once per pointer model, independent of overload-chain order. */
+void __stdcall declare_deleting_destructors(CppSymbol *tag)
+{
+    CppSymbol *member, *next;
+    TypeShape *shape;
+    unsigned created = 0, mask;
+    int model;
+    if (tag->detail.class_info->trivial_special_members & 8) return;
+    member = find_class_special_member(tag, name_dtor);
+    if (!member) return;
+    if ((member->kind & 31) == 16 || (member->kind & 31) == 17)
+        member = ((OverloadSet *)member)->functions;
+    while (member && ((member->kind & 31) == 6 || (member->kind & 31) == 7)) {
+        next = member->next;
+        shape = member->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        model = special_member_model((unsigned short)(shape->data.parameters->associated_type->related->attributes & 7));
+        mask = 1U << (model & 31);
+        if (!(created & mask)) {
+            make_deleting_destructors(tag, member, model);
+            created |= mask;
+        }
+        member = next;
+    }
 }
