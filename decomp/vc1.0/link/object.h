@@ -34,6 +34,7 @@ void process_mac_object_symbols(SymbolTable *,PIMAGE_SYMBOL,char *);
 void process_object_symbols(Image *,Module *,unsigned char *,unsigned char *,PIMAGE_SYMBOL,unsigned short);
 void release_coff_strings(char *);
 void release_coff_symbols(PIMAGE_SYMBOL);
+unsigned char skip_coff_auxiliaries(PIMAGE_SYMBOL *,unsigned char);
 unsigned char select_comdat(SymbolTable *,Contribution *,PIMAGE_SYMBOL,unsigned short,char **);
 void attach_comdat_node(Module *,Contribution *,const char *);
 void classify_contribution(Contribution *,ImageOptions *);

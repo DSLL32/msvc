@@ -531,3 +531,8 @@ Section *find_section_for_group(const char *name,SectionList *sections)
     return find_section_by_name(section_name,sections);
 }
 
+
+void end_library_enumerator(LibraryEnumerator *scan)
+{
+}
+

@@ -15,24 +15,29 @@ Completed cases:
   Normalized executable SHA256:
   92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16
   The generated program returns 0 with empty streams.
+  hello-win32 (-link @link.rsp) exits 0 with exact streams and a matching 2 MB hello.exe.
+  The same four-byte timestamp normalization applies. Normalized executable SHA256:
+  17f34769a7c0089cf4f74f79175082d30709175839af2c8cae7b7cbf2a8b97ca
+  Original, reconstructed and untouched-baseline programs pass the GUI checker:
+  HelloWindow, Hello, world! painting (300 dark pixels), WM_CLOSE and exit 0.
 
-There are 344 accepted frontiers: 90 help and 254 minimal-C. The clean parallel
-build, full case-aware replay, completed minimal-C artifact/program check and help
-regression pass. Static audits check 233 source/runtime call graphs, 224 source
-callback-reference sets and 194 contextual data definitions. These checks cover
-reached cases; pending helpers trap and unexecuted branches need later coverage.
+There are 347 accepted frontiers: 90 help, 254 minimal-C and 3 hello-win32. The
+clean parallel build, full case-aware replay and all three completed case checks
+pass. Static audits check 236 source/runtime call graphs, 227 source callback-
+reference sets and 197 contextual data definitions. These checks cover reached
+cases; pending helpers trap and unexecuted branches need later coverage.
 
-The hello-win32 fixture is queued next. Its shared captured executable has already
-passed the checker setup (300 painted dark pixels and exit 0). The reconstructed
-hello link case has not yet run. Shared fixtures under ../fixtures are immutable;
-cases/ records invocations, normalization and verification evidence.
+Shared fixtures under ../fixtures are immutable. cases/ records invocations,
+normalization, generated-program checks and verification evidence.
 
 Build and check help:
     make -j2 check
 Check minimal-C, its output bytes and the generated program:
     python3 compare.py --case minimal-c --require-exit
-Replay every recorded frontier and finish with the minimal-C artifact check:
-    python3 compare.py --replay --case minimal-c --require-exit
+Check hello-win32, its output bytes and GUI behavior:
+    python3 compare.py --case hello-win32 --require-exit
+Replay every recorded frontier and finish with the hello-win32 artifact check:
+    python3 compare.py --replay --case hello-win32 --require-exit
 
 The harness masks the original's entire code section with INT3 and restores only
 accepted function extents and encountered inline data. The reconstruction's entry

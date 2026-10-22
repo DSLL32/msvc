@@ -1,6 +1,6 @@
 {
   "case": "hello-win32",
-  "status": "queued after minimal-c",
+  "status": "complete",
   "fixture": "../fixtures/hello-win32/manifest.json",
   "phase": "link",
   "arguments": [
@@ -8,5 +8,82 @@
     "@link.rsp"
   ],
   "normalization": "Only the four-byte PE COFF timestamp at file offset 0x88",
-  "regression": "/?"
+  "regression": "/?",
+  "regressions": [
+    "/?",
+    "minimal-c"
+  ],
+  "exit_status": 0,
+  "streams": {
+    "stdout": {
+      "bytes": 158,
+      "sha256": "da68d164bab079192163e8a443b53dc0fe18bd0793ef5ff68501f49eb37d3751"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "outputs": [
+    {
+      "bytes": 2097152,
+      "output_name": "hello.exe",
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "name": "PE COFF TimeDateStamp"
+        }
+      ],
+      "normalized_sha256": "17f34769a7c0089cf4f74f79175082d30709175839af2c8cae7b7cbf2a8b97ca"
+    }
+  ],
+  "generated_program": {
+    "path": "hello.exe",
+    "kind": "win32-gui",
+    "class_name": "HelloWindow",
+    "title": "Hello, world!",
+    "painted_text": "Hello, world!",
+    "close_message": "WM_CLOSE",
+    "exit_status": 0,
+    "checker_source": "decomp/vc1.0/cl/gui-check.c",
+    "verified_report": {
+      "width": 632,
+      "height": 326,
+      "dark_pixels": 300,
+      "bounds": [
+        276,
+        157,
+        354,
+        167
+      ],
+      "exit_status": 0
+    },
+    "verified_artifacts": [
+      "original",
+      "reconstructed",
+      "baseline"
+    ]
+  },
+  "validation": {
+    "clean_parallel_build": [
+      "make clean",
+      "make -j2 check"
+    ],
+    "trap_replay": "python3 compare.py --replay --case hello-win32 --require-exit",
+    "total_frontiers_replayed": 347,
+    "frontiers_by_case": {
+      "/?": 90,
+      "minimal-c": 254,
+      "hello-win32": 3
+    },
+    "source_and_runtime_functions_with_matching_callee_sets": 236,
+    "source_functions_with_matching_callback_references": 227,
+    "contextual_data_definitions": 197,
+    "all_program_implementations_readable_c": true,
+    "unmodified_original_matches": true,
+    "replay_log_sha256": "6f83b614f6ce5dab5c937f653849a18d0bccca47e6ef7952b034f9999c714ae9",
+    "matching_trap_frontiers": 3,
+    "case_check": "python3 compare.py --case hello-win32 --require-exit"
+  }
 }

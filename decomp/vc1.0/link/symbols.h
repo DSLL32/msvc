@@ -12,6 +12,7 @@ typedef struct ModuleReference { Module *module; struct ModuleReference *next; }
 #define EXTERNAL_DEFINED 1
 #define EXTERNAL_COMMON 2
 #define EXTERNAL_EMITTED 4
+#define EXTERNAL_COMDAT 0x20
 #define EXTERNAL_NO_OUTPUT 0x200
 #define EXTERNAL_MULTIPLE_REFERENCES 0x1000
 #define EXTERNAL_WEAK 0x40

@@ -1,7 +1,7 @@
 Source and verification notes
 
-Current completed cases are /? and minimal-C. The latest full replay covers344
-frontiers; hello-win32 remains queued. Later paragraphs retain checkpoint history.
+Current completed cases are /?, minimal-C and hello-win32. The latest full replay
+covers 347 frontiers. Later paragraphs retain checkpoint history.
 
 Program logic is C, including argument parsing, option processing, the driver,
 COMDAT allocation, mapped-file/cache handling, COFF readers, module/library and
@@ -205,3 +205,28 @@ and contents are checked by the fixture. No assembly ABI exception was required.
 The old help-case JSON's assembly-era validation entry was replaced with current
 C evidence. Its prior contents remain in Git history and private pre-c-cleanup
 scratch. functions.json frontier provenance was retained throughout.
+
+The completed hello-win32 checkpoint contains 347 accepted frontiers: 90 help,
+254 minimal-C and 3 hello-win32. A clean original-toolchain make -j2 check passes;
+full 347-frontier replay and all three complete case checks pass. Audits verify
+236 source/runtime call graphs, 227 callback-reference sets and 197 contextual
+data definitions. The 2 MB hello.exe matches the immutable fixture after ignoring
+only its four-byte PE COFF timestamp, normalized SHA256
+17f34769a7c0089cf4f74f79175082d30709175839af2c8cae7b7cbf2a8b97ca.
+Original, reconstructed and untouched-baseline outputs all pass the GUI checker:
+632 by 326 client area, 300 dark pixels within [276,157,354,167], and exit 0 after
+WM_CLOSE. Streams and LINK exit status also match exactly. Help and the complete
+minimal-C artifact/execution check pass again after the full replay.
+
+The three additional C bodies select COMDAT definitions, skip COFF auxiliaries,
+and retain the original empty library-enumerator end vertex. COMDAT selection
+owns its three typed scan-state globals. It preserves the module scan cursor,
+section auxiliary checksum/selection, associative contribution pointer, static
+symbol names, common-symbol replacement and duplicate-definition diagnostics.
+The original duplicate-policy dispatch reads the saved section-number word at
+original Contribution offset 28, rather than its selection byte at 2a; the C
+checks retain this observed behavior. Cached and streamed auxiliary iteration
+remain separate paths through the existing COFF reader. Individual function
+boundaries and cdecl interfaces are preserved. No assembly ABI exception or
+copied data section was required. Pending helpers and uncovered branches remain
+explicit limitations; these three fixtures do not establish general LINK parity.

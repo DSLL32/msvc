@@ -343,7 +343,10 @@
     "import:SetFilePointer",
     "import:SetEndOfFile",
     "_remove_temporary_inputs",
-    "import:SetStdHandle"
+    "import:SetStdHandle",
+    "_select_comdat",
+    "_skip_coff_auxiliaries",
+    "_end_library_enumerator"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1811,10 +1814,11 @@
     {
       "name": "_end_library_enumerator",
       "start": 245232,
-      "end": 245233,
-      "implementation": "stub-C",
-      "source": "module-stubs.c",
-      "abi": "cdecl void(LibraryEnumerator *scan)"
+      "end": 245248,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(LibraryEnumerator *scan)",
+      "evidence": "Matching hello-win32 library-enumerator finalizer3bdf0..3be00; original no-op RET with alignment."
     },
     {
       "name": "_initialize_machine",
@@ -2163,10 +2167,11 @@
     {
       "name": "_select_comdat",
       "start": 148736,
-      "end": 148737,
-      "implementation": "stub-C",
-      "source": "object-stubs.c",
-      "abi": "cdecl unsigned char(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,unsigned short section,char **name)"
+      "end": 149728,
+      "implementation": "C",
+      "source": "comdat-selection.c",
+      "abi": "cdecl unsigned char(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,unsigned short section,char **name)",
+      "evidence": "Matching hello-win32 COMDAT selection24500..248e0; full persistent scan/rewind, associative parent, static/external names, duplicate checks and common override. Original dispatches duplicate policy using saved section number28, not selection byte2a; preserve this behavior."
     },
     {
       "name": "_read_section_header",
@@ -3259,6 +3264,15 @@
       "implementation": "stub-C",
       "source": "pass-two-stubs.c",
       "abi": "cdecl unsigned char(void)"
+    },
+    {
+      "name": "_skip_coff_auxiliaries",
+      "start": 148624,
+      "end": 148736,
+      "implementation": "C",
+      "source": "coff-io.c",
+      "abi": "cdecl unsigned char(PIMAGE_SYMBOL *cursor,unsigned char count)",
+      "evidence": "Matching hello-win32 auxiliary skip24490..24500; advance cached symbol pointer or read/discard exactly count streamed records, returning BYTE count."
     }
   ],
   "c_stub_references": [
@@ -3608,6 +3622,9 @@
     "minimal-c",
     "minimal-c",
     "minimal-c",
-    "minimal-c"
+    "minimal-c",
+    "hello-win32",
+    "hello-win32",
+    "hello-win32"
   ]
 }

@@ -4,7 +4,6 @@
 void initialize_mac_object_symbols(unsigned long count) { __asm { int 3 } }
 void finish_mac_object_symbols(void) { __asm { int 3 } }
 void process_mac_object_symbols(SymbolTable *table,PIMAGE_SYMBOL symbols,char *strings) { __asm { int 3 } }
-unsigned char select_comdat(SymbolTable *table,Contribution *contribution,PIMAGE_SYMBOL symbols,unsigned short section,char **name) { __asm { int 3 } return 0; }
 
 void validate_mac_code_relocation(unsigned short type) { __asm { int 3 } }
 void append_mac_fixup(MacFixupList *list,Contribution *contribution,unsigned long offset) { __asm { int 3 } }

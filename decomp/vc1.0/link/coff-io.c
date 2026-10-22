@@ -159,3 +159,16 @@ void write_optional_header(int file,IMAGE_OPTIONAL_HEADER *header,unsigned short
     if (size) write_file(file,header,size);
 }
 
+
+unsigned char skip_coff_auxiliaries(PIMAGE_SYMBOL *cursor,unsigned char count)
+{
+    unsigned char remaining=count;
+    IMAGE_SYMBOL temporary;
+    if (*cursor) *cursor+=count;
+    else while (remaining) {
+        read_coff_symbol(input_file,&temporary);
+        --remaining;
+    }
+    return count;
+}
+

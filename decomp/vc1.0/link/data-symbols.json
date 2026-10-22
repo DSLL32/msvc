@@ -1222,5 +1222,23 @@
     "name": "cv_line_count_file_offset",
     "size": 4,
     "owner": "pass-two.c"
+  },
+  {
+    "address": 503364,
+    "name": "comdat_scan_module",
+    "size": 4,
+    "owner": "comdat-selection.c"
+  },
+  {
+    "address": 451920,
+    "name": "comdat_scan_cursor",
+    "size": 4,
+    "owner": "comdat-selection.c"
+  },
+  {
+    "address": 451924,
+    "name": "comdat_scan_index",
+    "size": 4,
+    "owner": "comdat-selection.c"
   }
 ]
