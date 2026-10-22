@@ -2549,5 +2549,53 @@
     "name": "omf_coff_line_count",
     "size": 4,
     "owner": "omf.c"
+  },
+  {
+    "address": 454016,
+    "name": "demangle_heap",
+    "size": 20,
+    "owner": "demangle.c"
+  },
+  {
+    "address": 454036,
+    "name": "demangle_type_replicator",
+    "size": 4,
+    "owner": "demangle.c"
+  },
+  {
+    "address": 521768,
+    "name": "demangle_name_replicator",
+    "size": 4,
+    "owner": "demangle.c"
+  },
+  {
+    "address": 521772,
+    "name": "demangle_input",
+    "size": 4,
+    "owner": "demangle.c"
+  },
+  {
+    "address": 521776,
+    "name": "demangle_original",
+    "size": 4,
+    "owner": "demangle.c"
+  },
+  {
+    "address": 521780,
+    "name": "demangle_output",
+    "size": 4,
+    "owner": "demangle.c"
+  },
+  {
+    "address": 521784,
+    "name": "demangle_capacity",
+    "size": 4,
+    "owner": "demangle.c"
+  },
+  {
+    "address": 521788,
+    "name": "demangle_flags",
+    "size": 2,
+    "owner": "demangle.c"
   }
 ]

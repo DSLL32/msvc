@@ -21,7 +21,6 @@ void write_mac_swapper(void) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }
 
-char *undecorate_symbol_name(const char *name,unsigned char decorated) { __asm { int 3 } return 0; }
 
 
 

@@ -654,3 +654,20 @@ All46 additions since full528 replay and all15 prior case regressions pass.
 Audits428 graph/419 callbacks/383 data/580 instruction boundaries pass, original
 -j2 build passes. Union174073/281634=61.8082%. C++ undecoration remains active,
 so final clean/full replay and all18 case regression are still pending.
+
+Demangler checkpoint591: display wrapper/public entry, typed temporary allocator,
+name/status/node constructors, identifier parser, text-range construction/copy,
+name-cache insertion and name predicates/copy all preserve native vertices.
+The native tagged-node hierarchy uses2-byte packing (character node10bytes,
+text/status nodes16bytes), not a vtable. Name and type caches are separate
+60-byte replicators with ten pointers and explicit error/empty names.
+Original CL1.0 C rejects __thiscall (C2282, scratch thiscall-probe.c). Member
+implementations use __fastcall(ECX this,ignored EDX,native stack arguments),
+so no wrapper, assembly or extra graph edge is emitted. Native interfaces and
+actual decorated rebuilt symbols are explicit in functions.json; publics()
+maps only those recorded symbols. audit-abi.py walks reachable native/rebuilt
+returns and proves matching RET cleanup for all12 accepted methods. All current
+audits pass:445 graph,436 callbacks,391 data,597 instruction boundaries.
+All63 additions since full528 replay and all17 completed cases pass. The C++
+dump remains incomplete at scope parser3dcf0. Union176841/281634=62.7911%;
+final clean/full replay remains queued after this assigned family completes.

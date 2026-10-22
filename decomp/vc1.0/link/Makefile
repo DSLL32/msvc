@@ -1,8 +1,8 @@
 PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
-HEADERS = $(filter-out omf.h,$(wildcard *.h))
-OBJECTS = $(addprefix build/,$(addsuffix .obj,link omf omf-stubs checksum editor edit-stubs dump dump-stubs resources codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
+HEADERS = $(filter-out omf.h demangle.h,$(wildcard *.h))
+OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor edit-stubs dump dump-stubs resources codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations archive coff-io object comdat comdat-selection arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
 .PHONY: all clean check prefix replay audit
 all: build/original.exe build/reconstructed.exe build/debug-run.exe
@@ -26,6 +26,7 @@ audit: build/runtime.json runtime.json
 	$(PYTHON) audit-graph.py
 	$(PYTHON) audit-callbacks.py
 	$(PYTHON) audit-data.py
+	$(PYTHON) audit-abi.py
 
 replay: all audit
 	$(PYTHON) compare.py --replay --require-exit
@@ -117,3 +118,5 @@ build/debug-dll-host.exe: build/debug-dll-host.obj
 
 # Converter-only interfaces do not invalidate unrelated translation units.
 build/omf.obj build/omf-stubs.obj: omf.h
+
+build/demangle.obj build/demangle-stubs.obj: demangle.h

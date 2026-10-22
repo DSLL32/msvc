@@ -68,6 +68,11 @@ def publics():
     for line in Path('build/link.map').read_text().splitlines():
         m = re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})', line)
         if m: result[m[1]] = int(m[2],16)
+    for record in json.loads(Path("functions.json").read_text())["driver"]:
+        symbol=record.get("symbol")
+        if symbol in result:
+            assert record["name"] not in result
+            result[record["name"]]=result[symbol]
     return result
 
 def indexes():
