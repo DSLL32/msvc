@@ -434,3 +434,255 @@ void __fastcall remove_physical_register_alias(unsigned short number)
     *link = (*link)->next;
     if (!*bucket) live_physical_registers &= ~(1U << color);
 }
+
+/* Original [0002f3f0,0002f500). A linked definition/use interval cannot
+   recycle any physical color written in that interval, nor cross a label. */
+unsigned __fastcall register_reuse_barriers(MachineInstruction *definition, MachineInstruction *use)
+{
+    MachineInstruction *limit = use->next;
+    RegisterVariable *variable;
+    unsigned mask = 0, kind, operation, color;
+    unsigned short number;
+    for (; definition != limit; definition = definition->next) {
+        kind = definition->opcode & 15;
+        if (kind == 1) return 0;
+        if (kind != 0 && kind != 8 && kind != 9 && kind != 10) continue;
+        operation = (definition->opcode >> 8) & 255;
+        if (machine_operand_counts[operation] > 0 &&
+            (definition->operands[0].flags & 15) == OPERAND_REGISTER &&
+            writes_first_operand(definition)) {
+            number = definition->operands[0].value.reg.words.number;
+            if (!DIRECT_REGISTER_COLOR(number)) {
+                variable = lookup_register_variable(number, 1);
+                variable = lookup_register_variable(variable->representative, 1);
+                color = variable->flags & 63;
+                mask |= 1U << color;
+            }
+        }
+        if (machine_selection_properties[operation] & MC_IMPLICIT_REGISTERS)
+            mask |= implicit_register_mask(definition, 2);
+    }
+    return mask;
+}
+
+/* Original [00030e90,00031130). Prefer equivalent cached values and
+   compatible source/use colors; retain the current color as the search stop. */
+void __fastcall order_reusable_registers(MachineInstruction *definition, MachineInstruction *use, unsigned short color)
+{
+    unsigned short first, second, use_color, swap;
+    unsigned mask = 0, operation, i;
+    int last = -1;
+    MachineOperand *operand;
+    PhysicalRegisterCache *cache;
+    first = preferred_reuse_colors(definition, &second, 1);
+    if (first != 26) {
+        reusable_register_order[0] = first;
+        last = 0;
+        if (second != 26) {
+            last = 1;
+            if (second == color) {
+                reusable_register_order[0] = color;
+                reusable_register_order[1] = first;
+            } else reusable_register_order[1] = second;
+            mask = 1U << second;
+        }
+        mask |= 1U << first;
+    } else {
+        operation = (definition->opcode >> 8) & 255;
+        for (i = 0; i < 8; ++i) {
+            if ((operation == MC_MOV && MEMORY_OPERAND(&definition->operands[1])) || operation == MC_LEA) {
+                operand = &definition->operands[1];
+                cache = &register_value_cache[i];
+                if ((cache->reference[0] && cache->operation == operation &&
+                    cached_operands_equal(operand, cache->reference[0]) &&
+                    !operand_value_depends_on_color(operand, (unsigned short)i)) ||
+                    (cache->reference[1] && cached_operands_equal(operand, cache->reference[1]) &&
+                    !operand_value_depends_on_color(operand, (unsigned short)i))) {
+                    reusable_register_order[++last] = (unsigned short)i;
+                    mask |= 1U << i;
+                }
+            }
+        }
+    }
+    use_color = preferred_reuse_colors(use, &second, 0);
+    if (use_color != 26) {
+        if (last < 0) {
+            last = 0;
+            reusable_register_order[0] = use_color;
+        } else if (last > 0 && use_color == reusable_register_order[1]) {
+            swap = reusable_register_order[1];
+            reusable_register_order[1] = reusable_register_order[0];
+            reusable_register_order[0] = swap;
+            goto complete_order;
+        } else if (use_color == reusable_register_order[0]) goto complete_order;
+        else reusable_register_order[++last] = use_color;
+        mask |= 1U << use_color;
+    }
+complete_order:
+    if (!(mask & (1U << color))) {
+        if (latest_rewrite_register == color || previous_rewrite_register == color) {
+            for (i = 0; i < 8; ++i) {
+                if (i != latest_rewrite_register && i != previous_rewrite_register && !(mask & (1U << i)))
+                    reusable_register_order[++last] = (unsigned short)i;
+            }
+        }
+        if (previous_rewrite_register != 26 && !(mask & (1U << previous_rewrite_register)) &&
+            previous_rewrite_register != color && latest_rewrite_register == color)
+            reusable_register_order[++last] = previous_rewrite_register;
+        reusable_register_order[last + 1] = color;
+    }
+}
+
+/* Original [00031130,00031510). MOV relates its two register operands;
+   LEA can prefer an unscaled base/index color or its destination's color.
+   Pseudo27 is the absent base;26 means no preference. */
+unsigned short __fastcall preferred_reuse_colors(MachineInstruction *instruction, unsigned short *second, int source)
+{
+    unsigned operation, kind;
+    unsigned short number, index;
+    RegisterVariable *variable;
+    MachineAddress *address;
+    *second = 26;
+    operation = (instruction->opcode >> 8) & 255;
+    if (operation == MC_MOV) {
+        if ((instruction->operands[0].flags & 15) != OPERAND_REGISTER ||
+            (instruction->operands[1].flags & 15) != OPERAND_REGISTER) return 26;
+        number = instruction->operands[source ? 1 : 0].value.reg.words.number;
+    } else if (operation == MC_LEA) {
+        kind = instruction->operands[1].flags & 15;
+        address = instruction->operands[1].value.address;
+        if (kind == OPERAND_BASED) {
+            number = source ? address->base.words.number : instruction->operands[0].value.reg.words.number;
+            if (source && number == REG_EBP) return 26;
+        } else if (kind == OPERAND_INDEXED && !address->first.displacement && !address->symbol) {
+            if (!(instruction->operands[1].flags & 0x300)) {
+                number = address->base.words.number;
+                if (number == REG_EBP) compiler_internal_error("@(#)color.c:1.101", 0x15e1);
+                if (source) {
+                    index = address->index.words.number;
+                    if (DIRECT_REGISTER_COLOR(index)) *second = index;
+                    else {
+                        variable = lookup_register_variable(index, 1);
+                        variable = lookup_register_variable(variable->representative, 1);
+                        *second = (unsigned short)(variable->flags & 63);
+                    }
+                } else number = instruction->operands[0].value.reg.words.number;
+            } else if (address->base.words.number == 27) {
+                number = source ? address->index.words.number : instruction->operands[0].value.reg.words.number;
+            } else return 26;
+        } else return 26;
+    } else return 26;
+    if (DIRECT_REGISTER_COLOR(number)) return number;
+    variable = lookup_register_variable(number, 1);
+    variable = lookup_register_variable(variable->representative, 1);
+    return (unsigned short)(variable->flags & 63);
+}
+
+/* Original [00031640,00031900), including eight switch entries318d8..318f8.
+   Compare cached addressing values after canonical representative coloring.
+   Register27 is an absent base and must never be looked up as a variable. */
+int __fastcall cached_operands_equal(MachineOperand *left, MachineOperand *right)
+{
+    unsigned short a, b;
+    RegisterVariable *variable;
+    MachineAddress *left_address, *right_address;
+    if ((left->flags ^ right->flags) & 15) return 0;
+    switch (left->flags & 15) {
+    case OPERAND_REGISTER:
+        a = left->value.reg.words.number;
+        b = right->value.reg.words.number;
+        if (a == b) return 1;
+        if (!DIRECT_REGISTER_COLOR(a)) {
+            variable = lookup_register_variable(a, 1);
+            variable = lookup_register_variable(variable->representative, 1);
+            a = (unsigned short)(variable->flags & 63);
+        }
+        if (!DIRECT_REGISTER_COLOR(b)) {
+            variable = lookup_register_variable(b, 1);
+            variable = lookup_register_variable(variable->representative, 1);
+            b = (unsigned short)(variable->flags & 63);
+        }
+        return a == b;
+    case OPERAND_IMMEDIATE: return left->value.constant == right->value.constant;
+    case OPERAND_INDEXED:
+        if ((left->flags ^ right->flags) & 0x300) return 0;
+        left_address = left->value.address;
+        right_address = right->value.address;
+        a = left_address->index.words.number;
+        b = right_address->index.words.number;
+        if (a != b) {
+            if (!DIRECT_REGISTER_COLOR(a)) {
+                variable = lookup_register_variable(a, 1);
+                variable = lookup_register_variable(variable->representative, 1);
+                a = (unsigned short)(variable->flags & 63);
+            }
+            if (!DIRECT_REGISTER_COLOR(b)) {
+                variable = lookup_register_variable(b, 1);
+                variable = lookup_register_variable(variable->representative, 1);
+                b = (unsigned short)(variable->flags & 63);
+            }
+            if (a != b) return 0;
+        }
+        /* fall through */
+    case OPERAND_BASED:
+        left_address = left->value.address;
+        right_address = right->value.address;
+        a = left_address->base.words.number;
+        b = right_address->base.words.number;
+        if (a != b) {
+            if (a == 27 || b == 27) return 0;
+            if (!DIRECT_REGISTER_COLOR(a)) {
+                variable = lookup_register_variable(a, 1);
+                variable = lookup_register_variable(variable->representative, 1);
+                a = (unsigned short)(variable->flags & 63);
+            }
+            if (!DIRECT_REGISTER_COLOR(b)) {
+                variable = lookup_register_variable(b, 1);
+                variable = lookup_register_variable(variable->representative, 1);
+                b = (unsigned short)(variable->flags & 63);
+            }
+            if (a != b) return 0;
+        }
+        /* fall through */
+    case OPERAND_ABSOLUTE: case OPERAND_LABEL_ADDRESS:
+        return left->value.address->symbol == right->value.address->symbol &&
+            left->value.address->first.displacement == right->value.address->first.displacement;
+    case OPERAND_SYMBOL: return left->value.symbol == right->value.symbol;
+    }
+    return 0;
+}
+
+/* Original [00030d20,00030e90). Test a last-use annotation against a
+   physical color after resolving logical representatives. Indexed addresses
+   retire index and base independently, and27 denotes an absent base. */
+int __fastcall operand_ends_physical_register(MachineOperand *operand, unsigned short color)
+{
+    unsigned kind = operand->flags & 15;
+    unsigned short number;
+    RegisterVariable *variable;
+    if (kind == OPERAND_REGISTER) {
+        if (!(operand->flags & 0x400)) return 0;
+        number = operand->value.reg.words.number;
+    } else {
+        if (kind == OPERAND_INDEXED) {
+            if (operand->flags & 0x800) {
+                number = operand->value.address->index.words.number;
+                if (!DIRECT_REGISTER_COLOR(number)) {
+                    variable = lookup_register_variable(number, 1);
+                    variable = lookup_register_variable(variable->representative, 1);
+                    number = (unsigned short)(variable->flags & 63);
+                }
+                if (number == color) return 1;
+            }
+            if (operand->value.address->base.words.number == 27) return 0;
+        } else if (kind != OPERAND_BASED) return 0;
+        if (!(operand->flags & 0x400)) return 0;
+        number = operand->value.address->base.words.number;
+    }
+    if (!DIRECT_REGISTER_COLOR(number)) {
+        variable = lookup_register_variable(number, 1);
+        variable = lookup_register_variable(variable->representative, 1);
+        number = (unsigned short)(variable->flags & 63);
+    }
+    return number == color;
+}

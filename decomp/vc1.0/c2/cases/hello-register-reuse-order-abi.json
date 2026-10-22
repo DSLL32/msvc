@@ -1,0 +1,142 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@register_reuse_barriers@8",
+      "start": "0x2f3f0",
+      "end": "0x2f500",
+      "instructions": 90
+    },
+    {
+      "name": "@order_reusable_registers@12",
+      "start": "0x30e90",
+      "end": "0x31130",
+      "instructions": 180
+    },
+    {
+      "name": "@preferred_reuse_colors@12",
+      "start": "0x31130",
+      "end": "0x31510",
+      "instructions": 314
+    },
+    {
+      "name": "@cached_operands_equal@8",
+      "start": "0x31640",
+      "end": "0x31900",
+      "instructions": 245
+    },
+    {
+      "name": "@operand_ends_physical_register@8",
+      "start": "0x30d20",
+      "end": "0x30e90",
+      "instructions": 129
+    }
+  ],
+  "ABI": "fastcall throughout; preferred_reuse_colors and order_reusable_registers each have one four-byte callee-cleaned stack argument (RET4). Preferred colors return ushort in AX; predicates/mask return full EAX.",
+  "data": "The named eight-WORD permutation at7c480..7c490 is constructed from MOV/LEA source/use colors and observed cache identity, then the color-history/stop preference. No initialized array copied; unused suffix entries retain native prior/BSS values. Cached-operand comparison includes its eight-entry .text dispatch318d8..318f8 within the accepted whole-function extent.",
+  "capture": {
+    "frontier": "@assign_machine_registers@4",
+    "original_va": "0x2b330",
+    "normalized_lines": 188,
+    "normalization": "omit exception header containing only exception/image addresses",
+    "changed_operands": [
+      {
+        "before": "reuse operand 26 0 flags 00000001 value 00004023",
+        "after": "reuse operand 26 0 flags 00000001 value 00000002"
+      },
+      {
+        "before": "reuse operand 27 0 flags 00000401 value 00004023",
+        "after": "reuse operand 27 0 flags 00000401 value 00000002"
+      }
+    ],
+    "events": {
+      "original": "b144a5dfe6a5d60708d5b37951e43e027e762acaeda83867e4dde5af4d7f969a",
+      "reconstructed": "fcaf4f9696e38ef62944bc90a839f67c1843162636a16db33795368aac2922ab"
+    }
+  },
+  "observed": {
+    "complete_first_function_value_reuse": true,
+    "records": 87,
+    "inserted_memory_split_moves": 0,
+    "changed_definition_and_use_records": [
+      26,
+      27
+    ],
+    "logical_register": "0x4023",
+    "replacement": "EDX",
+    "final_live_mask": "0x10",
+    "aliases": "all8 buckets empty",
+    "color_history": [
+      26,
+      26
+    ],
+    "permutation": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      0
+    ]
+  },
+  "validation": {
+    "W3": "clean",
+    "source_graphs": 544,
+    "accepted_frontiers": 621,
+    "minimal_fixture": "286 bytes, exact except timestamp4..7",
+    "replays": {
+      "minimal": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-minimal-174216/receipt.json",
+        "sha256": "ce9d95819c22c5366b91d63c6beae57b7792de09fbbc0266e88aa30ae3f05bd2",
+        "frontiers": 352,
+        "first": 0,
+        "last": 352,
+        "final": "exit:0",
+        "frozen": {
+          "functions.json": "7fda8077cc337a119ea9d85a26bda36ff8ba21b94e7164ec412139ea3c7d3607",
+          "build/c2.exe": "f464e5a651d91f72a472a6bfe7cbaa1ee0906d3bade296f82d596b58b3055cbd",
+          "build/c2.map": "46386a5e1450db118649fa48cc0db52e055d586bbf9a75c1ad67c56df65d0eff",
+          "build/runtime.json": "b0907da22b606044969285781082fcda7121f0355d2bac9e4cee3dd36b655454"
+        }
+      },
+      "hello": {
+        "path": "/root/.ai-tmp/vc1.0-c2/replay-hello-180213/receipt.json",
+        "sha256": "72a3b38fdf94d147926a587bafbef1310579c44f4458493c4d5b6eec59425714",
+        "frontiers": 269,
+        "first": 352,
+        "last": 621,
+        "final": "@assign_machine_registers@4",
+        "frozen": {
+          "functions.json": "7fda8077cc337a119ea9d85a26bda36ff8ba21b94e7164ec412139ea3c7d3607",
+          "build/c2.exe": "f464e5a651d91f72a472a6bfe7cbaa1ee0906d3bade296f82d596b58b3055cbd",
+          "build/c2.map": "46386a5e1450db118649fa48cc0db52e055d586bbf9a75c1ad67c56df65d0eff",
+          "build/runtime.json": "b0907da22b606044969285781082fcda7121f0355d2bac9e4cee3dd36b655454"
+        }
+      }
+    },
+    "coverage": {
+      "mask_verified": true,
+      "metric": "accepted original code-extent union; not branch coverage",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "accepted_frontiers": 621,
+      "accepted_code_bytes": 163119,
+      "original_code_bytes": 399693,
+      "percentage": 40.81107249814232,
+      "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+      "code_sections": [
+        [
+          "0x17000",
+          "0x7894d"
+        ]
+      ],
+      "union_ranges": 169
+    }
+  },
+  "limits": [
+    "Only the first function has completed physical value reuse; optimized hello object is still incomplete at assign_machine_registers2b330.",
+    "Spill/reload memory splitting, candidate operand dependency helper31510, byte-register candidate rejection and wider alternate control-flow cases retain named trapping children or unvisited reconstructed branches; no dynamic validation claimed for those paths.",
+    "Capture normalizes only the debugger exception header and pointer identity representations; instruction/operand flags, logical symbols, displacement/base/index, linked-use and own-cache identities agree exactly."
+  ]
+}

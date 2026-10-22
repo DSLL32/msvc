@@ -620,7 +620,12 @@
     "@reuse_physical_register_values@4",
     "@copy_machine_operand@8",
     "@retire_physical_register_aliases@4",
-    "@remove_physical_register_alias@4"
+    "@remove_physical_register_alias@4",
+    "@register_reuse_barriers@8",
+    "@order_reusable_registers@12",
+    "@preferred_reuse_colors@12",
+    "@cached_operands_equal@8",
+    "@operand_ends_physical_register@8"
   ],
   "driver": [
     {
@@ -5368,25 +5373,38 @@
     {
       "name": "@register_reuse_barriers@8",
       "start": 193520,
-      "end": 193521,
-      "provisional": true
+      "end": 193792
     },
     {
       "name": "@order_reusable_registers@12",
       "start": 200336,
-      "end": 200337,
-      "provisional": true
+      "end": 201008
     },
     {
       "name": "@operand_ends_physical_register@8",
       "start": 199968,
-      "end": 199969,
-      "provisional": true
+      "end": 200336
     },
     {
       "name": "@remove_physical_register_alias@4",
       "start": 199760,
       "end": 199968
+    },
+    {
+      "name": "@preferred_reuse_colors@12",
+      "start": 201008,
+      "end": 202000
+    },
+    {
+      "name": "@operand_value_depends_on_color@8",
+      "start": 202000,
+      "end": 202001,
+      "provisional": true
+    },
+    {
+      "name": "@cached_operands_equal@8",
+      "start": 202304,
+      "end": 203008
     }
   ],
   "cases": {

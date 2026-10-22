@@ -477,6 +477,5 @@ void __fastcall remove_register_conflict(unsigned short left, unsigned short rig
 
 int __fastcall choose_memory_split_register(MachineInstruction *instruction, unsigned short *number) { __asm int 3 }
 
-unsigned __fastcall register_reuse_barriers(MachineInstruction *definition, MachineInstruction *use) { __asm int 3 }
-void __fastcall order_reusable_registers(MachineInstruction *definition, MachineInstruction *use, unsigned short color) { __asm int 3 }
-int __fastcall operand_ends_physical_register(MachineOperand *operand, unsigned short color) { __asm int 3 }
+
+int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned short color) { __asm int 3 }

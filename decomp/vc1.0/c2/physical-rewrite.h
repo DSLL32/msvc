@@ -36,4 +36,7 @@ unsigned __fastcall register_reuse_barriers(MachineInstruction *definition, Mach
 void __fastcall order_reusable_registers(MachineInstruction *definition, MachineInstruction *use, unsigned short color);
 int __fastcall operand_ends_physical_register(MachineOperand *operand, unsigned short color);
 void __fastcall remove_physical_register_alias(unsigned short number);
+unsigned short __fastcall preferred_reuse_colors(MachineInstruction *instruction, unsigned short *second, int source);
+int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned short color);
+int __fastcall cached_operands_equal(MachineOperand *left, MachineOperand *right);
 #endif

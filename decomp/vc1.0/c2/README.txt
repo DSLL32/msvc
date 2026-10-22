@@ -1369,3 +1369,31 @@ object/streams/exit still match the unmodified original and fixture except only
 COFF timestamp bytes4..7. Verified accepted original code-extent union is
 160111/399693 bytes (40.0585 percent), including clipped source/shared text/CRT/
 import ranges and actual-mask verification; this is not branch coverage.
+
+
+Completed first-function register-value reuse (621 accepted frontiers)
+--------------------------------------------------------------------
+Five whole helpers recover interval write barriers, preferred MOV/LEA colors,
+cache equivalence after canonical coloring, preference order and independent
+last-use tests. Register27 remains an absent base,26 a missing preference;
+no lookup or cache index conflates either with an integer color. Both three-
+argument helpers preserve ECX/EDX plus one RET4 stack slot. The cached-operand
+switch includes its encountered32-byte shared text within the function extent.
+
+The first function now completes value reuse. An independent capture matches
+188 normalized lines and87 instruction records, including an actual linked
+lparam definition/use replacement from logical4023 to EDX in records26/27.
+All eight alias buckets retire, live mask becomes ESP-only, and both register-
+history markers reset to26. No memory-split moves are inserted in this case.
+The permutation is built contextually; unused entries retain their prior values.
+Spill/memory splitting and alternate failure branches remain outside dynamic
+claims. The next matching trap is assign_machine_registers2b330, whose full
+analysis identifies save/frame-setup pruning rather than operand assignment.
+See cases/hello-register-reuse-order-abi.json for ABI and capture/replay receipts.
+
+All352 minimal and269 hello frontiers replay;544 source graphs and621 accepted
+instruction boundaries pass. physical-rewrite compiles /W3 clean. Minimal
+object/streams/exit match unmodified original and fixture except only timestamp.
+Verified accepted original code-extent union163119/399693 bytes (40.8111 percent)
+includes clipped source/shared text/CRT/imports and actual-mask cross-check;
+it is not branch coverage. Optimized hello remains incomplete.
