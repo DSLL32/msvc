@@ -684,7 +684,24 @@
     "@scheduler_move_conflict@16",
     "@analyze_scheduled_instruction@4",
     "@analyze_scheduled_address@20",
-    "@scheduled_reads_first@4"
+    "@scheduled_reads_first@4",
+    "@pentium_pair_dependency@8",
+    "@collect_pentium_candidates@8",
+    "@gather_pentium_candidates@12",
+    "@scan_schedule_interval@28",
+    "@resolve_scheduled_address@8",
+    "@rewrite_scheduled_dependence@16",
+    "@select_pentium_pair@20",
+    "@emit_pentium_pair@12",
+    "@prune_pentium_candidate_undos@8",
+    "@place_scheduled_instruction@8",
+    "_apply_scheduler_undo",
+    "_rotate_pentium_history",
+    "@update_scheduled_registers@4",
+    "@record_scheduled_register@12",
+    "@pentium_previous_memory_delay@4",
+    "@instruction_pair_conflict@8",
+    "@pentium_pair_independent@8"
   ],
   "driver": [
     {
@@ -5658,8 +5675,7 @@
     {
       "name": "@update_scheduled_registers@4",
       "start": 262096,
-      "end": 262097,
-      "provisional": true
+      "end": 262289
     },
     {
       "name": "@choose_pentium_instruction@4",
@@ -5674,20 +5690,17 @@
     {
       "name": "@collect_pentium_candidates@8",
       "start": 280064,
-      "end": 280065,
-      "provisional": true
+      "end": 280182
     },
     {
       "name": "@select_pentium_pair@20",
       "start": 276448,
-      "end": 276449,
-      "provisional": true
+      "end": 280053
     },
     {
       "name": "@emit_pentium_pair@12",
       "start": 275920,
-      "end": 275921,
-      "provisional": true
+      "end": 276438
     },
     {
       "name": "_compact_pentium_candidates",
@@ -5698,8 +5711,7 @@
     {
       "name": "@pentium_previous_memory_delay@4",
       "start": 275584,
-      "end": 275585,
-      "provisional": true
+      "end": 275667
     },
     {
       "name": "@classify_pentium_pipe@8",
@@ -5737,20 +5749,17 @@
     {
       "name": "@instruction_pair_conflict@8",
       "start": 266112,
-      "end": 266113,
-      "provisional": true
+      "end": 266339
     },
     {
       "name": "@place_scheduled_instruction@8",
       "start": 263248,
-      "end": 263249,
-      "provisional": true
+      "end": 263357
     },
     {
       "name": "@pentium_pair_dependency@8",
       "start": 283792,
-      "end": 283793,
-      "provisional": true
+      "end": 284359
     },
     {
       "name": "@apply_scheduled_float@4",
@@ -5759,16 +5768,14 @@
       "provisional": true
     },
     {
-      "name": "@advance_pentium_float_positions@8",
+      "name": "@prune_pentium_candidate_undos@8",
       "start": 284928,
-      "end": 284929,
-      "provisional": true
+      "end": 284967
     },
     {
       "name": "_rotate_pentium_history",
       "start": 286304,
-      "end": 286305,
-      "provisional": true
+      "end": 286365
     },
     {
       "name": "@pentium_prefix_instruction@4",
@@ -5789,8 +5796,7 @@
     {
       "name": "@resolve_scheduled_address@8",
       "start": 269808,
-      "end": 269809,
-      "provisional": true
+      "end": 269938
     },
     {
       "name": "@scheduled_stack_overlap@8",
@@ -5801,8 +5807,7 @@
     {
       "name": "@rewrite_scheduled_dependence@16",
       "start": 271120,
-      "end": 271121,
-      "provisional": true
+      "end": 272256
     },
     {
       "name": "@rewrite_scheduled_stack@8",
@@ -5825,6 +5830,67 @@
       "name": "@analyze_scheduled_address@20",
       "start": 269392,
       "end": 269759
+    },
+    {
+      "name": "@compare_scheduled_memory@36",
+      "start": 245760,
+      "end": 245761,
+      "provisional": true
+    },
+    {
+      "name": "@gather_pentium_candidates@12",
+      "start": 286432,
+      "end": 287019
+    },
+    {
+      "name": "@scan_schedule_interval@28",
+      "start": 266816,
+      "end": 268181
+    },
+    {
+      "name": "@can_schedule_pentium@8",
+      "start": 273600,
+      "end": 273601,
+      "provisional": true
+    },
+    {
+      "name": "@pentium_pair_independent@8",
+      "start": 283360,
+      "end": 283792
+    },
+    {
+      "name": "@remove_pentium_ready_pair@8",
+      "start": 282368,
+      "end": 282369,
+      "provisional": true
+    },
+    {
+      "name": "@scheduled_float_latency@4",
+      "start": 281968,
+      "end": 281969,
+      "provisional": true
+    },
+    {
+      "name": "@remove_pentium_candidate_undo@8",
+      "start": 286368,
+      "end": 286369,
+      "provisional": true
+    },
+    {
+      "name": "_apply_scheduler_undo",
+      "start": 263360,
+      "end": 263408
+    },
+    {
+      "name": "@record_scheduled_register@12",
+      "start": 269952,
+      "end": 270122
+    },
+    {
+      "name": "@scheduler_instruction_cycles@4",
+      "start": 261744,
+      "end": 261745,
+      "provisional": true
     }
   ],
   "cases": {

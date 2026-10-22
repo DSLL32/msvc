@@ -32,17 +32,37 @@ typedef struct SchedulerRegionFrame {
     struct SchedulerRegionFrame *previous;
 } SchedulerRegionFrame;
 typedef char SchedulerRegionFrameSizeCheck[sizeof(SchedulerRegionFrame) == 12 ? 1 : -1];
-typedef struct SchedulerRegisterState SchedulerRegisterState;
-typedef struct SchedulerUndo SchedulerUndo;
+/* Native41e80 allocates8 bytes; the two byte flags follow the definition. */
+typedef struct SchedulerRegisterState {
+    MachineInstruction *definition;
+    unsigned char recoverable, clobbered;
+} SchedulerRegisterState;
+typedef char SchedulerRegisterStateSizeCheck[sizeof(SchedulerRegisterState) == 8 ? 1 : -1];
+typedef struct SchedulerUndo {
+    MachineOperand *operand;
+    long adjustment;
+    unsigned short replacement;
+    MachineInstruction *owner;
+    struct SchedulerUndo *next;
+} SchedulerUndo;
+typedef char SchedulerUndoSizeCheck[sizeof(SchedulerUndo) == 20 ? 1 : -1];
+extern int scheduler_address_penalty;
 typedef struct SchedulerInstructionPair {
     MachineInstruction *first, *second;
 } SchedulerInstructionPair;
-/* Native current-pair index uses7c2bc+index*8; preceding history occupies
-  7c2ac..7c2bc. Keep those aliases in one contextual typed object. */
+/* Three history cycles occupy7c2ac..7c2c4. Native choice indices1/2
+   relative to7c2bc select7c2c4/7c2cc: source selected[0/1]. Ready entries
+   follow at7c2d4. Keeping these in one object preserves every physical slot. */
+typedef struct SchedulerCandidate {
+    MachineInstruction *instruction;
+    SchedulerUndo *undo;
+} SchedulerCandidate;
+typedef char SchedulerCandidateSizeCheck[sizeof(SchedulerCandidate) == 8 ? 1 : -1];
 typedef struct SchedulerPairs {
-    SchedulerInstructionPair previous[2], candidates[3];
+    SchedulerInstructionPair previous[3];
+    SchedulerCandidate selected[2], ready[5];
 } SchedulerPairs;
-typedef char SchedulerPairsSizeCheck[sizeof(SchedulerPairs) == 40 ? 1 : -1];
+typedef char SchedulerPairsSizeCheck[sizeof(SchedulerPairs) == 80 ? 1 : -1];
 extern SchedulerUndo *scheduler_undo;
 extern MachineInstruction *scheduler_cursor, *scheduler_last_float;
 extern signed char scheduler_float_delay;
@@ -87,7 +107,7 @@ int __fastcall instruction_pair_conflict(MachineInstruction *first, MachineInstr
 void __fastcall place_scheduled_instruction(MachineInstruction *first, MachineInstruction *last);
 int __fastcall pentium_pair_dependency(MachineInstruction *first, MachineInstruction *last);
 void __fastcall apply_scheduled_float(MachineInstruction *instruction);
-void __fastcall advance_pentium_float_positions(MachineInstruction *instruction, int ready_count);
+void __fastcall prune_pentium_candidate_undos(MachineInstruction *instruction, int ready_count);
 void __cdecl rotate_pentium_history(void);
 int __fastcall pentium_prefix_instruction(MachineInstruction *instruction);
 int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment);
@@ -99,4 +119,15 @@ int __fastcall rewrite_scheduled_stack(MachineInstruction *first, MachineInstruc
 int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerMemoryAccess *last, int forward);
 int __fastcall scheduled_reads_first(unsigned operation);
 void __fastcall analyze_scheduled_address(MachineInstruction *instruction, MachineOperand *operand, short *base, short *index, SchedulerMemoryAccess **memory);
+int __fastcall compare_scheduled_memory(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes, int mode, int conservative, int *relation, SchedulerMemoryAccess *left_memory, SchedulerMemoryAccess *right_memory);
+void __fastcall gather_pentium_candidates(MachineInstruction *instruction, int forward, int pipe_hint);
+int __fastcall scan_schedule_interval(MachineInstruction *instruction, MachineInstruction *before, int forward, int flags, int force, int allow_backward, int restore);
+int __fastcall can_schedule_pentium(MachineInstruction *instruction, int forward);
+int __fastcall pentium_pair_independent(MachineInstruction *first, MachineInstruction *last);
+void __fastcall remove_pentium_ready_pair(int first, int last);
+int __fastcall scheduled_float_latency(MachineInstruction *instruction);
+void __fastcall remove_pentium_candidate_undo(MachineInstruction *instruction, SchedulerCandidate *candidate);
+void __cdecl apply_scheduler_undo(void);
+void __fastcall record_scheduled_register(unsigned short reg, MachineInstruction *instruction, unsigned char clobbered);
+int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction);
 #endif

@@ -12,6 +12,9 @@ MachineInstruction *scheduler_instruction; /*7c300*/
 unsigned short scheduler_register_capacity; /*7e290*/
 SchedulerRegisterState **scheduler_register_states; /*7c348*/
 int scheduler_track_registers; /*7c308*/
+/* 7e288: i486 address-delay mode; generic scheduling writes1/4 at
+  4024f/400f0 and selects its current mode at40568. Original BSS starts0. */
+int scheduler_address_penalty;
 int scheduler_after_label; /*82fc8*/
 int scheduler_memory_run; /*82fd0*/
 int scheduler_region_balance; /*82ffc*/
@@ -249,7 +252,7 @@ MachineInstruction *scheduler_last_float; /*7c34c*/
 signed char scheduler_float_delay; /*82fcc: native BYTE writes*/
 int scheduler_stop_window; /*82ff4*/
 int scheduler_ready_count; /*82ff8*/
-SchedulerPairs scheduler_pairs; /*7c2ac..7c2d4*/
+SchedulerPairs scheduler_pairs; /*7c2ac..7c2fc: history, selected pair and ready set*/
 
 /* Legacy non-Pentium x87 delay lookup, expressed by opcode semantics.
    Original83000..83050 covers FADD..FLD1. Later FUCOM..FCOS indices read
@@ -292,12 +295,10 @@ void __fastcall schedule_window(MachineInstruction *first, MachineInstruction *l
     scheduler_stop_window = 0;
     if (cpu_model == 5) {
         scheduler_ready_count = 0;
-        for (i = 0; i < 2; ++i) {
+        for (i = 0; i < 3; ++i) {
             scheduler_pairs.previous[i].first = 0;
             scheduler_pairs.previous[i].second = 0;
         }
-        scheduler_pairs.candidates[0].first = 0;
-        scheduler_pairs.candidates[0].second = 0;
         for (i = 0; i < 8; ++i) scheduler_float_values[i] = -1;
     }
     if (first == last || !prepare_schedule_window(first, last)) return;
@@ -388,10 +389,10 @@ MachineInstruction *__fastcall schedule_pentium_instruction(MachineInstruction *
         return instruction->next;
     }
     scheduler_undo = 0;
-    scheduler_pairs.candidates[1].first = 0;
-    scheduler_pairs.candidates[1].second = 0;
-    scheduler_pairs.candidates[2].first = 0;
-    scheduler_pairs.candidates[2].second = 0;
+    scheduler_pairs.selected[0].instruction = 0;
+    scheduler_pairs.selected[0].undo = 0;
+    scheduler_pairs.selected[1].instruction = 0;
+    scheduler_pairs.selected[1].undo = 0;
     chosen = choose_pentium_instruction(instruction);
     next = chosen->next;
     operation = (chosen->opcode >> 8) & 255;
@@ -427,7 +428,7 @@ MachineInstruction *__fastcall choose_pentium_instruction(MachineInstruction *in
     collect_pentium_candidates(instruction, pipe_hint);
     select_pentium_pair(&candidate, &count, &wait, &float_wait, &dependent);
     emit_pentium_pair(candidate, count, dependent);
-    chosen = scheduler_pairs.candidates[candidate].first;
+    chosen = scheduler_pairs.selected[candidate - 1].instruction;
     scheduler_ready_count -= count;
     if (scheduler_ready_count) compact_pentium_candidates();
     if (!dependent) {
@@ -539,7 +540,7 @@ int __fastcall try_schedule_barrier(MachineInstruction *instruction,
         instruction->record.scheduling->flags &= ~0x100U;
         remove_scheduled_float_exchange(instruction);
     }
-    advance_pentium_float_positions(instruction, scheduler_ready_count);
+    prune_pentium_candidate_undos(instruction, scheduler_ready_count);
     instruction->record.scheduling->flags |= 0x800;
     *chosen = instruction;
     scheduler_cursor = instruction;
@@ -556,7 +557,7 @@ int __fastcall try_schedule_barrier(MachineInstruction *instruction,
             other->record.scheduling->flags &= ~0x100U;
             remove_scheduled_float_exchange(other);
         }
-        advance_pentium_float_positions(other, scheduler_ready_count);
+        prune_pentium_candidate_undos(other, scheduler_ready_count);
         other->record.scheduling->flags |= 0x800;
         instruction->record.scheduling->flags |= 0x40;
         other->record.scheduling->flags |= 0x40 | 0x80;
@@ -843,4 +844,657 @@ int __fastcall scheduled_reads_first(unsigned operation)
         return 0;
     default: return 1;
     }
+}
+/* Original [00045490,000456c7). Recognize the dependency that can be
+   accommodated by a same-cycle pair without a conflicting address input. */
+int __fastcall pentium_pair_dependency(MachineInstruction *first, MachineInstruction *last)
+{
+    unsigned left = (first->opcode >> 8) & 255;
+    unsigned right = (last->opcode >> 8) & 255;
+    unsigned source_kind, destination_kind;
+    InstructionSchedule *a = first->record.scheduling, *b = last->record.scheduling;
+    int relation;
+    if (!(a->flags & 1) || !(b->flags & 1) || !machine_operand_counts[left] ||
+        !machine_operand_counts[right] || (last->operands[0].flags & 15) != OPERAND_REGISTER) return 0;
+    if ((b->uses & a->defines) && !SCHEDULER_STACK_TRANSFER(left)) return 0;
+    if (!(a->uses & b->defines) || (a->defines & b->defines)) return 0;
+    if (machine_operand_counts[left] == 1 || machine_operand_counts[right] == 1) return 1;
+    source_kind = last->operands[1].flags & 15;
+    if (source_kind != OPERAND_BASED && source_kind != OPERAND_INDEXED && source_kind != OPERAND_ABSOLUTE) return 1;
+    destination_kind = first->operands[0].flags & 15;
+    if (destination_kind == OPERAND_REGISTER)
+        return !operand_mentions_register(&last->operands[1], first->operands[0].value.reg.words.number);
+    if (destination_kind != OPERAND_BASED && destination_kind != OPERAND_INDEXED && destination_kind != OPERAND_ABSOLUTE) return 1;
+    if (right == MC_LEA) return 1;
+    if (compare_scheduled_memory(&first->operands[0], (first->opcode >> 4) & 15,
+        &last->operands[1], (last->opcode >> 4) & 15, 0, 0, &relation, 0, 0)) return 2;
+    return 1;
+}
+/* Original [00044600,00044676). Seed the ready set with the current
+   operation and extend it in each direction, up to five candidates. */
+void __fastcall collect_pentium_candidates(MachineInstruction *instruction, int pipe_hint)
+{
+    if (!(instruction->record.scheduling->flags & 0x100)) {
+        scheduler_pairs.ready[scheduler_ready_count].instruction = instruction;
+        scheduler_pairs.ready[scheduler_ready_count].undo = 0;
+        ++scheduler_ready_count;
+        instruction->record.scheduling->flags |= 0x100;
+    }
+    if (scheduler_ready_count < 5) gather_pentium_candidates(instruction, 1, pipe_hint);
+    if (scheduler_ready_count < 5 && scheduler_pairs.previous[0].first)
+        gather_pentium_candidates(instruction, 0, pipe_hint);
+}
+/* Original [00045ee0,0004612b). Search up to six nearby operations,
+   retaining movement undo chains for at most five ready candidates. */
+void __fastcall gather_pentium_candidates(MachineInstruction *instruction,
+    int forward, int pipe_hint)
+{
+    MachineInstruction *before = instruction->previous;
+    unsigned operation;
+    int count = 0, allow_backward, conflict, i;
+    if (forward == 1) allow_backward = 0;
+    else {
+        instruction = scheduler_pairs.previous[0].first;
+        allow_backward = pipe_hint != 0;
+    }
+    do {
+        do {
+            instruction = forward ? instruction->next : instruction->previous;
+        } while (instruction && !SCHEDULABLE_KIND(instruction->opcode & 15) && !SCHEDULER_BARRIER(instruction));
+        if (instruction) {
+            if (SCHEDULER_BARRIER(instruction)) instruction = 0;
+            else {
+                operation = (instruction->opcode >> 8) & 255;
+                if (!(instruction->record.scheduling->flags & 0x140) &&
+                    (forward || !SCHEDULER_FLOAT_OPERATION(operation)) &&
+                    scan_schedule_interval(instruction, before, forward, 0, 0, allow_backward, 0)) {
+                    conflict = operation == MC_FXCH;
+                    if (!conflict && !forward) {
+                        for (i = 0; i < scheduler_ready_count; ++i)
+                            if (scheduler_move_conflict(scheduler_pairs.ready[i].instruction, instruction, 2, 0)) {
+                                conflict = 1;
+                                break;
+                            }
+                    } else if (!conflict && SCHEDULER_FLOAT_OPERATION(operation) &&
+                        scheduler_float_depth + scheduler_region_balance > 7 &&
+                        (operation == MC_FLD || operation == MC_FILD || operation == MC_FLDZ || operation == MC_FLD1))
+                        conflict = 1;
+                    if (!conflict) {
+                        scheduler_pairs.ready[scheduler_ready_count].instruction = instruction;
+                        scheduler_pairs.ready[scheduler_ready_count].undo = scheduler_undo;
+                        instruction->record.scheduling->flags |= 0x100;
+                        ++scheduler_ready_count;
+                    }
+                }
+                scheduler_undo = 0;
+            }
+        }
+        ++count;
+    } while (instruction && count <= 5 && scheduler_ready_count <= 4);
+}
+/* Original [00041240,00041795). Test each intervening instruction before
+   moving a scheduling candidate; optionally commit its new position. */
+int __fastcall scan_schedule_interval(MachineInstruction *instruction,
+    MachineInstruction *before, int forward, int flags, int force,
+    int allow_backward, int restore)
+{
+    MachineInstruction *previous, *next, *scan, *end;
+    unsigned operation = (instruction->opcode >> 8) & 255, prior_operation;
+    unsigned schedule_flags = instruction->record.scheduling->flags;
+    int conflict;
+    if ((schedule_flags & 0x20) || ((schedule_flags >> 8) & 6) > 2) return 0;
+    if (operation == MC_REP || operation == MC_REPZ || operation == MC_REPNZ ||
+        operation == MC_SBB || operation == MC_SCC || operation == MC_STI || operation == MC_CLI) return 0;
+    previous = instruction->previous;
+    if (previous && SCHEDULABLE_KIND(previous->opcode & 15)) {
+        prior_operation = (previous->opcode >> 8) & 255;
+        if (prior_operation == MC_REP || prior_operation == MC_REPZ || prior_operation == MC_REPNZ ||
+            prior_operation == MC_SBB || prior_operation == MC_SCC) return 0;
+    }
+    if (cpu_model == 5) {
+        if (allow_backward && !can_schedule_pentium(instruction, forward)) return 0;
+    } else if (!flags) {
+        if (SCHEDULER_FLOAT_OPERATION(operation)) return 0;
+    } else {
+        if (cpu_model != 3 && instruction_pair_conflict(instruction, before)) return 0;
+        while (previous && !SCHEDULABLE_KIND(previous->opcode & 15) && !SCHEDULER_BARRIER(previous))
+            previous = previous->previous;
+        next = instruction;
+        if (!SCHEDULER_BARRIER(instruction)) {
+            for (next = instruction->next; next; next = next->next)
+                if (SCHEDULABLE_KIND(next->opcode & 15) || SCHEDULER_BARRIER(next)) break;
+        }
+        if (previous && next && !SCHEDULER_BARRIER(previous) && !SCHEDULER_BARRIER(next) &&
+            SCHEDULABLE_KIND(previous->opcode & 15) && SCHEDULABLE_KIND(next->opcode & 15) &&
+            cpu_model != 3 && instruction_pair_conflict(next, previous)) return 0;
+        for (next = before->next; next; next = next->next)
+            if (SCHEDULABLE_KIND(next->opcode & 15) || SCHEDULER_BARRIER(next)) break;
+        if (next && !SCHEDULER_BARRIER(next) && SCHEDULABLE_KIND(next->opcode & 15) &&
+            cpu_model == 4 && instruction_pair_conflict(next, instruction)) return 0;
+    }
+    scan = forward ? instruction->previous : instruction->next;
+    end = forward ? before : before->next;
+    while (scan != end) {
+        conflict = scheduler_move_conflict(scan, instruction, forward, 1);
+        if (conflict && restore && next_machine_operation(instruction) == scan) conflict = 0;
+        if (conflict) {
+            scheduler_undo = 0;
+            return 0;
+        }
+        scan = forward ? scan->previous : scan->next;
+    }
+    if (force) place_scheduled_instruction(before, instruction);
+    return 1;
+}
+/* Original [00041df0,00041e72). Recover a symbolic address from the
+   latest simple register definition when it is still available. */
+void __fastcall resolve_scheduled_address(SchedulerMemoryAccess *memory, short reg)
+{
+    SchedulerRegisterState *state = scheduler_register_states[(unsigned short)reg & 0x3fff];
+    MachineInstruction *definition;
+    MachineOperand *source;
+    unsigned operation, kind;
+    if (!state || !state->recoverable || state->clobbered) return;
+    definition = state->definition;
+    operation = (definition->opcode >> 8) & 255;
+    if (operation == MC_CALL || machine_operand_counts[operation] < 2) return;
+    source = &definition->operands[1];
+    kind = source->flags & 15;
+    if (kind == OPERAND_LABEL_ADDRESS) memory->symbol = source->value.address->symbol;
+    else if (operation == MC_LEA && kind >= OPERAND_BASED && kind <= OPERAND_INDEXED) {
+        memory->symbol = source->value.address->symbol;
+        memory->displacement = source->value.address->first.displacement;
+    }
+}
+/* Original [00042310,00042780). Describe an address adjustment that
+   permits an operation to cross a register increment or stack push. The
+   adjustment is deferred in the current candidate's undo chain. */
+int __fastcall rewrite_scheduled_dependence(MachineInstruction *first,
+    MachineInstruction *last, int forward, int reverse)
+{
+    unsigned operation = (last->opcode >> 8) & 255;
+    unsigned first_operation = (first->opcode >> 8) & 255;
+    unsigned kind = last->operands[0].flags & 15, memory_kind;
+    unsigned short reg, replacement = 0xffff;
+    int first_count = machine_operand_counts[first_operation];
+    long adjustment, base_adjustment = 0, index_adjustment = 0;
+    MachineOperand *operand;
+    MachineAddress *address, *lea;
+    SchedulerUndo *undo;
+    if (!machine_operand_counts[operation]) return 0;
+    if (kind != OPERAND_REGISTER && operation != MC_PUSH && operation != MC_EPUSH) return 0;
+    reg = operation == MC_PUSH || operation == MC_EPUSH ? REG_ESP : last->operands[0].value.reg.words.number & 0x3fff;
+    if (first_count == 2 && (first->operands[1].flags & 15) == OPERAND_REGISTER &&
+        (first->operands[1].value.reg.words.number & 0x3fff) == reg) return 0;
+    if (machine_operand_counts[operation] == 2 && (last->operands[1].flags & 15) != OPERAND_IMMEDIATE && operation != MC_LEA) return 0;
+    if (reg == REG_ESP && SCHEDULER_STACK_TRANSFER(first_operation)) return 0;
+    switch (operation) {
+    case MC_PUSH: case MC_EPUSH: adjustment = 4; break;
+    case MC_LEA:
+        if ((last->operands[1].flags & 15) != OPERAND_BASED) return 0;
+        lea = last->operands[1].value.address;
+        if (lea->symbol) return 0;
+        if (reg != lea->base.words.number) {
+            if (forward) return 0;
+            replacement = lea->base.words.number;
+            if (reverse) return 0;
+        }
+        adjustment = 0UL - (unsigned long)lea->first.displacement;
+        break;
+    case MC_DEC: adjustment = 1; break;
+    case MC_INC: adjustment = -1; break;
+    case MC_ADD: adjustment = 0UL - (unsigned long)last->operands[1].value.constant; break;
+    case MC_SUB: adjustment = last->operands[1].value.constant; break;
+    default: return 0;
+    }
+    if (!first_count) return 0;
+    operand = &first->operands[0];
+    memory_kind = operand->flags & 15;
+    if (memory_kind != OPERAND_BASED && memory_kind != OPERAND_INDEXED && memory_kind != OPERAND_ABSOLUTE) {
+        if (first_count != 2) return 0;
+        operand = &first->operands[1];
+        memory_kind = operand->flags & 15;
+        if (memory_kind != OPERAND_BASED && memory_kind != OPERAND_INDEXED && memory_kind != OPERAND_ABSOLUTE) return 0;
+    }
+    address = operand->value.address;
+    if ((operation == MC_PUSH || operation == MC_EPUSH) && (kind == OPERAND_BASED || kind == OPERAND_INDEXED) &&
+        operand == &first->operands[0] && (memory_kind == OPERAND_BASED || memory_kind == OPERAND_INDEXED) &&
+        address->symbol == last->operands[0].value.address->symbol) return 0;
+    if (cpu_model == 4 && scheduler_address_penalty && first_count == 2 &&
+        (first->operands[1].flags & 15) == OPERAND_IMMEDIATE &&
+        !first->operands[0].value.address->first.displacement && !first->operands[0].value.address->symbol) return 0;
+    if (cpu_model == 3 && !address->first.displacement && !address->symbol) return 0;
+    if (memory_kind == OPERAND_ABSOLUTE) return 0;
+    if (memory_kind == OPERAND_BASED) {
+        if (address->base.words.number != reg) return 0;
+    } else if (memory_kind == OPERAND_INDEXED) {
+        if (replacement != 0xffff) return 0;
+        if (address->index.words.number == reg)
+            index_adjustment = (unsigned long)adjustment << ((operand->flags >> 8) & 3);
+        if (address->base.words.number == reg) base_adjustment = adjustment;
+        adjustment = (unsigned long)base_adjustment + (unsigned long)index_adjustment;
+        if (!adjustment) return 0;
+    } else return 0;
+    if (!forward) adjustment = 0UL - (unsigned long)adjustment;
+    if (adjustment < 0 && reg == REG_ESP) {
+        if (!address->symbol) {
+            if (address->first.displacement + adjustment < 0) return 0;
+        } else if ((long)address->symbol->field04 + address->first.displacement + adjustment < 0) return 0;
+    }
+    undo = arena_alloc(3, sizeof(SchedulerUndo));
+    undo->operand = operand;
+    undo->owner = reverse ? last : first;
+    undo->adjustment = adjustment;
+    undo->replacement = replacement;
+    undo->next = scheduler_undo;
+    scheduler_undo = undo;
+    return 1;
+}
+/* Original [000437e0,000445f5). Pentium choice policy: complete a prior
+   pair, prefer available x87 work, then seek compatible integer pairs before
+   falling back to an operation whose dependency/float delay must be paid. */
+#define SELECT_READY(index) do { \
+    scheduler_pairs.selected[0] = scheduler_pairs.ready[index]; \
+    scheduler_pairs.ready[index] = scheduler_pairs.ready[scheduler_ready_count - 1]; \
+    *candidate = *count = 1; \
+} while (0)
+#define PENTIUM_PAIR_COMPATIBLE(a,b,ap,bp) \
+    ((((ap) == 1 || (ap) == 4) && ((bp) == 2 || (bp) == 4) && !instruction_pair_conflict(b,a)) || \
+     (((bp) == 1 || (bp) == 4) && ((ap) == 2 || (ap) == 4) && !instruction_pair_conflict(a,b)))
+#define SCHEDULER_FLOAT_ROOM(op) (scheduler_float_depth + scheduler_region_balance < 8 || \
+    ((op) != MC_FLD && (op) != MC_FILD && (op) != MC_FLDZ && (op) != MC_FLD1))
+void __fastcall select_pentium_pair(int *candidate, int *count,
+    int *wait, int *float_wait, int *dependent)
+{
+    MachineInstruction *previous = scheduler_pairs.previous[0].first, *a, *b;
+    SchedulerCandidate temporary, *saved_a = 0, *saved_b = 0;
+    int i, j, pipe = 4, other_pipe, saved_i = 0, saved_j = 0, best;
+    unsigned operation, previous_operation;
+    *float_wait = 0;
+    *wait = 0;
+    if (previous && !scheduler_pairs.previous[0].second &&
+        SCHEDULER_STACK_TRANSFER((previous->opcode >> 8) & 255)) {
+        for (i = 0; i < scheduler_ready_count; ++i) {
+            operation = (scheduler_pairs.ready[i].instruction->opcode >> 8) & 255;
+            if (SCHEDULER_STACK_TRANSFER(operation) || operation == MC_CALL) {
+                SELECT_READY(i);
+                *dependent = 1;
+                return;
+            }
+        }
+    }
+    if (scheduler_ready_count == 1) {
+        scheduler_pairs.selected[0] = scheduler_pairs.ready[0];
+        *candidate = *count = 1;
+        a = scheduler_pairs.selected[0].instruction;
+        *wait = instruction_schedule_delay(a);
+        operation = (a->opcode >> 8) & 255;
+        if (SCHEDULER_FLOAT_OPERATION(operation)) {
+            *float_wait = instruction_float_not_ready(a);
+            return;
+        }
+        if (previous && !scheduler_pairs.previous[0].second &&
+            classify_pentium_pipe(previous, &pipe) && classify_pentium_pipe(a, &pipe))
+            *dependent = pentium_pair_dependency(previous, a) || pentium_pair_independent(previous, a);
+        return;
+    }
+    if (previous && ((previous->opcode >> 8) & 255) != MC_CALL && !scheduler_pairs.previous[0].second &&
+        classify_pentium_pipe(previous, &pipe)) {
+        for (i = 0; i < scheduler_ready_count; ++i) {
+            other_pipe = 1;
+            a = scheduler_pairs.ready[i].instruction;
+            if (classify_pentium_pipe(a, &other_pipe) &&
+                (pentium_pair_dependency(previous, a) || pentium_pair_independent(previous, a))) {
+                SELECT_READY(i);
+                *dependent = 1;
+                return;
+            }
+        }
+    }
+    if (scheduler_has_float && previous) {
+        previous_operation = (previous->opcode >> 8) & 255;
+        if (previous_operation == MC_FLD || previous_operation == MC_FLDZ ||
+            previous_operation == MC_FLD1 || previous_operation == MC_FST) {
+            for (i = 0; i < scheduler_ready_count; ++i) {
+                a = scheduler_pairs.ready[i].instruction;
+                operation = (a->opcode >> 8) & 255;
+                if (SCHEDULER_FLOAT_OPERATION(operation) &&
+                    a->record.scheduling->float_inputs[0] == previous->record.scheduling->float_inputs[0] &&
+                    (previous_operation == MC_FST ||
+                     (operation != MC_FSTP && operation != MC_FST && operation != MC_FISTP && operation != MC_FIST))) {
+                    SELECT_READY(i);
+                    return;
+                }
+            }
+        }
+    }
+    /* Native descending-priority selection sort, retaining equal-priority order
+       exactly as this sequence of swaps does. */
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        for (j = i + 1; j < scheduler_ready_count; ++j) {
+            if (scheduler_pairs.ready[i].instruction->record.scheduling->priority <
+                scheduler_pairs.ready[j].instruction->record.scheduling->priority) {
+                temporary = scheduler_pairs.ready[i];
+                scheduler_pairs.ready[i] = scheduler_pairs.ready[j];
+                scheduler_pairs.ready[j] = temporary;
+            }
+        }
+    }
+    if (scheduler_has_float) {
+        for (i = 0; i < scheduler_ready_count; ++i) {
+            a = scheduler_pairs.ready[i].instruction;
+            operation = (a->opcode >> 8) & 255;
+            if (SCHEDULER_FLOAT_OPERATION(operation) && !instruction_schedule_delay(a) &&
+                !instruction_float_not_ready(a) && SCHEDULER_FLOAT_ROOM(operation)) {
+                SELECT_READY(i);
+                return;
+            }
+        }
+    }
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        pipe = 0;
+        a = scheduler_pairs.ready[i].instruction;
+        if (!classify_pentium_pipe(a, &pipe) && !instruction_schedule_delay(a) &&
+            !SCHEDULER_FLOAT_OPERATION((a->opcode >> 8) & 255)) {
+            SELECT_READY(i);
+            return;
+        }
+    }
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        a = scheduler_pairs.ready[i].instruction;
+        pipe = 0;
+        if (((a->opcode >> 8) & 255) == MC_CALL || !classify_pentium_pipe(a, &pipe) ||
+            instruction_schedule_delay(a) || pentium_previous_memory_delay(a)) continue;
+        for (j = i + 1; j < scheduler_ready_count; ++j) {
+            b = scheduler_pairs.ready[j].instruction;
+            other_pipe = pipe;
+            if (!classify_pentium_pipe(b, &other_pipe) || !PENTIUM_PAIR_COMPATIBLE(a,b,pipe,other_pipe)) continue;
+            if (!instruction_schedule_delay(b) && !pentium_previous_memory_delay(b)) {
+                scheduler_pairs.selected[0] = scheduler_pairs.ready[i];
+                scheduler_pairs.selected[1] = scheduler_pairs.ready[j];
+                remove_pentium_ready_pair(i, j);
+                if (pipe == 2 || other_pipe == 1 || instruction_pair_conflict(b, a)) {
+                    temporary = scheduler_pairs.selected[0];
+                    scheduler_pairs.selected[0] = scheduler_pairs.selected[1];
+                    scheduler_pairs.selected[1] = temporary;
+                }
+                *count = *candidate = 2;
+                return;
+            }
+            if (!saved_a) {
+                if (pipe == 2 || other_pipe == 1 || instruction_pair_conflict(b, a)) {
+                    saved_a = &scheduler_pairs.ready[j]; saved_b = &scheduler_pairs.ready[i];
+                    saved_i = j; saved_j = i;
+                } else {
+                    saved_a = &scheduler_pairs.ready[i]; saved_b = &scheduler_pairs.ready[j];
+                    saved_i = i; saved_j = j;
+                }
+            }
+        }
+    }
+    if (saved_a && saved_b) {
+        scheduler_pairs.selected[0] = *saved_a;
+        scheduler_pairs.selected[1] = *saved_b;
+        remove_pentium_ready_pair(saved_i, saved_j);
+        *count = *candidate = 2;
+        *wait = 1;
+        return;
+    }
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        a = scheduler_pairs.ready[i].instruction;
+        pipe = 0;
+        if (((a->opcode >> 8) & 255) == MC_CALL || !classify_pentium_pipe(a, &pipe)) continue;
+        for (j = i + 1; j < scheduler_ready_count; ++j) {
+            b = scheduler_pairs.ready[j].instruction;
+            other_pipe = pipe;
+            if (!classify_pentium_pipe(b, &other_pipe) || !PENTIUM_PAIR_COMPATIBLE(a,b,pipe,other_pipe)) continue;
+            scheduler_pairs.selected[0] = scheduler_pairs.ready[i];
+            scheduler_pairs.selected[1] = scheduler_pairs.ready[j];
+            remove_pentium_ready_pair(i, j);
+            if (pipe == 2 || other_pipe == 1 || instruction_pair_conflict(b, a)) {
+                temporary = scheduler_pairs.selected[0];
+                scheduler_pairs.selected[0] = scheduler_pairs.selected[1];
+                scheduler_pairs.selected[1] = temporary;
+            }
+            *count = *candidate = 2;
+            *wait = 1;
+            return;
+        }
+    }
+    pipe = 0;
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        a = scheduler_pairs.ready[i].instruction;
+        if (classify_pentium_pipe(a, &pipe) && !instruction_schedule_delay(a) && !pentium_previous_memory_delay(a)) {
+            SELECT_READY(i);
+            return;
+        }
+    }
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        a = scheduler_pairs.ready[i].instruction;
+        operation = (a->opcode >> 8) & 255;
+        if (SCHEDULER_FLOAT_OPERATION(operation) && !instruction_float_not_ready(a) && SCHEDULER_FLOAT_ROOM(operation)) {
+            SELECT_READY(i);
+            *wait = 1;
+            return;
+        }
+    }
+    best = -1;
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        a = scheduler_pairs.ready[i].instruction;
+        operation = (a->opcode >> 8) & 255;
+        if (SCHEDULER_FLOAT_OPERATION(operation) && SCHEDULER_FLOAT_ROOM(operation)) {
+            if (best == -1 || scheduled_float_latency(scheduler_pairs.ready[best].instruction) > scheduled_float_latency(a)) best = i;
+        }
+    }
+    if (best != -1) {
+        SELECT_READY(best);
+        *float_wait = 1;
+        return;
+    }
+    for (i = 0; i < scheduler_ready_count; ++i) {
+        pipe = 0;
+        if (!classify_pentium_pipe(scheduler_pairs.ready[i].instruction, &pipe)) {
+            SELECT_READY(i);
+            *wait = 1;
+            return;
+        }
+    }
+    SELECT_READY(0);
+    *wait = instruction_schedule_delay(scheduler_pairs.selected[0].instruction);
+}
+#undef SELECT_READY
+#undef PENTIUM_PAIR_COMPATIBLE
+#undef SCHEDULER_FLOAT_ROOM
+/* Original [000435d0,000437d6). Commit the selected operation(s), apply
+   deferred address changes and advance history/dependency tracking. */
+void __fastcall emit_pentium_pair(int candidate, int count, int dependent)
+{
+    MachineInstruction *first = scheduler_pairs.selected[0].instruction, *last;
+    unsigned operation = (first->opcode >> 8) & 255;
+    if (SCHEDULER_FLOAT_OPERATION(operation) && !scheduler_float_invalid) apply_scheduled_float(first);
+    if (operation == MC_CALL && !scheduler_float_invalid && (first->operands[0].flags & 15) == OPERAND_SYMBOL &&
+        (((FunctionSymbol *)first->operands[0].value.symbol)->field24 & 15) == 5) apply_scheduled_float(first);
+    prune_pentium_candidate_undos(first, scheduler_ready_count - count);
+    scheduler_undo = scheduler_pairs.selected[0].undo;
+    place_scheduled_instruction(scheduler_cursor, first);
+    if (candidate == 2) remove_pentium_candidate_undo(first, &scheduler_pairs.selected[1]);
+    if (!dependent) {
+        rotate_pentium_history();
+        scheduler_cursor = first;
+        scheduler_pairs.previous[0].first = first;
+    } else {
+        scheduler_cursor = first;
+        scheduler_pairs.previous[0].second = first;
+        scheduler_pairs.previous[0].first->record.scheduling->flags |= 0x40;
+        first->record.scheduling->flags |= 0x40 | 0x80;
+    }
+    first->record.scheduling->flags |= 0x800;
+    first->record.scheduling->flags &= ~0x100U;
+    if (scheduler_track_registers) update_scheduled_registers(first);
+    if (candidate == 2) {
+        last = scheduler_pairs.selected[1].instruction;
+        operation = (last->opcode >> 8) & 255;
+        if (operation == MC_CALL && !scheduler_float_invalid && (last->operands[0].flags & 15) == OPERAND_SYMBOL &&
+            (((FunctionSymbol *)last->operands[0].value.symbol)->field24 & 15) == 5) apply_scheduled_float(last);
+        prune_pentium_candidate_undos(last, scheduler_ready_count - count);
+        scheduler_undo = scheduler_pairs.selected[1].undo;
+        place_scheduled_instruction(first, last);
+        scheduler_cursor = last;
+        scheduler_pairs.previous[0].second = last;
+        last->record.scheduling->flags |= 0x80 | 0x40;
+        first->record.scheduling->flags |= 0x40;
+        last->record.scheduling->flags |= 0x800;
+        last->record.scheduling->flags &= ~0x100U;
+        if (scheduler_track_registers) update_scheduled_registers(scheduler_pairs.previous[0].second);
+    }
+}
+/* Original [00045900,00045927). A committed instruction no longer
+   needs a deferred adjustment in another pending candidate's undo chain. */
+void __fastcall prune_pentium_candidate_undos(MachineInstruction *instruction, int ready_count)
+{
+    int i;
+    for (i = 0; i < ready_count; ++i)
+        if (scheduler_pairs.ready[i].instruction != instruction)
+            remove_pentium_candidate_undo(instruction, &scheduler_pairs.ready[i]);
+}
+/* Original [00040450,000404bd). Place last immediately after first,
+   update movement history, then apply its deferred address corrections. */
+void __fastcall place_scheduled_instruction(MachineInstruction *first, MachineInstruction *last)
+{
+    MachineInstruction *next;
+    unsigned flags;
+    if (first && last != first->next) {
+        next = first->next;
+        if (last->next) last->next->previous = last->previous;
+        last->previous->next = last->next;
+        first->next = last;
+        last->previous = first;
+        last->next = next;
+        if (next) next->previous = last;
+    }
+    flags = last->record.scheduling->flags;
+    if (cpu_model == 5) last->record.scheduling->flags = (flags & ~0x600U) | ((flags + 0x200) & 0x600);
+    else last->record.scheduling->flags = flags | 0x20;
+    apply_scheduler_undo();
+    scheduler_undo = 0;
+}
+/* Original [000404c0,000404f0). Apply exactly the deferred displacement
+   and optional base-register edits in the selected undo chain. */
+void __cdecl apply_scheduler_undo(void)
+{
+    MachineAddress *address;
+    while (scheduler_undo) {
+        address = scheduler_undo->operand->value.address;
+        address->first.displacement = (unsigned long)address->first.displacement + (unsigned long)scheduler_undo->adjustment;
+        if (scheduler_undo->replacement != 0xffff) address->base.words.number = scheduler_undo->replacement;
+        scheduler_undo = scheduler_undo->next;
+    }
+}
+/* Original [00045e60,00045e9d). Shift the three-cycle pipeline history
+   and clear the newest pair before assigning its first operation. */
+void __cdecl rotate_pentium_history(void)
+{
+    scheduler_pairs.previous[2] = scheduler_pairs.previous[1];
+    scheduler_pairs.previous[1] = scheduler_pairs.previous[0];
+    scheduler_pairs.previous[0].first = 0;
+    scheduler_pairs.previous[0].second = 0;
+}
+/* Original [0003ffd0,00040091). Track the definitions made by the
+   instruction just committed to the scheduled stream. */
+void __fastcall update_scheduled_registers(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255, mask = 0, i;
+    if (operation == MC_CALL) {
+        record_scheduled_register(REG_EAX, instruction, 1);
+        record_scheduled_register(REG_ECX, instruction, 1);
+        record_scheduled_register(REG_EDX, instruction, 1);
+        return;
+    }
+    if (machine_operand_counts[operation] > 0 && (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+        writes_first_operand(instruction))
+        record_scheduled_register((unsigned short)(instruction->operands[0].value.reg.words.number & 0x3fff), instruction, 0);
+    if (machine_selection_properties[operation] & MC_IMPLICIT_REGISTERS) mask = implicit_register_mask(instruction, 2);
+    for (i = 0; i < 8; ++i)
+        if (mask & (1U << i)) record_scheduled_register((unsigned short)i, instruction, 1);
+}
+/* Original [00041e80,00041f2a). Record a physical-register definition
+   and whether its symbolic value can be recovered without self-reference. */
+void __fastcall record_scheduled_register(unsigned short reg,
+    MachineInstruction *instruction, unsigned char clobbered)
+{
+    SchedulerRegisterState *state;
+    MachineAddress *address;
+    unsigned operation;
+    if (reg >= scheduler_register_capacity) compiler_internal_error("@(#)sched.c:1.33", 0x526);
+    state = scheduler_register_states[reg];
+    if (!state) {
+        state = arena_alloc(3, sizeof(SchedulerRegisterState));
+        scheduler_register_states[reg] = state;
+    }
+    state->definition = instruction;
+    state->clobbered = clobbered;
+    operation = (instruction->opcode >> 8) & 255;
+    if (operation == MC_MOV) state->recoverable = 1;
+    else if (operation == MC_LEA) {
+        address = instruction->operands[1].value.address;
+        state->recoverable = (address->base.words.number & 0x3fff) != reg &&
+            (address->index.words.number & 0x3fff) != reg;
+    } else state->recoverable = 0;
+}
+/* Original [00043480,000434d3). A prefix-constrained operation waits
+   behind a multicycle operation in either slot of the preceding pair. */
+int __fastcall pentium_previous_memory_delay(MachineInstruction *instruction)
+{
+    if (!pentium_prefix_instruction(instruction)) return 0;
+    if (scheduler_pairs.previous[0].first && (short)scheduler_instruction_cycles(scheduler_pairs.previous[0].first) > 1) return 1;
+    if (scheduler_pairs.previous[0].second && (short)scheduler_instruction_cycles(scheduler_pairs.previous[0].second) > 1) return 1;
+    return 0;
+}
+/* Original [00040f80,00041063). Address-generation dependency: an
+   earlier instruction that defines this memory operand's base/index delays
+   its use, with Pentium stack-transfer exceptions. */
+int __fastcall instruction_pair_conflict(MachineInstruction *first, MachineInstruction *last)
+{
+    SchedulerMemoryAccess *memory;
+    unsigned mask, operation = (last->opcode >> 8) & 255;
+    if (operation == MC_CALL) return 0;
+    if (!(first->record.scheduling->flags & 1)) analyze_scheduled_instruction(first);
+    if (!(last->record.scheduling->flags & 1)) analyze_scheduled_instruction(last);
+    memory = first->record.scheduling->memory;
+    if (!memory || (memory->base_register == -1 && cpu_model != 5)) return 0;
+    mask = last->record.scheduling->defines;
+    if (mask & (1U << (memory->base_register & 31))) {
+        if (cpu_model != 5) return 1;
+        return !SCHEDULER_STACK_TRANSFER(operation);
+    }
+    if (memory->index_register != -1 && cpu_model == 5 &&
+        (mask & (1U << (memory->index_register & 31)))) return 1;
+    return 0;
+}
+/* Original [000452e0,00045490). Independent pairs cannot read/write the
+   same defined register and must not both carry an explicit memory operand. */
+int __fastcall pentium_pair_independent(MachineInstruction *first, MachineInstruction *last)
+{
+    InstructionSchedule *a = first->record.scheduling, *b = last->record.scheduling;
+    unsigned left = (first->opcode >> 8) & 255, right = (last->opcode >> 8) & 255;
+    int first_count = machine_operand_counts[left], last_count = machine_operand_counts[right];
+    unsigned kind;
+    int memory;
+    if (!(a->flags & 1) || !(b->flags & 1) || (b->uses & a->defines) || (b->defines & a->defines)) return 0;
+    if (first_count != 1 && first_count != 2) return 0;
+    kind = first->operands[0].flags & 15;
+    memory = kind == OPERAND_BASED || kind == OPERAND_INDEXED || kind == OPERAND_ABSOLUTE;
+    if (first_count == 2 && !memory) {
+        kind = first->operands[1].flags & 15;
+        memory = kind == OPERAND_BASED || kind == OPERAND_INDEXED || kind == OPERAND_ABSOLUTE;
+    }
+    if (!memory) return 1;
+    if (last_count != 1 && last_count != 2) return 0;
+    kind = last->operands[0].flags & 15;
+    if (kind == OPERAND_BASED || kind == OPERAND_INDEXED || kind == OPERAND_ABSOLUTE) return 0;
+    if (last_count == 2) {
+        kind = last->operands[1].flags & 15;
+        if (kind == OPERAND_BASED || kind == OPERAND_INDEXED || kind == OPERAND_ABSOLUTE) return 0;
+    }
+    return 1;
 }

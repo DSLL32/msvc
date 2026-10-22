@@ -1,0 +1,24 @@
+{
+  "label": "update-reg-after",
+  "accepted": 693,
+  "logical": "@record_scheduled_register@12",
+  "original_va": "0x41e80",
+  "events": "exception 80000003 rva 00031e80 base 00010000 first 1\nexit 99\n",
+  "setup_seconds": 0.17428583186119795,
+  "execution_check_seconds": 1.04441580735147,
+  "total_seconds": 1.2187020722776651,
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "1951e9e94b87e4aff7059f787b205cb73e77afd1da8941bb273c73de70c30103",
+  "config_sha256": "cb66c52ab616b0cb36a3fa1260d0e5f7882ea60655355a28076e6cb10f911836",
+  "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+  "inputs": {
+    "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+    "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+    "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+    "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/update-reg-after"
+}

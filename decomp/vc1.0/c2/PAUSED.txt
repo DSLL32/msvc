@@ -1,13 +1,17 @@
-C2 is ACTIVE following explicit user resume,2026-10-22. The one-function
-limit is revoked. Current queue: finish optimized /O2 /G5 hello, then independently
-capture/reconstruct optimizer stress for loops, pressure/spills, aliasing and x87.
-Current verified checkpoint680accepted/603source graphs. Native/original next
-frontier @pentium_pair_dependency@8 at0x45490. Minimal complete; hello incomplete.
-See cases/hello-pentium-dependencies.json for durable ordered original captures,
-checks, timing, coverage and limits. Actual mask extent union186628/399693bytes
-=46.6928367522percent; not branch coverage. No shim changes requested.
-Earlier prepare_schedule_window return comparison remains pending; scheduler
-/W3 and refreshed extent coverage now pass. Preserve root's optimized audit
-script/test/performance receipt. Shared lib/recon is root-owned.
-Scratch /root/.ai-tmp/vc1.0-c2/optimizer-queue; Wine prefix../wine.
-Stage/commit only owned paths using shared index-lock protocol from root.
+C2 ACTIVE after user resume; one-function limit revoked.
+Queue: finish optimized /O2 /G5 hello, then independently original-capture and
+reconstruct loops/pressure/spills, aliasing/struct copies and x87 stress cases.
+Verified697accepted/620source graphs; first scheduling window RETURNS and
+independent original/native state matches87stream records/3metadata/65register
+slots plus live history/ready/undo/global fields. Next matching named trap:
+@recombine_scheduled_loads@8 at0x319f0. Hello object still incomplete.
+Actual accepted extent union196016/399693=49.0416394583percent, not branch
+coverage. Canonical build, full graph/extent/mask checks, whole scheduler/W3
+and native minimal+hello regressions pass. See cases/hello-first-scheduled-
+window.json and durable cases/hello-original-681.json..697.json receipts.
+Standalone preparation EAX comparison remains unperformed; later returned-window
+state comparison is complete. Unvisited floating/failure alternatives remain
+unvalidated and retain named traps. No shared shim request.
+Scratch /root/.ai-tmp/vc1.0-c2/optimizer-queue; prefix../wine.
+Preserve root optimized audit; shared lib/recon root-owned; use shared Git lock
+for scoped commits. Continue authorized queue without routine approval.

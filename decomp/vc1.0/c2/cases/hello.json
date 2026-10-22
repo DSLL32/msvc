@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
   "accepted_from": 352,
-  "accepted_frontiers": 328,
+  "accepted_frontiers": 345,
   "current_frontier": {
-    "name": "@pentium_pair_dependency@8",
-    "original_va": 283792
+    "name": "@recombine_scheduled_loads@8",
+    "original_va": 203248
   },
   "expected": {
     "exit": 0,
@@ -249,18 +249,19 @@
     "One-function native trial accepts schedule_pentium_instruction42960..42a0b (171bytes/42instructions); fresh original-only and native GDB agree at chooser42a10 before accepting further work.",
     "Original-toolchain build, scheduler /W3,594 source graphs and mask/extent/coverage audits pass; native minimal270 entries/object/streams/exit and hello320 entries/expected chooser trap pass with three rejection checks.",
     "Verified accepted original code-extent union180186/399693=45.0810997441percent; +171bytes from formally measured670 checkpoint, not branch coverage. See cases/hello-pentium-dispatch.json.",
-    "Pentium dependence checkpoint680: nine whole functions added after671; original/native matching after each;603 source graphs, instruction extents/masks and /W3 pass. Native minimal object and hello329-entry named terminal regression pass; extent union186628/399693=46.6928367522percent, not branch coverage. See cases/hello-pentium-dependencies.json."
+    "Pentium dependence checkpoint680: nine whole functions added after671; original/native matching after each;603 source graphs, instruction extents/masks and /W3 pass. Native minimal object and hello329-entry named terminal regression pass; extent union186628/399693=46.6928367522percent, not branch coverage. See cases/hello-pentium-dependencies.json.",
+    "First scheduled window checkpoint697:17new whole functions after680; all fresh original/native frontiers match.620source graphs/extents/masks pass and scheduler /W3 clean. Native minimal exactobject/streams/exit and hello346-entry terminal pass. Independent post-window state matches1401normalized JSON lines:87stream/3metadata/65register-state slots and history/undo/global state. Extent union196016/399693=49.0416394583percent, not branch coverage. See cases/hello-first-scheduled-window.json."
   ],
-  "total_accepted_frontiers": 680,
-  "reconstructed_functions": 603,
+  "total_accepted_frontiers": 697,
+  "reconstructed_functions": 620,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 680,
-    "accepted_code_bytes": 186628,
+    "accepted_frontiers": 697,
+    "accepted_code_bytes": 196016,
     "original_code_bytes": 399693,
-    "percentage": 46.69283675220732,
+    "percentage": 49.04163945828423,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [
@@ -268,13 +269,13 @@
         "0x7894d"
       ]
     ],
-    "union_ranges": 185
+    "union_ranges": 200
   },
-  "checkpoint_status": "Active Pentium dependency reconstruction; hello incomplete",
+  "checkpoint_status": "Active: first scheduled window returned and original/native state matches; load recombination next",
   "pending_window_validation": {
-    "capture": "prepare_schedule_window return at original0x3fe60; helper built, not run",
-    "compiler_warnings": "Whole scheduler.c /W3 clean in this one-function trial; measured1.6950453576s.",
-    "coverage": "Refreshed at671 accepted:180186/399693 bytes; see accepted_code_extent_coverage.",
+    "capture": "Standalone prepare_schedule_window EAX/return capture remains unperformed. Later first schedule_window return now independently matches complete typed original/native post-window state; see cases/hello-first-scheduled-window.json.",
+    "compiler_warnings": "Whole scheduler.c /W3 clean at697 after explicit16-bit ABI cast and unsigned-subtraction cleanup.",
+    "coverage": "Refreshed at697:196016/399693=49.0416394583percent; not branch coverage.",
     "unexercised": "non-Pentium floating delay branch and unvisited failure paths",
     "analysis_evidence": "/root/.ai-tmp/vc1.0-c2/scheduler-float-delay-receipt.json"
   }
