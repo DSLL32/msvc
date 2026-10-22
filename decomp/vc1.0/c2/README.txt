@@ -1088,3 +1088,34 @@ extent union is144463 /399693 bytes (36.1435 percent), including source/shared t
 imports with clipping and actual-mask verification; this is not branch coverage.
 Hello remains incomplete at sync_machine_work,00068b70. Later functions,
 physical allocation/scheduling and optimized final emission remain pending.
+
+Seven more functions reconstruct backend label synchronization and whole-stream
+finishing. The kind1 label/kind2 function-header overlay now names chain links,
+optional attachments and label flags at their recovered offsets. Synchronizing
+rebuilds the side chain and exact reference counts, then marks region-header
+alignment. Scanning merges canonical labels across source/block markers,
+preserves their alignment/attachment position and redirects branch/data label
+operands with balanced references. Compaction removes unreferenced labels
+while retaining protected kind4 labels. The separate cdecl wrapper and fastcall
+stream helper at1dc70/1dc80 remain separate original graph vertices.
+
+The optional attachment has only an observed24-byte prefix through its label
+back-pointer. Its owner and full identity remain unresolved; no reconstruction
+allocates or copies attachment objects. Positive motion/attachment branches
+have full parent source, but their insert_machine_after callee is still a named
+trap and these branches are not dynamically claimed. See
+cases/hello-synchronization-abi.json for exact extents, ABI and layout limits.
+
+At analyze_machine_instructions, six fresh captures match291 normalized lines
+and90 record visits including repeated boundary headers. The surviving label
+chain is9280,9278,9270 with signed reference counts1,1,2; all flags are zero and
+attachments are null. Full machine records, operand flags, live sets, source
+markers, branch identities and all call metadata continue to match.
+
+All352 minimal and204 hello historical frontiers replay. All479 source graphs
+and556 accepted extent instruction boundaries pass; three affected modules
+compile /W3 clean. Minimal object/streams/exit match except only its four-byte
+COFF timestamp. Verified accepted original code-extent union is145263 /399693 bytes
+(36.3436 percent), including source/shared text/CRT/imports with clipping and
+actual-mask verification; this is not branch coverage. Hello remains pending
+at analyze_machine_instructions,00048040.

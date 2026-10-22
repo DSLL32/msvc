@@ -53,6 +53,12 @@ typedef struct MachineCallInfo {
     unsigned argument_bytes, register_mask, result_flags;
 } MachineCallInfo;
 typedef char MachineCallInfoSizeCheck[sizeof(MachineCallInfo) == 12 ? 1 : -1];
+/* Observed prefix of the optional label attachment. Its owner and earlier
+   fields remain deferred; the scan pass only updates the label back-pointer. */
+typedef struct MachineLabelAttachment {
+    unsigned field00, field04, field08, field0c, field10;
+    struct MachineInstruction *label;
+} MachineLabelAttachment;
 struct MachineInstruction {
     MachineInstruction *next, *previous;
     unsigned opcode;
@@ -60,7 +66,12 @@ struct MachineInstruction {
         MachineInstruction *next_use;
         unsigned encoding_length;
         struct { short code, value; } directive; } record;
-    MachineOperand operands[2];
+    union {
+        MachineOperand operands[2];
+        /* Kind1 labels and the kind2 function header share a label chain.
+           The later label-alignment pass consumes flags at offset0x18. */
+        struct { struct MachineInstruction *next; MachineLabelAttachment *attachment; unsigned flags, field1c; } labels;
+    };
 };
 typedef char MachineInstructionSizeCheck[sizeof(MachineInstruction) == 32 ? 1 : -1];
 /* Kind 7 shares the machine-record header and carries block register sets. */

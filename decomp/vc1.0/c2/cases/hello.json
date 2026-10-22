@@ -5,10 +5,10 @@
   "fixture_manifest": "../fixtures/hello-win32/manifest.json",
   "fixture_manifest_sha256": "d9bc13799a2e97c35d7e22ed0b91abf11a48128ef495c6dc1bd95af26922773e",
   "accepted_from": 352,
-  "accepted_frontiers": 197,
+  "accepted_frontiers": 204,
   "current_frontier": {
-    "name": "@sync_machine_work@8",
-    "original_va": 428912
+    "name": "@analyze_machine_instructions@8",
+    "original_va": 294976
   },
   "expected": {
     "exit": 0,
@@ -139,18 +139,24 @@
     "all 472 source graphs and 549 accepted extent instruction boundaries agree",
     "four affected implementation modules compile /W3 clean, including correction of existing signed/unsigned final-use comparison",
     "six independent completed-function captures match 271 normalized lines and 92 record visits, including repeated boundary headers and all seven call metadata records",
-    "verified accepted code-extent union 144463/399693 bytes = 36.1435 percent; not branch coverage"
+    "verified accepted code-extent union 144463/399693 bytes = 36.1435 percent; not branch coverage",
+    "original-toolchain make -j2 check passes; minimal object/exit/streams match except only four-byte COFF timestamp",
+    "all 352 minimal and 204 hello historical frontiers replay in isolated pairs with frozen native build/config hashes",
+    "all 479 source function graphs and 556 accepted extent instruction boundaries agree",
+    "three affected implementation modules compile /W3 clean",
+    "six independent synchronized-function captures match 291 normalized lines and 90 record visits including repeated boundaries; label chain and reference counts also match",
+    "verified accepted code-extent union 145263/399693 bytes = 36.3436 percent; not branch coverage"
   ],
-  "total_accepted_frontiers": 549,
-  "reconstructed_functions": 472,
+  "total_accepted_frontiers": 556,
+  "reconstructed_functions": 479,
   "accepted_code_extent_coverage": {
     "mask_verified": true,
     "metric": "accepted original code-extent union; not branch coverage",
     "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-    "accepted_frontiers": 549,
-    "accepted_code_bytes": 144463,
+    "accepted_frontiers": 556,
+    "accepted_code_bytes": 145263,
     "original_code_bytes": 399693,
-    "percentage": 36.143490128673754,
+    "percentage": 36.343643746575495,
     "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
     "code_sections": [
       [

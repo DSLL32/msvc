@@ -136,10 +136,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall sync_machine_work(WorkItem *work, MachineContext *context) { __asm int 3 }
-void __fastcall scan_machine_context(MachineContext *context) { __asm int 3 }
-void __fastcall compact_machine_context(MachineContext *context) { __asm int 3 }
-void optimize_machine_flow(void) { __asm int 3 }
 void __fastcall analyze_machine_instructions(MachineInstruction *instructions, unsigned flags) { __asm int 3 }
 void simplify_machine_data(void) { __asm int 3 }
 void simplify_machine_branches(void) { __asm int 3 }
@@ -249,7 +245,6 @@ int __fastcall register_mentioned_between(MachineInstruction *first, MachineInst
 MachineInstruction *__fastcall clone_machine_record(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_source_changed_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
 unsigned __fastcall byte_register_available(unsigned short reg) { __asm int 3 }
-void __fastcall adjust_machine_symbol_references(MachineInstruction *instruction, int delta) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 
 #include "value-selection.h"

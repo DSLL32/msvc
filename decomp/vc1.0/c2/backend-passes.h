@@ -8,6 +8,7 @@ int __fastcall prepare_machine_context(MachineInstruction *instructions);
 void __fastcall sync_machine_work(WorkItem *work, MachineContext *context);
 void __fastcall scan_machine_context(MachineContext *context);
 void __fastcall compact_machine_context(MachineContext *context);
+void __fastcall finish_machine_blocks(MachineInstruction *instructions, int mode);
 void optimize_machine_flow(void);
 void __fastcall analyze_machine_instructions(MachineInstruction *instructions, unsigned flags);
 void simplify_machine_data(void);

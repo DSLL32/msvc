@@ -545,3 +545,33 @@ int __fastcall fold_lea_address(MachineInstruction *instruction, MachineOperand 
     }
     return 1;
 }
+
+/* Original [00068cc0,00068d00). Visit explicit operands in reverse order;
+   conditional-code and call-metadata payloads are not symbol operands. */
+void __fastcall adjust_machine_symbol_references(MachineInstruction *instruction, int delta)
+{
+    int count;
+    if (instruction->opcode & 15) return;
+    count = machine_operand_counts[(unsigned char)(instruction->opcode >> 8)];
+    if (count == 2) adjust_operand_label_references(&instruction->operands[1], delta);
+    if (count == 1 || count == 2) adjust_operand_label_references(&instruction->operands[0], delta);
+}
+
+/* Original [00068c70,00068cc0). Return whether this is a symbol-bearing
+   operand, adjusting only local-label references within that operand. */
+int __fastcall adjust_operand_label_references(MachineOperand *operand, int delta)
+{
+    unsigned kind = operand->flags & 15;
+    SymbolHeader *symbol;
+    if (kind >= OPERAND_ABSOLUTE && kind <= OPERAND_LABEL_ADDRESS) {
+        symbol = operand->value.address->symbol;
+        if (symbol && symbol->kind == 3) ((LabelSymbol *)symbol)->references += delta;
+        return 1;
+    }
+    if (kind == OPERAND_SYMBOL) {
+        symbol = operand->value.symbol;
+        if (symbol->kind == 3) ((LabelSymbol *)symbol)->references += delta;
+        return 1;
+    }
+    return 0;
+}

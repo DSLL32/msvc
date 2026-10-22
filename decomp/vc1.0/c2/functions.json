@@ -553,7 +553,14 @@
     "@implicit_register_mask@8",
     "@register_definition_width@12",
     "@address_changed_between@12",
-    "@fold_lea_address@12"
+    "@fold_lea_address@12",
+    "@sync_machine_work@8",
+    "@adjust_machine_symbol_references@8",
+    "@adjust_operand_label_references@8",
+    "@scan_machine_context@4",
+    "@compact_machine_context@4",
+    "_optimize_machine_flow",
+    "@finish_machine_blocks@8"
   ],
   "driver": [
     {
@@ -1114,26 +1121,22 @@
     {
       "name": "@sync_machine_work@8",
       "start": 428912,
-      "end": 428913,
-      "provisional": true
+      "end": 429072
     },
     {
       "name": "@scan_machine_context@4",
       "start": 428528,
-      "end": 428529,
-      "provisional": true
+      "end": 428912
     },
     {
       "name": "@compact_machine_context@4",
       "start": 428464,
-      "end": 428465,
-      "provisional": true
+      "end": 428528
     },
     {
       "name": "_optimize_machine_flow",
       "start": 121968,
-      "end": 121969,
-      "provisional": true
+      "end": 121984
     },
     {
       "name": "@analyze_machine_instructions@8",
@@ -3160,8 +3163,7 @@
     {
       "name": "@adjust_machine_symbol_references@8",
       "start": 429248,
-      "end": 429249,
-      "provisional": true
+      "end": 429312
     },
     {
       "name": "@emit_machine_directive@8",
@@ -4865,6 +4867,16 @@
       "name": "@instruction_operands_equal@16",
       "start": 142624,
       "end": 142800
+    },
+    {
+      "name": "@adjust_operand_label_references@8",
+      "start": 429168,
+      "end": 429248
+    },
+    {
+      "name": "@finish_machine_blocks@8",
+      "start": 121984,
+      "end": 122016
     }
   ],
   "cases": {
