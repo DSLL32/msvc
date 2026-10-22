@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 270 accepted paired frontiers, including 195 frontend
+PARTIAL reconstruction: 274 accepted paired frontiers, including 199 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
-The next matching trap is _resolve_parenthesis_candidate@4 at original VA
-0x19190. The latest ordered replay is recorded in validation.json;
+The declaration-lookahead parser is reconstructed as well; the next matching
+trap is _begin_parameter_scope@4 at original VA 0x36670. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -359,3 +359,27 @@ flag after its record is written; reserved record bytes are left untouched.
 All 270 ordered frontiers replay exactly through the scoped-lookup/capture
 prefix in evidence/replay-scoped-lookup.log. The matched current frontier is
 resolve_parenthesis_candidate at original 0x19190.
+
+The separate declaration-lookahead parser (original 0x75230..0x75a52, semantic
+switch 0x75a54..0x75ce8) is reconstructed from lookahead.bnf. Its 169 named
+productions regenerate all 279 original state identities. Exhaustive audits
+check 71,703 token actions, 14,229 gotos, lexer timing, and all 46 non-default
+semantic action rules. Only logical generated rows enter the native build;
+no original packed tables are included in the reconstructed implementation.
+
+The parenthesis dispatcher preserves its ten callees, recursive cursor/depth
+restoration and declaration/expression/constructor classification. The auxiliary
+parser has 150 allocated semantic and state cells, plus original admitted
+boundary aliases. Typed union views retain yypv/yys before-first cells and the
+semantic/state overlap. Empty productions can read the following semantic cell,
+so that view includes the overlapping state bytes as well.
+
+Native references prove declarator_nesting is a signed 32-bit counter, correcting
+its earlier provisional short declaration. Its canonical object and initial
+byte-address audit now cover the full word. Deferred type conversion's second
+argument is now typed as CType*, matching the token node's type field.
+
+All 274 accepted frontiers replay exactly, including pending FILE buffers,
+through this complete lookahead-parser integration. The matched current frontier
+is begin_parameter_scope at original 0x36670. No complete-case equivalence is
+claimed yet.

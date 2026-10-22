@@ -2,6 +2,7 @@
 #include "initialization.h"
 #include "inline-vector.h"
 #include "class-lookup.h"
+#include "lookahead.h"
 #include "ir.h"
 #include "hash-table.h"
 #include "types.h"
@@ -286,7 +287,6 @@ void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 int deferred_tokens_may_be_declaration(void) { __asm { int 3 } return 0; }
 unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
 void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
-unsigned char __stdcall resolve_parenthesis_candidate(int allow_expression) { __asm { int 3 } return 0; }
 QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }
 void __stdcall browser_type_reference(CppSymbol *symbol) { __asm { int 3 } }
 unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
@@ -332,7 +332,7 @@ void scan_identifier_continuation(char *begin, unsigned hash) { __asm { int 3 } 
 void __stdcall add_storage_specifier(StorageSpec *storage, unsigned char kind,
                                     unsigned char modifier, unsigned unused) { __asm { int 3 } }
 void read_declspec_attributes(StorageSpec *storage) { __asm { int 3 } }
-void __stdcall convert_deferred_type_token(DeferredToken *token, unsigned storage_word) { __asm { int 3 } }
+void __stdcall convert_deferred_type_token(DeferredToken *token, CType *type) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall reference_tag_symbol(char *name, unsigned short kind,
@@ -398,3 +398,10 @@ void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *h
 
 CppSymbol *__stdcall find_matching_overload(CppSymbol *functions, CType *type,
     int merge_defaults) { __asm { int 3 } return 0; }
+
+void __stdcall set_deferred_type_name(DeferredToken *token) { __asm { int 3 } }
+int __stdcall deferred_scope_allows_expression(int depth) { __asm { int 3 } return 0; }
+void __stdcall resolve_nested_deferred_types(unsigned char unused_mode) { __asm { int 3 } }
+int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
+
+void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }

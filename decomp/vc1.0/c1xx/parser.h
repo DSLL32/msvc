@@ -33,7 +33,7 @@ extern ClassContext class_contexts[16];
 extern unsigned char expression_storage[2052];
 extern unsigned char *text_work_cursor;
 extern int initializer_list_started;
-extern unsigned short declarator_nesting;
+extern int declarator_nesting;
 extern DeclarationType declaration_spec_storage[61];
 #define declaration_spec_stack (declaration_spec_storage + 1)
 extern unsigned enumerator_value, array_bound, new_array_bound;

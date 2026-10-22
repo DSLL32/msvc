@@ -1,0 +1,302 @@
+# C++ declaration/expression lookahead grammar.
+# Named productions regenerate the automaton; no packed image tables are used.
+%start lookahead_declaration
+
+%token IDENTIFIER 2
+%token STRING_LITERAL 3
+%token SEGNAME 27
+%token TYPE_NAME 40
+%token BASED 51
+%token CONST 56
+%token VOLATILE 57
+%token AMPERSAND 58
+%token LOGICAL_AND 59
+%token ASSIGN 61
+%token COLON 63
+%token COMMA 64
+%token NOT 69
+%token LBRACKET 74
+%token MINUS 79
+%token STAR 83
+%token BIT_OR 86
+%token LOGICAL_OR 88
+%token PLUS 90
+%token QUESTION 95
+%token TILDE 98
+%token BIT_XOR 100
+%token SEGMENT_OFFSET 104
+%token ASSIGNMENT_OPERATOR 107
+%token CONSTANT 111
+%token DIVISION_OPERATOR 114
+%token ELLIPSIS 116
+%token EQUALITY_OPERATOR 120
+%token INCREMENT_OPERATOR 125
+%token LBRACE 127
+%token LPAREN 128
+%token MODIFIER 130
+%token RBRACKET 132
+%token RELATIONAL_OPERATOR 134
+%token RPAREN 136
+%token SELF 137
+%token SHIFT_OPERATOR 139
+%token SIZEOF 140
+%token MEMBER_ACCESS_OPERATOR 142
+%token NEW 151
+%token DELETE 152
+%token OPERATOR_ID 153
+%token CONVERSION_ID 154
+%token THIS 155
+%token MEMBER_POINTER_OPERATOR 159
+%token SCOPE 160
+%token QUALIFIED_ID 161
+%token OPERATOR 162
+%token SIMPLE_TYPE_CALL 163
+%token CONSTRUCTOR_ID 166
+%token MEMBER_POINTER_DECLARATOR 170
+%token CONVERSION_STAR 171
+%token CONVERSION_AMPERSAND 172
+%token CONVERSION_MODIFIER 173
+%token CONVERSION_CONST 174
+%token CONVERSION_VOLATILE 175
+%token CONVERSION_BASED 176
+%token QUALIFIER_PAIR 182
+%token ERROR 256
+
+%nonterminal lookahead_declaration 1
+%nonterminal function_parameters 2
+%nonterminal function_suffix 3
+%nonterminal abstract_declarator 4
+%nonterminal optional_abstract_prefix 5
+%nonterminal declarator_list 6
+%nonterminal init_declarator 7
+%nonterminal declarator 8
+%nonterminal parenthesized_initializer 9
+%nonterminal expression 10
+%nonterminal parameter_list 11
+%nonterminal initializer_arguments 12
+%nonterminal type_modifiers 13
+%nonterminal declarator_id 14
+%nonterminal optional_type_modifiers 15
+%nonterminal optional_expression 16
+%nonterminal conversion_function_id 17
+%nonterminal conversion_modifiers 18
+%nonterminal ellipsis_opt 19
+%nonterminal parameter 20
+%nonterminal parameter_declaration 21
+%nonterminal named_parameter 22
+%nonterminal abstract_parameter 23
+%nonterminal type_modifier 24
+%nonterminal based_operand 25
+%nonterminal segment_name_expression 26
+%nonterminal based_cast_operand 27
+%nonterminal abstract_declarator_suffix 28
+%nonterminal parenthesized_abstract_declarator 29
+%nonterminal conversion_modifier 30
+%nonterminal conversion_type_modifiers 31
+%nonterminal conversion_type_modifier 32
+%nonterminal cast_expression 33
+%nonterminal unary_expression 34
+%nonterminal cast_type 35
+%nonterminal postfix_expression 36
+%nonterminal complement_begin 37
+%nonterminal new_expression 38
+%nonterminal delete_expression 39
+%nonterminal primary_expression 40
+%nonterminal call_arguments 41
+%nonterminal expression_id 42
+%nonterminal string_literal_sequence 43
+%nonterminal argument_list 44
+%nonterminal completed_new_expression 45
+%nonterminal new_head 46
+%nonterminal new_type 47
+%nonterminal new_initializer_opt 48
+%nonterminal parenthesized_new_type 49
+%nonterminal new_declarator 50
+%nonterminal delete_head 51
+
+%left COMMA
+%right ASSIGN ASSIGNMENT_OPERATOR
+%right QUESTION COLON
+%left LOGICAL_OR
+%left LOGICAL_AND
+%left BIT_OR
+%left BIT_XOR
+%left AMPERSAND
+%left EQUALITY_OPERATOR
+%left RELATIONAL_OPERATOR
+%left SHIFT_OPERATOR
+%left PLUS MINUS
+%left STAR DIVISION_OPERATOR
+%left MEMBER_POINTER_OPERATOR
+%left SEGMENT_OFFSET
+%left SIZEOF
+
+lookahead_declaration : TYPE_NAME declarator_list ; # rule 1
+lookahead_declaration : TYPE_NAME abstract_declarator ; # rule 2
+lookahead_declaration : TYPE_NAME ERROR ; # rule 3
+declarator_list : init_declarator ; # rule 4
+declarator_list : declarator_list COMMA init_declarator ; # rule 5
+init_declarator : declarator ; # rule 6
+init_declarator : declarator parenthesized_initializer ; # rule 7
+init_declarator : declarator ASSIGN expression ; # rule 8
+init_declarator : declarator ASSIGN LBRACE ; # rule 9
+init_declarator : parameter_list ; # rule 10
+parenthesized_initializer : LPAREN initializer_arguments RPAREN ; # rule 11
+initializer_arguments : expression %prec COMMA ; # rule 12
+initializer_arguments : initializer_arguments COMMA expression ; # rule 13
+declarator : type_modifiers declarator_id ; # rule 14
+declarator : declarator_id ; # rule 15
+declarator : declarator function_suffix ; # rule 16
+declarator : optional_type_modifiers STAR declarator ; # rule 17
+declarator : optional_type_modifiers AMPERSAND declarator ; # rule 18
+declarator : optional_type_modifiers MEMBER_POINTER_DECLARATOR declarator ; # rule 19
+declarator : declarator LBRACKET optional_expression RBRACKET ; # rule 20
+declarator : LPAREN declarator RPAREN ; # rule 21
+declarator : CONSTRUCTOR_ID ; # rule 22
+declarator_id : IDENTIFIER ; # rule 23
+declarator_id : OPERATOR_ID ; # rule 24
+declarator_id : conversion_function_id ; # rule 25
+declarator_id : QUALIFIED_ID ; # rule 26
+declarator_id : QUALIFIED_ID conversion_function_id ; # rule 27
+conversion_function_id : CONVERSION_ID ; # rule 28
+conversion_function_id : CONVERSION_ID conversion_modifiers ; # rule 29
+function_suffix : function_parameters ; # rule 30
+function_suffix : function_parameters type_modifiers ; # rule 31
+function_parameters : LPAREN RPAREN ; # rule 32
+function_parameters : LPAREN parameter_list ellipsis_opt RPAREN ; # rule 33
+function_parameters : LPAREN ELLIPSIS RPAREN ; # rule 34
+parameter_list : parameter ; # rule 35
+parameter_list : parameter_list COMMA parameter ; # rule 36
+parameter : parameter_declaration ; # rule 37
+parameter : parameter_declaration ASSIGN expression ; # rule 38
+parameter_declaration : named_parameter ; # rule 39
+parameter_declaration : abstract_parameter ; # rule 40
+named_parameter : TYPE_NAME declarator ; # rule 41
+abstract_parameter : TYPE_NAME abstract_declarator ; # rule 42
+optional_type_modifiers :  ; # rule 43
+optional_type_modifiers : type_modifiers ; # rule 44
+type_modifiers : type_modifier ; # rule 45
+type_modifiers : type_modifiers type_modifier ; # rule 46
+type_modifier : MODIFIER ; # rule 47
+type_modifier : CONST ; # rule 48
+type_modifier : VOLATILE ; # rule 49
+type_modifier : BASED LPAREN based_operand RPAREN ; # rule 50
+type_modifier : QUALIFIER_PAIR ; # rule 51
+based_operand : segment_name_expression ; # rule 52
+based_operand : based_cast_operand ; # rule 53
+based_operand : IDENTIFIER ; # rule 54
+based_operand : TYPE_NAME ; # rule 55
+based_cast_operand : LPAREN TYPE_NAME RPAREN IDENTIFIER ; # rule 56
+based_cast_operand : LPAREN TYPE_NAME RPAREN AMPERSAND IDENTIFIER ; # rule 57
+based_cast_operand : LPAREN TYPE_NAME RPAREN SELF ; # rule 58
+abstract_declarator : optional_abstract_prefix ; # rule 59
+abstract_declarator : abstract_declarator_suffix ; # rule 60
+optional_abstract_prefix :  ; # rule 61
+optional_abstract_prefix : type_modifiers ; # rule 62
+optional_abstract_prefix : function_suffix ; # rule 63
+optional_abstract_prefix : type_modifiers function_suffix ; # rule 64
+abstract_declarator_suffix : optional_type_modifiers STAR abstract_declarator ; # rule 65
+abstract_declarator_suffix : optional_type_modifiers AMPERSAND abstract_declarator ; # rule 66
+abstract_declarator_suffix : optional_type_modifiers MEMBER_POINTER_DECLARATOR abstract_declarator ; # rule 67
+abstract_declarator_suffix : abstract_declarator LBRACKET optional_expression RBRACKET ; # rule 68
+abstract_declarator_suffix : parenthesized_abstract_declarator function_suffix ; # rule 69
+abstract_declarator_suffix : parenthesized_abstract_declarator ; # rule 70
+parenthesized_abstract_declarator : LPAREN abstract_declarator_suffix RPAREN ; # rule 71
+conversion_modifiers : conversion_modifier ; # rule 72
+conversion_modifiers : conversion_modifiers conversion_modifier ; # rule 73
+conversion_modifier : CONVERSION_STAR ; # rule 74
+conversion_modifier : CONVERSION_AMPERSAND ; # rule 75
+conversion_modifier : conversion_type_modifiers STAR ; # rule 76
+conversion_modifier : conversion_type_modifiers AMPERSAND ; # rule 77
+conversion_type_modifiers : conversion_type_modifier ; # rule 78
+conversion_type_modifiers : conversion_type_modifiers conversion_type_modifier ; # rule 79
+conversion_type_modifier : CONVERSION_MODIFIER ; # rule 80
+conversion_type_modifier : CONVERSION_CONST ; # rule 81
+conversion_type_modifier : CONVERSION_VOLATILE ; # rule 82
+conversion_type_modifier : CONVERSION_BASED LPAREN based_operand RPAREN ; # rule 83
+ellipsis_opt :  ; # rule 84
+ellipsis_opt : COMMA ELLIPSIS ; # rule 85
+ellipsis_opt : ELLIPSIS ; # rule 86
+optional_expression :  ; # rule 87
+optional_expression : expression ; # rule 88
+expression : expression COMMA expression ; # rule 89
+expression : expression ASSIGN expression ; # rule 90
+expression : expression ASSIGNMENT_OPERATOR expression ; # rule 91
+expression : expression QUESTION expression COLON expression ; # rule 92
+expression : expression LOGICAL_OR expression ; # rule 93
+expression : expression LOGICAL_AND expression ; # rule 94
+expression : expression BIT_OR expression ; # rule 95
+expression : expression BIT_XOR expression ; # rule 96
+expression : expression AMPERSAND expression ; # rule 97
+expression : expression EQUALITY_OPERATOR expression ; # rule 98
+expression : expression RELATIONAL_OPERATOR expression ; # rule 99
+expression : expression SHIFT_OPERATOR expression ; # rule 100
+expression : expression PLUS expression ; # rule 101
+expression : expression MINUS expression ; # rule 102
+expression : expression STAR expression ; # rule 103
+expression : expression DIVISION_OPERATOR expression ; # rule 104
+expression : expression SEGMENT_OFFSET expression ; # rule 105
+expression : expression MEMBER_POINTER_OPERATOR cast_expression ; # rule 106
+expression : cast_expression ; # rule 107
+cast_expression : unary_expression ; # rule 108
+cast_expression : cast_type cast_expression ; # rule 109
+unary_expression : postfix_expression ; # rule 110
+unary_expression : INCREMENT_OPERATOR unary_expression ; # rule 111
+unary_expression : STAR cast_expression ; # rule 112
+unary_expression : AMPERSAND cast_expression ; # rule 113
+unary_expression : PLUS cast_expression ; # rule 114
+unary_expression : MINUS cast_expression ; # rule 115
+unary_expression : NOT cast_expression ; # rule 116
+complement_begin :  ; # rule 117
+unary_expression : TILDE complement_begin cast_expression ; # rule 118
+unary_expression : SIZEOF cast_expression ; # rule 119
+unary_expression : SIZEOF cast_type ; # rule 120
+unary_expression : new_expression ; # rule 121
+unary_expression : delete_expression ; # rule 122
+postfix_expression : primary_expression ; # rule 123
+postfix_expression : postfix_expression LBRACKET expression RBRACKET ; # rule 124
+postfix_expression : postfix_expression call_arguments ; # rule 125
+postfix_expression : postfix_expression MEMBER_ACCESS_OPERATOR expression_id ; # rule 126
+postfix_expression : postfix_expression INCREMENT_OPERATOR ; # rule 127
+postfix_expression : SIMPLE_TYPE_CALL call_arguments ; # rule 128
+postfix_expression : OPERATOR call_arguments ; # rule 129
+primary_expression : CONSTANT ; # rule 130
+primary_expression : string_literal_sequence ; # rule 131
+primary_expression : THIS ; # rule 132
+primary_expression : LPAREN expression RPAREN ; # rule 133
+primary_expression : segment_name_expression ; # rule 134
+primary_expression : expression_id ; # rule 135
+expression_id : IDENTIFIER ; # rule 136
+expression_id : OPERATOR_ID ; # rule 137
+expression_id : conversion_function_id ; # rule 138
+expression_id : QUALIFIED_ID ; # rule 139
+expression_id : QUALIFIED_ID conversion_function_id ; # rule 140
+cast_type : LPAREN abstract_parameter RPAREN ; # rule 141
+call_arguments : LPAREN argument_list RPAREN ; # rule 142
+call_arguments : LPAREN RPAREN ; # rule 143
+argument_list : expression %prec COMMA ; # rule 144
+argument_list : argument_list COMMA expression ; # rule 145
+segment_name_expression : SEGNAME LPAREN string_literal_sequence RPAREN ; # rule 146
+string_literal_sequence : STRING_LITERAL ; # rule 147
+string_literal_sequence : string_literal_sequence STRING_LITERAL ; # rule 148
+new_expression : completed_new_expression ; # rule 149
+completed_new_expression : new_head new_type new_initializer_opt ; # rule 150
+completed_new_expression : new_head parenthesized_new_type new_initializer_opt ; # rule 151
+completed_new_expression : new_head parenthesized_initializer new_type new_initializer_opt ; # rule 152
+completed_new_expression : new_head parenthesized_initializer parenthesized_new_type new_initializer_opt ; # rule 153
+new_head : SCOPE NEW ; # rule 154
+new_head : NEW ; # rule 155
+new_type : TYPE_NAME new_declarator ; # rule 156
+parenthesized_new_type : LPAREN TYPE_NAME abstract_declarator RPAREN ; # rule 157
+new_declarator :  ; # rule 158
+new_declarator : type_modifiers ; # rule 159
+new_declarator : STAR new_declarator ; # rule 160
+new_declarator : type_modifiers STAR new_declarator ; # rule 161
+new_declarator : new_declarator LBRACKET optional_expression RBRACKET ; # rule 162
+new_initializer_opt :  ; # rule 163
+new_initializer_opt : parenthesized_initializer ; # rule 164
+new_initializer_opt : LPAREN RPAREN ; # rule 165
+delete_expression : delete_head cast_expression ; # rule 166
+delete_expression : delete_head LBRACKET optional_expression RBRACKET cast_expression ; # rule 167
+delete_head : SCOPE DELETE ; # rule 168
+delete_head : DELETE ; # rule 169

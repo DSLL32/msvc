@@ -505,7 +505,7 @@ unsigned char resolve_type_parenthesis(void)
     if ((token_allocation_flags & 0x80000000UL) &&
         (token_allocation_flags & 0x10000000UL)) {
         unget_token(token);
-        convert_deferred_type_token(deferred_token_cursor - 1, saved.words.high);
+        convert_deferred_type_token(deferred_token_cursor - 1, saved.declaration.type);
         current_token_value = deferred_token_cursor[-1].value;
         current_token_code = 163;
         return 163;

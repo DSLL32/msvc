@@ -1,0 +1,4 @@
+169 lookahead productions regenerate all 279 original state identities.
+71703 actions, 14229 gotos and lexer timing match the original.
+332 precedence conflicts; logical C actions, gotos and productions match.
+46 non-default semantic rules retain source actions.

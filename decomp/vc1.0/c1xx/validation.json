@@ -1,14 +1,14 @@
 {
   "status": "partial",
-  "accepted_frontiers": 270,
-  "driver_functions": 195,
+  "accepted_frontiers": 274,
+  "driver_functions": 199,
   "older_crt_functions": 6,
-  "reconstructed_source_functions": 201,
-  "current_frontier": "_resolve_parenthesis_candidate@4",
-  "original_frontier_va": "0x19190",
+  "reconstructed_source_functions": 205,
+  "current_frontier": "_begin_parameter_scope@4",
+  "original_frontier_va": "0x36670",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "4f19f55097f3e4989fe163e1cb0daea2e981537f7324a6007b65420f40da2ad8",
-  "call_graph_audit_functions": 201,
+  "replay_log_sha256": "74b5df168a9de9ed43cb6331d7bc06bbbbe24847ddd1077fe8fd8f4455df9911",
+  "call_graph_audit_functions": 205,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -55,7 +55,11 @@
     "last_lookup_scope_defaults": 1,
     "addition_bound_table_bytes": 72,
     "implicit_member_descriptions": 4,
-    "class_lookup_state_defaults": 3
+    "class_lookup_state_defaults": 3,
+    "parenthesis_lookahead_depth_defaults": 1,
+    "lookahead_parser_state_defaults": 7,
+    "lookahead_stack_bytes": 1510,
+    "declarator_nesting_bytes": 4
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -83,7 +87,7 @@
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-scoped-lookup.log",
+  "replay_log": "evidence/replay-lookahead-parser.log",
   "expression_stream_prefix": "5b8034030000",
   "pending_file_buffers_compared": true,
   "pending_global_header": "1186032e1d30016400000000",
@@ -199,5 +203,35 @@
     "limit_records": 200,
     "eof_preserves_capture_flag": true,
     "reserved_bytes_untouched": true
+  },
+  "lookahead_grammar_validation": {
+    "source": "lookahead.bnf",
+    "generator": "generate-lookahead.py",
+    "states": 279,
+    "productions": 169,
+    "nonterminals": 51,
+    "precedence_conflicts": 332,
+    "comma_precedence_overrides": 2,
+    "token_decisions": 71703,
+    "gotos": 14229,
+    "lexer_query_timing_matches": true,
+    "source_reads_original_binary": false,
+    "semantic_action_rules": 46,
+    "semantic_actions_reconstructed": true,
+    "driver_callees": 2,
+    "code_range": [
+      "0x75230",
+      "0x75a52"
+    ],
+    "switch_range": [
+      "0x75a54",
+      "0x75ce8"
+    ],
+    "log": "evidence/lookahead-grammar-validation.log",
+    "log_sha256": "ec874f46dbe688e3fd525ae2e04cf6101fa875c81ac062247f35056009b20b2c",
+    "stack_storage_bytes": 1512,
+    "allocated_semantic_cells": 150,
+    "allocated_state_cells": 150,
+    "boundary_aliases_preserved": true
   }
 }

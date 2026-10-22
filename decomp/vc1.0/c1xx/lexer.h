@@ -84,7 +84,7 @@ CType *__stdcall apply_type_symbol(CppSymbol *symbol, unsigned short *flags,
                                    unsigned short *attributes);
 void read_declspec_attributes(StorageSpec *storage);
 unsigned char resolve_type_parenthesis(void);
-void __stdcall convert_deferred_type_token(DeferredToken *token, unsigned storage_word);
+void __stdcall convert_deferred_type_token(DeferredToken *token, CType *type);
 extern unsigned char token_categories[213];
 extern unsigned char pch_output_written;
 int skip_source_comment(void);
