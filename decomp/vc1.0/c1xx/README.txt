@@ -6,13 +6,13 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 124 accepted paired frontiers, including 63 frontend
-functions and four older CRT routines. The expression record writer, builtin
-type interning, C++ function signatures, linkage stack, and initial scopes are
-reconstructed. The next matching named trap is _initialize_translation_state
-at original VA 0x54fd0. All 124 frontiers replay successfully; the expression
-stream begins with the exact six bytes 5b8034030000. The complete frontend
-case is not yet reconstructed or claimed equivalent.
+PARTIAL reconstruction: 145 accepted paired frontiers, including 73 frontend
+functions and six older CRT routines. C++ builtin types, signatures, linkage,
+initial scopes, predefined macros and command-line macro definitions are
+reconstructed. The next matching trap is _write_global_record@8 at original
+VA 0x57190. All 145 frontiers replay successfully; the expression stream begins
+with the exact six bytes 5b8034030000. The complete frontend case is not yet
+reconstructed or claimed equivalent.
 
 Build and check the current frontier using the original toolchain:
 
@@ -52,13 +52,22 @@ The launcher preserves the captured argv[0] identically for both images,
 independently of the selected application image. audit-data.py checks all 98
 option rules, their target sharing and defaults, the typed configuration, 81
 language keywords, four __declspec entries and all 191 IR record schemas against the original binary.
-The older CRT _sopen, setvbuf, _freebuf and fseek bodies have readable C replacements;
+The older CRT _sopen, setvbuf, _freebuf, fseek, __tzset and _isindst bodies have readable C replacements;
 audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-types.log.
+The current full ordered replay is recorded in evidence/replay-macros.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
 default arguments and an associated type, rather than only declaration types.
+
+The special-identifier initialization table is audited by all 41 spellings,
+initial targets and observable target sharing. Character properties are a
+semantic classification table, checked against all 256 original entries.
+The older timezone parser keeps PST/PDT defaults when TZ is absent; those
+names, timezone/daylight scalar defaults and the month offsets are verified
+against the original and the linked CRT. Timestamp workspaces include the
+observed BSS terminator after the 25 copied ctime bytes; no timestamps or
+frontend output bytes are normalized by the reconstruction oracle.

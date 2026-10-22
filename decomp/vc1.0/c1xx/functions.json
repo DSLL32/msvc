@@ -128,7 +128,28 @@
     "_make_tagged_type@4",
     "_make_qualified_type@16",
     "_copy_type_description@4",
-    "_initialize_intermediate_output"
+    "_initialize_intermediate_output",
+    "_initialize_translation_state",
+    "_define_command_line_macros@4",
+    "_frontend_time@4",
+    "_time",
+    "import:GetSystemTime",
+    "___gmtotime_t",
+    "_format_timestamp@4",
+    "_ctime",
+    "_localtime",
+    "___tzset",
+    "_gmtime",
+    "__isindst",
+    "_asctime",
+    "_store_dt",
+    "_initialize_macro_storage",
+    "_define_macro@12",
+    "_lookup_macro",
+    "_define_command_line_macro@4",
+    "_copy_arena_bytes@12",
+    "_write_global_header",
+    "_rewind"
   ],
   "driver": [
     {
@@ -399,7 +420,7 @@
     {
       "name": "_write_global_header",
       "start": 355584,
-      "end": 355585
+      "end": 355615
     },
     {
       "name": "_generate_inline_queries",
@@ -534,12 +555,12 @@
     {
       "name": "_initialize_translation_state",
       "start": 348112,
-      "end": 348113
+      "end": 348271
     },
     {
       "name": "_define_command_line_macros@4",
       "start": 126928,
-      "end": 126929
+      "end": 127449
     },
     {
       "name": "_initialize_operators",
@@ -695,6 +716,88 @@
       "name": "_copy_type_description@4",
       "start": 403632,
       "end": 403676
+    },
+    {
+      "name": "_frontend_time@4",
+      "start": 476592,
+      "end": 476608
+    },
+    {
+      "name": "_format_timestamp@4",
+      "start": 476496,
+      "end": 476587
+    },
+    {
+      "name": "_initialize_macro_storage",
+      "start": 128416,
+      "end": 128510
+    },
+    {
+      "name": "_define_macro@12",
+      "start": 129296,
+      "end": 129675
+    },
+    {
+      "name": "_define_command_line_macro@4",
+      "start": 127456,
+      "end": 127709
+    },
+    {
+      "name": "_open_source_file@8",
+      "start": 124032,
+      "end": 124033
+    },
+    {
+      "name": "___tzset",
+      "start": 567344,
+      "end": 567691,
+      "category": "runtime"
+    },
+    {
+      "name": "__isindst",
+      "start": 567696,
+      "end": 567891,
+      "category": "runtime"
+    },
+    {
+      "name": "_retry_malloc@4",
+      "start": 470624,
+      "end": 470625
+    },
+    {
+      "name": "_lookup_macro",
+      "start": 129680,
+      "end": 129739
+    },
+    {
+      "name": "_report_macro_error@4",
+      "start": 248112,
+      "end": 248113
+    },
+    {
+      "name": "_pch_record_macro@12",
+      "start": 438592,
+      "end": 438593
+    },
+    {
+      "name": "_macro_replacement_diff@12",
+      "start": 129744,
+      "end": 129745
+    },
+    {
+      "name": "_copy_arena_bytes@12",
+      "start": 476304,
+      "end": 476404
+    },
+    {
+      "name": "_browser_macro@4",
+      "start": 181344,
+      "end": 181345
+    },
+    {
+      "name": "_write_global_record@8",
+      "start": 356752,
+      "end": 356753
     }
   ],
   "cases": {
@@ -710,6 +813,20 @@
       "value": 32768,
       "bytes": 4,
       "object": "BINMODE.OBJ"
+    },
+    {
+      "name": "__timezone",
+      "original": 715320,
+      "value": 28800,
+      "bytes": 4,
+      "object": "TIMESET.OBJ"
+    },
+    {
+      "name": "__daylight",
+      "original": 715324,
+      "value": 1,
+      "bytes": 4,
+      "object": "TIMESET.OBJ"
     }
   ],
   "tables": [
@@ -741,6 +858,29 @@
       "count": 191,
       "original_stride": 8,
       "rebuilt_stride": 4
+    },
+    {
+      "name": "_special_identifiers",
+      "original": 645600,
+      "kind": "identifiers"
+    },
+    {
+      "name": "_character_flags",
+      "original": 644784,
+      "kind": "bytes",
+      "bytes": 256
+    },
+    {
+      "name": "__tzname",
+      "original": 715336,
+      "kind": "string_pointers",
+      "count": 2
+    },
+    {
+      "name": "__days",
+      "original": 715264,
+      "kind": "bytes",
+      "bytes": 52
     }
   ]
 }

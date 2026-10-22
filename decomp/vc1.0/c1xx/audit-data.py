@@ -85,6 +85,34 @@ for table in cfg.get('tables', []):
     if kind == 'option':
         count = compare_grammar(old, new)
         print('%d option rules and their aliases/defaults match the original.' % count)
+    elif kind == 'identifiers':
+        forward, backward = {}, {}
+        count = 0
+        while word(original, old):
+            a, b = word(original, old), word(rebuilt, new)
+            assert b, 'special identifier table ended early'
+            assert original.string(word(original, old+4)) == rebuilt.string(word(rebuilt, new+4)), \
+                'special identifier spelling differs'
+            assert forward.setdefault(a, b) == b and backward.setdefault(b, a) == a, \
+                'special identifier target identity differs'
+            assert read(original, a, 4) == read(rebuilt, b, 4), 'special identifier default differs'
+            count += 1
+            old += 8
+            new += 8
+        assert read(rebuilt, new, 8) == bytes(8), 'special identifier sentinel differs'
+        print('%d special identifiers and their target identities match the original.' % count)
+    elif kind == 'bytes':
+        assert read(original, old, table['bytes']) == read(rebuilt, new, table['bytes']), \
+            'byte vocabulary differs: '+table['name']
+        print('%d bytes of %s match the original.' % (table['bytes'], table['name']))
+    elif kind == 'string_pointers':
+        forward, backward = {}, {}
+        for index in range(table['count']):
+            a, b = word(original, old+index*4), word(rebuilt, new+index*4)
+            assert original.string(a) == rebuilt.string(b), 'CRT string default differs'
+            assert forward.setdefault(a, b) == b and backward.setdefault(b, a) == a, \
+                'CRT string identity differs'
+        print('%d CRT string defaults and identities match the original.' % table['count'])
     elif kind == 'schemas':
         for index in range(table['count']):
             a = word(original, old + index*table['original_stride'])

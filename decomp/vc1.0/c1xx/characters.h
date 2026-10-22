@@ -47,4 +47,9 @@ enum CharacterClass {
 };
 
 extern unsigned char character_class[256];
+enum CharacterFlags {
+    CF_NUMBER = 1, CF_OCTAL = 2, CF_DECIMAL = 4, CF_HEX = 8,
+    CF_IDENTIFIER = 16, CF_RADIX_SUFFIX = 32, CF_SPACE = 64, CF_STOP = 128
+};
+extern unsigned char character_flags[256];
 #endif

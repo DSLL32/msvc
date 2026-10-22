@@ -5,7 +5,8 @@
   },
   "variants": [
     {
-      "initial_data_words_equal": true,
+      "initial_data_values_equal": true,
+      "pointer_defaults": [],
       "name": "sopen",
       "original_c1_range": [
         "0x50f50",
@@ -41,7 +42,8 @@
       }
     },
     {
-      "initial_data_words_equal": true,
+      "initial_data_values_equal": true,
+      "pointer_defaults": [],
       "name": "setvbuf",
       "original_c1_range": [
         "0x529b0",
@@ -65,7 +67,8 @@
       }
     },
     {
-      "initial_data_words_equal": true,
+      "initial_data_values_equal": true,
+      "pointer_defaults": [],
       "name": "freebuf",
       "original_c1_range": [
         "0x572d0",
@@ -85,7 +88,8 @@
       "data_aliases": {}
     },
     {
-      "initial_data_words_equal": true,
+      "initial_data_values_equal": true,
+      "pointer_defaults": [],
       "name": "fseek",
       "original_c1_range": [
         "0x53f90",
@@ -106,6 +110,73 @@
       "data_address_aliases_preserved": true,
       "data_aliases": {
         "0x739cc": "0xaaa4c"
+      }
+    },
+    {
+      "initial_data_values_equal": true,
+      "pointer_defaults": [
+        {
+          "original": "0x77980",
+          "c1xx": "0xaea40",
+          "text": "PST"
+        },
+        {
+          "original": "0x77984",
+          "c1xx": "0xaea44",
+          "text": "PDT"
+        }
+      ],
+      "name": "tzset",
+      "original_c1_range": [
+        "0x59e20",
+        "0x59f7b"
+      ],
+      "original_c1xx_range": [
+        "0x8a830",
+        "0x8a98b"
+      ],
+      "instructions": 124,
+      "all_nonrelocated_instruction_bytes_equal": true,
+      "internal_control_flow_equal": true,
+      "external_calls": [
+        "__strdup",
+        "_atol",
+        "_free",
+        "_getenv",
+        "_strncpy"
+      ],
+      "data_address_aliases_preserved": true,
+      "data_aliases": {
+        "0x779f8": "0xaeab8",
+        "0x779f4": "0xaeab4",
+        "0x77988": "0xaea48",
+        "0x77978": "0xaea38",
+        "0x7797c": "0xaea3c",
+        "0x7798c": "0xaea4c",
+        "0x77980": "0xaea40",
+        "0x77984": "0xaea44"
+      }
+    },
+    {
+      "initial_data_values_equal": true,
+      "pointer_defaults": [],
+      "name": "isindst",
+      "original_c1_range": [
+        "0x59f80",
+        "0x5a043"
+      ],
+      "original_c1xx_range": [
+        "0x8a990",
+        "0x8aa53"
+      ],
+      "instructions": 81,
+      "all_nonrelocated_instruction_bytes_equal": true,
+      "internal_control_flow_equal": true,
+      "external_calls": [],
+      "data_address_aliases_preserved": true,
+      "data_aliases": {
+        "0x77940": "0xaea00",
+        "0x77944": "0xaea04"
       }
     }
   ]

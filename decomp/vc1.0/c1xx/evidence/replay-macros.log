@@ -1,0 +1,295 @@
+make: Entering directory '/root/msvc2/decomp/vc1.0/c1xx'
+python3 wine-tool.py --init
+python3 compare.py --replay
+frontier 0/145: _mainCRTStartup
+original: _mainCRTStartup; reconstruction: _mainCRTStartup
+frontier 1/145: import:GetCommandLineA
+original: import:GetCommandLineA; reconstruction: import:GetCommandLineA
+frontier 2/145: import:GetEnvironmentStrings
+original: import:GetEnvironmentStrings; reconstruction: import:GetEnvironmentStrings
+frontier 3/145: import:GetVersion
+original: import:GetVersion; reconstruction: import:GetVersion
+frontier 4/145: __heap_init
+original: __heap_init; reconstruction: __heap_init
+frontier 5/145: __ioinit
+original: __ioinit; reconstruction: __ioinit
+frontier 6/145: import:GetStartupInfoA
+original: import:GetStartupInfoA; reconstruction: import:GetStartupInfoA
+frontier 7/145: import:GetStdHandle
+original: import:GetStdHandle; reconstruction: import:GetStdHandle
+frontier 8/145: import:GetFileType
+original: import:GetFileType; reconstruction: import:GetFileType
+frontier 9/145: __setargv
+original: __setargv; reconstruction: __setargv
+frontier 10/145: import:GetModuleFileNameA
+original: import:GetModuleFileNameA; reconstruction: import:GetModuleFileNameA
+frontier 11/145: _parse_cmdline
+original: _parse_cmdline; reconstruction: _parse_cmdline
+frontier 12/145: _malloc
+original: _malloc; reconstruction: _malloc
+frontier 13/145: __heap_search
+original: __heap_search; reconstruction: __heap_search
+frontier 14/145: __heap_grow
+original: __heap_grow; reconstruction: __heap_grow
+frontier 15/145: __heap_new_region
+original: __heap_new_region; reconstruction: __heap_new_region
+frontier 16/145: import:VirtualAlloc
+original: import:VirtualAlloc; reconstruction: import:VirtualAlloc
+frontier 17/145: __heap_grow_region
+original: __heap_grow_region; reconstruction: __heap_grow_region
+frontier 18/145: __heap_addblock
+original: __heap_addblock; reconstruction: __heap_addblock
+frontier 19/145: __heap_findaddr
+original: __heap_findaddr; reconstruction: __heap_findaddr
+frontier 20/145: __heap_grow_emptylist
+original: __heap_grow_emptylist; reconstruction: __heap_grow_emptylist
+frontier 21/145: __before
+original: __before; reconstruction: __before
+frontier 22/145: __heap_split_block
+original: __heap_split_block; reconstruction: __heap_split_block
+frontier 23/145: __setenvp
+original: __setenvp; reconstruction: __setenvp
+frontier 24/145: __cinit
+original: __cinit; reconstruction: __cinit
+frontier 25/145: __initterm
+original: __initterm; reconstruction: __initterm
+frontier 26/145: _main
+original: _main; reconstruction: _main
+frontier 27/145: _signal
+original: _signal; reconstruction: _signal
+frontier 28/145: import:SetConsoleCtrlHandler
+original: import:SetConsoleCtrlHandler; reconstruction: import:SetConsoleCtrlHandler
+frontier 29/145: _message_text
+original: _message_text; reconstruction: _message_text
+frontier 30/145: _parse_options
+original: _parse_options; reconstruction: _parse_options
+frontier 31/145: _push_linkage@4
+original: _push_linkage@4; reconstruction: _push_linkage@4
+frontier 32/145: _initialize_packing
+original: _initialize_packing; reconstruction: _initialize_packing
+frontier 33/145: _new_packing_stack
+original: _new_packing_stack; reconstruction: _new_packing_stack
+frontier 34/145: _allocate_permanent@4
+original: _allocate_permanent@4; reconstruction: _allocate_permanent@4
+frontier 35/145: _new_permanent_page
+original: _new_permanent_page; reconstruction: _new_permanent_page
+frontier 36/145: _new_bitset@4
+original: _new_bitset@4; reconstruction: _new_bitset@4
+frontier 37/145: _push_packing
+original: _push_packing; reconstruction: _push_packing
+frontier 38/145: _initialize_checksums
+original: _initialize_checksums; reconstruction: _initialize_checksums
+frontier 39/145: _initialize_lead_bytes
+original: _initialize_lead_bytes; reconstruction: _initialize_lead_bytes
+frontier 40/145: import:GetConsoleCP
+original: import:GetConsoleCP; reconstruction: import:GetConsoleCP
+frontier 41/145: import:GetCPInfo
+original: import:GetCPInfo; reconstruction: import:GetCPInfo
+frontier 42/145: _mark_lead_byte_ranges
+original: _mark_lead_byte_ranges; reconstruction: _mark_lead_byte_ranges
+frontier 43/145: _getenv
+original: _getenv; reconstruction: _getenv
+frontier 44/145: __strnicmp
+original: __strnicmp; reconstruction: __strnicmp
+frontier 45/145: _read_env_arguments
+original: _read_env_arguments; reconstruction: _read_env_arguments
+frontier 46/145: _extend_argument_vector
+original: _extend_argument_vector; reconstruction: _extend_argument_vector
+frontier 47/145: _checked_malloc@4
+original: _checked_malloc@4; reconstruction: _checked_malloc@4
+frontier 48/145: _new_vector@8
+original: _new_vector@8; reconstruction: _new_vector@8
+frontier 49/145: _refill_arena@8
+original: _refill_arena@8; reconstruction: _refill_arena@8
+frontier 50/145: _next_argument
+original: _next_argument; reconstruction: _next_argument
+frontier 51/145: _match_option
+original: _match_option; reconstruction: _match_option
+frontier 52/145: _prefix_character
+original: _prefix_character; reconstruction: _prefix_character
+frontier 53/145: _apply_option
+original: _apply_option; reconstruction: _apply_option
+frontier 54/145: _parse_option_number
+original: _parse_option_number; reconstruction: _parse_option_number
+frontier 55/145: _atol
+original: _atol; reconstruction: _atol
+frontier 56/145: _match_option_suffix
+original: _match_option_suffix; reconstruction: _match_option_suffix
+frontier 57/145: _append_vector@8
+original: _append_vector@8; reconstruction: _append_vector@8
+frontier 58/145: __fullpath
+original: __fullpath; reconstruction: __fullpath
+frontier 59/145: __getdcwd
+original: __getdcwd; reconstruction: __getdcwd
+frontier 60/145: import:GetCurrentDirectoryA
+original: import:GetCurrentDirectoryA; reconstruction: import:GetCurrentDirectoryA
+frontier 61/145: _finalize_options
+original: _finalize_options; reconstruction: _finalize_options
+frontier 62/145: _free
+original: _free; reconstruction: _free
+frontier 63/145: _guarded_compile
+original: _guarded_compile; reconstruction: _guarded_compile
+frontier 64/145: _compile_translation_unit
+original: _compile_translation_unit; reconstruction: _compile_translation_unit
+frontier 65/145: _initialize_frontend
+original: _initialize_frontend; reconstruction: _initialize_frontend
+frontier 66/145: import:SetHandleCount
+original: import:SetHandleCount; reconstruction: import:SetHandleCount
+frontier 67/145: _initialize_work_stack@4
+original: _initialize_work_stack@4; reconstruction: _initialize_work_stack@4
+frontier 68/145: _reset_work_stack@4
+original: _reset_work_stack@4; reconstruction: _reset_work_stack@4
+frontier 69/145: _initialize_preprocessor
+original: _initialize_preprocessor; reconstruction: _initialize_preprocessor
+frontier 70/145: _initialize_macro_text
+original: _initialize_macro_text; reconstruction: _initialize_macro_text
+frontier 71/145: _initialize_keyword_table
+original: _initialize_keyword_table; reconstruction: _initialize_keyword_table
+frontier 72/145: _intern_keyword@4
+original: _intern_keyword@4; reconstruction: _intern_keyword@4
+frontier 73/145: _strncmp
+original: _strncmp; reconstruction: _strncmp
+frontier 74/145: _initialize_floating_point
+original: _initialize_floating_point; reconstruction: _initialize_floating_point
+frontier 75/145: __control87
+original: __control87; reconstruction: __control87
+frontier 76/145: __abstract_cw
+original: __abstract_cw; reconstruction: __abstract_cw
+frontier 77/145: __hw_cw
+original: __hw_cw; reconstruction: __hw_cw
+frontier 78/145: _top_packing
+original: _top_packing; reconstruction: _top_packing
+frontier 79/145: _disable_keyword@4
+original: _disable_keyword@4; reconstruction: _disable_keyword@4
+frontier 80/145: _intern_identifier@4
+original: _intern_identifier@4; reconstruction: _intern_identifier@4
+frontier 81/145: _initialize_cpp_context_stack
+original: _initialize_cpp_context_stack; reconstruction: _initialize_cpp_context_stack
+frontier 82/145: _new_inline_vector
+original: _new_inline_vector; reconstruction: _new_inline_vector
+frontier 83/145: _inline_vector_bytes
+original: _inline_vector_bytes; reconstruction: _inline_vector_bytes
+frontier 84/145: _open_intermediate
+original: _open_intermediate; reconstruction: _open_intermediate
+frontier 85/145: _fopen
+original: _fopen; reconstruction: _fopen
+frontier 86/145: __fsopen
+original: __fsopen; reconstruction: __fsopen
+frontier 87/145: __getstream
+original: __getstream; reconstruction: __getstream
+frontier 88/145: __openfile
+original: __openfile; reconstruction: __openfile
+frontier 89/145: __sopen
+original: __sopen; reconstruction: __sopen
+frontier 90/145: __alloc_osfhnd
+original: __alloc_osfhnd; reconstruction: __alloc_osfhnd
+frontier 91/145: import:CreateFileA
+original: import:CreateFileA; reconstruction: import:CreateFileA
+frontier 92/145: __set_osfhnd
+original: __set_osfhnd; reconstruction: __set_osfhnd
+frontier 93/145: _setvbuf
+original: _setvbuf; reconstruction: _setvbuf
+frontier 94/145: __flush
+original: __flush; reconstruction: __flush
+frontier 95/145: __freebuf
+original: __freebuf; reconstruction: __freebuf
+frontier 96/145: _open_expression_intermediate
+original: _open_expression_intermediate; reconstruction: _open_expression_intermediate
+frontier 97/145: _make_integer_constant@4
+original: _make_integer_constant@4; reconstruction: _make_integer_constant@4
+frontier 98/145: _new_integer_constant@4
+original: _new_integer_constant@4; reconstruction: _new_integer_constant@4
+frontier 99/145: _write_ir_record@8
+original: _write_ir_record@8; reconstruction: _write_ir_record@8
+frontier 100/145: __flsbuf
+original: __flsbuf; reconstruction: __flsbuf
+frontier 101/145: _fseek
+original: _fseek; reconstruction: _fseek
+frontier 102/145: __write
+original: __write; reconstruction: __write
+frontier 103/145: import:WriteFile
+original: import:WriteFile; reconstruction: import:WriteFile
+frontier 104/145: __lseek
+original: __lseek; reconstruction: __lseek
+frontier 105/145: __get_osfhandle
+original: __get_osfhandle; reconstruction: __get_osfhandle
+frontier 106/145: import:SetFilePointer
+original: import:SetFilePointer; reconstruction: import:SetFilePointer
+frontier 107/145: _fputc
+original: _fputc; reconstruction: _fputc
+frontier 108/145: _initialize_type_table
+original: _initialize_type_table; reconstruction: _initialize_type_table
+frontier 109/145: _initialize_global_scope
+original: _initialize_global_scope; reconstruction: _initialize_global_scope
+frontier 110/145: _initialize_declaration_table
+original: _initialize_declaration_table; reconstruction: _initialize_declaration_table
+frontier 111/145: _new_hash_table@16
+original: _new_hash_table@16; reconstruction: _new_hash_table@16
+frontier 112/145: _intern_type@4
+original: _intern_type@4; reconstruction: _intern_type@4
+frontier 113/145: _make_function_type@8
+original: _make_function_type@8; reconstruction: _make_function_type@8
+frontier 114/145: _normalize_type_attributes@8
+original: _normalize_type_attributes@8; reconstruction: _normalize_type_attributes@8
+frontier 115/145: _new_type_shape@12
+original: _new_type_shape@12; reconstruction: _new_type_shape@12
+frontier 116/145: _build_parameter_info@8
+original: _build_parameter_info@8; reconstruction: _build_parameter_info@8
+frontier 117/145: _void_parameter_list
+original: _void_parameter_list; reconstruction: _void_parameter_list
+frontier 118/145: _intern_function_parameters@4
+original: _intern_function_parameters@4; reconstruction: _intern_function_parameters@4
+frontier 119/145: _intern_type_shape@4
+original: _intern_type_shape@4; reconstruction: _intern_type_shape@4
+frontier 120/145: _make_tagged_type@4
+original: _make_tagged_type@4; reconstruction: _make_tagged_type@4
+frontier 121/145: _make_qualified_type@16
+original: _make_qualified_type@16; reconstruction: _make_qualified_type@16
+frontier 122/145: _copy_type_description@4
+original: _copy_type_description@4; reconstruction: _copy_type_description@4
+frontier 123/145: _initialize_intermediate_output
+original: _initialize_intermediate_output; reconstruction: _initialize_intermediate_output
+frontier 124/145: _initialize_translation_state
+original: _initialize_translation_state; reconstruction: _initialize_translation_state
+frontier 125/145: _define_command_line_macros@4
+original: _define_command_line_macros@4; reconstruction: _define_command_line_macros@4
+frontier 126/145: _frontend_time@4
+original: _frontend_time@4; reconstruction: _frontend_time@4
+frontier 127/145: _time
+original: _time; reconstruction: _time
+frontier 128/145: import:GetSystemTime
+original: import:GetSystemTime; reconstruction: import:GetSystemTime
+frontier 129/145: ___gmtotime_t
+original: ___gmtotime_t; reconstruction: ___gmtotime_t
+frontier 130/145: _format_timestamp@4
+original: _format_timestamp@4; reconstruction: _format_timestamp@4
+frontier 131/145: _ctime
+original: _ctime; reconstruction: _ctime
+frontier 132/145: _localtime
+original: _localtime; reconstruction: _localtime
+frontier 133/145: ___tzset
+original: ___tzset; reconstruction: ___tzset
+frontier 134/145: _gmtime
+original: _gmtime; reconstruction: _gmtime
+frontier 135/145: __isindst
+original: __isindst; reconstruction: __isindst
+frontier 136/145: _asctime
+original: _asctime; reconstruction: _asctime
+frontier 137/145: _store_dt
+original: _store_dt; reconstruction: _store_dt
+frontier 138/145: _initialize_macro_storage
+original: _initialize_macro_storage; reconstruction: _initialize_macro_storage
+frontier 139/145: _define_macro@12
+original: _define_macro@12; reconstruction: _define_macro@12
+frontier 140/145: _lookup_macro
+original: _lookup_macro; reconstruction: _lookup_macro
+frontier 141/145: _define_command_line_macro@4
+original: _define_command_line_macro@4; reconstruction: _define_command_line_macro@4
+frontier 142/145: _copy_arena_bytes@12
+original: _copy_arena_bytes@12; reconstruction: _copy_arena_bytes@12
+frontier 143/145: _write_global_header
+original: _write_global_header; reconstruction: _write_global_header
+frontier 144/145: _rewind
+original: _rewind; reconstruction: _rewind
+original: _write_global_record@8; reconstruction: _write_global_record@8
+make: Leaving directory '/root/msvc2/decomp/vc1.0/c1xx'

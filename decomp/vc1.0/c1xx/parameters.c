@@ -68,15 +68,15 @@ FunctionParameters *__stdcall build_parameter_info(void *declarations,
         info = void_parameter_list();
     } else if (source->head->type == type_0080) {
         *kind |= 0x4000;
-        source->head->flags |= 0x800;
+        source->head->flags |= 8;
         info = void_parameter_list();
     } else {
         head = source->head;
-        while (head && (head->flags & 0x1f) != 10 &&
-                       (head->flags & 0x1f) != 11)
+        while (head && (head->kind & 0x1f) != 10 &&
+                       (head->kind & 0x1f) != 11)
             head = head->next;
         if (head) {
-            first = parameter = head->circular_next;
+            first = parameter = head->detail.parameter_next;
             for (;;) {
                 ++count;
                 if (!parameter->type) {
@@ -85,7 +85,7 @@ FunctionParameters *__stdcall build_parameter_info(void *declarations,
                 }
                 if (!parameter)
                     break;
-                parameter = parameter->circular_next;
+                parameter = parameter->detail.parameter_next;
                 if (parameter == first)
                     break;
             }

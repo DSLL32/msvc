@@ -1,20 +1,24 @@
 {
   "status": "partial",
-  "accepted_frontiers": 124,
-  "driver_functions": 63,
-  "older_crt_functions": 4,
-  "reconstructed_source_functions": 67,
-  "current_frontier": "_initialize_translation_state",
-  "original_frontier_va": "0x54fd0",
+  "accepted_frontiers": 145,
+  "driver_functions": 73,
+  "older_crt_functions": 6,
+  "reconstructed_source_functions": 79,
+  "current_frontier": "_write_global_record@8",
+  "original_frontier_va": "0x57190",
   "all_accepted_frontiers_replayed": true,
-  "replay_log_sha256": "e5a840c23dfed9830726b120e44af7ce724fcb054395153a1b067a4ece1837e3",
-  "call_graph_audit_functions": 67,
+  "replay_log_sha256": "a077cde2dae246ed8bf934d9e1e14adfcc0d9351cddeb3d24e4508afc13a009d",
+  "call_graph_audit_functions": 79,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
     "declspec_entries": 4,
     "typed_configuration_bytes": 764,
-    "ir_record_schemas": 191
+    "ir_record_schemas": 191,
+    "special_identifiers": 41,
+    "character_properties": 256,
+    "crt_timezone_names": 2,
+    "crt_month_offsets": 13
   },
   "fixture_validation": "../fixtures/cpp-basic/validation.json",
   "runtime_globals_checked": [
@@ -24,10 +28,24 @@
       "value": 32768,
       "bytes": 4,
       "object": "BINMODE.OBJ"
+    },
+    {
+      "name": "__timezone",
+      "original": 715320,
+      "value": 28800,
+      "bytes": 4,
+      "object": "TIMESET.OBJ"
+    },
+    {
+      "name": "__daylight",
+      "original": 715324,
+      "value": 1,
+      "bytes": 4,
+      "object": "TIMESET.OBJ"
     }
   ],
   "paired_command_line_uses_original_argv0": true,
   "complete_case_equivalence": false,
-  "replay_log": "evidence/replay-types.log",
+  "replay_log": "evidence/replay-macros.log",
   "expression_stream_prefix": "5b8034030000"
 }

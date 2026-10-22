@@ -5,6 +5,9 @@
 #include "hash-table.h"
 #include "types.h"
 #include "parameters.h"
+#include "macros.h"
+#include "runtime.h"
+#include "global-ir.h"
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
@@ -27,7 +30,6 @@ void finish_types(void) { __asm { int 3 } }
 void finish_inline_functions(void) { __asm { int 3 } }
 void finish_expression_output(void) { __asm { int 3 } }
 void finish_debug_info(void) { __asm { int 3 } }
-void write_global_header(void) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
 void close_intermediate(FILE *file) { __asm { int 3 } }
 void finish_browser_output(void) { __asm { int 3 } }
@@ -36,8 +38,6 @@ void cleanup_precompiled_files(void) { __asm { int 3 } }
 void begin_browser_output(void) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
-void initialize_translation_state(void) { __asm { int 3 } }
-void __stdcall define_command_line_macros(Vector *definitions) { __asm { int 3 } }
 void initialize_operators(void) { __asm { int 3 } }
 void declare_runtime_helpers(void) { __asm { int 3 } }
 void initialize_purecall(void) { __asm { int 3 } }
@@ -50,3 +50,10 @@ unsigned get_ir_symbol_index(IrSymbol *symbol) { __asm { int 3 } return 0; }
 long ftell(FILE *file) { __asm { int 3 } return 0; }
 DeclarationParameterInfo *intern_declaration_parameters(int count, CppSymbol *head) { __asm { int 3 } return 0; }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
+int __stdcall open_source_file(char *filename, int mode) { __asm { int 3 } return 0; }
+void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
+void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
+int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
+int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
+void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
+void __stdcall write_global_record(unsigned tag, CppSymbol *symbol) { __asm { int 3 } }
