@@ -32,6 +32,19 @@ STATE = [
     ('_parser_lookahead', 0x6b550, 4),
     ('_aggregate_depth', 0x6bf94, 4),
     ('_scope_depth', 0x6ce6c, 1),
+    ('_permanent_page_count', 0x6de00, 4),
+    ('_pch_record_cursor', 0x5b568, 4),
+    ('_pch_include_count', 0x6de1c, 2),
+    ('_pch_include_page_count', 0x6de20, 2),
+    ('_pch_macro_changed', 0x6de24, 4),
+    ('_pch_rebuild_on_macro_change', 0x6de28, 4),
+    ('_conditional_branch_state', 0x638a0, 128),
+    ('_macro_parameter_count', 0x63940, 4),
+    ('_preprocessor_expression_token', 0x6a7b0, 1),
+    ('_preprocessor_parentheses', 0x6a7b4, 4),
+    ('_pp_unevaluated_depth', 0x64d78, 4),
+    ('_lexer_text_storage', 0x5b158, 132),
+    ('_lexer_text_storage', 0x5b1d8, 4, 128),
 ]
 
 def read(image, address, size):
@@ -40,8 +53,9 @@ def read(image, address, size):
     return bytes(size) if section['name'] == '.bss' else image.read(address, size)
 
 forward, backward = {}, {}
-for name, old, size in STATE:
-    new = names[name]
+for field in STATE:
+    name, old, size = field[:3]
+    new = names[name] + (field[3] if len(field) > 3 else 0)
     assert read(original, old, size) == read(rebuilt, new, size), 'state default differs: '+name
     for offset in range(size):
         a, b = old+offset, new+offset

@@ -26,7 +26,16 @@ extern char *token_buffer_end;
 extern char *source_filename, *source_buffer_cursor;
 extern int browser_full, browser_enabled;
 extern char *browser_filename;
-extern FILE *diagnostic_trace_file, *listing_file, *preprocessor_stream;
+extern FILE *diagnostic_trace_file, *listing_file;
+/* The numeric text limit admits byte128, which aliases the output stream
+   used for preprocessing and /Zg declaration printing. Preserve that field. */
+typedef union LexerTextStorage {
+    char bytes[132];
+    struct { char text[128]; FILE *output; } fields;
+} LexerTextStorage;
+extern LexerTextStorage lexer_text_storage;
+#define token_text lexer_text_storage.bytes
+#define preprocessor_stream lexer_text_storage.fields.output
 extern CType *type_0000, *type_4041, *type_0064;
 extern CType *type_4064_first, *type_4064_second;
 extern CType *type_0042, *type_0044, *type_4044;

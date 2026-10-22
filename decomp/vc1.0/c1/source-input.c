@@ -274,7 +274,7 @@ unsigned char close_source_file(void)
         record_line_information(2);
     if (!include_depth && forced_source_inputs->count > forced_source_index) {
         current_forced_source = forced_source_inputs->items[forced_source_index++];
-        open_forced_include(current_forced_source, 0);
+        open_include_file(current_forced_source, 0);
     }
     return 1;
 }

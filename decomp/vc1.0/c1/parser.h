@@ -45,7 +45,7 @@ unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters);
 int __stdcall compatible_parameter_types(CType *expected, CType *actual);
 void begin_syntax_trace(void);
 void end_syntax_trace(void);
-void __stdcall print_function_declaration(FrontendSymbol *symbol, void *context);
+void __stdcall print_function_declaration(FrontendSymbol *symbol, FILE *stream);
 void __stdcall record_line_information(unsigned kind);
 
 /* The grammar keeps explicit logical transitions here. These structures do
@@ -141,7 +141,6 @@ void finish_function_records(void);
 void __stdcall end_function_context(int direct_scope_exit);
 void clear_symbol_aliases(void);
 void finish_function_definition(void);
-void __stdcall release_arena(int arena);
 void __stdcall process_declaration(DeclarationSpec *declaration);
 void __stdcall prepare_function_definition(DeclarationSpec *declaration, FrontendSymbol *symbol);
 void __stdcall set_declaration_name(DeclarationSpec *declaration, char *name);

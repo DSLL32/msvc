@@ -32,7 +32,7 @@ typedef struct PermanentPage {
     BitSet *relocations;
 } PermanentPage;
 static PermanentPage permanent_pages[512]; /* original 0x66370 */
-static int permanent_page_count;           /* original 0x6de00 */
+int permanent_page_count;           /* original 0x6de00 */
 static PermanentPage *current_page;         /* original 0x6ddcc */
 
 /* Original 0x44b00..0x44b7a. */

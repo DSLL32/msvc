@@ -19,7 +19,7 @@ char *token_buffer_end = token_buffer + sizeof(token_buffer); /* original 0x6c00
 char *source_filename = token_buffer, *source_buffer_cursor = token_buffer;
 int browser_full, browser_enabled; /* original 0x6bc3c / 0x6bc38 */
 char *browser_filename; /* original 0x5b588 */
-FILE *diagnostic_trace_file, *listing_file, *preprocessor_stream;
+FILE *diagnostic_trace_file, *listing_file;
 CType *type_0000, *type_4041, *type_0064;
 CType *type_4064_first, *type_4064_second;
 CType *type_0042, *type_0044, *type_4044;

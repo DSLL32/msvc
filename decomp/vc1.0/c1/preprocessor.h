@@ -34,10 +34,23 @@ void process_pragma(void);
 void undefine_source_macro(void);
 void warn_ignored_token(void);
 extern unsigned conditional_branch_state[32];
-extern short pch_conditional_depth;
+extern short pch_include_count;
 
 char *read_angle_include_filename(void);
 
 char *trim_filename_space(char *begin, char *end);
+
+int __stdcall pch_skip_include(char *filename);
+int __stdcall open_include_in_source_directory(char *filename);
+void __stdcall search_include_directories(char *filename);
+void __stdcall pch_record_include(char *name_end);
+
+void read_macro_parameters(void);
+unsigned read_macro_replacement(void);
+extern int macro_parameter_count;
+
+unsigned char find_conditional_directive(void);
+
+void __stdcall skip_inactive_literal(int delimiter);
 
 #endif

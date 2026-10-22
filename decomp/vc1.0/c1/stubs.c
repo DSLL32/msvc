@@ -1,5 +1,7 @@
 /* Unreconstructed function entries. Each body deliberately traps. */
 #include "keywords.h"
+#include "pch.h"
+#include "pp-expression.h"
 #include "ir.h"
 #include "types.h"
 #include "builtins.h"
@@ -46,7 +48,6 @@ void begin_debug_info(void) { __asm { int 3 } }
 void load_precompiled_header(void) { __asm { int 3 } }
 
 /* Original 0x20490. */
-int __stdcall open_forced_include(char *filename, int flags) { __asm { int 3 } return 0; }
 
 /* Original 0x199a0. */
 
@@ -129,7 +130,6 @@ char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes) { __asm { int 3 } return 0; }
 
 
-int skip_source_comment(void) { __asm { int 3 } return 0; }
 
 unsigned recover_special_character(void) { __asm { int 3 } return 0; }
 
@@ -155,7 +155,6 @@ int __stdcall expand_macro(MacroDefinition *definition) { __asm { int 3 } return
 
 void finish_pch_output(void) { __asm { int 3 } }
 
-int __stdcall match_source_character(int character) { __asm { int 3 } return 0; }
 
 unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
 
@@ -489,7 +488,7 @@ unsigned __stdcall parameter_list_bytes(FrontendSymbol *parameters) { __asm { in
 int __stdcall compatible_parameter_types(CType *expected, CType *actual) { __asm { int 3 } return 0; }
 void begin_syntax_trace(void) { __asm { int 3 } }
 void end_syntax_trace(void) { __asm { int 3 } }
-void __stdcall print_function_declaration(FrontendSymbol *symbol, void *context) { __asm { int 3 } }
+void __stdcall print_function_declaration(FrontendSymbol *symbol, FILE *stream) { __asm { int 3 } }
 
 void __stdcall define_register_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
@@ -553,18 +552,13 @@ void capture_directive_text(void) { __asm { int 3 } }
 
 int pch_find_conditional(void) { __asm { int 3 } return 0; }
 
-int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
 
-void __stdcall finish_directive(char *name) { __asm { int 3 } }
 
 int __stdcall pch_resolve_condition(int condition) { __asm { int 3 } return 0; }
 
-int __stdcall skip_inactive_directives(int mode) { __asm { int 3 } return 0; }
 
 
-int push_conditional_level(void) { __asm { int 3 } return 0; }
 
-void define_source_macro(void) { __asm { int 3 } }
 
 
 void process_pragma(void) { __asm { int 3 } }
@@ -572,3 +566,29 @@ void process_pragma(void) { __asm { int 3 } }
 void undefine_source_macro(void) { __asm { int 3 } }
 
 void warn_ignored_token(void) { __asm { int 3 } }
+
+
+int __stdcall open_include_in_source_directory(char *filename) { __asm { int 3 } return 0; }
+
+
+void __stdcall pch_record_include(char *name_end) { __asm { int 3 } }
+
+void pch_record_string(unsigned kind, unsigned value, char *text) { __asm { int 3 } }
+int __stdcall pch_macro_defined(char *name) { __asm { int 3 } return 0; }
+int pch_replay_mismatch(void) { __asm { int 3 } return 0; }
+
+void skip_line_comment(void) { __asm { int 3 } }
+void copy_block_comment(void) { __asm { int 3 } }
+
+void read_macro_parameters(void) { __asm { int 3 } }
+unsigned read_macro_replacement(void) { __asm { int 3 } return 0; }
+
+
+void __stdcall skip_inactive_literal(int delimiter) { __asm { int 3 } }
+
+
+int __stdcall accept_pp_token(unsigned char expected) { __asm { int 3 } return 0; }
+
+PreprocessorValue *__stdcall apply_pp_operator(unsigned char operation, PreprocessorValue *left, PreprocessorValue *right) { __asm { int 3 } return 0; }
+
+PreprocessorValue *parse_pp_bitwise_or(void) { __asm { int 3 } return 0; }

@@ -89,7 +89,7 @@ void __stdcall define_command_line_macros(Vector *definitions)
     forced_source_index = 0;
     if (options.option_E && forced_source_inputs->count > forced_source_index) {
         current_forced_source = forced_source_inputs->items[forced_source_index++];
-        open_forced_include(current_forced_source, 0);
+        open_include_file(current_forced_source, 0);
     }
 }
 
@@ -124,7 +124,9 @@ char *__stdcall format_timestamp(long timestamp)
 MacroDefinition **macro_buckets; /* original 0x6b644 */
 unsigned macro_work_bytes = 0xf000; /* original 0x6bff4 */
 char *macro_work_buffer, *macro_work_midpoint; /* 0x6078c / 0x63898 */
-char *macro_replacement_start, *macro_expansion_start, *macro_replacement_text;
+char *macro_replacement_start; /* original 0x63934 */
+char *macro_expansion_start; /* original 0x63938 */
+char *macro_replacement_text; /* original 0x6393c */
 short include_depth = -1; /* original 0x6a7d4 */
 
 /* Original 0x1c550..0x1c5ae. */

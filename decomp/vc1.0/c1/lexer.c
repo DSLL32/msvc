@@ -852,3 +852,57 @@ unsigned char __stdcall classify_radix_integer(unsigned value)
 {
     return (value & 0x80000000U) ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
 }
+
+/* Original 0x22920..0x229a3. A slash has already been consumed; report
+   whether it starts a comment and preserve /C output outside directives. */
+int skip_source_comment(void)
+{
+    if (match_source_character('*')) {
+        scanner_flags |= 0x1000;
+        if (options.option_C && !(scanner_flags & 0x10000)) copy_block_comment();
+        else skip_block_comment();
+        scanner_flags &= ~0x1000UL;
+        return 1;
+    }
+    if ((options.z_a || options.z_E) && match_source_character('/')) {
+        scanner_flags |= 0x1000;
+        skip_line_comment();
+        scanner_flags &= ~0x1000UL;
+        return 1;
+    }
+    return 0;
+}
+
+/* Original 0x22640..0x22663. Only a matching character stays consumed. */
+int __stdcall match_source_character(int character)
+{
+    if (next_source_character() == (unsigned char)character) return 1;
+    --source_text_cursor;
+    return 0;
+}
+
+/* Original 0x22870..0x22915. Track physical newlines while discarding
+   a block comment, including buffer boundaries and escaped star tails. */
+void skip_block_comment(void)
+{
+    unsigned char character;
+next_character:
+    character = (unsigned char)*source_text_cursor++;
+    if (character == '*') {
+following_star:
+        character = (unsigned char)*source_text_cursor++;
+        if (character == '/') return;
+        if (character == '*') goto following_star;
+        if (!character) { recover_special_character(); goto following_star; }
+        if (character == '\\') {
+            if (recover_special_character() & 0x10) goto next_character;
+            goto following_star;
+        }
+        if (character_class[character] == CC_LEAD_BYTE) ++source_text_cursor;
+    }
+    if (character == '\n') {
+        ++source_line_number;
+        if (options.option_E) fputc('\n', preprocessor_stream);
+    } else if (!character) recover_special_character();
+    goto next_character;
+}

@@ -8,7 +8,6 @@
 
 /* Conditional-compilation state, shared with source/include restoration. */
 unsigned conditional_branch_state[32]; /* original 0x638a0 */
-short pch_conditional_depth; /* original 0x6de1c */
 
 /* Original 0x205b0..0x20d78; directive dispatch table 0x20d78..0x20db0. */
 void preprocess_directive(void)
@@ -20,7 +19,7 @@ void preprocess_directive(void)
     char *filename;
 
     if (macro_expansion_active) return;
-    if (!include_depth && pch_mode == 1 && !pch_conditional_depth)
+    if (!include_depth && pch_mode == 1 && !pch_include_count)
         finish_pch_capture();
     name = interned_name;
     for (;;) {
@@ -155,7 +154,7 @@ classify_directive:
     case 7: /* include */
         filename = read_include_filename();
         if (filename)
-            open_forced_include(filename, current_token_code != TOK_STRING);
+            open_include_file(filename, current_token_code != TOK_STRING);
         break;
     case 8: /* pragma */
         if (!include_depth && pch_mode) {
@@ -381,4 +380,193 @@ char *trim_filename_space(char *begin, char *end)
         ++cursor;
     }
     return trailing ? trailing : end;
+}
+
+/* Original 0x20490..0x205a8. Both forced inputs and #include use this
+   entry; angle includes bypass the including file's directory. */
+int __stdcall open_include_file(char *filename, int system_include)
+{
+    char *name = filename, *saved_name;
+    if (!include_depth && options.pch_create_file &&
+        compare_filenames(options.pch_create_file, name)) pch_include_state = 1;
+    if (!include_depth && pch_skip_include(name)) return 0;
+    finish_directive("#include");
+    if (!options.option_E) record_line_information(1);
+    if (!strchr(options.path_characters, (unsigned char)*name) &&
+        !(strchr(options.path_characters, ':') && name[1] == ':')) {
+        if (!system_include && open_include_in_source_directory(name)) return 1;
+        search_include_directories(name);
+        return 1;
+    }
+    saved_name = source_buffer_cursor;
+    do { *source_buffer_cursor++ = *name++; } while (name[-1]);
+    if (!open_source_file(saved_name, 0))
+        report_fatal(83, message_text(343), saved_name);
+    /* The absolute-name branch passes its consumed input cursor, as in the
+       original, rather than the preserved copy used to open the source. */
+    if (pch_mode == 1) pch_record_include(name);
+    return 1;
+}
+
+/* Original 0x20fa0..0x20fd0. The line-ending reader remains responsible
+   for consuming the newline after a directive's trailing-token check. */
+void __stdcall finish_directive(char *name)
+{
+    if (skip_directive_space() != '\n') {
+        compiler_warning(1, 67, name);
+        skip_source_line();
+    } else --source_text_cursor;
+}
+
+/* Original 0x20e70..0x20f9d. Search /I directories in command-line order,
+   returning the scanner workspace to its prior position after a failed open. */
+void __stdcall search_include_directories(char *filename)
+{
+    Vector *directories = options.include_directories;
+    short index = 0;
+    int attempted = 0;
+    char *directory, *input, *start;
+    /* The original only assigns this cursor while copying a nonempty
+       directory, retaining its prior value for an empty directory string. */
+    char *last;
+    while (index < directories->count) {
+        directory = directories->items[index++];
+        attempted = 1;
+        start = source_buffer_cursor;
+        if (directory && !(directory[0] == '.' && directory[1] == '/' && !directory[2])) {
+            input = directory;
+            while (*input) {
+                *source_buffer_cursor++ = *input;
+                last = input++;
+            }
+            if (!strchr(options.path_characters, (unsigned char)*last))
+                *source_buffer_cursor++ = '\\';
+        }
+        input = filename;
+        do { *source_buffer_cursor++ = *input++; } while (input[-1]);
+        if (open_source_file(start, 0)) {
+            if (pch_mode == 1) pch_record_include(start);
+            return;
+        }
+        source_buffer_cursor = start;
+    }
+    if (attempted) report_fatal(83, message_text(343), filename);
+    else fatal_error(34, filename);
+}
+
+/* Original 0x201e0..0x20205. Conditional levels are shared across source
+   includes, whose input records remember the depth at their entry. */
+int push_conditional_level(void)
+{
+    if ((unsigned)++conditional_depth >= 32) fatal_error(52);
+    return conditional_depth;
+}
+
+int macro_parameter_count; /* original 0x63940 */
+
+/* Original 0x1c650..0x1c776. Recognize an adjacent formal list before
+   reading a macro's replacement; object-like macros retain parameter count 0. */
+void define_source_macro(void)
+{
+    unsigned char character, class;
+    unsigned bytes;
+    character = skip_directive_space();
+    class = character_class[character];
+    if (class != CC_IDENTIFIER && class != CC_WIDE_PREFIX) {
+        report_syntax_error(7);
+        skip_source_line();
+        return;
+    }
+    scan_source_identifier();
+    macro_parameter_count = 0;
+    macro_replacement_text = macro_work_buffer;
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        class = character_class[character];
+        switch (class) {
+        case CC_CARRIAGE_RETURN:
+            continue;
+        case CC_SPACE:
+            break;
+        case CC_ESCAPE_OR_END:
+            if (recover_special_character() & ~0x50U) continue;
+            report_syntax_error(8, character);
+            break;
+        case CC_SLASH:
+            if (!skip_source_comment()) report_syntax_error(8, '/');
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            define_macro(0, 0, 0);
+            return;
+        case CC_LEFT_PAREN:
+            read_macro_parameters();
+            if (!macro_parameter_count) macro_parameter_count = -1;
+            break;
+        default:
+            report_syntax_error(8, character);
+            break;
+        }
+        break;
+    }
+    bytes = read_macro_replacement();
+    if (!options.z_a) {
+        bytes += macro_replacement_text - macro_work_buffer;
+        define_macro(macro_work_buffer, bytes, macro_parameter_count);
+    } else define_macro(macro_replacement_text, bytes, macro_parameter_count);
+}
+
+/* Original 0x20db0..0x20e54; dispatch table 0x20e54..0x20e6c.
+   Return 2 at an elif expression, 3 after else, or 4 after the closing endif. */
+int __stdcall skip_inactive_directives(int mode)
+{
+    unsigned nested = 0;
+    unsigned char directive;
+    for (;;) {
+        directive = find_conditional_directive();
+        switch (directive) {
+        case 0: case 4: case 5:
+            ++nested;
+            break;
+        case 1: case 2:
+            if (nested) break;
+            if (mode == 6) { fatal_error(22); break; }
+            if (directive == 1) return 2;
+            if (options.z_a) skip_source_line();
+            else finish_directive("#else");
+            return 3;
+        case 3:
+            if (nested) { --nested; break; }
+            finish_directive("#endif");
+            return 4;
+        }
+    }
+}
+
+/* Original 0x21040..0x210fb. Scan discarded source without expanding
+   macros, recognizing a directive only at the beginning of a physical line. */
+unsigned char find_conditional_directive(void)
+{
+    unsigned char character, class;
+    scanner_flags &= ~0x10000UL;
+    for (;;) {
+        character = skip_directive_space();
+classify_character:
+        class = character_class[character];
+        if (class == CC_ESCAPE_OR_END) {
+            if (recover_special_character() & 0x10) ++source_text_cursor;
+        } else if (class == CC_NEWLINE) {
+            ++source_line_number;
+            if (options.option_E) fputc('\n', preprocessor_stream);
+            character = skip_directive_space();
+            if (character != '#') goto classify_character;
+            character = skip_directive_space();
+            class = character_class[character];
+            if (class != CC_IDENTIFIER && class != CC_WIDE_PREFIX) goto classify_character;
+            scan_source_identifier();
+            scanner_flags |= 0x10000;
+            return classify_directive(interned_name);
+        } else if (class == CC_APOSTROPHE || class == CC_QUOTE)
+            skip_inactive_literal(character);
+    }
 }

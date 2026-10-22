@@ -159,6 +159,8 @@ extern Arena compiler_arena, diagnostic_arena;
 void __stdcall refill_arena(Arena *arena, ArenaPool *pool);
 BitSet *__stdcall new_bitset(unsigned bit_count);
 void *new_permanent_page(void);
+void __stdcall release_arena(int arena);
+extern int permanent_page_count;
 extern PackingStack *packing_stack;
 PackingStack *new_packing_stack(void);
 PackingEntry *push_packing(PackingStack *stack);

@@ -1300,14 +1300,14 @@ parameters_checked:
         function_symbol->type = replacement;
         if (options.syntax_only) {
             begin_syntax_trace();
-            print_function_declaration(function_symbol, syntax_declaration_context);
+            print_function_declaration(function_symbol, preprocessor_stream);
             end_syntax_trace();
         }
     } else if (options.syntax_only) {
         saved_type = function_symbol->type;
         function_symbol->type = replacement;
         begin_syntax_trace();
-        print_function_declaration(function_symbol, syntax_declaration_context);
+        print_function_declaration(function_symbol, preprocessor_stream);
         end_syntax_trace();
         function_symbol->type = saved_type;
     }

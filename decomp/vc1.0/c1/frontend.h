@@ -60,7 +60,7 @@ int compare_filenames(char *first, char *second);
 void begin_automatic_pch(void);
 void begin_debug_info(void);
 void load_precompiled_header(void);
-int __stdcall open_forced_include(char *filename, int flags);
+int __stdcall open_include_file(char *filename, int flags);
 unsigned char scan_token(void);
 void __stdcall unget_token(unsigned char token);
 int parse_translation_unit(void);

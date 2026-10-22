@@ -268,7 +268,23 @@
     "_read_include_filename",
     "_read_angle_include_filename",
     "_skip_directive_space",
-    "_trim_filename_space"
+    "_trim_filename_space",
+    "_open_include_file@8",
+    "_pch_skip_include@4",
+    "_finish_directive@4",
+    "_strchr",
+    "_search_include_directories@4",
+    "_skip_source_comment",
+    "_match_source_character@4",
+    "_skip_block_comment",
+    "_push_conditional_level",
+    "_define_source_macro",
+    "_skip_inactive_directives@4",
+    "_find_conditional_directive",
+    "_evaluate_preprocessor_expression",
+    "_parse_pp_conditional",
+    "_parse_pp_logical_or",
+    "_parse_pp_logical_and"
   ],
   "driver": [
     {
@@ -488,9 +504,9 @@
       "end": 130465
     },
     {
-      "name": "_open_forced_include@8",
+      "name": "_open_include_file@8",
       "start": 132240,
-      "end": 132241
+      "end": 132520
     },
     {
       "name": "_scan_token",
@@ -1035,7 +1051,7 @@
     {
       "name": "_skip_source_comment",
       "start": 141600,
-      "end": 141601
+      "end": 141731
     },
     {
       "name": "_recover_special_character",
@@ -1116,7 +1132,7 @@
     {
       "name": "_match_source_character@4",
       "start": 140864,
-      "end": 140865
+      "end": 140899
     },
     {
       "name": "_read_number_text@4",
@@ -2244,12 +2260,12 @@
     {
       "name": "_evaluate_preprocessor_expression",
       "start": 99968,
-      "end": 99969
+      "end": 100093
     },
     {
       "name": "_finish_directive@4",
       "start": 135072,
-      "end": 135073
+      "end": 135120
     },
     {
       "name": "_pch_resolve_condition@4",
@@ -2259,7 +2275,7 @@
     {
       "name": "_skip_inactive_directives@4",
       "start": 134576,
-      "end": 134577
+      "end": 134764
     },
     {
       "name": "_skip_directive_space",
@@ -2269,12 +2285,12 @@
     {
       "name": "_push_conditional_level",
       "start": 131552,
-      "end": 131553
+      "end": 131589
     },
     {
       "name": "_define_source_macro",
       "start": 116304,
-      "end": 116305
+      "end": 116598
     },
     {
       "name": "_read_include_filename",
@@ -2305,6 +2321,106 @@
       "name": "_trim_filename_space",
       "start": 136032,
       "end": 136161
+    },
+    {
+      "name": "_pch_skip_include@4",
+      "start": 283520,
+      "end": 283802
+    },
+    {
+      "name": "_open_include_in_source_directory@4",
+      "start": 113776,
+      "end": 113777
+    },
+    {
+      "name": "_search_include_directories@4",
+      "start": 134768,
+      "end": 135069
+    },
+    {
+      "name": "_pch_record_include@4",
+      "start": 283808,
+      "end": 283809
+    },
+    {
+      "name": "_pch_record_string",
+      "start": 282240,
+      "end": 282241
+    },
+    {
+      "name": "_pch_macro_defined@4",
+      "start": 283472,
+      "end": 283473
+    },
+    {
+      "name": "_pch_replay_mismatch",
+      "start": 284128,
+      "end": 284129
+    },
+    {
+      "name": "_skip_line_comment",
+      "start": 140912,
+      "end": 140913
+    },
+    {
+      "name": "_copy_block_comment",
+      "start": 141168,
+      "end": 141169
+    },
+    {
+      "name": "_skip_block_comment",
+      "start": 141424,
+      "end": 141589
+    },
+    {
+      "name": "_read_macro_parameters",
+      "start": 116608,
+      "end": 116917
+    },
+    {
+      "name": "_read_macro_replacement",
+      "start": 117472,
+      "end": 117473
+    },
+    {
+      "name": "_find_conditional_directive",
+      "start": 135232,
+      "end": 135419
+    },
+    {
+      "name": "_skip_inactive_literal@4",
+      "start": 135120,
+      "end": 135224
+    },
+    {
+      "name": "_parse_pp_conditional",
+      "start": 100096,
+      "end": 100170
+    },
+    {
+      "name": "_parse_pp_logical_or",
+      "start": 100176,
+      "end": 100258
+    },
+    {
+      "name": "_accept_pp_token@4",
+      "start": 98624,
+      "end": 98625
+    },
+    {
+      "name": "_parse_pp_logical_and",
+      "start": 100272,
+      "end": 100354
+    },
+    {
+      "name": "_apply_pp_operator@12",
+      "start": 98896,
+      "end": 98897
+    },
+    {
+      "name": "_parse_pp_bitwise_or",
+      "start": 100368,
+      "end": 100418
     }
   ],
   "cases": {

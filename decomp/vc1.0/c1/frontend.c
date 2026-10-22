@@ -68,7 +68,7 @@ int compile_translation_unit(void)
     }
     while (forced_source_inputs->count > forced_source_index) {
         current_forced_source = forced_source_inputs->items[forced_source_index++];
-        if (open_forced_include(current_forced_source, 0))
+        if (open_include_file(current_forced_source, 0))
             break;
     }
     first = scan_token();
