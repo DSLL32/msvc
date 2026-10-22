@@ -212,7 +212,9 @@
     "_runtime_function_symbol@4",
     "_new_symbol@8",
     "_pack_option_flags",
-    "_parse_translation_unit"
+    "_parse_translation_unit",
+    "_read_parser_token",
+    "_scan_token"
   ],
   "driver": [
     {
@@ -2220,7 +2222,7 @@
     {
       "name": "_scan_token",
       "start": 112496,
-      "end": 112497
+      "end": 112776
     },
     {
       "name": "_segment_offset_expression@8",
@@ -2305,7 +2307,7 @@
     {
       "name": "_read_parser_token",
       "start": 110352,
-      "end": 110353
+      "end": 112488
     },
     {
       "name": "_report_inserted_token@8",
@@ -2321,6 +2323,51 @@
       "name": "_report_parser_error@4",
       "start": 156608,
       "end": 156609
+    },
+    {
+      "name": "_capture_declaration_tokens@4",
+      "start": 101856,
+      "end": 101857
+    },
+    {
+      "name": "_deferred_tokens_may_be_declaration",
+      "start": 101296,
+      "end": 101297
+    },
+    {
+      "name": "_read_deferred_argument_text",
+      "start": 103888,
+      "end": 103889
+    },
+    {
+      "name": "_restore_qualified_lookup@4",
+      "start": 105360,
+      "end": 105361
+    },
+    {
+      "name": "_resolve_parenthesis_candidate@4",
+      "start": 102800,
+      "end": 102801
+    },
+    {
+      "name": "_resolve_typename_token@4",
+      "start": 109280,
+      "end": 109281
+    },
+    {
+      "name": "_read_operator_function_id",
+      "start": 109872,
+      "end": 109873
+    },
+    {
+      "name": "_resolve_identifier_token@4",
+      "start": 117840,
+      "end": 117841
+    },
+    {
+      "name": "_read_lexical_token",
+      "start": 112784,
+      "end": 112785
     }
   ],
   "cases": {
@@ -2812,11 +2859,6 @@
           "original_target": 574472
         },
         {
-          "name": "_unevaluated_expression_depth",
-          "original": 576676,
-          "bytes": 4
-        },
-        {
           "name": "_initializer_list_started",
           "original": 657956,
           "bytes": 4
@@ -2899,6 +2941,63 @@
         {
           "name": "_default_label",
           "original": 595312,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_token_replay",
+      "original": 617356,
+      "fields": [
+        {
+          "name": "_token_replay",
+          "original": 617356,
+          "bytes": 3248
+        },
+        {
+          "name": "_deferred_token_end",
+          "original": 645060,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 617356
+        },
+        {
+          "name": "_deferred_token_cursor",
+          "original": 645064,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 617356
+        },
+        {
+          "name": "_current_token_code",
+          "original": 654424,
+          "bytes": 1
+        },
+        {
+          "name": "_type_specifier_symbol",
+          "original": 609016,
+          "bytes": 4
+        },
+        {
+          "name": "_pushed_token_top",
+          "original": 645048,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 620556,
+          "target_offset": 3200
+        },
+        {
+          "name": "_pushed_token_begin",
+          "original": 645052,
+          "bytes": 4,
+          "pointer_to": "_token_replay",
+          "original_target": 620556,
+          "target_offset": 3200
+        },
+        {
+          "name": "_pushed_token_count",
+          "original": 645056,
           "bytes": 4
         }
       ]

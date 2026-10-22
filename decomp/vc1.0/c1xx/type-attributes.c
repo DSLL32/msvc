@@ -9,7 +9,7 @@ unsigned short __stdcall normalize_type_attributes(unsigned short kind, unsigned
     unsigned category = kind & 0x77;
     int function = 0;
     char *conflict;
-    if (options.syntax_only)
+    if (options.prototypes_only)
         return attributes;
     if (category == 1 || category == 2 || category == 0x40) {
         if (!(attributes & 15))

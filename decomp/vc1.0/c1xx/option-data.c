@@ -115,7 +115,7 @@ CompilerOptions options = {
     0, /* debug_old_format */
     0, /* z_n */
     0, /* z_f */
-    0, /* syntax_only */
+    0, /* prototypes_only */
     0, /* z_I */
     0, /* z_r */
 };
@@ -128,7 +128,7 @@ static ZRule z_rules[] = {
     { '7', 1, &options.debug_old_format },
     { 'n', 1, &options.z_n },
     { 'f', 1, &options.z_f },
-    { 'g', 1, &options.syntax_only },
+    { 'g', 1, &options.prototypes_only },
     { 'p', 1, &options.option_Zp },
     { 'I', 1, &options.z_I },
     { 'r', 1, &options.z_r },

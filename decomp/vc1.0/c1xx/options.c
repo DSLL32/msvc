@@ -77,7 +77,7 @@ void parse_options(int argc, char **argv)
         fatal_error(7, options.unrecognized_argument, "c1");
     if (!options.source_file)
         fatal_error(8);
-    if (options.syntax_only) {
+    if (options.prototypes_only) {
         options.pch_auto = 0;
         options.pch_auto_file = 0;
         options.pch_create = 0;

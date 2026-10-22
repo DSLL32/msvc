@@ -39,7 +39,6 @@ typedef struct LabelStack {
 extern ClassContext class_contexts[16];
 extern unsigned char expression_storage[2052];
 extern unsigned char *text_work_cursor;
-extern int unevaluated_expression_depth;
 extern int initializer_list_started;
 extern unsigned short declarator_nesting;
 extern DeclarationType declaration_spec_storage[61];
@@ -83,7 +82,7 @@ void pop_linkage(void);
 void __stdcall check_class_specifier(DeclarationType *type);
 void __stdcall check_empty_declaration(DeclarationType *type);
 unsigned __stdcall parse_linkage(DeclarationType *type, IrToken *language);
-void __stdcall read_type_specifier(unsigned char token);
+unsigned char __stdcall read_type_specifier(unsigned char token);
 CType *end_class_specifier(void);
 void __stdcall adjust_type_specifier(DeclarationType *type);
 CType *end_enum_specifier(void);

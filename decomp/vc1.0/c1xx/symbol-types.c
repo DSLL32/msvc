@@ -216,7 +216,7 @@ void __stdcall normalize_symbol_type(CType *base, CppSymbol *symbol)
         if (modifier)
             report_syntax_error(736, modifier);
     }
-    if (!options.syntax_only && !invalid_type && !(attributes & 0x70)) {
+    if (!options.prototypes_only && !invalid_type && !(attributes & 0x70)) {
         if (options.configuration.option_Gz)
             attributes |= 0x60;
         else

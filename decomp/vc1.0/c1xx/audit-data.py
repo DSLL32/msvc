@@ -52,6 +52,9 @@ def compare_grammar(old_address, new_address):
     def alias(old, new):
         assert forward.setdefault(old, new) == new, 'shared option target was split'
         assert backward.setdefault(new, old) == old, 'distinct option targets were merged'
+        for offset in range(4):
+            assert state_addresses.setdefault(old+offset, new+offset) == new+offset, 'option/state alias was split'
+            assert state_reverse_addresses.setdefault(new+offset, old+offset) == old+offset, 'distinct option/state objects were merged'
 
     def scalar(old, new):
         alias(old, new)
@@ -124,7 +127,7 @@ for table in cfg.get('tables', []):
                 assert field['bytes'] == 4
                 assert word(original, field['original']) == field['original_target'], \
                     'original frontend pointer target differs: '+field['name']
-                assert word(rebuilt, names[field['name']]) == names[field['pointer_to']], \
+                assert word(rebuilt, names[field['name']]) == names[field['pointer_to']] + field.get('target_offset', 0), \
                     'rebuilt frontend pointer target differs: '+field['name']
             else:
                 assert read(original, field['original'], field['bytes']) == \
@@ -171,6 +174,9 @@ for table in cfg.get('tables', []):
             assert word(original, old+token*4) == value, 'declaration code differs: %d' % token
         print('%d contextual declaration codes match the original vocabulary.' % table['count'])
     elif kind == 'configuration':
+        for offset in range(table['bytes']):
+            assert state_addresses.setdefault(old+offset, new+offset) == new+offset, 'configuration/state alias was split'
+            assert state_reverse_addresses.setdefault(new+offset, old+offset) == old+offset, 'distinct configuration/state objects were merged'
         assert read(original, old, table['bytes']) == read(rebuilt, new, table['bytes']), 'configuration defaults differ'
         print('%d-byte typed configuration defaults match the original.' % table['bytes'])
     else:

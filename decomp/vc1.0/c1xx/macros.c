@@ -117,7 +117,7 @@ void __stdcall define_command_line_macros(Vector *definitions)
     define_macro(0, 0, -7);
     for (index = 0; index < definitions->count; ++index)
         define_command_line_macro(definitions->items[index]);
-    if (!options.option_E && !options.syntax_only)
+    if (!options.option_E && !options.prototypes_only)
         write_global_header();
     open_source_file(source_filename, 1);
     forced_source_inputs = options.forced_includes;

@@ -1,8 +1,8 @@
         case 101:
-            if (!unevaluated_expression_depth) begin_nested_initializer();
+            if (!options.prototypes_only) begin_nested_initializer();
             break;
         case 102:
-            if (!unevaluated_expression_depth) end_nested_initializer();
+            if (!options.prototypes_only) end_nested_initializer();
             break;
         case 103:
             ++declarator_nesting;

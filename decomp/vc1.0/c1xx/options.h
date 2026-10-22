@@ -68,7 +68,7 @@ typedef struct CompilerOptions {
     int debug_old_format;
     int z_n;
     int z_f;
-    int syntax_only;
+    int prototypes_only;
     int z_I;
     int z_r;
 } CompilerOptions;

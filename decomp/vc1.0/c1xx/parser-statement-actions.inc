@@ -1,5 +1,5 @@
         case 190:
-            if (!unevaluated_expression_depth && !(token_allocation_flags & 0x01000000)) {
+            if (!options.prototypes_only && !(token_allocation_flags & 0x01000000)) {
                 if (parser_lookahead != -1) {
                     unget_token((unsigned char)parser_lookahead);
                     if (parser_lookahead == 0xa1) unwind_qualified_scopes(1);
@@ -10,7 +10,7 @@
             } else skip_balanced_brace_body();
             break;
         case 191:
-            if (!unevaluated_expression_depth && !(token_allocation_flags & 0x01000000))
+            if (!options.prototypes_only && !(token_allocation_flags & 0x01000000))
                 end_compound_statement();
             else token_allocation_flags &= ~0x01000000;
             break;

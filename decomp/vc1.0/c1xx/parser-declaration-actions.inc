@@ -307,7 +307,7 @@
             unwind_qualified_scopes(1);
             break;
         case 92:
-            if (!unevaluated_expression_depth && !reject_function_initializer(right[-1].symbol)) {
+            if (!options.prototypes_only && !reject_function_initializer(right[-1].symbol)) {
                 --declarator_nesting;
                 right[-1].symbol->attributes |= 4;
                 right[-1].symbol = apply_declaration_type(current_declaration_type(0), right[-1].symbol);
@@ -322,7 +322,7 @@
             text_work_cursor = expression_storage;
             break;
         case 93:
-            if (!unevaluated_expression_depth && right[-1].symbol) {
+            if (!options.prototypes_only && right[-1].symbol) {
                 mark_initialized_symbol(right[-1].symbol);
                 initialize_object(right[-1].symbol, validate_value_expression(right[0].expression));
                 unwind_qualified_scopes(1);
@@ -331,7 +331,7 @@
             text_work_cursor = expression_storage;
             break;
         case 94:
-            if (!unevaluated_expression_depth) {
+            if (!options.prototypes_only) {
                 begin_braced_initializer(right[0].symbol);
                 initializer_list_started = 1;
             }
@@ -339,11 +339,11 @@
         case 95:
             end_braced_initializer(right[-5].symbol);
             unwind_qualified_scopes(1);
-            if (!unevaluated_expression_depth) finish_object_initializer(right[-5].symbol);
+            if (!options.prototypes_only) finish_object_initializer(right[-5].symbol);
             break;
         case 96:
             --declarator_nesting;
-            if (!unevaluated_expression_depth) {
+            if (!options.prototypes_only) {
                 right[-1].symbol->attributes |= 4;
                 parser_value.symbol = apply_declaration_type(current_declaration_type(0), right[-1].symbol);
                 parser_value.symbol = begin_object_initializer(parser_value.symbol);
@@ -355,7 +355,7 @@
             parser_value.symbol = 0;
             break;
         case 100:
-            if (!unevaluated_expression_depth)
+            if (!options.prototypes_only)
                 initialize_element(validate_value_expression(right[0].expression), 0);
             text_work_cursor = expression_storage;
             break;

@@ -61,7 +61,7 @@ int compile_translation_unit(void)
             begin_automatic_pch();
         } else {
             current_function = 0;
-            if (!options.option_E && !options.syntax_only && options.configuration.debug_info)
+            if (!options.option_E && !options.prototypes_only && options.configuration.debug_info)
                 begin_debug_info();
         }
         saved_configuration = options.configuration;
@@ -73,7 +73,7 @@ int compile_translation_unit(void)
     }
     parse_translation_unit();
     release_arena(5);
-    if (!options.syntax_only) {
+    if (!options.prototypes_only) {
         finish_declarations();
         finish_types();
         finish_inline_functions();
@@ -89,7 +89,7 @@ int compile_translation_unit(void)
     }
     if (options.configuration.option_Ol && options.configuration.option_qc)
         generate_inline_queries();
-    if (!options.syntax_only) {
+    if (!options.prototypes_only) {
         close_intermediate(expression_file);
         close_intermediate(symbol_file);
         close_intermediate(global_file);

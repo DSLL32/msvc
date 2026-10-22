@@ -11,6 +11,7 @@
 #include "source-input.h"
 #include "operators.h"
 #include "parser.h"
+#include "lexer.h"
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
@@ -258,7 +259,7 @@ IrToken *__stdcall postfix_expression(unsigned char operation, IrToken *expressi
 void prepare_do_body(void) { __asm { int 3 } }
 IrToken *__stdcall prepare_expression(IrToken *expression, int mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall qualified_identifier_expression(QualifiedDeclarator *name) { __asm { int 3 } return 0; }
-void __stdcall read_type_specifier(unsigned char token) { __asm { int 3 } }
+unsigned char __stdcall read_type_specifier(unsigned char token) { __asm { int 3 } return 0; }
 void record_break_statement(void) { __asm { int 3 } }
 void record_continue_statement(void) { __asm { int 3 } }
 void record_default_label(void) { __asm { int 3 } }
@@ -274,7 +275,6 @@ void __stdcall report_type_error(unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall resolve_assignment_operand(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclarator *name) { __asm { int 3 } }
 DefaultArgument *__stdcall save_default_argument(IrToken *expression) { __asm { int 3 } return 0; }
-unsigned char scan_token(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
 void __stdcall set_member_access(unsigned char access) { __asm { int 3 } }
 IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } return 0; }
@@ -291,7 +291,18 @@ unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) {
 void __stdcall validate_pure_specifier(IrToken *expression) { __asm { int 3 } }
 IrToken *__stdcall validate_value_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void write_switch_dispatch(void) { __asm { int 3 } }
-unsigned char read_parser_token(void) { __asm { int 3 } return 0; }
 void __stdcall report_inserted_token(int actual, int expected) { __asm { int 3 } }
 ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm { int 3 } return value; }
 void __stdcall report_parser_error(char *text) { __asm { int 3 } }
+
+/* C++ token classification and deferred lookahead. */
+void __stdcall capture_declaration_tokens(int initial_parentheses) { __asm { int 3 } }
+int deferred_tokens_may_be_declaration(void) { __asm { int 3 } return 0; }
+unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
+void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
+unsigned char __stdcall resolve_parenthesis_candidate(int allow_expression) { __asm { int 3 } return 0; }
+unsigned char __stdcall resolve_typename_token(CppSymbol *symbol) { __asm { int 3 } return 0; }
+unsigned char read_operator_function_id(void) { __asm { int 3 } return 0; }
+unsigned char __stdcall resolve_identifier_token(char *name) { __asm { int 3 } return 0; }
+
+unsigned char read_lexical_token(void) { __asm { int 3 } return 0; }

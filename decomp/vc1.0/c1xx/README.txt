@@ -6,11 +6,12 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 208 accepted paired frontiers, including 133 frontend
+PARTIAL reconstruction: 210 accepted paired frontiers, including 135 frontend
 functions and six older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
-targets. Its next matching trap is _read_parser_token at original VA 0x1af10.
-All 208 frontiers replay successfully, including exact pending FILE buffers;
+targets. The token driver and replay wrapper are also reconstructed; the next
+matching trap is _read_lexical_token at original VA 0x1b890.
+All 210 frontiers replay successfully, including exact pending FILE buffers;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -59,7 +60,7 @@ audit-runtime-variants.py and runtime-variants.json record their complete code
 and call/data alias correspondence with the shared older C1 variants. Assembly
 is used only as analysis input to these audits, never as generated implementation.
 
-The current full ordered replay is recorded in evidence/replay-yacc-parser.log.
+The current full ordered replay is recorded in evidence/replay-token-driver.log.
 The linkage stack records the extern-C/C++ language mode; it is separate from
 the symbol scope chain. C++ type descriptors are twelve bytes and include a
 signed short in their identity hash. Function signatures additionally intern
@@ -183,7 +184,16 @@ Declaration flags[-1] overlap the high declaration-depth byte; both views use
 one union. Declaration specifiers and default arguments retain their preceding
 cells. Forty-nine contextual declaration-code meanings are audited separately
 from the unrelated expression entries in the original shared token vocabulary.
-Twenty-three additional state objects are audited, including the original
+Twenty-two additional state objects are audited, including the original
 text_work_cursor=expression_storage and enumerator_value=UINT_MAX defaults.
 The parser's qc-tracking condition uses existing normalized_Ol; a separate
 provisional object was rejected by the address-alias audit and removed.
+
+The token driver preserves all sixteen original call targets and its complete
+switch table. The replay wrapper retains the distinct forward/deferred and
+pushback paths: only forward replay restores the type-specifier symbol.
+Two hundred deferred records and three pushback records share one structure,
+preserving their original boundary; all eight replay-state defaults are checked.
+The state alias audit now includes option-rule targets and all 764 configuration
+bytes. Deferred-argument text mode uses existing /E storage; prototype generation
+uses existing /Zg storage (prototypes_only), rather than a separate parser flag.
