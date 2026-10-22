@@ -26,30 +26,30 @@
       "phase": "dump",
       "status": "active",
       "matched_initial_frontier": "_undecorate_symbol_name",
-      "current_frontier": "_demangle_parse_type_declaration"
+      "current_frontier": "_demangle_parse_pointer_type"
     }
   ],
   "limits": "Two assigned families only. Preserve prior15 cases/full528 frontiers; final clean -j2, full replay and graph/callback/data/boundary audits; component-body accounting separately from accepted-extent union.",
   "checkpoint": {
-    "accepted_frontiers": 602,
+    "accepted_frontiers": 633,
     "last_full_frontier_replay": 528,
     "all_seventeen_additions_replayed": false,
     "all_fifteen_prior_cases_pass": true,
-    "graph_audits": 456,
-    "callback_audits": 447,
+    "graph_audits": 485,
+    "callback_audits": 476,
     "data_audits": 391,
-    "original_extent_boundaries": 608,
-    "coverage": "cases/coverage-after-demangle-scopes.json",
+    "original_extent_boundaries": 639,
+    "coverage": "cases/coverage-after-demangle-types.json",
     "added_replay_sha256": "ca1120799bea7dbbbd9f1f789d23eec95b04e01b022d2673697fa0ad4a6d5c4a",
     "prior_case_regressions_sha256": "0ad621638c71e767b9540b46f19b41b01009a16ed19a0b3ce471160296d6c8b4",
-    "audit_sha256": "5891ce259a776e5bd0c4a303480e64c573622cd7a091ac8eae91b51075237943",
-    "all_additions_since_528_replayed": 74,
+    "audit_sha256": "7a05b5a33820dde9f5bc8cf52ccc946e314d60e8ea5e3d297082defa5e5d3894",
+    "all_additions_since_528_replayed": 105,
     "both_omf_cases_pass": true,
     "omf_library_sha256": "301a12860dbb3af9763d6ac1b95ec56b05d491f591937d67b0f362cb84d2d255",
     "omf_link_sha256": "0afe7c0c052a9fa980fbcca780d50b66ee923f7f62ad801845308e7cacc45be0",
     "all_seventeen_completed_cases_pass": true,
-    "ecx_method_cleanup_audits": 21,
-    "completed_case_regression_frontier": 591,
-    "latest_added_replay_sha256": "19da4d707848f67994615b5222cd4b0196049ee5eb463f7d627085bd7efa333a"
+    "ecx_method_cleanup_audits": 36,
+    "completed_case_regression_frontier": 633,
+    "latest_added_replay_sha256": "4d5840f71da32a56d0a2325a02b82bf6696691864d14b0eda095d0ecd2e7f1e7"
   }
 }

@@ -681,3 +681,20 @@ prior63 addition replay, all74 additions since full528 have replayed. Audits
 456 graph/447 callbacks/391 data/608 instruction boundaries/21 native ECX RET
 cleanup checks pass. Completed17-case regression checkpoint remains591.
 Current trap is full type-declaration parser40e80. Coverage178361/281634=63.3308%.
+
+Demangler type/output checkpoint633: full40e80..42540 declaration formatter
+(including its four adjacent switch tables) is readable C covering attribute
+classification, access, vtable/vbtable/vcall, local guard/helper, thunk, return
+type and declarator holes, arguments and exception specifications. Data/primary/
+builtin qualifiers and types, operator identifiers, calling conventions,
+argument/type cache lists and recursive node length/serialization are C.
+Operator spellings stay at semantic switch cases rather than copied pointer
+tables. Native support ends at_J (compiler_K is not invented). Native odd
+calling-convention code adds32 to keyword16; primary data proves this selects
+__segname(" rather than __saveregs. Its option-sensitive spelling is represented
+at use while retaining the original keyword-call vertex, without neighboring
+literal padding/layout. C++ still traps at full pointer parser3f010.
+All31 additions since602 replay, completing105 addition replays since full528;
+all17 completed cases pass. Audits485 graph/476 callbacks/391 data/639 accepted
+boundaries/36 ECX RET cleanups pass. Union189927/281634=67.4375%. No completed
+C++ output case or final clean/full replay is claimed yet.
