@@ -4,7 +4,7 @@
 typedef struct External External;
 typedef struct ComdatEdge {
     char *name;
-    External *external;
+    ComdatNode *node;
     Contribution *contribution;
 } ComdatEdge;
 struct ComdatNode {
@@ -24,6 +24,33 @@ typedef struct ComdatRoot {
     struct ComdatRoot *next;
     unsigned short kind;
 } ComdatRoot;
+typedef struct ComdatNodeEnumerator {
+    unsigned char (*next)(struct ComdatNodeEnumerator *);
+    void (*end)(struct ComdatNodeEnumerator *);
+    ComdatNode *current,*first;
+} ComdatNodeEnumerator;
+typedef struct ComdatEdgeEnumerator {
+    unsigned char (*next)(struct ComdatEdgeEnumerator *);
+    void (*end)(struct ComdatEdgeEnumerator *);
+    unsigned short index;
+    ComdatEdge *current;
+    ComdatNode *node;
+} ComdatEdgeEnumerator;
+typedef struct ComdatRootEnumerator {
+    unsigned char (*next)(struct ComdatRootEnumerator *);
+    void (*end)(struct ComdatRootEnumerator *);
+    ComdatRoot *current,*first;
+} ComdatRootEnumerator;
+void initialize_comdat_node_enumerator(ComdatNodeEnumerator *,ComdatNode *);
+unsigned char next_comdat_node(ComdatNodeEnumerator *);
+void end_comdat_node_enumerator(ComdatNodeEnumerator *);
+void initialize_comdat_edge_enumerator(ComdatEdgeEnumerator *,ComdatNode *);
+unsigned char next_comdat_edge(ComdatEdgeEnumerator *);
+void end_comdat_edge_enumerator(ComdatEdgeEnumerator *);
+void initialize_comdat_root_enumerator(ComdatRootEnumerator *,ComdatRoot *);
+unsigned char next_comdat_root(ComdatRootEnumerator *);
+void end_comdat_root_enumerator(ComdatRootEnumerator *);
+void visit_comdat_node(ComdatNode *);
 extern ComdatRoot *comdat_roots;
 extern ComdatNode *comdat_nodes;
 void attach_comdat_node(Module *,Contribution *,const char *);

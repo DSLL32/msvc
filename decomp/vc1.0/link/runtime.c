@@ -246,3 +246,44 @@ int tolower(int c)
     if (count==1) return (signed char)bytes[0];
     return ((signed char)bytes[1]<<8)|(signed char)bytes[0];
 }
+
+/* The executable predates the library parser's Win32 timezone fallback. */
+#include <time.h>
+char *timezone_previous;
+void __tzset(void)
+{
+    char *zone=getenv("TZ"),*left,*right;
+    int negative=0,difference;
+    if (!zone || !*zone) return;
+    if (timezone_previous) {
+        left=zone; right=timezone_previous;
+        do {
+            difference=(unsigned char)*left-(unsigned char)*right;
+            if (difference || !*left) break;
+            ++left; ++right;
+        } while (1);
+        if (!difference) return;
+    }
+    free(timezone_previous);
+    timezone_previous=_strdup(zone);
+    strncpy(_tzname[0],zone,3);
+    zone+=3;
+    if (*zone=='-') { negative=1; ++zone; }
+    _timezone=atol(zone)*3600;
+    while (*zone=='+' || (*zone>='0' && *zone<='9')) ++zone;
+    if (*zone==':') {
+        ++zone;
+        _timezone+=atol(zone)*60;
+        while (*zone>='0' && *zone<='9') ++zone;
+        if (*zone==':') {
+            ++zone;
+            _timezone+=atol(zone);
+            while (*zone>='0' && *zone<='9') ++zone;
+        }
+    }
+    if (negative) _timezone=-_timezone;
+    _daylight=*zone;
+    if (_daylight) strncpy(_tzname[1],zone,3);
+    else _tzname[1][0]=0;
+}
+

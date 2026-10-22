@@ -66,9 +66,9 @@ archive linker-member indexes now have C implementations. The archive code model
 member offsets, symbol/member indices, raw names, and a name-pointer index as
 separate fields. The file cursor and archive globals are named input_file and
 archive_data_offset for their observed roles. The case currently stops at
-count_output_sections. Extraction now reads the needed CRT/import members and
+assign_section_numbers. Extraction now reads the needed CRT/import members and
 updates the undefined list after definitions, while contribution iterators mark
-.idata sections. Relocation reachability edges have named, resolved-external,
+.idata sections. Relocation reachability edges have named, resolved-node,
 and contribution fields; linker-defined nodes grow their edge capacity as needed.
 Layout and output helpers remain named traps. Do not
 claim generated-image equivalence until that case exits and its fixture executable
@@ -107,3 +107,27 @@ The queued GUI checker branch has been added to compare.py and built using the
 original toolchain. The shared captured hello.exe passes its title/paint/close
 check, with 300 dark pixels and exit0. This is checker validation, not completion
 of the queued reconstructed LINK fixture.
+
+The section-layout checkpoint contains 309 accepted frontiers. All 21 additions
+after the full288 replay and affected driver/object/COMDAT predecessors replay
+with matching traps. Exact help and the current minimal-C section-sort frontier
+also pass. The recursive COMDAT walk marks contributions before visiting edges;
+resolved edges point to graph nodes, correcting a provisional External pointer.
+Its node, edge, and root iterators have recovered signatures and state fields.
+Arena release unlinks each block before freeing it.
+The layout routine is C for its entire219f0..22090 extent, including Macintosh
+branches. It charges inter-item padding to the preceding contribution and counts
+live relocations, debug lines and source names. The original BYTE at contribution
+2b is padding;24 is a checksum/associated-parent union,28 a COMDAT section number,
+and2a the selection byte. Prior DWORD field names were replaced using their
+observed roles. Section18/1c/20 are relocation count, line-file offset and
+relocation-file offset. No original-layout filler was added.
+Reaching layout exposed a cursor error in the earlier link_passes C body: BSS
+layouts must advance the data RVA (original stack14), leaving code RVA(stack44)
+fixed after code layout. Correcting the PE, ROM and Macintosh BSS calls restores
+the matching section-sort frontier; the earlier form issued a premature overlap
+warning. The original51f70 timezone parser now uses its actual CRT symbol __tzset
+rather than a provisional wrapper name. Its mutable previous-TZ cache is local
+to runtime.c and its timezone/daylight/name state aliases the native CRT globals.
+Minimal-C has not yet emitted a validated image. Output and unreached Macintosh
+helpers remain typed named traps; new branches need later dynamic coverage.

@@ -2,7 +2,7 @@ PYTHON ?= python3
 TOOL = $(PYTHON) wine-tool.py
 TC = ../../../toolchains/1.0-nt
 HEADERS = $(wildcard *.h)
-OBJECTS = $(addprefix build/,$(addsuffix .obj,link stubs driver files runtime crt-anchors linker repro image symbols external-output arguments options exports imports ordering parse-switch usage dos-stub link-pass pass-one machine archive coff-io object comdat arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs))
+OBJECTS = $(addprefix build/,$(addsuffix .obj,link stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout arguments options exports imports ordering parse-switch usage dos-stub link-pass pass-one machine archive coff-io object comdat arena modules text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs))
 
 .PHONY: all clean check prefix replay audit
 all: build/original.exe build/reconstructed.exe build/debug-run.exe

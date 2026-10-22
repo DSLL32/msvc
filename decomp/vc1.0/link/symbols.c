@@ -422,3 +422,11 @@ int compare_external_names(const void *left,const void *right)
     return strcmp(aname,bname);
 }
 
+
+External *find_external(SymbolTable *table,unsigned char short_name,const char *name)
+{
+    unsigned char created;
+    External **slot=(External **)find_hash_entry(name,table->hash,0,&table->strings,&created);
+    return slot ? *slot : NULL;
+}
+

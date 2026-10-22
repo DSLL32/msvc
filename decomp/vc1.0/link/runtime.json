@@ -1218,6 +1218,13 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "_localtime",
+    "start": 358912,
+    "end": 359344,
+    "object": "time\\obj\\i386\\LOCALTIM.OBJ",
+    "library": "LIBC.LIB"
+  },
+  {
     "name": "__setmode",
     "start": 359344,
     "end": 359504,

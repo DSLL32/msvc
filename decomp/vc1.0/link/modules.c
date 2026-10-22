@@ -477,3 +477,21 @@ void merge_sections(Section *source,Section *destination)
     source->groups=NULL;
     source->merge=destination;
 }
+
+void end_group_contribution_enumerator(GroupContributionEnumerator *scan)
+{
+}
+
+
+void move_section_last(Section *section,SectionList *sections)
+{
+    Section **link;
+    if (sections->tail==&section->next) return;
+    link=&sections->first;
+    while (*link!=section) link=&(*link)->next;
+    *link=section->next;
+    *sections->tail=section;
+    sections->tail=&section->next;
+    section->next=NULL;
+}
+

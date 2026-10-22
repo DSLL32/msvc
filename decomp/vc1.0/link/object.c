@@ -80,7 +80,7 @@ void process_object_section(Image *image,Module *module,unsigned char explicit_i
         return;
     }
     if (contribution->flags&0x800) return;
-    contribution->checksum &= 0x00ffffff;
+    contribution->padding=0;
     classify_contribution(contribution,&image->options);
     if (strcmp(contribution->group->name,".debug$S") &&
         strcmp(contribution->group->name,".debug$T") &&

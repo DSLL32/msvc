@@ -52,3 +52,14 @@ void free_pointer(void **pointer)
         *pointer=NULL;
     }
 }
+
+void release_arena(ArenaBlock **arena)
+{
+    ArenaBlock *block;
+    while (*arena) {
+        block=*arena;
+        *arena=block->next;
+        free(block);
+    }
+}
+

@@ -1114,5 +1114,35 @@
     "name": "sort_short_name_right",
     "size": 9,
     "owner": "symbols.c"
+  },
+  {
+    "address": 545544,
+    "name": "timezone_previous",
+    "size": 4,
+    "owner": "runtime.c"
+  },
+  {
+    "address": 547488,
+    "name": "_timezone",
+    "size": 4,
+    "owner": "LIBC.LIB"
+  },
+  {
+    "address": 547492,
+    "name": "_daylight",
+    "size": 4,
+    "owner": "LIBC.LIB"
+  },
+  {
+    "address": 547504,
+    "name": "_tzname",
+    "size": 8,
+    "owner": "LIBC.LIB"
+  },
+  {
+    "address": 519640,
+    "name": "mac_max_code_size",
+    "size": 4,
+    "owner": "section-layout.c"
   }
 ]

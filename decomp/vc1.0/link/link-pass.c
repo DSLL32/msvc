@@ -227,7 +227,7 @@ int link_passes(Image *image,unsigned char *pack)
             section->characteristics=(section->characteristics&~0xe0UL)|0x100;
         }
     }
-    crt_tzset();
+    __tzset();
     if (debug_requested) image->file.TimeDateStamp=0xffffffffUL;
     else time((time_t *)&image->file.TimeDateStamp);
     if (image->options.portable_image) pe_header_offset=dos_stub_size;
@@ -282,15 +282,15 @@ int link_passes(Image *image,unsigned char *pack)
         layout_sections(image,0x40,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
         rom_bss_start=bss_start=data_rva;
         code_file_end=file_cursor;
-        layout_sections(image,0x80,&code_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x80,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
     } else if (mac_image) {
         mac_data_base=data_rva;
         data_file_end=code_file_end=file_cursor;
         layout_sections(image,0x100040,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
-        layout_sections(image,0x100080,&code_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x100080,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
         data_file_end=file_cursor;
         layout_sections(image,0x40,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
-        layout_sections(image,0x80,&code_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        layout_sections(image,0x80,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
         if (!mac_small_model) {
             bytes=size_mac_data_fixups(image,data_file_end);
             mac_data_fixups->file_offset=data_file_end;
@@ -315,8 +315,8 @@ int link_passes(Image *image,unsigned char *pack)
     } else {
         bss_start=data_rva;
         code_file_end=file_cursor;
-        layout_sections(image,0x80,&code_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
-        code_start=code_rva;
+        layout_sections(image,0x80,&data_rva,&code_file_end,&fpo_count,&line_count,&layout_state);
+        code_start=data_rva;
         data_file_end=file_cursor;
         layout_sections(image,0x40,&data_rva,&data_file_end,&fpo_count,&line_count,&layout_state);
     }

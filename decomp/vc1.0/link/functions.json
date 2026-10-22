@@ -287,7 +287,28 @@
     "_end_external_enumeration",
     "_end_hash_enumeration",
     "_compare_external_names",
-    "_shortsort"
+    "_shortsort",
+    "_count_output_sections",
+    "_end_group_contribution_enumerator",
+    "___tzset",
+    "_time",
+    "import:GetSystemTime",
+    "_order_sections",
+    "_move_section_last",
+    "_resolve_comdat_edges",
+    "_initialize_comdat_node_enumerator",
+    "_next_comdat_node",
+    "_initialize_comdat_edge_enumerator",
+    "_next_comdat_edge",
+    "_find_external",
+    "_visit_comdat_roots",
+    "_initialize_comdat_root_enumerator",
+    "_next_comdat_root",
+    "_visit_comdat_node",
+    "_release_comdat_storage",
+    "_release_arena",
+    "_layout_sections",
+    "_contribution_discarded"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -470,7 +491,8 @@
       "implementation": "C",
       "source": "link-pass.c",
       "abi": "cdecl int link_passes(Image *image,unsigned char *pack)",
-      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "evidence": " Reached-layout correction: all BSS/far-BSS layouts consume the data RVA cursor (original stack14); the code cursor at44 stays fixed after code layout. Verified stack arguments1b328..1b733; fixes premature overlap warning."
     },
     {
       "name": "_select_entry_point",
@@ -929,10 +951,11 @@
     {
       "name": "_resolve_comdat_edges",
       "start": 95264,
-      "end": 95265,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(SymbolTable *table,ComdatNode *nodes)"
+      "end": 95520,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(SymbolTable *table,ComdatNode *nodes)",
+      "evidence": "Matching COMDAT edge resolution17420..17520. Edge field4 is the resolved graph node, correcting its provisional External pointer type."
     },
     {
       "name": "_print_comdat_graph",
@@ -945,10 +968,11 @@
     {
       "name": "_visit_comdat_roots",
       "start": 96208,
-      "end": 96209,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(ComdatRoot *roots,SymbolTable *table)"
+      "end": 96432,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(ComdatRoot *roots,SymbolTable *table)",
+      "evidence": "Matching COMDAT root traversal177d0..178b0; root kinds bind contributions, defined externals, or names before recursive visit."
     },
     {
       "name": "_dump_symbols",
@@ -978,10 +1002,11 @@
     {
       "name": "_count_output_sections",
       "start": 106704,
-      "end": 106705,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl unsigned short(Image *image)"
+      "end": 107040,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl unsigned short(Image *image)",
+      "evidence": "Matching section-count frontier; ROM exclusions, omitted sections, reserved bytes, and group/contribution scanning1a0d0..1a220."
     },
     {
       "name": "_finish_pe_image",
@@ -1002,10 +1027,11 @@
     {
       "name": "_order_sections",
       "start": 107984,
-      "end": 107985,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 108064,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matching section-order frontier; place reloc then debug sections last1a5d0..1a620."
     },
     {
       "name": "_pass_two",
@@ -1068,10 +1094,11 @@
     {
       "name": "_layout_sections",
       "start": 137712,
-      "end": 137713,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Image *image,unsigned long mask,unsigned long *rva,unsigned long *file,unsigned long *fpo,unsigned long *lines,unsigned long *state)"
+      "end": 139408,
+      "implementation": "C",
+      "source": "section-layout.c",
+      "abi": "cdecl void(Image *image,unsigned long mask,unsigned long *rva,unsigned long *file,unsigned long *relocations,unsigned long *lines,unsigned long *source_names)",
+      "evidence": "Matching section-layout frontier219f0..22090; full group/contribution alignment, reachability exclusion, count/offset updates, and Mac branches. Byte2b is alignment padding; COMDAT aux metadata now has observed checksum/association, section, selection fields rather than provisional DWORDs."
     },
     {
       "name": "_write_section_headers",
@@ -1190,10 +1217,11 @@
     {
       "name": "_find_external",
       "start": 155104,
-      "end": 155105,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl External *(SymbolTable *table,unsigned char short_name,const char *name)"
+      "end": 155168,
+      "implementation": "C",
+      "source": "symbols.c",
+      "abi": "cdecl External *(SymbolTable *table,unsigned char short_name,const char *name)",
+      "evidence": "Matching lookup-only external wrapper25de0..25e20; original retains but does not read short_name argument."
     },
     {
       "name": "_set_external_defined",
@@ -1390,10 +1418,11 @@
     {
       "name": "_move_section_last",
       "start": 245088,
-      "end": 245089,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(Section *section,SectionList *sections)"
+      "end": 245152,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(Section *section,SectionList *sections)",
+      "evidence": "Matching section-splice frontier3bd60..3bda0; preserve tail pointer and unlink/reappend existing section."
     },
     {
       "name": "_tell_file",
@@ -1413,20 +1442,22 @@
       "abi": "cdecl unsigned(int file,const void *data,unsigned size)"
     },
     {
-      "name": "_crt_tzset",
+      "name": "___tzset",
       "start": 335728,
-      "end": 335729,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 336080,
+      "implementation": "C",
+      "source": "runtime.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matching older timezone parser51f70..520d0; manually verified entire body and shared CRT globals. Same older parser analyzed in CL reconstruction."
     },
     {
       "name": "_release_comdat_storage",
       "start": 94544,
-      "end": 94545,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 94560,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matching COMDAT arena release wrapper17150..17160."
     },
     {
       "name": "_split_section_group",
@@ -2581,10 +2612,11 @@
     {
       "name": "_end_group_contribution_enumerator",
       "start": 245776,
-      "end": 245777,
-      "implementation": "stub-C",
-      "source": "module-stubs.c",
-      "abi": "cdecl void(GroupContributionEnumerator *scan)"
+      "end": 245792,
+      "implementation": "C",
+      "source": "modules.c",
+      "abi": "cdecl void(GroupContributionEnumerator *scan)",
+      "evidence": "Matching group-contribution finalizer; original no-op3c010..3c020."
     },
     {
       "name": "_compare_contribution_module_names",
@@ -2640,10 +2672,11 @@
     {
       "name": "_contribution_discarded",
       "start": 95968,
-      "end": 95969,
-      "implementation": "stub-C",
-      "source": "link-pass-stubs.c",
-      "abi": "cdecl unsigned char(Contribution *contribution)"
+      "end": 96048,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl unsigned char(Contribution *contribution)",
+      "evidence": "Matching discarded-contribution test176e0..17730; associative CRT COMDATs inherit the parent reachability, otherwise test used/data/discardable flags."
     },
     {
       "name": "_write_coff_symbol",
@@ -2750,6 +2783,118 @@
       "source": "symbols.c",
       "abi": "cdecl void(HashTable *table)",
       "evidence": "Matching nested hash-enumerator release26ae0..26b00."
+    },
+    {
+      "name": "_initialize_comdat_node_enumerator",
+      "start": 96544,
+      "end": 96576,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(ComdatNodeEnumerator *scan,ComdatNode *first)",
+      "evidence": "Matching COMDAT node iterator initialization17920..17940."
+    },
+    {
+      "name": "_next_comdat_node",
+      "start": 96576,
+      "end": 96624,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl unsigned char(ComdatNodeEnumerator *scan)",
+      "evidence": "Matching COMDAT node traversal17940..17970."
+    },
+    {
+      "name": "_end_comdat_node_enumerator",
+      "start": 96624,
+      "end": 96625,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(ComdatNodeEnumerator *scan)"
+    },
+    {
+      "name": "_initialize_comdat_edge_enumerator",
+      "start": 96640,
+      "end": 96688,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(ComdatEdgeEnumerator *scan,ComdatNode *node)",
+      "evidence": "Matching COMDAT edge iterator initialization17980..179b0."
+    },
+    {
+      "name": "_next_comdat_edge",
+      "start": 96688,
+      "end": 96752,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl unsigned char(ComdatEdgeEnumerator *scan)",
+      "evidence": "Matching COMDAT edge traversal179b0..179f0; WORD index into the nodes edge array."
+    },
+    {
+      "name": "_end_comdat_edge_enumerator",
+      "start": 96752,
+      "end": 96753,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(ComdatEdgeEnumerator *scan)"
+    },
+    {
+      "name": "_initialize_comdat_root_enumerator",
+      "start": 96768,
+      "end": 96800,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(ComdatRootEnumerator *scan,ComdatRoot *first)",
+      "evidence": "Matching COMDAT root iterator initialization17a00..17a20."
+    },
+    {
+      "name": "_next_comdat_root",
+      "start": 96800,
+      "end": 96848,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl unsigned char(ComdatRootEnumerator *scan)",
+      "evidence": "Matching COMDAT root traversal17a20..17a50."
+    },
+    {
+      "name": "_end_comdat_root_enumerator",
+      "start": 96848,
+      "end": 96849,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(ComdatRootEnumerator *scan)"
+    },
+    {
+      "name": "_visit_comdat_node",
+      "start": 96432,
+      "end": 96544,
+      "implementation": "C",
+      "source": "comdat.c",
+      "abi": "cdecl void(ComdatNode *node)",
+      "evidence": "Matching recursive reachability frontier178b0..17920; set contribution used bit before visiting resolved edges to break cycles."
+    },
+    {
+      "name": "_release_arena",
+      "start": 221776,
+      "end": 221808,
+      "implementation": "C",
+      "source": "arena.c",
+      "abi": "cdecl void(ArenaBlock **arena)",
+      "evidence": "Matching arena block release36250..36270; update head before freeing each block."
+    },
+    {
+      "name": "_build_mac_section_fixups",
+      "start": 226640,
+      "end": 226641,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl void(Section *section,Image *image)"
+    },
+    {
+      "name": "_size_mac_section_fixups",
+      "start": 227040,
+      "end": 227041,
+      "implementation": "stub-C",
+      "source": "link-pass-stubs.c",
+      "abi": "cdecl unsigned long(Section *section,unsigned long file)"
     }
   ],
   "c_stub_references": [
@@ -2846,6 +2991,27 @@
     "/?",
     "/?",
     "/?",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
+    "minimal-c",
     "minimal-c",
     "minimal-c",
     "minimal-c",

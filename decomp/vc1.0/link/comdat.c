@@ -1,5 +1,6 @@
 /* COMDAT reachability graph and its synthetic root contribution. */
 #include "comdat.h"
+#include "link-pass.h"
 #pragma intrinsic(strlen,strcpy)
 Contribution comdat_root_contribution;
 ComdatNode comdat_root_node;
@@ -84,7 +85,7 @@ ComdatEdge *add_comdat_edge(const char *name,ComdatNode *node,
         if (!node->edges) comdat_error(NULL,5,"");
         for (index=old_capacity;index<capacity;++index) {
             node->edges[index].name=NULL;
-            node->edges[index].external=NULL;
+            node->edges[index].node=NULL;
             node->edges[index].contribution=NULL;
         }
         node->contribution->relocation_count=capacity;
@@ -107,3 +108,131 @@ char *duplicate_comdat_name(const char *name)
     strcpy(copy,name);
     return copy;
 }
+
+void resolve_comdat_edges(SymbolTable *table,ComdatNode *nodes)
+{
+    ComdatNodeEnumerator scan;
+    ComdatEdgeEnumerator edges;
+    ComdatEdge *edge;
+    External *external;
+    initialize_comdat_node_enumerator(&scan,nodes);
+    while (next_comdat_node(&scan)) {
+        initialize_comdat_edge_enumerator(&edges,scan.current);
+        while (next_comdat_edge(&edges)) {
+            edge=edges.current;
+            if (edge->name) {
+                external=find_external(table,(unsigned char)(strlen(edge->name)<=8),edge->name);
+                if ((external->flags&EXTERNAL_DEFINED) && external->owner.contribution)
+                    edge->node=external->owner.contribution->graph;
+                else edge->node=&comdat_root_node;
+            } else {
+                edge->node=edge->contribution->graph;
+                if (!edge->node) edge->node=&comdat_root_node;
+            }
+        }
+    }
+}
+
+
+void initialize_comdat_node_enumerator(ComdatNodeEnumerator *scan,ComdatNode *first)
+{
+    scan->next=next_comdat_node;
+    scan->end=end_comdat_node_enumerator;
+    scan->first=first;
+    scan->current=NULL;
+}
+
+
+unsigned char next_comdat_node(ComdatNodeEnumerator *scan)
+{
+    scan->current=scan->current ? scan->current->next : scan->first;
+    return scan->current!=NULL;
+}
+
+
+void initialize_comdat_edge_enumerator(ComdatEdgeEnumerator *scan,ComdatNode *node)
+{
+    scan->next=next_comdat_edge;
+    scan->end=end_comdat_edge_enumerator;
+    scan->node=node;
+    scan->current=NULL;
+    scan->index=0;
+}
+
+
+unsigned char next_comdat_edge(ComdatEdgeEnumerator *scan)
+{
+    scan->current=NULL;
+    if (scan->index<scan->node->edge_count)
+        scan->current=&scan->node->edges[scan->index++];
+    return scan->current!=NULL;
+}
+
+
+void visit_comdat_roots(ComdatRoot *roots,SymbolTable *table)
+{
+    ComdatRootEnumerator scan;
+    ComdatRoot *root;
+    Contribution *contribution=NULL;
+    External *external;
+    initialize_comdat_root_enumerator(&scan,roots);
+    while (next_comdat_root(&scan)) {
+        root=scan.current;
+        switch (root->kind) {
+        case 1: contribution=root->target.contribution; break;
+        case 2:
+            external=root->target.external;
+            contribution=(external->flags&EXTERNAL_DEFINED)?external->owner.contribution:NULL;
+            break;
+        case 3:
+            external=find_external(table,(unsigned char)(strlen(root->target.name)<=8),root->target.name);
+            contribution=external->owner.contribution;
+            break;
+        }
+        if (contribution) visit_comdat_node(contribution->graph);
+    }
+}
+
+
+void initialize_comdat_root_enumerator(ComdatRootEnumerator *scan,ComdatRoot *first)
+{
+    scan->next=next_comdat_root;
+    scan->end=end_comdat_root_enumerator;
+    scan->first=first;
+    scan->current=NULL;
+}
+
+
+unsigned char next_comdat_root(ComdatRootEnumerator *scan)
+{
+    scan->current=scan->current ? scan->current->next : scan->first;
+    return scan->current!=NULL;
+}
+
+
+void visit_comdat_node(ComdatNode *node)
+{
+    ComdatEdgeEnumerator edges;
+    if (node->contribution->flags&0x2000) return;
+    node->contribution->flags |= 0x2000;
+    initialize_comdat_edge_enumerator(&edges,node);
+    while (next_comdat_edge(&edges)) visit_comdat_node(edges.current->node);
+}
+
+
+void release_comdat_storage(void)
+{
+    release_arena(&comdat_heap);
+}
+
+
+unsigned char contribution_discarded(Contribution *contribution)
+{
+    if ((contribution->flags&IMAGE_SCN_LNK_COMDAT) &&
+        contribution->comdat_selection==5 &&
+        !_strnicmp(contribution->group->name,".crt$",5))
+        contribution=contribution->comdat.associated;
+    return !(contribution->flags&0x2000) && contribution->raw_size!=0 &&
+           !(contribution->flags&0x2000000);
+}
+

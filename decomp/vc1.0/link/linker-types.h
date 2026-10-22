@@ -18,6 +18,7 @@ void reserve_text(TextBuffer *,unsigned long);
 unsigned long append_text(TextBuffer *,const void *,unsigned long);
 void release_text(TextBuffer *);
 void *allocate_arena(ArenaBlock **,unsigned long);
+void release_arena(ArenaBlock **);
 extern int input_file;
 int open_file(const char *,int,int);
 int close_file(int,unsigned char);

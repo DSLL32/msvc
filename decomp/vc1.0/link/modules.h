@@ -13,7 +13,10 @@ struct Contribution {
     unsigned long input_rva, rva, flags, raw_size;
     unsigned short relocation_count, line_count;
     unsigned long relocation_offset, line_offset, data_offset;
-    unsigned long file_offset, characteristics, checksum;
+    unsigned long file_offset;
+    union { unsigned long checksum; Contribution *associated; } comdat;
+    short comdat_section;
+    unsigned char comdat_selection,padding;
     IMAGE_RELOCATION *relocations;
     ComdatNode *graph;
     Module *module;
@@ -59,7 +62,7 @@ struct Group {
 struct Section {
     char *name;
     unsigned long rva, file_end, raw_size, virtual_size, file_offset;
-    unsigned long line_offset, relocation_offset, contribution_count, characteristics;
+    unsigned long relocation_count, line_offset, relocation_offset, characteristics;
     unsigned long source_name_capacity;
     unsigned short line_count, index;
     unsigned long mac_resource_id, mac_type;
