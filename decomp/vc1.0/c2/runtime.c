@@ -9,6 +9,52 @@ extern int _alloc_osfhnd(void);
 extern int _set_osfhnd(int, long);
 extern void _dosmaperr(unsigned long);
 
+/* Original [00071d50,00071e90). This earlier CRT accounts for translated
+   CR/LF bytes in buffered text streams, including a partially filled buffer
+   at EOF. Its only callee is the low-level seek routine. */
+long ftell(FILE *stream)
+{
+    int fd = stream->_file, flags;
+    long position, offset, buffered;
+    char *p, *end;
+    if (stream->_cnt < 0) stream->_cnt = 0;
+    position = _lseek(fd, 0, SEEK_CUR);
+    if (position < 0) return -1;
+    flags = stream->_flag;
+    if (!(flags & 0x108)) return position - stream->_cnt;
+    offset = stream->_ptr - stream->_base;
+    if (flags & 3) {
+        if (_osfile[fd] & 0x80) {
+            for (p = stream->_base; p < stream->_ptr; ++p)
+                if (*p == '\n') ++offset;
+        }
+    } else if (!(flags & 0x80)) {
+        errno = 22;
+        return -1;
+    }
+    if (!position) return offset;
+    if (flags & 1) {
+        if (!stream->_cnt) offset = 0;
+        else {
+            buffered = stream->_cnt + (stream->_ptr - stream->_base);
+            if (_osfile[fd] & 0x80) {
+                if (_lseek(fd, 0, SEEK_END) == position) {
+                    end = stream->_base + buffered;
+                    for (p = stream->_base; p < end; ++p)
+                        if (*p == '\n') ++buffered;
+                    if (stream->_flag & 0x2000) ++buffered;
+                } else {
+                    _lseek(fd, position, SEEK_SET);
+                    buffered = stream->_bufsiz;
+                    if (_osfile[fd] & 4) ++buffered;
+                }
+            }
+            position -= buffered;
+        }
+    }
+    return offset + position;
+}
+
 /* Original [00075ff0,000763e0). Same earlier CRT variant found in CL. */
 int _sopen(const char *name, int mode, int sharing, ...)
 {

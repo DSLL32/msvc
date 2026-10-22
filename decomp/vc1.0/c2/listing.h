@@ -7,7 +7,7 @@ extern int listing_enabled;
 extern unsigned listing_column;
 extern Segment *listed_segment;
 Segment *__fastcall write_segment_listing(Segment *segment, int definition);
-int __fastcall close_segment_listing(Segment *segment);
+Segment *__fastcall close_segment_listing(Segment *segment);
 char *__fastcall listing_segment_name(Segment *segment);
 typedef void (__fastcall *SymbolVisitor)(SymbolHeader *symbol);
 void __fastcall for_each_symbol(int local, SymbolVisitor visit);

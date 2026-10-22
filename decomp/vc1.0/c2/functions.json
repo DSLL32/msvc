@@ -325,7 +325,38 @@
     "_release_function_symbols",
     "_finish_output",
     "_finish_debugging",
-    "_output_noop"
+    "_output_noop",
+    "_coff_finish_module",
+    "@coff_alignment_flags@4",
+    "@coff_set_section_flags@8",
+    "_coff_close_all_sections",
+    "@coff_vector_next@4",
+    "_coff_finalize",
+    "@coff_reserve_sections@4",
+    "@coff_vector_count@4",
+    "@coff_flush_section@4",
+    "_ftell",
+    "@coff_flush_scope@4",
+    "_fwrite",
+    "__flsbuf",
+    "_coff_timestamp",
+    "_time",
+    "import:GetSystemTime",
+    "___gmtotime_t",
+    "@coff_write_symbol@4",
+    "_fputc",
+    "__write",
+    "import:WriteFile",
+    "@coff_write_section_header@4",
+    "_finish_globals",
+    "_exit",
+    "_doexit",
+    "_compiler_cleanup",
+    "__endstdio",
+    "__flushall",
+    "_flsall",
+    "_fflush",
+    "import:ExitProcess"
   ],
   "driver": [
     {
@@ -426,8 +457,7 @@
     {
       "name": "_finish_globals",
       "start": 166192,
-      "end": 166320,
-      "provisional": true
+      "end": 166320
     },
     {
       "name": "@compiler_internal_error@8",
@@ -1222,8 +1252,7 @@
     {
       "name": "_coff_finish_module",
       "start": 444832,
-      "end": 444833,
-      "provisional": true
+      "end": 444944
     },
     {
       "name": "_coff_output_relocation",
@@ -1349,8 +1378,7 @@
     {
       "name": "_coff_timestamp",
       "start": 444704,
-      "end": 444705,
-      "provisional": true
+      "end": 444752
     },
     {
       "name": "@coff_allocate@4",
@@ -1661,7 +1689,7 @@
     {
       "name": "_ftell",
       "start": 466256,
-      "end": 466688
+      "end": 466576
     },
     {
       "name": "@read_expression_record@4",
@@ -3417,12 +3445,80 @@
       "name": "_reset_leaf_tables",
       "start": 326464,
       "end": 326544
+    },
+    {
+      "name": "@coff_alignment_flags@4",
+      "start": 445008,
+      "end": 445120
+    },
+    {
+      "name": "@coff_set_section_flags@8",
+      "start": 452560,
+      "end": 452592
+    },
+    {
+      "name": "_coff_close_all_sections",
+      "start": 452592,
+      "end": 452656
+    },
+    {
+      "name": "_coff_finalize",
+      "start": 450288,
+      "end": 450768
+    },
+    {
+      "name": "@coff_vector_next@4",
+      "start": 450192,
+      "end": 450288
+    },
+    {
+      "name": "@coff_vector_count@4",
+      "start": 449984,
+      "end": 450000
+    },
+    {
+      "name": "@coff_reserve_sections@4",
+      "start": 449792,
+      "end": 449984
+    },
+    {
+      "name": "@coff_flush_section@4",
+      "start": 450000,
+      "end": 450192
+    },
+    {
+      "name": "@coff_flush_scope@4",
+      "start": 450768,
+      "end": 450944
+    },
+    {
+      "name": "@coff_write_symbol@4",
+      "start": 451104,
+      "end": 451824
+    },
+    {
+      "name": "@coff_write_section_header@4",
+      "start": 450960,
+      "end": 451104
+    },
+    {
+      "name": "@coff_write_relocations@8",
+      "start": 454928,
+      "end": 454929,
+      "provisional": true
+    },
+    {
+      "name": "@coff_write_lines@8",
+      "start": 454720,
+      "end": 454721,
+      "provisional": true
     }
   ],
   "cases": {
     "minimal": {
       "arguments": "",
-      "accepted_from": 0
+      "accepted_from": 0,
+      "accepted_count": 352
     }
   },
   "crt_defaults": {

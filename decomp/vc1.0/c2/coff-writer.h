@@ -8,9 +8,11 @@ typedef struct CoffVectorBlock {
 typedef struct CoffVector {
     unsigned count;
     unsigned short capacity, reserved;
-    unsigned used, field0c, field10, field14;
+    unsigned used, iterator_count, iterator_slot;
+    CoffVectorBlock *iterator_block;
     CoffVectorBlock *first, *last;
 } CoffVector;
+typedef char CoffVectorSizeCheck[sizeof(CoffVector) == 32 ? 1 : -1];
 typedef struct CoffDataBlock {
     struct CoffDataBlock *next;
     unsigned char bytes[500];
@@ -30,6 +32,30 @@ typedef struct CoffSection {
     unsigned short associated;
 } CoffSection;
 #pragma pack(2)
+typedef union CoffName {
+    char short_name[8];
+    struct { unsigned zero, offset; } long_name;
+} CoffName;
+typedef struct CoffFileHeader {
+    unsigned short machine, sections;
+    unsigned timestamp, symbols_offset, symbols;
+    unsigned short optional_bytes, characteristics;
+} CoffFileHeader;
+typedef struct CoffSectionHeader {
+    CoffName name;
+    unsigned physical_address, virtual_address, bytes;
+    unsigned data_offset, relocations_offset, lines_offset;
+    unsigned short relocation_count, line_count;
+    unsigned characteristics;
+} CoffSectionHeader;
+typedef struct CoffSectionAuxiliary {
+    unsigned bytes;
+    unsigned short relocation_count, line_count;
+    unsigned checksum;
+    unsigned short associated;
+    unsigned char selection, reserved;
+    unsigned short reserved2;
+} CoffSectionAuxiliary;
 typedef struct CoffRelocation {
     unsigned address, symbol;
     unsigned short type;
@@ -39,16 +65,16 @@ typedef struct CoffLine {
     unsigned short line;
 } CoffLine;
 typedef struct CoffObjectSymbol {
-    union {
-        char short_name[8];
-        struct { unsigned zero, offset; } long_name;
-    } name;
+    CoffName name;
     unsigned value;
     unsigned short section, type;
     unsigned char storage, auxiliary_count;
 } CoffObjectSymbol;
 #pragma pack()
 typedef char CoffObjectSymbolSizeCheck[sizeof(CoffObjectSymbol) == 18 ? 1 : -1];
+typedef char CoffFileHeaderSizeCheck[sizeof(CoffFileHeader) == 20 ? 1 : -1];
+typedef char CoffSectionHeaderSizeCheck[sizeof(CoffSectionHeader) == 40 ? 1 : -1];
+typedef char CoffSectionAuxiliarySizeCheck[sizeof(CoffSectionAuxiliary) == 18 ? 1 : -1];
 typedef struct CoffRelocationBlock {
     unsigned count;
     struct CoffRelocationBlock *next;
@@ -71,10 +97,11 @@ struct CoffContribution {
     CoffScope *scope;
     CoffRelocationBlock *relocations;
     CoffLineBlock *lines;
-    unsigned size, field1c, field20, field24, field28, field2c;
+    unsigned size, virtual_address, physical_address, data_offset, relocations_offset, lines_offset;
     unsigned short number, flags;
-    unsigned field34;
+    unsigned short relocation_count, line_count;
 };
+typedef char CoffContributionSizeCheck[sizeof(CoffContribution) == 56 ? 1 : -1];
 extern CoffScope *coff_scopes, *coff_active_scope;
 extern CoffDataBlock *coff_free_blocks;
 extern CoffRelocationBlock *coff_free_relocations;
@@ -90,6 +117,7 @@ typedef struct CoffSymbolEntry {
         CoffFilename *file;
         CoffContribution *contribution;
         CoffObjectSymbol *symbol;
+        void *auxiliary;
     } data;
 } CoffSymbolEntry;
 extern CoffFilename *coff_last_filename;
@@ -103,9 +131,9 @@ extern void (__fastcall *coff_error_handler)(unsigned, char *, unsigned);
 extern unsigned (__cdecl *coff_clock)(void);
 extern unsigned char coff_debug;
 extern CoffVector *coff_sections, *coff_contributions, *coff_symbol_entries;
-extern unsigned short coff_sections_locked, coff_open_sections;
+extern unsigned short coff_reserved_sections, coff_open_sections;
 extern unsigned short coff_no_section, coff_selected_section;
-extern unsigned coff_symbol_count, coff_writer_phase;
+extern unsigned coff_data_offset, coff_writer_phase;
 extern CoffSection *coff_current_section;
 extern CoffScope *coff_current_scope;
 CoffVector *__fastcall coff_new_vector(unsigned short capacity);
@@ -134,10 +162,24 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
 unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, void **auxiliary);
 void __fastcall coff_resolve_function(unsigned identifier, unsigned handle);
-void __fastcall coff_set_symbol_name(CoffObjectSymbol *symbol, char *name);
+void __fastcall coff_set_symbol_name(CoffName *destination, char *name);
 unsigned __fastcall coff_data_position(CoffScope *scope);
 void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
     unsigned bytes, unsigned offset);
 void __fastcall coff_line_marker(unsigned short marker);
 void __fastcall coff_end_lines(unsigned short line, unsigned offset);
+void __fastcall coff_set_section_flags(unsigned short section, unsigned flags);
+void coff_close_all_sections(void);
+void coff_finalize(void);
+void *__fastcall coff_vector_next(CoffVector *vector);
+unsigned __fastcall coff_vector_count(CoffVector *vector);
+void __fastcall coff_reserve_sections(unsigned short count);
+void __fastcall coff_flush_section(CoffSection *section);
+void __fastcall coff_flush_scope(CoffScope *scope);
+void __fastcall coff_write_symbol(CoffSymbolEntry *entry);
+void __fastcall coff_write_section_header(CoffContribution *contribution);
+void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned base);
+void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base);
+extern CoffScope *coff_trailer_scope;
+extern CoffObjectSymbol *coff_last_written_symbol;
 #endif

@@ -3,12 +3,23 @@
 #include "backend.h"
 #include "records.h"
 #include "options.h"
+#include <time.h>
 extern int codeview_debug, line_debug;
+extern int reproducible_build;
 extern char *generated_source;
 extern unsigned next_symbol_identifier(void);
 FILE *object_file; /* 00084fb0 */
 Segment *directive_segment; /* 00079144 */
 int object_generation_started; /* 00083158 */
+/* Original [0006c920,0006c950). The reproducible-object switch suppresses
+   the timestamp; otherwise time fills the original 32-bit time_t object. */
+unsigned coff_timestamp(void)
+{
+    time_t stamp;
+    if (reproducible_build) return 0;
+    time(&stamp);
+    return (unsigned)stamp;
+}
 void coff_open_module(void)
 {
     CoffConfiguration *configuration;
@@ -83,6 +94,43 @@ void __fastcall coff_write_directive(char *prefix, char *text, int quote)
 }
 
 #include "coff-writer.h"
+#include "coff-segments.h"
+/* Original [0006ca50,0006cac0). COFF encodes log2(alignment)+1 in the
+   section-characteristics alignment field, starting at bit twenty. */
+unsigned __fastcall coff_alignment_flags(unsigned alignment)
+{
+    switch (alignment) {
+    case 1: return 0x00100000;
+    case 2: return 0x00200000;
+    case 4: return 0x00300000;
+    case 8: return 0x00400000;
+    case 16: return 0x00500000;
+    case 32: return 0x00600000;
+    case 64: return 0x00700000;
+    }
+    compiler_internal_error("@(#)coff.c:1.14", 0x518);
+    return 0;
+}
+/* Original [0006c9a0,0006ca10). Finalize logical-section alignment before
+   closing contributions and writing the COFF directory and symbol table. */
+void coff_finish_module(void)
+{
+    unsigned i, flags;
+    CoffSegmentLink *link;
+    Segment *segment;
+    for (i = 0; i < 16; ++i) {
+        for (link = coff_segment_index[i]; link; link = link->next) {
+            segment = link->segment;
+            flags = coff_alignment_flags(segment->alignment);
+            coff_set_section_flags((unsigned short)segment->object_section, flags);
+            if (segment->symbol.field04) coff_select_segment(segment);
+        }
+    }
+    coff_close_all_sections();
+    coff_finalize();
+    fclose(object_file);
+    object_generation_started = 0;
+}
 /* Original [0006f030,0006f040): the distinct public data-output adapter. */
 void __fastcall coff_write_data(void *data, unsigned bytes)
 {

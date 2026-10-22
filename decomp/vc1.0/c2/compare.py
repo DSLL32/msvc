@@ -53,6 +53,10 @@ def indexes():
         assert previous['end'] <= following['start'], 'overlapping driver extents: %s and %s' % (previous['name'], following['name'])
     assert hashlib.sha256(orig.data).hexdigest() == cfg['target']['sha256'], 'target changed'
     original = json.loads(Path('runtime.json').read_text())
+    for driver in cfg['driver']:
+        for library in original:
+            if driver['start'] == library['start']: continue
+            assert driver['end'] <= library['start'] or library['end'] <= driver['start'], 'driver extent overlaps CRT: %s and %s' % (driver['name'], library['name'])
     original += imports(orig) + cfg['driver']
     reconstructed = json.loads(Path('build/runtime.json').read_text()) + imports(rec)
     names = publics()

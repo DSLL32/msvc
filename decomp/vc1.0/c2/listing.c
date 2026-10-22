@@ -12,6 +12,21 @@ char *assembly_source_filename; /* 0007e1c0 */
 int listing_enabled; /* 0007ca9c */
 unsigned listing_column; /* 00080d40 */
 Segment *listed_segment; /* 0007caa0 */
+/* Original [00028930,000289b0). Successful completion keeps the assembly
+   output and closes any cached source files used by interleaved listings. */
+void finish_globals(void)
+{
+    int i;
+    if (!listing_enabled) return;
+    listed_segment = close_segment_listing(listed_segment);
+    printf("END");
+    listing_column = 0;
+    printf("\n");
+    if (assembly_source) {
+        for (i = 0; i < listing_source_count; ++i) fclose(listing_sources[i].file);
+    }
+    assembly_cleanup_pending = 0;
+}
 /* Original [00027ca0,00027fc0), including nine-way machine-record switch.
    Source interleaving owns cached FILEs; the ordinary listing only prints
    source-line annotations. Both use the same selected logical segment. */

@@ -10,11 +10,54 @@ void (__fastcall *coff_error_handler)(unsigned, char *, unsigned);
 unsigned (__cdecl *coff_clock)(void);
 unsigned char coff_debug;
 CoffVector *coff_sections, *coff_contributions, *coff_symbol_entries;
-unsigned short coff_sections_locked, coff_open_sections;
+unsigned short coff_reserved_sections, coff_open_sections;
 unsigned short coff_no_section, coff_selected_section;
-unsigned coff_symbol_count, coff_writer_phase;
+unsigned coff_data_offset, coff_writer_phase;
 CoffSection *coff_current_section;
 CoffScope *coff_current_scope;
+/* Original [0006ddc0,0006ddd0). */
+unsigned __fastcall coff_vector_count(CoffVector *vector)
+{
+    return vector->count;
+}
+/* Original [0006de90,0006def0). A null result resets the iterator so the
+   next walk starts at the first block again. */
+void *__fastcall coff_vector_next(CoffVector *vector)
+{
+    unsigned slot;
+    if (!vector->iterator_count) {
+        vector->iterator_slot = 0;
+        vector->iterator_block = vector->first;
+    }
+    if (vector->count <= vector->iterator_count) {
+        vector->iterator_count = 0;
+        return NULL;
+    }
+    ++vector->iterator_count;
+    if (vector->capacity <= vector->iterator_slot) {
+        vector->iterator_slot = 0;
+        vector->iterator_block = vector->iterator_block->next;
+    }
+    slot = vector->iterator_slot++;
+    return vector->iterator_block->items[slot];
+}
+/* Original [0006e7f0,0006e830): release every open contribution. */
+void coff_close_all_sections(void)
+{
+    CoffSection *section;
+    while ((section = coff_vector_next(coff_sections)) != NULL) {
+        if (section->state & 2) {
+            section->state &= ~2;
+            --coff_open_sections;
+        }
+    }
+}
+/* Original [0006e7d0,0006e7f0): merge section-characteristics flags. */
+void __fastcall coff_set_section_flags(unsigned short section, unsigned flags)
+{
+    CoffSection *logical = coff_vector_get(coff_sections, section);
+    logical->characteristics |= flags;
+}
 CoffFunctionFixup *coff_function_fixups[32]; /* 00079068..000790e8 */
 /* Original [0006ea20,0006ea70). Resolve and unlink all relocations which
    were seen before their function acquired a COFF symbol-table handle. */
@@ -33,17 +76,17 @@ void __fastcall coff_resolve_function(unsigned identifier, unsigned handle)
 }
 /* Original [0006e930,0006e9b0). COFF's eight-byte inline name or a string
    table offset. The string scope excludes the four-byte size prefix. */
-void __fastcall coff_set_symbol_name(CoffObjectSymbol *symbol, char *name)
+void __fastcall coff_set_symbol_name(CoffName *destination, char *name)
 {
     unsigned length = 0, i;
     CoffScope *saved;
     while (name[length]) ++length;
     if (length <= 8) {
-        strncpy(symbol->name.short_name, name, length);
-        for (i = length; i < 8; ++i) symbol->name.short_name[i] = 0;
+        strncpy(destination->short_name, name, length);
+        for (i = length; i < 8; ++i) destination->short_name[i] = 0;
     } else {
-        symbol->name.long_name.zero = 0;
-        symbol->name.long_name.offset = coff_data_position(coff_current_scope) + 4;
+        destination->long_name.zero = 0;
+        destination->long_name.offset = coff_data_position(coff_current_scope) + 4;
         saved = coff_active_scope;
         coff_active_scope = coff_current_scope;
         coff_write_scope_data(name, length + 1);
@@ -67,7 +110,7 @@ unsigned __fastcall coff_define_symbol(char *name, unsigned short section,
     }
     symbol->auxiliary_count = 0;
     symbol->type = type;
-    coff_set_symbol_name(symbol, name);
+    coff_set_symbol_name(&symbol->name, name);
     entry->kind = 3;
     entry->data.symbol = symbol;
     return coff_vector_append(coff_symbol_entries, entry) - 1;
@@ -101,9 +144,9 @@ int __fastcall coff_initialize(CoffConfiguration *configuration)
     coff_contributions = coff_new_vector(30);
     coff_symbol_entries = coff_new_vector(30);
     coff_record_filename(coff_source_filename);
-    coff_sections_locked = 0;
+    coff_reserved_sections = 0;
     coff_open_sections = 0;
-    coff_symbol_count = 0;
+    coff_data_offset = 0;
     coff_selected_section = coff_no_section;
     coff_current_section = 0;
     coff_writer_phase = 1;
@@ -122,9 +165,9 @@ CoffVector *__fastcall coff_new_vector(unsigned short capacity)
     vector->first = coff_allocator((unsigned)capacity * sizeof(void *) + 8);
     vector->first->items[0] = 0;
     vector->last = vector->first;
-    vector->field0c = 0;
-    vector->field10 = 0;
-    vector->field14 = 0;
+    vector->iterator_count = 0;
+    vector->iterator_slot = 0;
+    vector->iterator_block = NULL;
     return vector;
 }
 
@@ -232,7 +275,7 @@ int __fastcall coff_open_contribution(unsigned short identifier, unsigned flags)
     if (!section) return 0;
     state = section->state;
     if (state & 2) return 0;
-    if ((state & 1) && ((section->characteristics & 0x1000) || coff_sections_locked)) return 0;
+    if ((state & 1) && ((section->characteristics & 0x1000) || coff_reserved_sections)) return 0;
     if (coff_writer_phase == 3 && coff_open_sections >= 1) return 0;
     previous = section->last;
     if (!previous || (previous->flags & 1)) {

@@ -14,9 +14,7 @@
 #include "records.h"
 #include "backend-passes.h"
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
-void compiler_cleanup(void) { __asm int 3 }
 void initialize_debugging(void) { __asm int 3 }
-void finish_globals(void) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
 void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
 void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
@@ -199,7 +197,6 @@ __declspec(naked) void coff_output_bytes(void) { __asm int 3 }
 __declspec(naked) void coff_output_address(void) { __asm int 3 }
 __declspec(naked) void coff_output_offset(void) { __asm int 3 }
 __declspec(naked) void coff_output_size(void) { __asm int 3 }
-__declspec(naked) void coff_finish_module(void) { __asm int 3 }
 __declspec(naked) void coff_output_relocation(void) { __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { __asm int 3 }
@@ -217,7 +214,6 @@ __declspec(naked) void omf_mark_symbol(void) { __asm int 3 }
 void omf_open_module(void) { __asm int 3 }
 void initialize_codeview_output(void) { __asm int 3 }
 #include "coff-output.h"
-unsigned coff_timestamp(void) { __asm int 3 }
 void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm int 3 }
 #include "coff-writer.h"
 void __fastcall coff_write_comment(char *text) { __asm int 3 }
@@ -228,7 +224,7 @@ unsigned short __fastcall coff_create_comdat_section(char *name, unsigned flags,
     unsigned char selection, unsigned short associated, int definition) { __asm int 3 }
 #include "listing.h"
 Segment *__fastcall write_segment_listing(Segment *segment, int definition) { __asm int 3 }
-int __fastcall close_segment_listing(Segment *segment) { __asm int 3 }
+Segment *__fastcall close_segment_listing(Segment *segment) { __asm int 3 }
 char *__fastcall listing_segment_name(Segment *segment) { __asm int 3 }
 #include "machine.h"
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
@@ -246,7 +242,6 @@ void __fastcall emit_initializer(Initializer *initializer) { __asm int 3 }
 void __fastcall write_initializer_assembly(Initializer *initializer) { __asm int 3 }
 #include "frame.h"
 
-long ftell(FILE *stream) { __asm int 3 }
 
 MachineOperand *__fastcall duplicate_operand(MachineOperand *operand) { __asm int 3 }
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
@@ -349,3 +344,5 @@ void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
     unsigned bytes, unsigned offset) { __asm int 3 }
 void __fastcall coff_line_marker(unsigned short marker) { __asm int 3 }
 void __fastcall coff_end_lines(unsigned short line, unsigned offset) { __asm int 3 }
+void __fastcall coff_write_relocations(CoffContribution *contribution, unsigned base) { __asm int 3 }
+void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
