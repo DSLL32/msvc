@@ -144,9 +144,6 @@ void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm i
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
-void __fastcall peephole_machine_34520(MachineContext *context) { __asm int 3 }
-void __fastcall peephole_machine_34910(MachineContext *context) { __asm int 3 }
-void __fastcall peephole_machine_349e0(MachineContext *context) { __asm int 3 }
 void __fastcall schedule_machine_instructions(int first) { __asm int 3 }
 void finish_machine_schedule(void) { __asm int 3 }
 void __fastcall split_machine_instructions(MachineContext *context) { __asm int 3 }

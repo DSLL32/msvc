@@ -1590,3 +1590,29 @@ Verified accepted original code-extent union175167/399693 bytes (43.8254 percent
 includes clipped source/shared text/CRT/imports and actual-mask cross-check;
 this is not branch coverage. Next matching frontier is peephole_machine_34520
 at34520. Optimized hello remains incomplete; see cases/hello-jump-threading-abi.json.
+
+
+Late branch factoring and adjacent peepholes (663 accepted frontiers)
+-------------------------------------------------------------------
+Three whole functions recover321-instruction common branch-code factoring,
+74-instruction unreachable cleanup and227-instruction adjacent-operation
+peepholes. Their meaningful names describe shared tails/prefixes, deletion
+between transfers and reachable labels, and CALL/RET/arithmetic/stack restore
+simplification. The complete native graphs and inline label-chain updates are
+preserved. Existing canonical frame-size and dynamic-stack state are reused;
+no new globals, image tables or assembly are introduced. Fresh-label factoring
+and LEAVE expansion keep named trapping children and are not claimed exercised.
+
+The first function now reaches instruction scheduling. An independent entry
+capture matches206 normalized lines/87 records with exact operands, links and
+block sets, after the three passes and existing analysis. This verifies their
+combined live result; record-count changes are not assigned to unobserved
+individual branches. See cases/hello-late-peepholes-abi.json. Optimized hello
+remains incomplete at schedule_machine_instructions3f240.
+
+All352 minimal and311 hello frontiers replay,586 source graphs and663 accepted
+instruction boundaries pass. jump-threading and late-peepholes compile /W3
+clean. Minimal object/streams/exit match except only timestamp4..7. Verified
+accepted original code-extent union177183/399693 bytes (44.3298 percent) includes
+clipped source/shared text/CRT/imports and actual-mask verification; it is not
+branch coverage.

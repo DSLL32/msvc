@@ -664,7 +664,10 @@
     "@previous_machine_operation@4",
     "@label_has_fallthrough_predecessor@4",
     "@fits_signed_byte@4",
-    "@clone_machine_record@4"
+    "@clone_machine_record@4",
+    "@factor_machine_branch_code@4",
+    "@remove_unreachable_machine_code@4",
+    "@simplify_machine_pairs@4"
   ],
   "driver": [
     {
@@ -1298,22 +1301,19 @@
       "end": 211056
     },
     {
-      "name": "@peephole_machine_34520@4",
+      "name": "@factor_machine_branch_code@4",
       "start": 214304,
-      "end": 214305,
-      "provisional": true
+      "end": 215312
     },
     {
-      "name": "@peephole_machine_34910@4",
+      "name": "@remove_unreachable_machine_code@4",
       "start": 215312,
-      "end": 215313,
-      "provisional": true
+      "end": 215520
     },
     {
-      "name": "@peephole_machine_349e0@4",
+      "name": "@simplify_machine_pairs@4",
       "start": 215520,
-      "end": 215521,
-      "provisional": true
+      "end": 216320
     },
     {
       "name": "@schedule_machine_instructions@4",

@@ -49,10 +49,10 @@ void emit_backend_work(void)
             scan_machine_context(machine_context);
             optimize_branch_comparisons(machine_context);
             optimize_unconditional_jumps(machine_context);
-            peephole_machine_34520(machine_context);
-            peephole_machine_34910(machine_context);
+            factor_machine_branch_code(machine_context);
+            remove_unreachable_machine_code(machine_context);
             compact_machine_context(machine_context);
-            peephole_machine_349e0(machine_context);
+            simplify_machine_pairs(machine_context);
             if (optimization_schedule) {
                 analyze_machine_instructions(machine_instructions, 0);
                 if (optimization_schedule_model) {

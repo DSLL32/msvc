@@ -185,3 +185,173 @@ unsigned __fastcall label_has_fallthrough_predecessor(MachineInstruction *instru
     compiler_internal_error("@(#)pgoMD.c:1.49", 0x4a8);
     return 1;
 }
+
+/* Original [00034520,00034910). Share equal instruction tails before a
+   JMP, and hoist equal flag-preserving prefixes across a conditional jump. */
+void __fastcall factor_machine_branch_code(MachineContext *context)
+{
+    MachineInstruction *branch, *label, *left, *right, *before, *scan, *next;
+    MachineInstruction *new_record, *destination;
+    LabelSymbol *symbol, *new_label;
+    unsigned kind, operation;
+    int matched;
+    for (branch = context->next; branch; branch = branch->next) {
+        kind = branch->opcode & 15;
+        operation = (branch->opcode >> 8) & 255;
+        if (kind == 0 && operation == MC_JMP &&
+            (branch->operands[0].flags & 15) == OPERAND_SYMBOL &&
+            branch->operands[0].value.symbol->kind == 3 && !machine_block_protected(branch)) {
+            label = label_machine_instruction((LabelSymbol *)branch->operands[0].value.symbol);
+            if (machine_block_protected(label)) continue;
+            matched = 0;
+            left = branch->previous;
+            right = label->previous;
+            for (;;) {
+                kind = left->opcode & 15;
+                if (kind == 4 || kind == 7 || kind == 5 ||
+                    (kind == 1 && !machine_block_protected(left))) {
+                    if (kind == 1) {
+                        if (left == label) break;
+                        before = left->previous;
+                        before->next = left->next;
+                        left->next->previous = before;
+                        insert_machine_after(right, left);
+                        left = before;
+                    } else left = left->previous;
+                    continue;
+                }
+                while ((right->opcode & 15) == 4 || (right->opcode & 15) == 7 ||
+                       (right->opcode & 15) == 5 || (right->opcode & 15) == 1)
+                    right = right->previous;
+                if (right == branch ||
+                    (optimize_speed && (left->opcode & 15) == 0 &&
+                     ((left->opcode >> 8) & 255) == MC_JCC) ||
+                    !machine_records_equal(left, right)) break;
+                ++matched;
+                left = left->previous;
+                right = right->previous;
+            }
+            if (matched > 0 && !machine_block_protected(left) && !machine_block_protected(right)) {
+                --((LabelSymbol *)label->record.symbol)->references;
+                new_label = new_internal_label();
+                new_record = new_machine_record(1, new_label);
+                insert_machine_after(right, new_record);
+                new_record->labels.next = context->labels.next;
+                context->labels.next = new_record;
+                new_label->instruction = new_record;
+                for (scan = left->next; scan != branch; scan = next) {
+                    next = scan->next;
+                    operation = (scan->opcode >> 8) & 255;
+                    if ((scan->opcode & 15) == 0 && (operation == MC_JCC || operation == MC_JMP) &&
+                        (scan->operands[0].flags & 15) == OPERAND_SYMBOL)
+                        --((LabelSymbol *)scan->operands[0].value.symbol)->references;
+                    if ((scan->opcode & 15) == 1)
+                        compiler_internal_error("@(#)pgoMD.c:1.49", 0x768);
+                    remove_machine_instruction(scan);
+                }
+                ++new_label->references;
+                branch->operands[0].value.symbol = &new_label->symbol;
+            }
+        } else if (kind == 0 && operation == MC_JCC &&
+                   (branch->operands[0].flags & 15) == OPERAND_SYMBOL &&
+                   branch->operands[0].value.symbol->kind == 3 && !machine_block_protected(branch)) {
+            label = label_machine_instruction((LabelSymbol *)branch->operands[0].value.symbol);
+            symbol = (LabelSymbol *)label->record.symbol;
+            if (machine_block_protected(label) || symbol->references != 1) continue;
+            before = previous_machine_operation(label);
+            if (label_has_fallthrough_predecessor(label) ||
+                (((before->opcode >> 8) & 255) == MC_JMP &&
+                 (before->operands[0].flags & 15) == OPERAND_SYMBOL &&
+                 before->operands[0].value.symbol == label->record.symbol)) continue;
+            matched = 0;
+            left = branch->next;
+            right = label->next;
+            for (;;) {
+                while ((left->opcode & 15) == 4 || (left->opcode & 15) == 5 ||
+                       ((left->opcode & 15) == 7 && !machine_block_protected(left)))
+                    left = left->next;
+                while ((right->opcode & 15) == 4 || (right->opcode & 15) == 5 ||
+                       ((right->opcode & 15) == 7 && !machine_block_protected(right)))
+                    right = right->next;
+                if (right == branch || !machine_records_equal(left, right) ||
+                    ((left->opcode & 15) == 0 &&
+                     (machine_selection_properties[(left->opcode >> 8) & 255] & MC_WRITES_FLAGS))) break;
+                ++matched;
+                left = left->next;
+                right = right->next;
+            }
+            if (matched > 0) {
+                --symbol->references;
+                if ((right->opcode & 15) == 1) {
+                    new_label = (LabelSymbol *)right->record.symbol;
+                    destination = right;
+                } else {
+                    new_label = new_internal_label();
+                    destination = new_machine_record(1, new_label);
+                    insert_machine_after(right->previous, destination);
+                    destination->labels.next = context->labels.next;
+                    context->labels.next = destination;
+                    new_label->instruction = destination;
+                }
+                ++new_label->references;
+                branch->operands[0].value.symbol = &new_label->symbol;
+                for (scan = label->next; scan != destination; scan = next) {
+                    next = scan->next;
+                    adjust_machine_symbol_references(scan, -1);
+                    remove_machine_instruction(scan);
+                }
+                branch->previous->next = branch->next;
+                branch->next->previous = branch->previous;
+                insert_machine_after(left->previous, branch);
+            }
+        }
+    }
+}
+
+/* Original [00034910,000349e0). Discard records after unconditional
+   transfers until an externally reachable label or the function end.
+   Keep line/block markers and labels even while skipping an unreachable span. */
+void __fastcall remove_unreachable_machine_code(MachineContext *context)
+{
+    MachineInstruction *terminator = find_block_terminator(context);
+    MachineInstruction *scan, *next;
+    LabelSymbol *label;
+    unsigned kind, operand_kind;
+    while (terminator && (terminator->opcode & 15) != 3) {
+        operand_kind = terminator->operands[0].flags & 15;
+        if (((terminator->opcode >> 8) & 255) == MC_JMP &&
+            (operand_kind == 10 || operand_kind == OPERAND_LABEL_ADDRESS)) {
+            next = terminator->next;
+        } else {
+            scan = terminator->next;
+            for (;;) {
+                next = scan->next;
+                kind = scan->opcode & 15;
+                if (kind == 7 || kind == 4) {
+                    scan = next;
+                    continue;
+                }
+                if (kind == 1) {
+                    label = (LabelSymbol *)scan->record.symbol;
+                    if (label->references <= 0 && !(label->label_kind & 4)) {
+                        scan = next;
+                        continue;
+                    }
+                    if (((terminator->opcode >> 8) & 255) == MC_JMP &&
+                        (terminator->operands[0].flags & 15) == OPERAND_SYMBOL &&
+                        terminator->operands[0].value.symbol->kind == 3 &&
+                        scan->record.symbol == terminator->operands[0].value.symbol) {
+                        adjust_machine_symbol_references(terminator, -1);
+                        remove_machine_instruction(terminator);
+                    }
+                    break;
+                }
+                if (kind == 3) break;
+                adjust_machine_symbol_references(scan, -1);
+                remove_machine_instruction(scan);
+                scan = next;
+            }
+        }
+        terminator = find_block_terminator(next);
+    }
+}
