@@ -3689,5 +3689,198 @@
       2228
     ],
     "evidence": "Finite112-entry typed0F opcode table, not a raw section; all handler addresses resolve to named graph vertices."
+  },
+  {
+    "address": 539904,
+    "name": "disassembly_shift_group",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      28,
+      48,
+      68,
+      88,
+      108,
+      128,
+      148
+    ],
+    "evidence": "Actual eight shift/rotate selectors indexed by ModRM.reg for C1."
+  },
+  {
+    "address": 541984,
+    "name": "disassembly_x87_dd_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      48,
+      52,
+      68,
+      72,
+      88,
+      108,
+      128,
+      148,
+      152
+    ],
+    "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
+  },
+  {
+    "address": 541344,
+    "name": "disassembly_x87_d9_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      48,
+      52,
+      68,
+      72,
+      88,
+      108,
+      128,
+      148
+    ],
+    "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
+  },
+  {
+    "address": 531368,
+    "name": "disassembly_x87_d9_register_mnemonics",
+    "size": 128,
+    "owner": "src/disassembler.c",
+    "evidence": "Four actual eight-entry D9 register subopcode lookup rows, selected by ModRM.reg4..7 then ModRM.rm; invalid entries are0."
+  },
+  {
+    "address": 541184,
+    "name": "disassembly_x87_d8_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      32,
+      48,
+      52,
+      68,
+      72,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
+  },
+  {
+    "address": 541824,
+    "name": "disassembly_x87_dc_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      32,
+      48,
+      52,
+      68,
+      72,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
+  },
+  {
+    "address": 541664,
+    "name": "disassembly_x87_db_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      48,
+      52,
+      68,
+      72,
+      88,
+      108,
+      112,
+      128,
+      148,
+      152
+    ],
+    "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
+  },
+  {
+    "address": 531496,
+    "name": "disassembly_x87_db_register_mnemonics",
+    "size": 32,
+    "owner": "src/disassembler.c",
+    "evidence": "Actual eight-entry native DB control-opcode lookup for ModRM.reg4;0 means invalid."
+  },
+  {
+    "address": 542144,
+    "name": "disassembly_x87_de_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      32,
+      48,
+      52,
+      68,
+      72,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
+  },
+  {
+    "address": 542304,
+    "name": "disassembly_x87_df_memory",
+    "size": 160,
+    "owner": "src/opcode-table.c",
+    "function_pointers": [
+      8,
+      12,
+      28,
+      48,
+      52,
+      68,
+      72,
+      88,
+      92,
+      108,
+      112,
+      128,
+      132,
+      148,
+      152
+    ],
+    "evidence": "Actual finite typed opcode descriptors indexed by native selector; all code pointers are named graph vertices."
   }
 ]

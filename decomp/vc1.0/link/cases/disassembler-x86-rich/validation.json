@@ -1,0 +1,1580 @@
+{
+  "status": "complete",
+  "terminal": {
+    "kind": "exit",
+    "code": 0
+  },
+  "accepted_functions": [
+    {
+      "name": "_compare_disassembly_symbols",
+      "start": 307616,
+      "end": 307655,
+      "abi": "cdecl int(const void *,const void *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_sib_address",
+      "start": 307984,
+      "end": 308235,
+      "abi": "cdecl unsigned char *(unsigned char *,unsigned long,DecodedAddress *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_memory_operand",
+      "start": 313872,
+      "end": 313938,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_modrm_byte_register",
+      "start": 317168,
+      "end": 317259,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_modrm_byte_operand",
+      "start": 313168,
+      "end": 313386,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_operand_size_prefix",
+      "start": 309376,
+      "end": 309406,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_ds_prefix",
+      "start": 310688,
+      "end": 310723,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_eax_register",
+      "start": 318896,
+      "end": 318973,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_absolute_memory",
+      "start": 312384,
+      "end": 312503,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_address_size_prefix",
+      "start": 309408,
+      "end": 309438,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_address16",
+      "start": 307664,
+      "end": 307973,
+      "abi": "cdecl unsigned char *(unsigned char *,const unsigned long *,DecodedAddress *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_signed_byte_group",
+      "start": 308896,
+      "end": 308938,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_byte_immediate",
+      "start": 311424,
+      "end": 311468,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_extended_opcode",
+      "start": 308720,
+      "end": 308805,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_immediate",
+      "start": 311520,
+      "end": 311607,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_update_counter_registers",
+      "start": 309648,
+      "end": 309690,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_short_relative",
+      "start": 311888,
+      "end": 312058,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_repe_prefix",
+      "start": 309440,
+      "end": 309466,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_string_byte_destination",
+      "start": 310832,
+      "end": 310924,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_string_byte_source",
+      "start": 311040,
+      "end": 311140,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_repne_prefix",
+      "start": 309472,
+      "end": 309498,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_update_al_register",
+      "start": 309840,
+      "end": 309872,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_fs_prefix",
+      "start": 310736,
+      "end": 310771,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_ecx_register",
+      "start": 319184,
+      "end": 319261,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_eax_destination",
+      "start": 319040,
+      "end": 319097,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_shift_group",
+      "start": 308992,
+      "end": 309034,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_register_and_byte_immediate",
+      "start": 317392,
+      "end": 317451,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_x87_dd",
+      "start": 315616,
+      "end": 315847,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": [
+        [
+          315848,
+          315872
+        ]
+      ]
+    },
+    {
+      "name": "_decode_x87_memory",
+      "start": 316528,
+      "end": 316637,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_size_x87_qword",
+      "start": 316672,
+      "end": 316688,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_x87_d9",
+      "start": 314512,
+      "end": 314823,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": [
+        [
+          314824,
+          314856
+        ]
+      ]
+    },
+    {
+      "name": "_size_x87_dword",
+      "start": 316656,
+      "end": 316672,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_x87_d8",
+      "start": 314048,
+      "end": 314475,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": [
+        [
+          314476,
+          314508
+        ]
+      ]
+    },
+    {
+      "name": "_decode_x87_dc",
+      "start": 315152,
+      "end": 315579,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": [
+        [
+          315580,
+          315612
+        ]
+      ]
+    },
+    {
+      "name": "_decode_x87_db",
+      "start": 315008,
+      "end": 315141,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    },
+    {
+      "name": "_decode_x87_de",
+      "start": 315872,
+      "end": 316164,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": [
+        [
+          316164,
+          316196
+        ]
+      ]
+    },
+    {
+      "name": "_decode_x87_df",
+      "start": 316208,
+      "end": 316527,
+      "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
+      "inline_data": []
+    }
+  ],
+  "coverage": {
+    "frontiers": 701,
+    "accepted_extent_bytes": 203445,
+    "text_bytes": 281634,
+    "percent": 72.2374,
+    "added_functions": 37,
+    "added_extent_bytes": 4714,
+    "not_branch_coverage": true
+  },
+  "validation": {
+    "canonical": "make -j4 audit",
+    "native": "make -j4 native native-trace",
+    "calls": 553,
+    "callbacks": 544,
+    "contextual_data": 422,
+    "instruction_boundaries": 707,
+    "ecx_cleanup": 38,
+    "completed_native_cases": 21,
+    "native_fixture_status": "pass",
+    "app_trace_entries": 527,
+    "active_fixture_enabled": true,
+    "receipt": {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/native21/receipt.json",
+      "sha256": "844ae9ac5b79d1f5f2b0c7d9d7cdd8c3a796108ea2472a790257e979b3031e5f"
+    },
+    "fresh_final": {
+      "original": {
+        "exit": 0,
+        "seconds": 1.4678302612155676
+      },
+      "native": {
+        "exit": 0,
+        "seconds": 0.16470915731042624
+      },
+      "exit": 0,
+      "full_streams_match": true,
+      "reference": "separately captured untouched original"
+    }
+  },
+  "fresh_frontiers": [
+    {
+      "label": "initial",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/initial-time.json",
+      "sha256": "8c763e547777ca9a9944e508f1ccca03740afb45896f7bac88b3dd8469e90733",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.2675926145166159
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1648099897429347
+        },
+        "logical": "_compare_disassembly_symbols",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "comparator-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/comparator-after-time.json",
+      "sha256": "8056ea0d55d3de37a33db080d2b2c80a40c4928e5a250816b354aecff47df418",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.6659965738654137
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16464943159371614
+        },
+        "logical": "_decode_sib_address",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "sib-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/sib-after-time.json",
+      "sha256": "976560b0b96bb6cb74072965329fb4625c9c5acd73425f66ddf727ddfa65e331",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.0674544498324394
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1651633558794856
+        },
+        "logical": "_decode_op_4ca10",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "memory-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/memory-after-time.json",
+      "sha256": "d6d29d1ed0af8769f70f5637c59104e5b70251f24814b201bd8721135502fc50",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4682462336495519
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16492830030620098
+        },
+        "logical": "_decode_op_4d6f0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "byte-register-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/byte-register-after-time.json",
+      "sha256": "b7d6feb0b2fd649fda5666a4309eae5b56e5b468294edf12ae269aaba4d4f408",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.5181047767400742
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1647504111751914
+        },
+        "logical": "_decode_op_4c750",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "byte-operand-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/byte-operand-after-time.json",
+      "sha256": "9007756beeae19feed2fde7f613f672930d1e100731f5e8ed6c2c45521b314e3",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.317684143781662
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1645281594246626
+        },
+        "logical": "_decode_op_4b880",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "operand-prefix-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/operand-prefix-after-time.json",
+      "sha256": "ac3cdba14780c1120c597769b9debe6ec76c40da1ed81adc50317e539f07dd68",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.8168133022263646
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16485186386853456
+        },
+        "logical": "_decode_op_4bda0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "ds-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/ds-after-time.json",
+      "sha256": "072586ae856e0b77fc2f8e972802e1bc9ce126a486aee22b82c4fd0c957d65b6",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.0172721138224006
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.21501153614372015
+        },
+        "logical": "_decode_op_4ddb0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "eax-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/eax-after-time.json",
+      "sha256": "a07d707fa7d34d1f308b419b17ed8dba04d7c8179af91c697df871009f8dbaf3",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.9172260593622923
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16501592844724655
+        },
+        "logical": "_decode_op_4c440",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "absolute-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/absolute-after-time.json",
+      "sha256": "99e3bb0a347233efe0d62ed39201735f55df0c339b41fd974bf9ee51b5399747",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.467992765828967
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1646078946068883
+        },
+        "logical": "_decode_op_4b8a0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "address-prefix-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/address-prefix-after-time.json",
+      "sha256": "68ce1f73714fe5c563ed89cb26f41f2373f110ce784a845a0a1779cb811a8c54",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.6658811224624515
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1645776480436325
+        },
+        "logical": "_decode_address16",
+        "partial_streams_match": true
+      }
+    },
+    {
+      "label": "address16-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/address16-after-time.json",
+      "sha256": "6aa09b927df22607a677546a873bbd51d5900cd7b6959e2230394c569a85594d",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.1177009278908372
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1649812050163746
+        },
+        "logical": "_decode_op_4b6a0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "group83-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/group83-after-time.json",
+      "sha256": "a49dc73da0f75a632241da3aedff7d9d4cac28a478c32211b459c318d285807f",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.716035439632833
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1648491993546486
+        },
+        "logical": "_decode_op_4c080",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "byte-immediate-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/byte-immediate-after-time.json",
+      "sha256": "245c5a74f5fdf365681f7d4ef56a70238e0594e6bafbb7c26629b20d591ed09a",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.8163810260593891
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16543489694595337
+        },
+        "logical": "_decode_op_4b5f0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "extended-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/extended-after-time.json",
+      "sha256": "c873e7d0cbbc7b3cc1d288ea6d8410ad4c724bcafd3b316d4a05168f51cf2c12",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.2674932898953557
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16516575496643782
+        },
+        "logical": "_decode_op_4c0e0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "immediate-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/immediate-after-time.json",
+      "sha256": "ae2cb366b0f54e2c616d3644c2d071c607ac6756473b1b6f4c9333b7fdc051cd",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.815976720303297
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16462478414177895
+        },
+        "logical": "_decode_op_4b990",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "counter-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/counter-after-time.json",
+      "sha256": "cf492e3bf440be8e2dfc8c0851d35e5a9fe4f09c42b781fbd4915ae4999b195a",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.9672115761786699
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1649818131700158
+        },
+        "logical": "_decode_op_4c250",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "short-relative-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/short-relative-after-time.json",
+      "sha256": "de9fab103557b5047ce1701c85367daaf7edd3b40a996c3cbea2227fb0cf981a",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3172031957656145
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16498388722538948
+        },
+        "logical": "_decode_op_4b8c0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "repe-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/repe-after-time.json",
+      "sha256": "bef03d531484e91a6520e9a56549c58812ec264d896baaf0e02352d5dd45e483",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4681775020435452
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16572911012917757
+        },
+        "logical": "_decode_op_4be30",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "string-destination-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/string-destination-after-time.json",
+      "sha256": "3acecfb38a9ccb1e5feb8357fd21b30633d2038ba97d5669788aba30a6924839",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.0169022399932146
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16465646028518677
+        },
+        "logical": "_decode_op_4bf00",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "string-source-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/string-source-after-time.json",
+      "sha256": "28e075f79fce61db51ea56cf4c9e49c511a3e20ae7133bfa88f1ecac13beb393",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3177868872880936
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1650593364611268
+        },
+        "logical": "_decode_op_4b8e0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "repne-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/repne-after-time.json",
+      "sha256": "f61d667df4395f57ce9737153101e13b6de1e987506e631f3243bf932b73dffd",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.7159482501447201
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16459078900516033
+        },
+        "logical": "_decode_op_4ba50",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "al-effect-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/al-effect-after-time.json",
+      "sha256": "365e018fd8b56a56a244594bb94d67fe0dc2934160d79ff831ca05c8312b246a",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.0168601218611002
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.164961451664567
+        },
+        "logical": "_decode_op_4bdd0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "fs-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/fs-after-time.json",
+      "sha256": "a3ca681bbdc723a925258da64ddb83eb64705c809984f94300993a16f150d21d",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3175739012658596
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16473244037479162
+        },
+        "logical": "_decode_op_4ded0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "ecx-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/ecx-after-time.json",
+      "sha256": "2d22311fe245fc987c4865504817db6cb03d927b2cafe34b534acc8a5df649c9",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3686538115143776
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16517089866101742
+        },
+        "logical": "_decode_op_4de40",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "eax-destination-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/eax-destination-after-time.json",
+      "sha256": "f6658912ffd14f111ac75d3374c14476ca7c9a53b2894f9bd797b001b1ce107c",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.419777274131775
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16655622143298388
+        },
+        "logical": "_decode_op_4b700",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "shift-group-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/shift-group-after-time.json",
+      "sha256": "cd03d536c5ca5c9e41ed70d8e97c4342cc8b3f87a18aedcb38e635f0cbfe1c07",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.317797756753862
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16500928718596697
+        },
+        "logical": "_decode_op_4d7d0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "register-immediate-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/register-immediate-after-time.json",
+      "sha256": "abf757c05b130f0e50ffe74c30ada6b3fc778a0771123ec7bb0dd22429ec9971",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3187645385041833
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16499476600438356
+        },
+        "logical": "_decode_op_4d0e0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "dd-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/dd-after-time.json",
+      "sha256": "e14eb2bf15c0c08812c64eabf52b79f9b20ced8ff1c6202f1e8bc924c6712e45",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.6659698588773608
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16462800186127424
+        },
+        "logical": "_decode_op_4d470",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "x87-memory-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/x87-memory-after-time.json",
+      "sha256": "c3f35f5e7953943368c12e8b3178167913beed835184d60a9aee09449948b311",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.3677299655973911
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16475973837077618
+        },
+        "logical": "_decode_op_4d500",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "x87-qword-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/x87-qword-after-time.json",
+      "sha256": "758906b273de7eecfdbbfed6fbb12de1cbc2a3638ee1221b44cbc49fa3ea3dbb",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.1169537119567394
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.1651398204267025
+        },
+        "logical": "_decode_op_4cc90",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "d9-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/d9-after-time.json",
+      "sha256": "a18c6897729312f59b8abd8492de33aff7b6b8c38abeeed5ec5278404c1f0054",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.2188135469332337
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16674251947551966
+        },
+        "logical": "_decode_op_4d4f0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "x87-dword-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/x87-dword-after-time.json",
+      "sha256": "5875b4fbaf61a0aec3b33dcf297a41925eca8dcc65731599ded064f87f10cc55",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4180097375065088
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16494187898933887
+        },
+        "logical": "_decode_op_4cac0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "d8-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/d8-after-time.json",
+      "sha256": "039db56c5f85df7b35fa649ec006e6ab79989b8dba40652ea2a9e19123b512c6",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.067320665344596
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16504232957959175
+        },
+        "logical": "_decode_op_4cf10",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "dc-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/dc-after-time.json",
+      "sha256": "f8f337e9994c89d8b71dd3906ad0283f8c6b71617d0c15095bfdb8c58d32d608",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.267563289962709
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16470204386860132
+        },
+        "logical": "_decode_op_4ce80",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 16
+      }
+    },
+    {
+      "label": "db-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/db-after-time.json",
+      "sha256": "c07d9e0e88ccfa59df65f784391761f0a9d81a438060116263c05587f7f35499",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4176837103441358
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16504863929003477
+        },
+        "logical": "_decode_op_4d1e0",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 12
+      }
+    },
+    {
+      "label": "de-after",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/de-after-time.json",
+      "sha256": "9aeaef3e562233b3b27121fcc10baf5bb00311e2d37e30235d7a504a704f210d",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 0.9671293031424284
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16484512761235237
+        },
+        "logical": "_decode_op_4d330",
+        "partial_streams_match": true,
+        "state_scalar_words_match": 54,
+        "pointer_fields": "ModRM nullness/delta and bytes nullness/pointed contents",
+        "instruction_bytes_match": 10
+      }
+    },
+    {
+      "label": "complete",
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/complete-time.json",
+      "sha256": "2ca3ae9e086915cf18335de9660e974d9017b3caf46a90ce7d398b43b8f7e082",
+      "results": {
+        "original": {
+          "exit": 0,
+          "seconds": 1.4678302612155676
+        },
+        "native": {
+          "exit": 0,
+          "seconds": 0.16470915731042624
+        },
+        "exit": 0,
+        "full_streams_match": true,
+        "reference": "separately captured untouched original"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/capture.c",
+      "sha256": "5b64bf36feeac19da1bc9781d0cc20e59c019b29304890f1024059e27583262a"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/capture.exe",
+      "sha256": "8e1b62f0974e6d2a7c4c57be057f2f31e576fa93cc711837e072b6610f65d885"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/input-compile-rejected.stdout",
+      "sha256": "380643bfa0aa7cb6082bf42e14cb1dcd8cec273a65ca92f0610a6ba87e5e2c81"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/input-compile-time.json",
+      "sha256": "d6310c9ca6e9ef745b6cf9de50cd519fa092e2183f15e0e6fff26c3c9c3470ef"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/original-reference-time.json",
+      "sha256": "b5bb15284749525ac830d3a7c69a8a36a75ecd6230c44c044deaf52f5313ecfe"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/original-reference.stdout",
+      "sha256": "ace460037975a95e5ab60569f87e70c0f308be9739534ade31405044280f7be5"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/original-reference.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/first-batch-audit.log",
+      "sha256": "56c132f902b2618b9fb67cc99b3506d23424ea1ffb4933792ca8d62399cb3443"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/second-batch-audit.log",
+      "sha256": "12b387af95ee1913e90b7324101c3f9c71c5fd5f93dba8077d23c29ca4ca78f3"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/third-batch-audit.log",
+      "sha256": "ce95300c1f48648bcadb5146a0fdccd6835983434ed3951346aca6a2dd2d2c30"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/third-batch-build-time.json",
+      "sha256": "9a5d17095269498595b8ff33238950d4519fdfeef17ee1bddc0d386365cc9a04"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/checkpoint-coverage.json",
+      "sha256": "f80a4c693cb6dc957d33e115530b49bd8198c048025c4a3513542422b1248cbc"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/fourth-batch-audit.log",
+      "sha256": "81dcd8fdebfefb3bbf21f275b46b686399c93c3f7ca65a9c060387e9e7094a57"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/fourth-batch-audit-time.json",
+      "sha256": "e31bac0e6b043b3bd5ece08ec7db4fccfd96c6eba1d2c3539a43a7cf669d18f5"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/fifth-batch-audit.log",
+      "sha256": "00c2d03604de2e9c05b96a424dfee03c7a858672494a587e3973bf40b86ca487"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/fifth-batch-audit-time.json",
+      "sha256": "f7c8f62b44e04398b73a894a17ca0ae6aa15a5fb08d5b28242fca1cd565872cc"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/final-canonical-build-audit.log",
+      "sha256": "dfa013cf419f8fe3c56d39470c84ff1dfa233fcd93956acaa23ec8cf3eb4b4b0"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/final-build-time.json",
+      "sha256": "068b759de8286d5965b7434b2d639de4b31bc81558f9705260fb97c970f653dc"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/final-coverage.json",
+      "sha256": "7f4625d6f0da7a6129c5fde0f44b144983494f98aab5d6d3d55ac6523053a4d7"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/final-components.json",
+      "sha256": "3a3b60e68f5395ce1305df2f19ca0ce6f4549da74ae49ba77c6eb323faf4ab1f"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/complete-native.log",
+      "sha256": "c3931096e7cde06f7319a203c0072b9daee1007386dea3d1b13bda8d7999b997"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/complete-original.state",
+      "sha256": "5e0e6077065598e0b3b20a5d8bda3cf3d641ee1039780467e49abeed04b6903c"
+    }
+  ],
+  "scope": "Only reached functions accepted; complete original output frozen before reconstruction. Typed full indexed tables include named trapping targets for all other valid indexes. No dynamic coverage claimed for unused table branches.",
+  "previous_checkpoints": [
+    {
+      "coverage": {
+        "frontiers": 678,
+        "accepted_extent_bytes": 200167,
+        "text_bytes": 281634,
+        "percent": 71.0734
+      },
+      "validation": {
+        "canonical": "make -j4 audit",
+        "calls": 530,
+        "callbacks": 521,
+        "contextual_data": 412,
+        "instruction_boundaries": 684,
+        "ecx_cleanup": 38,
+        "completed_native_cases": 20,
+        "native_fixture_status": "pass",
+        "app_trace_entries": 490,
+        "active_fixture_not_yet_enabled": true,
+        "case_loop_seconds": 1.096228027716279,
+        "external_checkpoint_suite_seconds": "unmeasured",
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/native20-checkpoint/receipt.json",
+          "sha256": "4fa79f51fead078e2e7bd57e8e6af354152058a53bf55f4c59463dd6512c19f5"
+        }
+      }
+    },
+    {
+      "coverage": {
+        "frontiers": 684,
+        "accepted_extent_bytes": 200684,
+        "text_bytes": 281634,
+        "percent": 71.257
+      },
+      "validation": {
+        "canonical": "make -j4 audit",
+        "calls": 536,
+        "callbacks": 527,
+        "contextual_data": 412,
+        "instruction_boundaries": 690,
+        "ecx_cleanup": 38,
+        "completed_native_cases": 20,
+        "native_fixture_status": "pass",
+        "app_trace_entries": 490,
+        "active_fixture_not_yet_enabled": true,
+        "case_loop_seconds": 1.0865567177534103,
+        "trace_prepare_seconds": 0.08912669401615858,
+        "timing": {
+          "third-batch-audit": {
+            "seconds": 31.5175960091874,
+            "exit": 0
+          },
+          "third-batch-native-trace-build": {
+            "seconds": 3.9911755388602614,
+            "exit": 0
+          },
+          "native20-second-checkpoint": {
+            "seconds": 1.2589719593524933,
+            "exit": 0
+          }
+        },
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/native20-second-checkpoint/receipt.json",
+          "sha256": "6e73b63bf13827af71338a4536163f1fb1f78d69b3f9894b7d59702a39a9d8a7"
+        }
+      }
+    }
+  ],
+  "timing": {
+    "sample": "single final suite, no builds included in fixture time",
+    "build_and_suite_external": {
+      "final-canonical-build-audit": {
+        "seconds": 31.886050243861973,
+        "exit": 0
+      },
+      "final-native-build": {
+        "seconds": 3.936498001217842,
+        "exit": 0
+      },
+      "native21": {
+        "seconds": 1.3734039478003979,
+        "exit": 0
+      }
+    },
+    "trace_prepare_seconds": 0.09800888504832983,
+    "case_loop_seconds": 1.187981277704239,
+    "summed": {
+      "setup_seconds": 0.302922778762877,
+      "execution_seconds": 0.18961202818900347,
+      "oracle_seconds": 0.6806283267214894,
+      "trace_check_seconds": 0.003075920045375824
+    },
+    "cases": [
+      {
+        "case": "help",
+        "status": "pass",
+        "trace_entries": 20,
+        "setup_seconds": 0.0014648130163550377,
+        "execution_seconds": 0.0039041098207235336,
+        "oracle_seconds": 0.00027374643832445145,
+        "trace_check_seconds": 0.00015324074774980545,
+        "total_seconds": 0.006189076229929924
+      },
+      {
+        "case": "dump-disasm-x86-rich",
+        "status": "pass",
+        "trace_entries": 37,
+        "setup_seconds": 0.0028055571019649506,
+        "execution_seconds": 0.005441740155220032,
+        "oracle_seconds": 0.0002888580784201622,
+        "trace_check_seconds": 0.00023235566914081573,
+        "total_seconds": 0.009666976518929005
+      },
+      {
+        "case": "dump-disasm-code",
+        "status": "pass",
+        "trace_entries": 23,
+        "setup_seconds": 0.003905852325260639,
+        "execution_seconds": 0.004875708371400833,
+        "oracle_seconds": 0.00030639395117759705,
+        "trace_check_seconds": 0.00024413038045167923,
+        "total_seconds": 0.009858266450464725
+      },
+      {
+        "case": "dump-disasm-data",
+        "status": "pass",
+        "trace_entries": 1,
+        "setup_seconds": 0.0034322692081332207,
+        "execution_seconds": 0.0035595372319221497,
+        "oracle_seconds": 0.0003033662214875221,
+        "trace_check_seconds": 0.0002111326903104782,
+        "total_seconds": 0.008017655462026596
+      },
+      {
+        "case": "library-create",
+        "status": "pass",
+        "trace_entries": 13,
+        "setup_seconds": 0.01829044707119465,
+        "execution_seconds": 0.004406287334859371,
+        "oracle_seconds": 0.0017959652468562126,
+        "trace_check_seconds": 0.00010770093649625778,
+        "total_seconds": 0.02504707407206297
+      },
+      {
+        "case": "library-list",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.015342052094638348,
+        "execution_seconds": 0.00293944776058197,
+        "oracle_seconds": 0.0012101475149393082,
+        "trace_check_seconds": 0.00011521950364112854,
+        "total_seconds": 0.019993692636489868
+      },
+      {
+        "case": "library-extract",
+        "status": "pass",
+        "trace_entries": 1,
+        "setup_seconds": 0.013932069763541222,
+        "execution_seconds": 0.0030271047726273537,
+        "oracle_seconds": 0.0013735126703977585,
+        "trace_check_seconds": 0.00012285728007555008,
+        "total_seconds": 0.018866710364818573
+      },
+      {
+        "case": "library-remove",
+        "status": "pass",
+        "trace_entries": 1,
+        "setup_seconds": 0.012935901992022991,
+        "execution_seconds": 0.0031396253034472466,
+        "oracle_seconds": 0.001325930468738079,
+        "trace_check_seconds": 9.470898658037186e-05,
+        "total_seconds": 0.017824598588049412
+      },
+      {
+        "case": "library-list-trimmed",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.011687523685395718,
+        "execution_seconds": 0.0027953730896115303,
+        "oracle_seconds": 0.0009683817625045776,
+        "trace_check_seconds": 8.146185427904129e-05,
+        "total_seconds": 0.015852530486881733
+      },
+      {
+        "case": "dump-library",
+        "status": "pass",
+        "trace_entries": 15,
+        "setup_seconds": 0.011298843659460545,
+        "execution_seconds": 0.0038811620324850082,
+        "oracle_seconds": 0.0010457169264554977,
+        "trace_check_seconds": 9.754206985235214e-05,
+        "total_seconds": 0.016809388995170593
+      },
+      {
+        "case": "dump-object",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.011289727874100208,
+        "execution_seconds": 0.0031869150698184967,
+        "oracle_seconds": 0.000990583561360836,
+        "trace_check_seconds": 7.785670459270477e-05,
+        "total_seconds": 0.015878540463745594
+      },
+      {
+        "case": "dump-dll",
+        "status": "pass",
+        "trace_entries": 4,
+        "setup_seconds": 0.01161960233002901,
+        "execution_seconds": 0.012222089804708958,
+        "oracle_seconds": 0.001494385302066803,
+        "trace_check_seconds": 9.500980377197266e-05,
+        "total_seconds": 0.026392366737127304
+      },
+      {
+        "case": "dump-edited",
+        "status": "pass",
+        "trace_entries": 0,
+        "setup_seconds": 0.011507367715239525,
+        "execution_seconds": 0.00302742887288332,
+        "oracle_seconds": 0.0009687114506959915,
+        "trace_check_seconds": 7.65891745686531e-05,
+        "total_seconds": 0.015882338397204876
+      },
+      {
+        "case": "edit",
+        "status": "pass",
+        "trace_entries": 9,
+        "setup_seconds": 0.012475764378905296,
+        "execution_seconds": 0.004077093675732613,
+        "oracle_seconds": 0.0022767474874854088,
+        "trace_check_seconds": 9.855907410383224e-05,
+        "total_seconds": 0.019246704876422882
+      },
+      {
+        "case": "omf-library",
+        "status": "pass",
+        "trace_entries": 41,
+        "setup_seconds": 0.001874181441962719,
+        "execution_seconds": 0.0038698744028806686,
+        "oracle_seconds": 0.00046170037239789963,
+        "trace_check_seconds": 0.00010277330875396729,
+        "total_seconds": 0.006638116203248501
+      },
+      {
+        "case": "omf-link",
+        "status": "pass",
+        "trace_entries": 2,
+        "setup_seconds": 0.002118517644703388,
+        "execution_seconds": 0.006781544536352158,
+        "oracle_seconds": 0.0005103908479213715,
+        "trace_check_seconds": 9.210221469402313e-05,
+        "total_seconds": 0.009821996092796326
+      },
+      {
+        "case": "cpp-undecorate",
+        "status": "pass",
+        "trace_entries": 64,
+        "setup_seconds": 0.0018217377364635468,
+        "execution_seconds": 0.006169123575091362,
+        "oracle_seconds": 0.00020892545580863953,
+        "trace_check_seconds": 0.00014651846140623093,
+        "total_seconds": 0.008779692463576794
+      },
+      {
+        "case": "minimal-c",
+        "status": "pass",
+        "trace_entries": 195,
+        "setup_seconds": 0.014974424615502357,
+        "execution_seconds": 0.00794131588190794,
+        "oracle_seconds": 0.05063497368246317,
+        "trace_check_seconds": 0.00018295086920261383,
+        "total_seconds": 0.07409544847905636
+      },
+      {
+        "case": "hello-win32",
+        "status": "pass",
+        "trace_entries": 3,
+        "setup_seconds": 0.019720759242773056,
+        "execution_seconds": 0.009567584842443466,
+        "oracle_seconds": 0.04925583302974701,
+        "trace_check_seconds": 0.00010311044752597809,
+        "total_seconds": 0.0790212033316493
+      },
+      {
+        "case": "hello-dll",
+        "status": "pass",
+        "trace_entries": 38,
+        "setup_seconds": 0.04167311266064644,
+        "execution_seconds": 0.013634653761982918,
+        "oracle_seconds": 0.23671424016356468,
+        "trace_check_seconds": 0.00029687024652957916,
+        "total_seconds": 0.2929356563836336
+      },
+      {
+        "case": "hello-debug-dll",
+        "status": "pass",
+        "trace_entries": 60,
+        "setup_seconds": 0.07875225320458412,
+        "execution_seconds": 0.08116430789232254,
+        "oracle_seconds": 0.32821981608867645,
+        "trace_check_seconds": 0.00034322962164878845,
+        "total_seconds": 0.4892993187531829
+      }
+    ],
+    "capture_and_input_preparation": {
+      "input-compile-rejected-time": {
+        "arguments": [
+          "wine",
+          "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/FoZ:\\root\\.ai-tmp\\vc1.0-link\\rich-disassembler\\x86-rich.obj",
+          "Z:\\root\\msvc2\\decomp\\vc1.0\\link\\cases\\disassembler-x86-rich\\src\\x86-rich.c"
+        ],
+        "exit": 2,
+        "seconds": 1.515543163754046
+      },
+      "input-compile-time": {
+        "arguments": [
+          "wine",
+          "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/FoZ:\\root\\.ai-tmp\\vc1.0-link\\rich-disassembler\\x86-rich.obj",
+          "Z:\\root\\msvc2\\decomp\\vc1.0\\link\\cases\\disassembler-x86-rich\\src\\x86-rich.c"
+        ],
+        "exit": 0,
+        "seconds": 1.2360928803682327
+      },
+      "capture-build-time": {
+        "exit": 0,
+        "seconds": 2.155553628690541,
+        "arguments": [
+          "wine",
+          "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CL.EXE",
+          "/nologo",
+          "/Od",
+          "/G3",
+          "/FeZ:\\root\\.ai-tmp\\vc1.0-link\\rich-disassembler\\capture.exe",
+          "/FoZ:\\root\\.ai-tmp\\vc1.0-link\\rich-disassembler\\capture.obj",
+          "Z:\\root\\.ai-tmp\\vc1.0-link\\rich-disassembler\\capture.c"
+        ]
+      },
+      "original-reference-time": {
+        "exit": 0,
+        "seconds": 1.476396407932043,
+        "environment": {
+          "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+        },
+        "unset": [
+          "CL",
+          "_CL_",
+          "LINK",
+          "_LINK_",
+          "MSC_CMD_FLAGS",
+          "LINK32_DB"
+        ]
+      }
+    },
+    "other_batches": "Fresh frontier timings below; first/second canonical audit and individual native per-function build durations unmeasured; later audited batches have separate evidence timings. No aggregate total is invented."
+  },
+  "body_accounting": {
+    "method": "The old Ghidra inventory remains partial. The disassembler CFG supplement resolves all internal jumps, follows both conditional edges and call fallthrough, and proves its skipped extent bytes are the original alignment templates. This is static instruction accounting, not dynamic branch coverage.",
+    "supplement": "body-inventory.json",
+    "supplement_sha256": "73801651d08701146f902a080a62742f90042d45dfcf9ee03eab8ca1b57bcf61",
+    "accepted_known_target_instruction_union": 137326,
+    "accepted_known_crt_body_bytes": 26904,
+    "accepted_import_thunk_bytes": 192,
+    "remaining_accepted_extent_bytes_unclassified": 39023,
+    "no_complete_target_body_denominator_or_padding_total_claimed": true,
+    "old_inventory_report": {
+      "path": "/root/.ai-tmp/vc1.0-link/rich-disassembler/final-components.json",
+      "sha256": "3a3b60e68f5395ce1305df2f19ca0ce6f4549da74ae49ba77c6eb323faf4ab1f",
+      "components": [
+        {
+          "name": "known target-body inventory",
+          "total_bytes": 168045,
+          "accepted_bytes": 131627,
+          "remaining_bytes": 36418
+        },
+        {
+          "name": "known CRT-body inventory",
+          "total_bytes": 37088,
+          "accepted_bytes": 26904,
+          "remaining_bytes": 10184
+        },
+        {
+          "name": "IAT import thunk bodies",
+          "total_bytes": 348,
+          "accepted_bytes": 192,
+          "remaining_bytes": 156
+        },
+        {
+          "name": "unclassified: uninventoried bodies, inline data and padding",
+          "total_bytes": 76153,
+          "accepted_bytes": 44722,
+          "remaining_bytes": 31431
+        }
+      ]
+    }
+  },
+  "experience": "Native i386 GDB kept meaningful symbols and the224-byte typed decoder state accessible at every new entry;54 scalar words plus pointer nullness/relative ModRM cursor and actual bytes matched where the original diagnostic could sample the state. Full output exposed and preserved native decoder quirks rather than replacing them with architectural expectations. No shared shim change was required. Canonical Win32 compilation and graph/data/extent/ABI audits remain separate explicit diagnostics. Unexercised lookup targets retain named INT3 stubs."
+}

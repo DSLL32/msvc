@@ -655,3 +655,313 @@ unsigned char *decode_string_byte_source(unsigned char *data,int operand,
     state->registers_read|=register_masks[reg];
     return data;
 }
+
+/* Original [0004b8e0,0004b8fa). */
+unsigned char *decode_repne_prefix(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->prefix=DIS_PREFIX_REPNZ;
+    return decode_opcode(data,state);
+}
+
+/* Original [0004ba50,0004ba70). */
+unsigned char *update_al_register(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_AL];
+    else state->registers_read|=register_masks[DIS_REG_AL];
+    return data;
+}
+
+/* Original [0004bdd0,0004bdf3). */
+unsigned char *decode_fs_prefix(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->segment=DIS_REG_FS;
+    state->registers_read|=register_masks[DIS_REG_ES];
+    return decode_opcode(data,state);
+}
+
+/* Original [0004ded0,0004df1d). */
+unsigned char *decode_ecx_register(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_ECX:DIS_REG_CX;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    if (operand==1) state->registers_written|=register_masks[reg];
+    else state->registers_read|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004de40,0004de79). */
+unsigned char *decode_eax_destination(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long reg=state->operand32?DIS_REG_EAX:DIS_REG_AX;
+    DisassemblyOperand *result=&state->operands[operand-1];
+    result->kind=2;
+    result->address.base=reg;
+    state->registers_written|=register_masks[reg];
+    return data;
+}
+
+/* Original [0004b700,0004b72a). */
+unsigned char *decode_shift_group(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    return apply_opcode(data,&disassembly_shift_group[(*data&0x38)>>3],state);
+}
+
+/* Original [0004d7d0,0004d80b). */
+unsigned char *decode_register_and_byte_immediate(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *immediate=&state->operands[2];
+    decode_modrm_register(data,operand,state);
+    immediate->kind=3;
+    immediate->address.value_bytes=1;
+    *(unsigned char *)&immediate->address.value=*data;
+    return data+1;
+}
+
+enum X87RegisterMnemonic {
+    X87_FFREE=58, X87_FXCH=116, X87_FST=94, X87_FSTP=95,
+    X87_FNENI=57, X87_FNDISI=50, X87_FNCLEX=42, X87_FNINIT=60, X87_FSETPM=90,
+    X87_FADDP=38, X87_FMULP=75, X87_FCOMPP=45, X87_FSUBP=105,
+    X87_FSUBRP=108, X87_FDIVP=52, X87_FDIVRP=55,
+    X87_FADD=37, X87_FMUL=74, X87_FCOM=43, X87_FCOMP=44,
+    X87_FSUB=104, X87_FSUBR=107, X87_FDIV=51, X87_FDIVR=54,
+    X87_FNSTSW=103, X87_FUCOM=111, X87_FUCOMP=112, X87_FLD=61, X87_FNOP=77,
+    X87_FCHS=41, X87_FABS=36, X87_FTST=110, X87_FXAM=115,
+    X87_FLD1=63, X87_FLDL2T=67, X87_FLDL2E=66, X87_FLDPI=65,
+    X87_FLDLG2=68, X87_FLDLN2=69, X87_FLDZ=64,
+    X87_F2XM1=35, X87_FYL2X=118, X87_FPTAN=81, X87_FPATAN=78,
+    X87_FXTRACT=117, X87_FDECSTP=49, X87_FINCSTP=59,
+    X87_FPREM=79, X87_FYL2XP1=119, X87_FSQRT=93, X87_FSINCOS=92,
+    X87_FRNDINT=82, X87_FSCALE=89, X87_FSIN=91, X87_FCOS=48
+};
+
+/* Original code [0004d0e0,0004d1c7), internal switch data [4d1c8,4d1e0). */
+unsigned char *decode_x87_dd(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long selector=(*data&0x38)>>3;
+    state->modrm=data;
+    if ((*data&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_dd_memory[selector],state);
+    switch (selector) {
+    case 0: state->mnemonic=X87_FFREE; break;
+    case 1: state->mnemonic=X87_FXCH; break;
+    case 2: state->mnemonic=X87_FST; break;
+    case 3: state->mnemonic=X87_FSTP; break;
+    case 4: state->mnemonic=X87_FUCOM; break;
+    case 5: state->mnemonic=X87_FUCOMP; break;
+    default: state->mnemonic=0;
+    }
+    if (!state->mnemonic) return decode_op_4b650(data,operand,state);
+    state->operands[0].kind=2;
+    /* The original uses display index64+rm, one beyond ST(0). */
+    state->operands[0].address.base=64+(*data&7);
+    return data+1;
+}
+
+/* Original [0004d470,0004d4dd). */
+unsigned char *decode_x87_memory(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    DisassemblyOperand *result=&state->operands[operand-1];
+    unsigned char *next;
+    result->kind=1;
+    if (state->address32)
+        next=decode_address32(state->modrm,NULL,&result->address);
+    else next=decode_address16(state->modrm,NULL,&result->address);
+    if (!state->segment) state->registers_read|=register_masks[DIS_REG_DS];
+    if (result->address.base) state->registers_read|=register_masks[result->address.base];
+    if (result->address.index) state->registers_read|=register_masks[result->address.index];
+    return next;
+}
+
+/* Original [0004d500,0004d510). */
+unsigned char *size_x87_qword(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->operands[0].size=5;
+    return data;
+}
+
+const unsigned long disassembly_x87_d9_register_mnemonics[4][8]={
+    {X87_FCHS,X87_FABS,0,0,X87_FTST,X87_FXAM,0,0},
+    {X87_FLD1,X87_FLDL2T,X87_FLDL2E,X87_FLDPI,X87_FLDLG2,X87_FLDLN2,X87_FLDZ,0},
+    {X87_F2XM1,X87_FYL2X,X87_FPTAN,X87_FPATAN,X87_FXTRACT,0,X87_FDECSTP,X87_FINCSTP},
+    {X87_FPREM,X87_FYL2XP1,X87_FSQRT,X87_FSINCOS,X87_FRNDINT,X87_FSCALE,X87_FSIN,X87_FCOS}
+};
+
+/* Original code [0004cc90,0004cdc7), switch data [4cdc8,4cde8). */
+unsigned char *decode_x87_d9(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long selector=(*data&0x38)>>3,rm=*data&7;
+    state->modrm=data;
+    if ((*data&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_d9_memory[selector],state);
+    switch (selector) {
+    case 0:
+    case 1:
+    case 3:
+        state->mnemonic=selector==0?X87_FLD:selector==1?X87_FXCH:X87_FSTP;
+        state->operands[0].kind=2;
+        state->operands[0].address.base=64+rm;
+        break;
+    case 2:
+        state->mnemonic=rm?0:X87_FNOP;
+        break;
+    default:
+        state->mnemonic=disassembly_x87_d9_register_mnemonics[selector-4][rm];
+    }
+    if (!state->mnemonic) return decode_op_4b650(data,operand,state);
+    return data+1;
+}
+
+/* Original [0004d4f0,0004d500). */
+unsigned char *size_x87_dword(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    state->operands[0].size=3;
+    return data;
+}
+
+/* Original code [0004cac0,0004cc6b), switch data [4cc6c,4cc8c). */
+unsigned char *decode_x87_d8(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long selector=(*data&0x38)>>3,reg=64+(*data&7);
+    state->modrm=data;
+    if ((*data&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_d8_memory[selector],state);
+    switch (selector) {
+    case 0: state->mnemonic=X87_FADD; break;
+    case 1: state->mnemonic=X87_FMUL; break;
+    case 2: state->mnemonic=X87_FCOM; break;
+    case 3: state->mnemonic=X87_FCOMP; break;
+    case 4: state->mnemonic=X87_FSUB; break;
+    case 5: state->mnemonic=X87_FSUBR; break;
+    case 6: state->mnemonic=X87_FDIV; break;
+    case 7: state->mnemonic=X87_FDIVR; break;
+    }
+    state->operands[0].kind=2;
+    if (selector==2 || selector==3) state->operands[0].address.base=reg;
+    else {
+        state->operands[0].address.base=63;
+        state->operands[1].kind=2;
+        state->operands[1].address.base=reg;
+    }
+    return data+1;
+}
+
+/* Original code [0004cf10,0004d0bb), switch data [4d0bc,4d0dc). */
+unsigned char *decode_x87_dc(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long selector=(*data&0x38)>>3,reg=64+(*data&7);
+    state->modrm=data;
+    if ((*data&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_dc_memory[selector],state);
+    switch (selector) {
+    case 0: state->mnemonic=X87_FADD; break;
+    case 1: state->mnemonic=X87_FMUL; break;
+    case 2: state->mnemonic=X87_FCOM; break;
+    case 3: state->mnemonic=X87_FCOMP; break;
+    case 4: state->mnemonic=X87_FSUB; break;
+    case 5: state->mnemonic=X87_FSUBR; break;
+    case 6: state->mnemonic=X87_FDIV; break;
+    case 7: state->mnemonic=X87_FDIVR; break;
+    }
+    state->operands[0].kind=2;
+    state->operands[0].address.base=reg;
+    if (selector!=2 && selector!=3) {
+        state->operands[1].kind=2;
+        state->operands[1].address.base=63;
+    }
+    return data+1;
+}
+
+const unsigned long disassembly_x87_db_register_mnemonics[8]={
+    X87_FNENI,X87_FNDISI,X87_FNCLEX,X87_FNINIT,X87_FSETPM,0,0,0
+};
+
+/* Original [0004ce80,0004cf05). */
+unsigned char *decode_x87_db(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long selector=(*data&0x38)>>3;
+    state->modrm=data;
+    if ((*data&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_db_memory[selector],state);
+    state->mnemonic=selector==4?disassembly_x87_db_register_mnemonics[*data&7]:0;
+    if (!state->mnemonic) return decode_op_4b650(data,operand,state);
+    return data+1;
+}
+
+/* Original code [0004d1e0,0004d304), switch data [4d304,4d324). */
+unsigned char *decode_x87_de(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long selector=(*data&0x38)>>3,rm=*data&7;
+    state->modrm=data;
+    if ((*data&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_de_memory[selector],state);
+    switch (selector) {
+    case 0: state->mnemonic=X87_FADDP; break;
+    case 1: state->mnemonic=X87_FMULP; break;
+    case 2: state->mnemonic=X87_FCOMP; break;
+    case 3: state->mnemonic=rm==1?X87_FCOMPP:0; break;
+    case 4: state->mnemonic=X87_FSUBP; break;
+    case 5: state->mnemonic=X87_FSUBRP; break;
+    case 6: state->mnemonic=X87_FDIVP; break;
+    case 7: state->mnemonic=X87_FDIVRP; break;
+    }
+    if (selector!=3) {
+        state->operands[0].kind=2;
+        state->operands[0].address.base=64+rm;
+        if (selector!=2) {
+            state->operands[1].kind=2;
+            state->operands[1].address.base=63;
+        }
+    }
+    if (!state->mnemonic) return decode_op_4b650(data,operand,state);
+    return data+1;
+}
+
+/* Original [0004d330,0004d46f). */
+unsigned char *decode_x87_df(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned long selector=(*data&0x38)>>3,rm=*data&7;
+    state->modrm=data;
+    if ((*data&0xc0)!=0xc0)
+        return apply_opcode(data,&disassembly_x87_df_memory[selector],state);
+    switch (selector) {
+    case 0: state->mnemonic=X87_FFREE; break;
+    case 1: state->mnemonic=X87_FXCH; break;
+    case 2: state->mnemonic=X87_FST; break;
+    case 3: state->mnemonic=X87_FSTP; break;
+    case 4:
+        state->mnemonic=rm?0:X87_FNSTSW;
+        if (!rm) {
+            state->operands[0].kind=2;
+            state->operands[0].address.base=DIS_REG_AX;
+            state->registers_written|=register_masks[DIS_REG_AX];
+        }
+        break;
+    default:
+        state->mnemonic=0;
+    }
+    if (selector<4) {
+        state->operands[0].kind=2;
+        state->operands[0].address.base=64+rm;
+    }
+    if (!state->mnemonic) return decode_op_4b650(data,operand,state);
+    return data+1;
+}

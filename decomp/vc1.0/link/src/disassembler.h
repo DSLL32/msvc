@@ -8,9 +8,9 @@
 enum DisassemblyPrefix { DIS_PREFIX_REPNZ=213 };
 
 enum DisassemblyRegister {
-    DIS_REG_CX=10, DIS_REG_ECX=18, DIS_REG_AX=9, DIS_REG_EAX=17, DIS_REG_SP=13, DIS_REG_BP=14, DIS_REG_BX=12, DIS_REG_SI=15, DIS_REG_DI=16,
+    DIS_REG_AL=1, DIS_REG_CX=10, DIS_REG_ECX=18, DIS_REG_AX=9, DIS_REG_EAX=17, DIS_REG_SP=13, DIS_REG_BP=14, DIS_REG_BX=12, DIS_REG_SI=15, DIS_REG_DI=16,
     DIS_REG_ESP=21, DIS_REG_EBP=22, DIS_REG_EBX=20, DIS_REG_ESI=23, DIS_REG_EDI=24,
-    DIS_REG_ES=25, DIS_REG_CS=26, DIS_REG_SS=27, DIS_REG_DS=28
+    DIS_REG_ES=25, DIS_REG_CS=26, DIS_REG_SS=27, DIS_REG_DS=28, DIS_REG_FS=29
 };
 
 /* Decoder scratch address and formatted operands use distinct layouts. */
@@ -48,6 +48,7 @@ typedef struct OpcodeEntry {
 typedef char OpcodeEntryIs20[sizeof(OpcodeEntry)==20?1:-1];
 extern const unsigned long register_masks[32];
 extern const OpcodeEntry disassembly_signed_byte_group[8];
+extern const OpcodeEntry disassembly_shift_group[8];
 extern const long disassembly_extended_pages[16];
 extern const OpcodeEntry disassembly_extended_opcodes[112];
 unsigned char *decode_modrm_operand(unsigned char *,int,DisassembledInstruction *);
@@ -62,7 +63,7 @@ unsigned char *decode_op_4b650(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4b670(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_signed_byte_group(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4b6d0(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4b700(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_shift_group(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4b730(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4b760(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4b790(unsigned char *,int,DisassembledInstruction *);
@@ -70,7 +71,7 @@ unsigned char *decode_op_4b7c0(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_operand_size_prefix(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_address_size_prefix(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_repe_prefix(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4b8e0(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_repne_prefix(unsigned char *,int,DisassembledInstruction *);
 unsigned char *update_stack_registers(unsigned char *,int,DisassembledInstruction *);
 unsigned char *update_frame_registers(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4b960(unsigned char *,int,DisassembledInstruction *);
@@ -78,7 +79,7 @@ unsigned char *update_counter_registers(unsigned char *,int,DisassembledInstruct
 unsigned char *decode_op_4b9c0(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4b9f0(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4ba10(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4ba50(unsigned char *,int,DisassembledInstruction *);
+unsigned char *update_al_register(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4ba70(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4ba90(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4bac0(unsigned char *,int,DisassembledInstruction *);
@@ -95,7 +96,7 @@ unsigned char *decode_op_4bd10(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4bd40(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4bd70(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_ds_prefix(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4bdd0(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_fs_prefix(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4be00(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_string_byte_destination(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4be90(unsigned char *,int,DisassembledInstruction *);
@@ -122,14 +123,14 @@ unsigned char *decode_op_4c940(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4c970(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_memory_operand(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4ca60(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4cac0(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4cc90(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_x87_d8(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_x87_d9(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4cdf0(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4ce80(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4cf10(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4d0e0(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4d1e0(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4d330(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_x87_db(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_x87_dc(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_x87_dd(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_x87_de(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_x87_df(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4d5e0(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4d640(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4d690(unsigned char *,int,DisassembledInstruction *);
@@ -152,9 +153,9 @@ unsigned char *decode_op_4dd30(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4dd70(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_eax_register(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4de00(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4de40(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_eax_destination(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_ebx_register(unsigned char *,int,DisassembledInstruction *);
-unsigned char *decode_op_4ded0(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_ecx_register(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4df20(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4df50(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4dfa0(unsigned char *,int,DisassembledInstruction *);
@@ -192,7 +193,7 @@ unsigned char *decode_op_4d560(unsigned char *,int,DisassembledInstruction *);
 
 unsigned char *decode_op_4d5a0(unsigned char *,int,DisassembledInstruction *);
 
-unsigned char *decode_op_4d7d0(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_register_and_byte_immediate(unsigned char *,int,DisassembledInstruction *);
 
 unsigned char *decode_op_4d810(unsigned char *,int,DisassembledInstruction *);
 
@@ -211,5 +212,31 @@ unsigned char *decode_op_4da00(unsigned char *,int,DisassembledInstruction *);
 unsigned char *decode_op_4db30(unsigned char *,int,DisassembledInstruction *);
 
 unsigned char *decode_op_4db70(unsigned char *,int,DisassembledInstruction *);
+
+
+extern const OpcodeEntry disassembly_x87_dd_memory[8];
+unsigned char *decode_x87_memory(unsigned char *,int,DisassembledInstruction *);
+unsigned char *decode_op_4d4e0(unsigned char *,int,DisassembledInstruction *);
+unsigned char *size_x87_qword(unsigned char *,int,DisassembledInstruction *);
+
+
+extern const OpcodeEntry disassembly_x87_d9_memory[8];
+unsigned char *size_x87_dword(unsigned char *,int,DisassembledInstruction *);
+
+
+extern const OpcodeEntry disassembly_x87_d8_memory[8];
+
+
+extern const OpcodeEntry disassembly_x87_dc_memory[8];
+
+
+extern const OpcodeEntry disassembly_x87_db_memory[8];
+unsigned char *decode_op_4d510(unsigned char *,int,DisassembledInstruction *);
+
+
+extern const OpcodeEntry disassembly_x87_de_memory[8];
+
+
+extern const OpcodeEntry disassembly_x87_df_memory[8];
 
 #endif

@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "b4860b10319042079fef576276c55262508c62883736a1858fb4a4457a407324",
+    "functions.json": "5f1ba3e72e3a5834f1b1882ebb16c5cade6d68a1ae59f896b06db6f3d54b4cd7",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "df0c7b33a243e639f446b9c016b4d38a4f1e6930f67e9ba69927da5f2af320f1"
+    "replay-cases.json": "a7a81079caee89fba6dcc74103394cefb02aaf4fd0cf4d054dc2cb3d11604169"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -497,6 +497,11 @@
       "logical": "_decode_ds_prefix",
       "implementation": "C"
     },
+    "decode_eax_destination": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_eax_destination",
+      "implementation": "C"
+    },
     "decode_eax_register": {
       "source": "src/disassembler.c",
       "logical": "_decode_eax_register",
@@ -512,6 +517,11 @@
       "logical": "_decode_ebx_register",
       "implementation": "C"
     },
+    "decode_ecx_register": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_ecx_register",
+      "implementation": "C"
+    },
     "decode_edi_register": {
       "source": "src/disassembler.c",
       "logical": "_decode_edi_register",
@@ -525,6 +535,11 @@
     "decode_extended_opcode": {
       "source": "src/disassembler.c",
       "logical": "_decode_extended_opcode",
+      "implementation": "C"
+    },
+    "decode_fs_prefix": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_fs_prefix",
       "implementation": "C"
     },
     "decode_immediate": {
@@ -592,11 +607,6 @@
       "logical": "_decode_op_4b6d0",
       "implementation": "stub-C"
     },
-    "decode_op_4b700": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4b700",
-      "implementation": "stub-C"
-    },
     "decode_op_4b730": {
       "source": "src/disassembler-stubs.c",
       "logical": "_decode_op_4b730",
@@ -632,11 +642,6 @@
       "logical": "_decode_op_4b850",
       "implementation": "stub-C"
     },
-    "decode_op_4b8e0": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4b8e0",
-      "implementation": "stub-C"
-    },
     "decode_op_4b960": {
       "source": "src/disassembler-stubs.c",
       "logical": "_decode_op_4b960",
@@ -655,11 +660,6 @@
     "decode_op_4ba10": {
       "source": "src/disassembler-stubs.c",
       "logical": "_decode_op_4ba10",
-      "implementation": "stub-C"
-    },
-    "decode_op_4ba50": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4ba50",
       "implementation": "stub-C"
     },
     "decode_op_4ba70": {
@@ -735,11 +735,6 @@
     "decode_op_4bd70": {
       "source": "src/disassembler-stubs.c",
       "logical": "_decode_op_4bd70",
-      "implementation": "stub-C"
-    },
-    "decode_op_4bdd0": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4bdd0",
       "implementation": "stub-C"
     },
     "decode_op_4be00": {
@@ -837,44 +832,19 @@
       "logical": "_decode_op_4ca60",
       "implementation": "stub-C"
     },
-    "decode_op_4cac0": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4cac0",
-      "implementation": "stub-C"
-    },
-    "decode_op_4cc90": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4cc90",
-      "implementation": "stub-C"
-    },
     "decode_op_4cdf0": {
       "source": "src/disassembler-stubs.c",
       "logical": "_decode_op_4cdf0",
       "implementation": "stub-C"
     },
-    "decode_op_4ce80": {
+    "decode_op_4d4e0": {
       "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4ce80",
+      "logical": "_decode_op_4d4e0",
       "implementation": "stub-C"
     },
-    "decode_op_4cf10": {
+    "decode_op_4d510": {
       "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4cf10",
-      "implementation": "stub-C"
-    },
-    "decode_op_4d0e0": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4d0e0",
-      "implementation": "stub-C"
-    },
-    "decode_op_4d1e0": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4d1e0",
-      "implementation": "stub-C"
-    },
-    "decode_op_4d330": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4d330",
+      "logical": "_decode_op_4d510",
       "implementation": "stub-C"
     },
     "decode_op_4d520": {
@@ -905,11 +875,6 @@
     "decode_op_4d690": {
       "source": "src/disassembler-stubs.c",
       "logical": "_decode_op_4d690",
-      "implementation": "stub-C"
-    },
-    "decode_op_4d7d0": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4d7d0",
       "implementation": "stub-C"
     },
     "decode_op_4d810": {
@@ -1037,16 +1002,6 @@
       "logical": "_decode_op_4de00",
       "implementation": "stub-C"
     },
-    "decode_op_4de40": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4de40",
-      "implementation": "stub-C"
-    },
-    "decode_op_4ded0": {
-      "source": "src/disassembler-stubs.c",
-      "logical": "_decode_op_4ded0",
-      "implementation": "stub-C"
-    },
     "decode_op_4df20": {
       "source": "src/disassembler-stubs.c",
       "logical": "_decode_op_4df20",
@@ -1072,9 +1027,24 @@
       "logical": "_decode_operand_size_prefix",
       "implementation": "C"
     },
+    "decode_register_and_byte_immediate": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_register_and_byte_immediate",
+      "implementation": "C"
+    },
     "decode_repe_prefix": {
       "source": "src/disassembler.c",
       "logical": "_decode_repe_prefix",
+      "implementation": "C"
+    },
+    "decode_repne_prefix": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_repne_prefix",
+      "implementation": "C"
+    },
+    "decode_shift_group": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_shift_group",
       "implementation": "C"
     },
     "decode_short_relative": {
@@ -1100,6 +1070,46 @@
     "decode_string_byte_source": {
       "source": "src/disassembler.c",
       "logical": "_decode_string_byte_source",
+      "implementation": "C"
+    },
+    "decode_x87_d8": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_d8",
+      "implementation": "C"
+    },
+    "decode_x87_d9": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_d9",
+      "implementation": "C"
+    },
+    "decode_x87_db": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_db",
+      "implementation": "C"
+    },
+    "decode_x87_dc": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_dc",
+      "implementation": "C"
+    },
+    "decode_x87_dd": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_dd",
+      "implementation": "C"
+    },
+    "decode_x87_de": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_de",
+      "implementation": "C"
+    },
+    "decode_x87_df": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_df",
+      "implementation": "C"
+    },
+    "decode_x87_memory": {
+      "source": "src/disassembler.c",
+      "logical": "_decode_x87_memory",
       "implementation": "C"
     },
     "define_external": {
@@ -3267,6 +3277,16 @@
       "logical": "_size_mac_section_fixups",
       "implementation": "stub-C"
     },
+    "size_x87_dword": {
+      "source": "src/disassembler.c",
+      "logical": "_size_x87_dword",
+      "implementation": "C"
+    },
+    "size_x87_qword": {
+      "source": "src/disassembler.c",
+      "logical": "_size_x87_qword",
+      "implementation": "C"
+    },
     "skip_coff_auxiliaries": {
       "source": "src/coff-io.c",
       "logical": "_skip_coff_auxiliaries",
@@ -3340,6 +3360,11 @@
     "undecorate_symbol_name": {
       "source": "src/demangle.c",
       "logical": "_undecorate_symbol_name",
+      "implementation": "C"
+    },
+    "update_al_register": {
+      "source": "src/disassembler.c",
+      "logical": "_update_al_register",
       "implementation": "C"
     },
     "update_block_auxiliary": {
@@ -4118,7 +4143,24 @@
     "decode_short_relative",
     "decode_repe_prefix",
     "decode_string_byte_destination",
-    "decode_string_byte_source"
+    "decode_string_byte_source",
+    "decode_repne_prefix",
+    "update_al_register",
+    "decode_fs_prefix",
+    "decode_ecx_register",
+    "decode_eax_destination",
+    "decode_shift_group",
+    "decode_register_and_byte_immediate",
+    "decode_x87_dd",
+    "decode_x87_memory",
+    "size_x87_qword",
+    "decode_x87_d9",
+    "size_x87_dword",
+    "decode_x87_d8",
+    "decode_x87_dc",
+    "decode_x87_db",
+    "decode_x87_de",
+    "decode_x87_df"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4697,9 +4739,9 @@
       }
     },
     "library-list": {
-      "first": 684,
-      "last": 684,
-      "seen_count": 510,
+      "first": 701,
+      "last": 701,
+      "seen_count": 527,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4731,9 +4773,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 684,
-      "last": 684,
-      "seen_count": 510,
+      "first": 701,
+      "last": 701,
+      "seen_count": 527,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4767,9 +4809,9 @@
       }
     },
     "library-dump-object": {
-      "first": 684,
-      "last": 684,
-      "seen_count": 510,
+      "first": 701,
+      "last": 701,
+      "seen_count": 527,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4812,9 +4854,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 684,
-      "last": 684,
-      "seen_count": 510,
+      "first": 701,
+      "last": 701,
+      "seen_count": 527,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5009,7 +5051,7 @@
     },
     "dump-disasm-x86-rich": {
       "first": 664,
-      "last": 684,
+      "last": 701,
       "seen_count": 490,
       "expected": [
         "compare_disassembly_symbols",
@@ -5031,11 +5073,28 @@
         "decode_short_relative",
         "decode_repe_prefix",
         "decode_string_byte_destination",
-        "decode_string_byte_source"
+        "decode_string_byte_source",
+        "decode_repne_prefix",
+        "update_al_register",
+        "decode_fs_prefix",
+        "decode_ecx_register",
+        "decode_eax_destination",
+        "decode_shift_group",
+        "decode_register_and_byte_immediate",
+        "decode_x87_dd",
+        "decode_x87_memory",
+        "size_x87_qword",
+        "decode_x87_d9",
+        "size_x87_dword",
+        "decode_x87_d8",
+        "decode_x87_dc",
+        "decode_x87_db",
+        "decode_x87_de",
+        "decode_x87_df"
       ],
       "terminal": {
-        "kind": "trap",
-        "logical": "_decode_op_4b8e0"
+        "kind": "exit",
+        "code": 0
       }
     }
   }

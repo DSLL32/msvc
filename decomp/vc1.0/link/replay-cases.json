@@ -190,12 +190,12 @@
     {
       "case": "dump-disasm-x86-rich",
       "mode": "native",
-      "status": "in-progress",
+      "status": "complete",
       "terminal": {
-        "kind": "trap",
-        "logical": "_decode_op_4b8e0"
+        "kind": "exit",
+        "code": 0
       },
-      "reason": "Original-backed181-byte code fixture, fresh native/GDB reconstruction. Cached output fixture enabled only after reached graph closes."
+      "reason": "All reached native/GDB frontiers close; complete captured original streams/status match. Fixture runs only ELF and cached references."
     }
   ]
 }

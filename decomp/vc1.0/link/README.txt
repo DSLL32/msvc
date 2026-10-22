@@ -31,9 +31,9 @@ destructors, inheritance, operators, qualifiers, overloads, arrays, references,
 member pointers and function pointers. Templates were rejected by the original
 compiler and are not claimed. Unreached demangler branches remain named traps.
 
-Current verification: original-toolchain make -j4, all 20 cached native
-entry/status/stream/artifact regressions, 536 direct/indirect/tail-call checks,
-527 callback checks, 412 contextual-data checks, 690 original extent instruction
+Current verification: original-toolchain make -j4, all 21 cached native
+entry/status/stream/artifact regressions, 553 direct/indirect/tail-call checks,
+544 callback checks, 422 contextual-data checks, 707 original extent instruction
 boundaries and 38 ECX-member return-cleanup checks pass. The previous 640-frontier
 Win32 history remains historical evidence; current function acceptance uses a
 masked original-only capture paired with native GDB.
@@ -41,10 +41,10 @@ cases/omf-undecorate-queue.json records case provenance and verification hashes.
 SOURCE-NOTES.txt retains historical checkpoints and recovered implementation
 choices; later completed checkpoints supersede earlier active-frontier notes.
 
-The accepted .text extent union is 200684/281634 bytes=71.2570% (684 frontiers), up from
+The accepted .text extent union is 203445/281634 bytes=72.2374% (701 frontiers), up from
 160229/281634=56.8926% at 528 frontiers and 110787/281634=39.3372% at 400.
 This includes accepted inline tables/alignment, not dynamic branch coverage.
-cases/disassembler-x86-rich/progress.json records the current in-progress union;
+cases/disassembler-x86-rich/validation.json records the current union;
 cases/coverage-after-omf-undecorate.json is the preceding checkpoint. Separate partial
 body accounting at the preceding minimal-code checkpoint is reproducible with scripts/measure-components.py and the analysis-only
 Ghidra inventory: 131627 accepted known target-body bytes, 26904 known CRT-body
@@ -75,7 +75,7 @@ Inputs are not trimmed or patched. Extracted alpha is raw-exact and the trimmed
 archive omits beta. Native DEF limitations remain: NONAME and forwarder fixture
 inputs exercise parsing, not effective ordinal-only/forwarder output.
 
-Normal native fixtures and cached entry replay (all twenty cases):
+Normal native fixtures and cached entry replay (all twenty-one cases):
     make -j4 check
     make -j4 replay
 Select one cached native fixture:
@@ -245,9 +245,9 @@ segments and captured outputs. This is a historical scope comparison, not a
 controlled cross-mode speedup. Two specialized DLL/CVPACK histories (182.604980s
 previously) are excluded from that initial 15-case timing comparison. No reconstruction, coverage or acceptance changed.
 
-All twenty native fixtures
+All twenty-one native fixtures
 
-The current commands build/run all twenty LINK cases, including hello-win32,
+The current commands build/run all twenty-one LINK cases, including hello-win32,
 hello-dll and hello-debug-dll:
     make -j4 native-trace-check
     make -j4 native-check
@@ -340,11 +340,33 @@ cases/disassembly-queue.json records the user-selected next stages: richer x86
 addressing/branch/prefix/x87 disassembly, then original-validated Macintosh/m68k
 COFF linking. No public-input reachability is claimed before original capture.
 
-Richer x86 disassembly is in progress. Its original-compiled661-byte COFF object
-has181 code bytes across four functions. Twenty further native/GDB frontiers
-are accepted through memory/SIB,16-bit operand/address overrides, arithmetic
-selectors and compressed0F dispatch. Branches/immediates and F3 MOVSB now match. Current terminal is the F2 prefix
-helper at0004b8e0. The canonical build/audits and all20 completed cached-native
-fixtures pass at this checkpoint; the new case is enabled only after its complete
-reached graph closes. See cases/disassembler-x86-rich/{README.txt,manifest.json,
-progress.json}. No new reference or fixture execution is needed for old cases.
+Richer x86 disassembly checkpoint
+
+The original-compiled661-byte COFF object contains181 code bytes across four
+functions. Thirty-seven further readable-C functions complete its addressing/SIB,
+16-bit operand/address overrides, arithmetic/shift/branch/immediate, string and
+seven x87 opcode groups. Complete status and output match the untouched original
+capture. Only reached functions are accepted; their other recovered branches
+remain statically reconstructed, not dynamically claimed. Other handler targets
+remain named traps. The fixture input's annotated16-bit _emit bytes and original
+repnz/ST spelling quirks are documented in cases/disassembler-x86-rich/README.txt.
+
+All21 cached native trace/output fixtures pass, checking527 application entries.
+Single-sample external wall is1.373s, case loop1.188s, trace preparation0.098s;
+summed setup0.303s, execution0.190s, output oracles0.681s, trace checking0.003s.
+Canonical build/audit takes31.886s and native plus trace build3.936s. See
+cases/disassembler-x86-rich/validation.json for per-case and original capture
+accounting; fixture execution never invokes Wine or a PE child.
+
+The old partial inventory misses genuine decoder code. The reproducible read-only
+scripts/measure-disassembler.py reports61 accepted decoder/output bodies with9406
+actual instruction bytes,152 inline switch-table bytes and216 verified alignment
+bytes. Its5699 instruction bytes outside the old inventory expand the known
+accepted target-body union to137326 bytes. Known accepted CRT bodies occupy26904,
+import thunks192;39023 accepted extent bytes remain unclassified. These are partial
+component counts, not a target-wide body denominator or whole-binary padding total.
+The old inventory's zero remaining i386 entries remains an inventory limitation.
+
+The richer x86 stage is complete. cases/disassembly-queue.json retains the selected
+next stage: original-validated Macintosh/m68k COFF linking, covering only loader,
+relocation and resource paths actually reached by valid original inputs.

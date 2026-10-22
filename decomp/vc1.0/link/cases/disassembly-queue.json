@@ -8,12 +8,12 @@
     },
     {
       "case": "dump-disasm-x86-rich",
-      "status": "in-progress",
+      "status": "complete",
       "scope": "Addressing/SIB, branches/immediates, prefixes/operand-size overrides and x87; capture original-valid inputs and complete output before native acceptance."
     },
     {
       "case": "macintosh-m68k-coff",
-      "status": "queued",
+      "status": "next",
       "scope": "Inspect documented target format and native machine/relocation/loader paths, obtain valid minimal object(s), capture successful original linking first; reconstruct only reached loader/relocation/resource graph."
     }
   ],

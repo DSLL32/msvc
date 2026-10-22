@@ -134,7 +134,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_AND,0x11b,0x0,0x4,decode_op_4dbb0,decode_byte_immediate,1}, /* 24 */
     {MN_AND,0x11b,0x0,0x4,decode_eax_register,decode_immediate,1}, /* 25 */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bd10,1}, /* 26 */
-    {MN_DAA,0x1f,0x5,0x100,decode_op_4ba50,decode_op_4ba50,1}, /* 27 */
+    {MN_DAA,0x1f,0x5,0x100,update_al_register,update_al_register,1}, /* 27 */
     {MN_SUB,0x11f,0x0,0x0,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 28 */
     {MN_SUB,0x11f,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* 29 */
     {MN_SUB,0x11f,0x0,0x0,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 2A */
@@ -142,7 +142,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_SUB,0x11f,0x0,0x0,decode_op_4dbb0,decode_byte_immediate,1}, /* 2C */
     {MN_SUB,0x11f,0x0,0x0,decode_eax_register,decode_immediate,1}, /* 2D */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bd40,1}, /* 2E */
-    {MN_DAS,0x1f,0x5,0x100,decode_op_4ba50,decode_op_4ba50,1}, /* 2F */
+    {MN_DAS,0x1f,0x5,0x100,update_al_register,update_al_register,1}, /* 2F */
     {MN_XOR,0x11b,0x0,0x4,decode_modrm_byte_operand,decode_modrm_byte_register,1}, /* 30 */
     {MN_XOR,0x11b,0x0,0x4,decode_modrm_operand_effects,decode_modrm_register,1}, /* 31 */
     {MN_XOR,0x11b,0x0,0x4,decode_modrm_byte_register,decode_modrm_byte_operand,1}, /* 32 */
@@ -160,7 +160,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_NONE,0x0,0x0,0x0,NULL,decode_ds_prefix,1}, /* 3E */
     {MN_AAS,0x5,0x4,0x11b,decode_op_4ba90,NULL,1}, /* 3F */
     {MN_INC,0x11e,0x0,0x0,decode_eax_register,decode_op_4bb10,1}, /* 40 */
-    {MN_INC,0x11e,0x0,0x0,decode_op_4ded0,decode_op_4bb90,1}, /* 41 */
+    {MN_INC,0x11e,0x0,0x0,decode_ecx_register,decode_op_4bb90,1}, /* 41 */
     {MN_INC,0x11e,0x0,0x0,decode_op_4df50,decode_op_4bbd0,1}, /* 42 */
     {MN_INC,0x11e,0x0,0x0,decode_ebx_register,decode_op_4bb50,1}, /* 43 */
     {MN_INC,0x11e,0x0,0x0,decode_op_4dfa0,decode_op_4bc10,1}, /* 44 */
@@ -168,7 +168,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_INC,0x11e,0x0,0x0,decode_esi_register,decode_op_4bc90,1}, /* 46 */
     {MN_INC,0x11e,0x0,0x0,decode_edi_register,decode_op_4bcd0,1}, /* 47 */
     {MN_DEC,0x11e,0x0,0x0,decode_eax_register,decode_op_4bb10,1}, /* 48 */
-    {MN_DEC,0x11e,0x0,0x0,decode_op_4ded0,decode_op_4bb90,1}, /* 49 */
+    {MN_DEC,0x11e,0x0,0x0,decode_ecx_register,decode_op_4bb90,1}, /* 49 */
     {MN_DEC,0x11e,0x0,0x0,decode_op_4df50,decode_op_4bbd0,1}, /* 4A */
     {MN_DEC,0x11e,0x0,0x0,decode_ebx_register,decode_op_4bb50,1}, /* 4B */
     {MN_DEC,0x11e,0x0,0x0,decode_op_4dfa0,decode_op_4bc10,1}, /* 4C */
@@ -176,7 +176,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_DEC,0x11e,0x0,0x0,decode_esi_register,decode_op_4bc90,1}, /* 4E */
     {MN_DEC,0x11e,0x0,0x0,decode_edi_register,decode_op_4bcd0,1}, /* 4F */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_eax_register,1}, /* 50 */
-    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4ded0,1}, /* 51 */
+    {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_ecx_register,1}, /* 51 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4df50,1}, /* 52 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_ebx_register,1}, /* 53 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_op_4dfa0,1}, /* 54 */
@@ -184,7 +184,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_esi_register,1}, /* 56 */
     {MN_PUSH,0x0,0x0,0x0,update_stack_registers,decode_edi_register,1}, /* 57 */
     {MN_POP,0x0,0x0,0x0,decode_eax_register,update_stack_registers,1}, /* 58 */
-    {MN_POP,0x0,0x0,0x0,decode_op_4ded0,update_stack_registers,1}, /* 59 */
+    {MN_POP,0x0,0x0,0x0,decode_ecx_register,update_stack_registers,1}, /* 59 */
     {MN_POP,0x0,0x0,0x0,decode_op_4df50,update_stack_registers,1}, /* 5A */
     {MN_POP,0x0,0x0,0x0,decode_ebx_register,update_stack_registers,1}, /* 5B */
     {MN_POP,0x0,0x0,0x0,decode_op_4dfa0,update_stack_registers,1}, /* 5C */
@@ -195,7 +195,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_POPA,0x0,0x0,0x0,decode_op_4bae0,update_stack_registers,1}, /* 61 */
     {MN_BOUND,0x0,0x0,0x0,decode_modrm_register,decode_op_4c970,7}, /* 62 */
     {MN_ARPL,0x8,0x0,0x0,decode_op_4c830,decode_op_4c4c0,1}, /* 63 */
-    {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4bdd0,1}, /* 64 */
+    {MN_NONE,0x0,0x0,0x0,NULL,decode_fs_prefix,1}, /* 64 */
     {MN_NONE,0x0,0x0,0x0,NULL,decode_op_4be00,1}, /* 65 */
     {MN_NONE,0x0,0x0,0x0,decode_operand_size_prefix,NULL,1}, /* 66 */
     {MN_NONE,0x0,0x0,0x0,decode_address_size_prefix,NULL,1}, /* 67 */
@@ -240,13 +240,13 @@ const OpcodeEntry opcode_table[256]={
     {MN_MOV,0x0,0x0,0x11f,decode_op_4d5e0,decode_op_4c830,1}, /* 8E */
     {MN_POP,0x0,0x0,0x0,decode_modrm_operand_effects,update_stack_registers,1}, /* 8F */
     {MN_NOP,0x0,0x0,0x0,NULL,NULL,1}, /* 90 */
-    {MN_XCHG,0x0,0x0,0x0,decode_op_4ded0,decode_op_4de40,1}, /* 91 */
-    {MN_XCHG,0x0,0x0,0x0,decode_op_4df50,decode_op_4de40,1}, /* 92 */
-    {MN_XCHG,0x0,0x0,0x0,decode_ebx_register,decode_op_4de40,1}, /* 93 */
-    {MN_XCHG,0x0,0x0,0x0,decode_op_4dfa0,decode_op_4de40,1}, /* 94 */
-    {MN_XCHG,0x0,0x0,0x0,decode_ebp_register,decode_op_4de40,1}, /* 95 */
-    {MN_XCHG,0x0,0x0,0x0,decode_esi_register,decode_op_4de40,1}, /* 96 */
-    {MN_XCHG,0x0,0x0,0x0,decode_edi_register,decode_op_4de40,1}, /* 97 */
+    {MN_XCHG,0x0,0x0,0x0,decode_ecx_register,decode_eax_destination,1}, /* 91 */
+    {MN_XCHG,0x0,0x0,0x0,decode_op_4df50,decode_eax_destination,1}, /* 92 */
+    {MN_XCHG,0x0,0x0,0x0,decode_ebx_register,decode_eax_destination,1}, /* 93 */
+    {MN_XCHG,0x0,0x0,0x0,decode_op_4dfa0,decode_eax_destination,1}, /* 94 */
+    {MN_XCHG,0x0,0x0,0x0,decode_ebp_register,decode_eax_destination,1}, /* 95 */
+    {MN_XCHG,0x0,0x0,0x0,decode_esi_register,decode_eax_destination,1}, /* 96 */
+    {MN_XCHG,0x0,0x0,0x0,decode_edi_register,decode_eax_destination,1}, /* 97 */
     {MN_CBW,0x0,0x0,0x0,decode_op_4bb10,decode_op_4ba10,1}, /* 98 */
     {MN_CWD,0x0,0x0,0x0,decode_op_4bbd0,decode_op_4b960,1}, /* 99 */
     {MN_CALL,0x0,0x0,0x0,decode_op_4b9c0,decode_op_4c1a0,3}, /* 9A */
@@ -265,11 +265,11 @@ const OpcodeEntry opcode_table[256]={
     {MN_CMPS,0x11f,0x80,0x0,decode_op_4bfe0,decode_op_4be90,1}, /* A7 */
     {MN_TEST,0x11b,0x0,0x4,decode_op_4dbb0,decode_byte_immediate,1}, /* A8 */
     {MN_TEST,0x11b,0x0,0x4,decode_eax_register,decode_immediate,1}, /* A9 */
-    {MN_STOS,0x0,0x80,0x0,decode_string_byte_destination,decode_op_4ba50,1}, /* AA */
+    {MN_STOS,0x0,0x80,0x0,decode_string_byte_destination,update_al_register,1}, /* AA */
     {MN_STOS,0x0,0x80,0x0,decode_op_4be90,decode_op_4bb10,1}, /* AB */
-    {MN_LODS,0x0,0x80,0x0,decode_op_4ba50,decode_string_byte_source,1}, /* AC */
+    {MN_LODS,0x0,0x80,0x0,update_al_register,decode_string_byte_source,1}, /* AC */
     {MN_LODS,0x0,0x80,0x0,decode_op_4bb10,decode_op_4bfe0,1}, /* AD */
-    {MN_SCAS,0x11f,0x80,0x0,decode_string_byte_destination,decode_op_4ba50,1}, /* AE */
+    {MN_SCAS,0x11f,0x80,0x0,decode_string_byte_destination,update_al_register,1}, /* AE */
     {MN_SCAS,0x11f,0x80,0x0,decode_op_4be90,decode_op_4bb10,1}, /* AF */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4dbb0,decode_byte_immediate,1}, /* B0 */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4dc30,decode_byte_immediate,1}, /* B1 */
@@ -280,7 +280,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_MOV,0x0,0x0,0x11f,decode_op_4dd70,decode_byte_immediate,1}, /* B6 */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4dcf0,decode_byte_immediate,1}, /* B7 */
     {MN_MOV,0x0,0x0,0x11f,decode_eax_register,decode_immediate,1}, /* B8 */
-    {MN_MOV,0x0,0x0,0x11f,decode_op_4ded0,decode_immediate,1}, /* B9 */
+    {MN_MOV,0x0,0x0,0x11f,decode_ecx_register,decode_immediate,1}, /* B9 */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4df50,decode_immediate,1}, /* BA */
     {MN_MOV,0x0,0x0,0x11f,decode_ebx_register,decode_immediate,1}, /* BB */
     {MN_MOV,0x0,0x0,0x11f,decode_op_4dfa0,decode_immediate,1}, /* BC */
@@ -288,7 +288,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_MOV,0x0,0x0,0x11f,decode_esi_register,decode_immediate,1}, /* BE */
     {MN_MOV,0x0,0x0,0x11f,decode_edi_register,decode_immediate,1}, /* BF */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b6d0,decode_byte_immediate,1}, /* C0 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b700,decode_byte_immediate,1}, /* C1 */
+    {MN_NONE,0x0,0x0,0x0,decode_shift_group,decode_byte_immediate,1}, /* C1 */
     {MN_RET,0x0,0x0,0x0,update_stack_registers,decode_op_4c0b0,11}, /* C2 */
     {MN_RET,0x0,0x0,0x0,update_stack_registers,NULL,11}, /* C3 */
     {MN_LES,0x0,0x0,0x0,decode_op_4d8a0,decode_op_4ca60,1}, /* C4 */
@@ -304,21 +304,21 @@ const OpcodeEntry opcode_table[256]={
     {MN_INTO,0x30,0x0,0x0,decode_op_4b9c0,NULL,7}, /* CE */
     {MN_IRET,0x0,0x0,0x0,decode_op_4b9c0,NULL,10}, /* CF */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b6d0,decode_op_4c140,1}, /* D0 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b700,decode_op_4c140,1}, /* D1 */
+    {MN_NONE,0x0,0x0,0x0,decode_shift_group,decode_op_4c140,1}, /* D1 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b6d0,decode_op_4dc30,1}, /* D2 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4b700,decode_op_4dc30,1}, /* D3 */
+    {MN_NONE,0x0,0x0,0x0,decode_shift_group,decode_op_4dc30,1}, /* D3 */
     {MN_AAM,0x1a,0x101,0x105,decode_op_4ba90,decode_op_4c060,1}, /* D4 */
     {MN_AAD,0x1a,0x0,0x105,decode_op_4ba90,decode_op_4c060,1}, /* D5 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b650,NULL,1}, /* D6 */
     {MN_XLAT,0x0,0x0,0x0,decode_op_4b9f0,decode_op_4bf70,1}, /* D7 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4cac0,NULL,1}, /* D8 */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4cc90,NULL,1}, /* D9 */
+    {MN_NONE,0x0,0x0,0x0,decode_x87_d8,NULL,1}, /* D8 */
+    {MN_NONE,0x0,0x0,0x0,decode_x87_d9,NULL,1}, /* D9 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4cdf0,NULL,1}, /* DA */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4ce80,NULL,1}, /* DB */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4cf10,NULL,1}, /* DC */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4d0e0,NULL,1}, /* DD */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4d1e0,NULL,1}, /* DE */
-    {MN_NONE,0x0,0x0,0x0,decode_op_4d330,NULL,1}, /* DF */
+    {MN_NONE,0x0,0x0,0x0,decode_x87_db,NULL,1}, /* DB */
+    {MN_NONE,0x0,0x0,0x0,decode_x87_dc,NULL,1}, /* DC */
+    {MN_NONE,0x0,0x0,0x0,decode_x87_dd,NULL,1}, /* DD */
+    {MN_NONE,0x0,0x0,0x0,decode_x87_de,NULL,1}, /* DE */
+    {MN_NONE,0x0,0x0,0x0,decode_x87_df,NULL,1}, /* DF */
     {MN_LOOPNE,0x0,0x8,0x0,update_counter_registers,decode_short_relative,20}, /* E0 */
     {MN_LOOPE,0x0,0x8,0x0,update_counter_registers,decode_short_relative,20}, /* E1 */
     {MN_LOOP,0x0,0x0,0x0,update_counter_registers,decode_short_relative,20}, /* E2 */
@@ -337,7 +337,7 @@ const OpcodeEntry opcode_table[256]={
     {MN_OUT,0x0,0x0,0x0,decode_op_4df20,decode_op_4de00,1}, /* EF */
     {MN_LOCK,0x0,0x0,0x0,NULL,NULL,1}, /* F0 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b650,NULL,1}, /* F1 */
-    {MN_REPNZ,0x0,0x8,0x0,decode_op_4b8e0,NULL,1}, /* F2 */
+    {MN_REPNZ,0x0,0x8,0x0,decode_repne_prefix,NULL,1}, /* F2 */
     {MN_REP,0x0,0x8,0x0,decode_repe_prefix,NULL,1}, /* F3 */
     {MN_HLT,0x0,0x0,0x0,NULL,NULL,4}, /* F4 */
     {MN_CMC,0x1,0x1,0x0,NULL,NULL,1}, /* F5 */
@@ -489,7 +489,7 @@ const OpcodeEntry disassembly_extended_opcodes[112]={
     {MN_POP,0x0,0x0,0x0,decode_op_4db30,update_stack_registers,1}, /* page slot 41 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 42 */
     {MN_BT,0x1,0x0,0x0,decode_op_4c6d0,decode_modrm_register,1}, /* page slot 43 */
-    {MN_SHLD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d7d0,1}, /* page slot 44 */
+    {MN_SHLD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_register_and_byte_immediate,1}, /* page slot 44 */
     {MN_SHLD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d810,1}, /* page slot 45 */
     {MN_XBTS,0x0,0x0,0x0,decode_op_4d850,decode_modrm_operand_effects,1}, /* page slot 46 */
     {MN_IBTS,0x0,0x0,0x0,decode_modrm_operand_effects,decode_op_4d850,1}, /* page slot 47 */
@@ -497,7 +497,7 @@ const OpcodeEntry disassembly_extended_opcodes[112]={
     {MN_POP,0x0,0x0,0x0,decode_op_4db70,update_stack_registers,1}, /* page slot 49 */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 4A */
     {MN_BTS,0x1,0x0,0x0,decode_modrm_operand_effects,decode_modrm_register,1}, /* page slot 4B */
-    {MN_SHRD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d7d0,1}, /* page slot 4C */
+    {MN_SHRD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_register_and_byte_immediate,1}, /* page slot 4C */
     {MN_SHRD,0x1b,0x0,0x104,decode_modrm_operand_effects,decode_op_4d810,1}, /* page slot 4D */
     {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1}, /* page slot 4E */
     {MN_IMUL,0x101,0x0,0x1e,decode_modrm_register,decode_modrm_operand_effects,1}, /* page slot 4F */
@@ -533,4 +533,155 @@ const OpcodeEntry disassembly_extended_opcodes[112]={
     {MN_BSWAP,0x0,0x0,0x0,decode_op_4bc50,0,1}, /* page slot 6D */
     {MN_BSWAP,0x0,0x0,0x0,decode_op_4bc90,0,1}, /* page slot 6E */
     {MN_BSWAP,0x0,0x0,0x0,decode_op_4bcd0,0,1}, /* page slot 6F */
+};
+
+/* Shift/rotate display identities. */
+enum ShiftMnemonic {
+    MN_RCL=207,
+    MN_RCR=208,
+    MN_ROL=209,
+    MN_ROR=210,
+    MN_SHL=241,
+    MN_SHR=242,
+    MN_SAL=243,
+    MN_SAR=244
+};
+
+/* Native eight-entry shift/rotate descriptors at00083d00. */
+const OpcodeEntry disassembly_shift_group[8]={
+    {MN_ROL,0x101,0x0,0x0,decode_modrm_operand_effects,0,1},
+    {MN_ROR,0x101,0x0,0x0,decode_modrm_operand_effects,0,1},
+    {MN_RCL,0x101,0x0,0x0,decode_modrm_operand_effects,0,1},
+    {MN_RCR,0x101,0x0,0x0,decode_modrm_operand_effects,0,1},
+    {MN_SHL,0x11b,0x0,0x4,decode_modrm_operand_effects,0,1},
+    {MN_SHR,0x11b,0x0,0x4,decode_modrm_operand_effects,0,1},
+    {MN_SAL,0x11b,0x0,0x4,decode_modrm_operand_effects,0,1},
+    {MN_SAR,0x11b,0x0,0x4,decode_modrm_operand_effects,0,1},
+};
+
+/* Display identities used by disassembly_x87_dd_memory. */
+enum disassembly_x87_dd_memory_mnemonics {
+    MN_FLD=61,
+    MN_FRSTOR=83,
+    MN_FNSAVE=86,
+    MN_FST=94,
+    MN_FSTP=95,
+    MN_FNSTSW=103
+};
+
+/* Contextual8-entry descriptor table at00084520. */
+const OpcodeEntry disassembly_x87_dd_memory[8]={
+    {MN_FLD,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1},
+    {MN_FST,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FSTP,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FRSTOR,0x0,0x0,0x0,decode_x87_memory,0,1},
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1},
+    {MN_FNSAVE,0x0,0x0,0x0,decode_x87_memory,0,1},
+    {MN_FNSTSW,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+};
+
+/* Display identities used by disassembly_x87_d9_memory. */
+enum disassembly_x87_d9_memory_mnemonics {
+    MN_FLDCW=70,
+    MN_FLDENV=71,
+    MN_FNSTCW=99,
+    MN_FNSTENV=100
+};
+
+/* Contextual8-entry descriptor table at000842a0. */
+const OpcodeEntry disassembly_x87_d9_memory[8]={
+    {MN_FLD,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1},
+    {MN_FST,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FSTP,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FLDENV,0x0,0x0,0x0,decode_x87_memory,0,1},
+    {MN_FLDCW,0x0,0x0,0x0,decode_x87_memory,0,1},
+    {MN_FNSTENV,0x0,0x0,0x0,decode_x87_memory,0,1},
+    {MN_FNSTCW,0x0,0x0,0x0,decode_x87_memory,0,1},
+};
+
+/* Display identities used by disassembly_x87_d8_memory. */
+enum disassembly_x87_d8_memory_mnemonics {
+    MN_FADD=37,
+    MN_FCOM=43,
+    MN_FCOMP=44,
+    MN_FDIV=51,
+    MN_FDIVR=54,
+    MN_FMUL=74,
+    MN_FSUB=104,
+    MN_FSUBR=107
+};
+
+/* Contextual8-entry descriptor table at00084200. */
+const OpcodeEntry disassembly_x87_d8_memory[8]={
+    {MN_FADD,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FMUL,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FCOM,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FCOMP,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FSUB,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FSUBR,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FDIV,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FDIVR,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+};
+
+/* Contextual8-entry descriptor table at00084480. */
+const OpcodeEntry disassembly_x87_dc_memory[8]={
+    {MN_FADD,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FMUL,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FCOM,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FCOMP,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FSUB,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FSUBR,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FDIV,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FDIVR,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+};
+
+/* Display identities used by disassembly_x87_db_memory. */
+enum disassembly_x87_db_memory_mnemonics {
+    MN_FILD=62,
+    MN_FIST=96,
+    MN_FISTP=97
+};
+
+/* Contextual8-entry descriptor table at000843e0. */
+const OpcodeEntry disassembly_x87_db_memory[8]={
+    {MN_FILD,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1},
+    {MN_FIST,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_FISTP,0x0,0x0,0x0,decode_x87_memory,size_x87_dword,1},
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1},
+    {MN_FLD,0x0,0x0,0x0,decode_x87_memory,decode_op_4d510,1},
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1},
+    {MN_FSTP,0x0,0x0,0x0,decode_x87_memory,decode_op_4d510,1},
+};
+
+/* Contextual8-entry descriptor table at000845c0. */
+const OpcodeEntry disassembly_x87_de_memory[8]={
+    {MN_FADD,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FMUL,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FCOM,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FCOMP,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FSUB,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FSUBR,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FDIV,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FDIVR,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+};
+
+/* Display identities used by disassembly_x87_df_memory. */
+enum disassembly_x87_df_memory_mnemonics {
+    MN_FBLD=40,
+    MN_FBSTP=98
+};
+
+/* Contextual8-entry descriptor table at00084660. */
+const OpcodeEntry disassembly_x87_df_memory[8]={
+    {MN_FILD,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_NONE,0x0,0x0,0x0,decode_op_4b650,0,1},
+    {MN_FIST,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FISTP,0x0,0x0,0x0,decode_x87_memory,decode_op_4d4e0,1},
+    {MN_FBLD,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FILD,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FBSTP,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
+    {MN_FISTP,0x0,0x0,0x0,decode_x87_memory,size_x87_qword,1},
 };

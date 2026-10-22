@@ -793,3 +793,17 @@ Current union198731/281634=70.5636%,664 accepted frontiers. Audits pass516 call,
 See cases/disassembler-code/validation.json for timed evidence and the durable
 case queue for the two authorized follow-ons. Old disassembler-body inventory
 counts are incomplete; the original CFG survey is a separate conservative lead.
+
+Richer x86 native checkpoint (completed):37 additional C functions close the
+original-backed181-byte corpus, including memory/SIB, operand/address overrides,
+branches/immediates, strings/shifts and seven x87 groups. Original register-index,
+segment-effect and display quirks are preserved. All21 cached native cases/527
+application entries pass. Union203445/281634=72.2374%,701 accepted frontiers;
+audits553 calls/544 callbacks/422 data/707 instruction boundaries/38 ECX pass.
+Read-only disassembler CFG accounting resolves every internal switch and separates
+9406 instruction bytes,152 inline data and216 alignment across61 accepted bodies.
+The old partial inventory omits5699 of those genuine instruction bytes; its
+remaining-gap counts must not be treated as exhaustive. No target-wide body
+percentage is claimed. See cases/disassembler-x86-rich/validation.json and
+body-inventory.json for timing, provenance, individual ABI/extents and accounting.
+Next selected stage is original-backed Macintosh/m68k COFF linking.
