@@ -163,15 +163,12 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 
 #include "value-selection.h"
-void __fastcall record_x87_node(Node *node) { __asm int 3 }
 unsigned __fastcall lookup_floating_opcode(unsigned opcode, const FloatingOpcode *map) { __asm int 3 }
 void __fastcall arrange_x87_left(Node *node) { __asm int 3 }
 MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_conditional_value(Node *node) { __asm int 3 }
 void mark_x87_call_result(void) { __asm int 3 }
 MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
-void __fastcall spill_x87_for_node(Node *node) { __asm int 3 }
-SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
 #include "bitsets.h"
 
 #include "unoptimized.h"
@@ -393,3 +390,5 @@ int __cdecl divide_extended(const Extended *left, const Extended *right, Extende
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
+SymbolHeader *__fastcall find_floating_constant(const Extended *value, unsigned short type) { __asm int 3 }
+BackendSymbol *__fastcall new_generated_storage(unsigned kind, unsigned bytes, unsigned short storage, int local, unsigned char alignment, unsigned short flags) { __asm int 3 }

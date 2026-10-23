@@ -2428,3 +2428,9 @@ Target expression hook and temporary stack operands: checkpoint964
 @record_x87_node@4. 885 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-target.json for extent union, limits and measured timings.
+
+x87 stack bookkeeping and constant storage: checkpoint967
+3 acceptances pass fresh original/native matching; current frontier
+@find_floating_constant@8. 888 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-spill.json for extent union, limits and measured timings.

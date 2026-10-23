@@ -4,6 +4,7 @@
 #include "tree-rewrite.h"
 #include "algebra.h"
 #include "work-prepare.h"
+#include "initializers.h"
 #include <recon.h>
 extern int optimize_precision, cpu_model, code_pointer_bytes;
 SymbolHeader *__fastcall require_external_symbol(char *name);
@@ -492,4 +493,125 @@ int __fastcall comparison_uses_intrinsic_flags(Node *node)
         node->second.node->opcode != 0x33 || node->second.node->left.value != 0) return 0;
     return intrinsic->left.node->left.value == 171 &&
         (node->opcode == 0x1f || node->opcode == 0x20);
+}
+
+/* Original [0007cb08,0007cb28): eight stack entries. The original
+   expression depth1..8 indexes from selected_block at7cb04, so entry0
+   here corresponds to depth1; selected_block is a separate live alias. */
+Node *x87_stack_nodes[8];
+/* Original [00019b70,00019bb5). Each selected floating value records
+   its source tree at the current one-based x87 depth. */
+void __fastcall record_x87_node(Node *node)
+{
+    if (x87_stack_depth < 1) compiler_internal_error("@(#)codegen.c:1.167", 0xacc);
+    if (x87_stack_depth > 8) compiler_internal_error("@(#)codegen.c:1.167", 0xacd);
+    x87_stack_nodes[x87_stack_depth - 1] = node;
+}
+
+int __fastcall function_float_stack_depth(FunctionSymbol *symbol);
+/* Original [0001a240,0001a389). Reserve x87 headroom before selecting
+   an expression. Interned values are discarded, while owned expressions
+   become temporary loads in place, retaining the recorded node identity. */
+void __fastcall spill_x87_for_node(Node *node)
+{
+    unsigned arity = node_shapes[node->opcode] & NODE_ARITY;
+    int required, spill;
+    unsigned short type;
+    Node *top, *temporary, *replacement;
+    MachineOperand *destination;
+    if (arity == NODE_LEAF) return;
+    if (node->opcode == 0x3e || node->opcode == 0x7a) {
+        top = node->left.node;
+        if (top->opcode == 0x26 && top->right.symbol->kind == 4)
+            required = function_float_stack_depth(top->right.function);
+        else required = 8;
+    } else if (!(node->attributes.words.type & 0x3000)) required = 0;
+    else if (arity == NODE_UNARY) required = 1;
+    else if (arity == NODE_BINARY) required = 2;
+    else required = 0;
+    spill = required + x87_stack_depth - 8;
+    if (spill <= 0) return;
+    if (x87_stack_depth < spill) compiler_internal_error("@(#)codegen.c:1.167", 0xaf9);
+    while (spill > 0) {
+        top = x87_stack_nodes[x87_stack_depth - 1];
+        if (node_shapes[top->opcode] & NODE_INTERNED)
+            emit_machine_operation(MC_FSTP, 0x100a, &operand_st0, &operand_st0);
+        else {
+            type = top->attributes.words.type;
+            temporary = new_temporary_reference(type & 255, 0x400);
+            destination = new_operand(OPERAND_BASED, REG_EBP, 0, temporary->right.symbol);
+            emit_machine_operation(MC_FSTP, type, destination, &operand_st0);
+            release_node_children(top);
+            replacement = build_tree("PNT", temporary, 0x30, top);
+            *top = *replacement;
+        }
+        --spill;
+    }
+}
+
+/* Original constant cache nodes: sixteen bytes, head00080adc. The
+   extended value remains owned by the interned tree's constant storage. */
+typedef struct FloatingConstantEntry {
+    struct FloatingConstantEntry *next;
+    const Extended *value;
+    unsigned short type, reserved;
+    SymbolHeader *symbol;
+} FloatingConstantEntry;
+typedef char FloatingConstantEntrySizeCheck[sizeof(FloatingConstantEntry) == 16 ? 1 : -1];
+static FloatingConstantEntry *floating_constants;
+SymbolHeader *__fastcall find_floating_constant(const Extended *value, unsigned short type);
+BackendSymbol *__fastcall new_generated_storage(unsigned kind, unsigned bytes,
+    unsigned short storage, int local, unsigned char alignment, unsigned short flags);
+
+/* Original [00027390,00027519). Intern a read-only scalar symbol and
+   its initializer only when no existing equal representation is available. */
+SymbolHeader *__fastcall floating_constant_symbol(Node *constant)
+{
+    SymbolHeader *found;
+    BackendSymbol *symbol;
+    FloatingConstantEntry *entry;
+    Initializer *block, *datum;
+    unsigned short type;
+    unsigned bytes;
+    if (constant->right.symbol) return constant->right.symbol;
+    type = constant->attributes.words.type;
+    found = find_floating_constant(constant->left.pointer, type);
+    if (found) return found;
+    entry = arena_alloc(0, sizeof(*entry));
+    entry->next = floating_constants;
+    floating_constants = entry;
+    entry->value = constant->left.pointer;
+    entry->type = type;
+    bytes = (type & 0xff00) == 0x2000 ? (type & 0xfe) >> 1 : type & 255;
+    symbol = new_generated_storage(3, bytes, 4, 0, 4, 0x80);
+    constant->right.symbol = &symbol->symbol;
+    entry->symbol = &symbol->symbol;
+    block = new_initializer(0);
+    block->content.reference.symbol_id = symbol->symbol.identifier;
+    block->content.reference.value = 0;
+    datum = new_initializer(1);
+    block->next = datum;
+    datum->repeat = 1;
+    datum->content.datum.type = 5;
+    switch (type) {
+    case 0x1004:
+        datum->content.datum.bytes = 4;
+        if (extended_to_float(constant->left.pointer, (float *)&datum->content.datum.value.float_bits))
+            compiler_warning(2, 0x2f4);
+        break;
+    case 0x1008:
+        datum->content.datum.bytes = 8;
+        if (extended_to_double(constant->left.pointer, &datum->content.datum.value.double_bits))
+            compiler_warning(2, 0x2f4);
+        break;
+    case 0x100a:
+        datum->content.datum.bytes = 10;
+        datum->content.datum.value.extended = *(Extended *)constant->left.pointer;
+        break;
+    default:
+        compiler_internal_error("@(#)MDmisc.c:1.87", 0x410);
+        break;
+    }
+    insert_initializer(block);
+    return constant->right.symbol;
 }

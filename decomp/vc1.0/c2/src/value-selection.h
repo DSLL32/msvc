@@ -13,6 +13,7 @@ typedef char FloatingOpcodeSizeCheck[sizeof(FloatingOpcode) == 12 ? 1 : -1];
 extern const OpcodeMap signed_arithmetic_ops[], unsigned_shift_ops[];
 extern const OpcodeMap signed_false_conditions[], unsigned_false_conditions[];
 extern MachineOperand operand_st1;
+extern Node *x87_stack_nodes[8];
 void __fastcall record_x87_node(Node *node);
 unsigned __fastcall lookup_floating_opcode(unsigned opcode, const FloatingOpcode *map);
 void __fastcall arrange_x87_left(Node *node);

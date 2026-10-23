@@ -968,7 +968,10 @@
     "@lower_float_expression@4",
     "_finish_target_expression",
     "@function_float_stack_depth@4",
-    "@frame_temporary_operand@8"
+    "@frame_temporary_operand@8",
+    "@record_x87_node@4",
+    "@spill_x87_for_node@4",
+    "@floating_constant_symbol@4"
   ],
   "driver": [
     {
@@ -3497,8 +3500,7 @@
     {
       "name": "@record_x87_node@4",
       "start": 105328,
-      "end": 105329,
-      "provisional": true
+      "end": 105397
     },
     {
       "name": "@lookup_floating_opcode@8",
@@ -3554,8 +3556,7 @@
     {
       "name": "@spill_x87_for_node@4",
       "start": 107072,
-      "end": 107073,
-      "provisional": true
+      "end": 107401
     },
     {
       "name": "@select_intrinsic@4",
@@ -3575,8 +3576,7 @@
     {
       "name": "@floating_constant_symbol@4",
       "start": 160656,
-      "end": 160657,
-      "provisional": true
+      "end": 161049
     },
     {
       "name": "_new_bitset_node",
@@ -6853,6 +6853,18 @@
       "name": "@function_float_stack_depth@4",
       "start": 162656,
       "end": 162676
+    },
+    {
+      "name": "@find_floating_constant@8",
+      "start": 160560,
+      "end": 160561,
+      "provisional": true
+    },
+    {
+      "name": "@new_generated_storage@24",
+      "start": 320512,
+      "end": 320513,
+      "provisional": true
     }
   ],
   "cases": {
