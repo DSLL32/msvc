@@ -33,6 +33,7 @@ extern unsigned short next_debug_type_index;
 extern unsigned debug_type_count;
 extern unsigned debug_type_capacity;
 extern unsigned short debug_field_properties;
+unsigned debug_calling_convention(unsigned short attributes);
 int compare_debug_symbol_indices(const void *left, const void *right);
 unsigned __stdcall encode_debug_unsigned(unsigned char *destination, unsigned value);
 unsigned char *__stdcall copy_debug_name(unsigned char *destination, char *name);

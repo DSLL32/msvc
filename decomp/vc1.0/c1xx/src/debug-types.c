@@ -15,6 +15,27 @@ unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
 
+/* Original 0x6fdf0..0x6fe78. Member-function leaves carry the owner,
+   optional this type, argument-list index and signed this adjustment. */
+void __stdcall emit_debug_member_function_type(CType *type,
+    unsigned short return_index, unsigned short argument_count,
+    unsigned short class_index, int this_displacement)
+{
+    unsigned char *leaf = debug_record_buffer + 2;
+    unsigned short *words = (unsigned short *)leaf;
+    FunctionParameters *parameters = type->related->data.parameters;
+    words[0] = 9;
+    words[1] = return_index;
+    words[2] = class_index;
+    words[3] = (parameters->flags & 1) ? 0 : parameters->associated_type->debug_index;
+    leaf[8] = (unsigned char)debug_calling_convention(type->related->attributes);
+    leaf[9] = 0;
+    words[5] = argument_count;
+    words[6] = parameters->declarations->debug_index;
+    *(int *)(leaf + 14) = this_displacement;
+    emit_debug_type_record(18);
+}
+
 /* Original 0x6fe80..0x6ff00. Emit the low-byte argument count and
    the registered type index of each parameter, preserving null varargs. */
 void __stdcall emit_debug_argument_list(FunctionParameters *parameters)

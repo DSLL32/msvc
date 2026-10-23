@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "function": "_emit_debug_member_function_type@20",
+  "native_entry": "emit_debug_member_function_type",
+  "argument_words": 6,
+  "ownership_register": "ebp",
+  "ownership_caller_extent": [
+    450688,
+    451175
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "flush_debug_types",
+      "local": "type"
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type",
+    "raw_return": "(unsigned short)return_index",
+    "raw_count": "(unsigned short)argument_count",
+    "raw_class": "(unsigned short)class_index",
+    "raw_this": "this_displacement"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 385409,
+        "original_owner_function": "_flush_debug_types",
+        "native_owner_field": "caller_type",
+        "native_owner_function": "flush_debug_types",
+        "native_owner_local": "type",
+        "identity": "Actual accepted flush caller function CType in EBP, PUSH EBP0x6e17b/CALL0x6e17c return0x6e181, after evaluating referenced underlying type. Native actual caller local type binds original EBP semantic owner, never native frame register."
+      }
+    },
+    {
+      "name": "return_index",
+      "stack_index": 1,
+      "native_field": "raw_return",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    },
+    {
+      "name": "argument_count",
+      "stack_index": 2,
+      "native_field": "raw_count",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    },
+    {
+      "name": "class_index",
+      "stack_index": 3,
+      "native_field": "raw_class",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    },
+    {
+      "name": "this_displacement",
+      "stack_index": 4,
+      "native_field": "raw_this",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      458224,
+      458360
+    ],
+    "argument_bytes": 20,
+    "proof": "Two saved registers, formals type=[ESP+12], return_index WORD[+16], argument_count WORD[+20], class_index WORD[+24], this_displacement DWORD[+28] (read at+32 after PUSH length18). RET20 at0x6fe75 proves5stackwords; explicit6-word observer required, observes sixth transport word but does not invent sixth formal. No incoming hidden/register input. Raw0x6fd00 is cdecl debug_calling_convention (ADD ESP4), result AL consumed; othercallee0x6ffd0."
+  }
+}
