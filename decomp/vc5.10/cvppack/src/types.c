@@ -72,3 +72,11 @@ unsigned __fastcall map_legacy_index(unsigned index)
     flush_type_stack();
     return result;
 }
+
+/* Map a newer ECX type index, then flush pending patches [00403080,00403091). */
+unsigned __fastcall map_type_index(unsigned index)
+{
+    unsigned result = compact_type_index(index);
+    flush_type_stack();
+    return result;
+}

@@ -4,7 +4,7 @@ import copy
 import importlib.util
 import json
 import time
-from state import BINARY
+from state import BINARY, sha
 spec=importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py');decoder=importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
 start=time.perf_counter();rejected=[]
 def fixture(name):
@@ -13,7 +13,7 @@ def fixture(name):
     a={'hello.dll':(p/'original/artifact-hello.dll').read_bytes()};v={side:{f.name:f.read_bytes() for f in (p/side).glob(pattern)} for side,pattern in [('original','events-view-*.bin'),('native','native-view-*.bin')]}
     decoder.compare(c,d,e,n,a,v)
     return c,d,e,n,a,v
-register=fixture('0042-map-legacy-index');callback=fixture('0046-insert-public-symbol')
+register=fixture('0042-map-legacy-index');callback=fixture('0046-insert-public-symbol');modern=fixture('0055-map-type-index')
 def reject(name,case,mutate):
     c,d,e,n,a,v=copy.deepcopy(case);e=mutate(n,e)
     try:decoder.compare(c,d,e,n,a,v)
@@ -26,6 +26,10 @@ reject('wrong-native-ECX-argument',register,state_mutation(lambda n:n['parameter
 def wrong_ecx(n,e):
     lines=e.splitlines();i=max(i for i,line in enumerate(lines) if line.startswith('registers '));fields=lines[i].split();fields[3]='00000001';lines[i]=' '.join(fields);return '\n'.join(lines)+'\n'
 reject('wrong-raw-original-ECX-argument',register,wrong_ecx)
+reject('modern-native-ECX-argument',modern,state_mutation(lambda n:n['parameters'].__setitem__('index',1)))
+reject('modern-raw-original-ECX-argument',modern,wrong_ecx)
+reject('modern-actual-formal-width',modern,state_mutation(lambda n:n['observed_argument_types'][0].__setitem__('width',2)))
+reject('modern-omitted-actual-formals',modern,state_mutation(lambda n:n.__setitem__('observed_argument_names',[])))
 for label,field,value in [('record-content','bytes','00'*28),('record-capacity','capacity',28),('record-owner','owner','other')]:
     reject(label,callback,state_mutation(lambda n,f=field,v=value:n['parameters']['record'].__setitem__(f,v)))
 for name in ('hash','name','segment','offset'):
@@ -33,5 +37,5 @@ for name in ('hash','name','segment','offset'):
 reject('wrong-defined-segment-input',callback,state_mutation(lambda n:n['parameters']['segment'].__setitem__('bytes','0100')))
 reject('wrong-defined-offset-input',callback,state_mutation(lambda n:n['parameters']['offset'].__setitem__('bytes','01000000')))
 reject('wrong-callback-divisor',callback,state_mutation(lambda n:n['parameters'].__setitem__('flags',1)))
-report=dict(schema=1,native_only=True,positive_pairs=2,rejected=rejected,seconds=time.perf_counter()-start)
+report=dict(schema=1,native_only=True,positive_pairs=3,rejected=rejected,decoder_sha256=sha(BINARY/'scripts/raw-state.py'),checker_sha256=sha(BINARY/'scripts/check-abi-state.py'),inputs=[dict(pair=name,original_receipt_sha256=sha(BINARY/'cases/hello-debug-dll/evidence'/name/'original/receipt.json'),native_receipt_sha256=sha(BINARY/'cases/hello-debug-dll/evidence'/name/'native/receipt.json')) for name in ('0042-map-legacy-index','0046-insert-public-symbol','0055-map-type-index')],seconds=time.perf_counter()-start)
 (BINARY/'cases/hello-debug-dll/abi-state-checks.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))

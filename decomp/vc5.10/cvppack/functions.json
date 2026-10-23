@@ -60,7 +60,8 @@
     "initialize_module_type_storage",
     "reset_type_name_cache",
     "read_module_local_symbols",
-    "read_module_source_lines"
+    "read_module_source_lines",
+    "map_type_index"
   ],
   "functions": [
     {
@@ -1643,8 +1644,11 @@
       "source_name": "map_type_index",
       "native_symbol": "map_type_index",
       "original": 4206720,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4206720,
+        4206737
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1652,7 +1656,8 @@
           "register": "ecx",
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0055-map-type-index/promotion.json"
     },
     {
       "name": "symbol_record_key",

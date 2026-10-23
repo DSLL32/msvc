@@ -39,7 +39,7 @@ int query_widen(WidenTi *object, WidenOutput *output, const void *input, unsigne
 int emit_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size, unsigned flags) { __asm { int 3 } return 0; }
 void *resize_bytes(void *buffer, unsigned size) { __asm { int 3 } return NULL; }
 
-unsigned __fastcall map_type_index(unsigned index) { __asm { int 3 } return 0; }
+
 
 
 TypeRecord *lookup_global_type(unsigned index, unsigned char *from_global) { __asm { int 3 } return NULL; }
