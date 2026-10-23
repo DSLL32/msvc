@@ -3634,16 +3634,37 @@
       "native": "convert_bp_relative32",
       "symbol": "_convert_bp_relative32",
       "original": 152816,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        152816,
+        152869
+      ],
       "abi": "void convert_bp_relative32(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0092-convert_bp_relative32/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "convert_register_symbol",
@@ -5832,6 +5853,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 91
+    },
+    {
+      "function": "convert_bp_relative32",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 92
     }
   ],
   "support_unmasked": [
@@ -6426,11 +6453,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "018195f255074a79fa22692d458c613244eb3d3024b3e9b3d1afa18a7b5a13e1"
+    "evidence_sha256": "ad5a679907a9a54dad32498795846430f4583ebd89c01fb6faa30d94d6717a2a"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "7d693cc9c03d7280e98468ec4a03552804105b03f674f3c314bc5d772bcd80c3"
+    "evidence_sha256": "45dd22ca335701ca5285c0d601a81edb23a61f5bf3c130bb88500e61f10ddb3f"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -6462,42 +6489,42 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "991924cccdfc8fab6da4666215b6f8ca887200f15d2c0363090fac36ec9b7793"
+    "evidence_sha256": "1fedfb8b9cb4fdabe867ca9bd12d2243ca9ea7b9a8be36214bee61a5d1a64297"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "605e4afe5aca6d10a7050b7d90dd004e4d0c7adc6faa54d322edeea6e40ac4df"
+    "evidence_sha256": "1bfd40847bed6f97aa74ebbc00a4394ac02664bb50f7f1925f846bf8d7b492c1"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "5257765a9c0aa471675b4ff41cc115dd866ae19d3882a9de8a7805b5cc3cfcdf"
+    "evidence_sha256": "bf966626f55e39c34a05a45f4b022d26e1083d0952e1d55156dae964ef5c1891"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "ded7b322954f4bdfe654496dda3409ea7922d47276b36b99683a5f8a3c08754a"
+    "evidence_sha256": "e869beff3b6c3677d1d37b266aeb24f64eb6faf0c79c2c24b4c0191bfb03ae42"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "20ed24f82de0dec96802d46839e5e3b7184293d5c13275456df006b7140622b3"
+    "evidence_sha256": "0362578e9423e731cac8badd99b2a0f03d0d806d7003a353cdb9674dbf21e12b"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "83ae8a348b8e61fe34ff138bfa7296347e0bf01af3b69e7aa61568f2abaaae92"
+    "evidence_sha256": "286b070e0fc1666d1b5c878f51f87715e5f666ceaa868f0fa34bc3ba43d90875"
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "9db77a3e9dd8c7dc97c4a67dc68c24b4b242ab863d33abb1578da259b945c64a"
+    "evidence_sha256": "67bc4df8d4b3ae474bf0b04037521c16a51d8c2d3fa8b5ed64f8dfbcc2a62def"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "43ee3f4b5b0743536e1a39e22bb22087a5af1bf1848e39ab74fe4728fe15c1f1"
+    "evidence_sha256": "7cca408ae7be631dadca958aa83d7d4df59e866d8084a0a350266c7bed8dc6d7"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "fbac64663281c71097e0d96614870eb709b0cc65e540e1abf8f3251be5c14083"
+    "evidence_sha256": "1afdda8f2fb06d6ac80dd91756a0e872a9a3da94a5af5d01c8bf3930fc3212b7"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "9a39b5efa66dc260e7d923ae20ddaa13ab1dc3eff34474b4cfea6a4dad456f19"
+    "evidence_sha256": "eefbc7c63667247c7482911f04d1c458ec1b26cc9e6e08e3c4599003dab8f450"
   }
 }

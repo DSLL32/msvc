@@ -51,7 +51,7 @@ def capture():
     if p is None:return None
     if p.get('error'):return p
     def memory(address,size):return bytes(gdb.selected_inferior().read_memory(address,size)).hex()
-    assert gdb.newest_frame().name()in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32')and len(p['allocations'])==1
+    assert gdb.newest_frame().name()in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32','get_type_record','add_recursive_offset','intern_type','hash_recursive_type','commit_recursive_type','publish_recursive_type','hash_referenced_type','publish_packed_type','convert_procedure32','address_in_module','convert_bp_relative32','convert_register_symbol')and len(p['allocations'])==1
     a=p['allocations'][0];p['frontier']=dict(name=gdb.newest_frame().name(),root=memory(a['buffer'],24),node=memory(a['node'],12),payload=memory(a['base'],a['size']))
     p['hash_nodes']={};seen=set();heads=gdb.parse_and_eval('type_hash_buckets')
     for bucket in range(4096):

@@ -35,7 +35,7 @@
   "cursor": 217260,
   "allocation_return": 105531,
   "sources": {
-    "src/types.c": "f4ef8e0b4911f145c8b2d8b77614b4ef112060d8caca9dcdafbe4438659bcf25"
+    "src/types.c": "73de680739b0d4e6225f1a1ecf5436417a584a57e0d8b493b04494ddc11ab582"
   },
   "native_allocation_line": 1789,
   "instructions": [
@@ -49,5 +49,6 @@
   "data.json_sha256": "f5264f909069b6b6addadaa381ccf26238f9cc0fbf370794f8b048f1aa405dc4",
   "walks.json_sha256": "9e8c4574a364950e57c2288a044b2e2653010d17fbb9d411d41171e686a19549",
   "address_frontier": 153888,
-  "bp_frontier": 152816
+  "bp_frontier": 152816,
+  "register_frontier": 152880
 }

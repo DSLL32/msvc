@@ -347,6 +347,10 @@ def main():
         from binary import PE
         from audit import publics
         proof['type_cache_allocation_provenance']=validate_type_cache(config,pe,PE(BINARY/'build/CVPACK.EXE'),publics())['compiled_allocation']
+    from symbol_type_fields import validate as validate_symbol_type_fields
+    from binary import PE
+    from audit import publics
+    proof['symbol_type_field']=validate_symbol_type_fields(config,pe,PE(BINARY/'build/CVPACK.EXE'),publics())
     (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n')
     function['status']='accepted';function['evidence']=proof_path
     config['accepted_order'].append(dict(function=args.function,case=args.case,kind='application',sequence=sequence))

@@ -749,7 +749,7 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     else if(frontier==0x1e700) { defined=40;offset=1321; }
     else if(frontier==0x27b10) { defined=40;offset=2227; }
     else if(frontier==0x1ac80 || frontier==0x1c640 || frontier==0x1eac0 || frontier==0x19ca0 || frontier==0x1c880 || frontier==0x19c20) { defined=40;offset=2227; }
-    else if(frontier==0x257a0 || frontier==0x25920 || frontier==0x254f0) {
+    else if(frontier==0x257a0 || frontier==0x25920 || frontier==0x254f0 || frontier==0x25530) {
         if(!ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input<symbol_input_base || input>symbol_input_base+4746 ||
            !ReadProcessMemory(child,(void *)0x335f0,&cursor,4,&bytes) || bytes!=4 || cursor<symbol_base || cursor>symbol_base+symbol_size)return 0;
         defined=cursor-symbol_base;offset=input-symbol_input_base;
@@ -809,7 +809,7 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD roots[120],bytes,written,i;int used;
     if(!type_page_base)return 1;
-    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770 && frontier!=0x256f0 && frontier!=0x1e700 && frontier!=0x27b10 && frontier!=0x1ac80 && frontier!=0x1c640 && frontier!=0x1eac0 && frontier!=0x19ca0 && frontier!=0x1c880 && frontier!=0x19c20 && frontier!=0x257a0 && frontier!=0x25920 && frontier!=0x254f0) ||
+    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0 && frontier!=0x1ad40 && frontier!=0x1af10 && frontier!=0x1ae40 && frontier!=0x19770 && frontier!=0x256f0 && frontier!=0x1e700 && frontier!=0x27b10 && frontier!=0x1ac80 && frontier!=0x1c640 && frontier!=0x1eac0 && frontier!=0x19ca0 && frontier!=0x1c880 && frontier!=0x19c20 && frontier!=0x257a0 && frontier!=0x25920 && frontier!=0x254f0 && frontier!=0x25530) ||
        !ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots) || roots[0]!=type_page_base) return 0;
     for(i=1;i<120;++i)if(roots[i])return 0;
     if(!ReadProcessMemory(child,(void *)type_page_base,array_bytes,2048,&bytes) || bytes!=2048)return 0;

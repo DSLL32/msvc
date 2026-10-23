@@ -1812,3 +1812,15 @@ void convert_procedure32(void)
     type = symbol_input+0x22;
     *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
 }
+
+void convert_bp_relative32(void)
+{
+    unsigned char *type;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        /* Retain the original reload after marking the suppressed record. */
+        if (suppressed_symbol_depth) return;
+    }
+    type = symbol_input+8;
+    *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
+}

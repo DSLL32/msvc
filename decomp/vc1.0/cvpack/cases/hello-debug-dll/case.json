@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "convert_bp_relative32",
-    "native_function": "convert_bp_relative32",
+    "logical": "convert_register_symbol",
+    "native_function": "convert_register_symbol",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -109,7 +109,8 @@
       "publish_packed_type",
       "convert_procedure32",
       "address_in_module",
-      "convert_bp_relative32"
+      "convert_bp_relative32",
+      "convert_register_symbol"
     ]
   },
   "complete_reference": {

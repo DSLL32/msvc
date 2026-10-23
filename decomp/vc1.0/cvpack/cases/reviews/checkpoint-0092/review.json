@@ -1,0 +1,63 @@
+{
+  "application_functions": 92,
+  "application_bytes": 31184,
+  "next": "convert_register_symbol",
+  "source": "convert_bp_relative32254f0..25525: suppress kind8 and retain original second depth reload, otherwise convert ushort type at symbol_input+8 and write returned AX back through same pointer. Original Win32 C graph and void ABI retained.",
+  "compiled_field_proof": "Current case stack-local types are primitive identity conversions. Added mandatory original/canonical emitted field def-use check: exact symbol_input+8 creation, same local pointer->CX input, convert_new_type target, same local->AX store; both suppression depth reads and marker+2 also verified. Reject wrong field, pointer local or returned register even if primitive output would be unchanged. Pure static check added to unchanged paired source/artifact; no original recapture solely for this check.",
+  "typed_state": "Four BP-relative stack locals copied with original padding: packed output prefix244, sourceoffset4405, next register symbolkind2/length11/callback23. Same113 copies/3268 type bytes/113 nodes/17 names/88 PDB fields/eight resolver results, three nodes each in distinct pools, two retained symbol blocks242 nodes, one exact module-address AX1 return. Next25530..25565 whole-body ABI independently reviewed: void/no hidden inputs/RET0.",
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 0.38964775018393993
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.6321450630202889
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 24.050790147855878
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.45685670524835587
+    }
+  },
+  "rejection_controls": 608,
+  "new_controls": 6,
+  "native_acceptance_seconds": {
+    "setup": 0.2523152558133006,
+    "execution": 0.017215503379702568,
+    "debugging": 2.626943688839674,
+    "checks": 0.03313465788960457,
+    "total": 2.929616153240204
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.30488414876163006,
+    "execution": 1.5106424121186137,
+    "total": 1.8511830130591989
+  },
+  "limitations": "Initial DLL case remains partial; no CRT/shared changes or ownership relaxation. New field audit uses original-compiler emitted C def-use; the native compiler builds identical C atO0. Unknown native expanded recursion/module bounds remain guarded.",
+  "failed_attempts": "Adding mandatory static field check changed audit.py, so first acceptance correctly rejected stale hash-bound runtime identity cache. Explicit make graph-identities refreshed it. A premature preaccept rejection-suite run selected archived previous accepted frontier and correctly hit current narrow scratch-frontier guard; retained negatives-before-acceptance-frontier.log. Accepted unchanged fresh pair after refresh, then full608 controls and current fixtures passed. No guard/policy weakening or original recapture for tooling-only change."
+}

@@ -50,5 +50,6 @@
   "data.json_sha256": "f5264f909069b6b6addadaa381ccf26238f9cc0fbf370794f8b048f1aa405dc4",
   "walks.json_sha256": "9e8c4574a364950e57c2288a044b2e2653010d17fbb9d411d41171e686a19549",
   "address_frontier": 153888,
-  "bp_frontier": 152816
+  "bp_frontier": 152816,
+  "register_frontier": 152880
 }
