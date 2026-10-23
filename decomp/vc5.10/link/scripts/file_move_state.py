@@ -24,6 +24,7 @@ def records(slots,post=False,name=0):
 
 def compare(original,state,trap,events,native_directory=None):
     verify()
+    mapping=state['function']=='initialize_file_mapping'
     assert native_directory is not None
     receipt=json.loads((native_directory/'receipt.json').read_text())
     symbols=slot_symbols(str(native_directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
@@ -61,9 +62,9 @@ def compare(original,state,trap,events,native_directory=None):
     assert entry['formals']==expected and nentry['formals']==nexpected
     assert entry['hidden_inputs']==nentry['hidden_inputs']==acquire['hidden_inputs']==nacquire['hidden_inputs']==[]
     assert acquire['stack_pointer']==entry['stack_pointer']-44
-    assert trap['esp']==entry['stack_pointer']-44 and trap['stack'][0]==0x40b84a
+    assert trap['esp']==entry['stack_pointer']-(76 if mapping else 44)and trap['stack'][0]==(0x40c9cf if mapping else 0x40b84a)
     assert obefore['stack']==acquire['stack_pointer']-44
-    assert trap['ebp']==0xffffffff
+    if not mapping:assert trap['ebp']==0xffffffff
     current=trap['file_record_formals'];ncurrent=state['file_record_formals']
     for c,e,name in ((current,entry,expected[0]),(ncurrent,nentry,nexpected[0])):
         assert[c[k]for k in ('name','flags','mode')]==[name,0x8302,0x180]
@@ -108,8 +109,15 @@ def compare(original,state,trap,events,native_directory=None):
     assert nacq['name']==newname
     assert words((original/'file-acquire-result-0.bin').read_bytes())==records(oslots,True,name)[15]
     assert words(bytes.fromhex(nacq['raw']))==records(nslots,True,newname)[15]
-    assert [words((original/('file-record-%02u.bin'%i)).read_bytes())for i in range(16)]==records(oslots,True,name)
-    assert [words(bytes.fromhex(r))for r in state['file_records']]==records(nslots,True,newname)
+    final_records=records(oslots,True,name);native_records=records(nslots,True,newname)
+    if mapping:
+        from file_mapping_state import compare_created,mapping_symbol
+        assert state['mapped_file_slots_address']==mapping_symbol(str(native_directory/'compiled/native-LINK.EXE'),receipt['native_sha256'])
+        handle,nhandle=compare_created(original,state,trap,events,name,newname,oslots,nslots)
+        for pool,value in ((final_records,handle),(native_records,nhandle)):
+            last=list(pool[15]);last[4]=value;last[6]=0x80000;pool[15]=tuple(last)
+    assert [words((original/('file-record-%02u.bin'%i)).read_bytes())for i in range(16)]==final_records
+    assert [words(bytes.fromhex(r))for r in state['file_records']]==native_records
     assert trap['file_cache_lists']=={k:v for k,v in cache(oslots,True).items()if k!='file_newest'}
     assert state['file_cache_lists']=={k:v for k,v in cache(nslots,True).items()if k!='file_newest'}
     assert state['duplicate_calls'][-1]==dict(input=nexpected[0],text='hello.exe',result=newname)
@@ -122,9 +130,14 @@ def compare(original,state,trap,events,native_directory=None):
         assert 0<=m['raw_created_word']<=0xffffffff and m['raw_created_word']&255==1
         assert m['raw_upper_bits']==m['raw_created_word']>>8
         assert m['size']==c['size_slot']and m['initial_size']==0
-    assert trap['stack'][1:5]==[mapped['record'],mapped['flags'],mapped['raw_created_word'],mapped['size']]
-    for metadata,m in ((trap,mapped),(state,nmapped)):
-        assert metadata['frontier_inputs']==dict(formals=[m['record'],m['flags'],1,m['size']],hidden_register_inputs=[])
+    if mapping:
+        observed,=[e for e in events if e['event']=='mapped_open_entry']
+        assert observed['hidden_inputs']==[]and observed['stack_pointer']==entry['stack_pointer']-44
+        assert observed['raw_formals']==[mapped['record'],mapped['flags'],mapped['raw_created_word'],mapped['size']]
+    else:assert trap['stack'][1:5]==[mapped['record'],mapped['flags'],mapped['raw_created_word'],mapped['size']]
+    if not mapping:
+        for metadata,m in ((trap,mapped),(state,nmapped)):
+            assert metadata['frontier_inputs']==dict(formals=[m['record'],m['flags'],1,m['size']],hidden_register_inputs=[])
     # Return the newly relevant owned allocations to the existing whole-context
     # disjointness checker: table, all complete records and the copied name.
     ranges=[dict(original_base=a,native_base=b,bytes=40)for a,b in zip(oslots,nslots)]

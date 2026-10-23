@@ -91,7 +91,8 @@
     "_acquire_file_record@16",
     "_find_cached_file@4",
     "_get_available_file_record",
-    "_move_file_record@24"
+    "_move_file_record@24",
+    "_open_mapped_file@16"
   ],
   "driver": [
     {
@@ -2592,10 +2593,9 @@
     {
       "name": "_open_mapped_file@16",
       "start": 4245632,
-      "end": 4245633,
+      "end": 4246026,
       "source": "src/files.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "open_mapped_file",
       "abi": "stdcall int(FileRecord *record,int flags,BYTE created,DWORD *size); four stack formals,RET16; BYTE formal consumes only low eight bits; observed when reached"
     },
@@ -2665,6 +2665,26 @@
       "pending_extent": true,
       "native_symbol": "close_mapped_file",
       "abi": "stdcall BOOL(FileRecord *record); one stack input,RET4; actual CloseHandle/empty-file Boolean EAX; hidden inputs/state observed when reached"
+    },
+    {
+      "name": "_seek_mapped_file@16",
+      "start": 4246032,
+      "end": 4246033,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "seek_mapped_file",
+      "abi": "stdcall long(FileRecord *record,long offset,int origin,DWORD *error); four stack formals,RET16; no hidden inputs; observed when reached"
+    },
+    {
+      "name": "_initialize_file_mapping@12",
+      "start": 4246768,
+      "end": 4246769,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_file_mapping",
+      "abi": "stdcall BYTE(FileRecord *record,BYTE resize,DWORD *error); three physical DWORD stack slots,RET12; only low byte of resize consumed; no hidden inputs; observed when reached"
     }
   ],
   "text_data": [

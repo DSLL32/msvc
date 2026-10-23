@@ -89,6 +89,7 @@ def main():
         ('target',0x6754c,1,'file-mapping-enabled.bin'),
         ('target',0x674dc,4,'file-window-limit.bin'),
         ('target',0x674f4,60,'file-statistics.bin'),
+        ('target',0x674f0,64,'mapped-file-slots.bin'),
         ('target',0x944b4,4,'allocation-page-size.bin'),
         ('target',0x7ef7c,4,'maximum-physical-memory.bin'),
         ('target',0x7f138,4,'selected-tool-kind.bin'),

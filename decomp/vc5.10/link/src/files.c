@@ -3,10 +3,12 @@
 #include <string.h>
 #include "files.h"
 #include "link.h"
+#include "options.h"
 #include <recon.h>
 
 FileRecord **file_slots, *file_newest;
-unsigned file_record_count, file_window_limit, file_statistics[15];
+unsigned file_record_count, file_window_limit;
+FileRecord *mapped_files[16];
 unsigned char file_mapping_enabled;
 
 void __stdcall initialize_file_cache(unsigned mapped_slots, unsigned mapped_limit,
@@ -34,7 +36,7 @@ void __stdcall initialize_file_cache(unsigned mapped_slots, unsigned mapped_limi
         file_slots[i] = record;
     }
     file_window_limit = limit;
-    for (i = 0; i < 15; ++i) file_statistics[i] = 0;
+    for (i = 1; i < 16; ++i) mapped_files[i] = NULL;
 }
 FileRecord *__cdecl new_file_record(void)
 {
@@ -87,10 +89,10 @@ FileRecord *__stdcall acquire_file_record(const char *name,int flags,int mode,un
         *created=1;
         record->name=name?duplicate_argument(name):NULL;
         record->flags=0;
-        record->position=0;
+        record->size=0;
         record->file=NULL;
-        record->mapping=NULL;
-        record->mapped_size=0;
+        record->view=NULL;
+        record->mapping_size=0;
         record->file_size=0;
         record->base=NULL;
         if (!(flags & 15) || (flags & 2)) record->flags=1;
@@ -177,6 +179,48 @@ FileRecord *__cdecl get_available_file_record(void)
 }
 int __stdcall close_buffered_file(FileRecord *record) { __asm { int 3 } return -1; }
 BOOL __stdcall close_mapped_file(FileRecord *record) { __asm { int 3 } return 0; }
-int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char created,DWORD *size) { __asm { int 3 } return -1; }
+long __stdcall seek_mapped_file(FileRecord *record,long offset,int origin,DWORD *error) { __asm { int 3 } return -1; }
+unsigned char __stdcall initialize_file_mapping(FileRecord *record,unsigned char resize,DWORD *error) { __asm { int 3 } return 0; }
+
+int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char created,DWORD *error)
+{
+    unsigned i;
+    unsigned char writable=(flags & 3)!=0,truncate=(flags & 0x100)!=0;
+    DWORD attributes=(flags & 0x40)?(FILE_FLAG_DELETE_ON_CLOSE|FILE_ATTRIBUTE_TEMPORARY):FILE_ATTRIBUTE_NORMAL;
+    long size;
+    if (!created) {
+        seek_mapped_file(record,0,0,error);
+        return 0;
+    }
+    if (writable) {
+        for (i=0;i<16;++i) {
+            if (!mapped_files[i]) {
+                mapped_files[i]=record;
+                break;
+            }
+        }
+        record->file=CreateFileA(record->name,GENERIC_READ|GENERIC_WRITE,0,NULL,
+            truncate?CREATE_ALWAYS:OPEN_EXISTING,attributes,NULL);
+    } else {
+        record->file=CreateFileA(record->name,GENERIC_READ,FILE_SHARE_READ,NULL,
+            OPEN_EXISTING,0,NULL);
+    }
+    if (record->file==INVALID_HANDLE_VALUE) {
+        *error=GetLastError();
+        record->file=NULL;
+        if (writable || (*error!=ERROR_PATH_NOT_FOUND && *error!=ERROR_FILE_NOT_FOUND))
+            return -1;
+        move_file_record(record,&pending_files,NULL,&file_newest,NULL,0);
+        link_fatal(NULL,1181,record->name);
+    }
+    size=truncate?0:GetFileSize(record->file,NULL);
+    if (size==-1) link_fatal(NULL,1104,record->name);
+    record->size=size;
+    if (!writable) record->mapping_size=size;
+    else if (!record->mapping_size) record->mapping_size=size<0x80000?0x80000:size;
+    if (!initialize_file_mapping(record,0,error)) return -1;
+    record->flags|=8;
+    return 0;
+}
 void __cdecl initialize_file_buffers(void) { __asm { int 3 } }
 int __stdcall open_buffered_file(FileRecord *record,int flags,int mode,unsigned char created) { __asm { int 3 } return -1; }

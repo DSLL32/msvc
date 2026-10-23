@@ -68,4 +68,6 @@ def plan(accepted,case="help"):
                    (0x5c706,"observe:searchenv_call"),(0x5c70c,"observe:searchenv_return")]
     if case!="help" and "_release_memory@4" in accepted:
         result += [(0x4fe35,"observe:free_call"),(0x4fe3b,"observe:free_return")]
+    if '_open_mapped_file@16'in accepted:
+        result.extend([(0xc914,'observe:mapped_create_call'),(0xc91a,'observe:mapped_create_return')])
     return result
