@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_reconcile_typedef@8",
+    "start": 345872,
+    "end": 346131
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1101-reconcile_typedef-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_make_overload_symbol@4",
+    "_record_typedef_alias@8",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_declare_qualified_member@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5288178091868758,
+  "total_operation_seconds": 4.53642353694886,
+  "original_capture_seconds": 1.8697470035403967
+}

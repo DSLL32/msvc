@@ -36,6 +36,42 @@ void __stdcall prepend_function_overload(CppSymbol *overloads, CppSymbol *declar
 char *__stdcall make_local_static_name(CppSymbol *symbol);
 void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias);
 
+void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias);
+
+/* Original 0x54710..0x54813. A typedef may name its own tag; mixed
+   typedef/object declarations preserve the original chain through an alias. */
+CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration)
+{
+    CppSymbol *alias;
+    CType *type;
+    if ((existing->flags & 0x10) && (declaration->flags & 0x10)) {
+        if (existing->type == declaration->type) return existing;
+        type = declaration->type;
+        if ((existing->kind & 31) == 4 &&
+            cpp_context_stack->items[type->field08] == existing && !type->related &&
+            (existing->type->attributes == type->attributes || !type->attributes))
+            return existing;
+        return 0;
+    }
+    if (!(existing->flags & 0x10) && !(declaration->flags & 0x10)) return 0;
+    if (existing->flags & 0x10) {
+        if ((existing->storage[0] & 7) == 7)
+            report_syntax_error(377, existing->name);
+    } else if ((declaration->storage[0] & 7) == 7)
+        report_syntax_error(378, existing->name);
+    if (existing->kind & 0x80) return existing;
+    existing->kind |= 0x80;
+    alias = make_overload_symbol(declaration);
+    alias->kind |= 0x40;
+    record_typedef_alias(existing, alias);
+    alias->next = existing->next;
+    existing->next = alias;
+    if (current_class_context >= 0 &&
+        class_contexts[current_class_context].last_member == existing)
+        class_contexts[current_class_context].last_member = alias;
+    return declaration;
+}
+
 /* Original 0x535e0..0x535f3. */
 CppSymbol *__stdcall lookup_declaration(CppSymbol *symbol)
 {

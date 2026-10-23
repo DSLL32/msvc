@@ -115,7 +115,6 @@ void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { _
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __asm { int 3 } return 0; }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
-CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration) { __asm { int 3 } return 0; }
 
 
 void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
@@ -621,3 +620,5 @@ unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymb
 void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail) { __asm { int 3 } }
 unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { __asm { int 3 } return 0; }
 unsigned pad_debug_field(unsigned char *destination, unsigned length) { __asm { int 3 } return 0; }
+
+void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }

@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "function": "_reconcile_typedef@8",
+  "native_entry": "reconcile_typedef",
+  "argument_words": 4,
+  "ownership_register": "edi,esi",
+  "ownership_caller_extent": [
+    341600,
+    342169
+  ],
+  "native_caller_locals": {
+    "caller_resolved": {
+      "frame": 1,
+      "function": "reconcile_declaration",
+      "local": "resolved"
+    },
+    "caller_declaration": {
+      "frame": 1,
+      "function": "reconcile_declaration",
+      "local": "declaration"
+    }
+  },
+  "native_expressions": {
+    "raw_existing": "(unsigned)existing",
+    "raw_declaration": "(unsigned)declaration"
+  },
+  "formals": [
+    {
+      "name": "existing",
+      "stack_index": 0,
+      "native_field": "raw_existing",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 276381,
+        "original_owner_function": "_reconcile_declaration@8",
+        "native_owner_function": "reconcile_declaration",
+        "native_owner_field": "caller_resolved",
+        "native_owner_local": "resolved",
+        "identity": "Actual accepted caller resolvedEDI and declarationESI; PUSHESI53796/PUSHEDI53797/CALL53798 return5379d. Native actual immediate caller local/formal owner, not frozen heap equality."
+      }
+    },
+    {
+      "name": "declaration",
+      "stack_index": 1,
+      "native_field": "raw_declaration",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 276381,
+        "original_owner_function": "_reconcile_declaration@8",
+        "native_owner_function": "reconcile_declaration",
+        "native_owner_field": "caller_declaration",
+        "native_owner_local": "declaration",
+        "identity": "Actual accepted caller resolvedEDI and declarationESI; PUSHESI53796/PUSHEDI53797/CALL53798 return5379d. Native actual immediate caller local/formal owner, not frozen heap equality."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      345872,
+      346131
+    ],
+    "argument_bytes": 8,
+    "proof": "Save3registers12B: existingESP+16/declarationESP+20, all RET8. Same-typedef identity/tag-equivalence earlyreturns, otherwise one-typedef diagnostics, aliaschain insertion and current class last-member repair. Direct callees73180report_syntax_error,54820make_overload_symbol,54680newnamedrecord_typedef_alias independently rawresolved; no guessed callee. Semantic returnEAX. Both actual logical pointers bound to accepted caller resolvedEDI/declarationESI; neither register is extra callee ABIinput."
+  }
+}

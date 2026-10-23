@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x12c7d: file src/declaration-lookup.c, line 47.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, reconcile_typedef (existing=0x56624da4, declaration=0x56625f40) at src/declaration-lookup.c:47
+47	    if ((existing->flags & 0x10) && (declaration->flags & 0x10)) {
+#0  reconcile_typedef (existing=0x56624da4, declaration=0x56625f40) at src/declaration-lookup.c:47
+#1  0x565684a8 in reconcile_declaration (existing=0x56624da4, declaration=0x56625f40) at src/declaration-lookup.c:243
+#2  0x56568128 in lookup_scope_declaration (symbol=0x56625f40, scope=0x56622048) at src/declaration-lookup.c:95
+#3  0x565680b6 in lookup_declaration (symbol=0x56625f40) at src/declaration-lookup.c:78
+#4  0x5656e243 in resolve_declaration (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/resolve-declaration.c:166
+#5  0x565674be in apply_declaration_type (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/declaration-bind.c:111
+#6  0x56567b8d in complete_declaration (context=0x5660ba50 <declaration_spec_storage+8>, declaration=0x56625f40) at src/declaration-bind.c:205
+#7  0x565b3d64 in parse_translation_unit () at src/parser-declaration-actions.inc:306
+#8  0x5655e10f in compile_translation_unit () at src/frontend.c:73
+#9  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#10 0x56558884 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

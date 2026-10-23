@@ -104,7 +104,7 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     if (ownership_register) {
         char *register_name;
         DWORD value;
-        unsigned selected = ownership_register == 7 ? 4 : ownership_register;
+        unsigned selected = ownership_register == 7 ? 4 : (ownership_register == 9 ? 3 : ownership_register);
         for (;;) {
             switch (selected) {
             case 8: register_name = "edx"; value = context_read ? context.Edx : 0; break;
@@ -118,8 +118,9 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
             if (context_read) sprintf(line, "ownership-anchor %s %08lx\n", register_name, value);
             else sprintf(line, "ownership-anchor %s unreadable\n", register_name);
             WriteFile(log, line, strlen(line), &written, 0);
-            if (ownership_register != 7 || selected == 6) break;
-            selected = 6;
+            if (ownership_register == 7 && selected == 4) { selected = 6; continue; }
+            if (ownership_register == 9 && selected == 3) { selected = 1; continue; }
+            break;
         }
     }
 }
@@ -158,7 +159,8 @@ int main(int argc, char **argv)
         else if (strcmp(argument_option, "4")) return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "edx")) ownership_register = 8;
+        if (!strcmp(ownership_option, "edi,esi")) ownership_register = 9;
+        else if (!strcmp(ownership_option, "edx")) ownership_register = 8;
         else if (!strcmp(ownership_option, "eax,esp")) ownership_register = 7;
         else if (!strcmp(ownership_option, "esp")) ownership_register = 6;
         else if (!strcmp(ownership_option, "ebp")) ownership_register = 5;
