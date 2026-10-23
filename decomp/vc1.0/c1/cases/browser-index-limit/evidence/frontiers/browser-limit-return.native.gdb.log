@@ -1,0 +1,11 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x65c30: file src/browser.c, line 515.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, browser_index_overflow () at src/browser.c:515
+515	{
+Temporary breakpoint 2 at 0x56670149: file src/declarations.c, line 80.
+
+Temporary breakpoint 2, 0x56670149 in declare_symbol (declaration=0x566cec9c <declaration_spec_storage+8>, symbol=0x57bcb650) at src/declarations.c:80
+80	        if (next_symbol_index >= browser_symbol_limit && browser_filename) browser_index_overflow();

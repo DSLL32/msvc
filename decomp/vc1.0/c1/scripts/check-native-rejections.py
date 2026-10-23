@@ -549,6 +549,32 @@ def main():
     rejects('registry-historical-entry','native trace prototype-scope-registry index 0: expected',
             lambda:checker.run_case('prototype-scope-registry',executable,private_root,(wrong,filter_path)))
 
+    _, limit = checker.run_case('browser-index-limit',executable,directory,(cache,filter_path))
+    limit_fixture=checker.BINARY/'cases/browser-index-limit'
+    limit_phase=json.loads((limit_fixture/'manifest.json').read_text())['phases']['c1']
+    warning=limit_phase['expected_stdout'].encode('latin1')
+    assert warning.count(b'warning C4041:')==1
+    rejects('browser-limit-missing-warning','stdout differs',
+            lambda:checker.validate_result('browser-index-limit',0,b'',b'',limit_phase))
+    rejects('browser-limit-repeated-warning','stdout differs',
+            lambda:checker.validate_result('browser-index-limit',0,warning+warning,b'',limit_phase))
+    browser=bytearray((limit/'registry.sbr').read_bytes());assert browser[-1]==14
+    browser[-1]=0
+    (limit/'registry.sbr').write_bytes(browser)
+    rejects('browser-limit-partial-terminal','output bytes differ: registry.sbr',
+            lambda:checker.validate_artifacts(limit,limit_fixture,limit_phase))
+    wrong=copy.deepcopy(limit_phase);wrong['generated_sources'][0]['declarations']-=1
+    rejects('browser-limit-generator-count','generated declaration count differs',
+            lambda:checker.validate_generated_sources(limit_fixture,wrong))
+    wrong=copy.deepcopy(limit_phase);wrong['generated_sources'][0]['generator_sha256']='0'*64
+    rejects('browser-limit-generator-identity','source generator changed',
+            lambda:checker.validate_generated_sources(limit_fixture,wrong))
+    private=directory/'wrong-generated-source';(private/'inputs').mkdir(parents=True)
+    generated=bytearray((limit_fixture/'inputs/bulk-registry.h').read_bytes());generated[0]^=1
+    (private/'inputs/bulk-registry.h').write_bytes(generated)
+    rejects('browser-limit-generated-source-bytes','generated source bytes differ',
+            lambda:checker.validate_generated_sources(private,limit_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

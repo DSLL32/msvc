@@ -1,0 +1,9 @@
+{
+  "scope": "Retained case payload excluding this receipt itself; includes generated input, repeated complete raw transports, actual preflight binaries and fresh frontier/return/fullstage evidence. Unique-content count deduplicates byte-identical blobs only; not an estimate of filesystem/Git compression.",
+  "files": 181,
+  "logical_bytes": 29066102,
+  "unique_content_bytes": 5047770,
+  "unique_content_blobs": 96,
+  "generated_input_bytes": 2442112,
+  "validation_sha256": "6e2ab85605891a1615de825e6b535ed402e7fd4620a3caafd331488cbb27265b"
+}

@@ -200,6 +200,10 @@
     "prototype-scope-registry": {
       "receipt": "cases/prototype-scope-registry/evidence/registry-entries-1008.receipt.json",
       "sha256": "e43ac695bc549e92d85bca59b347c3a35f760ebae7d8191da146a1fdb751006d"
+    },
+    "browser-index-limit": {
+      "receipt": "cases/browser-index-limit/evidence/browser-limit-entries-1009.receipt.json",
+      "sha256": "0f5e474ef44fa7aab0ba6f7bb537ff754a487d0fb8d109ed4b9c6090367052c1"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

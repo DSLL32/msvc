@@ -1012,7 +1012,8 @@
     "_require_complete_type@4",
     "_report_conversion_mismatch@12",
     "_report_function_operand@8",
-    "_enclosing_declaration_scope"
+    "_enclosing_declaration_scope",
+    "_browser_index_overflow"
   ],
   "driver": [
     {
@@ -1555,7 +1556,33 @@
     {
       "name": "_browser_index_overflow",
       "start": 161088,
-      "end": 161126
+      "end": 161126,
+      "abi_inputs": [],
+      "abi_globals": [
+        {
+          "name": "next_symbol_index",
+          "original": 440308,
+          "bytes": 4
+        },
+        {
+          "name": "browser_symbol_limit",
+          "original": 440312,
+          "bytes": 4
+        }
+      ],
+      "abi_strings": [
+        {
+          "name": "options.option_FR",
+          "original": 382392,
+          "maximum": 256
+        },
+        {
+          "name": "browser_filename",
+          "original": 374152,
+          "maximum": 256
+        }
+      ],
+      "abi_contract": "cdeclRET0/noformals. Caller public declaration gate compares next_symbol_index with unchanged browser_symbol_limit; actual two DWORDs and separate FR/active-browser filename pointers observed. Raw27551 clears options.option_FR5d5b8 and2755b browser_filename5b588, not browser_outputFILE5d5a0; existing browser_error_record writes marker14."
     },
     {
       "name": "_browser_symbol_definition@4",
@@ -6222,6 +6249,11 @@
     "prototype-scope-registry": {
       "accepted_from": 1007,
       "accepted_count": 1008,
+      "expected_exit": 0
+    },
+    "browser-index-limit": {
+      "accepted_from": 1008,
+      "accepted_count": 1009,
       "expected_exit": 0
     }
   },

@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "75e5ba672986642d0abeb4f51cc82e4f40af9a9c3e560cc24a3b37d5d22c49ad",
+    "functions.json": "31871340b4c9ad6ff582e33a7355794c1ba931d80e0c9dfc8d2c38b7ca196524",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "bab6906d6830620532d34b5e70a0eadbe6fde39b1c2e6d77d1fc983e1ea591d4"
+    "sha256": "4d54fb6859c59bf9c0974e06fece8198f8af8f1929e0329378cb2e81e9852d04"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "77b66ee99f510edcb3a87090e458b7c30ed60a18cf23ea5fe9cf6006fcdb97b8"
+    "sha256": "3f14dc98f2b1eada822c3bd018e03e0f7fa10be3b3b990251245bcd2f2ceeac3"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -407,7 +407,7 @@
     },
     "browser_index_overflow": {
       "logical": "_browser_index_overflow",
-      "source": "src/stubs.c"
+      "source": "src/browser.c"
     },
     "browser_macro": {
       "logical": "_browser_macro@4",
@@ -4522,7 +4522,8 @@
     "require_complete_type",
     "report_conversion_mismatch",
     "report_function_operand",
-    "enclosing_declaration_scope"
+    "enclosing_declaration_scope",
+    "browser_index_overflow"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6076,6 +6077,18 @@
       "seen_count": 863,
       "expected": [
         "enclosing_declaration_scope"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "browser-index-limit": {
+      "first": 1008,
+      "last": 1009,
+      "seen_count": 864,
+      "expected": [
+        "browser_index_overflow"
       ],
       "terminal": {
         "kind": "exit",

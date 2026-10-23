@@ -1,0 +1,51 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "RECON=/root/.ai-tmp/msvc2/vc1.0/c1/shared-inputs/hdrstop/lib/recon",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 0.27413542848080397,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/browser-limit-complete-1009-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "ea9f9835ab7c8e10a53e66442e973ce0d1e561abd0fe9226d35ced7cc03c46c0",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/browser-index-limit",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/browser-limit-complete-1009",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.852066040970385,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/browser-index-limit",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/browser-limit-complete-1009",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/browser-limit-complete-1009"
+    ],
+    "seconds": 0.6492365933954716,
+    "exit": 0
+  }
+]

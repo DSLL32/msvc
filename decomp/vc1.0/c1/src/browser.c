@@ -508,3 +508,13 @@ void discard_browser_output(void)
     if (fclose(browser_output) || _unlink(temporary))
         report_fatal(83,message_text(340),options.option_Fr);
 }
+
+/* Original0x27540..0x27566. Exhausting the shared16-bit symbol index
+   stops new browser records while retaining the FILE for final filtering. */
+void browser_index_overflow(void)
+{
+    compiler_warning(1,41);
+    browser_error_record();
+    options.option_FR = 0;
+    browser_filename = 0;
+}

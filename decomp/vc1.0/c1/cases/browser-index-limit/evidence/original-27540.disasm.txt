@@ -1,0 +1,17 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00027540 <.text+0x10540>:
+   27540:	6a 29                	push   0x29
+   27542:	6a 01                	push   0x1
+   27544:	e8 b7 36 02 00       	call   0x4ac00
+   27549:	83 c4 08             	add    esp,0x8
+   2754c:	e8 df ff ff ff       	call   0x27530
+   27551:	c7 05 b8 d5 05 00 00 	mov    DWORD PTR ds:0x5d5b8,0x0
+   27558:	00 00 00 
+   2755b:	c7 05 88 b5 05 00 00 	mov    DWORD PTR ds:0x5b588,0x0
+   27562:	00 00 00 
+   27565:	c3                   	ret

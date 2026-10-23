@@ -1,0 +1,83 @@
+{
+  "buffers": {
+    "expression_file": "004f0102",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": "33383300026cff03046000d1ff72656769737472795f736c6f745f363533383400026dff03046000d2ff72656769737472795f736c6f745f363533383500026eff03046000d3ff72656769737472795f736c6f745f363533383600026fff03046000d4ff72656769737472795f736c6f745f3635333837000270ff03046000d5ff72656769737472795f736c6f745f3635333838000271ff03046000d6ff72656769737472795f736c6f745f3635333839000272ff03046000d7ff72656769737472795f736c6f745f3635333930000273ff03046000d8ff72656769737472795f736c6f745f3635333931000274ff03046000d9ff72656769737472795f736c6f745f3635333932000275ff03046000daff72656769737472795f736c6f745f3635333933000276ff03046000dbff72656769737472795f736c6f745f3635333934000277ff03046000dcff72656769737472795f736c6f745f3635333935000278ff03046000ddff72656769737472795f736c6f745f3635333936000279ff03046000deff72656769737472795f736c6f745f363533393700027aff03046000dfff72656769737472795f736c6f745f363533393800027bff03046000e0ff72656769737472795f736c6f745f363533393900027cff03046000e1ff72656769737472795f736c6f745f363534303000027dff03046000e2ff72656769737472795f736c6f745f363534303100027eff03046000e3ff72656769737472795f736c6f745f363534303200027fff03046000e4ff72656769737472795f736c6f745f3635343033000280ff03046000e5ff72656769737472795f736c6f745f3635343034000281ff03046000e6ff72656769737472795f736c6f745f3635343035000282ff03046000e7ff72656769737472795f736c6f745f3635343036000283ff03046000e8ff72656769737472795f736c6f745f3635343037000284ff03046000e9ff72656769737472795f736c6f745f3635343038000285ff03046000eaff72656769737472795f736c6f745f3635343039000286ff03046000ebff72656769737472795f736c6f745f3635343130000287ff03046000ecff72656769737472795f736c6f745f3635343131000288ff03046000edff72656769737472795f736c6f745f3635343132000289ff03046000eeff72656769737472795f736c6f745f363534313300028aff03046000efff72656769737472795f736c6f745f363534313400028bff03046000f0ff72656769737472795f736c6f745f363534313500028cff03046000f1ff72656769737472795f736c6f745f363534313600028dff03046000f2ff72656769737472795f736c6f745f363534313700028eff03046000f3ff72656769737472795f736c6f745f363534313800028fff03046000f4ff72656769737472795f736c6f745f3635343139000290ff03046000f5ff72656769737472795f736c6f745f363534323000"
+  },
+  "frames": [
+    "browser_index_overflow",
+    "declare_symbol",
+    "apply_declarator_type",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "browser_index_overflow",
+  "pc": 1449056515,
+  "abi_inputs": [],
+  "abi_globals": [
+    {
+      "name": "next_symbol_index",
+      "original": 440308,
+      "bytes": 4,
+      "value": 65526
+    },
+    {
+      "name": "browser_symbol_limit",
+      "original": 440312,
+      "bytes": 4,
+      "value": 65526
+    }
+  ],
+  "abi_strings": [
+    {
+      "name": "options.option_FR",
+      "original": 382392,
+      "pointer": 4292111884,
+      "value": "registry.sbr",
+      "original_pointer": 8061204
+    },
+    {
+      "name": "browser_filename",
+      "original": 374152,
+      "pointer": 4292111884,
+      "value": "registry.sbr",
+      "original_pointer": 8061204
+    }
+  ],
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_browser_index_overflow",
+  "abi_globals_original_match": true,
+  "abi_strings_original_match": true,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.017615824937820435,
+  "execution_seconds": 0.4791799234226346,
+  "total_seconds": 0.509745305404067,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f registry.c -Ze -Zp8 -Gs -Foregistry.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR registry.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/browser-limit-pin-enter-1008",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\browser-index-limit"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+  },
+  "executable_sha256": "f2ba064c23bc601efece7d4499aaa80624b82228711b2d85596b8c68e72ee900"
+}

@@ -222,6 +222,23 @@ static void dump_declaration_scopes(HANDLE process, HANDLE log, DWORD base)
     }
 }
 
+/* The overflow body writes FR5d5b8 and active filename5b588; the
+   FILE owner5d5a0 remains live for the ordinary final browser pass. */
+static void dump_browser_limit(HANDLE process, HANDLE log, DWORD base, const char *boundary)
+{
+    DWORD addresses[5], values[5], got, written;
+    unsigned index;
+    char line[200];
+    addresses[0]=0x6b7f4; addresses[1]=0x6b7f8;
+    addresses[2]=0x5d5b8; addresses[3]=0x5b588; addresses[4]=0x5d5a0;
+    for(index=0;index<5;++index)
+        if (!ReadProcessMemory(process,(void *)(base+addresses[index]-0x10000),values+index,4,&got) || got!=4) return;
+    sprintf(line,"browser-limit %s %lu %lu %08lx %08lx %08lx\n",boundary,
+        values[0],values[1],values[2],values[3],values[4]);
+    WriteFile(log,line,strlen(line),&written,0);
+    dump_stream_buffers(process,log,base,"4d5a0");
+}
+
 /* Keep caller/register evidence for diagnosing a logical-trap divergence. */
 static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
 {
@@ -333,6 +350,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
+        if (getenv("C1_BROWSER_LIMIT_PROBE")) {
+            dump_browser_limit(process,log,base,"entry");
+            sprintf(line,"browser-registers entry %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
+            WriteFile(log,line,strlen(line),&written,0);
+        }
         if (getenv("C1_SCOPE_PROBE")) {
             dump_declaration_scopes(process,log,base);
             sprintf(line,"scope-registers entry %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
@@ -366,6 +388,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         flag_step = 1;
         context.EFlags |= 0x100;
     } else {
+        if (getenv("C1_BROWSER_LIMIT_PROBE")) {
+            dump_browser_limit(process,log,base,"finish");
+            sprintf(line,"browser-registers finish %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
+            WriteFile(log,line,strlen(line),&written,0);
+        }
         if (getenv("C1_SCOPE_PROBE")) {
             sprintf(line,"scope-registers finish %08lx %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp,context.Eax);
             WriteFile(log,line,strlen(line),&written,0);

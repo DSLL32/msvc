@@ -92,7 +92,6 @@ void initialize_inline_queries(void) { __asm { int 3 } }
 
 
 
-void browser_index_overflow(void) { __asm { int 3 } }
 
 
 

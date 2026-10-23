@@ -1,14 +1,14 @@
 {
-  "authorization": "Root approved one successful forward-declared packet/callback-registry /FR /Z7 /Od /G5 /W4 workflow. Actual prototype-scope C4115 behavior, complete original compile/link/runtime and exact transport beforefreeze. Target enclosing-scope helper; extra shape reach provisional.",
-  "baseline_commit": "35ed5428a6752a76475370e2bf2137082fc352c5",
-  "baseline_accepted_count": 1007,
+  "authorization": "Root approved one successful generated bulk-registry /FR /Z7 /Od /G5 /W3 public unchanged65535 browserlimit case; exact deterministic generator/inputhash/order/count and complete rawoutputs/oncewarning/runtime beforefreeze; no counterinjection/OOM.",
+  "baseline_commit": "b44e1e980370af3e0dea77ba0df30d7291a7f6a0",
+  "baseline_accepted_count": 1008,
   "status": "complete",
   "cases": [
     {
-      "case": "prototype-scope-registry",
+      "case": "browser-index-limit",
       "phase": "c1",
-      "status": "complete;1007 through1008;one frontend body41B;exact warning/artifacts/runtime original"
+      "status": "complete;1008 through1009;one frontend body38B;exact oncewarning/partialbrowser/IR/originalruntime"
     }
   ],
-  "completion": "cases/prototype-scope-registry/validation.json"
+  "completion": "cases/browser-index-limit/validation.json"
 }

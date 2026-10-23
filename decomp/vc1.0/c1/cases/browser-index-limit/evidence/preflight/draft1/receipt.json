@@ -1,0 +1,24 @@
+[
+  {
+    "phase": "compiler",
+    "command": [
+      "wine",
+      "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+      "/nologo",
+      "/Z7",
+      "/Od",
+      "/G5",
+      "/W3",
+      "/FRregistry.sbr",
+      "registry.c",
+      "/Feregistry.exe"
+    ],
+    "exit": 0,
+    "seconds": 3.271124992519617
+  },
+  {
+    "phase": "runtime",
+    "exit": 0,
+    "seconds": 0.642002216540277
+  }
+]

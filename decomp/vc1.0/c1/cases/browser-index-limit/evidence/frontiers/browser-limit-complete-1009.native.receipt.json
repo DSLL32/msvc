@@ -1,0 +1,25 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 0,
+  "frontier": null,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.01705334521830082,
+  "execution_seconds": 0.5421558367088437,
+  "total_seconds": 0.5662544826045632,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f registry.c -Ze -Zp8 -Gs -Foregistry.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR registry.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/browser-limit-complete-1009",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\browser-index-limit"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+  },
+  "executable_sha256": "f48f4c78fd9e49ea46a45c731a56e1113332b4980e28d172d47b0b352adb7d95"
+}

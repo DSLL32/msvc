@@ -52,7 +52,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'hdrstop-create':('pragma-hdrstop-pch','c1-create'),
          'hdrstop-use':('pragma-hdrstop-pch','c1-use'),
          'dispatch-type-diagnostics':('dispatch-type-diagnostics','c1'),
-         'prototype-scope-registry':('prototype-scope-registry','c1')}
+         'prototype-scope-registry':('prototype-scope-registry','c1'),
+         'browser-index-limit':('browser-index-limit','c1')}
 
 
 CASE_DEPENDENCIES = {
@@ -152,6 +153,21 @@ def validate_result(name, returncode, stdout, stderr, phase):
     assert stderr == phase['expected_stderr'].encode('latin1'), 'stderr differs: '+name
 
 
+def validate_generated_sources(fixture, phase):
+    rows = []
+    for item in phase.get('generated_sources', []):
+        generator = BINARY/item['generator']
+        assert sha(generator.read_bytes()) == item['generator_sha256'], 'source generator changed'
+        spec = importlib.util.spec_from_file_location('c1_frozen_source_generator',generator)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        assert module.COUNT == item['declarations'], 'generated declaration count differs'
+        actual = (fixture/item['path']).read_bytes()
+        assert actual == module.content(), 'generated source bytes differ'
+        rows.append(dict(path=item['path'],declarations=module.COUNT,bytes=len(actual),sha256=sha(actual)))
+    return rows
+
+
 def run_case(name, executable, directory, traces=None, dependency=None):
     start = time.perf_counter()
     fixture_name, phase_name = CASES[name]
@@ -161,6 +177,7 @@ def run_case(name, executable, directory, traces=None, dependency=None):
     manifest = fixture/'manifest.json'
     metadata = json.loads(manifest.read_text())
     phase = metadata['phases'][phase_name]
+    generated_sources = validate_generated_sources(fixture,phase)
     native_inputs = json.loads((BINARY/'cases/native-inputs.json').read_text())
     catalog = native_inputs['message_catalog']
     captured(ROOT/catalog['path'], catalog)
@@ -279,6 +296,7 @@ def run_case(name, executable, directory, traces=None, dependency=None):
     state.update(status='pass', manifest=str(manifest.relative_to(ROOT)),
                  manifest_sha256=sha(manifest.read_bytes()), outputs=outputs,
                  generated_dependency=(str(dependency) if dependency else None),
+                 generated_sources=generated_sources,
                  generated_input_contract=generated_contract,
                  generated_input_signature=generated_signature,
                  oracle_seconds=time.perf_counter()-checks,

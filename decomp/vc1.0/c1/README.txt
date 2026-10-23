@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Fifty native phases are complete: minimal C, optimized Win32 hello, DLL,
+Fifty-one native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -11,11 +11,11 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, and assembler operand diagnostics/SEG.
 
-There are 875 accepted source functions and 1008 accepted original entries.
-Accepted original extents cover 239988/277234 code-section bytes (86.565140%):
-219074 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
+There are 876 accepted source functions and 1009 accepted original entries.
+Accepted original extents cover 240026/277234 code-section bytes (86.578847%):
+219112 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
-not branch coverage. Of this union,239802bytes have public-case evidence and
+not branch coverage. Of this union,239840bytes have public-case evidence and
 186bytes are separately direct-tested unreachable assembler support. Unvisited
 functions retain named trapping stubs.
 
@@ -37,13 +37,13 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 50 completed phase histories to fresh
-shared-prefix original first-entry captures. All 862 publicly reached accepted application entries
+cases/original-entry-references.json binds 51 completed phase histories to fresh
+shared-prefix original first-entry captures. All 863 publicly reached accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current50 public plus15direct regression receipts are in
-cases/prototype-scope-registry/validation.json.
+current51 public plus15direct regression receipts are in
+cases/browser-index-limit/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -411,3 +411,11 @@ typed callback/factory and pointer-to-array API checksum with exact C4115.
 The enclosing-scope helper adds41frontend bytes; owned globals/chain/returned
 object and RET state are independently proved. Final50public/15direct and
 rejection/static receipts are in that case's validation.json.
+
+Generated bulk registry browser limit
+-------------------------------------
+cases/browser-index-limit uses66000 generated public external declarations
+to cross the real shared browser-index limit. Exact once C4041, completeIR
+and73B partialSBR agree; original checksum runtime succeeds. One38B frontend
+body and live FILE/global ownership are proved. Source/count/order/hash,
+full staged-browser bytes, timings and storage are retained in that case.
