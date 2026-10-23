@@ -1035,7 +1035,11 @@
     "_select_float_motion_uses",
     "_count_profitable_float_uses",
     "@float_use_promotion_cost@4",
-    "@sort_float_motion_uses@4"
+    "@sort_float_motion_uses@4",
+    "_release_float_motion_scratch",
+    "@initialize_float_context_uses@4",
+    "@rewrite_float_motion_operation@4",
+    "@find_resident_float_use@4"
   ],
   "driver": [
     {
@@ -7173,8 +7177,7 @@
     {
       "name": "@initialize_float_context_uses@4",
       "start": 243056,
-      "end": 243057,
-      "provisional": true
+      "end": 243456
     },
     {
       "name": "@finish_float_context_motion@4",
@@ -7191,8 +7194,7 @@
     {
       "name": "@rewrite_float_motion_operation@4",
       "start": 242400,
-      "end": 242401,
-      "provisional": true
+      "end": 242897
     },
     {
       "name": "@label_in_float_context_chain@8",
@@ -7226,8 +7228,7 @@
     {
       "name": "_release_float_motion_scratch",
       "start": 238336,
-      "end": 238337,
-      "provisional": true
+      "end": 238372
     },
     {
       "name": "@record_float_nonfloat_uses@4",
@@ -7309,6 +7310,17 @@
       "name": "@float_use_promotion_cost@4",
       "start": 248224,
       "end": 248612
+    },
+    {
+      "name": "@find_resident_float_use@4",
+      "start": 244592,
+      "end": 244634
+    },
+    {
+      "name": "@float_register_arithmetic_opcode@4",
+      "start": 245568,
+      "end": 245569,
+      "provisional": true
     }
   ],
   "cases": {

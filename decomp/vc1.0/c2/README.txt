@@ -2578,3 +2578,9 @@ Floating promotion selection and CPU cost estimates: checkpoint1031
 _release_float_motion_scratch. 952 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1031.json for extent union, limits and measured timings.
+
+Resident floating loads and operand substitution: checkpoint1035
+4 acceptances pass fresh original/native matching; current frontier
+@process_float_motion_branch@8. 956 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1035.json for extent union, limits and measured timings.

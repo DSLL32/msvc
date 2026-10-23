@@ -62,7 +62,8 @@ typedef char FloatStreamTargetSizeCheck[sizeof(FloatStreamTarget) == 8 ? 1 : -1]
 typedef struct MemoryMotionContext {
     struct MemoryMotionContext *previous, *next;
     LabelSymbol *label;
-    unsigned field0c, field10, field14;
+    MachineInstruction *first_load, *last_load;
+    unsigned field14;
     MachineInstruction *rewrite_end;
     MachineInstruction *boundary, *last;
     struct FloatStreamUse *uses;
@@ -154,6 +155,8 @@ FloatStreamUse *__fastcall find_float_stream_use(MachineOperand *operand, int cr
 void __fastcall update_float_use_access(FloatStreamUse *use, unsigned access);
 unsigned __fastcall float_operand_hash(MachineOperand *operand);
 unsigned __fastcall float_symbol_name_hash(char *name);
+FloatStreamUse *__fastcall find_resident_float_use(MachineOperand *operand);
+unsigned __fastcall float_register_arithmetic_opcode(unsigned operation);
 int __fastcall float_use_promotion_cost(FloatStreamUse *use);
 void __fastcall compare_float_motion_aliases(FloatStreamUse *first, FloatStreamUse *second);
 #endif

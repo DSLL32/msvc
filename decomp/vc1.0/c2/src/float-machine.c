@@ -1775,3 +1775,100 @@ void __fastcall sort_float_motion_uses(int count)
         }
     }
 }
+
+/* Original [0003a300,0003a324). Scratch bucket records live in arena3;
+   only the temporary sorted pointer view has individual heap ownership. */
+void release_float_motion_scratch(void)
+{
+    reset_arena(3);
+    if (float_stream_sorted_uses) float_register_heap_release(float_stream_sorted_uses);
+    float_stream_sorted_uses = 0;
+}
+
+/* Original [0003b570,0003b700). Materialize the selected values before
+   the range and assign their ST positions, updating existing resident uses. */
+void __fastcall initialize_float_context_uses(MemoryMotionContext *context)
+{
+    MachineInstruction *anchor, *instruction;
+    FloatStreamUse *use, *resident;
+    unsigned operation;
+    int count = 0;
+    if (!context->uses) return;
+    anchor = context->boundary;
+    do { anchor = anchor->previous; } while (FM_KIND(anchor) == 7 || FM_KIND(anchor) == 4);
+    anchor = anchor->next;
+    while ((use = context->uses) != 0) {
+        instruction = new_machine_instruction(0);
+        if (!count) context->first_load = instruction;
+        ++count;
+        if ((use->flags & 0x18) == 8) operation = MC_FLDZ;
+        else if (use->operation == MC_FIADD || use->operation == MC_FIMUL ||
+                 use->operation == MC_FISUB || use->operation == MC_FISUBR ||
+                 use->operation == MC_FIDIV || use->operation == MC_FIDIVR) operation = MC_FILD;
+        else operation = MC_FLD;
+        instruction->opcode = (instruction->opcode & ~0xff00U) | (operation << 8);
+        instruction->operands[0] = operand_st0;
+        assign_machine_operand(&instruction->operands[1], use->operand);
+        if ((use->operand->flags & 15) == OPERAND_REGISTER) instruction->operands[1].flags |= 0x400;
+        instruction->opcode = (instruction->opcode & ~0xf0U) | ((use->width << 4) & 0xf0);
+        insert_machine_after(anchor->previous, instruction);
+        for (resident = float_stream_uses; resident; resident = resident->hash_next) {
+            if (++resident->stack_slot >= 8) compiler_internal_error("@(#)fltreg.c:1.31", 0x8a9);
+        }
+        use->stack_slot = 0;
+        context->uses = context->uses->hash_next;
+        use->hash_next = float_stream_uses;
+        float_stream_uses = use;
+    }
+    context->last_load = anchor->previous;
+    if (FM_KIND(context->boundary) == 1)
+        context->boundary->labels.flags = (context->boundary->labels.flags & ~0xfffcU) | ((count << 2) & 0xfffc);
+}
+
+/* Original [0003b2e0,0003b4d1). Substitute resident ST operands and
+   track the expression-stack depth above the promoted memory values. */
+void __fastcall rewrite_float_motion_operation(MachineInstruction *instruction)
+{
+    FloatStreamUse *use;
+    MachineOperand *operand;
+    unsigned operation;
+    int index, count, slot;
+    if (instruction->record.float_flags & 0x400) return;
+    count = machine_operand_counts[FM_OPERATION(instruction)];
+    if (count && float_stream_uses) {
+        for (index = 0; index < (count == 2 ? 2 : 1); ++index) {
+            operand = &instruction->operands[index];
+            use = find_resident_float_use(operand);
+            if (!use || use->stack_slot == -1) continue;
+            slot = float_stream_active_context->stack_depth + use->stack_slot;
+            if (slot >= 8) compiler_internal_error("@(#)fltreg.c:1.31", index ? 0xa08 : 0x9f4);
+            if ((operand->flags & 15) == OPERAND_REGISTER)
+                use->flags = (use->flags & ~1U) | ((operand->flags >> 10) & 1);
+            FM_SET_STACK_OPERAND(*operand, slot);
+            if (index) {
+                operation = FM_OPERATION(instruction);
+                if (operation == MC_FIADD || operation == MC_FIMUL ||
+                    operation == MC_FISUB || operation == MC_FISUBR ||
+                    operation == MC_FIDIV || operation == MC_FIDIVR) {
+                    operation = float_register_arithmetic_opcode(operation);
+                    instruction->opcode = (instruction->opcode & ~0xff00U) | (operation << 8);
+                }
+            }
+            if ((instruction->opcode & 0xf0) == 0xa0)
+                instruction->opcode = (instruction->opcode & ~0xf0U) | 0x80;
+        }
+    }
+    float_stream_active_context->stack_depth += FM_STACK_EFFECT(FM_OPERATION(instruction));
+    if (float_stream_active_context->stack_depth >= 8 || float_stream_active_context->stack_depth < 0)
+        compiler_internal_error("@(#)fltreg.c:1.31", 0xa24);
+}
+
+/* Original [0003bb70,0003bb9a). Search the active resident list using
+   the same operand-identity predicate as the collection hash table. */
+FloatStreamUse *__fastcall find_resident_float_use(MachineOperand *operand)
+{
+    FloatStreamUse *use;
+    for (use = float_stream_uses; use; use = use->hash_next)
+        if (operands_equal(operand, use->operand)) break;
+    return use;
+}
