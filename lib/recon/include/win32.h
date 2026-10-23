@@ -26,7 +26,7 @@ typedef long LONG;
 typedef short SHORT;
 typedef int BOOL;
 typedef unsigned int UINT;
-typedef void *HANDLE, *HMODULE, *HGLOBAL, *LPVOID;
+typedef void *HANDLE, *HMODULE, *HINSTANCE, *HWND, *HGLOBAL, *LPVOID;
 typedef const void *LPCVOID;
 typedef char *LPSTR;
 typedef const char *LPCSTR;
@@ -62,6 +62,10 @@ typedef struct _EXCEPTION_POINTERS {
 struct AnsiString;
 struct UnicodeString;
 #define INVALID_HANDLE_VALUE ((HANDLE)-1)
+#define DLL_PROCESS_DETACH 0
+#define DLL_PROCESS_ATTACH 1
+#define DLL_THREAD_ATTACH 2
+#define DLL_THREAD_DETACH 3
 #define GENERIC_READ 0x80000000UL
 #define GENERIC_WRITE 0x40000000UL
 #define DELETE 0x10000UL
