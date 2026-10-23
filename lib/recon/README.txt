@@ -508,3 +508,13 @@ IsTNT absence returns NULL/127; arbitrary unimplemented KERNEL32/USER32/NTDLL
 names and ordinal/null lookups fail explicitly, rather than silently forcing
 application fallback paths. Original-only debugger exports are not native API
 requirements. Four affected LINK mapping/editor cached cases pass unchanged.
+
+_fsopen supports the observed isolated rb/share20 and wb/share10 success pair.
+The actual Win32 share requests are READ and zero; recon_fsopen_shares retains
+that descriptor provenance for debugger inspection. Existing inode aliases,
+conflicting opens, dup/dup2 and mappings are outside this single-process scope
+and fail before truncation. An active mapping/view also excludes _fsopen.
+No cross-process sharing or HANDLE-inheritance equivalence is claimed. Under
+RECON_CRT_PROFILE_MSVCRT_510, reopening a FILE retains _bufsiz/_charbuf as the
+canonical provider does. Binary bytes, FILE state and error transitions have
+an explicit original probe; native fsopen-check uses only cached references.

@@ -59,6 +59,45 @@ WEAK long recon_osfhnd[256];
 #define os_handles recon_osfhnd
 char *recon_decimal_point=".";
 static int pushed_byte[256];
+/* Nonzero only for the isolated, reviewed _fsopen binary sharing contract.
+ * Values are Win32 share flags plus one, not a general sharing emulator. */
+DWORD recon_fsopen_shares[256];
+static int fsopen_active;
+int recon_fsopen_restricted(HANDLE handle)
+{
+    unsigned n;
+    for (n=0;n<recon_nhandle;++n)
+        if ((recon_osfile[n]&1) && recon_fsopen_shares[n] && (HANDLE)os_handles[n]==handle) return 1;
+    return 0;
+}
+void recon_fsopen_check_path(const char *path)
+{
+    struct stat wanted,opened; unsigned n; int saved_errno=errno;
+    if (!stat(path,&wanted)) for (n=0;n<recon_nhandle;++n)
+        if ((recon_osfile[n]&1) && recon_fsopen_shares[n] &&
+            !fstat((int)os_handles[n]-1,&opened) && wanted.st_dev==opened.st_dev && wanted.st_ino==opened.st_ino)
+            recon_unsupported("CreateFile alias of restricted _fsopen file");
+    errno=saved_errno;
+}
+static void fsopen_preflight(const char *name)
+{
+    char path[PATH_MAX]; struct stat wanted,opened; DIR *directory;
+    struct dirent *entry; int saved_errno=errno,fd; char *end;
+    if (recon_host_path(name,path,sizeof(path))) recon_unsupported("_fsopen path translation");
+    if (!stat(path,&wanted)) {
+        if (!S_ISREG(wanted.st_mode)) recon_unsupported("_fsopen nonregular file");
+        directory=opendir("/proc/self/fd");
+        if (!directory) recon_unsupported("_fsopen descriptor inventory");
+        while ((entry=readdir(directory))!=NULL) {
+            fd=(int)strtol(entry->d_name,&end,10);
+            if (*end || fd==dirfd(directory)) continue;
+            if (!fstat(fd,&opened) && wanted.st_dev==opened.st_dev && wanted.st_ino==opened.st_ino)
+                recon_unsupported("_fsopen existing open/mapped inode alias");
+        }
+        closedir(directory);
+    } else if (errno!=ENOENT) recon_unsupported("_fsopen unavailable file identity");
+    errno=saved_errno;
+}
 
 /* Canonical VC5 MSVCRT _initterm: unsigned exclusive end, NULL slots skipped,
  * each callback pointer read when reached (earlier callbacks may change it). */
@@ -119,13 +158,25 @@ WEAK void *recon_cpp_new(size_t size)
     return result;
 }
 
-/* CVTRES's first help case does not execute this imported sharing-mode API.
- * Retain its correct compile-time ABI and fail until a real call is captured. */
+/* Canonical VC5 CVTRES: isolated rb/deny-write and wb/exclusive files.
+ * Other opens, aliases, mappings and failure paths need separate evidence.
+ * HANDLE inheritance remains the explicitly bounded no-child native model. */
 WEAK ShimFILE *recon_fsopen(const char *path,const char *mode,int sharing)
 {
-    (void)path; (void)mode; (void)sharing;
-    recon_unsupported("_fsopen without reviewed sharing contract");
-    return NULL;
+    int n,saved_errno=errno; ShimFILE *result;
+    if (!path || !mode || !((!strcmp(mode,"rb") && sharing==0x20) ||
+        (!strcmp(mode,"wb") && sharing==0x10))) recon_unsupported("unreviewed _fsopen mode/share");
+    recon_fsopen_check_mappings();
+    fsopen_preflight(path);
+    for (n=3;n<20;++n) if (!recon_iob[n]._flag) break;
+    if (n==20 || fsopen_active) recon_unsupported("_fsopen stream exhaustion/reentry");
+    fsopen_active=1;
+    result=recon_openfile(path,mode,sharing,&recon_iob[n]);
+    fsopen_active=0;
+    if (!result) recon_unsupported("_fsopen open failure");
+    recon_fsopen_shares[result->_file]=(sharing==0x20?FILE_SHARE_READ:0)+1;
+    errno=saved_errno;
+    return result;
 }
 
 WEAK void recon_assert(void *expression,void *filename,unsigned line)
@@ -262,7 +313,7 @@ void recon_dosmaperr(unsigned long code)
 int recon_alloc_osfhnd(void)
 {
     unsigned n;
-    for (n=0;n<recon_nhandle;++n) if (!(recon_osfile[n]&1)) { os_handles[n]=-1; return n; }
+    for (n=0;n<recon_nhandle;++n) if (!(recon_osfile[n]&1)) { os_handles[n]=-1; recon_fsopen_shares[n]=0; return n; }
     errno=EMFILE; return -1;
 }
 int recon_set_osfhnd(int fd,long handle)
@@ -277,7 +328,7 @@ int recon_free_osfhnd(int fd)
         errno=EBADF; recon_doserrno=0; return -1;
     }
     if (fd<3) recon_SetStdHandle((DWORD)(-10-fd),NULL);
-    os_handles[fd]=-1; return 0;
+    os_handles[fd]=-1; recon_fsopen_shares[fd]=0; return 0;
 }
 long recon_get_osfhandle(int fd)
 {
@@ -417,11 +468,12 @@ WEAK int recon_sopen(const char *name,int mode,int sharing,...)
     DWORD access,disposition;
     HANDLE handle;
     int fd;
-    (void)sharing;
+    DWORD share=FILE_SHARE_READ|FILE_SHARE_WRITE;
+    if (fsopen_active) share=sharing==0x20?FILE_SHARE_READ:0;
     access=(mode&3)==2?GENERIC_READ|GENERIC_WRITE:(mode&1)?GENERIC_WRITE:GENERIC_READ;
     disposition=(mode&0x500)==0x500?CREATE_NEW:(mode&0x300)==0x300?CREATE_ALWAYS:
         mode&0x100?OPEN_ALWAYS:mode&0x200?TRUNCATE_EXISTING:OPEN_EXISTING;
-    handle=recon_CreateFileA(name,access,FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,disposition,FILE_ATTRIBUTE_NORMAL,NULL);
+    handle=recon_CreateFileA(name,access,share,NULL,disposition,FILE_ATTRIBUTE_NORMAL,NULL);
     if (handle==INVALID_HANDLE_VALUE) { recon_dosmaperr(recon_GetLastError()); return -1; }
     fd=recon_alloc_osfhnd();
     if (fd<0) { recon_CloseHandle(handle); return -1; }
@@ -762,7 +814,13 @@ WEAK ShimFILE *recon_openfile(const char *name,const char *mode,int sharing,Shim
     if (strchr(mode,'b')) flags|=0x8000;
     else if (strchr(mode,'t')) flags|=0x4000;
     fd=recon_sopen(name,flags,sharing,0666); if (fd<0) return NULL;
-    memset(s,0,sizeof(*s)); s->_file=fd;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    { int retained_size=s->_bufsiz,retained_character=s->_charbuf;
+      memset(s,0,sizeof(*s)); s->_bufsiz=retained_size; s->_charbuf=retained_character; }
+#else
+    memset(s,0,sizeof(*s));
+#endif
+    s->_file=fd;
     s->_flag=strchr(mode,'+')?0x80:*mode=='r'?1:2; return s;
 }
 ShimFILE *recon_fopen(const char *name,const char *mode)
@@ -1262,6 +1320,7 @@ int recon_dup(int source)
 {
     int dest,fd;
     if (!valid_descriptor(source)) return -1;
+    if (recon_fsopen_restricted((HANDLE)os_handles[source])) recon_unsupported("dup restricted _fsopen file");
     dest=recon_alloc_osfhnd(); if (dest<0) return -1;
     fd=dup((int)os_handles[source]-1);
     if (fd<0) { recon_osfile[dest]=0; return -1; }
@@ -1274,6 +1333,9 @@ int recon_dup2(int source,int dest)
     int host,old;
     if (!valid_descriptor(source)) return -1;
     if (dest<0 || (unsigned)dest>=recon_nhandle) { errno=EBADF; return -1; }
+    if (recon_fsopen_restricted((HANDLE)os_handles[source]) ||
+        ((recon_osfile[dest]&1) && recon_fsopen_restricted((HANDLE)os_handles[dest])))
+        recon_unsupported("dup2 restricted _fsopen file");
     if (source==dest) return 0;
     old=(recon_osfile[dest]&1)?(int)os_handles[dest]-1:-1;
     if (dest<3) {

@@ -33,6 +33,10 @@ typedef struct View { struct View *next; void *address; size_t length; } View;
 static Mapping *mappings;
 static View *views,*allocations;
 static BOOL (WINAPI *console_handler)(DWORD);
+void recon_fsopen_check_mappings(void)
+{
+    if (mappings || views) recon_unsupported("_fsopen with active mappings/views");
+}
 
 static NativeModule *recon_registered_module(HMODULE handle)
 {
@@ -330,6 +334,7 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
     char path[PATH_MAX]; int flags,fd;
     (void)share; (void)template;
     if (recon_host_path(name,path,sizeof(path))<0) { last_error=error_code(errno); return INVALID_HANDLE_VALUE; }
+    recon_fsopen_check_path(path);
     flags=(access&GENERIC_WRITE)?(access&GENERIC_READ)?O_RDWR:O_WRONLY:O_RDONLY;
     switch (disposition) {
     case CREATE_NEW: flags|=O_CREAT|O_EXCL; break;
@@ -543,6 +548,7 @@ HANDLE WINAPI recon_CreateFileMappingA(HANDLE file,LPSECURITY_ATTRIBUTES securit
     Mapping *m; struct stat st; int fd=handle_fd(file); size_t length;
     (void)security;
     if (fd<0) return NULL;
+    if (recon_fsopen_restricted(file)) recon_unsupported("mapping restricted _fsopen file");
     if (high || name || (protection!=PAGE_READONLY && protection!=PAGE_READWRITE)) { last_error=ERROR_NOT_SUPPORTED; return NULL; }
     if (fstat(fd,&st)<0) { last_error=error_code(errno); return NULL; }
     length=low?(size_t)low:(size_t)st.st_size;

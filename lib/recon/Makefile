@@ -175,3 +175,8 @@ trace-allocation-check:
 	$(PYTHON) tests/check-trace-allocation.py
 clean:
 	rm -rf build
+
+build/fsopen-probe: tests/fsopen-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+fsopen-check: build/fsopen-probe
+	$(PYTHON) tests/check-fsopen.py build/fsopen-probe

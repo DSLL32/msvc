@@ -1,0 +1,15 @@
+{
+  "scope": "Canonical VC5 isolated rb/denywrite and wb/exclusive binary fsopen, retained FILE fields and errno/LastError; aliases/dup/mapping denied",
+  "original_probe": "tests/fsopen-original.json",
+  "native_checks": {
+    "gcc_build_and_focused_checks_seconds": 1.953,
+    "clang_fsopen_build_checks_seconds": 1.2,
+    "fsopen_execution_and_checks_seconds": 0.015,
+    "scope_negatives": 9
+  },
+  "limitations": [
+    "single process without competing opens",
+    "native handles remain CLOEXEC; child inheritance unclaimed",
+    "other modes/shares/failures unsupported"
+  ]
+}

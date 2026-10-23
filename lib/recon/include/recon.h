@@ -216,6 +216,10 @@ void recon_record_terminal_status(uint32_t);
 /* Resolve DOS paths with explicit RECON_DRIVE_X mappings (Z defaults to /).
  * No Wine prefix or executable discovery is performed. */
 int recon_host_path(const char *,char *,size_t);
+/* Host-only scope guards shared by the CRT and Win32 file implementations. */
+int recon_fsopen_restricted(HANDLE);
+void recon_fsopen_check_path(const char *);
+void recon_fsopen_check_mappings(void);
 void recon_unsupported(const char *);
 
 int __cdecl recon_wsprintfA(LPSTR,LPCSTR,...);
