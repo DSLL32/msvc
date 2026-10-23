@@ -3,7 +3,7 @@
 import argparse
 import json
 from pathlib import Path
-from common import HERE,ROOT,read,sha,source_pins,parse_original,parse_native,symbol,CRT_SHA
+from common import HERE,ROOT,read,sha,source_pins,parse_original,parse_native,symbol,CRT_SHA,verify_compiled_sources
 
 from reference_data import verify as verify_reference
 
@@ -13,7 +13,7 @@ def validate(directory,candidate):
     audit=read(directory/'audit.json')
     assert audit['reference_pins']==reference_pins,'Trial reference inputs changed'
     assert read(directory/'native/receipt.json')['reference_pins']==reference_pins,'Native reference inputs changed'
-    paths={'tool':ROOT/'tooling/graph-audit/target/release/graph-audit','config':Path(candidate),'map':HERE/'build/rc.map','metadata':HERE/'graph-metadata.json','original':ROOT/config['target']['path'],'rebuilt':HERE/'build/rc.exe','native':HERE/'build/native/rc','original_runtime':HERE/'build/audit-original-runtime.json','rebuilt_runtime':HERE/'build/runtime.json'}
+    paths={'tool':ROOT/'tooling/graph-audit/target/release/graph-audit','config':Path(candidate),'map':HERE/'build/rc.map','metadata':HERE/'graph-metadata.json','original':ROOT/config['target']['path'],'rebuilt':HERE/'build/rc.exe','native':HERE/'build/native/rc','native_build_receipt':directory/'native/compiled-sources.json','original_runtime':HERE/'build/audit-original-runtime.json','rebuilt_runtime':HERE/'build/runtime.json'}
     assert audit['input_bindings']=={k:sha(p) for k,p in paths.items()},'Trial audit inputs changed'
     assert read(paths['original_runtime'])==audit['runtime_projection']['original'] and read(paths['rebuilt_runtime'])==audit['runtime_projection']['rebuilt'],'Runtime projection changed'
     assert audit['config_sha256']==sha(candidate),'Audit did not cover this trial'
@@ -42,7 +42,7 @@ def validate(directory,candidate):
     assert hashlib.sha256(sources['scripts/debug-original.c'].encode()).hexdigest()==original['debugger_source_sha256'],'Original helper snapshot differs'
     compiled=read(directory/'native/compiled-sources.json')
     assert compiled['binary_sha256']==sha(HERE/'build/native/rc'),'Native compiled provenance differs'
-    for name,text in compiled['compiled_sources'].items():assert (ROOT/name).read_text()==text,'Consumed native source changed; rebuild/recapture native only: '+name
+    verify_compiled_sources(compiled)
     assert read(directory/'native/receipt.json')['sources']==source_pins(),'Native source binding changed'
     rows=config['driver']+config['support']+config['imports']
     expected_ranges=[(r['start']-0x1000000,r['end']-0x1000000,int(not r['name'].startswith('import:'))) for r in rows if r['name'] in config['accepted']]

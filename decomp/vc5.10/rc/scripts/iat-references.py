@@ -7,7 +7,7 @@ The separate cached-register residual below covers only the two observed fixed
 callee-saved-register idioms; it is not general dataflow or CFG discovery.
 """
 import struct
-from capstone import Cs,CS_ARCH_X86,CS_MODE_32,CS_OP_MEM,CS_OP_IMM,CS_OP_REG
+from capstone import Cs,CS_ARCH_X86,CS_MODE_32,CS_OP_MEM,CS_OP_IMM,CS_OP_REG,CS_GRP_JUMP
 from binary import u32
 
 
@@ -45,7 +45,7 @@ def cached_import(pe,start,end,logical):
     """Check only RC's observed callee-saved IAT caches, with raw instruction proof.
 
     A single absolute-IAT MOV precedes every register call. Linear inspection of
-    this complete text-data-free function proves no intervening register write;
+    this complete text-data-free function proves no intervening full/partial-register write through its restore;
     called Win32/CRT/RC functions preserve EBX/ESI under their recovered ABIs.
     This does not resolve arbitrary cached pointers, callback targets or aliases.
     Static call multiplicity can differ because the compiler rotates a loop.
@@ -70,12 +70,20 @@ def cached_import(pe,start,end,logical):
     load,slot=loads[0]
     assert imports.get(slot)==identity,('Cached import load identity',logical,slot,imports.get(slot))
     assert load.address<calls[0].address,('Call precedes cache load',logical)
-    between=[ins for ins in instructions if load.address<ins.address<=calls[-1].address]
-    for ins in between:
-        _,writes=ins.regs_access()
-        assert register not in [ins.reg_name(r) for r in writes],('Cached register overwritten',logical,ins.address,ins.mnemonic,ins.op_str)
+    aliases={'esi':{'esi','si'},'edi':{'edi','di'},'ebx':{'ebx','bx','bl','bh'}}[register]
+    restores=[ins for ins in instructions if ins.mnemonic=='pop' and len(ins.operands)==1 and ins.operands[0].type==CS_OP_REG and ins.reg_name(ins.operands[0].reg)==register]
+    assert len(restores)==1 and restores[0].address>calls[-1].address,('Missing/early cache register restore',logical)
+    live_begin,live_end=load.address+load.size,restores[0].address
+    for ins in instructions:
+        if live_begin<=ins.address<live_end:
+            _,writes=ins.regs_access()
+            assert not aliases.intersection(ins.reg_name(r) for r in writes),('Cached register/alias overwritten',logical,ins.address,ins.mnemonic,ins.op_str)
+        if ins.group(CS_GRP_JUMP):
+            assert len(ins.operands)==1 and ins.operands[0].type==CS_OP_IMM,('Unsupported indirect branch in cache residual',logical,ins.address)
+            target=ins.operands[0].imm&0xffffffff
+            assert not (live_begin<=target<live_end and not live_begin<=ins.address<live_end),('Branch bypasses cache load/restore',logical,ins.address,target)
     def record(ins):return {'va':ins.address,'bytes':ins.bytes.hex(),'instruction':ins.mnemonic+' '+ins.op_str}
     return {'identity':list(identity),'register':register,'slot':slot,'load':record(load),'calls':[record(ins) for ins in calls],
-            'preserved_interval':[load.address+load.size,calls[-1].address+calls[-1].size],
-            'instruction_evidence':[record(ins) for ins in instructions if load.address<=ins.address<=calls[-1].address],
+            'preserved_interval':[live_begin,live_end], 'restore':record(restores[0]), 'aliases':sorted(aliases),
+            'instruction_evidence':[record(ins) for ins in instructions if load.address<=ins.address<=live_end],
             'qualification':'narrow linear callee-saved-register residual, not Rust import qualification or general dataflow'}

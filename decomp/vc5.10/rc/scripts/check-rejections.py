@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import shutil
 import tempfile
-from common import HERE,read,sha
+from common import HERE,ROOT,read,sha,verify_compiled_sources
 
 spec=importlib.util.spec_from_file_location('verify_pair',HERE/'scripts/verify-pair.py')
 v=importlib.util.module_from_spec(spec);spec.loader.exec_module(v)
@@ -21,6 +21,17 @@ def run(initial):
     v.validate(initial,base_config)
     accepted=[]
     complete=v.validate(initial,base_config)['completion']
+    # An unchanged captured ELF remains valid when shared worktree text drifts.
+    compiled=read(initial/'native/compiled-sources.json')
+    original_read=Path.read_text
+    def without_live_shared(path,*args,**kwargs):
+        assert not path.is_relative_to(ROOT/'lib/recon'),'Read live shared worktree instead of frozen compiled content'
+        return original_read(path,*args,**kwargs)
+    try:
+        Path.read_text=without_live_shared
+        verify_compiled_sources(compiled)
+    finally:
+        Path.read_text=original_read
     with tempfile.TemporaryDirectory(prefix='rc-rejections-',dir=str(Path.home()/'.ai-tmp')) as temp:
         temp=Path(temp)
         def check(name,change):
@@ -59,6 +70,12 @@ def run(initial):
         def wrong_snapshot(d,c):
             p=d/'original/compiled-sources.json';j=read(p);j['src/startup.c']+=' ';p.write_text(json.dumps(j))
         check('wrong-immutable-source',wrong_snapshot)
+        def wrong_native_snapshot(d,c):
+            p=d/'native/compiled-sources.json';j=read(p)
+            name=next(name for name in j['compiled_sources'] if name.startswith('lib/recon/'))
+            j['compiled_sources'][name]+=' '
+            p.write_text(json.dumps(j,indent=2)+'\n');seal(d,'native','compiled-sources.json')
+        check('resealed-wrong-native-compiled-content',wrong_native_snapshot)
         def wrong_projection(d,c):
             p=d/'audit.json';j=read(p);j['runtime_projection']['original'][0]['end']+=1;p.write_text(json.dumps(j))
         check('wrong-runtime-projection',wrong_projection)

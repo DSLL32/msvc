@@ -16,6 +16,20 @@ def source_pins():
     paths=[p for p in (HERE/'src').glob('*') if p.suffix in ['.c','.h','.def']]
     paths += [HERE/'scripts'/name for name in ['native-host.c','native-boundary.c','native-fixture.h']]
     return {str(p.relative_to(HERE)):sha(p) for p in sorted(paths)}
+def verify_compiled_sources(compiled):
+    """Check frozen build content; live shared edits do not rewrite old ELF inputs."""
+    assert compiled['binary_sha256']==sha(HERE/'build/native/rc'),'Native ELF differs from frozen build receipt'
+    hashes={name:hashlib.sha256(text.encode()).hexdigest() for name,text in compiled['compiled_sources'].items()}
+    if 'compiled_source_sha256' in compiled:
+        assert hashes==compiled['compiled_source_sha256'],'Frozen compiled content/hash mismatch'
+    # Older build receipts pin the whole content snapshot in capture receipt.files.
+    # Target-owned source must still describe this candidate; shared source is the
+    # immutable compiled content above, independently of later worktree changes.
+    prefix=str(HERE.relative_to(ROOT))+'/'
+    for name,text in compiled['compiled_sources'].items():
+        if name.startswith(prefix):
+            assert (ROOT/name).read_text()==text,'Target-owned consumed source changed: '+name
+
 def parse_original(directory,config):
     directory=Path(directory);text=(directory/'events.txt').read_text()
     assert 'error ' not in text and 'exception ' not in text,'Original debugger error/exception'

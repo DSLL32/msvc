@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Record immutable native compiled-source content at the final link."""
 import json
+import hashlib
 from pathlib import Path
 import subprocess
 import sys
@@ -17,5 +18,5 @@ status=subprocess.call(command)
 if status:raise SystemExit(status)
 assert contents=={str(p.relative_to(ROOT)):p.read_text() for p in sorted(paths)},'Native input changed during final compilation/link'
 objects={arg:sha(arg) for arg in command if arg.endswith('.o')}
-proof={'binary_sha256':sha(output),'command':command,'objects':objects,'compiled_sources':contents}
+proof={'binary_sha256':sha(output),'command':command,'objects':objects,'compiled_sources':contents,'compiled_source_sha256':{name:hashlib.sha256(text.encode()).hexdigest() for name,text in contents.items()}}
 output.with_suffix('.inputs.json').write_text(json.dumps(proof,indent=2)+'\n')

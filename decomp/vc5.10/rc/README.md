@@ -48,21 +48,25 @@ breakpoints are a distinct typed boundary. Completion requires real exit events,
 matching traces and the canonical output. Compiled-source content, actual trial,
 PEs, ELF, MAP, auditor and deterministic runtime indexes are pinned. Explicit
 `--reuse-original` preserves unchanged original evidence when only native shared
-inputs or validators change; consumed native-source changes require a native rebuild.
+inputs or validators change. Later shared worktree edits do not invalidate frozen
+compiled provenance. Fresh latest-shared fixtures rebuild normally, while current
+target-owned source checks remain in place.
 
 Rust performs CFG/ABI/extent/reference/import checks. Its optional import check
 qualifies exact IAT transfers and import thunks, **not cached register calls**.
 The narrow `iat-references.py` residual separately records import data references
 and RC's two observed callee-saved caches (ESI: SetConsoleCtrlHandler; EBX: strchr),
-the exact IAT loads/call sites and no intervening register writes. This relies on
-the recovered callee-saved ABI, not general dataflow. Eight swapped-slot/call-register
-controls test this residual. Original and rebuilt static call counts can differ
+the exact IAT loads/call sites, no full/partial-register writes through the POP
+restore, and no direct branch entering that lifetime across its load or restore.
+Indirect jumps fail this residual. It relies on the recovered callee-saved ABI,
+not general dataflow. Twenty reason-checked slot/register/alias/branch mutations
+test this residual. Original and rebuilt static call counts can differ
 because the compiler rotates a loop. No audit flag is weakened to hide this limit.
 
 `cases/help/evidence/summary.json` records ordered promotions, hashes, split timing
 and full scratch-proof locations. Its raw completion records, immutable source
 snapshots and audit are retained alongside it. The startup review passed 16
-rejection checks, including wrong trap PC/signal; the completed pair has 16
+rejection checks, including wrong trap PC/signal; the completed pair has 17
 corresponding fail-closed checks, including missing actual completion events.
 
 The original-only `probe-help` requires a new explicit `REFERENCE_DIR`; resource

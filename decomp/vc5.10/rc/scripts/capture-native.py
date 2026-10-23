@@ -7,7 +7,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import time
-from common import HERE,read,sha,source_pins,names,symbol
+from common import HERE,read,sha,source_pins,names,symbol,verify_compiled_sources
 from reference_data import verify as verify_reference
 from native_pc import functions
 
@@ -81,7 +81,7 @@ def capture(directory,candidate):
     settings=read(candidate);reference_pins=verify_reference(settings);
     compiled=read(HERE/'build/native/rc.inputs.json')
     assert compiled['binary_sha256']==sha(HERE/'build/native/rc'),'Missing/stale compiled-source provenance'
-    for name,text in compiled['compiled_sources'].items():assert (HERE.parents[2]/name).read_text()==text,'Consumed source changed; rebuild native: '+name
+    verify_compiled_sources(compiled)
     (directory/'compiled-sources.json').write_text(json.dumps(compiled,indent=2)+'\n')
     (directory/'candidate.json').write_bytes(Path(candidate).read_bytes())
     mapping={symbol(r['name']):r['name'] for r in settings['driver']+settings['support']}

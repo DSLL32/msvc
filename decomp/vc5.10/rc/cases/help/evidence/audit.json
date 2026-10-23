@@ -366,7 +366,16 @@
         ],
         "preserved_interval": [
           16781788,
-          16781829
+          16781842
+        ],
+        "restore": {
+          "va": 16781842,
+          "bytes": "5e",
+          "instruction": "pop esi"
+        },
+        "aliases": [
+          "esi",
+          "si"
         ],
         "instruction_evidence": [
           {
@@ -453,6 +462,36 @@
             "va": 16781827,
             "bytes": "ffd6",
             "instruction": "call esi"
+          },
+          {
+            "va": 16781829,
+            "bytes": "ff750c",
+            "instruction": "push dword ptr [ebp + 0xc]"
+          },
+          {
+            "va": 16781832,
+            "bytes": "ff1524100001",
+            "instruction": "call dword ptr [0x1001024]"
+          },
+          {
+            "va": 16781838,
+            "bytes": "59",
+            "instruction": "pop ecx"
+          },
+          {
+            "va": 16781839,
+            "bytes": "5f",
+            "instruction": "pop edi"
+          },
+          {
+            "va": 16781840,
+            "bytes": "33c0",
+            "instruction": "xor eax, eax"
+          },
+          {
+            "va": 16781842,
+            "bytes": "5e",
+            "instruction": "pop esi"
           }
         ],
         "qualification": "narrow linear callee-saved-register residual, not Rust import qualification or general dataflow"
@@ -483,7 +522,16 @@
         ],
         "preserved_interval": [
           4198410,
-          4198455
+          4198468
+        ],
+        "restore": {
+          "va": 4198468,
+          "bytes": "5e",
+          "instruction": "pop esi"
+        },
+        "aliases": [
+          "esi",
+          "si"
         ],
         "instruction_evidence": [
           {
@@ -575,6 +623,36 @@
             "va": 4198453,
             "bytes": "ffd6",
             "instruction": "call esi"
+          },
+          {
+            "va": 4198455,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          {
+            "va": 4198456,
+            "bytes": "ff1514204000",
+            "instruction": "call dword ptr [0x402014]"
+          },
+          {
+            "va": 4198462,
+            "bytes": "83c404",
+            "instruction": "add esp, 4"
+          },
+          {
+            "va": 4198465,
+            "bytes": "33c0",
+            "instruction": "xor eax, eax"
+          },
+          {
+            "va": 4198467,
+            "bytes": "5f",
+            "instruction": "pop edi"
+          },
+          {
+            "va": 4198468,
+            "bytes": "5e",
+            "instruction": "pop esi"
           }
         ],
         "qualification": "narrow linear callee-saved-register residual, not Rust import qualification or general dataflow"
@@ -612,7 +690,18 @@
         ],
         "preserved_interval": [
           16781588,
-          16781743
+          16781774
+        ],
+        "restore": {
+          "va": 16781774,
+          "bytes": "5b",
+          "instruction": "pop ebx"
+        },
+        "aliases": [
+          "bh",
+          "bl",
+          "bx",
+          "ebx"
         ],
         "instruction_evidence": [
           {
@@ -994,6 +1083,76 @@
             "va": 16781741,
             "bytes": "ffd3",
             "instruction": "call ebx"
+          },
+          {
+            "va": 16781743,
+            "bytes": "59",
+            "instruction": "pop ecx"
+          },
+          {
+            "va": 16781744,
+            "bytes": "c60020",
+            "instruction": "mov byte ptr [eax], 0x20"
+          },
+          {
+            "va": 16781747,
+            "bytes": "59",
+            "instruction": "pop ecx"
+          },
+          {
+            "va": 16781748,
+            "bytes": "ebe9",
+            "instruction": "jmp 0x100119f"
+          },
+          {
+            "va": 16781750,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "va": 16781751,
+            "bytes": "ff152c100001",
+            "instruction": "call dword ptr [0x100102c]"
+          },
+          {
+            "va": 16781757,
+            "bytes": "59",
+            "instruction": "pop ecx"
+          },
+          {
+            "va": 16781758,
+            "bytes": "68ec100001",
+            "instruction": "push 0x10010ec"
+          },
+          {
+            "va": 16781763,
+            "bytes": "ff152c100001",
+            "instruction": "call dword ptr [0x100102c]"
+          },
+          {
+            "va": 16781769,
+            "bytes": "59",
+            "instruction": "pop ecx"
+          },
+          {
+            "va": 16781770,
+            "bytes": "5f",
+            "instruction": "pop edi"
+          },
+          {
+            "va": 16781771,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "va": 16781772,
+            "bytes": "33c0",
+            "instruction": "xor eax, eax"
+          },
+          {
+            "va": 16781774,
+            "bytes": "5b",
+            "instruction": "pop ebx"
           }
         ],
         "qualification": "narrow linear callee-saved-register residual, not Rust import qualification or general dataflow"
@@ -1034,7 +1193,18 @@
         ],
         "preserved_interval": [
           4198502,
-          4198686
+          4198721
+        ],
+        "restore": {
+          "va": 4198721,
+          "bytes": "5b",
+          "instruction": "pop ebx"
+        },
+        "aliases": [
+          "bh",
+          "bl",
+          "bx",
+          "ebx"
         ],
         "instruction_evidence": [
           {
@@ -1451,6 +1621,71 @@
             "va": 4198684,
             "bytes": "ffd3",
             "instruction": "call ebx"
+          },
+          {
+            "va": 4198686,
+            "bytes": "83c408",
+            "instruction": "add esp, 8"
+          },
+          {
+            "va": 4198689,
+            "bytes": "85c0",
+            "instruction": "test eax, eax"
+          },
+          {
+            "va": 4198691,
+            "bytes": "75e9",
+            "instruction": "jne 0x40110e"
+          },
+          {
+            "va": 4198693,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "va": 4198694,
+            "bytes": "ff1518204000",
+            "instruction": "call dword ptr [0x402018]"
+          },
+          {
+            "va": 4198700,
+            "bytes": "83c404",
+            "instruction": "add esp, 4"
+          },
+          {
+            "va": 4198703,
+            "bytes": "6800304000",
+            "instruction": "push 0x403000"
+          },
+          {
+            "va": 4198708,
+            "bytes": "ff1518204000",
+            "instruction": "call dword ptr [0x402018]"
+          },
+          {
+            "va": 4198714,
+            "bytes": "83c404",
+            "instruction": "add esp, 4"
+          },
+          {
+            "va": 4198717,
+            "bytes": "33c0",
+            "instruction": "xor eax, eax"
+          },
+          {
+            "va": 4198719,
+            "bytes": "5f",
+            "instruction": "pop edi"
+          },
+          {
+            "va": 4198720,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "va": 4198721,
+            "bytes": "5b",
+            "instruction": "pop ebx"
           }
         ],
         "qualification": "narrow linear callee-saved-register residual, not Rust import qualification or general dataflow"
@@ -1464,7 +1699,8 @@
     "metadata": "5aa03f3f91b38b149ca0eceb0f0b4d76f455554c44f5d9e310dc76c9e517823d",
     "original": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
     "rebuilt": "471d399a1f696c8e9f00b2a215397397c35165a58f129ad9c1075a8cd5a0bae7",
-    "native": "416be4cbb9910dd1c3e4df307ac66e79a724c1899f0e8a5e611f0445df145abd",
+    "native": "406d54e43857022e8629c32c6f8445d590c4374f92c2da3f11e629dfbbf3bdea",
+    "native_build_receipt": "00e98347303ffee3f12b64be5a52e7f0397a650c287c6982524796fa142fe29d",
     "original_runtime": "cb4394ef698d3134e350fa127b54931b6caca9d1f314c6ee4722192cb5ccb30f",
     "rebuilt_runtime": "dcd3b937ea94136bd2689965ae3e7a32765bb56a05751dfcac2fbca7c45daa73"
   },
@@ -1554,5 +1790,5 @@
   "config_sha256": "fa242c5242683593b3891a6e4d04326392e32757e59921bb8350785b601acde5",
   "original_sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
   "rebuilt_sha256": "471d399a1f696c8e9f00b2a215397397c35165a58f129ad9c1075a8cd5a0bae7",
-  "native_sha256": "416be4cbb9910dd1c3e4df307ac66e79a724c1899f0e8a5e611f0445df145abd"
+  "native_sha256": "406d54e43857022e8629c32c6f8445d590c4374f92c2da3f11e629dfbbf3bdea"
 }

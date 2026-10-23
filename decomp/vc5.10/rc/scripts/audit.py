@@ -47,7 +47,7 @@ def audit(config,report=None):
     original_path=HERE/'build/audit-original-runtime.json';rebuilt_path=HERE/'build/runtime.json'
     original_path.write_text(json.dumps(original_runtime,indent=2)+'\n');rebuilt_path.write_text(json.dumps(runtime,indent=2)+'\n')
     cmd=[str(ROOT/'tooling/graph-audit/target/release/graph-audit'),'--profile','cl','--repo',str(ROOT),'--project',str(HERE),'--config',str(Path(config).resolve()),'--runtime',str(original_path),'--rebuilt-runtime',str(rebuilt_path),'--rebuilt',str(HERE/'build/rc.exe'),'--map',str(HERE/'build/rc.map'),'--metadata',str(HERE/'graph-metadata.json'),'--discovery','cfg','--check-ret','--check-imports','--check-references','--check-ownership','--check-extents','--include-evidenced-runtime']
-    inputs={'tool':Path(cmd[0]),'config':Path(config),'map':HERE/'build/rc.map','metadata':HERE/'graph-metadata.json','original':ROOT/settings['target']['path'],'rebuilt':HERE/'build/rc.exe','native':HERE/'build/native/rc','original_runtime':original_path,'rebuilt_runtime':rebuilt_path}
+    inputs={'tool':Path(cmd[0]),'config':Path(config),'map':HERE/'build/rc.map','metadata':HERE/'graph-metadata.json','original':ROOT/settings['target']['path'],'rebuilt':HERE/'build/rc.exe','native':HERE/'build/native/rc','native_build_receipt':HERE/'build/native/rc.inputs.json','original_runtime':original_path,'rebuilt_runtime':rebuilt_path}
     before={k:sha(p) for k,p in inputs.items()}
     result=subprocess.run(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     assert result.returncode==0,result.stderr.decode()

@@ -1,7 +1,7 @@
 {
-  "audit_seconds": 0.1425261264666915,
-  "original_reuse_copy_seconds": 0.0067443763837218285,
-  "native_capture_seconds": 0.19407357275485992,
-  "verification_seconds": 0.052447679452598095,
-  "total_seconds": 0.3974464097991586
+  "audit_seconds": 0.15019770059734583,
+  "original_reuse_copy_seconds": 0.006226062774658203,
+  "native_capture_seconds": 0.18523157387971878,
+  "verification_seconds": 0.05529152322560549,
+  "total_seconds": 0.3984927190467715
 }
