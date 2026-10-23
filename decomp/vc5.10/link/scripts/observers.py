@@ -34,4 +34,6 @@ def plan(accepted,case="help"):
     if case!="help" and "_search_library_paths@8" in accepted:
         result += [(0x5c6f2,"observe:library_search_call"),(0x5c6f7,"observe:library_search_return"),
                    (0x5c706,"observe:searchenv_call"),(0x5c70c,"observe:searchenv_return")]
+    if case!="help" and "_release_memory@4" in accepted:
+        result += [(0x4fe35,"observe:free_call"),(0x4fe3b,"observe:free_return")]
     return result

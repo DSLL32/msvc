@@ -2,7 +2,7 @@
   "schema": 1,
   "binary": "toolchains/5.10/bin/LINK.EXE",
   "release_blockers": [],
-  "accepted_functions": 47,
+  "accepted_functions": 48,
   "reference_policy": "Only fresh 5.10 captures; source themes copied, no vc1.0 outputs/traces/oracles",
   "cases": [
     {
@@ -26,7 +26,7 @@
       ],
       "theme": "GUI window and User32/GDI32 imports",
       "source_provenance": "decomp/vc1.0/fixtures/hello-win32/c1/hello.c",
-      "state": "in reconstruction; canonicalize_argument255B and search_library_paths278B accepted; next release_memory44fe30; original successful master0/24064-byte hello.exe retained",
+      "state": "in reconstruction;48 application functions/20222 extent bytes; release_memory accepted with three actual option-copy free lifetimes; next validate_debug_options448630; original master0/24064-byte hello.exe retained",
       "sources": [
         {
           "path": "cases/hello-win32/source/hello.c",

@@ -14,6 +14,7 @@ static Entry entries[2048];
 static unsigned entry_count;
 static DWORD crt_base, main_frame_base, configuration_context, parser_allocation_bytes, parser_allocation, duplicate_result, virtual_arguments[4];
 static DWORD library_search_arguments[2], library_search_stack;
+static DWORD released_argument, release_stack, release_count;
 typedef struct StateRequest { char scope[16], name[128]; DWORD rva, size; } StateRequest;
 static StateRequest requests[64];
 static unsigned request_count;
@@ -96,6 +97,19 @@ static int save_memory(DWORD address,unsigned size,const char *name)
     if(file==INVALID_HANDLE_VALUE||!WriteFile(file,bytes,size,&written,NULL)||written!=size)return 0;
     CloseHandle(file);
     return 1;
+}
+/* The free wrapper has one call and one return site. Re-arm the opposite
+ * site only, so all three actual option-copy lifetimes remain observable. */
+static int rearm_observer(const char *name)
+{
+    unsigned index;
+    unsigned char trap=0xcc;
+    for(index=0;index<entry_count;++index)if(!strcmp(entries[index].name,name)) {
+        if(!patch(entries[index].rva,&trap,1))return 0;
+        entries[index].seen=0;
+        return 1;
+    }
+    return 0;
 }
 static int save_context_heap(DWORD context)
 {
@@ -265,6 +279,12 @@ static int snapshot(DWORD address)
         }
         fprintf(events,"}");
     }
+    if(address==base+0x48630) {
+        DWORD output;
+        if(!ReadProcessMemory(process,(void *)(base+0x7efa4),&output,4,&got)||got!=4||
+           !remote_string(output,value,sizeof(value)))return 0;
+        fprintf(events,",\"validation_context\":%lu,\"output_name_pointer\":%lu,\"output_name\":",stack[1],output);quoted(value);
+    }
     if(parser_allocation)fprintf(events,",\"parsed_switch_pointer\":%lu",parser_allocation);
     if(duplicate_result)fprintf(events,",\"duplicate_pointer\":%lu",duplicate_result);
     if(configuration_context)fprintf(events,",\"configuration_context\":%lu",configuration_context);
@@ -319,7 +339,7 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || ((address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
+    if(address==base+0x45130 || ((address==base+0x48630 || address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x4fe30 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
@@ -487,6 +507,23 @@ int main(int argc, char **argv)
                             fprintf(events,",\"requested\":");quoted(requested);
                         }
                         fprintf(events,"}\n");
+                    } else if(!strncmp(entries[index].name,"observe:free_",13)) {
+                        DWORD got,argument;
+                        char text[4096],phase[64],memory[64];
+                        int before=!strcmp(entries[index].name,"observe:free_call");
+                        if(!ReadProcessMemory(process,(void *)context.Esp,&argument,4,&got)||got!=4||release_count>=16){failed=6;break;}
+                        if(before) {
+                            released_argument=argument;release_stack=context.Esp;
+                            if(!remote_string(argument,text,sizeof(text))){failed=6;break;}
+                            sprintf(memory,"free-%u-before.bin",release_count);
+                            if(!save_memory(argument,strlen(text)+1,memory)||!rearm_observer("observe:free_return")){failed=6;break;}
+                        } else if(context.Esp!=release_stack||!rearm_observer("observe:free_call")){failed=6;break;}
+                        sprintf(phase,"free-%u-%s",release_count,before?"before":"after");
+                        if(!snapshot_errors(phase)){failed=6;break;}
+                        fprintf(events,"{\"event\":\"free_observation\",\"name\":\"%s\",\"site\":%lu,\"index\":%u,\"argument\":%lu,\"argument_slot\":%lu,\"stack_pointer\":%lu",entries[index].name,site,release_count,released_argument,argument,context.Esp);
+                        if(before){fprintf(events,",\"text\":");quoted(text);}
+                        fprintf(events,"}\n");
+                        if(!before)++release_count;
                     } else if(!strncmp(entries[index].name,"observe:library_search_",23)) {
                         DWORD got;
                         char filename[4096];

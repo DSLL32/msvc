@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 47 application
-functions (20,205 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 48 application
+functions (20,222 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `release_memory`; hello-win32 has not completed.
+next frontier is `validate_debug_options`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -185,3 +185,13 @@ heap. 67 semantic negatives and the strict 60-vertex graph pass. Fresh original
 and native GDB captures took 1.320 s and 0.258 s; graph checking 0.336 s. Cached help
 remains 56.3 ms total / 3.93 ms ELF. Full compiled ELF, PE and MAP bytes are now frozen
 with each new native capture, in addition to source snapshots.
+
+The 17-byte `release_memory` wrapper is accepted after observing all three
+real option-copy frees and normal returns. The next frontier records its one
+`LinkContext *` formal, full owned context/heap, output-name argv alias and the
+reached option globals. 64 semantic negatives pass. Original MSVCRT free may
+rewrite its own argument slot while releasing a small-heap block; that residual
+is retained as raw evidence and is not a caller-visible preserved parameter.
+A failed observer that incorrectly assumed slot preservation remains in scratch.
+Native-only retries bind the unchanged original receipt/mask/inputs explicitly
+when unrelated shared-header changes require a native rebuild.

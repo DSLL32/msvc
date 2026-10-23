@@ -42,7 +42,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[],'mbspbrk_calls':[],'canonicalized_arguments':[],'library_search_calls':[],'searchenv_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[],'mbspbrk_calls':[],'canonicalized_arguments':[],'library_search_calls':[],'searchenv_calls':[],'free_calls':[]}
 def cpp_ownership():
     result=[];node=gdb.parse_and_eval('recon_cpp_allocations');seen=set()
     while int(node):
@@ -133,6 +133,19 @@ class SearchenvEntry(gdb.Breakpoint):
         record=dict(filename_pointer=int(args[1]),variable_pointer=int(args[2]),output=output,filename=gdb.Value(int(args[1])).cast(text).string(),variable=variable,value=environment_value(variable),before=gdb.selected_inferior().read_memory(output,260).tobytes().hex(),before_errors=errors(),codepage=int(gdb.parse_and_eval('recon_mb_codepage')),lc_ctype_handle=int(gdb.parse_and_eval('recon_lc_handle[2]')),mb_cur_max=int(gdb.parse_and_eval('recon_mb_cur_max')))
         SearchenvReturned(gdb.newest_frame(),record);return False
 SearchenvEntry('*recon_searchenv',internal=True)
+class FreeReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def stop(self):
+        self.record.update(normal_return=True,after_errors=errors(),return_stack=int(gdb.parse_and_eval('$esp')))
+        state['free_calls'].append(self.record);return False
+class FreeEntry(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame()
+        if not frame.older()or frame.older().name()!='release_memory':return False
+        address=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'));text=gdb.Value(address).cast(gdb.lookup_type('char').pointer()).string()
+        FreeReturned(frame,dict(argument=address,text=text,before=gdb.selected_inferior().read_memory(address,len(text)+1).tobytes().hex(),before_errors=errors(),entry_stack=int(gdb.parse_and_eval('$esp'))))
+        return False
+FreeEntry('*recon_free',internal=True)
 
 class AtExitReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,callback):
@@ -321,13 +334,13 @@ def stopped(event):
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
     configuration=frame
     while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
-    if configuration:
-        receiver=configuration.read_var('context')
+    if configuration or state['function']=='validate_debug_options':
+        receiver=(configuration if configuration else frame).read_var('context')
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
         state['link_context']=gdb.selected_inferior().read_memory(state['context_this'],664).tobytes().hex()
         state['context_extension']=receiver.dereference()['options']['default_extension'].string()
-        state['configuration_arguments']=dict(context=int(receiver),first=int(configuration.read_var('module')),second=int(configuration.read_var('file')))
+        state['configuration_arguments']=dict(context=int(receiver),first=int(configuration.read_var('module'))if configuration else 0,second=int(configuration.read_var('file'))if configuration else 0)
         state['context_auxiliary_address']=int(receiver.dereference()['auxiliary'])
         state['context_auxiliary']=gdb.selected_inferior().read_memory(state['context_auxiliary_address'],44).tobytes().hex()
         state['context_heap']=[]
@@ -338,6 +351,11 @@ def stopped(event):
                 arena=int(hash_state.dereference()[field]);raw=gdb.selected_inferior().read_memory(arena,16).tobytes();words=struct.unpack('<4I',raw)
                 record['arenas'].append(dict(address=arena,raw=raw.hex(),data=gdb.selected_inferior().read_memory(words[3],words[1]+words[2]).tobytes().hex()))
             state['context_heap'].append(record)
+        if state['function']=='validate_debug_options':
+            state['validation_arguments']=dict(context=int(receiver))
+            state['output_name_pointer']=int(gdb.parse_and_eval('output_file_name'))
+            state['output_name']=gdb.parse_and_eval('output_file_name').string()
+            state['option_globals']={name:int(gdb.parse_and_eval(name))for name in ('incremental_requested','incremental_switch_set','debug_formats','pdb_enabled','debug_option_present')}
     elif state['function'] in ('LinkContext::Initialize','create_string_table','initialize_hash_table','hash_allocate','reserve_memory','create_memory_arena','allocate_memory'):
         owner=frame
         while owner and owner.name()!='LinkContext::Initialize':owner=owner.older()

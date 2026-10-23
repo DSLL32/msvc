@@ -64,7 +64,8 @@
     "_free_buffer8",
     "_free_buffer12",
     "_canonicalize_argument@8",
-    "_search_library_paths@8"
+    "_search_library_paths@8",
+    "_release_memory@4"
   ],
   "driver": [
     {
@@ -611,10 +612,10 @@
     {
       "name": "_release_memory@4",
       "start": 4521520,
-      "end": 4521521,
-      "pending_extent": true,
+      "end": 4521537,
+      "pending_extent": false,
       "source": "src/arguments.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "release_memory"
     },
     {

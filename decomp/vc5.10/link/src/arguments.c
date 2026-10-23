@@ -108,7 +108,10 @@ char *__stdcall duplicate_argument(const char *text)
     return copy;
 }
 void __stdcall tokenize_arguments(char *text) { __asm { int 3 } }
-void __stdcall release_memory(void *memory) { __asm { int 3 } }
+void __stdcall release_memory(void *memory)
+{
+    free(memory);
+}
 void __stdcall read_response_file(const char *name) { __asm { int 3 } }
 InputArguments library_files, ordinary_files, link_files, option_arguments;
 int argument_file;

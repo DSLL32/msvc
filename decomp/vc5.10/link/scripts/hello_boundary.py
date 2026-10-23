@@ -3,7 +3,7 @@ import json
 import struct
 
 
-def compare_release(original, state, trap):
+def compare_release(original, state, trap, completed_options=False):
     events = [json.loads(line) for line in (original/'events.jsonl').read_text().splitlines()]
     argv = trap['crt_argv_addresses']
     native_argv = state['crt_argv_addresses']
@@ -54,7 +54,7 @@ def compare_release(original, state, trap):
     assert native_before==bytes.fromhex(native_call['after'])
     assert len(native_before)==len(native_after)==260
     assert native_after[:len(encoded)]==encoded and native_after[len(encoded):]==native_before[len(encoded):]
-    errors=[event for event in events if event['event']=='crt_error_state']
+    errors=[event for event in events if event['event']=='crt_error_state'and event['phase'].startswith('searchenv-')]
     assert [event['phase']for event in errors]==['searchenv-before','searchenv-after']
     for event,native_errors in zip(errors,[search['before_errors'],search['after_errors']]):
         assert {key:event[key]for key in ('errno','doserrno','last_error')}==native_errors==dict(errno=2,doserrno=2,last_error=2)
@@ -87,6 +87,9 @@ def compare_release(original, state, trap):
         item=canonical[index]
         assert item==dict(input=native_argv[index+4],result=state['argument_lists']['link_files']['nodes'][index]['words'][0],text=text,bytes=(text.encode()+b'\0').hex())
         assert item['result'] not in native_argv
+    if completed_options:
+        compare_configured(original,state,trap,events,canonical,search)
+        return
     original_copy,=[event for event in events if event['event']=='duplicate_return']
     assert original_copy['site']==0x4451ab
     assert trap['stack'][1]==trap['argument_pointer']==original_copy['result']
@@ -114,3 +117,53 @@ def compare_release(original, state, trap):
     assert state['logo_pending']==0 and (original/'logo-pending.bin').read_bytes()==b'\0'
     from context_heap import compare
     compare(original,state,trap,configuration_context=trap['configuration_context'])
+
+
+def compare_configured(original,state,trap,events,canonical,search):
+    """All formal inputs of validate_debug_options and real option-copy frees."""
+    context=trap['validation_context']
+    assert context==trap['stack'][1]==trap['configuration_context']
+    assert state['validation_arguments']==dict(context=state['context_this'])
+    assert trap['output_name']=='hello.exe'==state['output_name']
+    assert trap['output_name_pointer']==trap['crt_argv_addresses'][3]+5
+    assert state['output_name_pointer']==state['crt_argv_addresses'][3]+5
+    for key,filename,size,expected in [
+        ('incremental_requested','incremental-requested.bin',1,0),
+        ('incremental_switch_set','incremental-switch-set.bin',1,1),
+        ('debug_formats','debug-formats.bin',4,0),
+        ('pdb_enabled','pdb-enabled.bin',1,1),
+        ('debug_option_present','debug-option-present.bin',1,0)]:
+        data=(original/filename).read_bytes()
+        assert len(data)==size and int.from_bytes(data,'little')==state['option_globals'][key]==expected
+    assert state['incremental_enabled']==0 and (original/'incremental-enabled.bin').read_bytes()==b'\0'
+    assert state['logo_pending']==0 and (original/'logo-pending.bin').read_bytes()==b'\0'
+    source=state['duplicate_calls']
+    assert len(source)==5 and len(state['free_calls'])==3
+    assert source[:2]==[
+        dict(text='hello.obj',input=state['crt_argv_addresses'][4],result=canonical[0]['result']),
+        dict(text=canonical[1]['text'],input=search['output'],result=canonical[1]['result'])]
+    observations=[event for event in events if event['event']=='free_observation']
+    assert len(observations)==6
+    for index,text in enumerate(['nologo','incremental:no','out:hello.exe']):
+        call,returned=observations[index*2:index*2+2]
+        assert (call['name'],returned['name'])==('observe:free_call','observe:free_return')
+        assert (call['site'],returned['site'])==(0x44fe35,0x44fe3b)
+        assert call['index']==returned['index']==index and call['text']==text
+        assert call['argument']==returned['argument'] and call['argument']
+        assert call['argument'] not in trap['crt_argv_addresses']
+        assert call['stack_pointer']==returned['stack_pointer']
+        raw=(original/('free-%d-before.bin'%index)).read_bytes()
+        native=state['free_calls'][index]
+        assert raw==bytes.fromhex(native['before'])==text.encode()+b'\0'
+        assert native['text']==text and native['normal_return'] is True
+        assert native['return_stack']==native['entry_stack']+4
+        assert source[index+2]==dict(text=text,input=state['crt_argv_addresses'][index+1]+1,result=native['argument'])
+        assert native['argument'] not in state['crt_argv_addresses']+[item['result']for item in canonical]
+        error_events=[event for event in events if event['event']=='crt_error_state'and event['phase'].startswith('free-%d-'%index)]
+        assert [event['phase']for event in error_events]==['free-%d-before'%index,'free-%d-after'%index]
+        for event,observed in zip(error_events,[native['before_errors'],native['after_errors']]):
+            assert {key:event[key]for key in ('errno','doserrno','last_error')}==observed==dict(errno=2,doserrno=2,last_error=2)
+    assert struct.unpack_from('<I',bytes.fromhex(state['link_context']),0x150)[0]==0
+    assert bytes.fromhex(state['link_context'])[0x124]==1
+    from context_heap import compare
+    compare(original,state,trap,configuration_context=context)

@@ -356,6 +356,15 @@ def main():
                       cleanup=cleanup if args.complete else None,
                       trial_sha256=sha((args.original / 'functions.json').read_bytes()),
                       original=str(args.original), native=str(args.native), audit=audit)
+    original_receipt=json.loads((args.original/'receipt.json').read_text())
+    native_receipt=json.loads((args.native/'receipt.json').read_text())
+    validation['evidence_bindings']=dict(
+        original_receipt_sha256=sha((args.original/'receipt.json').read_bytes()),
+        native_receipt_sha256=sha((args.native/'receipt.json').read_bytes()),
+        original_native_at_capture_sha256=original_receipt['native_sha256'],
+        tested_native_sha256=native_receipt['native_sha256'],
+        native_only_retry=original_receipt['native_sha256']!=native_receipt['native_sha256'],
+        original_execution='Exact target, mask, accepted prefix, argv, inputs and fixed working directory revalidated; native/shared rebuild does not change original execution.')
     (args.native / 'acceptance-validation.json').write_text(json.dumps(validation, indent=2) + '\n')
     if args.promote:
         if args.complete:trial['cases']['help']['complete']=True
