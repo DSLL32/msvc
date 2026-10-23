@@ -402,6 +402,7 @@ HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
     if (!name) return primary_module?(HMODULE)primary_module:(HMODULE)1;
     if (!strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
     if (!strcasecmp(name,"user32.dll")) return (HMODULE)2;
+    if (!strcasecmp(name,"ntdll") || !strcasecmp(name,"ntdll.dll")) return (HMODULE)3;
     for (n=0;n<module_count;++n)
         if (!strcasecmp(name,native_modules[n].name) || !strcasecmp(name,native_modules[n].path))
             return (HMODULE)(native_modules+n);
@@ -415,6 +416,10 @@ HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
 }
 FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
 {
+    if (module==(HMODULE)3) {
+        if (name && !strcmp(name,"LdrProcessRelocationBlock")) return (FARPROC)recon_LdrProcessRelocationBlock;
+        recon_unsupported("unreviewed NTDLL export"); return NULL;
+    }
     if (module==(HMODULE)2) {
         if (name && !strcmp(name,"LoadStringA")) return (FARPROC)recon_LoadStringA;
         last_error=127; return NULL;
@@ -722,4 +727,32 @@ DWORD WINAPI recon_GetTickCount(void)
     milliseconds=(uint64_t)now.tv_sec*1000+(unsigned long)now.tv_nsec/1000000;
     errno=saved_errno;
     return (DWORD)(uint32_t)milliseconds;
+}
+
+USHORT *WINAPI recon_LdrProcessRelocationBlock(LPVOID page,DWORD count,USHORT *records,LONG delta)
+{
+    DWORD n; uint32_t value;
+    if (!count) return records;
+    if (!page || !records) recon_unsupported("relocation block pointer");
+    for (n=0;n<count;++n) if ((records[n]>>12)!=0 && (records[n]>>12)!=3)
+        recon_unsupported("unreviewed native relocation type");
+    for (n=0;n<count;++n) if ((records[n]>>12)==3) {
+        unsigned char *target=(unsigned char *)page+(records[n]&0xfff);
+        memcpy(&value,target,4); value+=(uint32_t)delta; memcpy(target,&value,4);
+    }
+    return records+count;
+}
+DWORD WINAPI recon_GetFullPathNameA(LPCSTR name,DWORD capacity,LPSTR output,LPSTR *basename)
+{
+    char full[PATH_MAX],*part; size_t length; int saved_errno=errno;
+    if (!name || !*name || strchr(name,':') || strchr(name,'\\') || strchr(name,'/') ||
+        !strcmp(name,".") || !strcmp(name,"..") || !getenv("RECON_CANONICAL_CWD"))
+        recon_unsupported("unreviewed GetFullPathNameA path form");
+    if (!recon_fullpath(full,name,sizeof(full))) recon_unsupported("GetFullPathNameA canonical transport");
+    length=strlen(full);
+    if (!output || capacity<=length) recon_unsupported("unreviewed GetFullPathNameA capacity");
+    memcpy(output,full,length+1); part=strrchr(output,'\\');
+    if (basename) *basename=part?part+1:output;
+    errno=saved_errno;
+    return (DWORD)length;
 }

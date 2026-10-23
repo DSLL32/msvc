@@ -1,0 +1,24 @@
+{
+  "build_seconds": 2.811837944202125,
+  "execution_seconds": 0.5010047312825918,
+  "status": 0,
+  "source_sha256": "58211c66e81350d8fa7e00b58cd4c900064284b6ae62fcf3f01a7eeb1617dac9",
+  "command": "explicitoriginal-only API probe under fixedsharedR/S",
+  "original_link_binding": "decomp/vc1.0/link/cases/editor-rebase-bind/capture/input-inspection.json",
+  "scope": "NTDLL LdrProcessRelocationBlock HIGHLOW/ABSOLUTE and ordinary relative GetFullPathNameA",
+  "native_build_checks_seconds": {
+    "gcc": 0.9749360773712397,
+    "clang": 1.2233825400471687
+  },
+  "tests": [
+    "exact original complete output including unaligned relocations/wrap/negativeDelta/type0/count0 and full260byte pathbuffer",
+    "LastError456/errno123 preserve",
+    "unsupportedtype/missingorwrongcanonicalcwd controls"
+  ],
+  "abi": "LdrProcessRelocationBlock stdcall4args/ret16, returns records+count; GetFullPathNameA stdcall4args, excludesNUL return and basenamepointsinsideoutput",
+  "limits": [
+    "otherrelocationtypes/NTDLLexports unsupported",
+    "GetFullPathName only ordinaryrelativefilename/sufficientcapacity with validatedcanonicalcwd",
+    "no generic DLLloader/emulator"
+  ]
+}

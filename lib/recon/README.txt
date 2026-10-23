@@ -407,3 +407,12 @@ inside callbacks are explicitly unsupported until characterized. The optional
 terminal receipt records the exit request before dispatch; acceptance also
 requires matching normal POSIX completion, so a callback trap cannot pass as a
 completed exit. Callback-driven exit replacement remains unsupported.
+
+LINK's encountered NTDLL module lookup resolves LdrProcessRelocationBlock using
+its actual stdcall4/ret16 boundary. It handles HIGHLOW relocations with unaligned
+DWORD modulo arithmetic and skips ABSOLUTE padding, returning the next record.
+Other types/exports fail explicitly. GetFullPathNameA supports the encountered
+ordinary relative filename with validated canonical cwd and sufficient output
+capacity, returning the length excluding NUL and a basename pointer into that
+output. Both preserve observed errno/LastError; native fixtures compare full
+cached original buffers. No target fallback or generic DLL loading is forced.
