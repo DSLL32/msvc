@@ -1,0 +1,26 @@
+{
+  "ordinary_owned_inputs": {
+    "original/helper-inputs": {
+      "manifest": "original/helper-inputs.json",
+      "manifest_sha256": "ef1693fe43c2acadd146e3e1a2ef15587c6f406c2a820dee209ee3fd55de0d8e",
+      "files": 5
+    },
+    "native/compiled-inputs": {
+      "manifest": "native/compiled-inputs.json",
+      "manifest_sha256": "35346459b50fec8d9c42bb7c75124666122bf07bf555aaab52bd4e18329448fa",
+      "files": 56
+    },
+    "current-validation/win32-inputs": {
+      "manifest": "current-validation/win32-inputs.json",
+      "manifest_sha256": "3b3fe2d33574614ba4cfa49c611aa5e8c7d5af04f694fd60d8e8ae958aedb2f7",
+      "files": 33
+    },
+    "checker-inputs": {
+      "manifest": "checker-inputs.json",
+      "manifest_sha256": "d276ff70c893b7ac64355439ae9357f8752588bdd66606465ac43be0415cca9c",
+      "files": 18
+    }
+  },
+  "new_archives": 0,
+  "tool_binary_bundles": 0
+}

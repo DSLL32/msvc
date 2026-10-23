@@ -194,3 +194,14 @@ library name orNULL. Its fresh typed boundary proves ECXkind4, EDX`LIBC`,
 EAX return-pointer lineage, both actual GDB formal types, and the native
 caller-local alias. Proof0069 records12 fresh/129 reused protocol controls;
 the unchanged13 callback controls and20 compile guards are reused explicitly.
+
+The56-byte directive append function is accepted as source70. Its12-byte typed
+nodes retain borrowed string pointers; pool1 contains `LIBC` then `OLDNAMES` in
+actual insertion order. The fresh boundary checks both nodes, exact original
+string identities, the head/cursor/remaining aliases, and all4096 defined arena
+bytes. Both header DWORDs and payload zeroing come from the accepted allocator;
+the append function does not invent an extra write to the last link. Its full
+body returns the new node, refining the earlier pending stub's unobserved result.
+Proof0070 records27 fresh/123 reused controls (19.969s), refreshed20 compile
+guards (2.701s), full70 audit0.482s, original capture2.326s, and native GDB0.523s.
+Current validator source is retained as ordinary checked files; no new archives.
