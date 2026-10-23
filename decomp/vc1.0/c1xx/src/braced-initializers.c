@@ -430,3 +430,14 @@ CppSymbol *__stdcall find_next_initializer_member(CppSymbol *owner, CppSymbol *m
     }
     return 0;
 }
+
+/* Original 0x30af0..0x30b2d. Bit-fields and ordinary nonstatic data
+   members are eligible; unresolved, inherited and static declarations are not. */
+int __stdcall is_initializer_data_member(CppSymbol *symbol)
+{
+    unsigned char kind = symbol->kind & 31;
+    if (kind == 2) return 1;
+    if (kind != 3 || !symbol->type || (symbol->flags & 0x80) ||
+        (symbol->attributes & 0x40)) return 0;
+    return 1;
+}

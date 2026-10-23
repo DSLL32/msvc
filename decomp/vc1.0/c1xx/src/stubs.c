@@ -634,4 +634,3 @@ int finish_braced_initializer_element(void) { __asm { int 3 } return 0; }
 void __stdcall emit_runtime_bit_field_initializer(IrToken *value) { __asm { int 3 } }
 IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } return 0; }
 void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
-int __stdcall is_initializer_data_member(CppSymbol *symbol) { __asm { int 3 } return 0; }
