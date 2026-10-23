@@ -1,0 +1,19 @@
+{
+  "scope": "Actual single12B byvalueExtended formal plus intarena of whole87B allocator",
+  "transport": "Existingdefault4stackwordcount and nativeactualCformal fields, no new debugger/observer mode",
+  "value_words": {
+    "original": [
+      0,
+      3221225472,
+      540671
+    ],
+    "native": [
+      0,
+      3221225472,
+      540671
+    ]
+  },
+  "allocation": "Existing permanent and compiler_arena pools/refill graph preserved, signedremaining comparison and -1index normalization unchanged; no extra data or validity guard",
+  "negative_checks": "Actual productionpreflight passes; wronghigh/format/arena and missingbyvalueword metadata hold",
+  "credit": "Only whole87B app/supportallocator, noCRTbody or transportcredit"
+}

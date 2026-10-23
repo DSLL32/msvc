@@ -1160,7 +1160,8 @@
     "_check_extended_range",
     "_double_to_extended",
     "_store_extended",
-    "_save_extended_constant@4"
+    "_save_extended_constant@4",
+    "_save_extended_in_arena@16"
   ],
   "driver": [
     {
@@ -6964,7 +6965,7 @@
     {
       "name": "_save_extended_in_arena@16",
       "start": 185392,
-      "end": 185393
+      "end": 185479
     },
     {
       "name": "_collect_member_references@8",
@@ -8538,7 +8539,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_save_extended_in_arena@16",
+      "terminal": "_fold_floating_binary@12",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8561,7 +8562,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1155-save_extended_constant-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8722,7 +8723,8 @@
         "cases/frontiers/state_machine_debug/1152-check_extended_range/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1153-double_to_extended/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1154-store_extended/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1155-save_extended_constant-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1155-save_extended_constant-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/frontier-extension.json"
       ]
     }
   },

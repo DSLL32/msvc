@@ -523,7 +523,6 @@ int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } retu
 int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
 unsigned char *__stdcall copy_bytes_forward(unsigned char *destination, const unsigned char *source, unsigned bytes) { __asm { int 3 } return 0; }
-Extended *__stdcall save_extended_in_arena(Extended value, int arena) { __asm { int 3 } return 0; }
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_member_pointer(CType *type) { __asm { int 3 } return 0; }

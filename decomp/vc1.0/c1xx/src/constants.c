@@ -274,3 +274,23 @@ Extended *__stdcall save_extended_constant(Extended *value)
     return save_extended_in_arena(*value,
         token_allocation_flags & 0x20000020UL ? 0 : 2);
 }
+
+/* Original 0x2d430..0x2d486. The value occupies twelve stack bytes;
+   arena -1 selects pool zero while arena zero requests permanent storage. */
+Extended *__stdcall save_extended_in_arena(Extended value, int arena)
+{
+    Extended *result;
+    ArenaPool *pool;
+    if (!arena) result = allocate_permanent(sizeof(Extended));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(Extended))
+            refill_arena(&compiler_arena, pool);
+        result = (Extended *)pool->next;
+        pool->remaining -= sizeof(Extended);
+        pool->next += sizeof(Extended);
+    }
+    *result = value;
+    return result;
+}

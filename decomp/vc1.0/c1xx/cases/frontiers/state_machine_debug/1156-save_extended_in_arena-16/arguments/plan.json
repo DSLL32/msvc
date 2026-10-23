@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "function": "_save_extended_in_arena@16",
+  "native_entry": "save_extended_in_arena",
+  "argument_words": 4,
+  "native_expressions": {
+    "value_low": "(unsigned)value.low",
+    "value_high": "(unsigned)value.high",
+    "value_tail": "(unsigned)value.exponent | ((unsigned)value.format << 16)",
+    "raw_arena": "(unsigned)arena"
+  },
+  "formals": [
+    {
+      "name": "value",
+      "stack_index": 0,
+      "native_field": "value_low",
+      "binding": {
+        "kind": "extended-stack-value",
+        "stack_indices": [
+          0,
+          1,
+          2
+        ],
+        "native_fields": [
+          "value_low",
+          "value_high",
+          "value_tail"
+        ]
+      }
+    },
+    {
+      "name": "arena",
+      "stack_index": 3,
+      "native_field": "raw_arena",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      185392,
+      185479
+    ],
+    "argument_bytes": 16,
+    "convention": "stdcall16 pointerreturn,12Bbyvalue +4Barena",
+    "proof": "Whole87B savesESI; arenaentryESP+16/value12BentryESP+4,+8,+12 thenRET16/fullEAXpointer. Arena0allocate_permanent12, else -1 maps pool0, actual signedremaining<12 refills, consumes12B beforethreeDWORDcopy. Existingcompiler_arena baseA2740+pools8/stride20 andexistingcalleegraph:6ad50/72db0. All3fullDWORDvaluewords and fourtharena observed via existingdefault4read; nativeactualvalue.low/high/(exponent|format16) matches, full12Bfieldsdefined/nopadding. Nohidden/registerformal/newdata."
+  }
+}

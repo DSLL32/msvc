@@ -90,6 +90,9 @@ def main():
         if binding['kind'] == 'scalar':
             mask = (1 << binding['bits']) - 1
             assert item['original_raw'] & mask == item['native_raw'] & mask
+        elif binding['kind'] == 'extended-stack-value':
+            from extended_arguments import validate as validate_extended_argument
+            item['by_value_words']=validate_extended_argument(name,item,checkpoint,words)
         elif binding['kind'] == 'unused-conversion-text':
             validate_unused_conversion_text(name, item, anchors, checkpoint, words)
         elif binding['kind'] == 'class-first-virtual-table':

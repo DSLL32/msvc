@@ -108,6 +108,9 @@ def main():
             assert binding['native_object_address']==entry_native[binding['native_anchor_field']]
             assert formal['original_raw']-binding['original_object']==binding['offset'], 'original logical pointer offset differs'
             assert formal['native_raw']-binding['native_object_address']==binding['offset'], 'native logical pointer offset differs'
+        elif binding['kind']=='extended-stack-value':
+            from extended_arguments import validate as validate_extended_argument
+            assert formal['by_value_words']==validate_extended_argument(args.candidate,formal,entry_native,words)
         elif binding['kind']=='unused-conversion-text':
             assert formal['result']==validate_unused_conversion_text(args.candidate, formal, anchors, entry_native, words)
         elif binding['kind']=='class-first-virtual-table':
