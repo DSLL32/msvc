@@ -1,0 +1,13 @@
+{
+  "status": "rejected preliminary original mask before cache extension",
+  "events": "exception 80000003 rva 0000a19b base 00010000 first 1\nexit 99\n",
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-se9psrjp",
+  "masked_sha256": "fe62e4aa74c8c41574416d40fad68a7c5505ac6ede4facb62346ca86341cf8ca",
+  "preliminary_config_sha256": "ca73d887e3efc1ee106b14a82e498c9c7bd23c8ceec9621d25b0bfcf66fb8f74",
+  "preliminary_source_sha256": "18e804e421fbad6661738637d128815108ec43d757bcc4e7c63eceba5172b356",
+  "wrong_end": "0x1a19b",
+  "correct_end": "0x1a19c",
+  "proof": "Original1a190 MOV depth;1a195 INC EAX;1a196 MOV depth;1a19b RET. Excluding RET produced an unnamed trap and capture validator rejected it.",
+  "source_correction": "Increment existing depth, not assignment1; preliminary candidate corrected before any matching/cache acceptance",
+  "limits": "No function acceptance or fixture cache extension used rejected candidate"
+}

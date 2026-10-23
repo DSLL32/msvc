@@ -164,7 +164,6 @@ void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 #include "value-selection.h"
 MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_conditional_value(Node *node) { __asm int 3 }
-void mark_x87_call_result(void) { __asm int 3 }
 MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
 #include "bitsets.h"
 
@@ -391,7 +390,5 @@ int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm 
 const Extended *__fastcall floating_value_for_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall split_float_memory_transfer(MachineInstruction *load, MachineInstruction *store, MachineInstruction *first, MachineInstruction *last, int reversed, MachineInstruction *comparison) { __asm int 3 }
 int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruction *store) { __asm int 3 }
-MachineInstruction *__fastcall previous_float_load(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall find_float_transfer_match(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }

@@ -622,3 +622,39 @@ int __fastcall can_reuse_float_load_width(MachineInstruction *instruction, unsig
     }
     return 1;
 }
+
+/* Original [00037e10,00037f27). Find a later load consuming the
+   value stored in a virtual float register, followed immediately by a memory
+   FSTP. A destination match, any label/header, or transfer ends the search. */
+MachineInstruction *__fastcall find_float_transfer_match(MachineInstruction *instruction)
+{
+    MachineInstruction *scan, *store;
+    for (scan = instruction->next; scan; scan = scan->next) {
+        if (FP_KIND(scan) == 1 || FP_KIND(scan) == 7) return 0;
+        if (FP_ELIGIBLE(scan) && (FP_OPERATION(scan) == MC_JCC || FP_OPERATION(scan) == MC_JMP ||
+            FP_OPERATION(scan) == MC_LEAVE || FP_OPERATION(scan) == MC_RET)) return 0;
+        if (!FP_FLOAT(scan) || machine_operand_counts[FP_OPERATION(scan)] <= 0) continue;
+        if (operands_equal(&scan->operands[0], &instruction->operands[0])) return 0;
+        if (!operands_equal(&scan->operands[1], &instruction->operands[0])) continue;
+        if (FP_OPERATION(scan) == MC_FLD && (scan->operands[1].flags & 0x400)) {
+            store = scan->next;
+            if (FP_ELIGIBLE(store) && FP_OPERATION(store) == MC_FSTP && FP_MEMORY(&store->operands[0]))
+                return store;
+        }
+        return 0;
+    }
+    return 0;
+}
+
+/* Original [00037ce0,00037e0c). Return the nearest preceding floating
+   operation, including stores/compares; its callers test the precise opcode.
+   Transfer or referenced-label barriers stop the backward search. */
+MachineInstruction *__fastcall previous_float_load(MachineInstruction *instruction)
+{
+    MachineInstruction *scan;
+    for (scan = instruction->previous; scan; scan = scan->previous) {
+        if (FP_BARRIER(scan)) return 0;
+        if (FP_FLOAT(scan)) return scan;
+    }
+    return 0;
+}

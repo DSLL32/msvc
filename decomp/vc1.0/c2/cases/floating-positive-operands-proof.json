@@ -1,0 +1,11 @@
+{
+  "original_extent": [
+    "0x81560",
+    "0x81647"
+  ],
+  "rows": 231,
+  "predicate": "signed operand count greater than zero",
+  "mismatches": 0,
+  "native_sha256": "43d96e9f777c6b0c30c22e336655456015eec6c28871f2424c999850025e0e9b",
+  "method": "All231 original signed bytes vs compiled native machine_operand_counts via GDB, no execution or Wine"
+}

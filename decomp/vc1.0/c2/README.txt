@@ -2458,3 +2458,9 @@ x87 comparison store motion and precision lookahead: checkpoint977
 @find_float_transfer_match@4. 898 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-transfer.json for extent union, limits and measured timings.
+
+Floating transfer search and call-result accounting: checkpoint980
+3 acceptances pass fresh original/native matching; current frontier
+@require_external_symbol@4. 901 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-search.json for extent union, limits and measured timings.

@@ -981,7 +981,10 @@
     "@peephole_selected_block@8",
     "@combine_float_store_load@8",
     "@fold_float_compare_store@8",
-    "@can_reuse_float_load_width@8"
+    "@can_reuse_float_load_width@8",
+    "@find_float_transfer_match@4",
+    "@previous_float_load@4",
+    "_mark_x87_call_result"
   ],
   "driver": [
     {
@@ -3540,8 +3543,7 @@
     {
       "name": "_mark_x87_call_result",
       "start": 106896,
-      "end": 106897,
-      "provisional": true
+      "end": 106908
     },
     {
       "name": "@frame_temporary_operand@8",
@@ -6896,14 +6898,12 @@
     {
       "name": "@previous_float_load@4",
       "start": 228576,
-      "end": 228577,
-      "provisional": true
+      "end": 228876
     },
     {
       "name": "@find_float_transfer_match@4",
       "start": 228880,
-      "end": 228881,
-      "provisional": true
+      "end": 229159
     },
     {
       "name": "@can_reuse_float_load@4",

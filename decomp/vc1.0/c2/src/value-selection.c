@@ -661,3 +661,10 @@ unsigned __fastcall lookup_floating_opcode(unsigned opcode, const FloatingOpcode
     compiler_internal_error("@(#)codegen.c:1.167", 0x906);
     /* The original diagnostic returns without defining EAX if it returns. */
 }
+
+/* Original [0001a190,0001a19c). Account for the floating call result
+   pushed on the existing x87 stack; the hook does not clear earlier values. */
+void mark_x87_call_result(void)
+{
+    ++x87_stack_depth;
+}
