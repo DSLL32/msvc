@@ -1,0 +1,129 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@coalesce_register_affinities@4",
+      "start": "0x2e0f0",
+      "end": "0x2e280",
+      "instructions": 122
+    },
+    {
+      "name": "@merge_register_graph@8",
+      "start": "0x2e390",
+      "end": "0x2e450",
+      "instructions": 67
+    },
+    {
+      "name": "@unlink_register_affinity@4",
+      "start": "0x2e650",
+      "end": "0x2e680",
+      "instructions": 15
+    },
+    {
+      "name": "@release_register_affinity@4",
+      "start": "0x2e640",
+      "end": "0x2e650",
+      "instructions": 4
+    },
+    {
+      "name": "_finish_allocation_constraints",
+      "start": "0x2ba90",
+      "end": "0x2bb10",
+      "instructions": 45
+    },
+    {
+      "name": "@order_allocation_variables@4",
+      "start": "0x2b9a0",
+      "end": "0x2ba80",
+      "instructions": 81
+    },
+    {
+      "name": "@count_register_conflicts@4",
+      "start": "0x2ba80",
+      "end": "0x2ba90",
+      "instructions": 8
+    },
+    {
+      "name": "@color_register_variables@4",
+      "start": "0x2b880",
+      "end": "0x2b9a0",
+      "instructions": 86
+    }
+  ],
+  "native_instructions": 428,
+  "accepted_extent_bytes": 1312,
+  "milestone": "First function coalesces and colors without spills, reaching post-allocation regions2b6a0",
+  "abis": [
+    "All seven helpers preserve fixed fastcall signatures; the cost-priority pass is cdecl0. The coalescer takes one affinity-list pointer, returns whether one pair merged, and retains its three original callee vertices including internal-error reporting.",
+    "The graph update transfers edges through existing add_register_conflict and a separate typed remove_register_conflict trap, then redirects/removes affinity nodes using distinct add/unlink/recycle vertices. Current loser has degree0, so edge-transfer removal is not dynamically claimed.",
+    "The ordered variable list uses RegisterVariable.work_next, while adjacency remains RegisterConflict*. Ordering temporarily decrements neighbor degrees; the separate native count helper restores every degree from actual links before greedy coloring.",
+    "color_register_variables mutates the caller list and returns a separate spill list; no-spill returnsNULL. Assignment retains six-bit colors, maximum30000 physical costs and the separate EBP-use scalar."
+  ],
+  "data_provenance": [
+    {
+      "name": "coalescence class preference",
+      "original_extent": "0x81120..0x81129",
+      "type": "local const unsigned char[3][3]",
+      "meaning": "physical outranks tree, tree outranks machine; equal virtual classes choose by degree; physical/physical is invalid",
+      "values": [
+        [
+          3,
+          1,
+          1
+        ],
+        [
+          2,
+          0,
+          1
+        ],
+        [
+          2,
+          2,
+          0
+        ]
+      ],
+      "source": "named precedence enum, not an image snapshot"
+    },
+    {
+      "name": "physical color preference",
+      "original_extent": "0x810f8..0x81114",
+      "type": "local const unsigned[7]",
+      "meaning": "EAX,ECX,EDX,ESI,EDI,EBX,EBP; sixth/seventh-slot bound is existing available_integer_registers",
+      "extent_proof": "seven DWORD entries end exactly before affinity head81114; no adjacent writable head is copied"
+    },
+    {
+      "name": "ordering metrics",
+      "meaning": "signed spill weight=short cost*100; priority=weight/short degree; exact native3000000 sentinel when cost30000 or degree0"
+    },
+    {
+      "name": "neighboring data audit refinement",
+      "meaning": "post-allocation indexed consumers show the28-byte register-state array is7c3a0..7c480; reset starts at field0x14, so its7c494 comparison is a field-pointer-walk end",
+      "implementation": "corrected cases/allocation-state.txt; no accepted instruction mask changed and no overlapping permutation object is invented"
+    }
+  ],
+  "limits": [
+    "Hello remains incomplete at optimize_allocated_machine_regions2b6a0. No optimized object success is claimed.",
+    "The single tree/tree affinity chooses4022 by larger degree, aliases4020, accumulates cost20 and recycles its node. Hard-constraint common-neighbor counting and nonempty losing-edge transfers remain unvisited, with typed trapping callees.",
+    "First strategy0 succeeds. Alternate strategy1, spill-list construction, retry rounds, EBP color selection and actual spill rewriting remain outside dynamic validation.",
+    "The complete precedence matrix and both ordering metric paths are reconstructed, but this is not branch coverage.",
+    "Failure diagnostics and corrupt-IR behavior are not dynamically claimed."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 607,
+    "accepted_code_bytes": 156399,
+    "original_code_bytes": 399693,
+    "percentage": 39.12978210776771,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 164
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

@@ -1,0 +1,200 @@
+{
+  "checkpoint": 787,
+  "base_commit": "03449a1",
+  "status": "active; loop graph passed; invariant-motion stage next",
+  "accepted_functions": [
+    {
+      "name": "@tree_contains_opcode@8",
+      "start": 362224,
+      "end": 362235
+    },
+    {
+      "name": "@reduce_flow_regions@4",
+      "start": 368960,
+      "end": 369403
+    },
+    {
+      "name": "@collect_region_values@4",
+      "start": 377120,
+      "end": 377192
+    },
+    {
+      "name": "@find_tree_opcode@4",
+      "start": 362240,
+      "end": 362341
+    },
+    {
+      "name": "@collect_region_value_tree@4",
+      "start": 392096,
+      "end": 392181
+    },
+    {
+      "name": "@add_region_candidate@8",
+      "start": 392192,
+      "end": 392255
+    }
+  ],
+  "source_graphs": 709,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 787,
+    "accepted_code_bytes": 214312,
+    "original_code_bytes": 399693,
+    "percentage": 53.61915269969702,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 259
+  },
+  "current_frontier": {
+    "name": "_hoist_invariant_region_stores",
+    "original_va": "0x5f1c0"
+  },
+  "data_provenance": {
+    "searched_opcode": {
+      "address": "0x836f4",
+      "type": "unsigned",
+      "owner": "non-leaf opcode search"
+    },
+    "collecting_region": {
+      "address": "0x7bea4",
+      "type": "FlowRegion *",
+      "owner": "candidate tree collector"
+    },
+    "RegionValue": {
+      "bytes": 24,
+      "arena": 3,
+      "layout": {
+        "next": 0,
+        "field04": 4,
+        "tree": 8,
+        "value_identifier": 12,
+        "field10": 16,
+        "field14": 20
+      },
+      "unknown_fields": "04/10/14 retain explicit unknown names; arena supplies zeroed storage",
+      "meaning": "ordinary effect tree, or canonical WorkValue tree/identifier for store"
+    }
+  },
+  "limits": [
+    "Whole nested-region reducer reconstructed, but current single natural loop does not establish nested continuation/rewiring branches exercised.",
+    "Opcode search deliberately excludes leaf matches, preserving original behavior.",
+    "Loop candidate collection/insertion executed; all distinct candidate/effect forms not independently covered.",
+    "Full final hello object remains incomplete; invariant-store motion is next."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured",
+    "build_audit_fixtures": {
+      "region-candidates-warnings-timing": {
+        "seconds": 0.9877381278201938,
+        "returncode": 0,
+        "log_sha256": "7f28f42b587b8fb8a1da76422928574f0ebca677197043ce1bdefad9c2583279"
+      },
+      "find-opcode-build-timing": {
+        "seconds": 2.3770097624510527,
+        "returncode": 0,
+        "log_sha256": "99fbe2cbf7c2c9474b622cba81a5e83bfbbfc92a1bb2eaffd942e1af44fef03f"
+      },
+      "loop-tree-search-check-timing": {
+        "seconds": 0.34012433234602213,
+        "returncode": 0,
+        "log_sha256": "7506b15c90079144be91d68623f9395f9a362b8ac477dc018a88ec650983a6e5"
+      },
+      "region-candidates-audit-timing": {
+        "seconds": 3.5962912617251277,
+        "returncode": 0,
+        "log_sha256": "b2d2284787bd63f6394f8cf063d6b1d180d37dd8d9de69610c592ce1ecb21e2b"
+      },
+      "region-collection-check-timing": {
+        "seconds": 0.31510702054947615,
+        "returncode": 0,
+        "log_sha256": "1ec49f83ab4184e26c04f624f2fd9843135d46f1a7b21c4d14b07ec8ebcbdfaf"
+      },
+      "collect-value-tree-build-timing": {
+        "seconds": 2.371328704059124,
+        "returncode": 0,
+        "log_sha256": "2389ab9ca99a1c5e793a017ecfb372bc2b32e2760e8b5cd0e1109b38143c267b"
+      },
+      "loop-tree-search-warnings-timing": {
+        "seconds": 1.026302421465516,
+        "returncode": 0,
+        "log_sha256": "e8dbc0de1d9f52d440a18c2c9f7e05b6a9b5814e40f72aa67edf41fa6a26a8f4"
+      },
+      "region-candidate-add-build-timing": {
+        "seconds": 12.81249709893018,
+        "returncode": 0,
+        "log_sha256": "b4cc594bcd24cc8851b2ec4e094dcecbcee67be91f123232b8859f2f3a466d89"
+      },
+      "collect-region-build-timing": {
+        "seconds": 2.499065031297505,
+        "returncode": 0,
+        "log_sha256": "f1877b55a791162ceb742ce5983996a3cc211e3950c99fd5a7b4487a264865d4"
+      },
+      "region-collection-warnings-timing": {
+        "seconds": 1.0291275214403868,
+        "returncode": 0,
+        "log_sha256": "7f28f42b587b8fb8a1da76422928574f0ebca677197043ce1bdefad9c2583279"
+      },
+      "contains-opcode-build-timing": {
+        "seconds": 2.700168415904045,
+        "returncode": 0,
+        "log_sha256": "99fbe2cbf7c2c9474b622cba81a5e83bfbbfc92a1bb2eaffd942e1af44fef03f"
+      },
+      "region-collection-audit-timing": {
+        "seconds": 3.6358672929927707,
+        "returncode": 0,
+        "log_sha256": "e04414550ca92f38a1bad8c9bde4446b01271bebcfc4d0d56fdfa6d2ea42947d"
+      },
+      "region-candidates-check-timing": {
+        "seconds": 0.293284242041409,
+        "returncode": 0,
+        "log_sha256": "533d9e290288792753bd89dff4b92702c26547eb5acb7f433614b949a3661b4b"
+      },
+      "reduce-regions-build-timing": {
+        "seconds": 2.3367473389953375,
+        "returncode": 0,
+        "log_sha256": "26a3f10ca891bddaf81fb66b63d81a32ccc084a3f9f52c0e19eb2d3ed2f7d49e"
+      },
+      "loop-tree-search-audit-timing": {
+        "seconds": 3.6598734222352505,
+        "returncode": 0,
+        "log_sha256": "98df4d309eef87ed15b5a2cda05d4727a28af61e4e1f76f59c91348b302f6473"
+      }
+    },
+    "native_debug_seconds": [
+      0.18987798877060413,
+      0.20094743743538857,
+      0.15080784913152456,
+      0.14876069594174623,
+      0.14708999823778868,
+      0.154715477488935
+    ],
+    "original_reference_setup_seconds": [
+      0.24927678983658552,
+      0.20736476220190525,
+      0.19486428517848253,
+      0.1828233264386654,
+      0.18560289777815342,
+      0.24603156559169292
+    ],
+    "original_reference_execution_check_seconds": [
+      1.4866943657398224,
+      1.083501891233027,
+      0.9418467534705997,
+      1.1289555756375194,
+      1.1119689857587218,
+      1.3625366715714335
+    ],
+    "notes": [
+      "Intermediate784/785 and final787 validations retained where measured.",
+      "RegionValue header refinement caused12.812s mixed native/canonical rebuild, unsplit; incremental builds otherwise2\u20133s."
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

@@ -1,0 +1,100 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@emit_call@20",
+      "start": "0x195a0",
+      "end": "0x19620",
+      "instructions": 40
+    },
+    {
+      "name": "@implicit_register_mask@8",
+      "start": "0x22fc0",
+      "end": "0x23300",
+      "instructions": 181
+    },
+    {
+      "name": "@register_definition_width@12",
+      "start": "0x233c0",
+      "end": "0x23490",
+      "instructions": 75
+    },
+    {
+      "name": "@address_changed_between@12",
+      "start": "0x22030",
+      "end": "0x220e0",
+      "instructions": 68
+    },
+    {
+      "name": "@fold_lea_address@12",
+      "start": "0x22140",
+      "end": "0x224a0",
+      "instructions": 326
+    }
+  ],
+  "native_instructions": 690,
+  "accepted_extent_bytes": 2208,
+  "milestone": "First function completes generate_work and reaches backend emission at sync_machine_work 0x68b70",
+  "abis": [
+    "emit_call is fixed fastcall5, ECX type, EDX target, three stack metadata arguments, RET12; it returns the new instruction pointer.",
+    "implicit_register_mask is fastcall2 returning an unsigned physical register bitmask. Its opcode-specific read/write/combined/zero-mode rules are retained, including calls, string operations, stack effects, arithmetic and extensions.",
+    "register_definition_width, address_changed_between and fold_lea_address are fixed fastcall3 functions with RET4. The width helper returns an unsigned byte count and writes the high-byte lane through its third argument."
+  ],
+  "data_provenance": [
+    {
+      "name": "MachineCallInfo",
+      "bytes": 12,
+      "ownership": "arena1 per call, attached through operand1 value",
+      "fields": [
+        "argument_bytes at0",
+        "register_mask at4",
+        "result_flags at8"
+      ],
+      "evidence": "all seven emitted calls match all three fields; widths include4,8,16,20, with zero input register masks and result flag1"
+    },
+    {
+      "name": "implicit physical register dispatch",
+      "original_extent": [
+        "0x231b0",
+        "0x232f4"
+      ],
+      "meaning": "two adjacent jump tables, 55 and26 entries; function extent ends0x23300 before next entry",
+      "implementation": "readable switch using existing named opcodes and named EAX/ECX/EDX/EBX/ESP/ESI/EDI bit masks"
+    },
+    {
+      "name": "call clobber mask",
+      "original_global": "0x7caa4",
+      "implementation": "reuse existing call_clobbered_register_mask; special local-label convention tests field0e bit1000 and yields maskc7"
+    },
+    {
+      "name": "LEA address fields",
+      "ownership": "existing typed16-byte MachineAddress and8-byte MachineOperand",
+      "implementation": "ordinary C updates of full tagged base/index words, scales, symbols and wrapping32-bit displacements; no data tables"
+    }
+  ],
+  "limits": [
+    "Hello is incomplete at sync_machine_work; final object comparison is not claimed.",
+    "First function has completed generation. Later functions, physical allocation, scheduling and optimized final emission remain pending.",
+    "LEA source has the complete native decision tree, including apply-only repeated-register rejection, a possible swap before later failure, and absolute-source symbol replacement; captures do not claim every folding branch.",
+    "Implicit helper has full source for all dispatched opcodes, but this case does not dynamically exercise all operations or mode combinations.",
+    "Overlap interval helper and failure callees remain named traps; failure branches are not claimed to pass."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 549,
+    "accepted_code_bytes": 144463,
+    "original_code_bytes": 399693,
+    "percentage": 36.143490128673754,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 157
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

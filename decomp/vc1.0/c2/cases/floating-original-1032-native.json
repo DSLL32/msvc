@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "a4d82e3d1e0cfc244486008562b0ba4aed787ebdf451772bbf9ac2c02ad4a61c",
-  "config_sha256": "084971a41e4ceb1dd31cc5047fc2116c86343545ab5b0a06a8bfc3d6a971449d",
-  "seconds": 0.13769396487623453,
-  "logical": "@initialize_float_context_uses@4",
-  "matched": true,
-  "log_sha256": "9040a3c833f1c08c6d620d6689ea09542a826c85ef86a3b48cd2253a87980791",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-s3w1w72z"
-}

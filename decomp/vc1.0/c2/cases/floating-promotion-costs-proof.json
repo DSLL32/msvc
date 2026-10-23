@@ -1,6 +1,6 @@
 {
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-  "source_sha256": "b0368ab7f531162ba68edc68292ab53fa2c38eacf9a0a477f86ba88492053f8f",
+  "source_sha256": "7c6c892c4384c5454f5b8aeeeab96ff5132862ac8d89cb4081f27ba82195e5cc",
   "startup_view": [
     "0x82f30",
     "0x82f48"
@@ -65,8 +65,8 @@
     "These value/shape checks do not claim all CPU/width branches executed by the floating case."
   ],
   "timing": {
-    "compile_seconds": 0.09752257633954287,
-    "execution_seconds": 0.0014251768589019775,
-    "total_seconds": 0.10371221415698528
+    "compile_seconds": 0.08949900325387716,
+    "execution_seconds": 0.00148719921708107,
+    "total_seconds": 0.09570872690528631
   }
 }

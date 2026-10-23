@@ -1,0 +1,51 @@
+{
+  "checkpoint": 1006,
+  "base_commit": "ed44d14",
+  "status": "floating active",
+  "source_graphs": 927,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1006,
+    "accepted_code_bytes": 276576,
+    "original_code_bytes": 399693,
+    "percentage": 69.19710878098941,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 428
+  },
+  "frontier": "@resolve_float_stream_label@8",
+  "accepted_functions": [
+    {
+      "name": "@process_float_stream_label@4",
+      "start": 234448,
+      "end": 234727
+    },
+    {
+      "name": "@process_float_stream_branch@4",
+      "start": 233472,
+      "end": 233832
+    },
+    {
+      "name": "@find_float_stream_label_context@4",
+      "start": 237456,
+      "end": 237510
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Three complete functions preserve forward branch records, backward-context lookup and label range closure, with all original callees retained as accepted or named trapping children.",
+    "Context link and branch-head/tail fields now use typed pointers at their observed offsets; new branch allocation is24 bytes with original partial flag initialization.",
+    "Five completed object oracles remain exact; floating reaches the label-reference resolver."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

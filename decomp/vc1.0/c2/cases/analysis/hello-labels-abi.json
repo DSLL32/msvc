@@ -1,0 +1,119 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "reference_flow_label",
+      "start": "0x5ac20",
+      "end": "0x5ac50",
+      "instructions": 18,
+      "abi": "fastcall 2: ECX symbol, EDX referencing work"
+    },
+    {
+      "name": "lookup_flow_label",
+      "start": "0x5abd0",
+      "end": "0x5ac10",
+      "instructions": 25,
+      "abi": "fastcall 1: ECX symbol, EAX descriptor"
+    },
+    {
+      "name": "new_flow_label",
+      "start": "0x5ac10",
+      "end": "0x5ac20",
+      "instructions": 3,
+      "abi": "cdecl no arguments, EAX descriptor; distinct allocator tail adapter"
+    },
+    {
+      "name": "has_flow_reference",
+      "start": "0x5ac90",
+      "end": "0x5acb0",
+      "instructions": 11,
+      "abi": "fastcall 2: ECX links, EDX work, EAX boolean"
+    },
+    {
+      "name": "new_flow_link",
+      "start": "0x5ac50",
+      "end": "0x5ac90",
+      "instructions": 17,
+      "abi": "fastcall 1: ECX work, EAX link"
+    },
+    {
+      "name": "fold_adjacent_flow_labels",
+      "start": "0x5ad70",
+      "end": "0x5aea0",
+      "instructions": 112,
+      "abi": "fastcall 1: ECX expression, EAX retained expression"
+    },
+    {
+      "name": "putback_flow_expression",
+      "start": "0x5ad60",
+      "end": "0x5ad70",
+      "instructions": 4,
+      "abi": "fastcall 1: ECX detached expression"
+    },
+    {
+      "name": "define_flow_label",
+      "start": "0x5acb0",
+      "end": "0x5ad10",
+      "instructions": 35,
+      "abi": "fastcall 2: ECX symbol, EDX block or zero"
+    },
+    {
+      "name": "resolve_flow_labels",
+      "start": "0x5a8e0",
+      "end": "0x5a910",
+      "instructions": 18,
+      "abi": "cdecl no arguments"
+    },
+    {
+      "name": "canonical_flow_label",
+      "start": "0x5ad10",
+      "end": "0x5ad60",
+      "instructions": 30,
+      "abi": "fastcall 1: ECX descriptor, EAX representative"
+    }
+  ],
+  "data": [
+    {
+      "name": "FlowLabel",
+      "size": 20,
+      "fields": {
+        "0x00": "SymbolHeader *label",
+        "0x04": "FlowLabel *canonical",
+        "0x08": "WorkItem *work",
+        "0x0c": "FlowLink *references",
+        "0x10": "FlowLabel *hash_next"
+      },
+      "provenance": "new_flow_label allocates arena four / 20 bytes; lookup, definition and canonicalization assign individual typed fields"
+    },
+    {
+      "name": "FlowLink",
+      "size": 12,
+      "fields": {
+        "0x00": "FlowLink *next",
+        "0x04": "WorkItem *work",
+        "0x08": "unsigned char flags; remaining bytes are compiler padding"
+      },
+      "provenance": "new_flow_link allocates arena two / 12 bytes; free-list reuse clears next and changes work while preserving the flag byte; protected-edge helpers inspect low flag bit"
+    },
+    {
+      "name": "flow_label_buckets",
+      "count": 32,
+      "provenance": "symbol address low five bits select head; equality compares symbol identity; alias resolution visits all heads"
+    }
+  ],
+  "independent_validation": {
+    "frontier": "prepare_flow_blocks",
+    "blocks": 8,
+    "expressions": 25,
+    "nodes": 95,
+    "comparison": "partitioned block order, entry/exit block identity, predecessor consistency, flags, region presence, expression positions and visited tree fields match",
+    "normalization": "debugger exception address only"
+  },
+  "limits": [
+    "Hello object remains pending at prepare_flow_blocks 0x5a660.",
+    "The boundary-label predicate remains a typed named trap: its caller is complete, but this first hello function does not reach that predicate.",
+    "Malformed/empty input and protected-scope diagnostic paths remain unvisited.",
+    "The independent capture compares the first function at block-edge preparation, not all later functions or the entire object."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

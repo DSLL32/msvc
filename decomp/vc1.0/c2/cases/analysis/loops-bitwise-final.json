@@ -1,0 +1,71 @@
+{
+  "checkpoint": 862,
+  "base_commit": "af3c857",
+  "status": "loops active",
+  "source_graphs": 784,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 862,
+    "accepted_code_bytes": 233711,
+    "original_code_bytes": 399693,
+    "percentage": 58.472627741791825,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 326
+  },
+  "frontier": "@work_in_flow_region@8",
+  "accepted_functions": [
+    {
+      "name": "@reduce_bitwise_terms@8",
+      "start": 349680,
+      "end": 349721
+    },
+    {
+      "name": "@factor_bitwise_chain@8",
+      "start": 349264,
+      "end": 349674
+    },
+    {
+      "name": "@negate_tree@4",
+      "start": 355888,
+      "end": 355915
+    },
+    {
+      "name": "@fold_bitwise_and@4",
+      "start": 355312,
+      "end": 355408
+    },
+    {
+      "name": "@operator_identity_node@8",
+      "start": 350688,
+      "end": 350707
+    },
+    {
+      "name": "@reverse_subtraction_chain@8",
+      "start": 356128,
+      "end": 356183
+    },
+    {
+      "name": "@replace_bitwise_occurrences@12",
+      "start": 353008,
+      "end": 353130
+    }
+  ],
+  "limits": [
+    "Whole bitwise factor-spine rewrites, repeated-operand replacement, subtraction reversal and typed identities recovered; not all matching/factoring branches independently exercised.",
+    "Original initialized scratch_node identity is retained for negate_tree; no synthetic replacement global introduced.",
+    "Wide AND narrowing guard is false for this32-bit case, so its transformation body is not claimed exercised.",
+    "Tree normalization now finishes and reaches work_in_flow_region5ba50 during nested-region rotation; final loop object remains incomplete."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

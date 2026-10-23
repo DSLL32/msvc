@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "deeecdd974844739391130d3fb63ca6a7d54ee02426788f0c79ee2f959ddcc90",
-  "config_sha256": "3c8906a753728000be7d342a86f4f71c5faaad6e0aaf66ea73fa6696ba7b336c",
-  "seconds": 0.13724836520850658,
-  "logical": "@scheduler_call_float_arguments@4",
-  "matched": true,
-  "log_sha256": "82aee15c527b52f6392236bb9e7c0b04452b8b89e5ab0a63e13642300a4023b3",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-y8flt4_u"
-}

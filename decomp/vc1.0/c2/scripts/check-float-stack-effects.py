@@ -2,6 +2,7 @@
 
 Only a native -O0 probe runs; no Wine, section snapshot or fixture recapture.
 """
+from case_paths import C2_SCRATCH
 from pathlib import Path
 import hashlib
 import json
@@ -22,7 +23,7 @@ def main():
     expression = re.search(r'#define '+macro+r'\(op\).*?\? 1 : 0\)', source.read_text(), re.S).group()
     original = PE('../../../toolchains/1.0-nt/bin/C23232.EXE')
     names = re.findall(r'^OP\((\w+),', Path('src/machine-opcodes.def').read_text(), re.M)
-    with tempfile.TemporaryDirectory(prefix='float-stack-effect-', dir=Path.home()/'.ai-tmp/vc1.0-c2') as directory:
+    with tempfile.TemporaryDirectory(prefix='float-stack-effect-', dir=C2_SCRATCH) as directory:
         directory = Path(directory)
         probe = directory/'probe.c'
         program = '#include "'+str(Path('src/machine.h').resolve())+'"\n#undef write\nextern int write(int,const void*,unsigned);\n'+expression+'''

@@ -1,0 +1,65 @@
+{
+  "checkpoint": 855,
+  "base_commit": "5d3be08",
+  "status": "loops active",
+  "source_graphs": 777,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 855,
+    "accepted_code_bytes": 232941,
+    "original_code_bytes": 399693,
+    "percentage": 58.2799798845614,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 320
+  },
+  "frontier": "@operator_identity_node@8",
+  "accepted_functions": [
+    {
+      "name": "@can_combine_constants@12",
+      "start": 352352,
+      "end": 352592
+    },
+    {
+      "name": "@constant_as_integer@8",
+      "start": 350720,
+      "end": 350789
+    },
+    {
+      "name": "@distribute_constant@8",
+      "start": 347568,
+      "end": 347641
+    },
+    {
+      "name": "@reduce_multiplicative_chain@4",
+      "start": 349728,
+      "end": 349975
+    },
+    {
+      "name": "@cancel_unary_factors@12",
+      "start": 351760,
+      "end": 351886
+    },
+    {
+      "name": "@combine_factor_constants@12",
+      "start": 352224,
+      "end": 352340
+    }
+  ],
+  "limits": [
+    "Original dispatch tables5612c..56150 and56030..56054 are included in extents; C switches express their logic without copying table bytes.",
+    "Signed/unsigned quotient and mask predicates preserved; invalid-operation diagnostic and floating constant-conversion children remain unvisited named traps.",
+    "Current4/4 common-factor compatibility and quotient paths execute; multiplicative exponent-copy child remains trapped, so that transformation body is not claimed executed."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

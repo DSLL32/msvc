@@ -1,0 +1,192 @@
+{
+  "checkpoint": 768,
+  "base_commit": "d576c5d",
+  "status": "active; factoring/conversion and integer evaluation; shift rewrite next",
+  "accepted_functions": [
+    {
+      "name": "@fold_integer_node@4",
+      "start": 357104,
+      "end": 358056
+    },
+    {
+      "name": "@lift_left_unary@4",
+      "start": 348880,
+      "end": 348917
+    },
+    {
+      "name": "@factor_common_operator@12",
+      "start": 351040,
+      "end": 351576
+    },
+    {
+      "name": "@factor_compatible_operator@12",
+      "start": 351584,
+      "end": 351753
+    },
+    {
+      "name": "@simplify_global_conversion@4",
+      "start": 347728,
+      "end": 348272
+    },
+    {
+      "name": "@narrow_binary_conversion@8",
+      "start": 348736,
+      "end": 348872
+    },
+    {
+      "name": "@constant_fits_type@8",
+      "start": 348976,
+      "end": 349197
+    }
+  ],
+  "source_graphs": 690,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 768,
+    "accepted_code_bytes": 211970,
+    "original_code_bytes": 399693,
+    "percentage": 53.03320298328968,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 247
+  },
+  "current_frontier": {
+    "name": "@rewrite_shift_as_multiply@4",
+    "original_va": "0x55e90"
+  },
+  "implementation_notes": [
+    "Whole common/compatible factor routines preserve the optional unary opcode and ordered constant-combination child calls. Unreached factor children remain distinct named traps.",
+    "Whole conversion dispatcher includes13-entry text table5503c..55070. Narrowing preserves signed AND fallback, conditional address leaves and segmented-pointer cases.",
+    "Integral representability checks cover signed/unsigned1/2/4-byte types; diagnostic fallback and extended-comparison edge preserved.",
+    "Integer folder has13-entry table57674..576a8. Arithmetic uses modulo32 unsigned storage, explicit signed divisions/shifts/order, target width normalization, original diagnostics and inherited4000 flags. Overflow check helpers are distinct cdecl four-argument traps; no assembly copied."
+  ],
+  "limits": [
+    "Current entry sequence does not exercise all factoring bodies, conversion cases or exceptional divide/overflow diagnostics.",
+    "New constant combination, scalar adjustment and overflow helpers remain unaccepted named traps; no claim of full arithmetic branch coverage.",
+    "Full hello object incomplete; previous first-function contribution proof remains unchanged."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured; disassembler/decompiler analysis only in scratch",
+    "build_audit_fixtures": {
+      "compatible-factor-build-timing": {
+        "seconds": 2.3605010202154517,
+        "returncode": 0,
+        "log_sha256": "daea17d4b24fbb688c907ab3fabcbc15d9dfe9b72dff2ddf8134fd1e653919c0"
+      },
+      "integer-conversion-check-timing": {
+        "seconds": 0.32653237227350473,
+        "returncode": 0,
+        "log_sha256": "bdb12429b10d4bfeb2fe26a88c13932dfe3b2b7999f70dabb1be59bf150b4285"
+      },
+      "narrow-binary-build-timing": {
+        "seconds": 2.1521753584966063,
+        "returncode": 0,
+        "log_sha256": "4d3782dda2e4e28e245d0fa20470c62a58890a4e6aa5266de99b531c768af7f5"
+      },
+      "integer-conversion-warnings-timing": {
+        "seconds": 0.9572967858985066,
+        "returncode": 0,
+        "log_sha256": "5c10fd85f167de70ef9822f0a70d091b8e2f7899b085f4024fef2af95f5e83bb"
+      },
+      "common-conversion-warnings-timing": {
+        "seconds": 1.8122249972075224,
+        "returncode": 0,
+        "log_sha256": "55c223a1b854d4a6579db5c40761f5f37018bc276016898a07af303dd017f93f"
+      },
+      "factor-conversion-warnings-timing": {
+        "seconds": 1.1499473256990314,
+        "returncode": 0,
+        "log_sha256": "f7cae19c4f444b6359c58ae4ce75c0bb31ca8f75eea404ba0b1d64e86e40fd63"
+      },
+      "common-conversion-check-timing": {
+        "seconds": 0.2831422779709101,
+        "returncode": 0,
+        "log_sha256": "2efa07c75fb77b44f7b40583675bf89e6c388301257b52ea4dd64bb9c9c5626e"
+      },
+      "constant-fits-build-timing": {
+        "seconds": 2.2248191060498357,
+        "returncode": 0,
+        "log_sha256": "4d3782dda2e4e28e245d0fa20470c62a58890a4e6aa5266de99b531c768af7f5"
+      },
+      "factor-conversion-check-timing": {
+        "seconds": 0.3204021332785487,
+        "returncode": 0,
+        "log_sha256": "886a1357f51a9630563308aed646c0044956b9db1a14f4238ffa5196ebe16fb8"
+      },
+      "global-conversion-build-timing": {
+        "seconds": 2.3747336203232408,
+        "returncode": 0,
+        "log_sha256": "4d3782dda2e4e28e245d0fa20470c62a58890a4e6aa5266de99b531c768af7f5"
+      },
+      "common-factor-build-timing": {
+        "seconds": 2.6571991946548223,
+        "returncode": 0,
+        "log_sha256": "4d3782dda2e4e28e245d0fa20470c62a58890a4e6aa5266de99b531c768af7f5"
+      },
+      "integer-folder-build-timing": {
+        "seconds": 2.3690287237986922,
+        "returncode": 0,
+        "log_sha256": "6e5224cfaf645c029fbb7ac18f2d23a2cd169a2c3e0652738a10c6a7dd991c94"
+      },
+      "integer-conversion-audit-timing": {
+        "seconds": 3.4946218049153686,
+        "returncode": 0,
+        "log_sha256": "eb8147b482af573e4110f58a9a61b0f59fb49ab568c22bd0417702b83407b03b"
+      },
+      "lift-left-unary-build-timing": {
+        "seconds": 2.323346103541553,
+        "returncode": 0,
+        "log_sha256": "0b632883f2c092163da96a067f683921b679c2187ba3f5dd2b0a15880360b7f9"
+      },
+      "factor-conversion-audit-timing": {
+        "seconds": 3.547983968630433,
+        "returncode": 0,
+        "log_sha256": "b5303fd1d118c44ca80e9f35b8340be45bcd50943816b08251d0627aaaff0d74"
+      },
+      "common-conversion-audit-timing": {
+        "seconds": 3.539003135636449,
+        "returncode": 0,
+        "log_sha256": "12af62dbb7ba0d4bd849bc0f4034c525a02cc80967e5fed24f2a0d78f201e832"
+      }
+    },
+    "native_debug_seconds": [
+      0.14544585533440113,
+      0.14791981130838394,
+      0.14863850641995668,
+      0.16455331724137068,
+      0.14117210637778044,
+      0.14240645244717598,
+      0.1529791560024023
+    ],
+    "original_reference_setup_seconds": [
+      0.18353423476219177,
+      0.18154073506593704,
+      0.18275613524019718,
+      0.19331316370517015,
+      0.1829000385478139,
+      0.1860314691439271,
+      0.18369537591934204
+    ],
+    "original_reference_execution_check_seconds": [
+      1.505936386063695,
+      1.3062944374978542,
+      1.1691005667671561,
+      0.6547944266349077,
+      1.2819777252152562,
+      1.2825792264193296,
+      0.7578956624493003
+    ],
+    "notes": [
+      "Intermediate764,767 and final768 audit/fixture validation retained where measured.",
+      "Incremental native and canonical build phases measured together; not split."
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

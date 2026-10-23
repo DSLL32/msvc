@@ -43,48 +43,80 @@ def definitions(directory):
 
 
 def project(directory):
+    """Project only durable fresh shared-prefix original first-entry captures."""
+    from binary import PE
+    from case_paths import PREFIX, C2_SCRATCH, canonical_parts
     config = json.loads((BINARY/'functions.json').read_text())
-    drivers = {r['name']: r for r in config['driver']}
-    runtime = {r['name'] for r in json.loads((BINARY/'runtime.json').read_text())}
-    application = set(drivers) - CRT
-    native = {native_name(name): name for name in application}
-    assert len(native) == len(application), 'decoration collision'
+    drivers = {r['name']:r for r in config['driver']}
+    application = set(drivers)-CRT
+    native = {native_name(name):name for name in application}
     actual = definitions(directory)
-    assert actual.keys() == native.keys(), ('unresolved application definitions',
-                                            actual.keys()-native.keys(), native.keys()-actual.keys())
-    accepted = config['accepted']
-    for name in accepted:
-        assert name in application or name in CRT or name in runtime or name.startswith('import:'), name
-    projected = lambda names: [native_name(n) for n in names if n in application]
+    assert actual.keys() == native.keys(), 'unresolved application definitions'
+    original = PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C23232.EXE')
+    assert hashlib.sha256(original.data).hexdigest() == config['target']['sha256']
+    accepted = set(config['accepted'])
     cases, provenance = {}, {}
     for profile, case in config['cases'].items():
-        receipt_path = Path.home()/'.ai-tmp/vc1.0-c2'/('fast-adoption-continuous-'+profile+'.json')
+        receipt_path = BINARY/'cases/shared-prefix-evidence'/(profile+'.json')
         receipt = json.loads(receipt_path.read_text())
-        first = case.get('accepted_from', 0)
-        last = case.get('accepted_count', len(accepted))
-        assert receipt['first'] == first and receipt['last'] == last
-        original = receipt['sides'][0]
-        assert original['expected'] == accepted[first:last]
-        original_path = str((BINARY.parents[2]/'toolchains/1.0-nt/bin/C23232.EXE').resolve())
-        assert original['frozen'][original_path] == config['target']['sha256']
-        observed = [e['name'] for e in original['events'] if e['event'] == 'frontier']
-        assert observed == accepted[first:last], 'cached original transcript differs'
-        terminal = receipt['terminal']
-        assert [e['name'] for e in original['events'] if e['event'] == 'terminal'] == [terminal]
-        expected = projected(observed)
-        if not terminal.startswith('exit:'):
-            assert terminal in application and drivers[terminal].get('provisional'), terminal
+        assert receipt['profile'] == profile and receipt['accepted'] == len(accepted)
+        assert receipt['target_sha256'] == config['target']['sha256']
+        assert receipt['config_sha256'] == sha(BINARY/'functions.json')
+        assert receipt['wine_prefix'] == str(PREFIX)
+        canonical_parts(receipt['canonical_working_directory'])
+        manifest = BINARY/case['fixture_manifest']
+        assert receipt['manifest_sha256'] == sha(manifest) == case['fixture_manifest_sha256']
+        phase = json.loads(manifest.read_text())['phases']['c2']
+        assert receipt['environment'] == phase['environment']
+        assert receipt['inputs'] == {r['path']:r['sha256'] for r in phase['inputs']}
+        assert receipt['canonical_working_directory'] == phase['canonical_working_directory']
+        for item in phase['inputs']:
+            assert sha(manifest.parent/item['path']) == item['sha256']
+        projection = receipt['first_entry_projection']
+        assert projection['expected'] == projection['observed']
+        names = projection['observed']
+        assert len(names) == len(set(names)) and all(n in application & accepted for n in names)
+        seen = [native_name(n) for n in config['accepted'][:case.get('accepted_from',0)] if n in application]
+        assert projection['seeded'] == seen
+        events_path = receipt_path.with_suffix('.events')
+        events = events_path.read_text()
+        assert [line.split()[1] for line in events.splitlines() if line.startswith('entry ')] == names
+        plan_path = receipt_path.with_suffix('.entry-plan.txt')
+        assert sha(plan_path) == projection['entry_plan_sha256']
+        planned = ''.join('%x %02x %s\n' % (drivers[name]['start']-original.base,
+            original.read(drivers[name]['start'],1)[0],name) for name in names)
+        assert plan_path.read_text() == planned
+        terminal = receipt['logical']
+        expected = [native_name(n) for n in names]
+        if terminal == 'exit:0':
+            assert receipt['events'] == 'exit 0\n'
+            for item, artifact in zip(phase['outputs'],receipt['outputs']):
+                data = bytearray((BINARY/artifact['path']).read_bytes())
+                target = bytearray((manifest.parent/item['path']).read_bytes())
+                assert hashlib.sha256(data).hexdigest() == artifact['sha256']
+                assert artifact['ignored_timestamp'] == [4,4]
+                data[4:8] = target[4:8] = b'\0'*4
+                assert data == target
+                assert hashlib.sha256(data).hexdigest() == item['normalized_sha256']
+        else:
+            assert terminal in application and terminal not in accepted
+            assert drivers[terminal].get('provisional')
+            assert receipt['original_va'] == hex(drivers[terminal]['start'])
+            event = re.fullmatch(r'exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1\nexit 99\n',receipt['events'])
+            assert event and int(event[1],16)+int(event[2],16) == drivers[terminal]['start']
             expected.append(native_name(terminal))
-        cases[profile] = dict(first=first, last=last, seen=projected(accepted[:first]),
-                              expected=expected, terminal=terminal,
-                              returncode=int(terminal[5:]) if terminal.startswith('exit:') else -5)
-        provenance[profile] = dict(path=str(receipt_path), sha256=sha(receipt_path),
-                                   original_target_sha256=config['target']['sha256'],
-                                   original_logical_entries=observed)
-    return dict(schema=1, description='Cached original application-entry projection; no capture or Wine',
-                metadata_sha256={n:sha(BINARY/n) for n in ('functions.json', 'runtime.json')},
-                application_definitions={n:dict(logical=native[n], source=actual[n]) for n in sorted(native)},
-                excluded_crt=sorted(CRT), provenance=provenance, cases=cases)
+        assert events == ''.join('entry %s rva %08x byte %02x\n' %
+            (name,drivers[name]['start']-original.base,original.read(drivers[name]['start'],1)[0]) for name in names)+receipt['events']
+        cases[profile] = dict(first=case.get('accepted_from',0),last=len(config['accepted']),
+            seen=seen,expected=expected,terminal=terminal,terminal_kind='exit' if terminal.startswith('exit:') else 'application',
+            returncode=0 if terminal == 'exit:0' else -5)
+        provenance[profile] = dict(path=str(receipt_path.relative_to(BINARY)),sha256=sha(receipt_path),
+            events_sha256=sha(events_path),entry_plan_sha256=sha(plan_path),capture=receipt,
+            source='Fresh original shared-prefix first-entry capture; accepted bodies/shared text restored, entry byte restore/EIP rewind')
+    return dict(schema=2,description='Fresh shared-prefix original entry projection; no capture or Wine in fixtures',
+        metadata_sha256={n:sha(BINARY/n) for n in ('functions.json','runtime.json')},
+        application_definitions={n:dict(logical=native[n],source=actual[n]) for n in sorted(native)},
+        excluded_crt=sorted(CRT),provenance=provenance,cases=cases)
 
 
 def load(directory):

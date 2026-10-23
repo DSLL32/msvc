@@ -1,0 +1,58 @@
+{
+  "checkpoint": 935,
+  "base_commit": "fc4648d",
+  "status": "aliasing active",
+  "source_graphs": 857,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 935,
+    "accepted_code_bytes": 251831,
+    "original_code_bytes": 399693,
+    "percentage": 63.006107187266224,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 375
+  },
+  "frontier": "@record_rematerialized_work_registers@12",
+  "accepted_functions": [
+    {
+      "name": "@machine_sequence_cost@4",
+      "start": 185088,
+      "end": 185165
+    },
+    {
+      "name": "@rematerialization_is_cheap@4",
+      "start": 186784,
+      "end": 186841
+    },
+    {
+      "name": "@set_register_rematerialization@8",
+      "start": 187104,
+      "end": 187122
+    },
+    {
+      "name": "@later_x86_instruction_cost@4",
+      "start": 185888,
+      "end": 186784
+    }
+  ],
+  "limits": [
+    "Four whole functions match fresh original/native: rematerialization cheapness, sequence sum, later-x86 per-instruction cost, register deferred-block setter",
+    "later_x86_instruction_cost2d620..2d9a0 includes46 jump-table entries2d8e8..2d9a0, exactly ending at accepted next function2d9a0; no adjacent function bytes copied/unmasked",
+    "Cost policy reconstructed as named opcode switches plus address tests; floating property uses previously proven semantic ranges with231 zero-mismatch rows, no property section copied",
+    "i386_instruction_cost2d350 remains a named trap; currentG5 case reaches later-x86 policy",
+    "Successful deferred block attachment reached setter before original/native advance to record_rematerialized_work_registers2c9e0; subsequent propagation still trap",
+    "Canonical/W3, all857 source graph checks and mask/extent audits pass;5 native fixtures with4 completed exact artifact oracles; aliasing600-byte final object incomplete"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

@@ -1,0 +1,231 @@
+{
+  "checkpoint": 748,
+  "base_commit": "b1c0ed7",
+  "status": "active; Boolean and assignment lowering; conditional canonicalization next",
+  "accepted_functions": [
+    {
+      "name": "@lower_comma@8",
+      "start": 336256,
+      "end": 336316
+    },
+    {
+      "name": "@assignment_value@4",
+      "start": 336784,
+      "end": 336867
+    },
+    {
+      "name": "@is_constant_value@8",
+      "start": 348272,
+      "end": 348362
+    },
+    {
+      "name": "@make_truth_test@4",
+      "start": 333008,
+      "end": 333065
+    },
+    {
+      "name": "@negate_condition@4",
+      "start": 333360,
+      "end": 333486
+    },
+    {
+      "name": "@materialize_boolean@8",
+      "start": 333072,
+      "end": 333154
+    },
+    {
+      "name": "@typed_integer_node@8",
+      "start": 361536,
+      "end": 361570
+    },
+    {
+      "name": "@map_comparison_opcode@8",
+      "start": 360448,
+      "end": 360472
+    },
+    {
+      "name": "@copy_value_into_container@8",
+      "start": 336992,
+      "end": 337107
+    },
+    {
+      "name": "@constant_assignment_value@4",
+      "start": 336880,
+      "end": 336981
+    }
+  ],
+  "source_graphs": 670,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 748,
+    "accepted_code_bytes": 207473,
+    "original_code_bytes": 399693,
+    "percentage": 51.90808945865952,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 232
+  },
+  "current_frontier": {
+    "name": "@canonicalize_conditional@4",
+    "original_va": "0x513c0"
+  },
+  "data_provenance": {
+    "comparison_maps": [
+      {
+        "extent": [
+          "0x83650",
+          "0x83668"
+        ],
+        "meaning": "six comparison complements eq/ne/lt/le/gt/ge"
+      },
+      {
+        "extent": [
+          "0x83668",
+          "0x83680"
+        ],
+        "meaning": "six comparisons after operand exchange"
+      }
+    ],
+    "assignment_property": "All182 original opcode words checked; original0800 exactly semantic NODE_WRITES_LEFT; zero mismatches",
+    "strings": "ordinary builder recipes at point of use; no address identity"
+  },
+  "limits": [
+    "Whole functions reconstructed. Bitfield-constant and floating-value branches are not exercised by current path; compare_extended remains named trap.",
+    "Boolean materialization on this path retains a control-context predicate; alternative integer1/0 branch reconstructed but not claimed exercised.",
+    "Final hello object remains incomplete; prior first-function output proof unchanged."
+  ],
+  "timing": {
+    "analysis_note": "not instrumented",
+    "build_audit_fixtures": {
+      "boolean-warnings-timing": {
+        "seconds": 1.0006772298365831,
+        "returncode": 0,
+        "log_sha256": "58d52474a3ab52b3af1d4298b8522e75a28532aade252f90cc593ed3c7d598a8"
+      },
+      "expression-values-warnings-timing": {
+        "seconds": 1.1183898085728288,
+        "returncode": 0,
+        "log_sha256": "d0e9803c7f965548548ba455ab121397155621fcfc67f00e67f0654d31d52a40"
+      },
+      "materialize-boolean-build-timing": {
+        "seconds": 2.3038464011624455,
+        "returncode": 0,
+        "log_sha256": "b55c312d36d06de41599212389c99bcaab10c763aa663d36af19097fd88b3338"
+      },
+      "negate-condition-build-timing": {
+        "seconds": 2.3361607622355223,
+        "returncode": 0,
+        "log_sha256": "0bc3fc73bab072cecca83262dfb993831e98647726375021124ed53920beda65"
+      },
+      "comma-build-timing": {
+        "seconds": 19.08245516754687,
+        "returncode": 0,
+        "log_sha256": "8b1b29bd5b14623d9650c1c382bdf2862d816114a07e154619d067076f6c6f3b"
+      },
+      "assignment-value-build-timing": {
+        "seconds": 19.221930771134794,
+        "returncode": 0,
+        "log_sha256": "cb7bf6271077bffc3bd5a1b7e54e5263c6c09654fcaacc353d53cb1a0aee1856"
+      },
+      "boolean-audit-timing": {
+        "seconds": 3.423588328063488,
+        "returncode": 0,
+        "log_sha256": "ebac8f6bed2bfb39e7644e6de4c44774396829ed2484e475fb6ef1e4e61b4190"
+      },
+      "expression-values-check-timing": {
+        "seconds": 0.3292892975732684,
+        "returncode": 0,
+        "log_sha256": "3a3d4dc57c5ededd96e5fbfe287d6b783b1c40465cb9167e4c6b2de9da81eaff"
+      },
+      "container-value-build-timing": {
+        "seconds": 2.7384056532755494,
+        "returncode": 0,
+        "log_sha256": "a2c31640167f24f71945778d1f7d54eb40c89ecc6ab93976f14bc1381f6fc024"
+      },
+      "typed-integer-build-timing": {
+        "seconds": 2.5551156252622604,
+        "returncode": 0,
+        "log_sha256": "ced435398e55a60f85c5b41a40a29bf150ef716be9214599be664ac994372b7a"
+      },
+      "comparison-map-build-timing": {
+        "seconds": 2.0799080887809396,
+        "returncode": 0,
+        "log_sha256": "b0a9e882746a0398f22ea620f2df00fedd114d437bc148778478160d1a9f4f74"
+      },
+      "truth-test-build-timing": {
+        "seconds": 2.2867873311042786,
+        "returncode": 0,
+        "log_sha256": "0f09d021765244789de5f366ebc6dc178e9edded90a161d7b27f23d8c6c79675"
+      },
+      "constant-value-build-timing": {
+        "seconds": 2.3875114722177386,
+        "returncode": 0,
+        "log_sha256": "98b96ef753f3b2ed44173e065ca9ce1f7d1f5427a1dc77a187fdaf28131a07aa"
+      },
+      "assignment-constant-build-timing": {
+        "seconds": 2.5255773114040494,
+        "returncode": 0,
+        "log_sha256": "e06dbde6d4b21369185e7b580585c4f9abf6412793dc3bab0f3e50a8e9f0530e"
+      },
+      "expression-values-audit-timing": {
+        "seconds": 3.497550147585571,
+        "returncode": 0,
+        "log_sha256": "c754987018b3e3c90e1a85ce653635481ae177d582a80992c96426a110d32603"
+      },
+      "boolean-check-timing": {
+        "seconds": 0.33163568656891584,
+        "returncode": 0,
+        "log_sha256": "c89588174024e5a401ecb7ccf5d15f9f56dcf82bfe95e8b7040db9652e78423f"
+      }
+    },
+    "native_debug_seconds": [
+      0.14766113832592964,
+      0.1473940322175622,
+      0.1780877597630024,
+      0.14860534481704235,
+      0.16210420988500118,
+      0.15511715598404408,
+      0.14087872486561537,
+      0.14973329566419125,
+      0.14128326438367367,
+      0.14813454914838076
+    ],
+    "original_reference_setup_seconds": [
+      0.18064150866121054,
+      0.17946052737534046,
+      0.1793877463787794,
+      0.1820348408073187,
+      0.18439115677028894,
+      0.17823677323758602,
+      0.1862764460965991,
+      0.1836869791150093,
+      0.18189039919525385,
+      0.1833361592143774
+    ],
+    "original_reference_execution_check_seconds": [
+      1.5784858912229538,
+      1.103730658069253,
+      0.9424002226442099,
+      1.7012609047815204,
+      0.651534603908658,
+      0.740824893116951,
+      0.7481470871716738,
+      0.7437649210914969,
+      1.4626516606658697,
+      1.2594730760902166
+    ],
+    "notes": [
+      "Both intermediate745 and final748 check/audit runs retained.",
+      "Initial /W3 run found preexisting implicit compiler_warning declaration in algebra.c; include records.h corrected declaration, final /W3 clean.",
+      "Mixed native/canonical build timing is unsplit; headers triggered19s full application rebuilds."
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

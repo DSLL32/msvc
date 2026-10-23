@@ -1,0 +1,11 @@
+{
+  "positive": "same completed cache reproduced",
+  "rejected": [
+    "nonzero terminal",
+    "extra terminal event",
+    "corrupt completed object",
+    "wrong normalized digest"
+  ],
+  "seconds": 0.20723177306354046,
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

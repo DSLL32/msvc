@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from case_paths import C2_SCRATCH, windows, native_work, canonical_parts
 
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
@@ -66,15 +67,15 @@ def run(profile, executable, directory, cache, tracing=True, expected_override=N
     assert phase['arguments'] == [] and set(phase['environment']) == {'MSC_CMD_FLAGS'}
     case = cache['cases'][profile]
     directory.mkdir()
-    work = directory/'work'
-    work.mkdir()
+    work, drive_environment = native_work(directory, phase['canonical_working_directory'])
     for source in phase['inputs']:
         (work/Path(source['path']).name).write_bytes(captured(manifest.parent/source['path'], source))
     assert executable.read_bytes()[:5] == b'\x7fELF\x01', 'native fixture requires i386 ELF'
     environment = dict(PATH=os.defpath, LC_ALL='C', TZ='UTC')
-    windows_bin = 'Z:' + str(ROOT/'toolchains/1.0-nt/bin').replace('/', '\\')
+    windows_bin = windows(ROOT/'toolchains/1.0-nt/bin')
     environment['MSC_CMD_FLAGS'] = phase['environment']['MSC_CMD_FLAGS'].format(bin=windows_bin)
-    environment['RECON_PROGRAM_PATH'] = 'Z:' + str(ROOT/'toolchains/1.0-nt/bin/C23232.EXE').replace('/', '\\')
+    environment['RECON_PROGRAM_PATH'] = windows(ROOT/'toolchains/1.0-nt/bin/C23232.EXE')
+    environment.update(drive_environment)
     filter_path, seen_path = directory/'filter', directory/'seen'
     names = list(cache['application_definitions'])
     filter_path.write_text('\n'.join(names)+'\n')
@@ -142,7 +143,8 @@ def main():
     shared_files = list((ROOT/'lib/recon/src').glob('*.c')) + list((ROOT/'lib/recon/include').glob('*.h')) + list((ROOT/'lib/recon/native').glob('*.h')) + [ROOT/'lib/recon/spawn.py']
     shared_hashes = {str(path.relative_to(ROOT)):traces.sha(path) for path in sorted(shared_files)}
     cache = traces.load(objects)
-    scratch = Path.home()/'.ai-tmp/vc1.0-c2'
+    scratch = C2_SCRATCH
+    scratch.mkdir(parents=True,exist_ok=True)
     directory = Path(tempfile.mkdtemp(prefix='native-fixtures-', dir=scratch))
     suite_setup_seconds = time.perf_counter()-started
     profiles = [args.profile] if args.profile else ([p for p,c in cache['cases'].items() if c['terminal'].startswith('exit:')] if args.no_trace else list(cache['cases']))
@@ -162,10 +164,10 @@ def main():
         else:
             raise AssertionError('wrong entry accepted')
         copy = directory/'reject-object'
-        shutil.copytree(directory/'minimal'/'work', copy)
         cfg = json.loads((BINARY/'functions.json').read_text())['cases']['minimal']
         fixture = (BINARY/cfg['fixture_manifest']).resolve()
         phase = json.loads(fixture.read_text())['phases']['c2']
+        shutil.copytree(directory/'minimal'/Path(*canonical_parts(phase['canonical_working_directory'])), copy)
         name = phase['outputs'][0].get('output_name', Path(phase['outputs'][0]['path']).name)
         bad = bytearray((copy/name).read_bytes());bad[-1] ^= 1;(copy/name).write_bytes(bad)
         try:

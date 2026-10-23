@@ -2,15 +2,16 @@
 from copy import deepcopy
 import json
 from pathlib import Path
+from case_paths import C2_SCRATCH
 import tempfile
 from importlib.machinery import SourceFileLoader
 trace = SourceFileLoader('native_traces',str(Path(__file__).with_name('native-traces.py'))).load_module()
 
-before = json.loads(Path('cases/floating-original-942.json').read_text())
-evidence = json.loads(Path('cases/floating-crt-fread.json').read_text())
+before = json.loads(Path('cases/analysis/fread-before-identity.json').read_text())
+evidence = json.loads(Path('cases/analysis/fread-observation.json').read_text())
 record = evidence['original']['identity']['record']
 passed = []
-with tempfile.TemporaryDirectory(prefix='fread-reject-',dir=Path.home()/'.ai-tmp/vc1.0-c2') as scratch:
+with tempfile.TemporaryDirectory(prefix='fread-reject-',dir=C2_SCRATCH) as scratch:
     p = Path(scratch)/'evidence.json'
     def check(label, edit=None):
         value = deepcopy(evidence)

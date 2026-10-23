@@ -1,0 +1,48 @@
+{
+  "checkpoint": 1011,
+  "base_commit": "a2cba79",
+  "status": "floating active",
+  "source_graphs": 932,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1011,
+    "accepted_code_bytes": 278313,
+    "original_code_bytes": 399693,
+    "percentage": 69.63169232385856,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 433
+  },
+  "frontier": "@analyze_float_motion_range@12",
+  "accepted_functions": [
+    {
+      "name": "@match_float_stream_branches@12",
+      "start": 236928,
+      "end": 237453
+    },
+    {
+      "name": "@start_float_stream_context@8",
+      "start": 235008,
+      "end": 235134
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Context append preserves the original88-byte zeroed arena record, previous/next aliases and depth cursor reset.",
+    "Whole525-byte branch matcher retains splitting, branch-depth checks and target predicates; this frontier exercises its null-branch fast return, while unvisited children remain traps.",
+    "First canonical link exposed a missing machine-layout declaration and wrong provisional argument type; fixed to the existing fastcall prototype before any reference matching or cache extension. Failed build timing retained.",
+    "Canonical/native builds are timed separately; graph/W3/audits and all six fixtures pass.",
+    "Five complete objects remain exact; floating reaches mode2 range analysis."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

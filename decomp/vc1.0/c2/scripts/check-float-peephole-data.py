@@ -3,6 +3,7 @@
 No Wine or reference execution. The tiny native probe only exercises the
 register-encoding macro, not reconstructed control flow or fixtures.
 """
+from case_paths import C2_SCRATCH
 import hashlib
 import json
 from pathlib import Path
@@ -47,7 +48,7 @@ def main():
         views.append(dict(field=field,original_extent=[hex(address),hex(address+24)],opcodes=actual,matched=True))
     assert compiled['conditions'] == list(struct.unpack('<16I',original.read(0x82dc8,64)))
     macro = re.search(r'#define FP_SHIFT_REGISTER\(.*?\n\} while \(0\)',source.read_text(),re.S).group()
-    with tempfile.TemporaryDirectory(prefix='float-encoding-probe-',dir=Path.home()/'.ai-tmp/vc1.0-c2') as scratch:
+    with tempfile.TemporaryDirectory(prefix='float-encoding-probe-',dir=C2_SCRATCH) as scratch:
         scratch = Path(scratch)
         probe = scratch/'probe.c'
         probe.write_text('#include "'+str(Path('src/instruction-selection.h').resolve())+'"\n#undef write\nextern int write(int,const void *,unsigned);\n'+macro+'''

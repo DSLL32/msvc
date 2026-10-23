@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "1c4de3015ad9842598caeff8f11398acea86e78711cd2a23740c569f1ebd0faf",
-  "config_sha256": "b548f4dd9f0bef1a58dee2b8ff3fae41cc4cb8ea3e1f8aa63cf2a8cade589394",
-  "seconds": 0.12853275146335363,
-  "logical": "@sort_float_motion_uses@4",
-  "matched": true,
-  "log_sha256": "41690845d8c01da6cee98f85a047dee6eccce637da2ef46e826eb4118a4ef8a2",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-m86hukdm"
-}

@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "1418d2f584be94e4f743912c30ec027a6bdaf0c369a46aaa9cfc7e24b9f427ab",
-  "config_sha256": "671be4dc47e18cac1ab32c870039add461b2d2647fc05649f37cc13c2313d14e",
-  "seconds": 0.13256325386464596,
-  "logical": "@constant_multiply_budget@4",
-  "matched": true,
-  "log_sha256": "798c906ffb870f7c72e797cbb518511f6863d3cd9231a2d56b8f034467b21e3b",
-  "directory": "/root/.ai-tmp/vc1.0-c2/pressure-gdb-v91se_55"
-}

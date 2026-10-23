@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "1ef6435d600d7c646be72ea9e8afcb1308640d1840e64c12f872fe2ece56481c",
-  "config_sha256": "cc228dc7b9d01e2e090f114d923b00f0e080bee09d1a2ed3696f913063d6dd8b",
-  "seconds": 0.13621166348457336,
-  "logical": "@lift_both_unary@4",
-  "matched": true,
-  "log_sha256": "a29d2edf0d9d9f5577d2971ae43823658eb3e4ca567f34a8ca6534fec18d5b72",
-  "directory": "/root/.ai-tmp/vc1.0-c2/i386-gdb-o7s3ejye"
-}

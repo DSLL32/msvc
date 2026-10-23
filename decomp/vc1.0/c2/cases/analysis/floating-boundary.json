@@ -1,0 +1,41 @@
+{
+  "checkpoint": 993,
+  "base_commit": "c5633fd",
+  "status": "floating active",
+  "source_graphs": 914,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 993,
+    "accepted_code_bytes": 272800,
+    "original_code_bytes": 399693,
+    "percentage": 68.2523837044932,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 416
+  },
+  "frontier": "@prepare_float_register_source@8",
+  "accepted_functions": [
+    {
+      "name": "@finish_float_machine_range@4",
+      "start": 251040,
+      "end": 251760
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Whole720-byte boundary finisher preserves result exchange, virtual home stores, old-store removal, and physical depth reconciliation.",
+    "Independent bounded operand-row proof covers the copied ST register encodings; graph and individual call ABIs pass.",
+    "Five completed objects remain exact; floating source preparation is the next named trap, not completed output."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

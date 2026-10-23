@@ -1,0 +1,55 @@
+{
+  "logical": "_fread",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "before_config_sha256": "d3e7ab5a35a2ebd99b760feaaed5baa80d2222b68285bd0d5759e9685c9fc073",
+  "observed_original": {
+    "size": 12,
+    "count": 1,
+    "result": 1,
+    "bytes_hex": "0000000000000080fd3f0800"
+  },
+  "observed_native": {
+    "size": 12,
+    "count": 1,
+    "result": 1,
+    "bytes_hex": "0000000000000080fd3f0800"
+  },
+  "caller_result_use": "ignored; complete 12-byte destination is copied to Extended return value",
+  "caller": "input_extended 0x6ffd7..0x6fff8: copies all three DWORDs, hidden structure-result pointer; stdcall RET4",
+  "limits": [
+    "CRT/library acceptance, not reconstructed application source",
+    "First 12-byte record only; no claim of exhaustive fread error/EOF behavior",
+    "Restores the complete indexed352-byte linked library extent, with both relocation targets verified separately"
+  ],
+  "original": {
+    "identity": {
+      "record": {
+        "name": "_fread",
+        "start": 470944,
+        "end": 471296,
+        "object": "stdio\\obj\\i386\\FREAD.OBJ",
+        "library": "LIBC.LIB"
+      },
+      "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+      "object_sha256": "47e311411ca4af6954753ea07d28b5ffd1705ae96b3efbafc9c147c1cc89dd50",
+      "text_sha256": "842c8b6aa628e8d7d26c0ce18718a449c674337a67480fe39ac7be4978ce130c",
+      "exact_text_bytes": 352,
+      "linked_text_sha256": "5e3053a475336410a41eaaa4deb07e5fd4666ed40bf6b37c4b79d0bd949b39d0",
+      "relocations": [
+        {
+          "offset": 189,
+          "symbol": "__read",
+          "kind": 20,
+          "target": 481312
+        },
+        {
+          "offset": 215,
+          "symbol": "__filbuf",
+          "kind": 20,
+          "target": 470720
+        }
+      ]
+    }
+  },
+  "scope": "Historical path-independent library identity/call-data analysis; no transport replay or current fixture oracle"
+}

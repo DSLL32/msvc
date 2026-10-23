@@ -1,0 +1,41 @@
+{
+  "checkpoint": 1000,
+  "base_commit": "5940cd1",
+  "status": "floating active",
+  "source_graphs": 921,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1000,
+    "accepted_code_bytes": 275103,
+    "original_code_bytes": 399693,
+    "percentage": 68.82857593202783,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 422
+  },
+  "frontier": "_prepare_float_stream_uses",
+  "accepted_functions": [
+    {
+      "name": "_rewrite_float_machine_data",
+      "start": 219424,
+      "end": 219559
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Whole135-byte store driver preserves protected-block policy, CPU5 non-popping versus other-CPU popping helper selection, and returned scan cursor.",
+    "Both newly encountered store-transform children remain named traps; this case reaches neither child before the next stream-use driver.",
+    "Five completed object oracles remain exact; floating next enters prepare_float_stream_uses."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

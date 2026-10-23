@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "58258df75200d36f97f8ddae187c23620177651ba4017429851ab1a28d06fcdb",
-  "config_sha256": "a7c7aea77164aebc6505d22a335aa2b31f929f7bd62f259557a48db9119391a0",
-  "seconds": 0.13896021526306868,
-  "logical": "@induction_is_dead_on_exit@4",
-  "matched": true,
-  "log_sha256": "de9a97be940fd654e5701d5148c171f8d32db35ebcc9a62ddf928236c17b2a8b",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-ehsto50k"
-}

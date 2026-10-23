@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "d68ba79f1c486f11e76438fdc93697ec22388f90da9e4779a153610d1de9022f",
-  "config_sha256": "5d560ff57e5039bc0f62d0dfc90c5202b5dfe88bba011dc7aa3f18352f01a2f5",
-  "seconds": 0.13749491982162,
-  "logical": "_emit_float_return",
-  "matched": true,
-  "log_sha256": "62655d9909144a6764326304ab80480aeedc03aa988398ab13392877aca07f62",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-yiza2vrv"
-}

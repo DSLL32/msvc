@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "b0b2bc4a9aafac4faad48865f70f588dd51264ee0adc7b16166c55e985a35332",
-  "config_sha256": "4359c7b7cad47fee7b1b6c4a7c6546b0a0a3ed1ff6fb208e48d69a653d0f4acd",
-  "seconds": 0.13298895210027695,
-  "logical": "@release_intrinsic_operands@4",
-  "matched": true,
-  "log_sha256": "363a859d8dd8d86f78d40199f621515a7d14df005c397eb9f2ec5551f8c93e7a",
-  "directory": "/root/.ai-tmp/vc1.0-c2/x87-gdb-vzxwsjw4"
-}

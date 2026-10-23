@@ -4,10 +4,24 @@
     {
       "case": "hello-win32",
       "after": "minimal-c",
-      "fixture_manifest": "../fixtures/hello-win32/manifest.json",
+      "fixture_manifest": "../fixtures/c2-shared-hello/manifest.json",
       "phase": "c2",
       "description": "Original CL /O2 /G5 hello.c backend invocation",
-      "status": "complete"
+      "status": "complete",
+      "expected_output": {
+        "path": "expected/hello.obj",
+        "bytes": 2289,
+        "sha256": "077505afd6b6ec6609e59ba75f83e4c12bf65b0399ef22530d2728091665cfeb",
+        "output_name": "hello.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0"
+      }
     },
     {
       "case": "optimizer-loops",
@@ -16,7 +30,21 @@
       "status": "complete",
       "description": "Nested loops, branches, loop-carried integer values and optimizer induction/control flow",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
-      "fixture_manifest": "../fixtures/c2-optimizer-loops/manifest.json"
+      "fixture_manifest": "../fixtures/c2-optimizer-loops/manifest.json",
+      "expected_output": {
+        "path": "expected/loops.obj",
+        "bytes": 620,
+        "sha256": "b350f5241a8a136ba1d731d110bd0619e5d9b4408fd8ab963ba9723e878d1510",
+        "output_name": "loops.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87"
+      }
     },
     {
       "case": "optimizer-register-pressure",
@@ -25,7 +53,21 @@
       "status": "complete",
       "description": "Many live integer values, calls and spills across scheduling/register allocation",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
-      "fixture_manifest": "../fixtures/c2-optimizer-register-pressure/manifest.json"
+      "fixture_manifest": "../fixtures/c2-optimizer-register-pressure/manifest.json",
+      "expected_output": {
+        "path": "expected/pressure.obj",
+        "bytes": 879,
+        "sha256": "bf77ae909107db6355fb550d0411c0b09ae0d0a798bbe8b47d91f8ec4b0ffc0e",
+        "output_name": "pressure.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3"
+      }
     },
     {
       "case": "optimizer-aliasing",
@@ -34,7 +76,21 @@
       "status": "complete",
       "description": "Pointer aliasing, overlapping accesses and structure copies",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
-      "fixture_manifest": "../fixtures/c2-optimizer-aliasing/manifest.json"
+      "fixture_manifest": "../fixtures/c2-optimizer-aliasing/manifest.json",
+      "expected_output": {
+        "path": "expected/aliasing.obj",
+        "bytes": 600,
+        "sha256": "8aac0c6fa8a1dae8679bd757d0d3e79c7082ec577080c769facc917d1a3bcfb5",
+        "output_name": "aliasing.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae"
+      }
     },
     {
       "case": "optimizer-floating-point",
@@ -43,7 +99,21 @@
       "status": "complete",
       "description": "x87 conversions and arithmetic, floating scheduling and late store movement",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
-      "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json"
+      "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json",
+      "expected_output": {
+        "path": "expected/floating.obj",
+        "bytes": 979,
+        "sha256": "ec6ffb4587cdb94fabd93761b14fa7d4e970ba1c793650e0f1aaafe0e131b0b0",
+        "output_name": "floating.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e"
+      }
     },
     {
       "case": "i386-integer",
@@ -59,7 +129,7 @@
       "expected_output": {
         "path": "expected/integer386.obj",
         "bytes": 572,
-        "sha256": "9777c98032f33396acede7cd7440eabe91bfdb26c4602503df99760bc92bc4dc",
+        "sha256": "77d4bc26e85fcec8af0a37fd0c88666420f386909bfd8ca36616c1dcba32589d",
         "output_name": "integer386.obj",
         "ignored_fields": [
           {
@@ -86,7 +156,7 @@
       "expected_output": {
         "path": "expected/stack87.obj",
         "bytes": 947,
-        "sha256": "13342e7bfb69d4dbbfc13566a8c08b3bea8f9ffe01765598ac7e9d900e203d20",
+        "sha256": "8cedeca1400c18d5213ecf963c91a6da13ad7b93358dd331af43b0df764c21b3",
         "output_name": "stack87.obj",
         "ignored_fields": [
           {
@@ -112,7 +182,7 @@
       "expected_output": {
         "path": "expected/floating486.obj",
         "bytes": 883,
-        "sha256": "4399ca80dfd7f7c68d14498a6a4b5dd2b9db45184f8c6d4982cc86041da464bd",
+        "sha256": "8ebf72174def979c87beff9cf6427f0d59ecc18d109ef1910838fabe1b7d0795",
         "output_name": "floating486.obj",
         "ignored_fields": [
           {

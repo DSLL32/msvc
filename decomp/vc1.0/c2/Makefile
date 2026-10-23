@@ -96,3 +96,9 @@ native-trace-check: native-trace
 
 # Empty compatibility headers must also trigger canonical recompilation.
 $(patsubst build/native/%.o,build/%.obj,$(NATIVE_OBJECTS)): $(wildcard $(RECON)/include/*.h)
+
+# Explicit original-only CL transport capture helper; never used by fixtures.
+build/capture-cl.obj: src/capture-cl.c | build prefix
+	$(TOOL) CL.EXE /nologo /I$(RECON)/include /c /Od /G3 /Fobuild/capture-cl.obj $<
+build/capture-cl.exe: build/capture-cl.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

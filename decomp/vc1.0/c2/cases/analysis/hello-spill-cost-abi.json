@@ -1,0 +1,82 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@allocation_operand_cost@28",
+      "start": "0x2bff0",
+      "end": "0x2c7c0",
+      "instructions": 617
+    },
+    {
+      "name": "@loop_depth_weight@4",
+      "start": "0x592d0",
+      "end": "0x592f0",
+      "instructions": 7
+    },
+    {
+      "name": "@operand_for_spill@12",
+      "start": "0x2cec0",
+      "end": "0x2d000",
+      "instructions": 115
+    },
+    {
+      "name": "@folded_spill_operand_cost@8",
+      "start": "0x2cdc0",
+      "end": "0x2cec0",
+      "instructions": 96
+    },
+    {
+      "name": "@add_register_conflict@8",
+      "start": "0x2bcd0",
+      "end": "0x2bd30",
+      "instructions": 37
+    },
+    {
+      "name": "@new_register_conflict@4",
+      "start": "0x2e0d0",
+      "end": "0x2e0e0",
+      "instructions": 2
+    }
+  ],
+  "native_instructions": 874,
+  "accepted_extent_bytes": 2720,
+  "milestone": "First function completes interference construction and reaches negative-cost simplification2bb50",
+  "abis": [
+    "allocation_operand_cost is one complete617-instruction fastcall7 graph vertex, with five stack arguments and RET20. It measures or applies rematerialization, memory folding and explicit spill loads/stores; no branch-specific replacement function is substituted.",
+    "Its final optional context is refined to WorkItem*: the2cd30 consumer reads the existing flow_sets[0] slot. The optional preceding unsigned* accumulates required spill width. All current calls measure only with apply0 and both pointersnull.",
+    "operand_for_spill is fixed fastcall3 returning its MachineOperand*, with RET4. The first two words are initialized before its placeholder/apply branch. The original allocate_stack_temporary callee consumes onlyECX; stale EDX0 at this call is not another parameter.",
+    "add_register_conflict is the original fastcall2 int callback: duplicate detection uses endpoint pointer identity, and new edges are linked in both directions with short-degree increments. new_register_conflict preserves the arena-number fastcall ABI and arena_alloc graph, expressed in C although native uses a tail jump."
+  ],
+  "data_provenance": [
+    "Four local typed loop-depth weights at native836f8..83708 are1,5,25,125, consumed solely by the recovered depth-weight helper. For unsigned depth>=4 the native result is125+depth, not an exponential extension or clamp. No adjacent table data is copied.",
+    "Reuse existing conservative_flag_analysis7c8b0 and optimize_speed806a8. rematerialization_changed7c8b8 is introduced as its own contextual scalar; no duplicate alias is created.",
+    "Four statistics fields now have semantic names from their increments: rematerialized_operands7c534, folded_spill_operands7c538, inserted_spill_loads7c53c and inserted_spill_stores7c540. The remaining contextual counter extent is unchanged.",
+    "SpillTemporary hash entries retain the earlier12-byte layout; machine-class apply paths reserve4-byte kind19 temporary descriptors. Scalar frame/local homes reuse existing symbol attributes and home offsets.",
+    "Struct assignments copy encountered MachineOperand/MachineAddress values during transformations; no original image section or opaque data snapshot is an initializer."
+  ],
+  "limits": [
+    "Hello remains incomplete at simplify_unspillable_variables2bb50; optimized object output is not yet claimed.",
+    "The first function now exercises full interference construction, positive and negative signed operand costs, placeholder memory operands, depth0 weighting, direct memory folding and symmetric graph insertion.",
+    "The complete apply1 portion of the617-instruction routine is reconstructed but unvisited here: no actual spill rewriting, inserted load/store, rematerialized block clone or non-null WorkItem context is claimed dynamically. Unvisited callees retain named typed traps.",
+    "Machine-class spill-home allocation, representative-home compatibility, non-null rematerialization and larger loop depths remain outside dynamic validation.",
+    "Missing/failure paths and corrupt-IR behavior are not claimed."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 590,
+    "accepted_code_bytes": 154143,
+    "original_code_bytes": 399693,
+    "percentage": 38.56534890528481,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 163
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

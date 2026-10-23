@@ -1,0 +1,63 @@
+{
+  "checkpoint": 909,
+  "base_commit": "2cc746e",
+  "status": "loops active",
+  "source_graphs": 831,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 909,
+    "accepted_code_bytes": 241155,
+    "original_code_bytes": 399693,
+    "percentage": 60.33505715636751,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 359
+  },
+  "frontier": "@spill_instruction_variable@20",
+  "accepted_functions": [
+    {
+      "name": "@spill_register_variables@8",
+      "start": 177920,
+      "end": 178300
+    },
+    {
+      "name": "@remove_register_conflict@8",
+      "start": 188528,
+      "end": 188614
+    },
+    {
+      "name": "@instruction_precedes_region_entry@4",
+      "start": 298928,
+      "end": 298990
+    },
+    {
+      "name": "@spill_variable_everywhere@4",
+      "start": 183248,
+      "end": 183306
+    },
+    {
+      "name": "@spill_variable_in_work@8",
+      "start": 182512,
+      "end": 182748
+    }
+  ],
+  "limits": [
+    "Five whole functions match fresh original/native frontiers; complete spill driver, per-work traversal, deferred-stream wrapper, conflict removal and region-entry query",
+    "Before acceptance908 comparison caught wrong global7b940 versus actual7b954 deferred_instructions; both new spill references corrected; preserved native mismatch receipt and existing original reference remains valid with unchanged mask metadata",
+    "Spill wrapper full body recovered but its instruction-transform call was not reached on this loop deferred stream; per-work traversal now reaches that same named child stub",
+    "New record_rematerialized_work_registers and remove_spilled_work_registers remain explicit traps; diagnostic path not validated",
+    "Failed907 build caught missing bitset prototype and WorkItem body union access; failed908 correction build caught nonexistent include; corrected before accepting cache transitions; all measured attempts retained",
+    "Minimal and hello output artifacts remain exact; loop620-byte final object incomplete"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

@@ -1,0 +1,60 @@
+{
+  "status": "registered; no new function accepted",
+  "accepted": 917,
+  "native_match": {
+    "seconds": 0.14191433507949114,
+    "logical": "@simple_constant_operation_sign@4",
+    "matched": true,
+    "log_sha256": "49b9261a8fd3d78f3d91c322149decdc81277266e5abb19e9aeae0313b9b1a5b"
+  },
+  "frontier": "@simple_constant_operation_sign@4",
+  "original_va": "0x56e80",
+  "fixture": "../fixtures/c2-optimizer-register-pressure/manifest.json",
+  "capture_validation": {
+    "timing": {
+      "capture-compile": {
+        "seconds": 0.8729788037016988,
+        "returncode": 0,
+        "stdout_sha256": "90785e1be7ae0e3c3b5d69969bf52ee4db9d68f48a99abc9023d61142888de32",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "capture-link": {
+        "seconds": 0.5337422331795096,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pipeline": {
+        "seconds": 1.5126566588878632,
+        "returncode": 0,
+        "stdout_sha256": "f7c6241067eca3e27dbf5e3797f1e47af7a9ef8431522fa6c6bc4762abffbc81",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "standalone": {
+        "seconds": 1.0273986496031284,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "standalone": "exit0, empty streams, object matches pipeline after only timestamp"
+  },
+  "timing": {
+    "pressure-capture-timing": {
+      "seconds": 4.0469074277207255,
+      "returncode": 0,
+      "log_sha256": "da1d95d92909b09515361c792d3a74beb4a538915aa9ea1de18efba3ad0bd6a9"
+    },
+    "pressure-registration-check-timing": {
+      "seconds": 0.3856021258980036,
+      "returncode": 0,
+      "log_sha256": "dbaf13480fe2b4f8f435939e51d352f20f8f4232915b934d2a4bf328fbf11692"
+    }
+  },
+  "limits": [
+    "Four original frontend IR files and879-byte expected object independently captured/verified with original CL/C1/C2; no reconstructed frontend dependency.",
+    "All previously accepted application entries seeded for new case; first unknown named function agrees between fresh masked original and native GDB.",
+    "Metadata-only registration; existing canonical build/static audit atce933dc reused. New normal fixture contains no Wine."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

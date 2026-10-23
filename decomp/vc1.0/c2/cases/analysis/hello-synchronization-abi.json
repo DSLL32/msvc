@@ -1,0 +1,108 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@sync_machine_work@8",
+      "start": "0x68b70",
+      "end": "0x68c10",
+      "instructions": 61
+    },
+    {
+      "name": "@adjust_machine_symbol_references@8",
+      "start": "0x68cc0",
+      "end": "0x68d00",
+      "instructions": 23
+    },
+    {
+      "name": "@adjust_operand_label_references@8",
+      "start": "0x68c70",
+      "end": "0x68cc0",
+      "instructions": 25
+    },
+    {
+      "name": "@scan_machine_context@4",
+      "start": "0x689f0",
+      "end": "0x68b70",
+      "instructions": 136
+    },
+    {
+      "name": "@compact_machine_context@4",
+      "start": "0x689b0",
+      "end": "0x689f0",
+      "instructions": 28
+    },
+    {
+      "name": "_optimize_machine_flow",
+      "start": "0x1dc70",
+      "end": "0x1dc80",
+      "instructions": 3
+    },
+    {
+      "name": "@finish_machine_blocks@8",
+      "start": "0x1dc80",
+      "end": "0x1dca0",
+      "instructions": 13
+    }
+  ],
+  "native_instructions": 289,
+  "accepted_extent_bytes": 800,
+  "abis": [
+    "sync_machine_work is fixed fastcall2 (ECX WorkItem*, EDX kind2 MachineContext*), returning void; operand/instruction reference helpers are distinct fixed fastcall2 graph vertices, with operand helper returning int0/1.",
+    "scan_machine_context and compact_machine_context are fixed fastcall1 functions. Scanning retains its insert_machine_after callee as a named trap for unvisited label-motion branches.",
+    "optimize_machine_flow is a distinct cdecl no-argument wrapper at1dc70..1dc80, ending in a tail jump to finish_machine_blocks at1dc80..1dca0. The latter is fastcall2 with instructions/mode and calls the existing finish_selected_block. All original callers ignore its return register, so void is retained."
+  ],
+  "data_provenance": [
+    {
+      "name": "machine label links",
+      "ownership": "kind1 label record and kind2 function-context overlay in existing32-byte MachineInstruction",
+      "fields": [
+        "chain next pointer at0x10",
+        "optional attachment pointer at0x14",
+        "label flags at0x18",
+        "unresolved field1c"
+      ],
+      "implementation": "typed union overlay alongside ordinary operands; no pointer storage through numeric flags"
+    },
+    {
+      "name": "MachineLabelAttachment",
+      "meaning": "only observed prefix through a label back-pointer at0x14",
+      "extent_limit": "24-byte accessed prefix; broader identity, owner and full object extent remain unresolved; no instance is allocated or copied by reconstruction",
+      "implementation": "five offset-named prefix words and typed MachineInstruction*label; attachment branch not dynamically claimed"
+    },
+    {
+      "name": "canonical labels",
+      "meaning": "existing LabelSymbol instruction pointer at0x24 and signed reference count at0x2c; protected label kind4 at0x30",
+      "implementation": "reuse existing per-symbol objects and update reference counts in native reverse operand order"
+    },
+    {
+      "name": "region-header alignment",
+      "meaning": "first label of a WorkItem matching region.header receives low flag1; scan also preserves low flag2",
+      "implementation": "ordinary typed FlowRegion/WorkItem access; no duplicated region state or data snapshots"
+    }
+  ],
+  "limits": [
+    "Hello remains incomplete at analyze_machine_instructions0x48040; optimized object output is pending.",
+    "Only first function has reached backend analysis. Later functions, physical allocation, scheduling and final optimized emission remain pending.",
+    "Region-header alignment marking, protected kind4 unused labels, optional label attachments and positive label-motion branches have full parent source but no dynamic branch claim. insert_machine_after remains a named trap until a matching frontier exercises it.",
+    "MachineLabelAttachment is a documented accessed prefix, not a recovered full object layout. Its owner/identity must be refined when a producer is encountered.",
+    "Failure paths and remaining overlap interval helper are not claimed to pass."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 556,
+    "accepted_code_bytes": 145263,
+    "original_code_bytes": 399693,
+    "percentage": 36.343643746575495,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 157
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

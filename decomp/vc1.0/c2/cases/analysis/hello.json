@@ -1,0 +1,39 @@
+{
+  "case": "hello-win32",
+  "status": "in progress",
+  "profile": "hello",
+  "fixture_manifest": "../fixtures/hello-win32/manifest.json",
+  "fixture_manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+  "accepted_from": 352,
+  "accepted_frontiers": 380,
+  "current_frontier": {
+    "name": "@is_function_reference@4",
+    "original_va": 160528
+  },
+  "total_accepted_frontiers": 707,
+  "reconstructed_functions": 630,
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 707,
+    "accepted_code_bytes": 198794,
+    "original_code_bytes": 399693,
+    "percentage": 49.73667289644803,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 207
+  },
+  "checkpoint_status": "active queue; first function scheduler returned; late instruction splitting next",
+  "pending_window_validation": {
+    "compiler_warnings": "Whole scheduler.c /W3 clean at697 after explicit16-bit ABI cast and unsigned-subtraction cleanup.",
+    "coverage": "Refreshed at697:196016/399693=49.0416394583percent; not branch coverage.",
+    "unexercised": "non-Pentium floating delay branch and unvisited failure paths"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

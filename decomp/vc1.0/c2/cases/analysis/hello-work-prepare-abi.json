@@ -1,0 +1,106 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@common_node_type@8",
+      "start": "0x527e0",
+      "end": "0x52860",
+      "instructions": 40
+    },
+    {
+      "name": "@lower_assignment@4",
+      "start": "0x66fa0",
+      "end": "0x67170",
+      "instructions": 122
+    },
+    {
+      "name": "@insert_tree_expression@12",
+      "start": "0x4fd10",
+      "end": "0x4fd90",
+      "instructions": 45
+    },
+    {
+      "name": "@emit_switch_dispatch@8",
+      "start": "0x67ed0",
+      "end": "0x67fc0",
+      "instructions": 84
+    },
+    {
+      "name": "@summarize_switch_ranges@20",
+      "start": "0x67960",
+      "end": "0x679e0",
+      "instructions": 48
+    },
+    {
+      "name": "@emit_linear_switch@8",
+      "start": "0x67a00",
+      "end": "0x67b10",
+      "instructions": 87
+    },
+    {
+      "name": "@strip_assignment_conversion@4",
+      "start": "0x67930",
+      "end": "0x67960",
+      "instructions": 16
+    }
+  ],
+  "native_instructions": 442,
+  "new_data": [
+    {
+      "name": "switch recipe strings",
+      "originals": {
+        "0x84f78": "DPNYN",
+        "0x80d20": "PNt"
+      },
+      "implementation": "ordinary literals at each call site"
+    },
+    {
+      "name": "assignment lowering state",
+      "original_extent": [
+        "0x7b978",
+        "0x7b990"
+      ],
+      "fields": "three Node pointers and three unsigned operator/match flags",
+      "initialization": "assigned by lower_assignment and its typed helpers when reached"
+    },
+    {
+      "name": "assignment character dispatch",
+      "original_extent": [
+        "0x67134",
+        "0x67164"
+      ],
+      "implementation": "12 original code targets replaced by semantic C switch cases; original text-data bytes included in accepted extent"
+    }
+  ],
+  "abis": [
+    "summarize_switch_ranges is a fixed five-argument fastcall, with three stack arguments and RET12",
+    "insert_tree_expression is fixed fastcall3, RET4; it retains head identity by moving the old record into its new successor",
+    "lower_assignment is fastcall1; its indirect tree_transform call ignores the result as in native code",
+    "downstream compound helpers have named typed trapping stubs; native calls establish their fastcall1,2,4 signatures before unmasking"
+  ],
+  "limits": [
+    "Only the first hello function has completed preparation; the full hello object is still pending.",
+    "The first switch uses the linear comparison path. Jump tables, recursive binary splits and their typed trapping callees are unvisited.",
+    "Assignment lowering currently visits its non-compound path. Compound matching, reduction, typed identities and opcode mapping retain named typed traps.",
+    "Floating and aggregate common-type branches are reconstructed but not dynamically exercised by the current integer switch.",
+    "No loop regions are present, and no branch-coverage claim is made."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 492,
+    "accepted_code_bytes": 129647,
+    "original_code_bytes": 399693,
+    "percentage": 32.43664512513354,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 149
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

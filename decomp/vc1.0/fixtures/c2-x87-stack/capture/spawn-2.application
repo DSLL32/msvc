@@ -1,1 +1,1 @@
-Z:\root\msvc2\toolchains\1.0-nt\bin\c23232.exe
+R:\toolchains\1.0-nt\bin\c23232.exe

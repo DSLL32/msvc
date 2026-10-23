@@ -9,10 +9,10 @@ root = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('projection', root/'scripts/native-traces.py')
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
-before = json.loads((root/'cases/hello-original-721.json').read_text())
+before = json.loads((root/'cases/analysis/strncmp-before-identity.json').read_text())
 record = next(r for r in json.loads((root/'runtime.json').read_text()) if r['name'] == '_strncmp')
-evidence = json.loads((root/'cases/hello-crt-strncmp.json').read_text())
-module.check_runtime_evidence(root/'cases/hello-crt-strncmp.json', '_strncmp', before, record)
+evidence = json.loads((root/'cases/analysis/strncmp-observation.json').read_text())
+module.check_runtime_evidence(root/'cases/analysis/strncmp-observation.json', '_strncmp', before, record)
 changes = [
     ('wrong input string', ('observed_native','left_hex'), '00'),
     ('wrong count', ('observed_native','count'), 5),

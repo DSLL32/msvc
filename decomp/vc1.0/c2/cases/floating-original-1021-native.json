@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "283878a92e73b54a46f843e709b64427f79cb3347cc58156a01f56e257982c2a",
-  "config_sha256": "0f7e2c06c69932a622550fd7e1b410dc38258c556cbf4c5807cf7ff54e34b5cc",
-  "seconds": 0.13371732831001282,
-  "logical": "@record_float_motion_branch@4",
-  "matched": true,
-  "log_sha256": "8f2461f87ed7a375e2706ecad42ae6ad43c38bb71aede079d5979543c87272fd",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-eatdlokd"
-}

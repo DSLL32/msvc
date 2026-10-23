@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "16cead36e8b0cc84bc29f293ca7baa6f5c2bd012aadf5eea6185e3605424f6e4",
-  "config_sha256": "2ac22c8c16d285dca24640dfa7419591c6ea6945b10047bac7bcc21ccc898896",
-  "seconds": 0.14005853794515133,
-  "logical": "@float_symbol_name_hash@4",
-  "matched": true,
-  "log_sha256": "486831ef393fc43f561f73ec311a9336e2f38da45f3c7920c65acde61f515d3b",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-kgto9zuv"
-}

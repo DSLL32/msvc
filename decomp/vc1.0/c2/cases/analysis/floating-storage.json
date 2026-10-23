@@ -1,0 +1,54 @@
+{
+  "checkpoint": 970,
+  "base_commit": "e7a4cfa",
+  "status": "floating active",
+  "source_graphs": 891,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 970,
+    "accepted_code_bytes": 256701,
+    "original_code_bytes": 399693,
+    "percentage": 64.22454233624306,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 396
+  },
+  "frontier": "@arrange_x87_left@4",
+  "accepted_functions": [
+    {
+      "name": "@create_temporary@28",
+      "start": 320576,
+      "end": 320745
+    },
+    {
+      "name": "@find_floating_constant@8",
+      "start": 160560,
+      "end": 160622
+    },
+    {
+      "name": "@new_generated_storage@24",
+      "start": 320512,
+      "end": 320566
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Three whole functions; exact-type numerical extended equality cache search preserves first matching linked entry and leaves input node cache unchanged on hit",
+    "Generated storage wrapper4e400..4e436 preserves fixed six-argument fastcall RET16; create_temporary4e440..4e4e9 preserves seven-argument fastcall RET20",
+    "Constructor retains kind1 descriptor, name/class/value, separate type/storage/subclass attribute masks, serial/scope insertion and target storage callees",
+    "Fresh match reached x87 arrangement after executing new read-only constant storage and initializer insertion; other storage-class/arena branches are not asserted",
+    "Prior value-selection W3 declaration warning is fixed by records.h; current W3 clean, canonical rebuild and full graph/extent/mask/native checks pass",
+    "Five completed object oracles exact; floating979byte artifact remains incomplete"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

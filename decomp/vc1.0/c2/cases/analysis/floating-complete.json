@@ -1,0 +1,136 @@
+{
+  "checkpoint": 1061,
+  "base_commit": "d940f0e",
+  "status": "complete; paused after approved queue",
+  "source_graphs": 982,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1061,
+    "accepted_code_bytes": 293617,
+    "original_code_bytes": 399693,
+    "percentage": 73.46063103431884,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 478
+  },
+  "floating_start_checkpoint": 941,
+  "added_acceptances": 120,
+  "added_source_functions": 119,
+  "added_crt_acceptances": 1,
+  "floating_extent_delta_bytes": 40670,
+  "accepted_functions": [
+    {
+      "name": "@extend_previous_instruction@8",
+      "start": 208480,
+      "end": 208565
+    },
+    {
+      "name": "@coff_section_symbol@4",
+      "start": 453472,
+      "end": 453497
+    },
+    {
+      "name": "@scheduler_call_float_arguments@4",
+      "start": 288464,
+      "end": 288489
+    }
+  ],
+  "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json",
+  "fixture_manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+  "completed_output": {
+    "name": "floating.obj",
+    "bytes": 979,
+    "sha256": "1af5c89fb142f31ce5b08c0ede5dcf97597d8e8bc052e64a7a0cf1b7484e3763",
+    "normalized_sha256": "b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e",
+    "ignored_timestamp": [
+      4,
+      4
+    ]
+  },
+  "measured_timings": "cases/floating-timing-validation.json",
+  "verification": [
+    "Original compiler and native i386 -O0 -g builds pass with -j4",
+    "982 whole source function graphs match; extent mask/coverage audit passes",
+    "Final original-only masked capture and native trace/streams/status/979-byte object match",
+    "Six native-only cached-reference cases exit0 with matching objects; only COFF timestamp bytes4..7 normalized",
+    "Changed trace, captured IR and non-clock output rejected; final extension rejects five corrupted evidence variants",
+    "Final original /W3 compile logs for scheduler, machine-layout, coff-writer contain no warnings"
+  ],
+  "limits": [
+    "Extent metric is not branch coverage. Unvisited child functions remain named traps. No exhaustive diagnostic/failure-path validation.",
+    "Final extend_previous_instruction executes its JMP/RET early return; widening/prefix child bodies remain traps.",
+    "The input-arrangement and exchange helpers remain unvisited/unaccepted, including slot8 behavior; see remaining-x87-exchange-analysis.json.",
+    "Integer formatter keeps the original six-site radix10/16 caller contract without a new guard; only decimal formatting executes in this case.",
+    "80-bit x87 register boundaries retain the separately documented narrow inline-assembly ABI bridges in extended.c.",
+    "Existing table/form/condition/register independent proofs cover contextual data, but the case does not execute every peephole pattern.",
+    "No full-object comparison failure occurred at the final completion checkpoint; all six object checks pass."
+  ],
+  "workflow": {
+    "gains": "Native named traps/GDB and cached regression runs avoid Wine in fixtures; final six-case wrapper0.443s, native execution sum recorded separately.",
+    "friction": "Whole x87 passes and contextual ISA relationships required manual analysis; original compiler startup and header rebuilds remain measurable overhead. Early combined build timings cannot be split retrospectively.",
+    "shared_shim_requests": []
+  },
+  "remaining_application_families": [
+    "x87 deep stack exchange/input arrangement and unvisited intrinsic combinations",
+    "i386/i486 scheduling and encoding variants",
+    "Protected/exception floating-motion paths",
+    "Debug/CodeView, option and diagnostic/error paths"
+  ],
+  "suggested_next_cases": [
+    {
+      "case": "Integer pressure/loops with /O1 /G3",
+      "targets": [
+        {
+          "name": "@i386_instruction_cost@4",
+          "start": "0x2d350",
+          "analysis_end": "0x2d620",
+          "approximate_bytes": 720
+        }
+      ],
+      "reason": "Older CPU and size-oriented instruction selection; distinct from completed Pentium /O2 cases."
+    },
+    {
+      "case": "Deep x87 live values, nested floating calls and two-argument intrinsics with /Oi /O2 /G5",
+      "targets": [
+        {
+          "name": "@arrange_scheduled_float_inputs@4",
+          "start": "0x466f0",
+          "analysis_end": "0x46a08",
+          "approximate_bytes": 792
+        },
+        {
+          "name": "@exchange_scheduled_float_stack@4",
+          "start": "0x46a10",
+          "analysis_end": "0x46ab2",
+          "approximate_bytes": 162
+        },
+        {
+          "name": "@arrange_scheduled_float_operands@4",
+          "start": "0x46ac0"
+        }
+      ],
+      "reason": "Enter remaining named input-arrangement/exchange traps; preserve the original slot8 typed aliases."
+    },
+    {
+      "case": "Floating stores/comparisons with /O2 /G4",
+      "targets": [
+        {
+          "name": "@rewrite_i486_float_pop@4",
+          "start": "0x38810",
+          "analysis_end": "0x38ade",
+          "approximate_bytes": 718
+        }
+      ],
+      "reason": "Exercise i486 floating-pop policy rather than the completed Pentium path."
+    }
+  ],
+  "authorization": "Suggestions only: approved queue is complete; do not begin another case without user direction.",
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

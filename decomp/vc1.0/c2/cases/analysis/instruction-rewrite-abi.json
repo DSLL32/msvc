@@ -1,0 +1,96 @@
+{
+  "target": "C23232.EXE",
+  "instruction_rewrite": {
+    "entry_va": "0x1dd80",
+    "end_va": "0x21490",
+    "signature": "MachineInstruction *__fastcall finish_machine_instruction(MachineInstruction *instruction, int mode)",
+    "reachable_instructions": 3956,
+    "direct_callees": 34,
+    "opcode_groups": 20,
+    "implementation": "handwritten typed C in instruction-rewrite.c; complete statement groups and shared rewrite paths"
+  },
+  "helper_abi": {
+    "argument_registers": "ECX and EDX for ordinary fastcall helpers; trailing arguments are callee cleaned",
+    "cleanup_validation": "reachable RET instructions audited for 22 helper bodies; their declared stack cleanup is 0, 4 or 8 bytes as appropriate",
+    "register_replacement_blocked": {
+      "entry_va": "0x21790",
+      "reads": "ECX pointer and one stack argument; EDX is not read",
+      "return": "EAX, RET 4",
+      "declaration": "int __fastcall register_replacement_blocked(MachineInstruction *user, unsigned unused_edx, unsigned reg)",
+      "reason": "an explicit unused EDX slot expresses the original ECX-plus-stack private convention in ordinary C; no assembly adapter is used"
+    },
+    "byte_register_available": {
+      "entry_va": "0x35840",
+      "input": "ECX low 16 bits",
+      "return": "complete EAX, not a partial AX return",
+      "behavior": "0..3 map to 1; 4..7 map to 0; larger register IDs remain nonzero"
+    }
+  },
+  "register_slots": {
+    "type": "MachineRegisterValue",
+    "bytes": 4,
+    "views": "whole unsigned DWORD or two WORDs (number and flags)",
+    "uses": "MachineOperand register payloads and the base/index slots of sixteen-byte MachineAddress"
+  },
+  "shared_options": {
+    "optimization_risc": {
+      "original_va": "0x80668",
+      "evidence": "-norisc option destination at 0x8098c"
+    },
+    "cpu_model": "existing variable at 0x806a4",
+    "optimize_speed": "existing variable at 0x806a8",
+    "tree_changed": "existing tree/machine rewrite flag at 0x83154",
+    "codeview_debug": {
+      "original_va": "0x8313c",
+      "evidence": "-Zi option destination; gates directives 0x10..0x12"
+    }
+  },
+  "directive_selection": {
+    "entry_va": "0x193a0",
+    "end_va": "0x194c0",
+    "table_entries": 31,
+    "scope_record_constructor": "0x1a620 appends kind 11 and stores two WORDs"
+  },
+  "limits": "Minimal-C reaches select_value_register after prologue selection and finishing. Most arithmetic, address-folding, alternate-convention, floating, CodeView and diagnostic branches are not dynamically exercised. Their unreached helper bodies remain typed trapping stubs. No complete object comparison has passed.",
+  "initial_register_masks": {
+    "initialize_registers_va": "0x26c50",
+    "selected_save_register_mask": {
+      "original_va": "0x7c950",
+      "value": "0xc8",
+      "meaning": "save EBX, ESI, EDI",
+      "identity": "the initializer and prologue/epilogue readers share one source variable in initialize.c"
+    },
+    "call_clobbered_register_mask": {
+      "original_va": "0x7caa4",
+      "value": 7,
+      "meaning": "EAX, ECX, EDX"
+    },
+    "correction": "the earlier provisional backend_limit name and duplicate selected mask were consolidated before this checkpoint replay"
+  },
+  "alignments": {
+    "default_segment_alignment": "native 0x806cc, confirmed by segment_defaults 0x6a160; shared with upcoming argument/temp allocation",
+    "stack_alignment": "native 0x806d0, set to 16 for 486+ code/section alignment"
+  },
+  "extended_constants": {
+    "extended_zero": "native 0x7bf9c, initialized from integer 0",
+    "extended_one": "native 0x7bf90, initialized from integer 1"
+  },
+  "machine_prefix_validation": {
+    "frontier": "select_value_register",
+    "linked_records": 15,
+    "comparison": "all record kinds, opcode/size/analysis flags, directive/control values, source markers, physical operands and linkage agree",
+    "normalization": "symbol/filename pointers compared by referenced strings; use links compared by record index; all encountered block register-set pointers are null in both images",
+    "selected_operations": [
+      "PUSH EBP",
+      "MOV EBP, ESP",
+      "SUB ESP, frame-size operand",
+      "PUSH EBX",
+      "PUSH ESI",
+      "PUSH EDI"
+    ],
+    "method": "independent original-toolchain debugger reads each stopped process with ReadProcessMemory; analysis sources and dumps kept in private scratch",
+    "limit": "verifies the selected prologue prefix at this frontier; no completed object or unexercised arithmetic rewrite claim"
+  },
+  "validation_summary": "clean original-toolchain GNU Make -j2 build, all 191 graph audits and 252 frontier replays pass after shared-mask correction; rewrite source also compiles cleanly with /W3",
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

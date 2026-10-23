@@ -1,0 +1,123 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@analyze_machine_instructions@8",
+      "start": "0x48040",
+      "end": "0x48070",
+      "instructions": 11
+    },
+    {
+      "name": "@build_machine_regions@4",
+      "start": "0x480e0",
+      "end": "0x483a0",
+      "instructions": 208
+    },
+    {
+      "name": "@new_machine_region@12",
+      "start": "0x483a0",
+      "end": "0x48400",
+      "instructions": 38
+    },
+    {
+      "name": "@machine_operand_label@4",
+      "start": "0x48590",
+      "end": "0x48600",
+      "instructions": 43
+    },
+    {
+      "name": "@process_machine_region_reference@12",
+      "start": "0x48440",
+      "end": "0x48590",
+      "instructions": 133
+    },
+    {
+      "name": "@add_machine_region_reference@12",
+      "start": "0x48600",
+      "end": "0x48630",
+      "instructions": 16
+    },
+    {
+      "name": "@count_region_label_references@8",
+      "start": "0x48400",
+      "end": "0x48440",
+      "instructions": 33
+    }
+  ],
+  "native_instructions": 482,
+  "accepted_extent_bytes": 1408,
+  "abis": [
+    "analyze_machine_instructions is fixed fastcall2, receiving stream and flags. It resets label-cleanup state, rebuilds regions and calls the distinct recursive analysis helper only for a root with children.",
+    "build_machine_regions and machine_operand_label are fixed fastcall1; the former returns void, the latter returns SymbolHeader*. Label lookup visits explicit operands in reverse order.",
+    "new_machine_region and process_machine_region_reference are fixed fastcall3, returning96-byte MachineFlowRegion*; add_machine_region_reference is fixed fastcall3 returning its8-byte allocation; all have RET4.",
+    "count_region_label_references is fixed fastcall2 returning a count. It consumes matching nodes from the first two pending chains without freeing arena-owned records; the third chain is unchanged."
+  ],
+  "data_provenance": [
+    {
+      "name": "MachineFlowRegion",
+      "bytes": 96,
+      "original_constructor": "0x483a0",
+      "ownership": "arena2",
+      "meaning": "parent/sibling/children, stream boundaries, entry/exit labels, three pending reference chains, block bounds, reference counters and flags; fields awaiting consumers retain offset names",
+      "identity_correction": "the prior optional MachineLabelAttachment prefix is this same region object; its label pointer is at0x14. The separate provisional prefix type was removed, with one forward-declared region identity in machine.h."
+    },
+    {
+      "name": "MachineRegionEdge",
+      "bytes": 8,
+      "original_constructor": "0x48600",
+      "ownership": "arena2",
+      "meaning": "typed next and SymbolHeader*label; three head pointers at region offsets1c/20/24, not a separate numeric field24"
+    },
+    {
+      "name": "machine_region_root",
+      "original_global": "0x830c4",
+      "meaning": "assigned when the kind2 function record opens the root; no PE BSS bytes used as initial data"
+    },
+    {
+      "name": "machine_analysis_needs_label_cleanup",
+      "original_global": "0x7c29c",
+      "meaning": "cleared on analysis entry; later transformations set it when references become zero and a caller may compact labels"
+    },
+    {
+      "name": "floating opcode property",
+      "original_extent": [
+        "0x82210",
+        "0x823de"
+      ],
+      "implementation": "readable FADD..FLD1 and FUCOM..FCOS predicates; all231 original bit0 values independently checked, with zero differences"
+    },
+    {
+      "name": "builder dispatch",
+      "original_extent": [
+        "0x48374",
+        "0x483a0"
+      ],
+      "implementation": "named record-kind switch;11 native jump-table entries are included in the accepted function extent"
+    }
+  ],
+  "limits": [
+    "Hello remains incomplete at simplify_machine_data0x358b0; no optimized object comparison is claimed.",
+    "Only first function has completed this construction. Its root has no children, so analyze_machine_regions remains a named trap; recursive/closed/special-reference transformations and child-list splicing are not dynamically claimed.",
+    "All parent decision trees are reconstructed, with named trapping callees for unvisited closures, special labels and child-region linking. Later functions in the assigned hello case may exercise them.",
+    "The96-byte record extent and constructor zeroing are recovered. Offset-named fields remain unresolved until their consumers are encountered.",
+    "Range-builder diagnostics retain typed fatal traps; failure branches and all floating opcode cases are not claimed to pass."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 563,
+    "accepted_code_bytes": 146671,
+    "original_code_bytes": 399693,
+    "percentage": 36.695914114082555,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 159
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

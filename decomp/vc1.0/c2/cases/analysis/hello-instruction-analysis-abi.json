@@ -1,0 +1,118 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@register_storage_bytes@4",
+      "start": "0x2e0e0",
+      "end": "0x2e0f0",
+      "instructions": 4
+    },
+    {
+      "name": "@lookup_register_variable@8",
+      "start": "0x2c870",
+      "end": "0x2c8c0",
+      "instructions": 23
+    },
+    {
+      "name": "@register_replacement_blocked@12",
+      "start": "0x21790",
+      "end": "0x217c0",
+      "instructions": 14
+    },
+    {
+      "name": "@instruction_modifies_operand@12",
+      "start": "0x23830",
+      "end": "0x239f0",
+      "instructions": 155
+    },
+    {
+      "name": "@operands_overlap_storage@16",
+      "start": "0x23a20",
+      "end": "0x23c70",
+      "instructions": 221
+    },
+    {
+      "name": "@eliminate_redundant_compare@8",
+      "start": "0x21cb0",
+      "end": "0x21fc0",
+      "instructions": 250
+    },
+    {
+      "name": "@instruction_operands_equal@16",
+      "start": "0x22d20",
+      "end": "0x22dd0",
+      "instructions": 62
+    }
+  ],
+  "native_instructions": 729,
+  "accepted_extent_bytes": 2144,
+  "abis": [
+    "register_storage_bytes returns the sign-extended byte at RegisterVariable offset 0x28. lookup_register_variable takes a required flag; missing required entries diagnose color.c:1.101 line 0x797, without allocation.",
+    "register_replacement_blocked has a private ABI: ECX instruction, unused EDX, one stack register argument and RET 4. A three-argument ordinary fastcall declaration preserves that layout.",
+    "operands_overlap_storage and instruction_operands_equal are fixed fastcall4 functions with RET 8; eliminate_redundant_compare is fastcall2 with plain RET."
+  ],
+  "data_provenance": [
+    {
+      "name": "implicit-register property",
+      "original_extent": [
+        "0x82210",
+        "0x823de"
+      ],
+      "implementation": "reuse contextual MC_IMPLICIT_REGISTERS property; all 231 rows independently checked against original bit 0x40 with zero differences"
+    },
+    {
+      "name": "zero-result flag compatibility",
+      "original_extent": [
+        "0x80330",
+        "0x80348"
+      ],
+      "implementation": "readable equality/signed-less/greater-equal condition rules replace bounded 8-byte transition table and 16-byte condition-class table"
+    },
+    {
+      "name": "condition_relation",
+      "original_extent": [
+        "0x80348",
+        "0x80358"
+      ],
+      "implementation": "contextual signed-char table in compare elimination, with named x86 conditions and documented strict/inclusive pairing"
+    },
+    {
+      "name": "operation dispatch",
+      "original_extent": [
+        "0x21f5c",
+        "0x21fb8"
+      ],
+      "implementation": "named opcode switch; 23 native jump-table entries belong to the accepted parent extent; next function starts at 0x21fc0"
+    },
+    {
+      "name": "register storage width",
+      "original_offset": "0x28",
+      "implementation": "signed char storage_bytes replaces provisional unsigned type field, retaining 52-byte RegisterVariable extent"
+    }
+  ],
+  "limits": [
+    "Hello remains incomplete at emit_call 0x195a0; no final hello object comparison is claimed.",
+    "Overlap interval helper memory_displacements_overlap 0x239f0 remains a named trap: the exercised overlap paths compare registers, not equal-base memory intervals.",
+    "Physical implicit-register masks remain a named trap. Conservative aliasing, private-home and all condition-rewrite branches have full source but are not claimed as branch coverage.",
+    "Missing register diagnostics and other failure callees remain typed traps; failure branches are not claimed to pass.",
+    "Independent capture at call selection reads completed work1, whose body is already a machine block; current work still owns expressions and is not misinterpreted."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 544,
+    "accepted_code_bytes": 142255,
+    "original_code_bytes": 399693,
+    "percentage": 35.59106614326495,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 159
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

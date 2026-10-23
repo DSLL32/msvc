@@ -1,0 +1,112 @@
+{
+  "checkpoint": 813,
+  "base_commit": "2242455",
+  "status": "active; WinMain global loop optimization passed; instruction selection next",
+  "accepted_functions": [
+    {
+      "name": "_simplify_region_exit",
+      "start": 385488,
+      "end": 385868
+    },
+    {
+      "name": "_finish_region_motion",
+      "start": 385472,
+      "end": 385473
+    },
+    {
+      "name": "_rebuild_region_header_references",
+      "start": 385392,
+      "end": 385470
+    },
+    {
+      "name": "_release_region_motion",
+      "start": 385200,
+      "end": 385389
+    }
+  ],
+  "source_graphs": 735,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 813,
+    "accepted_code_bytes": 220906,
+    "original_code_bytes": 399693,
+    "percentage": 55.268918895252106,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 285
+  },
+  "current_frontier": {
+    "name": "@select_intrinsic@4",
+    "original_va": "0x1b270"
+  },
+  "data_provenance": {
+    "LoopTreeRecord": {
+      "bytes": 20,
+      "allocator": "60820 arena2,14hex; optionally reused7bc20",
+      "fields": "next0,Node*field04,Node*field08,Node*field0c,Node*trip_count10",
+      "copy_sources": "60851..6087c; final tree clones region_trip_count",
+      "cleanup": "609f0 releases four trees; unrecovered roles retain offset names"
+    },
+    "reference_rebuild": "same six WorkItem.flow_sets and32 WorkReferenceTable buckets; originalREP MOVSD of live table represented by typed pointer loop, no captured snapshot",
+    "cleanup": "releases individual basic/loop descriptors through named children, owns three count trees, resets pending-work free list, clears existing expression cache and invariant bitset"
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Loop-removal simplifier rejects hello before mutation; control-only/dead-loop removal branches not claimed exercised.",
+    "The finish hook is literally one RET byte, retained as an empty distinct C function.",
+    "Preheader reference rebuild and ordinary region cleanup execute; new descriptor-release children remain unvisited named traps because descriptor lists empty.",
+    "Full hello object incomplete; reached WinMain instruction selection after global tree and loop optimization."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured",
+    "build_audit_fixtures": {
+      "region-complete-audit-timing": {
+        "seconds": 3.741218321956694,
+        "returncode": 0,
+        "log_sha256": "6dfae4d1da116fa87b1d1e2921f251500cf1ac965f304eb7e6b888182e61330b"
+      },
+      "rebuild-region-build-timing": {
+        "seconds": 2.210913883522153,
+        "returncode": 0,
+        "log_sha256": "51f15069cac430df2f7e9a9c7a3f2d7d8fc74b1f28ed0eacb1a5f69e70faf4f8"
+      },
+      "finish-region-build-timing": {
+        "seconds": 2.1230216519907117,
+        "returncode": 0,
+        "log_sha256": "231036daabbde2c321b095154eeb111ada5e70b31287bb924006b9df48a30a0e"
+      },
+      "release-region-build-timing": {
+        "seconds": 9.405942710116506,
+        "returncode": 0,
+        "log_sha256": "d731cf7d9a82a5c813c9fddc3fdf590762e57365a68ebc2b65fdd4112dc4beb7"
+      },
+      "simplify-exit-build-timing": {
+        "seconds": 2.558287475258112,
+        "returncode": 0,
+        "log_sha256": "5aeae14f2f3aa1efea942884605c5da7a6e296b20457cf5677d7887473732e8d"
+      },
+      "region-complete-warnings-timing": {
+        "seconds": 2.025631449185312,
+        "returncode": 0,
+        "log_sha256": "26210e158e45443537a7a406d16212e4223b41914cdbafe004d49a9a517d83ab"
+      },
+      "region-complete-check-timing": {
+        "seconds": 0.333024712279439,
+        "returncode": 0,
+        "log_sha256": "8ffae8e6f3fe16ea8169b8ddd7e1f8014adb7c9c2297b45cd8e2cff65a4b257c"
+      }
+    },
+    "notes": [
+      "Original capture/setup and native GDB elapsed phases retained in ordered evidence.",
+      "Header record refinement caused9.406s mixed native/canonical build; other incremental builds2.1\u20132.6s unsplit. Fixtures never invoke Wine."
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

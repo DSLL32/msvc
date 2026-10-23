@@ -1,0 +1,57 @@
+{
+  "checkpoint": 1058,
+  "base_commit": "8844992",
+  "status": "floating active",
+  "source_graphs": 979,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1058,
+    "accepted_code_bytes": 293482,
+    "original_code_bytes": 399693,
+    "percentage": 73.42685511129793,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 476
+  },
+  "frontier": "@scheduler_call_float_arguments@4",
+  "accepted_functions": [
+    {
+      "name": "@instruction_float_not_ready@4",
+      "start": 282512,
+      "end": 283359
+    },
+    {
+      "name": "@apply_scheduled_float@4",
+      "start": 284976,
+      "end": 286289
+    },
+    {
+      "name": "@scheduled_float_latency@4",
+      "start": 281968,
+      "end": 282356
+    },
+    {
+      "name": "@scheduled_float_needs_exchange@4",
+      "start": 284368,
+      "end": 284662
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Whole1313-byte issue updater plus847-byte readiness test preserve instruction graph and physical operand adjustment",
+    "Eight compiled ST operand rows independently match original64-byte view; no surrounding data copied",
+    "Latency estimator intentionally retains original history0 read inside history1 status eligibility branch",
+    "New input-arrangement/exchange children remain named traps; floating object incomplete"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

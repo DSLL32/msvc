@@ -1,7 +1,8 @@
-C2 MIGRATION PRIORITY at1074 verified acceptances/995 matching source graphs.
-Deep x87 frontier @available_chain_operands@8; no reconstruction until migration.
-Seven complete objects plus deep-x87 native named trap pass, canonical/W3 and
-full graph/extent/contextual-data checks pass.
-Migrate original builds/capture to shared prefix with fixed R:/S: mappings,
-regenerate required transport evidence and retire exact obsolete own prefix
-only after verifying no active users. Then resume deep x87 and i486 queue.
+C2 ACTIVE: shared-prefix migration validated at1074 acceptances/995 source graphs.
+Current deep-x87 frontier @available_chain_operands@8; resume reconstruction here.
+Extent union296783/399693 =74.252739%, not branch coverage.
+Seven complete objects plus the matching deep-x87 trap pass native checks.
+Nine original pipelines and eight first-entry references now use shared R:/S:.
+Old own prefix/server retired after nonuse verification; shared server untouched.
+Next approved case after deep x87: /O2 /G4 floating stores/comparisons.
+Pause after both remaining selected cases complete. No shim request.

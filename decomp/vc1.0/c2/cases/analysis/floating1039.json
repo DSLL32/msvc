@@ -1,0 +1,57 @@
+{
+  "checkpoint": 1039,
+  "base_commit": "4ce5dad",
+  "status": "floating active",
+  "source_graphs": 960,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1039,
+    "accepted_code_bytes": 286158,
+    "original_code_bytes": 399693,
+    "percentage": 71.5944487394075,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 459
+  },
+  "frontier": "@process_float_stream_call@4",
+  "accepted_functions": [
+    {
+      "name": "@finish_float_context_motion@4",
+      "start": 241344,
+      "end": 242398
+    },
+    {
+      "name": "@process_float_motion_branch@8",
+      "start": 242912,
+      "end": 242988
+    },
+    {
+      "name": "@label_in_float_context_chain@8",
+      "start": 242992,
+      "end": 243043
+    },
+    {
+      "name": "@remove_resident_float_use@4",
+      "start": 244640,
+      "end": 244720
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Whole1054-byte exit emitter includes single-expression exchange and duplicated target stores; current case reaches and drains selected uses",
+    "Original fixed-head unlink behavior retained at3bba0; not replaced with a corrected general list algorithm",
+    "Label ownership executes null-context guard; branch splitting and address-block use child functions remain named traps",
+    "Floating object incomplete; five completed exact objects pass"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

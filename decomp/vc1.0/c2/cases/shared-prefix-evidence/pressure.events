@@ -1,0 +1,9 @@
+entry @simple_constant_operation_sign@4 rva 00046e80 byte 83
+entry @expand_constant_multiply@4 rva 000118f0 byte 83
+entry @constant_multiply_budget@4 rva 000154a0 byte e8
+entry @choose_multiply_recipe@24 rva 00015000 byte 83
+entry @lookup_multiply_recipe@12 rva 000154c0 byte 56
+entry @emit_multiply_recipe@12 rva 00014cf0 byte 83
+entry @operand_value_depends_on_color@8 rva 00021510 byte 53
+entry @update_pentium_gap_history@12 rva 00037070 byte 3b
+exit 0

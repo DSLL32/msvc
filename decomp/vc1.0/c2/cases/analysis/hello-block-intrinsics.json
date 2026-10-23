@@ -1,0 +1,172 @@
+{
+  "checkpoint": 816,
+  "base_commit": "078fe1c",
+  "status": "active; aggregate-fill operand selection passed; block emission next",
+  "accepted_functions": [
+    {
+      "name": "@select_intrinsic@4",
+      "start": 111216,
+      "end": 113652
+    },
+    {
+      "name": "@select_intrinsic_block@12",
+      "start": 115872,
+      "end": 116342
+    },
+    {
+      "name": "@select_replicated_fill_operand@12",
+      "start": 120032,
+      "end": 120426
+    }
+  ],
+  "source_graphs": 738,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 816,
+    "accepted_code_bytes": 224206,
+    "original_code_bytes": 399693,
+    "percentage": 56.094552569096784,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 288
+  },
+  "current_frontier": {
+    "name": "@select_block_operation@36",
+    "original_va": "0x1d670"
+  },
+  "data_provenance": {
+    "dispatch": {
+      "entries": 95,
+      "representation": "ordinary semantic C switch; original dispatch words only restored in precise mask extent, not copied into source data"
+    },
+    "physical_operands": {
+      "80030": "MachineOperand operand_esi = register6",
+      "80038": "MachineOperand operand_edi = register7",
+      "placement": "beside shared original EAX/ECX/EDX/ESP physical operands; no relative-layout requirement"
+    },
+    "strings": "Confirmed original802a4 __tls_index,802b0 __tls_array,802bc __alloca_probe,802cc __setjmp; ordinary point-of-use literals",
+    "callee_ABI_refinement": "select_assembly_record existing stub/header changed void to unsigned short because original selector consumesAX; no newly accepted assembly selector",
+    "block_ABI": "select_block_operation fastcall9arguments,7 stack words,RET1c at1da86; newly introduced named trap",
+    "fill_ABI": "select_replicated_fill_operand fastcall3arguments,RET4; corrected lastRET4 immediate extent without changing body"
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Whole intrinsic selector covers all original dispatch cases and retains9 new named child stubs; most ID families unvisited. Unresolved delegated handler meanings retain serialized-ID names instead of unsupported guesses.",
+    "Hello reaches byte fill0xad with native count36/type101/fill1. Dynamic fill replication, aggregate push, ports, alloca,setjmp,TLS, floating cleanup not claimed exercised.",
+    "No bulk output emitted yet: current matching select_block_operation remains trapped. Full hello object incomplete.",
+    "Unchanged audit rejected splitRET operand in tentative replicated-fill extent. Corrected original mask was freshly captured and matched; old/corrected receipts retained, offline cache correction proves metadata-only end change. Tail still unvisited."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured; disassembly/Ghidra analysis only",
+    "build_audit_fixtures": {
+      "block-intrinsic-final-check-timing": {
+        "seconds": 0.31257821060717106,
+        "returncode": 0,
+        "log_sha256": "3c6c0f192560cf5d389e20cebbaa7bb3211da4e05c0d4d35bb7bedd5ad292823"
+      },
+      "intrinsic-selector-reviewed-build-timing": {
+        "seconds": 2.217217495664954,
+        "returncode": 0,
+        "log_sha256": "08e8804549aa435f2ee500b69ac0eaeffca7288d84a3d95c394b008bac58e3d2"
+      },
+      "intrinsic-selector-warnings-timing": {
+        "seconds": 0.9679010277613997,
+        "returncode": 0,
+        "log_sha256": "d32836918d0aaec863a34ea513b81201253e4844bad3600281812f31c8dd2061"
+      },
+      "intrinsic-selector-audit-timing": {
+        "seconds": 3.8773677134886384,
+        "returncode": 0,
+        "log_sha256": "df9a3afc7be20de871dd8e03255779b1fc0e53282e298550a0dddc553a0e6e85"
+      },
+      "replicated-fill-build-timing": {
+        "seconds": 2.0242973025888205,
+        "returncode": 0,
+        "log_sha256": "8542c51bf9a71ebab9ed8ca524043d66992ac82de890520efcd3d46e2a3bb6a3"
+      },
+      "block-intrinsic-corrected-check-timing": {
+        "seconds": 0.32288053166121244,
+        "returncode": 0,
+        "log_sha256": "7b041dccf5b3072493e485ceb66ab84e959ba539ec6647ad6289b90064c0648e"
+      },
+      "block-intrinsic-audit-timing": {
+        "seconds": 3.806024613790214,
+        "returncode": 2,
+        "log_sha256": "95311a50983c6083b298207e4741513c2b668396eda8a59de0d510c226a02eda"
+      },
+      "select-block-build-timing": {
+        "seconds": 9.88104446977377,
+        "returncode": 0,
+        "log_sha256": "6c505dbdf49e6b6872e6182c4b411efbe29e1989d326c10570d78a521f2e6998"
+      },
+      "intrinsic-selector-build-timing": {
+        "seconds": 19.76240731868893,
+        "returncode": 0,
+        "log_sha256": "713e21ae9c7792eac02bf801e6683d23e2ebf6a51a5979b479d687ce2be373d3"
+      },
+      "block-intrinsic-final-audit-timing": {
+        "seconds": 3.728862602263689,
+        "returncode": 0,
+        "log_sha256": "3944afc20d2c22cc754c20aa6a40c09e210076e3298e5e7ef4a482352800ee24"
+      },
+      "block-intrinsic-corrected-audit-timing": {
+        "seconds": 3.521164506673813,
+        "returncode": 0,
+        "log_sha256": "150c660844d91595091ff60d4b0aa419eac1c4f18d25327ba7b70b87db558d07"
+      },
+      "intrinsic-selector-check-timing": {
+        "seconds": 0.28498233761638403,
+        "returncode": 0,
+        "log_sha256": "e670945e8121db7a71411c3abe515d2e521c24cbbe850cd771c83b20e13878a7"
+      },
+      "block-intrinsic-corrected-warnings-timing": {
+        "seconds": 0.9231789130717516,
+        "returncode": 0,
+        "log_sha256": "d32836918d0aaec863a34ea513b81201253e4844bad3600281812f31c8dd2061"
+      },
+      "block-intrinsic-comment-build-timing": {
+        "seconds": 2.784730081446469,
+        "returncode": 0,
+        "log_sha256": "08e8804549aa435f2ee500b69ac0eaeffca7288d84a3d95c394b008bac58e3d2"
+      }
+    },
+    "notes": [
+      "All measured attempts included, including preflight failure and corrected checks.",
+      "Native/canonical combined build19.762s for new module/shared header;9.881s for added helper declarations; incremental2.0\u20132.8s, unsplit.",
+      "Fresh original corrected-mask and native GDB timings retained in extent correction. Native fixture timing phases remain separate; no Wine in fixtures."
+    ]
+  },
+  "extent_correction": {
+    "function": "@select_replicated_fill_operand@12",
+    "old_extent": [
+      "0x1d4e0",
+      "0x1d668"
+    ],
+    "corrected_extent": [
+      "0x1d4e0",
+      "0x1d66a"
+    ],
+    "reason": "Unchanged instruction-boundary preflight rejected end inside final RET4 at1d667; restore its two immediate bytes.",
+    "dynamic_limit": "Constant-fill hello path returns earlier1d544; corrected dynamic tail remains unvisited.",
+    "before": {
+      "sha256": "2de4724128b39fff45ff367465a21a0089cb179710213a6123cbb14caafba79c"
+    },
+    "after": {
+      "sha256": "3287985db45d4c268a1f12e10b193a85d90cb66df3484323cfb0f1566463e0c3"
+    },
+    "native_matching": {
+      "seconds": 0.14929097704589367,
+      "logical": "@select_block_operation@36",
+      "matched": true,
+      "log_sha256": "02aed9d358c91a67acdd41937515fdffe43d39deff53ac0bf073a75a973bbfff"
+    }
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

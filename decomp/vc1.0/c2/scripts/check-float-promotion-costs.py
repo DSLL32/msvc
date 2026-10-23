@@ -1,4 +1,5 @@
 """Compare compiled contextual promotion columns to their original bounded views."""
+from case_paths import C2_SCRATCH
 from pathlib import Path
 import hashlib
 import json
@@ -14,7 +15,7 @@ source = Path('src/float-machine.c').read_text()
 startup = re.search(r'static const int float_context_startup_cost\[6\] = .*?;',source).group()
 columns = source[source.index('typedef struct FloatPromotionCosts {'):source.index('/* Original [0003c9a0,')]
 p = PE('../../../toolchains/1.0-nt/bin/C23232.EXE')
-with tempfile.TemporaryDirectory(prefix='float-costs-',dir=Path.home()/'.ai-tmp/vc1.0-c2') as d:
+with tempfile.TemporaryDirectory(prefix='float-costs-',dir=C2_SCRATCH) as d:
     d = Path(d)
     probe = d/'probe.c'
     probe.write_text('extern int write(int,const void*,unsigned);\n'+startup+'\n'+columns+'''

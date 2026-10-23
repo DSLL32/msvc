@@ -1,0 +1,183 @@
+{
+  "checkpoint": 802,
+  "base_commit": "8fb7aa4",
+  "status": "active; affine use scan returned; induction combination next",
+  "accepted_functions": [
+    {
+      "name": "@integer_node@8",
+      "start": 361520,
+      "end": 361535
+    },
+    {
+      "name": "_prepare_region_exit_motion",
+      "start": 387760,
+      "end": 389220
+    },
+    {
+      "name": "_collect_derived_region_inductions",
+      "start": 386960,
+      "end": 387758
+    },
+    {
+      "name": "@collect_derived_induction_tree@8",
+      "start": 394576,
+      "end": 395220
+    },
+    {
+      "name": "@find_basic_induction@4",
+      "start": 392816,
+      "end": 392869
+    }
+  ],
+  "source_graphs": 724,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 802,
+    "accepted_code_bytes": 218544,
+    "original_code_bytes": 399693,
+    "percentage": 54.67796533839722,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 274
+  },
+  "current_frontier": {
+    "name": "_combine_region_inductions",
+    "original_va": "0x5e680"
+  },
+  "data_provenance": {
+    "loop_exit_state": {
+      "7be78": "Expression *region_entry_test",
+      "7be7c": "Node *region_exit_branch",
+      "7be80": "Node *region_induction_counter",
+      "7be84": "Node *multiple_exit_trip_count",
+      "7be88": "Node *region_trip_count",
+      "provenance": "prepare5eab0; independent tree release uses5e0fc..5e13d; counter load use60f1a..60f27; no section snapshots"
+    },
+    "BasicInduction": {
+      "bytes": 36,
+      "allocator": "5fc70 alloc4,24hex",
+      "fields": "next0,assignment4,step8,dominates_regionc,total_uses10,derived_uses14,right18,left1c,parent20",
+      "counts": "60550 increments10 at60790 and14 at607c2"
+    },
+    "DerivedInduction": {
+      "bytes": 36,
+      "allocator": "5fd60 alloc4,24hex",
+      "fields": "next0,tree4,parent8,factorc,basic10,negative14,uses18,blocked1c,references20",
+      "layout_refinement": "initial32-byte prefix expanded to full36 after allocator analysis, before final audit; allocator still trapped/unvisited"
+    },
+    "DerivedInductionUse": {
+      "bytes": 16,
+      "allocator": "5fdab",
+      "fields": "next0,tree4,expression8,workc"
+    },
+    "DerivedInductionGroup": {
+      "bytes": 16,
+      "allocator": "5e99b",
+      "fields": "next0,candidates4,representative8,blockedc"
+    },
+    "DerivedInductionRewrite": {
+      "fields": "next0,Node*field04,Node*field08",
+      "provenance": "cleanup5ea90..5ea9b; names intentionally retain unknown meaning"
+    },
+    "globals": {
+      "7bc18": "DerivedInduction* list",
+      "7bc14": "DerivedInductionGroup* list",
+      "7bb90": "DerivedInductionRewrite* list",
+      "7bc1c": "int derived_motion_blocked",
+      "806b0": "int relaxed_induction_motion: default-zero policy; read in5e6d2/5e7b6/60708"
+    },
+    "format_literals": {
+      "80d20": "PNt",
+      "8343c": "PPNY",
+      "8381c": "PPNYDNtNY",
+      "83830": "DDNY",
+      "83838": "PDNY",
+      "storage": "ordinary point-of-use literals; no identity requirements"
+    }
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Whole1460-byte exit preparation recovered, but hello returns before trip-count arithmetic; conversion/overflow/dead-loop removal bodies not claimed executed. Six named helpers remain trapped.",
+    "Whole798-byte derived collector and644-byte affine walker recovered. Current loop scans and returns with no basic induction records, so grouping/rewrite transformations remain unvisited.",
+    "Helpers retain fixed fastcall ABIs; new derived constructor6args RET16 remains trapped. Original-style C and original compiler/W3 preserved.",
+    "Full hello object remains incomplete."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured; Ghidra/disassembly used only for analysis",
+    "build_audit_fixtures": {
+      "find-induction-build-timing": {
+        "seconds": 2.098245110362768,
+        "returncode": 0,
+        "log_sha256": "231036daabbde2c321b095154eeb111ada5e70b31287bb924006b9df48a30a0e"
+      },
+      "integer-leaf-build-timing": {
+        "seconds": 2.0753408037126064,
+        "returncode": 0,
+        "log_sha256": "14c0fd7cf5216237f2294da14fed21c0c6923ac249df0f4bdba702f94f729c05"
+      },
+      "prepare-exit-audit-timing": {
+        "seconds": 3.6134283086284995,
+        "returncode": 0,
+        "log_sha256": "c00a3b0194eed923c95f01741ec57e6e576b32d3091f17296333ebca6ac1e741"
+      },
+      "affine-collection-warnings-timing": {
+        "seconds": 1.0079092076048255,
+        "returncode": 0,
+        "log_sha256": "6e1d0b73888149817089cbf24430f04fdc3168d83576dcf4920c71008a35cc0f"
+      },
+      "affine-collection-audit-timing": {
+        "seconds": 3.6734545109793544,
+        "returncode": 0,
+        "log_sha256": "ce8b9a7e6eef2bb902c22eb1914a2fd37ed32d96cff6cf6ad8e9b24bad486041"
+      },
+      "prepare-exit-warnings-timing": {
+        "seconds": 1.5552529050037265,
+        "returncode": 0,
+        "log_sha256": "26210e158e45443537a7a406d16212e4223b41914cdbafe004d49a9a517d83ab"
+      },
+      "prepare-exit-reviewed-build-timing": {
+        "seconds": 2.4627102445811033,
+        "returncode": 0,
+        "log_sha256": "8e505d72b38e4722b7a9f211fd5eedfb40b0f2bdc18a79d654e26fbbef195047"
+      },
+      "prepare-exit-check-timing": {
+        "seconds": 0.32298984099179506,
+        "returncode": 0,
+        "log_sha256": "89c5d332aaff5f074e84f68eff9a777fcb936220d7f4239c6d186e648d3be3fa"
+      },
+      "derived-collector-build-timing": {
+        "seconds": 10.442939758300781,
+        "returncode": 0,
+        "log_sha256": "f75c95258459a41b8fa8b904a64f3200b3dde65e11a81328d676d60bdc2a75cf"
+      },
+      "prepare-exit-build-timing": {
+        "seconds": 10.231272879987955,
+        "returncode": 0,
+        "log_sha256": "42b27c88433d8f167851c10575dcaa1b5b6bd1e5d32bbc76accaab55f3e62d4e"
+      },
+      "derived-tree-build-timing": {
+        "seconds": 10.533945246599615,
+        "returncode": 0,
+        "log_sha256": "3437c12589133be5aa9e9c136ff2aff5c50a42b5a01306721c02cc951c6242cd"
+      },
+      "affine-collection-check-timing": {
+        "seconds": 0.3250270187854767,
+        "returncode": 0,
+        "log_sha256": "c79ef3c3455c871b1c9b65011dce53fb65c07f3f0cf3581e7831c10fea2513e3"
+      }
+    },
+    "notes": [
+      "Header refinements caused10.2\u201310.5s native/canonical combined builds; incremental builds2.1\u20132.5s, unsplit.",
+      "Trip-count postfix operand order corrected during review before matching capture; reviewed rebuild recorded separately.",
+      "All original capture/setup and native GDB timings retained in ordered evidence; fixtures never invoke Wine."
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

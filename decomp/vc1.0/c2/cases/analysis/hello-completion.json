@@ -1,0 +1,141 @@
+{
+  "checkpoint": 840,
+  "status": "hello complete; optimizer stress queue active",
+  "source_graphs": 762,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 840,
+    "accepted_code_bytes": 230747,
+    "original_code_bytes": 399693,
+    "percentage": 57.73105858746588,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 307
+  },
+  "accepted_function": {
+    "name": "@coff_write_relocations@8",
+    "start": 454928,
+    "end": 455047
+  },
+  "native_validation": {
+    "method": "native application entry and captured-output check",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.012672455981373787,
+        "execution_seconds": 0.0064248330891132355,
+        "check_seconds": 0.0014960160478949547
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01023529376834631,
+        "execution_seconds": 0.010680225677788258,
+        "check_seconds": 0.0016553383320569992
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.20025437604635954,
+    "suite_setup_seconds": 0.12791700195521116,
+    "negative_check_seconds": 0.02085777185857296,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "completion_extension_validation": {
+    "positive": "same completed cache reproduced",
+    "rejected": [
+      "nonzero terminal",
+      "extra terminal event",
+      "corrupt completed object",
+      "wrong normalized digest"
+    ],
+    "seconds": 0.21991034969687462
+  },
+  "correction": {
+    "function": "finalize_machine_context23ee0",
+    "original_extent": "2427c..24288",
+    "original_instructions": "AND EBX,0xffff30ff; OR EBX,0x3000; MOV [ESI],EBX",
+    "meaning": "CMP register,0 becomes OR register,register opcode0x30; previous reconstruction incorrectly chose TEST0x33",
+    "failed_comparison": [
+      {
+        "offset": 747
+      },
+      {
+        "offset": 815
+      },
+      {
+        "offset": 865
+      }
+    ],
+    "failed_artifact": "cases/hello-completion-before-fix.obj",
+    "failed_artifact_sha256": "800159632a928d4a32f6d8c52817306cec94b51b4ad59a0234574aa702af085e",
+    "other_differences": "Only established COFF timestamp bytes4..7 are normalized",
+    "note": "Both status and entry transcript passed before correction; full final artifact oracle caught these three instruction bytes."
+  },
+  "limits": [
+    "Relocation write-error callback branch preserved but not exercised.",
+    "Only assigned minimal and /O2 /G5 hello cases complete; remaining application traps require approved stress cases."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured; initial original capture terminal was exit0 and old trap-only capture assertion rejected it; initial failing native output comparison saved, elapsed unsplit/unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

@@ -1,0 +1,29 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@factor_machine_branch_code@4",
+      "start": "0x34520",
+      "end": "0x34910"
+    },
+    {
+      "name": "@remove_unreachable_machine_code@4",
+      "start": "0x34910",
+      "end": "0x349e0"
+    },
+    {
+      "name": "@simplify_machine_pairs@4",
+      "start": "0x349e0",
+      "end": "0x34d00"
+    }
+  ],
+  "ABI": "All three functions are fastcall void(MachineContext*), using ECX only; native graph remains complete.",
+  "data": "No new global data or tables; existing canonical current_symbol.frame field30 and dynamic_stack_allocation83188 are reused for LEAVE restoration decisions. New ordinary operands are typed MachineOperand locals initialized by the native helper.",
+  "graph": "Full321-instruction common-code factoring retains11 native children;74-instruction unreachable cleanup retains3;227-instruction final pair peepholes retain7. Inline label-chain updates remain inline where the original has no helper call.",
+  "limits": [
+    "Only the first function has completed the three late passes; optimized hello remains incomplete.",
+    "Fresh-label factoring and LEAVE expansion retain named trapping label/insertion callees and are not claimed exercised; failure branches are not claimed validated.",
+    "The exact combined post-pass stream is observed; individual transformed-branch counts are not inferred from its record-count difference."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

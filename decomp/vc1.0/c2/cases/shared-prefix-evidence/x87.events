@@ -1,0 +1,5 @@
+entry @prepare_generated_intrinsic@8 rva 00053cf0 byte 83
+entry @release_intrinsic_operands@4 rva 00053870 byte 56
+entry @intrinsic_operator@4 rva 00053840 byte 56
+exception 80000003 rva 0004c900 base 00010000 first 1
+exit 99

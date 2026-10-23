@@ -1,0 +1,57 @@
+{
+  "checkpoint": 1035,
+  "base_commit": "0bd2d67",
+  "status": "floating active",
+  "source_graphs": 956,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1035,
+    "accepted_code_bytes": 284897,
+    "original_code_bytes": 399693,
+    "percentage": 71.27895659918988,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 455
+  },
+  "frontier": "@process_float_motion_branch@8",
+  "accepted_functions": [
+    {
+      "name": "@initialize_float_context_uses@4",
+      "start": 243056,
+      "end": 243456
+    },
+    {
+      "name": "@rewrite_float_motion_operation@4",
+      "start": 242400,
+      "end": 242897
+    },
+    {
+      "name": "_release_float_motion_scratch",
+      "start": 238336,
+      "end": 238372
+    },
+    {
+      "name": "@find_resident_float_use@4",
+      "start": 244592,
+      "end": 244634
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Context transformation body now executes after two profitable selections; previous empty-use guard limitation no longer describes this range",
+    "Whole initializer/resident lookup/operation rewrite preserve graph and original diagnoses",
+    "Integer-memory opcode conversion remains named trap because current operand rewrite has not entered it",
+    "Floating object incomplete; five completed exact objects pass"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "d94c6c1edc5aef1610118fb49f7be6f45512a0dca9a59711519bae27d5a0d36b",
-  "config_sha256": "dc0940975ea133eebd8a249a2c8adf6d0241a460bcb8de93d7ad3c2d86df7100",
-  "seconds": 0.13717573322355747,
-  "logical": "@release_node_children@4",
-  "matched": true,
-  "log_sha256": "f41c1253c09c7582cb41bfbbb2177d7a5cafd265a506e2759f6bc266f91cc621",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-m7kcrpty"
-}

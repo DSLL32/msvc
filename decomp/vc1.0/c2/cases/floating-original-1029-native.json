@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "f4aa003cf5614c3ffd1835976cae132d6d7fe69f84b51163e766015164b9f442",
-  "config_sha256": "1a6153c24295ab1c418a970d531eea171f76f43e890b83cf191de9f42aa5f063",
-  "seconds": 0.13304772041738033,
-  "logical": "@float_use_promotion_cost@4",
-  "matched": true,
-  "log_sha256": "ad5bf8002498242f17865fd0c75cb4da0052853a392f6f09c041cdbe0575f8ae",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-obhrefm2"
-}

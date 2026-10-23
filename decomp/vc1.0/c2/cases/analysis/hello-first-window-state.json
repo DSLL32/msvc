@@ -1,0 +1,1275 @@
+{
+  "records": [
+    {
+      "index": 0,
+      "opcode": 7,
+      "next": 1
+    },
+    {
+      "index": 1,
+      "opcode": 5,
+      "next": 2,
+      "previous": 0
+    },
+    {
+      "index": 2,
+      "opcode": 4,
+      "next": 3,
+      "previous": 1
+    },
+    {
+      "index": 3,
+      "opcode": 2,
+      "next": 4,
+      "previous": 2
+    },
+    {
+      "index": 4,
+      "opcode": 4,
+      "next": 5,
+      "previous": 3
+    },
+    {
+      "index": 5,
+      "opcode": 8401472,
+      "next": 6,
+      "previous": 4,
+      "operation": "SUB",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 4
+        },
+        {
+          "flags": 2,
+          "value": 80
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "opcode": 8392000,
+      "next": 7,
+      "previous": 5,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "opcode": 8392000,
+      "next": 8,
+      "previous": 6,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "opcode": 11,
+      "next": 9,
+      "previous": 7
+    },
+    {
+      "index": 9,
+      "opcode": 7,
+      "next": 10,
+      "previous": 8
+    },
+    {
+      "index": 10,
+      "opcode": 4,
+      "next": 11,
+      "previous": 9
+    },
+    {
+      "index": 11,
+      "opcode": 262464,
+      "next": 12,
+      "previous": 10,
+      "operation": "MOV",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 1
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 84,
+            "symbol": {
+              "kind": 1,
+              "name": "_message",
+              "identifier": 9266,
+              "value": 4
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ],
+      "scheduling": {
+        "uses": 16,
+        "defines": 2,
+        "float_fields": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "memory": {
+          "next_present": false,
+          "instruction": 11,
+          "displacement": 0,
+          "operand": [
+            11,
+            1
+          ],
+          "base_register": 4,
+          "index_register": -1,
+          "width": 4,
+          "flags": 0
+        },
+        "ordinal": 0,
+        "priority": 0,
+        "flags": 6657
+      }
+    },
+    {
+      "index": 12,
+      "opcode": 12096,
+      "next": 13,
+      "previous": 11,
+      "operation": "CMP",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 1
+        },
+        {
+          "flags": 2,
+          "value": 2
+        }
+      ],
+      "scheduling": {
+        "uses": 2,
+        "defines": 0,
+        "float_fields": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ordinal": 1,
+        "priority": -1,
+        "flags": 2565
+      }
+    },
+    {
+      "index": 13,
+      "opcode": 8392512,
+      "next": 14,
+      "previous": 12,
+      "operation": "JCC",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 3,
+            "name": "",
+            "identifier": 9280,
+            "value": 0
+          }
+        }
+      ],
+      "scheduling": {
+        "uses": 0,
+        "defines": 0,
+        "float_fields": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ordinal": 2,
+        "priority": -2,
+        "flags": 2050
+      }
+    },
+    {
+      "index": 14,
+      "opcode": 12096,
+      "next": 15,
+      "previous": 13,
+      "operation": "CMP",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 1
+        },
+        {
+          "flags": 2,
+          "value": 15
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "opcode": 3904,
+      "next": 16,
+      "previous": 14,
+      "operation": "JCC",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 3,
+            "name": "",
+            "identifier": 9278,
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "opcode": 4,
+      "next": 17,
+      "previous": 15
+    },
+    {
+      "index": 17,
+      "opcode": 7,
+      "next": 18,
+      "previous": 16
+    },
+    {
+      "index": 18,
+      "opcode": 4,
+      "next": 19,
+      "previous": 17
+    },
+    {
+      "index": 19,
+      "opcode": 4,
+      "next": 20,
+      "previous": 18
+    },
+    {
+      "index": 20,
+      "opcode": 393536,
+      "next": 21,
+      "previous": 19,
+      "operation": "MOV",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 0
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 84,
+            "symbol": {
+              "kind": 1,
+              "name": "_lparam",
+              "identifier": 9268,
+              "value": 4
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "opcode": 68928,
+      "next": 22,
+      "previous": 20,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "opcode": 393536,
+      "next": 23,
+      "previous": 21,
+      "operation": "MOV",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 2
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 88,
+            "symbol": {
+              "kind": 1,
+              "name": "_wparam",
+              "identifier": 9267,
+              "value": 4
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "opcode": 3392,
+      "next": 24,
+      "previous": 22,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "opcode": 68928,
+      "next": 25,
+      "previous": 23,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "opcode": 393536,
+      "next": 26,
+      "previous": 24,
+      "operation": "MOV",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 6
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 96,
+            "symbol": {
+              "kind": 1,
+              "name": "_window",
+              "identifier": 9265,
+              "value": 4
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "opcode": 3392,
+      "next": 27,
+      "previous": 25,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "opcode": 69184,
+      "next": 28,
+      "previous": 26,
+      "operation": "CALL",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 4,
+            "name": "_DefWindowProcA@16",
+            "identifier": 3940,
+            "value": 0
+          }
+        }
+      ],
+      "call_info": [
+        16,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 28,
+      "opcode": 3136,
+      "next": 29,
+      "previous": 27,
+      "operation": "POP",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "opcode": 3136,
+      "next": 30,
+      "previous": 28,
+      "operation": "POP",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "opcode": 11584,
+      "next": 31,
+      "previous": 29,
+      "operation": "ADD",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 4
+        },
+        {
+          "flags": 2,
+          "value": 80
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "opcode": 2112,
+      "next": 32,
+      "previous": 30,
+      "operation": "RET",
+      "operands": [
+        {
+          "flags": 2,
+          "value": 16
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "opcode": 7,
+      "next": 33,
+      "previous": 31
+    },
+    {
+      "index": 33,
+      "opcode": 4,
+      "next": 34,
+      "previous": 32
+    },
+    {
+      "index": 34,
+      "opcode": 1,
+      "next": 35,
+      "previous": 33
+    },
+    {
+      "index": 35,
+      "opcode": 4,
+      "next": 36,
+      "previous": 34
+    },
+    {
+      "index": 36,
+      "opcode": 3392,
+      "next": 37,
+      "previous": 35,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 2,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "opcode": 69184,
+      "next": 38,
+      "previous": 36,
+      "operation": "CALL",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 4,
+            "name": "_PostQuitMessage@4",
+            "identifier": 3947,
+            "value": 0
+          }
+        }
+      ],
+      "call_info": [
+        4,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 38,
+      "opcode": 4,
+      "next": 39,
+      "previous": 37
+    },
+    {
+      "index": 39,
+      "opcode": 275008,
+      "next": 40,
+      "previous": 38,
+      "operation": "SUB",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 0
+        },
+        {
+          "flags": 1,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "opcode": 3136,
+      "next": 41,
+      "previous": 39,
+      "operation": "POP",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "opcode": 3136,
+      "next": 42,
+      "previous": 40,
+      "operation": "POP",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "opcode": 11584,
+      "next": 43,
+      "previous": 41,
+      "operation": "ADD",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 4
+        },
+        {
+          "flags": 2,
+          "value": 80
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "opcode": 2112,
+      "next": 44,
+      "previous": 42,
+      "operation": "RET",
+      "operands": [
+        {
+          "flags": 2,
+          "value": 16
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "opcode": 7,
+      "next": 45,
+      "previous": 43
+    },
+    {
+      "index": 45,
+      "opcode": 4,
+      "next": 46,
+      "previous": 44
+    },
+    {
+      "index": 46,
+      "opcode": 1,
+      "next": 47,
+      "previous": 45
+    },
+    {
+      "index": 47,
+      "opcode": 4,
+      "next": 48,
+      "previous": 46
+    },
+    {
+      "index": 48,
+      "opcode": 397888,
+      "next": 49,
+      "previous": 47,
+      "operation": "LEA",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 0
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 88,
+            "symbol": {
+              "kind": 1,
+              "name": "_paint",
+              "identifier": 9271,
+              "value": 64
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 49,
+      "opcode": 68928,
+      "next": 50,
+      "previous": 48,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 50,
+      "opcode": 262464,
+      "next": 51,
+      "previous": 49,
+      "operation": "MOV",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 6
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 88,
+            "symbol": {
+              "kind": 1,
+              "name": "_window",
+              "identifier": 9265,
+              "value": 4
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "opcode": 68928,
+      "next": 52,
+      "previous": 50,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 52,
+      "opcode": 200256,
+      "next": 53,
+      "previous": 51,
+      "operation": "CALL",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 4,
+            "name": "_BeginPaint@8",
+            "identifier": 4666,
+            "value": 0
+          }
+        }
+      ],
+      "call_info": [
+        8,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 53,
+      "opcode": 262464,
+      "next": 54,
+      "previous": 52,
+      "operation": "MOV",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 7
+        },
+        {
+          "flags": 1025,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 54,
+      "opcode": 4,
+      "next": 55,
+      "previous": 53
+    },
+    {
+      "index": 55,
+      "opcode": 397888,
+      "next": 56,
+      "previous": 54,
+      "operation": "LEA",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 0
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 88,
+            "symbol": {
+              "kind": 1,
+              "name": "_client",
+              "identifier": 9272,
+              "value": 16
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 56,
+      "opcode": 3392,
+      "next": 57,
+      "previous": 55,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 57,
+      "opcode": 3392,
+      "next": 58,
+      "previous": 56,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 58,
+      "opcode": 69184,
+      "next": 59,
+      "previous": 57,
+      "operation": "CALL",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 4,
+            "name": "_GetClientRect@8",
+            "identifier": 4806,
+            "value": 0
+          }
+        }
+      ],
+      "call_info": [
+        8,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 59,
+      "opcode": 4,
+      "next": 60,
+      "previous": 58
+    },
+    {
+      "index": 60,
+      "opcode": 3392,
+      "next": 61,
+      "previous": 59,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 2,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "index": 61,
+      "opcode": 3392,
+      "next": 62,
+      "previous": 60,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "index": 62,
+      "opcode": 69184,
+      "next": 63,
+      "previous": 61,
+      "operation": "CALL",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 4,
+            "name": "_SetBkMode@8",
+            "identifier": 3258,
+            "value": 0
+          }
+        }
+      ],
+      "call_info": [
+        8,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 63,
+      "opcode": 4,
+      "next": 64,
+      "previous": 62
+    },
+    {
+      "index": 64,
+      "opcode": 68928,
+      "next": 65,
+      "previous": 63,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 2,
+          "value": 37
+        }
+      ]
+    },
+    {
+      "index": 65,
+      "opcode": 397888,
+      "next": 66,
+      "previous": 64,
+      "operation": "LEA",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 0
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 92,
+            "symbol": {
+              "kind": 1,
+              "name": "_client",
+              "identifier": 9272,
+              "value": 16
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 66,
+      "opcode": 3392,
+      "next": 67,
+      "previous": 65,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 67,
+      "opcode": 3392,
+      "next": 68,
+      "previous": 66,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 2,
+          "value": 4294967295
+        }
+      ]
+    },
+    {
+      "index": 68,
+      "opcode": 3392,
+      "next": 69,
+      "previous": 67,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 6,
+          "address": {
+            "displacement": 0,
+            "symbol": {
+              "kind": 1,
+              "name": "??_C@_0O@JJII@Hello?0?5world?$CB?$AA@",
+              "identifier": 9279,
+              "value": 14
+            },
+            "base": 0,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 69,
+      "opcode": 68928,
+      "next": 70,
+      "previous": 68,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "index": 70,
+      "opcode": 69184,
+      "next": 71,
+      "previous": 69,
+      "operation": "CALL",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 4,
+            "name": "_DrawTextA@20",
+            "identifier": 4587,
+            "value": 0
+          }
+        }
+      ],
+      "call_info": [
+        20,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 71,
+      "opcode": 4,
+      "next": 72,
+      "previous": 70
+    },
+    {
+      "index": 72,
+      "opcode": 397888,
+      "next": 73,
+      "previous": 71,
+      "operation": "LEA",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 0
+        },
+        {
+          "flags": 4,
+          "address": {
+            "displacement": 88,
+            "symbol": {
+              "kind": 1,
+              "name": "_paint",
+              "identifier": 9271,
+              "value": 64
+            },
+            "base": 4,
+            "index": 0
+          }
+        }
+      ]
+    },
+    {
+      "index": 73,
+      "opcode": 3392,
+      "next": 74,
+      "previous": 72,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 74,
+      "opcode": 3392,
+      "next": 75,
+      "previous": 73,
+      "operation": "PUSH",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 75,
+      "opcode": 69184,
+      "next": 76,
+      "previous": 74,
+      "operation": "CALL",
+      "operands": [
+        {
+          "flags": 8,
+          "symbol": {
+            "kind": 4,
+            "name": "_EndPaint@8",
+            "identifier": 4669,
+            "value": 0
+          }
+        }
+      ],
+      "call_info": [
+        8,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 76,
+      "opcode": 4,
+      "next": 77,
+      "previous": 75
+    },
+    {
+      "index": 77,
+      "opcode": 275008,
+      "next": 78,
+      "previous": 76,
+      "operation": "SUB",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 0
+        },
+        {
+          "flags": 1,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "index": 78,
+      "opcode": 7,
+      "next": 79,
+      "previous": 77
+    },
+    {
+      "index": 79,
+      "opcode": 4,
+      "next": 80,
+      "previous": 78
+    },
+    {
+      "index": 80,
+      "opcode": 3136,
+      "next": 81,
+      "previous": 79,
+      "operation": "POP",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 7
+        }
+      ]
+    },
+    {
+      "index": 81,
+      "opcode": 3136,
+      "next": 82,
+      "previous": 80,
+      "operation": "POP",
+      "operands": [
+        {
+          "flags": 1025,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "index": 82,
+      "opcode": 11584,
+      "next": 83,
+      "previous": 81,
+      "operation": "ADD",
+      "operands": [
+        {
+          "flags": 1,
+          "value": 4
+        },
+        {
+          "flags": 2,
+          "value": 80
+        }
+      ]
+    },
+    {
+      "index": 83,
+      "opcode": 2112,
+      "next": 84,
+      "previous": 82,
+      "operation": "RET",
+      "operands": [
+        {
+          "flags": 2,
+          "value": 16
+        }
+      ]
+    },
+    {
+      "index": 84,
+      "opcode": 7,
+      "next": 85,
+      "previous": 83
+    },
+    {
+      "index": 85,
+      "opcode": 3,
+      "next": 86,
+      "previous": 84
+    },
+    {
+      "index": 86,
+      "opcode": 7,
+      "previous": 85
+    }
+  ],
+  "history": [
+    [
+      13
+    ],
+    [
+      12
+    ],
+    [
+      11
+    ]
+  ],
+  "selected": [
+    {
+      "undo": []
+    },
+    {
+      "undo": []
+    }
+  ],
+  "registers": [
+    {
+      "definition": 11,
+      "recoverable": 1,
+      "clobbered": 0
+    }
+  ],
+  "ready": [],
+  "cursor": 13,
+  "instruction": 13,
+  "track": 1,
+  "float_invalid": 0,
+  "float_depth": 0,
+  "has_float": 0,
+  "float_serial": 1,
+  "after_label": 0,
+  "memory_run": 0,
+  "stop": 0,
+  "ready_count": 0,
+  "balance": 0,
+  "float_values": [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+  ],
+  "undo": [],
+  "metadata_count": 3,
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

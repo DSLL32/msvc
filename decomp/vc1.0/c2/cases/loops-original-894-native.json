@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "5853d9216c9c84822b2e93422ea7d63e037ac90aaac8c4f669524cf9d577aa39",
-  "config_sha256": "0b71259c87f2e1038bee3d339892b24eabda3cd87ab631ce0519a923b4190164",
-  "seconds": 0.13364032469689846,
-  "logical": "@remove_parent_counter_records@4",
-  "matched": true,
-  "log_sha256": "0fb54e34b8b2e8c8a2c397b1157a7daa3857c7d534fb67952d5266dec67bec1e",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-rbjxg__8"
-}

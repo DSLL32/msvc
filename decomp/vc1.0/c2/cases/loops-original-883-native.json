@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "b0b89e32323e28bd925f9fe9c1bc8f10ffc0775780c1160598116e8c82062803",
-  "config_sha256": "31a21a9076487ca6447f628bec11ea0363af85aef9556bd0441c87b11a02fd86",
-  "seconds": 0.13719635922461748,
-  "logical": "@find_reusable_induction_counter@8",
-  "matched": true,
-  "log_sha256": "d06105ebb0261b5b3067d110c1ae3c7d8b8579c0345d82fa0f1b1ef5cce5fc53",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-uxmpozxa"
-}

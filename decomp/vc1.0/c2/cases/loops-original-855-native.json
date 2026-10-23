@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "7697ec01488e097a78455025e4ec59ee8e34a44842954c0eabfa47112b176170",
-  "config_sha256": "3d5462a274a7df5089f89fd61213a40d769b6324302296f08f9e42732443f946",
-  "seconds": 0.13620246201753616,
-  "logical": "@operator_identity_node@8",
-  "matched": true,
-  "log_sha256": "cfdb2c25e7bd961f3d1964806972f4bc5c0ad690bcb34ee6feca36a4b4c580ca",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-ybgr6o_p"
-}

@@ -1,0 +1,476 @@
+{
+  "checkpoint": 697,
+  "base_commit": "beedc16",
+  "status": "active queue; first scheduling window returned; hello incomplete at load recombination",
+  "accepted_functions": [
+    {
+      "name": "@pentium_pair_dependency@8",
+      "start": 283792,
+      "end": 284359
+    },
+    {
+      "name": "@collect_pentium_candidates@8",
+      "start": 280064,
+      "end": 280182
+    },
+    {
+      "name": "@gather_pentium_candidates@12",
+      "start": 286432,
+      "end": 287019
+    },
+    {
+      "name": "@scan_schedule_interval@28",
+      "start": 266816,
+      "end": 268181
+    },
+    {
+      "name": "@resolve_scheduled_address@8",
+      "start": 269808,
+      "end": 269938
+    },
+    {
+      "name": "@rewrite_scheduled_dependence@16",
+      "start": 271120,
+      "end": 272256
+    },
+    {
+      "name": "@select_pentium_pair@20",
+      "start": 276448,
+      "end": 280053
+    },
+    {
+      "name": "@emit_pentium_pair@12",
+      "start": 275920,
+      "end": 276438
+    },
+    {
+      "name": "@prune_pentium_candidate_undos@8",
+      "start": 284928,
+      "end": 284967
+    },
+    {
+      "name": "@place_scheduled_instruction@8",
+      "start": 263248,
+      "end": 263357
+    },
+    {
+      "name": "_apply_scheduler_undo",
+      "start": 263360,
+      "end": 263408
+    },
+    {
+      "name": "_rotate_pentium_history",
+      "start": 286304,
+      "end": 286365
+    },
+    {
+      "name": "@update_scheduled_registers@4",
+      "start": 262096,
+      "end": 262289
+    },
+    {
+      "name": "@record_scheduled_register@12",
+      "start": 269952,
+      "end": 270122
+    },
+    {
+      "name": "@pentium_previous_memory_delay@4",
+      "start": 275584,
+      "end": 275667
+    },
+    {
+      "name": "@instruction_pair_conflict@8",
+      "start": 266112,
+      "end": 266339
+    },
+    {
+      "name": "@pentium_pair_independent@8",
+      "start": 283360,
+      "end": 283792
+    }
+  ],
+  "source_graphs": 620,
+  "current_frontier": {
+    "name": "@recombine_scheduled_loads@8",
+    "original_va": "0x319f0"
+  },
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 697,
+    "accepted_code_bytes": 196016,
+    "original_code_bytes": 399693,
+    "percentage": 49.04163945828423,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 200
+  },
+  "coverage_delta_bytes": 9388,
+  "original_references": [],
+  "typed_storage": {
+    "SchedulerPairs": "80bytes:3history pairs at7c2ac,2instruction/undo selections at7c2c4,5ready records at7c2d4. Native choice indices1/2 relative7c2bc map source selected[0/1]. Every physical slot retained; no cast between undo and instruction pointers.",
+    "SchedulerRegisterState": "8bytes:definition pointer and two byte flags, ordinary trailing padding.",
+    "SchedulerUndo": "20bytes:operand pointer, signed displacement delta, optional16-bit replacement base register, owner instruction and next link.",
+    "scheduler_address_penalty": "BSS scalar7e288, initialized0; future generic scheduling writers400f0/4024f/40568 identified; used by i486 rewrite restriction."
+  },
+  "state_comparison": {
+    "result": "byte-identical normalized JSON",
+    "sha256": "7edafe2f863d020d5704ba506cf69f75398513abb7beb99f971ae8f4e9aa1d46",
+    "normalized_lines": 1401,
+    "stream_records": 87,
+    "metadata_records": 3,
+    "register_slots": 65,
+    "scope": "Opcode/link/operand/call information for all reachable stream records; every live schedule use/definition/address field; history/selected/ready/undo identities;65physical-register slots; scheduler/x87 scalar state. Pointer identities map to stream indices and symbols map to names/kinds/IDs/value; unused struct padding is excluded.",
+    "metadata_summary": [
+      [
+        11,
+        "MOV",
+        0,
+        6657
+      ],
+      [
+        12,
+        "CMP",
+        1,
+        2565
+      ],
+      [
+        13,
+        "JCC",
+        2,
+        2050
+      ]
+    ],
+    "history": [
+      [
+        13
+      ],
+      [
+        12
+      ],
+      [
+        11
+      ]
+    ],
+    "original_receipt": {
+      "seconds": 1.358504987321794,
+      "state_sha256": "7edafe2f863d020d5704ba506cf69f75398513abb7beb99f971ae8f4e9aa1d46",
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "records": 87,
+      "metadata": 3,
+      "frontier": "@recombine_scheduled_loads@8"
+    },
+    "native_receipt": {
+      "seconds": 0.16140413098037243,
+      "state_sha256": "7edafe2f863d020d5704ba506cf69f75398513abb7beb99f971ae8f4e9aa1d46",
+      "compared_to_cached_original": true
+    },
+    "prior_native_before_explicit_cast_receipt": {
+      "seconds": 0.26076150592416525,
+      "state_sha256": "7edafe2f863d020d5704ba506cf69f75398513abb7beb99f971ae8f4e9aa1d46"
+    },
+    "analysis_helpers": {},
+    "method": "Explicit original-only debugger capture outside fixtures; native GDB read-only state normalization. The snapshot records typed runtime observations, is not an image-section dump, and is never loaded as reconstructed program state."
+  },
+  "timings": {
+    "address-native-build-timing.json": {
+      "seconds": 1.887357197701931,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "apply-native-build-timing.json": {
+      "seconds": 2.062859592027962,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "checkpoint678-native-check-timing.json": {
+      "seconds": 0.3126412080600858,
+      "returncode": 0,
+      "log_sha256": "72a7f59864317cc533854256a4486b6a1ba324a806e696917d331c7383af08c8"
+    },
+    "checkpoint687-audit-timing.json": {
+      "seconds": 3.2660929188132286,
+      "returncode": 0,
+      "log_sha256": "e25c7d9bd7e5a09c4487ff23e50a9d18aab073e50ffcfe765340813876b5549f"
+    },
+    "checkpoint687-native-check-timing.json": {
+      "seconds": 0.271039473824203,
+      "returncode": 0,
+      "log_sha256": "02ce53b366cad47f879f0277d9d18780414efd6796686a738b998861e8d1fdfc"
+    },
+    "checkpoint687-warnings-timing.json": {
+      "seconds": 1.6568884421139956,
+      "returncode": 0,
+      "log_sha256": "9d16c3629024726b80ff136e3f06e307832515946dc704e498ab1d2b1840dcb0"
+    },
+    "checkpoint687-win32-timing.json": {
+      "seconds": 1.9721513772383332,
+      "returncode": 0,
+      "log_sha256": "dc7603fd22fd458f13ac70ce5c22f195810bc7c2036476237bb98967c7347dcc"
+    },
+    "checkpoint697-audit-timing.json": {
+      "seconds": 3.384985065087676,
+      "returncode": 0,
+      "log_sha256": "d7e76f05145b6de0314c2aaf641454cf3245af066d30df967a6541c8d81b62aa"
+    },
+    "checkpoint697-final-audit-timing.json": {
+      "seconds": 3.356488861143589,
+      "returncode": 0,
+      "log_sha256": "d7e76f05145b6de0314c2aaf641454cf3245af066d30df967a6541c8d81b62aa"
+    },
+    "checkpoint697-final-native-build-timing.json": {
+      "seconds": 1.744234579615295,
+      "returncode": 0,
+      "log_sha256": "2f1c14a5ad249b28fb6ee33386a7b478fb2ddb9c91986ba93c9d93e2d3d6aa03"
+    },
+    "checkpoint697-final-native-check-timing.json": {
+      "seconds": 0.2879284769296646,
+      "returncode": 0,
+      "log_sha256": "f07fb7159f0c3a0951419790cb083a2d58affe6d5a985f8b46c3e50b6b0f4b1d"
+    },
+    "checkpoint697-final-warnings-timing.json": {
+      "seconds": 2.03937900532037,
+      "returncode": 0,
+      "log_sha256": "ee069219d9141deb6e9a2ea922c4e4fd0487fa0780bd4505d075398ec9650580"
+    },
+    "checkpoint697-final-win32-timing.json": {
+      "seconds": 3.420788859948516,
+      "returncode": 0,
+      "log_sha256": "2f5de6aa31c5491d4b1ea93adbcac46c4065691fe2a090d4c95dce17ac218bc1"
+    },
+    "checkpoint697-native-check-timing.json": {
+      "seconds": 0.295326660387218,
+      "returncode": 0,
+      "log_sha256": "bac9fa18023bb3be63c1e2ab7477a01fc7b00ac82f71a04355bb0e0df1d2eb03"
+    },
+    "checkpoint697-warnings-timing.json": {
+      "seconds": 1.5178765384480357,
+      "returncode": 0,
+      "log_sha256": "31e68dddec5eb4d43a7b4c163c12cce0fea0a280fb46980e6fce6137ed80f516"
+    },
+    "checkpoint697-win32-timing.json": {
+      "seconds": 1.681378454901278,
+      "returncode": 0,
+      "log_sha256": "6253661e7311bc44bd08bb9ce1e8ba57083759ff413abbf89b9e521ebf98cba4"
+    },
+    "collect-native-build-timing.json": {
+      "seconds": 9.707101922482252,
+      "returncode": 0,
+      "log_sha256": "e479be59ea8396e860c7c639004c4e7300d9bf710f5973dc6ae5420fbb80c1f3"
+    },
+    "conflict-native-build-timing.json": {
+      "seconds": 2.1976506216451526,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "dependency-native-build-timing.json": {
+      "seconds": 9.648380737751722,
+      "returncode": 0,
+      "log_sha256": "fc9e4020f2bd43f6677116d39264e1636de99f7e22a31c59548bef867db9e635"
+    },
+    "emit-native-build-timing.json": {
+      "seconds": 9.953043729998171,
+      "returncode": 0,
+      "log_sha256": "91f4bf9dfdba77f00aee4436d881a014743e503f6be0b5153f600537a8d9f16e"
+    },
+    "gather-native-build-timing.json": {
+      "seconds": 9.589650994166732,
+      "returncode": 0,
+      "log_sha256": "14acf7fd597e0e461f301b3f76b74d41a3dc17fa8466384b63bab903103aaea1"
+    },
+    "independent-native-build-timing.json": {
+      "seconds": 2.433860994875431,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "memory-delay-native-build-timing.json": {
+      "seconds": 9.722308523952961,
+      "returncode": 0,
+      "log_sha256": "9641073bd56fa05ab507b83e0a552d685253a157cecfca19ae5be306cc330fd1"
+    },
+    "place-native-build-timing.json": {
+      "seconds": 9.875472206622362,
+      "returncode": 0,
+      "log_sha256": "2c3f84fa7c3e29e86242dada9a6afcf69815603834faded932e93e5f96849d56"
+    },
+    "prune-native-build-timing.json": {
+      "seconds": 2.122816418297589,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "reads-native-build-timing.json": {
+      "seconds": 1.876369978301227,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "record-reg-native-build-timing.json": {
+      "seconds": 2.0482621425762773,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "resolve-native-build-timing.json": {
+      "seconds": 9.682461113668978,
+      "returncode": 0,
+      "log_sha256": "d12e68ca16ce6cd7f53bc3f821c1958a49b6266d62809c11132e9b47bf83ee05"
+    },
+    "rewrite-native-build-timing.json": {
+      "seconds": 9.787644198164344,
+      "returncode": 0,
+      "log_sha256": "bc3e9642ce9892bfdf7cd0e9a5f772222ed404423feed290ea01627b29ce29cb"
+    },
+    "rotate-native-build-timing.json": {
+      "seconds": 9.847475236281753,
+      "returncode": 0,
+      "log_sha256": "15c967d3ad2034a24570ea69f8718e889b07522f57009959ade88810c0f720f9"
+    },
+    "scan-fixed-native-build-timing.json": {
+      "seconds": 2.1542277662083507,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "scan-native-build-timing.json": {
+      "seconds": 9.594901793636382,
+      "returncode": 2,
+      "log_sha256": "f6df82d58cabc3942ba1a07322b84f6f84c978efd73ac9559fe92a13c08cc93a"
+    },
+    "select-native-build-timing.json": {
+      "seconds": 9.89915921445936,
+      "returncode": 0,
+      "log_sha256": "a600498233b69fd6081f9e842f834ba1e5de51f4c1fa0c7e4ff7d7c234d96cdf"
+    },
+    "update-reg-native-build-timing.json": {
+      "seconds": 9.935839512385428,
+      "returncode": 0,
+      "log_sha256": "138d3c4c1360e17d65e2a6630e12e788c4446028ad30475a0536fbe24516ea3e"
+    },
+    "window-helper-compile-timing.json": {
+      "seconds": 1.199192008934915,
+      "returncode": 0,
+      "log_sha256": "da4ddc533fff62378d1ae18bb72c14c86a3ced54714ab2554bc6bbc6ec56f6ca"
+    }
+  },
+  "native_frontiers": {
+    "dependency": {
+      "seconds": 0.14960269164294004,
+      "logical": "@collect_pentium_candidates@8",
+      "matched": true,
+      "log_sha256": "bce5eb0a73be456e2f2de5d7da4c460b2feee7d4355f7415eaea6c5993d69f06"
+    },
+    "collect": {
+      "seconds": 0.14324055332690477,
+      "logical": "@gather_pentium_candidates@12",
+      "matched": true,
+      "log_sha256": "03f1e80023804d0d6de00bbf26d5ac2c15183e8bdec974918c5f2c331737b866"
+    },
+    "gather": {
+      "seconds": 0.14483499713242054,
+      "logical": "@scan_schedule_interval@28",
+      "matched": true,
+      "log_sha256": "888c3df5c118be67639451fd5ed9214ea680f338f658b8c0b3fdc4f21bae5de5"
+    },
+    "scan-fixed": {
+      "seconds": 0.14301227685064077,
+      "logical": "@resolve_scheduled_address@8",
+      "matched": true,
+      "log_sha256": "82034f9ef9baa9ff3a752b6d4655c9e1081e9802459d29692198671cd2cc86ce"
+    },
+    "resolve": {
+      "seconds": 0.1836976259946823,
+      "logical": "@rewrite_scheduled_dependence@16",
+      "matched": true,
+      "log_sha256": "25d230b1781f8fa94bfe697a13af50eb3c0715d7ef63d06de6a02dbb1fc125f2"
+    },
+    "rewrite": {
+      "seconds": 0.1413937732577324,
+      "logical": "@select_pentium_pair@20",
+      "matched": true,
+      "log_sha256": "cbddb8f377250cc07d280a54246729cc808917065363a9f4bdd2cd357d18ddf4"
+    },
+    "select": {
+      "seconds": 0.14457737281918526,
+      "logical": "@emit_pentium_pair@12",
+      "matched": true,
+      "log_sha256": "6f42ace5c171a8e2b8d601d3e637e153b727edbed71754c317bb9af89914884f"
+    },
+    "emit": {
+      "seconds": 0.14783149678260088,
+      "logical": "@prune_pentium_candidate_undos@8",
+      "matched": true,
+      "log_sha256": "c3a2eb9b52389b4a895ab451124af1b7d73b2415649ed6d7bd692b19bfe7ea3b"
+    },
+    "prune": {
+      "seconds": 0.1403457522392273,
+      "logical": "@place_scheduled_instruction@8",
+      "matched": true,
+      "log_sha256": "fc3870579e698718a01735a152c62cef80570881b6f34d5e6c6df7c70a49eee8"
+    },
+    "place": {
+      "seconds": 0.17685934621840715,
+      "logical": "_apply_scheduler_undo",
+      "matched": true,
+      "log_sha256": "9f74c664daa023db27bfa74b482d1bf0e9ebe37e2e696b653c4f75598e96a70c"
+    },
+    "apply": {
+      "seconds": 0.1466615805402398,
+      "logical": "_rotate_pentium_history",
+      "matched": true,
+      "log_sha256": "14ae3c2078155d1ade410fe64ad3be399d9c65f09a4dbf8ff21fb37f29c69a7b"
+    },
+    "rotate": {
+      "seconds": 0.1419924357905984,
+      "logical": "@update_scheduled_registers@4",
+      "matched": true,
+      "log_sha256": "171fae39932a756bd21f03a1c1ee5dbef2a9443247c03fca8674e0e22a235fad"
+    },
+    "update-reg": {
+      "seconds": 0.15408617164939642,
+      "logical": "@record_scheduled_register@12",
+      "matched": true,
+      "log_sha256": "b5393eed08625419f6aabc1f07f70e95dc27a3375e322417411d6932ba501c6e"
+    },
+    "record-reg": {
+      "seconds": 0.14389740489423275,
+      "logical": "@pentium_previous_memory_delay@4",
+      "matched": true,
+      "log_sha256": "5b5b330db53553c5dbe002f679e5f86f06f80f5c808062c9d18ad6c5e1d04646"
+    },
+    "memory-delay": {
+      "seconds": 0.1647636005654931,
+      "logical": "@instruction_pair_conflict@8",
+      "matched": true,
+      "log_sha256": "36c93e47507d50c989f349865b5dc8a4214aa43e3d1a48687b0e0757f2db030b"
+    },
+    "conflict": {
+      "seconds": 0.14221295807510614,
+      "logical": "@pentium_pair_independent@8",
+      "matched": true,
+      "log_sha256": "bd2ade1adad2946e2510093240ce3c1b807640803a0a00b4cf0769e1c2e15c42"
+    },
+    "independent": {
+      "seconds": 0.1433903155848384,
+      "logical": "@recombine_scheduled_loads@8",
+      "matched": true,
+      "log_sha256": "ad0e0ed8ae7363cc096bc4fe2825a2a790b1e7adf520678a46f8ab762f5ac7bd"
+    }
+  },
+  "validation_limits": [
+    "First window returned and matches original state. Complete scheduling driver and final hello object remain incomplete.",
+    "Floating and generic-processor branches not exercised by the first integer Pentium window retain named trapping children.",
+    "Earlier standalone prepare_schedule_window return/EAX comparison not separately performed; this checkpoint validates the later returned-window state."
+  ],
+  "workflow_notes": [
+    "Original loop/barrier scans were expressed as C predicates/loops without adding helper-function graph edges.",
+    "Whole-selector policy preserves every priority stage, pair orientation, fallback and deferred movement edge.",
+    "A scratch update helper found an already reconstructed next_machine_operation at68c10; failed native link before execution. Corrected to that existing callee, preflight added to helper; failed-build timing retained.",
+    "W3 warnings from explicit unsigned negation replaced with unsigned subtraction, and a physical-register mask argument explicitly cast to the original16-bit ABI. Final W3 is clean.",
+    "Unreached helper45900 renamed prune_pentium_candidate_undos when its actual ready-set role was recovered; original entry/ABI unchanged."
+  ],
+  "timing_notes": "Measured wall times include all instrumented repetitions/failures, stored below. Untimed earlier commands/analysis/source work are unmeasured. Reference setup/run-check timings are retained in each original receipt. Final grouped build/audit/check were rerun after the explicit16-bit argument-cast cleanup; final native GDB state was compared against the cached original snapshot without another Wine run.",
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

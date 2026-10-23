@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "65fc3f415304ff35bcc1ca3179d8d616ed6e27b0f5c636f9ba263a4bffa8e7f8",
-  "config_sha256": "779fb1c8eca8af884c363e0a80e74ceba71e94dcd4b561efceb9fa779025a462",
-  "seconds": 0.13899268954992294,
-  "logical": "@push_scheduled_float_stack@4",
-  "matched": true,
-  "log_sha256": "84344149ac71380437591738b57ccb05a7faa139585475c4ceb4075160d5f879",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-1ll_jcm9"
-}

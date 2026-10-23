@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "56df6e2b248fda438f699b1015f79736c08fa33cb2a92852a018ad5586f7234c",
-  "config_sha256": "9c7a96e20d815f6737a7df98ed111ad7dea341232c1c721523232025904c09f2",
-  "seconds": 0.13230683468282223,
-  "logical": "_addition_overflows",
-  "matched": true,
-  "log_sha256": "17b5e5bad1d0c20d8e7224b8310927f566341dbc643de2284875d3269f165e0a",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-felnwvzo"
-}

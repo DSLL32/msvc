@@ -1,0 +1,14 @@
+{
+  "positive": "same completed cache reproduced from reversed final transition",
+  "precompletion_cache_sha256": "a4bb8d8658c44360c5d86f7ef5dbcb6dd7979b9be502a9898b1688204d9a2a6a",
+  "rejected": [
+    "nonzero terminal",
+    "extra terminal event",
+    "corrupt completed object",
+    "wrong normalized digest",
+    "wrong previous logical entry"
+  ],
+  "executes_wine": false,
+  "seconds": 0.3522647526115179,
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

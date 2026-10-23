@@ -1,0 +1,60 @@
+{
+  "checkpoint": 1071,
+  "base_commit": "f73c5c9",
+  "status": "i386 complete; deep x87 next",
+  "frontier": "exit:0",
+  "source_graphs": 992,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1071,
+    "accepted_code_bytes": 296142,
+    "original_code_bytes": 399693,
+    "percentage": 74.0923658908212,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 485
+  },
+  "accepted_functions": [
+    {
+      "name": "@gather_generic_candidates@8",
+      "start": 266480,
+      "end": 266815
+    },
+    {
+      "name": "@select_generic_candidate@8",
+      "start": 266352,
+      "end": 266468
+    }
+  ],
+  "limits": [
+    "572-byte object matches original after only COFF timestamp4..7 normalization; all seven complete native cases pass",
+    "The anticipated i386_instruction_cost rematerialization helper remains unvisited/unaccepted; do not claim its720 analysis bytes",
+    "Generic candidate selection enters count1 early return; its full ranking body is reconstructed but generic_instruction_size_cost remains a named trap",
+    "Candidate collector preserves original limit5 examined instructions /3 candidates and does not invent candidate0 undo initialization",
+    "Generic chooser i486/x87 branches and multiplication overflow child remain unvisited; original slot8 contract unchanged",
+    "Trap-only GDB helper was initially used after both runs had already exited0; it rejected the missing trap. The complete native trace/status/stream/object oracle then passed. This was no target divergence; failed helper elapsed time unmeasured."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "initial_checkpoint": 1061,
+  "case_added_acceptances": 10,
+  "completed_output": {
+    "name": "integer386.obj",
+    "bytes": 572,
+    "sha256": "99d51b3194cb3b95c857c5dd6d21e904fb7579c0faf0bf4be9efd36ded642b05",
+    "normalized_sha256": "0a6b9aab640ae847cbf4f9eaf03bc100dd334a186b35397791d43ca73e67ad2b",
+    "ignored_timestamp": [
+      4,
+      4
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

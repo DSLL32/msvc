@@ -1,0 +1,20 @@
+{
+  "modules": [
+    {
+      "module": "intrinsics",
+      "seconds": 0.9540801905095577,
+      "returncode": 0
+    },
+    {
+      "module": "debug-run",
+      "seconds": 0.9368236316367984,
+      "returncode": 0
+    },
+    {
+      "module": "capture-cl",
+      "seconds": 0.919578324072063,
+      "returncode": 0
+    }
+  ],
+  "seconds": 2.810834242030978
+}

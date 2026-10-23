@@ -1,0 +1,8 @@
+{
+  "before_acceptance": 908,
+  "original_frontier": "@spill_variable_in_work@8",
+  "native_frontier": "@spill_instruction_variable@20",
+  "native_log_sha256": "be5f4ff84ef377098e9a6e5934f17e39d309247e27fed1614b5008da50de8292",
+  "cause": "Original global7b954 is deferred_instructions; provisional spill wrappers used machine_instructions at7b940. Correct both newly reconstructed references and rerun native comparison against the existing fresh original evidence: original mask metadata and inputs are unchanged.",
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

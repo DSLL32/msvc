@@ -1,4 +1,5 @@
 """Check scheduler ST-slot operand encoding against eight bounded original rows."""
+from case_paths import C2_SCRATCH
 from pathlib import Path
 import hashlib
 import json
@@ -11,7 +12,7 @@ started = time.perf_counter()
 source = Path('src/scheduler.c').read_text()
 macro = re.search(r'#define SCHEDULER_STACK_OPERAND.*?\n} while \(0\)',source,re.S).group()
 p = PE('../../../toolchains/1.0-nt/bin/C23232.EXE')
-with tempfile.TemporaryDirectory(prefix='scheduler-st-',dir=Path.home()/'.ai-tmp/vc1.0-c2') as d:
+with tempfile.TemporaryDirectory(prefix='scheduler-st-',dir=C2_SCRATCH) as d:
     d = Path(d)
     probe = d/'probe.c'
     probe.write_text('#include "'+str(Path('src/instruction-selection.h').resolve())+'"\n#undef write\nextern int write(int,const void*,unsigned);\n'+macro+'''

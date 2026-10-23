@@ -1,0 +1,59 @@
+{
+  "checkpoint": 939,
+  "base_commit": "3c46f01",
+  "status": "aliasing active",
+  "source_graphs": 861,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 939,
+    "accepted_code_bytes": 252552,
+    "original_code_bytes": 399693,
+    "percentage": 63.18649563540017,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 379
+  },
+  "frontier": "@find_evictable_machine_region@8",
+  "accepted_functions": [
+    {
+      "name": "@record_rematerialized_registers@8",
+      "start": 183600,
+      "end": 183729
+    },
+    {
+      "name": "@record_rematerialized_work_registers@12",
+      "start": 182752,
+      "end": 183244
+    },
+    {
+      "name": "@widen_register_block_interval@8",
+      "start": 184416,
+      "end": 184485
+    },
+    {
+      "name": "@register_block_interval_contains@8",
+      "start": 184496,
+      "end": 184527
+    }
+  ],
+  "limits": [
+    "Four whole functions accepted via fresh original/native frontiers",
+    "record_rematerialized_work_registers2c9e0..2cbcc gathers tree-register dependencies, excludes target/spilled registers, widens dependencies block intervals, unions liveness and marks affected machine blocks",
+    "RegisterBlockInterval is a typed view of existing first_block/last_block fields24/26 with anonymous union preserving names,52-byte RegisterVariable layout and original pointer ABI; no extra image storage",
+    "Range widening ignores number-1 and initializes first==-1; containment special-cases full number-1 then signed low-word endpoints; sentinel/extreme inputs are not independently exercised here",
+    "record_rematerialized_registers2cd30..2cdb1 retains full tags and base27 sentinel in work reference set as original",
+    "Fresh matching now find_evictable_machine_region4b210, exercising memory split fallback prefix previously unreached in loops/pressure",
+    "Canonical/W3 and all861 source graph/mask/extent checks pass;5 native fixtures with4 completed exact outputs; aliasing600-byte object incomplete"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

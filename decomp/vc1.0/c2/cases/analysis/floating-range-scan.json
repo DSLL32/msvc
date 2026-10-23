@@ -1,0 +1,43 @@
+{
+  "checkpoint": 987,
+  "base_commit": "231ccae",
+  "status": "floating active",
+  "source_graphs": 908,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 987,
+    "accepted_code_bytes": 269050,
+    "original_code_bytes": 399693,
+    "percentage": 67.3141636205788,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 411
+  },
+  "frontier": "@prepare_float_machine_instruction@8",
+  "accepted_functions": [
+    {
+      "name": "@scan_float_machine_range@8",
+      "start": 249344,
+      "end": 250899
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Whole1555-byte scanner preserves original forward depth and reverse virtual-register use analysis.",
+    "All231 signed opcode stack effects match the compiled contextual ISA classes, including zero effects.",
+    "An already registered intrinsic cleanup helper is reused rather than duplicated at its original address.",
+    "Failed initial compile lacked the operand enum include; fixed before matching and cache extension.",
+    "Five completed objects remain exact; current floating rewrite-instruction frontier is still a named trap."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

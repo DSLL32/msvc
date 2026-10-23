@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "db5c14ec64a8c3fa2f234081029e8ee33004e6cf0ef3bfdbc90ab3d581d799b0",
-  "config_sha256": "b7c213de34b84d65f86e0616f86d54aa3882011b7814b2d4f216df8fd1a1e301",
-  "seconds": 0.1571514094248414,
-  "logical": "@move_instruction_into_pentium_gap@16",
-  "matched": true,
-  "log_sha256": "f2e674333cb4721cdffd80d4f4f3b75fcc1ef007020e9b874df2158b141379b1",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-zezrqkcn"
-}

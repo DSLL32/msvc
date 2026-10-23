@@ -1,0 +1,103 @@
+{
+  "checkpoint": 722,
+  "base_commit": "8d43f46",
+  "status": "active; emit_initializer next",
+  "new_application_function": "@coff_create_comdat_section@20",
+  "application_extent": [
+    "0x6e580",
+    "0x6e5cd"
+  ],
+  "library_acceptance": "_strncmp",
+  "source_graphs": 644,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 722,
+    "accepted_code_bytes": 203462,
+    "original_code_bytes": 399693,
+    "percentage": 50.90456925690467,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 214
+  },
+  "current_frontier": {
+    "name": "@emit_initializer@4",
+    "original_va": "0x69360"
+  },
+  "evidence": [
+    "cases/hello-crt-strncmp.json",
+    "cases/hello-crt-strncmp-native.txt",
+    "src/reference-crt-observer.c"
+  ],
+  "timings": {
+    "measured_attempts": [
+      {
+        "label": "checkpoint722-audit-timing.json",
+        "seconds": 3.5409652637317777,
+        "returncode": 0,
+        "log_sha256": "abccba0e7543cc7d3004418782b7a05f33b62b25f26a2910620341169e36d70d"
+      },
+      {
+        "label": "checkpoint722-check-timing.json",
+        "seconds": 0.5665194476023316,
+        "returncode": 0,
+        "log_sha256": "f60fcbaa4c512465c499de516f0da41fb7b61be92b84f2f1960bed548611b754"
+      },
+      {
+        "label": "checkpoint722-coff-warnings-timing.json",
+        "seconds": 1.5636951951310039,
+        "returncode": 0,
+        "log_sha256": "d9017bb795879be8dfa98db6ecff7fe87d15e05fbc92b6614379622e8dc32e7c"
+      },
+      {
+        "label": "checkpoint722-win32-timing.json",
+        "seconds": 2.003757872618735,
+        "returncode": 0,
+        "log_sha256": "9df81083b0db460845cb879ab7adc8e063e4227780ee243d2ac441b4c034e33f"
+      },
+      {
+        "label": "comdat-create-native-build-timing.json",
+        "seconds": 2.0670258859172463,
+        "returncode": 0,
+        "log_sha256": "9c9819ba7868ce1da29aa27dd2c0ad1319fda0299c8f1f2b389428b15f9b6b48"
+      },
+      {
+        "label": "crt-evidence-negatives-timing.json",
+        "seconds": 0.09200620371848345,
+        "returncode": 0,
+        "log_sha256": "e65b323e4f66443d044e4a3a4cada4f562c5e8227750abea95781cedf2aadd00"
+      },
+      {
+        "label": "crt-observer-build-timing.json",
+        "seconds": 1.1736053936183453,
+        "returncode": 0,
+        "log_sha256": "2076530b02fc0ec28e8b43bfac9710c6526837dd20576bc208de2c614d051837"
+      }
+    ],
+    "original_call_capture": 1.109529453329742,
+    "native_call_capture": 0.13665712624788284,
+    "new_logical_reference_capture": {
+      "label": "strncmp-after",
+      "accepted": 722,
+      "logical": "@emit_initializer@4",
+      "original_va": "0x69360",
+      "setup_seconds": 0.17814333830028772,
+      "execution_check_seconds": 1.3766862927004695,
+      "total_seconds": 1.5548300603404641,
+      "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26"
+    },
+    "analysis": "not instrumented"
+  },
+  "limits": [
+    "CRT is library identity acceptance, not reconstructed application source/entry coverage",
+    "caller zero/nonzero use and first string/count/result are observed; no global libc return-magnitude claim",
+    "hello final object remains incomplete"
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

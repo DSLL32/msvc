@@ -1,0 +1,104 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "_simplify_machine_data",
+      "start": "0x358b0",
+      "end": "0x35920",
+      "instructions": 42
+    },
+    {
+      "name": "_simplify_machine_branches",
+      "start": "0x359b0",
+      "end": "0x359e0",
+      "instructions": 12
+    },
+    {
+      "name": "_combine_machine_instructions",
+      "start": "0x4b350",
+      "end": "0x4b380",
+      "instructions": 10
+    },
+    {
+      "name": "@promote_region_immediates@4",
+      "start": "0x4b380",
+      "end": "0x4b950",
+      "instructions": 429
+    },
+    {
+      "name": "_finish_tree_optimization",
+      "start": "0x66e20",
+      "end": "0x66e30",
+      "instructions": 1
+    }
+  ],
+  "native_instructions": 494,
+  "accepted_extent_bytes": 1712,
+  "milestone": "First function reaches physical register allocation at2aa80",
+  "abis": [
+    "Four pass wrappers/hooks are distinct cdecl no-argument functions. finish_tree_optimization is an actual empty RET at66e20, followed by alignment padding to the accepted prepare_work entry66e30.",
+    "promote_region_immediates is fixed fastcall1 returning int. Null lists return1; each child list is processed recursively before its parent, with a failed/fixed child returning a barrier through the original graph.",
+    "Floating preparation3cb30 receives the protected-block boolean in ECX, as proved by its save of ECX at entry. The global floating peephole wrapper reuses the existing peephole_selected_block359e0 with null block/mode0; it is not a duplicate function.",
+    "The immediate helper preserves all14 native callee vertices, including distinct descriptor allocation, operand initialization, register-range recording, record insertion, definition tracking, cloning and release. Unvisited helper declarations remain provisional until their own frontier."
+  ],
+  "data_provenance": [
+    {
+      "name": "TransformationCursor",
+      "original_global": "0x830d0",
+      "meaning": "one original slot reused between expression and machine transformation phases",
+      "implementation": "union of Expression*expression and MachineInstruction*instruction, defined once in region-motion.c and declared in transformation-cursor.h",
+      "correction": "removed separate transformation_expression_cursor declaration; its prior expression producer now writes the union expression member, and machine insertion uses the instruction member"
+    },
+    {
+      "name": "immediate_register_cutoff",
+      "original_global": "0x7e2ac",
+      "meaning": "unsigned short snapshot of next_tree_register, used to exclude earlier tree virtual registers from candidate collection"
+    },
+    {
+      "name": "optimization_immediate_registers",
+      "original_global": "0x80650",
+      "meaning": "existing option variable, identified through native option record whose pattern is -noimmreg at80be0",
+      "implementation": "reuse existing options.c storage; no new flag or copied option table"
+    },
+    {
+      "name": "active_machine_region",
+      "original_global": "0x830c8",
+      "meaning": "shared region established by the prepare_region_insertion producer, distinct from machine_region_root"
+    },
+    {
+      "name": "ImmediateCandidate",
+      "bytes": 24,
+      "ownership": "computed automatic records; sixteen candidate slots and four selected slots",
+      "meaning": "kind, literal, address symbol/displacement, virtual register number and frequency; populated from encountered machine operands rather than original data"
+    },
+    {
+      "name": "floating gates",
+      "meaning": "reuse current_function field28 bit8 and optimize_precision80698; current_function831b4 confirmed at original compile_functions4c33e and machine emitter17d85"
+    }
+  ],
+  "limits": [
+    "Hello remains incomplete at physical allocation2aa80; no optimized object comparison is claimed.",
+    "The first scalar function skips both floating paths. Their full wrapper bodies are reconstructed, while floating preparation/rewrite and existing floating peephole callees still trap.",
+    "The complete429-instruction promotion helper is reconstructed, but this invocation passes a null region list. Candidate selection, insertion, register/definition updates and positive transformations are not dynamically claimed; their unvisited callees retain named traps.",
+    "Shared cursor identity is established statically by its original address and source union. This capture verifies its null state only; populated machine/expression use is not claimed.",
+    "Missing/failure paths remain outside dynamic validation."
+  ],
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 568,
+    "accepted_code_bytes": 148383,
+    "original_code_bytes": 399693,
+    "percentage": 37.12424285639228,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 161
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

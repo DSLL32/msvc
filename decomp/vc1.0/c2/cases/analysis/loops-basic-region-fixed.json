@@ -1,0 +1,66 @@
+{
+  "checkpoint": 868,
+  "base_commit": "bbf203e",
+  "status": "loops active",
+  "source_graphs": 790,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 868,
+    "accepted_code_bytes": 234063,
+    "original_code_bytes": 399693,
+    "percentage": 58.56069533366859,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 331
+  },
+  "frontier": "@has_no_later_work_store@4",
+  "accepted_functions": [
+    {
+      "name": "@replace_flow_region_last@8",
+      "start": 374592,
+      "end": 374611
+    },
+    {
+      "name": "@work_in_flow_region@8",
+      "start": 375376,
+      "end": 375403
+    },
+    {
+      "name": "@matches_assignment_load@8",
+      "start": 361408,
+      "end": 361436
+    },
+    {
+      "name": "@new_basic_induction@24",
+      "start": 392304,
+      "end": 392450
+    },
+    {
+      "name": "@find_induction_initial_value@4",
+      "start": 390416,
+      "end": 390514
+    },
+    {
+      "name": "@work_dominates_region_paths@4",
+      "start": 390144,
+      "end": 390178
+    }
+  ],
+  "limits": [
+    "Nested-region rotation reaches its transformation body; exact output still awaits the final loop object oracle.",
+    "The36-byte BasicInduction record retains typed assignment/step/dominance/use/affine/parent fields; no opaque storage introduced.",
+    "Full graph audit rejected shallow clone_node calls for optional affine terms; original5fcd2/5fce2 call copy_tree584e0. Corrected to deep copies and reverified; optional terms are null on this case so those branches are not claimed exercised.",
+    "Earlier native868 receipt before correction is retained separately; fresh corrected native GDB matches the same original868 mask/config at has_no_later_work_store5d470."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

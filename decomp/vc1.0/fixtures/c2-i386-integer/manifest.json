@@ -1,15 +1,16 @@
 {
   "project": "vc1.0",
   "case": "c2-i386-integer",
-  "description": "Original CL /nologo /c /O1 /G3 optimizer stress: c2-i386-integer",
+  "description": "Original CL /nologo /c /O1 /G3 integer386.c",
   "source": {
     "path": "source/integer386.c",
     "bytes": 504,
     "sha256": "af4392396e9ee9fc071c06ee2fadac34faf365d04bde42d2a9eef4a2b130e362"
   },
   "capture": {
-    "helper": "decomp/vc1.0/fixtures/minimal-c/capture-cl.c",
-    "helper_sha256": "426c17badcff72f4bb2dd15494bf528b6ca321e215f549567a482e3063532f12",
+    "helper": "decomp/vc1.0/c2/src/capture-cl.c",
+    "helper_sha256": "41394e2bea8dd0570845442d095588cc78a2479f0351f1b9db81142fe5313c3c",
+    "helper_executable_sha256": "653652c8a76fde9e5bcec701d841aefe6e3ffe660f5edf7fb98e7793a45b092d",
     "cl_arguments": [
       "/nologo",
       "/c",
@@ -18,19 +19,19 @@
       "integer386.c"
     ],
     "environment": {
-      "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-      "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-      "WINEPATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin"
+      "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+      "LIB": "R:\\toolchains\\1.0-nt\\lib",
+      "WINEPATH": "R:\\toolchains\\1.0-nt\\bin"
     },
-    "working_directory": "/root/.ai-tmp/vc1.0-c2/c2-i386-integer-capture-5hpwzavt/work",
-    "temporary_directory": "/root/.ai-tmp/vc1.0-c2/c2-i386-integer-capture-5hpwzavt/work",
+    "canonical_working_directory": "S:\\vc1.0\\c2\\i386",
+    "temporary_directory": "S:\\vc1.0\\c2\\i386",
     "frontend": {
-      "application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
-      "command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
-      "environment_hex": "4d53435f434d445f464c4147533d2d6566205a3a5c726f6f745c6d737663325c746f6f6c636861696e735c312e302d6e745c62696e5c63312e657272202d696c205a3a5c726f6f745c2e61692d746d705c7663312e302d63325c63322d693338362d696e74656765722d636170747572652d356870777a6176745c776f726b5c303030303630202d6620696e74656765723338362e63202d572031202d5a65202d5a7038202d466f696e74656765723338362e6f626a202d7063205c3a2f202d445f4d53435f5645523d383030202d445f57494e3332202d4773202d4766202d4f67202d4f73202d4f6231202d445f4d5f495838363d333030202d4733202d49205a3a5c726f6f745c6d737663325c746f6f6c636861696e735c312e302d6e745c696e636c756465200000",
-      "cwd": ""
+      "application": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "command_line": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "environment_hex": "4d53435f434d445f464c4147533d2d656620523a5c746f6f6c636861696e735c312e302d6e745c62696e5c63312e657272202d696c20533a5c7663312e305c63325c693338365c303030383736202d6620696e74656765723338362e63202d572031202d5a65202d5a7038202d466f696e74656765723338362e6f626a202d7063205c3a2f202d445f4d53435f5645523d383030202d445f57494e3332202d4773202d4766202d4f67202d4f73202d4f6231202d445f4d5f495838363d333030202d4733202d4920523a5c746f6f6c636861696e735c312e302d6e745c696e636c756465200000",
+      "cwd_parameter": ""
     },
-    "dependency_policy": "No source headers; original CL/C1/C2 and error files are pinned; no reconstructed frontend involved",
+    "dependency_policy": "Original frontend only; complete toolchain header tree pinned for header-using source",
     "dependencies": [
       {
         "path": "toolchains/1.0-nt/bin/CL.EXE",
@@ -67,10 +68,11 @@
         "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 "
       },
       "environment_inheritance": false,
+      "canonical_working_directory": "S:\\vc1.0\\c2\\i386",
       "working_directory": "c2",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-c2\\c2-i386-integer-capture-5hpwzavt\\work\\000060 -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 ",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il S:\\vc1.0\\c2\\i386\\000876 -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 ",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -100,7 +102,7 @@
         {
           "path": "expected/integer386.obj",
           "bytes": 572,
-          "sha256": "9777c98032f33396acede7cd7440eabe91bfdb26c4602503df99760bc92bc4dc",
+          "sha256": "77d4bc26e85fcec8af0a37fd0c88666420f386909bfd8ca36616c1dcba32589d",
           "output_name": "integer386.obj",
           "ignored_fields": [
             {

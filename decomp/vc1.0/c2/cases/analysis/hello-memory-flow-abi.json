@@ -1,0 +1,168 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "_clear_work_expression_cache",
+      "start": "0x5bb20",
+      "end": "0x5bb90",
+      "instructions": 29
+    },
+    {
+      "name": "@rewrite_work_values@4",
+      "start": "0x5bb90",
+      "end": "0x5bd40",
+      "instructions": 154
+    },
+    {
+      "name": "_build_work_alias_sets",
+      "start": "0x5d6f0",
+      "end": "0x5d800",
+      "instructions": 91
+    },
+    {
+      "name": "@summarize_work_memory@4",
+      "start": "0x5d5b0",
+      "end": "0x5d6f0",
+      "instructions": 86
+    },
+    {
+      "name": "@collect_work_memory_reads@4",
+      "start": "0x5d860",
+      "end": "0x5d970",
+      "instructions": 77
+    },
+    {
+      "name": "@find_work_value@4",
+      "start": "0x5d800",
+      "end": "0x5d860",
+      "instructions": 34
+    },
+    {
+      "name": "@subtract_bitset@8",
+      "start": "0x66b30",
+      "end": "0x66bb0",
+      "instructions": 55
+    },
+    {
+      "name": "@compute_work_memory_liveness@4",
+      "start": "0x5d4b0",
+      "end": "0x5d5b0",
+      "instructions": 85
+    },
+    {
+      "name": "@transfer_bitset@16",
+      "start": "0x66c80",
+      "end": "0x66cf0",
+      "instructions": 45
+    },
+    {
+      "name": "@assign_union_bitset@12",
+      "start": "0x669f0",
+      "end": "0x66a90",
+      "instructions": 68
+    },
+    {
+      "name": "@assign_difference_bitset@12",
+      "start": "0x66bb0",
+      "end": "0x66c80",
+      "instructions": 78
+    }
+  ],
+  "native_instructions": 802,
+  "data": [
+    {
+      "name": "WorkValue",
+      "size": 24,
+      "fields": {
+        "0x10": "Node *last_store",
+        "0x14": "BitSet *aliases"
+      },
+      "provenance": "0x5d6f0 writes each alias set at+0x14; 0x5d5b0 reads/writes the previous local store at+0x10, converting an overwritten unread store to an addition. All fields are now typed; interning still leaves these two words untouched until their owning pass initializes them."
+    },
+    {
+      "name": "WorkMemoryFlow",
+      "representation": "named indices in the existing six-pointer WorkItem.flow_sets array",
+      "indices": {
+        "0": "reference availability from the prior pass",
+        "1": "upward-exposed memory reads",
+        "2": "stores not followed by a local read",
+        "3": "all local memory definitions",
+        "4": "memory live-in",
+        "5": "memory live-out"
+      },
+      "provenance": "memory summarizer publishes sets1/2/3; backward solver computes sets4/5 from successors and externally visible exit values"
+    },
+    {
+      "name": "block summary accumulators",
+      "original_vas": {
+        "work_unread_stores": "0x7bd54",
+        "work_stored_values": "0x7bd5c",
+        "work_upward_reads": "0x7bd64"
+      },
+      "representation": "independently owned BitSet pointers, reset per block and published into its flow sets"
+    },
+    {
+      "name": "numbered-expression cache cleanup",
+      "provenance": "releases indexed canonical roots shallowly, clears both 64-bucket indices and the three arena-four pools, resets that arena, then recycles the clobbered bitset without clearing its stale global pointer; reference table storage is no longer live after this step"
+    }
+  ],
+  "abi": [
+    "transfer_bitset is void __fastcall(destination, source, removed, added): ECX/EDX plus two callee-cleaned stack arguments, RET8. Corrected provisional pointer return before unmasking after checking all return paths.",
+    "assign_union_bitset and assign_difference_bitset are void fixed three-argument fastcall helpers, RET4; they mutate an existing destination sentinel and do not provide a consistent return value.",
+    "ensure_bitset calls preserve the native explicit capacity argument1 even though its sparse allocator ignores it.",
+    "all C remains ordinary typed source; no assembly was added."
+  ],
+  "behavior_details": [
+    "memory liveness solves uses | (live-out - definitions) backwards to a fixed point, seeding the exit with externally observable memory values",
+    "local summary invalidates a prior unread store before recording a replacement; whole-pass cleanup retains operand effects when an eligible store is removed",
+    "assign_union_bitset drops the prior destination member link without recycling it, as native code does",
+    "assign_difference_bitset allocates a destination chunk before checking whether the difference bits are zero, and recycles surplus chunks after source exhaustion",
+    "the completed first-function prefix does not take the actual dead-store-removal branches; their helper callees remain named typed traps"
+  ],
+  "independent_validation": {
+    "frontier": "@hoist_region_values@4",
+    "normalized_sha256": "ad64eac845f62646791f1cf2d0c7f3f20b7ef478ae078480eb3bd06f9347f1a8",
+    "lines": 259,
+    "blocks": 6,
+    "expressions": 23,
+    "work_nodes": 93,
+    "memory_values": 10,
+    "alias_set_chunks": 20,
+    "flow_set_chunks": 45,
+    "normalization": [
+      "debugger exception address line",
+      "canonical memory pointers matched against the indexed WorkValue canonical nodes and replaced by value identifier, including converted non-memory operators; self pointers checked explicitly"
+    ],
+    "limits": [
+      "last_store pointers are no longer live after expression cleanup and are not interpreted in this capture",
+      "numbered-expression/reference-map storage was reset in arena four and is not followed",
+      "first function has no loop regions"
+    ]
+  },
+  "accepted_code_extent_coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 475,
+    "accepted_code_bytes": 126319,
+    "original_code_bytes": 399693,
+    "percentage": 31.604006074662305,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 150
+  },
+  "limits": [
+    "Hello object remains pending at hoist_region_values; full backend output is not complete.",
+    "Only the first hello function has completed memory flow; it has no loop regions.",
+    "Current prefix preserves all23 expressions/93 work nodes. Actual overwritten/dead-store removal is unvisited; invalidate_work_tree and has_no_later_work_store remain named typed traps.",
+    "After cleanup, arena-four reference/numbered storage and last_store slots are no longer logically live and are not interpreted by the final memory capture.",
+    "Alias and memory-flow results are checked as typed bitset chunks and canonical-value identities; this is not whole-memory or branch coverage.",
+    "Region motion, final reference/expression rewriting and later machine passes remain pending."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

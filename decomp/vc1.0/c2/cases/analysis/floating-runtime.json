@@ -1,0 +1,53 @@
+{
+  "checkpoint": 983,
+  "base_commit": "46a7116",
+  "status": "floating active",
+  "source_graphs": 904,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 983,
+    "accepted_code_bytes": 266765,
+    "original_code_bytes": 399693,
+    "percentage": 66.74247484944695,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 407
+  },
+  "frontier": "@prepare_float_machine_data@4",
+  "accepted_functions": [
+    {
+      "name": "@require_external_symbol@4",
+      "start": 321056,
+      "end": 321325
+    },
+    {
+      "name": "_emit_float_return",
+      "start": 104192,
+      "end": 104204
+    },
+    {
+      "name": "@external_name_hash@4",
+      "start": 320816,
+      "end": 320834
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Three whole functions preserve their original individual ABIs and call graph.",
+    "The external-symbol cache contains 128 typed pointers introduced at this lookup and insertion context.",
+    "The name hash accumulates signed bytes and retains unsigned wrapping arithmetic.",
+    "The float-return hook decrements x87 depth after the conversion helper consumes its value.",
+    "Five completed object oracles pass; floating execution currently stops at the named machine-data preparation trap."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

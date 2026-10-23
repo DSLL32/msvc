@@ -1,0 +1,13 @@
+{
+  "passed": [
+    "unchanged complete observation",
+    "changed destination",
+    "changed result",
+    "changed size",
+    "changed CRT target",
+    "changed linked body",
+    "changed caller use"
+  ],
+  "executes_wine": false,
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

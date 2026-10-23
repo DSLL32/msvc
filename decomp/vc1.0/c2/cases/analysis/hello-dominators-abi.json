@@ -1,0 +1,69 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "compute_work_dominators",
+      "start": "0x59610",
+      "end": "0x59700",
+      "instructions": 79,
+      "abi": "fastcall 1: ECX numbered work chain"
+    },
+    {
+      "name": "ensure_bitset",
+      "start": "0x66610",
+      "end": "0x66620",
+      "instructions": 5,
+      "abi": "fastcall 2 interface: ECX set, EDX caller capacity (ignored natively), EAX set"
+    },
+    {
+      "name": "fill_bitset",
+      "start": "0x66740",
+      "end": "0x667e0",
+      "instructions": 63,
+      "abi": "fastcall 2: ECX set, EDX signed member count, EAX set"
+    },
+    {
+      "name": "intersect_bitset",
+      "start": "0x66a90",
+      "end": "0x66b30",
+      "instructions": 60,
+      "abi": "fastcall 2: ECX destination, EDX source, EAX destination"
+    },
+    {
+      "name": "equal_bitsets",
+      "start": "0x668f0",
+      "end": "0x66950",
+      "instructions": 44,
+      "abi": "fastcall 2: ECX left, EDX right, EAX boolean"
+    },
+    {
+      "name": "assign_bitset",
+      "start": "0x66670",
+      "end": "0x66710",
+      "instructions": 53,
+      "abi": "fastcall 2: ECX destination, EDX source, EAX destination"
+    }
+  ],
+  "representation": [
+    "WorkItem analysis.dominators uses the existing typed sparse BitSet chain: sentinel base -1, then sorted 32-member chunks.",
+    "Universal sets are built algorithmically from a member count; tail bits use a shift and complement rather than copied one-bit tables.",
+    "Dominator computation intersects every predecessor set, includes the block itself and repeats until equality holds.",
+    "Assignment reuses existing chunks and retains the original typed copy_bitset trap for source tails that require allocation."
+  ],
+  "independent_validation": {
+    "frontier": "find_flow_regions",
+    "blocks": 6,
+    "expressions": 21,
+    "nodes": 91,
+    "dominator_chunks": 12,
+    "comparison": "all six dominator sentinel/member chains match by signed base and exact 32-bit membership; block/edge order, flags, numbering, expression/tree/symbol fields and label references also match",
+    "normalization": "debugger exception address only"
+  },
+  "limits": [
+    "Hello object remains pending at find_flow_regions 0x5a360.",
+    "The first function has six blocks, so universal sets exercise the partial final chunk; full 32-member chunks and negative counts are not dynamically covered.",
+    "The assignment copy-tail path, null-source alternatives and unvisited malformed-input paths are graph/source audited rather than claimed runtime passes.",
+    "The capacity parameter is retained because original callers materialize it in EDX. The native five-instruction helper reads only ECX and needs no capacity for sparse allocation."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

@@ -1,15 +1,16 @@
 {
   "project": "vc1.0",
   "case": "c2-x87-stack",
-  "description": "Original CL /nologo /c /Oi /O2 /G5 optimizer stress: c2-x87-stack",
+  "description": "Original CL /nologo /c /Oi /O2 /G5 stack87.c",
   "source": {
     "path": "source/stack87.c",
     "bytes": 560,
     "sha256": "faf4e1d00db6d08762fe00bc7813ad8917664ab9c16bd318881df76308ea2097"
   },
   "capture": {
-    "helper": "decomp/vc1.0/fixtures/minimal-c/capture-cl.c",
-    "helper_sha256": "426c17badcff72f4bb2dd15494bf528b6ca321e215f549567a482e3063532f12",
+    "helper": "decomp/vc1.0/c2/src/capture-cl.c",
+    "helper_sha256": "41394e2bea8dd0570845442d095588cc78a2479f0351f1b9db81142fe5313c3c",
+    "helper_executable_sha256": "653652c8a76fde9e5bcec701d841aefe6e3ffe660f5edf7fb98e7793a45b092d",
     "cl_arguments": [
       "/nologo",
       "/c",
@@ -19,19 +20,19 @@
       "stack87.c"
     ],
     "environment": {
-      "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-      "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-      "WINEPATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin"
+      "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+      "LIB": "R:\\toolchains\\1.0-nt\\lib",
+      "WINEPATH": "R:\\toolchains\\1.0-nt\\bin"
     },
-    "working_directory": "/root/.ai-tmp/vc1.0-c2/c2-x87-stack-capture-sen_kgg5/work",
-    "temporary_directory": "/root/.ai-tmp/vc1.0-c2/c2-x87-stack-capture-sen_kgg5/work",
+    "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+    "temporary_directory": "S:\\vc1.0\\c2\\x87",
     "frontend": {
-      "application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
-      "command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
-      "environment_hex": "4d53435f434d445f464c4147533d2d6566205a3a5c726f6f745c6d737663325c746f6f6c636861696e735c312e302d6e745c62696e5c63312e657272202d696c205a3a5c726f6f745c2e61692d746d705c7663312e302d63325c63322d7838372d737461636b2d636170747572652d73656e5f6b6767355c776f726b5c303031313034202d6620737461636b38372e63202d572031202d5a65202d5a7038202d466f737461636b38372e6f626a202d7063205c3a2f202d445f4d53435f5645523d383030202d445f57494e3332202d4f69202d4773202d4766202d4f67202d4f69202d4f74202d4f79202d4f6231202d445f4d5f495838363d353030202d4734202d49205a3a5c726f6f745c6d737663325c746f6f6c636861696e735c312e302d6e745c696e636c756465200000",
-      "cwd": ""
+      "application": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "command_line": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "environment_hex": "4d53435f434d445f464c4147533d2d656620523a5c746f6f6c636861696e735c312e302d6e745c62696e5c63312e657272202d696c20533a5c7663312e305c63325c7838375c303031303034202d6620737461636b38372e63202d572031202d5a65202d5a7038202d466f737461636b38372e6f626a202d7063205c3a2f202d445f4d53435f5645523d383030202d445f57494e3332202d4f69202d4773202d4766202d4f67202d4f69202d4f74202d4f79202d4f6231202d445f4d5f495838363d353030202d4734202d4920523a5c746f6f6c636861696e735c312e302d6e745c696e636c756465200000",
+      "cwd_parameter": ""
     },
-    "dependency_policy": "No source headers; original CL/C1/C2 and error files are pinned; no reconstructed frontend involved",
+    "dependency_policy": "Original frontend only; complete toolchain header tree pinned for header-using source",
     "dependencies": [
       {
         "path": "toolchains/1.0-nt/bin/CL.EXE",
@@ -68,10 +69,11 @@
         "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
       },
       "environment_inheritance": false,
+      "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
       "working_directory": "c2",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-c2\\c2-x87-stack-capture-sen_kgg5\\work\\001104 -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 ",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il S:\\vc1.0\\c2\\x87\\001004 -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 ",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -101,7 +103,7 @@
         {
           "path": "expected/stack87.obj",
           "bytes": 947,
-          "sha256": "13342e7bfb69d4dbbfc13566a8c08b3bea8f9ffe01765598ac7e9d900e203d20",
+          "sha256": "8cedeca1400c18d5213ecf963c91a6da13ad7b93358dd331af43b0df764c21b3",
           "output_name": "stack87.obj",
           "ignored_fields": [
             {

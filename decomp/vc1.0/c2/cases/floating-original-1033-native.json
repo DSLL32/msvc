@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "f867d1c50ce932617d0a946ea945e90cd2c8f50deb18163bc3bcd23538f27778",
-  "config_sha256": "cb29c8b3e889a8c008b2ec4f66070d41a6376ca7a50afbf37fdc2118da18eb0d",
-  "seconds": 0.13748827576637268,
-  "logical": "@rewrite_float_motion_operation@4",
-  "matched": true,
-  "log_sha256": "5b04c004e44adb9ba09d7f1c87e4809ab84a809c93fe1f699028a448d2b70aea",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-lapdu689"
-}

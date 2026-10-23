@@ -1,0 +1,11 @@
+entry @lift_both_unary@4 rva 00045300 byte 56
+entry @fold_integer_comparison@4 rva 00047b00 byte 53
+entry @retarget_empty_work_branch@8 rva 0004cad0 byte 53
+entry @save_region_counter@12 rva 00050820 byte 53
+entry @can_rewrite_induction_comparison@12 rva 000511f0 byte 83
+entry @release_loop_tree_record@4 rva 000509f0 byte 56
+entry @schedule_generic_instruction@4 rva 0002fbf0 byte 56
+entry @choose_generic_instruction@4 rva 000300a0 byte 83
+entry @gather_generic_candidates@8 rva 000310f0 byte 83
+entry @select_generic_candidate@8 rva 00031070 byte 83
+exit 0

@@ -1,0 +1,55 @@
+{
+  "checkpoint": 961,
+  "base_commit": "57bf814",
+  "status": "floating active",
+  "source_graphs": 882,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 961,
+    "accepted_code_bytes": 255586,
+    "original_code_bytes": 399693,
+    "percentage": 63.945578231292515,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 389
+  },
+  "frontier": "_finish_target_expression",
+  "accepted_functions": [
+    {
+      "name": "@lower_float_expression@4",
+      "start": 422816,
+      "end": 423345
+    },
+    {
+      "name": "@record_float_register@8",
+      "start": 258576,
+      "end": 258616
+    },
+    {
+      "name": "@float_register_heap_allocate@4",
+      "start": 234896,
+      "end": 234932
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Three whole functions; declaration records are typed12byte nonzeroed heap nodes with number/symbol/next, reserved offset2 not read or initialized",
+    "Declaration chain82e74 introduced independently; exact absolute references only3cd63/3cd80/3cda6/3f131/3f229/3f231 and currently unaccepted motion readers retain named traps",
+    "Allocator39590..395b4 retains malloc and contextual fltreg diagnostic0x169b; allocation-failure path not exercised",
+    "Whole lower_float_expression673a0..675b1 retains signed16bit depth wrapping/clamping, deeper-operand order, reversed SUB/DIV b1/b2, comparison remapping and55 early return",
+    "Raw table comparison flag0010 corresponds exactly1f..24 in already audited normalized node properties; no table bulk data",
+    "Direct-call function_float_stack_depth remains unaccepted named trap; current case falls through to finish_target_expression instead",
+    "Five exact objects plus expected floating terminal pass; floating object still incomplete"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

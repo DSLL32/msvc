@@ -1,0 +1,29 @@
+{
+  "original_va": "0x42070",
+  "extent": [
+    "0x42070",
+    "0x421a0"
+  ],
+  "old_name": "@scheduled_address_changed_between@16",
+  "new_name": "@scheduled_address_registers_stable@16",
+  "reason": "Whole body returns1 iff both address registers stay unchanged; correct misleading provisional name without changing graph/ABI/body.",
+  "metadata_proof": "Reversing exactly accepted[] name and driver.name restores byte-identical prior functions.json; same accepted count835/ranges, fixedfastcall16 ABI.",
+  "trace_projection_renames": {
+    "minimal": 0,
+    "hello": 1
+  },
+  "before": {
+    "sha256": "fe4017e1bc66558fe5e3f38402ce7bba333bf77b557585d06e88d5361b6ae149"
+  },
+  "after": {
+    "sha256": "6f316d16e01b970d40696360ecf54bd5de769e0c580c4b4360813dc568d45d9c"
+  },
+  "mask_proof": "Fresh original masked-image SHA256 identical before/after; next trap/inputs/environment/status/events identical.",
+  "native_matching": {
+    "seconds": 0.1478630220517516,
+    "logical": "@scheduled_instruction_changes_register@8",
+    "matched": true,
+    "log_sha256": "d3de2f455adf70278fcc70974f92b99a67b1259a478fa2e97b4343739ed79896"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

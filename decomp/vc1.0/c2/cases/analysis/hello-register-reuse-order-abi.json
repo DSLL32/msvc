@@ -1,0 +1,43 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@register_reuse_barriers@8",
+      "start": "0x2f3f0",
+      "end": "0x2f500",
+      "instructions": 90
+    },
+    {
+      "name": "@order_reusable_registers@12",
+      "start": "0x30e90",
+      "end": "0x31130",
+      "instructions": 180
+    },
+    {
+      "name": "@preferred_reuse_colors@12",
+      "start": "0x31130",
+      "end": "0x31510",
+      "instructions": 314
+    },
+    {
+      "name": "@cached_operands_equal@8",
+      "start": "0x31640",
+      "end": "0x31900",
+      "instructions": 245
+    },
+    {
+      "name": "@operand_ends_physical_register@8",
+      "start": "0x30d20",
+      "end": "0x30e90",
+      "instructions": 129
+    }
+  ],
+  "ABI": "fastcall throughout; preferred_reuse_colors and order_reusable_registers each have one four-byte callee-cleaned stack argument (RET4). Preferred colors return ushort in AX; predicates/mask return full EAX.",
+  "data": "The named eight-WORD permutation at7c480..7c490 is constructed from MOV/LEA source/use colors and observed cache identity, then the color-history/stop preference. No initialized array copied; unused suffix entries retain native prior/BSS values. Cached-operand comparison includes its eight-entry .text dispatch318d8..318f8 within the accepted whole-function extent.",
+  "limits": [
+    "Only the first function has completed physical value reuse; optimized hello object is still incomplete at assign_machine_registers2b330.",
+    "Spill/reload memory splitting, candidate operand dependency helper31510, byte-register candidate rejection and wider alternate control-flow cases retain named trapping children or unvisited reconstructed branches; no dynamic validation claimed for those paths.",
+    "Capture normalizes only the debugger exception header and pointer identity representations; instruction/operand flags, logical symbols, displacement/base/index, linked-use and own-cache identities agree exactly."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

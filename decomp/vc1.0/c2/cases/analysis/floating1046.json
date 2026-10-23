@@ -1,0 +1,57 @@
+{
+  "checkpoint": 1046,
+  "base_commit": "2e08b12",
+  "status": "floating active",
+  "source_graphs": 967,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1046,
+    "accepted_code_bytes": 288176,
+    "original_code_bytes": 399693,
+    "percentage": 72.09933624056464,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 465
+  },
+  "frontier": "@fold_previous_float_load@8",
+  "accepted_functions": [
+    {
+      "name": "@duplicate_operand@4",
+      "start": 104096,
+      "end": 104183
+    },
+    {
+      "name": "@split_float_memory_transfer@24",
+      "start": 227104,
+      "end": 228247
+    },
+    {
+      "name": "@can_split_float_transfer@8",
+      "start": 228256,
+      "end": 228565
+    },
+    {
+      "name": "@can_reuse_float_load@4",
+      "start": 229168,
+      "end": 229404
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Whole1143-byte transfer splitter preserves high-word order, temporary register allocations and reversed-source flag updates",
+    "Transfer-safety initial frontier has adjacent load/store; whole instruction-motion body recovered without claiming exhaustive path execution",
+    "Operand duplication preserves original unchecked cursor and established3..7/12 address-ownership predicate; no new guard",
+    "Floating object incomplete; five completed exact objects pass"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

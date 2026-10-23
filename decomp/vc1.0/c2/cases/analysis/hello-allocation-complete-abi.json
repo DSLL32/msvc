@@ -1,0 +1,32 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@find_carry_flag_use@4",
+      "start": "0x21be0",
+      "end": "0x21c90",
+      "instructions": 59,
+      "ABI": "fastcall MachineInstruction*(MachineInstruction*)",
+      "callees": 0
+    }
+  ],
+  "meaning": "Read-forward CF use analysis distinguishes carry conditions2/3/6/7 from ZF/AF-only users, respecting flag definitions and JMP. Existing machine_selection_properties semantics are reused; no new data section or assembly.",
+  "core_allocation_returned": true,
+  "next_frontier": {
+    "name": "@prepare_machine_blocks@4",
+    "original_va": "0x2e700"
+  },
+  "completed_allocation_capture": {
+    "frontier": "@prepare_machine_blocks@4",
+    "original_va": "0x2e700",
+    "normalized_lines": 210,
+    "instruction_records": 82,
+    "normalization": "omit exception header; represent pointers by full operand/symbol/link identity; block bitset members exact"
+  },
+  "related_evidence": "hello-ESP-assignment-abi.json",
+  "limits": [
+    "First function has completed allocation and cleanup; remaining post-allocation copy propagation/peepholes/scheduling/lowering and other functions still require reconstruction.",
+    "No complete optimized hello object claimed; no failure-path or unvisited CF branch coverage claimed."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

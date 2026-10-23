@@ -1,0 +1,184 @@
+{
+  "checkpoint": 680,
+  "status": "active authorized queue: finish optimized hello, then independent original-captured optimizer stress cases",
+  "base_commit": "8bb12b0",
+  "accepted_functions": [
+    {
+      "name": "@choose_pentium_instruction@4",
+      "start": 272912,
+      "end": 273600
+    },
+    {
+      "name": "@try_schedule_barrier@12",
+      "start": 280192,
+      "end": 281786
+    },
+    {
+      "name": "@instruction_schedule_delay@4",
+      "start": 281888,
+      "end": 281961
+    },
+    {
+      "name": "@classify_pentium_pipe@8",
+      "start": 274576,
+      "end": 275164
+    },
+    {
+      "name": "@pentium_prefix_instruction@4",
+      "start": 263968,
+      "end": 264102
+    },
+    {
+      "name": "@scheduler_move_conflict@16",
+      "start": 264112,
+      "end": 265951
+    },
+    {
+      "name": "@analyze_scheduled_instruction@4",
+      "start": 268208,
+      "end": 269268
+    },
+    {
+      "name": "@analyze_scheduled_address@20",
+      "start": 269392,
+      "end": 269759
+    },
+    {
+      "name": "@scheduled_reads_first@4",
+      "start": 269280,
+      "end": 269379
+    }
+  ],
+  "source_graphs": 603,
+  "current_frontier": "@pentium_pair_dependency@8",
+  "target_original_va": "0x45490",
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 680,
+    "accepted_code_bytes": 186628,
+    "original_code_bytes": 399693,
+    "percentage": 46.69283675220732,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 185
+  },
+  "coverage_delta_bytes": 6442,
+  "new_types": "44-byte schedule metadata now names uses/defines/memory;32-byte contextual memory record retains operand identity and physical register IDs. No bulk data, code bytes or assembly implementations added.",
+  "extent_correction": "Pipe classifier has383bytes of reachable code, one alignment NOP and two opcode switch tables41/10entries. Full contiguous extent43090..432dc lets original CFG audit follow case targets. Prior separate shared ranges already restored all table words; new mask additionally restores only the NOP. Same terminal and native full trace revalidated; no audit weakening. See native cache extent_corrections and hello-original-676-corrected.json.",
+  "original_references": [],
+  "native_debugger_evidence": {
+    "chooser": {
+      "seconds": 0.14763144589960575,
+      "logical": "@try_schedule_barrier@12",
+      "matched": true,
+      "log_sha256": "11af388bd4ab4077d41daf80b1e4f4c7ce51e275b7382c7f16601c1f9a39bf93"
+    },
+    "barrier": {
+      "seconds": 0.1781624462455511,
+      "logical": "@instruction_schedule_delay@4",
+      "matched": true,
+      "log_sha256": "7d8c0d6cb995d8852d97a97253a156ed5adfcb5c5b5b0dd47978d5b921379998"
+    },
+    "delay": {
+      "seconds": 0.17151085007935762,
+      "logical": "@classify_pentium_pipe@8",
+      "matched": true,
+      "log_sha256": "d543f1978fdd48e1b2aaa30403aa3898a188b43b5d0d429b40d9bc3d50ff7405"
+    },
+    "pipe": {
+      "seconds": 0.15372278075665236,
+      "logical": "@pentium_prefix_instruction@4",
+      "matched": true,
+      "log_sha256": "dfb3b2eedc66031b8a1b44c4e2781fd05cb166347b490782ebb41001f0a87551"
+    },
+    "prefix": {
+      "seconds": 0.185758831910789,
+      "logical": "@scheduler_move_conflict@16",
+      "matched": true,
+      "log_sha256": "a9567a492dcd7ad72451f1433e522334b52fd312b1cee3e56951ed281cef3c6a"
+    },
+    "move": {
+      "seconds": 0.14050266984850168,
+      "logical": "@analyze_scheduled_instruction@4",
+      "matched": true,
+      "log_sha256": "a58fb50a61767827c271a4accb411d019bbaf1430135530418fe26a7644b15bf"
+    },
+    "analyze": {
+      "seconds": 0.1847252044826746,
+      "logical": "@analyze_scheduled_address@20",
+      "matched": true,
+      "log_sha256": "a26c3a0e682d56cb9bdd665ee4a23526a531e661e0006932d43c9bd68a9b9d6f"
+    },
+    "address": {
+      "seconds": 0.13768393266946077,
+      "logical": "@scheduled_reads_first@4",
+      "matched": true,
+      "log_sha256": "56b6bbcd8ea4b81f02faa77695eb06464b476229c7d72011a78b1ff029e3fd70"
+    },
+    "reads": {
+      "seconds": 0.14101810194551945,
+      "logical": "@pentium_pair_dependency@8",
+      "matched": true,
+      "log_sha256": "d98d7d77bba2ba98d1aeacace82b6f5dc3307d5abbdebec5e6941b263614935d"
+    }
+  },
+  "timings": {
+    "checkpoint680-native-check-timing.json": {
+      "seconds": 0.2805277705192566,
+      "returncode": 0,
+      "log_sha256": "808baae8bb4055c11a1f3180302cf893c49b882dc6bb1db7de4b33096016fbfe"
+    },
+    "checkpoint678-native-check-timing.json": {
+      "seconds": 0.3126412080600858,
+      "returncode": 0,
+      "log_sha256": "72a7f59864317cc533854256a4486b6a1ba324a806e696917d331c7383af08c8"
+    },
+    "address-native-build-timing.json": {
+      "seconds": 1.887357197701931,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "checkpoint680-warnings-timing.json": {
+      "seconds": 1.9132908126339316,
+      "returncode": 0,
+      "log_sha256": "ee069219d9141deb6e9a2ea922c4e4fd0487fa0780bd4505d075398ec9650580"
+    },
+    "pipe-native-build-timing.json": {
+      "seconds": 8.793996046297252,
+      "exit": 0
+    },
+    "reads-native-build-timing.json": {
+      "seconds": 1.876369978301227,
+      "returncode": 0,
+      "log_sha256": "b0a93fe5a404ff482a90e04fb3ca645bb5ea3a586b01a51828c2df619818b8b6"
+    },
+    "checkpoint680-audit-timing.json": {
+      "seconds": 3.253877087496221,
+      "returncode": 0,
+      "log_sha256": "3a7bdb6851571a8f1fe514499971387c23bca57b2699d13833d9657b7830b399"
+    },
+    "checkpoint680-win32-timing.json": {
+      "seconds": 1.6756542110815644,
+      "returncode": 0,
+      "log_sha256": "f7b43bd9ed14ed20bca1a78a518826bdccb2a5809ab050a3bfd06aad6480b89f"
+    }
+  },
+  "validation_limits": [
+    "Optimized hello remains incomplete at the pair dependency stub.",
+    "Only reached dispatch, metadata and dependence paths dynamically exercised; x87, prefix and failure branches retain static whole-function reconstruction plus named trapping children.",
+    "Earlier prepare_schedule_window return comparison and full first-window return remain pending."
+  ],
+  "queue": [
+    "complete current /O2 /G5 hello with matching2289-byte object, empty streams and exit0",
+    "capture optimizer stress cases from original CL/C1 independently, then reconstruct loops/register pressure/calls/spills, aliasing/struct copies, x87 conversion/arithmetic"
+  ],
+  "timing_notes": "Per-phase measured wall times only. Untimed earlier builds/analysis are unmeasured. Every original receipt separately records setup/execution-check. Native GDB receipts retain separate elapsed seconds. No Wine/capture in native fixtures.",
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

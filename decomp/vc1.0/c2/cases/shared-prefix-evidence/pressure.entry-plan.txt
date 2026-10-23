@@ -1,0 +1,8 @@
+46e80 83 @simple_constant_operation_sign@4
+118f0 83 @expand_constant_multiply@4
+154a0 e8 @constant_multiply_budget@4
+15000 83 @choose_multiply_recipe@24
+154c0 56 @lookup_multiply_recipe@12
+14cf0 83 @emit_multiply_recipe@12
+21510 53 @operand_value_depends_on_color@8
+37070 3b @update_pentium_gap_history@12

@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "d091aef0c978d6d44d6e43517c450b77ec8d3d9f21564bb5d7c9d2b74bdccdbd",
-  "config_sha256": "2e22e8026c8600aa45405391a47e4bdea1aef896d92e5477e78a02a03539608a",
-  "seconds": 0.15983171947300434,
-  "logical": "@spill_x87_for_node@4",
-  "matched": true,
-  "log_sha256": "f8359fbd4cec6657856d8d887f5d6032ff7a984b123667768a1af388d3d9489a",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-pc6ctl4c"
-}

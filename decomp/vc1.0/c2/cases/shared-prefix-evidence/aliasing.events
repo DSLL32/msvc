@@ -1,0 +1,17 @@
+entry @is_register_return_size@4 rva 0005f590 byte 8d
+entry @intrinsic_argument_width@8 rva 00053810 byte 2b
+entry @choose_derived_induction_representative@16 rva 00050420 byte 53
+entry @region_assignment_precedes@8 rva 0004f430 byte 53
+entry @reduce_assignment_operator@16 rva 000577e0 byte 53
+entry @try_select_assignment@4 rva 00009930 byte 83
+entry @rematerialization_is_cheap@4 rva 0001d9a0 byte 83
+entry @machine_sequence_cost@4 rva 0001d300 byte 53
+entry @later_x86_instruction_cost@4 rva 0001d620 byte 8b
+entry @set_register_rematerialization@8 rva 0001dae0 byte 56
+entry @record_rematerialized_work_registers@12 rva 0001c9e0 byte 83
+entry @widen_register_block_interval@8 rva 0001d060 byte 83
+entry @register_block_interval_contains@8 rva 0001d0b0 byte 83
+entry @record_rematerialized_registers@8 rva 0001cd30 byte 83
+entry @find_evictable_machine_region@8 rva 0003b210 byte 56
+entry @infer_scheduled_address_symbol@8 rva 0002c340 byte 83
+exit 0

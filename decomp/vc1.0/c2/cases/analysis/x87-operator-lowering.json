@@ -1,0 +1,50 @@
+{
+  "checkpoint": 1074,
+  "base_commit": "e83b184",
+  "status": "verified; shared-prefix migration prioritized before further reconstruction",
+  "source_graphs": 995,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1074,
+    "accepted_code_bytes": 296783,
+    "original_code_bytes": 399693,
+    "percentage": 74.25273897716498,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 488
+  },
+  "accepted_functions": [
+    {
+      "name": "@release_intrinsic_operands@4",
+      "start": 407664,
+      "end": 407698
+    },
+    {
+      "name": "@intrinsic_operator@4",
+      "start": 407616,
+      "end": 407663
+    }
+  ],
+  "frontier": "@available_chain_operands@8",
+  "data_validation": "cases/intrinsic-descriptor-validation.json",
+  "limits": [
+    "Whole34-byte operand-container cleanup and47-byte operator lookup preserve original calls and ABIs",
+    "Complete twelve-row24-byte power/absolute/rotate map includes original FF/zero terminator; unknown ID returns zero as original",
+    "Only square-root float/double descriptor pair was additionally encountered; all nine contextual descriptors independently match original and canonical values/strings",
+    "Original MSVC omits the static map name from COFF; proof resolves all three DIR32 references inside intrinsic_operator to its precise section/addends instead",
+    "Initial proof assumed a static COFF symbol and rejected its absence; corrected relocation-based proof passes",
+    "Deep x87 remains incomplete at matching named trap; seven completed object regressions pass",
+    "Unvisited generated call metadata and x87 slot8 helpers remain explicit traps; no new shim required"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured except wrapped data inspection"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

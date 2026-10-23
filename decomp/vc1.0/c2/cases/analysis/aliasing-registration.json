@@ -1,0 +1,60 @@
+{
+  "status": "registered; no new function accepted",
+  "accepted": 925,
+  "native_match": {
+    "seconds": 0.13653104100376368,
+    "logical": "@is_register_return_size@4",
+    "matched": true,
+    "log_sha256": "677d6988ceaef14a6138d14a945bb5890fe8805789bc8e8018206cf2ded30344"
+  },
+  "frontier": "@is_register_return_size@4",
+  "original_va": "0x6f590",
+  "fixture": "../fixtures/c2-optimizer-aliasing/manifest.json",
+  "capture_validation": {
+    "timing": {
+      "capture-compile": {
+        "seconds": 1.7981671299785376,
+        "returncode": 0,
+        "stdout_sha256": "90785e1be7ae0e3c3b5d69969bf52ee4db9d68f48a99abc9023d61142888de32",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "capture-link": {
+        "seconds": 0.8129744725301862,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pipeline": {
+        "seconds": 2.3167043924331665,
+        "returncode": 0,
+        "stdout_sha256": "8fdea7222ccde557da47cc73288c50a299fe58748109db50dd05492d33e90d97",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "standalone": {
+        "seconds": 1.1936960779130459,
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "standalone": "exit0, empty streams, object matches pipeline after only timestamp"
+  },
+  "timing": {
+    "aliasing-capture-timing": {
+      "seconds": 6.2371340580284595,
+      "returncode": 0,
+      "log_sha256": "ae00b3f83811091fbd39b7b0adeb1119ab77cb65541b9428cb12e50c2d4b6714"
+    },
+    "aliasing-registration-check-timing": {
+      "seconds": 0.40207406133413315,
+      "returncode": 0,
+      "log_sha256": "51841a453e01074a84e6aa5990c9a0c95ba5b45326a10625af221662f25277ab"
+    }
+  },
+  "limits": [
+    "Independent actual original CL/C1/C2 inputs and600-byte output captured and standalone verified. No frontend reconstruction dependency.",
+    "Metadata-only case registration retains all925 existing acceptances; current canonical/static audit9250ce4 reused.",
+    "All5 native fixtures pass:4 completed output oracles and aliasing named trap."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

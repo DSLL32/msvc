@@ -1,0 +1,838 @@
+{
+  "checkpoint": 1074,
+  "base_commit": "962f89d",
+  "status": "shared-prefix migration complete; resume approved queue",
+  "accepted_count": 1074,
+  "reconstructed_source_functions": 995,
+  "accepted_code_extent": {
+    "accepted_bytes": 296783,
+    "total_bytes": 399693,
+    "percentage": 74.25273897716498,
+    "not_branch_coverage": true
+  },
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "capture_lock": "S:\\vc1.0\\c2\\capture.lock",
+  "source_function_graph_abi_acceptance_changes": false,
+  "fixture_folders": [
+    {
+      "fixture": "../fixtures/c2-shared-minimal",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\minimal",
+      "manifest_sha256": "ff02c9c90313f640e970229a5f820bdb79cef9c1b8693fa13d25520718e50af2",
+      "pipeline_seconds": 1.2698029223829508,
+      "standalone_seconds": 0.9191260151565075,
+      "total_seconds": 2.2393780555576086,
+      "object_bytes": 286,
+      "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929"
+    },
+    {
+      "fixture": "../fixtures/c2-shared-hello",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\hello",
+      "manifest_sha256": "6737fad0c436622975861faae6066f0d1e0943810fac8eb53a2594e10ef522ac",
+      "pipeline_seconds": 1.5985590107738972,
+      "standalone_seconds": 1.1653153244405985,
+      "total_seconds": 2.842529747635126,
+      "object_bytes": 2289,
+      "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0"
+    },
+    {
+      "fixture": "../fixtures/c2-optimizer-loops",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\loops",
+      "manifest_sha256": "6d80c91e7b5728de90a1afaf159ba9459c0f2034a00e24b373888ec2d85a4fa2",
+      "pipeline_seconds": 1.8532610116526484,
+      "standalone_seconds": 0.9744646679610014,
+      "total_seconds": 2.8714981731027365,
+      "object_bytes": 620,
+      "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87"
+    },
+    {
+      "fixture": "../fixtures/c2-optimizer-register-pressure",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\pressure",
+      "manifest_sha256": "50fd4b02ca260105d9817927bf945ca1db1bf9250568bff637e1a32d4a9d21bb",
+      "pipeline_seconds": 1.813442787155509,
+      "standalone_seconds": 1.1748797101899981,
+      "total_seconds": 3.0430989833548665,
+      "object_bytes": 879,
+      "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3"
+    },
+    {
+      "fixture": "../fixtures/c2-optimizer-aliasing",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\aliasing",
+      "manifest_sha256": "365c04eed4fceae4f4882762a37c6989cb7820d94189294ec4aa62f6e3f0f438",
+      "pipeline_seconds": 1.9947711592540145,
+      "standalone_seconds": 1.2102871099486947,
+      "total_seconds": 3.2462712675333023,
+      "object_bytes": 600,
+      "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae"
+    },
+    {
+      "fixture": "../fixtures/c2-optimizer-floating-point",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\floating",
+      "manifest_sha256": "133aee680c8994f93c48977a08bf42f030dd3a9cbbe09d7dd914cbca95e3967c",
+      "pipeline_seconds": 1.3282957384362817,
+      "standalone_seconds": 0.7077309628948569,
+      "total_seconds": 2.0796039793640375,
+      "object_bytes": 979,
+      "normalized_sha256": "b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e"
+    },
+    {
+      "fixture": "../fixtures/c2-i386-integer",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\i386",
+      "manifest_sha256": "3cab00b89304f02bd4ba94c5fc8742ec3eb3bb19594c78d2184e1a251a97e0a3",
+      "pipeline_seconds": 1.1809639744460583,
+      "standalone_seconds": 0.8209773758426309,
+      "total_seconds": 2.0429203286767006,
+      "object_bytes": 572,
+      "normalized_sha256": "0a6b9aab640ae847cbf4f9eaf03bc100dd334a186b35397791d43ca73e67ad2b"
+    },
+    {
+      "fixture": "../fixtures/c2-x87-stack",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+      "manifest_sha256": "d64118f64de5cfdd7f9631c197e4e772843979666987237cff203f77261187a2",
+      "pipeline_seconds": 1.132607202976942,
+      "standalone_seconds": 0.6749186711385846,
+      "total_seconds": 1.8689475003629923,
+      "object_bytes": 947,
+      "normalized_sha256": "ea2ede713ea319d8ed87433a73f77bce17bffddb35a6d95dc8296d37c3063be1"
+    },
+    {
+      "fixture": "../fixtures/c2-i486-floating",
+      "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+      "manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387",
+      "pipeline_seconds": 1.1992852883413434,
+      "standalone_seconds": 0.6652281833812594,
+      "total_seconds": 1.907114127650857,
+      "object_bytes": 883,
+      "normalized_sha256": "1949b0599c5d20a3c5f09d244f1d24b8137eada0d4fb2d8e6a34efbdbda40d0e"
+    }
+  ],
+  "reference_captures": [
+    {
+      "profile": "minimal",
+      "application_entries": 270,
+      "terminal": "exit:0",
+      "setup_seconds": 0.2437703711912036,
+      "execution_seconds": 2.008867170661688,
+      "check_seconds": 0.008125600405037403,
+      "total_seconds": 2.260763538070023,
+      "receipt": "cases/shared-prefix-evidence/minimal.json",
+      "receipt_sha256": "5f17716cf04e58cef75b940fe48af47661cdb67b427d3c59048f5c55ab3515cf"
+    },
+    {
+      "profile": "hello",
+      "application_entries": 487,
+      "terminal": "exit:0",
+      "setup_seconds": 0.3172985538840294,
+      "execution_seconds": 5.662423761561513,
+      "check_seconds": 0.008505155332386494,
+      "total_seconds": 5.988227817229927,
+      "receipt": "cases/shared-prefix-evidence/hello.json",
+      "receipt_sha256": "c7a7daa6050f067cd678628654bbab6d55ba0eb17e901b5217b592effa36ffdd"
+    },
+    {
+      "profile": "loops",
+      "application_entries": 77,
+      "terminal": "exit:0",
+      "setup_seconds": 0.24434918351471424,
+      "execution_seconds": 16.654887462966144,
+      "check_seconds": 0.0073265135288238525,
+      "total_seconds": 16.906563534401357,
+      "receipt": "cases/shared-prefix-evidence/loops.json",
+      "receipt_sha256": "17d41ba04d1b53bd3ccefc42e0654ec77dacac1cee36a3f0c5899913b86ca3fa"
+    },
+    {
+      "profile": "pressure",
+      "application_entries": 8,
+      "terminal": "exit:0",
+      "setup_seconds": 0.24212185759097338,
+      "execution_seconds": 4.232756833545864,
+      "check_seconds": 0.011654014699161053,
+      "total_seconds": 4.486533423885703,
+      "receipt": "cases/shared-prefix-evidence/pressure.json",
+      "receipt_sha256": "c4a78e9e477f1869f915d504ca6fc26d39f92370b8a8b89200334fe45898bc3f"
+    },
+    {
+      "profile": "aliasing",
+      "application_entries": 16,
+      "terminal": "exit:0",
+      "setup_seconds": 0.24540229607373476,
+      "execution_seconds": 3.8141288608312607,
+      "check_seconds": 0.007252256385982037,
+      "total_seconds": 4.0667838072404265,
+      "receipt": "cases/shared-prefix-evidence/aliasing.json",
+      "receipt_sha256": "725f0859384eb3183744dc0d89fa4f122f8b17c96fc8427defb2037901f59a5c"
+    },
+    {
+      "profile": "floating",
+      "application_entries": 119,
+      "terminal": "exit:0",
+      "setup_seconds": 0.2495099687948823,
+      "execution_seconds": 4.111250997520983,
+      "check_seconds": 0.0073787979781627655,
+      "total_seconds": 4.3681401303038,
+      "receipt": "cases/shared-prefix-evidence/floating.json",
+      "receipt_sha256": "699e06877227bcaad778baee704f34b4e3d95ee49432a53767e5a00a761c2ee0"
+    },
+    {
+      "profile": "i386",
+      "application_entries": 10,
+      "terminal": "exit:0",
+      "setup_seconds": 0.24567245785146952,
+      "execution_seconds": 4.5332362204790115,
+      "check_seconds": 0.007642834447324276,
+      "total_seconds": 4.786551896482706,
+      "receipt": "cases/shared-prefix-evidence/i386.json",
+      "receipt_sha256": "2b51a9671b5d71b2464d33ef5dabaa0a5853718408566417d789868ce451807f"
+    },
+    {
+      "profile": "x87",
+      "application_entries": 3,
+      "terminal": "@available_chain_operands@8",
+      "setup_seconds": 0.2449864074587822,
+      "execution_seconds": 5.07949213963002,
+      "check_seconds": 0.006992812268435955,
+      "total_seconds": 5.331471748650074,
+      "receipt": "cases/shared-prefix-evidence/x87.json",
+      "receipt_sha256": "c6c2a3fc976dbf3e00e528cc6e452cc2d69a86cb6153bc57f1c8aa2156951998"
+    }
+  ],
+  "input_and_output_comparison": "cases/shared-prefix-input-comparison.json",
+  "native_suite": "cases/native-all-validation.json",
+  "native_suite_timings": {
+    "fixture_seconds": 0.3595880391076207,
+    "suite_setup_seconds": 0.1443452937528491,
+    "negative_check_seconds": 0.022064422257244587
+  },
+  "native_cases": [
+    {
+      "profile": "minimal",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 270,
+      "seeded_entries": 0,
+      "output": {
+        "name": "test.obj",
+        "bytes": 286,
+        "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.01880229078233242,
+      "execution_seconds": 0.004946422763168812,
+      "check_seconds": 0.0013957275077700615,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/minimal"
+    },
+    {
+      "profile": "hello",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 487,
+      "seeded_entries": 270,
+      "output": {
+        "name": "hello.obj",
+        "bytes": 2289,
+        "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.015099355950951576,
+      "execution_seconds": 0.010751924477517605,
+      "check_seconds": 0.001672615297138691,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/hello"
+    },
+    {
+      "profile": "loops",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 77,
+      "seeded_entries": 757,
+      "output": {
+        "name": "loops.obj",
+        "bytes": 620,
+        "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.013361607678234577,
+      "execution_seconds": 0.0074183521792292595,
+      "check_seconds": 0.0013103075325489044,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/loops"
+    },
+    {
+      "profile": "pressure",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 8,
+      "seeded_entries": 834,
+      "output": {
+        "name": "pressure.obj",
+        "bytes": 879,
+        "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.013707487843930721,
+      "execution_seconds": 0.009962254203855991,
+      "check_seconds": 0.0010921955108642578,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/pressure"
+    },
+    {
+      "profile": "aliasing",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 16,
+      "seeded_entries": 842,
+      "output": {
+        "name": "aliasing.obj",
+        "bytes": 600,
+        "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.013106705620884895,
+      "execution_seconds": 0.007468493655323982,
+      "check_seconds": 0.0012381328269839287,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/aliasing"
+    },
+    {
+      "profile": "floating",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 119,
+      "seeded_entries": 858,
+      "output": {
+        "name": "floating.obj",
+        "bytes": 979,
+        "normalized_sha256": "b3d040e58e811e7414c45bf1b8473c1a7a66fd79092ba599ad88abaf1bf1761e",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.013330384157598019,
+      "execution_seconds": 0.0073540667071938515,
+      "check_seconds": 0.001133400946855545,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/floating"
+    },
+    {
+      "profile": "i386",
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 10,
+      "seeded_entries": 977,
+      "output": {
+        "name": "integer386.obj",
+        "bytes": 572,
+        "normalized_sha256": "0a6b9aab640ae847cbf4f9eaf03bc100dd334a186b35397791d43ca73e67ad2b",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.012570925988256931,
+      "execution_seconds": 0.00810207985341549,
+      "check_seconds": 0.0011093337088823318,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/i386"
+    },
+    {
+      "profile": "x87",
+      "terminal": "@available_chain_operands@8",
+      "returncode": -5,
+      "application_entries": 4,
+      "seeded_entries": 987,
+      "output": null,
+      "setup_seconds": 0.01240177545696497,
+      "execution_seconds": 0.004615860991179943,
+      "check_seconds": 0.0006681056693196297,
+      "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-b8l5e48w/x87"
+    }
+  ],
+  "negative_checks": [
+    "wrong expected native application entry",
+    "changed captured IR input",
+    "non-clock object corruption",
+    "wrong original first-entry plan",
+    "wrong original restoration byte",
+    "21 graph/extent safeguards",
+    "six inconsistent strncmp identity/call observations",
+    "six inconsistent fread identity/call observations"
+  ],
+  "canonical_checks": [
+    "Full original-CL rebuild under shared prefix",
+    "995 original/reconstructed whole function graphs match; extent masks verified",
+    "Selected intrinsics/debug-run/capture-cl /W3 builds clean",
+    "Contextual forms/conditions/registers/stack/cost/dispatcher/intrinsic data proofs pass"
+  ],
+  "measured_commands": {
+    "migration-aliasing-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-optimizer-aliasing",
+        "--stem",
+        "aliasing",
+        "--case",
+        "aliasing",
+        "--flags",
+        "/O2",
+        "/G5",
+        "--replace"
+      ],
+      "seconds": 3.3198204850777984,
+      "returncode": 0,
+      "log_sha256": "ce46197d3e5fdcba514ed23349ae63639ebd6d5aa6f7e342c48034658fa836e9"
+    },
+    "migration-aliasing-entries-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "aliasing",
+        "--entries",
+        "--receipt",
+        "cases/shared-prefix-evidence/aliasing.json"
+      ],
+      "seconds": 4.1400858564302325,
+      "returncode": 0,
+      "log_sha256": "c62090d79c6401e04377c754a72111c54e129784cb63f459b02f29e09a84a257"
+    },
+    "migration-canonical-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "win32"
+      ],
+      "seconds": 32.56924354750663,
+      "returncode": 0,
+      "log_sha256": "0251d128b921bbd4175b47dfdfaf2e4b1d921f56c00252392f03cbd76256380f"
+    },
+    "migration-canonical-warnings-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsics",
+        "debug-run",
+        "capture-cl"
+      ],
+      "seconds": 2.8596462104469538,
+      "returncode": 0,
+      "log_sha256": "1bf6a4dfc260bf693bab5b87109b660d629761e5f2acfa29980bb189e427b73f"
+    },
+    "migration-dispatcher-data-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-float-dispatcher-data.py"
+      ],
+      "seconds": 0.22204701602458954,
+      "returncode": 0,
+      "log_sha256": "2dd4241fcb65025b00b8703e87efd092c7489487033819a12a68a831668f08c4"
+    },
+    "migration-final-native-suite-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.46390231512486935,
+      "returncode": 0,
+      "log_sha256": "7a0a68c3867f59d07a1d6dae6ef7ee9ca9bd55cd43c8be0d965329306913072e"
+    },
+    "migration-floating-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-optimizer-floating-point",
+        "--stem",
+        "floating",
+        "--case",
+        "floating",
+        "--flags",
+        "/O2",
+        "/G5",
+        "--replace"
+      ],
+      "seconds": 2.161610009148717,
+      "returncode": 0,
+      "log_sha256": "63363f83d0985cc8f8f6761e81d8e841ab95579408d6a82b572ee9d7b019ad93"
+    },
+    "migration-floating-entries-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "floating",
+        "--entries",
+        "--receipt",
+        "cases/shared-prefix-evidence/floating.json"
+      ],
+      "seconds": 4.443005311302841,
+      "returncode": 0,
+      "log_sha256": "9c1a815b52f52a553fc2f48b583f96cf08d3630eeccd1966f3e4b9c695d58d81"
+    },
+    "migration-fread-evidence-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-fread-evidence.py"
+      ],
+      "seconds": 0.1315726675093174,
+      "returncode": 0,
+      "log_sha256": "1b0669239dde111d54b0437aded33f2154e429fdf57e0944897b50022bb2068c"
+    },
+    "migration-graph-negative-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-audit-graph.py"
+      ],
+      "seconds": 0.11656292621046305,
+      "returncode": 0,
+      "log_sha256": "9cad6d78b1d4a2868ba1fa74b40ee26168f74ff9489bad274223742764b434bb"
+    },
+    "migration-hello-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-shared-hello",
+        "--stem",
+        "hello",
+        "--case",
+        "hello",
+        "--flags",
+        "/O2",
+        "/G5"
+      ],
+      "seconds": 2.9139767549932003,
+      "returncode": 0,
+      "log_sha256": "00109689c52fd7e1b77b72ac5bf426518fa5171a8e34c5125310cfc8523b2134"
+    },
+    "migration-hello-entries-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "hello",
+        "--entries",
+        "--receipt",
+        "cases/shared-prefix-evidence/hello.json"
+      ],
+      "seconds": 6.062486037611961,
+      "returncode": 0,
+      "log_sha256": "607d4703292c913d4574712e9253aca09d8f269ad5b7713decd95ad54715c743"
+    },
+    "migration-i386-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-i386-integer",
+        "--stem",
+        "integer386",
+        "--case",
+        "i386",
+        "--flags",
+        "/O1",
+        "/G3",
+        "--replace"
+      ],
+      "seconds": 2.1167068909853697,
+      "returncode": 0,
+      "log_sha256": "a4f41019d3c9534db37380cac486c924c615208bf6995b86b8f80001a32da616"
+    },
+    "migration-i386-entries-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "i386",
+        "--entries",
+        "--receipt",
+        "cases/shared-prefix-evidence/i386.json"
+      ],
+      "seconds": 4.860272531397641,
+      "returncode": 0,
+      "log_sha256": "d4f4a6313e2d7e1c32a591fa2c442f3e8707ca3b47399983fe28ad66c0ff10c7"
+    },
+    "migration-i486-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-i486-floating",
+        "--stem",
+        "floating486",
+        "--case",
+        "i486",
+        "--flags",
+        "/O2",
+        "/G4",
+        "--replace"
+      ],
+      "seconds": 1.9841899145394564,
+      "returncode": 0,
+      "log_sha256": "deaf36f402f75ddf66296c1f6b87dc193fd2ca4fb4a5a39e89317435817798f8"
+    },
+    "migration-intrinsic-data-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-intrinsic-descriptors.py"
+      ],
+      "seconds": 0.08922545798122883,
+      "returncode": 0,
+      "log_sha256": "e4aa8cf3bd0f53c7fc734f5ecfd88f0037b92c2cbd5559273bddf24df63f431b"
+    },
+    "migration-loops-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-optimizer-loops",
+        "--stem",
+        "loops",
+        "--case",
+        "loops",
+        "--flags",
+        "/O2",
+        "/G5",
+        "--replace"
+      ],
+      "seconds": 2.948755469173193,
+      "returncode": 0,
+      "log_sha256": "cbd4f574c5f1a148a6f8f40f504e1d06936ab1fa5dbcfb973e3d47fc8cebd976"
+    },
+    "migration-loops-entries-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "loops",
+        "--entries",
+        "--receipt",
+        "cases/shared-prefix-evidence/loops.json"
+      ],
+      "seconds": 16.977217216975987,
+      "returncode": 0,
+      "log_sha256": "72d2bde0a749b6f0269f92b95a207548d82ec4292fe6b8f4d10bdaf74e455bf0"
+    },
+    "migration-native-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.0963358990848064,
+      "returncode": 0,
+      "log_sha256": "29154ca12325abfee6b5a8da95b83180b5b0602f6ee43b44c3a49843e854b87b"
+    },
+    "migration-native-check-fixed-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4261204292997718,
+      "returncode": 0,
+      "log_sha256": "e0145172e4a7ebb0b2fa9cf92ebb99eb0678522bac1c37907ea7bbb2113298e8"
+    },
+    "migration-peephole-data-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-float-peephole-data.py"
+      ],
+      "seconds": 0.3578296294435859,
+      "returncode": 0,
+      "log_sha256": "afc8c0411e9bfa4bb2c5d65b4fd59dfa311b1c173ff800f5f1ddbf2b70379241"
+    },
+    "migration-pressure-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-optimizer-register-pressure",
+        "--stem",
+        "pressure",
+        "--case",
+        "pressure",
+        "--flags",
+        "/O2",
+        "/G5",
+        "--replace"
+      ],
+      "seconds": 3.1236168136820197,
+      "returncode": 0,
+      "log_sha256": "bb4a51a34fea78e5cc77fd089672973dee80e779e6513fc42368154e05de1053"
+    },
+    "migration-pressure-entries-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "pressure",
+        "--entries",
+        "--receipt",
+        "cases/shared-prefix-evidence/pressure.json"
+      ],
+      "seconds": 4.566205499693751,
+      "returncode": 0,
+      "log_sha256": "be516a02df4355c2e5f8f55a6628bc1f7d884cb6a8dd4e6b4d611c208e0f2e17"
+    },
+    "migration-promotion-data-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-float-promotion-costs.py"
+      ],
+      "seconds": 0.16025186702609062,
+      "returncode": 0,
+      "log_sha256": "236b2f45cd45a2c695f8a7476db57113bc9984609c948c9b3da789479c05456e"
+    },
+    "migration-radix-contract-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-integer-radix-contract.py"
+      ],
+      "seconds": 0.09799360949546099,
+      "returncode": 0,
+      "log_sha256": "25b4d8482e41dc25069416c913b2b122a239be468559ac1482c511df2856c727"
+    },
+    "migration-scheduler-operands-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-scheduler-stack-operands.py"
+      ],
+      "seconds": 0.23199216462671757,
+      "returncode": 0,
+      "log_sha256": "107bda06d8f91925249d658900f994736b4b4097e5a6e3d07b80625af171ebe5"
+    },
+    "migration-scheduler-stack-effects-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-float-stack-effects.py",
+        "--scheduler"
+      ],
+      "seconds": 0.22697676718235016,
+      "returncode": 0,
+      "log_sha256": "a5e6c16a8f5d5df3c17fc87eb9038b56c8f31e24158eea52a9b28638c1914560"
+    },
+    "migration-stack-effects-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-float-stack-effects.py"
+      ],
+      "seconds": 0.22358729969710112,
+      "returncode": 0,
+      "log_sha256": "a5e6c16a8f5d5df3c17fc87eb9038b56c8f31e24158eea52a9b28638c1914560"
+    },
+    "migration-static-audit-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.887280064634979,
+      "returncode": 0,
+      "log_sha256": "a9e1c6d3ddcd28635a72e39feb0a4d470a40cc0554ee650cab141ac7c8576c1c"
+    },
+    "migration-strncmp-evidence-timing.json": {
+      "command": [
+        "python3",
+        "scripts/check-native-traces.py"
+      ],
+      "seconds": 0.0971927959471941,
+      "returncode": 0,
+      "log_sha256": "e65b323e4f66443d044e4a3a4cada4f562c5e8227750abea95781cedf2aadd00"
+    },
+    "migration-x87-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-x87-stack",
+        "--stem",
+        "stack87",
+        "--case",
+        "x87",
+        "--flags",
+        "/Oi",
+        "/O2",
+        "/G5",
+        "--replace"
+      ],
+      "seconds": 1.943537357263267,
+      "returncode": 0,
+      "log_sha256": "dea96fe627b16ede718f68249a4e0b5bcee9129525e11941743da17af2776508"
+    },
+    "migration-x87-entries-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "x87",
+        "--entries",
+        "--receipt",
+        "cases/shared-prefix-evidence/x87.json"
+      ],
+      "seconds": 5.406421283259988,
+      "returncode": 0,
+      "log_sha256": "2298ee3ea5162a10b176f46fd6e7bfa99b09afb698be5266ce89a66e896e75e3"
+    },
+    "migration-capture-helper-build-timing.json": {
+      "command": [
+        "make",
+        "-j4",
+        "build/debug-run.exe",
+        "build/capture-cl.exe"
+      ],
+      "seconds": 1.8602767512202263,
+      "returncode": 0,
+      "log_sha256": "640128100c8c401834521df8ce3cbdd94efa35ec891f2db49dc1e95850f817e7"
+    },
+    "migration-minimal-capture-timing.json": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-shared-minimal",
+        "--stem",
+        "test",
+        "--case",
+        "minimal",
+        "--flags",
+        "/Od",
+        "/G4"
+      ],
+      "seconds": 2.3162387060001493,
+      "returncode": 0,
+      "log_sha256": "d5d005ba91eeb77c24197bf9340c0659a9e30533fc217895ce9ea5a532bf7217"
+    }
+  },
+  "analysis_and_unwrapped_debug_seconds": null,
+  "timing_limits": [
+    "Measured command wrappers include subprocess phases; do not add wrappers and their detailed phase timings as task wall time",
+    "Initial native negative batch failed on stale host /work setup after positive cases; elapsed time unmeasured. Corrected complete suite passes.",
+    "The first original minimal entry capture was unwrapped; its receipt has measured setup/execution/check/total.",
+    "Full canonical rebuild retains four previously documented frame-output.c:18 integral-size warnings; changed intrinsic/tool modules have clean /W3 logs."
+  ],
+  "pruning": "cases/shared-prefix-pruning.json",
+  "retirement": "cases/shared-prefix-retirement.json",
+  "remaining_queue": [
+    "deep x87 at @available_chain_operands@8",
+    "i486 floating stores/comparisons"
+  ],
+  "shim_requests": []
+}

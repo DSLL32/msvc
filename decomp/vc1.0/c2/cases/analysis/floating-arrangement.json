@@ -1,0 +1,54 @@
+{
+  "checkpoint": 973,
+  "base_commit": "4dc3b3e",
+  "status": "floating active",
+  "source_graphs": 894,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 973,
+    "accepted_code_bytes": 256837,
+    "original_code_bytes": 399693,
+    "percentage": 64.25856845128637,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 399
+  },
+  "frontier": "@peephole_selected_block@8",
+  "accepted_functions": [
+    {
+      "name": "@lookup_floating_opcode@8",
+      "start": 105408,
+      "end": 105461
+    },
+    {
+      "name": "@arrange_x87_left@4",
+      "start": 105472,
+      "end": 105515
+    },
+    {
+      "name": "@x87_contains_node@4",
+      "start": 111120,
+      "end": 111160
+    }
+  ],
+  "accepted_libraries": [],
+  "limits": [
+    "Three whole functions; membership helper1b210..1b238 tests all live stack entries by node pointer identity, not only top",
+    "Provisional x87_node_at_top name refined to x87_contains_node before accepting helper; original971 pre-refinement receipt retained, fresh new receipt has identical masked SHA and entry VA; no mask/behavior change",
+    "Arrangement19c00..19c2b calls full selector for an absent value then emits FXCH ST1; original argument type retained",
+    "Floating opcode lookup19bc0..19bf5 retains null-description termination and keyminus1 wildcard; missing-entry diagnostic still named trapping function and undefined-return path is not claimed exercised",
+    "Existing six arithmetic descriptors remain contextual typed data; no new opcode-table snapshot",
+    "Five completed objects plus floating expected named trap pass; current frontier whole floating peephole pass359e0"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

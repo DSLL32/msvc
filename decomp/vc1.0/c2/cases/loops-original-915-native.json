@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "43c673930af84a13528d93c24120efc4178362042fd26fe7285cdc674081441e",
-  "config_sha256": "4a87247e156cee2db5d6cacf16373ed961f4c44efb0772b9bc02b73551ac1916",
-  "seconds": 0.13253763411194086,
-  "logical": "@insert_pentium_stall@4",
-  "matched": true,
-  "log_sha256": "113976bb8b9a107fe7093b2c4285ab3e4d195962b38001c504ca1a93ef7f76b9",
-  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-8nimh_lw"
-}

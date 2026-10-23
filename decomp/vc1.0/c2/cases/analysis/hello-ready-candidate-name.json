@@ -1,0 +1,29 @@
+{
+  "original_va": "0x44cc0",
+  "extent": [
+    "0x44cc0",
+    "0x44d12"
+  ],
+  "old_name": "@remove_scheduled_float_exchange@4",
+  "new_name": "@remove_pentium_ready_candidate@4",
+  "reason": "Whole body removes matching general Pentium ready candidate, retaining both instruction/undo words; no floating exchange operation.",
+  "metadata_proof": "Reversing exactly accepted[] name and driver.name restores byte-identical previous functions.json; same accepted count837/ranges/fixedfastcall4 ABI.",
+  "trace_projection_renames": {
+    "minimal": 0,
+    "hello": 1
+  },
+  "before": {
+    "sha256": "67f680ae93344f89af0109e0e7f2092a9164a46c498c3c3d572f32e24f5315c8"
+  },
+  "after": {
+    "sha256": "e41870b49f38ce750ad6231a04fbd742aac2714737ce3680ec8e0e19fafb0363"
+  },
+  "mask_proof": "Fresh original masked-image SHA256 identical before/after; next trap/inputs/environment/status/events identical.",
+  "native_matching": {
+    "seconds": 0.18412749376147985,
+    "logical": "@pair_pentium_taken_edge@16",
+    "matched": true,
+    "log_sha256": "7656ec5bc8349d0c8394c7694d8977a6bf8d7a04067cf90974b5aff5b7247c80"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

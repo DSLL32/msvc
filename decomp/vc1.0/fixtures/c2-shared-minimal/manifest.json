@@ -1,0 +1,125 @@
+{
+  "project": "vc1.0",
+  "case": "c2-shared-minimal",
+  "description": "Original CL /nologo /c /Od /G4 test.c",
+  "source": {
+    "path": "source/test.c",
+    "bytes": 26,
+    "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2"
+  },
+  "capture": {
+    "helper": "decomp/vc1.0/c2/src/capture-cl.c",
+    "helper_sha256": "41394e2bea8dd0570845442d095588cc78a2479f0351f1b9db81142fe5313c3c",
+    "helper_executable_sha256": "653652c8a76fde9e5bcec701d841aefe6e3ffe660f5edf7fb98e7793a45b092d",
+    "cl_arguments": [
+      "/nologo",
+      "/c",
+      "/Od",
+      "/G4",
+      "test.c"
+    ],
+    "environment": {
+      "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+      "LIB": "R:\\toolchains\\1.0-nt\\lib",
+      "WINEPATH": "R:\\toolchains\\1.0-nt\\bin"
+    },
+    "canonical_working_directory": "S:\\vc1.0\\c2\\minimal",
+    "temporary_directory": "S:\\vc1.0\\c2\\minimal",
+    "frontend": {
+      "application": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "command_line": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "environment_hex": "4d53435f434d445f464c4147533d2d656620523a5c746f6f6c636861696e735c312e302d6e745c62696e5c63312e657272202d696c20533a5c7663312e305c63325c6d696e696d616c5c303030353034202d6620746573742e63202d572031202d5a65202d5a7038202d4773202d466f746573742e6f626a202d7063205c3a2f202d445f4d53435f5645523d383030202d445f57494e3332202d4f6230202d4f74202d445f4d5f495838363d343030202d4734202d4920523a5c746f6f6c636861696e735c312e302d6e745c696e636c756465200000",
+      "cwd_parameter": ""
+    },
+    "dependency_policy": "Original frontend only; complete toolchain header tree pinned for header-using source",
+    "dependencies": [
+      {
+        "path": "toolchains/1.0-nt/bin/CL.EXE",
+        "sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/CL.ERR",
+        "sha256": "d7afe911a26595833f979275965e562bf4b82e4b94056cc5c122f78306e1e8ab"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C13232.EXE",
+        "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C23232.EXE",
+        "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C1.ERR",
+        "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+      },
+      {
+        "path": "toolchains/1.0-nt/bin/C23.ERR",
+        "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5"
+      }
+    ]
+  },
+  "phases": {
+    "c2": {
+      "target": "toolchains/1.0-nt/bin/C23232.EXE",
+      "sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f test.c -W 1 -Gs4096 -dos -Fotest.obj -ML -G4 "
+      },
+      "environment_inheritance": false,
+      "canonical_working_directory": "S:\\vc1.0\\c2\\minimal",
+      "working_directory": "c2",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il S:\\vc1.0\\c2\\minimal\\000504 -f test.c -W 1 -Gs4096 -dos -Fotest.obj -ML -G4 ",
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "inputs": [
+        {
+          "path": "c2/irex",
+          "bytes": 866,
+          "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070"
+        },
+        {
+          "path": "c2/irsy",
+          "bytes": 13,
+          "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671"
+        },
+        {
+          "path": "c2/irin",
+          "bytes": 3,
+          "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b"
+        },
+        {
+          "path": "c2/irgl",
+          "bytes": 50,
+          "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/test.obj",
+          "bytes": 286,
+          "sha256": "3429d0673969743e1bd606fd994cd6b25f6569c50ec2afb42910d81bcb3d7780",
+          "output_name": "test.obj",
+          "ignored_fields": [
+            {
+              "offset": 4,
+              "bytes": 4,
+              "name": "COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929"
+        }
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C23.ERR",
+          "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "checkpoint": 912,
+  "base_commit": "6c8ba41",
+  "status": "loops active",
+  "source_graphs": 834,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 912,
+    "accepted_code_bytes": 243663,
+    "original_code_bytes": 399693,
+    "percentage": 60.962538748489465,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 360
+  },
+  "frontier": "@next_split_register_color@4",
+  "accepted_functions": [
+    {
+      "name": "@choose_memory_split_register@8",
+      "start": 196080,
+      "end": 198266
+    },
+    {
+      "name": "@remove_spilled_work_registers@8",
+      "start": 182464,
+      "end": 182509
+    },
+    {
+      "name": "@spill_instruction_variable@20",
+      "start": 183312,
+      "end": 183589
+    }
+  ],
+  "limits": [
+    "Whole2186-byte choose_memory_split_register2fdf0..3067a includes cached/free color search and region save/reload fallback; only execution prefix through next_split_register_color reached so far; later fallback callees remain named traps",
+    "Recovered spill_instruction_variable complete direct/index/base operand traversal, preserving signed annotations and negative direct-result early return; mutating index call reloads operand address before checking base",
+    "Whole liveness subtraction removes spilled tree registers after work mutation",
+    "MachineFlowRegion original58/5a are contextual ushort split_color/saved_split_register over original zeroed word, preserving ABI and prior initialization",
+    "Initial912 build rejected nonexistent OPERAND_LABEL name; originalkind8 maps existing OPERAND_SYMBOL; fixed before reference capture; timings retained",
+    "No new bulk data or assembly; all graph/extent/mask and original compiler W3 pass; minimal+hello outputs exact; loops final object incomplete"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

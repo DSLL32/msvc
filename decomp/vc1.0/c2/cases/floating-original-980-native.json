@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "c5ab80c085778cf44fe7ddd081a8daf6418ed85faaafddb723b6fdd3c13d5d07",
-  "config_sha256": "62054d6858caec63fae8ed26f1cf2a9a496ee791310e68667ba6e3cf8d618653",
-  "seconds": 0.14111186750233173,
-  "logical": "@require_external_symbol@4",
-  "matched": true,
-  "log_sha256": "b30844b1a060de458dbe07bc52457e0cc882fc7117234d99106021a26d0cca43",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-anynnqix"
-}

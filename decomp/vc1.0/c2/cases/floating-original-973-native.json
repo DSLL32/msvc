@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "6ff0df045f9a207883fbf1951d7ad50a7137f205cf7ff19ff0ad5f5a2d3ae0aa",
-  "config_sha256": "cae47aa75ecb751c06ce1bb66fafdd1eed396b1e8b4fc870e3e9e91ee9d8d4e6",
-  "seconds": 0.1345754861831665,
-  "logical": "@peephole_selected_block@8",
-  "matched": true,
-  "log_sha256": "41c5f62d25bd1eb94a3a94840aff0e601b14b21999ed8b5d621834b59ed53cd0",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-zrs8fme0"
-}

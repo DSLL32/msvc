@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "80ac05ac165626bb1fb53a29a764b2fe0847bea87e0b20bff2c27513f58c59db",
-  "config_sha256": "f440de64f2f51b7ea28c5a5f009316b0516acf3f94ec6a2bd143245c7233057c",
-  "seconds": 0.14097706507891417,
-  "logical": "@prepare_float_register_source@8",
-  "matched": true,
-  "log_sha256": "ddca5d26946de446c3237cadfb69583ddad8c068980cf3fd424c452ff3849698",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-fm_nvmvp"
-}

@@ -1,0 +1,69 @@
+{
+  "checkpoint": 1072,
+  "base_commit": "c27d93c",
+  "status": "deep x87 active",
+  "source_graphs": 993,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1072,
+    "accepted_code_bytes": 296702,
+    "original_code_bytes": 399693,
+    "percentage": 74.23247342335242,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 486
+  },
+  "accepted_functions": [
+    {
+      "name": "@prepare_generated_intrinsic@8",
+      "start": "0x63cf0",
+      "end": "0x63f20",
+      "bytes": 560,
+      "inline_switch_bytes": 96
+    }
+  ],
+  "frontier": "@release_intrinsic_operands@4",
+  "data_records": "cases/intrinsic-descriptors.json",
+  "data_validation": "cases/intrinsic-descriptor-validation.json",
+  "data_frontier_observations": [
+    {
+      "encountered": 107,
+      "redirected": 106,
+      "meaning": "sine"
+    },
+    {
+      "encountered": 111,
+      "redirected": 110,
+      "meaning": "cosine"
+    },
+    {
+      "encountered": 133,
+      "redirected": 132,
+      "meaning": "two-argument arctangent"
+    },
+    {
+      "encountered": 174,
+      "meaning": "power; no redirected descriptor"
+    }
+  ],
+  "limits": [
+    "Initial deliberate data-frontier traps in accepted lower_intrinsic were investigated and filled before fresh function acceptance was validated; no accepted range was widened for them",
+    "Seven encountered16-byte typed descriptors, their exact short recipe/name strings and24-entry inline-floating switch independently match original and canonical images; no adjacent data copied",
+    "Sine/cosine/atan2 use the native-floating early-return guard here; generated runtime-name/call-metadata path is recovered but not executed",
+    "New set_generated_intrinsic_call child remains an unaccepted named trap",
+    "Seven complete objects and deep-x87 matching named trap pass; slot8 exchange remains unvisited/unmodified",
+    "Initial new helper compile had an integral narrowing warning; explicit unsigned-short cast fixed it before final clean /W3 check",
+    "Failed native match attempts at deliberate descriptor traps have no saved per-attempt elapsed time; measured data-debug/build retries are retained"
+  ],
+  "timing": {
+    "analysis_note": "unmeasured except explicitly wrapped diagnostic inspections"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

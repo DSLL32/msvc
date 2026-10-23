@@ -1,9 +1,0 @@
-{
-  "executable_sha256": "4d818ca1743f741d9255a10298c4e44a70aa72c055bd27b0dda79a5926aef817",
-  "config_sha256": "a9db4e4eb685f309098cc10497d00d1b1f40e310b3664f79d1a0eadc4f0b7638",
-  "seconds": 0.13836761191487312,
-  "logical": "@record_float_nonfloat_uses@4",
-  "matched": true,
-  "log_sha256": "6da66f7b68c2b32c228b8b1d5274659c34406c707419495844f6b39b2f33d650",
-  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-xvcuioka"
-}

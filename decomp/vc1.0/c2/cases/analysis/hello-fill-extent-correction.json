@@ -1,0 +1,26 @@
+{
+  "function": "@select_replicated_fill_operand@12",
+  "old_extent": [
+    "0x1d4e0",
+    "0x1d668"
+  ],
+  "corrected_extent": [
+    "0x1d4e0",
+    "0x1d66a"
+  ],
+  "reason": "Unchanged instruction-boundary preflight rejected end inside final RET4 at1d667; restore its two immediate bytes.",
+  "dynamic_limit": "Constant-fill hello path returns earlier1d544; corrected dynamic tail remains unvisited.",
+  "before": {
+    "sha256": "2de4724128b39fff45ff367465a21a0089cb179710213a6123cbb14caafba79c"
+  },
+  "after": {
+    "sha256": "3287985db45d4c268a1f12e10b193a85d90cb66df3484323cfb0f1566463e0c3"
+  },
+  "native_matching": {
+    "seconds": 0.14929097704589367,
+    "logical": "@select_block_operation@36",
+    "matched": true,
+    "log_sha256": "02aed9d358c91a67acdd41937515fdffe43d39deff53ac0bf073a75a973bbfff"
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

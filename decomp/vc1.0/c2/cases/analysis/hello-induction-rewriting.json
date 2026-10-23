@@ -1,0 +1,179 @@
+{
+  "checkpoint": 809,
+  "base_commit": "706b975",
+  "status": "active; invariant and induction rewriting passed; exit simplification next",
+  "accepted_functions": [
+    {
+      "name": "_combine_region_inductions",
+      "start": 386688,
+      "end": 386950
+    },
+    {
+      "name": "_reduce_region_induction_strength",
+      "start": 386096,
+      "end": 386685
+    },
+    {
+      "name": "_rewrite_region_inductions",
+      "start": 385872,
+      "end": 386093
+    },
+    {
+      "name": "@find_basic_induction_load@4",
+      "start": 390592,
+      "end": 390643
+    },
+    {
+      "name": "@collect_selected_region_values@4",
+      "start": 391936,
+      "end": 392056
+    },
+    {
+      "name": "@rewrite_selected_region_values@4",
+      "start": 391824,
+      "end": 391933
+    },
+    {
+      "name": "@rewrite_region_induction_tree@4",
+      "start": 397440,
+      "end": 397802
+    }
+  ],
+  "source_graphs": 731,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 809,
+    "accepted_code_bytes": 220258,
+    "original_code_bytes": 399693,
+    "percentage": 55.106794464751694,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 281
+  },
+  "current_frontier": {
+    "name": "_simplify_region_exit",
+    "original_va": "0x5e1d0"
+  },
+  "data_provenance": {
+    "hoist_materialized_values": {
+      "address": "7be68",
+      "type": "BitSet*",
+      "meaning": "per-region insertion deduplication; reset/release in5e680; actual materializer5f910 still stubbed"
+    },
+    "shared_numbered_expression_indices": {
+      "structural": "7ba84",
+      "identifier": "7bd68",
+      "type": "existing NumberedExpression*[64], not new snapshots",
+      "operation": "walk identifier_next, release_node canonical, clear both indexes"
+    },
+    "RegionMemoryOperation": {
+      "bytes": 40,
+      "allocator": "5e53c arena4,28hex",
+      "fields": "next0,assignment4,reverse8,opcodec,bytes10,destination14,source18,original_assignment1c,value20,expression24",
+      "dead_fill_slot": "source set0 for fills; original stores indeterminate stack bits but only reads source for copy opcode96"
+    },
+    "symbol_layout": "existing FunctionSymbol prefix supplies attributes24, explicit size2c or SymbolHeader.value8; no new raw structure overlay",
+    "postfix_literals": {
+      "8388c": "DDNSTDNYNY",
+      "83884": "DNST",
+      "8387c": "PDNYPNY",
+      "storage": "ordinary point-of-use strings"
+    }
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Whole memory-strength reducer recovered but hello returns because no trip count exists; bulk replacement body and six child routines remain unvisited traps.",
+    "Selected-value walk and rewrite execute; actual materialization helper remains unvisited trap.",
+    "Comparison rewriter reaches load lookup but finds no basic record; adjustment/representability/rewrite branches remain unvisited.",
+    "The width-comparison warning was fixed by255U masks; both operands already0..255, so value/order unchanged. Final build/audit/native fixtures/W3 repeated and pass.",
+    "Full hello object remains incomplete."
+  ],
+  "timing": {
+    "analysis_note": "unmeasured",
+    "build_audit_fixtures": {
+      "induction-rewriting-audit-timing": {
+        "seconds": 3.696694697253406,
+        "returncode": 0,
+        "log_sha256": "a7ba1c63e7fe2b0c4b30cf18ff94bdc7e97f33bbac793577692092d9792afc75"
+      },
+      "induction-rewriting-warning-fixed-check-timing": {
+        "seconds": 0.33890632074326277,
+        "returncode": 0,
+        "log_sha256": "2ce9f42c58781212348c036d7ffa5be5709c695ee07dd50599d7e8e7b9d2b67d"
+      },
+      "induction-rewriting-warning-fixed-build-timing": {
+        "seconds": 2.5070945424959064,
+        "returncode": 0,
+        "log_sha256": "8e505d72b38e4722b7a9f211fd5eedfb40b0f2bdc18a79d654e26fbbef195047"
+      },
+      "induction-rewriting-warnings-timing": {
+        "seconds": 1.810600996017456,
+        "returncode": 0,
+        "log_sha256": "0fd8441a9ddabd31ac8d26418a77952e1a1bcbcac23b0f0b944e130f57c3c2ae"
+      },
+      "select-region-build-timing": {
+        "seconds": 2.264210158959031,
+        "returncode": 0,
+        "log_sha256": "51f15069cac430df2f7e9a9c7a3f2d7d8fc74b1f28ed0eacb1a5f69e70faf4f8"
+      },
+      "region-memory-build-timing": {
+        "seconds": 9.804305911064148,
+        "returncode": 0,
+        "log_sha256": "20520139558b7de014169e90b11188b337408ee7ff4d2d139c900e2a7a8cb65b"
+      },
+      "combine-inductions-build-timing": {
+        "seconds": 9.822116576135159,
+        "returncode": 0,
+        "log_sha256": "f300092d7e7e4a9add754f59b10b1cfdda9a07fbc156a32b9a08de1ba0184504"
+      },
+      "find-induction-load-build-timing": {
+        "seconds": 2.4137945687398314,
+        "returncode": 0,
+        "log_sha256": "51f15069cac430df2f7e9a9c7a3f2d7d8fc74b1f28ed0eacb1a5f69e70faf4f8"
+      },
+      "induction-rewriting-warning-fixed-audit-timing": {
+        "seconds": 3.6916045397520065,
+        "returncode": 0,
+        "log_sha256": "a7ba1c63e7fe2b0c4b30cf18ff94bdc7e97f33bbac793577692092d9792afc75"
+      },
+      "rewrite-inductions-build-timing": {
+        "seconds": 9.998158175498247,
+        "returncode": 0,
+        "log_sha256": "ae9367610b48cff8cee13d9a6f2727ef7ac77f436f75c97a4b6087763aa7d1f9"
+      },
+      "rewrite-region-build-timing": {
+        "seconds": 2.2760388562455773,
+        "returncode": 0,
+        "log_sha256": "5aeae14f2f3aa1efea942884605c5da7a6e296b20457cf5677d7887473732e8d"
+      },
+      "induction-rewriting-check-timing": {
+        "seconds": 0.31747139897197485,
+        "returncode": 0,
+        "log_sha256": "ac0e376c97656893a88e26d0020539886ee9c8fad181ffc99804631ff88f85cf"
+      },
+      "rewrite-induction-comparison-build-timing": {
+        "seconds": 9.918200486339629,
+        "returncode": 0,
+        "log_sha256": "246acba5acafc667ac4a8368d38749a7da51c1883de1b38f282923303c1451e8"
+      },
+      "induction-rewriting-warning-fixed-warnings-timing": {
+        "seconds": 1.8886179560795426,
+        "returncode": 0,
+        "log_sha256": "26210e158e45443537a7a406d16212e4223b41914cdbafe004d49a9a517d83ab"
+      }
+    },
+    "notes": [
+      "All measured original capture/setup and native GDB phases retained in ordered evidence.",
+      "Native/canonical builds mixed and unsplit; header additions caused9.8\u201310.0s rebuilds, incremental2.3\u20132.5s.",
+      "First W3 reportedC4018; correction/repeated validation times included, not discarded. Fixtures never invoke Wine."
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

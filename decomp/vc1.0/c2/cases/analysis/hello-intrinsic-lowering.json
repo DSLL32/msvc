@@ -1,0 +1,229 @@
+{
+  "checkpoint": 738,
+  "base_commit": "edfd378",
+  "status": "active; aggregate intrinsic lowered; comma expression is next",
+  "accepted_functions": [
+    {
+      "name": "@can_repeat_tree@4",
+      "start": 362192,
+      "end": 362213
+    },
+    {
+      "name": "@lower_intrinsic@8",
+      "start": 407712,
+      "end": 408812
+    },
+    {
+      "name": "@is_function_reference@4",
+      "start": 160528,
+      "end": 160558
+    },
+    {
+      "name": "@prepare_intrinsic_arguments@12",
+      "start": 407376,
+      "end": 407553
+    },
+    {
+      "name": "@intrinsic_argument_types@4",
+      "start": 407232,
+      "end": 407372
+    },
+    {
+      "name": "@inspect_tree_repeatability@4",
+      "start": 362080,
+      "end": 362185
+    }
+  ],
+  "source_graphs": 660,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 738,
+    "accepted_code_bytes": 206701,
+    "original_code_bytes": 399693,
+    "percentage": 51.71494121738434,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 224
+  },
+  "current_frontier": {
+    "name": "@lower_comma@8",
+    "original_va": "0x52180"
+  },
+  "data_provenance": {
+    "intrinsic_descriptor": {
+      "id": 173,
+      "record_extent": [
+        "0x844a8",
+        "0x844b8"
+      ],
+      "meaning": "aggregate fill; flags0x10; result0; empty runtime name",
+      "unrecovered": "other IDs explicitly trap inline; no empty-index placeholders"
+    },
+    "fixed_argument_record": {
+      "extent": [
+        "0x84a8c",
+        "0x84aa8"
+      ],
+      "types": [
+        "0x104",
+        "0x104",
+        "0x404"
+      ],
+      "meaning": "frontend order size, fill byte, destination; typed record plus sentinel; unrelated records omitted"
+    },
+    "default_type_cache": {
+      "extent": [
+        "0x838e0",
+        "0x838f4"
+      ],
+      "words": 5,
+      "initial": 0
+    },
+    "repeatability": {
+      "result_address": "0x836f0",
+      "opcode_property_check": "all182 original table words at857b8 checked against semantic source definitions; original bit0200 exactly NODE_SIDE_EFFECT; bit2000 exactly NODE_HAS_SECOND; zero mismatches",
+      "node_volatile_mask": "0x800"
+    }
+  },
+  "limits": [
+    "Only intrinsic173 descriptor/signature introduced. All command branches reconstructed; this case executes vyE0 only. Unreached child functions retain named traps.",
+    "Fixed-argument preparation exercised. Default repeated-type branch and >5 argument diagnostics are unvisited.",
+    "Full hello object remains incomplete; first-function exact contribution proof unchanged."
+  ],
+  "timing": {
+    "analysis_note": "not instrumented",
+    "build_audit_fixtures": {
+      "function-reference-win32-timing": {
+        "seconds": 1.675310949794948,
+        "returncode": 0,
+        "log_sha256": "8a6ccbcdfed22aea5c7aa52f017f9c3fd8253ccca9836cd7f6a22586dd55b6a4"
+      },
+      "intrinsic-repeat-check-timing": {
+        "seconds": 0.2748866844922304,
+        "returncode": 0,
+        "log_sha256": "938b2eb2db306c0be5a4331ccbfd33b4ff426846e393cfad751f59da7c915c70"
+      },
+      "function-reference-audit-timing": {
+        "seconds": 3.6906295707449317,
+        "returncode": 0,
+        "log_sha256": "45f69adf1a07a509ca95566400fcc0e421cdfaafa5b41b8b845098d8472da26a"
+      },
+      "intrinsic-native-build-timing": {
+        "seconds": 1.448951780796051,
+        "returncode": 2,
+        "log_sha256": "3ad0866381be7db2ddd6e7efad756309b7bdd109b43f7d3d3c16e39f835accb1"
+      },
+      "intrinsic-repeat-warnings-timing": {
+        "seconds": 1.0993983568623662,
+        "returncode": 0,
+        "log_sha256": "0b60833f1aaa297ddf44d3e7cd642031ee920d5c73e8d21895077b297ae689cb"
+      },
+      "repeat-tree-build-timing": {
+        "seconds": 2.2716078562662005,
+        "returncode": 0,
+        "log_sha256": "73eabb4b7eb94bc65a04737da10dcacd3a9f7a0cef5eeb20c88b073fcfbd1ad4"
+      },
+      "intrinsic-types-audit-timing": {
+        "seconds": 3.4784025298431516,
+        "returncode": 0,
+        "log_sha256": "d562253d45515b751fb3e09c109ade040e6d93e3ef1839b416199acc2027c724"
+      },
+      "intrinsic-types-native-build-timing": {
+        "seconds": 2.1209536120295525,
+        "returncode": 0,
+        "log_sha256": "2448ac2d0ae82bbe1c9d2464a6102438ba268081a0481632e9f1d1aff0a9ceee"
+      },
+      "intrinsic-types-win32-timing": {
+        "seconds": 1.8240418769419193,
+        "returncode": 0,
+        "log_sha256": "30565e6553b29c766ac5863becf241c9e5a3b874ce6f9d0ac79f382ee7f241be"
+      },
+      "intrinsic-arguments-win32-timing": {
+        "seconds": 2.1235011452808976,
+        "returncode": 0,
+        "log_sha256": "30565e6553b29c766ac5863becf241c9e5a3b874ce6f9d0ac79f382ee7f241be"
+      },
+      "intrinsic-native-fixed-timing": {
+        "seconds": 10.189395137131214,
+        "returncode": 0,
+        "log_sha256": "e5303a35853d7c40f524ff06de3847a0b5db0e9600be569ddd3d5e86d18ceccc"
+      },
+      "intrinsic-repeat-audit-timing": {
+        "seconds": 3.530349032022059,
+        "returncode": 0,
+        "log_sha256": "76c3b51b380568ed790f1abb2b1774c85b74ad1705d92024453720d9498c6c3d"
+      },
+      "intrinsic-audit-timing": {
+        "seconds": 3.4284858098253608,
+        "returncode": 0,
+        "log_sha256": "87aefbd04583b8cc1167f8fd3f266b920fff66d82c784343be564809a18d818e"
+      },
+      "repeat-wrapper-build-timing": {
+        "seconds": 37.267705897800624,
+        "returncode": 0,
+        "log_sha256": "823920400016c81eb66617568358d9c936cc0dda0ff5d71e54725b6894569c9c"
+      },
+      "function-reference-native-build-timing": {
+        "seconds": 2.1289310716092587,
+        "returncode": 0,
+        "log_sha256": "57279395cd2d3fc7dd3762a633618f173a7be9079cb89739667182275f3f4299"
+      },
+      "intrinsic-win32-timing": {
+        "seconds": 1.9346973253414035,
+        "returncode": 0,
+        "log_sha256": "b91b99faa15c7b63ebc2520b2123cd854b109d4604c4c54546676e45b857bd39"
+      },
+      "intrinsic-arguments-native-build-timing": {
+        "seconds": 9.98707998264581,
+        "returncode": 0,
+        "log_sha256": "fc63c56de9dec012e9bf7f8cb7283aeef02397ea873a14a1ddf00157237b72b5"
+      },
+      "intrinsic-types-warnings-timing": {
+        "seconds": 1.0063964948058128,
+        "returncode": 0,
+        "log_sha256": "0b60833f1aaa297ddf44d3e7cd642031ee920d5c73e8d21895077b297ae689cb"
+      },
+      "intrinsic-types-check-timing": {
+        "seconds": 0.3113651992753148,
+        "returncode": 0,
+        "log_sha256": "d2d42c481b0a6faf0a2430b9b7e30b1e780dc63898d94fed89d4caca7cfdf4ec"
+      }
+    },
+    "native_debug_seconds": [
+      0.20596749894320965,
+      0.15032536443322897,
+      0.15165664441883564,
+      0.14455279894173145,
+      0.14885008055716753,
+      0.1442508539184928
+    ],
+    "original_reference_setup_seconds": [
+      0.18260476645082235,
+      0.1828275676816702,
+      0.18104836158454418,
+      0.17997457273304462,
+      0.19159778207540512,
+      0.1790020354092121
+    ],
+    "original_reference_execution_check_seconds": [
+      0.6822814159095287,
+      0.6246711667627096,
+      1.1307430285960436,
+      0.6309665581211448,
+      1.1925253672525287,
+      1.2693897299468517
+    ],
+    "notes": [
+      "Failed initial native macro syntax attempt and subsequent rebuilds retained where measured.",
+      "Header change plus shared-header update caused complete37.268s mixed native/canonical build; not measured separately."
+    ]
+  },
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

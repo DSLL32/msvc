@@ -1,0 +1,64 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "@optimize_unconditional_jumps@4",
+      "start": "0x33550",
+      "end": "0x33870"
+    },
+    {
+      "name": "@move_data_blocks_to_end@4",
+      "start": "0x33d70",
+      "end": "0x33e00"
+    },
+    {
+      "name": "@find_function_end@4",
+      "start": "0x33530",
+      "end": "0x33550"
+    },
+    {
+      "name": "@find_block_terminator@4",
+      "start": "0x33d30",
+      "end": "0x33d70"
+    },
+    {
+      "name": "@previous_machine_operation@4",
+      "start": "0x68c30",
+      "end": "0x68c50"
+    },
+    {
+      "name": "@label_has_fallthrough_predecessor@4",
+      "start": "0x32f30",
+      "end": "0x32ff0"
+    },
+    {
+      "name": "@fits_signed_byte@4",
+      "start": "0x26950",
+      "end": "0x26970"
+    },
+    {
+      "name": "@clone_machine_record@4",
+      "start": "0x22660",
+      "end": "0x22740"
+    }
+  ],
+  "ABI": {
+    "optimize_unconditional_jumps": "fastcall void(MachineContext*)",
+    "move_data_blocks_to_end": "fastcall void(MachineContext*)",
+    "find_function_end": "fastcall MachineInstruction*(MachineInstruction*)",
+    "find_block_terminator": "fastcall MachineInstruction*(MachineInstruction*)",
+    "previous_machine_operation": "fastcall MachineInstruction*(MachineInstruction*)",
+    "label_has_fallthrough_predecessor": "fastcall unsigned(MachineInstruction*)",
+    "fits_signed_byte": "fastcall int(int)",
+    "clone_machine_record": "fastcall MachineInstruction*(MachineInstruction*)"
+  },
+  "data": "No new image-derived data. Generic clones own typed MachineAddress copies for kinds3..7/12 and separate block bitsets; other payloads preserve original identities.",
+  "graph": "Entire235-instruction jump pass preserves all17 callees, block movement, short-tail duplication and diamond alternative. Embedded DATA-range move retains its function-end and preceding-operation children. Constructor retains record allocation, address allocation and bitset assignment as three native callees.",
+  "refinement": "Provisional label_has_backward_branch at32f30 is renamed label_has_fallthrough_predecessor after full61-instruction analysis: RET/JMP stop fall-through; labels/function headers permit it; DATA scans back to INT. All source users and header/config names updated together; no function graph change.",
+  "limits": [
+    "First live clone is POP EDI with no address payload: deep address-copy and block-bitset alternatives are reconstructed but not claimed exercised by that capture.",
+    "Embedded DATA relocation, diamond merging, fresh-label loop avoidance and failure paths are not claimed dynamically exercised; unreached children keep named traps.",
+    "Only the first function completes these passes; optimized hello remains incomplete."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}

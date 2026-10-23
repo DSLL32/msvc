@@ -1,0 +1,112 @@
+{
+  "case": "hello-win32",
+  "functions": [
+    {
+      "name": "simplify_flow_blocks",
+      "start": "0x59a30",
+      "end": "0x59d30",
+      "instructions": 245,
+      "abi": "fastcall 1: ECX entry block; keep entry fixed and retry local edits"
+    },
+    {
+      "name": "number_work_blocks",
+      "start": "0x59700",
+      "end": "0x59720",
+      "instructions": 12,
+      "abi": "fastcall 1: ECX work chain; int counter, short stored number"
+    },
+    {
+      "name": "remove_unreachable_work",
+      "start": "0x5a5d0",
+      "end": "0x5a660",
+      "instructions": 51,
+      "abi": "fastcall 1: ECX entry block"
+    },
+    {
+      "name": "mark_reachable_work",
+      "start": "0x5b6a0",
+      "end": "0x5b6d0",
+      "instructions": 16,
+      "abi": "fastcall 1: ECX block; recursive successor walk"
+    },
+    {
+      "name": "remove_flow_work",
+      "start": "0x5b510",
+      "end": "0x5b6a0",
+      "instructions": 129,
+      "abi": "fastcall 1: ECX block to unlink"
+    },
+    {
+      "name": "remove_flow_reference",
+      "start": "0x5b170",
+      "end": "0x5b1a0",
+      "instructions": 18,
+      "abi": "fastcall 2: ECX link-slot pointer, EDX target block"
+    },
+    {
+      "name": "destroy_flow_work",
+      "start": "0x5b6d0",
+      "end": "0x5b710",
+      "instructions": 25,
+      "abi": "fastcall 1: ECX block; recycle links and descriptor"
+    }
+  ],
+  "renames": {
+    "0x59a30": "refresh_flow_edges -> simplify_flow_blocks: edits branches and coalesces work blocks",
+    "0x5a5d0": "simplify_flow_branches -> remove_unreachable_work: marks and removes unreachable blocks"
+  },
+  "data": [
+    {
+      "name": "WorkItem",
+      "size": 68,
+      "fields": {
+        "0x14": "union of unsigned traversal_mark and BitSet *dominators",
+        "0x24..0x38": "BitSet *flow_sets[6]",
+        "0x3c": "short number"
+      },
+      "provenance": "Ordering uses the visitation mark; dominator construction consumes a bitset pointer at the same offset. Removal releases and clears six dynamic bitset slots. Numbering stores a short while retaining an int maximum."
+    },
+    {
+      "name": "FlowRegion",
+      "extent": "encountered typed prefix through offset 0x18; original allocator reserves 44 bytes",
+      "fields": {
+        "0x00": "FlowRegion *next",
+        "0x04": "FlowRegion *children",
+        "0x08": "FlowRegion *parent",
+        "0x0c": "WorkItem *entry",
+        "0x10": "WorkItem *header",
+        "0x14": "WorkItem *last",
+        "0x18": "unsigned flags"
+      },
+      "provenance": "Region discovery links siblings, children and parent and assigns landmarks. Block removal marks a region when removing any landmark. Allocator 0x5b780 sets arena two / 0x2c bytes. Remaining fields are deferred until their uses are reconstructed."
+    }
+  ],
+  "independent_validation": [
+    {
+      "frontier": "number_work_blocks",
+      "blocks": 8,
+      "expressions": 24,
+      "nodes": 94,
+      "successors": 9,
+      "predecessors": 9,
+      "normalization": "debugger exception address only"
+    },
+    {
+      "frontier": "merge_flow_blocks",
+      "blocks": 7,
+      "expressions": 23,
+      "nodes": 93,
+      "successors": 8,
+      "predecessors": 8,
+      "normalization": "debugger exception address only"
+    }
+  ],
+  "limits": [
+    "Hello object remains pending at merge_flow_blocks 0x5a540 (physical block ordering).",
+    "The first simplification pass dynamically deletes an unused label; conditional inversion, block coalescing and protected-region transfer remain behind named helper traps.",
+    "Reachability dynamically removes a branch-only block; optional warning and protected-label/exception diagnostics are not claimed as runtime passes.",
+    "Missing-edge removal dereferences the absent link as the original does; callers require the requested edge to exist.",
+    "The complete native remove_flow_reference body ends at 0x5b195; the extent is rounded only to 0x5b1a0, preserving the next independent function."
+  ],
+  "analysis_scope": "Extracted historical reconstruction analysis; superseded transport evidence removed, current references in cases/shared-prefix-evidence"
+}
