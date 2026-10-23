@@ -1,0 +1,29 @@
+{
+  "size": 18,
+  "offset": 0,
+  "owner": "initialize_strip_sections",
+  "local": "symbol",
+  "esp_offset": 44,
+  "mode": "input",
+  "defined_bytes": 18,
+  "initial_bytes": "2e6564617461000000900000070000000300",
+  "callsite": {
+    "start": 169589,
+    "end": 169604,
+    "sha256": "40a4f0bd939e5f2272b808ba68bd0b9d52007cbf4662fc0fbf6c46db3ad14f6e"
+  },
+  "frame": {
+    "start": 169296,
+    "end": 169303,
+    "allocation": 76,
+    "entry_bias": 28,
+    "sha256": "28b0c6c344c32cf0b4b9b5639181fff71592a868d9c8e15fce2b0d977f55f6b5"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 169604
+    }
+  ],
+  "scope": "Actual first next_coff_symbol caller locals: complete previously read COFF symbol and explicit index0. Both are read/write by next helper; all entrybytes defined and compared. Native exact caller-local address/type-size; original exact LEA/push/return and frame bound, no heap-pointer or undefined normalization."
+}

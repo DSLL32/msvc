@@ -1,0 +1,25 @@
+{
+  "application_functions": 102,
+  "application_bytes": 33512,
+  "next": "next_coff_symbol",
+  "source": "classify_coff_symbol28d90..28dfc is a call-free leaf classifying derived-function records withaux, .bf/.ef/.lf block records, .file records and ordinary records. First actual .edata record returns5 and proceeds to real next_coff_symbol.",
+  "checks": {
+    "build-check": 0.3800951400771737,
+    "fixtures": 0.4554932126775384
+  },
+  "original_seconds": {
+    "setup": 0.2728135120123625,
+    "execution": 0.77571233920753,
+    "total": 1.0775047093629837
+  },
+  "native_seconds": {
+    "setup": 0.23549393191933632,
+    "execution": 0.019516614265739918,
+    "debugging": 1.562653942964971,
+    "checks": 0.031931604258716106,
+    "total": 1.8496043775230646
+  },
+  "typed_inputs": "Existing typed caller-local comparator observes next helper bothactualformals: CoffSymbol18 fully defined from immutable DLL and index4 explicitly initialized0. Actual originalLEA/push/return29684 and native namedlocals/sizeof identities match; no unobserved heap comparison.",
+  "historical_pipeline": "Disabled by user. No fullproof/negative suite run or scheduled; static wholefunctiongraph/ABI/data and ordinary native trace/status/streams/full artifacts pass.",
+  "targeted_checks": "No new bespoke checks/observer for this leaf; existing fixed-defined caller-local validation reused."
+}

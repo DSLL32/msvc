@@ -125,4 +125,3 @@ void free_strip_records(void) { __asm { int 3 } }
 
 unsigned short next_coff_symbol(CoffSymbol *symbol,unsigned long *index)
 { __asm { int 3 } return 0; }
-int classify_coff_symbol(const CoffSymbol *symbol) { __asm { int 3 } return 0; }

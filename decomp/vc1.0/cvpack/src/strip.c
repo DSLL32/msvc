@@ -149,3 +149,14 @@ unsigned short read_coff_symbol(CoffSymbol *symbol, unsigned long index)
     strip_read_offset = position+sizeof(*symbol);
     return 1;
 }
+
+int classify_coff_symbol(const CoffSymbol *symbol)
+{
+    if ((symbol->type & 0x30) == 0x20 && symbol->auxiliary_count) return 0;
+    if (symbol->storage_class == 0x65) {
+        if (symbol->name[1] == 'b') return 1;
+        if (symbol->name[1] == 'e') return 4;
+        if (symbol->name[1] == 'l') return 2;
+    } else if (symbol->storage_class == 0x67) return 3;
+    return 5;
+}
