@@ -43,7 +43,7 @@
     "_initialize_frontend_21",
     "_initialize_frontend_22"
   ],
-  "trial": null,
+  "trial": "_initialize_pdb_context_01",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -374,6 +374,12 @@
       "start_rva": 231802,
       "end_rva": 231816,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_pdb_context_01",
+      "start_rva": 231759,
+      "end_rva": 231802,
+      "entry": 1
     }
   ],
   "stage": "_initialize_frontend_22 accepted; next frontier _initialize_pdb_context_01"

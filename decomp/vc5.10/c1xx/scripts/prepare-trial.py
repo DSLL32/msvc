@@ -82,9 +82,13 @@ def prepare():
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
     trial["test_seed"] = candidate.get("test_seed")
     trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
-    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
+    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
+    trial['test_pdb_seed']=candidate.get('test_pdb_seed')
+    if trial['test_pdb_seed'] is not None:
+        if trial['test_pdb_seed'] not in (0,1):raise ValueError('unknown PDB reuse mode')
+        trial['auxiliary_pdb_data_seed']={'point':'initializer entry before BSS reset; restore_mode overridden at PDB constructor entry','owner':'_initialize_pdb_context_01','pointer_fields':'owned snapshot interiors +0/+4/+8/+12/+16; never dereferenced','read_mode':37,'reuse_mode':trial['test_pdb_seed'],'code_or_allocator_mock':False}
     trial['test_token_seed']=candidate.get('test_token_seed')
     if trial['test_token_seed']:
         if trial['test_token_seed'] not in ('positive','negative'):raise ValueError('unknown token seed arm')

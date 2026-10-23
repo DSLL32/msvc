@@ -682,10 +682,9 @@
     {
       "name": "_initialize_pdb_context_01",
       "start": 272861519,
-      "end": 272861520,
+      "end": 272861562,
       "source": "src/pdb-context.c",
-      "abi": "cdecl0",
-      "pending_extent": true
+      "abi": "cdecl0"
     },
     {
       "name": "_destroy_pdb_context_01",

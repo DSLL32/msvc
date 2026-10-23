@@ -45,6 +45,7 @@ def check(original, native, require_audit=True, audit_path=None):
     cfg = json.loads((PROJECT / "functions.json").read_text())
     candidate = json.loads((PROJECT / cfg.get("candidate_path", "cases/lifecycle/candidate.json")).read_text())
     if candidate["case"] == "minimal":
+        require(candidate.get('test_pdb_seed') is None,'PDB data auxiliary cannot promote a function')
         require(not candidate.get('test_seed'),'auxiliary/seeded executions cannot promote a function')
         require(not candidate.get('test_token_seed'),'token data auxiliary cannot promote a function')
         require(not candidate.get('test_deferred_seed'),'deferred-work data auxiliary cannot promote a function')
@@ -54,6 +55,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_checked_malloc':'check-projection.py',
                   '_register_cleanup':'check-callback.py',
                   '_initialize_deferred_work':'check-callback.py',
+                  '_initialize_pdb_context_01':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

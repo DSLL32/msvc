@@ -1,5 +1,5 @@
 {
-  "schema": 16,
+  "schema": 17,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -838,6 +838,60 @@
       "native_expression": "frontend_bss.source_signature",
       "original_default": 0,
       "evidence": "constructor3893d seedsFFFFFFFF;3908c/39554 pass previous value as third unsigned signature argument to mspdb50!SigForPbCb IATc9234 and store returned EAX"
+    },
+    {
+      "name": "input_pdb_context.database",
+      "class": "external",
+      "original_address": 273461296,
+      "bytes": 4,
+      "native_expression": "input_pdb_context.database",
+      "original_default": 0,
+      "evidence": "PDB-context3894f conditional reset; explicit field-role evidence in pdb-context-plan.md"
+    },
+    {
+      "name": "input_pdb_context.names",
+      "class": "external",
+      "original_address": 273461300,
+      "bytes": 4,
+      "native_expression": "input_pdb_context.names",
+      "original_default": 0,
+      "evidence": "PDB-context3894f conditional reset; explicit field-role evidence in pdb-context-plan.md"
+    },
+    {
+      "name": "input_pdb_context.types",
+      "class": "external",
+      "original_address": 273461304,
+      "bytes": 4,
+      "native_expression": "input_pdb_context.types",
+      "original_default": 0,
+      "evidence": "PDB-context3894f conditional reset; explicit field-role evidence in pdb-context-plan.md"
+    },
+    {
+      "name": "input_pdb_context.minimal_rebuild",
+      "class": "external",
+      "original_address": 273461308,
+      "bytes": 4,
+      "native_expression": "input_pdb_context.minimal_rebuild",
+      "original_default": 0,
+      "evidence": "PDB-context3894f conditional reset; explicit field-role evidence in pdb-context-plan.md"
+    },
+    {
+      "name": "input_pdb_context.stream_state",
+      "class": "external",
+      "original_address": 273461316,
+      "bytes": 4,
+      "native_expression": "input_pdb_context.stream_state",
+      "original_default": 0,
+      "evidence": "PDB-context3894f conditional reset; explicit field-role evidence in pdb-context-plan.md"
+    },
+    {
+      "name": "input_pdb_context.read_mode",
+      "class": "external",
+      "original_address": 273461320,
+      "bytes": 4,
+      "native_expression": "input_pdb_context.read_mode",
+      "original_default": 0,
+      "evidence": "PDB-context3894f conditional reset; explicit field-role evidence in pdb-context-plan.md"
     }
   ],
   "initializers": [
@@ -1075,5 +1129,37 @@
     "tested_union_arm": "integer auxiliary only; normal zero prefix copied without interpretation",
     "pointer_arm": "writer-proven opaque object pointer; no raw original/native pointer integer comparison",
     "unknown_consumers": "hard named trap before any unmodeled field read, escape, serialization or comparison"
+  },
+  "pdb_context_projection": {
+    "fields": [
+      "database",
+      "names",
+      "types",
+      "minimal_rebuild",
+      "stream_state",
+      "read_mode"
+    ],
+    "original_offsets": [
+      0,
+      4,
+      8,
+      12,
+      20,
+      24
+    ],
+    "native_offsets": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20
+    ],
+    "native_size": 24,
+    "unmodeled_original_gap": [
+      16,
+      20
+    ],
+    "outside_snapshot_and_bss": true
   }
 }

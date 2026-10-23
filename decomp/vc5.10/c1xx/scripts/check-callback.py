@@ -25,18 +25,19 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor=constructor_number==1
     constructor2=constructor_number>=2
     registrar=trial['trial']=='_register_cleanup'
+    pdb=trial['trial']=='_initialize_pdb_context_01'
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=22,
+    s.require(pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=22,
               'no reviewed callback decoder for this function')
-    index=16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
+    index=22 if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -71,7 +72,9 @@ def check(original,native,require_audit=True,audit_path=None):
         if deferred or index>=17:
             path += [('initialize_deferred_work',0x38904),('register_cleanup',0x386ae),callback(17)]
             if not deferred:path += [callback(slot) for slot in range(18,min(index+2,23))]
-            if index==22:path.append(('initialize_pdb_context_01',0x3894f))
+            if index==22:
+                path.append(('initialize_pdb_context_01',0x3894f))
+                if pdb:path += [('register_cleanup',0x386ae),callback(23)]
         elif not constructor_number and not registrar:
             name='initialize_deferred_work' if index==16 else 'initialize_output_buffer_%02d'%(completed+1)
             path.append((name,records['_'+name]['start']-0x10400000))
@@ -115,7 +118,7 @@ def check(original,native,require_audit=True,audit_path=None):
         s.require(int(traps[6][2].split(',')[1],16)==8520,'actual allocator request differs')
     original_cleanup=[];native_cleanup=[]
     for number in range(1,registered+1):
-        name='destroy_deferred_work' if number==9 else 'destroy_output_buffer_%02d'%number
+        name='destroy_pdb_context_01' if number==10 else 'destroy_deferred_work' if number==9 else 'destroy_output_buffer_%02d'%number
         symbol=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] '+name+'$',symbols,re.M)
         s.require(symbol is not None,'missing encountered native destructor boundary')
         original_cleanup.append(records['_'+name]['start']);native_cleanup.append(int(symbol[1],16))
@@ -125,7 +128,7 @@ def check(original,native,require_audit=True,audit_path=None):
                   old['cleanup_count']==value['cleanup_count']==(registered if suffix==final else 0) and
                   old['cleanup_callbacks']==(original_cleanup+[0]*(32-registered) if suffix==final else [0]*32) and
                   value['cleanup_callbacks']==(native_cleanup+[0]*(32-registered) if suffix==final else [0]*32) and
-                  old['restore_mode']==value['restore_mode']==wanted and value['saved_first']==copied and
+                  old['restore_mode']==value['restore_mode']==(trial['test_pdb_seed'] if suffix==final and trial.get('test_pdb_seed') is not None else wanted) and value['saved_first']==copied and
                   all(context(original,suffix,name)==value[name]==[0]*counts[name] for name in context_names),
                   'typed copy/expanded BSS clear/context initializer result differs')
         raw=(original/('frontend-snapshot-'+suffix+'.bin')).read_bytes()
@@ -145,6 +148,9 @@ def check(original,native,require_audit=True,audit_path=None):
         check_outputs(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps,model)
     if model['schema']>=14:check_deferred(original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if model['schema']>=15:check_token_value(original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
+    if model['schema']>=17:
+        spec=importlib.util.spec_from_file_location('pdb_state',Path(__file__).with_name('pdb_state.py'));p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p)
+        p.check(s,original,native,trial,text,pre,phase,state,final,symbols,traps)
     if model['schema']>=16:check_signature(original,native,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')

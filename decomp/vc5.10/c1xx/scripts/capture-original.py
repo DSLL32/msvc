@@ -134,6 +134,8 @@ def main():
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_DEFERRED_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_TOKEN_COPY',None)
+        environment.pop('C1XX_TEST_PDB_CONTEXT',None)
+        if trial.get('test_pdb_seed') is not None:environment['C1XX_TEST_PDB_CONTEXT']=str(trial['test_pdb_seed'])
         if trial.get('test_token_seed'):environment['C1XX_TEST_TOKEN_COPY']=trial['test_token_seed']
         if trial.get('test_deferred_seed'):environment['C1XX_TEST_DEFERRED_CONSTRUCTOR']='1'
         if trial.get('test_constructor_seed'):

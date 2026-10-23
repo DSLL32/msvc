@@ -264,6 +264,8 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "sentinel-payload-%s.bin", suffix); save_blob(name, data, 40);
     readmem(base + 0xc0b80, data, 8);
     sprintf(name, "sentinel-header-%s.bin", suffix); save_blob(name, data, 8);
+    readmem(base + 0xcb030, data, 28);
+    sprintf(name, "pdb-context-01-%s.bin", suffix); save_blob(name, data, 28);
     readmem(base + 0xc0834, data, 4);
     sprintf(name, "source-signature-%s.bin", suffix); save_blob(name, data, 4);
     readmem(base + 0xcc000, data, sizeof(data));
@@ -544,6 +546,22 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if (address == base + 0x38550 && getenv("C1XX_TEST_PDB_CONTEXT")) {
+                    DWORD owned, fields[6], k;
+                    readmem(base + 0xc4d50, &owned, 4);
+                    if (!owned) fail("PDB seed needs owned snapshot");
+                    for (k = 0; k < 5; ++k) fields[k] = owned + 4*k;
+                    fields[5] = 37;
+                    write_mem(base + 0xcb030, fields, 16);
+                    write_mem(base + 0xcb044, fields + 4, 8);
+                    fprintf(events, "pdb-context-seed allocation=%08lx read-mode=37 never-dereferenced=1\n", owned);
+                }
+                if (address == base + 0x3894f && getenv("C1XX_TEST_PDB_CONTEXT")) {
+                    DWORD reuse = atoi(getenv("C1XX_TEST_PDB_CONTEXT"));
+                    if (reuse > 1) fail("unknown PDB reuse mode");
+                    write_mem(base + 0xcb06c, &reuse, 4);
+                    fprintf(events, "pdb-reuse-seed value=%lu\n", reuse);
+                }
                 if (getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR")) {
                     static const DWORD constructors[] = { 0x38666, 0x386db, 0x3872a, 0x38779, 0x387c8, 0x38817, 0x38866, 0x388b5 };
                     unsigned object = atoi(getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR"));
