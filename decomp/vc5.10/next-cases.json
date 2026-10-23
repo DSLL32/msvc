@@ -55,16 +55,27 @@
     {
       "binary": "cvtres",
       "agent": "/root/vc510_orchestrator/cvtres",
-      "next_case": "resources-rich-ce",
-      "case": "Convert the same verified resource input to ARM/Windows CE COFF, exercising the observed 24bpp-to-2bpp bitmap conversion.",
-      "contract": "The separate original ARM/Windows CE reference is validated; preserve the completed x86 native regression and accept only fresh matching candidate evidence.",
+      "next_case": "final-palette-message-validation",
+      "case": "Validate 4/8bpp CE palettes with verbose output and three duplicate resource identities, then keep idle unless a concrete missing application behavior is identified.",
+      "contract": "No additional application credit. Compare complete outputs/status/artifacts/traces to fresh owned original masters; shared UTF16 formatter gap must be resolved through lib/recon.",
       "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence.",
       "completed_cases": [
         "help",
-        "resources-rich"
+        "resources-rich",
+        "resources-rich-ce",
+        "default-machine",
+        "arm-without-windowsce"
       ],
-      "completed_case_proof": "cvtres/cases/resources-rich/completion.json",
-      "completed_case_commit": "6b6235e3"
+      "completed_case_proof": "cvtres/cases/final-validation.json",
+      "completed_case_commit": "84d1861c489c4ead422caf083b0fe805e9e78631",
+      "state": "Application reconstruction complete; one bounded final validation group in progress.",
+      "application_functions": 22,
+      "application_extent_bytes": 7445,
+      "application_partition_proof": "cvtres/cases/code-extent-inventory.json",
+      "independent_combined_execution_seconds": 0.01443,
+      "coverage_qualification": "All identified application code extents; not universal branch, option, resource-format or API conformance.",
+      "independent_fixture_seconds_excluding_native_rebuild": 0.3278,
+      "fixture_timing_qualification": "Measured total2.2473s included1.9195s native rebuild; the reported difference excludes that measured rebuild, rather than representing a separate warm run."
     },
     {
       "binary": "link",
