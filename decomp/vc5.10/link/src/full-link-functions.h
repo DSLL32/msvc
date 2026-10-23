@@ -28,7 +28,7 @@ void __stdcall move_contribution_to_end(Contribution *contribution);
 void __stdcall move_group_to_end(ContributionGroup *group);
 void __stdcall initialize_section_enumerator(SectionEnumerator *enumerator,SectionList *sections);
 BYTE __stdcall next_output_section(SectionEnumerator *enumerator);
-void __cdecl end_section_enumerator(void);
+void __stdcall end_section_enumerator(SectionEnumerator *enumerator);
 void __stdcall initialize_pdb(BYTE mppc32_types,const char *name);
 void __cdecl close_pdb(void);
 void __cdecl commit_pdb(void);

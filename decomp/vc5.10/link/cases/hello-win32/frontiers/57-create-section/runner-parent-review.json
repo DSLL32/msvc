@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "reviewer": "/root/vc510_orchestrator",
+  "result": "PASS",
+  "scope": "Accept runner current rebuilt configuration selection after strict original+native binds",
+  "runner_sha256": "48e2ed929a4b9b2c47b66e4405abbe9f126837c695b623e24f85038a3e9fab53",
+  "diff_sha256": "9903c99c94740ec219059dc37162d20ffead67d2973a62f65264f9937c1ab6a3",
+  "validation_sha256": "32cd1866e36ccc372179a4ff2119f2459eb91abe7fc4f66e8f3365f5bd2a1ede",
+  "trial_sha256": "ab169abb213165831c882390dd5131bd090ed01b26ca32be4a6ce242e770f6c5",
+  "original_configuration_sha256": "632c7ae83718eaef06aca75d8b0c336acf93a456a7a9aafbc0997196943e71f2",
+  "checks": [
+    "Native config byte-exact current effective trial before audit",
+    "Original target/accepted prefix/case/input/CWD/actualhFile and exact physicallyreconstructed mask+entryplans remain validated",
+    "Current source/rebuiltPE/MAP/native sourcecontent bindings remain enforced",
+    "Separate capturedoriginal/currentnative config hashes match actual files",
+    "Fresh native pair/current strict audit required, oldstaleconfigrejection preserved"
+  ],
+  "limitations": [
+    "Only current rebuilt aliases/role metadata refresh, historical originalrawconfig immutable",
+    "No broad masking/graph/ABI relaxation"
+  ]
+}

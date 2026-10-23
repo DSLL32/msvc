@@ -12,6 +12,8 @@ extern OutputSection *import_section,*import_thunk_section,*import_descriptor_se
 extern OutputSection *delay_import_section,*architecture_section,*ppc_loader_section;
 extern ContributionGroup *export_group,*debug_symbol_group,*debug_type_group;
 extern ContributionGroup *debug_precompiled_group,*debug_fixup_group;
+OutputSection *__stdcall find_matching_output_section(OutputModule *,const char *,DWORD,SectionList *,IMAGE_OPTIONAL_HEADER *);
+void __stdcall adjust_output_section_flags(DWORD *,const char *,IMAGE_OPTIONAL_HEADER *);
 OutputSection *__stdcall create_output_section(OutputModule *,const char *,DWORD,SectionList *,IMAGE_OPTIONAL_HEADER *);
 ContributionGroup *__stdcall create_contribution_group(const char *,OutputSection *);
 #ifdef __cplusplus

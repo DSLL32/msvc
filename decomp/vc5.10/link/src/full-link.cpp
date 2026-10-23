@@ -222,7 +222,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
         initialize_section_enumerator(&section_enumerator,&sections);
         while (next_output_section(&section_enumerator))
             apply_section_merge(section_enumerator.current);
-        end_section_enumerator();
+        end_section_enumerator(&section_enumerator);
     }
     merge=section_merges.first;
     for (index=0;(WORD)index<section_merges.count;++index,merge=merge->next) {

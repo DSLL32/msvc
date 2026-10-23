@@ -392,11 +392,15 @@ def main():
         assert name in [event['name'] for event in original_events if event['event']=='entry'], 'support leaf not reached'
     native_state = json.loads((args.native / 'state.json').read_text())
     assert args.candidate in native_state.get('entries', []), 'candidate not reached in native trial'
-    audit = audit_trial(args.original / 'functions.json')
+    # Original binding above proves the exact executed mask/prefix/inputs.
+    # Rebuilt aliases may be corrected without changing that execution; audit
+    # the native capture's independently verified current trial index.
+    audit = audit_trial(args.native / 'functions.json')
     validation = dict(candidate=args.candidate,case=json.loads((args.original/'receipt.json').read_text()).get('case','help'), expected_next=args.expected_next,completion=completion_master,
                       native_cleanup=str(args.native_cleanup)if args.complete else None,
                       cleanup=cleanup if args.complete else None,
-                      trial_sha256=sha((args.original / 'functions.json').read_bytes()),
+                      trial_sha256=sha((args.native / 'functions.json').read_bytes()),
+                      original_configuration_sha256=sha((args.original / 'functions.json').read_bytes()),
                       original=str(args.original), native=str(args.native), audit=audit)
     original_receipt=json.loads((args.original/'receipt.json').read_text())
     native_receipt=json.loads((args.native/'receipt.json').read_text())

@@ -73,7 +73,8 @@
     "_initialize_contribution_pools",
     "_allocate_virtual_memory@16",
     "_initialize_comdats",
-    "LinkContext::InitializeSections"
+    "LinkContext::InitializeSections",
+    "_create_output_section@20"
   ],
   "driver": [
     {
@@ -1344,9 +1345,10 @@
       "end": 4259217,
       "source": "src/full-link-stubs.cpp",
       "status": "stub",
-      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "abi": "stdcall void(SectionEnumerator *enumerator); actual RET4 at40fd90 and FullLink4435a2LEA/4435a6PUSH/4435a7CALL prove one stack input; still unreconstructed",
       "pending_extent": true,
-      "native_symbol": "end_section_enumerator"
+      "native_symbol": "end_section_enumerator",
+      "symbol": "_end_section_enumerator@4"
     },
     {
       "name": "_initialize_pdb@8",
@@ -2304,10 +2306,10 @@
     {
       "name": "_create_output_section@20",
       "start": 4255632,
-      "end": 4255633,
+      "end": 4255775,
       "source": "src/sections.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "create_output_section",
       "abi": "stdcall OutputSection *(OutputModule *module,const char *name,DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header); five stack inputs, RET20; no hidden inputs"
     },
@@ -2320,6 +2322,26 @@
       "pending_extent": true,
       "native_symbol": "create_contribution_group",
       "abi": "stdcall ContributionGroup *(const char *name,OutputSection *section); two stack inputs, RET8; no hidden inputs"
+    },
+    {
+      "name": "_find_matching_output_section@20",
+      "start": 4256048,
+      "end": 4256049,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "find_matching_output_section",
+      "abi": "stdcall OutputSection *(OutputModule *module,const char *name,DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header); five stack inputs, RET20; no hidden inputs"
+    },
+    {
+      "name": "_adjust_output_section_flags@12",
+      "start": 4581408,
+      "end": 4581409,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "adjust_output_section_flags",
+      "abi": "stdcall void(DWORD *flags,const char *name,IMAGE_OPTIONAL_HEADER *header); three stack inputs, RET12; no hidden inputs"
     }
   ],
   "text_data": [

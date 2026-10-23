@@ -19,7 +19,7 @@ extern "C" void __stdcall move_contribution_to_end(Contribution *contribution) {
 extern "C" void __stdcall move_group_to_end(ContributionGroup *group) { __asm { int 3 } }
 extern "C" void __stdcall initialize_section_enumerator(SectionEnumerator *enumerator,SectionList *sections) { __asm { int 3 } }
 extern "C" BYTE __stdcall next_output_section(SectionEnumerator *enumerator) { __asm { int 3 } return 0; }
-extern "C" void __cdecl end_section_enumerator(void) { __asm { int 3 } }
+extern "C" void __stdcall end_section_enumerator(SectionEnumerator *enumerator) { __asm { int 3 } }
 extern "C" void __stdcall initialize_pdb(BYTE mppc32_types,const char *name) { __asm { int 3 } }
 extern "C" void __cdecl close_pdb(void) { __asm { int 3 } }
 extern "C" void __cdecl commit_pdb(void) { __asm { int 3 } }

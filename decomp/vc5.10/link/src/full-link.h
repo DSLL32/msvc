@@ -32,9 +32,13 @@ struct OutputModule {
 struct OutputSection {
     char *name;
     DWORD rva, reserved08, raw_size, virtual_size, reserved14, file_offset;
-    DWORD reserved1c, characteristics, reserved24[3];
-    WORD index;
+    DWORD reserved1c, characteristics, original_characteristics, reserved28[2];
+    WORD index, reserved32;
+    DWORD reserved34[2], reserved3c;
+    ContributionGroup *groups;
+    OutputSection *next;
 };
+typedef char OutputSectionSize[(sizeof(OutputSection)==72)?1:-1];
 struct ContributionGroup {
     char *name;
     DWORD contribution_count, rva, reserved0c, file_offset, size;

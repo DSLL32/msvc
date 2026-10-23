@@ -1,0 +1,116 @@
+{
+  "kind": "discovered latent unexecuted downstream ABI correction; no new function acceptance",
+  "original_function": 4259216,
+  "original_body_hex": "c20400",
+  "original_full_link_call": [
+    {
+      "site": 4470178,
+      "bytes": "8d4c2460",
+      "instruction": "lea ecx,[esp+0x60]"
+    },
+    {
+      "site": 4470182,
+      "bytes": "51",
+      "instruction": "push ecx"
+    },
+    {
+      "site": 4470183,
+      "bytes": "e8e4c7fcff",
+      "instruction": "call40fd90"
+    }
+  ],
+  "previous_decl": "cdecl void(void)",
+  "correct_decl": "stdcall void(SectionEnumerator *enumerator)",
+  "full_link_source_before_sha256": "7bdc6df7e30435f456024467e04f8d701762335b75d614cd78e9dc45da197fd2",
+  "full_link_source_after_sha256": "e78f910053dda34a5b8cdbbe9521563c80710ffd2f6703d2b9414e741385ba2a",
+  "historical_evidence": "Prior help/current hello boundaries do not reach the section-merge cleanup; their raw records and proof packets remain unchanged.",
+  "next_validation": "Both compilers, same immutable original capture with exact unchanged target mask/input binding, fresh native retry/typed state and candidate strict audit required before promotion.",
+  "rebuilt_full_link": 4230224,
+  "rebuilt_callee": 4240402,
+  "rebuilt_caller": [
+    {
+      "site": 4232443,
+      "bytes": "8d8db4fcffff",
+      "instruction": "lea ecx, [ebp - 0x34c]"
+    },
+    {
+      "site": 4232449,
+      "bytes": "51",
+      "instruction": "push ecx"
+    },
+    {
+      "site": 4232450,
+      "bytes": "e80b1f0000",
+      "instruction": "call 0x40b412"
+    },
+    {
+      "site": 4232455,
+      "bytes": "8b1560e44000",
+      "instruction": "mov edx, dword ptr [0x40e460]"
+    }
+  ],
+  "rebuilt_callee_body": [
+    {
+      "site": 4240402,
+      "bytes": "55",
+      "instruction": "push ebp"
+    },
+    {
+      "site": 4240403,
+      "bytes": "8bec",
+      "instruction": "mov ebp, esp"
+    },
+    {
+      "site": 4240405,
+      "bytes": "53",
+      "instruction": "push ebx"
+    },
+    {
+      "site": 4240406,
+      "bytes": "56",
+      "instruction": "push esi"
+    },
+    {
+      "site": 4240407,
+      "bytes": "57",
+      "instruction": "push edi"
+    },
+    {
+      "site": 4240408,
+      "bytes": "cc",
+      "instruction": "int3 "
+    },
+    {
+      "site": 4240409,
+      "bytes": "5f",
+      "instruction": "pop edi"
+    },
+    {
+      "site": 4240410,
+      "bytes": "5e",
+      "instruction": "pop esi"
+    },
+    {
+      "site": 4240411,
+      "bytes": "5b",
+      "instruction": "pop ebx"
+    },
+    {
+      "site": 4240412,
+      "bytes": "5d",
+      "instruction": "pop ebp"
+    },
+    {
+      "site": 4240413,
+      "bytes": "c20400",
+      "instruction": "ret 4"
+    }
+  ],
+  "rebuilt_pe_sha256": "1997a718b06d98f6e3785f0e3e676f11355ca8665c0801a8bed44633996307bb",
+  "rebuilt_map_sha256": "73c011074cd706e42f9bbd27517140241df438ebcdd9231fc8301e65f17b93dc",
+  "correction_sources": {
+    "src/full-link.cpp": "e78f910053dda34a5b8cdbbe9521563c80710ffd2f6703d2b9414e741385ba2a",
+    "src/full-link-functions.h": "e821021ca8ec8c48799400e58424f899e4aadf09008e09c6054ca0510206933e",
+    "src/full-link-stubs.cpp": "662b6390e1288ea250db59e61bac1ba62dd414bf9a879631e8d7b8aa6449d0a4"
+  }
+}

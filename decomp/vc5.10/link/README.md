@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 56 application
-functions (28,306 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 57 application
+functions (28,449 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `create_output_section`; hello-win32 has not completed.
+next frontier is `find_matching_output_section`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -286,3 +286,17 @@ The initializer's actual ECX receiver and19 still-NULL output handles are checke
 text_section identifier was corrected to bss_section with an independent narrow
 source-hash review; historical preservation packets remain immutable. Evidence
 and timing are under frontiers/56-section-init.
+
+The143-byte section-creation wrapper is accepted with complete lookup, flag
+adjustment, allocation, naming and list-append paths retained. The next matching
+lookup receives the same five actual inputs;111 fresh state negatives and the
+strict70-vertex/63-return audit pass. A latent downstream cleanup declaration was
+corrected from no-argument cdecl to stdcall SectionEnumerator*, matching actual
+original caller/RET4 and current compiled caller/stub. This unvisited correction
+receives no function credit. The audited index now comes from the verified current
+native trial; original captured configuration and its distinct SHA remain intact.
+Five affected binding negatives reject stale aliases or changed target/mask/inputs,
+and the genuine old-index graph rejection is preserved. An unrelated shared final
+relink required a native-only retry against the unchanged original. Both narrow
+independent reviews, old proof bytes, final evidence and timing are under
+frontiers/57-create-section.
