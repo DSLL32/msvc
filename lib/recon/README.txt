@@ -184,6 +184,11 @@ captured file changes. Raising rejects the request and the native target exits
 return for an unknown dependency. Broker records omit the full host environment;
 adapters should record only fixture-relevant environment values.
 
+The broker transports the actual host cwd. RECON_CANONICAL_CWD affects target
+DOS path APIs, not this transport field. Adapters must verify the exact host
+working directory and separately verify that a captured DOS cwd maps to that
+directory; comparing only a directory basename is insufficient.
+
 Use a context manager or close() after the target exits, then check() to report
 broker errors. requests records each accepted invocation and whether it used a
 native child or replay. This is a test boundary, not an implementation of the
