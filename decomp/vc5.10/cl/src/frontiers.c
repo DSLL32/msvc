@@ -27,20 +27,18 @@ Job *jobs_from_deferred(DeferredInput *inputs) { __asm int 3
 Job *next_jobs(Driver *state, PendingWork *pending) { __asm int 3
     return NULL;
 }
-int run_jobs(Driver *state, Job *jobs) { __asm int 3
-    return 0;
+Job *advance_jobs(Job *jobs) { __asm int 3
+    return NULL;
 }
-int run_passes(int *passes, Driver *state, int (*callback)(Driver *)) { __asm int 3
-    return 0;
+char *find_file(char *directory, char *name, int *found) { __asm int 3
+    return NULL;
 }
+void cleanup_files(int preserve) { __asm int 3 }
 int link_pass(Driver *state) { __asm int 3
     return 0;
 }
 int final_pass(Driver *state) { __asm int 3
     return 0;
-}
-char *file_name(char *out, char *name) { __asm int 3
-    return NULL;
 }
 void driver_exit(int status) {
     __asm int 3

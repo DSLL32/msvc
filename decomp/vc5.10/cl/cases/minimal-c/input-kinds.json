@@ -156,5 +156,12 @@
         "options": null
       }
     ]
-  }
+  },
+  "scheduler_initial_scalars": [
+    {
+      "name": "first_stage_notice",
+      "original_address": 4231564,
+      "initial_dword": 1
+    }
+  ]
 }

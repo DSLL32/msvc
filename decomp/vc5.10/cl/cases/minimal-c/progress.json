@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
   "state": "driver-prefix-in-progress",
-  "checkpoint": "d5dceb7a",
-  "next_frontier": "run_jobs",
-  "accepted_application_functions": 61,
-  "accepted_application_extent_bytes": 9608,
+  "checkpoint": "53671402 plus ordered proof journal",
+  "next_frontier": "find_file",
+  "accepted_application_functions": 65,
+  "accepted_application_extent_bytes": 10698,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -141,14 +141,62 @@
         "original_execution": 2.7363058868795633,
         "native_gdb": 0.20502770878374577
       }
+    },
+    {
+      "candidate": "_run_jobs",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/run-jobs-2/pair.json",
+        "sha256": "60087690eb00d4738d46be7ab99e975067554d44d5761aebfcbf2d4a4210c456"
+      },
+      "seconds": {
+        "audit": 0.4137937696650624,
+        "original_execution": 2.4337131306529045,
+        "native_gdb": 0.21042203716933727
+      }
+    },
+    {
+      "candidate": "_file_name",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-name-1/pair.json",
+        "sha256": "b44eba94e4f831113f82b8f74d24d7d382a0f581ce32b30b313e273bcf422688"
+      },
+      "seconds": {
+        "audit": 0.4211764167994261,
+        "original_execution": 2.8667928874492645,
+        "native_gdb": 0.21323587093502283
+      }
+    },
+    {
+      "candidate": "_run_passes",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/run-passes-1/pair.json",
+        "sha256": "c9f30fbb8ecac0996ed6dccb5e3879a4c29e728fe4ed858cec1ebf4f96fc3229"
+      },
+      "seconds": {
+        "audit": 0.41169158183038235,
+        "original_execution": 2.992577251046896,
+        "native_gdb": 0.2169729247689247
+      }
+    },
+    {
+      "candidate": "_configure_pass",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-pass-1/pair.json",
+        "sha256": "4f6b7e92fe82e19a840ca481e8bce72683c0889999643aa275acabb27b15d7ad"
+      },
+      "seconds": {
+        "audit": 0.42805640678852797,
+        "original_execution": 3.1961450837552547,
+        "native_gdb": 0.20709744654595852
+      }
     }
   ],
   "checks": "Original/native builds, fresh pairs, three Rust audit passes, 30 protocol negatives, grammar controls and seven input/pass table mutation controls pass; native help regression remains unchanged.",
   "dependency_boundaries": "C1 DLL and C2 child remain closed pending complete observable response contracts; no native Wine/helper execution.",
   "observed_gap": "No difference in current prefix. MRE imports are declaration-only/fail-closed; C1/C2 response boundaries remain closed.",
   "current_review": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-jobs-4/pair.json",
-    "sha256": "f46ee653eb33b9f02a7882ec26b5c207e8a92541fd9bfb7652f587a81ceeb6f7",
-    "scope": "All current61 accepted application functions audited; actual prepare_jobs Gm0 execution and zero external MRE calls observed; immutable original prepare-jobs-2 raw explicitly reused after declaration/profile review."
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-pass-1/pair.json",
+    "sha256": "4f6b7e92fe82e19a840ca481e8bce72683c0889999643aa275acabb27b15d7ad",
+    "scope": "All65 accepted application functions audited; actual configure_pass reaches find_file; original/native driver aliases, file streams/errors and zero MRE calls match."
   }
 }

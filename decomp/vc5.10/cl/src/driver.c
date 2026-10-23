@@ -4,7 +4,146 @@
 #include <recon.h>
 
 int first_dependency_scan = 1;
+int first_stage_notice = 1;
 static char mre_error[1024];
+
+/* 00402e6b..00402fd1: locate each compiler pass once, preferring DLLs. */
+void configure_pass(Driver *state)
+{
+    CompilerPass *pass = state->current_pass;
+    char *name, *temporary, *directory;
+    char extension[260];
+    int found;
+    if (pass->flags & 2)
+        return;
+    pass->flags |= 2;
+    name = find_file(state->directory, pass->name, &found);
+    if (found) {
+        _splitpath(name, NULL, NULL, NULL, extension);
+        if (!_stricmp(extension, ".dll"))
+            pass->flags |= 4;
+    } else {
+        release(name);
+        temporary = allocate(strlen(pass->name) + 5);
+        strcpy(temporary, pass->name);
+        strcat(temporary, ".dll");
+        name = find_file(state->directory, temporary, &found);
+        if (found)
+            pass->flags |= 4;
+        else {
+            release(name);
+            strcpy(temporary + strlen(temporary) - 4, ".exe");
+            name = find_file(state->directory, temporary, &found);
+            if (!found) {
+                release(name);
+                name = duplicate(pass->name);
+            }
+        }
+        release(temporary);
+    }
+    pass->name = name;
+    if (pass->path) {
+        directory = program_directory(name);
+        pass->path = find_file(directory, pass->path, &found);
+        release(directory);
+    }
+    if (pass->options)
+        pass->options = find_file(state->directory, pass->options, &found);
+}
+
+/* 00403e07..00403e5d: execute enabled passes until one fails. */
+int run_passes(int *passes, Driver *state, int (*callback)(Driver *))
+{
+    CompilerPass *pass;
+    for (; *passes != 5; ++passes) {
+        pass = &compiler_passes[*passes];
+        if (!(pass->flags & 1))
+            continue;
+        state->current_pass = pass;
+        pass->flags |= 8;
+        configure_pass(state);
+        error_count = callback(state);
+        if (error_count)
+            break;
+    }
+    return error_count;
+}
+
+/* 00403bb7..00403df0: run a source group together or one file at a time. */
+int run_jobs(Driver *state, Job *jobs)
+{
+    int failures = 0, enabled = 0, stages = 0, together, result, *sequence, *pass;
+    Job *job;
+    Input *input, *object;
+    char filename[1024];
+    sequence = input_kinds[jobs->input->kind].passes;
+    for (pass = sequence; *pass != 5; ++pass)
+        if (compiler_passes[*pass].flags & 1)
+            ++enabled;
+    together = allow_pch && cleanup_temporaries && enabled > 1;
+    state->current_jobs = together ? jobs : NULL;
+    pass = sequence;
+    do {
+        if (together) {
+            if (!(compiler_passes[*pass].flags & 1)) {
+                ++pass;
+                continue;
+            }
+            if (stages++ > 0) {
+                jobs = advance_jobs(jobs);
+                state->current_jobs = jobs;
+            }
+            state->current_pass = &compiler_passes[*pass];
+            state->current_input = jobs->input;
+            if (stages == 1) {
+                if (first_stage_notice)
+                    first_stage_notice = 0;
+                else
+                    write_message(2, load_string(331));
+            } else if (stages == 2 && enabled > 2)
+                write_message(2, load_string(332));
+            else if (stages == enabled)
+                write_message(2, load_string(333));
+        }
+        for (job = jobs; job; job = job->next) {
+            if (together && job->status)
+                continue;
+            input = job->input;
+            state->current_input = input;
+            prepare_inputs(state);
+            if (!together || stages <= 1)
+                write_message(2, "%s\n", file_name(filename, input->name));
+            if (together) {
+                configure_pass(state);
+                if (!job->next)
+                    state->current_pass->flags |= 8;
+                else
+                    state->current_pass->flags &= ~8;
+                result = final_pass(state);
+            } else
+                result = run_passes(sequence, state, final_pass);
+            error_count = result;
+            if (result) {
+                ++failures;
+                job->status = 1;
+                if (together)
+                    cleanup_files(1);
+            }
+            if (!together || stages == enabled) {
+                if (object_name) {
+                    object = create_input(object_name, 3);
+                    object->next = input->next;
+                    input->next = object;
+                }
+                cleanup_files(1);
+            }
+        }
+        if (together)
+            ++pass;
+    } while (together && *pass != 5);
+    state->current_jobs = NULL;
+    return failures;
+}
 
 /* 0040355e..00403709: optional minimal-rebuild dependency scan. */
 Job *prepare_jobs(Driver *state, Job *jobs, PendingWork *pending)

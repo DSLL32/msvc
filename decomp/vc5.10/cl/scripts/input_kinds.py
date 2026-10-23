@@ -57,6 +57,11 @@ def verify(project,root):
     assert expected_passes==passes['records']
     assert decode_passes(rebuilt,public['_compiler_passes'])==expected_passes,'rebuilt compiler-pass records differ'
     assert decode_passes(native,native.symbols['compiler_passes'])==expected_passes,'native compiler-pass records differ'
+    for scalar in proof.get('scheduler_initial_scalars',[]):
+        expected_word=struct.pack('<I',scalar['initial_dword']);name=scalar['name']
+        assert original.read(scalar['original_address'],4)==expected_word,'original scheduler initializer differs'
+        assert rebuilt.read(public['_'+name],4)==expected_word,'rebuilt scheduler initializer differs'
+        assert native.read(native.symbols[name],4)==expected_word,'native scheduler initializer differs'
     return {'records':10,'terminator':'NULL,-1,NULL','pass_list_identities':4,
         'decoded_sha256':hashlib.sha256(json.dumps(expected,sort_keys=True).encode()).hexdigest(),
         'compiler_passes_sha256':hashlib.sha256(json.dumps(expected_passes,sort_keys=True).encode()).hexdigest()}

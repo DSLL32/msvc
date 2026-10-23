@@ -12,7 +12,7 @@ PROJECT=Path(__file__).resolve().parents[1]
 PROJECTION='cl-application-frontier-v1: typed parameters and reconstructed driver state'
 SCALARS={'no_logo':0x409660,'echo_response':0x40963c,'help_requested':0x40965c,
  'cleanup_temporaries':0x40901c,'is_dll':0x409658,'first_option_pass':0x409030,'map_requested':0x40960c,'bk_requested':0x409668,'reproducible':0x409604,'timing_requested':0x40964c,'bz_requested':0x4095c4,'minimal_rebuild':0x40966c,'allow_pch':0x409670,'keep_preprocessor_output':0x409024,'use_standard_include':0x409010,'source_count':0x409630,'options_after_link':0x409678,'link_warning':0x40967c,'show_commands':0x409014,'message_capacity':0x4091a8,'debug_exceptions':0x4095c8,'error_count':0x409650,
- 'output_produced':0x4095cc,'default_c_language':0x4095d0,'first_dependency_scan':0x409018}
+ 'output_produced':0x4095cc,'default_c_language':0x4095d0,'first_dependency_scan':0x409018,'first_stage_notice':0x40918c}
 POINTERS={'object_name':0x4095c0,'image_name':0x409644,'ir_prefix':0x4095f8,'map_name':0x409638,'pdb_name':0x4095bc,'browser_name':0x409648,'free_options':0x409674,'driver':0x409020,'unrecognized_options':0x409634,'source_language':0x4095b8,'format_buffer':0x4097a4}
 PARAMETERS={
  'install_control_handler':[], 'skip_space':[('text','string')],
@@ -24,6 +24,8 @@ PARAMETERS={
  'show_usage':[], 'has_nologo':[('args','vector'),('count','signed')],
  'show_banner':[('force','signed')], 'load_string':[('id','unsigned')], 'parse_arguments':[('args','vector'),('count','signed')],
  'write_message':[('fd','signed'),('text','string')], 'finish_options':[],
+ 'configure_pass':[('state','driver')],
+ 'find_file':[('directory','string'),('name','string'),('found','output_unsigned')],
  'prepare_inputs':[('state','driver')], 'prepare_environment':[('state','driver')],
  'format_message':[('length','output_unsigned'),('text','string'),('args','format_arguments')],
  'read_response':[('name','string')], 'classify_input':[('name','string')],
@@ -70,6 +72,7 @@ PARAMETERS={
  'option_for_pass':[('option','option'),('pass','pass')],
  'expand_filename':[('out','output_buffer'),('text','string'),('state','driver')],
  'file_basename':[('out','output_buffer'),('name','string')],
+ 'file_name':[('out','output_buffer'),('name','string')],
  'file_directory':[('out','output_buffer'),('name','string')],
  'make_map_name':[('out','output_buffer'),('name','string')],
  'show_help':[], 'allocate':[('bytes','unsigned')],
@@ -80,6 +83,7 @@ PARAMETERS={
  'create_job':[('input','inputs')],
  'prepare_jobs':[('state','driver'),('jobs','jobs'),('pending','output_buffer')],
  'run_jobs':[('state','driver'),('jobs','jobs')],
+ 'run_passes':[('passes','pass_sequence'),('state','driver'),('callback','callback')],
  'driver_exit':[('status','signed')]
 }
 
@@ -94,8 +98,9 @@ def format_types(text):
     return result
 
 class Memory:
-    def __init__(self,read,rule_base):
-        self.read=read;self.rule_base=rule_base;self.option_ids={};self.input_ids={};self.job_ids={}
+    def __init__(self,read,rule_base,pass_base=None):
+        self.read=read;self.rule_base=rule_base;self.pass_base=pass_base
+        self.option_ids={};self.input_ids={};self.job_ids={}
     def words(self,address,count):return struct.unpack('<%dI'%count,self.read(address,4*count))
     def string(self,address):
         if not address:return None
@@ -166,11 +171,12 @@ class Memory:
     def driver(self,address):
         if not address:return None
         v=self.words(address,11)
-        assert v[2]==0,'unrecovered driver +8 field became live'
-        # +10..+1c are not yet encountered; fail rather than guess their types.
-        assert not any(v[4:8]),'unrecovered driver middle fields became live'
+        if v[2]:assert self.pass_base<=v[2]<self.pass_base+180 and (v[2]-self.pass_base)%36==0
+        assert not any(v[5:7]),'MRE deferred queue fields require an explicit producer/alias decoder'
         return {'options':self.options(v[0]),'other_options':self.options(v[1]),
-            'inputs':self.inputs(v[3]),'temporary':self.string(v[8]),
+            'current_pass':{'index':(v[2]-self.pass_base)//36}if v[2]else None,
+            'inputs':self.inputs(v[3]),'current_jobs':self.jobs(v[4]),
+            'current_input':self.inputs(v[7]),'temporary':self.string(v[8]),
             'include_path':self.string(v[9]),'directory':self.string(v[10])}
     def passes(self,address):
         rows=[]
@@ -190,6 +196,17 @@ class Memory:
         if kind=='driver':return self.driver(value)
         if kind=='inputs':return self.inputs(value)
         if kind=='jobs':return self.jobs(value)
+        if kind=='pass_sequence':
+            result=[]
+            for i in range(6):
+                item=self.words(value+4*i,1)[0];assert item<=5
+                result.append(item)
+                if item==5:return result
+            raise AssertionError('unterminated compiler-pass sequence')
+        if kind=='callback':
+            names=[name for name,address in self.callbacks.items()if address==value]
+            assert len(names)==1,'unknown driver callback identity'
+            return names[0]
         if kind in ('output_unsigned','format_arguments','output_buffer'):
             assert value,'null required output/va_list pointer'
             self.words(value,1) # Validate addressed storage, not uninitialized output contents.
@@ -213,7 +230,7 @@ class Memory:
 
 
 def snapshot(read,context):
-    memory=Memory(read,context['rule_base']);symbol=context['symbol'];parameters=PARAMETERS[symbol]
+    memory=Memory(read,context['rule_base'],context.get('compiler_passes_address'));memory.callbacks=context.get('callbacks',{});symbol=context['symbol'];parameters=PARAMETERS[symbol]
     assert len(parameters)==len(context['arguments'])
     fields={'frontier':symbol,'parameters':{name:memory.value(kind,value)
         for (name,kind),value in zip(parameters,context['arguments'])}}
@@ -242,6 +259,7 @@ def original_context(directory,address,stack):
     symbol=record['native_symbol'];parameters=PARAMETERS[symbol]
     context={'symbol':symbol,'arguments':list(stack[1:1+len(parameters)]),
         'globals':{**SCALARS,**POINTERS},'rule_base':0x406340,'compiler_passes_address':0x4090a8}
+    if symbol=='run_passes':context['callbacks']={'final_pass':next(row['start']for row in index['driver']if row['name']=='_final_pass')}
     if symbol=='write_message':context['varargs']=list(stack[3:])
     if (directory/'mb-state.bin').exists():
         mb=(directory/'mb-state.bin').read_bytes();crt=(directory/'crt-state.bin').read_bytes()
@@ -270,6 +288,7 @@ def capture_native(directory,gdb):
         'globals':{name:int(gdb.parse_and_eval('(unsigned)&'+('driver_storage.temporary' if name=='ir_prefix' else name))) for name in [*SCALARS,*POINTERS]}}
     context['rule_base']=int(gdb.parse_and_eval('(unsigned)option_rules'))
     context['compiler_passes_address']=int(gdb.parse_and_eval('(unsigned)compiler_passes'))
+    if symbol=='run_passes':context['callbacks']={'final_pass':int(gdb.parse_and_eval('(unsigned)final_pass'))}
     context['crt_mb']={name:int(gdb.parse_and_eval(expression)) for name,expression in
         [('codepage','recon_mb_codepage'),('mb_cur_max','recon_mb_cur_max')]}
     if symbol=='write_message':

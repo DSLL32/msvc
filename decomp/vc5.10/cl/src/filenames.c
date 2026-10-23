@@ -82,3 +82,12 @@ char *join_text(char *left, char *right)
     strcat(result, right);
     return result;
 }
+
+/* 00404928..00404975: retain filename and extension without its path. */
+char *file_name(char *out, char *name)
+{
+    char basename[256], extension[256];
+    _splitpath(name, NULL, NULL, basename, extension);
+    _makepath(out, "", "", basename, extension);
+    return out;
+}

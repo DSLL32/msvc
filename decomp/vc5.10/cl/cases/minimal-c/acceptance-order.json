@@ -111,6 +111,46 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-jobs-3/pair.json",
         "sha256": "096908d98f354a5eb729cd16ddb9a44c73a1f8d08fd220488e6e5ff8be4efe3b"
       }
+    },
+    {
+      "order": 12,
+      "candidate": "_run_jobs",
+      "class": "application",
+      "extent_bytes": 569,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/run-jobs-2/pair.json",
+        "sha256": "60087690eb00d4738d46be7ab99e975067554d44d5761aebfcbf2d4a4210c456"
+      }
+    },
+    {
+      "order": 13,
+      "candidate": "_file_name",
+      "class": "application",
+      "extent_bytes": 77,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-name-1/pair.json",
+        "sha256": "b44eba94e4f831113f82b8f74d24d7d382a0f581ce32b30b313e273bcf422688"
+      }
+    },
+    {
+      "order": 14,
+      "candidate": "_run_passes",
+      "class": "application",
+      "extent_bytes": 86,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/run-passes-1/pair.json",
+        "sha256": "c9f30fbb8ecac0996ed6dccb5e3879a4c29e728fe4ed858cec1ebf4f96fc3229"
+      }
+    },
+    {
+      "order": 15,
+      "candidate": "_configure_pass",
+      "class": "application",
+      "extent_bytes": 358,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/configure-pass-1/pair.json",
+        "sha256": "4f6b7e92fe82e19a840ca481e8bce72683c0889999643aa275acabb27b15d7ad"
+      }
     }
   ]
 }

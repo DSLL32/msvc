@@ -73,7 +73,11 @@
     "_run_driver",
     "_source_jobs",
     "_create_job",
-    "_prepare_jobs"
+    "_prepare_jobs",
+    "_run_jobs",
+    "_file_name",
+    "_run_passes",
+    "_configure_pass"
   ],
   "driver": [
     {
@@ -972,18 +976,32 @@
     {
       "name": "_run_jobs",
       "start": 4209591,
-      "end": 4209592,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "run_jobs"
+      "end": 4210160,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "run_jobs",
+      "evidence": {
+        "kind": "complete pass counting/group execution and per-input output/error processing body disassembly",
+        "range": "00403bb7..00403df0",
+        "initial_scalars": [
+          {
+            "name": "first_stage_notice",
+            "address": 4231564,
+            "value": 1
+          }
+        ]
+      }
     },
     {
       "name": "_run_passes",
       "start": 4210183,
-      "end": 4210184,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "run_passes"
+      "end": 4210269,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "run_passes",
+      "evidence": {
+        "kind": "complete enabled-pass selection/callback/early-error body disassembly",
+        "range": "00403e07..00403e5d",
+        "callback_abi": "cdecl int callback(Driver *), one stack argument, caller cleanup4"
+      }
     },
     {
       "name": "_link_pass",
@@ -1004,10 +1022,13 @@
     {
       "name": "_file_name",
       "start": 4213032,
-      "end": 4213033,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "file_name"
+      "end": 4213109,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "file_name",
+      "evidence": {
+        "kind": "complete splitpath/makepath filename-plus-extension body disassembly",
+        "range": "00404928..00404975"
+      }
     },
     {
       "name": "_create_job",
@@ -1035,6 +1056,41 @@
       "pending_extent": true,
       "state": "named INT3 frontier",
       "native_symbol": "jobs_from_deferred"
+    },
+    {
+      "name": "_advance_jobs",
+      "start": 4210160,
+      "end": 4210161,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "advance_jobs"
+    },
+    {
+      "name": "_configure_pass",
+      "start": 4206187,
+      "end": 4206545,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "configure_pass",
+      "evidence": {
+        "kind": "complete one-time compiler filename/DLL-extension/override path configuration body disassembly",
+        "range": "00402e6b..00402fd1"
+      }
+    },
+    {
+      "name": "_cleanup_files",
+      "start": 4214481,
+      "end": 4214482,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "cleanup_files"
+    },
+    {
+      "name": "_find_file",
+      "start": 4206545,
+      "end": 4206546,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "find_file"
     }
   ],
   "runtime": [
