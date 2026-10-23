@@ -57,7 +57,8 @@
     "allocate_public_block",
     "read_module_types",
     "read_new_module_types",
-    "initialize_module_type_storage"
+    "initialize_module_type_storage",
+    "reset_type_name_cache"
   ],
   "functions": [
     {
@@ -1989,14 +1990,18 @@
       "parameters": []
     },
     {
-      "name": "build_type_record_index",
-      "symbol": "_build_type_record_index",
-      "native_symbol": "build_type_record_index",
+      "name": "reset_type_name_cache",
+      "symbol": "_reset_type_name_cache",
+      "native_symbol": "reset_type_name_cache",
       "original": 4245344,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4245344,
+        4245409
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0052-reset-type-name-cache/promotion.json"
     },
     {
       "name": "initialize_module_type_storage",

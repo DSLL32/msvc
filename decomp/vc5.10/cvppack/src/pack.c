@@ -215,5 +215,5 @@ void read_module_types(CodeViewDirectoryEntry *entry, int precompiled)
         read_legacy_module_types(line_data, entry->size);
     }
     if (!module_precompiled_limit) module_precompiled_limit = type_record_count;
-    if (!module_type_entries) build_type_record_index();
+    if (!module_type_entries) reset_type_name_cache();
 }

@@ -122,3 +122,22 @@ void initialize_module_type_storage(void)
     }
     type_record_count = 0;
 }
+
+/* Clear cached names and record associations, keeping bucket chains
+ * [0040c760,0040c7a1). */
+void reset_type_name_cache(void)
+{
+    unsigned index;
+    CachedTypeName *entry;
+    CachedTypeName **buckets = (CachedTypeName **)type_references;
+    for (index = 0; index < 512; ++index) {
+        entry = buckets[index];
+        while (entry) {
+            entry->type_index = 0;
+            entry->record = NULL;
+            free(entry->name);
+            entry->name = NULL;
+            entry = entry->next;
+        }
+    }
+}

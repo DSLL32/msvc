@@ -22,7 +22,7 @@ void register_type_server(void *leaf);
 void __fastcall find_type_server(void *name, unsigned mode, void *first, void *second, void *third);
 void read_new_module_types(unsigned size, int precompiled);
 void read_legacy_module_types(void *types, unsigned size);
-void build_type_record_index(void);
+void reset_type_name_cache(void);
 void prepare_precompiled_types(ModuleInfo *info);
 void read_module_symbols(unsigned index, CodeViewDirectoryEntry *entry);
 const char *module_name(ModuleInfo *info);

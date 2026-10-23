@@ -22,6 +22,19 @@ def prepare(checked,destination,available=None):
     metadata['register_imports']['preservation_contracts']=[{'target':{'import':preservation['qualified_import']},'preserves':['esi'],
         'evidence':dict(path=str(evidence.relative_to(BINARY)),sha256=sha(evidence))}]
     proof['register_preservation_evidence_sha256']=sha(evidence)
+    if any(row['name']=='reset_type_name_cache' for row in checked):
+        extended=BINARY/'cases/hello-debug-dll/type-name-cache-import.json'
+        witness=json.loads(extended.read_text())
+        assert witness['base_evidence_sha256']==sha(evidence)
+        assert witness['target_sha256']==sha(ROOT/preservation['target']['path'])
+        assert witness['provider']['sha256']==sha(provider)
+        assert witness['provider']['function_sha256']==preservation['provider']['function_sha256']
+        assert sha(ROOT/witness['sdk']['path'])==witness['sdk']['sha256']
+        metadata['register_imports']['preservation_contracts'][0].update(preserves=['esi','ebp'],
+            evidence=dict(path=str(extended.relative_to(BINARY)),sha256=sha(extended)))
+        metadata['functions']['_reset_type_name_cache']=dict(register_imports=dict(require_all_register_calls_resolved=True))
+        proof['extended_free_preservation_evidence_sha256']=sha(extended)
+
     additional=BINARY/'cases/hello-debug-dll/cached-import-contracts.json'
     contracts=json.loads(additional.read_text())
     target=PE(ROOT/preservation['target']['path'])

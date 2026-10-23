@@ -27,6 +27,12 @@ extern unsigned short type_table_limit;
 extern unsigned type_table_used;
 extern TypeArena type_arena, type_large_arena;
 extern TypeRecord *empty_type_record;
+/* Cached counted type names; nodes are retained when their contents reset. */
+typedef struct CachedTypeName {
+    unsigned char *name, *record;
+    unsigned type_index, reserved;
+    struct CachedTypeName *next;
+} CachedTypeName;
 typedef struct TypePatch {
     unsigned reserved0;
     unsigned char *data;

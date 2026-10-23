@@ -57,7 +57,7 @@ unsigned __fastcall compact_type_index(unsigned index) { __asm { int 3 } return 
 unsigned short numeric_leaf_size(const unsigned char *record) { __asm { int 3 } return 0; }
 
 void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
-void build_type_record_index(void) { __asm { int 3 } }
+
 
 
 int record_widen(WidenTi *object, void *output, const void *input, unsigned *size) { __asm { int 3 } return 0; }
