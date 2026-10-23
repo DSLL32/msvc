@@ -1531,3 +1531,15 @@ IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration,
             make_integer_constant(tag->detail.class_info->size), 2);
     return build_call_expression(symbol_reference((CppSymbol *)declaration), arguments);
 }
+
+/* Original 0x38570..0x3859f. Only a single unambiguous qualification
+   path containing exactly one function supplies a direct declaration. */
+CppSymbol *__stdcall single_qualified_function(QualifiedDeclarator *declaration)
+{
+    QualifierResolution *resolution = declaration->resolution;
+    CppSymbol *functions;
+    if (resolution->binding != resolution->tail) return 0;
+    functions = (CppSymbol *)resolution->binding->target;
+    if (!has_single_function(functions)) return 0;
+    return ((OverloadSet *)functions)->functions;
+}

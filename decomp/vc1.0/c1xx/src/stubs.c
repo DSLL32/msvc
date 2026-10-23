@@ -619,5 +619,3 @@ IrToken *convert_selected_operator_operand(OverloadCandidate *candidate, unsigne
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
-
-CppSymbol *__stdcall single_qualified_function(QualifiedDeclarator *declaration) { __asm { int 3 } return 0; }

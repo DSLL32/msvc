@@ -998,7 +998,8 @@
     "_has_destructor_member_model@4",
     "_lookup_destructor_member@4",
     "_add_array_declarator@8",
-    "_make_class_delete_call@12"
+    "_make_class_delete_call@12",
+    "_single_qualified_function@4"
   ],
   "driver": [
     {
@@ -7602,7 +7603,7 @@
     {
       "name": "_single_qualified_function@4",
       "start": 230768,
-      "end": 230769
+      "end": 230815
     }
   ],
   "cases": {
@@ -7758,8 +7759,8 @@
       "native_reference": "cases/native-new-delete",
       "frontiers": "cases/frontiers/new_delete",
       "accepted_from": 963,
-      "terminal": "_single_qualified_function@4",
-      "terminal_evidence": "cases/frontiers/new_delete/0993-make_class_delete_call-12/original-events.txt",
+      "terminal": "_has_single_function@4",
+      "terminal_evidence": "cases/frontiers/new_delete/0994-single_qualified_function-4/original-events.txt",
       "original_seed": "cases/new_delete-seed",
       "frontier_extensions": [
         "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
@@ -7792,7 +7793,8 @@
         "cases/frontiers/new_delete/0990-has_destructor_member_model-4/frontier-extension.json",
         "cases/frontiers/new_delete/0991-lookup_destructor_member-4/frontier-extension.json",
         "cases/frontiers/new_delete/0992-add_array_declarator-8/frontier-extension.json",
-        "cases/frontiers/new_delete/0993-make_class_delete_call-12/frontier-extension.json"
+        "cases/frontiers/new_delete/0993-make_class_delete_call-12/frontier-extension.json",
+        "cases/frontiers/new_delete/0994-single_qualified_function-4/frontier-extension.json"
       ]
     }
   },
