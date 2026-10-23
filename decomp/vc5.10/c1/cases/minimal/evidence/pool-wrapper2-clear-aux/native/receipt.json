@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "kind": "native-gdb-frontier",
+  "candidate_path": "cases/minimal/candidate.json",
+  "probe": "restore",
+  "value_copy_sign": "positive",
+  "pdb_reuse": 0,
+  "seconds": 0.8078068187460303,
+  "native_sha256": "f4e22adbd8f761fbd30457988b8299da4b913f6a235e9090bdea8a071d92b304",
+  "build_source_reuse": {
+    "directory": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-pool-wrapper2-normal-001",
+    "receipt_sha256": "d6e154de0bda612fea42b5eb919dc3f618407c29e47ff40239c61633cceaaf72",
+    "source_manifest_sha256": "a99fe8a6955a9d220cdddcc58bc2dc4c605b0121cbc32862304aed2e4a31e80c",
+    "native_sha256": "f4e22adbd8f761fbd30457988b8299da4b913f6a235e9090bdea8a071d92b304",
+    "policy": "same verified ELF and owned sources; original immutable shared inputs retained"
+  },
+  "rebuilt_sha256": "0a0921ad0b9bbe0d5c5aa073cf12aa56c1e53e8053ba2b7b37f0198fa3fd6097",
+  "candidate_sha256": "0916ed328bcd19ca9ef94b839d039496338f709bb5cdbc175fc0cab4f96bbb81",
+  "functions_sha256": "8b6f776e47d2818d358b8364f5256301e8b341d9d58aa1ccef9d6f60b87d076c",
+  "source_hashes": {
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/buffers.c": "bfa97caa452f3b58cff31f344c2ebba04d8687cf559211e299df03532aeacb71",
+    "src/c1.h": "a0e4d738331b2e2ec07d687717bbd79a99a04301a54b376babb0d4960ce56509",
+    "src/compiler-state.c": "9e322f3feaa01c8d0af3f35328bc0c800c18544f4365b71e5f0be9e44494d4cf",
+    "src/compiler-state.h": "e7b559cfe8551753c23f0fe32f9bd072b9a59d52cf9d0e59f3363ca82dfa461e",
+    "src/dllmain.c": "7f72154db8c07b8d1492be392f6ce45099eee864fdcc78850573a84f59bf69eb",
+    "src/exports.c": "34ea6194b62f5f3f734e59bee170cbd840a4d7df460f6d74e9b705c443eab80c",
+    "src/initializers.c": "0cf959644cc8333061d058181de47395cfab95c60eeb41e2b7734beb2ef70fd7",
+    "src/native-crt.c": "6a4ddd20674b97d411e3718c46b0045d563e4739c650c9b7c95a2c9083c37cd9",
+    "src/pass.c": "da22608362f145a942c4ce56eecdd71bb3e95afcb53f46fcaf0199ef0afba715",
+    "src/pdb.c": "9e3e8142268551274696fe47af8644d9b497c5aab561ff2e865498ce7cb15e82",
+    "src/pools.cpp": "b3b031300c5aa641c1a5b40b9e52359a64156b3c34ee7f4575324a640b0c9433"
+  },
+  "audit_binding_sha256": "efa83788c6afc980ed9329e931ab93e46e7396061cc4d668898edcf1037fe0f1",
+  "artifacts": {
+    "allocation-observations.json": {
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "size": 3
+    },
+    "audit-binding.json": {
+      "sha256": "efa83788c6afc980ed9329e931ab93e46e7396061cc4d668898edcf1037fe0f1",
+      "size": 2085
+    },
+    "audit.json": {
+      "sha256": "a14ba43926204454b4d2f4350c1125c7639d0b1c61583eee927367124881a138",
+      "size": 15391
+    },
+    "candidate.json": {
+      "sha256": "0916ed328bcd19ca9ef94b839d039496338f709bb5cdbc175fc0cab4f96bbb81",
+      "size": 23087
+    },
+    "commands.gdb": {
+      "sha256": "9d8e86bb85b1eaba444417ed7502b152ee6a74d08ecb1fe82630e9237acefaec",
+      "size": 25214
+    },
+    "functions.json": {
+      "sha256": "8b6f776e47d2818d358b8364f5256301e8b341d9d58aa1ccef9d6f60b87d076c",
+      "size": 8538
+    },
+    "gdb.txt": {
+      "sha256": "548e1b4ba4339927ba99c3cdf539bcac4f465b34f1c43b57ad338a720a4399f0",
+      "size": 3608
+    },
+    "pool-entry-observations.json": {
+      "sha256": "9732a601c98d02038bf8fa5127e8dcf9e79f5c6b49b68944467096a9ffd30a28",
+      "size": 795
+    },
+    "pool-return-observations.json": {
+      "sha256": "bb65b0455e131e5c41a1aae9c077d2d8d343c012a0c30e98a10f2ac6f3f2ce1d",
+      "size": 267
+    },
+    "restore-observations.json": {
+      "sha256": "c99c90a084615f2f6894acb5a9e57182e41de666bd10b06a1ba3cfd0abe7707f",
+      "size": 155858
+    },
+    "source-snapshot.json": {
+      "sha256": "a99fe8a6955a9d220cdddcc58bc2dc4c605b0121cbc32862304aed2e4a31e80c",
+      "size": 8882
+    },
+    "state.json": {
+      "sha256": "98d75f11b3106b66c9d52731899bdcdda189e1969c9f0e46bd3ea46ea941ad50",
+      "size": 7622
+    },
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "size": 26
+    }
+  }
+}

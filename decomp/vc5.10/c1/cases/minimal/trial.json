@@ -43,7 +43,8 @@
     "_initialize_state_126af",
     "_initialize_pdb_context_126b6",
     "_initialize_state_126ef",
-    "CompilerPool::Initialize"
+    "CompilerPool::Initialize",
+    "_initialize_state_12712"
   ],
   "driver": [
     {
@@ -377,6 +378,12 @@
       "symbol": "?Initialize@CompilerPool@@QAEPAU1@I@Z",
       "start": 274802428,
       "end": 274802450,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12712",
+      "start": 274802450,
+      "end": 274802463,
       "role": "application"
     }
   ],

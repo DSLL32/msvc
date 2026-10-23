@@ -57,7 +57,7 @@ typedef struct CompilerBss {
     CompilerValue saved_literal;
     unsigned char saved_literal_available;
     unsigned long pdb_signature;
-    CompilerPool pools[1];
+    CompilerPool pools[2];
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

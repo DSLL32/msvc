@@ -63,7 +63,13 @@ python
 import gdb,json
 frame=gdb.newest_frame()
 args={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for name in %r}
-value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'args':args}
+block=frame.block()
+while block and not block.function:block=block.superblock
+assert block and block.function
+formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'args':args,'formal_inventory':formals}
+assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'
+
 if frame.name()=='InvokeCompilerPass':
     value['argv']=[gdb.parse_and_eval('argv[%%d]'%%i).string() for i in range(args['argc'])]
     value['argv_terminator']=int(gdb.parse_and_eval('(unsigned int)argv[%%d]'%%args['argc']))
@@ -168,13 +174,21 @@ class PoolEntry(gdb.Breakpoint):
     def stop(self):
         esp=int(gdb.parse_and_eval('$esp'))
         words=struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes())
+        receiver=int(gdb.parse_and_eval('$ecx'))
+        pool=(receiver-int(gdb.parse_and_eval('(unsigned int)&c1_bss.pools[0]')))//16
+        assert 0<=pool<POOL_COUNT
         if POOL_MEMBER:
             if POOL_SEED:
                 saved=int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data'))
-                gdb.selected_inferior().write_memory(int(gdb.parse_and_eval('$ecx')),struct.pack('<4I',saved+128,91,7,saved+512))
+                gdb.selected_inferior().write_memory(int(gdb.parse_and_eval('$ecx')),struct.pack('<4I',saved+128+pool*16,91+pool,7+pool,saved+512+pool*16))
             PoolReturn('*0x%%x'%%words[0])
+        block=gdb.block_for_pc(int(gdb.parse_and_eval('$pc')))
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+        assert {row['name'] for row in formals}=={'this','minimum_pages'}
         values=struct.unpack('<4I',gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$ecx')),16).tobytes())
-        pool_entries.append({'values':list(values),'pc':int(gdb.parse_and_eval('$pc')),'ecx':int(gdb.parse_and_eval('$ecx')),'esp':esp,'return':words[0],'argument':words[1]})
+        pool_entries.append({'formal_inventory':formals,'index':pool,'values':list(values),'pc':int(gdb.parse_and_eval('$pc')),'ecx':int(gdb.parse_and_eval('$ecx')),'esp':esp,'return':words[0],'argument':words[1]})
         return False
 PoolEntry('*0x%x')
 """ % address

@@ -116,10 +116,7 @@ void __cdecl initialize_state_126af(void)
     register_compiler_cleanup(destroy_pdb_context_238db);
 }
 
-void __cdecl initialize_state_12712(void)
-{
-    __asm { int 3 }
-}
+
 
 void __cdecl initialize_state_1271f(void)
 {

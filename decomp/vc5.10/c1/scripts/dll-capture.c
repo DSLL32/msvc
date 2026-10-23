@@ -387,22 +387,25 @@ static void read_pool_probes(void)
     file = fopen("pool-member-probe.txt", "r");
     if (file) {
         DWORD member, index;
-        if (fscanf(file, "%lx %lx", &member, &index) != 2 || member != 0x126fc || index != 0) fail("pool member probe");
+        if (fscanf(file, "%lx %lx", &member, &index) != 2 || member != 0x126fc || index != pool_count) fail("pool member probe");
         pool_member_probe = 1; fclose(file);
     }
 }
 
-static void seed_pools(DWORD saved)
+static void seed_pool(unsigned index, DWORD saved, const char *label)
 {
     DWORD values[4];
+    values[0] = saved + 128 + index * 16;
+    values[1] = 91 + index; values[2] = 7 + index;
+    values[3] = saved + 512 + index * 16;
+    write_mem(base + pool_objects[index], values, sizeof(values));
+    fprintf(events, "%s index=%u object=%08lx allocation=%08lx\n", label, index, pool_objects[index], saved);
+}
+
+static void seed_pools(DWORD saved)
+{
     unsigned index;
-    for (index = 0; index < pool_count; ++index) {
-        values[0] = saved + 128 + index * 16;
-        values[1] = 91 + index; values[2] = 7 + index;
-        values[3] = saved + 512 + index * 16;
-        write_mem(base + pool_objects[index], values, sizeof(values));
-        fprintf(events, "%s index=%u object=%08lx allocation=%08lx\n", pool_member_probe && restore_seeded ? "pool-member-field-seed" : "pool-seed", index, pool_objects[index], saved);
-    }
+    for (index = 0; index < pool_count; ++index) seed_pool(index, saved, "pool-seed");
 }
 
 static void seed_output_buffer(unsigned index, DWORD rva)
@@ -539,7 +542,14 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
             if (pool_return_active) fail("nested pool member call");
             pool_return_address = stack[0]; pool_entry_esp = context->Esp;
             readmem(pool_return_address, &pool_return_saved, 1);
-            if (pool_return_saved != 0xc3 || pool_return_address != base + 0x126fb) fail("pool member return identity");
+            if (pool_return_saved != 0xc3 || pool_return_address < base + code_rva + 5 || pool_return_address >= base + code_rva + code_size) fail("pool member return identity");
+            {
+                DWORD site = pool_return_address - base - code_rva;
+                LONG displacement;
+                if (snapshot[site - 5] != 0xe8) fail("pool member caller opcode");
+                memcpy(&displacement, snapshot + site - 4, 4);
+                if (pool_return_address + displacement != base + 0x126fc) fail("pool member caller destination");
+            }
             patch(pool_return_address, 0xcc); pool_return_active = 1;
         }
     }
@@ -689,10 +699,14 @@ int main(int argc, char **argv)
                     write_mem(base + 0x5c064, &pdb_reuse, 4);
                     fprintf(events, "pdb-helper-seed rva=00012676 reuse=%lu\n", pdb_reuse); pdb_seeded = 1;
                 }
-                if (restore_probe && pool_member_probe && !pool_member_seeded && address == base + 0x126fc) {
+                if (restore_probe && pool_member_probe && address == base + 0x126fc) {
                     DWORD saved;
-                    readmem(base + 0x57818, &saved, 4); seed_pools(saved); pool_member_seeded = 1;
-                    fprintf(events, "pool-member-seed rva=000126fc object=%08lx allocation=%08lx\n", pool_objects[0], saved);
+                    unsigned pool;
+                    for (pool = 0; pool < pool_count; ++pool) if (context.Ecx == base + pool_objects[pool]) break;
+                    if (pool == pool_count || (pool_member_seeded & (1 << pool))) fail("pool member receiver/seed identity");
+                    readmem(base + 0x57818, &saved, 4);
+                    seed_pool(pool, saved, "pool-member-field-seed"); pool_member_seeded |= 1 << pool;
+                    fprintf(events, "pool-member-seed rva=000126fc index=%u object=%08lx allocation=%08lx\n", pool, pool_objects[pool], saved);
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

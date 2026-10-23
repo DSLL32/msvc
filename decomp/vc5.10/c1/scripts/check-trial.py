@@ -89,6 +89,9 @@ def check(original, native, audit_directory=None):
     assert int(traps[0][1], 16) == candidate["functions"][0]["chunks"][0][0]
     state = json.loads((native / "state.json").read_text())
     assert state["symbol"] == expected["native_symbol"]
+    assert len(state["formal_inventory"]) == len(state["args"])
+    assert {row["name"] for row in state["formal_inventory"]} == set(state["args"])
+    assert all(row["type"] for row in state["formal_inventory"])
     transcript = (native / "gdb.txt").read_text()
     import_boundary = expected.get("kind") == "import-boundary"
     if import_boundary:
