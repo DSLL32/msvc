@@ -30,7 +30,7 @@
         "rva": 15981
       },
       "entry_bytes": "83ec208b4424248b4c24288944240889",
-      "abi": "Actual shipped canonical CRT export and SDK __cdecl declaration; ordinary normal-return preservation only.",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
       "declarations": [
         {
           "path": "toolchains/5.10/include/STDIO.H",
@@ -38,6 +38,9 @@
           "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
           "declaration": "_CRTIMP int __cdecl sprintf(char *, const char *, ...);"
         }
+      ],
+      "preserves": [
+        "esi"
       ]
     },
     {
@@ -47,7 +50,7 @@
         "rva": 38474
       },
       "entry_bytes": "53568b74240c5756e841ccffff83c404",
-      "abi": "Actual shipped canonical CRT export and SDK __cdecl declaration; ordinary normal-return preservation only.",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
       "declarations": [
         {
           "path": "toolchains/5.10/include/STDIO.H",
@@ -55,6 +58,10 @@
           "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
           "declaration": "_CRTIMP int __cdecl fprintf(FILE *, const char *, ...);"
         }
+      ],
+      "preserves": [
+        "ebx",
+        "edi"
       ]
     },
     {
@@ -64,7 +71,7 @@
         "rva": 25340
       },
       "entry_bytes": "568b74240885f60f84357a00005756e8",
-      "abi": "Actual shipped canonical CRT export and SDK __cdecl declaration; ordinary normal-return preservation only.",
+      "abi": "Explicit shipped SDK x86 __cdecl ordinary normal-return ABI; preserves the stated needed nonvolatile registers. Actual canonical provider export/entry/hFile bound independently.",
       "declarations": [
         {
           "path": "toolchains/5.10/include/STDIO.H",
@@ -72,6 +79,10 @@
           "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
           "declaration": "_CRTIMP int __cdecl fflush(FILE *);"
         }
+      ],
+      "preserves": [
+        "ebx",
+        "edi"
       ]
     }
   ],
