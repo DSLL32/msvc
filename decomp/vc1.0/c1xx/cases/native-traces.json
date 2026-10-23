@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "132f18f8167742e44c3c7decf8d1c930ef1b64a95f039a7c9368599fdf0e2025",
+    "functions.json": "5ac181b0b56a8a5748c1e4c090125c6f700d33c9148d994557ea391d3964bcd7",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "bad673b76516a8b45d82020c7fd593f7593a2823abd9552ae26fa5fa00b71c38",
+    "cases/canonical-map.txt": "633baacbdf62e0362c28a740b4dce2989316559d9f9f8277f444d87fe4b88261",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -1040,7 +1040,43 @@
     "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-configuration.json": "a583e7091198b59cec6a05ea30d24adc13754711f908381e020d5f8d3621973d",
     "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/frontier-extension.json": "d019fe182ef4b298ce681c145bb484d49cdf15147d1f9d5ace3c8e8fb85dfd7e",
     "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-receipt.json": "26d739fbdc28f7f6892334d21a94442773075d9e4abbc3d32f07058f378a328a",
-    "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-events.txt": "923ac074cd65831dc49dc555334403bd4bd747906ee5ea42f92ddaa5d05c7271"
+    "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-events.txt": "923ac074cd65831dc49dc555334403bd4bd747906ee5ea42f92ddaa5d05c7271",
+    "cases/virtual-diamond-frontiers/0792-new_operator_search-16/original-configuration.json": "a6a8717c0d20ddf068b2129cd3c26e502b6e639f005c14d2f5bb7f3ba836bb7a",
+    "cases/virtual-diamond-frontiers/0792-new_operator_search-16/frontier-extension.json": "9e47c06d9ab0a967af7c5989eb406a1d58d061a427f2ea1b86c3e6f9f2b31cdc",
+    "cases/virtual-diamond-frontiers/0792-new_operator_search-16/original-receipt.json": "79d829ce4590927b0b83cf9ec687615fc4ffcbe8b66a95a4cb44f810bc56b6eb",
+    "cases/virtual-diamond-frontiers/0792-new_operator_search-16/original-events.txt": "c1e752d90b43d73c77c56cf6e862efce6e5d8ec40bb38899e3a61e7bb86da85b",
+    "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/original-configuration.json": "a299fe0daa11ffa5246f18f445d03f7b97fdc8fdc24b698e8b51f5e20ca465ce",
+    "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/frontier-extension.json": "d140e0cac5190fb0e8ee0e454555fab656e6f5ff982e3a79583c03b6cef0a4c8",
+    "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/original-receipt.json": "4e04b647f558870784376522c559ed7c1cc1ee76c25824c14ace8d8e12bf82e1",
+    "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/original-events.txt": "cfd624bfdcb48b98afc1d4a8801d61b3226b80939eb41cb9f491ac5cd5d5fda1",
+    "cases/virtual-diamond-frontiers/0794-count_builtin_operator_candidates-12/original-configuration.json": "3125ea4a806387722501575da55ed1cecc4f2dd80e236b438328eb801a25346b",
+    "cases/virtual-diamond-frontiers/0794-count_builtin_operator_candidates-12/frontier-extension.json": "1991cada61d99cedca480cbeab29ab441de35d00c560a5496f3198db5a85dce4",
+    "cases/virtual-diamond-frontiers/0794-count_builtin_operator_candidates-12/original-receipt.json": "671a3c766afb54eb6ed8f424fe4bdc9ebd51ca3078c54651c02544cf2d0c069e",
+    "cases/virtual-diamond-frontiers/0794-count_builtin_operator_candidates-12/original-events.txt": "40d12a43dcb1d2c96df246fd19569923ad4f92a45f02112a4e35801bd2ee3913",
+    "cases/virtual-diamond-frontiers/0795-prepare_constant_initializer-8/original-configuration.json": "f988771742744697b12111e81611e31460c41c9fd6c08b0dfb1117e456d64af0",
+    "cases/virtual-diamond-frontiers/0795-prepare_constant_initializer-8/frontier-extension.json": "bac926b6adc2521a6aab5264a91ce56136112030367fa4f4a84aec9083008886",
+    "cases/virtual-diamond-frontiers/0795-prepare_constant_initializer-8/original-receipt.json": "f05b3c8abf73d74a66c8297e8dc2a573673f45fb6548ae346a169799250aa420",
+    "cases/virtual-diamond-frontiers/0795-prepare_constant_initializer-8/original-events.txt": "9d5ce59176011ac00b7a6f3c9004768ca26230d666980572f56c3644b9d16c00",
+    "cases/virtual-diamond-frontiers/0796-is_character_array_initializer-8/original-configuration.json": "9753872acb366efd71149c4a6cc6310be0beeb4e915f945a960dbabb2c34a19d",
+    "cases/virtual-diamond-frontiers/0796-is_character_array_initializer-8/frontier-extension.json": "b2ff02c78b4b531e0a8ac171d1617c2bdd1584857063d47ce53c9315eb2ba94e",
+    "cases/virtual-diamond-frontiers/0796-is_character_array_initializer-8/original-receipt.json": "7cdd8e91924b1b9940940fa1467c69b4ce1f000c13bbd5ed2f9a7f6bf7bbdfbc",
+    "cases/virtual-diamond-frontiers/0796-is_character_array_initializer-8/original-events.txt": "83abda382ad76028bdead42886d01e680544922b472ff4d52d0c4bc5fdc350b1",
+    "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/original-configuration.json": "5c1e3a69d9cc697b9b1214146ca024f78a46a2fef6cbaddd00d956d0898cb89e",
+    "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/frontier-extension.json": "c27e448b489223a57dcc860c5381e5d6f3a47f785c5a7b48dbcc1e73522104b6",
+    "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/original-receipt.json": "b462b3096b24c7cca61d1825706ffa6aacadacc11892ad784e90c074add769ab",
+    "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/original-events.txt": "af87d00f479ae2c99ccc596377039ed71903dfd1db50b3116d7da1ab5332e801",
+    "cases/virtual-diamond-frontiers/0798-emit_initializer_assignment-8/original-configuration.json": "eadeddc68f002710529c51819fcd1b97ee9f1e7b46628fb319beb50c8a85eab4",
+    "cases/virtual-diamond-frontiers/0798-emit_initializer_assignment-8/frontier-extension.json": "a20a9327fef3e938ae44159906cecbab6b6fed95942dab5e7085aec055d7a6e1",
+    "cases/virtual-diamond-frontiers/0798-emit_initializer_assignment-8/original-receipt.json": "b0876f206882914c984402c63037c6e37f149f6ca74de70adeec5ebf83e046a3",
+    "cases/virtual-diamond-frontiers/0798-emit_initializer_assignment-8/original-events.txt": "7c965d7f3e90819656d1e358c83d62f764aaee1c9e422fba7a0534416971483f",
+    "cases/virtual-diamond-frontiers/0799-finish_initializer_symbol-4/original-configuration.json": "7dac3987dcf1b67788d71807e8bc075b4ba4817600edd842739e19408ae0f01d",
+    "cases/virtual-diamond-frontiers/0799-finish_initializer_symbol-4/frontier-extension.json": "e275b9335e9e770b55ea02fa64a97f0b38a63f53f1f2f4a1b6cbc67cdf029afb",
+    "cases/virtual-diamond-frontiers/0799-finish_initializer_symbol-4/original-receipt.json": "6ed983d2473b12c9f56e6876dcd63b230b1972909e4d0db167bf2b8e4848556f",
+    "cases/virtual-diamond-frontiers/0799-finish_initializer_symbol-4/original-events.txt": "4803ae285f74d70ff4c29561de43c1dcf55f7d01f5df6efcaec37a3eec339f58",
+    "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-configuration.json": "6166327d01bf46fcdc18bd3016f2b719b91e6037a5747b35f184ec33b566a191",
+    "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/frontier-extension.json": "f591ae1570b81836c9c06176b44e07c22d4f10b4fbd6131cc0a374d040d0df8e",
+    "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-receipt.json": "404f32b532af7505378e2bbd841bdbd0192a3be79eec7cfa0ff27e797c02f5b6",
+    "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-events.txt": "68eda5312fb39d34eab74da0489c3c1cdcc55ffa69a59a95079835a159d43bf0"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1145,6 +1181,10 @@
     },
     "analyze_inline_parameter": {
       "logical": "_analyze_inline_parameter@4",
+      "source": "src/stubs.c"
+    },
+    "append_builtin_operator_candidates": {
+      "logical": "_append_builtin_operator_candidates@20",
       "source": "src/stubs.c"
     },
     "append_class_members": {
@@ -2135,6 +2175,10 @@
       "logical": "_copy_virtual_table_element@8",
       "source": "src/class-finalization.c"
     },
+    "count_builtin_operator_candidates": {
+      "logical": "_count_builtin_operator_candidates@12",
+      "source": "src/operators.c"
+    },
     "count_call_arguments": {
       "logical": "_count_call_arguments@4",
       "source": "src/call-expressions.c"
@@ -2437,7 +2481,7 @@
     },
     "emit_initializer_assignment": {
       "logical": "_emit_initializer_assignment@8",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "emit_initializer_constant": {
       "logical": "_emit_initializer_constant@4",
@@ -2759,6 +2803,10 @@
       "logical": "_finalize_options",
       "source": "src/options.c"
     },
+    "find_builtin_operator": {
+      "logical": "_find_builtin_operator@4",
+      "source": "src/operators.c"
+    },
     "find_c_linkage_function": {
       "logical": "_find_c_linkage_function@4",
       "source": "src/stubs.c"
@@ -2965,7 +3013,7 @@
     },
     "finish_initializer_symbol": {
       "logical": "_finish_initializer_symbol@4",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "finish_inline_function": {
       "logical": "_finish_inline_function",
@@ -3049,6 +3097,10 @@
     },
     "flush_debug_types": {
       "logical": "_flush_debug_types",
+      "source": "src/stubs.c"
+    },
+    "flush_initializer_records": {
+      "logical": "_flush_initializer_records",
       "source": "src/stubs.c"
     },
     "flush_scanned_declaration": {
@@ -3597,7 +3649,7 @@
     },
     "is_character_array_initializer": {
       "logical": "_is_character_array_initializer@8",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "is_class_name_type": {
       "logical": "_is_class_name_type@4",
@@ -3629,7 +3681,7 @@
     },
     "is_scalar_initializer_symbol": {
       "logical": "_is_scalar_initializer_symbol@4",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "is_static_data_member": {
       "logical": "_is_static_data_member@4",
@@ -4205,7 +4257,7 @@
     },
     "new_operator_search": {
       "logical": "_new_operator_search@16",
-      "source": "src/stubs.c"
+      "source": "src/operators.c"
     },
     "new_overload_search": {
       "logical": "_new_overload_search",
@@ -4225,7 +4277,7 @@
     },
     "new_right_typed_expression": {
       "logical": "_new_right_typed_expression@12",
-      "source": "src/stubs.c"
+      "source": "src/return-statements.c"
     },
     "new_symbol": {
       "logical": "_new_symbol@8",
@@ -4449,7 +4501,7 @@
     },
     "prepare_constant_initializer": {
       "logical": "_prepare_constant_initializer@8",
-      "source": "src/stubs.c"
+      "source": "src/object-initializers.c"
     },
     "prepare_constructor_arguments": {
       "logical": "_prepare_constructor_arguments@8",
@@ -6367,7 +6419,16 @@
     "destructor_name",
     "make_destructor_arguments",
     "resolve_operator_expression",
-    "resolve_operator_overload"
+    "resolve_operator_overload",
+    "new_operator_search",
+    "find_builtin_operator",
+    "count_builtin_operator_candidates",
+    "prepare_constant_initializer",
+    "is_character_array_initializer",
+    "is_scalar_initializer_symbol",
+    "emit_initializer_assignment",
+    "finish_initializer_symbol",
+    "new_right_typed_expression"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7036,7 +7097,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 792,
+      "last": 801,
       "seen": [
         "main",
         "message_text",
@@ -7739,12 +7800,21 @@
         "make_destructor_arguments",
         "resolve_operator_expression",
         "resolve_operator_overload",
-        "new_operator_search"
+        "new_operator_search",
+        "find_builtin_operator",
+        "count_builtin_operator_candidates",
+        "prepare_constant_initializer",
+        "is_character_array_initializer",
+        "is_scalar_initializer_symbol",
+        "emit_initializer_assignment",
+        "finish_initializer_symbol",
+        "new_right_typed_expression",
+        "has_deferred_expression_symbols"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_new_operator_search@16",
-        "native": "new_operator_search",
+        "logical": "_has_deferred_expression_symbols@4",
+        "native": "has_deferred_expression_symbols",
         "signal": 5
       }
     }

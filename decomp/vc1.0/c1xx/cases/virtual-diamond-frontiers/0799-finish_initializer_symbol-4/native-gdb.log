@@ -1,0 +1,24 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565593ae in new_right_typed_expression (operation=95 '_', left=0x5661af4c, right=0x5661af74) at src/stubs.c:178
+178	IrToken *__stdcall new_right_typed_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+#0  0x565593ae in new_right_typed_expression (operation=95 '_', left=0x5661af4c, right=0x5661af74) at src/stubs.c:178
+#1  0x5658cebe in make_virtual_base_pointer (object=0x5661ad04, type=0x565f7914, pointer_offset=0, table_offset=4, member_offset=0, pointer_type=0x565f599c, check_null=1) at src/member-expressions.c:329
+#2  0x5658c96f in adjust_virtual_member_object (object=0x5661ad04, binding=0x5661ae78, type=0x565f7914, displacement=0, pointer_conversion=1) at src/member-expressions.c:271
+#3  0x5658c7eb in adjust_member_binding_object (object=0x5661ad04, binding=0x5661ae78, pointer_conversion=1, derived_to_base=1, object_type=0x565f7914) at src/member-expressions.c:186
+#4  0x5658c6ea in adjust_qualified_member_object (object=0x5661ad04, member=0x56605408, pointer_conversion=1, derived_to_base=1, object_type=0x565f7914) at src/member-expressions.c:159
+#5  0x5658b1f5 in convert_class_pointer (expression=0x5661ad04, type=0x565f7914, source=0x565f78f4, path=0x56605408) at src/numeric-conversion.c:370
+#6  0x5658af11 in try_class_pointer_initializer (type=0x565f7914, expression=0x5661ad04) at src/numeric-conversion.c:272
+#7  0x5658a9f7 in convert_scalar_initializer (operation=1 '\001', type=0x565f7914, expression=0x5661ad04) at src/numeric-conversion.c:196
+#8  0x5658b534 in convert_derived_initializer (type=0x565f7914, expression=0x5661ad04) at src/numeric-conversion.c:325
+#9  0x5658152c in convert_initializer (operation=126 '~', type=0x565f7914, expression=0x5661ad04) at src/constructor-initializers.c:571
+#10 0x565812a7 in initialize_lvalue (target=0x5661ad18, value=0x5661ad04) at src/constructor-initializers.c:283
+#11 0x5658548b in emit_initializer_assignment (target=0x5661ad18, value=0x5661ad04) at src/object-initializers.c:363
+#12 0x56584e03 in initialize_object_value (symbol=0x566053c4, value=0x5661ad04) at src/object-initializers.c:245
+#13 0x56584b9e in initialize_object (symbol=0x566053c4, value=0x5661ad04) at src/object-initializers.c:197
+#14 0x5659ad87 in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#15 0x5655dce6 in compile_translation_unit () at src/frontend.c:75
+#16 0x565587e6 in guarded_compile () at src/c1xx.c:28
+#17 0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

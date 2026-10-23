@@ -1,0 +1,16 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "status": 0,
+  "seconds": 5.070394375361502,
+  "log": "evidence/operator-initializer-checkpoint.log",
+  "raw_log": "evidence/operator-initializer-checkpoint.raw.log.gz",
+  "raw_sha256": "a0ff9d80868de2bf017fefd436578baa16f16f9739d785240c142d4ef52da75c",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture measurements separate",
+  "log_format": "display CRLF to LF; raw bytes preserved in .raw.log.gz"
+}

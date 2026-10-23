@@ -1,0 +1,312 @@
+{
+  "scope": "Selected original analysis evidence, not reconstructed implementation",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "pending_initializer_symbol": {
+    "original": "0x9fcc4",
+    "type": "CppSymbol *",
+    "producer": "prepare aggregate initializer at 0x46590 assigns original symbol argument",
+    "producer_instructions": {
+      "start": "0x466cf",
+      "end": "0x466ee",
+      "bytes": "8935c4fc0900833d04c40800007410e87d5cfeffa1c4fc090050e8a25dfeff",
+      "instructions": [
+        {
+          "address": "0x466cf",
+          "mnemonic": "mov",
+          "operands": "dword ptr [0x9fcc4], esi"
+        },
+        {
+          "address": "0x466d5",
+          "mnemonic": "cmp",
+          "operands": "dword ptr [0x8c404], 0"
+        },
+        {
+          "address": "0x466dc",
+          "mnemonic": "je",
+          "operands": "0x466ee"
+        },
+        {
+          "address": "0x466de",
+          "mnemonic": "call",
+          "operands": "0x2c360"
+        },
+        {
+          "address": "0x466e3",
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [0x9fcc4]"
+        },
+        {
+          "address": "0x466e8",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "0x466e9",
+          "mnemonic": "call",
+          "operands": "0x2c490"
+        }
+      ]
+    },
+    "consumer": "literal initializer writer emits deferred symbol header when direct stream absent",
+    "consumer_instructions": {
+      "start": "0x5beb8",
+      "end": "0x5beea",
+      "bytes": "833dc4fc0900008b5c246874250bdb75216a006a00a1c4fc090050e8c8fcffffc705c4fc09000000000066830d92f7090010",
+      "instructions": [
+        {
+          "address": "0x5beb8",
+          "mnemonic": "cmp",
+          "operands": "dword ptr [0x9fcc4], 0"
+        },
+        {
+          "address": "0x5bebf",
+          "mnemonic": "mov",
+          "operands": "ebx, dword ptr [esp + 0x68]"
+        },
+        {
+          "address": "0x5bec3",
+          "mnemonic": "je",
+          "operands": "0x5beea"
+        },
+        {
+          "address": "0x5bec5",
+          "mnemonic": "or",
+          "operands": "ebx, ebx"
+        },
+        {
+          "address": "0x5bec7",
+          "mnemonic": "jne",
+          "operands": "0x5beea"
+        },
+        {
+          "address": "0x5bec9",
+          "mnemonic": "push",
+          "operands": "0"
+        },
+        {
+          "address": "0x5becb",
+          "mnemonic": "push",
+          "operands": "0"
+        },
+        {
+          "address": "0x5becd",
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [0x9fcc4]"
+        },
+        {
+          "address": "0x5bed2",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "0x5bed3",
+          "mnemonic": "call",
+          "operands": "0x5bba0"
+        },
+        {
+          "address": "0x5bed8",
+          "mnemonic": "mov",
+          "operands": "dword ptr [0x9fcc4], 0"
+        },
+        {
+          "address": "0x5bee2",
+          "mnemonic": "or",
+          "operands": "word ptr [0x9f792], 0x10"
+        }
+      ]
+    }
+  },
+  "initializer_end_label": {
+    "original": "0x91588",
+    "type": "IrToken *",
+    "default": 0,
+    "bounds": "single encountered pointer; no direct original producer found",
+    "consumer_instructions": {
+      "start": "0x47b50",
+      "end": "0x47b6e",
+      "bytes": "833d88150900007415a18815090050e8dc2c0100c7058815090000000000",
+      "instructions": [
+        {
+          "address": "0x47b50",
+          "mnemonic": "cmp",
+          "operands": "dword ptr [0x91588], 0"
+        },
+        {
+          "address": "0x47b57",
+          "mnemonic": "je",
+          "operands": "0x47b6e"
+        },
+        {
+          "address": "0x47b59",
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [0x91588]"
+        },
+        {
+          "address": "0x47b5e",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "0x47b5f",
+          "mnemonic": "call",
+          "operands": "0x5a840"
+        },
+        {
+          "address": "0x47b64",
+          "mnemonic": "mov",
+          "operands": "dword ptr [0x91588], 0"
+        }
+      ]
+    }
+  },
+  "builtin_sentinel": {
+    "note": "Equality is tested before terminating token: operation zero returns sentinel row.",
+    "instructions": {
+      "start": "0x778a0",
+      "end": "0x778c5",
+      "bytes": "b8707c0a008a4c2404380d707c0a007411803800740a83c014380875f4c204002bc0c20400",
+      "instructions": [
+        {
+          "address": "0x778a0",
+          "mnemonic": "mov",
+          "operands": "eax, 0xa7c70"
+        },
+        {
+          "address": "0x778a5",
+          "mnemonic": "mov",
+          "operands": "cl, byte ptr [esp + 4]"
+        },
+        {
+          "address": "0x778a9",
+          "mnemonic": "cmp",
+          "operands": "byte ptr [0xa7c70], cl"
+        },
+        {
+          "address": "0x778af",
+          "mnemonic": "je",
+          "operands": "0x778c2"
+        },
+        {
+          "address": "0x778b1",
+          "mnemonic": "cmp",
+          "operands": "byte ptr [eax], 0"
+        },
+        {
+          "address": "0x778b4",
+          "mnemonic": "je",
+          "operands": "0x778c0"
+        },
+        {
+          "address": "0x778b6",
+          "mnemonic": "add",
+          "operands": "eax, 0x14"
+        },
+        {
+          "address": "0x778b9",
+          "mnemonic": "cmp",
+          "operands": "byte ptr [eax], cl"
+        },
+        {
+          "address": "0x778bb",
+          "mnemonic": "jne",
+          "operands": "0x778b1"
+        },
+        {
+          "address": "0x778bd",
+          "mnemonic": "ret",
+          "operands": "4"
+        },
+        {
+          "address": "0x778c0",
+          "mnemonic": "sub",
+          "operands": "eax, eax"
+        },
+        {
+          "address": "0x778c2",
+          "mnemonic": "ret",
+          "operands": "4"
+        }
+      ]
+    }
+  },
+  "raw_scalar_error_arguments": {
+    "note": "Original pushes formatted symbol name and diagnostic275; retain variadic name omitted by decompiler",
+    "instructions": {
+      "start": "0x482c0",
+      "end": "0x482ea",
+      "bytes": "50e87adf0000506813010000e8afae020083c4082bc0c208008b4c2404528b410c50e8691bffffc20800",
+      "instructions": [
+        {
+          "address": "0x482c0",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "0x482c1",
+          "mnemonic": "call",
+          "operands": "0x56240"
+        },
+        {
+          "address": "0x482c6",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "0x482c7",
+          "mnemonic": "push",
+          "operands": "0x113"
+        },
+        {
+          "address": "0x482cc",
+          "mnemonic": "call",
+          "operands": "0x73180"
+        },
+        {
+          "address": "0x482d1",
+          "mnemonic": "add",
+          "operands": "esp, 8"
+        },
+        {
+          "address": "0x482d4",
+          "mnemonic": "sub",
+          "operands": "eax, eax"
+        },
+        {
+          "address": "0x482d6",
+          "mnemonic": "ret",
+          "operands": "8"
+        },
+        {
+          "address": "0x482d9",
+          "mnemonic": "mov",
+          "operands": "ecx, dword ptr [esp + 4]"
+        },
+        {
+          "address": "0x482dd",
+          "mnemonic": "push",
+          "operands": "edx"
+        },
+        {
+          "address": "0x482de",
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [ecx + 0xc]"
+        },
+        {
+          "address": "0x482e1",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "0x482e2",
+          "mnemonic": "call",
+          "operands": "0x39e50"
+        },
+        {
+          "address": "0x482e7",
+          "mnemonic": "ret",
+          "operands": "8"
+        }
+      ]
+    }
+  }
+}

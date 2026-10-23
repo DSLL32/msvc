@@ -175,7 +175,6 @@ void __stdcall emit_conditional_branch(IrToken *first, IrToken *condition, IrTok
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
 void emit_pending_function_cleanup(void) { __asm { int 3 } }
-IrToken *__stdcall new_right_typed_expression(unsigned char operation, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 char *__stdcall encode_type_name(CType *type) { __asm { int 3 } return 0; }
@@ -210,15 +209,11 @@ IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object) { __
 IrToken *__stdcall initialize_allocated_array(IrToken *object, int allocated,
     unsigned prefix_bytes, IrToken *element_count, int element_bytes) { __asm { int 3 } return 0; }
 void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }
-IrToken *__stdcall prepare_constant_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
-int __stdcall is_character_array_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 int __stdcall check_static_initializer(CppSymbol *symbol, IrToken **value) { __asm { int 3 } return 0; }
 void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
-int __stdcall is_scalar_initializer_symbol(CppSymbol *symbol) { __asm { int 3 } return 0; }
-void __stdcall emit_initializer_assignment(IrToken *target, IrToken *value) { __asm { int 3 } }
-void __stdcall finish_initializer_symbol(CppSymbol *symbol) { __asm { int 3 } }
+void flush_initializer_records(void) { __asm { int 3 } }
 IrToken *__stdcall normalize_initializer_expression(IrToken *value) { __asm { int 3 } return 0; }
 void __stdcall write_literal_initializer(CppSymbol *symbol, IrToken *value, void *context) { __asm { int 3 } }
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
@@ -641,7 +636,7 @@ IrToken *__stdcall make_null_member_pointer(CType *type) { __asm { int 3 } retur
 IrToken *__stdcall convert_reference_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_overloaded_arrow(IrToken *object) { __asm { int 3 } return 0; }
-OverloadSearch *__stdcall new_operator_search(unsigned char operation, IrToken *left, IrToken *right, CType *object_type) { __asm { int 3 } return 0; }
 int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
+void __stdcall append_builtin_operator_candidates(OverloadSearch *search, BuiltinOperator *rule, IrToken *left, IrToken *right, unsigned *count) { __asm { int 3 } }

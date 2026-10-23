@@ -2,7 +2,8 @@
 #define OBJECT_INITIALIZERS_H
 #include "parser.h"
 #include <recon.h>
-extern CppSymbol *initializer_storage_symbol;
+extern CppSymbol *initializer_storage_symbol, *pending_initializer_symbol;
+extern IrToken *initializer_end_label;
 extern unsigned initializer_offset;
 extern unsigned initializer_runtime_start;
 extern int initializer_runtime_override, initializer_value_error_reported;
@@ -16,8 +17,9 @@ unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *valu
 int __stdcall check_static_initializer(CppSymbol *symbol, IrToken **value);
 void __stdcall begin_runtime_initializer(CppSymbol *symbol);
 int __stdcall is_scalar_initializer_symbol(CppSymbol *symbol);
-void __stdcall emit_initializer_assignment(IrToken *target, IrToken *value);
+int __stdcall emit_initializer_assignment(IrToken *target, IrToken *value);
 void __stdcall finish_initializer_symbol(CppSymbol *symbol);
+void flush_initializer_records(void);
 IrToken *__stdcall normalize_initializer_expression(IrToken *value);
 void __stdcall write_literal_initializer(CppSymbol *symbol, IrToken *value, void *context);
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value);

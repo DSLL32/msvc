@@ -208,7 +208,7 @@ OverloadSearch *new_overload_search(CppSymbol *functions, unsigned count,
     if (!search) return 0;
     words = (unsigned *)search;
     for (i = 0; i < sizeof(OverloadSearch) / sizeof(unsigned); ++i) words[i] = 0;
-    search->field0c = 1;
+    search->operation = 1;
     search->functions = functions;
     search->flags = (unsigned char)flags;
     search->argument_count = count;
@@ -266,7 +266,7 @@ unsigned __stdcall count_overload_functions(CppSymbol *functions)
 
 /* Original 0x76010..0x76197. Populate linked candidate slots and reserve
    their per-argument ranks, retaining the last occupied cursor for later adds. */
-int __stdcall add_overload_candidates(OverloadSearch *search, CppSymbol *functions, unsigned origin)
+int __stdcall add_overload_candidates(OverloadSearch *search, CppSymbol *functions, QualifiedDeclarator *qualification)
 {
     OverloadCandidate *candidate;
     OverloadArgumentRank *ranks;
@@ -301,7 +301,7 @@ int __stdcall add_overload_candidates(OverloadSearch *search, CppSymbol *functio
         if (shape && !(shape->flags & 0x77)) shape = shape->related;
         parameters = shape->data.parameters;
         candidate->parameter_cursor = parameters->declarations->types;
-        candidate->origin = origin;
+        candidate->qualification = qualification;
         if (!(function->declaration_flags & 0x400)) candidate->this_type = 0;
         else {
             candidate->flags |= 4;

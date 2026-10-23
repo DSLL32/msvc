@@ -5,8 +5,12 @@
 #include "binary-expressions.h"
 #include "class-members.h"
 #include "source-input.h"
+#include "initialization.h"
+#include "class-finalization.h"
 #include <recon.h>
 
+IrToken *initializer_end_label; /* original 0x91588: optional final branch label */
+CppSymbol *pending_initializer_symbol; /* original 0x9fcc4: deferred record header */
 int initializer_runtime_override; /* original 0x9157c */
 CppSymbol *initializer_storage_symbol; /* original 0x91590 */
 unsigned initializer_offset; /* original 0x91598 */
@@ -289,4 +293,104 @@ void __stdcall initialize_object_value(CppSymbol *symbol, IrToken *value)
         if ((int)integer_constant_scratch > 0) emit_initializer_constant(0);
     }
     finish_initializer_symbol(symbol);
+}
+
+/* Original 0x48270..0x482e9. Cache scalar const integer/enum values
+   in the symbol before resolving the assignment. The unresolved member token
+   receives its symbol-name diagnostic instead of an assignment conversion. */
+IrToken *__stdcall prepare_constant_initializer(CppSymbol *symbol, IrToken *value)
+{
+    CType *type;
+    TypeShape *shape;
+    if (value) {
+        if ((value->flags & 7) == 3) {
+            type = symbol->type;
+            if ((type->flags & 0x240) && (type->attributes & 0x1000)) {
+                shape = type->related;
+                if (shape && !(shape->flags & 0x77)) shape = shape->related;
+                if (!shape) {
+                    symbol->auxiliary.value = value->value.integer;
+                    symbol->attributes |= 0x4000;
+                }
+            }
+        }
+        if (!(value->flags & 7) && value->kind == 0xa3) {
+            report_syntax_error(275, format_symbol_name(value->value.pointer));
+            return 0;
+        }
+    }
+    return resolve_assignment_operand(symbol->type, value);
+}
+
+/* Original 0x47310..0x4739d. Match narrow/wide strings to an array's
+   scalar element, skipping the symbol's optional outer qualifier shape. The
+   array attribute establishes the shape prefix; retain its unchecked access. */
+int __stdcall is_character_array_initializer(CppSymbol *symbol, IrToken *value)
+{
+    CType *type;
+    TypeShape *shape;
+    unsigned short character;
+    if (!value || value->kind != 3) return 0;
+    if (!(symbol->attributes & 0x400)) return 0;
+    character = (value->tail.string.auxiliary_flags & 1) ? 0x42 : 0x41;
+    type = symbol->type;
+    if ((type->flags & 0x2fdf) != character) return 0;
+    shape = type->related;
+    if (symbol->attributes & 2) shape = shape->related;
+    return shape->related ? 0 : 1;
+}
+
+/* Original 0x473a0..0x47407. Indirections and member pointers are
+   scalar; a remaining array shape is not. Other shapes defer to base flags. */
+int __stdcall is_scalar_initializer_symbol(CppSymbol *symbol)
+{
+    CType *type = symbol->type;
+    TypeShape *shape = type->related;
+    if (symbol->attributes & 2) shape = shape->related;
+    if (shape) {
+        if (shape->flags & 1) return 1;
+        if (shape->flags & 0x40) return 1;
+        if (shape->flags & 0x30) return 1;
+        if ((shape->flags & 0x77) == 2) return 0;
+    }
+    return (type->flags & 0xb40) ? 1 : 0;
+}
+
+/* Original 0x46020..0x46031. Forward the target/value pair and retain
+   the initializer helper's complete EAX result across this separate wrapper. */
+int __stdcall emit_initializer_assignment(IrToken *target, IrToken *value)
+{
+    return initialize_lvalue(target, value);
+}
+
+/* Original 0x47ad0..0x47ba8. Complete a declaration's initializer, including
+   deferred zero fill, local-static guard cleanup and binary record flushing. */
+void __stdcall finish_initializer_symbol(CppSymbol *symbol)
+{
+    if (initializer_runtime_override) {
+        integer_constant_scratch = initializer_offset - initializer_runtime_start;
+        if (integer_constant_scratch) {
+            token_allocation_flags &= ~0x200000UL;
+            emit_initializer_constant(0);
+            token_allocation_flags |= 0x200000UL;
+        } else if (!initializer_offset) {
+            symbol->attributes &= ~4UL;
+        }
+    }
+    if ((token_allocation_flags & 0x80000) &&
+        !(token_allocation_flags & 0x40) &&
+        (symbol->storage[0] & 7) == 3 &&
+        (token_allocation_flags & 0x200000))
+        finish_local_static_initialization(symbol);
+    if (initializer_end_label) {
+        emit_label(initializer_end_label);
+        initializer_end_label = 0;
+    }
+    pending_initializer_symbol = 0;
+    if (!(token_allocation_flags & 0x200000) ||
+        (token_allocation_flags & 0x100000)) {
+        if (browser_filename && (token_allocation_flags & 0x100000))
+            browser_end_tag();
+        flush_initializer_records();
+    }
 }

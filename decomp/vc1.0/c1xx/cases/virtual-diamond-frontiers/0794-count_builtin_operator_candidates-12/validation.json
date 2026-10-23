@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_count_builtin_operator_candidates@12",
+    "start": 482576,
+    "end": 482852
+  },
+  "distinct_direct_callees": [
+    "_inline_vector_count",
+    "_is_class_or_reference_type@4"
+  ],
+  "next_frontier": "_prepare_constant_initializer@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.45296225789934397,
+  "total_operation_seconds": 7.834237462840974,
+  "original_capture_seconds": 4.727758167311549
+}

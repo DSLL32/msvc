@@ -26,7 +26,7 @@ typedef struct OverloadArgumentRank {
 struct OverloadCandidate {
     CppSymbol *function;
     CType **parameter_cursor;
-    unsigned origin;
+    QualifiedDeclarator *qualification;
     CType *current_parameter, *this_type;
     struct OverloadCandidate *next, *previous;
     OverloadArgumentRank *ranks;
@@ -35,7 +35,7 @@ struct OverloadCandidate {
 };
 typedef struct OverloadSearch {
     unsigned total_count, viable_count, argument_count;
-    unsigned char field0c, reserved0d[3];
+    unsigned char operation, reserved0d[3];
     CppSymbol *functions;
     OverloadCandidate *storage, *candidates;
     OverloadArgumentRank *rank_storage;
@@ -48,6 +48,8 @@ typedef char OverloadCandidateSizeMustBe52[(sizeof(OverloadCandidate) == 52) ? 1
 typedef char OverloadSearchSizeMustBe52[(sizeof(OverloadSearch) == 52) ? 1 : -1];
 typedef char OverloadRankSizeMustBe12[(sizeof(OverloadArgumentRank) == 12) ? 1 : -1];
 typedef char OverloadSearchCurrentOffsetMustBe32[(offsetof(OverloadSearch, current) == 32) ? 1 : -1];
+typedef char OverloadCandidateQualificationOffsetMustBe8[(offsetof(OverloadCandidate, qualification) == 8) ? 1 : -1];
+typedef char OverloadSearchOperationOffsetMustBe12[(offsetof(OverloadSearch, operation) == 12) ? 1 : -1];
 typedef char OverloadCandidateFlagsOffsetMustBe48[(offsetof(OverloadCandidate, flags) == 48) ? 1 : -1];
 typedef OverloadCandidate *(__stdcall *OverloadFailure)(OverloadSearch *search);
 OverloadSearch *new_overload_search(CppSymbol *functions, unsigned count,
@@ -59,7 +61,7 @@ OverloadCandidate *__stdcall select_overload_candidate(OverloadSearch *search,
 void __stdcall destroy_overload_search(OverloadSearch *search);
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search);
 unsigned __stdcall count_overload_functions(CppSymbol *functions);
-int __stdcall add_overload_candidates(OverloadSearch *search, CppSymbol *functions, unsigned origin);
+int __stdcall add_overload_candidates(OverloadSearch *search, CppSymbol *functions, QualifiedDeclarator *qualification);
 void __stdcall begin_overload_candidate_cursor(OverloadSearch *search,
     OverloadCandidate **candidate, OverloadArgumentRank **ranks);
 void __stdcall save_overload_candidate_cursor(OverloadSearch *search,

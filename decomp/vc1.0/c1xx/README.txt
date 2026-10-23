@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 792 accepted frontiers, including 699 frontend
+PARTIAL binary reconstruction: 801 accepted frontiers, including 708 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1801,3 +1801,29 @@ seconds; individual build/reference/debug/fixture timings remain separate.
 
 Accepted extent union 220725/476418 bytes is 46.330113%, not branch coverage.
 virtual_diamond remains incomplete at new_operator_search 0x76b70.
+
+Operator/initializer checkpoint: 801 accepted frontiers, 715 source functions.
+Nine whole helpers beyond 5165dff construct operator searches, locate builtin
+rules, count class conversion candidates, prepare scalar constants and string
+arrays, classify scalar symbols, forward initializer assignments, finalize
+initializer symbols and build expressions retaining the right operand's type.
+
+Overload candidates now name their qualified-declarator origin explicitly;
+the search operation byte and candidate qualification offsets are asserted.
+The builtin lookup retains operation zero's sentinel-row result. Original raw
+stack evidence preserves the unresolved-member diagnostic's formatted name.
+Initializer finalization reuses the shared integer scratch word and retains
+its runtime zero-fill, local-static and browser branches. Its deferred symbol
+header and optional end label have single contextual pointer objects, with
+producer/consumer evidence and audited zero defaults. Unvisited record-flush
+and guard helpers remain named traps.
+
+All 0792 through 0800 acceptances match fresh original/native traps, four pending
+buffers, fourteen state fields, streams and visible files. Completed cpp_basic
+remains byte-exact. Full canonical graph/data/default/callback/grammar audits,
+both cached native cases and 30 boundary rejection checks pass in 5.070394
+seconds. Separate per-function build/reference/debug/fixture timings and the
+corrected preliminary missing-header build are retained in their receipts.
+
+Accepted extent union 222150/476418 bytes is 46.629221%, not branch coverage.
+virtual_diamond remains incomplete at has_deferred_expression_symbols 0x40f40.

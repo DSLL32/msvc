@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_prepare_constant_initializer@8",
+    "start": 295536,
+    "end": 295658
+  },
+  "distinct_direct_callees": [
+    "_format_symbol_name@4",
+    "_report_syntax_error",
+    "_resolve_assignment_operand@8"
+  ],
+  "next_frontier": "_is_character_array_initializer@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4529868168756366,
+  "total_operation_seconds": 7.868654743768275,
+  "original_capture_seconds": 4.77713224850595
+}

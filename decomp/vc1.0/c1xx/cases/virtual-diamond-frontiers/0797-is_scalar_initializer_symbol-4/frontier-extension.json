@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 797,
+  "accepted": "_is_scalar_initializer_symbol@4",
+  "terminal": "_emit_initializer_assignment@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/original-receipt.json",
+  "original_capture_sha256": "b462b3096b24c7cca61d1825706ffa6aacadacc11892ad784e90c074add769ab",
+  "original_events": "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/original-events.txt",
+  "original_events_sha256": "af87d00f479ae2c99ccc596377039ed71903dfd1db50b3116d7da1ab5332e801",
+  "original_configuration": "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

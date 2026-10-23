@@ -143,3 +143,10 @@ return_branch:
 finished:
     if (mode) finish_return_expression(0, 1);
 }
+
+/* Original 0x61260..0x6127a. The right operand supplies the complete
+   result type; the ordinary binary constructor owns the node allocation. */
+IrToken *__stdcall new_right_typed_expression(unsigned char operation, IrToken *left, IrToken *right)
+{
+    return new_ir_expression(operation, left, right, right->type);
+}

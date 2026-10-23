@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 793,
+  "accepted": "_find_builtin_operator@4",
+  "terminal": "_count_builtin_operator_candidates@12",
+  "original_capture": "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/original-receipt.json",
+  "original_capture_sha256": "4e04b647f558870784376522c559ed7c1cc1ee76c25824c14ace8d8e12bf82e1",
+  "original_events": "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/original-events.txt",
+  "original_events_sha256": "cfd624bfdcb48b98afc1d4a8801d61b3226b80939eb41cb9f491ac5cd5d5fda1",
+  "original_configuration": "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

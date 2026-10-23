@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.191752752289176,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-emit-initializer-assignment-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 7.701771463267505,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-emit-initializer-assignment-canonical.log"
+  }
+]

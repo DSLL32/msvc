@@ -4,6 +4,9 @@
 #include "lexer.h"
 #include "call-expressions.h"
 #include "cpp-context.h"
+#include "function-definitions.h"
+#include "constructor-initializers.h"
+#include "inline-vector.h"
 #include <recon.h>
 
 /* Original [0x61540,0x615dc). Some class operations have a builtin form
@@ -276,4 +279,118 @@ IrToken *__stdcall resolve_operator_overload(unsigned char operation, IrToken *l
     result = make_selected_operator_call(candidate, left, right);
     destroy_overload_search(search);
     return result;
+}
+
+BuiltinOperator *__stdcall find_builtin_operator(unsigned char operation);
+unsigned __stdcall count_builtin_operator_candidates(BuiltinOperator *rule,
+    IrToken *left, IrToken *right);
+void __stdcall append_builtin_operator_candidates(OverloadSearch *search,
+    BuiltinOperator *rule, IrToken *left, IrToken *right, unsigned *count);
+
+/* Original 0x76b70..0x76d51. Reserve global/member/builtin candidate
+   slots, retaining the member qualification in each member candidate. Builtin
+   generation can reduce its estimate, so update both counts after appending. */
+OverloadSearch *__stdcall new_operator_search(unsigned char operation, IrToken *left,
+    IrToken *right, CType *object_type)
+{
+    unsigned argument_count = right ? 2 : 1;
+    unsigned count = 0, builtin_count, actual_builtin_count;
+    BuiltinOperator *rule = find_builtin_operator(operation);
+    char *name = rule ? rule->name : intern_operator_name(operation);
+    CppSymbol *global_functions, *member_functions = 0;
+    QualifiedDeclarator *qualification = 0;
+    OverloadSearch *search;
+    unsigned kind;
+    if (operation == OP_ASSIGN) {
+        if (object_type && !class_tag_for_type(object_type)) return 0;
+        global_functions = 0;
+    } else {
+        global_functions = find_scope_symbol(global_scope, name, 0);
+        if (global_functions) {
+            kind = global_functions->kind & 0x1f;
+            if (kind != 16 && kind != 17) return 0;
+            count = count_overload_functions(global_functions);
+        }
+    }
+    if (object_type) {
+        qualification = lookup_class_name(cpp_context_stack->items[object_type->field08],
+            name, 2, 0);
+        if (qualification) {
+            member_functions = (CppSymbol *)qualification->resolution->binding->target;
+            kind = member_functions->kind & 0x1f;
+            if (kind != 16 && kind != 17) return 0;
+            count += count_overload_functions(member_functions);
+        }
+    }
+    builtin_count = count_builtin_operator_candidates(rule, left, right);
+    count += builtin_count;
+    if (!count) return 0;
+    search = new_overload_search(0, argument_count, 3, count);
+    if (!search) return 0;
+    search->operation = operation;
+    if (member_functions && !add_overload_candidates(search, member_functions, qualification)) {
+        destroy_overload_search(search);
+        return 0;
+    }
+    if (global_functions && !add_overload_candidates(search, global_functions, 0)) {
+        destroy_overload_search(search);
+        return 0;
+    }
+    if (builtin_count) {
+        append_builtin_operator_candidates(search, rule, left, right, &actual_builtin_count);
+        count = count - builtin_count + actual_builtin_count;
+        if (!count) {
+            destroy_overload_search(search);
+            return 0;
+        }
+        search->total_count = count;
+        search->viable_count = count;
+    }
+    return search;
+}
+
+/* Original 0x778a0..0x778c4. Check a row before checking its sentinel
+   token: operation zero therefore selects the terminating row itself. */
+BuiltinOperator *__stdcall find_builtin_operator(unsigned char operation)
+{
+    BuiltinOperator *rule = builtin_operators;
+    if (rule->token == operation) return rule;
+    while (rule->token) {
+        ++rule;
+        if (rule->token == operation) return rule;
+    }
+    return 0;
+}
+
+/* Original 0x75d10..0x75e23. Consecutive rows describe alternatives
+   for one operator. Class operands contribute their conversion-type counts;
+   the void-pointer pattern sums rather than multiplies those choices. Native
+   short counts are sign-extended before the wrapping 32-bit arithmetic. */
+unsigned __stdcall count_builtin_operator_candidates(BuiltinOperator *rule,
+    IrToken *left, IrToken *right)
+{
+    CType *left_type = left->type, *right_type = right ? right->type : 0;
+    unsigned total = 0, left_count, right_count;
+    unsigned char operation;
+    if (!rule) return 0;
+    operation = rule->token;
+    do {
+        if ((rule->operands[1].type != 0) == (right != 0)) {
+            if (left_type && is_class_or_reference_type(left_type))
+                left_count = (unsigned)(int)inline_vector_count(
+                    ((CppSymbol *)cpp_context_stack->items[left_type->field08])->detail.class_info->conversion_types);
+            else left_count = 1;
+            if (right_type && is_class_or_reference_type(right_type))
+                right_count = (unsigned)(int)inline_vector_count(
+                    ((CppSymbol *)cpp_context_stack->items[right_type->field08])->detail.class_info->conversion_types);
+            else right_count = 1;
+            if (right_type) {
+                if ((rule->operands[1].type->flags & 0x2fdf) == 0x81)
+                    total += left_count + right_count;
+                else total += left_count * right_count;
+            } else total += left_count;
+        }
+        ++rule;
+    } while (rule->token == operation);
+    return total;
 }

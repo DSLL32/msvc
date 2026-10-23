@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_builtin_operator@4",
+    "start": 489632,
+    "end": 489669
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_count_builtin_operator_candidates@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4574425658211112,
+  "total_operation_seconds": 7.798108146525919,
+  "original_capture_seconds": 4.676085852086544
+}

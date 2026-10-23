@@ -796,7 +796,16 @@
     "_destructor_name@4",
     "_make_destructor_arguments@8",
     "_resolve_operator_expression@20",
-    "_resolve_operator_overload@24"
+    "_resolve_operator_overload@24",
+    "_new_operator_search@16",
+    "_find_builtin_operator@4",
+    "_count_builtin_operator_candidates@12",
+    "_prepare_constant_initializer@8",
+    "_is_character_array_initializer@8",
+    "_is_scalar_initializer_symbol@4",
+    "_emit_initializer_assignment@8",
+    "_finish_initializer_symbol@4",
+    "_new_right_typed_expression@12"
   ],
   "driver": [
     {
@@ -5020,7 +5029,7 @@
     {
       "name": "_new_right_typed_expression@12",
       "start": 397920,
-      "end": 397921
+      "end": 397947
     },
     {
       "name": "_collect_declaration_cleanup@12",
@@ -5446,12 +5455,12 @@
     {
       "name": "_prepare_constant_initializer@8",
       "start": 295536,
-      "end": 295537
+      "end": 295658
     },
     {
       "name": "_is_character_array_initializer@8",
       "start": 291600,
-      "end": 291601
+      "end": 291742
     },
     {
       "name": "_fit_string_initializer@8",
@@ -5471,17 +5480,17 @@
     {
       "name": "_is_scalar_initializer_symbol@4",
       "start": 291744,
-      "end": 291745
+      "end": 291848
     },
     {
       "name": "_emit_initializer_assignment@8",
       "start": 286752,
-      "end": 286753
+      "end": 286770
     },
     {
       "name": "_finish_initializer_symbol@4",
       "start": 293584,
-      "end": 293585
+      "end": 293801
     },
     {
       "name": "_normalize_initializer_expression@4",
@@ -6646,7 +6655,7 @@
     {
       "name": "_new_operator_search@16",
       "start": 486256,
-      "end": 486257
+      "end": 486738
     },
     {
       "name": "_rank_operator_operands@12",
@@ -6662,6 +6671,26 @@
       "name": "_report_operator_overload_failure@4",
       "start": 490800,
       "end": 490801
+    },
+    {
+      "name": "_find_builtin_operator@4",
+      "start": 489632,
+      "end": 489669
+    },
+    {
+      "name": "_count_builtin_operator_candidates@12",
+      "start": 482576,
+      "end": 482852
+    },
+    {
+      "name": "_append_builtin_operator_candidates@20",
+      "start": 486752,
+      "end": 486753
+    },
+    {
+      "name": "_flush_initializer_records",
+      "start": 375360,
+      "end": 375361
     }
   ],
   "cases": {
@@ -6787,7 +6816,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_new_operator_search@16",
+      "terminal": "_has_deferred_expression_symbols@4",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6937,9 +6966,18 @@
         "cases/virtual-diamond-frontiers/0788-destructor_name-4/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0790-resolve_operator_expression-20/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0792-new_operator_search-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0793-find_builtin_operator-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0794-count_builtin_operator_candidates-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0795-prepare_constant_initializer-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0796-is_character_array_initializer-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0797-is_scalar_initializer_symbol-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0798-emit_initializer_assignment-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0799-finish_initializer_symbol-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },
@@ -8655,6 +8693,16 @@
         {
           "name": "_initializer_constructor_count",
           "original": 658060,
+          "bytes": 4
+        },
+        {
+          "name": "_initializer_end_label",
+          "original": 595336,
+          "bytes": 4
+        },
+        {
+          "name": "_pending_initializer_symbol",
+          "original": 654532,
           "bytes": 4
         }
       ]
