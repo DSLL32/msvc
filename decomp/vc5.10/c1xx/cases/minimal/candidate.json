@@ -8,7 +8,8 @@
     "import:_initterm",
     "_DllMain@12",
     "_InvokeCompilerPass@12",
-    "_initialize_compiler_pass"
+    "_initialize_compiler_pass",
+    "_checked_malloc"
   ],
   "trial": null,
   "ranges": [
@@ -71,7 +72,19 @@
       "start_rva": 466904,
       "end_rva": 467030,
       "entry": 0
+    },
+    {
+      "owner": "_checked_malloc",
+      "start_rva": 144314,
+      "end_rva": 144343,
+      "entry": 1
+    },
+    {
+      "owner": "_checked_malloc",
+      "start_rva": 417889,
+      "end_rva": 417904,
+      "entry": 0
     }
   ],
-  "stage": "_initialize_compiler_pass accepted; next frontier _checked_malloc"
+  "stage": "_checked_malloc accepted; next frontier _initialize_frontend_01"
 }

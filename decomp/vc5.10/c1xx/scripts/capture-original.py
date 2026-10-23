@@ -130,6 +130,9 @@ def main():
             shutil.copy2(PROJECT / item, output / Path(item).name)
         environment.update(C1XX_INVOKE_ARGV="invoke-argv.bin", TMP=".", TEMP=".")
         environment.pop("C1XX_TEST_INIT_RESTORE", None)
+        environment.pop("C1XX_OBSERVE_INIT_COPY", None)
+        if trial.get('validation_observers'):
+            environment['C1XX_OBSERVE_INIT_COPY'] = '1'
         if trial.get("test_seed"):
             environment["C1XX_TEST_INIT_RESTORE"] = trial["test_seed"]
     shutil.copy2(CRT, output / "MSVCRT.DLL")

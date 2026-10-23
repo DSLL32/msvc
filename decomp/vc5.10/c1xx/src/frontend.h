@@ -22,4 +22,5 @@ extern FrontendBss frontend_bss;
 extern int restore_mode;
 extern Initializer frontend_initializers[FRONTEND_INITIALIZERS];
 void *checked_malloc(unsigned bytes);
+int report_compiler_error(int number);
 #endif

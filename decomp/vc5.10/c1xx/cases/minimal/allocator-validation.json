@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "trial": "_checked_malloc",
+  "kind": "sole real allocator candidate; genuine first copy; no auxiliary mocks",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocator-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocator-native-2",
+  "original_receipt_sha256": "3b19cb06ecb2d4fc4b27b76c4095f5580dc000b780a82df5d05c8a07b16bc123",
+  "native_receipt_sha256": "3030f81b15c5a1d258a5333fce4d3107429cf7fefddd0c7abbd686657aa43eaa",
+  "audit_sha256": "e579f42f60fd0acd66ded22d0bdba8c0e522d763cf104f764e48e8dde1699df4",
+  "comparison": {
+    "trial": "_checked_malloc",
+    "seed": null,
+    "frontier": "_initialize_frontend_01",
+    "malloc_bytes": 8520,
+    "mapped_snapshot_fields": [
+      "first_invocation"
+    ],
+    "original_unmodeled_snapshot_bytes": 8516,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "original_opaque_transfer_bytes_checked": 8520,
+    "callback_slots_verified": 43,
+    "typed_bss_bytes": 136,
+    "whole_mask_bytes_checked": 751216,
+    "original_seconds": 1.4179146131500602,
+    "native_seconds": 0.26561779249459505
+  },
+  "negative_controls": {
+    "result": "PASS",
+    "count": 10,
+    "rejected": [
+      "allocation-size",
+      "allocation-prestate",
+      "missing-copy-state",
+      "copy-before-reset",
+      "snapshot-identity",
+      "snapshot-CRT-alias",
+      "missing-allocator-cold-owner",
+      "wrong-CRT-malloc",
+      "original-copy-diff",
+      "false-INT3-PC"
+    ]
+  },
+  "timings": {
+    "native_build": {
+      "seconds": 1.865125841461122,
+      "exit": 0
+    },
+    "original_build": {
+      "seconds": 2.187512928619981,
+      "exit": 0
+    },
+    "audit": {
+      "seconds": 0.15547725092619658,
+      "exit": 0
+    }
+  },
+  "native_refresh": "Shared shim/header refresh rebuilt native during lifecycle fixture; unchanged original execution explicitly reused; new native execution and static audit only."
+}

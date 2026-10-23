@@ -171,7 +171,8 @@ def first_copy_aux(original,native,trial,text,pre,phase,state,slots):
 
 def check(original,native,require_audit=True,audit_path=None):
     o,n,trial,text,state=s.pair(original,native)
-    s.require(trial['trial']=='_initialize_compiler_pass' and trial['case']=='minimal' and o['exit']==125,
+    real_allocator=trial['trial']=='_checked_malloc'
+    s.require(trial['trial'] in ('_initialize_compiler_pass','_checked_malloc') and trial['case']=='minimal' and o['exit']==125,
               'wrong initializer trial/frontier')
     s.require(s.sha(native/'native-executable.elf')==n['native_sha256'],'wrong captured ELF')
     model=json.loads((native/'state-model.json').read_text())
@@ -194,7 +195,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wanted=[('0','0002e3c6'),('1','0002e46a'),('2','000384ce'),('3','0002e52a'),
             ('5','000384d4'),('6','00038550')]
     if seed in (None,'first-copy-aux'):wanted.append(('7','000233ba'))
-    if seed:wanted.append(('8' if seed=='first-copy-aux' else '7','00038610'))
+    if seed or real_allocator:wanted.append(('8' if seed=='first-copy-aux' or real_allocator else '7','00038610'))
     s.require([row[:2] for row in traps]==wanted,'raw initializer execution path differs')
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},
@@ -215,16 +216,49 @@ def check(original,native,require_audit=True,audit_path=None):
     s.require(start<state['pc']<=start+width and elf_byte(native,state['pc']-1)==0xcc,'not a real named native INT3 frontier')
     trace=['DllMain','InvokeCompilerPass','initialize_compiler_pass']
     if seed in (None,'first-copy-aux'):trace.append('checked_malloc')
-    if seed:trace.append('initialize_frontend_01')
+    if seed or real_allocator:trace.append('initialize_frontend_01')
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native logical entry trace differs')
-    before=original_fields(original,'006');after=original_fields(original,'008' if seed=='first-copy-aux' else '007')
+    before=original_fields(original,'006');after=original_fields(original,'008' if seed=='first-copy-aux' or real_allocator else '007')
     s.require(pre['symbol']=='initialize_compiler_pass','missing actual native initializer prestate')
     keys=('first_invocation','cleanup_count','restore_mode','cleanup_callbacks')
     for key in keys:s.require(before[key]==pre['frontend'][key] if key!='cleanup_callbacks' or not seed else
                              before[key]==[0x10438610]*32 and pre['frontend'][key]==[slots[1]]*32,
                              'typed prestate differs '+key)
     s.require((before['saved_state']==0)==(pre['frontend']['saved_state']==0),'snapshot pointer nullness differs')
-    if not seed:
+    if real_allocator:
+        s.require(not seed and 'auxiliary_mock' not in trial and state.get('aux_owned') is None and
+                  'aux-stub-return' not in text and not (native/'aux-return.json').exists(),
+                  'real allocator proof contains an auxiliary mock')
+        s.require(before==defaults and pre['frontend']['saved_first'] is None and
+                  pre['target_state']['compiler_mode']==state['target_state']['compiler_mode']==0,
+                  'real allocation did not begin from actual defaults')
+        allocation=json.loads((native/'allocation-entry.json').read_text())
+        s.require(allocation['symbol']=='checked_malloc' and allocation['args']=={'bytes':8520} and
+                  {key:allocation['frontend'][key] for key in before}==before,
+                  'actual native malloc call request/prestate differs')
+        providers=re.findall(r'^module name=MSVCRT.dll actual=([0-9a-f]+) preferred=([0-9a-f]+) entry=00001000$',text,re.M)
+        resolutions=re.findall(r'^provider iat=000c90a8 resolved=([0-9a-f]+)$',text,re.M)
+        s.require(len(providers)==len(resolutions)==1 and int(resolutions[0],16)==int(providers[0][0],16)+0x1498,
+                  'real malloc is not the canonical CRT import')
+        phase=original_fields(original,'phase');phase_native=json.loads((native/'phase.json').read_text())
+        for old,new,first in ((phase,phase_native['frontend'],1),(after,state['frontend'],0)):
+            s.require(old['first_invocation']==new['first_invocation']==first and
+                      old['saved_state']!=0 and new['saved_state']!=0 and
+                      old['cleanup_count']==new['cleanup_count']==old['restore_mode']==new['restore_mode']==0 and
+                      old['cleanup_callbacks']==new['cleanup_callbacks']==[0]*32 and new['saved_first']==1,
+                      'genuine first-copy result/order differs')
+        s.require(phase['saved_state']==after['saved_state'] and
+                  phase_native['frontend']['saved_state']==state['frontend']['saved_state'] and
+                  state['frontend']['saved_state']!=state['target_state']['onexit_begin'],
+                  'real snapshot allocation identity changed/aliased CRT heap')
+        for suffix in ('phase','008'):
+            raw=(original/('frontend-snapshot-'+suffix+'.bin')).read_bytes()
+            s.require(len(raw)==8520 and struct.unpack_from('<I',raw,0x17e0)[0]==1,'missing genuine copied snapshot')
+        s.require((original/'frontend-data-phase.bin').read_bytes()==(original/'frontend-snapshot-phase.bin').read_bytes(),
+                  'genuine original first-copy transfer differs')
+        check_observer(trial,text,state)
+        frontier='_initialize_frontend_01';opaque=8520
+    elif not seed:
         s.require(before==defaults and after==defaults and state['frontend']['first_invocation']==1 and
                   state['frontend']['saved_state']==0 and state['frontend']['cleanup_count']==0 and
                   state['frontend']['cleanup_callbacks']==[0]*32 and state['frontend']['restore_mode']==0,
@@ -244,14 +278,7 @@ def check(original,native,require_audit=True,audit_path=None):
         else:
             check_restore(original,native,seed,before,after,pre,phase,phase_native,state)
             opaque=8520
-        s.require(state['symbol']=='initialize_frontend_01' and state['args']=={} and
-                  re.findall(r'^frontier rva=(\w+)$',text,re.M)==['00038610'] and
-                  'restore-phase rva=000385be\n' in text,'unknown consumer did not hard trap after copy/restore')
-        observer=trial['validation_observers']
-        s.require(len(observer)==1 and {key:observer[0][key] for key in ('owner','original_rva','original_byte')}=={
-              'owner':'_initialize_compiler_pass','original_rva':0x385be,'original_byte':0x89} and
-              observer[0]['purpose'] in ('observe typed restore/BSS clear before first-flag reset',
-                  'observe typed copy/restore before first-flag reset'),'undeclared copy/restore validation observer')
+        check_observer(trial,text,state)
         mode=0 if seed=='restore-zero' else 3
         s.require(pre['target_state']['compiler_mode']==phase_native['target_state']['compiler_mode']==
                   state['target_state']['compiler_mode']==mode,'compiler mode changed during initializer')
@@ -266,6 +293,17 @@ def check(original,native,require_audit=True,audit_path=None):
             'native_snapshot_byte_equivalence_claimed':False,'original_opaque_transfer_bytes_checked':opaque,
             'callback_slots_verified':43,'typed_bss_bytes':136,'whole_mask_bytes_checked':751216,
             'original_seconds':o['seconds'],'native_seconds':n['seconds']}
+
+
+def check_observer(trial,text,state):
+    s.require(state['symbol']=='initialize_frontend_01' and state['args']=={} and
+              re.findall(r'^frontier rva=(\w+)$',text,re.M)==['00038610'] and
+              'restore-phase rva=000385be\n' in text,'unknown consumer did not hard trap after copy/restore')
+    observer=trial['validation_observers']
+    s.require(len(observer)==1 and {key:observer[0][key] for key in ('owner','original_rva','original_byte')}=={
+          'owner':'_initialize_compiler_pass','original_rva':0x385be,'original_byte':0x89} and
+          observer[0]['purpose'] in ('observe typed restore/BSS clear before first-flag reset',
+              'observe typed copy/restore before first-flag reset'),'undeclared copy/restore validation observer')
 
 
 def check_restore(original,native,seed,before,after,pre,phase,phase_native,state):

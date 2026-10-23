@@ -95,7 +95,11 @@ end
     pre=output/'collect-pre.gdb'
     pre.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pre.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pre-argv.bin'))))
     observer='break *initialize_compiler_pass\ncommands\nsilent\nsource '+str(pre)+'\ncontinue\nend\n'
-    if trial.get('test_seed'):
+    if trial['trial']=='_checked_malloc':
+        allocation=output/'collect-allocation-entry.gdb'
+        allocation.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'allocation-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'allocation-entry-argv.bin'))))
+        observer+='break checked_malloc\ncommands\nsilent\nsource '+str(allocation)+'\ncontinue\nend\n'
+    if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))
         lines=(project/'src/frontend.c').read_text().splitlines()

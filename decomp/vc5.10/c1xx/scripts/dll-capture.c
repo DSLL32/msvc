@@ -180,7 +180,7 @@ static void prepare_mask(void)
         fail("save actual masked image");
     CloseHandle(saved);
     free(masked); initialized = 1;
-    if (getenv("C1XX_TEST_INIT_RESTORE") && !baseline) {
+    if ((getenv("C1XX_TEST_INIT_RESTORE") || getenv("C1XX_OBSERVE_INIT_COPY")) && !baseline) {
         restore_observer_byte = snapshot[0x385be - code_rva];
         if (restore_observer_byte != 0x89) fail("restore observer instruction changed");
         patch(base + 0x385be, 0xcc); restore_observer = 1;

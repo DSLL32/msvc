@@ -41,8 +41,16 @@ int initialize_compiler_pass(void)
 
 void *checked_malloc(unsigned bytes)
 {
+    void *block = malloc(bytes);
+    if (block == NULL)
+        report_compiler_error(60);
+    return block;
+}
+
+int report_compiler_error(int number)
+{
     __asm { int 3 }
-    return NULL;
+    return 0;
 }
 
 int main(int argc, char **argv)

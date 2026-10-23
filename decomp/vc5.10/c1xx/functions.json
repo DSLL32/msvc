@@ -11,7 +11,8 @@
     "import:_initterm",
     "_DllMain@12",
     "_InvokeCompilerPass@12",
-    "_initialize_compiler_pass"
+    "_initialize_compiler_pass",
+    "_checked_malloc"
   ],
   "driver": [
     {
@@ -411,6 +412,14 @@
       "pending_extent": true,
       "source": "src/initializers.c",
       "abi": "cdecl0"
+    },
+    {
+      "name": "_report_compiler_error",
+      "start": 273226309,
+      "end": 273226310,
+      "pending_extent": true,
+      "source": "src/frontend.c",
+      "abi": "cdecl4"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -664,6 +673,45 @@
         "whole_mask_bytes_checked": 751216,
         "original_seconds": 1.066813767887652,
         "native_seconds": 0.20980930794030428
+      }
+    },
+    {
+      "name": "_checked_malloc",
+      "classification": "application source",
+      "source": "src/frontend.c",
+      "source_sha256": "584f790f48098966677fed2f54e2065b0914082ddf0080e87068378987e5c089",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocator-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-allocator-native-2",
+      "original_receipt_sha256": "3b19cb06ecb2d4fc4b27b76c4095f5580dc000b780a82df5d05c8a07b16bc123",
+      "native_receipt_sha256": "3030f81b15c5a1d258a5333fce4d3107429cf7fefddd0c7abbd686657aa43eaa",
+      "trial_sha256": "32e4bfb643bb492622f53dcfcfffc4356e908066e988c8539747a7c2816acd37",
+      "audit_sha256": "e579f42f60fd0acd66ded22d0bdba8c0e522d763cf104f764e48e8dde1699df4",
+      "code_chunks": [
+        [
+          144314,
+          144343
+        ],
+        [
+          417889,
+          417904
+        ]
+      ],
+      "comparison": {
+        "trial": "_checked_malloc",
+        "seed": null,
+        "frontier": "_initialize_frontend_01",
+        "malloc_bytes": 8520,
+        "mapped_snapshot_fields": [
+          "first_invocation"
+        ],
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "original_opaque_transfer_bytes_checked": 8520,
+        "callback_slots_verified": 43,
+        "typed_bss_bytes": 136,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.4179146131500602,
+        "native_seconds": 0.26561779249459505
       }
     }
   ],
