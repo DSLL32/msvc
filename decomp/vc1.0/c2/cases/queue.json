@@ -1,5 +1,5 @@
 {
-  "active": "optimizer-register-pressure",
+  "active": "optimizer-aliasing",
   "queued": [
     {
       "case": "hello-win32",
@@ -22,7 +22,7 @@
       "case": "optimizer-register-pressure",
       "after": "optimizer-loops",
       "phase": "c2",
-      "status": "active; original capture and first native frontier verified",
+      "status": "complete",
       "description": "Many live integer values, calls and spills across scheduling/register allocation",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
       "fixture_manifest": "../fixtures/c2-optimizer-register-pressure/manifest.json"
@@ -31,7 +31,7 @@
       "case": "optimizer-aliasing",
       "after": "optimizer-register-pressure",
       "phase": "c2",
-      "status": "approved; pending independent original capture after hello",
+      "status": "active; independent original capture next",
       "description": "Pointer aliasing, overlapping accesses and structure copies",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
     },
@@ -68,6 +68,14 @@
       "exit": 0,
       "object_bytes": 620,
       "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87"
+    },
+    {
+      "case": "optimizer-register-pressure",
+      "accepted_frontiers": 925,
+      "reconstructed_functions": 847,
+      "exit": 0,
+      "object_bytes": 879,
+      "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3"
     }
   ]
 }

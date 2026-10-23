@@ -347,7 +347,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 
 
 
-int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned short color) { __asm int 3 }
 
 
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
@@ -412,5 +411,3 @@ MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *regi
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
-void __fastcall update_pentium_gap_history(MachineInstruction *last, MachineInstruction *first, MachineInstruction *second) { __asm int 3 }
-void __fastcall emit_multiply_recipe(MachineInstruction *instruction, int temporary, char *recipe) { __asm int 3 }

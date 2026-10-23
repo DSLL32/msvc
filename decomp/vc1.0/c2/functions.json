@@ -926,7 +926,10 @@
     "@expand_constant_multiply@4",
     "@constant_multiply_budget@4",
     "@choose_multiply_recipe@24",
-    "@lookup_multiply_recipe@12"
+    "@lookup_multiply_recipe@12",
+    "@emit_multiply_recipe@12",
+    "@operand_value_depends_on_color@8",
+    "@update_pentium_gap_history@12"
   ],
   "driver": [
     {
@@ -5558,8 +5561,7 @@
     {
       "name": "@operand_value_depends_on_color@8",
       "start": 202000,
-      "end": 202001,
-      "provisional": true
+      "end": 202298
     },
     {
       "name": "@cached_operands_equal@8",
@@ -6703,8 +6705,7 @@
     {
       "name": "@update_pentium_gap_history@12",
       "start": 290928,
-      "end": 290929,
-      "provisional": true
+      "end": 291218
     },
     {
       "name": "@constant_multiply_budget@4",
@@ -6719,8 +6720,7 @@
     {
       "name": "@emit_multiply_recipe@12",
       "start": 150768,
-      "end": 150769,
-      "provisional": true
+      "end": 151547
     },
     {
       "name": "@lookup_multiply_recipe@12",

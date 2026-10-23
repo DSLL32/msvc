@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "54bc5f41fc7543bd1057766f416fa6fa80969298f34e16fea3162ea8a6cb6601",
+    "functions.json": "429ef0f0d54f03e35c952ea7ec889d0f1e69a058b09b8cc95f432efd7d0c2dd0",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -1204,7 +1204,7 @@
     },
     "emit_multiply_recipe": {
       "logical": "@emit_multiply_recipe@12",
-      "source": "src/stubs.c"
+      "source": "src/instruction-rewrite.c"
     },
     "emit_pending_symbols": {
       "logical": "@emit_pending_symbols@4",
@@ -2808,7 +2808,7 @@
     },
     "operand_value_depends_on_color": {
       "logical": "@operand_value_depends_on_color@8",
-      "source": "src/stubs.c"
+      "source": "src/physical-rewrite.c"
     },
     "operands_equal": {
       "logical": "@operands_equal@8",
@@ -4284,7 +4284,7 @@
     },
     "update_pentium_gap_history": {
       "logical": "@update_pentium_gap_history@12",
-      "source": "src/stubs.c"
+      "source": "src/scheduler.c"
     },
     "update_scheduled_registers": {
       "logical": "@update_scheduled_registers@4",
@@ -22218,6 +22218,226 @@
               "total_seconds": 1.282611371949315
             }
           }
+        },
+        {
+          "accepted_function": "@emit_multiply_recipe@12",
+          "accepted_kind": "application",
+          "previous_logical": "@emit_multiply_recipe@12",
+          "original_extent": [
+            "0x24cf0",
+            "0x24ffb"
+          ],
+          "before": {
+            "path": "cases/pressure-original-922.json",
+            "sha256": "e9da535c46e6da0ed698a053d69f88254cd2243fa8adfc172c2a82d8050f8e64",
+            "capture": {
+              "label": "pressure-original-922",
+              "profile": "pressure",
+              "accepted": 922,
+              "events": "exception 80000003 rva 00014cf0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "15703e973f9493d61880073ca286898e6973a7952da3e7a07ed813266963a3b0",
+              "config_sha256": "54bc5f41fc7543bd1057766f416fa6fa80969298f34e16fea3162ea8a6cb6601",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-668v4ttl",
+              "logical": "@emit_multiply_recipe@12",
+              "original_va": "0x24cf0",
+              "setup_seconds": 0.20094813592731953,
+              "execution_seconds": 1.0745922848582268,
+              "check_seconds": 0.007070579566061497,
+              "total_seconds": 1.282611371949315
+            }
+          },
+          "after": {
+            "path": "cases/pressure-original-923.json",
+            "sha256": "5377e3f2eeebfeabd30bb9abc5640de995858705d385ad2da834c3b8f7a2cac0",
+            "capture": {
+              "label": "pressure-original-923",
+              "profile": "pressure",
+              "accepted": 923,
+              "events": "exception 80000003 rva 00021510 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "6e42e8039f99f975a298950e933b07de13ec4e8ab807c70a84f1cc87f742cea6",
+              "config_sha256": "3fdc0b7078e84511b0c488c69e780a4f31140e42d6e41a4ce6139b8c6a43f735",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-lk0lbudp",
+              "logical": "@operand_value_depends_on_color@8",
+              "original_va": "0x31510",
+              "setup_seconds": 0.19976318627595901,
+              "execution_seconds": 1.3393522622063756,
+              "check_seconds": 0.006115191616117954,
+              "total_seconds": 1.545231081545353
+            }
+          }
+        },
+        {
+          "accepted_function": "@operand_value_depends_on_color@8",
+          "accepted_kind": "application",
+          "previous_logical": "@operand_value_depends_on_color@8",
+          "original_extent": [
+            "0x31510",
+            "0x3163a"
+          ],
+          "before": {
+            "path": "cases/pressure-original-923.json",
+            "sha256": "5377e3f2eeebfeabd30bb9abc5640de995858705d385ad2da834c3b8f7a2cac0",
+            "capture": {
+              "label": "pressure-original-923",
+              "profile": "pressure",
+              "accepted": 923,
+              "events": "exception 80000003 rva 00021510 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "6e42e8039f99f975a298950e933b07de13ec4e8ab807c70a84f1cc87f742cea6",
+              "config_sha256": "3fdc0b7078e84511b0c488c69e780a4f31140e42d6e41a4ce6139b8c6a43f735",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-lk0lbudp",
+              "logical": "@operand_value_depends_on_color@8",
+              "original_va": "0x31510",
+              "setup_seconds": 0.19976318627595901,
+              "execution_seconds": 1.3393522622063756,
+              "check_seconds": 0.006115191616117954,
+              "total_seconds": 1.545231081545353
+            }
+          },
+          "after": {
+            "path": "cases/pressure-original-924.json",
+            "sha256": "9ef9ea0c757cda5e9429b8f5434ed38fdfca8554e908e0c64ce56b2a54e5903d",
+            "capture": {
+              "label": "pressure-original-924",
+              "profile": "pressure",
+              "accepted": 924,
+              "events": "exception 80000003 rva 00037070 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c008a041a301aa35a88fe4d856d2312dad46f4789a2b4e831a7b70013f46ced7",
+              "config_sha256": "0f6ee454000aa3e7ffd83f788e58f9e75ad4c98d58cc83b13da1eca7bf357859",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-qufa29ul",
+              "logical": "@update_pentium_gap_history@12",
+              "original_va": "0x47070",
+              "setup_seconds": 0.20045907236635685,
+              "execution_seconds": 1.2474690293893218,
+              "check_seconds": 0.006365167908370495,
+              "total_seconds": 1.454293697141111
+            }
+          }
+        },
+        {
+          "accepted_function": "@update_pentium_gap_history@12",
+          "accepted_kind": "application",
+          "previous_logical": "@update_pentium_gap_history@12",
+          "original_extent": [
+            "0x47070",
+            "0x47192"
+          ],
+          "before": {
+            "path": "cases/pressure-original-924.json",
+            "sha256": "9ef9ea0c757cda5e9429b8f5434ed38fdfca8554e908e0c64ce56b2a54e5903d",
+            "capture": {
+              "label": "pressure-original-924",
+              "profile": "pressure",
+              "accepted": 924,
+              "events": "exception 80000003 rva 00037070 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c008a041a301aa35a88fe4d856d2312dad46f4789a2b4e831a7b70013f46ced7",
+              "config_sha256": "0f6ee454000aa3e7ffd83f788e58f9e75ad4c98d58cc83b13da1eca7bf357859",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-qufa29ul",
+              "logical": "@update_pentium_gap_history@12",
+              "original_va": "0x47070",
+              "setup_seconds": 0.20045907236635685,
+              "execution_seconds": 1.2474690293893218,
+              "check_seconds": 0.006365167908370495,
+              "total_seconds": 1.454293697141111
+            }
+          },
+          "after": {
+            "path": "cases/pressure-original-925.json",
+            "sha256": "b3abdb6a5e79f8da9f5545a823cda1f9818ec5997150bdc4491dac9c1a22c69c",
+            "capture": {
+              "label": "pressure-original-925",
+              "profile": "pressure",
+              "accepted": 925,
+              "events": "exit 0\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "dc7967133a705b9d2a530004ebbef5b5e253a1dea325dcffe37de858868f1bda",
+              "config_sha256": "429ef0f0d54f03e35c952ea7ec889d0f1e69a058b09b8cc95f432efd7d0c2dd0",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-otraxbm9",
+              "logical": "exit:0",
+              "original_va": null,
+              "outputs": [
+                {
+                  "path": "cases/pressure-original-925/pressure.obj",
+                  "name": "pressure.obj",
+                  "bytes": 879,
+                  "sha256": "65407ab5b9d4e79a0c8fe2bfe32458b196af86a4a2547e395022c9c5ae2f262f",
+                  "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+                  "ignored_timestamp": [
+                    4,
+                    4
+                  ]
+                }
+              ],
+              "setup_seconds": 0.20194488298147917,
+              "execution_seconds": 1.3951598145067692,
+              "check_seconds": 0.008429007604718208,
+              "total_seconds": 1.6055340804159641
+            }
+          }
         }
       ]
     }
@@ -24117,7 +24337,7 @@
     },
     "pressure": {
       "first": 917,
-      "last": 922,
+      "last": 925,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -24960,11 +25180,13 @@
         "constant_multiply_budget",
         "choose_multiply_recipe",
         "lookup_multiply_recipe",
-        "emit_multiply_recipe"
+        "emit_multiply_recipe",
+        "operand_value_depends_on_color",
+        "update_pentium_gap_history"
       ],
-      "terminal": "@emit_multiply_recipe@12",
-      "terminal_kind": "application",
-      "returncode": -5
+      "terminal": "exit:0",
+      "terminal_kind": "exit",
+      "returncode": 0
     }
   }
 }

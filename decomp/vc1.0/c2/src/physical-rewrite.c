@@ -989,3 +989,39 @@ unsigned __fastcall next_split_register_color(unsigned index)
     compiler_internal_error("@(#)color.c:1.101", 0x1768);
     return 0;
 }
+
+/* Original [00031510,0003163a). Resolve virtual register representatives
+   before testing a register value or either component of a memory address. */
+int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned short color)
+{
+    RegisterVariable *variable;
+    MachineAddress *address;
+    unsigned short number;
+    switch (operand->flags & 15) {
+    case OPERAND_REGISTER:
+        number = operand->value.reg.words.number;
+        break;
+    case OPERAND_INDEXED:
+        address = operand->value.address;
+        number = address->index.words.number;
+        if (!DIRECT_REGISTER_COLOR(number)) {
+            variable = lookup_register_variable(number, 1);
+            variable = lookup_register_variable(variable->representative, 1);
+            number = (unsigned short)(variable->flags & 63);
+        }
+        if (number == color) return 1;
+        if (address->base.words.number == 27) return 0;
+        /* Fall through: an indexed address may also depend on its base. */
+    case OPERAND_BASED:
+        number = operand->value.address->base.words.number;
+        break;
+    default:
+        return 0;
+    }
+    if (!DIRECT_REGISTER_COLOR(number)) {
+        variable = lookup_register_variable(number, 1);
+        variable = lookup_register_variable(variable->representative, 1);
+        number = (unsigned short)(variable->flags & 63);
+    }
+    return number == color;
+}

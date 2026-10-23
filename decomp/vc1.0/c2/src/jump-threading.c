@@ -357,7 +357,7 @@ void __fastcall remove_unreachable_machine_code(MachineContext *context)
         terminator = find_block_terminator(next);
     }
 }
-/* A LEA, non-memory MOV or register XOR-self can move without a memory
+/* A LEA, non-memory MOV or register SUB-self can move without a memory
    side effect. Keep this expression inline: it is part of each diamond arm. */
 #define SIMPLE_DIAMOND_OPERATION(i) \
     ((((i)->opcode >> 8) & 255) == MC_LEA || \
@@ -365,7 +365,7 @@ void __fastcall remove_unreachable_machine_code(MachineContext *context)
       ((i)->operands[1].flags & 15) != OPERAND_BASED && \
       ((i)->operands[1].flags & 15) != OPERAND_INDEXED && \
       ((i)->operands[1].flags & 15) != OPERAND_ABSOLUTE) || \
-     ((((i)->opcode >> 8) & 255) == MC_XOR && \
+     ((((i)->opcode >> 8) & 255) == MC_SUB && \
       ((i)->operands[0].flags & 15) == OPERAND_REGISTER && \
       operands_equal(&(i)->operands[0], &(i)->operands[1])))
 
@@ -459,7 +459,7 @@ int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction
         condition->operands[1].flags ^= 1;
         move = source;
     }
-    if (((move->opcode >> 8) & 255) == MC_XOR) {
+    if (((move->opcode >> 8) & 255) == MC_SUB) {
         move->opcode = (move->opcode & 0xffff01ffU) | (MC_MOV << 8);
         move->operands[1].flags = (move->operands[1].flags & 0xfffffff2U) | OPERAND_IMMEDIATE;
         move->operands[1].value.constant = 0;

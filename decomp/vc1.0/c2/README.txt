@@ -2318,3 +2318,16 @@ Constant multiplication recipe search: checkpoint922
 native fixtures pass. See cases/pressure-multiply-recipes.json for extent union, limits
 and measured timing splits. Minimal/hello/loops objects remain exact after timestamp;
 pressure879-byte final object is incomplete.
+
+Integer register-pressure stress complete: checkpoint925
+-------------------------------------------------------
+Eight further application functions complete this case. Original/native exit0
+with empty streams; all879 object bytes agree except timestamp4..7, normalized
+SHA692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3.
+The paired Pentium gap move is exercised. Original numeric opcode32 is SUB,
+correcting prior diamond SUB-self recognition/conversion and XOR-self wording.
+Canonical/W3, all847 source graphs, mask/extent audits and4 completed native
+object oracles pass; four malformed completion receipts rejected.
+Accepted extent union249682/399693=62.4684445312%, not branch coverage.
+See cases/pressure-completion.json for ordered references, limits and timings.
+Next approved case: independent original pointer-alias/structure-copy capture.

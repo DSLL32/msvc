@@ -2032,3 +2032,36 @@ skip_pair:
     }
     return 0;
 }
+
+/* Original [00047070,00047192). Keep the three completed pair cycles in
+   order after a gap move. Existing adjacent cycles swap as complete pairs. */
+void __fastcall update_pentium_gap_history(MachineInstruction *last,
+    MachineInstruction *first, MachineInstruction *second)
+{
+    SchedulerInstructionPair saved;
+    if (last == scheduler_pairs.previous[0].first || last == scheduler_pairs.previous[0].second) {
+        if (first == scheduler_pairs.previous[1].first) {
+            saved = scheduler_pairs.previous[0];
+            scheduler_pairs.previous[0] = scheduler_pairs.previous[1];
+            scheduler_pairs.previous[1] = saved;
+        } else if (first == scheduler_pairs.previous[2].first) {
+            scheduler_pairs.previous[2] = scheduler_pairs.previous[1];
+            scheduler_pairs.previous[1] = scheduler_pairs.previous[0];
+            scheduler_pairs.previous[0].first = first;
+            scheduler_pairs.previous[0].second = second;
+        }
+    } else if (last == scheduler_pairs.previous[1].first || last == scheduler_pairs.previous[1].second) {
+        if (first == scheduler_pairs.previous[2].first) {
+            saved = scheduler_pairs.previous[1];
+            scheduler_pairs.previous[1] = scheduler_pairs.previous[2];
+            scheduler_pairs.previous[2] = saved;
+        } else {
+            scheduler_pairs.previous[2] = scheduler_pairs.previous[1];
+            scheduler_pairs.previous[1].first = first;
+            scheduler_pairs.previous[1].second = second;
+        }
+    } else if (last == scheduler_pairs.previous[2].first || last == scheduler_pairs.previous[2].second) {
+        scheduler_pairs.previous[2].first = first;
+        scheduler_pairs.previous[2].second = second;
+    }
+}

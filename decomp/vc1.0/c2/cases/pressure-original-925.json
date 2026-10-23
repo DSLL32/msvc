@@ -1,0 +1,39 @@
+{
+  "label": "pressure-original-925",
+  "profile": "pressure",
+  "accepted": 925,
+  "events": "exit 0\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "dc7967133a705b9d2a530004ebbef5b5e253a1dea325dcffe37de858868f1bda",
+  "config_sha256": "429ef0f0d54f03e35c952ea7ec889d0f1e69a058b09b8cc95f432efd7d0c2dd0",
+  "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+  "inputs": {
+    "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+    "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+    "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+    "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-otraxbm9",
+  "logical": "exit:0",
+  "original_va": null,
+  "outputs": [
+    {
+      "path": "cases/pressure-original-925/pressure.obj",
+      "name": "pressure.obj",
+      "bytes": 879,
+      "sha256": "65407ab5b9d4e79a0c8fe2bfe32458b196af86a4a2547e395022c9c5ae2f262f",
+      "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+      "ignored_timestamp": [
+        4,
+        4
+      ]
+    }
+  ],
+  "setup_seconds": 0.20194488298147917,
+  "execution_seconds": 1.3951598145067692,
+  "check_seconds": 0.008429007604718208,
+  "total_seconds": 1.6055340804159641
+}

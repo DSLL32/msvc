@@ -55,6 +55,6 @@ typedef struct MultiplyRecipe {
 typedef char MultiplyRecipeSizeCheck[sizeof(MultiplyRecipe) == 12 ? 1 : -1];
 int __fastcall constant_multiply_budget(unsigned magnitude);
 int __fastcall choose_multiply_recipe(unsigned magnitude, unsigned depth, int *budget, int *cost, int *temporary, char *recipe);
-void __fastcall emit_multiply_recipe(MachineInstruction *instruction, int temporary, char *recipe);
+MachineInstruction *__fastcall emit_multiply_recipe(MachineInstruction *instruction, int temporary, char *recipe);
 MultiplyRecipe *__fastcall lookup_multiply_recipe(unsigned magnitude, MultiplyRecipe *scratch, char *buffer);
 #endif

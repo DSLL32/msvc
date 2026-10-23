@@ -1579,3 +1579,98 @@ MultiplyRecipe *__fastcall lookup_multiply_recipe(unsigned magnitude,
     scratch->bytes = 3;
     return scratch;
 }
+/* Original [00024cf0,00024ffb). Interpret the selected shift/add recipe,
+   tracking its multiplier as a consistency check. Preserve register use
+   annotations and optionally retain the original input in another register. */
+MachineInstruction *__fastcall emit_multiply_recipe(MachineInstruction *instruction,
+    int temporary, char *recipe)
+{
+    MachineInstruction *previous = instruction->previous, *source, *move;
+    MachineOperand result, saved, operand;
+    MachineRegisterValue base;
+    unsigned value = instruction->operands[1].value.constant;
+    unsigned factor = 1, address_factor, base_factor, shift, magnitude;
+    unsigned short number = instruction->operands[0].value.reg.words.number;
+    initialize_operand(&result, OPERAND_REGISTER, number, 0, 0);
+    result.value.reg.words.flags = instruction->operands[0].value.reg.words.flags;
+    remove_machine_instruction(instruction);
+    if (temporary) {
+        source = previous;
+        if (source->opcode & 15) source = previous_machine_operation(source);
+        if (((source->opcode >> 8) & 255) == MC_MOV &&
+            (source->operands[0].flags & 15) == OPERAND_REGISTER &&
+            (source->operands[1].flags & 15) == OPERAND_REGISTER &&
+            source->operands[0].value.reg.words.number == number) {
+            initialize_operand(&saved, OPERAND_REGISTER,
+                source->operands[1].value.reg.words.number, 0, 0);
+            saved.value.reg.words.flags = source->operands[1].value.reg.words.flags;
+        } else {
+            initialize_operand(&saved, OPERAND_REGISTER, new_value_register(0x104), 0, 0);
+            move = new_machine_record(0, MC_MOV, 0x104, &saved, &result);
+            previous = insert_machine_after(previous, move);
+        }
+    }
+    for (; *recipe; ++recipe) {
+        switch (*recipe) {
+        case '+':
+            move = new_machine_record(0, MC_ADD, 0x104, &result, &saved);
+            previous = insert_machine_after(previous, move);
+            ++factor;
+            break;
+        case '-':
+            move = new_machine_record(0, MC_SUB, 0x104, &result, &saved);
+            previous = insert_machine_after(previous, move);
+            --factor;
+            break;
+        case 'L':
+            address_factor = (unsigned)(int)(signed char)*++recipe;
+            if (address_factor & 1) {
+                base_factor = factor;
+                base = result.value.reg;
+                address_factor &= ~1U;
+            } else {
+                base_factor = 0;
+                base.value = 27;
+            }
+            goto emit_address;
+        case 'l':
+            ++recipe;
+            base_factor = 1;
+            base = saved.value.reg;
+            address_factor = (unsigned)(int)(signed char)*recipe;
+emit_address:
+            operand.flags = operand.value.constant = 0;
+            operand.value.address = new_machine_address();
+            operand.flags = (operand.flags & ~10U) | OPERAND_INDEXED;
+            operand.value.address->base = base;
+            operand.value.address->index = result.value.reg;
+            shift = integer_log2(address_factor);
+            if ((int)shift > 3)
+                compiler_internal_error("@(#)peeps.c:1.148", 0x11ad);
+            operand.flags = (operand.flags & ~0x300U) | ((shift << 8) & 0x300);
+            move = new_machine_record(0, MC_LEA, 0x104, &result, &operand);
+            previous = insert_machine_after(previous, move);
+            factor = (factor << (shift & 31)) + base_factor;
+            break;
+        case 'S':
+            ++recipe;
+            initialize_operand(&operand, OPERAND_IMMEDIATE, 26,
+                (unsigned)(int)(signed char)*recipe, 0);
+            move = new_machine_record(0, MC_SHL, 0x104, &result, &operand);
+            previous = insert_machine_after(previous, move);
+            factor <<= (unsigned char)*recipe & 31;
+            break;
+        default:
+            compiler_internal_error("@(#)peeps.c:1.148", 0x11b4);
+            break;
+        }
+    }
+    magnitude = (int)value < 0 ? 0U - value : value;
+    if (magnitude != factor)
+        compiler_internal_error("@(#)peeps.c:1.148", 0x11b7);
+    if ((int)value < 0) {
+        move = new_machine_record(0, MC_NEG, 0x104, &result);
+        previous = insert_machine_after(previous, move);
+    }
+    return previous;
+}
