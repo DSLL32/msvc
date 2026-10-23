@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/capture-original.py", line 183, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/capture-original.py", line 158, in main
+    assert result.returncode in ((0,17)if args.guard_probe else (0,)), 'original capture helper status %d: %r'%(result.returncode,result.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: original capture helper status 37: b''

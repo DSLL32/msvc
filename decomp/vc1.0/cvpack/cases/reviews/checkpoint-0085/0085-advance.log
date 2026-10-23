@@ -1,0 +1,10 @@
+python3 scripts/graph_identities.py --prepare --output build/graph-identities.json
+make: Nothing to be done for 'graph-audit-tool'.
+Prepared hash-bound strict original/compiler relocation identities
+exception 80000003 va 0001eac0 base 00010000 first 1
+Restored entry ranges: 83
+/root/.ai-tmp/vc1.0-cvpack/0085-hash_recursive_type-original/receipt.json
+hello-debug-dll trap {'setup': 0.2036194885149598, 'execution': 0.016006006859242916, 'debugging': 2.600605529733002, 'checks': 0.034968411549925804, 'total': 2.8552080299705267}
+/root/.ai-tmp/vc1.0-cvpack/0085-hash_recursive_type-native/receipt.json
+85 complete original/compiler CFG/callee/ABI functions; 167 contextual data objects; strict CRT/import identities verified.
+Fresh original/native candidate proof passes without acceptance: hash_recursive_type

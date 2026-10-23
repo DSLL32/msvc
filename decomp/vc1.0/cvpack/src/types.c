@@ -1599,3 +1599,67 @@ unsigned short intern_type(TypeRecord *entry, unsigned short type)
     }
     return commit_recursive_type(type);
 }
+
+unsigned long __fastcall hash_recursive_type(TypeRecord *entry)
+{
+    unsigned char *record = entry->data, *name;
+    unsigned short hash, kind, number = 0;
+    int size, position, next, i, count;
+    unsigned char marks;
+    if (entry->hash_value) return entry->hash_value;
+    entry->hash_value = 0xfff;
+    kind = *(unsigned short *)(record+2);
+    hash = kind;
+    switch (kind) {
+    case 4: case 5:
+        name = record+14;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 6:
+        name = record+10;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 7:
+        name = record+12;
+        break;
+    case 0x406:
+        name = record+8;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 0x407:
+        name = record+8;
+        break;
+    default:
+#ifdef RECON_NATIVE_TEST
+        /* Expanded offset/mark allocations require their own reached proof. */
+        if ((entry->flags & 0x100) || entry->recursive_count > 12) __asm { int 3 }
+#endif
+        size = *(unsigned short *)record+2;
+        position = 0;
+        while (position < size) {
+            if (number == entry->recursive_count) next = size;
+            else {
+                next = entry->flags & 0x100 ? entry->recursion.large.offsets[number] : entry->recursion.small[number];
+                ++number;
+            }
+            while (position < next) {
+                hash = (unsigned short)((hash>>14) ^ (hash<<2) ^ record[position]);
+                ++position;
+            }
+            position += 2;
+        }
+        count = entry->recursive_count;
+        if (count > 3) count = 3;
+        for (i = count-1; i >= 0; --i) {
+            marks = entry->flags & 0x100 ? entry->recursion.large.marks[i>>3] : entry->recursion.small[8];
+            if (!(marks & (0x80>>(i&7)))) hash ^= hash_referenced_type(entry, (unsigned short)i);
+        }
+        entry->hash_value = hash&0xfff;
+        return entry->hash_value;
+    }
+    /* The original predecrements the Pascal length, omitting its last byte. */
+    count = *name++;
+    while (--count > 0) hash = (unsigned short)((hash>>14) ^ (hash<<2) ^ *name++);
+    entry->hash_value = hash&0xfff;
+    return entry->hash_value;
+}

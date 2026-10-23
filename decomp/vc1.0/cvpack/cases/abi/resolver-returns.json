@@ -35,8 +35,8 @@
     }
   ],
   "sources": {
-    "src/types.c": "acb4f1ed55539069ceb485733348dd78a105d9602e3354a9c37378496d73ca2b",
-    "src/types.h": "df17b2c95517100b7bf938a0178ab05f70350d569c8e94feda725d4d719a0f23"
+    "src/types.c": "5415bdd88ed16238dc81e11e35204b2eabfb46a8ab8c1e458a66146a2dea408c",
+    "src/types.h": "ca9958ff6dcbd12ca591c091af3b8e26da933f2bea4523df99ba055af2559e48"
   },
   "scope": "Four actual direct resolved-type paths. All arguments/raw undefined beforebytes retained; output2 bytes newly defined zero and exact returned TypeRecord owner compared before consuming caller ADD. Recursive get_type_record/other callers or outcomes fail until separately reached/proved."
 }

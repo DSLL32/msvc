@@ -4902,13 +4902,16 @@
       "native": "hash_recursive_type",
       "symbol": "@hash_recursive_type@4",
       "original": 116288,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        116288,
+        116850
+      ],
       "abi": "unsigned long __fastcall hash_recursive_type(TypeRecord *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0085-hash_recursive_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4919,7 +4922,29 @@
           "register": "ecx"
         }
       ],
-      "return_bits": 32
+      "return_bits": 32,
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "rebuilt_extra_roots": [
+        688
+      ],
+      "rebuilt_root_note": "VC1/Od emits switch-default implicit break JMP after the preceding unconditional return-epilogue JMP; root+2b0 jumps to owned post-switch named-record hash loop. Entire instruction/target/RET/callees remain decoded; no waiver."
     },
     {
       "name": "compare_recursive_type",
@@ -4983,6 +5008,36 @@
           "kind": "integer",
           "bits": 16,
           "register": "ecx"
+        }
+      ],
+      "return_bits": 16
+    },
+    {
+      "name": "hash_referenced_type",
+      "native": "hash_referenced_type",
+      "symbol": "@hash_referenced_type@8",
+      "original": 116864,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short __fastcall hash_referenced_type(TypeRecord *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "number",
+          "register": "edx",
+          "kind": "integer",
+          "bits": 16
         }
       ],
       "return_bits": 16
@@ -5516,6 +5571,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 84
+    },
+    {
+      "function": "hash_recursive_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 85
     }
   ],
   "support_unmasked": [
@@ -6110,11 +6171,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "471d32ec0c89d7d138deede678a1ccedf3fb628292e67d500366de1bae3b499c"
+    "evidence_sha256": "584ae1f9e76399c2a1b81a3737064f4e873fbe9746ec6f6c1eed6c0f125bb93a"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "8fb69aab3ab7205edd3ce7148fa5fa45e1fba9c73df841ac2d4f3fa516eb6cd8"
+    "evidence_sha256": "ed56cdbc3f520161d7714c9cda70e692337a380b5521d43d8cae3301b64c15f8"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -6146,26 +6207,26 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "3fea68436b34a323ce77bbfc165b27db23bedd1083db20eccff5094c03fdc3d5"
+    "evidence_sha256": "e21784439e2ce0c3b35921fda4e16db37b701770a20d939f96a41189ffe2f25d"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "f82796cc1bd98cc7886bc3b48faaeba321bb79a34ee77f0b9996b55ec885644e"
+    "evidence_sha256": "f81c8f8341b1cdd30ab04bab251e3a714643913101b736e8881b4adaff281f93"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "a016a4324b73b2392ee3ba6fcd6eb095c85d62d2d01a6fb9452227275edaefb1"
+    "evidence_sha256": "0b1bbac6360bc0ba01c77d25fa5fe5f606ca80212d75fb4ca88ec81567da7dda"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "12031ebe0268b683ace7667100f04843d464f8ca09bede70974abfdb8e705243"
+    "evidence_sha256": "d2ecb0f58b31bc4cb9f9a3f3d1dbfa5a43dabc91677efb496f3f97b15aa001c4"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "9a1b9f4aa4076d85d381f05985004a38df206d7a3e49243cc49a08fbe08bdc52"
+    "evidence_sha256": "3afd1506d31dbc06d3938f67c3fa635fa4e355bcad33785028efeda370fd66a0"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "d8b63189c81e2f0bf40d7f48143aefd34bb0dd527250781c400119d8e1382442"
+    "evidence_sha256": "921f1a0fa79518d8e694be448b00134c725ff41fbcc22711fef09a54c7409c3e"
   }
 }

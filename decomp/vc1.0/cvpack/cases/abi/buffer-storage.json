@@ -22,8 +22,8 @@
   },
   "native_allocation_line": 1306,
   "sources": {
-    "src/types.c": "acb4f1ed55539069ceb485733348dd78a105d9602e3354a9c37378496d73ca2b",
-    "src/types.h": "df17b2c95517100b7bf938a0178ab05f70350d569c8e94feda725d4d719a0f23"
+    "src/types.c": "5415bdd88ed16238dc81e11e35204b2eabfb46a8ab8c1e458a66146a2dea408c",
+    "src/types.h": "ca9958ff6dcbd12ca591c091af3b8e26da933f2bea4523df99ba055af2559e48"
   },
   "instructions": [
     {
@@ -103,6 +103,12 @@
       "end": 116850,
       "sha256": "762bdc1a10b708b7025a3ddaa94fa800339aef28a4ced33454f1de7523d175b0",
       "purpose": "Independent whole next-callee ABI review only, does not unmask/accept it: ECX TypeRecord input, EAX zero-extended full return, RET0 and saved EBX/ESI/EDI/EBP; EDX/other scratch values assigned before consuming, no hidden output pointer."
+    },
+    {
+      "start": 125632,
+      "end": 126304,
+      "sha256": "336c5fbbd377117aaef05ff6cdb0cdce3c3d4c35615d6777dbe87760c248b937",
+      "purpose": "Independent whole next-callee ABI review only, no unmask: incoming CX type low16 only; EDX/EAX/EBX/ESI/EDI/EBP all defined before path consumption; ordinary saved registers/RET0 and AX output."
     }
   ],
   "defined_hash_node_ranges": [
@@ -1678,5 +1684,6 @@
       "converted_input_type": 4207
     }
   },
-  "recursive_hash_frontier": 116288
+  "recursive_hash_frontier": 116288,
+  "recursive_commit_frontier": 125632
 }

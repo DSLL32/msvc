@@ -20,7 +20,7 @@ typedef struct GrowingBuffer {
 typedef struct TypeRecord {
     unsigned char *data;
     unsigned short index;
-    unsigned short forward_index, recursive_count, reserved;
+    unsigned short forward_index, recursive_count, hash_value;
     union {
         unsigned char small[12];
         struct {
@@ -86,6 +86,7 @@ void __fastcall add_recursive_offset(TypeRecord *, unsigned short);
 void merge_field_list(unsigned char *, TypeRecord *);
 unsigned short intern_type(TypeRecord *, unsigned short);
 unsigned long __fastcall hash_recursive_type(TypeRecord *);
+unsigned short __fastcall hash_referenced_type(TypeRecord *, unsigned short);
 int __fastcall compare_recursive_type(TypeRecord *, unsigned short, unsigned char *, unsigned short);
 unsigned short __fastcall commit_recursive_type(unsigned short);
 void __fastcall store_type(TypeRecord *);
