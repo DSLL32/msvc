@@ -167,20 +167,28 @@ DLL reconstruction.
 
 ## Proposed workflow, awaiting approval
 
-The current minimal-C dependency analysis is recorded separately in
-`cases/minimal-c/dependency-boundary.json`. It observed the actual 26-argument
-C1 invocation, successful return, detach/unload and four complete IR files,
-then stopped before C2 started. C1 leaves shared CRT code page 1252 and the
+The initial minimal-C dependency observation is recorded in
+`cases/minimal-c/dependency-boundary.json`; the completed observation is in
+`cases/minimal-c/dependency-boundary-2.json`. The latter records the actual
+26-argument C1 invocation, return, detach/unload, both environment assignments,
+four IR inputs, successful C2 return with its object, and normal CL exit.
+C1 leaves shared CRT code page 1252 and the
 en-US character table active after unloading; it also changes LastError2 to0.
 The next missing-file lookup restores LastError2. These are required observable
 effects, not target-side state overrides. The native DLL/child success boundaries
-remain closed pending the complete reviewed contracts. The source reconstruction
-still traps at `execute_pass`; this analysis adds no accepted code.
+remain closed pending the shared/provider implementation and fresh candidate
+proof. The dispatcher source is implemented and builds with both compilers,
+but remains unaccepted; its dependency APIs fail closed. This analysis adds no
+accepted code.
 
 `scripts/dependency_packet.py` freezes a recursive immutable raw manifest and
-decodes that analysis. `scripts/check-dependency-packet.py MANIFEST` runs its
-ten native-only mutation controls. Analysis/baseline captures are explicitly
+decodes those observations. `scripts/check-dependency-packet.py MANIFEST` runs
+the native-only mutation controls. Analysis/baseline captures are explicitly
 rejected by both the pairing controller and the independent acceptance checker.
+The shared Rust register-import resolver checks the dispatcher's two cached
+`GetProcAddress` sites using the narrow EDI witness in
+`cases/minimal-c/getprocaddress-preservation.json`; the real Invoke call stays
+indirect. Source is unchanged for the audit, and both SEH roots are included.
 
 Start each DLL as statically linked i386 C in a dedicated native analysis host,
 with the host outside the target graph. The host should reproduce the observed

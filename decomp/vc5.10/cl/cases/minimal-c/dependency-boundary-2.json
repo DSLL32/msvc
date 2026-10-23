@@ -1,0 +1,156 @@
+{
+  "kind": "complete original-only dependency observation; no function acceptance",
+  "raw_manifest": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.manifest.json",
+    "sha256": "646b58bd321fc4b21ce527243c65aa2c4641a3ea676c60fe69c060d7f2b59abf"
+  },
+  "packet": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.packet-v3.json",
+    "sha256": "6ebe76a055d79b9d8366639f5732ff9e400b808688c00c0073b7cbc19ae33700"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.orchestrator-review.json",
+    "sha256": "1a801459eeef6b24c43ab3f4e3c1f428da98d635fc6c114a92725d552e9fe2aa"
+  },
+  "canonical_target": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "canonical_CRT": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "canonical_C1": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "invoke": {
+    "argc": 26,
+    "last_pass": 1,
+    "status": 0,
+    "stack_cleanup": 12,
+    "argv_bytes_unchanged": true,
+    "exports": {
+      "_AbortCompilerPass@4": {
+        "ordinal": 1,
+        "rva": 276853
+      },
+      "_InvokeCompilerPass@12": {
+        "ordinal": 2,
+        "rva": 74281
+      }
+    }
+  },
+  "putenv_ownership": "First absent-empty call deep-copies vector and all78 strings; second insertion reallocates vector, retains78 string identities and adds one owned string. Exact ordered entries are in packet.",
+  "child": {
+    "not_started": false,
+    "argv": [
+      "S:\\vc5.10\\cl\\dependency-boundary-2-original\\c2.exe"
+    ],
+    "raw_arguments": {
+      "mode": 0,
+      "path_pointer": 8993808,
+      "argv_pointer": 3274148
+    },
+    "absolute_executable_path": "S:\\vc5.10\\cl\\dependency-boundary-2-original\\c2.exe",
+    "path_bytes_evidence": "verified frozen helper compares remote path and argv0 bytes before opening that exact path",
+    "added_crt_and_os_environment": {
+      "MSC_CMD_FLAGS": "-il .\\a01016 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb "
+    },
+    "complete_ir": {
+      "observer/c1-output/a01016ex": {
+        "bytes": 1187,
+        "sha256": "fd4f39e61911a08723ecbac14167e71a66b15a3eef3ae42ae976357d756313e1"
+      },
+      "observer/c1-output/a01016gl": {
+        "bytes": 51,
+        "sha256": "f729055d189f26eb1ce62b5b652e779c33d56ee1781fd115dd22104d0dea6fe6"
+      },
+      "observer/c1-output/a01016in": {
+        "bytes": 3,
+        "sha256": "66927378719e5c868ee8b4c6182280b565e659505eaba83128ba8ef2e293c3e8"
+      },
+      "observer/c1-output/a01016sy": {
+        "bytes": 13,
+        "sha256": "255d67bb3e14ac12fa10c3a870b501bb40a0b99ac9e9e86b2de2c118c9ccfb7f"
+      }
+    },
+    "status": 0,
+    "errors_before": {
+      "errno": 0,
+      "doserrno": 2,
+      "last_error": 2
+    },
+    "errors_after": {
+      "errno": 0,
+      "doserrno": 0,
+      "last_error": 2
+    },
+    "executable": {
+      "bytes": 660240,
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae"
+    },
+    "outputs": {
+      "test.obj": {
+        "bytes": 275,
+        "sha256": "ecfe90b6ab5c216e34fd00e2398da2f27fa5646945b1fb2b2b3190d028bc44dd"
+      }
+    }
+  },
+  "case_outcome": {
+    "status": 0,
+    "stdout": {
+      "bytes": 8,
+      "sha256": "a8252e3dca74519092c66804c9767dfafceb8748d43bbbef7135c33de3e87dad"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "test.obj": {
+      "bytes": 275,
+      "sha256": "ecfe90b6ab5c216e34fd00e2398da2f27fa5646945b1fb2b2b3190d028bc44dd"
+    },
+    "intermediate_files_removed": true
+  },
+  "limits": [
+    "preferred-base DLL only; nonpreferred relocation not directly tested",
+    "closed FILE/lowio slots and undefined buffer tails retained raw, not replayable initialized data",
+    "no individual post-Invoke multibyte API return observation",
+    "no callback-registration inventory; imports alone do not establish absence",
+    "C2 full absolute _spawnvp path/input bytes observed; no child loaded-hFile event under DEBUG_ONLY_THIS_PROCESS"
+  ],
+  "implementation": "execute_pass body and SEH roots are prepared and pass both compiler builds and full/strict/import graph audits. Still unaccepted; native dependency success stays closed until shared/provider implementation and a fresh masked candidate-inclusive proof.",
+  "static_audit": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-static-1/audit.receipt.json",
+    "sha256": "a5a24a7f643d9e044a20c9f7f584deaca0a61ed930ae40b2d5323a957b243b4c"
+  },
+  "checks": {
+    "dependency_packet_negatives": 27,
+    "GPA_common_resolver_and_site_negatives": 9,
+    "acceptance_protocol_negatives": 35,
+    "help_fixture": {
+      "schema": 1,
+      "case": "help",
+      "passed": true,
+      "full_dword_status": 0,
+      "application_entries": 50,
+      "stdout_bytes": 3976,
+      "stderr_bytes": 141,
+      "mktemp_calls": 1,
+      "native_sha256": "e638e16f997a7f596d1b53e5223a7a759d5f8061e176b554eb07cd4e252d13cf",
+      "seconds": {
+        "build": 2.2890874724835157,
+        "setup": 0.0016751857474446297,
+        "execution": 0.007890756241977215,
+        "checks": 0.000638328492641449,
+        "total": 2.315556026995182
+      }
+    }
+  },
+  "measured_seconds": {
+    "original_analysis_setup": 0.025225980207324028,
+    "original_analysis_execution": 39.96957852225751,
+    "static_audit": 0.5248828213661909,
+    "GPA_controls": 0.27563717775046825
+  },
+  "credit": {
+    "accepted_app_functions_unchanged": 72,
+    "accepted_app_extent_bytes_unchanged": 12914,
+    "whole_text_denominator": 19062,
+    "non_CRT_denominator": "not yet fully classified",
+    "separate_support_records": 15,
+    "separate_support_bytes": 476
+  }
+}

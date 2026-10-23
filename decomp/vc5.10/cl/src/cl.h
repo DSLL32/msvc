@@ -101,6 +101,8 @@ extern int use_standard_include, bz_requested, timing_requested;
 extern char *object_name, *pdb_name, *browser_name;
 extern CompilerPass compiler_passes[5];
 extern InputKind input_kinds[11];
+extern int interrupted, pass_running;
+extern CompilerPass *active_pass;
 
 int main(int, char **, char **);
 BOOL install_control_handler(void);
@@ -205,6 +207,7 @@ char *quote_argument(char *, const char *);
 void start_timer(void);
 void stop_timer(char *);
 int execute_pass(int, CompilerPass *, char *, char *, char **);
+void unload_pass(CompilerPass *);
 char *file_name(char *, char *);
 void driver_exit(int);
 #endif

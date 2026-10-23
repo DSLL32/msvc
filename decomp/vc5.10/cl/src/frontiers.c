@@ -32,9 +32,7 @@ int link_pass(Driver *state) { __asm int 3
 }
 void start_timer(void) { __asm int 3 }
 void stop_timer(char *name) { __asm int 3 }
-int execute_pass(int mode, CompilerPass *pass, char *name, char *environment, char **args) { __asm int 3
-    return 0;
-}
+void unload_pass(CompilerPass *pass) { __asm int 3 }
 void driver_exit(int status) {
     __asm int 3
 

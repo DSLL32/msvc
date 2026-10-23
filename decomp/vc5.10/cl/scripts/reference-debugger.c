@@ -478,7 +478,7 @@ int main(int argc,char **argv)
                 memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
                 if (!GetThreadContext(thread,&context)) return 99;
                 dependency_trap(point,address,teb,event.dwThreadId,&context,input,out,err);
-                if (!SetThreadContext(thread,&context) && point!=5) return 100;
+                if (!SetThreadContext(thread,&context) && !(point==5 && !dependency_complete)) return 100;
             } else if (code==EXCEPTION_BREAKPOINT && mre_site) {
                 ++mre_calls;
                 fprintf(events,"mre-unexpected-call address=%08lx\n",address);fflush(events);

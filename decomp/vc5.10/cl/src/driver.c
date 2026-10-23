@@ -6,6 +6,102 @@
 int first_dependency_scan = 1;
 int first_stage_notice = 1;
 static char mre_error[1024];
+/* 004097a8..004097b4: shared with the console-control handler. */
+int interrupted, pass_running;
+CompilerPass *active_pass;
+
+/* 0040550d..004057b4: DLL passes share this process's CRT; EXEs are children. */
+int execute_pass(int mode, CompilerPass *pass, char *name, char *environment, char **args)
+{
+    char **argument, *assignment, *out;
+    char *child_args[2];
+    unsigned bytes;
+    int argc, status;
+    HMODULE module;
+    InvokeCompilerPass invoke;
+    AbortCompilerPass abort;
+
+    if (mode) {
+        if (mode < 1 || mode > 3)
+            fatal(0);
+    } else if (environment) {
+        bytes = strlen(environment) + 2;
+        if (!(pass->flags & 4))
+            for (argument = args + 1; *argument; ++argument)
+                bytes += strlen(*argument) + 1;
+        assignment = allocate(bytes);
+        out = append_text(assignment, environment);
+        if (!(pass->flags & 4)) {
+            for (argument = args + 1; *argument; ++argument) {
+                out = append_text(out, *argument);
+                *out++ = ' ';
+            }
+        }
+        *out = 0;
+        if (_putenv(assignment))
+            fatal(2029, name);
+        release(assignment);
+        if (!(pass->flags & 4)) {
+            child_args[0] = args[0];
+            child_args[1] = NULL;
+            args = child_args;
+        }
+    }
+    _flushall();
+    errno = 0;
+    interrupted = 0;
+    active_pass = pass;
+    if (pass->flags & 4) {
+        if (!pass->invoke) {
+            module = LoadLibraryA(name);
+            if (module) {
+                invoke = (InvokeCompilerPass)GetProcAddress(module, "_InvokeCompilerPass@12");
+                abort = (AbortCompilerPass)GetProcAddress(module, "_AbortCompilerPass@4");
+                if (invoke && abort) {
+                    pass->module = module;
+                    pass->invoke = invoke;
+                    pass->abort = abort;
+                } else
+                    FreeLibrary(module);
+            }
+            if (!pass->invoke) {
+                fatal(2027, name);
+                status = 4;
+                goto finished;
+            }
+        }
+        for (argc = 0; args[argc]; ++argc)
+            ;
+        pass_running = 1;
+        __try {
+            status = pass->invoke(argc, args, (pass->flags >> 3) & 1);
+        } __except (!debug_exceptions && GetExceptionCode() != EXCEPTION_BREAKPOINT) {
+            status = 4;
+        }
+        pass_running = 0;
+        if (status || (pass->flags & 8))
+            unload_pass(pass);
+    } else {
+        pass_running = 1;
+        status = _spawnvp(_P_WAIT, name, (const char *const *)args);
+        pass_running = 0;
+    }
+finished:
+    if (interrupted || (status & 0xff00) == 0x8000) {
+        driver_exit(4);
+        fatal(0);
+    }
+    if (status < 0 && errno) {
+        fatal(2027, name);
+        return 4;
+    }
+    if (status) {
+        if (status == 525)
+            fatal(2030, name);
+        return 2;
+    }
+    return 0;
+}
 
 /* 00403e5d..0040426b: build pass argv and invoke its DLL or executable. */
 int final_pass(Driver *state)

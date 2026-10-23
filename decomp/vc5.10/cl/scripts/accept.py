@@ -180,6 +180,9 @@ def validate(base,receipt,name,project=PROJECT,root=ROOT,review_only=False):
                 assert checked_file(run['inputs'][role]).resolve()==file.resolve(),'stale audit projection input'
             decoded=json.loads(checked_file(run['report']).read_text())
             assert set(decoded['functions'])==set(value['accepted']),'audit projection function set differs'
+            if label=='qualified_imports' and '_execute_pass' in value['accepted']:
+                from gpa_preservation import verify
+                verify(decoded,project,root)
         if len(configurations)>1:
             assert audit['strict_excluded_imports']==sorted(import_leaves(trial)),'strict RET waiver exceeds verified import leaves'
             checked_file(audit['cached_import_residuals'])

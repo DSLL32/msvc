@@ -130,6 +130,11 @@ def decode(manifest_path):
         assert name in manifest['files'], 'unbound raw input: ' + name
         return (directory / name).read_bytes()
     capture = json.loads(read('capture.json'))
+    complete = capture.get('dependency_complete', False)
+    phases = PHASES
+    if complete:
+        phases = ('putenv-1-before', 'putenv-1-after') + PHASES[:-1] + (
+            'putenv-2-before', 'putenv-2-after', 'spawn-before', 'spawn-after')
     assert capture['baseline'] is True and capture['dependency_analysis'] is True
     assert capture['controller_error'] is None and capture['helper_status'] == 0
     assert capture['case'] == 'minimal-c' and capture['arguments'] == ['/nologo', '/c', 'test.c']
@@ -147,12 +152,17 @@ def decode(manifest_path):
         assert file_record(directory / item['name']) == {k: item[k] for k in ('bytes', 'sha256')}
     events = read('observer/events.txt').decode('ascii')
     assert events.count('invoke-call ') == 1
-    assert events.count('analysis-stop-before-c2 invocations=1 unloads=1\n') == 1
+    if complete:
+        assert 'analysis-stop-before-c2' not in events
+        assert events.count('analysis-c2-completed result=00000000 putenv_calls=2\n') == 1
+        assert re.findall(r'^exit .*status=(\d+)$', read('events.txt').decode('ascii'), re.M) == ['0']
+    else:
+        assert events.count('analysis-stop-before-c2 invocations=1 unloads=1\n') == 1
     assert not re.search(r'^create .*parent=', read('events.txt').decode('ascii'), re.M), 'unexpected child process'
-    states = original_states(directory, PHASES, 'observer/events.txt')
+    states = original_states(directory, phases, 'observer/events.txt')
     snapshots = {}
     contexts = {}
-    for phase in PHASES:
+    for phase in phases:
         match = re.findall(r'^snapshot phase=' + phase + r' event=(\d+) tid=(\d+) eax=([0-9a-f]{8}) esp=([0-9a-f]{8}) ebp=([0-9a-f]{8})$', events, re.M)
         assert len(match) == 1
         event, tid, eax, esp, ebp = match[0]
@@ -219,7 +229,7 @@ def decode(manifest_path):
             'file0_2_words': list(struct.unpack('<24I', iob[:96])),
             'streams': streams, 'open_descriptors': descriptors,
             'directory': entries, **texts}
-    assert [snapshots[p]['event'] for p in PHASES] == sorted(snapshots[p]['event'] for p in PHASES)
+    assert [snapshots[p]['event'] for p in phases] == sorted(snapshots[p]['event'] for p in phases)
     call = re.findall(r'^invoke-call argc=(\d+) argv=([0-9a-f]{8}) last=(\d+) function=([0-9a-f]{8}) esp=([0-9a-f]{8})$', events, re.M)
     assert len(call) == 1
     argc, argv, last, function, esp = call[0]
@@ -233,11 +243,30 @@ def decode(manifest_path):
     assert c1_exports['_AbortCompilerPass@4'] == {'ordinal': 1, 'rva': 0x43975}
     assert int(function, 16) == c1.base + c1_exports['_InvokeCompilerPass@12']['rva']
     assert c1.entry == 0x1202a and c1.read(c1.base + c1.entry, 1) == b'\x53'
-    assert re.search(r'c1-load event=110 base=10600000 entry=1061202a entry_byte=53', events)
-    assert 'c1-entry event=111 module=10600000 reason=1 reserved=00000000' in events
-    assert 'c1-entry event=120 module=10600000 reason=0 reserved=00000000' in events
-    assert 'module-unload event=121 base=10600000' in events
-    assert snapshots['free-after']['event'] == 122 and u32(contexts['free-after'], 176) == 1
+    load_event = re.findall(r'^c1-load event=(\d+) base=10600000 entry=1061202a entry_byte=53$', events, re.M)
+    assert len(load_event) == 1
+    assert snapshots['load-before']['event'] < int(load_event[0]) < snapshots['c1-entry-1']['event'] < snapshots['load-after']['event']
+    for reason in (1, 0):
+        assert 'c1-entry event=%d module=10600000 reason=%d reserved=00000000' % (snapshots['c1-entry-%d' % reason]['event'], reason) in events
+        assert struct.unpack_from('<3I', read('observer/c1-entry-%d-stack.bin' % reason), 4) == (c1.base, reason, 0)
+    unload_events = re.findall(r'^module-unload event=(\d+) base=10600000$', events, re.M)
+    assert len(unload_events) == 1 and snapshots['c1-entry-0']['event'] < int(unload_events[0]) < snapshots['free-after']['event']
+    assert u32(contexts['free-after'], 176) == 1
+    loader_calls = {}
+    for api, result, cleanup in (('load', c1.base, 4), ('get-invoke', c1.base + 0x12229, 8),
+                                 ('get-abort', c1.base + 0x43975, 8), ('free', 1, 4)):
+        start, end = api + '-before', api + '-after'
+        assert u32(contexts[end], 176) == result, 'wrong loader/export result: ' + api
+        assert u32(contexts[end], 196) - u32(contexts[start], 196) == cleanup, 'wrong loader stdcall cleanup: ' + api
+        parameters = struct.unpack_from('<2I', read('observer/' + start + '-stack.bin'))
+        if api == 'load':
+            assert parameters[0] == snapshots[start]['pass_words'][0]
+        else:
+            assert parameters[0] == c1.base
+        if api.startswith('get-'):
+            assert parameters[1] == (0x408524 if api == 'get-invoke' else 0x40850c)
+        loader_calls[api] = {'return_value': result, 'stdcall_cleanup': cleanup,
+                             'argument_words': list(parameters[:1 if api in ('load', 'free') else 2])}
     assert read('observer/get-invoke-before-argument.bin') == b'_InvokeCompilerPass@12\0'
     assert read('observer/get-abort-before-argument.bin') == b'_AbortCompilerPass@4\0'
     before, after = snapshots['invoke-before'], snapshots['invoke-after']
@@ -257,8 +286,22 @@ def decode(manifest_path):
     assert spawn_env.keys() - before_env.keys() == {'MSC_CMD_FLAGS'} and not before_env.keys() - spawn_env.keys()
     assert all(spawn_env[key] == value for key, value in before_env.items())
     flags = spawn_env['MSC_CMD_FLAGS'].decode('ascii')
-    assert flags == '-il .\\a01900 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb '
+    prefix = before['argv'][before['argv'].index('-il') + 1]
+    assert re.fullmatch(r'\.\\a0[0-9]{4}', prefix)
+    assert flags == '-il %s -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb ' % prefix
     assert len(snapshots['spawn-before']['argv']) == 1
+    spawn_mode, spawn_path, spawn_argv = struct.unpack_from('<3I', read('observer/spawn-before-stack.bin'))
+    assert spawn_mode == 0, 'wrong synchronous spawn mode'
+    assert spawn_path == snapshots['spawn-before']['pass_words'][0], 'spawn path is not current pass name'
+    assert spawn_argv == snapshots['spawn-before']['argument_vector'], 'spawn argv pointer differs from captured vector'
+    expected_child_path = snapshots['spawn-before']['cwd'].rstrip('\\') + '\\c2.exe'
+    assert snapshots['spawn-before']['argv'] == [expected_child_path], 'unexpected absolute child path'
+    frozen_helper = read('dependency-observer.inc')
+    if complete:
+        assert b'remote_string(parameters[1],executable,sizeof(executable));' in frozen_helper
+        assert b'remote_string(path_pointer,argument,sizeof(argument));' in frozen_helper
+        assert b'if (strcmp(executable,argument)) ExitProcess(107);' in frozen_helper
+        assert b'CreateFileA(executable,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL)' in frozen_helper
     before_os = os_environment(read('observer/invoke-before-os-environment.bin'))
     spawn_os = os_environment(read('observer/spawn-before-os-environment.bin'))
     assert spawn_os.keys() - before_os.keys() == {'MSC_CMD_FLAGS'} and not before_os.keys() - spawn_os.keys()
@@ -266,31 +309,109 @@ def decode(manifest_path):
     assert spawn_os['MSC_CMD_FLAGS'] == flags
     ir = {name: record for name, record in manifest['files'].items() if name.startswith('observer/c1-output/')}
     assert len(ir) == 4
-    assert {Path(name).name for name in ir} == {'a01900ex', 'a01900gl', 'a01900in', 'a01900sy'}
+    assert {Path(name).name for name in ir} == {prefix[2:] + suffix for suffix in ('ex', 'gl', 'in', 'sy')}
     for name, record in ir.items():
-        assert record == manifest['files'][Path(name).name]
+        if complete:
+            assert record == manifest['files']['observer/c2-input/' + Path(name).name]
+            assert Path(name).name not in manifest['files'], 'normal CL cleanup did not remove IR'
+        else:
+            assert record == manifest['files'][Path(name).name]
     access = original_states(directory, ['access-9-before', 'access-9-after'], 'access-events.txt')
     assert access == {'access-9-before': {'errno': 0, 'doserrno': 2, 'last_error': 0},
                       'access-9-after': {'errno': 2, 'doserrno': 2, 'last_error': 2}}
     assert read('access-9-path.bin').endswith(b'\\c2\0')
     assert re.search(r'call sequence=9 .* mode=4\n', read('access-events.txt').decode('ascii'))
     assert 'return sequence=9 result=ffffffff\n' in read('access-events.txt').decode('ascii')
-    return {'kind': 'analysis only; not function acceptance or complete dependency replay oracle',
+    putenv = []
+    if complete:
+        for call_number in (1, 2):
+            start, end = 'putenv-%d-before' % call_number, 'putenv-%d-after' % call_number
+            assignment = read('observer/' + start + '-assignment.bin')
+            assert assignment.endswith(b'\0') and b'\0' not in assignment[:-1]
+            expected_assignment = 'MSC_CMD_FLAGS=' + (flags if call_number == 2 else '')
+            assert assignment == expected_assignment.encode('ascii') + b'\0'
+            assert u32(read('observer/' + start + '-stack.bin'), 0)
+            assert u32(contexts[start], 196) == u32(contexts[end], 196) and u32(contexts[end], 176) == 0
+            assert states[start] == states[end] == {'errno': 2, 'doserrno': 2, 'last_error': 2}
+            envs = [environment(read('observer/' + p + '-crt-environment.bin')) for p in (start, end)]
+            osenvs = [os_environment(read('observer/' + p + '-os-environment.bin')) for p in (start, end)]
+            vectors = [vector(read('observer/' + p + '-crt-environment.bin')) for p in (start, end)]
+            assert len({pointer for pointer, text in vectors[0][1]}) == len(envs[0])
+            assert len({pointer for pointer, text in vectors[1][1]}) == len(envs[1])
+            if call_number == 1:
+                assert {pointer for pointer, text in vectors[0][1]}.isdisjoint(pointer for pointer, text in vectors[1][1]), 'initial putenv string ownership overlaps'
+            assert [text for pointer, text in vectors[1][1]][:len(envs[0])] == [text for pointer, text in vectors[0][1]], 'putenv changed existing entry order'
+            assert vectors[0][0] != vectors[1][0], 'putenv vector ownership transition missing'
+            identities = []
+            for index, ((old_pointer, text), (new_pointer, new_text)) in enumerate(zip(vectors[0][1], vectors[1][1])):
+                assert text == new_text
+                assert (old_pointer == new_pointer) == (call_number == 2), 'putenv existing string identity transition differs'
+                name = text[:text.find(b'=', 1)].decode('ascii')
+                identities.append({'index': index, 'name': name, 'string_sha256': digest(text),
+                                   'before_pointer': old_pointer, 'after_pointer': new_pointer,
+                                   'pointer_retained': old_pointer == new_pointer})
+            assert 'MSC_CMD_FLAGS' not in envs[0] and 'MSC_CMD_FLAGS' not in osenvs[0]
+            assert all(envs[1].get(key) == value for key, value in envs[0].items())
+            assert all(osenvs[1].get(key) == value for key, value in osenvs[0].items())
+            if call_number == 1:
+                assert envs[0] == envs[1] and osenvs[0] == osenvs[1]
+            else:
+                assert envs[1].keys() - envs[0].keys() == {'MSC_CMD_FLAGS'}
+                assert osenvs[1].keys() - osenvs[0].keys() == {'MSC_CMD_FLAGS'}
+                assert envs[1]['MSC_CMD_FLAGS'] == flags.encode('ascii') and osenvs[1]['MSC_CMD_FLAGS'] == flags
+            for key in ('argv', 'argument_pointers', 'argument_vector', 'cwd', 'file0_2_words', 'streams', 'open_descriptors',
+                        'mb_codepage', 'lc_codepage', 'lc_handles', 'mb_state_sha256', 'ctype_sha256', 'x87_control_word'):
+                assert snapshots[start][key] == snapshots[end][key], 'additional putenv caller-state change: ' + key
+            putenv.append({'assignment': expected_assignment, 'result': 0, 'errors_before': states[start],
+                           'errors_after': states[end], 'crt_count_before': len(envs[0]), 'crt_count_after': len(envs[1]),
+                           'os_count_before': len(osenvs[0]), 'os_count_after': len(osenvs[1]),
+                           'argument_address': u32(read('observer/' + start + '-stack.bin'), 0),
+                           'crt_vector_before': u32(read('observer/' + start + '-crt-words.bin'), 4),
+                           'crt_vector_after': u32(read('observer/' + end + '-crt-words.bin'), 4),
+                           'existing_entry_identities': identities,
+                           'new_entries': [{'index': index, 'pointer': pointer, 'string_sha256': digest(text)}
+                                           for index, (pointer, text) in enumerate(vectors[1][1]) if index >= len(envs[0])]})
+        assert states['spawn-before'] == {'errno': 0, 'doserrno': 2, 'last_error': 2}
+        assert states['spawn-after'] == {'errno': 0, 'doserrno': 0, 'last_error': 2}
+        assert u32(contexts['spawn-before'], 196) == u32(contexts['spawn-after'], 196)
+        assert u32(contexts['spawn-after'], 176) == 0
+        for key in ('x87_control_word', 'mb_state_sha256', 'ctype_sha256', 'crt_environment_sha256',
+                    'os_environment_sha256', 'file0_2_words', 'streams', 'open_descriptors', 'argv', 'cwd'):
+            assert snapshots['spawn-before'][key] == snapshots['spawn-after'][key], 'unexpected child-return change: ' + key
+        assert read('observer/spawn-executable.bin') == read('C2.EXE')
+        assert read('observer/c2-output/test.obj') == read('test.obj')
+        assert len(read('test.obj')) == 275 and read('stdout.bin') == b'test.c\r\n' and read('stderr.bin') == b''
+    result = {'kind': 'analysis only; not function acceptance or native dependency-provider approval',
             'manifest': {'path': str(manifest_path), 'sha256': digest(manifest_path.read_bytes())},
             'decoder_sha256': digest(Path(__file__).read_bytes()),
             'canonical_target': TARGET_SHA, 'canonical_crt': CRT_SHA, 'canonical_c1': C1_SHA,
             'timing': capture['timing'], 'phases': snapshots,
             'invoke': {'argc': 26, 'last_pass': 1, 'status': 0, 'stack_cleanup': 12,
                        'argv_bytes_unchanged': True, 'exports': c1_exports},
-            'next_child': {'not_started': True, 'argv': snapshots['spawn-before']['argv'],
+            'loader_calls': loader_calls,
+            'next_child': {'not_started': not complete, 'argv': snapshots['spawn-before']['argv'],
+                           'raw_arguments': {'mode': spawn_mode, 'path_pointer': spawn_path, 'argv_pointer': spawn_argv},
+                           'absolute_executable_path': expected_child_path,
+                           'path_bytes_evidence': 'verified frozen helper compares remote path and argv0 bytes before opening that exact path' if complete else 'only argv0 bytes captured; path byte comparison pending',
                            'added_crt_and_os_environment': {'MSC_CMD_FLAGS': flags}, 'complete_ir': ir},
+            'putenv': putenv,
             'first_post_invoke_access': {'mode': 4, 'result': -1, 'path': read('access-9-path.bin')[:-1].decode('ascii'), **access},
             'limits': ['preferred-base DLL only; nonpreferred relocation not directly tested',
-                       'no C2 execution/response or process-exit observation',
                        'closed FILE/lowio slots and undefined buffer tails retained raw, not replayable initialized data',
                        'no individual post-Invoke multibyte API return observation',
-                       'no callback-registration inventory; imports alone do not establish absence',
-                       '_putenv pre/post call and OS environment effects not isolated yet']}
+                       'no callback-registration inventory; imports alone do not establish absence']}
+    if complete:
+        result['next_child'].update(status=0, errors_before=states['spawn-before'], errors_after=states['spawn-after'],
+            executable=manifest['files']['observer/spawn-executable.bin'],
+            outputs={'test.obj': manifest['files']['observer/c2-output/test.obj']})
+        result['completed_case'] = {'status': 0, 'stdout': manifest['files']['stdout.bin'],
+                                    'stderr': manifest['files']['stderr.bin'], 'test.obj': manifest['files']['test.obj'],
+                                    'intermediate_files_removed': True}
+        result['limits'].append('C2 full absolute _spawnvp path/input bytes observed; no child loaded-hFile event under DEBUG_ONLY_THIS_PROCESS')
+    else:
+        result['limits'] += ['no C2 execution/response or process-exit observation',
+                             '_putenv pre/post call and OS environment effects not isolated yet']
+    return result
 
 
 if __name__ == '__main__':

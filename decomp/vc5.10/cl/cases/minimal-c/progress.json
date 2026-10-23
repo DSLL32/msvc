@@ -1,7 +1,7 @@
 {
   "case": "minimal-c",
   "state": "driver-prefix-in-progress",
-  "checkpoint": "b08c9b41 plus ordered proof journal",
+  "checkpoint": "1ee87018 accepted implementation; separate dependency analysis and unaccepted dispatcher preparation",
   "next_frontier": "execute_pass",
   "accepted_application_functions": 72,
   "accepted_application_extent_bytes": 12914,
@@ -277,7 +277,7 @@
   ],
   "checks": "Fresh candidate proofs, full/strict RET/qualified import audits with explicit cached-register supplements,30 refreshed acceptance negatives and current timed affected-state controls in argument-controls.json pass. Native-only help fixture26.84ms total/3.73ms execution.",
   "dependency_boundaries": "C1 DLL and C2 child remain closed pending complete observable response contracts; no native Wine/helper execution.",
-  "observed_gap": "No difference in current prefix. MRE imports are declaration-only/fail-closed; C1/C2 response boundaries remain closed.",
+  "observed_gap": "C1 leaves CP1252/en-US shared CRT state. Shared module exports/lifetime, scoped locale, bound _putenv and complete child response semantics remain under implementation; native successes stay closed.",
   "current_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2/pair.json",
     "sha256": "b345b3e05e1aeffd273575d46c39959356951a724486dc4af0389d4abbbaa85d",
@@ -286,5 +286,6 @@
   "shared_gap_resolution": {
     "_mbclen": "Fresh original quoted-length-2 path/error proof; native denial retained, then5f724e69 CP0/ASCII support and native-only retry passed.",
     "_mbsspn": "Fresh original append-text-1 include-path/space-tab/error pre/post proof; native denial retained, theneace7509 support and native-only retry passed."
-  }
+  },
+  "dependency_observation": "dependency-boundary-2.json"
 }

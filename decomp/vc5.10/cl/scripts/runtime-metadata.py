@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Additional SEH roots from the verified shipped CRT scope-table relocations."""
 import json
+import hashlib
 from pathlib import Path
 import struct
 from binary import PE
@@ -21,20 +22,21 @@ for name in ('_mainCRTStartup',):
         assert [r['actual'] for r in scope]==[start+270,start+291]
         record[side]={'roots':[start+270,start+291],'text_data':[],'switches':{}}
     functions[name]=record
-# Main uses an ordinary one-entry compiler SEH scope table. Read the two
+# These bodies use ordinary one-entry compiler SEH scope tables. Read the two
 # roots through its actual verified prologue immediate in each PE, so the
 # filter and handler are traversed even though ordinary control flow skips them.
 identity=SourceFileLoader('runtime_identity',str(project/'scripts/identify-runtime.py')).load_module()
-main_roots={}
-for side,path,start in [('original',project.parents[2]/'toolchains/5.10/bin/CL.EXE',0x401743),
-        ('rebuilt',project/'build/cl.exe',identity.public_map(project/'build/cl.map').get('_main'))]:
-    pe=PE(path)
-    assert pe.read(start,6)==bytes.fromhex('558bec6aff68'),'unexpected main SEH prologue'
-    scope=struct.unpack('<I',pe.read(start+6,4))[0]
-    enclosing,filter,handler=struct.unpack('<III',pe.read(scope,12))
-    assert enclosing==0xffffffff and start<filter<handler,'unexpected one-entry main scope table'
-    main_roots[side]={'roots':[filter,handler],'text_data':[],'switches':{}}
-functions['_main']=main_roots
+for name,original_start in (('_main',0x401743),('_execute_pass',0x40550d)):
+    roots={}
+    for side,path,start in [('original',project.parents[2]/'toolchains/5.10/bin/CL.EXE',original_start),
+            ('rebuilt',project/'build/cl.exe',identity.public_map(project/'build/cl.map').get(name))]:
+        pe=PE(path)
+        assert pe.read(start,6)==bytes.fromhex('558bec6aff68'),'unexpected '+name+' SEH prologue'
+        scope=struct.unpack('<I',pe.read(start+6,4))[0]
+        enclosing,filter,handler=struct.unpack('<III',pe.read(scope,12))
+        assert enclosing==0xffffffff and start<filter<handler,'unexpected one-entry '+name+' scope table'
+        roots[side]={'roots':[filter,handler],'text_data':[],'switches':{}}
+    functions[name]=roots
 # /Od lowered read_option's six mode cases to a bounded two-level switch.
 # Its pointer and byte-index tables are text data, never instructions. Retain
 # exact reviewed offsets and validate the bound, indices and in-function roots.
@@ -88,4 +90,9 @@ targets=struct.unpack('<4I',rebuilt_pe.read(table,16))
 assert all(start<=target<table for target in targets)
 functions['_prepare_inputs']={'original':{'roots':[],'text_data':[],'switches':{}},
     'rebuilt':{'roots':[],'text_data':[[table,table+16]],'switches':{str(jump):list(targets)}}}
-(project/'graph-metadata.json').write_text(json.dumps({'schema':1,'functions':functions,'callback_tables':[]},indent=2)+'\n')
+functions['_execute_pass']['register_imports']={'require_all_register_calls_resolved':False}
+witness='cases/minimal-c/getprocaddress-preservation.json'
+contracts=[{'target':{'import':{'dll':'kernel32.dll','name':'GetProcAddress'}},
+    'preserves':['edi'],'evidence':{'path':witness,'sha256':hashlib.sha256((project/witness).read_bytes()).hexdigest()}}]
+(project/'graph-metadata.json').write_text(json.dumps({'schema':1,'functions':functions,'callback_tables':[],
+    'register_imports':{'preservation_contracts':contracts}},indent=2)+'\n')

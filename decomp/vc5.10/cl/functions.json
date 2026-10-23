@@ -1172,7 +1172,18 @@
       "name": "_execute_pass",
       "native_symbol": "execute_pass",
       "start": 4216077,
-      "end": 4216078,
+      "end": 4216756,
+      "state": "implemented; dependency response and fresh acceptance pending",
+      "evidence": {
+        "kind": "complete dispatcher body/SEH filter analysis; actual DLL/environment/child boundary observation is separate analysis, not acceptance",
+        "range": "0040550d..004057b4"
+      }
+    },
+    {
+      "name": "_unload_pass",
+      "native_symbol": "unload_pass",
+      "start": 4216044,
+      "end": 4216045,
       "pending_extent": true,
       "state": "named INT3 frontier"
     }

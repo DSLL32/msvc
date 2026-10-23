@@ -1,15 +1,17 @@
 /* Original-only analysis observer; no native fixture includes or invokes it. */
 static int dependency_analysis;
+static int dependency_complete;
 static FILE *dependency_events;
 static DWORD dependency_argv,dependency_pass,dependency_c1,dependency_c1_entry;
 static BYTE dependency_c1_entry_byte;
 static DWORD dependency_invocations,dependency_unloads;
+static unsigned dependency_putenv_calls;
 static char dependency_ir_prefix[MAX_PATH];
-static DWORD dependency_sites[] = {0x563d,0x5655,0x5660,0x56c9,0x54f9,0x572e};
-static BYTE dependency_bytes[] = {0xff,0xff,0xff,0xff,0xff,0xff};
-static BYTE dependency_after_bytes[6];
-static DWORD dependency_lengths[] = {6,2,2,3,6,6};
-static int dependency_pending[6];
+static DWORD dependency_sites[] = {0x563d,0x5655,0x5660,0x56c9,0x54f9,0x572e,0x55d2};
+static BYTE dependency_bytes[] = {0xff,0xff,0xff,0xff,0xff,0xff,0xff};
+static BYTE dependency_after_bytes[7];
+static DWORD dependency_lengths[] = {6,2,2,3,6,6,6};
+static int dependency_pending[7];
 
 static void dependency_save(const char *phase,const char *kind,const void *data,DWORD size)
 {
@@ -122,16 +124,16 @@ static void dependency_state(const char *phase,DWORD teb,DWORD tid,CONTEXT *cont
     dependency_files(phase);
     fprintf(dependency_events,"snapshot phase=%s event=%lu tid=%lu eax=%08lx esp=%08lx ebp=%08lx\n",phase,event_number,tid,context->Eax,context->Esp,context->Ebp);fflush(dependency_events);
 }
-static void dependency_copy_ir(void)
+static void dependency_copy_ir(const char *folder)
 {
     char pattern[MAX_PATH],source[MAX_PATH],destination[MAX_PATH];
     WIN32_FIND_DATAA found;HANDLE search;
     if (!dependency_ir_prefix[0]) ExitProcess(91);
     sprintf(pattern,"%s*",dependency_ir_prefix);search=FindFirstFileA(pattern,&found);if (search==INVALID_HANDLE_VALUE) ExitProcess(92);
-    CreateDirectoryA("observer\\c1-output",NULL);
+    CreateDirectoryA(folder,NULL);
     do {
         if (!(found.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) {
-            sprintf(source,".\\%s",found.cFileName);sprintf(destination,"observer\\c1-output\\%s",found.cFileName);
+            sprintf(source,".\\%s",found.cFileName);sprintf(destination,"%s\\%s",folder,found.cFileName);
             if (!CopyFileA(source,destination,TRUE)) ExitProcess(93);
             fprintf(dependency_events,"c1-output name=%s size=%lu:%lu\n",found.cFileName,found.nFileSizeHigh,found.nFileSizeLow);
         }
@@ -142,10 +144,12 @@ static void dependency_install(void)
 {
     unsigned i;BYTE call[6];char path[MAX_PATH],line[128];FILE *file;
     output_path(path,"dependency-observer.txt");file=fopen(path,"rb");if (!file) return;
-    if (!fgets(line,sizeof(line),file) || strcmp(line,"CL_DEPENDENCY_ANALYSIS_V1\n")) ExitProcess(94);
+    if (!fgets(line,sizeof(line),file)) ExitProcess(94);
+    if (!strcmp(line,"CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n")) dependency_complete=1;
+    else if (strcmp(line,"CL_DEPENDENCY_ANALYSIS_V1\n")) ExitProcess(94);
     fclose(file);dependency_analysis=1;output_path(path,"observer");CreateDirectoryA(path,NULL);
     output_path(path,"observer\\events.txt");dependency_events=fopen(path,"wb");if (!dependency_events) ExitProcess(95);
-    for (i=0;i<6;++i) {
+    for (i=0;i<(dependency_complete?7U:6U);++i) {
         memory(target_base+dependency_sites[i],call,dependency_lengths[i]);
         if (call[0]!=0xff || (i==1 || i==2 ? call[1]!=0xd7 : i==3 ? call[1]!=0x56 || call[2]!=0x18 : call[1]!=0x15)) ExitProcess(96);
         memory(target_base+dependency_sites[i]+dependency_lengths[i],dependency_after_bytes+i,1);
@@ -167,24 +171,34 @@ static int dependency_point(DWORD address)
 {
     unsigned i;
     if (!dependency_analysis) return -1;
-    if (address==dependency_c1_entry) return 6;
-    for (i=0;i<6;++i)
+    if (address==dependency_c1_entry) return 7;
+    for (i=0;i<(dependency_complete?7U:6U);++i)
         if (address==target_base+dependency_sites[i] || (dependency_pending[i] && address==target_base+dependency_sites[i]+dependency_lengths[i])) return i;
     return -1;
 }
 static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT *context,HANDLE input,HANDLE out,HANDLE err)
 {
     char phase[64];DWORD args[3],actual;
-    static const char *names[] = {"load","get-invoke","get-abort","invoke","free","spawn"};
-    if (point==6) {
+    static const char *names[] = {"load","get-invoke","get-abort","invoke","free","spawn","putenv"};
+    if (point==7) {
         memory(context->Esp+4,args,12);
         fprintf(dependency_events,"c1-entry event=%lu module=%08lx reason=%lu reserved=%08lx\n",event_number,args[0],args[1],args[2]);
         sprintf(phase,"c1-entry-%lu",args[1]);dependency_state(phase,teb,tid,context,input,out,err);
         patch_byte(address,dependency_c1_entry_byte);context->Eip=address;return;
     }
     sprintf(phase,"%s-%s",names[point],dependency_pending[point]?"after":"before");
+    if (point==6) {
+        if (!dependency_pending[point]) ++dependency_putenv_calls;
+        if (dependency_putenv_calls>2) ExitProcess(106);
+        sprintf(phase,"putenv-%u-%s",dependency_putenv_calls,dependency_pending[point]?"after":"before");
+    }
     if (!dependency_pending[point]) {
-        if (point==0) { memory(context->Ebp+0x18,&dependency_argv,4);memory(context->Ebp+0xc,&dependency_pass,4); }
+        if (point==0 || point==6) { memory(context->Ebp+0x18,&dependency_argv,4);memory(context->Ebp+0xc,&dependency_pass,4); }
+        if (point==6) {
+            DWORD assignment;char text[32768];
+            memory(context->Esp,&assignment,4);remote_string(assignment,text,sizeof(text));
+            dependency_save(phase,"assignment.bin",text,strlen(text)+1);
+        }
         if (point==0 || point==1 || point==2) {
             DWORD parameters[2],function;char text[1024],kind[80];
             memory(context->Esp,parameters,point==0 ? 4 : 8);
@@ -213,14 +227,34 @@ static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT 
         if (point==5) { memory(context->Ebp+0x18,&dependency_argv,4);memory(context->Ebp+0xc,&dependency_pass,4); }
         if (point==4 && dependency_c1_entry) patch_byte(dependency_c1_entry,0xcc);
         dependency_state(phase,teb,tid,context,input,out,err);
-        if (point==5) {fprintf(dependency_events,"analysis-stop-before-c2 invocations=%lu unloads=%lu\n",dependency_invocations,dependency_unloads);fflush(dependency_events);
-            TerminateProcess(child,0x7003);return;
+        if (point==5) {
+            if (!dependency_complete) {
+                fprintf(dependency_events,"analysis-stop-before-c2 invocations=%lu unloads=%lu\n",dependency_invocations,dependency_unloads);fflush(dependency_events);
+                TerminateProcess(child,0x7003);return;
+            } else {
+                DWORD parameters[3],path_pointer,terminator;char executable[MAX_PATH],argument[MAX_PATH];HANDLE image;
+                memory(context->Esp,parameters,12);memory(parameters[2],&path_pointer,4);
+                memory(parameters[2]+4,&terminator,4);
+                if (parameters[0]!=0 || terminator) ExitProcess(107);
+                remote_string(parameters[1],executable,sizeof(executable));
+                remote_string(path_pointer,argument,sizeof(argument));
+                if (strcmp(executable,argument)) ExitProcess(107);
+                image=CreateFileA(executable,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL);
+                if (image==INVALID_HANDLE_VALUE) ExitProcess(108);
+                save_file(image,"observer\\spawn-executable.bin");CloseHandle(image);
+                dependency_copy_ir("observer\\c2-input");
+            }
         }
         dependency_pending[point]=1;patch_byte(address,dependency_bytes[point]);
         patch_byte(address+dependency_lengths[point],0xcc);
     } else {
         dependency_state(phase,teb,tid,context,input,out,err);
-        if (point==3) dependency_copy_ir();
+        if (point==3) dependency_copy_ir("observer\\c1-output");
+        if (point==5) {
+            CreateDirectoryA("observer\\c2-output",NULL);
+            if (!CopyFileA("test.obj","observer\\c2-output\\test.obj",TRUE)) ExitProcess(109);
+            fprintf(dependency_events,"analysis-c2-completed result=%08lx putenv_calls=%u\n",context->Eax,dependency_putenv_calls);
+        }
         fprintf(dependency_events,"return api=%s result=%08lx esp=%08lx\n",names[point],context->Eax,context->Esp);fflush(dependency_events);
         dependency_pending[point]=0;
         patch_byte(address,dependency_after_bytes[point]);

@@ -5,7 +5,7 @@ RECON = ../../../lib/recon
 NATIVE_CC ?= clang
 LLVM_DLLTOOL ?= llvm-dlltool
 # Freeze the shared release actually compiled, independently of concurrent WIP.
-RECON_SHARED_REVISION ?= eace7509
+RECON_SHARED_REVISION ?= c09a8322
 export RECON_SHARED_REVISION
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TEST -DRECON_NATIVE_ENTRY_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -I$(RECON)/include -I$(RECON)/native
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
@@ -52,7 +52,7 @@ runtime.json: scripts/identify-runtime.py scripts/binary.py cases/help/import-su
 	$(PYTHON) scripts/identify-runtime.py --output $@
 build/runtime.json: build/cl.exe scripts/identify-runtime.py scripts/binary.py cases/help/import-support.json
 	$(PYTHON) scripts/identify-runtime.py --rebuilt --output $@
-graph-metadata.json: runtime.json build/runtime.json scripts/runtime-metadata.py
+graph-metadata.json: runtime.json build/runtime.json scripts/runtime-metadata.py cases/minimal-c/getprocaddress-preservation.json
 	$(PYTHON) scripts/runtime-metadata.py
 audit: build/cl.exe build/runtime.json functions.json runtime.json graph-metadata.json $(GRAPH_AUDIT_BIN)
 	@$(PYTHON) scripts/audit.py

@@ -33,6 +33,12 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
             mre_host=project/'scripts/mre-host.c',mre_definition=project/'scripts/mspdb50.def',mre_provider=root/'toolchains/5.10/bin/MSPDB50.DLL',mre_library=project/'build/mspdb50.lib')
     if '_find_file' in json.loads((config or project/'functions.json').read_text())['accepted']:
         result.update(compiler_dependency_proof=project/'cases/minimal-c/dependencies.json',compiler_input_verifier=project/'scripts/case_inputs.py')
+    if '_execute_pass' in json.loads((config or project/'functions.json').read_text())['accepted']:
+        result['gpa_preservation']=project/'cases/minimal-c/getprocaddress-preservation.json'
+        result['gpa_verifier']=project/'scripts/gpa_preservation.py'
+        witness=json.loads(result['gpa_preservation'].read_text())
+        for key,item in witness['raw'].items():result['gpa_raw:'+key]=project/item['path']
+        for key,item in witness['headers'].items():result['gpa_header:'+key]=root/item['path']
     return result
 
 
@@ -59,8 +65,10 @@ def pass_configurations(config):
     strict=copy.deepcopy(config);strict['accepted']=[name for name in config['accepted']if name not in leaves]
     direct=copy.deepcopy(config);direct['accepted']=[name for name in config['accepted']if name not in CACHED_IMPORT_RESIDUALS]
     full_flags=[flag for flag in FLAGS if flag!='--check-ret']
+    direct_flags=full_flags+['--check-imports']
+    if '_execute_pass' in config['accepted']:direct_flags+=['--resolve-register-imports']
     return {'full_support':(config,full_flags),'strict_ret':(strict,FLAGS),
-        'qualified_imports':(direct,full_flags+['--check-imports'])}
+        'qualified_imports':(direct,direct_flags)}
 
 
 def run(config,report):
@@ -91,6 +99,9 @@ def run(config,report):
             print(result.stderr.decode(),end='',file=__import__('sys').stderr);break
         decoded=json.loads(result.stdout)
         assert decoded['discovery']=='cfg' and set(decoded['functions'])==set(value['accepted']),'audited subset differs'
+        if label=='qualified_imports' and '_execute_pass' in value['accepted']:
+            from gpa_preservation import verify
+            verify(decoded,PROJECT,ROOT)
     elapsed=time.perf_counter()-started
     for name,path in inputs.items():assert sha(path)==before[name]['sha256'],'audit input changed during execution'
     receipt={'schema':1,'status':status,'flags':FLAGS,'mode':'verified-import-projection' if len(configurations)>1 else 'strict-single-pass',

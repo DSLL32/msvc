@@ -22,8 +22,9 @@ wt=importlib.util.module_from_spec(spec);spec.loader.exec_module(wt)
 sha=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False):
+def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False):
     assert not dependency_analysis or (baseline and case_name=='minimal-c'),'dependency analysis requires explicit original-only minimal-C baseline'
+    assert not dependency_complete or dependency_analysis,'complete dependency observation requires explicit analysis mode'
     start=time.perf_counter()
     config=json.loads(config_path.read_text())
     target=ROOT/config['target']['path']
@@ -48,7 +49,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     (directory/'CL.EXE').write_bytes(image)
     (directory/'config.json').write_bytes(config_path.read_bytes())
     if dependency_analysis:
-        (directory/'dependency-observer.txt').write_text('CL_DEPENDENCY_ANALYSIS_V1\n')
+        (directory/'dependency-observer.txt').write_text('CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n'if dependency_complete else'CL_DEPENDENCY_ANALYSIS_V1\n')
     if not baseline or dependency_analysis:
         from binary import PE
         pe=PE(target)
@@ -107,7 +108,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     (directory/'helper.stdout').write_bytes(result.stdout)
     (directory/'helper.stderr').write_bytes(result.stderr)
     loaded=directory/'loaded-msvcrt.bin'
-    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,
+    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,
         'target_sha256':sha(target.read_bytes()),'config_sha256':sha(config_path.read_bytes()),
         'original_mask_sha256':sha(image),'helper_status':result.returncode,
         'loaded_msvcrt_sha256':sha(loaded.read_bytes()) if loaded.exists() else None,
@@ -138,4 +139,5 @@ if __name__=='__main__':
     parser.add_argument('--baseline',action='store_true')
     parser.add_argument('--case',default='help')
     parser.add_argument('--dependency-analysis',action='store_true',help='Explicit original-only loader/Invoke observation, stopping before C2')
-    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis)
+    parser.add_argument('--dependency-complete',action='store_true',help='Also observe both putenv calls, actual C2 return and normal CL exit')
+    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete)
