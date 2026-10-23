@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_begin_virtual_entries@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1096,
+  "configuration_sha256": "a0a36a27806b31359cf2e817192e67076908497635ab4b4516d684e7b8660911",
+  "native_entry": "begin_virtual_entries",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "iterator",
+      "stack_index": 0,
+      "native_field": "raw_iterator",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 392353,
+        "original_owner_function": "_emit_debug_vshape@4",
+        "native_owner_function": "emit_debug_vshape",
+        "native_owner_field": "caller_iterator",
+        "native_owner_local": "iterator",
+        "native_owner_address": true,
+        "output_only": true,
+        "identity": "LEA EAX,[ESP+10]6fc97 after tablepush yields real caller iterator local; PUSHEAX6fc9b/CALL6fc9c return6fca1. Native immediate caller iterator address only; no uninitialized output member/padding prestate read.",
+        "original_owner_value": 2948524,
+        "native_owner_value": 4294956048
+      },
+      "original_raw": 2948524,
+      "native_raw": 4294956048,
+      "result": "match"
+    },
+    {
+      "name": "table",
+      "stack_index": 1,
+      "native_field": "raw_table",
+      "binding": {
+        "kind": "class-first-virtual-table",
+        "root_address": 573948,
+        "path": [
+          "class_root",
+          "class_info",
+          "virtual_tables",
+          "table_items",
+          "first_table"
+        ],
+        "offsets": [
+          32,
+          8,
+          8,
+          0
+        ],
+        "identity": "Existing fixed Counter class_contexts[0].symbol root, four exact initialized pointer loads through class_info,virtual_tables,items,firstitem. Every address is bound to previous fresh pointer+proved field offset on each side, final value to actual argument. No frozen heap identity or recursive object dump."
+      },
+      "original_raw": 8303860,
+      "native_raw": 1449280756,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      507920,
+      507940
+    ],
+    "argument_bytes": 8,
+    "proof": "No frame/save: iteratorESP+4/tableESP+8, writes table at0 and index0 at+4, leaves member+8 untouched, RET8. Caller never consumes residual EAX; no declared semantic return or hidden/register input. Complete raw caller loads tag.class_info+32,virtual_tables+8,first_vector_item items+8/index0 then pushes table before LEA iterator; exact4-link owner path rooted in previously proved retained Counter tag.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "e67c70e3dfe9c5706280b8bd06b61652a3ad392c4296ca28f2ea57514795b8ad",
+  "capture_timing": {
+    "original_capture_seconds": 1.8197984602302313,
+    "native_capture_seconds": 0.2161159235984087,
+    "total_operation_seconds": 2.340912524610758
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "b2153332d87e583c49c05a5e593fbf705e87128b6ada302c20f9eccd6aaefdd1",
+    "native-commands.gdb": "56999b8cbcc18c21529fdd856d228be7c152bd9ab413b6f9f550de0316dac4b0",
+    "native-gdb.log": "e24653e6615f30edd683a58e0c24bc6caaaf2dff46f7e559d745bbe628a2ea43",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "ea7c685d906d965aa7e766951d8165f28a937de64eb221ffa2ae0cf9cfa3b11a",
+    "original-configuration.json": "a0a36a27806b31359cf2e817192e67076908497635ab4b4516d684e7b8660911",
+    "original-disassembly.txt": "b0d8d4acb23aed3a089f854af2bb18b98b201e984da9fe3a62210e3f590b53a2",
+    "original-entries.plan": "b98e5da6dd5c85bff387baa2429b329b7bd9ec5c6287b3951457e7671c06735b",
+    "original-events.txt": "b3293e7f6b1dbf9a1afb940ea718afdf92450ba3ef0887206f19783c800432fe",
+    "original-ownership-caller-disassembly.txt": "1a247c01d6580c7e8e691df62305641d2ca08af9eefc2119569296a3a248ad5e",
+    "original-receipt.json": "b01e2d3fa07e063a9a0d56c92e9616e812a968ec0a0932ee1a3ee259c258f8d6",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "d49cfcf0b184c5f9c6eda6915dfb3d29dc3ed004fdece21f57a0e65e524314ff"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

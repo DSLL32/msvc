@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "b55b1254146d429c54a7264756c4df0a378803a41bfc54539afe2d3ff1a2402e",
+    "functions.json": "4d25425beb96433b6f3d967d6ca0ef515e180f1f466dd58473f91436afa6fd97",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "f8e74bb755de6a51d7a11e72d9f49c0909d97dc7fbfa226ca7eb765e95712506",
-    "cases/canonical-map.txt": "8f5ba9ebf51b0bb639ba51ece4ad41d88c47e66b3190e4d23c1ed571206c22fc",
+    "cases/original-entry-references.json": "b4f61f9baf22c1a2bcc95c4cc7d16d9f5a4e7d9f6fc7d5f3a97bcf0617a1ff96",
+    "cases/canonical-map.txt": "19951c728628db05f74ba3e417165adb98ea1f03bd7352202ae63f23d0a4e26e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1095-emit_debug_vshape-4/entry-reference/original-receipt.json": "145cfd534d97c160b495163260cfe60d92fa9763590660c530d2da8ecbc881cd",
-    "cases/frontiers/state_machine_debug/1095-emit_debug_vshape-4/entry-reference/original-events.txt": "b74d680f1f489a7c1503463b2522c2f52fb21613ae64580a33def7f8873218f9",
-    "cases/frontiers/state_machine_debug/1095-emit_debug_vshape-4/entry-reference/original-entries.plan": "4b98007a6d4bb99665c368922c34dae79587621731234f6e8b8b4d83f94ef544"
+    "cases/frontiers/state_machine_debug/1096-begin_virtual_entries-8/entry-reference/original-receipt.json": "7c4fbe361e852b7010fdcf6688385d586c666c9724084a43fcfa9ac0e71df481",
+    "cases/frontiers/state_machine_debug/1096-begin_virtual_entries-8/entry-reference/original-events.txt": "7875794f2a836741ff962524673c1bb3926a4381b0f0e01af156c270f9c8aac4",
+    "cases/frontiers/state_machine_debug/1096-begin_virtual_entries-8/entry-reference/original-entries.plan": "b40302ba77db466f1e9edd3dab4b7dcccf7fe4cfe2775458902f80d5e8d1564e"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -523,7 +523,7 @@
     },
     "begin_virtual_entries": {
       "logical": "_begin_virtual_entries@8",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "begin_while_body": {
       "logical": "_begin_while_body",
@@ -6571,7 +6571,8 @@
     "count_emitted_overloads",
     "debug_member_name_length",
     "write_debug_member_name",
-    "emit_debug_vshape"
+    "emit_debug_vshape",
+    "begin_virtual_entries"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10684,7 +10685,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1096,
+      "last": 1097,
       "seen": [
         "main",
         "message_text",
@@ -11689,12 +11690,13 @@
         "debug_member_name_length",
         "write_debug_member_name",
         "emit_debug_vshape",
-        "begin_virtual_entries"
+        "begin_virtual_entries",
+        "next_virtual_entry"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_begin_virtual_entries@8",
-        "native": "begin_virtual_entries",
+        "logical": "_next_virtual_entry@4",
+        "native": "next_virtual_entry",
         "signal": 5
       }
     }

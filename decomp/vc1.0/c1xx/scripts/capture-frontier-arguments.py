@@ -5,6 +5,7 @@ The original observer defaults to four words, with an explicit six-word option.
 Unsupported transport holds rather than guessing registers or dumping objects.
 """
 import argparse
+from virtual_table_owner import validate as validate_virtual_table_owner
 from unused_conversion_text import validate as validate_unused_conversion_text
 import hashlib
 import importlib.util
@@ -74,6 +75,8 @@ def main():
             assert item['original_raw'] & mask == item['native_raw'] & mask
         elif binding['kind'] == 'unused-conversion-text':
             validate_unused_conversion_text(name, item, anchors, checkpoint, words)
+        elif binding['kind'] == 'class-first-virtual-table':
+            validate_virtual_table_owner(name, item, anchors, checkpoint, words)
         elif binding['kind'] == 'null-pointer':
             assert item['original_raw'] == item['native_raw'] == 0
         elif binding['kind'] == 'object-offset':

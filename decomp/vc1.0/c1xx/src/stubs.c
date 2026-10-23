@@ -626,5 +626,4 @@ void split_debug_field_record(unsigned char kind, void *subject, unsigned first,
 unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { __asm { int 3 } return 0; }
 unsigned pad_debug_field(unsigned char *destination, unsigned length) { __asm { int 3 } return 0; }
 
-void __stdcall begin_virtual_entries(VirtualEntryIterator *iterator, VirtualTable *table) { __asm { int 3 } }
 int __stdcall next_virtual_entry(VirtualEntryIterator *iterator) { __asm { int 3 } }

@@ -9,6 +9,14 @@
 #include "constructor-initializers.h"
 #include <recon.h>
 
+/* Original 0x7c010..0x7c024. The current-member output is left
+   untouched until the first successful advance. */
+void __stdcall begin_virtual_entries(VirtualEntryIterator *iterator, VirtualTable *table)
+{
+    iterator->table = table;
+    iterator->index = 0;
+}
+
 /* Original 0x7c0e0..0x7c0f3. Keep the original signed-short vector count. */
 short __stdcall class_virtual_table_group_count(CppSymbol *tag)
 {

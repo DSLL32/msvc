@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "function": "_begin_virtual_entries@8",
+  "native_entry": "begin_virtual_entries",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    457840,
+    457973
+  ],
+  "native_caller_locals": {
+    "caller_iterator": {
+      "frame": 1,
+      "function": "emit_debug_vshape",
+      "local": "iterator",
+      "address_of": true,
+      "address_only": true
+    }
+  },
+  "native_expressions": {
+    "raw_iterator": "(unsigned)iterator",
+    "raw_table": "(unsigned)table",
+    "class_root": "(unsigned)(class_contexts[0].symbol)",
+    "class_root_address": "(unsigned)&(class_contexts[0].symbol)",
+    "class_info": "(unsigned)(class_contexts[0].symbol->detail.class_info)",
+    "class_info_address": "(unsigned)&(class_contexts[0].symbol->detail.class_info)",
+    "virtual_tables": "(unsigned)(class_contexts[0].symbol->detail.class_info->virtual_tables)",
+    "virtual_tables_address": "(unsigned)&(class_contexts[0].symbol->detail.class_info->virtual_tables)",
+    "table_items": "(unsigned)(class_contexts[0].symbol->detail.class_info->virtual_tables->items)",
+    "table_items_address": "(unsigned)&(class_contexts[0].symbol->detail.class_info->virtual_tables->items)",
+    "first_table": "(unsigned)(class_contexts[0].symbol->detail.class_info->virtual_tables->items[0])",
+    "first_table_address": "(unsigned)&(class_contexts[0].symbol->detail.class_info->virtual_tables->items[0])",
+    "class_contexts_address": "(unsigned)class_contexts"
+  },
+  "original_observations": [
+    {
+      "name": "class_root",
+      "original": 573948
+    },
+    {
+      "name": "class_info",
+      "original": 8301732
+    },
+    {
+      "name": "virtual_tables",
+      "original": 8301748
+    },
+    {
+      "name": "table_items",
+      "original": 8303852
+    },
+    {
+      "name": "first_table",
+      "original": 8303856
+    }
+  ],
+  "formals": [
+    {
+      "name": "iterator",
+      "stack_index": 0,
+      "native_field": "raw_iterator",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 392353,
+        "original_owner_function": "_emit_debug_vshape@4",
+        "native_owner_function": "emit_debug_vshape",
+        "native_owner_field": "caller_iterator",
+        "native_owner_local": "iterator",
+        "native_owner_address": true,
+        "output_only": true,
+        "identity": "LEA EAX,[ESP+10]6fc97 after tablepush yields real caller iterator local; PUSHEAX6fc9b/CALL6fc9c return6fca1. Native immediate caller iterator address only; no uninitialized output member/padding prestate read."
+      }
+    },
+    {
+      "name": "table",
+      "stack_index": 1,
+      "native_field": "raw_table",
+      "binding": {
+        "kind": "class-first-virtual-table",
+        "root_address": 573948,
+        "path": [
+          "class_root",
+          "class_info",
+          "virtual_tables",
+          "table_items",
+          "first_table"
+        ],
+        "offsets": [
+          32,
+          8,
+          8,
+          0
+        ],
+        "identity": "Existing fixed Counter class_contexts[0].symbol root, four exact initialized pointer loads through class_info,virtual_tables,items,firstitem. Every address is bound to previous fresh pointer+proved field offset on each side, final value to actual argument. No frozen heap identity or recursive object dump."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      507920,
+      507940
+    ],
+    "argument_bytes": 8,
+    "proof": "No frame/save: iteratorESP+4/tableESP+8, writes table at0 and index0 at+4, leaves member+8 untouched, RET8. Caller never consumes residual EAX; no declared semantic return or hidden/register input. Complete raw caller loads tag.class_info+32,virtual_tables+8,first_vector_item items+8/index0 then pushes table before LEA iterator; exact4-link owner path rooted in previously proved retained Counter tag."
+  }
+}
