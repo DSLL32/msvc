@@ -873,3 +873,11 @@ remain unsupported; the separately applied1252 profile does not enable this API.
 The original reference probe records its ordinary startup ACP1252 state, then
 establishes CP0 with _setmbcp(0) before measured calls. Its prior rejected startup
 attempt remains retained. Run make -j4 mb-strstr-check (native only).
+
+RECON_NATIVE_STARTUP_WATCOM_100A_FP is a separate native HOST startup option.
+It uses the existing control87 translator once before main to select PC53 and
+affine infinity (architecturalCW127f), matching the observed Watcom initializer's
+FINIT/FLDCW127f chain. It preserves native status/tags, pointers/selectors and
+all register payloads; no captured transport bits or instruction pointers are
+installed. It does not implement target Watcom _control87 semantics or change
+default startup. The existing MSCRT53-bit-only option retains its behavior.

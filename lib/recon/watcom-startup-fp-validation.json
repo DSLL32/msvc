@@ -1,0 +1,76 @@
+{
+  "rows": [
+    {
+      "compiler": "gcc",
+      "profile": "default",
+      "build_seconds": 1.245734010823071,
+      "execution_seconds": 0.0016730818897485733,
+      "exe_sha256": "0a48cf86d450dd60d505a36a66b20cb79c1fc8a6ea74c177f07a34e6ea3f7ea9"
+    },
+    {
+      "compiler": "gcc",
+      "profile": "watcom",
+      "build_seconds": 1.2896924074739218,
+      "execution_seconds": 0.0018052319064736366,
+      "exe_sha256": "3289b6c5839ef9dddffb1b208a5bac7ad24b94ede2804a85a3c287f1c5e74a33"
+    },
+    {
+      "compiler": "clang",
+      "profile": "default",
+      "build_seconds": 1.395063167437911,
+      "execution_seconds": 0.0016144849359989166,
+      "exe_sha256": "5187f1b292d4100ea4056a3d0ca9ebad35e401b1817f6f0c02f1bc7919136b6a"
+    },
+    {
+      "compiler": "clang",
+      "profile": "watcom",
+      "build_seconds": 1.460297162644565,
+      "execution_seconds": 0.0021529411897063255,
+      "exe_sha256": "982f53aba29f650150ec5576e1947c52667a7e47a30d57ec257fa59746e70b02"
+    }
+  ],
+  "inputs": {
+    "src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "tests/watcom-startup-fp-probe.c": "e25e5489b856a7ed79875c0a3e562c799c34f04c79ea2f1dc783d3f3aea12977"
+  },
+  "compiled_shared_inputs": {
+    "src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "src/crt.c": "0456e633ae5b7ab7d4d5f5e7fff7f445fbe741c50ba838d4704799ef3bf16a89",
+    "src/process.c": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+    "src/compat.c": "50d9eb568e94117775ee26aeb7cd217d82f5c102665e99fceb8108c1c70a219a",
+    "src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "src/win32.c": "4824c85b7503254bf4bf91ee78d5c7f80c4db838563ba2ccd2bfb6a5b2fc8ace",
+    "src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "include/recon.h": "12cf9ad20b3477ef06f06bdc5d6f5b141adfb3778fa11681ec9b10a003c011bb",
+    "include/win32.h": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+    "include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+    "native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+    "native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "native/setjmp.h": "042e72bae39e6d5ae71483c71890e556f65678b2be895f1771afa365a6b82903",
+    "native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+    "native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/watcom-startup-fp-independent.json",
+    "sha256": "53fbb8ed3f00ab4a06bb2bbffce3a3d78eba9dd6f1f191e822d1981361653f84"
+  },
+  "original_chain": "__chk8087 initializer41984d\u2192419819;419838 loadsWORD[420ab8]=127f;41a777 FINIT\u219241a77a FLDCW[ESP]\u219241a784 RET",
+  "actual_original": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/main-prefix/run-01/events.txt",
+    "sha256": "a4f641651dfb1c1d4181a33042ad29eb3f00cdad45d291db02c128f94faae6d7",
+    "architectural_control": "127f",
+    "status": "0000",
+    "tag": "ffff"
+  },
+  "affected_checks": "Shared new/default startup and existing init/entry53 checks passed; Watcom heap WIP remains uncalled"
+}

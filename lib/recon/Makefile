@@ -454,3 +454,12 @@ build/mb-strstr-probe: tests/mb-strstr-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mb-strstr-probe.c $(SOURCES) -o $@
 mb-strstr-check: build/mb-strstr-probe
 	$(PYTHON) tests/check-mb-strstr.py build/mb-strstr-probe
+
+.PHONY: watcom-startup-fp-check
+build/watcom-startup-fp: tests/watcom-startup-fp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP tests/watcom-startup-fp-probe.c $(SOURCES) -o $@
+build/watcom-startup-fp-default: tests/watcom-startup-fp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/watcom-startup-fp-probe.c $(SOURCES) -o $@
+watcom-startup-fp-check: build/watcom-startup-fp build/watcom-startup-fp-default
+	./build/watcom-startup-fp
+	./build/watcom-startup-fp-default

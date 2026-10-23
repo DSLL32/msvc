@@ -1,10 +1,16 @@
 /* Proven original CRT precision initialization for native direct-main hosts. */
-#if defined(RECON_NATIVE_TEST) && defined(__linux__) && defined(RECON_NATIVE_STARTUP_CONTROLFP_53)
+#if defined(RECON_NATIVE_TEST) && defined(__linux__) && (defined(RECON_NATIVE_STARTUP_CONTROLFP_53) || defined(RECON_NATIVE_STARTUP_WATCOM_100A_FP))
 #define RECON_SHIM_IMPL
 #include <recon.h>
 static void __attribute__((constructor(103))) initialize_direct_main_precision(void)
 {
+#if defined(RECON_NATIVE_STARTUP_WATCOM_100A_FP)
+    /* Watcom's proved startup loads127f:53-bit precision and affine infinity.
+     * Change only these control bits; native status/tags/payload stay native. */
+    (void)recon_control87(_PC_53|_IC_AFFINE,_MCW_PC|_MCW_IC);
+#else
     (void)recon_controlfp(0x10000,0x30000);
+#endif
 }
 #endif
 
