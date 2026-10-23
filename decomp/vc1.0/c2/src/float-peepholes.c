@@ -808,3 +808,64 @@ void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstr
     FP_SET_WIDTH(last, FP_WIDTH(first));
     remove_machine_instruction(first);
 }
+
+/* Original [00038810,00038ade). Reuse a popped memory value across a
+   reload and compatible floating memory arithmetic. The initial store can
+   then remain on the stack and the reload becomes reversed arithmetic.
+   Integer records may intervene; flow boundaries and visible labels stop
+   the scan. Return the original cursor position required by the driver. */
+MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instruction)
+{
+    MachineInstruction *scan, *load = 0, *arithmetic = 0, *next;
+    MachineOperand *destination = &instruction->operands[0];
+    unsigned operation;
+    int disabled = 0, matched = 0, multiplicative = 0;
+    if (!FP_MEMORY(destination) || FP_WIDTH(instruction) == 10) return instruction;
+    scan = instruction->next;
+    while (scan) {
+        if (FP_BARRIER(scan) || disabled) break;
+        if (matched) break;
+        if (!FP_ELIGIBLE(scan)) {
+            scan = scan->next;
+            continue;
+        }
+        operation = FP_OPERATION(scan);
+        if (!FP_X87_CODE(scan) || !FP_MEMORY(&scan->operands[1])) {
+            disabled = 1;
+            continue;
+        }
+        if (!load) {
+            if (operation != MC_FLD || FP_WIDTH(scan) == 10) disabled = 1;
+            load = scan;
+            scan = scan->next;
+            continue;
+        }
+        if (!arithmetic) {
+            if (operation < MC_FADD || operation > MC_FDIV) disabled = 1;
+            else multiplicative = operation != MC_FADD && operation != MC_FSUB;
+            arithmetic = scan;
+            if (operands_equal(destination, &scan->operands[1])) matched = !disabled;
+            else scan = scan->next;
+            continue;
+        }
+        if (operation < MC_FADD || operation > MC_FDIV ||
+            operation == MC_FSUBR || operation == MC_FDIVR ||
+            ((operation == MC_FADD || operation == MC_FSUB) && multiplicative) ||
+            ((operation == MC_FMUL || operation == MC_FDIV) && !multiplicative)) {
+            disabled = 1;
+            continue;
+        }
+        if (operands_equal(destination, &scan->operands[1])) matched = 1;
+        else scan = scan->next;
+    }
+    if (matched) {
+        FP_SET_OPERATION(instruction, MC_FST);
+        /* Original82e7c + ISA*4 selects82f90..82fa8, the same six
+           reversal relationships already independently value-checked. */
+        FP_SET_OPERATION(load, FP_FORMS(scan).reversed);
+        next = scan->next;
+        remove_machine_instruction(scan);
+        scan = next;
+    }
+    return scan ? scan->previous : instruction;
+}

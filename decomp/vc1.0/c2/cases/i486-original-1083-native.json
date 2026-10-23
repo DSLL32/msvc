@@ -1,0 +1,12 @@
+{
+  "logical": "@register_precedes_lea@8",
+  "matched": true,
+  "executable_sha256": "e7e20fca71fc49027f0d660169d4ec7a2f2d209e9ea5d47e67c6ba8086057a7b",
+  "config_sha256": "352f88405f890183e6391c07a3c491200c90f90bf0c182d7139ed87a029933ef",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+  "setup_seconds": 0.006046970374882221,
+  "execution_seconds": 0.1342420158907771,
+  "seconds": 0.1496010133996606,
+  "log_sha256": "b6e63ab389afcde523150ad1f6ef4c2e9ccd75a53f92f78a45fe236e111e9340",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/i486-gdb-2jajtjsr"
+}

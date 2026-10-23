@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "initializer-symbols",
-      "seconds": 1.9569112276658416,
+      "module": "physical-conflicts",
+      "seconds": 2.048939673230052,
       "returncode": 0
     }
   ],
-  "seconds": 1.9571182588115335
+  "seconds": 2.049156976863742
 }

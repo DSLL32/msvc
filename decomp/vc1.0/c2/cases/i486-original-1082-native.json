@@ -1,0 +1,12 @@
+{
+  "logical": "@rewrite_i486_float_pop@4",
+  "matched": true,
+  "executable_sha256": "52dac8033fe468de294540c9326b4e88706a17829c10c7df38546c4fce8eb390",
+  "config_sha256": "556803b6ea7aa59034936254acc5be9b85b6a605af89a32cfc0329a9fd8877ee",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\i486",
+  "setup_seconds": 0.006009149365127087,
+  "execution_seconds": 0.1290527330711484,
+  "seconds": 0.15097497683018446,
+  "log_sha256": "5123f2492cc4c2f44c524625fe4a4081d1b6f8048b5857b8971831645cb318d1",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/i486-gdb-vhxq4a9o"
+}

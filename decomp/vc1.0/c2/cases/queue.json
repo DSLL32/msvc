@@ -172,7 +172,7 @@
       "case": "i486-floating",
       "after": "x87-stack",
       "phase": "c2",
-      "status": "queued",
+      "status": "active",
       "flags": [
         "/O2",
         "/G4"

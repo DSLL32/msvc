@@ -235,7 +235,6 @@ void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
 
 
 
-int __fastcall is_boundary_flow_label(Node *node) { __asm int 3 }
 
 void __fastcall add_protected_flow_edge(WorkItem *work, WorkItem *successor) { __asm int 3 }
 void __fastcall visit_machine_symbols(MachineInstruction *instruction, MachineSymbolVisitor visitor, void *context) { __asm int 3 }
@@ -300,8 +299,6 @@ void __fastcall record_machine_definition_range(unsigned short number, MachineIn
 void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use) { __asm int 3 }
 void record_debug_register_locations(void) { __asm int 3 }
 int __fastcall function_allows_frame_register(Function *function) { __asm int 3 }
-int __fastcall register_precedes_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
-int __fastcall register_follows_lea(MachineInstruction *instruction, unsigned short number) { __asm int 3 }
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 
@@ -367,7 +364,6 @@ int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm i
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
 void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }
-MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_return(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }

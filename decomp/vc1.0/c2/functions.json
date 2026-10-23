@@ -1085,7 +1085,11 @@
     "@lookup_runtime_intrinsic_opcode@8",
     "@can_keep_float_store@12",
     "@find_float_register_reload@12",
-    "@initializer_symbols_available@4"
+    "@initializer_symbols_available@4",
+    "@is_boundary_flow_label@4",
+    "@rewrite_i486_float_pop@4",
+    "@register_precedes_lea@8",
+    "@register_follows_lea@8"
   ],
   "driver": [
     {
@@ -4410,8 +4414,7 @@
     {
       "name": "@is_boundary_flow_label@4",
       "start": 372432,
-      "end": 372433,
-      "provisional": true
+      "end": 372480
     },
     {
       "name": "@canonical_flow_label@4",
@@ -5495,14 +5498,12 @@
     {
       "name": "@register_precedes_lea@8",
       "start": 182304,
-      "end": 182305,
-      "provisional": true
+      "end": 182384
     },
     {
       "name": "@register_follows_lea@8",
       "start": 182208,
-      "end": 182209,
-      "provisional": true
+      "end": 182290
     },
     {
       "name": "@allocation_operand_cost@28",
@@ -7108,8 +7109,7 @@
     {
       "name": "@rewrite_i486_float_pop@4",
       "start": 231440,
-      "end": 231441,
-      "provisional": true
+      "end": 232158
     },
     {
       "name": "_initialize_float_stream_context",
@@ -7510,6 +7510,12 @@
       "accepted_from": 1071,
       "fixture_manifest": "../fixtures/c2-x87-stack/manifest.json",
       "fixture_manifest_sha256": "d64118f64de5cfdd7f9631c197e4e772843979666987237cff203f77261187a2"
+    },
+    "i486": {
+      "arguments": "",
+      "accepted_from": 1081,
+      "fixture_manifest": "../fixtures/c2-i486-floating/manifest.json",
+      "fixture_manifest_sha256": "4a3a84231b4893fc9fca815bb807f2fa3907f172c42ade65c2a0387df5ecc387"
     }
   },
   "crt_defaults": {

@@ -212,3 +212,13 @@ LabelSymbol *new_internal_label(void)
     insert_symbol(&label->symbol, 1);
     return label;
 }
+
+/* Original [0005aed0,0005af00). Protected labels and the original
+   external/storage classes terminate adjacent-label folding. */
+int __fastcall is_boundary_flow_label(Node *node)
+{
+    LabelSymbol *label = (LabelSymbol *)node->right.symbol;
+    int storage = (signed char)label->symbol.field0d;
+    if (label->label_kind == 4) return 1;
+    return storage == 0 || (storage >= 5 && storage <= 7) || storage == 12;
+}

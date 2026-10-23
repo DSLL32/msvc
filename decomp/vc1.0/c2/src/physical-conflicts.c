@@ -120,7 +120,7 @@ void __fastcall record_operand_conflicts(WorkItem *work, MachineInstruction *ins
 
 /* Original [0002bf40,0002bff0). Physical registers need no spill cost.
    Weight each virtual operand's cost by loop depth, saturating at30000.
-   The i486 LEA-pair exceptions avoid charging a foldable address twice. */
+   The i486 adjacent-PUSH exceptions avoid charging a paired value twice. */
 void __fastcall record_allocation_operand(MachineInstruction *instruction, unsigned short number,
     int annotation, int operand_index, int depth)
 {
@@ -286,4 +286,40 @@ void __fastcall remove_register_conflict(unsigned short left, unsigned short rig
          link = &(*link)->next) {}
     *link = (*link)->next;
     --right_variable->degree;
+}
+
+/* Original [0002c820,0002c870). The provisional name came from the
+   i486 conflict heuristic; the recovered test is specifically a following
+   PUSH of the same complete register operand, not an LEA. */
+int __fastcall register_precedes_lea(MachineInstruction *instruction,
+    unsigned short number)
+{
+    MachineInstruction *following;
+    unsigned kind;
+    if ((instruction->operands[0].flags & 15) != OPERAND_REGISTER ||
+        instruction->operands[0].value.reg.words.number != number) return 0;
+    following = instruction->next;
+    kind = following->opcode & 15;
+    if ((kind == 0 || kind == 8 || kind == 9 || kind == 10) &&
+        ((following->opcode >> 8) & 255) == MC_PUSH &&
+        operands_equal(&instruction->operands[0], &following->operands[0]))
+        return 1;
+    return 0;
+}
+
+/* Original [0002c7c0,0002c812). Companion of the provisionally named
+   register_precedes_lea: the current instruction must be PUSH and its
+   previous eligible instruction must name the same complete register. */
+int __fastcall register_follows_lea(MachineInstruction *instruction,
+    unsigned short number)
+{
+    MachineInstruction *previous = instruction->previous;
+    unsigned kind = previous->opcode & 15;
+    if ((kind == 0 || kind == 8 || kind == 9 || kind == 10) &&
+        (previous->operands[0].flags & 15) == OPERAND_REGISTER &&
+        previous->operands[0].value.reg.words.number == number &&
+        ((instruction->opcode >> 8) & 255) == MC_PUSH &&
+        operands_equal(&instruction->operands[0], &previous->operands[0]))
+        return 1;
+    return 0;
 }
