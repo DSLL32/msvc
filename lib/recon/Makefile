@@ -340,3 +340,9 @@ build/searchenv-probe: tests/searchenv-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 searchenv-check: build/searchenv-probe
 	$(PYTHON) tests/check-searchenv.py build/searchenv-probe
+
+.PHONY: return8-check
+build/return8-probe: tests/return8-callee.c tests/return8-caller.c tests/return8-shape.h $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/return8-callee.c tests/return8-caller.c $(SOURCES) -o $@
+return8-check: build/return8-probe
+	$(PYTHON) tests/check-return8.py build/return8-probe

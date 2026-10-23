@@ -1,0 +1,46 @@
+{
+  "scope": "Root-approved explicit eight-byte aggregate register-return transport only. Original Win32 period type/ordinary return+assignment; native uint64 carrier plus constant8 builtin memcpy. No field initialization/helper function/assembly/global compiler flag.",
+  "macros": [
+    "RECON_RETURN8_TYPE(type)",
+    "RECON_RETURN8(addressable_value) includes return statement",
+    "RECON_ASSIGN_RETURN8(destination,call)"
+  ],
+  "exact_type_basis": [
+    "decomp/vc1.0/c1/src/parser.h ParserValue containing nested DeclarationSpec char[3],char,pointer",
+    "decomp/vc1.0/c1/src/lexer.h TokenValue/StringToken nested union members"
+  ],
+  "original_probe": {
+    "scope": "Explicit originalVC1.0 exact nested mixed ParserValue8 return/call ABI probe, ordinary Win32 macro expansions",
+    "seconds_build_run": 2.0127665139734745,
+    "files": {
+      "callee.c": "9acc9ef02caebedd48d844ee769367faabee04ed991cecc840f8b573ab25cd1e",
+      "pair.h": "ffb7681f3af5246772e5d4a06798f8f6b2aed8fecc9d14ba21b8124a920d61be",
+      "caller.obj": "1e4b460ef77bcf4e427692c1f03499ff43b7221e35c5fe1a48b5dc9c4e91a47b",
+      "probe.exe": "8d8d67ce8d0ca4dbf522cc0bbffde5661fabeb8aecf696c79bef5ee20ed1db4f",
+      "caller.c": "ea4fd8c4c9f00cf53dc0903d40567262880e5899f93a34cb0b5ec7373dfa34d9",
+      "callee.obj": "ea19bce81da0bfd6465991d8c2c0064cb938f4087c73dbcec5146410584aa8ab",
+      "stdout.bin": "cc7b3ffdbbab9aa43c2c5a0167b82e4550eeeb1e8b7b6e05387b2c7c13e0e242",
+      "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "shared_header_sha256": "a94c77f7aa006d5cb392df604ccf698eff6100308f30bf5e82deef7050abc65a"
+  },
+  "original_disassembly_sha256": "14813a7f77b5ce546da4b75f26319e6a6e4d7279dbcbe87e84c5bcebc7c2eeb4",
+  "native": [
+    {
+      "compiler": "gcc",
+      "status": 0,
+      "object_sha256": "b56c6a7363d90f5bf03084b9703d10f1c5fcef150ddd225a22511107b3c5b905",
+      "disassembly_sha256": "f2e057502b82414b59841baae2d7621a98087f26a59d3a02766d65156515d369",
+      "stdout_sha256": "cc7b3ffdbbab9aa43c2c5a0167b82e4550eeeb1e8b7b6e05387b2c7c13e0e242"
+    },
+    {
+      "compiler": "clang",
+      "status": 0,
+      "object_sha256": "e9374606a3187e4f7cfa2ce8855c8a5ee5a1d96c9c70e5f2edb52d027e06ef73",
+      "disassembly_sha256": "d2c3e22bcaac3539d32414ca7eab08a57ca0f367d79be233a18acb8891c318bd",
+      "stdout_sha256": "cc7b3ffdbbab9aa43c2c5a0167b82e4550eeeb1e8b7b6e05387b2c7c13e0e242"
+    }
+  ],
+  "native_controls": "Both compilers prove return-object expression evaluated once, call expression once, destination expression once. Wrong-size return and assignment fail compilation. Both native callee objects have RET4/EDX:EAX result and no memcpy/memmove helper relocation.",
+  "integration_limit": "C1 recovery_token_value plus sole caller only until its actual mixed-union input/return/definedness and affected fixtures pass; asm_recovery_value unchanged. Shared macros do not confer application function acceptance."
+}

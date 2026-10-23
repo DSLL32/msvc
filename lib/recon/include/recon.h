@@ -4,10 +4,27 @@
 /* VC5 expresses this convention implicitly on C++ members. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define RECON_THISCALL __attribute__((thiscall))
+/* Use only for an independently proved 8-byte EDX:EAX return ABI. The
+ * return object is addressable; sizeof checks never read/initialize its fields. */
+#define RECON_RETURN8_TYPE(type) uint64_t
+#define RECON_RETURN8(value) do { \
+    uint64_t _recon_return8_bits; \
+    typedef char _recon_return8_size[(sizeof(value)==8)?1:-1] __attribute__((unused)); \
+    __builtin_memcpy(&_recon_return8_bits,&(value),8); \
+    return _recon_return8_bits; \
+} while (0)
+#define RECON_ASSIGN_RETURN8(destination,call) do { \
+    uint64_t _recon_return8_bits=(call); \
+    typedef char _recon_return8_size[(sizeof(destination)==8)?1:-1] __attribute__((unused)); \
+    __builtin_memcpy(&(destination),&_recon_return8_bits,8); \
+} while (0)
 #else
 #define RECON_THISCALL
+#define RECON_RETURN8_TYPE(type) type
+#define RECON_RETURN8(value) return (value)
+#define RECON_ASSIGN_RETURN8(destination,call) ((destination)=(call))
 #endif
-/* Empty in the canonical Win32 build. Include last, after ordinary includes. */
+/* Native remaps are disabled in canonical Win32. Include last. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 /* Consume host declarations before any token remapping. Project headers may
  * include this header before their caller has finished its own include list. */

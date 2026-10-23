@@ -628,3 +628,17 @@ sets errno/DOS/LastError2; a later successful check preserves that result.
 Only the candidate text and NUL are written; caller buffer tails remain intact.
 Lists, quotes, unavailable candidates, current-directory successes and other
 unreviewed paths fail closed. The function does not hardcode a file or variable.
+
+Proved eight-byte aggregate register returns
+------------------------------------------
+Only where original ABI evidence proves EDX:EAX, use
+RECON_RETURN8_TYPE(PeriodType) for the declaration/definition return type,
+RECON_RETURN8(value) inside the function, and
+RECON_ASSIGN_RETURN8(destination, function_call(...)) at its caller.
+RECON_RETURN8 includes the return statement and requires an addressable8-byte
+object. The native macros copy exactly8 representation bytes through uint64_t
+with constant-size builtin memcpy; they initialize no payload fields and add
+no helper function or assembly. Return-object, destination and call expressions
+evaluate once; compile-time checks reject other sizes. Canonical Win32 retains
+the period type and ordinary return/assignment. This is an explicit ABI bridge,
+not a global aggregate-return compiler setting or an initialized-byte claim.
