@@ -574,3 +574,16 @@ void end_nested_initializer(void)
         emit_initializer_constant(0);
     }
 }
+
+/* Original 0x476f0..0x4772c. Accumulate the trailing bytes of implicit
+   levels and consume each until the owning explicit brace is restored. */
+unsigned finish_implicit_initializers(void)
+{
+    unsigned bytes = 0;
+    if (braced_initializer_depth < 0) return 0;
+    while (!(current_braced_initializer->flags & 1)) {
+        bytes += remaining_braced_initializer_bytes();
+        finish_braced_initializer_element();
+    }
+    return bytes;
+}

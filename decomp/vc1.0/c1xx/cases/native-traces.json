@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "07d6ffa571a6a55d57807dd2ad0ee0f44d759d739cb37e4f39c432df90b776aa",
+    "functions.json": "20deb2a06ee22902c49d371f6bf651ffcdc5f4e38e0cc94247502c3f4bd9a065",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "bb429e997f43e174261ee2ef4cec31c07c9af0da99456374b60d94b1b9ebba67",
-    "cases/canonical-map.txt": "41e2a9d8c8dd2b5908e85a9d0132e22e2854db1533a13d1c218b39e7b96556d4",
+    "cases/original-entry-references.json": "be6654f8f6fd6f2954a1e53a65adb80e18ae0b9fe54f65fdc03b9cb8003721ac",
+    "cases/canonical-map.txt": "8ddb55b55f650709fb23538c559ba44e2a927b7007bc28814c285842703f89d5",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1023-end_nested_initializer/entry-reference/original-receipt.json": "b6f575e6aacf33076228f09079cca681cd6b94a38c0e9a517dd63d9433a4d48b",
-    "cases/frontiers/state_machine_debug/1023-end_nested_initializer/entry-reference/original-events.txt": "9608ff9dc4948614c96028f5156e202611d84569e5bdb082b9569bfbbaa27a91",
-    "cases/frontiers/state_machine_debug/1023-end_nested_initializer/entry-reference/original-entries.plan": "9dc1425552a4e4604befdebc627bf35fc7e368d9e7630fde2b3bda227e47fdb7"
+    "cases/frontiers/state_machine_debug/1024-finish_implicit_initializers/entry-reference/original-receipt.json": "6ab8d752561b69d80178f16d7decdd12b30148b0986a9e3ed22471c3508a15aa",
+    "cases/frontiers/state_machine_debug/1024-finish_implicit_initializers/entry-reference/original-events.txt": "2fae072b499f45a04feea8eed4e02ff8e13fd22e7e1742dfb69f0f8984f8577a",
+    "cases/frontiers/state_machine_debug/1024-finish_implicit_initializers/entry-reference/original-entries.plan": "db60708100c35254b12b6292d80c09bb8fa054b5aff49304bdc8e3418198a49e"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2173,7 +2173,7 @@
     },
     "finish_implicit_initializers": {
       "logical": "_finish_implicit_initializers",
-      "source": "src/stubs.c"
+      "source": "src/braced-initializers.c"
     },
     "finish_implicit_statement_scope": {
       "logical": "_finish_implicit_statement_scope@8",
@@ -6234,7 +6234,8 @@
     "is_initializer_data_member",
     "finish_braced_initializer_element",
     "emit_initializer_constant",
-    "end_nested_initializer"
+    "end_nested_initializer",
+    "finish_implicit_initializers"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10346,7 +10347,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1024,
+      "last": 1025,
       "seen": [
         "main",
         "message_text",
@@ -11280,12 +11281,13 @@
         "finish_braced_initializer_element",
         "emit_initializer_constant",
         "end_nested_initializer",
-        "finish_implicit_initializers"
+        "finish_implicit_initializers",
+        "end_braced_initializer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_finish_implicit_initializers",
-        "native": "finish_implicit_initializers",
+        "logical": "_end_braced_initializer@4",
+        "native": "end_braced_initializer",
         "signal": 5
       }
     }

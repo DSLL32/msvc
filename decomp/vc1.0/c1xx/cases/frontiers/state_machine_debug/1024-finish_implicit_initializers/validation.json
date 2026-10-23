@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_implicit_initializers",
+    "start": 292592,
+    "end": 292652
+  },
+  "distinct_direct_callees": [
+    "_finish_braced_initializer_element",
+    "_remaining_braced_initializer_bytes"
+  ],
+  "next_frontier": "_end_braced_initializer@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.43502301909029484,
+  "total_operation_seconds": 3.000288619659841,
+  "original_capture_seconds": 0.7165627172216773
+}
