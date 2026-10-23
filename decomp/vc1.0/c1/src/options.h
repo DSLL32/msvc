@@ -181,6 +181,7 @@ int match_option(OptionRule *rules, char *argument, char *(*next)(void), int cop
 void fatal_error(unsigned code, ...);
 void finalize_options(void);
 void compiler_warning(unsigned category, unsigned code, ...);
+int effective_warning_level(unsigned level, unsigned code);
 extern int option_Au, option_Aw;
 extern char *current_option_argument;
 int prefix_character(char *characters, char c);

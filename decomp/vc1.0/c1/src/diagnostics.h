@@ -1,6 +1,7 @@
 #ifndef DIAGNOSTICS_H
 #define DIAGNOSTICS_H
 #include "frontend.h"
+void report_syntax_error_arguments(unsigned code, char *arguments);
 #include <recon.h>
 typedef struct DiagnosticMessagePosition {
     int code;

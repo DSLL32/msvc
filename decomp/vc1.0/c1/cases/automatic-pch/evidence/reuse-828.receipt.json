@@ -1,0 +1,66 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/automatic-pch",
+  "phase": "c1-reuse",
+  "unmasked": false,
+  "accepted_count": 828,
+  "accepted_sha256": "8b4dc194663749f3dfab3b18dbcd15cbb53ed5ab2255ea28468867bced9e6d94",
+  "executable_sha256": "2244693ae4d6908fdc99c95f6641fd10064c018382e818068aea39a2e1a7fd80",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "45cc03d417189b51d114ea35490a7e2005182f34f75d38b49add92010efc7b29",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\automatic-pch",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/automatic-pch",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05155458953231573,
+  "execution_seconds": 3.5452473433688283,
+  "total_seconds": 3.5968040926381946,
+  "files": [
+    {
+      "name": "case.h",
+      "bytes": 159,
+      "sha256": "b90f47f378032b83a5ee29582975876a7e2e76c20f87a3001de7dabba00cf536"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "state.pch",
+      "bytes": 38021,
+      "sha256": "5f95acb10d71e1256fa645354bf62e595db12343264705a297ce23d199b2f364"
+    },
+    {
+      "name": "test.c",
+      "bytes": 246,
+      "sha256": "916a2a7f1bc8222ca6b2e49e9c9ce45448670fa7a1fe99a6ed605c48897d43e1"
+    }
+  ]
+}

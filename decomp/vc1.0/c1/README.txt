@@ -1,15 +1,14 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Fifteen cases are complete: minimal C, optimized Win32 hello, DLL,
+Eighteen cases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
-assembly, browser output, /E, /EP, /P, preserved comments and /Zg prototypes.
-Automatic-PCH producer/reuser/changed-macro cases are active. Their current
-frontiers are finish_pch_capture, compare_work_stack and pch_replay_mismatch.
+assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
+and automatic-PCH creation, reuse and changed-macro rebuild.
 
-There are703 accepted source functions and824 accepted original entries.
-Accepted original extents cover214617/277234 code-section bytes (77.413665%):
-195438 frontend bytes,19011 CRT bytes and168 import-thunk bytes. This is a
+There are710 accepted source functions and833 accepted original entries.
+Accepted original extents cover215743/277234 code-section bytes (77.819820%):
+196494 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -31,13 +30,15 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/shared-prefix-validation.json records18 fresh original entry captures:
-all692 accepted application first entries are checked, with accepted-prefix
-seeding and exact expected order. Fifteen completed cases also check complete
-outputs; the three active phases compare named stops, pending FILE buffers,
-visible files and streams. The native cache is not silently refreshed.
-Regenerate it explicitly with scripts/native-traces.py --write after a verified
-original-toolchain map and acceptance metadata change.
+cases/original-entry-references.json binds18 completed case histories to fresh
+shared-prefix original first-entry captures. All699 accepted application entries
+are checked with accepted-prefix seeding and exact expected order. Every native
+case checks status, raw streams and complete artifacts. Earlier migration checks
+are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
+current all18 regression receipts are in cases/automatic-pch/validation.json.
+The native cache is not silently refreshed. Regenerate it explicitly with
+scripts/native-traces.py --write after a verified original-toolchain map and
+acceptance metadata change.
 
 Case                  irex  irsy  irin  irgl  Other outputs
 minimal                866    13     3    50
@@ -55,6 +56,9 @@ preprocessor-EP          -     -     -     -  stdout292
 preprocessor-P           -     -     -     -  test.i381
 comments                 -     -     -     -  stdout337
 prototypes               -     -     -     -  stdout360
+automatic-pch-create    179    67     6    77  state.pch38021
+automatic-pch-reuse     999    67     6    85  stdout26; state.pch unchanged
+automatic-pch-changed   179    67     6    77  state.pch38022
 
 All primary intermediates match raw bytes. Numeric stderr retains the captured
 line24 C4069 CRLF warning. Only identified timestamp DWORDs at irdb+14 and
@@ -88,8 +92,8 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check703 function graphs and instruction boundaries,
-279 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
+Original compiler audits check710 function graphs and instruction boundaries,
+280 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
 34216 gotos. The assembler audit checks136 states,6936 actions/errors,
@@ -107,7 +111,8 @@ that preserves registers, flags and floating state. The source also compiles
 with the original Win32 compiler; recon.h is empty there.
 
 The approved queue is cases/approved-queue.json. Comment preservation and
-prototype output are complete; automatic PCH continues next. Existing sources,
+prototype output and automatic PCH are complete. The worker is paused pending
+the next selected case. Existing sources,
 original options/environments, dependencies, outputs and acceptance ranges are
 durable. Independent grammar/layout/ABI analysis remains available in scripts/
 and cases/analysis/. Measured builds, setup, reference capture, native execution

@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56581d5b in effective_warning_level (level=4, code=699) at src/stubs.c:464
+464	int effective_warning_level(unsigned level, unsigned code) { __asm { int 3 } return 0; }

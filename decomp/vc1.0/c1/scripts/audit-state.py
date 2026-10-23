@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_automatic_pch_header",0x67370,56),
     ("_source_replay_stack",0x5b574,4),
     ("_source_buffer_cursor",0x6bffc,4),
     ("_pch_dependency_stack",0x6de18,4),

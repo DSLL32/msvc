@@ -1,0 +1,23 @@
+{
+  "buffers": {},
+  "frames": [],
+  "frontier": null,
+  "fresh_original_match": true,
+  "preparation_seconds": 0.004302991554141045,
+  "execution_seconds": 0.13983932230621576,
+  "total_seconds": 0.14692640490829945,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/create-828",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\automatic-pch"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+  },
+  "executable_sha256": "8441a7d9f9f8ab56b57022e59c217fd211d447c460524752a7323a1884b26ea1"
+}

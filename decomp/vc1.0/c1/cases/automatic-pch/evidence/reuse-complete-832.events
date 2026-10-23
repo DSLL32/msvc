@@ -1,0 +1,5 @@
+entry _compare_work_stack@12 rva 0001a130 byte 53
+entry _pch_replay_mismatch rva 000355e0 byte 81
+entry _effective_warning_level rva 0003ab90 byte 8b
+entry _pragma_message@4 rva 0000c290 byte 57
+exit 0

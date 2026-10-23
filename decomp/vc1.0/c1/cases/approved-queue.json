@@ -21,17 +21,18 @@
     {
       "case": "automatic-pch",
       "phase": "c1-create",
-      "status": "active; producer current frontier finish_pch_capture"
+      "status": "complete; raw exact; registered native case"
     },
     {
       "case": "automatic-pch",
       "phase": "c1-reuse",
-      "status": "queued after producer; current frontier compare_work_stack"
+      "status": "complete; raw exact; registered native case"
     },
     {
       "case": "automatic-pch",
       "phase": "c1-changed",
-      "status": "queued after reuser; current frontier pch_replay_mismatch"
+      "status": "complete; raw exact; registered native case"
     }
-  ]
+  ],
+  "terminal": "All approved families complete; pause before additional cases."
 }

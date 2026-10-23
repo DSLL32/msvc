@@ -72,8 +72,8 @@
       },
       "original_CL_arguments": "/nologo /YXcase.h /Fpstate.pch /Fetest.exe test.c",
       "reference": {
-        "receipt": "../shared-prefix-evidence/automatic-pch-create.receipt.json",
-        "events": "../shared-prefix-evidence/automatic-pch-create.events",
+        "receipt": "evidence/create-complete-828.receipt.json",
+        "events": "evidence/create-complete-828.events",
         "exact_environment": {
           "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I R:\\toolchains\\1.0-nt\\include "
         },
@@ -159,8 +159,8 @@
       },
       "original_CL_arguments": "/nologo /YXcase.h /Fpstate.pch /Fetest.exe test.c",
       "reference": {
-        "receipt": "../shared-prefix-evidence/automatic-pch-reuse.receipt.json",
-        "events": "../shared-prefix-evidence/automatic-pch-reuse.events",
+        "receipt": "evidence/reuse-complete-832.receipt.json",
+        "events": "evidence/reuse-complete-832.events",
         "exact_environment": {
           "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I R:\\toolchains\\1.0-nt\\include "
         },
@@ -252,8 +252,8 @@
       },
       "original_CL_arguments": "/nologo /YXcase.h /Fpstate.pch /Fetest.exe test.c",
       "reference": {
-        "receipt": "../shared-prefix-evidence/automatic-pch-changed.receipt.json",
-        "events": "../shared-prefix-evidence/automatic-pch-changed.events",
+        "receipt": "evidence/changed-complete-833.receipt.json",
+        "events": "evidence/changed-complete-833.events",
         "exact_environment": {
           "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I R:\\toolchains\\1.0-nt\\include "
         },
@@ -271,16 +271,19 @@
   "reconstruction": {
     "accepted_ranges": [
       {
+        "case": "automatic-pch-create",
         "accepted_from": 802,
-        "accepted_count": 824
+        "accepted_count": 828
       },
       {
-        "accepted_from": 824,
-        "accepted_count": 824
+        "case": "automatic-pch-reuse",
+        "accepted_from": 828,
+        "accepted_count": 832
       },
       {
-        "accepted_from": 824,
-        "accepted_count": 824
+        "case": "automatic-pch-changed",
+        "accepted_from": 832,
+        "accepted_count": 833
       }
     ],
     "acceptance_order": [
@@ -295,15 +298,30 @@
       "_replay_pch_directive",
       "_pch_resolve_condition@4",
       "_pch_record_include@4",
-      "_pch_file_mtime@4"
+      "_pch_file_mtime@4",
+      "__stat",
+      "_strpbrk",
+      "__getdrive",
+      "import:FindFirstFileA",
+      "import:FileTimeToSystemTime",
+      "import:FindClose",
+      "__dtoxmode",
+      "_strrchr",
+      "__stricmp",
+      "__strcmpi",
+      "_finish_pch_capture",
+      "_rename",
+      "import:MoveFileA",
+      "_report_declaration_context_error",
+      "_compare_work_stack@12",
+      "_pch_replay_mismatch",
+      "_effective_warning_level",
+      "_pragma_message@4",
+      "_rewind_source_file"
     ],
     "terminal": {
-      "kind": "trap",
-      "frontiers": {
-        "c1-create": "_finish_pch_capture",
-        "c1-reuse": "_compare_work_stack@12",
-        "c1-changed": "_pch_replay_mismatch"
-      }
+      "kind": "exit",
+      "status": 0
     }
   }
 }

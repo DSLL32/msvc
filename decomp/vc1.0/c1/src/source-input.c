@@ -342,3 +342,19 @@ void emit_line_directive(void)
     fwrite(line,length,1,preprocessor_stream);
     fwrite(token_text,end - token_text,1,preprocessor_stream);
 }
+
+/* Original0x1b620..0x1b67f. Restart the root file while retaining its
+   allocation and entry conditional depth, then prepend a logical newline. */
+void rewind_source_file(void)
+{
+    _lseek(root_input->handle,0,0);
+    source_line_number = 0;
+    root_input->saved_line = 0;
+    conditional_depth = root_input->saved_conditional_depth;
+    source_text_cursor = source_storage + 2;
+    root_input->available = 0;
+    root_input->offset = 0;
+    fill_source_buffer();
+    --source_text_cursor;
+    *source_text_cursor = '\n';
+}

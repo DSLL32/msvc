@@ -1,0 +1,44 @@
+{
+  "authorization": "Suggestions only; approved queue complete. No further case assigned.",
+  "remaining_original_code_extent_bytes": 61491,
+  "metric": "Remaining code-section bytes outside accepted extent union, including unknown application and runtime code; not branch coverage.",
+  "suggestions": [
+    {
+      "case": "Legacy embedded CodeView /Z7 with nested records, enums and function pointers; optional explicit PCH /Yd phase after switch validation.",
+      "grounding": [
+        "_write_legacy_record_type@12 at47f40",
+        "_write_legacy_field_list@12 at48300",
+        "_write_legacy_enum_type@4 at484f0",
+        "_emit_function_debug_type@4 at47800",
+        "_restore_pch_separate_debug at47430"
+      ],
+      "reason": "Exercises a substantial distinct debug writer family; current numeric case uses /Zi database output.",
+      "approximate_reachable_scope": "About4-5KiB in the legacy debug-type/PCH-support band; 4,462 of5,328 bytes at47630..48b00 are outside accepted extents. This is an analysis band estimate, not confirmed reachable whole-function coverage; symbol writers may add more."
+    },
+    {
+      "case": "Ordinary function inlining under supported /Ob1 or /Ob2, with several small callees and conditional early returns.",
+      "grounding": [
+        "_initialize_inline_queries at2e370",
+        "_begin_inline_region@4 at2e419",
+        "_record_inline_parameter@4 at2eab7",
+        "_emit_inline_jump@4 at2ed95",
+        "_find_inline_parameter_slot@12 at2ee64"
+      ],
+      "reason": "Most inline-region generation remains trapping; exact supported flags must first be validated on untouched CL.",
+      "approximate_reachable_scope": "About2-3KiB in the inline-region band; 2,592 of3,136 bytes at2e370..2efb0 are outside accepted extents. This is an analysis band estimate, not confirmed reachable whole-function coverage."
+    },
+    {
+      "case": "Escaped and adjacent narrow/wide string literals plus compile-time floating arithmetic and float/double initializers.",
+      "grounding": [
+        "_concatenate_string_literals@8 at21b00",
+        "_decode_escape@8 at22310",
+        "_fold_floating_binary@12 at28190",
+        "_extended_to_integer at4c753",
+        "_write_ir_float at4b960",
+        "_write_ir_double at4b980"
+      ],
+      "reason": "Targets unreached literal composition, escape decoding, floating folding and IR constant writers."
+    }
+  ],
+  "extent_estimate_policy": "Band estimates subtract the exact clipped accepted union from bounded frontend code regions containing the named original stubs. They include unverified gaps/shared text, are not accepted function extents, and do not promise every byte is reached by one case."
+}

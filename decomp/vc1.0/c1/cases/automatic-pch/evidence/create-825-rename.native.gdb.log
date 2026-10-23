@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x5fca2: file ../../../lib/recon/src/crt.c, line 364.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_rename (from=0xffcf2e60 "irex", to=0xffcf3e55 "state.pch") at ../../../lib/recon/src/crt.c:364
+364	    if (recon_host_path(from,a,sizeof(a))<0 || recon_host_path(to,b,sizeof(b))<0) return -1;

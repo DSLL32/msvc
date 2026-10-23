@@ -587,3 +587,12 @@ apply:
 malformed:
     compiler_warning(1, 110, token_names[current_token_code]);
 }
+
+/* Original0x1c290..0x1c2b7. The caller supplies any newline; output
+   retains the compiler's buffered stderr stream and text translation. */
+void __stdcall pragma_message(char *text)
+{
+    unsigned length;
+    for (length = 0; text[length]; ++length) ;
+    fwrite(text,length,1,stderr);
+}

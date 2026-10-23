@@ -1,0 +1,53 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": null,
+    "pch_file": "010000000d00000000000000005f4d5f495838363d34303000010000000e00000000000000005f4d53435f5645523d38303000010000000800000000000000005f57494e333200040000001a00000000000000533a5c7663312e305c63315c6175746f6d617469632d70636800040000001d00000000000000523a5c746f6f6c636861696e735c312e302d6e745c696e636c75646500010000000900000000000000464c41564f52003100030000000c00000000000000464c41564f52203d3d20310a060000000000000001000000010000000c000000000000004d41494e5f42494153003700020000000700000001000000636173652e6800050000000700000016feda6a636173652e6800090000000000000000000000",
+    "browser_output": null
+  },
+  "frames": [
+    "rewind_source_file",
+    "pch_replay_mismatch",
+    "pch_record_macro",
+    "define_macro",
+    "define_source_macro",
+    "preprocess_directive",
+    "begin_source_line",
+    "scan_source_token",
+    "scan_token",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "rewind_source_file",
+  "pc": 1448467796,
+  "label_stack_count": 0,
+  "scanner_flags": 65536,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_rewind_source_file",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.004785633645951748,
+  "execution_seconds": 0.1499451855197549,
+  "total_seconds": 0.1570403128862381,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/changed-832",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\automatic-pch"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+  },
+  "executable_sha256": "55ceddec1f8483d95c6ddc1127198dc81ba65b213ea4f20315a2ff6b15122ec8"
+}

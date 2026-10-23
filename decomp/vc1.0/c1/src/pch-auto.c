@@ -13,13 +13,13 @@
 WorkingStack *pch_dependency_stack; /* original0x6de18 */
 PchRecord *pch_event_buffer; /* original0x5b56c */
 char *pch_rebuild_reason; /* original0x6de2c */
+PchHeader automatic_pch_header; /* original0x67370, separate from live PCH state */
 
 /* Original0x45880..0x45b33. A candidate must match the header and complete
    command-settings record before recorded macro/include dependencies replay.
    Otherwise retain the reason and start collecting a replacement. */
 void begin_automatic_pch(void)
 {
-    PchHeader header;
     PchSettingsImage current;
     unsigned i, length;
     short index;
@@ -31,47 +31,23 @@ void begin_automatic_pch(void)
     prepare_pch_output("msvc.pch");
     pch_file = fopen(options.option_Fp,"r");
     if (pch_file) {
-        for (i = 0; i < 8; ++i) header.signature[i] = "DTJPCH0"[i];
-        header.format = 0x80117112;
-        header.symbol_bytes = pch_symbol_bytes;
-        header.global_bytes = pch_global_bytes;
-        header.expression_bytes = pch_expression_bytes;
-        header.line_bytes = pch_line_bytes;
-        header.debug_bytes = pch_debug_bytes;
-        header.browser_bytes = pch_browser_bytes;
-        header.event_bytes = pch_event_bytes;
-        header.event_offset = pch_event_offset;
-        header.browser_offset = browser_saved_position;
-        header.page_count = permanent_page_count;
-        header.reserved = pch_header_reserved;
-        fread(&header,1,sizeof(header),pch_file);
-        pch_symbol_bytes = header.symbol_bytes;
-        pch_global_bytes = header.global_bytes;
-        pch_expression_bytes = header.expression_bytes;
-        pch_line_bytes = header.line_bytes;
-        pch_debug_bytes = header.debug_bytes;
-        pch_browser_bytes = header.browser_bytes;
-        pch_event_bytes = header.event_bytes;
-        pch_event_offset = header.event_offset;
-        browser_saved_position = header.browser_offset;
-        permanent_page_count = header.page_count;
-        pch_header_reserved = header.reserved;
+        fread(&automatic_pch_header,1,sizeof(automatic_pch_header),pch_file);
         if (pch_file->_flag & 0x20)
             report_fatal(84,message_text(344),options.option_Fp);
-        compatible = header.format == 0x80117112;
+        compatible = automatic_pch_header.format == 0x80117112;
         for (i = 0; i < 8; ++i)
-            if (header.signature[i] != "DTJPCH0"[i]) compatible = 0;
+            if (automatic_pch_header.signature[i] != "DTJPCH0"[i]) compatible = 0;
         if (compatible) {
             fread(&saved_pch_settings,1,sizeof(saved_pch_settings),pch_file);
             CAPTURE_PCH_SETTINGS(current,options,database_path,pch_object_name,i);
             for (i = 0; i < sizeof(current); ++i)
                 if (((unsigned char *)&current)[i] != ((unsigned char *)&saved_pch_settings)[i]) break;
             if (i == sizeof(current)) {
-                pch_event_buffer = malloc(pch_event_bytes);
-                intermediate_status = fseek(pch_file,pch_event_offset,0);
+                pch_event_buffer = malloc(automatic_pch_header.event_bytes);
+                intermediate_status = fseek(pch_file,automatic_pch_header.event_offset,0);
                 if (intermediate_status)
                     report_error(86,message_text(344),options.option_Fp,pch_diagnostic_name,679);
-                fread(pch_event_buffer,1,pch_event_bytes,pch_file);
+                fread(pch_event_buffer,1,automatic_pch_header.event_bytes,pch_file);
                 pch_record_cursor = pch_event_buffer;
                 vector = options.defines;
                 for (index = 0; index < vector->count; ) {
@@ -233,9 +209,32 @@ void replay_pch_directive(void)
     ++source_text_cursor;
     scanner_flags |= 0x10000;
 }
-/* Original0x2a130. */
+/* Original0x2a130..0x2a1a8. Every segment compares against the same
+   supplied base, as the native EDX input is retained across segments. */
 int __stdcall compare_work_stack(WorkingStack *stack, void *bytes, unsigned count)
-{ __asm { int 3 } return 0; }
+{
+    WorkingBlock *block;
+    unsigned length, words;
+    unsigned *left, *right;
+    unsigned char *tail_left, *tail_right;
+    reset_work_stack(stack);
+    for (block = (WorkingBlock *)stack->read; block; block = block->next) {
+        length = block->used_bytes;
+        if (!length) length = 2040;
+        length &= 0xffff;
+        if (count < length) return 0;
+        left = (unsigned *)block;
+        right = bytes;
+        for (words = length >> 2; words; --words)
+            if (*left++ != *right++) return 0;
+        tail_left = (unsigned char *)left;
+        tail_right = (unsigned char *)right;
+        for (words = length & 3; words; --words)
+            if (*tail_left++ != *tail_right++) return 0;
+        count -= length;
+    }
+    return 1;
+}
 
 /* Original0x2a0a0..0x2a122. Flatten segmented bytes to a FILE or
    another work stack; return the accumulated sixteen-bit byte count. */
@@ -289,4 +288,75 @@ int __stdcall pch_file_mtime(char *name)
     struct _stat status;
     if (_stat(name,&status)) return 0;
     return status.st_mtime;
+}
+
+/* Original0x45800..0x45875. Freeze both dependency streams before
+   writing the automatic header, then release the deferred rebuild notice. */
+void finish_pch_capture(void)
+{
+    finish_initializer_buffer(pch_dependency_stack);
+    if (pch_mode == 1) {
+        write_pch_record_header(9,0,0);
+        finish_initializer_buffer(pch_event_stack);
+        finish_pch_output();
+        pch_mode = 0;
+        if (pch_rebuild_reason) {
+            compiler_warning(4,699,pch_rebuild_reason);
+            free(pch_rebuild_reason);
+            pch_rebuild_reason = 0;
+        }
+    } else pch_replay_mismatch();
+}
+
+/* Original0x455e0..0x457f5. A terminal event commits the candidate
+   header. Earlier divergence decides whether to retain a useful include
+   prefix, records the reason, and restarts the root source for capture. */
+int pch_replay_mismatch(void)
+{
+    char description[256];
+    unsigned i, length;
+    char *pathname;
+    if (!pch_macro_changed && pch_record_cursor->kind == 9) {
+        pch_symbol_bytes = automatic_pch_header.symbol_bytes;
+        pch_global_bytes = automatic_pch_header.global_bytes;
+        pch_expression_bytes = automatic_pch_header.expression_bytes;
+        pch_line_bytes = automatic_pch_header.line_bytes;
+        pch_debug_bytes = automatic_pch_header.debug_bytes;
+        pch_browser_bytes = automatic_pch_header.browser_bytes;
+        pch_event_bytes = automatic_pch_header.event_bytes;
+        pch_event_offset = automatic_pch_header.event_offset;
+        browser_saved_position = automatic_pch_header.browser_offset;
+        permanent_page_count = automatic_pch_header.page_count;
+        pch_header_reserved = automatic_pch_header.reserved;
+        pathname = options.option_Fp;
+        restore_pch_state();
+        if (options.debug_info) restore_pch_separate_debug();
+        pch_mode = 0;
+        if (effective_warning_level(4,699) <= options.option_W) {
+            format_text(description,"%s %s",message_text(350),pathname);
+            compiler_warning(4,699,description);
+            return 0;
+        }
+        if (!options.option_nologo) {
+            format_text(description,"%s\n",message_text(350));
+            pragma_message(description);
+        }
+        return 0;
+    }
+    if (!automatic_pch_header.reserved)
+        automatic_pch_header.reserved = automatic_pch_header.page_count;
+    if (!pch_include_page_count || pch_rebuild_on_macro_change ||
+        (int)(automatic_pch_header.page_count << 7) / (int)pch_include_page_count < 100 ||
+        (int)(automatic_pch_header.reserved << 7) / (int)pch_include_page_count < 80)
+        pch_include_count = -1;
+    if (pch_include_count < 1)
+        format_text(description,"%s %s",message_text(352),options.option_Fp);
+    else format_text(description,"%s %s with %d include file%s",message_text(352),
+        options.option_Fp,(int)pch_include_count,pch_include_count > 1 ? "s" : " ");
+    for (length = 0; description[length]; ++length) ;
+    pch_rebuild_reason = checked_malloc(length + 1);
+    for (i = 0; i <= length; ++i) pch_rebuild_reason[i] = description[i];
+    rewind_source_file();
+    begin_pch_rebuild();
+    return 1;
 }

@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565c068e in compare_work_stack (stack=0x57b22dc0, bytes=0x57b23837, count=12) at src/pch-auto.c:238
+238	{ __asm { int 3 } return 0; }

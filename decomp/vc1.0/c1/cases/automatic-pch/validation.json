@@ -1,13 +1,273 @@
 {
-  "status": "active; original/native current frontiers match",
-  "shared_reference_validation": "../shared-prefix-validation.json",
-  "original_entry_receipts": [
-    "automatic-pch-create",
-    "automatic-pch-reuse",
-    "automatic-pch-changed"
+  "status": "passed; all three approved phases complete",
+  "accepted_count": 833,
+  "source_function_graphs": 710,
+  "state_defaults_aliases": 280,
+  "accepted_ranges": {
+    "automatic-pch-create": {
+      "accepted_from": 802,
+      "accepted_count": 828
+    },
+    "automatic-pch-reuse": {
+      "accepted_from": 828,
+      "accepted_count": 832
+    },
+    "automatic-pch-changed": {
+      "accepted_from": 832,
+      "accepted_count": 833
+    }
+  },
+  "original_first_entries": 699,
+  "native_completed_cases": 18,
+  "coverage": {
+    "accepted_union_bytes": 215743,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 196494,
+      "CRT": 19075,
+      "import_thunks": 174
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 77.81982007978819,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "original_captures": [
+    {
+      "capture": "create-825",
+      "receipt": "evidence/create-825.receipt.json",
+      "preparation_seconds": 0.051514348946511745,
+      "execution_seconds": 5.780992123298347,
+      "total_seconds": 5.832510587759316
+    },
+    {
+      "capture": "create-826",
+      "receipt": "evidence/create-826.receipt.json",
+      "preparation_seconds": 0.07307303231209517,
+      "execution_seconds": 3.947762271389365,
+      "total_seconds": 4.020838067866862
+    },
+    {
+      "capture": "create-827",
+      "receipt": "evidence/create-827.receipt.json",
+      "preparation_seconds": 0.05039568990468979,
+      "execution_seconds": 5.579921836964786,
+      "total_seconds": 5.630319534800947
+    },
+    {
+      "capture": "create-828",
+      "receipt": "evidence/create-828.receipt.json",
+      "preparation_seconds": 0.05247243493795395,
+      "execution_seconds": 4.822178749367595,
+      "total_seconds": 4.874653661623597
+    },
+    {
+      "capture": "create-complete-828",
+      "receipt": "evidence/create-complete-828.receipt.json",
+      "preparation_seconds": 0.054578445851802826,
+      "execution_seconds": 6.115176597610116,
+      "total_seconds": 6.169758663512766
+    },
+    {
+      "capture": "reuse-828",
+      "receipt": "evidence/reuse-828.receipt.json",
+      "preparation_seconds": 0.05155458953231573,
+      "execution_seconds": 3.5452473433688283,
+      "total_seconds": 3.5968040926381946
+    },
+    {
+      "capture": "reuse-829",
+      "receipt": "evidence/reuse-829.receipt.json",
+      "preparation_seconds": 0.05193811375647783,
+      "execution_seconds": 5.773656828328967,
+      "total_seconds": 5.825597393326461
+    },
+    {
+      "capture": "reuse-830",
+      "receipt": "evidence/reuse-830.receipt.json",
+      "preparation_seconds": 0.05684319231659174,
+      "execution_seconds": 5.8550822753459215,
+      "total_seconds": 5.911928018555045
+    },
+    {
+      "capture": "reuse-831",
+      "receipt": "evidence/reuse-831.receipt.json",
+      "preparation_seconds": 0.05145668797194958,
+      "execution_seconds": 4.354350537061691,
+      "total_seconds": 4.405809379182756
+    },
+    {
+      "capture": "reuse-832",
+      "receipt": "evidence/reuse-832.receipt.json",
+      "preparation_seconds": 0.05095047131180763,
+      "execution_seconds": 4.872947461903095,
+      "total_seconds": 4.923902029171586
+    },
+    {
+      "capture": "reuse-complete-832",
+      "receipt": "evidence/reuse-complete-832.receipt.json",
+      "preparation_seconds": 0.05377176217734814,
+      "execution_seconds": 4.432956635020673,
+      "total_seconds": 4.486730872653425
+    },
+    {
+      "capture": "changed-832",
+      "receipt": "evidence/changed-832.receipt.json",
+      "preparation_seconds": 0.051016188226640224,
+      "execution_seconds": 5.427858700044453,
+      "total_seconds": 5.4788768496364355
+    },
+    {
+      "capture": "changed-833",
+      "receipt": "evidence/changed-833.receipt.json",
+      "preparation_seconds": 0.05213060788810253,
+      "execution_seconds": 2.923873133957386,
+      "total_seconds": 2.976005543023348
+    },
+    {
+      "capture": "changed-complete-833",
+      "receipt": "evidence/changed-complete-833.receipt.json",
+      "preparation_seconds": 0.05345194507390261,
+      "execution_seconds": 4.7085731802508235,
+      "total_seconds": 4.76202754676342
+    }
   ],
-  "native_regressions": "../shared-prefix-evidence/migration-final-fifteen-traces.json",
-  "function_graphs": 703,
-  "state_defaults_aliases": 279,
-  "normalization": "Only explicitly listed clock DWORDs; no path or pointer normalization."
+  "native_frontier_checks": [
+    {
+      "check": "create-825-rename",
+      "receipt": "evidence/create-825-rename.native.receipt.json",
+      "preparation_seconds": 0.005265412852168083,
+      "execution_seconds": 0.1522072423249483,
+      "total_seconds": 0.15994859673082829
+    },
+    {
+      "check": "create-827",
+      "receipt": "evidence/create-827.native.receipt.json",
+      "preparation_seconds": 0.004188781604170799,
+      "execution_seconds": 0.15117441304028034,
+      "total_seconds": 0.15773687046021223
+    },
+    {
+      "check": "create-828",
+      "receipt": "evidence/create-828.native.receipt.json",
+      "preparation_seconds": 0.004302991554141045,
+      "execution_seconds": 0.13983932230621576,
+      "total_seconds": 0.14692640490829945
+    },
+    {
+      "check": "reuse-828",
+      "receipt": "evidence/reuse-828.native.receipt.json",
+      "preparation_seconds": 0.004786464385688305,
+      "execution_seconds": 0.1462313374504447,
+      "total_seconds": 0.15336052142083645
+    },
+    {
+      "check": "reuse-829",
+      "receipt": "evidence/reuse-829.native.receipt.json",
+      "preparation_seconds": 0.004997611977159977,
+      "execution_seconds": 0.14698800537735224,
+      "total_seconds": 0.15438553411513567
+    },
+    {
+      "check": "reuse-830",
+      "receipt": "evidence/reuse-830.native.receipt.json",
+      "preparation_seconds": 0.005031644366681576,
+      "execution_seconds": 0.14823554269969463,
+      "total_seconds": 0.15592048596590757
+    },
+    {
+      "check": "reuse-831",
+      "receipt": "evidence/reuse-831.native.receipt.json",
+      "preparation_seconds": 0.004801418632268906,
+      "execution_seconds": 0.1457995418459177,
+      "total_seconds": 0.15299628488719463
+    },
+    {
+      "check": "reuse-832",
+      "receipt": "evidence/reuse-832.native.receipt.json",
+      "preparation_seconds": 0.004989323206245899,
+      "execution_seconds": 0.13545903842896223,
+      "total_seconds": 0.14266107138246298
+    },
+    {
+      "check": "changed-832",
+      "receipt": "evidence/changed-832.native.receipt.json",
+      "preparation_seconds": 0.004785633645951748,
+      "execution_seconds": 0.1499451855197549,
+      "total_seconds": 0.1570403128862381
+    },
+    {
+      "check": "changed-833",
+      "receipt": "evidence/changed-833.native.receipt.json",
+      "preparation_seconds": 0.004784079268574715,
+      "execution_seconds": 0.13832082226872444,
+      "total_seconds": 0.14527154341340065
+    }
+  ],
+  "native_regressions": "evidence/all-eighteen-native.json",
+  "native_rejections": "evidence/native-rejections.json",
+  "canonical_original_build_and_audits": {
+    "log": "evidence/automatic-final-canonical.log",
+    "seconds": 40.73084920924157,
+    "exit": 0
+  },
+  "final_operations": [
+    {
+      "name": "automatic-final-all-eighteen",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/automatic-final-all-eighteen"
+      ],
+      "seconds": 0.5414382657036185,
+      "exit": 0
+    },
+    {
+      "name": "automatic-final-rejections",
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.38311467692255974,
+      "exit": 0
+    },
+    {
+      "name": "automatic-final-coverage",
+      "command": [
+        "python3",
+        "scripts/coverage.py"
+      ],
+      "seconds": 0.17031252942979336,
+      "exit": 0
+    }
+  ],
+  "measured_native_builds": [
+    {
+      "name": "pragma-message",
+      "seconds": 1.6428835103288293,
+      "exit": 0
+    },
+    {
+      "name": "rewind-source",
+      "seconds": 1.6704861680045724,
+      "exit": 0
+    }
+  ],
+  "timing_notes": [
+    "All listed repeated original captures and successful native debugger runs are included, not just the final run.",
+    "Earlier incremental native builds, an early stale-object graph audit, and setup failure on an initially unknown CRT boundary were not timed separately. Analysis/documentation/commit wall time is not claimed.",
+    "Final native receipt splits per-case setup, execution and artifact/trace checks; canonical build includes ABI/graph/data/default/grammar audits."
+  ],
+  "decisions": [
+    "Original rename (52ac0) and MoveFileA import first-entry chain was captured. Native recon_rename logs irex/state.pch arguments; call-site operands/stack, pending buffers and visible files agree, followed by exact next application stop and final artifacts. CRT internal import is not a new application graph vertex.",
+    "The candidate header at67370 is distinct from live PCH state at6ddd0. Its typed56-byte state and initial bytes/aliases are audited; only successful replay commits live fields.",
+    "compare_work_stack retains original EDX base across blocks, compares DWORDs then trailing bytes, and preserves RET12.",
+    "Header source mtime is pinned as a dependency. All generated PCH data remains raw exact, with no path/pointer normalization."
+  ],
+  "terminal": {
+    "kind": "exit",
+    "status": 0
+  },
+  "next_action": "Pause for user selection; no additional case assigned."
 }

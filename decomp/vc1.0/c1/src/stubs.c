@@ -135,7 +135,6 @@ void release_input_handle(void) { __asm { int 3 } }
 
 
 void report_ide_line(void) { __asm { int 3 } }
-void finish_pch_capture(void) { __asm { int 3 } }
 
 
 /* Original 0x18f90. */
@@ -381,7 +380,7 @@ void __stdcall assign_symbol_segment(FrontendSymbol *symbol, FrontendSymbol *seg
 
 void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
 
-void report_declaration_context_error(unsigned warning, unsigned error, ...) { __asm { int 3 } }
+void report_syntax_error_arguments(unsigned code, char *arguments) { __asm { int 3 } }
 
 void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 
@@ -462,7 +461,6 @@ void warn_ignored_token(void) { __asm { int 3 } }
 
 
 
-int pch_replay_mismatch(void) { __asm { int 3 } return 0; }
 
 
 
@@ -531,7 +529,6 @@ void warn_expected_identifier(void) { __asm { int 3 } }
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 
 /* Original 0x1c290. */
-void __stdcall pragma_message(char *text) { __asm { int 3 } }
 
 /* Original 0x4bf10. */
 

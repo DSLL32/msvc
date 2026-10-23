@@ -1,0 +1,14 @@
+35880 81 _begin_automatic_pch
+354c0 83 _begin_pch_rebuild
+34e40 83 _write_pch_record_header
+34ec0 56 _process_pch_string_event@12
+34e80 56 _pch_record_string
+102c0 53 _capture_directive_text
+35200 83 _pch_find_conditional
+1a0a0 83 _write_pch_event_stack@12
+351b0 53 _replay_pch_directive
+35150 56 _pch_resolve_condition@4
+354a0 8b _pch_record_include@4
+35350 83 _pch_file_mtime@4
+35800 a1 _finish_pch_capture
+1d350 83 _report_declaration_context_error

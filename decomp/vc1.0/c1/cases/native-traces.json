@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "714cea066b6e42e4cdb08287d1f7d6277d26b501d6bce6552621785fef4fcc4e",
+    "functions.json": "29df593f8ea3c50a46ec0e8d22e47f0cc58cba7ab8a932a55acf49a09a23116c",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "d812f537fccb253d1584a63345f04dc4341250dcbd23ee38509827b2aa6c42c6"
+    "sha256": "28af91613b1e342587452add23a76775c84160611fc83b3632e3e0b5e98eef33"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "1f9648604cbcb4f268eeb1cd27cf6802f54becad1452d8c7db9635a7d71db5fc"
+    "sha256": "5cf6fc6016c6772d9472485d8409092c40d6bb64ab26d98af7661a49722fb2bb"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -937,6 +937,10 @@
       "logical": "_effective_type_qualifiers@4",
       "source": "src/types.c"
     },
+    "effective_warning_level": {
+      "logical": "_effective_warning_level",
+      "source": "src/diagnostics.c"
+    },
     "emit_asm_instruction": {
       "logical": "_emit_asm_instruction",
       "source": "src/asm-instructions.c"
@@ -1359,7 +1363,7 @@
     },
     "finish_pch_capture": {
       "logical": "_finish_pch_capture",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "finish_pch_debug_symbols": {
       "logical": "_finish_pch_debug_symbols",
@@ -2375,7 +2379,7 @@
     },
     "pch_replay_mismatch": {
       "logical": "_pch_replay_mismatch",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "pch_resolve_condition": {
       "logical": "_pch_resolve_condition@4",
@@ -2479,7 +2483,7 @@
     },
     "pragma_message": {
       "logical": "_pragma_message@4",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "pragma_open_parenthesis": {
       "logical": "_pragma_open_parenthesis",
@@ -2907,7 +2911,7 @@
     },
     "report_declaration_context_error": {
       "logical": "_report_declaration_context_error",
-      "source": "src/stubs.c"
+      "source": "src/diagnostics.c"
     },
     "report_declaration_error": {
       "logical": "_report_declaration_error@8",
@@ -2955,6 +2959,10 @@
     },
     "report_syntax_error": {
       "logical": "_report_syntax_error",
+      "source": "src/stubs.c"
+    },
+    "report_syntax_error_arguments": {
+      "logical": "_report_syntax_error_arguments",
       "source": "src/stubs.c"
     },
     "report_type_conflict": {
@@ -3032,6 +3040,10 @@
     "retry_malloc": {
       "logical": "_retry_malloc@4",
       "source": "src/stubs.c"
+    },
+    "rewind_source_file": {
+      "logical": "_rewind_source_file",
+      "source": "src/source-input.c"
     },
     "save_extended_constant": {
       "logical": "_save_extended_constant@4",
@@ -4182,7 +4194,14 @@
     "replay_pch_directive",
     "pch_resolve_condition",
     "pch_record_include",
-    "pch_file_mtime"
+    "pch_file_mtime",
+    "finish_pch_capture",
+    "report_declaration_context_error",
+    "compare_work_stack",
+    "pch_replay_mismatch",
+    "effective_warning_level",
+    "pragma_message",
+    "rewind_source_file"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4289,7 +4308,8 @@
       "__dtoxmode",
       "_strrchr",
       "__stricmp",
-      "__strcmpi"
+      "__strcmpi",
+      "_rename"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4319,7 +4339,8 @@
       "import:SetStdHandle",
       "import:FindFirstFileA",
       "import:FileTimeToSystemTime",
-      "import:FindClose"
+      "import:FindClose",
+      "import:MoveFileA"
     ]
   },
   "cases": {
@@ -5160,6 +5181,58 @@
         "append_storage_attributes",
         "end_declaration_text",
         "skip_declaration_tokens"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "automatic-pch-create": {
+      "first": 802,
+      "last": 828,
+      "seen_count": 680,
+      "expected": [
+        "begin_automatic_pch",
+        "begin_pch_rebuild",
+        "write_pch_record_header",
+        "process_pch_string_event",
+        "pch_record_string",
+        "capture_directive_text",
+        "pch_find_conditional",
+        "write_pch_event_stack",
+        "replay_pch_directive",
+        "pch_resolve_condition",
+        "pch_record_include",
+        "pch_file_mtime",
+        "finish_pch_capture",
+        "report_declaration_context_error"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "automatic-pch-reuse": {
+      "first": 828,
+      "last": 832,
+      "seen_count": 694,
+      "expected": [
+        "compare_work_stack",
+        "pch_replay_mismatch",
+        "effective_warning_level",
+        "pragma_message"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "automatic-pch-changed": {
+      "first": 832,
+      "last": 833,
+      "seen_count": 698,
+      "expected": [
+        "rewind_source_file"
       ],
       "terminal": {
         "kind": "exit",

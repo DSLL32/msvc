@@ -828,7 +828,16 @@
     "__dtoxmode",
     "_strrchr",
     "__stricmp",
-    "__strcmpi"
+    "__strcmpi",
+    "_finish_pch_capture",
+    "_rename",
+    "import:MoveFileA",
+    "_report_declaration_context_error",
+    "_compare_work_stack@12",
+    "_pch_replay_mismatch",
+    "_effective_warning_level",
+    "_pragma_message@4",
+    "_rewind_source_file"
   ],
   "driver": [
     {
@@ -1706,7 +1715,7 @@
     {
       "name": "_finish_pch_capture",
       "start": 284672,
-      "end": 284673
+      "end": 284790
     },
     {
       "name": "_preprocess_directive",
@@ -2363,7 +2372,7 @@
     {
       "name": "_report_declaration_context_error",
       "start": 185168,
-      "end": 185169
+      "end": 185212
     },
     {
       "name": "_normalize_symbol_storage@8",
@@ -2905,7 +2914,7 @@
     {
       "name": "_pch_replay_mismatch",
       "start": 284128,
-      "end": 284129
+      "end": 284662
     },
     {
       "name": "_skip_line_comment",
@@ -3180,7 +3189,7 @@
     {
       "name": "_pragma_message@4",
       "start": 115344,
-      "end": 115345
+      "end": 115384
     },
     {
       "name": "_unpack_option_flags",
@@ -5345,7 +5354,28 @@
     {
       "name": "_compare_work_stack@12",
       "start": 172336,
-      "end": 172337
+      "end": 172457
+    },
+    {
+      "name": "_report_syntax_error_arguments",
+      "start": 305648,
+      "end": 305649
+    },
+    {
+      "name": "_effective_warning_level",
+      "start": 306064,
+      "end": 306107,
+      "shared": [
+        [
+          306108,
+          306168
+        ]
+      ]
+    },
+    {
+      "name": "_rewind_source_file",
+      "start": 112160,
+      "end": 112256
     }
   ],
   "cases": {
@@ -5422,6 +5452,18 @@
     "prototypes": {
       "accepted_from": 778,
       "accepted_count": 802
+    },
+    "automatic-pch-create": {
+      "accepted_from": 802,
+      "accepted_count": 828
+    },
+    "automatic-pch-reuse": {
+      "accepted_from": 828,
+      "accepted_count": 832
+    },
+    "automatic-pch-changed": {
+      "accepted_from": 832,
+      "accepted_count": 833
     }
   },
   "buffered_streams": [

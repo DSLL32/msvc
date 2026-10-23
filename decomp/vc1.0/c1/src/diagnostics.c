@@ -303,3 +303,28 @@ void format_text_arguments(char *destination, char *format, char *arguments)
     }
     *destination = 0;
 }
+
+/* Original0x2d350..0x2d37b. The extension path deliberately passes
+   only the level and diagnostic number; the error path retains varargs. */
+void report_declaration_context_error(unsigned warning, unsigned error, ...)
+{
+    va_list arguments;
+    if (options.extensions_enabled) compiler_warning(4,warning);
+    else {
+        va_start(arguments,error);
+        report_syntax_error_arguments(error,arguments);
+        va_end(arguments);
+    }
+}
+
+/* Original0x4ab90..0x4abba, switch targets at0x4abbc. */
+int effective_warning_level(unsigned level, unsigned code)
+{
+    int setting = warning_setting(code);
+    switch (setting) {
+    case 0: case 5: return level;
+    case 1: case 2: case 3: case 4: return setting;
+    case 14: return 1;
+    default: return 0;
+    }
+}
