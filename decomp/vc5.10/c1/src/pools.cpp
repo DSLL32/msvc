@@ -52,3 +52,8 @@ extern "C" void __cdecl initialize_state_12760(void)
 {
     c1_bss.pools[7].Initialize(1);
 }
+
+extern "C" void __cdecl initialize_state_1276d(void)
+{
+    c1_bss.pools[8].Initialize(1);
+}
