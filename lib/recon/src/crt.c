@@ -1226,3 +1226,13 @@ ReconSignalHandler recon_signal(int signo,ReconSignalHandler handler)
 }
 
 WEAK int recon_unlink(const char *name) { return recon_remove(name); }
+
+/* Unvisited multibyte parser branches need SDK ABIs, not guessed DBCS rules. */
+WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size_t count)
+{ (void)left; (void)right; (void)count; recon_unsupported("unreviewed _mbsncmp"); return 0; }
+WEAK unsigned char *recon_mbsinc(const unsigned char *text)
+{ (void)text; recon_unsupported("unreviewed _mbsinc"); return NULL; }
+WEAK void recon_mbccpy(unsigned char *destination,const unsigned char *source)
+{ (void)destination; (void)source; recon_unsupported("unreviewed _mbccpy"); }
+WEAK int recon_ismbcspace(unsigned int value)
+{ (void)value; recon_unsupported("unreviewed _ismbcspace"); return 0; }

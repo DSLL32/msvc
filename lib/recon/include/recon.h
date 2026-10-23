@@ -173,6 +173,10 @@ ReconSignalHandler recon_signal(int,ReconSignalHandler);
 int recon_isctype(int,int),recon_toupper(int),recon_tolower(int);
 void recon_tzset(void),recon_endstdio(void),recon_rmtmp(void);
 int recon_isindst(struct tm *);
+int recon_mbsncmp(const unsigned char *,const unsigned char *,size_t);
+unsigned char *recon_mbsinc(const unsigned char *);
+void recon_mbccpy(unsigned char *,const unsigned char *);
+int recon_ismbcspace(unsigned int);
 void *recon_cpp_new(size_t);
 int recon_system(const char *);
 int recon_spawnve(int,const char *,const char *const *,const char *const *);
@@ -361,6 +365,10 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define spawnvp recon_spawnvp
 #define spawnve recon_spawnve
 #define spawnvpe recon_spawnvpe
+#define _mbsncmp recon_mbsncmp
+#define _mbsinc recon_mbsinc
+#define _mbccpy recon_mbccpy
+#define _ismbcspace recon_ismbcspace
 #define crt_operator_new recon_cpp_new
 #define system recon_system
 #define _spawnve recon_spawnve

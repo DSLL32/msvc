@@ -376,3 +376,9 @@ It formats the supplied arguments, preserving NUL, return count, untouched tail,
 errno and LastError. Other templates/grammars/capacity modes fail explicitly.
 The separate wsprintfA/HeapDestroy imports currently retain SDK ABIs with
 unsupported bodies for unvisited source branches.
+
+Unvisited CL multibyte parser imports `_mbsncmp`, `_mbsinc`, `_mbccpy` and
+`_ismbcspace` retain SDK declarations/remaps and fail explicitly on execution.
+The native mbstring.h/mbctype.h overlays add no guessed codepage behavior.
+Standard access-violation/stack-overflow constants are available for readable
+original SEH filters; this adds no native exception execution support.
