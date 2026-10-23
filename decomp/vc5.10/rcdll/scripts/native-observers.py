@@ -395,3 +395,23 @@ class SourceFormatEntered(gdb.Breakpoint):
         entry=dict(destination=pointer,format=bytes(gdb.selected_inferior().read_memory(format,20)).hex(),number=int.from_bytes(bytes(gdb.selected_inferior().read_memory(base+16,4)),'little',signed=True),before=bytes(gdb.selected_inferior().read_memory(pointer,1024)).hex(),errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')))
         source_formats.append(entry);save_source_formats();SourceFormatReturned(frame,entry,pointer);return False
 SourceFormatEntered('recon_swprintf',internal=True);save_source_formats()
+
+output_writes=[]
+def save_output_writes():
+    (path.parent/'output-writes.json').write_text(json.dumps(output_writes,indent=2)+'\n')
+class OutputWriteReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry,file):
+        self.entry=entry;self.file=file;super().__init__(frame,internal=True)
+    def stop(self):
+        file=gdb.parse_and_eval('(ShimFILE *)'+str(self.file)).dereference();base=int(file['_base']);size=int(file['_ptr'])-base
+        assert base and 0<=size<=int(file['_bufsiz'])
+        self.entry.update(result=int(gdb.parse_and_eval('$eax')),after_file=bytes(gdb.selected_inferior().read_memory(self.file,32)).hex(),written_buffer=bytes(gdb.selected_inferior().read_memory(base,size)).hex(),errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')))
+        save_output_writes();return False
+class OutputWriteEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_write_preprocessed':return False
+        self.enabled=False;data=int(frame.read_var('p'));size=int(frame.read_var('size'));count=int(frame.read_var('count'));file=int(frame.read_var('s'))
+        entry=dict(args=dict(data=data,size=size,count=count,file=file,formal_bytes={field:caller.read_var(field).type.sizeof for field in ['data','size','count','file']},payload=bytes(gdb.selected_inferior().read_memory(data,size*count)).hex()),before_file=bytes(gdb.selected_inferior().read_memory(file,32)).hex(),errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')))
+        output_writes.append(entry);save_output_writes();OutputWriteReturned(frame,entry,file);return False
+OutputWriteEntered('recon_fwrite',internal=True);save_output_writes()

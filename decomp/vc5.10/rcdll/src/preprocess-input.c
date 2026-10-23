@@ -163,3 +163,9 @@ void __cdecl rc_emit_source_line(void)
     end=rc_quote_source_filename(rc_macro_name,rc_filename);
     rc_write_preprocessed(rc_macro_name,(end-rc_macro_name)*2,1,rc_cpp_output_file);
 }
+
+void __stdcall rc_write_preprocessed(const void *data,unsigned size,unsigned count,FILE *file)
+{
+    if(fwrite(data,size,count,file)!=count)
+        rc_fatal(rc_message(1122));
+}

@@ -436,9 +436,16 @@ def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None,outp
     filename=filename or 'resources.rc';filename_bytes=filename.encode('utf-16le');assert len(filename_bytes)<256
     assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])==filename_bytes+b'\0'*(514-len(filename_bytes))
     old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
-    assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128 if output_open else 0,0,4096,0)and old[4]>=3 and new[4]>=3
-    if output_open:assert raw_bytes(text,'prepared-closed-input')==raw_bytes(text,'cpp-output-file')==bytes.fromhex(arguments['preprocessor']['globals']['rc_cpp_output_file']['file_state'])
-    if strict_files:assert old==new and old[4]==4,'closed input descriptor differs after host-only I/O separation'
+    buffered_output=b['function']=='rc_quote_source_filename'
+    if buffered_output:
+        assert old[0]-old[2]==new[0]-new[2]==16 and old[1:2]+old[3:]==new[1:2]+new[3:]==(4080,138,4,0,4096,0)
+    else:assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128 if output_open else 0,0,4096,0)and old[4]>=3 and new[4]>=3
+    if output_open:
+        assert raw_bytes(text,'prepared-closed-input')==raw_bytes(text,'cpp-output-file')
+        assert bytes.fromhex(arguments['closed_input'])==bytes.fromhex(arguments['preprocessor']['globals']['rc_cpp_output_file']['file_state'])
+    if strict_files:
+        assert old[4]==new[4]==4,'closed input descriptor differs after host-only I/O separation'
+        if not buffered_output:assert old==new
     assert b['globals']['rc_window']=='00000000','this case cannot invoke an unproved window callback'
     input_temporary=raw_bytes(text,'input-temporary')[:-1].decode('ascii');output_temporary=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
     assert argv[:4]==['RCPP','-CP','1252','-f']and argv[4]==input_temporary and argv[5:7]==['-g',output_temporary]
@@ -638,7 +645,13 @@ def preprocessor_state(original,native,b,state,remaining,advance):
             if any(old):
                 events=(original/'events.txt').read_text()
                 assert re.findall(r'^cpp-output-pointer ([0-9a-f]+)$',events,re.M)==['%08x'%int.from_bytes(old,'little')]
-                assert raw_bytes(events,'cpp-output-file')==bytes.fromhex(actual['file_state'])
+                left=struct.unpack('<8I',raw_bytes(events,'cpp-output-file'));right=struct.unpack('<8I',bytes.fromhex(actual['file_state']))
+                if b['function']=='rc_quote_source_filename':
+                    assert left[2]and right[2]and left[0]-left[2]==right[0]-right[2]==16
+                    assert left[1:2]+left[3:]==right[1:2]+right[3:]==(4080,138,4,0,4096,0)
+                    assert raw_bytes(events,'cpp-output-buffer')==bytes.fromhex(actual['file_buffer'])[:16]and len(raw_bytes(events,'cpp-output-buffer'))==16
+                    assert re.findall(r'^cpp-output-position (\d+)$',events,re.M)==re.findall(r'^pos:\s*(\d+)$',b['arguments']['output_fdinfo'],re.M)==['0']
+                else:assert left==right
             else:assert old==new
         elif row['kind']=='source-buffer':
             left=int.from_bytes(old,'little');right=int.from_bytes(new,'little')
@@ -653,11 +666,11 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 old_file=int.from_bytes(read(0x21e88,4),'little');new_file=int.from_bytes(bytes.fromhex(observed['globals']['rc_source_file']['bytes']),'little')
                 old_buffer=int.from_bytes(read(0x18120,4),'little');new_buffer=int.from_bytes(bytes.fromhex(observed['globals']['rc_source_cursor']['bytes']),'little')
                 old_name=new_name=0
-                if b['function']in ['rc_emit_source_line','rc_write_preprocessed']:
+                if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename']:
                     old_name=int(re.findall(r'^source-name-result ([0-9a-f]+)$',(original/'events.txt').read_text(),re.M)[0],16)
                     new_name=b['arguments']['source_name_copies'][0]['result']
-                assert left==(4098,old_file,0,old_name,0,old_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed']else 0,2,0)
-                assert right==(4098,new_file,0,new_name,0,new_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed']else 0,2,0)
+                assert left==(4098,old_file,0,old_name,0,old_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename']else 0,2,0)
+                assert right==(4098,new_file,0,new_name,0,new_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename']else 0,2,0)
             else:assert old==new
         elif row['kind']=='crt-buffered-file':
             if any(old):
@@ -989,19 +1002,19 @@ def find_macro_trial(original,native):
 
 
 def _macro_setup_trial(original,native,stage):
-    trial,accepted,frontier,caller={'copy':('rc_copy_macro_text',32,'rc_open_source',0x71c24767),'open':('rc_open_source',33,'rc_refill_source',0x71c23eee),'refill':('rc_refill_source',34,'rc_duplicate_source_name',0x71c23ef9),'duplicate':('rc_duplicate_source_name',35,'rc_emit_source_line',0x71c23f27),'emit':('rc_emit_source_line',36,'rc_write_preprocessed',0x71c24275)}[stage]
-    source_opened=stage!='copy';refilled=stage in ['refill','duplicate','emit']
+    trial,accepted,frontier,caller={'copy':('rc_copy_macro_text',32,'rc_open_source',0x71c24767),'open':('rc_open_source',33,'rc_refill_source',0x71c23eee),'refill':('rc_refill_source',34,'rc_duplicate_source_name',0x71c23ef9),'duplicate':('rc_duplicate_source_name',35,'rc_emit_source_line',0x71c23f27),'emit':('rc_emit_source_line',36,'rc_write_preprocessed',0x71c24275),'write':('rc_write_preprocessed',37,'rc_quote_source_filename',0x71c24281)}[stage]
+    source_opened=stage!='copy';refilled=stage in ['refill','duplicate','emit','write']
     config=read_configuration(original/'functions.json')
     assert config.get('trial_function')==trial and len(config['accepted'])==accepted
     assert json.loads((original/'receipt.json').read_text())['case']=='resources-rich-trailing-space','no-space source overread is unsupported'
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
     assert a['words'][0]==caller
     if not source_opened:assert a['words'][2]==1
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_emit_source_line'if stage=='emit'else'rc_open_source'if source_opened else'rc_open_preprocessor')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_emit_source_line'if stage in ['emit','write']else'rc_open_source'if source_opened else'rc_open_preprocessor')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
     assert forwarded[2]==0x71c344f8+4+100*4 and b['arguments']['setup_iteration']==100
     forwarded[2]=0x71c344f8
-    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=11 if stage in ['duplicate','emit']else 10 if source_opened else 9,output_open=True);proof.update(state)
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=11 if stage in ['duplicate','emit','write']else 10 if source_opened else 9,output_open=True);proof.update(state)
     globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
     old_wide=[int(x,16)for x in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
     if not source_opened:assert a['words'][1]==old_wide[4]
@@ -1082,7 +1095,8 @@ def _macro_setup_trial(original,native,stage):
     spec=spec_from_file_location('copy_seh',HERE/'scripts/check-copy-seh.py');module=module_from_spec(spec);spec.loader.exec_module(module);seh=module.verify()
     proof.update(trial=trial,preprocessor=parser,trim=dict(original_word_before=32,word_after=0,owned_terminal_preserved=True,all_other_packed_bytes_unchanged=True,native_store_elf_pc=hex(store_pc-5),native_store_opcode='66c7000000'),copies=observations,source_open=dict(input=input_name,first=1,stack_bytes=8,hidden=dict(depth=-1,cursor=None,encoding=0,current_file=None,frame_count=1024,frame_bytes=36,frames_zero=True)),seh=seh,exception_scope='Native normal readable-memory path only; native faults stop. Windows source retains actual filter/handler; no native fault recovery equivalence.',lookup_reference=dict(path='cases/resources-rich/acceptance-0032.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0032.json')))
     if source_opened:proof['source_open']=source_open_state(original,native,b,state,input_name,refilled=refilled)
-    if stage=='emit':proof['source_line']=source_line_state(original,native,a,b)
+    if stage in ['emit','write']:proof['source_line']=source_line_state(original,native,a,b)
+    if stage=='write':proof['output_write']=output_write_state(original,native,b)
     return proof
 
 
@@ -1100,13 +1114,13 @@ def source_open_state(original,native,b,state,input_name,refilled=False):
     requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M)
     results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M)
     payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
-    assert len(requests)==len(results)==len(payloads)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed']else 15)
+    assert len(requests)==len(results)==len(payloads)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename']else 15)
     assert requests[14][1:]==('9','8206','00000000')and int(results[14][0],16)+8==old_buffer and results[14][1]=='00000000'
     assert requests[14][0]==requests[4][0]and payloads[14]==('8206','00'*8206)
     source=(original/'source'/input_name.rsplit('\\',1)[-1]).read_bytes()
     expected_buffer=b'\0'*8+source+b'\0'*(8198-len(source))if refilled else b'\0'*8206
     assert raw_bytes(text,'source-new-buffer')==expected_buffer
-    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed']else 15)
+    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename']else 15)
     allocation=allocations[14];identity=b['heap_identity'];block=next(row for row in identity['blocks']if row['payload']+8==new_buffer)
     assert allocation['heap']==block['owner']==identity['handle']and allocation['result']+8==new_buffer
     assert allocation['bytes']==block['bytes']==8206 and allocation['flags']==block['flags']==9
@@ -1143,7 +1157,7 @@ def refill_state(original,native,b,old_buffer,new_buffer):
         original_filename=int.from_bytes((original/'globals.bin').read_bytes()[0x149c4-0x14000:0x149c8-0x14000],'little')
         old_frontier=original_raw(original);assert old_frontier['words'][1]==original_filename
     else:source_name_state(original,native,b)
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_emit_source_line'if b['function']=='rc_write_preprocessed'else'rc_open_source')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_emit_source_line'if b['function']in ['rc_write_preprocessed','rc_quote_source_filename']else'rc_open_source')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
 
 
 def refill_source_trial(original,native):
@@ -1184,11 +1198,35 @@ def source_line_state(original,native,a,b):
     assert len(before)==len(after)==1024 and before==bytes.fromhex(record['before'])and after==bytes.fromhex(record['after'])
     assert after==wanted+before[len(wanted):]and globals['rc_macro_name']['bytes']==after.hex()
     file=int.from_bytes(bytes.fromhex(globals['rc_cpp_output_file']['bytes']),'little');old_file=int.from_bytes((original/'globals.bin').read_bytes()[0x18e74-0x14000:0x18e78-0x14000],'little')
-    assert a['words'][:5]==[0x71c24275,0x71c38128,16,1,old_file]
-    assert b['arguments']['write']==dict(data=globals['rc_macro_name']['address'],size=16,count=1,file=file,formal_bytes=dict(data=4,size=4,count=4,file=4),payload=wanted[:-2].hex())
-    assert raw_bytes(text,'source-write-payload')==wanted[:-2]
+    write=b['arguments']['write']if b['function']=='rc_write_preprocessed'else b['arguments']['output_writes'][0]['args']
+    if b['function']=='rc_write_preprocessed':
+        assert a['words'][:5]==[0x71c24275,0x71c38128,16,1,old_file]
+        assert raw_bytes(text,'source-write-payload')==wanted[:-2]
+    else:
+        assert re.findall(r'^output-write-call data=([0-9a-f]+) size=(\d+) count=(\d+) file=([0-9a-f]+) errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('71c38128','16','1','%08x'%old_file,'0','00000000')]
+        assert raw_bytes(text,'output-write-input')==wanted[:-2]
+    assert write==dict(data=globals['rc_macro_name']['address'],size=16,count=1,file=file,formal_bytes=dict(data=4,size=4,count=4,file=4),payload=wanted[:-2].hex())
     return dict(format='#line %d ',argument=1,result=8,output='#line 1 ',scratch_bytes=1024,written_bytes_including_NUL=18,untouched_tail_bytes=1006,errors_preserved=True,write=dict(size=16,count=1,bytes=16,FILE='same open preprocessor output',ABI='stdcall4/ret16'))
 
 
 def emit_source_line_trial(original,native):
     return _macro_setup_trial(original,native,'emit')
+
+
+def output_write_state(original,native,b):
+    text=(original/'events.txt').read_text();records=b['arguments']['output_writes'];assert records==json.loads((native/'output-writes.json').read_text())and len(records)==1
+    record=records[0];globals=b['arguments']['preprocessor']['globals'];wanted='#line 1 '.encode('utf-16le')
+    assert record['result']==1 and record['errno_before']==record['errno_after']==record['last_error_before']==record['last_error_after']==0
+    assert re.findall(r'^output-write-result result=(\d+) errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('1','0','00000000')]
+    assert raw_bytes(text,'output-write-before-file')==bytes.fromhex(record['before_file'])==struct.pack('<8I',0,0,0,128,4,0,4096,0)
+    assert raw_bytes(text,'output-write-after-file')==raw_bytes(text,'cpp-output-file')
+    assert record['after_file']==globals['rc_cpp_output_file']['file_state']
+    assert bytes.fromhex(record['written_buffer'])==raw_bytes(text,'cpp-output-buffer')==wanted
+    quote=b['arguments']['quote'];assert quote==dict(destination=globals['rc_macro_name']['address'],path=b['arguments']['filename_pointer'],path_bytes=b['arguments']['source_open']['path_bytes'],destination_bytes=globals['rc_macro_name']['bytes'],formal_bytes=dict(destination=4,path=4))
+    old_filename=int.from_bytes((original/'globals.bin').read_bytes()[0x149c4-0x14000:0x149c8-0x14000],'little');a=original_raw(original)
+    assert a['words'][:3]==[0x71c24281,0x71c38128,old_filename]
+    return dict(size=16,count=1,result=1,output_written_prefix_bytes=16,FILE=dict(descriptor=4,flags=138,pointer_offset=16,remaining=4080,capacity=4096,os_position=0),unwritten_tail='not initialized or compared; not an application input at this frontier',errors_preserved=True,next_quote=dict(formals=2,stack_cleanup=8,destination='same1024-byte global scratch window',source='current bounded UTF16 filename'))
+
+
+def write_preprocessed_trial(original,native):
+    return _macro_setup_trial(original,native,'write')

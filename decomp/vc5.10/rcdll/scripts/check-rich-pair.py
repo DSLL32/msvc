@@ -7,9 +7,9 @@ import shutil
 import tempfile
 import time
 from protocol import HERE,sha
-from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial,character_token_trial,character_class_trial,macro_hash_trial,define_macro_trial,find_macro_trial,copy_macro_trial,open_source_trial,refill_source_trial,duplicate_source_name_trial,emit_source_line_trial
-p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro','copy-macro','open-source','refill-source','duplicate-source-name','emit-source-line'],default='trial')
-a=p.parse_args();started=time.perf_counter();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial,'option-number':option_number_trial,'open-preprocessor':open_preprocessor_trial,'character-token':character_token_trial,'character-class':character_class_trial,'macro-hash':macro_hash_trial,'define-macro':define_macro_trial,'find-macro':find_macro_trial,'copy-macro':copy_macro_trial,'open-source':open_source_trial,'refill-source':refill_source_trial,'duplicate-source-name':duplicate_source_name_trial,'emit-source-line':emit_source_line_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
+from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial,character_token_trial,character_class_trial,macro_hash_trial,define_macro_trial,find_macro_trial,copy_macro_trial,open_source_trial,refill_source_trial,duplicate_source_name_trial,emit_source_line_trial,write_preprocessed_trial
+p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro','copy-macro','open-source','refill-source','duplicate-source-name','emit-source-line','write-preprocessed'],default='trial')
+a=p.parse_args();started=time.perf_counter();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial,'option-number':option_number_trial,'open-preprocessor':open_preprocessor_trial,'character-token':character_token_trial,'character-class':character_class_trial,'macro-hash':macro_hash_trial,'define-macro':define_macro_trial,'find-macro':find_macro_trial,'copy-macro':copy_macro_trial,'open-source':open_source_trial,'refill-source':refill_source_trial,'duplicate-source-name':duplicate_source_name_trial,'emit-source-line':emit_source_line_trial,'write-preprocessed':write_preprocessed_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
 with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     old=Path(scratch)/'original';new=Path(scratch)/'native'
     shutil.copytree(a.original,old);shutil.copytree(a.native,new)
@@ -28,7 +28,7 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         def apply(path):
             value=json.loads(path.read_text());change(value);path.write_text(json.dumps(value))
         return apply
-    if a.stage!='emit-source-line':
+    if a.stage not in ['emit-source-line','write-preprocessed']:
         reject('wrong-callee','native','snapshot.json',snapshot(lambda v:v.update(function='Handler')))
         reject('missing-native-int3','native','snapshot.json',snapshot(lambda v:v.update(executed_byte='90')))
         reject('changed-current-argv','native','snapshot.json',snapshot(lambda v:v['export_vector'][2].update(text='wrong')))
@@ -238,6 +238,19 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-source-write-file','native','snapshot.json',snapshot(lambda v:v['arguments']['write'].update(file=0)))
         reject('wrong-source-write-bytes','native','snapshot.json',snapshot(lambda v:v['arguments']['write'].update(payload='00'*16)))
         reject('wrong-original-source-format-result','original','events.txt',lambda p:p.write_text(p.read_text().replace('source-line-format-result result=8','source-line-format-result result=7')))
+    if a.stage=='write-preprocessed':
+        reject('wrong-output-write-result','native','snapshot.json',snapshot(lambda v:v['arguments']['output_writes'][0].update(result=0)))
+        reject('wrong-output-write-input','native','snapshot.json',snapshot(lambda v:v['arguments']['output_writes'][0]['args'].update(payload='00'*16)))
+        reject('wrong-output-write-before','native','output-writes.json',snapshot(lambda v:v[0].update(before_file='00'*32)))
+        reject('wrong-output-write-after','native','snapshot.json',snapshot(lambda v:v['arguments']['output_writes'][0].update(after_file='00'*32)))
+        reject('wrong-output-buffered-prefix','native','snapshot.json',snapshot(lambda v:v['arguments']['output_writes'][0].update(written_buffer='00'*16)))
+        reject('wrong-output-buffer-position','native','snapshot.json',snapshot(lambda v:v['arguments'].update(output_fdinfo='pos: 16\n')))
+        reject('wrong-output-write-errors','native','snapshot.json',snapshot(lambda v:v['arguments']['output_writes'][0].update(errno_after=2)))
+        reject('wrong-next-quote-destination','native','snapshot.json',snapshot(lambda v:v['arguments']['quote'].update(destination=0)))
+        reject('wrong-next-quote-source','native','snapshot.json',snapshot(lambda v:v['arguments']['quote'].update(path=0)))
+        reject('wrong-next-quote-bytes','native','snapshot.json',snapshot(lambda v:v['arguments']['quote'].update(path_bytes='0000')))
+        reject('wrong-next-quote-writable-window','native','snapshot.json',snapshot(lambda v:v['arguments']['quote'].update(destination_bytes='00'*1024)))
+        reject('wrong-original-output-write-result','original','events.txt',lambda p:p.write_text(p.read_text().replace('output-write-result result=1','output-write-result result=0')))
     if a.stage=='character-class':
         reject('wrong-dollar-class','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_character_classes[36]'].update(bytes='0000')))
         reject('wrong-macro-name','native','snapshot.json',snapshot(lambda v:v['arguments']['macro_name'].update(bytes='0000')))
@@ -254,7 +267,7 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-character-width','native','snapshot.json',snapshot(lambda v:v['arguments']['character']['formal_bytes'].update(character=4)))
         reject('wrong-forwarded-output','native','snapshot.json',snapshot(lambda v:v['arguments']['open'].update(output=0)))
         reject('wrong-setup-errors','native','snapshot.json',snapshot(lambda v:v['crt_errors'].update(errno=2)))
-    if a.stage!='emit-source-line':
+    if a.stage not in ['emit-source-line','write-preprocessed']:
         reject('wrong-allocation-owner','native','snapshot.json',snapshot(lambda v:v['heap_identity']['blocks'][0].update(owner=0)))
         reject('wrong-registered-module','native','snapshot.json',snapshot(lambda v:v['module'].update(sha256='0'*64)))
         reject('wrong-codepage','native','snapshot.json',snapshot(lambda v:v['globals'].update(rc_codepage='00000000')))
@@ -268,6 +281,9 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
 if a.stage=='emit-source-line':
     reused=HERE/'cases/resources-rich-trailing-space/duplicate-source-name-verification.json';record=json.loads(reused.read_text())
     proof['reused_controls']=dict(record=str(reused.relative_to(HERE)),sha256=sha(reused),names=record['negative_names'],checker_and_contract_versions=record['validation_versions'],reason='Same transport,source FILE/private-heap ownership,loaded module/mask and completed macro prefix. Fresh positive prefix checks still run; new format/scratch/write premises have fresh negatives.')
+if a.stage=='write-preprocessed':
+    reused=HERE/'cases/resources-rich-trailing-space/emit-source-line-verification.json';record=json.loads(reused.read_text())
+    proof['reused_controls']=dict(record=str(reused.relative_to(HERE)),sha256=sha(reused),names=record['fresh_negative_names']+record['negative_controls']['reused']['names'],checker_and_contract_versions=record['validation_versions'],earlier_prefix=record['negative_controls']['reused'],reason='Same completed formatter,source input/private heap,transport and module/mask premises; fresh positive prefix checks retained. Output buffering and next quote inputs have fresh negatives.')
 proof['negative_controls']=controls
 proof['elapsed_seconds']=time.perf_counter()-started
 if a.output:a.output.write_text(json.dumps(proof,indent=2)+'\n')

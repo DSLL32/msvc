@@ -299,3 +299,10 @@ with exact `#line 1 ` bytes and all four write parameters checked.
 records full scratch/error state and 13 fresh format/write rejection controls;
 unchanged transport, file and source-owner controls reuse their recorded hashes.
 The shared formatter now supports the separately probed exact space suffix.
+
+Buffered preprocessor output is accepted (49 bytes). Its first 16-byte write
+returns one element and remains in the 4,096-byte stream buffer at physical
+position zero. Only the initialized written prefix is compared; unwritten
+allocator tail bytes are unclaimed. [Verification](cases/resources-rich-trailing-space/write-preprocessed-verification.json)
+records 12 fresh output/quote-frontier controls, hash-bound prefix reuse and
+timings. No shared fwrite change was required for this write.

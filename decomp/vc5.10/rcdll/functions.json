@@ -40,7 +40,8 @@
     "rc_open_source",
     "rc_refill_source",
     "rc_duplicate_source_name",
-    "rc_emit_source_line"
+    "rc_emit_source_line",
+    "rc_write_preprocessed"
   ],
   "functions": [
     {
@@ -875,8 +876,7 @@
       "end": "0x91d5",
       "abi": "stdcall",
       "stack_bytes": 16,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_scan_line_start",
