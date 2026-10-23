@@ -2488,3 +2488,9 @@ Floating instruction rewriting and stack push: checkpoint989
 @float_store_value_dead@4. 910 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-instruction-driver.json for extent union, limits and measured timings.
+
+Virtual floating homes and physical stack pop: checkpoint992
+3 acceptances pass fresh original/native matching; current frontier
+@finish_float_machine_range@4. 913 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-homes.json for extent union, limits and measured timings.

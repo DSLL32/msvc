@@ -8,6 +8,7 @@
 #include "instruction-rewrite.h"
 #include "value-selection.h"
 #include "records.h"
+#include "global-registers.h"
 #include <recon.h>
 void *__fastcall float_register_heap_allocate(unsigned bytes);
 extern int cpu_model;
@@ -468,4 +469,38 @@ void push_float_machine_stack(void)
     }
     ++float_machine_stack_depth;
     if (float_machine_stack_depth > 8) compiler_internal_error("@(#)fltreg.c:1.31", 0x12c8);
+}
+
+/* Original [0003f1f0,0003f208). The reverse-use summary proves a dead
+   value when its kill flag is set, or when both later-use tests agree. */
+int __fastcall float_store_value_dead(MachineInstruction *instruction)
+{
+    unsigned flags = instruction->record.float_flags;
+    return (flags & 8) != 0 || ((flags & 2) != 0 && (flags & 16) != 0);
+}
+
+/* Original [0003f130,0003f168). A remembered floating declaration supplies
+   the symbol for its EBP-based backing operand; no synthetic home is made. */
+void __fastcall initialize_float_register_home(MachineOperand *home, unsigned short number)
+{
+    FloatRegisterDeclaration *declaration;
+    for (declaration = float_register_declarations; declaration; declaration = declaration->next) {
+        if (declaration->number == number) {
+            initialize_operand(home, OPERAND_BASED, REG_EBP, 0, declaration->symbol);
+            return;
+        }
+    }
+    compiler_internal_error("@(#)fltreg.c:1.31", 0x14d2);
+}
+
+/* Original [0003e610,0003e65d). Pop the physical stack and decrement
+   resident virtual positions; position0 becomes the absent sentinel. */
+void pop_float_machine_stack(void)
+{
+    int index;
+    for (index = 0; index < 7; ++index) float_machine_stack[index] = float_machine_stack[index + 1];
+    float_machine_stack[7] = -1;
+    for (index = 0; index < float_machine_register_count; ++index)
+        if (float_machine_registers[index].stack_slot != -1) --float_machine_registers[index].stack_slot;
+    --float_machine_stack_depth;
 }

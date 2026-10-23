@@ -993,7 +993,10 @@
     "_reset_float_register_stack",
     "@scan_float_machine_range@8",
     "@prepare_float_machine_instruction@8",
-    "_push_float_machine_stack"
+    "_push_float_machine_stack",
+    "@float_store_value_dead@4",
+    "@initialize_float_register_home@8",
+    "_pop_float_machine_stack"
   ],
   "driver": [
     {
@@ -6996,8 +6999,7 @@
     {
       "name": "@float_store_value_dead@4",
       "start": 258544,
-      "end": 258545,
-      "provisional": true
+      "end": 258568
     },
     {
       "name": "@previous_float_is_load@4",
@@ -7008,8 +7010,7 @@
     {
       "name": "@initialize_float_register_home@8",
       "start": 258352,
-      "end": 258353,
-      "provisional": true
+      "end": 258408
     },
     {
       "name": "@prepare_float_register_source@8",
@@ -7032,8 +7033,7 @@
     {
       "name": "_pop_float_machine_stack",
       "start": 255504,
-      "end": 255505,
-      "provisional": true
+      "end": 255581
     },
     {
       "name": "@exchange_float_machine_stack@8",
