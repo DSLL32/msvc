@@ -20,6 +20,7 @@ extern unsigned short next_debug_type_index;
 unsigned __stdcall reserve_debug_type(unsigned char kind);
 unsigned short __stdcall primitive_pointer_debug_type(CType *type);
 unsigned short __stdcall base_debug_type(CType *type);
+unsigned short __stdcall primitive_debug_type(unsigned short flags);
 void __stdcall reference_function_debug_type(CType *type);
 unsigned short __cdecl reference_line_record_type(CType *type);
 #endif

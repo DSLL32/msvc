@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 1071,
-  "driver_functions": 977,
+  "accepted_frontiers": 1073,
+  "driver_functions": 979,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 984,
-  "current_frontier": "_base_debug_type@4",
-  "original_frontier_va": "0x6d9c0",
+  "reconstructed_source_functions": 986,
+  "current_frontier": "_flush_debug_types",
+  "original_frontier_va": "0x6e080",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_base_debug_type@4",
-    "original_va": "0x6d9c0"
+    "current_frontier": "_flush_debug_types",
+    "original_va": "0x6e080"
   },
-  "current_native_application_entries": 75,
+  "current_native_application_entries": 77,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 273009,
+    "accepted_code_bytes": 273301,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 57.30450990516731,
-    "accepted_frontiers": 1071,
-    "source_functions": 984,
-    "accepted_source_text_and_switch_bytes": 261126,
+    "accepted_code_percent": 57.365800620463546,
+    "accepted_frontiers": 1073,
+    "source_functions": 986,
+    "accepted_source_text_and_switch_bytes": 261418,
     "section_ranges": [
       [
         94208,
@@ -84,16 +84,29 @@
         "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
         "evidence": "evidence/single-function-null/analysis.json",
         "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification."
+      },
+      {
+        "function": "_primitive_debug_type@4",
+        "original": [
+          448800,
+          448951
+        ],
+        "condition": "!(flags & 0x80) && (flags & 0x140) && (flags & 15) >= ((flags & 0x100) ? 11 : 9)",
+        "behavior": "explicit native-only INT3 before an out-of-domain logical predefined-type table access",
+        "win32": "original flags&15 indexing retained, without invented zero padding or neighbouring literal bytes",
+        "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
+        "evidence": "evidence/primitive-debug-width/receipt.json",
+        "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim."
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 273009,
+    "accepted_code_bytes": 273301,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 57.30450990516731,
-    "accepted_frontiers": 1071,
-    "source_functions": 984,
-    "accepted_source_text_and_switch_bytes": 261126,
+    "accepted_code_percent": 57.365800620463546,
+    "accepted_frontiers": 1073,
+    "source_functions": 986,
+    "accepted_source_text_and_switch_bytes": 261418,
     "section_ranges": [
       [
         94208,
@@ -152,13 +165,26 @@
         "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
         "evidence": "evidence/single-function-null/analysis.json",
         "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification."
+      },
+      {
+        "function": "_primitive_debug_type@4",
+        "original": [
+          448800,
+          448951
+        ],
+        "condition": "!(flags & 0x80) && (flags & 0x140) && (flags & 15) >= ((flags & 0x100) ? 11 : 9)",
+        "behavior": "explicit native-only INT3 before an out-of-domain logical predefined-type table access",
+        "win32": "original flags&15 indexing retained, without invented zero padding or neighbouring literal bytes",
+        "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
+        "evidence": "evidence/primitive-debug-width/receipt.json",
+        "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim."
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "state_machine_debug",
   "status": "state_machine_debug reconstruction in progress",
-  "latest_verification": "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/validation.json",
+  "latest_verification": "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -186,11 +212,11 @@
     },
     "state_machine_debug": {
       "status": "partial",
-      "frontier": "_base_debug_type@4",
-      "latest_verification": "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/validation.json"
+      "frontier": "_flush_debug_types",
+      "latest_verification": "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/validation.json"
     }
   },
-  "next_operation": "Continue _base_debug_type@4 reconstruction",
+  "next_operation": "Continue _flush_debug_types reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

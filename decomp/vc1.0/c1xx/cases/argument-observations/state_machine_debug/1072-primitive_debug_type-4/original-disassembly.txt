@@ -1,0 +1,55 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0006d920 <.text+0x56920>:
+   6d920:	66 8b 44 24 04       	mov    ax,WORD PTR [esp+0x4]
+   6d925:	a8 80                	test   al,0x80
+   6d927:	74 07                	je     0x6d930
+   6d929:	66 b8 03 00          	mov    ax,0x3
+   6d92d:	c2 04 00             	ret    0x4
+   6d930:	66 a9 40 01          	test   ax,0x140
+   6d934:	75 0a                	jne    0x6d940
+   6d936:	66 2b c0             	sub    ax,ax
+   6d939:	c2 04 00             	ret    0x4
+   6d93c:	8d 64 24 00          	lea    esp,[esp+0x0]
+   6d940:	f6 c4 01             	test   ah,0x1
+   6d943:	74 0e                	je     0x6d953
+   6d945:	83 e0 0f             	and    eax,0xf
+   6d948:	66 8b 04 45 c8 25 0a 	mov    ax,WORD PTR [eax*2+0xa25c8]
+   6d94f:	00 
+   6d950:	c2 04 00             	ret    0x4
+   6d953:	a8 20                	test   al,0x20
+   6d955:	74 04                	je     0x6d95b
+   6d957:	a8 40                	test   al,0x40
+   6d959:	75 12                	jne    0x6d96d
+   6d95b:	66 8b c8             	mov    cx,ax
+   6d95e:	66 83 e1 0f          	and    cx,0xf
+   6d962:	66 83 f9 01          	cmp    cx,0x1
+   6d966:	75 28                	jne    0x6d990
+   6d968:	f6 c4 c0             	test   ah,0xc0
+   6d96b:	75 23                	jne    0x6d990
+   6d96d:	f6 c4 40             	test   ah,0x40
+   6d970:	74 0e                	je     0x6d980
+   6d972:	83 e0 0f             	and    eax,0xf
+   6d975:	66 8b 04 45 e0 25 0a 	mov    ax,WORD PTR [eax*2+0xa25e0]
+   6d97c:	00 
+   6d97d:	c2 04 00             	ret    0x4
+   6d980:	83 e0 0f             	and    eax,0xf
+   6d983:	66 8b 04 45 f8 25 0a 	mov    ax,WORD PTR [eax*2+0xa25f8]
+   6d98a:	00 
+   6d98b:	c2 04 00             	ret    0x4
+   6d98e:	8b ff                	mov    edi,edi
+   6d990:	f6 c4 40             	test   ah,0x40
+   6d993:	8b c1                	mov    eax,ecx
+   6d995:	74 10                	je     0x6d9a7
+   6d997:	25 ff ff 00 00       	and    eax,0xffff
+   6d99c:	66 8b 04 45 10 26 0a 	mov    ax,WORD PTR [eax*2+0xa2610]
+   6d9a3:	00 
+   6d9a4:	c2 04 00             	ret    0x4
+   6d9a7:	25 ff ff 00 00       	and    eax,0xffff
+   6d9ac:	66 8b 04 45 28 26 0a 	mov    ax,WORD PTR [eax*2+0xa2628]
+   6d9b3:	00 
+   6d9b4:	c2 04 00             	ret    0x4

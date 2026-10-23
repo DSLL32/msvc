@@ -1075,7 +1075,9 @@
     "_static_member_alias@4",
     "_equal_symbol_indices",
     "_prepare_symbol_debug_type@4",
-    "_reference_debug_type@4"
+    "_reference_debug_type@4",
+    "_base_debug_type@4",
+    "_primitive_debug_type@4"
   ],
   "driver": [
     {
@@ -7901,7 +7903,7 @@
     {
       "name": "_base_debug_type@4",
       "start": 448960,
-      "end": 448961
+      "end": 449101
     },
     {
       "name": "_reference_function_debug_type@4",
@@ -7912,6 +7914,11 @@
       "name": "_reference_line_record_type",
       "start": 461392,
       "end": 461422
+    },
+    {
+      "name": "_primitive_debug_type@4",
+      "start": 448800,
+      "end": 448951
     }
   ],
   "cases": {
@@ -8112,7 +8119,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_base_debug_type@4",
+      "terminal": "_flush_debug_types",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8135,7 +8142,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8211,7 +8218,9 @@
         "cases/frontiers/state_machine_debug/1067-static_member_alias-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1068-equal_symbol_indices/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1071-base_debug_type-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/frontier-extension.json"
       ]
     }
   },
@@ -10560,6 +10569,36 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_real_types",
+      "original": 665032,
+      "bytes": 22
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_unsigned_int_types",
+      "original": 665056,
+      "bytes": 18
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_signed_int_types",
+      "original": 665080,
+      "bytes": 18
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_unsigned_size_types",
+      "original": 665104,
+      "bytes": 18
+    },
+    {
+      "kind": "bytes",
+      "name": "_cv_signed_size_types",
+      "original": 665128,
+      "bytes": 18
     }
   ],
   "buffered_streams": [
@@ -10704,6 +10743,19 @@
       "authorization": "Root approved exact guard under established preserve-Win32-bug policy",
       "evidence": "evidence/single-function-null/analysis.json",
       "coverage_note": "NULL input public reachability is unknown; no caller-derived stack equivalence or malformed-only classification."
+    },
+    {
+      "function": "_primitive_debug_type@4",
+      "original": [
+        448800,
+        448951
+      ],
+      "condition": "!(flags & 0x80) && (flags & 0x140) && (flags & 15) >= ((flags & 0x100) ? 11 : 9)",
+      "behavior": "explicit native-only INT3 before an out-of-domain logical predefined-type table access",
+      "win32": "original flags&15 indexing retained, without invented zero padding or neighbouring literal bytes",
+      "authorization": "Root approved exact native unsupported-domain guard and logical float[11]/integral[9] tables",
+      "evidence": "evidence/primitive-debug-width/receipt.json",
+      "coverage_note": "Unknown descriptor domain is unsupported natively; no public reachability, original-bug or invalid-width equivalence claim."
     }
   ]
 }

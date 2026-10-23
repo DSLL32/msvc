@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_base_debug_type@4",
+  "native_entry": "base_debug_type",
+  "argument_words": 4,
+  "ownership_register": "esi",
+  "ownership_caller_extent": [
+    448224,
+    448598
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "reference_debug_type",
+      "local": "type"
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 383049,
+        "original_owner_function": "_reference_debug_type@4",
+        "native_owner_field": "caller_type",
+        "native_owner_function": "reference_debug_type",
+        "native_owner_local": "type",
+        "identity": "original reference_debug_type loads its stack formal to ESI at0x6d6ed, preserves it through calls, PUSH ESI0x6d843/CALL0x6d844 return0x6d849. Native immediate caller formal type binds the same active descriptor. No recursive type contents or invented global alias."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      448960,
+      449101
+    ],
+    "argument_bytes": 4,
+    "proof": "Type at entryESP+4, flags loaded to CX, flags bits tested; tag branches load signed class index at type+8 and use shared context vector. General primitive branch passes low-word flags. All returns RET4. Upper ECX is masked by AND0xffff before full-width comparisons; primitive helper consumes ushort. No incoming semantic register/hidden argument."
+  }
+}

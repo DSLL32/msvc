@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "48001624bc33d66b2f071ddd5585019af4dde16d59ea889b9218b47f882ee1e8",
+    "functions.json": "3e62988ce229a735a6e445fcd22ee359f887c753ade82849e03e70cb4e97ac7c",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "c4bb5a2a39ba6a6f5f336cf66ed5c4a2778c0e9836b0ad5e1455aafc31c1d55f",
-    "cases/canonical-map.txt": "dfbe7261948df037b964c83bf803a61ade9935a71e500bded4a322d4388a5a94",
+    "cases/original-entry-references.json": "d28bab37082cb263e3407d46f7560ad86eb4a2a9ea2aa873386fa9d7916e58d7",
+    "cases/canonical-map.txt": "5cee4c55907c45be61487af0996b0a0fbeec03d82c80748fd2226959a56b741e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/entry-reference/original-receipt.json": "381dd78f7380306c97c778c02f01825a6828bced76b13dbc00e22b8c51c82cb1",
-    "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/entry-reference/original-events.txt": "13e9910118ed04822065883efc8290b082d46ddcff995b98b842168ee06b369e",
-    "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/entry-reference/original-entries.plan": "0dfae605f011675a64db204b02bdb15dee4014474982107833358642a91480c1"
+    "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/entry-reference/original-receipt.json": "a5f3022d46220fff6d423c272ef89f54407eac47878c9e6ea3180102b5ad6197",
+    "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/entry-reference/original-events.txt": "c3ca887817a5879ee8b67523ce2f93955526db05b8da0c83260b7c898b59aa7e",
+    "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/entry-reference/original-entries.plan": "4c3db5540acf82bad754756d8d8c9a7e53af936b2299acf68456e281d66b3230"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -301,7 +301,7 @@
     },
     "base_debug_type": {
       "logical": "_base_debug_type@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-types.c"
     },
     "base_type_size": {
       "logical": "_base_type_size@8",
@@ -3975,6 +3975,10 @@
       "logical": "_primary_virtual_table@4",
       "source": "src/class-finalization.c"
     },
+    "primitive_debug_type": {
+      "logical": "_primitive_debug_type@4",
+      "source": "src/debug-types.c"
+    },
     "primitive_pointer_debug_type": {
       "logical": "_primitive_pointer_debug_type@4",
       "source": "src/stubs.c"
@@ -6389,7 +6393,9 @@
     "static_member_alias",
     "equal_symbol_indices",
     "prepare_symbol_debug_type",
-    "reference_debug_type"
+    "reference_debug_type",
+    "base_debug_type",
+    "primitive_debug_type"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10501,7 +10507,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1071,
+      "last": 1073,
       "seen": [
         "main",
         "message_text",
@@ -11482,12 +11488,14 @@
         "equal_symbol_indices",
         "prepare_symbol_debug_type",
         "reference_debug_type",
-        "base_debug_type"
+        "base_debug_type",
+        "primitive_debug_type",
+        "flush_debug_types"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_base_debug_type@4",
-        "native": "base_debug_type",
+        "logical": "_flush_debug_types",
+        "native": "flush_debug_types",
         "signal": 5
       }
     }

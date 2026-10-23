@@ -1,0 +1,19 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a229 in primitive_debug_type (flags=100) at src/stubs.c:488
+488	unsigned short __stdcall primitive_debug_type(unsigned short flags) { __asm { int 3 } return 0; }
+#0  0x5655a229 in primitive_debug_type (flags=100) at src/stubs.c:488
+#1  0x5658cb0d in base_debug_type (type=0x5661ff0c) at src/debug-types.c:23
+#2  0x5658cd20 in reference_debug_type (type=0x5661ff0c) at src/debug-types.c:74
+#3  0x565a28f7 in prepare_symbol_debug_type (symbol=0x56646fd0) at src/symbol-output.c:14
+#4  0x565a3043 in emit_symbol_declaration (symbol=0x56646fd0) at src/symbol-output.c:148
+#5  0x565a3969 in serialize_scope (scope=0x566470c0) at src/function-finalization.c:137
+#6  0x565a374d in finish_function_output () at src/function-finalization.c:92
+#7  0x565a3542 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#8  0x565a3344 in end_function_definition () at src/function-finalization.c:22
+#9  0x565aeb44 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#10 0x5655e02f in compile_translation_unit () at src/frontend.c:73
+#11 0x565588a6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

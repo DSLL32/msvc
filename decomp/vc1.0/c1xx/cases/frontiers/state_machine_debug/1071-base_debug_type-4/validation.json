@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_base_debug_type@4",
+    "start": 448960,
+    "end": 449101
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1071-base_debug_type-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_debug_tag_type@4",
+    "_primitive_debug_type@4"
+  ],
+  "next_frontier": "_primitive_debug_type@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.41031397227197886,
+  "total_operation_seconds": 3.610362894833088,
+  "original_capture_seconds": 1.2670710487291217
+}
