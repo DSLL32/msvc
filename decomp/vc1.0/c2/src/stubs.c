@@ -327,10 +327,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
 int __fastcall has_no_later_work_store(Expression *expression) { __asm int 3 }
 
-int simplify_region_exit(void) { __asm int 3 }
-void finish_region_motion(void) { __asm int 3 }
-void rebuild_region_header_references(void) { __asm int 3 }
-void release_region_motion(void) { __asm int 3 }
 
 
 Node *__fastcall materialize_numbered_tree(Node *node) { __asm int 3 }
@@ -463,3 +459,5 @@ void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, 
 void __fastcall remove_basic_induction(BasicInduction *induction) { __asm int 3 }
 void __fastcall rewrite_region_exit_counter(Node *count) { __asm int 3 }
 int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment) { __asm int 3 }
+void __fastcall release_basic_induction(BasicInduction *induction) { __asm int 3 }
+void __fastcall release_loop_tree_record(LoopTreeRecord *record) { __asm int 3 }

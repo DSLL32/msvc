@@ -2027,3 +2027,14 @@ simplify_region_exit5e1d0;731 graph/extent checks, canonical/W3 and native fixtu
 pass. Hello establishes neither a trip count nor a basic induction, so bulk
 replacement, actual materialization and comparison adjustment are explicitly
 unvisited. Full object remains incomplete; see cases/hello-induction-rewriting.json.
+
+Loop optimization passed: checkpoint813
+----------------------------------------
+Exit simplification preserves effect/directive checks and unique forward exits;
+the original empty phase hook remains separate. The insertion preheader's six
+memory sets and live reference table are rebuilt before region-owned state is
+released. WinMain now passes global tree and loop optimization and native/original
+agree at select_intrinsic1b270 in instruction selection.735 graph/extent checks,
+canonical/W3 and native fixtures pass. Descriptor-release and dead-loop mutation
+branches remain explicitly unvisited. Full hello object remains incomplete; see
+cases/hello-loop-optimization-complete.json for evidence/layouts/timing.

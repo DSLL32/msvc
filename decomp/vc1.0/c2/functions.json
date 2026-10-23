@@ -813,7 +813,11 @@
     "_reduce_region_induction_strength",
     "_rewrite_region_inductions",
     "@rewrite_region_induction_tree@4",
-    "@find_basic_induction_load@4"
+    "@find_basic_induction_load@4",
+    "_simplify_region_exit",
+    "_finish_region_motion",
+    "_rebuild_region_header_references",
+    "_release_region_motion"
   ],
   "driver": [
     {
@@ -4681,26 +4685,22 @@
     {
       "name": "_simplify_region_exit",
       "start": 385488,
-      "end": 385489,
-      "provisional": true
+      "end": 385868
     },
     {
       "name": "_finish_region_motion",
       "start": 385472,
-      "end": 385473,
-      "provisional": true
+      "end": 385473
     },
     {
       "name": "_rebuild_region_header_references",
       "start": 385392,
-      "end": 385393,
-      "provisional": true
+      "end": 385470
     },
     {
       "name": "_release_region_motion",
       "start": 385200,
-      "end": 385201,
-      "provisional": true
+      "end": 385389
     },
     {
       "name": "@rewrite_numbered_tree@4",
@@ -6335,6 +6335,18 @@
       "name": "@can_rewrite_induction_comparison@12",
       "start": 397808,
       "end": 397809,
+      "provisional": true
+    },
+    {
+      "name": "@release_basic_induction@4",
+      "start": 392464,
+      "end": 392465,
+      "provisional": true
+    },
+    {
+      "name": "@release_loop_tree_record@4",
+      "start": 395760,
+      "end": 395761,
       "provisional": true
     }
   ],

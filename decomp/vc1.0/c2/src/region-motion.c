@@ -849,3 +849,97 @@ BasicInduction *__fastcall find_basic_induction_load(Node *node)
     if (node->opcode == 0x30) return find_basic_induction(node->left.node);
     return 0;
 }
+
+/* Original [0005e1d0,0005e34c). A region containing only control flow and
+   at most one basic update may be removed or simplified, provided every exit
+   reaches the same later block and no directive or effect must be retained. */
+int simplify_region_exit(void)
+{
+    BasicInduction *basic = basic_region_inductions;
+    WorkItem *work, *exit = 0;
+    Expression *expression;
+    FlowLink *link;
+    Node *node;
+    if (basic && basic->next) return 0;
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next) {
+        for (expression = work->body.expressions; expression; expression = expression->next) {
+            node = expression->tree;
+            switch (node->opcode) {
+            case 1:
+            case 0x29:
+                break;
+            case 0x38:
+                if (!basic || !find_basic_induction_load(node->left.node->left.node) ||
+                    !can_repeat_tree(node)) return 0;
+                /* Fall through: conditional and unconditional exits share checks. */
+            case 0x3a:
+                for (link = work->successors; link; link = link->next) {
+                    if (link->work->number < hoist_first_work->number) return 0;
+                    if (link->work->number > hoist_last_work->number) {
+                        if (exit && exit != link->work) return 0;
+                        exit = link->work;
+                    }
+                }
+                break;
+            case 0x4f:
+                if (node->detail.control.code == 0x16) return 0;
+                break;
+            default:
+                if (!basic || basic->assignment != node) return 0;
+                break;
+            }
+        }
+    }
+    if (basic && (basic->parent || region_trip_count)) remove_basic_induction(basic);
+    if (!basic_region_inductions) remove_region_blocks();
+    return 1;
+}
+
+/* Original [0005e1c0,0005e1c1): intentionally empty phase hook. */
+void finish_region_motion(void)
+{
+}
+
+/* Original [0005e170,0005e1be). Rebuild the insertion preheader's memory
+   sets using the enclosing region's saved reference table. */
+void rebuild_region_header_references(void)
+{
+    WorkItem *work = hoist_entry_work->next;
+    unsigned i;
+    for (i = 0; i < 6; ++i) {
+        release_bitset(work->flow_sets[i]);
+        work->flow_sets[i] = 0;
+    }
+    summarize_work_memory(work);
+    for (i = 0; i < WORK_REFERENCE_BUCKETS; ++i)
+        work_references.buckets[i] = hoist_current_region->references->buckets[i];
+    analyze_block_references(work);
+}
+
+/* Original [0005e0b0,0005e16d). Release region-owned induction records
+   and loop trees, then free the three count trees and reset reference caches. */
+void release_region_motion(void)
+{
+    BasicInduction *basic, *next_basic;
+    LoopTreeRecord *tree, *next_tree;
+    for (basic = basic_region_inductions; basic; basic = next_basic) {
+        next_basic = basic->next;
+        release_basic_induction(basic);
+    }
+    basic_region_inductions = 0;
+    for (tree = hoist_current_region->loop_trees; tree; tree = next_tree) {
+        next_tree = tree->next;
+        release_loop_tree_record(tree);
+    }
+    hoist_current_region->loop_trees = 0;
+    if (region_trip_count) release_tree(region_trip_count);
+    if (region_induction_counter) release_tree(region_induction_counter);
+    if (multiple_exit_trip_count) release_tree(multiple_exit_trip_count);
+    multiple_exit_trip_count = 0;
+    region_trip_count = 0;
+    region_induction_counter = 0;
+    free_pending_work_effects = 0;
+    clear_work_expression_cache();
+    release_bitset(hoist_invariant_values);
+    hoist_invariant_values = 0;
+}

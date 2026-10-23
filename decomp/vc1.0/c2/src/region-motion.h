@@ -99,4 +99,13 @@ void __fastcall rewrite_region_induction_tree(Node *node);
 void __fastcall remove_basic_induction(BasicInduction *induction);
 void __fastcall rewrite_region_exit_counter(Node *count);
 int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment);
+/* Original60820 allocates20 bytes in arena2, with four cloned trees;
+   the final tree is the saved trip count. Cleanup609f0 releases all four. */
+struct LoopTreeRecord {
+    struct LoopTreeRecord *next;
+    Node *field04, *field08, *field0c, *trip_count;
+};
+typedef char LoopTreeRecordSizeCheck[sizeof(LoopTreeRecord) == 20 ? 1 : -1];
+void __fastcall release_basic_induction(BasicInduction *induction);
+void __fastcall release_loop_tree_record(LoopTreeRecord *record);
 #endif
