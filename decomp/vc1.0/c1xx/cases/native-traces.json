@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "73124de48f705bd08695c497ded17a28ca0e3f3c2b7613791ed59953f0f72583",
+    "functions.json": "dea729af5feedd435bb224060ee1122879b2f38e2dd682d43a6ef88437dfc22e",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "44b673a7d53cd9d72e8d39e628815dea5e77a2a274ea2b850a5003b253b99a78",
+    "cases/canonical-map.txt": "86959d0c17256216498258ed9bbf238955dd00e9999f79165cb6d9c66fbb4ffc",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -490,7 +490,35 @@
     "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/original-configuration.json": "edb9deda247ca1962f97c42a85c23e5e6a05c4a33213612c9a1a09e078dcc592",
     "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/frontier-extension.json": "40debd69b31a8fc4a4b63e0c0afe529304596ef10be78924e2cd175806e2374a",
     "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/original-receipt.json": "3b9c6a434f8f2508a19c9aa45781c3de54cf4aea743e242a0b9073c89ce85869",
-    "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/original-events.txt": "2dd373c7c55c44efe8cfcb7757f1eee2055f40757dcd2200f160d1a5c38f0e47"
+    "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/original-events.txt": "2dd373c7c55c44efe8cfcb7757f1eee2055f40757dcd2200f160d1a5c38f0e47",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/original-configuration.json": "c4f938a85ad468aab2631b61306b1d39b2067d5cca0032edadc4eaf3f0b7acd4",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/frontier-extension.json": "52f2e4bc9ed8c6857bd7dfd7da5eed65c9043d131eb2237304ef7ad0a58601e4",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/original-receipt.json": "5b9a0cedfab3e4d45d987069dc797032fa3c46daaea33bca11c39be344a062f4",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/original-events.txt": "07f841385518c0ffd9fe74a2902d61dddb071161b833bec1a88138712bc94cf5",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/evidence.json": "37ccdce5652de6bcbb55095402995fe1da1cfdd452b8914f4967754dc73ce784",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/initial-unmatched-native-checkpoint.json": "4e9878432cbc78427acf00ca55d88134d747948285f292a390fd12c0df663526",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/initial-unmatched-native-gdb.log": "681d366c425e38466e7ec58c98b85261ecbdfca5b410842234e5c8608b774d93",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/initial-unmatched-native-timing.json": "08eaf91bd479eba3248b226aa9cca716d4443cbbb7c24c8ff1fa24e146cc2e30",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/integration-build-timing.json": "883afa8b45e38d09f4218f18c04a516e7f1103f4214240107a7d7a610f828248",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/native-gdb.log": "0c393797b69587e94b30df68ab4473ecd24eaaaf252fe3ef88fb4f771ad3958f",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/native-observation.json": "04d624d5c5838dde436608963be191186c46d2a9b3586e59013c842eb10c0d66",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/native.gdb": "c3f616931a48b0843b9139d7c69c9141ae4a0321f5322af6f69e6e04c6a7ded3",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/original-events.txt": "79045c408dec70553c0709602c9799b357bf8b3c07191975081e8d9718554ee5",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/original-observation.txt": "ef636f12c6f00b6fd65efc01820dd0ad0330cd89e17be9224d8d45564d0bc556",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/reference-observer-build.log": "95fbbf0348c0087e8b268bb6162820e0d124d568f6ba661978027eb4b34f4708",
+    "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/restore-plan.txt": "25a0c3f492de67c44bc75079941eef74acba55c8dd1f7d3d94d6b40b31c652a3",
+    "cases/virtual-diamond-frontiers/0665-realloc/original-configuration.json": "c4f938a85ad468aab2631b61306b1d39b2067d5cca0032edadc4eaf3f0b7acd4",
+    "cases/virtual-diamond-frontiers/0665-realloc/frontier-extension.json": "3dea15e130e95ff4e30d99774f2b3de7c6b2ac4c6f84a85f9de8c987989981cf",
+    "cases/virtual-diamond-frontiers/0665-realloc/original-receipt.json": "9cceaaaafafdaef810584208e3d482c3f9b8e9b22e2f76a8352da1e4fb7504eb",
+    "cases/virtual-diamond-frontiers/0665-realloc/original-events.txt": "7b0c1b20d097fabc3f00f40f86bf9b2dbbb549b5d30efed971e0adc41d427034",
+    "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-configuration.json": "c4f938a85ad468aab2631b61306b1d39b2067d5cca0032edadc4eaf3f0b7acd4",
+    "cases/virtual-diamond-frontiers/0666-heap_expand_block/frontier-extension.json": "6e9b668ab647ed935c3a27e9a817d5e3f5c0ca4dda1ddf9160d1c1ad29461c16",
+    "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-receipt.json": "aa4ae4088f7e35a12ec811bd945792973fd9fd7bcbebe8bb3978910849348d7c",
+    "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-events.txt": "a41f0ba358ad5573592b9eadc0a6712f6404e7cbf7de3f6d8d22bc2d5deb9001"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3171,7 +3199,7 @@
     },
     "matches_virtual_override": {
       "logical": "_matches_virtual_override@12",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "materialize_call_result": {
       "logical": "_materialize_call_result@4",
@@ -5260,7 +5288,8 @@
     "append_virtual_entry",
     "grow_virtual_entries",
     "virtual_entry_capacity_bytes",
-    "reserve_virtual_table_offset"
+    "reserve_virtual_table_offset",
+    "matches_virtual_override"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5333,7 +5362,9 @@
       "_doexit",
       "__endstdio",
       "__flushall",
-      "_flsall"
+      "_flsall",
+      "_realloc",
+      "__heap_expand_block"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -5926,7 +5957,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 664,
+      "last": 667,
       "seen": [
         "main",
         "message_text",
@@ -6504,12 +6535,13 @@
         "grow_virtual_entries",
         "virtual_entry_capacity_bytes",
         "reserve_virtual_table_offset",
-        "matches_virtual_override"
+        "matches_virtual_override",
+        "clone_class_virtual_table"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_matches_virtual_override@12",
-        "native": "matches_virtual_override",
+        "logical": "_clone_class_virtual_table@8",
+        "native": "clone_class_virtual_table",
         "signal": 5
       }
     }

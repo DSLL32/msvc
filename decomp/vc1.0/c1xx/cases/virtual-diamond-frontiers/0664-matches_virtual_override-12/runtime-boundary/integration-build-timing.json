@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 1.2597906878218055,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-realloc-boundary-integration-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 4.633397144265473,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-realloc-boundary-integration-canonical.log"
+  }
+]

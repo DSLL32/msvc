@@ -774,3 +774,34 @@ unsigned __stdcall reserve_virtual_table_offset(VirtualTable *table, unsigned si
     table->byte_size += size;
     return offset;
 }
+
+/* Original 0x7a880..0x7a952. Resolve conflict vectors to their first
+   function before comparing interned names, parameter identity and this type.
+   The unused class argument is nevertheless popped by the native RET 12. */
+int __stdcall matches_virtual_override(CppSymbol *member, VirtualEntry *entry,
+    CppSymbol *tag)
+{
+    CppSymbol *inherited = entry->function;
+    CType *type, *inherited_type, *this_type, *inherited_this;
+    TypeShape *shape, *inherited_shape;
+    FunctionParameters *parameters, *inherited_parameters;
+    if (entry->flags & 4) inherited = first_vector_item((Vector *)inherited);
+    if (inherited->name != member->name) return 0;
+    type = member->type;
+    inherited_type = inherited->type;
+    shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    inherited_shape = inherited_type->related;
+    if (inherited_shape && !(inherited_shape->flags & 0x77))
+        inherited_shape = inherited_shape->related;
+    parameters = shape->data.parameters;
+    inherited_parameters = inherited_shape->data.parameters;
+    if (parameters->declarations != inherited_parameters->declarations) return 0;
+    this_type = parameters->associated_type;
+    inherited_this = inherited_parameters->associated_type;
+    if ((type->attributes ^ inherited_type->attributes) & 7) return 0;
+    if ((this_type->related->attributes ^ inherited_this->related->attributes) & 7)
+        return 0;
+    if ((this_type->attributes ^ inherited_this->attributes) & 0x3000) return 0;
+    return compatible_override_return(type, inherited_type) ? 1 : 0;
+}

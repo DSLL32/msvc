@@ -99,6 +99,8 @@ def check(path):
         return check_stream(path)
     if evidence.get('kind')=='exit':
         return check_exit(path)
+    if evidence.get('kind')=='realloc':
+        return check_realloc(path)
     config=json.loads((BINARY/'functions.json').read_text())
     assert evidence['target_sha256']==config['target']['sha256']
     assert evidence['runtime_order']==list(NAMES),'unobserved runtime boundary'
@@ -173,4 +175,32 @@ def check_exit(path):
         assert receipt['candidate']==name==previous
         previous=receipt['terminal']
     assert previous=='exit:0'
+    return evidence
+
+
+def check_realloc(path):
+    """Require the exact first table resize and preserved 16-byte entry."""
+    evidence=json.loads(path.read_text())
+    config=json.loads((BINARY/'functions.json').read_text())
+    assert evidence['target_sha256']==config['target']['sha256']
+    names=['_realloc','__heap_expand_block']
+    assert evidence['case']=='virtual_diamond' and evidence['runtime_order']==names
+    assert evidence['identity']==identities(names=names),'realloc library identity changed'
+    for item in evidence['evidence_files']:
+        assert sha(BINARY/item['path'])==item['sha256'],'realloc evidence changed'
+    raw=(BINARY/evidence['original_observation']).read_text()
+    left,right=evidence['original'],evidence['native']
+    assert json.loads((BINARY/evidence['native_observation']).read_text())==right
+    assert re.findall(r'^runtime (\S+)$',raw,re.M)==left['runtime_order']==names
+    assert int(re.search(r'^return_va ([0-9a-f]+)$',raw,re.M)[1],16)==left['return_va']==0x78be2
+    assert right['caller']=='grow_virtual_entries'
+    for key,value in [('size',48),('count',1),('capacity',3),('result_nonnull',1)]:
+        assert int(re.search(r'^'+key+r' (\d+)$',raw,re.M)[1])==left[key]==right[key]==value
+    for key in ('before','after','before_name','after_name'):
+        assert re.search(r'^'+key+r' (.*)$',raw,re.M)[1]==left[key]
+    for side in (left,right):
+        assert len(bytes.fromhex(side['before']))==16
+        assert side['before']==side['after'] and side['before_name']==side['after_name'],'realloc lost input entry'
+    assert left['before_name']==right['before_name']
+    assert bytes.fromhex(left['before'])[4:]==bytes.fromhex(right['before'])[4:],'realloc entry bytes differ'
     return evidence

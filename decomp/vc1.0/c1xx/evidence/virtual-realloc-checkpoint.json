@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": "not measured as a combined command",
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/virtual-realloc-checkpoint.log",
+  "raw_log_sha256": "5917be330499375ae5e4f35190be5f66f96eb10ea26d8df489e4035906b04c7b",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "per-capture, per-build and fixture receipts retain measured components"
+}

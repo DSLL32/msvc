@@ -1,0 +1,2 @@
+83610 73010 110 _realloc
+83850 73250 70 __heap_expand_block

@@ -436,7 +436,6 @@ void __stdcall create_virtual_base_group_offsets(VirtualTableGroup *group, CppSy
 
 
 
-int __stdcall matches_virtual_override(CppSymbol *member, VirtualEntry *entry, CppSymbol *tag) { __asm { int 3 } return 0; }
 void __stdcall validate_virtual_override(CppSymbol *member, VirtualEntry *entry) { __asm { int 3 } }
 
 void __stdcall collapse_virtual_conflicts(VirtualEntry *entry) { __asm { int 3 } }

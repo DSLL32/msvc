@@ -1,0 +1,11 @@
+return_va 00078be2
+size 48
+count 1
+capacity 3
+before 4ca27e00000000000000000000000000
+before_name value
+runtime _realloc
+runtime __heap_expand_block
+result_nonnull 1
+after 4ca27e00000000000000000000000000
+after_name value

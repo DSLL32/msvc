@@ -15,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from case_paths import paths
 
 BINARY=Path(__file__).resolve().parents[1]
 
@@ -26,6 +27,7 @@ def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--native-entry',type=Path,help='explicit GDB runtime exit-entry capture when terminal is exit')
     parser.add_argument('--candidate',required=True)
     parser.add_argument('--evidence',type=Path,required=True)
@@ -34,7 +36,8 @@ def main():
     parser.add_argument('--build-timing',type=Path,required=True)
     args=parser.parse_args()
     started=time.perf_counter()
-    path=BINARY/'functions.json';config=json.loads(path.read_text());case=config['cases']['cpp_basic']
+    path=BINARY/'functions.json';config=json.loads(path.read_text())
+    case,fixture,reference,frontier_root=paths(config,args.case)
     candidate=args.candidate
     assert case['terminal']==candidate
     records=[next(r for r in config['driver'] if r['name']==candidate)]
@@ -46,6 +49,7 @@ def main():
     assert len(captures)==len(names)
     originals=[json.loads((p/'receipt.json').read_text()) for p in captures]
     for index,(name,receipt) in enumerate(zip(names,originals)):
+        assert receipt.get('case','cpp_basic')==args.case
         assert receipt['candidate']==name and receipt['accepted_count']==len(config['accepted'])+index
         assert receipt['configuration_sha256']==sha(path) and receipt['original_sha256']==config['target']['sha256']
         assert receipt.get('pending_accepted',[])==names[:index]
@@ -62,7 +66,7 @@ def main():
         events=(captures[0]/'events.txt').read_text()
     else:
         native_directory=Path(tempfile.mkdtemp(prefix='native-frontier-',dir=Path.home()/'.ai-tmp/vc1.0-c1xx'))
-        native=module('c1xx_native_capture','capture-native.py').capture(native_directory)
+        native=module('c1xx_native_capture','capture-native.py').capture(native_directory,case_name=args.case)
         assert native['signal']==5 and native['function']==trace.native_name(terminal),(terminal,native['function'])
         events=(captures[-1]/'events.txt').read_text()
     buffers=[m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$',events,re.M)]
@@ -82,7 +86,7 @@ def main():
     for index,(name,capture,receipt) in enumerate(zip(names,captures,originals)):
         number=len(config['accepted'])
         slug=re.sub(r'[^A-Za-z_0-9-]','-',name.lstrip('_@'))
-        record=BINARY/'cases/cpp-basic-frontiers'/('%04d-'%number+slug)
+        record=frontier_root/('%04d-'%number+slug)
         record.mkdir(parents=True,exist_ok=True)
         if base_record is None:base_record=record
         for filename in ('receipt.json','events.txt','stdout.bin','stderr.bin','configuration.json'):
@@ -108,15 +112,16 @@ def main():
     shutil.copyfile(args.build_timing,base_record/'build-timing.json')
     case['terminal']=terminal;case['terminal_evidence']=relative(record/'original-events.txt')
     path.write_text(json.dumps(config,indent=2)+'\n')
-    snapshot=BINARY/'cases/native-cpp-basic/canonical-map.txt'
+    snapshot=reference/'canonical-map.txt'
     snapshot.write_text(''.join(line.rstrip()+'\n' for line in (BINARY/'build/c1xx.map').read_text().splitlines()))
-    metadata_path=BINARY/'cases/native-cpp-basic/manifest.json';metadata=json.loads(metadata_path.read_text())
+    shutil.copyfile(snapshot,BINARY/'cases/canonical-map.txt')
+    metadata_path=reference/'manifest.json';metadata=json.loads(metadata_path.read_text())
     metadata['terminal']=(dict(kind='exit',logical=terminal,status=0) if complete else dict(metadata['terminal'],logical=terminal))
     metadata.update(reference_receipt=relative(record/'original-receipt.json'),reference_receipt_sha256=sha(record/'original-receipt.json'),
         canonical_map_sha256=sha(snapshot),capture_seconds=sum(r['capture_seconds'] for r in originals),
         scope='%d accepted frontiers; explicit runtime boundary and downstream %s frontend terminal'%(len(config['accepted']),'completed' if complete else 'partial'))
     for item in metadata['outputs']:
-        p=BINARY/'cases/native-cpp-basic'/item['path'];p.write_bytes(expected[item['path']]);item.update(bytes=p.stat().st_size,sha256=sha(p))
+        p=reference/item['path'];p.write_bytes(expected[item['path']]);item.update(bytes=p.stat().st_size,sha256=sha(p))
     metadata_path.write_text(json.dumps(metadata,indent=2)+'\n')
     subprocess.run([sys.executable,str(BINARY/'scripts/native-traces.py'),'--write'],cwd=BINARY,check=True)
     checked=time.perf_counter()
@@ -134,10 +139,12 @@ def main():
     application=len(cache['accepted_application']);coverage=json.loads(subprocess.check_output([sys.executable,str(BINARY/'scripts/coverage.py')],cwd=BINARY,text=True))
     current.update(accepted_frontiers=len(config['accepted']),driver_functions=application,reconstructed_source_functions=application+current['older_crt_functions'],
         current_frontier=terminal,original_frontier_va=None if complete else hex(next(r['start'] for r in config['driver'] if r['name']==terminal)),
-        current_native_application_entries=len(cache['cases']['cpp_basic']['expected']),latest_verification=relative(base_record/'validation.json'),coverage=coverage,accepted_extent_coverage=coverage)
+        current_native_application_entries=len(cache['cases'][args.case]['expected']),latest_verification=relative(base_record/'validation.json'),coverage=coverage,accepted_extent_coverage=coverage)
     current['graceful_pause'].update(paused=False,current_frontier=terminal,original_va=current['original_frontier_va'])
     if complete:
-        current.update(status='cpp_basic case complete; binary partial',complete_frontend_case=True)
+        current.update(status=args.case+' case complete; binary partial',complete_frontend_case=True)
+    current['active_case']=args.case
+    current.setdefault('cases',{})[args.case]=dict(status='complete' if complete else 'partial',frontier=terminal,latest_verification=relative(base_record/'validation.json'))
     current_path.write_text(json.dumps(current,indent=2)+'\n')
     print(' -> '.join(names+[terminal]));print(base_record/'validation.json')
 

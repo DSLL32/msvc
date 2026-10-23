@@ -1428,3 +1428,29 @@ shared compatibility change was needed in this group.
 
 Accepted extent union204114/476418bytes is42.843469%, not branch coverage.
 virtual_diamond remains incomplete at matches_virtual_override0x7a880.
+
+Virtual realloc checkpoint:667 accepted frontiers,582 source functions.
+The whole override matcher compares names, shared parameter declarations, this
+pointer model/cv attributes and compatible return types. Its class slot remains
+unused but RET12 is preserved. Its first completed path reached _realloc, where
+ordinary acceptance correctly rejected a native later trap as an unaccepted CRT
+seam. Explicit original-only captures establish _realloc then __heap_expand_block
+before the matching clone_class_virtual_table trap. Both CRT bodies exactly match
+LIBC members and canonical link relocations; they remain separate from application
+function counts.
+
+The explicit original/native realloc entry/return proof observes count1,
+capacity3, request48 and nonnull return. Both sides preserve all16old bytes.
+The first pointer is the independently read symbol named value; the other12bytes
+match raw exactly. No padding normalization is used. Four pending buffers,
+fourteen state words, streams and every visible file agree downstream. The new
+observer is original-only; ordinary fixtures never invoke it. Runtime acceptance
+now selects case-specific caches, prefixes and evidence directories.
+
+Full582-function graph, contextual data/defaults, both grammars, both native
+cases and25negative checks pass, including corrupted realloc size, preserved
+prefix, member identity and observation hash. The combined command was not timed;
+individual build/reference/GDB/fixture timings and the initial unmatched native
+run are retained. The observer build elapsed is explicitly unmeasured. Accepted
+extent union204709/476418bytes is42.968360%, not branch coverage.
+virtual_diamond is incomplete at clone_class_virtual_table0x78a40.

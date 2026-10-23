@@ -1,0 +1,11 @@
+{
+  "size": 48,
+  "count": 1,
+  "capacity": 3,
+  "result_nonnull": 1,
+  "before": "4cc25e56000000000000000000000000",
+  "after": "4cc25e56000000000000000000000000",
+  "before_name": "value",
+  "after_name": "value",
+  "caller": "grow_virtual_entries"
+}

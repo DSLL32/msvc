@@ -1,0 +1,7 @@
+{
+  "status": "accepted runtime library/import identity",
+  "function": "_realloc",
+  "next_frontier": "__heap_expand_block",
+  "boundary_evidence": "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/evidence.json",
+  "downstream_comparison": "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/validation.json"
+}

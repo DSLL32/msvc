@@ -123,6 +123,24 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error),seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted termination evidence')
+    realloc_path=BINARY/'cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/evidence.json'
+    if realloc_path.exists():
+        from runtime_boundary_loader import load_boundary
+        boundary=load_boundary();proof=boundary.check(realloc_path)
+        changes=[
+            ('realloc-library',lambda p:p['identity']['records'][0].__setitem__('object_sha256','0'*64),'realloc library identity changed'),
+            ('realloc-observation',lambda p:p['evidence_files'][0].__setitem__('sha256','0'*64),'realloc evidence changed'),
+            ('realloc-size',lambda p:p['native'].__setitem__('size',32),''),
+            ('realloc-lost-prefix',lambda p:p['original'].__setitem__('after','00'*16),'')]
+        for name,change,expected in changes:
+            altered=json.loads(json.dumps(proof));change(altered)
+            altered_path=directory/(name+'.json');altered_path.write_text(json.dumps(altered))
+            started=time.perf_counter()
+            try:boundary.check(altered_path)
+            except AssertionError as error:
+                assert expected in str(error),(name,str(error))
+                checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'raw realloc observation contradicts claimed size or preserved prefix',seconds=time.perf_counter()-started))
+            else:raise AssertionError(name+' accepted corrupted reallocation evidence')
     if 'virtual_diamond' in cache['cases']:
         wrong=json.loads(json.dumps(cache))
         wrong['cases']['virtual_diamond']['seen'].remove('main')

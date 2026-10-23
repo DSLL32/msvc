@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "accepted_before": 666,
+  "accepted": "__heap_expand_block",
+  "terminal": "_clone_class_virtual_table@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-receipt.json",
+  "original_capture_sha256": "aa4ae4088f7e35a12ec811bd945792973fd9fd7bcbebe8bb3978910849348d7c",
+  "original_events": "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-events.txt",
+  "original_events_sha256": "a41f0ba358ad5573592b9eadc0a6712f6404e7cbf7de3f6d8d22bc2d5deb9001",
+  "original_configuration": "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-configuration.json",
+  "scope": "Explicit runtime first-entry sequence, indexed library/import identity, original/native runtime boundary and downstream full checkpoint",
+  "runtime_evidence": "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/evidence.json",
+  "runtime_evidence_sha256": "37ccdce5652de6bcbb55095402995fe1da1cfdd452b8914f4967754dc73ce784",
+  "downstream_frontier": "_clone_class_virtual_table@8",
+  "downstream_comparison": "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/validation.json"
+}

@@ -47,6 +47,9 @@ build/reference-close-observer.exe: build/reference-close-observer.obj
 build/reference-stream-observer.obj: src/reference-stream-observer.c src/debug-run.c
 build/reference-stream-observer.exe: build/reference-stream-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-realloc-observer.obj: src/reference-realloc-observer.c src/debug-run.c
+build/reference-realloc-observer.exe: build/reference-realloc-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 # Ordinary regressions consume only cached original references, natively.

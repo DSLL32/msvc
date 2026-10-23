@@ -668,7 +668,10 @@
     "_append_virtual_entry@8",
     "_grow_virtual_entries@8",
     "_virtual_entry_capacity_bytes@4",
-    "_reserve_virtual_table_offset@8"
+    "_reserve_virtual_table_offset@8",
+    "_matches_virtual_override@12",
+    "_realloc",
+    "__heap_expand_block"
   ],
   "driver": [
     {
@@ -5973,7 +5976,7 @@
     {
       "name": "_matches_virtual_override@12",
       "start": 501888,
-      "end": 501889
+      "end": 502099
     },
     {
       "name": "_validate_virtual_override@8",
@@ -6119,7 +6122,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_matches_virtual_override@12",
+      "terminal": "_clone_class_virtual_table@8",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6141,9 +6144,12 @@
         "cases/virtual-diamond-frontiers/0660-append_virtual_entry-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0661-grow_virtual_entries-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0662-virtual_entry_capacity_bytes-4/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0665-realloc/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0666-heap_expand_block/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0663-reserve_virtual_table_offset-8/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },
