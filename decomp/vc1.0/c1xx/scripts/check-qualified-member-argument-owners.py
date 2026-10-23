@@ -1,4 +1,4 @@
-"""Negative metadata checks for the reached three-owner argument proof.
+"""Negative metadata checks for the reached multiple-owner argument proof.
 
 Use its frozen original configuration and current matching executable in scratch.
 Only the read-only argument preflight runs; no Wine, replay or promotion occurs.
@@ -28,11 +28,11 @@ def main():
     args=parser.parse_args()
     started=time.perf_counter()
     original=json.loads(args.proof.read_text())
-    assert original['function'] in ('_declare_qualified_member@12', '_make_compact_method_pointer@12')
+    assert original['function'] in ('_declare_qualified_member@12', '_make_compact_method_pointer@12', '_write_initializer_record@8')
     formals=original['formals']
-    assert len(formals)==3 and all(row['binding']['kind']=='caller-owned-pointer' for row in formals)
+    assert len(formals) in (2,3) and all(row['binding']['kind']=='caller-owned-pointer' for row in formals)
     registers=[row['binding']['original_register'] for row in formals]
-    assert len(set(registers))==3
+    assert len(set(registers))==len(formals)
     directory=Path(tempfile.mkdtemp(prefix='qualified-member-owner-negatives-',dir=CAPTURE_ROOT))
     (directory/'functions.json').write_bytes((args.proof.parent/'original-configuration.json').read_bytes())
     executable=BINARY/'build/native/C1XX3232.EXE'
@@ -52,11 +52,11 @@ def main():
             receipt['ownership_register_observations']=[row for row in receipt['ownership_register_observations'] if row['register']!=registers[0]]
         if name=='swapped-anchors':
             anchors={row['register']:row for row in receipt['ownership_register_observations']}
-            left,right=registers[1:]
+            left,right=registers[-2:]
             anchors[left]['value'],anchors[right]['value']=anchors[right]['value'],anchors[left]['value']
             raw=(target/'original-events.txt').read_text()
             import re
-            raw=re.sub(r'^ownership-anchor ('+'|'.join(registers[1:])+r') [0-9a-f]{8}$',lambda m:'ownership-anchor %s %08x'%(m[1],anchors[m[1]]['value']),raw,flags=re.M)
+            raw=re.sub(r'^ownership-anchor ('+'|'.join(registers[-2:])+r') [0-9a-f]{8}$',lambda m:'ownership-anchor %s %08x'%(m[1],anchors[m[1]]['value']),raw,flags=re.M)
             (target/'original-events.txt').write_text(raw)
             receipt['ownership_entry_projection']['events_sha256']=sha(target/'original-events.txt')
         if name=='wrong-native-owner':

@@ -613,4 +613,3 @@ void __stdcall save_macro_argument_text(char *start, char *end) { __asm { int 3 
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
-void __stdcall write_initializer_record(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }

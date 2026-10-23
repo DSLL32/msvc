@@ -48,6 +48,18 @@
     } \
 } while (0)
 
+/* Original 0x5bb30..0x5bb99, stdcall8. The terminating marker is
+   suppressed under the same parser mode as the literal initializer. */
+void __stdcall write_initializer_record(CppSymbol *symbol, IrToken *value)
+{
+    write_literal_initializer(symbol, value, line_file);
+    if (!(cpp_parser_flags & 0x20000000UL)) {
+        auxiliary_ir_stream = line_file;
+        initializer_record_marker = 7;
+        putc((signed char)initializer_record_marker, auxiliary_ir_stream);
+    }
+}
+
 /* Original 0x5bba0..0x5bdc6, stdcall12. The immutable first record
    schema is marker, declaration index, zero offset, then initializer value.
    Keep its ordinary format literal here; its pointer identity is not used. */

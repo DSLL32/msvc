@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_write_initializer_record@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1138,
+  "configuration_sha256": "7d8df47df0e27a1f47c666ea1b3c998bb60e1f3d17e2bc69c1749fd6d02b296f",
+  "native_entry": "write_initializer_record",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 314251,
+        "original_owner_function": "_make_string_literal_object@12",
+        "native_owner_function": "make_string_literal_object",
+        "native_owner_field": "caller_symbol",
+        "native_owner_local": "symbol",
+        "identity": "Actual fresh immediate caller allocated symbol and token formal; exact ESI/EBP PUSH def-use, no raw heap identity or pointed-to prestate comparison.",
+        "original_owner_value": 8312012,
+        "native_owner_value": 1449309388
+      },
+      "original_raw": 8312012,
+      "native_raw": 1449309388,
+      "result": "match"
+    },
+    {
+      "name": "value",
+      "stack_index": 1,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 314251,
+        "original_owner_function": "_make_string_literal_object@12",
+        "native_owner_function": "make_string_literal_object",
+        "native_owner_field": "caller_value",
+        "native_owner_local": "token",
+        "identity": "Actual fresh immediate caller allocated symbol and token formal; exact ESI/EBP PUSH def-use, no raw heap identity or pointed-to prestate comparison.",
+        "original_owner_value": 8364620,
+        "native_owner_value": 1449363492
+      },
+      "original_raw": 8364620,
+      "native_raw": 1449363492,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      375600,
+      375706
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole106B/no frame; pushes FILE line_file then original value at adjusted ESP+12, symbol at adjusted ESP+12; CALL5bba0 stdcall12, RET8 both exits, no consumed return/hiddenregisterinput. Conditional20000000 marker7 direct putc fastpath or shipped _flsbuf cdecl. Immediate acceptedmake_string_literal_object EBPactualtoken/ESIallocatedsymbol, PUSH EBP5cb84/PUSH ESI5cb85/CALL5cb86 return5cb8b. Selective ESI+EBP ownership anchors are actual formals identity, not hidden ABI inputs.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "0883052c1d52a7bd36bf9764f03d8a1d789c618c558b82112d8207633a71d2f1",
+  "capture_timing": {
+    "original_capture_seconds": 0.71600123308599,
+    "native_capture_seconds": 0.19084195978939533,
+    "total_operation_seconds": 1.159325704909861
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "847098676eaa748c6013c02f29ce83528176af20697f32b6411e75dd18dad26e",
+    "native-commands.gdb": "76fec1f3ee42b8bb43fcbe1073a28c25fc3d1e2687cfd535f902488d60d0b224",
+    "native-gdb.log": "2480cb2e4acbc493a69c97d25137c65985540705bb3b7c537b6c672b19128742",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "56100a4043f18c48b1f680aee976c94f175b9dec6b3067b2856b56353f4c500a",
+    "original-configuration.json": "7d8df47df0e27a1f47c666ea1b3c998bb60e1f3d17e2bc69c1749fd6d02b296f",
+    "original-disassembly.txt": "3223b7ced7c8de18132e24ec9e66f8936fd781c4c32ca421a8064796b9541529",
+    "original-entries.plan": "c050192ad3d46413b501c8b55272c0fbb880c88d9c9b752b339d38d16c300c7e",
+    "original-events.txt": "407babb1da46c7976a352529afdaf911941fe821d7b49c2f7e1358dc022573b6",
+    "original-ownership-caller-disassembly.txt": "cd413149d4b7e5b19ce36ea9cf01b5f0a3a2776fcf7c26f298d85e391e91c5fe",
+    "original-receipt.json": "a1c66b7c8c083ac2a65652e2768746a7328ce226b8902a4e31a1c212f66ed960",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "d3a482a0b84390dcaec23683f9b6a08d10843119f7b7d4cd8f20c36c6f926e2f"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

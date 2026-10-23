@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "function": "_write_initializer_record@8",
+  "native_entry": "write_initializer_record",
+  "argument_words": 4,
+  "ownership_register": "esi,ebp",
+  "ownership_caller_extent": [
+    379769,
+    379787
+  ],
+  "native_caller_locals": {
+    "caller_symbol": {
+      "frame": 1,
+      "function": "make_string_literal_object",
+      "local": "symbol"
+    },
+    "caller_value": {
+      "frame": 1,
+      "function": "make_string_literal_object",
+      "local": "token"
+    }
+  },
+  "native_expressions": {
+    "raw_symbol": "(unsigned)symbol",
+    "raw_value": "(unsigned)value"
+  },
+  "formals": [
+    {
+      "name": "symbol",
+      "stack_index": 0,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 314251,
+        "original_owner_function": "_make_string_literal_object@12",
+        "native_owner_function": "make_string_literal_object",
+        "native_owner_field": "caller_symbol",
+        "native_owner_local": "symbol",
+        "identity": "Actual fresh immediate caller allocated symbol and token formal; exact ESI/EBP PUSH def-use, no raw heap identity or pointed-to prestate comparison."
+      }
+    },
+    {
+      "name": "value",
+      "stack_index": 1,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 314251,
+        "original_owner_function": "_make_string_literal_object@12",
+        "native_owner_function": "make_string_literal_object",
+        "native_owner_field": "caller_value",
+        "native_owner_local": "token",
+        "identity": "Actual fresh immediate caller allocated symbol and token formal; exact ESI/EBP PUSH def-use, no raw heap identity or pointed-to prestate comparison."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      375600,
+      375706
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole106B/no frame; pushes FILE line_file then original value at adjusted ESP+12, symbol at adjusted ESP+12; CALL5bba0 stdcall12, RET8 both exits, no consumed return/hiddenregisterinput. Conditional20000000 marker7 direct putc fastpath or shipped _flsbuf cdecl. Immediate acceptedmake_string_literal_object EBPactualtoken/ESIallocatedsymbol, PUSH EBP5cb84/PUSH ESI5cb85/CALL5cb86 return5cb8b. Selective ESI+EBP ownership anchors are actual formals identity, not hidden ABI inputs."
+  }
+}
