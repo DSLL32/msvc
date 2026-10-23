@@ -1,0 +1,361 @@
+{
+  "checkpoint": 1252,
+  "previous_checkpoint": 1251,
+  "new_application": [
+    {
+      "name": "_omf_open_module",
+      "start": 435024,
+      "end": 436197,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-open-module-abi/validation.json",
+        "no_hidden_inputs_proof": "Full original6a350..6a7e5 has no incoming register/stack/x87/flags arguments; local/global assignments and child returns precede reads; RET0."
+      }
+    }
+  ],
+  "new_extent_bytes": 1173,
+  "excluded_alignment": [
+    "0x6a7e5",
+    "0x6a7f0"
+  ],
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1252,
+    "accepted_code_bytes": 337605,
+    "original_code_bytes": 399693,
+    "percentage": 84.46607771464599,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 602
+  },
+  "application_graph_rows": 1142,
+  "reconstructed_application_support_functions": 1137,
+  "existing_handwritten_crt_bodies": 5,
+  "application_support_code_extent_bytes": 319305,
+  "code_denominator_bytes": 399693,
+  "next_frontier": "_omf_initialize_records",
+  "next_original_va": "0x6a9a0",
+  "case_results": {
+    "total": 15,
+    "complete": 14,
+    "omf_named_trap": "_omf_initialize_records"
+  },
+  "graph_report_sha256": "c51fc6493c9ec47814d9eff7e729b285e2b1c610ee2fb81b1792ac9fc84cc073",
+  "native_validation_sha256": "abbe6c2802ede75f429f753b856647971e3fad4d42c3094917c07c3b73f14f58",
+  "entry_observation": "cases/omf-open-module-abi/validation.json",
+  "controls": "cases/omf-open-validation.json",
+  "typed_data": "Original84fc4 points to existing8-byte zero group84fb8, directly binds canonical omf_default_group->named omf_group_storage. Two initialized1 counters and two zero thread counters match original; named20-byte fixup-thread state introduced as encountered. Segment remains72 bytes, typed OMF header/class union overlays preserve existing COFF byte/WORD fields. Literal8/9/11 record strings at point of use, no copied section/opaque data.",
+  "failed_attempts": [
+    "Actual entry detected original listing_columnFFFFFFFF versus implicit native0; exact PE initializer restored, failed native raw proof retained, same immutable original reobserved.",
+    "Two initial builds missed a few existing Segment selection/field45 accesses after typed union; all actual field paths fixed, canonical+native/W3 pass.",
+    "First shape data reader wrongly treated canonical BSS as file-backed; corrected host reader honors BSS zero initialization.",
+    "Whole-body COMDAT control found invented class-index assignment at name path. Original6a530..6a53f only assigns name index; removed extra write,128 shapes pass.",
+    "A pre-test review corrected mistaken informal code/const/bss original address labels against existing verified initialize_segments/debug-segment storage mapping. No wrong-map original frontier was accepted.",
+    "Making existing group storage publicly named for identity audit shifted canonical data addresses; attempted code-byte identity assertion correctly failed. Full canonical graph/extent/ABI/storage audit rerun passed; no identical-code claim."
+  ],
+  "timings": {
+    "omf1252-COMDAT-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.9746913239359856,
+      "returncode": 0,
+      "log_sha256": "4c0863c33b4668ddf59d74ed0223a0da15441834d457145b38e91a310b513969"
+    },
+    "omf1252-W3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output",
+        "listing",
+        "segment-storage",
+        "coff-segments",
+        "coff-functions",
+        "coff-initializers"
+      ],
+      "seconds": 6.803920531645417,
+      "returncode": 0,
+      "log_sha256": "ef22e5c743e34114ae244af90c4be908deec0c1402a4c7415630d4035ac54b10"
+    },
+    "omf1252-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 15.465776892378926,
+      "returncode": 0,
+      "log_sha256": "b54b20649ebff7ed3a339109605e0a7ca7a1a693a0e29a534a6b076739efe679"
+    },
+    "omf1252-build-complete-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 14.021778099238873,
+      "returncode": 0,
+      "log_sha256": "d35efc2740f9268d159bbb0e3457b7501bf226ad5ffcfce5fd357a1a2d833b86"
+    },
+    "omf1252-build-retry-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 1.0473030358552933,
+      "returncode": 2,
+      "log_sha256": "127d58ac90e66d360665efc4a74561c4239860271158272eef9e3b88859061e5"
+    },
+    "omf1252-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.250615630298853,
+      "returncode": 2,
+      "log_sha256": "a2029c7ad912f6ad93998115444bad0d25db6c0ce97ad25f3f8dce6516eff4b6"
+    },
+    "omf1252-cache-timing": {
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--extend-before",
+        "cases/omf-original-1251.json",
+        "--extend-after",
+        "cases/omf-original-1252.json"
+      ],
+      "seconds": 0.30276116356253624,
+      "returncode": 0,
+      "log_sha256": "1b6af7d4499941887a393d629a68cbf3f17963bde8bf37cd9e7ae899a4713cb0"
+    },
+    "omf1252-column-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.019277614541352,
+      "returncode": 0,
+      "log_sha256": "fe077c8d1e65d38f72634c3b065a260dbaa16cfd2569ba5125bc91385441608a"
+    },
+    "omf1252-column-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.8871370991691947,
+      "returncode": 0,
+      "log_sha256": "386c29cd208ba4c0c324f5f5e1bee76f5074e96d6c702307f8e7c8bb458cb15d"
+    },
+    "omf1252-entry-corrected-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-scalar-entry.py",
+        "--native-only",
+        "--profile",
+        "omf",
+        "--function",
+        "_omf_open_module",
+        "--no-hidden-inputs-proof",
+        "Original6a350..6a7e5 takes no formal parameters. EBX/ESI saved then assigned; all reads of EAX/ECX/EDX follow local/global assignment or child returns, flags produced locally, no incoming x87/stack/GPR/out-pointer input; RET0. Original parser state coff_object0 additionally observed on both sides. Global typed segment/name/group/counter state is separate contextual storage, not hidden ABI arguments.",
+        "--receipt",
+        "cases/omf-open-module-abi"
+      ],
+      "seconds": 0.27366177178919315,
+      "returncode": 0,
+      "log_sha256": "1a1a5261079a4dbe4e8aeaf23554459ff881de190b477c39d2cb92f056271e07"
+    },
+    "omf1252-entry-timing": {
+      "command": [
+        "python3",
+        "scripts/observe-scalar-entry.py",
+        "--profile",
+        "omf",
+        "--function",
+        "_omf_open_module",
+        "--no-hidden-inputs-proof",
+        "Original6a350..6a7e5 takes no formal parameters. EBX/ESI saved then assigned; all reads of EAX/ECX/EDX follow local/global assignment or child returns, flags produced locally, no incoming x87/stack/GPR/out-pointer input; RET0. Original parser state coff_object0 additionally observed on both sides. Global typed segment/name/group/counter state is separate contextual storage, not hidden ABI arguments.",
+        "--receipt",
+        "cases/omf-open-module-abi"
+      ],
+      "seconds": 1.8480907157063484,
+      "returncode": 1,
+      "log_sha256": "83ff9a9efd459a41b1c2ff8d577faad930839a433354bcf1bbdf7b92d0e97832"
+    },
+    "omf1252-final-W3-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "omf-output"
+      ],
+      "seconds": 1.0555812306702137,
+      "returncode": 0,
+      "log_sha256": "3c6e4c6f41c66903f47daee0e97878a7cc376569f49e49bcc67f94942303aa3a"
+    },
+    "omf1252-final-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 15.264925729483366,
+      "returncode": 0,
+      "log_sha256": "b54b20649ebff7ed3a339109605e0a7ca7a1a693a0e29a534a6b076739efe679"
+    },
+    "omf1252-final-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 11.457231225445867,
+      "returncode": 0,
+      "log_sha256": "241feb1dbbf1c1b212000912608e260e2d0402b157fcd440990db82297b0a1f0"
+    },
+    "omf1252-identity-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/c2.exe",
+        "build/runtime.json"
+      ],
+      "seconds": 3.50854379683733,
+      "returncode": 0,
+      "log_sha256": "4c0863c33b4668ddf59d74ed0223a0da15441834d457145b38e91a310b513969"
+    },
+    "omf1252-identity-fixtures-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.9041610797867179,
+      "returncode": 0,
+      "log_sha256": "0f370523c74f9196306efbe8d53f7d8ce2c80c8b4bb226c60d4754a0e838f05a"
+    },
+    "omf1252-identity-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1252.json"
+      ],
+      "seconds": 0.23513119295239449,
+      "returncode": 0,
+      "log_sha256": "e5495300b2b8b42fc4d5201053033aa0ed08333281bec5bad3076f551b701290"
+    },
+    "omf1252-identity-shapes-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-open.py"
+      ],
+      "seconds": 3.9433580581098795,
+      "returncode": 0,
+      "log_sha256": "188f3ccf1819c9e6934104adca1b56b98f17570935f6d9de7b224a9817902ced"
+    },
+    "omf1252-native-all-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 2.412682868540287,
+      "returncode": 0,
+      "log_sha256": "fa589e310a2555fdfc552c7089e0f5c1dc1c64a970f6a79ed935351bcbf0d208"
+    },
+    "omf1252-native-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "omf",
+        "--reference",
+        "cases/omf-original-1252.json"
+      ],
+      "seconds": 0.21927759051322937,
+      "returncode": 0,
+      "log_sha256": "8ff3636e8ff6acc9fbac3b3c5c9fe3aa146bb9e2fd7e04433c151776d962846e"
+    },
+    "omf1252-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "omf",
+        "--receipt",
+        "cases/omf-original-1252.json"
+      ],
+      "seconds": 0.942643222399056,
+      "returncode": 0,
+      "log_sha256": "88f0e914a2facd22e505ff1f00f8051e36fbe15e9d122ba9f7d0d5dfb0671e8a"
+    },
+    "omf1252-shapes-BSS-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-open.py"
+      ],
+      "seconds": 0.5053273877128959,
+      "returncode": 1,
+      "log_sha256": "9489b49b38986d0e9f27b6f2a65ac633a87ce2850b3c7c4b1514fc579729a8a2"
+    },
+    "omf1252-shapes-COMDAT-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-open.py"
+      ],
+      "seconds": 4.203589945100248,
+      "returncode": 0,
+      "log_sha256": "188f3ccf1819c9e6934104adca1b56b98f17570935f6d9de7b224a9817902ced"
+    },
+    "omf1252-shapes-timing": {
+      "command": [
+        "python3",
+        "scripts/check-omf-open.py"
+      ],
+      "seconds": 0.32539873011410236,
+      "returncode": 1,
+      "log_sha256": "3377b13230ad8d035dea6aa8078591ed6e1f8356bb4381e72114dd32a0b344f0"
+    }
+  },
+  "limits": "Whole1173-byte function reconstructed. Real assigned case executes only prefix through first child call before new record-initializer trap;128 child-mocked original/canonical controls substantiate later name/segment/group/thread/COMDAT/error request branches, not actual case branch coverage or unaccepted child behavior. All seven newly reached graph callees remain typed named traps. Actual no-formal/no-hidden ABI is separately observed on both sides. No new CRT implementation.",
+  "unmeasured": "Analysis/edit wall time unmeasured. Native/canonical builds are combined unsplit, including failed/repeated type/cold-branch/storage fixes; original build and /W3 compilation remain explicit Wine operations outside fixtures. Independent native original trap/debug and fixtures include measured setup/run/check in receipts.15.265s full audit includes existing target-specific controls plus4s OMF model, not Rust-only time. Native fixture final .904s wrapper, no compiler/Wine/capture in fixtures."
+}

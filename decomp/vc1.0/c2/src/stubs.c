@@ -22,6 +22,7 @@
 #include "backend.h"
 #include "extended.h"
 #include "segments.h"
+#include "omf-output.h"
 #include "initializers.h"
 #include "functions.h"
 #include "function-input.h"
@@ -103,7 +104,14 @@ __declspec(naked) void omf_finish_module(void) { RECON_TRACE_NAKED_ENTRY(omf_fin
 unsigned __fastcall omf_output_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void omf_output_record(void) { RECON_TRACE_NAKED_ENTRY(omf_output_record) __asm int 3 }
 __declspec(naked) void omf_mark_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_mark_symbol) __asm int 3 }
-void omf_open_module(void) { __asm int 3 }
+void omf_initialize_records(void) { __asm int 3 }
+void omf_flush_records(void) { __asm int 3 }
+void __fastcall omf_write_module_header(char *source) { __asm int 3 }
+unsigned __fastcall omf_name_index(char *name) { __asm int 3 }
+void __fastcall omf_write_segment_definition(Segment *segment) { __asm int 3 }
+void __fastcall omf_write_group_definition(Segment *segment, OmfGroup *group) { __asm int 3 }
+unsigned __fastcall omf_define_fixup_thread(unsigned char flags, unsigned char method,
+    unsigned target, unsigned thread) { __asm int 3 }
 #include "coff-output.h"
 void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm int 3 }
 #include "coff-writer.h"

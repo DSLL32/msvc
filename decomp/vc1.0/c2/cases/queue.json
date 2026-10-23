@@ -424,7 +424,7 @@
       "evidence": "cases/dbglist-completion-checkpoint.json"
     }
   ],
-  "status": "Approved derived standalone OMF case frozen: actual original CL frontend IR/baseline env plus explicitly supported C2 -omf; reconstruct initial named frontier.",
+  "status": "Derived OMF case at1252: whole module opener accepted; matching original/native record-initializer child trap6a9a0.14 earlier cases complete.",
   "next_case_proposals": [],
   "current_runtime_frontier": null,
   "historical_proposals": [
@@ -486,5 +486,6 @@
       ],
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
-  ]
+  ],
+  "current_application_frontier": "_omf_initialize_records"
 }

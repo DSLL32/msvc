@@ -1255,7 +1255,8 @@
     "_write_codeview_compile_record",
     "@read_codeview_initializers@4",
     "@release_initializer@4",
-    "@coff_write_lines@8"
+    "@coff_write_lines@8",
+    "_omf_open_module"
   ],
   "driver": [
     {
@@ -2312,8 +2313,15 @@
     {
       "name": "_omf_open_module",
       "start": 435024,
-      "end": 435025,
-      "provisional": true
+      "end": 436197,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-open-module-abi/validation.json",
+        "no_hidden_inputs_proof": "Full original6a350..6a7e5 has no incoming register/stack/x87/flags arguments; local/global assignments and child returns precede reads; RET0."
+      }
     },
     {
       "name": "_initialize_codeview_output",
@@ -8426,6 +8434,48 @@
         "callee_stack_cleanup": 0,
         "entry_observation": "cases/dbglist-codeview-file-abi/validation.json"
       }
+    },
+    {
+      "name": "_omf_initialize_records",
+      "start": 436640,
+      "end": 436641,
+      "provisional": true
+    },
+    {
+      "name": "_omf_flush_records",
+      "start": 436208,
+      "end": 436209,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_module_header@4",
+      "start": 436608,
+      "end": 436609,
+      "provisional": true
+    },
+    {
+      "name": "@omf_name_index@4",
+      "start": 436544,
+      "end": 436545,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_segment_definition@4",
+      "start": 436368,
+      "end": 436369,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_group_definition@8",
+      "start": 436304,
+      "end": 436305,
+      "provisional": true
+    },
+    {
+      "name": "@omf_define_fixup_thread@16",
+      "start": 436224,
+      "end": 436225,
+      "provisional": true
     }
   ],
   "cases": {

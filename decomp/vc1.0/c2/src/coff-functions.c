@@ -89,9 +89,9 @@ void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int 
             segment->word_size = 7;
             segment->format_flags = 1;
             segment->section_number = 4;
-            segment->selection = 5;
+            segment->object_attributes.coff.selection = 5;
             segment->identity.owner = &symbol->symbol;
-            segment->field45 = 0;
+            segment->object_attributes.coff.field45 = 0;
             segment->parent = (Segment *)lookup_global_symbol(symbol->symbol.field18.identifier);
         }
     }
@@ -111,9 +111,9 @@ void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int 
             segment->alignment = 1;
             segment->word_size = 7;
             segment->section_number = 9;
-            segment->selection = 5;
+            segment->object_attributes.coff.selection = 5;
             segment->identity.owner = &symbol->symbol;
-            segment->field45 = 0;
+            segment->object_attributes.coff.field45 = 0;
             segment->parent = (Segment *)lookup_global_symbol(symbol->symbol.field18.identifier);
         }
     }

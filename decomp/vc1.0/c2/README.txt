@@ -422,3 +422,17 @@ relabeling old raw evidence. Native matches omf_open_module;14 complete cases
 remain exact. OMF artifact/input negatives reject false COFF clock exemptions.
 No new function accepted: cases/omf-capture-checkpoint.json records provenance,
 all failed probes, original/native observations and measured timings.
+
+Checkpoint1252 reconstructs the whole1173-byte OMF module opener. Actual
+zero-input ABI matches; real case currently executes its prefix through the
+first child, then both sides trap at omf_initialize_records6a9a0.128 controlled
+original/canonical states cover later names/segments/groups/fixup threads and
+COMDAT branches with explicit child mocks, not actual branch coverage. Those
+controls caught an extra class-index write on a named COMDAT path; it is removed.
+Contextual data uses one named8-byte group storage/pointer identity, typed
+counters/threads and72-byte Segment format unions. An actual PE initial-value
+mismatch in listing_column is fixed toFFFFFFFF; failed observations retained.
+All15 native cases pass (14 complete), canonical graphs/extents/ABI/storage and
+original/W3 builds pass.337605/399693 accepted extent bytes; app/support-only
+319305B and1137 functions exclude the5 historical handwritten CRT bodies.
+Full failed/repeated build/control and timing ledger: cases/omf-open-checkpoint.json.

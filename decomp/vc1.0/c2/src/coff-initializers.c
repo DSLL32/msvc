@@ -80,9 +80,9 @@ unsigned __fastcall coff_output_relocation(Initializer *initializer,
                 references->word_size = 7;
                 references->format_flags = 1;
                 references->section_number = 1;
-                references->selection = 5;
+                references->object_attributes.coff.selection = 5;
                 references->identity.owner = symbol;
-                references->field45 = 0;
+                references->object_attributes.coff.field45 = 0;
                 references->parent = (Segment *)lookup_global_symbol(symbol->field18.identifier);
             }
             coff_select_segment(initializer_reference_segment);

@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "coff-finalize",
-      "seconds": 2.1470585092902184,
+      "module": "omf-output",
+      "seconds": 1.0063351718708873,
       "returncode": 0
     }
   ],
-  "seconds": 2.1472643110901117
+  "seconds": 1.0065241074189544
 }

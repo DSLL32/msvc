@@ -1,0 +1,6 @@
+{
+  "before_code_sha256": "9554d4526ef6977b593f51a30aca54c00f07e8009a90f7141cb381f74c6bbedc",
+  "after_code_sha256": "d2fc7073435b94037eb0b40d02882e6376d64b88a5683355b0f63402a621051d",
+  "unchanged": false,
+  "scope": "Naming existing default-group storage public C data made original84fc4->84fb8 pointer identity directly auditable. The resulting static/public allocation relayout changed absolute data references in canonical text, so attempted byte-identity assertion failed. Canonical whole graph/extent/ABI audit rerun mandatory; no claim of identical code bytes. Original source/config/mask unchanged; native actual frontier+15 fixtures pass. No duplicate same-zero group can satisfy named storage address check."
+}

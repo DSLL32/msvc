@@ -11,11 +11,14 @@ typedef struct Segment {
     unsigned field2c, alignment;
     unsigned char format_flags, word_size, section_number, field37;
     unsigned object_section;
-    struct Segment *parent;
+    union { struct Segment *parent; unsigned omf_header_end; };
     union { unsigned order; SymbolHeader *owner; } identity;
-    unsigned char selection, field45;
-    unsigned short field46;
+    union {
+        struct { unsigned char selection, field45; unsigned short field46; } coff;
+        unsigned omf_class_index;
+    } object_attributes;
 } Segment;
+typedef char SegmentSizeCheck[sizeof(Segment) == 72 ? 1 : -1];
 extern Segment *code_segment, *data_segment, *const_segment, *bss_segment;
 extern Segment *debug_symbols_segment, *debug_types_segment, *tls_segment;
 Segment *__fastcall create_segment(char *name, char *class_name, unsigned identifier);

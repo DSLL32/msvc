@@ -1,0 +1,8 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4013: file src/stubs.c, line 106.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_open_module () at src/stubs.c:106
+106	void omf_open_module(void) { __asm int 3 }
+C2_SCALARS {"values": [], "coff_object": 0, "column": 0, "cw": 639, "sw": 0, "stdout": {"flags": 2, "count": 0, "fd": 1, "size": 0, "null": 1, "used": 0, "buffer_hex": ""}}

@@ -21,7 +21,7 @@ char *assembly_source_filename; /* 0007e1c0 */
 static long source_checkpoint_position, source_checkpoint_line; /* 0007e1d0,0007e1d4 */
 static long source_current_line; /* 0007e1c4 */
 static FILE *listing_source_file; /* 0007e1d8 */
-unsigned listing_column; /* 00080d40 */
+unsigned listing_column = (unsigned)-1; /* 00080d40: original PE DWORD ffffffff */
 /* Original28680..2875f. Collect line boundaries before printing the machine
    stream; a changed file records the preceding line as its initial boundary. */
 void __fastcall prepare_source_listing(MachineInstruction *instruction)

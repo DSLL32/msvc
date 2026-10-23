@@ -112,7 +112,7 @@ void __fastcall update_symbol_storage(SymbolHeader *header)
     if (header->kind == 4) {
         segment = create_segment(header->name, "CODE", next_symbol_identifier());
         segment->section_number = 0;
-        segment->selection = symbol->flags52 & 0x80 ? 1 : 2;
+        segment->object_attributes.coff.selection = symbol->flags52 & 0x80 ? 1 : 2;
         segment->alignment = stack_alignment;
     } else {
         if (identifier == 3) {
@@ -125,13 +125,13 @@ void __fastcall update_symbol_storage(SymbolHeader *header)
             segment = create_segment(header->name, "DATA", next_symbol_identifier());
             segment->section_number = 1;
         }
-        segment->selection = 1;
+        segment->object_attributes.coff.selection = 1;
         segment->alignment = default_segment_alignment;
     }
     segment->word_size = 7;
     segment->format_flags = 1;
     segment->identity.owner = header;
-    segment->field45 = 0;
+    segment->object_attributes.coff.field45 = 0;
     group = arena_alloc(0, sizeof(ComdatGroup));
     segment->symbol.field18.pointer = group;
     group->count = 0;

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-scalar-entry.py",
+    "--native-only",
+    "--profile",
+    "omf",
+    "--function",
+    "_omf_open_module",
+    "--no-hidden-inputs-proof",
+    "Original6a350..6a7e5 takes no formal parameters. EBX/ESI saved then assigned; all reads of EAX/ECX/EDX follow local/global assignment or child returns, flags produced locally, no incoming x87/stack/GPR/out-pointer input; RET0. Original parser state coff_object0 additionally observed on both sides. Global typed segment/name/group/counter state is separate contextual storage, not hidden ABI arguments.",
+    "--receipt",
+    "cases/omf-open-module-abi"
+  ],
+  "seconds": 0.27366177178919315,
+  "returncode": 0,
+  "log_sha256": "1a1a5261079a4dbe4e8aeaf23554459ff881de190b477c39d2cb92f056271e07"
+}

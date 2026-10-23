@@ -1,0 +1,8 @@
+{
+  "original_address": "0x80d40",
+  "original_value": "0xffffffff",
+  "old_c_initializer": "implicit zero",
+  "new_c_initializer": "(unsigned)-1",
+  "scope": "Restore actual PE initial data, not runtime seeding or function acceptance. OMF without listing observes it before any reset; earlier source-listing case reset it before use.",
+  "failed_native": "failed-native-column.txt"
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-omf-open.py"
+  ],
+  "seconds": 0.5053273877128959,
+  "returncode": 1,
+  "log_sha256": "9489b49b38986d0e9f27b6f2a65ac633a87ce2850b3c7c4b1514fc579729a8a2"
+}

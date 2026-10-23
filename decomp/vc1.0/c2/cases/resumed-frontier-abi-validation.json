@@ -21,7 +21,7 @@
       ],
       "canonical": [
         {
-          "address": "0x33efb",
+          "address": "0x33f9f",
           "stack_bytes": 0
         }
       ]
@@ -37,7 +37,7 @@
       ],
       "canonical": [
         {
-          "address": "0x1bede",
+          "address": "0x1bf82",
           "stack_bytes": 8
         }
       ]
@@ -77,7 +77,7 @@
       ],
       "canonical": [
         {
-          "address": "0x3fc36",
+          "address": "0x3fcda",
           "stack_bytes": 0
         }
       ]
@@ -93,7 +93,7 @@
       ],
       "canonical": [
         {
-          "address": "0x3fc87",
+          "address": "0x3fd2b",
           "stack_bytes": 0
         }
       ]
@@ -133,7 +133,7 @@
       ],
       "canonical": [
         {
-          "address": "0x7fcc0",
+          "address": "0x80370",
           "stack_bytes": 4
         }
       ]
@@ -161,7 +161,7 @@
       ],
       "canonical": [
         {
-          "address": "0x7ff0e",
+          "address": "0x805be",
           "stack_bytes": 4
         }
       ]
@@ -185,7 +185,7 @@
       ],
       "canonical": [
         {
-          "address": "0x5ca27",
+          "address": "0x5d0d7",
           "stack_bytes": 0
         }
       ]
@@ -209,7 +209,7 @@
       ],
       "canonical": [
         {
-          "address": "0x2da1e",
+          "address": "0x2dac2",
           "stack_bytes": 0
         }
       ]
@@ -233,7 +233,7 @@
       ],
       "canonical": [
         {
-          "address": "0x84838",
+          "address": "0x84ee8",
           "stack_bytes": 0
         }
       ]
@@ -253,7 +253,7 @@
       ],
       "canonical": [
         {
-          "address": "0x618fd",
+          "address": "0x61fad",
           "stack_bytes": 0
         }
       ]
@@ -273,7 +273,7 @@
       ],
       "canonical": [
         {
-          "address": "0x619a9",
+          "address": "0x62059",
           "stack_bytes": 0
         }
       ]
@@ -289,7 +289,7 @@
       ],
       "canonical": [
         {
-          "address": "0x865d9",
+          "address": "0x86c89",
           "stack_bytes": 0
         }
       ]
@@ -321,7 +321,7 @@
       ],
       "canonical": [
         {
-          "address": "0x76fad",
+          "address": "0x7765d",
           "stack_bytes": 4
         }
       ]
@@ -385,7 +385,7 @@
       ],
       "canonical": [
         {
-          "address": "0x77227",
+          "address": "0x778d7",
           "stack_bytes": 0
         }
       ]
@@ -421,12 +421,12 @@
       ],
       "canonical": [
         {
-          "address": "0x7733f",
+          "address": "0x779ef",
           "stack_bytes": 0
         }
       ]
     }
   ],
-  "seconds": 0.34780608396977186,
+  "seconds": 0.362972610630095,
   "return_width_evidence": "scheduler_instruction_cycles original defines AX; all reconstructed callers explicitly consume word/byte or receive its unsigned-short result"
 }

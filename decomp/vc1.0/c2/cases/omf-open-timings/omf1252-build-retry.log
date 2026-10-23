@@ -1,0 +1,239 @@
+python3 scripts/dependencies.py
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/segment-storage.c -o build/native/segment-storage.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/encoding-recipes.c -o build/native/encoding-recipes.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/instruction-encoding.c -o build/native/instruction-encoding.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/machine-layout.c -o build/native/machine-layout.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/machine-emission.c -o build/native/machine-emission.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/final-instructions.c -o build/native/final-instructions.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/unoptimized.c -o build/native/unoptimized.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/backend-symbols.c -o build/native/backend-symbols.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/output.c -o build/native/output.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/codeview-output.c -o build/native/codeview-output.o
+src/output.c:40:39: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   40 |     output_callbacks.debug_function = (OutputRoutine)begin_debug_function;
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:56:6: note: consider defining 'begin_debug_function' with the 'fastcall' calling convention
+   56 | void begin_debug_function(void);
+      |      ^
+      |      __fastcall 
+src/output.c:41:37: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   41 |     output_callbacks.finish_debug = (OutputRoutine)finish_debug_module;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:57:6: note: consider defining 'finish_debug_module' with the 'fastcall' calling convention
+   57 | void finish_debug_module(void);
+      |      ^
+      |      __fastcall 
+src/output.c:45:37: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   45 |     output_callbacks.finish_debug = (OutputRoutine)output_noop;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:45:6: note: consider defining 'output_noop' with the 'fastcall' calling convention
+   45 | void output_noop(void);
+      |      ^
+      |      __fastcall 
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/omf-output.c -o build/native/omf-output.o
+src/output.c:50:39: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   50 |     output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:49:6: note: consider defining 'output_noop_function' with the 'fastcall' calling convention
+   49 | void output_noop_function(void);
+      |      ^
+      |      __fastcall 
+src/output.c:51:29: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   51 |     output_callbacks.data = (void (__fastcall *)(void *, unsigned))output_noop_data;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:47:6: note: consider defining 'output_noop_data' with the 'fastcall' calling convention
+   47 | void output_noop_data(void);
+      |      ^
+      |      __fastcall 
+src/output.c:53:42: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   53 |     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
+      |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:50:6: note: consider defining 'output_noop_value' with the 'fastcall' calling convention
+   50 | void output_noop_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:54:43: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   54 |     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:50:6: note: consider defining 'output_noop_value' with the 'fastcall' calling convention
+   50 | void output_noop_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:55:32: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   55 |     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:50:6: note: consider defining 'output_noop_value' with the 'fastcall' calling convention
+   50 | void output_noop_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:56:43: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   56 |     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:50:6: note: consider defining 'output_noop_value' with the 'fastcall' calling convention
+   50 | void output_noop_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:57:29: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   57 |     output_callbacks.size = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:50:6: note: consider defining 'output_noop_value' with the 'fastcall' calling convention
+   50 | void output_noop_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:60:38: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   60 |     output_callbacks.finish_module = (OutputRoutine)output_noop;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:45:6: note: consider defining 'output_noop' with the 'fastcall' calling convention
+   45 | void output_noop(void);
+      |      ^
+      |      __fastcall 
+src/output.c:62:31: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   62 |     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))output_noop_record;
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:53:6: note: consider defining 'output_noop_record' with the 'fastcall' calling convention
+   53 | void output_noop_record(void);
+      |      ^
+      |      __fastcall 
+src/output.c:63:36: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   63 |     output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))mark_unwritten_symbol;
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:54:6: note: consider defining 'mark_unwritten_symbol' with the 'fastcall' calling convention
+   54 | void mark_unwritten_symbol(void);
+      |      ^
+      |      __fastcall 
+src/output.c:72:42: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   72 |     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))coff_output_value;
+      |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:65:6: note: consider defining 'coff_output_value' with the 'fastcall' calling convention
+   65 | void coff_output_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:77:38: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   77 |     output_caclang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/coff-output.c -o build/native/coff-output.o
+llbacks.finish_module = (OutputRoutine)coff_finish_module;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:70:6: note: consider defining 'coff_finish_module' with the 'fastcall' calling convention
+   70 | void coff_finish_module(void);
+      |      ^
+      |      __fastcall 
+src/output.c:89:31: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   89 |     output_callbacks.symbol = (void (__fastcall *)(FunctionSymbol *))omf_output_symbol;
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:74:6: note: consider defining 'omf_output_symbol' with the 'fastcall' calling convention
+   74 | void omf_output_symbol(void);
+      |      ^
+      |      __fastcall 
+src/output.c:91:39: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   91 |     output_callbacks.begin_function = (void (__fastcall *)(FunctionSymbol *, char *, int, unsigned))output_noop_function;
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:49:6: note: consider defining 'output_noop_function' with the 'fastcall' calling convention
+   49 | void output_noop_function(void);
+      |      ^
+      |      __fastcall 
+src/output.c:92:39: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   92 |     output_callbacks.select_segment = (void (__fastcall *)(Segment *))omf_select_segment;
+      |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:75:6: note: consider defining 'omf_select_segment' with the 'fastcall' calling convention
+   75 | void omf_select_segment(void);
+      |      ^
+      |      __fastcall 
+src/output.c:93:29: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   93 |     output_callbacks.data = (void (__fastcall *)(void *, unsigned))omf_output_data;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:76:6: note: consider defining 'omf_output_data' with the 'fastcall' calling convention
+   76 | void omf_output_data(void);
+      |      ^
+      |      __fastcall 
+src/output.c:94:42: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   94 |     output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_value;
+      |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:79:6: note: consider defining 'omf_output_value' with the 'fastcall' calling convention
+   79 | void omf_output_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:95:43: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   95 |     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_bytes;
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:80:6: note: consider defining 'omf_output_bytes' with the 'fastcall' calling convention
+   80 | void omf_output_bytes(void);
+      |      ^
+      |      __fastcall 
+src/output.c:96:32: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   96 |     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:50:6: note: consider defining 'output_noop_value' with the 'fastcall' calling convention
+   50 | void output_noop_value(void);
+      |      ^
+      |      __fastcall 
+src/output.c:97:43: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   97 |     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_offset;
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:81:6: note: consider defining 'omf_output_offset' with the 'fastcall' calling convention
+   81 | void omf_output_offset(void);
+      |      ^
+      |      __fastcall 
+src/output.c:98:29: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   98 |     output_callbacks.size = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_size;
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:82:6: note: consider defining 'omf_output_size' with the 'fastcall' calling convention
+   82 | void omf_output_size(void);
+      |      ^
+      |      __fastcall 
+src/output.c:99:38: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+   99 |     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:83:6: note: consider defining 'omf_finish_module' with the 'fastcall' calling convention
+   83 | void omf_finish_module(void);
+      |      ^
+      |      __fastcall 
+src/output.c:101:31: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+  101 |     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))omf_output_record;
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:85:6: note: consider defining 'omf_output_record' with the 'fastcall' calling convention
+   85 | void omf_output_record(void);
+      |      ^
+      |      __fastcall 
+src/output.c:102:36: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+  102 |     output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))omf_mark_symbol;
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:86:6: note: consider defining 'omf_mark_symbol' with the 'fastcall' calling convention
+   86 | void omf_mark_symbol(void);
+      |      ^
+      |      __fastcall 
+src/output.c:104:35: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+  104 |     output_callbacks.debug_pair = (void (__fastcall *)(char *))omf_output_debug_pair;
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:77:6: note: consider defining 'omf_output_debug_pair' with the 'fastcall' calling convention
+   77 | void omf_output_debug_pair(voiclang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/coff-functions.c -o build/native/coff-functions.o
+d);
+      |      ^
+      |      __fastcall 
+src/output.c:105:37: warning: cast between incompatible calling conventions 'cdecl' and 'fastcall'; calls through this pointer may abort at runtime [-Wcast-calling-convention]
+  105 |     output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))omf_output_debug_record;
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/output.h:78:6: note: consider defining 'omf_output_debug_record' with the 'fastcall' calling convention
+   78 | void omf_output_debug_record(void);
+      |      ^
+      |      __fastcall 
+29 warnings generated.
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/coff-initializers.c -o build/native/coff-initializers.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/coff-writer.c -o build/native/coff-writer.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/coff-finalize.c -o build/native/coff-finalize.o
+src/coff-functions.c:94:22: error: no member named 'field45' in 'struct Segment'
+   94 |             segment->field45 = 0;
+      |             ~~~~~~~  ^
+src/coff-functions.c:116:22: error: no member named 'field45' in 'struct Segment'
+  116 |             segment->field45 = 0;
+      |             ~~~~~~~  ^
+2 errors generated.
+make: *** [Makefile:173: build/native/coff-functions.o] Error 1
+make: *** Waiting for unfinished jobs....
+src/coff-initializers.c:83:29: error: no member named 'selection' in 'struct Segment'
+   83 |                 references->selection = 5;
+      |                 ~~~~~~~~~~  ^
+src/coff-initializers.c:85:29: error: no member named 'field45' in 'struct Segment'
+   85 |                 references->field45 = 0;
+      |                 ~~~~~~~~~~  ^
+2 errors generated.
+make: *** [Makefile:173: build/native/coff-initializers.o] Error 1
