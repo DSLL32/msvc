@@ -1,0 +1,100 @@
+{
+  "case": "minimal-c",
+  "kind": "original-only dependency analysis; no accepted function or replay-provider credit",
+  "raw_manifest": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-1.manifest.json",
+    "sha256": "ce60b4f310433290c3586f1a1c1dc5f4c34ba133becc3bba2fd7c8f5a987b429"
+  },
+  "decoded_packet": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-1.packet-v2.json",
+    "sha256": "51417f0eb90939ca0665c838220c2190d5e9c7e315ef9aaceb7a3f9a8afc91da"
+  },
+  "checkpoint": "1ee87018",
+  "accepted_application_functions_unchanged": 72,
+  "accepted_application_extent_bytes_unchanged": 12914,
+  "observed": {
+    "C1": {
+      "argc": 26,
+      "last_pass_BOOL": 1,
+      "status": 0,
+      "stdcall_cleanup": 12,
+      "attach_event": 111,
+      "invoke_before_event": 117,
+      "invoke_after_event": 118,
+      "detach_event": 120,
+      "unload_event": 121,
+      "free_return_event": 122
+    },
+    "C2": {
+      "pre_spawn_event": 153,
+      "not_started": true,
+      "argv_count": 1,
+      "option_transport": "MSC_CMD_FLAGS in CRT and OS environments, exact trailing space retained"
+    },
+    "persisted_CRT_transition": {
+      "codepage": [
+        0,
+        1252
+      ],
+      "locale_CTYPE_handle": [
+        0,
+        1033
+      ],
+      "errno": [
+        0,
+        0
+      ],
+      "doserrno": [
+        2,
+        2
+      ],
+      "LastError": [
+        2,
+        0
+      ],
+      "mb_cur_max": [
+        1,
+        1
+      ],
+      "x87_control_word": [
+        639,
+        639
+      ]
+    },
+    "unchanged_across_Invoke": [
+      "complete argv/vector bytes",
+      "CRT and OS environments",
+      "cwd",
+      "live FILE0\u20132 state",
+      "CRT and Win32 standard-handle slots/aliases/positions",
+      "open descriptor inventory"
+    ],
+    "outputs": "four complete IR files; hashes and directory metadata in packet; no VC1 reuse"
+  },
+  "status": "Native execute_pass is still a named INT3. Native C1/C2 response boundaries remain closed.",
+  "provider_work_required": [
+    "registered exact C1 module/export identity and attach/invoke/detach lifetime outside target graph",
+    "bounded shared CRT1252/en-US state/profile transition; no CP0 guard relaxation before review",
+    "qualified direct_access missing-file error transition0/2/0\u21922/2/2",
+    "individual _putenv before/after contract including CRT+OS environment and errors",
+    "full C2 command/environment/IR/files/status/stream response before child replay"
+  ],
+  "limits": [
+    "preferred-base loading only; nonpreferred relocation timing untested",
+    "closed FILE/lowio slot tails retained raw but not replayable initialized data",
+    "individual postInvoke multibyte calls/returns not yet instrumented",
+    "no process-exit or callback-registration inventory; imports alone do not establish absence"
+  ],
+  "validation": {
+    "analysis_packet_negatives": 10,
+    "acceptance_protocol_negatives": 35,
+    "native_only": true,
+    "target_acceptance": false
+  },
+  "measured_seconds": {
+    "original_probe_setup": 0.024424327537417412,
+    "original_probe_execution": 29.49176458735019,
+    "packet_positive_and_10_negatives": 2.684561274,
+    "acceptance_positive_and_35_negatives": 2.637695914
+  }
+}

@@ -68,7 +68,8 @@ fixtures:
 	$(PYTHON) scripts/fixtures.py
 
 # Explicit original-only debugger, never a native fixture prerequisite.
-build/reference-debugger.obj: scripts/reference-debugger.c | build
+build/reference-debugger.obj: scripts/reference-debugger.c scripts/dependency-observer.inc | build
 	$(TOOL) CL.EXE /nologo /c /W3 /Od /MT /Fobuild/reference-debugger.obj $<
-build/reference-debugger.exe: build/reference-debugger.obj
+build/reference-debugger.exe: build/reference-debugger.obj scripts/helper-build.py
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+	$(PYTHON) scripts/helper-build.py

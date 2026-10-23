@@ -90,6 +90,12 @@ with tempfile.TemporaryDirectory(prefix='accept-protocol-',dir=scratch) as direc
                 if raw_path.is_file() and raw_path.name not in ('observation.json','state.json'):files['raw:'+raw_path.name]=refresh(raw_path)
             observation={**expected,'platform':platform,'trial_identity':identity(trial),
                 'config_snapshot':config,'case':'help','arguments':['/?'],'files':files}
+            if platform=='original':
+                observation['schema']=2
+                observation['capture_receipt']=write(d/'capture.json',{
+                    'baseline':False,'dependency_analysis':False,'controller_error':None,'helper_status':0,
+                    'target_sha256':expected['target_sha256'],'original_mask_sha256':expected['trial_mask_sha256'],
+                    'config_sha256':sha(Path(config['path'])),'case':'help','arguments':['/?']})
             if platform=='native':observation['native_build']=native_build
             receipt[platform]=write(d/'observation.json',observation)
         return receipt
@@ -131,6 +137,15 @@ with tempfile.TemporaryDirectory(prefix='accept-protocol-',dir=scratch) as direc
         entry=write(project/'stale-both.json',stale)
         observations(r,lambda platform,o:o.update(config_snapshot=entry))
     negative('mutually stale snapshots',stale_both)
+    def capture_change(r,change):
+        p=Path(r['original']['path']);o=json.loads(p.read_text());c=Path(o['capture_receipt']['path'])
+        value=json.loads(c.read_text());change(value)
+        o['capture_receipt']=write(c,value);r['original']=write(p,o)
+    negative('unmasked reference baseline',lambda r:capture_change(r,lambda c:c.update(baseline=True)))
+    negative('dependency analysis presented as acceptance',lambda r:capture_change(r,lambda c:c.update(dependency_analysis=True)))
+    negative('failed original helper',lambda r:capture_change(r,lambda c:c.update(helper_status=1)))
+    negative('missing original execution receipt',lambda r:observations(r,lambda platform,o:o.pop('capture_receipt',None)))
+    negative('different original execution image',lambda r:capture_change(r,lambda c:c.update(original_mask_sha256='0'*64)))
     negative('unknown case',lambda r:observations(r,lambda platform,o:o.update(case='unapproved')))
     negative('different authored case arguments',lambda r:observations(r,lambda platform,o:o.update(arguments=['/c','test.c'])))
     negative('different case labels on valid help raw',lambda r:observations(r,lambda platform,o:o.update(case='minimal-c',arguments=['/nologo','/c','test.c'])))

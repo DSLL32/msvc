@@ -267,6 +267,8 @@ static void frontier_requests(DWORD address, DWORD *stack)
         printf("\n");fflush(stdout);
     }
 }
+#include "dependency-observer.inc"
+
 static void module(DWORD base,HANDLE file)
 {
     IMAGE_DOS_HEADER dos;
@@ -286,6 +288,7 @@ static void module(DWORD base,HANDLE file)
         nt.OptionalHeader.SizeOfImage);
     if (!_stricmp(name,"msvcrt.dll")) { crt_base=base;save_file(file,"loaded-msvcrt.bin"); }
     if (!_stricmp(name,"mspdb50.dll")) save_file(file,"loaded-mspdb50.bin");
+    dependency_loaded(base,file,&nt);
     fflush(events);
 }
 int main(int argc,char **argv)
@@ -368,6 +371,7 @@ int main(int argc,char **argv)
             threads[threads_count]=event.u.CreateProcessInfo.hThread;
             thread_tebs[threads_count]=(DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;
             thread_ids[threads_count++]=event.dwThreadId;
+            dependency_install();
             fprintf(events,"create event=%lu base=%08lx entry=%08lx\n",event_number,
                 target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
             save_file(event.u.CreateProcessInfo.hFile,"loaded-target.bin");
@@ -465,6 +469,16 @@ int main(int argc,char **argv)
                 fprintf(trace,"%s\n",guard->name);fflush(trace);guard->seen=1;
                 patch_byte(address,(BYTE)guard->byte);context.Eip=address;
                 if (!SetThreadContext(thread,&context)) return 47;
+            } else if (code==EXCEPTION_BREAKPOINT && dependency_point(address)>=0) {
+                int point=dependency_point(address);
+                thread=NULL;teb=0;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
+                if (!thread) return 98;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+                if (!GetThreadContext(thread,&context)) return 99;
+                dependency_trap(point,address,teb,event.dwThreadId,&context,input,out,err);
+                if (!SetThreadContext(thread,&context) && point!=5) return 100;
             } else if (code==EXCEPTION_BREAKPOINT && mre_site) {
                 ++mre_calls;
                 fprintf(events,"mre-unexpected-call address=%08lx\n",address);fflush(events);
@@ -618,6 +632,11 @@ int main(int argc,char **argv)
                     event_number,code,address,event.u.Exception.dwFirstChance);
                 fflush(events);status=DBG_EXCEPTION_NOT_HANDLED;
             }
+        } else if (event.dwDebugEventCode==UNLOAD_DLL_DEBUG_EVENT) {
+            if (dependency_analysis) {
+                if ((DWORD)event.u.UnloadDll.lpBaseOfDll==dependency_c1) ++dependency_unloads;
+                fprintf(dependency_events,"module-unload event=%lu base=%08lx\n",event_number,(DWORD)event.u.UnloadDll.lpBaseOfDll);fflush(dependency_events);
+            }
         } else if (event.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
             fprintf(events,"exit event=%lu status=%lu\n",event_number,event.u.ExitProcess.dwExitCode);
             if (observe_mre) {
@@ -627,7 +646,7 @@ int main(int argc,char **argv)
             }
             fclose(events);fclose(trace);if (mktemp_events) fclose(mktemp_events);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
             ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
-            return event.u.ExitProcess.dwExitCode==0x7001 ? 0:event.u.ExitProcess.dwExitCode;
+            return event.u.ExitProcess.dwExitCode==0x7001 || (dependency_analysis && event.u.ExitProcess.dwExitCode==0x7003) ? 0:event.u.ExitProcess.dwExitCode;
         }
         ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
     }

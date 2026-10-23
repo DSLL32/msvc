@@ -22,7 +22,8 @@ wt=importlib.util.module_from_spec(spec);spec.loader.exec_module(wt)
 sha=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def capture(label,config_path,baseline=False,case_name='help'):
+def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False):
+    assert not dependency_analysis or (baseline and case_name=='minimal-c'),'dependency analysis requires explicit original-only minimal-C baseline'
     start=time.perf_counter()
     config=json.loads(config_path.read_text())
     target=ROOT/config['target']['path']
@@ -30,6 +31,10 @@ def capture(label,config_path,baseline=False,case_name='help'):
     paired={key:sha((PROJECT/path).read_bytes()) for key,path in {
         'native_sha256':'build/native-trace/CL.EXE','rebuilt_sha256':'build/cl.exe'}.items()}
     dependency_hashes=build_inputs(PROJECT,ROOT)
+    helper_build=json.loads((PROJECT/'build/reference-debugger-build.json').read_text())
+    assert helper_build['binary']['sha256']==sha((PROJECT/helper_build['binary']['path']).read_bytes())
+    for name,digest in helper_build['sources'].items():
+        assert sha((PROJECT/name).read_bytes())==digest,'original-only debugger build is stale: '+name
     directory=SCRATCH/label
     assert not directory.exists(),'capture directory already exists; choose a fresh label'
     directory.mkdir(parents=True)
@@ -42,7 +47,9 @@ def capture(label,config_path,baseline=False,case_name='help'):
     image=target.read_bytes() if baseline else construct(config)
     (directory/'CL.EXE').write_bytes(image)
     (directory/'config.json').write_bytes(config_path.read_bytes())
-    if not baseline:
+    if dependency_analysis:
+        (directory/'dependency-observer.txt').write_text('CL_DEPENDENCY_ANALYSIS_V1\n')
+    if not baseline or dependency_analysis:
         from binary import PE
         pe=PE(target)
         rows=[]
@@ -56,6 +63,7 @@ def capture(label,config_path,baseline=False,case_name='help'):
     assert sha((directory/'MSVCRT.DLL').read_bytes())==CRT_SHA
     shutil.copyfile(PROJECT/'build/reference-debugger.exe',directory/'reference-debugger.exe')
     shutil.copyfile(HERE/'reference-debugger.c',directory/'reference-debugger.c')
+    shutil.copyfile(HERE/'dependency-observer.inc',directory/'dependency-observer.inc')
     controller_source=store_blob(Path(__file__).read_bytes())
     helper_source=store_blob((HERE/'reference-debugger.c').read_bytes())
     env=wt.environment();env.update(TMP='.',TEMP='.')
@@ -99,14 +107,15 @@ def capture(label,config_path,baseline=False,case_name='help'):
     (directory/'helper.stdout').write_bytes(result.stdout)
     (directory/'helper.stderr').write_bytes(result.stderr)
     loaded=directory/'loaded-msvcrt.bin'
-    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,
+    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,
         'target_sha256':sha(target.read_bytes()),'config_sha256':sha(config_path.read_bytes()),
         'original_mask_sha256':sha(image),'helper_status':result.returncode,
         'loaded_msvcrt_sha256':sha(loaded.read_bytes()) if loaded.exists() else None,
         'loaded_target_sha256':sha((directory/'loaded-target.bin').read_bytes()) if (directory/'loaded-target.bin').exists() else None,
-        'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),
+        'helper_sha256':sha((directory/'reference-debugger.exe').read_bytes()),'helper_build':helper_build,
         **paired,'build_dependency_hashes':dependency_hashes,
         'helper_source_sha256':sha((HERE/'reference-debugger.c').read_bytes()),
+        'helper_sources':{name:sha((HERE/name).read_bytes())for name in ('reference-debugger.c','dependency-observer.inc')},
         'controller_source':controller_source,'helper_source':helper_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},
@@ -128,4 +137,5 @@ if __name__=='__main__':
     parser.add_argument('--config',type=Path,default=PROJECT/'functions.json')
     parser.add_argument('--baseline',action='store_true')
     parser.add_argument('--case',default='help')
-    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case)
+    parser.add_argument('--dependency-analysis',action='store_true',help='Explicit original-only loader/Invoke observation, stopping before C2')
+    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis)

@@ -78,6 +78,9 @@ def original(directory):
         from case_inputs import load
         assert case==load(case['case']),'case inputs differ from declared source bytes'
         controls|={'case-inputs.json'}|{item['name']for item in case['inputs']}
+    if (directory/'dependency-observer.inc').exists():
+        assert capture['helper_sources']['dependency-observer.inc']==sha((directory/'dependency-observer.inc').read_bytes())
+        controls|={'dependency-observer.inc'}
     if (directory/'dependency-inputs.json').exists():
         from case_inputs import verify_dependencies
         proof=verify_dependencies(directory)

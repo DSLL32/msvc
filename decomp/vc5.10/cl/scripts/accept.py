@@ -44,6 +44,11 @@ def checked_file(entry):
     return path
 
 
+def reconstruction_capture(capture):
+    assert capture.get('baseline') is False and not capture.get('dependency_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
+    assert capture['controller_error'] is None and capture['helper_status'] == 0, 'original capture did not succeed'
+
+
 def observation(entry,trial,expected):
     path=checked_file(entry)
     raw=json.loads(path.read_text())
@@ -65,6 +70,14 @@ def observation(entry,trial,expected):
     files={role:checked_file(value) for role,value in raw['files'].items()}
     assert {'stdout','stderr','state'}<=files.keys(),'incomplete raw capture'
     if raw['platform']=='original':
+        capture_entry=raw.get('capture_receipt',raw['files'].get('raw:capture.json'))
+        assert raw.get('schema',1)<2 or capture_entry, 'original execution receipt is missing'
+        if capture_entry:
+            capture=json.loads(checked_file(capture_entry).read_text())
+            reconstruction_capture(capture)
+            assert capture['target_sha256']==expected['target_sha256'] and capture['original_mask_sha256']==expected['trial_mask_sha256'], 'original execution receipt image differs'
+            assert capture['config_sha256']==digest(config_path), 'original execution receipt trial differs'
+            assert capture['case']==raw['case'] and capture['arguments']==raw['arguments'], 'original execution receipt case differs'
         assert {'events','loaded_msvcrt'}<=files.keys()
         assert digest(files['loaded_msvcrt'])==CRT_SHA,'noncanonical actually loaded original CRT'
         if 'loaded_target' in files:assert digest(files['loaded_target'])==expected['trial_mask_sha256'],'actual loaded image differs from trial mask'

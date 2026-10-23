@@ -7,7 +7,7 @@ import importlib.util
 import json
 from pathlib import Path
 import shutil
-from accept import identity,trial_config
+from accept import identity,trial_config,reconstruction_capture
 from audit import run as audit
 from state import project
 from build_inputs import verify_native_build
@@ -40,6 +40,7 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help')
         observed=Path(reuse_original).resolve()
         receipt=json.loads((observed/'capture.json').read_text())
         assert json.loads((observed/'config.json').read_text())==trial,'reused original has different trial'
+    reconstruction_capture(receipt)
     assert receipt['case']==case_name,'reused original belongs to a different case'
     projection=project('original',observed)
     original_state=observed/'state.json'
@@ -92,7 +93,10 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help')
         record={**expected,'platform':platform,'trial_identity':identity(trial),'candidate':name,
             'config_snapshot':binding(directory/'config.json'),'case':case_name,'arguments':receipt['arguments'],'files':files}
         if platform=='native':record['native_build']=binding(directory/'native-build.json')
-        elif reuse_original is not None:
+        else:
+            record['schema']=2
+            record['capture_receipt']=binding(directory/'capture.json')
+        if platform=='original' and reuse_original is not None:
             # These historic pairing fields did not participate in original
             # execution. Keep their original values in the new envelope.
             record['native_sha256']=receipt['native_sha256']

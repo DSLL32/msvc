@@ -167,6 +167,21 @@ DLL reconstruction.
 
 ## Proposed workflow, awaiting approval
 
+The current minimal-C dependency analysis is recorded separately in
+`cases/minimal-c/dependency-boundary.json`. It observed the actual 26-argument
+C1 invocation, successful return, detach/unload and four complete IR files,
+then stopped before C2 started. C1 leaves shared CRT code page 1252 and the
+en-US character table active after unloading; it also changes LastError2 to0.
+The next missing-file lookup restores LastError2. These are required observable
+effects, not target-side state overrides. The native DLL/child success boundaries
+remain closed pending the complete reviewed contracts. The source reconstruction
+still traps at `execute_pass`; this analysis adds no accepted code.
+
+`scripts/dependency_packet.py` freezes a recursive immutable raw manifest and
+decodes that analysis. `scripts/check-dependency-packet.py MANIFEST` runs its
+ten native-only mutation controls. Analysis/baseline captures are explicitly
+rejected by both the pairing controller and the independent acceptance checker.
+
 Start each DLL as statically linked i386 C in a dedicated native analysis host,
 with the host outside the target graph. The host should reproduce the observed
 attach/export-call/detach sequence, exact export ABI and caller inputs, including
