@@ -30,7 +30,7 @@ void __stdcall emit_expression_tree(IrToken *expression)
            handlers. Other flagged tokens fall through to the ordinary case. */
         switch (expression->kind) {
         case 3:
-            expression = emit_version_token(expression);
+            expression = materialize_string_literal(expression);
             WRITE_EXPRESSION_RECORD(expression);
             return;
         case OP_DEREFERENCE:

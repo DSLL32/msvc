@@ -853,7 +853,13 @@
     "_virtual_entry_this_displacement@12",
     "_virtual_adjustment_offset@8",
     "_lookup_vector_delete_destructor@4",
-    "_lookup_special_member@12"
+    "_lookup_special_member@12",
+    "_write_literal_initializer@12",
+    "_write_initializer_value@12",
+    "_function_designator_type@4",
+    "_make_expression_qualified_type@16",
+    "_change_function_reference_kind@8",
+    "_find_initializer_address@12"
   ],
   "driver": [
     {
@@ -1047,7 +1053,7 @@
       "end": 181553
     },
     {
-      "name": "_emit_version_token@4",
+      "name": "_materialize_string_literal@4",
       "start": 379840,
       "end": 379841
     },
@@ -1529,7 +1535,7 @@
       "end": 324117
     },
     {
-      "name": "_parameter_stack_bytes@4",
+      "name": "_symbol_element_size@4",
       "start": 324304,
       "end": 324386
     },
@@ -4357,7 +4363,7 @@
     {
       "name": "_make_expression_qualified_type@16",
       "start": 402976,
-      "end": 402977
+      "end": 403159
     },
     {
       "name": "_parameter_reference_type@4",
@@ -4564,12 +4570,12 @@
     {
       "name": "_change_function_reference_kind@8",
       "start": 402768,
-      "end": 402769
+      "end": 402922
     },
     {
       "name": "_function_designator_type@4",
       "start": 402928,
-      "end": 402929
+      "end": 402967
     },
     {
       "name": "_subtract_extended",
@@ -5554,7 +5560,7 @@
     {
       "name": "_write_literal_initializer@12",
       "start": 375712,
-      "end": 375713
+      "end": 376263
     },
     {
       "name": "_emit_runtime_symbol_initializer@8",
@@ -6909,7 +6915,13 @@
     {
       "name": "_write_initializer_value@12",
       "start": 376448,
-      "end": 376449
+      "end": 378886,
+      "shared": [
+        [
+          378888,
+          378972
+        ]
+      ]
     },
     {
       "name": "_virtual_entry_this_displacement@12",
@@ -6930,6 +6942,36 @@
       "name": "_lookup_special_member@12",
       "start": 228560,
       "end": 228792
+    },
+    {
+      "name": "_write_ir_integer",
+      "start": 475056,
+      "end": 475057
+    },
+    {
+      "name": "_find_initializer_address@12",
+      "start": 378976,
+      "end": 379282
+    },
+    {
+      "name": "_initializer_address_size@4",
+      "start": 376272,
+      "end": 376273
+    },
+    {
+      "name": "_write_ir_short",
+      "start": 474416,
+      "end": 474417
+    },
+    {
+      "name": "_write_ir_float",
+      "start": 475408,
+      "end": 475409
+    },
+    {
+      "name": "_write_ir_double",
+      "start": 475440,
+      "end": 475441
     }
   ],
   "cases": {
@@ -7055,7 +7097,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_write_literal_initializer@12",
+      "terminal": "_normalize_initializer_expression@4",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -7262,9 +7304,15 @@
         "cases/virtual-diamond-frontiers/0845-virtual_entry_this_displacement-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0846-virtual_adjustment_offset-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0847-lookup_vector_delete_destructor-4/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0849-write_literal_initializer-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0850-write_initializer_value-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0851-function_designator_type-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0852-make_expression_qualified_type-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0853-change_function_reference_kind-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0854-find_initializer_address-12/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0854-find_initializer_address-12/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

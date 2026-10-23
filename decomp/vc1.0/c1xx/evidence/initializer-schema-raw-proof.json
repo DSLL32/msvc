@@ -1,0 +1,98 @@
+{
+  "original_pointer_table": "0xa32a8",
+  "original_stride": 8,
+  "rows": [
+    {
+      "record": 0,
+      "fields": "mdox",
+      "debug_flag": 0
+    },
+    {
+      "record": 1,
+      "fields": "tpzv",
+      "debug_flag": 2
+    },
+    {
+      "record": 2,
+      "fields": "tsfz",
+      "debug_flag": 2
+    },
+    {
+      "record": 3,
+      "fields": "tl",
+      "debug_flag": 2
+    },
+    {
+      "record": 4,
+      "fields": "ti",
+      "debug_flag": 2
+    },
+    {
+      "record": 5,
+      "fields": "tr",
+      "debug_flag": 2
+    },
+    {
+      "record": 6,
+      "fields": "t",
+      "debug_flag": 2
+    },
+    {
+      "record": 7,
+      "fields": "t",
+      "debug_flag": 2
+    },
+    {
+      "record": 8,
+      "fields": "tn",
+      "debug_flag": 2
+    },
+    {
+      "record": 9,
+      "fields": "td",
+      "debug_flag": 2
+    },
+    {
+      "record": 10,
+      "fields": "mox",
+      "debug_flag": 0
+    },
+    {
+      "record": 11,
+      "fields": "tb",
+      "debug_flag": 2
+    },
+    {
+      "record": 12,
+      "fields": "tg",
+      "debug_flag": 0
+    }
+  ],
+  "write_literal_initializer": "Uses immutable row0 mdox; all three original code references to table are reads, no string identity tests",
+  "code_references": [
+    "0x5bbc0 direct row0 read",
+    "0x5bf92 indexed initializer-value read",
+    "0x704c2 indexed debug-record read"
+  ],
+  "write_initializer_value": "Select all13 schema programs contextually; field flags are consumed by the separate debug writer and are not introduced as unused reconstruction globals",
+  "indeterminate_selector": "Raw prologue zeros offsets0x40,0x28,0x3c, but not schema kind at0x38. A failed find_initializer_address leaves that original selector unwritten; no kind0 recovery was synthesized.",
+  "raw": "evidence/initializer-value-original-disassembly.txt",
+  "scope": "Static schema/layout/ABI proof, not branch coverage",
+  "first_dynamic_scope": {
+    "original_entry_evidence": "cases/virtual-diamond-frontiers/0849-write_literal_initializer-12/original-events.txt",
+    "initializer_value_argument": 0,
+    "interpretation": "First accepted invocation returned on NULL value. Subsequent current call reaches find_initializer_address and its still-unreconstructed normalizer before encoding the nonnull value. No claim of complete interpreter branch coverage."
+  },
+  "shared_stream_alias": "Reuse existing auxiliary_ir_stream at0xa29ac, also used by ordinary IR primitives",
+  "renamed_unaccepted_callees": {
+    "_emit_version_token@4": "_materialize_string_literal@4 at0x5cbc0",
+    "_parameter_stack_bytes@4": "_symbol_element_size@4 at0x4f2d0"
+  },
+  "CXX_distinctions": [
+    "shape masks0x77 rather than3-bit masks",
+    "member function/data shapes0x20/0x10 in representation and relocation paths",
+    "relocation allowance mask0x71",
+    "/J unsigned-char tests have no extension-mode condition",
+    "address reducer internal0xa9 zero-left mutation"
+  ]
+}

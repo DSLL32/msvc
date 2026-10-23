@@ -216,7 +216,7 @@ formats:
             GLOBAL_BYTE(stream, (signed char)tag);
             break;
         case GF_ARGUMENT_BYTES:
-            if (array_type) GLOBAL_INTEGER(parameter_stack_bytes(symbol));
+            if (array_type) GLOBAL_INTEGER(symbol_element_size(symbol));
             else GLOBAL_INTEGER(0);
             break;
         case GF_SYMBOL_INDEX:

@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 849 accepted frontiers, including 756 frontend
+PARTIAL binary reconstruction: 855 accepted frontiers, including 762 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1997,3 +1997,37 @@ exact. Full graph/state/default/alias/callback/data/vocabulary/grammar audits an
 32 boundary rejections pass in 5.175311 seconds. Per-function original compiler,
 native build/reference/debug/fixture timings remain distinct in their receipts.
 Accepted extent union 229964/476418 bytes is 48.269377%, not branch coverage.
+
+Initializer-record checkpoint: 855 accepted frontiers, 769 source functions.
+Six whole functions beyond 306058b recover the literal declaration writer,
+complete initializer-value interpreter, function designator/reference types,
+mutable expression qualification and constant address reduction. The current
+virtual-diamond trap is normalize_initializer_expression at 0x47dc0. Shared
+Wine-prefix migration is the next operation before additional reconstruction.
+
+The interpreter has 2438 code bytes plus84 dispatch bytes and 26 matching direct
+callees. Logical schema literals remain at their interpretation point; unused
+debug flags are retained only in analysis evidence. The distinct cpp_parser_flags
+word suppresses output, while auxiliary_ir_stream reuses its established shared
+cell. Record paths preserve aliases, compact work-stack encodings, member-pointer
+representations, relocation sizes, string lengths and extended numeric calls.
+The original failed-address selector is unwritten; no zero-kind recovery was
+invented. Its raw prologue and all13 schema rows are documented in
+initializer-schema-raw-proof.json. The initial dynamic call has NULL value and
+returns early; the next nonnull call currently stops at its named normalizer.
+Whole-source acceptance does not imply full interpreter branch coverage.
+
+Two still-unaccepted names were clarified from this caller and independent raw
+bodies: emit_version_token became materialize_string_literal, and
+parameter_stack_bytes became symbol_element_size. Both remain traps. Address
+reduction preserves wrapping offsets, '+' operand exchange and the internal
+0xa9 zero-left adjustment. Type helpers preserve permanent/interned versus
+mutable arena allocation and complete qualifier/function shape chains.
+
+Every fresh acceptance matches traps, four pending buffers, fourteen state
+fields, streams and visible files. Both cached native cases remain exact. Full
+compiler/graph/state/default/alias/callback/data/vocabulary/grammar checks and
+32 boundary rejections pass in 9.951256 seconds, including the final stub rebuild.
+Per-function compiler/reference/debug/fixture timings remain distinct in their
+receipts. Accepted extent union 233719/476418 bytes is 49.057550%, not branch
+coverage. No further function starts before the requested prefix migration.

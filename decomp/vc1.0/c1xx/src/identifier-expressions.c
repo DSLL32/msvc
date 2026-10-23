@@ -448,3 +448,12 @@ IrToken *__stdcall resolve_assignment_operand(CType *type, IrToken *expression)
         (unsigned short)(function_type->related->attributes & 0xf77), 0);
     return expression;
 }
+
+/* Original 0x625f0..0x62616, stdcall4. Function designators retain
+   the normalized calling convention/distance under an expression-local shape. */
+CType *__stdcall function_designator_type(CType *type)
+{
+    unsigned short attributes = normalize_type_attributes(0xb,
+        (unsigned short)(type->related->attributes & 0xf77));
+    return make_expression_qualified_type(type, 0xb, attributes, 0);
+}

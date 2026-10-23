@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_initializer_address@12",
+    "start": 378976,
+    "end": 379282
+  },
+  "distinct_direct_callees": [
+    "_materialize_string_literal@4",
+    "_normalize_initializer_expression@4"
+  ],
+  "next_frontier": "_normalize_initializer_expression@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5092436410486698,
+  "total_operation_seconds": 6.95236492715776,
+  "original_capture_seconds": 3.572935102507472
+}

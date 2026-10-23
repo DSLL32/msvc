@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "22a4a82605c7a27598dfbdcd99c0148b4f37624098ee9d80c09cfa054dfab4e1",
+    "functions.json": "d57733764af29dd5b1501a7322adfeb68690fd4ef4a0cb85f7445f7d9c928589",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "6da4c2caf8857f05f03d88c87c774eab8820f7ae37c264180e10f8ba52cb5902",
+    "cases/canonical-map.txt": "727ca31b1f1d07214b7c181fbb3ec886123be3d9617c594c27c96ad707a986f7",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -1268,7 +1268,31 @@
     "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/original-configuration.json": "0ef31136b345dc2ea369ada7007d3e7496471b91ebeff58ae57e59ef89328271",
     "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/frontier-extension.json": "2552108f374bba1416032c3e3f9110dfddc7045c1651b4386b463044e5cef2b1",
     "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/original-receipt.json": "7894c8c9838565a7a96c99ddd33c17492494fb3cfe8b7bf3a73e442897866b7e",
-    "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/original-events.txt": "3ebdc9e1e62abd3999d1b0e290dff233aa3c0310b90315c5c09a7f6d6b341cac"
+    "cases/virtual-diamond-frontiers/0848-lookup_special_member-12/original-events.txt": "3ebdc9e1e62abd3999d1b0e290dff233aa3c0310b90315c5c09a7f6d6b341cac",
+    "cases/virtual-diamond-frontiers/0849-write_literal_initializer-12/original-configuration.json": "e8f78503d6ee53d4617a1db346997706d0bdda307dcca558bb7cac2c510c4036",
+    "cases/virtual-diamond-frontiers/0849-write_literal_initializer-12/frontier-extension.json": "23c1272ad390c54cf5051c995786baa11f0ea106b3ca172a72addfd0a3419525",
+    "cases/virtual-diamond-frontiers/0849-write_literal_initializer-12/original-receipt.json": "a03a6a482f9726c3f8a620664eed966d044ffba8e11ab308f7896a869b958d4f",
+    "cases/virtual-diamond-frontiers/0849-write_literal_initializer-12/original-events.txt": "b27bde12cb772cc46e43c33f7947d7d9961815f16ea539282432b69af6b51ffd",
+    "cases/virtual-diamond-frontiers/0850-write_initializer_value-12/original-configuration.json": "2e3a57ec8ae5d56d34e84fca4df78bd2aa0947053aa382024326812bdbf24f13",
+    "cases/virtual-diamond-frontiers/0850-write_initializer_value-12/frontier-extension.json": "57ca77a5f26bafa00ecad7577560f8a4a4e288d9d255ede7d7320dcc7b95608e",
+    "cases/virtual-diamond-frontiers/0850-write_initializer_value-12/original-receipt.json": "b02c01a28830a2ae3760d9de2a0d238ce1a8a2ce9901733bbdec9aba9e56cc0b",
+    "cases/virtual-diamond-frontiers/0850-write_initializer_value-12/original-events.txt": "35f765eafff7a8ed7065a2b0a10e07db9e021924c097e1d24f1c474447edf873",
+    "cases/virtual-diamond-frontiers/0851-function_designator_type-4/original-configuration.json": "0e6263c4e00e6ed495e5942ffe0337493e092fd03cd92a088771931860be428c",
+    "cases/virtual-diamond-frontiers/0851-function_designator_type-4/frontier-extension.json": "53cf7d8d46e11ba824d7a96de1f3b92ee8b599f4e2453d9ca7d46f2aac2d4866",
+    "cases/virtual-diamond-frontiers/0851-function_designator_type-4/original-receipt.json": "546f9c897b70a9425e09417db8c839f181c837e644455b40c8588da2913827a6",
+    "cases/virtual-diamond-frontiers/0851-function_designator_type-4/original-events.txt": "1d7015317bb0dc2b213c0f3e7b4405e59477e1adf213a2f65ae08a9fbb34b659",
+    "cases/virtual-diamond-frontiers/0852-make_expression_qualified_type-16/original-configuration.json": "e90ae1bd3f9b5d41235f4f036178a537a552be57e289a570bdecdafaf1364782",
+    "cases/virtual-diamond-frontiers/0852-make_expression_qualified_type-16/frontier-extension.json": "4b4cf279cc51fc38f9008faf9109d7e80b8a6009a4e1cd66f6dc26273299b799",
+    "cases/virtual-diamond-frontiers/0852-make_expression_qualified_type-16/original-receipt.json": "65c948b5c43f7dbd948bc5561a89646832ab8f8c1bef52488cb314ed63bb4396",
+    "cases/virtual-diamond-frontiers/0852-make_expression_qualified_type-16/original-events.txt": "95a32d384735429c636dff8d0abac0220bdb368e0d4f23dca907b1c3ac9a151e",
+    "cases/virtual-diamond-frontiers/0853-change_function_reference_kind-8/original-configuration.json": "9e6706b09c5c61f8ada9c8a0428bad10b5c57ecf3b3ed31ee7e15b1e6484cccb",
+    "cases/virtual-diamond-frontiers/0853-change_function_reference_kind-8/frontier-extension.json": "af22cee9e43aadb2fe024c8e6f58ec398bdf3adb3753e94260abf4e573bc5a95",
+    "cases/virtual-diamond-frontiers/0853-change_function_reference_kind-8/original-receipt.json": "079de3af9efa606a74570f7e0e99369c08b2b3336b785257ee87e93cfa6ebb4e",
+    "cases/virtual-diamond-frontiers/0853-change_function_reference_kind-8/original-events.txt": "dcd3741fa2208f1caff9e39584cee2dcbea38b6ddf21fb42bc660668a83238f8",
+    "cases/virtual-diamond-frontiers/0854-find_initializer_address-12/original-configuration.json": "7fd2b5224007bfb63116d8b06e1ed0606fbc7db1f0a371025f2141ab36dd43c4",
+    "cases/virtual-diamond-frontiers/0854-find_initializer_address-12/frontier-extension.json": "1a907f9f4843a2b5b2815416f0bf24d7e4dbf7d59f5a51efef34c47c5f099dc2",
+    "cases/virtual-diamond-frontiers/0854-find_initializer_address-12/original-receipt.json": "34c4bb58fef6b3a8d0de74716d478095aa953d776b1dedc5fb1ddbc4f7e2b50b",
+    "cases/virtual-diamond-frontiers/0854-find_initializer_address-12/original-events.txt": "e956c9d3b914123692d5631ab5bd782c6b14ae64d3b398bd29cc77cfcd9514af"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1881,7 +1905,7 @@
     },
     "change_function_reference_kind": {
       "logical": "_change_function_reference_kind@8",
-      "source": "src/stubs.c"
+      "source": "src/types.c"
     },
     "check_based_pointer_conversion": {
       "logical": "_check_based_pointer_conversion@12",
@@ -2779,10 +2803,6 @@
       "logical": "_emit_vector_deleting_destructor_body@4",
       "source": "src/stubs.c"
     },
-    "emit_version_token": {
-      "logical": "_emit_version_token@4",
-      "source": "src/stubs.c"
-    },
     "emit_virtual_base_destructors": {
       "logical": "_emit_virtual_base_destructors@8",
       "source": "src/constructor-initializers.c"
@@ -3099,6 +3119,10 @@
       "logical": "_find_hash_value@8",
       "source": "src/hash-table.c"
     },
+    "find_initializer_address": {
+      "logical": "_find_initializer_address@12",
+      "source": "src/initializer-records.c"
+    },
     "find_inline_parameter_slot": {
       "logical": "_find_inline_parameter_slot@12",
       "source": "src/stubs.c"
@@ -3413,7 +3437,7 @@
     },
     "function_designator_type": {
       "logical": "_function_designator_type@4",
-      "source": "src/stubs.c"
+      "source": "src/identifier-expressions.c"
     },
     "function_parameter_bytes": {
       "logical": "_function_parameter_bytes@4",
@@ -3807,6 +3831,10 @@
       "logical": "_initialize_zero_object@4",
       "source": "src/stubs.c"
     },
+    "initializer_address_size": {
+      "logical": "_initializer_address_size@4",
+      "source": "src/stubs.c"
+    },
     "inline_vector_bytes": {
       "logical": "_inline_vector_bytes",
       "source": "src/inline-vector.c"
@@ -4117,7 +4145,7 @@
     },
     "make_expression_qualified_type": {
       "logical": "_make_expression_qualified_type@16",
-      "source": "src/stubs.c"
+      "source": "src/types.c"
     },
     "make_function_type": {
       "logical": "_make_function_type@8",
@@ -4338,6 +4366,10 @@
     "materialize_member_object": {
       "logical": "_materialize_member_object@4",
       "source": "src/member-expressions.c"
+    },
+    "materialize_string_literal": {
+      "logical": "_materialize_string_literal@4",
+      "source": "src/stubs.c"
     },
     "member_call_is_nonvirtual": {
       "logical": "_member_call_is_nonvirtual@4",
@@ -4693,10 +4725,6 @@
     },
     "parameter_reference_type": {
       "logical": "_parameter_reference_type@4",
-      "source": "src/stubs.c"
-    },
-    "parameter_stack_bytes": {
-      "logical": "_parameter_stack_bytes@4",
       "source": "src/stubs.c"
     },
     "parse_linkage": {
@@ -5747,6 +5775,10 @@
       "logical": "_symbol_construction_class@4",
       "source": "src/object-initializers.c"
     },
+    "symbol_element_size": {
+      "logical": "_symbol_element_size@4",
+      "source": "src/stubs.c"
+    },
     "symbol_expression": {
       "logical": "_symbol_expression@4",
       "source": "src/identifier-expressions.c"
@@ -6021,19 +6053,35 @@
     },
     "write_initializer_value": {
       "logical": "_write_initializer_value@12",
+      "source": "src/initializer-records.c"
+    },
+    "write_ir_double": {
+      "logical": "_write_ir_double",
       "source": "src/stubs.c"
     },
     "write_ir_filename": {
       "logical": "_write_ir_filename",
       "source": "src/ir-encoding.c"
     },
+    "write_ir_float": {
+      "logical": "_write_ir_float",
+      "source": "src/stubs.c"
+    },
     "write_ir_index": {
       "logical": "_write_ir_index",
       "source": "src/ir-encoding.c"
     },
+    "write_ir_integer": {
+      "logical": "_write_ir_integer",
+      "source": "src/stubs.c"
+    },
     "write_ir_record": {
       "logical": "_write_ir_record@8",
       "source": "src/ir.c"
+    },
+    "write_ir_short": {
+      "logical": "_write_ir_short",
+      "source": "src/stubs.c"
     },
     "write_ir_string": {
       "logical": "_write_ir_string",
@@ -6041,7 +6089,7 @@
     },
     "write_literal_initializer": {
       "logical": "_write_literal_initializer@12",
-      "source": "src/stubs.c"
+      "source": "src/initializer-records.c"
     },
     "write_storage_specification": {
       "logical": "_write_storage_specification@8",
@@ -6816,7 +6864,13 @@
     "virtual_entry_this_displacement",
     "virtual_adjustment_offset",
     "lookup_vector_delete_destructor",
-    "lookup_special_member"
+    "lookup_special_member",
+    "write_literal_initializer",
+    "write_initializer_value",
+    "function_designator_type",
+    "make_expression_qualified_type",
+    "change_function_reference_kind",
+    "find_initializer_address"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7485,7 +7539,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 849,
+      "last": 855,
       "seen": [
         "main",
         "message_text",
@@ -8245,12 +8299,18 @@
         "virtual_adjustment_offset",
         "lookup_vector_delete_destructor",
         "lookup_special_member",
-        "write_literal_initializer"
+        "write_literal_initializer",
+        "write_initializer_value",
+        "function_designator_type",
+        "make_expression_qualified_type",
+        "change_function_reference_kind",
+        "find_initializer_address",
+        "normalize_initializer_expression"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_write_literal_initializer@12",
-        "native": "write_literal_initializer",
+        "logical": "_normalize_initializer_expression@4",
+        "native": "normalize_initializer_expression",
         "signal": 5
       }
     }

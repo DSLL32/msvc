@@ -38,6 +38,7 @@
 #include "inline-capture.h"
 #include "type-sizes.h"
 #include "object-initializers.h"
+#include "initializer-records.h"
 #include "call-expressions.h"
 #include "text-format.h"
 #include "type-diagnostics-internal.h"
@@ -51,7 +52,7 @@ void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 void __stdcall record_string_literal(IrToken *token) { __asm { int 3 } }
-IrToken *__stdcall emit_version_token(IrToken *token) { __asm { int 3 } return 0; }
+IrToken *__stdcall materialize_string_literal(IrToken *token) { __asm { int 3 } return 0; }
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
 void begin_debug_info(void) { __asm { int 3 } }
@@ -79,7 +80,7 @@ unsigned char __stdcall member_pointer_is_aggregate(CType *type) { __asm { int 3
 CppSymbol *__stdcall method_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
-int __stdcall parameter_stack_bytes(CppSymbol *symbol) { __asm { int 3 } return 0; }
+int __stdcall symbol_element_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return 0; }
@@ -213,7 +214,6 @@ void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 void flush_initializer_records(void) { __asm { int 3 } }
 IrToken *__stdcall normalize_initializer_expression(IrToken *value) { __asm { int 3 } return 0; }
-void __stdcall write_literal_initializer(CppSymbol *symbol, IrToken *value, void *context) { __asm { int 3 } }
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 void __stdcall emit_initializer_constant(IrToken *target) { __asm { int 3 } }
@@ -446,8 +446,6 @@ IrToken *most_derived_expression(void) { __asm { int 3 } return 0; }
 
 
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol) { __asm { int 3 } return 0; }
-CType *__stdcall make_expression_qualified_type(CType *base, unsigned short kind,
-    unsigned short attributes, void *parameter) { __asm { int 3 } return 0; }
 
 CType *__stdcall parameter_reference_type(IrToken *reference) { __asm { int 3 } return 0; }
 IrToken *__stdcall based_type_expression(CType *type) { __asm { int 3 } return 0; }
@@ -488,8 +486,6 @@ IrToken *__stdcall find_expression_type_base(IrToken *expression) { __asm { int 
 IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
-CType *__stdcall change_function_reference_kind(CType *type, int mode) { __asm { int 3 } return 0; }
-CType *__stdcall function_designator_type(CType *type) { __asm { int 3 } return 0; }
 int subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 Extended *__stdcall save_extended_constant(Extended *value) { __asm { int 3 } return 0; }
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
@@ -638,6 +634,12 @@ IrToken *__stdcall make_class_delete_call(QualifiedDeclarator *declaration, IrTo
 
 IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { int 3 } return 0; }
 int __stdcall virtual_base_table_entry_offset(VirtualBaseEntry *entry, CppSymbol *tag, VirtualTable *table) { __asm { int 3 } return 0; }
-void __stdcall write_initializer_value(CppSymbol *symbol, IrToken *value, void *context) { __asm { int 3 } }
 
 CppSymbol *__stdcall get_virtual_adjustment_thunk(unsigned kind, CppSymbol *function, int displacement, int virtual_displacement) { __asm { int 3 } return 0; }
+
+void write_ir_integer(int *value) { __asm { int 3 } }
+
+unsigned __stdcall initializer_address_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
+void write_ir_short(short *value) { __asm { int 3 } }
+void write_ir_float(float *value) { __asm { int 3 } }
+void write_ir_double(double *value) { __asm { int 3 } }

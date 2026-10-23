@@ -408,3 +408,62 @@ CType *builtin_integer_type(void)
 {
     return type_0064;
 }
+
+/* Original 0x62620..0x626d6, stdcall16. Permanent-expression mode
+   uses the interned type builder. Otherwise prepend a mutable shape to a
+   copied arena type, replacing its leading modifier when present. */
+CType *__stdcall make_expression_qualified_type(CType *base, unsigned short kind,
+    unsigned short attributes, void *parameter)
+{
+    CType *type;
+    TypeShape *shape;
+    ArenaPool *pool;
+    if (token_allocation_flags & 0x20)
+        return make_qualified_type(base, kind, attributes, parameter);
+    /* Retain the generic allocation dispatch expanded in the original,
+       including its already-excluded permanent branch. */
+    if (token_allocation_flags & 0x20)
+        type = allocate_permanent(sizeof(CType));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(CType))
+            refill_arena(&compiler_arena, pool);
+        type = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    }
+    *type = *base;
+    shape = new_type_shape(kind, attributes, parameter);
+    if (type->related && !(type->related->flags & 0x77))
+        type->related = type->related->related;
+    shape->related = type->related;
+    type->related = shape;
+    return type;
+}
+
+/* Original 0x62550..0x625e9, stdcall8. Replace the effective function
+   reference shape while preserving its attributes and following type chain. */
+CType *__stdcall change_function_reference_kind(CType *type, int mode)
+{
+    TypeShape *shape = type->related, *following, *replacement;
+    CType *result;
+    ArenaPool *pool;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    following = shape->related;
+    replacement = new_type_shape(mode == 1 ? 0xb : 0x403, shape->attributes, 0);
+    replacement->related = following;
+    replacement = intern_type_shape(replacement);
+    if (token_allocation_flags & 0x20)
+        result = allocate_permanent(sizeof(CType));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(CType))
+            refill_arena(&compiler_arena, pool);
+        result = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    }
+    *result = *type;
+    result->related = replacement;
+    return result;
+}

@@ -46,7 +46,7 @@ int compile_translation_unit(void)
         for (i = 0; i < token->tail.string.length; ++i)
             version_string[i] = version_directive_text[i];
         record_string_literal(token);
-        emit_version_token(token);
+        materialize_string_literal(token);
         global_expression_scope_active = 1;
     }
     if (options.pch_use ||

@@ -96,7 +96,7 @@ IrToken *__stdcall make_object_constructor_call(unsigned char mode, unsigned sho
     }
     if (!object && !allocation_function)
         allocation_function = find_scope_symbol(global_scope, name_new, 0);
-    if (is_array || !object) element_bytes = parameter_stack_bytes(symbol);
+    if (is_array || !object) element_bytes = symbol_element_size(symbol);
     result = object;
     if (!variable_count) {
         count = make_size_constant(element_count);
