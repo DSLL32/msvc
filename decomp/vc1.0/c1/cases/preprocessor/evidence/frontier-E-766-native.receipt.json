@@ -1,0 +1,48 @@
+{
+  "buffers": {
+    "expression_file": null,
+    "symbol_file": null,
+    "line_file": null,
+    "global_file": null,
+    "debug_file": null,
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "pch_record_macro",
+    "define_macro",
+    "define_source_macro",
+    "preprocess_directive",
+    "begin_source_line",
+    "scan_source_token",
+    "scan_token",
+    "read_parser_token",
+    "preprocess_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "pch_record_macro",
+  "pc": 1448962286,
+  "label_stack_count": 0,
+  "scanner_flags": 65536,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_pch_record_macro@12",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003373507410287857,
+  "execution_seconds": 0.14545325562357903,
+  "total_seconds": 0.1503308042883873,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/pp-E-native-766",
+    "RECON_CANONICAL_CWD": "N:\\pp-lines"
+  },
+  "executable_sha256": "7ba73e0a172d36d0925d9b9c397189aebd23fe5fa5b96dc8877592e91d6a848b"
+}

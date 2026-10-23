@@ -1302,3 +1302,92 @@ finish_narrow:
     }
     return code;
 }
+
+/* Original0x21d50..0x21da7. Preprocessing numbers retain their original
+   spelling, including identifier suffixes and exponent signs. */
+unsigned __stdcall read_number_text(char *destination)
+{
+    unsigned char character, category;
+    for (;;) {
+        character = next_source_character();
+        category = character_class[character];
+        if (character == '.' || category == CC_DIGIT ||
+            category == CC_IDENTIFIER || category == CC_WIDE_PREFIX) {
+            *destination++ = character;
+            continue;
+        }
+        if ((character == '+' || character == '-') &&
+            ((unsigned char)destination[-1] & 0xdf) == 'E') {
+            *destination++ = character;
+            continue;
+        }
+        break;
+    }
+    --source_text_cursor;
+    *destination = 0;
+    return destination - token_text;
+}
+
+/* Original0x21490..0x2167f. Copy a preprocessing quoted token verbatim,
+   retaining escaped/octal/hex spans, lead-byte pairs and trigraph context. */
+void __stdcall copy_quoted_literal(int delimiter)
+{
+    unsigned char quote = (unsigned char)delimiter, character, category;
+    int questions = 0, digits;
+    fputc(quote,preprocessor_stream);
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        category = character_class[character];
+        if (category == CC_CARRIAGE_RETURN) continue;
+        if (category == CC_ESCAPE_OR_END) {
+            if (character == '?') {
+                ++questions;
+                fputc(character,preprocessor_stream);
+                continue;
+            }
+            questions = 0;
+            if (character != '\\') {
+                recover_special_character();
+                continue;
+            }
+            fputc(character,preprocessor_stream);
+            if (consume_line_escape()) continue;
+            parser_flags |= 0x08000000UL;
+            character = next_source_character();
+            fputc(character,preprocessor_stream);
+            if (character_flags[character] & CF_OCTAL) {
+                character = next_source_character();
+                digits = 1;
+                do {
+                    if (!(character_flags[character] & CF_OCTAL)) break;
+                    fputc(character,preprocessor_stream);
+                    character = next_source_character();
+                    ++digits;
+                } while (digits < 3);
+                parser_flags &= ~0x08000000UL;
+            } else if ((character & 0xdf) == 'X') {
+                character = next_source_character();
+                while (character_flags[character] & CF_HEX) {
+                    fputc(character,preprocessor_stream);
+                    character = next_source_character();
+                }
+                parser_flags &= ~0x08000000UL;
+            } else {
+                parser_flags &= ~0x08000000UL;
+                continue;
+            }
+        } else if (category == CC_NEWLINE) {
+            if (scanner_flags & 0x200) report_syntax_error(1);
+            --source_text_cursor;
+            return;
+        } else if (category == CC_LEAD_BYTE) {
+            fputc(character,preprocessor_stream);
+            character = next_source_character();
+            fputc(character,preprocessor_stream);
+            continue;
+        }
+        fputc(character,preprocessor_stream);
+        if (character == quote && (questions < 2 || quote != '\'')) return;
+        questions = 0;
+    }
+}

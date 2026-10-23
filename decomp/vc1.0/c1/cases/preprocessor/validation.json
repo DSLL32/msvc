@@ -1,0 +1,297 @@
+{
+  "status": "pass; authorized SEH/inline-asm/browser/preprocessor queue complete; paused",
+  "accepted_from": 763,
+  "accepted_count": 776,
+  "new_frontend_functions": 8,
+  "new_CRT_extents": 2,
+  "new_import_thunks": 3,
+  "source_functions": 665,
+  "current_frontier": null,
+  "coverage": {
+    "accepted_union_bytes": 207208,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 189272,
+      "CRT": 17786,
+      "import_thunks": 150
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 74.74119336012177,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "extent_delta": 1991,
+  "frontend_extent_delta": 1653,
+  "normalization": "none",
+  "outputs": {
+    "c1-E": {
+      "exit": 0,
+      "stdout_bytes": 381,
+      "stderr_bytes": 0,
+      "files": []
+    },
+    "c1-EP": {
+      "exit": 0,
+      "stdout_bytes": 292,
+      "stderr_bytes": 0,
+      "files": []
+    },
+    "c1-P": {
+      "exit": 0,
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "files": {
+        "test.i": 381
+      }
+    }
+  },
+  "original_frontier_captures": {
+    "count": 16,
+    "preparation_seconds": 0.8108599996194243,
+    "execution_seconds": 19.54532008897513,
+    "total_seconds": 20.356226911768317
+  },
+  "native_frontier_observations": {
+    "count": 13,
+    "preparation_seconds": 0.04763101600110531,
+    "execution_seconds": 1.9798593977466226,
+    "total_seconds": 2.0480646239593625
+  },
+  "internal_CRT_import_observations": 3,
+  "native_runtime_boundary_receipt": "evidence/runtime-proof.receipt.json",
+  "initial_analysis_original": {
+    "case": "/root/msvc2/decomp/vc1.0/c1/cases/preprocessor",
+    "phase": "c1-E",
+    "unmasked": false,
+    "accepted_count": 762,
+    "accepted_sha256": "eee6d9776f4a9e028a955155c5784bf1757e0f76fc19698e10d23f38c0f77769",
+    "executable_sha256": "9ef5383c19c20adec4a532aa91292f31ac5fb4a2ec7d51114137879c6d17ac70",
+    "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+    "debugger_sha256": "d24b418adc6c9aa9c0b88aa2b8e0538f9fcdd80dd9c55a44551d16c2274421d5",
+    "child_arguments": [],
+    "child_environment": {
+      "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+    },
+    "child_working_directory": "N:\\pp-lines",
+    "host_working_directory": "/root/.ai-tmp/vc1.0-c1/pp-E-initial-analysis/pp-lines",
+    "preparation_seconds": 0.04911958798766136,
+    "execution_seconds": 1.4694471349939704,
+    "total_seconds": 1.5185696491971612,
+    "files": [
+      {
+        "name": "case.h",
+        "bytes": 179,
+        "sha256": "c4a483f163fa52a21d2d3d40eb89442249352b64c85c9cf8b2b5b633e76af21f"
+      },
+      {
+        "name": "test.c",
+        "bytes": 433,
+        "sha256": "0512e7aff3123d800efb984db66ac8643123556c2ed6ee7caed390a2dc7fbf40"
+      }
+    ]
+  },
+  "independent_original_verification": {
+    "count": 3,
+    "preparation_seconds": 0.01798688806593418,
+    "execution_seconds": 4.397760304622352,
+    "total_seconds": 4.415755522437394
+  },
+  "original_CL_capture_seconds": 5.669560002163053,
+  "native_build_measured_seconds": 15.663773124106228,
+  "clean_final_operations": [
+    {
+      "name": "clean",
+      "command": [
+        "make",
+        "clean"
+      ],
+      "seconds": 0.04121571313589811,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-clean.log"
+    },
+    {
+      "name": "canonical-clean-build-audits",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 40.83108675852418,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-canonical-clean-build-audits.log"
+    },
+    {
+      "name": "native-clean-builds",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.619984637014568,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-native-clean-builds.log"
+    },
+    {
+      "name": "trace-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.19312292896211147,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-trace-projection.log"
+    },
+    {
+      "name": "native-thirteen-traces",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/pp-final-thirteen-traces"
+      ],
+      "seconds": 0.44086906500160694,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-native-thirteen-traces.log"
+    },
+    {
+      "name": "native-thirteen-outputs",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/pp-final-thirteen-outputs"
+      ],
+      "seconds": 0.2790742088109255,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-native-thirteen-outputs.log"
+    },
+    {
+      "name": "oracle-rejections",
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.36715670581907034,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-oracle-rejections.log"
+    },
+    {
+      "name": "assembler-generator-check",
+      "command": [
+        "python3",
+        "scripts/generate-asm-grammar.py",
+        "--check"
+      ],
+      "seconds": 0.19224414136260748,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-assembler-generator-check.log"
+    }
+  ],
+  "prototype_declaration_followup_operations": [
+    {
+      "name": "canonical-prototype-audits",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 6.107982135377824,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-canonical-prototype-audits.log"
+    },
+    {
+      "name": "native-prototype-builds",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 1.4152427865192294,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-native-prototype-builds.log"
+    },
+    {
+      "name": "final-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.2035070462152362,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-projection.log"
+    },
+    {
+      "name": "final-traces",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/queue-final-traces"
+      ],
+      "seconds": 0.4766470231115818,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-traces.log"
+    },
+    {
+      "name": "final-outputs",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--directory",
+        "/root/.ai-tmp/vc1.0-c1/queue-final-outputs"
+      ],
+      "seconds": 0.2650682805106044,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-outputs.log"
+    },
+    {
+      "name": "final-rejections",
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.32519054412841797,
+      "exit": 0,
+      "log": "/root/.ai-tmp/vc1.0-c1/queue-final-rejections.log"
+    }
+  ],
+  "static_audits": {
+    "function_graphs_and_instruction_boundaries": 665,
+    "state_defaults_and_alias_ranges": 269,
+    "PCH_root_identities": 105,
+    "PCH_graph_callbacks": 12,
+    "function_shape_cache_entries": 21,
+    "C_grammar": {
+      "states": 376,
+      "actions_and_timings": 57904,
+      "productions": 227,
+      "gotos": 34216
+    },
+    "assembler_grammar": {
+      "states": 136,
+      "actions_and_errors": 6936,
+      "lookahead_timings_and_defaults": 136,
+      "production_records": 83,
+      "gotos": 3128,
+      "model_and_emitted_C": true
+    }
+  },
+  "native_regressions": {
+    "case_count": 13,
+    "traces": "evidence/native-thirteen-case-traces.json",
+    "artifacts": "evidence/native-thirteen-case-outputs.json",
+    "negative_checks": "evidence/native-eight-rejections.json",
+    "rejection_count": 8
+  },
+  "limitations": [
+    "Analysis/decompiler wall time and initial setup were not measured; listed durations are measured operations, not total task time.",
+    "A provisional PCH replay name pointer duplicated interned_name; original root-alias audit rejected it, it was consolidated, and final root/default/alias audits pass. The failing and corrected logs are preserved.",
+    "CRT/import internal chains are checked by original identities, explicit native application-to-CRT argument/return/post-state and downstream exact outputs, not app trace events.",
+    "Existing untouched original references remain frozen; normal tests invoke only native i386 ELF."
+  ]
+}

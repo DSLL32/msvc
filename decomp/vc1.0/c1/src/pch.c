@@ -10,6 +10,7 @@
 #include "control-ir.h"
 #include "lexer.h"
 #include "preprocessor.h"
+#include "literal-names.h"
 #include <recon.h>
 
 PchRecord *pch_record_cursor; /* original 0x5b568 */
@@ -236,5 +237,65 @@ void load_precompiled_header(void)
                 final_newline_emitted = 0;
             }
         }
+    }
+}
+
+/* Original0x44f90..0x45146. Record main-file macro definitions while
+   creating a PCH, or consume an identical pending definition during replay.
+   Name/replacement comparisons were compiler-inlined in the original. */
+int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count)
+{
+    PchRecord *record;
+    unsigned name_bytes, replacement_bytes;
+    unsigned short count = (unsigned short)parameter_count;
+    unsigned char *left, *right;
+    char *saved_name;
+    if (!pch_mode) return 0;
+    if (pch_mode == 1) {
+        name_bytes = 1;
+        left = (unsigned char *)name;
+        while (*left++) ++name_bytes;
+        replacement_bytes = 1;
+        left = (unsigned char *)replacement;
+        while (*left++) ++replacement_bytes;
+        name_bytes = (unsigned short)name_bytes;
+        replacement_bytes = (unsigned short)replacement_bytes;
+        write_pch_record_header(1,count,name_bytes + replacement_bytes);
+        write_initializer_bytes(name,name_bytes,1,pch_event_stack);
+        write_initializer_bytes(replacement,replacement_bytes,1,pch_event_stack);
+        return 0;
+    }
+    if (pch_mode != 2) return 0;
+    record = pch_record_cursor;
+    for (;;) {
+        if (record->kind) {
+            if (record->kind != 1) {
+                saved_name = copy_string(interned_name,2);
+                if (!pch_replay_mismatch()) {
+                    intern_identifier(saved_name);
+                    return 0;
+                }
+                return 1;
+            }
+            if ((unsigned short)record->value == count) {
+                left = (unsigned char *)(record + 1);
+                right = (unsigned char *)name;
+                while (*left == *right && *left) { ++left; ++right; }
+                if (*left == *right) {
+                    left = (unsigned char *)(record + 1);
+                    while (*left++) ;
+                    right = (unsigned char *)replacement;
+                    while (*left == *right && *left) { ++left; ++right; }
+                    if (*left == *right) {
+                        record->kind = 0;
+                        while (!pch_record_cursor->kind)
+                            pch_record_cursor = (PchRecord *)((char *)(pch_record_cursor + 1) +
+                                pch_record_cursor->payload_bytes);
+                        return 1;
+                    }
+                }
+            }
+        }
+        record = (PchRecord *)((char *)(record + 1) + record->payload_bytes);
     }
 }

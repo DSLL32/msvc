@@ -1,0 +1,18 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x5f829: file ../../../lib/recon/src/crt.c, line 870.
+Breakpoint 2 at 0x5f57f: file ../../../lib/recon/src/crt.c, line 836.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_dup (source=1) at ../../../lib/recon/src/crt.c:870
+870	    if (!valid_descriptor(source)) return -1;
+0x565ce63d in initialize_frontend () at src/initialization.c:181
+181	        if (_dup(1) == -1 ||
+Value returned is $1 = 3
+
+Breakpoint 2, recon_freopen (name=0xffd44e9a "test.i", mode=0x566293d8 "wt+", stream=0x56650158 <recon_iob+32>) at ../../../lib/recon/src/crt.c:836
+836	    if (stream->_flag) recon_fclose(stream);
+0x565ce673 in initialize_frontend () at src/initialization.c:182
+182	            !(preprocessor_file = freopen(options.option_Fi, "wt+", stdout)))
+Value returned is $2 = (ShimFILE *) 0x56650158 <recon_iob+32>
+[Inferior 1 (process 639242) exited normally]

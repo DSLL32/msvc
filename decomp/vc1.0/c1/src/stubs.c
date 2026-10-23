@@ -34,7 +34,6 @@ void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
 /* Original 0x4bee0. */
 
 /* Original 0x43ec0. */
-void preprocess_translation_unit(void) { __asm { int 3 } }
 
 /* Original 0x276c0. */
 
@@ -102,13 +101,11 @@ void browser_index_overflow(void) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
-int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
 
 
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 FrontendSymbol *__stdcall symbol_alias(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
-void emit_line_directive(void) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
 
 void release_input_handle(void) { __asm { int 3 } }
@@ -123,7 +120,6 @@ void release_input_handle(void) { __asm { int 3 } }
 
 
 
-void __stdcall copy_quoted_literal(int delimiter) { __asm { int 3 } }
 
 
 
@@ -133,7 +129,6 @@ void __stdcall copy_quoted_literal(int delimiter) { __asm { int 3 } }
 
 
 
-unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 0; }
 
 
 
@@ -496,9 +491,6 @@ void __stdcall macro_scan_error(unsigned code) { __asm { int 3 } }
 
 long source_file_timestamp(void) { __asm { int 3 } return 0; }
 
-void __stdcall append_macro_string(int delimiter, char *text) { __asm { int 3 } }
-
-char *__stdcall quote_macro_filename(char *destination, char *filename) { __asm { int 3 } return 0; }
 
 
 
@@ -507,7 +499,7 @@ char *__stdcall quote_macro_filename(char *destination, char *filename) { __asm 
 
 
 
-char *read_macro_string(void) { __asm { int 3 } return 0; }
+
 
 
 void browser_macro_end(void) { __asm { int 3 } }
@@ -944,3 +936,6 @@ void restore_pch_separate_debug(void) { __asm { int 3 } }
 
 /* Original 0x4ddb0. */
 
+
+/* Original0x44e40. */
+void write_pch_record_header(unsigned kind, unsigned value, unsigned bytes) { __asm { int 3 } }

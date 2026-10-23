@@ -767,7 +767,20 @@
     "_read_browser_string",
     "__unlink",
     "_remove",
-    "import:DeleteFileA"
+    "import:DeleteFileA",
+    "_emit_line_directive",
+    "_quote_macro_filename@8",
+    "_preprocess_translation_unit",
+    "_pch_record_macro@12",
+    "_read_number_text@4",
+    "_read_macro_string",
+    "_append_macro_string@8",
+    "_copy_quoted_literal@4",
+    "__dup",
+    "import:GetCurrentProcess",
+    "import:DuplicateHandle",
+    "_freopen",
+    "import:SetStdHandle"
   ],
   "driver": [
     {
@@ -954,7 +967,7 @@
     {
       "name": "_preprocess_translation_unit",
       "start": 278208,
-      "end": 278209
+      "end": 278284
     },
     {
       "name": "_assign_string_type@4",
@@ -1371,7 +1384,7 @@
     {
       "name": "_pch_record_macro@12",
       "start": 282512,
-      "end": 282513
+      "end": 282951
     },
     {
       "name": "_macro_replacement_diff@12",
@@ -1472,7 +1485,7 @@
     {
       "name": "_emit_line_directive",
       "start": 114160,
-      "end": 114161
+      "end": 114280
     },
     {
       "name": "_report_ide_source",
@@ -1575,7 +1588,7 @@
     {
       "name": "_copy_quoted_literal@4",
       "start": 136336,
-      "end": 136337
+      "end": 136832
     },
     {
       "name": "_scan_character_literal@4",
@@ -1620,7 +1633,7 @@
     {
       "name": "_read_number_text@4",
       "start": 138576,
-      "end": 138577
+      "end": 138664
     },
     {
       "name": "_scan_number@4",
@@ -2978,12 +2991,12 @@
     {
       "name": "_append_macro_string@8",
       "start": 121472,
-      "end": 121473
+      "end": 121767
     },
     {
       "name": "_quote_macro_filename@8",
       "start": 114080,
-      "end": 114081
+      "end": 114158
     },
     {
       "name": "_append_macro_text@4",
@@ -3023,7 +3036,7 @@
     {
       "name": "_read_macro_string",
       "start": 122800,
-      "end": 122801
+      "end": 122861
     },
     {
       "name": "_format_text",
@@ -5153,6 +5166,11 @@
       "name": "_read_browser_string",
       "start": 157840,
       "end": 157962
+    },
+    {
+      "name": "_write_pch_record_header",
+      "start": 282176,
+      "end": 282177
     }
   ],
   "cases": {
@@ -5205,6 +5223,21 @@
       "arguments": "",
       "accepted_from": 732,
       "accepted_count": 763
+    },
+    "preprocessor-E": {
+      "arguments": "",
+      "accepted_from": 763,
+      "accepted_count": 771
+    },
+    "preprocessor-EP": {
+      "arguments": "",
+      "accepted_from": 771,
+      "accepted_count": 771
+    },
+    "preprocessor-P": {
+      "arguments": "",
+      "accepted_from": 771,
+      "accepted_count": 776
     }
   },
   "buffered_streams": [

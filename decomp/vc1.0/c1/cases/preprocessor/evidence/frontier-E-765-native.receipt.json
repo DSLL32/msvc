@@ -1,0 +1,40 @@
+{
+  "buffers": {
+    "expression_file": null,
+    "symbol_file": null,
+    "line_file": null,
+    "global_file": null,
+    "debug_file": null,
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "preprocess_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "preprocess_translation_unit",
+  "pc": 1449097284,
+  "label_stack_count": 0,
+  "scanner_flags": 0,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_preprocess_translation_unit",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.0034983232617378235,
+  "execution_seconds": 0.14581385720521212,
+  "total_seconds": 0.15104528702795506,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/pp-E-native-765",
+    "RECON_CANONICAL_CWD": "N:\\pp-lines"
+  },
+  "executable_sha256": "cfd627d710e1ec5aabe4bb5c500567d1667032a3842bf3bc757eeeec8e6684d1"
+}

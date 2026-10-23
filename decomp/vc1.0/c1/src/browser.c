@@ -1,4 +1,5 @@
 /* Definitions/references emitted for the browser database builder. */
+#include <stdlib.h>
 #include <direct.h>
 #include <io.h>
 #include "browser.h"

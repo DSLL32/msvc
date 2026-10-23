@@ -85,6 +85,24 @@ def main():
     rejects('generated-pch-dependency', 'generated PCH differs from captured dependency',
             lambda: checker.run_case('pch-use', executable, directory, dependency=corrupt))
     assert not (directory/'pch-use/execution.json').exists(), 'consumer ran with bad dependency'
+    _, browser = checker.run_case('browser', executable, directory)
+    browser_fixture = checker.BINARY/'cases/browser'
+    browser_phase = json.loads((browser_fixture/'manifest.json').read_text())['phases']['c1']
+    sbr = bytearray((browser/'test.sbr').read_bytes())
+    sbr[4] ^= 1
+    (browser/'test.sbr').write_bytes(sbr)
+    rejects('browser-record-byte', 'output bytes differ: test.sbr',
+            lambda: checker.validate_artifacts(browser, browser_fixture, browser_phase))
+
+    _, preprocessed = checker.run_case('preprocessor-P', executable, directory)
+    pp_fixture = checker.BINARY/'cases/preprocessor'
+    pp_phase = json.loads((pp_fixture/'manifest.json').read_text())['phases']['c1-P']
+    text = bytearray((preprocessed/'test.i').read_bytes())
+    text[text.index(b'\r\n')] = ord(' ')
+    (preprocessed/'test.i').write_bytes(text)
+    rejects('preprocessor-line-ending-byte', 'output bytes differ: test.i',
+            lambda: checker.validate_artifacts(preprocessed, pp_fixture, pp_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "c0639386c1325f8bde9eff16e2624f83c0478162e678bc5020049af2e7c4cffe",
+    "functions.json": "312784e913bad8efaeb10fd9b5bbea5c8e47b81a7aacef2a8c8153ce72311674",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "328a3463cd75a034e877fc577b6c7b90fd9bb6f329763068b5ac23182d28b618"
+    "sha256": "d01f4b15898a4d12799c44f0425b3f4b5cd7bf9915238ea6050053f1fa70c61c"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -123,7 +123,7 @@
     },
     "append_macro_string": {
       "logical": "_append_macro_string@8",
-      "source": "src/stubs.c"
+      "source": "src/macro-expand.c"
     },
     "append_macro_text": {
       "logical": "_append_macro_text@4",
@@ -731,7 +731,7 @@
     },
     "copy_quoted_literal": {
       "logical": "_copy_quoted_literal@4",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "copy_shape_prefix": {
       "logical": "_copy_shape_prefix@16",
@@ -955,7 +955,7 @@
     },
     "emit_line_directive": {
       "logical": "_emit_line_directive",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "emit_listing_directive": {
       "logical": "_emit_listing_directive@4",
@@ -2303,7 +2303,7 @@
     },
     "pch_record_macro": {
       "logical": "_pch_record_macro@12",
-      "source": "src/stubs.c"
+      "source": "src/pch.c"
     },
     "pch_record_string": {
       "logical": "_pch_record_string",
@@ -2503,7 +2503,7 @@
     },
     "preprocess_translation_unit": {
       "logical": "_preprocess_translation_unit",
-      "source": "src/stubs.c"
+      "source": "src/frontend.c"
     },
     "primitive_debug_index": {
       "logical": "_primitive_debug_index@4",
@@ -2603,7 +2603,7 @@
     },
     "quote_macro_filename": {
       "logical": "_quote_macro_filename@8",
-      "source": "src/stubs.c"
+      "source": "src/macro-expand.c"
     },
     "read_angle_include_filename": {
       "logical": "_read_angle_include_filename",
@@ -2647,11 +2647,11 @@
     },
     "read_macro_string": {
       "logical": "_read_macro_string",
-      "source": "src/stubs.c"
+      "source": "src/macro-expand.c"
     },
     "read_number_text": {
       "logical": "_read_number_text@4",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "read_numeric_character": {
       "logical": "_read_numeric_character",
@@ -3377,6 +3377,10 @@
       "logical": "_write_pch_pages",
       "source": "src/pch-relocate.c"
     },
+    "write_pch_record_header": {
+      "logical": "_write_pch_record_header",
+      "source": "src/stubs.c"
+    },
     "write_pdb_member": {
       "logical": "_write_pdb_member",
       "source": "src/debug-info.c"
@@ -4036,7 +4040,15 @@
     "prepare_browser_reference",
     "finish_browser_output",
     "read_browser_record",
-    "read_browser_string"
+    "read_browser_string",
+    "emit_line_directive",
+    "quote_macro_filename",
+    "preprocess_translation_unit",
+    "pch_record_macro",
+    "read_number_text",
+    "read_macro_string",
+    "append_macro_string",
+    "copy_quoted_literal"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4134,7 +4146,9 @@
       "_tolower",
       "__getcwd",
       "__unlink",
-      "_remove"
+      "_remove",
+      "__dup",
+      "_freopen"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4158,7 +4172,10 @@
       "import:CloseHandle",
       "import:ExitProcess",
       "import:GetLastError",
-      "import:DeleteFileA"
+      "import:DeleteFileA",
+      "import:GetCurrentProcess",
+      "import:DuplicateHandle",
+      "import:SetStdHandle"
     ]
   },
   "cases": {
@@ -4913,6 +4930,45 @@
         "read_browser_record",
         "read_browser_string"
       ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "preprocessor-E": {
+      "first": 763,
+      "last": 771,
+      "seen_count": 646,
+      "expected": [
+        "emit_line_directive",
+        "quote_macro_filename",
+        "preprocess_translation_unit",
+        "pch_record_macro",
+        "read_number_text",
+        "read_macro_string",
+        "append_macro_string",
+        "copy_quoted_literal"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "preprocessor-EP": {
+      "first": 771,
+      "last": 771,
+      "seen_count": 654,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "preprocessor-P": {
+      "first": 771,
+      "last": 776,
+      "seen_count": 654,
+      "expected": [],
       "terminal": {
         "kind": "exit",
         "code": 0

@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ('_interned_name', 0x6b66c, 4),
     ('_browser_read_name', 0x6386c, 4),
     ('_browser_filtered_output', 0x63870, 4),
     ('_browser_unfiltered', 0x63874, 4),

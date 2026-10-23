@@ -1,0 +1,14 @@
+minimal: native pass 0.009878s
+hello-win32: native pass 0.081600s
+hello-dll: native pass 0.081590s
+numeric-varargs: native pass 0.013836s
+pch-create: native pass 0.011576s
+pch-use: native pass 0.009870s
+do-while: native pass 0.007945s
+seh: native pass 0.008039s
+inline-asm: native pass 0.008074s
+browser: native pass 0.009193s
+preprocessor-E: native pass 0.007689s
+preprocessor-EP: native pass 0.007266s
+preprocessor-P: native pass 0.009081s
+Evidence: /root/.ai-tmp/vc1.0-c1/pp-final-thirteen-traces/receipt.json

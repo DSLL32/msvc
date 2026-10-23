@@ -9,6 +9,7 @@ typedef struct PchRecord {
     unsigned kind, payload_bytes, value;
 } PchRecord;
 extern PchRecord *pch_record_cursor;
+void write_pch_record_header(unsigned kind, unsigned value, unsigned bytes);
 extern short pch_include_count;
 extern unsigned short pch_include_page_count;
 extern int pch_macro_changed, pch_rebuild_on_macro_change;

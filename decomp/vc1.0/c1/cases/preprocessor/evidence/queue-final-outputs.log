@@ -1,0 +1,14 @@
+minimal: native pass 0.006671s
+hello-win32: native pass 0.058508s
+hello-dll: native pass 0.055817s
+numeric-varargs: native pass 0.009209s
+pch-create: native pass 0.007848s
+pch-use: native pass 0.007067s
+do-while: native pass 0.005369s
+seh: native pass 0.005369s
+inline-asm: native pass 0.005878s
+browser: native pass 0.006793s
+preprocessor-E: native pass 0.004154s
+preprocessor-EP: native pass 0.004528s
+preprocessor-P: native pass 0.004568s
+Evidence: /root/.ai-tmp/vc1.0-c1/queue-final-outputs/receipt.json

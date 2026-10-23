@@ -139,9 +139,162 @@
       }
     }
   },
-  "status": "original CL capture and independent standalone C1 exact; queued",
+  "status": "all three phases complete; masked original/native exact; registered in normal native suite",
   "capture": {
     "provenance": "Untouched CL and original children,read-only CL capture-run source built in C1 private scratch and Wine prefix. Only C1 phase is queued; backend capture is reference-only.",
     "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
+  },
+  "reconstruction": {
+    "accepted_from": 763,
+    "accepted_count": 776,
+    "acceptance_order": [
+      "_emit_line_directive",
+      "_quote_macro_filename@8",
+      "_preprocess_translation_unit",
+      "_pch_record_macro@12",
+      "_read_number_text@4",
+      "_read_macro_string",
+      "_append_macro_string@8",
+      "_copy_quoted_literal@4",
+      "__dup",
+      "import:GetCurrentProcess",
+      "import:DuplicateHandle",
+      "_freopen",
+      "import:SetStdHandle"
+    ],
+    "current_terminal": {
+      "kind": "exit",
+      "code": 0
+    },
+    "frontier_observations": [
+      {
+        "phase": "c1-E",
+        "accepted_count": 763,
+        "original_receipt": "evidence/frontier-E-763-original.receipt.json",
+        "frontier": "_emit_line_directive",
+        "native_frame": "emit_line_directive",
+        "native_receipt": "evidence/frontier-E-763-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 764,
+        "original_receipt": "evidence/frontier-E-764-original.receipt.json",
+        "frontier": "_quote_macro_filename@8",
+        "native_frame": "quote_macro_filename",
+        "native_receipt": "evidence/frontier-E-764-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 765,
+        "original_receipt": "evidence/frontier-E-765-original.receipt.json",
+        "frontier": "_preprocess_translation_unit",
+        "native_frame": "preprocess_translation_unit",
+        "native_receipt": "evidence/frontier-E-765-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 766,
+        "original_receipt": "evidence/frontier-E-766-original.receipt.json",
+        "frontier": "_pch_record_macro@12",
+        "native_frame": "pch_record_macro",
+        "native_receipt": "evidence/frontier-E-766-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 767,
+        "original_receipt": "evidence/frontier-E-767-original.receipt.json",
+        "frontier": "_read_number_text@4",
+        "native_frame": "read_number_text",
+        "native_receipt": "evidence/frontier-E-767-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 768,
+        "original_receipt": "evidence/frontier-E-768-original.receipt.json",
+        "frontier": "_read_macro_string",
+        "native_frame": "read_macro_string",
+        "native_receipt": "evidence/frontier-E-768-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 769,
+        "original_receipt": "evidence/frontier-E-769-original.receipt.json",
+        "frontier": "_append_macro_string@8",
+        "native_frame": "append_macro_string",
+        "native_receipt": "evidence/frontier-E-769-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 770,
+        "original_receipt": "evidence/frontier-E-770-original.receipt.json",
+        "frontier": "_copy_quoted_literal@4",
+        "native_frame": "copy_quoted_literal",
+        "native_receipt": "evidence/frontier-E-770-native.receipt.json"
+      },
+      {
+        "phase": "c1-E",
+        "accepted_count": 771,
+        "original_receipt": "evidence/frontier-E-771-original.receipt.json",
+        "frontier": null,
+        "native_frame": null,
+        "native_receipt": "evidence/frontier-E-771-native.receipt.json"
+      },
+      {
+        "phase": "c1-EP",
+        "accepted_count": 771,
+        "original_receipt": "evidence/frontier-EP-771-original.receipt.json",
+        "frontier": null,
+        "native_frame": null,
+        "native_receipt": "evidence/frontier-EP-771-native.receipt.json"
+      },
+      {
+        "phase": "c1-P",
+        "accepted_count": 771,
+        "original_receipt": "evidence/frontier-P-771-original.receipt.json",
+        "frontier": "__dup",
+        "native_frame": "recon_dup",
+        "native_receipt": "evidence/frontier-P-771-native.receipt.json"
+      },
+      {
+        "phase": "c1-P",
+        "accepted_count": 772,
+        "original_receipt": "evidence/frontier-P-772-original.receipt.json",
+        "frontier": "import:GetCurrentProcess",
+        "native_boundary_receipt": "evidence/runtime-proof.receipt.json",
+        "comparison": "Original CRT internal import identity; native dup/freopen argument/return/descriptor/file post-state, then exact final output. Filtered from application trace."
+      },
+      {
+        "phase": "c1-P",
+        "accepted_count": 773,
+        "original_receipt": "evidence/frontier-P-773-original.receipt.json",
+        "frontier": "import:DuplicateHandle",
+        "native_boundary_receipt": "evidence/runtime-proof.receipt.json",
+        "comparison": "Original CRT internal import identity; native dup/freopen argument/return/descriptor/file post-state, then exact final output. Filtered from application trace."
+      },
+      {
+        "phase": "c1-P",
+        "accepted_count": 774,
+        "original_receipt": "evidence/frontier-P-774-original.receipt.json",
+        "frontier": "_freopen",
+        "native_frame": "recon_freopen",
+        "native_receipt": "evidence/frontier-P-774-native.receipt.json"
+      },
+      {
+        "phase": "c1-P",
+        "accepted_count": 775,
+        "original_receipt": "evidence/frontier-P-775-original.receipt.json",
+        "frontier": "import:SetStdHandle",
+        "native_boundary_receipt": "evidence/runtime-proof.receipt.json",
+        "comparison": "Original CRT internal import identity; native dup/freopen argument/return/descriptor/file post-state, then exact final output. Filtered from application trace."
+      },
+      {
+        "phase": "c1-P",
+        "accepted_count": 776,
+        "original_receipt": "evidence/frontier-P-776-original.receipt.json",
+        "frontier": null,
+        "native_frame": null,
+        "native_receipt": "evidence/frontier-P-776-native.receipt.json"
+      }
+    ]
   }
 }

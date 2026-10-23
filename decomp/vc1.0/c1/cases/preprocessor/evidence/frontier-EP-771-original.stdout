@@ -1,0 +1,20 @@
+
+
+
+
+
+
+typedef struct Result { int value; } Result;
+int transform(int value);
+
+
+
+
+
+
+
+#line 40 "logical-test.c"
+int transform(int value) { return ((value) * 2); }
+const char *factor_text = "2";
+
+int main(void) { Result result = { 3 }; return transform(result.value) != 6; }

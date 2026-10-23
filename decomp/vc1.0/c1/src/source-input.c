@@ -326,3 +326,18 @@ int __stdcall open_include_in_source_directory(char *filename)
 void browser_include_begin(void)
 {
 }
+
+/* Original0x1bdf0..0x1be67. Generated preprocessing line markers combine
+   the next line number and an escaped quoted file name in two writes. */
+void emit_line_directive(void)
+{
+    char line[16], *end, *cursor;
+    unsigned length;
+    format_text(line,"#line %d ",source_line_number + 1);
+    end = quote_macro_filename(token_text,source_filename);
+    cursor = line;
+    length = 0;
+    while (*cursor++) ++length;
+    fwrite(line,length,1,preprocessor_stream);
+    fwrite(token_text,end - token_text,1,preprocessor_stream);
+}

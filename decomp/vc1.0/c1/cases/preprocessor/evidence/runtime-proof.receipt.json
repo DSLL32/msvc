@@ -1,0 +1,29 @@
+{
+  "dup": {
+    "source": 1,
+    "source_flags": 129,
+    "result": 3,
+    "result_flags": 129
+  },
+  "freopen": {
+    "filename": "test.i",
+    "mode": "wt+",
+    "stream": 1449460056,
+    "before_exists": false,
+    "result": 1449460056,
+    "after_exists": true,
+    "descriptor": 1
+  },
+  "execution_seconds": 0.143565290607512,
+  "executable_sha256": "2f0ba23f6e5270243819b817e182a270125f40eb08535f1df5439af04f06f057",
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -E -Fi test.i -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/pp-P-runtime-proof",
+    "RECON_CANONICAL_CWD": "N:\\pp-file"
+  },
+  "boundary_policy": "Native application-to-CRT boundaries observed before/after; original internal runtime/import chain captured separately; final complete raw output checked.",
+  "final_test_i_bytes": 381
+}

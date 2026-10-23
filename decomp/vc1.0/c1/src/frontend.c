@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "pragma.h"
 #include "global-ir.h"
+#include "lexer.h"
 #include <recon.h>
 
 unsigned initial_option_flags, precompiled_option_flags;
@@ -111,4 +112,23 @@ finish:
     cleanup_precompiled_files();
     exit(error_count + (options.option_WX > 1));
     return error_count + (options.option_WX > 1);
+}
+
+/* Original0x43ec0..0x43f0b. The scanner emits whitespace and literal text;
+   the driver writes spellings for tokens not already emitted by that path. */
+void preprocess_translation_unit(void)
+{
+    unsigned char token;
+    char *text, *cursor;
+    unsigned bytes;
+    for (;;) {
+        token = read_parser_token();
+        if (!token) return;
+        if (token == TOK_NEWLINE || token == TOK_PP_OUTPUT) continue;
+        text = token_names[current_token_code];
+        cursor = text;
+        bytes = 0;
+        while (*cursor++) ++bytes;
+        fwrite(text,bytes,1,stdout);
+    }
 }

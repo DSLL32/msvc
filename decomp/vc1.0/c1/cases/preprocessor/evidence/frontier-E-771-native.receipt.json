@@ -1,0 +1,18 @@
+{
+  "buffers": {},
+  "frames": [],
+  "frontier": null,
+  "fresh_original_match": true,
+  "preparation_seconds": 0.004362737759947777,
+  "execution_seconds": 0.13859575148671865,
+  "total_seconds": 0.14429190661758184,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -E -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/pp-E-native-771",
+    "RECON_CANONICAL_CWD": "N:\\pp-lines"
+  },
+  "executable_sha256": "2f0ba23f6e5270243819b817e182a270125f40eb08535f1df5439af04f06f057"
+}

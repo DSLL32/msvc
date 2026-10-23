@@ -490,3 +490,77 @@ void __stdcall append_macro_text(char *text)
         *macro_expansion_next++ = *text++;
     }
 }
+
+/* Original0x1bda0..0x1bded. Quote file-name bytes without a terminating
+   NUL, escaping backslashes and keeping multibyte lead/trail pairs together. */
+char *__stdcall quote_macro_filename(char *destination, char *filename)
+{
+    unsigned char *source = (unsigned char *)filename;
+    *destination++ = '"';
+    while ((*destination = *source) != 0) {
+        if (character_class[*source] == CC_ESCAPE_OR_END)
+            *++destination = '\\';
+        else if (character_class[*source] == CC_LEAD_BYTE)
+            *++destination = *++source;
+        ++source;
+        ++destination;
+    }
+    *destination++ = '"';
+    return destination;
+}
+
+/* Original0x1dfb0..0x1dfec. Stringification selects the original actual
+   argument rather than its expanded copy in the second argument span. */
+char *read_macro_string(void)
+{
+    signed char index = *source_text_cursor++;
+    MacroFrame *frame = &macro_frames[macro_expansion_active];
+    MacroArgument *argument = (MacroArgument *)frame->saved_expansion_start;
+    if (index > frame->argument_count) return 0;
+    while (--index) argument = (MacroArgument *)((char *)argument + argument->bytes);
+    return argument->text;
+}
+
+/* Original0x1da80..0x1dba6. Stringify original actuals, preserving quoted
+   substrings, escaping their backslashes and skipping macro end markers. */
+void __stdcall append_macro_string(int delimiter, char *text)
+{
+    unsigned char quote = (unsigned char)delimiter, character, category;
+    unsigned active_quote;
+    int in_quote = 0;
+    if (!text) return;
+    *macro_expansion_next++ = quote;
+    for (;;) {
+        if (macro_work_buffer + macro_work_bytes - 5 <= macro_expansion_next)
+            macro_scan_error(56);
+        character = (unsigned char)*text;
+        category = character_class[character];
+        switch (category) {
+        case CC_ESCAPE_OR_END:
+            if (!character) {
+                *macro_expansion_next++ = quote;
+                return;
+            }
+            if (character == '\\' && in_quote) *macro_expansion_next++ = '\\';
+            break;
+        case CC_QUOTE:
+            if (character_class[quote] == CC_QUOTE) *macro_expansion_next++ = '\\';
+            /* Both quote forms delimit a substring unless producing a
+               character constant, for which the original omits this state. */
+        case CC_APOSTROPHE:
+            if (character_class[quote] != CC_APOSTROPHE) {
+                if (!in_quote) { in_quote = 1; active_quote = category; }
+                else if (active_quote == category) in_quote = 0;
+            }
+            break;
+        case CC_MACRO_END:
+            text += 2;
+            continue;
+        case CC_LEAD_BYTE:
+            ++text;
+            *macro_expansion_next++ = character;
+            break;
+        }
+        *macro_expansion_next++ = *text++;
+    }
+}
