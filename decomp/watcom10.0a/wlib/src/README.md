@@ -1,5 +1,7 @@
-No application functions have been reconstructed yet. Source belongs here after
-the original compiler and initial capture/scaffold plan are verified. Native
+No application functions have been reconstructed yet. `main.c` is the named
+INT3 application-entry stub, verified in native GCC and original Watcom builds.
+It adds no handwritten CRT and does not use FILE or grant application credit.
+Source belongs here as functions are reconstructed and accepted. Native
 tests use GCC's i386 ABI by explicit user direction; the Watcom Win32 build
 retains and audits the original ABI. Native observers compare semantic formal
 values and ownership against the original's actual register/stack formals.

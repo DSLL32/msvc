@@ -1,0 +1,115 @@
+{
+  "raw_evidence_directory": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/scaffold-build-02",
+  "application_functions_accepted": 0,
+  "input_hashes": {
+    "decomp/watcom10.0a/wlib/src/main.c": "4e27a054221075c5c3d842d83891300c9944ecf85ea9a485ed6fd5ef364b97b2",
+    "decomp/watcom10.0a/wlib/Makefile": "8fde0fcd47c3762d6fe2a52358e59456d29df9acdbc46c56fd33060feb011acc",
+    "decomp/watcom10.0a/wlib/scripts/original.py": "ea9d2e78a4f97b843fb81be3aefc95ef3f0752e9b22600e745f8c2c1af2dfc3e",
+    "lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+    "lib/recon/src/crt.c": "ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99",
+    "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "lib/recon/src/entry.c": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+    "lib/recon/src/process.c": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+    "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "lib/recon/src/win32.c": "b38bfa967ea6f4f81ee8f98673e7d8b5126b61a07a595096a0ae485976bfc6be",
+    "lib/recon/include/recon.h": "7b8bbbe80780c744cef86c645c6a75b7c1f0d3393ef374449aeb3823e9c4310b",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+    "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+    "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "lib/recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+    "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "lib/recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d"
+  },
+  "native_build": {
+    "command": [
+      "make",
+      "-j4",
+      "native"
+    ],
+    "elapsed_seconds": 1.2167804772034287,
+    "status": 0,
+    "log_sha256": "38baf38620bb9af4cab8251b2c4d481a4fcf3583c221b9b12d1e637cef14b063"
+  },
+  "native_gdb": {
+    "elapsed_seconds": 0.16503058187663555,
+    "status": 0,
+    "log_sha256": "b755254052bc2c5215a2a58e9939d944b6c90ea1ea9a1d1d5648321d4712135e"
+  },
+  "status": "native main INT3 scaffold and original Watcom Win32 build verified; zero accepted application functions",
+  "win32_compile": {
+    "operation": "compile",
+    "command": [
+      "/usr/bin/wine",
+      "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+      "-bt=nt",
+      "-3r",
+      "-od",
+      "-d2",
+      "-i=R:\\lib\\recon\\include",
+      "-fo=R:\\decomp\\watcom10.0a\\wlib\\build\\main.obj",
+      "R:\\decomp\\watcom10.0a\\wlib\\src\\main.c"
+    ],
+    "toolchain_hashes": {
+      "binb/WCC386.EXE": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+      "binnt/WCC386.EXE": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+      ".patched/WLINK.EXE": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b"
+    },
+    "inputs": {
+      "src/main.c": "4e27a054221075c5c3d842d83891300c9944ecf85ea9a485ed6fd5ef364b97b2"
+    },
+    "outputs": {
+      "build/main.obj": "bd204e40f14679f4695c6715e6744a0687103a3a3d3d852504e7cffe3d317445"
+    },
+    "elapsed_seconds": 0.5321837170049548,
+    "returncode": 0,
+    "stdout": "WATCOM C32 Optimizing Compiler  Version 10.0a\r\nCopyright by WATCOM International Corp. 1984, 1994. All rights reserved.\r\nWATCOM is a trademark of WATCOM International Corp.\r\nR:\\decomp\\watcom10.0a\\wlib\\src\\main.c: 20 lines, included 685, 0 warnings, 0 errors\r\n\rCode size: 46\r\n",
+    "stderr": ""
+  },
+  "win32_link": {
+    "operation": "link",
+    "command": [
+      "/usr/bin/wine",
+      "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+      "@R:\\decomp\\watcom10.0a\\wlib\\build\\wlib.lnk"
+    ],
+    "toolchain_hashes": {
+      "binb/WCC386.EXE": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+      "binnt/WCC386.EXE": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+      ".patched/WLINK.EXE": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b"
+    },
+    "inputs": {
+      "build/main.obj": "bd204e40f14679f4695c6715e6744a0687103a3a3d3d852504e7cffe3d317445",
+      "/root/msvc2/decomp/watcom10.0a/wlib/build/wlib.lnk": "2493786748ace6701b09f9daf318ecd1a9ddba1ca467f1b44b605146f95fa9f1"
+    },
+    "outputs": {
+      "/root/msvc2/decomp/watcom10.0a/wlib/build/WLIB.EXE": "b7f8252aa37e2e58d0619b7a4747aebe037797f9c9e6cfd8bbdfa97aa62923fa",
+      "/root/msvc2/decomp/watcom10.0a/wlib/build/wlib.map": "768e1ad38f51b035e448f344a31096dc6088f84a6c84c9da34e204b47f0d4fb9"
+    },
+    "elapsed_seconds": 0.6243532951921225,
+    "returncode": 0,
+    "stdout": "WATCOM Linker Version 10.0\r\nCopyright by WATCOM International Corp. 1985, 1994. All rights reserved.\r\nWATCOM is a trademark of WATCOM International Corp.\r\nloading object files\r\nsearching libraries\r\ncreating map file\r\ncreating a PE executable\r\n",
+    "stderr": ""
+  },
+  "artifacts": {
+    "decomp/watcom10.0a/wlib/src/main.c": "4e27a054221075c5c3d842d83891300c9944ecf85ea9a485ed6fd5ef364b97b2",
+    "decomp/watcom10.0a/wlib/build/native/main.o": "bb8c9f90fdee15eff65887992e42095fb765aede0476ce4cb538e120e511c938",
+    "decomp/watcom10.0a/wlib/build/native/WLIB": "6a5091b3b2af617e506d3cd309d86d9d2376045729d2b28d0a8b2dee743e51bd",
+    "decomp/watcom10.0a/wlib/build/main.obj": "bd204e40f14679f4695c6715e6744a0687103a3a3d3d852504e7cffe3d317445",
+    "decomp/watcom10.0a/wlib/build/WLIB.EXE": "b7f8252aa37e2e58d0619b7a4747aebe037797f9c9e6cfd8bbdfa97aa62923fa",
+    "decomp/watcom10.0a/wlib/build/wlib.map": "768e1ad38f51b035e448f344a31096dc6088f84a6c84c9da34e204b47f0d4fb9"
+  },
+  "inputs_unchanged_during_native_build": true,
+  "win32_PE_executed": false,
+  "original_target_executed_during_verification": false,
+  "native_fixtures": "not implemented; original help/GS reference held",
+  "prior_native_gdb_attempt": "scaffold-build-01 placed a software breakpoint on the same INT3 byte; debugger continuation skipped it. Corrected verification runs directly to the real SIGTRAP without installing that breakpoint. No source fix or extra Wine execution."
+}

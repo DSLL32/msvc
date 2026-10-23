@@ -1,13 +1,22 @@
 # Watcom 10.0a WLIB
 
-Read-only scaffold for `toolchains/watcom10.0a/binnt/WLIB.EXE`; no original
-execution, accepted functions or native fixtures yet. `make check` verifies the
-original hash and PE metadata in `binary.json`. Native and original build targets
-deliberately fail until the initial application scaffold/capture plan and WLIB
-original-link recipe are reviewed. A shared WCC386 compile-only probe passed;
-this does not yet verify WLIB's own Win32 build. The native ABI decision is
-resolved: use GCC i386 conventions and compare semantic arguments/ownership;
-preserve and audit exact Watcom conventions in the Win32 build.
+Entry scaffold for `toolchains/watcom10.0a/binnt/WLIB.EXE`; zero accepted
+application functions and no successful native fixture yet. `make check`
+verifies the original hash and PE metadata in `binary.json`. `make -j4 native`
+builds the native i386 named `main(argc, argv)` INT3 stub with shared recon C
+compiled at final link. `make -j4 reference-build` builds its Win32 PE with
+original Watcom 10.0a and the separately verified patched shipped WLINK.
+Native tests use GCC i386 conventions and semantic arguments/ownership;
+the Win32 build preserves and audits exact Watcom conventions.
+
+Both builds passed. Watcom compilation took 0.532 seconds with zero warnings or
+errors; linking took 0.624 seconds. A measured fresh native build took 1.217
+seconds and GDB verification 0.165 seconds: real SIGTRAP at the named `main`,
+actual argc 2, argv option `-?`, and byte CC immediately before the stopped PC.
+The pragma intrinsic emits INT3 inline and adds no function/helper vertex.
+Source/object/ELF/MAP/PE and build-log hashes are recorded under
+`cases/help/scaffold/`. The rebuilt Win32 PE was not executed. `make fixtures`
+still fails explicitly on the held original help/GS reference.
 
 The original is a native i386 PE32 console program, SHA256
 `f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3`.
