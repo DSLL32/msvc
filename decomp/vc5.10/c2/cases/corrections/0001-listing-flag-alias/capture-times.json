@@ -1,0 +1,18 @@
+{
+  "helper": {
+    "seconds": 0.003966818563640118,
+    "status": 0
+  },
+  "original-capture": {
+    "seconds": 2.384231172502041,
+    "status": 0
+  },
+  "native-capture": {
+    "seconds": 0.5751566803082824,
+    "status": 0
+  },
+  "compare": {
+    "seconds": 0.4994543017819524,
+    "status": 0
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "rebuilt_sha256": "e3f690d4205a1c059d84c30bcca8d4ceef289a2963368a1ddd0d65b7c23e8d9d",
+  "map_sha256": "0211fc78a784000cbaae3ecae8f9df1ab6f7a447023b7517a416ec3791526545",
+  "configuration_sha256": "7e2578d9bab438ad86c42155ecdf5a849dd236b840f0df1363e6087a114eada5",
+  "inputs": {
+    "src/sections.c": "59f244022c83efe8aeab955811a5160b824fa68f89b4e813788ecb9e9bc7a6a7",
+    "src/c2.h": "1f5b14257f9c0adf6eb100cd39cbe697ccb2efc50b2970e2052d895ff6beed77",
+    "src/options.c": "9dcb15481f9116e3c301e09c7f2aef04237aeed52bed08a4e7accee6de341ccb",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "scripts/check-listing-storage.c": "604ba9c246a45f14d7d84acd81f8ec5fc34e2a9cba8afb5118b790ab78f81da7",
+    "scripts/check-listing-storage.py": "5ff6ccf5cd71aa07ff8b5b51bcad3df2f4eab8d9a0b72dd603ef8d2447cdf532"
+  },
+  "condition_variants": [
+    {
+      "name": "actual",
+      "status": 0,
+      "source_sha256": "59f244022c83efe8aeab955811a5160b824fa68f89b4e813788ecb9e9bc7a6a7"
+    },
+    {
+      "name": "split-flag",
+      "status": -6,
+      "source_sha256": "df314f341d7d2953b90effca8be3fb69d415fa6beeba7e56096a6a068d81a12f"
+    },
+    {
+      "name": "wrong-owner",
+      "status": -6,
+      "source_sha256": "d250eecdd121f877178317e0efa27d5017503c9d9b74488c36c0a82a18a49394"
+    }
+  ],
+  "seconds": 1.077880909666419,
+  "scope": "Original/rebuilt PE and actual MAP typed storage/selector/guard/fastcall identity proof plus actual C condition test. Nonzero C tests are code-side checks, not original execution or new coverage. Historical zero-only captures remain unchanged."
+}

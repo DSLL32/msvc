@@ -112,7 +112,6 @@ C2Section *__fastcall initialize_section_defaults(C2Section *section)
     return section;
 }
 
-C2FunctionSymbol *compiling_function;
 C2Section *default_storage_section;
 
 void __fastcall update_symbol_storage(C2Symbol *header)
@@ -140,9 +139,9 @@ void __fastcall update_symbol_storage(C2Symbol *header)
                 } else {
                     header->association.section_serial = 4;
                     symbol->attributes = (symbol->attributes & ~0x10U) | 0x60;
-                    if (compiling_function && !is_known_symbol(header->serial))
+                    if (c2_internal_listing && !is_known_symbol(header->serial))
                         header->association.section_serial =
-                            select_symbol_section(compiling_function, header)->symbol.serial;
+                            select_symbol_section((C2FunctionSymbol *)current_symbol, header)->symbol.serial;
                 }
             } else if (allocation == 3) {
                 header->association.section_serial = 2;
@@ -157,7 +156,7 @@ void __fastcall update_symbol_storage(C2Symbol *header)
             break;
         }
     }
-    if (compiling_function && header->kind == 4 &&
+    if (c2_internal_listing && header->kind == 4 &&
         (symbol->attributes & 0x4000) && !(header->flags & 0x20)) {
         identifier = header->association.section_serial;
         storage = next_symbol_serial();
