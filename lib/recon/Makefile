@@ -366,3 +366,11 @@ build/locale-profile-default: tests/locale-profile-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 locale-profile-check: build/locale-profile-probe build/locale-profile-default
 	$(PYTHON) tests/check-locale-profile.py build/locale-profile-probe build/locale-profile-default
+
+.PHONY: environment-mutation-check
+build/environment-mutation-probe: tests/environment-mutation-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/environment-mutation-default: tests/environment-mutation-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+environment-mutation-check: build/environment-mutation-probe build/environment-mutation-default
+	$(PYTHON) tests/check-environment-mutation.py build/environment-mutation-probe build/environment-mutation-default

@@ -1,0 +1,94 @@
+{
+  "scope": "Explicit canonical MSVCRT510 target-only CRT/OS two-call _putenv contract; no general environment mutation or host environ changes.",
+  "api": {
+    "bind": "recon_crt_bind_os_environment(WCHAR block,units including doubleNUL,canonical provider SHA) after CRT argument binding",
+    "observe": [
+      "recon_crt_os_environment",
+      "recon_crt_os_environment_units",
+      "recon_crt_environment_updates",
+      "recon_crt_environment_vectors[3] {vector,count,borrowed,live}"
+    ]
+  },
+  "reference": {
+    "packet": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.packet-v3.json",
+    "packet_sha256": "6ebe76a055d79b9d8366639f5732ff9e400b808688c00c0073b7cbc19ae33700",
+    "canonical_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "putenv_observations": [
+      {
+        "result": 0,
+        "errors_before": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 2
+        },
+        "errors_after": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 2
+        },
+        "crt_count_before": 78,
+        "crt_count_after": 78,
+        "os_count_before": 78,
+        "os_count_after": 78,
+        "argument_address": 8988400,
+        "crt_vector_before": 8978848,
+        "crt_vector_after": 8988432
+      },
+      {
+        "result": 0,
+        "errors_before": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 2
+        },
+        "errors_after": {
+          "errno": 2,
+          "doserrno": 2,
+          "last_error": 2
+        },
+        "crt_count_before": 78,
+        "crt_count_after": 79,
+        "os_count_before": 78,
+        "os_count_after": 79,
+        "argument_address": 8994128,
+        "crt_vector_before": 8988432,
+        "crt_vector_after": 8993408
+      }
+    ],
+    "first": "Absent-empty call changes CRT vector/all78 string identities, contents/order retained; OS pointer0x340790/78 strings/4188 bytes unchanged.",
+    "second": "Absent insertion moves CRT vector, retains all78 old string pointers, independently owns copied entry78 at0x893db0 distinct from caller assignment0x893d50. OS moves0x340790 to0x3483d8,79 strings/4364 bytes, append index78. Caller releases original assignment."
+  },
+  "initial_alias_proof": {
+    "kind": "accepted startup static def-use plus actual main/first-putenv vector identity; NOT a fabricated direct __initenv snapshot",
+    "startup": "CL4059c3..4059da calls canonical __p___initenv845f (b8e8fd0378c3), stores actual __getmainargs environment to __initenv3fde8 and passes same vector to main; raw main vector and78 pointers equal first-putenv current vector.",
+    "provider_closure": "_putenv6fbb..6fe3 ->6fe3..704f ->704f..718a+cold eaf1..ebbc;7080/708f load __initenv3fde8/_environ3f8fc,7094 compare;70f3 deepcopies718a..71f3 including strdup6a0c;70fc updates only current environ;70c8..70ec insertion realloc retains existing strings."
+  },
+  "ownership": "Borrowed initial CRT/vector strings/__initenv and initial OS block remain alive; first owned current vector freed on second transition, retained strings belong to new vector; appended string independently owned. History dead pointer is numeric metadata only, never dereferenced; no stale-pointer-vs-reuse ABA promise. OS block is explicit native representation; no original process heap allocation-identity claim.",
+  "guards": "Explicit MSVCRT510/canonicalSHA, nonempty ASCII namespaces, exactly two phases/same absent name, initial __initenv alias, CP0 initial tables then exact applied1252/en-US profile, measured entry errno/DOS/Last2/2/2. Unknown replacement/removal/phase/state denied. Actual full vectors/strings/order/inputs/inventory remain adapter duties.",
+  "checks": {
+    "gcc_clang": "One complete positive ownership/namespace/error scenario plus29 denials and default closed for each compiler. Synthetic distinct CRT and OS inputs prove namespace separation; original case data is independently fixture-bound.",
+    "affected": "Default shim/startup/bound-getenv and all locale-profile tables/14 denials/default closure passed. No default behavior changed; no broad regression repeated.",
+    "measurements": {
+      "gcc_build_seconds": 1.323350427672267,
+      "gcc_check_seconds": 0.08016979787498713,
+      "gcc_stdout": "CRT/OS namespaces, initial/deep-copied/retained/owned-insert identities, history, errors, host isolation and29 denials pass; default closed\n",
+      "binaries": {
+        "gcc-probe": "ada233ef63c99c65f7ec3618a815129d4add074435ab8b27353a2a21696b04e1",
+        "gcc-default": "c9c5cba00a2ddcd5edae7fedc9f4915ffa9b497a3e5dcb9a49bb26b36129d2eb",
+        "clang-probe": "082ac33914e1dc95854e340dfa366eb47b76201b6832e1ce6c149601e5ff8303",
+        "clang-default": "947e48e42cb2fa94f2196b9312a43bce9b87ec5b53d8cf53e1c8d112ff6b21f1"
+      }
+    },
+    "independent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/environment-mutation-orchestrator-review.json",
+      "sha256": "91c0f23d2173eea52889ec63a35defdaa0ad28e45ad603c718a2556816a0cbc9",
+      "result": "Parent inspected bounded code/public types and independently reran immutable GCC+Clang positive/29-denial/default suites; actual original v3 transitions/errors/alias/ownership match."
+    }
+  },
+  "limits": [
+    "No host environ mutation/control leakage.",
+    "No general putenv semantics or unobserved replacement/removal/Unicode behavior.",
+    "No1252 getenv/multibyte behavior enabled by this slice.",
+    "Error2/2/2 is an asserted limited precondition with measured preservation, not a general rule."
+  ]
+}

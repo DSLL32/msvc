@@ -694,3 +694,38 @@ This profile describes the encountered reference environment, not all Windows
 CP1252 installations. VC5 default TAB is CONTROL|SPACE(28), then captured locale
 TAB268; VC1/default other profiles are unchanged. Existing multibyte/getenv
 CP0 guards remain strict until separate1252 API behavior is proved.
+
+Bounded target environment mutation
+-----------------------------------
+Under the explicit MSVCRT510 build profile, a verified native host can bind the
+captured WCHAR16 process environment with recon_crt_bind_os_environment(block,
+units,provider_sha256) after recon_crt_bind_arguments. Units include the final
+double NUL. Both initial inputs are borrowed and must remain alive. The host
+separately performs the proved startup assignment to *recon_p_initenv(); binding
+the OS block does not invent that assignment. Host environ/controls stay separate.
+Read-only observations are recon_crt_os_environment, its _units, the mutation
+count recon_crt_environment_updates and recon_crt_environment_vectors[3].
+
+Only the measured two-call sequence is supported. The initial absent-empty
+assignment under CP0 copies the CRT vector and every string, retains __initenv
+and its borrowed initial vector/strings, and leaves the OS block unchanged.
+After the separately verified1252/en-US profile transition, insertion of the
+same previously absent name creates a new CRT vector, retains the copied old
+strings, and appends an independently owned copy of the actual assignment.
+The caller may release its assignment afterward. A separate owned WCHAR16 OS
+block retains prior order/content and appends that actual assignment. No key,
+flags or response string is hardcoded. Both calls require the measured entry
+errno/DOS/LastError2/2/2 and preserve those values; this is a guarded case contract,
+not a general putenv error rule. Case adapters validate full actual input vectors,
+assignments, ordering, module/profile identities and mandatory call inventory.
+
+Vector history row0 is borrowed/live, row1 the first owned vector, row2 the
+insertion vector. On insertion row1 becomes dead and its vector allocation is
+freed; retained strings belong to row2. A dead row's address is historical numeric
+metadata and must not be dereferenced. It does not distinguish allocator ABA
+reuse. The borrowed initial vector/strings and initial OS block remain alive.
+The native OS block is an explicit namespace representation; original process
+heap allocation identity is not claimed. Unknown phases, replacement/removal,
+nonASCII data, profiles, errors or states fail closed. Existing unconfigured
+_putenv remains unsupported. Applying this namespace slice does not enable
+unproved1252 getenv or multibyte API behavior.

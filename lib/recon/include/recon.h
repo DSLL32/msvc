@@ -149,6 +149,16 @@ extern int recon_crt_app_type,recon_crt_newmode,recon_crt_argc;
 extern char **recon_crt_argv,**recon_crt_environment,**recon_crt_initenv;
 extern int (__cdecl *recon_crt_matherr)(struct _exception *);
 void recon_crt_bind_arguments(int,char **,char **);
+/* Captured WCHAR16 process namespace; no Linux host controls are inherited. */
+extern const WCHAR *recon_crt_os_environment;
+extern size_t recon_crt_os_environment_units;
+extern unsigned recon_crt_environment_updates;
+typedef struct ReconCrtEnvironmentVector {
+ char **vector; size_t count; unsigned borrowed,live;
+} ReconCrtEnvironmentVector;
+extern ReconCrtEnvironmentVector recon_crt_environment_vectors[3];
+void recon_crt_bind_os_environment(const WCHAR *,size_t,const char *);
+
 void recon_set_app_type(int);
 int *recon_p_fmode(void),*recon_p_commode(void);
 char ***recon_p_initenv(void);

@@ -58,6 +58,17 @@ int recon_fltused,recon_tmpoff;
 WEAK int recon_adjust_fdiv;
 int recon_crt_app_type,recon_crt_newmode,recon_crt_argc;
 char **recon_crt_argv,**recon_crt_environment,**recon_crt_initenv;
+const WCHAR *recon_crt_os_environment;
+size_t recon_crt_os_environment_units;
+unsigned recon_crt_environment_updates;
+ReconCrtEnvironmentVector recon_crt_environment_vectors[3];
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static int os_environment_bound;
+static const WCHAR *initial_os_environment;
+static char **initial_crt_environment,**owned_crt_environment;
+static char environment_update_name[256];
+#endif
+
 int (__cdecl *recon_crt_matherr)(struct _exception *);
 static int recon_crt_arguments_bound,recon_crt_matherr_default;
 struct _startupinfo { int newmode; };
@@ -2135,9 +2146,159 @@ WEAK long recon_wcstol(const WCHAR *text,WCHAR **end,int base)
     return (long)value;
 }
 
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static void validate_os_environment(const WCHAR *block,size_t units)
+{
+    size_t n;
+    if (!block || units<3 || units>65536 || !block[0] || block[units-1] || block[units-2])
+        recon_unsupported("target OS environment extent/terminator");
+    for (n=0;n<units;++n) {
+        if (block[n]>=128) recon_unsupported("target OS environment nonASCII units");
+        if (n+1<units && !block[n] && !block[n+1] && n!=units-2)
+            recon_unsupported("target OS environment early terminator");
+    }
+}
+static size_t target_environment_count(char **vector)
+{
+    size_t n,k;
+    if (!vector) recon_unsupported("unbound target CRT environment");
+    for (n=0;vector[n];++n) {
+        if (n==16384) recon_unsupported("target CRT environment count");
+        for (k=0;vector[n][k];++k)
+            if (k==32768 || (unsigned char)vector[n][k]>=128)
+                recon_unsupported("target CRT environment nonASCII/length");
+    }
+    return n;
+}
+static int ascii_environment_byte_equal(unsigned a,unsigned b)
+{
+    if (a>='A' && a<='Z') a+='a'-'A';
+    if (b>='A' && b<='Z') b+='a'-'A';
+    return a==b;
+}
+static int target_environment_has_name(const char *name,size_t length)
+{
+    char **entry; const char *equals; size_t n;
+    const WCHAR *wide;
+    for (entry=recon_crt_environment;*entry;++entry) {
+        equals=strchr(*entry,'=');
+        if (!equals || (size_t)(equals-*entry)!=length) continue;
+        for (n=0;n<length && ascii_environment_byte_equal((unsigned char)(*entry)[n],(unsigned char)name[n]);++n) {}
+        if (n==length) return 1;
+    }
+    for (wide=recon_crt_os_environment;*wide;) {
+        for (n=0;wide[n] && wide[n]!='=';++n) {}
+        if (n==length && wide[n]=='=') {
+            for (n=0;n<length && ascii_environment_byte_equal(wide[n],(unsigned char)name[n]);++n) {}
+            if (n==length) return 1;
+        }
+        while (*wide) ++wide;
+        ++wide;
+    }
+    return 0;
+}
+#endif
+void recon_crt_bind_os_environment(const WCHAR *block,size_t units,const char *provider_sha256)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    size_t count;
+    if (!provider_sha256 || strcmp(provider_sha256,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210") ||
+        !recon_crt_arguments_bound || os_environment_bound || recon_crt_environment_updates)
+        recon_unsupported("target OS environment provider/binding state");
+    validate_os_environment(block,units);count=target_environment_count(recon_crt_environment);
+    recon_crt_os_environment=initial_os_environment=block;
+    recon_crt_os_environment_units=units;
+    initial_crt_environment=recon_crt_environment;
+    recon_crt_environment_vectors[0].vector=initial_crt_environment;
+    recon_crt_environment_vectors[0].count=count;
+    recon_crt_environment_vectors[0].borrowed=1;recon_crt_environment_vectors[0].live=1;
+    os_environment_bound=1;
+#else
+    (void)block;(void)units;(void)provider_sha256;
+    recon_unsupported("target OS environment without explicit MSVCRT510 profile");
+#endif
+}
 WEAK int recon_putenv(const char *assignment)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    const char *equals; size_t length,name_length,count,n,units;
+    char **vector,*inserted; WCHAR *os_block;
+    int saved=errno; unsigned long dos=recon_doserrno; DWORD error=recon_GetLastError();
+    if (!os_environment_bound || recon_crt_environment_updates>=2 || !assignment ||
+        saved!=2 || dos!=2 || error!=2 || recon_crt_initenv!=initial_crt_environment ||
+        recon_crt_os_environment!=initial_os_environment)
+        recon_unsupported("_putenv unreviewed binding/phase/error/initial alias");
+    equals=strchr(assignment,'=');length=strlen(assignment);
+    if (!equals || equals==assignment || length>32768 || (name_length=equals-assignment)>255)
+        recon_unsupported("_putenv unreviewed assignment grammar/length");
+    for (n=0;n<length;++n) if ((unsigned char)assignment[n]<32 || (unsigned char)assignment[n]>=127)
+        recon_unsupported("_putenv nonASCII/control assignment");
+    count=target_environment_count(recon_crt_environment);
+    validate_os_environment(recon_crt_os_environment,recon_crt_os_environment_units);
+    if (target_environment_has_name(assignment,name_length))
+        recon_unsupported("_putenv replacement/removal of existing target entry");
+    if (!recon_crt_environment_updates) {
+        if (equals[1] || recon_crt_environment!=initial_crt_environment ||
+            recon_mb_codepage || recon_lc_codepage || recon_mb_cur_max!=1 ||
+            locale_profile_applied || recon_pctype!=character_flags+1)
+            recon_unsupported("_putenv initial absent-empty CP0 transition");
+        for (n=0;n<6;++n) if (recon_lc_handle[n])
+            recon_unsupported("_putenv initial locale handles");
+        {
+            unsigned char expected_mb[257];
+            msvcrt510_mb_flags(expected_mb);
+            if (memcmp(recon_mbctype,expected_mb,sizeof(expected_mb)) ||
+                memcmp(character_flags,initial_ctype_510,sizeof(character_flags)))
+                recon_unsupported("_putenv initial locale table state");
+        }
+        vector=malloc((count+1)*sizeof(*vector));
+        if (!vector) recon_unsupported("_putenv vector allocation failure");
+        for (n=0;n<count;++n) {
+            vector[n]=strdup(recon_crt_environment[n]);
+            if (!vector[n]) recon_unsupported("_putenv string allocation failure");
+        }
+        vector[count]=NULL;
+        memcpy(environment_update_name,assignment,name_length);environment_update_name[name_length]=0;
+        recon_crt_environment=owned_crt_environment=vector;
+        recon_crt_environment_vectors[1].vector=vector;recon_crt_environment_vectors[1].count=count;
+        recon_crt_environment_vectors[1].live=1;
+    } else {
+        unsigned char expected_mb[257];unsigned short expected_ctype[257];
+        if (!equals[1] || strlen(environment_update_name)!=name_length ||
+            memcmp(assignment,environment_update_name,name_length) ||
+            recon_crt_environment!=owned_crt_environment || !locale_profile_applied ||
+            recon_mb_codepage!=1252 || recon_lc_codepage!=1252 || recon_mb_cur_max!=1 ||
+            recon_pctype==character_flags+1)
+            recon_unsupported("_putenv observed absent insertion/profile state");
+        for (n=0;n<6;++n) if (recon_lc_handle[n]!=(n==2?1033:0))
+            recon_unsupported("_putenv insertion locale handles");
+        msvcrt510_mb_flags(expected_mb);msvcrt510_locale_ctype(expected_mb,expected_ctype);
+        if (memcmp(recon_mbctype,expected_mb,sizeof(expected_mb)) ||
+            memcmp(recon_pctype-1,expected_ctype,sizeof(expected_ctype)))
+            recon_unsupported("_putenv insertion locale table state");
+        units=recon_crt_os_environment_units+length+1;
+        if (units>65536) recon_unsupported("_putenv OS environment overflow");
+        vector=malloc((count+2)*sizeof(*vector));inserted=strdup(assignment);
+        os_block=malloc(units*sizeof(*os_block));
+        if (!vector || !inserted || !os_block) recon_unsupported("_putenv insertion allocation failure");
+        memcpy(vector,recon_crt_environment,count*sizeof(*vector));
+        vector[count]=inserted;vector[count+1]=NULL;
+        memcpy(os_block,recon_crt_os_environment,(recon_crt_os_environment_units-1)*sizeof(*os_block));
+        for (n=0;n<length;++n) os_block[recon_crt_os_environment_units-1+n]=(unsigned char)assignment[n];
+        os_block[units-2]=os_block[units-1]=0;
+        /* Actual vector moves; retained old strings now belong to the new
+         * current vector. The initial borrowed vector/__initenv stays alive. */
+        recon_crt_environment_vectors[1].live=0;free(owned_crt_environment);
+        recon_crt_environment=owned_crt_environment=vector;
+        recon_crt_environment_vectors[2].vector=vector;recon_crt_environment_vectors[2].count=count+1;
+        recon_crt_environment_vectors[2].live=1;
+        recon_crt_os_environment=os_block;recon_crt_os_environment_units=units;
+    }
+    ++recon_crt_environment_updates;
+    errno=saved;recon_doserrno=dos;recon_SetLastError(error);return 0;
+#else
     (void)assignment;recon_unsupported("unreviewed target CRT/OS environment mutation");return -1;
+#endif
 }
 
 WEAK char *recon_strerror(const char *prefix)
