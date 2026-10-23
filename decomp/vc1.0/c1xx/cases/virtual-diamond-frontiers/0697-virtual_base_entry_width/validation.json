@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_virtual_base_entry_width",
+    "start": 494672,
+    "end": 494684
+  },
+  "distinct_direct_callees": [
+    "_builtin_integer_type"
+  ],
+  "next_frontier": "_merge_subobject_special_members@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.33981619868427515,
+  "total_operation_seconds": 6.524117789231241,
+  "original_capture_seconds": 3.9764928789809346
+}

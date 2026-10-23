@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 688 accepted frontiers, including 596 frontend
+PARTIAL binary reconstruction: 698 accepted frontiers, including 606 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1526,3 +1526,31 @@ both cached native cases and25negative checks pass. Combined measured wall:
 Accepted extent union207634/476418bytes is43.582316%, not branch coverage.
 virtual_diamond has inserted Left's virtual Base and remains incomplete at
 compatible_override_return0x798f0 while examining inherited virtual methods.
+
+Virtual-base table checkpoint:698 accepted frontiers,613 source functions.
+Ten whole functions beyond321b685 compare override return shapes, union/iterate
+inherited conversion sets, mark inherited virtual-pointer layout, query integer
+type/base extent, and build the initial vbtable entry. Native AX loads followed
+by full EAX masks return complete zero-extended words; the original getters and
+width query remain separate calls. The base extent is the last visible direct
+base end, retaining original list order rather than taking a maximum.
+
+VirtualEntry is now a16-byte union: VirtualCallEntry contains its function,
+8-byte this adjustment and flag byte; VirtualBaseEntry contains its vbptr offset
+and base-class pointer with untouched suffix workspace. Both variants and their
+field offsets have original/native compile-time checks. Their common append/copy
+functions remain whole and preserve all16bytes. Multiple native reads/writes now
+establish ClassInfo.virtual_base_pointer_offset at+44, including pointer shifting,
+table construction and base-entry initialization. The full prior function graph
+was rechecked immediately after this type refinement.
+
+Every0688through0697 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and visible files. No artifact bytes were
+normalized; completed cpp_basic remains exact. Full613-function graph, contextual
+data/defaults/callback identities, both grammars, both cached native cases and
+25negative checks pass. Combined measured wall:
+4.917202seconds.
+
+Accepted extent union208177/476418bytes is43.696292%, not branch coverage.
+virtual_diamond has created Left's vbptr and initial vbtable, and is incomplete
+at merge_subobject_special_members0x36ee0 while inheriting special-member traits.

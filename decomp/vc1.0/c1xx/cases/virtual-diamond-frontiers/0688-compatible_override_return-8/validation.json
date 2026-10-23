@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_compatible_override_return@8",
+    "start": 497904,
+    "end": 498010
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_union_type_sets",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3252095440402627,
+  "total_operation_seconds": 5.943206030875444,
+  "original_capture_seconds": 3.5256401896476746
+}

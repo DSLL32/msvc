@@ -616,7 +616,7 @@ int __stdcall overrides_virtual_member(CppSymbol *member, CppSymbol *owner, int 
             }
             table = tables->items[table_index++];
             for (entry_index = 0; entry_index < table->entry_count; ++entry_index) {
-                inherited = table->entries[entry_index].function;
+                inherited = table->entries[entry_index].dispatch.function;
                 if (member->name != inherited->name) continue;
                 member_shape = member->type->related;
                 if (member_shape && !(member_shape->flags & 0x77)) member_shape = member_shape->related;
@@ -894,4 +894,21 @@ int __stdcall classify_base_repetition(int is_virtual, CppSymbol *base,
         link = next;
     }
     return 0;
+}
+
+/* Original 0x798f0..0x79959. Return compatibility excludes parameter
+   declarations (checked by the caller) and ignores the native pointer-kind
+   attribute bits. Optional leading qualifier shapes precede the function. */
+int __stdcall compatible_override_return(CType *member, CType *inherited)
+{
+    TypeShape *shape, *inherited_shape;
+    if (member->flags != inherited->flags) return 0;
+    if ((member->attributes ^ inherited->attributes) & 0xfbf8) return 0;
+    if (member->field08 != inherited->field08) return 0;
+    shape = member->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    inherited_shape = inherited->related;
+    if (inherited_shape && !(inherited_shape->flags & 0x77))
+        inherited_shape = inherited_shape->related;
+    return shape->related == inherited_shape->related;
 }

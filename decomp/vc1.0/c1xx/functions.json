@@ -692,7 +692,17 @@
     "_lookup_tag_name@4",
     "_add_base_class@12",
     "_can_add_base_class@12",
-    "_classify_base_repetition@20"
+    "_classify_base_repetition@20",
+    "_compatible_override_return@8",
+    "_union_type_sets",
+    "_begin_type_set",
+    "_next_type_set",
+    "_inherit_base_virtual_tables@12",
+    "_builtin_integer_type",
+    "_nonvirtual_base_end@4",
+    "_build_virtual_base_table@8",
+    "_initialize_virtual_base_entry@12",
+    "_virtual_base_entry_width"
   ],
   "driver": [
     {
@@ -3540,7 +3550,7 @@
     {
       "name": "_compatible_override_return@8",
       "start": 497904,
-      "end": 497905
+      "end": 498010
     },
     {
       "name": "_browser_end_tag",
@@ -3595,17 +3605,17 @@
     {
       "name": "_union_type_sets",
       "start": 320928,
-      "end": 320929
+      "end": 321004
     },
     {
       "name": "_begin_type_set",
       "start": 321168,
-      "end": 321169
+      "end": 321185
     },
     {
       "name": "_next_type_set",
       "start": 321200,
-      "end": 321201
+      "end": 321242
     },
     {
       "name": "_type_set_contains",
@@ -3680,7 +3690,7 @@
     {
       "name": "_inherit_base_virtual_tables@12",
       "start": 496912,
-      "end": 496913
+      "end": 496969
     },
     {
       "name": "_has_new_virtual_members@4",
@@ -3700,7 +3710,7 @@
     {
       "name": "_build_virtual_base_table@8",
       "start": 495040,
-      "end": 495041
+      "end": 495117
     },
     {
       "name": "_finish_nonvirtual_class_size@4",
@@ -5967,7 +5977,7 @@
     {
       "name": "_nonvirtual_base_end@4",
       "start": 498544,
-      "end": 498545
+      "end": 498668
     },
     {
       "name": "_shift_class_member_offsets@12",
@@ -6178,6 +6188,21 @@
       "name": "_classify_base_repetition@20",
       "start": 197648,
       "end": 197903
+    },
+    {
+      "name": "_inherit_virtual_pointer_layout@16",
+      "start": 496976,
+      "end": 496977
+    },
+    {
+      "name": "_initialize_virtual_base_entry@12",
+      "start": 494960,
+      "end": 494986
+    },
+    {
+      "name": "_virtual_base_entry_width",
+      "start": 494672,
+      "end": 494684
     }
   ],
   "cases": {
@@ -6303,7 +6328,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_compatible_override_return@8",
+      "terminal": "_merge_subobject_special_members@16",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6349,9 +6374,19 @@
         "cases/virtual-diamond-frontiers/0684-lookup_tag_name-4/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0685-add_base_class-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0686-can_add_base_class-12/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0687-classify_base_repetition-20/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0687-classify_base_repetition-20/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0688-compatible_override_return-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0689-union_type_sets/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0690-begin_type_set/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0691-next_type_set/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0692-inherit_base_virtual_tables-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0693-builtin_integer_type/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0694-nonvirtual_base_end-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0695-build_virtual_base_table-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0696-initialize_virtual_base_entry-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0697-virtual_base_entry_width/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0687-classify_base_repetition-20/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0697-virtual_base_entry_width/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

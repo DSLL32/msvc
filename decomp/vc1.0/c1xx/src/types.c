@@ -401,3 +401,10 @@ CType *__stdcall make_pointer_to_type(unsigned short attributes, CType *type)
     resolved = normalize_type_attributes(1, original_attributes & 7);
     return make_qualified_type(type, 1, resolved, &based);
 }
+
+/* Original 0x7be00..0x7be05. Return the shared flat-model integer type
+   initialized through original0x9f274, rather than constructing another type. */
+CType *builtin_integer_type(void)
+{
+    return type_0064;
+}

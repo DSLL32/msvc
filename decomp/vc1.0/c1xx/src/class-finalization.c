@@ -108,7 +108,7 @@ void __stdcall initialize_class_virtual_tables(CppSymbol *tag)
         if (!i) tag->detail.class_info->virtual_tables = vector;
         else tag->detail.class_info->virtual_base_tables = vector;
     }
-    tag->detail.class_info->field2c = 0;
+    tag->detail.class_info->virtual_base_pointer_offset = 0;
     tag->detail.class_info->virtual_table_groups = new_empty_vector(2);
 }
 
@@ -335,16 +335,16 @@ void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag)
             if (table->kind != 2) continue;
             for (index = 0; index < table->entry_count; ++index) {
                 entry = &table->entries[index];
-                if (entry->flags & 4) {
-                    conflicts = (Vector *)entry->function;
+                if (entry->dispatch.flags & 4) {
+                    conflicts = (Vector *)entry->dispatch.function;
                     for (conflict_index = 0; conflict_index < conflicts->count; ++conflict_index) {
                         function = conflicts->items[conflict_index];
                         owner = cpp_context_stack->items[function->auxiliary.declaring_class];
                         report_syntax_error(250, tag->name, owner->name, function->name);
                     }
                     collapse_virtual_conflicts(entry);
-                } else if (entry->flags & 2) {
-                    function = entry->function;
+                } else if (entry->dispatch.flags & 2) {
+                    function = entry->dispatch.function;
                     owner = cpp_context_stack->items[function->auxiliary.declaring_class];
                     compiler_warning(2, 250, tag->name, owner->name, function->name);
                 }
@@ -435,7 +435,7 @@ int __stdcall class_has_pure_virtual(CppSymbol *tag)
         while (table_index < tables->count) {
             table = tables->items[table_index++];
             for (index = 0; index < table->entry_count; ++index)
-                if (table->entries[index].function->cpp.parts.member_flags & 4) return 1;
+                if (table->entries[index].dispatch.function->cpp.parts.member_flags & 4) return 1;
         }
         if (group_index >= groups->count) break;
         group = groups->items[group_index++];
@@ -622,10 +622,10 @@ CppSymbol *__stdcall create_virtual_pointer(CppSymbol *tag, int kind)
     }
     pointer->detail.value = base + padding;
     if (kind == 0) {
-        tag->detail.class_info->field2c += span;
+        tag->detail.class_info->virtual_base_pointer_offset += span;
         tag->detail.class_info->alignment_flags |= 0x40;
     } else {
-        tag->detail.class_info->field2c = base + padding;
+        tag->detail.class_info->virtual_base_pointer_offset = base + padding;
         tag->detail.class_info->alignment_flags |= 0x80;
     }
     return pointer;
@@ -692,17 +692,17 @@ void __stdcall resolve_table_override(CppSymbol *member, VirtualTable *table,
         if (!entry) break;
         if (!matches_virtual_override(member, entry, tag)) continue;
         validate_virtual_override(member, entry);
-        if (entry->flags & 4) collapse_virtual_conflicts(entry);
+        if (entry->dispatch.flags & 4) collapse_virtual_conflicts(entry);
         if (!(member->cpp.parts.member_flags & 2)) {
             member->cpp.parts.member_flags |= 2;
             member->field28 = virtual_table_object_offset(table);
-            member->detail.virtual_table_offset = entry->function->detail.virtual_table_offset;
+            member->detail.virtual_table_offset = entry->dispatch.function->detail.virtual_table_offset;
             member->auxiliary.virtual_function.table_class =
-                entry->function->auxiliary.virtual_function.table_class;
+                entry->dispatch.function->auxiliary.virtual_function.table_class;
         }
-        entry->function = member;
-        initialize_virtual_adjustment(&entry->this_adjustment, member->field28);
-        entry->flags = (entry->flags & ~15U) | (((unsigned)virtual_path << 3) & 8);
+        entry->dispatch.function = member;
+        initialize_virtual_adjustment(&entry->dispatch.this_adjustment, member->field28);
+        entry->dispatch.flags = (entry->dispatch.flags & ~15U) | (((unsigned)virtual_path << 3) & 8);
     }
 }
 
@@ -719,9 +719,9 @@ VirtualTable *__stdcall primary_virtual_table(CppSymbol *tag)
    this displacement, preserving the high flag nibble and unused bytes. */
 void __stdcall initialize_virtual_entry(VirtualEntry *entry, CppSymbol *member)
 {
-    entry->function = member;
-    initialize_virtual_adjustment(&entry->this_adjustment, 0);
-    entry->flags &= ~15;
+    entry->dispatch.function = member;
+    initialize_virtual_adjustment(&entry->dispatch.this_adjustment, 0);
+    entry->dispatch.flags &= ~15;
 }
 
 /* Original 0x78810..0x78822. A zero class index denotes a direct this
@@ -781,11 +781,11 @@ unsigned __stdcall reserve_virtual_table_offset(VirtualTable *table, unsigned si
 int __stdcall matches_virtual_override(CppSymbol *member, VirtualEntry *entry,
     CppSymbol *tag)
 {
-    CppSymbol *inherited = entry->function;
+    CppSymbol *inherited = entry->dispatch.function;
     CType *type, *inherited_type, *this_type, *inherited_this;
     TypeShape *shape, *inherited_shape;
     FunctionParameters *parameters, *inherited_parameters;
-    if (entry->flags & 4) inherited = first_vector_item((Vector *)inherited);
+    if (entry->dispatch.flags & 4) inherited = first_vector_item((Vector *)inherited);
     if (inherited->name != member->name) return 0;
     type = member->type;
     inherited_type = inherited->type;
@@ -894,4 +894,73 @@ CppSymbol *__stdcall declare_virtual_table_symbol(int kind, VirtualTable *table,
 Vector *__stdcall virtual_table_owners(VirtualTable *table)
 {
     return table->shared_owners;
+}
+
+void __stdcall inherit_virtual_pointer_layout(CppSymbol *tag, CppSymbol *base,
+    unsigned displacement, int unused);
+
+/* Original 0x79510..0x79548. Virtual bases require a derived vbptr;
+   direct nonvirtual bases can instead provide the inherited pointer layout. */
+void __stdcall inherit_base_virtual_tables(CppSymbol *tag, BaseClassLink *base,
+    int *virtual_base)
+{
+    CppSymbol *base_tag;
+    if (base->state & 1) {
+        *virtual_base = 1;
+        return;
+    }
+    base_tag = cpp_context_stack->items[base->context_index];
+    inherit_virtual_pointer_layout(tag, base_tag, base->displacement, 0);
+}
+
+/* Original 0x79b70..0x79beb. Base-list order determines the last direct
+   subobject end. Retain that replacement, rather than taking a maximum. */
+unsigned __stdcall nonvirtual_base_end(CppSymbol *tag)
+{
+    BaseClassLink *base = (BaseClassLink *)tag->auxiliary.scope_members, *next;
+    CppSymbol *base_tag;
+    unsigned end = 0;
+    while (base) {
+        next = (BaseClassLink *)base->next;
+        if ((base->kind & 31) == 15 && !(base->flags & 0x80)) {
+            base_tag = cpp_context_stack->items[base->context_index];
+            if (!(base->state & 1))
+                end = base_tag->detail.class_info->nonvirtual_size + base->displacement;
+        }
+        base = next;
+    }
+    return end;
+}
+
+void __stdcall initialize_virtual_base_entry(VirtualEntry *entry, CppSymbol *owner,
+    CppSymbol *base);
+unsigned virtual_base_entry_width(void);
+
+/* Original 0x78dc0..0x78e0c. The initial vbtable entry describes its own
+   pointer displacement; later virtual bases append further offset entries. */
+VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *pointer)
+{
+    VirtualTable *table = new_virtual_table(1, tag,
+        tag->detail.class_info->virtual_base_pointer_offset, pointer);
+    VirtualEntry entry;
+    initialize_virtual_base_entry(&entry, tag, 0);
+    append_virtual_entry(table, &entry);
+    reserve_virtual_table_offset(table, virtual_base_entry_width());
+    return table;
+}
+
+/* Original 0x78d70..0x78d89. This vbtable variant initializes only its
+   two-word prefix; the remaining generic-entry workspace is untouched. */
+void __stdcall initialize_virtual_base_entry(VirtualEntry *entry, CppSymbol *owner,
+    CppSymbol *base)
+{
+    entry->base.base = base;
+    entry->base.pointer_offset = owner->detail.class_info->virtual_base_pointer_offset;
+}
+
+/* Original 0x78c50..0x78c5b. The final full-word mask zero-extends the
+   integer width even though the native load itself targets AX. */
+unsigned virtual_base_entry_width(void)
+{
+    return builtin_integer_type()->flags & 15;
 }

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 688,
+  "accepted": "_compatible_override_return@8",
+  "terminal": "_union_type_sets",
+  "original_capture": "cases/virtual-diamond-frontiers/0688-compatible_override_return-8/original-receipt.json",
+  "original_capture_sha256": "e84489a1a39bacdcbebd278557aaf6d4b4869dc64f971c580f003844ec2a78c1",
+  "original_events": "cases/virtual-diamond-frontiers/0688-compatible_override_return-8/original-events.txt",
+  "original_events_sha256": "6bb279b9e8c453c5068392ec136c6f26260fbb611de218b97939bd9c08f6bae7",
+  "original_configuration": "cases/virtual-diamond-frontiers/0688-compatible_override_return-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

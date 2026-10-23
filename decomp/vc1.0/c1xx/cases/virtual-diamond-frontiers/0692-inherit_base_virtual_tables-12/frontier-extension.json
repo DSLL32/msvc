@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 692,
+  "accepted": "_inherit_base_virtual_tables@12",
+  "terminal": "_builtin_integer_type",
+  "original_capture": "cases/virtual-diamond-frontiers/0692-inherit_base_virtual_tables-12/original-receipt.json",
+  "original_capture_sha256": "bf008a76ded697e2ba7718e60bda4977706b518cb58389caa7176fbf5eebdcce",
+  "original_events": "cases/virtual-diamond-frontiers/0692-inherit_base_virtual_tables-12/original-events.txt",
+  "original_events_sha256": "dc0602c9225c042e578c140300bf9e262d89749c8b94cac0d7b10ac1ed9b1a54",
+  "original_configuration": "cases/virtual-diamond-frontiers/0692-inherit_base_virtual_tables-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

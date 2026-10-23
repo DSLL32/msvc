@@ -66,7 +66,6 @@ void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
 InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 0; }
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
-CType *builtin_integer_type(void) { __asm { int 3 } return 0; }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
@@ -386,7 +385,6 @@ int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall transform_function_parameters(CType *type, ParameterTransform transform) { __asm { int 3 } return 0; }
 FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *parameters) { __asm { int 3 } return 0; }
 
-int __stdcall compatible_override_return(CType *member, CType *inherited) { __asm { int 3 } return 0; }
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }
 void browser_end_tag(void) { __asm { int 3 } }
 
@@ -394,16 +392,12 @@ void browser_end_tag(void) { __asm { int 3 } }
 
 void emit_deferred_class_terminator(void) { __asm { int 3 } }
 
-TypeSet *union_type_sets(TypeSet *set, TypeSet *source) { __asm { int 3 } return 0; }
-void begin_type_set(TypeSetIterator *iterator, TypeSet *set) { __asm { int 3 } }
-int next_type_set(TypeSetIterator *iterator) { __asm { int 3 } return 0; }
 int type_set_contains(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 InlineVector *add_inline_pointer(InlineVector *vector, void *pointer) { __asm { int 3 } return 0; }
 TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
-void __stdcall inherit_base_virtual_tables(CppSymbol *tag, BaseClassLink *base, int *virtual_base) { __asm { int 3 } }
-VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *pointer) { __asm { int 3 } return 0; }
+void __stdcall inherit_virtual_pointer_layout(CppSymbol *tag, CppSymbol *base, unsigned displacement, int unused) { __asm { int 3 } }
 
 void __stdcall merge_subobject_special_members(CppSymbol *tag, CppSymbol *subobject, SpecialMemberState *states, int model) { __asm { int 3 } }
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
@@ -654,7 +648,6 @@ char *__stdcall mangle_pointer_target(char *cursor, CType *type) { __asm { int 3
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 
-unsigned __stdcall nonvirtual_base_end(CppSymbol *tag) { __asm { int 3 } return 0; }
 
 unsigned __cdecl hash_low_pointer_bits(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_symbol_index(void *key) { __asm { int 3 } return 0; }

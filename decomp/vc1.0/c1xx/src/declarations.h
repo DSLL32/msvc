@@ -29,15 +29,27 @@ typedef struct VirtualAdjustment {
     short virtual_base_class;
     unsigned short reserved;
 } VirtualAdjustment;
-typedef struct VirtualEntry {
+typedef struct VirtualCallEntry {
     CppSymbol *function;
     VirtualAdjustment this_adjustment;
     unsigned char flags, reserved_flags[3];
+} VirtualCallEntry;
+typedef struct VirtualBaseEntry {
+    unsigned pointer_offset;
+    CppSymbol *base;
+    unsigned reserved[2];
+} VirtualBaseEntry;
+typedef union VirtualEntry {
+    VirtualCallEntry dispatch;
+    VirtualBaseEntry base;
 } VirtualEntry;
+typedef char VirtualCallEntrySizeMustBe16[(sizeof(VirtualCallEntry) == 16) ? 1 : -1];
+typedef char VirtualBaseEntrySizeMustBe16[(sizeof(VirtualBaseEntry) == 16) ? 1 : -1];
+typedef char VirtualBaseEntryClassOffsetMustBe4[(offsetof(VirtualBaseEntry, base) == 4) ? 1 : -1];
 typedef char VirtualAdjustmentSizeMustBe8[(sizeof(VirtualAdjustment) == 8) ? 1 : -1];
 typedef char VirtualAdjustmentClassOffsetMustBe4[(offsetof(VirtualAdjustment, virtual_base_class) == 4) ? 1 : -1];
-typedef char VirtualEntryAdjustmentOffsetMustBe4[(offsetof(VirtualEntry, this_adjustment) == 4) ? 1 : -1];
-typedef char VirtualEntryFlagsOffsetMustBe12[(offsetof(VirtualEntry, flags) == 12) ? 1 : -1];
+typedef char VirtualEntryAdjustmentOffsetMustBe4[(offsetof(VirtualCallEntry, this_adjustment) == 4) ? 1 : -1];
+typedef char VirtualEntryFlagsOffsetMustBe12[(offsetof(VirtualCallEntry, flags) == 12) ? 1 : -1];
 typedef struct VirtualTable {
     unsigned kind;
     CppSymbol *symbol, *pointer;
@@ -92,13 +104,14 @@ typedef struct ClassInfo {
     unsigned member_index_mask;
     short type_index;
     unsigned short pointer_attributes;
-    unsigned field2c;
+    unsigned virtual_base_pointer_offset;
     unsigned short debug_index;
     unsigned char alignment_flags, flags, flags2, inheritance_model;
     unsigned char trivial_special_members, implicit_member_requirements;
     ClassSpecialTraits special_members;
 } ClassInfo;
 
+typedef char ClassInfoVbptrOffsetMustBe44[(offsetof(ClassInfo, virtual_base_pointer_offset) == 44) ? 1 : -1];
 typedef char ClassInfoMemberIndexOffsetMustBe32[(offsetof(ClassInfo, member_index) == 32) ? 1 : -1];
 typedef char ClassInfoMemberMaskOffsetMustBe36[(offsetof(ClassInfo, member_index_mask) == 36) ? 1 : -1];
 typedef char ClassInfoVirtualTablesOffsetMustBe8[(offsetof(ClassInfo, virtual_tables) == 8) ? 1 : -1];

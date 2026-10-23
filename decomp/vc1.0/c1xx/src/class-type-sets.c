@@ -58,3 +58,33 @@ TypeSet *__stdcall share_inherited_type_set(TypeSet *set, CppSymbol *tag)
     release_inline_vector(set);
     return shared;
 }
+
+/* Original 0x4e5a0..0x4e5eb. Initialize the source cursor even when the
+   destination is null. Each insertion may replace the permanent set pointer. */
+TypeSet *union_type_sets(TypeSet *set, TypeSet *source)
+{
+    TypeSetIterator iterator;
+    begin_type_set(&iterator, source);
+    while (set && next_type_set(&iterator)) set = add_inline_pointer(set, iterator.type);
+    return set;
+}
+
+/* Original 0x4e690..0x4e6a0. Result type and reserved cursor halfword
+   remain untouched until a successful iteration selects an item. */
+void begin_type_set(TypeSetIterator *iterator, TypeSet *set)
+{
+    iterator->set = set;
+    iterator->index = 0;
+}
+
+/* Original 0x4e6b0..0x4e6d9. Null or exhausted sets leave the prior
+   selected type untouched. Advance the signed short only for a valid item. */
+int next_type_set(TypeSetIterator *iterator)
+{
+    if (iterator->set && iterator->index < iterator->set->count) {
+        iterator->type = iterator->set->items[iterator->index];
+        ++iterator->index;
+        return 1;
+    }
+    return 0;
+}

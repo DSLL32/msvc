@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558a05 in builtin_integer_type () at src/stubs.c:69
+69	CType *builtin_integer_type(void) { __asm { int 3 } return 0; }
+#0  0x56558a05 in builtin_integer_type () at src/stubs.c:69
+#1  0x565ac265 in create_virtual_pointer (tag=0x565ee74c, kind=1) at src/class-finalization.c:607
+#2  0x565abea8 in build_class_virtual_tables (tag=0x565ee74c) at src/class-finalization.c:129
+#3  0x565ab9c5 in prepare_class_virtual_tables (tag=0x565ee74c) at src/class-finalization.c:95
+#4  0x565ab56c in end_class_specifier () at src/class-finalization.c:28
+#5  0x565963b3 in parse_translation_unit () at src/parser-declaration-actions.inc:166
+#6  0x5655dde6 in compile_translation_unit () at src/frontend.c:75
+#7  0x565587d6 in guarded_compile () at src/c1xx.c:28
+#8  0x565587a4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20
