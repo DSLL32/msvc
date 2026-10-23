@@ -109,8 +109,8 @@
       "binary": "cvtres",
       "first_case": "/help",
       "first_case_complete": true,
-      "worker_paused": false,
-      "ongoing_queue": "next-cases.json#cvtres",
+      "worker_paused": true,
+      "ongoing_queue": null,
       "application_functions": 3,
       "application_extent_bytes": 1623,
       "application_coverage_percent": null,
@@ -122,6 +122,11 @@
       "independent_execution_seconds": 0.0018364377319812775,
       "commits": [
         "013af03a"
+      ],
+      "state": "Application reconstruction complete; final nine native cases and bounded validation independently reviewed; worker idle.",
+      "completion_commits": [
+        "84d1861c489c4ead422caf083b0fe805e9e78631",
+        "cc36aa80814d6a6fc27a916688f318f01d771fc1"
       ]
     },
     {

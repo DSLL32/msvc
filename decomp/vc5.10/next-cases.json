@@ -55,27 +55,38 @@
     {
       "binary": "cvtres",
       "agent": "/root/vc510_orchestrator/cvtres",
-      "next_case": "final-palette-message-validation",
-      "case": "Validate 4/8bpp CE palettes with verbose output and three duplicate resource identities, then keep idle unless a concrete missing application behavior is identified.",
-      "contract": "No additional application credit. Compare complete outputs/status/artifacts/traces to fresh owned original masters; shared UTF16 formatter gap must be resolved through lib/recon.",
+      "next_case": null,
+      "case": "Nine completed cases cover help, rich resources, ARM/CE conversion, machine warning/error, 4/8bpp CE palettes and three duplicate-resource forms.",
+      "contract": "All22 identified application functions are accepted. No universal branch/API/input/resource claim; unknown resources and unsupported native pixel depths fail closed.",
       "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence.",
       "completed_cases": [
         "help",
         "resources-rich",
         "resources-rich-ce",
         "default-machine",
-        "arm-without-windowsce"
+        "arm-without-windowsce",
+        "palettes-ce-verbose",
+        "duplicate-ordinal",
+        "duplicate-named",
+        "duplicate-unknown"
       ],
-      "completed_case_proof": "cvtres/cases/final-validation.json",
-      "completed_case_commit": "84d1861c489c4ead422caf083b0fe805e9e78631",
-      "state": "Application reconstruction complete; one bounded final validation group in progress.",
+      "completed_case_proof": "cvtres/cases/final-validation-group/completion.json",
+      "completed_case_commit": "cc36aa80814d6a6fc27a916688f318f01d771fc1",
+      "state": "Application reconstruction complete; final bounded validation complete; worker idle.",
       "application_functions": 22,
       "application_extent_bytes": 7445,
       "application_partition_proof": "cvtres/cases/code-extent-inventory.json",
-      "independent_combined_execution_seconds": 0.01443,
       "coverage_qualification": "All identified application code extents; not universal branch, option, resource-format or API conformance.",
-      "independent_fixture_seconds_excluding_native_rebuild": 0.3278,
-      "fixture_timing_qualification": "Measured total2.2473s included1.9195s native rebuild; the reported difference excludes that measured rebuild, rather than representing a separate warm run."
+      "next_action": "Idle; further work requires a concrete missing application body or actual bug.",
+      "warm_fixture_seconds": 0.6097816787660122,
+      "combined_elf_execution_seconds": 0.025594512932002544,
+      "independent_review": {
+        "passed": true,
+        "suite_seconds": 2.5339528610929847,
+        "native_rebuild_seconds": 1.9462898345664144,
+        "elf_execution_seconds": 0.026043429039418697,
+        "controls": "Eight wide-state, six canonical-completion and one actual native INT3 checks; Win32993-byte code/data and12relocations independently identical."
+      }
     },
     {
       "binary": "link",
