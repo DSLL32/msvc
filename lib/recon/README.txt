@@ -461,3 +461,7 @@ native_local_memory records base, requested size and flags for typed inspection.
 Successful free returns NULL and both calls preserve observed errno/LastError.
 Movable/unknown flags, zero size, unowned/double free and allocation failure are
 explicitly unsupported; physical allocator capacity is not target-owned data.
+
+The same verified CP0/SBCS ASCII scope supports _mbsdec(start,current): return
+current-1 (including a leading NUL sentinel), or NULL at/before start. Preserve
+errors and reject null/non-ASCII/unknown-state inputs rather than guessing DBCS.

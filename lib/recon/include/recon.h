@@ -192,6 +192,7 @@ int recon_isindst(struct tm *);
 int recon_mbsncmp(const unsigned char *,const unsigned char *,size_t);
 unsigned char *recon_mbschr(const unsigned char *,unsigned int);
 unsigned char *recon_mbsinc(const unsigned char *);
+unsigned char *recon_mbsdec(const unsigned char *,const unsigned char *);
 void recon_mbccpy(unsigned char *,const unsigned char *);
 int recon_ismbcspace(unsigned int);
 void *recon_cpp_new(size_t);
@@ -400,6 +401,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _mbsncmp recon_mbsncmp
 #define _mbschr recon_mbschr
 #define _mbsinc recon_mbsinc
+#define _mbsdec recon_mbsdec
 #define _mbccpy recon_mbccpy
 #define _ismbcspace recon_ismbcspace
 #define crt_operator_new recon_cpp_new

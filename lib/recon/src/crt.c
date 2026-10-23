@@ -1312,6 +1312,14 @@ WEAK unsigned char *recon_mbsinc(const unsigned char *text)
     if (!text || *text>127) recon_unsupported("non-ASCII/null _mbsinc input");
     return (unsigned char *)text+1;
 }
+WEAK unsigned char *recon_mbsdec(const unsigned char *start,const unsigned char *current)
+{
+    ascii_multibyte_scope();
+    if (!start || !current) recon_unsupported("null _mbsdec input");
+    if ((uintptr_t)current<=(uintptr_t)start) return NULL;
+    if (current[-1]>127) recon_unsupported("non-ASCII _mbsdec input");
+    return (unsigned char *)current-1;
+}
 WEAK void recon_mbccpy(unsigned char *destination,const unsigned char *source)
 {
     ascii_multibyte_scope();

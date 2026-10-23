@@ -1,0 +1,7 @@
+{
+  "scope": "CP0/SBCS/C-locale ASCII _mbsdec backward pointer with leadingNUL sentinel; at/before startNULL",
+  "native_build_checks_seconds": {
+    "gcc": 1.0500225210562348,
+    "clang": 1.2906521828845143
+  }
+}
