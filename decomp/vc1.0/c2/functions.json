@@ -1262,7 +1262,9 @@
     "@omf_begin_record@8",
     "@omf_flush_record_type@4",
     "@omf_find_record@8",
-    "@omf_allocate_record@8"
+    "@omf_allocate_record@8",
+    "@omf_initialize_record@12",
+    "@omf_append_string@8"
   ],
   "driver": [
     {
@@ -8528,8 +8530,25 @@
     {
       "name": "@omf_append_string@8",
       "start": 443616,
-      "end": 443617,
-      "provisional": true
+      "end": 443712,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "OmfRecord pointer"
+          },
+          {
+            "name": "text",
+            "location": "EDX",
+            "type": "char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-append-string-abi/validation.json"
+      }
     },
     {
       "name": "@omf_flush_record_type@4",
@@ -8611,13 +8630,60 @@
     {
       "name": "@omf_initialize_record@12",
       "start": 442464,
-      "end": 442465,
-      "provisional": true
+      "end": 442947,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "omf_record_slot32"
+          },
+          {
+            "name": "type",
+            "location": "EDX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "context",
+            "location": "entryESP+4",
+            "type": "null32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/omf-initialize-record-abi/validation.json",
+        "scope": "Actual record aliases pool slot0/defined20-byte header, type80/contextNULL. Cold context fields and preexisting-slot flush separately controlled, no actual execution claim."
+      }
     },
     {
       "name": "@omf_pad_record@8",
       "start": 438944,
       "end": 438945,
+      "provisional": true
+    },
+    {
+      "name": "@omf_write_index@8",
+      "start": 443056,
+      "end": 443057,
+      "provisional": true
+    },
+    {
+      "name": "@omf_comdat_selection@4",
+      "start": 443120,
+      "end": 443121,
+      "provisional": true
+    },
+    {
+      "name": "@omf_alignment@4",
+      "start": 434960,
+      "end": 434961,
+      "provisional": true
+    },
+    {
+      "name": "@omf_append_bytes@12",
+      "start": 439888,
+      "end": 439889,
       "provisional": true
     }
   ],

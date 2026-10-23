@@ -223,9 +223,19 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"omf_entry coff_object %lu\n",read_word(process,image_base+0x706f4));log_line(line);
     }
     if(!strcmp(call->name,"@omf_write_module_header@4") ||
-       !strcmp(call->name,"@omf_name_index@4")) {
+       !strcmp(call->name,"@omf_name_index@4") ||
+       !strcmp(call->name,"@omf_append_string@8") ||
+       !strcmp(call->name,"@omf_append_bytes@12")) {
+        unsigned index=(!strcmp(call->name,"@omf_append_string@8") ||
+            !strcmp(call->name,"@omf_append_bytes@12"))?1:0;
+        unsigned bytes=!strcmp(call->name,"@omf_append_bytes@12");
         sprintf(line,"omf_string source_global %08lx\n",read_word(process,image_base+0x705ec));log_line(line);
-        dump_bytes(process,"omf_string_hex",call->args[0],string_bytes(process,call->args[0]));
+        dump_bytes(process,"omf_string_hex",call->args[index],string_bytes(process,call->args[index]));
+        if(index) {
+            sprintf(line,"omf_record pointer %08lx current %08lx base %08lx\n",
+                call->args[0],read_word(process,image_base+0x6b88c),image_base+0x6a8dc);log_line(line);
+            dump_bytes(process,"omf_record_hex",call->args[0],bytes?24:23);
+        }
     }
     if(!strcmp(call->name,"@omf_flush_record_type@4") ||
        !strcmp(call->name,"@omf_find_record@8") ||

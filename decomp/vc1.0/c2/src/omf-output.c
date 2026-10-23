@@ -15,6 +15,10 @@ OmfRecord *__fastcall omf_allocate_record(unsigned type, void *context);
 OmfRecord *__fastcall omf_flush_record(OmfRecord *record);
 OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, void *context);
 void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes);
+void __fastcall omf_write_index(OmfRecord *record, int index);
+unsigned char __fastcall omf_comdat_selection(unsigned char selection);
+unsigned __fastcall omf_alignment(unsigned alignment);
+void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count);
 /* Original84fc4 points at the existing two-word object84fb8. Preserve that
    identity, rather than allocating a new group or inventing initialization. */
 OmfGroup omf_group_storage;
@@ -27,6 +31,7 @@ unsigned omf_next_frame_thread; /* 00085088 */
 unsigned omf_next_target_thread; /* 0008508c */
 unsigned char omf_comdat_flags; /* 00085090, cached COMDAT flags */
 int omf_fixup_count; /* 00085094, pending fixup entries */
+unsigned omf_last_comdat_name; /* 0007e8b0, last LINSYM name index */
 OmfRecord omf_records[4]; /* 0007a8dc..0007b88c, original BSS */
 OmfRecord *omf_current_record; /* 0007b88c, original BSS */
 /* Original [0006a9a0,0006a9c2). Tags alone are reset; buffered fields and
@@ -197,6 +202,88 @@ OmfRecord *__fastcall omf_allocate_record(unsigned type, void *context)
         (unsigned)record >= (unsigned)(omf_records + 3)) record = omf_records;
     else ++record;
     return omf_initialize_record(record, type, context);
+}
+/* Original [0006c060,0006c243). The three wire-header bytes precede a
+   type-specific prefix. Count tracks writes while building that prefix, then
+   resets to zero: subsequent count is payload beyond the prefix, not its size.
+   The flush may return another physical slot, so every field uses its result. */
+#define OMF_RECORD_BYTE(r,v) do { \
+    ++(r)->count; *(r)->cursor = (unsigned char)(v); ++(r)->cursor; \
+} while (0)
+OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, void *context)
+{
+    Segment *segment = (Segment *)context, *parent;
+    unsigned value;
+    if (record->type) record = omf_flush_record(record);
+    record->type = type;
+    record->context = context;
+    record->context_offset = context ? ((SymbolHeader *)context)->field04 : 0;
+    record->bytes[0] = (unsigned char)type;
+    record->cursor = record->bytes + 3;
+    switch (type) {
+    case 0x91: case 0x95: case 0xb7:
+        omf_write_index(record, ((OmfGroup *)segment->symbol.field18.pointer)->number);
+        omf_write_index(record, segment->identity.order);
+        break;
+    case 0x9a:
+        OMF_RECORD_BYTE(record, ((OmfGroup *)segment->symbol.field18.pointer)->name_index);
+        break;
+    case 0xa1: case 0xa3:
+        omf_write_index(record, segment->identity.order);
+        value = segment->symbol.field04;
+        OMF_RECORD_BYTE(record, value);
+        OMF_RECORD_BYTE(record, value >> 8);
+        OMF_RECORD_BYTE(record, value >> 16);
+        OMF_RECORD_BYTE(record, value >> 24);
+        break;
+    case 0xc3:
+        omf_comdat_flags = segment->object_attributes.omf_comdat.flags;
+        OMF_RECORD_BYTE(record, omf_comdat_flags | (segment->symbol.field04 != 0));
+        value = omf_comdat_selection(segment->object_attributes.omf_comdat.selection);
+        OMF_RECORD_BYTE(record, value);
+        OMF_RECORD_BYTE(record, omf_alignment(segment->alignment));
+        value = segment->symbol.field04;
+        OMF_RECORD_BYTE(record, value);
+        OMF_RECORD_BYTE(record, value >> 8);
+        OMF_RECORD_BYTE(record, value >> 16);
+        OMF_RECORD_BYTE(record, value >> 24);
+        omf_write_index(record, (short)((FunctionSymbol *)segment->identity.owner)->field20);
+        parent = segment->parent;
+        omf_write_index(record, ((OmfGroup *)parent->symbol.field18.pointer)->number);
+        omf_write_index(record, parent->identity.order);
+        omf_write_index(record, segment->object_section);
+        break;
+    case 0xc5:
+        value = segment->object_section;
+        OMF_RECORD_BYTE(record, value == omf_last_comdat_name);
+        omf_last_comdat_name = value;
+        omf_write_index(record, value);
+        break;
+    }
+    record->count = 0;
+    return record;
+}
+#undef OMF_RECORD_BYTE
+/* Original [0006c4e0,0006c540). Long counted strings warn and truncate the
+   caller's mutable source, then pass the same pointer to the byte writer. */
+void __fastcall omf_append_string(OmfRecord *record, char *text)
+{
+    char *end;
+    int length = 0;
+    if (text) {
+        end = text;
+        while (*end++) ;
+        length = (int)(end - text) - 1;
+    }
+    if (length > 255) {
+        compiler_warning(1, 0x312, 255);
+        length = 255;
+        text[255] = 0;
+    }
+    ++record->count;
+    *record->cursor = (unsigned char)length;
+    ++record->cursor;
+    omf_append_bytes(record, text, length);
 }
 /* Original [0006a350,0006a7e5); eleven following bytes are alignment.
    The four tail words of Segment have format-specific meanings: OMF names,

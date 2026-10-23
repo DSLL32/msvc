@@ -106,9 +106,11 @@ __declspec(naked) void omf_output_record(void) { RECON_TRACE_NAKED_ENTRY(omf_out
 __declspec(naked) void omf_mark_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_mark_symbol) __asm int 3 }
 void omf_flush_records(void) { __asm int 3 }
 OmfRecord *__fastcall omf_flush_record(OmfRecord *record) { __asm int 3 }
-OmfRecord *__fastcall omf_initialize_record(OmfRecord *record, unsigned type, void *context) { __asm int 3 }
+void __fastcall omf_write_index(OmfRecord *record, int index) { __asm int 3 }
+unsigned char __fastcall omf_comdat_selection(unsigned char selection) { __asm int 3 }
+unsigned __fastcall omf_alignment(unsigned alignment) { __asm int 3 }
 void __fastcall omf_pad_record(OmfRecord *record, unsigned bytes) { __asm int 3 }
-void __fastcall omf_append_string(OmfRecord *record, char *text) { __asm int 3 }
+void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count) { __asm int 3 }
 unsigned __fastcall omf_name_index(char *name) { __asm int 3 }
 void __fastcall omf_write_segment_definition(Segment *segment) { __asm int 3 }
 void __fastcall omf_write_group_definition(Segment *segment, OmfGroup *group) { __asm int 3 }

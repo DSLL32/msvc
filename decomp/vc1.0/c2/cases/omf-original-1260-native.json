@@ -1,0 +1,12 @@
+{
+  "logical": "@omf_append_bytes@12",
+  "matched": true,
+  "executable_sha256": "5241d34dbf44b850602285b64faa21492d37a579d6834ea6ac81ea35e724186c",
+  "config_sha256": "7e7a02da591dd08626b6cf0c5fd3aee0dd8f4b5bbc72ea8842b416916e5070ad",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\omftypes",
+  "setup_seconds": 0.0073120128363370895,
+  "execution_seconds": 0.12888763286173344,
+  "seconds": 0.14895532466471195,
+  "log_sha256": "594aaaa21bd9b9c798891ae6ca286e6956a8ae96c21aec08c7aa1ee67b85e5d4",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/omf-gdb-few6wp58"
+}

@@ -473,3 +473,15 @@ Original/W3 and graph/extent/ABI/data pass:339024/399693 accepted extent bytes;
 app/support320724B and1143 functions exclude5 historical CRT bodies. Full timing
 ledger/proof limits: cases/omf-find-allocate-checkpoint.json. Broad models remain
 explicit/audit-data; routine audits check actual ABI and dispatch data only.
+
+Checkpoint1260 adds483-byte OMF record initialization and96-byte mutable counted
+string append.144 full original/canonical controls compare all prefix classes,
+returned flush slot, every child argument/count/cursor/prefix and payload-counter
+reset; typed named children remain traps.48 string controls preserve warning
+before source truncation, the actual byte255 mutation, NULL/empty/255 boundaries
+and unchanged tails. Actual case initializes slot0/type80/NULL and appends the
+same source_filename-owned omftypes.c pointer. Next byte writer6b650 remains a
+named trap;15 native cases pass (14 complete). Original/W3 and graph/extent/ABI/
+data checks pass.339603/399693 accepted extent bytes, app/support321303B and1145
+functions excluding5 historical CRT bodies. Split timings and branch/mock limits:
+cases/omf-initialize-string-checkpoint.json.
