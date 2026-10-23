@@ -1,0 +1,18 @@
+Breakpoint 1 at 0x61b90: file ../../../lib/recon/src/crt.c, line 1190.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+NATIVE_ACCEPTED_CRT_ALIAS recon_printf
+NATIVE_ACCEPTED_CRT_ALIAS recon_printf
+NATIVE_ACCEPTED_CRT_ALIAS recon_fprintf
+
+Breakpoint 1, recon_vfprintf (s=0x565c773d, format=0x565c7705 "$$TYPES", args=0x2 <error: Cannot access memory at address 0x2>) at ../../../lib/recon/src/crt.c:1190
+warning: Source file is more recent than executable.
+1190	{
+NATIVE_MATCH recon_vfprintf
+0xffffc8ac:	0x565630f2	0x565f4a7c	0x565c773d	0xffffc8e4
+0xffffc8bc:	0x56567449	0xffffc8d1
+#0  recon_vfprintf (s=0x565c773d, format=0x565c7705 "$$TYPES", args=0x2 <error: Cannot access memory at address 0x2>) at ../../../lib/recon/src/crt.c:1190
+#1  0x565630f2 in omf_warning (format=0x565c773d "16-bit segment") at src/omf.c:1125
+#2  0x565653f7 in omf_record_segments () at src/omf.c:531
+#3  0x5656359f in omf_convert_pass (pass=1) at src/omf.c:266
+#4  0x56562d67 in omf_main (argc=4, argv=0xffffcae4) at src/omf.c:130

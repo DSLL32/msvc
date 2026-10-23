@@ -1,0 +1,35 @@
+Microsoft (R) COFF Binary File Dumper Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Dump of file continued.lib
+!<arch>
+
+File Type: LIBRARY
+
+RELOCATIONS #1
+       D virtual address,        B symbol table index, DIR32
+       7 virtual address,        A symbol table index, DIR32
+       1 virtual address,        A symbol table index, DIR32
+
+SYMBOL TABLE
+000 00000000 .file                            DEBUG notype       Filename
+    continue.asm
+002 00000000 .text                            SECT1 notype       Static
+    Section length   12, #relocs    3, #linenums    0
+004 00000000 .data                            SECT2 notype       Static
+    Section length   10, #relocs    0, #linenums    0
+006 00000000 FLAT                             SECT2 notype       Static
+007 00000000 .data                            SECT3 notype       Static
+    Section length    8, #relocs    0, #linenums    0, checksum       E6, selection    2 (pick any)
+009 00000000 _continued                       SECT3 notype       External
+00A 00000004 $$R0001                          SECT2 notype       Static
+00B 00000008 $$R0002                          SECT2 notype       Static
+00C 00000000 _target_data                     SECT2 notype       External
+00D 00000000 _omf_entry                       SECT1 notype       External
+
+STRING TABLE size = 0x27 bytes
+
+     Summary
+       .text       12
+       .data       20

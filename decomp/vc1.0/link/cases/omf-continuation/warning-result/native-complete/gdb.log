@@ -1,0 +1,4 @@
+Breakpoint 1 at 0x61b90: file ../../../lib/recon/src/crt.c, line 1190.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[Inferior 1 (process 1625092) exited normally]

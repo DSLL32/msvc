@@ -211,5 +211,14 @@
   },
   "editor-errors-missing": {
     "directory": "cases/shared-prefix/editor-errors-missing"
+  },
+  "omf-continuation-continued-controlled": {
+    "directory": "cases/shared-prefix/omf-continuation-continued-controlled"
+  },
+  "omf-continuation-use16-controlled": {
+    "directory": "cases/shared-prefix/omf-continuation-use16-controlled"
+  },
+  "omf-continuation-inspect-controlled": {
+    "directory": "cases/shared-prefix/omf-continuation-inspect-controlled"
   }
 }

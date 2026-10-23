@@ -1,0 +1,21 @@
+{
+  "logical": "omf_record_symbol_lines",
+  "caller_name": "omf_convert_pass",
+  "pass": 1,
+  "formals": {},
+  "remaining": 11,
+  "wide": 0,
+  "unread_record": [
+    0,
+    7,
+    101,
+    0,
+    0,
+    0,
+    102,
+    0,
+    4,
+    0,
+    91
+  ]
+}

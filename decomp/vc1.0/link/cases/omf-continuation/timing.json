@@ -1,0 +1,127 @@
+{
+  "native_build": {
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 1.8410071721300483,
+    "returncode": 0,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/omf-continuation-final-build.log"
+  },
+  "native_external_suite": {
+    "command": [
+      "python3",
+      "scripts/check-native.py",
+      "--trace"
+    ],
+    "seconds": 6.0369504224509,
+    "returncode": 0,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/omf-continuation-final-suite.log"
+  },
+  "native_summed_components": {
+    "setup_seconds": 2.1026135310530663,
+    "execution_seconds": 0.7231725817546248,
+    "oracle_seconds": 2.871072683483362,
+    "trace_check_seconds": 0.008294430561363697,
+    "total_seconds": 5.734338090755045
+  },
+  "new_case_components": [
+    {
+      "case": "omf-continuation-continued-controlled",
+      "setup_seconds": 0.00587492436170578,
+      "execution_seconds": 0.006056253798305988,
+      "trace_check_seconds": 0.00011573079973459244,
+      "oracle_seconds": 0.0008189640939235687,
+      "total_seconds": 0.013282185420393944
+    },
+    {
+      "case": "omf-continuation-use16-controlled",
+      "setup_seconds": 0.006123575381934643,
+      "execution_seconds": 0.005148008465766907,
+      "trace_check_seconds": 0.00010077748447656631,
+      "oracle_seconds": 0.0007327990606427193,
+      "total_seconds": 0.012441331520676613
+    },
+    {
+      "case": "omf-continuation-inspect-controlled",
+      "setup_seconds": 0.0023493189364671707,
+      "execution_seconds": 0.0032587358728051186,
+      "trace_check_seconds": 9.502843022346497e-05,
+      "oracle_seconds": 0.0005115875974297523,
+      "total_seconds": 0.006619083695113659
+    }
+  ],
+  "original_fresh_entry_histories": {
+    "command": [
+      "python3",
+      "scripts/capture-shared.py",
+      "--trace-cache",
+      "/root/.ai-tmp/msvc2/vc1.0/link/omf-continuation-trace-bootstrap.json",
+      "--case",
+      "omf-continuation-continued-controlled",
+      "--case",
+      "omf-continuation-use16-controlled",
+      "--case",
+      "omf-continuation-inspect-controlled"
+    ],
+    "seconds": 3.390375101007521,
+    "returncode": 0,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/omf-continuation-final-histories.log"
+  },
+  "canonical": {
+    "command": [
+      "make",
+      "-j4",
+      "all",
+      "audit"
+    ],
+    "seconds": 7.330544632859528,
+    "returncode": 0,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/omf-continuation-canonical.log"
+  },
+  "graph_negative": {
+    "command": [
+      "python3",
+      "scripts/check-graph-audit.py"
+    ],
+    "seconds": 18.060637878254056,
+    "returncode": 0,
+    "log": "/root/.ai-tmp/msvc2/vc1.0/link/omf-continuation-graph_negative.log"
+  },
+  "original_raw_preflights": {
+    "continued": [
+      1.5485224416479468,
+      1.4835337856784463
+    ],
+    "use16": [
+      1.4546712767332792,
+      1.840949690900743
+    ]
+  },
+  "original_controlled_preflights": {
+    "continued": [
+      0.7973331129178405,
+      0.9322552010416985
+    ],
+    "use16": [
+      1.0838794838637114,
+      0.71427739597857
+    ],
+    "inspect": [
+      1.0445867655798793,
+      1.5275908131152391
+    ]
+  },
+  "fresh_successful_frontiers": {
+    "lines": 1.0890060840174556,
+    "vfprintf": 1.8816277869045734,
+    "insert": 1.7230468271300197,
+    "extend": 1.9002693518996239,
+    "lookup": 1.0996585879474878,
+    "warning": 1.3537206863984466
+  },
+  "native_warning_complete": 0.1712276078760624,
+  "limits": "Singlefrozen74suite. Originalcaptures/canonicalbuild/GDBneverfixturedependencies. Helperbuild/analysisfailures/bootstrap/docs notdoublecountedasfixturetime; rawreceipts retain individualmeasurement, untimedanalysis remainsunmeasured."
+}

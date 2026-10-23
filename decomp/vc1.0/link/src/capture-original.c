@@ -280,10 +280,10 @@ static void resource_tempnam_sample(Process *process,Thread *thread,CONTEXT *con
         fprintf(log_file,"{\"event\":\"resource_tempnam_path\",\"site\":%lu,\"errno\":%lu,\"eax\":%lu,\"counter\":%lu,\"attributes\":%lu,\"path\":",site,error,context->Eax,counter,attributes);
         quoted(result);fprintf(log_file,",\"doserrno\":%lu,\"last_error\":%lu}\n",doserror,last);fflush(log_file);return;
     }
-    if (site!=0x21027 && site!=0x2102c) return;
+    if (site!=0x21027 && site!=0x2102c && site!=0x20b68 && site!=0x20b6d) return;
     ReadProcessMemory(process->handle,(void *)0x852d8,&error,4,&got);
-    fprintf(log_file,"{\"event\":\"resource_tempnam\",\"before\":%d,\"errno\":%lu",site==0x21027,error);
-    if (site==0x21027) {
+    fprintf(log_file,"{\"event\":\"resource_tempnam\",\"before\":%d,\"errno\":%lu",site==0x21027 || site==0x20b68,error);
+    if (site==0x21027 || site==0x20b68) {
         memset(directory,0,sizeof(directory));memset(prefix,0,sizeof(prefix));
         ReadProcessMemory(process->handle,(void *)context->Esp,args,8,&got);
         ReadProcessMemory(process->handle,(void *)args[0],directory,511,&got);
@@ -369,6 +369,82 @@ static void editor_error_abi_sample(Process *process,CONTEXT *context,DWORD *sta
     fprintf(log_file,"}}\n");fflush(log_file);
 }
 
+/* Actual public OMF continuation/formal and consumed-global observations. */
+static void omf_continuation_sample(Process *process,CONTEXT *context,DWORD *stack)
+{
+    DWORD site=context->Eip&~1,got,pass,root,bucket,node,words[4],i,count,size,total,file,stream[2];
+    unsigned short wide;short remaining;unsigned char bytes[256];char text[256],program[256];
+    const char *logical;
+    if(site==0x4817c){
+        DWORD out[8],error,dos;
+        ReadProcessMemory(process->handle,(void *)0x85070,out,32,&got);
+        ReadProcessMemory(process->handle,(void *)0x852d8,&error,4,&got);
+        ReadProcessMemory(process->handle,(void *)0x852dc,&dos,4,&got);
+        count=out[0]-out[2];if(count>256)return;
+        ReadProcessMemory(process->handle,(void *)out[2],bytes,count,&got);
+        fprintf(log_file,"{\"event\":\"omf_vfprintf_result\",\"result\":%lu,\"errno\":%lu,\"doserrno\":%lu,\"count\":%ld,\"flags\":%lu,\"file\":%lu,\"buffer_size\":%lu,\"buffered\":[",context->Eax,error,dos,(long)out[1],out[3],out[4],out[6]);
+        for(i=0;i<count;++i)fprintf(log_file,"%s%u",i?",":"",bytes[i]);fprintf(log_file,"]}\n");fflush(log_file);return;
+    }
+    if(site==0x472d0)logical="omf_insert_relocation_symbol";
+    else if(site==0x47350)logical="omf_lookup_relocation_symbol";
+    else if(site==0x48aa0)logical="omf_extend_section";
+    else if(site==0x45f20)logical="omf_record_symbol_lines";
+    else if(site==0x48150)logical="omf_warning";
+    else if(site==0x535f0)logical="recon_vfprintf";
+    else return;
+    ReadProcessMemory(process->handle,(void *)0x77df4,&pass,4,&got);
+    fprintf(log_file,"{\"event\":\"omf_continuation_abi\",\"logical\":");quoted(logical);
+    fprintf(log_file,",\"caller\":%lu,\"pass\":%lu,\"formals\":{",stack[0],pass);
+    if(site==0x472d0||site==0x47350){
+        bucket=(stack[1]+stack[2])%211;
+        ReadProcessMemory(process->handle,(void *)0x65200,&root,4,&got);
+        ReadProcessMemory(process->handle,(void *)(root+bucket*4),&node,4,&got);
+        fprintf(log_file,"\"symbol\":%lu,\"offset\":%lu},\"bucket\":%lu,\"nodes\":[",stack[1],stack[2],bucket);
+        count=0;
+        while(node && count<32){
+            ReadProcessMemory(process->handle,(void *)node,words,16,&got);
+            fprintf(log_file,"%s{\"symbol\":%lu,\"offset\":%lu",count?",":"",words[0],words[1]);
+            if(site==0x47350)fprintf(log_file,",\"resolved\":%lu",words[2]);
+            fprintf(log_file,"}");node=words[3];++count;
+        }
+        fprintf(log_file,"],\"terminated\":%d",!node);
+    }else if(site==0x48aa0){
+        if(stack[4]>256)return;
+        ReadProcessMemory(process->handle,(void *)stack[3],bytes,stack[4],&got);
+        ReadProcessMemory(process->handle,(void *)(0x61dec+((short)stack[1]-1)*40+16),&size,4,&got);
+        ReadProcessMemory(process->handle,(void *)0x77e1c,&total,4,&got);
+        fprintf(log_file,"\"section\":%d,\"offset\":%lu,\"length\":%lu,\"data\":[",(short)stack[1],stack[2],stack[4]);
+        for(i=0;i<stack[4];++i)fprintf(log_file,"%s%u",i?",":"",bytes[i]);
+        fprintf(log_file,"]},\"prior_section_size\":%lu,\"prior_total_bytes\":%lu",size,total);
+    }else if(site==0x45f20){
+        ReadProcessMemory(process->handle,(void *)0x6f19c,&remaining,2,&got);
+        ReadProcessMemory(process->handle,(void *)0x6f198,&wide,2,&got);
+        ReadProcessMemory(process->handle,(void *)0x77e0c,&file,4,&got);
+        ReadProcessMemory(process->handle,(void *)file,stream,8,&got);
+        if(remaining<0||remaining>256||stream[1]<(DWORD)remaining)return;
+        ReadProcessMemory(process->handle,(void *)stream[0],bytes,remaining,&got);
+        fprintf(log_file,"},\"remaining\":%d,\"wide\":%u,\"unread_record\":[",remaining,wide);
+        for(i=0;i<(DWORD)remaining;++i)fprintf(log_file,"%s%u",i?",":"",bytes[i]);fprintf(log_file,"]");
+    }else if(site==0x535f0){
+        memset(text,0,sizeof(text));ReadProcessMemory(process->handle,(void *)stack[2],text,255,&got);
+        fprintf(log_file,"\"stream_is_stdout\":%d,\"format\":",stack[1]==0x85070);quoted(text);
+        fprintf(log_file,",\"variadic_is_warning_area\":%d,\"consumed_variadic_slots\":0},\"stream\":{",stack[0]==0x4817c && stack[3]==context->Esp+24);
+        { DWORD out[8];ReadProcessMemory(process->handle,(void *)stack[1],out,32,&got);
+          count=out[0]-out[2];if(count>256)return;
+          ReadProcessMemory(process->handle,(void *)out[2],bytes,count,&got);
+          fprintf(log_file,"\"count\":%ld,\"flags\":%lu,\"file\":%lu,\"buffer_size\":%lu,\"buffered\":[",(long)out[1],out[3],out[4],out[6]);
+          for(i=0;i<count;++i)fprintf(log_file,"%s%u",i?",":"",bytes[i]);fprintf(log_file,"]}");
+        }
+    }else{
+        memset(text,0,sizeof(text));memset(program,0,sizeof(program));
+        ReadProcessMemory(process->handle,(void *)stack[1],text,255,&got);
+        ReadProcessMemory(process->handle,(void *)0x651f0,&root,4,&got);
+        ReadProcessMemory(process->handle,(void *)root,program,255,&got);
+        fprintf(log_file,"\"format\":");quoted(text);fprintf(log_file,"},\"program\":");quoted(program);
+    }
+    fprintf(log_file,"}\n");fflush(log_file);
+}
+
 static void context_log(Process *process,HANDLE thread)
 {
     CONTEXT context;
@@ -389,6 +465,7 @@ static void context_log(Process *process,HANDLE thread)
     fprintf(log_file,"],\"crt_errno\":%lu,\"dos_errno\":%lu,\"last_error\":%lu,\"exception_code\":%lu}\n",crt_errno,dos_errno,last,current_exception_code);fflush(log_file);
     resource_abi_sample(process,&context,stack);
     editor_error_abi_sample(process,&context,stack);
+    omf_continuation_sample(process,&context,stack);
     if (context.Eip==0x52778 || context.Eip==0x52777) {
         DWORD saved[8],registration[4],head=0;
         if (!ReadProcessMemory(process->handle,(void *)stack[1],saved,sizeof(saved),&got) || got!=sizeof(saved)) return;

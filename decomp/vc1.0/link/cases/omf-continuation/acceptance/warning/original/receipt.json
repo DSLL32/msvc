@@ -1,0 +1,51 @@
+{
+  "mode": "masked",
+  "analysis_samples": [],
+  "helper_sha256": "453f267e6ced0ecc3dcded87f563770b68b0a67f93a41410b8a7c085a4043c2e",
+  "helper_source_sha256": "099b5dcfb65f3771f6fd3d83315a337cc266afe9269b8380778a6c3740ffe47f",
+  "working_files": {
+    "use16.obj": {
+      "bytes": 302,
+      "sha256": "4d097f1bbeaf619bdb24e90aa9fd29e48381d195c870abb99912c2f49602d473"
+    }
+  },
+  "case": "omf-continuation-use16",
+  "helper_exit": 10,
+  "summary": {
+    "event": "summary",
+    "root_exit": 999,
+    "failed": 10,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "b9bd6ecee183a847fe3a008360adebff158b13b6da90f1cea553e5264580a6f1",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 950,
+  "accepted_sha256": "3b551706293f803017f2388d09bac0828d3f65cbedbdb49a2378e8bf99b149d5",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "27",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\omf-continuation-use16",
+    "TEMP": "S:\\vc1.0\\link\\omf-continuation-use16"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-lib /out:use16.lib use16.obj",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\masked-rpm9fj4a\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\masked-rpm9fj4a\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\masked-rpm9fj4a\\events.jsonl",
+    "S:\\vc1.0\\link\\omf-continuation-use16",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\masked-rpm9fj4a\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\masked-rpm9fj4a\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\masked-rpm9fj4a\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\masked-rpm9fj4a\\after.dll",
+    "-"
+  ],
+  "seconds": 1.211546535603702
+}

@@ -1,0 +1,80 @@
+{
+  "status": "pass",
+  "logical": "omf_warning",
+  "original_address": "0x48150",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/omf-continuation-use16/masked-rpm9fj4a",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/omf-continuation-use16-omf_warning-1f0zkn12",
+  "native_context": {
+    "event": "context",
+    "pid": 1904,
+    "eip": 295249,
+    "esp": 2748864,
+    "eax": 1,
+    "ecx": 32,
+    "edx": 1,
+    "stack": [
+      287738,
+      526940,
+      1,
+      490944,
+      4294967295,
+      0,
+      11072012,
+      455096,
+      8339584,
+      0,
+      0,
+      0,
+      16,
+      544928,
+      4294967295,
+      290703,
+      2748938,
+      2,
+      589824,
+      292773,
+      8197936,
+      2749300,
+      4,
+      295196
+    ],
+    "crt_errno": 2,
+    "dos_errno": 2,
+    "last_error": 0,
+    "exception_code": 2147483651
+  },
+  "seconds": 1.3537206863984466,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "resource_abi_state": null,
+  "editor_error_abi_state": null,
+  "omf_continuation_abi_state": {
+    "status": "pass",
+    "formal_slots": 1,
+    "original": {
+      "event": "omf_continuation_abi",
+      "logical": "omf_warning",
+      "caller": 287738,
+      "pass": 1,
+      "formals": {
+        "format": "16-bit segment"
+      },
+      "program": "cvtomf"
+    },
+    "native": {
+      "logical": "omf_warning",
+      "caller_name": "omf_record_segments",
+      "pass": 1,
+      "formals": {
+        "format": "16-bit segment"
+      },
+      "program": "cvtomf"
+    },
+    "scope": "All actual cdecl formals and consumed pointed-to input/state. No hidden/register arguments. Insertion does not read unresolved node+8; lookup observes it after finish_symbols writer. Line handler consumes exact buffered input bytes and record width/count; warning has no consumed variadic argument for actual plain format."
+  },
+  "import_machine_state": null,
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

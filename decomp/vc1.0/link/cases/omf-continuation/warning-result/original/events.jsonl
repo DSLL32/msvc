@@ -1,0 +1,6 @@
+{"event":"create","pid":2004,"parent":1668,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /out:use16.lib use16.obj"}
+{"event":"entry","pid":2004,"rva":229756,"name":"analysis_decoder_omf_warning_result","crt_errno":2}
+{"event":"context","pid":2004,"eip":295292,"esp":2748852,"eax":14,"ecx":8188503,"edx":544880,"stack":[544880,526940,2748872,287738,526940,1,490944,4294967295,0,11072012,455096,8339584,0,0,0,16,544928,4294967295,290703,2748938,2,589824,292773,8197936],"crt_errno":2,"dos_errno":2,"last_error":0,"exception_code":2147483651}
+{"event":"omf_vfprintf_result","result":14,"errno":2,"doserrno":2,"count":2013,"flags":10,"file":1,"buffer_size":2048,"buffered":[99,118,116,111,109,102,40,41,32,58,32,119,97,114,110,105,110,103,32,58,32,49,54,45,98,105,116,32,115,101,103,109,101,110,116]}
+{"event":"exit","pid":2004,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

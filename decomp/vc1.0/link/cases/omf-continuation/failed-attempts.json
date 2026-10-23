@@ -1,0 +1,11 @@
+{
+  "early_native_projection": "First projection saw stale traceobjects, then rebuild projection rejected missingneworiginalbindings before fixtures. Scratch bootstrap produced no finalreceiptclaim; finalcache checks allfreshbindings.",
+  "observer_expectation_corrections": [
+    "First expectedcaller analysis used labelomf_get_fixups but originalactualcallerextent45820 is namedomf_record_fixups; both sidesactualinputsmatched before strictexpectation correction.",
+    "First expectedtotal41 omitted one codebyte: actual18Btext+16Bdata+8Bcomdat=42 onbothsides; no source/data change.",
+    "Initial result-only sample label lacked decoder_ context hook; zero resultrows correctlyhelduntil explicitcontext-enabledlabelcapture."
+  ],
+  "failed_uncontrolled_errno": "warning-result/native-uncontrolled-failure preserves actual0 versus original2; fullresult/buffer/DOS/Last matched. Separatelynamedcontrolledvariants capture actualTMP/counter/access error algorithm and useexistingstrictlibc100profile. No originalreference overwrite/errno reseed, no defaultshimchange.",
+  "raw_scratch_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers",
+  "scope": "Analysis transport/expectation failures are not targetsemanticrejections or acceptedmatchingstates."
+}

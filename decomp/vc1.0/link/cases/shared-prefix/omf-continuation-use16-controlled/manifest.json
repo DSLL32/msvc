@@ -1,0 +1,77 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-omf-continuation.py",
+    "sha256": "ef1327ada0ab993b87c85cc5b7852b3a9ddfbedab804d96e3a46c5b20e6721a6"
+  },
+  "native_tempnam_input": {
+    "path": "cases/omf-continuation/tempnam/use16/proof.json",
+    "bytes": 469,
+    "sha256": "40c0dc1984f32f440c959da13ae08b3c650ac1e4e8879ae447998a9ecf57cced"
+  },
+  "case": "omf-continuation-use16-controlled",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-lib",
+        "/out:use16.lib",
+        "use16.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27",
+        "TMP": "S:\\vc1.0\\link\\omf-continuation-use16-controlled",
+        "TEMP": "S:\\vc1.0\\link\\omf-continuation-use16-controlled"
+      },
+      "inputs": [
+        {
+          "path": "../../omf-continuation/inputs/use16.obj",
+          "bytes": 302,
+          "sha256": "4d097f1bbeaf619bdb24e90aa9fd29e48381d195c870abb99912c2f49602d473"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "use16.lib",
+          "artifact_kind": "archive-generated",
+          "path": "expected/use16.lib",
+          "bytes": 806,
+          "sha256": "48ccb24385e18f226a789ccbb72849ea1f34bf2ec3a27dfe6addbd025a343abf",
+          "normalized_sha256": "3937399c355d1147910aac030b9964d82ad496af169d0986491eed5114bc5bcd",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 136,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 250,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 298,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Library Manager Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\ncvtomf() : warning : 16-bit segment\r\n",
+      "expected_stderr": "",
+      "final_files": [
+        "use16.lib",
+        "use16.obj"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\omf-continuation-use16-controlled"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/omf-continuation/fixtures/use16",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

@@ -51,6 +51,21 @@ def main():
         process_fixture=module.ProcessFixture(work,env)
     script=output/'entry.gdb'
     script.write_text('set pagination off\nset confirm off\nbreak *'+args.function+'\nrun '+shlex.join(spec['arguments'])+' >'+str(output/'native.stdout')+' 2>'+str(output/'native.stderr')+'\nprintf "NATIVE_MATCH '+args.function+'\\n"\nx/6wx $esp\nbt 5\nquit\n')
+    if args.function=='recon_vfprintf':
+        cfg=json.loads((BINARY/'functions.json').read_text())
+        assert all(n in cfg['accepted'] for n in ('_printf','_fprintf'))
+        qualifier="""python
+class VfprintfBoundary(gdb.Breakpoint):
+    def stop(self):
+        caller=gdb.newest_frame().older();assert caller
+        if caller.name()=='omf_warning':return True
+        if caller.name() in ('recon_printf','recon_fprintf'):
+            gdb.write('NATIVE_ACCEPTED_CRT_ALIAS '+caller.name()+'\\n');return False
+        raise gdb.GdbError('Unexpected vfprintf alias caller: '+caller.name())
+VfprintfBoundary('*recon_vfprintf')
+end
+"""
+        script.write_text(script.read_text().replace('break *recon_vfprintf\n',qualifier))
     from resource_abi import LOGICAL as RESOURCE_ABI, gdb_commands as resource_abi_commands
     resource_path=output/'native-resource-abi.json'
     if args.function in RESOURCE_ABI:
@@ -59,6 +74,10 @@ def main():
     editor_error_path=output/'native-editor-error-abi.json'
     if args.function in EDITOR_ERROR_ABI:
         script.write_text(script.read_text().replace('quit\n',editor_error_commands(args.function,editor_error_path)+'quit\n'))
+    from omf_continuation_abi import LOGICAL as OMF_CONTINUATION_ABI, gdb_commands as omf_continuation_commands
+    omf_continuation_path=output/'native-omf-continuation-abi.json'
+    if args.function in OMF_CONTINUATION_ABI:
+        script.write_text(script.read_text().replace('quit\n',omf_continuation_commands(args.function,omf_continuation_path)+'quit\n'))
     if args.function=='emit_rom_relocations':
         state_path=output/'native-rom-fixups.json'
         commands="""python
@@ -192,6 +211,10 @@ end
     if args.function in EDITOR_ERROR_ABI:
         from editor_error_abi import compare as compare_editor_error_abi
         editor_error_abi_state=compare_editor_error_abi(events,json.loads(editor_error_path.read_text()))
+    omf_continuation_abi_state=None
+    if args.function in OMF_CONTINUATION_ABI:
+        from omf_continuation_abi import compare as compare_omf_continuation_abi
+        omf_continuation_abi_state=compare_omf_continuation_abi(events,json.loads(omf_continuation_path.read_text()))
     import_machine_state=None
     if args.function=='write_helper_thunk_member':
         observations=[e for e in events if e['event']=='import_machine_state']
@@ -228,7 +251,7 @@ end
                          original=original_state,native=native_state,
                          unconsumed='Record+4 has no proved reader/writer semantics; never compared or serialized. Type padding+2 likewise not a live field.')
         (output/'rom-fixups-comparison.json').write_text(json.dumps(typed_state,indent=2)+'\n')
-    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,resource_abi_state=resource_abi_state,editor_error_abi_state=editor_error_abi_state,import_machine_state=import_machine_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
+    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,resource_abi_state=resource_abi_state,editor_error_abi_state=editor_error_abi_state,omf_continuation_abi_state=omf_continuation_abi_state,import_machine_state=import_machine_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(output/'receipt.json')
 if __name__=='__main__':main()

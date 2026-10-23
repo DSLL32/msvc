@@ -1,0 +1,23 @@
+{
+  "case": "omf-continuation-inspect-controlled",
+  "arguments": [
+    "-dump",
+    "/symbols",
+    "/relocations",
+    "continued.lib"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/omf-continuation/inputs/controlled/continued.lib",
+      "bytes": 806,
+      "sha256": "59ddbb5cdcdd27c36b1e1e1abcbdfee11708363a29d69c16705e9e2895719ce9"
+    }
+  ],
+  "outputs": [],
+  "final_files": [
+    "continued.lib"
+  ]
+}

@@ -689,6 +689,41 @@
         "code": 7
       },
       "reason": "Root-approved valid-image EDIT semantic rejection and ordinary missing-file diagnostic; exact raw input/file effects, no timestamp/path normalization"
+    },
+    {
+      "case": "omf-continuation-continued-controlled",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Valid original-backed continuation/segment-fixup/LINSYM/USE16; controlledTMP algorithm/error input, exact output except structurallyidentified clocks; dump consumes actual preceding nativearchive",
+      "frontier_cases": [
+        "omf-continuation-continued"
+      ]
+    },
+    {
+      "case": "omf-continuation-use16-controlled",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Valid original-backed continuation/segment-fixup/LINSYM/USE16; controlledTMP algorithm/error input, exact output except structurallyidentified clocks; dump consumes actual preceding nativearchive",
+      "frontier_cases": [
+        "omf-continuation-use16",
+        "omf-continuation-use16-controlled"
+      ]
+    },
+    {
+      "case": "omf-continuation-inspect-controlled",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Valid original-backed continuation/segment-fixup/LINSYM/USE16; controlledTMP algorithm/error input, exact output except structurallyidentified clocks; dump consumes actual preceding nativearchive",
+      "accepted_prefix": 952
     }
   ]
 }

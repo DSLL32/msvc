@@ -1257,3 +1257,30 @@ All71 native cases/753appentries and785CFG/770callback/490data/41ECX checks pass
 Extent247710/281634=87.9546% is separate from instruction inventory;16838remaining
 unclassified bytes need evidence. See cases/editor-errors for immutable observer
 annotation, concrete errors, full source snapshots, timing and next proposal.
+
+LastError attribution clarification: resource-identity/last-error-attribution.json
+records an unattributed dead ambient discrepancy. Original CloseHandle preservation
+is observed; no native CloseHandle1224-to0 transition was proved. Current shared
+CloseHandle already preserves successful-call LastError. No provider fix is claimed.
+
+OMF continuation checkpoint952
+
+Actual public reached bodies add371application instruction bytes+2alignment.
+Typed insertion/lookup state respects undefined node+8 until finish_symbols
+writes it. The continuation writer extends section/global raw spans; it does
+not repair the original stale auxiliary length. LINSYM consumes pairs without
+invented debug emission. Original stdout warning uses faithful fprintf/vfprintf/
+inlineputc graph. VFPRINTF.OBJ support remains separately shipped CRT identity,
+with qualified public3argument/FILEbuffer/error proof and no new source override.
+
+Controlled TMP is a captured external input, not an errno/candidate seed. Exact
+args/counter/missing-path access satisfy the existing libc100tempnam profile.
+Earlier uncontrolled errno0/2 and raw observer failures remain explicit; current
+entry/result errno2/DOS2/Last0,21->35pending bytes and full archive agree.
+Only10date digits and4COFFclock bytes normalize; fixedsuffix0space stays exact.
+
+74nativecases/758appentries and791CFG/775callback/490data/41ECX checks pass.
+Accepted extent88.1097% is not branch coverage or onlyCRT completion. Remaining
+6996knownOMFdebug-gated bytes and16827unclassified bytes need honest reachability/
+classification. Read-only16localCRT inventory records prior work, not new credit.
+See cases/omf-continuation for exact source/ELF/clock/callback bindings and timing.

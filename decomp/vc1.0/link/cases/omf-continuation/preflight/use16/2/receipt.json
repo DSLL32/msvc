@@ -1,0 +1,55 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "helper_sha256": "abf3c43cbb35c470b423121879b5c12b271393bf3f5cf1b42c333b114921f1fd",
+  "helper_source_sha256": "a79f4b8a29b5ba7f860184d578ac7474a4850dfc114ced2a48979842c7279fdd",
+  "working_files": {
+    "use16.lib": {
+      "bytes": 806,
+      "sha256": "0b48958c1b77f849b5e6ab4753824144af50c35cfe4b9dd36fe58ef93d040460"
+    },
+    "use16.obj": {
+      "bytes": 302,
+      "sha256": "4d097f1bbeaf619bdb24e90aa9fd29e48381d195c870abb99912c2f49602d473"
+    }
+  },
+  "case": "omf-continuation-use16",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "e17eb56378633487592d1ff7cd406a26c3846296ea201e94c11afde4ec951a37",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 946,
+  "accepted_sha256": "ec8aefc93ca18958126c8506746956ff09fed54d9a93edbb82d0cb270e4eae44",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "27",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\omf-continuation-use16",
+    "TEMP": "S:\\vc1.0\\link\\omf-continuation-use16"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-lib /out:use16.lib use16.obj",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\original-j3uzhpz8\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\original-j3uzhpz8\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\original-j3uzhpz8\\events.jsonl",
+    "S:\\vc1.0\\link\\omf-continuation-use16",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\original-j3uzhpz8\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\original-j3uzhpz8\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\original-j3uzhpz8\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16\\original-j3uzhpz8\\after.dll",
+    "-"
+  ],
+  "seconds": 1.840949690900743
+}

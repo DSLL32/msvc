@@ -1,0 +1,283 @@
+{
+  "incoming_abi": {
+    "status": "pass",
+    "formal_slots": 3,
+    "original": {
+      "event": "omf_continuation_abi",
+      "logical": "recon_vfprintf",
+      "caller": 295292,
+      "pass": 1,
+      "formals": {
+        "stream_is_stdout": 1,
+        "format": "16-bit segment",
+        "variadic_is_warning_area": 1,
+        "consumed_variadic_slots": 0
+      },
+      "stream": {
+        "count": 2027,
+        "flags": 10,
+        "file": 1,
+        "buffer_size": 2048,
+        "buffered": [
+          99,
+          118,
+          116,
+          111,
+          109,
+          102,
+          40,
+          41,
+          32,
+          58,
+          32,
+          119,
+          97,
+          114,
+          110,
+          105,
+          110,
+          103,
+          32,
+          58,
+          32
+        ]
+      }
+    },
+    "native": {
+      "logical": "recon_vfprintf",
+      "caller_name": "omf_warning",
+      "pass": 1,
+      "formals": {
+        "stream_is_stdout": true,
+        "format": "16-bit segment",
+        "variadic_is_warning_area": true,
+        "consumed_variadic_slots": 0
+      },
+      "stream": {
+        "count": 2027,
+        "flags": 10,
+        "file": 1,
+        "buffer_size": 2048,
+        "buffered": [
+          99,
+          118,
+          116,
+          111,
+          109,
+          102,
+          40,
+          41,
+          32,
+          58,
+          32,
+          119,
+          97,
+          114,
+          110,
+          105,
+          110,
+          103,
+          32,
+          58,
+          32
+        ]
+      },
+      "errors": {
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0
+      }
+    },
+    "scope": "All actual cdecl formals and consumed pointed-to input/state. No hidden/register arguments. Insertion does not read unresolved node+8; lookup observes it after finish_symbols writer. Line handler consumes exact buffered input bytes and record width/count; warning has no consumed variadic argument for actual plain format."
+  },
+  "status": "pass",
+  "native": {
+    "results": [
+      {
+        "result": 14,
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0,
+        "count": 2013,
+        "flags": 10,
+        "file": 1,
+        "buffer_size": 2048,
+        "buffered": [
+          99,
+          118,
+          116,
+          111,
+          109,
+          102,
+          40,
+          41,
+          32,
+          58,
+          32,
+          119,
+          97,
+          114,
+          110,
+          105,
+          110,
+          103,
+          32,
+          58,
+          32,
+          49,
+          54,
+          45,
+          98,
+          105,
+          116,
+          32,
+          115,
+          101,
+          103,
+          109,
+          101,
+          110,
+          116
+        ]
+      }
+    ],
+    "entries": [
+      {
+        "count": 2027,
+        "flags": 10,
+        "file": 1,
+        "buffer_size": 2048,
+        "buffered": [
+          99,
+          118,
+          116,
+          111,
+          109,
+          102,
+          40,
+          41,
+          32,
+          58,
+          32,
+          119,
+          97,
+          114,
+          110,
+          105,
+          110,
+          103,
+          32,
+          58,
+          32
+        ]
+      }
+    ],
+    "bypassed": [
+      "recon_printf",
+      "recon_printf",
+      "recon_fprintf"
+    ],
+    "boundary_entry": {
+      "logical": "recon_vfprintf",
+      "caller_name": "omf_warning",
+      "pass": 1,
+      "formals": {
+        "stream_is_stdout": true,
+        "format": "16-bit segment",
+        "variadic_is_warning_area": true,
+        "consumed_variadic_slots": 0
+      },
+      "stream": {
+        "count": 2027,
+        "flags": 10,
+        "file": 1,
+        "buffer_size": 2048,
+        "buffered": [
+          99,
+          118,
+          116,
+          111,
+          109,
+          102,
+          40,
+          41,
+          32,
+          58,
+          32,
+          119,
+          97,
+          114,
+          110,
+          105,
+          110,
+          103,
+          32,
+          58,
+          32
+        ]
+      },
+      "errors": {
+        "errno": 2,
+        "doserrno": 2,
+        "last_error": 0
+      }
+    },
+    "exit": 0
+  },
+  "original": {
+    "result": 14,
+    "errno": 2,
+    "doserrno": 2,
+    "count": 2013,
+    "flags": 10,
+    "file": 1,
+    "buffer_size": 2048,
+    "buffered": [
+      99,
+      118,
+      116,
+      111,
+      109,
+      102,
+      40,
+      41,
+      32,
+      58,
+      32,
+      119,
+      97,
+      114,
+      110,
+      105,
+      110,
+      103,
+      32,
+      58,
+      32,
+      49,
+      54,
+      45,
+      98,
+      105,
+      116,
+      32,
+      115,
+      101,
+      103,
+      109,
+      101,
+      110,
+      116
+    ],
+    "last_error": 0
+  },
+  "seconds": 0.1712276078760624,
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/omf-warning-complete-9drro91_",
+  "scope": "Named public boundary only. Original/canonical shipped-vfprintf graph retained separately; no private native CRT graph/ABI claim. Full stdout buffer/result/errors and complete cached streams/archive/inventory exact.",
+  "native_elf_sha256": "384fea9fb5a0711eedd3e1da0e333d1379b0d71cced5326ba4cba291fb18f6c2",
+  "source_sha256": {
+    "src/omf.c": "57d08500fd97b968aaa124888b7c3732293e8084232513d9decbf5f9e59a6ff1",
+    "../../../lib/recon/src/crt.c": "86170094dab42cefb6af8fe8af1ef87c2339b07b9b4e800848b07319841a03b9",
+    "../../../lib/recon/include/recon.h": "3f4d56a172d51db225c3fc35acc8dcdca3e28723d5c04b87f271201f617a6344"
+  }
+}

@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x13540: file src/omf-stubs.c, line 4.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_warning (format=0x565f4abc <recon_iob+96> "\263\326b", <incomplete sequence \333>) at src/omf-stubs.c:4
+4	void omf_warning(const char *format,...) { __asm { int 3 } }
+NATIVE_MATCH omf_warning
+0xffffc88c:	0x56565377	0x565c773d	0x565c7705	0x00000002
+0xffffc89c:	0x00000003	0x00001000
+#0  omf_warning (format=0x565f4abc <recon_iob+96> "\263\326b", <incomplete sequence \333>) at src/omf-stubs.c:4
+#1  0x56565377 in omf_record_segments () at src/omf.c:531
+#2  0x5656351f in omf_convert_pass (pass=1) at src/omf.c:266
+#3  0x56562d67 in omf_main (argc=4, argv=0xffffca94) at src/omf.c:130
+#4  0x56562a90 in convert_omf_object (input=0x5662d3e0, link=1 '\001', options=0x5662c0a4) at src/omf.c:91

@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "case": "omf-continuation-use16-controlled",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "events": {
+    "path": "original/events.jsonl",
+    "sha256": "06de009d2b7ab802eabdf464b0aa0d7f87acc14584797909a9f3cbab31b8fe63"
+  },
+  "scope": "Actual ordinary OMF adapter20b68/20b6d; target TMPcaseinput, existingemptydirectory/counter/access/errorproof, ordinary ownedreturn; no cached candidate seed."
+}

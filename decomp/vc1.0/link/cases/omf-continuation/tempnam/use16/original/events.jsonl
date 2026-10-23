@@ -1,0 +1,17 @@
+{"event":"controlled_tmp","directory":"S:\\vc1.0\\link\\omf-continuation-use16-controlled"}
+{"event":"create","pid":452,"parent":568,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /out:use16.lib use16.obj"}
+{"event":"entry","pid":452,"rva":68456,"name":"analysis_decoder_omf_tempnam_before","crt_errno":0}
+{"event":"context","pid":452,"eip":133992,"esp":2748984,"eax":2749248,"ecx":8188528,"edx":0,"stack":[503448,2749248,19660920,2948865,2883584,50584,0,2,2883584,2,2883584,2749096,2077305628,2883704,2883584,2884712,2898536,2884712,2749136,2077476010,50584,58,2749084,2077359434],"crt_errno":0,"dos_errno":0,"last_error":0,"exception_code":2147483651}
+{"event":"resource_tempnam","before":1,"errno":0,"directory":"\\","prefix":"tmp","doserrno":0,"last_error":0}
+{"event":"entry","pid":452,"rva":308001,"name":"analysis_omf_tempnam_directory","crt_errno":0}
+{"event":"resource_tempnam_path","site":373537,"errno":0,"eax":8063104,"counter":1,"attributes":16,"path":"S:\\vc1.0\\link\\omf-continuation-use16-controlled","doserrno":0,"last_error":0}
+{"event":"entry","pid":452,"rva":308510,"name":"analysis_omf_tempnam_candidate","crt_errno":2}
+{"event":"resource_tempnam_path","site":374046,"errno":2,"eax":4294967295,"counter":2,"attributes":4294967295,"path":"S:\\vc1.0\\link\\omf-continuation-use16-controlled\\tmp2","doserrno":2,"last_error":2}
+{"event":"entry","pid":452,"rva":68461,"name":"analysis_decoder_omf_tempnam_after","crt_errno":2}
+{"event":"context","pid":452,"eip":133997,"esp":2748984,"eax":8198040,"ecx":1,"edx":547770,"stack":[503448,2749248,19660920,2948865,2883584,50584,0,2,2883584,2,2883584,2749096,2077305628,2883704,2883584,2884712,2898536,2884712,2749136,2077476010,50584,58,2749084,2077359434],"crt_errno":2,"dos_errno":2,"last_error":2,"exception_code":2147483651}
+{"event":"resource_tempnam","before":0,"errno":2,"result":"S:\\vc1.0\\link\\omf-continuation-use16-controlled\\tmp2","doserrno":2,"last_error":2}
+{"event":"entry","pid":452,"rva":229756,"name":"analysis_decoder_omf_warning_result","crt_errno":2}
+{"event":"context","pid":452,"eip":295292,"esp":2748852,"eax":14,"ecx":8188607,"edx":544880,"stack":[544880,526940,2748872,287738,526940,1,490944,4294967295,0,11072012,455096,8339720,0,0,0,16,544928,4294967295,290703,2748938,2,589824,292773,8198040],"crt_errno":2,"dos_errno":2,"last_error":0,"exception_code":2147483651}
+{"event":"omf_vfprintf_result","result":14,"errno":2,"doserrno":2,"count":2013,"flags":10,"file":1,"buffer_size":2048,"buffered":[99,118,116,111,109,102,40,41,32,58,32,119,97,114,110,105,110,103,32,58,32,49,54,45,98,105,116,32,115,101,103,109,101,110,116]}
+{"event":"exit","pid":452,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

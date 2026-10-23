@@ -1,0 +1,12 @@
+{
+  "logical": "omf_insert_relocation_symbol",
+  "caller_name": "omf_record_fixups",
+  "pass": 1,
+  "formals": {
+    "symbol": 4,
+    "offset": 4
+  },
+  "bucket": 8,
+  "nodes": [],
+  "terminated": true
+}

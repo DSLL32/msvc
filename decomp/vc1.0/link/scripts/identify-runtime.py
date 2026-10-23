@@ -112,6 +112,8 @@ if len(sys.argv)==1:
 # _find is a complete byte-exact shipped CRT match, including imported call
 # relocations. Native correspondence is at this CRT boundary, not each IAT thunk.
 for r in records:
+    if r['name']=='_vfprintf':
+        r['evidence']='byte-exact shipped VFPRINTF.OBJ including _stbuf/_output/_ftbuf callees; native public boundary qualified by actual omf_warning caller, stdout/plainformat/va_listowner/no consumedvariadicwords and exact entry/result/FILEbuffer/errors/fullarchive in cases/omf-continuation. Earlier recon_printf/recon_fprintf are alreadyaccepted publicCRTaliases, logged not newgraph credit.'
     if r['name']=='__snprintf':
         r['evidence']='byte-exact SNPRINTF.OBJ including verified _output/_flsbuf callees; native public CRT boundary observes3fixedslots+onevariadicDWORD,340-byte caller output ownership, actual defined text/result/errno and full EDIT error files/streams in cases/editor-errors. No native internal CRT or unwritten-tail ABI claim.'
     if r['name']=='__unlink':

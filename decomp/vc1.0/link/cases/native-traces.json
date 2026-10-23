@@ -498,12 +498,33 @@
       "manifest_path": "cases/shared-prefix/editor-errors-missing/manifest.json",
       "manifest_sha256": "3e5e5f4e566db6c4403ac9ad6bf8cca323ec239ffe6460c9b84130e3984a8dc1",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "omf-continuation-continued-controlled": {
+      "receipt_path": "cases/shared-prefix/omf-continuation-continued-controlled/capture/receipt.json",
+      "receipt_sha256": "d59dc7cf4f1c4a9ce84d876df9720a43facd1271def8aebc2123112393800133",
+      "manifest_path": "cases/shared-prefix/omf-continuation-continued-controlled/manifest.json",
+      "manifest_sha256": "a7358945dc24417294a07b533f129d1aa484f1d9d297aa720fc4dece035a6d39",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "omf-continuation-use16-controlled": {
+      "receipt_path": "cases/shared-prefix/omf-continuation-use16-controlled/capture/receipt.json",
+      "receipt_sha256": "2c106737cd24a9a26e503f20d4500658eeb82b091182a21c545329749e6c0453",
+      "manifest_path": "cases/shared-prefix/omf-continuation-use16-controlled/manifest.json",
+      "manifest_sha256": "2ace086931002f13dd7403e1607f05b00615b3a25db600a75d071658b337f984",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "omf-continuation-inspect-controlled": {
+      "receipt_path": "cases/shared-prefix/omf-continuation-inspect-controlled/capture/receipt.json",
+      "receipt_sha256": "62dc562fba41634364111ddacfe6618b122d5de88f21647d4b34a1baec2093b3",
+      "manifest_path": "cases/shared-prefix/omf-continuation-inspect-controlled/manifest.json",
+      "manifest_sha256": "7261a09928cb9ea34ed5f18f7b67c8f826e8deb03aecc3be9ca989fbf007499b",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "89bf274d76c8ed2342b7ae462539c859efcd03cef554da3842474a1cf20f4cb9",
-    "runtime.json": "442836d3a56268561bcd1a3b26e5c9cb489b9ec4d5dd8932797cef7d1543fce6",
-    "replay-cases.json": "91486922dffc6258e23b3a80e1828199edcad10bdabae0089d2219fa9c480dea"
+    "functions.json": "744b74830bea86ffd65b2901178b984aa47dba2e60666beca8612b2771252ded",
+    "runtime.json": "66d9b98b4e9819622266f974ad10d446f42ef52de3204544beca788bd8251ec0",
+    "replay-cases.json": "7917cd8dc1c964b39204545c7e4d0ea8e81c848fbc16d374d455dcc084748d60"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -3072,9 +3093,9 @@
       "implementation": "C"
     },
     "omf_extend_section": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf.c",
       "logical": "_omf_extend_section",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_finish_debug_types": {
       "source": "src/omf-stubs.c",
@@ -3102,9 +3123,9 @@
       "implementation": "C"
     },
     "omf_insert_relocation_symbol": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf.c",
       "logical": "_omf_insert_relocation_symbol",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_insert_symbol": {
       "source": "src/omf.c",
@@ -3112,9 +3133,9 @@
       "implementation": "C"
     },
     "omf_lookup_relocation_symbol": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf.c",
       "logical": "_omf_lookup_relocation_symbol",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_lookup_symbol": {
       "source": "src/omf.c",
@@ -3267,9 +3288,9 @@
       "implementation": "C"
     },
     "omf_record_symbol_lines": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf.c",
       "logical": "_omf_record_symbol_lines",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_record_theadr": {
       "source": "src/omf.c",
@@ -3302,9 +3323,9 @@
       "implementation": "C"
     },
     "omf_warning": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf.c",
       "logical": "_omf_warning",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_write_coff": {
       "source": "src/omf.c",
@@ -5195,7 +5216,12 @@
     "fatal_message",
     "editor_rebase_error",
     "editor_bind_error",
-    "file_failure"
+    "file_failure",
+    "omf_insert_relocation_symbol",
+    "omf_extend_section",
+    "omf_record_symbol_lines",
+    "omf_lookup_relocation_symbol",
+    "omf_warning"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5348,7 +5374,8 @@
       "_longjmp",
       "__local_unwind2",
       "__unlink",
-      "__snprintf"
+      "__snprintf",
+      "_vfprintf"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -6907,6 +6934,43 @@
       "terminal": {
         "kind": "exit",
         "code": 7
+      }
+    },
+    "omf-continuation-continued-controlled": {
+      "first": 946,
+      "last": 950,
+      "seen_count": 753,
+      "expected": [
+        "omf_insert_relocation_symbol",
+        "omf_extend_section",
+        "omf_record_symbol_lines",
+        "omf_lookup_relocation_symbol"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "omf-continuation-use16-controlled": {
+      "first": 950,
+      "last": 952,
+      "seen_count": 757,
+      "expected": [
+        "omf_warning"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "omf-continuation-inspect-controlled": {
+      "first": 952,
+      "last": 952,
+      "seen_count": 758,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

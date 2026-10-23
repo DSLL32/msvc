@@ -1,0 +1,130 @@
+{
+  "sha256": "54df3ac839e1bdf9d914ff431389c819a55708ccdcb9ef0555c4fa345cce2fc6",
+  "bytes": 302,
+  "records": [
+    {
+      "offset": 0,
+      "type": "0x80",
+      "payload_bytes": 13,
+      "checksum": 146
+    },
+    {
+      "offset": 17,
+      "type": "0x96",
+      "payload_bytes": 39,
+      "checksum": 129
+    },
+    {
+      "offset": 60,
+      "type": "0x99",
+      "payload_bytes": 8,
+      "checksum": 157
+    },
+    {
+      "offset": 72,
+      "type": "0x99",
+      "payload_bytes": 8,
+      "checksum": 155
+    },
+    {
+      "offset": 84,
+      "type": "0x9a",
+      "payload_bytes": 5,
+      "checksum": 89
+    },
+    {
+      "offset": 93,
+      "type": "0x91",
+      "payload_bytes": 18,
+      "checksum": 30
+    },
+    {
+      "offset": 115,
+      "type": "0x91",
+      "payload_bytes": 20,
+      "checksum": 108
+    },
+    {
+      "offset": 139,
+      "type": "0xa1",
+      "payload_bytes": 23,
+      "checksum": 170
+    },
+    {
+      "offset": 166,
+      "type": "0x9d",
+      "payload_bytes": 24,
+      "checksum": 131
+    },
+    {
+      "offset": 194,
+      "type": "0xa1",
+      "payload_bytes": 21,
+      "checksum": 79
+    },
+    {
+      "offset": 219,
+      "type": "0xc3",
+      "payload_bytes": 19,
+      "checksum": 230
+    },
+    {
+      "offset": 242,
+      "type": "0xc3",
+      "payload_bytes": 19,
+      "checksum": 93
+    },
+    {
+      "offset": 265,
+      "type": "0xc4",
+      "payload_bytes": 10,
+      "checksum": 91
+    },
+    {
+      "offset": 279,
+      "type": "0xc5",
+      "payload_bytes": 14,
+      "checksum": 65
+    },
+    {
+      "offset": 297,
+      "type": "0x8b",
+      "payload_bytes": 1,
+      "checksum": 115
+    }
+  ],
+  "code_hex": "a1000000008b0d000000008b1500000000c3",
+  "data_hex": "112233445566778899aabbccddeeff00",
+  "continued_comdat_hex": "01020304050607081112131415161718",
+  "fixups": [
+    {
+      "source_offset": 1,
+      "target_segment": 2,
+      "target_displacement": 4
+    },
+    {
+      "source_offset": 7,
+      "target_segment": 2,
+      "target_displacement": 4
+    },
+    {
+      "source_offset": 13,
+      "target_segment": 2,
+      "target_displacement": 8
+    }
+  ],
+  "source": "https://openwatcom.org/ftp/devel/docs/omf.pdf",
+  "source_pages": [
+    38,
+    43,
+    44,
+    45,
+    46,
+    61,
+    62,
+    63,
+    64,
+    65
+  ],
+  "scope": "Ordinary valid explicit allocation COMDAT, continuationflag1;Microsoft LNAMES LINSYM;FIXUP32 segmentrelative32bitlocation/frame5/targetsegment2/nonzerooffset; USE16 companion changes onlyPbit, not recordwidth."
+}

@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x134c0: file src/omf-stubs.c, line 10.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, omf_record_symbol_lines () at src/omf-stubs.c:10
+10	void omf_record_symbol_lines(void) { __asm { int 3 } }
+NATIVE_MATCH omf_record_symbol_lines
+0xffffc8ac:	0x56563603	0x565f4abc	0x00000002	0x00000001
+0xffffc8bc:	0x565f4abc	0x0000006f
+#0  omf_record_symbol_lines () at src/omf-stubs.c:10
+#1  0x56563603 in omf_convert_pass (pass=1) at src/omf.c:281
+#2  0x56562d67 in omf_main (argc=4, argv=0xffffca34) at src/omf.c:130
+#3  0x56562a90 in convert_omf_object (input=0x5662d440, link=1 '\001', options=0x5662c0f4) at src/omf.c:91
+#4  0x565934bd in convert_omf_inputs (warn=0 '\000', options=0x5662c0f4) at src/library.c:243

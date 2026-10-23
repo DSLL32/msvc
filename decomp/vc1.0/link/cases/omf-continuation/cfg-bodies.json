@@ -1,0 +1,58 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "omf-continuation",
+  "alignment_bytes": 2,
+  "extent_gap_ranges": [
+    [
+      291710,
+      291712
+    ]
+  ],
+  "extent_gap_instructions": [
+    [
+      "mov",
+      "edi, edi"
+    ]
+  ],
+  "method": "Static original CFG instruction-byte union of all accepted contextual omf-continuation functions, follows both conditional edges, internal JMP tables and call fallthrough; excludes padding, inline table bytes and callee bodies. Not dynamic branch coverage. Old Ghidra one-byte seeds excluded from overlap.",
+  "functions": {
+    "_omf_warning": {
+      "bytes": 86,
+      "start": 295248,
+      "end": 295334,
+      "internal_tables": []
+    },
+    "_omf_record_symbol_lines": {
+      "bytes": 71,
+      "start": 286496,
+      "end": 286567,
+      "internal_tables": []
+    },
+    "_omf_extend_section": {
+      "bytes": 49,
+      "start": 297632,
+      "end": 297681,
+      "internal_tables": []
+    },
+    "_omf_insert_relocation_symbol": {
+      "bytes": 113,
+      "start": 291536,
+      "end": 291649,
+      "internal_tables": []
+    },
+    "_omf_lookup_relocation_symbol": {
+      "bytes": 52,
+      "start": 291664,
+      "end": 291718,
+      "internal_tables": []
+    }
+  },
+  "function_count": 5,
+  "instruction_bytes": 371,
+  "accepted_extent_union_bytes": 373,
+  "internal_data_bytes": 0,
+  "extent_outside_cfg_and_data": 2,
+  "unresolved_jumps": [],
+  "instruction_overlap_old_body_inventory": 371,
+  "additional_proven_instruction_bytes_outside_old_inventory": 0
+}

@@ -1,0 +1,66 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-omf-continuation.py",
+    "sha256": "ef1327ada0ab993b87c85cc5b7852b3a9ddfbedab804d96e3a46c5b20e6721a6"
+  },
+  "case": "omf-continuation-inspect-controlled",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-dump",
+        "/symbols",
+        "/relocations",
+        "continued.lib"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "inputs": [
+        {
+          "path": "../../omf-continuation/inputs/controlled/continued.lib",
+          "bytes": 806,
+          "sha256": "59ddbb5cdcdd27c36b1e1e1abcbdfee11708363a29d69c16705e9e2895719ce9",
+          "artifact_kind": "archive-generated",
+          "normalized_sha256": "bea414cbba56c3f34ecb222f1f7a5b5b7012261ef4a512fcca19c1f5fc74b449",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 136,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 250,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 298,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            }
+          ],
+          "from_case": {
+            "case": "omf-continuation-continued-controlled",
+            "output_name": "continued.lib"
+          }
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file continued.lib\r\n!<arch>\r\n\r\nFile Type: LIBRARY\r\n\r\nRELOCATIONS #1\r\n       D virtual address,        B symbol table index, DIR32\r\n       7 virtual address,        A symbol table index, DIR32\r\n       1 virtual address,        A symbol table index, DIR32\r\n\r\nSYMBOL TABLE\r\n000 00000000 .file                            DEBUG notype       Filename\r\n    continue.asm\r\n002 00000000 .text                            SECT1 notype       Static\r\n    Section length   12, #relocs    3, #linenums    0\r\n004 00000000 .data                            SECT2 notype       Static\r\n    Section length   10, #relocs    0, #linenums    0\r\n006 00000000 FLAT                             SECT2 notype       Static\r\n007 00000000 .data                            SECT3 notype       Static\r\n    Section length    8, #relocs    0, #linenums    0, checksum       E6, selection    2 (pick any)\r\n009 00000000 _continued                       SECT3 notype       External\r\n00A 00000004 $$R0001                          SECT2 notype       Static\r\n00B 00000008 $$R0002                          SECT2 notype       Static\r\n00C 00000000 _target_data                     SECT2 notype       External\r\n00D 00000000 _omf_entry                       SECT1 notype       External\r\n\r\nSTRING TABLE size = 0x27 bytes\r\n\r\n     Summary\r\n       .text       12\r\n       .data       20\r\n",
+      "expected_stderr": "",
+      "final_files": [
+        "continued.lib"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\omf-continuation-inspect-controlled"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/omf-continuation/fixtures/inspect",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

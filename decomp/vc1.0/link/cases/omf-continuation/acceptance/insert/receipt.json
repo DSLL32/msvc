@@ -1,0 +1,86 @@
+{
+  "status": "pass",
+  "logical": "omf_insert_relocation_symbol",
+  "original_address": "0x472d0",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/omf-continuation-continued/masked-304wid0c",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/omf-continuation-continued-omf_insert_relocation_symbol-g2aladv_",
+  "native_context": {
+    "event": "context",
+    "pid": 1140,
+    "eip": 291537,
+    "esp": 2734568,
+    "eax": 4,
+    "ecx": 4,
+    "edx": 4,
+    "stack": [
+      285344,
+      4,
+      4,
+      1,
+      490944,
+      4294967295,
+      0,
+      5243364,
+      0,
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "crt_errno": 2,
+    "dos_errno": 2,
+    "last_error": 0,
+    "exception_code": 2147483651
+  },
+  "seconds": 1.7230468271300197,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "resource_abi_state": null,
+  "editor_error_abi_state": null,
+  "omf_continuation_abi_state": {
+    "status": "pass",
+    "formal_slots": 2,
+    "original": {
+      "event": "omf_continuation_abi",
+      "logical": "omf_insert_relocation_symbol",
+      "caller": 285344,
+      "pass": 1,
+      "formals": {
+        "symbol": 4,
+        "offset": 4
+      },
+      "bucket": 8,
+      "nodes": [],
+      "terminated": 1
+    },
+    "native": {
+      "logical": "omf_insert_relocation_symbol",
+      "caller_name": "omf_record_fixups",
+      "pass": 1,
+      "formals": {
+        "symbol": 4,
+        "offset": 4
+      },
+      "bucket": 8,
+      "nodes": [],
+      "terminated": true
+    },
+    "scope": "All actual cdecl formals and consumed pointed-to input/state. No hidden/register arguments. Insertion does not read unresolved node+8; lookup observes it after finish_symbols writer. Line handler consumes exact buffered input bytes and record width/count; warning has no consumed variadic argument for actual plain format."
+  },
+  "import_machine_state": null,
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

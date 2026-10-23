@@ -1,0 +1,98 @@
+{
+  "status": "pass",
+  "logical": "omf_lookup_relocation_symbol",
+  "original_address": "0x47350",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/omf-continuation-continued/masked-78441ej2",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/omf-continuation-continued-omf_lookup_relocation_symbol-r97l6qvf",
+  "native_context": {
+    "event": "context",
+    "pid": 992,
+    "eip": 291665,
+    "esp": 2734556,
+    "eax": 4,
+    "ecx": 4,
+    "edx": 4,
+    "stack": [
+      285354,
+      4,
+      4,
+      1,
+      0,
+      8601880,
+      0,
+      5243364,
+      4294967295,
+      4,
+      5246436,
+      0,
+      4,
+      4,
+      8,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "crt_errno": 2,
+    "dos_errno": 2,
+    "last_error": 0,
+    "exception_code": 2147483651
+  },
+  "seconds": 1.0996585879474878,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "resource_abi_state": null,
+  "editor_error_abi_state": null,
+  "omf_continuation_abi_state": {
+    "status": "pass",
+    "formal_slots": 2,
+    "original": {
+      "event": "omf_continuation_abi",
+      "logical": "omf_lookup_relocation_symbol",
+      "caller": 285354,
+      "pass": 2,
+      "formals": {
+        "symbol": 4,
+        "offset": 4
+      },
+      "bucket": 8,
+      "nodes": [
+        {
+          "symbol": 4,
+          "offset": 4,
+          "resolved": 10
+        }
+      ],
+      "terminated": 1
+    },
+    "native": {
+      "logical": "omf_lookup_relocation_symbol",
+      "caller_name": "omf_record_fixups",
+      "pass": 2,
+      "formals": {
+        "symbol": 4,
+        "offset": 4
+      },
+      "bucket": 8,
+      "nodes": [
+        {
+          "symbol": 4,
+          "offset": 4,
+          "resolved": 10
+        }
+      ],
+      "terminated": true
+    },
+    "scope": "All actual cdecl formals and consumed pointed-to input/state. No hidden/register arguments. Insertion does not read unresolved node+8; lookup observes it after finish_symbols writer. Line handler consumes exact buffered input bytes and record width/count; warning has no consumed variadic argument for actual plain format."
+  },
+  "import_machine_state": null,
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

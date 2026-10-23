@@ -1102,6 +1102,67 @@ void omf_record_modend(void)
     }
 }
 
+/* LINSYM16/32 [00045f20,00045f67). The native converter consumes these
+ * COMDAT-relative line pairs but does not add them to its LINNUM output lists. */
+void omf_record_symbol_lines(void)
+{
+    omf_read_byte();
+    omf_read_index();
+    while(omf_record_remaining>1) {
+        omf_read_word();
+        if(omf_record_wide) omf_read_dword();
+        else omf_read_word();
+    }
+}
+
+/* Original [00048150,000481a6). Converter warnings use stdout, including
+ * the historical buffered putc/_flsbuf path for the terminating newline. */
+void omf_warning(const char *format,...)
+{
+    va_list arguments;
+    fprintf(stdout,"%s() : warning : ",omf_program_name);
+    va_start(arguments,format);
+    vfprintf(stdout,format,arguments);
+    va_end(arguments);
+    putc('\n',stdout);
+}
+
+/* Original [00048aa0,00048ad1). Continuation extends the declared raw span
+ * by its payload length; the explicit offset is passed unchanged to the writer. */
+void omf_extend_section(short section,unsigned long offset,
+                        const void *data,unsigned long length)
+{
+    omf_coff_sections[section-1].SizeOfRawData+=length;
+    omf_coff_raw_bytes+=length;
+    omf_write_section_data(section,offset,data,length);
+}
+
+/* Original [00047350,00047386), including two internal alignment bytes.
+ * Pass1 inserts every displaced target before this pass2 lookup; the original
+ * traversal intentionally has no missing-key/null-node fallback. */
+unsigned long omf_lookup_relocation_symbol(unsigned long symbol,unsigned long offset)
+{
+    OmfRelocationSymbol *entry=omf_relocation_buckets[(symbol+offset)%211];
+    while(entry->symbol!=symbol || entry->offset!=offset) entry=entry->next;
+    return entry->resolved;
+}
+
+/* Original [000472d0,00047341). The resolved slot is assigned later by
+ * omf_finish_symbols; inserting or comparing an entry never reads it. */
+void omf_insert_relocation_symbol(unsigned long symbol,unsigned long offset)
+{
+    unsigned bucket=(symbol+offset)%211;
+    OmfRelocationSymbol *entry;
+    for(entry=omf_relocation_buckets[bucket];entry;entry=entry->next)
+        if(entry->symbol==symbol && entry->offset==offset) return;
+    entry=malloc(sizeof(*entry));
+    if(!entry) omf_error("Bad return from malloc; not enough memory");
+    entry->symbol=symbol;
+    entry->offset=offset;
+    entry->next=omf_relocation_buckets[bucket];
+    omf_relocation_buckets[bucket]=entry;
+}
+
 /* Resolve section-relative displacement symbols [00047390,00047430). */
 void omf_finish_symbols(void)
 {

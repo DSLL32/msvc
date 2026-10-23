@@ -302,3 +302,23 @@ pass6.307s after7.596s build. Canonical compile/audits26.596s pass785CFG graphs,
 770callback sets,490data definitions and41ECX routines. Extent247710/281634 is
 87.9546%;16838 unclassified remaining bytes are not CRT. See cases/editor-errors
 for precise limits, original setup correction, negative checks and split timing.
+
+LastError attribution clarification: resource-identity/last-error-attribution.json
+records an unattributed dead ambient discrepancy. Original CloseHandle preservation
+is observed; no native CloseHandle1224-to0 transition was proved. Current shared
+CloseHandle already preserves successful-call LastError. No provider fix is claimed.
+
+OMF continuation/displacement/LINSYM checkpoint (952 frontiers)
+
+Five whole C bodies add371application instruction bytes+2internal alignment;
+shipped-vfprintf support55CRTbytes+9alignment has zero app credit and no new
+handwritten CRT. Valid continuedCOMDAT, repeated/nonzero segment targets and
+LINSYM16/32 produce exact native archives; USE16 data emits the actual warning.
+A separate dump consumes actual prior native archive. Original stale auxiliary
+length8 versus16Brawspan is preserved. Distinct controlledTMP cases prove true
+counter/access/errors; the earlier uncontrolled errno mismatch remains raw.
+Qualified public vfprintf input/output FILEbuffer,3arguments/errors and full
+outputs match. All74native cases/758entries pass6.037s, build1.841s separately.
+791CFG/775callback/490data/41ECX checks pass. Extent248147/281634=88.1097%;6996known
+OMF debug-gated bytes and16827unclassified bytes remain pending, not CRT. See
+cases/omf-continuation for scope, whole-body evidence, failures and split timing.

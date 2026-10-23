@@ -1,0 +1,77 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-omf-continuation.py",
+    "sha256": "ef1327ada0ab993b87c85cc5b7852b3a9ddfbedab804d96e3a46c5b20e6721a6"
+  },
+  "native_tempnam_input": {
+    "path": "cases/omf-continuation/tempnam/continued/proof.json",
+    "bytes": 473,
+    "sha256": "4de737751a3a1baf458c18bdd94d18a073a9960d3e185a11690174402faa251c"
+  },
+  "case": "omf-continuation-continued-controlled",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-lib",
+        "/out:continued.lib",
+        "continued.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27",
+        "TMP": "S:\\vc1.0\\link\\omf-continuation-continued-controlled",
+        "TEMP": "S:\\vc1.0\\link\\omf-continuation-continued-controlled"
+      },
+      "inputs": [
+        {
+          "path": "../../omf-continuation/inputs/continued.obj",
+          "bytes": 302,
+          "sha256": "54df3ac839e1bdf9d914ff431389c819a55708ccdcb9ef0555c4fa345cce2fc6"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "continued.lib",
+          "artifact_kind": "archive-generated",
+          "path": "expected/continued.lib",
+          "bytes": 806,
+          "sha256": "8972bfaeb3c7b49a0aab44a6f1fb99354bbbb889564551bdb0ebe26ece979dd7",
+          "normalized_sha256": "bea414cbba56c3f34ecb222f1f7a5b5b7012261ef4a512fcca19c1f5fc74b449",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 136,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 250,
+              "bytes": 10,
+              "name": "Archive member decimal time input"
+            },
+            {
+              "offset": 298,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Library Manager Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": "",
+      "final_files": [
+        "continued.lib",
+        "continued.obj"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\omf-continuation-continued-controlled"
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/omf-continuation/fixtures/continued",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

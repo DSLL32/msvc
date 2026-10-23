@@ -1,0 +1,51 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "helper_sha256": "8eabfc4b7e562d6b583d87bef5fa449812b7cbb879deb1257f0290fecfaed5d6",
+  "helper_source_sha256": "0a918db301dda83d3043cd87d47a6ece678a2cbeb62409b2d2d06ca830aed88d",
+  "working_files": {
+    "continued.lib": {
+      "bytes": 806,
+      "sha256": "59ddbb5cdcdd27c36b1e1e1abcbdfee11708363a29d69c16705e9e2895719ce9"
+    }
+  },
+  "case": "omf-continuation-inspect-controlled",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "fefac6ad2e9934e2cda23e6ac726a17bf64dee169c33b1a3026e777b55ad014a",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 952,
+  "accepted_sha256": "be3458baa3c1fc3dffd1318a1a038a8586e54687987ad60ec4cc9a27a0492762",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\omf-continuation-inspect-controlled",
+    "TEMP": "S:\\vc1.0\\link\\omf-continuation-inspect-controlled"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-dump /symbols /relocations continued.lib",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-inspect-controlled\\original-66mdp4gx\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-inspect-controlled\\original-66mdp4gx\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-inspect-controlled\\original-66mdp4gx\\events.jsonl",
+    "S:\\vc1.0\\link\\omf-continuation-inspect-controlled",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-inspect-controlled\\original-66mdp4gx\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-inspect-controlled\\original-66mdp4gx\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-inspect-controlled\\original-66mdp4gx\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-inspect-controlled\\original-66mdp4gx\\after.dll",
+    "-"
+  ],
+  "seconds": 1.5275908131152391
+}

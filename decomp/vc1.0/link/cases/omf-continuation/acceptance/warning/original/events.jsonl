@@ -1,0 +1,4 @@
+{"event":"create","pid":1904,"parent":668,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /out:use16.lib use16.obj"}
+{"event":"context","pid":1904,"eip":295249,"esp":2748864,"eax":1,"ecx":32,"edx":1,"stack":[287738,526940,1,490944,4294967295,0,11072012,455096,8339584,0,0,0,16,544928,4294967295,290703,2748938,2,589824,292773,8197936,2749300,4,295196],"crt_errno":2,"dos_errno":2,"last_error":0,"exception_code":2147483651}
+{"event":"omf_continuation_abi","logical":"omf_warning","caller":287738,"pass":1,"formals":{"format":"16-bit segment"},"program":"cvtomf"}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

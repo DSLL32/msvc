@@ -1,0 +1,55 @@
+{
+  "mode": "masked",
+  "analysis_samples": [],
+  "helper_sha256": "8eabfc4b7e562d6b583d87bef5fa449812b7cbb879deb1257f0290fecfaed5d6",
+  "helper_source_sha256": "0a918db301dda83d3043cd87d47a6ece678a2cbeb62409b2d2d06ca830aed88d",
+  "working_files": {
+    "tmp2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "use16.obj": {
+      "bytes": 302,
+      "sha256": "4d097f1bbeaf619bdb24e90aa9fd29e48381d195c870abb99912c2f49602d473"
+    }
+  },
+  "case": "omf-continuation-use16-controlled",
+  "helper_exit": 10,
+  "summary": {
+    "event": "summary",
+    "root_exit": 999,
+    "failed": 10,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "978199890d509f750d1d0040b94b6a47a8907a0a7c9f8f4bcd96d157193667f8",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 951,
+  "accepted_sha256": "d81b7b188c752bd08f56e8e747a826e1a25e9726502da3c6440b668aa0674450",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "27",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\omf-continuation-use16-controlled",
+    "TEMP": "S:\\vc1.0\\link\\omf-continuation-use16-controlled"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-lib /out:use16.lib use16.obj",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16-controlled\\masked-sf6zs7bw\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16-controlled\\masked-sf6zs7bw\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16-controlled\\masked-sf6zs7bw\\events.jsonl",
+    "S:\\vc1.0\\link\\omf-continuation-use16-controlled",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16-controlled\\masked-sf6zs7bw\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16-controlled\\masked-sf6zs7bw\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16-controlled\\masked-sf6zs7bw\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\omf-continuation-use16-controlled\\masked-sf6zs7bw\\after.dll",
+    "-"
+  ],
+  "seconds": 1.7347662625834346
+}

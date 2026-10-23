@@ -1,0 +1,153 @@
+{
+  "scope": "Read-only inventory requested by root/user; no deletion/refactor/new handwritten CRT or historical relabeling. Current OMF family adds only genuine application C; vfprintf is existing shipped-library and public shared-shim support, zero app credit.",
+  "source": "src/runtime.c",
+  "functions": [
+    {
+      "name": "_setvbuf",
+      "start": 336688,
+      "end": 336880,
+      "implementation": "C",
+      "abi": "cdecl int setvbuf(FILE *stream, char *buffer, int mode, size_t size)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "src/runtime.c"
+    },
+    {
+      "name": "__freebuf",
+      "start": 349840,
+      "end": 349904,
+      "implementation": "C",
+      "abi": "cdecl void _freebuf(FILE *stream)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified",
+      "source": "src/runtime.c"
+    },
+    {
+      "name": "_fread",
+      "start": 333136,
+      "end": 333476,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl size_t(void *,size_t,size_t,FILE *)",
+      "evidence": "Matched native fread51550..516a4 after renaming prior unaccepted crt_fread stub. Full old CRT buffering/direct-read/refill loop, unsigned product/count behavior, EOF/error partial element count and intrinsic copy. Calls only existing _read55980 and _filbuf53b30; shipped CRT body not assumed equivalent."
+    },
+    {
+      "name": "__lseek",
+      "start": 351152,
+      "end": 351280,
+      "implementation": "C",
+      "abi": "cdecl long(int,long,int)",
+      "source": "src/runtime.c",
+      "evidence": "Matching 0x55bb0 runtime frontier; full extent through 0x55c30. Unsigned descriptor limit, original GetLastError check and _osfile EOF-bit clear with native CRT globals."
+    },
+    {
+      "name": "__openfile",
+      "start": 349904,
+      "end": 350240,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl FILE *_openfile(const char *name, const char *mode, int sharing, FILE *stream)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "__sopen",
+      "start": 360736,
+      "end": 361680,
+      "implementation": "C",
+      "abi": "cdecl int _sopen(const char *name, int mode, int sharing, ...)",
+      "source": "src/runtime.c",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "__filbuf",
+      "start": 342832,
+      "end": 343056,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl int _filbuf(FILE *stream)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "___tzset",
+      "start": 335728,
+      "end": 336080,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matching older timezone parser51f70..520d0; manually verified entire body and shared CRT globals. Same older parser analyzed in CL reconstruction."
+    },
+    {
+      "name": "_toupper",
+      "start": 338288,
+      "end": 338656,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl int toupper(int c)",
+      "cleanup": "readable C; clean parallel build, full 185-frontier replay, exact help, unchanged minimal-C frontier verified"
+    },
+    {
+      "name": "_tolower",
+      "start": 365840,
+      "end": 366208,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl int(int character)",
+      "evidence": "Matched original/native masked _tolower entry explicitly before reconstruction; older locale-aware conversion59510..59680."
+    },
+    {
+      "name": "__spawnvpe",
+      "start": 355168,
+      "end": 355568,
+      "implementation": "C",
+      "abi": "cdecl int(int mode,const char *file,const char *const *argv,const char *const *environment)",
+      "evidence": "Matching DLL spawn frontier; full56b60..56cf0 reviewed. Older PATH search tests only forward slash before lookup, preserves bounded path assembly and UNC retry behavior.",
+      "source": "src/runtime.c"
+    },
+    {
+      "name": "__cenvarg",
+      "start": 364224,
+      "end": 365104,
+      "implementation": "C",
+      "abi": "cdecl int(const char *const *arguments,const char *const *environment,char **command,char **block,const char *file)",
+      "source": "src/runtime.c",
+      "evidence": "Matching DLL command/environment frontier58ec0..59230; preserve old32767-byte limits, inherited drive entries, separate first command argument and remaining space-separated arguments, exact error pointer updates."
+    },
+    {
+      "name": "__open",
+      "start": 360704,
+      "end": 360736,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl int(const char *,int,...)",
+      "evidence": "Full 0x58100..0x58120: distinct CRT varargs open wrapper passes permission and sharing 0x40 to the already reconstructed older _sopen; avoids linking duplicate bundled native _sopen."
+    },
+    {
+      "name": "__isindst",
+      "start": 336080,
+      "end": 336288,
+      "implementation": "C",
+      "source": "src/runtime.c",
+      "abi": "cdecl int(struct tm *)",
+      "evidence": "Matched520d0 trap; complete520d0..521a0 older US DST rules using shared CRT_days table:1967 cutoff,1987 first-April-Sunday change, October hour1 boundary."
+    },
+    {
+      "name": "_ftell",
+      "start": 340016,
+      "end": 340324,
+      "source": "src/runtime.c",
+      "implementation": "C",
+      "abi": "cdecl long(FILE *)",
+      "evidence": "Matched own ftell frontier53030..53164; complete121-instruction body reviewed against C1XX older runtime as analysis lead. Native fallback always takes stream->_bufsiz, unlike shipped LIBC minimum512 logic. All three calls target existing _lseek55bb0; data errno852d8 and _osfile85620 are CRT aliases."
+    },
+    {
+      "name": "_fseek",
+      "start": 339856,
+      "end": 340006,
+      "source": "src/runtime.c",
+      "implementation": "C",
+      "abi": "cdecl int(FILE *,long,int)",
+      "evidence": "Matched editor catalog seek frontier52f90..53026. Native validates modes/origin, clears EOF, ftell-relative seeks, flushes, resets read/write flags or512-byte owned read buffer and calls original _lseek; no newer LIBC flag400 logic."
+    }
+  ],
+  "native": "Compiled as build/native/runtime.o and native-trace/runtime.o but excluded from instrumentation/application trace. Header remaps supply recon_* native definitions that override weak shared fallback bodies.",
+  "canonical": "Compiled by original1.0CL as build/runtime.obj, linked with shipped LIBC.LIB for remaining CRT. crt-anchors.c forces evidenced shipped library identities; it does not implement CRT.",
+  "count": 16
+}

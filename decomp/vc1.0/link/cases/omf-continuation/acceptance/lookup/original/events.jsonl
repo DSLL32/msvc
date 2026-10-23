@@ -1,0 +1,4 @@
+{"event":"create","pid":992,"parent":1572,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /out:continued.lib continued.obj"}
+{"event":"context","pid":992,"eip":291665,"esp":2734556,"eax":4,"ecx":4,"edx":4,"stack":[285354,4,4,1,0,8601880,0,5243364,4294967295,4,5246436,0,4,4,8,0,0,0,0,0,0,0,0,0],"crt_errno":2,"dos_errno":2,"last_error":0,"exception_code":2147483651}
+{"event":"omf_continuation_abi","logical":"omf_lookup_relocation_symbol","caller":285354,"pass":2,"formals":{"symbol":4,"offset":4},"bucket":8,"nodes":[{"symbol":4,"offset":4,"resolved":10}],"terminated":1}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

@@ -945,7 +945,13 @@
     "_editor_rebase_error",
     "__snprintf",
     "_editor_bind_error",
-    "_file_failure"
+    "_file_failure",
+    "_omf_insert_relocation_symbol",
+    "_omf_extend_section",
+    "_omf_record_symbol_lines",
+    "_omf_lookup_relocation_symbol",
+    "_omf_warning",
+    "_vfprintf"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5177,10 +5183,11 @@
     {
       "name": "_omf_warning",
       "start": 295248,
-      "end": 295249,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(const char *format,...)"
+      "end": 295334,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(const char *format,...)",
+      "evidence": "Fresh valid USE16 data-segment warning from actual omf_record_segments caller; incomingformat16-bitsegment consumes no variadic arguments; original/native globalprogramcvtomf/pass1 match. Complete86instructionbytes with original fprintf/vfprintf/inlineputc-_flsbuf graph, stdouttarget. cases/omf-continuation/acceptance/warning."
     },
     {
       "name": "_omf_error",
@@ -5477,10 +5484,11 @@
     {
       "name": "_omf_record_symbol_lines",
       "start": 286496,
-      "end": 286497,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 286567,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Fresh actual LINSYM16 dispatcher/noformal ABI, incoming streambuffer all11unreadrecord bytes andwidth0/remaining11/pass1 match. Whole71instructionbytes consumes flags/nameindex then WORDline+WORD/DWORDoffset pairs; no original line-list emission is invented. Both C4/C5 records in valid original-backed object. cases/omf-continuation/acceptance/lines."
     },
     {
       "name": "_omf_record_named_backpatch",
@@ -5602,10 +5610,11 @@
     {
       "name": "_omf_extend_section",
       "start": 297632,
-      "end": 297633,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(short,unsigned long,const void *,unsigned long)"
+      "end": 297681,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(short,unsigned long,const void *,unsigned long)",
+      "evidence": "Fresh masked-original/native matching continuation: four actualcdeclinputs section3/offset8/data17..24/length8, priorrawsize8/total42 match. Whole49instructionbytes; add payload length to both declared sectionspan/globalrawtotal then call existingwriter with original offset, signedsection index. Receipt cases/omf-continuation/acceptance/extend."
     },
     {
       "name": "_omf_write_debug_type_data",
@@ -5635,18 +5644,20 @@
     {
       "name": "_omf_insert_relocation_symbol",
       "start": 291536,
-      "end": 291537,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(unsigned long,unsigned long)"
+      "end": 291649,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(unsigned long,unsigned long)",
+      "evidence": "Fresh matching public OMF continuation archive firsttrap with both actualcdecl DWORDs4/4, pass1, bucket8 empty/terminated, actual namedcaller+originalextent. Complete113instructionbyte body; modulo32 key sum/211, full linkedlist equality and16byte allocation. unresolved+8 left unwritten until finish_symbols, not observed as defined input. Receipt cases/omf-continuation/acceptance/insert."
     },
     {
       "name": "_omf_lookup_relocation_symbol",
       "start": 291664,
-      "end": 291665,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl unsigned long(unsigned long,unsigned long)"
+      "end": 291718,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(unsigned long,unsigned long)",
+      "evidence": "Fresh matching pass2 actualcdeclsymbol4/offset4, bucket8/live node resolved10afterfinish_symbols match. Complete52instructionbytes+2internalalignment; graph leaf; native original unchecked lookup relies on pass1 insertion invariant. cases/omf-continuation/acceptance/lookup."
     },
     {
       "name": "_omf_emit_relocation",
@@ -9264,6 +9275,12 @@
     "editor-errors-rebase",
     "editor-errors-rebase",
     "editor-errors-bind",
-    "editor-errors-missing"
+    "editor-errors-missing",
+    "omf-continuation-continued",
+    "omf-continuation-continued",
+    "omf-continuation-continued",
+    "omf-continuation-continued",
+    "omf-continuation-use16",
+    "omf-continuation-use16-controlled"
   ]
 }

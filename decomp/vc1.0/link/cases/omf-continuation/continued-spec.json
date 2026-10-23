@@ -1,0 +1,29 @@
+{
+  "case": "omf-continuation-continued",
+  "arguments": [
+    "-lib",
+    "/out:continued.lib",
+    "continued.obj"
+  ],
+  "environment": {
+    "LIB": "{lib}",
+    "LINK32_DB": "27"
+  },
+  "inputs": [
+    {
+      "path": "cases/omf-continuation/inputs/continued.obj",
+      "bytes": 302,
+      "sha256": "54df3ac839e1bdf9d914ff431389c819a55708ccdcb9ef0555c4fa345cce2fc6"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "continued.lib",
+      "artifact_kind": "archive-generated"
+    }
+  ],
+  "final_files": [
+    "continued.lib",
+    "continued.obj"
+  ]
+}

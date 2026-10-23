@@ -1,0 +1,18 @@
+{
+  "logical": "omf_lookup_relocation_symbol",
+  "caller_name": "omf_record_fixups",
+  "pass": 2,
+  "formals": {
+    "symbol": 4,
+    "offset": 4
+  },
+  "bucket": 8,
+  "nodes": [
+    {
+      "symbol": 4,
+      "offset": 4,
+      "resolved": 10
+    }
+  ],
+  "terminated": true
+}

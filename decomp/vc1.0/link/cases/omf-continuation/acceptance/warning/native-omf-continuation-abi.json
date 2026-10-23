@@ -1,0 +1,9 @@
+{
+  "logical": "omf_warning",
+  "caller_name": "omf_record_segments",
+  "pass": 1,
+  "formals": {
+    "format": "16-bit segment"
+  },
+  "program": "cvtomf"
+}

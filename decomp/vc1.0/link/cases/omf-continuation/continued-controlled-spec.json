@@ -1,0 +1,37 @@
+{
+  "case": "omf-continuation-continued-controlled",
+  "arguments": [
+    "-lib",
+    "/out:continued.lib",
+    "continued.obj"
+  ],
+  "environment": {
+    "LIB": "{lib}",
+    "LINK32_DB": "27",
+    "TMP": "S:\\vc1.0\\link\\omf-continuation-continued-controlled",
+    "TEMP": "S:\\vc1.0\\link\\omf-continuation-continued-controlled"
+  },
+  "inputs": [
+    {
+      "path": "cases/omf-continuation/inputs/continued.obj",
+      "bytes": 302,
+      "sha256": "54df3ac839e1bdf9d914ff431389c819a55708ccdcb9ef0555c4fa345cce2fc6"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "continued.lib",
+      "artifact_kind": "archive-generated"
+    }
+  ],
+  "final_files": [
+    "continued.lib",
+    "continued.obj"
+  ],
+  "controlled_tmp": true,
+  "native_tempnam_input": {
+    "path": "cases/omf-continuation/tempnam/continued/proof.json",
+    "bytes": 473,
+    "sha256": "4de737751a3a1baf458c18bdd94d18a073a9960d3e185a11690174402faa251c"
+  }
+}

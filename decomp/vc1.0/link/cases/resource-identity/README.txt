@@ -134,3 +134,8 @@ validation.json, audits.json, checks.json, timing.json and components.json give
 current evidence and limits. The next root-approved SINGLE workflow is public
 EDIT valid-image rejection/file failure (next-proposal.json); it starts only
 after this resource checkpoint commit. No forced OMF internal-g is authorized.
+
+LastError attribution clarification: resource-identity/last-error-attribution.json
+records an unattributed dead ambient discrepancy. Original CloseHandle preservation
+is observed; no native CloseHandle1224-to0 transition was proved. Current shared
+CloseHandle already preserves successful-call LastError. No provider fix is claimed.

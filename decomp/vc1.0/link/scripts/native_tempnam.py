@@ -5,17 +5,19 @@ from pathlib import Path
 
 BINARY=Path(__file__).resolve().parents[1]
 BASE=BINARY/'cases/resource-identity/tempnam'
+OMF_BASE=BINARY/'cases/omf-continuation/tempnam'
 
 
 def install(metadata,case,environment):
     if 'native_tempnam_input' not in metadata:return None
     record=metadata['native_tempnam_input'];path=(BINARY/record['path']).resolve()
-    assert path.is_relative_to(BASE.resolve())
+    allowed=OMF_BASE if case in ('omf-continuation-continued-controlled','omf-continuation-use16-controlled') else BASE
+    assert path.is_relative_to(allowed.resolve())
     data=path.read_bytes();assert len(data)==record['bytes'] and hashlib.sha256(data).hexdigest()==record['sha256']
     proof=json.loads(data);assert proof['case']==case and proof['status']=='pass'
-    assert case in ('resource-identity-languages-controlled','resource-identity-duplicate-controlled')
+    assert case in ('resource-identity-languages-controlled','resource-identity-duplicate-controlled','omf-continuation-continued-controlled','omf-continuation-use16-controlled')
     assert proof['original_sha256']==json.loads((BINARY/'functions.json').read_text())['target']['sha256']
-    events_path=(path.parent/proof['events']['path']).resolve();assert events_path.is_relative_to(BASE.resolve())
+    events_path=(path.parent/proof['events']['path']).resolve();assert events_path.is_relative_to(allowed.resolve())
     raw=events_path.read_bytes();assert hashlib.sha256(raw).hexdigest()==proof['events']['sha256']
     events=[json.loads(s) for s in raw.decode().splitlines()]
     observations=[e for e in events if e['event']=='resource_tempnam'];assert len(observations)==2
