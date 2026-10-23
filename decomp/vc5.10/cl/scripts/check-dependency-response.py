@@ -78,7 +78,7 @@ def run(original,native):
     original_negative('actual original BOOL differs',{'observer/invoke-before-stack.bin':lambda b:integer(b,8,0)})
     original_negative('actual original execution globals differ',{'observer/invoke-before-execution-words.bin':lambda b:integer(b,0,1)})
     original_negative('actual original argument bytes differ',{'observer/invoke-before-caller-argv.bin':lambda b:b.replace(b'test.c',b'jest.c')})
-    frontier_address={'unload_pass':0x4054ec,'cleanup_files':0x404ed1,'delete_temporary':0x404f6f}[response['next_frontier']]
+    frontier_address={'unload_pass':0x4054ec,'cleanup_files':0x404ed1,'delete_temporary':0x404f6f,'next_jobs':0x403709}[response['next_frontier']]
     original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(('address=%08x'%frontier_address).encode(),('address=%08x'%(frontier_address+1)).encode())})
     original_negative('actual original IR copies disagree',{'observer/c1-output/'+next(iter(response['outputs'])):lambda b:b+b'x'})
     original_negative('unobserved extra Invoke',{'observer/events.txt':lambda b:b+b'invoke-call argc=26 argv=00000001 last=1 function=10612229 esp=0031f574\n'})
@@ -107,8 +107,11 @@ def run(original,native):
     request_negative('actual FILE storage alias changed',lambda f:f['file_words'].__setitem__(0,1))
     request_negative('actual extra open descriptor',lambda f:f['open_descriptors'].append(3))
     artifact=native/next(iter(response['outputs']))
-    negative('replayed IR byte differs',{artifact:lambda b:b+ b'x'})
-    negative('replayed IR missing',{artifact:lambda b:None})
+    if 'deletions'in response:
+        negative('temporary IR recreated after cleanup',{artifact:lambda b:b'leftover'})
+    else:
+        negative('replayed IR byte differs',{artifact:lambda b:b+ b'x'})
+        negative('replayed IR missing',{artifact:lambda b:None})
     prefix=response['invoke_argv'][2][2:]
     negative('extra intermediate artifact',{native/(prefix+'unknown'):lambda b:b'extra'})
     negative('C2 output differs'if'child'in response else'C2 ran before frontier',{native/'test.obj':lambda b:b'unexpected'})
@@ -154,6 +157,25 @@ def run(original,native):
         def post_error(data):
             value=json.loads(data);value['requests'][0]['parent_state_after']['doserrno']=2;return encoded(value)
         negative('native child DOS error transition omitted',{spawn_receipt:post_error})
+    if 'deletions'in response:
+        removed=native/'native-unlink-gdb.json'
+        def removal_negative(label,change):
+            def mutate(value):
+                fields=json.loads(value);change(fields);return encoded(fields)
+            negative(label,{removed:mutate})
+        removal_negative('actual removal filename differs',lambda r:r['calls'][0].update(filename='other'))
+        removal_negative('actual removal input presence differs',lambda r:r['calls'][0].update(present_before=False))
+        removal_negative('actual removal local-buffer alias differs',lambda r:r['calls'][0].update(argument_is_local_buffer=False))
+        removal_negative('actual removal status differs',lambda r:r['calls'][0].update(result=-1))
+        removal_negative('actual missing-file DOS transition omitted',lambda r:r['calls'][4]['after'].update(doserrno=0))
+        removal_negative('actual removal output remains',lambda r:r['calls'][0].update(present_after=True))
+        removal_negative('actual removal inventory missing',lambda r:r['calls'].pop())
+        removal_negative('actual removal PID differs',lambda r:r.update(pid=r['pid']+1))
+        original_negative('original removal filename differs',{'observer/unlink-1-before-filename.bin':lambda b:b.replace(b'ex',b'ey')})
+        original_negative('original removal formal alias differs',{'observer/unlink-1-before-stack.bin':lambda b:integer(b,0,1)})
+        original_negative('original missing-file DOS effect omitted',{'mktemp-unlink-5-after-ptd.bin':lambda b:integer(b,12,0)})
+        original_negative('original next_jobs Driver formal differs',{'context.bin':lambda b:integer(b,208,1)})
+        original_negative('original next_jobs pending caller alias differs',{'context.bin':lambda b:integer(b,212,1)})
     # Replay the independent GDB memory transcript against altered target bytes.
     raw=json.loads((native/'frontier-memory.json').read_text());backing={}
     for item in raw['ranges']:
@@ -183,6 +205,12 @@ def run(original,native):
         try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
         except AssertionError:passed.append('actual helper formal differs')
         else:raise AssertionError('helper formal mutation was accepted')
+    if response['next_frontier']=='next_jobs':
+        memory_negative('next_jobs minimal-rebuild guard differs',context['globals']['minimal_rebuild'],struct.pack('<I',1))
+        changed=copy.deepcopy(context);changed['arguments'][1]+=4
+        try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
+        except AssertionError:passed.append('actual next_jobs caller-local pending alias differs')
+        else:raise AssertionError('next_jobs caller-local alias mutation was accepted')
     assert verify(native)==actual,'mutations were not fully restored'
     print(json.dumps({'result':'PASS','actual_next_frontier':response['next_frontier'],'IR_files':4,
                       'negatives':len(passed),'seconds':time.perf_counter()-started}))

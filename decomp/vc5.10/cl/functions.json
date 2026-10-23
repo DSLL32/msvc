@@ -87,7 +87,8 @@
     "_append_text",
     "_execute_pass",
     "_unload_pass",
-    "_cleanup_files"
+    "_cleanup_files",
+    "_delete_temporary"
   ],
   "driver": [
     {
@@ -344,10 +345,24 @@
     {
       "name": "_driver_exit",
       "start": 4214746,
-      "end": 4214747,
-      "pending_extent": true,
+      "end": 4214766,
+      "pending_extent": false,
       "state": "named INT3 frontier",
-      "native_symbol": "driver_exit"
+      "native_symbol": "driver_exit",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "status",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete20-byte original body pushes literal0 to cleanup_files then passes sole original stack status to qualified MSVCRT!exit; no register formals."
+      },
+      "input_observation": "Actual status and all live driver/CRT/file state must be decoded at required deletion candidate frontier before promotion."
     },
     {
       "name": "_console_control_handler@4",
@@ -981,10 +996,29 @@
     {
       "name": "_next_jobs",
       "start": 4208393,
-      "end": 4208394,
-      "pending_extent": true,
+      "end": 4208954,
+      "pending_extent": false,
       "state": "named INT3 frontier",
-      "native_symbol": "next_jobs"
+      "native_symbol": "next_jobs",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "Job *",
+        "stack_arguments": [
+          {
+            "name": "state",
+            "type": "Driver *"
+          },
+          {
+            "name": "pending",
+            "type": "PendingWork *",
+            "pointee_scope": "No payload bytes consumed in current case: both minimal-rebuild guards false before argument reads. Caller-local identity still observed."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete561-byte body; two early global guards before reading formals; EBX/ESI/EDI assigned before use. Actual caller pushes Driver* and EBP-24 PendingWork*."
+      },
+      "input_observation": "Required new fresh capture must bind both formals/caller-stack alias and false guards, without reading uninitialized PendingWork payload. Earlier delete-temporary-1 raw is held controller failure, not acceptance."
     },
     {
       "name": "_run_jobs",
@@ -1255,7 +1289,7 @@
       "start": 4214639,
       "end": 4214746,
       "pending_extent": false,
-      "state": "named INT3 frontier",
+      "state": "implemented; fresh candidate proof pending",
       "abi": {
         "calling_convention": "cdecl",
         "return": "void",
@@ -1274,6 +1308,15 @@
         "original": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-1-original",
         "native": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-2-native",
         "scope": "Actual kind0 plus all eight suffix records/strings, driver current input/job/temporary and persistent CRT/OS/FILE/module state captured; no hidden register inputs."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete original helper body reconstruction",
+        "range": [
+          "0x404f6f",
+          "0x404fda"
+        ],
+        "behavior": "Bound strlen(temporary)+10 to1024 bytes; expand %t in current driver context, append typed suffix, call qualified MSVCRT!_unlink ignoring result."
       }
     }
   ],

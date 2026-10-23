@@ -201,13 +201,20 @@ def verify(directory):
             previous = fields
     outputs = {}
     for name, expected in response['outputs'].items():
-        value = (directory / name).read_bytes()
+        path=directory/name
+        if 'deletions'in response:
+            assert not path.exists(),'temporary IR survived native cleanup'
+            value=(raw/'observer/c1-output'/name).read_bytes()
+        else:value=path.read_bytes()
         assert expected == {'bytes': len(value), 'sha256': digest(value)}, 'actual C1 output differs'
         outputs[name] = expected
     if 'child'in response:verify_spawn(directory,response,process['pid'])
+    if 'deletions'in response:
+        removed=json.loads((directory/'native-unlink-gdb.json').read_text())
+        assert removed=={'pid':process['pid'],'calls':response['deletions']},'actual native removal inputs/results/errors/effects differ'
     else:assert not (directory / 'test.obj').exists(), 'C2 ran before the unload frontier'
     prefix=response['invoke_argv'][2][2:]
-    assert {p.name for p in directory.glob(prefix+'*')}==set(response['outputs']),'unexpected C1 intermediate artifact'
+    assert {p.name for p in directory.glob(prefix+'*')}==(set()if 'deletions'in response else set(response['outputs'])),'unexpected C1 intermediate artifact'
     capture=json.loads((raw/'capture.json').read_text())
     for item in capture['inputs']:
         value=(directory/item['name']).read_bytes()
@@ -225,6 +232,7 @@ def summary(response):
     if 'child'in response:
         result['child']={'calls':1,'status':0,'environment_source':'target-os',
                          'outputs':response['child']['outputs'],'parent_state':response['child']['after']}
+    if 'deletions'in response:result['deletions']=response['deletions']
     return result
 
 

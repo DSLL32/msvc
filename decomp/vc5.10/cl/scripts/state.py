@@ -116,7 +116,9 @@ def project(platform,directory):
                 paths+=[directory/name for name in result['fields']['dependency']['child']['outputs']]
                 paths+=[directory/name for name in ('MSVCRT.DLL','MSPDB50.DLL')]
             paths += [p for p in (directory/'dependency-response').rglob('*')if p.is_file()]
-            paths += [directory/name for name in result['fields']['dependency']['outputs']]
+            paths += [directory/name for name in result['fields']['dependency']['outputs']if (directory/name).exists()]
+            if 'deletions'in result['fields']['dependency']:
+                paths += [directory/'native-unlink-gdb.json',directory/'gdb_unlink.py']
         else:
             response=dependency_response.decode(directory)
             result['fields']['dependency']=dependency_provider.summary(response)

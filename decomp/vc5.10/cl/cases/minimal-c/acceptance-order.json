@@ -251,6 +251,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/cleanup-files-2/pair.json",
         "sha256": "c18a30c13039910d0aba263d0efa1bd7c67924e799234e3f29ed74ce91212000"
       }
+    },
+    {
+      "order": 26,
+      "candidate": "_delete_temporary",
+      "class": "application",
+      "extent_bytes": 107,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-4/pair.json",
+        "sha256": "3b8bfe3f41d1562f74b1d584feeb36c3c10eace2ae39ad9c64af093aefd70d8b"
+      }
     }
   ]
 }

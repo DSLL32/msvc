@@ -121,9 +121,10 @@ def decode(directory):
     assert '_execute_pass' in config['accepted']
     full_stage='_unload_pass'in config['accepted']
     cleanup_stage='_cleanup_files'in config['accepted']
-    assert not cleanup_stage or '_delete_temporary'not in config['accepted'],'later deletion frontier not implemented in this response contract'
-    next_address='00404f6f' if cleanup_stage else '00404ed1' if full_stage else '004054ec'
-    next_frontier='delete_temporary' if cleanup_stage else 'cleanup_files' if full_stage else 'unload_pass'
+    deletion_stage='_delete_temporary'in config['accepted']
+    assert not deletion_stage or '_driver_exit'not in config['accepted'],'normal completion not implemented in this response contract'
+    next_address='00403709' if deletion_stage else '00404f6f' if cleanup_stage else '00404ed1' if full_stage else '004054ec'
+    next_frontier='next_jobs' if deletion_stage else 'delete_temporary' if cleanup_stage else 'cleanup_files' if full_stage else 'unload_pass'
     phases_expected=CHILD_PHASES if full_stage else PHASES
     masked = construct(config)
     assert capture['target_sha256'] == TARGET_SHA
@@ -155,7 +156,7 @@ def decode(directory):
     phases, contexts = {}, {}
     for name in phases_expected:
         phases[name], contexts[name] = phase_snapshot(directory, read, name, errors[name])
-    if cleanup_stage:
+    if cleanup_stage and not deletion_stage:
         assert u32(read('observer/frontier-stack.bin'),4)==0,'unexpected first temporary suffix index'
     assert [phases[name]['event'] for name in phases_expected] == sorted(phases[name]['event'] for name in phases_expected)
     c1 = PE(directory / 'observer/loaded-c1.bin')
@@ -227,7 +228,7 @@ def decode(directory):
             read('observer/free-before-execution-words.bin'),3)
     ir = {Path(name).name: record for name, record in capture['files'].items() if name.startswith('observer/c1-output/')}
     assert set(ir) == {prefix[2:] + suffix for suffix in ('ex', 'gl', 'in', 'sy')}
-    assert all(capture['files'][name] == record for name, record in ir.items())
+    if not deletion_stage:assert all(capture['files'][name] == record for name, record in ir.items())
     if not full_stage:assert not any(name.startswith('observer/c2-') for name in capture['files'])
     assert read('stdout.bin') == b'test.c\r\n' and not read('stderr.bin')
     result={'kind': 'fresh masked dependency response; application acceptance requires independent native frontier proof',
@@ -243,11 +244,12 @@ def decode(directory):
             'next_frontier': next_frontier,
             'decoder_sha256': digest(Path(__file__).read_bytes())}
     if full_stage:result['child']=child_response(directory,read,capture,events,phases,contexts,ir,prefix,
-                                               frontier_argument=0 if cleanup_stage else 1)
+                                               frontier_argument=0 if cleanup_stage else 1,deletion_stage=deletion_stage)
+    if deletion_stage:result['deletions']=deletion_response(directory,read,capture,events,phases,prefix,ir)
     return result
 
 
-def child_response(directory,read,capture,events,phases,contexts,ir,prefix,frontier_argument):
+def child_response(directory,read,capture,events,phases,contexts,ir,prefix,frontier_argument,deletion_stage):
     after=phases['invoke-after']
     assert phases['free-before']['pass_words'][5:8]==after['pass_words'][5:8]
     for phase in ('free-before','c1-entry-0','free-after'):
@@ -275,7 +277,7 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix,front
         assert phases['putenv-2-before'][name]==phases['putenv-2-after'][name]
     before,after,frontier=[phases[name]for name in ('spawn-before','spawn-after','frontier')]
     assert before['errors']=={'errno':0,'doserrno':2,'last_error':2} and after['errors']=={'errno':0,'doserrno':0,'last_error':2}
-    assert frontier['errors']==after['errors']
+    if not deletion_stage:assert frontier['errors']==after['errors']
     assert u32(contexts['spawn-after'],176)==0 and u32(contexts['spawn-before'],196)==u32(contexts['spawn-after'],196)
     mode,path,args=struct.unpack_from('<3I',read('observer/spawn-before-stack.bin'))
     assert mode==0 and path==before['pass_words'][0] and args==before['argument_vector']
@@ -292,9 +294,15 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix,front
                  'crt_environment_sha256','os_environment_sha256','mb_state_sha256','ctype_sha256','file0_2_words','streams'):
         assert before[name]==after[name]==frontier[name],'unreviewed child/frontier state: '+name
     assert not frontier['argv'] and frontier['argument_vector']==0 and frontier['pass_words'][5:8]==[0,0,0]
-    assert struct.unpack_from('<I',read('context.bin'),208)[0]==frontier_argument,'unexpected cleanup/helper argument'
+    if deletion_stage:
+        context=read('context.bin')
+        state,pending=struct.unpack_from('<II',context,208)
+        assert state==0x4095d8 and pending==u32(context,180)-24,'next_jobs actual formal/caller identity differs'
+    else:
+        assert struct.unpack_from('<I',read('context.bin'),208)[0]==frontier_argument,'unexpected cleanup/helper argument'
     for name,record in ir.items():
-        assert capture['files']['observer/c2-input/'+name]==record==capture['files'][name]
+        assert capture['files']['observer/c2-input/'+name]==record
+        if not deletion_stage:assert capture['files'][name]==record
     assert read('observer/c2-output/test.obj')==read('test.obj') and len(read('test.obj'))==275
     return {'mode':0,'executable':executable,'argv':[executable],'environment_source':'target-os',
             'environment':new_os.decode('utf-16le')[:-2].split('\0'),'status':0,
@@ -303,3 +311,49 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix,front
             'executable_input':capture['files']['observer/spawn-executable.bin'],
             'provider_inputs':{name:capture['files'][name]for name in ('MSVCRT.DLL','MSPDB50.DLL')},
             'stdout_hex':'','stderr_hex':''}
+
+
+def deletion_response(directory,read,capture,events,phases,prefix,ir):
+    """Fresh actually executed CRT calls; never a replayed filesystem effect."""
+    names=[prefix+suffix for suffix in ('ex','sy','gl','in','st','db')]
+    phase_names=[f'unlink-{index}-{when}'for index in range(1,7)for when in ('before','after')]
+    errors=original_states(directory,phase_names,'observer/events.txt')
+    from dependency_packet import exports
+    crt=PE(directory/'loaded-msvcrt.bin')
+    function=crt.base+exports(crt)['_unlink']['rva']
+    calls=re.findall(r'^unlink-call sequence=(\d+) function=([0-9a-f]{8}) argument=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)
+    returns=re.findall(r'^unlink-return sequence=(\d+) result=([0-9a-f]{8}) esp=([0-9a-f]{8})$',events,re.M)
+    assert len(calls)==len(returns)==6,'missing/extra unlink invocation'
+    records=[]
+    previous=phases['spawn-after']['errors']
+    for index,(filename,call,returned)in enumerate(zip(names,calls,returns),1):
+        before,after=f'unlink-{index}-before',f'unlink-{index}-after'
+        assert int(call[0])==int(returned[0])==index and int(call[1],16)==function
+        text=read('observer/'+before+'-filename.bin')
+        assert text==filename.encode('ascii')+b'\0'
+        pre=read('observer/'+before+'-context.bin');post=read('observer/'+after+'-context.bin')
+        stack=read('observer/'+before+'-stack.bin')
+        assert len(pre)==len(post)==204 and len(stack)==64
+        argument=u32(stack,0)
+        assert argument==int(call[2],16)==u32(pre,180)-1024,'unlink input is not helper local filename'
+        assert u32(pre,196)==int(call[3],16)==u32(post,196)==int(returned[2],16),'unlink cdecl stack differs'
+        status=struct.unpack('<i',struct.pack('<I',int(returned[1],16)))[0]
+        assert u32(post,176)==int(returned[1],16)
+        before_files=directory_entries(read('observer/'+before+'-directory.bin'))
+        after_files=directory_entries(read('observer/'+after+'-directory.bin'))
+        key=filename[2:]
+        assert errors[before]==previous,'unobserved error mutation between unlink calls'
+        present=key in before_files
+        assert status==(0 if present else -1) and key not in after_files
+        for other in [prefix[2:]+suffix for suffix in ('ex','sy','gl','in','st','db','lk')]+['test.obj']:
+            if other!=key:assert before_files.get(other)==after_files.get(other),'unlink changed another target artifact'
+        assert present==(key in ir)
+        if present:
+            assert before_files[key]['bytes']==ir[key]['bytes']
+            assert key not in capture['files']
+        records.append({'filename':filename,'present_before':present,'present_after':False,
+            'result':status,'before':errors[before],'after':errors[after],'argument_is_local_buffer':True})
+        previous=errors[after]
+    assert previous==phases['frontier']['errors']
+    assert not any(name in capture['files']for name in ir),'temporary IR survived cleanup'
+    return records

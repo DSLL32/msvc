@@ -16,6 +16,17 @@ TemporarySuffix temporary_suffixes[8] = {
     { "st", 1 }, { "db", 1 }, { "lk", 0 }, { NULL, 0 }
 };
 
+/* 00404f6f..00404fda: expand the current scratch prefix, then remove one file. */
+void delete_temporary(int kind)
+{
+    char filename[1024];
+    if (strlen(driver->temporary) + 10 >= sizeof(filename))
+        fatal(0);
+    expand_filename(filename, "%t", driver);
+    strcat(filename, temporary_suffixes[kind].suffix);
+    _unlink(filename);
+}
+
 /* 00404ed1..00404f6f: preserve global scratch between source files. */
 void cleanup_files(int preserve)
 {
