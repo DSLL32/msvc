@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x434b2: file src/debug-types.c, line 20.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, emit_debug_class (tag=0x56637c84, field_count=13, field_list=6) at src/debug-types.c:20
+20	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56598b16 in emit_debug_class (tag=0x56637c84, field_count=13, field_list=6) at src/debug-types.c:105
+105	        __asm { int 3 }

@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_emit_debug_class@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1080,
+  "configuration_sha256": "d833580414b7e61fdc4faffb4ee7254ce3c0dc6f100178bc66d143592dcf926d",
+  "native_entry": "emit_debug_class",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "retained_class",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "retained_class",
+        "identity": "Counter tag retained in original/native former class slot0; same fresh fixed-address owner alias, not a newly invented static object.",
+        "original_anchor_value": 8301700,
+        "native_anchor_value": 1449270404
+      },
+      "original_raw": 8301700,
+      "native_raw": 1449270404,
+      "result": "match"
+    },
+    {
+      "name": "field_count",
+      "stack_index": 1,
+      "native_field": "raw_count",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 13,
+      "native_raw": 13,
+      "result": "match"
+    },
+    {
+      "name": "field_list",
+      "stack_index": 2,
+      "native_field": "raw_properties",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 6,
+      "native_raw": 6,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      452064,
+      453017
+    ],
+    "argument_bytes": 12,
+    "proof": "SUB ESP28/save4registers; tag=[adjustedESP+48], field_count=WORD[+52], field_list=WORD[+56]. Full restores/RET12 at0x6e996. No semantic incoming hidden/register input. Actual current tag equals retained Counter class slot0; both WORD formals observed. Fallback descriptor branch0x6e62e jumps0x6e985 to unwritten local[ESP+20]=entryESP-24. No default length is invented; exact native trap, UNKNOWN public reachability. All raw direct callees resolved by address, qsort/malloc are identified LIBC objects; callback0x706f0 separately named unaccepted stub.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "2cfb4e20954e3cd1344bf579fe0a0c1dc57b9809d40656dd4d10b743c7f7bd7d",
+  "capture_timing": {
+    "original_capture_seconds": 1.6194053879007697,
+    "native_capture_seconds": 0.20184416137635708,
+    "total_operation_seconds": 2.0915911085903645
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "6a1a9d7e8474af4b669c2505e122b5cffe5013e4c31b08d2a2e8f12fdd197076",
+    "native-commands.gdb": "640ddd460de2baa7dfedcfeaf70eab734967f0ebd2febea33f8b99c38f0e813a",
+    "native-gdb.log": "0a5a9debe94d899db12bf189ec2f4ee3e3a8570c09162dc4b3aaa83340216e6a",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "1347c96631b05a82d9181859cf6b057dfa402e9483d622e1d21aef325786642c",
+    "original-configuration.json": "d833580414b7e61fdc4faffb4ee7254ce3c0dc6f100178bc66d143592dcf926d",
+    "original-disassembly.txt": "814b090ffd2ca09b9b53eac376b05c63230f13778d2231fd16b6bfe39f742d0c",
+    "original-events.txt": "142c45e80e7179acf7188b21d20636a4b4dfc69b4a61d2596574b11004f44d4d",
+    "original-receipt.json": "5adb391e347d8f5fb13a2028080fd72b5404704841cc0511320ba963d2ec4e9f",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "419fd9df29238c15d6191e8dc2869ec9cdbeabd983a3a392379f80dbca118d8f"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

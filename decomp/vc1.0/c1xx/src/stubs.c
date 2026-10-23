@@ -494,7 +494,6 @@ void __stdcall emit_debug_function_type(CType *type, unsigned short return_index
 void __stdcall emit_debug_member_function_type(CType *type, unsigned short return_index, unsigned short argument_count, unsigned short class_index, int this_displacement) { __asm { int 3 } }
 void __stdcall emit_debug_qualified_type(CType *type) { __asm { int 3 } }
 void __stdcall emit_debug_bit_field(CppSymbol *field) { __asm { int 3 } }
-void __stdcall emit_debug_class(CppSymbol *tag, unsigned short field_count, unsigned short field_list) { __asm { int 3 } }
 void __stdcall emit_debug_method_list(struct OverloadSet *overloads) { __asm { int 3 } }
 void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned field_count, unsigned short continuation) { __asm { int 3 } }
 void __stdcall emit_debug_argument_list(FunctionParameters *parameters) { __asm { int 3 } }
@@ -624,3 +623,8 @@ short __stdcall format_based_declaration(unsigned short attributes, void *base) 
 short __stdcall format_pointer_declarator(short text, TypeShape *shape) { __asm { int 3 } return 0; }
 void __stdcall prepend_type_diagnostic_char(short text, int character) { __asm { int 3 } }
 void __stdcall prepend_type_diagnostic(short text, char *value) { __asm { int 3 } }
+
+int compare_debug_symbol_indices(const void *left, const void *right) { __asm { int 3 } return 0; }
+unsigned __stdcall encode_debug_unsigned(unsigned char *destination, unsigned value) { __asm { int 3 } return 0; }
+unsigned char *__stdcall copy_debug_name(unsigned char *destination, char *name) { __asm { int 3 } return 0; }
+void __stdcall emit_debug_type_record(unsigned length) { __asm { int 3 } }

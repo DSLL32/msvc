@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "debug-types.h"
 #include "symbol-output.h"
+#include "debug-info.h"
 #include "cpp-context.h"
 #include "class-finalization.h"
 #include <recon.h>
@@ -11,6 +12,101 @@ unsigned short next_debug_type_index = 0x1000; /* original 0x9f454 */
 unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
+
+/* Original 0x6e5e0..0x6e999. Write the class, union or enum leaf and
+   enqueue field, enumerator and virtual-shape records as required. */
+void __stdcall emit_debug_class(CppSymbol *tag, unsigned short field_count,
+    unsigned short field_list)
+{
+    unsigned char *leaf = debug_record_buffer + 2, *name;
+    unsigned short *words = (unsigned short *)leaf;
+    unsigned short flags = tag->type->flags;
+    unsigned record, length, numeric_length, i;
+    HashIterator iterator;
+    words[1] = field_count;
+    if (flags != 0x402 && flags != 0x404 && flags != 0x408 && (flags & 0x200)) {
+        words[0] = 7;
+        words[4] = field_list;
+        if (tag->flags & 4) {
+            words[3] = next_debug_type_index;
+            words[2] = primitive_debug_type((flags & ~0x200) | 0x64);
+            record = reserve_debug_type(7);
+            debug_types[record].attributes = field_count;
+            debug_types[record].subject.members = malloc(field_count * sizeof(CppSymbol *));
+            if (!debug_types[record].subject.members) fatal_error(60);
+            debug_types[record].detail.first_member = 0;
+            begin_hash_iteration(&iterator, tag->auxiliary.enumerators);
+            if (next_hash_entry(&iterator)) {
+                i = 0;
+                do {
+                    debug_types[record].subject.members[i++] = iterator.value;
+                } while (next_hash_entry(&iterator));
+            }
+            qsort(debug_types[record].subject.members, field_count,
+                sizeof(CppSymbol *), compare_debug_symbol_indices);
+        } else {
+            words[3] = 0;
+            words[4] |= 0x80;
+            words[2] = 0;
+        }
+        words[4] = (words[4] & ~8) | ((tag->detail.class_info->flags & 2) << 2);
+        name = leaf + 10;
+        length = copy_debug_name(name, tag->name) - name + 10;
+    } else if (flags == 0x404) {
+        words[0] = 6;
+        words[3] = field_list;
+        if (tag->flags & 4) {
+            words[2] = next_debug_type_index;
+            record = reserve_debug_type(2);
+            debug_types[record].subject.symbol = tag;
+            debug_types[record].attributes = 0;
+            debug_types[record].related_type = 0;
+        } else {
+            words[2] = 0;
+            words[3] |= 0x80;
+        }
+        words[3] = (words[3] & ~1) | (top_packing(packing_stack)->alignment == 1);
+        words[3] = (words[3] & ~8) | ((tag->detail.class_info->flags & 2) << 2);
+        numeric_length = encode_debug_unsigned(leaf + 8, tag->detail.class_info->size);
+        name = leaf + 8 + numeric_length;
+        length = numeric_length + (copy_debug_name(name, tag->name) - name) + 8;
+    } else if (flags == 0x402 || flags == 0x408) {
+        words[0] = flags == 0x402 ? 5 : 4;
+        words[3] = field_list;
+        if (tag->flags & 4) {
+            words[2] = next_debug_type_index;
+            record = reserve_debug_type(2);
+            debug_types[record].subject.symbol = tag;
+            debug_types[record].attributes = 0;
+            if (tag->detail.class_info->alignment_flags & 0x40) {
+                debug_types[record].related_type = next_debug_type_index;
+                words[5] = debug_types[record].related_type;
+                record = reserve_debug_type(6);
+                debug_types[record].subject.symbol = tag;
+            } else {
+                debug_types[record].related_type = 0;
+                words[5] = debug_types[record].related_type;
+            }
+            words[3] = (words[3] & ~1) | (top_packing(packing_stack)->alignment == 1);
+        } else {
+            words[2] = 0;
+            words[3] |= 0x80;
+            words[5] = 0;
+        }
+        words[4] = 0;
+        words[3] = (words[3] & ~8) | ((tag->detail.class_info->flags & 2) << 2);
+        numeric_length = encode_debug_unsigned(leaf + 12, tag->detail.class_info->size);
+        name = leaf + 12 + numeric_length;
+        length = numeric_length + (copy_debug_name(name, tag->name) - name) + 12;
+    } else {
+#ifdef RECON_NATIVE_TEST
+        /* This descriptor domain leaves original length at entryESP-24
+           unwritten. Public reachability and stale-stack behavior are unknown. */
+        __asm { int 3 }
+#endif
+    }
+    emit_debug_type_record(length);
+}
 
 /* Original 0x6dab0..0x6db1d. Intern a parameter-list debug record once,
    retaining the low-byte parameter count used by the original emitter. */

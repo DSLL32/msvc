@@ -1084,7 +1084,8 @@
     "_reserve_debug_type@4",
     "_class_virtual_table_group_count@4",
     "_count_debug_methods@8",
-    "_reference_parameter_debug_types@4"
+    "_reference_parameter_debug_types@4",
+    "_emit_debug_class@12"
   ],
   "driver": [
     {
@@ -7971,7 +7972,7 @@
     {
       "name": "_emit_debug_class@12",
       "start": 452064,
-      "end": 452065
+      "end": 453017
     },
     {
       "name": "_emit_debug_method_list@4",
@@ -8027,6 +8028,26 @@
       "name": "_reference_parameter_debug_types@4",
       "start": 449200,
       "end": 449309
+    },
+    {
+      "name": "_compare_debug_symbol_indices",
+      "start": 460528,
+      "end": 460529
+    },
+    {
+      "name": "_encode_debug_unsigned@8",
+      "start": 459552,
+      "end": 459553
+    },
+    {
+      "name": "_copy_debug_name@8",
+      "start": 476416,
+      "end": 476417
+    },
+    {
+      "name": "_emit_debug_type_record@4",
+      "start": 458704,
+      "end": 458705
     }
   ],
   "cases": {
@@ -8227,7 +8248,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_emit_debug_class@12",
+      "terminal": "_encode_debug_unsigned@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8250,7 +8271,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1079-reference_parameter_debug_types-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1080-emit_debug_class-12/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8335,7 +8356,8 @@
         "cases/frontiers/state_machine_debug/1076-reserve_debug_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1077-class_virtual_table_group_count-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1078-count_debug_methods-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1079-reference_parameter_debug_types-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1079-reference_parameter_debug_types-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1080-emit_debug_class-12/frontier-extension.json"
       ]
     }
   },
@@ -10920,6 +10942,19 @@
       "authorization": "Established root-approved exact uninitialized-cursor guard policy after independent raw def-use/offset check",
       "evidence": "evidence/debug-methods-null/analysis.json",
       "coverage_note": "Original cursor at entryESP-20 is unwritten on NULL branch. Public NULL reachability unknown; no caller-stack equivalence or malformed-only/CRT classification."
+    },
+    {
+      "function": "_emit_debug_class@12",
+      "original": [
+        452064,
+        453017
+      ],
+      "condition": "tag->type->flags is not 0x402,0x404,0x408 and lacks 0x200",
+      "behavior": "explicit native-only INT3 before the original unwritten record-length local read",
+      "win32": "original uninitialized length retained on unsupported descriptor fallback",
+      "authorization": "Established root-approved original-uninitialized-local guard policy after independent raw condition/offset/writer review",
+      "evidence": "evidence/debug-class-domain/analysis.json",
+      "coverage_note": "Fallback loads entryESP-24, with no local writer. Public reachability unknown; no malformed-only, CRT or stale-stack equivalence claim."
     }
   ]
 }

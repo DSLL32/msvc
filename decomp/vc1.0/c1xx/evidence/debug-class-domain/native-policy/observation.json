@@ -1,0 +1,6 @@
+{
+  "status": "unsupported descriptor rejected before entryESP-24 length read; public reachability unknown",
+  "function": "emit_debug_class",
+  "signal": 5,
+  "pc_offset": 1670
+}
