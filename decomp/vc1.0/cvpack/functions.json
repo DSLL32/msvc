@@ -6559,13 +6559,16 @@
       "native": "find_source_name",
       "symbol": "_find_source_name",
       "original": 119696,
-      "source": "src/stubs.c",
+      "source": "src/modules.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        119696,
+        119784
+      ],
       "abi": "int find_source_name(const unsigned char *,unsigned long *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0124-find_source_name/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -6585,7 +6588,21 @@
           "evidence": "cases/abi/source-name-offset-output.json",
           "evidence_sha256": "f4a3557828b7bb93a240f2d45f580f5929ab22bb61bc0c112b2e85c805006fcd"
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "add_source_name",
@@ -6600,7 +6617,76 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "counted-string",
+          "owner": "build_source_file_index",
+          "local": "module",
+          "original_owner_slot": 12,
+          "caller": 120156
+        },
+        {
+          "name": "tail",
+          "slot": 2,
+          "kind": "stack-input",
+          "evidence": "cases/abi/source-name-first-tail-input.json",
+          "evidence_sha256": "e6fecf1940a8626ca345f11182af11da3410be3ae5f407d57747bd371ef4cc86"
+        },
+        {
+          "name": "offset",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "hash_source_name",
+      "native": "hash_source_name",
+      "symbol": "_hash_source_name",
+      "original": 119632,
+      "source": "src/modules.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        119632,
+        119687
+      ],
+      "abi": "unsigned int hash_source_name(const unsigned char *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0125-hash_source_name/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "counted-string",
+          "owner": "build_source_file_index",
+          "local": "module",
+          "original_owner_slot": 15,
+          "caller": 119708,
+          "outer_return_slot": 4,
+          "outer_return": 120129
+        }
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -7365,6 +7451,18 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 123
+    },
+    {
+      "function": "find_source_name",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 124
+    },
+    {
+      "function": "hash_source_name",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 125
     }
   ],
   "support_unmasked": [
@@ -7971,15 +8069,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "b9a95774d4f2efe8f9be249b7740f87a9f777382ce6d6f1bd13d6f7ba2c5d5c9"
+    "evidence_sha256": "f0e051e82e5d65652beb33a03b2a93e609effcd5fe4ca3b09a567e1b316995ef"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "b1f379cfb14a7b53dd4338ed1719abd86e47e0b57626adfeea8704669feef9bc"
+    "evidence_sha256": "c37c42f146f22c1487c9dcfb1bf209cbd13c2e59df53671cae6dbbd03593308e"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "42db4c80b2d65a904c2563e8e2228488cb56f12e1bb10edc38e45ab157f9baf3"
+    "evidence_sha256": "b22010cb3a47cb0d8554defa408d25afb8a84386b808da919b1f51d5b38a45de"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -7999,11 +8097,11 @@
   },
   "partial_read_observations": {
     "evidence": "cases/abi/partial-public-read.json",
-    "evidence_sha256": "ba9d79a1f4bf28585d1c4af09628d216bb0822428a2394f2bf185fbdd6c9bbec"
+    "evidence_sha256": "a18f540e012f70e6880c6f73f8035a752b1761fd37090dc930af9839b9e9cdbd"
   },
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
-    "evidence_sha256": "89f0f05bde8ebafd037ba82f92afd9d31c73cf393c43bc0b7488b3be545f6893"
+    "evidence_sha256": "3a408c148267c7deefd7316bef1822809d722115e8840295cc3c24948d0fe821"
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
@@ -8011,7 +8109,7 @@
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "620e95fec85825ad47459c8423f8128caa75241cb73ca534c941460a3c64eebc"
+    "evidence_sha256": "c2d90bc39d6adcccbb843df915f0b7c10c32e15500e470f6ffe53db3a01bc685"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
@@ -8019,7 +8117,7 @@
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "23664bcae32c6400a4832bc441ef7c2ef74f1f3177672cc3205588f4468d481d"
+    "evidence_sha256": "1212a2714995a82130e340a93f05a3b1cca3953fd5f8abcf6f11730bc720a8dd"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
@@ -8039,18 +8137,18 @@
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "9d64a7c48c245ed8cc94f955bb266baa91a0d158588d4cdffc4f691b1261fe69"
+    "evidence_sha256": "2b48f298fb2b051a2635905827beea777faac740a6d8c47ca6b288f291ced5aa"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
-    "evidence_sha256": "8a332872deb515d312087656bb3afd11be584a8da8accf411c64109dcdcc4fd5"
+    "evidence_sha256": "6771bc5a2b20f32395d8018b84b3586a56776570fd67aac8fea06924f9564b7e"
   },
   "symbol_reference_observations": {
     "evidence": "cases/abi/symbol-references.json",
-    "evidence_sha256": "1c0687f727c4a371f460e409c897b3f9c52fc6135677cd8425f4601d050a1b19"
+    "evidence_sha256": "c62e30b6209b6a6ed9465d2f3cae197c1e0b2559fc0f51c94bc33a9cbd794959"
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "2512123ec731a66d2cd58689ea1b71f39a8ab009fea29dbc905341993d186e78"
+    "sha256": "761153c82a097f77af89e06f9af72b4e2846ebabe28d7165d6079ff5785d3540"
   }
 }

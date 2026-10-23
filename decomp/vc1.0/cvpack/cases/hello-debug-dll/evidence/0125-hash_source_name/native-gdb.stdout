@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x63a7: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xffd7cdb4, environment=0xffd7cdc8) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56656428 in add_source_name (name=0x57b2b3f8 "\rhello-debug.c", tail=0xffd7c758, offset=0) at src/stubs.c:16
+16	SourceName *add_source_name(const unsigned char *name,SourceName *tail,unsigned long offset) { __asm { int 3 } return NULL; }

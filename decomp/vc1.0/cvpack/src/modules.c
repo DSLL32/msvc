@@ -520,3 +520,27 @@ void build_source_file_index(void)
         free(name_item);
     }
 }
+
+int find_source_name(const unsigned char *name, unsigned long *offset)
+{
+    SourceName *item = source_name_hash[hash_source_name(name)];
+    while (item) {
+        if (*item->name == *name &&
+            !_strnicmp((const char *)name+1, (const char *)item->name+1, *name)) {
+            *offset = item->offset;
+            return 1;
+        }
+        item = item->bucket_next;
+    }
+    return 0;
+}
+
+unsigned int hash_source_name(const unsigned char *name)
+{
+    unsigned short sum = 0;
+    int i, length = (signed char)*name;
+
+    /* Original includes the length byte and omits the final name byte. */
+    for (i = 0; i < length; ++i) sum += (signed char)name[i];
+    return sum%50;
+}

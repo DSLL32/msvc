@@ -49,6 +49,7 @@ typedef struct SourceName {
     struct SourceName *next, *bucket_next;
 } SourceName;
 typedef char SourceNameSize[(sizeof(SourceName)==16)?1:-1];
+unsigned int hash_source_name(const unsigned char *);
 int find_source_name(const unsigned char *,unsigned long *);
 SourceName *add_source_name(const unsigned char *,SourceName *,unsigned long);
 

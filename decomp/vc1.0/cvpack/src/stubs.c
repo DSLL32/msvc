@@ -12,7 +12,7 @@ int open_mapped_file(FileSlot *slot, int mode, unsigned char created)
 int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
 
 void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
-int find_source_name(const unsigned char *name,unsigned long *offset) { __asm { int 3 } return 0; }
+
 SourceName *add_source_name(const unsigned char *name,SourceName *tail,unsigned long offset) { __asm { int 3 } return NULL; }
 void free_type_tables(void) { __asm { int 3 } }
 int update_image_checksum(const char *name, unsigned long length, unsigned char read_only)

@@ -41,7 +41,10 @@ def compare_integer(item,descriptions,words,parameters):
     return None
 
 def compare_counted_name(item,words,actual,events):
-    assert (item['owner'],item['local'],item['original_owner_slot'],item['caller'])==('build_source_file_index','module',11,0x1d541),'unknown counted-name context'
+    assert (item['owner'],item['local'])==('build_source_file_index','module'),'unknown counted-name owner'
+    contexts={0x1d541:11,0x1d39c:15,0x1d55c:12}
+    assert contexts.get(item['caller'])==item['original_owner_slot'],'unknown counted-name context'
+    if item['caller']==0x1d39c:assert item['outer_return_slot']==4 and item['outer_return']==words[4]==0x1d541,'unknown counted-name nested frame'
     assert words[0]==item['caller'],'unknown counted-name original caller'
     pointer=words[item['slot']];owner=actual['owner']
     matches=re.findall(r'^counted-owner %08x ([0-9a-f]+) (\d+) ([0-9a-f]+) (\d+)$'%pointer,events,re.M)

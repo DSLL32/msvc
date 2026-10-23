@@ -869,9 +869,18 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             if (slot>15 && slot!=256) return 0;
             pointer=slot==256?context->Edx:words[slot];
             if (!size) {
-                DWORD owner[12], parent = words[11];
+                DWORD owner[12], parent;
+                int known;
                 unsigned char length;
-                if (entry != 0x1d390 || slot != 1 || !input || words[0] != 0x1d541 ||
+                known = entry == 0x1d390 && words[0] == 0x1d541;
+                parent = words[11];
+                if (entry == 0x1d350 && words[0] == 0x1d39c && words[4] == 0x1d541) {
+                    known = 1; parent = words[15];
+                }
+                if (entry == 0x1d3f0 && words[0] == 0x1d55c) {
+                    known = 1; parent = words[12];
+                }
+                if (!known || slot != 1 || !input ||
                     !ReadProcessMemory(child, (void *)parent, owner, sizeof(owner), &bytes) || bytes != sizeof(owner) ||
                     !ReadProcessMemory(child, (void *)pointer, &length, 1, &bytes) || bytes != 1) return 0;
                 size = (DWORD)length+1;
