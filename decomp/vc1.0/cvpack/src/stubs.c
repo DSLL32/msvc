@@ -121,7 +121,3 @@ int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, un
 unsigned short collect_strip_records(void) { __asm { int 3 } return 0; }
 void write_strip_records(void) { __asm { int 3 } }
 void free_strip_records(void) { __asm { int 3 } }
-
-
-unsigned short next_coff_symbol(CoffSymbol *symbol,unsigned long *index)
-{ __asm { int 3 } return 0; }

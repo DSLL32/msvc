@@ -1,0 +1,25 @@
+{
+  "application_functions": 103,
+  "application_bytes": 33627,
+  "next": "collect_strip_records",
+  "source": "next_coff_symbol28800..28873 updates caller index by current auxiliary_count+1, enforces COFF count, seeks only when needed, reads18 into existing caller record and advances logical position. Whole original/compiler graph/ABI/data passes.",
+  "checks": {
+    "build-check": 0.3912951909005642,
+    "fixtures": 0.4679057924076915
+  },
+  "original_seconds": {
+    "setup": 0.2709555793553591,
+    "execution": 1.3963461173698306,
+    "total": 1.6909758327528834
+  },
+  "native_seconds": {
+    "setup": 0.23658986017107964,
+    "execution": 0.016453290358185768,
+    "debugging": 1.3974359715357423,
+    "checks": 0.029542122036218643,
+    "total": 1.6800289107486606
+  },
+  "result": "Genuine original/native progression completes the initializer COFF scan/file-name chain and reaches collect_strip_records28410, no formals; full trace/status/streams/artifacts match. Relevant reader globals match, no later heap equality claim.",
+  "historical_pipeline": "Explicitly disabled; no heavyweight or prefix-proof replay.",
+  "commit_recovery": "102 whitespace check failure left own stage; verified ownership and cleared only own index under common lock, recovered coherent102 source/hash snapshot and committed8402d89a, then restored103 WIP unstaged. Current103 source normalized before final fresh pair; exploratory earlier103 captures retained separately. Future commits may be batched instead of preserving per-function granularity."
+}

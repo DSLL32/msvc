@@ -160,3 +160,18 @@ int classify_coff_symbol(const CoffSymbol *symbol)
     } else if (symbol->storage_class == 0x67) return 3;
     return 5;
 }
+
+unsigned short next_coff_symbol(CoffSymbol *symbol, unsigned long *index)
+{
+    unsigned long position;
+    *index += symbol->auxiliary_count+1;
+    if (*index >= strip_file_header.NumberOfSymbols) return 0;
+    position = strip_symbol_offset+*index*18;
+    if (position != (unsigned long)strip_read_offset) {
+        seek_file(strip_handle, position, 0);
+        strip_read_offset = position;
+    }
+    read_file(strip_handle, symbol, sizeof(*symbol));
+    strip_read_offset += sizeof(*symbol);
+    return 1;
+}
