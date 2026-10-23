@@ -114,6 +114,12 @@ WEAK ShimFILE *recon_fsopen(const char *path,const char *mode,int sharing)
     return NULL;
 }
 
+WEAK void recon_assert(void *expression,void *filename,unsigned line)
+{
+    (void)expression; (void)filename; (void)line;
+    recon_unsupported("_assert without reviewed diagnostic/abort contract");
+}
+
 void recon_unsupported(const char *operation)
 {
     dprintf(2,"recon: unsupported native operation: %s\n",operation);

@@ -181,6 +181,7 @@ int recon_spawnl(int,const char *,const char *,...);
 int recon_spawnlp(int,const char *,const char *,...);
 int recon_cenvarg(const char *const *,const char *const *,char **,char **,const char *);
 time_t recon_time(time_t *);
+void recon_assert(void *,void *,unsigned);
 void recon_exit(int);
 void recon_record_terminal_status(uint32_t);
 /* Resolve DOS paths with explicit RECON_DRIVE_X mappings (Z defaults to /).
@@ -302,6 +303,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define remove recon_remove
 #define rename recon_rename
 #define time(...) recon_time(__VA_ARGS__)
+#define _assert recon_assert
 #define exit recon_exit
 #define _open recon_open
 #define _sopen recon_sopen

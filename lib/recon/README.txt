@@ -333,3 +333,9 @@ fork/exec children cannot publish into it. Duplicate publication fails.
 Custom native host entry adapters which return normally must call
 `recon_record_terminal_status((uint32_t)result)` once before returning, or mirror
 the original CRT exit call. An unset descriptor leaves ordinary behavior intact.
+
+VC1 jump buffers default to8DWORDs. Native VC5 profiles may select
+`RECON_LEGACY_JMP_WORDS=16`, matching their SDK storage size. Host saved context
+still lives out of line; this setting adds no `_setjmp3` or SEH semantics.
+`_assert` currently has its original typed ABI and fails explicitly on execution;
+its diagnostic/abort branch has not been characterized.

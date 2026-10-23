@@ -1,0 +1,19 @@
+{
+  "scope": "target-sized legacy jump buffer storage only; assertion compile contract",
+  "evidence": [
+    "toolchains/1.0-nt/include/SETJMP.H eightwords",
+    "toolchains/5.10/include/SETJMP.H sixteenwords"
+  ],
+  "tests": [
+    "setjmp/longjmp9 with intact adjacent sentinels for32and64byte storage",
+    "assert unsupported125"
+  ],
+  "timing_build_checks_seconds": {
+    "gcc": 0.9684540359303355,
+    "clang": 1.206471273675561
+  },
+  "limits": [
+    "NO _setjmp3 SEH support added",
+    "assert output/abort path unreviewed and explicitly unsupported"
+  ]
+}
