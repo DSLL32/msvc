@@ -438,3 +438,22 @@ class MacroListingEntered(gdb.Breakpoint):
         entry=dict(pointer=int(macro),object=int(marker.address),object_bytes=marker.type.sizeof,formal_bytes=macro.type.sizeof,parent=parent.name(),record=listing_memory(int(macro),16),name=int(value['name']),name_bytes=listing_wide(int(value['name'])),text=int(value['text']),text_bytes=listing_wide(int(value['text'])),marker_global=int(gdb.parse_and_eval('&rc_source_marker')),marker_global_bytes=gdb.parse_and_eval('rc_source_marker').type.sizeof,enabled_before=int(gdb.parse_and_eval('rc_macro_listing_enabled')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
         macro_listings.append(entry);save_macro_listings();MacroListingReturned(frame,entry);return False
 MacroListingEntered('rc_list_macro',internal=True);save_macro_listings()
+
+
+class_reads=[]
+def save_class_reads():(path.parent/'class-reads.json').write_text(json.dumps(class_reads,indent=2)+'\n')
+class CharacterClassReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax'))&0xffff,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
+        save_class_reads();return False
+class CharacterClassScope(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();character=int(frame.read_var('character'))
+        if character==256:return False # The native target's own INT3 enforces this hold.
+        parent=frame.older()
+        if parent is not None and parent.name()=='rc_read_identifier'and len(class_reads)<64:
+            entry=dict(character=character,formal_bytes=frame.read_var('character').type.sizeof,stack_slot_bytes=4,table_entry=int(gdb.parse_and_eval('rc_character_classes[%d]'%character))if character<256 else 16,identifier_cursor=int(parent.read_var('cursor')),identifier_first=int(parent.read_var('character')),hash=int(parent.read_var('hash')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
+            class_reads.append(entry);save_class_reads();CharacterClassReturned(frame,entry)
+        return False
+CharacterClassScope('rc_character_class',internal=True);save_class_reads()

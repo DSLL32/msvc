@@ -109,3 +109,16 @@ unsigned short __stdcall rc_character_token(unsigned short character)
     if(character==256) return rc_character_classes[0];
     return rc_character_tokens[character];
 }
+
+unsigned short __stdcall rc_character_class(unsigned short character)
+{
+#ifdef RECON_NATIVE_TEST
+    /* This boundary aliases an unreconstructed keyword object in the original.
+     * Hold native execution before reading its unavailable placeholder. */
+    if(character==256){
+        __asm int 3
+    }
+#endif
+    if(character>256) return RC_CF_IDENTIFIER;
+    return rc_character_classes[character];
+}

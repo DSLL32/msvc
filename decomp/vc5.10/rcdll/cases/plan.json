@@ -47,7 +47,8 @@
     "rc_scan_line_start",
     "rc_handle_directive",
     "rc_read_nonspace",
-    "rc_read_identifier"
+    "rc_read_identifier",
+    "rc_character_class"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Nineteen application functions (7,599 original code bytes), two embedded CRT functions
+Forty-four application functions (14,412 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_preprocessor_main`.
+currently matches at the next named trap, `rc_directive_code`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -362,3 +362,11 @@ records nine fresh controls, the saved source-frame ABI and an independently
 reviewed contextual class table. All256 default WORDs match the original; setup's
 `$` assignment is checked separately. The class getter remains trapped, and its
 index256 alias into the adjacent `union` keyword remains unclaimed.
+
+Character-class lookup is accepted (31 bytes) for the supported table scope.
+Actual `i`/`n`/`e`/space calls return16/16/24/64 through AX with ret4, completing
+`line` and its hash40. [Verification](cases/resources-rich-trailing-space/character-class-lookup-verification.json)
+records nine fresh controls and an upper-EAX scope control. Native index256
+executes a source INT3 before its unavailable word is read; a plain Linux probe
+links the production object and verifies SIGTRAP, corroborated by GDB. The
+Win32 boundary word's mutable alias into `union` remains unclaimed.

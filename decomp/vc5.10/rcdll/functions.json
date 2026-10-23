@@ -48,7 +48,8 @@
     "rc_scan_line_start",
     "rc_handle_directive",
     "rc_read_nonspace",
-    "rc_read_identifier"
+    "rc_read_identifier",
+    "rc_character_class"
   ],
   "functions": [
     {
@@ -914,8 +915,7 @@
       "end": "0x26f8",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_scan_comment",

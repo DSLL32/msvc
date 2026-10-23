@@ -99,3 +99,7 @@ build/source-line-format-api-probe.obj: scripts/source-line-format-api-probe.c |
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
 build/source-line-format-api-probe.exe: build/source-line-format-api-probe.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+
+build/native/class-boundary-host: build/native/characters.o scripts/class-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) build/native/characters.o scripts/class-boundary-host.c $(NATIVE_SHIMS) -o $@
+	$(PYTHON) scripts/source-snapshot.py native build/native-class-boundary-source.json --host scripts/class-boundary-host.c

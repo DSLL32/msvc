@@ -94,11 +94,6 @@ int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsign
 
 
 
-unsigned short __stdcall rc_character_class(unsigned short character)
-{
-    __asm int 3
-    return 0;
-}
 int __cdecl rc_scan_comment(void)
 {
     __asm int 3
