@@ -13,11 +13,29 @@ void c2_print_banner(void)
     __asm { int 3 }
 }
 
-void c2_read_header(void)
+int c2_read_il_byte(void)
 {
     __asm { int 3 }
+    return 0;
 }
 
+unsigned short c2_read_il_word(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+long c2_read_il_long(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int __fastcall c2_open_pdb(char *name, char *object_name)
+{
+    __asm { int 3 }
+    return 0;
+}
 void c2_reset_symbol_table(void)
 {
     __asm { int 3 }

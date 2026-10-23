@@ -107,6 +107,13 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if current_state.get('header_streams',{}).get('active_index')is not None:
+        def wrong_active_il(root):
+            path=root/'n/state.json';state=json_at(path);state['header_streams']['active_index']=3;write_json(path,state);raw_changed(root,'n','state.json')
+        def wrong_header_flag(root):
+            path=root/'n/state.json';state=json_at(path);state['globals']['0x490b7c']=1;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('header byte reader selects the wrong IL stream',wrong_active_il),
+                      ('header state changed before any bytes are read',wrong_header_flag)]
     if 'header_streams'in current_state:
         def changed_header_stream(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['header_streams'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

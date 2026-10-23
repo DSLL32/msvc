@@ -38,7 +38,8 @@
     "_c2_copy_arguments",
     "@parse_option_integer@4",
     "@c2_validate_alignment@4",
-    "@c2_open_intermediate@16"
+    "@c2_open_intermediate@16",
+    "_c2_read_header"
   ],
   "driver": [
     {
@@ -187,7 +188,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "5956b5bdf9ba536050094a2cb80b2b2c17266a9588cd942459c792e21ee4859d",
+            "lifetime_sha256": "c8ba6925f05f61e6ea287ee812d8043c3245f0dab3d6c117b08028e3c0ef0c07",
             "instructions": [
               {
                 "offset": 212,
@@ -206,7 +207,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "Complete 00401734..00401798 manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
+            "review": "Complete 00401764..004017c8 manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
           }
         }
       ]
@@ -359,7 +360,7 @@
               42,
               191
             ],
-            "lifetime_sha256": "21aa7086ec57bdc710e68b17614677a258e668979e46f75c18219a9f022f614b",
+            "lifetime_sha256": "2f83505db1e1fcd01952595efad9825b27305eb3090db76a67f6dd669c0811ee",
             "instructions": [
               {
                 "offset": 42,
@@ -370,7 +371,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 0040202d..004020c2 manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
+            "review": "Complete 0040220d..004022a2 manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
           }
         }
       ]
@@ -441,7 +442,7 @@
               462,
               540
             ],
-            "lifetime_sha256": "060256ea5852f5e08ac46842dbae7c0009439b3a5c26cff0d97dc980fed1aaac",
+            "lifetime_sha256": "1db9ea783ccc62ae4bcbe46674051d7481ee7b58aa848008009940f0b4f9f917",
             "instructions": [
               {
                 "offset": 462,
@@ -456,7 +457,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "Complete 00402360..004023ae manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
+            "review": "Complete 00402540..0040258e manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
           }
         }
       ]
@@ -590,7 +591,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "af270eb7aca893bbcb36ee5a8c93314113c42c3ba9f8131a9029e759f9e64c8d",
+            "lifetime_sha256": "198c84b9546ebd671d62610f640fc29b22fc1a7f50158cc79b23da2694e0d2e3",
             "instructions": [
               {
                 "offset": 38,
@@ -605,7 +606,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete 00402736..004027aa manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
+            "review": "Complete 00402916..0040298a manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
           }
         },
         {
@@ -651,7 +652,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "7626eb6d3600e3c0c555494e88bc1ef4b915d2822ed5f8c6ae45f1aeec6924c1",
+            "lifetime_sha256": "d279f29ccb869fa174e13350e4ea5db35e51bb36b85d8a9ab18a9430d805300c",
             "instructions": [
               {
                 "offset": 46,
@@ -666,7 +667,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 0040273e..004027aa manually reviewed for IL-file opener trial: same unique cached holder, typed calls/cleanup and no overwrite/escape; qualified import/data operands relocated as catalogued."
+            "review": "Complete 0040291e..0040298a manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
           }
         }
       ]
@@ -1101,32 +1102,12 @@
         ]
       ],
       "evidence": "cases/analysis/il-files-disassembly.txt: full hot/cold fopen, intrinsic string copies, length and open-failure branches; RET8"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_read_header",
       "native": "c2_read_header",
       "start": 4533924,
-      "end": 4533925,
-      "pending_extent": true,
+      "end": 4534091,
       "kind": "application",
       "abi": "cdecl, no parameters",
       "state_policy": "header-read",
@@ -1187,7 +1168,33 @@
       "expected_argv": [
         "-G5"
       ],
-      "expected_argc": 0
+      "expected_argc": 0,
+      "code_chunks": [
+        [
+          4671557,
+          4671782
+        ]
+      ],
+      "evidence": "cases/analysis/il-header-disassembly.txt: complete hot/cold header magic/machine/version/count/model/PDB branches, RET0"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_reset_symbol_table",
@@ -1332,6 +1339,125 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX location EDX output filename"
+    },
+    {
+      "name": "_c2_read_il_byte",
+      "native": "c2_read_il_byte",
+      "start": 4325585,
+      "end": 4325621,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters; int byte/EOF result",
+      "state_policy": "il-byte-read",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0
+    },
+    {
+      "name": "_c2_read_il_word",
+      "native": "c2_read_il_word",
+      "start": 4534091,
+      "end": 4534092,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters; unsigned-short result"
+    },
+    {
+      "name": "_c2_read_il_long",
+      "native": "c2_read_il_long",
+      "start": 4534165,
+      "end": 4534166,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters; 32-bit long result"
+    },
+    {
+      "name": "@c2_open_pdb@8",
+      "native": "c2_open_pdb",
+      "start": 4765792,
+      "end": 4765793,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
     }
   ],
   "text_data": [

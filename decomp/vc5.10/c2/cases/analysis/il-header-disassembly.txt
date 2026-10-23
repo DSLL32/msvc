@@ -1,0 +1,120 @@
+c2_read_header: cdecl(void), RET0. Hot0x452ea4..0x452f4b=167 bytes;
+cold0x474845..0x474926=225 bytes. Select globals IL stream, require token11,
+read/validate machine0386 or2386, then format date. Date-to-flags pairs:
+19931217/19960701 ->0,0; 19940811 ->1,0; 19960416/19960702 ->0,1;
+19960417/19960703/19960704 ->1,1. Invalid token/date invokes fatal900 with
+P1/version/P2/19940811; invalid machine asserts p2symtab.c:923.
+Then read32-bit symbol count into two target globals and signed-byte target
+size, derive size==8 flag. Extended header opens PDB(name,object), asserting
+p2symtab.c:977 on failure. Reached fresh IL is 19960416 (no PDB path).
+Current stream490b80 is separate from main's input499698/globals497fd4.
+All six newly encountered scalar globals are initially zero, proved in target.
+Byte reader4200d1 is complete36-byte getc expansion, not CRT import itself.
+Word452f4b and long452f95 are separate target functions; named stubs remain.
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00452ea4 <.text+0x51ea4>:
+  452ea4:	a1 d4 7f 49 00       	mov    eax,ds:0x497fd4
+  452ea9:	56                   	push   esi
+  452eaa:	a3 80 0b 49 00       	mov    ds:0x490b80,eax
+  452eaf:	e8 1d d2 fc ff       	call   0x4200d1
+  452eb4:	33 f6                	xor    esi,esi
+  452eb6:	3c 11                	cmp    al,0x11
+  452eb8:	0f 85 87 19 02 00    	jne    0x474845
+  452ebe:	e8 88 00 00 00       	call   0x452f4b
+  452ec3:	66 3d 86 23          	cmp    ax,0x2386
+  452ec7:	74 0a                	je     0x452ed3
+  452ec9:	66 3d 86 03          	cmp    ax,0x386
+  452ecd:	0f 85 94 19 02 00    	jne    0x474867
+  452ed3:	e8 bd 00 00 00       	call   0x452f95
+  452ed8:	3d cb 45 30 01       	cmp    eax,0x13045cb
+  452edd:	0f 8e 98 19 02 00    	jle    0x47487b
+  452ee3:	3d 7d 93 30 01       	cmp    eax,0x130937d
+  452ee8:	0f 8f e0 19 02 00    	jg     0x4748ce
+  452eee:	0f 84 c9 19 02 00    	je     0x4748bd
+  452ef4:	8b c8                	mov    ecx,eax
+  452ef6:	81 e9 60 92 30 01    	sub    ecx,0x1309260
+  452efc:	0f 85 a4 19 02 00    	jne    0x4748a6
+  452f02:	89 35 7c 0b 49 00    	mov    DWORD PTR ds:0x490b7c,esi
+  452f08:	c7 05 f8 72 49 00 01 	mov    DWORD PTR ds:0x4972f8,0x1
+  452f0f:	00 00 00
+  452f12:	e8 7e 00 00 00       	call   0x452f95
+  452f17:	a3 f8 7d 49 00       	mov    ds:0x497df8,eax
+  452f1c:	a3 50 10 49 00       	mov    ds:0x491050,eax
+  452f21:	e8 ab d1 fc ff       	call   0x4200d1
+  452f26:	0f be c0             	movsx  eax,al
+  452f29:	33 c9                	xor    ecx,ecx
+  452f2b:	a3 6c 7f 49 00       	mov    ds:0x497f6c,eax
+  452f30:	83 f8 08             	cmp    eax,0x8
+  452f33:	a1 7c 0b 49 00       	mov    eax,ds:0x490b7c
+  452f38:	0f 94 c1             	sete   cl
+  452f3b:	3b c6                	cmp    eax,esi
+  452f3d:	89 0d e8 7d 49 00    	mov    DWORD PTR ds:0x497de8,ecx
+  452f43:	0f 85 b0 19 02 00    	jne    0x4748f9
+  452f49:	5e                   	pop    esi
+  452f4a:	c3                   	ret
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00474845 <.text+0x73845>:
+  474845:	68 cb 45 30 01       	push   0x13045cb
+  47484a:	68 56 d6 49 00       	push   0x49d656
+  47484f:	56                   	push   esi
+  474850:	68 52 d6 49 00       	push   0x49d652
+  474855:	68 84 03 00 00       	push   0x384
+  47485a:	e8 08 6b 01 00       	call   0x48b367
+  47485f:	83 c4 14             	add    esp,0x14
+  474862:	e9 57 e6 fd ff       	jmp    0x452ebe
+  474867:	ba 9b 03 00 00       	mov    edx,0x39b
+  47486c:	b9 38 d6 49 00       	mov    ecx,0x49d638
+  474871:	e8 c6 22 01 00       	call   0x486b3c
+  474876:	e9 58 e6 fd ff       	jmp    0x452ed3
+  47487b:	74 67                	je     0x4748e4
+  47487d:	3d 51 20 30 01       	cmp    eax,0x1302051
+  474882:	74 39                	je     0x4748bd
+  474884:	68 cb 45 30 01       	push   0x13045cb
+  474889:	68 56 d6 49 00       	push   0x49d656
+  47488e:	50                   	push   eax
+  47488f:	68 52 d6 49 00       	push   0x49d652
+  474894:	68 84 03 00 00       	push   0x384
+  474899:	e8 c9 6a 01 00       	call   0x48b367
+  47489e:	83 c4 14             	add    esp,0x14
+  4748a1:	e9 6c e6 fd ff       	jmp    0x452f12
+  4748a6:	49                   	dec    ecx
+  4748a7:	75 db                	jne    0x474884
+  4748a9:	b8 01 00 00 00       	mov    eax,0x1
+  4748ae:	a3 7c 0b 49 00       	mov    ds:0x490b7c,eax
+  4748b3:	a3 f8 72 49 00       	mov    ds:0x4972f8,eax
+  4748b8:	e9 55 e6 fd ff       	jmp    0x452f12
+  4748bd:	89 35 7c 0b 49 00    	mov    DWORD PTR ds:0x490b7c,esi
+  4748c3:	89 35 f8 72 49 00    	mov    DWORD PTR ds:0x4972f8,esi
+  4748c9:	e9 44 e6 fd ff       	jmp    0x452f12
+  4748ce:	8b c8                	mov    ecx,eax
+  4748d0:	81 e9 7e 93 30 01    	sub    ecx,0x130937e
+  4748d6:	0f 84 26 e6 fd ff    	je     0x452f02
+  4748dc:	49                   	dec    ecx
+  4748dd:	74 05                	je     0x4748e4
+  4748df:	49                   	dec    ecx
+  4748e0:	75 a2                	jne    0x474884
+  4748e2:	eb c5                	jmp    0x4748a9
+  4748e4:	c7 05 7c 0b 49 00 01 	mov    DWORD PTR ds:0x490b7c,0x1
+  4748eb:	00 00 00
+  4748ee:	89 35 f8 72 49 00    	mov    DWORD PTR ds:0x4972f8,esi
+  4748f4:	e9 19 e6 fd ff       	jmp    0x452f12
+  4748f9:	8b 15 ac 7c 49 00    	mov    edx,DWORD PTR ds:0x497cac
+  4748ff:	8b 0d c4 e2 49 00    	mov    ecx,DWORD PTR ds:0x49e2c4
+  474905:	e8 56 6f 01 00       	call   0x48b860
+  47490a:	85 c0                	test   eax,eax
+  47490c:	0f 85 37 e6 fd ff    	jne    0x452f49
+  474912:	ba d1 03 00 00       	mov    edx,0x3d1
+  474917:	b9 38 d6 49 00       	mov    ecx,0x49d638
+  47491c:	e8 1b 22 01 00       	call   0x486b3c
+  474921:	e9 23 e6 fd ff       	jmp    0x452f49
