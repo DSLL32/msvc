@@ -1,0 +1,28 @@
+{
+  "size": 18,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "function_aux",
+  "esp_offset": 88,
+  "mode": "input",
+  "callsite": {
+    "start": 165368,
+    "end": 165388,
+    "sha256": "5e47257b4b429d335801b1dae45e0caebdb16b37fa8fe89b06b9fee9954a0f7e"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "entry_bias": 32,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 165388
+    }
+  ],
+  "scope": "Actual first find-next call after publishing function. Input auxiliary18 fully defined; symbol/index are outputs and not read before overwritten. Exact original caller-local and native named local/sizeof matched, full raw prebytes retained.",
+  "defined_bytes": 18
+}

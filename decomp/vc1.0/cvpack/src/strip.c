@@ -7,7 +7,7 @@ long strip_file_header_offset, strip_section_header_offset;
 long strip_read_offset, strip_symbol_offset;
 IMAGE_FILE_HEADER strip_file_header;
 IMAGE_OPTIONAL_HEADER strip_optional_header;
-void *strip_records;
+CoffModule *strip_records;
 
 unsigned short initialize_strip_sections(void);
 unsigned short collect_strip_records(void);
@@ -409,4 +409,98 @@ void read_coff_function_lines(CoffFunction *record, CoffFunction *previous,
 void set_coff_function_end(CoffFunction *record, unsigned long end)
 {
     record->end = end;
+}
+
+CoffFunction *publish_coff_function(CoffFunction *record)
+{
+    CoffModule *module = strip_records;
+    CoffSource *source;
+    CoffFunctionLink *link, *item;
+    CoffFunction *previous;
+    unsigned long length, i, old_count, bytes;
+    unsigned char *destination, *input;
+
+    link = malloc(sizeof(*link));
+    if (!link) fatal_error(13, NULL, NULL);
+    link->record = record;
+    while (module && module->module != record->module) module = module->next;
+    if (!module) {
+        module = malloc(sizeof(*module));
+        if (!module) fatal_error(13, NULL, NULL);
+        module->module = record->module;
+        module->file_count = module->function_count = 1;
+        module->next = strip_records;
+        strip_records = module;
+        source = malloc(sizeof(*source));
+        if (!source) fatal_error(13, NULL, NULL);
+        for (length = 0; record->name[length]; ++length) {}
+        source->name = malloc(length+1);
+        if (!source->name) fatal_error(13, NULL, NULL);
+        for (i = 0; i <= length; ++i) source->name[i] = record->name[i];
+        source->function_count = 1;
+        source->next = NULL;
+        module->files = source;
+        link->next = NULL;
+        source->functions = link;
+        free(record->name);
+        record->name = NULL;
+        return record;
+    }
+    source = module->files;
+    while (source) {
+        for (i = 0; record->name[i] == source->name[i] && record->name[i]; ++i) {}
+        if (record->name[i] == source->name[i]) break;
+        source = source->next;
+    }
+    if (!source) {
+        source = malloc(sizeof(*source));
+        if (!source) fatal_error(13, NULL, NULL);
+        ++module->function_count;
+        ++module->file_count;
+        source->function_count = 1;
+        for (length = 0; record->name[length]; ++length) {}
+        source->name = malloc(length+1);
+        if (!source->name) fatal_error(13, NULL, NULL);
+        for (i = 0; i <= length; ++i) source->name[i] = record->name[i];
+        source->next = module->files;
+        module->files = source;
+        link->next = NULL;
+        source->functions = link;
+        free(record->name);
+        record->name = NULL;
+        return record;
+    }
+    for (item = source->functions; item; item = item->next) {
+        previous = item->record;
+        if (record->offset-previous->end-1 < 4) {
+            old_count = previous->line_count;
+            previous->lines = realloc(previous->lines,
+                (record->line_count+old_count)*sizeof(CoffLine));
+#ifdef RECON_NATIVE_TEST
+            /* The original does not test realloc before using its result. */
+            if (!previous->lines) __asm { int 3 }
+#endif
+            destination = (unsigned char *)(previous->lines+old_count);
+            input = (unsigned char *)record->lines;
+            bytes = record->line_count*sizeof(CoffLine);
+            for (i = 0; i < bytes; ++i) destination[i] = input[i];
+            previous->line_count += record->line_count;
+            previous->end = record->end;
+            free(record->lines);
+            free(record->name);
+            free(record);
+            free(link);
+            record = previous;
+            break;
+        }
+    }
+    if (!item) {
+        ++module->function_count;
+        ++source->function_count;
+        link->next = source->functions;
+        source->functions = link;
+        free(record->name);
+        record->name = NULL;
+    }
+    return record;
 }

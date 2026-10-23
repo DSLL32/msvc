@@ -125,8 +125,3 @@ void free_strip_records(void) { __asm { int 3 } }
 
 unsigned short find_next_coff_function(CoffSymbol *symbol,CoffAuxiliary *auxiliary,unsigned long *index)
 { __asm { int 3 } return 0; }
-
-
-
-
-CoffFunction *publish_coff_function(CoffFunction *record) { __asm { int 3 } return NULL; }

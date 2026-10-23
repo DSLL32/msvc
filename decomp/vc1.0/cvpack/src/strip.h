@@ -42,6 +42,26 @@ typedef struct CoffFunction {
 } CoffFunction;
 typedef char CoffFunctionSize[(sizeof(CoffFunction)==28)?1:-1];
 
+typedef struct CoffFunctionLink {
+    CoffFunction *record;
+    struct CoffFunctionLink *next;
+} CoffFunctionLink;
+typedef struct CoffSource {
+    char *name;
+    unsigned short function_count, reserved;
+    CoffFunctionLink *functions;
+    struct CoffSource *next;
+} CoffSource;
+typedef struct CoffModule {
+    unsigned short module, file_count, function_count, reserved;
+    CoffSource *files;
+    struct CoffModule *next;
+} CoffModule;
+typedef char CoffFunctionLinkSize[(sizeof(CoffFunctionLink)==8)?1:-1];
+typedef char CoffSourceSize[(sizeof(CoffSource)==16)?1:-1];
+typedef char CoffModuleSize[(sizeof(CoffModule)==16)?1:-1];
+
+
 unsigned short find_first_coff_function(CoffSymbol *,CoffAuxiliary *,unsigned long *);
 unsigned short find_next_coff_function(CoffSymbol *,CoffAuxiliary *,unsigned long *);
 unsigned short fill_coff_function(CoffFunction *,const CoffSymbol *,const CoffAuxiliary *,unsigned long);
