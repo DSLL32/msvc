@@ -1252,7 +1252,9 @@
     "_finish_debug_module",
     "@write_codeview_typedef@4",
     "@write_codeview_local_data@4",
-    "_write_codeview_compile_record"
+    "_write_codeview_compile_record",
+    "@read_codeview_initializers@4",
+    "@release_initializer@4"
   ],
   "driver": [
     {
@@ -1524,7 +1526,19 @@
     {
       "name": "@release_initializer@4",
       "start": 321760,
-      "end": 321792
+      "end": 321789,
+      "abi": {
+        "parameters": [
+          {
+            "name": "initializer",
+            "location": "ECX",
+            "type": "Initializer pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-release-initializer-abi/validation.json"
+      }
     },
     {
       "name": "_input_varuint",
@@ -8380,8 +8394,20 @@
     {
       "name": "@read_codeview_initializers@4",
       "start": 433056,
-      "end": 433057,
-      "provisional": true
+      "end": 433104,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "file",
+            "location": "ECX",
+            "type": "input FILE pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-codeview-file-abi/validation.json"
+      }
     }
   ],
   "cases": {

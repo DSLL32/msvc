@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-canonical-warnings.py",
+    "codeview-output",
+    "initializers",
+    "stubs"
+  ],
+  "seconds": 3.1328043956309557,
+  "returncode": 1,
+  "log_sha256": "70dc4abe15d063f8d7161b7ceea3f10882529c5f387522800408b97ba03be408"
+}

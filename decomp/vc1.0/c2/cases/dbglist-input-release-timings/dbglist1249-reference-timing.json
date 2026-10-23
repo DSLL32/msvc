@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python3",
+    "scripts/capture-original.py",
+    "--profile",
+    "dbglist",
+    "--receipt",
+    "cases/dbglist-original-1249.json"
+  ],
+  "seconds": 1.6150625795125961,
+  "returncode": 0,
+  "log_sha256": "db1a50cd3c7494da19de2db87695fd8b57c50a94b4e6853e97637118c875d693"
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-canonical-warnings.py", line 13, in <module>
+    assert re.fullmatch('[a-z][a-z0-9-]*',module)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

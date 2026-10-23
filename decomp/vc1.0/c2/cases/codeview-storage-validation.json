@@ -2,9 +2,1096 @@
   "mapping": {
     "0x7e8ac": "0x8e9ec",
     "0x84ff8": "0x8e9e8",
-    "0x7b8ec": "0x8e9e4"
+    "0x7b8ec": "0x8e9e4",
+    "0x85d9c": "0x8e9f4"
   },
   "bindings": [
+    {
+      "function": "_compile_functions",
+      "original": [
+        {
+          "site": "0x4c2cb",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x15c2e",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_read_frontend_header",
+      "original": [
+        {
+          "site": "0x4de55",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x128fb",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_input_byte",
+      "original": [
+        {
+          "site": "0x6fb90",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x12cdd",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12ce5",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12cf4",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12cfe",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d0f",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_input_word",
+      "original": [
+        {
+          "site": "0x6fca3",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fccd",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x12d30",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d38",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d47",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d53",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d70",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d78",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d87",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d93",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d9f",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12d5f",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_input_dword",
+      "original": [
+        {
+          "site": "0x6fea3",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6ff1f",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fef6",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fecd",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x12dc7",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12dcf",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12dde",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12dea",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e07",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e0f",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e1e",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e2a",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e47",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e4f",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e5e",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e6a",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e87",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e8f",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e9e",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12eaa",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12eb6",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e76",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12e36",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12df6",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@read_initializers@4",
+      "original": [
+        {
+          "site": "0x4e842",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x15603",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_input_varuint",
+      "original": [
+        {
+          "site": "0x6fbcb",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fc5d",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fc26",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fbfd",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x12edd",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12ee5",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12ef4",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f00",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f1d",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f25",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f34",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f40",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f7c",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f84",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f93",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f9f",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12fbc",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12fc4",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12fd3",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12fdf",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12feb",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12fab",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f4c",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12f0c",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_input_compact_signed",
+      "original": [
+        {
+          "site": "0x6fdb3",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fe5f",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fe36",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fe0d",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fdd9",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x13105",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1310d",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1311c",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13128",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1315d",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13165",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13174",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13180",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1319d",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x131a5",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x131b4",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x131c0",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x131dd",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x131e5",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x131f4",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13200",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1321d",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13225",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13234",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13240",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1324c",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1320c",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x131cc",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1318c",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13134",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@input_string@8",
+      "original": [
+        {
+          "site": "0x70007",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x7002f",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x1303a",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13042",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13051",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1305f",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1306b",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_input_compact_short",
+      "original": [
+        {
+          "site": "0x6fd13",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fd6e",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6fd39",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x13273",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1327b",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1328a",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13296",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x132cc",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x132d4",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x132e3",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x132ef",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1330c",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13314",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13323",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1332f",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1333b",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x132fb",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x132a2",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
     {
       "function": "@end_debug_function@4",
       "original": [
@@ -19,7 +1106,7 @@
       ],
       "canonical": [
         {
-          "site": "0x54070",
+          "site": "0x540d4",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 0,
@@ -58,7 +1145,7 @@
       ],
       "canonical": [
         {
-          "site": "0x53f8d",
+          "site": "0x53ff1",
           "storage": "0x8e9e4",
           "mnemonic": "mov",
           "operand": 0,
@@ -66,7 +1153,7 @@
           "width": 4
         },
         {
-          "site": "0x53f92",
+          "site": "0x53ff6",
           "storage": "0x8e9e4",
           "mnemonic": "cmp",
           "operand": 0,
@@ -74,7 +1161,7 @@
           "width": 4
         },
         {
-          "site": "0x53fae",
+          "site": "0x54012",
           "storage": "0x8e9e4",
           "mnemonic": "mov",
           "operand": 1,
@@ -82,8 +1169,228 @@
           "width": 4
         },
         {
-          "site": "0x53fb9",
+          "site": "0x5401d",
           "storage": "0x8e9e4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@read_function_body@4",
+      "original": [
+        {
+          "site": "0x4f176",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x4f1a6",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x1606e",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1608a",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x160af",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x160cb",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x160be",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x1607d",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_input_extended@0",
+      "original": [
+        {
+          "site": "0x6ffc3",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x13363",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@input_counted_string@8",
+      "original": [
+        {
+          "site": "0x700de",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x70103",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x133df",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x133e7",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x133f6",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13404",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x13410",
+          "storage": "0x8e9f4",
+          "mnemonic": "push",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@input_bytes@8",
+      "original": [
+        {
+          "site": "0x7006a",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x70095",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x12c83",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12c8b",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12c9a",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12ca8",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x12cb4",
+          "storage": "0x8e9f4",
           "mnemonic": "push",
           "operand": 0,
           "type": "memory",
@@ -177,7 +1484,7 @@
       ],
       "canonical": [
         {
-          "site": "0x54093",
+          "site": "0x540f7",
           "storage": "0x8e9ec",
           "mnemonic": "cmp",
           "operand": 0,
@@ -185,7 +1492,7 @@
           "width": 4
         },
         {
-          "site": "0x540a5",
+          "site": "0x54109",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -193,7 +1500,7 @@
           "width": 4
         },
         {
-          "site": "0x540b0",
+          "site": "0x54114",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -201,7 +1508,7 @@
           "width": 4
         },
         {
-          "site": "0x54132",
+          "site": "0x54196",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -209,7 +1516,7 @@
           "width": 4
         },
         {
-          "site": "0x54164",
+          "site": "0x541c8",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -217,7 +1524,7 @@
           "width": 4
         },
         {
-          "site": "0x5418b",
+          "site": "0x541ef",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 0,
@@ -225,7 +1532,7 @@
           "width": 4
         },
         {
-          "site": "0x54198",
+          "site": "0x541fc",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -233,7 +1540,7 @@
           "width": 4
         },
         {
-          "site": "0x541a3",
+          "site": "0x54207",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 0,
@@ -296,7 +1603,7 @@
       ],
       "canonical": [
         {
-          "site": "0x54400",
+          "site": "0x54464",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -304,7 +1611,7 @@
           "width": 4
         },
         {
-          "site": "0x5443b",
+          "site": "0x5449f",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -312,7 +1619,7 @@
           "width": 4
         },
         {
-          "site": "0x5428c",
+          "site": "0x542f0",
           "storage": "0x8e9e8",
           "mnemonic": "cmp",
           "operand": 0,
@@ -320,7 +1627,7 @@
           "width": 4
         },
         {
-          "site": "0x542a7",
+          "site": "0x5430b",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -328,7 +1635,7 @@
           "width": 4
         },
         {
-          "site": "0x54346",
+          "site": "0x543aa",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -336,9 +1643,32 @@
           "width": 4
         },
         {
-          "site": "0x54306",
+          "site": "0x5436a",
           "storage": "0x8e9e8",
           "mnemonic": "cmp",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@read_codeview_initializers@4",
+      "original": [
+        {
+          "site": "0x69ba3",
+          "storage": "0x85d9c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x53f57",
+          "storage": "0x8e9f4",
+          "mnemonic": "mov",
           "operand": 0,
           "type": "memory",
           "width": 4
@@ -351,6 +1681,6 @@
     "missing allocation def-use",
     "short cursor access"
   ],
-  "seconds": 0.8317193295806646,
+  "seconds": 1.43486996460706,
   "scope": "Original zero-initialized7e8ac DebugScope cursor and84ff8 allocation DWORD plus7b8ec db FILE owner bind to distinct existing typed canonical storage. All accepted CFG direct-memory/address-construction operands including displacement/base/index forms checked; byte filter only selects candidates. No arbitrary indirect alias/deep scope traversal proof. Actual entry cursor/head/override observations separate."
 }

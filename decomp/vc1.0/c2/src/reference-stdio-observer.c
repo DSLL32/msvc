@@ -161,6 +161,38 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             bucket,index,member,read_word(process,image_base+0x706f4),read_word(process,image_base+0x706f0));
         log_line(line);
     }
+    if(!strcmp(call->name,"@read_codeview_initializers@4")) {
+        DWORD stream=call->args[0],fields[8],got,used,valid,handle,position,high=0;
+        DWORD flags,file_bytes,file_type;HANDLE copy;char state[512];
+        if(!ReadProcessMemory(process,(void*)stream,fields,sizeof(fields),&got)||got!=sizeof(fields))exit(271);
+        used=fields[0]&&fields[2]?fields[0]-fields[2]:0;
+        valid=used+((long)fields[1]>0?fields[1]:0);
+        if(valid>4096||fields[4]>=64)exit(272);
+        flags=read_word(process,image_base+0x76778+fields[4])&255;
+        handle=read_word(process,image_base+0x767b8+4*fields[4]);
+        if(!DuplicateHandle(process,(HANDLE)handle,GetCurrentProcess(),&copy,0,FALSE,DUPLICATE_SAME_ACCESS))exit(273);
+        position=SetFilePointer(copy,0,(LONG*)&high,FILE_CURRENT);
+        if(high||position==0xffffffff)exit(274);
+        file_bytes=GetFileSize(copy,&high);file_type=GetFileType(copy);CloseHandle(copy);
+        if(high||file_bytes==0xffffffff)exit(275);
+        sprintf(state,"codeview_file owner %08lx stream %08lx flags %lu count %ld fd %lu size %lu null %lu used %lu valid %lu position %lu osfile %lu file_bytes %lu file_type %lu temporary_null %lu\n",
+            read_word(process,image_base+0x6b8ec),stream,fields[3],(long)fields[1],fields[4],fields[6],
+            !fields[0]&&!fields[2],used,valid,position,flags,file_bytes,file_type,!fields[7]);log_line(state);
+        dump_bytes(process,"codeview_file_hex",stream,32);
+        dump_bytes(process,"codeview_buffer_hex",fields[2],valid);
+    }
+    if(!strcmp(call->name,"@release_initializer@4")) {
+        DWORD node=call->args[0],count=0,free_head=read_word(process,image_base+0x6c144);
+        sprintf(line,"initializer_state head %08lx free_head %08lx\n",node,free_head);log_line(line);
+        while(node&&count<256) {
+            sprintf(line,"initializer_node address %08lx next %08lx link %08lx\n",node,
+                read_word(process,node+4),read_word(process,node+8));log_line(line);
+            dump_bytes(process,"initializer_hex",node,28);
+            node=read_word(process,node+4);++count;
+        }
+        if(node)exit(276);
+        if(free_head)dump_bytes(process,"free_initializer_hex",free_head,28);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

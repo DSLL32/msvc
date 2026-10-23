@@ -1,0 +1,10 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "build/reference-stdio-observer.exe"
+  ],
+  "seconds": 3.3888435242697597,
+  "returncode": 0,
+  "log_sha256": "4b61aee8df62e033cd8178c1423f859fa2ef4e2d7977d0ed02a1bd968f54e74e"
+}

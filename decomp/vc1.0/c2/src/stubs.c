@@ -41,7 +41,6 @@ void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int
 void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
 void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
-void __fastcall release_initializer(Initializer *initializer) { __asm int 3 }
 Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 3 }
 DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
@@ -90,7 +89,6 @@ void __fastcall write_codeview_register(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_global_data(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_constant(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes) { __asm int 3 }
-void __fastcall read_codeview_initializers(FILE *file) { __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { RECON_TRACE_NAKED_ENTRY(omf_select_segment) __asm int 3 }

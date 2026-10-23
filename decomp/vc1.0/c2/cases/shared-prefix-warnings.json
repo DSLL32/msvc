@@ -1,15 +1,15 @@
 {
   "modules": [
     {
-      "module": "listing",
-      "seconds": 1.0024382639676332,
+      "module": "codeview-output",
+      "seconds": 1.9494195701554418,
       "returncode": 0
     },
     {
-      "module": "symbols",
-      "seconds": 0.9493425861001015,
+      "module": "initializers",
+      "seconds": 2.28331243339926,
       "returncode": 0
     }
   ],
-  "seconds": 1.952049064449966
+  "seconds": 4.233035231940448
 }

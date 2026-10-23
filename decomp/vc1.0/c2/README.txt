@@ -383,3 +383,16 @@ post-select loads; children/TLS/failure paths remain explicitly scoped. All14
 native cases and canonical graph/extent/ABI/W3 pass,13 outputs complete.
 Next db FILE-reader69ba0;325new code-extent bytes and full timing ledger in
 cases/dbglist-data-compile-checkpoint.json.
+
+Checkpoint1250 adds the48-byte CodeView db-header wrapper and29-byte
+initializer-chain release. Actual binary FILE owner/defined state and three-node
+ECX chain/free-head inputs match original/native.9 wrapper and30 whole-list
+original/canonical controls verify AL width, handover, exact+8 writes and preserved
+remaining node bytes. Allocation and release share the existing static free list.
+An old unaccepted trap lacked provisional metadata: strict cache rejected it;
+flag-only correction and fresh identical-mask/frontier evidence are retained.
+All14 native cases pass,13 complete outputs remain exact; debug case reaches
+coff_write_lines6f040. Canonical graph/extent/ABI and reconstructed-body/W3 pass;
+existing return-valued INT3 stubs still emit C4035 under W3 and are not disguised.
+77new bytes:336232/399693=84.1226% accepted code extent, not branch coverage.
+Full failed-attempt/timing ledger: cases/dbglist-input-release-checkpoint.json.

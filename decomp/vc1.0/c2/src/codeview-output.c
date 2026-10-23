@@ -5,6 +5,7 @@
 #include "records.h"
 #include "machine.h"
 #include "listing.h"
+#include "input.h"
 #include <string.h>
 #include <recon.h>
 int codeview_output_started; /* original84fd8 */
@@ -12,6 +13,15 @@ extern int optimize_global, coff_object, byte_block_first, cpu_model, floating_f
 DebugScope *codeview_scope_cursor; /* original7e8ac */
 unsigned codeview_allocation_class; /* original84ff8; alias dispatch override */
 FILE *codeview_type_file; /* original7b8ec; db intermediate ownership */
+/* Original69ba0..69bd0. The db channel begins with tag12 and one header
+   byte; the remaining records use the ordinary initializer grammar. */
+void __fastcall read_codeview_initializers(FILE *file)
+{
+    input_file = file;
+    if (input_byte() != 12) compiler_internal_error("@(#)emit.c:1.20", 0x328);
+    input_byte();
+    read_initializers(file);
+}
 /* Original69180..6920a. Module-level symbols precede compiler/type records.
    The db channel is the captured fifth frontend input, not a regenerated PDB. */
 void finish_debug_module(void)

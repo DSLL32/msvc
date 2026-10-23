@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/native-traces.py", line 390, in <module>
+    result = extend(args.objects, args.extend_before, args.extend_after, args.runtime_evidence)
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/native-traces.py", line 273, in extend
+    assert drivers[terminal].get('provisional'), 'next application entry must remain a named stub'
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+AssertionError: next application entry must remain a named stub

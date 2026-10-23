@@ -1,0 +1,204 @@
+{
+  "cases": [
+    {
+      "input": [
+        0,
+        0
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            0
+          ],
+          [
+            "diagnostic",
+            "@(#)emit.c:1.20",
+            808
+          ]
+        ],
+        "terminal": "named diagnostic",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        0,
+        1
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            0
+          ],
+          [
+            "diagnostic",
+            "@(#)emit.c:1.20",
+            808
+          ]
+        ],
+        "terminal": "named diagnostic",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        0,
+        255
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            0
+          ],
+          [
+            "diagnostic",
+            "@(#)emit.c:1.20",
+            808
+          ]
+        ],
+        "terminal": "named diagnostic",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        12,
+        0
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            12
+          ],
+          [
+            "byte",
+            0
+          ],
+          [
+            "initializers",
+            2117632
+          ]
+        ],
+        "terminal": "return",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        12,
+        1
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            12
+          ],
+          [
+            "byte",
+            1
+          ],
+          [
+            "initializers",
+            2117632
+          ]
+        ],
+        "terminal": "return",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        12,
+        255
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            12
+          ],
+          [
+            "byte",
+            255
+          ],
+          [
+            "initializers",
+            2117632
+          ]
+        ],
+        "terminal": "return",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        255,
+        0
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            255
+          ],
+          [
+            "diagnostic",
+            "@(#)emit.c:1.20",
+            808
+          ]
+        ],
+        "terminal": "named diagnostic",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        255,
+        1
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            255
+          ],
+          [
+            "diagnostic",
+            "@(#)emit.c:1.20",
+            808
+          ]
+        ],
+        "terminal": "named diagnostic",
+        "input_file": 2117632
+      }
+    },
+    {
+      "input": [
+        255,
+        255
+      ],
+      "output": {
+        "events": [
+          [
+            "byte",
+            255
+          ],
+          [
+            "diagnostic",
+            "@(#)emit.c:1.20",
+            808
+          ]
+        ],
+        "terminal": "named diagnostic",
+        "input_file": 2117632
+      }
+    }
+  ],
+  "seconds": 0.28293952625244856,
+  "scope": "Whole48-byte original versus actual original-compiler C: input_file handover precedes input_byte, AL-only header12 comparison despite poisoned upper EAX, ignored second byte and unchanged FILE forward. Byte/initializer/diagnostic children mocked. Invalid headers stop at named diagnostic; no real parsing/file/CRT failure acceptance. Actual FILE owner/state and original/native frontier separately captured."
+}

@@ -1,0 +1,9 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-initializer-entry.py"
+  ],
+  "seconds": 1.3356180218979716,
+  "returncode": 0,
+  "log_sha256": "65158d8dc1e23868f7c43509f5ad399363caca0f58458c2d6f56767552b85a1e"
+}

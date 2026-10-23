@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python3",
+    "scripts/debug-frontier.py",
+    "--profile",
+    "dbglist",
+    "--reference",
+    "cases/dbglist-original-1249.json"
+  ],
+  "seconds": 0.22274814266711473,
+  "returncode": 0,
+  "log_sha256": "5f7ca9376c07f937b3cc21d29b1bb182e34a021c10cd222af7c13241112a9431"
+}

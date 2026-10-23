@@ -6,6 +6,18 @@
 Initializer *global_initializers; /* 0007c14c */
 static Initializer *free_initializers; /* 0007c144 */
 typedef char InitializerSizeCheck[sizeof(Initializer) == 28 ? 1 : -1];
+/* Original [0004e8e0,0004e8fd); the following three bytes are alignment.
+   The active chain uses +4, while the reuse chain uses +8. */
+void __fastcall release_initializer(Initializer *initializer)
+{
+    Initializer *next;
+    while (initializer) {
+        next = initializer->next;
+        initializer->content.reference.link = free_initializers;
+        free_initializers = initializer;
+        initializer = next;
+    }
+}
 /* Original [0004eca0,0004ed40). Global links group records by symbol;
    within a symbol, kind-zero block markers stay sorted by their offset. */
 void __fastcall insert_initializer(Initializer *initializer)
