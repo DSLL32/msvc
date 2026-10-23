@@ -107,6 +107,10 @@ def main():
     if resolver_return_pair.is_dir():
         from resolver_return_checks import check as check_resolver_returns
         check_resolver_returns(resolver_return_pair)
+    recursive_offset_pair=BINARY/'cases/hello-debug-dll/evidence/0083-add_recursive_offset'
+    if recursive_offset_pair.is_dir():
+        from recursive_offset_checks import check as check_recursive_offset
+        check_recursive_offset(recursive_offset_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

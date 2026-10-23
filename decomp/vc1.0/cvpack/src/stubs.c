@@ -108,7 +108,7 @@ void record_symbol_offsets(unsigned char *symbols, unsigned long size, unsigned 
 void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { __asm { int 3 } }
 unsigned short intern_type(TypeRecord *entry, unsigned short type) { __asm { int 3 } return 0; }
 
-void __fastcall add_recursive_offset(TypeRecord *entry, unsigned short offset) { __asm { int 3 } }
+void *checked_realloc(void *block, unsigned long size) { __asm { int 3 } return NULL; }
 void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 } }
 
 void release_type_data(TypeRecord *entry) { __asm { int 3 } }

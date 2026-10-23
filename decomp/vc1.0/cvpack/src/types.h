@@ -60,6 +60,7 @@ extern TypeRecord *empty_type;
 
 void *checked_zero(unsigned long);
 void *checked_alloc(unsigned long);
+void *checked_realloc(void *, unsigned long);
 void initialize_buffer(GrowingBuffer *,unsigned long);
 extern int type_recursion_error;
 unsigned short map_primitive(unsigned short);

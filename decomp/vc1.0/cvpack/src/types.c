@@ -1538,3 +1538,36 @@ TypeRecord *get_type_record(unsigned short type, unsigned short *flag)
     }
     return entry;
 }
+
+void __fastcall add_recursive_offset(TypeRecord *entry, unsigned short offset)
+{
+    unsigned short *offsets, i;
+    unsigned char *marks;
+#ifdef RECON_NATIVE_TEST
+    /* Heap ownership for expanded recursion lists has not yet been reached. */
+    if ((entry->flags & 0x100) || offset > 255 || entry->recursive_count >= 5)
+        __asm { int 3 }
+#endif
+    if (offset <= 255 && entry->recursive_count < 5)
+        entry->recursion.small[entry->recursive_count] = (unsigned char)offset;
+    else {
+        if (!(entry->flags & 0x100)) {
+            offsets = checked_zero(20);
+            marks = checked_zero(40);
+            for (i = 0; i < entry->recursive_count; ++i)
+                offsets[i] = entry->recursion.small[i];
+            marks[0] = entry->recursion.small[8];
+            entry->recursion.large.offsets = offsets;
+            entry->recursion.large.marks = marks;
+        } else if (!(entry->recursive_count%10)) {
+            entry->recursion.large.offsets = checked_realloc(entry->recursion.large.offsets,
+                (unsigned long)entry->recursive_count*2+20);
+            if (!(entry->recursive_count&7))
+                entry->recursion.large.marks = checked_realloc(entry->recursion.large.marks,
+                    (unsigned long)entry->recursive_count+10);
+        }
+        entry->recursion.large.offsets[entry->recursive_count] = offset;
+        entry->flags |= 0x100;
+    }
+    ++entry->recursive_count;
+}

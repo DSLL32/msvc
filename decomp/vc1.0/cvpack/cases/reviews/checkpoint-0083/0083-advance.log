@@ -1,0 +1,10 @@
+python3 scripts/graph_identities.py --prepare --output build/graph-identities.json
+make: Nothing to be done for 'graph-audit-tool'.
+Prepared hash-bound strict original/compiler relocation identities
+exception 80000003 va 0001ac80 base 00010000 first 1
+Restored entry ranges: 81
+/root/.ai-tmp/vc1.0-cvpack/0083-add_recursive_offset-original/receipt.json
+hello-debug-dll trap {'setup': 0.1919796746224165, 'execution': 0.01600519847124815, 'debugging': 2.3759137270972133, 'checks': 0.0257027605548501, 'total': 2.6096086148172617}
+/root/.ai-tmp/vc1.0-cvpack/0083-add_recursive_offset-native/receipt.json
+83 complete original/compiler CFG/callee/ABI functions; 167 contextual data objects; strict CRT/import identities verified.
+Fresh original/native candidate proof passes without acceptance: add_recursive_offset
