@@ -572,3 +572,54 @@ code/data ownership, changed callees, extent splits and MAP/unsupported modes;
 unit tests also cover the actual three CF files and base-invariant decoding at
 zero and WASM's observed unaligned `0x008e0020` base. No compiler, Wine or target
 executable is launched by these checks.
+
+## Decoded instruction export
+
+`--export-instructions` adds `decoded_instructions` to a **successful paired
+standalone CFG audit**. The ordinary function selection and checks stay unchanged;
+this option exposes the existing CFG's reached instruction starts and exact raw
+bytes. It does not linearly export an extent, decode pending callees, generate
+assembly/source, or authorize execution. Legacy and integrated CVPACK profiles
+reject it. A selected `pending_extent` owner rejects rather than disappearing
+from an incomplete export.
+
+The version-1 object binds both source image identities and coordinate systems,
+the complete parsed configuration, effective indexes, accepted-name set, public
+symbol map and graph metadata. These SHA256 bindings use canonical consumed JSON
+(ordered object keys, compact UTF-8), distinct from C/header source hashes or
+irrelevant JSON whitespace. Existing Watcom provenance also retains its raw MAP,
+loader, layout and relocation-stream hashes. The target's build/acceptance receipt
+must separately bind the auditor executable, report and reconstructed source/build.
+
+`functions[logical_name].original` and `.rebuilt` each contain:
+
+- `record`, `record_sha256`: the exact indexed owner and its semantic binding,
+  including entry/end, additional chunks, shared data and evidence declarations.
+- `effective_roots`, `declared_roots`, `declared_text_data`, `inferred_tables`:
+  actual discovery roots and explicit/discovered data exclusions.
+- `instructions`: sorted `{address, bytes_hex}` rows, each exactly 1–15 source
+  bytes inside an owned code chunk. Unreached padding/data and unknown child
+  bodies remain absent. Logical aliases and valid overlapping streams remain
+  distinct facts; a consumer may reject ambiguities it cannot execute safely.
+- `local_ret_cleanup_set`, `checked_ret_cleanup_set`: decoded local cleanup facts
+  and the existing inherited cleanup comparison result, respectively. The latter
+  is `null` unless `--check-ret` ran. Neither proves register/formal/near-far ABIs.
+
+The owner keys exactly match the ordinary checked function keys. Membership in an
+input's accepted list may describe a prospective trial; it is not independent
+acceptance evidence. A runtime controller must apply its own approved prefix,
+candidate/support, ABI, memory, stack, thread and service-boundary policies.
+
+CF instruction bytes remain canonical **raw base-zero** bytes. The controller
+must first verify the immutable source and complete initialized image, apply every
+actual DWORD fixup at the observed base, then slice and compare actual stopped-child
+instruction bytes. It must not guess relocation by subtracting arbitrary immediates,
+turn declared bounds into whole-image execution/data permission, or freely run
+unknown calls/returns/callbacks. Unclassified destinations remain frontiers.
+No original-only startup/CRT analysis or runtime transport is added here.
+
+`check-instruction-export.py --binary BIN --scratch ~/.ai-tmp/CASE --report RESULT`
+exercises the optional field, bindings, pending boundaries, gaps/data, overlapping
+streams and rejection-without-partial-output controls using static synthetic inputs.
+The real Watcom fixtures additionally check raw operand fixups and omission of an
+unreachable extra RET. These checks never launch Wine or target executables.

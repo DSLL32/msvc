@@ -1,0 +1,123 @@
+{
+  "timestamp_utc": "2026-10-23T22:57:16.706637+00:00",
+  "scope": "Opt-in decoded instruction facts from successful paired standalone CFG audits; no execution permission, original-only discovery or application acceptance.",
+  "status": "Published coherent reviewed source and matching release; canonical real reports and critical denials verified.",
+  "binary_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+  "baseline_commit": "11318339f46fb89e26d21fab90576551d3189c48",
+  "baseline_sha256": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
+  "reviewed_source_hashes": {
+    "src/instruction_export.rs": "257e6113d2937b08ce01bf30f42a79483074ca07b196b90166ef90327a4aaf08",
+    "src/main.rs": "03a221029b7c68885796e2f2217ee9e43e902ba64e56255b8b7a33c2ada0b108",
+    "src/index.rs": "aa2f7c49ad372e2a9bcff79046d3d42757a88683dbf8c7666913ff337fc770a6",
+    "src/audit.rs": "38902e8bb3b0cb7a54f9da12e9b1977fc3a021e29c787a5825808d53bf0d5f8c",
+    "README.md": "c08c9d829119823cf1078cb29dd49bb670ef71ed181e7e9d3ed29c093ee592d7",
+    "check-instruction-export.py": "de38c9b1a4c923793db90f80cdd8ff24bc66a7405dd8f8854aabc63370335951"
+  },
+  "reviewed_full_receipt": {
+    "path": "/root/.ai-tmp/graph-audit/instruction-export/validation.json",
+    "sha256": "0d67a8948230a627a8cf1f73a92e868260f97791db46ed6fe6805872e69f6bb5"
+  },
+  "reviews": {
+    "watcom_parent": {
+      "path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/instruction-export-independent.json",
+      "sha256": "63d420e00302b5cfd7954438bd550086380a50596898a7a44eefc6621ebef14b"
+    },
+    "watcom_parent_CLI": {
+      "path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/instruction-export-cli.json",
+      "sha256": "0f39c88ad0f1e3db5d902375e4072e059e6eb11510fb704ab91431e081a501ef"
+    },
+    "WCC_consumer": {
+      "path": "/root/.ai-tmp/msvc2/watcom-capture/instruction-export-review/receipt.json",
+      "sha256": "df7b60de4c3196a0cf69cb26597f55f773a88b8cb1e27d3c8d4282902161fdfb",
+      "scope": "Read-only host consumer check8; raw rows,whole-image modulo32 relocation before slicing,coordinate conversion,pendingabsence,tamper and unchangedGate overlap rejection. No child execution/admission."
+    },
+    "root": "Frozen bounded implementation and parent review approved for publication; no expanded features or test campaign."
+  },
+  "tests": {
+    "units": 63,
+    "fmt": true,
+    "clippy_all_targets_Dwarnings": true,
+    "focused_export_CLI": 15,
+    "flag_off_byteexact_reports": 22,
+    "valid_flag_on_removal_parity": 12,
+    "selected_pending_old_C2_corpus": "Explicit fail-closed rejection of _c2_register_exit pending_extent:true; ordinary audit unchanged. No metadata correction or waiver.",
+    "real_CF": "Original53B trademark and actual Watcom92B counterpart,23raw original instructions; pendingprintf absent; raw base0 fixup operands exact",
+    "real_Watcom_PE": "2 real functions; unreachable RET41009a absent, actual reachableRET410099 retained"
+  },
+  "timing": {
+    "binary_sha256": "e473a68f7f5292672e869ea5ad782ad6d89d99f0b43dc41375870ee3afa5ee24",
+    "scope": "sequential seven CLI samples per mode include input hashing/CFG/JSON; exclude builds,Wine,targetexecution",
+    "results": [
+      {
+        "fixture": "wasm",
+        "functions": 1,
+        "report_bytes": {
+          "ordinary": 2051,
+          "with_export": 7201
+        },
+        "timing_seconds": {
+          "ordinary": {
+            "median": 0.00876939669251442,
+            "min": 0.008236872032284737,
+            "max": 0.01065465435385704
+          },
+          "with_export": {
+            "median": 0.010800257325172424,
+            "min": 0.010061301290988922,
+            "max": 0.013799105770885944
+          }
+        },
+        "paired_remove_export_field_parity": true,
+        "source": "actual previously frozen Watcom compiler/MAP artifacts; no execution or application acceptance"
+      },
+      {
+        "fixture": "tiny",
+        "functions": 2,
+        "report_bytes": {
+          "ordinary": 1187,
+          "with_export": 8228
+        },
+        "timing_seconds": {
+          "ordinary": {
+            "median": 0.005748234689235687,
+            "min": 0.005485116504132748,
+            "max": 0.006862731650471687
+          },
+          "with_export": {
+            "median": 0.006709652952849865,
+            "min": 0.006496225483715534,
+            "max": 0.007177036255598068
+          }
+        },
+        "paired_remove_export_field_parity": true,
+        "source": "actual previously frozen Watcom compiler/MAP artifacts; no execution or application acceptance"
+      }
+    ]
+  },
+  "build": {
+    "scratch_package": {
+      "seconds": 37.743492615409195,
+      "status": 0,
+      "scope": "incremental release package with cached dependencies"
+    },
+    "canonical_package_seconds": 38.71038444712758
+  },
+  "publication": {
+    "path": "/root/.ai-tmp/graph-audit/instruction-export/publication.json",
+    "sha256": "f9d978a20b79ea4ed1a55fe04e220b9f84fb79e7532cce498f4c61b01f0c32ee"
+  },
+  "canonical_verification": {
+    "path": "/root/.ai-tmp/graph-audit/instruction-export/publication-verification.json",
+    "sha256": "52c2b666ddb11159312015177740e5ea9f0104701e5a8c6646e9f5fead0655c0"
+  },
+  "limitations": [
+    "Default reports unchanged. Exports are exactly normal checked owners, never automatically expanded to pending/unselected callees.",
+    "Selected pending_extent records reject, including the historical frozen C2 _c2_register_exit corpus. Ordinary audit remains unchanged; no metadata waiver was made.",
+    "Raw source-image and semantic configuration/index/metadata/record hashes do not replace reconstructed C/build, producer/report or accepted-prefix/support/candidate admission receipts.",
+    "CF bytes are raw base-zero facts. The controller independently verifies the complete relocated initialized image before slicing/comparing stopped-child instructions.",
+    "Record/chunk/data bounds are not blanket execution or memory permission. Runtime controller retains thread/stack/service-boundary and unknown-transfer frontier checks.",
+    "Local/checked RET cleanup sets are not full register/formal/near-far ABI proof. Legacy and integrated CVPACK compatibility profiles explicitly reject export.",
+    "Distinct aliases and valid overlapping decoded streams remain facts; current Gate rejects unsupported instruction overlap rather than silently dropping it.",
+    "Consumer8 controls used a synthetic relocated-image model, no child execution. No startup/CRT bootstrap boundary or new application acceptance was established."
+  ]
+}

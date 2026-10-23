@@ -907,6 +907,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         left.validate_callback_owners(&resolved_owners)?;
         right.validate_callback_owners(&resolved_owners)?;
     }
+    let mut instruction_exports = BTreeMap::new();
     for f in &progress {
         if !x.accepted.contains(&f.name) {
             continue;
@@ -921,7 +922,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             infer_seh: !x.o.explicit_flat_ownership(),
             require_explicit_seh_roots: x.o.explicit_flat_ownership(),
             imports: original_imports.clone(),
-            record_dataflow: resolve_owner,
+            record_dataflow: resolve_owner || a.export_instructions,
             code_chunks: f.code_chunks.clone(),
             fallthrough_entries: f
                 .code_ranges()
@@ -942,7 +943,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             infer_switches: true,
             infer_seh: true,
             imports: rebuilt_imports.clone(),
-            record_dataflow: resolve_owner,
+            record_dataflow: resolve_owner || a.export_instructions,
             code_chunks: other.code_chunks.clone(),
             fallthrough_entries: other
                 .code_ranges()
@@ -1043,6 +1044,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 f.name
             );
         }
+        let mut checked_returns = None;
         if a.check_ret {
             let left = cfg_cleanup(
                 &d,
@@ -1063,10 +1065,30 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 &mut HashSet::new(),
             )?;
             ensure!(left == right, "{} RET cleanup differs", f.name);
+            if a.export_instructions {
+                checked_returns = Some((left, right));
+            }
         }
         if a.check_extents {
             cfg_boundaries(&d, &x.o, f, &l, &options.data, true)?;
             cfg_boundaries(&d, &x.r, other, &r, &rebuilt_options.data, true)?;
+        }
+        if a.export_instructions {
+            let original = crate::instruction_export::side(
+                &x.o,
+                f,
+                &l,
+                &options,
+                checked_returns.as_ref().map(|p| &p.0),
+            )?;
+            let rebuilt = crate::instruction_export::side(
+                &x.r,
+                other,
+                &r,
+                &rebuilt_options,
+                checked_returns.as_ref().map(|p| &p.1),
+            )?;
+            ensure!(instruction_exports.insert(f.name.clone(),json!({"selection_source":"normal checked selection from this audit input; may be a prospective trial configuration","original":original,"rebuilt":rebuilt})).is_none(), "duplicate instruction export owner {}", f.name);
         }
         let mut edges = l
             .calls
@@ -1114,7 +1136,14 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     } else {
         None
     };
+    let decoded_instructions = a
+        .export_instructions
+        .then(|| crate::instruction_export::finish(x, &metadata, instruction_exports, &report))
+        .transpose()?;
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if let Some(export) = decoded_instructions {
+        result["decoded_instructions"] = export;
+    }
     if a.check_imports {
         result["import_catalogs"] = json!({"original":{"slots":original_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":original_imports.as_ref().map(|c|c.thunks.len())},"rebuilt":{"slots":rebuilt_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":rebuilt_imports.as_ref().map(|c|c.thunks.len())}});
     }

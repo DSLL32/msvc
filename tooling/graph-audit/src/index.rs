@@ -145,6 +145,7 @@ pub struct Inputs {
     pub original_imports: Option<crate::imports::Catalog>,
     pub rebuilt_imports: Option<crate::imports::Catalog>,
     pub map_provenance: Option<Value>,
+    pub config_semantic_sha256: Option<String>,
 }
 impl Inputs {
     pub fn load(a: &Args) -> Result<Self> {
@@ -470,6 +471,10 @@ impl Inputs {
             original_imports,
             rebuilt_imports,
             map_provenance,
+            config_semantic_sha256: a
+                .export_instructions
+                .then(|| crate::instruction_export::semantic_hash(&cfg))
+                .transpose()?,
         })
     }
 }

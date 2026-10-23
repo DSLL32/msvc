@@ -6,6 +6,7 @@ mod flow;
 mod image;
 mod imports;
 mod index;
+mod instruction_export;
 mod pe;
 mod register_imports;
 mod watcom_map;
@@ -49,6 +50,11 @@ pub struct Args {
     pub discovery: Discovery,
     #[arg(long)]
     pub check_ret: bool,
+    #[arg(
+        long,
+        help = "Export exact decoded instruction facts for the successful paired CFG selection; not execution permission"
+    )]
+    pub export_instructions: bool,
     #[arg(
         long,
         help = "Compare verified DLL/name-or-ordinal identities of direct IAT and import-thunk transfers"
@@ -116,6 +122,7 @@ fn run() -> Result<()> {
         args.discovery != Discovery::Legacy
             || !(args.check_imports
                 || args.resolve_register_imports
+                || args.export_instructions
                 || args.check_ret
                 || args.check_references
                 || args.check_callbacks
@@ -131,6 +138,10 @@ fn run() -> Result<()> {
     anyhow::ensure!(
         args.profile != Profile::Cvpack || args.map_format == MapFormat::Msvc,
         "integrated CVPACK profile requires MSVC MAP format"
+    );
+    anyhow::ensure!(
+        args.profile != Profile::Cvpack || !args.export_instructions,
+        "instruction export requires a standalone CFG profile"
     );
     if args.profile == Profile::Cvpack
         && let Some(path) = &args.metadata
