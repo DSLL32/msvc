@@ -86,7 +86,7 @@ def prepare():
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial['test_constructor_seed']:
-        trial['auxiliary_data_seed']={'owner':'_initialize_output_buffer_01','point':'entry before target body',
+        trial['auxiliary_data_seed']={'owner':trial_name,'point':'entry before target body',
             'data':'owned snapshot+0','cursor':'owned snapshot+4','capacity':64,
             'unused_relocation':'_initialize_frontend_01; never invoked','relocation_context':'owned snapshot+8',
             'file':'owned snapshot+12; never dereferenced','ok':53,'descriptor':37,'mode':23,

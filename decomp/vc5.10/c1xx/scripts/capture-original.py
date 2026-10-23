@@ -133,7 +133,7 @@ def main():
         environment.pop("C1XX_OBSERVE_INIT_COPY", None)
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
         if trial.get('test_constructor_seed'):
-            environment['C1XX_TEST_OUTPUT_CONSTRUCTOR']='1'
+            environment['C1XX_TEST_OUTPUT_CONSTRUCTOR']=str(int(trial['trial'][-2:]))
         if trial.get('validation_observers'):
             environment['C1XX_OBSERVE_INIT_COPY'] = '1'
         if trial.get("test_seed"):

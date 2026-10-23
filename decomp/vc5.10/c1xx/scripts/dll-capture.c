@@ -228,6 +228,10 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xbf6e0, data + 28, 4);
     readmem(base + 0xbf5dc, data + 32, 1);
     sprintf(name, "output-buffer-01-%s.bin", suffix); save_blob(name, data, 33);
+    readmem(base + 0xc0590, data, 28);
+    readmem(base + 0xc06b0, data + 28, 4);
+    readmem(base + 0xc05ac, data + 32, 1);
+    sprintf(name, "output-buffer-02-%s.bin", suffix); save_blob(name, data, 33);
     readmem(base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
@@ -251,21 +255,22 @@ static void save_aux_state(const char *suffix)
     sprintf(name, "aux-owned-fields-%s.bin", suffix); save_blob(name, fields, sizeof(fields));
 }
 
-static void seed_output_buffer(const char *role)
+static void seed_output_buffer(unsigned index, const char *role)
 {
     DWORD allocated, value;
+    DWORD object = base + (index ? 0xc0590 : 0xbf5c0);
     readmem(base + 0xc4d50, &allocated, 4);
     if (!allocated) fail("output seed needs owned snapshot");
-    value = allocated; write_mem(base + 0xbf5c0, &value, 4);
-    value = allocated + 4; write_mem(base + 0xbf5c4, &value, 4);
-    value = 64; write_mem(base + 0xbf5c8, &value, 4);
-    value = base + 0x38610; write_mem(base + 0xbf5cc, &value, 4);
-    value = allocated + 8; write_mem(base + 0xbf5d0, &value, 4);
-    value = allocated + 12; write_mem(base + 0xbf5d4, &value, 4);
-    value = 53; write_mem(base + 0xbf5d8, &value, 4);
-    value = 37; write_mem(base + 0xbf6e0, &value, 4);
-    value = 23; write_mem(base + 0xbf5dc, &value, 1);
-    fprintf(events, "output-seed role=%s data=snapshot+0 cursor=snapshot+4 context=snapshot+8 file=snapshot+12 unused-relocation=_initialize_frontend_01 capacity=64 ok=53 descriptor=37 mode=23\n", role);
+    value = allocated; write_mem(object + 0x0, &value, 4);
+    value = allocated + 4; write_mem(object + 0x4, &value, 4);
+    value = 64; write_mem(object + 0x8, &value, 4);
+    value = base + 0x38610; write_mem(object + 0xc, &value, 4);
+    value = allocated + 8; write_mem(object + 0x10, &value, 4);
+    value = allocated + 12; write_mem(object + 0x14, &value, 4);
+    value = 53; write_mem(object + 0x18, &value, 4);
+    value = 37; write_mem(object + 0x120, &value, 4);
+    value = 23; write_mem(object + 0x1c, &value, 1);
+    fprintf(events, "output-seed object=%u role=%s data=snapshot+0 cursor=snapshot+4 context=snapshot+8 file=snapshot+12 unused-relocation=_initialize_frontend_01 capacity=64 ok=53 descriptor=37 mode=23\n", index + 1, role);
 }
 
 static void seed_frontend_restore(void)
@@ -313,7 +318,8 @@ static void seed_frontend_restore(void)
     }
     write_mem(base + 0xbecb0, &allocated, 4);
     value = 17; write_mem(base + 0xbecb4, &value, 4);
-    seed_output_buffer("nonzero-BSS-reset");
+    seed_output_buffer(0, "nonzero-BSS-reset");
+    seed_output_buffer(1, "nonzero-BSS-reset");
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -485,8 +491,11 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
-                if (address == base + 0x38666 && getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR"))
-                    seed_output_buffer("constructor-entry");
+                if (getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR")) {
+                    unsigned object = atoi(getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR"));
+                    if (address == base + (object == 2 ? 0x386db : 0x38666))
+                        seed_output_buffer(object - 1, "constructor-entry");
+                }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

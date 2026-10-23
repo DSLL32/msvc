@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Reject changed typed output layout, mocked data roles and constructor results."""
+import argparse
 import importlib.util
 import json
 from pathlib import Path
@@ -13,15 +14,19 @@ def load(name,file):
 
 def main():
     d=load('output_decoder','check-callback.py');helpers=load('output_helpers','check-projection-negative.py');history=load('output_history','check-history.py')
-    packet=json.loads((d.s.PROJECT/'cases/minimal/output01-trials.json').read_text());row=next(row for row in packet['trials'] if row['seed']=='restore-nonzero');original,native=Path(row['original']),Path(row['native'])
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--packet',type=Path,default=d.s.PROJECT/'cases/minimal/output01-trials.json');args=parser.parse_args()
+    packet=json.loads(args.packet.read_text());index=1 if packet['trial']=='_initialize_output_buffer_02' else 0
+    row=next(row for row in packet['trials'] if row['seed']=='restore-nonzero');original,native=Path(row['original']),Path(row['native'])
     audit=history.configure(d,original,native,saved_record=row);d.check(original,native,audit_path=audit)
     cases=('wrong-native-padding','wrong-mode-width','BSS-clear-skipped','constructor-ok-wrong','descriptor-unsigned','wrong-unused-callback','FILE-outside-owned-role','false-constructor-PC','changed-registration-callback','changed-real-initializer-table')
     for case in cases:
         with tempfile.TemporaryDirectory(prefix='output-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1xx') as temp:
             root=Path(temp);o=root/'original';n=root/'native';shutil.copytree(original,o);shutil.copytree(native,n)
             name='phase.json' if case=='BSS-clear-skipped' else 'constructor-entry.json' if case in ('wrong-unused-callback','FILE-outside-owned-role','false-constructor-PC') else 'state.json'
+            if index and name=='constructor-entry.json':name='constructor02-entry.json'
+            if index and case=='changed-registration-callback':name='registration02-entry.json'
             def change(j):
-                fields=j['frontend'];buffer=fields['output_buffers'][0]
+                fields=j['frontend'];buffer=fields['output_buffers'][index]
                 if case=='wrong-native-padding':fields['output_native_layout']['size']=292
                 elif case=='wrong-mode-width':fields['output_native_layout']['fields']['mode'][1]=4
                 elif case=='BSS-clear-skipped':buffer['data']=fields['saved_state']

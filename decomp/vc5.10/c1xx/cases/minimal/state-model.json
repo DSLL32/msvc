@@ -1,5 +1,5 @@
 {
-  "schema": 6,
+  "schema": 7,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -220,6 +220,87 @@
       "native_expression": "frontend_bss.output_buffers[0].mode",
       "original_default": 0,
       "evidence": "constructor38666 touches only this field;9known fields, original intervening storage UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.data",
+      "class": "bss",
+      "original_address": 273417616,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].data",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.cursor",
+      "class": "bss",
+      "original_address": 273417620,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].cursor",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.capacity",
+      "class": "bss",
+      "original_address": 273417624,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].capacity",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.relocation",
+      "class": "bss",
+      "original_address": 273417628,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].relocation",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.relocation_context",
+      "class": "bss",
+      "original_address": 273417632,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].relocation_context",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.file",
+      "class": "bss",
+      "original_address": 273417636,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].file",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.ok",
+      "class": "bss",
+      "original_address": 273417640,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].ok",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.descriptor",
+      "class": "bss",
+      "original_address": 273417904,
+      "bytes": 4,
+      "native_expression": "frontend_bss.output_buffers[1].descriptor",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
+    },
+    {
+      "name": "output_buffer_02.mode",
+      "class": "bss",
+      "original_address": 273417644,
+      "bytes": 1,
+      "native_expression": "frontend_bss.output_buffers[1].mode",
+      "original_default": 0,
+      "evidence": "constructor386db independent same-class object; 9encountered fields only, intervening259bytes UNMODELED"
     }
   ],
   "initializers": [
@@ -441,10 +522,10 @@
   ],
   "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use",
   "native_padding": {
-    "bytes": 3,
+    "bytes": 6,
     "kind": "natural trailing C object padding; no original semantic counterpart",
     "output_buffer_size": 36,
     "output_mapped_bytes": 33,
-    "output_count": 1
+    "output_count": 2
   }
 }

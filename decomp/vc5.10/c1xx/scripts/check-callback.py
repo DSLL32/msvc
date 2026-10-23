@@ -20,18 +20,19 @@ def context(directory,suffix,name='context_stack'):
 
 def check(original,native,require_audit=True,audit_path=None):
     o,n,trial,text,state=s.pair(original,native)
+    constructor2=trial['trial']=='_initialize_output_buffer_02'
     constructor=trial['trial']=='_initialize_output_buffer_01'
     registrar=trial['trial']=='_register_cleanup'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(constructor or registrar or match is not None and 1<=int(match[1])<=9,'no reviewed callback decoder for this function')
-    index=8 if constructor or registrar else int(match[1])
+    s.require(constructor2 or constructor or registrar or match is not None and 1<=int(match[1])<=9,'no reviewed callback decoder for this function')
+    index=9 if constructor2 else 8 if constructor or registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
     wrapper09=index==9
-    seed=trial.get('test_seed');final='%03d'%((7 if seed else 8)+index+int(constructor)+2*int(registrar)+2*int(wrapper09))
+    seed=trial.get('test_seed');final='%03d'%((7 if seed else 8)+index+int(constructor)+2*int(registrar)+2*int(wrapper09)+2*int(constructor2))
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -54,6 +55,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if index==8:expected[-1]=(expected[-1][0],'00038666')
     if constructor or registrar:expected.append((str(int(expected[-1][0])+1),'000386ae'))
     if registrar:expected.append((str(int(expected[-1][0])+1),'000386d4'))
+    if constructor2:expected += [(str((19 if seed else 20)),'000386ae'),(str((20 if seed else 21)),'00038723')]
     expected_frontier=expected[-1][1]
     s.require([row[:2] for row in traps]==expected and re.findall(r'^frontier rva=(\w+)$',text,re.M)==[expected_frontier],
               'original callback did not advance to exact next callback')
@@ -63,12 +65,14 @@ def check(original,native,require_audit=True,audit_path=None):
     if index==8:trace[-1]='initialize_output_buffer_01'
     if constructor or registrar:trace.append('register_cleanup')
     if registrar:trace.append('initialize_frontend_09')
+    if constructor2:trace.append('initialize_frontend_10')
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     frontier='initialize_frontend_%02d'%(index+1)
     if wrapper09:frontier='initialize_output_buffer_02'
     if index==8:frontier='initialize_output_buffer_01'
     if constructor:frontier='register_cleanup'
     if registrar:frontier='initialize_frontend_09'
+    if constructor2:frontier='initialize_frontend_10'
     s.require(state['symbol']==frontier and (constructor or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'native-executable.elf')],text=True)
@@ -98,12 +102,13 @@ def check(original,native,require_audit=True,audit_path=None):
         s.require(int(traps[6][2].split(',')[1],16)==8520,'actual allocator request differs')
     destructor=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] destroy_output_buffer_01$',symbols,re.M)
     s.require(destructor is not None,'missing native destructor boundary')
+    destructor2=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] destroy_output_buffer_02$',symbols,re.M)
     for suffix,old,current,flag in (('phase',phase_old,phase,copied),(final,after,state,0)):
         value=current['frontend']
         s.require(old['first_invocation']==value['first_invocation']==flag and old['saved_state'] and value['saved_state'] and
-                  old['cleanup_count']==value['cleanup_count']==int((registrar or wrapper09) and suffix==final) and
-                  old['cleanup_callbacks']==([0x10434748]+[0]*31 if (registrar or wrapper09) and suffix==final else [0]*32) and
-                  value['cleanup_callbacks']==([int(destructor[1],16)]+[0]*31 if (registrar or wrapper09) and suffix==final else [0]*32) and
+                  old['cleanup_count']==value['cleanup_count']==((2 if constructor2 else 1) if (registrar or wrapper09) and suffix==final else 0) and
+                  old['cleanup_callbacks']==(([0x10434748,0x10434741]+[0]*30 if constructor2 else [0x10434748]+[0]*31) if (registrar or wrapper09) and suffix==final else [0]*32) and
+                  value['cleanup_callbacks']==(([int(destructor[1],16),int(destructor2[1],16)]+[0]*30 if constructor2 else [int(destructor[1],16)]+[0]*31) if (registrar or wrapper09) and suffix==final else [0]*32) and
                   old['restore_mode']==value['restore_mode']==wanted and value['saved_first']==copied and
                   all(context(original,suffix,name)==value[name]==[0]*counts[name] for name in context_names),
                   'typed copy/expanded BSS clear/context initializer result differs')
@@ -122,15 +127,16 @@ def check(original,native,require_audit=True,audit_path=None):
                   'caller/lifecycle state changed')
     if constructor or registrar or wrapper09:
         check_output(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps)
+    if constructor2:check_output02(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
     if require_audit:s.audit(trial,audit_path)
     return {'trial':trial['trial'],'frontier':'_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
-            'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(3 if model['schema']>=6 else 0),
+            'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(model['native_padding']['bytes'] if model['schema']>=6 else 0),
             'native_bss_size':state['frontend']['known_sizes']['bss'],
-            'native_c_padding_bytes':3 if model['schema']>=6 else 0,
-            'output_constructor_fields_checked':9 if constructor or registrar or wrapper09 else 0,
+            'native_c_padding_bytes':model['native_padding']['bytes'] if model['schema']>=6 else 0,
+            'output_constructor_fields_checked':18 if constructor2 else 9 if constructor or registrar or wrapper09 else 0,
             'cleanup_registration_checked':registrar or wrapper09,
             'nonzero_output_constructor_input_checked':bool(trial.get('test_constructor_seed')),
             'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8516,
@@ -139,8 +145,8 @@ def check(original,native,require_audit=True,audit_path=None):
             'original_seconds':o['seconds'],'native_seconds':n['seconds']}
 
 
-def output(directory,suffix):
-    raw=(directory/('output-buffer-01-'+suffix+'.bin')).read_bytes()
+def output(directory,suffix,index=1):
+    raw=(directory/('output-buffer-%02d-'%index+suffix+'.bin')).read_bytes()
     s.require(len(raw)==33,'missing encountered output-buffer fields')
     names=('data','cursor','capacity','relocation','relocation_context','file','ok','descriptor','mode')
     return dict(zip(names,struct.unpack('<7IiB',raw)))
@@ -158,16 +164,16 @@ def check_output(original,native,trial,text,pre,phase,state,seed,final,slots,sym
     before=d.original_fields(original,'006')
     expected_old=output_seed(before['saved_state'],0x10438610) if seed else zero
     expected_new=output_seed(pre['frontend']['saved_state'],slots[1]) if seed else zero
-    s.require(output(original,'006')==expected_old and pre['frontend']['output_buffers']==[expected_new],
+    s.require(output(original,'006')==expected_old and pre['frontend']['output_buffers'][0]==expected_new,
               'nonzero output BSS seed/default differs')
-    s.require(output(original,'phase')==zero and phase['frontend']['output_buffers']==[zero],
+    s.require(output(original,'phase')==zero and phase['frontend']['output_buffers'][0]==zero,
               'output fields escaped typed BSS clearing')
     entry=json.loads((native/'constructor-entry.json').read_text())
     entry_symbol=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_output_buffer_01$',symbols,re.M)
     s.require(entry_symbol is not None and entry['pc']==int(entry_symbol[1],16),'not the actual native constructor entry')
-    registrar=trial['trial'] in ('_register_cleanup','_initialize_frontend_09')
+    registrar=trial['trial'] in ('_register_cleanup','_initialize_frontend_09','_initialize_output_buffer_02')
     sequence='%03d'%(15 if seed else 16)
-    if trial.get('test_constructor_seed'):
+    if trial.get('test_constructor_seed') and trial['trial']=='_initialize_output_buffer_01':
         s.require(trial['auxiliary_data_seed']=={'owner':'_initialize_output_buffer_01','point':'entry before target body',
             'data':'owned snapshot+0','cursor':'owned snapshot+4','capacity':64,
             'unused_relocation':'_initialize_frontend_01; never invoked','relocation_context':'owned snapshot+8',
@@ -175,13 +181,13 @@ def check_output(original,native,trial,text,pre,phase,state,seed,final,slots,sym
             'actual_initializer_table_unchanged':True,'code_or_allocator_mock':False},'undeclared constructor-entry data mocks')
         old_pointer=d.original_fields(original,sequence)['saved_state'];new_pointer=entry['frontend']['saved_state']
         s.require(output(original,sequence)==output_seed(old_pointer,0x10438610) and
-                  entry['frontend']['output_buffers']==[output_seed(new_pointer,slots[1])] and
-                  'output-seed role=constructor-entry ' in text,'missing actual nonzero constructor input')
+                  entry['frontend']['output_buffers'][0]==output_seed(new_pointer,slots[1]) and
+                  ('output-seed role=constructor-entry ' in text or 'output-seed object=1 role=constructor-entry ' in text),'missing actual nonzero constructor input')
     else:
-        s.require('auxiliary_data_seed' not in trial and output(original,sequence)==zero and
-                  entry['frontend']['output_buffers']==[zero],'ordinary constructor input was mocked')
+        s.require(('auxiliary_data_seed' not in trial or trial['trial']=='_initialize_output_buffer_02') and output(original,sequence)==zero and
+                  entry['frontend']['output_buffers'][0]==zero,'ordinary constructor input was mocked')
     s.require(entry['symbol']=='initialize_output_buffer_01' and entry['args']=={} and
-              output(original,final)==done and state['frontend']['output_buffers']==[done],
+              output(original,final)==done and state['frontend']['output_buffers'][0]==done,
               'constructor did not assign all nine encountered fields')
     callback=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] destroy_output_buffer_01$',symbols,re.M)
     registration=json.loads((native/'registration-entry.json').read_text()) if registrar else state
@@ -191,5 +197,46 @@ def check_output(original,native,trial,text,pre,phase,state,seed,final,slots,sym
     if registrar:
         s.require(registration['symbol']=='register_cleanup' and registration['frontend']['cleanup_count']==0 and
                   registration['frontend']['cleanup_callbacks']==[0]*32 and
-                  output(original,'%03d'%(16 if seed else 17))==done and registration['frontend']['output_buffers']==[done],
+                  output(original,'%03d'%(16 if seed else 17))==done and registration['frontend']['output_buffers'][0]==done,
                   'registration entry state differs')
+
+
+def check_output02(original,native,trial,text,pre,phase,state,seed,final,slots,symbols,traps):
+    """Second same-class object, with independently captured storage and inputs."""
+    zero={name:0 for name in ('data','cursor','capacity','relocation','relocation_context','file','ok','descriptor','mode')}
+    done=dict(zero,ok=1,descriptor=-1)
+    s.require(output(original,'000',2)==zero,'second output original defaults differ')
+    before=d.original_fields(original,'006')
+    old=output_seed(before['saved_state'],0x10438610) if seed else zero
+    new=output_seed(pre['frontend']['saved_state'],slots[1]) if seed else zero
+    s.require(output(original,'006',2)==old and pre['frontend']['output_buffers'][1]==new,
+              'second output initial/BSS seed differs')
+    s.require(output(original,'phase',2)==zero and phase['frontend']['output_buffers'][1]==zero,
+              'second output not cleared by repeated initializer')
+    entry=json.loads((native/'constructor02-entry.json').read_text())
+    symbol=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_output_buffer_02$',symbols,re.M)
+    s.require(symbol is not None and entry['pc']==int(symbol[1],16) and entry['symbol']=='initialize_output_buffer_02' and entry['args']=={},
+              'second output observer not actual constructor entry')
+    sequence='%03d'%(18 if seed else 19)
+    if trial.get('test_constructor_seed'):
+        s.require(trial['auxiliary_data_seed']=={'owner':'_initialize_output_buffer_02','point':'entry before target body',
+            'data':'owned snapshot+0','cursor':'owned snapshot+4','capacity':64,
+            'unused_relocation':'_initialize_frontend_01; never invoked','relocation_context':'owned snapshot+8',
+            'file':'owned snapshot+12; never dereferenced','ok':53,'descriptor':37,'mode':23,
+            'actual_initializer_table_unchanged':True,'code_or_allocator_mock':False},'undeclared second constructor input roles')
+        s.require(output(original,sequence,2)==output_seed(d.original_fields(original,sequence)['saved_state'],0x10438610) and
+                  entry['frontend']['output_buffers'][1]==output_seed(entry['frontend']['saved_state'],slots[1]) and
+                  'output-seed object=2 role=constructor-entry ' in text,'missing second constructor nonzero inputs')
+    else:
+        s.require(output(original,sequence,2)==zero and entry['frontend']['output_buffers'][1]==zero and
+                  'auxiliary_data_seed' not in trial,'ordinary second constructor input mocked')
+    s.require(output(original,final,2)==done and state['frontend']['output_buffers'][1]==done,
+              'second constructor did not assign all nine fields')
+    registration=json.loads((native/'registration02-entry.json').read_text())
+    callback=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] destroy_output_buffer_02$',symbols,re.M)
+    row=[row for row in traps if row[1]=='000386ae'][-1]
+    s.require(callback is not None and registration['symbol']=='register_cleanup' and
+              registration['args']=={'cleanup':int(callback[1],16)} and registration['frontend']['cleanup_count']==1 and
+              int(row[2].split(',')[1],16)==0x10434741 and
+              output(original,'%03d'%(19 if seed else 20),2)==done and registration['frontend']['output_buffers'][1]==done,
+              'second destructor registration input differs')

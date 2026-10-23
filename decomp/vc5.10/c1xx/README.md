@@ -112,3 +112,10 @@ in slot0, increments the count to1 and reaches initializer09. Eight altered
 count/slot/input/state/frontier controls are rejected by
 `scripts/check-registration-negative.py`; the raw pair and audit are recorded
 in `cases/minimal/registration-trials.json`.
+
+The second independently addressed output object is modeled in schema7. Both
+objects total66semantic bytes and6bytes of natural C padding; no original gap
+is represented. `cases/minimal/output02-trials.json` retains a natural pair
+and two explicitly auxiliary nonzero constructor/reset pairs. All18encountered
+output fields, two destructor registrations and both mode-dependent reset paths
+agree. Ten output and ten context divergence controls reject altered evidence.
