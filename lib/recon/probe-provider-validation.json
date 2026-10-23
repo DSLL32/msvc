@@ -1,0 +1,142 @@
+{
+  "scope": "Explicit read-only original probe provider confirmation; existing frozen reference stdout/artifacts unchanged, not fixture recapture",
+  "helper_source_sha256": "2537f2a289926934d665186d574f0b94ed85f073aaf91a3c1a57db22b61ff7d3",
+  "helper_executable_sha256": "e5c072ccdc589fdc3983fa327d32b6c1feb130a9d70fa28a3f8b0ede8790877a",
+  "expected_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "rows": [
+    {
+      "probe": "fsopen",
+      "arguments": "",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/fsopen-bvs6yh2d",
+      "seconds": 1.0932600907981396,
+      "original_executable_sha256": "8d880b4d428cc9820e8f1778f8b496531e03b666a92900a7d6e8c2720f4248e8",
+      "actual_loaded_probe_sha256": "8d880b4d428cc9820e8f1778f8b496531e03b666a92900a7d6e8c2720f4248e8",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "a83650823cbf6d1c323da82d32a7353173fd506363740a0faf083ff57eb9b603",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "getenv",
+      "arguments": "",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/getenv-40g9auah",
+      "seconds": 0.3991559650748968,
+      "original_executable_sha256": "6ea6ccfd0d691b016babe9760438a17f51543d7092eb70d56446ec9444f32842",
+      "actual_loaded_probe_sha256": "6ea6ccfd0d691b016babe9760438a17f51543d7092eb70d56446ec9444f32842",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "cf512d9b98f46cb36e615445f54638ed70ee09146783f6096864559f59737b9a",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "ascii-terminal",
+      "arguments": "",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/ascii-terminal-h0spnz2y",
+      "seconds": 0.43648695200681686,
+      "original_executable_sha256": "10b952c0d79fb53c2eb64b209df9755477fe8d5f023d2b9e7aec700e127a3f15",
+      "actual_loaded_probe_sha256": "10b952c0d79fb53c2eb64b209df9755477fe8d5f023d2b9e7aec700e127a3f15",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "ad9fc8fb1df00ae86b747c85e6a301b0846500ac0417cd534dc13ff0d830bb97",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "mktemp",
+      "arguments": "0",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/mktemp-8n5mfpit",
+      "seconds": 0.7018596362322569,
+      "original_executable_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_probe_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "1eac01182f4494657a27c6c62ebce4d3357474e20a4693d3e8e5c20b9765cf1d",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "mktemp",
+      "arguments": "1",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/mktemp-bvqovxdn",
+      "seconds": 0.6117956377565861,
+      "original_executable_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_probe_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "6c20eeb6b891139bbcdc0cee11d97002f24bae84ff9ef236813798dbc6c732ee",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "mktemp",
+      "arguments": "2",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/mktemp-ef6e3i6p",
+      "seconds": 0.6607565712183714,
+      "original_executable_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_probe_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "1eac01182f4494657a27c6c62ebce4d3357474e20a4693d3e8e5c20b9765cf1d",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "mktemp",
+      "arguments": "3",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/mktemp-ara8tlwq",
+      "seconds": 0.5122074680402875,
+      "original_executable_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_probe_sha256": "ccba733a82a7ba7f31a9843c0833ca79df44af14f4a7b5a71ae92da89e0fd058",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "6c20eeb6b891139bbcdc0cee11d97002f24bae84ff9ef236813798dbc6c732ee",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "writefile",
+      "arguments": "",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/writefile-uhfls5yo",
+      "seconds": 0.49409700836986303,
+      "original_executable_sha256": "8dcccef43c8910f680b3e493aa90108f97c321636b1a79ef55eae74640ab1aeb",
+      "actual_loaded_probe_sha256": "8dcccef43c8910f680b3e493aa90108f97c321636b1a79ef55eae74640ab1aeb",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "1d85d3306f7090aaca3b236edf41511cbecb0221c1ec3d6f278d131ac9dfea5f",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "read-prefetch",
+      "arguments": "",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/read-prefetch-e0lwyoqw",
+      "seconds": 0.594575759023428,
+      "original_executable_sha256": "075aba6b9f5ea90fbfc8e04f465ea156c8650aea60359b41673c2d513dc7c734",
+      "actual_loaded_probe_sha256": "075aba6b9f5ea90fbfc8e04f465ea156c8650aea60359b41673c2d513dc7c734",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "653c2c880d19640cd2d299b908889f364f4e70ee9f03b5dd3c3b95edf140ca11",
+      "verification": "verified loaded-probe.bin 4096\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "mapview-ex",
+      "arguments": "",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/mapview-ex-qhv0_cgs",
+      "seconds": 0.5396119952201843,
+      "original_executable_sha256": "773a43a2c6f715d235f093cac17707a36b60bb41b3888ed4e35714727f9dcc2a",
+      "actual_loaded_probe_sha256": "773a43a2c6f715d235f093cac17707a36b60bb41b3888ed4e35714727f9dcc2a",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "e441cb3ee26a6da7d143fa1660c611d01deadb0cc168f0ed656de2a5e7ae718c",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    },
+    {
+      "probe": "mb-icmp",
+      "arguments": "",
+      "directory": "/root/.ai-tmp/msvc2/recon-maintenance/provider-verification/mb-icmp-iwf4_nga",
+      "seconds": 0.5375320743769407,
+      "original_executable_sha256": "bedf387be09a1d7de173c5ae46c545ac5cda80ca260c3c64dc4e319c16bf62ff",
+      "actual_loaded_probe_sha256": "bedf387be09a1d7de173c5ae46c545ac5cda80ca260c3c64dc4e319c16bf62ff",
+      "actual_loaded_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "stdout_sha256": "9c18e4fd3678c3f73f7875ba1ec2a6be3f5a3c63fde715ce851ca2de507e5445",
+      "verification": "verified loaded-probe.bin 3584\nverified loaded-crt.bin 277776\nexit 0\n",
+      "status": "passed"
+    }
+  ],
+  "status": "passed",
+  "total_seconds": 6.581339158117771
+}
