@@ -196,7 +196,7 @@ void increment_expression_record_depth(void) { __asm { int 3 } }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
-void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object) { __asm { int 3 } }
+
 IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor) { __asm { int 3 } return 0; }
 void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }

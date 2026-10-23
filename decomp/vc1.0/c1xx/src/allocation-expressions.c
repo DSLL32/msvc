@@ -9,6 +9,7 @@
 #include "function-definitions.h"
 #include "expression-preparation.h"
 #include "return-statements.h"
+#include "unary-expressions.h"
 #include <recon.h>
 
 CppSymbol *allocation_base_symbol; /* original 0xa0d18: based allocation context */
@@ -243,4 +244,20 @@ IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier,
     }
     return make_object_constructor_call(operation, modifier->attributes,
         placement, type, initializer, 0, (IrToken *)bound);
+}
+
+/* Original 0x50180..0x501ff. Save the allocation into one generated
+   reference so constructor/destructor expressions evaluate it only once. */
+void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object)
+{
+    IrToken *temporary;
+    unsigned index;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    temporary = new_temporary_reference(index, (*object)->type);
+    *saved = new_right_typed_expression(0x3d, temporary, *object);
+    temporary = clone_expression(temporary, 0);
+    *object = new_typed_unary_expression(0x46, (*object)->type, temporary);
 }
