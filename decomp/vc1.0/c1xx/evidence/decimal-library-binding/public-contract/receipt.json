@@ -1,0 +1,35 @@
+{
+  "scope": "Actual reached public CRT boundary only; untouched original reference apart from entry breakpoint, no acceptance or CRT source reconstruction",
+  "case": "state_machine_debug",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "configuration_sha256": "4d045f0f454cc7789586237200fe5036f753b13c23af1a7523cec03e82681dca",
+  "origin": "/root/.ai-tmp/msvc2/vc1.0/c1xx/original-capture-x22dkjli",
+  "origin_receipt_sha256": "da8a0b12953af8e577d069f1ba3f71e966ea80baa2d19ab9cb970c337dd8dbf6",
+  "original": {
+    "return_va": 478039,
+    "output_address": 2948572,
+    "text_address": 573784,
+    "entry_esp": 2948528,
+    "text": "312e3500",
+    "after_text": "312e3500",
+    "output": "00000000000000c0ff3f",
+    "result": 0
+  },
+  "native": {
+    "text": "312e3500",
+    "after_text": "312e3500",
+    "output": "00000000000000c0ff3f",
+    "result": 0,
+    "entry": "recon_atoldbl",
+    "entry_pc": 1448999404,
+    "caller": "convert_floating_literal",
+    "output_matches_caller_parsed": true,
+    "output_prestate": "unread/uncredited",
+    "defined_output_bytes": 10
+  },
+  "original_seconds": 0.7154477564617991,
+  "native_seconds": 0.1401411695405841,
+  "original_image_sha256": "f76fe0b3b43654cb031cdf18b2695c5ee2d8cd9ded5ebf16395eb24d1bc8fac9",
+  "observer_sha256": "2e37eb35e16a27f8b9f6800da1a43141ca56c93a6dd37f14c2e62379be62d640",
+  "native_executable_sha256": "94adfa86c520fe044476113a6a3e85750eee140de54e26828b42475369201f58"
+}

@@ -95,6 +95,10 @@ for r in records:
     if r['name'] == '_strcat':
         shared = next(x for x in records if x['name'] == '_strcpy' and x['start'] == r['start']+4)
         r['shared'] = [[r['start']+8, shared['end']]]
+# The ordinary matcher remains exact; one separately proved older decimal
+# variant supplies an original-only compatible library index record.
+from decimal_variant import original_records
+records += original_records(path)
 records.sort(key=lambda r:r['start'])
 Path(sys.argv[2] if len(sys.argv) > 2 else 'runtime.json').write_text(json.dumps(records, indent=2)+'\n')
 print('%d runtime functions identified, %d bytes' %

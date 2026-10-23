@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "accepted_before": 1143,
+  "accepted": "___mtold12",
+  "terminal": "___shl_12",
+  "original_capture": "cases/frontiers/state_machine_debug/1143-mtold12/original-receipt.json",
+  "original_capture_sha256": "ed2197d3367a7828f348bc74b9bae5b3a4390edb96cd60e0c621d7bbf4f9f9b0",
+  "original_events": "cases/frontiers/state_machine_debug/1143-mtold12/original-events.txt",
+  "original_events_sha256": "7efffc9b9421942a908bd2c44c1b1c3c98b91979ddcf17e24aa33be434c5c1f6",
+  "original_configuration": "cases/frontiers/state_machine_debug/1143-mtold12/original-configuration.json",
+  "scope": "Explicit runtime first-entry sequence, indexed library/import identity, original/native runtime boundary and downstream full checkpoint",
+  "runtime_evidence": "evidence/decimal-library-binding/runtime-boundary.json",
+  "runtime_evidence_sha256": "cb0b1ae62bc29f197a2626f19b4ee61390769fb7349529dfe62692d133e7aa79",
+  "downstream_frontier": "_extended_to_double",
+  "downstream_comparison": "cases/frontiers/state_machine_debug/1140-convert_floating_literal-8/validation.json"
+}

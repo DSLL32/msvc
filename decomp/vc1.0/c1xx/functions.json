@@ -1144,7 +1144,18 @@
     "_encode_string_literal_name@16",
     "_make_string_literal_object@12",
     "_write_initializer_record@8",
-    "_scan_float_tail@4"
+    "_scan_float_tail@4",
+    "_convert_floating_literal@8",
+    "__atoldbl",
+    "___strgtold12",
+    "___mtold12",
+    "___shl_12",
+    "___add_12",
+    "___addl",
+    "___multtenpow12",
+    "___ld12mul",
+    "__ld12told",
+    "__RoundMan"
   ],
   "driver": [
     {
@@ -8311,7 +8322,7 @@
     {
       "name": "_convert_floating_literal@8",
       "start": 478016,
-      "end": 478017
+      "end": 478289
     }
   ],
   "cases": {
@@ -8512,7 +8523,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_convert_floating_literal@8",
+      "terminal": "_extended_to_double",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8535,7 +8546,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1150-RoundMan/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8680,7 +8691,18 @@
         "cases/frontiers/state_machine_debug/1136-encode_string_literal_name-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1137-make_string_literal_object-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1138-write_initializer_record-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1140-convert_floating_literal-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1141-atoldbl/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1142-strgtold12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1143-mtold12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1144-shl_12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1145-add_12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1146-addl/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1147-multtenpow12/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1148-ld12mul/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1149-ld12told/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1150-RoundMan/frontier-extension.json"
       ]
     }
   },

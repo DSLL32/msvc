@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_convert_floating_literal@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1140,
+  "configuration_sha256": "4d045f0f454cc7789586237200fe5036f753b13c23af1a7523cec03e82681dca",
+  "native_entry": "convert_floating_literal",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "text",
+      "stack_index": 0,
+      "native_field": "raw_text",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 573784,
+        "offset": 0,
+        "native_anchor_field": "text_owner",
+        "native_object_address": 1449193384
+      },
+      "original_raw": 573784,
+      "native_raw": 1449193384,
+      "result": "match"
+    },
+    {
+      "name": "value",
+      "stack_index": 1,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 621480,
+        "offset": 0,
+        "native_anchor_field": "value_owner",
+        "native_object_address": 1449193616
+      },
+      "original_raw": 621480,
+      "native_raw": 1449193616,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      478016,
+      478289
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole273B SUB32/saveEBXESIEDI12: textESP+48/value+52; sixRET8/EAX0or1, no incoming hiddenregisterinputs. Actual caller scanner PUSH97ba8/PUSH8c158/CALL256ea return256ef. Publicoutput value prestate uncredited: first writes low/high/exponent from ten actual _atoldbl output bytes, format set branch-locally. Temporary parsed.format is never consumed. Original _atoldbl cdecl output,text boundary from shipped LIBC/intrncvt.obj; no handwritten CRT body. Lastsuffix L and default double-rounding, F single-rounding via existing separately unaccepted cdeclconverter functions; L setsformat8after conversion, otherbranches before conversion, preserveerror path.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "94adfa86c520fe044476113a6a3e85750eee140de54e26828b42475369201f58",
+  "capture_timing": {
+    "original_capture_seconds": 1.6681078150868416,
+    "native_capture_seconds": 0.19537052512168884,
+    "total_operation_seconds": 2.087901403196156
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "2c8171c1aa52b8a064276802d2fffc52668078daa0d31c3e48e82a5d7dcd96a9",
+    "native-commands.gdb": "325faf17fb14ef86798340fd9eb4bdb8b41afb626eaa1124b84bec93c2f15ab1",
+    "native-gdb.log": "b19da9956687431184168fe1ed6cac1c9a461acab0dc92315cd45c62a1a82b37",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "99186ba5316f1ac5529acf7ff968dc673f7a8b87f4318df99fd8386f8ecca7b9",
+    "original-configuration.json": "4d045f0f454cc7789586237200fe5036f753b13c23af1a7523cec03e82681dca",
+    "original-disassembly.txt": "22be1b57b82b603941b0ad89d6bf1a4eac8d07b5d2dd6a701be5f6e960d6b484",
+    "original-events.txt": "ce00e349a74eb90bc3c2478df09c76a4c95ae4a7450877b9372ad7118335b496",
+    "original-receipt.json": "99e09a25769cf47448e88439b011963e9c5046d09401a9f9a46e1d6bc53a06b9",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "be2cf8d7f296dbb2cd059eb8cf1d64ec6a5e7cacc298ba3a7b92e90e163c9dc6"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,13 @@
+Breakpoint 1 at 0xaabc: file src/floating.c, line 31.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, convert_floating_literal (text=0x5660efa8 <lexer_text_storage> "1.5", value=0x5660f090 <scanned_floating_value>) at src/floating.c:31
+31	    _atoldbl(&parsed, text);
+Breakpoint 2 at 0x565df9ec: file build/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/src/decimal.c, line 27.
+
+Breakpoint 2, recon_atoldbl (output=0xffffd4e4, text=0x5660efa8 <lexer_text_storage> "1.5") at build/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/src/decimal.c:27
+27	    int saved_errno = errno;
+convert_floating_literal (text=0x5660efa8 <lexer_text_storage> "1.5", value=0x5660f090 <scanned_floating_value>) at src/floating.c:32
+32	    value->low = parsed.low;
+Value returned is $1 = 0

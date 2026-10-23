@@ -1,0 +1,26 @@
+{
+  "scope": "Actual specific binding plus three bounded synthetic metadata/body negatives; read-only, no original execution or acceptance",
+  "proof_sha256": "254f07be1ee7e9abef2aed5dab30ee6b4a4a1117a51445cffd50c295e3fa36d1",
+  "checks": [
+    {
+      "test": "actual-binding",
+      "result": "verified"
+    },
+    {
+      "test": "wrong-original-body",
+      "result": "held",
+      "reason": "wrong compatible original decimal body"
+    },
+    {
+      "test": "wrong-callee",
+      "result": "held",
+      "reason": "wrong compatible decimal callee graph"
+    },
+    {
+      "test": "stale-proof",
+      "result": "held",
+      "reason": "stale compatible decimal proof"
+    }
+  ],
+  "elapsed_seconds": 0.08849996142089367
+}

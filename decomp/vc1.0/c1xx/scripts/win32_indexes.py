@@ -54,6 +54,11 @@ def indexes():
     driver_addresses = {r['start'] for r in cfg['driver']}
     original = [r for r in json.loads(Path('runtime.json').read_text())
                 if r['start'] not in driver_addresses]
+    compatible=[r for r in original if 'compatible_proof' in r]
+    if compatible:
+        from decimal_variant import default_record, verify
+        assert compatible==[default_record()], 'unexpected compatible CRT index row'
+        verify(compatible[0],original=orig)
     original += imports(orig) + cfg['driver']
     reconstructed = json.loads(Path('build/runtime.json').read_text()) + imports(rec)
     names = publics()

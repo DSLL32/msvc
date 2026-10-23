@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "name": "___strgtold12",
+  "classification": "Compatible shipped CRT variant; original is not byte-identical to shipped LIBC member",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "c1_target_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_extent": [
+    558368,
+    560192
+  ],
+  "original_body_sha256": "9157b8301e3ca6b6d69964322c70f31bb46846f929849c17ee0cdd52e55901b5",
+  "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+  "member": "obj\\i386\\strgtold.obj",
+  "same_distinct_callees": [
+    "___mtold12",
+    "___multtenpow12",
+    "__isctype"
+  ],
+  "abi": {
+    "convention": "cdecl",
+    "stack_words": 7,
+    "result_bytes": 12,
+    "end_pointer_output_bytes": 4,
+    "return_bits": 32,
+    "hidden_register_inputs": []
+  },
+  "data_delta": "Original private25B BSS digit workspace replaced by shipped automatic25B array; four encoded references all inside original parser, no application address consumer",
+  "public_contract": {
+    "case": "state_machine_debug",
+    "input_hex": "312e3500",
+    "after_input_hex": "312e3500",
+    "defined_output_bytes": 10,
+    "output_hex": "00000000000000c0ff3f",
+    "status": 0,
+    "output_prestate": "unread and uncredited",
+    "scope": "Actual first reached invocation only; later reached inputs must match or hold, no broad edge-domain equivalence claim"
+  },
+  "source_credit": 0,
+  "application_credit": 0,
+  "policy": "No CRT body copied/reconstructed; strict application and public CRT function graph/ABI retained; positively identified original extent is masked/unmasked normally",
+  "evidence_files": {
+    "old-variant-comparison.json": "9aaccc5b4a45303662329512ec487abd7c95f11964bf7eb4d5f2240382bea2f0",
+    "public-contract/native-gdb.log": "6f7b740ca9b9e5254aaf05f4b8acd7b41772f40b28f1505dd6ec34ee377597ca",
+    "public-contract/native-observation.json": "f8ecb2041bed2dba991b8b11e8c4a895f33281914fb727c2048bb5f7513ddc25",
+    "public-contract/native.gdb": "1ce6f70241acd21b27d2635fa1eefeec354bcd6fa7f34d50b1b999e1b7dc1fd4",
+    "public-contract/original-events.txt": "330ff26415800806cd9a7a2f1ca0956b16439cc17178a49c0f9f331293b6659e",
+    "public-contract/original-observation.txt": "edaa271c13fe13ca234d6fc82cf8b32772528ce0e0b1e4c3cddff05fa311bee4",
+    "public-contract/receipt.json": "36e5778d7acf2da4774fda165b4aed23c76ce1d9f81203ce34dd8db6ca440e6c",
+    "shipped-probe/atoldbl-probe.c": "0d1a55d0022a7391a74da103d3bd587873634ea138e947761a2f1d065a975e68",
+    "shipped-probe/atoldbl-probe.map": "cfcf5e3df575f4244ebabaef15df39c7600afd287c668efe671abfdab1df68fb",
+    "shipped-probe/build.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "shipped-probe/build.stdout": "978af0682cdd494ce1f176d172bec33e95d5fffe10af010a27acf8a7c3caf7ce",
+    "shipped-probe/receipt.json": "6b3d47b48b415938f39710a6d6953d7aefc1a1e36e0be6e4615bb31aa2c458dd",
+    "shipped-probe/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "shipped-probe/stdout.bin": "1cac4a5d894de6522fed8598de48d6d157052ef0353af3485912ed5dc2261023",
+    "abi-analysis.txt": "689088c36d4c750399cc7c53b019c62a6510d5448b4959a5793fac4382a7738f"
+  },
+  "fixture_manifest": {
+    "path": "../fixtures/c1xx-state-machine-debug/manifest.json",
+    "sha256": "64ad1ef1efc1ac2aed43efd018b125723647699424f2adb48372e439043b84ee"
+  },
+  "member_sha256": "9e96982348304cd42b00965631fbc781ca55c2a9a82ccc6322f4b9b00e70deb6",
+  "verification_scripts": {
+    "scripts/decimal_variant.py": "5d085dc5b0671df27f52a70767fc6ed67126e7406089fe162b5633060a351e25",
+    "scripts/capture-decimal-boundary.py": "3afb474032222561fb550cbc19a1f65e46dd5ed6e4a160199a117eecf00ac0f6",
+    "src/reference-decimal-observer.c": "bc0bcdf675ad7fda6845d45a71e3d96d4af40d9519f6687e39403bdd0ae86578"
+  }
+}

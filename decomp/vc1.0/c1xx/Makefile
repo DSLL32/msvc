@@ -51,10 +51,13 @@ build/lookahead-grammar.obj: build/lookahead-grammar.c scripts/wine-tool.py scri
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /Isrc /I$(RECON)/include /Fo$@ $<
 build/c1xx.exe: $(OBJECTS) $(TC)/lib/BINMODE.OBJ Makefile
 	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/c1xx.map /out:$@ $(OBJECTS) $(TC)/lib/BINMODE.OBJ
-runtime.json: scripts/identify-runtime.py scripts/binary.py $(TC)/bin/C1XX3232.EXE $(TC)/lib/LIBC.LIB $(TC)/lib/SETARGV.OBJ
+runtime.json: scripts/identify-runtime.py scripts/binary.py scripts/decimal_variant.py runtime-compatible.json evidence/decimal-library-binding/compatibility.json $(TC)/bin/C1XX3232.EXE $(TC)/lib/LIBC.LIB $(TC)/lib/SETARGV.OBJ
 	$(PYTHON) scripts/identify-runtime.py
 build/runtime.json: build/c1xx.exe scripts/identify-runtime.py scripts/binary.py
 	$(PYTHON) scripts/identify-runtime.py build/c1xx.exe $@
+build/reference-decimal-observer.obj: src/reference-decimal-observer.c src/debug-run.c
+build/reference-decimal-observer.exe: build/reference-decimal-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-close-observer.obj: src/reference-close-observer.c src/debug-run.c
 build/reference-close-observer.exe: build/reference-close-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

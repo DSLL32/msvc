@@ -1,0 +1,394 @@
+{
+  "kind": "atoldbl",
+  "case": "state_machine_debug",
+  "scope": "Actual first decimal public invocation and fresh genuine original CRT first-entry chain; one compatible old parser, all other members exact shipped; zero CRT source/app credit",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "configuration_sha256": "4d045f0f454cc7789586237200fe5036f753b13c23af1a7523cec03e82681dca",
+  "original_capture_sha256": "4139cc6a1ce243605311bfc3f83445890d67c61891654fdfa7448e3ff7a22a29",
+  "runtime_order": [
+    "__atoldbl",
+    "___strgtold12",
+    "___mtold12",
+    "___shl_12",
+    "___add_12",
+    "___addl",
+    "___multtenpow12",
+    "___ld12mul",
+    "__ld12told",
+    "__RoundMan"
+  ],
+  "original": {
+    "return_va": 478039,
+    "output_address": 2948572,
+    "text_address": 573784,
+    "entry_esp": 2948528,
+    "text": "312e3500",
+    "after_text": "312e3500",
+    "output": "00000000000000c0ff3f",
+    "result": 0
+  },
+  "native": {
+    "text": "312e3500",
+    "after_text": "312e3500",
+    "output": "00000000000000c0ff3f",
+    "result": 0,
+    "entry": "recon_atoldbl",
+    "entry_pc": 1448999404,
+    "caller": "convert_floating_literal",
+    "output_matches_caller_parsed": true,
+    "output_prestate": "unread/uncredited",
+    "defined_output_bytes": 10
+  },
+  "identity": {
+    "records": [
+      {
+        "name": "__atoldbl",
+        "record": {
+          "name": "__atoldbl",
+          "start": 543984,
+          "end": 544048,
+          "object": "obj\\i386\\intrncvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "291654b1e0a0f92c709f74ae852da29ef7a1f7dbeeefbc27340b141ff5014d30",
+        "member_bytes": 64,
+        "member_sha256": "bee56beccdfc42b54c4473cf733f377e30731b0432292351a8114524f1843c51",
+        "original_body_sha256": "8db13f9bb5c4dc5aebe0abd72fbc6116d29524110499cee08fdda83e8005efb4",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 27,
+            "symbol": "___strgtold12",
+            "kind": 20
+          },
+          {
+            "offset": 45,
+            "symbol": "__ld12told",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "___strgtold12",
+          "__ld12told"
+        ]
+      },
+      {
+        "name": "___strgtold12",
+        "record": {
+          "name": "___strgtold12",
+          "start": 558368,
+          "end": 560192,
+          "object": "obj\\i386\\strgtold.obj",
+          "library": "LIBC.LIB",
+          "compatible_proof": "evidence/decimal-library-binding/compatibility.json",
+          "compatible_proof_sha256": "254f07be1ee7e9abef2aed5dab30ee6b4a4a1117a51445cffd50c295e3fa36d1"
+        },
+        "identity": "positively identified older CRT implementation, compatible shipped-library graph/ABI and bounded actual public conversion; not exact library bytes",
+        "proof_sha256": "254f07be1ee7e9abef2aed5dab30ee6b4a4a1117a51445cffd50c295e3fa36d1",
+        "original_body_sha256": "9157b8301e3ca6b6d69964322c70f31bb46846f929849c17ee0cdd52e55901b5",
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "9e96982348304cd42b00965631fbc781ca55c2a9a82ccc6322f4b9b00e70deb6",
+        "call_targets": [
+          "___mtold12",
+          "___multtenpow12",
+          "__isctype"
+        ],
+        "source_credit": 0,
+        "application_credit": 0
+      },
+      {
+        "name": "___mtold12",
+        "record": {
+          "name": "___mtold12",
+          "start": 558128,
+          "end": 558368,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "member_bytes": 240,
+        "member_sha256": "2cca4c31df6b8a856bc81410a9422739ec3e2a7fc508cb1afe811f75cd5cf735",
+        "original_body_sha256": "edc49c041e717c3d1fb5aa0275afe8cb915436335d032a380081e404dd38d9d2",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 70,
+            "symbol": "___shl_12",
+            "kind": 20
+          },
+          {
+            "offset": 79,
+            "symbol": "___shl_12",
+            "kind": 20
+          },
+          {
+            "offset": 93,
+            "symbol": "___add_12",
+            "kind": 20
+          },
+          {
+            "offset": 102,
+            "symbol": "___shl_12",
+            "kind": 20
+          },
+          {
+            "offset": 139,
+            "symbol": "___add_12",
+            "kind": 20
+          },
+          {
+            "offset": 210,
+            "symbol": "___shl_12",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "___add_12",
+          "___shl_12"
+        ]
+      },
+      {
+        "name": "___shl_12",
+        "record": {
+          "name": "___shl_12",
+          "start": 557968,
+          "end": 558048,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "member_bytes": 80,
+        "member_sha256": "a3bf6df6e9e5f42112806294ff5f07dc80c8254e3de7ccba7faa5e793f2d576b",
+        "original_body_sha256": "a3bf6df6e9e5f42112806294ff5f07dc80c8254e3de7ccba7faa5e793f2d576b",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [],
+        "call_targets": []
+      },
+      {
+        "name": "___add_12",
+        "record": {
+          "name": "___add_12",
+          "start": 557856,
+          "end": 557968,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "member_bytes": 112,
+        "member_sha256": "c4e6ee5e2a8358cd744c88bf960f25d5c7a61cb206980543791c0469eb0c4f29",
+        "original_body_sha256": "9758645c64848dc424b4c2354e8e22ac76ca83b0d305a402757e94f5b32c7f55",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 18,
+            "symbol": "___addl",
+            "kind": 20
+          },
+          {
+            "offset": 39,
+            "symbol": "___addl",
+            "kind": 20
+          },
+          {
+            "offset": 65,
+            "symbol": "___addl",
+            "kind": 20
+          },
+          {
+            "offset": 91,
+            "symbol": "___addl",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "___addl"
+        ]
+      },
+      {
+        "name": "___addl",
+        "record": {
+          "name": "___addl",
+          "start": 557808,
+          "end": 557856,
+          "object": "obj\\i386\\mantold.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "955bc182986591ca3674e10873516720f6c38523fb57ea2675ea1afe57c24e50",
+        "member_bytes": 48,
+        "member_sha256": "2a1ecfcfe2f0645d5972d57ee475817a07c0c8cfac2dca61aa9c18bcb0c51d8d",
+        "original_body_sha256": "2a1ecfcfe2f0645d5972d57ee475817a07c0c8cfac2dca61aa9c18bcb0c51d8d",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [],
+        "call_targets": []
+      },
+      {
+        "name": "___multtenpow12",
+        "record": {
+          "name": "___multtenpow12",
+          "start": 568672,
+          "end": 568800,
+          "object": "obj\\i386\\tenpow.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "eada7d69ffec601d5e815e1e76b9ca9816641721be19d5114a85fe064bc109d9",
+        "member_bytes": 128,
+        "member_sha256": "7db3c46702a6377c58bef92bc30e6fbdc47bfda1d1a1dcc24786634a20d3066a",
+        "original_body_sha256": "6755ce858282e6267f78fd3f0cad5809a21b3e81acd6c9763230a928e09a363e",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 7,
+            "symbol": "__pow10pos",
+            "kind": 6
+          },
+          {
+            "offset": 24,
+            "symbol": "__pow10neg",
+            "kind": 6
+          },
+          {
+            "offset": 105,
+            "symbol": "___ld12mul",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "___ld12mul"
+        ]
+      },
+      {
+        "name": "___ld12mul",
+        "record": {
+          "name": "___ld12mul",
+          "start": 567904,
+          "end": 568672,
+          "object": "obj\\i386\\tenpow.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "eada7d69ffec601d5e815e1e76b9ca9816641721be19d5114a85fe064bc109d9",
+        "member_bytes": 768,
+        "member_sha256": "be5edf1beec83b433616bec590c2fe69ab1d0d2de6a48049cd48363d0150b691",
+        "original_body_sha256": "3744d7c08d412255e83f7a6a23aa79cc5d3701652c519bfff10cefe80aa4bb91",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 350,
+            "symbol": "___addl",
+            "kind": 20
+          },
+          {
+            "offset": 429,
+            "symbol": "___shl_12",
+            "kind": 20
+          },
+          {
+            "offset": 500,
+            "symbol": "___shr_12",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "___addl",
+          "___shl_12",
+          "___shr_12"
+        ]
+      },
+      {
+        "name": "__ld12told",
+        "record": {
+          "name": "__ld12told",
+          "start": 543776,
+          "end": 543920,
+          "object": "obj\\i386\\intrncvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "291654b1e0a0f92c709f74ae852da29ef7a1f7dbeeefbc27340b141ff5014d30",
+        "member_bytes": 144,
+        "member_sha256": "f487e074ac0eff5156ee2f664eaed0299ebe87ab5e4560fae5195af8c2dc84d4",
+        "original_body_sha256": "e35f31ac9eab49b39847d1dbf7948e629acd291fafb8faac77cb61d68fcdd29c",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 63,
+            "symbol": "__RoundMan",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "__RoundMan"
+        ]
+      },
+      {
+        "name": "__RoundMan",
+        "record": {
+          "name": "__RoundMan",
+          "start": 542800,
+          "end": 542976,
+          "object": "obj\\i386\\intrncvt.obj",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "291654b1e0a0f92c709f74ae852da29ef7a1f7dbeeefbc27340b141ff5014d30",
+        "member_bytes": 176,
+        "member_sha256": "2083baab9da5fda6c2f6fa47c1a9021cb3972066c706afdb538b3b23fd807d86",
+        "original_body_sha256": "93c349b95a00b4014cf2e1b263d74226d45c375c8134a6a353ebc7b6e104a6bd",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 83,
+            "symbol": "__ZeroTail",
+            "kind": 20
+          },
+          {
+            "offset": 101,
+            "symbol": "__IncMan",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "__IncMan",
+          "__ZeroTail"
+        ]
+      }
+    ],
+    "original_crt_globals": {
+      "__pow10pos": 715456,
+      "__pow10neg": 715808
+    }
+  },
+  "public_contract_receipt": "evidence/decimal-library-binding/public-contract/receipt.json",
+  "boundary_origin_receipt": "evidence/decimal-library-binding/boundary-origin-receipt.json",
+  "boundary_origin_events": "evidence/decimal-library-binding/boundary-origin-events.txt",
+  "original_seconds": 0.7154477564617991,
+  "native_seconds": 0.1401411695405841,
+  "evidence_files": [
+    {
+      "path": "evidence/decimal-library-binding/boundary-origin-receipt.json",
+      "sha256": "4139cc6a1ce243605311bfc3f83445890d67c61891654fdfa7448e3ff7a22a29"
+    },
+    {
+      "path": "evidence/decimal-library-binding/boundary-origin-events.txt",
+      "sha256": "6c37cd73f3262dec099e2c9082ab5f72093a6c9ce1a2d3cdb484f088735a61d5"
+    },
+    {
+      "path": "evidence/decimal-library-binding/public-contract/receipt.json",
+      "sha256": "36e5778d7acf2da4774fda165b4aed23c76ce1d9f81203ce34dd8db6ca440e6c"
+    },
+    {
+      "path": "evidence/decimal-library-binding/compatibility.json",
+      "sha256": "254f07be1ee7e9abef2aed5dab30ee6b4a4a1117a51445cffd50c295e3fa36d1"
+    },
+    {
+      "path": "runtime-compatible.json",
+      "sha256": "0e284ff763a02f8615d6f298fd1cf86af4c9a711036f2df3c27e86b11081a6ac"
+    }
+  ]
+}

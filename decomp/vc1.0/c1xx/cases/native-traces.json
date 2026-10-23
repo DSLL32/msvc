@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "17316e6004963dfd80574ebbba734e35fc3d3349b3c1a58e8ef414c541d5e1f9",
-    "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "5402d16559d9e5823ebfe6e40759867797a44f4c4c6a9169fc9f5f86f9adbba1",
-    "cases/canonical-map.txt": "a7db1ffc0f0d2c2e8847789609e20e649b8f0b7de331e45c47f5e79358b699aa",
+    "functions.json": "704e316c6b3b7d40dec30742c11740e27870d3d273f1d83c945f99691d08ec95",
+    "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
+    "cases/original-entry-references.json": "64beb47dfd739d354b31712d3eb6e7eae10c8af7bf074980430c9f44e4104644",
+    "cases/canonical-map.txt": "faa0d7e3aa32165343f044a47e76afe9028a1efef5f496b3918ce2acd357cea2",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -29,6 +29,23 @@
     "evidence/debug-member-writer/strncat-boundary/restore-plan.txt": "0fe38eae008644f6b93d2962db6555ee222328680d80f2f1932597132292612f",
     "cases/frontiers/state_machine_debug/1093-write_debug_member_name-20/frontier-extension.json": "50d7b9d99f9c14f6a71c7ae34db565c2045c3ec2f27eee883ba4d8fa66384a8b",
     "cases/frontiers/state_machine_debug/1094-strncat/frontier-extension.json": "8a2a075608abcabb34e3858eee4c0186ec2bd35f54d1930f433850544dcc4598",
+    "evidence/decimal-library-binding/runtime-boundary.json": "cb0b1ae62bc29f197a2626f19b4ee61390769fb7349529dfe62692d133e7aa79",
+    "evidence/decimal-library-binding/boundary-origin-receipt.json": "4139cc6a1ce243605311bfc3f83445890d67c61891654fdfa7448e3ff7a22a29",
+    "evidence/decimal-library-binding/boundary-origin-events.txt": "6c37cd73f3262dec099e2c9082ab5f72093a6c9ce1a2d3cdb484f088735a61d5",
+    "evidence/decimal-library-binding/public-contract/receipt.json": "36e5778d7acf2da4774fda165b4aed23c76ce1d9f81203ce34dd8db6ca440e6c",
+    "evidence/decimal-library-binding/compatibility.json": "254f07be1ee7e9abef2aed5dab30ee6b4a4a1117a51445cffd50c295e3fa36d1",
+    "runtime-compatible.json": "0e284ff763a02f8615d6f298fd1cf86af4c9a711036f2df3c27e86b11081a6ac",
+    "cases/frontiers/state_machine_debug/1140-convert_floating_literal-8/frontier-extension.json": "5d54741ef235b71e02696926bbe6a6c685e5766a88b3c670449175f7707dab72",
+    "cases/frontiers/state_machine_debug/1141-atoldbl/frontier-extension.json": "55912becbf234c4689770e7da708be69d87c6c59e42faf258ebf498f4bc61b8c",
+    "cases/frontiers/state_machine_debug/1142-strgtold12/frontier-extension.json": "3043d6123a7b42bc3a2bef72c2076b66c67a4238c95249e06d9e314355ddb78d",
+    "cases/frontiers/state_machine_debug/1143-mtold12/frontier-extension.json": "1bebee7297c576ac742935a69ebba4bd3c0e8aa65a85cb679b54c38ec48d5f8b",
+    "cases/frontiers/state_machine_debug/1144-shl_12/frontier-extension.json": "56437f70f18736e1961bd3ff1e85ca276170000256b5fa11b4dabb609c54d233",
+    "cases/frontiers/state_machine_debug/1145-add_12/frontier-extension.json": "a2301cf56a19ffb349316678db6ffa2993da1e075c9ce31d8f1160513ff800f9",
+    "cases/frontiers/state_machine_debug/1146-addl/frontier-extension.json": "2d95e4df24fdfad4b6213b156f6b91417625a9265fadb132dd00e856a9439aae",
+    "cases/frontiers/state_machine_debug/1147-multtenpow12/frontier-extension.json": "e03e56c2dcd4adc6a5412a4782e3efb14d09f04efaa9b8d64e1cf3633ffac81b",
+    "cases/frontiers/state_machine_debug/1148-ld12mul/frontier-extension.json": "abbb57baeaa70a6009f657f2beef498eea24be7d179cf2c84dd882ac56d61a54",
+    "cases/frontiers/state_machine_debug/1149-ld12told/frontier-extension.json": "1f4e09e2e83031eb3273e46513f7a8935706552807e70ad10c5c9b7d26177bdc",
+    "cases/frontiers/state_machine_debug/1150-RoundMan/frontier-extension.json": "db38f44ad184f076f440e05f47286523f8facd289709b33c9dd0b2f6b4ac0834",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
@@ -44,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/entry-reference/original-receipt.json": "ea7847b24d8fd3bfa02021f65127884caa016f1973d8409b5ca9cdbf7ef26dbd",
-    "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/entry-reference/original-events.txt": "bead79f2966c600a5046f190441cdc07985831cf289769ee78af300ed43b18ea",
-    "cases/frontiers/state_machine_debug/1139-scan_float_tail-4/entry-reference/original-entries.plan": "1529e3106be0c29b955e9719f8e73fb40aacb08a45a496585f2b58607c45c4c0"
+    "cases/frontiers/state_machine_debug/1140-convert_floating_literal-8/entry-reference/original-receipt.json": "800b6eb762b268a84e51d1f3fbdb2c21a4c082513a600760b33d21085da10ac1",
+    "cases/frontiers/state_machine_debug/1140-convert_floating_literal-8/entry-reference/original-events.txt": "81b3a662737e5e1ee0c07f1cf51ed9ad95c3cdc17e4b6468d6fcceeea20e1358",
+    "cases/frontiers/state_machine_debug/1140-convert_floating_literal-8/entry-reference/original-entries.plan": "d4b3b96e22e936c9d14138f7d8886a2a2f9ff3ef9a61ff633b66a3d776a61541"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1163,7 +1180,7 @@
     },
     "convert_floating_literal": {
       "logical": "_convert_floating_literal@8",
-      "source": "src/stubs.c"
+      "source": "src/floating.c"
     },
     "convert_initializer": {
       "logical": "_convert_initializer@12",
@@ -6727,7 +6744,8 @@
     "encode_string_literal_name",
     "make_string_literal_object",
     "write_initializer_record",
-    "scan_float_tail"
+    "scan_float_tail",
+    "convert_floating_literal"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6805,7 +6823,17 @@
       "__heap_expand_block",
       "_memcpy",
       "_strchr",
-      "_strncat"
+      "_strncat",
+      "__atoldbl",
+      "___strgtold12",
+      "___mtold12",
+      "___shl_12",
+      "___add_12",
+      "___addl",
+      "___multtenpow12",
+      "___ld12mul",
+      "__ld12told",
+      "__RoundMan"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -10840,7 +10868,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1140,
+      "last": 1151,
       "seen": [
         "main",
         "message_text",
@@ -11889,12 +11917,13 @@
         "make_string_literal_object",
         "write_initializer_record",
         "scan_float_tail",
-        "convert_floating_literal"
+        "convert_floating_literal",
+        "extended_to_double"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_convert_floating_literal@8",
-        "native": "convert_floating_literal",
+        "logical": "_extended_to_double",
+        "native": "extended_to_double",
         "signal": 5
       }
     }

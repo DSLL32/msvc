@@ -2156,6 +2156,15 @@
     "library": "LIBC.LIB"
   },
   {
+    "name": "___strgtold12",
+    "start": 558368,
+    "end": 560192,
+    "object": "obj\\i386\\strgtold.obj",
+    "library": "LIBC.LIB",
+    "compatible_proof": "evidence/decimal-library-binding/compatibility.json",
+    "compatible_proof_sha256": "254f07be1ee7e9abef2aed5dab30ee6b4a4a1117a51445cffd50c295e3fa36d1"
+  },
+  {
     "name": "__heapadd",
     "start": 560272,
     "end": 560320,

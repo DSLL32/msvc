@@ -35,6 +35,20 @@ def identities(canonical=False, names=NAMES):
             continue
         assert old['library']=='LIBC.LIB'
         if canonical:assert old['object']==new['object'] and old['library']==new['library']
+        if 'compatible_proof' in old:
+            from decimal_variant import verify
+            binding=verify(old,original=original)
+            assert name=='___strgtold12', 'unapproved compatible runtime binding'
+            if canonical:
+                # Only the canonical implementation is exact shipped bytes.
+                obj=COFF(objects[new['object']])
+                symbol=next(s for s in obj.symbols.values() if s['name']==name)
+                section=obj.sections[symbol['section']-1]
+                begin=symbol['value'];size=new['end']-new['start']
+                fragment=dict(section,data=section['data'][begin:begin+size],relocs=[(off-begin,t,k) for off,t,k in section['relocs'] if begin<=off<begin+size])
+                assert match_section(rebuilt.read(new['start'],size),fragment)==[0], 'canonical compatible decimal body is not exact shipped implementation'
+            result.append(binding)
+            continue
         data=objects[old['object']]
         obj=COFF(data)
         symbol=next(s for s in obj.symbols.values() if s['name']==name)
@@ -112,6 +126,8 @@ def check(path):
         return check_exit(path)
     if evidence.get('kind')=='realloc':
         return check_realloc(path)
+    if evidence.get('kind')=='atoldbl':
+        return check_decimal(path)
     if evidence.get('kind')=='strncat':
         return check_concat(path)
     if evidence.get('kind')=='strchr':
@@ -341,4 +357,37 @@ def check_concat(path):
     assert sha(BINARY/evidence['boundary_origin_receipt'])==evidence['original_capture_sha256']
     original_words={int(i):int(value,16) for i,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(BINARY/evidence['boundary_origin_events']).read_text(),re.M)}
     assert [original_words[i] for i in range(3)]==[left['destination'],left['source'],left['count']], 'observed append invocation differs from frontier'
+    return evidence
+
+
+def check_decimal(path):
+    """Actual decimal public contract plus its observed original CRT chain."""
+    evidence=json.loads(path.read_text())
+    config=json.loads((BINARY/'functions.json').read_text())
+    assert evidence['target_sha256']==config['target']['sha256']
+    assert evidence['case']=='state_machine_debug'
+    expected=['__atoldbl','___strgtold12','___mtold12','___shl_12','___add_12',
+        '___addl','___multtenpow12','___ld12mul','__ld12told','__RoundMan']
+    assert evidence['runtime_order']==expected, 'unobserved decimal runtime chain'
+    assert evidence['identity']==identities(names=expected), 'decimal runtime identity changed'
+    from decimal_variant import verify
+    verify()
+    for item in evidence['evidence_files']:
+        assert sha(BINARY/item['path'])==item['sha256'], 'decimal boundary evidence changed'
+    public=json.loads((BINARY/evidence['public_contract_receipt']).read_text())
+    left,right=public['original'],public['native']
+    assert left==evidence['original'] and right==evidence['native']
+    assert left['return_va']==0x74b57 and left['text_address']==0x8c158
+    assert left['output_address']==left['entry_esp']+44
+    assert right['caller']=='convert_floating_literal' and right['output_matches_caller_parsed']
+    assert all(left[k]==right[k] for k in ('text','after_text','output','result'))
+    assert left['text']==left['after_text']=='312e3500'
+    assert left['output']=='00000000000000c0ff3f' and left['result']==0
+    origin=json.loads((BINARY/evidence['boundary_origin_receipt']).read_text())
+    assert origin['candidate']=='_convert_floating_literal@8' and origin['terminal']=='__atoldbl'
+    assert origin['configuration_sha256']==evidence['configuration_sha256']
+    assert sha(BINARY/evidence['boundary_origin_receipt'])==evidence['original_capture_sha256']
+    import re
+    words={int(i):int(v,16) for i,v in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(BINARY/evidence['boundary_origin_events']).read_text(),re.M)}
+    assert words[1]==left['text_address'], 'actual frontier numeric input owner differs'
     return evidence

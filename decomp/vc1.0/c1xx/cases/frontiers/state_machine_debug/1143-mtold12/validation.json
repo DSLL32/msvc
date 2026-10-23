@@ -1,0 +1,7 @@
+{
+  "status": "accepted runtime library/import identity",
+  "function": "___mtold12",
+  "next_frontier": "___shl_12",
+  "boundary_evidence": "evidence/decimal-library-binding/runtime-boundary.json",
+  "downstream_comparison": "cases/frontiers/state_machine_debug/1140-convert_floating_literal-8/validation.json"
+}
