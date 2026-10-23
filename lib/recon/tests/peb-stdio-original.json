@@ -1,0 +1,16 @@
+{
+  "source_sha256": "e63de14eed4c1003bc94bfab725e1bf7d5a72fb920e1f55d03a948b5bc628f39",
+  "build_seconds": 1.029764044098556,
+  "execution_seconds": 0.4058123370632529,
+  "status": 0,
+  "stdout_hex": "696e697469616c2030203820380d0a696e697469616c20312031322031320d0a696e697469616c20322031362031360d0a6368616e6765642035362035360d0a726573746f7265642031322031320d0a",
+  "scope": "Read-only child observation coordinates for current verified Wine32 layout; no generic NT layout claim",
+  "coordinates": {
+    "process_basic_information_bytes": 24,
+    "peb_process_parameters": 16,
+    "parameters_stdin": 24,
+    "parameters_stdout": 28,
+    "parameters_stderr": 32
+  },
+  "checks": "All3slots equal realGetStdHandle; STDOUTslot follows realSetStdHandle and restoration; target self-query only"
+}
