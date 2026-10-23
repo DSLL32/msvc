@@ -278,3 +278,11 @@ reuses a parameter slot for the new buffer; entry arguments and subsequent
 ownership are checked separately. [Verification](cases/resources-rich-trailing-space/open-source-verification.json)
 records 38 fresh rejection controls, the exact 512-byte CRT buffer at position
 zero, and separate build/capture/audit timings. Refill remains a named trap.
+
+Source refill is accepted (487 bytes), reading all 3,381 prepared WCHARs and
+reaching filename duplication. Full destination bytes, terminator, initialized
+tail and file state match. [Verification](cases/resources-rich-trailing-space/refill-verification.json)
+records 45 fresh rejection controls and the shared VC5 fread correction: large
+reads use the caller buffer directly, retaining the existing 512-byte stream
+buffer. The correction reused the unchanged original capture with a fresh native
+observation; no original recapture was needed.

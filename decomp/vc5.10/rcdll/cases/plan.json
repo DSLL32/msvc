@@ -36,7 +36,8 @@
     "rc_define_macro",
     "rc_find_macro",
     "rc_copy_macro_text",
-    "rc_open_source"
+    "rc_open_source",
+    "rc_refill_source"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

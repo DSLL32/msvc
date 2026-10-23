@@ -652,8 +652,8 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 assert old[36:]==new[36:]==b'\0'*(36*1023)
                 old_file=int.from_bytes(read(0x21e88,4),'little');new_file=int.from_bytes(bytes.fromhex(observed['globals']['rc_source_file']['bytes']),'little')
                 old_buffer=int.from_bytes(read(0x18120,4),'little');new_buffer=int.from_bytes(bytes.fromhex(observed['globals']['rc_source_cursor']['bytes']),'little')
-                assert left==(4098,old_file,0,0,0,old_buffer,0,2,0)
-                assert right==(4098,new_file,0,0,0,new_buffer,0,2,0)
+                assert left==(4098,old_file,0,0,0,old_buffer,3381 if b['function']=='rc_duplicate_source_name'else 0,2,0)
+                assert right==(4098,new_file,0,0,0,new_buffer,3381 if b['function']=='rc_duplicate_source_name'else 0,2,0)
             else:assert old==new
         elif row['kind']=='crt-buffered-file':
             if any(old):
@@ -662,7 +662,7 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 assert int.from_bytes(new,'little')>0 and left[2]and right[2]
                 assert left[0]-left[2]==right[0]-right[2]and left[1:2]+left[3:]==right[1:2]+right[3:]
                 assert left[4]==5 and left[6]==512 and left[7]==0
-                assert raw_bytes(events,'cpp-source-buffer')==bytes.fromhex(actual['file_buffer'])and len(bytes.fromhex(actual['file_buffer']))==512
+                assert raw_bytes(events,'cpp-source-buffer')==bytes.fromhex(actual['file_buffer'])and len(bytes.fromhex(actual['file_buffer']))==left[6]
                 position=re.findall(r'^cpp-source-position (\d+)$',events,re.M);assert len(position)==1
                 assert re.findall(r'^pos:\s*(\d+)$',b['arguments']['source_fdinfo'],re.M)==position
             else:assert old==new
@@ -984,13 +984,14 @@ def find_macro_trial(original,native):
     return proof
 
 
-def copy_macro_trial(original,native,source_opened=False):
+def _macro_setup_trial(original,native,stage):
+    trial,accepted,frontier,caller={'copy':('rc_copy_macro_text',32,'rc_open_source',0x71c24767),'open':('rc_open_source',33,'rc_refill_source',0x71c23eee),'refill':('rc_refill_source',34,'rc_duplicate_source_name',0x71c23ef9)}[stage]
+    source_opened=stage!='copy';refilled=stage=='refill'
     config=read_configuration(original/'functions.json')
-    assert config.get('trial_function')==('rc_open_source'if source_opened else'rc_copy_macro_text')and len(config['accepted'])==(33 if source_opened else 32)
+    assert config.get('trial_function')==trial and len(config['accepted'])==accepted
     assert json.loads((original/'receipt.json').read_text())['case']=='resources-rich-trailing-space','no-space source overread is unsupported'
-    frontier='rc_refill_source'if source_opened else'rc_open_source'
     a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==(0x71c23eee if source_opened else 0x71c24767)
+    assert a['words'][0]==caller
     if not source_opened:assert a['words'][2]==1
     assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_open_source'if source_opened else'rc_open_preprocessor')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
     text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
@@ -1072,15 +1073,15 @@ def copy_macro_trial(original,native,source_opened=False):
         observations.append(dict(characters=count,source_sha256=hashlib.sha256(expected).hexdigest(),source_scope=source_scope,cleanup=8,returned=True))
     assert re.findall(r'^frontier-errors errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
     assert b['crt_errors']==dict(errno=0,last_error=0)
-    assert proof['application_trace'][-1]==('rc_open_source'if source_opened else'rc_copy_macro_text')
+    assert proof['application_trace'][-1]==trial
     from importlib.util import spec_from_file_location,module_from_spec
     spec=spec_from_file_location('copy_seh',HERE/'scripts/check-copy-seh.py');module=module_from_spec(spec);spec.loader.exec_module(module);seh=module.verify()
-    proof.update(trial='rc_open_source'if source_opened else'rc_copy_macro_text',preprocessor=parser,trim=dict(original_word_before=32,word_after=0,owned_terminal_preserved=True,all_other_packed_bytes_unchanged=True,native_store_elf_pc=hex(store_pc-5),native_store_opcode='66c7000000'),copies=observations,source_open=dict(input=input_name,first=1,stack_bytes=8,hidden=dict(depth=-1,cursor=None,encoding=0,current_file=None,frame_count=1024,frame_bytes=36,frames_zero=True)),seh=seh,exception_scope='Native normal readable-memory path only; native faults stop. Windows source retains actual filter/handler; no native fault recovery equivalence.',lookup_reference=dict(path='cases/resources-rich/acceptance-0032.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0032.json')))
-    if source_opened:proof['source_open']=source_open_state(original,native,b,state,input_name)
+    proof.update(trial=trial,preprocessor=parser,trim=dict(original_word_before=32,word_after=0,owned_terminal_preserved=True,all_other_packed_bytes_unchanged=True,native_store_elf_pc=hex(store_pc-5),native_store_opcode='66c7000000'),copies=observations,source_open=dict(input=input_name,first=1,stack_bytes=8,hidden=dict(depth=-1,cursor=None,encoding=0,current_file=None,frame_count=1024,frame_bytes=36,frames_zero=True)),seh=seh,exception_scope='Native normal readable-memory path only; native faults stop. Windows source retains actual filter/handler; no native fault recovery equivalence.',lookup_reference=dict(path='cases/resources-rich/acceptance-0032.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0032.json')))
+    if source_opened:proof['source_open']=source_open_state(original,native,b,state,input_name,refilled=refilled)
     return proof
 
 
-def source_open_state(original,native,b,state,input_name):
+def source_open_state(original,native,b,state,input_name,refilled=False):
     text=(original/'events.txt').read_text();globals=b['arguments']['preprocessor']['globals']
     entry=b['arguments']['source_entry'];assert entry==json.loads((native/'source-entry.json').read_text())
     assert entry==dict(path=b['arguments']['wide_vector'][4]['pointer'],first=1,depth=-1,frames='00'*(36*1024))
@@ -1097,15 +1098,46 @@ def source_open_state(original,native,b,state,input_name):
     assert len(requests)==len(results)==len(payloads)==15
     assert requests[14][1:]==('9','8206','00000000')and int(results[14][0],16)+8==old_buffer and results[14][1]=='00000000'
     assert requests[14][0]==requests[4][0]and payloads[14]==('8206','00'*8206)
-    assert raw_bytes(text,'source-new-buffer')==b'\0'*8206
+    source=(original/'source'/input_name.rsplit('\\',1)[-1]).read_bytes()
+    expected_buffer=b'\0'*8+source+b'\0'*(8198-len(source))if refilled else b'\0'*8206
+    assert raw_bytes(text,'source-new-buffer')==expected_buffer
     allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==15
     allocation=allocations[14];identity=b['heap_identity'];block=next(row for row in identity['blocks']if row['payload']+8==new_buffer)
     assert allocation['heap']==block['owner']==identity['handle']and allocation['result']+8==new_buffer
     assert allocation['bytes']==block['bytes']==8206 and allocation['flags']==block['flags']==9
-    assert allocation['payload']==block['contents']=='00'*8206 and allocation['last_error_before']==allocation['last_error_after']==0
+    assert allocation['payload']=='00'*8206 and block['contents']==expected_buffer.hex()and allocation['last_error_before']==allocation['last_error_after']==0
     assert b['arguments']['source_host_path']==str(Path(b['case_inputs']['host_cwd'])/input_name.rsplit('\\',1)[-1])
-    return dict(input=input_name,first=1,entry_depth=-1,depth=0,encoding=2,frame_capacity=4098,frame_bytes=36,frames=1024,source_buffer_requested=8198,private_heap_header=8,allocation_zero=True,refill_formals=[],hidden_inputs='frame0/current FILE/cursor/encoding and all1024 frames checked',original_parameter_slot_reused_for_buffer=True,file_state='exact scalar FILE fields, PTR-base relation, full512 bytes and actual OS position')
+    if refilled:refill_state(original,native,b,old_buffer,new_buffer)
+    return dict(refilled=refilled,input=input_name,first=1,entry_depth=-1,depth=0,encoding=2,frame_capacity=4098,frame_bytes=36,frames=1024,source_buffer_requested=8198,private_heap_header=8,allocation_initially_zero=True,refill_formals=[],hidden_inputs='frame0/current FILE/cursor/encoding and all1024 frames checked',original_parameter_slot_reused_for_buffer=True,file_state='exact scalar FILE fields, PTR-base relation, full512 bytes and actual OS position')
+
+
+def copy_macro_trial(original,native):
+    return _macro_setup_trial(original,native,'copy')
 
 
 def open_source_trial(original,native):
-    return copy_macro_trial(original,native,source_opened=True)
+    return _macro_setup_trial(original,native,'open')
+
+
+def refill_state(original,native,b,old_buffer,new_buffer):
+    text=(original/'events.txt').read_text();globals=b['arguments']['preprocessor']['globals'];records=b['arguments']['refills']
+    assert records==json.loads((native/'refills.json').read_text())and len(records)==1
+    record=records[0];assert record['depth']==0 and record['cursor']==new_buffer and record['encoding']==2 and record['formals']==[] and record['result']==0
+    assert re.findall(r'^refill-entry caller=([0-9a-f]+) depth=(-?\d+) cursor=([0-9a-f]+) encoding=(-?\d+)$',text,re.M)==[('71c23eee','0','%08x'%old_buffer,'2')]
+    assert re.findall(r'^refill-result (-?\d+)$',text,re.M)==['0']
+    old_frame=struct.unpack('<9I',raw_bytes(text,'refill-entry-frame'));new_frame=struct.unpack('<9I',bytes.fromhex(record['frame']))
+    old_file=int.from_bytes((original/'globals.bin').read_bytes()[0x21e88-0x14000:0x21e8c-0x14000],'little');new_file=int.from_bytes(bytes.fromhex(globals['rc_source_file']['bytes']),'little')
+    assert old_frame==(4098,old_file,0,0,0,old_buffer,0,2,0)and new_frame==(4098,new_file,0,0,0,new_buffer,0,2,0)
+    assert raw_bytes(text,'refill-entry-buffer')==bytes.fromhex(record['buffer'])==b'\0'*8206
+    left=struct.unpack('<8I',raw_bytes(text,'refill-entry-file'));right=struct.unpack('<8I',bytes.fromhex(record['file']))
+    assert left[0]==left[2]and right[0]==right[2]and left[1:2]+left[3:]==right[1:2]+right[3:]==(0,9,5,0,512,0)
+    assert raw_bytes(text,'refill-entry-file-buffer')==bytes.fromhex(record['file_buffer'])and len(bytes.fromhex(record['file_buffer']))==512
+    duplicate=b['arguments']['duplicate'];path=b['arguments']['filename_pointer']
+    assert duplicate==dict(path=path,path_bytes=(b['arguments']['source_open']['path_bytes']),formal_bytes=dict(path=4))
+    original_filename=int.from_bytes((original/'globals.bin').read_bytes()[0x149c4-0x14000:0x149c8-0x14000],'little')
+    old_frontier=original_raw(original);assert old_frontier['words'][1]==original_filename
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_open_source\s*\(',(native/'gdb.stdout').read_text(),re.M)
+
+
+def refill_source_trial(original,native):
+    return _macro_setup_trial(original,native,'refill')

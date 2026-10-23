@@ -37,7 +37,8 @@
     "rc_define_macro",
     "rc_find_macro",
     "rc_copy_macro_text",
-    "rc_open_source"
+    "rc_open_source",
+    "rc_refill_source"
   ],
   "functions": [
     {
@@ -842,8 +843,7 @@
       "end": "0x447f",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_duplicate_source_name",

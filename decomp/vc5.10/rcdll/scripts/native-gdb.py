@@ -82,14 +82,14 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source']:
+        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name']:
             caller=frame
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name']:
                 while caller and caller.name()!='rc_preprocessor_main':caller=caller.older()
                 assert caller,'preprocessor main caller missing'
             count=int(caller.read_var('count'));preprocess_vector=caller.read_var('arguments');assert 0<count<=256
             wide=name not in ['rc_preprocess','rc_widen_arguments']
-            arguments.update(count=count,argv=[]if wide else[preprocess_vector[i].string()for i in range(count)],prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
+            arguments.update(count=count,argv=[]if wide else[preprocess_vector[i].string()for i in range(count)],filename_pointer=int(gdb.parse_and_eval('rc_filename')),prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
             if name=='rc_preprocess':arguments['unused']=int(frame.read_var('unused'))
             if wide:
                 wide_vector=[]
@@ -107,7 +107,7 @@ def capture():
             # descriptor numbers and CRT array slots need not equal Wine's.
             file=frees[0]['input_file']
             arguments['closed_input']=bytes(gdb.selected_inferior().read_memory(file,32)).hex()
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name']:
                 from importlib.machinery import SourceFileLoader
                 observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
                 arguments['preprocessor']=observer.capture_preprocessor(config_path.parent/'preprocess-data.json')
@@ -124,7 +124,7 @@ def capture():
                 if name=='rc_open_preprocessor':
                     arguments['open']={field:int(frame.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}
                     arguments['conversion']=json.loads((output.parent/'numeric-conversion.json').read_text())
-                if name=='rc_refill_source':
+                if name in ['rc_refill_source','rc_duplicate_source_name']:
                     source_parent=frame.older();assert source_parent.name()=='rc_open_source'
                     setup=source_parent.older();assert setup.name()=='rc_open_preprocessor'
                     arguments['open']={field:int(setup.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}
@@ -134,6 +134,11 @@ def capture():
                     arguments['source_open']['formal_bytes']={field:source_parent.read_var(field).type.sizeof for field in ['path','first']}
                     arguments['macro_copies']=json.loads((output.parent/'macro-copies.json').read_text())
                     arguments['source_entry']=json.loads((output.parent/'source-entry.json').read_text())
+                    if name=='rc_duplicate_source_name':
+                        arguments['duplicate']={field:int(frame.read_var(field))for field in ['path']}
+                        arguments['duplicate']['path_bytes']=observer.wide_bytes(int(frame.read_var('path')))
+                        arguments['duplicate']['formal_bytes']=dict(path=frame.read_var('path').type.sizeof)
+                        arguments['refills']=json.loads((output.parent/'refills.json').read_text())
                     file=gdb.parse_and_eval('rc_source_file').dereference();descriptor=int(file['_file']);handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%descriptor))-1
                     arguments['source_host_path']=os.readlink('/proc/%d/fd/%d'%(gdb.selected_inferior().pid,handle))
                     arguments['source_fdinfo']=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,handle)).read_text()

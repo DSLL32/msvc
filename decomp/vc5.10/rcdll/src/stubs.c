@@ -94,11 +94,6 @@ void __stdcall rc_list_macro(RcMacro *macro)
     __asm int 3
 }
 
-int __cdecl rc_refill_source(void)
-{
-    __asm int 3
-    return 0;
-}
 WCHAR *__stdcall rc_duplicate_source_name(const WCHAR *path)
 {
     __asm int 3
