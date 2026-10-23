@@ -184,3 +184,8 @@ build/check-acp: tests/check-acp.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 acp-check: build/check-acp
 	$(PYTHON) tests/check-acp.py build/check-acp
+
+build/getenv-probe: tests/getenv-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+getenv-check: build/getenv-probe
+	$(PYTHON) tests/check-getenv.py build/getenv-probe

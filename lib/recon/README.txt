@@ -525,3 +525,10 @@ supports positive overflow-safe sizes with observed flags9 and owned heaps,
 zeroing the full requested extent; failures remain unsupported. HeapFree flags1
 accepts only a live exact-base block belonging to that heap, preserves errors,
 and leaves other live allocations intact. No freed-byte or exception claim.
+
+After recon_crt_bind_arguments, application getenv reads the mutable captured
+target environment with canonical ASCII case-insensitive name matching and
+returns a borrowed value pointer. Mutating it changes that environment entry.
+Unbound consumers retain host-libc behavior. Native host adapters must use
+recon_host_getenv for their Linux configuration controls after binding; shim
+implementation files already retain host getenv through RECON_SHIM_IMPL.

@@ -1,0 +1,12 @@
+{
+  "scope": "Bound mutable target environment borrowed lookup; host controls explicit and unbound behavior unchanged",
+  "provider_analysis": [
+    "getenv6a94..6abc",
+    "lookup2cf3..2d6b +b81d..b846",
+    "name compare2d6b NLS case-ignore default ASCII scope"
+  ],
+  "original_probe": "tests/getenv-original.json",
+  "native_checks": "GCC/Clang canonical alias/mutation/missing/error output +host/bound namespace separation +startup/default",
+  "gcc_seconds": 0.996,
+  "clang_seconds": 1.27
+}

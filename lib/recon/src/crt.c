@@ -123,6 +123,31 @@ void recon_crt_bind_arguments(int argc,char **argv,char **environment)
     recon_crt_arguments_bound=1;
 }
 
+/* Host controls and application environment are separate namespaces. The
+ * canonical getenv returns a borrowed pointer into its mutable environment. */
+char *recon_host_getenv(const char *name) { return getenv(name); }
+WEAK char *recon_getenv(const char *name)
+{
+    char **slot; size_t length,i; unsigned char a,b;
+    if (!recon_crt_arguments_bound) return getenv(name);
+    if (!name) return NULL;
+    if (recon_mb_codepage || recon_lc_codepage || recon_lc_handle[2] || recon_mb_cur_max!=1)
+        recon_unsupported("bound getenv nondefault locale");
+    length=strlen(name);
+    for (slot=recon_crt_environment;*slot;++slot) {
+        if (strlen(*slot)<=length || (*slot)[length]!='=') continue;
+        for (i=0;i<length;++i) {
+            a=(unsigned char)(*slot)[i]; b=(unsigned char)name[i];
+            if (a>=128 || b>=128) recon_unsupported("bound getenv nonASCII name");
+            if (a>='A' && a<='Z') a+='a'-'A';
+            if (b>='A' && b<='Z') b+='a'-'A';
+            if (a!=b) break;
+        }
+        if (i==length) return *slot+length+1;
+    }
+    return NULL;
+}
+
 WEAK void recon_set_app_type(int type) { recon_crt_app_type=type; }
 WEAK int *recon_p_fmode(void) { return &recon_fmode; }
 WEAK int *recon_p_commode(void) { return &recon_commode; }
