@@ -159,7 +159,6 @@ IrToken *__stdcall append_default_call_argument(IrToken *arguments, void *expres
 CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type) { __asm { int 3 } }
 IrToken *__stdcall materialize_call_result(IrToken *call) { __asm { int 3 } return 0; }
-int __stdcall is_this_object_expression(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_expression(CppSymbol *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm { int 3 } }
@@ -169,13 +168,11 @@ void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 }
 IrToken * __stdcall convert_derived_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
 IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
-IrToken * __stdcall convert_scalar_initializer(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall declare_enumerator(char *name, CType *context, unsigned value) { __asm { int 3 } }
 void __stdcall declare_nctag(char *name) { __asm { int 3 } }
 void __stdcall define_named_label(char *name) { __asm { int 3 } }
 IrToken *__stdcall delete_expression(unsigned char operation, IrToken *expression, IrToken *bound, int is_array) { __asm { int 3 } return 0; }
 void __stdcall detach_new_array_bound(CppSymbol *type) { __asm { int 3 } }
-void __stdcall emit_condition_to_label(IrToken *condition, IrToken *label, int sense) { __asm { int 3 } }
 void __stdcall emit_conditional_branch(IrToken *first, IrToken *condition, IrToken *increment) { __asm { int 3 } }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void emit_inline_assembly(void) { __asm { int 3 } }
@@ -362,7 +359,6 @@ short reserve_type_diagnostic(void) { __asm { int 3 } return 0; }
 void __stdcall format_diagnostic_symbol(short text, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall print_inline_declaration(CppSymbol *symbol, unsigned *flags) { __asm { int 3 } }
 
-unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall data_member_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall member_function_pointer_size(TypeShape *shape) { __asm { int 3 } return 0; }
 
@@ -529,15 +525,12 @@ int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsign
 int __stdcall emit_string_intrinsic(IrToken *expression) { __asm { int 3 } return 0; }
 
 
-unsigned __stdcall complete_type_size(CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall member_pointer_inheritance_model(CType *type) { __asm { int 3 } return 0; }
 void __stdcall emit_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_vector_deleting_destructor_body(CppSymbol *tag) { __asm { int 3 } }
 void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } }
-void __stdcall emit_virtual_base_initializers(CppSymbol *tag, IrToken **initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
-IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attributes, unsigned displacement) { __asm { int 3 } return 0; }
 IrToken *__stdcall clear_most_derived_argument(IrToken *call) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_vtordisp_value(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
 QualifierBinding * __stdcall make_vtordisp_qualifier_path(CppSymbol *tag, VirtualTableGroup *group) { __asm { int 3 } return 0; }
@@ -650,3 +643,10 @@ int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object, int kind, int direct, int flags) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_array_destructor_call(IrToken *object) { __asm { int 3 } return 0; }
+IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+void __stdcall check_conversion_access(CppSymbol *conversion, CType *object_type) { __asm { int 3 } }
+IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expression, CType *type) { __asm { int 3 } return 0; }
+int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
+int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference) { __asm { int 3 } return 0; }
+void __stdcall cancel_temporary_cleanup(CppSymbol *symbol) { __asm { int 3 } }
+IrToken *__stdcall convert_class_pointer(IrToken *expression, CType *type, CType *source, QualifiedDeclarator *path) { __asm { int 3 } return 0; }

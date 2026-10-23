@@ -988,3 +988,47 @@ finish_member:
     for (; index >= 0; --index) emit_expression_statement(calls->items[index]);
     release_inline_vector(calls);
 }
+
+void __stdcall emit_virtual_base_table_initializers(CppSymbol *tag);
+
+/* Original 0x36400..0x364bd. The hidden $initVBases argument guards
+   both vbptr setup and virtual-base construction. Consume named initializers
+   for each canonical virtual base, then emit its prepared constructor call. */
+void __stdcall emit_virtual_base_initializers(CppSymbol *tag, IrToken **initializers,
+    unsigned short attributes)
+{
+    IrToken *end_label = new_branch_label(0x1e);
+    IrToken *condition = identifier_expression(name_init_vbases);
+    IrToken *arguments, *object, *call;
+    VirtualBaseSearch bases;
+    condition = builtin_binary_expression(0x44, condition, make_integer_constant(0));
+    emit_condition_to_label(condition, end_label, 1);
+    emit_virtual_base_table_initializers(tag);
+    begin_virtual_base_search(&bases, tag);
+    while (next_virtual_base_search(&bases)) {
+        arguments = take_member_initializer(initializers, bases.tag->name);
+        object = make_subobject_pointer(bases.tag, attributes, bases.field14);
+        call = make_constructor_call(bases.tag, object, arguments, 0, 0);
+        call = prepare_expression(call, 0);
+        if (call) emit_expression_statement(call);
+    }
+    emit_label(end_label);
+}
+
+/* Original 0x7b730..0x7b740. Virtual-base pointers use member addresses
+   rather than the ordinary function-table qualification path. */
+void __stdcall emit_virtual_base_table_initializers(CppSymbol *tag)
+{
+    emit_vtable_pointer_initializers(tag, 1, 1);
+}
+
+/* Original 0x3af80..0x3afad. Preserve evaluation order: class pointer
+   type, byte displacement constant, adjusted this, then the addition node. */
+IrToken *__stdcall make_subobject_pointer(CppSymbol *tag, unsigned short attributes,
+    unsigned displacement)
+{
+    CType *type = make_class_pointer_type(tag, attributes);
+    IrToken *offset = make_integer_constant(displacement);
+    IrToken *object = adjusted_this_expression(0);
+    return new_ir_expression(0x5c, object, offset, type);
+}

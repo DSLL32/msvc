@@ -1,0 +1,157 @@
+{
+  "status": "pass",
+  "scope": "native regression-boundary fault injection; no original execution",
+  "negative_helper_build_seconds": 0.3520392682403326,
+  "checks": [
+    {
+      "name": "wrong-entry",
+      "status": "pass",
+      "rejected_because": "application entry 0",
+      "seconds": 0.37341346126049757
+    },
+    {
+      "name": "missing-definition",
+      "status": "pass",
+      "rejected_because": "unresolved native application definition",
+      "seconds": 0.3567788563668728
+    },
+    {
+      "name": "reject-terminal",
+      "status": "pass",
+      "rejected_because": "expected completed frontend exit status",
+      "seconds": 0.09083489142358303
+    },
+    {
+      "name": "reject-stdout",
+      "status": "pass",
+      "rejected_because": "stdout differs",
+      "seconds": 0.08337246533483267
+    },
+    {
+      "name": "reject-artifact",
+      "status": "pass",
+      "rejected_because": "irex: visible bytes differ",
+      "seconds": 0.08293530903756618
+    },
+    {
+      "name": "unknown-dependency",
+      "status": "pass",
+      "rejected_because": "unexpected C1XX external dependency: unknown.exe",
+      "seconds": "not separately measured"
+    },
+    {
+      "name": "close-return",
+      "status": "pass",
+      "rejected_because": "close boundary differs",
+      "seconds": 0.0018335310742259026
+    },
+    {
+      "name": "close-failed-both",
+      "status": "pass",
+      "rejected_because": "close did not close the observed source descriptor",
+      "seconds": 0.0017716716974973679
+    },
+    {
+      "name": "close-descriptor",
+      "status": "pass",
+      "rejected_because": "observation bytes contradict claimed descriptor",
+      "seconds": 0.08224963303655386
+    },
+    {
+      "name": "close-order",
+      "status": "pass",
+      "rejected_because": "unobserved runtime boundary",
+      "seconds": 0.0019491985440254211
+    },
+    {
+      "name": "close-library",
+      "status": "pass",
+      "rejected_because": "CRT library/import identity changed",
+      "seconds": 0.07607774529606104
+    },
+    {
+      "name": "close-observation",
+      "status": "pass",
+      "rejected_because": "runtime observation evidence changed",
+      "seconds": 0.07754203490912914
+    },
+    {
+      "name": "fflush-write-bit",
+      "status": "pass",
+      "rejected_because": "fflush boundary differs",
+      "seconds": 0.002014581114053726
+    },
+    {
+      "name": "fflush-stale-both",
+      "status": "pass",
+      "rejected_because": "fflush stream transition differs",
+      "seconds": 0.0018473844975233078
+    },
+    {
+      "name": "fflush-failed-both",
+      "status": "pass",
+      "rejected_because": "fflush did not successfully drain buffer",
+      "seconds": 0.001862374134361744
+    },
+    {
+      "name": "fflush-library",
+      "status": "pass",
+      "rejected_because": "fflush library identity changed",
+      "seconds": 0.07316788472235203
+    },
+    {
+      "name": "exit-runtime-order",
+      "status": "pass",
+      "rejected_because": "unobserved termination sequence",
+      "seconds": 0.0021395431831479073
+    },
+    {
+      "name": "exit-library",
+      "status": "pass",
+      "rejected_because": "termination library identity changed",
+      "seconds": 0.0832842355594039
+    },
+    {
+      "name": "exit-observation",
+      "status": "pass",
+      "rejected_because": "termination evidence changed",
+      "seconds": 0.08360737934708595
+    },
+    {
+      "name": "realloc-library",
+      "status": "pass",
+      "rejected_because": "realloc library identity changed",
+      "seconds": 0.07646669074892998
+    },
+    {
+      "name": "realloc-observation",
+      "status": "pass",
+      "rejected_because": "realloc evidence changed",
+      "seconds": 0.08000937569886446
+    },
+    {
+      "name": "realloc-size",
+      "status": "pass",
+      "rejected_because": "raw realloc observation contradicts claimed size or preserved prefix",
+      "seconds": 0.07877308130264282
+    },
+    {
+      "name": "realloc-lost-prefix",
+      "status": "pass",
+      "rejected_because": "raw realloc observation contradicts claimed size or preserved prefix",
+      "seconds": 0.07722504623234272
+    },
+    {
+      "name": "missing-case-prefix",
+      "status": "pass",
+      "rejected_because": "application entry 0",
+      "seconds": 0.4093884341418743
+    },
+    {
+      "name": "partial-case-wrong-exit",
+      "status": "pass",
+      "rejected_because": "expected named frontier SIGTRAP",
+      "seconds": 0.07837916910648346
+    }
+  ]
+}

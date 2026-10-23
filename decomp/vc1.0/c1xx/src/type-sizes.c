@@ -63,3 +63,72 @@ unsigned short __stdcall type_alignment(CType *type)
 
 typedef char ClassAlignmentOffsetMustBe50[
     (offsetof(ClassInfo, alignment_flags) == 50) ? 1 : -1];
+
+/* Original 0x4ef30..0x4ef64. Diagnose zero-sized/incomplete types but
+   retain the size computed before the diagnostic helper. */
+unsigned __stdcall complete_type_size(CType *type)
+{
+    unsigned bytes = inner_type_size(type->flags,
+        cpp_context_stack->items[type->field08], type->related);
+    if (!bytes) require_complete_type(type);
+    return bytes;
+}
+
+/* Original 0x4ef70..0x4f15a. Measure the type inside the outer shape:
+   pointer and array prefixes inspect their next shape before choosing a
+   representation size. Only the array-prefix multiplication diagnoses wrapped
+   signed overflow; the nested-array branch beneath a pointer multiplies raw. */
+unsigned __stdcall inner_type_size(unsigned short flags, CppSymbol *tag, TypeShape *shape)
+{
+    TypeShape *element;
+    unsigned bytes, product;
+    for (;;) {
+        if (!shape) return base_type_size(flags, tag);
+        switch (shape->flags & 0x77) {
+        case 1:
+            element = shape->related;
+            if (!element) return base_type_size(flags, tag);
+            switch (element->flags & 0x77) {
+            case 1: case 3: case 0x40: case 0x44:
+                return pointer_kind_size(element->attributes);
+            case 2:
+                bytes = inner_type_size(flags, tag, element);
+                return bytes * (unsigned)element->data.array_bound;
+            case 0x10:
+                return data_member_pointer_size(element);
+            case 0x20:
+                return member_function_pointer_size(element);
+            }
+            return 0;
+        case 2:
+            element = shape->related;
+            if (element) {
+                if ((element->flags & 1) || (element->flags & 0x40))
+                    return pointer_kind_size(element->attributes);
+                if (element->flags & 0x20) return member_function_pointer_size(element);
+                if (element->flags & 0x10) return data_member_pointer_size(element);
+            }
+            bytes = inner_type_size(flags, tag, element);
+            if (!element) return bytes;
+            product = bytes * (unsigned)element->data.array_bound;
+            if ((int)product < (int)bytes && element->data.array_bound) {
+                report_syntax_error(148);
+                element->data.array_bound = 1;
+            }
+            return product;
+        case 4:
+            shape = shape->related;
+            if (!shape) return base_type_size(flags, tag);
+            if (shape->flags & 1) return pointer_kind_size(shape->attributes);
+            break;
+        case 3: case 0x40: case 0x44:
+            return pointer_kind_size(shape->attributes);
+        case 0x10:
+            return data_member_pointer_size(shape);
+        case 0x20:
+            return member_function_pointer_size(shape);
+        default:
+            return 0;
+        }
+    }
+}

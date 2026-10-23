@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_virtual_base_table_initializers@4",
+    "start": 505648,
+    "end": 505665
+  },
+  "distinct_direct_callees": [
+    "_emit_vtable_pointer_initializers@12"
+  ],
+  "next_frontier": "_make_subobject_pointer@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4139040019363165,
+  "total_operation_seconds": 7.545231688767672,
+  "original_capture_seconds": 4.676721693947911
+}

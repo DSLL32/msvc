@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.2181956293061376,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-emit-condition-to-label-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.380373015999794,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-emit-condition-to-label-canonical.log"
+  }
+]

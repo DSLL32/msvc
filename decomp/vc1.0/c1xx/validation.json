@@ -1,14 +1,14 @@
 {
   "status": "virtual_diamond reconstruction in progress",
-  "accepted_frontiers": 753,
-  "driver_functions": 661,
+  "accepted_frontiers": 763,
+  "driver_functions": 671,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 668,
-  "current_frontier": "_emit_virtual_base_initializers@12",
-  "original_frontier_va": "0x36400",
+  "reconstructed_source_functions": 678,
+  "current_frontier": "_adjust_virtual_member_object@20",
+  "original_frontier_va": "0x314f0",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 668,
+  "call_graph_audit_functions": 678,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -1140,8 +1140,8 @@
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_emit_virtual_base_initializers@12",
-    "original_va": "0x36400"
+    "current_frontier": "_adjust_virtual_member_object@20",
+    "original_va": "0x314f0"
   },
   "source_layout": {
     "source": "src",
@@ -1167,8 +1167,8 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 109,
-  "latest_verification": "cases/virtual-diamond-frontiers/0752-set_base_initialization_access-4/validation.json",
+  "current_native_application_entries": 119,
+  "latest_verification": "cases/virtual-diamond-frontiers/0762-inner_type_size-12/validation.json",
   "historical_original_full_replay_frontiers": 534,
   "active_queue": [
     "finish cpp_basic",
@@ -1177,12 +1177,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 214300,
+    "accepted_code_bytes": 216355,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 44.98150783555617,
-    "accepted_frontiers": 753,
-    "source_functions": 668,
-    "accepted_source_text_and_switch_bytes": 202789,
+    "accepted_code_percent": 45.4128517394389,
+    "accepted_frontiers": 763,
+    "source_functions": 678,
+    "accepted_source_text_and_switch_bytes": 204844,
     "section_ranges": [
       [
         94208,
@@ -1191,12 +1191,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 214300,
+    "accepted_code_bytes": 216355,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 44.98150783555617,
-    "accepted_frontiers": 753,
-    "source_functions": 668,
-    "accepted_source_text_and_switch_bytes": 202789,
+    "accepted_code_percent": 45.4128517394389,
+    "accepted_frontiers": 763,
+    "source_functions": 678,
+    "accepted_source_text_and_switch_bytes": 204844,
     "section_ranges": [
       [
         94208,
@@ -1204,9 +1204,9 @@
       ]
     ]
   },
-  "static_checkpoint": "668 source functions: canonical graph, contextual data/defaults/callbacks and both grammars pass; both native cases exact in corrected acceptance; unchanged validator negatives last passed at faf92c2",
-  "latest_checkpoint_checks": "evidence/translation-finalization-checkpoint.json",
-  "latest_checkpoint": "evidence/virtual-base-hidden-parameter-checkpoint.json",
+  "static_checkpoint": "678 source functions: canonical graph, contextual data/defaults/callbacks, both grammars, both native cases and 25 validator negative checks pass",
+  "latest_checkpoint_checks": "evidence/virtual-base-guard-checkpoint.json",
+  "latest_checkpoint": "evidence/virtual-base-guard-checkpoint.json",
   "complete_frontend_case": false,
   "active_case": "virtual_diamond",
   "cases": {
@@ -1216,8 +1216,8 @@
     },
     "virtual_diamond": {
       "status": "partial",
-      "frontier": "_emit_virtual_base_initializers@12",
-      "latest_verification": "cases/virtual-diamond-frontiers/0752-set_base_initialization_access-4/validation.json"
+      "frontier": "_adjust_virtual_member_object@20",
+      "latest_verification": "cases/virtual-diamond-frontiers/0762-inner_type_size-12/validation.json"
     }
   },
   "virtual_base_hidden_parameter_fix": {

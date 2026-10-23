@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.1740380814298987,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-convert-scalar-initializer-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.813627576455474,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-convert-scalar-initializer-canonical.log"
+  }
+]

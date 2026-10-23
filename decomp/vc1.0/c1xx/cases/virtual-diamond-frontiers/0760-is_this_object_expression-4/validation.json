@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_is_this_object_expression@4",
+    "start": 233344,
+    "end": 233435
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_complete_type_size@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4277056073769927,
+  "total_operation_seconds": 7.495492328889668,
+  "original_capture_seconds": 4.475969726219773
+}

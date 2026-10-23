@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_try_class_pointer_initializer@8",
+    "start": 420480,
+    "end": 420680
+  },
+  "distinct_direct_callees": [
+    "_builtin_unary_expression@8",
+    "_convert_class_pointer@16"
+  ],
+  "next_frontier": "_emit_condition_to_label@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4143651807680726,
+  "total_operation_seconds": 7.945104985497892,
+  "original_capture_seconds": 5.0268905917182565
+}

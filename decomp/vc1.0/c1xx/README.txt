@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 753 accepted frontiers, including 661 frontend
+PARTIAL binary reconstruction: 763 accepted frontiers, including 671 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1697,3 +1697,23 @@ Accepted extent union 214300/476418 bytes is 44.981508%, not branch coverage.
 The corrected branch is within a previously accepted function and adds no
 extent bytes. virtual_diamond remains incomplete at
 emit_virtual_base_initializers 0x36400.
+
+Virtual-base guard checkpoint: 763 accepted frontiers, 678 source functions.
+Ten whole functions beyond cbe46ec emit the guarded virtual-base constructor
+sequence, dispatch scalar/user-defined/class-pointer conversions, serialize
+short-circuit branches, initialize virtual-base table pointers, form subobject
+pointers, recognize this references and compute complete/inner type sizes.
+Unseen conversion/access/temporary-cleanup callees remain named trapping stubs.
+The table-pointer wrapper passes both selection arguments as one. The size
+routine preserves the distinct nested-array multiplication/overflow branches.
+
+Every 0753 through 0762 acceptance matches fresh original/native traps, four
+pending buffers, fourteen state fields, raw streams and visible files. The
+completed cpp_basic output remains byte-exact. Full 678-function canonical
+call-graph, contextual data/default/callback and grammar audits, both cached
+native cases and 25 boundary rejection checks pass in 4.848492 seconds.
+Individual build/reference/debug/fixture timings remain in each frontier;
+a no-op preparatory build is retained separately and adds no acceptance.
+
+Accepted extent union 216355/476418 bytes is 45.412852%, not branch coverage.
+virtual_diamond remains incomplete at adjust_virtual_member_object 0x314f0.

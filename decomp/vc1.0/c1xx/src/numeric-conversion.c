@@ -1,6 +1,8 @@
-/* Constant conversion across scalar widths, pointer models and x87 values. */
+/* Scalar and constant conversion across pointer models and x87 values. */
 #include "numeric-conversion.h"
 #include "lexer.h"
+#include "constructor-initializers.h"
+#include "unary-expressions.h"
 #include <limits.h>
 #include <recon.h>
 
@@ -169,4 +171,102 @@ int __stdcall integer_constant_overflows(unsigned short width, short target_unsi
     if (signed_integer_maxima[width] < (long)value) return 1;
     if ((long)value < signed_integer_minima[width]) return 1;
     return 0;
+}
+
+IrToken *__stdcall try_user_defined_conversion(CType *type, IrToken *expression, int convert_result);
+IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression);
+IrToken *__stdcall try_class_pointer_initializer(CType *type, IrToken *expression);
+
+/* Original 0x65ce0..0x65db0. Prefer user-defined and class/member-pointer
+   conversions before based-address handling, numeric folding or a cast node.
+   Keep the expression's original type across the first conversion attempt. */
+IrToken *__stdcall convert_scalar_initializer(unsigned char operation, CType *type,
+    IrToken *expression)
+{
+    CType *source;
+    IrToken *result;
+    if (!expression) return 0;
+    source = expression->type;
+    result = try_user_defined_conversion(type, expression, 1);
+    if (result) return result;
+    if (type->related && (type->related->flags & 0x30) &&
+        source->related && (source->related->flags & 0x30))
+        return convert_member_pointer_initializer(type, expression);
+    result = try_class_pointer_initializer(type, expression);
+    if (result) return result;
+    if ((token_allocation_flags & 0x800) && type->related &&
+        (type->related->attributes & 12))
+        return qualify_based_storage(convert_based_expression(type, expression));
+    if ((expression->flags & 7) == 3 && (!(type->flags & 0x800) || type->related))
+        return convert_numeric_constant(operation, type, expression);
+    if (operation != 0x6e && operation != 1)
+        check_conversion_warning(operation, type, expression);
+    return new_cast_expression(type, expression);
+}
+
+void __stdcall check_conversion_access(CppSymbol *conversion, CType *object_type);
+IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expression, CType *type);
+int __stdcall can_bind_conversion_reference(CType *reference, CType *value);
+int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference);
+void __stdcall cancel_temporary_cleanup(CppSymbol *symbol);
+
+/* Original 0x65af0..0x65c40. Try constructors or conversion functions
+   only for class/reference operands. Retain reference binding exceptions and
+   cancel a result temporary's cleanup when probing without a final cast. */
+IrToken *__stdcall try_user_defined_conversion(CType *type, IrToken *expression,
+    int convert_result)
+{
+    CType *source = expression->type, *referent;
+    CppSymbol *conversion;
+    IrToken *result, *temporary;
+    unsigned rank;
+    if (!is_class_or_reference_type(source) && !is_class_or_reference_type(type))
+        return 0;
+    conversion = find_user_conversion(type, source, &rank);
+    if (rank & 0x2000) return 0;
+    check_conversion_access(conversion,
+        (conversion->declaration_flags & 0x1000) ? type : source);
+    result = invoke_user_conversion(conversion, expression, type);
+    if (!result) return 0;
+    if (result->type == type) return result;
+    if (type->related && (type->related->flags & 0x40)) {
+        if (result->flags & 0x10) return result;
+        referent = dereference_pointer_type(type);
+        if (is_unqualified_class_type(referent) && (type_qualifiers(referent) & 0x1000) &&
+            can_bind_conversion_reference(type, result->type)) return result;
+    }
+    if (convert_result) return convert_operand_if_needed(1, type, result);
+    if ((result->flags & 7) == 1 && result->value.pointer &&
+        find_constructor_result_reference(result->value.pointer, &temporary) &&
+        temporary && (temporary->flags & 7) == 4)
+        cancel_temporary_cleanup((CppSymbol *)temporary->value.pointer);
+    return 0;
+}
+
+IrToken *__stdcall convert_class_pointer(IrToken *expression, CType *type,
+    CType *source, QualifiedDeclarator *path);
+
+/* Original 0x66a80..0x66b47. Class pointer/reference conversions require
+   a single outer indirection. A class value can first become an address when
+   binding a reference; pass that address's resulting type to the converter. */
+IrToken *__stdcall try_class_pointer_initializer(CType *type, IrToken *expression)
+{
+    CType *source = expression->type;
+    TypeShape *target_shape, *source_shape;
+    unsigned short flags;
+    if (!(type->flags & 0x400)) return 0;
+    target_shape = type->related;
+    if (!target_shape || target_shape->related) return 0;
+    flags = target_shape->flags;
+    if ((flags & 0x77) != 1 && !(flags & 0x40)) return 0;
+    if (!(source->flags & 0x400)) return 0;
+    source_shape = source->related;
+    if (!source_shape) {
+        if (!(flags & 0x40)) return 0;
+        expression = builtin_unary_expression(0x3a, expression);
+        return convert_class_pointer(expression, type, expression->type, 0);
+    }
+    if (source_shape->related) return 0;
+    if ((source_shape->flags & 0x77) != 1 && !(source_shape->flags & 0x40)) return 0;
+    return convert_class_pointer(expression, type, source, 0);
 }

@@ -7,7 +7,7 @@
   "current": {
     "case": "virtual_diamond",
     "fixture": "../fixtures/c1xx-virtual-diamond",
-    "status": "active at emit_virtual_base_initializers after exact hidden virtual-base parameter correction"
+    "status": "active at adjust_virtual_member_object after exact virtual-base guard/table-pointer and type-size checkpoint"
   },
   "pending": [
     {

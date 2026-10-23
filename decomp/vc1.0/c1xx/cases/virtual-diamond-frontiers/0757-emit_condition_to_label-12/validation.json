@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_condition_to_label@12",
+    "start": 370320,
+    "end": 370741
+  },
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_convert_class_condition@12",
+    "_emit_condition_to_label@12",
+    "_emit_expression_tree@4",
+    "_emit_label@4",
+    "_is_unqualified_class_type@4",
+    "_new_branch_label@4",
+    "_report_syntax_error",
+    "_resolve_assignment_operand@8",
+    "_write_ir_record@8"
+  ],
+  "next_frontier": "_emit_virtual_base_table_initializers@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4054114921018481,
+  "total_operation_seconds": 7.279051984660327,
+  "original_capture_seconds": 4.526804313994944
+}

@@ -988,3 +988,15 @@ IrToken *__stdcall finish_call_expression(IrToken *expression, unsigned short fl
     }
     return expression;
 }
+
+/* Original 0x38f80..0x38fda. Recognize the unary reference to the
+   interned this parameter, excluding the special member-reference token. */
+int __stdcall is_this_object_expression(IrToken *expression)
+{
+    IrToken *operand;
+    if ((expression->flags & 7) != 1) return 0;
+    operand = expression->value.pointer;
+    if (!operand || (operand->flags & 7) != 4 || operand->kind == 0xa7) return 0;
+    if (((CppSymbol *)operand->value.pointer)->name != name_this) return 0;
+    return 1;
+}

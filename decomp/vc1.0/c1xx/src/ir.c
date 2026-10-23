@@ -5,6 +5,7 @@
 #include "expression-records.h"
 #include "type-sizes.h"
 #include "function-finalization.h"
+#include "binary-expressions.h"
 #include <recon.h>
 
 CppSymbol *function_symbol; /* original 0x8c140 */
@@ -439,4 +440,55 @@ unsigned short __stdcall expression_type_alignment(CType *type)
         return tag->detail.class_info->alignment_flags & 0x3f;
     }
     return type->flags & 15;
+}
+
+/* Original 0x5a690..0x5a834. The expression vocabulary maps only OP_NOT,
+   OP_LOGICAL_OR and OP_LOGICAL_AND to records 0x1a/0x1b/0x1c. Test these
+   logical operations directly instead of duplicating that shared vocabulary.
+   Preserve short-circuit labels and class-condition overload selection. */
+void __stdcall emit_condition_to_label(IrToken *condition, IrToken *label, int sense)
+{
+    IrToken *local_label;
+    unsigned selection[4];
+    for (;;) {
+        if (!condition->type) {
+            condition = resolve_assignment_operand(0, condition);
+            if (!condition || !condition->type) {
+                report_syntax_error(566);
+                return;
+            }
+        }
+        if (condition->type->flags == 0x80 && !condition->type->related)
+            report_syntax_error(180);
+        if ((condition->flags & 7) == 3 || (condition->flags & 7) == 5)
+            compiler_warning(4, 127);
+        if (condition->kind != OP_NOT) break;
+        sense = !sense;
+        condition = condition->value.pointer;
+    }
+    if (condition->kind == OP_LOGICAL_OR) {
+        local_label = label;
+        if (!sense)
+            local_label = new_branch_label(((CppSymbol *)label->value.pointer)->detail.value);
+        emit_condition_to_label(condition->value.pointer, local_label, 1);
+        emit_condition_to_label(condition->tail.right, label, sense);
+        if (!sense) emit_label(local_label);
+        return;
+    }
+    if (condition->kind == OP_LOGICAL_AND) {
+        local_label = label;
+        if (sense)
+            local_label = new_branch_label(((CppSymbol *)label->value.pointer)->detail.value);
+        emit_condition_to_label(condition->value.pointer, local_label, 0);
+        emit_condition_to_label(condition->tail.right, label, sense);
+        if (sense) emit_label(local_label);
+        return;
+    }
+    if (condition && (short)is_unqualified_class_type(condition->type)) {
+        condition = convert_class_condition(condition, 0, selection);
+        if (condition && (short)is_unqualified_class_type(condition->type) &&
+            selection[0] < 0x400) return;
+    }
+    emit_expression_tree(condition);
+    write_ir_record(sense ? 0x39 : 0x38, label);
 }

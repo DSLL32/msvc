@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_inner_type_size@12",
+    "start": 323440,
+    "end": 323931
+  },
+  "distinct_direct_callees": [
+    "_base_type_size@8",
+    "_data_member_pointer_size@4",
+    "_inner_type_size@12",
+    "_member_function_pointer_size@4",
+    "_pointer_kind_size@4",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_adjust_virtual_member_object@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4340825928375125,
+  "total_operation_seconds": 6.5584378549829125,
+  "original_capture_seconds": 3.723842564970255
+}

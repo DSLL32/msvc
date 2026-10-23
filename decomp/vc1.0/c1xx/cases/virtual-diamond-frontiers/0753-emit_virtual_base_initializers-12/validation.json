@@ -1,0 +1,30 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_virtual_base_initializers@12",
+    "start": 222208,
+    "end": 222398
+  },
+  "distinct_direct_callees": [
+    "_begin_virtual_base_search@8",
+    "_builtin_binary_expression@12",
+    "_emit_condition_to_label@12",
+    "_emit_expression_statement@4",
+    "_emit_label@4",
+    "_emit_virtual_base_table_initializers@4",
+    "_identifier_expression@4",
+    "_make_constructor_call@20",
+    "_make_integer_constant@4",
+    "_make_subobject_pointer@12",
+    "_new_branch_label@4",
+    "_next_virtual_base_search@4",
+    "_prepare_expression@8",
+    "_take_member_initializer@8"
+  ],
+  "next_frontier": "_convert_scalar_initializer@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.38769533298909664,
+  "total_operation_seconds": 7.0203619273379445,
+  "original_capture_seconds": 4.1748055117204785
+}

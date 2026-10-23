@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 754,
+  "accepted": "_convert_scalar_initializer@12",
+  "terminal": "_try_user_defined_conversion@12",
+  "original_capture": "cases/virtual-diamond-frontiers/0754-convert_scalar_initializer-12/original-receipt.json",
+  "original_capture_sha256": "34181e88d061c5590271d3d34d652565a229df78bfa289c9f6e9c3a30dd4379f",
+  "original_events": "cases/virtual-diamond-frontiers/0754-convert_scalar_initializer-12/original-events.txt",
+  "original_events_sha256": "2fc0be845fd5a6701852a96afa87ee83a5b73e09d438139a4c0e635417b46187",
+  "original_configuration": "cases/virtual-diamond-frontiers/0754-convert_scalar_initializer-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}
