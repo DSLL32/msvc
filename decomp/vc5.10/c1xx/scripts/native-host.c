@@ -208,6 +208,10 @@ int main(void)
             frontend_bss.break_into_debugger = 17;
             frontend_bss.command_argc = 23;
             frontend_bss.command_argv = (char **)((unsigned char *)frontend_bss.saved_state + 12);
+            frontend_bss.work_buffers[0].data = (BYTE *)frontend_bss.saved_state + 100;
+            frontend_bss.work_buffers[0].limit = (BYTE *)frontend_bss.saved_state + 200;
+            frontend_bss.work_buffers[1].data = (BYTE *)frontend_bss.saved_state + 300;
+            frontend_bss.work_buffers[1].limit = (BYTE *)frontend_bss.saved_state + 400;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

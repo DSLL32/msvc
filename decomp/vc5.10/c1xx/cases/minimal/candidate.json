@@ -68,7 +68,8 @@
     "_initialize_frontend_40",
     "_initialize_frontend_41",
     "_initialize_frontend_42",
-    "_main"
+    "_main",
+    "_initialize_work_buffers"
   ],
   "trial": null,
   "ranges": [
@@ -581,7 +582,13 @@
       "start_rva": 467055,
       "end_rva": 467082,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_work_buffers",
+      "start_rva": 232582,
+      "end_rva": 232649,
+      "entry": 1
     }
   ],
-  "stage": "_main accepted; next frontier _initialize_work_buffers"
+  "stage": "_initialize_work_buffers accepted; next frontier _reserve_work_buffer"
 }

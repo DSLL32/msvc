@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction: all42 callbacks and actual main accepted; next work-buffer initializer",
+  "state": "autonomous minimal C++ reconstruction: work-buffer initializer accepted; next real virtual allocator",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active; main accepted with independent entry/first-helper evidence; work-buffer initializer is next; full compile unfinished",
+      "status": "active; work-buffer initializer accepted; next reserve helper, full compile unfinished",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -44,7 +44,8 @@
       "signature_validation": "minimal/signature-trials.json",
       "main_validation": "minimal/main-trials.json",
       "initializer_checkpoint": "minimal/empty42-trials.json",
-      "collector_verification": "minimal/collector-cache-verification.json"
+      "collector_verification": "minimal/collector-cache-verification.json",
+      "work_validation": "minimal/work-trials.json"
     },
     {
       "id": "cpp-basic",

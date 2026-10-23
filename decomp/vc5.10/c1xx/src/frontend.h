@@ -83,6 +83,11 @@ typedef struct PchContext {
 #endif
 } PchContext;
 
+typedef struct CompilerWorkBuffer {
+    BYTE *data;
+    BYTE *limit;
+} CompilerWorkBuffer;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -115,6 +120,7 @@ typedef struct FrontendBss {
     int break_into_debugger;
     int command_argc;
     char **command_argv;
+    CompilerWorkBuffer work_buffers[2];
 } FrontendBss;
 
 #ifdef __cplusplus
@@ -129,6 +135,7 @@ int report_compiler_error(int number);
 int report_compiler_diagnostic(int number, ...);
 int register_cleanup(Initializer cleanup);
 void initialize_work_buffers(void);
+BYTE *reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes);
 void initialize_intermediate_files(char **argv);
 void initialize_frontend_hook(void);
 void initialize_compiler_environment(void);

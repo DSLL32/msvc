@@ -100,6 +100,10 @@ int initialize_compiler_pass(void)
         frontend_bss.break_into_debugger = 0;
         frontend_bss.command_argc = 0;
         frontend_bss.command_argv = NULL;
+        for (i = 0; i < 2; ++i) {
+            frontend_bss.work_buffers[i].data = NULL;
+            frontend_bss.work_buffers[i].limit = NULL;
+        }
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }
@@ -154,7 +158,16 @@ int main(int argc, char **argv)
 
 void initialize_work_buffers(void)
 {
+    frontend_bss.work_buffers[0].data = reserve_work_buffer(0x500000, 0x4000);
+    frontend_bss.work_buffers[0].limit = frontend_bss.work_buffers[0].data + 0x3ffb;
+    frontend_bss.work_buffers[1].data = reserve_work_buffer(0x500000, 0x4000);
+    frontend_bss.work_buffers[1].limit = frontend_bss.work_buffers[1].data + 0x3ffb;
+}
+
+BYTE *reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes)
+{
     __asm { int 3 }
+    return NULL;
 }
 
 void initialize_intermediate_files(char **argv)

@@ -311,6 +311,11 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xcd7b8, data + 12, 36);
     readmem(base + 0xc1704, data + 48, 12);
     sprintf(name, "main-fields-%s.bin", suffix); save_blob(name, data, 60);
+    readmem(base + 0xba850, data, 4);
+    readmem(base + 0xb9020, data + 4, 4);
+    readmem(base + 0xba854, data + 8, 4);
+    readmem(base + 0xb9028, data + 12, 4);
+    sprintf(name, "work-buffers-%s.bin", suffix); save_blob(name, data, 16);
     readmem(base + 0xc6d28, data, 12);
     sprintf(name, "deferred-actions-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xc6b40, data, 12);
@@ -536,6 +541,10 @@ static void seed_frontend_restore(void)
     value = allocated + 4; write_mem(base + 0xc6d28, &value, 4);
     value = allocated + 8; write_mem(base + 0xc6d2c, &value, 4);
     value = 17; write_mem(base + 0xc6d30, &value, 4);
+    value = allocated + 100; write_mem(base + 0xba850, &value, 4);
+    value = allocated + 200; write_mem(base + 0xb9020, &value, 4);
+    value = allocated + 300; write_mem(base + 0xba854, &value, 4);
+    value = allocated + 400; write_mem(base + 0xb9028, &value, 4);
     value = allocated + 4; write_mem(base + 0xc6b40, &value, 4);
     value = allocated + 8; write_mem(base + 0xc6b48, &value, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
@@ -761,6 +770,11 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, main_bss, sizeof(main_bss));
                     save_blob(address == base + 0x38bfd ? "main-bss-entry.bin" : "main-bss-frontier.bin", main_bss, sizeof(main_bss));
                 }
+                if (address == base + 0x38cc9) {
+                    BYTE work_bss[0xf69c];
+                    readmem(base + 0xb9000, work_bss, sizeof(work_bss));
+                    save_blob("work-bss-first-reserve.bin", work_bss, sizeof(work_bss));
+                }
                 if (address == base + 0x38ae2 || address == base + 0x38aef) {
                     BYTE group_bss[0xf69c];
                     if (address == base + 0x38af9 || address == base + 0x386ae) {
@@ -797,6 +811,11 @@ int main(int argc, char **argv)
                     BYTE main_bss[0xf69c];
                     readmem(base + 0xb9000, main_bss, sizeof(main_bss));
                     save_blob(address == base + 0x38bfd ? "main-bss-entry.bin" : "main-bss-frontier.bin", main_bss, sizeof(main_bss));
+                }
+                if (address == base + 0x38cc9) {
+                    BYTE work_bss[0xf69c];
+                    readmem(base + 0xb9000, work_bss, sizeof(work_bss));
+                    save_blob("work-bss-first-reserve.bin", work_bss, sizeof(work_bss));
                 }
                 if (address == base + 0x38ae2 && getenv("C1XX_TEST_PENDING_GROUP")) {
                         DWORD owned, value;

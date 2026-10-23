@@ -42,10 +42,12 @@ def check(s, original, native, trial, text, pre, phase, state, seed, final, symb
     abi=entry['raw_entry_abi'];raw_args=[int(v,16) for v in rows[0][2].split(',')]
     s.require(entry['symbol']=='c1xx_main' and entry['pc']==start and entry['args']=={'argc':argc,'argv':native_pointer} and abi['stack_arguments']==[argc,native_pointer] and abi['esp']==entry['esp'] and invoke<abi['return_pc']<invoke+isize and raw_args[:3]==[0x1043851f,argc,pointer],'actual main entry cdecl(argc,argv) or real caller differs')
     s.require(entry['target_state']['compiler_mode']==1 and struct.unpack_from('<I',(original/('state-'+suffix+'.bin')).read_bytes(),8)[0]==1,'Invoke mode assignment before main differs')
-    before=(original/('frontend-data-'+suffix+'.bin')).read_bytes();after=(original/('frontend-data-'+final+'.bin')).read_bytes();phase_offset=0x15c0
+    helper_rows=[r for r in traps if r[1]=='00038c86'];s.require(len(helper_rows)==1,'missing actual first work entry')
+    helper_row=helper_rows[0];helper_suffix='%03d'%int(helper_row[0]);helper=state if state['symbol']=='initialize_work_buffers' else json.loads((native/'work-entry.json').read_text())
+    before=(original/('frontend-data-'+suffix+'.bin')).read_bytes();after=(original/('frontend-data-'+helper_suffix+'.bin')).read_bytes();phase_offset=0x15c0
     s.require(len(before)==len(after)==8520 and before[:phase_offset]==after[:phase_offset] and before[phase_offset+4:]==after[phase_offset+4:] and struct.unpack_from('<I',after,phase_offset)[0]==1,'main changed unknown initialized bytes or failed phase write')
     old_bss=(original/'main-bss-entry.bin').read_bytes();new_bss=(original/'main-bss-frontier.bin').read_bytes();s.require(len(old_bss)==len(new_bss)==0xf69c and old_bss==new_bss,'main changed unrelated original BSS before first helper')
-    old=dict(entry['frontend']);new=dict(state['frontend']);old.pop('compiler_phase');new.pop('compiler_phase');s.require(old==new and state['frontend']['compiler_phase']==1,'main changed other native modeled state before helper')
-    old_final,command_final=raw(final);want=expected(old_owner,'saved' if seed else 'default');want[0]=1;s.require(old_final==want and command_final==[0,0,0],'main helper frontier field projection differs')
-    s.require(traps[-1][1]=='00038c86' and int(traps[-1][2].split(',')[0],16)==0x10438c0e and state['symbol']=='initialize_work_buffers' and state['args']=={} and start<state['caller_return_pc']<start+size,'genuine first helper/cdecl(void) boundary differs')
-    for snapshot in (entry,state):s.require(snapshot['target_state']['last_error']==203 and snapshot['control_word']==0x27f,'main changed caller state before helper')
+    old=dict(entry['frontend']);new=dict(helper['frontend']);old.pop('compiler_phase');new.pop('compiler_phase');s.require(old==new and helper['frontend']['compiler_phase']==1,'main changed other native modeled state before helper')
+    old_final,command_final=raw(helper_suffix);want=expected(old_owner,'saved' if seed else 'default');want[0]=1;s.require(old_final==want and command_final==[0,0,0],'main helper frontier field projection differs')
+    s.require(helper_row[1]=='00038c86' and int(helper_row[2].split(',')[0],16)==0x10438c0e and helper['symbol']=='initialize_work_buffers' and helper['args']=={} and start<helper['caller_return_pc']<start+size,'genuine first helper/cdecl(void) boundary differs')
+    for snapshot in (entry,helper):s.require(snapshot['target_state']['last_error']==203 and snapshot['control_word']==0x27f,'main changed caller state before helper')

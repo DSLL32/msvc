@@ -185,6 +185,11 @@ if any(f.name=='compiler_phase' for f in gdb.lookup_type('FrontendData').fields(
     value['frontend']['saved_system_info']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.saved_state->system_info.'+name)) for name in system_fields] if value['frontend']['saved_state'] else None
     value['frontend']['storage']['system_info']=[int(gdb.parse_and_eval('(unsigned int)&frontend_data.system_info')),36]
     value['frontend']['system_info_layout']={'size':int(gdb.parse_and_eval('sizeof(SYSTEM_INFO)')),'fields':{name:[int(gdb.parse_and_eval('(unsigned int)&frontend_data.system_info.'+name))-int(gdb.parse_and_eval('(unsigned int)&frontend_data.system_info')),int(gdb.parse_and_eval('sizeof(frontend_data.system_info.'+name+')'))] for name in system_fields}}
+if any(f.name=='work_buffers' for f in gdb.lookup_type('FrontendBss').fields()):
+    value['frontend']['work_buffers']=[[int(gdb.parse_and_eval('(unsigned int)frontend_bss.work_buffers[%d].%s'%(i,name))) for name in ('data','limit')] for i in range(2)]
+    for i in range(2):
+        for name in ('data','limit'):value['frontend']['storage']['work_buffer_%02d.%s'%(i+1,name)]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.work_buffers[%d].%s'%(i,name))),4]
+    value['frontend']['work_buffer_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerWorkBuffer)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerWorkBuffer').fields()}}
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -303,6 +308,10 @@ end
         return_observer=output/'observe-pool-return.gdb'
         return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
+    if model['schema']>=29:
+        entry=output/'collect-work-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'work-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'work-entry-argv.bin'))))
+        observer+='break *initialize_work_buffers\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
     if model['schema']>=28:
         entry=output/'collect-main-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'main-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'main-entry-argv.bin'))))

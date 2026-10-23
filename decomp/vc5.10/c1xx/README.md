@@ -179,3 +179,8 @@ main-entry ABI, all new default/live/saved initialized fields and the isolated
 phase write. Schema28 models137 initialized semantic bytes plus51 native record
 padding;8383 original initialized bytes remain unmodeled. BSS is1069 semantic
 bytes plus31 padding. See `cases/minimal/main-trials.json` and the main plan.
+
+The67-byte work-buffer initializer is accepted, stopping at the real two-argument
+reserve helper. Four pointer fields add16 semantic BSS bytes (1085 semantic plus31
+padding, sizeof1116). Three fresh pairs and21 new controls are in
+`cases/minimal/work-trials.json`. No VirtualAlloc behavior is yet accepted here.

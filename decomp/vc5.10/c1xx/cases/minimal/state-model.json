@@ -1,5 +1,5 @@
 {
-  "schema": 28,
+  "schema": 29,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -2014,6 +2014,42 @@
       "native_expression": "frontend_bss.command_argv",
       "original_default": 0,
       "evidence": "main stores actualargc/argv; nonzero break flag branches to imported DebugBreak"
+    },
+    {
+      "name": "work_buffer_01.data",
+      "class": "bss",
+      "original_address": 273393744,
+      "bytes": 4,
+      "native_expression": "frontend_bss.work_buffers[0].data",
+      "original_default": 0,
+      "evidence": "38c86 reserves both byte workspaces and computes each initial limit;3b4b6 assigns cursors,3b4e7 writes bytes through second base; original gaps UNMODELED"
+    },
+    {
+      "name": "work_buffer_01.limit",
+      "class": "bss",
+      "original_address": 273387552,
+      "bytes": 4,
+      "native_expression": "frontend_bss.work_buffers[0].limit",
+      "original_default": 0,
+      "evidence": "38c86 reserves both byte workspaces and computes each initial limit;3b4b6 assigns cursors,3b4e7 writes bytes through second base; original gaps UNMODELED"
+    },
+    {
+      "name": "work_buffer_02.data",
+      "class": "bss",
+      "original_address": 273393748,
+      "bytes": 4,
+      "native_expression": "frontend_bss.work_buffers[1].data",
+      "original_default": 0,
+      "evidence": "38c86 reserves both byte workspaces and computes each initial limit;3b4b6 assigns cursors,3b4e7 writes bytes through second base; original gaps UNMODELED"
+    },
+    {
+      "name": "work_buffer_02.limit",
+      "class": "bss",
+      "original_address": 273387560,
+      "bytes": 4,
+      "native_expression": "frontend_bss.work_buffers[1].limit",
+      "original_default": 0,
+      "evidence": "38c86 reserves both byte workspaces and computes each initial limit;3b4b6 assigns cursors,3b4e7 writes bytes through second base; original gaps UNMODELED"
     }
   ],
   "initializers": [
