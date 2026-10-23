@@ -11,7 +11,7 @@
     "state_sha256": "a7c35aa6c53956f0ce45da38f9ce6024ee89b5885aa2f63db70655481fa9e454"
   },
   "output_corrections": "Original zero drops sign and exponent minimum3digits; actual argument formatted, no response cache. Nonfinite/othercontrol/locale denied.",
-  "native_checks": "GCC/Clang28 output/count cases and all108 before/after bytes,4 unsupported controls; existing default/vprintf/WCHAR16 checks pass. Native measurement occurs at public vprintf entry after compiler vararg promotion, avoiding misattribution of caller fld/fstp FIP. Actual C2 printf independently reobserved by owner.",
+  "native_checks": "GCC/Clang28 output/count cases and all108 before/after bytes,4 unsupported controls; existing default/vprintf/WCHAR16 checks pass. Native measurement occurs at public vprintf entry after compiler vararg promotion, avoiding misattribution of caller fld/fstp FIP. Actual C2 printf requires independent reobservation by owner.",
   "regression_scope": "Finished VC1 CL/RC/RCPP source has no plain%g format; no unrelated95 replay. C2 actual reached case pending independent native check.",
   "limits": "No %Lg, general numeric formatting, rounding-mode, nonfinite or allprintf FP-state claim."
 }

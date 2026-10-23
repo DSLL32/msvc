@@ -1,0 +1,7 @@
+{
+  "scope": "Default-C CP0/MB_CUR_MAX1 ASCII _mbclen returns1 includingNUL; unknown locale/codepage/nonASCII/NULL denied. No DBCS claim.",
+  "provider": "Canonical e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210 MSVCRT full leaf RVA2393a..23952,24bytes. Reads only inputbyte andmbctype[byte+1] leadbit4; no imports or error/state writes.",
+  "actual_case": "VC5CL quoted_length allASCII compilerpath; original reached expanded_length, errorstate2/2/2 unchanged, rawCP0table proof retained byowner.",
+  "capture_sha256": "23ed2c11f0127876a6d6d3730fb9714227412f74df0b1d0aded9555098b672d5",
+  "native_checks": "GCC/Clang all128ASCII includingNUL/error preservation;5 unsupported controls. Shared SDK surface checks pass."
+}

@@ -1835,7 +1835,9 @@ WEAK WCHAR recon_towupper(WCHAR character)
 
 WEAK size_t recon_mbclen(const unsigned char *text)
 {
-    (void)text;recon_unsupported("unreviewed _mbclen");return 0;
+    ascii_multibyte_scope();
+    if (!text || *text>=128) recon_unsupported("NULL/nonASCII _mbclen input");
+    return 1;
 }
 WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
 {
