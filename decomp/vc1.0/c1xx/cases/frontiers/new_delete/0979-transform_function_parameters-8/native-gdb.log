@@ -1,0 +1,14 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559f58 in mark_static_parameters (parameters=0x56624184) at src/stubs.c:354
+354	FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *parameters) { __asm { int 3 } return 0; }
+#0  0x56559f58 in mark_static_parameters (parameters=0x56624184) at src/stubs.c:354
+#1  0x56573438 in transform_function_parameters (type=0x56613e54, transform=0x56559f50 <mark_static_parameters>) at src/parameters.c:272
+#2  0x565b8bae in configure_member_function (storage=..., member=0x566145a8, pure=0) at src/class-members.c:494
+#3  0x565b8513 in declare_class_member (context=0x565fc5a8 <declaration_spec_storage+8>, member=0x566145a8) at src/class-members.c:176
+#4  0x565a8df9 in parse_translation_unit () at src/parser-declaration-actions.inc:274
+#5  0x5655e2ef in compile_translation_unit () at src/frontend.c:73
+#6  0x56558886 in guarded_compile () at src/c1xx.c:28
+#7  0x56558854 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

@@ -1,5 +1,6 @@
 /* C++ function signatures combine interned declaration types with defaults. */
 #include "parameters.h"
+#include "class-members.h"
 #include <recon.h>
 
 DeclarationControl declaration_control; /* original 0x8cc18..0x8cc58 */
@@ -238,4 +239,43 @@ void __stdcall merge_function_defaults(FunctionParameters *current, FunctionPara
         }
     }
     validate_function_default_arguments(declaration);
+}
+
+/* Original0x63050..0x6316d, stdcall8. Transform a copied function
+   parameter descriptor and intern it back through the surrounding shape.
+   The outer pointer/reference shape retains the original in-place link update. */
+CType *__stdcall transform_function_parameters(CType *type, ParameterTransform transform)
+{
+    TypeDescription *description = &type_description_stack[++type_description_depth];
+    ArenaPool *pool = &compiler_arena.pools[2];
+    FunctionParameters *parameters;
+    TypeShape *shape, *source;
+    CType *result;
+    unsigned short flags, kind;
+    int outer;
+    if (pool->remaining < (int)sizeof(FunctionParameters)) refill_arena(&compiler_arena, pool);
+    parameters = (FunctionParameters *)pool->next;
+    pool->remaining -= sizeof(FunctionParameters);
+    pool->next += sizeof(FunctionParameters);
+    if (pool->remaining < (int)sizeof(TypeShape)) refill_arena(&compiler_arena, pool);
+    shape = (TypeShape *)pool->next;
+    pool->remaining -= sizeof(TypeShape);
+    pool->next += sizeof(TypeShape);
+    *description = *(TypeDescription *)type;
+    source = description->related;
+    flags = source->flags;
+    kind = flags & 0x77;
+    outer = !kind || kind == 3 || (flags & 0x44) == 0x44 || (flags & 0x20);
+    if (outer) source = source->related;
+    *shape = *source;
+    *parameters = *shape->data.parameters;
+    shape->data.parameters = intern_function_parameters(transform(parameters));
+    if (outer) {
+        description->related->related = intern_type_shape(shape);
+        shape = description->related;
+    }
+    description->related = intern_type_shape(shape);
+    result = intern_type(description);
+    --type_description_depth;
+    return result;
 }

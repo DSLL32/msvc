@@ -351,7 +351,6 @@ int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 void __stdcall report_lookahead_error(char *unused_text) { __asm { int 3 } }
 
 int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
-CType *__stdcall transform_function_parameters(CType *type, ParameterTransform transform) { __asm { int 3 } return 0; }
 FunctionParameters *__stdcall mark_static_parameters(FunctionParameters *parameters) { __asm { int 3 } return 0; }
 
 void __stdcall set_pure_virtual_member(CppSymbol *member, CppSymbol *owner, StorageSpec storage) { __asm { int 3 } }

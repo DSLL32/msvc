@@ -983,7 +983,8 @@
     "_read_skipped_directive",
     "_skip_source_line",
     "_define_source_macro",
-    "_expand_macro@4"
+    "_expand_macro@4",
+    "_transform_function_parameters@8"
   ],
   "driver": [
     {
@@ -3808,7 +3809,7 @@
     {
       "name": "_transform_function_parameters@8",
       "start": 405584,
-      "end": 405585
+      "end": 405870
     },
     {
       "name": "_mark_static_parameters@4",
@@ -7733,8 +7734,8 @@
       "native_reference": "cases/native-new-delete",
       "frontiers": "cases/frontiers/new_delete",
       "accepted_from": 963,
-      "terminal": "_transform_function_parameters@8",
-      "terminal_evidence": "cases/frontiers/new_delete/0978-expand_macro-4/original-events.txt",
+      "terminal": "_mark_static_parameters@4",
+      "terminal_evidence": "cases/frontiers/new_delete/0979-transform_function_parameters-8/original-events.txt",
       "original_seed": "cases/new_delete-seed",
       "frontier_extensions": [
         "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
@@ -7752,7 +7753,8 @@
         "cases/frontiers/new_delete/0975-read_skipped_directive/frontier-extension.json",
         "cases/frontiers/new_delete/0976-skip_source_line/frontier-extension.json",
         "cases/frontiers/new_delete/0977-define_source_macro/frontier-extension.json",
-        "cases/frontiers/new_delete/0978-expand_macro-4/frontier-extension.json"
+        "cases/frontiers/new_delete/0978-expand_macro-4/frontier-extension.json",
+        "cases/frontiers/new_delete/0979-transform_function_parameters-8/frontier-extension.json"
       ]
     }
   },
