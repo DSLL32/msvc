@@ -61,7 +61,9 @@ def main():
         canonical_map_sha256=sha(snapshot),terminal=dict(kind='frontier',logical=original['terminal'],native_signal=5,original_exception='80000003'),
         expected_stdout=(args.original/'stdout.bin').read_bytes().decode('latin1'),expected_stderr=(args.original/'stderr.bin').read_bytes().decode('latin1'),
         capture_seconds=original['capture_seconds'])
-    metadata['dependencies']=json.loads((fixture/'manifest.json').read_text())['phases']['c1'].get('toolchain_dependencies',[])
+    phase=json.loads((fixture/'manifest.json').read_text())['phases']['c1']
+    metadata['dependencies']=phase.get('toolchain_dependencies',[])
+    metadata['outputs']=[dict(path=item['output_name']) for item in phase['outputs']]
     for output in metadata['outputs']:
         target=reference/output['path'];target.write_bytes(expected[output['path']]);output.update(bytes=target.stat().st_size,sha256=sha(target))
     (reference/'manifest.json').write_text(json.dumps(metadata,indent=2)+'\n')
@@ -70,7 +72,7 @@ def main():
     (seed/'native-fixture.log').write_text(result.stdout+result.stderr)
     assert result.returncode==0,result.stdout+result.stderr
     receipt=Path(re.search(r'receipt: (.+)',result.stdout)[1]);shutil.copyfile(receipt,seed/'native-fixture-receipt.json')
-    report=dict(status='matched case seed; no new function accepted',case=args.case,frontier=original['terminal'],accepted_prefix=len(config['accepted']),pending_buffers=4,checkpoint_fields=14,original_capture_seconds=original['capture_seconds'],total_registration_seconds=time.perf_counter()-started)
+    report=dict(status='matched case seed; no new function accepted',case=args.case,frontier=original['terminal'],accepted_prefix=len(config['accepted']),pending_buffers=len(native['buffers']),checkpoint_fields=len(native['states']),original_capture_seconds=original['capture_seconds'],total_registration_seconds=time.perf_counter()-started)
     (seed/'validation.json').write_text(json.dumps(report,indent=2)+'\n')
     current_path=BINARY/'validation.json';current=json.loads(current_path.read_text())
     current.update(status=args.case+' reconstruction in progress',active_case=args.case,complete_frontend_case=False,current_frontier=original['terminal'],original_frontier_va=hex(next(r['start'] for r in config['driver'] if r['name']==original['terminal'])),latest_verification=str((seed/'validation.json').relative_to(BINARY)))

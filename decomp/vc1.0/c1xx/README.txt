@@ -50,8 +50,8 @@ BINMODE.OBJ behavior is retained with RECON_DEFAULT_FMODE=0x8000. Application
 instrumentation excludes target runtime.c and shared CRT/import/shim entries.
 
 check/replay run only native cached fixtures. They check first-entry order,
-terminal status, raw stdout/stderr, complete file sets and all four frontend
-intermediates. Unknown definitions, modified references and external processes
+terminal status, raw stdout/stderr, complete file sets and all frontend intermediates (including debug irdb when
+applicable). Unknown definitions, modified references and external processes
 fail. No fixture invokes Wine or refreshes an oracle. cpp_basic expects 553 application first entries and exit 0.
 virtual_diamond expects 225 application first entries and exit 0.
 copy_assignment expects 61 application first entries and exit 0.
@@ -92,7 +92,8 @@ The frontend streams compare raw. Only independently demonstrated COFF and PE
 TimeDateStamp DWORDs may differ in downstream comparisons; each differing offset
 is recorded. No path or pointer normalization occurs.
 
-Fresh function acceptance additionally compares four pending FILE buffers,
+Fresh function acceptance additionally compares every configured pending FILE
+buffer (five for the debug case, four for earlier cases),
 fourteen checkpoint state words, raw streams, full visible files and the exact
 canonical original-toolchain call graph/ABI. capture-native.py records GDB state;
 advance-frontier.py requires a fresh original entry-plan capture and persists its

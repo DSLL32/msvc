@@ -5,19 +5,30 @@
   "target": "C1XX3232.EXE",
   "authorization": "User-selected autonomous queue; continue without routine confirmation",
   "current": {
-    "case": "new_delete",
-    "fixture": "../fixtures/c1xx-new-delete",
-    "status": "complete: original/native exit0, complete frontend oracle exact",
+    "case": "state_machine_debug",
+    "fixture": "../fixtures/c1xx-state-machine-debug",
+    "status": "active; full original pipeline validated, exact five-buffer original/native seed",
     "runtime_contract": {
       "exit": 0,
-      "alive": 0,
-      "destroyed": 4,
-      "allocated": 1,
-      "released": 1
+      "interpreted_result": 39,
+      "marks": 11121,
+      "live_before_main_return": 1,
+      "destroyed_before_main_return": 1
     },
-    "seed": "cases/new_delete-seed/validation.json"
+    "seed": "cases/state_machine_debug-seed/validation.json"
   },
-  "pending": [],
+  "pending": [
+    {
+      "case": "state_machine_debug",
+      "family": "Embedded debug plus member-pointer command interpreter",
+      "intent": "One coherent root-reviewed source combining debug, aggregate types, control flow/RAII, default args, member pointers and local-static lifetime",
+      "fixture": "../fixtures/c1xx-state-machine-debug",
+      "status": "active original/native seeded reconstruction",
+      "manifest": "../fixtures/c1xx-state-machine-debug/manifest.json",
+      "validation": "../fixtures/c1xx-state-machine-debug/validation.json",
+      "proposal": "cases/proposals/state-machine-debug/proposal.json"
+    }
+  ],
   "requirements": [
     "Verify each exact source/options with the original toolchain before registration",
     "Persist complete phase inputs/environment/dependencies and raw original streams/artifacts",
@@ -25,8 +36,8 @@
     "Do not assume newer C++ language features",
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
-  "completion": "All five selected cases complete; substantial next-case proposal under root review",
-  "next_case": null,
+  "completion": "Five selected cases complete; root-reviewed substantial state-machine/debug case active",
+  "next_case": "state_machine_debug",
   "completed": [
     {
       "case": "cpp_basic",
@@ -84,7 +95,7 @@
   "after_selected_queue": {
     "intent": "Propose one substantial combined case targeting the largest remaining non-CRT application families, obtain root review before original execution, then repeat while application families remain",
     "authorization": "User authorized autonomous additional VC1.0 cases while away; root review requires concrete routines/known extents, public reachability, combined features and original validation plan",
-    "status": "Current selected queue complete; examining remaining native families for substantial root-reviewed case"
+    "status": "Root reviewed concrete state-machine/debug source and options; actual original whole pipeline exit0 validated, native seed matches at997 accepted"
   },
   "shared_fix_review_pending": {
     "commit": "6f61ec34",

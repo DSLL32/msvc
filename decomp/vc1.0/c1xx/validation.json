@@ -3,14 +3,14 @@
   "driver_functions": 903,
   "older_crt_functions": 7,
   "reconstructed_source_functions": 910,
-  "current_frontier": "exit:0",
-  "original_frontier_va": null,
+  "current_frontier": "_begin_debug_info",
+  "original_frontier_va": "0x6d660",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "exit:0",
-    "original_va": null
+    "current_frontier": "_begin_debug_info",
+    "original_va": "0x6d660"
   },
   "current_native_application_entries": 33,
   "active_queue": [
@@ -155,10 +155,10 @@
       }
     ]
   },
-  "complete_frontend_case": true,
-  "active_case": "new_delete",
-  "status": "new_delete reconstruction complete",
-  "latest_verification": "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/validation.json",
+  "complete_frontend_case": false,
+  "active_case": "state_machine_debug",
+  "status": "state_machine_debug reconstruction in progress",
+  "latest_verification": "cases/state_machine_debug-seed/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -183,6 +183,10 @@
       "status": "complete",
       "frontier": "exit:0",
       "latest_verification": "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/validation.json"
+    },
+    "state_machine_debug": {
+      "status": "partial",
+      "frontier": "_begin_debug_info"
     }
   },
   "next_operation": "Seed the next approved C++ queue case",

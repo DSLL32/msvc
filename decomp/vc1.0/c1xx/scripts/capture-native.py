@@ -35,7 +35,7 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
                 '    result = {"buffers": [], "states": [], "function": gdb.newest_frame().name(), "signal": int(gdb.parse_and_eval("$_siginfo.si_signo"))}']
     for key, expression in (expressions or {}).items():
         commands += ['    result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
-    for field in config['buffered_streams']:
+    for field in config['cases'][case_name].get('buffered_streams', config['buffered_streams']):
         name = field['name'][1:]
         commands += ['    stream = gdb.parse_and_eval("'+name+'")',
                      '    length = int(stream["_ptr"]) - int(stream["_base"]) if int(stream) else 0',

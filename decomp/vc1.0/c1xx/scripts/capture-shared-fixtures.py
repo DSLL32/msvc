@@ -24,8 +24,13 @@ SPECS = {
     'copy-assignment': ('c1xx-copy-assignment', 'copy.cpp'),
     'stack-lifetime': ('c1xx-stack-lifetime', 'lifetime.cpp'),
     'new-delete': ('c1xx-new-delete', 'allocation.cpp'),
+    'state-machine-debug': ('c1xx-state-machine-debug', 'state-machine.cpp'),
 }
 
+
+CASE_FLAGS = {
+    'state-machine-debug': '/Od /G5 /Z7',
+}
 
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -39,6 +44,44 @@ def record(path, root, output=None, volatile=None):
         for field in volatile: data[field['offset']:field['offset']+field['bytes']] = bytes(field['bytes'])
         item['normalized_sha256'] = hashlib.sha256(data).hexdigest()
     return item
+
+
+
+def pe_clock_fields(data):
+    """Only observed PE COFF and IMAGE_DEBUG_DIRECTORY timestamps.
+
+    Debug entries are file-backed 28-byte records. The encountered COFF,
+    CodeView and FPO entries carry the same link clock as the PE header.
+    Other entry kinds or unrelated values require explicit investigation.
+    """
+    pe = struct.unpack_from('<I', data, 0x3c)[0]
+    assert data[pe:pe+4] == b'PE\0\0'
+    fields = [dict(offset=pe+8, bytes=4, name='PE COFF TimeDateStamp')]
+    stamp = struct.unpack_from('<I', data, pe+8)[0]
+    optional = pe+24
+    assert struct.unpack_from('<H',data,optional)[0] == 0x10b
+    rva,size = struct.unpack_from('<II',data,optional+96+6*8)
+    if not size:
+        assert not rva
+        return fields
+    assert rva and size % 28 == 0
+    sections = optional+struct.unpack_from('<H',data,pe+20)[0]
+    offsets = []
+    for index in range(struct.unpack_from('<H',data,pe+6)[0]):
+        row=sections+40*index
+        start,raw_size,raw_offset=struct.unpack_from('<III',data,row+12)
+        if start <= rva and rva+size <= start+raw_size:
+            offsets.append(raw_offset+rva-start)
+    assert len(offsets) == 1
+    start=offsets[0]
+    assert start+size <= len(data)
+    for offset in range(start,start+size,28):
+        kind=struct.unpack_from('<I',data,offset+12)[0]
+        assert kind in (1,2,3), 'unreviewed IMAGE_DEBUG_DIRECTORY kind'
+        assert struct.unpack_from('<I',data,offset+4)[0] == stamp, 'unreviewed debug timestamp value'
+        fields.append(dict(offset=offset+4,bytes=4,
+            name='IMAGE_DEBUG_DIRECTORY type%d TimeDateStamp'%kind))
+    return fields
 
 
 def clear_work(name):
@@ -69,6 +112,8 @@ def main():
 
     for slug in args.case or SPECS:
         folder, filename = SPECS[slug]
+        driver_flags = '/nologo ' + CASE_FLAGS.get(slug, '/Od') + ' '
+        ir_extensions = ('ex','sy','in','gl') + (('db',) if slug == 'state-machine-debug' else ())
         source_fixture = BINARY.parent/'fixtures'/folder
         source = source_fixture/'c1'/filename
         original_manifest = json.loads((source_fixture/'manifest.json').read_text())
@@ -111,11 +156,12 @@ def main():
         compiled = None
         if slug == 'cpp-basic':
             compiled = driver('-compile-only','/nologo /Od /c '+filename)
-        work,captured = driver('','/nologo /Od '+filename)
+        work,captured = driver('',driver_flags+filename)
         if compiled:
-            for suffix in ('ex','sy','in','gl'):
+            for suffix in ir_extensions:
                 assert (compiled[1]/('c2-input.'+suffix)).read_bytes() == (captured/('c2-input.'+suffix)).read_bytes()
-        for suffix in ('ex','sy','in','gl'):
+        assert {p.suffix[1:] for p in captured.glob('c2-input.*')} == set(ir_extensions), 'unexpected/missing original C2 input snapshot'
+        for suffix in ir_extensions:
             shutil.copyfile(captured/('c2-input.'+suffix),stage/'c2'/('ir'+suffix))
         shutil.copyfile(captured/'link-input.obj',stage/'link'/(stem+'.obj'))
         shutil.copyfile(captured/'link-input.obj',stage/'expected'/(stem+'.obj'))
@@ -125,10 +171,10 @@ def main():
         assert not result.stdout and not result.stderr
 
         manifest = copy.deepcopy(original_manifest)
-        manifest['case'] = 'CL.EXE /nologo /Od '+('/c ' if compiled else '')+filename
+        manifest['case'] = 'CL.EXE '+driver_flags+('/c ' if compiled else '')+filename
         manifest['capture'] = dict(method='Fresh original CL CreateProcessA breakpoint; shared fixed R:/S: prefix',
-            CL_sha256=sha(tool.TC/'bin/CL.EXE'),arguments='/nologo /Od '+('/c ' if compiled else '')+filename,
-            downstream_capture_arguments='/nologo /Od '+filename,source_sha256=sha(source),
+            CL_sha256=sha(tool.TC/'bin/CL.EXE'),arguments=driver_flags+('/c ' if compiled else '')+filename,
+            downstream_capture_arguments=driver_flags+filename,source_sha256=sha(source),
             inherited_working_directory=windows(work),child_current_directory_parameter=None,
             raw_boundary_files='capture/driver/',stdin='closed',compiler_environment_keys=['MSC_CMD_FLAGS'],
             wine_prefix=str(tool.PREFIX),fixed_drives={'R:':str(ROOT),'S:':str(SCRATCH)},
@@ -161,12 +207,12 @@ def main():
             item['expected_exit']=0; item['expected_stdout']=''; item['expected_stderr']=''
         c1,c2,link = (manifest['phases'][p] for p in ('c1','c2','link'))
         c1['inputs'] = [record(stage/'c1'/filename,stage)]
-        c1['outputs'] = [record(stage/'c2'/('ir'+s),stage,'ir'+s) for s in ('ex','sy','in','gl')]
+        c1['outputs'] = [record(stage/'c2'/('ir'+s),stage,'ir'+s) for s in ir_extensions]
         c2['inputs'] = [{k:v for k,v in r.items() if k!='output_name'} for r in c1['outputs']]
         c2['outputs'] = [record(stage/'expected'/(stem+'.obj'),stage,stem+'.obj',[dict(offset=4,bytes=4,name='COFF TimeDateStamp')])]
         link['inputs'] = [record(stage/'link'/(stem+'.obj'),stage),record(stage/'link/link.rsp',stage)]
-        timestamp = struct.unpack_from('<I',(stage/'expected'/(stem+'.exe')).read_bytes(),0x3c)[0]+8
-        link['outputs'] = [record(stage/'expected'/(stem+'.exe'),stage,stem+'.exe',[dict(offset=timestamp,bytes=4,name='PE COFF TimeDateStamp')])]
+        clocks = pe_clock_fields((stage/'expected'/(stem+'.exe')).read_bytes())
+        link['outputs'] = [record(stage/'expected'/(stem+'.exe'),stage,stem+'.exe',clocks)]
         link['generated_program']['path'] = stem+'.exe'
         for phase in (c1,c2):
             for item in phase.get('toolchain_dependencies',[]):

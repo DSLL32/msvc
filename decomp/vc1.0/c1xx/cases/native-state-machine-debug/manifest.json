@@ -1,0 +1,55 @@
+{
+  "case": "state_machine_debug",
+  "scope": "explicit matching original/native initial frontier; accepted prefix seeded",
+  "reference_receipt": "cases/state_machine_debug-seed/original-receipt.json",
+  "reference_receipt_sha256": "68d784fbcf0f434f45ffb38db7b823aebf0e1001e568353c2a7353007d65c6b5",
+  "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "canonical_map": "canonical-map.txt",
+  "canonical_map_sha256": "04ad0133208e6db46c943ea60051b22e37c64d06e59760b8723d718e275ade91",
+  "terminal": {
+    "kind": "frontier",
+    "logical": "_begin_debug_info",
+    "native_signal": 5,
+    "original_exception": "80000003"
+  },
+  "expected_stdout": "",
+  "expected_stderr": "",
+  "outputs": [
+    {
+      "path": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "path": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "normalization": "none; captured visible bytes, not unflushed CRT buffers",
+  "capture_seconds": 0.8163166921585798,
+  "dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/C1.ERR",
+      "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775",
+      "bytes": 57919,
+      "cached_path": "dependencies/C1.ERR"
+    }
+  ],
+  "canonical_map_note": "Canonical-link source ownership metadata stored as LF text with trailing whitespace stripped; target streams/artifacts remain exact raw bytes."
+}

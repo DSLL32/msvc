@@ -28,7 +28,7 @@ int main(int argc,char **argv)
     DWORD base=0,site=0,wrote,status,stack[11],flags,code;
     BYTE original,trap=0xcc; int stepping=0,n=0; unsigned i; char command[2048];
     char prefix[1024],source[1024],dest[1024],*p,*q;
-    static char *extensions[]={"ex","sy","in","gl",NULL};
+    static char *extensions[]={"ex","sy","in","gl","db",NULL};
     if(argc!=5 && argc!=7) return 2;
     SetEnvironmentVariableA("TMP",argv[4]); SetEnvironmentVariableA("TEMP",argv[4]);
     memset(&si,0,sizeof(si)); si.cb=sizeof(si);
@@ -82,7 +82,12 @@ int main(int argc,char **argv)
                         for(i=0;extensions[i];++i) {
                             sprintf(source,"%s%s",prefix,extensions[i]);
                             sprintf(dest,"%s\\c2-input.%s",argv[3],extensions[i]);
-                            if(!CopyFileA(source,dest,FALSE)) return 17;
+                            if(!CopyFileA(source,dest,FALSE)) {
+                                /* The debug intermediate is absent without /Z7.
+                                   The caller checks the complete expected set. */
+                                if(strcmp(extensions[i],"db") ||
+                                    GetLastError()!=ERROR_FILE_NOT_FOUND) return 17;
+                            }
                         }
                     }
                 }

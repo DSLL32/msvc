@@ -7800,6 +7800,37 @@
         "cases/frontiers/new_delete/0995-has_single_function-4/frontier-extension.json",
         "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/frontier-extension.json"
       ]
+    },
+    "state_machine_debug": {
+      "fixture": "../fixtures/c1xx-state-machine-debug",
+      "native_reference": "cases/native-state-machine-debug",
+      "frontiers": "cases/frontiers/state_machine_debug",
+      "accepted_from": 997,
+      "terminal": "_begin_debug_info",
+      "buffered_streams": [
+        {
+          "name": "_expression_file",
+          "original": 577508
+        },
+        {
+          "name": "_symbol_file",
+          "original": 577512
+        },
+        {
+          "name": "_line_file",
+          "original": 577516
+        },
+        {
+          "name": "_global_file",
+          "original": 577520
+        },
+        {
+          "name": "_debug_file",
+          "original": 576700
+        }
+      ],
+      "terminal_evidence": "cases/state_machine_debug-seed/original-events.txt",
+      "original_seed": "cases/state_machine_debug-seed"
     }
   },
   "runtime_data": [
@@ -9928,6 +9959,18 @@
           "name": "_macro_file_timestamp",
           "original": 596168,
           "bytes": 26
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_file",
+      "original": 576700,
+      "fields": [
+        {
+          "name": "_debug_file",
+          "original": 576700,
+          "bytes": 4
         }
       ]
     }

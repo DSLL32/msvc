@@ -1,0 +1,37 @@
+{
+  "driver_executable": "/root/.ai-tmp/msvc2/vc1.0/c1xx/fixture-stage-2t18_2vy/c1xx-state-machine-debug/expected/state-machine.exe",
+  "independent_executable": "/root/.ai-tmp/msvc2/vc1.0/c1xx/state-machine-debug-link/state-machine.exe",
+  "scope": "Actual fresh original pipeline and independent link output; complete comparison rejected until three actual IMAGE_DEBUG_DIRECTORY.TimeDateStamp fields identified",
+  "differing_offsets": [
+    136,
+    18436,
+    18464,
+    18492
+  ],
+  "debug_directory_rva": 28672,
+  "debug_directory_bytes": 84,
+  "debug_directory_file_offset": 18432,
+  "debug_entries": [
+    {
+      "file_offset": 18432,
+      "type": 1,
+      "timestamp_offset": 18436,
+      "before": 1792772411,
+      "after": 1792772417
+    },
+    {
+      "file_offset": 18460,
+      "type": 2,
+      "timestamp_offset": 18464,
+      "before": 1792772411,
+      "after": 1792772417
+    },
+    {
+      "file_offset": 18488,
+      "type": 3,
+      "timestamp_offset": 18492,
+      "before": 1792772411,
+      "after": 1792772417
+    }
+  ]
+}

@@ -99,7 +99,7 @@ def main():
                tool.windows(directory / 'stdout.bin'), tool.windows(directory / 'stderr.bin'),
                tool.windows(directory / 'events.txt'), canonical, 'MSC_CMD_FLAGS=' + flags,
                phase['command_line_template'].format(bin=tool.windows(tool.TC / 'bin')),
-               ','.join('%x' % (s['original'] - image.base) for s in config['buffered_streams']),
+               ','.join('%x' % (s['original'] - image.base) for s in config['cases'][args.case].get('buffered_streams', config['buffered_streams'])),
                ','.join('%x:%s' % (s['original'] - image.base, 'p' if s.get('pointer') else 'v') for s in config['checkpoint_state']+observations)]
     if args.entry_plan: command.append(tool.windows(directory/'entries.plan'))
     started = time.perf_counter()
